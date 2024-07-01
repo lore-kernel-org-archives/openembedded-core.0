@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAA3C52CD8
-	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:00 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.2108.1719853076010658065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F21C52D6D
+	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:01 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.2100.1719853075359864952
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jul 2024 09:57:56 -0700
+ Mon, 01 Jul 2024 09:57:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=UPlR2P+/;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=VopR3PfG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101906f3b4b4f-b43fc2ce-e3b3-4210-8c85-556465da7d62-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CEjfyloJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CCYsp2gv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101906f3b4afc-8b1c5e29-4f6c-4171-b880-52ab1fc6f0a2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NFaVIIkK4P072AwEUWPcGqYX04RGc4GkGPade6i1XNc=;
-	b=UPlR2P+/vp27KqbmraMpT97HiyHe327i+eSCnwYxUr+DNa81E5+0qoyMz9Kx0Jb/
-	epDNGtthcWiQCHdF+BQMCXFjFdwvwMwt+LsqGEFx7hCvgZgIK+xoM939xSEovya77BV
-	RMc4cQFp0RFDSS8r3MDy/KQO4PFuLtl76bK07k9I=
+	bh=vrbPUMD7cu/emrardrMcjY7PBq38hzigN9KQk58d+dM=;
+	b=CEjfyloJCnjooNJQwI9DAWtq4zLA+8ZFzQX8IzPBppZUaO+FNpVKq9t9YswQilUM
+	sGbGuh37VEmBqsjQ12uWpajbgWsjhfK8k/UFaGc/GIWOlcE15qg0eNtdvhfdOqQQhMc
+	5IfXDJkwWleJp/CyPoi33JiiYzmH8Y9jx4IW92to=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NFaVIIkK4P072AwEUWPcGqYX04RGc4GkGPade6i1XNc=;
-	b=VopR3PfGteGjErBnUpL9+9TiEAGJQ4bwh0WaEEeQS6Px1qTs8USyfP/huhlDM40k
-	74c8rJiFI3AXIretpREBj4Qz5b+n12sIhTzCx7t39/uY7UXjCKMHk0vyei/nggL3/Y9
-	cVyTs5eDjNRDApfI4NAqIu4UgGa/a20MRRmftlqs=
-Content-Type: multipart/mixed; boundary="===============4840220553371114396=="
+	bh=vrbPUMD7cu/emrardrMcjY7PBq38hzigN9KQk58d+dM=;
+	b=CCYsp2gv5QfCSae1zc6ohWJKwXa1Dge2M1j8a6kRqWAQw3+svCHyscGIAL97E5hi
+	Zce/UCUcPNki7TaJj2wPUZj8M+E5JE8GEiSl2WjUsu2HDi+dGKPAsm5PKDytzjQAlTk
+	OmX5z3TU2lRJMoY9l9eDrtxuuPaRNBX6OwE8pfJw=
+Content-Type: multipart/mixed; boundary="===============1498795654252246087=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lua: upgrading to 5.4.7 SUCCEEDED
-Message-ID: <010101906f3b4b4f-b43fc2ce-e3b3-4210-8c85-556465da7d62-000000@us-west-2.amazonses.com>
+Subject: [AUH] libdnf: upgrading to 0.73.2 SUCCEEDED
+Message-ID: <010101906f3b4afc-8b1c5e29-4f6c-4171-b880-52ab1fc6f0a2-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jul 2024 16:57:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.191
+X-SES-Outgoing: 2024.07.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201334
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201325
 
---===============4840220553371114396==
+--===============1498795654252246087==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lua* to *5.4.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *libdnf* to *0.73.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lua-upgrade-5.4.6-5.4.7.patch
+    - apply the patch: git am 0001-libdnf-upgrade-0.73.1-0.73.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,360 +72,228 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 63608961cff2f69ce1bfd1e056664725488a82ca Mon Sep 17 00:00:00 2001
+From 393fc1368f54eba9ac768791acc3554723d15eb4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 08:12:09 +0000
-Subject: [PATCH] lua: upgrade 5.4.6 -> 5.4.7
+Date: Mon, 1 Jul 2024 07:55:47 +0000
+Subject: [PATCH] libdnf: upgrade 0.73.1 -> 0.73.2
 
 ---
- .../lua/{lua_5.4.6.bb => lua_5.4.7.bb}        | 31 +++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/lua/{lua_5.4.6.bb => lua_5.4.7.bb} (67%)
+ ...1-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch | 2 +-
+ ...1-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch | 2 +-
+ .../libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch       | 2 +-
+ ...4-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch | 2 +-
+ meta/recipes-devtools/libdnf/libdnf/armarch.patch               | 2 +-
+ .../libdnf/libdnf/enable_test_data_dir_set.patch                | 2 +-
+ .../libdnf/{libdnf_0.73.1.bb => libdnf_0.73.2.bb}               | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/libdnf/{libdnf_0.73.1.bb => libdnf_0.73.2.bb} (97%)
 
-diff --git a/meta/recipes-devtools/lua/lua_5.4.6.bb b/meta/recipes-devtools/lua/lua_5.4.7.bb
-similarity index 67%
-rename from meta/recipes-devtools/lua/lua_5.4.6.bb
-rename to meta/recipes-devtools/lua/lua_5.4.7.bb
-index 17dc8fb17d..47edb39509 100644
---- a/meta/recipes-devtools/lua/lua_5.4.6.bb
-+++ b/meta/recipes-devtools/lua/lua_5.4.7.bb
-@@ -1,7 +1,34 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- doc/readme.html
-+# +++ doc/readme.html
-+# @@ -1,4 +1,6 @@
-+# -Copyright &copy; 1994&ndash;2023 Lua.org, PUC-Rio.
-+# +
-+# +<BLOCKQUOTE STYLE="padding-bottom: 0em">
-+# +Copyright &copy; 1994&ndash;2024 Lua.org, PUC-Rio.
-+#  
-+#  <P>
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy
-+# @@ -18,5 +20,3 @@
-+#  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-+#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+# -OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+# -THE SOFTWARE.
-+# 
-+#
-+
- SUMMARY = "Lua is a powerful light-weight programming language designed \
- for extending applications."
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=303;endline=324;md5=e05449eb28c092473f854670c6e8375a"
-+LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=303;endline=324;md5=41f9e2b41229cf6e69aac18c0eb5bfa7"
- HOMEPAGE = "http://www.lua.org/"
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
+index 046e09eab2..f0c01f376b 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
+@@ -1,4 +1,4 @@
+-From 5d6db56791d326e6b486dca54fe2335af0225229 Mon Sep 17 00:00:00 2001
++From c9b841892de64d0d7f75172713155ea986990b85 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 24 Nov 2016 14:33:07 +0200
+ Subject: [PATCH] FindGtkDoc.cmake: drop the requirement for
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+index 223c1be218..144d378ea1 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+@@ -1,4 +1,4 @@
+-From bf9bde4af952b67cc357d25b9863889099ea9665 Mon Sep 17 00:00:00 2001
++From ea44c9cd27f8ba412bc3abd44c51e550aac1dab5 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 7 Feb 2017 12:16:03 +0200
+ Subject: [PATCH] Get parameters for both libsolv and libsolvext (libdnf is
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch b/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
+index 27f76077d7..f4d411fac1 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
+@@ -1,4 +1,4 @@
+-From a6b3bc4fb3db996cd6c5616a99c16d085704dae0 Mon Sep 17 00:00:00 2001
++From eec6d1c9007cea6eee737196e2ec1cc86a8acc89 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 1 Jun 2021 10:23:59 +0800
+ Subject: [PATCH] drop FindPythonInstDir.cmake
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+index ecab47e5af..01bd040e6f 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+@@ -1,4 +1,4 @@
+-From e40def862bdeb10da295b15c5904fe2829d391c7 Mon Sep 17 00:00:00 2001
++From 33e91e3dbc9e962a4e6536ebeeac33a00750584b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:24:50 +0200
+ Subject: [PATCH] Set libsolv variables with pkg-config (cmake's own module
+diff --git a/meta/recipes-devtools/libdnf/libdnf/armarch.patch b/meta/recipes-devtools/libdnf/libdnf/armarch.patch
+index 63debdb58f..a0c388060c 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/armarch.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/armarch.patch
+@@ -1,4 +1,4 @@
+-From aa0f8b65feec64420a9b7b61cfcc8bcce161e14b Mon Sep 17 00:00:00 2001
++From d89bfd2c07ea6174348d59d639c32793482d6883 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Thu, 9 Nov 2023 10:29:31 +0000
+ Subject: [PATCH] libdnf: Fix arm arch mapping issues for qemuarmv5
+diff --git a/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch b/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
+index e4f6d447f1..c6619732f8 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
+@@ -1,4 +1,4 @@
+-From 25229773a9d4472235278bb45f75439e56630cee Mon Sep 17 00:00:00 2001
++From 4b4ab1c286488ff1a0ce7db9eaed54d4bccf9cbc Mon Sep 17 00:00:00 2001
+ From: Joe Slater <joe.slater@windriver.com>
+ Date: Wed, 22 Jul 2020 13:31:11 -0700
+ Subject: [PATCH] libdnf: allow reproducible binary builds
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.73.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.73.2.bb
+similarity index 97%
+rename from meta/recipes-devtools/libdnf/libdnf_0.73.1.bb
+rename to meta/recipes-devtools/libdnf/libdnf_0.73.2.bb
+index 3ab840b1b0..ed433d4a9f 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.73.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.73.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;p
+            file://armarch.patch \
+            "
  
- SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
-@@ -12,7 +39,7 @@ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
- # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
- PV_testsuites = "5.4.4"
+-SRCREV = "0120e70747dcf05e716792e2e846c62eccd44319"
++SRCREV = "86bbb159732e43dd6dff98c96e99382843f7c63b"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!4\.90)\d+(\.\d+)+)"
  
--SRC_URI[tarballsrc.sha256sum] = "7d5ea1b9cb6aa0b59ca3dde1c6adcb57ef83a1ba8e5432c0ecd06bf439b3ad88"
-+SRC_URI[tarballsrc.sha256sum] = "9fbf5e28ef86c69858f6d3d34eccc32e911c1a28b4120ff3e84aaa70cfbf1e30"
- SRC_URI[tarballtest.sha256sum] = "04d28355cd67a2299dfe5708b55a0ff221ccb1a3907a3113cc103ccc05ac6aad"
- 
- inherit pkgconfig binconfig ptest
+ S = "${WORKDIR}/git"
 -- 
 2.44.0
 
 
---===============4840220553371114396==
+--===============1498795654252246087==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/lua: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua: SRC_URI changed from "http://www.lua.org/ftp/lua-5.4.6.tar.gz;name=tarballsrc file://lua.pc.in http://www.lua.org/tests/lua-5.4.4-tests.tar.gz;name=tarballtest file://run-ptest" to "http://www.lua.org/ftp/lua-5.4.7.tar.gz;name=tarballsrc file://lua.pc.in http://www.lua.org/tests/lua-5.4.4-tests.tar.gz;name=tarballtest file://run-ptest"
-packages/core2-64-poky-linux/lua/lua-dbg: PKGSIZE changed from 1805832 to 1809176 (+0%)
-packages/core2-64-poky-linux/lua/lua-dbg: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-dbg: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-dev: PKGSIZE changed from 48224 to 48473 (+1%)
-packages/core2-64-poky-linux/lua/lua-dev: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-dev: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-doc: PKGSIZE changed from 6172 to 6171 (-0%)
-packages/core2-64-poky-linux/lua/lua-doc: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-doc: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-locale: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-locale: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-ptest: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-ptest: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-src: PKGSIZE changed from 846691 to 850860 (+0%)
-packages/core2-64-poky-linux/lua/lua-src: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-src: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-staticdev: PKGSIZE changed from 1886680 to 1885366 (-0%)
-packages/core2-64-poky-linux/lua/lua-staticdev: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-staticdev: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua: PKGSIZE changed from 479496 to 483592 (+1%)
-packages/core2-64-poky-linux/lua/lua: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/readline/readline-dbg: RRECOMMENDS: added "ncurses-dbg"
-packages/core2-64-poky-linux/readline/readline-dev: RDEPENDS: added "ncurses-dev"
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/libdnf: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-dbg: PKGSIZE changed from 59731208 to 59742160 (+0%)
+packages/core2-64-poky-linux/libdnf/libdnf-dbg: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-dbg: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-dev: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-dev: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-doc: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-doc: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-as: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-as: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-bg: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-bg: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-bn-in: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-bn-in: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-bn: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-bn: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ca: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ca: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-cs: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-cs: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-da: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-da: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-de: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-de: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-el: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-el: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-es: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-es: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-eu: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-eu: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fa: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fa: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fi: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fi: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fil: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fil: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fr: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fr: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fur: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-fur: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-gu: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-gu: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-hi: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-hi: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-hu: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-hu: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ia: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ia: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-id: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-id: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-is: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-is: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-it: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-it: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ja: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ja: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ka: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ka: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-kn: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-kn: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ko: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ko: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-mai: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-mai: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ml: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ml: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-mr: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-mr: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-nb: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-nb: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-nl: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-nl: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-or: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-or: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pa: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pa: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pl: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pl: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pt-br: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pt-br: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pt: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-pt: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ru: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ru: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-si: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-si: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sk: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sk: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sq: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sq: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sr+latin: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sr+latin: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sr: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sr: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sv: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-sv: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ta: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-ta: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-te: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-te: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-th: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-th: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-tr: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-tr: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-uk: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-uk: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-cn: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-cn: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-tw: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-locale-zh-tw: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-src: PKGSIZE changed from 7357909 to 7362153 (+0%)
+packages/core2-64-poky-linux/libdnf/libdnf-src: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-src: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf-staticdev: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf-staticdev: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+packages/core2-64-poky-linux/libdnf/libdnf: PV changed from "0.73.1" to "0.73.2"
+packages/core2-64-poky-linux/libdnf/libdnf: PKGV changed from 0.73.1 [default] to 0.73.2 [default]
+Changes to packages/core2-64-poky-linux/libdnf (sysroot):
+  /usr/lib/python3.12/site-packages/libdnf-0.73.1.dist-info moved to /usr/lib/python3.12/site-packages/libdnf-0.73.2.dist-info
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1936,269 +1804,124 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============4840220553371114396==
+--===============1498795654252246087==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libdnf-upgrade-0.73.1-0.73.2.patch"
+
+RnJvbSAzOTNmYzEzNjhmNTRlYmE5YWM3Njg3OTFhY2MzNTU0NzIzZDE1ZWI0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAwNzo1NTo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmRuZjogdXBncmFkZSAwLjczLjEgLT4gMC43My4yCgotLS0KIC4uLjEtRmluZEd0a0RvYy5jbWFr
+ZS1kcm9wLXRoZS1yZXF1aXJlbWVudC1mb3ItR1RLRE9DX1NDQS5wYXRjaCB8IDIgKy0KIC4uLjEt
+R2V0LXBhcmFtZXRlcnMtZm9yLWJvdGgtbGlic29sdi1hbmQtbGlic29sdmV4dC1saWJkbi5wYXRj
+aCB8IDIgKy0KIC4uLi9saWJkbmYvbGliZG5mLzAwMDEtZHJvcC1GaW5kUHl0aG9uSW5zdERpci5j
+bWFrZS5wYXRjaCAgICAgICB8IDIgKy0KIC4uLjQtU2V0LWxpYnNvbHYtdmFyaWFibGVzLXdpdGgt
+cGtnLWNvbmZpZy1jbWFrZS1zLW93bi1tby5wYXRjaCB8IDIgKy0KIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9saWJkbmYvbGliZG5mL2FybWFyY2gucGF0Y2ggICAgICAgICAgICAgICB8IDIgKy0KIC4u
+Li9saWJkbmYvbGliZG5mL2VuYWJsZV90ZXN0X2RhdGFfZGlyX3NldC5wYXRjaCAgICAgICAgICAg
+ICAgICB8IDIgKy0KIC4uLi9saWJkbmYve2xpYmRuZl8wLjczLjEuYmIgPT4gbGliZG5mXzAuNzMu
+Mi5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDcgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25z
+KCspLCA3IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYv
+e2xpYmRuZl8wLjczLjEuYmIgPT4gbGliZG5mXzAuNzMuMi5iYn0gKDk3JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLUZpbmRHdGtEb2MuY21h
+a2UtZHJvcC10aGUtcmVxdWlyZW1lbnQtZm9yLUdUS0RPQ19TQ0EucGF0Y2ggYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLUZpbmRHdGtEb2MuY21ha2UtZHJvcC10aGUt
+cmVxdWlyZW1lbnQtZm9yLUdUS0RPQ19TQ0EucGF0Y2gKaW5kZXggMDQ2ZTA5ZWFiMi4uZjBjMDFm
+Mzc2YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvMDAw
+MS1GaW5kR3RrRG9jLmNtYWtlLWRyb3AtdGhlLXJlcXVpcmVtZW50LWZvci1HVEtET0NfU0NBLnBh
+dGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mLzAwMDEtRmluZEd0
+a0RvYy5jbWFrZS1kcm9wLXRoZS1yZXF1aXJlbWVudC1mb3ItR1RLRE9DX1NDQS5wYXRjaApAQCAt
+MSw0ICsxLDQgQEAKLUZyb20gNWQ2ZGI1Njc5MWQzMjZlNmI0ODZkY2E1NGZlMjMzNWFmMDIyNTIy
+OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzliODQxODkyZGU2NGQwZDdmNzUxNzI3
+MTMxNTVlYTk4Njk5MGI4NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRl
+ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogVGh1LCAyNCBOb3YgMjAx
+NiAxNDozMzowNyArMDIwMAogU3ViamVjdDogW1BBVENIXSBGaW5kR3RrRG9jLmNtYWtlOiBkcm9w
+IHRoZSByZXF1aXJlbWVudCBmb3IKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9s
+aWJkbmYvbGliZG5mLzAwMDEtR2V0LXBhcmFtZXRlcnMtZm9yLWJvdGgtbGlic29sdi1hbmQtbGli
+c29sdmV4dC1saWJkbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5m
+LzAwMDEtR2V0LXBhcmFtZXRlcnMtZm9yLWJvdGgtbGlic29sdi1hbmQtbGlic29sdmV4dC1saWJk
+bi5wYXRjaAppbmRleCAyMjNjMWJlMjE4Li4xNDRkMzc4ZWExIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLUdldC1wYXJhbWV0ZXJzLWZvci1ib3Ro
+LWxpYnNvbHYtYW5kLWxpYnNvbHZleHQtbGliZG4ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2xpYmRuZi9saWJkbmYvMDAwMS1HZXQtcGFyYW1ldGVycy1mb3ItYm90aC1saWJzb2x2
+LWFuZC1saWJzb2x2ZXh0LWxpYmRuLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZjliZGU0
+YWY5NTJiNjdjYzM1N2QyNWI5ODYzODg5MDk5ZWE5NjY1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSBlYTQ0YzljZDI3ZjhiYTQxMmJjM2FiZDQ0YzUxZTU1MGFhYzFkYWI1IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
+bWFpbC5jb20+CiBEYXRlOiBUdWUsIDcgRmViIDIwMTcgMTI6MTY6MDMgKzAyMDAKIFN1YmplY3Q6
+IFtQQVRDSF0gR2V0IHBhcmFtZXRlcnMgZm9yIGJvdGggbGlic29sdiBhbmQgbGlic29sdmV4dCAo
+bGliZG5mIGlzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRu
+Zi8wMDAxLWRyb3AtRmluZFB5dGhvbkluc3REaXIuY21ha2UucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLWRyb3AtRmluZFB5dGhvbkluc3REaXIuY21ha2Uu
+cGF0Y2gKaW5kZXggMjdmNzYwNzdkNy4uZjRkNDExZmFjMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvMDAwMS1kcm9wLUZpbmRQeXRob25JbnN0RGlyLmNt
+YWtlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mLzAwMDEt
+ZHJvcC1GaW5kUHl0aG9uSW5zdERpci5jbWFrZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
+YTZiM2JjNGZiM2RiOTk2Y2Q2YzU2MTZhOTljMTZkMDg1NzA0ZGFlMCBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKK0Zyb20gZWVjNmQxYzkwMDdjZWE2ZWVlNzM3MTk2ZTJlYzFjYzg2YThhY2M4OSBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2lu
+ZHJpdmVyLmNvbT4KIERhdGU6IFR1ZSwgMSBKdW4gMjAyMSAxMDoyMzo1OSArMDgwMAogU3ViamVj
+dDogW1BBVENIXSBkcm9wIEZpbmRQeXRob25JbnN0RGlyLmNtYWtlCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDA0LVNldC1saWJzb2x2LXZhcmlhYmxl
+cy13aXRoLXBrZy1jb25maWctY21ha2Utcy1vd24tbW8ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvbGliZG5mL2xpYmRuZi8wMDA0LVNldC1saWJzb2x2LXZhcmlhYmxlcy13aXRoLXBrZy1j
+b25maWctY21ha2Utcy1vd24tbW8ucGF0Y2gKaW5kZXggZWNhYjQ3ZTVhZi4uMDFiZDA0MGU2ZiAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvMDAwNC1TZXQt
+bGlic29sdi12YXJpYWJsZXMtd2l0aC1wa2ctY29uZmlnLWNtYWtlLXMtb3duLW1vLnBhdGNoCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mLzAwMDQtU2V0LWxpYnNvbHYt
+dmFyaWFibGVzLXdpdGgtcGtnLWNvbmZpZy1jbWFrZS1zLW93bi1tby5wYXRjaApAQCAtMSw0ICsx
+LDQgQEAKLUZyb20gZTQwZGVmODYyYmRlYjEwZGEyOTViMTVjNTkwNGZlMjgyOWQzOTFjNyBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzNlOTFlM2RiYzllOTYyYTRlNjUzNmViZWVhYzMz
+YTAwNzUwNTg0YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5h
+dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogRnJpLCAzMCBEZWMgMjAxNiAxODoy
+NDo1MCArMDIwMAogU3ViamVjdDogW1BBVENIXSBTZXQgbGlic29sdiB2YXJpYWJsZXMgd2l0aCBw
+a2ctY29uZmlnIChjbWFrZSdzIG93biBtb2R1bGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9saWJkbmYvbGliZG5mL2FybWFyY2gucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbGliZG5mL2xpYmRuZi9hcm1hcmNoLnBhdGNoCmluZGV4IDYzZGViZGI1OGYuLmEwYzM4ODA2
+MGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mL2FybWFy
+Y2gucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYvYXJtYXJj
+aC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYWEwZjhiNjVmZWVjNjQ0MjBhOWI3YjYxY2Zj
+YzhiY2NlMTYxZTE0YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDg5YmZkMmMwN2Vh
+NjE3NDM0OGQ1OWQ2MzljMzI3OTM0ODJkNjg4MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgog
+RGF0ZTogVGh1LCA5IE5vdiAyMDIzIDEwOjI5OjMxICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmRuZjogRml4IGFybSBhcmNoIG1hcHBpbmcgaXNzdWVzIGZvciBxZW11YXJtdjUKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mL2VuYWJsZV90ZXN0X2RhdGFf
+ZGlyX3NldC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mL2VuYWJs
+ZV90ZXN0X2RhdGFfZGlyX3NldC5wYXRjaAppbmRleCBlNGY2ZDQ0N2YxLi5jNjYxOTczMmY4IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi9lbmFibGVfdGVz
+dF9kYXRhX2Rpcl9zZXQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9s
+aWJkbmYvZW5hYmxlX3Rlc3RfZGF0YV9kaXJfc2V0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSAyNTIyOTc3M2E5ZDQ0NzIyMzUyNzhiYjQ1Zjc1NDM5ZTU2NjMwY2VlIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSA0YjRhYjFjMjg2NDg4ZmYxYTBjZTdkYjllYWVkNTRkNGJjY2Y5Y2Jj
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9lIFNsYXRlciA8am9lLnNsYXRlckB3
+aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyMiBKdWwgMjAyMCAxMzozMToxMSAtMDcwMAogU3Vi
+amVjdDogW1BBVENIXSBsaWJkbmY6IGFsbG93IHJlcHJvZHVjaWJsZSBiaW5hcnkgYnVpbGRzCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZl8wLjczLjEuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZl8wLjczLjIuYmIKc2ltaWxhcml0
+eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJk
+bmZfMC43My4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRu
+Zl8wLjczLjIuYmIKaW5kZXggM2FiODQwYjFiMC4uZWQ0MzNkNGE5ZiAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmZfMC43My4xLmJiCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNzMuMi5iYgpAQCAtMTMsNyArMTMsNyBAQCBT
+UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvbGliZG5m
+O2JyYW5jaD1kbmYtNC1tYXN0ZXI7cAogICAgICAgICAgICBmaWxlOi8vYXJtYXJjaC5wYXRjaCBc
+CiAgICAgICAgICAgICIKIAotU1JDUkVWID0gIjAxMjBlNzA3NDdkY2YwNWU3MTY3OTJlMmU4NDZj
+NjJlY2NkNDQzMTkiCitTUkNSRVYgPSAiODZiYmIxNTk3MzJlNDNkZDZkZmY5OGM5NmU5OTM4Mjg0
+M2Y3YzYzYiIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPig/ITRcLjkw
+KVxkKyhcLlxkKykrKSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKLS0gCjIuNDQuMAoK
+
+--===============1498795654252246087==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/readline/readline-dbg: RRECOMMENDS: added "ncurses-dbg"
-packages/core2-64-poky-linux/readline/readline-dev: RDEPENDS: added "ncurses-dev"
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+Changes to packages/core2-64-poky-linux/libdnf (sysroot):
+  /usr/lib/python3.12/site-packages/libdnf-0.73.1.dist-info moved to /usr/lib/python3.12/site-packages/libdnf-0.73.2.dist-info
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3709,62 +3432,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============4840220553371114396==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-lua-upgrade-5.4.6-5.4.7.patch"
-
-RnJvbSA2MzYwODk2MWNmZjJmNjljZTFiZmQxZTA1NjY2NDcyNTQ4OGE4MmNhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAwODoxMjowOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGx1
-YTogdXBncmFkZSA1LjQuNiAtPiA1LjQuNwoKLS0tCiAuLi4vbHVhL3tsdWFfNS40LjYuYmIgPT4g
-bHVhXzUuNC43LmJifSAgICAgICAgfCAzMSArKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUgY2hh
-bmdlZCwgMjkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvbHVhL3tsdWFfNS40LjYuYmIgPT4gbHVhXzUuNC43LmJifSAoNjclKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC42LmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2x1YS9sdWFfNS40LjcuYmIKc2ltaWxhcml0eSBpbmRleCA2NyUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2x1YS9sdWFfNS40LjYuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC43LmJiCmluZGV4IDE3ZGM4ZmIxN2Qu
-LjQ3ZWRiMzk1MDkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUu
-NC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC43LmJiCkBAIC0x
-LDcgKzEsMzQgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJl
-ZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUg
-ZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQ
-bGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0
-aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTon
-IHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0
-ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBkb2MvcmVhZG1lLmh0bWwKKyMgKysr
-IGRvYy9yZWFkbWUuaHRtbAorIyBAQCAtMSw0ICsxLDYgQEAKKyMgLUNvcHlyaWdodCAmY29weTsg
-MTk5NCZuZGFzaDsyMDIzIEx1YS5vcmcsIFBVQy1SaW8uCisjICsKKyMgKzxCTE9DS1FVT1RFIFNU
-WUxFPSJwYWRkaW5nLWJvdHRvbTogMGVtIj4KKyMgK0NvcHlyaWdodCAmY29weTsgMTk5NCZuZGFz
-aDsyMDI0IEx1YS5vcmcsIFBVQy1SaW8uCisjICAKKyMgIDxQPgorIyAgUGVybWlzc2lvbiBpcyBo
-ZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEg
-Y29weQorIyBAQCAtMTgsNSArMjAsMyBAQAorIyAgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBV
-UlBPU0UgQU5EIE5PTklORlJJTkdFTUVOVC4gIElOIE5PIEVWRU5UIFNIQUxMIFRIRQorIyAgQVVU
-SE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdF
-UyBPUiBPVEhFUgorIyAgTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFD
-VCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcgRlJPTSwKKyMgLU9VVCBPRiBPUiBJTiBDT05O
-RUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4K
-KyMgLVRIRSBTT0ZUV0FSRS4KKyMgCisjCisKIFNVTU1BUlkgPSAiTHVhIGlzIGEgcG93ZXJmdWwg
-bGlnaHQtd2VpZ2h0IHByb2dyYW1taW5nIGxhbmd1YWdlIGRlc2lnbmVkIFwKIGZvciBleHRlbmRp
-bmcgYXBwbGljYXRpb25zLiIKIExJQ0VOU0UgPSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vZG9jL3JlYWRtZS5odG1sO2JlZ2lubGluZT0zMDM7ZW5kbGluZT0zMjQ7bWQ1PWUwNTQ0
-OWViMjhjMDkyNDczZjg1NDY3MGM2ZTgzNzVhIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-ZG9jL3JlYWRtZS5odG1sO2JlZ2lubGluZT0zMDM7ZW5kbGluZT0zMjQ7bWQ1PTQxZjllMmI0MTIy
-OWNmNmU2OWFhYzE4YzBlYjViZmE3IgogSE9NRVBBR0UgPSAiaHR0cDovL3d3dy5sdWEub3JnLyIK
-IAogU1JDX1VSSSA9ICJodHRwOi8vd3d3Lmx1YS5vcmcvZnRwL2x1YS0ke1BWfS50YXIuZ3o7bmFt
-ZT10YXJiYWxsc3JjIFwKQEAgLTEyLDcgKzM5LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vd3d3Lmx1
-YS5vcmcvZnRwL2x1YS0ke1BWfS50YXIuZ3o7bmFtZT10YXJiYWxsc3JjIFwKICMgaWYgbm8gdGVz
-dCBzdWl0ZSBtYXRjaGVzIFBWIHJlbGVhc2Ugb2YgTHVhIGV4YWN0bHksIGRvd25sb2FkIHRoZSBz
-dWl0ZSBmb3IgdGhlIGNsb3Nlc3QgTHVhIHJlbGVhc2UuCiBQVl90ZXN0c3VpdGVzID0gIjUuNC40
-IgogCi1TUkNfVVJJW3RhcmJhbGxzcmMuc2hhMjU2c3VtXSA9ICI3ZDVlYTFiOWNiNmFhMGI1OWNh
-M2RkZTFjNmFkY2I1N2VmODNhMWJhOGU1NDMyYzBlY2QwNmJmNDM5YjNhZDg4IgorU1JDX1VSSVt0
-YXJiYWxsc3JjLnNoYTI1NnN1bV0gPSAiOWZiZjVlMjhlZjg2YzY5ODU4ZjZkM2QzNGVjY2MzMmU5
-MTFjMWEyOGI0MTIwZmYzZTg0YWFhNzBjZmJmMWUzMCIKIFNSQ19VUklbdGFyYmFsbHRlc3Quc2hh
-MjU2c3VtXSA9ICIwNGQyODM1NWNkNjdhMjI5OWRmZTU3MDhiNTVhMGZmMjIxY2NiMWEzOTA3YTMx
-MTNjYzEwM2NjYzA1YWM2YWFkIgogCiBpbmhlcml0IHBrZ2NvbmZpZyBiaW5jb25maWcgcHRlc3QK
-LS0gCjIuNDQuMAoK
-
---===============4840220553371114396==--
+--===============1498795654252246087==--
 
