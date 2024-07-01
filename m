@@ -2,39 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EA7C3DA50
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CEAC3DA56
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:57:59 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.2118.1719853076619254301
+ by mx.groups.io with SMTP id smtpd.web11.2188.1719853076619108133
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VlPEgN4y;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Ic/H6ARW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101906f3b4e05-91aa1298-c016-49fc-8211-9f26209b154b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WaN0tJxN;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=vCt48mpd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101906f3b4e11-01c64429-2f7a-44aa-8cde-91ae255a1ae9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1719853076;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OT+d6qn/O2yif7I/oXp9nOfauPaoNyR3+20ZbKtn0pU=;
-	b=VlPEgN4yw77NLo7Zy6Abok4H0uFlhYkcgf+k2KemSNYXtnoy8tO+PWoET+79xi3K
-	UPr7PipaxSUhy9J3o4075n38b8WbyAhGANNGuqmWrJM7AT0XGrXmVyDyrG4eMOh5UET
-	ReUnHSL0GZFqTIOSYyC8bIhNxUBSmPDGiUJam2+o=
+	bh=qCW/GHKbXHLfDzvFDU/WTokCknvQv+qnshnaRCv2qhI=;
+	b=WaN0tJxNUgH7wpZq7bHxENYQ09aE4Vi4t9oMIsp5AauFD+r7yNViVQfFqcDxT2kN
+	NN+tGUrSyN6rxrAI3Emvq1vYsxgFPiuL/G0awSM3CB4Rpl3ubK/PjRbEBMTfHmUN/0+
+	MqwwUtSEcwzcozgOcP+KRN0/OH6Z5R4nMHQiUm7E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853076;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OT+d6qn/O2yif7I/oXp9nOfauPaoNyR3+20ZbKtn0pU=;
-	b=Ic/H6ARWkIfX58g/0cbT7Xs1Ut+LJoUob/UyvXZYXSkIeWJMqvrnjt0f1BHnmIS5
-	72zpH2jEK1jtDJNnt72McmO1gXBIOfry0Fml0lTe/Q0nyj4hpYe7uYA1wTZvzv/B5i0
-	Om5kw2IrKwxifJgAXCo7SKLeTe6K1n59UXiTwd3A=
-Content-Type: multipart/mixed; boundary="===============4218022029268387256=="
+	bh=qCW/GHKbXHLfDzvFDU/WTokCknvQv+qnshnaRCv2qhI=;
+	b=vCt48mpdcROuNLh2VRkAJArQbaEf4MC89Wm7dDdrh8jj5AIpuR9fNAB1FdndQJ4e
+	cihGbUYI1ot5ym5hxZh3Ya8l9g5XDIdtgdUxFoNu+YdGtHl4RnE0nSKf1LI3L/XbLWW
+	zm09Gphg5LsA/6YnIzJSvmILN/F0hTT0rpDkbR7w=
+Content-Type: multipart/mixed; boundary="===============5312033253886712161=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] xmlto: upgrading to 635dcd5bc84a7b67a3a2050a179d96e1d3050b15
- FAILED
-Message-ID: <010101906f3b4e05-91aa1298-c016-49fc-8211-9f26209b154b-000000@us-west-2.amazonses.com>
+Subject: [AUH] libstd-rs: upgrading to 1.79.0 FAILED
+Message-ID: <010101906f3b4e11-01c64429-2f7a-44aa-8cde-91ae255a1ae9-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jul 2024 16:57:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.07.01-54.240.27.191
@@ -42,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:57:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201359
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201358
 
---===============4218022029268387256==
+--===============5312033253886712161==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,70 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xmlto* to *635dcd5bc84a7b67a3a2050a179d96e1d3050b15* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *libstd-rs* to *1.79.0* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-xmlto-upgrade-to-latest-revision.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From aacd10a83231dffb30703a3add1dfc334e541a01 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 10:31:08 +0000
-Subject: [PATCH] xmlto: upgrade to latest revision
-
----
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index d5a0e69849..ce4aed8240 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-only"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
- 
--SRCREV = "6fa6a0e07644f20abf2596f78a60112713e11cbe"
-+SRCREV = "635dcd5bc84a7b67a3a2050a179d96e1d3050b15"
- UPSTREAM_CHECK_COMMITS = "1"
- SRC_URI = "git://pagure.io/xmlto.git;protocol=https;branch=master"
- S = "${WORKDIR}/git"
--- 
-2.44.0
-
-
---===============4218022029268387256==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
+The following devtool command failed:  upgrade libstd-rs -V 1.79.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1882 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (917 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Loaded 1879 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -134,112 +77,117 @@ meta-yocto-bsp
 workspace            = "tmp-auh-upgrades:2401868f49ce52c2dd2146cc0454bddbaa01b205"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 411 Local 399 Mirrors 0 Missed 12 Current 476 (97% match, 98% complete)
-Removing 1 stale sstate objects for arch qemux86_64...done.
-Removing 9 stale sstate objects for arch core2-64...done.
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1695 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_fetch)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_fetch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_fetch: Succeeded
-NOTE: Running task 2403 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_unpack)
-NOTE: Running task 2404 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_unpack: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_unpack: Succeeded
-NOTE: Running task 2467 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_patch)
-NOTE: Running task 2468 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_collect_spdx_deps)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_patch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_patch: Succeeded
-NOTE: Running task 2469 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_deploy_source_date_epoch)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2471 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_configure)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_configure: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_configure: Succeeded
-NOTE: Running task 2472 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_compile)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_compile: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_compile: Succeeded
-NOTE: Running task 2473 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_install)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_install: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_install: Succeeded
-NOTE: Running task 2474 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package)
-NOTE: Running task 2475 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_populate_sysroot)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_populate_sysroot: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_populate_sysroot unihash changed to e39ae7e072eeb73b7f8dcf2f5b97d936818cbd4bfabd52e0141b4b2bae8d7a87
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package: Succeeded
-NOTE: Running task 2476 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_packagedata)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_packagedata: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_packagedata unihash changed to 497e4312fcb8665c57631f42e46e2d251441f2a1c3a954ee6b96d044ed0766cb
-NOTE: Setscene tasks completed
-NOTE: Running task 2477 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_create_spdx)
-NOTE: Running task 2478 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_ipk)
-NOTE: Running task 2479 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_deb)
-NOTE: Running task 2480 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_rpm)
-NOTE: Running task 2481 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_qa)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_spdx: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_ipk: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_deb: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_rpm: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_qa: Started
-WARNING: xmlto-0.0.28+0.0.29+git-r0 do_package_qa: QA Issue: File /usr/bin/xmlto in package xmlto contains reference to TMPDIR [buildpaths]
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2482 of 2483 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_create_runtime_spdx)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_runtime_spdx: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_ipk unihash changed to 10e41e72a09cdb6c2dae1bcf85b36edabf9f658abb42e51cdefc009ffbd7e265
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_deb: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_deb unihash changed to ef5f8bf2267bdf3e9358430b5aa131fa233df039355f249685ac213666b547f4
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_rpm unihash changed to f07a9ced1a335086c2d09c839c5cb9d9f9c7e37d7fb4acedb36d3e328e2b6315
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_qa: Failed
-NOTE: Tasks Summary: Attempted 2482 tasks of which 2464 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240701103041.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240701103041.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (917 cached, 2 parsed). 1879 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_qa
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: xmlto-0.0.28+0.0.29+git-r0 do_package_qa: QA Issue: /usr/bin/xmlto contained in package xmlto requires /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/bash, but no providers found in RDEPENDS:xmlto? [file-rdeps]
-ERROR: xmlto-0.0.28+0.0.29+git-r0 do_package_qa: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xmlto/0.0.28+0.0.29+git/temp/log.do_package_qa.2773254
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_qa) failed with exit code '1'
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-2401868f49ce52c2dd2146cc0454bddbaa01b205"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:2401868f49ce52c2dd2146cc0454bddbaa01b205"
 
---===============4218022029268387256==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xmlto-upgrade-to-latest-revision.patch"
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-lnf7rccz: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ii4a5agp/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ii4a5agp/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:17:54
+Adding changed files:   0% |                                    | ETA:  0:13:33
+Adding changed files:   0% |                                    | ETA:  0:12:01
+Adding changed files:   0% |                                    | ETA:  0:11:23
+Adding changed files:   0% |                                    | ETA:  0:11:01
+Adding changed files:   0% |                                    | ETA:  0:10:25
+Adding changed files:   0% |                                    | ETA:  0:10:07
+Adding changed files:   0% |                                    | ETA:  0:09:56
+Adding changed files:   0% |                                    | ETA:  0:09:39
+Adding changed files:   0% |                                    | ETA:  0:09:26
+Adding changed files:   0% |                                    | ETA:  0:09:19
+Adding changed files:   0% |                                    | ETA:  0:09:12
+Adding changed files:   0% |                                    | ETA:  0:09:03
+Adding changed files:   0% |                                    | ETA:  0:09:02
+Adding changed files:   1% |                                    | ETA:  0:08:55
+Adding changed files:   1% |                                    | ETA:  0:08:53
+Adding changed files:   1% |                                    | ETA:  0:08:51
+Adding changed files:   1% |                                    | ETA:  0:08:47
+Adding changed files:   1% |                                    | ETA:  0:08:45
+Adding changed files:   1% |                                    | ETA:  0:08:43
+Adding changed files:   1% |                                    | ETA:  0:08:40
+Adding changed files:   1% |                                    | ETA:  0:08:36
+Adding changed files:   1% |                                    | ETA:  0:08:35
+Adding changed files:   1% |                                    | ETA:  0:08:33
+Adding changed files:   1% |                                    | ETA:  0:08:32
+Adding changed files:   1% |                                    | ETA:  0:08:31
+Adding changed files:   1% |                                    | ETA:  0:08:29
+Adding changed files:   1% |                                    | ETA:  0:08:25
+Adding changed files:   2% |                                    | ETA:  0:08:22
+Adding changed files:   2% |                                    | ETA:  0:08:21
+Adding changed files:   2% |                                    | ETA:  0:08:22
+Adding changed files:   2% |                                    | ETA:  0:08:23
+Adding changed files:   2% |                                    | ETA:  0:08:22
+Adding changed files:   2% |                                    | ETA:  0:08:20
+Adding changed files:   2% |                                    | ETA:  0:08:19
+Adding changed files:   2% |                                    | ETA:  0:08:20
+Adding changed files:   2% |                                    | ETA:  0:08:18
+Adding changed files:   2% |                                    | ETA:  0:08:16
+Adding changed files:   2% |                                    | ETA:  0:08:14
+Adding changed files:   2% |#                                   | ETA:  0:08:13
+Adding changed files:   2% |#                                   | ETA:  0:08:12
+Adding changed files:   2% |#                                   | ETA:  0:08:13
+Adding changed files:   2% |#                                   | ETA:  0:08:14
+Adding changed files:   3% |#                                   | ETA:  0:08:13
+Adding changed files:   3% |#                                   | ETA:  0:08:14
+Adding changed files:   3% |#                                   | ETA:  0:08:12
+Adding changed files:   3% |#                                   | ETA:  0:08:12
+Adding changed files:   3% |#                                   | ETA:  0:08:12
+Adding changed files:   3% |#                                   | ETA:  0:08:13
+Adding changed files:   3% |#                                   | ETA:  0:08:13
+Adding changed files:   3% |#                                   | ETA:  0:08:14
+Adding changed files:   3% |#                                   | ETA:  0:08:13
+Adding changed files:   3% |#                                   | ETA:  0:08:12
+Adding changed files:   3% |#                                   | ETA:  0:08:11
+Adding changed files:   3% |#                                   | ETA:  0:08:11
+Adding changed files:   3% |#                                   | ETA:  0:08:11
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.79.0-src.tar.xz;name=rust...
+ERROR: Execution of 'git add -f -A "tests/rustdoc/doc-hidden-private-67851-private.rs" "tests/rustdoc/doctest/auxiliary/empty.rs" "tests/rustdoc/doctest/doctest-cfg-feature-30252.rs" "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/duplicated-glob-reexport-60522.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-
+ private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-definition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/hide-mut-methods-if-no-derefmut-impl-74083.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/implementors-unstable-75588.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-57180.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_generic_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inlin
+ e_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/ice-import-crate-57180.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_cross/issue-76736-4.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/intra-doc-link-method-trait-impl-72340.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$name.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/markdown-60482.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "
+ tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/sidebar-trait-impl-disambiguate-78701.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/synthetic_auto/auto-trait-lifetimes-56822.rs" "tests/rustdoc/synthetic_auto/bounds.rs" "tests/rustdoc/synthetic_auto/send-impl-conditional-60726.rs" "tests/rustdoc/synthetic_auto/supertrait-bounds.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-struct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/rustdoc/underscore-import-61592.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs" "tests/ui-fulldeps/stable-mir/check_allocation.rs" "tests/ui-fulldeps/stable-mir/check_binop.rs" "tests/ui-fulldeps/stable-mir/check_defs.rs" "tests/ui-fulldeps/stable-mir/check_foreign.rs" "tests/ui-fulldeps/stable-mir/check_intrinsics.rs" "
+ tests/ui-fulldeps/stable-mir/check_item_kind.rs" "tests/ui-fulldeps/stable-mir/check_normalization.rs" "tests/ui-fulldeps/stable-mir/check_trait_queries.rs" "tests/ui-fulldeps/stable-mir/check_transform.rs" "tests/ui-fulldeps/stable-mir/check_ty_fold.rs" "tests/ui-fulldeps/stable-mir/projections.rs" "tests/ui/README.md" "tests/ui/abi/arm-unadjusted-intrinsic.rs" "tests/ui/abi/extern/extern-pass-FiveU16s.rs" "tests/ui/abi/extern/extern-return-FiveU16s.rs" "tests/ui/abi/statics/static-mut-foreign.stderr" "tests/ui/abi/unsized-args-in-c-abi-issues-94223-115845.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.rs" "tests/ui/argfile/commandline-argfile-badutf8-windows.stderr" "tests/ui/argfile/commandline-argfile-badutf8.args" "tests/ui/argfile/commandline-argfile-badutf8.rs" "tests/ui/argfile/commandline-argfile-badutf8.stderr" "tests/ui/argfile/commandline-argfile-missing-windows.rs" "tests/ui/argfile/commandline-argfile-missing-windows.stderr" "tests/ui/argfile/commandline-arg
+ file-missing.rs" "tests/ui/argfile/commandline-argfile-missing.stderr" "tests/ui/argfile/commandline-argfile-multiple-windows.rs"' failed with exit code 128:
+fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
 
-RnJvbSBhYWNkMTBhODMyMzFkZmZiMzA3MDNhM2FkZDFkZmMzMzRlNTQxYTAxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxMDozMTowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHht
-bHRvOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMveG1sdG8veG1sdG9fMC4wLjI4LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3htbHRvL3htbHRvXzAuMC4yOC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy94bWx0by94bWx0
-b18wLjAuMjguYmIKaW5kZXggZDVhMGU2OTg0OS4uY2U0YWVkODI0MCAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3htbHRvL3htbHRvXzAuMC4yOC5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMveG1sdG8veG1sdG9fMC4wLjI4LmJiCkBAIC02LDcgKzYsNyBAQCBMSUNFTlNF
-ID0gIkdQTC0yLjAtb25seSIKIAogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
-ZDU9NTk1MzBiZGYzMzY1OWIyOWU3M2Q0YWRiOWY5ZjY1NTIiCiAKLVNSQ1JFViA9ICI2ZmE2YTBl
-MDc2NDRmMjBhYmYyNTk2Zjc4YTYwMTEyNzEzZTExY2JlIgorU1JDUkVWID0gIjYzNWRjZDViYzg0
-YTdiNjdhM2EyMDUwYTE3OWQ5NmUxZDMwNTBiMTUiCiBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0g
-IjEiCiBTUkNfVVJJID0gImdpdDovL3BhZ3VyZS5pby94bWx0by5naXQ7cHJvdG9jb2w9aHR0cHM7
-YnJhbmNoPW1hc3RlciIKIFMgPSAiJHtXT1JLRElSfS9naXQiCi0tIAoyLjQ0LjAKCg==
 
---===============4218022029268387256==--
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============5312033253886712161==--
 
