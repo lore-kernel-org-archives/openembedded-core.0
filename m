@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A5FC52D54
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D25C52D70
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:01 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.2172.1719853075376707204
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.2175.1719853075763009769
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BMlJbYG+;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Q1JDKZRk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101906f3b4bf9-09c1eb8f-6c4d-4403-a688-06132ec9baae-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KWmBu8ye;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=eSVzx5Vn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101906f3b4a4b-96384298-ddd8-4628-ad4a-8ba599aa3d5d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zl3oM32KGU60qPO8uXiz1F6E9UXfhksHP9epHSPwmBM=;
-	b=BMlJbYG+knIGMAJiRLTPWk+ARlsqYqdnr4DoOqFT64uPiGrYTa8inwSDig4zIDJK
-	j0LxZNqunujlHgDpxnnFS85M7zUMfzGz7TKThSGxjfRroG2YnMPP6Q2zR0tSZFP2bZe
-	w0IxhBdDeTdhk0vdCxmAtb3K8SYIXPMBV+GwjHIE=
+	bh=Nr/mfJHsSWwDVI4Y7P8tyP036Jfm9oUkmehGlifNCDI=;
+	b=KWmBu8yeD58MxBbKzOMx0EeOAakqLiS37h2rjroa69mwrPh1y+2r4Y99iwvVC1As
+	ABngPl1tIqF7a56vPTsTvbHEEGVJcz7LuTe6cp6YYzR+FOoPIfLNNM3Fzz73RE4CEp7
+	hnosuihXQcCguXAAvrh64vR4OWwBOuF8sXZpKBtE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853075;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zl3oM32KGU60qPO8uXiz1F6E9UXfhksHP9epHSPwmBM=;
-	b=Q1JDKZRkDUclCdeUcMv/voFlg7azAKGimhG1pY74u+zYTVDhxz4ZONfiCT+dIeSs
-	KjZWJeGse57JzeM2MSG2ISFdqQwWoHaCJFIv+rtnwiY4NOs3+S5wmCJf1YjrympuGy6
-	29sfv2f/Kap2eUsP13cNgGFDsLZM8+GSjEhC4ua0=
-Content-Type: multipart/mixed; boundary="===============8999145774918758075=="
+	bh=Nr/mfJHsSWwDVI4Y7P8tyP036Jfm9oUkmehGlifNCDI=;
+	b=eSVzx5VnGzWmmD7q/YajSgEszVCELB6zP9aAXPekyX1dPIO1N+As2EJXq3QWbusE
+	m1WEY69w5+JehChzKcqR4a5/ZHGRJY6Bs7hFNsEgbeDskeZ1F7sE6QoN1L3IbBVW1eT
+	zi7+XDMcMjoVWr0Mz+DdfkL/7vuXfI+fl3MaJBX0=
+Content-Type: multipart/mixed; boundary="===============4263118442891028428=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mtools: upgrading to 4.0.44 SUCCEEDED
-Message-ID: <010101906f3b4bf9-09c1eb8f-6c4d-4403-a688-06132ec9baae-000000@us-west-2.amazonses.com>
+Subject: [AUH] btrfs-tools: upgrading to 6.9.2 SUCCEEDED
+Message-ID: <010101906f3b4a4b-96384298-ddd8-4628-ad4a-8ba599aa3d5d-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jul 2024 16:57:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.33
+X-SES-Outgoing: 2024.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201328
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201324
 
---===============8999145774918758075==
+--===============4263118442891028428==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mtools* to *4.0.44* has Succeeded.
+that the automatic attempt to upgrade the recipe *btrfs-tools* to *6.9.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mtools-upgrade-4.0.43-4.0.44.patch
+    - apply the patch: git am 0001-btrfs-tools-upgrade-6.8.1-6.9.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,272 +72,318 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From cfeb6409c2a802287cfcdd21ddc44e15392ef849 Mon Sep 17 00:00:00 2001
+From a3e8fa99e01d3bfba3c92c52391f631b7dc35076 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 08:19:51 +0000
-Subject: [PATCH] mtools: upgrade 4.0.43 -> 4.0.44
+Date: Mon, 1 Jul 2024 06:58:02 +0000
+Subject: [PATCH] btrfs-tools: upgrade 6.8.1 -> 6.9.2
 
 ---
- .../mtools/mtools/clang_UNUSED.patch          | 19 +++++++++++++------
- .../mtools/disable-hardcoded-configs.patch    |  7 +++----
- .../mtools/mtools/mtools-makeinfo.patch       | 11 +++++------
- .../{mtools_4.0.43.bb => mtools_4.0.44.bb}    |  2 +-
- 4 files changed, 22 insertions(+), 17 deletions(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.43.bb => mtools_4.0.44.bb} (93%)
+ ...y-to-specify-where-python-modules-ar.patch |  6 +-
+ ...ename-of-inode_includes-from-e2fspro.patch | 64 -------------------
+ ...fs-tools_6.8.1.bb => btrfs-tools_6.9.2.bb} |  3 +-
+ 3 files changed, 4 insertions(+), 69 deletions(-)
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.8.1.bb => btrfs-tools_6.9.2.bb} (95%)
 
-diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-index 6bb9d6a3da..9b55532157 100644
---- a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-+++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-@@ -1,12 +1,19 @@
--Undefine UNUSED macros with clang
-+From 29a61c0b6a60965633422395b98d5ef825984aee Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 19 Sep 2018 11:55:41 -0700
-+Subject: [PATCH] Undefine UNUSED macros with clang
- 
- Upstream-Status: Pending
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Index: mtools-4.0.18/sysincludes.h
--===================================================================
----- mtools-4.0.18.orig/sysincludes.h
--+++ mtools-4.0.18/sysincludes.h
--@@ -101,7 +101,7 @@ typedef void *caddr_t;
-+---
-+ sysincludes.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sysincludes.h b/sysincludes.h
-+index e16ab45..8d285d4 100644
-+--- a/sysincludes.h
-++++ b/sysincludes.h
-+@@ -98,7 +98,7 @@ typedef void *caddr_t;
-  #if defined __GNUC__ && defined __STDC__
-  /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
-  # define PACKED __attribute__ ((packed))
-diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-index 57be935487..5515e25d54 100644
---- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-+++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 4b1797b65f..cc08db5430 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
 @@ -1,4 +1,4 @@
--From 2ef9b371a5cc44e730143e694d71665831fac216 Mon Sep 17 00:00:00 2001
-+From ca9f26f26ba0bffaf86a12fc0c45f17a5aaa8542 Mon Sep 17 00:00:00 2001
- From: Ed Bartosh <ed.bartosh@linux.intel.com>
- Date: Tue, 13 Jun 2017 14:55:52 +0300
- Subject: [PATCH] Disabled reading host configs.
-@@ -6,16 +6,15 @@ Subject: [PATCH] Disabled reading host configs.
- Upstream-Status: Inappropriate [native]
+-From 980f6edc269fa3ef8d4d4b9cd1aada2328131c19 Mon Sep 17 00:00:00 2001
++From 640d65ef735843305deba55a5f896d88e6117d0c Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+ diff --git a/Makefile b/Makefile
+-index 374f59b9..ed083f6b 100644
++index 82dfb1b4..4968989a 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -959,7 +959,7 @@ endif
++@@ -984,7 +984,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch
+deleted file mode 100644
+index 6fefbb2bca..0000000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From f9ba9752ba5fd72441bc2018b2453967e75460d4 Mon Sep 17 00:00:00 2001
+-From: Wang Mingyu <wangmy@fujitsu.com>
+-Date: Mon, 24 Jun 2024 02:00:11 +0000
+-Subject: [PATCH] convert: handle rename of inode_includes() from e2fsprogs
+- 1.47.1
 -
- ---
-  config.c | 8 --------
-  1 file changed, 8 deletions(-)
- 
- diff --git a/config.c b/config.c
--index 2f6a297..3181ed7 100644
-+index 358282b..8ebafb4 100644
- --- a/config.c
- +++ b/config.c
--@@ -844,14 +844,6 @@ void read_config(void)
-+@@ -868,14 +868,6 @@ void read_config(void)
-  	memcpy(devices, const_devices,
-  	       nr_const_devices*sizeof(struct device));
-  
-diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-index 6ae91d6cb9..281438e05f 100644
---- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-+++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-@@ -1,17 +1,16 @@
--From 3cf56b36db78679273f61ba78fbbf7f3fab52f68 Mon Sep 17 00:00:00 2001
-+From a0c5f0f6959486d887887b18f4945a75ca38cb63 Mon Sep 17 00:00:00 2001
- From: Marcin Juszkiewicz <hrw@openedhand.com>
- Date: Fri, 8 Jun 2007 08:35:12 +0000
- Subject: [PATCH] mtools: imported from OE
- 
- Upstream-Status: Inappropriate [licensing]
+-Upstream-Status: Backport
+-[https://kernel.googlesource.com/pub/scm/linux/kernel/git/kdave/btrfs-progs/+/bcb887a4de2c56426a7a7de8d440b6ad75579f10%5E%21/#F0]
 -
- ---
-  Makefile.in  | 11 ++++++-----
-  configure.in | 27 +++++++++++++++++++++++++++
-  2 files changed, 33 insertions(+), 5 deletions(-)
+-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+----
+- configure.ac          |  3 ++-
+- convert/source-ext2.c | 11 +++++++++--
+- 2 files changed, 11 insertions(+), 3 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 007d29b..816dd36 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -312,7 +312,8 @@ AS_IF([test "x$have_ext4_epoch_mask_define" = xno], [
+-             AC_DEFINE([EXT4_EPOCH_BITS], [2],[for encode and decode tv_nsec in ext2 inode])
+-             AC_DEFINE([EXT4_EPOCH_MASK], [((1U << EXT4_EPOCH_BITS) - 1)], [For encode and decode tv_nsec info in ext2 inode])
+-             AC_DEFINE([EXT4_NSEC_MASK],  [(~0UL << EXT4_EPOCH_BITS)], [For encode and decode tv_nsec info in ext2 inode])
+--            AC_DEFINE([inode_includes(size, field)],[m4_normalize[(size >= (sizeof(((struct ext2_inode_large *)0)->field) + offsetof(struct ext2_inode_large, field)))]],
+-+            # Use name from 1.47.1, backward compatibility is handled in convert/source-ext2.c
+-+            AC_DEFINE([ext2fs_inode_includes(size, field)],[m4_normalize[(size >= (sizeof(((struct ext2_inode_large *)0)->field) + offsetof(struct ext2_inode_large, field)))]],
+-                 [For encode and decode tv_nsec info in ext2 inode])
+-         ],
+-         [AC_MSG_WARN([It seems that ext2_inode_large don't includes tv_nsec related info, probably old e2fsprogs, no 64bit time precision of converted images])],
+-diff --git a/convert/source-ext2.c b/convert/source-ext2.c
+-index 2186b25..bba81e4 100644
+---- a/convert/source-ext2.c
+-+++ b/convert/source-ext2.c
+-@@ -727,10 +727,17 @@ static inline void ext4_decode_extra_time(__le32 * tv_sec, __le32 * tv_nsec,
+-         *tv_nsec = (le32_to_cpu(extra) & EXT4_NSEC_MASK) >> EXT4_EPOCH_BITS;
+- }
+- 
+-+/*
+-+ * In e2fsprogs < 1.47.1 it's inode_includes, from >= on it's with ext2fs_ prefix.
+-+ */
+-+#ifndef ext2fs_inode_includes
+-+#define ext2fs_inode_includes(size, field)	inode_includes(size, field)
+-+#endif
+-+
+- #define EXT4_COPY_XTIME(xtime, dst, tv_sec, tv_nsec)					\
+- do {											\
+- 	tv_sec = src->i_ ## xtime ;							\
+--	if (inode_includes(inode_size, i_ ## xtime ## _extra)) {			\
+-+	if (ext2fs_inode_includes(inode_size, i_ ## xtime ## _extra)) {			\
+- 		tv_sec = src->i_ ## xtime ;						\
+- 		ext4_decode_extra_time(&tv_sec, &tv_nsec, src->i_ ## xtime ## _extra);	\
+- 		btrfs_set_stack_timespec_sec(&dst->xtime , tv_sec);			\
+-@@ -771,7 +778,7 @@ static int ext4_copy_inode_timespec_extra(struct btrfs_inode_item *dst,
+- 	EXT4_COPY_XTIME(ctime, dst, tv_sec, tv_nsec);
+- 
+- 	tv_sec = src->i_crtime;
+--	if (inode_includes(inode_size, i_crtime_extra)) {
+-+	if (ext2fs_inode_includes(inode_size, i_crtime_extra)) {
+- 		tv_sec = src->i_crtime;
+- 		ext4_decode_extra_time(&tv_sec, &tv_nsec, src->i_crtime_extra);
+- 		btrfs_set_stack_timespec_sec(&dst->otime, tv_sec);
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
+similarity index 95%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
+index d61d956a70..9f5586490d 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
+@@ -17,9 +17,8 @@ DEPENDS = "util-linux zlib"
  
- diff --git a/Makefile.in b/Makefile.in
--index 616d59f..85b5b1d 100644
-+index 5db50d7..92ad461 100644
- --- a/Makefile.in
- +++ b/Makefile.in
- @@ -26,10 +26,11 @@ USERCFLAGS =
-@@ -30,7 +29,7 @@ index 616d59f..85b5b1d 100644
-  
-  
-  # do not edit below this line
--@@ -199,7 +200,7 @@ dvi: mtools.dvi
-+@@ -185,7 +186,7 @@ dvi: mtools.dvi
-  
-  ps: mtools.ps
-  %.ps: %.dvi
-@@ -40,10 +39,10 @@ index 616d59f..85b5b1d 100644
-  pdf: mtools.pdf
-  %.pdf: %.texi sysconfdir.texi
- diff --git a/configure.in b/configure.in
--index 5ff75c1..c0f7440 100644
-+index 1de916e..fd6cb08 100644
- --- a/configure.in
- +++ b/configure.in
--@@ -35,6 +35,33 @@ AC_CANONICAL_SYSTEM
-+@@ -32,6 +32,33 @@ AC_CANONICAL_TARGET
-  AC_C_CONST
-  AC_C_INLINE
-  
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.43.bb b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
-similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.43.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.44.bb
-index 859103979e..d8dd671be2 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.43.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "541e179665dc4e272b9602f2074243591a157da89cc47064da8c5829dbd2b339"
-+SRC_URI[sha256sum] = "37dc4df022533c3d4b2ec1c78973c27c7e8b585374c2d46ab64c6a3db31eddb8"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+-           file://0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch \
+            "
+-SRCREV = "5d97c32d6f94cf6f473a5f82964e3edaeb1b146e"
++SRCREV = "b0e5ef4cf7c8b473119e0d487a26b96058e8f80d"
+ S = "${WORKDIR}/git"
  
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
+ PACKAGECONFIG ??= " \
 -- 
 2.44.0
 
 
---===============8999145774918758075==
+--===============4263118442891028428==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.43.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.44.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch"
-packages/core2-64-poky-linux/mtools: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 818456 to 818616 (+0%)
-packages/core2-64-poky-linux/mtools/mtools-dbg: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-dev: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-doc: PKGSIZE changed from 242854 to 244453 (+1%)
-packages/core2-64-poky-linux/mtools/mtools-doc: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-locale: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-src: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-src: PKGSIZE changed from 597781 to 598938 (+0%)
-packages/core2-64-poky-linux/mtools/mtools-src: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools: PKGSIZE changed from 227346 to 223250 (-2%)
-packages/core2-64-poky-linux/mtools/mtools: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: FILELIST: removed "/usr/lib/.debug/libbtrfsutil.so.1.3.0 /usr/lib/.debug/libbtrfs.so.0.1", added "/usr/lib/.debug/libbtrfs.so.0.1.3 /usr/lib/.debug/libbtrfsutil.so.1.3.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 25045480 to 25111536 (+0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.8.1" to "6.9.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 218990 to 219002 (+0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.8.1" to "6.9.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.8.1" to "6.9.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.8.1" to "6.9.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4179972 to 4192255 (+0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.8.1" to "6.9.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.8.1" to "6.9.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info -> /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info, removed "/usr/lib/libbtrfsutil.so.1.3.0", added "/usr/lib/libbtrfsutil.so.1.3 /usr/lib/libbtrfs.so.0.1.3 /usr/lib/libbtrfsutil.so.1.3.2"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 5824852 to 5829244 (+0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.8.1" to "6.9.2"
+packages/core2-64-poky-linux/btrfs-tools: SRC_URI changed from "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch file://0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch" to "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch"
+packages/core2-64-poky-linux/btrfs-tools: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
+packages/core2-64-poky-linux/btrfs-tools: PV changed from "6.8.1" to "6.9.2"
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/libbtrfs.so.0.1 changed type from file to symlink
+  /usr/lib/libbtrfs.so.0.1 changed permissions from rwxr-xr-x to rwxrwxrwx
+  /usr/lib/libbtrfs.so.0.1 changed symlink target from None to libbtrfs.so.0.1.3
+  /usr/lib/libbtrfs.so.0 changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
+  /usr/lib/libbtrfs.so changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
+  /usr/lib/libbtrfsutil.so.1 changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
+  /usr/lib/libbtrfsutil.so changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
+  /usr/lib/libbtrfsutil.so.1.3.0 moved to /usr/lib/libbtrfsutil.so.1.3.2
+  /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info moved to /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info
+  /usr/lib/libbtrfs.so.0.1.3 was added
+  /usr/lib/libbtrfsutil.so.1.3 was added
 
---===============8999145774918758075==
+--===============4263118442891028428==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info -> /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info, removed "/usr/lib/libbtrfsutil.so.1.3.0", added "/usr/lib/libbtrfsutil.so.1.3.2 /usr/lib/libbtrfs.so.0.1.3 /usr/lib/libbtrfsutil.so.1.3"
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/libbtrfs.so.0.1 changed type from file to symlink
+  /usr/lib/libbtrfs.so.0.1 changed permissions from rwxr-xr-x to rwxrwxrwx
+  /usr/lib/libbtrfs.so.0.1 changed symlink target from None to libbtrfs.so.0.1.3
+  /usr/lib/libbtrfs.so.0 changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
+  /usr/lib/libbtrfs.so changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
+  /usr/lib/libbtrfsutil.so.1 changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
+  /usr/lib/libbtrfsutil.so changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
+  /usr/lib/libbtrfsutil.so.1.3.0 moved to /usr/lib/libbtrfsutil.so.1.3.2
+  /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info moved to /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info
+  /usr/lib/libbtrfs.so.0.1.3 was added
+  /usr/lib/libbtrfsutil.so.1.3 was added
+
+--===============4263118442891028428==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mtools-upgrade-4.0.43-4.0.44.patch"
+ filename="0001-btrfs-tools-upgrade-6.8.1-6.9.2.patch"
 
-RnJvbSBjZmViNjQwOWMyYTgwMjI4N2NmY2RkMjFkZGM0NGUxNTM5MmVmODQ5IE1vbiBTZXAgMTcg
+RnJvbSBhM2U4ZmE5OWUwMWQzYmZiYTNjOTJjNTIzOTFmNjMxYjdkYzM1MDc2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAwODoxOTo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG10
-b29sczogdXBncmFkZSA0LjAuNDMgLT4gNC4wLjQ0CgotLS0KIC4uLi9tdG9vbHMvbXRvb2xzL2Ns
-YW5nX1VOVVNFRC5wYXRjaCAgICAgICAgICB8IDE5ICsrKysrKysrKysrKystLS0tLS0KIC4uLi9t
-dG9vbHMvZGlzYWJsZS1oYXJkY29kZWQtY29uZmlncy5wYXRjaCAgICB8ICA3ICsrKy0tLS0KIC4u
-Li9tdG9vbHMvbXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaCAgICAgICB8IDExICsrKysrLS0t
-LS0tCiAuLi4ve210b29sc180LjAuNDMuYmIgPT4gbXRvb2xzXzQuMC40NC5iYn0gICAgfCAgMiAr
-LQogNCBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL3ttdG9vbHNfNC4wLjQzLmJiID0+IG10
-b29sc180LjAuNDQuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L210b29scy9tdG9vbHMvY2xhbmdfVU5VU0VELnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L210b29scy9tdG9vbHMvY2xhbmdfVU5VU0VELnBhdGNoCmluZGV4IDZiYjlkNmEzZGEuLjliNTU1
-MzIxNTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Ns
-YW5nX1VOVVNFRC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29s
-cy9jbGFuZ19VTlVTRUQucGF0Y2gKQEAgLTEsMTIgKzEsMTkgQEAKLVVuZGVmaW5lIFVOVVNFRCBt
-YWNyb3Mgd2l0aCBjbGFuZworRnJvbSAyOWE2MWMwYjZhNjA5NjU2MzM0MjIzOTViOThkNWVmODI1
-OTg0YWVlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogS2hlbSBSYWogPHJhai5raGVt
-QGdtYWlsLmNvbT4KK0RhdGU6IFdlZCwgMTkgU2VwIDIwMTggMTE6NTU6NDEgLTA3MDAKK1N1Ympl
-Y3Q6IFtQQVRDSF0gVW5kZWZpbmUgVU5VU0VEIG1hY3JvcyB3aXRoIGNsYW5nCiAKIFVwc3RyZWFt
-LVN0YXR1czogUGVuZGluZwogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWls
-LmNvbT4KLUluZGV4OiBtdG9vbHMtNC4wLjE4L3N5c2luY2x1ZGVzLmgKLT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0t
-LSBtdG9vbHMtNC4wLjE4Lm9yaWcvc3lzaW5jbHVkZXMuaAotKysrIG10b29scy00LjAuMTgvc3lz
-aW5jbHVkZXMuaAotQEAgLTEwMSw3ICsxMDEsNyBAQCB0eXBlZGVmIHZvaWQgKmNhZGRyX3Q7Cist
-LS0KKyBzeXNpbmNsdWRlcy5oIHwgMiArLQorIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQorCitkaWZmIC0tZ2l0IGEvc3lzaW5jbHVkZXMuaCBiL3N5c2luY2x1
-ZGVzLmgKK2luZGV4IGUxNmFiNDUuLjhkMjg1ZDQgMTAwNjQ0CistLS0gYS9zeXNpbmNsdWRlcy5o
-CisrKysgYi9zeXNpbmNsdWRlcy5oCitAQCAtOTgsNyArOTgsNyBAQCB0eXBlZGVmIHZvaWQgKmNh
-ZGRyX3Q7CiAgI2lmIGRlZmluZWQgX19HTlVDX18gJiYgZGVmaW5lZCBfX1NURENfXwogIC8qIGdj
-YyAtdHJhZGl0aW9uYWwgZG9lc24ndCBoYXZlIFBBQ0tFRCwgVU5VU0VEIGFuZCBOT1JFVFVSTiAq
-LwogICMgZGVmaW5lIFBBQ0tFRCBfX2F0dHJpYnV0ZV9fICgocGFja2VkKSkKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Rpc2FibGUtaGFyZGNvZGVkLWNv
-bmZpZ3MucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9kaXNhYmxl
-LWhhcmRjb2RlZC1jb25maWdzLnBhdGNoCmluZGV4IDU3YmU5MzU0ODcuLjU1MTVlMjVkNTQgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Rpc2FibGUtaGFy
-ZGNvZGVkLWNvbmZpZ3MucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9t
-dG9vbHMvZGlzYWJsZS1oYXJkY29kZWQtY29uZmlncy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gMmVmOWIzNzFhNWNjNDRlNzMwMTQzZTY5NGQ3MTY2NTgzMWZhYzIxNiBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gY2E5ZjI2ZjI2YmEwYmZmYWY4NmExMmZjMGM0NWYxN2E1YWFhODU0
-MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEVkIEJhcnRvc2ggPGVkLmJhcnRvc2hA
-bGludXguaW50ZWwuY29tPgogRGF0ZTogVHVlLCAxMyBKdW4gMjAxNyAxNDo1NTo1MiArMDMwMAog
-U3ViamVjdDogW1BBVENIXSBEaXNhYmxlZCByZWFkaW5nIGhvc3QgY29uZmlncy4KQEAgLTYsMTYg
-KzYsMTUgQEAgU3ViamVjdDogW1BBVENIXSBEaXNhYmxlZCByZWFkaW5nIGhvc3QgY29uZmlncy4K
-IFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbbmF0aXZlXQogCiBTaWduZWQtb2ZmLWJ5
-OiBFZCBCYXJ0b3NoIDxlZC5iYXJ0b3NoQGxpbnV4LmludGVsLmNvbT4KLQogLS0tCiAgY29uZmln
-LmMgfCA4IC0tLS0tLS0tCiAgMSBmaWxlIGNoYW5nZWQsIDggZGVsZXRpb25zKC0pCiAKIGRpZmYg
-LS1naXQgYS9jb25maWcuYyBiL2NvbmZpZy5jCi1pbmRleCAyZjZhMjk3Li4zMTgxZWQ3IDEwMDY0
-NAoraW5kZXggMzU4MjgyYi4uOGViYWZiNCAxMDA2NDQKIC0tLSBhL2NvbmZpZy5jCiArKysgYi9j
-b25maWcuYwotQEAgLTg0NCwxNCArODQ0LDYgQEAgdm9pZCByZWFkX2NvbmZpZyh2b2lkKQorQEAg
-LTg2OCwxNCArODY4LDYgQEAgdm9pZCByZWFkX2NvbmZpZyh2b2lkKQogIAltZW1jcHkoZGV2aWNl
-cywgY29uc3RfZGV2aWNlcywKICAJICAgICAgIG5yX2NvbnN0X2RldmljZXMqc2l6ZW9mKHN0cnVj
-dCBkZXZpY2UpKTsKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMv
-bXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9v
-bHMvbXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaAppbmRleCA2YWU5MWQ2Y2I5Li4yODE0Mzhl
-MDVmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9tdG9v
-bHMtbWFrZWluZm8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9v
-bHMvbXRvb2xzLW1ha2VpbmZvLnBhdGNoCkBAIC0xLDE3ICsxLDE2IEBACi1Gcm9tIDNjZjU2YjM2
-ZGI3ODY3OTI3M2Y2MWJhNzhmYmJmN2YzZmFiNTJmNjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CitGcm9tIGEwYzVmMGY2OTU5NDg2ZDg4Nzg4N2IxOGY0OTQ1YTc1Y2EzOGNiNjMgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCiBGcm9tOiBNYXJjaW4gSnVzemtpZXdpY3ogPGhyd0BvcGVuZWRoYW5k
-LmNvbT4KIERhdGU6IEZyaSwgOCBKdW4gMjAwNyAwODozNToxMiArMDAwMAogU3ViamVjdDogW1BB
-VENIXSBtdG9vbHM6IGltcG9ydGVkIGZyb20gT0UKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
-cHJpYXRlIFtsaWNlbnNpbmddCi0KIC0tLQogIE1ha2VmaWxlLmluICB8IDExICsrKysrKy0tLS0t
-CiAgY29uZmlndXJlLmluIHwgMjcgKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAgMiBmaWxl
-cyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0
-IGEvTWFrZWZpbGUuaW4gYi9NYWtlZmlsZS5pbgotaW5kZXggNjE2ZDU5Zi4uODViNWIxZCAxMDA2
-NDQKK2luZGV4IDVkYjUwZDcuLjkyYWQ0NjEgMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZS5pbgogKysr
-IGIvTWFrZWZpbGUuaW4KIEBAIC0yNiwxMCArMjYsMTEgQEAgVVNFUkNGTEFHUyA9CkBAIC0zMCw3
-ICsyOSw3IEBAIGluZGV4IDYxNmQ1OWYuLjg1YjViMWQgMTAwNjQ0CiAgCiAgCiAgIyBkbyBub3Qg
-ZWRpdCBiZWxvdyB0aGlzIGxpbmUKLUBAIC0xOTksNyArMjAwLDcgQEAgZHZpOiBtdG9vbHMuZHZp
-CitAQCAtMTg1LDcgKzE4Niw3IEBAIGR2aTogbXRvb2xzLmR2aQogIAogIHBzOiBtdG9vbHMucHMK
-ICAlLnBzOiAlLmR2aQpAQCAtNDAsMTAgKzM5LDEwIEBAIGluZGV4IDYxNmQ1OWYuLjg1YjViMWQg
-MTAwNjQ0CiAgcGRmOiBtdG9vbHMucGRmCiAgJS5wZGY6ICUudGV4aSBzeXNjb25mZGlyLnRleGkK
-IGRpZmYgLS1naXQgYS9jb25maWd1cmUuaW4gYi9jb25maWd1cmUuaW4KLWluZGV4IDVmZjc1YzEu
-LmMwZjc0NDAgMTAwNjQ0CitpbmRleCAxZGU5MTZlLi5mZDZjYjA4IDEwMDY0NAogLS0tIGEvY29u
-ZmlndXJlLmluCiArKysgYi9jb25maWd1cmUuaW4KLUBAIC0zNSw2ICszNSwzMyBAQCBBQ19DQU5P
-TklDQUxfU1lTVEVNCitAQCAtMzIsNiArMzIsMzMgQEAgQUNfQ0FOT05JQ0FMX1RBUkdFVAogIEFD
-X0NfQ09OU1QKICBBQ19DX0lOTElORQogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL210b29scy9tdG9vbHNfNC4wLjQzLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29s
-cy9tdG9vbHNfNC4wLjQ0LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzXzQuMC40My5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9vbHNfNC4wLjQ0LmJiCmluZGV4IDg1OTEwMzk3OWUu
-LmQ4ZGQ2NzFiZTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRv
-b2xzXzQuMC40My5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29sc180
-LjAuNDQuYmIKQEAgLTI0LDcgKzI0LDcgQEAgUlJFQ09NTUVORFM6JHtQTn06bGliYy1nbGliYyA9
-ICJcCiAJZ2xpYmMtZ2NvbnYtaWJtODY2IFwKIAlnbGliYy1nY29udi1pYm04NjkgXAogCSIKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICI1NDFlMTc5NjY1ZGM0ZTI3MmI5NjAyZjIwNzQyNDM1OTFhMTU3
-ZGE4OWNjNDcwNjRkYThjNTgyOWRiZDJiMzM5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3ZGM0
-ZGYwMjI1MzNjM2Q0YjJlYzFjNzg5NzNjMjdjN2U4YjU4NTM3NGMyZDQ2YWI2NGM2YTNkYjMxZWRk
-YjgiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9tdG9vbHMvbXRvb2xzLSR7UFZ9LnRhci5i
-ejIgXAogICAgICAgICAgICBmaWxlOi8vbXRvb2xzLW1ha2VpbmZvLnBhdGNoIFwKLS0gCjIuNDQu
-MAoK
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAwNjo1ODowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJ0
+cmZzLXRvb2xzOiB1cGdyYWRlIDYuOC4xIC0+IDYuOS4yCgotLS0KIC4uLnktdG8tc3BlY2lmeS13
+aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaCB8ICA2ICstCiAuLi5lbmFtZS1vZi1pbm9kZV9p
+bmNsdWRlcy1mcm9tLWUyZnNwcm8ucGF0Y2ggfCA2NCAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi5m
+cy10b29sc182LjguMS5iYiA9PiBidHJmcy10b29sc182LjkuMi5iYn0gfCAgMyArLQogMyBmaWxl
+cyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDY5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAx
+LWNvbnZlcnQtaGFuZGxlLXJlbmFtZS1vZi1pbm9kZV9pbmNsdWRlcy1mcm9tLWUyZnNwcm8ucGF0
+Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMve2J0cmZzLXRvb2xz
+XzYuOC4xLmJiID0+IGJ0cmZzLXRvb2xzXzYuOS4yLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBv
+c3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3Nz
+aWJpbGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCmluZGV4IDRi
+MTc5N2I2NWYuLmNjMDhkYjU0MzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9i
+dHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnkt
+d2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lm
+eS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOTgw
+ZjZlZGMyNjlmYTNlZjhkNGQ0YjljZDFhYWRhMjMyODEzMWMxOSBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKK0Zyb20gNjQwZDY1ZWY3MzU4NDMzMDVkZWJhNTVhNWY4OTZkODhlNjExN2QwYyBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
+aW5AZ21haWwuY29tPgogRGF0ZTogV2VkLCAyMyBNYXkgMjAxOCAyMToyMDozNSArMDMwMAogU3Vi
+amVjdDogW1BBVENIXSBBZGQgYSBwb3NzaWJpbGl0eSB0byBzcGVjaWZ5IHdoZXJlIHB5dGhvbiBt
+b2R1bGVzIGFyZQpAQCAtMTEsMTAgKzExLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBL
+YW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUgYi9NYWtlZmls
+ZQotaW5kZXggMzc0ZjU5YjkuLmVkMDgzZjZiIDEwMDY0NAoraW5kZXggODJkZmIxYjQuLjQ5Njg5
+ODlhIDEwMDY0NAogLS0tIGEvTWFrZWZpbGUKICsrKyBiL01ha2VmaWxlCi1AQCAtOTU5LDcgKzk1
+OSw3IEBAIGVuZGlmCitAQCAtOTg0LDcgKzk4NCw3IEBAIGVuZGlmCiAgaWZlcSAoJChQWVRIT05f
+QklORElOR1MpLDEpCiAgaW5zdGFsbF9weXRob246IGxpYmJ0cmZzdXRpbF9weXRob24KICAJJChR
+KWNkIGxpYmJ0cmZzdXRpbC9weXRob247IFwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLWNvbnZlcnQtaGFuZGxlLXJlbmFtZS1v
+Zi1pbm9kZV9pbmNsdWRlcy1mcm9tLWUyZnNwcm8ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1jb252ZXJ0LWhhbmRsZS1yZW5hbWUtb2Yt
+aW5vZGVfaW5jbHVkZXMtZnJvbS1lMmZzcHJvLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
+NAppbmRleCA2ZmVmYmIyYmNhLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLWNvbnZlcnQtaGFuZGxlLXJlbmFtZS1vZi1p
+bm9kZV9pbmNsdWRlcy1mcm9tLWUyZnNwcm8ucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw2NCAr
+MCwwIEBACi1Gcm9tIGY5YmE5NzUyYmE1ZmQ3MjQ0MWJjMjAxOGIyNDUzOTY3ZTc1NDYwZDQgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0c3Uu
+Y29tPgotRGF0ZTogTW9uLCAyNCBKdW4gMjAyNCAwMjowMDoxMSArMDAwMAotU3ViamVjdDogW1BB
+VENIXSBjb252ZXJ0OiBoYW5kbGUgcmVuYW1lIG9mIGlub2RlX2luY2x1ZGVzKCkgZnJvbSBlMmZz
+cHJvZ3MKLSAxLjQ3LjEKLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydAotW2h0dHBzOi8va2Vy
+bmVsLmdvb2dsZXNvdXJjZS5jb20vcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2tkYXZlL2J0cmZz
+LXByb2dzLysvYmNiODg3YTRkZTJjNTY0MjZhN2E3ZGU4ZDQ0MGI2YWQ3NTU3OWYxMCU1RSUyMS8j
+RjBdCi0KLVNpZ25lZC1vZmYtYnk6IFdhbmcgTWluZ3l1IDx3YW5nbXlAZnVqaXRzdS5jb20+Ci0t
+LS0KLSBjb25maWd1cmUuYWMgICAgICAgICAgfCAgMyArKy0KLSBjb252ZXJ0L3NvdXJjZS1leHQy
+LmMgfCAxMSArKysrKysrKystLQotIDIgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwg
+MyBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5h
+YwotaW5kZXggMDA3ZDI5Yi4uODE2ZGQzNiAxMDA2NDQKLS0tLSBhL2NvbmZpZ3VyZS5hYwotKysr
+IGIvY29uZmlndXJlLmFjCi1AQCAtMzEyLDcgKzMxMiw4IEBAIEFTX0lGKFt0ZXN0ICJ4JGhhdmVf
+ZXh0NF9lcG9jaF9tYXNrX2RlZmluZSIgPSB4bm9dLCBbCi0gICAgICAgICAgICAgQUNfREVGSU5F
+KFtFWFQ0X0VQT0NIX0JJVFNdLCBbMl0sW2ZvciBlbmNvZGUgYW5kIGRlY29kZSB0dl9uc2VjIGlu
+IGV4dDIgaW5vZGVdKQotICAgICAgICAgICAgIEFDX0RFRklORShbRVhUNF9FUE9DSF9NQVNLXSwg
+WygoMVUgPDwgRVhUNF9FUE9DSF9CSVRTKSAtIDEpXSwgW0ZvciBlbmNvZGUgYW5kIGRlY29kZSB0
+dl9uc2VjIGluZm8gaW4gZXh0MiBpbm9kZV0pCi0gICAgICAgICAgICAgQUNfREVGSU5FKFtFWFQ0
+X05TRUNfTUFTS10sICBbKH4wVUwgPDwgRVhUNF9FUE9DSF9CSVRTKV0sIFtGb3IgZW5jb2RlIGFu
+ZCBkZWNvZGUgdHZfbnNlYyBpbmZvIGluIGV4dDIgaW5vZGVdKQotLSAgICAgICAgICAgIEFDX0RF
+RklORShbaW5vZGVfaW5jbHVkZXMoc2l6ZSwgZmllbGQpXSxbbTRfbm9ybWFsaXplWyhzaXplID49
+IChzaXplb2YoKChzdHJ1Y3QgZXh0Ml9pbm9kZV9sYXJnZSAqKTApLT5maWVsZCkgKyBvZmZzZXRv
+ZihzdHJ1Y3QgZXh0Ml9pbm9kZV9sYXJnZSwgZmllbGQpKSldXSwKLSsgICAgICAgICAgICAjIFVz
+ZSBuYW1lIGZyb20gMS40Ny4xLCBiYWNrd2FyZCBjb21wYXRpYmlsaXR5IGlzIGhhbmRsZWQgaW4g
+Y29udmVydC9zb3VyY2UtZXh0Mi5jCi0rICAgICAgICAgICAgQUNfREVGSU5FKFtleHQyZnNfaW5v
+ZGVfaW5jbHVkZXMoc2l6ZSwgZmllbGQpXSxbbTRfbm9ybWFsaXplWyhzaXplID49IChzaXplb2Yo
+KChzdHJ1Y3QgZXh0Ml9pbm9kZV9sYXJnZSAqKTApLT5maWVsZCkgKyBvZmZzZXRvZihzdHJ1Y3Qg
+ZXh0Ml9pbm9kZV9sYXJnZSwgZmllbGQpKSldXSwKLSAgICAgICAgICAgICAgICAgW0ZvciBlbmNv
+ZGUgYW5kIGRlY29kZSB0dl9uc2VjIGluZm8gaW4gZXh0MiBpbm9kZV0pCi0gICAgICAgICBdLAot
+ICAgICAgICAgW0FDX01TR19XQVJOKFtJdCBzZWVtcyB0aGF0IGV4dDJfaW5vZGVfbGFyZ2UgZG9u
+J3QgaW5jbHVkZXMgdHZfbnNlYyByZWxhdGVkIGluZm8sIHByb2JhYmx5IG9sZCBlMmZzcHJvZ3Ms
+IG5vIDY0Yml0IHRpbWUgcHJlY2lzaW9uIG9mIGNvbnZlcnRlZCBpbWFnZXNdKV0sCi1kaWZmIC0t
+Z2l0IGEvY29udmVydC9zb3VyY2UtZXh0Mi5jIGIvY29udmVydC9zb3VyY2UtZXh0Mi5jCi1pbmRl
+eCAyMTg2YjI1Li5iYmE4MWU0IDEwMDY0NAotLS0tIGEvY29udmVydC9zb3VyY2UtZXh0Mi5jCi0r
+KysgYi9jb252ZXJ0L3NvdXJjZS1leHQyLmMKLUBAIC03MjcsMTAgKzcyNywxNyBAQCBzdGF0aWMg
+aW5saW5lIHZvaWQgZXh0NF9kZWNvZGVfZXh0cmFfdGltZShfX2xlMzIgKiB0dl9zZWMsIF9fbGUz
+MiAqIHR2X25zZWMsCi0gICAgICAgICAqdHZfbnNlYyA9IChsZTMyX3RvX2NwdShleHRyYSkgJiBF
+WFQ0X05TRUNfTUFTSykgPj4gRVhUNF9FUE9DSF9CSVRTOwotIH0KLSAKLSsvKgotKyAqIEluIGUy
+ZnNwcm9ncyA8IDEuNDcuMSBpdCdzIGlub2RlX2luY2x1ZGVzLCBmcm9tID49IG9uIGl0J3Mgd2l0
+aCBleHQyZnNfIHByZWZpeC4KLSsgKi8KLSsjaWZuZGVmIGV4dDJmc19pbm9kZV9pbmNsdWRlcwot
+KyNkZWZpbmUgZXh0MmZzX2lub2RlX2luY2x1ZGVzKHNpemUsIGZpZWxkKQlpbm9kZV9pbmNsdWRl
+cyhzaXplLCBmaWVsZCkKLSsjZW5kaWYKLSsKLSAjZGVmaW5lIEVYVDRfQ09QWV9YVElNRSh4dGlt
+ZSwgZHN0LCB0dl9zZWMsIHR2X25zZWMpCQkJCQlcCi0gZG8gewkJCQkJCQkJCQkJXAotIAl0dl9z
+ZWMgPSBzcmMtPmlfICMjIHh0aW1lIDsJCQkJCQkJXAotLQlpZiAoaW5vZGVfaW5jbHVkZXMoaW5v
+ZGVfc2l6ZSwgaV8gIyMgeHRpbWUgIyMgX2V4dHJhKSkgewkJCVwKLSsJaWYgKGV4dDJmc19pbm9k
+ZV9pbmNsdWRlcyhpbm9kZV9zaXplLCBpXyAjIyB4dGltZSAjIyBfZXh0cmEpKSB7CQkJXAotIAkJ
+dHZfc2VjID0gc3JjLT5pXyAjIyB4dGltZSA7CQkJCQkJXAotIAkJZXh0NF9kZWNvZGVfZXh0cmFf
+dGltZSgmdHZfc2VjLCAmdHZfbnNlYywgc3JjLT5pXyAjIyB4dGltZSAjIyBfZXh0cmEpOwlcCi0g
+CQlidHJmc19zZXRfc3RhY2tfdGltZXNwZWNfc2VjKCZkc3QtPnh0aW1lICwgdHZfc2VjKTsJCQlc
+Ci1AQCAtNzcxLDcgKzc3OCw3IEBAIHN0YXRpYyBpbnQgZXh0NF9jb3B5X2lub2RlX3RpbWVzcGVj
+X2V4dHJhKHN0cnVjdCBidHJmc19pbm9kZV9pdGVtICpkc3QsCi0gCUVYVDRfQ09QWV9YVElNRShj
+dGltZSwgZHN0LCB0dl9zZWMsIHR2X25zZWMpOwotIAotIAl0dl9zZWMgPSBzcmMtPmlfY3J0aW1l
+OwotLQlpZiAoaW5vZGVfaW5jbHVkZXMoaW5vZGVfc2l6ZSwgaV9jcnRpbWVfZXh0cmEpKSB7Ci0r
+CWlmIChleHQyZnNfaW5vZGVfaW5jbHVkZXMoaW5vZGVfc2l6ZSwgaV9jcnRpbWVfZXh0cmEpKSB7
+Ci0gCQl0dl9zZWMgPSBzcmMtPmlfY3J0aW1lOwotIAkJZXh0NF9kZWNvZGVfZXh0cmFfdGltZSgm
+dHZfc2VjLCAmdHZfbnNlYywgc3JjLT5pX2NydGltZV9leHRyYSk7Ci0gCQlidHJmc19zZXRfc3Rh
+Y2tfdGltZXNwZWNfc2VjKCZkc3QtPm90aW1lLCB0dl9zZWMpOwotLS0gCi0yLjM0LjEKLQpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYu
+OC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYu
+OS4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuOS4yLmJiCmluZGV4IGQ2MWQ5
+NTZhNzAuLjlmNTU4NjQ5MGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJm
+cy10b29scy9idHJmcy10b29sc182LjguMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+YnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi45LjIuYmIKQEAgLTE3LDkgKzE3LDggQEAgREVQRU5E
+UyA9ICJ1dGlsLWxpbnV4IHpsaWIiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcv
+cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2tkYXZlL2J0cmZzLXByb2dzLmdpdDticmFuY2g9bWFz
+dGVyO3Byb3RvY29sPWh0dHBzIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtQWRkLWEtcG9zc2li
+aWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaCBcCi0gICAgICAg
+ICAgIGZpbGU6Ly8wMDAxLWNvbnZlcnQtaGFuZGxlLXJlbmFtZS1vZi1pbm9kZV9pbmNsdWRlcy1m
+cm9tLWUyZnNwcm8ucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiNWQ5N2MzMmQ2Zjk0
+Y2Y2ZjQ3M2E1ZjgyOTY0ZTNlZGFlYjFiMTQ2ZSIKK1NSQ1JFViA9ICJiMGU1ZWY0Y2Y3YzhiNDcz
+MTE5ZTBkNDg3YTI2Yjk2MDU4ZThmODBkIgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogUEFDS0FH
+RUNPTkZJRyA/Pz0gIiBcCi0tIAoyLjQ0LjAKCg==
 
---===============8999145774918758075==--
+--===============4263118442891028428==--
 
