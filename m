@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B7AC53206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 716EDC53205
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:02 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.2101.1719853075369659737
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.2115.1719853076387912522
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aGSpSigr;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mR6BAxs6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101906f3b5342-d8acc63a-7602-4cfe-b8e8-5f31a4b6dfea-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fTWX9Ek1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pofhy3rF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101906f3b4fc8-c871a134-8a33-4880-8900-a2ecf35a7c13-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1719853077;
+	t=1719853076;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vSd9DJVrcdbuhgGns1+1eorSnQMiEpAvmyE+7hZSZVc=;
-	b=aGSpSigrKo7htofHOB8E9kbzNHgxLeUDurfJABztO0EV2xT0NSnX8zFYTrCSwGIJ
-	A5TJ30KNLd47yPCbVzKnnuWbMZYb5BKqoiVzoXTNI2WxMHbNjxWbMquFhGpo58Aq6oY
-	uI/TrO14l21o5s8G7xX92Bkh7M2tQR4hMZp/bDcE=
+	bh=QgrBjN91Fyg+cUJ5JO7qPO6uqcmnl2q742YqXinuRyA=;
+	b=fTWX9Ek1bFGPgjLPfMdgohTSUA1X5p/u9jim/4ermjUgEIRBQXKx+Bb2k+yd5cjn
+	w7XcjqHIO6dHm2Rlf6L1hISUyehFrSHgUTWnB5eyWXalHUcbX1S12wNbPuq4m5JkEgD
+	i39zEtsqxJRdlfrs+3BMyJYMpljc95B6IFbjygYM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853077;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853076;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vSd9DJVrcdbuhgGns1+1eorSnQMiEpAvmyE+7hZSZVc=;
-	b=mR6BAxs6sf32/h9+inpN/Zl8MWgt64thNNwnLaM1fcugOFd5FzhsZMuzhOCB9eKM
-	mrAV3lID5X/Aajm1yj8JfKc2acVtmc0kLFtdwHc2kuePeETT3t8mrwwNsD1dS+6WI7a
-	2jB+5A4tcPn71BpH//hc3dSp3ELVQrxAfCiuDkrI=
-Content-Type: multipart/mixed; boundary="===============6756226994755272029=="
+	bh=QgrBjN91Fyg+cUJ5JO7qPO6uqcmnl2q742YqXinuRyA=;
+	b=pofhy3rFhXSp2RHHaCI5KDEyJ2k4I8bVszl+SxCV5M9B/ZasD5kIyMq9Qp2Nu3xR
+	DBwxriBrpW8iBI+BkYsqJjDFMzgzaotJ8a58+tXK8SIiQEJdk4Jup2Bmxa9sT1hlT89
+	BFvkBdAAscoPC+blPjypaJChwL3vGzJUD+A/rIQA=
+Content-Type: multipart/mixed; boundary="===============2098681221886233011=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.46.0 SUCCEEDED
-Message-ID: <010101906f3b5342-d8acc63a-7602-4cfe-b8e8-5f31a4b6dfea-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jul 2024 16:57:57 +0000
+Subject: [AUH] harfbuzz: upgrading to 9.0.0 SUCCEEDED
+Message-ID: <010101906f3b4fc8-c871a134-8a33-4880-8900-a2ecf35a7c13-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jul 2024 16:57:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.31
+X-SES-Outgoing: 2024.07.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201402
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201404
 
---===============6756226994755272029==
+--===============2098681221886233011==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.46.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *harfbuzz* to *9.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.45.3-3.46.0.patch
+    - apply the patch: git am 0001-harfbuzz-upgrade-8.5.0-9.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,317 +72,112 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f7a0340add4748c858843c010526bd5e1101824f Mon Sep 17 00:00:00 2001
+From 49251297385fe0c0053aadd2848038699dbb085b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 16:47:34 +0000
-Subject: [PATCH] sqlite3: upgrade 3.45.3 -> 3.46.0
+Date: Mon, 1 Jul 2024 13:19:46 +0000
+Subject: [PATCH] harfbuzz: upgrade 8.5.0 -> 9.0.0
 
 ---
- .../sqlite/{sqlite3_3.45.3.bb => sqlite3_3.46.0.bb}             | 2 +-
+ .../harfbuzz/{harfbuzz_8.5.0.bb => harfbuzz_9.0.0.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.45.3.bb => sqlite3_3.46.0.bb} (69%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_8.5.0.bb => harfbuzz_9.0.0.bb} (95%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.46.0.bb
-similarity index 69%
-rename from meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.46.0.bb
-index 03d70bbd38..fd5b1d61f7 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.46.0.bb
-@@ -4,5 +4,5 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
+index 6b0eb12046..01ea6ca86d 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_8.5.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
- SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
-+SRC_URI[sha256sum] = "6f8e6a7b335273748816f9b3b62bbdc372a889de8782d7f048c653a447417a7d"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "77e4f7f98f3d86bf8788b53e6832fb96279956e1c3961988ea3d4b7ca41ddc27"
++SRC_URI[sha256sum] = "a41b272ceeb920c57263ec851604542d9ec85ee3030506d94662067c7b6ab89e"
+ 
+ DEPENDS += "glib-2.0-native"
  
 -- 
 2.44.0
 
 
---===============6756226994755272029==
+--===============2098681221886233011==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/sqlite3: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2024/sqlite-autoconf-3450300.tar.gz" to "http://www.sqlite.org/2024/sqlite-autoconf-3460000.tar.gz"
-packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 680298 to 682478 (+0%)
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1451843 to 1464291 (+1%)
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 6073680 to 6131536 (+1%)
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10581443 to 10691007 (+1%)
-packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.45.3" to "3.46.0"
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 294816 to 311232 (+6%)
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-icu.so.0.60850.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.60850.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.60850.0 /usr/lib/.debug/libharfbuzz-subset.so.0.60850.0 /usr/lib/.debug/libharfbuzz.so.0.60850.0", added "/usr/lib/.debug/libharfbuzz-cairo.so.0.60900.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.60900.0 /usr/lib/.debug/libharfbuzz-subset.so.0.60900.0 /usr/lib/.debug/libharfbuzz-icu.so.0.60900.0 /usr/lib/.debug/libharfbuzz.so.0.60900.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 76556360 to 77609336 (+1%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60850.0", added "/usr/lib/libharfbuzz-icu.so.0.60900.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/sbix -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/sbix, directory renamed /usr/src/debug/harfbuzz/8.5.0/util -> /usr/src/debug/harfbuzz/9.0.0/util, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/GDEF -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/GDEF, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/graph -> /usr/src/debug/harfbuzz/9.0.0/src/graph, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/Common -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/Common, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/name -> /usr/src/debug/harfbuzz/9.0.0/src/OT/name, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/CPAL -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/CPAL, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/GSUB -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/GSUB, directory renamed /usr/src/debug/har
+ fbuzz/8.5.0/src/OT/Color/CBDT -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/CBDT, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/COLR -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/COLR, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Layout/GPOS -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Layout/GPOS, directory renamed /usr/src/debug/harfbuzz/8.5.0/src/OT/Color/svg -> /usr/src/debug/harfbuzz/9.0.0/src/OT/Color/svg, removed "/usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/VarCompositeGlyph.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-draw.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-tag.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ft.h /usr/src/debug/harfbuzz/8.
+ 5.0/src/hb-ot-layout.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-khmer.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cplusplus.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-thai.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-outline.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ucd-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo-utils.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-syllabic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-repacker.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-morx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-number.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-blob.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-glib.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-fac
+ e.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-font.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-meta.h /usr/src/debug/harfbuzz/8.5.0/src/hb-shape.h /usr/src/debug/harfbuzz/8.5.0/src/hb-version.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-mutex.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-dispatch.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-debug.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-icu.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-map.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-map.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-paint.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ucd.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-gsubgpos.hh /usr/src/debug
+ /harfbuzz/8.5.0/src/hb-subset-input.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-iter.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-metrics.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-face.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-gobject-structs.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer-verify.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-hangul.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-shaper.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var.cc /usr/src/debug/harfb
+ uzz/8.5.0/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-indic-table.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-use.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-indic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode.h /usr/src/debug/harfbuzz/8.5.0/src/hb-multimap.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-pua.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-map.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-priority-queue.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-normalize.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-blob.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-hmtx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-cache.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-common.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-string-array.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode.hh /usr/src/debug/h
+ arfbuzz/8.5.0/src/OT/glyf/GlyphHeader.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ft-colr.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-map.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-vowel-constraints.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-atomic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face-builder.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-common.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-bit-set-invertible.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shape-plan.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-number.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-hebrew.cc /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/SimpleGlyph.hh /us
+ r/src/debug/harfbuzz/8.5.0/src/OT/glyf/SubsetGlyph.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-ltag-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-normalize.cc /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/coord-setter.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-plan-member-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-draw.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-unicode-emoji-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-paint-extents.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-color.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-font.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape.h /usr/src/debug/harfbuzz/8.5.0/src/hb-subset.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-paint.
+ cc /usr/src/debug/harfbuzz/8.5.0/src/hb-bimap.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-color.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-machinery.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-iup.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-algs.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-paint-extents.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-gobject-enums.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-post-table-v2subset.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-metrics.cc /usr/src/debug/harfbuzz
+ /8.5.0/src/hb-ot-shaper-arabic.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shaper.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-font.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-math.h /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-paint.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-static.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-meta-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-deprecated.h /usr/src/debug/harfbuzz/8.5.0/src/hb-pool.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-null.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-default.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo-utils.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-cairo.h /usr/src/debug/harfbuzz/8.5.0/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/Glyph.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/CompositeGlyph.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/co
+ mposite-iter.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-blob.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff2-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/path-builder.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-indic.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-shape.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-myanmar.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-sanitize.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-iup.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-vowel-constraints.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-style.h /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-input.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set.h /usr/src/debug/harfbuzz/8.5.0/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-draw.h /usr/src/debug/harfbuzz/8.5.0/src/hb-outline.hh
+  /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-solver.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-style.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-os2-unicode-ranges.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset-accelerator.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-kern.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-cvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-meta.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-face.h /usr/src/debug/harfbuzz/8.5.0/src/hb-open-file.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-open-type.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbu
+ zz/8.5.0/src/OT/glyf/glyf-helpers.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/glyf.hh /usr/src/debug/harfbuzz/8.5.0/src/OT/glyf/loca.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-joining-list.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-gobject-enums.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-kern-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-map.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-set-digest.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-utf.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-var.h /usr/src/debug/harfbuzz/8.5.0/src/hb-font.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ft.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-bit-set.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-subset.h /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-math.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-fallback-shape.cc /
+ usr/src/debug/harfbuzz/8.5.0/src/hb-subset-instancer-solver.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-bit-page.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-array.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-shape-plan.h /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-map.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-object.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-syllabic.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-arabic-fallback.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-shaper-use-table.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-aat-map.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-ot-name-language-static.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-vector.hh /usr/src/debug/harfbuzz/8.5.0/src/hb-font.cc /usr/src/debug/harfbuzz/8.5.0/src/hb-serialize.hh", added "/usr/src/debug/harfbuzz/9.0.0/src/hb-ot-post-table-v2subset.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic-table.hh /
+ usr/src/debug/harfbuzz/9.0.0/src/hb-fallback-shape.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name.h /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-iup.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-input.cc /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/path-builder.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-gobject-enums.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-accelerator.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer-verify.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-bit-set.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-thai.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/9.0.0/sr
+ c/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cplusplus.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic-fallback.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-draw.h /usr/src/debug/harfbuzz/9.0.0/src/hb-priority-queue.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout.h /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff2-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ucd-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-map.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-use.cc /usr/
+ src/debug/harfbuzz/9.0.0/src/hb-ft.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-cvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-deprecated.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-meta.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-sanitize.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-use-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-blob.h /usr/src/debug/harfbuzz/9.0.0/src/hb-bit-page.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-map.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-s
+ haper-arabic-pua.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-hangul.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-set-digest.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint-extents.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-gsubgpos.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-serialize.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-dispatch.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-string-array.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-face.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-map.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-set.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-math.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-utf.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-repacker.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-face.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-math.h /usr/src/debug/harfbuzz/9.
+ 0.0/src/hb-outline.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-map.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-number.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-paint-extents.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-icu.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-map.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-normalize.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-set.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ucd.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint.h /usr/src/debug/harfbuzz/9.0.0/src/hb-shape.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-bit-set-invertible.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-draw.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ft-colr.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-meta.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name-language-static.hh /usr/src/debug/harfbuzz/9.0.0/src/
+ hb-ot-var.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-unicode-emoji-table.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/GlyphHeader.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-iter.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-machinery.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-null.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-paint.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-font.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-pool.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-array.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-geometry.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shape-plan.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/9.0.0/src/hb-shape-plan.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-debug.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/glyf-helpers.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-map.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-
+ layout-morx-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-font.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-input.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-kern.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-iup.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-number.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ft.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-algs.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo-utils.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-blob.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-common.h /usr/src/debug/harfbuzz/9.0.0/src/hb-glib.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-os2-unicode-ranges.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-myanmar.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-solver.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-tag.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-color.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-map.h /usr/
+ src/debug/harfbuzz/9.0.0/src/hb-set.h /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/CompositeGlyph.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/composite-iter.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shaper.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-multimap.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-face.h /usr/src/debug/harfbuzz/9.0.0/src/hb-style.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-normalize.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-object.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-default.cc /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/glyf.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/loca.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-gobject-structs.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-hmtx-table.hh /usr/sr
+ c/debug/harfbuzz/9.0.0/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-vowel-constraints.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-static.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-kern-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-indic-table.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-khmer.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-draw.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-open-file.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-open-type.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo.h /usr/src/debug/harfbuzz/9.0.0/src
+ /hb-gobject-enums.h /usr/src/debug/harfbuzz/9.0.0/src/hb-mutex.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-hebrew.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-face.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-vector.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-style.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-arabic-joining-list.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cache.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-common.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shaper.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-name.cc /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/SimpleGlyph.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/SubsetGlyph.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-blob.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-met
+ rics.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-metrics.h /usr/src/debug/harfbuzz/9.0.0/src/hb-version.h /usr/src/debug/harfbuzz/9.0.0/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-font.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-syllabic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-vowel-constraints.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-atomic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-plan-member-list.hh /usr/src/debug/harfbuzz/9.0.0/src/OT/glyf/Glyph.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-aat-ltag-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-indic.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-buffer.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-bimap.hh /usr/src/debug/harfbu
+ zz/9.0.0/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-meta-table.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-color.h /usr/src/debug/harfbuzz/9.0.0/src/hb-font.h /usr/src/debug/harfbuzz/9.0.0/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-syllabic.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-subset-instancer-solver.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-var.h /usr/src/debug/harfbuzz/9.0.0/src/hb-subset.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-font.h /usr/src/debug/harfbuzz/9.0.0/src/hb-outline.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-cairo-utils.hh /usr/src/debug/harfbuzz/9.0.0/src/hb-shape.h /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-shaper-ind
+ ic.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-face-builder.cc /usr/src/debug/harfbuzz/9.0.0/src/hb-ot-face.hh"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4880971 to 4895646 (+0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60850.0", added "/usr/lib/libharfbuzz-subset.so.0.60900.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.60850.0 /usr/lib/libharfbuzz.so.0.60850.0 /usr/lib/libharfbuzz-gobject.so.0.60850.0", added "/usr/lib/libharfbuzz.so.0.60900.0 /usr/lib/libharfbuzz-cairo.so.0.60900.0 /usr/lib/libharfbuzz-gobject.so.0.60900.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1630578 to 1634674 (+0%)
+packages/core2-64-poky-linux/harfbuzz: PKGV changed from 8.5.0 [default] to 9.0.0 [default]
+packages/core2-64-poky-linux/harfbuzz: PV changed from "8.5.0" to "9.0.0"
+packages/core2-64-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/8.5.0/harfbuzz-8.5.0.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/9.0.0/harfbuzz-9.0.0.tar.xz"
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60850.0 to libharfbuzz-cairo.so.0.60900.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60850.0 to libharfbuzz-gobject.so.0.60900.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60850.0 to libharfbuzz-icu.so.0.60900.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60850.0 to libharfbuzz.so.0.60900.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60850.0 to libharfbuzz-subset.so.0.60900.0
+  /usr/lib/libharfbuzz-cairo.so.0.60850.0 moved to /usr/lib/libharfbuzz-cairo.so.0.60900.0
+  /usr/lib/libharfbuzz-gobject.so.0.60850.0 moved to /usr/lib/libharfbuzz-gobject.so.0.60900.0
+  /usr/lib/libharfbuzz-icu.so.0.60850.0 moved to /usr/lib/libharfbuzz-icu.so.0.60900.0
+  /usr/lib/libharfbuzz.so.0.60850.0 moved to /usr/lib/libharfbuzz.so.0.60900.0
+  /usr/lib/libharfbuzz-subset.so.0.60850.0 moved to /usr/lib/libharfbuzz-subset.so.0.60900.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1893,296 +1688,26 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============6756226994755272029==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.45.3-3.46.0.patch"
-
-RnJvbSBmN2EwMzQwYWRkNDc0OGM4NTg4NDNjMDEwNTI2YmQ1ZTExMDE4MjRmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxNjo0NzozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
-bGl0ZTM6IHVwZ3JhZGUgMy40NS4zIC0+IDMuNDYuMAoKLS0tCiAuLi4vc3FsaXRlL3tzcWxpdGUz
-XzMuNDUuMy5iYiA9PiBzcWxpdGUzXzMuNDYuMC5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9zcWxpdGUve3NxbGl0ZTNfMy40NS4zLmJiID0+IHNxbGl0ZTNfMy40Ni4w
-LmJifSAoNjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxp
-dGUzXzMuNDUuMy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDYu
-MC5iYgpzaW1pbGFyaXR5IGluZGV4IDY5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjQ1LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L3NxbGl0ZS9zcWxpdGUzXzMuNDYuMC5iYgppbmRleCAwM2Q3MGJiZDM4Li5mZDViMWQ2MWY3IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ1LjMuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40Ni4wLmJiCkBAIC00
-LDUgKzQsNSBAQCBMSUNFTlNFID0gIlBEIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Fs
-aXRlMy5oO2VuZGxpbmU9MTE7bWQ1PTc4NmQzZGM1ODFlZmYwM2Y0ZmQ5ZTRhNzdlZDAwYzY2Igog
-CiBTUkNfVVJJID0gImh0dHA6Ly93d3cuc3FsaXRlLm9yZy8yMDI0L3NxbGl0ZS1hdXRvY29uZi0k
-e1NRTElURV9QVn0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImIyODA5Y2E1MzEyNGMx
-OWM2MGY0MmJmNjI3NzM2ZWFlMDExYWZkY2MyMDViYjQ4MjcwYTVlZTlhMzgxOTE1MzEiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiNmY4ZTZhN2IzMzUyNzM3NDg4MTZmOWIzYjYyYmJkYzM3MmE4ODlk
-ZTg3ODJkN2YwNDhjNjUzYTQ0NzQxN2E3ZCIKIAotLSAKMi40NC4wCgo=
-
---===============6756226994755272029==
+--===============2098681221886233011==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60850.0", added "/usr/lib/libharfbuzz-icu.so.0.60900.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60850.0", added "/usr/lib/libharfbuzz-subset.so.0.60900.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.60850.0 /usr/lib/libharfbuzz-gobject.so.0.60850.0 /usr/lib/libharfbuzz-cairo.so.0.60850.0", added "/usr/lib/libharfbuzz-cairo.so.0.60900.0 /usr/lib/libharfbuzz.so.0.60900.0 /usr/lib/libharfbuzz-gobject.so.0.60900.0"
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60850.0 to libharfbuzz-cairo.so.0.60900.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60850.0 to libharfbuzz-gobject.so.0.60900.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60850.0 to libharfbuzz-icu.so.0.60900.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60850.0 to libharfbuzz.so.0.60900.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60850.0 to libharfbuzz-subset.so.0.60900.0
+  /usr/lib/libharfbuzz-cairo.so.0.60850.0 moved to /usr/lib/libharfbuzz-cairo.so.0.60900.0
+  /usr/lib/libharfbuzz-gobject.so.0.60850.0 moved to /usr/lib/libharfbuzz-gobject.so.0.60900.0
+  /usr/lib/libharfbuzz-icu.so.0.60850.0 moved to /usr/lib/libharfbuzz-icu.so.0.60900.0
+  /usr/lib/libharfbuzz.so.0.60850.0 moved to /usr/lib/libharfbuzz.so.0.60900.0
+  /usr/lib/libharfbuzz-subset.so.0.60850.0 moved to /usr/lib/libharfbuzz-subset.so.0.60900.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3693,5 +3218,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============6756226994755272029==--
+--===============2098681221886233011==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-harfbuzz-upgrade-8.5.0-9.0.0.patch"
+
+RnJvbSA0OTI1MTI5NzM4NWZlMGMwMDUzYWFkZDI4NDgwMzg2OTlkYmIwODViIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxMzoxOTo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGhh
+cmZidXp6OiB1cGdyYWRlIDguNS4wIC0+IDkuMC4wCgotLS0KIC4uLi9oYXJmYnV6ei97aGFyZmJ1
+enpfOC41LjAuYmIgPT4gaGFyZmJ1enpfOS4wLjAuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy9oYXJmYnV6ei97aGFyZmJ1enpfOC41LjAuYmIgPT4gaGFyZmJ1enpfOS4w
+LjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
+L2hhcmZidXp6XzguNS4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZi
+dXp6XzkuMC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el84LjUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZidXp6XzkuMC4wLmJiCmluZGV4IDZiMGViMTIwNDYu
+LjAxZWE2Y2E4NmQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9o
+YXJmYnV6el84LjUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFy
+ZmJ1enpfOS4wLjAuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
+L0NPUFlJTkc7bWQ1PWI5ODQyOWI4ZThlM2MyYTY3Y2ZlZjAxZTk5ZTQ4OTNkIFwKICAgICAgICAg
+ICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8k
+e1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc3ZTRmN2Y5
+OGYzZDg2YmY4Nzg4YjUzZTY4MzJmYjk2Mjc5OTU2ZTFjMzk2MTk4OGVhM2Q0YjdjYTQxZGRjMjci
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTQxYjI3MmNlZWI5MjBjNTcyNjNlYzg1MTYwNDU0MmQ5
+ZWM4NWVlMzAzMDUwNmQ5NDY2MjA2N2M3YjZhYjg5ZSIKIAogREVQRU5EUyArPSAiZ2xpYi0yLjAt
+bmF0aXZlIgogCi0tIAoyLjQ0LjAKCg==
+
+--===============2098681221886233011==--
 
