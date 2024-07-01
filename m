@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6473BC531DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B7AC53206
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:02 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.2179.1719853076105730793
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.2101.1719853075369659737
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RfSLguet;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=B5Wc92Vv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101906f3b4f17-88915cec-e5d9-44a1-bfae-7696ab0464b5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aGSpSigr;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mR6BAxs6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101906f3b5342-d8acc63a-7602-4cfe-b8e8-5f31a4b6dfea-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1719853076;
+	t=1719853077;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mPxkG4GJ9CQ6RjVd+tMcHFj1vXyX67JxzO2e01SyD1Y=;
-	b=RfSLguet1QrgrV6gul9/pmSFNKO+1KbCpzNHA8vUbbymNBfA2lyhclocoFSydglE
-	qRnqB66aVgLxPdcljV6sJXVLm/MPafyfKnr8Jpcv0HeFX68zCrho/XBVN1VwRKbxo3i
-	nfUGgHeXduKrV+AQWzrDpsGRhp6qxlwuNeFqhc10=
+	bh=vSd9DJVrcdbuhgGns1+1eorSnQMiEpAvmyE+7hZSZVc=;
+	b=aGSpSigrKo7htofHOB8E9kbzNHgxLeUDurfJABztO0EV2xT0NSnX8zFYTrCSwGIJ
+	A5TJ30KNLd47yPCbVzKnnuWbMZYb5BKqoiVzoXTNI2WxMHbNjxWbMquFhGpo58Aq6oY
+	uI/TrO14l21o5s8G7xX92Bkh7M2tQR4hMZp/bDcE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853076;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853077;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mPxkG4GJ9CQ6RjVd+tMcHFj1vXyX67JxzO2e01SyD1Y=;
-	b=B5Wc92Vv0pzgrYTkb/dUKPeP6d7MAJSS+nGX/tyaW9CJhxzRjQGUuG3LvU4PR6L9
-	tygs60dvUzkv3Is1f8Yprf5FyeKoYuT735wG0l3GPBhyxoezjmnktJzCdbDJcOyoCbt
-	7b2P2Qs5i3oho1pOOqUYJIjXfbvKROxPzRqwztfM=
-Content-Type: multipart/mixed; boundary="===============1493894882529607529=="
+	bh=vSd9DJVrcdbuhgGns1+1eorSnQMiEpAvmyE+7hZSZVc=;
+	b=mR6BAxs6sf32/h9+inpN/Zl8MWgt64thNNwnLaM1fcugOFd5FzhsZMuzhOCB9eKM
+	mrAV3lID5X/Aajm1yj8JfKc2acVtmc0kLFtdwHc2kuePeETT3t8mrwwNsD1dS+6WI7a
+	2jB+5A4tcPn71BpH//hc3dSp3ELVQrxAfCiuDkrI=
+Content-Type: multipart/mixed; boundary="===============6756226994755272029=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gi-docgen: upgrading to 2024.1 SUCCEEDED
-Message-ID: <010101906f3b4f17-88915cec-e5d9-44a1-bfae-7696ab0464b5-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jul 2024 16:57:56 +0000
+Subject: [AUH] sqlite3: upgrading to 3.46.0 SUCCEEDED
+Message-ID: <010101906f3b5342-d8acc63a-7602-4cfe-b8e8-5f31a4b6dfea-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jul 2024 16:57:57 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.30
+X-SES-Outgoing: 2024.07.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201405
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201402
 
---===============1493894882529607529==
+--===============6756226994755272029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gi-docgen* to *2024.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *sqlite3* to *3.46.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gi-docgen-upgrade-2023.3-2024.1.patch
+    - apply the patch: git am 0001-sqlite3-upgrade-3.45.3-3.46.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,61 +72,62 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 342fc911b891be9268d9a31bf3e48a036396708f Mon Sep 17 00:00:00 2001
+From f7a0340add4748c858843c010526bd5e1101824f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 12:54:05 +0000
-Subject: [PATCH] gi-docgen: upgrade 2023.3 -> 2024.1
+Date: Mon, 1 Jul 2024 16:47:34 +0000
+Subject: [PATCH] sqlite3: upgrade 3.45.3 -> 3.46.0
 
 ---
- .../gi-docgen/{gi-docgen_2023.3.bb => gi-docgen_2024.1.bb}      | 2 +-
+ .../sqlite/{sqlite3_3.45.3.bb => sqlite3_3.46.0.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gi-docgen/{gi-docgen_2023.3.bb => gi-docgen_2024.1.bb} (94%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.45.3.bb => sqlite3_3.46.0.bb} (69%)
 
-diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_2023.3.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_2024.1.bb
-similarity index 94%
-rename from meta/recipes-gnome/gi-docgen/gi-docgen_2023.3.bb
-rename to meta/recipes-gnome/gi-docgen/gi-docgen_2024.1.bb
-index 54d7ef7513..b1b796a3c6 100644
---- a/meta/recipes-gnome/gi-docgen/gi-docgen_2023.3.bb
-+++ b/meta/recipes-gnome/gi-docgen/gi-docgen_2024.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://gi-docgen.py;beginline=1;endline=5;md5=2dc0f1f0120247
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.46.0.bb
+similarity index 69%
+rename from meta/recipes-support/sqlite/sqlite3_3.45.3.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.46.0.bb
+index 03d70bbd38..fd5b1d61f7 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.46.0.bb
+@@ -4,5 +4,5 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/gi-docgen.git;protocol=https;branch=main"
- 
--SRCREV = "96f2e9b93e1d8a5338eb05b87fd879856ab7b3cc"
-+SRCREV = "eff4ec3d21df38c9d857bcf58aa98437c6610489"
- 
- S = "${WORKDIR}/git"
+ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
++SRC_URI[sha256sum] = "6f8e6a7b335273748816f9b3b62bbdc372a889de8782d7f048c653a447417a7d"
  
 -- 
 2.44.0
 
 
---===============1493894882529607529==
+--===============6756226994755272029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dbg: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dbg: PKGV changed from 2023.3 [default] to 2024.1 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dev: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-dev: PKGV changed from 2023.3 [default] to 2024.1 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-doc: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-doc: PKGV changed from 2023.3 [default] to 2024.1 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-locale: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-locale: PKGV changed from 2023.3 [default] to 2024.1 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-src: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-src: PKGV changed from 2023.3 [default] to 2024.1 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-staticdev: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen-staticdev: PKGV changed from 2023.3 [default] to 2024.1 [default]
-packages/core2-64-poky-linux/gi-docgen/gi-docgen: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen/gi-docgen: PKGSIZE changed from 2267640 to 2296372 (+1%)
-packages/core2-64-poky-linux/gi-docgen/gi-docgen: PKGV changed from 2023.3 [default] to 2024.1 [default]
-packages/core2-64-poky-linux/gi-docgen: PV changed from "2023.3" to "2024.1"
-packages/core2-64-poky-linux/gi-docgen: PKGV changed from 2023.3 [default] to 2024.1 [default]
-Changes to packages/core2-64-poky-linux/gi-docgen (sysroot):
-  /usr/lib/python3.12/site-packages/gi_docgen-2023.3.dist-info moved to /usr/lib/python3.12/site-packages/gi_docgen-2024.1.dist-info
+packages/core2-64-poky-linux/sqlite3: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2024/sqlite-autoconf-3450300.tar.gz" to "http://www.sqlite.org/2024/sqlite-autoconf-3460000.tar.gz"
+packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 680298 to 682478 (+0%)
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1451843 to 1464291 (+1%)
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 6073680 to 6131536 (+1%)
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10581443 to 10691007 (+1%)
+packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.45.3" to "3.46.0"
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.45.3 [default] to 3.46.0 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 294816 to 311232 (+6%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1892,43 +1893,41 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============1493894882529607529==
+--===============6756226994755272029==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gi-docgen-upgrade-2023.3-2024.1.patch"
+ filename="0001-sqlite3-upgrade-3.45.3-3.46.0.patch"
 
-RnJvbSAzNDJmYzkxMWI4OTFiZTkyNjhkOWEzMWJmM2U0OGEwMzYzOTY3MDhmIE1vbiBTZXAgMTcg
+RnJvbSBmN2EwMzQwYWRkNDc0OGM4NTg4NDNjMDEwNTI2YmQ1ZTExMDE4MjRmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxMjo1NDowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdp
-LWRvY2dlbjogdXBncmFkZSAyMDIzLjMgLT4gMjAyNC4xCgotLS0KIC4uLi9naS1kb2NnZW4ve2dp
-LWRvY2dlbl8yMDIzLjMuYmIgPT4gZ2ktZG9jZ2VuXzIwMjQuMS5iYn0gICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1nbm9tZS9naS1kb2NnZW4ve2dpLWRvY2dlbl8yMDIzLjMuYmIgPT4gZ2ktZG9jZ2Vu
-XzIwMjQuMS5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ2ktZG9j
-Z2VuL2dpLWRvY2dlbl8yMDIzLjMuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ2ktZG9jZ2VuL2dp
-LWRvY2dlbl8yMDI0LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWdub21lL2dpLWRvY2dlbi9naS1kb2NnZW5fMjAyMy4zLmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZ25vbWUvZ2ktZG9jZ2VuL2dpLWRvY2dlbl8yMDI0LjEuYmIKaW5kZXggNTRkN2Vm
-NzUxMy4uYjFiNzk2YTNjNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2dpLWRvY2dl
-bi9naS1kb2NnZW5fMjAyMy4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9naS1kb2NnZW4v
-Z2ktZG9jZ2VuXzIwMjQuMS5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0g
-ImZpbGU6Ly9naS1kb2NnZW4ucHk7YmVnaW5saW5lPTE7ZW5kbGluZT01O21kNT0yZGMwZjFmMDEy
-MDI0NwogCiBTUkNfVVJJID0gImdpdDovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvZ2ktZG9jZ2Vu
-LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiIKIAotU1JDUkVWID0gIjk2ZjJlOWI5M2Ux
-ZDhhNTMzOGViMDViODdmZDg3OTg1NmFiN2IzY2MiCitTUkNSRVYgPSAiZWZmNGVjM2QyMWRmMzhj
-OWQ4NTdiY2Y1OGFhOTg0MzdjNjYxMDQ4OSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAK
-Mi40NC4wCgo=
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxNjo0NzozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
+bGl0ZTM6IHVwZ3JhZGUgMy40NS4zIC0+IDMuNDYuMAoKLS0tCiAuLi4vc3FsaXRlL3tzcWxpdGUz
+XzMuNDUuMy5iYiA9PiBzcWxpdGUzXzMuNDYuMC5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9zcWxpdGUve3NxbGl0ZTNfMy40NS4zLmJiID0+IHNxbGl0ZTNfMy40Ni4w
+LmJifSAoNjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxp
+dGUzXzMuNDUuMy5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDYu
+MC5iYgpzaW1pbGFyaXR5IGluZGV4IDY5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9zcWxpdGUvc3FsaXRlM18zLjQ1LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
+L3NxbGl0ZS9zcWxpdGUzXzMuNDYuMC5iYgppbmRleCAwM2Q3MGJiZDM4Li5mZDViMWQ2MWY3IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ1LjMuYmIK
+KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40Ni4wLmJiCkBAIC00
+LDUgKzQsNSBAQCBMSUNFTlNFID0gIlBEIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Fs
+aXRlMy5oO2VuZGxpbmU9MTE7bWQ1PTc4NmQzZGM1ODFlZmYwM2Y0ZmQ5ZTRhNzdlZDAwYzY2Igog
+CiBTUkNfVVJJID0gImh0dHA6Ly93d3cuc3FsaXRlLm9yZy8yMDI0L3NxbGl0ZS1hdXRvY29uZi0k
+e1NRTElURV9QVn0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImIyODA5Y2E1MzEyNGMx
+OWM2MGY0MmJmNjI3NzM2ZWFlMDExYWZkY2MyMDViYjQ4MjcwYTVlZTlhMzgxOTE1MzEiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiNmY4ZTZhN2IzMzUyNzM3NDg4MTZmOWIzYjYyYmJkYzM3MmE4ODlk
+ZTg3ODJkN2YwNDhjNjUzYTQ0NzQxN2E3ZCIKIAotLSAKMi40NC4wCgo=
 
---===============1493894882529607529==
+--===============6756226994755272029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/gi-docgen (sysroot):
-  /usr/lib/python3.12/site-packages/gi_docgen-2023.3.dist-info moved to /usr/lib/python3.12/site-packages/gi_docgen-2024.1.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3694,5 +3693,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============1493894882529607529==--
+--===============6756226994755272029==--
 
