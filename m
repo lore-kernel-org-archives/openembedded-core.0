@@ -1,132 +1,148 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD3BC3065A
-	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:51:38 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web10.1895.1719852691007267821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B09C2BD09
+	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:57:58 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.2197.1719853077615970571
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jul 2024 09:51:31 -0700
+ Mon, 01 Jul 2024 09:57:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GTng5VdI;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3c9cc681e4fso1760509b6e.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 09:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719852689; x=1720457489; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FjOFcEWRVxc9kvmVoXTLJa7F6dAyYfcdCMNCYFzImr4=;
-        b=GTng5VdI0i+WTcPzitzokabJc9u3tAUWjrKtL0886bGlpUyNdvI5qo8iQQxDFUV6TI
-         NQFfuLhwU8IGF/MNXMU4jbI/hYYhzploekNZ8jFseMKDqIQlYOrKmhVJlaJw1R+r3jec
-         +8UZqp+ahtbIyXcbBdHri2Nsi9ngx/YZDhfR0fMijRsyfSnSWDRUx7ck7wgoUflogAOG
-         cHRey2vGXiFdo7sV5BUp5vnbl0r61jHhrx7HYece2hG4G4/IJeSHl5MMMcI6htfGVYnS
-         k0UjTWJ2bxrEPfRFjcCB0HbF1jgmjd/+5JQSxByCW/yuHmxjob8zqjSPiNTpFZ4mP206
-         Cvmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719852689; x=1720457489;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FjOFcEWRVxc9kvmVoXTLJa7F6dAyYfcdCMNCYFzImr4=;
-        b=MMKSARYfqXkP/Ab4QR8RP7SCgTv//bvQ/b9AtEXOaIxuPrlsHL5vstC2HiF6gcng6R
-         HQFwbVZeh2LX1IWC02Xa91mWEVu0tAZ9i3cQ6FVYQAuztZQ+nLn1obDh9CYEPc7nCCT4
-         MtvhruO3/EvseN5tAgx1ouvH0YMBNkAtRR86CyMeAkyElX9kbtrG4/7iauLnfTD8tdrZ
-         xtQX6zKssGI/HO2jXhcjOHSaZy0czk/0w4czr4K7FQGppD0Vj/lTN9YqmIKKgpbk5WOh
-         bkgWciGnu+i+c7+cpc5LOL+WXyIlnh60jZ6Dk+prUGHDRKiav48es5xoymL6m+mpgZ0b
-         tLgg==
-X-Gm-Message-State: AOJu0YwoQD6JYU+jXh85ovhWqzxBximEjuSa8i7ADO3FMYcsqEzb4WKb
-	wZCOODLJWB3zQV/E4rvKXIFNEw8eU94SVnPQLJLvm5DhzcCmfjfDjrTziw==
-X-Google-Smtp-Source: AGHT+IH0PZHyJ6TqrWRY8F79RPavE+QZQjt+NpCLdxOalsuXf9dnCyUS2pb9l3B5YOgKyIEsmDMtiQ==
-X-Received: by 2002:a05:6808:308d:b0:3d5:5cc2:fd54 with SMTP id 5614622812f47-3d6b50c1b77mr9906447b6e.47.1719852689483;
-        Mon, 01 Jul 2024 09:51:29 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::c8b3])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d62fb5234esm1419525b6e.58.2024.07.01.09.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 09:51:28 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v2] classes/create-spdx-2.2: Handle SemVer License List Versions
-Date: Mon,  1 Jul 2024 10:51:24 -0600
-Message-ID: <20240701165124.1883255-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240701144152.1018433-1-JPEWhacker@gmail.com>
-References: <20240701144152.1018433-1-JPEWhacker@gmail.com>
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ceDllfYz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=AwVHtT1Q;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101906f3b5091-ee55a2c4-6560-4a0b-be7f-1acd03419c58-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1719853077;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=8P+Fc85kZKvpDn/Ha3Mz992LV+eeqgfDZ+lkNo7JhQ0=;
+	b=ceDllfYz516bKu6bBrs2e9hYJJ7j+f6Bd4lb5xuWKihTXlKh5Tc+WIMHq90cfrU3
+	YKFkiSYmFW3/f26kbz4alAUDZmWWU80+bA2M2QKR23IKCvnWsXKon7Q9WvwIG6opmiy
+	/Szq6h2YkDr7RAWmUkCuDkqYqjWJTz8tiKxID1As=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853077;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=8P+Fc85kZKvpDn/Ha3Mz992LV+eeqgfDZ+lkNo7JhQ0=;
+	b=AwVHtT1QI+dQ9R9iF9H83GBbQm8AD6WEnt1kooIGwmnZHJ3cEzBVJyiSvLPohZCw
+	lbXml58ZVFkAhEbXaWgLUQicAiRqRYF3RwHtuQHwOszuxJF0gF9Q5ztkR/9Nv6aNz+C
+	AYDHdP4PsWu00BurZ04yv6kwEYeNjQjV2+am3sgg=
+Content-Type: multipart/mixed; boundary="===============2040993803088144176=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] pango: upgrading to 1.54.0 FAILED
+Message-ID: <010101906f3b5091-ee55a2c4-6560-4a0b-be7f-1acd03419c58-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jul 2024 16:57:56 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:51:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201313
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:57:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201387
 
-SPDX transitioned the license list to use SemVer visioning, (e.g.
-"MAJOR.MINOR.MICRO"), but SPDX 2 only allows "MAJOR.MINOR". For maximum
-compatibility, only keep the first two version numbers and discard the
-rest which allows it to work with either scheme
+--===============2040993803088144176==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/create-spdx-2.2.bbclass | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Hello,
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 99061320e53..3bcde1acc84 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -376,6 +376,11 @@ def add_download_packages(d, doc, recipe):
-             # but this should be sufficient for now
-             doc.add_relationship(package, "BUILD_DEPENDENCY_OF", recipe)
- 
-+def get_license_list_version(d):
-+    # Newer versions of the SPDX license list are SemVer ("MAJOR.MINOR.MICRO"),
-+    # but SPDX 2 only uses "MAJOR.MINOR".
-+    return ".".join(d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"].split(".")[:2])
-+
- 
- python do_create_spdx() {
-     from datetime import datetime, timezone
-@@ -417,7 +422,7 @@ python do_create_spdx() {
-     doc.documentNamespace = get_namespace(d, doc.name)
-     doc.creationInfo.created = creation_time
-     doc.creationInfo.comment = "This document was created by analyzing recipe files during the build."
--    doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
-+    doc.creationInfo.licenseListVersion = get_license_list_version(d)
-     doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
-     doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
-     doc.creationInfo.creators.append("Person: N/A ()")
-@@ -521,7 +526,7 @@ python do_create_spdx() {
-             package_doc.documentNamespace = get_namespace(d, package_doc.name)
-             package_doc.creationInfo.created = creation_time
-             package_doc.creationInfo.comment = "This document was created by analyzing packages created during the build."
--            package_doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
-+            package_doc.creationInfo.licenseListVersion = get_license_list_version(d)
-             package_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
-             package_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
-             package_doc.creationInfo.creators.append("Person: N/A ()")
-@@ -628,7 +633,7 @@ python do_create_runtime_spdx() {
-             runtime_doc.documentNamespace = get_namespace(localdata, runtime_doc.name)
-             runtime_doc.creationInfo.created = creation_time
-             runtime_doc.creationInfo.comment = "This document was created by analyzing package runtime dependencies."
--            runtime_doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
-+            runtime_doc.creationInfo.licenseListVersion = get_license_list_version(d)
-             runtime_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
-             runtime_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
-             runtime_doc.creationInfo.creators.append("Person: N/A ()")
-@@ -793,7 +798,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
-     doc.documentNamespace = get_namespace(d, doc.name)
-     doc.creationInfo.created = creation_time
-     doc.creationInfo.comment = "This document was created by analyzing the source of the Yocto recipe during the build."
--    doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
-+    doc.creationInfo.licenseListVersion = get_license_list_version(d)
-     doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
-     doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
-     doc.creationInfo.creators.append("Person: N/A ()")
--- 
-2.45.2
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *pango* to *1.54.0* has Failed (devtool error).
 
+Detailed error information:
+
+Running 'devtool upgrade' for recipe pango failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-d66941ea830a5873402f0ce8eebdad29373fc1d7"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:d66941ea830a5873402f0ce8eebdad29373fc1d7"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (917 cached, 2 parsed). 1879 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-d66941ea830a5873402f0ce8eebdad29373fc1d7"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:d66941ea830a5873402f0ce8eebdad29373fc1d7"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-tg9x8gr5: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-zj6j4ice/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-zj6j4ice/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  12% |####                                | ETA:  0:00:00
+Adding changed files:  24% |########                            | ETA:  0:00:00
+Adding changed files:  36% |#############                       | ETA:  0:00:00
+Adding changed files:  48% |#################                   | ETA:  0:00:00
+Adding changed files:  60% |#####################               | ETA:  0:00:00
+Adding changed files:  72% |##########################          | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.gnome.org/sources//pango/1.54/pango-1.54.0.tar.xz;name=archive...
+INFO: Rebasing devtool onto 33a90023c6261f0d9428c3a03f47979bcc59d396
+WARNING: Command 'git rebase 33a90023c6261f0d9428c3a03f47979bcc59d396' failed:
+Auto-merging tests/test-layout.c
+CONFLICT (content): Merge conflict in tests/test-layout.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/pango
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/pango/pango_1.54.0.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2040993803088144176==--
 
