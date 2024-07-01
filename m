@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14CA3C53211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E752C41513
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:03 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.2184.1719853076441872467
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.2124.1719853077590143099
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jul 2024 09:57:58 -0700
+ Mon, 01 Jul 2024 09:57:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MjbFyFE1;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=UrXgqTOI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101906f3b5004-d0ec2b0f-99a5-43cf-8601-c88fb905d289-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NzXlNqsC;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bRQ8q4jg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101906f3b51d3-7a0e36c2-3072-4e0f-8d61-c7d1d0bb083c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1719853076;
+	t=1719853077;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=K2avNh4/UGclTiiGnM/0mlDsGCGS3JokemZGIZkV2nw=;
-	b=MjbFyFE1tfzIolpfTkJPFuAfqFvjEiTgSH4nBYoS9YiPBix5kZMmLBMwfWHvMhkG
-	ATx/qyAiAIrhxxqTMveR+HpdPuE9mBlTgw4nYIxwynvRvzv1IObRKymKFPzKch6a09U
-	dd170/SkTlsyfbAmN9frNDqXAsLA9Ns8UBUDIVaE=
+	bh=h9DeU7ViVPJ2vbHkSnGDWwfr3QQ9bUxHKgr6n3vrzv0=;
+	b=NzXlNqsC5FLzsC/+GopUQdcUaHmGOT0Cd4h/rbqwTiFTRWDkHUXbFUPZhUhx0bKr
+	B5QRNXdcJZCr7OLDtwVVYgPHk2oih1w2oLswBE6O0vPQIMPQyuyxqtsZt6JnCqKrN8N
+	bH97NFLqZt3LnW5U6MjZ2XeBh22KsDI4n1gRqtjU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853076;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853077;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=K2avNh4/UGclTiiGnM/0mlDsGCGS3JokemZGIZkV2nw=;
-	b=UrXgqTOIxQH3yh3ko0snh5ivHyAeQRMqjwUSXBGqUQAJWUImVxBmRk89FGARTMz+
-	omDvXvXmREjIAN6sGotTrkqFMB6HFwTVvMUue1uZF/LDSH2wfMGKK/MN6YoaxTIW8n9
-	eEgtiM8e4hLnZ97teE5j+L/qzhIltz3e5/yr6pKw=
-Content-Type: multipart/mixed; boundary="===============3963321585922356109=="
+	bh=h9DeU7ViVPJ2vbHkSnGDWwfr3QQ9bUxHKgr6n3vrzv0=;
+	b=bRQ8q4jgroTf1AfmIvoW4w56oQsQyZU4sOPKGstYrBWrgRoq+gFrhW7DLcRjN2Ah
+	uAWOlRFA71/z6uOzjEH6kGAw6++eoBQeWqlTaf8zw7bt7otEDfLQxfukjGJJqvuEbqr
+	XUkmoI3dKHCxZ2iBVVX5HF5C5t020Pt9jnlhLp6M=
+Content-Type: multipart/mixed; boundary="===============6975812812739297511=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsdl2: upgrading to 2.30.4 SUCCEEDED
-Message-ID: <010101906f3b5004-d0ec2b0f-99a5-43cf-8601-c88fb905d289-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-plugins-base: upgrading to 1.24.5 SUCCEEDED
+Message-ID: <010101906f3b51d3-7a0e36c2-3072-4e0f-8d61-c7d1d0bb083c-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jul 2024 16:57:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.193
+X-SES-Outgoing: 2024.07.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201403
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201392
 
---===============3963321585922356109==
+--===============6975812812739297511==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libsdl2* to *2.30.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-base* to *1.24.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsdl2-upgrade-2.30.3-2.30.4.patch
+    - apply the patch: git am 0001-gstreamer1.0-plugins-base-upgrade-1.24.4-1.24.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,71 +72,354 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From fbe99f49bdca80180b86fce1049e87a3ef907eec Mon Sep 17 00:00:00 2001
+From 90a3666a8b5ddde04c95a22644f4d3f1f8816b2d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 13:28:14 +0000
-Subject: [PATCH] libsdl2: upgrade 2.30.3 -> 2.30.4
+Date: Mon, 1 Jul 2024 14:40:55 +0000
+Subject: [PATCH] gstreamer1.0-plugins-base: upgrade 1.24.4 -> 1.24.5
 
 ---
- .../libsdl2/{libsdl2_2.30.3.bb => libsdl2_2.30.4.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.30.3.bb => libsdl2_2.30.4.bb} (97%)
+ ...001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 2 +-
+ .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch          | 2 +-
+ .../0003-viv-fb-Make-sure-config.h-is-included.patch            | 2 +-
+ ...ugins-base_1.24.4.bb => gstreamer1.0-plugins-base_1.24.5.bb} | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.24.4.bb => gstreamer1.0-plugins-base_1.24.5.bb} (98%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.30.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.30.4.bb
-similarity index 97%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.30.3.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.30.4.bb
-index 68cc2790e5..a6a3f4ef52 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.30.3.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.30.4.bb
-@@ -25,7 +25,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+index 38d0fbf6bf..b681bfcc0c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+@@ -1,4 +1,4 @@
+-From 5a4d65e13a326103ac02f156c01b6fcbb0269902 Mon Sep 17 00:00:00 2001
++From 2e5b59d642fdd31d4ede7cc2afd395a973ecd115 Mon Sep 17 00:00:00 2001
+ From: zhouming <b42586@freescale.com>
+ Date: Wed, 14 May 2014 10:16:20 +0800
+ Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
+index 4090b77c8d..dd6f856a0d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
+@@ -1,4 +1,4 @@
+-From 21b8339077f52ec9220e0d3d1f3872e23c7c2e88 Mon Sep 17 00:00:00 2001
++From d37bcda9ef1eef8e40646433352d7023476bb47a Mon Sep 17 00:00:00 2001
+ From: Mingke Wang <mingke.wang@freescale.com>
+ Date: Thu, 19 Mar 2015 14:17:10 +0800
+ Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
+index ab46ecee5d..70cda9d053 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
+@@ -1,4 +1,4 @@
+-From 246e6f5ed75696b2e9d9a9ee8cd59252724e1334 Mon Sep 17 00:00:00 2001
++From bcdf3e74c15c8a31fc7200ebade65863e3ac43c9 Mon Sep 17 00:00:00 2001
+ From: Carlos Rafael Giani <crg7475@mailbox.org>
+ Date: Tue, 21 May 2019 14:01:11 +0200
+ Subject: [PATCH] viv-fb: Make sure config.h is included
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.5.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.5.bb
+index bda9f3e737..9d19ea233d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.5.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            "
+-SRC_URI[sha256sum] = "09f4ddf246eeb819da1494ce336316edbbcb28fdff3ee2f9804891e84df39b2a"
++SRC_URI[sha256sum] = "0e33ec9b59eef5ef3a6a53bbd55c44340e681d0000910caca12541a73db38a7d"
  
- S = "${WORKDIR}/SDL2-${PV}"
- 
--SRC_URI[sha256sum] = "820440072f8f5b50188c1dae104f2ad25984de268785be40c41a099a510f0aec"
-+SRC_URI[sha256sum] = "59c89d0ed40d4efb23b7318aa29fe7039dbbc098334b14f17f1e7e561da31a26"
- 
- inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
  
 -- 
 2.44.0
 
 
---===============3963321585922356109==
+--===============6975812812739297511==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libsdl2: SRC_URI changed from "http://www.libsdl.org/release/SDL2-2.30.3.tar.gz" to "http://www.libsdl.org/release/SDL2-2.30.4.tar.gz"
-packages/core2-64-poky-linux/libsdl2: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2-bin: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-bin: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: PKGSIZE changed from 7271320 to 7272048 (+0%)
-packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: FILELIST: removed "/usr/lib/.debug/libSDL2-2.0.so.0.3000.3", added "/usr/lib/.debug/libSDL2-2.0.so.0.3000.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-dbg: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2-dev: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-dev: PKGSIZE changed from 2451282 to 2451468 (+0%)
-packages/core2-64-poky-linux/libsdl2/libsdl2-dev: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2-doc: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-doc: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2-locale: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-locale: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2-src: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-src: PKGSIZE changed from 10521652 to 10528678 (+0%)
-packages/core2-64-poky-linux/libsdl2/libsdl2-src: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2-staticdev: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2-staticdev: PKGSIZE changed from 14470468 to 14472276 (+0%)
-packages/core2-64-poky-linux/libsdl2/libsdl2-staticdev: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-packages/core2-64-poky-linux/libsdl2/libsdl2: PV changed from "2.30.3" to "2.30.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2: PKGSIZE changed from 1922979 to 1923043 (+0%)
-packages/core2-64-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.3000.3", added "/usr/lib/libSDL2-2.0.so.0.3000.4"
-packages/core2-64-poky-linux/libsdl2/libsdl2: PKGV changed from 2.30.3 [default] to 2.30.4 [default]
-Changes to packages/core2-64-poky-linux/libsdl2 (sysroot):
-  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.3000.3 to libSDL2-2.0.so.0.3000.4
-  /usr/lib/libSDL2-2.0.so.0.3000.3 moved to /usr/lib/libSDL2-2.0.so.0.3000.4
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-basedebug: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-basedebug: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: FILELIST: removed "/usr/lib/.debug/libgstpbutils-1.0.so.0.2404.0 /usr/lib/.debug/libgstaudio-1.0.so.0.2404.0 /usr/lib/.debug/libgstvideo-1.0.so.0.2404.0 /usr/lib/.debug/libgstfft-1.0.so.0.2404.0 /usr/lib/.debug/libgstriff-1.0.so.0.2404.0 /usr/lib/.debug/libgstapp-1.0.so.0.2404.0 /usr/lib/.debug/libgsttag-1.0.so.0.2404.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2404.0 /usr/lib/.debug/libgstsdp-1.0.so.0.2404.0 /usr/lib/.debug/libgstgl-1.0.so.0.2404.0 /usr/lib/.debug/libgstallocators-1.0.so.0.2404.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2404.0", added "/usr/lib/.debug/libgstaudio-1.0.so.0.2405.0 /usr/lib/.debug/libgstvideo-1.0.so.0.2405.0 /usr/lib/.debug/libgstfft-1.0.so.0.2405.0 /usr/lib/.debug/libgstriff-1.0.so.0.2405.0 /usr/lib/.debug/libgstgl-1.0.so.0.2405.0 /usr/lib/.debug/libgstapp-1.0.so.0.2405.0 /usr/lib/.debug/libgsttag-1.0.so.0.2405.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2405.0 /usr/lib/.debug/libgstsd
+ p-1.0.so.0.2405.0 /usr/lib/.debug/libgstallocators-1.0.so.0.2405.0 /usr/lib/.debug/libgstpbutils-1.0.so.0.2405.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGSIZE changed from 18702512 to 18700656 (-0%)
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dsd: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dsd: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PKGSIZE changed from 668408 to 664312 (-1%)
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/gl/glprototypes -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/gl/glprototypes, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/gl/egl -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/gl/egl, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/ext/ogg -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/ext/ogg, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/rtsp -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/rtsp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/tag -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/tag, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/gl/x11 -> /usr/src/debug/gstreamer1.0-plugins-bas
+ e/1.24.5/gst-libs/gst/gl/x11, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/debugutils -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/debugutils, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/app -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/app, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/riff -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/riff, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/rtp -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/rtp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/videoconvertscale -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/videoconvertscale, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/ext/alsa -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/ext/alsa, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/subparse ->
+  /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/subparse, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/rawparse -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/rawparse, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/dsd -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/dsd, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/fft -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/fft, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/audiomixer -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/audiomixer, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/audiotestsrc -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/audiotestsrc, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/videotestsrc -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/videotestsrc, directory renamed /usr/src/debug/gstreamer1.0-plugin
+ s-base/1.24.4/gst-libs/gst/allocators -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/allocators, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/volume -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/volume, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/app -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/app, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/gl -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/gl, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/ext/gl -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/ext/gl, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/typefind -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/typefind, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/gl/wayland -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/gl/wayland,
+  directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/ext/gl/effects -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/ext/gl/effects, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/gio -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/gio, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/tcp -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/tcp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/encoding -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/encoding, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/overlaycomposition -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/overlaycomposition, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/adder -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/adder, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/audioconvert -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/
+ gst/audioconvert, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/audioresample -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/audioresample, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/pbtypes -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/pbtypes, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/ext/pango -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/ext/pango, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/pbutils -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/pbutils, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/sdp -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/sdp, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/audiorate -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/audiorate, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/videorate -> /usr
+ /src/debug/gstreamer1.0-plugins-base/1.24.5/gst/videorate, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/audio -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/audio, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/ext/vorbis -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/ext/vorbis, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/tools -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/tools, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/compositor -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/compositor, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/video -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/video, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/sys/ximage -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/sys/ximage, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/sy
+ s/xvimage -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/sys/xvimage, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/ext/theora -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/ext/theora, directory renamed /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst-libs/gst/gl/utils -> /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst-libs/gst/gl/utils, removed "/usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysinkconvertbin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplay-enum.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysink.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaybin2.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysink.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaybin3.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstparsebin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplay-enum.c 
+ /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaybackplugin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gsturidecodebin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gsturisourcebin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysinkvideoconvert.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaybackutils.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaybackutils.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysinkvideoconvert.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstdecodebin3-parse.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaybackelements.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gststreamsynchronizer.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaybackelement.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstdecodebin2.c /usr/src/debug
+ /gstreamer1.0-plugins-base/1.24.4/gst/playback/gststreamsynchronizer.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstdecodebin3.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysinkconvertbin.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysinkaudioconvert.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstsubtitleoverlay.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstsubtitleoverlay.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gstplaysinkaudioconvert.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.4/gst/playback/gsturidecodebin3.c", added "/usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaysinkconvertbin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplay-enum.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaysink.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaybin2.c /usr/src/debug/gstreamer1.
+ 0-plugins-base/1.24.5/gst/playback/gstplaysink.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaybin3.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstparsebin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplay-enum.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaybackplugin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gsturidecodebin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gsturisourcebin.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaysinkvideoconvert.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaybackutils.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaybackutils.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaysinkvideoconvert.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaybackelements.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstst
+ reamsynchronizer.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaybackelement.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstdecodebin2.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gststreamsynchronizer.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstdecodebin3.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaysinkaudioconvert.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaysinkconvertbin.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstsubtitleoverlay.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstsubtitleoverlay.h /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gstplaysinkaudioconvert.c /usr/src/debug/gstreamer1.0-plugins-base/1.24.5/gst/playback/gsturidecodebin3.c"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGSIZE changed from 14270820 to 14280630 (+0%)
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.24.4.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.24.5.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILES: removed "/usr/lib/libgstallocators-1.0.so.0.2404.0", added "/usr/lib/libgstallocators-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2404.0", added "/usr/lib/libgstallocators-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILES: removed "/usr/lib/libgstapp-1.0.so.0.2404.0", added "/usr/lib/libgstapp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2404.0", added "/usr/lib/libgstapp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILES: removed "/usr/lib/libgstaudio-1.0.so.0.2404.0", added "/usr/lib/libgstaudio-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2404.0", added "/usr/lib/libgstaudio-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILES: removed "/usr/lib/libgstfft-1.0.so.0.2404.0", added "/usr/lib/libgstfft-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2404.0", added "/usr/lib/libgstfft-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILES: removed "/usr/lib/libgstgl-1.0.so.0.2404.0", added "/usr/lib/libgstgl-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2404.0", added "/usr/lib/libgstgl-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILES: removed "/usr/lib/libgstpbutils-1.0.so.0.2404.0", added "/usr/lib/libgstpbutils-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2404.0", added "/usr/lib/libgstpbutils-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILES: removed "/usr/lib/libgstriff-1.0.so.0.2404.0", added "/usr/lib/libgstriff-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2404.0", added "/usr/lib/libgstriff-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILES: removed "/usr/lib/libgstrtp-1.0.so.0.2404.0", added "/usr/lib/libgstrtp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2404.0", added "/usr/lib/libgstrtp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILES: removed "/usr/lib/libgstrtsp-1.0.so.0.2404.0", added "/usr/lib/libgstrtsp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2404.0", added "/usr/lib/libgstrtsp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILES: removed "/usr/lib/libgstsdp-1.0.so.0.2404.0", added "/usr/lib/libgstsdp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2404.0", added "/usr/lib/libgstsdp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILES: removed "/usr/lib/libgsttag-1.0.so.0.2404.0", added "/usr/lib/libgsttag-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2404.0", added "/usr/lib/libgsttag-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILES: removed "/usr/lib/libgstvideo-1.0.so.0.2404.0", added "/usr/lib/libgstvideo-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2404.0", added "/usr/lib/libgstvideo-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-base (sysroot):
+  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2404.0 to libgstallocators-1.0.so.0.2405.0
+  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2404.0 to libgstapp-1.0.so.0.2405.0
+  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2404.0 to libgstaudio-1.0.so.0.2405.0
+  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2404.0 to libgstfft-1.0.so.0.2405.0
+  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2404.0 to libgstgl-1.0.so.0.2405.0
+  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2404.0 to libgstpbutils-1.0.so.0.2405.0
+  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2404.0 to libgstriff-1.0.so.0.2405.0
+  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2404.0 to libgstrtp-1.0.so.0.2405.0
+  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2404.0 to libgstrtsp-1.0.so.0.2405.0
+  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2404.0 to libgstsdp-1.0.so.0.2405.0
+  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2404.0 to libgsttag-1.0.so.0.2405.0
+  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2404.0 to libgstvideo-1.0.so.0.2405.0
+  /usr/lib/libgstallocators-1.0.so.0.2404.0 moved to /usr/lib/libgstallocators-1.0.so.0.2405.0
+  /usr/lib/libgstapp-1.0.so.0.2404.0 moved to /usr/lib/libgstapp-1.0.so.0.2405.0
+  /usr/lib/libgstaudio-1.0.so.0.2404.0 moved to /usr/lib/libgstaudio-1.0.so.0.2405.0
+  /usr/lib/libgstfft-1.0.so.0.2404.0 moved to /usr/lib/libgstfft-1.0.so.0.2405.0
+  /usr/lib/libgstgl-1.0.so.0.2404.0 moved to /usr/lib/libgstgl-1.0.so.0.2405.0
+  /usr/lib/libgstpbutils-1.0.so.0.2404.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2405.0
+  /usr/lib/libgstriff-1.0.so.0.2404.0 moved to /usr/lib/libgstriff-1.0.so.0.2405.0
+  /usr/lib/libgstrtp-1.0.so.0.2404.0 moved to /usr/lib/libgstrtp-1.0.so.0.2405.0
+  /usr/lib/libgstrtsp-1.0.so.0.2404.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2405.0
+  /usr/lib/libgstsdp-1.0.so.0.2404.0 moved to /usr/lib/libgstsdp-1.0.so.0.2405.0
+  /usr/lib/libgsttag-1.0.so.0.2404.0 moved to /usr/lib/libgsttag-1.0.so.0.2405.0
+  /usr/lib/libgstvideo-1.0.so.0.2404.0 moved to /usr/lib/libgstvideo-1.0.so.0.2405.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1647,45 +1930,49 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============3963321585922356109==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libsdl2-upgrade-2.30.3-2.30.4.patch"
-
-RnJvbSBmYmU5OWY0OWJkY2E4MDE4MGI4NmZjZTEwNDllODdhM2VmOTA3ZWVjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxMzoyODoxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnNkbDI6IHVwZ3JhZGUgMi4zMC4zIC0+IDIuMzAuNAoKLS0tCiAuLi4vbGlic2RsMi97bGlic2Rs
-Ml8yLjMwLjMuYmIgPT4gbGlic2RsMl8yLjMwLjQuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvbGlic2RsMi97bGlic2RsMl8yLjMwLjMuYmIgPT4gbGlic2RsMl8yLjMw
-LjQuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIv
-bGlic2RsMl8yLjMwLjMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlic2RsMi9saWJzZGwy
-XzIuMzAuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvbGlic2RsMi9saWJzZGwyXzIuMzAuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8yLjMwLjQuYmIKaW5kZXggNjhjYzI3OTBlNS4uYTZh
-M2Y0ZWY1MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2Rs
-Ml8yLjMwLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8y
-LjMwLjQuYmIKQEAgLTI1LDcgKzI1LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vd3d3LmxpYnNkbC5v
-cmcvcmVsZWFzZS9TREwyLSR7UFZ9LnRhci5neiIKIAogUyA9ICIke1dPUktESVJ9L1NETDItJHtQ
-Vn0iCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4MjA0NDAwNzJmOGY1YjUwMTg4YzFkYWUxMDRm
-MmFkMjU5ODRkZTI2ODc4NWJlNDBjNDFhMDk5YTUxMGYwYWVjIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjU5Yzg5ZDBlZDQwZDRlZmIyM2I3MzE4YWEyOWZlNzAzOWRiYmMwOTgzMzRiMTRmMTdmMWU3
-ZTU2MWRhMzFhMjYiCiAKIGluaGVyaXQgY21ha2UgbGliX3BhY2thZ2UgYmluY29uZmlnLWRpc2Fi
-bGVkIHBrZ2NvbmZpZyB1cHN0cmVhbS12ZXJzaW9uLWlzLWV2ZW4KIAotLSAKMi40NC4wCgo=
-
---===============3963321585922356109==
+--===============6975812812739297511==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.3000.3", added "/usr/lib/libSDL2-2.0.so.0.3000.4"
-Changes to packages/core2-64-poky-linux/libsdl2 (sysroot):
-  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.3000.3 to libSDL2-2.0.so.0.3000.4
-  /usr/lib/libSDL2-2.0.so.0.3000.3 moved to /usr/lib/libSDL2-2.0.so.0.3000.4
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2404.0", added "/usr/lib/libgstallocators-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2404.0", added "/usr/lib/libgstapp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2404.0", added "/usr/lib/libgstaudio-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2404.0", added "/usr/lib/libgstfft-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2404.0", added "/usr/lib/libgstgl-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2404.0", added "/usr/lib/libgstpbutils-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2404.0", added "/usr/lib/libgstriff-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2404.0", added "/usr/lib/libgstrtp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2404.0", added "/usr/lib/libgstrtsp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2404.0", added "/usr/lib/libgstsdp-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2404.0", added "/usr/lib/libgsttag-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2404.0", added "/usr/lib/libgstvideo-1.0.so.0.2405.0"
+Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-base (sysroot):
+  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2404.0 to libgstallocators-1.0.so.0.2405.0
+  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2404.0 to libgstapp-1.0.so.0.2405.0
+  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2404.0 to libgstaudio-1.0.so.0.2405.0
+  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2404.0 to libgstfft-1.0.so.0.2405.0
+  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2404.0 to libgstgl-1.0.so.0.2405.0
+  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2404.0 to libgstpbutils-1.0.so.0.2405.0
+  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2404.0 to libgstriff-1.0.so.0.2405.0
+  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2404.0 to libgstrtp-1.0.so.0.2405.0
+  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2404.0 to libgstrtsp-1.0.so.0.2405.0
+  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2404.0 to libgstsdp-1.0.so.0.2405.0
+  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2404.0 to libgsttag-1.0.so.0.2405.0
+  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2404.0 to libgstvideo-1.0.so.0.2405.0
+  /usr/lib/libgstallocators-1.0.so.0.2404.0 moved to /usr/lib/libgstallocators-1.0.so.0.2405.0
+  /usr/lib/libgstapp-1.0.so.0.2404.0 moved to /usr/lib/libgstapp-1.0.so.0.2405.0
+  /usr/lib/libgstaudio-1.0.so.0.2404.0 moved to /usr/lib/libgstaudio-1.0.so.0.2405.0
+  /usr/lib/libgstfft-1.0.so.0.2404.0 moved to /usr/lib/libgstfft-1.0.so.0.2405.0
+  /usr/lib/libgstgl-1.0.so.0.2404.0 moved to /usr/lib/libgstgl-1.0.so.0.2405.0
+  /usr/lib/libgstpbutils-1.0.so.0.2404.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2405.0
+  /usr/lib/libgstriff-1.0.so.0.2404.0 moved to /usr/lib/libgstriff-1.0.so.0.2405.0
+  /usr/lib/libgstrtp-1.0.so.0.2404.0 moved to /usr/lib/libgstrtp-1.0.so.0.2405.0
+  /usr/lib/libgstrtsp-1.0.so.0.2404.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2405.0
+  /usr/lib/libgstsdp-1.0.so.0.2404.0 moved to /usr/lib/libgstsdp-1.0.so.0.2405.0
+  /usr/lib/libgsttag-1.0.so.0.2404.0 moved to /usr/lib/libgsttag-1.0.so.0.2405.0
+  /usr/lib/libgstvideo-1.0.so.0.2404.0 moved to /usr/lib/libgstvideo-1.0.so.0.2405.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3196,5 +3483,87 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============3963321585922356109==--
+--===============6975812812739297511==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-plugins-base-upgrade-1.24.4-1.24.5.patch"
+
+RnJvbSA5MGEzNjY2YThiNWRkZGUwNGM5NWEyMjY0NGY0ZDNmMWY4ODE2YjJkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxNDo0MDo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC1wbHVnaW5zLWJhc2U6IHVwZ3JhZGUgMS4yNC40IC0+IDEuMjQuNQoKLS0tCiAu
+Li4wMDEtRU5HUjAwMzEyNTE1LWdldC1jYXBzLWZyb20tc3JjLXBhZC13aGVuLXF1ZXJ5LWNhcHMu
+cGF0Y2ggfCAyICstCiAuLi4vMDAwMi1zc2FwYXJzZS1lbmhhbmNlLVNTQS10ZXh0LWxpbmVzLXBh
+cnNpbmcucGF0Y2ggICAgICAgICAgfCAyICstCiAuLi4vMDAwMy12aXYtZmItTWFrZS1zdXJlLWNv
+bmZpZy5oLWlzLWluY2x1ZGVkLnBhdGNoICAgICAgICAgICAgfCAyICstCiAuLi51Z2lucy1iYXNl
+XzEuMjQuNC5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjQuNS5iYn0gfCAyICst
+CiA0IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1wbHVnaW5z
+LWJhc2VfMS4yNC40LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNC41LmJifSAo
+OTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDEtRU5HUjAwMzEyNTE1LWdldC1jYXBzLWZyb20tc3Jj
+LXBhZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAxLUVOR1IwMDMxMjUxNS1nZXQtY2Fw
+cy1mcm9tLXNyYy1wYWQtd2hlbi1xdWVyeS1jYXBzLnBhdGNoCmluZGV4IDM4ZDBmYmY2YmYuLmI2
+ODFiZmNjMGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDEtRU5HUjAwMzEyNTE1LWdldC1jYXBzLWZyb20t
+c3JjLXBhZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMS1FTkdSMDAzMTI1MTUt
+Z2V0LWNhcHMtZnJvbS1zcmMtcGFkLXdoZW4tcXVlcnktY2Fwcy5wYXRjaApAQCAtMSw0ICsxLDQg
+QEAKLUZyb20gNWE0ZDY1ZTEzYTMyNjEwM2FjMDJmMTU2YzAxYjZmY2JiMDI2OTkwMiBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmU1YjU5ZDY0MmZkZDMxZDRlZGU3Y2MyYWZkMzk1YTk3
+M2VjZDExNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IHpob3VtaW5nIDxiNDI1ODZA
+ZnJlZXNjYWxlLmNvbT4KIERhdGU6IFdlZCwgMTQgTWF5IDIwMTQgMTA6MTY6MjAgKzA4MDAKIFN1
+YmplY3Q6IFtQQVRDSF0gRU5HUjAwMzEyNTE1OiBnZXQgY2FwcyBmcm9tIHNyYyBwYWQgd2hlbiBx
+dWVyeSBjYXBzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
+Z3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAyLXNzYXBhcnNlLWVuaGFuY2UtU1NBLXRleHQt
+bGluZXMtcGFyc2luZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDItc3NhcGFyc2UtZW5oYW5jZS1TU0EtdGV4dC1s
+aW5lcy1wYXJzaW5nLnBhdGNoCmluZGV4IDQwOTBiNzdjOGQuLmRkNmY4NTZhMGQgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lu
+cy1iYXNlLzAwMDItc3NhcGFyc2UtZW5oYW5jZS1TU0EtdGV4dC1saW5lcy1wYXJzaW5nLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1
+Z2lucy1iYXNlLzAwMDItc3NhcGFyc2UtZW5oYW5jZS1TU0EtdGV4dC1saW5lcy1wYXJzaW5nLnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyMWI4MzM5MDc3ZjUyZWM5MjIwZTBkM2QxZjM4NzJl
+MjNjN2MyZTg4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkMzdiY2RhOWVmMWVlZjhl
+NDA2NDY0MzMzNTJkNzAyMzQ3NmJiNDdhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+TWluZ2tlIFdhbmcgPG1pbmdrZS53YW5nQGZyZWVzY2FsZS5jb20+CiBEYXRlOiBUaHUsIDE5IE1h
+ciAyMDE1IDE0OjE3OjEwICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHNzYXBhcnNlOiBlbmhhbmNl
+IFNTQSB0ZXh0IGxpbmVzIHBhcnNpbmcuCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGlt
+ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAzLXZpdi1mYi1NYWtl
+LXN1cmUtY29uZmlnLmgtaXMtaW5jbHVkZWQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAzLXZpdi1mYi1NYWtlLXN1
+cmUtY29uZmlnLmgtaXMtaW5jbHVkZWQucGF0Y2gKaW5kZXggYWI0NmVjZWU1ZC4uNzBjZGE5ZDA1
+MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
+cjEuMC1wbHVnaW5zLWJhc2UvMDAwMy12aXYtZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlzLWluY2x1
+ZGVkLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDMtdml2LWZiLU1ha2Utc3VyZS1jb25maWcuaC1pcy1pbmNs
+dWRlZC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjQ2ZTZmNWVkNzU2OTZiMmU5ZDlhOWVl
+OGNkNTkyNTI3MjRlMTMzNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYmNkZjNlNzRj
+MTVjOGEzMWZjNzIwMGViYWRlNjU4NjNlM2FjNDNjOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IENhcmxvcyBSYWZhZWwgR2lhbmkgPGNyZzc0NzVAbWFpbGJveC5vcmc+CiBEYXRlOiBU
+dWUsIDIxIE1heSAyMDE5IDE0OjAxOjExICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIHZpdi1mYjog
+TWFrZSBzdXJlIGNvbmZpZy5oIGlzIGluY2x1ZGVkCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZV8xLjI0LjQuYmIg
+Yi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMt
+YmFzZV8xLjI0LjUuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNC40
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
+MS4wLXBsdWdpbnMtYmFzZV8xLjI0LjUuYmIKaW5kZXggYmRhOWYzZTczNy4uOWQxOWVhMjMzZCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
+MC1wbHVnaW5zLWJhc2VfMS4yNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
+dHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjQuNS5iYgpAQCAtMTEsNyArMTEs
+NyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0
+LXBsdWdpbnMtYmFzZS9nc3QtcGx1Z2lucy1iYQogICAgICAgICAgICBmaWxlOi8vMDAwMy12aXYt
+ZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlzLWluY2x1ZGVkLnBhdGNoIFwKICAgICAgICAgICAgZmls
+ZTovLzAwMDItc3NhcGFyc2UtZW5oYW5jZS1TU0EtdGV4dC1saW5lcy1wYXJzaW5nLnBhdGNoIFwK
+ICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjA5ZjRkZGYyNDZlZWI4MTlkYTE0
+OTRjZTMzNjMxNmVkYmJjYjI4ZmRmZjNlZTJmOTgwNDg5MWU4NGRmMzliMmEiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiMGUzM2VjOWI1OWVlZjVlZjNhNmE1M2JiZDU1YzQ0MzQwZTY4MWQwMDAwOTEw
+Y2FjYTEyNTQxYTczZGIzOGE3ZCIKIAogUyA9ICIke1dPUktESVJ9L2dzdC1wbHVnaW5zLWJhc2Ut
+JHtQVn0iCiAKLS0gCjIuNDQuMAoK
+
+--===============6975812812739297511==--
 
