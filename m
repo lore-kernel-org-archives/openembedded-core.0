@@ -1,110 +1,100 @@
-Return-Path: <ppjadhav456@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F517C2BD09
-	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 06:13:32 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.13491.1719814402404364681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E0EC2BD09
+	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 06:19:32 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.13344.1719814763172389887
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jun 2024 23:13:22 -0700
+ Sun, 30 Jun 2024 23:19:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SPdQPeDT;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1fab03d2eecso19688965ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jun 2024 23:13:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719814401; x=1720419201; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mGYBXr3kr8jDQeTYRngC/pMckzYxZg8UUeyRVhnklMA=;
-        b=SPdQPeDTZkXfmAKQ2kA2JWtyR09hgXdd1IPI9RC+ea1agmvkB2w890eMMnKuUbnnGP
-         zTSc3oOYBBvYu6SA/QwRUIOH0rLboxT0a32lN0OeOngeRWnymfBDaD98TvyRUC0HnVhP
-         qwqF08qVwAOzaZ/OsaCICrfS9EFuDO4CC7oH+LJxBa0yh6Spm4kNDwZjFBWJdY7dJKh1
-         GalFRtETkiUzdYWG0nnI6fEVHH3wUoRkIJrD4lnQa7GSD7vKbwpbUAvL/B7bxRbKGOJ6
-         p+7KXXterl6JKj3BTgXNsdFOWhAnp9FUNNlZSCqHRlEbRiuE1NJJoxmwdki/C//FkQj6
-         oGhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719814401; x=1720419201;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mGYBXr3kr8jDQeTYRngC/pMckzYxZg8UUeyRVhnklMA=;
-        b=NAwYMobJbuzv3T0vzSVc+raLv5sSDyu2x3uI430OqTn5hMzHDsNc884bHAcvMPRw2O
-         pOPGisbX/SKrQagr2XASqpu8cylSxVBgNE5PK7mj8dKYqVM/ezNIDWb3x1ns1ZVAI63L
-         qHUrTTTOqUbU+8XLc6crteXTqh1tWFpWMgyg7uHrXlQQ+n8x9h4AXWN6OmnjVKAQjQXe
-         IUuzUDqNxSAwLNDf0wr8HIMyrwpjzZ9NDxhcVWb+7rHtfX6CS+swRQS1hXiSbDf/nLDF
-         fEnCa7SNcU7paAsK8wX9XlG7Kgdx1HfySBN1zuAx5MzhYMAfQ6dltb0kmhhLa9axG+/j
-         K5tQ==
-X-Gm-Message-State: AOJu0Yzo7nf9tKKDcTpP+SvdN3FHCi/pI3IqUuswJsNhv0pXvNi/Cmhz
-	bkDPV2tSRoyDyUSsMM5Ip6ynPCt7CUeOsQk6iGgAV+lZyZva2aWDXc5DFxjL
-X-Google-Smtp-Source: AGHT+IEGpyNvs/zYwxneZSi0+hnBwHqtgasstxvuQ/Bupbnr7DRmIY/vmVq/mxc8iYzOSADaHF6cfQ==
-X-Received: by 2002:a17:902:f685:b0:1fa:d4b9:6776 with SMTP id d9443c01a7336-1fadbc94054mr48861555ad.17.1719814401534;
-        Sun, 30 Jun 2024 23:13:21 -0700 (PDT)
-Received: from localhost.localdomain ([43.231.237.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac159ac64sm55677685ad.295.2024.06.30.23.13.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jun 2024 23:13:21 -0700 (PDT)
-From: Poonam Jadhav <ppjadhav456@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	poonam.jadhav@kpit.com
-Cc: ranjitsinh.rathod@kpit.com,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][kirkstone][PATCH 2/2] glibc-tests: Add missing bash ptest dependency
-Date: Mon,  1 Jul 2024 11:42:45 +0530
-Message-Id: <20240701061245.141303-2-ppjadhav456@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Rqaa+EUN;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=F6Um0Nlm;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101906cf2af94-6af88373-820a-4237-b626-1c7823ef56c4-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1719814762; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=91j3EC3k+dqK5prkpQvL/ruXtA/XuzdUyHvuRfPkPu8=;
+	b=Rqaa+EUN2vQB2PhHu9lda6ljqyM7uAdjMNYGLo2W7oCWZcoUi7OQftZ4DkHullLI
+	0rIGxNHxw2pyyGNeTvnCf3fpKIdZnibKrvvbXYpeotGEyuWn5N8wynwRVvI7v83OZWF
+	esolL1+qP9kJjD65exoR4U5q/ahnqiH2uOApSbek=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719814762;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=91j3EC3k+dqK5prkpQvL/ruXtA/XuzdUyHvuRfPkPu8=;
+	b=F6Um0NlmBKn9PW4VgIJ/AE5+/DNWuVFR9Z6V6dl33xE5x02L0Wkm1QukHS29aEZN
+	zdq+LSmL02JGgdW4vjtYewsGhsGTt1wlDz/+B58EfpCoiV6YeoMoi1vxCsV35uQZgLT
+	v9nUXKHI/DyS1KzfLsHO2rHtJuJA2HdSMfBpvOo4=
+From: patchtest@automation.yoctoproject.org
+To: Poonam Jadhav <ppjadhav456@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone][PATCH 1/2] glibc-tests: correctly pull in the
+ actual tests when installing -ptest package
 In-Reply-To: <20240701061245.141303-1-ppjadhav456@gmail.com>
 References: <20240701061245.141303-1-ppjadhav456@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101906cf2af94-6af88373-820a-4237-b626-1c7823ef56c4-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jul 2024 06:19:22 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 06:13:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201278
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 06:19:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201279
 
-From: Poonam Jadhav <poonam.jadhav@kpit.com>
+--NextPart
+Content-Type: text/plain
 
-The script has a bashism and needs bash to execute correctly. Mark it
-as such and add the missing bash dependency so it executes in minimal
-images.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-(From OE-Core rev: a1b5afac108d9c94e8fc2ad8cfebfee16f6f243b)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 28b8d57a88849f7f024d13c5c901f3621f5166c7)
-Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
 ---
- meta/recipes-core/glibc/glibc-tests_2.35.bb | 2 +-
- meta/recipes-core/glibc/glibc/run-ptest     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Testing patch /home/patchtest/share/mboxes/kirkstone-1-2-glibc-tests-correctly-pull-in-the-actual-tests-when-installing--ptest-package.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.35.bb b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-index 4b765eaab8..9c440f92b7 100644
---- a/meta/recipes-core/glibc/glibc-tests_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-@@ -28,7 +28,7 @@ python __anonymous() {
- # Remove any leftovers from original glibc recipe
- RPROVIDES:${PN} = "${PN}"
- RRECOMMENDS:${PN} = ""
--RDEPENDS:${PN} = " glibc sed"
-+RDEPENDS:${PN} = " glibc sed bash"
- RDEPENDS:${PN}-ptest = "${PN}"
- DEPENDS += "sed"
- 
-diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/glibc/glibc/run-ptest
-index f637986105..c394b49866 100755
---- a/meta/recipes-core/glibc/glibc/run-ptest
-+++ b/meta/recipes-core/glibc/glibc/run-ptest
-@@ -1,4 +1,4 @@
--#!/bin/sh
-+#!/bin/bash
- # ptest script for glibc - to run time related tests to
- # facilitate Y2038 validation
- # Run with 'ptest-runner glibc-tests'
--- 
-2.25.1
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 101 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
