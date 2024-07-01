@@ -2,211 +2,467 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7F1AC53207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B49F2C53208
 	for <webhook@archiver.kernel.org>; Mon,  1 Jul 2024 16:58:02 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.2182.1719853076414852361
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.2129.1719853078099083967
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jul 2024 09:57:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Tl3BZte6;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=OUjDI30R;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101906f3b50cf-9af49c87-53c2-412b-9f3f-a09616747bfc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OlWR39WS;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xaPQ0fmC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101906f3b5351-1343668f-1d51-4fdc-8ebb-24d6e9476938-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1719853076;
+	t=1719853077;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=WqyjfMEEhrxOVXsTnjCTbJm8tTNklmn/tu1VDJ7bX5U=;
-	b=Tl3BZte6RhGFZO/AebyE1s8MpD1KltDqQkjEOeT1hHRs8KVaDYVPp/E4wFO3Lzci
-	EQKNIj1ZayCZ6FACLEoTHHU+2Z7dABPY9CJ34VKy52bL6o3KNcysoRSkGXl9rUf4vjC
-	zSWlXEi6yRgpAnsnkvvdd/kiT3vHHVu9Es+BWZOk=
+	bh=z7eFXelkUaHiHEemD52izYLT7CdAUAEIh8ZvfBJ2XQY=;
+	b=OlWR39WSJim30wuoP7b+5YAgEVG66OChkGCNFarpyu9kYqaVIXoyWVdpt53Dh9Jx
+	3q+CIqrRGxQj0LDjOZqng69JFNlzK8q4pIugT7gU6uCmdFW/G4NMybtObeIqqA/pyun
+	lQoFHsL+OIaAlsuBrXtGa3g1lpy4qHWGmjhORyW0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853076;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719853077;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=WqyjfMEEhrxOVXsTnjCTbJm8tTNklmn/tu1VDJ7bX5U=;
-	b=OUjDI30RM1gRJBjsARx4IGSm/1kwGI1f4g3Cly4+SisxEyWE5UuMTCnXFWrr6uVR
-	wizHGQ7BNFxRDCXQjA6Hp+AmtSKy4NCL/JpmPOvOB0EHlY8HPCej//CdlFuEmuFZnzG
-	n5mTvJfCPWQU2mJTWwX92yp3Zs4OhA7QaoEJKBpc=
-Content-Type: multipart/mixed; boundary="===============0424977836861114174=="
+	bh=z7eFXelkUaHiHEemD52izYLT7CdAUAEIh8ZvfBJ2XQY=;
+	b=xaPQ0fmClQEgzX58jeOK/ioHj129goD72+aildREJojRqPy35+512mkT3F2FqtVj
+	TMNZ79WQQwzjc+k+Y4soD4Y0gPuBRe0Xmrq/tayl2GhktBCE0aYwTLkNdMT1dnkJzUI
+	Lp7sQ2YmQyxgNSLg2oA6MWKcyBq3ualUaSoZa5m0=
+Content-Type: multipart/mixed; boundary="===============7690163859973610599=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libinput: upgrading to 1.26.1 SUCCEEDED
-Message-ID: <010101906f3b50cf-9af49c87-53c2-412b-9f3f-a09616747bfc-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jul 2024 16:57:56 +0000
+Subject: [AUH] vte: upgrading to 0.76.3 FAILED
+Message-ID: <010101906f3b5351-1343668f-1d51-4fdc-8ebb-24d6e9476938-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jul 2024 16:57:57 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.01-54.240.27.192
+X-SES-Outgoing: 2024.07.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jul 2024 16:58:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201400
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201399
 
---===============0424977836861114174==
-Content-Type: text/plain; charset="us-ascii"
+--===============7690163859973610599==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+ICp2dGUqIHRvICowLjc2LjMqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxlZCBlcnJv
+ciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAgICAtIGFw
+cGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtdnRlLXVwZ3JhZGUtMC43NC4yLTAuNzYuMy5wYXRj
+aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
+emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
+dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
+c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
+LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
+YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
+dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
+VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
+IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
+ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
+IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
+bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
+ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
+bSAzNjg3YjA2M2Q3N2JjM2E4ZGIxZmMxNjQ2OTJlNmZkNmNmN2ExZWFhIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
+dGU6IE1vbiwgMSBKdWwgMjAyNCAxNjo1MDozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0ZTog
+dXBncmFkZSAwLjc0LjIgLT4gMC43Ni4zCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFjcm8t
+Zm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUve3Z0
+ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMy5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIgZmls
+ZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4zLmJifSAoOTYl
+KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19F
+WElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1z
+eXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLjg2NDZhMjQ1MWYgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1mb3It
+bm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0
+ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNmNjk1
+OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDRmNTg5MWRmMjBkYmVhMDE5ZTVm
+ZDQxZWEzNjQ0YWRiYjQ5NjFiMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERhbmls
+byBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEgTWFy
+IDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUgbWFj
+cm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9mZi1i
+eTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0dHBz
+Oi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lkZ2V0
+LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMvd2lk
+Z2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBkaWZm
+IC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJmLi4z
+MWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9zcmMv
+d2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAgLTMw
+LDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRlICJj
+b25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjMuYmIKaW5kZXggZDhlYWZkZTJmYi4uOGJl
+ZWMxYThmNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjMuYmIKQEAgLTE5LDcg
+KzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21lYmFz
+ZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdvYmpl
+Y3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAwMDEt
+QWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JDX1VS
+SVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1MTkw
+MTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZz
+dW1dID0gImY2NzhlOTRjMDU2ZjM3N2ZkMDAyMTIxNGFkZmY1NDUwY2IxNzJlOWEwOGIxNjA5MTEx
+ODFkZGZmN2I3ZDVkNjAiCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElTVFJP
+RkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libinput* to *1.26.1* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-libinput-upgrade-1.25.0-1.26.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 90806a1f2c8f6b70152a6c853e3e58a10cd17bb9 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jul 2024 14:00:12 +0000
-Subject: [PATCH] libinput: upgrade 1.25.0 -> 1.26.1
-
----
- .../wayland/{libinput_1.25.0.bb => libinput_1.26.1.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.25.0.bb => libinput_1.26.1.bb} (97%)
-
-diff --git a/meta/recipes-graphics/wayland/libinput_1.25.0.bb b/meta/recipes-graphics/wayland/libinput_1.26.1.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/libinput_1.25.0.bb
-rename to meta/recipes-graphics/wayland/libinput_1.26.1.bb
-index 894858e361..487270505a 100644
---- a/meta/recipes-graphics/wayland/libinput_1.25.0.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.26.1.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
- SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main \
-            file://run-ptest \
-            "
--SRCREV = "3fd38d89276b679ac3565efd7c2150fd047902cb"
-+SRCREV = "124431a5d3186e1c3c3aa144a0634b84b3089486"
- S = "${WORKDIR}/git"
- 
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
--- 
-2.44.0
-
-
---===============0424977836861114174==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/libinput: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-bin: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-bin: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-dbg: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 6290824 to 6435272 (+2%)
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-dev: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGSIZE changed from 209299 to 219952 (+5%)
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-doc: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGSIZE changed from 45504 to 46417 (+2%)
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/share/man/man1/libinput-analyze-buttons.1"
-packages/core2-64-poky-linux/libinput/libinput-locale: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-locale: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-ptest: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGSIZE changed from 1113430 to 1143590 (+3%)
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-src: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-src: PKGSIZE changed from 3516121 to 3587187 (+2%)
-packages/core2-64-poky-linux/libinput/libinput-src: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput-src: FILELIST: directory renamed /usr/src/debug/libinput/1.25.0/udev -> /usr/src/debug/libinput/1.26.1/udev, directory renamed /usr/src/debug/libinput/1.25.0/tools -> /usr/src/debug/libinput/1.26.1/tools, directory renamed /usr/src/debug/libinput/1.25.0/include/valgrind -> /usr/src/debug/libinput/1.26.1/include/valgrind, directory renamed /usr/src/debug/libinput/1.25.0/include/linux/linux -> /usr/src/debug/libinput/1.26.1/include/linux/linux, removed "/usr/src/debug/libinput/1.25.0/test/litest-device-cyborg-rat-5.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-edge-scroll.c /usr/src/debug/libinput/1.25.0/test/test-touch.c /usr/src/debug/libinput/1.25.0/test/test-pointer.c /usr/src/debug/libinput/1.25.0/test/litest-device-magic-trackpad.c /usr/src/debug/libinput/1.25.0/test/litest-device-acer-hawaii-keyboard.c /usr/src/debug/libinput/1.25.0/test/litest-device-dell-canvas-totem-touch.c /usr/src/debug/libinput/1.25.0/test/litest.h /u
- sr/src/debug/libinput/1.25.0/src/evdev-tablet-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchscreen-invalid-range.c /usr/src/debug/libinput/1.25.0/test/litest.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-pro-16-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-asus-rog-gladius.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet-pad.h /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-all-codes.c /usr/src/debug/libinput/1.25.0/src/util-prop-parsers.c /usr/src/debug/libinput/1.25.0/src/util-prop-parsers.h /usr/src/debug/libinput/1.25.0/test/litest-device-generic-pressurepad.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-st.c /usr/src/debug/libinput/1.25.0/test/test-keyboard.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-13hdt-finger.c /usr/src/debug/libinput/1.25.0/test/litest-device-wheel-only.c /usr/src/debug/libinput/1.25.0/test/litest-device-xen-virtual-pointer.c /usr/src/debug/libinput/1.25.0/test/test
- -pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-bcm5974.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchscreen-fuzz.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-intuos5-finger.c /usr/src/debug/libinput/1.25.0/test/test-utils.c /usr/src/debug/libinput/1.25.0/src/evdev-totem.c /usr/src/debug/libinput/1.25.0/test/test-totem.c /usr/src/debug/libinput/1.25.0/test/litest-device-lid-switch.c /usr/src/debug/libinput/1.25.0/src/filter-trackpoint.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-calibrated-tablet.c /usr/src/debug/libinput/1.25.0/src/util-matrix.h /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-intuos3-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-intuos5-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-apple-internal-keyboard.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-hover.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-phantomclicks.c /usr/src/debug/libinput/1.25.0/src/evd
- ev-middle-button.c /usr/src/debug/libinput/1.25.0/test/litest-device-dell-canvas-totem.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-wheel-click-count.c /usr/src/debug/libinput/1.25.0/src/evdev-fallback.h /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-bamboo-2fg-finger.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-low-dpi.c /usr/src/debug/libinput/1.25.0/src/evdev-fallback.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-bamboo-16fg-pen.c /usr/src/debug/libinput/1.25.0/src/libinput-private-config.c /usr/src/debug/libinput/1.25.0/test/litest-device-ignored-mouse.c /usr/src/debug/libinput/1.25.0/src/util-bits.h /usr/src/debug/libinput/1.25.0/src/libinput-private-config.h /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-24hd-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-24hdt-pad.c /usr/src/debug/libinput/1.25.0/src/libinput-versionsort.h /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-13hdt-p
- ad.c /usr/src/debug/libinput/1.25.0/test/litest-device-nexus4-touch-screen.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-13hdt-pen.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-tap.c /usr/src/debug/libinput/1.25.0/src/filter.c /usr/src/debug/libinput/1.25.0/test/test-misc.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchpad-palm-threshold-zero.c /usr/src/debug/libinput/1.25.0/src/filter.h /usr/src/debug/libinput/1.25.0/test/litest-device-alps-dualpoint.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard.c /usr/src/debug/libinput/1.25.0/test/litest-device-logitech-trackball.c /usr/src/debug/libinput/1.25.0/src/quirks.h /usr/src/debug/libinput/1.25.0/test/litest-device-apple-appletouch.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-anker-mouse-kbd.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet.h /usr/src/debug/libinput/1.25.0/src/filter-touchpad-flat.c /usr/src/debug/libinput/1.25.0/
- src/filter-touchpad-x230.c /usr/src/debug/libinput/1.25.0/src/quirks.c /usr/src/debug/libinput/1.25.0/test/litest-device-touchscreen-mt-tool.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-x1-carbon-3rd.c /usr/src/debug/libinput/1.25.0/test/test-path.c /usr/src/debug/libinput/1.25.0/test/litest-device-alps-semi-mt.c /usr/src/debug/libinput/1.25.0/test/litest-device-huion-pentablet.c /usr/src/debug/libinput/1.25.0/test/test-log.c /usr/src/debug/libinput/1.25.0/test/litest-device-lenovo-scrollpoint.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-razer-blade-stealth-videoswitch.c /usr/src/debug/libinput/1.25.0/src/util-time.h /usr/src/debug/libinput/1.25.0/test/litest-device-calibrated-touchscreen.c /usr/src/debug/libinput/1.25.0/test/litest-int.h /usr/src/debug/libinput/1.25.0/test/litest-device-yubikey.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-wheel-tilt.c /usr/src/debug/libinput/1.25.0/test/litest-device-format-string.c /usr/src/debug/libin
- put/1.25.0/test/test-quirks.c /usr/src/debug/libinput/1.25.0/test/test-switch.c /usr/src/debug/libinput/1.25.0/test/litest-device-touch-screen.c /usr/src/debug/libinput/1.25.0/src/evdev.c /usr/src/debug/libinput/1.25.0/src/timer.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad.c /usr/src/debug/libinput/1.25.0/test/litest-device-lid-switch-surface3.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-razer-blade-stealth.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad.h /usr/src/debug/libinput/1.25.0/src/evdev.h /usr/src/debug/libinput/1.25.0/src/timer.h /usr/src/debug/libinput/1.25.0/src/filter-private.h /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-mobilestudio-pro-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-elantech-touchpad.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-ekr.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-buttons.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-pressurepad.c /usr/src/debug/li
- binput/1.25.0/src/filter-flat.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-isdv4-524c-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-i2c.c /usr/src/debug/libinput/1.25.0/test/litest-device-protocol-a-touch-screen.c /usr/src/debug/libinput/1.25.0/test/test-udev.c /usr/src/debug/libinput/1.25.0/test/litest-device-atmel-hover.c /usr/src/debug/libinput/1.25.0/test/litest-device-elan-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-pro-16-finger.c /usr/src/debug/libinput/1.25.0/test/test-touchpad.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-thumb.c /usr/src/debug/libinput/1.25.0/test/litest-device-trackpoint.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse.c /usr/src/debug/libinput/1.25.0/test/litest-device-ms-nano-transceiver-mouse.c /usr/src/debug/libinput/1.25.0/src/filter-trackpoint-flat.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-bamboo-2fg-pad.c /usr/src/debug/libinput/1.25.0/test/litest-device-
- wacom-intuos5-pen.c /usr/src/debug/libinput/1.25.0/src/util-list.h /usr/src/debug/libinput/1.25.0/test/litest-device-tablet-mode-switch.c /usr/src/debug/libinput/1.25.0/test/test-touchpad-buttons.c /usr/src/debug/libinput/1.25.0/src/util-list.c /usr/src/debug/libinput/1.25.0/src/evdev-wheel.c /usr/src/debug/libinput/1.25.0/src/path-seat.c /usr/src/debug/libinput/1.25.0/src/udev-seat.c /usr/src/debug/libinput/1.25.0/test/litest-device-hp-wmi-hotkeys.c /usr/src/debug/libinput/1.25.0/src/udev-seat.h /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-isdv4-e6-pen.c /usr/src/debug/libinput/1.25.0/test/test-gestures.c /usr/src/debug/libinput/1.25.0/src/util-strings.h /usr/src/debug/libinput/1.25.0/test/litest-device-thinkpad-extrabuttons.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-pro-16-pen.c /usr/src/debug/libinput/1.25.0/src/util-strings.c /usr/src/debug/libinput/1.25.0/src/evdev-debounce.c /usr/src/debug/libinput/1.25.0/src/filter-low-dpi.c /usr/src/debug/lib
- input/1.25.0/test/litest-device-wacom-isdv4-e6-finger.c /usr/src/debug/libinput/1.25.0/src/libinput-private.h /usr/src/debug/libinput/1.25.0/src/filter-mouse.c /usr/src/debug/libinput/1.25.0/src/filter-custom.c /usr/src/debug/libinput/1.25.0/src/filter-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-gpio-keys.c /usr/src/debug/libinput/1.25.0/test/test-trackball.c /usr/src/debug/libinput/1.25.0/test/litest-device-generic-singletouch.c /usr/src/debug/libinput/1.25.0/test/litest-device-absinfo-override.c /usr/src/debug/libinput/1.25.0/test/test-touchpad-tap.c /usr/src/debug/libinput/1.25.0/src/util-ratelimit.h /usr/src/debug/libinput/1.25.0/test/litest-device-apple-magicmouse.c /usr/src/debug/libinput/1.25.0/test/litest-device-uclogic-tablet.c /usr/src/debug/libinput/1.25.0/src/util-ratelimit.c /usr/src/debug/libinput/1.25.0/test/litest-device-vmware-virtual-usb-mouse.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-quirked.c /usr/src/debug/libinput/1.25.0/test/l
- itest-device-sony-vaio-keys.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-wheel-click-angle.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-hid4800-pen.c /usr/src/debug/libinput/1.25.0/test/litest-device-mouse-roccat.c /usr/src/debug/libinput/1.25.0/test/litest-device-qemu-usb-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-keyboard-razer-blackwidow.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-rmi4.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-t440.c /usr/src/debug/libinput/1.25.0/test/litest-device-synaptics-x220.c /usr/src/debug/libinput/1.25.0/test/litest-device-ms-surface-cover.c /usr/src/debug/libinput/1.25.0/test/litest-device-acer-hawaii-touchpad.c /usr/src/debug/libinput/1.25.0/src/evdev-tablet-pad-leds.c /usr/src/debug/libinput/1.25.0/src/libinput.c /usr/src/debug/libinput/1.25.0/test/litest-device-alps-3fg.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-bamboo-2fg-pen.c /usr/src/debug/libinput/1.25
- .0/test/litest-device-wacom-isdv4-4200-pen.c /usr/src/debug/libinput/1.25.0/test/test-trackpoint.c /usr/src/debug/libinput/1.25.0/test/litest-device-aiptek-tablet.c /usr/src/debug/libinput/1.25.0/test/litest-device-wacom-cintiq-12wx-pen.c /usr/src/debug/libinput/1.25.0/src/libinput.h /usr/src/debug/libinput/1.25.0/test/litest-device-logitech-media-keyboard-elite.c /usr/src/debug/libinput/1.25.0/src/builddir.h /usr/src/debug/libinput/1.25.0/src/util-input-event.h /usr/src/debug/libinput/1.25.0/test/litest-device-waltop-tablet.c /usr/src/debug/libinput/1.25.0/test/test-device.c /usr/src/debug/libinput/1.25.0/test/test-tablet.c /usr/src/debug/libinput/1.25.0/src/filter-touchpad.c /usr/src/debug/libinput/1.25.0/src/evdev-mt-touchpad-gestures.c", added "/usr/src/debug/libinput/1.26.1/test/litest-device-cyborg-rat-5.c /usr/src/debug/libinput/1.26.1/src/evdev-mt-touchpad-edge-scroll.c /usr/src/debug/libinput/1.26.1/test/test-touch.c /usr/src/debug/libinput/1.26.1/test/test-pointer.c /usr/s
- rc/debug/libinput/1.26.1/test/litest-device-magic-trackpad.c /usr/src/debug/libinput/1.26.1/test/litest-device-acer-hawaii-keyboard.c /usr/src/debug/libinput/1.26.1/test/litest-device-dell-canvas-totem-touch.c /usr/src/debug/libinput/1.26.1/test/litest.h /usr/src/debug/libinput/1.26.1/src/evdev-tablet-pad.c /usr/src/debug/libinput/1.26.1/test/litest-device-touchscreen-invalid-range.c /usr/src/debug/libinput/1.26.1/test/litest.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-pro-16-pad.c /usr/src/debug/libinput/1.26.1/test/litest-device-asus-rog-gladius.c /usr/src/debug/libinput/1.26.1/src/evdev-tablet-pad.h /usr/src/debug/libinput/1.26.1/test/litest-device-keyboard-all-codes.c /usr/src/debug/libinput/1.26.1/src/util-prop-parsers.c /usr/src/debug/libinput/1.26.1/src/util-files.h /usr/src/debug/libinput/1.26.1/src/util-prop-parsers.h /usr/src/debug/libinput/1.26.1/test/litest-device-generic-pressurepad.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-st.c 
- /usr/src/debug/libinput/1.26.1/test/test-keyboard.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-13hdt-finger.c /usr/src/debug/libinput/1.26.1/test/litest-device-wheel-only.c /usr/src/debug/libinput/1.26.1/test/litest-device-xen-virtual-pointer.c /usr/src/debug/libinput/1.26.1/test/test-pad.c /usr/src/debug/libinput/1.26.1/test/litest-device-bcm5974.c /usr/src/debug/libinput/1.26.1/test/litest-device-touchscreen-fuzz.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-intuos5-finger.c /usr/src/debug/libinput/1.26.1/test/test-utils.c /usr/src/debug/libinput/1.26.1/src/evdev-totem.c /usr/src/debug/libinput/1.26.1/test/test-totem.c /usr/src/debug/libinput/1.26.1/test/litest-device-lid-switch.c /usr/src/debug/libinput/1.26.1/src/filter-trackpoint.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-calibrated-tablet.c /usr/src/debug/libinput/1.26.1/src/util-matrix.h /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-intuos3-pad.c /usr/src/debug/libinput
- /1.26.1/test/litest-device-wacom-intuos5-pad.c /usr/src/debug/libinput/1.26.1/test/litest-device-apple-internal-keyboard.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-hover.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-phantomclicks.c /usr/src/debug/libinput/1.26.1/src/evdev-middle-button.c /usr/src/debug/libinput/1.26.1/test/litest-device-dell-canvas-totem.c /usr/src/debug/libinput/1.26.1/test/litest-device-mouse-wheel-click-count.c /usr/src/debug/libinput/1.26.1/src/evdev-fallback.h /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-bamboo-2fg-finger.c /usr/src/debug/libinput/1.26.1/test/litest-device-mouse-low-dpi.c /usr/src/debug/libinput/1.26.1/src/evdev-fallback.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-bamboo-16fg-pen.c /usr/src/debug/libinput/1.26.1/src/libinput-private-config.c /usr/src/debug/libinput/1.26.1/test/litest-device-ignored-mouse.c /usr/src/debug/libinput/1.26.1/src/util-bits.h /usr/src/debug/libinput/1.26.1/sr
- c/libinput-private-config.h /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-24hd-pen.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-24hdt-pad.c /usr/src/debug/libinput/1.26.1/src/libinput-versionsort.h /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-13hdt-pad.c /usr/src/debug/libinput/1.26.1/test/litest-device-nexus4-touch-screen.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-13hdt-pen.c /usr/src/debug/libinput/1.26.1/src/evdev-mt-touchpad-tap.c /usr/src/debug/libinput/1.26.1/src/filter.c /usr/src/debug/libinput/1.26.1/test/test-misc.c /usr/src/debug/libinput/1.26.1/test/litest-device-touchpad-palm-threshold-zero.c /usr/src/debug/libinput/1.26.1/src/filter.h /usr/src/debug/libinput/1.26.1/test/litest-device-alps-dualpoint.c /usr/src/debug/libinput/1.26.1/test/litest-device-keyboard.c /usr/src/debug/libinput/1.26.1/test/litest-device-logitech-trackball.c /usr/src/debug/libinput/1.26.1/src/quirks.h /usr/src/debug/libinp
- ut/1.26.1/test/litest-device-apple-appletouch.c /usr/src/debug/libinput/1.26.1/src/evdev-tablet.c /usr/src/debug/libinput/1.26.1/test/litest-device-anker-mouse-kbd.c /usr/src/debug/libinput/1.26.1/src/evdev-tablet.h /usr/src/debug/libinput/1.26.1/src/filter-touchpad-flat.c /usr/src/debug/libinput/1.26.1/src/filter-touchpad-x230.c /usr/src/debug/libinput/1.26.1/src/quirks.c /usr/src/debug/libinput/1.26.1/test/litest-device-touchscreen-mt-tool.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-x1-carbon-3rd.c /usr/src/debug/libinput/1.26.1/test/test-path.c /usr/src/debug/libinput/1.26.1/test/litest-device-alps-semi-mt.c /usr/src/debug/libinput/1.26.1/test/litest-device-huion-pentablet.c /usr/src/debug/libinput/1.26.1/test/test-log.c /usr/src/debug/libinput/1.26.1/test/litest-device-lenovo-scrollpoint.c /usr/src/debug/libinput/1.26.1/test/litest-device-keyboard-razer-blade-stealth-videoswitch.c /usr/src/debug/libinput/1.26.1/src/util-time.h /usr/src/debug/libinput/1.26.1/tes
- t/litest-device-calibrated-touchscreen.c /usr/src/debug/libinput/1.26.1/test/litest-device-tablet-rel-dial.c /usr/src/debug/libinput/1.26.1/test/litest-int.h /usr/src/debug/libinput/1.26.1/test/litest-device-yubikey.c /usr/src/debug/libinput/1.26.1/test/litest-device-mouse-wheel-tilt.c /usr/src/debug/libinput/1.26.1/test/litest-device-format-string.c /usr/src/debug/libinput/1.26.1/test/test-quirks.c /usr/src/debug/libinput/1.26.1/test/test-switch.c /usr/src/debug/libinput/1.26.1/test/litest-device-touch-screen.c /usr/src/debug/libinput/1.26.1/src/evdev.c /usr/src/debug/libinput/1.26.1/src/timer.c /usr/src/debug/libinput/1.26.1/src/evdev-mt-touchpad.c /usr/src/debug/libinput/1.26.1/test/litest-device-lid-switch-surface3.c /usr/src/debug/libinput/1.26.1/test/litest-device-keyboard-razer-blade-stealth.c /usr/src/debug/libinput/1.26.1/src/evdev-mt-touchpad.h /usr/src/debug/libinput/1.26.1/src/evdev.h /usr/src/debug/libinput/1.26.1/src/timer.h /usr/src/debug/libinput/1.26.1/src/filter-pr
- ivate.h /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-mobilestudio-pro-pad.c /usr/src/debug/libinput/1.26.1/test/litest-device-elantech-touchpad.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-ekr.c /usr/src/debug/libinput/1.26.1/src/evdev-mt-touchpad-buttons.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-pressurepad.c /usr/src/debug/libinput/1.26.1/src/filter-flat.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-isdv4-524c-pen.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-i2c.c /usr/src/debug/libinput/1.26.1/test/litest-device-protocol-a-touch-screen.c /usr/src/debug/libinput/1.26.1/test/test-udev.c /usr/src/debug/libinput/1.26.1/test/litest-device-atmel-hover.c /usr/src/debug/libinput/1.26.1/test/litest-device-elan-tablet.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-pro-16-finger.c /usr/src/debug/libinput/1.26.1/test/test-touchpad.c /usr/src/debug/libinput/1.26.1/test/litest-device-tablet-doubledial.c 
- /usr/src/debug/libinput/1.26.1/src/evdev-mt-touchpad-thumb.c /usr/src/debug/libinput/1.26.1/test/litest-device-trackpoint.c /usr/src/debug/libinput/1.26.1/test/litest-device-mouse.c /usr/src/debug/libinput/1.26.1/test/litest-device-ms-nano-transceiver-mouse.c /usr/src/debug/libinput/1.26.1/src/filter-trackpoint-flat.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-bamboo-2fg-pad.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-intuos5-pen.c /usr/src/debug/libinput/1.26.1/src/util-list.h /usr/src/debug/libinput/1.26.1/test/litest-device-tablet-mode-switch.c /usr/src/debug/libinput/1.26.1/test/test-touchpad-buttons.c /usr/src/debug/libinput/1.26.1/src/util-list.c /usr/src/debug/libinput/1.26.1/src/evdev-wheel.c /usr/src/debug/libinput/1.26.1/src/path-seat.c /usr/src/debug/libinput/1.26.1/src/udev-seat.c /usr/src/debug/libinput/1.26.1/test/litest-device-hp-wmi-hotkeys.c /usr/src/debug/libinput/1.26.1/src/udev-seat.h /usr/src/debug/libinput/1.26.1/test/litest-device-wa
- com-isdv4-e6-pen.c /usr/src/debug/libinput/1.26.1/test/test-gestures.c /usr/src/debug/libinput/1.26.1/src/util-strings.h /usr/src/debug/libinput/1.26.1/test/litest-device-thinkpad-extrabuttons.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-pro-16-pen.c /usr/src/debug/libinput/1.26.1/src/util-strings.c /usr/src/debug/libinput/1.26.1/src/evdev-debounce.c /usr/src/debug/libinput/1.26.1/src/filter-low-dpi.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-isdv4-e6-finger.c /usr/src/debug/libinput/1.26.1/src/libinput-private.h /usr/src/debug/libinput/1.26.1/src/filter-mouse.c /usr/src/debug/libinput/1.26.1/test/litest-device-huion-q620m-dial.c /usr/src/debug/libinput/1.26.1/src/filter-custom.c /usr/src/debug/libinput/1.26.1/src/filter-tablet.c /usr/src/debug/libinput/1.26.1/test/litest-device-gpio-keys.c /usr/src/debug/libinput/1.26.1/test/test-trackball.c /usr/src/debug/libinput/1.26.1/test/litest-device-generic-singletouch.c /usr/src/debug/libinput/1.26.1/test/
- litest-device-absinfo-override.c /usr/src/debug/libinput/1.26.1/test/test-touchpad-tap.c /usr/src/debug/libinput/1.26.1/src/util-ratelimit.h /usr/src/debug/libinput/1.26.1/test/litest-device-apple-magicmouse.c /usr/src/debug/libinput/1.26.1/test/litest-device-uclogic-tablet.c /usr/src/debug/libinput/1.26.1/src/util-ratelimit.c /usr/src/debug/libinput/1.26.1/test/litest-device-vmware-virtual-usb-mouse.c /usr/src/debug/libinput/1.26.1/test/litest-device-keyboard-quirked.c /usr/src/debug/libinput/1.26.1/test/litest-device-sony-vaio-keys.c /usr/src/debug/libinput/1.26.1/test/litest-device-mouse-wheel-click-angle.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-hid4800-pen.c /usr/src/debug/libinput/1.26.1/test/litest-device-mouse-roccat.c /usr/src/debug/libinput/1.26.1/test/litest-device-qemu-usb-tablet.c /usr/src/debug/libinput/1.26.1/test/litest-device-keyboard-razer-blackwidow.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-rmi4.c /usr/src/debug/libinput/1.26.1/
- test/litest-device-synaptics-t440.c /usr/src/debug/libinput/1.26.1/test/litest-device-synaptics-x220.c /usr/src/debug/libinput/1.26.1/test/litest-device-ms-surface-cover.c /usr/src/debug/libinput/1.26.1/test/litest-device-acer-hawaii-touchpad.c /usr/src/debug/libinput/1.26.1/src/evdev-tablet-pad-leds.c /usr/src/debug/libinput/1.26.1/src/libinput.c /usr/src/debug/libinput/1.26.1/test/litest-device-alps-3fg.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-bamboo-2fg-pen.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-isdv4-4200-pen.c /usr/src/debug/libinput/1.26.1/test/test-trackpoint.c /usr/src/debug/libinput/1.26.1/test/litest-device-aiptek-tablet.c /usr/src/debug/libinput/1.26.1/test/litest-device-wacom-cintiq-12wx-pen.c /usr/src/debug/libinput/1.26.1/src/libinput.h /usr/src/debug/libinput/1.26.1/test/litest-device-logitech-media-keyboard-elite.c /usr/src/debug/libinput/1.26.1/src/builddir.h /usr/src/debug/libinput/1.26.1/src/util-input-event.h /usr/src/debug/lib
- input/1.26.1/test/litest-device-waltop-tablet.c /usr/src/debug/libinput/1.26.1/test/test-device.c /usr/src/debug/libinput/1.26.1/test/test-tablet.c /usr/src/debug/libinput/1.26.1/src/filter-touchpad.c /usr/src/debug/libinput/1.26.1/src/evdev-mt-touchpad-gestures.c"
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput: PV changed from "1.25.0" to "1.26.1"
-packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1201985 to 1232406 (+3%)
-packages/core2-64-poky-linux/libinput/libinput: PKGV changed from 1.25.0 [default] to 1.26.1 [default]
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/30-vendor-ite.quirks /usr/share/libinput/30-vendor-uniwill.quirks /usr/libexec/libinput/libinput-analyze-buttons /usr/share/libinput/30-vendor-huion.quirks"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/30-vendor-huion.quirks was added
-  /usr/share/libinput/30-vendor-ite.quirks was added
-  /usr/share/libinput/30-vendor-uniwill.quirks was added
-
---===============0424977836861114174==
+--===============7690163859973610599==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libinput-upgrade-1.25.0-1.26.1.patch"
+ filename="0001-vte-upgrade-0.74.2-0.76.3.patch"
 
-RnJvbSA5MDgwNmExZjJjOGY2YjcwMTUyYTZjODUzZTNlNThhMTBjZDE3YmI5IE1vbiBTZXAgMTcg
+RnJvbSAzNjg3YjA2M2Q3N2JjM2E4ZGIxZmMxNjQ2OTJlNmZkNmNmN2ExZWFhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxNDowMDoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmlucHV0OiB1cGdyYWRlIDEuMjUuMCAtPiAxLjI2LjEKCi0tLQogLi4uL3dheWxhbmQve2xpYmlu
-cHV0XzEuMjUuMC5iYiA9PiBsaWJpbnB1dF8xLjI2LjEuYmJ9ICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQve2xpYmlucHV0XzEuMjUuMC5iYiA9PiBsaWJpbnB1dF8x
-LjI2LjEuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxh
-bmQvbGliaW5wdXRfMS4yNS4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvbGli
-aW5wdXRfMS4yNi4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy93YXlsYW5kL2xpYmlucHV0XzEuMjUuMC5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvbGliaW5wdXRfMS4yNi4xLmJiCmluZGV4IDg5NDg1OGUz
-NjEuLjQ4NzI3MDUwNWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5k
-L2xpYmlucHV0XzEuMjUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC9s
-aWJpbnB1dF8xLjI2LjEuYmIKQEAgLTE1LDcgKzE1LDcgQEAgREVQRU5EUyA9ICJsaWJldmRldiB1
-ZGV2IG10ZGV2IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2xpYmlu
-cHV0L2xpYmlucHV0LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAgICAgICAgICAg
-IGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiM2ZkMzhkODkyNzZi
-Njc5YWMzNTY1ZWZkN2MyMTUwZmQwNDc5MDJjYiIKK1NSQ1JFViA9ICIxMjQ0MzFhNWQzMTg2ZTFj
-M2MzYWExNDRhMDYzNGI4NGIzMDg5NDg2IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogVVBTVFJF
-QU1fQ0hFQ0tfUkVHRVggPSAibGliaW5wdXQtKD9QPHB2ZXI+XGQrXC5cZCtcLig/ITlcZCspXGQr
-KSIKLS0gCjIuNDQuMAoK
+CkRhdGU6IE1vbiwgMSBKdWwgMjAyNCAxNjo1MDozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ0
+ZTogdXBncmFkZSAwLjc0LjIgLT4gMC43Ni4zCgotLS0KIC4uLjEtQWRkLVdfRVhJVENPREUtbWFj
+cm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi92dGUv
+e3Z0ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMy5iYn0gICAgICAgICAgICAgIHwgIDIgKy0KIDIg
+ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS97dnRlXzAuNzQuMi5iYiA9PiB2dGVfMC43Ni4zLmJifSAo
+OTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQt
+V19FWElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2ggYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGli
+Yy1zeXN0ZW1zLnBhdGNoCmluZGV4IDg5MzRkNWY4MGEuLjg2NDZhMjQ1MWYgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1m
+b3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRl
+L3Z0ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGU5NjM5YmFhYzc5MjMyN2M3MDFlNTA5MjU4YjhhMTNm
+Njk1OWU4MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDRmNTg5MWRmMjBkYmVhMDE5
+ZTVmZDQxZWEzNjQ0YWRiYjQ5NjFiMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERh
+bmlsbyBTcGluZWxsYSA8ZGFueXNwaW45N0Bwcm90b25tYWlsLmNvbT4KIERhdGU6IFRodSwgMjEg
+TWFyIDIwMTkgMTQ6MTk6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkIFdfRVhJVENPREUg
+bWFjcm8gZm9yIG5vbi1nbGliYyBzeXN0ZW1zCkBAIC0xMiwxMSArMTIsMTEgQEAgU2lnbmVkLW9m
+Zi1ieTogQW5kcmVhcyBNw7xsbGVyIDxzY2huaXR6ZWx0b255QGdtYWlsLmNvbT4KIAogWzFdIGh0
+dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS92dGUvaXNzdWVzLzcyCiAtLS0KLSBzcmMvd2lk
+Z2V0LmNjICB8IDQgKysrCi0gMSBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKKyBzcmMv
+d2lkZ2V0LmNjIHwgNCArKysrCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBk
+aWZmIC0tZ2l0IGEvc3JjL3dpZGdldC5jYyBiL3NyYy93aWRnZXQuY2MKLWluZGV4IDA3ZjdjYWJm
+Li4zMWE3N2Y2OCAxMDA2NDQKK2luZGV4IGI4ZGFhNWMuLmMzNTc5NjAgMTAwNjQ0CiAtLS0gYS9z
+cmMvd2lkZ2V0LmNjCiArKysgYi9zcmMvd2lkZ2V0LmNjCiBAQCAtMTYsNiArMTYsMTAgQEAKQEAg
+LTMwLDYgKzMwLDMgQEAgaW5kZXggMDdmN2NhYmYuLjMxYTc3ZjY4IDEwMDY0NAogICNpbmNsdWRl
+ICJjb25maWcuaCIKICAKICAjaW5jbHVkZSAid2lkZ2V0LmhoIgotLS0gCi0yLjQyLjAKLQpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIgYi9tZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzYuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlXzAuNzQuMi5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjMuYmIKaW5kZXggZDhlYWZkZTJmYi4u
+OGJlZWMxYThmNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0
+LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjMuYmIKQEAgLTE5
+LDcgKzE5LDcgQEAgR0lET0NHRU5fTUVTT05fT1BUSU9OID0gImRvY3MiCiBpbmhlcml0IGdub21l
+YmFzZSBnaS1kb2NnZW4gZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdv
+YmplY3QtaW50cm9zcGVjdGlvbiBzeXN0ZW1kIHZhbGEKIAogU1JDX1VSSSArPSAiZmlsZTovLzAw
+MDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIgotU1JD
+X1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYTUzNWZiMmE5OGZlYThhMjQ0OWNkMWEwMmNjY2Y1
+MTkwMTMxZGRkZmY1MmU3MTVhZmRhY2UzZmViNTM2ZWFlNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEy
+NTZzdW1dID0gImY2NzhlOTRjMDU2ZjM3N2ZkMDAyMTIxNGFkZmY1NDUwY2IxNzJlOWEwOGIxNjA5
+MTExODFkZGZmN2I3ZDVkNjAiCiAKIEFOWV9PRl9ESVNUUk9fRkVBVFVSRVMgPSAiJHtHVEszRElT
+VFJPRkVBVFVSRVN9IgogCi0tIAoyLjQ0LjAKCg==
 
---===============0424977836861114174==
+--===============7690163859973610599==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/share/man/man1/libinput-analyze-buttons.1"
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/30-vendor-ite.quirks /usr/libexec/libinput/libinput-analyze-buttons /usr/share/libinput/30-vendor-huion.quirks /usr/share/libinput/30-vendor-uniwill.quirks"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/30-vendor-huion.quirks was added
-  /usr/share/libinput/30-vendor-ite.quirks was added
-  /usr/share/libinput/30-vendor-uniwill.quirks was added
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (917 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============0424977836861114174==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-34236eee212153d0e01a0e0ad6ec060aed64d43a"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:34236eee212153d0e01a0e0ad6ec060aed64d43a"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 528 Local 515 Mirrors 0 Missed 13 Current 787 (97% match, 99% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 3251 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_recipe_qa)
+NOTE: Running task 3449 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_write_config)
+NOTE: recipe vte-0.76.3-r0: task do_recipe_qa: Started
+NOTE: recipe vte-0.76.3-r0: task do_write_config: Started
+NOTE: recipe vte-0.76.3-r0: task do_write_config: Succeeded
+NOTE: recipe vte-0.76.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 3584 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_fetch)
+NOTE: recipe vte-0.76.3-r0: task do_fetch: Started
+NOTE: recipe vte-0.76.3-r0: task do_fetch: Succeeded
+NOTE: Running task 3585 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_unpack)
+NOTE: Running task 3586 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vte-0.76.3-r0: task do_unpack: Started
+NOTE: recipe vte-0.76.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vte-0.76.3-r0: task do_unpack: Succeeded
+NOTE: Running task 3587 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_patch)
+NOTE: Running task 3588 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_collect_spdx_deps)
+NOTE: recipe vte-0.76.3-r0: task do_patch: Started
+NOTE: recipe vte-0.76.3-r0: task do_patch: Succeeded
+NOTE: Running task 3589 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3590 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_populate_lic)
+NOTE: recipe vte-0.76.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vte-0.76.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vte-0.76.3-r0: task do_populate_lic: Started
+NOTE: recipe vte-0.76.3-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_populate_lic unihash changed to bbc150dee85618c0755be03833b5aa4e19edd4c86913dee8067d685d5b91c603
+NOTE: recipe vte-0.76.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_deploy_source_date_epoch unihash changed to 2e2663e71c350d68bd8546409ac9b0cfa37b6eab3d338abd1901cb5a6729034e
+NOTE: Setscene tasks completed
+NOTE: recipe vte-0.76.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vte-0.76.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3591 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_configure)
+NOTE: Setscene tasks completed
+NOTE: recipe vte-0.76.3-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_9.0.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.68.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroo
+ t', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.42.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.8.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.4.0.bb
+ :do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gperf/gperf_3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:na
+ tive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'cracklib', 'libidn2', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gi-docgen', 'gobject-introspection', 'gtk+3', 'gtk4', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-s
+ tubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libical', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', '
+ libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'gperf-native', 'libnsl2-native', 'libtirpc-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dgir=true -Ddocs=false -Dvapi=true -Dfribidi=false -Dgnutls=true -Dgtk4=true -D_systemd=true...
+| The Meson build system
+| Version: 1.4.0
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/vte-0.76.3
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/build
+| Build type: cross build
+| Project name: vte
+| Project version: 0.76.3
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-gcc (GCC) 14.1.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot ld.bfd 2.42.0.20240620
+| C++ compiler for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-g++ (GCC) 14.1.0")
+| C++ linker for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot ld.bfd 2.42.0.20240620
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
+| C++ compiler for the build machine: g++ (gcc 13.2.0 "g++ (GCC) 13.2.0")
+| C++ linker for the build machine: g++ ld.bfd 2.42.0.20240216
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Compiler for C supports arguments -std=gnu11: YES
+| ../vte-0.76.3/meson.build:143: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu11".
+| Compiler for C++ supports arguments -std=gnu++20: YES
+| ../vte-0.76.3/meson.build:151: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu++20".
+| Program python3 (dataclasses) found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot-native/usr/bin/nativepython3) modules: dataclasses
+| Header "sys/ioctl.h" has symbol "TIOCGWINSZ" : YES
+| Library m found: YES
+| Checking if "fork" compiles: YES
+| Checking if "grantpt" compiles: YES
+| Checking if "posix_openpt" compiles: YES
+| Checking if "ptsname" compiles: YES
+| Checking if "tcgetattr" compiles: YES
+| Checking if "unlockpt" compiles: YES
+| Checking if "explicit_bzero" compiles: YES
+| Checking if "fdwalk" compiles: NO
+| Checking if "pread" compiles: YES
+| Checking if "pwrite" compiles: YES
+| Checking if "strchrnul" compiles: YES
+| Checking if "close_range" compiles: YES
+| Checking if "ceil" with dependency -lm compiles: YES
+| Checking if "floor" with dependency -lm compiles: YES
+| Checking if "round" with dependency -lm compiles: YES
+| Compiler for C supports arguments -Wall: YES
+| Compiler for C supports arguments -Wextra: YES
+| Compiler for C supports arguments -Wcast-align: YES
+| Compiler for C supports arguments -Wcast-function-type: YES
+| Compiler for C supports arguments -Wclobbered: YES
+| Compiler for C supports arguments -Wempty-body: YES
+| Compiler for C supports arguments -Wendif-labels: YES
+| Compiler for C supports arguments -Werror=init-self: YES
+| Compiler for C supports arguments -Werror=missing-include-dirs: YES
+| Compiler for C supports arguments -Werror=pointer-arith: YES
+| Compiler for C supports arguments -Wfloat-equal: YES
+| Compiler for C supports arguments -Wignored-qualifiers: YES
+| Compiler for C supports arguments -Winvalid-pch: YES
+| Compiler for C supports arguments -Wlogical-op: YES
+| Compiler for C supports arguments -Wmisleading-indentation: YES
+| Compiler for C supports arguments -Wmissing-declarations: YES
+| Compiler for C supports arguments -Wmissing-field-initializers: YES
+| Compiler for C supports arguments -Wmissing-format-attribute: YES
+| Compiler for C supports arguments -Wmissing-include-dirs: YES
+| Compiler for C supports arguments -Wmissing-noreturn: YES
+| Compiler for C supports arguments -Wno-deprecated-declarations: YES
+| Compiler for C supports arguments -Wno-address-of-packed-member: YES
+| Compiler for C supports arguments -Wno-c99-designator: NO
+| Compiler for C supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C supports arguments -Wno-packed: YES
+| Compiler for C supports arguments -Wno-switch-enum: YES
+| Compiler for C supports arguments -Wno-unused-parameter: YES
+| Compiler for C supports arguments -Wno-volatile: NO
+| Compiler for C supports arguments -Wshadow: YES
+| Compiler for C supports arguments -Wshift-negative-value: YES
+| Compiler for C supports arguments -Wsign-compare: YES
+| Compiler for C supports arguments -Wstrict-aliasing=2: YES
+| Compiler for C supports arguments -Wtype-limits: YES
+| Compiler for C supports arguments -Wundef: YES
+| Compiler for C supports arguments -Wuninitialized: YES
+| Compiler for C supports arguments -Wuninitialized: YES (cached)
+| Compiler for C supports arguments -Wunsafe-loop-optimizations: YES
+| Compiler for C supports arguments -Wunused: YES
+| Compiler for C supports arguments -Wunused-but-set-parameter: YES
+| Compiler for C supports arguments -Wunused-but-set-variable: YES
+| Compiler for C supports arguments -Wunused-function: YES
+| Compiler for C supports arguments -Wunused-label: YES
+| Compiler for C supports arguments -Wunused-local-typedefs: YES
+| Compiler for C supports arguments -Wunused-value: YES
+| Compiler for C supports arguments -Wunused-variable: YES
+| Compiler for C supports arguments -Wvla: YES
+| Compiler for C supports arguments -Wwrite-strings: YES
+| Compiler for C supports arguments -fdiagnostics-show-option: YES
+| Compiler for C supports arguments -fno-common: YES
+| Compiler for C supports arguments -fno-semantic-interposition: YES
+| Compiler for C supports arguments -fno-strict-aliasing: YES
+| Compiler for C supports arguments -Waggregate-return: YES
+| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
+| Compiler for C supports arguments -Werror=missing-prototypes: YES
+| Compiler for C supports arguments -Wimplicit: YES
+| Compiler for C supports arguments -Wimplicit-fallthrough=3: YES
+| Compiler for C supports arguments -Wmissing-parameter-type: YES
+| Compiler for C supports arguments -Wnested-externs: YES
+| Compiler for C supports arguments -Wold-style-declaration: YES
+| Compiler for C supports arguments -Wold-style-definition: YES
+| Compiler for C supports arguments -Woverride-init: YES
+| Compiler for C supports arguments -Wsign-compare: YES (cached)
+| Compiler for C supports arguments -Wstrict-prototypes: YES
+| Compiler for C++ supports arguments -Wall: YES
+| Compiler for C++ supports arguments -Wextra: YES
+| Compiler for C++ supports arguments -Wcast-align: YES
+| Compiler for C++ supports arguments -Wcast-function-type: YES
+| Compiler for C++ supports arguments -Wclobbered: YES
+| Compiler for C++ supports arguments -Wempty-body: YES
+| Compiler for C++ supports arguments -Wendif-labels: YES
+| Compiler for C++ supports arguments -Werror=init-self: YES
+| Compiler for C++ supports arguments -Werror=missing-include-dirs: YES
+| Compiler for C++ supports arguments -Werror=pointer-arith: YES
+| Compiler for C++ supports arguments -Wfloat-equal: YES
+| Compiler for C++ supports arguments -Wignored-qualifiers: YES
+| Compiler for C++ supports arguments -Winvalid-pch: YES
+| Compiler for C++ supports arguments -Wlogical-op: YES
+| Compiler for C++ supports arguments -Wmisleading-indentation: YES
+| Compiler for C++ supports arguments -Wmissing-declarations: YES
+| Compiler for C++ supports arguments -Wmissing-field-initializers: YES
+| Compiler for C++ supports arguments -Wmissing-format-attribute: YES
+| Compiler for C++ supports arguments -Wmissing-include-dirs: YES
+| Compiler for C++ supports arguments -Wmissing-noreturn: YES
+| Compiler for C++ supports arguments -Wno-deprecated-declarations: YES
+| Compiler for C++ supports arguments -Wno-address-of-packed-member: YES
+| Compiler for C++ supports arguments -Wno-c99-designator: NO
+| Compiler for C++ supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C++ supports arguments -Wno-packed: YES
+| Compiler for C++ supports arguments -Wno-switch-enum: YES
+| Compiler for C++ supports arguments -Wno-unused-parameter: YES
+| Compiler for C++ supports arguments -Wno-volatile: YES
+| Compiler for C++ supports arguments -Wshadow: YES
+| Compiler for C++ supports arguments -Wshift-negative-value: YES
+| Compiler for C++ supports arguments -Wsign-compare: YES
+| Compiler for C++ supports arguments -Wstrict-aliasing=2: YES
+| Compiler for C++ supports arguments -Wtype-limits: YES
+| Compiler for C++ supports arguments -Wundef: YES
+| Compiler for C++ supports arguments -Wuninitialized: YES
+| Compiler for C++ supports arguments -Wuninitialized: YES (cached)
+| Compiler for C++ supports arguments -Wunsafe-loop-optimizations: YES
+| Compiler for C++ supports arguments -Wunused: YES
+| Compiler for C++ supports arguments -Wunused-but-set-parameter: YES
+| Compiler for C++ supports arguments -Wunused-but-set-variable: YES
+| Compiler for C++ supports arguments -Wunused-function: YES
+| Compiler for C++ supports arguments -Wunused-label: YES
+| Compiler for C++ supports arguments -Wunused-local-typedefs: YES
+| Compiler for C++ supports arguments -Wunused-value: YES
+| Compiler for C++ supports arguments -Wunused-variable: YES
+| Compiler for C++ supports arguments -Wvla: YES
+| Compiler for C++ supports arguments -Wwrite-strings: YES
+| Compiler for C++ supports arguments -fdiagnostics-show-option: YES
+| Compiler for C++ supports arguments -fno-common: YES
+| Compiler for C++ supports arguments -fno-semantic-interposition: YES
+| Compiler for C++ supports arguments -fno-strict-aliasing: YES
+| Compiler for C++ supports arguments -Wimplicit-fallthrough=5: YES
+| Compiler for C++ supports arguments -Wnon-virtual-dtor: YES
+| Compiler for C++ supports arguments -Wstrict-null-sentinel: YES
+| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES
+| Compiler for C++ supports arguments -fvisibility=hidden: YES
+| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES (cached)
+| Compiler for C++ supports arguments -fvisibility=hidden: YES (cached)
+| Compiler for C supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
+| Compiler for C++ supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
+| ../vte-0.76.3/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
+| ../vte-0.76.3/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
+| ../vte-0.76.3/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
+| ../vte-0.76.3/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
+| Compiler for C supports link arguments -Wl,-Bsymbolic: YES
+| Compiler for C++ supports link arguments -Wl,-Bsymbolic: YES
+| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
+| Compiler for C++ supports link arguments -Wl,-Bsymbolic-functions: YES
+| Compiler for C supports link arguments -fstack-protector: YES
+| Compiler for C++ supports link arguments -fstack-protector: YES
+| Compiler for C supports link arguments -fstack-protector-strong: YES
+| Compiler for C++ supports link arguments -fstack-protector-strong: YES
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Run-time dependency cairo found: YES 1.18.0
+| Run-time dependency cairo-gobject found: YES 1.18.0
+| Run-time dependency gio-2.0 found: YES 2.80.2
+| Run-time dependency glib-2.0 found: YES 2.80.2
+| Run-time dependency gobject-2.0 found: YES 2.80.2
+| Run-time dependency pango found: YES 1.52.2
+| Run-time dependency libpcre2-8 found: YES 10.44
+| Run-time dependency threads found: YES
+| Found CMake: NO
+| Run-time dependency liblz4 found: NO (tried pkgconfig)
+| 
+| ../vte-0.76.3/meson.build:615:20: ERROR: Dependency "liblz4" not found, tried pkgconfig
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.2988774:177 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.2988774, line 177
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.2988774, line 166
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.2988774, line 155
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.2988774, line 190
+NOTE: recipe vte-0.76.3-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 3591 tasks of which 3581 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240701165013.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240701165013.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: vte-0.76.3-r0 do_configure: meson failed
+ERROR: vte-0.76.3-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.2988774', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/log.do_configure.2988774
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_configure) failed with exit code '1'
+
+--===============7690163859973610599==--
 
