@@ -1,96 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E93E8C3064D
-	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 14:49:51 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.26400.1719931785892019384
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 074C2C3064D
+	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 15:04:20 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.26774.1719932649737852828
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jul 2024 07:49:46 -0700
+ Tue, 02 Jul 2024 08:04:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hnke96HZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-36742cc9c12so2840893f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 07:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1719931784; x=1720536584; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gIHUfEVXQZtnlf6toqFVd/PE949CxJKV8OiYFEbYVCM=;
-        b=Hnke96HZqljcjTif0clkHr5ltSaxy0FcPLzfl5SWp0j3da1V6pXDzKkp7I4F/gK3fm
-         L2AP9TI1yw9KbTNCO5S4d9VLIrftD1MdjDlIVaZ/9Z4UwxM5ekOPzXb1kpGtReLbc+z+
-         PVFBPVJhhwQMozKn77L0O/EpZJI6iWYe7kzEQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719931784; x=1720536584;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gIHUfEVXQZtnlf6toqFVd/PE949CxJKV8OiYFEbYVCM=;
-        b=CIyrRaw2HGIitOoW11TQQPbXyeJZ+iz1BkRlCtKbiqJIauGAgx5+BqXk/PDA7Ds2nx
-         WN0H9XOTokItv+GY/G3t9bZe2QHHjGadCNW/qlzjrfhO64cnz/viSQhv8F16W86dwJZN
-         UcQZI5VIwK1uk4LQNIBvqMwvECcQ++/TGFV3MvcXex/MAMYOC7kSgFHVPSB9j+hO9dcX
-         grlT5/NZERAgznb4LzzgTIHuU3qYLMayus5icOZqejXnYb11hfQEoQui76UGRpkEbWvs
-         v//vKY0SmloAvShQjgFE2/7ePJh/K+4A3qQBsN0/H7XrjA4VH+kWxJuMG6WrMHQk+7OS
-         YQ4Q==
-X-Gm-Message-State: AOJu0YxL9IBqtScqpf5x9PNSRWJKabevVm9260Q8x8/G+8lpDYwYX67b
-	faYEWFqHDEFYUTVE851qm5WKqh7Kujbs0zRLGG3YeO+zmfrERM1cq06fB83e7mexFrp+Jse46YH
-	P
-X-Google-Smtp-Source: AGHT+IGvSHf++kjcbGcupYxwd3bng+EXl2rlOqzQxCpjTp3eBWU+2EMVESMosqwqmhDDsn1ECN5PeA==
-X-Received: by 2002:a5d:4043:0:b0:362:42eb:6f21 with SMTP id ffacd0b85a97d-367756a36a5mr5734743f8f.10.1719931783963;
-        Tue, 02 Jul 2024 07:49:43 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e0e2:4d33:6557:e74f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36784e3e0f5sm2216016f8f.11.2024.07.02.07.49.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 07:49:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu: Upgrade 9.0.0 -> 9.0.1
-Date: Tue,  2 Jul 2024 15:49:42 +0100
-Message-ID: <20240702144942.2754761-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dgWEXyOO;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=E3J6bFKr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019073f97d3a-1b72396d-cd97-4c68-a4e2-deeee69e2d95-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1719932649; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Upv+Px1w5WDu2iFHsSAVJx43fg6rKwn+lSjw0VNoXsU=;
+	b=dgWEXyOOeHYZdLEMC0tzPVJ8iUid0Ey3iLQaONETk5Ybt3k1PzakM4V8q0tx+DdR
+	niU2jzPSO4cn6E/nkbH5xyCqyn62EgK1HtdoNNgf5AYiqbZDh14JH9rLJmY7Qk11ykv
+	M6l/mLcVrVVc6jNil70Vcqifp6ayFoBTSdQjO0RM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719932649;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Upv+Px1w5WDu2iFHsSAVJx43fg6rKwn+lSjw0VNoXsU=;
+	b=E3J6bFKr6z5f9ObJQ54BZi2fiqAt0tqufYRWLtDLIdudFuEpV7j0weohLSq41EX7
+	iQvrlCYEQzY/EiNRfkFPWsEZWfEMUh4dt6jt4B3EbKtvET+bjUuMDl2bCwjfEsS96Hl
+	iaSQtx+EqMZ/40y8Gp5+kEzwLbgSSTbjOSyj9UCs=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] qemu: Upgrade 9.0.0 -> 9.0.1
+In-Reply-To: <20240702144942.2754761-1-richard.purdie@linuxfoundation.org>
+References: <20240702144942.2754761-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019073f97d3a-1b72396d-cd97-4c68-a4e2-deeee69e2d95-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Jul 2024 15:04:08 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.02-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 14:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201430
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 15:04:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201431
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../qemu/{qemu-native_9.0.0.bb => qemu-native_9.0.1.bb}         | 0
- ...{qemu-system-native_9.0.0.bb => qemu-system-native_9.0.1.bb} | 0
- meta/recipes-devtools/qemu/qemu.inc                             | 2 +-
- meta/recipes-devtools/qemu/{qemu_9.0.0.bb => qemu_9.0.1.bb}     | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/qemu/{qemu-native_9.0.0.bb => qemu-native_9.0.1.bb} (100%)
- rename meta/recipes-devtools/qemu/{qemu-system-native_9.0.0.bb => qemu-system-native_9.0.1.bb} (100%)
- rename meta/recipes-devtools/qemu/{qemu_9.0.0.bb => qemu_9.0.1.bb} (100%)
+Testing patch /home/patchtest/share/mboxes/qemu-Upgrade-9.0.0---9.0.1.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu-native_9.0.0.bb b/meta/recipes-devtools/qemu/qemu-native_9.0.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu-native_9.0.0.bb
-rename to meta/recipes-devtools/qemu/qemu-native_9.0.1.bb
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_9.0.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_9.0.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu-system-native_9.0.0.bb
-rename to meta/recipes-devtools/qemu/qemu-system-native_9.0.1.bb
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index fb38fb44dee..6a5ab56436e 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -37,7 +37,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--SRC_URI[sha256sum] = "32708ac66c30d8c892633ea968c771c1c76d597d70ddead21a0d22ccf386da69"
-+SRC_URI[sha256sum] = "d0f4db0fbd151c0cf16f84aeb2a500f6e95009732546f44dafab8d2049bbb805"
- 
- CVE_STATUS[CVE-2007-0998] = "not-applicable-config: The VNC server can expose host files uder some circumstances. We don't enable it by default."
- 
-diff --git a/meta/recipes-devtools/qemu/qemu_9.0.0.bb b/meta/recipes-devtools/qemu/qemu_9.0.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu_9.0.0.bb
-rename to meta/recipes-devtools/qemu/qemu_9.0.1.bb
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
