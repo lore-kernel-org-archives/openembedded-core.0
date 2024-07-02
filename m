@@ -1,56 +1,40 @@
-Return-Path: <sundeep.kokkonda@windriver.com>
+Return-Path: <egyszeregy@freemail.hu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 964BBC30658
-	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 17:37:30 +0000 (UTC)
-Subject: Re: [PATCH 9/9] rust: Upgrade 1.77.2->1.78.0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF054C30658
+	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 21:28:21 +0000 (UTC)
+Subject: Re: mc: broken source link
 To: openembedded-core@lists.openembedded.org
-From: "Sundeep KOKKONDA" <sundeep.kokkonda@windriver.com>
-X-Originating-Location: Hyderabad, Telangana, IN (49.205.253.192)
+From: "Livius" <egyszeregy@freemail.hu>
+X-Originating-Location: Budapest, HU (80.98.74.198)
 X-Originating-Platform: Windows Chrome 126
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Tue, 02 Jul 2024 10:37:20 -0700
-References: <089531C6-530F-49CA-B977-1663251F7A94@arm.com>
-In-Reply-To: <089531C6-530F-49CA-B977-1663251F7A94@arm.com>
-Message-ID: <13008.1719941840698289649@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="9hZfSC9YI0PsVuDfumhI"
+Date: Tue, 02 Jul 2024 14:28:19 -0700
+References: <CANNYZj_dpbyeJ1_gq2qziTuf6XuGHA5tBJfs=ukMq28uJdXbcA@mail.gmail.com>
+In-Reply-To: <CANNYZj_dpbyeJ1_gq2qziTuf6XuGHA5tBJfs=ukMq28uJdXbcA@mail.gmail.com>
+Message-ID: <28357.1719955699818752317@lists.openembedded.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 17:37:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201442
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 21:28:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201443
 
---9hZfSC9YI0PsVuDfumhI
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+In last weeks source URL was broken for mc. Now, it is forwarded for a new =
+link, only.
 
-On Tue, Jul 2, 2024 at 08:38 PM, Ross Burton wrote:
+http://www.midnight-commander.org/downloads/mc-4.8.31.tar.bz2
+forwarded to:
+http://ftp.midnight-commander.org/mc-4.8.31.tar.bz2
 
->=20
-> My builder is running oe-selftest -r rust on the incremental upgrades to
-> see what of those fail, but I=E2=80=99m not running reproducible builds y=
-et.
->=20
-> 1.76 was successful, 1.77 is building.
+So it seems to me, mc has a new home for sources.
+http://ftp.midnight-commander.org
 
-Can you check for reproducible tests also? That helps to see where the issu=
-e is triggered.
-
-Thanks,
-Sundeep K.
-
---9hZfSC9YI0PsVuDfumhI
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 2, 2024 at 08:38 PM, Ross Burton wrote:<br />
-<blockquote>My builder is running oe-selftest -r rust on the incremental up=
-grades to see what of those fail, but I&rsquo;m not running reproducible bu=
-ilds yet.<br /><br />1.76 was successful, 1.77 is building.</blockquote>
-Can you check for reproducible tests also? That helps to see where the issu=
-e is triggered.<br /><br /><br />Thanks,<br />Sundeep K.
-
---9hZfSC9YI0PsVuDfumhI--
+By the way my experience is that GitHub source links of Releases/Tags are m=
+ore stable to get them any of time in 24/7. GitHub.com's Bandwidth and acce=
+ssibility/availability is very well. So why you said they are unstable? The=
+re are many recipes which uses GitHub source links for tar.gz files.
 
