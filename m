@@ -1,131 +1,148 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C07DC3064D
-	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 08:59:58 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.19884.1719910790523326902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25153C3064D
+	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 09:15:28 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.20354.1719911724537636028
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jul 2024 01:59:50 -0700
+ Tue, 02 Jul 2024 02:15:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qlzj7/va;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-424a3ccd0c0so28102785e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 01:59:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FzlkfkF/;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52e8cdc6a89so1778531e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 02:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1719910789; x=1720515589; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9swm90xGci9IB5Jd+8O1biOS5/xn4jz3yr3iSUSozq4=;
-        b=Qlzj7/vaDjwI1EC3H1WLs59KpOAWHh2S6n3HC9yHz6lRxl3Z4Oe6jizjsP7abMkizF
-         vGO0TujidBfR6stPe22WAdP1T3rPXJeBfz58F6IxSdsut2U+ysE7YGbbWRYkcMJQ/EHm
-         6is+8BL5JG9tgl0XMtmZzBkVgWKhS4vclFiHU=
+        d=gmail.com; s=20230601; t=1719911722; x=1720516522; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mPkwstL3ZKr0iLx3sZUBcLo62sQQIMxbTz9yGeMcjv0=;
+        b=FzlkfkF/Y99L5qCWMmDRXIaRz5qhbPXehQ+uacvnvEmzudFfnLC1Q4s26+0r3k+X1V
+         +esj9g5+xM32U0ait2+RTboEzEsOTsgxwEeXa+vilw22KydgV/xRmIGSuHiHbQUYaBd3
+         PyeJAhrayvoLRveAneZ4Ncc6gW8Grma9wADXpdlLbT2wpVxbjqTc1mpp/8kqSX4h9Blh
+         LzMDHScSWh/bbQSUqGMOoWk0pZDcDgQbVI+HguL1zQPM6XJIof2khunaLidK1dVv0bdz
+         bhkBh3Ybbg2HH5M8PLuiVz0eK6d74OBUSDp8CGHecxKihlCRzrCJSKxk9fInrrFkhT4y
+         SGxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719910789; x=1720515589;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9swm90xGci9IB5Jd+8O1biOS5/xn4jz3yr3iSUSozq4=;
-        b=vifQh/b9vhlq5n5MljBCXrZm0oLLuW1ATtYudld/id6gI2Z0IzuvDT7EYTR9S/I1jO
-         YNNnxZUe5HdUv6dn94I1qgRfSOg3YAwpl1HvBA54xBw/XWh2yg24Bn6Rsy3PIiotZ2Tu
-         ml0UVt+sJaFk2SCaIoxnb4HZFxjv6ZO+T9tHEfRXdKNUTisg3u0jaYWK1P+0O94kveTy
-         hb3BxKyhrpRfTfCcb5XoIl4AZAjIaq3IKq1CFjtoRE/B8NUPJrqUiU3KazaI1ACg5pym
-         BMYO9uphIFnujl7ebNdoU/YzF8iZ6zUOk5mZhhZtuZq6Ve35jIGDJfH+HTe5PDS4TA3T
-         TFow==
-X-Forwarded-Encrypted: i=1; AJvYcCVIfdQwm/bl8fQD8zCCPPFr0ekY9A6DM9S0TloKY9WUQgMhJ+CRt2uMr7jzWU75a2NHvIyt0EQQGM5TWxrbpamS05O11m7RH3DyLS0fXE1Xip3cgPe+UFXv
-X-Gm-Message-State: AOJu0YxxoZwqW5rI5RBqG4Cz9rrGGyAM+Zc38aD/98o3SvSgEXhNX5UC
-	XiDN3Uvc5x4irmc5mMU8tRw4tGZu/ZuX0q/Xrq+Qs/DkWO9pW9cBxUb4eNVhH3w=
-X-Google-Smtp-Source: AGHT+IHOInTg7esdyo1PT5nGSchLME8GWZXN6SDMazNj8cpR2WZ0OS+gBam1M3DP2xIXAQjlpGizAA==
-X-Received: by 2002:adf:ec49:0:b0:364:7f42:1b66 with SMTP id ffacd0b85a97d-367756b7073mr5355494f8f.16.1719910788712;
-        Tue, 02 Jul 2024 01:59:48 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e0e2:4d33:6557:e74f? ([2001:8b0:aba:5f3c:e0e2:4d33:6557:e74f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0e174bsm12585616f8f.63.2024.07.02.01.59.47
+        d=1e100.net; s=20230601; t=1719911722; x=1720516522;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mPkwstL3ZKr0iLx3sZUBcLo62sQQIMxbTz9yGeMcjv0=;
+        b=Wp3uNSHUnwj9b6b7JOkJ6eghvr1QUpty3PvLJ4R3l3NUj2qEqIBeLY2tQaHiVpR3xv
+         HojcMpbWhQDY04jpP7IbCJPbN0jwY+D4G/7L7AEgUKcZYD+eSSGTx67ojfIjOUO4wRPm
+         e2QfaK/W1zEIJPM0xwerqIXqjTg/6JuF51fpM0j00a9CoZ8GnYpARsB7oaJrCzgyMiNR
+         mEKhFUPq0qXHUKV0sDP9zYufnYVC9HAU0GZ/1Kck+ZSGxnfT7zi1lmXD9FaJDfGWv9oy
+         fTnaYi8WbH+3GY0LHcUSzdG/+m81JY5JLaAiVmOMpIFBgAhZQ6fdYnZWtvQNbWIYbY28
+         MLGg==
+X-Gm-Message-State: AOJu0YzBn1dSvjXUiOOshlYMMicyjO78M4Y0K//MDt3DB0kGdM79Z8QV
+	6rR+teZPZzzTIWsFX1tR0S5JM36dDHsCLpMzY3KyZS3fkuKKeLmvAMJDag==
+X-Google-Smtp-Source: AGHT+IGZUaHb3TxCtZ4VlSq9aXgq+CHQiY6nsoW/ED6WADBuhRcXh0D42L6sJRX89/aGRvIu99emuA==
+X-Received: by 2002:a05:6512:31d2:b0:52c:881b:73c0 with SMTP id 2adb3069b0e04-52e826790a1mr5276369e87.17.1719911721892;
+        Tue, 02 Jul 2024 02:15:21 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab3f7basm1718239e87.305.2024.07.02.02.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 01:59:48 -0700 (PDT)
-Message-ID: <9f5ad0498ee04abc2cdcbfdde1e4db867f741096.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 9/9] rust: Upgrade 1.77.2->1.78.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com, 
-	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com, 
-	alex.kanavin@gmail.com, alexandre.belloni@bootlin.com
-Date: Tue, 02 Jul 2024 09:59:47 +0100
-In-Reply-To: <17DE24B76261B84E.14163@lists.openembedded.org>
-References: <20240701092639.1498856-1-Yash.Shinde@windriver.com>
-	 <20240701092639.1498856-9-Yash.Shinde@windriver.com>
-	 <17DE24B76261B84E.14163@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        Tue, 02 Jul 2024 02:15:21 -0700 (PDT)
+Date: Tue, 2 Jul 2024 11:15:19 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Quentin Schulz <quentin.schulz@cherry.de>, kweihmann@outlook.com
+Subject: Re: [PATCH v5 0/2] image-bootfiles: new class
+Message-ID: <ZoPFJ4vZsZMUccHv@gmail.com>
+References: <20240619123853.2144538-1-marcus.folkesson@gmail.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="nkyj0TiARwNmoSbU"
+Content-Disposition: inline
+In-Reply-To: <20240619123853.2144538-1-marcus.folkesson@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 08:59:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201418
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 09:15:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201419
 
-On Mon, 2024-07-01 at 17:47 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Mon, 2024-07-01 at 02:26 -0700, Yash Shinde via
-> lists.openembedded.org wrote:
-> > From: Yash Shinde <Yash.Shinde@windriver.com>
-> >=20
-> > * Drop the following backported patches which are merged
-> > with rust v1.78 upgrade.
-> >=20
-> > - 0001-Revert-Map-source-absolute-paths-to-OUT_DIR-as-relat.patch
-> > - repro-issue-fix-with-v175.patch
-> >=20
-> > https://blog.rust-lang.org/2024/05/02/Rust-1.78.0.html
-> >=20
-> > Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+
+--nkyj0TiARwNmoSbU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+
+On Wed, Jun 19, 2024 at 02:38:51PM +0200, Marcus Folkesson wrote:
+> The image-bootfiles class is used to put all files listed in
+> IMAGE_BOOT_FILES into the root filesystem.
 >=20
-> With this series applied we saw the following failures:
+> IMAGE_BOOT_FILES is used by the bootimg-partition wic plugin to put the
+> files into a boot partition.=20
+> Be able to list files as "boot files" in e.g. your .conf or image files
+> instead of install those in every recipe is a good thing.
 >=20
-> https://valkyrie.yoctoproject.org/#/builders/4/builds/66/steps/12/logs/st=
-dio
-> https://valkyrie.yoctoproject.org/#/builders/60/builds/66
-> https://valkyrie.yoctoproject.org/#/builders/2/builds/66
-> https://valkyrie.yoctoproject.org/#/builders/19/builds/67
-> https://valkyrie.yoctoproject.org/#/builders/41/builds/61/steps/14/logs/s=
-tdio
-> https://valkyrie.yoctoproject.org/#/builders/18/builds/59/steps/13/logs/s=
-tdio
-> https://valkyrie.yoctoproject.org/#/builders/6/builds/59/steps/12/logs/st=
-dio
-> https://valkyrie.yoctoproject.org/#/builders/3/builds/66/steps/12/logs/st=
-dio
-> https://valkyrie.yoctoproject.org/#/builders/67/builds/62/steps/13/logs/s=
-tdio
-> https://valkyrie.yoctoproject.org/#/builders/67/builds/62/steps/16/logs/s=
-tdio
-> https://valkyrie.yoctoproject.org/#/builders/67/builds/62/steps/19/logs/s=
-tdio
+> It is not always desired to have a separate boot partition for boot
+> files. Sometimes it could be good to have them as a part of the root
+> filesystem.
 >=20
-> and the builds haven't all finished yet.
+> For example, if a double copy strategy is used for update the system,
+> then you probably want to update both the boot files and root filesystem
+> at the same time as there may be dependencies.
+>=20
+> v2:
+>     - Removed the documentation from the patch series (will be submitted =
+later)
+>     - Break out the parts in bootimg-partition that is used by
+>       image-bootfiles to a common library
+>     - Make the destination directory in root filesystem configurable
+> v3:
+>     - See changelog in patches
+>=20
+> v4:
+>     - See changelog in patches
+>=20
+> v5:
+>     - See changelog in patches
+>=20
+> Marcus Folkesson (2):
+>   bootimg-partition: break out code to a common library.
+>   image-bootfiles.bbclass: new class, copy boot files to root filesystem
+>=20
+>  meta/classes/image-bootfiles.bbclass          | 41 +++++++++++++
+>  meta/lib/oe/bootfiles.py                      | 57 +++++++++++++++++++
+>  .../wic/plugins/source/bootimg-partition.py   | 39 +------------
+>  3 files changed, 100 insertions(+), 37 deletions(-)
+>  create mode 100644 meta/classes/image-bootfiles.bbclass
+>  create mode 100644 meta/lib/oe/bootfiles.py
+>=20
+> --=20
+> 2.45.1
+>=20
 
-The build completed and there were a lot more failures. Notably
-reproducibility failed:
+Any more thoughts about these patches?
 
-https://valkyrie.yoctoproject.org/#/builders/37/builds/74
+Thank you,
+Marcus Folkesson
 
-but also:
+--nkyj0TiARwNmoSbU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-qemuppc-tc: https://valkyrie.yoctoproject.org/#/builders/49/builds/54/steps=
-/12/logs/stdio
-qemux86-alt: https://valkyrie.yoctoproject.org/#/builders/20/builds/52
-qemux86-64-alt: https://valkyrie.yoctoproject.org/#/builders/95/builds/52
-https://valkyrie.yoctoproject.org/#/builders/45/builds/52
-https://valkyrie.yoctoproject.org/#/builders/31/builds/54
-https://valkyrie.yoctoproject.org/#/builders/32/builds/54
-https://valkyrie.yoctoproject.org/#/builders/36/builds/55
-https://valkyrie.yoctoproject.org/#/builders/30/builds/58
-https://valkyrie.yoctoproject.org/#/builders/16/builds/58
-https://valkyrie.yoctoproject.org/#/builders/68/builds/70
+-----BEGIN PGP SIGNATURE-----
 
-Cheers,
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmaDxSIACgkQiIBOb1ld
+UjJnTg/8C2ZCMzbfuUeTYbexMfWblkR9DHw7RYhULQgATHQCa5uKJU2z4DNL7pmL
+8N506DzDB6t5dZU1Bz/N5iBOdaxMscW6fbrMcVhVgJNJN9NAMagb6ySqgdq/5j4w
+hwvnTLHPOBQxN3iW7RpPq9hsGOPKC5FHLIpw7HLnnX82iY3QfwGfLnC5ThY1u9bG
+DUQG1SMkyhMrzNQp8fegPwqf4vui9Tm88dbeZf4WJhxhalEeNiXf+g6c6n6Cf72E
+j/K3ODuguR9lhFYVrl9qqdkq0fMsARIq5Gh9dSg0gMZ8XBztmRjIS6VV4VsbMOBS
+lNYPGzNQDl7VcBqR7ku5/xbGdQ+56+fWU0rSC7xD8hBC7OVy+c5x/IDN9GzWddmT
+M8EeLFmLPr4vPdmD5eBH1mR1zl1nxNiOBbZxrCcIy86McV4HCui9qejVhpOasNAm
+uvw7DBm1VnTvWTk7Pf6fiftPEga7NTYEISDDPx6HtiFEBWMPk7DroVJsUpdu+3Vl
+v3l3Z6mciT6xQuJ6GoHi4EWyC9U5H4TnLYuIzsjyVCbTU9qT8CyftV4m/ShvWXBI
+Z1zYIVmfGxd2YqdHheCBqTQA95cJAcwT24NKa/0bh+zi4ur/rHVn6SJFKqX+T4+X
+7QOnR+i2xGniEHYg2QD0VhisPUk/2q1o/3aDKFf1sjNgbDpCjY4=
+=uBRs
+-----END PGP SIGNATURE-----
 
-Richard
+--nkyj0TiARwNmoSbU--
 
