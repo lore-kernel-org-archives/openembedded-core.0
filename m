@@ -2,85 +2,83 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97222C3065C
-	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 17:12:10 +0000 (UTC)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
- by mx.groups.io with SMTP id smtpd.web11.30588.1719940324460597623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 931B7C30658
+	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 17:14:30 +0000 (UTC)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web10.30136.1719940466066775493
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jul 2024 10:12:04 -0700
+ Tue, 02 Jul 2024 10:14:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=UAB0n/nV;
- spf=pass (domain: mvista.com, ip: 209.85.219.175, mailfrom: sdoshi@mvista.com)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e034694b525so3670143276.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 10:12:04 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=i5rieTEM;
+ spf=pass (domain: mvista.com, ip: 209.85.219.176, mailfrom: sdoshi@mvista.com)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e035ecb35ffso4322769276.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 10:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1719940323; x=1720545123; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1719940464; x=1720545264; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tk5o6/sXYg5zArAdwH+rC7KMzBb+F9y9E2OoDTYqRxs=;
-        b=UAB0n/nV3kXq33xM/3aVUBqqE+SxvxjHs8MUbAp1MeUaO/e5iQdAbdCuIBmwTbqZGd
-         1pIv3CuVTmbDcHDgL0UXG3Y4v/vmwTibwim5hrrfGZpwt545HkJGZf8XuHOJ6BGqLC0n
-         rI/4VWJyZ4jBkfevyh18B/QsrmXB7woPtTKus=
+        bh=onSWQL+Q3PKIYnZkn5slqPPupdsNTQw9z4+T3aZDmMU=;
+        b=i5rieTEMNW+c6fUG9PYLf8+2MZCZQ0qSerFUVspVf7aM0TJlLG0fmP/volhvKlEuko
+         997u3AXccy3Bck9AimQQ9hT+KerjO+Poc9SAE5KLelKzuhbXv8J9ELEssLHt7IKzuonk
+         vCeC74lz7LTYarCFSysBzLq1zQkS+Z78GhSJg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719940323; x=1720545123;
+        d=1e100.net; s=20230601; t=1719940464; x=1720545264;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tk5o6/sXYg5zArAdwH+rC7KMzBb+F9y9E2OoDTYqRxs=;
-        b=KudEQRYXLNWlNRi2C/jo6tOFu+rasUL/HoZJHGxOhgh/Ln+xVYY4w2BXraJNXxkPHa
-         hPQxDGiT4PILaIkLjjCeSS0DMa/0oN5LeHg+5KpkGlnyecs9dWi31LdXNhNGQMfVmQTn
-         7BjUmUWd5haQBUFYb7PVDYs8GHBm390aJFYqFG/LahZhZRfRBMiYHR8BFeI4HPSdh1Cd
-         lwAn92DiGBLe+vdm2qD0Jl+bcAs0eCUkcEkQHqOKBbofhGMz5nPHu2WZBjWQFN0XDn6i
-         cQg/zRkvZoWLc3qgHVFHkkBPYpJh8Cl79YKdw+r2A7WltiG6sBvTcW8GfuqxyqIs8Yng
-         SaGg==
-X-Gm-Message-State: AOJu0YzHuAKgMuZFzHLuj3QwBXJYs/5QbT/uTaFYiXlZDCXwc3YIytdt
-	IBj78AVLvUlXBjrcLfrJuTudk5DLQjc7HfNevF6qwgJLHQaYJCHAK3IgxAebbtvpytd/pvVCX2b
-	A
-X-Google-Smtp-Source: AGHT+IFSaAnCXTEuUZI910Lx3YBmG2Pb+gHIU0A1MAsl8r5odeH3ucECEj20/vv99tC7Wikv/a5isw==
-X-Received: by 2002:a25:9c87:0:b0:e03:a1fc:d086 with SMTP id 3f1490d57ef6-e03a1fcd3d1mr1284121276.3.1719940322226;
-        Tue, 02 Jul 2024 10:12:02 -0700 (PDT)
+        bh=onSWQL+Q3PKIYnZkn5slqPPupdsNTQw9z4+T3aZDmMU=;
+        b=ogQ0MP5wnmSCnPDepHlbuRIkZDdg5Mvy4hD9AycPep+2OdLDrnyetj6Bb2lSJ7BRuw
+         BVEg5YKuPv6gMCc/7UhSXHOG5IflGvohAZT40UdGaPbdbY7TltOLDaMyThPN+7puE/Kf
+         nV3oIj3s9hpchMu0VYLW48RTXK4ePVIvDkJGAr/U/FJCo8qcZEPUo7w2m09t9IgrAgBm
+         MJFyX5QHv+fq3EK3STj9FU8btU/gyrIEKIBpd1keOkjqp/TnRkBgpra1D0OG1JyfqjOJ
+         DvJbRE613JQRUqESfENiFlRqYONG7mKiy54hMqON8geFjFHE+oK1U8cLVZ1NfbqOG/d+
+         LavQ==
+X-Gm-Message-State: AOJu0YzUnf6+3FL31VPrgYVi0fifB/87JRBcvlDHBY9GUOC3z/oLDFgM
+	c5knQRlJAyih9GwLRheDA6Wz2PNa63N11NMzigDDYpGcpXLPZIZdBEayq9Gse256fcfGB/okdWZ
+	X
+X-Google-Smtp-Source: AGHT+IFfirIN46voNdPaO5djh7ER/DkvRbxbMEU7SU2wjSR1OE/MtjSdwqLVXIGRWarOrMugfLpxRg==
+X-Received: by 2002:a25:4cc3:0:b0:e03:62b3:af1d with SMTP id 3f1490d57ef6-e036eaf3f3fmr9209144276.11.1719940463474;
+        Tue, 02 Jul 2024 10:14:23 -0700 (PDT)
 Received: from siddharth-latitude-3420.mvista.com ([157.32.44.151])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0364597700sm1435404276.39.2024.07.02.10.11.58
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0353d582dasm1688053276.11.2024.07.02.10.14.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 10:12:01 -0700 (PDT)
+        Tue, 02 Jul 2024 10:14:23 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] OpenSSL: Security fix for CVE-2024-5535
-Date: Tue,  2 Jul 2024 22:41:44 +0530
-Message-Id: <20240702171144.92657-1-sdoshi@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] OpenSSL: Security fix for CVE-2024-5535
+Date: Tue,  2 Jul 2024 22:44:10 +0530
+Message-Id: <20240702171410.92815-1-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 17:12:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201439
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 17:14:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201440
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
-Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/99fb785a5f85315b95288921a321a935ea29a51e]
+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/cf6f91f6121f4db167405db2f0de410a456f260c]
 
 CVE's Fixed:
 CVE-2024-5535 openssl: SSL_select_next_proto buffer overread
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../openssl/openssl/CVE-2024-5535_1.patch     |  113 ++
- .../openssl/openssl/CVE-2024-5535_10.patch    |  203 +++
- .../openssl/openssl/CVE-2024-5535_2.patch     |   43 +
- .../openssl/openssl/CVE-2024-5535_3.patch     |   38 +
- .../openssl/openssl/CVE-2024-5535_4.patch     |   82 ++
- .../openssl/openssl/CVE-2024-5535_5.patch     |  176 +++
- .../openssl/openssl/CVE-2024-5535_6.patch     | 1173 +++++++++++++++++
- .../openssl/openssl/CVE-2024-5535_7.patch     |   43 +
- .../openssl/openssl/CVE-2024-5535_8.patch     |   66 +
- .../openssl/openssl/CVE-2024-5535_9.patch     |  271 ++++
- .../openssl/openssl_3.2.2.bb                  |   10 +
- 11 files changed, 2218 insertions(+)
+ .../openssl/openssl/CVE-2024-5535_1.patch     |  115 ++
+ .../openssl/openssl/CVE-2024-5535_2.patch     |   44 +
+ .../openssl/openssl/CVE-2024-5535_3.patch     |   84 ++
+ .../openssl/openssl/CVE-2024-5535_4.patch     |  178 +++
+ .../openssl/openssl/CVE-2024-5535_5.patch     | 1175 +++++++++++++++++
+ .../openssl/openssl/CVE-2024-5535_6.patch     |   45 +
+ .../openssl/openssl/CVE-2024-5535_7.patch     |   68 +
+ .../openssl/openssl/CVE-2024-5535_8.patch     |  273 ++++
+ .../openssl/openssl/CVE-2024-5535_9.patch     |  205 +++
+ .../openssl/openssl_3.0.14.bb                 |    9 +
+ 10 files changed, 2196 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch
  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
@@ -92,14 +90,14 @@ Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch
 new file mode 100644
-index 0000000000..d5c178eeab
+index 0000000000..a96af0ed13
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch
-@@ -0,0 +1,113 @@
-+From b63b4db52e10677db4ab46b608aabd55a44668aa Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,115 @@
++From e6190fc977f086428cc7880f95e8bcd5a11ac193 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 31 May 2024 11:14:33 +0100
-+Subject: [PATCH 01/10] Fix SSL_select_next_proto
++Subject: [PATCH 1/9] Fix SSL_select_next_proto
 +
 +Ensure that the provided client list is non-NULL and starts with a valid
 +entry. When called from the ALPN callback the client list should already
@@ -115,9 +113,11 @@ index 0000000000..d5c178eeab
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/99fb785a5f85315b95288921a321a935ea29a51e]
++(cherry picked from commit 4ada436a1946cbb24db5ab4ca082b69c1bc10f37)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/cf6f91f6121f4db167405db2f0de410a456f260c]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -125,10 +125,10 @@ index 0000000000..d5c178eeab
 + 1 file changed, 40 insertions(+), 23 deletions(-)
 +
 +diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
-+index 016135f..cf52b31 100644
++index cb4e006..e628140 100644
 +--- a/ssl/ssl_lib.c
 ++++ b/ssl/ssl_lib.c
-+@@ -3518,37 +3518,54 @@ int SSL_select_next_proto(unsigned char **out, unsigned char *outlen,
++@@ -2952,37 +2952,54 @@ int SSL_select_next_proto(unsigned char **out, unsigned char *outlen,
 +                           unsigned int server_len,
 +                           const unsigned char *client, unsigned int client_len)
 + {
@@ -207,228 +207,19 @@ index 0000000000..d5c178eeab
 + 
 + #ifndef OPENSSL_NO_NEXTPROTONEG
 +-- 
-+2.44.0
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch
-new file mode 100644
-index 0000000000..7cc36f20ab
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch
-@@ -0,0 +1,203 @@
-+From 61cad53901703944d22f1cd6a1b57460f2270599 Mon Sep 17 00:00:00 2001
-+From: Matt Caswell <matt@openssl.org>
-+Date: Fri, 21 Jun 2024 14:29:26 +0100
-+Subject: [PATCH 10/10] Add a test for an empty NextProto message
-+
-+It is valid according to the spec for a NextProto message to have no
-+protocols listed in it. The OpenSSL implementation however does not allow
-+us to create such a message. In order to check that we work as expected
-+when communicating with a client that does generate such messages we have
-+to use a TLSProxy test.
-+
-+Follow on from CVE-2024-5535
-+
-+Reviewed-by: Neil Horman <nhorman@openssl.org>
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
-+
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/301b870546d1c7b2d8f0d66e04a2596142f0399f]
-+CVE: CVE-2024-5535
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ test/recipes/70-test_npn.t      | 73 +++++++++++++++++++++++++++++++++
-+ util/perl/TLSProxy/Message.pm   |  9 ++++
-+ util/perl/TLSProxy/NextProto.pm | 54 ++++++++++++++++++++++++
-+ util/perl/TLSProxy/Proxy.pm     |  1 +
-+ 4 files changed, 137 insertions(+)
-+ create mode 100644 test/recipes/70-test_npn.t
-+ create mode 100644 util/perl/TLSProxy/NextProto.pm
-+
-+diff --git a/test/recipes/70-test_npn.t b/test/recipes/70-test_npn.t
-+new file mode 100644
-+index 0000000..f82e71a
-+--- /dev/null
-++++ b/test/recipes/70-test_npn.t
-+@@ -0,0 +1,73 @@
-++#! /usr/bin/env perl
-++# Copyright 2024 The OpenSSL Project Authors. All Rights Reserved.
-++#
-++# Licensed under the Apache License 2.0 (the "License").  You may not use
-++# this file except in compliance with the License.  You can obtain a copy
-++# in the file LICENSE in the source distribution or at
-++# https://www.openssl.org/source/license.html
-++
-++use strict;
-++use OpenSSL::Test qw/:DEFAULT cmdstr srctop_file/;
-++use OpenSSL::Test::Utils;
-++
-++use TLSProxy::Proxy;
-++
-++my $test_name = "test_npn";
-++setup($test_name);
-++
-++plan skip_all => "TLSProxy isn't usable on $^O"
-++    if $^O =~ /^(VMS)$/;
-++
-++plan skip_all => "$test_name needs the dynamic engine feature enabled"
-++    if disabled("engine") || disabled("dynamic-engine");
-++
-++plan skip_all => "$test_name needs the sock feature enabled"
-++    if disabled("sock");
-++
-++plan skip_all => "$test_name needs NPN enabled"
-++    if disabled("nextprotoneg");
-++
-++plan skip_all => "$test_name needs TLSv1.2 enabled"
-++    if disabled("tls1_2");
-++
-++my $proxy = TLSProxy::Proxy->new(
-++    undef,
-++    cmdstr(app(["openssl"]), display => 1),
-++    srctop_file("apps", "server.pem"),
-++    (!$ENV{HARNESS_ACTIVE} || $ENV{HARNESS_VERBOSE})
-++);
-++
-++$proxy->start() or plan skip_all => "Unable to start up Proxy for tests";
-++plan tests => 1;
-++
-++my $npnseen = 0;
-++
-++# Test 1: Check sending an empty NextProto message from the client works. This is
-++#         valid as per the spec, but OpenSSL does not allow you to send it.
-++#         Therefore we must be prepared to receive such a message but we cannot
-++#         generate it except via TLSProxy
-++$proxy->clear();
-++$proxy->filter(\&npn_filter);
-++$proxy->clientflags("-nextprotoneg foo -no_tls1_3");
-++$proxy->serverflags("-nextprotoneg foo");
-++$proxy->start();
-++ok($npnseen && TLSProxy::Message->success(), "Empty NPN message");
-++
-++sub npn_filter
-++{
-++    my $proxy = shift;
-++    my $message;
-++
-++    # The NextProto message always appears in flight 2
-++    return if $proxy->flight != 2;
-++
-++    foreach my $message (@{$proxy->message_list}) {
-++        if ($message->mt == TLSProxy::Message::MT_NEXT_PROTO) {
-++            # Our TLSproxy NextProto message support doesn't support parsing of
-++            # the message. If we repack it just creates an empty NextProto
-++            # message - which is exactly the scenario we want to test here.
-++            $message->repack();
-++            $npnseen = 1;
-++        }
-++    }
-++}
-+diff --git a/util/perl/TLSProxy/Message.pm b/util/perl/TLSProxy/Message.pm
-+index ce22187..fb41b2f 100644
-+--- a/util/perl/TLSProxy/Message.pm
-++++ b/util/perl/TLSProxy/Message.pm
-+@@ -384,6 +384,15 @@ sub create_message
-+             [@message_frag_lens]
-+         );
-+         $message->parse();
-++    }  elsif ($mt == MT_NEXT_PROTO) {
-++        $message = TLSProxy::NextProto->new(
-++            $server,
-++            $data,
-++            [@message_rec_list],
-++            $startoffset,
-++            [@message_frag_lens]
-++        );
-++        $message->parse();
-+     } else {
-+         #Unknown message type
-+         $message = TLSProxy::Message->new(
-+diff --git a/util/perl/TLSProxy/NextProto.pm b/util/perl/TLSProxy/NextProto.pm
-+new file mode 100644
-+index 0000000..0e18347
-+--- /dev/null
-++++ b/util/perl/TLSProxy/NextProto.pm
-+@@ -0,0 +1,54 @@
-++# Copyright 2024 The OpenSSL Project Authors. All Rights Reserved.
-++#
-++# Licensed under the Apache License 2.0 (the "License").  You may not use
-++# this file except in compliance with the License.  You can obtain a copy
-++# in the file LICENSE in the source distribution or at
-++# https://www.openssl.org/source/license.html
-++
-++use strict;
-++
-++package TLSProxy::NextProto;
-++
-++use vars '@ISA';
-++push @ISA, 'TLSProxy::Message';
-++
-++sub new
-++{
-++    my $class = shift;
-++    my ($server,
-++        $data,
-++        $records,
-++        $startoffset,
-++        $message_frag_lens) = @_;
-++
-++    my $self = $class->SUPER::new(
-++        $server,
-++        TLSProxy::Message::MT_NEXT_PROTO,
-++        $data,
-++        $records,
-++        $startoffset,
-++        $message_frag_lens);
-++
-++    return $self;
-++}
-++
-++sub parse
-++{
-++    # We don't support parsing at the moment
-++}
-++
-++# This is supposed to reconstruct the on-the-wire message data following changes.
-++# For now though since we don't support parsing we just create an empty NextProto
-++# message - this capability is used in test_npn
-++sub set_message_contents
-++{
-++    my $self = shift;
-++    my $data;
-++
-++    $data = pack("C32", 0x00, 0x1e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-++                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-++                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-++                 0x00, 0x00, 0x00);
-++    $self->data($data);
-++}
-++1;
-+diff --git a/util/perl/TLSProxy/Proxy.pm b/util/perl/TLSProxy/Proxy.pm
-+index 3de10ec..b707722 100644
-+--- a/util/perl/TLSProxy/Proxy.pm
-++++ b/util/perl/TLSProxy/Proxy.pm
-+@@ -23,6 +23,7 @@ use TLSProxy::CertificateRequest;
-+ use TLSProxy::CertificateVerify;
-+ use TLSProxy::ServerKeyExchange;
-+ use TLSProxy::NewSessionTicket;
-++use TLSProxy::NextProto;
-+ 
-+ my $have_IPv6;
-+ my $IP_factory;
-+-- 
-+2.44.0
++2.25.1
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch
 new file mode 100644
-index 0000000000..768304f00b
+index 0000000000..02fd7a1443
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch
-@@ -0,0 +1,43 @@
-+From 6de1d37cd129b0af5b4a247c76f97b98e70b108b Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,44 @@
++From 4a96c6b7265838b044dab4a2a6150c246297bc89 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 31 May 2024 11:18:27 +0100
-+Subject: [PATCH 02/10] More correctly handle a selected_len of 0 when
-+ processing NPN
++Subject: [PATCH 2/9] More correctly handle a selected_len of 0 when processing
++ NPN
 +
 +In the case where the NPN callback returns with SSL_TLEXT_ERR_OK, but
 +the selected_len is 0 we should fail. Previously this would fail with an
@@ -440,87 +231,44 @@ index 0000000000..768304f00b
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/015255851371757d54c2560643eb3b3a88123cf1]
++(cherry picked from commit 4279c89a726025c758db3dafb263b17e52211304)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/159921152fd4aa91e4c849fd281ad93ac0d0d0ba]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ ssl/statem/extensions_clnt.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ ssl/statem/extensions_clnt.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
 +diff --git a/ssl/statem/extensions_clnt.c b/ssl/statem/extensions_clnt.c
-+index 381a6c9..1ab3c13 100644
++index 842be07..a07dc62 100644
 +--- a/ssl/statem/extensions_clnt.c
 ++++ b/ssl/statem/extensions_clnt.c
-+@@ -1560,8 +1560,8 @@ int tls_parse_stoc_npn(SSL_CONNECTION *s, PACKET *pkt, unsigned int context,
-+     if (sctx->ext.npn_select_cb(SSL_CONNECTION_GET_SSL(s),
-+                                 &selected, &selected_len,
-+                                 PACKET_data(pkt), PACKET_remaining(pkt),
-+-                                sctx->ext.npn_select_cb_arg) !=
++@@ -1536,7 +1536,8 @@ int tls_parse_stoc_npn(SSL *s, PACKET *pkt, unsigned int context, X509 *x,
++                                   PACKET_data(pkt),
++                                   PACKET_remaining(pkt),
++                                   s->ctx->ext.npn_select_cb_arg) !=
 +-             SSL_TLSEXT_ERR_OK) {
-++                                sctx->ext.npn_select_cb_arg) != SSL_TLSEXT_ERR_OK
+++                                  SSL_TLSEXT_ERR_OK
 ++            || selected_len == 0) {
 +         SSLfatal(s, SSL_AD_HANDSHAKE_FAILURE, SSL_R_BAD_EXTENSION);
 +         return 0;
 +     }
 +-- 
-+2.44.0
++2.25.1
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch
 new file mode 100644
-index 0000000000..d6d4d869be
+index 0000000000..9635b7d8d0
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch
-@@ -0,0 +1,38 @@
-+From 4f9334a33da89949f97927c8fe7df1003c42cda4 Mon Sep 17 00:00:00 2001
-+From: Matt Caswell <matt@openssl.org>
-+Date: Fri, 31 May 2024 11:22:13 +0100
-+Subject: [PATCH 03/10] Use correctly formatted ALPN data in tserver
-+
-+The QUIC test server was using incorrectly formatted ALPN data. With the
-+previous implementation of SSL_select_next_proto this went unnoticed. With
-+the new stricter implemenation it was failing.
-+
-+Follow on from CVE-2024-5535
-+
-+Reviewed-by: Neil Horman <nhorman@openssl.org>
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
-+
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/6cc511826f09e513b4ec066d9b95acaf4f86d991]
-+CVE: CVE-2024-5535
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ ssl/quic/quic_tserver.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/ssl/quic/quic_tserver.c b/ssl/quic/quic_tserver.c
-+index 86187d0..15694e7 100644
-+--- a/ssl/quic/quic_tserver.c
-++++ b/ssl/quic/quic_tserver.c
-+@@ -58,7 +58,7 @@ static int alpn_select_cb(SSL *ssl, const unsigned char **out,
-+ 
-+     if (srv->args.alpn == NULL) {
-+         alpn = alpndeflt;
-+-        alpnlen = sizeof(alpn);
-++        alpnlen = sizeof(alpndeflt);
-+     } else {
-+         alpn = srv->args.alpn;
-+         alpnlen = srv->args.alpnlen;
-+-- 
-+2.44.0
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
-new file mode 100644
-index 0000000000..03fc1168f9
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
-@@ -0,0 +1,82 @@
-+From 5145a1f50e44c9f86127a76f01519a9f25157290 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,84 @@
++From 6887608f77236d14b0789f4b1c14df53dfe2d618 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 31 May 2024 11:46:38 +0100
-+Subject: [PATCH 04/10] Clarify the SSL_select_next_proto() documentation
++Subject: [PATCH 3/9] Clarify the SSL_select_next_proto() documentation
 +
 +We clarify the input preconditions and the expected behaviour in the event
 +of no overlap.
@@ -529,9 +277,11 @@ index 0000000000..03fc1168f9
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/8e81c57adbbf703dfb63955f65599765fdacc741]
++(cherry picked from commit 889ed19ba25abebd2690997acd6d4791cbe5c493)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/7a9f521b1de96e79184948e5813e791e608cc94b]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -539,7 +289,7 @@ index 0000000000..03fc1168f9
 + 1 file changed, 18 insertions(+), 8 deletions(-)
 +
 +diff --git a/doc/man3/SSL_CTX_set_alpn_select_cb.pod b/doc/man3/SSL_CTX_set_alpn_select_cb.pod
-+index 05fee2f..79e1a25 100644
++index 102e657..a29557d 100644
 +--- a/doc/man3/SSL_CTX_set_alpn_select_cb.pod
 ++++ b/doc/man3/SSL_CTX_set_alpn_select_cb.pod
 +@@ -52,7 +52,8 @@ SSL_select_next_proto, SSL_get0_alpn_selected, SSL_get0_next_proto_negotiated
@@ -586,7 +336,7 @@ index 0000000000..03fc1168f9
 + 
 + SSL_CTX_set_next_protos_advertised_cb() sets a callback B<cb> that is called
 + when a TLS server needs a list of supported protocols for Next Protocol
-+@@ -154,7 +163,8 @@ A match was found and is returned in B<out>, B<outlen>.
++@@ -149,7 +158,8 @@ A match was found and is returned in B<out>, B<outlen>.
 + =item OPENSSL_NPN_NO_OVERLAP
 + 
 + No match was found. The first item in B<client>, B<client_len> is returned in
@@ -597,26 +347,28 @@ index 0000000000..03fc1168f9
 + =back
 + 
 +-- 
-+2.44.0
++2.25.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
 new file mode 100644
-index 0000000000..e439d9b59a
+index 0000000000..e97020ad3e
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
-@@ -0,0 +1,176 @@
-+From 01d44bc7f50670002cad495654fd99a6371d7662 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
+@@ -0,0 +1,178 @@
++From 6f9e71968f1f5e089bf79b0925e703a16f7bfa19 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 31 May 2024 16:35:16 +0100
-+Subject: [PATCH 05/10] Add a test for SSL_select_next_proto
++Subject: [PATCH 4/9] Add a test for SSL_select_next_proto
 +
 +Follow on from CVE-2024-5535
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/add5c52a25c549cec4a730cdf96e2252f0a1862d]
++(cherry picked from commit ad1318efa2cfdf43ed49d23c4a815f4754604b97)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/707c71aa03ba968e09325d72cf1e8dcac70df2df]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -624,10 +376,10 @@ index 0000000000..e439d9b59a
 + 1 file changed, 137 insertions(+)
 +
 +diff --git a/test/sslapitest.c b/test/sslapitest.c
-+index ce16332..15cb906 100644
++index 2b1c2fd..3922262 100644
 +--- a/test/sslapitest.c
 ++++ b/test/sslapitest.c
-+@@ -11741,6 +11741,142 @@ static int test_multi_resume(int idx)
++@@ -10765,6 +10765,142 @@ static int test_multi_resume(int idx)
 +     return testresult;
 + }
 + 
@@ -770,27 +522,27 @@ index 0000000000..e439d9b59a
 + OPT_TEST_DECLARE_USAGE("certfile privkeyfile srpvfile tmpfile provider config dhfile\n")
 + 
 + int setup_tests(void)
-+@@ -12053,6 +12189,7 @@ int setup_tests(void)
++@@ -11041,6 +11177,7 @@ int setup_tests(void)
++ #endif
 +     ADD_ALL_TESTS(test_handshake_retry, 16);
-+     ADD_TEST(test_data_retry);
 +     ADD_ALL_TESTS(test_multi_resume, 5);
 ++    ADD_ALL_TESTS(test_select_next_proto, OSSL_NELEM(next_proto_tests));
 +     return 1;
 + 
 +  err:
 +-- 
-+2.44.0
++2.25.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
 new file mode 100644
-index 0000000000..df24702fa6
+index 0000000000..93a9aba8b2
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
-@@ -0,0 +1,1173 @@
-+From e344d0b5860560ffa59415ea4028ba7760b2a773 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
+@@ -0,0 +1,1175 @@
++From f2f3681f96c778b2a7e0d110bac5bd6053717ef6 Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Tue, 4 Jun 2024 15:47:32 +0100
-+Subject: [PATCH 06/10] Allow an empty NPN/ALPN protocol list in the tests
++Subject: [PATCH 5/9] Allow an empty NPN/ALPN protocol list in the tests
 +
 +Allow ourselves to configure an empty NPN/ALPN protocol list and test what
 +happens if we do.
@@ -799,9 +551,11 @@ index 0000000000..df24702fa6
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/7ea1f6a85b299b976cb3f756b2a7f0153f31b2b6]
++(cherry picked from commit c54e56fc8ab19e9d07c284d6c7c6bf293f7520d2)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/72394c9a1a6a6b07edf43eb2ad7e95e1093ada1b]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -813,10 +567,10 @@ index 0000000000..df24702fa6
 + 5 files changed, 449 insertions(+), 244 deletions(-)
 +
 +diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
-+index ae2ad59..b66b2f5 100644
++index 285391b..dd5a6d9 100644
 +--- a/test/helpers/handshake.c
 ++++ b/test/helpers/handshake.c
-+@@ -444,6 +444,12 @@ static int parse_protos(const char *protos, unsigned char **out, size_t *outlen)
++@@ -348,6 +348,12 @@ static int parse_protos(const char *protos, unsigned char **out, size_t *outlen)
 + 
 +     len = strlen(protos);
 + 
@@ -1958,18 +1712,18 @@ index 0000000000..df24702fa6
 ++    },
 + );
 +-- 
-+2.44.0
++2.25.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
 new file mode 100644
-index 0000000000..7319d27bb8
+index 0000000000..3ad7488ac6
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
-@@ -0,0 +1,43 @@
-+From 86351b8dd4c499de7a0c02313ee54966e978150f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
+@@ -0,0 +1,45 @@
++From a8c0ee154d212284f82680275de63642d914365e Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 21 Jun 2024 10:41:55 +0100
-+Subject: [PATCH 07/10] Correct return values for
++Subject: [PATCH 6/9] Correct return values for
 + tls_construct_stoc_next_proto_neg
 +
 +Return EXT_RETURN_NOT_SENT in the event that we don't send the extension,
@@ -1981,9 +1735,11 @@ index 0000000000..7319d27bb8
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/53f5677f358c4a4f69830d944ea40e71950673b8]
++(cherry picked from commit 087501b4f572825e27ca8cc2c5874fcf6fd47cf7)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/189a7ed3e380e34ea38fe4190a7c9396bace0fb7]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -1991,10 +1747,10 @@ index 0000000000..7319d27bb8
 + 1 file changed, 2 insertions(+), 1 deletion(-)
 +
 +diff --git a/ssl/statem/extensions_srvr.c b/ssl/statem/extensions_srvr.c
-+index 64ccb3e..b821c7c 100644
++index 1fab5a3..51ea74b 100644
 +--- a/ssl/statem/extensions_srvr.c
 ++++ b/ssl/statem/extensions_srvr.c
-+@@ -1496,9 +1496,10 @@ EXT_RETURN tls_construct_stoc_next_proto_neg(SSL_CONNECTION *s, WPACKET *pkt,
++@@ -1471,9 +1471,10 @@ EXT_RETURN tls_construct_stoc_next_proto_neg(SSL *s, WPACKET *pkt,
 +             return EXT_RETURN_FAIL;
 +         }
 +         s->s3.npn_seen = 1;
@@ -2007,18 +1763,18 @@ index 0000000000..7319d27bb8
 + #endif
 + 
 +-- 
-+2.44.0
++2.25.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
 new file mode 100644
-index 0000000000..f64938a5ca
+index 0000000000..777497ef22
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
-@@ -0,0 +1,66 @@
-+From 29f860914824cde6b0aea6ad818b93132930137f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
+@@ -0,0 +1,68 @@
++From fa5cc5eb58a4c9632929397fc9a6c291fff1b99d Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 21 Jun 2024 11:51:54 +0100
-+Subject: [PATCH 08/10] Add ALPN validation in the client
++Subject: [PATCH 7/9] Add ALPN validation in the client
 +
 +The ALPN protocol selected by the server must be one that we originally
 +advertised. We should verify that it is.
@@ -2027,9 +1783,11 @@ index 0000000000..f64938a5ca
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/195e15421df113d7283aab2ccff8b8fb06df5465]
++(cherry picked from commit 017e54183b95617825fb9316d618c154a34c634e)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/4b375b998798dd516d367036773073e1b88e6433]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -2037,11 +1795,11 @@ index 0000000000..f64938a5ca
 + 1 file changed, 24 insertions(+)
 +
 +diff --git a/ssl/statem/extensions_clnt.c b/ssl/statem/extensions_clnt.c
-+index 1ab3c13..ff9c009 100644
++index a07dc62..b21ccf9 100644
 +--- a/ssl/statem/extensions_clnt.c
 ++++ b/ssl/statem/extensions_clnt.c
-+@@ -1590,6 +1590,8 @@ int tls_parse_stoc_alpn(SSL_CONNECTION *s, PACKET *pkt, unsigned int context,
-+                         X509 *x, size_t chainidx)
++@@ -1566,6 +1566,8 @@ int tls_parse_stoc_alpn(SSL *s, PACKET *pkt, unsigned int context, X509 *x,
++                         size_t chainidx)
 + {
 +     size_t len;
 ++    PACKET confpkt, protpkt;
@@ -2049,7 +1807,7 @@ index 0000000000..f64938a5ca
 + 
 +     /* We must have requested it. */
 +     if (!s->s3.alpn_sent) {
-+@@ -1608,6 +1610,28 @@ int tls_parse_stoc_alpn(SSL_CONNECTION *s, PACKET *pkt, unsigned int context,
++@@ -1584,6 +1586,28 @@ int tls_parse_stoc_alpn(SSL *s, PACKET *pkt, unsigned int context, X509 *x,
 +         SSLfatal(s, SSL_AD_DECODE_ERROR, SSL_R_BAD_EXTENSION);
 +         return 0;
 +     }
@@ -2079,18 +1837,18 @@ index 0000000000..f64938a5ca
 +     s->s3.alpn_selected = OPENSSL_malloc(len);
 +     if (s->s3.alpn_selected == NULL) {
 +-- 
-+2.44.0
++2.25.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
 new file mode 100644
-index 0000000000..fb1cef5067
+index 0000000000..0166f831f6
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
-@@ -0,0 +1,271 @@
-+From 6a5484b0d3fcf9a868c7e3e5b62e5eedc90b6080 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
+@@ -0,0 +1,273 @@
++From b898db2b91751a52d2af699e674a80a6b218084d Mon Sep 17 00:00:00 2001
 +From: Matt Caswell <matt@openssl.org>
 +Date: Fri, 21 Jun 2024 10:09:41 +0100
-+Subject: [PATCH 09/10] Add explicit testing of ALN and NPN in sslapitest
++Subject: [PATCH 8/9] Add explicit testing of ALN and NPN in sslapitest
 +
 +We already had some tests elsewhere - but this extends that testing with
 +additional tests.
@@ -2099,9 +1857,11 @@ index 0000000000..fb1cef5067
 +
 +Reviewed-by: Neil Horman <nhorman@openssl.org>
 +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/24717)
++(Merged from https://github.com/openssl/openssl/pull/24718)
 +
-+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/7c95191434415d1c9b7fe9b130df13cce630b6b5]
++(cherry picked from commit 0453bf5a7ac60ab01c8bb713d8cc2a94324aa88c)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/ca176d7291eb780e4ed2781342f5be5a32210a68]
 +CVE: CVE-2024-5535
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
@@ -2109,10 +1869,10 @@ index 0000000000..fb1cef5067
 + 1 file changed, 229 insertions(+)
 +
 +diff --git a/test/sslapitest.c b/test/sslapitest.c
-+index 15cb906..7a55a2b 100644
++index 3922262..171298b 100644
 +--- a/test/sslapitest.c
 ++++ b/test/sslapitest.c
-+@@ -11877,6 +11877,231 @@ static int test_select_next_proto(int idx)
++@@ -10901,6 +10901,231 @@ static int test_select_next_proto(int idx)
 +     return ret;
 + }
 + 
@@ -2344,8 +2104,8 @@ index 0000000000..fb1cef5067
 + OPT_TEST_DECLARE_USAGE("certfile privkeyfile srpvfile tmpfile provider config dhfile\n")
 + 
 + int setup_tests(void)
-+@@ -12190,6 +12415,10 @@ int setup_tests(void)
-+     ADD_TEST(test_data_retry);
++@@ -11178,6 +11403,10 @@ int setup_tests(void)
++     ADD_ALL_TESTS(test_handshake_retry, 16);
 +     ADD_ALL_TESTS(test_multi_resume, 5);
 +     ADD_ALL_TESTS(test_select_next_proto, OSSL_NELEM(next_proto_tests));
 ++#if !defined(OPENSSL_NO_TLS1_2) && !defined(OPENSSL_NO_NEXTPROTONEG)
@@ -2356,16 +2116,227 @@ index 0000000000..fb1cef5067
 + 
 +  err:
 +-- 
-+2.44.0
++2.25.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.2.bb b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
-index 1c92707144..3242dd69c6 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
-@@ -12,6 +12,16 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
+new file mode 100644
+index 0000000000..ac43cc0efe
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
+@@ -0,0 +1,205 @@
++From 475480db0f9592f15f00a7cf692d3e04ad8e742f Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 21 Jun 2024 14:29:26 +0100
++Subject: [PATCH 9/9] Add a test for an empty NextProto message
++
++It is valid according to the spec for a NextProto message to have no
++protocols listed in it. The OpenSSL implementation however does not allow
++us to create such a message. In order to check that we work as expected
++when communicating with a client that does generate such messages we have
++to use a TLSProxy test.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24718)
++
++(cherry picked from commit a201030901de9f9a48b34c38f6922fb0b272f26f)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/99c2b6b971c302595db1801e26a202247238659d]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ test/recipes/70-test_npn.t      | 73 +++++++++++++++++++++++++++++++++
++ util/perl/TLSProxy/Message.pm   |  9 ++++
++ util/perl/TLSProxy/NextProto.pm | 54 ++++++++++++++++++++++++
++ util/perl/TLSProxy/Proxy.pm     |  1 +
++ 4 files changed, 137 insertions(+)
++ create mode 100644 test/recipes/70-test_npn.t
++ create mode 100644 util/perl/TLSProxy/NextProto.pm
++
++diff --git a/test/recipes/70-test_npn.t b/test/recipes/70-test_npn.t
++new file mode 100644
++index 0000000..f82e71a
++--- /dev/null
+++++ b/test/recipes/70-test_npn.t
++@@ -0,0 +1,73 @@
+++#! /usr/bin/env perl
+++# Copyright 2024 The OpenSSL Project Authors. All Rights Reserved.
+++#
+++# Licensed under the Apache License 2.0 (the "License").  You may not use
+++# this file except in compliance with the License.  You can obtain a copy
+++# in the file LICENSE in the source distribution or at
+++# https://www.openssl.org/source/license.html
+++
+++use strict;
+++use OpenSSL::Test qw/:DEFAULT cmdstr srctop_file/;
+++use OpenSSL::Test::Utils;
+++
+++use TLSProxy::Proxy;
+++
+++my $test_name = "test_npn";
+++setup($test_name);
+++
+++plan skip_all => "TLSProxy isn't usable on $^O"
+++    if $^O =~ /^(VMS)$/;
+++
+++plan skip_all => "$test_name needs the dynamic engine feature enabled"
+++    if disabled("engine") || disabled("dynamic-engine");
+++
+++plan skip_all => "$test_name needs the sock feature enabled"
+++    if disabled("sock");
+++
+++plan skip_all => "$test_name needs NPN enabled"
+++    if disabled("nextprotoneg");
+++
+++plan skip_all => "$test_name needs TLSv1.2 enabled"
+++    if disabled("tls1_2");
+++
+++my $proxy = TLSProxy::Proxy->new(
+++    undef,
+++    cmdstr(app(["openssl"]), display => 1),
+++    srctop_file("apps", "server.pem"),
+++    (!$ENV{HARNESS_ACTIVE} || $ENV{HARNESS_VERBOSE})
+++);
+++
+++$proxy->start() or plan skip_all => "Unable to start up Proxy for tests";
+++plan tests => 1;
+++
+++my $npnseen = 0;
+++
+++# Test 1: Check sending an empty NextProto message from the client works. This is
+++#         valid as per the spec, but OpenSSL does not allow you to send it.
+++#         Therefore we must be prepared to receive such a message but we cannot
+++#         generate it except via TLSProxy
+++$proxy->clear();
+++$proxy->filter(\&npn_filter);
+++$proxy->clientflags("-nextprotoneg foo -no_tls1_3");
+++$proxy->serverflags("-nextprotoneg foo");
+++$proxy->start();
+++ok($npnseen && TLSProxy::Message->success(), "Empty NPN message");
+++
+++sub npn_filter
+++{
+++    my $proxy = shift;
+++    my $message;
+++
+++    # The NextProto message always appears in flight 2
+++    return if $proxy->flight != 2;
+++
+++    foreach my $message (@{$proxy->message_list}) {
+++        if ($message->mt == TLSProxy::Message::MT_NEXT_PROTO) {
+++            # Our TLSproxy NextProto message support doesn't support parsing of
+++            # the message. If we repack it just creates an empty NextProto
+++            # message - which is exactly the scenario we want to test here.
+++            $message->repack();
+++            $npnseen = 1;
+++        }
+++    }
+++}
++diff --git a/util/perl/TLSProxy/Message.pm b/util/perl/TLSProxy/Message.pm
++index 2c1bdb3..eb350de 100644
++--- a/util/perl/TLSProxy/Message.pm
+++++ b/util/perl/TLSProxy/Message.pm
++@@ -379,6 +379,15 @@ sub create_message
++             [@message_frag_lens]
++         );
++         $message->parse();
+++    }  elsif ($mt == MT_NEXT_PROTO) {
+++        $message = TLSProxy::NextProto->new(
+++            $server,
+++            $data,
+++            [@message_rec_list],
+++            $startoffset,
+++            [@message_frag_lens]
+++        );
+++        $message->parse();
++     } else {
++         #Unknown message type
++         $message = TLSProxy::Message->new(
++diff --git a/util/perl/TLSProxy/NextProto.pm b/util/perl/TLSProxy/NextProto.pm
++new file mode 100644
++index 0000000..0e18347
++--- /dev/null
+++++ b/util/perl/TLSProxy/NextProto.pm
++@@ -0,0 +1,54 @@
+++# Copyright 2024 The OpenSSL Project Authors. All Rights Reserved.
+++#
+++# Licensed under the Apache License 2.0 (the "License").  You may not use
+++# this file except in compliance with the License.  You can obtain a copy
+++# in the file LICENSE in the source distribution or at
+++# https://www.openssl.org/source/license.html
+++
+++use strict;
+++
+++package TLSProxy::NextProto;
+++
+++use vars '@ISA';
+++push @ISA, 'TLSProxy::Message';
+++
+++sub new
+++{
+++    my $class = shift;
+++    my ($server,
+++        $data,
+++        $records,
+++        $startoffset,
+++        $message_frag_lens) = @_;
+++
+++    my $self = $class->SUPER::new(
+++        $server,
+++        TLSProxy::Message::MT_NEXT_PROTO,
+++        $data,
+++        $records,
+++        $startoffset,
+++        $message_frag_lens);
+++
+++    return $self;
+++}
+++
+++sub parse
+++{
+++    # We don't support parsing at the moment
+++}
+++
+++# This is supposed to reconstruct the on-the-wire message data following changes.
+++# For now though since we don't support parsing we just create an empty NextProto
+++# message - this capability is used in test_npn
+++sub set_message_contents
+++{
+++    my $self = shift;
+++    my $data;
+++
+++    $data = pack("C32", 0x00, 0x1e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+++                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+++                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+++                 0x00, 0x00, 0x00);
+++    $self->data($data);
+++}
+++1;
++diff --git a/util/perl/TLSProxy/Proxy.pm b/util/perl/TLSProxy/Proxy.pm
++index 3de10ec..b707722 100644
++--- a/util/perl/TLSProxy/Proxy.pm
+++++ b/util/perl/TLSProxy/Proxy.pm
++@@ -23,6 +23,7 @@ use TLSProxy::CertificateRequest;
++ use TLSProxy::CertificateVerify;
++ use TLSProxy::ServerKeyExchange;
++ use TLSProxy::NewSessionTicket;
+++use TLSProxy::NextProto;
++ 
++ my $have_IPv6;
++ my $IP_factory;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.14.bb b/meta/recipes-connectivity/openssl/openssl_3.0.14.bb
+index 021787adcb..8b9fd4a96b 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.14.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.14.bb
+@@ -12,6 +12,15 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
             file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
 +           file://CVE-2024-5535_1.patch \
 +           file://CVE-2024-5535_2.patch \
 +           file://CVE-2024-5535_3.patch \
@@ -2375,7 +2346,6 @@ index 1c92707144..3242dd69c6 100644
 +           file://CVE-2024-5535_7.patch \
 +           file://CVE-2024-5535_8.patch \
 +           file://CVE-2024-5535_9.patch \
-+           file://CVE-2024-5535_10.patch \
             "
  
  SRC_URI:append:class-nativesdk = " \
