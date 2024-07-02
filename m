@@ -1,72 +1,100 @@
-Return-Path: <florian.amstutz@scs.ch>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D92FBC3064D
-	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 08:16:37 +0000 (UTC)
-Subject: [PATCH] u-boot: Fix potential index error issues in do_deploy with multiple u-boot configurations
-To: openembedded-core@lists.openembedded.org
-From: "Florian Amstutz" <florian.amstutz@scs.ch>
-X-Originating-Location: Malters, Lucerne, CH (178.197.211.131)
-X-Originating-Platform: Windows Chrome 126
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Tue, 02 Jul 2024 01:16:35 -0700
-Message-ID: <ykBT.1719908195834561903.8Nny@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="ZWtGr2iolsc6YAoHOgYU"
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF9B7C30658
+	for <webhook@archiver.kernel.org>; Tue,  2 Jul 2024 08:34:27 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.19886.1719909261928768428
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 02 Jul 2024 01:34:21 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dZrxTIba;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Sjyg1yvw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019072949efd-f190f4a6-9d4d-4ac2-a80e-bea3b1d0a953-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1719909261; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=nFkiCEer8nRhQBjR1Ov2qgIW6Fb+b7RyN4v1HEJm7UI=;
+	b=dZrxTIba3iIusYbdpwrd/6S/y4a67xQrswLtgMJJmiNrLEpDBl7Km4s5GZy8V0Mo
+	UDeYMjt84y7J/D8Nd1q9yhEe6HsXplDGy00eNm9i1v5MGgYcVa79VqiyEEwiVtTXgGI
+	ZFo1whEgBB9iT25In+YaCp+DvNrTI5AnCx/lFROo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1719909261;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=nFkiCEer8nRhQBjR1Ov2qgIW6Fb+b7RyN4v1HEJm7UI=;
+	b=Sjyg1yvwV+aTUin/kbykGH1apS7/oPzDMbHvVdwO2m2Zg13SUWQs8refTIWQzXWh
+	OaL8BfoV7biWp5nRq1qg9PxtIgpkt7/ZTYbrDV7l2WiuGCS1x8FYIIJGt43nmLdQ0f5
+	/EXqdzryWjzl6Q07qnDBz9UwJ95o1EGM8tfQLz2s=
+From: patchtest@automation.yoctoproject.org
+To: Florian Amstutz <florian.amstutz@scs.ch>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] u-boot: Fix potential index error issues in do_deploy with
+ multiple u-boot configurations
+In-Reply-To: <ykBT.1719908195834561903.8Nny@lists.openembedded.org>
+References: <ykBT.1719908195834561903.8Nny@lists.openembedded.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019072949efd-f190f4a6-9d4d-4ac2-a80e-bea3b1d0a953-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Jul 2024 08:34:21 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.02-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 08:16:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201415
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 08:34:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201417
 
---ZWtGr2iolsc6YAoHOgYU
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-If i or j have not been unset in do_deploy:prepend functions, images are no=
-t correctly
-copied to DEPLOYDIR.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Florian Amstutz <florian.amstutz@scs.ch>
 ---
-meta/recipes-bsp/u-boot/u-boot.inc | 1 +
-1 file changed, 1 insertion(+)
+Testing patch /home/patchtest/share/mboxes/u-boot-Fix-potential-index-error-issues-in-do_deploy-with-multiple-u-boot-configurations.patch
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
--boot.inc
-index 54ea2e9e50..70fb192d6e 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -209,6 +209,7 @@ RDEPENDS:${PN} +=3D "${PN}-env"
-do_deploy () {
-if [ -n "${UBOOT_CONFIG}" ]
-then
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0unset i j
-for config in ${UBOOT_MACHINE}; do
-i=3D$(expr $i + 1);
-for type in ${UBOOT_CONFIG}; do
---
-2.34.1
+FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
 
---ZWtGr2iolsc6YAoHOgYU
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-If i or j have not been unset in do_deploy:prepend functions, images are no=
-t correctly<br />copied to DEPLOYDIR.<br /><br />Signed-off-by: Florian Ams=
-tutz &lt;florian.amstutz@scs.ch&gt;<br />---<br />&nbsp;meta/recipes-bsp/u-=
-boot/u-boot.inc | 1 +<br />&nbsp;1 file changed, 1 insertion(+)<br /><br />=
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
--boot.inc<br />index 54ea2e9e50..70fb192d6e 100644<br />--- a/meta/recipes-=
-bsp/u-boot/u-boot.inc<br />+++ b/meta/recipes-bsp/u-boot/u-boot.inc<br />@@=
- -209,6 +209,7 @@ RDEPENDS:${PN} +=3D "${PN}-env"<br />&nbsp;do_deploy () {=
-<br />&nbsp; &nbsp; &nbsp;if [ -n "${UBOOT_CONFIG}" ]<br />&nbsp; &nbsp; &n=
-bsp;then<br />+ &nbsp; &nbsp; &nbsp; &nbsp;unset i j<br />&nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp;for config in ${UBOOT_MACHINE}; do<br />&nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp;i=3D$(expr $i + 1);<br />&nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp;for type in ${UBOOT_CONFIG}; do<br />--<br />2.=
-34.1
+SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: Parse error Hunk diff line expected: do_deploy () {
+SKIP: test Signed-off-by presence: Parse error Hunk diff line expected: do_deploy () {
+SKIP: test Upstream-Status presence: Parse error Hunk diff line expected: do_deploy () {
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
---ZWtGr2iolsc6YAoHOgYU--
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
