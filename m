@@ -1,380 +1,357 @@
-Return-Path: <Ruiqiang.Hao@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D70C2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 06:58:04 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.45569.1719989875327044272
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 832ACC30653
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 07:16:34 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web11.45762.1719990992191372213
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jul 2024 23:57:55 -0700
+ Wed, 03 Jul 2024 00:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7914628a09=ruiqiang.hao@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4635Voht009299
-	for <openembedded-core@lists.openembedded.org>; Tue, 2 Jul 2024 23:57:55 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4033em2tjv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 23:57:54 -0700 (PDT)
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4636tvl4027789
-	for <openembedded-core@lists.openembedded.org>; Tue, 2 Jul 2024 23:57:54 -0700
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4033em2tjs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Jul 2024 23:57:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U7OFhfzuoCEDD2gtAz58kZuVATKNzfqU3ijAg2dRfju0oNfGwsRvjfj8Hi6MSsuGj6f6zFUhT6rW70n7GoUb9ljQUhNg3j5G5rcNKmyn8pu0YzH5oyPCTysqE9zbtkQa6TjWemCosl05IKBPI53aR0sUNVqWXRomy0JEM2P0AXgGDArNqMIHBH3MOZWVYhDujpD5QPyOAyqWYR/zEFAxET91qdKkPSEaWuxdz7Awadyv7wefVnvORkKirPqn/hi9VPgH8CFVW1Fy7Pud662bY15xMguo5PVMcA/nY7hChK+W2eAmEilKFWkUwvhB6R/oMiTZHi5dxN0PCBRtmGYXHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bGL63VEJAxxUP1Ue6p3dbGYEai+jxTMJLHn+vATlAiw=;
- b=SYqIzSbbJAMUDTZywmljL3B3nsGJ1IJI5QjmFlqtNYw81s/tIH/kmy+QSHCY8iUrn2vcFlyLPWKkS6v5I7xcJhbrWAP0RjI2p2xw1DQarUBrujn+2ZcOf/fij8KTYx/Fi7YWomUwghqv5xJShNp+QYY9DEKFxBq88Cr2iLOOkI22hVV1032fNFC6oH/gMbFyFTUv0tZnOuHF+/ozxjzUYRlQ2XaCWQTSdPUMGiwVjXSQaVcZROzvb6BV9JeSjlaupf0bcHZZuvHKunNEaIjLGpc/gHcBhIlxGS4eS5wCf7P3S/hLH8Xi8/yKUtuZ+7G1vw5uIhBNgwaJ2K5HSRnEqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SN7PR11MB8025.namprd11.prod.outlook.com (2603:10b6:806:2dc::19)
- by SJ2PR11MB7645.namprd11.prod.outlook.com (2603:10b6:a03:4c6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.33; Wed, 3 Jul
- 2024 06:57:50 +0000
-Received: from SN7PR11MB8025.namprd11.prod.outlook.com
- ([fe80::a5fe:8f1a:b4b:d00a]) by SN7PR11MB8025.namprd11.prod.outlook.com
- ([fe80::a5fe:8f1a:b4b:d00a%5]) with mapi id 15.20.7719.028; Wed, 3 Jul 2024
- 06:57:50 +0000
-From: "Hao, Ruiqiang" <Ruiqiang.Hao@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from
- TUNE_FEATURES
-Thread-Topic: [OE-core] [PATCH] tune: octeontx2: remove crypto from
- TUNE_FEATURES
-Thread-Index: AQHazOzMxewxmML220Kc95z10otnkLHkWO2AgAAwP5I=
-Date: Wed, 3 Jul 2024 06:57:50 +0000
-Message-ID: 
- <SN7PR11MB802547B5393E20C157D4968A8DDD2@SN7PR11MB8025.namprd11.prod.outlook.com>
-References: <20240703020027.3434756-1-ruiqiang.hao@windriver.com>
- <CAMKF1spnQpsOZFe_bseefaNtPA0T8z23MStYPxZEfCh8bMMqiA@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1spnQpsOZFe_bseefaNtPA0T8z23MStYPxZEfCh8bMMqiA@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR11MB8025:EE_|SJ2PR11MB7645:EE_
-x-ms-office365-filtering-correlation-id: ba6c8f83-4bd7-4b01-3007-08dc9b2d7402
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|4022899009|366016|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?NmpReG9Pc0xXUDJlRXV6S3JueE0ycE5lNGZLR2VUQ2NNL1U4VUd6NmlGWWJT?=
- =?utf-8?B?cHRqdEZsUjVSYkFOd25qQmcvVFpobS8wU1JFelg5dldPTDIvUTZSbFFEUzhC?=
- =?utf-8?B?SDR6V3IvOG4vL25oOXJOZUhMbXQzeG9ROXp6RkFHbURzN29lU2lOSG5WMFpJ?=
- =?utf-8?B?Sjg1RGI4aU92NUNXM0s0djNMRElkQjBjUnMxUWw0eWZJYXlDNVJFMHkyVjgr?=
- =?utf-8?B?ZUptVGlkeitYZkJUTnhydCtnbEQzSUJEeTVjZUZSSzdjOENxWnArejIwZjRa?=
- =?utf-8?B?cXMwY0lHTzVYdzdsZ284dmFFT1FjNzFSYVd0V21ISkVleGVnUTI1TUVIY1pH?=
- =?utf-8?B?cXluYXRHd0F3dDY3MTkwZlRSc0FtKzhycUkyWTFWNkEzTDZzMllnVk1NdU1U?=
- =?utf-8?B?RGhITzNQVW5ZSnlCVzVmYWRPeVlOY2lUVG9uZ2tNMUd4S241SnBSNHcrbVl4?=
- =?utf-8?B?WHNySCtndEw4NFRVdkpmcnRMZkVFUnlLa3J5ay80cmlBVDRacEpFMjRtWTZK?=
- =?utf-8?B?eW1SdnUxMDNndzZGbVpWUS8zRFo1YVFmOWZxTjdRVThOUXhuYjk3N0JzdklF?=
- =?utf-8?B?WmFlM1R6aXMrQXdYWTlGUkMxSWt5cjAreXV0WmR5ZVNNdEtERW9zTEEyUnJC?=
- =?utf-8?B?bGs1cisxZXIvb2UreHJoenNSbm5hMDFCUmJPeForaENTckRwOEVkVHl3cHNL?=
- =?utf-8?B?OXdSSkoxR0JyR2ZNYlJUTkpuUVo3OFBUVmlGSWowY05xcEdaVG5MWGM0Zkxh?=
- =?utf-8?B?ejhlTmRSczh4QjF6RjRUZW9TWTRkVUZNUTBSeGxxQitadEVuOFlzekphV29J?=
- =?utf-8?B?NVZwU2xoaXg5R0JwK1F1WUJIc3JqQU1oV3dHVGs3cnlGR1VyVWFNZi9sMWk0?=
- =?utf-8?B?VDNZTlVuV0UxUzRld2FZcGxiVDNQaW9uMmtrMklRbE1BOFZKYWY2U0dUeVg0?=
- =?utf-8?B?b3ZrNWpscGJjdlJRSzRXRlZhd2hwUWdIdkJTU0NLT013aVdoZGZDcFN0L1cw?=
- =?utf-8?B?U0puQzRpcGZTTDUxdlhXU3JNTnhhRmFqcjR0WjRpSldlQTZCN3RzWWpMeXZa?=
- =?utf-8?B?a24zT1QrK1RURGVVVWg2Vm1ZREhkREVIeCtUMVVQVGcwYVo2UXVYS3Z2MWRr?=
- =?utf-8?B?bkg0bE8xNXhUNk14NXZ2eFhqOC94em1SdzU4ZnNtbmxFYnFCNkpnVncyRTJy?=
- =?utf-8?B?S29CQUFBTVFPVE5iRTJiRklTdHd4UTlHc0U1NWFBeUpsNzNuSU5iRTZwWGZH?=
- =?utf-8?B?S1g5SzNoSXhjR1p2MnAwL29WbEFldzNtUG5JR3BjODN2YUZrdFlnSk03SkNa?=
- =?utf-8?B?bk1ud2VrRThTVDJjRU1jR0lNSm5NZGhuYzJFUlo1ckJDcXZxOW90U3ZPa29W?=
- =?utf-8?B?ZGdnTFl3KzdXYWlIU1c0UnlTU1pHNUEvWk5kSFFIQ2FYMGhCS0s4WTVpNHZw?=
- =?utf-8?B?dVgvSHRNQ3FnU1J6ZGExeFQzUmFudXZFaWVhWjM1MnNKVnJTVVpnNzBGblZq?=
- =?utf-8?B?MzljcWdLdklWbUl6WjFBNkxrQzlpcFZBTDM2Wk1odlNuQW5qSDR4TWJyUHlt?=
- =?utf-8?B?UzQ0NGlNOEJldCt3QkhrUldSRFVhV3piNUU3YkptMHl1UVVUODVXdHp1NU1G?=
- =?utf-8?B?YkJNKzM3S3o1Y3Fqd0JERVQ5T2crTjR1ejdZdVY1TmwzY1NGeDRZZXMyZWRx?=
- =?utf-8?B?UnlsTEFPL3pWR29XaHVINnFQQmw3WVZndWtBRUdMTjNhMk1ZS0FRV1lGaStG?=
- =?utf-8?B?b2tZN21WWUFvTHRXUmIxSit6OEk5T3JVcnJDcWpBRDh2UnpReFNObWZSNk9V?=
- =?utf-8?Q?qmYEm2lFbMgfK3/4UG358PqslzcRmd9Q4djbI=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8025.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(4022899009)(366016)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?YUQ4dWY3dUl1UHBOblU0cXp6NEc0cnc4a1FSVjIxMVJwYWh3bmRTdXh0Qlhj?=
- =?utf-8?B?ZERpYXJ1eXFCQVFhSGh5b3NFdzdwN0NXYTk0UWFlMWF2U3l6M09HTFpLLzBB?=
- =?utf-8?B?TU9ZbUJPVTVYaXhDZWIxdGZTNHBINmg5MENDRk54c05QcEY5VWpPSzlNeVV5?=
- =?utf-8?B?VXRURzIyUE1YQmVjUlJKcHVWeEtTNHVROUpLQWNwSmlQNUVwUGJHUCt6dGE5?=
- =?utf-8?B?QXE1TnV4MWJsbHZzVEhxWlZFL21oa3N0ZDA2NjBibEp4YXFiT1dJdzJ5UzF2?=
- =?utf-8?B?amZIZnB6MDA2NnFJRzA1NlN3TlpMcld2N2xSZWtDcDN5YW00b29ueFBuM3ln?=
- =?utf-8?B?WmNDbFh0bFJzODNFQ3ZiVS9yUnhTQlJYZjlJbk1pd3VGWHVDSzN2bktaRWY3?=
- =?utf-8?B?V3U3UkpvTFhuTFJRMytRdzFqWGZ4b0w0alpIRlRiVzZxRTFjWmQzTUdEemZS?=
- =?utf-8?B?dUd6czNDWHB0TCtiTUZGL1RhclRMR0pNNE1JTXNLaXMvQmhDOE5YVHc3Nmlw?=
- =?utf-8?B?QXI5Ni9MNlUzeTZXdGtuR2hEOU5TQ2pBcEZNaURRRnVscGhKOXEyYU9qRFdi?=
- =?utf-8?B?ay9wQVBhaTRMT2N5TmpOaWlTcWZDTXRRUDZiUmZLVWtlQjM2ditPWEtWRElm?=
- =?utf-8?B?a2haeXBNYUo2MEtRVWFSRWVrTGVTeG5ycGpUTWY1eTR3U1JLU0dHUDFrWE9T?=
- =?utf-8?B?bDJOdVR0Y1dmaWMzVzdxSHFvOHpiTjNuN1hYdUVqbksrV0tjTW56bDlLWHZI?=
- =?utf-8?B?NW1Ed2N1VitKMThuaktEVHBCM3RLS1gydFdyVVhKTWNPTTVXckRxL0xFZWpu?=
- =?utf-8?B?NFQrelJvaEQ2WVRLSE4vNFBuOHhBREFyRG1NOEJIZDZieisxMm15MjMzQVU0?=
- =?utf-8?B?cWFieDl4Z3NYOFFIR0RNYk5FeWFwSDhxMWJTN05PSkdEY0wwNDhyS2NsMFFT?=
- =?utf-8?B?b1Z2RjBKOHRtM3lSOEZpZEJwdEhRM0xhdGg1dzBvMnpEbzYwQzNmaHZkaVds?=
- =?utf-8?B?SXdxL0IwdEZCNkI4RnpkY2F0VnRGR3JwdVR0U0MvVmlJRyt6NFViZ0NVOXk0?=
- =?utf-8?B?U2NnUjRSZWFITnhSQk5mZXlHK0RQa2c1SXFPdVRCL1F0MERvNUJxN2I5Umgw?=
- =?utf-8?B?MVEzbkdLSDFUWk1wc0N3L2dRSnJKdXhyMDE5a2lzcTcrQnpJLzdjMS9YdWUz?=
- =?utf-8?B?Um9mUHZwbU56dEtCM2duUXVDS1B2Uk5qYWNMOEhybS9KdHJKMUE0RVdNM0o2?=
- =?utf-8?B?T2lhekFvSUR2LytYS1FvN0J2Sm9FUFE2U2xBVEEwNWJRcERLTjdqUjN2UXEy?=
- =?utf-8?B?RVNVU1lvNWJCQVVIYWFkOEx5Z01WOG9BakNNWm9JTHZHSTNuUGVZc3Y0T2Za?=
- =?utf-8?B?alJXK3Z4OXRFemx5QUVYdUowTDM0a0FXdUtpM0dOQ3hXcEJZL2V1MExPVCtC?=
- =?utf-8?B?elFHUDZkZkkvMjJyTEYxbWtUcXpTZW9FZC9rNFdIR1NDeklsdWhvOTNic3J3?=
- =?utf-8?B?R3U1WEdHNDF4TjZMVTZQOFRyMDBBbTFaM09IZXlTRFE1OFRGSjYvbGwyUjhY?=
- =?utf-8?B?Zm1VejJub0ZWZjZDZEpqTHdlbkdIVlhFYkxrYmtVd3IvRTdVdVNkQU9rbytE?=
- =?utf-8?B?R0FNbHpVeitVN252WjBjaHNJT0hSeVRwUlNUU0tJNUFkdXpnbklvWjJxekdp?=
- =?utf-8?B?NWJTV1h6a01HODFJVUU5OGlYd0ZVaW9YTFNPYXJBSmVKNjlLMG5qYUpkU1VC?=
- =?utf-8?B?eGdkWVZpTXZhSkxNUC9GbzJ4c0N5TnpGMHJRc2tUejIxUXBabGFaMzF6Rk5B?=
- =?utf-8?B?SG0xc1doaUh2WXpSOUsvZTVSYmNiRFQ2UXMvYUZWNnJsd0c2bDVjOWdhQ3h0?=
- =?utf-8?B?ZVltTEU5bGRpcGdGblc2Y1VyeGxHVmJORTJpb0FVcllMcjE3WmVrWk5TRW1T?=
- =?utf-8?B?VVUwMTV2bzlUQ0JPVmhPRHl1d3BkYTM4dUZaTlJNV0xEREFRSWJtamRSTHAv?=
- =?utf-8?B?bmFnUDJPK0N3OEtzSlRQVlhXczljNEpINUg0ZFRwUXFkU0dwMjE0WkVjeEwx?=
- =?utf-8?B?UjVCSm9ON1VyUFFUajNhMyt3UHR1dEtEWVFoVk45RjNwZ3FmNFloaHRQSEZu?=
- =?utf-8?Q?WSYToFfMnE7PK1sxvDmEyVvYB?=
-Content-Type: multipart/alternative;
-	boundary="_000_SN7PR11MB802547B5393E20C157D4968A8DDD2SN7PR11MB8025namp_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NvL0cMJM;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-25e16380bc9so53448fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 00:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719990991; x=1720595791; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VkCoVph9EXk47h63K+zmnXDzs6jpN8xKbfuXAHojbuQ=;
+        b=NvL0cMJMVZytjvY+Rwqt94gxZ0XGmD02EJbBF1//S9rNKbZz/mfIzRNucKPcVluO5f
+         LSYn7pVaZJqWKhft67Yw5q+Dsr4+mWJBN6GTFdprJn6jSXO32/9+cOVeDe9vNC0Yeoza
+         Z+SR9O7MzuK67gyz3IwyJAsLOnd//HRBV5DsbDeS701SrAGmoQUGJ9v0KICMHK4BDPY6
+         r2wvn4lFtZo3JVMq6eOSyHnw/P7ULjOTMzjMraisFg2Kh0SFMxxMzmGrhJ9rYr55NoiM
+         TdFYMHEzgYnZwS3PMUGS4zAng6+rZzIa6xw6IN03xQRtFT8n8t1JO1m6IdmEw8pdotFo
+         Ya7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719990991; x=1720595791;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VkCoVph9EXk47h63K+zmnXDzs6jpN8xKbfuXAHojbuQ=;
+        b=kbToTkTF7EyBtoH1Lx8YTIX2+ngYljmAYO/UV1fDNUV0QhmLdtQfoAUfmo8sjRrt3v
+         7ydWNLZ+3H7gETOtlTWDtFzq/a82snvrlmHY4OXLFI4DKQtcENT3rVHpyhT0C3MaZNFZ
+         gRZH1sm+gSG2NYzl+HUWR0b20aJoghkEA74WZR67BS2SiO2JwpgMumUq8X7N3/REtghU
+         nmf1DWcxD83Dm4JDbmL5OiOgUdJQHdpNN/z5ZdGZrfyuEthflEzLfi5IMhCHKINPD877
+         pxfJO+dRLrKJ3GDezayKgsXCcSRrFk3ItQ9KjhBzgtIIYQd7+Tij8TU9wjhcEL2CsoeS
+         kx5Q==
+X-Gm-Message-State: AOJu0Yxahz8Z/lMM4cxgo1Yz5qh0AwHtnNdSuVajs+kXBgaoj1LiA7BX
+	DR5Ra4T1pE2KosANfzNjbxOInAsswhApGfxh6QfQ3vfwJiHkby/rO0IHrQclH/7C420uWwqvtut
+	B97uwZVOJDzg3pcD3cY4n7urN3ak=
+X-Google-Smtp-Source: AGHT+IHyaUTQDaxBV2Il99XBfrvGfEQ+7oWAg2jXFtMEUdE5QUqUnXuXS0RFpHou7VgdQUa7ZXdUsfsqEfFpebpEsPU=
+X-Received: by 2002:a05:6870:1f07:b0:258:3455:4b37 with SMTP id
+ 586e51a60fabf-25db362b956mr10584970fac.59.1719990991251; Wed, 03 Jul 2024
+ 00:16:31 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8025.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba6c8f83-4bd7-4b01-3007-08dc9b2d7402
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2024 06:57:50.1382
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OY41HS00SCkX6sjjvQEZR24cUrCCmKyovfsBSbGUCkgoiPkhjHcdN/wv/VU9jGyADMeKJcLgz8uLoHWAct/BxtXdrbuqJtzXuGoMjtYSO6k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7645
-X-Proofpoint-GUID: f2Qs-1ugb-GJjhtqRgne1VJ70hG-LHqz
-X-Proofpoint-ORIG-GUID: Hjl-nmcSGe9utb5h2MV-4fmEbhSRtKL-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-03_03,2024-07-02_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 suspectscore=0 clxscore=1015 spamscore=0 malwarescore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2406140001 definitions=main-2407030050
+References: <20240703020027.3434756-1-ruiqiang.hao@windriver.com>
+ <CAMKF1spnQpsOZFe_bseefaNtPA0T8z23MStYPxZEfCh8bMMqiA@mail.gmail.com> <SN7PR11MB802547B5393E20C157D4968A8DDD2@SN7PR11MB8025.namprd11.prod.outlook.com>
+In-Reply-To: <SN7PR11MB802547B5393E20C157D4968A8DDD2@SN7PR11MB8025.namprd11.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 3 Jul 2024 00:16:04 -0700
+Message-ID: <CAMKF1sr62Y21TgHp+78c+gL5UGpOUip6LPJ12Ke6TLf_kCybnA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from TUNE_FEATURES
+To: "Hao, Ruiqiang" <Ruiqiang.Hao@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000cef5b061c529c14"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 06:58:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201454
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 07:16:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201455
 
---_000_SN7PR11MB802547B5393E20C157D4968A8DDD2SN7PR11MB8025namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--0000000000000cef5b061c529c14
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-VGhpcyBpcyBhIGNsYW5nIHByb2JsZW0uIEl0IHNob3VsZCBiZSBmaXhlZCBpbiBjbGFuZywgbm90
-IGhlcmUuIEFkZGl0aW9uYWxseSB3ZSBjaGVjayBmb3IgJ2NyeXB0bycgaW4gVFVORV9GRUFUVVJF
-UyBpbiBtYW55IHJlY2lwZXMgZm9yIG1ha2luZyBzcGVjaWZpYyB0d2Vha3MsIHRoZXkgd2lsbCBm
-YWlsIGZvciBvY3Rlb254MiBpZiB3ZSBhcHBseSB0aGlzLiBTZWUgaHR0cHM6Ly9naXRodWIuY29t
-L2tyYWovbWV0YS1jbGFuZy9ibG9iL21hc3Rlci9jbGFzc2VzL2NsYW5nLmJiY2xhc3MjTDQ5LUw1
-Mw0KSGkga3JhaiwNCg0KVGhhbmtzIGZvciB5b3VyIHByb21wdCBmZWVkYmFjay4NCkkgaGF2ZSBs
-aW1pdGVkIGV4cGVyaWVuY2Ugd2l0aCBDbGFuZywgY291bGQgeW91IHByb3ZpZGUgc29tZSBzdWdn
-ZXN0aW9ucyBmb3IgZml4aW5nIHRoaXMgaXNzdWU/DQpBZGRpdGlvbmFsbHksIHRoaXMgbGluayBp
-cyBub3QgcmVsYXRlZCB0byB0aGUgVFVORV9GRUFUVVJFUyBjaGVjayBmb3Igb2N0ZW9udHgyLg0K
-Q291bGQgeW91IHByb3ZpZGUgb25lIG5hbWUgb2YgcmVjaXBlIHRoYXQgY2hlY2tzIHdoZXRoZXIg
-VFVORV9GRUFUVVJFUyBpbmNsdWRlcyAnY3J5cHRvJyB0byBoZWxwIG1lIHdpdGggdHJvdWJsZXNo
-b290aW5nPw0KDQpCLlIuDQpSdWlxaWFuZw0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18NCkZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQpTZW50OiBXZWRuZXNkYXks
-IEp1bHkgMywgMjAyNCAxMTozMA0KVG86IEhhbywgUnVpcWlhbmcgPFJ1aXFpYW5nLkhhb0B3aW5k
-cml2ZXIuY29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcg
-PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFtQQVRDSF0gdHVuZTogb2N0ZW9udHgyOiByZW1vdmUgY3J5cHRvIGZyb20gVFVO
-RV9GRUFUVVJFUw0KDQpDQVVUSU9OOiBUaGlzIGVtYWlsIGNvbWVzIGZyb20gYSBub24gV2luZCBS
-aXZlciBlbWFpbCBhY2NvdW50IQ0KRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVu
-dHMgdW5sZXNzIHlvdSByZWNvZ25pemUgdGhlIHNlbmRlciBhbmQga25vdyB0aGUgY29udGVudCBp
-cyBzYWZlLg0KDQpPbiBUdWUsIEp1bCAyLCAyMDI0IGF0IDc6MDDigK9QTSBSdWlxaWFuZyBIYW8g
-dmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCjxSdWlxaWFuZy5IYW89d2luZHJpdmVyLmNvbUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4NCj4gRnJvbTogUnVpcWlhbmcgSGFvIDxS
-dWlxaWFuZy5IYW9Ad2luZHJpdmVyLmNvbT4NCj4NCj4gU2luY2UgR0NDJ3MgY29uZmlndXJhdGlv
-biBpbmNsdWRlcyB0aGUgY3J5cHRvIGZlYXR1cmUgd2hlbiBzcGVjaWZ5aW5nDQo+ICctbWNwdT1v
-Y3Rlb250eDInLCB0aGVyZSdzIG5vIG5lZWQgdG8gYWRkaXRpb25hbGx5IGluY2x1ZGUgdGhpcyBm
-ZWF0dXJlDQo+IGluIFRVTkVfRkVBVFVSRVMuIFJlbW92aW5nIGNyeXB0byB0byBmaXggdGhlIGZv
-bGxvd2luZyBlcnJvcjoNCj4NCj4gYWFyY2g2NC13cnMtbGludXgtY2xhbmc6IGVycm9yOiB1bnN1
-cHBvcnRlZCBhcmd1bWVudCAnb2N0ZW9udHgyK2NyeXB0bycgZm9yIG9wdGlvbiAnLW1jcHU9Jw0K
-DQpUaGlzIGlzIGEgY2xhbmcgcHJvYmxlbS4gSXQgc2hvdWxkIGJlIGZpeGVkIGluIGNsYW5nLCBu
-b3QgaGVyZS4NCkFkZGl0aW9uYWxseSB3ZSBjaGVjayBmb3IgJ2NyeXB0bycgaW4gVFVORV9GRUFU
-VVJFUyBpbg0KbWFueSByZWNpcGVzIGZvciBtYWtpbmcgc3BlY2lmaWMgdHdlYWtzLCB0aGV5IHdp
-bGwgZmFpbCBmb3Igb2N0ZW9ueDINCmlmIHdlIGFwcGx5IHRoaXMuIFNlZQ0KaHR0cHM6Ly9naXRo
-dWIuY29tL2tyYWovbWV0YS1jbGFuZy9ibG9iL21hc3Rlci9jbGFzc2VzL2NsYW5nLmJiY2xhc3Mj
-TDQ5LUw1Mw0KDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFJ1aXFpYW5nIEhhbyA8UnVpcWlhbmcuSGFv
-QHdpbmRyaXZlci5jb20+DQo+IC0tLQ0KPiAgbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS9hcm0v
-YXJtdjgtMmEvdHVuZS1vY3Rlb250eDIuaW5jIHwgMiArLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYv
-bWFjaGluZS9pbmNsdWRlL2FybS9hcm12OC0yYS90dW5lLW9jdGVvbnR4Mi5pbmMgYi9tZXRhL2Nv
-bmYvbWFjaGluZS9pbmNsdWRlL2FybS9hcm12OC0yYS90dW5lLW9jdGVvbnR4Mi5pbmMNCj4gaW5k
-ZXggZTlkN2E1OWM1MS4uZDUxZDE5Yjk4MCAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jb25mL21hY2hp
-bmUvaW5jbHVkZS9hcm0vYXJtdjgtMmEvdHVuZS1vY3Rlb250eDIuaW5jDQo+ICsrKyBiL21ldGEv
-Y29uZi9tYWNoaW5lL2luY2x1ZGUvYXJtL2FybXY4LTJhL3R1bmUtb2N0ZW9udHgyLmluYw0KPiBA
-QCAtOSw2ICs5LDYgQEAgcmVxdWlyZSBjb25mL21hY2hpbmUvaW5jbHVkZS9hcm0vYXJjaC1hcm12
-OC0yYS5pbmMNCj4gIEFWQUlMVFVORVMgKz0gIm9jdGVvbnR4MiINCj4gIEFSTVBLR0FSQ0g6dHVu
-ZS1vY3Rlb250eDIgICAgICAgICAgICAgPSAib2N0ZW9udHgyIg0KPiAgIyBXZSBkbyBub3Qgd2Fu
-dCAtbWFyY2ggc2luY2UgLW1jcHUgaXMgYWRkZWQgYWJvdmUgdG8gY292ZXIgZm9yIGl0DQo+IC1U
-VU5FX0ZFQVRVUkVTOnR1bmUtb2N0ZW9udHgyICAgICAgICAgID0gImFhcmNoNjQgY3J5cHRvIG9j
-dGVvbnR4MiINCj4gK1RVTkVfRkVBVFVSRVM6dHVuZS1vY3Rlb250eDIgICAgICAgICAgPSAiYWFy
-Y2g2NCBvY3Rlb250eDIiDQo+ICBQQUNLQUdFX0VYVFJBX0FSQ0hTOnR1bmUtb2N0ZW9udHgyICAg
-ID0gIiR7UEFDS0FHRV9FWFRSQV9BUkNIUzp0dW5lLWFybXY4LTJhLWNyeXB0b30gb2N0ZW9udHgy
-Ig0KPiAgQkFTRV9MSUI6dHVuZS1vY3Rlb250eDIgICAgICAgICAgICAgICA9ICJsaWI2NCINCj4g
-LS0NCj4gMi40NS4wDQo+DQo+DQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IExpbmtzOiBZ
-b3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiBWaWV3L1JlcGx5
-IE9ubGluZSAoIzIwMTQ0OCk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5l
-bWJlZGRlZC1jb3JlL21lc3NhZ2UvMjAxNDQ4DQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9s
-aXN0cy5vcGVuZW1iZWRkZWQub3JnL210LzEwNzAxMjg0MS8xOTk3OTE0DQo+IEdyb3VwIE93bmVy
-OiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFVuc3Vi
-c2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29y
-ZS91bnN1YiBbcmFqLmtoZW1AZ21haWwuY29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0K
-Pg0K
+On Tue, Jul 2, 2024 at 11:57=E2=80=AFPM Hao, Ruiqiang <Ruiqiang.Hao@windriv=
+er.com>
+wrote:
 
---_000_SN7PR11MB802547B5393E20C157D4968A8DDD2SN7PR11MB8025namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> This is a clang problem. It should be fixed in clang, not here.
+> Additionally we check for 'crypto' in TUNE_FEATURES in many recipes for
+> making specific tweaks, they will fail for octeonx2 if we apply this. See
+> https://github.com/kraj/meta-clang/blob/master/classes/clang.bbclass#L49-=
+L53
+> Hi kraj,
+>
+> Thanks for your prompt feedback.
+> I have limited experience with Clang, could you provide some suggestions
+> for fixing this issue?
+> Additionally, this link is not related to the TUNE_FEATURES check for
+> octeontx2.
+> Could you provide one name of recipe that checks whether TUNE_FEATURES
+> includes 'crypto' to help me with troubleshooting?
+>
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgY2xhc3M9Il9FbnRpdHkgX0VUeXBl
-X1F1b3RlIF9FSWRfUXVvdGUgX0VSZWFkb25seV8xIiBzdHlsZT0id2lkdGg6IDEwMCU7IGRpc3Bs
-YXk6IGlubGluZS1ibG9jazsgY29sb3I6IGluaGVyaXQ7IGJhY2tncm91bmQtY29sb3I6IGluaGVy
-aXQ7Ij4NCjx0YWJsZSBzdHlsZT0iYm9yZGVyOiAxLjVweCBzb2xpZCByZ2IoMjM3LCAyMzUsIDIz
-Myk7IGJvcmRlci1yYWRpdXM6IDRweDsgcGFkZGluZzogNHB4IDBweCA0cHggNHB4OyBmb250LWZh
-bWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2Fs
-aWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2Io
-MCwgMCwgMCk7IG1hcmdpbi1ib3R0b206IDRweDsiIGlkPSJSZXBseVdpdGhRdW90ZV9Db250YWlu
-ZXIiPg0KPHRib2R5Pg0KPHRyPg0KPHRkIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjAw
-LCAxOTgsIDE5Nik7IHdpZHRoOiAzLjVweDsgYm9yZGVyLXJhZGl1czogMTBweDsiIHJvd3NwYW49
-IjIiPg0KPC90ZD4NCjx0ZCBzdHlsZT0iZm9udC1zaXplOjEycHg7Ym9yZGVyLWxlZnQ6MTBweCBz
-b2xpZCB0cmFuc3BhcmVudDtib3JkZXItcmlnaHQ6MTBweCBzb2xpZCB0cmFuc3BhcmVudCI+DQo8
-L3RkPg0KPC90cj4NCjx0cj4NCjx0ZCBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBjb2xvcjogcmdi
-KDUwLCA0OSwgNDgpOyBib3JkZXItbGVmdDogMTBweCBzb2xpZCB0cmFuc3BhcmVudDsgYm9yZGVy
-LXJpZ2h0OiAxMHB4IHNvbGlkIHRyYW5zcGFyZW50OyI+DQpUaGlzIGlzIGEgY2xhbmcgcHJvYmxl
-bS4gSXQgc2hvdWxkIGJlIGZpeGVkIGluIGNsYW5nLCBub3QgaGVyZS4gQWRkaXRpb25hbGx5IHdl
-IGNoZWNrIGZvciAnY3J5cHRvJyBpbiBUVU5FX0ZFQVRVUkVTIGluIG1hbnkgcmVjaXBlcyBmb3Ig
-bWFraW5nIHNwZWNpZmljIHR3ZWFrcywgdGhleSB3aWxsIGZhaWwgZm9yIG9jdGVvbngyIGlmIHdl
-IGFwcGx5IHRoaXMuIFNlZSBodHRwczovL2dpdGh1Yi5jb20va3Jhai9tZXRhLWNsYW5nL2Jsb2Iv
-bWFzdGVyL2NsYXNzZXMvY2xhbmcuYmJjbGFzcyNMNDktTDUzPC90ZD4NCjwvdHI+DQo8L3Rib2R5
-Pg0KPC90YWJsZT4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJm
-b250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2Vydmlj
-ZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9y
-OiByZ2IoMCwgMCwgMCk7Ij4NCkhpIGtyYWosPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Q
-cm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRv
-c19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6
-ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNz
-PSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyBtYXJnaW4tdG9wOiAxZW07
-IG1hcmdpbi1ib3R0b206IDFlbTsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZv
-bnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsg
-Zm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpUaGFua3MgZm9yIHlvdXIg
-cHJvbXB0IGZlZWRiYWNrLjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxl
-PSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2Vy
-dmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNv
-bG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkkgaGF2ZSBsaW1pdGVkIGV4cGVyaWVuY2Ugd2l0aCBDbGFu
-ZywgY291bGQgeW91IHByb3ZpZGUgc29tZSBzdWdnZXN0aW9ucyBmb3IgZml4aW5nIHRoaXMgaXNz
-dWU/Jm5ic3A7PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQt
-ZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBD
-YWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJn
-YigwLCAwLCAwKTsiPg0KQWRkaXRpb25hbGx5LCB0aGlzIGxpbmsgaXMgbm90IHJlbGF0ZWQgdG8g
-dGhlIFRVTkVfRkVBVFVSRVMgY2hlY2sgZm9yIG9jdGVvbnR4Mi4mbmJzcDs8L2Rpdj4NCjxkaXYg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19F
-bWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fu
-cy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpDb3VsZCB5
-b3UgcHJvdmlkZSBvbmUgbmFtZSBvZiByZWNpcGUgdGhhdCBjaGVja3Mgd2hldGhlciBUVU5FX0ZF
-QVRVUkVTIGluY2x1ZGVzICdjcnlwdG8nIHRvIGhlbHAgbWUgd2l0aCB0cm91Ymxlc2hvb3Rpbmc/
-PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBB
-cHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBI
-ZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAw
-KTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZv
-bnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNl
-LCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6
-IHJnYigwLCAwLCAwKTsiPg0KQi5SLjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2Yi
-IHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNG
-b250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEy
-cHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NClJ1aXFpYW5nPC9kaXY+DQo8ZGl2IGlkPSJhcHBl
-bmRvbnNlbmQiPjwvZGl2Pg0KPGhyIHN0eWxlPSJkaXNwbGF5OmlubGluZS1ibG9jazt3aWR0aDo5
-OCUiIHRhYmluZGV4PSItMSI+DQo8ZGl2IGlkPSJkaXZScGx5RndkTXNnIiBkaXI9Imx0ciI+PGZv
-bnQgZmFjZT0iQ2FsaWJyaSwgc2Fucy1zZXJpZiIgc3R5bGU9ImZvbnQtc2l6ZToxMXB0IiBjb2xv
-cj0iIzAwMDAwMCI+PGI+RnJvbTo8L2I+IEtoZW0gUmFqICZsdDtyYWoua2hlbUBnbWFpbC5jb20m
-Z3Q7PGJyPg0KPGI+U2VudDo8L2I+IFdlZG5lc2RheSwgSnVseSAzLCAyMDI0IDExOjMwPGJyPg0K
-PGI+VG86PC9iPiBIYW8sIFJ1aXFpYW5nICZsdDtSdWlxaWFuZy5IYW9Ad2luZHJpdmVyLmNvbSZn
-dDs8YnI+DQo8Yj5DYzo8L2I+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0K
-PGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSB0dW5lOiBvY3Rlb250eDI6IHJl
-bW92ZSBjcnlwdG8gZnJvbSBUVU5FX0ZFQVRVUkVTPC9mb250Pg0KPGRpdj4mbmJzcDs8L2Rpdj4N
-CjwvZGl2Pg0KPGRpdiBjbGFzcz0iQm9keUZyYWdtZW50Ij48Zm9udCBzaXplPSIyIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExcHQ7Ij4NCjxkaXYgY2xhc3M9IlBsYWluVGV4dCI+Q0FVVElPTjog
-VGhpcyBlbWFpbCBjb21lcyBmcm9tIGEgbm9uIFdpbmQgUml2ZXIgZW1haWwgYWNjb3VudCE8YnI+
-DQpEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJlY29n
-bml6ZSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUuPGJyPg0KPGJyPg0K
-T24gVHVlLCBKdWwgMiwgMjAyNCBhdCA3OjAw4oCvUE0gUnVpcWlhbmcgSGFvIHZpYSBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnPGJyPg0KJmx0O1J1aXFpYW5nLkhhbz13aW5kcml2ZXIuY29tQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcmZ3Q7IHdyb3RlOjxicj4NCiZndDs8YnI+DQomZ3Q7IEZyb206IFJ1
-aXFpYW5nIEhhbyAmbHQ7UnVpcWlhbmcuSGFvQHdpbmRyaXZlci5jb20mZ3Q7PGJyPg0KJmd0Ozxi
-cj4NCiZndDsgU2luY2UgR0NDJ3MgY29uZmlndXJhdGlvbiBpbmNsdWRlcyB0aGUgY3J5cHRvIGZl
-YXR1cmUgd2hlbiBzcGVjaWZ5aW5nPGJyPg0KJmd0OyAnLW1jcHU9b2N0ZW9udHgyJywgdGhlcmUn
-cyBubyBuZWVkIHRvIGFkZGl0aW9uYWxseSBpbmNsdWRlIHRoaXMgZmVhdHVyZTxicj4NCiZndDsg
-aW4gVFVORV9GRUFUVVJFUy4gUmVtb3ZpbmcgY3J5cHRvIHRvIGZpeCB0aGUgZm9sbG93aW5nIGVy
-cm9yOjxicj4NCiZndDs8YnI+DQomZ3Q7IGFhcmNoNjQtd3JzLWxpbnV4LWNsYW5nOiBlcnJvcjog
-dW5zdXBwb3J0ZWQgYXJndW1lbnQgJ29jdGVvbnR4MitjcnlwdG8nIGZvciBvcHRpb24gJy1tY3B1
-PSc8YnI+DQo8YnI+DQpUaGlzIGlzIGEgY2xhbmcgcHJvYmxlbS4gSXQgc2hvdWxkIGJlIGZpeGVk
-IGluIGNsYW5nLCBub3QgaGVyZS48YnI+DQpBZGRpdGlvbmFsbHkgd2UgY2hlY2sgZm9yICdjcnlw
-dG8nIGluIFRVTkVfRkVBVFVSRVMgaW48YnI+DQptYW55IHJlY2lwZXMgZm9yIG1ha2luZyBzcGVj
-aWZpYyB0d2Vha3MsIHRoZXkgd2lsbCBmYWlsIGZvciBvY3Rlb254Mjxicj4NCmlmIHdlIGFwcGx5
-IHRoaXMuIFNlZTxicj4NCjxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9rcmFqL21ldGEtY2xh
-bmcvYmxvYi9tYXN0ZXIvY2xhc3Nlcy9jbGFuZy5iYmNsYXNzI0w0OS1MNTMiPmh0dHBzOi8vZ2l0
-aHViLmNvbS9rcmFqL21ldGEtY2xhbmcvYmxvYi9tYXN0ZXIvY2xhc3Nlcy9jbGFuZy5iYmNsYXNz
-I0w0OS1MNTM8L2E+PGJyPg0KPGJyPg0KJmd0Ozxicj4NCiZndDsgU2lnbmVkLW9mZi1ieTogUnVp
-cWlhbmcgSGFvICZsdDtSdWlxaWFuZy5IYW9Ad2luZHJpdmVyLmNvbSZndDs8YnI+DQomZ3Q7IC0t
-LTxicj4NCiZndDsmbmJzcDsgbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS9hcm0vYXJtdjgtMmEv
-dHVuZS1vY3Rlb250eDIuaW5jIHwgMiArLTxicj4NCiZndDsmbmJzcDsgMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pPGJyPg0KJmd0Ozxicj4NCiZndDsgZGlmZiAt
-LWdpdCBhL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvYXJtL2FybXY4LTJhL3R1bmUtb2N0ZW9u
-dHgyLmluYyBiL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvYXJtL2FybXY4LTJhL3R1bmUtb2N0
-ZW9udHgyLmluYzxicj4NCiZndDsgaW5kZXggZTlkN2E1OWM1MS4uZDUxZDE5Yjk4MCAxMDA2NDQ8
-YnI+DQomZ3Q7IC0tLSBhL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvYXJtL2FybXY4LTJhL3R1
-bmUtb2N0ZW9udHgyLmluYzxicj4NCiZndDsgKysrIGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVk
-ZS9hcm0vYXJtdjgtMmEvdHVuZS1vY3Rlb250eDIuaW5jPGJyPg0KJmd0OyBAQCAtOSw2ICs5LDYg
-QEAgcmVxdWlyZSBjb25mL21hY2hpbmUvaW5jbHVkZS9hcm0vYXJjaC1hcm12OC0yYS5pbmM8YnI+
-DQomZ3Q7Jm5ic3A7IEFWQUlMVFVORVMgKz0gJnF1b3Q7b2N0ZW9udHgyJnF1b3Q7PGJyPg0KJmd0
-OyZuYnNwOyBBUk1QS0dBUkNIOnR1bmUtb2N0ZW9udHgyJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ID0gJnF1b3Q7
-b2N0ZW9udHgyJnF1b3Q7PGJyPg0KJmd0OyZuYnNwOyAjIFdlIGRvIG5vdCB3YW50IC1tYXJjaCBz
-aW5jZSAtbWNwdSBpcyBhZGRlZCBhYm92ZSB0byBjb3ZlciBmb3IgaXQ8YnI+DQomZ3Q7IC1UVU5F
-X0ZFQVRVUkVTOnR1bmUtb2N0ZW9udHgyJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ID0gJnF1b3Q7YWFyY2g2NCBjcnlwdG8gb2N0ZW9udHgyJnF1
-b3Q7PGJyPg0KJmd0OyArVFVORV9GRUFUVVJFUzp0dW5lLW9jdGVvbnR4MiZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyA9ICZxdW90O2FhcmNoNjQg
-b2N0ZW9udHgyJnF1b3Q7PGJyPg0KJmd0OyZuYnNwOyBQQUNLQUdFX0VYVFJBX0FSQ0hTOnR1bmUt
-b2N0ZW9udHgyJm5ic3A7Jm5ic3A7Jm5ic3A7ID0gJnF1b3Q7JHtQQUNLQUdFX0VYVFJBX0FSQ0hT
-OnR1bmUtYXJtdjgtMmEtY3J5cHRvfSBvY3Rlb250eDImcXVvdDs8YnI+DQomZ3Q7Jm5ic3A7IEJB
-U0VfTElCOnR1bmUtb2N0ZW9udHgyJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ID0gJnF1b3Q7
-bGliNjQmcXVvdDs8YnI+DQomZ3Q7IC0tPGJyPg0KJmd0OyAyLjQ1LjA8YnI+DQomZ3Q7PGJyPg0K
-Jmd0Ozxicj4NCiZndDsgLT0tPS09LT0tPS09LT0tPS09LT0tPS08YnI+DQomZ3Q7IExpbmtzOiBZ
-b3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLjxicj4NCiZndDsgVmll
-dy9SZXBseSBPbmxpbmUgKCMyMDE0NDgpOiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzIwMTQ0OCI+DQpodHRwczovL2xp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzIwMTQ0ODwv
-YT48YnI+DQomZ3Q7IE11dGUgVGhpcyBUb3BpYzogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL210LzEwNzAxMjg0MS8xOTk3OTE0Ij4NCmh0dHBzOi8vbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZy9tdC8xMDcwMTI4NDEvMTk5NzkxNDwvYT48YnI+DQomZ3Q7IEdyb3VwIE93bmVy
-OiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KJmd0
-OyBVbnN1YnNjcmliZTogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
-b3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIiPg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
-L2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWI8L2E+IFtyYWoua2hlbUBnbWFpbC5jb21dPGJyPg0K
-Jmd0OyAtPS09LT0tPS09LT0tPS09LT0tPS09LTxicj4NCiZndDs8YnI+DQo8L2Rpdj4NCjwvc3Bh
-bj48L2ZvbnQ+PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+add it to TUNE_CCARGS:remove:toolchain-clang list
+-mcpu=3Docteontx2+crypto
 
---_000_SN7PR11MB802547B5393E20C157D4968A8DDD2SN7PR11MB8025namp_--
+then add to TUNE_CCARGS e.g
+TUNE_CCARGS:append:toolchain-clang =3D "${@bb.utils.contains("TUNE_FEATURES=
+",
+"octeontx2 crypto", " -mcpu=3Docteontx2", "", d)}"
+
+
+>
+> B.R.
+> Ruiqiang
+> ------------------------------
+> *From:* Khem Raj <raj.khem@gmail.com>
+> *Sent:* Wednesday, July 3, 2024 11:30
+> *To:* Hao, Ruiqiang <Ruiqiang.Hao@windriver.com>
+> *Cc:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>
+> *Subject:* Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from
+> TUNE_FEATURES
+>
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender an=
+d
+> know the content is safe.
+>
+> On Tue, Jul 2, 2024 at 7:00=E2=80=AFPM Ruiqiang Hao via lists.openembedde=
+d.org
+> <Ruiqiang.Hao=3Dwindriver.com@lists.openembedded.org> wrote:
+> >
+> > From: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
+> >
+> > Since GCC's configuration includes the crypto feature when specifying
+> > '-mcpu=3Docteontx2', there's no need to additionally include this featu=
+re
+> > in TUNE_FEATURES. Removing crypto to fix the following error:
+> >
+> > aarch64-wrs-linux-clang: error: unsupported argument 'octeontx2+crypto'
+> for option '-mcpu=3D'
+>
+> This is a clang problem. It should be fixed in clang, not here.
+> Additionally we check for 'crypto' in TUNE_FEATURES in
+> many recipes for making specific tweaks, they will fail for octeonx2
+> if we apply this. See
+>
+> https://github.com/kraj/meta-clang/blob/master/classes/clang.bbclass#L49-=
+L53
+>
+> >
+> > Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
+> > ---
+> >  meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+> b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+> > index e9d7a59c51..d51d19b980 100644
+> > --- a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+> > +++ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+> > @@ -9,6 +9,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc
+> >  AVAILTUNES +=3D "octeontx2"
+> >  ARMPKGARCH:tune-octeontx2             =3D "octeontx2"
+> >  # We do not want -march since -mcpu is added above to cover for it
+> > -TUNE_FEATURES:tune-octeontx2          =3D "aarch64 crypto octeontx2"
+> > +TUNE_FEATURES:tune-octeontx2          =3D "aarch64 octeontx2"
+> >  PACKAGE_EXTRA_ARCHS:tune-octeontx2    =3D
+> "${PACKAGE_EXTRA_ARCHS:tune-armv8-2a-crypto} octeontx2"
+> >  BASE_LIB:tune-octeontx2               =3D "lib64"
+> > --
+> > 2.45.0
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#201448):
+> https://lists.openembedded.org/g/openembedded-core/message/201448
+> > Mute This Topic: https://lists.openembedded.org/mt/107012841/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+
+--0000000000000cef5b061c529c14
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 2, 2024 at 11:57=E2=80=AF=
+PM Hao, Ruiqiang &lt;<a href=3D"mailto:Ruiqiang.Hao@windriver.com">Ruiqiang=
+.Hao@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><div class=3D"msg4169497276683250889">
+
+
+
+
+<div dir=3D"ltr">
+<div style=3D"width:100%;display:inline-block;color:inherit;background-colo=
+r:inherit">
+<table style=3D"border:1.5px solid rgb(237,235,233);border-radius:4px;paddi=
+ng:4px 0px 4px 4px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService=
+,Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0);margin-bottom=
+:4px" id=3D"m_4169497276683250889ReplyWithQuote_Container">
+<tbody>
+<tr>
+<td style=3D"background-color:rgb(200,198,196);width:3.5px;border-radius:10=
+px" rowspan=3D"2">
+</td>
+<td style=3D"font-size:12px;border-left:10px solid transparent;border-right=
+:10px solid transparent">
+</td>
+</tr>
+<tr>
+<td style=3D"font-size:14px;color:rgb(50,49,48);border-left:10px solid tran=
+sparent;border-right:10px solid transparent">
+This is a clang problem. It should be fixed in clang, not here. Additionall=
+y we check for &#39;crypto&#39; in TUNE_FEATURES in many recipes for making=
+ specific tweaks, they will fail for octeonx2 if we apply this. See <a href=
+=3D"https://github.com/kraj/meta-clang/blob/master/classes/clang.bbclass#L4=
+9-L53" target=3D"_blank">https://github.com/kraj/meta-clang/blob/master/cla=
+sses/clang.bbclass#L49-L53</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Hi kraj,</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"direction:ltr;margin-top:1em;margin-bottom:1em;font-family:Ap=
+tos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;fon=
+t-size:12pt;color:rgb(0,0,0)">
+Thanks for your prompt feedback.</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+I have limited experience with Clang, could you provide some suggestions fo=
+r fixing this issue?=C2=A0</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Additionally, this link is not related to the TUNE_FEATURES check for octeo=
+ntx2.=C2=A0</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Could you provide one name of recipe that checks whether TUNE_FEATURES incl=
+udes &#39;crypto&#39; to help me with troubleshooting?</div></div></div></b=
+lockquote><div><br></div><div>add it to=C2=A0TUNE_CCARGS:remove:toolchain-c=
+lang list</div><div>-mcpu=3Docteontx2+crypto</div><div><br></div><div>then =
+add to TUNE_CCARGS e.g</div><div>TUNE_CCARGS:append:toolchain-clang =3D &qu=
+ot;${@bb.utils.contains(&quot;TUNE_FEATURES&quot;, &quot;octeontx2 crypto&q=
+uot;, &quot; -mcpu=3Docteontx2&quot;, &quot;&quot;, d)}&quot;<br></div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=
+=3D"msg4169497276683250889"><div dir=3D"ltr">
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+B.R.</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
+Ruiqiang</div>
+<div id=3D"m_4169497276683250889appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"m_4169497276683250889divRplyFwdMsg" dir=3D"ltr"><font face=3D"Ca=
+libri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From:</b> =
+Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.kh=
+em@gmail.com</a>&gt;<br>
+<b>Sent:</b> Wednesday, July 3, 2024 11:30<br>
+<b>To:</b> Hao, Ruiqiang &lt;<a href=3D"mailto:Ruiqiang.Hao@windriver.com" =
+target=3D"_blank">Ruiqiang.Hao@windriver.com</a>&gt;<br>
+<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt;<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from T=
+UNE_FEATURES</font>
+<div>=C2=A0</div>
+</div>
+<div><font size=3D"2"><span style=3D"font-size:11pt">
+<div>CAUTION: This email comes from a non Wind River email account!<br>
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.<br>
+<br>
+On Tue, Jul 2, 2024 at 7:00=E2=80=AFPM Ruiqiang Hao via <a href=3D"http://l=
+ists.openembedded.org" target=3D"_blank">lists.openembedded.org</a><br>
+&lt;Ruiqiang.Hao=3D<a href=3D"mailto:windriver.com@lists.openembedded.org" =
+target=3D"_blank">windriver.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Ruiqiang Hao &lt;<a href=3D"mailto:Ruiqiang.Hao@windriver.com" t=
+arget=3D"_blank">Ruiqiang.Hao@windriver.com</a>&gt;<br>
+&gt;<br>
+&gt; Since GCC&#39;s configuration includes the crypto feature when specify=
+ing<br>
+&gt; &#39;-mcpu=3Docteontx2&#39;, there&#39;s no need to additionally inclu=
+de this feature<br>
+&gt; in TUNE_FEATURES. Removing crypto to fix the following error:<br>
+&gt;<br>
+&gt; aarch64-wrs-linux-clang: error: unsupported argument &#39;octeontx2+cr=
+ypto&#39; for option &#39;-mcpu=3D&#39;<br>
+<br>
+This is a clang problem. It should be fixed in clang, not here.<br>
+Additionally we check for &#39;crypto&#39; in TUNE_FEATURES in<br>
+many recipes for making specific tweaks, they will fail for octeonx2<br>
+if we apply this. See<br>
+<a href=3D"https://github.com/kraj/meta-clang/blob/master/classes/clang.bbc=
+lass#L49-L53" target=3D"_blank">https://github.com/kraj/meta-clang/blob/mas=
+ter/classes/clang.bbclass#L49-L53</a><br>
+<br>
+&gt;<br>
+&gt; Signed-off-by: Ruiqiang Hao &lt;<a href=3D"mailto:Ruiqiang.Hao@windriv=
+er.com" target=3D"_blank">Ruiqiang.Hao@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc | 2 +-=
+<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc=
+ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc<br>
+&gt; index e9d7a59c51..d51d19b980 100644<br>
+&gt; --- a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc<br>
+&gt; +++ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc<br>
+&gt; @@ -9,6 +9,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc<br>
+&gt;=C2=A0 AVAILTUNES +=3D &quot;octeontx2&quot;<br>
+&gt;=C2=A0 ARMPKGARCH:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;octeontx2&quot;<br>
+&gt;=C2=A0 # We do not want -march since -mcpu is added above to cover for =
+it<br>
+&gt; -TUNE_FEATURES:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 =3D &quot;aarch64 crypto octeontx2&quot;<br>
+&gt; +TUNE_FEATURES:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 =3D &quot;aarch64 octeontx2&quot;<br>
+&gt;=C2=A0 PACKAGE_EXTRA_ARCHS:tune-octeontx2=C2=A0=C2=A0=C2=A0 =3D &quot;$=
+{PACKAGE_EXTRA_ARCHS:tune-armv8-2a-crypto} octeontx2&quot;<br>
+&gt;=C2=A0 BASE_LIB:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;lib64&quot;<br>
+&gt; --<br>
+&gt; 2.45.0<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#201448): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/201448" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/message/201448</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10701284=
+1/1997914" target=3D"_blank">
+https://lists.openembedded.org/mt/107012841/1997914</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
+ilto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</div>
+</span></font></div>
+</div>
+
+</div></blockquote></div></div>
+
+--0000000000000cef5b061c529c14--
 
