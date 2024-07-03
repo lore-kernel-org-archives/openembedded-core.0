@@ -1,357 +1,400 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 832ACC30653
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 07:16:34 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web11.45762.1719990992191372213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 777DAC2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 07:23:14 +0000 (UTC)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+ by mx.groups.io with SMTP id smtpd.web10.44998.1719991388751643523
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 00:16:32 -0700
+ Wed, 03 Jul 2024 00:23:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NvL0cMJM;
- spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-25e16380bc9so53448fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 00:16:32 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=jLUyC/X/;
+ spf=pass (domain: mvista.com, ip: 209.85.128.182, mailfrom: hprajapati@mvista.com)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-64f4f96bbf9so22978007b3.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 00:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719990991; x=1720595791; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VkCoVph9EXk47h63K+zmnXDzs6jpN8xKbfuXAHojbuQ=;
-        b=NvL0cMJMVZytjvY+Rwqt94gxZ0XGmD02EJbBF1//S9rNKbZz/mfIzRNucKPcVluO5f
-         LSYn7pVaZJqWKhft67Yw5q+Dsr4+mWJBN6GTFdprJn6jSXO32/9+cOVeDe9vNC0Yeoza
-         Z+SR9O7MzuK67gyz3IwyJAsLOnd//HRBV5DsbDeS701SrAGmoQUGJ9v0KICMHK4BDPY6
-         r2wvn4lFtZo3JVMq6eOSyHnw/P7ULjOTMzjMraisFg2Kh0SFMxxMzmGrhJ9rYr55NoiM
-         TdFYMHEzgYnZwS3PMUGS4zAng6+rZzIa6xw6IN03xQRtFT8n8t1JO1m6IdmEw8pdotFo
-         Ya7Q==
+        d=mvista.com; s=google; t=1719991388; x=1720596188; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pgSUvfLKv2FRMVoTDn04esQg1CUQckHf8GGUNTxinI0=;
+        b=jLUyC/X/ob3T4+95w9tKzYvL9JagM45fbqWYsNho9sWd2tC0GHfJbh3tXabx/zGpO2
+         vPFVPQ10pbGdhc0bFiBO7hBfJB77d9bycw/JAjwfkoHHOYA4Z+I09Zq2qhSjmpdAgaE6
+         HvSaU70Jg/OPcS3/mKP0AUPzmplV7FuJXY7hE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719990991; x=1720595791;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1719991388; x=1720596188;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VkCoVph9EXk47h63K+zmnXDzs6jpN8xKbfuXAHojbuQ=;
-        b=kbToTkTF7EyBtoH1Lx8YTIX2+ngYljmAYO/UV1fDNUV0QhmLdtQfoAUfmo8sjRrt3v
-         7ydWNLZ+3H7gETOtlTWDtFzq/a82snvrlmHY4OXLFI4DKQtcENT3rVHpyhT0C3MaZNFZ
-         gRZH1sm+gSG2NYzl+HUWR0b20aJoghkEA74WZR67BS2SiO2JwpgMumUq8X7N3/REtghU
-         nmf1DWcxD83Dm4JDbmL5OiOgUdJQHdpNN/z5ZdGZrfyuEthflEzLfi5IMhCHKINPD877
-         pxfJO+dRLrKJ3GDezayKgsXCcSRrFk3ItQ9KjhBzgtIIYQd7+Tij8TU9wjhcEL2CsoeS
-         kx5Q==
-X-Gm-Message-State: AOJu0Yxahz8Z/lMM4cxgo1Yz5qh0AwHtnNdSuVajs+kXBgaoj1LiA7BX
-	DR5Ra4T1pE2KosANfzNjbxOInAsswhApGfxh6QfQ3vfwJiHkby/rO0IHrQclH/7C420uWwqvtut
-	B97uwZVOJDzg3pcD3cY4n7urN3ak=
-X-Google-Smtp-Source: AGHT+IHyaUTQDaxBV2Il99XBfrvGfEQ+7oWAg2jXFtMEUdE5QUqUnXuXS0RFpHou7VgdQUa7ZXdUsfsqEfFpebpEsPU=
-X-Received: by 2002:a05:6870:1f07:b0:258:3455:4b37 with SMTP id
- 586e51a60fabf-25db362b956mr10584970fac.59.1719990991251; Wed, 03 Jul 2024
- 00:16:31 -0700 (PDT)
+        bh=pgSUvfLKv2FRMVoTDn04esQg1CUQckHf8GGUNTxinI0=;
+        b=mhK7C8xDjNyZoXM8LkZf0FVys68nYsi8sLomSGLHBcFw+FEj98g3rGwa2JvUWZIike
+         1ilAOC4YnULThsfDnDJkbNZ+PWHuyQEVyxIeSlzcxHwg5M6x3pb84kiXnjeWfewu9JNc
+         yj5eJDdQjFojVkFNjtiBMD7X/lZYw75rcOJbedwA3pT7Grs9ZoqaI6yV3Ozz5eVfYz2z
+         ScTxSafyqQuRpthiCVt3Joq40v0VSYzk7odnJP21xWUiGag/e3TNZ6Tcdww3vSq03u8u
+         KTNFoscGmGx1IBmGWuv6OMuz3yylu347oMDOqziGrr141N40QuJTvc0H9pw7jj7dgmlM
+         xTrw==
+X-Gm-Message-State: AOJu0YywfGzlmQYEu+dUKjvcY/Gf5kuk2iAuVMhqW7WuacmsgsJ6i1iQ
+	uI2VCBTTS5EjUOeuD70P8sZmquTi0KWuqlzmNR7bRhWDLPNPIK2yucj7yvh21m/vwmL/nd9J08h
+	J
+X-Google-Smtp-Source: AGHT+IGHMiWqbt5dTlcw1qdXhqCGokIOfVnjGlHHBgouftmiZiNecPq7GE/Vwe/ti53V7qnPfKbsfA==
+X-Received: by 2002:a05:690c:a9e:b0:620:3c10:527a with SMTP id 00721157ae682-64c7268293fmr150018697b3.15.1719991387621;
+        Wed, 03 Jul 2024 00:23:07 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([43.249.234.251])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9c405db0sm20682127b3.130.2024.07.03.00.23.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 00:23:07 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] QEMU: Fix CVE-2024-3446 & CVE-2024-3567
+Date: Wed,  3 Jul 2024 12:52:39 +0530
+Message-Id: <20240703072239.566036-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240703020027.3434756-1-ruiqiang.hao@windriver.com>
- <CAMKF1spnQpsOZFe_bseefaNtPA0T8z23MStYPxZEfCh8bMMqiA@mail.gmail.com> <SN7PR11MB802547B5393E20C157D4968A8DDD2@SN7PR11MB8025.namprd11.prod.outlook.com>
-In-Reply-To: <SN7PR11MB802547B5393E20C157D4968A8DDD2@SN7PR11MB8025.namprd11.prod.outlook.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 3 Jul 2024 00:16:04 -0700
-Message-ID: <CAMKF1sr62Y21TgHp+78c+gL5UGpOUip6LPJ12Ke6TLf_kCybnA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from TUNE_FEATURES
-To: "Hao, Ruiqiang" <Ruiqiang.Hao@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000cef5b061c529c14"
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 07:16:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201455
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 07:23:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201456
 
---0000000000000cef5b061c529c14
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport fixes for:
 
-On Tue, Jul 2, 2024 at 11:57=E2=80=AFPM Hao, Ruiqiang <Ruiqiang.Hao@windriv=
-er.com>
-wrote:
+* CVE-2024-3446 - Upstream-Status: Backport from https://gitlab.com/qemu-project/qemu/-/commit/eb546a3f49f45e6870ec91d792cd09f8a662c16e  && https://gitlab.com/qemu-project/qemu/-/commit/4f01537ced3e787bd985b8f8de5869b92657160a && https://gitlab.com/qemu-project/qemu/-/commit/fbeb0a160cbcc067c0e1f0d380cea4a31de213e3 && https://gitlab.com/qemu-project/qemu/-/commit/1b2a52712b249e14d246cd9c7db126088e6e64db
 
-> This is a clang problem. It should be fixed in clang, not here.
-> Additionally we check for 'crypto' in TUNE_FEATURES in many recipes for
-> making specific tweaks, they will fail for octeonx2 if we apply this. See
-> https://github.com/kraj/meta-clang/blob/master/classes/clang.bbclass#L49-=
-L53
-> Hi kraj,
->
-> Thanks for your prompt feedback.
-> I have limited experience with Clang, could you provide some suggestions
-> for fixing this issue?
-> Additionally, this link is not related to the TUNE_FEATURES check for
-> octeontx2.
-> Could you provide one name of recipe that checks whether TUNE_FEATURES
-> includes 'crypto' to help me with troubleshooting?
->
+* CVE-2024-3567 - Upstream-Status: Backport from https://gitlab.com/qemu-project/qemu/-/commit/1cfe45956e03070f894e91b304e233b4d5b99719
 
-add it to TUNE_CCARGS:remove:toolchain-clang list
--mcpu=3Docteontx2+crypto
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  5 ++
+ .../qemu/qemu/CVE-2024-3446-01.patch          | 73 +++++++++++++++++++
+ .../qemu/qemu/CVE-2024-3446-02.patch          | 48 ++++++++++++
+ .../qemu/qemu/CVE-2024-3446-03.patch          | 47 ++++++++++++
+ .../qemu/qemu/CVE-2024-3446-04.patch          | 52 +++++++++++++
+ .../qemu/qemu/CVE-2024-3567.patch             | 48 ++++++++++++
+ 6 files changed, 273 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
 
-then add to TUNE_CCARGS e.g
-TUNE_CCARGS:append:toolchain-clang =3D "${@bb.utils.contains("TUNE_FEATURES=
-",
-"octeontx2 crypto", " -mcpu=3Docteontx2", "", d)}"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4501f84c2b..d22bc31ce3 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -42,6 +42,11 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2023-6683.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
++           file://CVE-2024-3446-01.patch \
++           file://CVE-2024-3446-02.patch \
++           file://CVE-2024-3446-03.patch \
++           file://CVE-2024-3446-04.patch \
++           file://CVE-2024-3567.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
+new file mode 100644
+index 0000000000..15dbca92cd
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
+@@ -0,0 +1,73 @@
++rom eb546a3f49f45e6870ec91d792cd09f8a662c16e Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:11 +0200
++Subject: [PATCH] hw/virtio: Introduce virtio_bh_new_guarded() helper
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Introduce virtio_bh_new_guarded(), similar to qemu_bh_new_guarded()
++but using the transport memory guard, instead of the device one
++(there can only be one virtio device per virtio bus).
++
++Inspired-by: Gerd Hoffmann <kraxel@redhat.com>
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-2-philmd@linaro.org>
++(cherry picked from commit ec0504b989ca61e03636384d3602b7bf07ffe4da)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/eb546a3f49f45e6870ec91d792cd09f8a662c16e]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/virtio/virtio.c         | 10 ++++++++++
++ include/hw/virtio/virtio.h |  7 +++++++
++ 2 files changed, 17 insertions(+)
++
++diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
++index 3a160f86e..8590b8971 100644
++--- a/hw/virtio/virtio.c
+++++ b/hw/virtio/virtio.c
++@@ -4095,3 +4095,13 @@ static void virtio_register_types(void)
++ }
++ 
++ type_init(virtio_register_types)
+++
+++QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
+++                                   QEMUBHFunc *cb, void *opaque,
+++                                   const char *name)
+++{
+++    DeviceState *transport = qdev_get_parent_bus(dev)->parent;
+++
+++    return qemu_bh_new_full(cb, opaque, name,
+++                            &transport->mem_reentrancy_guard);
+++}
++diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
++index c8f72850b..7d5ffdc14 100644
++--- a/include/hw/virtio/virtio.h
+++++ b/include/hw/virtio/virtio.h
++@@ -22,6 +22,7 @@
++ #include "standard-headers/linux/virtio_config.h"
++ #include "standard-headers/linux/virtio_ring.h"
++ #include "qom/object.h"
+++#include "block/aio.h"
++ 
++ /*
++  * A guest should never accept this. It implies negotiation is broken
++@@ -508,4 +509,10 @@ static inline bool virtio_device_disabled(VirtIODevice *vdev)
++ bool virtio_legacy_allowed(VirtIODevice *vdev);
++ bool virtio_legacy_check_disabled(VirtIODevice *vdev);
++ 
+++QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
+++                                   QEMUBHFunc *cb, void *opaque,
+++                                   const char *name);
+++#define virtio_bh_new_guarded(dev, cb, opaque) \
+++    virtio_bh_new_guarded_full((dev), (cb), (opaque), (stringify(cb)))
+++
++ #endif
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
+new file mode 100644
+index 0000000000..843ed43ba8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
+@@ -0,0 +1,48 @@
++From 4f01537ced3e787bd985b8f8de5869b92657160a Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:41 +0200
++Subject: [PATCH] hw/virtio/virtio-crypto: Protect from DMA re-entrancy bugs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
++so the bus and device use the same guard. Otherwise the
++DMA-reentrancy protection can be bypassed.
++
++Fixes: CVE-2024-3446
++Cc: qemu-stable@nongnu.org
++Suggested-by: Alexander Bulekov <alxndr@bu.edu>
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-5-philmd@linaro.org>
++(cherry picked from commit f4729ec39ad97a42ceaa7b5697f84f440ea6e5dc)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/4f01537ced3e787bd985b8f8de5869b92657160a]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/virtio/virtio-crypto.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
++index 0e2cc8d5a..4aaced74b 100644
++--- a/hw/virtio/virtio-crypto.c
+++++ b/hw/virtio/virtio-crypto.c
++@@ -1080,8 +1080,8 @@ static void virtio_crypto_device_realize(DeviceState *dev, Error **errp)
++         vcrypto->vqs[i].dataq =
++                  virtio_add_queue(vdev, 1024, virtio_crypto_handle_dataq_bh);
++         vcrypto->vqs[i].dataq_bh =
++-                 qemu_bh_new_guarded(virtio_crypto_dataq_bh, &vcrypto->vqs[i],
++-                                     &dev->mem_reentrancy_guard);
+++                 virtio_bh_new_guarded(dev, virtio_crypto_dataq_bh,
+++                                       &vcrypto->vqs[i]);
++         vcrypto->vqs[i].vcrypto = vcrypto;
++     }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
+new file mode 100644
+index 0000000000..a24652dea3
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
+@@ -0,0 +1,47 @@
++From fbeb0a160cbcc067c0e1f0d380cea4a31de213e3 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:35 +0200
++Subject: [PATCH] hw/char/virtio-serial-bus: Protect from DMA re-entrancy bugs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
++so the bus and device use the same guard. Otherwise the
++DMA-reentrancy protection can be bypassed.
++
++Fixes: CVE-2024-3446
++Cc: qemu-stable@nongnu.org
++Suggested-by: Alexander Bulekov <alxndr@bu.edu>
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-4-philmd@linaro.org>
++(cherry picked from commit b4295bff25f7b50de1d9cc94a9c6effd40056bca)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/fbeb0a160cbcc067c0e1f0d380cea4a31de213e3]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/char/virtio-serial-bus.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
++index dd619f073..1221fb7f1 100644
++--- a/hw/char/virtio-serial-bus.c
+++++ b/hw/char/virtio-serial-bus.c
++@@ -985,8 +985,7 @@ static void virtser_port_device_realize(DeviceState *dev, Error **errp)
++         return;
++     }
++ 
++-    port->bh = qemu_bh_new_guarded(flush_queued_data_bh, port,
++-                                   &dev->mem_reentrancy_guard);
+++    port->bh = virtio_bh_new_guarded(dev, flush_queued_data_bh, port);
++     port->elem = NULL;
++ }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
+new file mode 100644
+index 0000000000..7f0293242d
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
+@@ -0,0 +1,52 @@
++From 1b2a52712b249e14d246cd9c7db126088e6e64db Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:27 +0200
++Subject: [PATCH] hw/display/virtio-gpu: Protect from DMA re-entrancy bugs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++qemu-system-i386: warning: Blocked re-entrant IO on MemoryRegion: virtio-pci-common-virtio-gpu at addr: 0x6
++
++Fixes: CVE-2024-3446
++Cc: qemu-stable@nongnu.org
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Reported-by: Yongkang Jia <kangel@zju.edu.cn>
++Reported-by: Xiao Lei <nop.leixiao@gmail.com>
++Reported-by: Yiming Tao <taoym@zju.edu.cn>
++Buglink: https://bugs.launchpad.net/qemu/+bug/1888606
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-3-philmd@linaro.org>
++(cherry picked from commit ba28e0ff4d95b56dc334aac2730ab3651ffc3132)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/1b2a52712b249e14d246cd9c7db126088e6e64db]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/display/virtio-gpu.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
++index b016d3bac..a7b16ba07 100644
++--- a/hw/display/virtio-gpu.c
+++++ b/hw/display/virtio-gpu.c
++@@ -1463,10 +1463,8 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
++ 
++     g->ctrl_vq = virtio_get_queue(vdev, 0);
++     g->cursor_vq = virtio_get_queue(vdev, 1);
++-    g->ctrl_bh = qemu_bh_new_guarded(virtio_gpu_ctrl_bh, g,
++-                                     &qdev->mem_reentrancy_guard);
++-    g->cursor_bh = qemu_bh_new_guarded(virtio_gpu_cursor_bh, g,
++-                                       &qdev->mem_reentrancy_guard);
+++    g->ctrl_bh = virtio_bh_new_guarded(qdev, virtio_gpu_ctrl_bh, g);
+++    g->cursor_bh = virtio_bh_new_guarded(qdev, virtio_gpu_cursor_bh, g);
++     g->reset_bh = qemu_bh_new(virtio_gpu_reset_bh, g);
++     qemu_cond_init(&g->reset_cond);
++     QTAILQ_INIT(&g->reslist);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
+new file mode 100644
+index 0000000000..f14178f881
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
+@@ -0,0 +1,48 @@
++From 1cfe45956e03070f894e91b304e233b4d5b99719 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Tue, 9 Apr 2024 19:54:05 +0200
++Subject: [PATCH] hw/net/net_tx_pkt: Fix overrun in update_sctp_checksum()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++If a fragmented packet size is too short, do not try to
++calculate its checksum.
++
++Fixes: CVE-2024-3567
++Cc: qemu-stable@nongnu.org
++Reported-by: Zheyu Ma <zheyuma97@gmail.com>
++Fixes: f199b13bc1 ("igb: Implement Tx SCTP CSO")
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2273
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
++Acked-by: Jason Wang <jasowang@redhat.com>
++Message-Id: <20240410070459.49112-1-philmd@linaro.org>
++(cherry picked from commit 83ddb3dbba2ee0f1767442ae6ee665058aeb1093)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/1cfe45956e03070f894e91b304e233b4d5b99719]
++CVE: CVE-2024-3567
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/net/net_tx_pkt.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
++index 2e5f58b3c..d40d508a1 100644
++--- a/hw/net/net_tx_pkt.c
+++++ b/hw/net/net_tx_pkt.c
++@@ -141,6 +141,10 @@ bool net_tx_pkt_update_sctp_checksum(struct NetTxPkt *pkt)
++     uint32_t csum = 0;
++     struct iovec *pl_start_frag = pkt->vec + NET_TX_PKT_PL_START_FRAG;
++ 
+++    if (iov_size(pl_start_frag, pkt->payload_frags) < 8 + sizeof(csum)) {
+++        return false;
+++    }
+++
++     if (iov_from_buf(pl_start_frag, pkt->payload_frags, 8, &csum, sizeof(csum)) < sizeof(csum)) {
++         return false;
++     }
++-- 
++2.25.1
++
+-- 
+2.25.1
 
-
->
-> B.R.
-> Ruiqiang
-> ------------------------------
-> *From:* Khem Raj <raj.khem@gmail.com>
-> *Sent:* Wednesday, July 3, 2024 11:30
-> *To:* Hao, Ruiqiang <Ruiqiang.Hao@windriver.com>
-> *Cc:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org>
-> *Subject:* Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from
-> TUNE_FEATURES
->
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d
-> know the content is safe.
->
-> On Tue, Jul 2, 2024 at 7:00=E2=80=AFPM Ruiqiang Hao via lists.openembedde=
-d.org
-> <Ruiqiang.Hao=3Dwindriver.com@lists.openembedded.org> wrote:
-> >
-> > From: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
-> >
-> > Since GCC's configuration includes the crypto feature when specifying
-> > '-mcpu=3Docteontx2', there's no need to additionally include this featu=
-re
-> > in TUNE_FEATURES. Removing crypto to fix the following error:
-> >
-> > aarch64-wrs-linux-clang: error: unsupported argument 'octeontx2+crypto'
-> for option '-mcpu=3D'
->
-> This is a clang problem. It should be fixed in clang, not here.
-> Additionally we check for 'crypto' in TUNE_FEATURES in
-> many recipes for making specific tweaks, they will fail for octeonx2
-> if we apply this. See
->
-> https://github.com/kraj/meta-clang/blob/master/classes/clang.bbclass#L49-=
-L53
->
-> >
-> > Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
-> > ---
-> >  meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
-> b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
-> > index e9d7a59c51..d51d19b980 100644
-> > --- a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
-> > +++ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
-> > @@ -9,6 +9,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc
-> >  AVAILTUNES +=3D "octeontx2"
-> >  ARMPKGARCH:tune-octeontx2             =3D "octeontx2"
-> >  # We do not want -march since -mcpu is added above to cover for it
-> > -TUNE_FEATURES:tune-octeontx2          =3D "aarch64 crypto octeontx2"
-> > +TUNE_FEATURES:tune-octeontx2          =3D "aarch64 octeontx2"
-> >  PACKAGE_EXTRA_ARCHS:tune-octeontx2    =3D
-> "${PACKAGE_EXTRA_ARCHS:tune-armv8-2a-crypto} octeontx2"
-> >  BASE_LIB:tune-octeontx2               =3D "lib64"
-> > --
-> > 2.45.0
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#201448):
-> https://lists.openembedded.org/g/openembedded-core/message/201448
-> > Mute This Topic: https://lists.openembedded.org/mt/107012841/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
---0000000000000cef5b061c529c14
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 2, 2024 at 11:57=E2=80=AF=
-PM Hao, Ruiqiang &lt;<a href=3D"mailto:Ruiqiang.Hao@windriver.com">Ruiqiang=
-.Hao@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex"><div class=3D"msg4169497276683250889">
-
-
-
-
-<div dir=3D"ltr">
-<div style=3D"width:100%;display:inline-block;color:inherit;background-colo=
-r:inherit">
-<table style=3D"border:1.5px solid rgb(237,235,233);border-radius:4px;paddi=
-ng:4px 0px 4px 4px;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService=
-,Calibri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0);margin-bottom=
-:4px" id=3D"m_4169497276683250889ReplyWithQuote_Container">
-<tbody>
-<tr>
-<td style=3D"background-color:rgb(200,198,196);width:3.5px;border-radius:10=
-px" rowspan=3D"2">
-</td>
-<td style=3D"font-size:12px;border-left:10px solid transparent;border-right=
-:10px solid transparent">
-</td>
-</tr>
-<tr>
-<td style=3D"font-size:14px;color:rgb(50,49,48);border-left:10px solid tran=
-sparent;border-right:10px solid transparent">
-This is a clang problem. It should be fixed in clang, not here. Additionall=
-y we check for &#39;crypto&#39; in TUNE_FEATURES in many recipes for making=
- specific tweaks, they will fail for octeonx2 if we apply this. See <a href=
-=3D"https://github.com/kraj/meta-clang/blob/master/classes/clang.bbclass#L4=
-9-L53" target=3D"_blank">https://github.com/kraj/meta-clang/blob/master/cla=
-sses/clang.bbclass#L49-L53</a></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Hi kraj,</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"direction:ltr;margin-top:1em;margin-bottom:1em;font-family:Ap=
-tos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;fon=
-t-size:12pt;color:rgb(0,0,0)">
-Thanks for your prompt feedback.</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-I have limited experience with Clang, could you provide some suggestions fo=
-r fixing this issue?=C2=A0</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Additionally, this link is not related to the TUNE_FEATURES check for octeo=
-ntx2.=C2=A0</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Could you provide one name of recipe that checks whether TUNE_FEATURES incl=
-udes &#39;crypto&#39; to help me with troubleshooting?</div></div></div></b=
-lockquote><div><br></div><div>add it to=C2=A0TUNE_CCARGS:remove:toolchain-c=
-lang list</div><div>-mcpu=3Docteontx2+crypto</div><div><br></div><div>then =
-add to TUNE_CCARGS e.g</div><div>TUNE_CCARGS:append:toolchain-clang =3D &qu=
-ot;${@bb.utils.contains(&quot;TUNE_FEATURES&quot;, &quot;octeontx2 crypto&q=
-uot;, &quot; -mcpu=3Docteontx2&quot;, &quot;&quot;, d)}&quot;<br></div><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=
-=3D"msg4169497276683250889"><div dir=3D"ltr">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-B.R.</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Ruiqiang</div>
-<div id=3D"m_4169497276683250889appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%">
-<div id=3D"m_4169497276683250889divRplyFwdMsg" dir=3D"ltr"><font face=3D"Ca=
-libri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From:</b> =
-Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.kh=
-em@gmail.com</a>&gt;<br>
-<b>Sent:</b> Wednesday, July 3, 2024 11:30<br>
-<b>To:</b> Hao, Ruiqiang &lt;<a href=3D"mailto:Ruiqiang.Hao@windriver.com" =
-target=3D"_blank">Ruiqiang.Hao@windriver.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
-ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
-ded-core@lists.openembedded.org</a>&gt;<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from T=
-UNE_FEATURES</font>
-<div>=C2=A0</div>
-</div>
-<div><font size=3D"2"><span style=3D"font-size:11pt">
-<div>CAUTION: This email comes from a non Wind River email account!<br>
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.<br>
-<br>
-On Tue, Jul 2, 2024 at 7:00=E2=80=AFPM Ruiqiang Hao via <a href=3D"http://l=
-ists.openembedded.org" target=3D"_blank">lists.openembedded.org</a><br>
-&lt;Ruiqiang.Hao=3D<a href=3D"mailto:windriver.com@lists.openembedded.org" =
-target=3D"_blank">windriver.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Ruiqiang Hao &lt;<a href=3D"mailto:Ruiqiang.Hao@windriver.com" t=
-arget=3D"_blank">Ruiqiang.Hao@windriver.com</a>&gt;<br>
-&gt;<br>
-&gt; Since GCC&#39;s configuration includes the crypto feature when specify=
-ing<br>
-&gt; &#39;-mcpu=3Docteontx2&#39;, there&#39;s no need to additionally inclu=
-de this feature<br>
-&gt; in TUNE_FEATURES. Removing crypto to fix the following error:<br>
-&gt;<br>
-&gt; aarch64-wrs-linux-clang: error: unsupported argument &#39;octeontx2+cr=
-ypto&#39; for option &#39;-mcpu=3D&#39;<br>
-<br>
-This is a clang problem. It should be fixed in clang, not here.<br>
-Additionally we check for &#39;crypto&#39; in TUNE_FEATURES in<br>
-many recipes for making specific tweaks, they will fail for octeonx2<br>
-if we apply this. See<br>
-<a href=3D"https://github.com/kraj/meta-clang/blob/master/classes/clang.bbc=
-lass#L49-L53" target=3D"_blank">https://github.com/kraj/meta-clang/blob/mas=
-ter/classes/clang.bbclass#L49-L53</a><br>
-<br>
-&gt;<br>
-&gt; Signed-off-by: Ruiqiang Hao &lt;<a href=3D"mailto:Ruiqiang.Hao@windriv=
-er.com" target=3D"_blank">Ruiqiang.Hao@windriver.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc | 2 +-=
-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc=
- b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc<br>
-&gt; index e9d7a59c51..d51d19b980 100644<br>
-&gt; --- a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc<br>
-&gt; +++ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc<br>
-&gt; @@ -9,6 +9,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc<br>
-&gt;=C2=A0 AVAILTUNES +=3D &quot;octeontx2&quot;<br>
-&gt;=C2=A0 ARMPKGARCH:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;octeontx2&quot;<br>
-&gt;=C2=A0 # We do not want -march since -mcpu is added above to cover for =
-it<br>
-&gt; -TUNE_FEATURES:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D &quot;aarch64 crypto octeontx2&quot;<br>
-&gt; +TUNE_FEATURES:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D &quot;aarch64 octeontx2&quot;<br>
-&gt;=C2=A0 PACKAGE_EXTRA_ARCHS:tune-octeontx2=C2=A0=C2=A0=C2=A0 =3D &quot;$=
-{PACKAGE_EXTRA_ARCHS:tune-armv8-2a-crypto} octeontx2&quot;<br>
-&gt;=C2=A0 BASE_LIB:tune-octeontx2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;lib64&quot;<br>
-&gt; --<br>
-&gt; 2.45.0<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#201448): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/201448" target=3D"_blank">
-https://lists.openembedded.org/g/openembedded-core/message/201448</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10701284=
-1/1997914" target=3D"_blank">
-https://lists.openembedded.org/mt/107012841/1997914</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" target=3D"_blank">
-https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
-ilto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</div>
-</span></font></div>
-</div>
-
-</div></blockquote></div></div>
-
---0000000000000cef5b061c529c14--
 
