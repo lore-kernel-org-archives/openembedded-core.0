@@ -2,129 +2,174 @@ Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB704C2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 04:47:33 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.92.91.101])
- by mx.groups.io with SMTP id smtpd.web11.43883.1719982046892455604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6001C2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 04:52:03 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.92.91.96])
+ by mx.groups.io with SMTP id smtpd.web10.43176.1719982317935865519
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jul 2024 21:47:27 -0700
+ Tue, 02 Jul 2024 21:51:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=Z3PEX2rJ;
- spf=pass (domain: outlook.com, ip: 40.92.91.101, mailfrom: kweihmann@outlook.com)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=G2cK0PcC;
+ spf=pass (domain: outlook.com, ip: 40.92.91.96, mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SMAOSb6pWq9fJpqi/YFp7sIdFL3ikZ3ogO5FL6v66h+QiLqhR5NrzgQhlVRm2n+D5qAL7+pluXzAEi4JMZ9o5QiQQgSjr6waUuKX9/cdW5om5R3cT6bDvx36vL39Px+BkI8vQt+zAVh2T1ubJbnspCJR0MyR2TsantIn3C703nm9YWCe9rY0FDpWGvP6oBcumXXyWgI7KpdVafNyqgaQ8otehOvCeoY29OsmOvu0QccczWSbU5d6L7XsHYTpcSL+TXrqQXnGuBCXLxCvq/OexL45Kfvo5ExAS2yxoTW/RA8Mu0cFe3cfM0hugDVz2i6MZ3SyQYBcUHp5nKAIjrSN4A==
+ b=NWOGA5dNsIlT8vf5rsvQPj+kkxNN/e5wtsH8qKNwP+232SDfXSmYhBELY1+hxOpbAOJPS/5hIAi0qSq2ovdIrujykhiVfCOm+Hbc7DoF/emQM8oeFulIjdWhPcTc6llghYhSo6uhN3X4OUmSABoT/cyI/Awapa3bFdN9vLjvvtWwm7FvitvtxrGBb+11zaOOdMBBbyLYqok6FdBsb/IsJuWhZVtCPeUXFgNMOBjv0arcycPfw7HcmDlWOvca5mI10DpgPamRyLR5i8eCrbUFN6i3PooIW5tsjaJxpcaanKrvoK9iNltM9vMHVPADBVmTnzqiv7FpXxV6F93PRFNm0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H3F/3R/cgjB9QwOpEFtiBeXSrYP5m3jRPTg5zvKdkGE=;
- b=Cb2dXQxNZ45QMBzN62EYdsSlqpqQbcay/PDqY9Ai5zDTZSaozH72DOrTYBTzzIVzBD78Up1reF5nGUm8d93qadyW8NKrXdI21aFW8oa63Khp0bqA8WOQ2xBn1hXsuXmpB104HTEPJVRZPmEc7xBgtkkmBJa7jMFqAnny6mywSGcoe7GCRSmTtt4Mju7CFnz+AtOXJoHj2TsA0ISrPt9AVHA1dVrD/J5ILm5f8vJJRxl0y9tAHv3YVnXzHlV001x0RXyfyo5S3m3k3F6sCSnvMZMD3FiJn6dzjPvvnZFtCil0QS0tKI6GbC6Z3ZQP13dwRgqTFSwECGFkX8pV4OnLUQ==
+ bh=slCwwKd4FJL/ajSi83lg4+Dj4Oh5b+GANT0whIK1gbA=;
+ b=DrZyr8LDMSfTKSEp7Nfj6Hs+ejnlWVI2UVpvWPKfQZSHg2F/+3NqUY6WTphQUQE6Mzwmu81o7MsifIWNC8KPOwXDBGO9ncHFu/I9c/gMwE8/Fm64hODLKswExIKwg/qnwxuWSLmV3B0OrBGXo/OftOP/sde3hgEoK0HN+/H21AMIE2aknOwXhE4tf8DNSWEvpmHkWTZ3TUSnr77Bmh/+VQLx0EWzM12j6RYKocuVMVqWdt5Rq+we+bCY3GRyrcIKbbAzdAyzu+9+fI8MzuQTod8WdoTSsVssbI+RtL/2iS8Nc5bLfAaxrHBVuIDK3kqwhc87kyIo85jfW2Bi2boJsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H3F/3R/cgjB9QwOpEFtiBeXSrYP5m3jRPTg5zvKdkGE=;
- b=Z3PEX2rJXsLfW6E6xTLYcbPIywR0MJTyg6rkVODKrw68RiiyOJoCFyjg0CyxiQfZn2e+npPypIO122HwHWyDKb76Rt3ND1vok9fsT8mwXI4SfAt7Hh0rvySvo5PIsMKbvZfuvg/0ZtcHGEUgolLt3c2usoxMNgijsIX4cYQJ//kJ7Xrk/x2t7FDsRZ7i1WZjHX2iAPg0dzRa8C7H05DK4oTxF4YhldkbtfuChY+g+mcg4Q2shKqndMXnBJ1bfcRElHxDUIeDOYWi53xaXQCu6dxuDL3dUvpJAGZsTn4DOQdzx9GOOS1OMbZXpp/lGWfhkLAsXwW6kkCDuv4ljvOZ/g==
+ bh=slCwwKd4FJL/ajSi83lg4+Dj4Oh5b+GANT0whIK1gbA=;
+ b=G2cK0PcCohKc0Isn39LNNbrKCx094sV5OFCAB0OQcbLpbU6e8ZmjxKaiRZlsg4aA5MxrnlNjbjWgUUB7tpxtgIq9BQdzWxEDs1xcgyz+Crej+6hJ3ZEfrfk+IQdjCIdGPIHV0FnGcv0fcURMIQaHGxFyON0lGKw/KXnpQuEFKzyJs8LhAKGmKvsXhvj12Z83afE8z4zYRnlclSEJ2K9iEJP8rGO/P6NkAP0Ql+LbtA/0P2W401y+M2vWXu2vXQLN4f6XN7fopggB0+SiJUsMzbRdeRiRs4vxtf7JUi+j9oHrELdXSmh2cY0FYmZrgbFsueYbP49wGLrl6/Qt4kCdGg==
 Received: from GV1PR07MB9120.eurprd07.prod.outlook.com (2603:10a6:150:80::7)
- by PAXPR07MB7824.eurprd07.prod.outlook.com (2603:10a6:102:13a::17) with
+ by AM7PR07MB6963.eurprd07.prod.outlook.com (2603:10a6:20b:1bc::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.23; Wed, 3 Jul
- 2024 04:47:23 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Wed, 3 Jul
+ 2024 04:51:54 +0000
 Received: from GV1PR07MB9120.eurprd07.prod.outlook.com
  ([fe80::a630:7019:63e4:a48a]) by GV1PR07MB9120.eurprd07.prod.outlook.com
  ([fe80::a630:7019:63e4:a48a%4]) with mapi id 15.20.7741.017; Wed, 3 Jul 2024
- 04:47:23 +0000
+ 04:51:54 +0000
+Message-ID: 
+ <GV1PR07MB9120A60DC46BF6FD4D358E90A8DD2@GV1PR07MB9120.eurprd07.prod.outlook.com>
+Date: Wed, 3 Jul 2024 06:51:54 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/2] image-bootfiles: new class
+To: Marcus Folkesson <marcus.folkesson@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20240619123853.2144538-1-marcus.folkesson@gmail.com>
+ <ZoPFJ4vZsZMUccHv@gmail.com>
+Content-Language: en-US
 From: Konrad Weihmann <kweihmann@outlook.com>
-To: openembedded-core@lists.openembedded.org
-CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH] testexport: fallback for empty IMAGE_LINK_NAME
-Date: Wed,  3 Jul 2024 04:47:10 +0000
-Message-ID: <GV1PR07MB91207447D621EE3962C6802EA8DD2@GV1PR07MB9120.eurprd07.prod.outlook.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-TMN: [cl/Uhnnpzqr4/oBBgq49mEb7FrgM7PLtnXEJcWmaZLBaeIyzuo6FvT3zZgs24dqk]
-X-ClientProxiedBy: ZR0P278CA0060.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:21::11) To GV1PR07MB9120.eurprd07.prod.outlook.com
+In-Reply-To: <ZoPFJ4vZsZMUccHv@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN: [KJB6gBAwxiYo5B/OyglX/yy2l6F+7qwU3eep6DQBUQ4JJR9XwDaQ0B/RBwwDUiaH]
+X-ClientProxiedBy: FR3P281CA0149.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:95::20) To GV1PR07MB9120.eurprd07.prod.outlook.com
  (2603:10a6:150:80::7)
-X-Microsoft-Original-Message-ID: <20240703044710.13041-1-kweihmann@outlook.com>
+X-Microsoft-Original-Message-ID: 
+ <fe19fbf2-55b8-4692-8c8e-a0d17be981ad@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR07MB9120:EE_|PAXPR07MB7824:EE_
-X-MS-Office365-Filtering-Correlation-Id: 750e938a-2a35-4109-83a9-08dc9b1b3abc
+X-MS-TrafficTypeDiagnostic: GV1PR07MB9120:EE_|AM7PR07MB6963:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5cc2f4e8-ace8-42a9-0e39-08dc9b1bdc73
 X-Microsoft-Antispam: 
-	BCL:0;ARA:14566002|461199028|8060799006|3412199025|440099028|1710799026;
+	BCL:0;ARA:14566002|8060799006|461199028|440099028|3412199025;
 X-Microsoft-Antispam-Message-Info: 
-	wJs4+EPNFZkq2cKXVtu+iEVuL61OgYm3x7vlA+9f4wO67iTGl6klpcXZVa5ifBNiVFM5UlosStTwIqz+7bpPFOme3laE5xKaOU+FbhT4Nuv7eRj4+9GE1xEiiQo0KgxKmn0K6I1DIso81sSPVQlJBueeNR8P8OubMXXxmY+zxDono6Wf8fdYlOJPGdgjGQe7pBAp2Qi1DIfjzElBxT8yIoly1j3hEY1plPGvIwBcotQWEucgJM+npB/HfpRbI4u94ag2eqBRptUVSExWEpV1T4VxZ/4JZuI2PyZTmOB/GIukwN2s5wyIsr8y6ivxv2/po9emM+ylrGdFMhqxYsgpQGW1IKj2Ki+OhMT/UFlf4ezA/PZPuBcKHELWZ/MQoAOOxCKt/4X8PlGp8UGkqylNs8JndckRqOksOdv839ajvoL1jDtY7kWxRuN+dsHdQUxMOWpzUJk/q2MD6sjYCXIUh9byUiFUwnAkgA243oNNwzLJ0FnMfMmUqsv+HMjsL0I08/cqG9zYMEkEEyK3NpHckTOW9uiZrJcKzsQqdD8I1B4JdLmEjehfWGtTYRG2NcjAno6SQxkwc27DXy6x5rjlUXXK1hPvc3I2gPjrBA+uX7tpy5yuSUZVBrLdDaTaPn4/L2y/GcRSX91Zb6Izkw3Qkg==
+	pSNs+fCxjDiIXIyA2HvOiSTOuHGiXlpYG6iMzgxu223iOYq+Qqqsh6Zqe/5NRUMVC1LzEDZomsnoZwvJQ8if76zGTm3tFXi4k22IdXGvTfuUgzDnO4l27RytkAvoohvTEmxJP/NINqtfUmICEuLMHnYa3VmSluOZKiz51hPZrEtQIwdNobz+ROfAIO12YFeIZvJFO/NxCT//UutPqr2GKt0KQFHi0thLZSMWR49HXslz3h5sMzzJnOpK8A9FPNNQT/3hc7pUZjtijObdxtaO8Y7FYQkgiq+slvM4Mxkip5PAj2EXzRaWVA0YYqJyM371N3ZcSLXTTZDraH+ylHErpTTCOFwRg2eXUf63bAsO6vfHHdYFadLIDcJEOjBZXYcTH6jCvKw4CwFmvPW6gtgLGIW24QiJBJ7a31/NHWFoCNiqiCK89h+UBLmdIuqq60hzSmfwc7D4l63MEgfpqKAzWcubYscC89JqDqwFTi1rjhHOO+VFhvUMd9S+a8pjQu7Gj9yppmSM1mcsu3d2ERBgrrxYN/xH0EESWtkX/QdJW7WWpSyBiABmZE6IzBrrKRTrnxOG9r8Z4fh21nYnfDNSub0ptQN0i+NJ0gdTWcePlI4=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?KxVpmEwefasyd+cASRwBTymCRnugvziNalF0VroM5ajliC6gciMK4RJvzrv/?=
- =?us-ascii?Q?mepeXXkqb2mBvgl/SJAohVqJEysAXhTvjne51GcoiqW+6IYLf4FJeW3tJOQQ?=
- =?us-ascii?Q?StukTLUSEvbdUaa/F/1b61bB87FauDFJA8UBHHzui+AQKcGi4g0R/zZg4L3M?=
- =?us-ascii?Q?GxK+CfqITBm/YEnoZpq+oRsPoqCwZvnjlvYCacmj1PVYPS1do33oQQqTo+nH?=
- =?us-ascii?Q?gGD5q8ynp4DvNz40RLgRqdUpHJiRfbjQemRMSXBi3bApzRaszkUdoAr99NCO?=
- =?us-ascii?Q?EGOMBL7Hnjf44/uQh71lY0csrg8eeAmfJaDpQ99t2RkG8Yta7WoRDoQL7uck?=
- =?us-ascii?Q?+Qxw4TsiMDgI7AtCQM2fxhUrQt/AEasUXhW0O46lYnYcc+C4Ix06ZtpcpjX+?=
- =?us-ascii?Q?9rHvJBlTSgIeSXYZx+2YuMtPbp34HANgYj5gat9KtMkQJqvGZDF0QV/JHY3J?=
- =?us-ascii?Q?hGM98FgqvDYFch3X5zZqx80qRqOTmyk3h9Y0a2xalfnj4uWhIJVNuXEWC5Ze?=
- =?us-ascii?Q?03XfVZ4cQKsbfXg+4TaDCyQPgALZcAPgVpKu5M8FHnl2AXTLHvFJCShFJZB9?=
- =?us-ascii?Q?NLj4FhGKuYDiCemnLfxbj9O4MRvJ/AUyeTucYGjyp9/xD7SjoPjZFKLTrBj0?=
- =?us-ascii?Q?6gb61Qu8/4NU/1J8/VS5qXXaD3nMbKgg8sbV5LfoblojKvFJSfabBeYBvuv9?=
- =?us-ascii?Q?G+isuaBPA3g/Swn/NyyBkh2sqbZ6d0CZsX7Aql3KL8VTHBoXaxbZ9DZSeEYB?=
- =?us-ascii?Q?imhS8uTuGJUv8ZAiP1LOQdZQUJtBIxZhgPt5CfpxZ0J/W78HHTGgTokVJgQt?=
- =?us-ascii?Q?CdC6tg7VPhya2734GOElaYLp9Kbr3aekNZpWSMfdhAq0+wjvLrYosw0HEi+N?=
- =?us-ascii?Q?YVoDZ0hMHQa2eLaRFmInEH1V/RS19zmDR2PBUjV6mQA8UbNeeqFLM8RDBxju?=
- =?us-ascii?Q?gNBLw8Jklt/At7hiA7FUBOMOTFq1pL7YELlk92blF8/sgSOwlzA62DzcMvhW?=
- =?us-ascii?Q?Jd2INwrP62xDp4fIN0bO3QZSSiKgWoaEtr+pKU8MClz2i25gjUS4Xsv0fEYD?=
- =?us-ascii?Q?aYf7P6LDG9YcEoq3Dz14/eAvUVadxeszVwQ1sb9U6b22EXIbRat4qprLGZi3?=
- =?us-ascii?Q?Z5dB5LCZ5v/IpSNXp0iXR0x3jqBhU6D13lEQ/a5OEjl6IkCGu5WyEchVqK1J?=
- =?us-ascii?Q?8XkoMtlChqI6rRpxGI4PwqWUB6unMdvL3cuI8DhBruPx6OyucyK9ozgx46RV?=
- =?us-ascii?Q?uWCzSbj95Y9qkEALIoBp5a2Tb5F4dyhSwN/psMSaHKgglS8VKwCcj/V1kWqb?=
- =?us-ascii?Q?XO4=3D?=
+	=?utf-8?B?L3h5VHUxckN3NVVOT2dnN2haenlMMkxKdldvL3BKL3NMMjhpUDN4WVMrNTli?=
+ =?utf-8?B?ODZpRTV6dlBKOVprTm5kdmlrSnBWMzdVZmU0cG9tbVB2S3JJSElTalU1Y01x?=
+ =?utf-8?B?OWRBSm9FenIvMW1IZlhFdXBJMVAyZjVyVjYrYXNUTDVpTjNvai9uQURMc0Vu?=
+ =?utf-8?B?aFFVUmhMTjFmOGxjaFJaUm1NemlxbHBBUjVGQXJwRjVldFdzUlZyNVhqczhn?=
+ =?utf-8?B?dFBEeHR5V1ZsNzYrUW1sL1hjSEk5NFFYYkV5L1l2Q2lYQmNhWkVxMHJmejNa?=
+ =?utf-8?B?d3ZzcVZLL2RyaGV5M0xOM2djMytEWkVLdXNzeXhidFpsV1FueEZma2wrNStu?=
+ =?utf-8?B?YlVldmhSUkZtei9BYXBYWkdYZ0RKN2VOWTQvdVVrbDJSNUFvNUFyWnM3QnNy?=
+ =?utf-8?B?aVQrOU9LNE1hZFlMQXh2cWljZ3phNFdLM2k5Tmt5amd4TFg3QkU4Q1hYUjNl?=
+ =?utf-8?B?WlkrWDdvQnY3S1RhNnZ6RE1rSGxLVHg1ck9sK2xiVVg5K1FtZXVJajFXMFRD?=
+ =?utf-8?B?Uy9iNElNWEtCNnB6ajdOU0Zzc2dRWFhtNFN3WXRzSWJWbFZYSzM1SkQyVTNN?=
+ =?utf-8?B?cmRCdENMOWJFVmIrMmkyZ2x1dXpUaU1ocG9ORXpBRFJldVBCNldWTjlub2gy?=
+ =?utf-8?B?emdZM0dGYWFRNGZWV3p0enh5Q0dIZThWYi9RUnBpdEtWMjhUNVovZzZiSjUv?=
+ =?utf-8?B?SUJQbnlteHlQM0hBcHRiWmZ3QkdHZWdVSE1JVTEzYXozVnEvMUdQRGUrTjNF?=
+ =?utf-8?B?Ly82RldnKzRFS0Fvck1xZTd2bXVhdHQzSGM3NmQwQU9TVm5VMG8vazRrbU00?=
+ =?utf-8?B?QXNycDI3TGxEY3V2a2kweGY0VnlyNFdyT1NFS2NDTU1jT05VOFZRUm11cldX?=
+ =?utf-8?B?Y0RKZk84aHVZSVZpRGQrMmtUaDV6ZlJiNVpFbXM3TEJSVVlaQk1JK0xiaEFm?=
+ =?utf-8?B?cDB3NWJJZ05mdFEwcDc4RWxMWnBqbDJTWXhVSFBNMkhMblN4RE9pQitEbDRO?=
+ =?utf-8?B?alpKTmNuc252NE42eUhFQXEwbm01L01scXdSSmdPN0plUGZndkRHQ0xGWUNh?=
+ =?utf-8?B?TVNnWWVLNHdaUS9VcSt2R3ZsNk9mMytZRFJvQk5vSXJrY2RCUHVZU1V4cTdF?=
+ =?utf-8?B?Y3pwM2Fkc2YyV2NWOWVCNnFoVXVIWWd4ZlI1VjhEV04yZlJYOUFPeng4dm1J?=
+ =?utf-8?B?clpUVXZHdkZ2ZFZkMFhzY215ZVpGd0FvZmtFOUlkaGdpTVN4TW5BQ1A2ZmpR?=
+ =?utf-8?B?RWtwRHNkN0hic2pqcmxacG9oZll2Tk85clVyOVhVMzRDMzR4L1k3dkpPS1hh?=
+ =?utf-8?B?MEpySkdBSlEvWXZKUURyUGhLaWJIMGFlV1BYQjIvalRPZFZveW54Z3RLazZJ?=
+ =?utf-8?B?YnpmU3gyYVJ6eE1neWkxbFNlYUNhRzQ5UnNHdldMVVMzU2VTc1h0dmhpVzJL?=
+ =?utf-8?B?VC9mYWlqODlTODRWNGlZMEJubnErMmhjNnJqaHArOHpybE1Td09Nd1FySDZW?=
+ =?utf-8?B?Vm5CNXBGV2xHMFNPREJiNmNjbXNScUhEQ2VFQ292Yk0vRHlQZDhpUklObEdJ?=
+ =?utf-8?B?VFBvQ3grZWsxQS9ZWWczUmY5TkhVMDQyTjZBOGk2dkg4bTZGbFVuWDllVVV3?=
+ =?utf-8?B?c2tNMWZNQUZVUjhmSTQ3UmdFczNVRy9MSzdqWGt0bWp6Mk82UVdtdGw5WmVD?=
+ =?utf-8?B?WW9XSjdYZWRoRTlEYWViNjNZbUN4VlNpaWs5amNkSGpzQXRkQVUyOGx4bzJ4?=
+ =?utf-8?Q?V+vH1LRYti2O+/emi0=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 750e938a-2a35-4109-83a9-08dc9b1b3abc
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cc2f4e8-ace8-42a9-0e39-08dc9b1bdc73
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR07MB9120.eurprd07.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2024 04:47:23.4631
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2024 04:51:54.6180
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR07MB7824
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6963
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 04:47:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201451
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 04:52:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201452
 
-if IMAGE_LINK_NAME is set empty to disable the symlinking
-for image artifacts in deploy, testexport fails, as the path assembly
-is incorrect.
-In that case fallback to IMAGE_NAME
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
----
- meta/classes-recipe/testexport.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/t=
-estexport.bbclass
-index 572f5d9e76..57f7f15885 100644
---- a/meta/classes-recipe/testexport.bbclass
-+++ b/meta/classes-recipe/testexport.bbclass
-@@ -50,7 +50,7 @@ def testexport_main(d):
-     from oeqa.runtime.context import OERuntimeTestContextExecutor
-=20
-     image_name =3D ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
--                             d.getVar('IMAGE_LINK_NAME')))
-+                             d.getVar('IMAGE_LINK_NAME') or d.getVar('IMAG=
-E_NAME')))
-=20
-     tdname =3D "%s.testdata.json" % image_name
-     td =3D json.load(open(tdname, "r"))
---=20
-2.34.1
+On 02.07.24 11:15, Marcus Folkesson wrote:
+> Hi all,
+> 
+> 
+> On Wed, Jun 19, 2024 at 02:38:51PM +0200, Marcus Folkesson wrote:
+>> The image-bootfiles class is used to put all files listed in
+>> IMAGE_BOOT_FILES into the root filesystem.
+>>
+>> IMAGE_BOOT_FILES is used by the bootimg-partition wic plugin to put the
+>> files into a boot partition.
+>> Be able to list files as "boot files" in e.g. your .conf or image files
+>> instead of install those in every recipe is a good thing.
+>>
+>> It is not always desired to have a separate boot partition for boot
+>> files. Sometimes it could be good to have them as a part of the root
+>> filesystem.
+>>
+>> For example, if a double copy strategy is used for update the system,
+>> then you probably want to update both the boot files and root filesystem
+>> at the same time as there may be dependencies.
+>>
+>> v2:
+>>      - Removed the documentation from the patch series (will be submitted later)
+>>      - Break out the parts in bootimg-partition that is used by
+>>        image-bootfiles to a common library
+>>      - Make the destination directory in root filesystem configurable
+>> v3:
+>>      - See changelog in patches
+>>
+>> v4:
+>>      - See changelog in patches
+>>
+>> v5:
+>>      - See changelog in patches
+>>
+>> Marcus Folkesson (2):
+>>    bootimg-partition: break out code to a common library.
+>>    image-bootfiles.bbclass: new class, copy boot files to root filesystem
+>>
+>>   meta/classes/image-bootfiles.bbclass          | 41 +++++++++++++
+>>   meta/lib/oe/bootfiles.py                      | 57 +++++++++++++++++++
+>>   .../wic/plugins/source/bootimg-partition.py   | 39 +------------
+>>   3 files changed, 100 insertions(+), 37 deletions(-)
+>>   create mode 100644 meta/classes/image-bootfiles.bbclass
+>>   create mode 100644 meta/lib/oe/bootfiles.py
+>>
+>> -- 
+>> 2.45.1
+>>
+> 
+> Any more thoughts about these patches?
+> 
+> Thank you,
+> Marcus Folkesson
 
+LGTM
+
+Reviewed-By: Konrad Weihmann <kweihmann@outlook.com>
 
