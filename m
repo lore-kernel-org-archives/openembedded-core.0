@@ -1,97 +1,100 @@
-Return-Path: <philip@balister.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DDBC2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 11:54:45 +0000 (UTC)
-Received: from mx07-0040c702.pphosted.com (mx07-0040c702.pphosted.com [205.220.184.135])
- by mx.groups.io with SMTP id smtpd.web11.48331.1720004177898803575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B970FC2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 12:04:15 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.48601.1720008252126402130
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 03:56:18 -0700
+ Wed, 03 Jul 2024 05:04:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=TOsE1cYx;
- spf=pass (domain: karlstorz.com, ip: 205.220.184.135, mailfrom: pascal.weisser.ext@karlstorz.com)
-Received: from pps.filterd (m0267679.ppops.net [127.0.0.1])
-	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4638iTVo025019
-	for <openembedded-core@lists.openembedded.org>; Wed, 3 Jul 2024 10:56:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=S-DKIM-20210427; bh=SmgcF
-	eaXE95Nit6WGoqrz/K6+gWFgWPDO93iVGUpMsc=; b=TOsE1cYxqI8Ce7TG8EeH2
-	I5Ay5fxX6f44RS6bxKTdC/VHuK7im/WVNfLLhFD84nJ9pb0FnSy/V3TS3ZfjmF0O
-	DNRlBSuzWOodi12i3GEeytZKWuLDKDDoaxtTwnWrMUvpNH6viVtnQZilzneD45qT
-	hmx0TYfIeLrc/2AkoQ4gd4yQIH3DUZAVN96HA2tpnJJufYPRIwHQ+NvtgwLW+kbZ
-	XchujwWgP1fgPLcXW5oCLHhPuA9OFNh0o1+8pYW/B0VPMUzDxY5ApKrsqWVMimlc
-	pvDfOdLQG8S/ymV0sNxYT4Yj7hFVSIFgQIBNV5tSCCyAETkQIVhNuB9f9UotcjrS
-	A==
-Received: from tut-ex23-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
-	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 404deukc9m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 10:56:15 +0000 (GMT)
-Received: from TUT-EX21-PV.KSTG.corp (10.0.10.225) by TUT-EX23-PV.KSTG.corp
- (10.0.10.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
- 12:56:15 +0200
-Received: from TUT-EX23-PV.KSTG.corp (10.0.10.227) by TUT-EX21-PV.KSTG.corp
- (10.0.10.225) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
- 12:56:15 +0200
-Received: from tutn-bpfb5m3.kstg.corp (10.0.10.41) by
- InternalSMTPRelay.KSTG.corp (10.0.10.227) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 3 Jul 2024 12:56:14 +0200
-From: "Weisser, Pascal.ext" <Pascal.Weisser.ext@karlstorz.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
-Subject: [PATCH] Trigger write_qemuboot_conf task on changes of kernel image realpath.
-Date: Wed, 3 Jul 2024 12:56:03 +0200
-Message-ID: <20240703105603.429817-1-pascal.weisser.ext@karlstorz.com>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-X-Proofpoint-GUID: xZm8jkN3n2u_F2g438Bx0cn7LZW0Pccz
-X-Proofpoint-ORIG-GUID: xZm8jkN3n2u_F2g438Bx0cn7LZW0Pccz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-03_06,2024-07-03_01,2024-05-17_01
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HesBFoGf;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tmd5D1AG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190787b1739-2cfa4658-baeb-4790-b38e-f8479e1ae245-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1720008251; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=rf1oKuXWNIKxDx06TxIK6OY567mPPP61Ik6OF3s+vS0=;
+	b=HesBFoGfvr2DUpBabF/piApoC/iSRhifBXl7LwPp50Ihk1JXewBCmGjsBzt7uE0P
+	daMqgydVfUTvlzcKQHAbg93LHV1xonM76fLgWOMF4goYZPNsBW/V8yK44FMuZMRNOC4
+	ivky95rU9GGMDxXbbR2/Ycx9X7fGGlQCpS97bvLM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1720008251;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=rf1oKuXWNIKxDx06TxIK6OY567mPPP61Ik6OF3s+vS0=;
+	b=tmd5D1AGZ7aTc+sVC4WikymO4s8gOt3N5vRI80Fv4dzTwvuhJOKioQjOdxSlBGeM
+	8rtzaKEQ+KRJRMk5Z7t6meWSC3nsjPlmYWT5J8vu15jhcQ/51lquRzd18EYAzlbOuEk
+	FfHqEQO2Fb6gOH+SQ3NASymnGEf67eWiTSgUwI0c=
+From: patchtest@automation.yoctoproject.org
+To: "Weisser, Pascal.ext" <Pascal.Weisser.ext@karlstorz.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] Trigger write_qemuboot_conf task on changes of kernel image
+ realpath.
+In-Reply-To: <20240703105603.429817-1-pascal.weisser.ext@karlstorz.com>
+References: <20240703105603.429817-1-pascal.weisser.ext@karlstorz.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190787b1739-2cfa4658-baeb-4790-b38e-f8479e1ae245-000000@us-west-2.amazonses.com>
+Date: Wed, 3 Jul 2024 12:04:11 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.03-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 11:54:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201468
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 12:04:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201469
 
-The qemuboot.conf file contains the realpath of the kernel image
-referenced by QB_DEFAULT_KERNEL. So, it must be recreated in case the
-realpath of the referenced kernel image changes.
+--NextPart
+Content-Type: text/plain
 
-The variables KERNEL_IMAGE_NAME and KERNEL_IMAGE_BIN_EXT determine the
-realpath of the kernel image relative to DEPLOY_DIR_IMAGE. Adding both of
-them to the vardeps of the write_qemuboot_conf task triggers the
-write_qemuboot_conf task in case the realpath of the kernel image
-referenced by QB_DEFAULT_KERNEL changes.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Fixes: [YOCTO 15525]
-
-Signed-off-by: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
 ---
- meta/classes-recipe/qemuboot.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/Trigger-write_qemuboot_conf-task-on-changes-of-kernel-image-realpath..patch
 
-diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
-index 895fd38d68..0f80c60ab5 100644
---- a/meta/classes-recipe/qemuboot.bbclass
-+++ b/meta/classes-recipe/qemuboot.bbclass
-@@ -129,7 +129,8 @@ addtask do_write_qemuboot_conf after do_rootfs before do_image
- 
- def qemuboot_vars(d):
-     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
--                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
-+                'KERNEL_IMAGETYPE', 'KERNEL_IMAGE_NAME',
-+                'KERNEL_IMAGE_BIN_EXT', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
-                 'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
-                 'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
-     return build_vars + [k for k in d.keys() if k.startswith('QB_')]
--- 
-2.45.2
+FAIL: test bugzilla entry format: Bugzilla issue ID is not correctly formatted - specify it with format: "[YOCTO #<bugzilla ID>]" (test_mbox.TestMbox.test_bugzilla_entry_format)
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
