@@ -1,196 +1,122 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ACE4C2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 13:03:26 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.50529.1720011798507239230
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E47C2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 13:31:26 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.51168.1720013475444205409
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 06:03:18 -0700
+ Wed, 03 Jul 2024 06:31:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MUaQHt7i;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2c8c6cc53c7so3691140a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 06:03:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bXngJJBN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-36796a9b636so260867f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 06:31:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720011798; x=1720616598; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7+Hc/HV/9n9ygAPOTIUr+5ONEQSNMctCKGAN9Cs9FCY=;
-        b=MUaQHt7i/l+FX5wDXvdexq7Zi8gMe0EnUxNEv2lCuykgfpCsmHST/bagkta9iG0te9
-         ya0K1pstTAOD7bszLvbjF0zgLEKXYbYjiy83o0lPn9W753V2YmYIKC74CKhM7GuoQOfi
-         6EuLe2plsr4nh3ceXkcUAn9gCm0DPC1gsucIX4nKACqUg3QZ1PMe7GGBKQ7PoPJcuX2t
-         1P+ORhQaQVsZ/s5jzewhJbKV6yx+5/1Q1oWuvcW+Amb6jTYmgbFJbpH9gcMRn1mTzxFG
-         7zu66+sg59O+xDmftaNbZ3JXFi+4nb9WDRWvshYxY9uRdRbLSzybEpNNc6Mk4FL8iQ53
-         JpiA==
+        d=linuxfoundation.org; s=google; t=1720013474; x=1720618274; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=w6Y5iEkMbfY3FrioN/aw8e4QSyJLgnd6ll6K6suGFj4=;
+        b=bXngJJBNnXcL8Wg1LVpyL1wcyAB0R6f8Csw881/guKvnhwh5YzEYIvdkwvWq25kkgp
+         GUbJUd/VFDOWSnk3kq7/QnmtayHeLbBJk5v78oNsYgpEpSWtKq1/ST3y+hHMbj+0QXAb
+         zgIRY+0aK2Go7V51zVxkAjGcN7sCXBj9zu4dk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720011798; x=1720616598;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7+Hc/HV/9n9ygAPOTIUr+5ONEQSNMctCKGAN9Cs9FCY=;
-        b=BDIeNMrpHNezHPwbYb6fivbSSasqJkxPLrve6cDhLCGNa4jknTz06cc/m0lxSI8oRc
-         KmWogh+ttxjt92sMtLoV25iviMnzkO51ywN4pwXozPmVOVsRanG+KoSR/hZz4IEpubld
-         1mEIWvQ1+y8NY3YBb86Qmr8GgeUDXewIbjd9cTX9kKNiSJJa6otgPtKZNKeLMI2j3WTM
-         9XnnnP1NKrKakJdElN3Ggw1+ZKrzGf/H/MM3LPCEEFsUAmyhOEpArUJARofcSKkfjG5w
-         O9wg1PURe7M7P+kGNck2FCUnfyhIx3z40sYvlQ5Ai2WcqE3d3Gee1pujczAYfkZnxOdm
-         lckQ==
-X-Gm-Message-State: AOJu0Ywl6mvOEOqwaxZQlgyWuKPUJojUkwt+v3dAGcg3lzrbvmqOBxIO
-	RlTmnYfWvOiUE47xlS1RkM2zUAX/GiVn2cdkcuOTS7kM3ONna1xRMGtgYSabKI6f5oo0kd8l+gx
-	CkEFzRQAkDq3m1RwEJK01Bwuxxbs=
-X-Google-Smtp-Source: AGHT+IGmbFi9gL/gvZnzCVXOxf2l5HoskteZaj89oElxgrYgOG3UOQzBQWgHwFjIU9AEAhR+MEj7nYQk9oofC+OD1Ww=
-X-Received: by 2002:a17:90b:2e87:b0:2c8:d0a6:1d10 with SMTP id
- 98e67ed59e1d1-2c93d77c8e5mr8450201a91.41.1720011797338; Wed, 03 Jul 2024
- 06:03:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240703125244.1250173-1-Harish.Sadineni@windriver.com>
-In-Reply-To: <20240703125244.1250173-1-Harish.Sadineni@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 3 Jul 2024 09:03:04 -0400
-Message-ID: <CADkTA4Mn9e2NpQ3ZupvPUWKffYcM4h5E91cbvq=Gc3TXuV5vdw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux: Modify kernel configuration to fix
- runqlat issue
-To: Harish.Sadineni@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
-	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com, 
-	Shivaprasad.Moodalappa@windriver.com
+        d=1e100.net; s=20230601; t=1720013474; x=1720618274;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w6Y5iEkMbfY3FrioN/aw8e4QSyJLgnd6ll6K6suGFj4=;
+        b=sj83r+SDODLBbGihooNv5xOe+YB1VfXIC0AjSomFevP0lKAORNNCheip9QbMG9FEbS
+         xje1D5QnUF6JzawbvsjVcX46zEIEhRFqstF+h4dwSpgLD7ylTCyHVbmXr2c3QW4CKSy2
+         Wn/KE/NY73Dw2oNX24+wXM8pDUw1dHxjvt8MccyVG+tHzTnGxFtnbS2dLDf7FEXJ49mB
+         E3ffTZDdiGhnxb2w83oUwekxdwQMn7WWbDMDau/3Cxh4shhGnEZ5vgXT18aDqgQ7FJDX
+         Mor+BzJ4NZIirLgo8KdE16XI31dpnHlXoNPJYekk86g5o6jM8U+je+ZYOL3WovN6afbn
+         H1cw==
+X-Gm-Message-State: AOJu0YwUK9CX2pjyf5gVs+QEKdEYfQ8K4hZATsRPHSkZPqwI8cLvmN1q
+	VlhnJrl04QG1LKT66aUo2RlzPZfy/nKFWCV1X/Btm5y3/a/QW8+q5alPlQJ568A=
+X-Google-Smtp-Source: AGHT+IEcmu3EvLFGz534begKeQoxXTvXMpRLazAGaIkzmxv1zYYmiXxlSVuA88F+M4oVuTs+0j/iOg==
+X-Received: by 2002:a05:6000:b0a:b0:367:98e6:2a1b with SMTP id ffacd0b85a97d-36798e62b51mr1499f8f.4.1720013473851;
+        Wed, 03 Jul 2024 06:31:13 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fad2:e8e1:212e:cafd? ([2001:8b0:aba:5f3c:fad2:e8e1:212e:cafd])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a1030c8sm15863966f8f.98.2024.07.03.06.31.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 06:31:13 -0700 (PDT)
+Message-ID: <d6da4fb9ffe93b23d095b72c8310fd7bfa7ade4f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 02/11] devtool/upgrade: add
+ RECIPE_UPGRADE_FINISH_EXTRA_TASKS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
+	 <alex@linutronix.de>
+Date: Wed, 03 Jul 2024 14:31:13 +0100
+In-Reply-To: <CANNYZj_o8bFtNGWj48mhDwbrisjjowV1xR_xOfWWJ-Jx3pRwbg@mail.gmail.com>
+References: <20240621103414.2842509-1-alex.kanavin@gmail.com>
+	 <20240621103414.2842509-2-alex.kanavin@gmail.com>
+	 <de66e3216fb54cf24171e800ea032770517fab69.camel@linuxfoundation.org>
+	 <CANNYZj9hXzes_pH_tH1P4wVUsLOKiQpRnucds-YpVtJDQRTMuA@mail.gmail.com>
+	 <f9d0520c75c0144cb6f7a433769b593ddcf9091c.camel@linuxfoundation.org>
+	 <CANNYZj9xwEDEw9HxHQ5zAPJY2--iuq_JvTW0foOVTF=83zefsQ@mail.gmail.com>
+	 <3bd89c381318290050137e1ab5f65bd25f94ec83.camel@linuxfoundation.org>
+	 <CANNYZj_o8bFtNGWj48mhDwbrisjjowV1xR_xOfWWJ-Jx3pRwbg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 13:03:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201474
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 13:31:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201475
 
-On Wed, Jul 3, 2024 at 8:53=E2=80=AFAM Sadineni, Harish via
-lists.openembedded.org
-<Harish.Sadineni=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->
-> Running /usr/share/bcc/tools/runqlat 1 5 gives following error:-
->
-> libbpf: failed to find valid kernel BTF
-> /virtual/main.c:92:15: error: no member named 'state' in 'struct task_str=
-uct'
-> if (prev->state =3D=3D TASK_RUNNING) {
-> ~~~~ ^
-> 1 error generated.
->
-> It is due to the modification of state to __state in latest kernels.
->
-> The following commit addressed the issue which checks whether the struct =
-"task_struct" has __state or state
-> https://github.com/chenhengqi/bcc/commit/d3cf5dcecfaeb6d8d346e2228626a7db=
-e506ad38
-> The above patch requires enabling CONFIG_DEBUG_INFO_BTF in the kernel
-> and requires pahole.
->
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto.inc     | 3 ++-
->  meta/recipes-kernel/linux/linux-yocto/cg2.cfg | 2 ++
->  meta/recipes-kernel/linux/linux-yocto/cg2.scc | 1 +
->  meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 2 ++
->  4 files changed, 7 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto/cg2.cfg
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto/cg2.scc
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-ker=
-nel/linux/linux-yocto.inc
-> index 0132fcffb3..d6b4794d32 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -65,11 +65,12 @@ KERNEL_DEBUG ?=3D ""
->  DEPENDS +=3D '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "powerp=
-c" ], "elfutils-native", "", d)}'
->  DEPENDS +=3D "openssl-native util-linux-native"
->  DEPENDS +=3D "gmp-native libmpc-native"
-> +DEPENDS +=3D "pahole-native"
+On Wed, 2024-07-03 at 14:28 +0200, Alexander Kanavin wrote:
+> On Tue, 25 Jun 2024 at 13:54, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>=20
+> > I appreciate it calls this "inherits" but this is actually a list
+> > of
+> > any file included by the base recipe so any bbclass, .bb, or .inc
+> > file
+> > that was included should be listed here. The True/False associated
+> > with
+> > it is whether the file existed or not so that if it changed, we
+> > know to
+> > reparse.
+>=20
+> This doesn't seem to be correct. I added
+>=20
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> logger.info(tinfoil.cooker_data.inherits['/srv/work/alex/poky/meta/re
+> cipes-devtools/cmake/cmake_3.29.3.bb'])
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> logger.info(tinfoil.cooker_data.inherits['/srv/work/alex/poky/meta/re
+> cipes-devtools/cmake/cmake-native_3.29.3.bb'])
+>=20
+> to devtool to see how the data in that attribute looks like, and
+> unfortunately it contains only .bbclass filenames and not .inc or any
+> other dependent files:
+>=20
+> INFO: ['/srv/work/alex/poky/meta/classes-global/base.bbclass',
+> '/srv/work/alex/poky/meta/classes-global/patch.bbclass',
+> '/srv/work/alex/poky/meta/classes/terminal.bbclass',
+> '/srv/work/alex/poky/meta/classes-global/staging.bbclass',
+> '/srv/work/alex/poky/meta/classes-global/mirrors.bbclass',
+> '/srv/work/alex/poky/meta/classes-global/utils.bbclass',
+> '/srv/work/alex/poky/meta/classes-global/utility-tasks.bbclass', ...
+>=20
+> etc. - no cmake.inc mentioned anywhere.
+>=20
+> So assuming I didn't miss something, this either needs further
+> bitbake/tinfoil extensions (even more work), or we can just write
+> manual hints for lockstep upgrades into recipes (there's not that
+> many
+> of them so I'm leaning that way tbh).
 
-This has to be conditional, it is only required in certain
-configurations. You may need
-another image or distro configuration option to control the
-conditional depends, just
-like we did with KERNEL_DEBUG (and see my comment below, I think we
-still should).
-
->
->  # Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole-n=
-ative available before do_kernel_configme
->  do_kernel_configme[depends] +=3D '${@bb.utils.contains("KERNEL_DEBUG", "=
-True", "pahole-native:do_populate_sysroot", "", d)}'
->
-> -EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "PAH=
-OLE=3Dfalse", d)}'
-
-You need to justify this change. It wasn't a mistake that we wanted to
-force phole off
-when debug wasn't enabled.
-
-> +EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "", =
-d)}'
->
->  do_devshell:prepend() {
->      # setup native pkg-config variables (kconfig scripts call pkg-config=
- directly, cannot generically be overriden to pkg-config-native)
-> diff --git a/meta/recipes-kernel/linux/linux-yocto/cg2.cfg b/meta/recipes=
--kernel/linux/linux-yocto/cg2.cfg
-> new file mode 100644
-> index 0000000000..7c60e87a1a
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto/cg2.cfg
-> @@ -0,0 +1,2 @@
-> +CONFIG_IKHEADERS=3Dy
-> +CONFIG_DEBUG_INFO_BTF=3Dy
-> diff --git a/meta/recipes-kernel/linux/linux-yocto/cg2.scc b/meta/recipes=
--kernel/linux/linux-yocto/cg2.scc
-> new file mode 100644
-> index 0000000000..7047be85f7
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto/cg2.scc
-> @@ -0,0 +1 @@
-> +kconf non-hardware cg2.cfg
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-=
-kernel/linux/linux-yocto_6.6.bb
-> index 62c0f0ab36..cba61aa2d7 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-> @@ -72,3 +72,5 @@ KERNEL_FEATURES:append:powerpc64le =3D" arch/powerpc/po=
-werpc-debug.scc"
->
->  INSANE_SKIP:kernel-vmlinux:qemuppc64 =3D "textrel"
->
-> +SRC_URI +=3D "file://cg2.scc"
-> +KERNEL_FEATURES +=3D "cg2.scc"
-
-Fragments don't go in the meta data layers, this needs to be submitted
-to the kernel-cache and enabled with a KERNEL_FEATURE.
+Sorry, I've got confused. Look at tinfoil.cooker_data.file_depends=20
 
 Cheers,
 
-Bruce
+Richard
 
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201473): https://lists.openembedded.org/g/openembedde=
-d-core/message/201473
-> Mute This Topic: https://lists.openembedded.org/mt/107018570/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
