@@ -1,118 +1,130 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC96C30658
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 03:31:13 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web10.42249.1719977472433659993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB704C2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 04:47:33 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.92.91.101])
+ by mx.groups.io with SMTP id smtpd.web11.43883.1719982046892455604
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jul 2024 20:31:12 -0700
+ Tue, 02 Jul 2024 21:47:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IFKK5ygo;
- spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-25d634c5907so3075286fac.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jul 2024 20:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719977471; x=1720582271; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S6UWJ5W+RTQiJZo+3JsMVoFtnCNe0SOXrFKWsYqfCdk=;
-        b=IFKK5ygo9aaRwUWoWViN8JdYzYtMLSO/y152102COnOWTeY8KBk+TrY9voZxETbk4o
-         JzzMI8K+pQZJDwCpvmKFJkME0Eks6YSv8mw2B4vYq7eEjoLLt/0MeE7zO/JsSltTziwB
-         0CYvL8GN+ZzRa3CoMv1g1H4X5cfGwDdxKDIvFFQSUPH8CmVcQpU2UwQYGoJJ3DIXCEq6
-         9HN9fq/vPLDhqDm+zc7VbF8YZz8hJy0MatBXlu06QQBe9k7kggqDwuQKS+8u+4btINBe
-         Gk0AB8jq8IQ5OCe30wccA9NQZo4YqqNKJeEKV0nCI0IlwiuDDwFVoe8ncnccIy5EsXt1
-         9cdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719977471; x=1720582271;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S6UWJ5W+RTQiJZo+3JsMVoFtnCNe0SOXrFKWsYqfCdk=;
-        b=R0Gr1lRfkxbr3c3ZUpr9w5WzKgsnneCCgmJdlmRG1NvlOXph0RN0nMH5UoC6wEl8IX
-         7gkldvz3OOUNV8j6WFJTneJDGYh7jo0AJSAMGmO4tKRnlXlXUwVdfJ7Gw04VzAhtZOdb
-         p08KX+Q6t4ycqYI9L0Dgq/lLcnZRIrf5JoegSEwG7QPPaVw+3vyiFRj5TfDUedBEEQ12
-         vx+UCUNN8fzmQOhyET7UHbWdsU0pGXCMeEXoM/pOUXgIOMGyonW/QNNLxjY70gMEqBkp
-         s84RZiqfRt90qdaSMgeZmTIwkxr48Ly3+PTWhINIoJcwYeQVjlFWVJu8KylSkDGtR3mC
-         kDsQ==
-X-Gm-Message-State: AOJu0YxDI3AKLbhtlzmY0FdUDVpcI2oWIQ3i61RLI33uh58faZa+alD+
-	DmDrSXmB5SOVfJSMipuV9u9714x0L+DPS3iVTarTF4BCFiE2INMdYMqyqNkfsNknw4Ua2lQS5Zb
-	f1AI0GnETBDRkjPgTev6V+m0hdbDD4PyJ
-X-Google-Smtp-Source: AGHT+IGt+/t9KTqEq19E8pUN0Phe3MYYZlIrnQINh/Ypc9Q1/Pi8iGV8gd+h1YfTk+aX99upkzNQV0R3FkpaN5xUwDo=
-X-Received: by 2002:a05:6871:24db:b0:25d:ff4c:6772 with SMTP id
- 586e51a60fabf-25dff4c6bc2mr2257579fac.3.1719977471608; Tue, 02 Jul 2024
- 20:31:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240703020027.3434756-1-ruiqiang.hao@windriver.com>
-In-Reply-To: <20240703020027.3434756-1-ruiqiang.hao@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 2 Jul 2024 20:30:45 -0700
-Message-ID: <CAMKF1spnQpsOZFe_bseefaNtPA0T8z23MStYPxZEfCh8bMMqiA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] tune: octeontx2: remove crypto from TUNE_FEATURES
-To: Ruiqiang.Hao@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=Z3PEX2rJ;
+ spf=pass (domain: outlook.com, ip: 40.92.91.101, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SMAOSb6pWq9fJpqi/YFp7sIdFL3ikZ3ogO5FL6v66h+QiLqhR5NrzgQhlVRm2n+D5qAL7+pluXzAEi4JMZ9o5QiQQgSjr6waUuKX9/cdW5om5R3cT6bDvx36vL39Px+BkI8vQt+zAVh2T1ubJbnspCJR0MyR2TsantIn3C703nm9YWCe9rY0FDpWGvP6oBcumXXyWgI7KpdVafNyqgaQ8otehOvCeoY29OsmOvu0QccczWSbU5d6L7XsHYTpcSL+TXrqQXnGuBCXLxCvq/OexL45Kfvo5ExAS2yxoTW/RA8Mu0cFe3cfM0hugDVz2i6MZ3SyQYBcUHp5nKAIjrSN4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H3F/3R/cgjB9QwOpEFtiBeXSrYP5m3jRPTg5zvKdkGE=;
+ b=Cb2dXQxNZ45QMBzN62EYdsSlqpqQbcay/PDqY9Ai5zDTZSaozH72DOrTYBTzzIVzBD78Up1reF5nGUm8d93qadyW8NKrXdI21aFW8oa63Khp0bqA8WOQ2xBn1hXsuXmpB104HTEPJVRZPmEc7xBgtkkmBJa7jMFqAnny6mywSGcoe7GCRSmTtt4Mju7CFnz+AtOXJoHj2TsA0ISrPt9AVHA1dVrD/J5ILm5f8vJJRxl0y9tAHv3YVnXzHlV001x0RXyfyo5S3m3k3F6sCSnvMZMD3FiJn6dzjPvvnZFtCil0QS0tKI6GbC6Z3ZQP13dwRgqTFSwECGFkX8pV4OnLUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H3F/3R/cgjB9QwOpEFtiBeXSrYP5m3jRPTg5zvKdkGE=;
+ b=Z3PEX2rJXsLfW6E6xTLYcbPIywR0MJTyg6rkVODKrw68RiiyOJoCFyjg0CyxiQfZn2e+npPypIO122HwHWyDKb76Rt3ND1vok9fsT8mwXI4SfAt7Hh0rvySvo5PIsMKbvZfuvg/0ZtcHGEUgolLt3c2usoxMNgijsIX4cYQJ//kJ7Xrk/x2t7FDsRZ7i1WZjHX2iAPg0dzRa8C7H05DK4oTxF4YhldkbtfuChY+g+mcg4Q2shKqndMXnBJ1bfcRElHxDUIeDOYWi53xaXQCu6dxuDL3dUvpJAGZsTn4DOQdzx9GOOS1OMbZXpp/lGWfhkLAsXwW6kkCDuv4ljvOZ/g==
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com (2603:10a6:150:80::7)
+ by PAXPR07MB7824.eurprd07.prod.outlook.com (2603:10a6:102:13a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.23; Wed, 3 Jul
+ 2024 04:47:23 +0000
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a]) by GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a%4]) with mapi id 15.20.7741.017; Wed, 3 Jul 2024
+ 04:47:23 +0000
+From: Konrad Weihmann <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] testexport: fallback for empty IMAGE_LINK_NAME
+Date: Wed,  3 Jul 2024 04:47:10 +0000
+Message-ID: <GV1PR07MB91207447D621EE3962C6802EA8DD2@GV1PR07MB9120.eurprd07.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TMN: [cl/Uhnnpzqr4/oBBgq49mEb7FrgM7PLtnXEJcWmaZLBaeIyzuo6FvT3zZgs24dqk]
+X-ClientProxiedBy: ZR0P278CA0060.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:21::11) To GV1PR07MB9120.eurprd07.prod.outlook.com
+ (2603:10a6:150:80::7)
+X-Microsoft-Original-Message-ID: <20240703044710.13041-1-kweihmann@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR07MB9120:EE_|PAXPR07MB7824:EE_
+X-MS-Office365-Filtering-Correlation-Id: 750e938a-2a35-4109-83a9-08dc9b1b3abc
+X-Microsoft-Antispam: 
+	BCL:0;ARA:14566002|461199028|8060799006|3412199025|440099028|1710799026;
+X-Microsoft-Antispam-Message-Info: 
+	wJs4+EPNFZkq2cKXVtu+iEVuL61OgYm3x7vlA+9f4wO67iTGl6klpcXZVa5ifBNiVFM5UlosStTwIqz+7bpPFOme3laE5xKaOU+FbhT4Nuv7eRj4+9GE1xEiiQo0KgxKmn0K6I1DIso81sSPVQlJBueeNR8P8OubMXXxmY+zxDono6Wf8fdYlOJPGdgjGQe7pBAp2Qi1DIfjzElBxT8yIoly1j3hEY1plPGvIwBcotQWEucgJM+npB/HfpRbI4u94ag2eqBRptUVSExWEpV1T4VxZ/4JZuI2PyZTmOB/GIukwN2s5wyIsr8y6ivxv2/po9emM+ylrGdFMhqxYsgpQGW1IKj2Ki+OhMT/UFlf4ezA/PZPuBcKHELWZ/MQoAOOxCKt/4X8PlGp8UGkqylNs8JndckRqOksOdv839ajvoL1jDtY7kWxRuN+dsHdQUxMOWpzUJk/q2MD6sjYCXIUh9byUiFUwnAkgA243oNNwzLJ0FnMfMmUqsv+HMjsL0I08/cqG9zYMEkEEyK3NpHckTOW9uiZrJcKzsQqdD8I1B4JdLmEjehfWGtTYRG2NcjAno6SQxkwc27DXy6x5rjlUXXK1hPvc3I2gPjrBA+uX7tpy5yuSUZVBrLdDaTaPn4/L2y/GcRSX91Zb6Izkw3Qkg==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?KxVpmEwefasyd+cASRwBTymCRnugvziNalF0VroM5ajliC6gciMK4RJvzrv/?=
+ =?us-ascii?Q?mepeXXkqb2mBvgl/SJAohVqJEysAXhTvjne51GcoiqW+6IYLf4FJeW3tJOQQ?=
+ =?us-ascii?Q?StukTLUSEvbdUaa/F/1b61bB87FauDFJA8UBHHzui+AQKcGi4g0R/zZg4L3M?=
+ =?us-ascii?Q?GxK+CfqITBm/YEnoZpq+oRsPoqCwZvnjlvYCacmj1PVYPS1do33oQQqTo+nH?=
+ =?us-ascii?Q?gGD5q8ynp4DvNz40RLgRqdUpHJiRfbjQemRMSXBi3bApzRaszkUdoAr99NCO?=
+ =?us-ascii?Q?EGOMBL7Hnjf44/uQh71lY0csrg8eeAmfJaDpQ99t2RkG8Yta7WoRDoQL7uck?=
+ =?us-ascii?Q?+Qxw4TsiMDgI7AtCQM2fxhUrQt/AEasUXhW0O46lYnYcc+C4Ix06ZtpcpjX+?=
+ =?us-ascii?Q?9rHvJBlTSgIeSXYZx+2YuMtPbp34HANgYj5gat9KtMkQJqvGZDF0QV/JHY3J?=
+ =?us-ascii?Q?hGM98FgqvDYFch3X5zZqx80qRqOTmyk3h9Y0a2xalfnj4uWhIJVNuXEWC5Ze?=
+ =?us-ascii?Q?03XfVZ4cQKsbfXg+4TaDCyQPgALZcAPgVpKu5M8FHnl2AXTLHvFJCShFJZB9?=
+ =?us-ascii?Q?NLj4FhGKuYDiCemnLfxbj9O4MRvJ/AUyeTucYGjyp9/xD7SjoPjZFKLTrBj0?=
+ =?us-ascii?Q?6gb61Qu8/4NU/1J8/VS5qXXaD3nMbKgg8sbV5LfoblojKvFJSfabBeYBvuv9?=
+ =?us-ascii?Q?G+isuaBPA3g/Swn/NyyBkh2sqbZ6d0CZsX7Aql3KL8VTHBoXaxbZ9DZSeEYB?=
+ =?us-ascii?Q?imhS8uTuGJUv8ZAiP1LOQdZQUJtBIxZhgPt5CfpxZ0J/W78HHTGgTokVJgQt?=
+ =?us-ascii?Q?CdC6tg7VPhya2734GOElaYLp9Kbr3aekNZpWSMfdhAq0+wjvLrYosw0HEi+N?=
+ =?us-ascii?Q?YVoDZ0hMHQa2eLaRFmInEH1V/RS19zmDR2PBUjV6mQA8UbNeeqFLM8RDBxju?=
+ =?us-ascii?Q?gNBLw8Jklt/At7hiA7FUBOMOTFq1pL7YELlk92blF8/sgSOwlzA62DzcMvhW?=
+ =?us-ascii?Q?Jd2INwrP62xDp4fIN0bO3QZSSiKgWoaEtr+pKU8MClz2i25gjUS4Xsv0fEYD?=
+ =?us-ascii?Q?aYf7P6LDG9YcEoq3Dz14/eAvUVadxeszVwQ1sb9U6b22EXIbRat4qprLGZi3?=
+ =?us-ascii?Q?Z5dB5LCZ5v/IpSNXp0iXR0x3jqBhU6D13lEQ/a5OEjl6IkCGu5WyEchVqK1J?=
+ =?us-ascii?Q?8XkoMtlChqI6rRpxGI4PwqWUB6unMdvL3cuI8DhBruPx6OyucyK9ozgx46RV?=
+ =?us-ascii?Q?uWCzSbj95Y9qkEALIoBp5a2Tb5F4dyhSwN/psMSaHKgglS8VKwCcj/V1kWqb?=
+ =?us-ascii?Q?XO4=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 750e938a-2a35-4109-83a9-08dc9b1b3abc
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR07MB9120.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2024 04:47:23.4631
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR07MB7824
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 03:31:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201450
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 04:47:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201451
 
-On Tue, Jul 2, 2024 at 7:00=E2=80=AFPM Ruiqiang Hao via lists.openembedded.=
-org
-<Ruiqiang.Hao=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
->
-> Since GCC's configuration includes the crypto feature when specifying
-> '-mcpu=3Docteontx2', there's no need to additionally include this feature
-> in TUNE_FEATURES. Removing crypto to fix the following error:
->
-> aarch64-wrs-linux-clang: error: unsupported argument 'octeontx2+crypto' f=
-or option '-mcpu=3D'
+if IMAGE_LINK_NAME is set empty to disable the symlinking
+for image artifacts in deploy, testexport fails, as the path assembly
+is incorrect.
+In that case fallback to IMAGE_NAME
 
-This is a clang problem. It should be fixed in clang, not here.
-Additionally we check for 'crypto' in TUNE_FEATURES in
-many recipes for making specific tweaks, they will fail for octeonx2
-if we apply this. See
-https://github.com/kraj/meta-clang/blob/master/classes/clang.bbclass#L49-L5=
-3
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/classes-recipe/testexport.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
-> ---
->  meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc b/=
-meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
-> index e9d7a59c51..d51d19b980 100644
-> --- a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
-> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
-> @@ -9,6 +9,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc
->  AVAILTUNES +=3D "octeontx2"
->  ARMPKGARCH:tune-octeontx2             =3D "octeontx2"
->  # We do not want -march since -mcpu is added above to cover for it
-> -TUNE_FEATURES:tune-octeontx2          =3D "aarch64 crypto octeontx2"
-> +TUNE_FEATURES:tune-octeontx2          =3D "aarch64 octeontx2"
->  PACKAGE_EXTRA_ARCHS:tune-octeontx2    =3D "${PACKAGE_EXTRA_ARCHS:tune-ar=
-mv8-2a-crypto} octeontx2"
->  BASE_LIB:tune-octeontx2               =3D "lib64"
-> --
-> 2.45.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201448): https://lists.openembedded.org/g/openembedde=
-d-core/message/201448
-> Mute This Topic: https://lists.openembedded.org/mt/107012841/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/t=
+estexport.bbclass
+index 572f5d9e76..57f7f15885 100644
+--- a/meta/classes-recipe/testexport.bbclass
++++ b/meta/classes-recipe/testexport.bbclass
+@@ -50,7 +50,7 @@ def testexport_main(d):
+     from oeqa.runtime.context import OERuntimeTestContextExecutor
+=20
+     image_name =3D ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
+-                             d.getVar('IMAGE_LINK_NAME')))
++                             d.getVar('IMAGE_LINK_NAME') or d.getVar('IMAG=
+E_NAME')))
+=20
+     tdname =3D "%s.testdata.json" % image_name
+     td =3D json.load(open(tdname, "r"))
+--=20
+2.34.1
+
 
