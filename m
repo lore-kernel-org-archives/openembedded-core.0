@@ -1,125 +1,125 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <u.oelmann@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E7BBC2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 14:03:56 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.51120.1720015429012333396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3EDEC2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 14:28:16 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.51749.1720016892789278525
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 07:03:49 -0700
+ Wed, 03 Jul 2024 07:28:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cjlk1LtQ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 10050240005;
-	Wed,  3 Jul 2024 14:03:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1720015427;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hrplus1eGJ9bSNmVqH/AqR2DHOedmUddWWKdeK8XGLA=;
-	b=cjlk1LtQwuH77807C0M7aIHD/aqVD2Qwt+to+xA20L1iElvQ2h0KL5azuB87lmWIHo2Gye
-	T0w5I52xbw6G0Xl6zVSQseGFIK7ivV3SVFSGJ0KvyeIgciMeX/q4KhEWjkraUUKKAJDk2k
-	HmMQ3MRYvCCr67vy5AKlFFcnK9/8St4ueB1XdTqtG7xbsg73VfcC+JK13iD5ZWk7x/jF/3
-	onRbGl7VIz09wbazxK5EUaeqV4o1z/LNWHVIDhUlUloIrv9d3v8hHzmzd+rLET+pl+Me/w
-	nmpEpm8zD3xffgRYXGWNYTCSOJauR27+Fsf9fvkKNUMl9aOSK+ko0iktnJ23QQ==
-Date: Wed, 3 Jul 2024 16:03:46 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Yi Zhao <yi.zhao@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org,
-	=?iso-8859-1?Q?Jo=E3o?= Marcos Costa <joaomarcos.costa@bootlin.com>
-Subject: Re: [OE-core] [PATCH 2/2] less: upgrade 643 -> 661
-Message-ID: <20240703140346c0fea020@mail.local>
-References: <20240703004656.2295327-1-yi.zhao@windriver.com>
- <20240703004656.2295327-2-yi.zhao@windriver.com>
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: uol@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <uol@pengutronix.de>)
+	id 1sP0xu-00032D-8U; Wed, 03 Jul 2024 16:28:10 +0200
+Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <uol@pengutronix.de>)
+	id 1sP0xt-006s2Z-AQ; Wed, 03 Jul 2024 16:28:09 +0200
+Received: from uol by dude03.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <uol@pengutronix.de>)
+	id 1sP0xt-00A5r0-0n;
+	Wed, 03 Jul 2024 16:28:09 +0200
+From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+To: OpenEmbedded Core Developers <openembedded-core@lists.openembedded.org>
+Cc: yocto@pengutronix.de,
+	=?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+Subject: [PATCH] buildhistory: fix typos
+Date: Wed,  3 Jul 2024 16:28:06 +0200
+Message-Id: <20240703142806.2405768-1-u.oelmann@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240703004656.2295327-2-yi.zhao@windriver.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 14:03:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201490
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 14:28:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201491
 
-Hello,
+Fix some simple typos found while looking through the code.
 
-This causes new ptest failures:
+Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+---
+ meta/classes/buildhistory.bbclass | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6772/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6594/steps/12/logs/stdio
-
-{'less': 'START: ptest-runner\n'
-         '2024-07-03T09:13\n'
-         "Can't locate File/Basename.pm in @INC (you may need to install the "
-         'File::Basename module) (@INC entries checked: '
-         '/usr/lib/perl5/site_perl/5.38.2/aarch64-linux '
-         '/usr/lib/perl5/site_perl/5.38.2 '
-         '/usr/lib/perl5/vendor_perl/5.38.2/aarch64-linux '
-         '/usr/lib/perl5/vendor_perl/5.38.2 '
-         '/usr/lib/perl5/5.38.2/aarch64-linux /usr/lib/perl5/5.38.2) at '
-         './runtest line 8.\n'
-         'BEGIN failed--compilation aborted at ./runtest line 8.\n'
-         '\n'
-         'ERROR: Exit status is 2\n'
-         'DURATION: 0\n'}
-
-On 03/07/2024 08:46:56+0800, Yi Zhao wrote:
-> ChangeLog:
-> https://www.greenwoodsoftware.com/less/news.661.html
-> 
-> License-Update: Update copyright year to 2024
-> 
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  meta/recipes-extended/less/{less_643.bb => less_661.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-extended/less/{less_643.bb => less_661.bb} (91%)
-> 
-> diff --git a/meta/recipes-extended/less/less_643.bb b/meta/recipes-extended/less/less_661.bb
-> similarity index 91%
-> rename from meta/recipes-extended/less/less_643.bb
-> rename to meta/recipes-extended/less/less_661.bb
-> index 67834bdd58..c3f5853ea4 100644
-> --- a/meta/recipes-extended/less/less_643.bb
-> +++ b/meta/recipes-extended/less/less_661.bb
-> @@ -21,7 +21,7 @@ SECTION = "console/utils"
->  
->  LICENSE = "GPL-3.0-or-later | BSD-2-Clause"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
-> -                    file://LICENSE;md5=1b2446f5c8632bf63a97d7a49750e1c6 \
-> +                    file://LICENSE;md5=ea7ea443692720f3015859945c0fb65d \
->                      "
->  DEPENDS = "ncurses"
->  
-> @@ -29,7 +29,7 @@ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
->             file://run-ptest \
->             "
->  
-> -SRC_URI[sha256sum] = "2911b5432c836fa084c8a2e68f6cd6312372c026a58faaa98862731c8b6052e8"
-> +SRC_URI[sha256sum] = "2b5f0167216e3ef0ffcb0c31c374e287eb035e4e223d5dae315c2783b6e738ed"
->  
->  UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
->  
-> -- 
-> 2.25.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201447): https://lists.openembedded.org/g/openembedded-core/message/201447
-> Mute This Topic: https://lists.openembedded.org/mt/107011832/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index fd53e924021c..c3d049aea380 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -58,7 +58,7 @@ SSTATEPOSTUNPACKFUNCS:append = " buildhistory_emit_outputsigs"
+ sstate_installpkgdir[vardepsexclude] += "buildhistory_emit_outputsigs"
+ SSTATEPOSTUNPACKFUNCS[vardepvalueexclude] .= "| buildhistory_emit_outputsigs"
+ 
+-# All items excepts those listed here will be removed from a recipe's
++# All items except those listed here will be removed from a recipe's
+ # build history directory by buildhistory_emit_pkghistory(). This is
+ # necessary because some of these items (package directories, files that
+ # we no longer emit) might be obsolete.
+@@ -153,7 +153,7 @@ python buildhistory_emit_pkghistory() {
+             # Variables that need to be written to their own separate file
+             self.filevars = dict.fromkeys(['pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm'])
+ 
+-    # Should check PACKAGES here to see if anything removed
++    # Should check PACKAGES here to see if anything was removed
+ 
+     def readPackageInfo(pkg, histfile):
+         pkginfo = PackageInfo(pkg)
+@@ -535,7 +535,7 @@ buildhistory_get_installed() {
+ 		grep -v kernel-module $1/depends-nokernel-nolibc-noupdate.dot > $1/depends-nokernel-nolibc-noupdate-nomodules.dot
+ 	fi
+ 
+-	# add complementary package information
++	# Add complementary package information
+ 	if [ -e ${WORKDIR}/complementary_pkgs.txt ]; then
+ 		cp ${WORKDIR}/complementary_pkgs.txt $1
+ 	fi
+@@ -573,7 +573,7 @@ buildhistory_get_sdk_installed_target() {
+ 
+ buildhistory_list_files() {
+ 	# List the files in the specified directory, but exclude date/time etc.
+-	# This is somewhat messy, but handles where the size is not printed for device files under pseudo
++	# This is somewhat messy, but handles cases where the size is not printed for device files under pseudo
+ 	( cd $1
+ 	find_cmd='find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n"'
+ 	if [ "$3" = "fakeroot" ] ; then
+@@ -587,7 +587,7 @@ buildhistory_list_files_no_owners() {
+ 	# List the files in the specified directory, but exclude date/time etc.
+ 	# Also don't output the ownership data, but instead output just - - so
+ 	# that the same parsing code as for _list_files works.
+-	# This is somewhat messy, but handles where the size is not printed for device files under pseudo
++	# This is somewhat messy, but handles cases where the size is not printed for device files under pseudo
+ 	( cd $1
+ 	find_cmd='find . ! -path . -printf "%M -          -          %10s %p -> %l\n"'
+ 	if [ "$3" = "fakeroot" ] ; then
+@@ -855,7 +855,7 @@ END
+ 		CMDLINE="${@buildhistory_get_cmdline(d)}"
+ 		if [ "$repostatus" != "" ] ; then
+ 			git add -A .
+-			# porcelain output looks like "?? packages/foo/bar"
++			# Porcelain output looks like "?? packages/foo/bar"
+ 			# Ensure we commit metadata-revs with the first commit
+ 			buildhistory_single_commit "$CMDLINE" "$HOSTNAME" dummy
+ 			git gc --auto --quiet
+@@ -990,7 +990,7 @@ def write_latest_ptest_result(d, histdir):
+     output_ptest = os.path.join(histdir, 'ptest')
+     if os.path.exists(input_ptest):
+         try:
+-            # Lock it avoid race issue
++            # Lock it to avoid race issue
+             lock = bb.utils.lockfile(output_ptest + "/ptest.lock")
+             bb.utils.mkdirhier(output_ptest)
+             oe.path.copytree(input_ptest, output_ptest)
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.2
+
 
