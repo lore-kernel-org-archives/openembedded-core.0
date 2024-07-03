@@ -2,79 +2,74 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25272C2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 09:45:15 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.47292.1719999910525173101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAF3C2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 09:47:25 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.47308.1720000039848843272
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 02:45:10 -0700
+ Wed, 03 Jul 2024 02:47:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B4cHJIVc;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ebe40673d8so68408981fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 02:45:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JARNPTs/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ec1ac1aed2so61132351fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 02:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719999908; x=1720604708; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1720000038; x=1720604838; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M6rs18aESxgWSSg4g+GeHMnZChG2KKsx8m3krbWSiwQ=;
-        b=B4cHJIVcVkPMNQx8aZm9NACAF1WIn7qBD+ZXOphnY1+y5A+UuXZcPE3BJfJoBAzysj
-         ldMmLojKk9d5haohRWV/GWbZDYcKKd+QwSSwRmOtNS5PWa+P8u0xeLTeOGsa+H9RfUaX
-         jPoLOdgtwPT+9aSl/g2/IXZDUwSOimbbMcl1ZEASpwfRu5KipYFZBjueBhVsBWqk3Dni
-         dECsr+tQB+eA7hxV1J/twfa6Dc4dxcAcYIak7wDI1NaI2toaTK/E7/VUjTRr9HLto5GB
-         7fmnijcv5aE1PtG2mp0Z2Lg9ZbDuAfDrwPQtB7+7RYWL68i7GIjy03sU2nowWRTzTdHZ
-         GlYA==
+        bh=BJ3da6XHceaAzNW0bYJsrAqweJ/lz3dKw2C3HnlpS5k=;
+        b=JARNPTs/qGAcuFn8q1i7ShJDkshzbTmDCLmKBbRdFAINQ6QMGr3hA/u7LRwvzqFEtq
+         8sYFyCCfITyhQ3w7UMuXX8ICyBHh8dRLoaM5VRZ1FbIuEQhRgjD+NN+wgZYGd9+XWpMr
+         eBP3tYHx0eUEJUK0uDkNvl8Od2h94cfcDPaSOOZeh/oixbe5iWWslmcd8uFHWrIU7r2x
+         HDWvwyjlUdZqme/I3hw2vHlr/wg59bCJQ7TofkcFRjXr1dssdkvhGlva5Iox2NWkyPN3
+         u1HBpE7mKkZmU3vZiaLTFoZ1jzl1zebkLdyygo53McW/kXQjAJWZ3R6j8/Hv90uHuDnn
+         rnFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719999908; x=1720604708;
+        d=1e100.net; s=20230601; t=1720000038; x=1720604838;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M6rs18aESxgWSSg4g+GeHMnZChG2KKsx8m3krbWSiwQ=;
-        b=F6doVe+sCSVuTK6YuImzfhEFty4Oo2xNABNLEQt/QTriI8eghdz2ny2rfofCXW79jS
-         WhtO6zuPJR7QmjX43Ge33y3ErLZhOSxRvuXrH47yMy1/kreQrg3ICPM1pyyafYb33etC
-         mQy6tK2sDwOF3cQ/WanUkydNwHBWmhTUZLXAyi7TwQKkBKpK+7+9FT75LybqmfBmNo/+
-         4xFKvlsk51PVtH9HAKxoxWjvg5DhPibzKYADoe2K8qA40HCEvl4fs9QqqJ1QWh4+psma
-         WvCGREM+zuZO9ed1Z2YdH6YZV4dgMUXoG6gfNpGxxudrCP15la3j+Z28RH/UnqF8zBj6
-         ceQA==
-X-Gm-Message-State: AOJu0YwetBuWbxbaM1YqhzDx3wd8fH0SVBuUOo+XiihIC+xfdhTytPSh
-	fEF9MNjOH+Kk0U9UwMgTYeG8LvFWs+/Nx5w1SuTfH3F7x+ArY4JTZ3o/Hea9ZHZ/Qkf9f6oBjBK
-	rOA9Y36GXTpf0lDOWTCbeQsZudnI=
-X-Google-Smtp-Source: AGHT+IGpLMepjSkLXrR6GOISbWOJiTlRdkaQyu4Nu47Uoriap6BLZkmwqXY2GKGbbGX5kYufeUmbeLXLa4kMf45wHH8=
-X-Received: by 2002:a05:651c:118d:b0:2ec:5699:5ee with SMTP id
- 38308e7fff4ca-2ee5e3590c9mr59597921fa.21.1719999907603; Wed, 03 Jul 2024
- 02:45:07 -0700 (PDT)
+        bh=BJ3da6XHceaAzNW0bYJsrAqweJ/lz3dKw2C3HnlpS5k=;
+        b=KH5/d2mxK5dwj02yB7pHAYQp70ubfqyIvTU01my62WxiyJWzbVmJRhXRo+Qc6A+kjc
+         K8uYvSqeDcBICgT7jQytCE4flB5tSCVevbdts8yc5f/2q60zKkLOxC3918Ita//pEJWf
+         Ty2rh68+2lT5QCWOzRImkshbkVk0BgAX+rw+prnHIeHwkaF15yUpx1zFszpwxSd1cBZB
+         wl+FTz1vTHWFroyEVYImpcWJmxgQOOawNp+Ax2V0BLLu8xfV4wWtyxWtnoQEzyLd7wj3
+         eeTVTHmd046R1LUI7b5HsUqXSLIlhcS+AHz4ze/B6AArrC818kIIrWkYvS6pHL+vOn/g
+         CyaA==
+X-Gm-Message-State: AOJu0Yzht0lJzhMgScUSMDat3VQAKZBlLbClHDmWy+Ie9U4g+oRQkR4n
+	m2D10Twz9dXg9LWNXr2zMJurT5/yQKm9/i1GDc3oumhQLZAgvYBsNfvv6gG8JoyKGyd0boToIt8
+	dQhMBQlT0SOv7rmvA7HbJdBX3yymldQ==
+X-Google-Smtp-Source: AGHT+IHbotGPQeJe9eumk/3OarAvBoHIhw7/nAiPxh42vdvbWLsNlGNX3RNVh5hGdkK80YqTyKragGYNNciVIeEUtvo=
+X-Received: by 2002:a2e:b535:0:b0:2ec:4eca:748b with SMTP id
+ 38308e7fff4ca-2ee5e39260amr63722951fa.14.1720000037866; Wed, 03 Jul 2024
+ 02:47:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANNYZj_dpbyeJ1_gq2qziTuf6XuGHA5tBJfs=ukMq28uJdXbcA@mail.gmail.com>
- <28357.1719955699818752317@lists.openembedded.org>
-In-Reply-To: <28357.1719955699818752317@lists.openembedded.org>
+References: <20240702222833.3826-1-gudni.m.g@gmail.com> <28357.1719992407222827322@lists.openembedded.org>
+In-Reply-To: <28357.1719992407222827322@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 3 Jul 2024 11:44:55 +0200
-Message-ID: <CANNYZj-EttJUTaJScHp7kBOAHeNno3us5bM55ENDuRi68ZLhxQ@mail.gmail.com>
-Subject: Re: [OE-core] mc: broken source link
-To: egyszeregy@freemail.hu
+Date: Wed, 3 Jul 2024 11:47:06 +0200
+Message-ID: <CANNYZj869KeEDLq4wpOCpshYnY5QvuK3MU_chinUeOcpMmfKVQ@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] python3-requests: cleanup RDEPENDS
+To: gudnimar@noxmedical.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 09:45:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201463
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 09:47:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201464
 
-On Tue, 2 Jul 2024 at 23:28, Livius via lists.openembedded.org
-<egyszeregy=3Dfreemail.hu@lists.openembedded.org> wrote:
-> By the way my experience is that GitHub source links of Releases/Tags are=
- more stable to get them any of time in 24/7. GitHub.com's Bandwidth and ac=
-cessibility/availability is very well. So why you said they are unstable? T=
-here are many recipes which uses GitHub source links for tar.gz files.
+On Wed, 3 Jul 2024 at 09:40, Gu=C3=B0ni M=C3=A1r Gilbert via
+lists.openembedded.org
+<gudnimar=3Dnoxmedical.com@lists.openembedded.org> wrote:
 >
+> I thought I should mention that now on master branch, python3-ndg-httpscl=
+ient recipe is not required for any recipes in openembedded-core. Should it=
+ be moved to meta-openembedded?
 
-There are two kinds of github archives, manually created and uploaded
-release artefacts (those are stable), and automatically generated tag
-archives (those are not). What you see at
-https://github.com/MidnightCommander/mc/releases/tag/4.8.31 are the
-latter kind.
+Yes, that would be good.
 
 Alex
 
