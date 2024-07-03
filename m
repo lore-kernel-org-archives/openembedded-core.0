@@ -1,129 +1,97 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94655C2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 11:24:45 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.48769.1720005875571601350
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DDBC2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 11:54:45 +0000 (UTC)
+Received: from mx07-0040c702.pphosted.com (mx07-0040c702.pphosted.com [205.220.184.135])
+ by mx.groups.io with SMTP id smtpd.web11.48331.1720004177898803575
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 04:24:35 -0700
+ Wed, 03 Jul 2024 03:56:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 075A6367
-	for <openembedded-core@lists.openembedded.org>; Wed,  3 Jul 2024 04:25:00 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 97CE13F762
-	for <openembedded-core@lists.openembedded.org>; Wed,  3 Jul 2024 04:24:34 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-libc-headers: remove redundant install_headers patch
-Date: Wed,  3 Jul 2024 12:24:33 +0100
-Message-Id: <20240703112433.2979955-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=TOsE1cYx;
+ spf=pass (domain: karlstorz.com, ip: 205.220.184.135, mailfrom: pascal.weisser.ext@karlstorz.com)
+Received: from pps.filterd (m0267679.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4638iTVo025019
+	for <openembedded-core@lists.openembedded.org>; Wed, 3 Jul 2024 10:56:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=S-DKIM-20210427; bh=SmgcF
+	eaXE95Nit6WGoqrz/K6+gWFgWPDO93iVGUpMsc=; b=TOsE1cYxqI8Ce7TG8EeH2
+	I5Ay5fxX6f44RS6bxKTdC/VHuK7im/WVNfLLhFD84nJ9pb0FnSy/V3TS3ZfjmF0O
+	DNRlBSuzWOodi12i3GEeytZKWuLDKDDoaxtTwnWrMUvpNH6viVtnQZilzneD45qT
+	hmx0TYfIeLrc/2AkoQ4gd4yQIH3DUZAVN96HA2tpnJJufYPRIwHQ+NvtgwLW+kbZ
+	XchujwWgP1fgPLcXW5oCLHhPuA9OFNh0o1+8pYW/B0VPMUzDxY5ApKrsqWVMimlc
+	pvDfOdLQG8S/ymV0sNxYT4Yj7hFVSIFgQIBNV5tSCCyAETkQIVhNuB9f9UotcjrS
+	A==
+Received: from tut-ex23-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 404deukc9m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 10:56:15 +0000 (GMT)
+Received: from TUT-EX21-PV.KSTG.corp (10.0.10.225) by TUT-EX23-PV.KSTG.corp
+ (10.0.10.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
+ 12:56:15 +0200
+Received: from TUT-EX23-PV.KSTG.corp (10.0.10.227) by TUT-EX21-PV.KSTG.corp
+ (10.0.10.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
+ 12:56:15 +0200
+Received: from tutn-bpfb5m3.kstg.corp (10.0.10.41) by
+ InternalSMTPRelay.KSTG.corp (10.0.10.227) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 3 Jul 2024 12:56:14 +0200
+From: "Weisser, Pascal.ext" <Pascal.Weisser.ext@karlstorz.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+Subject: [PATCH] Trigger write_qemuboot_conf task on changes of kernel image realpath.
+Date: Wed, 3 Jul 2024 12:56:03 +0200
+Message-ID: <20240703105603.429817-1-pascal.weisser.ext@karlstorz.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: xZm8jkN3n2u_F2g438Bx0cn7LZW0Pccz
+X-Proofpoint-ORIG-GUID: xZm8jkN3n2u_F2g438Bx0cn7LZW0Pccz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-03_06,2024-07-03_01,2024-05-17_01
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 11:24:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201467
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 11:54:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201468
 
-This was added in the upgrade to 4.19[1] which included three patches
-that were taken from the series at [2].
+The qemuboot.conf file contains the realpath of the kernel image
+referenced by QB_DEFAULT_KERNEL. So, it must be recreated in case the
+realpath of the referenced kernel image changes.
 
-What merged was the second iteration of this series[3] which dropped the
-install_headers patch, so we can drop this obsolete patch.
+The variables KERNEL_IMAGE_NAME and KERNEL_IMAGE_BIN_EXT determine the
+realpath of the kernel image relative to DEPLOY_DIR_IMAGE. Adding both of
+them to the vardeps of the write_qemuboot_conf task triggers the
+write_qemuboot_conf task in case the realpath of the kernel image
+referenced by QB_DEFAULT_KERNEL changes.
 
-[1] oe-core 11f02b7c6f9854eecd3a49ea47833c8cbffb1581
-[2] https://lore.kernel.org/linux-arm-kernel/1544556407-19897-1-git-send-=
-email-Dave.Martin@arm.com/
-[3] https://lore.kernel.org/linux-arm-kernel/1546607391-3850-1-git-send-e=
-mail-Dave.Martin@arm.com/
+Fixes: [YOCTO 15525]
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
 ---
- ...eaders.sh-Strip-_UAPI-from-if-define.patch | 38 -------------------
- .../linux-libc-headers_6.9.bb                 |  4 --
- 2 files changed, 42 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-hea=
-ders/0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch
+ meta/classes-recipe/qemuboot.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/00=
-01-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch b/meta/reci=
-pes-kernel/linux-libc-headers/linux-libc-headers/0001-kbuild-install_head=
-ers.sh-Strip-_UAPI-from-if-define.patch
-deleted file mode 100644
-index 54528b6e6a6..00000000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-kbui=
-ld-install_headers.sh-Strip-_UAPI-from-if-define.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From 9ca6c6a510bda90954aa2532711200b89dd1df89 Mon Sep 17 00:00:00 2001
--From: Dave Martin <Dave.Martin@arm.com>
--Date: Tue, 11 Dec 2018 19:26:45 +0000
--Subject: [PATCH 1/3] kbuild: install_headers.sh: Strip _UAPI from
-- #if-defined() guards
--
--install_headers.sh knows how to strip the _UAPI prefix from #ifdef/
--ifndef and #define directives used to guard headers against multiple
--or inappropriate inclusion.  Currently this does not work for guards
--in the "#if defined()" style, which may be needed for non-trivial
--cases.
--
--This patch adds similar logic so that the _UAPI prefix is also
--stripped from guard directives written using "#if defined()" etc.
--
--This is not completely foolproof, but will work for simple cases of
--using #if defined() to guard against inappropriate header inclusion.
--
--Signed-off-by: Dave Martin <Dave.Martin@arm.com>
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
--Upstream-Status: Submitted [https://www.spinics.net/lists/arm-kernel/msg=
-694800.html]
-----
-- scripts/headers_install.sh | 1 +
-- 1 file changed, 1 insertion(+)
--
--Index: linux-5.4/scripts/headers_install.sh
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- linux-5.4.orig/scripts/headers_install.sh
--+++ linux-5.4/scripts/headers_install.sh
--@@ -36,6 +36,7 @@
-- 	s/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((packed))\=
-2/g
-- 	s/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\3/g
-- 	s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
--+        :1;s/(#(if|elif)(.*[^A-Za-z0-9_])defined\([[:space:]]*)_UAPI/\1=
-/;t1
-- ' $INFILE > $TMPFILE || exit 1
--=20
-- scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.=
-9.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb
-index 3dd4d547d52..7ebf63a0518 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb
-@@ -6,10 +6,6 @@ SRC_URI:append:libc-musl =3D "\
-     file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.pat=
-ch \
-    "
-=20
--SRC_URI +=3D "\
--    file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.pat=
-ch \
--"
--
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
-e46"
-=20
- SRC_URI[sha256sum] =3D "24fa01fb989c7a3e28453f117799168713766e119c5381da=
-c30115f18f268149"
---=20
-2.34.1
+diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
+index 895fd38d68..0f80c60ab5 100644
+--- a/meta/classes-recipe/qemuboot.bbclass
++++ b/meta/classes-recipe/qemuboot.bbclass
+@@ -129,7 +129,8 @@ addtask do_write_qemuboot_conf after do_rootfs before do_image
+ 
+ def qemuboot_vars(d):
+     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
+-                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
++                'KERNEL_IMAGETYPE', 'KERNEL_IMAGE_NAME',
++                'KERNEL_IMAGE_BIN_EXT', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
+                 'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
+                 'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
+     return build_vars + [k for k in d.keys() if k.startswith('QB_')]
+-- 
+2.45.2
 
 
