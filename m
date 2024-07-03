@@ -1,143 +1,157 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A47C30653
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 18:45:07 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.58703.1720032301521039745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B10C2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 18:57:48 +0000 (UTC)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+ by mx.groups.io with SMTP id smtpd.web11.59029.1720033060176258138
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 11:45:01 -0700
+ Wed, 03 Jul 2024 11:57:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A7iomubP;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2c8dccd0fa9so3766991a91.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 11:45:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ciRkvOBQ;
+ spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-48f44f892d5so2072549137.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 11:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720032301; x=1720637101; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XjiKk1dcGzKRrdyvgYbZdOsdQTm7m5uQjRaqFgmfV4s=;
-        b=A7iomubPFnY2TEux+Lny/DGB2+srBqGg5Ar+3mIm3h0eS2sXX55oUMeujlh/b6wmhk
-         y4EzYvuuR6XpgoLgsAjUkuaMn/wP2+Cz5FbPhQSuslyGVy14s8Qrk+D1oU4dtpKJCOF7
-         glKxGbUmyG89SGAAtMe1PvWB/a0VZRuxriX6mRah9Tk5Rhrxvz4hkIvg0OjaMgz1S1lw
-         4oXx7rzHNX+saenXAAByIHPydsD+0w6XYVVNZ36TIi+wQpKSR8KGJ/YvqGXnwoVCSpJC
-         rkp4ESQPacw6RqwppriacV6Uw5JPZX9qx/ADXxcdVQWQ4XZmUwCBXlMlkl2AVLM6PZwU
-         pFjg==
+        d=gmail.com; s=20230601; t=1720033059; x=1720637859; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VTyp2M+i3Jau+VKnSDZk9CGfqsri45zDQ5T4o3zLubE=;
+        b=ciRkvOBQ7BmWuBZLO3/iO3DV2Eq7kiOymRs6Hc2vT1qnNGxZ7Jxeh4c+Rl+UldGotp
+         1ERWELDSaB550gR1S9Nbfx8mOSZxfTAwLdD7fxGsV5EBn62oD9ylWp1caa0gqdDKb/7F
+         O+AymilVilim8n+CdALV+c+2YAp3nwjG2CBy8IsRJkzugvrcEnipNVH6lnnW5VQ78clY
+         pezlOzS7eKZEdHKnERlH3p0kb0Z9zzPHl0j7jpUomAge0iQFpF+IaAk2L3LY0vjFppDE
+         Y5/qT4BrB7GOtsuLiUOXyWLBIzUOnJsXdjoT24gG12d5gwvSzuGhcFgoDTLeuK0nJC4V
+         eaQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720032301; x=1720637101;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XjiKk1dcGzKRrdyvgYbZdOsdQTm7m5uQjRaqFgmfV4s=;
-        b=dN5jEB1Wan/6GmhditEnv4zO1Pitrkt2kl2cttYhldMWrosp7OMuPyY/S/Nw8GkOOW
-         CX5Qp/THThyvFukDVmT1QuLshcvcvUUqtQd28vcqrAaXHUrjLFhr0gpDXvxOQ92iVIL3
-         b2M4QsofGQS4mJByu1qTSvG/DEJ+QXayFxeD5dcbfsZOex7ExlSLr5aLllEHTuvUf7so
-         eJCWYEpcxaB9j7KpUgQbZMLZnBODdSteQaO7iUBRmNr5MErDYrdKEFnufX6dgz9L2R/Q
-         fvTqsXcO4ArkeWavXXamPOSqsUMseHsniMJHnTKdOB3VTlU1D6y3r4bLOCx22twe+4qo
-         yGuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVd87RXZGTKbkbmIk2pTOEVuv8vbhDpklQ2VQVKnv0LHeaHoFL0fhvPhUs4yeSTPw5DKzyi4c0QkVUPjS9P93Ujh1iuujLdAWK/O9jzDtqn7FKLxrFkJ3xu
-X-Gm-Message-State: AOJu0Yw8oW20YTbWL6tDHAmrXCzmi4umP3F5cJ5P3QynhNmzer2E3aHt
-	2kNTXNobKk1RzYQDLCLnvwR8BR92bjHe9z1qlLzNrrx2jz8wzQBLp/Z7OubcerZtEln4pbVoMfw
-	2WT+GGb+dCsMCeRPcFHHiCBbqQZU=
-X-Google-Smtp-Source: AGHT+IHNzCb2YHCJPCv5GP6v/kBwrPgpvN5IMF3/IvhiqWaVV/9joXY0csMyrgjBDrZtenhApnYZUVtAkQ3eG6XgTxg=
-X-Received: by 2002:a17:90b:4ac8:b0:2c8:6269:73a9 with SMTP id
- 98e67ed59e1d1-2c93d6d4a14mr8063209a91.7.1720032300640; Wed, 03 Jul 2024
- 11:45:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720033059; x=1720637859;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VTyp2M+i3Jau+VKnSDZk9CGfqsri45zDQ5T4o3zLubE=;
+        b=O2AuZUaIXYSlVy4pcUGVnC9OSynrspGAwuYSieVh+nqRpz3cVXCxtl0EmDYzBe4+Fu
+         oCewIbODMi6EfD/19X+YFhrRQkkn6jMTrsF4tYeZ3nJVmK64p9ikDp3yfTI3Uq0LsVWB
+         aGctoELssMnKR4t5czQvSH5JZB97+rUsa8nDRZ26MuJtxYBZysktl/LivxxcOrtpT0ux
+         3m4U4ZsIDC00yTJl6R6Mpi9wux6j2dEYj1J9yfW/hOSfOsf6z9XqAcLmW13KxhrKcJET
+         ppMIshmrCpnYuXs8meRpjJfDpUkHp8RdKxA/Eeq9ca2kFBNmFObHAQ9hmFYdk4dCwsjT
+         uA5A==
+X-Gm-Message-State: AOJu0YzBPJe4S5+OD8++qlGfbRbK52Fw+ekgQZJoHqL3lbi5TR99Uz53
+	Ro9sQMNv9/IfXWXa5oFqOFbhR4R6/MN3Eym5rOxK5BBjFgpDB/rDm/bvfDAOPl0QKB+i58IVVa2
+	UvEvU9fQ2qwy3ixx23SRiBkoMp60=
+X-Google-Smtp-Source: AGHT+IFPb9gPD+gnPoISLGOZehhMUgd6ZOGdXAjF4Pec0e1Sy2LOgULmSTwW5Y+xZt3AJZgmzBYPhizepzgmTXYvFWc=
+X-Received: by 2002:a05:6102:2907:b0:48f:5a6b:196 with SMTP id
+ ada2fe7eead31-48faf16aa7emr14057784137.34.1720033059208; Wed, 03 Jul 2024
+ 11:57:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240703125244.1250173-1-Harish.Sadineni@windriver.com> <iwh3wbdnsoxke2t6j7qud5qv4rfz2fljcob5y5nba5afrsxpth@ewx65frf4g7i>
-In-Reply-To: <iwh3wbdnsoxke2t6j7qud5qv4rfz2fljcob5y5nba5afrsxpth@ewx65frf4g7i>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 3 Jul 2024 14:44:47 -0400
-Message-ID: <CADkTA4PaXx4CoqsFLGTw5Tc9ejRBtArdCpEhZC4DmeyzWS4wqg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux: Modify kernel configuration to fix
- runqlat issue
-To: joerg.sommer@navimatix.de
-Cc: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org, 
-	Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com, 
-	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20240703154004.2632376-1-jose.quaresma@foundries.io> <ce52f2465b097e9b1fedb37bee9f65ae0c24606a.camel@linuxfoundation.org>
+In-Reply-To: <ce52f2465b097e9b1fedb37bee9f65ae0c24606a.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Wed, 3 Jul 2024 19:57:27 +0100
+Message-ID: <CANPvuRm3rkmxJWYHE_yk-zV9ri5p+oVkhOfYt_sxRFa6q=bSjA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] openssh: upgrade 9.7p1 -> 9.8p1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="0000000000007f0614061c5c6775"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 18:45:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201497
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 18:57:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201498
 
-On Wed, Jul 3, 2024 at 2:34=E2=80=AFPM J=C3=B6rg Sommer via lists.openembed=
-ded.org
-<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
->
-> Sadineni, Harish via lists.openembedded.org schrieb am Mi 03. Jul, 05:52 =
-(GMT):
-> > The following commit addressed the issue which checks whether the struc=
-t "task_struct" has __state or state
-> > https://github.com/chenhengqi/bcc/commit/d3cf5dcecfaeb6d8d346e2228626a7=
-dbe506ad38
-> > The above patch requires enabling CONFIG_DEBUG_INFO_BTF in the kernel
-> > and requires pahole.
->
-> > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-k=
-ernel/linux/linux-yocto.inc
-> > index 0132fcffb3..d6b4794d32 100644
-> > --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> > @@ -65,11 +65,12 @@ KERNEL_DEBUG ?=3D ""
-> >  DEPENDS +=3D '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "powe=
-rpc" ], "elfutils-native", "", d)}'
-> >  DEPENDS +=3D "openssl-native util-linux-native"
-> >  DEPENDS +=3D "gmp-native libmpc-native"
-> > +DEPENDS +=3D "pahole-native"
-> >
-> >  # Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole=
--native available before do_kernel_configme
-> >  do_kernel_configme[depends] +=3D '${@bb.utils.contains("KERNEL_DEBUG",=
- "True", "pahole-native:do_populate_sysroot", "", d)}'
-> >
-> > -EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "P=
-AHOLE=3Dfalse", d)}'
-> > +EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "", ""=
-, d)}'
->
-> Can't this whole line be removed?
+--0000000000007f0614061c5c6775
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Can you elaborate as to why it would be removed ?
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu (quarta,
+3/07/2024 =C3=A0(s) 18:41):
 
-I explicitly disabled PAHOLE when KERNEL_DEBUG wasn't set, since it was pul=
-ling
-in extended dependencies and causing some issues with optimized kernels (an=
-d
-architectures IIRC). If someone wants to dive in and show that the
-reasons this was
-done are no longer valid, then definitely, it can be removed.
-
-pahole is not in oe-core, and it should still be conditional, so I
-haven't seen anything
-convincing as to why it should be removed or modified.
-
-Bruce
-
+> On Wed, 2024-07-03 at 16:40 +0100, Jose Quaresma via
+> lists.openembedded.org wrote:
+> > Release notes at https://www.openssh.com/txt/release-9.8
+>
+> Thanks for the upgrade, it does look important. Unfortunately it had a
+> build failure for musl:
+>
+> https://valkyrie.yoctoproject.org/#/builders/3/builds/68
+>
+> Also may be related:
 >
 >
-> Regards, J=C3=B6rg
+> https://valkyrie.yoctoproject.org/#/builders/74/builds/60/steps/15/logs/s=
+tdio
 >
-> --
+> https://valkyrie.yoctoproject.org/#/builders/18/builds/61/steps/12/logs/s=
+tdio
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201496): https://lists.openembedded.org/g/openembedde=
-d-core/message/201496
-> Mute This Topic: https://lists.openembedded.org/mt/107018570/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> The build is still ongoing.
 >
 
+Tomorrow I will take a look at this and will try to fix it.
+
+Thanks
+
+Jose
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000007f0614061c5c6775
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu (quarta, 3/07/2024 =C3=A0(s) 18:41):<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">On Wed, 2024-07-03 at 16:40 +0100, Jose Q=
+uaresma via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" ta=
+rget=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; Release notes at <a href=3D"https://www.openssh.com/txt/release-9.8" r=
+el=3D"noreferrer" target=3D"_blank">https://www.openssh.com/txt/release-9.8=
+</a><br>
+<br>
+Thanks for the upgrade, it does look important. Unfortunately it had a buil=
+d failure for musl:<br>
+<br>
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/3/builds/68" rel=3D=
+"noreferrer" target=3D"_blank">https://valkyrie.yoctoproject.org/#/builders=
+/3/builds/68</a><br>
+<br>
+Also may be related:<br>
+<br>
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/74/builds/60/steps/=
+15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoctop=
+roject.org/#/builders/74/builds/60/steps/15/logs/stdio</a><br>
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/18/builds/61/steps/=
+12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoctop=
+roject.org/#/builders/18/builds/61/steps/12/logs/stdio</a><br>
+<br>
+The build is still ongoing.<br></blockquote><div><br>Tomorrow=C2=A0I will t=
+ake a look at this and will try to fix it.<br><br>Thanks=C2=A0<br><br>Jose<=
+br>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--0000000000007f0614061c5c6775--
 
