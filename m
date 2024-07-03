@@ -1,125 +1,97 @@
-Return-Path: <u.oelmann@pengutronix.de>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3EDEC2BD09
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 14:28:16 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.51749.1720016892789278525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F24E1C2BD09
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 15:18:06 +0000 (UTC)
+Received: from mx08-0040c702.pphosted.com (mx08-0040c702.pphosted.com [185.183.31.154])
+ by mx.groups.io with SMTP id smtpd.web10.48906.1720009468805859974
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 07:28:13 -0700
+ Wed, 03 Jul 2024 05:24:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: uol@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <uol@pengutronix.de>)
-	id 1sP0xu-00032D-8U; Wed, 03 Jul 2024 16:28:10 +0200
-Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <uol@pengutronix.de>)
-	id 1sP0xt-006s2Z-AQ; Wed, 03 Jul 2024 16:28:09 +0200
-Received: from uol by dude03.red.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <uol@pengutronix.de>)
-	id 1sP0xt-00A5r0-0n;
-	Wed, 03 Jul 2024 16:28:09 +0200
-From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-To: OpenEmbedded Core Developers <openembedded-core@lists.openembedded.org>
-Cc: yocto@pengutronix.de,
-	=?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-Subject: [PATCH] buildhistory: fix typos
-Date: Wed,  3 Jul 2024 16:28:06 +0200
-Message-Id: <20240703142806.2405768-1-u.oelmann@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=VQ9vikxf;
+ spf=pass (domain: karlstorz.com, ip: 185.183.31.154, mailfrom: pascal.weisser.ext@karlstorz.com)
+Received: from pps.filterd (m0267678.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4638iTFW008088
+	for <openembedded-core@lists.openembedded.org>; Wed, 3 Jul 2024 12:24:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=S-DKIM-20210427; bh=ARBUw
+	tu+K2OZ599xdkoAJgMZZ7ZIYMaan3Rux0pF6l4=; b=VQ9vikxf2qm3zfEoI0fnx
+	/ivmnIkDC140T1iLvibsQIr1rQSRJlhrP08jna2mEADZ+SE2aXVs+K/GdFqWNB4X
+	SQ5Uw9adHWVgVSurU81lkvvOzgXRsrsLRSUyejeGeq+7tmDD8FlX1cv/E7dNj/vq
+	oDaPCRw2S+YJL8Vi4WGWnUbucH0gJM2Ij/iCZX94NqKf/F9fVu7PN8Zcxv7wu/f3
+	+0v2BWj0whKNyn287pFLeOUtkWt1cIasepyZOj71VNuZ0dZJyb7xsbu2mzvEItj8
+	QMryadnA1JvZmZ9NWkjsnOg/d23i/TcX/foBqsRRgpwhDij0Ech10YZQe/cN/ajJ
+	w==
+Received: from tut-ex23-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 4052jnj2wh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 12:24:26 +0000 (GMT)
+Received: from TUT-EX21-PV.KSTG.corp (10.0.10.225) by TUT-EX23-PV.KSTG.corp
+ (10.0.10.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
+ 14:24:25 +0200
+Received: from TUT-EX23-PV.KSTG.corp (10.0.10.227) by TUT-EX21-PV.KSTG.corp
+ (10.0.10.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
+ 14:24:24 +0200
+Received: from tutn-bpfb5m3.kstg.corp (10.0.10.41) by
+ InternalSMTPRelay.KSTG.corp (10.0.10.227) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 3 Jul 2024 14:24:24 +0200
+From: "Weisser, Pascal.ext" <Pascal.Weisser.ext@karlstorz.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+Subject: [PATCH] qemuboot: Trigger write_qemuboot_conf on changes of kernel image realpath.
+Date: Wed, 3 Jul 2024 14:22:47 +0200
+Message-ID: <20240703122247.533463-1-pascal.weisser.ext@karlstorz.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Proofpoint-GUID: Y9Qey2sabXewXtrBvtCxBJUXMzO_aFei
+X-Proofpoint-ORIG-GUID: Y9Qey2sabXewXtrBvtCxBJUXMzO_aFei
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-03_08,2024-07-03_01,2024-05-17_01
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: uol@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 14:28:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201491
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 15:18:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201492
 
-Fix some simple typos found while looking through the code.
+The qemuboot.conf file contains the realpath of the kernel image
+referenced by QB_DEFAULT_KERNEL. So, it must be recreated in case the
+realpath of the referenced kernel image changes.
 
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+The variables KERNEL_IMAGE_NAME and KERNEL_IMAGE_BIN_EXT determine the
+realpath of the kernel image relative to DEPLOY_DIR_IMAGE. Adding both of
+them to the vardeps of the write_qemuboot_conf task triggers the
+write_qemuboot_conf task in case the realpath of the kernel image
+referenced by QB_DEFAULT_KERNEL changes.
+
+Fixes: [YOCTO #15525]
+
+Signed-off-by: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
 ---
- meta/classes/buildhistory.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/classes-recipe/qemuboot.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index fd53e924021c..c3d049aea380 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -58,7 +58,7 @@ SSTATEPOSTUNPACKFUNCS:append = " buildhistory_emit_outputsigs"
- sstate_installpkgdir[vardepsexclude] += "buildhistory_emit_outputsigs"
- SSTATEPOSTUNPACKFUNCS[vardepvalueexclude] .= "| buildhistory_emit_outputsigs"
+diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
+index 895fd38d68..0f80c60ab5 100644
+--- a/meta/classes-recipe/qemuboot.bbclass
++++ b/meta/classes-recipe/qemuboot.bbclass
+@@ -129,7 +129,8 @@ addtask do_write_qemuboot_conf after do_rootfs before do_image
  
--# All items excepts those listed here will be removed from a recipe's
-+# All items except those listed here will be removed from a recipe's
- # build history directory by buildhistory_emit_pkghistory(). This is
- # necessary because some of these items (package directories, files that
- # we no longer emit) might be obsolete.
-@@ -153,7 +153,7 @@ python buildhistory_emit_pkghistory() {
-             # Variables that need to be written to their own separate file
-             self.filevars = dict.fromkeys(['pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm'])
- 
--    # Should check PACKAGES here to see if anything removed
-+    # Should check PACKAGES here to see if anything was removed
- 
-     def readPackageInfo(pkg, histfile):
-         pkginfo = PackageInfo(pkg)
-@@ -535,7 +535,7 @@ buildhistory_get_installed() {
- 		grep -v kernel-module $1/depends-nokernel-nolibc-noupdate.dot > $1/depends-nokernel-nolibc-noupdate-nomodules.dot
- 	fi
- 
--	# add complementary package information
-+	# Add complementary package information
- 	if [ -e ${WORKDIR}/complementary_pkgs.txt ]; then
- 		cp ${WORKDIR}/complementary_pkgs.txt $1
- 	fi
-@@ -573,7 +573,7 @@ buildhistory_get_sdk_installed_target() {
- 
- buildhistory_list_files() {
- 	# List the files in the specified directory, but exclude date/time etc.
--	# This is somewhat messy, but handles where the size is not printed for device files under pseudo
-+	# This is somewhat messy, but handles cases where the size is not printed for device files under pseudo
- 	( cd $1
- 	find_cmd='find . ! -path . -printf "%M %-10u %-10g %10s %p -> %l\n"'
- 	if [ "$3" = "fakeroot" ] ; then
-@@ -587,7 +587,7 @@ buildhistory_list_files_no_owners() {
- 	# List the files in the specified directory, but exclude date/time etc.
- 	# Also don't output the ownership data, but instead output just - - so
- 	# that the same parsing code as for _list_files works.
--	# This is somewhat messy, but handles where the size is not printed for device files under pseudo
-+	# This is somewhat messy, but handles cases where the size is not printed for device files under pseudo
- 	( cd $1
- 	find_cmd='find . ! -path . -printf "%M -          -          %10s %p -> %l\n"'
- 	if [ "$3" = "fakeroot" ] ; then
-@@ -855,7 +855,7 @@ END
- 		CMDLINE="${@buildhistory_get_cmdline(d)}"
- 		if [ "$repostatus" != "" ] ; then
- 			git add -A .
--			# porcelain output looks like "?? packages/foo/bar"
-+			# Porcelain output looks like "?? packages/foo/bar"
- 			# Ensure we commit metadata-revs with the first commit
- 			buildhistory_single_commit "$CMDLINE" "$HOSTNAME" dummy
- 			git gc --auto --quiet
-@@ -990,7 +990,7 @@ def write_latest_ptest_result(d, histdir):
-     output_ptest = os.path.join(histdir, 'ptest')
-     if os.path.exists(input_ptest):
-         try:
--            # Lock it avoid race issue
-+            # Lock it to avoid race issue
-             lock = bb.utils.lockfile(output_ptest + "/ptest.lock")
-             bb.utils.mkdirhier(output_ptest)
-             oe.path.copytree(input_ptest, output_ptest)
+ def qemuboot_vars(d):
+     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
+-                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
++                'KERNEL_IMAGETYPE', 'KERNEL_IMAGE_NAME',
++                'KERNEL_IMAGE_BIN_EXT', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
+                 'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
+                 'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
+     return build_vars + [k for k in d.keys() if k.startswith('QB_')]
 -- 
-2.39.2
+2.45.2
 
 
