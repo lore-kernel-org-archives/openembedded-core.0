@@ -1,470 +1,250 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F439C30653
-	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 15:40:27 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.54357.1720021217840840567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B00C30653
+	for <webhook@archiver.kernel.org>; Wed,  3 Jul 2024 15:44:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by mx.groups.io with SMTP id smtpd.web11.54461.1720021452974460661
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jul 2024 08:40:18 -0700
+ Wed, 03 Jul 2024 08:44:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GngQr7VJ;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3678f36f154so737554f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 08:40:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720021216; x=1720626016; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kr/iyCNyuHvqxCuSxL32w3GaekUVQVLTIunrUCU9pBk=;
-        b=GngQr7VJxrqFT4YSmof0GEYP8Cy8sVgFviQQxdiitZ8zrF9oEBInk+24LYceOXv5fl
-         4Ff87rFlslfXvbbnLcB+Gzt9q9dThg8xJmqFIpJVVWNp23K/Ecf5PQ3XMy5op00nHBHC
-         s2qXKEk54rzn8W6ZHOLQTkXvq4Xj0nk20BM8+DmXVsL+Vr5306rPoWImxTHnYAuEtepy
-         MxfVO8Y69mfUG+WvycUvDQJ8qWxfMyxng+ZnHMR0BHbnZqHVWhvKNpgdBu+9f4vQeGb4
-         CJHTfHIFfQQka4xKc3/OE9P4yDS8nnBuN+XgUhC4pcWbOw8+gYs2LIWUmFMOXK87uzze
-         7gUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720021216; x=1720626016;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Kr/iyCNyuHvqxCuSxL32w3GaekUVQVLTIunrUCU9pBk=;
-        b=omzUPDeOy/iocxemWVk7A+LqDkB+yMUnrLfgRZiS/eziNDXe3vBPsnOJgO0jaLR6sx
-         TCMDc8PB361Ukj+V3Kz0Pg2bn4EhRZDOlmVTtKSM1XSVl24HJKHQnLSO/URvjqUtuZC3
-         eYt7PLy9pmbLhlLywh7J3YZWgk3gzWWVGJV5xMPm9XjU/XEw1Dr0fYGPUXVLJ+Iw5ObE
-         /oVaKdIpKgOR5dMGZozDZrNv6H3eVYDLd+wKBo1lLdfAF/dnxWgGGbt4/XrhSTcZmX4S
-         f3ViM+JOXWxs2dgemt7ViZg5PXVpDgr3RHN9TzUhIkAX1O/4yKbeoaetGWyssyaqA45r
-         GbtA==
-X-Gm-Message-State: AOJu0Yz/DdZm9be5fE1eedJViDY7wtnACoGTOVXU2coMGRXpUzB4TMJ0
-	2UuGf+y84RCVXL2iYMueZsptRG034rrRYStTeduP/3CdQha/QT8VKSQU1g==
-X-Google-Smtp-Source: AGHT+IGaVzWK+V9sV91Sbb/R9chnuRnOn3G2FYSDgqSXYcuuuKq03yAa0HrAhBHCgP4gbE6Xc2dfag==
-X-Received: by 2002:adf:e25f:0:b0:365:8547:90b1 with SMTP id ffacd0b85a97d-367756bcademr7119827f8f.39.1720021215523;
-        Wed, 03 Jul 2024 08:40:15 -0700 (PDT)
-Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fba0bsm16134341f8f.69.2024.07.03.08.40.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 08:40:15 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] openssh: upgrade 9.7p1 -> 9.8p1
-Date: Wed,  3 Jul 2024 16:40:04 +0100
-Message-ID: <20240703154004.2632376-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.45.2
+ dkim=pass header.i=@intel.com header.s=Intel header.b=nUna4C4X;
+ spf=pass (domain: intel.com, ip: 192.198.163.17, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720021453; x=1751557453;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=ddV0BYd4o1FwCkLFVdo3RxRiDQ98dQlpXdPGpc1lv/Q=;
+  b=nUna4C4XfMKefOXWOvVDHQL3QS84NpawHsYItzc2pOEGHiQ8zDEl24HY
+   AWJ9Py2kw7BB28kONVds7pCZ0XUX37IyaN4Hj8LsTiN8PoFGL9jXMZgQZ
+   RmakyCPV/FN+3SGiUI/Ph2BIZEx+UNPdH3Lkm7HxK2440Y7rU21KUr8lC
+   V01KOZ+wVRjTDaJO1YVyaffkOnQfnhzRTP/letLK9YAYYOnavkzMDh1iM
+   m0+YV66xnsIaZGCOI/tcMerjmBDgCsqM+E5X3Yvfb8/cDmdKjo+sKMGil
+   DniAD9aQJOVhQhb0tZZinm2xmoPS60Pk97P0q80SQE9tApE8FFG4Bgz4s
+   A==;
+X-CSE-ConnectionGUID: DHbQ0dFoTbGGM7V/XYYjkA==
+X-CSE-MsgGUID: 2MbfZuK6Sd6GvQGPYl/zxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17129286"
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
+   d="scan'208";a="17129286"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 08:44:13 -0700
+X-CSE-ConnectionGUID: LUhd6SY6TxqHVpiZLNPMgA==
+X-CSE-MsgGUID: 4urQNHrCQlG8QrDnDLwMbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
+   d="scan'208";a="46959288"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Jul 2024 08:44:13 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 3 Jul 2024 08:44:12 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 3 Jul 2024 08:44:11 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 3 Jul 2024 08:44:11 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.175)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 3 Jul 2024 08:44:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L5rMQjPrgoTYI47EjKqjUeU5OhYyP1jWq/HwilTKkE+uUbSZLq+INOjQkEa9pbLCVIyHB9lmKhce0BTAYd8pcq/VUhEkQCEeBdnX6KQT+netNMw/SbxSh4suZPLR3CMYBE+G6Bwwduutw6jwxIOA0gWIyC4v5+9cR0F7nwm1QJpY6U91jsmX+/faF9Te2eP/9KcOdf0D+Y8gnVsL9Ah3AADoKq8p3YaNksFxuv6Wb1HkZa+DADqDyH258XYiNjF0lvusPv9LbZnFck5KFfpYTRZBxsRSSUn4OMB+HYr7o3QN+iDhAHTGGjVpjsGIgJ/8BUheBgYGoyfrvQkgYGlt7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OON6CpQp1Ni5ptwtrTwjlwB/7LTDXuBC3UcUIn0dm1c=;
+ b=nbnsdFklDvM45LPMl3RqVmUsDZDTpRa3K+8OeyHAhLzwPNt+zHmfTn/cLVs1AgH5QGET6khDq3ZQ3fofAuA7jwFzgjAlR5ZyjCCYL6ZLgjxTSetodoW78kJXfeV7KqIa1mHWwEml/vdKnL+UgwVcPsX6O38XwYX7YUCT1L3myjcMrxUiJyU87OB/CUsJ0lzHSnN0ff2quhtyc6lawJ2TzFAIZa3y/TGHYDdP8ixwrwDtnDhtmmAj3prS32TiUQHX7l6Vmy/1j7TF/JpZgIm5ABWZixUqOxQN01kZJirc+ng18wWQe4qKLeJvv7AVCyUyJzDjfc2VKYP6sYYye3Hwrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
+ by BN9PR11MB5323.namprd11.prod.outlook.com (2603:10b6:408:118::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.23; Wed, 3 Jul
+ 2024 15:44:08 +0000
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a%7]) with mapi id 15.20.7719.029; Wed, 3 Jul 2024
+ 15:44:04 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-5.0.2.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-5.0.2.rc1)
+Thread-Index: AQHaxtb2+J04oyLUQkeiuWKBC3BQdbHlMcLA
+Date: Wed, 3 Jul 2024 15:44:04 +0000
+Message-ID: <DM4PR11MB77602C33878D4611D259B4C3A1DD2@DM4PR11MB7760.namprd11.prod.outlook.com>
+References: <010101904e70e071-638d333c-a229-48ce-96b2-86cc080208a9-000000@us-west-2.amazonses.com>
+In-Reply-To: <010101904e70e071-638d333c-a229-48ce-96b2-86cc080208a9-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|BN9PR11MB5323:EE_
+x-ms-office365-filtering-correlation-id: 3a287f4e-e214-43a7-fe07-08dc9b76f7f4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|4022899009|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?pBMk4t7vrJtSk4qEoDHStfHSu/kNf3RWhbhUwgqwnIZjI0OAtl3Qota7OD55?=
+ =?us-ascii?Q?g8S5JQ5qGI03970wLyNQrGitho3JqAHHXZdw/bgBCOXftpwkDDAm4n+QVbWL?=
+ =?us-ascii?Q?F6lZf3oVcsQeHgPpSqmBFAtu6UhZn+XZlPxZSYpmy/OY2+4fuqOx9VRS7y8g?=
+ =?us-ascii?Q?f7m5YKMkKtZU/fUQlzsnm2nvEly6wq90YCa/KQEaCWRE+w4fE7LNHLZeeh9A?=
+ =?us-ascii?Q?7qTPs+KuRvN58at4u9u+MU7UU+uwzeSV5evHxkmfuGgGS9sGAouQpQcAaX5y?=
+ =?us-ascii?Q?OqZDbf1vUjGoS8r99u5dEAiqbr6HN49j+0drCL1jSOqE7sYyWAiDSAMR4Slb?=
+ =?us-ascii?Q?sZscBQ62JiIukDJoSeayZnTLLv4pGQ/qLHOyFjJlwMFXYZPuQ4gOpa1/0l3l?=
+ =?us-ascii?Q?8AtfzjWaQFA7Wlau5k6zRKOL1Ts6bUrIjptua0epeZ8mseQ/FBwfLqIxjztM?=
+ =?us-ascii?Q?aCvoIbD5a9jKz65gzJ8VZmb2LJMMD2Ib932PR0pmmgw53sHZLo9zVDqI6qqq?=
+ =?us-ascii?Q?Kndjn801Mdi9TXiMBttX/SSdtV58wBqD7sP/pnT/EszZOt0LUpTuyGaEBbmX?=
+ =?us-ascii?Q?HG0kqvGviIPyxJfcTYCcFJFM7MWoNHoRV7nRj97WcAuujj7p39Docxp0dGre?=
+ =?us-ascii?Q?SZ5ptz9OMMY8+O++r5OoEM98uhrCXYu4PBd0KWQfPjyMiF2PuD+HPrZwt5me?=
+ =?us-ascii?Q?KQiG1IqTPms3YxZMetPFY3iw/IgGmYgXHTVn9InW9ILJWpSCWZpWZVM/ufrf?=
+ =?us-ascii?Q?zqtAeu4HVWrjQiw/pW4BpoljMOlTSBd8hCPkwi1pQ57Gz1ALnmDBLYvnXO7g?=
+ =?us-ascii?Q?fJu2vKCC6gTYToCAM5dqRUAYhvxvm/iSbDLzRYJrHzM+GZcCNb9nAJGSYW5R?=
+ =?us-ascii?Q?3giWH20nz9UcjX7k9l/keRBRssKOku+M0TIHPTtNNutsgXklqN3C/CfUsMtu?=
+ =?us-ascii?Q?UDFD+vSEIc9RABohPysdWNXDp1WMyR4w5HISnqGGhIAAYiuW7DVgcJIdhfNp?=
+ =?us-ascii?Q?pnoo8gZmZ6cQKNFzJMGs0HSIdBCnkFyk3QFt1SMS0LbFRf76kqqqyDCECFON?=
+ =?us-ascii?Q?aRnGuYzbKbItt/qH7fvSNzEkYKenLMoRCo8Bw5V9mCJNJTuYxbMHMi53wO4G?=
+ =?us-ascii?Q?LSZ+NmBRbc4N9KA3fI1XLIIpsTG97DNCY9YnkRHxp0jmN52NQsF6oAufBuD4?=
+ =?us-ascii?Q?nL2pXVvMAuyAr7mrLbsSS/azx57877yC6sO6E7tDZq3uU+YjbBK6mP+auS4Q?=
+ =?us-ascii?Q?zE7oR+XV+CgtgANaUcbtVuDgym49YYRpyzcGEMAp19zRik+Cwi/vPB57IrNi?=
+ =?us-ascii?Q?4Yw+wb2wTWzukFuffJp2Pv0jWlphmsP/l5KxMtZeF3cZktQqr3Vh3PthAHYu?=
+ =?us-ascii?Q?8gkbREY=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?E44vCzPFy+axOTf395wVo0Vm4lgkNZgc7avMwYeZ9mxNHq5XUfFi6nbCjvFA?=
+ =?us-ascii?Q?bj0mjqZhkiJD6Yp4/QNklizEP7fzVfSeVn/vacfJexVHD1cjGo4BBTSut728?=
+ =?us-ascii?Q?C4AWlpzX3MFZ9YW1ungH1cHYPMwuat9+UWMDCcZ5bwXDTjwg6xNJNUjYOsqq?=
+ =?us-ascii?Q?3qmWnG+eiDDtdBolWsHAwggg5X1nLieA9iOxD1mNMWsQ8RyNLP/ibbIgHNkd?=
+ =?us-ascii?Q?tEyO4TJRCpDocvSWdF8+UhWwlUSbsiIxNUj5dFfoQw8IL4C2/mLaPY12zAgc?=
+ =?us-ascii?Q?pKUXpDFLZoX27NmZBBNdmuj3GbYhxvo2qkAt3PM3SQgv98l39eldtRO5gPyE?=
+ =?us-ascii?Q?DJ9ZgGvnADpxLjHmVjc8WdVbPvRzStJ41CxVxCS+BMxNXAZrHB/Fqcf0RmU5?=
+ =?us-ascii?Q?mFJ9pR+9h63r+hDKw1opeoB68vSUSUm1YNIfYjlDyQx8L5USPiYiLM3j8jDg?=
+ =?us-ascii?Q?Atni4hPBDWsCZzxY445xVRpNOGrz5bxxXPltQgM7MRwNPs1j9Dm+aw4uwJP+?=
+ =?us-ascii?Q?77M1xo5XUJyQuSUdMeW07E+gT4xgYua6kSIVq5zNjrxBvkFQkUhn9yyoVOD1?=
+ =?us-ascii?Q?vT5WLT2dvt+CtnDExU1UMuM1VXHAiB2Piu1BMKc3DsvSze59O1gYWEkYcNiv?=
+ =?us-ascii?Q?blQxFrxaI4+IWhXZ1VjkvZlsXPIZpLpxxi8tpROfjMYk2aiLdtLRvtLwGl+P?=
+ =?us-ascii?Q?evPpnJIADCgcYTGJdv7dP2qBya9J82gan/sdHRpUVbvhMe33iXIhFbX1J2PD?=
+ =?us-ascii?Q?meZkA1sgLwfmpbz0sez9/ur5NM0fAl8zXPU2JBt4e3LgJK51WyDoR6RfFKo7?=
+ =?us-ascii?Q?QtCka4QInYd+ZEqFBb52ys4v5MDzxRbtSvR1mzoNpitC2G4+czNkhwbcWc3T?=
+ =?us-ascii?Q?3g/kl7jC9eDnV3LhUKQmMfVSUvaixVXrCZsY27pRlfPu7hkwXrcrmH0Gj5RX?=
+ =?us-ascii?Q?JvBJTfjSs+17o9KDgqk/8nzb294oMgIA0ZHLO/l6HuWy+5nAdmYynCOLUglq?=
+ =?us-ascii?Q?ddYkKStqYw7o9j54RYvymufaYs9Wx+46tAP27jZeqZCu3T0NbzbKpm05zHLo?=
+ =?us-ascii?Q?XkwfFvrXqT3jhZKpzpGTF6IQadphugIgSOuoPAHzblLnsXqo8i5E4SfxnYY5?=
+ =?us-ascii?Q?/SOlzVlbCzjshWSjJT2uotNYHkGDgPAo3oRBU3RRaTyY6W9HRyqr7KORw07Q?=
+ =?us-ascii?Q?qGrSTRCK18PLjvk4GtLIb4DokTygc5TkwEv66kBbNk7gaESOIK3KicCn8GVS?=
+ =?us-ascii?Q?wd433MQ/bp0XIHlnghH2Pa9YwWSEFaQysmTAbamEoGdqtifscKynA9XGQqx1?=
+ =?us-ascii?Q?fvmA2ucWaiJtd24yqP/B6Si1gm3U/JQzDadxKdQ1+YVid41t4adj/SFSKNzo?=
+ =?us-ascii?Q?ddByJuy3cmR7lf9QyUs7gfknoUKgzhGaYOvnAop+2XkUJjs1uMnJYitcw2Aq?=
+ =?us-ascii?Q?gZm3xmFeIn2eGmOp4hTN65I9ercbjWNWCrObavGPQZYM3bolX29ob0ytL8Lx?=
+ =?us-ascii?Q?ZRx+FDADIgxvjP9OiNesDGFGobU/eBu4jcuadn7zej0qc5I7A3UOJgzhMHOq?=
+ =?us-ascii?Q?qh7Qi4jyCZZjHPmT3uTiijEx3Bl/79XXKGRo0Smc?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a287f4e-e214-43a7-fe07-08dc9b76f7f4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2024 15:44:04.7862
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SwRjBQOjNu+mnW7a6D0jY97uzKR5+OERSEtFG7nu8uUPlPBsKgIiAqnsENjBXpcEyLY0TqNwGHvKGO0WbK5BHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5323
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 15:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201493
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jul 2024 15:44:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201494
 
-Release notes at https://www.openssh.com/txt/release-9.8
+Hi All,
+=20
+QA for yocto-5.0.2.rc1 is completed. This is the full report for this relea=
+se: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
+=20
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
+=20
+No new issue found.=20
+=20
+Thanks,
+Jing Hui
 
-Security
-========
 
-This release contains fixes for two security problems, one critical
-and one minor.
-
-1) Race condition in sshd(8)
-
-A critical vulnerability in sshd(8) was present in Portable OpenSSH
-versions between 8.5p1 and 9.7p1 (inclusive) that may allow arbitrary
-code execution with root privileges.
-
-Successful exploitation has been demonstrated on 32-bit Linux/glibc
-systems with ASLR. Under lab conditions, the attack requires on
-average 6-8 hours of continuous connections up to the maximum the
-server will accept. Exploitation on 64-bit systems is believed to be
-possible but has not been demonstrated at this time. It's likely that
-these attacks will be improved upon.
-
-Exploitation on non-glibc systems is conceivable but has not been
-examined. Systems that lack ASLR or users of downstream Linux
-distributions that have modified OpenSSH to disable per-connection
-ASLR re-randomisation (yes - this is a thing, no - we don't
-understand why) may potentially have an easier path to exploitation.
-OpenBSD is not vulnerable.
-
-We thank the Qualys Security Advisory Team for discovering, reporting
-and demonstrating exploitability of this problem, and for providing
-detailed feedback on additional mitigation measures.
-
-2) Logic error in ssh(1) ObscureKeystrokeTiming
-
-In OpenSSH version 9.5 through 9.7 (inclusive), when connected to an
-OpenSSH server version 9.5 or later, a logic error in the ssh(1)
-ObscureKeystrokeTiming feature (on by default) rendered this feature
-ineffective - a passive observer could still detect which network
-packets contained real keystrokes when the countermeasure was active
-because both fake and real keystroke packets were being sent
-unconditionally.
-
-This bug was found by Philippos Giavridis and also independently by
-Jacky Wei En Kung, Daniel Hugenroth and Alastair Beresford of the
-University of Cambridge Computer Lab.
-
-Worse, the unconditional sending of both fake and real keystroke
-packets broke another long-standing timing attack mitigation. Since
-OpenSSH 2.9.9 sshd(8) has sent fake keystoke echo packets for
-traffic received on TTYs in echo-off mode, such as when entering a
-password into su(8) or sudo(8). This bug rendered these fake
-keystroke echoes ineffective and could allow a passive observer of
-a SSH session to once again detect when echo was off and obtain
-fairly limited timing information about keystrokes in this situation
-(20ms granularity by default).
-
-This additional implication of the bug was identified by Jacky Wei
-En Kung, Daniel Hugenroth and Alastair Beresford and we thank them
-for their detailed analysis.
-
-This bug does not affect connections when ObscureKeystrokeTiming
-was disabled or sessions where no TTY was requested.
-
-Future deprecation notice
-=========================
-
-OpenSSH plans to remove support for the DSA signature algorithm in
-early 2025. This release disables DSA by default at compile time.
-
-DSA, as specified in the SSHv2 protocol, is inherently weak - being
-limited to a 160 bit private key and use of the SHA1 digest. Its
-estimated security level is only 80 bits symmetric equivalent.
-
-OpenSSH has disabled DSA keys by default since 2015 but has retained
-run-time optional support for them. DSA was the only mandatory-to-
-implement algorithm in the SSHv2 RFCs, mostly because alternative
-algorithms were encumbered by patents when the SSHv2 protocol was
-specified.
-
-This has not been the case for decades at this point and better
-algorithms are well supported by all actively-maintained SSH
-implementations. We do not consider the costs of maintaining DSA
-in OpenSSH to be justified and hope that removing it from OpenSSH
-can accelerate its wider deprecation in supporting cryptography
-libraries.
-
-This release, and its deactivation of DSA by default at compile-time,
-marks the second step in our timeline to finally deprecate DSA. The
-final step of removing DSA support entirely is planned for the first
-OpenSSH release of 2025.
-
-DSA support may be re-enabled in OpenBSD by setting "DSAKEY=yes"
-in Makefile.inc. To enable DSA support in portable OpenSSH, pass
-the "--enable-dsa-keys" option to configure.
-
-Potentially-incompatible changes
---------------------------------
-
- * all: as mentioned above, the DSA signature algorithm is now
-   disabled at compile time.
-
- * sshd(8): the server will now block client addresses that
-   repeatedly fail authentication, repeatedly connect without ever
-   completing authentication or that crash the server. See the
-   discussion of PerSourcePenalties below for more information.
-   Operators of servers that accept connections from many users, or
-   servers that accept connections from addresses behind NAT or
-   proxies may need to consider these settings.
-
- * sshd(8): the server has been split into a listener binary, sshd(8),
-   and a per-session binary "sshd-session". This allows for a much
-   smaller listener binary, as it no longer needs to support the SSH
-   protocol. As part of this work, support for disabling privilege
-   separation (which previously required code changes to disable) and
-   disabling re-execution of sshd(8) has been removed. Further
-   separation of sshd-session into additional, minimal binaries is
-   planned for the future.
-
- * sshd(8): several log messages have changed. In particular, some
-   log messages will be tagged with as originating from a process
-   named "sshd-session" rather than "sshd".
-
- * ssh-keyscan(1): this tool previously emitted comment lines
-   containing the hostname and SSH protocol banner to standard error.
-   This release now emits them to standard output, but adds a new
-   "-q" flag to silence them altogether.
-
- * sshd(8): (portable OpenSSH only) sshd will no longer use argv[0]
-   as the PAM service name. A new "PAMServiceName" sshd_config(5)
-   directive allows selecting the service name at runtime. This
-   defaults to "sshd". bz2101
-
- * (portable OpenSSH only) Automatically-generated files, such as
-   configure, config.h.in, etc will now be checked in to the portable
-   OpenSSH git release branch (e.g. V_9_8). This should ensure that
-   the contents of the signed release branch exactly match the
-   contents of the signed release tarball.
-
-Changes since OpenSSH 9.7
-=========================
-
-This release contains mostly bugfixes.
-
-New features
-------------
-
- * sshd(8): as described above, sshd(8) will now penalise client
-   addresses that, for various reasons, do not successfully complete
-   authentication. This feature is controlled by a new sshd_config(5)
-   PerSourcePenalties option and is on by default.
-
-   sshd(8) will now identify situations where the session did not
-   authenticate as expected. These conditions include when the client
-   repeatedly attempted authentication unsucessfully (possibly
-   indicating an attack against one or more accounts, e.g. password
-   guessing), or when client behaviour caused sshd to crash (possibly
-   indicating attempts to exploit bugs in sshd).
-
-   When such a condition is observed, sshd will record a penalty of
-   some duration (e.g. 30 seconds) against the client's address. If
-   this time is above a minimum configurable threshold, then all
-   connections from the client address will be refused (along with any
-   others in the same PerSourceNetBlockSize CIDR range) until the
-   penalty expire.
-
-   Repeated offenses by the same client address will accrue greater
-   penalties, up to a configurable maximum. Address ranges may be
-   fully exempted from penalties, e.g. to guarantee access from a set
-   of trusted management addresses, using the new sshd_config(5)
-   PerSourcePenaltyExemptList option.
-
-   We hope these options will make it significantly more difficult for
-   attackers to find accounts with weak/guessable passwords or exploit
-   bugs in sshd(8) itself. This option is enabled by default.
-
- * ssh(8): allow the HostkeyAlgorithms directive to disable the
-   implicit fallback from certificate host key to plain host keys.
-
-Bugfixes
---------
-
- * misc: fix a number of inaccuracies in the PROTOCOL.*
-   documentation files. GHPR430 GHPR487
-
- * all: switch to strtonum(3) for more robust integer parsing in most
-   places.
-
- * ssh(1), sshd(8): correctly restore sigprocmask around ppoll()
-
- * ssh-keysign(8): stricter validation of messaging socket fd GHPR492
-
- * sftp(1): flush stdout after writing "sftp>" prompt when not using
-   editline. GHPR480
-
- * sftp-server(8): fix home-directory extension implementation, it
-   previously always returned the current user's home directory
-   contrary to the spec. GHPR477
-
- * ssh-keyscan(1): do not close stdin to prevent error messages when
-   stdin is read multiple times. E.g.
-   echo localhost | ssh-keyscan -f - -f -
-
- * regression tests: fix rekey test that was testing the same KEX
-   algorithm repeatedly instead of testing all of them. bz3692
-
- * ssh_config(5), sshd_config(5): clarify the KEXAlgorithms directive
-   documentation, especially around what is supported vs available.
-   bz3701.
-
-Portability
------------
-
- * sshd(8): expose SSH_AUTH_INFO_0 always to PAM auth modules
-   unconditionally. The previous behaviour was to expose it only when
-   particular authentication methods were in use.
-
- * build: fix OpenSSL ED25519 support detection. An incorrect function
-   signature in configure.ac previously prevented enabling the recently
-   added support for ED25519 private keys in PEM PKCS8 format.
-
- * ssh(1), ssh-agent(8): allow the presence of the WAYLAND_DISPLAY
-   environment variable to enable SSH_ASKPASS, similarly to the X11
-   DISPLAY environment variable. GHPR479
-
- * build: improve detection of the -fzero-call-used-regs compiler
-   flag. bz3673.
-
- * build: relax OpenSSL version check to accept all OpenSSL 3.x
-   versions.
-
- * sshd(8): add support for notifying systemd on server listen and
-   reload, using a standalone implementation that doesn't depend on
-   libsystemd. bz2641
-
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- ...h-log-input-and-output-files-on-erro.patch |  8 +++----
- ...tional-support-for-systemd-sd_notify.patch | 21 ++++++++++---------
- ...igned-overflow-in-pointer-arithmatic.patch |  6 ++----
- .../{openssh_9.7p1.bb => openssh_9.8p1.bb}    |  4 ++--
- 4 files changed, 18 insertions(+), 21 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_9.7p1.bb => openssh_9.8p1.bb} (98%)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-index 8763f30f4b..f424288e37 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-@@ -1,4 +1,4 @@
--From f5a4dacc987ca548fc86577c2dba121c86da3c34 Mon Sep 17 00:00:00 2001
-+From 5cc897fe2effe549e1e280c2f606bce8b532b61e Mon Sep 17 00:00:00 2001
- From: Mikko Rapeli <mikko.rapeli@linaro.org>
- Date: Mon, 11 Sep 2023 09:55:21 +0100
- Subject: [PATCH] regress/banner.sh: log input and output files on error
-@@ -37,12 +37,13 @@ See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
- Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/437]
- 
- Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
- ---
-  regress/banner.sh | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/regress/banner.sh b/regress/banner.sh
--index a84feb5a..de84957a 100644
-+index a84feb5..de84957 100644
- --- a/regress/banner.sh
- +++ b/regress/banner.sh
- @@ -32,7 +32,9 @@ for s in 0 10 100 1000 10000 100000 ; do
-@@ -56,6 +57,3 @@ index a84feb5a..de84957a 100644
-  done
-  
-  trace "test suppress banner (-q)"
---- 
--2.34.1
--
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-index f079d936a4..115938bcff 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-@@ -1,4 +1,4 @@
--From b02ef7621758f06eb686ef4f620636dbad086eda Mon Sep 17 00:00:00 2001
-+From 6a25ee9627cd91de9d9c66630548e91378875b05 Mon Sep 17 00:00:00 2001
- From: Matt Jolly <Matt.Jolly@footclan.ninja>
- Date: Thu, 2 Feb 2023 21:05:40 +1100
- Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
-@@ -9,16 +9,17 @@ patch based on Jakub Jelen's <jjelen@redhat.com> original patch
- Upstream-Status: Submitted [https://github.com/openssh/openssh-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
- 
- Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
- ---
-  configure.ac | 24 ++++++++++++++++++++++++
-  sshd.c       | 13 +++++++++++++
-  2 files changed, 37 insertions(+)
- 
- diff --git a/configure.ac b/configure.ac
--index 82e8bb7..d1145d3 100644
-+index 5a865f8..501d81b 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -4870,6 +4870,29 @@ AC_SUBST([GSSLIBS])
-+@@ -4886,6 +4886,29 @@ AC_SUBST([GSSLIBS])
-  AC_SUBST([K5LIBS])
-  AC_SUBST([CHANNELLIBS])
-  
-@@ -48,7 +49,7 @@ index 82e8bb7..d1145d3 100644
-  # Looking for programs, paths and files
-  
-  PRIVSEP_PATH=/var/empty
--@@ -5688,6 +5711,7 @@ echo "                   libldns support: $LDNS_MSG"
-+@@ -5704,6 +5727,7 @@ echo "                   libldns support: $LDNS_MSG"
-  echo "  Solaris process contract support: $SPC_MSG"
-  echo "           Solaris project support: $SP_MSG"
-  echo "         Solaris privilege support: $SPP_MSG"
-@@ -57,10 +58,10 @@ index 82e8bb7..d1145d3 100644
-  echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
-  echo "                  BSD Auth support: $BSD_AUTH_MSG"
- diff --git a/sshd.c b/sshd.c
--index b4f2b97..6820a41 100644
-+index ed54fc6..da396bf 100644
- --- a/sshd.c
- +++ b/sshd.c
--@@ -88,6 +88,10 @@
-+@@ -69,6 +69,10 @@
-  #include <prot.h>
-  #endif
-  
-@@ -70,8 +71,8 @@ index b4f2b97..6820a41 100644
- +
-  #include "xmalloc.h"
-  #include "ssh.h"
-- #include "ssh2.h"
--@@ -308,6 +312,10 @@ static void
-+ #include "sshpty.h"
-+@@ -484,6 +488,10 @@ static void
-  sighup_restart(void)
-  {
-  	logit("Received SIGHUP; restarting.");
-@@ -82,7 +83,7 @@ index b4f2b97..6820a41 100644
-  	if (options.pid_file != NULL)
-  		unlink(options.pid_file);
-  	platform_pre_restart();
--@@ -2093,6 +2101,11 @@ main(int ac, char **av)
-+@@ -1734,6 +1742,11 @@ main(int ac, char **av)
-  			}
-  		}
-  
-@@ -93,4 +94,4 @@ index b4f2b97..6820a41 100644
- +
-  		/* Accept a connection and return in a forked child */
-  		server_accept_loop(&sock_in, &sock_out,
-- 		    &newsock, config_s);
-+ 		    &newsock, config_s, log_stderr);
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-index 20036da931..2c73196eb8 100644
---- a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-@@ -1,4 +1,4 @@
--From 3328e98bcbf2930cd7eea3e6c92ad5dcbdf4794f Mon Sep 17 00:00:00 2001
-+From 90bbf404520e90f74dfb6c8eb6fd7cfd3a0eb68f Mon Sep 17 00:00:00 2001
- From: Yuanjie Huang <yuanjie.huang@windriver.com>
- Date: Wed, 24 Aug 2016 03:15:43 +0000
- Subject: [PATCH] Fix potential signed overflow in pointer arithmatic
-@@ -14,6 +14,7 @@ Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
- 
- Complete the fix
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
- ---
-  openbsd-compat/strlcat.c | 10 +++++++---
-  openbsd-compat/strlcpy.c |  8 ++++++--
-@@ -106,6 +107,3 @@ index 7ad3573..7040f1f 100644
- +	return (size_t)((uintptr_t)cp - (uintptr_t)str);
-  }
-  #endif
---- 
--2.17.1
--
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb b/meta/recipes-connectivity/openssh/openssh_9.8p1.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssh/openssh_9.7p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_9.8p1.bb
-index 0bc14c5553..a3c2377a41 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.8p1.bb
-@@ -27,7 +27,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-            file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
-            "
--SRC_URI[sha256sum] = "490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2e57dc5660f773ffd"
-+SRC_URI[sha256sum] = "dd8bd002a379b5d499dfb050dd1fa9af8029e80461f4bb6c523c49973f5a39f3"
- 
- CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
- 
-@@ -193,7 +193,7 @@ ALLOW_EMPTY:${PN} = "1"
- PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
- FILES:${PN}-scp = "${bindir}/scp.${BPN}"
- FILES:${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
--FILES:${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd ${systemd_system_unitdir}"
-+FILES:${PN}-sshd = "${sbindir}/sshd ${sbindir}/sshd-session ${sysconfdir}/init.d/sshd ${systemd_system_unitdir}"
- FILES:${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
- FILES:${PN}-sshd += "${libexecdir}/${BPN}/sshd_check_keys"
- FILES:${PN}-sftp = "${bindir}/sftp"
--- 
-2.45.2
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Tuesday, June 25, 2024 4:09 PM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-5.0.2.rc1)
+>=20
+>=20
+>     A build flagged for QA (yocto-5.0.2.rc1) was completed on the autobui=
+lder
+> and is available at:
+>=20
+>=20
+>         https://autobuilder.yocto.io/pub/releases/yocto-5.0.2.rc1
+>=20
+>=20
+>     Build URL:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7076
+>=20
+>     Build hash information:
+>=20
+>     bitbake: 8714a02e13477a9d97858b3642e05f28247454b5
+> meta-agl: e1a0adc8cfdc3b306537fc64f8b29c3c53f744ca
+> meta-arm: 29799b787d57d623dce140012a87568f314f3460
+> meta-aws: e3e4c876830c76aa1112b51ace6bb6fe35d5f0f4
+> meta-clang: 83e93bcda1654477802ed18b5f440fba7a733caf
+> meta-intel: d172a00f487a8ea4391b96e0f6cef5279c5a07d7
+> meta-mingw: acbba477893ef87388effc4679b7f40ee49fc852
+> meta-openembedded: 4a7bb77f7ebe0ac8be5bab5103d8bd993e17e18d
+> meta-virtualization: 37c06acf58f9020bccfc61954eeefe160642d5f3
+> oecore: 803cc32e72b4fc2fc28d92090e61f5dd288a10cb
+> poky: f7def85be9f99dcb4ba488bead201f670304379b
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#443): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/443
+> Mute This Topic: https://lists.yoctoproject.org/mt/106866039/6424044
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10762429/6424044/1746813897/xyzzy
+> [jing.hui.tham@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
