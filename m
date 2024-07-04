@@ -2,56 +2,56 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0CAC3271F
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 07:10:23 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.4915.1720077022495875510
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 909E7C38150
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 07:10:33 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web11.4923.1720077030339246222
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 00:10:22 -0700
+ Thu, 04 Jul 2024 00:10:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=duA8hbyY;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42122ac2f38so1709095e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 00:10:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BMMA3Fiq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52e829086f3so301720e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 00:10:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720077021; x=1720681821; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1720077028; x=1720681828; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=biYJs5eXheKm9DiAQNapPuCwj3pEhHbiXPaFy0LvGNc=;
-        b=duA8hbyYI5dmGAzKyMR6CaqQxHvbxdP8zTmLrzWVhgr9YMPfadDQJX9+MKbCgLjTT+
-         /4f48VwqUsD+1POgXHyZTo7gE2Gwjcv/Q9SjG6FOlBiR+ZxFMH9RDIk8EupvuxGVLEh9
-         OX3pvuKqoQ3ORvtwA2J2Ou1WKo3LAhcqndbDcDHEAdyOJdpjQe1XVhkKCsU5CuNJVP6E
-         BvsF1osqYreMM9r/owMk/tDED5SItWdW3XXBjNshnViXU5vWSl9PAkHweLAphFJwAL8i
-         xomB+as2BeGs9xi/HlXzaxg9tmRyu4EXDMKOoetkTGbNCdef5RKtmTRuYf9KquRIvkXE
-         8jHw==
+        bh=SfjLd9FOVW2I6/6onHXMMhtC4OhIUoegSNhesRzxprQ=;
+        b=BMMA3FiqO3tWZoWlZXU5hKTzNBi30NbyE8f64NaR6GwCM2rO9vDKWxnxWTnxgjA6Jw
+         x/BOlZ8+GklCBNtI8+mtGhWEZkBh1UjznXQs3XNJGK7eyo5ecRKdYs28olX0pfUGLQUj
+         0SDQ3quIP2c+MVqAhAFjMrvYhIpGYl41pKZdesTiE017ddiHc3XAvHWhvPjme6b82sxW
+         lK4tRFd80sU09fLy3+JVsvro5PGBn4M16zMQxd1DCurJlf93+aqTOK2BLBfANqoY8fIT
+         NtrjUNGa/UWct6p3oxWxhnZXPDjJJK/C0WwlWabtLb2mgFDiOBLrLlPyck8LC7S3B/RM
+         Gwcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720077021; x=1720681821;
+        d=1e100.net; s=20230601; t=1720077028; x=1720681828;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=biYJs5eXheKm9DiAQNapPuCwj3pEhHbiXPaFy0LvGNc=;
-        b=OG0riKdfIBO7jgN+Ap3IvN6rFnqkQejn1TNnrsxShHVP30m+Of0c21fV5UujVJPIwl
-         BH6jgFuWjrLK9stWsrFrOT7YkIZTK0IXZGbnpX/bKwoqcJKbF6JWRtElL1uEnQYmVd2b
-         901A8DYh8X1FM187XFghjUFsg5Ay9GNUXlKzSON5B/pv/Gb+M0EBxo3vLxVIcH4gVMD4
-         8KGY7xvP+XpxF2FU5B9HRdrXQNeXtv8fQKwCx7mSVesWnMQYWw5ZGq5JpaHFSctarpxu
-         QAE1kWdlXg4WwKYkgxmEWAbo+fd5by4Bkzubyb7MVKuo2lr9b1O35Z9Snp7WQBU71Hmd
-         bRAQ==
-X-Gm-Message-State: AOJu0YwdbDBsPt2l7QxL2FFcR5ztDkFD/MUlFECE3U/TCNUws3SUPDTx
-	sUjmn+RDwfohGh1Le9S35DTMl4byu0ysp/FHNKUi06K9KXx+NvsA/mPvFw==
-X-Google-Smtp-Source: AGHT+IEdHgWdEO5gRPGOAQ9dwUHJrHZPRfOtTbY1bKpX1trUG4ZhYyWIj28kruC0HwWVtBTMVMwcaQ==
-X-Received: by 2002:a05:600c:2150:b0:425:7c42:d24b with SMTP id 5b1f17b1804b1-4264b181dbemr4275825e9.18.1720077020409;
-        Thu, 04 Jul 2024 00:10:20 -0700 (PDT)
+        bh=SfjLd9FOVW2I6/6onHXMMhtC4OhIUoegSNhesRzxprQ=;
+        b=p31Mfwg01V6hduiWLFGzXZ+A0D/qOzg9CD3tRW59g/dt0WNdxtkE4sL9r8CfLTAjiK
+         Bke0JJpfR3yhFZvZ2xnvTlI5K7B28EFBTqJEfZzbyCUIAUy9muENIyfSvOLlTF6KrdNK
+         iGIILr6mzHl8O+pW4ui/hESy0g4busA3D03a5fh89HpmCORmho0NmPgIIybjRt4Z1xbW
+         jDK8pHTkSMKAPIoGv4rEewHCnCxbwbvM6kqvq+hDUGoOl72NOr4aMMclU9+xdFlx/ipM
+         xD+Wl8O4kRTLopYe78MTFsmtcflhEb5yY5yMiPpuzD20BKtsh0sYhg/bKrsSinLM2ic4
+         ZDEA==
+X-Gm-Message-State: AOJu0YyWQV62d2srrHQoCMQCzJXbCghaxb5B5rKMASt8ZVySb4561vJA
+	aRBK936qjTXaXqXmCCKISjQAEsddAGpguoiPS7EOS8DYJ/Vs+biJzC4ltg==
+X-Google-Smtp-Source: AGHT+IGfaqYya2qtoijE5UWpXgvo58NBd+z3kvgKNwBckEGrcZFN38VnwTrL0oLusOWhU6awUqYKIw==
+X-Received: by 2002:ac2:5dc1:0:b0:52e:9480:9e71 with SMTP id 2adb3069b0e04-52ea0632d66mr463488e87.28.1720077028133;
+        Thu, 04 Jul 2024 00:10:28 -0700 (PDT)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1f23f9sm11597255e9.26.2024.07.04.00.10.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1f23f9sm11597255e9.26.2024.07.04.00.10.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 00:10:20 -0700 (PDT)
+        Thu, 04 Jul 2024 00:10:27 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 01/14] oe-selftest: wic fix deps of test_efi_plugin_unified_kernel_image_qemu
-Date: Thu,  4 Jul 2024 09:09:37 +0200
-Message-ID: <20240704071013.2982700-2-adrian.freihofer@gmail.com>
+Subject: [PATCH 13/14] image: depends do_deploy_fitimage_unbundled
+Date: Thu,  4 Jul 2024 09:09:49 +0200
+Message-ID: <20240704071013.2982700-14-adrian.freihofer@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240704071013.2982700-1-adrian.freihofer@gmail.com>
 References: <20240704071013.2982700-1-adrian.freihofer@gmail.com>
@@ -60,57 +60,42 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 07:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201505
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 07:10:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201518
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-oe-selftest wic.Wic2.test_efi_plugin_unified_kernel_image_qemu failed
-with:
-  AssertionError: Command
-    'bitbake  core-image-minimal core-image-minimal-initramfs ovmf'
-    returned non-zero exit status 1:
-
-bitbake reported:
-  FileNotFoundError: [Errno 2] No such file or directory:
-  '.../build-st-242167/tmp/deploy/images/qemux86-64/core-image-minimal-initramfs-qemux86-64.cpio.gz'
-  WARNING: .../build-st-242167/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/temp/run.do_image_wic.986859:162
-    exit 1 from 'BUILDDIR="/home/adrian/projets/oss/poky/build-st-242167" PSEUDO_UNLOAD=1
-    wic create "$wks" --vars ".../build-st-242167/tmp/sysroots/qemux86-64/imgdata/"
-       -e "core-image-minimal" -o "$build_wic/" -w "$tmp_wic"'
-
-Creating a configuration as the test does and calling
-  bitbake -g core-image-minimal
-does not show a dependency from core-image-minimal:do_image_wic on
-core-image-minimal-initramfs:do_image_complete.
-Adding the dependency directly to the test case resolves the issue.
-
-Since the dependency is basically created by the wks file solving this
-in a more generic way, e.g. by handling the dependency in
-image_types_wic.bbclass does not look like simple.
+If a fitImage kernel with unbundled initramfs is built the final deploy
+task is now do_deploy_fitimage_unbundled.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes-recipe/image.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index b616759209a..b1315c5b432 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1294,7 +1294,11 @@ class Wic2(WicTestCase):
-                  'WKS_FILE = "test_efi_plugin.wks"\n'\
-                  'MACHINE_FEATURES:append = " efi"\n'
-         self.append_config(config)
--        bitbake('core-image-minimal core-image-minimal-initramfs ovmf')
-+        # Rather than creating a special image which adds the dependency which is needed by the wks file
-+        # core-image-minimal:do_image_wic[depends] += "core-image-minimal-initramfs:do_image_complete"
-+        # core-image-minimal-initramf is built before it is used by core-image-minimal.
-+        bitbake('core-image-minimal-initramfs')
-+        bitbake('core-image-minimal ovmf')
-         self.remove_config(config)
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index 28be6c63623..02a7952bcf9 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -142,7 +142,17 @@ do_rootfs[vardeps] += "${@rootfs_variables(d)}"
+ # This follows many common usecases and user expectations.
+ # But if you are building an image which doesn't need the kernel image at all,
+ # you can unset this variable manually.
+-KERNEL_DEPLOY_DEPEND ?= "virtual/kernel:do_deploy"
++def get_kernel_do_deploy(d):
++    kerneltypes = d.getVar('KERNEL_IMAGETYPES') or ""
++    kerneltype = d.getVar('KERNEL_IMAGETYPE') or ""
++    fitimage = kerneltype == 'fitImage' or 'fitImage' in kerneltypes.split()
++    initramfs_image = d.getVar('INITRAMFS_IMAGE') or ""
++    bundled = d.getVar('INITRAMFS_IMAGE_BUNDLE') == '1'
++    if fitimage and initramfs_image and not bundled:
++        return "virtual/kernel:do_deploy_fitimage_unbundled"
++    return "virtual/kernel:do_deploy"
++
++KERNEL_DEPLOY_DEPEND ?= "${@get_kernel_do_deploy(d)}"
+ do_build[depends] += "${KERNEL_DEPLOY_DEPEND}"
  
-         with runqemu('core-image-minimal', ssh=False,
+ 
 -- 
 2.45.2
 
