@@ -2,56 +2,56 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C3E4C3814E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F0AC3DA40
 	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 07:10:33 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.4920.1720077028237534754
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.5048.1720077028765429440
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 00:10:28 -0700
+ Thu, 04 Jul 2024 00:10:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hNYkvrXp;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-425624255f3so1776325e9.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mlDF5DOX;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42565cdf99cso2348065e9.3
         for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 00:10:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720077026; x=1720681826; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1720077027; x=1720681827; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZPt6isDFJtT0jGUsvsuVgCAQmzlr5ID+Zeeft0LO+XM=;
-        b=hNYkvrXpZYW3om/sbHH2IUz+majxGZCtYTeMx8+bMQglkEou+kIS/420Q4GQ39WFv7
-         hhTD+eUkKwPqj9YQFDcJeGtCiHR0lcXEAvnbBmpMh9j+BTFi9H1HHjwAMl9AAL1rtf6R
-         ow9aCfiF4R9I5TXYhzku83W4cEiby8hQf7bncm//PSpDu0ia5raow5hRn1Zx4m6bbqK6
-         cHdVpZMOj5URIUc1M1/Xgb8qUWPVLsSQ02TSujuulGCVNrEKydN2LVH/91ThcDQZMHS5
-         NBUZCBikZyGDwmqOil6Bw4yqI7jGJttpY1rmhG88y/eG//jWet530kWOVVGQt4E4yQ2H
-         TcQQ==
+        bh=YGgHOGkUBuv6eYgeSjuiCtb6ggI4omC5RLKnXlPWg5c=;
+        b=mlDF5DOXWBJFdbYMV8w7lc2+gGKZ0mx4HeiPtJq3h73SJmMKmFwGm6G2qWImhC3R1o
+         wQ/vjb6XyR+DHMsP+tXtJhwYrXON8dVPHy/KAgOpTMDN4FGskNU6yVx3ZUx0yEG54uqM
+         /Xdv8WCr7WdsdJtt0G6HzXStXl1GdrIV1bDYI/yOqeDs94Bzo+ZWvCjy1Yg50C1zcVWr
+         Ad5WKZSVCg01bV25jfMn9MNT+H9wUId10eEYvP4RWu8jVLevj8AhLmXMq+spIlKRWRQi
+         uoFj/SZrxplrm/io59j39f91kt3bn6fHc1C8OFb0+43OCukrNNTqWzRKnkhJJwUO2pgm
+         bgxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720077026; x=1720681826;
+        d=1e100.net; s=20230601; t=1720077027; x=1720681827;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZPt6isDFJtT0jGUsvsuVgCAQmzlr5ID+Zeeft0LO+XM=;
-        b=iZNl0nEibJuQcM0Utfym3OrHglmMV5sPWHqE5eQ/F1XoGDTRtNxUjA31s/So6to8v4
-         aBWx+RdS35nCpP6lWs2zxv94ZmUywlGtd2CNj5OtgFmtcpL+GFpB/lJtwRg6tvkvCdvb
-         mMw1QJ0ylQPYzcJSya3mpOOQ6bj8/bM7fbUs1EuOeFIBwBZdHdbk38+InvxEcj1V22uE
-         a6iMjwaQnKoFxu82poBYlKj5y/W2YzAJJkxLpIC8yEoqG9nDQiLaaVGOYvt6iF3UpGVK
-         LfIYnAO3SbahkbXR8FlXgicJNNZOMB8GsjxJA9rIn6jXHKzd93smEP9FCyZNvT8mL4Qc
-         DxwQ==
-X-Gm-Message-State: AOJu0YyQgx4nTUIwjLw8563K0LThsxkEqaSTeqIZX+abWVGtnBYHkL+9
-	lIUoLz0FBSzkc+pdhDuS8ULqYos0uiJDNuA07ueP8SY3FlFB/3eGvtglhA==
-X-Google-Smtp-Source: AGHT+IGOuczcLiGVxSFRMau/+fiNbHiqhcsiOal+z5lzEF+I8VgYoFIrF7oaXHFNRELvViRdxWEsug==
-X-Received: by 2002:a05:600c:4f42:b0:424:8be4:f2c with SMTP id 5b1f17b1804b1-4264b0cc4b0mr5438355e9.2.1720077026255;
+        bh=YGgHOGkUBuv6eYgeSjuiCtb6ggI4omC5RLKnXlPWg5c=;
+        b=nxMJu48tpKHkJNgSFntaMo+mJYUXb+GSklHA2mH96ZmBxfZJcleziqB+yBCF01yJKX
+         DlBcE90x3WayZR3MJQJsITEl10rAD7hyMTXrb+P2UX05z62B1pHXriyfN4xJy717SZnp
+         PHoUn2reF82JDMFttNjE1bs3u2tOlv7rwj+o3k1MVaYsijzmDp9Svss+1ZX5ggznZ2qe
+         wgujk31KmaiNNX6DM9UgM5E2G6UfgKopElrEke5Y79aeWVSAj2+DjR6Ff0ZRNxOQD+zI
+         q/9C2FVvcuz0UUtSe/zh86YIT33+UlyWHs5fvLegEtQdOyTqU9fqAItAkdIDhXG/crB7
+         Cp1Q==
+X-Gm-Message-State: AOJu0Yym6llkplmm0GPKLYqDTkeA5j0dzMFnSrbkNNi0jWDAnG58x2X5
+	R/Cx/LarSDXgKBqP/2gg3UZyfUaIVV7Fh30RFzrGaCNqbIw21jL8ZtfRAw==
+X-Google-Smtp-Source: AGHT+IEe8NKC3mxzrPG6MjUzQwIzHVENGfnfX7PcDm1l+EV9JBbg/OzwMgdujmvxc28sl4Lj+zLLiw==
+X-Received: by 2002:a05:600c:511c:b0:424:a4a2:9478 with SMTP id 5b1f17b1804b1-4264a3f2f7emr7060975e9.25.1720077026846;
         Thu, 04 Jul 2024 00:10:26 -0700 (PDT)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1f23f9sm11597255e9.26.2024.07.04.00.10.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1f23f9sm11597255e9.26.2024.07.04.00.10.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 00:10:25 -0700 (PDT)
+        Thu, 04 Jul 2024 00:10:26 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 10/14] kernel-fitimage: refactor creation of linux.bin
-Date: Thu,  4 Jul 2024 09:09:46 +0200
-Message-ID: <20240704071013.2982700-11-adrian.freihofer@gmail.com>
+Subject: [PATCH 11/14] kernel-fitimage: fix intentation
+Date: Thu,  4 Jul 2024 09:09:47 +0200
+Message-ID: <20240704071013.2982700-12-adrian.freihofer@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240704071013.2982700-1-adrian.freihofer@gmail.com>
 References: <20240704071013.2982700-1-adrian.freihofer@gmail.com>
@@ -61,107 +61,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 07:10:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201515
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201516
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Assembling the fitImage with initramfs requires the linux.bin and the
-corresponding DTB files. To avoid that the kernel gets re-built from
-scratch whenever the initramfs changes, these files must be sstate
-cached after the kernel is built, before the fitImage gets assembled.
-
-Therefore the uboot_prep_kimage needs to be split:
-- a function creating the linux.bin artifact
-- a function which can find the linux.bin file from an independent task
-  later on.
-
-This will allow to run the do_assemble_fitimage_initramfs task from the
-deploy folder where the linux.bin and the DTBs are provided via
-sstate-cache.
+python part should be 4 spaces, not 8.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/kernel-fitimage.bbclass |  8 ++++----
- meta/classes-recipe/kernel-uboot.bbclass    | 17 +++++++++++++++++
- 2 files changed, 21 insertions(+), 4 deletions(-)
+ meta/classes-recipe/kernel-fitimage.bbclass | 52 ++++++++++-----------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index e084dc57573..64836f6bef0 100644
+index 64836f6bef0..88b8edb9b54 100644
 --- a/meta/classes-recipe/kernel-fitimage.bbclass
 +++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -165,12 +165,12 @@ EOF
- # $1 ... .its filename
- # $2 ... Image counter
- # $3 ... Path to kernel image
--# $4 ... Compression type
- fitimage_emit_section_kernel() {
+@@ -29,32 +29,32 @@ KERNEL_IMAGETYPE_REPLACEMENT ?= "${@get_fit_replacement_type(d)}"
+ DEPENDS:append = " ${@'u-boot-tools-native dtc-native' if 'fitImage' in (d.getVar('KERNEL_IMAGETYPES') or '').split() else ''}"
  
- 	kernel_csum="${FIT_HASH_ALG}"
- 	kernel_sign_algo="${FIT_SIGN_ALG}"
- 	kernel_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
-+	get_linux_comp
- 
- 	ENTRYPOINT="${UBOOT_ENTRYPOINT}"
- 	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
-@@ -186,7 +186,7 @@ fitimage_emit_section_kernel() {
-                         type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "$4";
-+                        compression = "$linux_comp";
-                         load = <${UBOOT_LOADADDRESS}>;
-                         entry = <$ENTRYPOINT>;
-                         hash-1 {
-@@ -585,8 +585,6 @@ fitimage_assemble() {
- 	# Step 1: Prepare a kernel image section.
- 	#
- 	fitimage_emit_section_maint $1 imagestart
+ python __anonymous () {
+-        # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+-        # to kernel.bbclass . We have to override it, since we pack zImage
+-        # (at least for now) into the fitImage .
+-        typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
+-        if 'fitImage' in typeformake.split():
+-            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', d.getVar('KERNEL_IMAGETYPE_REPLACEMENT')))
 -
--	uboot_prep_kimage
- 	fitimage_emit_section_kernel $1 $kernelcount "$(readlink -f linux.bin)" "$linux_comp"
- 
- 	#
-@@ -785,6 +783,7 @@ fitimage_assemble() {
- do_assemble_fitimage() {
- 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
- 		cd ${B}
-+		uboot_prep_kimage
- 		fitimage_assemble fit-image.its "${KERNEL_OUTPUT_DIR}/fitImage-none" ""
- 		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
- 			ln -sf fitImage-none "${B}/${KERNEL_OUTPUT_DIR}/fitImage"
-@@ -806,6 +805,7 @@ do_assemble_fitimage_initramfs() {
- 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
- 		test -n "${INITRAMFS_IMAGE}" ; then
- 		cd ${B}
-+		uboot_prep_kimage
- 		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
- 			fitimage_assemble "fit-image-${INITRAMFS_IMAGE}.its" "${KERNEL_OUTPUT_DIR}/fitImage-bundle" ""
- 			ln -sf fitImage-bundle "${B}/${KERNEL_OUTPUT_DIR}/fitImage"
-diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
-index 30a85ccc287..e692ca27cdd 100644
---- a/meta/classes-recipe/kernel-uboot.bbclass
-+++ b/meta/classes-recipe/kernel-uboot.bbclass
-@@ -47,3 +47,20 @@ uboot_prep_kimage() {
- 
- 	echo "${linux_comp}"
+-        if bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
+-            bb.build.addtask('assemble_fitimage_initramfs', 'do_deploy', 'do_bundle_initramfs', d)
+-        else:
+-            bb.build.addtask('assemble_fitimage_initramfs', 'do_deploy', 'do_install', d)
+-
+-        image = d.getVar('INITRAMFS_IMAGE')
+-        if image:
+-            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+-
+-        ubootenv = d.getVar('UBOOT_ENV')
+-        if ubootenv:
+-            d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/bootloader:do_populate_sysroot')
+-
+-        #check if there are any dtb providers
+-        providerdtb = d.getVar("PREFERRED_PROVIDER_virtual/dtb")
+-        if providerdtb:
+-            d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/dtb:do_populate_sysroot')
+-            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' virtual/dtb:do_populate_sysroot')
+-            d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
++    # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
++    # to kernel.bbclass . We have to override it, since we pack zImage
++    # (at least for now) into the fitImage .
++    typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
++    if 'fitImage' in typeformake.split():
++        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', d.getVar('KERNEL_IMAGETYPE_REPLACEMENT')))
++
++    if bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
++        bb.build.addtask('assemble_fitimage_initramfs', 'do_deploy', 'do_bundle_initramfs', d)
++    else:
++        bb.build.addtask('assemble_fitimage_initramfs', 'do_deploy', 'do_install', d)
++
++    image = d.getVar('INITRAMFS_IMAGE')
++    if image:
++        d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
++
++    ubootenv = d.getVar('UBOOT_ENV')
++    if ubootenv:
++        d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/bootloader:do_populate_sysroot')
++
++    #check if there are any dtb providers
++    providerdtb = d.getVar("PREFERRED_PROVIDER_virtual/dtb")
++    if providerdtb:
++        d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/dtb:do_populate_sysroot')
++        d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' virtual/dtb:do_populate_sysroot')
++        d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
  }
-+
-+# Get the linux_comp variable back from the linux.bin file
-+# which was created by uboot_prep_kimage
-+get_linux_comp() {
-+	if [ ! -e linux.bin ]; then
-+	    bbfatal "linux.bin does not exist $(pwd)"
-+	fi
-+
-+	linux_comp=none
-+	if gzip -l linux.bin> /dev/null 2>&1; then
-+		linux_comp=gzip
-+	elif lzop -l linux.bin> /dev/null 2>&1; then
-+		linux_comp=lzo
-+	fi
-+
-+	echo "${linux_comp}"
-+}
+ 
+ 
 -- 
 2.45.2
 
