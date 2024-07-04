@@ -2,8 +2,8 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 464B1C3065C
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 05:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B072C30653
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 05:59:03 +0000 (UTC)
 Subject: Re: [PATCH 9/9] rust: Upgrade 1.77.2->1.78.0
 To: openembedded-core@lists.openembedded.org
 From: "Yash Shinde" <Yash.Shinde@windriver.com>
@@ -11,18 +11,18 @@ X-Originating-Location: Bengaluru, Karnataka, IN (49.204.85.206)
 X-Originating-Platform: Windows Chrome 126
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Wed, 03 Jul 2024 22:58:45 -0700
+Date: Wed, 03 Jul 2024 22:58:56 -0700
 References: <e196c7761406a0fd8a7fcd38fa198cc60dca271e.camel@linuxfoundation.org>
 In-Reply-To: <e196c7761406a0fd8a7fcd38fa198cc60dca271e.camel@linuxfoundation.org>
 Message-ID: <31491.1720072149300569224@lists.openembedded.org>
-X-Old-Date: Wed, 03 Jul 2024 22:49:09 -0700
+X-Old-Date: Wed, 03 Jul 2024 22:58:45 -0700
 Content-Type: multipart/alternative; boundary="JSUcH83i483A4EwWAjV1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:58:53 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:59:03 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201503
-Message-ID: <20240704055845.gNkZoa3Pyeah6iUO_f7oS5s4ekIj_8s3pDcH-euS1EU@z>
+Message-ID: <20240704055856.MO7Eo6KSYN7EU7wyfsjR9wySq1YCXGkqy9P6yyhphHY@z>
 
 --JSUcH83i483A4EwWAjV1
 Content-Type: text/plain; charset=UTF-8
@@ -32,7 +32,7 @@ https://valkyrie.yoctoproject.org/#/builders/49/builds/55/steps/12/logs/std=
 io ( https://valkyrie.yoctoproject.org/#/builders/49/builds/55/steps/12/log=
 s/stdio )
 
-The above failure for rust v1.77.2 is on ppc target.
+The above failure is for rust v1.77.2 is on ppc target.
 
 I thought we skipped mips and ppc targets for rust oe - selftests , didn ' =
 t we ?
@@ -52,21 +52,21 @@ Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <p><a href=3D"https://valkyrie.yoctoproject.org/#/builders/49/builds/55/ste=
-ps/12/logs/stdio" target=3D"_blank" rel=3D"noopener"><span class=3D"correct=
-ed-phrase corrected-phrase_synonyms-mode ng-star-inserted" style=3D"font-we=
-ight: 400; font-family: Roboto, 'Helvetica Neue', sans-serif;"><span class=
-=3D"corrected-phrase__displayed-text corrected-phrase__displayed-text_no-co=
-rrection corrected-phrase__displayed-text_synonyms-mode ng-star-inserted" s=
-tyle=3D"font-weight: 400; font-family: Roboto, 'Helvetica Neue', sans-serif=
-;">https://valkyrie.yoctoproject.org/#/builders/49/builds/55/steps/12/logs/=
-stdio</span></span></a></p>
+ps/12/logs/stdio" target=3D"_blank" rel=3D"nofollow noopener"><span class=
+=3D"corrected-phrase corrected-phrase_synonyms-mode ng-star-inserted" style=
+=3D"font-weight: 400; font-family: Roboto, 'Helvetica Neue', sans-serif;"><=
+span class=3D"corrected-phrase__displayed-text corrected-phrase__displayed-=
+text_no-correction corrected-phrase__displayed-text_synonyms-mode ng-star-i=
+nserted" style=3D"font-weight: 400; font-family: Roboto, 'Helvetica Neue', =
+sans-serif;">https://valkyrie.yoctoproject.org/#/builders/49/builds/55/step=
+s/12/logs/stdio</span></span></a></p>
 <p><span class=3D"corrected-phrase corrected-phrase_synonyms-mode ng-star-i=
 nserted" style=3D"font-weight: 400; font-family: Roboto, 'Helvetica Neue', =
 sans-serif;"><span class=3D"corrected-phrase__displayed-text corrected-phra=
 se__displayed-text_no-correction corrected-phrase__displayed-text_synonyms-=
 mode ng-star-inserted" style=3D"font-weight: 400; font-family: Roboto, 'Hel=
-vetica Neue', sans-serif;">The above failure for rust v1.77.2 is on ppc tar=
-get.</span></span></p>
+vetica Neue', sans-serif;">The above failure is for rust v1.77.2 is on ppc =
+target.</span></span></p>
 <p><span class=3D"corrected-phrase corrected-phrase_synonyms-mode ng-star-i=
 nserted" style=3D"font-weight: 400; font-family: Roboto, 'Helvetica Neue', =
 sans-serif;"><span class=3D"corrected-phrase__displayed-text corrected-phra=
