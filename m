@@ -1,123 +1,95 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A74D9C30653
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 11:28:55 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web11.7978.1720092527507231985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAAF5C30653
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 11:41:55 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.8137.1720093311527502373
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 04:28:47 -0700
+ Thu, 04 Jul 2024 04:41:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
-	by mailout11.t-online.de (Postfix) with SMTP id 6F77C1856B
-	for <openembedded-core@lists.openembedded.org>; Thu,  4 Jul 2024 13:28:45 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.41.32]) by fwd76.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1sPKdo-2R036H0; Thu, 4 Jul 2024 13:28:44 +0200
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E4mrbOez;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42574064b16so3612245e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 04:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1720093310; x=1720698110; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rio/WznRCVeA4Ee6TBuV3RdU+LmLrRWQ2q9lxLTvqao=;
+        b=E4mrbOezrSw5d0MbFnPu7UkURTNnB/g9mPichovT3fu1/Z6dBCskiTCuN8N2WsoqdZ
+         zptvfD+LASdu7MqXSOT+TSbby+FNqTcY4GTNTFuOJ7bOAv80lNXeoYZPa2ZxWnYHAEdF
+         MT7hk/hwyHgdpMzstf5dYqaNOiaZeUqwtYPCY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720093310; x=1720698110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rio/WznRCVeA4Ee6TBuV3RdU+LmLrRWQ2q9lxLTvqao=;
+        b=A4qOz1XZnQWasnY0G6mqeLOCIKuBaOZZH3SvX8BubFGGqabrB0aQaPlPwPLfF/wO5y
+         BRL6GidEzYRxmH4w1f2uB1IdZsM/hUXun/VAT5fuE439SGlyEG5mwqTFz/ale8kmLXjS
+         YM84bTqwnVIJJdsSKtVxKHMfLQaW9fDTe/mxiOxAasbUIydnl1MgLVKqGDhV6RSExCej
+         cSFVIF3ft2aOdA5sLHkFZyK8/XQF+12XNVLt5FBnIvlqHxuX1hWTqMSQbB7SPX+w8Dgp
+         vXDM4jteL4UIFfR5tsXJA18GsYAHvCAlkuHAzAOGWHjpdgu4m5X9Xw/S6KTedFU4JxXJ
+         yRvw==
+X-Gm-Message-State: AOJu0YwrRcN+X/OIeG6+sawQ/lZrGpEL0eJUCPZuHoFbFKg7AL4VpBoj
+	3Ohi2tjJvCKfk3EJEmMEjqI5U+IFJz+qWNtaTaMDvhQbnRkZgv/LPWZCXzb7X1upfOHbJqq2XS6
+	K
+X-Google-Smtp-Source: AGHT+IEu4fPL0oHHjdYdBWBpTSX2e9lLu68LoMswzBSDVxov4DC2b1rWBtHT9pv4xpfzE1bCGpkAIg==
+X-Received: by 2002:a05:600c:88a:b0:424:a4f1:8c3e with SMTP id 5b1f17b1804b1-4264a46cb5cmr10054615e9.34.1720093309518;
+        Thu, 04 Jul 2024 04:41:49 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:be20:56c3:ce73:d7de])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3679927d7aesm2166289f8f.30.2024.07.04.04.41.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jul 2024 04:41:49 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] libinput: update 1.25.0 -> 1.26.1
-Date: Thu,  4 Jul 2024 13:29:48 +0200
-Message-ID: <20240704112948.4618-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.45.1
+Subject: [PATCH] oeqa/runtime/ssh: In case of failure, show exit code and handle -15
+Date: Thu,  4 Jul 2024 12:41:48 +0100
+Message-ID: <20240704114148.3218721-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1720092524-46FFAC95-6F0D6D9D/0/0 CLEAN NORMAL
-X-TOI-MSGID: d13aa978-0e4e-41a2-afa0-4d6574afc079
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 11:28:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201538
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 11:41:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201539
 
-Release notes
-libinput 1.26.1 is now available. A few semi-exciting things, the rest th=
-e usual bugfixes you'd expect for a point release.
+Ensure we show the failing exit code in case of failures.
 
-Touchpads now special-case Shift for disable-while-typing, so typing keys=
- with shift down will trigger DWT.
+We're seeing autobuilder failures with -15 which is probably from slow
+boot/init. Retry in these cases for now.
 
-Tablets can now be calibrated if libwacom says the tablet is a display ta=
-blet. The hid-uclogic kernel driver doesn't
-set INPUT_PROP_DIRECT so any device handled by that driver didn't have ca=
-libration available. Fixed now, provided
-your tablet is recognised by libwacom.
-
-The direction of the first tablet pad relative dial was fixed, it was ups=
-ide-down.
-
-Our debugging tools now support --set-pressure-range for the new tablet t=
-ool pressure range configuration added in
-1.26 and --set-calibration for the calibration matrix that's been around =
-for a while. The libinput debug-tablet tool
-now also supports all commandline options that debug-events and debug-gui=
- support.
-
-And of course a varied assortment of device specific quirks and fixes.
-
-Release notes
-libinput 1.26.0 is now available. It's been a while since the last releas=
-e but we have a few notable changes in here:
-
-Touchpads can now configure a clickfinger button map, so you can change w=
-hether two- or three-finger click means a
-right or middle click. See libinput_device_config_click_set_clickfinger_b=
-utton_map
-
-Tablet pads now have an API for relative dials. These are typically wheel=
--like (e.g. Huion Inspiroy 2) or ring-like
-(e.g. Huion Inspiroy Dial 2) physical devices that send REL_WHEEL and REL=
-_HWHEEL. libinput now provides these via
-libinput_event_tablet_pad_get_dial_delta_v120() in much the same manner a=
-s the v120-based scroll wheel API.
-
-A new configuration option for tablet tools allow reducing the available =
-logical range. This is useful for users that
-want the tool to register only when some physical pressure value is reach=
-ed, or to reduce the maximum amount of pressure
-needed to reach the logical maximum pressure. See libinput_tablet_tool_co=
-nfig_pressure_range_set() and friends.
-
-Tablet tools can now use BTN_STYLUS3 too and tablet pad strip support sho=
-uld now work for non-Wacom devices, where the
-kernel driver implements it.
-
-Huion tablets (well, and all vendors that use the 256C vendor id) now hav=
-e a fallback resolution set. This is going to
-be wrong on most devices but at least it will make those tablets work out=
- of the box, instead of failing with the "missing
-tablet capabilities: resolution" log message.
-
-And of course a varied assortment of device specific quirks and fixes.
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../wayland/{libinput_1.25.0.bb =3D> libinput_1.26.1.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.25.0.bb =3D> libinput_1=
-.26.1.bb} (97%)
+ meta/lib/oeqa/runtime/cases/ssh.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.25.0.bb b/meta/reci=
-pes-graphics/wayland/libinput_1.26.1.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/libinput_1.25.0.bb
-rename to meta/recipes-graphics/wayland/libinput_1.26.1.bb
-index 894858e361..487270505a 100644
---- a/meta/recipes-graphics/wayland/libinput_1.25.0.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.26.1.bb
-@@ -15,7 +15,7 @@ DEPENDS =3D "libevdev udev mtdev"
- SRC_URI =3D "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=
-=3Dhttps;branch=3Dmain \
-            file://run-ptest \
-            "
--SRCREV =3D "3fd38d89276b679ac3565efd7c2150fd047902cb"
-+SRCREV =3D "124431a5d3186e1c3c3aa144a0634b84b3089486"
- S =3D "${WORKDIR}/git"
-=20
- UPSTREAM_CHECK_REGEX =3D "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
---=20
-2.45.1
-
+diff --git a/meta/lib/oeqa/runtime/cases/ssh.py b/meta/lib/oeqa/runtime/cases/ssh.py
+index ae92bb34cd9..9295ed14787 100644
+--- a/meta/lib/oeqa/runtime/cases/ssh.py
++++ b/meta/lib/oeqa/runtime/cases/ssh.py
+@@ -19,16 +19,18 @@ class SSHTest(OERuntimeTestCase):
+           status, output = self.target.run("uname -a", timeout=5)
+           if status == 0:
+               break
+-          elif status == 255:
++          elif status == 255 or status == -15:
+               # ssh returns 255 only if a ssh error occurs.  This could
+               # be an issue with "Connection refused" because the port
+               # isn't open yet, and this could check explicitly for that
+               # here.  However, let's keep it simple and just retry for
+               # all errors a limited amount of times with a sleep to
+               # give it time for the port to open.
++              # We sometimes see -15 on slow emulation machines too, likely
++              # from boot/init not being 100% complete, retry for these too.
+               time.sleep(5)
+               continue
+           else:
+-              self.fail("uname failed with \"%s\"" %output)
++              self.fail("uname failed with \"%s\" (exit code %s)" % (output, status))
+         if status == 255:
+             self.fail("ssh error %s" %output)
 
