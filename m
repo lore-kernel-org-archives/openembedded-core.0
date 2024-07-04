@@ -1,85 +1,123 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8C6C30653
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 11:22:55 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.7911.1720092173198828533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A74D9C30653
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 11:28:55 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web11.7978.1720092527507231985
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 04:22:53 -0700
+ Thu, 04 Jul 2024 04:28:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hvbPOXHq;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52e9f863c46so507653e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 04:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720092171; x=1720696971; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sMSdhffF7hKX2+yTjbWhcz4qHfYLIWXQCJhku+UxoS0=;
-        b=hvbPOXHqM95czCZdWiQ0dz3HykFmcTrIXIguf6+Y4d+wlHix/7k/rC5MRMogthKHqm
-         bFfPk5Vl09ceZJ6wX2JPM+e+m6iSd68xutU4r0b84chpmB6dz7bYnidAf8LcZeEFmxCQ
-         ZXRquSPczYNu8W/8fbPcOM6OYVVBMdqVaOnyKsiif0lsVeUznWINNSTZN+mZhFAHQKQs
-         R//5r9p9lRN4vrRqbKXuOJEX5fwHN720R2w/wCGOl/kYos/pUv36hFHrst7XGXEvImeh
-         kF8tgPQ8Cu5hwI4lOVBfO64e4qPu1NvT+3DElnSO+TQpxa2dsc2T6uVoXJ218QcYeChE
-         jGqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720092171; x=1720696971;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sMSdhffF7hKX2+yTjbWhcz4qHfYLIWXQCJhku+UxoS0=;
-        b=XJ26EIYFtxrd6lZ9uvbF3NX/dtXrbRs0L9hP+Vp5O+HfgMa6u3FK8d4nvwn1sPuL96
-         qsPpMcOmGWbbqXcbAgm8NtSo6946AifmOL+NO2IjW/gRcdSea9MvTlgyZAfR/qgZaVrr
-         ElEfe/H259KuLah2XMnPfLcH04JwRg3eUK1RS1SnEZiOckNNiw24zvms0+kLyz5FCKKD
-         3vSAA8DgPQoEmpYQCGN4Z1f1gaEQ2OTEDwcUPBpiD5Ywhp66e8KJfmAZRso1mh8anRF3
-         FHjTfmci5LlOxdl6XFtVWFZHvVlRW1g5Pd2KSrWo77fRtKG16zDEe38VgQX80UR7NwNq
-         a+1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXgoWvPj4OJ3I/uKPTJlmGIWZYL3+4KNJd5py7KXUCPk0Lyz08wcBnBU1s+9I8NH0ZblkI65t2khgHZ1JpyOvFQZ1qfPQkUjevL2P/KkqeCNL/ITgwn5jr7
-X-Gm-Message-State: AOJu0YxEjmzgcKwlL/rUSRwYqKg0qFsVoKq1Ym2lR1d1B8InkLKZyYVt
-	GYlx473hYPIxXS8hC07NdTabaVEzck3Q/V3gtOay3yXdw935Kszua6jWwSgVS1t/dvXcne8YAZI
-	7jW89csbB9S2iRQlaWKxhNap46IL1qg==
-X-Google-Smtp-Source: AGHT+IHc3s9ax+tmE5jQPtgomrRGi6+XEcug6vw38B77iAgz+bVuddNbNP2dwxh+QsB6W0x2rhnXMnDzJOZkFiS1xcM=
-X-Received: by 2002:ac2:530e:0:b0:52c:dea0:dd55 with SMTP id
- 2adb3069b0e04-52ea0629e54mr956292e87.24.1720092171030; Thu, 04 Jul 2024
- 04:22:51 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
+	by mailout11.t-online.de (Postfix) with SMTP id 6F77C1856B
+	for <openembedded-core@lists.openembedded.org>; Thu,  4 Jul 2024 13:28:45 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.41.32]) by fwd76.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1sPKdo-2R036H0; Thu, 4 Jul 2024 13:28:44 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] libinput: update 1.25.0 -> 1.26.1
+Date: Thu,  4 Jul 2024 13:29:48 +0200
+Message-ID: <20240704112948.4618-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-References: <31491.1720072149300569224@lists.openembedded.org>
- <Groupsio.2.31491.1720072149300569224@lists.openembedded.org> <17DEFC31DA378080.5810@lists.openembedded.org>
-In-Reply-To: <17DEFC31DA378080.5810@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 4 Jul 2024 13:22:39 +0200
-Message-ID: <CANNYZj9PzQg+FfTdULjsGty3J2w3eyVu5kktQA0HdJS-h=E1KQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 9/9] rust: Upgrade 1.77.2->1.78.0
-To: alex.kanavin@gmail.com
-Cc: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1720092524-46FFAC95-6F0D6D9D/0/0 CLEAN NORMAL
+X-TOI-MSGID: d13aa978-0e4e-41a2-afa0-4d6574afc079
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 11:22:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201537
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 11:28:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201538
 
-On Thu, 4 Jul 2024 at 12:36, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> It's arm/arm64/x86/x86-64/mips/mips64/ppc.
->
-> Given that rust upstream has all mips support in tier 3 (no promises),
-> and ppc support in tier 2 without host tools (only building standard
-> libraries for the target is tested), I don't think we should be
-> fighting against that:
-> https://doc.rust-lang.org/rustc/platform-support.html
->
-> Those targets already have reduced testing via arch-qemu-lite here:
-> https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json
->
-> and I think we need toolchain-lite as well where rust would be skipped.
+Release notes
+libinput 1.26.1 is now available. A few semi-exciting things, the rest th=
+e usual bugfixes you'd expect for a point release.
 
-I see that mips32 is already skipped by the test itself. So maybe
-mips64 and ppc should simply be added there.
+Touchpads now special-case Shift for disable-while-typing, so typing keys=
+ with shift down will trigger DWT.
 
-Alex
+Tablets can now be calibrated if libwacom says the tablet is a display ta=
+blet. The hid-uclogic kernel driver doesn't
+set INPUT_PROP_DIRECT so any device handled by that driver didn't have ca=
+libration available. Fixed now, provided
+your tablet is recognised by libwacom.
+
+The direction of the first tablet pad relative dial was fixed, it was ups=
+ide-down.
+
+Our debugging tools now support --set-pressure-range for the new tablet t=
+ool pressure range configuration added in
+1.26 and --set-calibration for the calibration matrix that's been around =
+for a while. The libinput debug-tablet tool
+now also supports all commandline options that debug-events and debug-gui=
+ support.
+
+And of course a varied assortment of device specific quirks and fixes.
+
+Release notes
+libinput 1.26.0 is now available. It's been a while since the last releas=
+e but we have a few notable changes in here:
+
+Touchpads can now configure a clickfinger button map, so you can change w=
+hether two- or three-finger click means a
+right or middle click. See libinput_device_config_click_set_clickfinger_b=
+utton_map
+
+Tablet pads now have an API for relative dials. These are typically wheel=
+-like (e.g. Huion Inspiroy 2) or ring-like
+(e.g. Huion Inspiroy Dial 2) physical devices that send REL_WHEEL and REL=
+_HWHEEL. libinput now provides these via
+libinput_event_tablet_pad_get_dial_delta_v120() in much the same manner a=
+s the v120-based scroll wheel API.
+
+A new configuration option for tablet tools allow reducing the available =
+logical range. This is useful for users that
+want the tool to register only when some physical pressure value is reach=
+ed, or to reduce the maximum amount of pressure
+needed to reach the logical maximum pressure. See libinput_tablet_tool_co=
+nfig_pressure_range_set() and friends.
+
+Tablet tools can now use BTN_STYLUS3 too and tablet pad strip support sho=
+uld now work for non-Wacom devices, where the
+kernel driver implements it.
+
+Huion tablets (well, and all vendors that use the 256C vendor id) now hav=
+e a fallback resolution set. This is going to
+be wrong on most devices but at least it will make those tablets work out=
+ of the box, instead of failing with the "missing
+tablet capabilities: resolution" log message.
+
+And of course a varied assortment of device specific quirks and fixes.
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ .../wayland/{libinput_1.25.0.bb =3D> libinput_1.26.1.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.25.0.bb =3D> libinput_1=
+.26.1.bb} (97%)
+
+diff --git a/meta/recipes-graphics/wayland/libinput_1.25.0.bb b/meta/reci=
+pes-graphics/wayland/libinput_1.26.1.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/libinput_1.25.0.bb
+rename to meta/recipes-graphics/wayland/libinput_1.26.1.bb
+index 894858e361..487270505a 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.25.0.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.26.1.bb
+@@ -15,7 +15,7 @@ DEPENDS =3D "libevdev udev mtdev"
+ SRC_URI =3D "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=
+=3Dhttps;branch=3Dmain \
+            file://run-ptest \
+            "
+-SRCREV =3D "3fd38d89276b679ac3565efd7c2150fd047902cb"
++SRCREV =3D "124431a5d3186e1c3c3aa144a0634b84b3089486"
+ S =3D "${WORKDIR}/git"
+=20
+ UPSTREAM_CHECK_REGEX =3D "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+--=20
+2.45.1
+
 
