@@ -2,132 +2,240 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 770DCC30653
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 10:56:25 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.7553.1720090583777436846
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6220FC30653
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 10:56:55 +0000 (UTC)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+ by mx.groups.io with SMTP id smtpd.web10.7715.1720090607601769497
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 03:56:24 -0700
+ Thu, 04 Jul 2024 03:56:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FUFS2Oq5;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-424acf3226fso3473755e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 03:56:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NeXf6cU0;
+ spf=pass (domain: gmail.com, ip: 209.85.217.43, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-48f3e704576so238147137.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 03:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720090582; x=1720695382; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bE4YReOBW5Pg6lBo58CAoFaRQE5bHEnjSvxRt0WiFKg=;
-        b=FUFS2Oq5jn28toD3p7+qNw69IBiTiRWdw2JKf9eaycTsGxa8GlKWyW+zsgrTIljWwq
-         X7XSY99NfvXPJZnjKIZk+BYjqmXIshNKeQW3oLvScO9rz/YAJiV8aFfQxXqgWIef/J/6
-         pUMeCN3RTxnjpiEfl+kT6ixDr0zpgr8vkoDfPKWMPL8cJ1894fXbjfhJVA7fwUxKWheC
-         bjthqao0AC5Se23VxwTmzv+NQEJU86sIF9e8HJhPEW9jNZLeWaUjq0KLwco6rWBvTCi5
-         18LxxGI8gXC3n28it7nYywe48gueGFGImedWR9QKjUXfSJxwnJqNa7X0VMpBeOf9oAdA
-         LaLQ==
+        d=gmail.com; s=20230601; t=1720090606; x=1720695406; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=w88gua3H7tbOCQV0qyGgvMdx+zR5X5y+YWc08WElxVU=;
+        b=NeXf6cU0NQGrTHMpAAHH7qWsd0nT2YFa00hqupoVO0i6St62VbaUdxLAC1VuIMLGn8
+         WzT21Uvg3jMmLgi25IxWuuNe/NiOgY4WYTMMzY3uQ/7zyoItE49iwtLi1PXYAbHCiJuT
+         XTGMioKQmBbtQdL3PesQ+h2ora5d1pfQUQH2Twg1HCVs8Njga7QkENyqBsztwSHPDxpk
+         pqPTTC+Jodc5Y2frn+BKFTvbGI189tdhjO1CwvsYzLM+6H7i4DlH6mLHrM0IBpH5lYGX
+         oacxBb6R8QLWx8BhFlK4u95Y09BKReX9P+Ceh0MHoUrLnzdS4LxI7kSkHbZ7MfWWguhS
+         v0vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720090582; x=1720695382;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1720090606; x=1720695406;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bE4YReOBW5Pg6lBo58CAoFaRQE5bHEnjSvxRt0WiFKg=;
-        b=MU7jT7GTsiDbyGPXq2A8mrGp58G36MdGMtO9WhZ239NBwNycq9/oA638NO5c6O4SCX
-         dqrnPJefJKQj63A22G8759KHLN8GA8SMtagiucE5cuq6DTmT1P/NjxOdQrXj2nLS4/pA
-         fwnX0bIn0QpFNr6XtsSn35qUYFJfaNspTruAZVlGFMkLZKJxed/+o6DhnHa3oDTxVtA0
-         dK/N6tlvlqoDKAZsrF810omk4bZ5QbMN3xn8a5Z0GtX6PkvEYJGa34GyAjGuX1JzH8AD
-         qE01LUdX+A6NJhgjVXAovo+uroCiKxRJojUdKtFloT98+EZy3tB9ylrOuubb+BgJvoXw
-         l13Q==
-X-Gm-Message-State: AOJu0YwOeeaaTmm4BOwQUGhnZ177eMV3UjNCF/pyqvoSEd2lT7DXK4FK
-	nKOXRz72iVZCQeMN33SvmsgKp8s4UamY/d8K02W5UbWnBpukgzBIVu8Yow==
-X-Google-Smtp-Source: AGHT+IGDinctulx8xJ46Jd3Py/KTk6O9tKSWWLfjUFpIP15rNngUJ83GalJEGFFyr1A5ThPD5PWupw==
-X-Received: by 2002:a05:600c:4487:b0:425:6a12:bbe6 with SMTP id 5b1f17b1804b1-4264a36e4c2mr10812785e9.0.1720090581703;
-        Thu, 04 Jul 2024 03:56:21 -0700 (PDT)
-Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1f23f9sm19193655e9.26.2024.07.04.03.56.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 03:56:21 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] openssh: fix CVE-2024-6387
-Date: Thu,  4 Jul 2024 11:56:17 +0100
-Message-ID: <20240704105617.130735-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.45.2
+        bh=w88gua3H7tbOCQV0qyGgvMdx+zR5X5y+YWc08WElxVU=;
+        b=MQGewRc3SgjntyGVE2DYp5jrDgTyqvOsyOj5JRU5bHpeCKRlMbOq0PDijL+8BrwPTc
+         lchb7e27G6nNUL4hMU7dvJfbtKub/bg4T3Yq6zjkWQXMwl0Wohz0vCfjeXmyPzlj4PQ3
+         /TsiA/9Fjdn0xVTfO/0ydDmo/93PB2CrIIya6ObX9gWCAgHebJ6t/ASznsk9aPpV6aGJ
+         FT9poZZ/BRA2sFglH+PC8ERyT56QcmexNhQN7hKIrj0AoimeFjqyDOvUyrct3UbnS61r
+         jqGE92Qw+kxS0tFkUTkcBnrBlmXrFGbJdg+srRDcnldhVH8nfkFyDqM7jnbaGXBC0kE7
+         BNbw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHBf+AvMTUHEmMfTb3Z5miQHR01Qdw6NnOC6GiHVoTWNd1QSn3De6TPk7joE3xrfCljCjhnTAkF1Ogpw8hQnJ4WKEzXXsi0ePcl2F1oYCgH3dos4wM6CXu
+X-Gm-Message-State: AOJu0Yypnsj44LrWTH5GlXA5RVZ2xug8Cnp/4vM6vIgU+7Lb83GMoanb
+	mFloiTQu1PSpjWnLxnrZPfp91OqCbLkWSAMW8ihJv8+De+s2KQEByLFeHeK+KeNOw9o3fTG9iCr
+	0D6vFWpKGLV4FcPTnRX/toIUIILs=
+X-Google-Smtp-Source: AGHT+IGyBTnWNiw7b0cEsoe6mJfccvb+6GPEhEBOIevh3Y/iGYwA/TS7UwVAhNTO7TFuYIJQFNI9H8k/QZunB6p/qBc=
+X-Received: by 2002:a67:f556:0:b0:48f:eaf7:74e with SMTP id
+ ada2fe7eead31-48fee88fa95mr1013535137.20.1720090605773; Thu, 04 Jul 2024
+ 03:56:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240703154004.2632376-1-jose.quaresma@foundries.io>
+ <ce52f2465b097e9b1fedb37bee9f65ae0c24606a.camel@linuxfoundation.org> <17DEC8F48E4BD94A.16962@lists.openembedded.org>
+In-Reply-To: <17DEC8F48E4BD94A.16962@lists.openembedded.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 4 Jul 2024 11:56:34 +0100
+Message-ID: <CANPvuRmEwXODPUMt+acDJzFYDzz7j6hEMCYbCWR60uxroQXA_Q@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] openssh: upgrade 9.7p1 -> 9.8p1
+To: quaresma.jose@gmail.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="00000000000089ef88061c69cdaf"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 10:56:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201534
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 10:56:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201535
 
-sshd(8) in Portable OpenSSH versions 8.5p1 to 9.7p1 (inclusive).
-Race condition resulting in potential remote code execution.
-A race condition in sshd(8) could allow remote code execution as root on non-OpenBSD systems.
-This attack could be prevented by disabling the login grace timeout (LoginGraceTime=0 in sshd_config)
-though this makes denial-of service against sshd(8) considerably easier.
-For more information, please refer to the release notes [1] and the
-report from the Qualys Security Advisory Team [2] who discovered the bug.
+--00000000000089ef88061c69cdaf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://www.openssh.com/txt/release-9.8
-[2] https://www.qualys.com/2024/07/01/cve-2024-6387/regresshion.txt
+Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+gmail.com@lists.openembedded.org> escreveu (quarta, 3/07/2024 =C3=A0(s) 19:=
+57):
 
-References:
-https://www.openssh.com/security.html
+>
+>
+> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu (quarta,
+> 3/07/2024 =C3=A0(s) 18:41):
+>
+>> On Wed, 2024-07-03 at 16:40 +0100, Jose Quaresma via
+>> lists.openembedded.org wrote:
+>> > Release notes at https://www.openssh.com/txt/release-9.8
+>>
+>> Thanks for the upgrade, it does look important. Unfortunately it had a
+>> build failure for musl:
+>>
+>> https://valkyrie.yoctoproject.org/#/builders/3/builds/68
+>
+>
+I have fixed this musl issue.
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- .../openssh/openssh/CVE-2024-6387.patch       | 27 +++++++++++++++++++
- .../openssh/openssh_9.7p1.bb                  |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
-new file mode 100644
-index 0000000000..3e7c707100
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
-@@ -0,0 +1,27 @@
-+Description: fix signal handler race condition
-+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/2070497
-+
-+CVE: CVE-2024-6387
-+
-+Upstream-Status: Backport
-+https://git.launchpad.net/ubuntu/+source/openssh/commit/?h=applied/ubuntu/jammy-devel&id=b059bcfa928df4ff2d103ae2e8f4e3136ee03efc
-+
-+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-+
-+--- a/log.c
-++++ b/log.c
-+@@ -452,12 +452,14 @@ void
-+ sshsigdie(const char *file, const char *func, int line, int showfunc,
-+     LogLevel level, const char *suffix, const char *fmt, ...)
-+ {
-++#if 0
-+ 	va_list args;
-+ 
-+ 	va_start(args, fmt);
-+ 	sshlogv(file, func, line, showfunc, SYSLOG_LEVEL_FATAL,
-+ 	    suffix, fmt, args);
-+ 	va_end(args);
-++#endif
-+ 	_exit(1);
-+ }
-+ 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
-index 0bc14c5553..69eade3ee7 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://sshd_check_keys \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-            file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
-+           file://CVE-2024-6387.patch \
-            "
- SRC_URI[sha256sum] = "490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2e57dc5660f773ffd"
- 
--- 
-2.45.2
+>
+>>
+>> Also may be related:
+>>
+>>
+>> https://valkyrie.yoctoproject.org/#/builders/74/builds/60/steps/15/logs/=
+stdio
+>>
+>> https://valkyrie.yoctoproject.org/#/builders/18/builds/61/steps/12/logs/=
+stdio
+>
+>
+For the testimage, I will need more time to debug.
+so I will only send the CVE fix in another patch while I'm still here
+debugging.
 
+Jose
+
+
+>
+>>
+>> The build is still ongoing.
+>>
+>
+> Tomorrow I will take a look at this and will try to fix it.
+>
+> Thanks
+>
+> Jose
+>
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201498):
+> https://lists.openembedded.org/g/openembedded-core/message/201498
+> Mute This Topic: https://lists.openembedded.org/mt/107021655/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--00000000000089ef88061c69cdaf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a href=3D"http://l=
+ists.openembedded.org">lists.openembedded.org</a> &lt;quaresma.jose=3D<a hr=
+ef=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded=
+.org</a>&gt; escreveu (quarta, 3/07/2024 =C3=A0(s) 19:57):<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr=
+"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.o=
+rg" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; escreveu (=
+quarta, 3/07/2024 =C3=A0(s) 18:41):<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On Wed, 2024-07-03 at 16:40 +0100, Jose Quaresma via <a=
+ href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank=
+">lists.openembedded.org</a> wrote:<br>
+&gt; Release notes at <a href=3D"https://www.openssh.com/txt/release-9.8" r=
+el=3D"noreferrer" target=3D"_blank">https://www.openssh.com/txt/release-9.8=
+</a><br>
+<br>
+Thanks for the upgrade, it does look important. Unfortunately it had a buil=
+d failure for musl:<br>
+<br>
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/3/builds/68" rel=3D=
+"noreferrer" target=3D"_blank">https://valkyrie.yoctoproject.org/#/builders=
+/3/builds/68</a></blockquote></div></div></blockquote><div><br></div><div>I=
+ have fixed this musl issue.</div><div>=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+Also may be related:<br>
+<br>
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/74/builds/60/steps/=
+15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoctop=
+roject.org/#/builders/74/builds/60/steps/15/logs/stdio</a><br>
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/18/builds/61/steps/=
+12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoctop=
+roject.org/#/builders/18/builds/61/steps/12/logs/stdio</a></blockquote></di=
+v></div></blockquote><div><br></div><div>For the testimage,=C2=A0I will nee=
+d more time to debug.</div><div>so I will only send the CVE fix in another =
+patch=C2=A0while I&#39;m still here debugging.<br><br>Jose<br>=C2=A0<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div =
+class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br=
+>
+<br>
+The build is still ongoing.<br></blockquote><div><br>Tomorrow=C2=A0I will t=
+ake a look at this and will try to fix it.<br><br>Thanks=C2=A0<br><br>Jose<=
+br>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#201498): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/201498" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/201498</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/107021655/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/107021655/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--00000000000089ef88061c69cdaf--
 
