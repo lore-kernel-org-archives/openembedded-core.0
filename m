@@ -2,118 +2,407 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF6FC3DA40
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA1FC3DA41
 	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 12:27:56 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.8998.1720096072526667185
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.9000.1720096074769873439
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 05:27:52 -0700
+ Thu, 04 Jul 2024 05:27:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iPm9lJL1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1fb1c918860so10914085ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:27:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kIqxzmEU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fb1c69e936so3250495ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720096072; x=1720700872; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720096074; x=1720700874; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4hhh8fA0O628Av/QvEUjkrV+EAw7w9MWz5Ux0g9fThA=;
-        b=iPm9lJL1+uBABEOKW2JyBh8E59WAQbfZ0SpX8U0G0SzoVtgH4o1/FSTzvcupWeUghz
-         KuOFTWNjM49ILJBZvC1OTpkuHbvvFMcNHequhRefuD5VFHRuhIK2K+f0Y4txYmvLPWBN
-         ZL76eLCPBf8ib/t9T6FY8OCd5+fSxBI32byqV7o79Lx+D/AxmS142lsgKQQZsH9o2eTI
-         62Fas02okYlnwG5kqblsOGdKLlmRZbR9r/yHdtZthEmaAlLTEUqjUcWK2zyXLttIzPPd
-         vyZTXoHLHR2XMmLUNJixbMBT2pwi0ZaDxUU+XWj12F+waQ9UTD528KQ1B+LTiz0gHCiu
-         D7tQ==
+        bh=TcYddQTs557WaY8VXLd9hjs1Dbhe1xGWiPt0JGCgizs=;
+        b=kIqxzmEUPcOYjkabwBeFrS8uEJiTpHGSVms6UIglu9WHJ/Rgo4nM/36bp4Z/nsviCP
+         a1VszdrPsAQ3YNc9JykqWUgPx1yT50sTHn2wdM3HmY9naXIpoN6eAGzokmR/0h29jpAM
+         ZamPrvfCHvItYJjZY5jU9v4i8Ztd7jgslMWLY8cVMmyMpLuRirbjKylBQ0QCYa/Qmk6e
+         kM0nppdCbBEnYP6u2S/OXpRhJKeAjbz+eN+Org8Ep3AJh4XPzy9V2ZpPw5pzgNVB2qZa
+         8N2fLwMwFjUSJlcM27PgQKyTL2MQ3gORyu0mzQgp2/xPEUb4HOjosqZsjMxKocBJzrD6
+         pMSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720096072; x=1720700872;
+        d=1e100.net; s=20230601; t=1720096074; x=1720700874;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4hhh8fA0O628Av/QvEUjkrV+EAw7w9MWz5Ux0g9fThA=;
-        b=P/RrHyTDMhz+ecxajbpsid5/hnj4mc6a/b6xuPWnkMGeQx4RbR2U8pSxXpDYo56iy3
-         dTtbFVrtQ2p49yLKCex/eZsrA0FFBwS8J44bjT3Bzkfof9FBjdlp0K+yZpqU/utecgOO
-         Kwe8zBxJ4xLTJfDwmv9FFKUhRyVlckSUEzdbcoVT1bVydN8iA8KLkjzryGwZU8iU1rec
-         IStOEx47Mjky/ngCtgbnBFj70XKDFj509qRlJI8u54fJucPXtDNVId/S9jj6hZne6KgC
-         IPGVsQFG7xZXxkbKDUCU0vuRpGa+4Wwy8B30UdmiWAB8gIFB0GFCuOIZzd7eVHgP55D2
-         uKSQ==
-X-Gm-Message-State: AOJu0YzuBuCb19DtNoOJWNTj79ceJUif6/rDVSCCiq+TF5zLxfOuqMto
-	MZir/2iqBTx40mN5F+1gaCS7+QezsOm4KFDBCpotqDzzyJbBnJmmMT0d0ju4DIruW4V8G9r8AU9
-	A
-X-Google-Smtp-Source: AGHT+IHWTUcwe7k2RNrKiEWtY/f9uKbB+HmK59LrRmbuO2rR05Ki7apLvN7c4a+zBFXtipGEBy416Q==
-X-Received: by 2002:a17:902:da87:b0:1f9:f6a7:9330 with SMTP id d9443c01a7336-1fb3702ed58mr20157375ad.9.1720096071754;
-        Thu, 04 Jul 2024 05:27:51 -0700 (PDT)
+        bh=TcYddQTs557WaY8VXLd9hjs1Dbhe1xGWiPt0JGCgizs=;
+        b=TSxjee24nXNQOP3rI9bIeQoXA8CzzcMcXa8WfRTEMKaZiAmhX62NdLvjvbVAMtlN7z
+         Wb0ygo1lEkgQXJ7eaHzpdIzKVXfn8kmY8Ae5hKhXVGziCSFbk9wb4bSxhBn2duONjAes
+         HhW4qOFOUcIBo8KlcEF3ZozeslZMSRqLR4Ld9uON7RtaQYZjb7nK0bAh6GjpZw/51iXT
+         J8sC7uy4NGkBInhteBysNZpxYt+ms5IDTx7V8zhlyz6mYnHYyGy6wOZ3W/hV5zpX6+X6
+         yGQXq/9st1uD0YyvlALx+iqfOXPe1P377V6IjHDMYmyF6NX9hemrarSwYjA6btO2DQCy
+         cTEg==
+X-Gm-Message-State: AOJu0YyRpIKTD+47D7k8sSYSbB0LWcIWRkstfXi0JvPhiSJwe8mUV6X0
+	D411abW9t/4lViy+GGHMpRNgQND00Gm6pfSujSmrVPRjuEs0a1G2vBgDIYjXIByAZvQIymY7ooz
+	X
+X-Google-Smtp-Source: AGHT+IGjurNsFK9loOcD9dH06O0OMVmil3VWeo0TJkFV0c6olIHqb3Ju2FDQByrci51UQkEkJVM2HA==
+X-Received: by 2002:a17:903:1111:b0:1fa:2e4:204d with SMTP id d9443c01a7336-1fb33edfd04mr10980065ad.43.1720096048218;
+        Thu, 04 Jul 2024 05:27:28 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fb1c79682csm29416075ad.8.2024.07.04.05.27.50
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fb1c79682csm29416075ad.8.2024.07.04.05.27.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 05:27:51 -0700 (PDT)
+        Thu, 04 Jul 2024 05:27:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/21] oeqa/selftest/recipetool: Fix for usrmerge in DISTRO_FEATURES
-Date: Thu,  4 Jul 2024 05:27:09 -0700
-Message-Id: <01ccccb949bd82e89dae4679ff5b30ada6672d9a.1720095886.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/21] QEMU: Fix CVE-2024-3446 & CVE-2024-3567
+Date: Thu,  4 Jul 2024 05:26:57 -0700
+Message-Id: <9e22481ec84800b97d8908d57aed118895b16224.1720095886.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1720095886.git.steve@sakoman.com>
 References: <cover.1720095886.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 12:27:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201559
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201561
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-If usrmerge is in DISTRO_FEATURES, assumptions in one of the tests would
-fail. Improve the test so it works in both cases.
+Backport fixes for:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 68a27d307a7042e242c49cf3d069469f40e09902)
+* CVE-2024-3446 - Upstream-Status: Backport from https://gitlab.com/qemu-project/qemu/-/commit/eb546a3f49f45e6870ec91d792cd09f8a662c16e  && https://gitlab.com/qemu-project/qemu/-/commit/4f01537ced3e787bd985b8f8de5869b92657160a && https://gitlab.com/qemu-project/qemu/-/commit/fbeb0a160cbcc067c0e1f0d380cea4a31de213e3 && https://gitlab.com/qemu-project/qemu/-/commit/1b2a52712b249e14d246cd9c7db126088e6e64db
+
+* CVE-2024-3567 - Upstream-Status: Backport from https://gitlab.com/qemu-project/qemu/-/commit/1cfe45956e03070f894e91b304e233b4d5b99719
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  5 ++
+ .../qemu/qemu/CVE-2024-3446-01.patch          | 73 +++++++++++++++++++
+ .../qemu/qemu/CVE-2024-3446-02.patch          | 48 ++++++++++++
+ .../qemu/qemu/CVE-2024-3446-03.patch          | 47 ++++++++++++
+ .../qemu/qemu/CVE-2024-3446-04.patch          | 52 +++++++++++++
+ .../qemu/qemu/CVE-2024-3567.patch             | 48 ++++++++++++
+ 6 files changed, 273 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index aebea42502..126906df50 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -120,9 +120,15 @@ class RecipetoolAppendTests(RecipetoolBase):
-         self._try_recipetool_appendfile_fail('/dev/console', self.testfile, ['ERROR: /dev/console cannot be handled by this tool'])
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4501f84c2b..d22bc31ce3 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -42,6 +42,11 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2023-6683.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
++           file://CVE-2024-3446-01.patch \
++           file://CVE-2024-3446-02.patch \
++           file://CVE-2024-3446-03.patch \
++           file://CVE-2024-3446-04.patch \
++           file://CVE-2024-3567.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-     def test_recipetool_appendfile_alternatives(self):
-+        lspath = '/bin/ls'
-+        dirname = "base_bindir"
-+        if "usrmerge" in get_bb_var('DISTRO_FEATURES'):
-+            lspath = '/usr/bin/ls'
-+            dirname = "bindir"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
+new file mode 100644
+index 0000000000..15dbca92cd
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
+@@ -0,0 +1,73 @@
++rom eb546a3f49f45e6870ec91d792cd09f8a662c16e Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:11 +0200
++Subject: [PATCH] hw/virtio: Introduce virtio_bh_new_guarded() helper
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-         # Now try with a file we know should be an alternative
-         # (this is very much a fake example, but one we know is reliably an alternative)
--        self._try_recipetool_appendfile_fail('/bin/ls', self.testfile, ['ERROR: File /bin/ls is an alternative possibly provided by the following recipes:', 'coreutils', 'busybox'])
-+        self._try_recipetool_appendfile_fail(lspath, self.testfile, ['ERROR: File %s is an alternative possibly provided by the following recipes:' % lspath, 'coreutils', 'busybox'])
-         # Need a test file - should be executable
-         testfile2 = os.path.join(self.corebase, 'oe-init-build-env')
-         testfile2name = os.path.basename(testfile2)
-@@ -131,12 +137,12 @@ class RecipetoolAppendTests(RecipetoolBase):
-                          'SRC_URI += "file://%s"\n' % testfile2name,
-                          '\n',
-                          'do_install:append() {\n',
--                         '    install -d ${D}${base_bindir}\n',
--                         '    install -m 0755 ${WORKDIR}/%s ${D}${base_bindir}/ls\n' % testfile2name,
-+                         '    install -d ${D}${%s}\n' % dirname,
-+                         '    install -m 0755 ${WORKDIR}/%s ${D}${%s}/ls\n' % (testfile2name, dirname),
-                          '}\n']
--        self._try_recipetool_appendfile('coreutils', '/bin/ls', testfile2, '-r coreutils', expectedlines, [testfile2name])
-+        self._try_recipetool_appendfile('coreutils', lspath, testfile2, '-r coreutils', expectedlines, [testfile2name])
-         # Now try bbappending the same file again, contents should not change
--        bbappendfile, _ = self._try_recipetool_appendfile('coreutils', '/bin/ls', self.testfile, '-r coreutils', expectedlines, [testfile2name])
-+        bbappendfile, _ = self._try_recipetool_appendfile('coreutils', lspath, self.testfile, '-r coreutils', expectedlines, [testfile2name])
-         # But file should have
-         copiedfile = os.path.join(os.path.dirname(bbappendfile), 'coreutils', testfile2name)
-         result = runCmd('diff -q %s %s' % (testfile2, copiedfile), ignore_status=True)
++Introduce virtio_bh_new_guarded(), similar to qemu_bh_new_guarded()
++but using the transport memory guard, instead of the device one
++(there can only be one virtio device per virtio bus).
++
++Inspired-by: Gerd Hoffmann <kraxel@redhat.com>
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-2-philmd@linaro.org>
++(cherry picked from commit ec0504b989ca61e03636384d3602b7bf07ffe4da)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/eb546a3f49f45e6870ec91d792cd09f8a662c16e]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/virtio/virtio.c         | 10 ++++++++++
++ include/hw/virtio/virtio.h |  7 +++++++
++ 2 files changed, 17 insertions(+)
++
++diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
++index 3a160f86e..8590b8971 100644
++--- a/hw/virtio/virtio.c
+++++ b/hw/virtio/virtio.c
++@@ -4095,3 +4095,13 @@ static void virtio_register_types(void)
++ }
++ 
++ type_init(virtio_register_types)
+++
+++QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
+++                                   QEMUBHFunc *cb, void *opaque,
+++                                   const char *name)
+++{
+++    DeviceState *transport = qdev_get_parent_bus(dev)->parent;
+++
+++    return qemu_bh_new_full(cb, opaque, name,
+++                            &transport->mem_reentrancy_guard);
+++}
++diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
++index c8f72850b..7d5ffdc14 100644
++--- a/include/hw/virtio/virtio.h
+++++ b/include/hw/virtio/virtio.h
++@@ -22,6 +22,7 @@
++ #include "standard-headers/linux/virtio_config.h"
++ #include "standard-headers/linux/virtio_ring.h"
++ #include "qom/object.h"
+++#include "block/aio.h"
++ 
++ /*
++  * A guest should never accept this. It implies negotiation is broken
++@@ -508,4 +509,10 @@ static inline bool virtio_device_disabled(VirtIODevice *vdev)
++ bool virtio_legacy_allowed(VirtIODevice *vdev);
++ bool virtio_legacy_check_disabled(VirtIODevice *vdev);
++ 
+++QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
+++                                   QEMUBHFunc *cb, void *opaque,
+++                                   const char *name);
+++#define virtio_bh_new_guarded(dev, cb, opaque) \
+++    virtio_bh_new_guarded_full((dev), (cb), (opaque), (stringify(cb)))
+++
++ #endif
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
+new file mode 100644
+index 0000000000..843ed43ba8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
+@@ -0,0 +1,48 @@
++From 4f01537ced3e787bd985b8f8de5869b92657160a Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:41 +0200
++Subject: [PATCH] hw/virtio/virtio-crypto: Protect from DMA re-entrancy bugs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
++so the bus and device use the same guard. Otherwise the
++DMA-reentrancy protection can be bypassed.
++
++Fixes: CVE-2024-3446
++Cc: qemu-stable@nongnu.org
++Suggested-by: Alexander Bulekov <alxndr@bu.edu>
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-5-philmd@linaro.org>
++(cherry picked from commit f4729ec39ad97a42ceaa7b5697f84f440ea6e5dc)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/4f01537ced3e787bd985b8f8de5869b92657160a]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/virtio/virtio-crypto.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
++index 0e2cc8d5a..4aaced74b 100644
++--- a/hw/virtio/virtio-crypto.c
+++++ b/hw/virtio/virtio-crypto.c
++@@ -1080,8 +1080,8 @@ static void virtio_crypto_device_realize(DeviceState *dev, Error **errp)
++         vcrypto->vqs[i].dataq =
++                  virtio_add_queue(vdev, 1024, virtio_crypto_handle_dataq_bh);
++         vcrypto->vqs[i].dataq_bh =
++-                 qemu_bh_new_guarded(virtio_crypto_dataq_bh, &vcrypto->vqs[i],
++-                                     &dev->mem_reentrancy_guard);
+++                 virtio_bh_new_guarded(dev, virtio_crypto_dataq_bh,
+++                                       &vcrypto->vqs[i]);
++         vcrypto->vqs[i].vcrypto = vcrypto;
++     }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
+new file mode 100644
+index 0000000000..a24652dea3
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
+@@ -0,0 +1,47 @@
++From fbeb0a160cbcc067c0e1f0d380cea4a31de213e3 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:35 +0200
++Subject: [PATCH] hw/char/virtio-serial-bus: Protect from DMA re-entrancy bugs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
++so the bus and device use the same guard. Otherwise the
++DMA-reentrancy protection can be bypassed.
++
++Fixes: CVE-2024-3446
++Cc: qemu-stable@nongnu.org
++Suggested-by: Alexander Bulekov <alxndr@bu.edu>
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-4-philmd@linaro.org>
++(cherry picked from commit b4295bff25f7b50de1d9cc94a9c6effd40056bca)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/fbeb0a160cbcc067c0e1f0d380cea4a31de213e3]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/char/virtio-serial-bus.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
++index dd619f073..1221fb7f1 100644
++--- a/hw/char/virtio-serial-bus.c
+++++ b/hw/char/virtio-serial-bus.c
++@@ -985,8 +985,7 @@ static void virtser_port_device_realize(DeviceState *dev, Error **errp)
++         return;
++     }
++ 
++-    port->bh = qemu_bh_new_guarded(flush_queued_data_bh, port,
++-                                   &dev->mem_reentrancy_guard);
+++    port->bh = virtio_bh_new_guarded(dev, flush_queued_data_bh, port);
++     port->elem = NULL;
++ }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
+new file mode 100644
+index 0000000000..7f0293242d
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
+@@ -0,0 +1,52 @@
++From 1b2a52712b249e14d246cd9c7db126088e6e64db Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Thu, 4 Apr 2024 20:56:27 +0200
++Subject: [PATCH] hw/display/virtio-gpu: Protect from DMA re-entrancy bugs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++qemu-system-i386: warning: Blocked re-entrant IO on MemoryRegion: virtio-pci-common-virtio-gpu at addr: 0x6
++
++Fixes: CVE-2024-3446
++Cc: qemu-stable@nongnu.org
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Reported-by: Yongkang Jia <kangel@zju.edu.cn>
++Reported-by: Xiao Lei <nop.leixiao@gmail.com>
++Reported-by: Yiming Tao <taoym@zju.edu.cn>
++Buglink: https://bugs.launchpad.net/qemu/+bug/1888606
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Acked-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20240409105537.18308-3-philmd@linaro.org>
++(cherry picked from commit ba28e0ff4d95b56dc334aac2730ab3651ffc3132)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/1b2a52712b249e14d246cd9c7db126088e6e64db]
++CVE: CVE-2024-3446
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/display/virtio-gpu.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
++index b016d3bac..a7b16ba07 100644
++--- a/hw/display/virtio-gpu.c
+++++ b/hw/display/virtio-gpu.c
++@@ -1463,10 +1463,8 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
++ 
++     g->ctrl_vq = virtio_get_queue(vdev, 0);
++     g->cursor_vq = virtio_get_queue(vdev, 1);
++-    g->ctrl_bh = qemu_bh_new_guarded(virtio_gpu_ctrl_bh, g,
++-                                     &qdev->mem_reentrancy_guard);
++-    g->cursor_bh = qemu_bh_new_guarded(virtio_gpu_cursor_bh, g,
++-                                       &qdev->mem_reentrancy_guard);
+++    g->ctrl_bh = virtio_bh_new_guarded(qdev, virtio_gpu_ctrl_bh, g);
+++    g->cursor_bh = virtio_bh_new_guarded(qdev, virtio_gpu_cursor_bh, g);
++     g->reset_bh = qemu_bh_new(virtio_gpu_reset_bh, g);
++     qemu_cond_init(&g->reset_cond);
++     QTAILQ_INIT(&g->reslist);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
+new file mode 100644
+index 0000000000..f14178f881
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
+@@ -0,0 +1,48 @@
++From 1cfe45956e03070f894e91b304e233b4d5b99719 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Tue, 9 Apr 2024 19:54:05 +0200
++Subject: [PATCH] hw/net/net_tx_pkt: Fix overrun in update_sctp_checksum()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++If a fragmented packet size is too short, do not try to
++calculate its checksum.
++
++Fixes: CVE-2024-3567
++Cc: qemu-stable@nongnu.org
++Reported-by: Zheyu Ma <zheyuma97@gmail.com>
++Fixes: f199b13bc1 ("igb: Implement Tx SCTP CSO")
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2273
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
++Acked-by: Jason Wang <jasowang@redhat.com>
++Message-Id: <20240410070459.49112-1-philmd@linaro.org>
++(cherry picked from commit 83ddb3dbba2ee0f1767442ae6ee665058aeb1093)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/1cfe45956e03070f894e91b304e233b4d5b99719]
++CVE: CVE-2024-3567
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ hw/net/net_tx_pkt.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
++index 2e5f58b3c..d40d508a1 100644
++--- a/hw/net/net_tx_pkt.c
+++++ b/hw/net/net_tx_pkt.c
++@@ -141,6 +141,10 @@ bool net_tx_pkt_update_sctp_checksum(struct NetTxPkt *pkt)
++     uint32_t csum = 0;
++     struct iovec *pl_start_frag = pkt->vec + NET_TX_PKT_PL_START_FRAG;
++ 
+++    if (iov_size(pl_start_frag, pkt->payload_frags) < 8 + sizeof(csum)) {
+++        return false;
+++    }
+++
++     if (iov_from_buf(pl_start_frag, pkt->payload_frags, 8, &csum, sizeof(csum)) < sizeof(csum)) {
++         return false;
++     }
++-- 
++2.25.1
++
 -- 
 2.34.1
 
