@@ -2,48 +2,50 @@ Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3945BC3065C
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 07:15:44 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.136])
- by mx.groups.io with SMTP id smtpd.web10.5132.1720077337086300969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F078C3065C
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 07:15:54 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.118])
+ by mx.groups.io with SMTP id smtpd.web10.5136.1720077346210939763
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 00:15:37 -0700
+ Thu, 04 Jul 2024 00:15:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=ABsbsFrG;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.22.136, mailfrom: niko.mauno@vaisala.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=RHFFTHYO;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.22.118, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fCHuGomqdVPPVXrn951BJ/Pb2HReW6AaMyHsuZys9ii1ij6NVLuDFokrShHB2bkhqaxv9S8fzbi2y3BYBIqlzEaIJQ6X13gX9622X5i2VLgtbIm3hcdvBb9b6FaA67jlpSpIikJg2N0T9Y2Rc0YOGQT9YPvI9Sc4+zZtq22U0M+6+IQMYUwDNWtLzhSgeRIfgqWpxGW8Y4cAhwAB1nkNgw8gUVyC1/zG4HaVQYMCRfli5hf6Zr4HdxAPOHcgalQuQ58x955v6rjpd8jOy6boZtBH7wChw82zUZFAv2S3EHXRnC5Q23gta14aO6ULddnFhE+WnoOVROB+SC0E15nvqQ==
+ b=C/P65rmbY2yLOkmOlLNUzk4faNWMBpBU7eNLDZav7DRU3yktEsKeG0JAfJ4lwfoREwVoP/0dlWV/aVe/4wjwvOoVeMqcX4/jjMuzgiWYgDGrdTzvVjp5eQnnpIzBnGepUVRYExbY+IUkhIyua0owgK6+h0+woGINMOYsE6ewihkI4TYzn+/xukkBsjf7Yn3PPsqhs+V1kC3I4UEztZ2wgwn+abQYpE/XdkYtvsmkKnMXQXSY+5y8s6wVZqJDlALfLGvIn7BQfE1mal1qzsALPZZ5xpy+8n9acvqK740Ae7QSZsc8EyHnZVwTtkuuh30E0sL2dStXvjJyNtkuCTr2hg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ylPTsU34GkDLnJtOHzsGNkRapCcWCgRdBvVz3EjdVJ8=;
- b=bKdhoS2tzrwr5pDcNZBE/APSf3zQ7gXBxOcKiGmBJt+4J2UjKH7B5TVJrkzT94G06WdCBM57A9k0y5lob9Rjnm4MrmOQJp8Uy2DpCgO+OQAUESC6OJml+yIZxM42gEjzv0dAVi9FcRqzbc39XpoSciptGE7IlFR/+U33f/Dl3ccQlkZdUJWPns4UuuOl8EjNZIfmqYVN3jjHJW/2aZA5Ds0fmnqOOwbeM+fAJJV4hnZnvRU+2EGt/WKZHvaK3Rs5UEm1nZwPmHbqup/hhCmQ/RB3of0LKFZPS4aIwAkcQSIp033FT+MaiIwJ3MTMSd0xVg0IWbJjRR3lk3Cy0b+NBA==
+ bh=/KDC2b+ltMIV4oAmDCQDEtSuMRZ/IiqdZODoCILwT+A=;
+ b=G7Rp7D0NGFi5HjGhvTNVMwBlpSerevY8c4nMcACjZSA6vF/Fe748oI7S2yDW7ie/TU65QBX/CKhF/AwY0CT/AfORoD7fkiHAoTy8CZ/WbxI/XnafOAZe5afR4A1UDG2o/ByhioKE3lOByFCfxu6CA53wUb6tgAV5uEJ5xwPZqYUdqa0PFmX5ZjDh5Nu59bVR0AIUzlTn1jjB/NuQSxCqV94ZRpWvRiMkhhbKJrftX9MSkovM4OmaxmwQX3SlHoBfnl4Fydty79YDnXbdUhjAWOYrYYOblPF18h+mLyEDm+g5dFRb27VURxjAV1y5GqOYQBLO8HX3qGJ5uCCsFfbIyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ylPTsU34GkDLnJtOHzsGNkRapCcWCgRdBvVz3EjdVJ8=;
- b=ABsbsFrGDsT7GAsZ563dad8+VmUP5Qv2ZDZhf2D+2DZSmzapx3nslIwrixhRNp6I39eMrIJtNUZZXSpmcwZmMerVjw1Nyy6u+FXBRo7waeQRUn81LRzrhz1sDd7uCJ3GiF0mPpflScm+R+IlGrYL+0HPSw81EnUpyAjFdF/nzO8jgIpOEKojMIKKc9YtPvFBElZ+jqPfC8Ib2f8s9Wn00iJKqfAyPiW649sGbbWya1M6nrIK9p0crNHgbVpUk03+zBlCqdK84Bq0B0gJCzdJCv6+VcZ1o7ICDrIE/q6Zj4m5lLDSfm4xg14ZYGN1yO/as78ZttaiC53WW3VebaHCSg==
+ bh=/KDC2b+ltMIV4oAmDCQDEtSuMRZ/IiqdZODoCILwT+A=;
+ b=RHFFTHYOxo40N0PN9aMSuVzVodHMb+f3AV4kt5+fu81GVwxOatlvEMAW/RPxbaN3rtAe7jTe+OSFctFdOolFxuiHS+rNheyBh9MqaWPCm+XizLkT/PTeB5QhltBWn1FjjdDNFLkIJdslHpHkCYmhwMw5+GhZCoEmB8Pjmzo8X16HBUrj6jnVstGryHeL+qqLrY25SxUjWfWN64Xmu76Czl3ZvVuAtQwGseKiSNIAcE9DwTvdiqGFNvXz93CXyV05ufQ00Vn1LlnS0jV19NmAdrtSpNFvFxLcmhpa8pIPmFBlgQXVZDCHS8QG2eou8+32aAIDte9CW4Sb+Lf1cZM+Kw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vaisala.com;
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
  by PR3PR06MB6971.eurprd06.prod.outlook.com (2603:10a6:102:90::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Thu, 4 Jul
- 2024 07:15:34 +0000
+ 2024 07:15:43 +0000
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.7741.027; Thu, 4 Jul 2024
- 07:15:34 +0000
+ 07:15:43 +0000
 From: niko.mauno@vaisala.com
 To: openembedded-core@lists.openembedded.org
 CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH 1/2] systemd: Mitigate /var/tmp type mismatch issue
-Date: Thu,  4 Jul 2024 07:15:18 +0000
-Message-ID: <20240704071519.566147-1-niko.mauno@vaisala.com>
+Subject: [PATCH 2/2] systemd: Mitigate /var/log type mismatch issue
+Date: Thu,  4 Jul 2024 07:15:19 +0000
+Message-ID: <20240704071519.566147-2-niko.mauno@vaisala.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240704071519.566147-1-niko.mauno@vaisala.com>
+References: <20240704071519.566147-1-niko.mauno@vaisala.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: GV3PEPF00002E2F.SWEP280.PROD.OUTLOOK.COM
@@ -52,114 +54,126 @@ X-ClientProxiedBy: GV3PEPF00002E2F.SWEP280.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PR3PR06MB6971:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34ae853f-5b08-4158-fed6-08dc9bf91890
+X-MS-Office365-Filtering-Correlation-Id: 92e6ecb5-426a-409c-43bb-08dc9bf91ddd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?1azm8klCO1jTre62nYPcXmGetstvYJnbOabiHYj0YEAr7EDpW8Ds71923oFW?=
- =?us-ascii?Q?oF27w8C057zq5ps6SEbcWq+bCbHdTBrXUyRMQAknZpLWthisRegZszuSXHs3?=
- =?us-ascii?Q?cVu1LiRxpHD4smoiKN0gKocSNqXZ0o5WOrfSGYLaIIyJe0Z0oDKo+WId7DUn?=
- =?us-ascii?Q?RD0jSqIxgqebNdkF/SZ5IC64LFNFk1oMVgByhO4pCIIh68zWnka0CxSlmEth?=
- =?us-ascii?Q?5xtXHRmL5O6NStyGI/mUVeY21LS7xZjxeUbEUZZhnRy732kiWhuLgU5wCsz/?=
- =?us-ascii?Q?G3DZYAlh6nWKWicGUkoXxIvEOImy1EltYTD4/fu33fPsjG3we73/Q/vKuC6p?=
- =?us-ascii?Q?mZRVnALH72+DYUpFMRKv6qDBiYrkm0VCAoayGZ04w0hc2kObtKeFOpAt0YZw?=
- =?us-ascii?Q?UZjfDBzQHTBhtKjq9tcVUWoY4XEzZllUM79OIalcaGIxo3jpgp1wCwpAYh7v?=
- =?us-ascii?Q?qo261BEEnpduv2E+4OO8tBBDgtcKj5t6wQTJvkTu2CorbWiNZiPm+8TWsJ+w?=
- =?us-ascii?Q?B8fZKg/ePm6utCoZGdV0nmEakY2+NATOf7vn1iir4m8gLQSLvXYG3535erC2?=
- =?us-ascii?Q?LqZ2wUhN15vPDZZKdxfzRPsbir0YxH+Jai+ZruLzVETmRjQC54SqOgc9tRQ0?=
- =?us-ascii?Q?YFtAGmYwZvUzqxOpmg7FYLJ87ddvYTq3BWNX9Nnq4ilN68nwrn5eQTfMvrWD?=
- =?us-ascii?Q?1pOInbynMLmmODVyCsSnITnjtobR9e+BfAph4HkHMW+GIxGkz5cd57H5jy15?=
- =?us-ascii?Q?8QtW3erBA0Yq+zx+lp6fJ/opC+qfhJRHBL/A+oX+vfAgb2HzvXIzjWQuVGmx?=
- =?us-ascii?Q?NddcTfYvzf5t3+Ag6RbfrNC+0Ba9BtDPS3AHE8sFr2Vd65TdTUGpKG5EwRvy?=
- =?us-ascii?Q?KTTeR5Qs5/me7/sEBL6n9RfP87ukBvIG07W5x/SD1FvXYf9afOaPqXRKkX2m?=
- =?us-ascii?Q?EvcLKVfi4++CNZwkqJk3ZZfqA/A1nj+AQxvprSarI00VdI64j6do8du+R9sJ?=
- =?us-ascii?Q?JQeivwGt5GA4kyZHOiTQ4qS6AxOBN9Q2ReThfhWIOmVeAIfZv8g7N3pC//GA?=
- =?us-ascii?Q?yn0V/E0KVoIT2bLhdkqTa/Da3xvjtugr9W2oaPS0420O+Twen4aI3pRli+BR?=
- =?us-ascii?Q?kpn/YJO16Cru5KfDD3gJbb+rzZVEPESmVV6HotO6a84O2C7iHuK7VCwpufPa?=
- =?us-ascii?Q?jyuuBAqDGabVMyqTAzpu8K7XQAsYA45XGgemyBJqfqLS7Bo1yQp0xQ33++61?=
- =?us-ascii?Q?0rtpSDV+tJJsGCZtsUPe1hx0rC3/3VPULGB6zRGbED7IWfsI/iML23zpP71X?=
- =?us-ascii?Q?WrcOiyz5e58bsAh7wCLZ+upiRx4HZPCHUg4djuety52qmeIPlXe5fhkIGccM?=
- =?us-ascii?Q?ZokYjBBSqIg8HBSsxRx6kxqmXYZxBTTPStTPDmIh533fCxiYMA=3D=3D?=
+	=?us-ascii?Q?OvysileUQecxcsoDW60h/18TrIWCYaCONLefmrA97wtOyr6rYL9LcxvNPKiX?=
+ =?us-ascii?Q?s5a7nN/AiomGufN0sfD17HyLtM0JbrBopGlRJOHR8Qn2plMKxXd7q2RnJOUY?=
+ =?us-ascii?Q?jhAuqx+xhOQvxbdo3/Zr6hqWqPw+AnXWDLWv4DChOjLos41J49N6T6sS7Gul?=
+ =?us-ascii?Q?D19y1yJJSonGoAIv6HqgPCj3TMTNB7tHvOla3q3GtwO2GA/GEebDy5JtJO5B?=
+ =?us-ascii?Q?LdhIIj9IxqoXglBdH30oZIOGAvMWEx8XWjfGZnL0LHvqSm2vEuN7u5kmKtYZ?=
+ =?us-ascii?Q?vtTIMeH1bNYuddhIEyrL6d1JYR0OjCiO3gpUY5Jyhy6moXVubg6WvwFRU0Jt?=
+ =?us-ascii?Q?GRzw+XLhA8Eboninm2ZkYg+Ic9JG6b6viliCUibB99gR1Ei8eFL1nlbgNohs?=
+ =?us-ascii?Q?AgSFzFExItm4hyk4HowG7HqrkZa+RKJ8PakGGh0R8VTm+zpn5CjbxiWXVTbv?=
+ =?us-ascii?Q?RMz/70Z+S1rqbQ/ckaff8y37rdOnL1baraQtIkLgb53/6MOrkRuMRrNJcujc?=
+ =?us-ascii?Q?sXO0dHEgEj7Tbdp2hIMgd+P42AKDKmUsGxvBjHpqtopfMV1vBFgmue3oNHaX?=
+ =?us-ascii?Q?2Pu5ZYM0c6xX5XnAT9B2TPioAUx/xaTmn8kvWDHOGSGHIvjkl0DdFGwmYtue?=
+ =?us-ascii?Q?07jcRlULeOgLxTeq2TaA1BJsisjUwZKgTec3EDxs1/wUAPHzXDypQ1wzkSgQ?=
+ =?us-ascii?Q?zrZiPSPdFuQT1S1IPt62bnbf//K7iuYBlBtTeGSjzLGyNgIGwe5Q+IBltpdu?=
+ =?us-ascii?Q?4oqNNhe8QTvXTX5tqGxZJauVIDjZIcIkxfokO/z5vauTK5Bcd/QbMoFYbVx8?=
+ =?us-ascii?Q?QdCLwZBkQpvQG09WJwImADx72AYqq+yWM7AeykzeW3L0tMGg0DJG6JFKH+7r?=
+ =?us-ascii?Q?MIpdJCj37MzjdV4HZMgrCpN+N9ODjBIi+0TEaRRJTC1G30iMCSUT/Qsb7jLP?=
+ =?us-ascii?Q?Pw4yUh66S1D8WewmCAvUR5c1jrbltVZIdvTyMCUZnp3ojQ0O/KwUG408jd8a?=
+ =?us-ascii?Q?sYY70fthKX8XpjmXQx+Fl1Q5jVaJfDCK/LouIpQ3vax761J//qVSYZPPFc0u?=
+ =?us-ascii?Q?cZPO/3oQP7Nok0Z5i7ldHq66uBdidwkW6M5VQE5mikClpXvTH4DfsO1c7CXy?=
+ =?us-ascii?Q?D9TnieoCTnYViM6tCGJlvNPkKsR01hZKi33BksBmWNCz4pSaNtb1fm5CcV/+?=
+ =?us-ascii?Q?eFam4l5ywCmtqXbdcj4Np6ix6tYyQBTHoxXaKFJRaJ/VHeKgo3V2qg7VDHJv?=
+ =?us-ascii?Q?mxjlZ766VVI6EPN7itVXUsJSIJhkg5OjJxuDXpX8dJzTYNKc8/zgw3RSGxCu?=
+ =?us-ascii?Q?C7YEpapOHap0v6FWF5tFOPQIPl0fUxBMl5UEwihnJQaAisjSqZZf/2Q3kPr6?=
+ =?us-ascii?Q?I4tan7xjrSrrl7wwaBN3YOv/LD4YXcmp+K8H29VsW7e2M5j2mQ=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?3xtn2suzGSZp7ux55B6uBpB/amOL59qQXSfGcgbTi0Ga63k7Ju/tY7L2Gc5w?=
- =?us-ascii?Q?rJ/VH1w4JElEuOUBHES7fs1OkoQ3yEAZIaOGSSCk549JLdx8fm4qmB+Pvz8y?=
- =?us-ascii?Q?WmrKulw29EvPulhpxR0t+Z9jz8xNAqwmKka0+qIY4d/wNL0GrdwWnpeOInSH?=
- =?us-ascii?Q?3uMltmcl18qAS2tPAShJ04rUtSPmdElHpG7v7L+hBnDEJzXEAymdgX0M+iug?=
- =?us-ascii?Q?3mwec/zFwYqgWXeMt+xkLOOyPbxwnTJCVDR/WqNb4PsC9KLt6vUTbaaA/OAM?=
- =?us-ascii?Q?IsZ/FLaD4XWbDxgwgRN1buZrPy5fw+09hBWah3iTJetaz4/KRXaJZXfLPtyP?=
- =?us-ascii?Q?xg9rSekWTph6X55zX8M2KkK2hwIGt66KnjAntvgWN2PP2pqf3tR4y6Ct8sMa?=
- =?us-ascii?Q?K7y7X0gZNZrBmFX/ZeF0Uo1bztnp/cLrN6DD0kxhZIpJ3cWtECutY+XK20iS?=
- =?us-ascii?Q?rYamhngbbEVmr4ElMrKS6jRauPSTlijo91Qp4B/y8EIuD4Wc1d+9RNeWJRn1?=
- =?us-ascii?Q?NZAK244TuEKOtS2D2i1fBhSzJvcQrHAj63dklMDoH9j/Qj82jQdzQ3KAHIaK?=
- =?us-ascii?Q?DpoQIaRQ5P4qTiVX2W4UeYhtVhA2KwcDs/ZuAKsakf0dZgoyIjAAsKO0RJJf?=
- =?us-ascii?Q?XlYXC69buQoY5LrrxCChVleOpIqIiIzMHt++p57NIpCPS+0A3mVy3NRAR9Xy?=
- =?us-ascii?Q?X4q58mzkkjrGVf2G/sdTCIPYkLn/KXl+7JYr4EJXAMZXEDLH2qlLMkZz99rv?=
- =?us-ascii?Q?+j07FDZ6KRdOY/LHnzh6g/KXQz0T5pKoueU1I1u4/zVuGFLMfd+ijgKE1wnm?=
- =?us-ascii?Q?rC1twRkCMkGq66Q/E1XkeX2gKEa0VGilL4sv/y7j/LzWitEhoBVLm5SigTE5?=
- =?us-ascii?Q?4wH4PyKdo02sQtHM/lwDGLeY1Um1uCAbcpvj2riQfBvhkKrQzZBMTwYbptWE?=
- =?us-ascii?Q?L1kQv3xKoaVs9CADrMGZY0Y3bzduQC9XEUA4yPyFXlbEgt1L+VlBd/NsVlbb?=
- =?us-ascii?Q?RavhQageTLPOyGI/LBgZF/jZiYRbSt2zaMZD55K3c90iEeP33sQl9cL09fnP?=
- =?us-ascii?Q?KkrlfG2xTtaxMd54cmZKGWG917ujEZA2dmc6QO3jXunvAI8Pgcl4tIa5TNfp?=
- =?us-ascii?Q?iUvMhVbU5SEa4gHkBV4oT3dQENMzJH/RaS9+w9833xryIDLSnsSgjZBEKSmB?=
- =?us-ascii?Q?9qAc3le3U6F6veiXIJxbN4IMTR1ykkNF9k22giuaQI8P/bdIVCX6KaeHvkmL?=
- =?us-ascii?Q?+7s2BLJ70eagH2nAa5aZvjTPbaR4HJUEm9zN79KEh6dZb0yZHmGTdmzL6/O2?=
- =?us-ascii?Q?IEsZK3TijGLnZqw4DckmSxdNZfC566MXc1lm+nkOg0SOTaKjpGYoZdmdMQgk?=
- =?us-ascii?Q?yML94VloY9Zov/2llJUCDneeGhcg2yvC+zk6r9LjRJhPWuxFcZZJ2djksvHv?=
- =?us-ascii?Q?OjlIWCftciJm7Ouf3ck6EFbIpMqatvKPxTzQFUuIlPn3sfLb7LvgZHiZ3jM0?=
- =?us-ascii?Q?+pEjZc0l94QAwqomYUHJqGUa6Bteu23GS/E25BLtI9Dj0y2VvdDD4Tm5EGIm?=
- =?us-ascii?Q?7bTrQIL8DMZ2bVh3LH2NHGewELhhjkCqUN4TohNXdovWq/fchtJd2HcohDaT?=
- =?us-ascii?Q?lQ=3D=3D?=
+	=?us-ascii?Q?FSHJA0JcOm3Oy3QP8ReFBUFUu99l2Cl2S+1Y6dSRJ5nCDfJKNWQVGYA86Rzh?=
+ =?us-ascii?Q?GSw8kheE2L4ny+Ko3UgOM34aGWhsnwdvcaJi1PtN6NmvbWLE1V2LaUt6OoiP?=
+ =?us-ascii?Q?aLqTQMyActw0VkTprpzi4sDLD4fHzOCkNidNIQLdBc7f+ZeS1Ev7s3Sjlmfw?=
+ =?us-ascii?Q?WF4WcVMMjAGNA4WMegFdx+waMfBVmqYLdpuSf3rjfGSrzsfzG/TMuodzVfBw?=
+ =?us-ascii?Q?wD+IvVsYpC/SGsTTFvsgNWpKY2lZFWlqwbSXhBNK0NfuQOHklva4a6wI8j9P?=
+ =?us-ascii?Q?1E+c6ZpdGZiRlJu5q45oEpo78xXSpjIoQAEOznJYWaI63XYFO85iyc/ubKHN?=
+ =?us-ascii?Q?5OVporxL+wEeCRWKrfIeWI5xqBKaX90OMj3tfZi9J6jg/d7dX26VqFKpGVdd?=
+ =?us-ascii?Q?HBFW5v2wCg+9JtMF8M4IcZn+KCpCFHxMCkUIUpUPo0EDCiu+Bw7Y1VVXNIZo?=
+ =?us-ascii?Q?ZVGs0e11tbY5usaPOw2F+SMIYX+1ok64D4T+OJxdTQKwPseYhWk5Gc3y4Ww7?=
+ =?us-ascii?Q?IPxrmsfBHrwOvjeX6tEnw3uXHvMYWwQb1z8SwEx/bceLxDO4MakoFuSUbKNk?=
+ =?us-ascii?Q?B6+wp0JsFC20oKFJgOOhM7PeI9FxmiOEl856a4UPbQKsdUeggBlsIaANJO+L?=
+ =?us-ascii?Q?AW8e5gEc8VpygFY9l1a1iOghmIOil/EXg99XN44Ita5aLQhf4vCtEea6juW/?=
+ =?us-ascii?Q?e+JdRFPdd8eXU137K3ysf7ZqzeW31ZsUgSyM+6hA3evvac4HlLrp3iqFDkXg?=
+ =?us-ascii?Q?rBiqmO9h8AgVwVON/ouE8R6znEeMflVAJ2wpcvwVu2v8bgoXhjlv65DfDRrO?=
+ =?us-ascii?Q?VGllmNTy/78QJtgpq6vz4Y71evWZPtoBOFr26Ds2U8zO5o5KpfZiuyf8WByD?=
+ =?us-ascii?Q?k/87G5EVfzxEPk4Vk8GO9hZsAJGOPpgFavmV7NHoQYKW/RaggT+9TGouBM2k?=
+ =?us-ascii?Q?sHbS0/AzB690iu9gofwbTfaeWR4WRh/L74nbrKiVFnT8nRIMOwo3pAECnnzc?=
+ =?us-ascii?Q?oj+mp0aEJH+c/qJCab8q0vpfiNM9jPqfqyhTP0t9+/uMu3+Wf+Ywe2ah3tY1?=
+ =?us-ascii?Q?FRl45YD4rUmZVT4La6WU+1CXFtwCp65uzroeo7OUL2+zhcxys+xCf+CVOU7L?=
+ =?us-ascii?Q?88wyWrQi2reG75t7wgW2c8VWZp9qK9AaH8k5Al0z1pyuC1Pltssqp8lMF9ol?=
+ =?us-ascii?Q?YnvLtuqQZUNtkhJtoCTLyd/ROy6ix8x/uRwoSdPTu6r5m2Ekkki9CbUIbiOs?=
+ =?us-ascii?Q?HSmFTxFsji+IHLKkT/e1JcKy/1+RumxlgHybsBqpafQnBNm+xxw7qnrZ1JOH?=
+ =?us-ascii?Q?1bDQrRj2mmnTAYxWakygWxCHo7YzKmtT1IXV3oR8wKGuor5PwQe5gQ/JIQub?=
+ =?us-ascii?Q?+q/amhT2DhG7qsw6/OiSY1icydc6WNm5Pd+O+dMruvgPwOL0gK4ixYfQf0kF?=
+ =?us-ascii?Q?LrbdvqEfJx2lqUJp7oob1Id1zlaraijFAYA2pfz5y1qSDqMkwiul/u/rrRnr?=
+ =?us-ascii?Q?kCt9chwIBDHkmRZY1TvHOnWO+dmyohSDVP3tKGx2cZvj14DerPzAHQtLbaBH?=
+ =?us-ascii?Q?bLpq2xe2kQqvjTV7Tt1caMOPv8X22Pljnwll0woy2KI5FbAFR9M+vJhYJDWP?=
+ =?us-ascii?Q?1g=3D=3D?=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34ae853f-5b08-4158-fed6-08dc9bf91890
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92e6ecb5-426a-409c-43bb-08dc9bf91ddd
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2024 07:15:34.2468
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2024 07:15:43.1239
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z8uV//wN9NyvxM54W1ljcAuHgqp07gsb34wSOgrkpxkMFrIxUz43VLiuRZ1/4VWSBrBORyo1si5cBeA8QT80PQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1Kh0z47tO2UGqp9XWmNdF7hk2l+tySwdMpThbpdkBNLIXfWxoNxEqWifOsfBL3+h7zm0bUH3ZygOiwh1Ku1LKA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR06MB6971
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 07:15:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201520
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 07:15:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201521
 
 From: Niko Mauno <niko.mauno@vaisala.com>
 
-The base-files recipe provides /var/tmp -> /var/volatile/tmp symlink
-which is in conflict with systemd upstream tmpfiles.d/tmp.conf which
-defines it as a directory (or subvolume on btrfs).
+When VOLATILE_LOG_DIR evaluates as True, the base-files recipe provides
+/var/log -> /var/volatile/log symlink which is in conflict with systemd
+upstream tmpfiles.d/var.conf.in which defines it as a directory.
 
 This generates following error in journal:
 
-  Jul 03 15:37:21 qemux86-64 systemd-tmpfiles[158]: "/var/tmp" already exis=
+  Jul 03 14:28:00 qemux86-64 systemd-tmpfiles[165]: "/var/log" already exis=
 ts and is not a directory.
 
-Mitigate the issue by defining /var/tmp as symlink corresponding to
-the one created by base-files.
+Mitigate the issue by defining /var/log as symlink corresponding to
+the one created by base-files, when appropriate.
 
 Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 ---
- meta/recipes-core/systemd/systemd/00-create-volatile.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/systemd/systemd_255.6.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/me=
-ta/recipes-core/systemd/systemd/00-create-volatile.conf
-index c4277221a2..043b2ef1d8 100644
---- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
-+++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
-@@ -6,3 +6,4 @@
- d		/run/lock		1777	-	-	-
- d		/var/volatile/log		-	-	-	-
- d		/var/volatile/tmp		1777	-	-
-+L		/var/tmp		-	-	-	-	/var/volatile/tmp
+diff --git a/meta/recipes-core/systemd/systemd_255.6.bb b/meta/recipes-core=
+/systemd/systemd_255.6.bb
+index 0376412f61..db37776fd6 100644
+--- a/meta/recipes-core/systemd/systemd_255.6.bb
++++ b/meta/recipes-core/systemd/systemd_255.6.bb
+@@ -313,9 +313,10 @@ do_install() {
+ 	fi
+=20
+ 	if "${@'true' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'fal=
+se'}"; then
+-		# /var/log is typically a symbolic link to inside /var/volatile,
+-		# which is expected to be empty.
++		# base-files recipe provides /var/log which is a symlink to /var/volatil=
+e/log
+ 		rm -rf ${D}${localstatedir}/log
++		printf 'L\t\t%s/log\t\t-\t-\t-\t-\t%s/volatile/log\n' "${localstatedir}"=
+ \
++			"${localstatedir}" >>${D}${nonarch_libdir}/tmpfiles.d/00-create-volatil=
+e.conf
+ 	elif [ -e ${D}${localstatedir}/log/journal ]; then
+ 		chown root:systemd-journal ${D}${localstatedir}/log/journal
+=20
 --=20
 2.39.2
 
