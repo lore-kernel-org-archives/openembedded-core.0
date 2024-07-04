@@ -1,90 +1,133 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8533DC31D97
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 10:53:55 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.7518.1720090434577274439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 770DCC30653
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 10:56:25 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.7553.1720090583777436846
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 03:53:54 -0700
+ Thu, 04 Jul 2024 03:56:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AaEMVr4D;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52e98087e32so516946e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 03:53:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FUFS2Oq5;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-424acf3226fso3473755e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 03:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720090433; x=1720695233; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cxhivx4ZdaYJNnVCY1ZcjciECh7P4JX+ASLXNj19R+I=;
-        b=AaEMVr4DK0nrinyU//gnfkT2H3HoPaieH48l0wXOlTu9+XaOa5EFPzrps8KjImYz3d
-         v63Gx3ls14breECC2ubohZBr4T4d9FyTmLP5tRflr3gB0ZhbL398uVPq0EY5qBbFdAE6
-         MD65eZLKkJFXyOADTnMP+Jj5/16AXfZ+P30sov576ls2cibh9D8MBY6a+JEzHUsKqR0t
-         UoEvQK1DfK+eaARWpqFhTNs3UWYHVGbMqhzi5AT70WSjEG9FtDCJuBNel9mwrHkox8EC
-         rTOuwhWS/7c7L7ugB/iaPVWrEIHuYrpWbLcQl3KBRkUpNiqmVB8wACkWc9daLdHONCrB
-         6Dhg==
+        d=gmail.com; s=20230601; t=1720090582; x=1720695382; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bE4YReOBW5Pg6lBo58CAoFaRQE5bHEnjSvxRt0WiFKg=;
+        b=FUFS2Oq5jn28toD3p7+qNw69IBiTiRWdw2JKf9eaycTsGxa8GlKWyW+zsgrTIljWwq
+         X7XSY99NfvXPJZnjKIZk+BYjqmXIshNKeQW3oLvScO9rz/YAJiV8aFfQxXqgWIef/J/6
+         pUMeCN3RTxnjpiEfl+kT6ixDr0zpgr8vkoDfPKWMPL8cJ1894fXbjfhJVA7fwUxKWheC
+         bjthqao0AC5Se23VxwTmzv+NQEJU86sIF9e8HJhPEW9jNZLeWaUjq0KLwco6rWBvTCi5
+         18LxxGI8gXC3n28it7nYywe48gueGFGImedWR9QKjUXfSJxwnJqNa7X0VMpBeOf9oAdA
+         LaLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720090433; x=1720695233;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cxhivx4ZdaYJNnVCY1ZcjciECh7P4JX+ASLXNj19R+I=;
-        b=sfA3kb8W8CHv4VAXvdoo6Wa9sv3wv0iZjY1QCHykfpLg4mgIIUZInQMCrmVl9G2Q52
-         3SOHNJmpevFIsyjAjitEOBZ7mHilLXWGCdxxoAq07aSqBCEDXZBa1jEixveidj9QtVd5
-         uGgXrCL/QtuwRyQW6BEeT6IiPN4QwXgevakmn8LzuFcpLJidlZuatIItkHm8NoeEHN6S
-         1KhMvvhOT7aqtZwtMBcTrL9K8mguZHMqDuu0c8XAcUI0Idgvj6AIuVYtKREaH/SwEIV3
-         3tMbhgGD0w1dC6qHlldl08faRKA6kQ8kBJSIHxvljwu0yYCV4g1yJwYQ/1XIQ/NNNWsH
-         5qdA==
-X-Gm-Message-State: AOJu0Yybq0zoawfYLTgEGTDr5UbNNKqVsULMx6P2CXOvXy5lW8wLjrRu
-	Xjupw/e6MT0ocgyCgc2TbdoQ+ZPVK/fj65DQjVHISzC337IgQ5xkHN1URnmlljcAzjAGsglMIkx
-	n6AzDPlwR9rS4M78TvuPjTgYUcTQ=
-X-Google-Smtp-Source: AGHT+IHfzY7F/umZu/8C3GSV/FYQSpjzlkdffnpM52qvA5eX1Sr2RB3uX22T4VPPy/iom6J/cXYvqobhUYcvi3J0Ly8=
-X-Received: by 2002:a19:ee12:0:b0:52e:9ebe:7318 with SMTP id
- 2adb3069b0e04-52ea06b7845mr879728e87.43.1720090432486; Thu, 04 Jul 2024
- 03:53:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720090582; x=1720695382;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bE4YReOBW5Pg6lBo58CAoFaRQE5bHEnjSvxRt0WiFKg=;
+        b=MU7jT7GTsiDbyGPXq2A8mrGp58G36MdGMtO9WhZ239NBwNycq9/oA638NO5c6O4SCX
+         dqrnPJefJKQj63A22G8759KHLN8GA8SMtagiucE5cuq6DTmT1P/NjxOdQrXj2nLS4/pA
+         fwnX0bIn0QpFNr6XtsSn35qUYFJfaNspTruAZVlGFMkLZKJxed/+o6DhnHa3oDTxVtA0
+         dK/N6tlvlqoDKAZsrF810omk4bZ5QbMN3xn8a5Z0GtX6PkvEYJGa34GyAjGuX1JzH8AD
+         qE01LUdX+A6NJhgjVXAovo+uroCiKxRJojUdKtFloT98+EZy3tB9ylrOuubb+BgJvoXw
+         l13Q==
+X-Gm-Message-State: AOJu0YwOeeaaTmm4BOwQUGhnZ177eMV3UjNCF/pyqvoSEd2lT7DXK4FK
+	nKOXRz72iVZCQeMN33SvmsgKp8s4UamY/d8K02W5UbWnBpukgzBIVu8Yow==
+X-Google-Smtp-Source: AGHT+IGDinctulx8xJ46Jd3Py/KTk6O9tKSWWLfjUFpIP15rNngUJ83GalJEGFFyr1A5ThPD5PWupw==
+X-Received: by 2002:a05:600c:4487:b0:425:6a12:bbe6 with SMTP id 5b1f17b1804b1-4264a36e4c2mr10812785e9.0.1720090581703;
+        Thu, 04 Jul 2024 03:56:21 -0700 (PDT)
+Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1f23f9sm19193655e9.26.2024.07.04.03.56.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jul 2024 03:56:21 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] openssh: fix CVE-2024-6387
+Date: Thu,  4 Jul 2024 11:56:17 +0100
+Message-ID: <20240704105617.130735-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <CANNYZj9G2fCXGDT4fhMq8C=Dg7vOFDNM9hhiEkOrzs4P4vvNbQ@mail.gmail.com>
- <31491.1720090219472440122@lists.openembedded.org>
-In-Reply-To: <31491.1720090219472440122@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 4 Jul 2024 12:53:41 +0200
-Message-ID: <CANNYZj_THLneH0uhKCEtDD0WSoZsJmV0U1jkEo9pU4ZWotAKBA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bluez5: upgrade 5.72 -> 5.76
-To: gudni.m.g@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 10:53:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201533
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 10:56:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201534
 
-That's right. I think the submission instructions are here?
-https://github.com/bluez/bluez/blob/master/HACKING
+sshd(8) in Portable OpenSSH versions 8.5p1 to 9.7p1 (inclusive).
+Race condition resulting in potential remote code execution.
+A race condition in sshd(8) could allow remote code execution as root on non-OpenBSD systems.
+This attack could be prevented by disabling the login grace timeout (LoginGraceTime=0 in sshd_config)
+though this makes denial-of service against sshd(8) considerably easier.
+For more information, please refer to the release notes [1] and the
+report from the Qualys Security Advisory Team [2] who discovered the bug.
 
-Alex
+[1] https://www.openssh.com/txt/release-9.8
+[2] https://www.qualys.com/2024/07/01/cve-2024-6387/regresshion.txt
 
-On Thu, 4 Jul 2024 at 12:50, Gu=C3=B0ni M=C3=A1r Gilbert via
-lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Hi Alex,
->
-> I can try, I=E2=80=99ve already subscribed to the linux-bluetooth mailing=
- list. Just need to read more into their patch submission guidelines.
->
-> I don=E2=80=99t think they=E2=80=99re accepting pull requests via Github.
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201531): https://lists.openembedded.org/g/openembedde=
-d-core/message/201531
-> Mute This Topic: https://lists.openembedded.org/mt/107029827/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+References:
+https://www.openssh.com/security.html
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ .../openssh/openssh/CVE-2024-6387.patch       | 27 +++++++++++++++++++
+ .../openssh/openssh_9.7p1.bb                  |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
+new file mode 100644
+index 0000000000..3e7c707100
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
+@@ -0,0 +1,27 @@
++Description: fix signal handler race condition
++Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/2070497
++
++CVE: CVE-2024-6387
++
++Upstream-Status: Backport
++https://git.launchpad.net/ubuntu/+source/openssh/commit/?h=applied/ubuntu/jammy-devel&id=b059bcfa928df4ff2d103ae2e8f4e3136ee03efc
++
++Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
++
++--- a/log.c
+++++ b/log.c
++@@ -452,12 +452,14 @@ void
++ sshsigdie(const char *file, const char *func, int line, int showfunc,
++     LogLevel level, const char *suffix, const char *fmt, ...)
++ {
+++#if 0
++ 	va_list args;
++ 
++ 	va_start(args, fmt);
++ 	sshlogv(file, func, line, showfunc, SYSLOG_LEVEL_FATAL,
++ 	    suffix, fmt, args);
++ 	va_end(args);
+++#endif
++ 	_exit(1);
++ }
++ 
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+index 0bc14c5553..69eade3ee7 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+@@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://sshd_check_keys \
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
++           file://CVE-2024-6387.patch \
+            "
+ SRC_URI[sha256sum] = "490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2e57dc5660f773ffd"
+ 
+-- 
+2.45.2
+
 
