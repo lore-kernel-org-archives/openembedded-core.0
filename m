@@ -2,133 +2,177 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9760DC41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAFCCC31D97
 	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 12:32:26 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.8987.1720096338367520710
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.8988.1720096340183869644
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 05:32:18 -0700
+ Thu, 04 Jul 2024 05:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yJX+ceh0;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-70aff4e3f6dso434287b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:32:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pXtetvp7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fab03d2eecso4003465ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720096337; x=1720701137; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HjBFJEU74et+gbbGPmxjmjT6tVvrSE4znjWgqJWSNlU=;
-        b=yJX+ceh0sEbzfHLPRrOLBYmtyFYL3Gv4WaqH//KE3CSErFJWhqckhltqcWq3n2+1Ul
-         w9I6/afKFJj15TnY+Ci6tkZu3hQ7X+6Fi/qpjhyyNxe8kK+2ckCyn+INgAwvTg+W1irJ
-         ibt2duWKafQrf8NDRJwBYt+D88uiBo8KUDKG8W1U4glZiyKo8xIkvxyzudPjy+mNvK8I
-         3bsu3kUvb7XTPRB/okkLQ3lyFd9MpkFE8TC1XXij9HVMw6IiCnaOfz41obYGy94IjC9T
-         C4wbO2s7IyT7z/LHa37jtS4WctpohuBNqZfnqzSE/8fTB69DDHugm/9Sxef1WBcDYVhE
-         RCMw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720096339; x=1720701139; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g1rPyCz04l1wi9w+whzIXVVHYQDS/dTHQ0yNcyOmUUg=;
+        b=pXtetvp7mnQitwaP4u8uiHplJFfdANIZdc6GCTSNWtVowpvsu9quV63IQxiZhuYWR1
+         CUhBMcziENx1slWsd+vIskHwiBm15O275In8Y1yH6L2Zh4pJ0cuJ4xc9G+wCGRq9e7IZ
+         Bmvf3PPB8OOme4f4oVMeFvPtFd9AXCbuFoG/U99Fdm3sCqRuhXu8dn4zPSo2S2t0XeAE
+         3r9SrygITmVpKdIsJvGzmwjrnKvuRQNbMtA9RDGDLYg04BUHe4IGp/uAoK9LUtfPFo/i
+         cmSb0AHomffSldWValvwMmHd2ylMcuuz+WJqfB0HOln4ZVVf9n04VJOMWw+kuR87bVSQ
+         veng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720096337; x=1720701137;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HjBFJEU74et+gbbGPmxjmjT6tVvrSE4znjWgqJWSNlU=;
-        b=Kpq+LpXaZgwny6rbZoilSMiOgNlMSbSefMz5zbJukPNGvRCi+QQQGGnzTepsQgFoDl
-         WFymjs5c2fya5CWMPY8PsivDVPdLqqYGFUTesPe/2RwxUn8AJ250o9Xm9wKhKRMWey40
-         HeeqCvFwiHw2wqX9M71Xc6cAX9GH1XQnPGwbyKpqFUGzAV6a7OmtFvgV0oi5TCy8VyDI
-         pw9RboBiJH+s413+a7lMBqv7ZkpadgAEGnrr8GFZHTWt0zhM8/nv0javbtwJ6mDgIzgN
-         ayRasLHGSstMZd5GPXGlyb8YdwzxwA9IgOHhH8ewjX+bJv0DesCh/9bzSXhUd48dwYG8
-         KXSw==
-X-Gm-Message-State: AOJu0Ywt0GJJDcngcdvUv26lFADV9aPMXRfbHMVgG5GQ4uxUv5HjMGUw
-	MKWcJlF5tI1+ijNXAdcXn4Y67LIXhxezy2CkECo4yrc/Dbz14AedHawG/Bm8k9/Vg3W1TcQq/gh
-	T
-X-Google-Smtp-Source: AGHT+IHQujTDZ0W9lBYEV1poj93ahRkqhu3qyot+8E1gUrXpdr1C/uIahT/Y5WrZCSXs+bppnVs+Cw==
-X-Received: by 2002:a05:6a20:3948:b0:1be:e5c3:f97a with SMTP id adf61e73a8af0-1c0cc72bd60mr1743315637.3.1720096337497;
-        Thu, 04 Jul 2024 05:32:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720096339; x=1720701139;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g1rPyCz04l1wi9w+whzIXVVHYQDS/dTHQ0yNcyOmUUg=;
+        b=uw2eHBpaDsZJfDQO47TtkUjzxQIjTrm+FIm22yQ4d40PeAgf2hparUUr5XuW49YV9b
+         hKTW5oqWTOhTr3y0ihUlYoeIYOKCzZiBhFq0aycUrqXd7O8b2q+MJvM9faiYvnT4XEtZ
+         xHAnszFXF9wPTqhuQJpJPjMLtK4aSrPpgPyu03m3WsI812uJ6ufwgcaiHIYIJXL7h9CQ
+         +zlN/Oes5GA3yYKqDmlhbSVIn+KC1lpIdNP1j7cnJkLejvYIpbzSB9KAVlWMnm6en7Rd
+         JPTTe92wfehs9nVcfGN0aEtvwmJTKIEsowz5DQdTtHaibZdOGT9GV0GVaMIyf930OFDF
+         HlkQ==
+X-Gm-Message-State: AOJu0YxTyVffrO6oBWEDtNbQWiYisS9eboXyiNIwC2HmkP3/LT4ccpmZ
+	tT5pebxhkTF6L7aRMmutweKqH6tgrSupL2ZO3lizzeI0PR7jSFEtmPbrhemRr+YxjZbksAFPnFs
+	U
+X-Google-Smtp-Source: AGHT+IGTcPAfxUvE/JbvRO2/5oJrg0ZYwxFu53QNAQ09qY22gwp5m3bcFUzemRkGqlvpjpvbpkr02g==
+X-Received: by 2002:a17:902:f645:b0:1f7:1ba3:b91c with SMTP id d9443c01a7336-1fb33e05759mr11194565ad.1.1720096339256;
+        Thu, 04 Jul 2024 05:32:19 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac159d337sm121034095ad.284.2024.07.04.05.32.16
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac159d337sm121034095ad.284.2024.07.04.05.32.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 05:32:17 -0700 (PDT)
+        Thu, 04 Jul 2024 05:32:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/7] Patch review
-Date: Thu,  4 Jul 2024 05:32:05 -0700
-Message-Id: <cover.1720096173.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/7] wget: Fix for CVE-2024-38428
+Date: Thu,  4 Jul 2024 05:32:06 -0700
+Message-Id: <4f7fb1cf937b0cefa5b0079417859b56c3171c0a.1720096173.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1720096173.git.steve@sakoman.com>
+References: <cover.1720096173.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 12:32:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201566
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201567
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Monday, July 8
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport
+[https://git.savannah.gnu.org/cgit/wget.git/commit/?id=ed0c7c7e0e8f7298352646b2fd6e06a11e242ace]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7103
-
-The following changes since commit fbc8f5381e8e1da0d06f7f8e5b8c63a49b1858c2:
-
-  man-pages: remove conflict pages (2024-06-21 12:37:32 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Archana Polampalli (1):
-  gstreamer1.0-plugins-base: fix CVE-2024-4453
-
-Jonas Gorski (1):
-  linuxloader: add -armhf on arm only for TARGET_FPU 'hard'
-
-Jose Quaresma (1):
-  openssh: fix CVE-2024-6387
-
-Poonam Jadhav (2):
-  glibc-tests: correctly pull in the actual tests when installing -ptest
-    package
-  glibc-tests: Add missing bash ptest dependency
-
-Siddharth Doshi (1):
-  OpenSSL: Security fix for CVE-2024-5535
-
-Vijay Anusuri (1):
-  wget: Fix for CVE-2024-38428
-
- meta/classes/linuxloader.bbclass              |    2 +-
- .../openssh/openssh/CVE-2024-6387.patch       |   27 +
- .../openssh/openssh_8.9p1.bb                  |    1 +
- .../openssl/openssl/CVE-2024-5535_1.patch     |  115 ++
- .../openssl/openssl/CVE-2024-5535_2.patch     |   44 +
- .../openssl/openssl/CVE-2024-5535_3.patch     |   84 ++
- .../openssl/openssl/CVE-2024-5535_4.patch     |  178 +++
- .../openssl/openssl/CVE-2024-5535_5.patch     | 1175 +++++++++++++++++
- .../openssl/openssl/CVE-2024-5535_6.patch     |   45 +
- .../openssl/openssl/CVE-2024-5535_7.patch     |   68 +
- .../openssl/openssl/CVE-2024-5535_8.patch     |  273 ++++
- .../openssl/openssl/CVE-2024-5535_9.patch     |  205 +++
- .../openssl/openssl_3.0.14.bb                 |    9 +
- meta/recipes-core/glibc/glibc-tests_2.35.bb   |    4 +-
- meta/recipes-core/glibc/glibc/run-ptest       |    2 +-
- .../wget/wget/CVE-2024-38428.patch            |   79 ++
- meta/recipes-extended/wget/wget_1.21.4.bb     |    1 +
- .../CVE-2024-4453.patch                       |   65 +
- .../gstreamer1.0-plugins-base_1.20.7.bb       |    1 +
- 19 files changed, 2374 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../wget/wget/CVE-2024-38428.patch            | 79 +++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.21.4.bb     |  1 +
+ 2 files changed, 80 insertions(+)
  create mode 100644 meta/recipes-extended/wget/wget/CVE-2024-38428.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2024-4453.patch
 
+diff --git a/meta/recipes-extended/wget/wget/CVE-2024-38428.patch b/meta/recipes-extended/wget/wget/CVE-2024-38428.patch
+new file mode 100644
+index 0000000000..ed99a05464
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2024-38428.patch
+@@ -0,0 +1,79 @@
++From ed0c7c7e0e8f7298352646b2fd6e06a11e242ace Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Sun, 2 Jun 2024 12:40:16 +0200
++Subject: Properly re-implement userinfo parsing (rfc2396)
++
++* src/url.c (url_skip_credentials): Properly re-implement userinfo parsing (rfc2396)
++
++The reason why the implementation is based on RFC 2396, an outdated standard,
++is that the whole file is based on that RFC, and mixing standard here might be
++dangerous.
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/wget.git/commit/?id=ed0c7c7e0e8f7298352646b2fd6e06a11e242ace]
++CVE: CVE-2024-38428
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ src/url.c | 40 ++++++++++++++++++++++++++++++++++------
++ 1 file changed, 34 insertions(+), 6 deletions(-)
++
++diff --git a/src/url.c b/src/url.c
++index 69e948b..07c3bc8 100644
++--- a/src/url.c
+++++ b/src/url.c
++@@ -41,6 +41,7 @@ as that of the covered work.  */
++ #include "url.h"
++ #include "host.h"  /* for is_valid_ipv6_address */
++ #include "c-strcase.h"
+++#include "c-ctype.h"
++ 
++ #ifdef HAVE_ICONV
++ # include <iconv.h>
++@@ -526,12 +527,39 @@ scheme_leading_string (enum url_scheme scheme)
++ static const char *
++ url_skip_credentials (const char *url)
++ {
++-  /* Look for '@' that comes before terminators, such as '/', '?',
++-     '#', or ';'.  */
++-  const char *p = (const char *)strpbrk (url, "@/?#;");
++-  if (!p || *p != '@')
++-    return url;
++-  return p + 1;
+++  /*
+++   * This whole file implements https://www.rfc-editor.org/rfc/rfc2396 .
+++   * RFC 2396 is outdated since 2005 and needs a rewrite or a thorough re-visit.
+++   *
+++   * The RFC says
+++   * server        = [ [ userinfo "@" ] hostport ]
+++   * userinfo      = *( unreserved | escaped | ";" | ":" | "&" | "=" | "+" | "$" | "," )
+++   * unreserved    = alphanum | mark
+++   * mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+++   */
+++  static const char *allowed = "-_.!~*'();:&=+$,";
+++
+++  for (const char *p = url; *p; p++)
+++    {
+++      if (c_isalnum(*p))
+++        continue;
+++
+++      if (strchr(allowed, *p))
+++        continue;
+++
+++      if (*p == '%' && c_isxdigit(p[1]) && c_isxdigit(p[2]))
+++        {
+++          p += 2;
+++          continue;
+++        }
+++
+++      if (*p == '@')
+++        return p + 1;
+++
+++      break;
+++    }
+++
+++  return url;
++ }
++ 
++ /* Parse credentials contained in [BEG, END).  The region is expected
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-extended/wget/wget_1.21.4.bb
+index 1d31b0116d..bc65a8f7c8 100644
+--- a/meta/recipes-extended/wget/wget_1.21.4.bb
++++ b/meta/recipes-extended/wget/wget_1.21.4.bb
+@@ -1,5 +1,6 @@
+ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
++           file://CVE-2024-38428.patch \
+           "
+ 
+ SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
 -- 
 2.34.1
 
