@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C88EC30653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A591C3271E
 	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 12:27:36 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.8985.1720096050732077034
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.8885.1720096048768532570
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 05:27:30 -0700
+ Thu, 04 Jul 2024 05:27:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=p5DVRYDM;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1fb3b7d0d3aso1904395ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:27:30 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YBNABf0O;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-71871d5e087so355662a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 05:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720096050; x=1720700850; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720096048; x=1720700848; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HSNKiZrDffS37nRXJ6DPt38Up2PmLp6dSsA/8qMKB20=;
-        b=p5DVRYDM7e57TTRfmc9r+E9CLVhsnQ/nbZty/Hr42+gVW2b+ckG3QTR1eWeXusfA0u
-         Z35p9/FBpns44oNnQNLKn250qE7JYrKzUCYRsMjVr33WbrJlUKpIepFDxAKIzgln+/YN
-         tcPuybUILG5p0fBfZI+72M4A55Nx9YgNQyr2CTGBvgkOk5TccQScX2JdpVaoW8yt5xKo
-         DIsJehAXqNL8C6ghLb9s5KdNjH91tcXwsPCULpbwQCiZKgtid6sKAa3+mdmKLi3y7Omq
-         r+4/9MHFfXlRoaZSCuFib3qzcfqIb+J9sER347k89b+nz3EbjeptqZepTJQ8YcYHotev
-         Jqgw==
+        bh=Lq+tuQseRB9JZ5B5RTIUdyFm3vK+YolSZKnp4StdQpQ=;
+        b=YBNABf0ORsljmAKhzB5+RdlbH9Xv+97oTrsh4XOjIaxnyCWmrpdpWUzQ0+zFFO7iMw
+         zKG4onpQeDtPZvF4himpT7pFZA9pRokyxS260pTVLDOZY1uTXGxHAIttivzRVg2VZ5Ig
+         Z64Rt/nlfHMYI8uRc+dzd76b6UD76iCdXUbxKWGaJvbI7u3Lld5wor+GRZ8gBgTDNk+l
+         si8Cn46zIlyhS+nR3go/A23rZmX9nyiG39sllCG5XSsR/vQoAjJvEjqHRMkfKYfxbZ8b
+         IbsbQc7mon2ExsldhOh3+Yb7PBrNsi1oxkF8suyoENAVN0/XU/E27d4W9wPnhZhR6o/o
+         1t/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720096050; x=1720700850;
+        d=1e100.net; s=20230601; t=1720096048; x=1720700848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HSNKiZrDffS37nRXJ6DPt38Up2PmLp6dSsA/8qMKB20=;
-        b=twp1aZd1aeYgtQ6umh6Q0a2Q8Gyg/I+C5gdxattahFNEtrC8RvFEJ8oU9RjWD/i2by
-         JxlxyLwtfBdXJzdM09Nnft6DYsLtYJm7l/Vx3BGXyz3LKs2vkfNcBtIxWfgwU/mIO4Qb
-         UuQTZBRrQPr9j+WXbNsRKS97/RjSTsuD4BoJ29dpzx7m4oT2qI/ZhHZS+7CmUGQYdjLR
-         mqsM8IWhYyuC29f+1aL15lsAlb5Wh5pNvp10q35Fl/PHFiktikQ5Iif7zyNOBSexHZ53
-         fS0P+POcF1aUGY1MiCVKm4o6Ma1WWMlmKmQ3B20tkFJN9odFcCwB+F4fYYU3B3/RdeS1
-         aLhg==
-X-Gm-Message-State: AOJu0Yyh5frw6TQD13TXra1/bwxz/hQKypvXw7votClmke5IOpyYhOXx
-	KpPwg0w6krCQ2YusvfmZGGNQY3Km6bgc2XW19TcD7lU/hLtlWVO8qRWQl3Y5PKGxUv7BR592jet
-	4
-X-Google-Smtp-Source: AGHT+IFL800rlZOFAckgoUiwoIaRPpG8ewhfYxqenvvQeJYk4NkTKhAOg5wQeCaUkAExJA/F2O3WHg==
-X-Received: by 2002:a17:903:1c8:b0:1fb:396c:7532 with SMTP id d9443c01a7336-1fb396c786cmr8571995ad.56.1720096049806;
-        Thu, 04 Jul 2024 05:27:29 -0700 (PDT)
+        bh=Lq+tuQseRB9JZ5B5RTIUdyFm3vK+YolSZKnp4StdQpQ=;
+        b=WBOUJmbMuTQbVvL5Xa2YQSOgn+x2HhK6QBBHpm2exeN4qfgM/0hCyyVtFBeoUO3z3n
+         tX3qazGQRQkjLXETXRMHMWQ2fj9zsdUYiTIvnako7n+csBR464Cih6+2Yn0bgSaAZzqD
+         dg+q+ec//TWS/vvG5MNAyRVS0+5LHxvZp6MUeKuV7ujLezedh0cPNMk7vi5L54uR1rBI
+         dUFZ5Recr9+znBs0PPlW/WH3NJYoYxz9PMIrpaMzYbmwsPra6Y8dcP8M9oj5ktf3hrLq
+         oN5IkgrSs5a958OJb1McltsproKhcfksYMU+wFrgXFmxRCiF5aZiYaFpEdszXrbTBB5X
+         3ZqA==
+X-Gm-Message-State: AOJu0YylWCd2YwpVadhsNagchNhLjdgia0EU2DMV8kzGXHvgUU6ybdGH
+	CF2Ml7prL27ZczV0f/1N6fNN2uP+28Xq60IkuWwNREvUDVCGNdsPag+VIBDt4Pvny1cfogvZu4P
+	h
+X-Google-Smtp-Source: AGHT+IH+K8xPg3LVXvGTGCT2yYFlzkcIRmdOUSrPcOGm+l5Au+cWGON0YrGg4cXOR4W7/11Oly0zMQ==
+X-Received: by 2002:a05:6a20:258c:b0:1bd:27d4:afd1 with SMTP id adf61e73a8af0-1c0cc727e04mr1650871637.10.1720096046508;
+        Thu, 04 Jul 2024 05:27:26 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fb1c79682csm29416075ad.8.2024.07.04.05.27.29
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fb1c79682csm29416075ad.8.2024.07.04.05.27.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 05:27:29 -0700 (PDT)
+        Thu, 04 Jul 2024 05:27:26 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/21] gstreamer: upgrade 1.22.11 -> 1.22.12
-Date: Thu,  4 Jul 2024 05:26:58 -0700
-Message-Id: <a99d2e4bde8aaab9e97a42c3b08fdd8b544b5fb5.1720095886.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 04/21] OpenSSL: Security fix for CVE-2024-5535
+Date: Thu,  4 Jul 2024 05:26:56 -0700
+Message-Id: <7d270bfe23cb5a543851ff6d3c9e273732a30865.1720095886.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1720095886.git.steve@sakoman.com>
 References: <cover.1720095886.git.steve@sakoman.com>
@@ -62,215 +62,2330 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 12:27:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201548
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201547
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-https://gstreamer.freedesktop.org/releases/1.22/#1.22.12
+Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/99fb785a5f85315b95288921a321a935ea29a51e]
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+CVE's Fixed:
+CVE-2024-5535 openssl: SSL_select_next_proto buffer overread
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{gst-devtools_1.22.11.bb => gst-devtools_1.22.12.bb}        | 2 +-
- ...reamer1.0-libav_1.22.11.bb => gstreamer1.0-libav_1.22.12.bb} | 2 +-
- ...{gstreamer1.0-omx_1.22.11.bb => gstreamer1.0-omx_1.22.12.bb} | 2 +-
- ...ugins-bad_1.22.11.bb => gstreamer1.0-plugins-bad_1.22.12.bb} | 2 +-
- ...ins-base_1.22.11.bb => gstreamer1.0-plugins-base_1.22.12.bb} | 2 +-
- ...ins-good_1.22.11.bb => gstreamer1.0-plugins-good_1.22.12.bb} | 2 +-
- ...ins-ugly_1.22.11.bb => gstreamer1.0-plugins-ugly_1.22.12.bb} | 2 +-
- ...amer1.0-python_1.22.11.bb => gstreamer1.0-python_1.22.12.bb} | 2 +-
- ...sp-server_1.22.11.bb => gstreamer1.0-rtsp-server_1.22.12.bb} | 2 +-
- ...reamer1.0-vaapi_1.22.11.bb => gstreamer1.0-vaapi_1.22.12.bb} | 2 +-
- .../{gstreamer1.0_1.22.11.bb => gstreamer1.0_1.22.12.bb}        | 2 +-
- 11 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.11.bb => gst-devtools_1.22.12.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.11.bb => gstreamer1.0-libav_1.22.12.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.11.bb => gstreamer1.0-omx_1.22.12.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.11.bb => gstreamer1.0-plugins-bad_1.22.12.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.11.bb => gstreamer1.0-plugins-base_1.22.12.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.22.11.bb => gstreamer1.0-plugins-good_1.22.12.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.22.11.bb => gstreamer1.0-plugins-ugly_1.22.12.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.11.bb => gstreamer1.0-python_1.22.12.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.11.bb => gstreamer1.0-rtsp-server_1.22.12.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.11.bb => gstreamer1.0-vaapi_1.22.12.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.11.bb => gstreamer1.0_1.22.12.bb} (97%)
+ .../openssl/openssl/CVE-2024-5535_1.patch     |  113 ++
+ .../openssl/openssl/CVE-2024-5535_10.patch    |  203 +++
+ .../openssl/openssl/CVE-2024-5535_2.patch     |   43 +
+ .../openssl/openssl/CVE-2024-5535_3.patch     |   38 +
+ .../openssl/openssl/CVE-2024-5535_4.patch     |   82 ++
+ .../openssl/openssl/CVE-2024-5535_5.patch     |  176 +++
+ .../openssl/openssl/CVE-2024-5535_6.patch     | 1173 +++++++++++++++++
+ .../openssl/openssl/CVE-2024-5535_7.patch     |   43 +
+ .../openssl/openssl/CVE-2024-5535_8.patch     |   66 +
+ .../openssl/openssl/CVE-2024-5535_9.patch     |  271 ++++
+ .../openssl/openssl_3.2.2.bb                  |   10 +
+ 11 files changed, 2218 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.12.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.22.12.bb
-index 2be406192f..c30341d1f0 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.12.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch
+new file mode 100644
+index 0000000000..d5c178eeab
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_1.patch
+@@ -0,0 +1,113 @@
++From b63b4db52e10677db4ab46b608aabd55a44668aa Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 31 May 2024 11:14:33 +0100
++Subject: [PATCH 01/10] Fix SSL_select_next_proto
++
++Ensure that the provided client list is non-NULL and starts with a valid
++entry. When called from the ALPN callback the client list should already
++have been validated by OpenSSL so this should not cause a problem. When
++called from the NPN callback the client list is locally configured and
++will not have already been validated. Therefore SSL_select_next_proto
++should not assume that it is correctly formatted.
++
++We implement stricter checking of the client protocol list. We also do the
++same for the server list while we are about it.
++
++CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/99fb785a5f85315b95288921a321a935ea29a51e]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ ssl/ssl_lib.c | 63 ++++++++++++++++++++++++++++++++-------------------
++ 1 file changed, 40 insertions(+), 23 deletions(-)
++
++diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
++index 016135f..cf52b31 100644
++--- a/ssl/ssl_lib.c
+++++ b/ssl/ssl_lib.c
++@@ -3518,37 +3518,54 @@ int SSL_select_next_proto(unsigned char **out, unsigned char *outlen,
++                           unsigned int server_len,
++                           const unsigned char *client, unsigned int client_len)
++ {
++-    unsigned int i, j;
++-    const unsigned char *result;
++-    int status = OPENSSL_NPN_UNSUPPORTED;
+++    PACKET cpkt, csubpkt, spkt, ssubpkt;
+++
+++    if (!PACKET_buf_init(&cpkt, client, client_len)
+++            || !PACKET_get_length_prefixed_1(&cpkt, &csubpkt)
+++            || PACKET_remaining(&csubpkt) == 0) {
+++        *out = NULL;
+++        *outlen = 0;
+++        return OPENSSL_NPN_NO_OVERLAP;
+++    }
+++
+++    /*
+++     * Set the default opportunistic protocol. Will be overwritten if we find
+++     * a match.
+++     */
+++    *out = (unsigned char *)PACKET_data(&csubpkt);
+++    *outlen = (unsigned char)PACKET_remaining(&csubpkt);
++ 
++     /*
++      * For each protocol in server preference order, see if we support it.
++      */
++-    for (i = 0; i < server_len;) {
++-        for (j = 0; j < client_len;) {
++-            if (server[i] == client[j] &&
++-                memcmp(&server[i + 1], &client[j + 1], server[i]) == 0) {
++-                /* We found a match */
++-                result = &server[i];
++-                status = OPENSSL_NPN_NEGOTIATED;
++-                goto found;
+++    if (PACKET_buf_init(&spkt, server, server_len)) {
+++        while (PACKET_get_length_prefixed_1(&spkt, &ssubpkt)) {
+++            if (PACKET_remaining(&ssubpkt) == 0)
+++                continue; /* Invalid - ignore it */
+++            if (PACKET_buf_init(&cpkt, client, client_len)) {
+++                while (PACKET_get_length_prefixed_1(&cpkt, &csubpkt)) {
+++                    if (PACKET_equal(&csubpkt, PACKET_data(&ssubpkt),
+++                                     PACKET_remaining(&ssubpkt))) {
+++                        /* We found a match */
+++                        *out = (unsigned char *)PACKET_data(&ssubpkt);
+++                        *outlen = (unsigned char)PACKET_remaining(&ssubpkt);
+++                        return OPENSSL_NPN_NEGOTIATED;
+++                    }
+++                }
+++                /* Ignore spurious trailing bytes in the client list */
+++            } else {
+++                /* This should never happen */
+++                return OPENSSL_NPN_NO_OVERLAP;
++             }
++-            j += client[j];
++-            j++;
++         }
++-        i += server[i];
++-        i++;
+++        /* Ignore spurious trailing bytes in the server list */
++     }
++ 
++-    /* There's no overlap between our protocols and the server's list. */
++-    result = client;
++-    status = OPENSSL_NPN_NO_OVERLAP;
++-
++- found:
++-    *out = (unsigned char *)result + 1;
++-    *outlen = result[0];
++-    return status;
+++    /*
+++     * There's no overlap between our protocols and the server's list. We use
+++     * the default opportunistic protocol selected earlier
+++     */
+++    return OPENSSL_NPN_NO_OVERLAP;
++ }
++ 
++ #ifndef OPENSSL_NO_NEXTPROTONEG
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch
+new file mode 100644
+index 0000000000..7cc36f20ab
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_10.patch
+@@ -0,0 +1,203 @@
++From 61cad53901703944d22f1cd6a1b57460f2270599 Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 21 Jun 2024 14:29:26 +0100
++Subject: [PATCH 10/10] Add a test for an empty NextProto message
++
++It is valid according to the spec for a NextProto message to have no
++protocols listed in it. The OpenSSL implementation however does not allow
++us to create such a message. In order to check that we work as expected
++when communicating with a client that does generate such messages we have
++to use a TLSProxy test.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/301b870546d1c7b2d8f0d66e04a2596142f0399f]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ test/recipes/70-test_npn.t      | 73 +++++++++++++++++++++++++++++++++
++ util/perl/TLSProxy/Message.pm   |  9 ++++
++ util/perl/TLSProxy/NextProto.pm | 54 ++++++++++++++++++++++++
++ util/perl/TLSProxy/Proxy.pm     |  1 +
++ 4 files changed, 137 insertions(+)
++ create mode 100644 test/recipes/70-test_npn.t
++ create mode 100644 util/perl/TLSProxy/NextProto.pm
++
++diff --git a/test/recipes/70-test_npn.t b/test/recipes/70-test_npn.t
++new file mode 100644
++index 0000000..f82e71a
++--- /dev/null
+++++ b/test/recipes/70-test_npn.t
++@@ -0,0 +1,73 @@
+++#! /usr/bin/env perl
+++# Copyright 2024 The OpenSSL Project Authors. All Rights Reserved.
+++#
+++# Licensed under the Apache License 2.0 (the "License").  You may not use
+++# this file except in compliance with the License.  You can obtain a copy
+++# in the file LICENSE in the source distribution or at
+++# https://www.openssl.org/source/license.html
+++
+++use strict;
+++use OpenSSL::Test qw/:DEFAULT cmdstr srctop_file/;
+++use OpenSSL::Test::Utils;
+++
+++use TLSProxy::Proxy;
+++
+++my $test_name = "test_npn";
+++setup($test_name);
+++
+++plan skip_all => "TLSProxy isn't usable on $^O"
+++    if $^O =~ /^(VMS)$/;
+++
+++plan skip_all => "$test_name needs the dynamic engine feature enabled"
+++    if disabled("engine") || disabled("dynamic-engine");
+++
+++plan skip_all => "$test_name needs the sock feature enabled"
+++    if disabled("sock");
+++
+++plan skip_all => "$test_name needs NPN enabled"
+++    if disabled("nextprotoneg");
+++
+++plan skip_all => "$test_name needs TLSv1.2 enabled"
+++    if disabled("tls1_2");
+++
+++my $proxy = TLSProxy::Proxy->new(
+++    undef,
+++    cmdstr(app(["openssl"]), display => 1),
+++    srctop_file("apps", "server.pem"),
+++    (!$ENV{HARNESS_ACTIVE} || $ENV{HARNESS_VERBOSE})
+++);
+++
+++$proxy->start() or plan skip_all => "Unable to start up Proxy for tests";
+++plan tests => 1;
+++
+++my $npnseen = 0;
+++
+++# Test 1: Check sending an empty NextProto message from the client works. This is
+++#         valid as per the spec, but OpenSSL does not allow you to send it.
+++#         Therefore we must be prepared to receive such a message but we cannot
+++#         generate it except via TLSProxy
+++$proxy->clear();
+++$proxy->filter(\&npn_filter);
+++$proxy->clientflags("-nextprotoneg foo -no_tls1_3");
+++$proxy->serverflags("-nextprotoneg foo");
+++$proxy->start();
+++ok($npnseen && TLSProxy::Message->success(), "Empty NPN message");
+++
+++sub npn_filter
+++{
+++    my $proxy = shift;
+++    my $message;
+++
+++    # The NextProto message always appears in flight 2
+++    return if $proxy->flight != 2;
+++
+++    foreach my $message (@{$proxy->message_list}) {
+++        if ($message->mt == TLSProxy::Message::MT_NEXT_PROTO) {
+++            # Our TLSproxy NextProto message support doesn't support parsing of
+++            # the message. If we repack it just creates an empty NextProto
+++            # message - which is exactly the scenario we want to test here.
+++            $message->repack();
+++            $npnseen = 1;
+++        }
+++    }
+++}
++diff --git a/util/perl/TLSProxy/Message.pm b/util/perl/TLSProxy/Message.pm
++index ce22187..fb41b2f 100644
++--- a/util/perl/TLSProxy/Message.pm
+++++ b/util/perl/TLSProxy/Message.pm
++@@ -384,6 +384,15 @@ sub create_message
++             [@message_frag_lens]
++         );
++         $message->parse();
+++    }  elsif ($mt == MT_NEXT_PROTO) {
+++        $message = TLSProxy::NextProto->new(
+++            $server,
+++            $data,
+++            [@message_rec_list],
+++            $startoffset,
+++            [@message_frag_lens]
+++        );
+++        $message->parse();
++     } else {
++         #Unknown message type
++         $message = TLSProxy::Message->new(
++diff --git a/util/perl/TLSProxy/NextProto.pm b/util/perl/TLSProxy/NextProto.pm
++new file mode 100644
++index 0000000..0e18347
++--- /dev/null
+++++ b/util/perl/TLSProxy/NextProto.pm
++@@ -0,0 +1,54 @@
+++# Copyright 2024 The OpenSSL Project Authors. All Rights Reserved.
+++#
+++# Licensed under the Apache License 2.0 (the "License").  You may not use
+++# this file except in compliance with the License.  You can obtain a copy
+++# in the file LICENSE in the source distribution or at
+++# https://www.openssl.org/source/license.html
+++
+++use strict;
+++
+++package TLSProxy::NextProto;
+++
+++use vars '@ISA';
+++push @ISA, 'TLSProxy::Message';
+++
+++sub new
+++{
+++    my $class = shift;
+++    my ($server,
+++        $data,
+++        $records,
+++        $startoffset,
+++        $message_frag_lens) = @_;
+++
+++    my $self = $class->SUPER::new(
+++        $server,
+++        TLSProxy::Message::MT_NEXT_PROTO,
+++        $data,
+++        $records,
+++        $startoffset,
+++        $message_frag_lens);
+++
+++    return $self;
+++}
+++
+++sub parse
+++{
+++    # We don't support parsing at the moment
+++}
+++
+++# This is supposed to reconstruct the on-the-wire message data following changes.
+++# For now though since we don't support parsing we just create an empty NextProto
+++# message - this capability is used in test_npn
+++sub set_message_contents
+++{
+++    my $self = shift;
+++    my $data;
+++
+++    $data = pack("C32", 0x00, 0x1e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+++                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+++                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+++                 0x00, 0x00, 0x00);
+++    $self->data($data);
+++}
+++1;
++diff --git a/util/perl/TLSProxy/Proxy.pm b/util/perl/TLSProxy/Proxy.pm
++index 3de10ec..b707722 100644
++--- a/util/perl/TLSProxy/Proxy.pm
+++++ b/util/perl/TLSProxy/Proxy.pm
++@@ -23,6 +23,7 @@ use TLSProxy::CertificateRequest;
++ use TLSProxy::CertificateVerify;
++ use TLSProxy::ServerKeyExchange;
++ use TLSProxy::NewSessionTicket;
+++use TLSProxy::NextProto;
++ 
++ my $have_IPv6;
++ my $IP_factory;
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch
+new file mode 100644
+index 0000000000..768304f00b
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_2.patch
+@@ -0,0 +1,43 @@
++From 6de1d37cd129b0af5b4a247c76f97b98e70b108b Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 31 May 2024 11:18:27 +0100
++Subject: [PATCH 02/10] More correctly handle a selected_len of 0 when
++ processing NPN
++
++In the case where the NPN callback returns with SSL_TLEXT_ERR_OK, but
++the selected_len is 0 we should fail. Previously this would fail with an
++internal_error alert because calling OPENSSL_malloc(selected_len) will
++return NULL when selected_len is 0. We make this error detection more
++explicit and return a handshake failure alert.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/015255851371757d54c2560643eb3b3a88123cf1]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ ssl/statem/extensions_clnt.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/ssl/statem/extensions_clnt.c b/ssl/statem/extensions_clnt.c
++index 381a6c9..1ab3c13 100644
++--- a/ssl/statem/extensions_clnt.c
+++++ b/ssl/statem/extensions_clnt.c
++@@ -1560,8 +1560,8 @@ int tls_parse_stoc_npn(SSL_CONNECTION *s, PACKET *pkt, unsigned int context,
++     if (sctx->ext.npn_select_cb(SSL_CONNECTION_GET_SSL(s),
++                                 &selected, &selected_len,
++                                 PACKET_data(pkt), PACKET_remaining(pkt),
++-                                sctx->ext.npn_select_cb_arg) !=
++-             SSL_TLSEXT_ERR_OK) {
+++                                sctx->ext.npn_select_cb_arg) != SSL_TLSEXT_ERR_OK
+++            || selected_len == 0) {
++         SSLfatal(s, SSL_AD_HANDSHAKE_FAILURE, SSL_R_BAD_EXTENSION);
++         return 0;
++     }
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch
+new file mode 100644
+index 0000000000..d6d4d869be
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_3.patch
+@@ -0,0 +1,38 @@
++From 4f9334a33da89949f97927c8fe7df1003c42cda4 Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 31 May 2024 11:22:13 +0100
++Subject: [PATCH 03/10] Use correctly formatted ALPN data in tserver
++
++The QUIC test server was using incorrectly formatted ALPN data. With the
++previous implementation of SSL_select_next_proto this went unnoticed. With
++the new stricter implemenation it was failing.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/6cc511826f09e513b4ec066d9b95acaf4f86d991]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ ssl/quic/quic_tserver.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/ssl/quic/quic_tserver.c b/ssl/quic/quic_tserver.c
++index 86187d0..15694e7 100644
++--- a/ssl/quic/quic_tserver.c
+++++ b/ssl/quic/quic_tserver.c
++@@ -58,7 +58,7 @@ static int alpn_select_cb(SSL *ssl, const unsigned char **out,
++ 
++     if (srv->args.alpn == NULL) {
++         alpn = alpndeflt;
++-        alpnlen = sizeof(alpn);
+++        alpnlen = sizeof(alpndeflt);
++     } else {
++         alpn = srv->args.alpn;
++         alpnlen = srv->args.alpnlen;
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
+new file mode 100644
+index 0000000000..03fc1168f9
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_4.patch
+@@ -0,0 +1,82 @@
++From 5145a1f50e44c9f86127a76f01519a9f25157290 Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 31 May 2024 11:46:38 +0100
++Subject: [PATCH 04/10] Clarify the SSL_select_next_proto() documentation
++
++We clarify the input preconditions and the expected behaviour in the event
++of no overlap.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/8e81c57adbbf703dfb63955f65599765fdacc741]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ doc/man3/SSL_CTX_set_alpn_select_cb.pod | 26 +++++++++++++++++--------
++ 1 file changed, 18 insertions(+), 8 deletions(-)
++
++diff --git a/doc/man3/SSL_CTX_set_alpn_select_cb.pod b/doc/man3/SSL_CTX_set_alpn_select_cb.pod
++index 05fee2f..79e1a25 100644
++--- a/doc/man3/SSL_CTX_set_alpn_select_cb.pod
+++++ b/doc/man3/SSL_CTX_set_alpn_select_cb.pod
++@@ -52,7 +52,8 @@ SSL_select_next_proto, SSL_get0_alpn_selected, SSL_get0_next_proto_negotiated
++ SSL_CTX_set_alpn_protos() and SSL_set_alpn_protos() are used by the client to
++ set the list of protocols available to be negotiated. The B<protos> must be in
++ protocol-list format, described below. The length of B<protos> is specified in
++-B<protos_len>.
+++B<protos_len>. Setting B<protos_len> to 0 clears any existing list of ALPN
+++protocols and no ALPN extension will be sent to the server.
++ 
++ SSL_CTX_set_alpn_select_cb() sets the application callback B<cb> used by a
++ server to select which protocol to use for the incoming connection. When B<cb>
++@@ -73,9 +74,16 @@ B<server_len> and B<client>, B<client_len> must be in the protocol-list format
++ described below. The first item in the B<server>, B<server_len> list that
++ matches an item in the B<client>, B<client_len> list is selected, and returned
++ in B<out>, B<outlen>. The B<out> value will point into either B<server> or
++-B<client>, so it should be copied immediately. If no match is found, the first
++-item in B<client>, B<client_len> is returned in B<out>, B<outlen>. This
++-function can also be used in the NPN callback.
+++B<client>, so it should be copied immediately. The client list must include at
+++least one valid (nonempty) protocol entry in the list.
+++
+++The SSL_select_next_proto() helper function can be useful from either the ALPN
+++callback or the NPN callback (described below). If no match is found, the first
+++item in B<client>, B<client_len> is returned in B<out>, B<outlen> and
+++B<OPENSSL_NPN_NO_OVERLAP> is returned. This can be useful when implementating
+++the NPN callback. In the ALPN case, the value returned in B<out> and B<outlen>
+++must be ignored if B<OPENSSL_NPN_NO_OVERLAP> has been returned from
+++SSL_select_next_proto().
++ 
++ SSL_CTX_set_next_proto_select_cb() sets a callback B<cb> that is called when a
++ client needs to select a protocol from the server's provided list, and a
++@@ -85,9 +93,10 @@ must be set to point to the selected protocol (which may be within B<in>).
++ The length of the protocol name must be written into B<outlen>. The
++ server's advertised protocols are provided in B<in> and B<inlen>. The
++ callback can assume that B<in> is syntactically valid. The client must
++-select a protocol. It is fatal to the connection if this callback returns
++-a value other than B<SSL_TLSEXT_ERR_OK>. The B<arg> parameter is the pointer
++-set via SSL_CTX_set_next_proto_select_cb().
+++select a protocol (although it may be an empty, zero length protocol). It is
+++fatal to the connection if this callback returns a value other than
+++B<SSL_TLSEXT_ERR_OK> or if the zero length protocol is selected. The B<arg>
+++parameter is the pointer set via SSL_CTX_set_next_proto_select_cb().
++ 
++ SSL_CTX_set_next_protos_advertised_cb() sets a callback B<cb> that is called
++ when a TLS server needs a list of supported protocols for Next Protocol
++@@ -154,7 +163,8 @@ A match was found and is returned in B<out>, B<outlen>.
++ =item OPENSSL_NPN_NO_OVERLAP
++ 
++ No match was found. The first item in B<client>, B<client_len> is returned in
++-B<out>, B<outlen>.
+++B<out>, B<outlen> (or B<NULL> and 0 in the case where the first entry in
+++B<client> is invalid).
++ 
++ =back
++ 
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
+new file mode 100644
+index 0000000000..e439d9b59a
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_5.patch
+@@ -0,0 +1,176 @@
++From 01d44bc7f50670002cad495654fd99a6371d7662 Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 31 May 2024 16:35:16 +0100
++Subject: [PATCH 05/10] Add a test for SSL_select_next_proto
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/add5c52a25c549cec4a730cdf96e2252f0a1862d]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ test/sslapitest.c | 137 ++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 137 insertions(+)
++
++diff --git a/test/sslapitest.c b/test/sslapitest.c
++index ce16332..15cb906 100644
++--- a/test/sslapitest.c
+++++ b/test/sslapitest.c
++@@ -11741,6 +11741,142 @@ static int test_multi_resume(int idx)
++     return testresult;
++ }
++ 
+++static struct next_proto_st {
+++    int serverlen;
+++    unsigned char server[40];
+++    int clientlen;
+++    unsigned char client[40];
+++    int expected_ret;
+++    size_t selectedlen;
+++    unsigned char selected[40];
+++} next_proto_tests[] = {
+++    {
+++        4, { 3, 'a', 'b', 'c' },
+++        4, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NEGOTIATED,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        7, { 3, 'a', 'b', 'c', 2, 'a', 'b' },
+++        4, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NEGOTIATED,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        7, { 2, 'a', 'b', 3, 'a', 'b', 'c', },
+++        4, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NEGOTIATED,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        4, { 3, 'a', 'b', 'c' },
+++        7, { 3, 'a', 'b', 'c', 2, 'a', 'b', },
+++        OPENSSL_NPN_NEGOTIATED,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        4, { 3, 'a', 'b', 'c' },
+++        7, { 2, 'a', 'b', 3, 'a', 'b', 'c'},
+++        OPENSSL_NPN_NEGOTIATED,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        7, { 2, 'b', 'c', 3, 'a', 'b', 'c' },
+++        7, { 2, 'a', 'b', 3, 'a', 'b', 'c'},
+++        OPENSSL_NPN_NEGOTIATED,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        10, { 2, 'b', 'c', 3, 'a', 'b', 'c', 2, 'a', 'b' },
+++        7, { 2, 'a', 'b', 3, 'a', 'b', 'c'},
+++        OPENSSL_NPN_NEGOTIATED,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        4, { 3, 'b', 'c', 'd' },
+++        4, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NO_OVERLAP,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        0, { 0 },
+++        4, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NO_OVERLAP,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        -1, { 0 },
+++        4, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NO_OVERLAP,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        4, { 3, 'a', 'b', 'c' },
+++        0, { 0 },
+++        OPENSSL_NPN_NO_OVERLAP,
+++        0, { 0 }
+++    },
+++    {
+++        4, { 3, 'a', 'b', 'c' },
+++        -1, { 0 },
+++        OPENSSL_NPN_NO_OVERLAP,
+++        0, { 0 }
+++    },
+++    {
+++        3, { 3, 'a', 'b', 'c' },
+++        4, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NO_OVERLAP,
+++        3, { 'a', 'b', 'c' }
+++    },
+++    {
+++        4, { 3, 'a', 'b', 'c' },
+++        3, { 3, 'a', 'b', 'c' },
+++        OPENSSL_NPN_NO_OVERLAP,
+++        0, { 0 }
+++    }
+++};
+++
+++static int test_select_next_proto(int idx)
+++{
+++    struct next_proto_st *np = &next_proto_tests[idx];
+++    int ret = 0;
+++    unsigned char *out, *client, *server;
+++    unsigned char outlen;
+++    unsigned int clientlen, serverlen;
+++
+++    if (np->clientlen == -1) {
+++        client = NULL;
+++        clientlen = 0;
+++    } else {
+++        client = np->client;
+++        clientlen = (unsigned int)np->clientlen;
+++    }
+++    if (np->serverlen == -1) {
+++        server = NULL;
+++        serverlen = 0;
+++    } else {
+++        server = np->server;
+++        serverlen = (unsigned int)np->serverlen;
+++    }
+++
+++    if (!TEST_int_eq(SSL_select_next_proto(&out, &outlen, server, serverlen,
+++                                           client, clientlen),
+++                     np->expected_ret))
+++        goto err;
+++
+++    if (np->selectedlen == 0) {
+++        if (!TEST_ptr_null(out) || !TEST_uchar_eq(outlen, 0))
+++            goto err;
+++    } else {
+++        if (!TEST_mem_eq(out, outlen, np->selected, np->selectedlen))
+++            goto err;
+++    }
+++
+++    ret = 1;
+++ err:
+++    return ret;
+++}
+++
++ OPT_TEST_DECLARE_USAGE("certfile privkeyfile srpvfile tmpfile provider config dhfile\n")
++ 
++ int setup_tests(void)
++@@ -12053,6 +12189,7 @@ int setup_tests(void)
++     ADD_ALL_TESTS(test_handshake_retry, 16);
++     ADD_TEST(test_data_retry);
++     ADD_ALL_TESTS(test_multi_resume, 5);
+++    ADD_ALL_TESTS(test_select_next_proto, OSSL_NELEM(next_proto_tests));
++     return 1;
++ 
++  err:
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
+new file mode 100644
+index 0000000000..df24702fa6
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_6.patch
+@@ -0,0 +1,1173 @@
++From e344d0b5860560ffa59415ea4028ba7760b2a773 Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Tue, 4 Jun 2024 15:47:32 +0100
++Subject: [PATCH 06/10] Allow an empty NPN/ALPN protocol list in the tests
++
++Allow ourselves to configure an empty NPN/ALPN protocol list and test what
++happens if we do.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/7ea1f6a85b299b976cb3f756b2a7f0153f31b2b6]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ test/helpers/handshake.c      |   6 +
++ test/ssl-tests/08-npn.cnf     | 553 +++++++++++++++++++---------------
++ test/ssl-tests/08-npn.cnf.in  |  35 +++
++ test/ssl-tests/09-alpn.cnf    |  66 +++-
++ test/ssl-tests/09-alpn.cnf.in |  33 ++
++ 5 files changed, 449 insertions(+), 244 deletions(-)
++
++diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
++index ae2ad59..b66b2f5 100644
++--- a/test/helpers/handshake.c
+++++ b/test/helpers/handshake.c
++@@ -444,6 +444,12 @@ static int parse_protos(const char *protos, unsigned char **out, size_t *outlen)
++ 
++     len = strlen(protos);
++ 
+++    if (len == 0) {
+++        *out = NULL;
+++        *outlen = 0;
+++        return 1;
+++    }
+++
++     /* Should never have reuse. */
++     if (!TEST_ptr_null(*out)
++             /* Test values are small, so we omit length limit checks. */
++diff --git a/test/ssl-tests/08-npn.cnf b/test/ssl-tests/08-npn.cnf
++index f38b3f6..1931d02 100644
++--- a/test/ssl-tests/08-npn.cnf
+++++ b/test/ssl-tests/08-npn.cnf
++@@ -1,6 +1,6 @@
++ # Generated with generate_ssl_tests.pl
++ 
++-num_tests = 20
+++num_tests = 22
++ 
++ test-0 = 0-npn-simple
++ test-1 = 1-npn-client-finds-match
++@@ -8,20 +8,22 @@ test-2 = 2-npn-client-honours-server-pref
++ test-3 = 3-npn-client-first-pref-on-mismatch
++ test-4 = 4-npn-no-server-support
++ test-5 = 5-npn-no-client-support
++-test-6 = 6-npn-with-sni-no-context-switch
++-test-7 = 7-npn-with-sni-context-switch
++-test-8 = 8-npn-selected-sni-server-supports-npn
++-test-9 = 9-npn-selected-sni-server-does-not-support-npn
++-test-10 = 10-alpn-preferred-over-npn
++-test-11 = 11-sni-npn-preferred-over-alpn
++-test-12 = 12-npn-simple-resumption
++-test-13 = 13-npn-server-switch-resumption
++-test-14 = 14-npn-client-switch-resumption
++-test-15 = 15-npn-client-first-pref-on-mismatch-resumption
++-test-16 = 16-npn-no-server-support-resumption
++-test-17 = 17-npn-no-client-support-resumption
++-test-18 = 18-alpn-preferred-over-npn-resumption
++-test-19 = 19-npn-used-if-alpn-not-supported-resumption
+++test-6 = 6-npn-empty-client-list
+++test-7 = 7-npn-empty-server-list
+++test-8 = 8-npn-with-sni-no-context-switch
+++test-9 = 9-npn-with-sni-context-switch
+++test-10 = 10-npn-selected-sni-server-supports-npn
+++test-11 = 11-npn-selected-sni-server-does-not-support-npn
+++test-12 = 12-alpn-preferred-over-npn
+++test-13 = 13-sni-npn-preferred-over-alpn
+++test-14 = 14-npn-simple-resumption
+++test-15 = 15-npn-server-switch-resumption
+++test-16 = 16-npn-client-switch-resumption
+++test-17 = 17-npn-client-first-pref-on-mismatch-resumption
+++test-18 = 18-npn-no-server-support-resumption
+++test-19 = 19-npn-no-client-support-resumption
+++test-20 = 20-alpn-preferred-over-npn-resumption
+++test-21 = 21-npn-used-if-alpn-not-supported-resumption
++ # ===========================================================
++ 
++ [0-npn-simple]
++@@ -206,253 +208,318 @@ NPNProtocols = foo
++ 
++ # ===========================================================
++ 
++-[6-npn-with-sni-no-context-switch]
++-ssl_conf = 6-npn-with-sni-no-context-switch-ssl
+++[6-npn-empty-client-list]
+++ssl_conf = 6-npn-empty-client-list-ssl
++ 
++-[6-npn-with-sni-no-context-switch-ssl]
++-server = 6-npn-with-sni-no-context-switch-server
++-client = 6-npn-with-sni-no-context-switch-client
++-server2 = 6-npn-with-sni-no-context-switch-server2
+++[6-npn-empty-client-list-ssl]
+++server = 6-npn-empty-client-list-server
+++client = 6-npn-empty-client-list-client
++ 
++-[6-npn-with-sni-no-context-switch-server]
+++[6-npn-empty-client-list-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[6-npn-with-sni-no-context-switch-server2]
+++[6-npn-empty-client-list-client]
+++CipherString = DEFAULT
+++MaxProtocol = TLSv1.2
+++VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
+++VerifyMode = Peer
+++
+++[test-6]
+++ExpectedClientAlert = HandshakeFailure
+++ExpectedResult = ClientFail
+++server = 6-npn-empty-client-list-server-extra
+++client = 6-npn-empty-client-list-client-extra
+++
+++[6-npn-empty-client-list-server-extra]
+++NPNProtocols = foo
+++
+++[6-npn-empty-client-list-client-extra]
+++NPNProtocols = 
+++
+++
+++# ===========================================================
+++
+++[7-npn-empty-server-list]
+++ssl_conf = 7-npn-empty-server-list-ssl
+++
+++[7-npn-empty-server-list-ssl]
+++server = 7-npn-empty-server-list-server
+++client = 7-npn-empty-server-list-client
+++
+++[7-npn-empty-server-list-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[6-npn-with-sni-no-context-switch-client]
+++[7-npn-empty-server-list-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-6]
+++[test-7]
+++ExpectedNPNProtocol = foo
+++server = 7-npn-empty-server-list-server-extra
+++client = 7-npn-empty-server-list-client-extra
+++
+++[7-npn-empty-server-list-server-extra]
+++NPNProtocols = 
+++
+++[7-npn-empty-server-list-client-extra]
+++NPNProtocols = foo
+++
+++
+++# ===========================================================
+++
+++[8-npn-with-sni-no-context-switch]
+++ssl_conf = 8-npn-with-sni-no-context-switch-ssl
+++
+++[8-npn-with-sni-no-context-switch-ssl]
+++server = 8-npn-with-sni-no-context-switch-server
+++client = 8-npn-with-sni-no-context-switch-client
+++server2 = 8-npn-with-sni-no-context-switch-server2
+++
+++[8-npn-with-sni-no-context-switch-server]
+++Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
+++CipherString = DEFAULT
+++PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
+++
+++[8-npn-with-sni-no-context-switch-server2]
+++Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
+++CipherString = DEFAULT
+++PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
+++
+++[8-npn-with-sni-no-context-switch-client]
+++CipherString = DEFAULT
+++MaxProtocol = TLSv1.2
+++VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
+++VerifyMode = Peer
+++
+++[test-8]
++ ExpectedNPNProtocol = foo
++ ExpectedServerName = server1
++-server = 6-npn-with-sni-no-context-switch-server-extra
++-server2 = 6-npn-with-sni-no-context-switch-server2-extra
++-client = 6-npn-with-sni-no-context-switch-client-extra
+++server = 8-npn-with-sni-no-context-switch-server-extra
+++server2 = 8-npn-with-sni-no-context-switch-server2-extra
+++client = 8-npn-with-sni-no-context-switch-client-extra
++ 
++-[6-npn-with-sni-no-context-switch-server-extra]
+++[8-npn-with-sni-no-context-switch-server-extra]
++ NPNProtocols = foo
++ ServerNameCallback = IgnoreMismatch
++ 
++-[6-npn-with-sni-no-context-switch-server2-extra]
+++[8-npn-with-sni-no-context-switch-server2-extra]
++ NPNProtocols = bar
++ 
++-[6-npn-with-sni-no-context-switch-client-extra]
+++[8-npn-with-sni-no-context-switch-client-extra]
++ NPNProtocols = foo,bar
++ ServerName = server1
++ 
++ 
++ # ===========================================================
++ 
++-[7-npn-with-sni-context-switch]
++-ssl_conf = 7-npn-with-sni-context-switch-ssl
+++[9-npn-with-sni-context-switch]
+++ssl_conf = 9-npn-with-sni-context-switch-ssl
++ 
++-[7-npn-with-sni-context-switch-ssl]
++-server = 7-npn-with-sni-context-switch-server
++-client = 7-npn-with-sni-context-switch-client
++-server2 = 7-npn-with-sni-context-switch-server2
+++[9-npn-with-sni-context-switch-ssl]
+++server = 9-npn-with-sni-context-switch-server
+++client = 9-npn-with-sni-context-switch-client
+++server2 = 9-npn-with-sni-context-switch-server2
++ 
++-[7-npn-with-sni-context-switch-server]
+++[9-npn-with-sni-context-switch-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[7-npn-with-sni-context-switch-server2]
+++[9-npn-with-sni-context-switch-server2]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[7-npn-with-sni-context-switch-client]
+++[9-npn-with-sni-context-switch-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-7]
+++[test-9]
++ ExpectedNPNProtocol = bar
++ ExpectedServerName = server2
++-server = 7-npn-with-sni-context-switch-server-extra
++-server2 = 7-npn-with-sni-context-switch-server2-extra
++-client = 7-npn-with-sni-context-switch-client-extra
+++server = 9-npn-with-sni-context-switch-server-extra
+++server2 = 9-npn-with-sni-context-switch-server2-extra
+++client = 9-npn-with-sni-context-switch-client-extra
++ 
++-[7-npn-with-sni-context-switch-server-extra]
+++[9-npn-with-sni-context-switch-server-extra]
++ NPNProtocols = foo
++ ServerNameCallback = IgnoreMismatch
++ 
++-[7-npn-with-sni-context-switch-server2-extra]
+++[9-npn-with-sni-context-switch-server2-extra]
++ NPNProtocols = bar
++ 
++-[7-npn-with-sni-context-switch-client-extra]
+++[9-npn-with-sni-context-switch-client-extra]
++ NPNProtocols = foo,bar
++ ServerName = server2
++ 
++ 
++ # ===========================================================
++ 
++-[8-npn-selected-sni-server-supports-npn]
++-ssl_conf = 8-npn-selected-sni-server-supports-npn-ssl
+++[10-npn-selected-sni-server-supports-npn]
+++ssl_conf = 10-npn-selected-sni-server-supports-npn-ssl
++ 
++-[8-npn-selected-sni-server-supports-npn-ssl]
++-server = 8-npn-selected-sni-server-supports-npn-server
++-client = 8-npn-selected-sni-server-supports-npn-client
++-server2 = 8-npn-selected-sni-server-supports-npn-server2
+++[10-npn-selected-sni-server-supports-npn-ssl]
+++server = 10-npn-selected-sni-server-supports-npn-server
+++client = 10-npn-selected-sni-server-supports-npn-client
+++server2 = 10-npn-selected-sni-server-supports-npn-server2
++ 
++-[8-npn-selected-sni-server-supports-npn-server]
+++[10-npn-selected-sni-server-supports-npn-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[8-npn-selected-sni-server-supports-npn-server2]
+++[10-npn-selected-sni-server-supports-npn-server2]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[8-npn-selected-sni-server-supports-npn-client]
+++[10-npn-selected-sni-server-supports-npn-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-8]
+++[test-10]
++ ExpectedNPNProtocol = bar
++ ExpectedServerName = server2
++-server = 8-npn-selected-sni-server-supports-npn-server-extra
++-server2 = 8-npn-selected-sni-server-supports-npn-server2-extra
++-client = 8-npn-selected-sni-server-supports-npn-client-extra
+++server = 10-npn-selected-sni-server-supports-npn-server-extra
+++server2 = 10-npn-selected-sni-server-supports-npn-server2-extra
+++client = 10-npn-selected-sni-server-supports-npn-client-extra
++ 
++-[8-npn-selected-sni-server-supports-npn-server-extra]
+++[10-npn-selected-sni-server-supports-npn-server-extra]
++ ServerNameCallback = IgnoreMismatch
++ 
++-[8-npn-selected-sni-server-supports-npn-server2-extra]
+++[10-npn-selected-sni-server-supports-npn-server2-extra]
++ NPNProtocols = bar
++ 
++-[8-npn-selected-sni-server-supports-npn-client-extra]
+++[10-npn-selected-sni-server-supports-npn-client-extra]
++ NPNProtocols = foo,bar
++ ServerName = server2
++ 
++ 
++ # ===========================================================
++ 
++-[9-npn-selected-sni-server-does-not-support-npn]
++-ssl_conf = 9-npn-selected-sni-server-does-not-support-npn-ssl
+++[11-npn-selected-sni-server-does-not-support-npn]
+++ssl_conf = 11-npn-selected-sni-server-does-not-support-npn-ssl
++ 
++-[9-npn-selected-sni-server-does-not-support-npn-ssl]
++-server = 9-npn-selected-sni-server-does-not-support-npn-server
++-client = 9-npn-selected-sni-server-does-not-support-npn-client
++-server2 = 9-npn-selected-sni-server-does-not-support-npn-server2
+++[11-npn-selected-sni-server-does-not-support-npn-ssl]
+++server = 11-npn-selected-sni-server-does-not-support-npn-server
+++client = 11-npn-selected-sni-server-does-not-support-npn-client
+++server2 = 11-npn-selected-sni-server-does-not-support-npn-server2
++ 
++-[9-npn-selected-sni-server-does-not-support-npn-server]
+++[11-npn-selected-sni-server-does-not-support-npn-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[9-npn-selected-sni-server-does-not-support-npn-server2]
+++[11-npn-selected-sni-server-does-not-support-npn-server2]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[9-npn-selected-sni-server-does-not-support-npn-client]
+++[11-npn-selected-sni-server-does-not-support-npn-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-9]
+++[test-11]
++ ExpectedServerName = server2
++-server = 9-npn-selected-sni-server-does-not-support-npn-server-extra
++-client = 9-npn-selected-sni-server-does-not-support-npn-client-extra
+++server = 11-npn-selected-sni-server-does-not-support-npn-server-extra
+++client = 11-npn-selected-sni-server-does-not-support-npn-client-extra
++ 
++-[9-npn-selected-sni-server-does-not-support-npn-server-extra]
+++[11-npn-selected-sni-server-does-not-support-npn-server-extra]
++ NPNProtocols = bar
++ ServerNameCallback = IgnoreMismatch
++ 
++-[9-npn-selected-sni-server-does-not-support-npn-client-extra]
+++[11-npn-selected-sni-server-does-not-support-npn-client-extra]
++ NPNProtocols = foo,bar
++ ServerName = server2
++ 
++ 
++ # ===========================================================
++ 
++-[10-alpn-preferred-over-npn]
++-ssl_conf = 10-alpn-preferred-over-npn-ssl
+++[12-alpn-preferred-over-npn]
+++ssl_conf = 12-alpn-preferred-over-npn-ssl
++ 
++-[10-alpn-preferred-over-npn-ssl]
++-server = 10-alpn-preferred-over-npn-server
++-client = 10-alpn-preferred-over-npn-client
+++[12-alpn-preferred-over-npn-ssl]
+++server = 12-alpn-preferred-over-npn-server
+++client = 12-alpn-preferred-over-npn-client
++ 
++-[10-alpn-preferred-over-npn-server]
+++[12-alpn-preferred-over-npn-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[10-alpn-preferred-over-npn-client]
+++[12-alpn-preferred-over-npn-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-10]
+++[test-12]
++ ExpectedALPNProtocol = foo
++-server = 10-alpn-preferred-over-npn-server-extra
++-client = 10-alpn-preferred-over-npn-client-extra
+++server = 12-alpn-preferred-over-npn-server-extra
+++client = 12-alpn-preferred-over-npn-client-extra
++ 
++-[10-alpn-preferred-over-npn-server-extra]
+++[12-alpn-preferred-over-npn-server-extra]
++ ALPNProtocols = foo
++ NPNProtocols = bar
++ 
++-[10-alpn-preferred-over-npn-client-extra]
+++[12-alpn-preferred-over-npn-client-extra]
++ ALPNProtocols = foo
++ NPNProtocols = bar
++ 
++ 
++ # ===========================================================
++ 
++-[11-sni-npn-preferred-over-alpn]
++-ssl_conf = 11-sni-npn-preferred-over-alpn-ssl
+++[13-sni-npn-preferred-over-alpn]
+++ssl_conf = 13-sni-npn-preferred-over-alpn-ssl
++ 
++-[11-sni-npn-preferred-over-alpn-ssl]
++-server = 11-sni-npn-preferred-over-alpn-server
++-client = 11-sni-npn-preferred-over-alpn-client
++-server2 = 11-sni-npn-preferred-over-alpn-server2
+++[13-sni-npn-preferred-over-alpn-ssl]
+++server = 13-sni-npn-preferred-over-alpn-server
+++client = 13-sni-npn-preferred-over-alpn-client
+++server2 = 13-sni-npn-preferred-over-alpn-server2
++ 
++-[11-sni-npn-preferred-over-alpn-server]
+++[13-sni-npn-preferred-over-alpn-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[11-sni-npn-preferred-over-alpn-server2]
+++[13-sni-npn-preferred-over-alpn-server2]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[11-sni-npn-preferred-over-alpn-client]
+++[13-sni-npn-preferred-over-alpn-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-11]
+++[test-13]
++ ExpectedNPNProtocol = bar
++ ExpectedServerName = server2
++-server = 11-sni-npn-preferred-over-alpn-server-extra
++-server2 = 11-sni-npn-preferred-over-alpn-server2-extra
++-client = 11-sni-npn-preferred-over-alpn-client-extra
+++server = 13-sni-npn-preferred-over-alpn-server-extra
+++server2 = 13-sni-npn-preferred-over-alpn-server2-extra
+++client = 13-sni-npn-preferred-over-alpn-client-extra
++ 
++-[11-sni-npn-preferred-over-alpn-server-extra]
+++[13-sni-npn-preferred-over-alpn-server-extra]
++ ALPNProtocols = foo
++ ServerNameCallback = IgnoreMismatch
++ 
++-[11-sni-npn-preferred-over-alpn-server2-extra]
+++[13-sni-npn-preferred-over-alpn-server2-extra]
++ NPNProtocols = bar
++ 
++-[11-sni-npn-preferred-over-alpn-client-extra]
+++[13-sni-npn-preferred-over-alpn-client-extra]
++ ALPNProtocols = foo
++ NPNProtocols = bar
++ ServerName = server2
++@@ -460,356 +527,356 @@ ServerName = server2
++ 
++ # ===========================================================
++ 
++-[12-npn-simple-resumption]
++-ssl_conf = 12-npn-simple-resumption-ssl
+++[14-npn-simple-resumption]
+++ssl_conf = 14-npn-simple-resumption-ssl
++ 
++-[12-npn-simple-resumption-ssl]
++-server = 12-npn-simple-resumption-server
++-client = 12-npn-simple-resumption-client
++-resume-server = 12-npn-simple-resumption-server
++-resume-client = 12-npn-simple-resumption-client
+++[14-npn-simple-resumption-ssl]
+++server = 14-npn-simple-resumption-server
+++client = 14-npn-simple-resumption-client
+++resume-server = 14-npn-simple-resumption-server
+++resume-client = 14-npn-simple-resumption-client
++ 
++-[12-npn-simple-resumption-server]
+++[14-npn-simple-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[12-npn-simple-resumption-client]
+++[14-npn-simple-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-12]
+++[test-14]
++ ExpectedNPNProtocol = foo
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 12-npn-simple-resumption-server-extra
++-resume-server = 12-npn-simple-resumption-server-extra
++-client = 12-npn-simple-resumption-client-extra
++-resume-client = 12-npn-simple-resumption-client-extra
+++server = 14-npn-simple-resumption-server-extra
+++resume-server = 14-npn-simple-resumption-server-extra
+++client = 14-npn-simple-resumption-client-extra
+++resume-client = 14-npn-simple-resumption-client-extra
++ 
++-[12-npn-simple-resumption-server-extra]
+++[14-npn-simple-resumption-server-extra]
++ NPNProtocols = foo
++ 
++-[12-npn-simple-resumption-client-extra]
+++[14-npn-simple-resumption-client-extra]
++ NPNProtocols = foo
++ 
++ 
++ # ===========================================================
++ 
++-[13-npn-server-switch-resumption]
++-ssl_conf = 13-npn-server-switch-resumption-ssl
+++[15-npn-server-switch-resumption]
+++ssl_conf = 15-npn-server-switch-resumption-ssl
++ 
++-[13-npn-server-switch-resumption-ssl]
++-server = 13-npn-server-switch-resumption-server
++-client = 13-npn-server-switch-resumption-client
++-resume-server = 13-npn-server-switch-resumption-resume-server
++-resume-client = 13-npn-server-switch-resumption-client
+++[15-npn-server-switch-resumption-ssl]
+++server = 15-npn-server-switch-resumption-server
+++client = 15-npn-server-switch-resumption-client
+++resume-server = 15-npn-server-switch-resumption-resume-server
+++resume-client = 15-npn-server-switch-resumption-client
++ 
++-[13-npn-server-switch-resumption-server]
+++[15-npn-server-switch-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[13-npn-server-switch-resumption-resume-server]
+++[15-npn-server-switch-resumption-resume-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[13-npn-server-switch-resumption-client]
+++[15-npn-server-switch-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-13]
+++[test-15]
++ ExpectedNPNProtocol = baz
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 13-npn-server-switch-resumption-server-extra
++-resume-server = 13-npn-server-switch-resumption-resume-server-extra
++-client = 13-npn-server-switch-resumption-client-extra
++-resume-client = 13-npn-server-switch-resumption-client-extra
+++server = 15-npn-server-switch-resumption-server-extra
+++resume-server = 15-npn-server-switch-resumption-resume-server-extra
+++client = 15-npn-server-switch-resumption-client-extra
+++resume-client = 15-npn-server-switch-resumption-client-extra
++ 
++-[13-npn-server-switch-resumption-server-extra]
+++[15-npn-server-switch-resumption-server-extra]
++ NPNProtocols = bar,foo
++ 
++-[13-npn-server-switch-resumption-resume-server-extra]
+++[15-npn-server-switch-resumption-resume-server-extra]
++ NPNProtocols = baz,foo
++ 
++-[13-npn-server-switch-resumption-client-extra]
+++[15-npn-server-switch-resumption-client-extra]
++ NPNProtocols = foo,bar,baz
++ 
++ 
++ # ===========================================================
++ 
++-[14-npn-client-switch-resumption]
++-ssl_conf = 14-npn-client-switch-resumption-ssl
+++[16-npn-client-switch-resumption]
+++ssl_conf = 16-npn-client-switch-resumption-ssl
++ 
++-[14-npn-client-switch-resumption-ssl]
++-server = 14-npn-client-switch-resumption-server
++-client = 14-npn-client-switch-resumption-client
++-resume-server = 14-npn-client-switch-resumption-server
++-resume-client = 14-npn-client-switch-resumption-resume-client
+++[16-npn-client-switch-resumption-ssl]
+++server = 16-npn-client-switch-resumption-server
+++client = 16-npn-client-switch-resumption-client
+++resume-server = 16-npn-client-switch-resumption-server
+++resume-client = 16-npn-client-switch-resumption-resume-client
++ 
++-[14-npn-client-switch-resumption-server]
+++[16-npn-client-switch-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[14-npn-client-switch-resumption-client]
+++[16-npn-client-switch-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[14-npn-client-switch-resumption-resume-client]
+++[16-npn-client-switch-resumption-resume-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-14]
+++[test-16]
++ ExpectedNPNProtocol = bar
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 14-npn-client-switch-resumption-server-extra
++-resume-server = 14-npn-client-switch-resumption-server-extra
++-client = 14-npn-client-switch-resumption-client-extra
++-resume-client = 14-npn-client-switch-resumption-resume-client-extra
+++server = 16-npn-client-switch-resumption-server-extra
+++resume-server = 16-npn-client-switch-resumption-server-extra
+++client = 16-npn-client-switch-resumption-client-extra
+++resume-client = 16-npn-client-switch-resumption-resume-client-extra
++ 
++-[14-npn-client-switch-resumption-server-extra]
+++[16-npn-client-switch-resumption-server-extra]
++ NPNProtocols = foo,bar,baz
++ 
++-[14-npn-client-switch-resumption-client-extra]
+++[16-npn-client-switch-resumption-client-extra]
++ NPNProtocols = foo,baz
++ 
++-[14-npn-client-switch-resumption-resume-client-extra]
+++[16-npn-client-switch-resumption-resume-client-extra]
++ NPNProtocols = bar,baz
++ 
++ 
++ # ===========================================================
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption]
++-ssl_conf = 15-npn-client-first-pref-on-mismatch-resumption-ssl
+++[17-npn-client-first-pref-on-mismatch-resumption]
+++ssl_conf = 17-npn-client-first-pref-on-mismatch-resumption-ssl
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption-ssl]
++-server = 15-npn-client-first-pref-on-mismatch-resumption-server
++-client = 15-npn-client-first-pref-on-mismatch-resumption-client
++-resume-server = 15-npn-client-first-pref-on-mismatch-resumption-resume-server
++-resume-client = 15-npn-client-first-pref-on-mismatch-resumption-client
+++[17-npn-client-first-pref-on-mismatch-resumption-ssl]
+++server = 17-npn-client-first-pref-on-mismatch-resumption-server
+++client = 17-npn-client-first-pref-on-mismatch-resumption-client
+++resume-server = 17-npn-client-first-pref-on-mismatch-resumption-resume-server
+++resume-client = 17-npn-client-first-pref-on-mismatch-resumption-client
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption-server]
+++[17-npn-client-first-pref-on-mismatch-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption-resume-server]
+++[17-npn-client-first-pref-on-mismatch-resumption-resume-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption-client]
+++[17-npn-client-first-pref-on-mismatch-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-15]
+++[test-17]
++ ExpectedNPNProtocol = foo
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 15-npn-client-first-pref-on-mismatch-resumption-server-extra
++-resume-server = 15-npn-client-first-pref-on-mismatch-resumption-resume-server-extra
++-client = 15-npn-client-first-pref-on-mismatch-resumption-client-extra
++-resume-client = 15-npn-client-first-pref-on-mismatch-resumption-client-extra
+++server = 17-npn-client-first-pref-on-mismatch-resumption-server-extra
+++resume-server = 17-npn-client-first-pref-on-mismatch-resumption-resume-server-extra
+++client = 17-npn-client-first-pref-on-mismatch-resumption-client-extra
+++resume-client = 17-npn-client-first-pref-on-mismatch-resumption-client-extra
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption-server-extra]
+++[17-npn-client-first-pref-on-mismatch-resumption-server-extra]
++ NPNProtocols = bar
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption-resume-server-extra]
+++[17-npn-client-first-pref-on-mismatch-resumption-resume-server-extra]
++ NPNProtocols = baz
++ 
++-[15-npn-client-first-pref-on-mismatch-resumption-client-extra]
+++[17-npn-client-first-pref-on-mismatch-resumption-client-extra]
++ NPNProtocols = foo,bar
++ 
++ 
++ # ===========================================================
++ 
++-[16-npn-no-server-support-resumption]
++-ssl_conf = 16-npn-no-server-support-resumption-ssl
+++[18-npn-no-server-support-resumption]
+++ssl_conf = 18-npn-no-server-support-resumption-ssl
++ 
++-[16-npn-no-server-support-resumption-ssl]
++-server = 16-npn-no-server-support-resumption-server
++-client = 16-npn-no-server-support-resumption-client
++-resume-server = 16-npn-no-server-support-resumption-resume-server
++-resume-client = 16-npn-no-server-support-resumption-client
+++[18-npn-no-server-support-resumption-ssl]
+++server = 18-npn-no-server-support-resumption-server
+++client = 18-npn-no-server-support-resumption-client
+++resume-server = 18-npn-no-server-support-resumption-resume-server
+++resume-client = 18-npn-no-server-support-resumption-client
++ 
++-[16-npn-no-server-support-resumption-server]
+++[18-npn-no-server-support-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[16-npn-no-server-support-resumption-resume-server]
+++[18-npn-no-server-support-resumption-resume-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[16-npn-no-server-support-resumption-client]
+++[18-npn-no-server-support-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-16]
+++[test-18]
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 16-npn-no-server-support-resumption-server-extra
++-client = 16-npn-no-server-support-resumption-client-extra
++-resume-client = 16-npn-no-server-support-resumption-client-extra
+++server = 18-npn-no-server-support-resumption-server-extra
+++client = 18-npn-no-server-support-resumption-client-extra
+++resume-client = 18-npn-no-server-support-resumption-client-extra
++ 
++-[16-npn-no-server-support-resumption-server-extra]
+++[18-npn-no-server-support-resumption-server-extra]
++ NPNProtocols = foo
++ 
++-[16-npn-no-server-support-resumption-client-extra]
+++[18-npn-no-server-support-resumption-client-extra]
++ NPNProtocols = foo
++ 
++ 
++ # ===========================================================
++ 
++-[17-npn-no-client-support-resumption]
++-ssl_conf = 17-npn-no-client-support-resumption-ssl
+++[19-npn-no-client-support-resumption]
+++ssl_conf = 19-npn-no-client-support-resumption-ssl
++ 
++-[17-npn-no-client-support-resumption-ssl]
++-server = 17-npn-no-client-support-resumption-server
++-client = 17-npn-no-client-support-resumption-client
++-resume-server = 17-npn-no-client-support-resumption-server
++-resume-client = 17-npn-no-client-support-resumption-resume-client
+++[19-npn-no-client-support-resumption-ssl]
+++server = 19-npn-no-client-support-resumption-server
+++client = 19-npn-no-client-support-resumption-client
+++resume-server = 19-npn-no-client-support-resumption-server
+++resume-client = 19-npn-no-client-support-resumption-resume-client
++ 
++-[17-npn-no-client-support-resumption-server]
+++[19-npn-no-client-support-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[17-npn-no-client-support-resumption-client]
+++[19-npn-no-client-support-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[17-npn-no-client-support-resumption-resume-client]
+++[19-npn-no-client-support-resumption-resume-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-17]
+++[test-19]
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 17-npn-no-client-support-resumption-server-extra
++-resume-server = 17-npn-no-client-support-resumption-server-extra
++-client = 17-npn-no-client-support-resumption-client-extra
+++server = 19-npn-no-client-support-resumption-server-extra
+++resume-server = 19-npn-no-client-support-resumption-server-extra
+++client = 19-npn-no-client-support-resumption-client-extra
++ 
++-[17-npn-no-client-support-resumption-server-extra]
+++[19-npn-no-client-support-resumption-server-extra]
++ NPNProtocols = foo
++ 
++-[17-npn-no-client-support-resumption-client-extra]
+++[19-npn-no-client-support-resumption-client-extra]
++ NPNProtocols = foo
++ 
++ 
++ # ===========================================================
++ 
++-[18-alpn-preferred-over-npn-resumption]
++-ssl_conf = 18-alpn-preferred-over-npn-resumption-ssl
+++[20-alpn-preferred-over-npn-resumption]
+++ssl_conf = 20-alpn-preferred-over-npn-resumption-ssl
++ 
++-[18-alpn-preferred-over-npn-resumption-ssl]
++-server = 18-alpn-preferred-over-npn-resumption-server
++-client = 18-alpn-preferred-over-npn-resumption-client
++-resume-server = 18-alpn-preferred-over-npn-resumption-resume-server
++-resume-client = 18-alpn-preferred-over-npn-resumption-client
+++[20-alpn-preferred-over-npn-resumption-ssl]
+++server = 20-alpn-preferred-over-npn-resumption-server
+++client = 20-alpn-preferred-over-npn-resumption-client
+++resume-server = 20-alpn-preferred-over-npn-resumption-resume-server
+++resume-client = 20-alpn-preferred-over-npn-resumption-client
++ 
++-[18-alpn-preferred-over-npn-resumption-server]
+++[20-alpn-preferred-over-npn-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[18-alpn-preferred-over-npn-resumption-resume-server]
+++[20-alpn-preferred-over-npn-resumption-resume-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[18-alpn-preferred-over-npn-resumption-client]
+++[20-alpn-preferred-over-npn-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-18]
+++[test-20]
++ ExpectedALPNProtocol = foo
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 18-alpn-preferred-over-npn-resumption-server-extra
++-resume-server = 18-alpn-preferred-over-npn-resumption-resume-server-extra
++-client = 18-alpn-preferred-over-npn-resumption-client-extra
++-resume-client = 18-alpn-preferred-over-npn-resumption-client-extra
+++server = 20-alpn-preferred-over-npn-resumption-server-extra
+++resume-server = 20-alpn-preferred-over-npn-resumption-resume-server-extra
+++client = 20-alpn-preferred-over-npn-resumption-client-extra
+++resume-client = 20-alpn-preferred-over-npn-resumption-client-extra
++ 
++-[18-alpn-preferred-over-npn-resumption-server-extra]
+++[20-alpn-preferred-over-npn-resumption-server-extra]
++ NPNProtocols = bar
++ 
++-[18-alpn-preferred-over-npn-resumption-resume-server-extra]
+++[20-alpn-preferred-over-npn-resumption-resume-server-extra]
++ ALPNProtocols = foo
++ NPNProtocols = baz
++ 
++-[18-alpn-preferred-over-npn-resumption-client-extra]
+++[20-alpn-preferred-over-npn-resumption-client-extra]
++ ALPNProtocols = foo
++ NPNProtocols = bar,baz
++ 
++ 
++ # ===========================================================
++ 
++-[19-npn-used-if-alpn-not-supported-resumption]
++-ssl_conf = 19-npn-used-if-alpn-not-supported-resumption-ssl
+++[21-npn-used-if-alpn-not-supported-resumption]
+++ssl_conf = 21-npn-used-if-alpn-not-supported-resumption-ssl
++ 
++-[19-npn-used-if-alpn-not-supported-resumption-ssl]
++-server = 19-npn-used-if-alpn-not-supported-resumption-server
++-client = 19-npn-used-if-alpn-not-supported-resumption-client
++-resume-server = 19-npn-used-if-alpn-not-supported-resumption-resume-server
++-resume-client = 19-npn-used-if-alpn-not-supported-resumption-client
+++[21-npn-used-if-alpn-not-supported-resumption-ssl]
+++server = 21-npn-used-if-alpn-not-supported-resumption-server
+++client = 21-npn-used-if-alpn-not-supported-resumption-client
+++resume-server = 21-npn-used-if-alpn-not-supported-resumption-resume-server
+++resume-client = 21-npn-used-if-alpn-not-supported-resumption-client
++ 
++-[19-npn-used-if-alpn-not-supported-resumption-server]
+++[21-npn-used-if-alpn-not-supported-resumption-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[19-npn-used-if-alpn-not-supported-resumption-resume-server]
+++[21-npn-used-if-alpn-not-supported-resumption-resume-server]
++ Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
++ CipherString = DEFAULT
++ PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
++ 
++-[19-npn-used-if-alpn-not-supported-resumption-client]
+++[21-npn-used-if-alpn-not-supported-resumption-client]
++ CipherString = DEFAULT
++ MaxProtocol = TLSv1.2
++ VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
++ VerifyMode = Peer
++ 
++-[test-19]
+++[test-21]
++ ExpectedNPNProtocol = baz
++ HandshakeMode = Resume
++ ResumptionExpected = Yes
++-server = 19-npn-used-if-alpn-not-supported-resumption-server-extra
++-resume-server = 19-npn-used-if-alpn-not-supported-resumption-resume-server-extra
++-client = 19-npn-used-if-alpn-not-supported-resumption-client-extra
++-resume-client = 19-npn-used-if-alpn-not-supported-resumption-client-extra
+++server = 21-npn-used-if-alpn-not-supported-resumption-server-extra
+++resume-server = 21-npn-used-if-alpn-not-supported-resumption-resume-server-extra
+++client = 21-npn-used-if-alpn-not-supported-resumption-client-extra
+++resume-client = 21-npn-used-if-alpn-not-supported-resumption-client-extra
++ 
++-[19-npn-used-if-alpn-not-supported-resumption-server-extra]
+++[21-npn-used-if-alpn-not-supported-resumption-server-extra]
++ ALPNProtocols = foo
++ NPNProtocols = bar
++ 
++-[19-npn-used-if-alpn-not-supported-resumption-resume-server-extra]
+++[21-npn-used-if-alpn-not-supported-resumption-resume-server-extra]
++ NPNProtocols = baz
++ 
++-[19-npn-used-if-alpn-not-supported-resumption-client-extra]
+++[21-npn-used-if-alpn-not-supported-resumption-client-extra]
++ ALPNProtocols = foo
++ NPNProtocols = bar,baz
++ 
++diff --git a/test/ssl-tests/08-npn.cnf.in b/test/ssl-tests/08-npn.cnf.in
++index 30783e4..1dc2704 100644
++--- a/test/ssl-tests/08-npn.cnf.in
+++++ b/test/ssl-tests/08-npn.cnf.in
++@@ -110,6 +110,41 @@ our @tests = (
++             "ExpectedNPNProtocol" => undef,
++         },
++     },
+++    {
+++        name => "npn-empty-client-list",
+++        server => {
+++            extra => {
+++                "NPNProtocols" => "foo",
+++            },
+++        },
+++        client => {
+++            extra => {
+++                "NPNProtocols" => "",
+++            },
+++            "MaxProtocol" => "TLSv1.2"
+++        },
+++        test => {
+++            "ExpectedResult" => "ClientFail",
+++            "ExpectedClientAlert" => "HandshakeFailure"
+++        },
+++    },
+++    {
+++        name => "npn-empty-server-list",
+++        server => {
+++            extra => {
+++                "NPNProtocols" => "",
+++            },
+++        },
+++        client => {
+++            extra => {
+++                "NPNProtocols" => "foo",
+++            },
+++            "MaxProtocol" => "TLSv1.2"
+++        },
+++        test => {
+++            "ExpectedNPNProtocol" => "foo"
+++        },
+++    },
++     {
++         name => "npn-with-sni-no-context-switch",
++         server => {
++diff --git a/test/ssl-tests/09-alpn.cnf b/test/ssl-tests/09-alpn.cnf
++index e7e6cb9..dd66873 100644
++--- a/test/ssl-tests/09-alpn.cnf
+++++ b/test/ssl-tests/09-alpn.cnf
++@@ -1,6 +1,6 @@
++ # Generated with generate_ssl_tests.pl
++ 
++-num_tests = 16
+++num_tests = 18
++ 
++ test-0 = 0-alpn-simple
++ test-1 = 1-alpn-server-finds-match
++@@ -18,6 +18,8 @@ test-12 = 12-alpn-client-switch-resumption
++ test-13 = 13-alpn-alert-on-mismatch-resumption
++ test-14 = 14-alpn-no-server-support-resumption
++ test-15 = 15-alpn-no-client-support-resumption
+++test-16 = 16-alpn-empty-client-list
+++test-17 = 17-alpn-empty-server-list
++ # ===========================================================
++ 
++ [0-alpn-simple]
++@@ -617,3 +619,65 @@ ALPNProtocols = foo
++ ALPNProtocols = foo
++ 
++ 
+++# ===========================================================
+++
+++[16-alpn-empty-client-list]
+++ssl_conf = 16-alpn-empty-client-list-ssl
+++
+++[16-alpn-empty-client-list-ssl]
+++server = 16-alpn-empty-client-list-server
+++client = 16-alpn-empty-client-list-client
+++
+++[16-alpn-empty-client-list-server]
+++Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
+++CipherString = DEFAULT
+++PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
+++
+++[16-alpn-empty-client-list-client]
+++CipherString = DEFAULT
+++VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
+++VerifyMode = Peer
+++
+++[test-16]
+++server = 16-alpn-empty-client-list-server-extra
+++client = 16-alpn-empty-client-list-client-extra
+++
+++[16-alpn-empty-client-list-server-extra]
+++ALPNProtocols = foo
+++
+++[16-alpn-empty-client-list-client-extra]
+++ALPNProtocols = 
+++
+++
+++# ===========================================================
+++
+++[17-alpn-empty-server-list]
+++ssl_conf = 17-alpn-empty-server-list-ssl
+++
+++[17-alpn-empty-server-list-ssl]
+++server = 17-alpn-empty-server-list-server
+++client = 17-alpn-empty-server-list-client
+++
+++[17-alpn-empty-server-list-server]
+++Certificate = ${ENV::TEST_CERTS_DIR}/servercert.pem
+++CipherString = DEFAULT
+++PrivateKey = ${ENV::TEST_CERTS_DIR}/serverkey.pem
+++
+++[17-alpn-empty-server-list-client]
+++CipherString = DEFAULT
+++VerifyCAFile = ${ENV::TEST_CERTS_DIR}/rootcert.pem
+++VerifyMode = Peer
+++
+++[test-17]
+++ExpectedResult = ServerFail
+++ExpectedServerAlert = NoApplicationProtocol
+++server = 17-alpn-empty-server-list-server-extra
+++client = 17-alpn-empty-server-list-client-extra
+++
+++[17-alpn-empty-server-list-server-extra]
+++ALPNProtocols = 
+++
+++[17-alpn-empty-server-list-client-extra]
+++ALPNProtocols = foo
+++
+++
++diff --git a/test/ssl-tests/09-alpn.cnf.in b/test/ssl-tests/09-alpn.cnf.in
++index 8133075..322b709 100644
++--- a/test/ssl-tests/09-alpn.cnf.in
+++++ b/test/ssl-tests/09-alpn.cnf.in
++@@ -322,4 +322,37 @@ our @tests = (
++             "ExpectedALPNProtocol" => undef,
++         },
++     },
+++    {
+++        name => "alpn-empty-client-list",
+++        server => {
+++            extra => {
+++                "ALPNProtocols" => "foo",
+++            },
+++        },
+++        client => {
+++            extra => {
+++                "ALPNProtocols" => "",
+++            },
+++        },
+++        test => {
+++            "ExpectedALPNProtocol" => undef,
+++        },
+++    },
+++    {
+++        name => "alpn-empty-server-list",
+++        server => {
+++            extra => {
+++                "ALPNProtocols" => "",
+++            },
+++        },
+++        client => {
+++            extra => {
+++                "ALPNProtocols" => "foo",
+++            },
+++        },
+++        test => {
+++            "ExpectedResult" => "ServerFail",
+++            "ExpectedServerAlert" => "NoApplicationProtocol",
+++        },
+++    },
++ );
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
+new file mode 100644
+index 0000000000..7319d27bb8
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_7.patch
+@@ -0,0 +1,43 @@
++From 86351b8dd4c499de7a0c02313ee54966e978150f Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 21 Jun 2024 10:41:55 +0100
++Subject: [PATCH 07/10] Correct return values for
++ tls_construct_stoc_next_proto_neg
++
++Return EXT_RETURN_NOT_SENT in the event that we don't send the extension,
++rather than EXT_RETURN_SENT. This actually makes no difference at all to
++the current control flow since this return value is ignored in this case
++anyway. But lets make it correct anyway.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/53f5677f358c4a4f69830d944ea40e71950673b8]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ ssl/statem/extensions_srvr.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/ssl/statem/extensions_srvr.c b/ssl/statem/extensions_srvr.c
++index 64ccb3e..b821c7c 100644
++--- a/ssl/statem/extensions_srvr.c
+++++ b/ssl/statem/extensions_srvr.c
++@@ -1496,9 +1496,10 @@ EXT_RETURN tls_construct_stoc_next_proto_neg(SSL_CONNECTION *s, WPACKET *pkt,
++             return EXT_RETURN_FAIL;
++         }
++         s->s3.npn_seen = 1;
+++        return EXT_RETURN_SENT;
++     }
++ 
++-    return EXT_RETURN_SENT;
+++    return EXT_RETURN_NOT_SENT;
++ }
++ #endif
++ 
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
+new file mode 100644
+index 0000000000..f64938a5ca
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_8.patch
+@@ -0,0 +1,66 @@
++From 29f860914824cde6b0aea6ad818b93132930137f Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 21 Jun 2024 11:51:54 +0100
++Subject: [PATCH 08/10] Add ALPN validation in the client
++
++The ALPN protocol selected by the server must be one that we originally
++advertised. We should verify that it is.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/195e15421df113d7283aab2ccff8b8fb06df5465]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ ssl/statem/extensions_clnt.c | 24 ++++++++++++++++++++++++
++ 1 file changed, 24 insertions(+)
++
++diff --git a/ssl/statem/extensions_clnt.c b/ssl/statem/extensions_clnt.c
++index 1ab3c13..ff9c009 100644
++--- a/ssl/statem/extensions_clnt.c
+++++ b/ssl/statem/extensions_clnt.c
++@@ -1590,6 +1590,8 @@ int tls_parse_stoc_alpn(SSL_CONNECTION *s, PACKET *pkt, unsigned int context,
++                         X509 *x, size_t chainidx)
++ {
++     size_t len;
+++    PACKET confpkt, protpkt;
+++    int valid = 0;
++ 
++     /* We must have requested it. */
++     if (!s->s3.alpn_sent) {
++@@ -1608,6 +1610,28 @@ int tls_parse_stoc_alpn(SSL_CONNECTION *s, PACKET *pkt, unsigned int context,
++         SSLfatal(s, SSL_AD_DECODE_ERROR, SSL_R_BAD_EXTENSION);
++         return 0;
++     }
+++
+++    /* It must be a protocol that we sent */
+++    if (!PACKET_buf_init(&confpkt, s->ext.alpn, s->ext.alpn_len)) {
+++        SSLfatal(s, SSL_AD_INTERNAL_ERROR, ERR_R_INTERNAL_ERROR);
+++        return 0;
+++    }
+++    while (PACKET_get_length_prefixed_1(&confpkt, &protpkt)) {
+++        if (PACKET_remaining(&protpkt) != len)
+++            continue;
+++        if (memcmp(PACKET_data(pkt), PACKET_data(&protpkt), len) == 0) {
+++            /* Valid protocol found */
+++            valid = 1;
+++            break;
+++        }
+++    }
+++
+++    if (!valid) {
+++        /* The protocol sent from the server does not match one we advertised */
+++        SSLfatal(s, SSL_AD_DECODE_ERROR, SSL_R_BAD_EXTENSION);
+++        return 0;
+++    }
+++
++     OPENSSL_free(s->s3.alpn_selected);
++     s->s3.alpn_selected = OPENSSL_malloc(len);
++     if (s->s3.alpn_selected == NULL) {
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
+new file mode 100644
+index 0000000000..fb1cef5067
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-5535_9.patch
+@@ -0,0 +1,271 @@
++From 6a5484b0d3fcf9a868c7e3e5b62e5eedc90b6080 Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 21 Jun 2024 10:09:41 +0100
++Subject: [PATCH 09/10] Add explicit testing of ALN and NPN in sslapitest
++
++We already had some tests elsewhere - but this extends that testing with
++additional tests.
++
++Follow on from CVE-2024-5535
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/24717)
++
++Upstream-Status: Backport from [https://github.com/openssl/openssl/commit/7c95191434415d1c9b7fe9b130df13cce630b6b5]
++CVE: CVE-2024-5535
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ test/sslapitest.c | 229 ++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 229 insertions(+)
++
++diff --git a/test/sslapitest.c b/test/sslapitest.c
++index 15cb906..7a55a2b 100644
++--- a/test/sslapitest.c
+++++ b/test/sslapitest.c
++@@ -11877,6 +11877,231 @@ static int test_select_next_proto(int idx)
++     return ret;
++ }
++ 
+++static const unsigned char fooprot[] = {3, 'f', 'o', 'o' };
+++static const unsigned char barprot[] = {3, 'b', 'a', 'r' };
+++
+++#if !defined(OPENSSL_NO_TLS1_2) && !defined(OPENSSL_NO_NEXTPROTONEG)
+++static int npn_advert_cb(SSL *ssl, const unsigned char **out,
+++                         unsigned int *outlen, void *arg)
+++{
+++    int *idx = (int *)arg;
+++
+++    switch (*idx) {
+++    default:
+++    case 0:
+++        *out = fooprot;
+++        *outlen = sizeof(fooprot);
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    case 1:
+++        *outlen = 0;
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    case 2:
+++        return SSL_TLSEXT_ERR_NOACK;
+++    }
+++}
+++
+++static int npn_select_cb(SSL *s, unsigned char **out, unsigned char *outlen,
+++                         const unsigned char *in, unsigned int inlen, void *arg)
+++{
+++    int *idx = (int *)arg;
+++
+++    switch (*idx) {
+++    case 0:
+++    case 1:
+++        *out = (unsigned char *)(fooprot + 1);
+++        *outlen = *fooprot;
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    case 3:
+++        *out = (unsigned char *)(barprot + 1);
+++        *outlen = *barprot;
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    case 4:
+++        *outlen = 0;
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    default:
+++    case 2:
+++        return SSL_TLSEXT_ERR_ALERT_FATAL;
+++    }
+++}
+++
+++/*
+++ * Test the NPN callbacks
+++ * Test 0: advert = foo, select = foo
+++ * Test 1: advert = <empty>, select = foo
+++ * Test 2: no advert
+++ * Test 3: advert = foo, select = bar
+++ * Test 4: advert = foo, select = <empty> (should fail)
+++ */
+++static int test_npn(int idx)
+++{
+++    SSL_CTX *sctx = NULL, *cctx = NULL;
+++    SSL *serverssl = NULL, *clientssl = NULL;
+++    int testresult = 0;
+++
+++    if (!TEST_true(create_ssl_ctx_pair(libctx, TLS_server_method(),
+++                                       TLS_client_method(), 0, TLS1_2_VERSION,
+++                                       &sctx, &cctx, cert, privkey)))
+++        goto end;
+++
+++    SSL_CTX_set_next_protos_advertised_cb(sctx, npn_advert_cb, &idx);
+++    SSL_CTX_set_next_proto_select_cb(cctx, npn_select_cb, &idx);
+++
+++    if (!TEST_true(create_ssl_objects(sctx, cctx, &serverssl, &clientssl, NULL,
+++                                      NULL)))
+++        goto end;
+++
+++    if (idx == 4) {
+++        /* We don't allow empty selection of NPN, so this should fail */
+++        if (!TEST_false(create_ssl_connection(serverssl, clientssl,
+++                                              SSL_ERROR_NONE)))
+++            goto end;
+++    } else {
+++        const unsigned char *prot;
+++        unsigned int protlen;
+++
+++        if (!TEST_true(create_ssl_connection(serverssl, clientssl,
+++                                             SSL_ERROR_NONE)))
+++            goto end;
+++
+++        SSL_get0_next_proto_negotiated(serverssl, &prot, &protlen);
+++        switch (idx) {
+++        case 0:
+++        case 1:
+++            if (!TEST_mem_eq(prot, protlen, fooprot + 1, *fooprot))
+++                goto end;
+++            break;
+++        case 2:
+++            if (!TEST_uint_eq(protlen, 0))
+++                goto end;
+++            break;
+++        case 3:
+++            if (!TEST_mem_eq(prot, protlen, barprot + 1, *barprot))
+++                goto end;
+++            break;
+++        default:
+++            TEST_error("Should not get here");
+++            goto end;
+++        }
+++    }
+++
+++    testresult = 1;
+++ end:
+++    SSL_free(serverssl);
+++    SSL_free(clientssl);
+++    SSL_CTX_free(sctx);
+++    SSL_CTX_free(cctx);
+++
+++    return testresult;
+++}
+++#endif /* !defined(OPENSSL_NO_TLS1_2) && !defined(OPENSSL_NO_NEXTPROTONEG) */
+++
+++static int alpn_select_cb2(SSL *ssl, const unsigned char **out,
+++                           unsigned char *outlen, const unsigned char *in,
+++                           unsigned int inlen, void *arg)
+++{
+++    int *idx = (int *)arg;
+++
+++    switch (*idx) {
+++    case 0:
+++        *out = (unsigned char *)(fooprot + 1);
+++        *outlen = *fooprot;
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    case 2:
+++        *out = (unsigned char *)(barprot + 1);
+++        *outlen = *barprot;
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    case 3:
+++        *outlen = 0;
+++        return SSL_TLSEXT_ERR_OK;
+++
+++    default:
+++    case 1:
+++        return SSL_TLSEXT_ERR_ALERT_FATAL;
+++    }
+++    return 0;
+++}
+++
+++/*
+++ * Test the ALPN callbacks
+++ * Test 0: client = foo, select = foo
+++ * Test 1: client = <empty>, select = none
+++ * Test 2: client = foo, select = bar (should fail)
+++ * Test 3: client = foo, select = <empty> (should fail)
+++ */
+++static int test_alpn(int idx)
+++{
+++    SSL_CTX *sctx = NULL, *cctx = NULL;
+++    SSL *serverssl = NULL, *clientssl = NULL;
+++    int testresult = 0;
+++    const unsigned char *prots = fooprot;
+++    unsigned int protslen = sizeof(fooprot);
+++
+++    if (!TEST_true(create_ssl_ctx_pair(libctx, TLS_server_method(),
+++                                       TLS_client_method(), 0, 0,
+++                                       &sctx, &cctx, cert, privkey)))
+++        goto end;
+++
+++    SSL_CTX_set_alpn_select_cb(sctx, alpn_select_cb2, &idx);
+++
+++    if (!TEST_true(create_ssl_objects(sctx, cctx, &serverssl, &clientssl, NULL,
+++                                      NULL)))
+++        goto end;
+++
+++    if (idx == 1) {
+++        prots = NULL;
+++        protslen = 0;
+++    }
+++
+++    /* SSL_set_alpn_protos returns 0 for success! */
+++    if (!TEST_false(SSL_set_alpn_protos(clientssl, prots, protslen)))
+++        goto end;
+++
+++    if (idx == 2 || idx == 3) {
+++        /* We don't allow empty selection of NPN, so this should fail */
+++        if (!TEST_false(create_ssl_connection(serverssl, clientssl,
+++                                              SSL_ERROR_NONE)))
+++            goto end;
+++    } else {
+++        const unsigned char *prot;
+++        unsigned int protlen;
+++
+++        if (!TEST_true(create_ssl_connection(serverssl, clientssl,
+++                                             SSL_ERROR_NONE)))
+++            goto end;
+++
+++        SSL_get0_alpn_selected(clientssl, &prot, &protlen);
+++        switch (idx) {
+++        case 0:
+++            if (!TEST_mem_eq(prot, protlen, fooprot + 1, *fooprot))
+++                goto end;
+++            break;
+++        case 1:
+++            if (!TEST_uint_eq(protlen, 0))
+++                goto end;
+++            break;
+++        default:
+++            TEST_error("Should not get here");
+++            goto end;
+++        }
+++    }
+++
+++    testresult = 1;
+++ end:
+++    SSL_free(serverssl);
+++    SSL_free(clientssl);
+++    SSL_CTX_free(sctx);
+++    SSL_CTX_free(cctx);
+++
+++    return testresult;
+++}
+++
++ OPT_TEST_DECLARE_USAGE("certfile privkeyfile srpvfile tmpfile provider config dhfile\n")
++ 
++ int setup_tests(void)
++@@ -12190,6 +12415,10 @@ int setup_tests(void)
++     ADD_TEST(test_data_retry);
++     ADD_ALL_TESTS(test_multi_resume, 5);
++     ADD_ALL_TESTS(test_select_next_proto, OSSL_NELEM(next_proto_tests));
+++#if !defined(OPENSSL_NO_TLS1_2) && !defined(OPENSSL_NO_NEXTPROTONEG)
+++    ADD_ALL_TESTS(test_npn, 5);
+++#endif
+++    ADD_ALL_TESTS(test_alpn, 4);
++     return 1;
++ 
++  err:
++-- 
++2.44.0
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.2.bb b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
+index 1c92707144..3242dd69c6 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.2.bb
+@@ -12,6 +12,16 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
++           file://CVE-2024-5535_1.patch \
++           file://CVE-2024-5535_2.patch \
++           file://CVE-2024-5535_3.patch \
++           file://CVE-2024-5535_4.patch \
++           file://CVE-2024-5535_5.patch \
++           file://CVE-2024-5535_6.patch \
++           file://CVE-2024-5535_7.patch \
++           file://CVE-2024-5535_8.patch \
++           file://CVE-2024-5535_9.patch \
++           file://CVE-2024-5535_10.patch \
             "
  
--SRC_URI[sha256sum] = "07766425ecb5bf857ab5ad3962321c55cd89f9386b720843f9df71c0a455eb9b"
-+SRC_URI[sha256sum] = "015ff62789dab423edafe979b019c7de4c849a2b7e74912b20b74a70e5b68f72"
- 
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.12.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.12.bb
-index f3287efa96..bd9ae2464e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.12.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6b13dcc9332ef27a7c1e7005c0196883874f91622f8aa6e52f218b05b15d2bf5"
-+SRC_URI[sha256sum] = "3b60d4cac2fbcd085a93e9389ca23e0443bee1ca75574d31d4f12bb1bbecab48"
- 
- S = "${WORKDIR}/gst-libav-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.12.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.12.bb
-index 97348fb398..4db16ed10b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.12.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "18dfdf5f6b773d67e62a315c6cf6247da320b83603a5819493f53c69ed2eeef6"
-+SRC_URI[sha256sum] = "6b0685b92ac735032d7987d1028afaeab0a98ab726e0c51e5b9bfc8f2da7c8b1"
- 
- S = "${WORKDIR}/gst-omx-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-index 523ee7a5ae..01c95ac85f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "808d3b33fc4c71aeb2561c364a87c2e8a3e2343319a83244c8391be4b09499c8"
-+SRC_URI[sha256sum] = "388b4c4412f42e36a38b17cc34119bc11879bd4d9fbd4ff6d03b2c7fc6b4d494"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-index 7aa10eb646..5905c2d5b1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "65eaf72296cc5edc985695a4d80affc931e64a79f4879d05615854f7a2cf5bd1"
-+SRC_URI[sha256sum] = "73cfadc3a6ffe77ed974cfd6fb391c605e4531f48db21dd6b9f42b8cb69bd8c1"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-index 85143aa1b9..8099d70791 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
-            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
-            file://0001-v4l2-Define-ioctl_req_t-for-posix-linux-case.patch"
- 
--SRC_URI[sha256sum] = "6ddd032381827d31820540735f0004b429436b0bdac19aaeab44fa22faad52e2"
-+SRC_URI[sha256sum] = "9c1913f981900bd8867182639b20907b28ed78ef7a222cfbf2d8ba9dab992fa7"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.12.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.12.bb
-index 61f46fbf7e..714ee178d8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.12.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "7758b7decfd20c00cae5700822bcbbf03f98c723e33e17634db2e07ca1da60bf"
-+SRC_URI[sha256sum] = "d59a1aaf8dd2cc416dc5b5c0b7aecd02b1811bf1229aa724e6c2a503d3799083"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.12.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.12.bb
-index 0fbb03f757..2eee5aee5e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.12.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "f7a5450d93fd81bf46060dca7f4a048d095b6717961fec211731a11a994c99a7"
-+SRC_URI[sha256sum] = "d98d3226efea20d5c440a28988a20319a953f7c594895df2bba4538633108e9f"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.12.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.12.bb
-index 554ed9ec8f..c89c22f334 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.12.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "ec49d474750a6ff6729c85b448abc607fb6840b21717ad7abc967e2adbf07a24"
-+SRC_URI[sha256sum] = "bf6c7871e7cf3528e4ec87ddc2f2949691cd269f98e536482ae744c1405cf451"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.12.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.12.bb
-index 87eb8484a1..ef75ed64b3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.12.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "6eae1360658302b9b512fa46b4d06f5b818dfce5f2f43d7d710ca8142719d8ad"
-+SRC_URI[sha256sum] = "013ad729b2fe4fccda559bddc626bcb14230cfb90a2271049f8466bfec5d80df"
- 
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.12.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.12.bb
-index 8965497d01..f4acb0977b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.11.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.12.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-            "
--SRC_URI[sha256sum] = "3d16259e9dab8b002c57ce208a09b350d8282f5b0197306c0cdba9a0d0799744"
-+SRC_URI[sha256sum] = "ac352f3d02caa67f3b169daa9aa78b04dea0fc08a727de73cb28d89bd54c6f61"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.34.1
 
