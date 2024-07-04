@@ -1,95 +1,89 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6748C3271E
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 15:21:47 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.12777.1720106502686510271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0776C30653
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 16:23:57 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.14231.1720110232529119401
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 08:21:43 -0700
+ Thu, 04 Jul 2024 09:23:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ILKhduoV;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ee910d6a9eso4039671fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 08:21:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BsJDT0ln;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.170, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ee90f56e31so5051871fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 09:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720106501; x=1720711301; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rslrsOsWtLXdLh2DV/FoO/x8I3Qm+1FNSKuqYu5+Qw8=;
-        b=ILKhduoVm4gsfgKaDL59unWasOyGlBgXHyIRWcIcOjzaRsHCIYA0V2zp76wSBW1ORv
-         vuNXPeaKgvpfTT8QXgzE4J/pe+ngo/PlDnJZt2AInJcUi3i4GQOLSGNt6qrakfg2Z7Yi
-         p8BP/ZaVMu6WuyzalXLQbD+Z2cOHomSfEp0oiiOB3AqoZRUSQYboICutKpWXzX+7Oj5g
-         5HXkipggc8+8D/MvqKi8EqxQk41fE8dEOzGKBJfzWWw3Mb3vJzRQPFs88X91iZDc9bWd
-         8+4T8Qf50d+XS8pdVXV8fx9erhPbgYU3ec108lO+G5XhJcdHKKdN4wKlxIlq9HR/o+4e
-         Znqw==
+        d=linuxfoundation.org; s=google; t=1720110230; x=1720715030; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qeNfyZkVuss+eHBcZLJ7gCmxRJMmcdL83kp/XG8nd8M=;
+        b=BsJDT0lnRyGTPJthEJ8/AUPtCb+HNl7zMaLSuD8QLYa9MZEYaoQFRLuCwZsXGbixOa
+         9EqKAyqiywE+lu2y/c72MeuthSNEBhdv1l0dWQKumPaaAkI08ta3EHXxDLiSa069v1Xz
+         Ddp/tBIqj9GpWaNbVP3k0PMKawHyO+PV46MUc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720106501; x=1720711301;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rslrsOsWtLXdLh2DV/FoO/x8I3Qm+1FNSKuqYu5+Qw8=;
-        b=IjK2PIBozBriGN9FB+510myfUBUpdloG6Su4FYKd4C+gB04cM5d3Q0BgDX7QBwTlU1
-         giX1bq6SIo4EF/voC2jWKy4q+6wMp/ePUwKQSAIxPtq6myFmNIFlzbwdjjQSvjOdg6gg
-         gNe1QWqX/fzq2TSmcGI+ugWQlEODSIp1uRsmHpbRkN4xXb6EScpyxQO46BYKZ57y26/c
-         dxgg9uIBTYUPSs0tlQUOYCtoDeCshrK0912L1UnunkNXUJnnPsOWndAkZKjJimsamGk1
-         s9l0FPWUJ8zGV13ceYiE0jOO4qDRakf8IWX8OW1VvdwWiQwyv8H79oeWTJYJyHuLaQGS
-         aCRQ==
-X-Gm-Message-State: AOJu0YzFqQcJ255WOQ/vXta0huZOI8gY08oW1rRNdIkffb7sWS4k+Qx/
-	jTt01CdkzLWRli482pL7lKsA6FQ18OW3yRBZKOkK/gonoCwaXGeMc/wzp+RbkKqkRI+NUQhyJLW
-	oMGciKOd8XwqXIKH0iwrlGvZqpeZXHg==
-X-Google-Smtp-Source: AGHT+IGAOxeAS5U7htgvTl16cWYN59A1Y8BuroKDzhDVuXB1JEsgdhBi0VqQsqJcLDo4JNL0f7OEMJXx8KLxbxiRiKM=
-X-Received: by 2002:a2e:b04a:0:b0:2ee:8b28:96e3 with SMTP id
- 38308e7fff4ca-2ee8f2d9f79mr6366271fa.23.1720106500447; Thu, 04 Jul 2024
- 08:21:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720110230; x=1720715030;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qeNfyZkVuss+eHBcZLJ7gCmxRJMmcdL83kp/XG8nd8M=;
+        b=s2UYAh9VZe5dsCQNvJ4Zk61AOcLWc39Bv0LnKO1Clszq6GMLhPADdg8QULbI+ltAvF
+         RuFQTIQGaXumflpoQ5oKBTb6OXPv81fapuTJ+umrdMALJnDfupF/a+UvMIsuyQjF18xx
+         MJFdSpl9rw2FiwVfrR6G0uladuQcpCA6RLkwkLRsAk8GlCU4Y6zOc1wZ5sSipeYGrRbO
+         qAeZGkwKw/z9RL0XbCOBRsJRLDLmYJUwed9FMjMbEwVzKvbFKGIB8iY6uxWTvpnYByN6
+         JC2TZ5jyWpy2qSjbrUbnjui55BMQqf9+x2/kXFwp1Gg4dDPEzf5zr4v+enRcumkHgv21
+         AzJw==
+X-Gm-Message-State: AOJu0YzIF7Qm1gsrabIKQ4cPxiy/tuXMrUySeKKXNd3FJoV8f18P0qZw
+	TAchXM5K/60p/UGqEA+eofeGWQPjP5TcVoEjVe1xgOrRe3iX3QTVnyo/4DA9+q5drogW59Tsana
+	6
+X-Google-Smtp-Source: AGHT+IGavuFbfx0YsNtuWww1unmgy0iYFU7SSl4e5FP3zNExhy5dLVIQ3dWEI+U7KpBVDdWGOWBYLQ==
+X-Received: by 2002:a2e:98c6:0:b0:2ec:5518:9550 with SMTP id 38308e7fff4ca-2ee8ed22bf7mr16831581fa.10.1720110230041;
+        Thu, 04 Jul 2024 09:23:50 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:be20:56c3:ce73:d7de])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a2fca8bsm30416575e9.47.2024.07.04.09.23.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jul 2024 09:23:49 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/selftest/reproducibile: Explicitly list virtual targets
+Date: Thu,  4 Jul 2024 17:23:48 +0100
+Message-ID: <20240704162348.3286315-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <CANNYZj-m-m+B3iaNLHeEq5C9w5Rfg28fGY+U8ezaZS6N33P4Ag@mail.gmail.com>
- <31491.1720105991184445170@lists.openembedded.org>
-In-Reply-To: <31491.1720105991184445170@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 4 Jul 2024 17:21:29 +0200
-Message-ID: <CANNYZj9vSOdetOTfghRN4r9iOpai1zwSPkUU7_pJRoaYoEZL2g@mail.gmail.com>
-Subject: Re: [OE-core] Rust reproducibility issue summary
-To: sundeep.kokkonda@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 15:21:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201580
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 16:23:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201581
 
-Hello,
+We're seeing reproducibility failures where some packages don't appear
+in the "from sstate" builds. The common factor is these are all recipes
+with PROVIDES = "virtual/XXX".
 
-I simply ran two independent builds, each with their own sstate. The
-host distro is not relevant, as it's been observed on yocto
-autobuilder across many different distros.
+In a full build from scratch, these are build but in a build from sstate,
+there are situations where they aren't. For now, to try and keep builds
+working, work around the problem until we can better look into the problem.
+It is likely recent taskhash imrovements have caused this to occur more
+regularly.
 
-I'm not sure why you insist on being able to reproduce the issue, as
-you're simply going to get the same build trees as in the tarballs I
-provided.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/reproducible.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Alex
-
-On Thu, 4 Jul 2024 at 17:13, Sundeep KOKKONDA via
-lists.openembedded.org
-<sundeep.kokkonda=windriver.com@lists.openembedded.org> wrote:
->
-> Hi Alex,
->
-> What distro you used to reproduce the issue & what pkgs were installed. You used any shared sstate of Yocto?
-> With this info I will retry to reproduce the issue on my local machine.
->
->
-> Thanks,
-> Sundeep K.
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201578): https://lists.openembedded.org/g/openembedded-core/message/201578
-> Mute This Topic: https://lists.openembedded.org/mt/106407787/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 97a9c3da908..7c6cf3eb1ff 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -135,7 +135,8 @@ class ReproducibleTests(OESelftestTestCase):
+     max_report_size = 250 * 1024 * 1024
+ 
+     # targets are the things we want to test the reproducibility of
+-    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world']
++    # Have to add the virtual targets manually for now as builds may or may not include them as they're exclude from world
++    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world', 'virtual/librpc', 'virtual/libsdl2', 'virtual/crypt']
+ 
+     # sstate targets are things to pull from sstate to potentially cut build/debugging time
+     sstate_targets = []
 
