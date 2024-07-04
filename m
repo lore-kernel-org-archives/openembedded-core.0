@@ -2,85 +2,89 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF2BC30653
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 10:52:25 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.7634.1720090340743595351
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8533DC31D97
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 10:53:55 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.7518.1720090434577274439
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 03:52:21 -0700
+ Thu, 04 Jul 2024 03:53:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nJJc3gaX;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52e9c55febcso639820e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 03:52:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AaEMVr4D;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52e98087e32so516946e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 03:53:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720090339; x=1720695139; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+QUYR0G7gL0AkxoOewQhUi/fKhY5Pfl79rex7n6jTdA=;
-        b=nJJc3gaXQAMBFkSflCds7kWMg/4pEY8xOeZzFOQ7080aNraWvTDvQ+cYeDETZ7MEFl
-         AFFWITUA/2fiXhtCuTxfiN5kzZF49UHOHLnX/WPiY2beqbhODT6+KC1d3gZedV0VPybu
-         XNBcPp7sMEBObQDAEXnGZG+bu1p0aRuuC4x5oyyjXRyTkkpTlzyzvmHlsL7H/NSOyBzx
-         gExsr56i3cLzFxVeqRTIUtAXDrz6hnnpmzkC7rL+Dw6N2Mul57Z5hdqRNMCw5TEdPN2U
-         RYfctQwdY8BUlv/hKOLpHfgISQ9pplRSEPrW7XUV1soyVyTpbjYUsqNKfmX/AD96Irek
-         rzDg==
+        d=gmail.com; s=20230601; t=1720090433; x=1720695233; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cxhivx4ZdaYJNnVCY1ZcjciECh7P4JX+ASLXNj19R+I=;
+        b=AaEMVr4DK0nrinyU//gnfkT2H3HoPaieH48l0wXOlTu9+XaOa5EFPzrps8KjImYz3d
+         v63Gx3ls14breECC2ubohZBr4T4d9FyTmLP5tRflr3gB0ZhbL398uVPq0EY5qBbFdAE6
+         MD65eZLKkJFXyOADTnMP+Jj5/16AXfZ+P30sov576ls2cibh9D8MBY6a+JEzHUsKqR0t
+         UoEvQK1DfK+eaARWpqFhTNs3UWYHVGbMqhzi5AT70WSjEG9FtDCJuBNel9mwrHkox8EC
+         rTOuwhWS/7c7L7ugB/iaPVWrEIHuYrpWbLcQl3KBRkUpNiqmVB8wACkWc9daLdHONCrB
+         6Dhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720090339; x=1720695139;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+QUYR0G7gL0AkxoOewQhUi/fKhY5Pfl79rex7n6jTdA=;
-        b=bGOhCnOi86NKU5pLnAormE6CctVffNcxLX4Stk8KvTHNhslsK9nVzyZKa3ZveagWXn
-         hSU3bjnvELaj6VJuvUf68i40Odx498xaWatgsB3NMI6JurTZTb0Jp/hLc/UNm5vzWxdl
-         keCirNKZj+HHA5QT/5FWiZ+ppnNoJcM7o2aqqRVqDP2iScR9zDteQfKIaYTUdUiXb2qh
-         u2tmGsYWsv8t9k0ByDgoU8IzfyelZoCboxDflAJ2t2Wt/Vpb5wrkg4zjCmKXxRfOeTsj
-         sp/VtoUBzaaoAAwJbBrI+PRzeJs93xGH9WYIaDh/tyYaldOJNxk5JWcJfhsS6eYL1rdP
-         pTQw==
-X-Gm-Message-State: AOJu0YwZ2kR0mguR4xcciv/wX+Desv2dL2DLNL6YdBfVZZrQehrtt9ub
-	ILmHSo/1wty5IiozfsWUJwijGwQYr98NNEOcr5+w2qP98LG4+IjAF5xNgJR0xpZYHPUWdJaJI9J
-	BWul9e/kZYqMbHp84u6DYf64ndv5y2s7n
-X-Google-Smtp-Source: AGHT+IG0Er5WvpT6sayXe5CckYmOIZmqRDrY6UD6JHNYo6mysIoUgIGgfrfzHyLHY25gLbgzDA+bMktvXMpebsp9SOA=
-X-Received: by 2002:ac2:4568:0:b0:52b:8ef7:bf1f with SMTP id
- 2adb3069b0e04-52ea064c74amr848533e87.17.1720090338743; Thu, 04 Jul 2024
- 03:52:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720090433; x=1720695233;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cxhivx4ZdaYJNnVCY1ZcjciECh7P4JX+ASLXNj19R+I=;
+        b=sfA3kb8W8CHv4VAXvdoo6Wa9sv3wv0iZjY1QCHykfpLg4mgIIUZInQMCrmVl9G2Q52
+         3SOHNJmpevFIsyjAjitEOBZ7mHilLXWGCdxxoAq07aSqBCEDXZBa1jEixveidj9QtVd5
+         uGgXrCL/QtuwRyQW6BEeT6IiPN4QwXgevakmn8LzuFcpLJidlZuatIItkHm8NoeEHN6S
+         1KhMvvhOT7aqtZwtMBcTrL9K8mguZHMqDuu0c8XAcUI0Idgvj6AIuVYtKREaH/SwEIV3
+         3tMbhgGD0w1dC6qHlldl08faRKA6kQ8kBJSIHxvljwu0yYCV4g1yJwYQ/1XIQ/NNNWsH
+         5qdA==
+X-Gm-Message-State: AOJu0Yybq0zoawfYLTgEGTDr5UbNNKqVsULMx6P2CXOvXy5lW8wLjrRu
+	Xjupw/e6MT0ocgyCgc2TbdoQ+ZPVK/fj65DQjVHISzC337IgQ5xkHN1URnmlljcAzjAGsglMIkx
+	n6AzDPlwR9rS4M78TvuPjTgYUcTQ=
+X-Google-Smtp-Source: AGHT+IHfzY7F/umZu/8C3GSV/FYQSpjzlkdffnpM52qvA5eX1Sr2RB3uX22T4VPPy/iom6J/cXYvqobhUYcvi3J0Ly8=
+X-Received: by 2002:a19:ee12:0:b0:52e:9ebe:7318 with SMTP id
+ 2adb3069b0e04-52ea06b7845mr879728e87.43.1720090432486; Thu, 04 Jul 2024
+ 03:53:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240621103414.2842509-1-alex.kanavin@gmail.com>
- <20240621103414.2842509-2-alex.kanavin@gmail.com> <de66e3216fb54cf24171e800ea032770517fab69.camel@linuxfoundation.org>
- <CANNYZj9hXzes_pH_tH1P4wVUsLOKiQpRnucds-YpVtJDQRTMuA@mail.gmail.com>
- <f9d0520c75c0144cb6f7a433769b593ddcf9091c.camel@linuxfoundation.org>
- <CANNYZj9xwEDEw9HxHQ5zAPJY2--iuq_JvTW0foOVTF=83zefsQ@mail.gmail.com>
- <3bd89c381318290050137e1ab5f65bd25f94ec83.camel@linuxfoundation.org>
- <CANNYZj_o8bFtNGWj48mhDwbrisjjowV1xR_xOfWWJ-Jx3pRwbg@mail.gmail.com> <d6da4fb9ffe93b23d095b72c8310fd7bfa7ade4f.camel@linuxfoundation.org>
-In-Reply-To: <d6da4fb9ffe93b23d095b72c8310fd7bfa7ade4f.camel@linuxfoundation.org>
+References: <CANNYZj9G2fCXGDT4fhMq8C=Dg7vOFDNM9hhiEkOrzs4P4vvNbQ@mail.gmail.com>
+ <31491.1720090219472440122@lists.openembedded.org>
+In-Reply-To: <31491.1720090219472440122@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 4 Jul 2024 12:52:07 +0200
-Message-ID: <CANNYZj_Ng3NZ47mnwX0A5S_BB_eh8==5HpGkLOpKKr_9s7VFMQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 02/11] devtool/upgrade: add RECIPE_UPGRADE_FINISH_EXTRA_TASKS
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
+Date: Thu, 4 Jul 2024 12:53:41 +0200
+Message-ID: <CANNYZj_THLneH0uhKCEtDD0WSoZsJmV0U1jkEo9pU4ZWotAKBA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bluez5: upgrade 5.72 -> 5.76
+To: gudni.m.g@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 10:52:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201532
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 10:53:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201533
 
-On Wed, 3 Jul 2024 at 15:31, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-
-> Sorry, I've got confused. Look at tinfoil.cooker_data.file_depends
-
-AttributeError: TinfoilRecipeCacheAdapter instance has no attribute
-'file_depends'
-
-I had looked into the code, it seems that data is internal to bitbake,
-and isn't exposed to tinfoil.
-
-It's also placed into BBINCLUDED per-recipe, but that would require
-iterating over "recipes = tinfoil.all_recipe_files(variants=False)" in
-every upgrade operation, which might slow things down a bit too much.
-Worth trying though?
+That's right. I think the submission instructions are here?
+https://github.com/bluez/bluez/blob/master/HACKING
 
 Alex
+
+On Thu, 4 Jul 2024 at 12:50, Gu=C3=B0ni M=C3=A1r Gilbert via
+lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> Hi Alex,
+>
+> I can try, I=E2=80=99ve already subscribed to the linux-bluetooth mailing=
+ list. Just need to read more into their patch submission guidelines.
+>
+> I don=E2=80=99t think they=E2=80=99re accepting pull requests via Github.
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201531): https://lists.openembedded.org/g/openembedde=
+d-core/message/201531
+> Mute This Topic: https://lists.openembedded.org/mt/107029827/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
