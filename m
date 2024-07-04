@@ -1,84 +1,95 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB06BC3271E
-	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 15:15:47 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.12594.1720106141205817332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6748C3271E
+	for <webhook@archiver.kernel.org>; Thu,  4 Jul 2024 15:21:47 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.12777.1720106502686510271
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jul 2024 08:15:41 -0700
+ Thu, 04 Jul 2024 08:21:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CaxrmRNA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4256788e13bso4907125e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 08:15:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ILKhduoV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ee910d6a9eso4039671fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 08:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1720106140; x=1720710940; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qGk3q/BMaOxl2b0zDE/J7SI4ZVD2F6TSOdm84KQ2S/g=;
-        b=CaxrmRNAMjZNhRIHpJSixlE6R7B4eq1oCV5bM0h+8Cm8EBxDW+cCD+RU5JutbDLSTs
-         6vn/z0OrBSxVrRpqq/NoTnlqhQr64WdzF5n0SpTSWrY2jNs5ludpAzd8q/GYCR8bPjc2
-         1MEdr3RBO4KBUYKkFPo8NQdpFdGFuOHLasMog=
+        d=gmail.com; s=20230601; t=1720106501; x=1720711301; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rslrsOsWtLXdLh2DV/FoO/x8I3Qm+1FNSKuqYu5+Qw8=;
+        b=ILKhduoVm4gsfgKaDL59unWasOyGlBgXHyIRWcIcOjzaRsHCIYA0V2zp76wSBW1ORv
+         vuNXPeaKgvpfTT8QXgzE4J/pe+ngo/PlDnJZt2AInJcUi3i4GQOLSGNt6qrakfg2Z7Yi
+         p8BP/ZaVMu6WuyzalXLQbD+Z2cOHomSfEp0oiiOB3AqoZRUSQYboICutKpWXzX+7Oj5g
+         5HXkipggc8+8D/MvqKi8EqxQk41fE8dEOzGKBJfzWWw3Mb3vJzRQPFs88X91iZDc9bWd
+         8+4T8Qf50d+XS8pdVXV8fx9erhPbgYU3ec108lO+G5XhJcdHKKdN4wKlxIlq9HR/o+4e
+         Znqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720106140; x=1720710940;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qGk3q/BMaOxl2b0zDE/J7SI4ZVD2F6TSOdm84KQ2S/g=;
-        b=a6zM6TreAeCZzAf6SzhxX4wokDjL4JnoSdHPOeL9G6gZLl9DNyOtC4X66cSy/VONd1
-         qGR30E4AY3l14TFNXytN0dFsVQCzQEhutqU0F7zP+l5riR20p2I9smOh1BLSwASUwdE6
-         N7SCAQ2FhQdC79I4ydrOqGbzDPFggJTVANmB8XeLzp4BgKaQ+pfZy/wioYG5MRxyvX29
-         31SUCpQmI/KqyxMX650VnFUznyRRuVbSqKiDA8H29rn32y6lbZ/ExjBz3j4AMYti8HSk
-         GDaLv1HWcqeCOmoZQ1TcqtvcTGh7N3QV29jvzyueLK7JBsOX7A382mLDThHed45DhF+x
-         px2A==
-X-Forwarded-Encrypted: i=1; AJvYcCXjPIOfV3i4kbFwFGFp3ioM7oydTA7OImr/N8UfGK7+HfFcQ9Tt0/KkEpKmOtwe1DQse7USsNQLSWzXDwg69yDzbDvVek9Z4xYfDMmaTNC6kYKCNhAXQdrs
-X-Gm-Message-State: AOJu0YyKPl9vvL8JEVs6h/nXQ6VuS9znnCwDAT/VuSzPalEqlNtsNJ9E
-	spuyBJqAxMBtet6/pFh5YaLypIkPq3Ob42O/PlxhFVGSc8lQAkL9g507vRKHGoo=
-X-Google-Smtp-Source: AGHT+IE295tGxU7PHYwE77YDA0LGtDP3acBvNhQTZOdug349O1FH6/CotwZer8EarDXhEwNS3N0XcA==
-X-Received: by 2002:a05:600c:6b13:b0:424:a779:b5bf with SMTP id 5b1f17b1804b1-4264a3e7bd6mr14112005e9.20.1720106139653;
-        Thu, 04 Jul 2024 08:15:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:be20:56c3:ce73:d7de? ([2001:8b0:aba:5f3c:be20:56c3:ce73:d7de])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1d6677sm28011675e9.17.2024.07.04.08.15.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 08:15:36 -0700 (PDT)
-Message-ID: <6b8ba5a42a03dc0e04e89989584fb313411d0783.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] testexport: fallback for empty IMAGE_LINK_NAME
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: kweihmann@outlook.com, openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>
-Date: Thu, 04 Jul 2024 16:15:34 +0100
-In-Reply-To: <GV1PR07MB91207447D621EE3962C6802EA8DD2@GV1PR07MB9120.eurprd07.prod.outlook.com>
-References: 
-	<GV1PR07MB91207447D621EE3962C6802EA8DD2@GV1PR07MB9120.eurprd07.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        d=1e100.net; s=20230601; t=1720106501; x=1720711301;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rslrsOsWtLXdLh2DV/FoO/x8I3Qm+1FNSKuqYu5+Qw8=;
+        b=IjK2PIBozBriGN9FB+510myfUBUpdloG6Su4FYKd4C+gB04cM5d3Q0BgDX7QBwTlU1
+         giX1bq6SIo4EF/voC2jWKy4q+6wMp/ePUwKQSAIxPtq6myFmNIFlzbwdjjQSvjOdg6gg
+         gNe1QWqX/fzq2TSmcGI+ugWQlEODSIp1uRsmHpbRkN4xXb6EScpyxQO46BYKZ57y26/c
+         dxgg9uIBTYUPSs0tlQUOYCtoDeCshrK0912L1UnunkNXUJnnPsOWndAkZKjJimsamGk1
+         s9l0FPWUJ8zGV13ceYiE0jOO4qDRakf8IWX8OW1VvdwWiQwyv8H79oeWTJYJyHuLaQGS
+         aCRQ==
+X-Gm-Message-State: AOJu0YzFqQcJ255WOQ/vXta0huZOI8gY08oW1rRNdIkffb7sWS4k+Qx/
+	jTt01CdkzLWRli482pL7lKsA6FQ18OW3yRBZKOkK/gonoCwaXGeMc/wzp+RbkKqkRI+NUQhyJLW
+	oMGciKOd8XwqXIKH0iwrlGvZqpeZXHg==
+X-Google-Smtp-Source: AGHT+IGAOxeAS5U7htgvTl16cWYN59A1Y8BuroKDzhDVuXB1JEsgdhBi0VqQsqJcLDo4JNL0f7OEMJXx8KLxbxiRiKM=
+X-Received: by 2002:a2e:b04a:0:b0:2ee:8b28:96e3 with SMTP id
+ 38308e7fff4ca-2ee8f2d9f79mr6366271fa.23.1720106500447; Thu, 04 Jul 2024
+ 08:21:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <CANNYZj-m-m+B3iaNLHeEq5C9w5Rfg28fGY+U8ezaZS6N33P4Ag@mail.gmail.com>
+ <31491.1720105991184445170@lists.openembedded.org>
+In-Reply-To: <31491.1720105991184445170@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 4 Jul 2024 17:21:29 +0200
+Message-ID: <CANNYZj9vSOdetOTfghRN4r9iOpai1zwSPkUU7_pJRoaYoEZL2g@mail.gmail.com>
+Subject: Re: [OE-core] Rust reproducibility issue summary
+To: sundeep.kokkonda@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 15:15:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201579
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jul 2024 15:21:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201580
 
-On Wed, 2024-07-03 at 04:47 +0000, Konrad Weihmann via
-lists.openembedded.org wrote:
-> if IMAGE_LINK_NAME is set empty to disable the symlinking
-> for image artifacts in deploy, testexport fails, as the path assembly
-> is incorrect.
-> In that case fallback to IMAGE_NAME
->=20
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
-> =C2=A0meta/classes-recipe/testexport.bbclass | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+Hello,
 
-Are you using the test export code? There has been discussion about
-removing that which is why I ask...
+I simply ran two independent builds, each with their own sstate. The
+host distro is not relevant, as it's been observed on yocto
+autobuilder across many different distros.
 
-Cheers,
+I'm not sure why you insist on being able to reproduce the issue, as
+you're simply going to get the same build trees as in the tarballs I
+provided.
 
-Richard
+Alex
+
+On Thu, 4 Jul 2024 at 17:13, Sundeep KOKKONDA via
+lists.openembedded.org
+<sundeep.kokkonda=windriver.com@lists.openembedded.org> wrote:
+>
+> Hi Alex,
+>
+> What distro you used to reproduce the issue & what pkgs were installed. You used any shared sstate of Yocto?
+> With this info I will retry to reproduce the issue on my local machine.
+>
+>
+> Thanks,
+> Sundeep K.
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201578): https://lists.openembedded.org/g/openembedded-core/message/201578
+> Mute This Topic: https://lists.openembedded.org/mt/106407787/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
