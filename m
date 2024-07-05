@@ -1,182 +1,198 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 217A3C41513
-	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 13:06:48 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web10.16417.1720184803198801398
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9C9C30658
+	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 13:19:28 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.131])
+ by mx.groups.io with SMTP id smtpd.web11.16998.1720185564274278982
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jul 2024 06:06:43 -0700
+ Fri, 05 Jul 2024 06:19:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=pfAb9yun;
- spf=pass (domain: baylibre.com, ip: 209.85.160.174, mailfrom: jstephan@baylibre.com)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-444fe697f61so10167961cf.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 06:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720184802; x=1720789602; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4RnhW+XkDQPgrD/SwE5Y6pDxzSNJfEHe2exskLoTw70=;
-        b=pfAb9yung8IZb0ZNrZxYDGpKluZRMf10VlsFOLWYmThWJ2HRWdHPPJg56ZYMyGIpFu
-         HstsxcJy0TroPBIq+edD/tlCKNuuydli7cYYyy1J5kFi75BG7CVQ0KLG7m0iyr5VTmF9
-         65TszY9QvBuzRsGaqGPpKfFPCDEWIJ01aR5egj3DKwS0CczP1d+8rbGcGICrt2D4vvRk
-         qZtEbkaaz+v7swO9Jnu7YSPdAtFsJJ7QM9Z0ziahzXfJFqaaQlbi2f+9wqodfoG4dExL
-         72tXAjjVy9tCj0sarNe7DJE59jw8fvXxlqkPXpqx6H7Mu1fCjiHNDw1LDygniZ0MUbiP
-         MKng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720184802; x=1720789602;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4RnhW+XkDQPgrD/SwE5Y6pDxzSNJfEHe2exskLoTw70=;
-        b=nzwCOvoZ6TBvwNc82W8CdYj485sKgTDkcH+kLYhOEwpOsMjhtp/9vyeLyGGEgyrqlk
-         WaQ8Xo7wzL4laufbC9ei70UyvkpgrQJE77HnefUCbirWRquima/SRI5IEwKkF0CfELjw
-         kWnbg8IvzY7udgwikReg/x/bDpQmOKS5S5zCoPDzFeyrqsnp55cFAEHSiRei3m1umVam
-         5uvzTraHBteF2mvwGM63NyDy/C7SJuiYFVr7OPngCbMSbMkq0mckBZ1/smnejnD2/4cJ
-         /9IzmqEQnTQneoBIyDIpyovDXuYH1pr9ROyCAtJzKtTwKrtpkfwBzzL0kDmKah3ZVRBO
-         xYYQ==
-X-Gm-Message-State: AOJu0YwiTs7DhWs4T2Qa6AWDa9+cZKBWu65tXg2hBSYe8xcEhO/70Jfv
-	3r8mUU5OKEGaTp3o/LuGQ5H5wxHKjlaoJwN8Kn3Qq2ogwEmtmUWfrXW2zpWFtvDw1InrgxLKCA3
-	MBmN4V3xIks/GxHoamqUt0gsm75KbzgyGS7jJmQ==
-X-Google-Smtp-Source: AGHT+IFK+ZbPyL67BvGrDPwCz5fBK0pFTTULwuDwdE9LGQY46He9bZRqchzI1ZbFW8A55Gk3Gvq6+c14+0i+dT0wAdY=
-X-Received: by 2002:ac8:5a86:0:b0:446:56d7:78b with SMTP id
- d75a77b69052e-447cbf20585mr65017231cf.22.1720184801994; Fri, 05 Jul 2024
- 06:06:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240705113129.1798725-1-jstephan@baylibre.com> <CAHUKmYbkkPdopJfNyhxtwBGmy9dh0b6myrwosmm5RyBzBqZaLw@mail.gmail.com>
-In-Reply-To: <CAHUKmYbkkPdopJfNyhxtwBGmy9dh0b6myrwosmm5RyBzBqZaLw@mail.gmail.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 5 Jul 2024 15:06:30 +0200
-Message-ID: <CAEHHSvZSGUHXii4EC8DEDwLt+NMXHVNyiLh+1-iYT+nq=Twi1A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel: fix do_symlink_kernsrc function
-To: Etienne Cordonnier <ecordonnier@snap.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=IwK/yQCy;
+ spf=pass (domain: navimatix.de, ip: 40.107.22.131, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MLKCTfLywyuselfKOQOtjQUivBX53YaoZUSDWSwULw2AqsIGcqCiyaDQURAX4R58Rw+62/079d3inUWQKhmPfyxOIJQlIUt2UPAybIH4IpmFJpD/BuyLDpT4IeTzuPtzmoERzHmWo+mL1OIQ3x1uigjxZw/QWZ+AkQj5ae8FZdPAK8LuieVaotWLghmS0AmZPaMU8WCkvDsWfbDqnPdo6DEb+/HN33UQ+xPPIpemgEjAsxOiHINHGxUC95MCpPWUelxacUgg84XjGV192jK3kLDazkjtm8u9uJeqzNDDxVCkxgGRqLYabhFfgsStePdMmsEWnM8bI/jR/y2otS0srQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gb+T5tsfBXDf1or5JND3sBRzPG0jK2tDvGC5WuTqEVY=;
+ b=RnQCo4N6KJoKidiX1hw9leEK7ggHrMso4ZVG+/QD1ZNDE9/tqF6haT+x9egD45XNqDEeIEXlct4XODeyy5YcRWk1UHPw+K6nRdKIY09nYzlRKLl6nyrpqSoFj3DpVS99ib6s1/cdCfNhk+8m9qRGkh8SY3/jWT89A+Bg4+FRCby4stZeRYRsNPVhPPXJYh8A6dQ0z7SGqPFEtrPVb5Z19SRCOknhHfU/PhLjocpg+Gf1w/SwTjrcepXsf1lYVryngNyqdIxSzv+E+YmicngZetYT1Kb59gnfWZZAQ5s3GpuRgJa2L0QbtFp5OpSZCh9qEUouPqQW2452qUJ3Tl+r/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gb+T5tsfBXDf1or5JND3sBRzPG0jK2tDvGC5WuTqEVY=;
+ b=IwK/yQCyvgaJ6rzq8lgIY/l8dVhDmHapL8efwSY/z8YZ9/r8MrBc7SnMT5bGvczssuGSd13NceLN7PUhlugpMZvr9DjcEXK8U7T/i2Qeu//zCTeGIYINtKRl0GUePFHK/3k5hzvVJGnQKCT/WOOd98ZZioCrF9lR1GOb3D5UY6w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2d4::5) by DB8PR01MB6280.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:150::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Fri, 5 Jul
+ 2024 13:19:21 +0000
+Received: from DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ ([fe80::d520:1b9e:a30e:69a7]) by DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ ([fe80::d520:1b9e:a30e:69a7%4]) with mapi id 15.20.7741.029; Fri, 5 Jul 2024
+ 13:19:21 +0000
+From: joerg.sommer@navimatix.de
+To: openembedded-core@lists.openembedded.org
+CC: =?UTF-8?q?J=C3=B6rg=20Sommer?= <joerg.sommer@navimatix.de>
+Subject: [PATCH] classes/kernel: Delay module signing until after strip
+Date: Fri,  5 Jul 2024 15:19:08 +0200
+Message-ID: <bc15a9ebae0ad3841ac2be887c288b451426e69b.1720185337.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE1P281CA0186.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8d::10) To DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2d4::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR01MB8293:EE_|DB8PR01MB6280:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e98a03e-082b-4e1f-fda0-08dc9cf514da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?u8Rkn85c3HkzSEuQ0mUJflkZggkUJ5vZYKfifjYTudDm0uqchd25tLWyOXpM?=
+ =?us-ascii?Q?izoy0I/DX+284cWmARbfed6rZnRZRGTH+7cffqdkGXMwAmI+kthhkcZOVPCi?=
+ =?us-ascii?Q?C81RcmprbPQbcWgXdrxHSIYpJ3cbu5SjscfddhDsvvrAgkp1PoevD0I+0Jv1?=
+ =?us-ascii?Q?LJerU2+o1yqfCupC9lJvrSSG89e1ldxv9O9qsVtkmjUv95OFvOl0llBLPUps?=
+ =?us-ascii?Q?9eZmOda0Iqmwmw/R7kyzgBSTH3L0LBWDrRvkqZd2tEr5N09iTId07SNhv1Ua?=
+ =?us-ascii?Q?yvUNzzIfr8/b6e/PYLQT9htXI3RVNX5i+QKRp+e8hhjtcPJlG9QiwmuXWXD7?=
+ =?us-ascii?Q?PCKDPKf0o5F2obvksFae/zVx4ja9RIoLV2P+ft4gN18PfjYrc/a/gCEGro4f?=
+ =?us-ascii?Q?LxWgRy5jtLNO5yrQ9lO3FyqvlSvVtJ2XgQTD7gKK+/iuGLCAPJvfVF82jJpq?=
+ =?us-ascii?Q?sx74jfaBdh7grK4O6skz6AQg7c+csj1k7v5LyJC4V7ns0brX+g/ctjpJdRWW?=
+ =?us-ascii?Q?9TAP17vVyf49w7RpGNHA7UcR8GxDvasZcRXPkU9znLMTCvDpfeMOHIPPrfxj?=
+ =?us-ascii?Q?OgEsY8cunUJ/Zm18UacJqSbSaLN1+O7VzBlYrDmvbEy7ed70Yh+mTuMdPBE5?=
+ =?us-ascii?Q?lovvTMdb7TnzgIbpHZKgfbd4i0aKGlZTql+EkTHpeQi+Y6tnqVhFEy8A2tcv?=
+ =?us-ascii?Q?6SZQFsb0Wgc19cTTJxVDcj3ElqqmrWeL2YE5hpKHHsxUSo4xxtjxrrXJjLoH?=
+ =?us-ascii?Q?m0k1mQo3q67l5W0B7UEcAJYE/tIEnFruN/81wsBkcDGYN5h54B4cocTmxqD0?=
+ =?us-ascii?Q?nL8570a6m4kUtk3Ai/rTDGTvr6CL9fosMNZ1cUJkpDfkJ62fgXSw+fJvw1hv?=
+ =?us-ascii?Q?ZOuS10rePEY2qGbF9C2PFDRdvXIPsTY7s96JyMswIcJNYgagm68cbceNfo2t?=
+ =?us-ascii?Q?PMBqG6nYMC/ShzqnsU8KkSC2v0lq3UDLGMM/SCVbvhNzIQKbVIZS5sHQBxeu?=
+ =?us-ascii?Q?2x1KsDtxHM9tbhqvV75KZjKgJFTmgg5i3P6fXlWP6qi1I3zs9qOnBIOQMsNP?=
+ =?us-ascii?Q?Ie01uk4Yc3oC2kuo1otc7M1UFUx2Z78emayVJxdwUfPhZgNdfKdB53vg49vD?=
+ =?us-ascii?Q?MXGYN/zFSEMj/Jmp2wtriPJawQZtclx2KcEXTU7/1euuEaXqSx8Coe1WbHl/?=
+ =?us-ascii?Q?ZBgqbftGYhZPP3qoKzPsSf1w1Uj88ef2ZDUkL05y8qGEFg1Ftn4l7rrfJ0BH?=
+ =?us-ascii?Q?8sWwdHMs2R4jniGL6kuR5sZazfUfAVFPRVxpqwoCF/n2vMByBug24OX/WdXL?=
+ =?us-ascii?Q?4t8c+7+iEYAUAspGBUsUlElbftz88jWk5hRLYT6sVr0FKHxIMlMM/ZY8O/fx?=
+ =?us-ascii?Q?MQVYRX5doXlfRei0ntVMCVWVekZ6j4Z+y/JDg5M2YyvRWTBU2Q=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR01MB8293.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?E9QuINIr9vZTAFwM4gsYV7D1RcljFsRZ/7ul0Tq5QVQct4P7PuyWAX/WzkKk?=
+ =?us-ascii?Q?lDi4Y4aIM4IIpKvOlP2K6rmNs7ObrHYOgc4yRbYaEj9KToGTTB/8XX85twfi?=
+ =?us-ascii?Q?+y57nBDYNoX7yMYQOXaRBK/HdPc7DtKX3F2ZgsA/2peOE1LmPZjhPGI+ODyA?=
+ =?us-ascii?Q?5zCbNjxVjMaYSv89CXr+Ntwmt/Fd+DeiD5zBAEFfr/5M0QXtaFC51V/34DVN?=
+ =?us-ascii?Q?PL4S9RQaXT4h4XqLOgDozG4w0LnCFz3mVMsQrtZEPzUhQdjXhRwpiOEPw6Gs?=
+ =?us-ascii?Q?YGb0e3DuGkvz+7DNXViVxiG89pqlwWv7LbVyPJI2Mr0a8ronMMEybqRaYbsY?=
+ =?us-ascii?Q?QraFeRBVJ8OEHfjwNIcYb/JxzE0MGAAeu6WE//K+Ao/wStdOaONCRC2Z8M/5?=
+ =?us-ascii?Q?nDah1zB6anmcOlUnoCCz7KEL5R1vVAD0MCwtmSNGhMsv9T1e5v7jPXBqSw/4?=
+ =?us-ascii?Q?Jys30iTBqaPUIkfB43pFHqtA+DnWFwfGkWpuS5gTrfD0cnO8qit2iqKOoRA3?=
+ =?us-ascii?Q?SUAm9fjhGT4kqim95Ejd9CngcERA1ZnwA6j2ByRE94h05rdYRTg2BUiAijJk?=
+ =?us-ascii?Q?L43dk4ZMsziDMxzm9fa8LUev7N3mUkWA6k4T8Zlagc0orDUcUDQIi0AlVRk+?=
+ =?us-ascii?Q?GNlhCq0kXy25ocdSM7oM0aIeG4quM9LEN4FWbT+UtqeJ0IMnrTLPFFaEF3Nj?=
+ =?us-ascii?Q?3s6kkK+yURGOSTA4l47WU2eYXwkL3hRis5hIM1zYWLp1pHF9sfecdIO9ASkP?=
+ =?us-ascii?Q?xlthppAdcjq02REJSeJ8TEhxqn6RP+k/qKLRUjb+e5BSNj2jTvGjxRpP2plF?=
+ =?us-ascii?Q?b9qTcVlXbRn2QL7wGOF/7MKnFIiRIGmbeBjmk8E1NBJ+Bg+7jfc3fCN6DPKt?=
+ =?us-ascii?Q?xm/7GlLHu1AuX7TmkezOq+6guD9sXjyAzptDrJ5P6/c3GcJenLBMHkJP3kLc?=
+ =?us-ascii?Q?+FGqF5J0/m955WwmxrQME4tCMQvz6bAPkl5gq5Sv8/7QWjd/gti44z/zy+9Z?=
+ =?us-ascii?Q?ybwXVFPQKuI9iGZ1GpDYC9Al0roq7UO/sv4mrq5CQaKD1VJyabMx5XJ5zvah?=
+ =?us-ascii?Q?vV6CEE6z6PyoQ8f9rzBiC8hgCe/R0j1PxUUAF30rWBX5aqk8x2NcBNA3lYs6?=
+ =?us-ascii?Q?lA/zuM4IcrQ7he6TQwbEvGJ5NBKcrU9RDcOJJ6JuUoz32zraE+IcVLWtglop?=
+ =?us-ascii?Q?YW25JEROUC6foL0YutxXG+6Cj094BsZHivCDSJjBXiaIXWT8Rd4rV8PxW3JS?=
+ =?us-ascii?Q?65L7qV7wL0U11o94M7qJq7fnLvbg6F+CL+XmJEEwHKPEkqH3gam8GYlrz1xG?=
+ =?us-ascii?Q?DLqvXmWbJfI8Y+/lPmGi1RqrrRlb0uKyL+Xg4MdlHLobbHcGSUdx4Rvz4vTN?=
+ =?us-ascii?Q?pxsSFDXFnOxlYDi4FSpBWug1TJDb8YXtL32dKOnlMx/3Y+pY3XePscge8k7p?=
+ =?us-ascii?Q?AnUJShMh3q2dppb5l8AdTpQMO0NNYfns7fR4Ngvme1tehKW4jpjJLTvzME+/?=
+ =?us-ascii?Q?yHU6BrbGcO3N4JlDh/0SeqzOhziJZgyv1jcSxnF7xRUjxIPtp4+LR5pqxTiR?=
+ =?us-ascii?Q?EXsrBQzUf5PlG1xsETjhpKiSRsN5PVrA3U0U2Dj0/c1AEYD/dpIx8upCHTgG?=
+ =?us-ascii?Q?Tg=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e98a03e-082b-4e1f-fda0-08dc9cf514da
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2024 13:19:21.1260
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8LKeV0Cd9emZk7zGh06VbrZztTXlyByejX5uaROpq9tiiHWn6hLn7eZO/OiKFtIMMdORlysMGzPID/Siv9spdHXIh4SlX1QNbBSFEfResII=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR01MB6280
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 13:06:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201606
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 13:19:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201607
 
-Le ven. 5 juil. 2024 =C3=A0 13:58, Etienne Cordonnier
-<ecordonnier@snap.com> a =C3=A9crit :
->
-> Hi Julien,
-> did you see my previous patch and the follow-up discussion?
-> Ticket: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15325
-> Previous discussion: https://lists.openembedded.org/g/openembedded-core/t=
-opic/103308574#msg195238
->
-> I think Richard wanted a solution where this errors out:
-> > I'm very tempted to say the "using a non default S value" just error
-> > out.
-> >
-> > Whilst I understand how we got to this level of complexity, I think it
-> > will just end up causing us pain in the long run and I'd rather just
-> > not support it.
-> >
-> > Cheers,
-> > Richard
->
-> =C3=89tienne
->
+From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
 
-I didn't see it. Let me check this thread :)
+The current do_package does not strip the kernel modules, if they are
+signed. Hence, the files in a release image stay very big and the debug
+information are not split into the kernel-dbg package.
 
-Cheers
-Julien
+The idea of this change is to suppress the signing of the modules on
+`modules_install` and run `modules_sign` after the debug information was
+striped.
 
-> On Fri, Jul 5, 2024 at 1:34=E2=80=AFPM Julien Stephan via lists.openembed=
-ded.org <jstephan=3Dbaylibre.com@lists.openembedded.org> wrote:
->>
->> According to the comment in do_symlink_kernsrc, this function exists
->> for compatibility with old style kernel recipes:
->>
->>     # Old style kernels may set ${S} =3D ${WORKDIR}/git for example
->>
->> For such recipes  S will always be different from STAGING_KERNEL_DIR.
->> This is fine for the first build or when unpack is rerun because new
->> sources are in S. However the following command breaks the build:
->>
->>     bitbake -C do_symlink_kernsrc virtual/kernel
->>
->> At this point, S is a symlink to STAGING_KERNEL_DIR, (meaning S !=3D
->> STAGING_KERNEL_DIR). We first remove the contents of STAGING_KERNEL_DIR
->> without removing the folder itself causing us to lose kernel sources.
->> Then we create a symlink from S to STAGING_KERNEL_DIR which results in t=
-he
->> following broken symlinks:
->>
->>     ${WORKDIR}/git -> <...>/build/tmp/work-shared/<machine>/kernel-sourc=
-e
->>     kernel-source -> <...>/build/tmp/work-shared/<machine>/kernel-source
->>
->> The build fails with the following error:
->>
->>     ERROR: <linux_recipe> do_kernel_checkout: FileExistsError(17, 'File =
-exists')
->>     ERROR: Task (<linux_recipe>:do_kernel_checkout)
->>     failed with exit code '1'
->>
->> Attempting to access the kernel-source directory results in:
->>
->>     ls: cannot access 'kernel-source': Too many levels of symbolic links
->>
->> Fix this by checking if S is a symlink, and if so, verifying whether the=
- symlink
->> points to STAGING_KERNEL_DIR to avoid losing sources
->>
->> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
->> ---
->>  meta/classes-recipe/kernel.bbclass | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ke=
-rnel.bbclass
->> index 89badd90f18..e328151cb59 100644
->> --- a/meta/classes-recipe/kernel.bbclass
->> +++ b/meta/classes-recipe/kernel.bbclass
->> @@ -184,7 +184,12 @@ do_clean[cleandirs] +=3D " ${S} ${STAGING_KERNEL_DI=
-R} ${B} ${STAGING_KERNEL_BUILDD
->>  python do_symlink_kernsrc () {
->>      s =3D d.getVar("S")
->>      kernsrc =3D d.getVar("STAGING_KERNEL_DIR")
->> -    if s !=3D kernsrc:
->> +    if os.path.islink(s):
->> +        _s =3D os.readlink(s)
->> +    else:
->> +        _s =3D s
->> +
->> +    if _s !=3D kernsrc:
->>          bb.utils.mkdirhier(kernsrc)
->>          bb.utils.remove(kernsrc, recurse=3DTrue)
->>          if s[-1] =3D=3D '/':
->> --
->> 2.45.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#201601): https://urldefense.proofpoint.com/v2/url?u=
-=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_201601&d=
-=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
-fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6=
-WpFFcYvO-chBh9k0SVobjYMK&s=3DN3u4aN5Ob1LBtzYAPrUgW7w1Yk_vN3KvuImWnp5g6LA&e=
-=3D
->> Mute This Topic: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__=
-lists.openembedded.org_mt_107052142_7048771&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh=
-0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E=
-&m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&s=3DV=
-bM00DcAJR0ZUsuhhPWtLEKKZ5MiBkhgS_Q4Aq3X3KM&e=3D
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__list=
-s.openembedded.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjI=
-DPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m=
-67E&m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&s=
-=3D7EbQmI1Lz7r_bu1RArY3qabfEim4bh48mxJPm1oN_N4&e=3D  [ecordonnier@snap.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+---
+ meta/classes-recipe/kernel.bbclass | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+
+Another idea would be to move the code to split the debug info in package.b=
+bclass to a
+stand-alone tool and inject this in the kernel's modules_install.
+
+
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kerne=
+l.bbclass
+index 89badd90f1..96e40be085 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -461,7 +461,8 @@ kernel_do_install() {
+ 	#
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
+-		oe_runmake DEPMOD=3Decho MODLIB=3D${D}${nonarch_base_libdir}/modules/${K=
+ERNEL_VERSION} INSTALL_FW_PATH=3D${D}${nonarch_base_libdir}/firmware module=
+s_install
++		# don't sign now, it's down after extraction of debug information
++		oe_runmake CONFIG_MODULE_SIG_ALL=3Dn DEPMOD=3Decho MODLIB=3D${D}${nonarc=
+h_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=3D${D}${nonarch_ba=
+se_libdir}/firmware modules_install
+ 		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+ 		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
+ 		# Remove empty module directories to prevent QA issues
+@@ -497,6 +498,16 @@ kernel_do_install() {
+ 	! [ -e Module.symvers ] || install -m 0644 Module.symvers ${D}/${KERNEL_I=
+MAGEDEST}/Module.symvers-${KERNEL_VERSION}
+ }
+=20
++sign_kernel_modules() {
++	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
++	if (grep -q -i -e '^CONFIG_MODULES=3Dy$' ${B}/.config); then
++		# modinst_pre=3D prevents the cleaning of the target before signing
++		oe_runmake -C ${B} modinst_pre=3D DEPMOD=3Decho MODLIB=3D${PKGD}${nonarc=
+h_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=3D${PKGD}${nonarch=
+_base_libdir}/firmware modules_sign
++	fi
++}
++
++PACKAGEBUILDPKGD +=3D "sign_kernel_modules"
++
+ # Must be ran no earlier than after do_kernel_checkout or else Makefile wo=
+n't be in ${S}/Makefile
+ do_kernel_version_sanity_check() {
+ 	if [ "x${KERNEL_VERSION_SANITY_SKIP}" =3D "x1" ]; then
+--=20
+2.34.1
+
 
