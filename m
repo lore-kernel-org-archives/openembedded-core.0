@@ -2,72 +2,95 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0294DC30658
-	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 13:05:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 217A3C41513
+	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 13:06:48 +0000 (UTC)
 Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web11.16699.1720184720320301626
+ by mx.groups.io with SMTP id smtpd.web10.16417.1720184803198801398
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jul 2024 06:05:20 -0700
+ Fri, 05 Jul 2024 06:06:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=EFh4Z9ic;
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=pfAb9yun;
  spf=pass (domain: baylibre.com, ip: 209.85.160.174, mailfrom: jstephan@baylibre.com)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-44639c3d8e7so8712761cf.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 06:05:20 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-444fe697f61so10167961cf.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 06:06:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720184719; x=1720789519; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720184802; x=1720789602; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rdyGJUOsz4hgGeLtdo8QoEEHle0pZpZgkeHixq1wh+E=;
-        b=EFh4Z9icS0OqhpFaMTNwYlPJymkJ4UDYZrDgiVsxJal2mom0MP9iNbGt5+IznuH+Id
-         rQ10u4u3AnV50sGF721nX1S8iY+eW9JLOHloqNFbjTftw/32ISSmqSy0bGp9CyXXoCoI
-         1y3a3mUnjol1CdI6FdSiNuYbVOdDIYToIZxnU5mMjihYcrq6DYfd7s0LYFyrYf06jF11
-         bgXYwmW8S0lw99tl3mXmHeNxWCwNWXueuu2BJjtqsDuTAUY0ZUmRG5b880RU5uqLVP8o
-         +zMbiWg5IM6pSA8z4eVk044IIanZTwHP7e3DJkBcQr+2TdaXisRrTPNN/AC3Tdv6AZt+
-         sWow==
+        bh=4RnhW+XkDQPgrD/SwE5Y6pDxzSNJfEHe2exskLoTw70=;
+        b=pfAb9yung8IZb0ZNrZxYDGpKluZRMf10VlsFOLWYmThWJ2HRWdHPPJg56ZYMyGIpFu
+         HstsxcJy0TroPBIq+edD/tlCKNuuydli7cYYyy1J5kFi75BG7CVQ0KLG7m0iyr5VTmF9
+         65TszY9QvBuzRsGaqGPpKfFPCDEWIJ01aR5egj3DKwS0CczP1d+8rbGcGICrt2D4vvRk
+         qZtEbkaaz+v7swO9Jnu7YSPdAtFsJJ7QM9Z0ziahzXfJFqaaQlbi2f+9wqodfoG4dExL
+         72tXAjjVy9tCj0sarNe7DJE59jw8fvXxlqkPXpqx6H7Mu1fCjiHNDw1LDygniZ0MUbiP
+         MKng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720184719; x=1720789519;
+        d=1e100.net; s=20230601; t=1720184802; x=1720789602;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rdyGJUOsz4hgGeLtdo8QoEEHle0pZpZgkeHixq1wh+E=;
-        b=g3Q/K7J2KfXtte5PcTh7N5o5JGAGCn+7LJ/+vz+f1A9X0aoGzd2Wn9LtVc6goEsivQ
-         Y072NIyn04D4X9TgKOEmq0qpIqeGxjtlNe7l/8HdGkWC7YOycR5EWv73mSE6uhJgxjrF
-         9BC9M9dM7DfeyWwc4QziuTNoF2v2nCAvkJbODdhHtW60A55rZqaapuGrLdFgd2dsEUlR
-         XqzJuQ65UPQxT1ZeZeo4R4GrQrof2S84TmORtoVrW5RWfr31tQKzvB8OtVIdYU4ii7bt
-         9+Bal+b/IZZYNz/zgqvEVwXTJVHAB+qTBVhYtrz+FNQqxdFV6WJP1jxHPmF7uNz2l22t
-         OqNQ==
-X-Gm-Message-State: AOJu0YzcNFMuKEgEmsFQsFHSAu6E8VZegGuN3uFtadtkonziM0M0P5l2
-	GeCjIL7u1F3oWg5zUNIpDTa+oWct9yGfgutb47BllRcEFO6gbMVT8QPD1hB4aLxIdNcvNJEIBGg
-	Diy4nrXhkSgF1k6nAOBWQFjzKl9CUUqH/KsnPAQ==
-X-Google-Smtp-Source: AGHT+IGN7jtgtAR9JHGmVqMLYPsjPGPWMGQeq5SsEMMUWd3iSNTK88ZSdspiE/bgXXJmvz3tUf9HkJvikdty6kmqx+k=
-X-Received: by 2002:a05:622a:1a06:b0:446:11ae:b074 with SMTP id
- d75a77b69052e-447cbf8c9admr54818791cf.59.1720184719325; Fri, 05 Jul 2024
- 06:05:19 -0700 (PDT)
+        bh=4RnhW+XkDQPgrD/SwE5Y6pDxzSNJfEHe2exskLoTw70=;
+        b=nzwCOvoZ6TBvwNc82W8CdYj485sKgTDkcH+kLYhOEwpOsMjhtp/9vyeLyGGEgyrqlk
+         WaQ8Xo7wzL4laufbC9ei70UyvkpgrQJE77HnefUCbirWRquima/SRI5IEwKkF0CfELjw
+         kWnbg8IvzY7udgwikReg/x/bDpQmOKS5S5zCoPDzFeyrqsnp55cFAEHSiRei3m1umVam
+         5uvzTraHBteF2mvwGM63NyDy/C7SJuiYFVr7OPngCbMSbMkq0mckBZ1/smnejnD2/4cJ
+         /9IzmqEQnTQneoBIyDIpyovDXuYH1pr9ROyCAtJzKtTwKrtpkfwBzzL0kDmKah3ZVRBO
+         xYYQ==
+X-Gm-Message-State: AOJu0YwiTs7DhWs4T2Qa6AWDa9+cZKBWu65tXg2hBSYe8xcEhO/70Jfv
+	3r8mUU5OKEGaTp3o/LuGQ5H5wxHKjlaoJwN8Kn3Qq2ogwEmtmUWfrXW2zpWFtvDw1InrgxLKCA3
+	MBmN4V3xIks/GxHoamqUt0gsm75KbzgyGS7jJmQ==
+X-Google-Smtp-Source: AGHT+IFK+ZbPyL67BvGrDPwCz5fBK0pFTTULwuDwdE9LGQY46He9bZRqchzI1ZbFW8A55Gk3Gvq6+c14+0i+dT0wAdY=
+X-Received: by 2002:ac8:5a86:0:b0:446:56d7:78b with SMTP id
+ d75a77b69052e-447cbf20585mr65017231cf.22.1720184801994; Fri, 05 Jul 2024
+ 06:06:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240705113129.1798725-1-jstephan@baylibre.com> <CANPvuRmCL4duNDDuMRiEm_T_vYE86fdmMkbqL8d4mgXd98-www@mail.gmail.com>
-In-Reply-To: <CANPvuRmCL4duNDDuMRiEm_T_vYE86fdmMkbqL8d4mgXd98-www@mail.gmail.com>
+References: <20240705113129.1798725-1-jstephan@baylibre.com> <CAHUKmYbkkPdopJfNyhxtwBGmy9dh0b6myrwosmm5RyBzBqZaLw@mail.gmail.com>
+In-Reply-To: <CAHUKmYbkkPdopJfNyhxtwBGmy9dh0b6myrwosmm5RyBzBqZaLw@mail.gmail.com>
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 5 Jul 2024 15:05:07 +0200
-Message-ID: <CAEHHSvYbGiS0A1gJZtQtaX21R4DKHubdhbLoCN5d3hqDfFyO_g@mail.gmail.com>
+Date: Fri, 5 Jul 2024 15:06:30 +0200
+Message-ID: <CAEHHSvZSGUHXii4EC8DEDwLt+NMXHVNyiLh+1-iYT+nq=Twi1A@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] kernel: fix do_symlink_kernsrc function
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Etienne Cordonnier <ecordonnier@snap.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 13:05:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201605
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 13:06:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201606
 
-Le ven. 5 juil. 2024 =C3=A0 13:55, Jose Quaresma <quaresma.jose@gmail.com> =
-a =C3=A9crit :
+Le ven. 5 juil. 2024 =C3=A0 13:58, Etienne Cordonnier
+<ecordonnier@snap.com> a =C3=A9crit :
 >
+> Hi Julien,
+> did you see my previous patch and the follow-up discussion?
+> Ticket: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15325
+> Previous discussion: https://lists.openembedded.org/g/openembedded-core/t=
+opic/103308574#msg195238
 >
+> I think Richard wanted a solution where this errors out:
+> > I'm very tempted to say the "using a non default S value" just error
+> > out.
+> >
+> > Whilst I understand how we got to this level of complexity, I think it
+> > will just end up causing us pain in the long run and I'd rather just
+> > not support it.
+> >
+> > Cheers,
+> > Richard
 >
-> Julien Stephan via lists.openembedded.org <jstephan=3Dbaylibre.com@lists.=
-openembedded.org> escreveu (sexta, 5/07/2024 =C3=A0(s) 12:31):
+> =C3=89tienne
+>
+
+I didn't see it. Let me check this thread :)
+
+Cheers
+Julien
+
+> On Fri, Jul 5, 2024 at 1:34=E2=80=AFPM Julien Stephan via lists.openembed=
+ded.org <jstephan=3Dbaylibre.com@lists.openembedded.org> wrote:
 >>
 >> According to the comment in do_symlink_kernsrc, this function exists
 >> for compatibility with old style kernel recipes:
@@ -133,43 +156,27 @@ R} ${B} ${STAGING_KERNEL_BUILDD
 >>          if s[-1] =3D=3D '/':
 >> --
 >> 2.45.1
->
->
-> What kernel bbclass are you using to build your kernel?
-> Please note that a very similar logic was replicated on the kernel-yocto.=
-bbclass do_kernel_checkout function
-> so it will be good to test with and without the kernel-yocto.bbclass.
-> https://git.yoctoproject.org/poky/tree/meta/classes-recipe/kernel-yocto.b=
-bclass#n376
->
-> I recently came across this problem in a change that I ended up having to=
- revert.
-> https://github.com/Freescale/meta-freescale/pull/1843
-> https://github.com/Freescale/meta-freescale/pull/1857
->
-> Jose
-
-Interesting, I'll check this. Thank you for reporting :)
-
-Julien
->
->>
 >>
 >>
 >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >> Links: You receive all messages sent to this group.
->> View/Reply Online (#201601): https://lists.openembedded.org/g/openembedd=
-ed-core/message/201601
->> Mute This Topic: https://lists.openembedded.org/mt/107052142/5052612
+>> View/Reply Online (#201601): https://urldefense.proofpoint.com/v2/url?u=
+=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_201601&d=
+=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
+fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6=
+WpFFcYvO-chBh9k0SVobjYMK&s=3DN3u4aN5Ob1LBtzYAPrUgW7w1Yk_vN3KvuImWnp5g6LA&e=
+=3D
+>> Mute This Topic: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__=
+lists.openembedded.org_mt_107052142_7048771&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh=
+0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E=
+&m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&s=3DV=
+bM00DcAJR0ZUsuhhPWtLEKKZ5MiBkhgS_Q4Aq3X3KM&e=3D
 >> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [q=
-uaresma.jose@gmail.com]
+>> Unsubscribe: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__list=
+s.openembedded.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjI=
+DPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m=
+67E&m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&s=
+=3D7EbQmI1Lz7r_bu1RArY3qabfEim4bh48mxJPm1oN_N4&e=3D  [ecordonnier@snap.com]
 >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >>
->
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
 
