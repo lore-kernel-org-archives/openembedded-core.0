@@ -1,100 +1,124 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CDEC3271E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 15:06:28 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.19307.1720191981040318004
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9426C38150
+	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 15:25:38 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.19367.1720193134549345550
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jul 2024 08:06:21 -0700
+ Fri, 05 Jul 2024 08:25:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=c0P7ufu/;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nzaNbMkR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190836e9230-cfbb20b2-eccd-4b0f-830d-a7756503ee4d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1720191980; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tYb0fHD6kRBIic4+G89qLxEo9lGPkoAwy7JCyDFzYzo=;
-	b=c0P7ufu/BjBRNFjYthMXw40cr+6O9SQbGAllgFvlKkvHIWNShNyPIwRQaxwgPpiJ
-	5y3qZpFDRP/tOUOCxf5JPwpU9LDYeVWuKHHaBrZ9jmbLORCP1v6LbVil4LB7eUPcPtG
-	Mx3v7nPEIkQ6SMkpYbShDi0Pa7gBQatgT4CYWjao=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1720191980;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tYb0fHD6kRBIic4+G89qLxEo9lGPkoAwy7JCyDFzYzo=;
-	b=nzaNbMkR5Ho5ok0C5DzwblaU5+W+QpH1Vq8VDwfDWMZThdRr+zckmc0r7tQ7HQ6p
-	fsBR/DJPR64kTuTJVYEiPOwG8k4x4oMXif3YsvONztxlMxOHX7y3GrfKM71MIr/hy4D
-	piq6g3kbs/XpmgVK3IHMXU2Sm7Ml1901a6cv7I/w=
-From: patchtest@automation.yoctoproject.org
-To: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/2] oeqa/utils/postactions: transfer whole archive over ssh
- instead of doing individual copies
-In-Reply-To: <20240705144638.441976-3-alexis.lothore@bootlin.com>
-References: <20240705144638.441976-3-alexis.lothore@bootlin.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190836e9230-cfbb20b2-eccd-4b0f-830d-a7756503ee4d-000000@us-west-2.amazonses.com>
-Date: Fri, 5 Jul 2024 15:06:20 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.05-54.240.27.45
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YF1rXa//;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ebed33cb65so22374281fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 08:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720193133; x=1720797933; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GxdElLUN9eQVNxZ1szS+zgXNOD3zQDH2xjPSdZNTZaQ=;
+        b=YF1rXa//JnA3gaSTWmizf+tW2ZRNUzo7VhyRg95W8U127IpG4OPbWh3/2/Fq/lrXme
+         CTZ/zo7RlQ+Lqi/gOoW1DH7SHAUL3LWxL0PIgSu8no3Gam0rz9yGysR6U2iod0xROvae
+         h+lh7VZpQgEL4yby2yNkC9XnShWF9U8zkSOnbAMamNvHN4s2ITk3wVE+dEnOBivsC93t
+         Pn1CauwVagoljJRXkq96Egn+D8qp4LDxZ4qdmson6X4jtoZddq8T4VAGPpucE3QJ+qnK
+         JozgW4/HHrG/dmPSGa623itnJOYFMxlHPwVzfBeKiB9G+tcEWlhn9HTBluGbt3VS2l4u
+         CWKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720193133; x=1720797933;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GxdElLUN9eQVNxZ1szS+zgXNOD3zQDH2xjPSdZNTZaQ=;
+        b=gRqOVd+pF+cpCJrI9BhU2CTTLTsR5MupNh1G1+czZNzIpceg1SUQO+ozMvHG2qA7oO
+         M9B740gP5SbmKUn9bO7AmgqKoz6RUUOQYDXkpipCPaNMb6J+RSR+A76tDNbIX7kNVp8S
+         taLBDMDYeRSlcVud8k01PHnWTK1zqLllh9zYlWRP3XlLoYiStOe1BC/Btxfa5AoPg9oL
+         f2qB0sf8/+1KBy8wcN1poxn75QdLT1JoHFP38tp8imlPNbkHhz6tOpOF6mtjeRAq3ZNB
+         XKqQ3Cep8Q8yT9LVyizAOse03Ze+4uMmn6JBjBs3bqRaRp25sC8hbLc6Ja3mbjURwzZz
+         lBQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWej0vjToBEJOyN1tFpua2pp3vmmY4DOay3yejtFi56aaCe1SjZ15jyfjnMCLEY+jDf3tesrnosbUwQ9SyVGVh2SCV7qKVQLMESuzimMjBQSJxFw8+RQMeQ
+X-Gm-Message-State: AOJu0YyIF9l94e+oPAFS2xLx+q49lY4yU+8cg0nS9X2AAD+GpSt6OLYU
+	XZTAIS89+leJ+UkFEqarnWkbm3ZFZClJBfi2IqLwB2NFH3YXUePVosoO07ALP7FWCikHWqjbNpt
+	QCkilJqc2b1pDuls4NlA52r+RMTE=
+X-Google-Smtp-Source: AGHT+IETlir/NSE76kqF7ZFcRldBky69QdBT7FKt5S7YQc6CtqHRhGvwt8WCtbNDNQUywH3mTz16wIsB7e4i8XCIsUg=
+X-Received: by 2002:a2e:884f:0:b0:2ee:8d81:5a8d with SMTP id
+ 38308e7fff4ca-2ee8edf128fmr33637031fa.48.1720193132316; Fri, 05 Jul 2024
+ 08:25:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <2e75c6169cac05273b3edde52ea820506ce9d3fe.camel@linuxfoundation.org>
+ <CANNYZj_LwCwmX+aKDDEYijMLuEehiUDJbMKcFvwtpM_rQAcxhA@mail.gmail.com>
+ <4f2d2a18-77cd-45aa-a419-6f4f3f82da89@windriver.com> <dc35d986-755e-482a-b957-969b08e14534@windriver.com>
+In-Reply-To: <dc35d986-755e-482a-b957-969b08e14534@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 5 Jul 2024 17:25:20 +0200
+Message-ID: <CANNYZj_fJbN94ty+Y6n78Tmgh8-35Wk8TuuqruVVtszrx1Mk-A@mail.gmail.com>
+Subject: Re: [OE-core] Rust reproducibility issue summary
+To: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"Shinde, Yash" <Yash.Shinde@windriver.com>, Randy MacLeod <Randy.MacLeod@windriver.com>
+Content-Type: multipart/alternative; boundary="00000000000098d21f061c81acad"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 15:06:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201612
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 15:25:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201613
 
---NextPart
-Content-Type: text/plain
+--00000000000098d21f061c81acad
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Mon, 3 Jun 2024 at 09:08, Sundeep KOKKONDA <
+Sundeep.Kokkonda@windriver.com> wrote:
 
----
-Testing patch /home/patchtest/share/mboxes/2-2-oeqa-utils-postactions-transfer-whole-archive-over-ssh-instead-of-doing-individual-copies.patch
+> Further analysis on autobuilder binaries shows that the deviations are
+> similar to that of earlier *rustdoc *issue. The deviations are in
+> .llvm.<hash> suffixes.
+>
+> As discussed in issue
+> <https://internals.rust-lang.org/t/rustdoc-binary-is-not-reproducible/20027>,
+> may be we should check by disabling PGO (by default it is enabled and as in comment
+> the PGO profile generation is not deterministic...).
+>
 
-FAIL: test bugzilla entry format: Bugzilla issue ID is not correctly formatted - specify it with format: "[YOCTO #<bugzilla ID>]" (test_mbox.TestMbox.test_bugzilla_entry_format)
+After reading the issue and poking at the rustdoc binaries on my local
+disk, I think the key is in finding where those llvm.<hash> suffixes are
+generated and *how*. Something (presumably rust-llvm) puts them there, so
+narrowing down to the point where that non-reproducible value is decided
+would help a lot in finding out why it sometimes changes. It does require
+navigating and reading a mountain of unfamiliar llvm code, this is what
+makes the issue difficult.
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+Alex
 
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+--00000000000098d21f061c81acad
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
----
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 3 Jun 2024 at 09:08, Sundeep KOKKONDA &lt;<a href=3D"mailto:=
+Sundeep.Kokkonda@windriver.com">Sundeep.Kokkonda@windriver.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><u></u>
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+ =20
+  <div>Further analysis on autobuilder binaries shows that the
+      deviations are similar to that of earlier <i>rustdoc </i>issue.
+      The deviations are in <code>.llvm.&lt;hash&gt;</code> suffixes. <br>
+   =20
+    <p>As discussed in <a href=3D"https://internals.rust-lang.org/t/rustdoc=
+-binary-is-not-reproducible/20027" target=3D"_blank">issue</a>,
+      may be we should check by disabling PGO (by default it is enabled
+      and as in <a>comment
+      </a>the PGO profile generation is not deterministic...). <br></p></di=
+v></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"gma=
+il_quote">After reading the issue and poking at the rustdoc binaries on my =
+local disk, I think the key is in finding where those llvm.&lt;hash&gt; suf=
+fixes are generated and *how*. Something (presumably rust-llvm) puts them t=
+here, so narrowing down to the point where that non-reproducible value is d=
+ecided would help a lot in finding out why it sometimes changes. It does re=
+quire navigating and reading a mountain of unfamiliar llvm code, this is wh=
+at makes the issue difficult.<br></div><div class=3D"gmail_quote"><br></div=
+><div class=3D"gmail_quote">Alex<br></div></div>
 
---NextPart
-
-
---NextPart--
+--00000000000098d21f061c81acad--
 
