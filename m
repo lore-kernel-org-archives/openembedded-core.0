@@ -1,736 +1,339 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EF8C3271F
-	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 10:34:37 +0000 (UTC)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
- by mx.groups.io with SMTP id smtpd.web10.14230.1720175673932994707
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B6CC30658
+	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 10:36:07 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.125])
+ by mx.groups.io with SMTP id smtpd.web11.14666.1720175761593249682
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jul 2024 03:34:34 -0700
+ Fri, 05 Jul 2024 03:36:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DJMCqrlr;
- spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-810418672fcso130348241.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 03:34:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720175673; x=1720780473; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nQ5vJN8z5mCNfrC+kxZ6YujsuwPwNt8jOzenSfhLviI=;
-        b=DJMCqrlrlNHUoYnhqdUJ9ypHcucCWV3Ywp1/ByBGUMPw1s42tdIzT/jUan2ex6EVvX
-         ffBCalWZ8PzJVpcSbbYZqiz9jfpUte9IxPuVpn0M+dlI00kL+lmO0GaHPbmiVNZ40CKx
-         QaqM0sD3zhEDCJgSvxZoSw0pivNQ6Gi/GGckHMdQPCZIEqoK/Wxe1uju5QHtaDcgxTgx
-         VBW1Bjyv/jKu23u4PaAALz3svNFl61CV9xB5cYGNAANy3gpmN6wWP0rSY3IonRrDNLeV
-         dQqp4tdvNqfjW7VBJMNQJkk4692lAB8hRTqZsgqKxNgbyMgujmC/qTpJkcmN3txUlai5
-         Loaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720175673; x=1720780473;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nQ5vJN8z5mCNfrC+kxZ6YujsuwPwNt8jOzenSfhLviI=;
-        b=RzIfqTmulh0xpRqH2hP47q+KUdufsi/9Ci/BOGlh8cp3erWFU2lyofPFY3G6QLUI4v
-         G71QRw7tt2lAxmsbDrOAVtu4pfAkIELDQFX7LzCR3R/z3ak4Ru9zdUau5rsbLdnE4D4j
-         8z2eopnGg+GAcQS0jy55zFWM5EQzGVk0SeUL5lOd3GkuRxGFc4Z6BO0xk+v5EDS8meTa
-         IaHcw71XjE1FmynBa58uCDV6OYuA5WYF+D/joCI6gbx3COXCTElsVP/qh3MBqslZEF/B
-         zVfDeJmgdqMxQ8aud5d93LKB1ALDQO3HJGFjaP8WPQrTpSZbNthruCooqwDP9o9+/ZqS
-         y7zQ==
-X-Gm-Message-State: AOJu0YxSPepkl8UoAfq6vhjhQ+eVYCiVS9U38FjdVERTvziPgc84vtcB
-	ioMbuM4Wha4YwKYeP3k38I4IjuIdiv6534IftvIplt7/VBfFNxaXnIgeV+TosDgJiFpayO1y7lL
-	Ncv5CCsLpvfrL6X4O7cAff4AwBGDb/g==
-X-Google-Smtp-Source: AGHT+IFUJKjHnBkKmB9asSW/t5NGhnkZuvsmz05tmNKzdIQ1fSuErYCSbKxb2x01bw+6/dtMwVXhloYfIKfc+LFSQp0=
-X-Received: by 2002:a67:e293:0:b0:48f:eb67:9239 with SMTP id
- ada2fe7eead31-48fee916a5fmr4354204137.32.1720175672626; Fri, 05 Jul 2024
- 03:34:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240704124559.194237-2-jose.quaresma@foundries.io> <9821df03d3beadfc51c83eb4924152d7977704f9.camel@linuxfoundation.org>
-In-Reply-To: <9821df03d3beadfc51c83eb4924152d7977704f9.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 5 Jul 2024 11:34:21 +0100
-Message-ID: <CANPvuRmYM7R_dMLPRz9Fye7T8GUHAOnvDRdds2vpTq9k96nbZQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] openssh: upgrade 9.7p1 -> 9.8p1
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=xhkHiHOm;
+ spf=pass (domain: navimatix.de, ip: 40.107.249.125, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=esiZGOeZREBmIrSAKJDRcBPvZNZrjtgZr2yohG4EljKovuGDVZgvLNhS848zGTDrjV1Rc47UCJSIh8TVdnp2Ni3xSQKD9OhZ1TltfsPtMF5t9BvpuJTPHTwUh1EZ3EZyW/CUdtPhZOVrnnheA2rm4o3BW+ASQuNFhpJp0daH8Dp8U3KLaw3yeiavqym7pSsHYv7gfoBXcqZ30ZUOWXD22Fca7yViRNo5y2rQWM8nXHvvxD5SA5U2JXSwpxBYf7VLzo7Uksf8dt2Tq2BoC9J04BkZnI9h/LKl9bCeFhP3i3AaJMH7i5FTjh6kSVPe7KUjL354571ZpuT3QqXfOl8cXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=izyVaqAdlGEqpxhPBgFpbWBqBEhcFv6dLy9BjuMiu4A=;
+ b=M0Cfjgo9ZDxbplTxkyNbP8Yx0sPD+besqXOl0NHZ9n7PvVDW8coskAeueazlJ4OnCpXHABxbmjJBTjTai5DCH7CxJrQmzFJ0NYYjKEEfK/tWCL+/oveq2ua0OjOJHxlcZy80cK2blRWdGC1EkGHpRI5vPAt3Nz28HkVkFOCpZxkzNeMDZbbroPzC4lOZnKFGxOb6DDQrA0C3ftazATpwwI3AYzbE5/PNRzM2fpi7rxvNhS4GSV9TfnFUPAl7cNn0iJ0mvdicc5/lCQaF2ojEZ0gB3Fkiif+RpDZycW6gKon5p9KNO094zE+6/55YMfBxBMowa1MaIiBwp5fYhvyEYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=izyVaqAdlGEqpxhPBgFpbWBqBEhcFv6dLy9BjuMiu4A=;
+ b=xhkHiHOm5gT8Vg4M3wx6srjQpC36XU2va/BxqbB+C+VY5NQ+suUg2yL03YN5QY05qB2Cus6gNgPSEsboqWW5+MTnya2UA0n5ciO8h/hcT+HahWtJCp7iTM2XODyYDQzfmrvX1vD7E/x/BnVDuY81AZgYC0+XajaqoaRQ5GV1xBc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2d4::5) by PR3PR01MB6859.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:5c::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Fri, 5 Jul
+ 2024 10:35:58 +0000
+Received: from DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ ([fe80::d520:1b9e:a30e:69a7]) by DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ ([fe80::d520:1b9e:a30e:69a7%4]) with mapi id 15.20.7741.029; Fri, 5 Jul 2024
+ 10:35:57 +0000
+Date: Fri, 5 Jul 2024 12:35:55 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000eb1745061c7d9b1c"
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] u-boot: set B = WORKDIR/build
+Message-ID: <m324bppzigcdxci6tg6hzl5vc74sgjjx6qkgtvg4bsvedob6as@ux4tt3s6uts3>
+References: <8ebaf41b89622ecc6b27b140cb8264bf50d15f68.camel@linuxfoundation.org>
+ <4641ec5ba60aa447167bbee07fac87a3f6da3aea.1720172390.git.joerg.sommer@navimatix.de>
+ <b62c397649ef55f847345288c10db34a372b6f8c.camel@linuxfoundation.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+	micalg=sha-256; boundary="c4gv2nlwjzzim7ex"
+Content-Disposition: inline
+In-Reply-To: <b62c397649ef55f847345288c10db34a372b6f8c.camel@linuxfoundation.org>
+X-ClientProxiedBy: BE1P281CA0276.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:84::15) To DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2d4::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR01MB8293:EE_|PR3PR01MB6859:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd6e62d0-6332-453f-ae9f-08dc9cde4195
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?iso-8859-1?Q?K0TP23ResOq1tvXy3jOZpLjRBYD50Uyhsv5uZewYdCpuRyw8FN2XhS2kgl?=
+ =?iso-8859-1?Q?0uWlgvNr5C9zM/pjSGLF/m/0rH4bnQgTxa5fnMH5RTB6PONrfYfN6SV3FV?=
+ =?iso-8859-1?Q?VDYlBG0wHfYu7EVzpmWNzUrx6W9jNXUSE4xGhaTUDcJ34NpaNpV8yoCgxi?=
+ =?iso-8859-1?Q?9el0xyHdFVXLJhvW7mtGP6xJpA/SGCrDX0WeeK/Bx5KMKcDlOsQE8DMFxN?=
+ =?iso-8859-1?Q?34OnUple+rAT9GDMhmZfDSorqR9tfA2QwLmwYSQ2psOg7gskEqk8g1jTAS?=
+ =?iso-8859-1?Q?irqJsTnoOfy7blzB3JhxCH4TsRLNM7/VTPeCycM8W/iJT8hIfiwL7mwck5?=
+ =?iso-8859-1?Q?LinkGguG0A2S32ULN4pbBjvG2DFPwy8Bf5hunlknsI9455V7wdfH3wAfn0?=
+ =?iso-8859-1?Q?07B5QlUiAFLDe3GFP2mbKHzMKsZAfv1AFlkItabfQjc21cG0wDP+zIWj8M?=
+ =?iso-8859-1?Q?XArudAEbY0iB2ZYZDj+2Z8izNi/vP00gMSjF7SCCgZmzyzlJ8ejjLm94yv?=
+ =?iso-8859-1?Q?8pwAXpuWygQvZ2WAr4WsTaAKPdqPN5Htcrl99tiy07etqP2FaDUydmdXck?=
+ =?iso-8859-1?Q?6NqLxZgiHkl06WFXek874k4jk7V7hszG0Kbbpl6+cYPyQMZrJggBvHNueL?=
+ =?iso-8859-1?Q?gFFl7GQ19doTTbwOHTf/BgOTmx5Q9kkvu9xJLdmd0xrSrvM8CgKkk1NwfJ?=
+ =?iso-8859-1?Q?R3i8sjYptn/BHJB8TNCnYTCXme8RT6Aa6RDN3wl+CsKTQvNHCR7D6ZFlg6?=
+ =?iso-8859-1?Q?84s3JxVzV9gcRFW4Ch2sDF/QCRGo42UTL8Y0G6pYHXLcR25TsBmmX6IDVO?=
+ =?iso-8859-1?Q?wMaWMalMjelXjU1dJLFHb60fhlflHdPXW9LnyaYz6UnQ6KsnkTQx47w6cK?=
+ =?iso-8859-1?Q?kHLkgu5IVdEXG7IX5xhIyZwIb6gFylsP7Gc6yvZS5tHMZIQzFVHEXolIKX?=
+ =?iso-8859-1?Q?sQLR6LLcwpPg3vSaQTvsue28B4FJLedS1NN3/ihYmmQIiOGXRUx8AcifJD?=
+ =?iso-8859-1?Q?T0AQyP8cxs+0CcBQ/5oXD2tSFFAhsl/iLBrFClmSIh9inGbAuzAjs5S+sP?=
+ =?iso-8859-1?Q?tQzT4W3qihDnSyggzs2JTmnblIli2jyzVkbY4CRp4i8SlCVGOUSBmRR3wy?=
+ =?iso-8859-1?Q?P5yUPC9J2rEhCLm4oYvb6WC+G8q145CrBbsp//PrdCxpU8jVRA6bML2d0J?=
+ =?iso-8859-1?Q?R2Zu1i8mc2YPLo6kUpmNljPZErZRhuBffr59b4sPFBDJTSsylpCTPyJRtd?=
+ =?iso-8859-1?Q?ZurA9TyG0Yb0Q5SUo8C1fgkKvu4r7eps6JLaRZc5QYEA2hLI5aSAWnQFMp?=
+ =?iso-8859-1?Q?hQAE7ISCu3kU/g/Nibe1mmbVdFTBhKQKDo750j9u2YKQpVY=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR01MB8293.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?iso-8859-1?Q?+EJMVOxJKK1evU+1DlF0IWrUCNetl6cJfjMkHLTVd0pEm6sY4QRavDSOpX?=
+ =?iso-8859-1?Q?c2i7BBl2w/ONDg9iIhaibWWt3MCnCsKhbSJW202XlZ6/aVgLZbqo7hggN9?=
+ =?iso-8859-1?Q?w9fzPXV9ntC6aJW2AvmNW3NXbrBnh6b8B166kHf9aqfBlYk76Tq7S9Jkkr?=
+ =?iso-8859-1?Q?kgrPGAI70EwZymas/oU5reimqaSkkQVDcb2DtSVsLmMLWdWZNQrzowkDxD?=
+ =?iso-8859-1?Q?GDtY0uGPRuJrKlsuY9gpfkOPGOIqY1kMAv1E3XchyTBR+EqDD/TaYcKsWY?=
+ =?iso-8859-1?Q?461KF/go8j0C+yyPTHtbhU4mtYKmDCzg2SZmYcupT0Q1kNCyUA83TzVNO0?=
+ =?iso-8859-1?Q?/o59hQjsrqorcnXCeqHp9UfP9JdQ7DXbDBaleI7v0O8hqlgMU5MLlebFkJ?=
+ =?iso-8859-1?Q?U7dokQatUdlYMA6DUll40LkN5Y3DTx0o1IZg4HyrVyzbSM/KsOdBMzmEYR?=
+ =?iso-8859-1?Q?Nw3wWgWBgcXp1LJr9J2yyqNCZyT6g4r7+BQTOJ4IjT+n8tnq1h2jdKVWlX?=
+ =?iso-8859-1?Q?/ZTq1gMN6uFyIUXozphE42hA1tDKiZOsvl2SYBH2Srac6Io8kzt3EktMt+?=
+ =?iso-8859-1?Q?Fsp3vkMZInj4qJ6ewgx45GWAPktt+BbpkaIESWB9IuJPZS2Gxous9YItAb?=
+ =?iso-8859-1?Q?Leom/zhalR745l3Hs2nfariByqM5B4/r1d4rqEgCnH2SvwlbDO7fM7fPU9?=
+ =?iso-8859-1?Q?2k+21HuSU57SPqAJA7KjXS79YMSRUto/Y4O3UnO7ArZ7MH9sYbaoJ5i+M2?=
+ =?iso-8859-1?Q?NYiMnbFAUX99/FaGD4sZhml3YRXwleSnUTl+gCFGS1eQPVyIxHYt/58ujo?=
+ =?iso-8859-1?Q?e1/gyI6JFnP25dgJ02GBsJyAzuXB4bUB+Tq58mCMYjeu6dqNM7ERbQhQvI?=
+ =?iso-8859-1?Q?3ZamlFTfCt0M8bBAyD+n1YPLNel79I+eK/K/teNzESZ7UWyIttDfsdORGC?=
+ =?iso-8859-1?Q?smFtbqO8P7SlorVxGePUDO3HGeB44sGcRha8WIuLO+9GB7J58OPtUcnHsi?=
+ =?iso-8859-1?Q?71oXeSEeOrIP4aKwjgvG/dEvVkIAeuRAXsh5kTSQmVlgcKQ16v+NCO+npj?=
+ =?iso-8859-1?Q?8X6HKFPNeaywCaYpYq0KzHPwTapahtHpluBuzT/Fd2pvypWLxb5wDEkFO1?=
+ =?iso-8859-1?Q?zih0AXjTIg56Sd7/aq365+y8S8acEy5QZKrt9ER5z2dgvEBsfPWDyfqBIU?=
+ =?iso-8859-1?Q?7bNJDUzgOGDShlmvxd9DBDUNNGKyZpALuGE/wrglrm7xd8+YST4ivRvnGr?=
+ =?iso-8859-1?Q?x20B24uUtCnNfS+oGN2zHooIqfXYF7kdZgdmN8ejdXWn/Iquq4C2EQmp+Q?=
+ =?iso-8859-1?Q?7gMJkVS/Dw5BKYtY690NvkxzDHFiCerjp1c+mGXIEtbjd1rCtNBiJHAG5W?=
+ =?iso-8859-1?Q?s7HhIgZMAkM7xHTOLLi83PpXbrY8ReP32qz6UsYroZgADtnDdNcblMeFuD?=
+ =?iso-8859-1?Q?tNV7nU/qg8k51MujH+CZN8FxIETBNkzf5qqbXnEfrlFFPGx9cHnIu3kioW?=
+ =?iso-8859-1?Q?bs5aVz2ufiP745g6nwosllgDg2WR2JrRVUKDjhB8sRO5NHq9nO6xdgdVYe?=
+ =?iso-8859-1?Q?C4nmA0dSzpJZZZ+fDXOERpSuPeRgJ/8HqV00gx4St1acGZnum3RE3nqdon?=
+ =?iso-8859-1?Q?jbOVisiIQi7oy34gihcieZzbzJCM+rztSWnce361Te1NjPBVW4COWjcw?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd6e62d0-6332-453f-ae9f-08dc9cde4195
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2024 10:35:57.7903
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +jDpZyBn8iIEIIQf1QkfJxEMaIhLEvDmSV2B7nv9KpJwgjMg63do7w8IQGF5GJLiM8SWXj87y1p3H8f/HB6+Avz1XSyZS0Du9Uu3lnaqqw0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR01MB6859
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 10:34:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201599
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 10:36:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201600
 
---000000000000eb1745061c7d9b1c
-Content-Type: text/plain; charset="UTF-8"
+--c4gv2nlwjzzim7ex
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [PATCH v2] u-boot: set B = WORKDIR/build
+MIME-Version: 1.0
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu (quinta,
-4/07/2024 =C3=A0(s) 21:27):
-
-> On Thu, 2024-07-04 at 13:46 +0100, Jose Quaresma via
-> lists.openembedded.org wrote:
-> > Release notes at https://www.openssh.com/txt/release-9.8
-> >
-> > Security
-> > =3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > This release contains fixes for two security problems, one critical
-> > and one minor.
-> >
-> > 1) Race condition in sshd(8)
-> >
-> > A critical vulnerability in sshd(8) was present in Portable OpenSSH
-> > versions between 8.5p1 and 9.7p1 (inclusive) that may allow arbitrary
-> > code execution with root privileges.
-> >
-> > Successful exploitation has been demonstrated on 32-bit Linux/glibc
-> > systems with ASLR. Under lab conditions, the attack requires on
-> > average 6-8 hours of continuous connections up to the maximum the
-> > server will accept. Exploitation on 64-bit systems is believed to be
-> > possible but has not been demonstrated at this time. It's likely that
-> > these attacks will be improved upon.
-> >
-> > Exploitation on non-glibc systems is conceivable but has not been
-> > examined. Systems that lack ASLR or users of downstream Linux
-> > distributions that have modified OpenSSH to disable per-connection
-> > ASLR re-randomisation (yes - this is a thing, no - we don't
-> > understand why) may potentially have an easier path to exploitation.
-> > OpenBSD is not vulnerable.
-> >
-> > We thank the Qualys Security Advisory Team for discovering, reporting
-> > and demonstrating exploitability of this problem, and for providing
-> > detailed feedback on additional mitigation measures.
-> >
-> > 2) Logic error in ssh(1) ObscureKeystrokeTiming
-> >
-> > In OpenSSH version 9.5 through 9.7 (inclusive), when connected to an
-> > OpenSSH server version 9.5 or later, a logic error in the ssh(1)
-> > ObscureKeystrokeTiming feature (on by default) rendered this feature
-> > ineffective - a passive observer could still detect which network
-> > packets contained real keystrokes when the countermeasure was active
-> > because both fake and real keystroke packets were being sent
-> > unconditionally.
-> >
-> > This bug was found by Philippos Giavridis and also independently by
-> > Jacky Wei En Kung, Daniel Hugenroth and Alastair Beresford of the
-> > University of Cambridge Computer Lab.
-> >
-> > Worse, the unconditional sending of both fake and real keystroke
-> > packets broke another long-standing timing attack mitigation. Since
-> > OpenSSH 2.9.9 sshd(8) has sent fake keystoke echo packets for
-> > traffic received on TTYs in echo-off mode, such as when entering a
-> > password into su(8) or sudo(8). This bug rendered these fake
-> > keystroke echoes ineffective and could allow a passive observer of
-> > a SSH session to once again detect when echo was off and obtain
-> > fairly limited timing information about keystrokes in this situation
-> > (20ms granularity by default).
-> >
-> > This additional implication of the bug was identified by Jacky Wei
-> > En Kung, Daniel Hugenroth and Alastair Beresford and we thank them
-> > for their detailed analysis.
-> >
-> > This bug does not affect connections when ObscureKeystrokeTiming
-> > was disabled or sessions where no TTY was requested.
-> >
-> > Future deprecation notice
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >
-> > OpenSSH plans to remove support for the DSA signature algorithm in
-> > early 2025. This release disables DSA by default at compile time.
-> >
-> > DSA, as specified in the SSHv2 protocol, is inherently weak - being
-> > limited to a 160 bit private key and use of the SHA1 digest. Its
-> > estimated security level is only 80 bits symmetric equivalent.
-> >
-> > OpenSSH has disabled DSA keys by default since 2015 but has retained
-> > run-time optional support for them. DSA was the only mandatory-to-
-> > implement algorithm in the SSHv2 RFCs, mostly because alternative
-> > algorithms were encumbered by patents when the SSHv2 protocol was
-> > specified.
-> >
-> > This has not been the case for decades at this point and better
-> > algorithms are well supported by all actively-maintained SSH
-> > implementations. We do not consider the costs of maintaining DSA
-> > in OpenSSH to be justified and hope that removing it from OpenSSH
-> > can accelerate its wider deprecation in supporting cryptography
-> > libraries.
-> >
-> > This release, and its deactivation of DSA by default at compile-time,
-> > marks the second step in our timeline to finally deprecate DSA. The
-> > final step of removing DSA support entirely is planned for the first
-> > OpenSSH release of 2025.
-> >
-> > DSA support may be re-enabled in OpenBSD by setting "DSAKEY=3Dyes"
-> > in Makefile.inc. To enable DSA support in portable OpenSSH, pass
-> > the "--enable-dsa-keys" option to configure.
-> >
-> > Potentially-incompatible changes
-> > --------------------------------
-> >
-> >  * all: as mentioned above, the DSA signature algorithm is now
-> >    disabled at compile time.
-> >
-> >  * sshd(8): the server will now block client addresses that
-> >    repeatedly fail authentication, repeatedly connect without ever
-> >    completing authentication or that crash the server. See the
-> >    discussion of PerSourcePenalties below for more information.
-> >    Operators of servers that accept connections from many users, or
-> >    servers that accept connections from addresses behind NAT or
-> >    proxies may need to consider these settings.
-> >
-> >  * sshd(8): the server has been split into a listener binary,
-> > sshd(8),
-> >    and a per-session binary "sshd-session". This allows for a much
-> >    smaller listener binary, as it no longer needs to support the SSH
-> >    protocol. As part of this work, support for disabling privilege
-> >    separation (which previously required code changes to disable) and
-> >    disabling re-execution of sshd(8) has been removed. Further
-> >    separation of sshd-session into additional, minimal binaries is
-> >    planned for the future.
-> >
-> >  * sshd(8): several log messages have changed. In particular, some
-> >    log messages will be tagged with as originating from a process
-> >    named "sshd-session" rather than "sshd".
-> >
-> >  * ssh-keyscan(1): this tool previously emitted comment lines
-> >    containing the hostname and SSH protocol banner to standard error.
-> >    This release now emits them to standard output, but adds a new
-> >    "-q" flag to silence them altogether.
-> >
-> >  * sshd(8): (portable OpenSSH only) sshd will no longer use argv[0]
-> >    as the PAM service name. A new "PAMServiceName" sshd_config(5)
-> >    directive allows selecting the service name at runtime. This
-> >    defaults to "sshd". bz2101
-> >
-> >  * (portable OpenSSH only) Automatically-generated files, such as
-> >    configure, config.h.in, etc will now be checked in to the portable
-> >    OpenSSH git release branch (e.g. V_9_8). This should ensure that
-> >    the contents of the signed release branch exactly match the
-> >    contents of the signed release tarball.
-> >
-> > Changes since OpenSSH 9.7
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >
-> > This release contains mostly bugfixes.
-> >
-> > New features
-> > ------------
-> >
-> >  * sshd(8): as described above, sshd(8) will now penalise client
-> >    addresses that, for various reasons, do not successfully complete
-> >    authentication. This feature is controlled by a new sshd_config(5)
-> >    PerSourcePenalties option and is on by default.
-> >
-> >    sshd(8) will now identify situations where the session did not
-> >    authenticate as expected. These conditions include when the client
-> >    repeatedly attempted authentication unsucessfully (possibly
-> >    indicating an attack against one or more accounts, e.g. password
-> >    guessing), or when client behaviour caused sshd to crash (possibly
-> >    indicating attempts to exploit bugs in sshd).
-> >
-> >    When such a condition is observed, sshd will record a penalty of
-> >    some duration (e.g. 30 seconds) against the client's address. If
-> >    this time is above a minimum configurable threshold, then all
-> >    connections from the client address will be refused (along with
-> > any
-> >    others in the same PerSourceNetBlockSize CIDR range) until the
-> >    penalty expire.
-> >
-> >    Repeated offenses by the same client address will accrue greater
-> >    penalties, up to a configurable maximum. Address ranges may be
-> >    fully exempted from penalties, e.g. to guarantee access from a set
-> >    of trusted management addresses, using the new sshd_config(5)
-> >    PerSourcePenaltyExemptList option.
-> >
-> >    We hope these options will make it significantly more difficult
-> > for
-> >    attackers to find accounts with weak/guessable passwords or
-> > exploit
-> >    bugs in sshd(8) itself. This option is enabled by default.
-> >
-> >  * ssh(8): allow the HostkeyAlgorithms directive to disable the
-> >    implicit fallback from certificate host key to plain host keys.
-> >
-> > Bugfixes
-> > --------
-> >
-> >  * misc: fix a number of inaccuracies in the PROTOCOL.*
-> >    documentation files. GHPR430 GHPR487
-> >
-> >  * all: switch to strtonum(3) for more robust integer parsing in most
-> >    places.
-> >
-> >  * ssh(1), sshd(8): correctly restore sigprocmask around ppoll()
-> >
-> >  * ssh-keysign(8): stricter validation of messaging socket fd GHPR492
-> >
-> >  * sftp(1): flush stdout after writing "sftp>" prompt when not using
-> >    editline. GHPR480
-> >
-> >  * sftp-server(8): fix home-directory extension implementation, it
-> >    previously always returned the current user's home directory
-> >    contrary to the spec. GHPR477
-> >
-> >  * ssh-keyscan(1): do not close stdin to prevent error messages when
-> >    stdin is read multiple times. E.g.
-> >    echo localhost | ssh-keyscan -f - -f -
-> >
-> >  * regression tests: fix rekey test that was testing the same KEX
-> >    algorithm repeatedly instead of testing all of them. bz3692
-> >
-> >  * ssh_config(5), sshd_config(5): clarify the KEXAlgorithms directive
-> >    documentation, especially around what is supported vs available.
-> >    bz3701.
-> >
-> > Portability
-> > -----------
-> >
-> >  * sshd(8): expose SSH_AUTH_INFO_0 always to PAM auth modules
-> >    unconditionally. The previous behaviour was to expose it only when
-> >    particular authentication methods were in use.
-> >
-> >  * build: fix OpenSSL ED25519 support detection. An incorrect
-> > function
-> >    signature in configure.ac previously prevented enabling the
-> > recently
-> >    added support for ED25519 private keys in PEM PKCS8 format.
-> >
-> >  * ssh(1), ssh-agent(8): allow the presence of the WAYLAND_DISPLAY
-> >    environment variable to enable SSH_ASKPASS, similarly to the X11
-> >    DISPLAY environment variable. GHPR479
-> >
-> >  * build: improve detection of the -fzero-call-used-regs compiler
-> >    flag. bz3673.
-> >
-> >  * build: relax OpenSSL version check to accept all OpenSSL 3.x
-> >    versions.
-> >
-> >  * sshd(8): add support for notifying systemd on server listen and
-> >    reload, using a standalone implementation that doesn't depend on
-> >    libsystemd. bz2641
-> >
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Richard Purdie schrieb am Fr 05. Jul, 11:03 (GMT):
+> On Fri, 2024-07-05 at 11:39 +0200, J=F6rg Sommer via lists.openembedded.o=
+rg wrote:
+> > From: J=F6rg Sommer <joerg.sommer@navimatix.de>
+> >=20
+> > The build of u-boot fails, if `UBOOT_MACHINE` (instead of `UBOOT_CONFIG=
+`) is
+> > used. U-boot doe not like the setting of `O=3D$S` in the make call, whi=
+ch
+> > happen when `UBOOT_MACHINE` is used. Therefore, use a dedicated build
+> > directory to circumvent the conflict `$B =3D=3D $S`.
+> >=20
+> > Yocto build message:
+> >=20
+> > ```
+> > > if [ -f /build/tmp/work/da850_funkwerk_rp1_eval_board-fwkos-linux-gnu=
+eabi/u-boot-variscite/1.0-r0.fwkos.6/git/.config -o -d /build/tmp/work/da85=
+0_funkwerk_rp1_eval_board-fwkos-linux-gnueabi/u-boot-variscite/1.0-r0.fwkos=
+=2E6/git/include/config ]; then \
+> > > 	echo >&2 "=A0 /build/tmp/work/da850_funkwerk_rp1_eval_board-fwkos-li=
+nux-gnueabi/u-boot-variscite/1.0-r0.fwkos.6/git is not clean, please run 'm=
+ake mrproper'"; \
+> > > 	echo >&2 "=A0 in the '/build/tmp/work/da850_funkwerk_rp1_eval_board-=
+fwkos-linux-gnueabi/u-boot-variscite/1.0-r0.fwkos.6/git' directory.";\
+> > > 	/bin/false; \
+> > > fi;
+> > > =A0 /build/tmp/work/da850_funkwerk_rp1_eval_board-fwkos-linux-gnueabi=
+/u-boot-variscite/1.0-r0.fwkos.6/git is not clean, please run 'make mrprope=
+r'
+> > > =A0 in the '/build/tmp/work/da850_funkwerk_rp1_eval_board-fwkos-linux=
+-gnueabi/u-boot-variscite/1.0-r0.fwkos.6/git' directory.
+> > > make[1]: Leaving directory '/build/tmp/work/da850_funkwerk_rp1_eval_b=
+oard-fwkos-linux-gnueabi/u-boot-variscite/1.0-r0.fwkos.6/git'
+> > > make[1]: *** [/build/tmp/work/da850_funkwerk_rp1_eval_board-fwkos-lin=
+ux-gnueabi/u-boot-variscite/1.0-r0.fwkos.6/git/Makefile:1928: prepare3] Err=
+or 1
+> > > ERROR: oe_runmake failed
+> > ```
+> >=20
+> > U-Boot test:
+> >=20
+> > ```
+> > % make O=3D$PWD all
+> > make[1]: Entering directory '/home/joerg/git/u-boot'
+> > =A0 UPD=A0=A0=A0=A0 include/generated/timestamp_autogenerated.h
+> > =A0 Using /home/joerg/git/u-boot as source for U-Boot
+> > =A0 /home/joerg/git/u-boot is not clean, please run 'make mrproper'
+> > =A0 in the '/home/joerg/git/u-boot' directory.
+> > make[1]: *** [/home/joerg/git/u-boot/Makefile:1928: prepare3] Error 1
+> > make[1]: Leaving directory '/home/joerg/git/u-boot'
+> > make: *** [Makefile:177: sub-make] Error 2
+> > ```
+> >=20
+> > Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 > > ---
-> >
-> > v2:
-> >  - fix musl build
-> >  - fix sshd-session packing on openssh-sshd
-> >  - rebase on top of the CVE-2024-6387 fix sent
->
-> Thanks for the fixes. Unfortunately I think there is still one issue
-> remaining as the openssh ptests appear to be hanging on both arm and
-> x86:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6600
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6778
->
-> On a previous build run I ended up stopping them after 24h+ but I
-> wasn't sure if that was related to other issues with the update or not.
-> It now looks like it is a separate issue :(
->
+> > =A0meta/recipes-bsp/u-boot/u-boot.inc | 2 ++
+> > =A01 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-bo=
+ot/u-boot.inc
+> > index fc36c21ec2..bdc4b60e43 100644
+> > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > @@ -9,6 +9,8 @@ inherit uboot-config uboot-extlinux-config uboot-sign d=
+eploy python3native kerne
+> > =A0
+> > =A0DEPENDS +=3D "swig-native"
+> > =A0
+> > +B =3D "${WORKDIR}/build"
+> > +
+> > =A0EXTRA_OEMAKE =3D 'CROSS_COMPILE=3D${TARGET_PREFIX} CC=3D"${TARGET_PR=
+EFIX}gcc ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP}" V=3D1'
+> > =A0EXTRA_OEMAKE +=3D 'HOSTCC=3D"${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDF=
+LAGS}"'
+> > =A0EXTRA_OEMAKE +=3D 'STAGING_INCDIR=3D${STAGING_INCDIR_NATIVE} STAGING=
+_LIBDIR=3D${STAGING_LIBDIR_NATIVE}'
+> >=20
+>=20
+> I did a little digging as I wondered why this wasn't already the case.
+> That variable is set in u-boot-common.inc along with a cleandirs for B.
+> Are you able to use that common inc file? I didn't check the situation
+> on older releases.
 
-I will take a look on this ptests failings.
-Thanks for reporting.
+Interesting. So this is a bug in the variscite layer. They supersede the
+u-boot-common.inc with there own which does not set B:
+https://github.com/varigit/meta-variscite-bsp-imx/blob/kirkstone/recipes-bs=
+p/u-boot/u-boot-common.inc
 
-Jose
+So, we can drop the patch and I ask variscite to fix the issue.
 
+Many thanks for your help!
 
->
-> Cheers,
->
-> Richard
->
+Kind regards, J=F6rg
 
+--c4gv2nlwjzzim7ex
+Content-Type: application/pkcs7-signature
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
---=20
-Best regards,
+MIITyAYJKoZIhvcNAQcCoIITuTCCE7UCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0B
+BwGgghDNMIIGEDCCA/igAwIBAgIQTZQsENQ74JQJxYEtOisGTzANBgkqhkiG9w0BAQwFADCB
+iDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJzZXkxFDASBgNVBAcTC0plcnNleSBD
+aXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNUIE5ldHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVz
+dCBSU0EgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkwHhcNMTgxMTAyMDAwMDAwWhcNMzAxMjMx
+MjM1OTU5WjCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQ
+MA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVT
+ZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQTCC
+ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMo87ZQKQf/e+Ua56NY75tqSvysQTqoa
+vIK9viYcKSoq0s2cUIE/bZQu85eoZ9X140qOTKl1HyLTJbazGl6nBEibivHbSuejQkq6uIgy
+miqvTcTlxZql19szfBxxo0Nm9l79L9S+TZNTEDygNfcXlkHKRhBhVFHdJDfqB6Mfi/Wlda43
+zYgo92yZOpCWjj2mz4tudN55/yE1+XvFnz5xsOFbme/SoY9WAa39uJORHtbC0x7C7aYivTox
+uIkEQXaumf05Vcf4RgHs+Yd+mwSTManRy6XcCFJE6k/LHt3ndD3sA3If/JBz6OX2ZebtQdHn
+Kav7Azf+bAhudg7PkFOTuRMCAwEAAaOCAWQwggFgMB8GA1UdIwQYMBaAFFN5v1qqK0rPVIDh
+2JvAnfKyA2bLMB0GA1UdDgQWBBQJwPL8C9qU21/+K9+omULPyeCtADAOBgNVHQ8BAf8EBAMC
+AYYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQw
+EQYDVR0gBAowCDAGBgRVHSAAMFAGA1UdHwRJMEcwRaBDoEGGP2h0dHA6Ly9jcmwudXNlcnRy
+dXN0LmNvbS9VU0VSVHJ1c3RSU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5LmNybDB2BggrBgEF
+BQcBAQRqMGgwPwYIKwYBBQUHMAKGM2h0dHA6Ly9jcnQudXNlcnRydXN0LmNvbS9VU0VSVHJ1
+c3RSU0FBZGRUcnVzdENBLmNydDAlBggrBgEFBQcwAYYZaHR0cDovL29jc3AudXNlcnRydXN0
+LmNvbTANBgkqhkiG9w0BAQwFAAOCAgEAQUR1AKs5whX13o6VbTJxaIwA3RfXehwQOJDI47G9
+FzGR87bjgrShfsbMIYdhqpFuSUKzPM1ZVPgNlT+9istp5UQNRsJiD4KLu+E2f102qxxvM3TE
+oGg65FWM89YN5yFTvSB5PelcLGnCLwRfCX6iLPvGlh9j30lKzcT+mLO1NLGWMeK1w+vnKhav
+2VuQVHwpTf64ZNnXUF8p+5JJpGtkUG/XfdJ5jR3YCq8H0OPZkNoVkDQ5CSSF8Co2AOlVEf32
+VBXglIrHQ3v9AAS0yPo4Xl1FdXqGFe5TcDQSqXh3TbjugGnG+d9yZX3lB8bwc/Tn2FlIl7tP
+bDAL4jNdUNA7jGee+tAnTtlZ6bFz+CsWmCIb6j6lDFqkXVsp+3KyLTZGXq6F2nnBtN4t5jO3
+ZIj2gpIKHAYNBAWLG2Q2fG7Bt2tPC8BLC9WIM90gbMhAmtMGquITn/2fORdsNmaV3z/sPKuI
+n8DvdEhmWVfh0fyYeqxGlTw0RfwhBlakdYYrkDmdWC+XszE19GUi8K8plBNKcIvyg2omAdeb
+rMIHiAHAOiczxX/aS5ABRVrNUDcjfvp4hYbDOO6qHcfzy/uY0fO5ssebmHQREJJA3PpSgdVn
+LernF6pthJrGkNDPeUI05svqw1o5A2HcNzLOpklhNwZ+4uWYLcAi14ACHuVvJsmzNicwggWB
+MIIEaaADAgECAhA5ckQ6+SK3UdfTbBDdMTWVMA0GCSqGSIb3DQEBDAUAMHsxCzAJBgNVBAYT
+AkdCMRswGQYDVQQIDBJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcMB1NhbGZvcmQxGjAY
+BgNVBAoMEUNvbW9kbyBDQSBMaW1pdGVkMSEwHwYDVQQDDBhBQUEgQ2VydGlmaWNhdGUgU2Vy
+dmljZXMwHhcNMTkwMzEyMDAwMDAwWhcNMjgxMjMxMjM1OTU5WjCBiDELMAkGA1UEBhMCVVMx
+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
+DgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsG
+AQUFBwMCMFAGA1UdIARJMEcwOgYMKwYBBAGyMQECAQoBMCowKAYIKwYBBQUHAgEWHGh0dHBz
+Oi8vc2VjdGlnby5jb20vU01JTUVDUFMwCQYHZ4EMAQUBAjBaBgNVHR8EUzBRME+gTaBLhklo
+dHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3RpZ29SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFu
+ZFNlY3VyZUVtYWlsQ0EuY3JsMIGKBggrBgEFBQcBAQR+MHwwVQYIKwYBBQUHMAKGSWh0dHA6
+Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2Vj
+dXJlRW1haWxDQS5jcnQwIwYIKwYBBQUHMAGGF2h0dHA6Ly9vY3NwLnNlY3RpZ28uY29tMCQG
+A1UdEQQdMBuBGWpvZXJnLnNvbW1lckBuYXZpbWF0aXguZGUwDQYJKoZIhvcNAQELBQADggEB
+AANadCCx1OE0/PYv8CMHn1qrbn3u9yIQuut1yAVv1daof2ULxyGOm/M+XnSW1h+xcUukaNTB
+qwJx6KTauuWjVL1LRXz9+sNvQfS1KdJF9yfgcCTiIMNjfKap+t/dD275tpVeLbRSWyJaQRhb
+GVjarr8yry1mnaaiJqv1TERaHqjDNpEwU/Ex8XetmkdJK01qCP+ZOEHwRr/pEB/oEKYB08+P
+CfWWWT0YVlwW3FdYpMi70zyynhyE0ZkxBuwh20CulXlafk9nzu1ly9HDU2MG6fnKLirJLOj1
++9s6RvytgsBtk1dB4lJEMe32RnTa4ABWg2VpdqmG7wjr2BlUCzLzuxUxggK/MIICuwIBATCB
+rDCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UE
+BxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdv
+IFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAPzh908c
+7MYmJwWouN4Q9n4wDQYJYIZIAWUDBAIBBQCggeQwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
+ATAcBgkqhkiG9w0BCQUxDxcNMjQwNzA1MTAzNTU1WjAvBgkqhkiG9w0BCQQxIgQgguNz/xiY
+xFfFvMs3qYwMWAEG/Nqy2YErFaZ6KQfSDUwweQYJKoZIhvcNAQkPMWwwajALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgIC
+AIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwDQYJKoZIhvcNAQEB
+BQAEggEAJWlowgtthUvuaLXXz5uE+pa563wGLuRYZHIFkxdMwzy0Wq4qDygtz3O7WY0lj4to
+EVfbqkk9FSlst9Ec1XVMo/KI9ymFlk15FRgEuDYsePlV7oFNyweN2PctScPkE6UFFxT8VX4e
+eKFhTpobbsJt89Upzrlh8+QNIQaneY9joXxaDhUp+LWPWenYqpmNoHKI4m3hDbxa1Q+vTm92
+WoRV6PJq4R3PJYaQ+nGgiJEW7vdINP9gU3IdzqzO1cse/Hzdv6WhIGPeSDiGTQrZ4af4QyL6
+V4GM0Qnvg7IChyJqTKNQ01QOI6Iq75ZmqFO2lWR2ownZTrtSKZsb9JbLhon4vg==
 
-Jos=C3=A9 Quaresma
-
---000000000000eb1745061c7d9b1c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu (quinta, 4/07/2024 =C3=A0(s) 21:27):<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">On Thu, 2024-07-04 at 13:46 +0100, Jose Q=
-uaresma via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> wrote:<br>
-&gt; Release notes at <a href=3D"https://www.openssh.com/txt/release-9.8" r=
-el=3D"noreferrer" target=3D"_blank">https://www.openssh.com/txt/release-9.8=
-</a><br>
-&gt; <br>
-&gt; Security<br>
-&gt; =3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt; <br>
-&gt; This release contains fixes for two security problems, one critical<br=
->
-&gt; and one minor.<br>
-&gt; <br>
-&gt; 1) Race condition in sshd(8)<br>
-&gt; <br>
-&gt; A critical vulnerability in sshd(8) was present in Portable OpenSSH<br=
->
-&gt; versions between 8.5p1 and 9.7p1 (inclusive) that may allow arbitrary<=
-br>
-&gt; code execution with root privileges.<br>
-&gt; <br>
-&gt; Successful exploitation has been demonstrated on 32-bit Linux/glibc<br=
->
-&gt; systems with ASLR. Under lab conditions, the attack requires on<br>
-&gt; average 6-8 hours of continuous connections up to the maximum the<br>
-&gt; server will accept. Exploitation on 64-bit systems is believed to be<b=
-r>
-&gt; possible but has not been demonstrated at this time. It&#39;s likely t=
-hat<br>
-&gt; these attacks will be improved upon.<br>
-&gt; <br>
-&gt; Exploitation on non-glibc systems is conceivable but has not been<br>
-&gt; examined. Systems that lack ASLR or users of downstream Linux<br>
-&gt; distributions that have modified OpenSSH to disable per-connection<br>
-&gt; ASLR re-randomisation (yes - this is a thing, no - we don&#39;t<br>
-&gt; understand why) may potentially have an easier path to exploitation.<b=
-r>
-&gt; OpenBSD is not vulnerable.<br>
-&gt; <br>
-&gt; We thank the Qualys Security Advisory Team for discovering, reporting<=
-br>
-&gt; and demonstrating exploitability of this problem, and for providing<br=
->
-&gt; detailed feedback on additional mitigation measures.<br>
-&gt; <br>
-&gt; 2) Logic error in ssh(1) ObscureKeystrokeTiming<br>
-&gt; <br>
-&gt; In OpenSSH version 9.5 through 9.7 (inclusive), when connected to an<b=
-r>
-&gt; OpenSSH server version 9.5 or later, a logic error in the ssh(1)<br>
-&gt; ObscureKeystrokeTiming feature (on by default) rendered this feature<b=
-r>
-&gt; ineffective - a passive observer could still detect which network<br>
-&gt; packets contained real keystrokes when the countermeasure was active<b=
-r>
-&gt; because both fake and real keystroke packets were being sent<br>
-&gt; unconditionally.<br>
-&gt; <br>
-&gt; This bug was found by Philippos Giavridis and also independently by<br=
->
-&gt; Jacky Wei En Kung, Daniel Hugenroth and Alastair Beresford of the<br>
-&gt; University of Cambridge Computer Lab.<br>
-&gt; <br>
-&gt; Worse, the unconditional sending of both fake and real keystroke<br>
-&gt; packets broke another long-standing timing attack mitigation. Since<br=
->
-&gt; OpenSSH 2.9.9 sshd(8) has sent fake keystoke echo packets for<br>
-&gt; traffic received on TTYs in echo-off mode, such as when entering a<br>
-&gt; password into su(8) or sudo(8). This bug rendered these fake<br>
-&gt; keystroke echoes ineffective and could allow a passive observer of<br>
-&gt; a SSH session to once again detect when echo was off and obtain<br>
-&gt; fairly limited timing information about keystrokes in this situation<b=
-r>
-&gt; (20ms granularity by default).<br>
-&gt; <br>
-&gt; This additional implication of the bug was identified by Jacky Wei<br>
-&gt; En Kung, Daniel Hugenroth and Alastair Beresford and we thank them<br>
-&gt; for their detailed analysis.<br>
-&gt; <br>
-&gt; This bug does not affect connections when ObscureKeystrokeTiming<br>
-&gt; was disabled or sessions where no TTY was requested.<br>
-&gt; <br>
-&gt; Future deprecation notice<br>
-&gt; =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D<br>
-&gt; <br>
-&gt; OpenSSH plans to remove support for the DSA signature algorithm in<br>
-&gt; early 2025. This release disables DSA by default at compile time.<br>
-&gt; <br>
-&gt; DSA, as specified in the SSHv2 protocol, is inherently weak - being<br=
->
-&gt; limited to a 160 bit private key and use of the SHA1 digest. Its<br>
-&gt; estimated security level is only 80 bits symmetric equivalent.<br>
-&gt; <br>
-&gt; OpenSSH has disabled DSA keys by default since 2015 but has retained<b=
-r>
-&gt; run-time optional support for them. DSA was the only mandatory-to-<br>
-&gt; implement algorithm in the SSHv2 RFCs, mostly because alternative<br>
-&gt; algorithms were encumbered by patents when the SSHv2 protocol was<br>
-&gt; specified.<br>
-&gt; <br>
-&gt; This has not been the case for decades at this point and better<br>
-&gt; algorithms are well supported by all actively-maintained SSH<br>
-&gt; implementations. We do not consider the costs of maintaining DSA<br>
-&gt; in OpenSSH to be justified and hope that removing it from OpenSSH<br>
-&gt; can accelerate its wider deprecation in supporting cryptography<br>
-&gt; libraries.<br>
-&gt; <br>
-&gt; This release, and its deactivation of DSA by default at compile-time,<=
-br>
-&gt; marks the second step in our timeline to finally deprecate DSA. The<br=
->
-&gt; final step of removing DSA support entirely is planned for the first<b=
-r>
-&gt; OpenSSH release of 2025.<br>
-&gt; <br>
-&gt; DSA support may be re-enabled in OpenBSD by setting &quot;DSAKEY=3Dyes=
-&quot;<br>
-&gt; in Makefile.inc. To enable DSA support in portable OpenSSH, pass<br>
-&gt; the &quot;--enable-dsa-keys&quot; option to configure.<br>
-&gt; <br>
-&gt; Potentially-incompatible changes<br>
-&gt; --------------------------------<br>
-&gt; <br>
-&gt; =C2=A0* all: as mentioned above, the DSA signature algorithm is now<br=
->
-&gt; =C2=A0=C2=A0 disabled at compile time.<br>
-&gt; <br>
-&gt; =C2=A0* sshd(8): the server will now block client addresses that<br>
-&gt; =C2=A0=C2=A0 repeatedly fail authentication, repeatedly connect withou=
-t ever<br>
-&gt; =C2=A0=C2=A0 completing authentication or that crash the server. See t=
-he<br>
-&gt; =C2=A0=C2=A0 discussion of PerSourcePenalties below for more informati=
-on.<br>
-&gt; =C2=A0=C2=A0 Operators of servers that accept connections from many us=
-ers, or<br>
-&gt; =C2=A0=C2=A0 servers that accept connections from addresses behind NAT=
- or<br>
-&gt; =C2=A0=C2=A0 proxies may need to consider these settings.<br>
-&gt; <br>
-&gt; =C2=A0* sshd(8): the server has been split into a listener binary,<br>
-&gt; sshd(8),<br>
-&gt; =C2=A0=C2=A0 and a per-session binary &quot;sshd-session&quot;. This a=
-llows for a much<br>
-&gt; =C2=A0=C2=A0 smaller listener binary, as it no longer needs to support=
- the SSH<br>
-&gt; =C2=A0=C2=A0 protocol. As part of this work, support for disabling pri=
-vilege<br>
-&gt; =C2=A0=C2=A0 separation (which previously required code changes to dis=
-able) and<br>
-&gt; =C2=A0=C2=A0 disabling re-execution of sshd(8) has been removed. Furth=
-er<br>
-&gt; =C2=A0=C2=A0 separation of sshd-session into additional, minimal binar=
-ies is<br>
-&gt; =C2=A0=C2=A0 planned for the future.<br>
-&gt; <br>
-&gt; =C2=A0* sshd(8): several log messages have changed. In particular, som=
-e<br>
-&gt; =C2=A0=C2=A0 log messages will be tagged with as originating from a pr=
-ocess<br>
-&gt; =C2=A0=C2=A0 named &quot;sshd-session&quot; rather than &quot;sshd&quo=
-t;.<br>
-&gt; <br>
-&gt; =C2=A0* ssh-keyscan(1): this tool previously emitted comment lines<br>
-&gt; =C2=A0=C2=A0 containing the hostname and SSH protocol banner to standa=
-rd error.<br>
-&gt; =C2=A0=C2=A0 This release now emits them to standard output, but adds =
-a new<br>
-&gt; =C2=A0=C2=A0 &quot;-q&quot; flag to silence them altogether.<br>
-&gt; <br>
-&gt; =C2=A0* sshd(8): (portable OpenSSH only) sshd will no longer use argv[=
-0]<br>
-&gt; =C2=A0=C2=A0 as the PAM service name. A new &quot;PAMServiceName&quot;=
- sshd_config(5)<br>
-&gt; =C2=A0=C2=A0 directive allows selecting the service name at runtime. T=
-his<br>
-&gt; =C2=A0=C2=A0 defaults to &quot;sshd&quot;. bz2101<br>
-&gt; <br>
-&gt; =C2=A0* (portable OpenSSH only) Automatically-generated files, such as=
-<br>
-&gt; =C2=A0=C2=A0 configure, <a href=3D"http://config.h.in" rel=3D"noreferr=
-er" target=3D"_blank">config.h.in</a>, etc will now be checked in to the po=
-rtable<br>
-&gt; =C2=A0=C2=A0 OpenSSH git release branch (e.g. V_9_8). This should ensu=
-re that<br>
-&gt; =C2=A0=C2=A0 the contents of the signed release branch exactly match t=
-he<br>
-&gt; =C2=A0=C2=A0 contents of the signed release tarball.<br>
-&gt; <br>
-&gt; Changes since OpenSSH 9.7<br>
-&gt; =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D<br>
-&gt; <br>
-&gt; This release contains mostly bugfixes.<br>
-&gt; <br>
-&gt; New features<br>
-&gt; ------------<br>
-&gt; <br>
-&gt; =C2=A0* sshd(8): as described above, sshd(8) will now penalise client<=
-br>
-&gt; =C2=A0=C2=A0 addresses that, for various reasons, do not successfully =
-complete<br>
-&gt; =C2=A0=C2=A0 authentication. This feature is controlled by a new sshd_=
-config(5)<br>
-&gt; =C2=A0=C2=A0 PerSourcePenalties option and is on by default.<br>
-&gt; <br>
-&gt; =C2=A0=C2=A0 sshd(8) will now identify situations where the session di=
-d not<br>
-&gt; =C2=A0=C2=A0 authenticate as expected. These conditions include when t=
-he client<br>
-&gt; =C2=A0=C2=A0 repeatedly attempted authentication unsucessfully (possib=
-ly<br>
-&gt; =C2=A0=C2=A0 indicating an attack against one or more accounts, e.g. p=
-assword<br>
-&gt; =C2=A0=C2=A0 guessing), or when client behaviour caused sshd to crash =
-(possibly<br>
-&gt; =C2=A0=C2=A0 indicating attempts to exploit bugs in sshd).<br>
-&gt; <br>
-&gt; =C2=A0=C2=A0 When such a condition is observed, sshd will record a pen=
-alty of<br>
-&gt; =C2=A0=C2=A0 some duration (e.g. 30 seconds) against the client&#39;s =
-address. If<br>
-&gt; =C2=A0=C2=A0 this time is above a minimum configurable threshold, then=
- all<br>
-&gt; =C2=A0=C2=A0 connections from the client address will be refused (alon=
-g with<br>
-&gt; any<br>
-&gt; =C2=A0=C2=A0 others in the same PerSourceNetBlockSize CIDR range) unti=
-l the<br>
-&gt; =C2=A0=C2=A0 penalty expire.<br>
-&gt; <br>
-&gt; =C2=A0=C2=A0 Repeated offenses by the same client address will accrue =
-greater<br>
-&gt; =C2=A0=C2=A0 penalties, up to a configurable maximum. Address ranges m=
-ay be<br>
-&gt; =C2=A0=C2=A0 fully exempted from penalties, e.g. to guarantee access f=
-rom a set<br>
-&gt; =C2=A0=C2=A0 of trusted management addresses, using the new sshd_confi=
-g(5)<br>
-&gt; =C2=A0=C2=A0 PerSourcePenaltyExemptList option.<br>
-&gt; <br>
-&gt; =C2=A0=C2=A0 We hope these options will make it significantly more dif=
-ficult<br>
-&gt; for<br>
-&gt; =C2=A0=C2=A0 attackers to find accounts with weak/guessable passwords =
-or<br>
-&gt; exploit<br>
-&gt; =C2=A0=C2=A0 bugs in sshd(8) itself. This option is enabled by default=
-.<br>
-&gt; <br>
-&gt; =C2=A0* ssh(8): allow the HostkeyAlgorithms directive to disable the<b=
-r>
-&gt; =C2=A0=C2=A0 implicit fallback from certificate host key to plain host=
- keys.<br>
-&gt; <br>
-&gt; Bugfixes<br>
-&gt; --------<br>
-&gt; <br>
-&gt; =C2=A0* misc: fix a number of inaccuracies in the PROTOCOL.*<br>
-&gt; =C2=A0=C2=A0 documentation files. GHPR430 GHPR487<br>
-&gt; <br>
-&gt; =C2=A0* all: switch to strtonum(3) for more robust integer parsing in =
-most<br>
-&gt; =C2=A0=C2=A0 places.<br>
-&gt; <br>
-&gt; =C2=A0* ssh(1), sshd(8): correctly restore sigprocmask around ppoll()<=
-br>
-&gt; <br>
-&gt; =C2=A0* ssh-keysign(8): stricter validation of messaging socket fd GHP=
-R492<br>
-&gt; <br>
-&gt; =C2=A0* sftp(1): flush stdout after writing &quot;sftp&gt;&quot; promp=
-t when not using<br>
-&gt; =C2=A0=C2=A0 editline. GHPR480<br>
-&gt; <br>
-&gt; =C2=A0* sftp-server(8): fix home-directory extension implementation, i=
-t<br>
-&gt; =C2=A0=C2=A0 previously always returned the current user&#39;s home di=
-rectory<br>
-&gt; =C2=A0=C2=A0 contrary to the spec. GHPR477<br>
-&gt; <br>
-&gt; =C2=A0* ssh-keyscan(1): do not close stdin to prevent error messages w=
-hen<br>
-&gt; =C2=A0=C2=A0 stdin is read multiple times. E.g.<br>
-&gt; =C2=A0=C2=A0 echo localhost | ssh-keyscan -f - -f -<br>
-&gt; <br>
-&gt; =C2=A0* regression tests: fix rekey test that was testing the same KEX=
-<br>
-&gt; =C2=A0=C2=A0 algorithm repeatedly instead of testing all of them. bz36=
-92<br>
-&gt; <br>
-&gt; =C2=A0* ssh_config(5), sshd_config(5): clarify the KEXAlgorithms direc=
-tive<br>
-&gt; =C2=A0=C2=A0 documentation, especially around what is supported vs ava=
-ilable.<br>
-&gt; =C2=A0=C2=A0 bz3701.<br>
-&gt; <br>
-&gt; Portability<br>
-&gt; -----------<br>
-&gt; <br>
-&gt; =C2=A0* sshd(8): expose SSH_AUTH_INFO_0 always to PAM auth modules<br>
-&gt; =C2=A0=C2=A0 unconditionally. The previous behaviour was to expose it =
-only when<br>
-&gt; =C2=A0=C2=A0 particular authentication methods were in use.<br>
-&gt; <br>
-&gt; =C2=A0* build: fix OpenSSL ED25519 support detection. An incorrect<br>
-&gt; function<br>
-&gt; =C2=A0=C2=A0 signature in <a href=3D"http://configure.ac" rel=3D"noref=
-errer" target=3D"_blank">configure.ac</a> previously prevented enabling the=
-<br>
-&gt; recently<br>
-&gt; =C2=A0=C2=A0 added support for ED25519 private keys in PEM PKCS8 forma=
-t.<br>
-&gt; <br>
-&gt; =C2=A0* ssh(1), ssh-agent(8): allow the presence of the WAYLAND_DISPLA=
-Y<br>
-&gt; =C2=A0=C2=A0 environment variable to enable SSH_ASKPASS, similarly to =
-the X11<br>
-&gt; =C2=A0=C2=A0 DISPLAY environment variable. GHPR479<br>
-&gt; <br>
-&gt; =C2=A0* build: improve detection of the -fzero-call-used-regs compiler=
-<br>
-&gt; =C2=A0=C2=A0 flag. bz3673.<br>
-&gt; <br>
-&gt; =C2=A0* build: relax OpenSSL version check to accept all OpenSSL 3.x<b=
-r>
-&gt; =C2=A0=C2=A0 versions.<br>
-&gt; <br>
-&gt; =C2=A0* sshd(8): add support for notifying systemd on server listen an=
-d<br>
-&gt; =C2=A0=C2=A0 reload, using a standalone implementation that doesn&#39;=
-t depend on<br>
-&gt; =C2=A0=C2=A0 libsystemd. bz2641<br>
-&gt; <br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-&gt; ---<br>
-&gt; <br>
-&gt; v2:<br>
-&gt; =C2=A0- fix musl build<br>
-&gt; =C2=A0- fix sshd-session packing on openssh-sshd<br>
-&gt; =C2=A0- rebase on top of the CVE-2024-6387 fix sent<br>
-<br>
-Thanks for the fixes. Unfortunately I think there is still one issue<br>
-remaining as the openssh ptests appear to be hanging on both arm and<br>
-x86:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
-s/6600" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/82/builds/6600</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
-s/6778" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/81/builds/6778</a><br>
-<br>
-On a previous build run I ended up stopping them after 24h+ but I<br>
-wasn&#39;t sure if that was related to other issues with the update or not.=
-<br>
-It now looks like it is a separate issue :(<br></blockquote><div><br></div>=
-<div>I will take a look on this ptests=C2=A0failings.</div><div>Thanks for =
-reporting.</div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---000000000000eb1745061c7d9b1c--
+--c4gv2nlwjzzim7ex--
 
