@@ -1,170 +1,79 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FFFAC30658
-	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 14:08:58 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.17646.1720188535466005908
- for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jul 2024 07:08:55 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95749C30658
+	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 14:47:28 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.18860.1720190845899712258
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 05 Jul 2024 07:47:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=H+H7GAr4;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2c98b080012so1173508a91.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 07:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720188535; x=1720793335; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xjYAJb5dyl5sLWb5TjIqh888DI1RMdZUi7F+mfWkdHE=;
-        b=H+H7GAr4FotJjBJMJ6SLI2argRQIM1eaRmuxuooVwwJEcq3u0aP1lR6l+69gCr2jyh
-         IeL0AK0M+fWMv4PBRJnojP5aG3TqodtPuR56bvKjt4SuVO5wrK1BCNbwjEdSl6igX0Lr
-         sBBTxiN1zxvrRKpfnpqncX2KFvSy8DxkxvpXZF2pGTD2/KqNBsqfEqguwcKf0USFCWB0
-         pHB1eSimgaRyNsXz3akKRGOlhX8taMvPck952jBmD96BhDC3/uZgi+TuW3mV5NGCicDf
-         NaY9gwJLqfHGtRDIqhSXQWOn+2nXMNT8A/mEgsUnDpfL0qVjUWtvxPn1mUgij5jZ/7J6
-         YMGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720188535; x=1720793335;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xjYAJb5dyl5sLWb5TjIqh888DI1RMdZUi7F+mfWkdHE=;
-        b=Ub+rMy1/6VmZbpeUJBSadUPQj7torB60ojYbAVyX+qGkMryb4nRn/oa5PJoFfQnPkb
-         dBkffNplv3aASA0HyTRacHmduFCGSbUqe1G657o+TeXwXKJa3Cf7TzGto4dG+hq1UXe+
-         K2bOk/aai3F5+CPx5eUMPXWUqGjxDvQt0EDNaH0A3ROD8HdxWB4yLsUohpUS1UBWrCib
-         hwV9o0tbVngen3q8gNGFlEFT+vDZn9q1NmCk5jMlPEpJ5vFB5ewWOffCxixsekaeLfO2
-         hiKpIn73PlwuDlkac7RdXwpe8MWFy5KTrDDiVNuzGPIfrjx5N8qJFCMP5kHDnOV9HOip
-         LZ/w==
-X-Gm-Message-State: AOJu0YyhHxx8BXttXTt/nQGwPAVtp8Wg9kR5lNm/g4LBK0HcsRo+xjli
-	nZ8VINK70K0efiUQRFk2kD8uckbuot1B6uiXFs+CxbcraIPHR850AtGbPaDI5jkws2J8GtIUsZe
-	YLIi7olMT7tMWiTYWLwMqPp9S27g=
-X-Google-Smtp-Source: AGHT+IFknATYh6neZ5RD7TAOd40VTSo72rAWoZBsDDw9V8SjD8f4bLzW4mvFhmh9x1MpR+AsINoPwcDPEU5SQ8aYrmI=
-X-Received: by 2002:a17:90a:cc3:b0:2c9:64fb:1c7e with SMTP id
- 98e67ed59e1d1-2c99c6af4a4mr3472575a91.14.1720188534415; Fri, 05 Jul 2024
- 07:08:54 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=b7pYJLq/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexis.lothore@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0D602240005;
+	Fri,  5 Jul 2024 14:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1720190844;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gB7QMNWhX3DkoREZ6OiFUR+iILu4iBnjPYUtCNPVX4s=;
+	b=b7pYJLq/Hbv5ffJMGCfC1v5ciRtG6GUyDefuoqFzvkAFTBHi9hh42qn3YrkBWWz2ZzlmMv
+	AbY8fhjfbCAouQLcVCBe1n+izx+rjQeIM7LSF2+H5XQ6v91H+rsy3hqBtZMMFtdtIX28G4
+	UcQTxoogltR/GeWzYO2SvcwTRU0as99poiSRxHvlS1D3gcRKrax22RZScbu/8H6M1IK7Sn
+	6GojEnwhKQLPAbdaxL99TOLYZB3FgWxmzl5CjARSGzbgZZHGiw3zr4VKmHbW/a9kLqqLK1
+	3I3YZMSCO4v6/qB+vqvTvvmqzTuhFoK1K1QEA6eevr7s7nFAhE3HFhEJXpC5WA==
+From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <Openembedded-core@lists.openembedded.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH 0/2] oeqa/utils/postactions: fix disk storage consumption
+Date: Fri,  5 Jul 2024 16:46:36 +0200
+Message-ID: <20240705144638.441976-1-alexis.lothore@bootlin.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <bc15a9ebae0ad3841ac2be887c288b451426e69b.1720185337.git.joerg.sommer@navimatix.de>
-In-Reply-To: <bc15a9ebae0ad3841ac2be887c288b451426e69b.1720185337.git.joerg.sommer@navimatix.de>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 5 Jul 2024 10:08:41 -0400
-Message-ID: <CADkTA4O-jWiZHHy4h4qw6TN=HZdvLSs2vdD80pqCjA8CFwnJaA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] classes/kernel: Delay module signing until
- after strip
-To: joerg.sommer@navimatix.de
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 14:08:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201608
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 14:47:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201609
 
-On Fri, Jul 5, 2024 at 9:19=E2=80=AFAM J=C3=B6rg Sommer via lists.openembed=
-ded.org
-<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
->
-> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
->
-> The current do_package does not strip the kernel modules, if they are
-> signed. Hence, the files in a release image stay very big and the debug
-> information are not split into the kernel-dbg package.
->
-> The idea of this change is to suppress the signing of the modules on
-> `modules_install` and run `modules_sign` after the debug information was
-> striped.
->
-> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
-> ---
->  meta/classes-recipe/kernel.bbclass | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
->
-> Another idea would be to move the code to split the debug info in package=
-.bbclass to a
-> stand-alone tool and inject this in the kernel's modules_install.
->
->
-> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-> index 89badd90f1..96e40be085 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -461,7 +461,8 @@ kernel_do_install() {
->         #
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->         if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
-> -               oe_runmake DEPMOD=3Decho MODLIB=3D${D}${nonarch_base_libd=
-ir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=3D${D}${nonarch_base_libdir}/=
-firmware modules_install
-> +               # don't sign now, it's down after extraction of debug inf=
-ormation
-> +               oe_runmake CONFIG_MODULE_SIG_ALL=3Dn DEPMOD=3Decho MODLIB=
-=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=3D$=
-{D}${nonarch_base_libdir}/firmware modules_install
+Hello,
+this small series aims to fix Bugzilla issue 15536 [1], which results in a
+big disk storage consumption and/or inode max count issue. The main root
+cause is that in its current form, the artifacts retriever convert symlinks
+to the targeted files. This series changes the way those files are
+retrieved to make sure the symlinks are preserved. To do so, it replaces
+the series of scp performed on each file by a single tar command which
+output the generated compressed archive on its stdout. It is captured and
+returned as part of an ssh process, and it it then fed to another tar
+command run this time on host, to extract the artifacts, at the same place
+as before (tmp/log/oeqa/artifacts)
 
-This isn't a good idea, since it both hardcodes the option name, and
-it doesn't allow any method of overriding the setting.
+The first commit is a small update to SSH target in ssh.py to allow to
+retrieve raw output (ie raw bytes, without any decoding or formatting) from
+a command run on the target. This allows to get the compressed archive
+directly as an output from the remote command.
+The second commit uses this new feature to generate, retrieve and extract
+this archive on the fly, without ever storing it onto the target nor the
+host.
 
->                 rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSIO=
-N}/build"
->                 rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSIO=
-N}/source"
->                 # Remove empty module directories to prevent QA issues
-> @@ -497,6 +498,16 @@ kernel_do_install() {
->         ! [ -e Module.symvers ] || install -m 0644 Module.symvers ${D}/${=
-KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
->  }
->
-> +sign_kernel_modules() {
-> +       unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> +       if (grep -q -i -e '^CONFIG_MODULES=3Dy$' ${B}/.config); then
-> +               # modinst_pre=3D prevents the cleaning of the target befo=
-re signing
-> +               oe_runmake -C ${B} modinst_pre=3D DEPMOD=3Decho MODLIB=3D=
-${PKGD}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=3D$=
-{PKGD}${nonarch_base_libdir}/firmware modules_sign
-> +       fi
-> +}
-> +
-> +PACKAGEBUILDPKGD +=3D "sign_kernel_modules"
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15536
 
-I've been around for a while, and I've never run across this variable.
-According to
-my grep it is mostly internal and there are replacement variables that shou=
-ld be
-used.
+Alexis Lothoré (2):
+  oeqa/ssh: allow to retrieve raw, unformatted ouput
+  oeqa/utils/postactions: transfer whole archive over ssh instead of
+    doing individual copies
 
-But even if those other variables are used, this seems to force the extra
-signing step, which I can say for certain that not everyone wants.
+ meta/lib/oeqa/core/target/ssh.py   | 16 ++++++++--------
+ meta/lib/oeqa/utils/postactions.py | 19 +++++++++----------
+ 2 files changed, 17 insertions(+), 18 deletions(-)
 
-bruce
+-- 
+2.45.2
 
-> +
->  # Must be ran no earlier than after do_kernel_checkout or else Makefile =
-won't be in ${S}/Makefile
->  do_kernel_version_sanity_check() {
->         if [ "x${KERNEL_VERSION_SANITY_SKIP}" =3D "x1" ]; then
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201607): https://lists.openembedded.org/g/openembedde=
-d-core/message/201607
-> Mute This Topic: https://lists.openembedded.org/mt/107053401/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
