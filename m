@@ -1,71 +1,89 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C61C30658
-	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 11:55:07 +0000 (UTC)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
- by mx.groups.io with SMTP id smtpd.web11.15626.1720180504846827611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78186C30658
+	for <webhook@archiver.kernel.org>; Fri,  5 Jul 2024 11:58:27 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.15316.1720180705380472351
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jul 2024 04:55:05 -0700
+ Fri, 05 Jul 2024 04:58:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AFJKFQ6J;
- spf=pass (domain: gmail.com, ip: 209.85.222.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-810177d1760so524277241.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 04:55:04 -0700 (PDT)
+ dkim=pass header.i=@snap.com header.s=google header.b=Y76Fi+T3;
+ spf=pass (domain: snapchat.com, ip: 209.85.167.44, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52ea79e689eso567834e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 04:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720180503; x=1720785303; darn=lists.openembedded.org;
+        d=snap.com; s=google; t=1720180703; x=1720785503; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=B88yQgx9xct79rM3fSknHRvasvIAgn6VMrtFgXAsI1E=;
-        b=AFJKFQ6JQL04mMojHV2vWOPqwA2/cwoDDCdjNUqx9G2szKOQp7oPBMi82flS2dR4t1
-         KpQHCAOTi799GfbSVGj46PLGGuIiWhdmtRWdJ15j2OqhM6BBnYyECWbBeFMUlOdFiDBH
-         x83cT971trolGu0SFy6+dRnBAWHaEPNzGEFMfvHYHAr9jyfFzIZ5p2u89nBAGtOrRNxG
-         GHs5x8vRWYfBsJRkWvp1w0Gfvsm3kA61kUvIpfJ5z6clInYH0+GYohuSJAdYIE4ZiUvg
-         /0riWNM+TToRwKMN0K9R7pzjhRr/+lu+0S12TUpUTvbwzVapXHUAZoFsx1SESYLYQovS
-         mkHg==
+        bh=57f60NKD1MtB0o3uUh1iRs1vTZYTuzVmA3z70ikN124=;
+        b=Y76Fi+T3kFGErpOx1fTwe0+HUNYGAx2W/2b4KF6UnK7AucoUtvi7x+jVNkccnME7VM
+         2KlVTkdmfkqVsY7YKVm+TZnwH5e/Z4ljG08E45ev2ET2kJodEWzNMd9jZEkzlv6Ob1sw
+         ovvYV1NvikwG3/KPHPdAW4nisbhc9RRpf+Rdc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720180503; x=1720785303;
+        d=1e100.net; s=20230601; t=1720180703; x=1720785503;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B88yQgx9xct79rM3fSknHRvasvIAgn6VMrtFgXAsI1E=;
-        b=xNHABlmT/W26vK5Tskxq9es5jTRwhcOjwrMSXvaQsJ57uBWdXBjvxR+9Dx4ncsSpcW
-         vxChk6IGQRO/EHIk7zZO7o4OaXVmvmkH8pzv7xGNSa6gm8UTPanr8qMcriuO/PRXNw7s
-         kx63G+ooKqw9U8Myaa/T6UOvlQcdpdeG/TkFnis2toOT1i84Mo46VB0bztQcKBVoeSy7
-         DivJq7Fndlj2lB4ZyMBs/s8hITy7mdWdL+x/droKvbQrLd/LT1aeFIbqJLM37UrxTXVy
-         9ihaKl5B5OS4qV2SSxDLgYPoioizur80VTJh9bct97XJAVzvKCrZM5ChvB50gLqoif04
-         RWrw==
-X-Gm-Message-State: AOJu0YxLdgbt/cFHT+Q9MduqGStAyhR9hFvmrQkuWiRoWvltActg3DnL
-	/enrEiCLMxi6xy1kEB07k/dUfbsW86Td9Z1EBhFb9vxhKkWigiVjt9PxEnd8mFPlQa19kCjG/3n
-	riHWdcpWlIeeNGI/W3Ufu4W0NDkA=
-X-Google-Smtp-Source: AGHT+IF/wXxlZx9O+HPq4aaHoMnt6CjCzQ3K6hG7fOZqkONAxod+uo+iUPwBZRKsOXYWQ6uuBSSJVhuLVk1vraMVFdE=
-X-Received: by 2002:a67:f4d1:0:b0:48f:e77d:6e72 with SMTP id
- ada2fe7eead31-48fee91a1a6mr4847400137.33.1720180503524; Fri, 05 Jul 2024
- 04:55:03 -0700 (PDT)
+        bh=57f60NKD1MtB0o3uUh1iRs1vTZYTuzVmA3z70ikN124=;
+        b=G+8Vwg3WOoxTDT9Mn3JZ8ZL58mWz8nfFooRJcARJNPoplRgNDqx9V6Fnb0ra4271u3
+         Uu1YwjKbMdDO+XL2hmZQwEQLBRwzBg5M3ODJel0D+ICA6mj06GWjftIa6J9h1ZCq/X4S
+         ZEL46fWGR2IPFl7TDlGfcwAYDYCHAOzLQlgYTLaWxGI9I4g6alDqz80AApkUyaW6XONQ
+         zI3iHhmNakBpVjtfZKy6EOSJ2UOowENm6x9dYLIzofpOyBRtuyaxNpLitE5cs/1PL1du
+         Qoi37JVXNQSZCRtfIWBcADa7CKbZJ7zw8BgaDqOgcHpB6cOi+xqK3CeWfxuPHPyu56Ry
+         kL5w==
+X-Gm-Message-State: AOJu0Yy13gq9xiq3PdT3CCucjhy33iEsb255nuwWQX6O1VfYjYlVgTe7
+	euPfZqS6tSTnt1jY3Ouj4+dHoirujW5PgTXBzoJ0v1Oggz3k3zeOlUs4emDGsW50rHaT4korR52
+	TqzZEWUOFiKppF+sjfu0DDt+qcue58xr7kEXSCw==
+X-Google-Smtp-Source: AGHT+IGPbL+lSrPF3wumac7jsKuixE7ek8HWJVr/+4eCVs4UukkerJDEOp8wuuhpUnpS2FqesWstlzLVH9C6NSsx1rE=
+X-Received: by 2002:a05:6512:485b:b0:52c:a5cc:27e7 with SMTP id
+ 2adb3069b0e04-52ea06c902emr3591284e87.66.1720180703379; Fri, 05 Jul 2024
+ 04:58:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240705113129.1798725-1-jstephan@baylibre.com>
 In-Reply-To: <20240705113129.1798725-1-jstephan@baylibre.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 5 Jul 2024 12:54:52 +0100
-Message-ID: <CANPvuRmCL4duNDDuMRiEm_T_vYE86fdmMkbqL8d4mgXd98-www@mail.gmail.com>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Fri, 5 Jul 2024 13:58:12 +0200
+Message-ID: <CAHUKmYbkkPdopJfNyhxtwBGmy9dh0b6myrwosmm5RyBzBqZaLw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] kernel: fix do_symlink_kernsrc function
 To: jstephan@baylibre.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000dcbd0b061c7ebb83"
+Content-Type: multipart/alternative; boundary="000000000000c6ced5061c7ec76b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 11:55:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201603
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jul 2024 11:58:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201604
 
---000000000000dcbd0b061c7ebb83
+--000000000000c6ced5061c7ec76b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Julien Stephan via lists.openembedded.org <jstephan=3D
-baylibre.com@lists.openembedded.org> escreveu (sexta, 5/07/2024 =C3=A0(s) 1=
-2:31):
+Hi Julien,
+did you see my previous patch and the follow-up discussion?
+Ticket: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15325
+Previous discussion:
+https://lists.openembedded.org/g/openembedded-core/topic/103308574#msg19523=
+8
+
+
+I think Richard wanted a solution where this errors out:
+> I'm very tempted to say the "using a non default S value" just error
+> out.
+>
+> Whilst I understand how we got to this level of complexity, I think it
+> will just end up causing us pain in the long run and I'd rather just
+> not support it.
+>
+> Cheers,
+> Richard
+
+=C3=89tienne
+
+On Fri, Jul 5, 2024 at 1:34=E2=80=AFPM Julien Stephan via lists.openembedde=
+d.org
+<jstephan=3Dbaylibre.com@lists.openembedded.org> wrote:
 
 > According to the comment in do_symlink_kernsrc, this function exists
 > for compatibility with old style kernel recipes:
@@ -132,53 +150,56 @@ e
 > --
 > 2.45.1
 >
-
-What kernel bbclass are you using to build your kernel?
-Please note that a very similar logic was replicated on
-the kernel-yocto.bbclass do_kernel_checkout function
-so it will be good to test with and without the kernel-yocto.bbclass.
-https://git.yoctoproject.org/poky/tree/meta/classes-recipe/kernel-yocto.bbc=
-lass#n376
-
-I recently came across this problem in a change that I ended up having to
-revert.
-https://github.com/Freescale/meta-freescale/pull/1843
-https://github.com/Freescale/meta-freescale/pull/1857
-
-Jose
-
-
->
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
 > View/Reply Online (#201601):
-> https://lists.openembedded.org/g/openembedded-core/message/201601
-> Mute This Topic: https://lists.openembedded.org/mt/107052142/5052612
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_message_201601&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
+pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=
+=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&s=3DN3u=
+4aN5Ob1LBtzYAPrUgW7w1Yk_vN3KvuImWnp5g6LA&e=3D
+> Mute This Topic:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_mt_107052142_7048771&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC=
+2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DADx-AJwK4hclm=
+Y2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&s=3DVbM00DcAJR0ZUsuhhPW=
+tLEKKZ5MiBkhgS_Q4Aq3X3KM&e=3D
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
+> Unsubscribe:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
+.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
+bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DADx-AJ=
+wK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&s=3D7EbQmI1Lz7r_=
+bu1RArY3qabfEim4bh48mxJPm1oN_N4&e=3D
+> [ecordonnier@snap.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000dcbd0b061c7ebb83
+--000000000000c6ced5061c7ec76b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Julien Stephan via <a href=3D"http://=
-lists.openembedded.org">lists.openembedded.org</a> &lt;jstephan=3D<a href=
-=3D"mailto:baylibre.com@lists.openembedded.org">baylibre.com@lists.openembe=
-dded.org</a>&gt; escreveu (sexta, 5/07/2024 =C3=A0(s) 12:31):<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">According to the comment in d=
-o_symlink_kernsrc, this function exists<br>
+<div dir=3D"ltr">Hi Julien,<br>did you see my previous patch and the follow=
+-up discussion?<br>Ticket:=C2=A0<a href=3D"https://bugzilla.yoctoproject.or=
+g/show_bug.cgi?id=3D15325">https://bugzilla.yoctoproject.org/show_bug.cgi?i=
+d=3D15325</a>=C2=A0<br>Previous discussion:=C2=A0<a href=3D"https://lists.o=
+penembedded.org/g/openembedded-core/topic/103308574#msg195238">https://list=
+s.openembedded.org/g/openembedded-core/topic/103308574#msg195238</a>=C2=A0<=
+br><br>I think Richard wanted a solution where this errors out:<br>&gt; I&#=
+39;m very tempted to say the &quot;using a non default S value&quot; just e=
+rror<br>&gt; out.<br>&gt;<br>&gt; Whilst I understand how we got to this le=
+vel of complexity, I think it<br>&gt; will just end up causing us pain in t=
+he long run and I&#39;d rather just<br>&gt; not support it.<br>&gt;<br>&gt;=
+ Cheers,<br>&gt; Richard<br><br>=C3=89tienne</div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 5, 2024 at 1:34=E2=
+=80=AFPM Julien Stephan via <a href=3D"http://lists.openembedded.org">lists=
+.openembedded.org</a> &lt;jstephan=3D<a href=3D"mailto:baylibre.com@lists.o=
+penembedded.org">baylibre.com@lists.openembedded.org</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">According to the commen=
+t in do_symlink_kernsrc, this function exists<br>
 for compatibility with old style kernel recipes:<br>
 <br>
 =C2=A0 =C2=A0 # Old style kernels may set ${S} =3D ${WORKDIR}/git for examp=
@@ -248,45 +269,51 @@ DIR} ${B} ${STAGING_KERNEL_BUILDD<br>
 br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if s[-1] =3D=3D &#39;/&#39;:<br>
 -- <br>
-2.45.1<br></blockquote><div><br></div><div>What kernel bbclass are you usin=
-g to build your kernel?<br>Please note that a very similar logic was replic=
-ated on the=C2=A0kernel-yocto.bbclass=C2=A0<span style=3D"color:rgb(0,0,0);=
-font-size:13.3333px">do_kernel_checkout function</span></div><div><span sty=
-le=3D"color:rgb(0,0,0);font-size:13.3333px">so it will be good to test with=
- and without the=C2=A0</span>kernel-yocto.bbclass.<span style=3D"color:rgb(=
-0,0,0);font-size:13.3333px"><br></span><a href=3D"https://git.yoctoproject.=
-org/poky/tree/meta/classes-recipe/kernel-yocto.bbclass#n376">https://git.yo=
-ctoproject.org/poky/tree/meta/classes-recipe/kernel-yocto.bbclass#n376</a><=
-br><br>I recently came across this problem in a change that I ended up havi=
-ng to revert.<br><a href=3D"https://github.com/Freescale/meta-freescale/pul=
-l/1843">https://github.com/Freescale/meta-freescale/pull/1843</a><br><a hre=
-f=3D"https://github.com/Freescale/meta-freescale/pull/1857">https://github.=
-com/Freescale/meta-freescale/pull/1857</a><br><br></div><div>Jose</div><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+2.45.1<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#201601): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/201601" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/201601</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/107052142/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/107052142/5052612</a><br>
+View/Reply Online (#201601): <a href=3D"https://urldefense.proofpoint.com/v=
+2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_20=
+1601&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp=
+;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DADx-AJwK4hclmY2pDB=
+h97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&amp;s=3DN3u4aN5Ob1LBtzYAPrUg=
+W7w1Yk_vN3KvuImWnp5g6LA&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">http=
+s://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g=
+_openembedded-2Dcore_message_201601&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh=
+0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66=
+m67E&amp;m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjY=
+MK&amp;s=3DN3u4aN5Ob1LBtzYAPrUgW7w1Yk_vN3KvuImWnp5g6LA&amp;e=3D</a> <br>
+Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dht=
+tps-3A__lists.openembedded.org_mt_107052142_7048771&amp;d=3DDwIFaQ&amp;c=3D=
+ncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsR=
+ih1DULJTKUkSGa66m67E&amp;m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpFFcY=
+vO-chBh9k0SVobjYMK&amp;s=3DVbM00DcAJR0ZUsuhhPWtLEKKZ5MiBkhgS_Q4Aq3X3KM&amp;=
+e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.co=
+m/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_107052142_7048771&amp;d=3D=
+DwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9=
+f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&amp;s=3DVbM00DcAJR0ZUsuhhPWtLEKKZ5MiBkhgS=
+_Q4Aq3X3KM&amp;e=3D</a> <br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-=
+3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIFaQ&amp;c=
+=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9=
+TsRih1DULJTKUkSGa66m67E&amp;m=3DADx-AJwK4hclmY2pDBh97bnassJ0KI9f_OAKb9D6WpF=
+FcYvO-chBh9k0SVobjYMK&amp;s=3D7EbQmI1Lz7r_bu1RArY3qabfEim4bh48mxJPm1oN_N4&a=
+mp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint=
+.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsu=
+b&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
+=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DADx-AJwK4hclmY2pDBh9=
+7bnassJ0KI9f_OAKb9D6WpFFcYvO-chBh9k0SVobjYMK&amp;s=3D7EbQmI1Lz7r_bu1RArY3qa=
+bfEim4bh48mxJPm1oN_N4&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:ecordonnier@sna=
+p.com" target=3D"_blank">ecordonnier@snap.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
+</blockquote></div>
 
---000000000000dcbd0b061c7ebb83--
+--000000000000c6ced5061c7ec76b--
 
