@@ -1,135 +1,89 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2024FC3DA45
-	for <webhook@archiver.kernel.org>; Mon,  8 Jul 2024 16:13:49 +0000 (UTC)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.web11.83965.1720455224304442893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E53FC3DA41
+	for <webhook@archiver.kernel.org>; Mon,  8 Jul 2024 16:56:29 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.85139.1720457779913612474
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jul 2024 09:13:44 -0700
+ Mon, 08 Jul 2024 09:56:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SpwqE1Ru;
- spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5c651c521f2so1807186eaf.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jul 2024 09:13:44 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V47Vqf+J;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52ea2ce7abaso5514867e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jul 2024 09:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720455223; x=1721060023; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oaGheH0tyuGub1G8jS+Zz90UyOhWoFkWXbfDpR/19sc=;
-        b=SpwqE1RuBX7jx0yvz8jp3Qc1XTNslygRuuUUVmjVaE0l+NvNZX+wc0UyMEEU21rEwf
-         7elaTMDLZVe/IU4HfLPdOzP1jX+hfEiYHIaWJgQHj1rbKB8ecdfOmCv9kYLO2UjogVNF
-         u1CvC0tGgDFVvym18vXt0+GlSg5N9GZiJx8I98ysLpfhjhmUC7vdY1nGWoGBvOW/xeBw
-         esTo9Ep7ADhqNm6kDnGmx5k1hVeMfbEQcw66dhHXRkEGuoGGETCBmVeJrHHB39U68qDp
-         6CDBsQnYxpGqOTVfgagNj0I0LjDPmmynebhVudePsgTfhLTH72fTnSx8XqqxeqVfYept
-         YeLw==
+        d=linuxfoundation.org; s=google; t=1720457778; x=1721062578; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QcapPhC/L1EvItCV1M5J+uQF88Jnimz1lzSJT3DMb0c=;
+        b=V47Vqf+JyYvn7e6pYM1M69GF50hUk/x0Pfcso94XJcD5/VqVrJ0+tZEZLnECd75YzC
+         PFLp7UoOBp5fTvfbDgs1E5xdoPuXTk4hnHrFJaztDosZZE6MfkclY/WNW5J/TUsZjmC6
+         XBKB9yWdzKUDweKXCTrWm25zG7Pg0KBggoUhM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720455223; x=1721060023;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oaGheH0tyuGub1G8jS+Zz90UyOhWoFkWXbfDpR/19sc=;
-        b=GifvY+fPstiRsKwrzb8nXeGuwcS28p94vl36ds8SLhYd5JAPHNKVAotkN9aYKP/YPK
-         ZnDChShvnTjfj8/Huv5FTP9cOnfBcSRpMCow980hORTP8jixN3sm/U0mrxL41Agzcy55
-         dIbC/T+gJHtAH7kZAmZgFYo8E+XiumtYZK43j8qpbbPg+OWJNs7qVAb1/IugoIvkfOzK
-         NvDixFhPUPlnWrksq+URY4+SQ/Y+/BXvxXPOnS/E53YIV1yByvyZF+2yqJeJEZPVUZUw
-         HBhOitPePLYpIZqtTWoM+tddfL3lHKylLhawab5oTuva0cnzXlX8vk0F4kfERn5oJrA7
-         7XAw==
-X-Forwarded-Encrypted: i=1; AJvYcCU50lPcTY+Rzq+7QVNWYgD70h5HFKivBTXnABM/QcN/W2BSOoJky2sDPvHjrYid40iKIpxAUrhrvEk+JbCOM4L8xcwk+VjQFcnT5YjGITbu91jZqlv1JwqZ
-X-Gm-Message-State: AOJu0YzfRHQ0LF5woz1xyyZresZyFq7dXVL1oCafgVS6T77TY81URaNf
-	GEwUWRetJQf5OHL8fjmHCw+azJOFs3sQdBJNkYmGVdhJjGTGyX1SxAJzmfy7/33kzeznPCzM1Lm
-	GRB4Y/MqIJodwtdbSrSP/Dx4O+LkKRQ==
-X-Google-Smtp-Source: AGHT+IGen8OjPpDxpwCQxn6Nj350QTzs0dYZn20nskD/uV5hi+aUo6l7cIGdrpQIsOkX5kuZ/jD9pB3Rz2r+2e1zqjA=
-X-Received: by 2002:a05:6870:1c8:b0:259:8420:8e3b with SMTP id
- 586e51a60fabf-25e2ba212femr10317972fac.21.1720455223383; Mon, 08 Jul 2024
- 09:13:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720457778; x=1721062578;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QcapPhC/L1EvItCV1M5J+uQF88Jnimz1lzSJT3DMb0c=;
+        b=D980q/ZnPxZesyL54q4/jLesgJz5UTgHs5smB/jZ0fQMzcYOsk5BcksFK3i0FP/8ai
+         qX6vwTkTTgVjCGI67vmYUmiRVDyOSHognjatka4rga3xVQQHR6Asa1MMa4xy3tu3rxeD
+         q5Q+uxu+hH+mttHqqYpL/RBRwY7WJK5w9wYs1e8wItC5t9gPkOg0YQZmwWp5u5nwvFlK
+         rU6Ck0BQcPr/4lAKZIcQX+rbM/AdVhlCtpSZE5dTeNfwVJdASIv9puzz8yBEvp5zg55C
+         FfA/FvgwqCiUWTAJbr04ceKxdLT8tflSZNBVr2C0jJr2NaE/ebas90iKQuCtLQtOOfTe
+         n1SA==
+X-Gm-Message-State: AOJu0YzGLKzynoZmRfLwNBz9RRkoRMlRk+vsNJHz4ioN+DTIVaELpp+a
+	fZnUJuFTicbfiNFOo+9UvVo3ysliltr2nlbyJvQ5w6m2WS/QP1uMXZD2Pn2lFbr8U4fIXTOglDQ
+	V
+X-Google-Smtp-Source: AGHT+IF1ka+K0WAGvIv4v3Um/sma/ixNbr6YXVNGIKzDNexJqNBqHFE1sT+n23caRxPnKX2BEyeWIw==
+X-Received: by 2002:ac2:5630:0:b0:52e:96d7:2f35 with SMTP id 2adb3069b0e04-52ea0631700mr9114829e87.24.1720457777757;
+        Mon, 08 Jul 2024 09:56:17 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7de4:636f:6569:3199])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f737b1bsm5469605e9.32.2024.07.08.09.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jul 2024 09:56:17 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Hoyes <peter.hoyes@arm.com>
+Subject: [PATCH] testimage/postactions: Allow artifact collection to be skipped
+Date: Mon,  8 Jul 2024 17:56:16 +0100
+Message-ID: <20240708165616.349661-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240627070339.2066255-1-mingli.yu@windriver.com>
- <CAMKF1sqG1+_VGAFR9N8oaJqrniYoMC6LOWxrMsTadBuaDO9gEQ@mail.gmail.com>
- <7e47a093-f395-4413-a069-4435942c84bb@windriver.com> <CAMKF1srF+BXye5k9dGNVEvAj1D8Y3d9b8FXcU21-vCmWCC+31g@mail.gmail.com>
- <202407011633012c576264@mail.local> <D541F29E-5518-4F7C-98C9-AD05E76E1F2B@arm.com>
-In-Reply-To: <D541F29E-5518-4F7C-98C9-AD05E76E1F2B@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 8 Jul 2024 09:13:16 -0700
-Message-ID: <CAMKF1sq5dPt6ryo6-dcq_tFg4CnXpmrckxexMznNa+-oaSfrNQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] acl: Fix nfs ptest failure
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "Yu, Mingli" <mingli.yu@windriver.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	"mingli.yu@eng.windriver.com" <mingli.yu@eng.windriver.com>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jul 2024 16:13:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201634
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jul 2024 16:56:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201635
 
-On Mon, Jul 8, 2024 at 8:56=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
-ote:
->
-> On 1 Jul 2024, at 17:33, Alexandre Belloni via lists.openembedded.org <al=
-exandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
-> >
-> > On 01/07/2024 09:19:50-0700, Khem Raj wrote:
-> >> On Mon, Jul 1, 2024 at 1:25=E2=80=AFAM Yu, Mingli <mingli.yu@windriver=
-.com> wrote:
-> >>
-> >>>
-> >>>
-> >>> On 6/28/24 02:21, Khem Raj wrote:
-> >>>> CAUTION: This email comes from a non Wind River email account!
-> >>>> Do not click links or open attachments unless you recognize the send=
-er
-> >>> and know the content is safe.
-> >>>>
-> >>>> I am seeing two XPASSes which is ok but the test runs reports failur=
-e
-> >>> back
-> >>>
-> >>> It is because the two cases defined as XFAIL_TESTS
-> >>> https://git.savannah.nongnu.org/cgit/acl.git/tree/test/Makemodule.am#=
-n1
-> >>> and per
-> >>>
-> >>> https://www.gnu.org/software/automake/manual/html_node/Generalities-a=
-bout-Testing.html,
-> >>>
-> >>>
-> >>> ```
-> >>> In case a test that is expected to fail ends up passing instead, many
-> >>> testing environments will flag the result as a special kind of failur=
-e
-> >>> called unexpected pass (or xpass).
-> >>> ```
-> >>
-> >>
-> >> It=E2=80=99s fine here we need to treat them as passes so the return f=
-rom tests do
-> >> not confuse the preset runner
-> >
-> > But if we don't get the expected result, isn't that a failure?
->
-> I just spent a few minutes doing some git archaeology, but nothing useful=
-.  Both tests are marked as XFAIL which could mean =E2=80=9CI wrote this te=
-st case but right now it doesn=E2=80=99t work correctly=E2=80=9D or alterna=
-tively =E2=80=9Cthis test is meant to fail=E2=80=9D, but there=E2=80=99s no=
-thing relevant in the comments or git log to clarify.
->
-> The patches look like they=E2=80=99re fixing actual bugs in the test case=
-s, so I suspect the tests were expected-fail because they didn=E2=80=99t ac=
-tually work. So these patches should fix the tests and then move them from =
-XFAIL_TESTS to TESTS as they now actually work.
+It does not always make sense to collect artifacts and data from the
+target on failure, e.g. if testing firmware or if the target is not
+running an SSH server.
 
-an XPASS is like a failure unless its is reviewed and deemed to be
-correct in that case it could be moved into PASS category. so in this
-case it seems they
-should be marked PASS after the fixes but maybe they were still left
-as XPASS due to some corner cases or simply to be baked for a while to
-find more corner cases. We can patch them as PASS and move on perhaps.
->
-> Ross
+Allow this by setting TESTIMAGE_FAILED_QA_ARTIFACTS to an empty
+value.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/utils/postactions.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/lib/oeqa/utils/postactions.py b/meta/lib/oeqa/utils/postactions.py
+index 2a08129d6c0..15f423218eb 100644
+--- a/meta/lib/oeqa/utils/postactions.py
++++ b/meta/lib/oeqa/utils/postactions.py
+@@ -86,6 +86,11 @@ def list_and_fetch_failed_tests_artifacts(d, tc):
+ ##################################################################
+ 
+ def run_failed_tests_post_actions(d, tc):
++    artifacts = d.getVar("TESTIMAGE_FAILED_QA_ARTIFACTS")
++    # Allow all the code to be disabled by having no artifacts set, e.g. for systems with no ssh support
++    if not artifacts:
++        return
++
+     post_actions=[
+         create_artifacts_directory,
+         list_and_fetch_failed_tests_artifacts,
 
