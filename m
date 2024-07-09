@@ -1,210 +1,108 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FDC2C3DA41
-	for <webhook@archiver.kernel.org>; Tue,  9 Jul 2024 10:19:29 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web10.9757.1720520360189039847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 308E9C3DA41
+	for <webhook@archiver.kernel.org>; Tue,  9 Jul 2024 10:38:09 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.9894.1720521484357795726
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jul 2024 03:19:20 -0700
+ Tue, 09 Jul 2024 03:38:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G35Jojhj;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: rybczynska@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so2511776a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jul 2024 03:19:20 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Wc3h4hZ2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52ea1a69624so5743925e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jul 2024 03:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720520359; x=1721125159; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=t3pcQW2jbsSJv1mNwN7hy1hvrhJxUxju0Y//mydFkNY=;
-        b=G35Jojhj0DB9JzYkUnuG9Y1bN8ssWDB28UBk3+KQOlUsERdHE/LKuEKBv6h0h/jvcJ
-         PVS69GB+1idBUks1ZXbl8b+qoLpaR8+wfQc/WoJ2B3QEjl6Z/jYw6vnp+kiJF9w1Hg1N
-         tbDdIAJk5sOI358gs/zAzO/j0Ejb/e6q0w4RJf7HAuW/uOJKAiDvzYWO2zYnCUhgD5oF
-         87iEMRXrOdF2bkc07sH0WJYDOumcT3IfiFxHu6wsGf6uhAzg9bKucc749O0/HaRjd2q3
-         M4hWn4k2M9N1GspeRE8UyRSYSakj3ZaDON5fVoY1PP1z19sOhYfraqFWKLmhTe99X/ew
-         1Uww==
+        d=linuxfoundation.org; s=google; t=1720521482; x=1721126282; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=smA/zS7iTz1xTK3bSF4GL3W3l2mMcc3euM5vu9X/zC4=;
+        b=Wc3h4hZ24Fmi7bZzzyqFHslg10JEeIrLt8ZI4Z8BjBrTPimcyF+GdZHvkL1WtauZFl
+         aqjykh7UB1CDd6urbdnwKIX1osGviObfBckvSkWlvy8U1vAktWrvdf+PQs8gBoHekQqN
+         +KH+8Y5PviV2jx30i5eopzIW3Ju4M5wHkxxeY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720520359; x=1721125159;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t3pcQW2jbsSJv1mNwN7hy1hvrhJxUxju0Y//mydFkNY=;
-        b=YKDxp56Jkfku2Z9oy9QNHS4TNdmQ360nn0aLzGEBqR/Udoz36My8r5BF/xiexc6Vq2
-         ZrtT+mA9xs1N9w+Tp8OLxiveomVsxsSCGvblVwByRa+Moi8zInNU5F70Is/pwFYsGeOA
-         qEl9KNinq7Vprepz/5AkhZDr4c5XqQtiMmDbylKDcbN1IcbHCe0+topz+UoIB8yU7htH
-         vu0lj6Yagw+Y+9SPuyhNRceXupsJGx2UaTUe7YJLRIquDeUZgGw1AuzI2187yazZIBjr
-         rjyFN6TGsxJt9AjHE1MoR5MIk55XAdAGPpB0SkJcQ42LEo7hn4/jEmUD3uas21bIHMhL
-         dNoA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0H87EWUxRVe/8pFMR5uLEdXMRO8G7Z2CiOXuzDbK3WUj7o2RHaJDN7dt+tIJI3K7V6sdWDrmRgxkFIAndPfjwQkI8CEpihOlrE/RZCe0NmyTl6GwEc6bR
-X-Gm-Message-State: AOJu0Yy8r/lmHKQ/OLFcW8ywcKQxjiHu6AujtVTI3fxJU36uuUBosyR0
-	I6eZHcK71VRhfnq7yUc3uxIFKsUB7yQi9jt/mcXOS10Iw79pY712HsZnrawOFVFT4UdIOsPOXc+
-	gBRyXWeyBjxpxjZU2bjJarv94uPg=
-X-Google-Smtp-Source: AGHT+IE+kUIsg9DjpedEp7+wjSlPp3YKmCjH3b75E15CiQ42XBBqqMngtfV26Bec19Eh2lBazXhHIPFv69fXMOajP8I=
-X-Received: by 2002:a05:6a20:7f99:b0:1c2:8919:b935 with SMTP id
- adf61e73a8af0-1c29824f1e7mr2511291637.34.1720520359295; Tue, 09 Jul 2024
- 03:19:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720521482; x=1721126282;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=smA/zS7iTz1xTK3bSF4GL3W3l2mMcc3euM5vu9X/zC4=;
+        b=G6lUW/99P7GuZvgGxVTYltUzt6AssXgj0Bj0g2CW6iN2p+rA5qb68Bg8wGHwmfb2Nj
+         6pUoSxRLzfsKj4vty4k9VjXRghGBgFzxKAppDtznFsBYfu8ilecKNYbqS9v63VY4/Z+Q
+         FHAr0E/XyFrt+G/YlW0+WOsFPn5r0FgBL2fQgVq/flF3Y9NYzwvwZHGu+6i+kmm0I2fa
+         jtdEikZnwXcfxrbUQx5B85dEqEcY2J9OXDmHINqDYT4yJAK1YzdzHggx3ff91sO690oR
+         VKWNStXmnvrLZN0Rm23BVAANOw1u2OEFmfCLZG/yQjKeHddLyCPJU89QhSz8W1BPSpkQ
+         aefQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXB1dZROXZ9DP50FzdCQcfuD43KRtkOFdmMYokJwNeR0sEC7VURygXycE2nHxrQrJQk2ON2i4dd9gNk58u3Z3gPKhZJJO95c3r6f4JGoLRNXsMeq7SFrewU
+X-Gm-Message-State: AOJu0Yyi5UKySff5RZUCDK/iJQYHRY2Aghm8XEwqxDVVwKaEXM7ru5eb
+	YBq2NnPzcRiaCs2wF+dGQ0pP3bmaVCqpFdhtFwwvoZZb7sF8sXK+v4KuQli9dIg=
+X-Google-Smtp-Source: AGHT+IEpCbZsIIpUG4Url6tWwpjHB1kGofcdJ4M+CdyAQhIXj4iu4OLyeMVvhOomUEKcTvqYB8kqIw==
+X-Received: by 2002:a05:6512:1396:b0:52c:d626:77aa with SMTP id 2adb3069b0e04-52eb99d3dd2mr1301918e87.58.1720521482528;
+        Tue, 09 Jul 2024 03:38:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:eb12:75be:8387:683a? ([2001:8b0:aba:5f3c:eb12:75be:8387:683a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f1d51sm33731375e9.17.2024.07.09.03.38.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jul 2024 03:38:02 -0700 (PDT)
+Message-ID: <b53e107f63f55072c08bebef4dce6e16065c4ed6.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] icu: fix make-icudata package config
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: S.Mueller-Klieser@phytec.de, openembedded-core@lists.openembedded.org
+Date: Tue, 09 Jul 2024 11:38:01 +0100
+In-Reply-To: <20240709062539.4581-1-s.mueller-klieser@phytec.de>
+References: <20240709062539.4581-1-s.mueller-klieser@phytec.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 9 Jul 2024 12:19:07 +0200
-Message-ID: <CAApg2=Stragde-5Xk_P2VGNFK0dHxSU628svfvG_-Du1g7uLKg@mail.gmail.com>
-Subject: CVE check standalone results for 08/07/2024: world build on OE-core
-To: yocto-security@lists.yoctoproject.org, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Cc: Ross Burton <ross.burton@arm.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>
-Content-Type: multipart/alternative; boundary="000000000000d84171061ccddcd5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jul 2024 10:19:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201652
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jul 2024 10:38:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201653
 
---000000000000d84171061ccddcd5
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 2024-07-09 at 08:25 +0200, Stefan Mueller-Klieser via lists.openemb=
+edded.org wrote:
+> The location of files changed during unpackdir transition. Adapt dirs
+> to fix custom icu data generation.
+>=20
+> Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
+> ---
+> =C2=A0meta/recipes-support/icu/icu_75-1.bb | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/icu/icu_75-1.bb b/meta/recipes-support/=
+icu/icu_75-1.bb
+> index 14fbf31de5..27fe392e4d 100644
+> --- a/meta/recipes-support/icu/icu_75-1.bb
+> +++ b/meta/recipes-support/icu/icu_75-1.bb
+> @@ -126,7 +126,7 @@ do_make_icudata:class-target () {
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('PACKAGECONFIG', 'make-icud=
+ata', '', 'exit 0', d)}
+> =C2=A0=C2=A0=C2=A0=C2=A0 cd ${S}
+> =C2=A0=C2=A0=C2=A0=C2=A0 rm -rf data
+> -=C2=A0=C2=A0=C2=A0 cp -a ${WORKDIR}/data .
+> +=C2=A0=C2=A0=C2=A0 cp -a ${UNPACKDIR}/data .
+> =C2=A0=C2=A0=C2=A0=C2=A0 AR=3D'${BUILD_AR}' \
+> =C2=A0=C2=A0=C2=A0=C2=A0 CC=3D'${BUILD_CC}' \
+> =C2=A0=C2=A0=C2=A0=C2=A0 CPP=3D'${BUILD_CPP}' \
+> @@ -136,7 +136,7 @@ do_make_icudata:class-target () {
+> =C2=A0=C2=A0=C2=A0=C2=A0 CPPFLAGS=3D'${BUILD_CPPFLAGS}' \
+> =C2=A0=C2=A0=C2=A0=C2=A0 CXXFLAGS=3D'${BUILD_CXXFLAGS}' \
+> =C2=A0=C2=A0=C2=A0=C2=A0 LDFLAGS=3D'${BUILD_LDFLAGS}' \
+> -=C2=A0=C2=A0=C2=A0 ICU_DATA_FILTER_FILE=3D${WORKDIR}/filter.json \
+> +=C2=A0=C2=A0=C2=A0 ICU_DATA_FILTER_FILE=3D${UNPACKDIR}/filter.json \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ./runConfigureICU Linux --with-data-packaging=3D=
+archive
+> =C2=A0=C2=A0=C2=A0=C2=A0 oe_runmake
+> =C2=A0=C2=A0=C2=A0=C2=A0 install -Dm644 ${S}/data/out/icudt${ICU_MAJOR_VE=
+R}l.dat ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat
+>=20
 
-Hello all,
-Here are the results of the CVE-check standalone on the CVE database as of
-yesterday's evening. Yesterday the NVD website had real issues, so I
-couldn't download the database, will re-try.
+Thanks for the fix. Are there any tests we should add to detect problems ea=
+rlier in future?
 
-This is the first set I'm sending for a world build on OE-core.
+Cheers,
 
-Issues for package openssl-native (version 3.3.1):
-
-       Unpatched: CVE-2024-5535
-       Count: 1
-
-Issues for package perl-native (version 5.38.2):
-
-       Unpatched: CVE-2023-47039
-       Count: 1
-
-Analysis: false positive in the database (wrong version)
-
-Issues for package linux-yocto (version 6.6.35):
-
-       Unpatched: CVE-2021-4440 CVE-2021-46922 CVE-2021-47179
-CVE-2021-47239 CVE-2021-47312 CVE-2021-47370 CVE-2021-47436 CVE-2021-47449
-CVE-2021-47555 CVE-2021-47595 CVE-2022-48641 CVE-2022-48643 CVE-2022-48649
-CVE-2022-48663 CVE-2022
--48671 CVE-2022-48752 CVE-2022-48764 CVE-2023-52525 CVE-2023-52577
-CVE-2023-52745 CVE-2024-26626 CVE-2024-26710 CVE-2024-26750 CVE-2024-26780
-CVE-2024-26781 CVE-2024-26792 CVE-2024-26794 CVE-2024-26800 CVE-2024-26997
-CVE-2024-27023 CVE-
-2024-27055 CVE-2024-27411 CVE-2024-35815 CVE-2024-35824 CVE-2024-35957
-CVE-2024-35962 CVE-2024-35983 CVE-2024-35996 CVE-2024-36002 CVE-2024-36887
-CVE-2024-36962
-       Count: 41
-
-Issues for package tiff (version 4.6.0):
-
-       Unpatched: CVE-2023-3618
-       Count: 1
-
-Analysis: false positive in the database (wrong version)
-
-Issues for package graphene (version 1.10.8):
-
-       Unpatched: CVE-2024-1984
-       Count: 1
-
-Analysis: the issue is in Wordpress theme graphene. Will submit a CPE change
-
-Issues for package binutils-testsuite (version 2.42):
-
-       Unpatched: CVE-2023-25585 CVE-2023-25586 CVE-2023-25588
-       Count: 3
-
-Analysis: false positive in the database (wrong version)
-
-Issues for package qemu-system-native (version 9.0.1):
-
-       Unpatched: CVE-2023-1386 CVE-2023-3180 CVE-2023-3354
-       Count: 3
-
-Analysis: false positive in the database (wrong version)
-
-Global issue count: 51
-
---000000000000d84171061ccddcd5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><span style=3D"font-family:monospace"><span style=3D"=
-color:rgb(0,0,0);background-color:rgb(255,255,255)">Hello all,</span></span=
-></div><div><span style=3D"font-family:monospace"><span style=3D"color:rgb(=
-0,0,0);background-color:rgb(255,255,255)">Here are the results of the CVE-c=
-heck standalone on the CVE database as of yesterday&#39;s evening. Yesterda=
-y the NVD website had real issues, so I couldn&#39;t download the database,=
- will re-try.</span></span></div><div><span style=3D"font-family:monospace"=
-><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)"><br></s=
-pan></span></div><div><span style=3D"font-family:monospace"><span style=3D"=
-color:rgb(0,0,0);background-color:rgb(255,255,255)">This is the first set I=
-&#39;m sending for a world build on OE-core.<br></span></span></div><div><s=
-pan style=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);backgro=
-und-color:rgb(255,255,255)"><br></span></span></div><div><span style=3D"fon=
-t-family:monospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(25=
-5,255,255)">Issues for package openssl-native (version 3.3.1):
-</span></span></div><div><span style=3D"font-family:monospace"></span></div=
-><span style=3D"font-family:monospace">
-<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Unpatched: CVE-2024-5535 =C2=
-=A0<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Count: 1
-<br>
-<br>Issues for package perl-native (version 5.38.2):
-<br>
-<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Unpatched: CVE-2023-47039 =
-=C2=A0<br></span><div><span style=3D"font-family:monospace"> =C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Count: 1
-</span></div><br><div>Analysis: false positive in the database (wrong versi=
-on)<br></div><div><span style=3D"font-family:monospace"></span></div><span =
-style=3D"font-family:monospace">
-<br>Issues for package linux-yocto (version 6.6.35):
-<br>
-<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Unpatched: CVE-2021-4440 CVE=
--2021-46922 CVE-2021-47179 CVE-2021-47239 CVE-2021-47312 CVE-2021-47370 CVE=
--2021-47436 CVE-2021-47449 CVE-2021-47555 CVE-2021-47595 CVE-2022-48641 CVE=
--2022-48643 CVE-2022-48649 CVE-2022-48663 CVE-2022<br>-48671 CVE-2022-48752=
- CVE-2022-48764 CVE-2023-52525 CVE-2023-52577 CVE-2023-52745 CVE-2024-26626=
- CVE-2024-26710 CVE-2024-26750 CVE-2024-26780 CVE-2024-26781 CVE-2024-26792=
- CVE-2024-26794 CVE-2024-26800 CVE-2024-26997 CVE-2024-27023 CVE-<br>2024-2=
-7055 CVE-2024-27411 CVE-2024-35815 CVE-2024-35824 CVE-2024-35957 CVE-2024-3=
-5962 CVE-2024-35983 CVE-2024-35996 CVE-2024-36002 CVE-2024-36887 CVE-2024-3=
-6962 =C2=A0<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Count: 41
-<br>
-<br>Issues for package tiff (version 4.6.0):
-<br>
-<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Unpatched: CVE-2023-3618 =C2=
-=A0<br></span><div><span style=3D"font-family:monospace"> =C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0Count: 1
-</span></div><br><div>Analysis: false positive in the database (wrong versi=
-on)<br></div><div><span style=3D"font-family:monospace"></span></div><span =
-style=3D"font-family:monospace">
-<br>Issues for package graphene (version 1.10.8):
-<br>
-<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Unpatched: CVE-2024-1984 =C2=
-=A0<br></span><div><span style=3D"font-family:monospace"> =C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0Count: 1
-</span></div><br><div>Analysis: the issue is in Wordpress theme graphene. W=
-ill submit a CPE change<br></div><div><span style=3D"font-family:monospace"=
-></span></div><span style=3D"font-family:monospace">
-<br>Issues for package binutils-testsuite (version 2.42):
-<br>
-<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Unpatched: CVE-2023-25585 CV=
-E-2023-25586 CVE-2023-25588 =C2=A0<br></span><div><span style=3D"font-famil=
-y:monospace"> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Count: 3
-</span></div><br><div>Analysis: false positive in the database (wrong versi=
-on)<span style=3D"font-family:monospace"></span></div><span style=3D"font-f=
-amily:monospace">
-<br>Issues for package qemu-system-native (version 9.0.1):
-<br>
-<br> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Unpatched: CVE-2023-1386 CVE=
--2023-3180 CVE-2023-3354 =C2=A0<br></span><div><span style=3D"font-family:m=
-onospace"> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Count: 3
-</span></div><br><div>Analysis: false positive in the database (wrong versi=
-on)<span style=3D"font-family:monospace"></span></div><span style=3D"font-f=
-amily:monospace">
-<br>Global issue count: 51<br>
-<br><br></span></div>
-
---000000000000d84171061ccddcd5--
+Richard
 
