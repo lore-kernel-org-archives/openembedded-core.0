@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D01EC3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4554FC3DA42
 	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 09:44:29 +0000 (UTC)
 Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web10.10246.1720604660262726393
+ by mx.groups.io with SMTP id smtpd.web11.10240.1720604664605918816
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jul 2024 02:44:20 -0700
+ Wed, 10 Jul 2024 02:44:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=OA1Z54id;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Gzl2rT9v;
  spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1720604661; x=1752140661;
+  t=1720604665; x=1752140665;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=fplvovZN2pZUGKLHok1ZcEPUjP9AmSlxgbdwC+f+vFo=;
-  b=OA1Z54idMxP0FlHUIO4YF35dsPYO6KbcagIKgZ92mSfoNjMx0MghfztF
-   oPpcaQGoJ6o2BrPOz1+8kjI4Xdx8KFF674odlL1YMMj307fWjRmowS2D3
-   qkKm3Vqq/WRvalsWMuVDGMZs/v53/zlKtb4vEndhf3eyYqoPvIjh4rL4Y
-   EDgFDYwIczTOiwpGnAELd2n7w4WEDpVvUKnNaPc3qi6/tLfTvLX4NFRja
-   oDExLTk5fCJ4dkNGyayklp/y7NToLKUtoapN1xV7gRfDiHZiA/yMaES8R
-   uPlKb4n6rFdGsUJSavcRvzSgqMxGcObItFwH9R/YKLqhUk6o42O8+ONpI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="166535736"
+  bh=x+G7pANsom2mZcgyRv+KhtTrpwmofXkeNgKI7/yQork=;
+  b=Gzl2rT9vxmC5Rd8F9J2XvXpCS9+PlfcOgrlnQg4moXlph6W8H4EReN4M
+   77nyXoz25S48P4CWrGGZPw95OC4EYkRIwd3MPqrzlyVQ01LEl67nhs4+J
+   L4wX1Cr48WKU5zaxVqEssca2vwRh4993VqTNK3jIIJF2QWQ6AKPHIv1Nt
+   /LVbas/wVQTLE9BkJ5rEyiW9UMNctHwF/x/y+ZoD6yZd0KbWDR5ftXr4H
+   0yMPTH2E+TRyFCZnbCAGUu72Rj1F9k7frNFiCxVtHXCiIddgMdxkY9O2+
+   /u5ZRBC0IfhnNI1Zqn060Lq6LCAmLl3j5bWAlV4NcdWofPN74W1GgdH5a
+   g==;
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="166535741"
 X-IronPort-AV: E=Sophos;i="6.09,197,1716217200"; 
-   d="scan'208";a="166535736"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 18:44:18 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id A15353E4BB
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:15 +0900 (JST)
+   d="scan'208";a="166535741"
+Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 18:44:23 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 5465CD8011
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:20 +0900 (JST)
 Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id E1B27D510E
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:14 +0900 (JST)
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 9A50DBF4B5
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:19 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 8290E1EBE69
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:14 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 3D2E5220E43
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:19 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 33D401A000C;
-	Wed, 10 Jul 2024 17:44:14 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 09A7A1A000C;
+	Wed, 10 Jul 2024 17:44:18 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 15/30] libproxy: upgrade 0.5.6 -> 0.5.7
-Date: Wed, 10 Jul 2024 17:43:39 +0800
-Message-Id: <1720604634-23406-15-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 29/30] sysstat: upgrade 12.7.5 -> 12.7.6
+Date: Wed, 10 Jul 2024 17:43:53 +0800
+Message-Id: <1720604634-23406-29-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1720604634-23406-1-git-send-email-wangmy@fujitsu.com>
 References: <1720604634-23406-1-git-send-email-wangmy@fujitsu.com>
@@ -54,48 +54,68 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28520.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28520.006
-X-TMASE-Result: 10-1.038000-10.000000
-X-TMASE-MatchedRID: hsQjHHSArR6jz0nOeth/yUIIxwDaU5mroZoUnnV928KxKD5d4wJGXb6p
-	xbTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74AQhNjZQYyI3LRPJs/q8vyU+Hv
-	2UJ089058IlHs6bk0vxQAXi4Ga9GRHxPMjOKY7A/+HHE8LDNSg8RB0bsfrpPIcSqbxBgG0w7BfW
-	Jx3tQLZuVyraD9GEwjMkaKw1uS9gQ1HOKFf1XuM9niKjsvWgCK++Dm8FdNfeU/OICnWMtGToGI+
-	0NJOh+hkcAjelS9XsiCvqWrFsheUcLe0zBjeZrbFQOP52BRBXJMTsKj18q/fA==
+X-TMASE-Result: 10--4.278200-10.000000
+X-TMASE-MatchedRID: sujxEcxUy52jz0nOeth/yUIIxwDaU5mr/eXcEqFSY38H8UzOewTxw+aG
+	g/Bit59t9yyhf0h+9HrM9NPjWzPKhF7FLEpyoHYAHWRJEfGP5nmOVBD4weLV0x+hI5qKPMbWmVv
+	Mvv0vp+FJiDbchPhpMe4+2csFUqIyTl6egUCE6WiR+kFSF0na6ythirXYhZk5Vl5HlkWJdyJTs4
+	b2Sf5nmc+RVAR9qEUhfAOhLCSktQ2AIpLP/qXbGQrcxrzwsv5uTJDl9FKHbrmysPB8dBBorXKn6
+	DBj/gsEIvrftAIhWmLHBvqhRdA8suIHbm50UBYM46cXaPycFZt9LQinZ4QefPcjNeVeWlqY+gtH
+	j7OwNO2W79Uq8KMo9UXyDEQmGKfOX81Oddsq4Hq21t+B3Ulk7T2MO2109GFALNE7eJ7cdVDQ2Fr
+	Q8V/lc5W+fcy6CBGdpBnKT89OclpdXJwndkD7xvIMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uAB
+	Di47cA
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 09:44:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201711
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201725
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-=============
-- Update github actions
-- Handle empty ignore settings
+==========
+* sar/sadf: [A_NET_ETCP]: Rename retrans/s field to retrseg/s
+  because it was already used in A_NET_NFS report.
+* sadf: SVG: Fix oversized SVG canvas height.
+* sadf: Don't cap SVG graph output at 100%.
+* sadf: A_NET_SOFT: Don't display graphs for offline CPU.
+* sadf: SVG: Don't ignore other views when one has to be skipped.
+* sadf: Make sure structures will be alloacated for every installed CPU.
+* sadf: Define MIN_CANVAS_HEIGHT constant.
+* sar: Display min/max values only when available.
+* Define macros for CPU manipulation.
+* SREALLOC() macro: Make sure size is not zero.
+* Fix a warning given by gcc v13 with -fanalyzer option.
+* [Eli Schwartz]: configure.ac: fix erroneous bashisms.
+* sar manual page updated.
+* DTD and XSD documents updated.
+* Year updated in copyright messages.
+* Other cosmetic changes in code.
+* FAQ and README files updated.
+* Non regression tests updated. New tests added.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libproxy/{libproxy_0.5.6.bb => libproxy_0.5.7.bb}           | 2 +-
+ .../sysstat/{sysstat_12.7.5.bb => sysstat_12.7.6.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libproxy/{libproxy_0.5.6.bb => libproxy_0.5.7.bb} (95%)
+ rename meta/recipes-extended/sysstat/{sysstat_12.7.5.bb => sysstat_12.7.6.bb} (98%)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.5.6.bb b/meta/recipes-support/libproxy/libproxy_0.5.7.bb
-similarity index 95%
-rename from meta/recipes-support/libproxy/libproxy_0.5.6.bb
-rename to meta/recipes-support/libproxy/libproxy_0.5.7.bb
-index 6a705b305f..80441d4525 100644
---- a/meta/recipes-support/libproxy/libproxy_0.5.6.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.5.7.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.7.5.bb b/meta/recipes-extended/sysstat/sysstat_12.7.6.bb
+similarity index 98%
+rename from meta/recipes-extended/sysstat/sysstat_12.7.5.bb
+rename to meta/recipes-extended/sysstat/sysstat_12.7.6.bb
+index d598d5366f..ea94ebf0aa 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.7.5.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.7.6.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/sysstat/sysstat.git;protocol=https;branch=master \
  
- SRC_URI = "git://github.com/libproxy/libproxy;protocol=https;branch=main"
--SRCREV = "e7d18806575e21f94cf2f6024659386b129ca189"
-+SRCREV = "2686d35cfa5db970d4ba65e2951ebc8183b1be82"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ 
+-SRCREV = "2d7682f26f42cef9127b123e319349b330c4ab8f"
++SRCREV = "3e3ec9b2c69940503723e3c2ffc1965a8a3484e3"
  S = "${WORKDIR}/git"
  
- inherit meson pkgconfig gobject-introspection vala gi-docgen
+ DEPENDS += "base-passwd"
 -- 
 2.34.1
 
