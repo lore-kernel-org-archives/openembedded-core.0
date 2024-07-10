@@ -2,61 +2,61 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F0B1C3DA42
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 13:56:01 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.15072.1720619752800167609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDBAC3DA41
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 14:03:11 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.15252.1720620183010400295
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jul 2024 06:55:53 -0700
+ Wed, 10 Jul 2024 07:03:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c/XxWzjy;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-36799a67d9cso5063633f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 06:55:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BzEws22t;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4266fd39527so16474425e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 07:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720619751; x=1721224551; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1720620181; x=1721224981; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Rs012mv22UvpZ8kE/UrG0IkUD0VWqF+sfUE4EVYzETQ=;
-        b=c/XxWzjyeYQ5ejzEHZQoosUoJhvPEkdD9ePSi+xyrfvVj2qeX7gfwrck5t0lRMcX22
-         zXa8u4ubnsAsJ6tkttgHI/3oHI2MIzotBY95ysMsGbKsNYUKQAijw1ynStLldLstKNQ6
-         UIhcDPi2y+6fYyOt93yQchIEsGbQfQCaOG6vlnaiZqa5paBOTaKwQ/1X4LvNCVaqJMgX
-         jXWA58ytIZDz+jKeDxiOr73MGq/vHAWWcdARu2TxUOdCHL1cmerDEc2hrPfDuSRVqusQ
-         zq1SC9zdc9cR6vfUyztKznLsYuvbdTBz92qGplgjnfhmWrM4n/0Jiak7Tf6TVGlYl0/S
-         OmsA==
+        bh=E9SKbPbu1Nh5No0UWb8Y2WMyqxlMMU6dDHChQVMSBMg=;
+        b=BzEws22toQ9/S6R99WFzruRQIXDwp0VScdj2ViDb2/UrKA1a0Kte+SBdQ+awgd1x2i
+         Tztkxc135NRKOZGFFy1jOZr7+iJcEBS+Kui5i4Yx2aIDUIbu4hIQ7athXjinFHNrlKFU
+         GNu/TviK8nzw3Rq4pi+JBrtV4yi7j9f7soQ38RKtooeekKyH3EmEnhQAtgAiywO8puJ2
+         CDNkKklfsyLIIlVdKjazGGbAj8AmNKbJcWfvu+uD6kZSoKGjrpUpMHSvuDiTQxx2VPoo
+         5M/OPd5fslyEp1lk9Eqlt9FOgWCGvd+AqWmBDvsOXHr8L0Ghlzo4+mOafO+xIyn89Ktk
+         WJJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720619751; x=1721224551;
+        d=1e100.net; s=20230601; t=1720620181; x=1721224981;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Rs012mv22UvpZ8kE/UrG0IkUD0VWqF+sfUE4EVYzETQ=;
-        b=uUDQnLPKzgAeg5HqtuiDhlx3GpOhwWS/tjNX4Eoq899qpkoY7BTHp5SYVCvbfqNsue
-         I0jkDpQJkaKLpJQ7WkHROm8udmsuqSHGfPW2s8hN4jgHqWK91h7KQyfwtOlqli3ZRbMm
-         iSwyY7GnGaUF8s9YO756InvyHn/MTmgunvLwIdMXtNO2mIxOfwCTVABbeDXr8ab45p/B
-         /tLE8UwgYLbHQlrUck01IU4PaJgWMTUqaCh0FxyQPrYvGS5SSl8ZqhPWiyvu7Oha3cyy
-         SYYfuwW2ihUTzpoyPFiRC1XKYou6ZD1PGzQRLnyDpfUHUQcNUJ/I+T/FQb6lTYu6UKi/
-         T1MA==
-X-Forwarded-Encrypted: i=1; AJvYcCXP5sKGWjzgTloIeGCNlxCu+RI1ye8/DLqNQBPo/y6UM053bALlLv1GeJod210ZoS46L/JIcPqqvnAeb0Xtu8SRbf74dVlTd5N6O0kHA4e3JXWK+lNtOwFy
-X-Gm-Message-State: AOJu0YyoGUt4jDFMS7t9PyjsxEARuGB+/WDDngqRDNfpFbREGTUeGyXy
-	7kULnE1VcsXu3RHTGWK6bVlYefM20mkya5RztUiQ/jOvr0FJmbRv
-X-Google-Smtp-Source: AGHT+IFhuVwQH+qBcYpkZxuObOWFf3NjJin7PJ+Z76KPeot4L7T7pzS/MljUlCGeV58tLFv2FpRFIA==
-X-Received: by 2002:adf:f691:0:b0:366:f2c2:61f3 with SMTP id ffacd0b85a97d-367cead1138mr4869659f8f.51.1720619750920;
-        Wed, 10 Jul 2024 06:55:50 -0700 (PDT)
+        bh=E9SKbPbu1Nh5No0UWb8Y2WMyqxlMMU6dDHChQVMSBMg=;
+        b=GZ+Cr/XiK+tMX81aBQZfBaEGbM2Y8JCvce6RlTAUW8meDRlTPDgfoJVtWazgW9NEF/
+         Z6NK3q5j1xFr7bx0sdGCCKnzzcR9Kw3qQVZUgwNYXjQS7s09MW7dN7CAIH2OsrUBFm9h
+         YAr2sC6gEO0SlM69jWZfZWucNPBrpAhn4mEpnWovVnL6sKadMbdzvTxWkiAOXn4t+FCQ
+         l6O5s85Vf3LMhF17IQ5p0r/wRRc6pNRjY1Stjg3cVwhbkjg72hOQHpGnszYTHtJGuHF3
+         ma3+feUEz325FXm8kGflEY3azhgSHSRBnqMqmc+DakazH1zGYS5MBjFY6+Vo48bNlUUb
+         BRzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVI5Pcn+cMvjaIo9ca2le9sefaGoS/QW7Ztz2rfbNVp5mSkh6hA/OOsM4kM1qdWIryobicdShD2tWx7tk9I07ghZljmmDhtz58dg4HfXT4WJG8ZEXI9ScRY
+X-Gm-Message-State: AOJu0Yy2GQlH66demMBBHN5yMde5MM64ymbXjzsBwbGrvoLfoeldd7Ec
+	OHbweo7LCwg8nl62BKjGrd/GIfMkI5ckx6DsE3s1WknRJF490O0M
+X-Google-Smtp-Source: AGHT+IEvB6DEq1uZz2A/fRdiS0sakcMM2YFm7z/bc28Dy8IkqjSterccYrmrAh29C2s+PGxO8M/3lw==
+X-Received: by 2002:a05:600c:3644:b0:426:5cef:ee41 with SMTP id 5b1f17b1804b1-426708f1928mr36136835e9.38.1720620181067;
+        Wed, 10 Jul 2024 07:03:01 -0700 (PDT)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfab0b4sm5370544f8f.90.2024.07.10.06.55.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f741fa6sm84528635e9.45.2024.07.10.07.02.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 06:55:50 -0700 (PDT)
-Message-ID: <4c9a1976c0392df112a38b22f80a5461ba19d02f.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 00/14] Use the kernel from sstate when
- building fitImages
+        Wed, 10 Jul 2024 07:03:00 -0700 (PDT)
+Message-ID: <9fa8d6ed69995cfcbcdf41142c3d9f37e21c6a6f.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 07/14] kernel-fitimage: fix external dtb check
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+To: Mark Hatle <mark.hatle@kernel.crashing.org>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2024 15:55:49 +0200
-In-Reply-To: <cc5bf2cb09ef50d38a28d50ab988743dd01d9eae.camel@linuxfoundation.org>
+Date: Wed, 10 Jul 2024 16:02:59 +0200
+In-Reply-To: <0508331a-0f95-4507-9c3e-cb91e2ff0e84@kernel.crashing.org>
 References: <20240704071013.2982700-1-adrian.freihofer@gmail.com>
-	 <cc5bf2cb09ef50d38a28d50ab988743dd01d9eae.camel@linuxfoundation.org>
+	 <20240704071013.2982700-8-adrian.freihofer@gmail.com>
+	 <0508331a-0f95-4507-9c3e-cb91e2ff0e84@kernel.crashing.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.2 (3.52.2-1.fc40app2) 
@@ -64,77 +64,70 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 13:56:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201732
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 14:03:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201733
 
-On Wed, 2024-07-10 at 10:46 +0100, Richard Purdie wrote:
-> On Thu, 2024-07-04 at 09:09 +0200, Adrian Freihofer via
-> lists.openembedded.org wrote:
-> > If the KERNEL_IMAGETYPES(S) contains fitImage, the kernel is always
-> > rebuilt when something changes in the initramfs, which happens
-> > frequently.
-> > This is even worse if the build runs from an empty TMPDIR. The
-> > kernel
-> > re-build starts by fetching the large kernel git repository and
-> > recompiling it from scratch.
-> >=20
-> > This cannot be improved if INITRAMFS_IMAGE_BUNDLE =3D "1". If the
-> > kernel
-> > Makefile is needed to generate the initramfs bundle the kernel
-> > build
-> > folder is required.
-> > But for a build configuration with INITRAMFS_IMAGE_BUNDLE =3D "" the
-> > build folder is not needed. Creating the initramfs bundle requires:
-> > linux.bin, DTBs and the initramfs which are available in the deploy
-> > directory. That means creating the fitImage can be done with
-> > artifacts
-> > which are already cached by the sstate.
-> >=20
-> > There is an extra commit providing a html file. This html file
-> > provides
-> > some graphics which show the changes in the kernel's task
-> > dependencies.
-> > I hope this simplifies the re-view of this patch series.
-> >=20
-> > Adrian Freihofer (14):
-> > =C2=A0 oe-selftest: wic fix deps of
-> > test_efi_plugin_unified_kernel_image_qemu
-> > =C2=A0 oe-selftest: fitimage refactor u-boot-tools-native
-> > =C2=A0 oe-selftest: fitimage drop test-mkimage-wrapper
-> > =C2=A0 oe-selftest: fitimage cleanup asserts
-> > =C2=A0 oe-selftest: fitimage fix test_initramfs_bundle
-> > =C2=A0 kernel-fitimage: fix handling of empty default dtb
-> > =C2=A0 kernel-fitimage: fix external dtb check
-> > =C2=A0 kernel: execute do_bundle_initramfs only when needed
-> > =C2=A0 kernel-fitimage: refactor do_assemble_fitimage_initramfs
-> > =C2=A0 kernel-fitimage: refactor creation of linux.bin
-> > =C2=A0 kernel-fitimage: fix intentation
-> > =C2=A0 kernel-fitimage: run unbundled fitimage after deploy
-> > =C2=A0 image: depends do_deploy_fitimage_unbundled
-> > =C2=A0 DO NOT MERGE: explanation and testing
+On Tue, 2024-07-09 at 14:48 -0500, Mark Hatle wrote:
 >=20
-> I think there was a failure in automated testing from this series on
-> genericarm64:
 >=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/165/builds/583
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/166/builds/587
+> On 7/4/24 2:09 AM, Adrian Freihofer wrote:
+> > From: Adrian Freihofer <adrian.freihofer@siemens.com>
+> >=20
+> > If EXTERNAL_KERNEL_DEVICETREE and dtb_image_sect are empty
+> > variables
+> > dtb_path ends up as "/" which is available on most Unix systems but
+> > probably not the dtb_path which is needed here. Checking for a file
+> > makes more sense and also solves the issue with the "/".
+> >=20
+> > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> > ---
+> > =C2=A0 meta/classes-recipe/kernel-fitimage.bbclass | 2 +-
+> > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/classes-recipe/kernel-fitimage.bbclass
+> > b/meta/classes-recipe/kernel-fitimage.bbclass
+> > index 6e6898e5f6f..664ebc65d7c 100644
+> > --- a/meta/classes-recipe/kernel-fitimage.bbclass
+> > +++ b/meta/classes-recipe/kernel-fitimage.bbclass
+> > @@ -429,7 +429,7 @@ fitimage_emit_section_config() {
+> > =C2=A0=C2=A0	fi
+> > =C2=A0=20
+> > =C2=A0=C2=A0	dtb_path=3D"${EXTERNAL_KERNEL_DEVICETREE}/${dtb_image_sect=
+}"
+> > -	if [ -e "$dtb_path" ]; then
+> > +	if [ -f "$dtb_path" ]; then
+> > =C2=A0=C2=A0		compat=3D$(fdtget -t s "$dtb_path" / compatible |
+> > sed 's/ /", "/g')
+> > =C2=A0=C2=A0		if [ -n "$compat" ]; then
+> > =C2=A0=C2=A0			compatible_line=3D"compatible =3D
+> > \"$compat\";"
+>=20
+> I can understand avoiding directories with this, but I've definitely
+> seen cases=20
+> where the dtb_path is pointing to a symbolic link.
+>=20
+> Would [ -f "$dtb_path" -o -L "$dtb_path" ]; (or similar) solve this?
 
-This is reproducible on my side. It works without my last patch but it
-breaks with my last patch.
-
-Thank you for the feedback, I will investigate.
+Thank you for the re-view. I will fix this with v2.
 Adrian
 
 >=20
-> There was also:
+> --Mark
 >=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/5730
->=20
-> but I think this was systemd upgrade related. I'm not 100% sure
-> though.
->=20
-> Cheers,
->=20
-> Richard
+> >=20
+> >=20
+> >=20
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#201511):
+> > https://lists.openembedded.org/g/openembedded-core/message/201511
+> > Mute This Topic:
+> > https://lists.openembedded.org/mt/107033892/3616948
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> > mark.hatle@kernel.crashing.org]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >=20
 
 
