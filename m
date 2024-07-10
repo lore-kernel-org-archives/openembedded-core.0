@@ -1,106 +1,143 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41DB3C3DA45
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 10:06:30 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.10710.1720605980524861937
- for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jul 2024 03:06:20 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MlLsQNhm;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ee910d6aaeso68378941fa.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 03:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720605979; x=1721210779; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r9wToIdyGcijzAP4zi/AC2YSVOG+DXxCyZvF3W4xqqs=;
-        b=MlLsQNhmXoKCNugM8wxs1YKIcxZvL7ck4ZgOOKl8nAsX4yHbQxU739GFL76I9x1uHi
-         eqY4cut8kqZQIo5fKg1pHKV9YdANLaGOzkDtRAN+9xtZC70si2W7NjOjuPevoYD3FK0F
-         +PDjpFC26115F9n4bwQk7/79kXx8epkbUwVpdea9MnUGjP1mZcycACIdEO3w8f/GlbY0
-         aNyDT4hA/tjT+07RJIN+hopS56EXU6xMPbYUAeQDaPVoPgn1B+8Jz6I52Zlaf/AJLBFP
-         6XlokaYia6kKNVDh33mQ+o6h51NzzaXUWdPc2SVWLGL0SDkOQZMk3y7Ahm+BBrti75vc
-         oTog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720605979; x=1721210779;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r9wToIdyGcijzAP4zi/AC2YSVOG+DXxCyZvF3W4xqqs=;
-        b=XrMUjfGLJqQrHKq25ki7wIflbc1hmT2P1KNfev4/AFeUFEADUulj2FQjLZF/r81LvC
-         ut5YTFvQPjmB6fjUmf/qhRpmbvb/T6kmIO7Iik6CSdcox1jLX2ubxirUQCFryKioX9fq
-         xO2QRhRPDc+SrQxVNqeZBae+RdKW7UgcWSyYJfn5La30ZE4xYPJFxdk1CiatSzE90rjh
-         ZCAuUvgE7nDE/70n8qguUakfcPQLsXyoTzv0FtQ9lDmXLUm2lzeiGbDScg/vcRNIKILz
-         Mk37rcIuJAwF8QhvOo+Fg5u949NSqozh6gkPC4BAj74+dlg3h9tQiDoQMSlu5zlG/gsj
-         83Bg==
-X-Gm-Message-State: AOJu0Yy+N8s+kdOtkWC0KIdV3f3zGW0mEBq4duMOvdpJc701yPDdSOW8
-	N0ha909TtoP8Hid3hcKWAzaVPf80C+Yc4CyelUKMeZ2hj9Z+K6wCAMivVnsJm/uPWM17O8kxwrj
-	yomh2+eq4VDgLELLOLF7JkvgHTRk=
-X-Google-Smtp-Source: AGHT+IFaiKhYHhjSPhu9iUsl7WJEnOoqqOKiIn7p883xsjdFZ8DTADMpf/zorzPHAdMkJZPsvpDI+6AcAUZxhiYt5aE=
-X-Received: by 2002:a2e:a16a:0:b0:2ee:84a1:9be6 with SMTP id
- 38308e7fff4ca-2eeb30e50f8mr31617741fa.14.1720605978338; Wed, 10 Jul 2024
- 03:06:18 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 650A1C3DA42
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 10:20:10 +0000 (UTC)
+Subject: Re: [PATCH] bluez5: upgrade 5.72 -> 5.77
+To: openembedded-core@lists.openembedded.org
+From: =?UTF-8?B?R3XDsG5pIE3DoXIgR2lsYmVydA==?= <gudni.m.g@gmail.com>
+X-Originating-Location: Kopavogur, Capital Region, IS (81.15.100.92)
+X-Originating-Platform: iPhone Safari 17.5
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <s0O2.1720605728052853271.156O@lists.openembedded.org>
-In-Reply-To: <s0O2.1720605728052853271.156O@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 10 Jul 2024 12:06:06 +0200
-Message-ID: <CANNYZj8JmJ6-xWY5MFB6NHioW2HStrb7vdxbXCg3EP8t6hEJwQ@mail.gmail.com>
-Subject: Re: [OE-core] Yocto Python package upgradation from 3.10 to 3.11.5 version
-To: jahnavijha14@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Wed, 10 Jul 2024 03:20:04 -0700
+References: <65c634e7dc5119e37c68fc7ea2b966e5b9d63e1d.camel@linuxfoundation.org>
+In-Reply-To: <65c634e7dc5119e37c68fc7ea2b966e5b9d63e1d.camel@linuxfoundation.org>
+Message-ID: <12578.1720606804488187301@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="Ot8U2lxNcBYzlAEZLlIx"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 10:06:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201729
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 10:20:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201730
 
-Is your upgraded python used for both python3 and python3-native?
-nativepython3 is coming from python3-native variant of the recipe, so
-somehow that is still using the 3.10?
+--Ot8U2lxNcBYzlAEZLlIx
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-It helps if you publish the layer. It's difficult to help without
-seeing what you did exactly.
+> Thanks for the patch. I didn't see any fix for the permissions issue in
+here? We need to fix that before we run this on the test infrastructure
+again as it caused a lot of problems last time :(
 
-Alex
+> We should be able to tweak things in a do_install:append function?
 
-On Wed, 10 Jul 2024 at 12:02, jahnavijha14 via lists.openembedded.org
-<jahnavijha14=gmail.com@lists.openembedded.org> wrote:
->
-> Hi,
->
-> I want to upgrade the Python package version (3.10) present in yocto Kirkstone build to Python-3.11.5 version.
-> For this I created my own layer and inside that have added Python recipe file for 3.11.5 version and its related files.
->
-> When I bitbake the recipe for python. (bitbake python3). I encounter one error related to do_configure which says:
->
-> checking for --with-build-python... configure: error: "nativepython3" has incompatible version 3.10 (expected: 3.11).
->
-> How do I link my Python 3.11.5  with nativepython3?
->
-> //////////////////////////////////////////////////////////////////
->
-> | checking whether -lc should be explicitly linked in... no
-> | checking dynamic linker characteristics... GNU/Linux ld.so
-> | checking how to hardcode library paths into programs... immediate
-> | checking whether stripping libraries is possible... yes
-> | checking if libtool supports shared libraries... yes
-> | checking whether to build shared libraries... yes
-> | checking whether to build static libraries... yes
-> | checking for --with-build-python... configure: error: "nativepython3" has incompatible version 3.10 (expected: 3.11)
-> | NOTE: The following config.log files may provide further information.
->
-> ////////////////////////////////////////////////////////////////////////
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201728): https://lists.openembedded.org/g/openembedded-core/message/201728
-> Mute This Topic: https://lists.openembedded.org/mt/107139491/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+You=E2=80=99re right, it=E2=80=99s not included yet. I want to run a runtim=
+e test first as I=E2=80=99m not sure if the systemd service will complain: =
+https://github.com/bluez/bluez/blob/4ca662fcea1604e937bde1bddd5de2c50bcb6e0=
+0/src/bluetooth.service.in#L25
+
+It uses ConfigurationDirectoryMode=3D0555
+
+I=E2=80=99ll look into it over the next few days. If I can get this to buil=
+d/install on Scarthgap then I can run some extensive bluetooth runtime test=
+ing.
+
+--Ot8U2lxNcBYzlAEZLlIx
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p>&gt; <span style=3D"caret-color: #dee2e6; color: #000000; font-family: s=
+ystem-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sa=
+ns', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sy=
+mbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-varian=
+t-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start=
+; text-indent: 0px; text-transform: none; white-space: pre-wrap; word-spaci=
+ng: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-a=
+djust: 100%; -webkit-text-stroke-width: 0px; text-decoration: none; float: =
+none; display: inline !important;">Thanks for the patch. I didn't see any f=
+ix for the permissions issue in</span><br style=3D"box-sizing: border-box; =
+overflow-wrap: break-word !important; caret-color: #dee2e6; color: #dee2e6;=
+ font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans',=
+ 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji=
+', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: norm=
+al; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; or=
+phans: auto; text-align: start; text-indent: 0px; text-transform: none; whi=
+te-space: pre-wrap; widows: auto; word-spacing: 0px; -webkit-tap-highlight-=
+color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-text-strok=
+e-width: 0px; text-decoration: none;" /><span style=3D"caret-color: #dee2e6=
+; color: #000000; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Ne=
+ue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji'=
+, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px;=
+ font-style: normal; font-variant-caps: normal; font-weight: 400; letter-sp=
+acing: normal; text-align: start; text-indent: 0px; text-transform: none; w=
+hite-space: pre-wrap; word-spacing: 0px; -webkit-tap-highlight-color: rgba(=
+0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-text-stroke-width: 0px=
+; text-decoration: none; float: none; display: inline !important;">here? We=
+ need to fix that before we run this on the test infrastructure</span><br s=
+tyle=3D"box-sizing: border-box; overflow-wrap: break-word !important; caret=
+-color: #dee2e6; color: #dee2e6; font-family: system-ui, 'Segoe UI', Roboto=
+, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'App=
+le Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; f=
+ont-size: 16px; font-style: normal; font-variant-caps: normal; font-weight:=
+ 400; letter-spacing: normal; orphans: auto; text-align: start; text-indent=
+: 0px; text-transform: none; white-space: pre-wrap; widows: auto; word-spac=
+ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-=
+adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: none;" /><sp=
+an style=3D"caret-color: #dee2e6; color: #000000; font-family: system-ui, '=
+Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial,=
+ sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Not=
+o Color Emoji'; font-size: 16px; font-style: normal; font-variant-caps: nor=
+mal; font-weight: 400; letter-spacing: normal; text-align: start; text-inde=
+nt: 0px; text-transform: none; white-space: pre-wrap; word-spacing: 0px; -w=
+ebkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%=
+; -webkit-text-stroke-width: 0px; text-decoration: none; float: none; displ=
+ay: inline !important;">again as it caused a lot of problems last time :(</=
+span><br style=3D"box-sizing: border-box; overflow-wrap: break-word !import=
+ant; caret-color: #dee2e6; color: #dee2e6; font-family: system-ui, 'Segoe U=
+I', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-s=
+erif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color=
+ Emoji'; font-size: 16px; font-style: normal; font-variant-caps: normal; fo=
+nt-weight: 400; letter-spacing: normal; orphans: auto; text-align: start; t=
+ext-indent: 0px; text-transform: none; white-space: pre-wrap; widows: auto;=
+ word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-=
+text-size-adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: no=
+ne;" /><br style=3D"box-sizing: border-box; overflow-wrap: break-word !impo=
+rtant; caret-color: #dee2e6; color: #dee2e6; font-family: system-ui, 'Segoe=
+ UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans=
+-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Col=
+or Emoji'; font-size: 16px; font-style: normal; font-variant-caps: normal; =
+font-weight: 400; letter-spacing: normal; orphans: auto; text-align: start;=
+ text-indent: 0px; text-transform: none; white-space: pre-wrap; widows: aut=
+o; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webki=
+t-text-size-adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" /><span style=3D"caret-color: #dee2e6; color: #000000; font-family: =
+system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation S=
+ans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI S=
+ymbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-varia=
+nt-caps: normal; font-weight: 400; letter-spacing: normal; text-align: star=
+t; text-indent: 0px; text-transform: none; white-space: pre-wrap; word-spac=
+ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-=
+adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: none; float:=
+ none; display: inline !important;">&gt; We should be able to tweak things =
+in a do_install:append function?<br /><br />You&rsquo;re right, it&rsquo;s =
+not included yet. I want to run a runtime test first as I&rsquo;m not sure =
+if the systemd service will complain: <a href=3D"https://github.com/bluez/b=
+luez/blob/4ca662fcea1604e937bde1bddd5de2c50bcb6e00/src/bluetooth.service.in=
+#L25" target=3D"_blank" rel=3D"noopener">https://github.com/bluez/bluez/blo=
+b/4ca662fcea1604e937bde1bddd5de2c50bcb6e00/src/bluetooth.service.in#L25</a>=
+<br /><br />It uses ConfigurationDirectoryMode=3D0555<br /><br />I&rsquo;ll=
+ look into it over the next few days. If I can get this to build/install on=
+ Scarthgap then I can run some extensive bluetooth runtime testing. </span>=
+<span style=3D"caret-color: #dee2e6; color: #000000; font-family: system-ui=
+, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Ari=
+al, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', '=
+Noto Color Emoji'; font-size: 16px; font-style: normal; font-variant-caps: =
+normal; font-weight: 400; letter-spacing: normal; text-align: start; text-i=
+ndent: 0px; text-transform: none; white-space: pre-wrap; word-spacing: 0px;=
+ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 1=
+00%; -webkit-text-stroke-width: 0px; text-decoration: none; float: none; di=
+splay: inline !important;"></span></p>
+
+--Ot8U2lxNcBYzlAEZLlIx--
 
