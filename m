@@ -1,133 +1,177 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDBAC3DA41
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 14:03:11 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.15252.1720620183010400295
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AA5CC3DA42
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 14:03:41 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.15265.1720620210928646239
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jul 2024 07:03:03 -0700
+ Wed, 10 Jul 2024 07:03:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BzEws22t;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4266fd39527so16474425e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 07:03:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A312tNaO;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52ea7bdde68so5745400e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 07:03:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720620181; x=1721224981; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1720620209; x=1721225009; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E9SKbPbu1Nh5No0UWb8Y2WMyqxlMMU6dDHChQVMSBMg=;
-        b=BzEws22toQ9/S6R99WFzruRQIXDwp0VScdj2ViDb2/UrKA1a0Kte+SBdQ+awgd1x2i
-         Tztkxc135NRKOZGFFy1jOZr7+iJcEBS+Kui5i4Yx2aIDUIbu4hIQ7athXjinFHNrlKFU
-         GNu/TviK8nzw3Rq4pi+JBrtV4yi7j9f7soQ38RKtooeekKyH3EmEnhQAtgAiywO8puJ2
-         CDNkKklfsyLIIlVdKjazGGbAj8AmNKbJcWfvu+uD6kZSoKGjrpUpMHSvuDiTQxx2VPoo
-         5M/OPd5fslyEp1lk9Eqlt9FOgWCGvd+AqWmBDvsOXHr8L0Ghlzo4+mOafO+xIyn89Ktk
-         WJJQ==
+        bh=4FF7rP2+PJ2ZvvpWZLjQAQJ1wp4b+Ih/p5xp7h5PUB0=;
+        b=A312tNaOOAxj/HH4V5EfTdXcWx16HpQQSMwBgv4HGEkhqqBl+Ic7iC0TZ6ixvRqwiv
+         x1KGxVnbCPAhtTUOIsKZ9Apy/tjtF53pNKE0Ue0QuFEevNwcSff1KpuJll54FBGjxwkH
+         IX3ajPVIycj/lN0If2xtVDDGK02njn5f+ED1ElgiWSMjJ/9EZXiL7HOiVaCDNZy5jNAI
+         Tr5bJU23dpPnQ5MyPcUA6EldZN0dt9t/h9VyImS8Dz1GXdeUjnbtDrTzQvdzXfB9ZrPd
+         jDSfj2K+m55Ka+PJRQO1nFmXInTZiFiWnfbZGjAoUH9XFEczlNQS6cdaWwLGAjoCy3Tn
+         e+Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720620181; x=1721224981;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E9SKbPbu1Nh5No0UWb8Y2WMyqxlMMU6dDHChQVMSBMg=;
-        b=GZ+Cr/XiK+tMX81aBQZfBaEGbM2Y8JCvce6RlTAUW8meDRlTPDgfoJVtWazgW9NEF/
-         Z6NK3q5j1xFr7bx0sdGCCKnzzcR9Kw3qQVZUgwNYXjQS7s09MW7dN7CAIH2OsrUBFm9h
-         YAr2sC6gEO0SlM69jWZfZWucNPBrpAhn4mEpnWovVnL6sKadMbdzvTxWkiAOXn4t+FCQ
-         l6O5s85Vf3LMhF17IQ5p0r/wRRc6pNRjY1Stjg3cVwhbkjg72hOQHpGnszYTHtJGuHF3
-         ma3+feUEz325FXm8kGflEY3azhgSHSRBnqMqmc+DakazH1zGYS5MBjFY6+Vo48bNlUUb
-         BRzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVI5Pcn+cMvjaIo9ca2le9sefaGoS/QW7Ztz2rfbNVp5mSkh6hA/OOsM4kM1qdWIryobicdShD2tWx7tk9I07ghZljmmDhtz58dg4HfXT4WJG8ZEXI9ScRY
-X-Gm-Message-State: AOJu0Yy2GQlH66demMBBHN5yMde5MM64ymbXjzsBwbGrvoLfoeldd7Ec
-	OHbweo7LCwg8nl62BKjGrd/GIfMkI5ckx6DsE3s1WknRJF490O0M
-X-Google-Smtp-Source: AGHT+IEvB6DEq1uZz2A/fRdiS0sakcMM2YFm7z/bc28Dy8IkqjSterccYrmrAh29C2s+PGxO8M/3lw==
-X-Received: by 2002:a05:600c:3644:b0:426:5cef:ee41 with SMTP id 5b1f17b1804b1-426708f1928mr36136835e9.38.1720620181067;
-        Wed, 10 Jul 2024 07:03:01 -0700 (PDT)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f741fa6sm84528635e9.45.2024.07.10.07.02.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 07:03:00 -0700 (PDT)
-Message-ID: <9fa8d6ed69995cfcbcdf41142c3d9f37e21c6a6f.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 07/14] kernel-fitimage: fix external dtb check
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2024 16:02:59 +0200
-In-Reply-To: <0508331a-0f95-4507-9c3e-cb91e2ff0e84@kernel.crashing.org>
-References: <20240704071013.2982700-1-adrian.freihofer@gmail.com>
-	 <20240704071013.2982700-8-adrian.freihofer@gmail.com>
-	 <0508331a-0f95-4507-9c3e-cb91e2ff0e84@kernel.crashing.org>
+        d=1e100.net; s=20230601; t=1720620209; x=1721225009;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4FF7rP2+PJ2ZvvpWZLjQAQJ1wp4b+Ih/p5xp7h5PUB0=;
+        b=b75iO89oAPsElYOEr0Qww9JnktjOoha6+phGQIALcw+lZd7X02vBvhX0AYdGeIKPCz
+         OcDyx1O0pkE650MXKX0DPNxgOa5R7CIxuhGJD9dMEHa6xEwl8qsbcz+NCE/AFcrKu8MC
+         lKQyaoDWa/2VXBwApE6jHzM+59dg/ceP7h27zZXjHk9bqQ8HsL6o+vtHKhzEPKIk9Hgq
+         f4bGEBWRrUwVxpc9E+VDc2CPCS2DI+2TJNueOyai9YOvcADwCx8uOtGQqBVtyIe3xks7
+         89qjGVzuJqVZcorT/vRAcbKwRRPB1Rr7ssNTk1ZmB28PxvHh+GB6G+dQcP6vN4M9jCMz
+         6/xA==
+X-Gm-Message-State: AOJu0YyIdc0n29PGjn2g+n1e3K+98tGaq5YfD+Yh61Vu2XXyrtYH5pFa
+	PXcLr1FEMMqk1QSDfkn+mo3VtQJ1beGqdSYJaMLraNkRcxIfGCsdsN4NZb/8aLpWOSh96AKy5oi
+	kXySs8WZOeKFlXXkDh1EqWYoowYo=
+X-Google-Smtp-Source: AGHT+IH3DFwpNX7PkZOfy8l+p5/Bw8+T4EjG7j3e7jk8D61GfVOdETQkrRsY91YfSPDkD2QM7ibH+2zxdnqmwoUcSbs=
+X-Received: by 2002:a05:6512:3a83:b0:52c:9468:c991 with SMTP id
+ 2adb3069b0e04-52eb9990f87mr4100427e87.14.1720620208475; Wed, 10 Jul 2024
+ 07:03:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240624193151.1645802-1-JPEWhacker@gmail.com>
+ <20240703140059.4096394-1-JPEWhacker@gmail.com> <17DF3FE80C22BC48.23364@lists.openembedded.org>
+ <1227d1d9b29b6f83d9ad03c8d0046b04ad72ddfc.camel@linuxfoundation.org>
+In-Reply-To: <1227d1d9b29b6f83d9ad03c8d0046b04ad72ddfc.camel@linuxfoundation.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Wed, 10 Jul 2024 08:03:16 -0600
+Message-ID: <CAJdd5GbG0Zy4+8QD6NGTvFV=STomOAgghiAYShCrS0gZAknPeQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v5 0/8] Add SPDX 3.0 support
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40app2) 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 14:03:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201733
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 14:03:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201734
 
-On Tue, 2024-07-09 at 14:48 -0500, Mark Hatle wrote:
->=20
->=20
-> On 7/4/24 2:09 AM, Adrian Freihofer wrote:
-> > From: Adrian Freihofer <adrian.freihofer@siemens.com>
-> >=20
-> > If EXTERNAL_KERNEL_DEVICETREE and dtb_image_sect are empty
-> > variables
-> > dtb_path ends up as "/" which is available on most Unix systems but
-> > probably not the dtb_path which is needed here. Checking for a file
-> > makes more sense and also solves the issue with the "/".
-> >=20
-> > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> > ---
-> > =C2=A0 meta/classes-recipe/kernel-fitimage.bbclass | 2 +-
-> > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/classes-recipe/kernel-fitimage.bbclass
-> > b/meta/classes-recipe/kernel-fitimage.bbclass
-> > index 6e6898e5f6f..664ebc65d7c 100644
-> > --- a/meta/classes-recipe/kernel-fitimage.bbclass
-> > +++ b/meta/classes-recipe/kernel-fitimage.bbclass
-> > @@ -429,7 +429,7 @@ fitimage_emit_section_config() {
-> > =C2=A0=C2=A0	fi
-> > =C2=A0=20
-> > =C2=A0=C2=A0	dtb_path=3D"${EXTERNAL_KERNEL_DEVICETREE}/${dtb_image_sect=
-}"
-> > -	if [ -e "$dtb_path" ]; then
-> > +	if [ -f "$dtb_path" ]; then
-> > =C2=A0=C2=A0		compat=3D$(fdtget -t s "$dtb_path" / compatible |
-> > sed 's/ /", "/g')
-> > =C2=A0=C2=A0		if [ -n "$compat" ]; then
-> > =C2=A0=C2=A0			compatible_line=3D"compatible =3D
-> > \"$compat\";"
->=20
-> I can understand avoiding directories with this, but I've definitely
-> seen cases=20
-> where the dtb_path is pointing to a symbolic link.
->=20
-> Would [ -f "$dtb_path" -o -L "$dtb_path" ]; (or similar) solve this?
+On Wed, Jul 10, 2024 at 6:18=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2024-07-05 at 08:17 +0100, Richard Purdie via lists.openembedded.=
+org wrote:
+> > > On Wed, 2024-07-03 at 07:59 -0600, Joshua Watt via
+> > > lists.openembedded.org wrote:
+> > > > > This patch series add support for SPDX 3.0 and sets it as the
+> > > > > default.
+> > > > > Currently it is not possible to have SPDX 2.2 and SPDX 3.0 enable=
+d at
+> > > > > the same time
+> > > > >
+> > > > > v2: Added tests and addressed feedback
+> > > > > v3: Fixed several oe-selftest and build failures
+> > > > > v4: Fixed silly typo mistake in staging.bbclass
+> > > > > v5: Reworked to make SPDX 3 output reproducible by default. Varia=
+bles
+> > > > >     that introduce non-reproducible output are documented as such=
+.
+> > >
+> > > Thanks for working on this. The patches generally seem to working wel=
+l
+> > > in testing but this does look related:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/710=
+9/steps/23/logs/stdio
+> > >
+> > > Particularly these bits:
+> > >
+> > > AssertionError: 10 !=3D 0 : Missing objects in the cache:
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/a6/eb/sstate:perf:qe=
+mux86_64-poky-linux:1.0:r0:qemux86_64:12:a6eb451ebf8142b51d88b66b79ebbfc430=
+19458d7e335e0a1b2a79e19cf3eed6_create_spdx.tar.zst
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/73/bd/sstate:perf:qe=
+mux86_64-poky-linux:1.0:r0:qemux86_64:12:73bd840dbf3fb04c5adf5c09dd6f45d7f6=
+5dd1808bc4cf8c2f7a20ea551eaabd_create_package_spdx.tar.zst
+> > >
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/73/bd/sstate:perf:qe=
+mux86_64-poky-linux:1.0:r0:qemux86_64:12:73bd840dbf3fb04c5adf5c09dd6f45d7f6=
+5dd1808bc4cf8c2f7a20ea551eaabd_create_package_spdx.tar.zst
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/31/ce/sstate:core-im=
+age-full-cmdline:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:31ce987a3b0b34b=
+0d2bbacab96b4b9848f851caadd1f1fb1522d38c2b392c65d_create_image_sbom.tar.zst
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/2f/cf/sstate:core-im=
+age-sato-sdk:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:2fcfbfd93928c643c30=
+f92b69cd17e19f4dd9136506e0bf1373a28883593d3a9_create_rootfs_spdx.tar.zst
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/1d/de/sstate:core-im=
+age-sato-sdk:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:1dded8f18500fb63356=
+331c5e4f5eee5fc35c113398ec98ad7bed1d82c3f330d_create_image_spdx.tar.zst
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/6a/92/sstate:core-im=
+age-sato-sdk:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:6a924154d59877cfc45=
+27602e72d0984c1fa7b685ac7f93fa8bee225a5de57e3_create_image_sbom.tar.zst
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/62/47/sstate:core-im=
+age-full-cmdline:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:624764dcea54752=
+c3f6f3928f6719b440728eecd7516b85d80d37b305c56f530_create_rootfs_spdx.tar.zs=
+t
+> > > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/7c/6f/sstate:core-im=
+age-full-cmdline:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:7c6f212fe1a869a=
+e8edc251f2f9c02e939a5f2b659fd77e9b4bb262eb60f6f5d_create_image_spdx.tar.zst
+>
+> I think I understand what might have happened here. I suspect we've had
+> test builds on the new test cluster which can write to the hash
+> equivalence server but not the sstate. I think this means entries were
+> added for artefacts which don't exist on sstate.
+>
+> In theory those should be created on new build runs but in practise I
+> suspect they're shadowed by other artefacts so newer builds probably
+> don't create them. That would at least explain how we end up where we
+> are.
 
-Thank you for the re-view. I will fix this with v2.
-Adrian
+There is also https://git.yoctoproject.org/poky/tree/meta/lib/oeqa/selftest=
+/cases/sstatetests.py#n933
+which I beleive is still accurate and probably why the images
+themselves show up; we'll need to adjust the exclusions to match the
+new SPDX tasks I added. I think '.*:do_create.*_spdx' would be OK?
 
->=20
-> --Mark
->=20
-> >=20
-> >=20
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#201511):
-> > https://lists.openembedded.org/g/openembedded-core/message/201511
-> > Mute This Topic:
-> > https://lists.openembedded.org/mt/107033892/3616948
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> > mark.hatle@kernel.crashing.org]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
+>
+> If I'm correct, if there are changes to the code (as we discussed on
+> yesterdays tech call), everything will rerun and assuming we run this
+> only on the main cluster, things should work out ok.
+>
+> I would be curious to understand how these things aren't being
+> recreated when missing though?
 
+I'm not sure. I can't really think of any reason in the SPDX code that
+it wouldn't recreate a missing sstate object; I'm not doing anything
+particularly strange with sstate
+
+>
+> I did also notice an interesting issue in that if you run a build with
+> PACKAGE_CLASSES =3D "package_rpm", then add deb/ipk, all the
+> do_collect_spdx_deps tasks and do_create_spdx tasks change hashes and
+> rerun. This isn't ideal as it effectively breaks our ability to turn
+> package backends on/off without rebuilds :(. Can we avoid that or at
+> least minimise things a bit more?
+
+Ya, that's a leftover from when I was trying to tie the SPDX packages
+to the produced package files. I had to give up thought because it's
+actually really difficult to figure out what .rpm and .deb files
+correspond to a PACKAGE (at least, I couldn't see an easy way to do
+it). We can just remove the dependency on do_package_write_* for now
+and figure out how to do it later.
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
