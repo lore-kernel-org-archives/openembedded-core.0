@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E515FC3DA4D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F3AC3DA50
 	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 09:44:18 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web10.10244.1720604657021339322
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web11.10227.1720604655290238036
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jul 2024 02:44:17 -0700
+ Wed, 10 Jul 2024 02:44:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=m0eVnCxX;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=BlMYcv00;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1720604658; x=1752140658;
+  t=1720604655; x=1752140655;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=PII1KnKj/+3vUicd068KMTHO9T3th9WizMUOzOIyY64=;
-  b=m0eVnCxXNZCJBO+hxo82b3PzbKIMrDLvL0Du48YshYolgpFqKHpNOCcG
-   Q+89jfEDBvvmKuaH0HmC/rug5fUhYZpdtq0N8LvVNhJIA74dCSBzOfQF3
-   jFoUBcONuLQfkKVYCbDPr9gUsoFYlO6T7WwJpTWUkuhOQZ4mHiwaL4T3N
-   ZauOk5XDEXXLmH9yrIJqXEF3g32Wd9IUeD0mrh2GsTv1IuEPPkY2hIeFc
-   Hte+dSjdfkuq5f3OXKdzLiJCDb0NUMR1mgrftFDuImkYQKuZoEs9iQyjC
-   fxHfGWuBUR2Fvu8r0Xfw5faERZ/rqPREGg0sDDXQb5I3Wbo41da2AljAW
-   A==;
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="166585667"
+  bh=vJBxljnJ+/3/OSRUWyCB6Fzjn/G33FgNgHWKB1VWyrE=;
+  b=BlMYcv00nedVA6raUUcvkEDI9ZBWb5c9IzKVsa9TRDe1apyTv2urYE4O
+   +TdAF05JqMAscLtyqietT1KRb+OcyiYTidg5X6XSYNglVw6XG9scWp7aQ
+   nlVnsBc7kHq3J8ApXs12Xto2hGN8hA2Lpq4Ycof6m5wGFmtZFG3JJj4fw
+   4jCiNMdMNx2Lt/FQQ7l5wsDXAzJKrwMPYIEdmwrAeRK7sv0PA8mJo8Qx2
+   15BJ+qtqmmThSEba4x4fobEU6LHRlYx8MFOl5bnuP2zjxMUNAVzOHAEIq
+   XXkEPZB0lTUORXkC0e3G40d8PIV3gpC//ltfEtrq9Za1qESPBIyu1jb5r
+   g==;
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="166505401"
 X-IronPort-AV: E=Sophos;i="6.09,197,1716217200"; 
-   d="scan'208";a="166585667"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 18:44:15 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 8845FD647A
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:12 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id C8BA1D8B6A
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:11 +0900 (JST)
+   d="scan'208";a="166505401"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 18:44:12 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 0AD16D4F55
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:10 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 4F5F0D3F29
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:09 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 658E82005018E
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:11 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id D62CF220028
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 18:44:08 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 165991A0002;
-	Wed, 10 Jul 2024 17:44:11 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8719E1A0002;
+	Wed, 10 Jul 2024 17:44:08 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 08/30] dnf: upgrade 4.20.0 -> 4.21.0
-Date: Wed, 10 Jul 2024 17:43:32 +0800
-Message-Id: <1720604634-23406-8-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 03/30] ccache: upgrade 4.10 -> 4.10.1
+Date: Wed, 10 Jul 2024 17:43:27 +0800
+Message-Id: <1720604634-23406-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1720604634-23406-1-git-send-email-wangmy@fujitsu.com>
 References: <1720604634-23406-1-git-send-email-wangmy@fujitsu.com>
@@ -54,80 +54,70 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28520.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28520.006
-X-TMASE-Result: 10--9.606100-10.000000
-X-TMASE-MatchedRID: 6IstDyeExSCjz0nOeth/yTo39wOA02LhpxAd6mi1Ga3k6Qbi+9i6D/U1
-	0nHva68PPH9ecFb4bGerlQnbB6G4N3VsOt9k9zl+joyKzEmtrEdFRimkaZP3VxnzRGIUdtbdmLq
-	BK5ktl0fu7KKAW/bb2jtuVglUWXzvPubnqD2XLwjy3h9RQZ4StBCE2NlBjIjcB/FMznsE8cO/BR
-	68O365busIM/D0ygBYmXBLY6995k1+vBKZN3JunBwbN4ob6DCIXLILvyEBT85jyv+d0Z0OxX0mm
-	lU2RvUrWTlnP7UAwom3P2Qi5OQGrq+/EguYor8cFEUknJ/kEl7dB/CxWTRRu25FeHtsUoHuXEyz
-	7Wy1gvrRlrtG6R56L6Y7dSOYeUQLW/GPE2R8Ro5oBmTSwRxjXg==
+X-TMASE-Result: 10--2.464100-10.000000
+X-TMASE-MatchedRID: u4ys6248rQyjz0nOeth/yUIIxwDaU5mrrOCEGIPhtwjFu9dqRsNfOEPJ
+	J9tLgfTQd4BOKkI/1xAebEdojyaGby8oE1Ngob6lXrBIbmgBxjwcZfiypOIZ1ZTx+2LIqNmt0yO
+	PBv1B9XYILxoCYZ47qVXTT7CHDFVDL/tBTZzO5Q3vVbHa5Rs8twC0f97LzNGnxKLCLOyCW5DW9n
+	uzdghUMjo2a10XPZVUfOhfoy0690QIfku6ZcOLLZ4CIKY/Hg3AaZGo0EeYG978V77yhJRgo99pj
+	zubZ2rH33fj+sMArfOUZ3IP5ATaH/HKkdk2nsgKCX0+cksn4sMFsGDtbJAmEYfvqyZxlGvzPqFN
+	SmqMmfPNJ9m8upR+H87npZChhWjAxuooKNCHJ3vkD0lBX3fV8f6/2/nZkihaOgB/fz3EXdcVKT0
+	eFRmfDs4YhafCzgujIdY9jOi4lTI=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 09:44:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201703
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201701
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-0005-Do-not-prepend-installroot-to-logdir.patch
-refreshed for 4.21.0
+License-Update: Bundle Fmt again
 
 Changelog:
 ===========
-- Add detection for ostree-based systems and warn users about losing changes
-- Fix: No traceback when Python interpreter is running with -P, allow -P in shebang lines
-- man: Improve upgrade-minimal command docs (RHEL-6417)
-- Limit queries to nevra forms when provided by command
-- Update the man page entry for the countme option
-- Drop collect file for ABRT
+- Fixed prefix command lookup from PATH.
+- Fixed detection and usage of system blake3.
+- Find CppHttplib named libhttplib.so as well.
+- Removed Xcode assembly workaround for zstd.
+- Added bundled subset of Fmt again for convenience.
+- Removed no longer needed workaround when building downloaded Zstd.
+- Documentation improvements
+- Clarified that --set-config writes to the configuration file.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch | 6 +++---
- meta/recipes-devtools/dnf/{dnf_4.20.0.bb => dnf_4.21.0.bb}  | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/dnf/{dnf_4.20.0.bb => dnf_4.21.0.bb} (98%)
+ .../ccache/{ccache_4.10.bb => ccache_4.10.1.bb}             | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/ccache/{ccache_4.10.bb => ccache_4.10.1.bb} (86%)
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-index cfbda11f77..82f616a389 100644
---- a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-@@ -1,4 +1,4 @@
--From c6d03b51e2098fc681e6811790bd5dc6597091eb Mon Sep 17 00:00:00 2001
-+From 4e0f83e931e059ba93604617c462adcc90e5baab Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 11 Jan 2017 15:10:13 +0200
- Subject: [PATCH] Do not prepend installroot to logdir.
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/ccache/ccache_4.10.bb b/meta/recipes-devtools/ccache/ccache_4.10.1.bb
+similarity index 86%
+rename from meta/recipes-devtools/ccache/ccache_4.10.bb
+rename to meta/recipes-devtools/ccache/ccache_4.10.1.bb
+index df169b9c2b..6ae85af4f5 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.10.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.10.1.bb
+@@ -7,17 +7,17 @@ HOMEPAGE = "http://ccache.samba.org"
+ SECTION = "devel"
  
- diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
--index 1824bd00..4dcb1c1c 100644
-+index c14f8363..bfc07ab9 100644
- --- a/dnf/cli/cli.py
- +++ b/dnf/cli/cli.py
--@@ -944,7 +944,7 @@ class Cli(object):
-+@@ -953,7 +953,7 @@ class Cli(object):
-              logger.warning(_("Unable to detect release version (use '--releasever' to specify "
-                               "release version)"))
-  
-diff --git a/meta/recipes-devtools/dnf/dnf_4.20.0.bb b/meta/recipes-devtools/dnf/dnf_4.21.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/dnf/dnf_4.20.0.bb
-rename to meta/recipes-devtools/dnf/dnf_4.21.0.bb
-index 4757346cbf..66d15bca77 100644
---- a/meta/recipes-devtools/dnf/dnf_4.20.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.21.0.bb
-@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
+ LICENSE = "GPL-3.0-or-later & MIT & BSL-1.0 & ISC"
+-LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=c72fa5755dc70ec5b439212d47299414 \
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=73b86311eaf2b66b0d093ec1a15fa60d \
+                     file://src/third_party/cpp-httplib/httplib.h;endline=6;md5=5389d9f5a88a138e42ba58894bbceeac \
+                     file://src/third_party/nonstd-span/nonstd/span.hpp;endline=9;md5=b4af92a7f068b38c5b3410dceb30c186 \
+                     file://src/third_party/win32-compat/win32/mktemp.c;endline=17;md5=d287e9c1f1cd2bb2bd164490e1cf449a \
+-"
++                    "
  
- SRC_URI:append:class-native = "file://0001-dnf-write-the-log-lock-to-root.patch"
+ DEPENDS = "zstd fmt xxhash"
  
--SRCREV = "e3cb438c0fd08c79676c0f3276aa7d75cd8557c6"
-+SRCREV = "d29dfa0634235d7ad957c4746a749eb1e4a85a88"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "16972ba62c8499045edc3ae7d7b8a0b419a961567f5ff0f01bf5a44194204775"
++SRC_URI[sha256sum] = "8f8ad60d9363857812aa8af3fa7fb72be5ea5cf193f824d16d237a8a79256be4"
+ 
+ inherit cmake github-releases
+ 
 -- 
 2.34.1
 
