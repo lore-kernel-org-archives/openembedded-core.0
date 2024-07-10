@@ -1,143 +1,152 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 650A1C3DA42
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 10:20:10 +0000 (UTC)
-Subject: Re: [PATCH] bluez5: upgrade 5.72 -> 5.77
-To: openembedded-core@lists.openembedded.org
-From: =?UTF-8?B?R3XDsG5pIE3DoXIgR2lsYmVydA==?= <gudni.m.g@gmail.com>
-X-Originating-Location: Kopavogur, Capital Region, IS (81.15.100.92)
-X-Originating-Platform: iPhone Safari 17.5
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8D85C3DA45
+	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 12:19:00 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.13027.1720613934879055862
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 10 Jul 2024 05:18:55 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IQ2lXu2p;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52ea1a69624so7122659e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 05:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1720613933; x=1721218733; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xul5487LMirCc1h4BIuQcbBLTEASw1illPk8PewD53Y=;
+        b=IQ2lXu2p4nuiB1iermfCNulRQ8o7DfMypNk1mgSKwTKAjrkWFAtkja3ndgj0YIC2y3
+         syxDlEsRzJd3Al1opGvZ4o7RPy9LBPfPi3OMADLqM1qpT5vXB/uGLJ2FilAxTElrg6yl
+         UNitY0rGFmwlc+jeA8VFY1Nh6aRLpk4hlWdVI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720613933; x=1721218733;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Xul5487LMirCc1h4BIuQcbBLTEASw1illPk8PewD53Y=;
+        b=MRZPxqI1mfNhCfHKXphn4Q6YQaWrzC88nRmGr6lvOxWJpoQquELUI+U905O6NcEK/A
+         DUsaxmnUNqdN7pj1SP1EuCdhHk6SasEEs6KIDp+eNaOu8S3RsixFdf1MoZwOMfxCMPl+
+         +urOgQYKQB6bLCzxD7sKG3kdgPwvUgx9sOiqHucxcm7zxkADzg6OUmM/UuFcGqf2Ugd9
+         TuTjGh1ng9XKTksHmfEMPZv29z6fQcJAQl0Es38wY5mX02Bda9mxy2g6v2Wm5KktALw4
+         mIAd3tNbqdpZgwdaIds3u4BCIyu8Mk6BwDcvJ1ZA+G4LkoFlRa6AqCK31yvtPxn/93Vq
+         V53Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU9A8eKJKjFhk0VpPE5dD6b3nygCKnqxeLGjUWJiNQL7uTZ3WZWVgLaTFhed+A298rhzmFgOXlODZ/ADdP3rwf4tJYmBe/0gmCKrhB2xcZCIrMlG/czS3Pq
+X-Gm-Message-State: AOJu0YzLmLvbrX2nDY+Xyv7cw5J7dIhMjtxoFXCTbhBXuX2+5Zxag2oH
+	KOJutMhbh/zq8JG/XCCQxoNItVBy9eHjMW/TzOWPQJgAeOt/L5uLQIwDfJdbCcM=
+X-Google-Smtp-Source: AGHT+IEj4MnIA/Vk5alQOfNHmjZC5xEjw1Tb3hwPHXWCBI50Ky66cLbmtsqew80oEioUdObxbBBXeQ==
+X-Received: by 2002:a05:6512:12cc:b0:52c:eeb0:8208 with SMTP id 2adb3069b0e04-52eb99d3e34mr3795596e87.66.1720613932893;
+        Wed, 10 Jul 2024 05:18:52 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:40c6:a25f:553:e199? ([2001:8b0:aba:5f3c:40c6:a25f:553:e199])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42673d7f528sm67294335e9.9.2024.07.10.05.18.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jul 2024 05:18:52 -0700 (PDT)
+Message-ID: <1227d1d9b29b6f83d9ad03c8d0046b04ad72ddfc.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v5 0/8] Add SPDX 3.0 support
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jul 2024 13:18:51 +0100
+In-Reply-To: <17DF3FE80C22BC48.23364@lists.openembedded.org>
+References: <20240624193151.1645802-1-JPEWhacker@gmail.com>
+	 <20240703140059.4096394-1-JPEWhacker@gmail.com>
+	 <17DF3FE80C22BC48.23364@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Date: Wed, 10 Jul 2024 03:20:04 -0700
-References: <65c634e7dc5119e37c68fc7ea2b966e5b9d63e1d.camel@linuxfoundation.org>
-In-Reply-To: <65c634e7dc5119e37c68fc7ea2b966e5b9d63e1d.camel@linuxfoundation.org>
-Message-ID: <12578.1720606804488187301@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="Ot8U2lxNcBYzlAEZLlIx"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 10:20:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201730
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 12:19:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201731
 
---Ot8U2lxNcBYzlAEZLlIx
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2024-07-05 at 08:17 +0100, Richard Purdie via lists.openembedded.or=
+g wrote:
+> > On Wed, 2024-07-03 at 07:59 -0600, Joshua Watt via
+> > lists.openembedded.org wrote:
+> > > > This patch series add support for SPDX 3.0 and sets it as the
+> > > > default.
+> > > > Currently it is not possible to have SPDX 2.2 and SPDX 3.0 enabled =
+at
+> > > > the same time
+> > > >=20
+> > > > v2: Added tests and addressed feedback
+> > > > v3: Fixed several oe-selftest and build failures
+> > > > v4: Fixed silly typo mistake in staging.bbclass
+> > > > v5: Reworked to make SPDX 3 output reproducible by default. Variabl=
+es
+> > > > =C2=A0=C2=A0=C2=A0 that introduce non-reproducible output are docum=
+ented as such.
+> >=20
+> > Thanks for working on this. The patches generally seem to working well
+> > in testing but this does look related:
+> >=20
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7109/=
+steps/23/logs/stdio
+> >=20
+> > Particularly these bits:
+> >=20
+> > AssertionError: 10 !=3D 0 : Missing objects in the cache:
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/a6/eb/sstate:perf:qemu=
+x86_64-poky-linux:1.0:r0:qemux86_64:12:a6eb451ebf8142b51d88b66b79ebbfc43019=
+458d7e335e0a1b2a79e19cf3eed6_create_spdx.tar.zst
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/73/bd/sstate:perf:qemu=
+x86_64-poky-linux:1.0:r0:qemux86_64:12:73bd840dbf3fb04c5adf5c09dd6f45d7f65d=
+d1808bc4cf8c2f7a20ea551eaabd_create_package_spdx.tar.zst
+> >=20
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/73/bd/sstate:perf:qemu=
+x86_64-poky-linux:1.0:r0:qemux86_64:12:73bd840dbf3fb04c5adf5c09dd6f45d7f65d=
+d1808bc4cf8c2f7a20ea551eaabd_create_package_spdx.tar.zst
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/31/ce/sstate:core-imag=
+e-full-cmdline:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:31ce987a3b0b34b0d=
+2bbacab96b4b9848f851caadd1f1fb1522d38c2b392c65d_create_image_sbom.tar.zst
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/2f/cf/sstate:core-imag=
+e-sato-sdk:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:2fcfbfd93928c643c30f9=
+2b69cd17e19f4dd9136506e0bf1373a28883593d3a9_create_rootfs_spdx.tar.zst
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/1d/de/sstate:core-imag=
+e-sato-sdk:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:1dded8f18500fb6335633=
+1c5e4f5eee5fc35c113398ec98ad7bed1d82c3f330d_create_image_spdx.tar.zst
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/6a/92/sstate:core-imag=
+e-sato-sdk:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:6a924154d59877cfc4527=
+602e72d0984c1fa7b685ac7f93fa8bee225a5de57e3_create_image_sbom.tar.zst
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/62/47/sstate:core-imag=
+e-full-cmdline:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:624764dcea54752c3=
+f6f3928f6719b440728eecd7516b85d80d37b305c56f530_create_rootfs_spdx.tar.zst
+> > /srv/autobuilder/autobuilder.yocto.io/pub/sstate/7c/6f/sstate:core-imag=
+e-full-cmdline:qemux86_64-poky-linux:1.0:r0:qemux86_64:12:7c6f212fe1a869ae8=
+edc251f2f9c02e939a5f2b659fd77e9b4bb262eb60f6f5d_create_image_spdx.tar.zst
 
-> Thanks for the patch. I didn't see any fix for the permissions issue in
-here? We need to fix that before we run this on the test infrastructure
-again as it caused a lot of problems last time :(
+I think I understand what might have happened here. I suspect we've had
+test builds on the new test cluster which can write to the hash
+equivalence server but not the sstate. I think this means entries were
+added for artefacts which don't exist on sstate.=C2=A0
 
-> We should be able to tweak things in a do_install:append function?
+In theory those should be created on new build runs but in practise I
+suspect they're shadowed by other artefacts so newer builds probably
+don't create them. That would at least explain how we end up where we
+are.
 
-You=E2=80=99re right, it=E2=80=99s not included yet. I want to run a runtim=
-e test first as I=E2=80=99m not sure if the systemd service will complain: =
-https://github.com/bluez/bluez/blob/4ca662fcea1604e937bde1bddd5de2c50bcb6e0=
-0/src/bluetooth.service.in#L25
+If I'm correct, if there are changes to the code (as we discussed on
+yesterdays tech call), everything will rerun and assuming we run this
+only on the main cluster, things should work out ok.
 
-It uses ConfigurationDirectoryMode=3D0555
+I would be curious to understand how these things aren't being
+recreated when missing though?
 
-I=E2=80=99ll look into it over the next few days. If I can get this to buil=
-d/install on Scarthgap then I can run some extensive bluetooth runtime test=
-ing.
+I did also notice an interesting issue in that if you run a build with
+PACKAGE_CLASSES =3D "package_rpm", then add deb/ipk, all the
+do_collect_spdx_deps tasks and do_create_spdx tasks change hashes and
+rerun. This isn't ideal as it effectively breaks our ability to turn
+package backends on/off without rebuilds :(. Can we avoid that or at
+least minimise things a bit more?
 
---Ot8U2lxNcBYzlAEZLlIx
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<p>&gt; <span style=3D"caret-color: #dee2e6; color: #000000; font-family: s=
-ystem-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sa=
-ns', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sy=
-mbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-varian=
-t-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start=
-; text-indent: 0px; text-transform: none; white-space: pre-wrap; word-spaci=
-ng: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-a=
-djust: 100%; -webkit-text-stroke-width: 0px; text-decoration: none; float: =
-none; display: inline !important;">Thanks for the patch. I didn't see any f=
-ix for the permissions issue in</span><br style=3D"box-sizing: border-box; =
-overflow-wrap: break-word !important; caret-color: #dee2e6; color: #dee2e6;=
- font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans',=
- 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji=
-', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: norm=
-al; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; or=
-phans: auto; text-align: start; text-indent: 0px; text-transform: none; whi=
-te-space: pre-wrap; widows: auto; word-spacing: 0px; -webkit-tap-highlight-=
-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-text-strok=
-e-width: 0px; text-decoration: none;" /><span style=3D"caret-color: #dee2e6=
-; color: #000000; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Ne=
-ue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji'=
-, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px;=
- font-style: normal; font-variant-caps: normal; font-weight: 400; letter-sp=
-acing: normal; text-align: start; text-indent: 0px; text-transform: none; w=
-hite-space: pre-wrap; word-spacing: 0px; -webkit-tap-highlight-color: rgba(=
-0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-text-stroke-width: 0px=
-; text-decoration: none; float: none; display: inline !important;">here? We=
- need to fix that before we run this on the test infrastructure</span><br s=
-tyle=3D"box-sizing: border-box; overflow-wrap: break-word !important; caret=
--color: #dee2e6; color: #dee2e6; font-family: system-ui, 'Segoe UI', Roboto=
-, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'App=
-le Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; f=
-ont-size: 16px; font-style: normal; font-variant-caps: normal; font-weight:=
- 400; letter-spacing: normal; orphans: auto; text-align: start; text-indent=
-: 0px; text-transform: none; white-space: pre-wrap; widows: auto; word-spac=
-ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-=
-adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: none;" /><sp=
-an style=3D"caret-color: #dee2e6; color: #000000; font-family: system-ui, '=
-Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial,=
- sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Not=
-o Color Emoji'; font-size: 16px; font-style: normal; font-variant-caps: nor=
-mal; font-weight: 400; letter-spacing: normal; text-align: start; text-inde=
-nt: 0px; text-transform: none; white-space: pre-wrap; word-spacing: 0px; -w=
-ebkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%=
-; -webkit-text-stroke-width: 0px; text-decoration: none; float: none; displ=
-ay: inline !important;">again as it caused a lot of problems last time :(</=
-span><br style=3D"box-sizing: border-box; overflow-wrap: break-word !import=
-ant; caret-color: #dee2e6; color: #dee2e6; font-family: system-ui, 'Segoe U=
-I', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-s=
-erif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color=
- Emoji'; font-size: 16px; font-style: normal; font-variant-caps: normal; fo=
-nt-weight: 400; letter-spacing: normal; orphans: auto; text-align: start; t=
-ext-indent: 0px; text-transform: none; white-space: pre-wrap; widows: auto;=
- word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-=
-text-size-adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: no=
-ne;" /><br style=3D"box-sizing: border-box; overflow-wrap: break-word !impo=
-rtant; caret-color: #dee2e6; color: #dee2e6; font-family: system-ui, 'Segoe=
- UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans=
--serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Col=
-or Emoji'; font-size: 16px; font-style: normal; font-variant-caps: normal; =
-font-weight: 400; letter-spacing: normal; orphans: auto; text-align: start;=
- text-indent: 0px; text-transform: none; white-space: pre-wrap; widows: aut=
-o; word-spacing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webki=
-t-text-size-adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" /><span style=3D"caret-color: #dee2e6; color: #000000; font-family: =
-system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation S=
-ans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI S=
-ymbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal; font-varia=
-nt-caps: normal; font-weight: 400; letter-spacing: normal; text-align: star=
-t; text-indent: 0px; text-transform: none; white-space: pre-wrap; word-spac=
-ing: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-=
-adjust: 100%; -webkit-text-stroke-width: 0px; text-decoration: none; float:=
- none; display: inline !important;">&gt; We should be able to tweak things =
-in a do_install:append function?<br /><br />You&rsquo;re right, it&rsquo;s =
-not included yet. I want to run a runtime test first as I&rsquo;m not sure =
-if the systemd service will complain: <a href=3D"https://github.com/bluez/b=
-luez/blob/4ca662fcea1604e937bde1bddd5de2c50bcb6e00/src/bluetooth.service.in=
-#L25" target=3D"_blank" rel=3D"noopener">https://github.com/bluez/bluez/blo=
-b/4ca662fcea1604e937bde1bddd5de2c50bcb6e00/src/bluetooth.service.in#L25</a>=
-<br /><br />It uses ConfigurationDirectoryMode=3D0555<br /><br />I&rsquo;ll=
- look into it over the next few days. If I can get this to build/install on=
- Scarthgap then I can run some extensive bluetooth runtime testing. </span>=
-<span style=3D"caret-color: #dee2e6; color: #000000; font-family: system-ui=
-, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Ari=
-al, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', '=
-Noto Color Emoji'; font-size: 16px; font-style: normal; font-variant-caps: =
-normal; font-weight: 400; letter-spacing: normal; text-align: start; text-i=
-ndent: 0px; text-transform: none; white-space: pre-wrap; word-spacing: 0px;=
- -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 1=
-00%; -webkit-text-stroke-width: 0px; text-decoration: none; float: none; di=
-splay: inline !important;"></span></p>
+Richard
 
---Ot8U2lxNcBYzlAEZLlIx--
+
+
 
