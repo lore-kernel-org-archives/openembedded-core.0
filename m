@@ -2,93 +2,85 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2D2C3DA4A
-	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 12:17:31 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web11.10309.1720700248476178781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22B9FC3DA49
+	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 12:21:11 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.10361.1720700460746052819
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jul 2024 05:17:28 -0700
+ Thu, 11 Jul 2024 05:21:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=j3t41pmw;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C7FDC0002;
-	Thu, 11 Jul 2024 12:17:26 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dvOMnmpL;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D3B81240002;
+	Thu, 11 Jul 2024 12:20:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1720700246;
+	t=1720700458;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4uk9+x7Tw9jot3J6UsLRVXIUioZJ92WCeoTzsv3Xukw=;
-	b=j3t41pmwkdVGqnUUbfjkAI2jIFvrvWwk7a8bErMNjkI4lf4u1LuSoAWEY1ZQhJIzjXoL+M
-	IruWsS+HYVY2C90K5qObrDSIPUi1QMRSa849avyZEUmaOop6uvph4igDmGykQgtA5ZKx98
-	OFxSTrY0BiBWTCkEmc2EDJ4mmh/YcaI70eAcroSKvxJfPzvtVsLcoOROC1hgxq1MdRoKED
-	7SxSKLqsE4lEhleL2fhuoto3zQI2r6QjS1lfajImEI+hihdj2/B72qMDcNFUftSNCCrMfq
-	hcnOKMIM8K9aW0WrgQWOrYlATbmlQuZWcd4YLcxGfHz58920eKVr5qiDo5cluQ==
-Date: Thu, 11 Jul 2024 14:17:26 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: "Alexandre Belloni via lists.openembedded.org" <alexandre.belloni=bootlin.com@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org,
-	Wang Mingyu <wangmy@fujitsu.com>
-Subject: Re: [OE-core] [PATCH] wireless-regdb: upgrade 2024.05.08 ->
- 2024.07.04
-Message-ID: <202407111217269def9358@mail.local>
-References: <17E1274C3C6F7250.25753@lists.openembedded.org>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NWvm6Atolz06IyDN+6eClnVpMI1mU/DB7cM1XBAJ8jI=;
+	b=dvOMnmpL9aV/mTPdWNtgIp+kgzPc32h9Ly5LhxmsOCqRQJ6e/c6xw/8tPjCKRftuXkq4xl
+	Q1sgnDkVkG3mAXMaKXiPRLstRk5ABts96enLIA58Tk4EXUiJqrQHuJ7dnbwMu7HBKe8Kcc
+	1UginwV5oZRjFTcE9jgekIHS5GIztpbSgXpq+81gumEnRamnn5tGCos4WY9LdCSBFjKoew
+	tgtN3/9XbDONNCLYEIKi2ttXGP3dmWT4iCQAurIyVk5DBVk7yv9MhnjfpMkNXtxnyhuBC1
+	lzY+T7djNVCatkGOqUW+fgrpB34A3ZBZ86q26kY2cXWh5mMOFiNDA35BDsvZWw==
+From: alexandre.belloni@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH] [scarthgap] cve-exclusion: Drop the version comparision/warning
+Date: Thu, 11 Jul 2024 14:20:56 +0200
+Message-ID: <20240711122056.864643-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17E1274C3C6F7250.25753@lists.openembedded.org>
+Content-Transfer-Encoding: 8bit
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 12:17:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201779
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 12:21:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201780
 
-Forget about this, I sent the wrong patch!
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On 11/07/2024 14:08:54+0200, Alexandre Belloni via lists.openembedded.org wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> ---
->  ...ireless-regdb_2024.05.08.bb => wireless-regdb_2024.07.04.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2024.05.08.bb => wireless-regdb_2024.07.04.bb} (94%)
-> 
-> diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.07.04.bb
-> similarity index 94%
-> rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb
-> rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.07.04.bb
-> index 95e33d9fb1a7..daf5e6dfcd82 100644
-> --- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb
-> +++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.07.04.bb
-> @@ -5,7 +5,7 @@ LICENSE = "ISC"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
->  
->  SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
-> -SRC_URI[sha256sum] = "9aee1d86ebebb363b714bec941b2820f31e3b7f1a485ddc9fcbd9985c7d3e7c4"
-> +SRC_URI[sha256sum] = "9832a14e1be24abff7be30dee3c9a1afb5fdfcf475a0d91aafef039f8d85f5eb"
->  
->  inherit bin_package allarch
->  
-> -- 
-> 2.45.2
-> 
+Since the CVE repository is no longer being updated, drop the warning
+comparision since it is no longer valid.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#201777): https://lists.openembedded.org/g/openembedded-core/message/201777
-> Mute This Topic: https://lists.openembedded.org/mt/107161052/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ .../recipes-kernel/linux/cve-exclusion_6.6.inc | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+index 9f1f03ac533c..32a0701edfaa 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+@@ -1,14 +1,14 @@
+ 
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2024-05-02 12:41:43.351358+00:00 for version 6.6.29
+-
+-python check_kernel_cve_status_version() {
+-    this_version = "6.6.29"
+-    kernel_version = d.getVar("LINUX_VERSION")
+-    if kernel_version != this_version:
+-        bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+-}
+-do_cve_check[prefuncs] += "check_kernel_cve_status_version"
++# Generated at 2024-06-06 20:41:33.044442+00:00 for version 6.6.32
++
++#python check_kernel_cve_status_version() {
++#    this_version = "6.6.29"
++#    kernel_version = d.getVar("LINUX_VERSION")
++#    if kernel_version != this_version:
++#        bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
++#}
++#do_cve_check[prefuncs] += "check_kernel_cve_status_version"
+ 
+ CVE_STATUS[CVE-2003-1604] = "fixed-version: Fixed from version 2.6.12rc2"
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.45.2
+
 
