@@ -1,118 +1,143 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D873C3DA45
-	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 19:30:56 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.604.1720726252609157116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C97E5C3DA4A
+	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 21:41:26 +0000 (UTC)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web10.3447.1720734077539935986
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jul 2024 12:30:52 -0700
+ Thu, 11 Jul 2024 14:41:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Vc5SiVqb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-367ab50a07aso720117f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 12:30:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IDN2KJh7;
+ spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3d9db222782so800340b6e.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 14:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1720726251; x=1721331051; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kjTBoImjR3HBzC8xGkNTQ6G67xjVEm73pvSy18TvrAk=;
-        b=Vc5SiVqbZ/pWjJv5h5l6OBYK3hg9FljDxiGdeomRwyUFh0iY3RhB3IhdvQWjVzUdTV
-         w9NWTT1WriOxfPXvSqU497unfaW8iubeKIru1Y5iclGjC/j0Ugsm3FbE+mNTzto1syIS
-         wJDCtGDkLzShysenB+nn2Bcuw0pC++yVKRLbc=
+        d=gmail.com; s=20230601; t=1720734077; x=1721338877; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IXsZM4PMHw5ncx4XhdgcuBbJ+P5eAo3H034qRXQpoYA=;
+        b=IDN2KJh78K10zPS6uspaWPFq9CDSh5ccgj7uwWOPk9gXDILxI0gqfUr/LntRgqzTtw
+         UtQYoHYTNFzsZLGvhMxUIlYniKJLCwjbga7touWWkCcN457bedV6mZ3KaHIKgt/ruVVa
+         CVp7DVInZh8VGNJZtyOYXpo14CNL/LH7Re8Q23xD1WDqUToZBWRAnCB4oe/Fgrfc0XXX
+         h7IlF+f0D9atALDRATWkuLFNmCSq7fdH2d9Ls+0BHxXcxanKLmbWbKRiqgQwKffgtQDM
+         Cu6dDr1Df/Jrqk8GnOzd6uP60Ww2b13yQHL3pNOKpc9bKuziQhywvCA3eMjI2Xgqrnfv
+         j8iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720726251; x=1721331051;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kjTBoImjR3HBzC8xGkNTQ6G67xjVEm73pvSy18TvrAk=;
-        b=uBsQsSxfjSu5DtNR7ZoyXjAjc4aSJK8kPEmo0dIge6p3RreXOqJs5WjTQwfj9HemoB
-         P8Fc/RBkFEszGfGXM5DEt8aJ8GBxkmZvwrOzeb9OvMJEMe0ghrGThfv6TRlXPJgMLOtJ
-         7z7S+f9exiW9zrQuEevAn4U9M7bGYxiTiIQ3cQKXhqQPDoDcxuPjxwHERBTWuDy+nfIK
-         vCbamxNHWFBl4O+jOvbq0sArBYkA+R+sk++LpFE+AZeUSOvzvX2R9EcGCOKtW3uRU/XA
-         RT/IOFfE4nzxgFs+JCBPV7+FXUZzG4oOq1gU2NnSmnBoth36Tb5pqZEJWIbXEtWUDzTV
-         eQKQ==
-X-Gm-Message-State: AOJu0Yx94QhajCNbHtF6D9Utb5ygrdk352hJTVZ1ZPy/o2FRoEbw2T0n
-	vd9/NW0GCAVXbWtoBoBhFprOciZDx5k9M30WsSMPwfmwzGQW8S4jAoqHVk4hSJU=
-X-Google-Smtp-Source: AGHT+IE5DkWGXOCvu8d+wYr6OUxFG0K2syl3007j/Pdx/uVZow8GDY4goKyPC+G5xXsXQxe/sEvEEQ==
-X-Received: by 2002:adf:e30b:0:b0:366:f041:935d with SMTP id ffacd0b85a97d-367cead92e6mr5494637f8f.60.1720726250844;
-        Thu, 11 Jul 2024 12:30:50 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d8ba:9b2d:97f1:1754? ([2001:8b0:aba:5f3c:d8ba:9b2d:97f1:1754])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde84660sm8470773f8f.25.2024.07.11.12.30.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 12:30:50 -0700 (PDT)
-Message-ID: <87e16fd1bdd196b59057b00cf41c754d6f552d8b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bitbake.conf/webkitgtk: Split debug flag from
- DEBUG_FLAGS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jul 2024 20:30:50 +0100
-In-Reply-To: <38C005D9-7212-4055-9CBD-0460B6D1F659@arm.com>
-References: <20240711165432.1340223-1-richard.purdie@linuxfoundation.org>
-	 <38C005D9-7212-4055-9CBD-0460B6D1F659@arm.com>
+        d=1e100.net; s=20230601; t=1720734077; x=1721338877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IXsZM4PMHw5ncx4XhdgcuBbJ+P5eAo3H034qRXQpoYA=;
+        b=uvJjlxxGOj0su3h+XHAe+FvzgMkEKokGl/3mKoxRuAuylOg2CsyaglFrJCGlri06Vq
+         cq7ifqVKkIFRxnCh+b0p21auIFaya9mVn7zuRv2ODMLz5KFI5czj9KG50uI7u0Ios/4C
+         RHYAYqcj7sh6heaeTUHDOP7G4Sp8yqYkXqV3Z/F2hD4HEny+3GEd42dsoJsJ9QRKO+13
+         nOzUxOQEjNc76NMiKD+nUPhPuZL+00kr/2YUOEwR/0ezq+avZR/QhMYHcqH4LHN2QFxq
+         y5OOdfg6wxteBmbsPqC6rSVI6eSZ84vxK1OMlHU+ND8gAWMWNcaw1LiLOsB17uov7VeK
+         hXDg==
+X-Forwarded-Encrypted: i=1; AJvYcCWeALiELalqyVMGIK24EDdVzBEOMhKEjvnxmRmyU1HoRCJZWs+VZE1HMwCxOuTA0OrQXEQNXzDQbPss8aPLGw/uqkaJ3yfbgVl7f2DBkh2MrugUufuD1+G5
+X-Gm-Message-State: AOJu0YzwJo/+sZoYbrnXVQtZfgdHBJHZhMKFhEjCRl0UTLno/5bRy/CO
+	EJayUbe7h25z+vIG8wfMcnpMAB0tJoyB6abRpqMZ3JFN34W3D709mxgmWQIPp27ssEUFPZ5vbpf
+	58sFZ/EseaL7Tncjzdda6NiNffug=
+X-Google-Smtp-Source: AGHT+IHqVe6jjEBRkACxOdZWMGcR31M/GMWABR2b1+BQsXEvInI9Q2rorsAWw6gfOEWX787CvUl68W+gH1uqS+pZlSc=
+X-Received: by 2002:a05:6870:224e:b0:254:c512:88de with SMTP id
+ 586e51a60fabf-25eaeca2614mr7714231fac.59.1720734076634; Thu, 11 Jul 2024
+ 14:41:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240711093045.1166613-1-richard.purdie@linuxfoundation.org>
+ <60E368D9-15B3-430C-800B-14BEF1E4614B@arm.com> <f10ae72f4cd1e0f1b69e362773ec6c92fa4ffa27.camel@linuxfoundation.org>
+In-Reply-To: <f10ae72f4cd1e0f1b69e362773ec6c92fa4ffa27.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 11 Jul 2024 14:40:49 -0700
+Message-ID: <CAMKF1sr=oBDp0_1EE+AXPVenj0xDRBcOx-1Tc5dndRc2R=M1DA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] distro/include: Add yocto-space-optimize,
+ disabling debugging for large components
+To: richard.purdie@linuxfoundation.org
+Cc: ross.burton@arm.com, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 19:30:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201793
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 21:41:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201794
 
-On Thu, 2024-07-11 at 19:05 +0000, Ross Burton wrote:
->=20
->=20
-> > On 11 Jul 2024, at 17:54, Richard Purdie via lists.openembedded.org <ri=
+On Thu, Jul 11, 2024 at 6:35=E2=80=AFAM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>
+> On Thu, 2024-07-11 at 12:10 +0000, Ross Burton via lists.openembedded.org=
+ wrote:
+> > On 11 Jul 2024, at 10:30, Richard Purdie via lists.openembedded.org <ri=
 chard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> >=20
-> > -DEBUG_FLAGS ?=3D "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP=
-}"
-> > +DEBUG_LEVELFLAG ?=3D "-g"
-> > +DEBUG_FLAGS ?=3D "${DEBUG_LEVELFLAG} -feliminate-unused-debug-types ${=
-DEBUG_PREFIX_MAP}=E2=80=9D
->=20
-> Considering -feliminate-unused-debug-types is the default according to th=
-e GCC=C2=A0
-> docs, why don=E2=80=99t we remove DEBUG_FLAGS entirely to remove a level =
-of indirection?
+> > >
+> > > +DEBUG_FLAGS:remove:pn-llvm =3D "-g"
+> > > +DEBUG_FLAGS:remove:pn-qemu =3D "-g"
+> > > +DEBUG_FLAGS:remove:pn-openssl =3D "-g=E2=80=9D
+> >
+> > This would be difficult to undo if the user did actually want debug sym=
+bols, right?
+> >
+> > This :removes -g (so you can=E2=80=99t :append it back) from the target=
+ flags:
+> >
+> > DEBUG_FLAGS ?=3D "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}=
+"
+> > FULL_OPTIMIZATION =3D "-O2 -pipe ${DEBUG_FLAGS}"
+> > DEBUG_OPTIMIZATION =3D "-Og ${DEBUG_FLAGS} -pipe"
+> > SELECTED_OPTIMIZATION =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', =
+'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}=E2=80=9D
+> > TARGET_CFLAGS =3D "${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION}=E2=80=9D
+> >
+> > So with this there=E2=80=99s no obvious way to get symbols for target l=
+lvm/qemu/openssl, setting DEBUG_BUILD=3D1 still won=E2=80=99t actually pass=
+ -g. The user would have to know to do eg CFLAGS +=3D =E2=80=9C-g=E2=80=9D.
+> >
+> > I=E2=80=99ll note that webkitgtk3 has approached this problem already a=
+nd settled on this:
+> >
+> > DEBUG_FLAGS:append =3D "${@oe.utils.vartrue('DEBUG_BUILD', '', ' -g1', =
+d)}"
+> >
+> > So -g1 (minimal but functional debugging info) unless DEBUG_BUILD enabl=
+ed.
+> >
+> > I=E2=80=99m fairly against removing _all_ debug symbols for these recip=
+es in default builds, although I=E2=80=99d certainly be happy with -g1 as a=
+ compromise between space saving and utility.
+>
+> I agree that the remove is too hard to undo so we can't use this
+> approach. We probably need to parameterise it in DEBUG_FLAGS since
+> we're likely to need to do this more frequently.
+>
+> I do still think we should drop -g entirely for llvm though as the
+> debug info is just too large even at -g1. I'm particularly keen to keep
+> the package sizes down which keeps the sstate object size down too,
+> making builds from sstate better over the network.
 
-I think we were an early adopter of that one. If it is a default now we
-can drop it.
+we can do an append instead and effects will be same
+DEBUG_FLAGS:append =3D "-g1"
+would add it after -g and -g1 will be effective.
 
-> It=E2=80=99s not a huge amount of copy-paste as we can set=20
->=20
-> FULL_OPTIMIZATION =3D "-O2 -pipe ${DEBUG_PREFIX_MAP} ${DEBUG_LEVELFLAG}=
-=E2=80=9D
-> DEBUG_OPTIMIZATION =3D "-Og -pipe ${DEBUG_PREFIX_MAP} ${DEBUG_LEVELFLAG}=
-=E2=80=9D
+Secondly, it might make sense to do it directly in concerned recipes.
 
-It is the prefix map I worry about as some recipes do different things
-with DEBUG_FLAGS. Its probably a better long term change but probably
-more to debug to make it work.
 
-> (also, why is -pipe an optimisation flag?)
-
-It was controversial back then and was done as a speed improvement.
-There is probably more refactoring that could be done here.
-
->=20
-> I was also thinking a less invasive solution would be to do this in llvm.=
-bb:
->=20
-> DEBUG_FLAGS:append =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', '', =
-=E2=80=98-g0', d))}=E2=80=9D
-
-I was trying to keep this as a distro level opt in/out rather than force th=
-at decision=C2=A0
-on everyone...
-
-Cheers,
-
-Richard
-
+>
+> Cheers,
+>
+> Richard
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201781): https://lists.openembedded.org/g/openembedde=
+d-core/message/201781
+> Mute This Topic: https://lists.openembedded.org/mt/107159573/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
