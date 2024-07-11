@@ -1,83 +1,192 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1238FC3DA41
-	for <webhook@archiver.kernel.org>; Wed, 10 Jul 2024 23:16:37 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.10.1720653393024164632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 807B0C3271E
+	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 04:32:18 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.web11.4725.1720672336811745691
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jul 2024 16:16:33 -0700
+ Wed, 10 Jul 2024 21:32:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GdyJkHTz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42795086628so1708835e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 16:16:32 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=a9fXGTny;
+ spf=pass (domain: mvista.com, ip: 209.85.128.169, mailfrom: hprajapati@mvista.com)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6519528f44fso4322627b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 21:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1720653391; x=1721258191; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qlpkyblutqJoC8dGY6Z+a71f7B7h/gEzEngwhaqN2uE=;
-        b=GdyJkHTz/2HNTQfEDa+rbo2xWBtnk57H17oKQ6EBxQxSjaGZObxCFEFZm08oRUG9mG
-         KfjyRCWwP9hGq/4DZmjaeFevRIEZCKad+MyXBHeWqPKvF/sifBMTwsL8P7yCmAoXZ5OS
-         onL1ZqBI//jYZCr+1L1JzmOiPyu+Vnov2ay/M=
+        d=mvista.com; s=google; t=1720672336; x=1721277136; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pD+vPHmlvuKeAtR+pFmtkmRGmh1Ovuoyv6He79N3h+c=;
+        b=a9fXGTnyBTdcKA3dYan0qRrdhr9UlnO4OwDDmzyhxb1+opeqeTmg1acwRZp/STkuFX
+         alJumPOnFD5jhnV4pP/que1FxPoEEB9vt8vCrq0p1OggTZl2L8OyJs67mKYtWiPjWwpK
+         K4OVYKVmjbxmO4/kL+K86Rp+NDiB3yUNV8NVQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720653391; x=1721258191;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qlpkyblutqJoC8dGY6Z+a71f7B7h/gEzEngwhaqN2uE=;
-        b=cKsUsJ0KGFRgNcOP2C3XpdSWQSK4hM6uYn+IOO36IFwi+uSk+wsvsMDAh5SMqr1v7h
-         RzfafsKKnRkzp19vXhq6n1tY4WrTuqa+Nt4jDoTOA7QWq0w1SkL9Q7XsAqt80TDDWoMz
-         3TbnAsn/OFvEQ15UIb39I0NPz6nOcT7tDF0avfvllYObHPTlazpDDsZS3dQGtAL+nFQX
-         LPn48pw+2dGRNLVSqidkfN58yaql8kq3XNNu+TYTFlf+h5cSP5G4bIU0z5ybpicGq4sX
-         u+Vu5bc33aKx+mwf7F5VHaw0qqGR8ujXM3tUUbQiR9TioPy2iZTJkCWCyq8Q/WCbVEny
-         j6JA==
-X-Gm-Message-State: AOJu0YwbvgVZ/YgUmZBUW1kUI10drMXvaQuh4FSBL2+s43v3wdq3rtot
-	wlmehwh4Drd2Zi62OWTbfh+42QC7e6JFo1mtd0S0XX88abehThe+ljnDGas7wMw=
-X-Google-Smtp-Source: AGHT+IF8jmQI8HBU6nZ0ND+cOJHGYZPfNG7++HESOOyJYVNGDMBaJ4HBaFIcF0kbce+DtC8aZKu+sw==
-X-Received: by 2002:adf:ea87:0:b0:367:92b3:f6b0 with SMTP id ffacd0b85a97d-367cea6bfd3mr4018636f8f.21.1720653391010;
-        Wed, 10 Jul 2024 16:16:31 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:40c6:a25f:553:e199? ([2001:8b0:aba:5f3c:40c6:a25f:553:e199])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfb22aasm6316870f8f.117.2024.07.10.16.16.30
+        d=1e100.net; s=20230601; t=1720672336; x=1721277136;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pD+vPHmlvuKeAtR+pFmtkmRGmh1Ovuoyv6He79N3h+c=;
+        b=vZjy163HCEnffrOrZnCViz81syZh+BgmAh1Ep75t1JQrTzTi9HfgIlg2Spg4QF+c8B
+         ox8JoXYWcbpKIufa3HamiMgzU8ZyBg5bNvkUagCfhLbNCQ3/TAFnAgrxeiGqgc22ebEZ
+         gXIzkONMkZ5Y8QnzynyetYIChI5PR/zW1SfGNDy0Gzq2hnzIlJWXQUSZeOj/RgJP4NbW
+         0DhszAQeYTmVea9papwnSCugQinqCp/UUCUKK9o6yxUx2s4NzfvpjEbZeaoDUguV3JZb
+         syoJ/KnFrQ5f2dUHU9CBRSA6Jf/aAqQeYqZxKOyI4damU53UT7yiJNcUBUt6ZKV8CtMd
+         eVUQ==
+X-Gm-Message-State: AOJu0YxMPxnmvTTt1m/XecFNTgc5joc9f7T68Dd2fd801fEA66b4cYZc
+	HRueewYuhrKjdoU8sVDgrgPmGqC+x61WtkiPbCGxdqvCIdb9rYXATuYQBHqBv6cU7hPRFy9ABuW
+	S
+X-Google-Smtp-Source: AGHT+IEIss/e1N2UiCggnqxwvzX1lluAXO/ZRwgyvuJUc95qsDhiCQcf1Z4t7IsOwtnikxwe8ESfWg==
+X-Received: by 2002:a81:4406:0:b0:65b:a403:9ec8 with SMTP id 00721157ae682-65ba403a076mr39790327b3.38.1720672335597;
+        Wed, 10 Jul 2024 21:32:15 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([103.250.136.191])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e64ece0dsm9757097b3.94.2024.07.10.21.32.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 16:16:30 -0700 (PDT)
-Message-ID: <b96fd41e0235ea4b0a2a5820dd51514c9fa80530.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] cargo-update-recipe-crates: Use override
- style append so generated code passes oelint-adv.
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jeremigraveline@gmail.com, Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jul 2024 00:16:29 +0100
-In-Reply-To: <CABGZR5rATZYeLP5c1TudH-2ky48X2MOaWOuXXuMEhka6eimMSA@mail.gmail.com>
-References: <20240710193743.3686800-1-jeremi.graveline@gmail.com>
-	 <CANNYZj8BmMQPjfVTh_x80ssbYaaxLzsw-ZpxVJFuZT_9WiJ9EA@mail.gmail.com>
-	 <CABGZR5rATZYeLP5c1TudH-2ky48X2MOaWOuXXuMEhka6eimMSA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        Wed, 10 Jul 2024 21:32:15 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] ruby: fix CVE-2024-27281
+Date: Thu, 11 Jul 2024 10:02:04 +0530
+Message-Id: <20240711043204.61686-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 23:16:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201749
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 04:32:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201750
 
-On Wed, 2024-07-10 at 16:29 -0400, jermigra via lists.openembedded.org
-wrote:
-> I understand, it is true it doesn't really happen in real recipes. Is
-> the new version of the class bad though? I cannot find a way to
-> suppress the error from the recipe itself and wish not to edit the
-> generated include file.=20
+References:
+https://github.com/ruby/ruby/pull/10316
+https://security-tracker.debian.org/tracker/CVE-2024-27281
 
-We're not swapping a perfectly good +=3D for append when there isn't a
-reason to.=C2=A0I'm on record as wanting to reduce the usage of append and
-see +=3D used more in general.
+Upstream-Status: Backport from https://github.com/ruby/rdoc/commit/da7a0c7553ef7250ca665a3fecdc01dbaacbb43d
 
-The linter needs to be fixed.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../ruby/ruby/CVE-2024-27281.patch            | 97 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.2.2.bb      |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
 
-Cheers,
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
+new file mode 100644
+index 0000000000..f69f3bcf4f
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
+@@ -0,0 +1,97 @@
++From da7a0c7553ef7250ca665a3fecdc01dbaacbb43d Mon Sep 17 00:00:00 2001
++From: Nobuyoshi Nakada <nobu@...>
++Date: Mon, 15 Apr 2024 11:40:00 +0000
++Subject: [PATCH] Filter marshaled objets
++
++CVE: CVE-2024-27281
++Upstream-Status: Backport [https://github.com/ruby/rdoc/commit/da7a0c7553ef7250ca665a3fecdc01dbaacbb43d]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/rdoc/store.rb | 45 ++++++++++++++++++++++++++-------------------
++ 1 file changed, 26 insertions(+), 19 deletions(-)
++
++diff --git a/lib/rdoc/store.rb b/lib/rdoc/store.rb
++index 9fc540d..5b663d7 100644
++--- a/lib/rdoc/store.rb
+++++ b/lib/rdoc/store.rb
++@@ -556,9 +556,7 @@ class RDoc::Store
++   def load_cache
++     #orig_enc = @encoding
++ 
++-    File.open cache_path, 'rb' do |io|
++-      @cache = Marshal.load io
++-    end
+++    @cache = marshal_load(cache_path)
++ 
++     load_enc = @cache[:encoding]
++ 
++@@ -615,9 +613,7 @@ class RDoc::Store
++   def load_class_data klass_name
++     file = class_file klass_name
++ 
++-    File.open file, 'rb' do |io|
++-      Marshal.load io
++-    end
+++    marshal_load(file)
++   rescue Errno::ENOENT => e
++     error = MissingFileError.new(self, file, klass_name)
++     error.set_backtrace e.backtrace
++@@ -630,14 +626,10 @@ class RDoc::Store
++   def load_method klass_name, method_name
++     file = method_file klass_name, method_name
++ 
++-    File.open file, 'rb' do |io|
++-      obj = Marshal.load io
++-      obj.store = self
++-      obj.parent =
++-        find_class_or_module(klass_name) || load_class(klass_name) unless
++-          obj.parent
++-      obj
++-    end
+++    obj = marshal_load(file)
+++    obj.store = self
+++    obj.parent ||= find_class_or_module(klass_name) || load_class(klass_name)
+++    obj
++   rescue Errno::ENOENT => e
++     error = MissingFileError.new(self, file, klass_name + method_name)
++     error.set_backtrace e.backtrace
++@@ -650,11 +642,9 @@ class RDoc::Store
++   def load_page page_name
++     file = page_file page_name
++ 
++-    File.open file, 'rb' do |io|
++-      obj = Marshal.load io
++-      obj.store = self
++-      obj
++-    end
+++    obj = marshal_load(file)
+++    obj.store = self
+++    obj
++   rescue Errno::ENOENT => e
++     error = MissingFileError.new(self, file, page_name)
++     error.set_backtrace e.backtrace
++@@ -976,4 +966,21 @@ class RDoc::Store
++     @unique_modules
++   end
++ 
+++  private
+++  def marshal_load(file)
+++    File.open(file, 'rb') {|io| Marshal.load(io, MarshalFilter)}
+++  end
+++
+++  MarshalFilter = proc do |obj|
+++    case obj
+++    when true, false, nil, Array, Class, Encoding, Hash, Integer, String, Symbol, RDoc::Text
+++    else
+++      unless obj.class.name.start_with("RDoc::")
+++        raise TypeError, "not permitted class: #{obj.class.name}"
+++      end
+++    end
+++    obj
+++  end
+++  private_constant :MarshalFilter
+++
++ end
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.2.2.bb b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+index d1359e388c..5c2b07e5e4 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.2.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch \
+            file://CVE-2023-36617_1.patch \
+            file://CVE-2023-36617_2.patch \
++           file://CVE-2024-27281.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+ 
+-- 
+2.25.1
 
-Richard
 
