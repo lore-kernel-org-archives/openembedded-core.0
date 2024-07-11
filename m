@@ -2,2327 +2,2467 @@ Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E29CC3271E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED405C3DA49
 	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 04:56:08 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.4971.1720673763628059277
+ by mx.groups.io with SMTP id smtpd.web10.4973.1720673766814059242
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jul 2024 21:56:03 -0700
+ Wed, 10 Jul 2024 21:56:06 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=79227d51f5=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46B4f2pR015514
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 21:56:03 -0700
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46B4oSoO024907
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 21:56:06 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4075eg48ns-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 407170mcjm-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 21:56:02 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jul 2024 21:56:06 -0700 (PDT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 10 Jul 2024 21:55:59 -0700
+ 15.1.2507.39; Wed, 10 Jul 2024 21:56:04 -0700
 From: ssambu <soumya.sambu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 01/11] ovmf: Fix CVE-2022-36763
-Date: Thu, 11 Jul 2024 04:55:31 +0000
-Message-ID: <20240711045541.2155076-1-soumya.sambu@windriver.com>
+Subject: [OE-core][kirkstone][PATCH 03/11] ovmf: Fix CVE-2023-45230
+Date: Thu, 11 Jul 2024 04:55:33 +0000
+Message-ID: <20240711045541.2155076-3-soumya.sambu@windriver.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20240711045541.2155076-1-soumya.sambu@windriver.com>
+References: <20240711045541.2155076-1-soumya.sambu@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: rq33zvKv5a_1z3oob6TUQFzfUDby27kr
-X-Proofpoint-ORIG-GUID: rq33zvKv5a_1z3oob6TUQFzfUDby27kr
+X-Proofpoint-GUID: g833UaVjJefnDp4vvx1ADWZPzNBTqxOO
+X-Proofpoint-ORIG-GUID: g833UaVjJefnDp4vvx1ADWZPzNBTqxOO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-11_01,2024-07-10_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1011 adultscore=0 bulkscore=0
- mlxscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 malwarescore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0
+ mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.21.0-2406140001 definitions=main-2407110031
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 04:56:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201751
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201753
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-EDK2 is susceptible to a vulnerability in the Tcg2MeasureGptTable()
-function, allowing a user to trigger a heap buffer overflow via a local
-network. Successful exploitation of this vulnerability may result in a
-compromise of confidentiality, integrity, and/or availability.
+EDK2's Network Package is susceptible to a buffer overflow vulnerability
+via a long server ID option in DHCPv6 client. This vulnerability can be
+exploited by an attacker to gain unauthorized access and potentially lead
+to a loss of Confidentiality, Integrity and/or Availability.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-36763
+https://nvd.nist.gov/vuln/detail/CVE-2023-45230
 
 Upstream-patches:
-https://github.com/tianocore/edk2/commit/224446543206450ddb5830e6abd026d61d=
-3c7f4b
-https://github.com/tianocore/edk2/commit/4776a1b39ee08fc45c70c1eab5a0195f32=
-5000d3
-https://github.com/tianocore/edk2/commit/1ddcb9fc6b4164e882687b031e8beacfcf=
-7df29e
+https://github.com/tianocore/edk2/commit/f31453e8d6542461d92d835e0b79fec8b0=
+39174d
+https://github.com/tianocore/edk2/commit/5f3658197bf29c83b3349b0ab1d99cdb0c=
+3814bc
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ovmf/ovmf/CVE-2022-36763-0001.patch       | 985 ++++++++++++++++++
- .../ovmf/ovmf/CVE-2022-36763-0002.patch       | 889 ++++++++++++++++
- .../ovmf/ovmf/CVE-2022-36763-0003.patch       |  55 +
- meta/recipes-core/ovmf/ovmf_git.bb            |   3 +
- 4 files changed, 1932 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0001.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0002.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0003.patch
+ .../ovmf/ovmf/CVE-2023-45230-0001.patch       | 1617 +++++++++++++++++
+ .../ovmf/ovmf/CVE-2023-45230-0002.patch       |  604 ++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |    2 +
+ 3 files changed, 2223 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45230-0001.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45230-0002.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0001.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2022-36763-0001.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45230-0001.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45230-0001.patch
 new file mode 100644
-index 0000000000..93cefe7740
+index 0000000000..b0e13c1613
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0001.patch
-@@ -0,0 +1,985 @@
-+From 224446543206450ddb5830e6abd026d61d3c7f4b Mon Sep 17 00:00:00 2001
-+From: "Douglas Flick [MSFT]" <doug.edk2@gmail.com>
-+Date: Fri, 12 Jan 2024 02:16:01 +0800
-+Subject: [PATCH] SecurityPkg: DxeTpm2MeasureBootLib: SECURITY PATCH 4117 -=
- CVE
-+ 2022-36763
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45230-0001.patch
+@@ -0,0 +1,1617 @@
++From f31453e8d6542461d92d835e0b79fec8b039174d Mon Sep 17 00:00:00 2001
++From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
++Date: Fri, 26 Jan 2024 05:54:43 +0800
++Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45230 Patch
 +
-+This commit contains the patch files and tests for DxeTpm2MeasureBootLib
-+CVE 2022-36763.
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4535
 +
-+Cc: Jiewen Yao <jiewen.yao@intel.com>
++Bug Details:
++PixieFail Bug #2
++CVE-2023-45230
++CVSS 8.3 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H
++CWE-119 Improper Restriction of Operations within the Bounds
++ of a Memory Buffer
++
++Changes Overview:
++> -UINT8 *
++> +EFI_STATUS
++>  Dhcp6AppendOption (
++> -  IN OUT UINT8   *Buf,
++> -  IN     UINT16  OptType,
++> -  IN     UINT16  OptLen,
++> -  IN     UINT8   *Data
++> +  IN OUT EFI_DHCP6_PACKET  *Packet,
++> +  IN OUT UINT8             **PacketCursor,
++> +  IN     UINT16            OptType,
++> +  IN     UINT16            OptLen,
++> +  IN     UINT8             *Data
++>    );
++
++Dhcp6AppendOption() and variants can return errors now.  All callsites
++are adapted accordingly.
++
++It gets passed in EFI_DHCP6_PACKET as additional parameter ...
++
++> +  //
++> +  // Verify the PacketCursor is within the packet
++> +  //
++> +  if (  (*PacketCursor < Packet->Dhcp6.Option)
++> +     || (*PacketCursor >=3D Packet->Dhcp6.Option +
++ (Packet->Size - sizeof (EFI_DHCP6_HEADER))))
++> +  {
++> +    return EFI_INVALID_PARAMETER;
++> +  }
++
++... so it can look at Packet->Size when checking buffer space.
++Also to allow Packet->Length updates.
++
++Lots of checks added.
++
++Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
 +
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
++Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2022-36763
++CVE: CVE-2023-45230
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/224446=
-543206450ddb5830e6abd026d61d3c7f4b]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/f31453=
+e8d6542461d92d835e0b79fec8b039174d]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ .../DxeTpm2MeasureBootLib.c                   |  69 ++--
-+ .../DxeTpm2MeasureBootLib.inf                 |   4 +-
-+ .../DxeTpm2MeasureBootLibSanitization.c       | 275 ++++++++++++++++
-+ .../DxeTpm2MeasureBootLibSanitization.h       | 113 +++++++
-+ .../DxeTpm2MeasureBootLibSanitizationTest.c   | 303 ++++++++++++++++++
-+ ...Tpm2MeasureBootLibSanitizationTestHost.inf |  28 ++
-+ SecurityPkg/SecurityPkg.ci.yaml               |   1 +
-+ 7 files changed, 763 insertions(+), 30 deletions(-)
-+ create mode 100644 SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2Measu=
-reBootLibSanitization.c
-+ create mode 100644 SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2Measu=
-reBootLibSanitization.h
-+ create mode 100644 SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnit=
-Test/DxeTpm2MeasureBootLibSanitizationTest.c
-+ create mode 100644 SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnit=
-Test/DxeTpm2MeasureBootLibSanitizationTestHost.inf
++ NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h    |  43 +++
++ NetworkPkg/Dhcp6Dxe/Dhcp6Io.c      | 409 +++++++++++++++++++----------
++ NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c | 373 +++++++++++++++++++++-----
++ NetworkPkg/Dhcp6Dxe/Dhcp6Utility.h |  82 +++---
++ 4 files changed, 668 insertions(+), 239 deletions(-)
 +
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootL=
-ib.c b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.c
-+index 36a256a7af..0475103d6e 100644
-+--- a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.c
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.c
-+@@ -20,6 +20,8 @@ Copyright (c) 2013 - 2018, Intel Corporation. All rights=
- reserved.<BR>
-+ (C) Copyright 2015 Hewlett Packard Enterprise Development LP<BR>=0D
-+ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h b/NetworkPkg/Dhcp6Dxe/Dhcp6Im=
+pl.h
++index 0eb9c669b5..f2422c2f28 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h
++@@ -45,6 +45,49 @@ typedef struct _DHCP6_INSTANCE  DHCP6_INSTANCE;
++ #define DHCP6_SERVICE_SIGNATURE   SIGNATURE_32 ('D', 'H', '6', 'S')=0D
++ #define DHCP6_INSTANCE_SIGNATURE  SIGNATURE_32 ('D', 'H', '6', 'I')=0D
 + =0D
-++Copyright (c) Microsoft Corporation.<BR>=0D
-++SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++//=0D
+++// For more information on DHCP options see RFC 8415, Section 21.1=0D
+++//=0D
+++// The format of DHCP options is:=0D
+++//=0D
+++//     0                   1                   2                   3=0D
+++//     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |          option-code          |           option-len          |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |                          option-data                          |=0D
+++//    |                      (option-len octets)                      |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//=0D
+++#define DHCP6_SIZE_OF_OPT_CODE  (sizeof(UINT16))=0D
+++#define DHCP6_SIZE_OF_OPT_LEN   (sizeof(UINT16))=0D
+++=0D
+++//=0D
+++// Combined size of Code and Length=0D
+++//=0D
+++#define DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN  (DHCP6_SIZE_OF_OPT_CODE + \=
+=0D
+++                                              DHCP6_SIZE_OF_OPT_LEN)=0D
+++=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN =3D=3D 4,=0D
+++  "Combined size of Code and Length must be 4 per RFC 8415"=0D
+++  );=0D
+++=0D
+++//=0D
+++// Offset to the length is just past the code=0D
+++//=0D
+++#define DHCP6_OPT_LEN_OFFSET(a)  (a + DHCP6_SIZE_OF_OPT_CODE)=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_OPT_LEN_OFFSET (0) =3D=3D 2,=0D
+++  "Offset of length is + 2 past start of option"=0D
+++  );=0D
+++=0D
+++#define DHCP6_OPT_DATA_OFFSET(a)  (a + DHCP6_SIZE_OF_COMBINED_CODE_AND_LE=
+N)=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_OPT_DATA_OFFSET (0) =3D=3D 4,=0D
+++  "Offset to option data should be +4 from start of option"=0D
+++  );=0D
+++=0D
++ #define DHCP6_PACKET_ALL        0=0D
++ #define DHCP6_PACKET_STATEFUL   1=0D
++ #define DHCP6_PACKET_STATELESS  2=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++index dcd01e6268..bf5aa7a769 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++@@ -3,9 +3,9 @@
++ =0D
++   (C) Copyright 2014 Hewlett-Packard Development Company, L.P.<BR>=0D
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
+=0D
+++  Copyright (c) Microsoft Corporation=0D
++ =0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++-=0D
 + **/=0D
 + =0D
-+ #include <PiDxe.h>=0D
-+@@ -44,6 +46,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
-+ #include <Library/HobLib.h>=0D
-+ #include <Protocol/CcMeasurement.h>=0D
-+ =0D
-++#include "DxeTpm2MeasureBootLibSanitization.h"=0D
-++=0D
-+ typedef struct {=0D
-+   EFI_TCG2_PROTOCOL              *Tcg2Protocol;=0D
-+   EFI_CC_MEASUREMENT_PROTOCOL    *CcProtocol;=0D
-+@@ -144,10 +148,11 @@ Tcg2MeasureGptTable (
-+   EFI_TCG2_EVENT               *Tcg2Event;=0D
-+   EFI_CC_EVENT                 *CcEvent;=0D
-+   EFI_GPT_DATA                 *GptData;=0D
-+-  UINT32                       EventSize;=0D
-++  UINT32                       TcgEventSize;=0D
-+   EFI_TCG2_PROTOCOL            *Tcg2Protocol;=0D
-+   EFI_CC_MEASUREMENT_PROTOCOL  *CcProtocol;=0D
-+   EFI_CC_MR_INDEX              MrIndex;=0D
-++  UINT32                       AllocSize;=0D
-+ =0D
-+   if (mTcg2MeasureGptCount > 0) {=0D
-+     return EFI_SUCCESS;=0D
-+@@ -195,25 +200,22 @@ Tcg2MeasureGptTable (
-+                      BlockIo->Media->BlockSize,=0D
-+                      (UINT8 *)PrimaryHeader=0D
-+                      );=0D
-+-  if (EFI_ERROR (Status)) {=0D
-+-    DEBUG ((DEBUG_ERROR, "Failed to Read Partition Table Header!\n"));=0D
-++  if (EFI_ERROR (Status) || EFI_ERROR (SanitizeEfiPartitionTableHeader (P=
-rimaryHeader, BlockIo))) {=0D
-++    DEBUG ((DEBUG_ERROR, "Failed to read Partition Table Header or invali=
-d Partition Table Header!\n"));=0D
-+     FreePool (PrimaryHeader);=0D
-+     return EFI_DEVICE_ERROR;=0D
++ #include "Dhcp6Impl.h"=0D
++@@ -930,7 +930,8 @@ Dhcp6SendSolicitMsg   (
++   //=0D
++   Packet =3D AllocateZeroPool (DHCP6_BASE_PACKET_SIZE + UserLen);=0D
++   if (Packet =3D=3D NULL) {=0D
++-    return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D EFI_OUT_OF_RESOURCES;=0D
+++    goto ON_ERROR;=0D
 +   }=0D
 + =0D
-+   //=0D
-+-  // PrimaryHeader->SizeOfPartitionEntry should not be zero=0D
-++  // Read the partition entry.=0D
-+   //=0D
-+-  if (PrimaryHeader->SizeOfPartitionEntry =3D=3D 0) {=0D
-+-    DEBUG ((DEBUG_ERROR, "SizeOfPartitionEntry should not be zero!\n"));=
-=0D
-++  Status =3D SanitizePrimaryHeaderAllocationSize (PrimaryHeader, &AllocSi=
-ze);=0D
++   Packet->Size                       =3D DHCP6_BASE_PACKET_SIZE + UserLen=
+;=0D
++@@ -944,54 +945,64 @@ Dhcp6SendSolicitMsg   (
++   Cursor =3D Packet->Dhcp6.Option;=0D
++ =0D
++   Length =3D HTONS (ClientId->Length);=0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptClientId),=0D
++              Length,=0D
++              ClientId->Duid=0D
++              );=0D
 ++  if (EFI_ERROR (Status)) {=0D
-+     FreePool (PrimaryHeader);=0D
-+     return EFI_BAD_BUFFER_SIZE;=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendETOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance,=0D
++              &Elapsed=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendIaOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance->IaCb.Ia,=0D
++              Instance->IaCb.T1,=0D
++              Instance->IaCb.T2,=0D
++              Packet->Dhcp6.Header.MessageType=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++   //=0D
++   // Append user-defined when configurate Dhcp6 service.=0D
++   //=0D
++   for (Index =3D 0; Index < Instance->Config->OptionCount; Index++) {=0D
++     UserOpt =3D Instance->Config->OptionList[Index];=0D
++-    Cursor  =3D Dhcp6AppendOption (=0D
++-                Cursor,=0D
+++    Status  =3D Dhcp6AppendOption (=0D
+++                Packet,=0D
+++                &Cursor,=0D
++                 UserOpt->OpCode,=0D
++                 UserOpt->OpLen,=0D
++                 UserOpt->Data=0D
++                 );=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto ON_ERROR;=0D
+++    }=0D
 +   }=0D
 + =0D
 +-  //=0D
-+-  // Read the partition entry.=0D
++-  // Determine the size/length of packet.=0D
 +-  //=0D
-+-  EntryPtr =3D (UINT8 *)AllocatePool (PrimaryHeader->NumberOfPartitionEnt=
-ries * PrimaryHeader->SizeOfPartitionEntry);=0D
-++  EntryPtr =3D (UINT8 *)AllocatePool (AllocSize);=0D
-+   if (EntryPtr =3D=3D NULL) {=0D
-+     FreePool (PrimaryHeader);=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
-+@@ -223,7 +225,7 @@ Tcg2MeasureGptTable (
-+                      DiskIo,=0D
-+                      BlockIo->Media->MediaId,=0D
-+                      MultU64x32 (PrimaryHeader->PartitionEntryLBA, BlockI=
-o->Media->BlockSize),=0D
-+-                     PrimaryHeader->NumberOfPartitionEntries * PrimaryHea=
-der->SizeOfPartitionEntry,=0D
-++                     AllocSize,=0D
-+                      EntryPtr=0D
-+                      );=0D
++-  Packet->Length +=3D (UINT32)(Cursor - Packet->Dhcp6.Option);=0D
++   ASSERT (Packet->Size > Packet->Length + 8);=0D
++ =0D
++   //=0D
++   // Callback to user with the packet to be sent and check the user's fee=
+dback.=0D
++   //=0D
++   Status =3D Dhcp6CallbackUser (Instance, Dhcp6SendSolicit, &Packet);=0D
++-=0D
 +   if (EFI_ERROR (Status)) {=0D
-+@@ -248,16 +250,21 @@ Tcg2MeasureGptTable (
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
 +   //=0D
-+   // Prepare Data for Measurement (CcProtocol and Tcg2Protocol)=0D
++@@ -1005,10 +1016,8 @@ Dhcp6SendSolicitMsg   (
++   Instance->StartTime =3D 0;=0D
++ =0D
++   Status =3D Dhcp6TransmitPacket (Instance, Packet, Elapsed);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
 +   //=0D
-+-  EventSize =3D (UINT32)(sizeof (EFI_GPT_DATA) - sizeof (GptData->Partiti=
-ons)=0D
-+-                       + NumberOfPartition * PrimaryHeader->SizeOfPartiti=
-onEntry);=0D
-+-  EventPtr =3D (UINT8 *)AllocateZeroPool (EventSize + sizeof (EFI_TCG2_EV=
-ENT) - sizeof (Tcg2Event->Event));=0D
-++  Status =3D SanitizePrimaryHeaderGptEventSize (PrimaryHeader, NumberOfPa=
-rtition, &TcgEventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    FreePool (PrimaryHeader);=0D
-++    FreePool (EntryPtr);=0D
-++    return EFI_DEVICE_ERROR;=0D
++@@ -1020,6 +1029,14 @@ Dhcp6SendSolicitMsg   (
++            Elapsed,=0D
++            Instance->Config->SolicitRetransmission=0D
++            );=0D
+++=0D
+++ON_ERROR:=0D
+++=0D
+++  if (Packet) {=0D
+++    FreePool (Packet);=0D
 ++  }=0D
 ++=0D
-++  EventPtr =3D (UINT8 *)AllocateZeroPool (TcgEventSize);=0D
-+   if (EventPtr =3D=3D NULL) {=0D
-+     Status =3D EFI_OUT_OF_RESOURCES;=0D
-+     goto Exit;=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -1110,7 +1127,8 @@ Dhcp6SendRequestMsg (
++   //=0D
++   Packet =3D AllocateZeroPool (DHCP6_BASE_PACKET_SIZE + UserLen);=0D
++   if (Packet =3D=3D NULL) {=0D
++-    return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D EFI_OUT_OF_RESOURCES;=0D
+++    goto ON_ERROR;=0D
 +   }=0D
 + =0D
-+   Tcg2Event                       =3D (EFI_TCG2_EVENT *)EventPtr;=0D
-+-  Tcg2Event->Size                 =3D EventSize + sizeof (EFI_TCG2_EVENT)=
- - sizeof (Tcg2Event->Event);=0D
-++  Tcg2Event->Size                 =3D TcgEventSize;=0D
-+   Tcg2Event->Header.HeaderSize    =3D sizeof (EFI_TCG2_EVENT_HEADER);=0D
-+   Tcg2Event->Header.HeaderVersion =3D EFI_TCG2_EVENT_HEADER_VERSION;=0D
-+   Tcg2Event->Header.PCRIndex      =3D 5;=0D
-+@@ -310,7 +317,7 @@ Tcg2MeasureGptTable (
-+                                             CcProtocol,=0D
-+                                             0,=0D
-+                                             (EFI_PHYSICAL_ADDRESS)(UINTN)=
-(VOID *)GptData,=0D
-+-                                            (UINT64)EventSize,=0D
-++                                            (UINT64)TcgEventSize - OFFSET=
-_OF (EFI_TCG2_EVENT, Event),=0D
-+                                             CcEvent=0D
-+                                             );=0D
-+     if (!EFI_ERROR (Status)) {=0D
-+@@ -326,7 +333,7 @@ Tcg2MeasureGptTable (
-+                              Tcg2Protocol,=0D
-+                              0,=0D
-+                              (EFI_PHYSICAL_ADDRESS)(UINTN)(VOID *)GptData=
-,=0D
-+-                             (UINT64)EventSize,=0D
-++                             (UINT64)TcgEventSize -  OFFSET_OF (EFI_TCG2_=
-EVENT, Event),=0D
-+                              Tcg2Event=0D
-+                              );=0D
-+     if (!EFI_ERROR (Status)) {=0D
-+@@ -443,11 +450,13 @@ Tcg2MeasurePeImage (
-+       Tcg2Event->Header.PCRIndex  =3D 2;=0D
-+       break;=0D
-+     default:=0D
-+-      DEBUG ((=0D
-+-        DEBUG_ERROR,=0D
-+-        "Tcg2MeasurePeImage: Unknown subsystem type %d",=0D
-+-        ImageType=0D
-+-        ));=0D
-++      DEBUG (=0D
-++        (=0D
-++         DEBUG_ERROR,=0D
-++         "Tcg2MeasurePeImage: Unknown subsystem type %d",=0D
-++         ImageType=0D
-++        )=0D
-++        );=0D
-+       goto Finish;=0D
++   Packet->Size                       =3D DHCP6_BASE_PACKET_SIZE + UserLen=
+;=0D
++@@ -1124,51 +1142,67 @@ Dhcp6SendRequestMsg (
++   Cursor =3D Packet->Dhcp6.Option;=0D
++ =0D
++   Length =3D HTONS (ClientId->Length);=0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptClientId),=0D
++              Length,=0D
++              ClientId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendETOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance,=0D
++              &Elapsed=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptServerId),=0D
++              ServerId->Length,=0D
++              ServerId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendIaOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance->IaCb.Ia,=0D
++              Instance->IaCb.T1,=0D
++              Instance->IaCb.T2,=0D
++              Packet->Dhcp6.Header.MessageType=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++   //=0D
++   // Append user-defined when configurate Dhcp6 service.=0D
++   //=0D
++   for (Index =3D 0; Index < Instance->Config->OptionCount; Index++) {=0D
++     UserOpt =3D Instance->Config->OptionList[Index];=0D
++-    Cursor  =3D Dhcp6AppendOption (=0D
++-                Cursor,=0D
+++    Status  =3D Dhcp6AppendOption (=0D
+++                Packet,=0D
+++                &Cursor,=0D
++                 UserOpt->OpCode,=0D
++                 UserOpt->OpLen,=0D
++                 UserOpt->Data=0D
++                 );=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto ON_ERROR;=0D
+++    }=0D
 +   }=0D
 + =0D
-+@@ -515,7 +524,7 @@ Finish:
++-  //=0D
++-  // Determine the size/length of packet.=0D
++-  //=0D
++-  Packet->Length +=3D (UINT32)(Cursor - Packet->Dhcp6.Option);=0D
++   ASSERT (Packet->Size > Packet->Length + 8);=0D
 + =0D
-+   @param  MeasureBootProtocols  Pointer to the located measure boot proto=
-col instances.=0D
++   //=0D
++@@ -1177,8 +1211,7 @@ Dhcp6SendRequestMsg (
++   Status =3D Dhcp6CallbackUser (Instance, Dhcp6SendRequest, &Packet);=0D
 + =0D
-+-  @retval EFI_SUCCESS           Sucessfully locate the measure boot proto=
-col instances (at least one instance).=0D
-++  @retval EFI_SUCCESS           Successfully locate the measure boot prot=
-ocol instances (at least one instance).=0D
-+   @retval EFI_UNSUPPORTED       Measure boot is not supported.=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++@@ -1194,14 +1227,21 @@ Dhcp6SendRequestMsg (
++   Status =3D Dhcp6TransmitPacket (Instance, Packet, Elapsed);=0D
++ =0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++   // Enqueue the sent packet for the retransmission in case reply timeout=
+.=0D
++   //=0D
++   return Dhcp6EnqueueRetry (Instance, Packet, Elapsed, NULL);=0D
+++=0D
+++ON_ERROR:=0D
+++=0D
+++  if (Packet) {=0D
+++    FreePool (Packet);=0D
+++  }=0D
+++=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -1266,7 +1306,8 @@ Dhcp6SendDeclineMsg (
++   //=0D
++   Packet =3D AllocateZeroPool (DHCP6_BASE_PACKET_SIZE);=0D
++   if (Packet =3D=3D NULL) {=0D
++-    return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D EFI_OUT_OF_RESOURCES;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   Packet->Size                       =3D DHCP6_BASE_PACKET_SIZE;=0D
++@@ -1280,42 +1321,58 @@ Dhcp6SendDeclineMsg (
++   Cursor =3D Packet->Dhcp6.Option;=0D
++ =0D
++   Length =3D HTONS (ClientId->Length);=0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptClientId),=0D
++              Length,=0D
++              ClientId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendETOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance,=0D
++              &Elapsed=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptServerId),=0D
++              ServerId->Length,=0D
++              ServerId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendIaOption (Cursor, DecIa, 0, 0, Packet->Dhcp6.Head=
+er.MessageType);=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
+++             DecIa,=0D
+++             0,=0D
+++             0,=0D
+++             Packet->Dhcp6.Header.MessageType=0D
+++             );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  //=0D
++-  // Determine the size/length of packet.=0D
++-  //=0D
++-  Packet->Length +=3D (UINT32)(Cursor - Packet->Dhcp6.Option);=0D
++   ASSERT (Packet->Size > Packet->Length + 8);=0D
++ =0D
++   //=0D
++   // Callback to user with the packet to be sent and check the user's fee=
+dback.=0D
++   //=0D
++   Status =3D Dhcp6CallbackUser (Instance, Dhcp6SendDecline, &Packet);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++@@ -1329,16 +1386,22 @@ Dhcp6SendDeclineMsg (
++   Instance->StartTime =3D 0;=0D
++ =0D
++   Status =3D Dhcp6TransmitPacket (Instance, Packet, Elapsed);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++   // Enqueue the sent packet for the retransmission in case reply timeout=
+.=0D
++   //=0D
++   return Dhcp6EnqueueRetry (Instance, Packet, Elapsed, NULL);=0D
+++=0D
+++ON_ERROR:=0D
+++=0D
+++  if (Packet) {=0D
+++    FreePool (Packet);=0D
+++  }=0D
+++=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -1399,7 +1462,8 @@ Dhcp6SendReleaseMsg (
++   //=0D
++   Packet =3D AllocateZeroPool (DHCP6_BASE_PACKET_SIZE);=0D
++   if (Packet =3D=3D NULL) {=0D
++-    return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D EFI_OUT_OF_RESOURCES;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   Packet->Size                       =3D DHCP6_BASE_PACKET_SIZE;=0D
++@@ -1413,45 +1477,61 @@ Dhcp6SendReleaseMsg (
++   Cursor =3D Packet->Dhcp6.Option;=0D
++ =0D
++   Length =3D HTONS (ClientId->Length);=0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptClientId),=0D
++              Length,=0D
++              ClientId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++   //=0D
++   // ServerId is extracted from packet, it's network order.=0D
++   //=0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptServerId),=0D
++              ServerId->Length,=0D
++              ServerId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendETOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance,=0D
++              &Elapsed=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendIaOption (Cursor, RelIa, 0, 0, Packet->Dhcp6.Head=
+er.MessageType);=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
+++             RelIa,=0D
+++             0,=0D
+++             0,=0D
+++             Packet->Dhcp6.Header.MessageType=0D
+++             );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  //=0D
++-  // Determine the size/length of packet=0D
++-  //=0D
++-  Packet->Length +=3D (UINT32)(Cursor - Packet->Dhcp6.Option);=0D
++   ASSERT (Packet->Size > Packet->Length + 8);=0D
++ =0D
++   //=0D
++   // Callback to user with the packet to be sent and check the user's fee=
+dback.=0D
++   //=0D
++   Status =3D Dhcp6CallbackUser (Instance, Dhcp6SendRelease, &Packet);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++@@ -1461,16 +1541,22 @@ Dhcp6SendReleaseMsg (
++   Instance->IaCb.Ia->State =3D Dhcp6Releasing;=0D
++ =0D
++   Status =3D Dhcp6TransmitPacket (Instance, Packet, Elapsed);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++   // Enqueue the sent packet for the retransmission in case reply timeout=
+.=0D
++   //=0D
++   return Dhcp6EnqueueRetry (Instance, Packet, Elapsed, NULL);=0D
+++=0D
+++ON_ERROR:=0D
+++=0D
+++  if (Packet) {=0D
+++    FreePool (Packet);=0D
+++  }=0D
+++=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -1529,7 +1615,8 @@ Dhcp6SendRenewRebindMsg (
++   //=0D
++   Packet =3D AllocateZeroPool (DHCP6_BASE_PACKET_SIZE + UserLen);=0D
++   if (Packet =3D=3D NULL) {=0D
++-    return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D EFI_OUT_OF_RESOURCES;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   Packet->Size                       =3D DHCP6_BASE_PACKET_SIZE + UserLen=
+;=0D
++@@ -1543,26 +1630,38 @@ Dhcp6SendRenewRebindMsg (
++   Cursor =3D Packet->Dhcp6.Option;=0D
++ =0D
++   Length =3D HTONS (ClientId->Length);=0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptClientId),=0D
++              Length,=0D
++              ClientId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendETOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance,=0D
++              &Elapsed=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendIaOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance->IaCb.Ia,=0D
++              Instance->IaCb.T1,=0D
++              Instance->IaCb.T2,=0D
++              Packet->Dhcp6.Header.MessageType=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++   if (!RebindRequest) {=0D
++     //=0D
++@@ -1578,18 +1677,22 @@ Dhcp6SendRenewRebindMsg (
++                Dhcp6OptServerId=0D
++                );=0D
++     if (Option =3D=3D NULL) {=0D
++-      FreePool (Packet);=0D
++-      return EFI_DEVICE_ERROR;=0D
+++      Status =3D EFI_DEVICE_ERROR;=0D
+++      goto ON_ERROR;=0D
++     }=0D
++ =0D
++     ServerId =3D (EFI_DHCP6_DUID *)(Option + 2);=0D
++ =0D
++-    Cursor =3D Dhcp6AppendOption (=0D
++-               Cursor,=0D
+++    Status =3D Dhcp6AppendOption (=0D
+++               Packet,=0D
+++               &Cursor,=0D
++                HTONS (Dhcp6OptServerId),=0D
++                ServerId->Length,=0D
++                ServerId->Duid=0D
++                );=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto ON_ERROR;=0D
+++    }=0D
++   }=0D
++ =0D
++   //=0D
++@@ -1597,18 +1700,18 @@ Dhcp6SendRenewRebindMsg (
++   //=0D
++   for (Index =3D 0; Index < Instance->Config->OptionCount; Index++) {=0D
++     UserOpt =3D Instance->Config->OptionList[Index];=0D
++-    Cursor  =3D Dhcp6AppendOption (=0D
++-                Cursor,=0D
+++    Status  =3D Dhcp6AppendOption (=0D
+++                Packet,=0D
+++                &Cursor,=0D
++                 UserOpt->OpCode,=0D
++                 UserOpt->OpLen,=0D
++                 UserOpt->Data=0D
++                 );=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto ON_ERROR;=0D
+++    }=0D
++   }=0D
++ =0D
++-  //=0D
++-  // Determine the size/length of packet.=0D
++-  //=0D
++-  Packet->Length +=3D (UINT32)(Cursor - Packet->Dhcp6.Option);=0D
++   ASSERT (Packet->Size > Packet->Length + 8);=0D
++ =0D
++   //=0D
++@@ -1618,10 +1721,8 @@ Dhcp6SendRenewRebindMsg (
++   Event =3D (RebindRequest) ? Dhcp6EnterRebinding : Dhcp6EnterRenewing;=0D
++ =0D
++   Status =3D Dhcp6CallbackUser (Instance, Event, &Packet);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++@@ -1638,16 +1739,22 @@ Dhcp6SendRenewRebindMsg (
++   Instance->StartTime =3D 0;=0D
++ =0D
++   Status =3D Dhcp6TransmitPacket (Instance, Packet, Elapsed);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++   // Enqueue the sent packet for the retransmission in case reply timeout=
+.=0D
++   //=0D
++   return Dhcp6EnqueueRetry (Instance, Packet, Elapsed, NULL);=0D
+++=0D
+++ON_ERROR:=0D
+++=0D
+++  if (Packet) {=0D
+++    FreePool (Packet);=0D
+++  }=0D
+++=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -1811,7 +1918,8 @@ Dhcp6SendInfoRequestMsg (
++   //=0D
++   Packet =3D AllocateZeroPool (DHCP6_BASE_PACKET_SIZE + UserLen);=0D
++   if (Packet =3D=3D NULL) {=0D
++-    return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D EFI_OUT_OF_RESOURCES;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   Packet->Size                       =3D DHCP6_BASE_PACKET_SIZE + UserLen=
+;=0D
++@@ -1828,44 +1936,56 @@ Dhcp6SendInfoRequestMsg (
++ =0D
++   if (SendClientId) {=0D
++     Length =3D HTONS (ClientId->Length);=0D
++-    Cursor =3D Dhcp6AppendOption (=0D
++-               Cursor,=0D
+++    Status =3D Dhcp6AppendOption (=0D
+++               Packet,=0D
+++               &Cursor,=0D
++                HTONS (Dhcp6OptClientId),=0D
++                Length,=0D
++                ClientId->Duid=0D
++                );=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto ON_ERROR;=0D
+++    }=0D
++   }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendETOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance,=0D
++              &Elapsed=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              OptionRequest->OpCode,=0D
++              OptionRequest->OpLen,=0D
++              OptionRequest->Data=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++   //=0D
++   // Append user-defined when configurate Dhcp6 service.=0D
++   //=0D
++   for (Index =3D 0; Index < OptionCount; Index++) {=0D
++     UserOpt =3D OptionList[Index];=0D
++-    Cursor  =3D Dhcp6AppendOption (=0D
++-                Cursor,=0D
+++    Status  =3D Dhcp6AppendOption (=0D
+++                Packet,=0D
+++                &Cursor,=0D
++                 UserOpt->OpCode,=0D
++                 UserOpt->OpLen,=0D
++                 UserOpt->Data=0D
++                 );=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto ON_ERROR;=0D
+++    }=0D
++   }=0D
++ =0D
++-  //=0D
++-  // Determine the size/length of packet.=0D
++-  //=0D
++-  Packet->Length +=3D (UINT32)(Cursor - Packet->Dhcp6.Option);=0D
++   ASSERT (Packet->Size > Packet->Length + 8);=0D
++ =0D
++   //=0D
++@@ -1877,16 +1997,22 @@ Dhcp6SendInfoRequestMsg (
++   // Send info-request packet with no state.=0D
++   //=0D
++   Status =3D Dhcp6TransmitPacket (Instance, Packet, Elapsed);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++   // Enqueue the sent packet for the retransmission in case reply timeout=
+.=0D
++   //=0D
++   return Dhcp6EnqueueRetry (Instance, Packet, Elapsed, Retransmission);=0D
+++=0D
+++ON_ERROR:=0D
+++=0D
+++  if (Packet) {=0D
+++    FreePool (Packet);=0D
+++  }=0D
+++=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -1937,7 +2063,8 @@ Dhcp6SendConfirmMsg (
++   //=0D
++   Packet =3D AllocateZeroPool (DHCP6_BASE_PACKET_SIZE + UserLen);=0D
++   if (Packet =3D=3D NULL) {=0D
++-    return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D EFI_OUT_OF_RESOURCES;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   Packet->Size                       =3D DHCP6_BASE_PACKET_SIZE + UserLen=
+;=0D
++@@ -1951,54 +2078,64 @@ Dhcp6SendConfirmMsg (
++   Cursor =3D Packet->Dhcp6.Option;=0D
++ =0D
++   Length =3D HTONS (ClientId->Length);=0D
++-  Cursor =3D Dhcp6AppendOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              HTONS (Dhcp6OptClientId),=0D
++              Length,=0D
++              ClientId->Duid=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendETOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance,=0D
++              &Elapsed=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++-  Cursor =3D Dhcp6AppendIaOption (=0D
++-             Cursor,=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Packet,=0D
+++             &Cursor,=0D
++              Instance->IaCb.Ia,=0D
++              Instance->IaCb.T1,=0D
++              Instance->IaCb.T2,=0D
++              Packet->Dhcp6.Header.MessageType=0D
++              );=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
+++  }=0D
++ =0D
++   //=0D
++   // Append user-defined when configurate Dhcp6 service.=0D
++   //=0D
++   for (Index =3D 0; Index < Instance->Config->OptionCount; Index++) {=0D
++     UserOpt =3D Instance->Config->OptionList[Index];=0D
++-    Cursor  =3D Dhcp6AppendOption (=0D
++-                Cursor,=0D
+++    Status  =3D Dhcp6AppendOption (=0D
+++                Packet,=0D
+++                &Cursor,=0D
++                 UserOpt->OpCode,=0D
++                 UserOpt->OpLen,=0D
++                 UserOpt->Data=0D
++                 );=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto ON_ERROR;=0D
+++    }=0D
++   }=0D
++ =0D
++-  //=0D
++-  // Determine the size/length of packet.=0D
++-  //=0D
++-  Packet->Length +=3D (UINT32)(Cursor - Packet->Dhcp6.Option);=0D
++   ASSERT (Packet->Size > Packet->Length + 8);=0D
++ =0D
++   //=0D
++   // Callback to user with the packet to be sent and check the user's fee=
+dback.=0D
++   //=0D
++   Status =3D Dhcp6CallbackUser (Instance, Dhcp6SendConfirm, &Packet);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++@@ -2012,16 +2149,22 @@ Dhcp6SendConfirmMsg (
++   Instance->StartTime =3D 0;=0D
++ =0D
++   Status =3D Dhcp6TransmitPacket (Instance, Packet, Elapsed);=0D
++-=0D
++   if (EFI_ERROR (Status)) {=0D
++-    FreePool (Packet);=0D
++-    return Status;=0D
+++    goto ON_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++   // Enqueue the sent packet for the retransmission in case reply timeout=
+.=0D
++   //=0D
++   return Dhcp6EnqueueRetry (Instance, Packet, Elapsed, NULL);=0D
+++=0D
+++ON_ERROR:=0D
+++=0D
+++  if (Packet) {=0D
+++    FreePool (Packet);=0D
+++  }=0D
+++=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c b/NetworkPkg/Dhcp6Dxe/Dhcp=
+6Utility.c
++index e6368b5b1c..705c665c51 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.c
++@@ -577,24 +577,33 @@ Dhcp6OnTransmitted (
++ }=0D
++ =0D
++ /**=0D
++-  Append the option to Buf, and move Buf to the end.=0D
+++  Append the option to Buf, update the length of packet, and move Buf to =
+the end.=0D
++ =0D
++-  @param[in, out] Buf           The pointer to the buffer.=0D
++-  @param[in]      OptType       The option type.=0D
++-  @param[in]      OptLen        The length of option contents.=0D
++-  @param[in]      Data          The pointer to the option content.=0D
+++  @param[in, out] Packet         A pointer to the packet, on success Pack=
+et->Length=0D
+++                                 will be updated.=0D
+++  @param[in, out] PacketCursor   The pointer in the packet, on success Pa=
+cketCursor=0D
+++                                 will be moved to the end of the option.=
+=0D
+++  @param[in]      OptType        The option type.=0D
+++  @param[in]      OptLen         The length of option contents.=0D
+++  @param[in]      Data           The pointer to the option content.=0D
++ =0D
++-  @return         Buf           The position to append the next option.=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ =0D
 + **/=0D
-+ EFI_STATUS=0D
-+@@ -646,12 +655,14 @@ DxeTpm2MeasureBootHandler (
-+     return EFI_SUCCESS;=0D
++-UINT8 *=0D
+++EFI_STATUS=0D
++ Dhcp6AppendOption (=0D
++-  IN OUT UINT8   *Buf,=0D
++-  IN     UINT16  OptType,=0D
++-  IN     UINT16  OptLen,=0D
++-  IN     UINT8   *Data=0D
+++  IN OUT EFI_DHCP6_PACKET  *Packet,=0D
+++  IN OUT UINT8             **PacketCursor,=0D
+++  IN     UINT16            OptType,=0D
+++  IN     UINT16            OptLen,=0D
+++  IN     UINT8             *Data=0D
++   )=0D
++ {=0D
+++  UINT32  Length;=0D
+++  UINT32  BytesNeeded;=0D
+++=0D
++   //=0D
++   //  The format of Dhcp6 option:=0D
++   //=0D
++@@ -607,35 +616,95 @@ Dhcp6AppendOption (
++   //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++   //=0D
++ =0D
++-  ASSERT (OptLen !=3D 0);=0D
+++  //=0D
+++  // Verify the arguments are valid=0D
+++  //=0D
+++  if (Packet =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if ((PacketCursor =3D=3D NULL) || (*PacketCursor =3D=3D NULL)) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if (Data =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if (OptLen =3D=3D 0) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Verify the PacketCursor is within the packet=0D
+++  //=0D
+++  if (  (*PacketCursor < Packet->Dhcp6.Option)=0D
+++     || (*PacketCursor >=3D Packet->Dhcp6.Option + (Packet->Size - sizeof=
+ (EFI_DHCP6_HEADER))))=0D
+++  {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Calculate the bytes needed for the option=0D
+++  //=0D
+++  BytesNeeded =3D DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN + NTOHS (OptLen);=0D
+++=0D
+++  //=0D
+++  // Space remaining in the packet=0D
+++  //=0D
+++  Length =3D Packet->Size - Packet->Length;=0D
+++  if (Length < BytesNeeded) {=0D
+++    return EFI_BUFFER_TOO_SMALL;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Verify the PacketCursor is within the packet=0D
+++  //=0D
+++  if (  (*PacketCursor < Packet->Dhcp6.Option)=0D
+++     || (*PacketCursor >=3D Packet->Dhcp6.Option + (Packet->Size - sizeof=
+ (EFI_DHCP6_HEADER))))=0D
+++  {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, OptType);=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_CODE;=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, OptLen);=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_LEN;=0D
+++  CopyMem (*PacketCursor, Data, NTOHS (OptLen));=0D
+++  *PacketCursor +=3D NTOHS (OptLen);=0D
++ =0D
++-  WriteUnaligned16 ((UINT16 *)Buf, OptType);=0D
++-  Buf +=3D 2;=0D
++-  WriteUnaligned16 ((UINT16 *)Buf, OptLen);=0D
++-  Buf +=3D 2;=0D
++-  CopyMem (Buf, Data, NTOHS (OptLen));=0D
++-  Buf +=3D NTOHS (OptLen);=0D
+++  // Update the packet length by the length of the option + 4 bytes=0D
+++  Packet->Length +=3D BytesNeeded;=0D
++ =0D
++-  return Buf;=0D
+++  return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++ /**=0D
++   Append the appointed IA Address option to Buf, and move Buf to the end.=
+=0D
++ =0D
++-  @param[in, out] Buf           The pointer to the position to append.=0D
+++  @param[in, out] Packet        A pointer to the packet, on success Packe=
+t->Length=0D
+++                                will be updated.=0D
+++  @param[in, out] PacketCursor  The pointer in the packet, on success Pac=
+ketCursor=0D
+++                                will be moved to the end of the option.=0D
++   @param[in]      IaAddr        The pointer to the IA Address.=0D
++   @param[in]      MessageType   Message type of DHCP6 package.=0D
++ =0D
++-  @return         Buf           The position to append the next option.=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ =0D
++ **/=0D
++-UINT8 *=0D
+++EFI_STATUS=0D
++ Dhcp6AppendIaAddrOption (=0D
++-  IN OUT UINT8                 *Buf,=0D
+++  IN OUT EFI_DHCP6_PACKET      *Packet,=0D
+++  IN OUT UINT8                 **PacketCursor,=0D
++   IN     EFI_DHCP6_IA_ADDRESS  *IaAddr,=0D
++   IN     UINT32                MessageType=0D
++   )=0D
++ {=0D
+++  UINT32  BytesNeeded;=0D
+++  UINT32  Length;=0D
+++=0D
++   //  The format of the IA Address option is:=0D
++   //=0D
++   //       0                   1                   2                   3=
+=0D
++@@ -657,17 +726,60 @@ Dhcp6AppendIaAddrOption (
++   //      .                                                              =
+ .=0D
++   //      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+-+=0D
++ =0D
+++  //=0D
+++  // Verify the arguments are valid=0D
+++  //=0D
+++  if (Packet =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if ((PacketCursor =3D=3D NULL) || (*PacketCursor =3D=3D NULL)) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if (IaAddr =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Verify the PacketCursor is within the packet=0D
+++  //=0D
+++  if (  (*PacketCursor < Packet->Dhcp6.Option)=0D
+++     || (*PacketCursor >=3D Packet->Dhcp6.Option + (Packet->Size - sizeof=
+ (EFI_DHCP6_HEADER))))=0D
+++  {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  BytesNeeded  =3D DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN;=0D
+++  BytesNeeded +=3D sizeof (EFI_IPv6_ADDRESS);=0D
+++  //=0D
+++  // Even if the preferred-lifetime is 0, it still needs to store it.=0D
+++  //=0D
+++  BytesNeeded +=3D sizeof (IaAddr->PreferredLifetime);=0D
+++  //=0D
+++  // Even if the valid-lifetime is 0, it still needs to store it.=0D
+++  //=0D
+++  BytesNeeded +=3D sizeof (IaAddr->ValidLifetime);=0D
+++=0D
+++  //=0D
+++  // Space remaining in the packet=0D
+++  //=0D
+++  Length =3D Packet->Size - Packet->Length;=0D
+++  if (Length < BytesNeeded) {=0D
+++    return EFI_BUFFER_TOO_SMALL;=0D
+++  }=0D
+++=0D
++   //=0D
++   // Fill the value of Ia Address option type=0D
++   //=0D
++-  WriteUnaligned16 ((UINT16 *)Buf, HTONS (Dhcp6OptIaAddr));=0D
++-  Buf +=3D 2;=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, HTONS (Dhcp6OptIaAddr));=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_CODE;=0D
++ =0D
++-  WriteUnaligned16 ((UINT16 *)Buf, HTONS (sizeof (EFI_DHCP6_IA_ADDRESS)))=
+;=0D
++-  Buf +=3D 2;=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, HTONS (sizeof (EFI_DHCP6_IA_=
+ADDRESS)));=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_LEN;=0D
++ =0D
++-  CopyMem (Buf, &IaAddr->IpAddress, sizeof (EFI_IPv6_ADDRESS));=0D
++-  Buf +=3D sizeof (EFI_IPv6_ADDRESS);=0D
+++  CopyMem (*PacketCursor, &IaAddr->IpAddress, sizeof (EFI_IPv6_ADDRESS));=
+=0D
+++  *PacketCursor +=3D sizeof (EFI_IPv6_ADDRESS);=0D
++ =0D
++   //=0D
++   // Fill the value of preferred-lifetime and valid-lifetime.=0D
++@@ -675,44 +787,58 @@ Dhcp6AppendIaAddrOption (
++   // should set to 0 when initiate a Confirm message.=0D
++   //=0D
++   if (MessageType !=3D Dhcp6MsgConfirm) {=0D
++-    WriteUnaligned32 ((UINT32 *)Buf, HTONL (IaAddr->PreferredLifetime));=
+=0D
+++    WriteUnaligned32 ((UINT32 *)*PacketCursor, HTONL (IaAddr->PreferredLi=
+fetime));=0D
 +   }=0D
 + =0D
-+-  DEBUG ((=0D
-+-    DEBUG_INFO,=0D
-+-    "Tcg2Protocol =3D %p, CcMeasurementProtocol =3D %p\n",=0D
-+-    MeasureBootProtocols.Tcg2Protocol,=0D
-+-    MeasureBootProtocols.CcProtocol=0D
-+-    ));=0D
-++  DEBUG (=0D
-++    (=0D
-++     DEBUG_INFO,=0D
-++     "Tcg2Protocol =3D %p, CcMeasurementProtocol =3D %p\n",=0D
-++     MeasureBootProtocols.Tcg2Protocol,=0D
-++     MeasureBootProtocols.CcProtocol=0D
++-  Buf +=3D 4;=0D
+++  *PacketCursor +=3D sizeof (IaAddr->PreferredLifetime);=0D
++ =0D
++   if (MessageType !=3D Dhcp6MsgConfirm) {=0D
++-    WriteUnaligned32 ((UINT32 *)Buf, HTONL (IaAddr->ValidLifetime));=0D
+++    WriteUnaligned32 ((UINT32 *)*PacketCursor, HTONL (IaAddr->ValidLifeti=
+me));=0D
++   }=0D
++ =0D
++-  Buf +=3D 4;=0D
+++  *PacketCursor +=3D sizeof (IaAddr->ValidLifetime);=0D
+++=0D
+++  //=0D
+++  // Update the packet length=0D
+++  //=0D
+++  Packet->Length +=3D BytesNeeded;=0D
++ =0D
++-  return Buf;=0D
+++  return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++ /**=0D
++   Append the appointed Ia option to Buf, and move Buf to the end.=0D
++ =0D
++-  @param[in, out] Buf           The pointer to the position to append.=0D
+++  @param[in, out] Packet        A pointer to the packet, on success Packe=
+t->Length=0D
+++                                will be updated.=0D
+++  @param[in, out] PacketCursor  The pointer in the packet, on success Pac=
+ketCursor=0D
+++                                will be moved to the end of the option.=0D
++   @param[in]      Ia            The pointer to the Ia.=0D
++   @param[in]      T1            The time of T1.=0D
++   @param[in]      T2            The time of T2.=0D
++   @param[in]      MessageType   Message type of DHCP6 package.=0D
++ =0D
++-  @return         Buf           The position to append the next Ia option=
+.=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ =0D
++ **/=0D
++-UINT8 *=0D
+++EFI_STATUS=0D
++ Dhcp6AppendIaOption (=0D
++-  IN OUT UINT8         *Buf,=0D
++-  IN     EFI_DHCP6_IA  *Ia,=0D
++-  IN     UINT32        T1,=0D
++-  IN     UINT32        T2,=0D
++-  IN     UINT32        MessageType=0D
+++  IN OUT EFI_DHCP6_PACKET  *Packet,=0D
+++  IN OUT UINT8             **PacketCursor,=0D
+++  IN     EFI_DHCP6_IA      *Ia,=0D
+++  IN     UINT32            T1,=0D
+++  IN     UINT32            T2,=0D
+++  IN     UINT32            MessageType=0D
++   )=0D
++ {=0D
++-  UINT8   *AddrOpt;=0D
++-  UINT16  *Len;=0D
++-  UINTN   Index;=0D
+++  UINT8       *AddrOpt;=0D
+++  UINT16      *Len;=0D
+++  UINTN       Index;=0D
+++  UINT32      BytesNeeded;=0D
+++  UINT32      Length;=0D
+++  EFI_STATUS  Status;=0D
++ =0D
++   //=0D
++   //  The format of IA_NA and IA_TA option:=0D
++@@ -733,32 +859,74 @@ Dhcp6AppendIaOption (
++   //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++   //=0D
++ =0D
+++  //=0D
+++  // Verify the arguments are valid=0D
+++  //=0D
+++  if (Packet =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if ((PacketCursor =3D=3D NULL) || (*PacketCursor =3D=3D NULL)) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if (Ia =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Verify the PacketCursor is within the packet=0D
+++  //=0D
+++  if (  (*PacketCursor < Packet->Dhcp6.Option)=0D
+++     || (*PacketCursor >=3D Packet->Dhcp6.Option + (Packet->Size - sizeof=
+ (EFI_DHCP6_HEADER))))=0D
+++  {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  BytesNeeded  =3D DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN;=0D
+++  BytesNeeded +=3D sizeof (Ia->Descriptor.IaId);=0D
+++  //=0D
+++  // + N for the IA_NA-options/IA_TA-options=0D
+++  // Dhcp6AppendIaAddrOption will need to check the length for each addre=
+ss=0D
+++  //=0D
+++  if (Ia->Descriptor.Type =3D=3D Dhcp6OptIana) {=0D
+++    BytesNeeded +=3D sizeof (T1) + sizeof (T2);=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Space remaining in the packet=0D
+++  //=0D
+++  Length =3D (UINT16)(Packet->Size - Packet->Length);=0D
+++  if (Length < BytesNeeded) {=0D
+++    return EFI_BUFFER_TOO_SMALL;=0D
+++  }=0D
+++=0D
++   //=0D
++   // Fill the value of Ia option type=0D
++   //=0D
++-  WriteUnaligned16 ((UINT16 *)Buf, HTONS (Ia->Descriptor.Type));=0D
++-  Buf +=3D 2;=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, HTONS (Ia->Descriptor.Type))=
+;=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_CODE;=0D
++ =0D
++   //=0D
++   // Fill the len of Ia option later, keep the pointer first=0D
++   //=0D
++-  Len  =3D (UINT16 *)Buf;=0D
++-  Buf +=3D 2;=0D
+++  Len            =3D (UINT16 *)*PacketCursor;=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_LEN;=0D
++ =0D
++   //=0D
++   // Fill the value of iaid=0D
++   //=0D
++-  WriteUnaligned32 ((UINT32 *)Buf, HTONL (Ia->Descriptor.IaId));=0D
++-  Buf +=3D 4;=0D
+++  WriteUnaligned32 ((UINT32 *)*PacketCursor, HTONL (Ia->Descriptor.IaId))=
+;=0D
+++  *PacketCursor +=3D sizeof (Ia->Descriptor.IaId);=0D
++ =0D
++   //=0D
++   // Fill the value of t1 and t2 if iana, keep it 0xffffffff if no specif=
+ied.=0D
++   //=0D
++   if (Ia->Descriptor.Type =3D=3D Dhcp6OptIana) {=0D
++-    WriteUnaligned32 ((UINT32 *)Buf, HTONL ((T1 !=3D 0) ? T1 : 0xffffffff=
+));=0D
++-    Buf +=3D 4;=0D
++-    WriteUnaligned32 ((UINT32 *)Buf, HTONL ((T2 !=3D 0) ? T2 : 0xffffffff=
+));=0D
++-    Buf +=3D 4;=0D
+++    WriteUnaligned32 ((UINT32 *)*PacketCursor, HTONL ((T1 !=3D 0) ? T1 : =
+0xffffffff));=0D
+++    *PacketCursor +=3D sizeof (T1);=0D
+++    WriteUnaligned32 ((UINT32 *)*PacketCursor, HTONL ((T2 !=3D 0) ? T2 : =
+0xffffffff));=0D
+++    *PacketCursor +=3D sizeof (T2);=0D
++   }=0D
++ =0D
++   //=0D
++@@ -766,35 +934,51 @@ Dhcp6AppendIaOption (
++   //=0D
++   for (Index =3D 0; Index < Ia->IaAddressCount; Index++) {=0D
++     AddrOpt =3D (UINT8 *)Ia->IaAddress + Index * sizeof (EFI_DHCP6_IA_ADD=
+RESS);=0D
++-    Buf     =3D Dhcp6AppendIaAddrOption (Buf, (EFI_DHCP6_IA_ADDRESS *)Add=
+rOpt, MessageType);=0D
+++    Status  =3D Dhcp6AppendIaAddrOption (Packet, PacketCursor, (EFI_DHCP6=
+_IA_ADDRESS *)AddrOpt, MessageType);=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      return Status;=0D
+++    }=0D
++   }=0D
++ =0D
++   //=0D
++   // Fill the value of Ia option length=0D
++   //=0D
++-  *Len =3D HTONS ((UINT16)(Buf - (UINT8 *)Len - 2));=0D
+++  *Len =3D HTONS ((UINT16)(*PacketCursor - (UINT8 *)Len - 2));=0D
++ =0D
++-  return Buf;=0D
+++  //=0D
+++  // Update the packet length=0D
+++  //=0D
+++  Packet->Length +=3D BytesNeeded;=0D
+++=0D
+++  return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++ /**=0D
++   Append the appointed Elapsed time option to Buf, and move Buf to the en=
+d.=0D
++ =0D
++-  @param[in, out] Buf           The pointer to the position to append.=0D
+++  @param[in, out] Packet        A pointer to the packet, on success Packe=
+t->Length=0D
+++  @param[in, out] PacketCursor  The pointer in the packet, on success Pac=
+ketCursor=0D
+++                                will be moved to the end of the option.=0D
++   @param[in]      Instance      The pointer to the Dhcp6 instance.=0D
++   @param[out]     Elapsed       The pointer to the elapsed time value in=
+=0D
++-                                  the generated packet.=0D
+++                                the generated packet.=0D
++ =0D
++-  @return         Buf           The position to append the next Ia option=
+.=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ =0D
++ **/=0D
++-UINT8 *=0D
+++EFI_STATUS=0D
++ Dhcp6AppendETOption (=0D
++-  IN OUT UINT8           *Buf,=0D
++-  IN     DHCP6_INSTANCE  *Instance,=0D
++-  OUT    UINT16          **Elapsed=0D
+++  IN OUT EFI_DHCP6_PACKET  *Packet,=0D
+++  IN OUT UINT8             **PacketCursor,=0D
+++  IN     DHCP6_INSTANCE    *Instance,=0D
+++  OUT    UINT16            **Elapsed=0D
++   )=0D
++ {=0D
+++  UINT32  BytesNeeded;=0D
+++  UINT32  Length;=0D
+++=0D
++   //=0D
++   //  The format of elapsed time option:=0D
++   //=0D
++@@ -806,27 +990,70 @@ Dhcp6AppendETOption (
++   //  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
++   //=0D
++ =0D
+++  //=0D
+++  // Verify the arguments are valid=0D
+++  //=0D
+++  if (Packet =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if ((PacketCursor =3D=3D NULL) || (*PacketCursor =3D=3D NULL)) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if (Instance =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  if ((Elapsed =3D=3D NULL)) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Verify the PacketCursor is within the packet=0D
+++  //=0D
+++  if (  (*PacketCursor < Packet->Dhcp6.Option)=0D
+++     || (*PacketCursor >=3D Packet->Dhcp6.Option + (Packet->Size - sizeof=
+ (EFI_DHCP6_HEADER))))=0D
+++  {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  BytesNeeded =3D DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN;=0D
+++  //=0D
+++  // + 2 for elapsed-time=0D
+++  //=0D
+++  BytesNeeded +=3D sizeof (UINT16);=0D
+++  //=0D
+++  // Space remaining in the packet=0D
+++  //=0D
+++  Length =3D Packet->Size - Packet->Length;=0D
+++  if (Length < BytesNeeded) {=0D
+++    return EFI_BUFFER_TOO_SMALL;=0D
+++  }=0D
+++=0D
++   //=0D
++   // Fill the value of elapsed-time option type.=0D
++   //=0D
++-  WriteUnaligned16 ((UINT16 *)Buf, HTONS (Dhcp6OptElapsedTime));=0D
++-  Buf +=3D 2;=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, HTONS (Dhcp6OptElapsedTime))=
+;=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_CODE;=0D
++ =0D
++   //=0D
++   // Fill the len of elapsed-time option, which is fixed.=0D
++   //=0D
++-  WriteUnaligned16 ((UINT16 *)Buf, HTONS (2));=0D
++-  Buf +=3D 2;=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, HTONS (2));=0D
+++  *PacketCursor +=3D DHCP6_SIZE_OF_OPT_LEN;=0D
++ =0D
++   //=0D
++   // Fill in elapsed time value with 0 value for now.  The actual value i=
+s=0D
++   // filled in later just before the packet is transmitted.=0D
++   //=0D
++-  WriteUnaligned16 ((UINT16 *)Buf, HTONS (0));=0D
++-  *Elapsed =3D (UINT16 *)Buf;=0D
++-  Buf     +=3D 2;=0D
+++  WriteUnaligned16 ((UINT16 *)*PacketCursor, HTONS (0));=0D
+++  *Elapsed       =3D (UINT16 *)*PacketCursor;=0D
+++  *PacketCursor +=3D sizeof (UINT16);=0D
++ =0D
++-  return Buf;=0D
+++  Packet->Length +=3D BytesNeeded;=0D
+++=0D
+++  return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++ /**=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.h b/NetworkPkg/Dhcp6Dxe/Dhcp=
+6Utility.h
++index 046454ff4a..06947f6c1f 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.h
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Utility.h
++@@ -160,69 +160,85 @@ Dhcp6OnTransmitted (
++   );=0D
++ =0D
++ /**=0D
++-  Append the appointed option to the buf, and move the buf to the end.=0D
++-=0D
++-  @param[in, out] Buf           The pointer to buffer.=0D
++-  @param[in]      OptType       The option type.=0D
++-  @param[in]      OptLen        The length of option content.s=0D
++-  @param[in]      Data          The pointer to the option content.=0D
++-=0D
++-  @return         Buf           The position to append the next option.=0D
++-=0D
+++  Append the option to Buf, update the length of packet, and move Buf to =
+the end.=0D
+++=0D
+++  @param[in, out] Packet         A pointer to the packet, on success Pack=
+et->Length=0D
+++                                 will be updated.=0D
+++  @param[in, out] PacketCursor   The pointer in the packet, on success Pa=
+cketCursor=0D
+++                                 will be moved to the end of the option.=
+=0D
+++  @param[in]      OptType        The option type.=0D
+++  @param[in]      OptLen         The length of option contents.=0D
+++  @param[in]      Data           The pointer to the option content.=0D
+++=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ **/=0D
++-UINT8 *=0D
+++EFI_STATUS=0D
++ Dhcp6AppendOption (=0D
++-  IN OUT UINT8   *Buf,=0D
++-  IN     UINT16  OptType,=0D
++-  IN     UINT16  OptLen,=0D
++-  IN     UINT8   *Data=0D
+++  IN OUT EFI_DHCP6_PACKET  *Packet,=0D
+++  IN OUT UINT8             **PacketCursor,=0D
+++  IN     UINT16            OptType,=0D
+++  IN     UINT16            OptLen,=0D
+++  IN     UINT8             *Data=0D
++   );=0D
++ =0D
++ /**=0D
++-  Append the Ia option to Buf, and move Buf to the end.=0D
++-=0D
++-  @param[in, out] Buf           The pointer to the position to append.=0D
+++  Append the appointed Ia option to Buf, update the Ia option length, and=
+ move Buf=0D
+++  to the end of the option.=0D
+++  @param[in, out] Packet        A pointer to the packet, on success Packe=
+t->Length=0D
+++                                will be updated.=0D
+++  @param[in, out] PacketCursor   The pointer in the packet, on success Pa=
+cketCursor=0D
+++                                 will be moved to the end of the option.=
+=0D
++   @param[in]      Ia            The pointer to the Ia.=0D
++   @param[in]      T1            The time of T1.=0D
++   @param[in]      T2            The time of T2.=0D
++   @param[in]      MessageType   Message type of DHCP6 package.=0D
++ =0D
++-  @return         Buf           The position to append the next Ia option=
+.=0D
++-=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ **/=0D
++-UINT8 *=0D
+++EFI_STATUS=0D
++ Dhcp6AppendIaOption (=0D
++-  IN OUT UINT8         *Buf,=0D
++-  IN     EFI_DHCP6_IA  *Ia,=0D
++-  IN     UINT32        T1,=0D
++-  IN     UINT32        T2,=0D
++-  IN     UINT32        MessageType=0D
+++  IN OUT EFI_DHCP6_PACKET  *Packet,=0D
+++  IN OUT UINT8             **PacketCursor,=0D
+++  IN     EFI_DHCP6_IA      *Ia,=0D
+++  IN     UINT32            T1,=0D
+++  IN     UINT32            T2,=0D
+++  IN     UINT32            MessageType=0D
++   );=0D
++ =0D
++ /**=0D
++   Append the appointed Elapsed time option to Buf, and move Buf to the en=
+d.=0D
++ =0D
++-  @param[in, out] Buf           The pointer to the position to append.=0D
+++  @param[in, out] Packet        A pointer to the packet, on success Packe=
+t->Length=0D
+++  @param[in, out] PacketCursor   The pointer in the packet, on success Pa=
+cketCursor=0D
+++                                 will be moved to the end of the option.=
+=0D
++   @param[in]      Instance      The pointer to the Dhcp6 instance.=0D
++   @param[out]     Elapsed       The pointer to the elapsed time value in=
+=0D
++                                   the generated packet.=0D
++ =0D
++-  @return         Buf           The position to append the next Ia option=
+.=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ =0D
++ **/=0D
++-UINT8 *=0D
+++EFI_STATUS=0D
++ Dhcp6AppendETOption (=0D
++-  IN OUT UINT8           *Buf,=0D
++-  IN     DHCP6_INSTANCE  *Instance,=0D
++-  OUT    UINT16          **Elapsed=0D
+++  IN OUT EFI_DHCP6_PACKET  *Packet,=0D
+++  IN OUT UINT8             **PacketCursor,=0D
+++  IN     DHCP6_INSTANCE    *Instance,=0D
+++  OUT    UINT16            **Elapsed=0D
++   );=0D
++ =0D
++ /**=0D
++   Set the elapsed time based on the given instance and the pointer to the=
+=0D
++   elapsed time option.=0D
++ =0D
++-  @param[in]      Elapsed       The pointer to the position to append.=0D
++-  @param[in]      Instance      The pointer to the Dhcp6 instance.=0D
+++  @retval   EFI_INVALID_PARAMETER An argument provided to the function wa=
+s invalid=0D
+++  @retval   EFI_BUFFER_TOO_SMALL  The buffer is too small to append the o=
+ption.=0D
+++  @retval   EFI_SUCCESS           The option is appended successfully.=0D
++ **/=0D
++ VOID=0D
++ SetElapsedTime (=0D
++--=20
++2.40.0
++
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45230-0002.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45230-0002.patch
+new file mode 100644
+index 0000000000..1f891f8007
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45230-0002.patch
+@@ -0,0 +1,604 @@
++From 5f3658197bf29c83b3349b0ab1d99cdb0c3814bc Mon Sep 17 00:00:00 2001
++From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
++Date: Fri, 26 Jan 2024 05:54:45 +0800
++Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45230 Unit=
+=20
++ Tests
++
++REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4535
++
++Confirms that reported issue...
++
++"Buffer overflow in the DHCPv6 client via a long Server ID option"
++
++..has been corrected by the provided patch.
++
++Tests the following functions to ensure they appropriately handle
++untrusted data (either too long or too small) to prevent a buffer
++overflow:
++
++Dhcp6AppendOption
++Dhcp6AppendETOption
++Dhcp6AppendIaOption
++
++Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
++
++Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
++Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
++
++CVE: CVE-2023-45230
++
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/5f3658=
+197bf29c83b3349b0ab1d99cdb0c3814bc]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ .../GoogleTest/Dhcp6DxeGoogleTest.cpp         |  20 +
++ .../GoogleTest/Dhcp6DxeGoogleTest.inf         |  43 ++
++ .../Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp | 478 ++++++++++++++++++
++ 3 files changed, 541 insertions(+)
++ create mode 100644 NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.cpp
++ create mode 100644 NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
++ create mode 100644 NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
++
++diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.cpp b/Netwo=
+rkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.cpp
++new file mode 100644
++index 0000000000..9aeced2f91
++--- /dev/null
+++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.cpp
++@@ -0,0 +1,20 @@
+++/** @file=0D
+++  Acts as the main entry point for the tests for the Dhcp6Dxe module.=0D
+++=0D
+++  Copyright (c) Microsoft Corporation=0D
+++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++**/=0D
+++#include <gtest/gtest.h>=0D
+++=0D
+++/////////////////////////////////////////////////////////////////////////=
+///////=0D
+++// Run the tests=0D
+++/////////////////////////////////////////////////////////////////////////=
+///////=0D
+++int=0D
+++main (=0D
+++  int   argc,=0D
+++  char  *argv[]=0D
+++  )=0D
+++{=0D
+++  testing::InitGoogleTest (&argc, argv);=0D
+++  return RUN_ALL_TESTS ();=0D
+++}=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf b/Netwo=
+rkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
++new file mode 100644
++index 0000000000..8e9119a371
++--- /dev/null
+++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
++@@ -0,0 +1,43 @@
+++## @file=0D
+++# Unit test suite for the Dhcp6Dxe using Google Test=0D
+++#=0D
+++# Copyright (c) Microsoft Corporation.<BR>=0D
+++# SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++##=0D
+++[Defines]=0D
+++  INF_VERSION         =3D 0x00010017=0D
+++  BASE_NAME           =3D Dhcp6DxeGoogleTest=0D
+++  FILE_GUID           =3D 1D2A4C65-38C8-4C2F-BB60-B5FA49625AA9=0D
+++  VERSION_STRING      =3D 1.0=0D
+++  MODULE_TYPE         =3D HOST_APPLICATION=0D
+++#=0D
+++# The following information is for reference only and not required by the=
+ build tools.=0D
+++#=0D
+++#  VALID_ARCHITECTURES           =3D IA32 X64 AARCH64=0D
+++#=0D
+++[Sources]=0D
+++  Dhcp6DxeGoogleTest.cpp=0D
+++  Dhcp6IoGoogleTest.cpp=0D
+++  ../Dhcp6Io.c=0D
+++  ../Dhcp6Utility.c=0D
+++=0D
+++[Packages]=0D
+++  MdePkg/MdePkg.dec=0D
+++  MdeModulePkg/MdeModulePkg.dec=0D
+++  UnitTestFrameworkPkg/UnitTestFrameworkPkg.dec=0D
+++  NetworkPkg/NetworkPkg.dec=0D
+++=0D
+++[LibraryClasses]=0D
+++  GoogleTestLib=0D
+++  DebugLib=0D
+++  NetLib=0D
+++  PcdLib=0D
+++=0D
+++[Protocols]=0D
+++  gEfiDhcp6ServiceBindingProtocolGuid=0D
+++=0D
+++[Pcd]=0D
+++  gEfiNetworkPkgTokenSpaceGuid.PcdDhcp6UidType=0D
+++=0D
+++[Guids]=0D
+++  gZeroGuid=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp b/Networ=
+kPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
++new file mode 100644
++index 0000000000..7ee40e4af4
++--- /dev/null
+++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
++@@ -0,0 +1,478 @@
+++/** @file=0D
+++  Tests for Dhcp6Io.c.=0D
+++=0D
+++  Copyright (c) Microsoft Corporation=0D
+++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++**/=0D
+++#include <gtest/gtest.h>=0D
+++=0D
+++extern "C" {=0D
+++  #include <Uefi.h>=0D
+++  #include <Library/BaseLib.h>=0D
+++  #include <Library/DebugLib.h>=0D
+++  #include <Library/BaseMemoryLib.h>=0D
+++  #include "../Dhcp6Impl.h"=0D
+++  #include "../Dhcp6Utility.h"=0D
+++}=0D
+++=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++// Defines=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++=0D
+++#define DHCP6_PACKET_MAX_LEN  1500=0D
+++=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++// Symbol Definitions=0D
+++// These functions are not directly under test - but required to compile=
+=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++=0D
+++// This definition is used by this test but is also required to compile=0D
+++// by Dhcp6Io.c=0D
+++EFI_IPv6_ADDRESS  mAllDhcpRelayAndServersAddress =3D {=0D
+++  { 0xFF, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2 }=0D
+++};=0D
+++=0D
+++EFI_STATUS=0D
+++EFIAPI=0D
+++UdpIoSendDatagram (=0D
+++  IN  UDP_IO           *UdpIo,=0D
+++  IN  NET_BUF          *Packet,=0D
+++  IN  UDP_END_POINT    *EndPoint OPTIONAL,=0D
+++  IN  EFI_IP_ADDRESS   *Gateway  OPTIONAL,=0D
+++  IN  UDP_IO_CALLBACK  CallBack,=0D
+++  IN  VOID             *Context=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
+++EFI_STATUS=0D
+++EFIAPI=0D
+++UdpIoRecvDatagram (=0D
+++  IN  UDP_IO           *UdpIo,=0D
+++  IN  UDP_IO_CALLBACK  CallBack,=0D
+++  IN  VOID             *Context,=0D
+++  IN  UINT32           HeadLen=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++// Dhcp6AppendOptionTest Tests=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++=0D
+++class Dhcp6AppendOptionTest : public ::testing::Test {=0D
+++public:=0D
+++  UINT8 *Buffer =3D NULL;=0D
+++  EFI_DHCP6_PACKET *Packet;=0D
+++=0D
+++protected:=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
 ++    )=0D
-++    );=0D
-+ =0D
-+   //=0D
-+   // Copy File Device Path=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootL=
-ib.inf b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.inf
-+index 6dca79a20c..28995f438d 100644
-+--- a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.inf
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.inf
-+@@ -37,6 +37,8 @@
-+ =0D
-+ [Sources]=0D
-+   DxeTpm2MeasureBootLib.c=0D
-++  DxeTpm2MeasureBootLibSanitization.c=0D
-++  DxeTpm2MeasureBootLibSanitization.h=0D
-+ =0D
-+ [Packages]=0D
-+   MdePkg/MdePkg.dec=0D
-+@@ -46,6 +48,7 @@
-+ =0D
-+ [LibraryClasses]=0D
-+   BaseMemoryLib=0D
-++  SafeIntLib=0D
-+   DebugLib=0D
-+   MemoryAllocationLib=0D
-+   DevicePathLib=0D
-+@@ -65,4 +68,3 @@
-+   gEfiFirmwareVolumeBlockProtocolGuid   ## SOMETIMES_CONSUMES=0D
-+   gEfiBlockIoProtocolGuid               ## SOMETIMES_CONSUMES=0D
-+   gEfiDiskIoProtocolGuid                ## SOMETIMES_CONSUMES=0D
-+-=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootL=
-ibSanitization.c b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2Measure=
-BootLibSanitization.c
-+new file mode 100644
-+index 0000000000..e2309655d3
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLibSanit=
-ization.c
-+@@ -0,0 +1,275 @@
-++/** @file=0D
-++  The library instance provides security service of TPM2 measure boot and=
-=0D
-++  Confidential Computing (CC) measure boot.=0D
+++  {=0D
+++    // Initialize any resources or variables=0D
+++    Buffer =3D (UINT8 *)AllocateZeroPool (DHCP6_PACKET_MAX_LEN);=0D
+++    ASSERT_NE (Buffer, (UINT8 *)NULL);=0D
 ++=0D
-++  Caution: This file requires additional review when modified.=0D
-++  This library will have external input - PE/COFF image and GPT partition=
-.=0D
-++  This external input must be validated carefully to avoid security issue=
- like=0D
-++  buffer overflow, integer overflow.=0D
-++=0D
-++  This file will pull out the validation logic from the following functio=
-ns, in an=0D
-++  attempt to validate the untrusted input in the form of unit tests=0D
-++=0D
-++  These are those functions:=0D
-++=0D
-++  DxeTpm2MeasureBootLibImageRead() function will make sure the PE/COFF im=
-age content=0D
-++  read is within the image buffer.=0D
-++=0D
-++  Tcg2MeasureGptTable() function will receive untrusted GPT partition tab=
-le, and parse=0D
-++  partition data carefully.=0D
-++=0D
-++  Copyright (c) Microsoft Corporation.<BR>=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++**/=0D
-++#include <Uefi.h>=0D
-++#include <Uefi/UefiSpec.h>=0D
-++#include <Library/SafeIntLib.h>=0D
-++#include <Library/UefiLib.h>=0D
-++#include <Library/DebugLib.h>=0D
-++#include <Library/BaseLib.h>=0D
-++#include <IndustryStandard/UefiTcgPlatform.h>=0D
-++#include <Protocol/BlockIo.h>=0D
-++#include <Library/MemoryAllocationLib.h>=0D
-++=0D
-++#include "DxeTpm2MeasureBootLibSanitization.h"=0D
-++=0D
-++#define GPT_HEADER_REVISION_V1  0x00010000=0D
-++=0D
-++/**=0D
-++  This function will validate the EFI_PARTITION_TABLE_HEADER structure is=
- safe to parse=0D
-++  However this function will not attempt to verify the validity of the GP=
-T partition=0D
-++  It will check the following:=0D
-++    - Signature=0D
-++    - Revision=0D
-++    - AlternateLBA=0D
-++    - FirstUsableLBA=0D
-++    - LastUsableLBA=0D
-++    - PartitionEntryLBA=0D
-++    - NumberOfPartitionEntries=0D
-++    - SizeOfPartitionEntry=0D
-++    - BlockIo=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[in] BlockIo=0D
-++    Pointer to the EFI_BLOCK_IO_PROTOCOL structure.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is valid.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizeEfiPartitionTableHeader (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN CONST EFI_BLOCK_IO_PROTOCOL       *BlockIo=0D
-++  )=0D
-++{=0D
-++  //=0D
-++  // Verify that the input parameters are safe to use=0D
-++  //=0D
-++  if (PrimaryHeader =3D=3D NULL) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header!\n"));=0D
-++    return EFI_INVALID_PARAMETER;=0D
+++    Packet       =3D (EFI_DHCP6_PACKET *)Buffer;=0D
+++    Packet->Size =3D DHCP6_PACKET_MAX_LEN;=0D
 ++  }=0D
 ++=0D
-++  if ((BlockIo =3D=3D NULL) || (BlockIo->Media =3D=3D NULL)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid BlockIo!\n"));=0D
-++    return EFI_INVALID_PARAMETER;=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++    // Clean up any resources or variables=0D
+++    if (Buffer !=3D NULL) {=0D
+++      FreePool (Buffer);=0D
+++    }=0D
 ++  }=0D
+++};=0D
 ++=0D
-++  //=0D
-++  // The signature must be EFI_PTAB_HEADER_ID ("EFI PART" in ASCII)=0D
-++  //=0D
-++  if (PrimaryHeader->Header.Signature !=3D EFI_PTAB_HEADER_ID) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
+++// Test Description:=0D
+++// Attempt to append an option to a packet that is too small by a duid th=
+at is too large=0D
+++TEST_F (Dhcp6AppendOptionTest, InvalidDataExpectBufferTooSmall) {=0D
+++  UINT8           *Cursor;=0D
+++  EFI_DHCP6_DUID  *UntrustedDuid;=0D
+++  EFI_STATUS      Status;=0D
 ++=0D
-++  //=0D
-++  // The version must be GPT_HEADER_REVISION_V1 (0x00010000)=0D
-++  //=0D
-++  if (PrimaryHeader->Header.Revision !=3D GPT_HEADER_REVISION_V1) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header Revision!\n"));=
-=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
+++  UntrustedDuid =3D (EFI_DHCP6_DUID *)AllocateZeroPool (sizeof (EFI_DHCP6=
+_DUID));=0D
+++  ASSERT_NE (UntrustedDuid, (EFI_DHCP6_DUID *)NULL);=0D
 ++=0D
-++  //=0D
-++  // The HeaderSize must be greater than or equal to 92 and must be less =
-than or equal to the logical block size=0D
-++  //=0D
-++  if ((PrimaryHeader->Header.HeaderSize < sizeof (EFI_PARTITION_TABLE_HEA=
-DER)) || (PrimaryHeader->Header.HeaderSize > BlockIo->Media->BlockSize)) {=
-=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header HeaderSize!\n"))=
-;=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
+++  UntrustedDuid->Length =3D NTOHS (0xFFFF);=0D
 ++=0D
-++  //=0D
-++  // The partition entries should all be before the first usable block=0D
-++  //=0D
-++  if (PrimaryHeader->FirstUsableLBA <=3D PrimaryHeader->PartitionEntryLBA=
-) {=0D
-++    DEBUG ((DEBUG_ERROR, "GPT PartitionEntryLBA is not less than FirstUsa=
-bleLBA!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
+++  Cursor =3D Dhcp6AppendOptionTest::Packet->Dhcp6.Option;=0D
 ++=0D
-++  //=0D
-++  // Check that the PartitionEntryLBA greater than the Max LBA=0D
-++  // This will be used later for multiplication=0D
-++  //=0D
-++  if (PrimaryHeader->PartitionEntryLBA > DivU64x32 (MAX_UINT64, BlockIo->=
-Media->BlockSize)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header PartitionEntryLB=
-A!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Check that the number of partition entries is greater than zero=0D
-++  //=0D
-++  if (PrimaryHeader->NumberOfPartitionEntries =3D=3D 0) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header NumberOfPartitio=
-nEntries!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // SizeOfPartitionEntry must be 128, 256, 512... improper size may lead=
- to accessing uninitialized memory=0D
-++  //=0D
-++  if ((PrimaryHeader->SizeOfPartitionEntry < 128) || ((PrimaryHeader->Siz=
-eOfPartitionEntry & (PrimaryHeader->SizeOfPartitionEntry - 1)) !=3D 0)) {=0D
-++    DEBUG ((DEBUG_ERROR, "SizeOfPartitionEntry shall be set to a value of=
- 128 x 2^n where n is an integer greater than or equal to zero (e.g., 128, =
-256, 512, etc.)!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // This check is to prevent overflow when calculating the allocation si=
-ze for the partition entries=0D
-++  // This check will be used later for multiplication=0D
-++  //=0D
-++  if (PrimaryHeader->NumberOfPartitionEntries > DivU64x32 (MAX_UINT64, Pr=
-imaryHeader->SizeOfPartitionEntry)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header NumberOfPartitio=
-nEntries!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-++/**=0D
-++  This function will validate that the allocation size from the primary h=
-eader is sane=0D
-++  It will check the following:=0D
-++    - AllocationSize does not overflow=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[out] AllocationSize=0D
-++    Pointer to the allocation size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The allocation size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    The allocation size is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizePrimaryHeaderAllocationSize (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  OUT UINT32                           *AllocationSize=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS  Status;=0D
-++=0D
-++  if (PrimaryHeader =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  if (AllocationSize =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Replacing logic:=0D
-++  // PrimaryHeader->NumberOfPartitionEntries * PrimaryHeader->SizeOfParti=
-tionEntry;=0D
-++  //=0D
-++  Status =3D SafeUint32Mult (PrimaryHeader->NumberOfPartitionEntries, Pri=
-maryHeader->SizeOfPartitionEntry, AllocationSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Allocation Size would have overflowed!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
-++  }=0D
-++=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-++/**=0D
-++  This function will validate that the Gpt Event Size calculated from the=
- primary header is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
-++=0D
-++  Important: This function includes the entire length of the allocated sp=
-ace, including=0D
-++  (sizeof (EFI_TCG2_EVENT) - sizeof (Tcg2Event->Event)) . When hashing th=
-e buffer allocated with this=0D
-++  size, the caller must subtract the size of the (sizeof (EFI_TCG2_EVENT)=
- - sizeof (Tcg2Event->Event))=0D
-++  from the size of the buffer before hashing.=0D
-++=0D
-++  @param[in] PrimaryHeader - Pointer to the EFI_PARTITION_TABLE_HEADER st=
-ructure.=0D
-++  @param[in] NumberOfPartition - Number of partitions.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePrimaryHeaderGptEventSize (=0D
-++  IN  CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN  UINTN                             NumberOfPartition,=0D
-++  OUT UINT32                            *EventSize=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS  Status;=0D
-++  UINT32      SafeNumberOfPartitions;=0D
-++=0D
-++  if (PrimaryHeader =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  if (EventSize =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // We shouldn't even attempt to perform the multiplication if the numbe=
-r of partitions is greater than the maximum value of UINT32=0D
-++  //=0D
-++  Status =3D SafeUintnToUint32 (NumberOfPartition, &SafeNumberOfPartition=
-s);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "NumberOfPartition would have overflowed!\n"));=
-=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Replacing logic:=0D
-++  // (UINT32)(sizeof (EFI_GPT_DATA) - sizeof (GptData->Partitions) + Numb=
-erOfPartition * PrimaryHeader.SizeOfPartitionEntry);=0D
-++  //=0D
-++  Status =3D SafeUint32Mult (SafeNumberOfPartitions, PrimaryHeader->SizeO=
-fPartitionEntry, EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Event Size would have overflowed!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Replacing logic:=0D
-++  // *EventSize + sizeof (EFI_TCG2_EVENT) - sizeof (Tcg2Event->Event);=0D
-++  //=0D
-++  Status =3D SafeUint32Add (=0D
-++             OFFSET_OF (EFI_TCG2_EVENT, Event) + OFFSET_OF (EFI_GPT_DATA,=
- Partitions),=0D
-++             *EventSize,=0D
-++             EventSize=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Dhcp6AppendOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             HTONS (Dhcp6OptServerId),=0D
+++             UntrustedDuid->Length,=0D
+++             UntrustedDuid->Duid=0D
 ++             );=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Event Size would have overflowed because of GPT=
-Data!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
-++  }=0D
 ++=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootL=
-ibSanitization.h b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2Measure=
-BootLibSanitization.h
-+new file mode 100644
-+index 0000000000..048b738987
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLibSanit=
-ization.h
-+@@ -0,0 +1,113 @@
-++/** @file=0D
-++  This file includes the function prototypes for the sanitization functio=
-ns.=0D
-++=0D
-++  These are those functions:=0D
-++=0D
-++  DxeTpm2MeasureBootLibImageRead() function will make sure the PE/COFF im=
-age content=0D
-++  read is within the image buffer.=0D
-++=0D
-++  Tcg2MeasureGptTable() function will receive untrusted GPT partition tab=
-le, and parse=0D
-++  partition data carefully.=0D
-++=0D
-++  Copyright (c) Microsoft Corporation.<BR>=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++=0D
-++**/=0D
-++=0D
-++#ifndef DXE_TPM2_MEASURE_BOOT_LIB_SANITATION_=0D
-++#define DXE_TPM2_MEASURE_BOOT_LIB_SANITATION_=0D
-++=0D
-++#include <Uefi.h>=0D
-++#include <Uefi/UefiSpec.h>=0D
-++#include <Protocol/BlockIo.h>=0D
-++#include <IndustryStandard/UefiTcgPlatform.h>=0D
-++#include <Protocol/Tcg2Protocol.h>=0D
-++=0D
-++/**=0D
-++  This function will validate the EFI_PARTITION_TABLE_HEADER structure is=
- safe to parse=0D
-++  However this function will not attempt to verify the validity of the GP=
-T partition=0D
-++  It will check the following:=0D
-++    - Signature=0D
-++    - Revision=0D
-++    - AlternateLBA=0D
-++    - FirstUsableLBA=0D
-++    - LastUsableLBA=0D
-++    - PartitionEntryLBA=0D
-++    - NumberOfPartitionEntries=0D
-++    - SizeOfPartitionEntry=0D
-++    - BlockIo=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[in] BlockIo=0D
-++    Pointer to the EFI_BLOCK_IO_PROTOCOL structure.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is valid.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizeEfiPartitionTableHeader (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN CONST EFI_BLOCK_IO_PROTOCOL       *BlockIo=0D
-++  );=0D
-++=0D
-++/**=0D
-++  This function will validate that the allocation size from the primary h=
-eader is sane=0D
-++  It will check the following:=0D
-++    - AllocationSize does not overflow=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[out] AllocationSize=0D
-++    Pointer to the allocation size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The allocation size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    The allocation size is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizePrimaryHeaderAllocationSize (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  OUT UINT32                           *AllocationSize=0D
-++  );=0D
-++=0D
-++/**=0D
-++  This function will validate that the Gpt Event Size calculated from the=
- primary header is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
-++=0D
-++  Important: This function includes the entire length of the allocated sp=
-ace, including=0D
-++  (sizeof (EFI_TCG2_EVENT) - sizeof (Tcg2Event->Event)) . When hashing th=
-e buffer allocated with this=0D
-++  size, the caller must subtract the size of the (sizeof (EFI_TCG2_EVENT)=
- - sizeof (Tcg2Event->Event))=0D
-++  from the size of the buffer before hashing.=0D
-++=0D
-++  @param[in] PrimaryHeader - Pointer to the EFI_PARTITION_TABLE_HEADER st=
-ructure.=0D
-++  @param[in] NumberOfPartition - Number of partitions.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePrimaryHeaderGptEventSize (=0D
-++  IN  CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN  UINTN                             NumberOfPartition,=0D
-++  OUT UINT32                            *EventSize=0D
-++  );=0D
-++=0D
-++#endif // DXE_TPM2_MEASURE_BOOT_LIB_SANITATION_=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnitTest/Dx=
-eTpm2MeasureBootLibSanitizationTest.c b/SecurityPkg/Library/DxeTpm2MeasureB=
-ootLib/InternalUnitTest/DxeTpm2MeasureBootLibSanitizationTest.c
-+new file mode 100644
-+index 0000000000..3eb9763e3c
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnitTest/DxeTpm2Me=
-asureBootLibSanitizationTest.c
-+@@ -0,0 +1,303 @@
-++/** @file=0D
-++  This file includes the unit test cases for the DxeTpm2MeasureBootLibSan=
-itizationTest.c.=0D
-++=0D
-++  Copyright (c) Microsoft Corporation.<BR>=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++**/=0D
-++=0D
-++#include <Uefi.h>=0D
-++#include <Library/UefiLib.h>=0D
-++#include <Library/DebugLib.h>=0D
-++#include <Library/UnitTestLib.h>=0D
-++#include <Protocol/BlockIo.h>=0D
-++#include <Library/MemoryAllocationLib.h>=0D
-++#include <Library/BaseMemoryLib.h>=0D
-++#include <IndustryStandard/UefiTcgPlatform.h>=0D
-++#include <Protocol/Tcg2Protocol.h>=0D
-++=0D
-++#include "../DxeTpm2MeasureBootLibSanitization.h"=0D
-++=0D
-++#define UNIT_TEST_NAME     "DxeTpm2MeasureBootLibSanitizationTest"=0D
-++#define UNIT_TEST_VERSION  "1.0"=0D
-++=0D
-++#define DEFAULT_PRIMARY_TABLE_HEADER_REVISION                     0x00010=
-000=0D
-++#define DEFAULT_PRIMARY_TABLE_HEADER_NUMBER_OF_PARTITION_ENTRIES  1=0D
-++#define DEFAULT_PRIMARY_TABLE_HEADER_SIZE_OF_PARTITION_ENTRY      128=0D
-++=0D
-++/**=0D
-++  This function tests the SanitizeEfiPartitionTableHeader function.=0D
-++  It's intent is to test that a malicious EFI_PARTITION_TABLE_HEADER=0D
-++  structure will not cause undefined or unexpected behavior.=0D
-++=0D
-++  In general the TPM should still be able to measure the data, but=0D
-++  be the header should be sanitized to prevent any unexpected behavior.=0D
-++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizeEfiPartitionTableHeader (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS                  Status;=0D
-++  EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-++  EFI_BLOCK_IO_PROTOCOL       BlockIo;=0D
-++  EFI_BLOCK_IO_MEDIA          BlockMedia;=0D
-++=0D
-++  // Generate EFI_BLOCK_IO_MEDIA test data=0D
-++  BlockMedia.MediaId          =3D 1;=0D
-++  BlockMedia.RemovableMedia   =3D FALSE;=0D
-++  BlockMedia.MediaPresent     =3D TRUE;=0D
-++  BlockMedia.LogicalPartition =3D FALSE;=0D
-++  BlockMedia.ReadOnly         =3D FALSE;=0D
-++  BlockMedia.WriteCaching     =3D FALSE;=0D
-++  BlockMedia.BlockSize        =3D 512;=0D
-++  BlockMedia.IoAlign          =3D 1;=0D
-++  BlockMedia.LastBlock        =3D 0;=0D
-++=0D
-++  // Generate EFI_BLOCK_IO_PROTOCOL test data=0D
-++  BlockIo.Revision    =3D 1;=0D
-++  BlockIo.Media       =3D &BlockMedia;=0D
-++  BlockIo.Reset       =3D NULL;=0D
-++  BlockIo.ReadBlocks  =3D NULL;=0D
-++  BlockIo.WriteBlocks =3D NULL;=0D
-++  BlockIo.FlushBlocks =3D NULL;=0D
-++=0D
-++  // Geneate EFI_PARTITION_TABLE_HEADER test data=0D
-++  PrimaryHeader.Header.Signature         =3D EFI_PTAB_HEADER_ID;=0D
-++  PrimaryHeader.Header.Revision          =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_REVISION;=0D
-++  PrimaryHeader.Header.HeaderSize        =3D sizeof (EFI_PARTITION_TABLE_=
-HEADER);=0D
-++  PrimaryHeader.MyLBA                    =3D 1;=0D
-++  PrimaryHeader.AlternateLBA             =3D 2;=0D
-++  PrimaryHeader.FirstUsableLBA           =3D 3;=0D
-++  PrimaryHeader.LastUsableLBA            =3D 4;=0D
-++  PrimaryHeader.PartitionEntryLBA        =3D 5;=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_NUMBER_OF_PARTITION_ENTRIES;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++  PrimaryHeader.PartitionEntryArrayCRC32 =3D 0; // Purposely invalid=0D
-++=0D
-++  // Calculate the CRC32 of the PrimaryHeader=0D
-++  PrimaryHeader.Header.CRC32 =3D CalculateCrc32 ((UINT8 *)&PrimaryHeader,=
- PrimaryHeader.Header.HeaderSize);=0D
-++=0D
-++  // Test that a normal PrimaryHeader passes validation=0D
-++  Status =3D SanitizeEfiPartitionTableHeader (&PrimaryHeader, &BlockIo);=
-=0D
-++  UT_ASSERT_NOT_EFI_ERROR (Status);=0D
-++=0D
-++  // Test that when number of partition entries is 0, the function return=
-s EFI_DEVICE_ERROR=0D
-++  // Should print "Invalid Partition Table Header NumberOfPartitionEntrie=
-s!""=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 0;=0D
-++  Status                                 =3D SanitizeEfiPartitionTableHea=
-der (&PrimaryHeader, &BlockIo);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_DEVICE_ERROR);=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++=0D
-++  // Test that when the header size is too small, the function returns EF=
-I_DEVICE_ERROR=0D
-++  // Should print "Invalid Partition Table Header Size!"=0D
-++  PrimaryHeader.Header.HeaderSize =3D 0;=0D
-++  Status                          =3D SanitizeEfiPartitionTableHeader (&P=
-rimaryHeader, &BlockIo);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_DEVICE_ERROR);=0D
-++  PrimaryHeader.Header.HeaderSize =3D sizeof (EFI_PARTITION_TABLE_HEADER)=
-;=0D
-++=0D
-++  // Test that when the SizeOfPartitionEntry is too small, the function r=
-eturns EFI_DEVICE_ERROR=0D
-++  // should print: "SizeOfPartitionEntry shall be set to a value of 128 x=
- 2^n where n is an integer greater than or equal to zero (e.g., 128, 256, 5=
-12, etc.)!"=0D
-++  PrimaryHeader.SizeOfPartitionEntry =3D 1;=0D
-++  Status                             =3D SanitizeEfiPartitionTableHeader =
-(&PrimaryHeader, &BlockIo);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_DEVICE_ERROR);=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
-++=0D
-++  return UNIT_TEST_PASSED;=0D
+++  ASSERT_EQ (Status, EFI_BUFFER_TOO_SMALL);=0D
 ++}=0D
 ++=0D
-++/**=0D
-++  This function tests the SanitizePrimaryHeaderAllocationSize function.=0D
-++  It's intent is to test that the untrusted input from a EFI_PARTITION_TA=
-BLE_HEADER=0D
-++  structure will not cause an overflow when calculating the allocation si=
-ze.=0D
-++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizePrimaryHeaderAllocationSize (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  UINT32  AllocationSize;=0D
-++=0D
-++  EFI_STATUS                  Status;=0D
-++  EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-++=0D
-++  // Test that a normal PrimaryHeader passes validation=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++=0D
-++  Status =3D SanitizePrimaryHeaderAllocationSize (&PrimaryHeader, &Alloca=
-tionSize);=0D
-++  UT_ASSERT_NOT_EFI_ERROR (Status);=0D
-++=0D
-++  // Test that the allocation size is correct compared to the existing lo=
-gic=0D
-++  UT_ASSERT_EQUAL (AllocationSize, PrimaryHeader.NumberOfPartitionEntries=
- * PrimaryHeader.SizeOfPartitionEntry);=0D
-++=0D
-++  // Test that an overflow is detected=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D MAX_UINT32;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D 5;=0D
-++  Status                                 =3D SanitizePrimaryHeaderAllocat=
-ionSize (&PrimaryHeader, &AllocationSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  // Test the inverse=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D MAX_UINT32;=0D
-++  Status                                 =3D SanitizePrimaryHeaderAllocat=
-ionSize (&PrimaryHeader, &AllocationSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  // Test the worst case scenario=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D MAX_UINT32;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D MAX_UINT32;=0D
-++  Status                                 =3D SanitizePrimaryHeaderAllocat=
-ionSize (&PrimaryHeader, &AllocationSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
-++=0D
-++  return UNIT_TEST_PASSED;=0D
-++}=0D
-++=0D
-++/**=0D
-++  This function tests the SanitizePrimaryHeaderGptEventSize function.=0D
-++  It's intent is to test that the untrusted input from a EFI_GPT_DATA str=
-ucture=0D
-++  will not cause an overflow when calculating the event size.=0D
-++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizePrimaryHeaderGptEventSize (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  UINT32                      EventSize;=0D
-++  UINT32                      ExistingLogicEventSize;=0D
-++  EFI_STATUS                  Status;=0D
-++  EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-++  UINTN                       NumberOfPartition;=0D
-++  EFI_GPT_DATA                *GptData;=0D
-++  EFI_TCG2_EVENT              *Tcg2Event;=0D
-++=0D
-++  Tcg2Event =3D NULL;=0D
-++  GptData   =3D NULL;=0D
-++=0D
-++  // Test that a normal PrimaryHeader passes validation=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++=0D
-++  // set the number of partitions=0D
-++  NumberOfPartition =3D 13;=0D
-++=0D
-++  // that the primary event size is correct=0D
-++  Status =3D SanitizePrimaryHeaderGptEventSize (&PrimaryHeader, NumberOfP=
-artition, &EventSize);=0D
-++  UT_ASSERT_NOT_EFI_ERROR (Status);=0D
-++=0D
-++  // Calculate the existing logic event size=0D
-++  ExistingLogicEventSize =3D (UINT32)(OFFSET_OF (EFI_TCG2_EVENT, Event) +=
- OFFSET_OF (EFI_GPT_DATA, Partitions)=0D
-++                                    + NumberOfPartition * PrimaryHeader.S=
-izeOfPartitionEntry);=0D
-++=0D
-++  // Check that the event size is correct=0D
-++  UT_ASSERT_EQUAL (EventSize, ExistingLogicEventSize);=0D
-++=0D
-++  // Tests that the primary event size may not overflow=0D
-++  Status =3D SanitizePrimaryHeaderGptEventSize (&PrimaryHeader, MAX_UINT3=
-2, &EventSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  // Test that the size of partition entries may not overflow=0D
-++  PrimaryHeader.SizeOfPartitionEntry =3D MAX_UINT32;=0D
-++  Status                             =3D SanitizePrimaryHeaderGptEventSiz=
-e (&PrimaryHeader, NumberOfPartition, &EventSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
-++=0D
-++  return UNIT_TEST_PASSED;=0D
-++}=0D
-++=0D
-++// *--------------------------------------------------------------------*=
-=0D
-++// *  Unit Test Code Main Function=0D
-++// *--------------------------------------------------------------------*=
-=0D
-++=0D
-++/**=0D
-++  This function acts as the entry point for the unit tests.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++  @retval others The test failed.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++UefiTestMain (=0D
-++  VOID=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS                  Status;=0D
-++  UNIT_TEST_FRAMEWORK_HANDLE  Framework;=0D
-++  UNIT_TEST_SUITE_HANDLE      Tcg2MeasureBootLibValidationTestSuite;=0D
-++=0D
-++  Framework =3D NULL;=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: TestMain() - Start\n", UNIT_TEST_NAME));=0D
-++=0D
-++  Status =3D InitUnitTestFramework (&Framework, UNIT_TEST_NAME, gEfiCalle=
-rBaseName, UNIT_TEST_VERSION);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "%a: Failed in InitUnitTestFramework. Status =3D=
- %r\n", UNIT_TEST_NAME, Status));=0D
-++    goto EXIT;=0D
-++  }=0D
-++=0D
-++  Status =3D CreateUnitTestSuite (&Tcg2MeasureBootLibValidationTestSuite,=
- Framework, "Tcg2MeasureBootLibValidationTestSuite", "Common.Tcg2MeasureBoo=
-tLibValidation", NULL, NULL);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "%s: Failed in CreateUnitTestSuite for Tcg2Measu=
-reBootLibValidationTestSuite\n", UNIT_TEST_NAME));=0D
-++    Status =3D EFI_OUT_OF_RESOURCES;=0D
-++    goto EXIT;=0D
-++  }=0D
-++=0D
-++  // -----------Suite---------------------------------Description--------=
---------------------Class----------------------------------Test Function---=
----------------------Pre---Clean-Context=0D
-++  AddTestCase (Tcg2MeasureBootLibValidationTestSuite, "Tests Validating E=
-FI Partition Table", "Common.Tcg2MeasureBootLibValidation", TestSanitizeEfi=
-PartitionTableHeader, NULL, NULL, NULL);=0D
-++  AddTestCase (Tcg2MeasureBootLibValidationTestSuite, "Tests Primary head=
-er gpt event checks for overflow", "Common.Tcg2MeasureBootLibValidation", T=
-estSanitizePrimaryHeaderAllocationSize, NULL, NULL, NULL);=0D
-++  AddTestCase (Tcg2MeasureBootLibValidationTestSuite, "Tests Primary head=
-er allocation size checks for overflow", "Common.Tcg2MeasureBootLibValidati=
-on", TestSanitizePrimaryHeaderGptEventSize, NULL, NULL, NULL);=0D
-++=0D
-++  Status =3D RunAllTestSuites (Framework);=0D
-++=0D
-++EXIT:=0D
-++  if (Framework !=3D NULL) {=0D
-++    FreeUnitTestFramework (Framework);=0D
-++  }=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: TestMain() - End\n", UNIT_TEST_NAME));=0D
-++  return Status;=0D
-++}=0D
-++=0D
-++///=0D
-++/// Avoid ECC error for function name that starts with lower case letter=
-=0D
-++///=0D
-++#define DxeTpm2MeasureBootLibUnitTestMain  main=0D
-++=0D
-++/**=0D
-++  Standard POSIX C entry point for host based unit test execution.=0D
-++=0D
-++  @param[in] Argc  Number of arguments=0D
-++  @param[in] Argv  Array of pointers to arguments=0D
-++=0D
-++  @retval 0      Success=0D
-++  @retval other  Error=0D
-++**/=0D
-++INT32=0D
-++DxeTpm2MeasureBootLibUnitTestMain (=0D
-++  IN INT32  Argc,=0D
-++  IN CHAR8  *Argv[]=0D
-++  )=0D
-++{=0D
-++  return (INT32)UefiTestMain ();=0D
-++}=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnitTest/Dx=
-eTpm2MeasureBootLibSanitizationTestHost.inf b/SecurityPkg/Library/DxeTpm2Me=
-asureBootLib/InternalUnitTest/DxeTpm2MeasureBootLibSanitizationTestHost.inf
-+new file mode 100644
-+index 0000000000..2999aa2a44
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnitTest/DxeTpm2Me=
-asureBootLibSanitizationTestHost.inf
-+@@ -0,0 +1,28 @@
-++## @file=0D
-++# This file builds the unit tests for DxeTpm2MeasureBootLib=0D
-++#=0D
-++# Copyright (C) Microsoft Corporation.<BR>=0D
-++# SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++##=0D
-++=0D
-++[Defines]=0D
-++  INF_VERSION                    =3D 0x00010006=0D
-++  BASE_NAME                      =3D DxeTpm2MeasuredBootLibTest=0D
-++  FILE_GUID                      =3D 144d757f-d423-484e-9309-a23695fad5bd=
-=0D
-++  MODULE_TYPE                    =3D HOST_APPLICATION=0D
-++  VERSION_STRING                 =3D 1.0=0D
-++  ENTRY_POINT                    =3D main=0D
-++=0D
-++[Sources]=0D
-++  DxeTpm2MeasureBootLibSanitizationTest.c=0D
-++  ../DxeTpm2MeasureBootLibSanitization.c=0D
-++=0D
-++[Packages]=0D
-++  MdePkg/MdePkg.dec=0D
-++=0D
-++[LibraryClasses]=0D
-++  BaseLib=0D
-++  DebugLib=0D
-++  UnitTestLib=0D
-++  PrintLib=0D
-++  SafeIntLib=0D
-+diff --git a/SecurityPkg/SecurityPkg.ci.yaml b/SecurityPkg/SecurityPkg.ci.=
-yaml
-+index 7912142398..da811fdf93 100644
-+--- a/SecurityPkg/SecurityPkg.ci.yaml
-++++ b/SecurityPkg/SecurityPkg.ci.yaml
-+@@ -15,6 +15,7 @@
-+         ##     "<ErrorID>", "<KeyWord>"=0D
-+         ## ]=0D
-+         "ExceptionList": [=0D
-++            "8001", "DxeTpm2MeasureBootLibUnitTestMain",=0D
-+         ],=0D
-+         ## Both file path and directory path are accepted.=0D
-+         "IgnoreFiles": [=0D
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0002.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2022-36763-0002.patch
-new file mode 100644
-index 0000000000..6c20cc305e
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0002.patch
-@@ -0,0 +1,889 @@
-+From 4776a1b39ee08fc45c70c1eab5a0195f325000d3 Mon Sep 17 00:00:00 2001
-+From: "Douglas Flick [MSFT]" <doug.edk2@gmail.com>
-+Date: Fri, 12 Jan 2024 02:16:02 +0800
-+Subject: [PATCH] SecurityPkg: DxeTpmMeasureBootLib: SECURITY PATCH 4117 - =
-CVE=20
-+ 2022-36763
-+
-+This commit contains the patch files and tests for DxeTpmMeasureBootLib
-+CVE 2022-36763.
-+
-+Cc: Jiewen Yao <jiewen.yao@intel.com>
-+
-+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
-+
-+CVE: CVE-2022-36763
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/4776a1=
-b39ee08fc45c70c1eab5a0195f325000d3]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ .../DxeTpmMeasureBootLib.c                    |  40 ++-
-+ .../DxeTpmMeasureBootLib.inf                  |   4 +-
-+ .../DxeTpmMeasureBootLibSanitization.c        | 241 ++++++++++++++
-+ .../DxeTpmMeasureBootLibSanitization.h        | 114 +++++++
-+ .../DxeTpmMeasureBootLibSanitizationTest.c    | 301 ++++++++++++++++++
-+ ...eTpmMeasureBootLibSanitizationTestHost.inf |  28 ++
-+ SecurityPkg/SecurityPkg.ci.yaml               |   1 +
-+ 7 files changed, 715 insertions(+), 14 deletions(-)
-+ create mode 100644 SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasure=
-BootLibSanitization.c
-+ create mode 100644 SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasure=
-BootLibSanitization.h
-+ create mode 100644 SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitT=
-est/DxeTpmMeasureBootLibSanitizationTest.c
-+ create mode 100644 SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitT=
-est/DxeTpmMeasureBootLibSanitizationTestHost.inf
-+
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib=
-.c b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.c
-+index 220393dd2b..669ab19134 100644
-+--- a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.c
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.c
-+@@ -18,6 +18,8 @@
-+ Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=0D
-+ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ =0D
-++Copyright (c) Microsoft Corporation.<BR>=0D
-++SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ **/=0D
-+ =0D
-+ #include <PiDxe.h>=0D
-+@@ -40,6 +42,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
-+ #include <Library/SecurityManagementLib.h>=0D
-+ #include <Library/HobLib.h>=0D
-+ =0D
-++#include "DxeTpmMeasureBootLibSanitization.h"=0D
-++=0D
-+ //=0D
-+ // Flag to check GPT partition. It only need be measured once.=0D
-+ //=0D
-+@@ -136,6 +140,9 @@ TcgMeasureGptTable (
-+   UINT32                      EventSize;=0D
-+   UINT32                      EventNumber;=0D
-+   EFI_PHYSICAL_ADDRESS        EventLogLastEntry;=0D
-++  UINT32                      AllocSize;=0D
-++=0D
-++  GptData =3D NULL;=0D
-+ =0D
-+   if (mMeasureGptCount > 0) {=0D
-+     return EFI_SUCCESS;=0D
-+@@ -166,8 +173,8 @@ TcgMeasureGptTable (
-+                      BlockIo->Media->BlockSize,=0D
-+                      (UINT8 *)PrimaryHeader=0D
-+                      );=0D
-+-  if (EFI_ERROR (Status)) {=0D
-+-    DEBUG ((DEBUG_ERROR, "Failed to Read Partition Table Header!\n"));=0D
-++  if (EFI_ERROR (Status) || EFI_ERROR (SanitizeEfiPartitionTableHeader (P=
-rimaryHeader, BlockIo))) {=0D
-++    DEBUG ((DEBUG_ERROR, "Failed to read Partition Table Header or invali=
-d Partition Table Header!\n"));=0D
-+     FreePool (PrimaryHeader);=0D
-+     return EFI_DEVICE_ERROR;=0D
-+   }=0D
-+@@ -175,7 +182,13 @@ TcgMeasureGptTable (
-+   //=0D
-+   // Read the partition entry.=0D
-+   //=0D
-+-  EntryPtr =3D (UINT8 *)AllocatePool (PrimaryHeader->NumberOfPartitionEnt=
-ries * PrimaryHeader->SizeOfPartitionEntry);=0D
-++  Status =3D SanitizePrimaryHeaderAllocationSize (PrimaryHeader, &AllocSi=
-ze);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    FreePool (PrimaryHeader);=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  EntryPtr =3D (UINT8 *)AllocatePool (AllocSize);=0D
-+   if (EntryPtr =3D=3D NULL) {=0D
-+     FreePool (PrimaryHeader);=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
-+@@ -185,7 +198,7 @@ TcgMeasureGptTable (
-+                      DiskIo,=0D
-+                      BlockIo->Media->MediaId,=0D
-+                      MultU64x32 (PrimaryHeader->PartitionEntryLBA, BlockI=
-o->Media->BlockSize),=0D
-+-                     PrimaryHeader->NumberOfPartitionEntries * PrimaryHea=
-der->SizeOfPartitionEntry,=0D
-++                     AllocSize,=0D
-+                      EntryPtr=0D
-+                      );=0D
-+   if (EFI_ERROR (Status)) {=0D
-+@@ -210,9 +223,8 @@ TcgMeasureGptTable (
-+   //=0D
-+   // Prepare Data for Measurement=0D
-+   //=0D
-+-  EventSize =3D (UINT32)(sizeof (EFI_GPT_DATA) - sizeof (GptData->Partiti=
-ons)=0D
-+-                       + NumberOfPartition * PrimaryHeader->SizeOfPartiti=
-onEntry);=0D
-+-  TcgEvent =3D (TCG_PCR_EVENT *)AllocateZeroPool (EventSize + sizeof (TCG=
-_PCR_EVENT_HDR));=0D
-++  Status   =3D SanitizePrimaryHeaderGptEventSize (PrimaryHeader, NumberOf=
-Partition, &EventSize);=0D
-++  TcgEvent =3D (TCG_PCR_EVENT *)AllocateZeroPool (EventSize);=0D
-+   if (TcgEvent =3D=3D NULL) {=0D
-+     FreePool (PrimaryHeader);=0D
-+     FreePool (EntryPtr);=0D
-+@@ -221,7 +233,7 @@ TcgMeasureGptTable (
-+ =0D
-+   TcgEvent->PCRIndex  =3D 5;=0D
-+   TcgEvent->EventType =3D EV_EFI_GPT_EVENT;=0D
-+-  TcgEvent->EventSize =3D EventSize;=0D
-++  TcgEvent->EventSize =3D EventSize - sizeof (TCG_PCR_EVENT_HDR);=0D
-+   GptData             =3D (EFI_GPT_DATA *)TcgEvent->Event;=0D
-+ =0D
-+   //=0D
-+@@ -361,11 +373,13 @@ TcgMeasurePeImage (
-+       TcgEvent->PCRIndex  =3D 2;=0D
-+       break;=0D
-+     default:=0D
-+-      DEBUG ((=0D
-+-        DEBUG_ERROR,=0D
-+-        "TcgMeasurePeImage: Unknown subsystem type %d",=0D
-+-        ImageType=0D
-+-        ));=0D
-++      DEBUG (=0D
-++        (=0D
-++         DEBUG_ERROR,=0D
-++         "TcgMeasurePeImage: Unknown subsystem type %d",=0D
-++         ImageType=0D
-++        )=0D
-++        );=0D
-+       goto Finish;=0D
-+   }=0D
-+ =0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib=
-.inf b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.inf
-+index ebab6f7c1e..414c654d15 100644
-+--- a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.inf
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.inf
-+@@ -32,6 +32,8 @@
-+ =0D
-+ [Sources]=0D
-+   DxeTpmMeasureBootLib.c=0D
-++  DxeTpmMeasureBootLibSanitization.c=0D
-++  DxeTpmMeasureBootLibSanitization.h=0D
-+ =0D
-+ [Packages]=0D
-+   MdePkg/MdePkg.dec=0D
-+@@ -41,6 +43,7 @@
-+ =0D
-+ [LibraryClasses]=0D
-+   BaseMemoryLib=0D
-++  SafeIntLib=0D
-+   DebugLib=0D
-+   MemoryAllocationLib=0D
-+   DevicePathLib=0D
-+@@ -59,4 +62,3 @@
-+   gEfiFirmwareVolumeBlockProtocolGuid   ## SOMETIMES_CONSUMES=0D
-+   gEfiBlockIoProtocolGuid               ## SOMETIMES_CONSUMES=0D
-+   gEfiDiskIoProtocolGuid                ## SOMETIMES_CONSUMES=0D
-+-=0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib=
-Sanitization.c b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBoot=
-LibSanitization.c
-+new file mode 100644
-+index 0000000000..a3fa46f5e6
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLibSanitiz=
-ation.c
-+@@ -0,0 +1,241 @@
-++/** @file=0D
-++  The library instance provides security service of TPM2 measure boot and=
-=0D
-++  Confidential Computing (CC) measure boot.=0D
-++=0D
-++  Caution: This file requires additional review when modified.=0D
-++  This library will have external input - PE/COFF image and GPT partition=
-.=0D
-++  This external input must be validated carefully to avoid security issue=
- like=0D
-++  buffer overflow, integer overflow.=0D
-++=0D
-++  This file will pull out the validation logic from the following functio=
-ns, in an=0D
-++  attempt to validate the untrusted input in the form of unit tests=0D
-++=0D
-++  These are those functions:=0D
-++=0D
-++  DxeTpmMeasureBootLibImageRead() function will make sure the PE/COFF ima=
-ge content=0D
-++  read is within the image buffer.=0D
-++=0D
-++  Tcg2MeasureGptTable() function will receive untrusted GPT partition tab=
-le, and parse=0D
-++  partition data carefully.=0D
-++=0D
-++  Copyright (c) Microsoft Corporation.<BR>=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++**/=0D
-++#include <Uefi.h>=0D
-++#include <Uefi/UefiSpec.h>=0D
-++#include <Library/SafeIntLib.h>=0D
-++#include <Library/UefiLib.h>=0D
-++#include <Library/DebugLib.h>=0D
-++#include <Library/BaseLib.h>=0D
-++#include <IndustryStandard/UefiTcgPlatform.h>=0D
-++#include <Protocol/BlockIo.h>=0D
-++#include <Library/MemoryAllocationLib.h>=0D
-++=0D
-++#include "DxeTpmMeasureBootLibSanitization.h"=0D
-++=0D
-++#define GPT_HEADER_REVISION_V1  0x00010000=0D
-++=0D
-++/**=0D
-++  This function will validate the EFI_PARTITION_TABLE_HEADER structure is=
- safe to parse=0D
-++  However this function will not attempt to verify the validity of the GP=
-T partition=0D
-++  It will check the following:=0D
-++    - Signature=0D
-++    - Revision=0D
-++    - AlternateLBA=0D
-++    - FirstUsableLBA=0D
-++    - LastUsableLBA=0D
-++    - PartitionEntryLBA=0D
-++    - NumberOfPartitionEntries=0D
-++    - SizeOfPartitionEntry=0D
-++    - BlockIo=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[in] BlockIo=0D
-++    Pointer to the EFI_BLOCK_IO_PROTOCOL structure.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is valid.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizeEfiPartitionTableHeader (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN CONST EFI_BLOCK_IO_PROTOCOL       *BlockIo=0D
-++  )=0D
-++{=0D
-++  // Verify that the input parameters are safe to use=0D
-++  if (PrimaryHeader =3D=3D NULL) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header!\n"));=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  if ((BlockIo =3D=3D NULL) || (BlockIo->Media =3D=3D NULL)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid BlockIo!\n"));=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  // The signature must be EFI_PTAB_HEADER_ID ("EFI PART" in ASCII)=0D
-++  if (PrimaryHeader->Header.Signature !=3D EFI_PTAB_HEADER_ID) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  // The version must be GPT_HEADER_REVISION_V1 (0x00010000)=0D
-++  if (PrimaryHeader->Header.Revision !=3D GPT_HEADER_REVISION_V1) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header Revision!\n"));=
-=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  // The HeaderSize must be greater than or equal to 92 and must be less =
-than or equal to the logical block size=0D
-++  if ((PrimaryHeader->Header.HeaderSize < sizeof (EFI_PARTITION_TABLE_HEA=
-DER)) || (PrimaryHeader->Header.HeaderSize > BlockIo->Media->BlockSize)) {=
-=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header HeaderSize!\n"))=
-;=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  // check that the PartitionEntryLBA greater than the Max LBA=0D
-++  // This will be used later for multiplication=0D
-++  if (PrimaryHeader->PartitionEntryLBA > DivU64x32 (MAX_UINT64, BlockIo->=
-Media->BlockSize)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header PartitionEntryLB=
-A!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  // Check that the number of partition entries is greater than zero=0D
-++  if (PrimaryHeader->NumberOfPartitionEntries =3D=3D 0) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header NumberOfPartitio=
-nEntries!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  // SizeOfPartitionEntry must be 128, 256, 512... improper size may lead=
- to accessing uninitialized memory=0D
-++  if ((PrimaryHeader->SizeOfPartitionEntry < 128) || ((PrimaryHeader->Siz=
-eOfPartitionEntry & (PrimaryHeader->SizeOfPartitionEntry - 1)) !=3D 0)) {=0D
-++    DEBUG ((DEBUG_ERROR, "SizeOfPartitionEntry shall be set to a value of=
- 128 x 2^n where n is an integer greater than or equal to zero (e.g., 128, =
-256, 512, etc.)!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  // This check is to prevent overflow when calculating the allocation si=
-ze for the partition entries=0D
-++  // This check will be used later for multiplication=0D
-++  if (PrimaryHeader->NumberOfPartitionEntries > DivU64x32 (MAX_UINT64, Pr=
-imaryHeader->SizeOfPartitionEntry)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Invalid Partition Table Header NumberOfPartitio=
-nEntries!\n"));=0D
-++    return EFI_DEVICE_ERROR;=0D
-++  }=0D
-++=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-++/**=0D
-++  This function will validate that the allocation size from the primary h=
-eader is sane=0D
-++  It will check the following:=0D
-++    - AllocationSize does not overflow=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[out] AllocationSize=0D
-++    Pointer to the allocation size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The allocation size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    The allocation size is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizePrimaryHeaderAllocationSize (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  OUT UINT32                           *AllocationSize=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS  Status;=0D
-++=0D
-++  if (PrimaryHeader =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  if (AllocationSize =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  // Replacing logic:=0D
-++  // PrimaryHeader->NumberOfPartitionEntries * PrimaryHeader->SizeOfParti=
-tionEntry;=0D
-++  Status =3D SafeUint32Mult (PrimaryHeader->NumberOfPartitionEntries, Pri=
-maryHeader->SizeOfPartitionEntry, AllocationSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Allocation Size would have overflowed!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
-++  }=0D
-++=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-++/**=0D
-++  This function will validate that the Gpt Event Size calculated from the=
- primary header is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
-++=0D
-++  Important: This function includes the entire length of the allocated sp=
-ace, including the=0D
-++  TCG_PCR_EVENT_HDR. When hashing the buffer allocated with this size, th=
-e caller must subtract=0D
-++  the size of the TCG_PCR_EVENT_HDR from the size of the buffer before ha=
-shing.=0D
-++=0D
-++  @param[in] PrimaryHeader - Pointer to the EFI_PARTITION_TABLE_HEADER st=
-ructure.=0D
-++  @param[in] NumberOfPartition - Number of partitions.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePrimaryHeaderGptEventSize (=0D
-++  IN  CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN  UINTN                             NumberOfPartition,=0D
-++  OUT UINT32                            *EventSize=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS  Status;=0D
-++  UINT32      SafeNumberOfPartitions;=0D
-++=0D
-++  if (PrimaryHeader =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  if (EventSize =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  // We shouldn't even attempt to perform the multiplication if the numbe=
-r of partitions is greater than the maximum value of UINT32=0D
-++  Status =3D SafeUintnToUint32 (NumberOfPartition, &SafeNumberOfPartition=
-s);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "NumberOfPartition would have overflowed!\n"));=
-=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  // Replacing logic:=0D
-++  // (UINT32)(sizeof (EFI_GPT_DATA) - sizeof (GptData->Partitions) + Numb=
-erOfPartition * PrimaryHeader.SizeOfPartitionEntry + sizeof (TCG_PCR_EVENT_=
-HDR));=0D
-++  Status =3D SafeUint32Mult (SafeNumberOfPartitions, PrimaryHeader->SizeO=
-fPartitionEntry, EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Event Size would have overflowed!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
-++  }=0D
-++=0D
-++  Status =3D SafeUint32Add (=0D
-++             sizeof (TCG_PCR_EVENT_HDR) +=0D
-++             OFFSET_OF (EFI_GPT_DATA, Partitions),=0D
-++             *EventSize,=0D
-++             EventSize=0D
+++// Test Description:=0D
+++// Attempt to append an option to a packet that is large enough=0D
+++TEST_F (Dhcp6AppendOptionTest, ValidDataExpectSuccess) {=0D
+++  UINT8           *Cursor;=0D
+++  EFI_DHCP6_DUID  *UntrustedDuid;=0D
+++  EFI_STATUS      Status;=0D
+++  UINTN           OriginalLength;=0D
+++=0D
+++  UINT8  Duid[6] =3D { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };=0D
+++=0D
+++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
+++  OriginalLength =3D Packet->Length;=0D
+++=0D
+++  UntrustedDuid =3D (EFI_DHCP6_DUID *)AllocateZeroPool (sizeof (EFI_DHCP6=
+_DUID));=0D
+++  ASSERT_NE (UntrustedDuid, (EFI_DHCP6_DUID *)NULL);=0D
+++=0D
+++  UntrustedDuid->Length =3D NTOHS (sizeof (Duid));=0D
+++  CopyMem (UntrustedDuid->Duid, Duid, sizeof (Duid));=0D
+++=0D
+++  Cursor =3D Dhcp6AppendOptionTest::Packet->Dhcp6.Option;=0D
+++=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Dhcp6AppendOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             HTONS (Dhcp6OptServerId),=0D
+++             UntrustedDuid->Length,=0D
+++             UntrustedDuid->Duid=0D
 ++             );=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "Event Size would have overflowed because of GPT=
-Data!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
+++=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
+++=0D
+++  // verify that the pointer to cursor moved by the expected amount=0D
+++  ASSERT_EQ (Cursor, (UINT8 *)Dhcp6AppendOptionTest::Packet->Dhcp6.Option=
+ + sizeof (Duid) + 4);=0D
+++=0D
+++  // verify that the length of the packet is now the expected amount=0D
+++  ASSERT_EQ (Dhcp6AppendOptionTest::Packet->Length, OriginalLength + size=
+of (Duid) + 4);=0D
+++}=0D
+++=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++// Dhcp6AppendETOption Tests=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++=0D
+++class Dhcp6AppendETOptionTest : public ::testing::Test {=0D
+++public:=0D
+++  UINT8 *Buffer =3D NULL;=0D
+++  EFI_DHCP6_PACKET *Packet;=0D
+++=0D
+++protected:=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
+++    )=0D
+++  {=0D
+++    // Initialize any resources or variables=0D
+++    Buffer =3D (UINT8 *)AllocateZeroPool (DHCP6_PACKET_MAX_LEN);=0D
+++    ASSERT_NE (Buffer, (UINT8 *)NULL);=0D
+++=0D
+++    Packet         =3D (EFI_DHCP6_PACKET *)Buffer;=0D
+++    Packet->Size   =3D DHCP6_PACKET_MAX_LEN;=0D
+++    Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
 ++  }=0D
 ++=0D
-++  return EFI_SUCCESS;=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++    // Clean up any resources or variables=0D
+++    if (Buffer !=3D NULL) {=0D
+++      FreePool (Buffer);=0D
+++    }=0D
+++  }=0D
+++};=0D
+++=0D
+++// Test Description:=0D
+++// Attempt to append an option to a packet that is too small by a duid th=
+at is too large=0D
+++TEST_F (Dhcp6AppendETOptionTest, InvalidDataExpectBufferTooSmall) {=0D
+++  UINT8           *Cursor;=0D
+++  EFI_STATUS      Status;=0D
+++  DHCP6_INSTANCE  Instance;=0D
+++  UINT16          ElapsedTimeVal;=0D
+++  UINT16          *ElapsedTime;=0D
+++=0D
+++  Cursor      =3D Dhcp6AppendETOptionTest::Packet->Dhcp6.Option;=0D
+++  ElapsedTime =3D &ElapsedTimeVal;=0D
+++=0D
+++  Packet->Length =3D Packet->Size - 2;=0D
+++=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Dhcp6AppendETOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             &Instance, // Instance is not used in this function=0D
+++             &ElapsedTime=0D
+++             );=0D
+++=0D
+++  // verify that we error out because the packet is too small for the opt=
+ion header=0D
+++  ASSERT_EQ (Status, EFI_BUFFER_TOO_SMALL);=0D
+++=0D
+++  // reset the length=0D
+++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
 ++}=0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib=
-Sanitization.h b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBoot=
-LibSanitization.h
-+new file mode 100644
-+index 0000000000..0d9d00c281
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLibSanitiz=
-ation.h
-+@@ -0,0 +1,114 @@
-++/** @file=0D
-++  This file includes the function prototypes for the sanitization functio=
-ns.=0D
 ++=0D
-++  These are those functions:=0D
+++// Test Description:=0D
+++// Attempt to append an option to a packet that is large enough=0D
+++TEST_F (Dhcp6AppendETOptionTest, ValidDataExpectSuccess) {=0D
+++  UINT8           *Cursor;=0D
+++  EFI_STATUS      Status;=0D
+++  DHCP6_INSTANCE  Instance;=0D
+++  UINT16          ElapsedTimeVal;=0D
+++  UINT16          *ElapsedTime;=0D
+++  UINTN           ExpectedSize;=0D
+++  UINTN           OriginalLength;=0D
 ++=0D
-++  DxeTpmMeasureBootLibImageRead() function will make sure the PE/COFF ima=
-ge content=0D
-++  read is within the image buffer.=0D
+++  Cursor         =3D Dhcp6AppendETOptionTest::Packet->Dhcp6.Option;=0D
+++  ElapsedTime    =3D &ElapsedTimeVal;=0D
+++  ExpectedSize   =3D 6;=0D
+++  OriginalLength =3D Packet->Length;=0D
 ++=0D
-++  TcgMeasurePeImage() function will accept untrusted PE/COFF image and va=
-lidate its=0D
-++  data structure within this image buffer before use.=0D
+++  Status =3D Dhcp6AppendETOption (=0D
+++             Dhcp6AppendETOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             &Instance, // Instance is not used in this function=0D
+++             &ElapsedTime=0D
+++             );=0D
 ++=0D
-++  TcgMeasureGptTable() function will receive untrusted GPT partition tabl=
-e, and parse=0D
-++  partition data carefully.=0D
+++  // verify that the status is EFI_SUCCESS=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
 ++=0D
-++  Copyright (c) Microsoft Corporation.<BR>=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++  // verify that the pointer to cursor moved by the expected amount=0D
+++  ASSERT_EQ (Cursor, (UINT8 *)Dhcp6AppendETOptionTest::Packet->Dhcp6.Opti=
+on + ExpectedSize);=0D
 ++=0D
-++**/=0D
+++  // verify that the length of the packet is now the expected amount=0D
+++  ASSERT_EQ (Dhcp6AppendETOptionTest::Packet->Length, OriginalLength + Ex=
+pectedSize);=0D
+++}=0D
 ++=0D
-++#ifndef DXE_TPM_MEASURE_BOOT_LIB_VALIDATION_=0D
-++#define DXE_TPM_MEASURE_BOOT_LIB_VALIDATION_=0D
-++=0D
-++#include <Uefi.h>=0D
-++#include <Uefi/UefiSpec.h>=0D
-++#include <Protocol/BlockIo.h>=0D
-++#include <IndustryStandard/UefiTcgPlatform.h>=0D
-++=0D
-++/**=0D
-++  This function will validate the EFI_PARTITION_TABLE_HEADER structure is=
- safe to parse=0D
-++  However this function will not attempt to verify the validity of the GP=
-T partition=0D
-++  It will check the following:=0D
-++    - Signature=0D
-++    - Revision=0D
-++    - AlternateLBA=0D
-++    - FirstUsableLBA=0D
-++    - LastUsableLBA=0D
-++    - PartitionEntryLBA=0D
-++    - NumberOfPartitionEntries=0D
-++    - SizeOfPartitionEntry=0D
-++    - BlockIo=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[in] BlockIo=0D
-++    Pointer to the EFI_BLOCK_IO_PROTOCOL structure.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is valid.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    The EFI_PARTITION_TABLE_HEADER structure is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizeEfiPartitionTableHeader (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN CONST EFI_BLOCK_IO_PROTOCOL       *BlockIo=0D
-++  );=0D
-++=0D
-++/**=0D
-++  This function will validate that the allocation size from the primary h=
-eader is sane=0D
-++  It will check the following:=0D
-++    - AllocationSize does not overflow=0D
-++=0D
-++  @param[in] PrimaryHeader=0D
-++    Pointer to the EFI_PARTITION_TABLE_HEADER structure.=0D
-++=0D
-++  @param[out] AllocationSize=0D
-++    Pointer to the allocation size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The allocation size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    The allocation size is invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++SanitizePrimaryHeaderAllocationSize (=0D
-++  IN CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  OUT UINT32                           *AllocationSize=0D
-++  );=0D
-++=0D
-++/**=0D
-++  This function will validate that the Gpt Event Size calculated from the=
- primary header is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
-++=0D
-++  Important: This function includes the entire length of the allocated sp=
-ace, including the=0D
-++  TCG_PCR_EVENT_HDR. When hashing the buffer allocated with this size, th=
-e caller must subtract=0D
-++  the size of the TCG_PCR_EVENT_HDR from the size of the buffer before ha=
-shing.=0D
-++=0D
-++  @param[in] PrimaryHeader - Pointer to the EFI_PARTITION_TABLE_HEADER st=
-ructure.=0D
-++  @param[in] NumberOfPartition - Number of partitions.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePrimaryHeaderGptEventSize (=0D
-++  IN  CONST EFI_PARTITION_TABLE_HEADER  *PrimaryHeader,=0D
-++  IN  UINTN                             NumberOfPartition,=0D
-++  OUT UINT32                            *EventSize=0D
-++  );=0D
-++=0D
-++#endif // DXE_TPM_MEASURE_BOOT_LIB_VALIDATION_=0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitTest/Dxe=
-TpmMeasureBootLibSanitizationTest.c b/SecurityPkg/Library/DxeTpmMeasureBoot=
-Lib/InternalUnitTest/DxeTpmMeasureBootLibSanitizationTest.c
-+new file mode 100644
-+index 0000000000..eeb928cdb0
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitTest/DxeTpmMeas=
-ureBootLibSanitizationTest.c
-+@@ -0,0 +1,301 @@
-++/** @file=0D
-++This file includes the unit test cases for the DxeTpmMeasureBootLibSaniti=
-zationTest.c.=0D
-++=0D
-++Copyright (c) Microsoft Corporation.<BR>=0D
-++SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++**/=0D
-++=0D
-++#include <Uefi.h>=0D
-++#include <Library/UefiLib.h>=0D
-++#include <Library/DebugLib.h>=0D
-++#include <Library/UnitTestLib.h>=0D
-++#include <Protocol/BlockIo.h>=0D
-++#include <Library/MemoryAllocationLib.h>=0D
-++#include <Library/BaseMemoryLib.h>=0D
-++#include <IndustryStandard/UefiTcgPlatform.h>=0D
-++=0D
-++#include "../DxeTpmMeasureBootLibSanitization.h"=0D
-++=0D
-++#define UNIT_TEST_NAME     "DxeTpmMeasureBootLibSanitizationTest"=0D
-++#define UNIT_TEST_VERSION  "1.0"=0D
-++=0D
-++#define DEFAULT_PRIMARY_TABLE_HEADER_REVISION                     0x00010=
-000=0D
-++#define DEFAULT_PRIMARY_TABLE_HEADER_NUMBER_OF_PARTITION_ENTRIES  1=0D
-++#define DEFAULT_PRIMARY_TABLE_HEADER_SIZE_OF_PARTITION_ENTRY      128=0D
-++=0D
-++/**=0D
-++  This function tests the SanitizeEfiPartitionTableHeader function.=0D
-++  It's intent is to test that a malicious EFI_PARTITION_TABLE_HEADER=0D
-++  structure will not cause undefined or unexpected behavior.=0D
-++=0D
-++  In general the TPM should still be able to measure the data, but=0D
-++  be the header should be sanitized to prevent any unexpected behavior.=0D
-++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizeEfiPartitionTableHeader (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS                  Status;=0D
-++  EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-++  EFI_BLOCK_IO_PROTOCOL       BlockIo;=0D
-++  EFI_BLOCK_IO_MEDIA          BlockMedia;=0D
-++=0D
-++  // Generate EFI_BLOCK_IO_MEDIA test data=0D
-++  BlockMedia.MediaId          =3D 1;=0D
-++  BlockMedia.RemovableMedia   =3D FALSE;=0D
-++  BlockMedia.MediaPresent     =3D TRUE;=0D
-++  BlockMedia.LogicalPartition =3D FALSE;=0D
-++  BlockMedia.ReadOnly         =3D FALSE;=0D
-++  BlockMedia.WriteCaching     =3D FALSE;=0D
-++  BlockMedia.BlockSize        =3D 512;=0D
-++  BlockMedia.IoAlign          =3D 1;=0D
-++  BlockMedia.LastBlock        =3D 0;=0D
-++=0D
-++  // Generate EFI_BLOCK_IO_PROTOCOL test data=0D
-++  BlockIo.Revision    =3D 1;=0D
-++  BlockIo.Media       =3D &BlockMedia;=0D
-++  BlockIo.Reset       =3D NULL;=0D
-++  BlockIo.ReadBlocks  =3D NULL;=0D
-++  BlockIo.WriteBlocks =3D NULL;=0D
-++  BlockIo.FlushBlocks =3D NULL;=0D
-++=0D
-++  // Geneate EFI_PARTITION_TABLE_HEADER test data=0D
-++  PrimaryHeader.Header.Signature         =3D EFI_PTAB_HEADER_ID;=0D
-++  PrimaryHeader.Header.Revision          =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_REVISION;=0D
-++  PrimaryHeader.Header.HeaderSize        =3D sizeof (EFI_PARTITION_TABLE_=
-HEADER);=0D
-++  PrimaryHeader.MyLBA                    =3D 1;=0D
-++  PrimaryHeader.AlternateLBA             =3D 2;=0D
-++  PrimaryHeader.FirstUsableLBA           =3D 3;=0D
-++  PrimaryHeader.LastUsableLBA            =3D 4;=0D
-++  PrimaryHeader.PartitionEntryLBA        =3D 5;=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_NUMBER_OF_PARTITION_ENTRIES;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++  PrimaryHeader.PartitionEntryArrayCRC32 =3D 0; // Purposely invalid=0D
-++=0D
-++  // Calculate the CRC32 of the PrimaryHeader=0D
-++  PrimaryHeader.Header.CRC32 =3D CalculateCrc32 ((UINT8 *)&PrimaryHeader,=
- PrimaryHeader.Header.HeaderSize);=0D
-++=0D
-++  // Test that a normal PrimaryHeader passes validation=0D
-++  Status =3D SanitizeEfiPartitionTableHeader (&PrimaryHeader, &BlockIo);=
+++////////////////////////////////////////////////////////////////////////=
 =0D
-++  UT_ASSERT_NOT_EFI_ERROR (Status);=0D
-++=0D
-++  // Test that when number of partition entries is 0, the function return=
-s EFI_DEVICE_ERROR=0D
-++  // Should print "Invalid Partition Table Header NumberOfPartitionEntrie=
-s!""=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 0;=0D
-++  Status                                 =3D SanitizeEfiPartitionTableHea=
-der (&PrimaryHeader, &BlockIo);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_DEVICE_ERROR);=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++=0D
-++  // Test that when the header size is too small, the function returns EF=
-I_DEVICE_ERROR=0D
-++  // Should print "Invalid Partition Table Header Size!"=0D
-++  PrimaryHeader.Header.HeaderSize =3D 0;=0D
-++  Status                          =3D SanitizeEfiPartitionTableHeader (&P=
-rimaryHeader, &BlockIo);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_DEVICE_ERROR);=0D
-++  PrimaryHeader.Header.HeaderSize =3D sizeof (EFI_PARTITION_TABLE_HEADER)=
-;=0D
-++=0D
-++  // Test that when the SizeOfPartitionEntry is too small, the function r=
-eturns EFI_DEVICE_ERROR=0D
-++  // should print: "SizeOfPartitionEntry shall be set to a value of 128 x=
- 2^n where n is an integer greater than or equal to zero (e.g., 128, 256, 5=
-12, etc.)!"=0D
-++  PrimaryHeader.SizeOfPartitionEntry =3D 1;=0D
-++  Status                             =3D SanitizeEfiPartitionTableHeader =
-(&PrimaryHeader, &BlockIo);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_DEVICE_ERROR);=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
-++=0D
-++  return UNIT_TEST_PASSED;=0D
-++}=0D
-++=0D
-++/**=0D
-++  This function tests the SanitizePrimaryHeaderAllocationSize function.=0D
-++  It's intent is to test that the untrusted input from a EFI_PARTITION_TA=
-BLE_HEADER=0D
-++  structure will not cause an overflow when calculating the allocation si=
-ze.=0D
-++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizePrimaryHeaderAllocationSize (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  UINT32  AllocationSize;=0D
-++=0D
-++  EFI_STATUS                  Status;=0D
-++  EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-++=0D
-++  // Test that a normal PrimaryHeader passes validation=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++=0D
-++  Status =3D SanitizePrimaryHeaderAllocationSize (&PrimaryHeader, &Alloca=
-tionSize);=0D
-++  UT_ASSERT_NOT_EFI_ERROR (Status);=0D
-++=0D
-++  // Test that the allocation size is correct compared to the existing lo=
-gic=0D
-++  UT_ASSERT_EQUAL (AllocationSize, PrimaryHeader.NumberOfPartitionEntries=
- * PrimaryHeader.SizeOfPartitionEntry);=0D
-++=0D
-++  // Test that an overflow is detected=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D MAX_UINT32;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D 5;=0D
-++  Status                                 =3D SanitizePrimaryHeaderAllocat=
-ionSize (&PrimaryHeader, &AllocationSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  // Test the inverse=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D MAX_UINT32;=0D
-++  Status                                 =3D SanitizePrimaryHeaderAllocat=
-ionSize (&PrimaryHeader, &AllocationSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  // Test the worst case scenario=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D MAX_UINT32;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D MAX_UINT32;=0D
-++  Status                                 =3D SanitizePrimaryHeaderAllocat=
-ionSize (&PrimaryHeader, &AllocationSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
-++=0D
-++  return UNIT_TEST_PASSED;=0D
-++}=0D
-++=0D
-++/**=0D
-++  This function tests the SanitizePrimaryHeaderGptEventSize function.=0D
-++  It's intent is to test that the untrusted input from a EFI_GPT_DATA str=
-ucture=0D
-++  will not cause an overflow when calculating the event size.=0D
-++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizePrimaryHeaderGptEventSize (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  UINT32                      EventSize;=0D
-++  UINT32                      ExistingLogicEventSize;=0D
-++  EFI_STATUS                  Status;=0D
-++  EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-++  UINTN                       NumberOfPartition;=0D
-++  EFI_GPT_DATA                *GptData;=0D
-++=0D
-++  GptData =3D NULL;=0D
-++=0D
-++  // Test that a normal PrimaryHeader passes validation=0D
-++  PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-++  PrimaryHeader.SizeOfPartitionEntry     =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-++=0D
-++  // set the number of partitions=0D
-++  NumberOfPartition =3D 13;=0D
-++=0D
-++  // that the primary event size is correct=0D
-++  Status =3D SanitizePrimaryHeaderGptEventSize (&PrimaryHeader, NumberOfP=
-artition, &EventSize);=0D
-++  UT_ASSERT_NOT_EFI_ERROR (Status);=0D
-++=0D
-++  // Calculate the existing logic event size=0D
-++  ExistingLogicEventSize =3D (UINT32)(sizeof (TCG_PCR_EVENT_HDR) + OFFSET=
-_OF (EFI_GPT_DATA, Partitions)=0D
-++                                    + NumberOfPartition * PrimaryHeader.S=
-izeOfPartitionEntry);=0D
-++=0D
-++  // Check that the event size is correct=0D
-++  UT_ASSERT_EQUAL (EventSize, ExistingLogicEventSize);=0D
-++=0D
-++  // Tests that the primary event size may not overflow=0D
-++  Status =3D SanitizePrimaryHeaderGptEventSize (&PrimaryHeader, MAX_UINT3=
-2, &EventSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  // Test that the size of partition entries may not overflow=0D
-++  PrimaryHeader.SizeOfPartitionEntry =3D MAX_UINT32;=0D
-++  Status                             =3D SanitizePrimaryHeaderGptEventSiz=
-e (&PrimaryHeader, NumberOfPartition, &EventSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
-++=0D
-++  DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
-++=0D
-++  return UNIT_TEST_PASSED;=0D
-++}=0D
-++=0D
-++// *--------------------------------------------------------------------*=
-=0D
-++// *  Unit Test Code Main Function=0D
-++// *--------------------------------------------------------------------*=
+++// Dhcp6AppendIaOption Tests=0D
+++////////////////////////////////////////////////////////////////////////=
 =0D
 ++=0D
-++/**=0D
-++  This function acts as the entry point for the unit tests.=0D
+++class Dhcp6AppendIaOptionTest : public ::testing::Test {=0D
+++public:=0D
+++  UINT8 *Buffer =3D NULL;=0D
+++  EFI_DHCP6_PACKET *Packet;=0D
+++  EFI_DHCP6_IA *Ia;=0D
 ++=0D
-++  @param argc - The number of command line arguments=0D
-++  @param argv - The command line arguments=0D
+++protected:=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
+++    )=0D
+++  {=0D
+++    // Initialize any resources or variables=0D
+++    Buffer =3D (UINT8 *)AllocateZeroPool (DHCP6_PACKET_MAX_LEN);=0D
+++    ASSERT_NE (Buffer, (UINT8 *)NULL);=0D
 ++=0D
-++  @return int - The status of the test=0D
-++**/=0D
-++EFI_STATUS=0D
-++EFIAPI=0D
-++UefiTestMain (=0D
-++  VOID=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS                  Status;=0D
-++  UNIT_TEST_FRAMEWORK_HANDLE  Framework;=0D
-++  UNIT_TEST_SUITE_HANDLE      TcgMeasureBootLibValidationTestSuite;=0D
+++    Packet       =3D (EFI_DHCP6_PACKET *)Buffer;=0D
+++    Packet->Size =3D DHCP6_PACKET_MAX_LEN;=0D
 ++=0D
-++  Framework =3D NULL;=0D
+++    Ia =3D (EFI_DHCP6_IA *)AllocateZeroPool (sizeof (EFI_DHCP6_IA) + size=
+of (EFI_DHCP6_IA_ADDRESS) * 2);=0D
+++    ASSERT_NE (Ia, (EFI_DHCP6_IA *)NULL);=0D
 ++=0D
-++  DEBUG ((DEBUG_INFO, "%a: TestMain() - Start\n", UNIT_TEST_NAME));=0D
+++    CopyMem (Ia->IaAddress, mAllDhcpRelayAndServersAddress.Addr, sizeof (=
+EFI_IPv6_ADDRESS));=0D
+++    CopyMem (Ia->IaAddress + 1, mAllDhcpRelayAndServersAddress.Addr, size=
+of (EFI_IPv6_ADDRESS));=0D
 ++=0D
-++  Status =3D InitUnitTestFramework (&Framework, UNIT_TEST_NAME, gEfiCalle=
-rBaseName, UNIT_TEST_VERSION);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "%a: Failed in InitUnitTestFramework. Status =3D=
- %r\n", UNIT_TEST_NAME, Status));=0D
-++    goto EXIT;=0D
+++    Ia->IaAddressCount =3D 2;=0D
 ++  }=0D
 ++=0D
-++  Status =3D CreateUnitTestSuite (&TcgMeasureBootLibValidationTestSuite, =
-Framework, "TcgMeasureBootLibValidationTestSuite", "Common.TcgMeasureBootLi=
-bValidation", NULL, NULL);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "%s: Failed in CreateUnitTestSuite for TcgMeasur=
-eBootLibValidationTestSuite\n", UNIT_TEST_NAME));=0D
-++    Status =3D EFI_OUT_OF_RESOURCES;=0D
-++    goto EXIT;=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++    // Clean up any resources or variables=0D
+++    if (Buffer !=3D NULL) {=0D
+++      FreePool (Buffer);=0D
+++    }=0D
+++=0D
+++    if (Ia !=3D NULL) {=0D
+++      FreePool (Ia);=0D
+++    }=0D
 ++  }=0D
+++};=0D
 ++=0D
-++  // -----------Suite---------------------------------Description--------=
---------------------Class----------------------------------Test Function---=
----------------------Pre---Clean-Context=0D
-++  AddTestCase (TcgMeasureBootLibValidationTestSuite, "Tests Validating EF=
-I Partition Table", "Common.TcgMeasureBootLibValidation", TestSanitizeEfiPa=
-rtitionTableHeader, NULL, NULL, NULL);=0D
-++  AddTestCase (TcgMeasureBootLibValidationTestSuite, "Tests Primary heade=
-r gpt event checks for overflow", "Common.TcgMeasureBootLibValidation", Tes=
-tSanitizePrimaryHeaderAllocationSize, NULL, NULL, NULL);=0D
-++  AddTestCase (TcgMeasureBootLibValidationTestSuite, "Tests Primary heade=
-r allocation size checks for overflow", "Common.TcgMeasureBootLibValidation=
-", TestSanitizePrimaryHeaderGptEventSize, NULL, NULL, NULL);=0D
+++// Test Description:=0D
+++// Attempt to append an option to a packet that doesn't have enough space=
+=0D
+++// for the option header=0D
+++TEST_F (Dhcp6AppendIaOptionTest, IaNaInvalidDataExpectBufferTooSmall) {=0D
+++  UINT8       *Cursor;=0D
+++  EFI_STATUS  Status;=0D
 ++=0D
-++  Status =3D RunAllTestSuites (Framework);=0D
+++  Packet->Length =3D Packet->Size - 2;=0D
 ++=0D
-++EXIT:=0D
-++  if (Framework !=3D NULL) {=0D
-++    FreeUnitTestFramework (Framework);=0D
-++  }=0D
+++  Ia->Descriptor.Type =3D Dhcp6OptIana;=0D
+++  Ia->Descriptor.IaId =3D 0x12345678;=0D
 ++=0D
-++  DEBUG ((DEBUG_INFO, "%a: TestMain() - End\n", UNIT_TEST_NAME));=0D
-++  return Status;=0D
+++  Cursor =3D Dhcp6AppendIaOptionTest::Packet->Dhcp6.Option;=0D
+++=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Dhcp6AppendIaOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             Ia,=0D
+++             0x12345678,=0D
+++             0x11111111,=0D
+++             Dhcp6OptIana=0D
+++             );=0D
+++=0D
+++  // verify that we error out because the packet is too small for the opt=
+ion header=0D
+++  ASSERT_EQ (Status, EFI_BUFFER_TOO_SMALL);=0D
+++=0D
+++  // reset the length=0D
+++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
 ++}=0D
 ++=0D
-++///=0D
-++/// Avoid ECC error for function name that starts with lower case letter=
+++// Test Description:=0D
+++// Attempt to append an option to a packet that doesn't have enough space=
 =0D
-++///=0D
-++#define DxeTpmMeasureBootLibUnitTestMain  main=0D
+++// for the option header=0D
+++TEST_F (Dhcp6AppendIaOptionTest, IaTaInvalidDataExpectBufferTooSmall) {=0D
+++  UINT8       *Cursor;=0D
+++  EFI_STATUS  Status;=0D
 ++=0D
-++/**=0D
-++  Standard POSIX C entry point for host based unit test execution.=0D
+++  // Use up nearly all the space in the packet=0D
+++  Packet->Length =3D Packet->Size - 2;=0D
 ++=0D
-++  @param[in] Argc  Number of arguments=0D
-++  @param[in] Argv  Array of pointers to arguments=0D
+++  Ia->Descriptor.Type =3D Dhcp6OptIata;=0D
+++  Ia->Descriptor.IaId =3D 0x12345678;=0D
 ++=0D
-++  @retval 0      Success=0D
-++  @retval other  Error=0D
-++**/=0D
-++INT32=0D
-++DxeTpmMeasureBootLibUnitTestMain (=0D
-++  IN INT32  Argc,=0D
-++  IN CHAR8  *Argv[]=0D
-++  )=0D
-++{=0D
-++  return (INT32)UefiTestMain ();=0D
+++  Cursor =3D Dhcp6AppendIaOptionTest::Packet->Dhcp6.Option;=0D
+++=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Dhcp6AppendIaOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             Ia,=0D
+++             0,=0D
+++             0,=0D
+++             Dhcp6OptIata=0D
+++             );=0D
+++=0D
+++  // verify that we error out because the packet is too small for the opt=
+ion header=0D
+++  ASSERT_EQ (Status, EFI_BUFFER_TOO_SMALL);=0D
+++=0D
+++  // reset the length=0D
+++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
 ++}=0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitTest/Dxe=
-TpmMeasureBootLibSanitizationTestHost.inf b/SecurityPkg/Library/DxeTpmMeasu=
-reBootLib/InternalUnitTest/DxeTpmMeasureBootLibSanitizationTestHost.inf
-+new file mode 100644
-+index 0000000000..47b0811b00
-+--- /dev/null
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitTest/DxeTpmMeas=
-ureBootLibSanitizationTestHost.inf
-+@@ -0,0 +1,28 @@
-++## @file=0D
-++# This file builds the unit tests for DxeTpmMeasureBootLib=0D
-++#=0D
-++# Copyright (C) Microsoft Corporation.<BR>=0D
-++# SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++##=0D
 ++=0D
-++[Defines]=0D
-++  INF_VERSION                    =3D 0x00010006=0D
-++  BASE_NAME                      =3D DxeTpmMeasuredBootLibTest=0D
-++  FILE_GUID                      =3D eb01bc38-309c-4d3e-967e-9f078c90772f=
-=0D
-++  MODULE_TYPE                    =3D HOST_APPLICATION=0D
-++  VERSION_STRING                 =3D 1.0=0D
-++  ENTRY_POINT                    =3D main=0D
+++TEST_F (Dhcp6AppendIaOptionTest, IaNaValidDataExpectSuccess) {=0D
+++  UINT8       *Cursor;=0D
+++  EFI_STATUS  Status;=0D
+++  UINTN       ExpectedSize;=0D
+++  UINTN       OriginalLength;=0D
 ++=0D
-++[Sources]=0D
-++  DxeTpmMeasureBootLibSanitizationTest.c=0D
-++  ../DxeTpmMeasureBootLibSanitization.c=0D
+++  //=0D
+++  // 2 bytes for the option header type=0D
+++  //=0D
+++  ExpectedSize =3D 2;=0D
+++  //=0D
+++  // 2 bytes for the option header length=0D
+++  //=0D
+++  ExpectedSize +=3D 2;=0D
+++  //=0D
+++  // 4 bytes for the IAID=0D
+++  //=0D
+++  ExpectedSize +=3D 4;=0D
+++  //=0D
+++  // + 4 bytes for the T1=0D
+++  //=0D
+++  ExpectedSize +=3D 4;=0D
+++  //=0D
+++  // + 4 bytes for the T2=0D
+++  //=0D
+++  ExpectedSize +=3D 4;=0D
+++  //=0D
+++  // + (4 + sizeof (EFI_DHCP6_IA_ADDRESS)) * 2;=0D
+++  //   + 2 bytes for the option header type=0D
+++  //   + 2 bytes for the option header length=0D
+++  //   + sizeof (EFI_DHCP6_IA_ADDRESS) for the IA Address=0D
+++  //=0D
+++  ExpectedSize +=3D (4 + sizeof (EFI_DHCP6_IA_ADDRESS)) * 2;=0D
 ++=0D
-++[Packages]=0D
-++  MdePkg/MdePkg.dec=0D
+++  Cursor =3D Dhcp6AppendIaOptionTest::Packet->Dhcp6.Option;=0D
 ++=0D
-++[LibraryClasses]=0D
-++  BaseLib=0D
-++  DebugLib=0D
-++  UnitTestLib=0D
-++  PrintLib=0D
-++  SafeIntLib=0D
-+diff --git a/SecurityPkg/SecurityPkg.ci.yaml b/SecurityPkg/SecurityPkg.ci.=
-yaml
-+index da811fdf93..0e40eaa0fe 100644
-+--- a/SecurityPkg/SecurityPkg.ci.yaml
-++++ b/SecurityPkg/SecurityPkg.ci.yaml
-+@@ -16,6 +16,7 @@
-+         ## ]=0D
-+         "ExceptionList": [=0D
-+             "8001", "DxeTpm2MeasureBootLibUnitTestMain",=0D
-++            "8001", "DxeTpmMeasureBootLibUnitTestMain"=0D
-+         ],=0D
-+         ## Both file path and directory path are accepted.=0D
-+         "IgnoreFiles": [=0D
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0003.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2022-36763-0003.patch
-new file mode 100644
-index 0000000000..59bd5c4910
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2022-36763-0003.patch
-@@ -0,0 +1,55 @@
-+From 1ddcb9fc6b4164e882687b031e8beacfcf7df29e Mon Sep 17 00:00:00 2001
-+From: "Douglas Flick [MSFT]" <doug.edk2@gmail.com>
-+Date: Fri, 12 Jan 2024 02:16:03 +0800
-+Subject: [PATCH] SecurityPkg: : Adding CVE 2022-36763 to SecurityFixes.yaml
-+
-+This creates / adds a security file that tracks the security fixes
-+found in this package and can be used to find the fixes that were
-+applied.
-+
-+Cc: Jiewen Yao <jiewen.yao@intel.com>
-+
-+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
-+
-+CVE: CVE-2022-36763
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1ddcb9=
-fc6b4164e882687b031e8beacfcf7df29e]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ SecurityPkg/SecurityFixes.yaml | 22 ++++++++++++++++++++++
-+ 1 file changed, 22 insertions(+)
-+ create mode 100644 SecurityPkg/SecurityFixes.yaml
-+
-+diff --git a/SecurityPkg/SecurityFixes.yaml b/SecurityPkg/SecurityFixes.ya=
-ml
-+new file mode 100644
-+index 0000000000..f9e3e7be74
-+--- /dev/null
-++++ b/SecurityPkg/SecurityFixes.yaml
-+@@ -0,0 +1,22 @@
-++## @file=0D
-++# Security Fixes for SecurityPkg=0D
-++#=0D
-++# Copyright (c) Microsoft Corporation=0D
-++# SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++##=0D
-++CVE_2022_36763:=0D
-++  commit_titles:=0D
-++    - "SecurityPkg: DxeTpm2Measurement: SECURITY PATCH 4117 - CVE 2022-36=
-763"=0D
-++    - "SecurityPkg: DxeTpmMeasurement: SECURITY PATCH 4117 - CVE 2022-367=
-63"=0D
-++    - "SecurityPkg: : Adding CVE 2022-36763 to SecurityFixes.yaml"=0D
-++  cve: CVE-2022-36763=0D
-++  date_reported: 2022-10-25 11:31 UTC=0D
-++  description: (CVE-2022-36763) - Heap Buffer Overflow in Tcg2MeasureGptT=
-able()=0D
-++  note: This patch is related to and supersedes TCBZ2168=0D
-++  files_impacted:=0D
-++  - Library\DxeTpm2MeasureBootLib\DxeTpm2MeasureBootLib.c=0D
-++  - Library\DxeTpmMeasureBootLib\DxeTpmMeasureBootLib.c=0D
-++  links:=0D
-++  - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4117=0D
-++  - https://bugzilla.tianocore.org/show_bug.cgi?id=3D2168=0D
-++  - https://bugzilla.tianocore.org/show_bug.cgi?id=3D1990=0D
+++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
+++  OriginalLength =3D Packet->Length;=0D
+++=0D
+++  Ia->Descriptor.Type =3D Dhcp6OptIana;=0D
+++  Ia->Descriptor.IaId =3D 0x12345678;=0D
+++=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Dhcp6AppendIaOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             Ia,=0D
+++             0x12345678,=0D
+++             0x12345678,=0D
+++             Dhcp6OptIana=0D
+++             );=0D
+++=0D
+++  // verify that the pointer to cursor moved by the expected amount=0D
+++  ASSERT_EQ (Cursor, (UINT8 *)Dhcp6AppendIaOptionTest::Packet->Dhcp6.Opti=
+on + ExpectedSize);=0D
+++=0D
+++  // verify that the length of the packet is now the expected amount=0D
+++  ASSERT_EQ (Dhcp6AppendIaOptionTest::Packet->Length, OriginalLength + Ex=
+pectedSize);=0D
+++=0D
+++  // verify that the status is EFI_SUCCESS=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
+++}=0D
+++=0D
+++TEST_F (Dhcp6AppendIaOptionTest, IaTaValidDataExpectSuccess) {=0D
+++  UINT8       *Cursor;=0D
+++  EFI_STATUS  Status;=0D
+++  UINTN       ExpectedSize;=0D
+++  UINTN       OriginalLength;=0D
+++=0D
+++  //=0D
+++  // 2 bytes for the option header type=0D
+++  //=0D
+++  ExpectedSize =3D 2;=0D
+++  //=0D
+++  // 2 bytes for the option header length=0D
+++  //=0D
+++  ExpectedSize +=3D 2;=0D
+++  //=0D
+++  // 4 bytes for the IAID=0D
+++  //=0D
+++  ExpectedSize +=3D 4;=0D
+++  //=0D
+++  // + (4 + sizeof (EFI_DHCP6_IA_ADDRESS)) * 2;=0D
+++  //   + 2 bytes for the option header type=0D
+++  //   + 2 bytes for the option header length=0D
+++  //   + sizeof (EFI_DHCP6_IA_ADDRESS) for the IA Address=0D
+++  //=0D
+++  ExpectedSize +=3D (4 + sizeof (EFI_DHCP6_IA_ADDRESS)) * 2;=0D
+++=0D
+++  Cursor =3D Dhcp6AppendIaOptionTest::Packet->Dhcp6.Option;=0D
+++=0D
+++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
+++  OriginalLength =3D Packet->Length;=0D
+++=0D
+++  Ia->Descriptor.Type =3D Dhcp6OptIata;=0D
+++  Ia->Descriptor.IaId =3D 0x12345678;=0D
+++=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Dhcp6AppendIaOptionTest::Packet,=0D
+++             &Cursor,=0D
+++             Ia,=0D
+++             0,=0D
+++             0,=0D
+++             Dhcp6OptIata=0D
+++             );=0D
+++=0D
+++  // verify that the pointer to cursor moved by the expected amount=0D
+++  ASSERT_EQ (Cursor, (UINT8 *)Dhcp6AppendIaOptionTest::Packet->Dhcp6.Opti=
+on + ExpectedSize);=0D
+++=0D
+++  // verify that the length of the packet is now the expected amount=0D
+++  ASSERT_EQ (Dhcp6AppendIaOptionTest::Packet->Length, OriginalLength + Ex=
+pectedSize);=0D
+++=0D
+++  // verify that the status is EFI_SUCCESS=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
+++}=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index 84e3360a3a..78d86ad879 100644
+index 59e5598a1b..957a74aabe 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -27,6 +27,9 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+@@ -33,6 +33,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
 =3Dmaster;protocol=3Dhttps \
-            file://0006-reproducible.patch \
-            file://0001-BaseTools-fix-gcc12-warning.patch \
-            file://0001-BaseTools-fix-gcc12-warning-1.patch \
-+           file://CVE-2022-36763-0001.patch \
-+           file://CVE-2022-36763-0002.patch \
-+           file://CVE-2022-36763-0003.patch \
+            file://CVE-2022-36764-0001.patch \
+            file://CVE-2022-36764-0002.patch \
+            file://CVE-2022-36764-0003.patch \
++           file://CVE-2023-45230-0001.patch \
++           file://CVE-2023-45230-0002.patch \
             "
 =20
  PV =3D "edk2-stable202202"
