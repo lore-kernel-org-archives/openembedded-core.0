@@ -1,82 +1,72 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACFDBC3DA41
-	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 11:28:00 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.9600.1720697272338121709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41572C3DA41
+	for <webhook@archiver.kernel.org>; Thu, 11 Jul 2024 12:09:11 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.10210.1720699740665655118
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jul 2024 04:27:52 -0700
+ Thu, 11 Jul 2024 05:09:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GGb/WG8N;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-367a9ab4d81so381387f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 04:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1720697270; x=1721302070; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yuSMTAB9JVd1U/G+11A6pIludDmm/W8DkGxpb5BGlHU=;
-        b=GGb/WG8N5pdleSI18WAEeoRpoHFNB/59DDlC3WhZoDXyRkU1BxXYT1MJkmVj8y/oyV
-         u/gOQP2xfSa8KaJqQChrR7Jh/UvEKtPZpz09SUndFP5/xyMd9H2czf1uWNLzGlYCPpEe
-         d0ABUnE7vXxfnrVxGtoz4997s72pDWMuDqwKw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720697270; x=1721302070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yuSMTAB9JVd1U/G+11A6pIludDmm/W8DkGxpb5BGlHU=;
-        b=m8onju/wJmW4ZouzvYrBL/01NOphQS/AclX0lva3HoIh86akqJDYLGsO9H1tCEzXAw
-         BwvTqTCVB/xtUexcdc0+rjt4m17xyqLZubLuwJXT0sZ+kpDTp+b7igrW27qpqQCXsL4V
-         feggGELOhqoduJWQBRtUesphvB6apq+sYsMf32TfLEWTmNgV01JcgKN8JEwiF6zqUmq1
-         JLasqJGtM9qbd4LTwk5YmMVmdsc3AEQkvi7EfreNXiaik+rVPvgO975jzcTjpCeCkydx
-         DSup8envwDD5gr3H0zWPiLhwXwgM8E554d+CyoCPvoXdpOJat3yW8ftztHMmQRp+o5TA
-         GQUg==
-X-Gm-Message-State: AOJu0YymMphzbG6NyOjJm53hzPusQ1OBqa/x90kLq0n5ZzntX6ITY6+n
-	Y7CvzpAxx5S+hNjV5crccTMScDJq61V3EpWb+Jgzwtefqp5FJyl8fL6HfHHNwKYs6rjh2JgXkJM
-	0
-X-Google-Smtp-Source: AGHT+IEwdXFwZ0+be0nW/ZRItNq2ulUuodrsLaVsCJ7bH1U5UtpvaT639iZw41CsPqXyr2BL5oVJhw==
-X-Received: by 2002:adf:ae59:0:b0:367:9854:791d with SMTP id ffacd0b85a97d-367ceaca9a2mr5647408f8f.43.1720697270503;
-        Thu, 11 Jul 2024 04:27:50 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b76e:27af:5a94:dcb6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde847bdsm7465336f8f.41.2024.07.11.04.27.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 04:27:50 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=DIzI0iab;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 96AB91C0003;
+	Thu, 11 Jul 2024 12:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1720699738;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cQ4CLazJff5Y8Nob8A7DUjY9fhYMUGPNxWLR6azGvbU=;
+	b=DIzI0iabQ86ScVE8rx9/xDKW2AhH5eNHhh3h0ntGgHYt9YsxEkIw0LSVTbmRWFwd54cRUF
+	DghlRU0+64dPuZXktA89n8UHAor5yJzfElsXbtTAnuduOIR3zzzcVlihOELSbte4G2Jz57
+	0qcqA3ARqwJVblSBZ/qIFElWQCQfwlQuZPW8ZS3ZmwTYubIQoZAy54ISqyLz9sK2LunEjj
+	I6Pb6L7q9w5cvyKcQjoh+qWkpKxmPwovMQzbDo9kXYM8qCKhqOIq9xLN3BWxYlMRZZJKk1
+	s9MxGcoen2FhbzybRzcpL00RAJ8NIvU3C0IJcNsDMVQ1vwqmQo/BI9Wvkd4qIg==
+From: alexandre.belloni@bootlin.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] python3: Drop generating a static libpython
-Date: Thu, 11 Jul 2024 12:27:49 +0100
-Message-ID: <20240711112749.1212183-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+Cc: Wang Mingyu <wangmy@fujitsu.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH] wireless-regdb: upgrade 2024.05.08 -> 2024.07.04
+Date: Thu, 11 Jul 2024 14:08:54 +0200
+Message-ID: <20240711120854.862932-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 11:28:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201776
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jul 2024 12:09:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201777
 
-This currently puts a 60MB binary into the recipe sysroots in the native
-case as well as the implications for the target. Since as far as I know,
-we don't need/use this, stop generating it by adding a PACKAGECONFIG. It
-can be enabled by anyone who does actually need to use it.
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- meta/recipes-devtools/python/python3_3.12.4.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...ireless-regdb_2024.05.08.bb => wireless-regdb_2024.07.04.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2024.05.08.bb => wireless-regdb_2024.07.04.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb b/meta/recipes-devtools/python/python3_3.12.4.bb
-index 77bbfaa069e..743ba0b1f1f 100644
---- a/meta/recipes-devtools/python/python3_3.12.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.4.bb
-@@ -107,6 +107,7 @@ PACKAGECONFIG[tk] = ",,tk"
- PACKAGECONFIG[tcl] = ",,tcl"
- PACKAGECONFIG[gdbm] = ",,gdbm"
- PACKAGECONFIG[lto] = "--with-lto,--without-lto"
-+PACKAGECONFIG[staticlibpython] = "--with-static-libpython,--without-static-libpython"
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.07.04.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.07.04.bb
+index 95e33d9fb1a7..daf5e6dfcd82 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.07.04.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
- do_configure:prepend () {
-     mkdir -p ${B}/Modules
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "9aee1d86ebebb363b714bec941b2820f31e3b7f1a485ddc9fcbd9985c7d3e7c4"
++SRC_URI[sha256sum] = "9832a14e1be24abff7be30dee3c9a1afb5fdfcf475a0d91aafef039f8d85f5eb"
+ 
+ inherit bin_package allarch
+ 
+-- 
+2.45.2
+
 
