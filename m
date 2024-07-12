@@ -1,202 +1,117 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <ohnatiuk@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74922C2BD09
-	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 09:51:31 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web11.4272.1720777888764994868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD272C2BD09
+	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 11:01:01 +0000 (UTC)
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.web10.5136.1720782052917193646
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jul 2024 02:51:29 -0700
+ Fri, 12 Jul 2024 04:00:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd73.aul.t-online.de (fwd73.aul.t-online.de [10.223.144.99])
-	by mailout05.t-online.de (Postfix) with SMTP id 04B244FFD
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 11:50:51 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([79.219.232.121]) by fwd73.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1sSCvS-3SFqcL0; Fri, 12 Jul 2024 11:50:50 +0200
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=MUpZEFqS;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: ohnatiuk@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=1532; q=dns/txt; s=iport;
+  t=1720782052; x=1721991652;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=biBF+HF4sG0jprg1zm/70Xmr6lAG9JaDsQtM+tyU9Rs=;
+  b=MUpZEFqSmEfTs4QFMX53REEiF6kH3TgMQH1tZwALhw742+bqRKDwA8RQ
+   FbT6AGjxNrBLBUO/GYjsA/qikHx8IGKzZ4dzCrcjDlFJOH4PDx8SbNgqE
+   LCQ010D6eSrqfMytUGjUE5fEXKr59akXpyBggfasB9++bCOZLjgkk6xE8
+   M=;
+X-CSE-ConnectionGUID: Rr/2tju2SJ+/eldckLxqLg==
+X-CSE-MsgGUID: iBDFgceySbSs5GI5mP9zsg==
+X-IPAS-Result: =?us-ascii?q?A0AkAQBKDJFmmJhdJa1agliEGkJIlB2gM4ElA1YPAQEBD?=
+ =?us-ascii?q?0QEAQGOIgImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQUBAQUBAQECAQcFFAEBA?=
+ =?us-ascii?q?QEBAQEBHhkFDhAnhgKHFgEzgWODAIJlAgGsOoIsgQHeMYFsgUiNCoVkJxuBS?=
+ =?us-ascii?q?USEB3aFEIV3BJZAhTGIZ38mC41ASoEhA1khAhEBVRMNCgs+CRYCFgMbFAQwD?=
+ =?us-ascii?q?wkLJikGOQISDAYGBlk0CQQjAwgEA0IDIHERAwQaBAsHd4MlBBNEA4E3gVKIF?=
+ =?us-ascii?q?YIFgS2CG4EMgw1LhG2BawxhiGWBCi2BEYEjP4IKgUBLhWlAAwsYDUgRLDUUG?=
+ =?us-ascii?q?wY+bgetPzFdgW86QKUVoHGEHqE0GjOqOwGYaqQnhGWBZzqBWzMaCBsVgyJSG?=
+ =?us-ascii?q?Q+OOh/JZiM1OwIHCwEBAwmKagEB?=
+IronPort-Data: A9a23:LmmiRq/Cig3x7dYCTlaUDrUDmn6TJUtcMsCJ2f8bNWPcYEJGY0x3n
+ zYWW2+AP6vYYzHyftsladu18ENVvcXcndBiSgU/qnpEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEzmB4E7rauW8xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4ujyyHjEAX9gWIsbTtOs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kMJ8pC5uRqW1pst
+ rsVLDwGbTSTnsa5lefTpulE3qzPLeHxN48Z/3pn1zycVLAtQIvIROPB4towMDUY358VW62BI
+ ZtCL2MyNnwsYDUXUrsTIJU+mu60h2T8WzZZs1mS46Ew5gA/ySQqieS3bIqII4DiqcN9n2y0i
+ G3N8nXCCCoBafO+lD+9o2C3ibqa9c/8cNlPTOLjrKECbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIwa3O7kPAQGMFVTVGLtchsafaWADGy
+ HezhZSzGT5y6oa3CjWQ8rufrheiIAwaeDpqiTA/cSMJ5NzqoYcWhx3JT8p+HKPdsjETMW+rq
+ 9xthHZl74j/nfI2O7OHEUcrag9AS7DTRQIzow7QRG/gt0VyZZWuYMqj7l2zARd8wGSxEAfpU
+ JsswpT2AAUy4Xelz3blrAIlR+rB2hp9GGeA6WOD5rF4n9hXx1atfJpL/BZ1L1pzP8APdFfBO
+ RCJ4V0JvsMJYSD0Ncebhr5d7ex3k8AM8vy4CZjpgiZmO8kZmPKvpXs3PBXBhQgBbmB3wf9jZ
+ f93jvpA/V5BVPw4l2DpLwvs+bQq3Ss5jXjCXoz2yg/v0LyVIhaopUQtbjOzghQCxPrc+m39q
+ o8HX+PTkkk3eLOlOEH/r9VMRW3m2FBmX/gaXeQNKL7aSuencUl8Y8LsLUQJIdM4wPgKyLaUo
+ hlQmCZwkTLCuJEOEi3SAlgLVV8ldc8XQa4TVcD0AWuV5g==
+IronPort-HdrOrdr: A9a23:sewi5qgrHSA7JYwBQOqCddzdjXBQXskji2hC6mlwRA09TyX+rb
+ HMoB1173DJYVoqMk3I+urhBED/ex3hHPdOiOF7AV7IZmXbUQWTQb2KlbGC/9UlcBeOk9K0Es
+ xbAspDNOE=
+X-Talos-CUID: =?us-ascii?q?9a23=3AotOPAmvITkMH1VqgQpXej11t6IsfaDqH0HXNeXS?=
+ =?us-ascii?q?aSiFkTLGeSnuA4Ydrxp8=3D?=
+X-Talos-MUID: 9a23:A8LDXQlPafBoDLPqRM9sdnpjHutG7K+jGXsHqo5blOjZMBQhKSyS2WE=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.09,202,1716249600"; 
+   d="scan'208";a="314248514"
+Received: from rcdn-core-1.cisco.com ([173.37.93.152])
+  by alln-iport-4.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 11:00:51 +0000
+Received: from sjc-ads-3960.cisco.com (sjc-ads-3960.cisco.com [171.68.251.157])
+	by rcdn-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 46CB0p0K015142
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 11:00:51 GMT
+From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC][oe-core][PATCH] mesa: fixes for rusticl implementation
-Date: Fri, 12 Jul 2024 11:51:55 +0200
-Message-ID: <20240712095155.66983-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.45.2
+Subject: [PATCH] gcc: remove paths to sysroot from configargs.h and checksum-options for gcc-cross-canadian
+Date: Fri, 12 Jul 2024 04:00:50 -0700
+Message-Id: <20240712110050.2211164-1-ohnatiuk@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1720777850-267FBC65-E21C8FC9/0/0 CLEAN NORMAL
-X-TOI-MSGID: 6eb11a44-b6cf-41a8-9d32-6d149b6ca6a4
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.251.157, sjc-ads-3960.cisco.com
+X-Outbound-Node: rcdn-core-1.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 09:51:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201818
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 11:01:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201819
 
-- Add dependencies for clang and gcc-runtime to provide needed headers. A=
-dd a dependency
-  for bindgen-cli-native to allow creating the rust bindings
-- Disable rusticl build for mesa-native
-- Add a PACKAGECONFIG for rusticl
-- inherit rust to make rusticl buildable
-- Add a crude hack to make the compiler includes visible to bindgen-cli
-  Without this the headers will be taken from host and that is inappropri=
-ate for yocto/oe
-  If they are not found the build fails
+Copy fixes for gcc-cross (84a78f46d594 and 0ead8cbdfb96) to gcc-cross-canadian.
+This will improve (but not fix) reproducibility of gcc-cross-canadian.
 
-There is still a compile issue left that suggests to me that a rust updat=
-e is required:
-error[E0658]: use of unstable library feature 'offset_of'
- --> src/gallium/frontends/rusticl/rusticl_mesa_bindings.rs:3:13312
-  |
-3 | ...() - 8usize] ; ["Offset of field: _IO_FILE::_flags"] [:: std :: me=
-m :: offset_of ! (_IO_FILE , _flags) - 0usize] ; ["Offset of field: ...
-  |                                                          ^^^^^^^^^^^^=
-^^^^^^^^^^^^^^
-  |
-  =3D note: see issue #106655 <https://github.com/rust-lang/rust/issues/1=
-06655> for more information
-
-error[E0658]: use of unstable library feature 'offset_of'
- --> src/gallium/frontends/rusticl/rusticl_mesa_bindings.rs:3:13418
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
 ---
- ...n.build-workaround-for-rusticl-build.patch | 27 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           | 22 ++++++++++-----
- 2 files changed, 43 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-rusticl-meson.b=
-uild-workaround-for-rusticl-build.patch
+ meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-rusticl-meson.build-wo=
-rkaround-for-rusticl-build.patch b/meta/recipes-graphics/mesa/files/0001-=
-rusticl-meson.build-workaround-for-rusticl-build.patch
-new file mode 100644
-index 0000000000..9c953f961d
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-rusticl-meson.build-workaroun=
-d-for-rusticl-build.patch
-@@ -0,0 +1,27 @@
-+From b34ee4014ee9e3466ebafbd53745d9f9a13379da Mon Sep 17 00:00:00 2001
-+From: Markus Volk <f_l_k@t-online.de>
-+Date: Thu, 11 Jul 2024 22:52:16 +0200
-+Subject: [PATCH] rusticl/meson.build: workaround for rusticl build
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+---
-+ src/gallium/frontends/rusticl/meson.build | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/gallium/frontends/rusticl/meson.build b/src/gallium/fro=
-ntends/rusticl/meson.build
-+index eef09d8f01e..efac4cab964 100644
-+--- a/src/gallium/frontends/rusticl/meson.build
-++++ b/src/gallium/frontends/rusticl/meson.build
-+@@ -211,6 +211,7 @@ rusticl_llvm_bindings_rs =3D rust.bindgen(
-+   c_args : [
-+     rusticl_bindgen_c_args,
-+     pre_args,
-++   '-I@include@', '-I@include_cpp@', '-I@include_cpp_target_sys@'
-+   ],
-+   dependencies : [
-+     dep_clang,
-+--=20
-+2.45.2
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index b403a2481a..ba3c8c147f 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -16,6 +16,7 @@ PE =3D "2"
-=20
- SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-+           file://0001-rusticl-meson.build-workaround-for-rusticl-build.=
-patch \
- "
-=20
- SRC_URI[sha256sum] =3D "63236426b25a745ba6aa2d6daf8cd769d5ea01887b0745ab=
-7124d2ef33a9020d"
-@@ -33,7 +34,7 @@ do_install:append() {
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+index 7c4233c21157..127f97473f91 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -64,6 +64,20 @@ do_configure () {
  }
-=20
- DEPENDS =3D "expat makedepend-native flex-native bison-native libxml2-na=
-tive zlib chrpath-replacement-native python3-mako-native gettext-native"
--DEPENDS:append:class-target =3D " ${@bb.utils.contains('PACKAGECONFIG', =
-'opencl', 'mesa-native', '', d)}"
-+DEPENDS:append:class-target =3D " ${@bb.utils.contains('PACKAGECONFIG', =
-'opencl', 'mesa-native gcc-runtime', '', d)}"
- EXTRANATIVEPATH +=3D "chrpath-native"
- PROVIDES =3D " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '',=
- d)} \
-@@ -44,7 +45,7 @@ PROVIDES =3D " \
-     virtual/mesa \
-     "
-=20
--inherit meson pkgconfig python3native gettext features_check
-+inherit meson rust pkgconfig python3native gettext features_check
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-@@ -72,7 +73,13 @@ EXTRA_OEMESON =3D " \
- "
-=20
- EXTRA_OEMESON:append:class-target =3D " ${@bb.utils.contains('PACKAGECON=
-FIG', 'opencl', '-Dintel-clc=3Dsystem', '', d)}"
--EXTRA_OEMESON:append:class-native =3D " ${@bb.utils.contains('PACKAGECON=
-FIG', 'opencl', '-Dintel-clc=3Denabled', '', d)}"
-+EXTRA_OEMESON:append:class-native =3D " ${@bb.utils.contains('PACKAGECON=
-FIG', 'opencl', '-Dintel-clc=3Denabled -Dgallium-rusticl=3Dfalse', '', d)=
-}"
+ 
+ do_compile () {
++	# Prevent native/host sysroot path from being used in configargs.h header,
++	# as it will be rewritten when used by other sysroots preventing support
++	# for gcc plugins
++	oe_runmake configure-gcc
++	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
++	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
 +
-+do_configure:prepend() {
-+	sed -i "s|@include@|${STAGING_INCDIR}|" ${S}/src/gallium/frontends/rust=
-icl/meson.build
-+	sed -i "s|@include_cpp@|${STAGING_INCDIR}\/c++\/14.1.0|" ${S}/src/galli=
-um/frontends/rusticl/meson.build
-+	sed -i "s|@include_cpp_target_sys@|${STAGING_INCDIR}\/c++\/14.1.0\/${TA=
-RGET_SYS}|" ${S}/src/gallium/frontends/rusticl/meson.build
-+}
-=20
- def strip_comma(s):
-     return s.strip(',')
-@@ -139,8 +146,10 @@ PACKAGECONFIG[gles] =3D "-Dgles1=3Denabled -Dgles2=3D=
-enabled, -Dgles1=3Ddisabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Ddisabled"
-=20
--# "opencl" requires libclc from meta-clang
--PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtrue,=
--Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libclc spirv-tools pyt=
-hon3-ply-native"
-+# "opencl-clover" requires libclc from meta-clang
-+PACKAGECONFIG[opencl-clover] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3D=
-true,-Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libclc spirv-tool=
-s python3-ply-native"
-+# "opencl" requires libclc, bindgen-cli and clang from meta-clang
-+PACKAGECONFIG[opencl] =3D "-Dgallium-rusticl=3Dtrue,-Dgallium-rusticl=3D=
-false,libclc bindgen-cli-native python3-ply-native clang"
-=20
- PACKAGECONFIG[broadcom] =3D ""
- PACKAGECONFIG[etnaviv] =3D ""
-@@ -223,7 +232,8 @@ DEV_PKG_DEPENDENCY =3D ""
- # development package of libgles3.
- RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
-=20
--RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
-ncl', 'libclc spirv-tools', '', d)}"
-+RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains_any('PACKAGECONFIG', =
-'opencl opencl-clover', 'libclc', '', d)}"
-+RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
-ncl-clover', 'spirv-tools', '', d)}"
-=20
- PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
-              libosmesa libosmesa-dev \
---=20
-2.45.2
++	# Prevent sysroot/workdir paths from being used in checksum-options.
++	# checksum-options is used to generate a checksum which is embedded into
++	# the output binary.
++	oe_runmake TARGET-gcc=checksum-options all-gcc
++	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
++	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/checksum-options
++
+ 	oe_runmake all-host configure-target-libgcc
+ 	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
+ }
+-- 
+2.35.6
 
 
