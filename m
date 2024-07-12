@@ -1,100 +1,104 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF1FC2BD09
-	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 13:34:22 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.7847.1720791258846748278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C6A8C3DA4B
+	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 13:51:52 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.8337.1720792309464534363
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jul 2024 06:34:18 -0700
+ Fri, 12 Jul 2024 06:51:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KkQtbunS;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pxSea1h1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010190a726d3f6-73cc2343-2986-45a8-b01b-c86b0cf6d031-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1720791258; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=q8iIWN9MYW2fzthRCnMIlT30QHBSmSXtZTBKfYpJuwM=;
-	b=KkQtbunSHQuqXTNKkLERzfyq4uStnVgz2TZ2nyFRQ/gYQbh40EIOB6D9DTpAZGer
-	b7mfrWTag0PWORw/F+UzMWFDqr6FYDlp/en2dsoF2k3LwCLXGH0V2d8k3zi/i7Jh76S
-	fblrNyJOKRs4pu36P5IQB1qwXXZGtWHizHPxhJQI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1720791258;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=q8iIWN9MYW2fzthRCnMIlT30QHBSmSXtZTBKfYpJuwM=;
-	b=pxSea1h1rBwKaFIYjkMM/fSMPVjn5bq4OIXYju54+d0GhSGDRQwsBtHwMK+shclh
-	eB6/dRcTY8Gr6wGx6tDm+HFZOIfBGvl5aAhPZ0+7jcOuuupK4KaT7I939ZHzDkiDa7s
-	PL4xHa8hY+6sNaTfqxKGYxMHSy7/8tlNynNv9TCc=
-From: patchtest@automation.yoctoproject.org
-To: "Gassner, Tobias.ext" <tobias.gassner.ext@karlstorz.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] execute pkg_postinst_ontarget task for read only rootfs when
- read-only-rootfs-delayed-postinsts is set
-In-Reply-To: <20240712131551.3516167-1-tobias.gassner.ext@karlstorz.com>
-References: <20240712131551.3516167-1-tobias.gassner.ext@karlstorz.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190a726d3f6-73cc2343-2986-45a8-b01b-c86b0cf6d031-000000@us-west-2.amazonses.com>
-Date: Fri, 12 Jul 2024 13:34:18 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.12-54.240.27.29
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YEM5r9j7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4266f3e0df8so13526835e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 06:51:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1720792307; x=1721397107; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BmJk/9bj3nr9aE6XQvI8TaK7RPLj9xgy/JsPu5AXqEQ=;
+        b=YEM5r9j7qxP/TF3trf6osoOSg6avhGNeB5wC3Z9A3ayzLyrxkdJcnyJvkYLzGDzgcm
+         rmZDFpV9M7XYiMLlUCu7sQQIwKcMGSOncv18pwjq02Jn/c+qSjucJQmcb+eUtErGYrTK
+         cYgeKqmvPGi9DpXi5JCGIHX+9T5lvwL2zSXSA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720792307; x=1721397107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BmJk/9bj3nr9aE6XQvI8TaK7RPLj9xgy/JsPu5AXqEQ=;
+        b=B3hiIKMcAoLAD5Ofz1BOL0O/9o3Yhcug5QNfxmU9s32PguZiI10jINxt88LsGQavQa
+         lF8fCSxb3/Zwr7nsRYuc5yiyL3HOHgm97wvr1dtZ6FGD0h3y9bblFY/dEibYX702GYkK
+         6EoL9sXqIiOZw3VpEsmz4htTQiB4rOxXz8ZVhHEA8w0uXxaYCyeGfimUqWFV3B8cw9ds
+         jlGYWrnJ4HkNst04rA9LNuOlr4HSGK4FJoDXhfZ5lJqnPbmo/pFcSLTw6BxuZ0ATddgU
+         CV82FFTtTv/1FMnVOj6R2e/1SZ3Ktw3JRZT5l9MOtXlVSnqNfuWS94dkdRSNeFlt2+7P
+         jr6Q==
+X-Gm-Message-State: AOJu0YzH/VVE+vLMfUPQQCB7Lmaqbbvq4Z7eRRPdgHkmFi0mFK4DWuK3
+	yF+Lwyht1iopMZ3RM+AabcaY5hHGFQORHo2sUV3L865lKwweJCJrldnWVU8+d8qSwjpHCNZGsny
+	z
+X-Google-Smtp-Source: AGHT+IHO3W2WIfZb9PNTfC/W4zkfOG9R/ZN4vaHzy2zGUT2MTBj+MpeXadi/KXNkVo4JTPC4F6oQeA==
+X-Received: by 2002:a5d:6345:0:b0:367:9988:84a0 with SMTP id ffacd0b85a97d-367ceadc7a7mr7138335f8f.58.1720792307348;
+        Fri, 12 Jul 2024 06:51:47 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c138:9d7a:7e79:ba70])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfa078fsm10270492f8f.71.2024.07.12.06.51.46
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jul 2024 06:51:47 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] busybox: reconfigure wget https support by default for security
+Date: Fri, 12 Jul 2024 14:51:46 +0100
+Message-ID: <20240712135146.1614566-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 13:34:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201829
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 13:51:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201830
 
---NextPart
-Content-Type: text/plain
+The default busybox wget https support is suboptimal, it silently ignores
+checking certificate validity which isn't great for security.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Switch our defaults to disable the internal busybox tls code and the
+https support using it and configure the openssl backend instead.
 
+This this is done by spawning an openssl command, we don't need
+dependencies on openssl for build. For runtime, we can assume
+people would install openssl if they need/want this.
+
+These changes put our default busybox configuration in a more secure
+initial set of settings.
+
+[YOCTO #14125]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Testing patch /home/patchtest/share/mboxes/execute-pkg_postinst_ontarget-task-for-read-only-rootfs-when-read-only-rootfs-delayed-postinsts-is-set.patch
+ meta/recipes-core/busybox/busybox/defconfig | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 102 characters) (test_mbox.TestMbox.test_shortlog_length)
-
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index f3d545dc3fb..8e3b6e480ca 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -983,7 +983,7 @@ CONFIG_FEATURE_TFTP_GET=y
+ CONFIG_FEATURE_TFTP_PUT=y
+ # CONFIG_FEATURE_TFTP_BLOCKSIZE is not set
+ # CONFIG_TFTP_DEBUG is not set
+-CONFIG_TLS=y
++# CONFIG_TLS is not set
+ CONFIG_TRACEROUTE=y
+ # CONFIG_TRACEROUTE6 is not set
+ # CONFIG_FEATURE_TRACEROUTE_VERBOSE is not set
+@@ -997,8 +997,8 @@ CONFIG_FEATURE_WGET_STATUSBAR=y
+ CONFIG_FEATURE_WGET_FTP=y
+ CONFIG_FEATURE_WGET_AUTHENTICATION=y
+ CONFIG_FEATURE_WGET_TIMEOUT=y
+-CONFIG_FEATURE_WGET_HTTPS=y
+-# CONFIG_FEATURE_WGET_OPENSSL is not set
++# CONFIG_FEATURE_WGET_HTTPS is not set
++CONFIG_FEATURE_WGET_OPENSSL=y
+ # CONFIG_WHOIS is not set
+ # CONFIG_ZCIP is not set
+ CONFIG_UDHCPD=y
 
