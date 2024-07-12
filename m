@@ -2,57 +2,57 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 608B3C3DA52
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD7DC3DA45
 	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 16:03:33 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web10.11480.1720800205762156326
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web10.11481.1720800207241396019
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jul 2024 09:03:25 -0700
+ Fri, 12 Jul 2024 09:03:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q3K/l2Jl;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-260209df55dso1030097fac.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 09:03:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VtncE40c;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-25e134abf00so1049420fac.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 09:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720800204; x=1721405004; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1720800206; x=1721405006; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QWoDgZ1K0QP0HN08F4ewTMnYzS1aixFyRNVKKv3KFq8=;
-        b=Q3K/l2Jl3l488Qze2UZKwkSVZ6nDfKJeTKYkCuGhOAm0ND/v7zZUGJhj71EhnqzrJJ
-         0oMEsC8QVbGAHbkyZfGF3/eOqxbsxl2IJ3tWBvYYxEu/TDycQtEAVTvqp0pnLq7W3Nc8
-         FkbL1z3CysA1d1LMPkY8RexNfP/5g0d9ZoNtpqkrMHtBS13iNJmO0YFq5EsvUwzv02BC
-         Bops+8Bm9BsjMYek37gW9nIaf/gkLAyU7/98koyEDbIFsDBYMxm1r7mo4vSwNn2awn1v
-         8VtI+6BHrFGL2XecbUOEjvcZ4sK4OW8bFZD7H2i0yOPTUbyKapOm/u3a56llUqOa9SIZ
-         YjBQ==
+        bh=FYRUyKR0RVIzIVCYo6ili7F0Ac1VMFXaVajA5vhpIrM=;
+        b=VtncE40c4VlCtdspCMB8gpvKwTBz0AT8AjAj04De6ZYpxbQQJXdoTWzu6Y18b0h35n
+         OHcexpM25A5KdkXJsKB7wkKttQrLirGKXNhW53oA7KvZzRRQ544mVYdY9UNr4lIqPf5z
+         jPT+N3AJprUnYa3dneCjq+jhy/mBsvfnCIN/v6vtJhJexpOE/KPphJcrkHfgNo94634v
+         ibcyRTTY4jPpz2CnODjs9ljPIsK1JuHHxXe+R3MHoBTxWlP9dLMAU7W7TtKdTjVM8oS1
+         NvyMAtS5Q5vcWPd7ClvccEtbYfC1kV4Y5aTme5BdiUBLvTPQJ99QAeXYZalZGJsro/s0
+         EqNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720800204; x=1721405004;
+        d=1e100.net; s=20230601; t=1720800206; x=1721405006;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QWoDgZ1K0QP0HN08F4ewTMnYzS1aixFyRNVKKv3KFq8=;
-        b=HUclYHqEvVwe+50b8OXFCqXI06IMMYK5jvwK05ebbOf2PMGlR1Ey3NgAewIP/38JLa
-         036R0FxI1Mbpj7hhm/5PC+FGZ67B3StVEQHEiI4F7qL10WZtd/guM8aRTdhXtN7MGT/4
-         kLMlNSfbCX7sp2X09An7n0ydXreP6zAjFn7+YokQ5aC3N8MKIYQc3BQS6FVo0sTo0QqS
-         Lxkd3SsPb6skq03rnaU88rUUI0E7PsvqlTPn+V4cBDw7nYbmWkR4gari+Dj5RvQqgXp0
-         QmfSMUfujBinc6uzvTzlwXyGygHMF1SuJFrYaTUE9az98rfflBUg84UIAHuBt+gh9MT2
-         vA9w==
-X-Gm-Message-State: AOJu0Yyx9p6UVc25cI3XnqBFnSfL3cKqB3pA9ASjzJWHkykn854Aeutx
-	EZBwt+aNrVEK/0C74R2lBBDNB6n2t9nSwS9e7XXF27zHIpdjo2lY5UidmA==
-X-Google-Smtp-Source: AGHT+IFQn63r9s23JT88obt4vARsaC8TtB9h++NQeDa/n1v/ayTASeRG9GYFtVQ8viNBNUk2fIsBKQ==
-X-Received: by 2002:a05:6870:7083:b0:258:3455:4b37 with SMTP id 586e51a60fabf-25eaeca2647mr9915166fac.59.1720800203664;
-        Fri, 12 Jul 2024 09:03:23 -0700 (PDT)
+        bh=FYRUyKR0RVIzIVCYo6ili7F0Ac1VMFXaVajA5vhpIrM=;
+        b=VUld+oGf/gCNCHdSb8HesfvMn+NZR6SAhqBHUbE6qof467WAk4a10TbUMLbQCnOA93
+         t8tj0+34KoQxkQ7XmacKZ65MJ6uRlHxMeUvxd+uG+mgtWovhnRaAWwx61hvDjCI8X245
+         RegdNENIPLuCNUzO8a/vBu9gkGOUlxiRegc0drTUZwm+gwhx3bDcAD2ysTOfCIThce0V
+         RLPTced15xPG3OdcsHIHWcDkcR+myIJewhAi60XhSltcobZ49JHY87PwmlsNIrJjQDqE
+         FxKGnkh/E+IZp6ja/OurbrGikHYC96E5TyjeMMHRvZYbGFbyjw24BKhj5iIaZliIlSCC
+         v6fQ==
+X-Gm-Message-State: AOJu0YxVJfi1sfO3zcGChzGLUaWf75OzPSJJc4VvOOdvDJvu6cZh6UoM
+	K/ffTze+7MQlQvlGzB2m8JiltEfbXjcL1MIsQGWeH/ga0JOOIgeyr7M8CQ==
+X-Google-Smtp-Source: AGHT+IFHddwFOXR9wnmCt2peoorwUlotLPKSucTHnerdMOLWrHiM+eveRWpCmH1R8BaxHPUahjkVMQ==
+X-Received: by 2002:a05:6870:f723:b0:254:c08d:cb55 with SMTP id 586e51a60fabf-25eae755dd6mr10163661fac.5.1720800204830;
+        Fri, 12 Jul 2024 09:03:24 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4300:19e0::4a71])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25eaa29d16dsm2267694fac.53.2024.07.12.09.03.22
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25eaa29d16dsm2267694fac.53.2024.07.12.09.03.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 09:03:22 -0700 (PDT)
+        Fri, 12 Jul 2024 09:03:24 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v6 09/12] classes/spdx-common: Move to library
-Date: Fri, 12 Jul 2024 09:58:19 -0600
-Message-ID: <20240712160304.3514496-10-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v6 10/12] classes/create-spdx-3.0: Move tasks to library
+Date: Fri, 12 Jul 2024 09:58:20 -0600
+Message-ID: <20240712160304.3514496-11-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240712160304.3514496-1-JPEWhacker@gmail.com>
 References: <20240703140059.4096394-1-JPEWhacker@gmail.com>
@@ -63,732 +63,2542 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 16:03:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201843
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201844
 
-Moves the bulk of the code in the spdx-common bbclass into library code
+Move the bulk of the python code in the SPDX 3.0 classes into a library
+file
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/create-spdx-2.2.bbclass       |  23 ++-
- meta/classes/create-spdx-3.0.bbclass       |  22 +-
- meta/classes/create-spdx-image-3.0.bbclass |   3 +-
- meta/classes/spdx-common.bbclass           | 197 +-----------------
- meta/lib/oe/sbom30.py                      |  21 +-
- meta/lib/oe/spdx_common.py                 | 228 +++++++++++++++++++++
- 6 files changed, 270 insertions(+), 224 deletions(-)
- create mode 100644 meta/lib/oe/spdx_common.py
+ meta/classes/create-spdx-3.0.bbclass       |  874 +-------------
+ meta/classes/create-spdx-image-3.0.bbclass |  307 +----
+ meta/lib/oe/spdx30_tasks.py                | 1229 ++++++++++++++++++++
+ 3 files changed, 1256 insertions(+), 1154 deletions(-)
+ create mode 100644 meta/lib/oe/spdx30_tasks.py
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 3bcde1acc84..0382e4cc51a 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -38,6 +38,12 @@ def recipe_spdx_is_native(d, recipe):
-       a.annotator == "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION")) and
-       a.comment == "isNative" for a in recipe.annotations)
- 
-+def get_json_indent(d):
-+    if d.getVar("SPDX_PRETTY") == "1":
-+        return 2
-+    return None
-+
-+
- def convert_license_to_spdx(lic, document, d, existing={}):
-     from pathlib import Path
-     import oe.spdx
-@@ -113,6 +119,7 @@ def convert_license_to_spdx(lic, document, d, existing={}):
- def add_package_files(d, doc, spdx_pkg, topdir, get_spdxid, get_types, *, archive=None, ignore_dirs=[], ignore_top_level_dirs=[]):
-     from pathlib import Path
-     import oe.spdx
-+    import oe.spdx_common
-     import hashlib
- 
-     source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
-@@ -165,7 +172,7 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_spdxid, get_types, *, archiv
-                     ))
- 
-                 if "SOURCE" in spdx_file.fileTypes:
--                    extracted_lics = extract_licenses(filepath)
-+                    extracted_lics = oe.spdx_common.extract_licenses(filepath)
-                     if extracted_lics:
-                         spdx_file.licenseInfoInFiles = extracted_lics
- 
-@@ -256,6 +263,7 @@ def collect_dep_recipes(d, doc, spdx_recipe):
-     from pathlib import Path
-     import oe.sbom
-     import oe.spdx
-+    import oe.spdx_common
- 
-     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
-     package_archs = d.getVar("SSTATE_ARCHS").split()
-@@ -263,7 +271,7 @@ def collect_dep_recipes(d, doc, spdx_recipe):
- 
-     dep_recipes = []
- 
--    deps = get_spdx_deps(d)
-+    deps = oe.spdx_common.get_spdx_deps(d)
- 
-     for dep_pn, dep_hashfn, in_taskhash in deps:
-         # If this dependency is not calculated in the taskhash skip it.
-@@ -386,6 +394,7 @@ python do_create_spdx() {
-     from datetime import datetime, timezone
-     import oe.sbom
-     import oe.spdx
-+    import oe.spdx_common
-     import uuid
-     from pathlib import Path
-     from contextlib import contextmanager
-@@ -478,10 +487,10 @@ python do_create_spdx() {
- 
-     add_download_packages(d, doc, recipe)
- 
--    if process_sources(d) and include_sources:
-+    if oe.spdx_common.process_sources(d) and include_sources:
-         recipe_archive = deploy_dir_spdx / "recipes" / (doc.name + ".tar.zst")
-         with optional_tarfile(recipe_archive, archive_sources) as archive:
--            spdx_get_src(d)
-+            oe.spdx_common.get_patched_src(d)
- 
-             add_package_files(
-                 d,
-@@ -588,6 +597,7 @@ python do_create_runtime_spdx() {
-     from datetime import datetime, timezone
-     import oe.sbom
-     import oe.spdx
-+    import oe.spdx_common
-     import oe.packagedata
-     from pathlib import Path
- 
-@@ -597,7 +607,7 @@ python do_create_runtime_spdx() {
- 
-     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
- 
--    providers = collect_package_providers(d)
-+    providers = oe.spdx_common.collect_package_providers(d)
-     pkg_arch = d.getVar("SSTATE_PKGARCH")
-     package_archs = d.getVar("SSTATE_ARCHS").split()
-     package_archs.reverse()
-@@ -778,6 +788,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
-     import os
-     import oe.spdx
-     import oe.sbom
-+    import oe.spdx_common
-     import io
-     import json
-     from datetime import timezone, datetime
-@@ -785,7 +796,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
-     import tarfile
-     import bb.compress.zstd
- 
--    providers = collect_package_providers(d)
-+    providers = oe.spdx_common.collect_package_providers(d)
-     package_archs = d.getVar("SSTATE_ARCHS").split()
-     package_archs.reverse()
- 
 diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 51168e4876c..a930ea81152 100644
+index a930ea81152..41840d9d1a3 100644
 --- a/meta/classes/create-spdx-3.0.bbclass
 +++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -350,20 +350,21 @@ def collect_dep_objsets(d, build):
-     from pathlib import Path
-     import oe.sbom30
-     import oe.spdx30
-+    import oe.spdx_common
+@@ -116,698 +116,15 @@ SPDX_PACKAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
  
--    deps = get_spdx_deps(d)
-+    deps = oe.spdx_common.get_spdx_deps(d)
+ IMAGE_CLASSES:append = " create-spdx-image-3.0"
  
-     dep_objsets = []
-     dep_builds = set()
+-def set_timestamp_now(d, o, prop):
+-    from datetime import datetime, timezone
++oe.spdx30_tasks.set_timestamp_now[vardepsexclude] = "SPDX_INCLUDE_TIMESTAMPS"
++oe.spdx30_tasks.get_package_sources_from_debug[vardepsexclude] += "STAGING_KERNEL_DIR"
++oe.spdx30_tasks.collect_dep_objsets[vardepsexclude] = "SSTATE_ARCHS"
  
-     dep_build_spdxids = set()
--    for dep_pn, _, in_taskhash  in deps:
--        bb.debug(1, "Fetching SPDX for dependency %s" % (dep_pn))
--        dep_build, dep_objset = oe.sbom30.find_root_obj_in_jsonld(d, "recipes", dep_pn, oe.spdx30.build_Build)
-+    for dep in deps:
-+        bb.debug(1, "Fetching SPDX for dependency %s" % (dep.pn))
-+        dep_build, dep_objset = oe.sbom30.find_root_obj_in_jsonld(d, "recipes", dep.pn, oe.spdx30.build_Build)
-         # If the dependency is part of the taskhash, return it to be linked
-         # against. Otherwise, it cannot be linked against because this recipe
-         # will not rebuilt if dependency changes
--        if in_taskhash:
-+        if dep.in_taskhash:
-             dep_objsets.append(dep_objset)
- 
-         # The build _can_ be linked against (by alias)
-@@ -519,6 +520,7 @@ def set_purposes(d, element, *var_names, force_purposes=[]):
- python do_create_spdx() {
-     import oe.sbom30
-     import oe.spdx30
-+    import oe.spdx_common
-     from pathlib import Path
-     from contextlib import contextmanager
-     import oe.cve_check
-@@ -593,9 +595,9 @@ python do_create_spdx() {
-         [recipe_spdx_license],
-     )
- 
--    if process_sources(d) and include_sources:
-+    if oe.spdx_common.process_sources(d) and include_sources:
-         bb.debug(1, "Adding source files to SPDX")
--        spdx_get_src(d)
-+        oe.spdx_common.get_patched_src(d)
- 
-         build_inputs |= add_package_files(
-             d,
-@@ -844,6 +846,7 @@ do_create_spdx[depends] += "${PATCHDEPENDENCY}"
- python do_create_package_spdx() {
-     import oe.sbom30
-     import oe.spdx30
-+    import oe.spdx_common
-     import oe.packagedata
-     from pathlib import Path
- 
-@@ -851,7 +854,7 @@ python do_create_package_spdx() {
-     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
-     is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
- 
--    providers = collect_package_providers(d)
-+    providers = oe.spdx_common.collect_package_providers(d)
-     pkg_arch = d.getVar("SSTATE_PKGARCH")
- 
-     if not is_native:
-@@ -957,6 +960,7 @@ do_create_package_spdx[rdeptask] = "do_create_spdx"
- python spdx30_build_started_handler () {
-     import oe.spdx30
-     import oe.sbom30
-+    import oe.spdx_common
-     import os
-     from pathlib import Path
-     from datetime import datetime, timezone
-@@ -966,7 +970,7 @@ python spdx30_build_started_handler () {
-     d = e.data.createCopy()
-     d.setVar("PN", "bitbake")
-     d.setVar("BB_TASKHASH", "bitbake")
--    load_spdx_license_data(d)
-+    oe.spdx_common.load_spdx_license_data(d)
- 
-     deploy_dir_spdx = Path(e.data.getVar("DEPLOY_DIR_SPDX"))
- 
-diff --git a/meta/classes/create-spdx-image-3.0.bbclass b/meta/classes/create-spdx-image-3.0.bbclass
-index bda11d54d40..467719555d6 100644
---- a/meta/classes/create-spdx-image-3.0.bbclass
-+++ b/meta/classes/create-spdx-image-3.0.bbclass
-@@ -10,7 +10,8 @@ SPDXIMAGEDEPLOYDIR = "${SPDXDIR}/image-deploy"
- SPDXROOTFSDEPLOY = "${SPDXDIR}/rootfs-deploy"
- 
- def collect_build_package_inputs(d, objset, build, packages):
--    providers = collect_package_providers(d)
-+    import oe.spdx_common
-+    providers = oe.spdx_common.collect_package_providers(d)
- 
-     build_deps = set()
- 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index 6dfc1fd9e4c..d3110a9bdb0 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -37,96 +37,11 @@ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
- 
- SPDX_CUSTOM_ANNOTATION_VARS ??= ""
- 
--def extract_licenses(filename):
--    import re
+-    if d.getVar("SPDX_INCLUDE_TIMESTAMPS") == "1":
+-        setattr(o, prop, datetime.now(timezone.utc))
+-    else:
+-        # Doing this helps to validated that the property actually exists, and
+-        # also that it is not mandatory
+-        delattr(o, prop)
 -
--    lic_regex = re.compile(rb'^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$', re.MULTILINE)
+-set_timestamp_now[vardepsexclude] = "SPDX_INCLUDE_TIMESTAMPS"
 -
--    try:
--        with open(filename, 'rb') as f:
--            size = min(15000, os.stat(filename).st_size)
--            txt = f.read(size)
--            licenses = re.findall(lic_regex, txt)
--            if licenses:
--                ascii_licenses = [lic.decode('ascii') for lic in licenses]
--                return ascii_licenses
--    except Exception as e:
--        bb.warn(f"Exception reading {filename}: {e}")
--    return []
+-def add_license_expression(d, objset, license_expression):
+-    from pathlib import Path
+-    import oe.spdx30
+-    import oe.sbom30
 -
--def is_work_shared_spdx(d):
--    return bb.data.inherits_class('kernel', d) or ('work-shared' in d.getVar('WORKDIR'))
+-    license_data = d.getVar("SPDX_LICENSE_DATA")
+-    simple_license_text = {}
+-    license_text_map = {}
+-    license_ref_idx = 0
 -
--def get_json_indent(d):
--    if d.getVar("SPDX_PRETTY") == "1":
--        return 2
--    return None
+-    def add_license_text(name):
+-        nonlocal objset
+-        nonlocal simple_license_text
 -
--def load_spdx_license_data(d):
--    import json
--    if d.getVar("SPDX_LICENSE_DATA"):
+-        if name in simple_license_text:
+-            return simple_license_text[name]
+-
+-        lic = objset.find_filter(
+-            oe.spdx30.simplelicensing_SimpleLicensingText,
+-            name=name,
+-        )
+-
+-        if lic is not None:
+-            simple_license_text[name] = lic
+-            return lic
+-
+-        lic = objset.add(oe.spdx30.simplelicensing_SimpleLicensingText(
+-            _id=objset.new_spdxid("license-text", name),
+-            creationInfo=objset.doc.creationInfo,
+-            name=name,
+-        ))
+-        simple_license_text[name] = lic
+-
+-        if name == "PD":
+-            lic.simplelicensing_licenseText = "Software released to the public domain"
+-            return lic
+-
+-        # Seach for the license in COMMON_LICENSE_DIR and LICENSE_PATH
+-        for directory in [d.getVar('COMMON_LICENSE_DIR')] + (d.getVar('LICENSE_PATH') or '').split():
+-            try:
+-                with (Path(directory) / name).open(errors="replace") as f:
+-                    lic.simplelicensing_licenseText = f.read()
+-                    return lic
+-
+-            except FileNotFoundError:
+-                pass
+-
+-        # If it's not SPDX or PD, then NO_GENERIC_LICENSE must be set
+-        filename = d.getVarFlag('NO_GENERIC_LICENSE', name)
+-        if filename:
+-            filename = d.expand("${S}/" + filename)
+-            with open(filename, errors="replace") as f:
+-                lic.simplelicensing_licenseText = f.read()
+-                return lic
+-        else:
+-            bb.fatal("Cannot find any text for license %s" % name)
+-
+-    def convert(l):
+-        nonlocal license_text_map
+-        nonlocal license_ref_idx
+-
+-        if l == "(" or l == ")":
+-            return l
+-
+-        if l == "&":
+-            return "AND"
+-
+-        if l == "|":
+-            return "OR"
+-
+-        if l == "CLOSED":
+-            return "NONE"
+-
+-        spdx_license = d.getVarFlag("SPDXLICENSEMAP", l) or l
+-        if spdx_license in license_data["licenses"]:
+-            return spdx_license
+-
+-        spdx_license = "LicenseRef-" + l
+-        if spdx_license not in license_text_map:
+-            license_text_map[spdx_license] = add_license_text(l)._id
+-
+-        return spdx_license
+-
+-    lic_split = license_expression.replace("(", " ( ").replace(")", " ) ").replace("|", " | ").replace("&", " & ").split()
+-    spdx_license_expression = ' '.join(convert(l) for l in lic_split)
+-
+-    return objset.new_license_expression(spdx_license_expression, license_text_map)
+-
+-
+-def add_package_files(d, objset, topdir, get_spdxid, get_purposes, *, archive=None, ignore_dirs=[], ignore_top_level_dirs=[]):
+-    from pathlib import Path
+-    import oe.spdx30
+-    import oe.sbom30
+-
+-    source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
+-    if source_date_epoch:
+-        source_date_epoch = int(source_date_epoch)
+-
+-    spdx_files = set()
+-
+-    file_counter = 1
+-    for subdir, dirs, files in os.walk(topdir):
+-        dirs[:] = [d for d in dirs if d not in ignore_dirs]
+-        if subdir == str(topdir):
+-            dirs[:] = [d for d in dirs if d not in ignore_top_level_dirs]
+-
+-        for file in files:
+-            filepath = Path(subdir) / file
+-            if filepath.is_symlink() or not filepath.is_file():
+-                continue
+-
+-            bb.debug(1, "Adding file %s to %s" % (filepath, objset.doc._id))
+-
+-            filename = str(filepath.relative_to(topdir))
+-            file_purposes = get_purposes(filepath)
+-
+-            spdx_file = objset.new_file(
+-                get_spdxid(file_counter),
+-                filename,
+-                filepath,
+-                purposes=file_purposes,
+-            )
+-            spdx_files.add(spdx_file)
+-
+-            if oe.spdx30.software_SoftwarePurpose.source in file_purposes:
+-                objset.scan_declared_licenses(spdx_file, filepath)
+-
+-            if archive is not None:
+-                with filepath.open("rb") as f:
+-                    info = archive.gettarinfo(fileobj=f)
+-                    info.name = filename
+-                    info.uid = 0
+-                    info.gid = 0
+-                    info.uname = "root"
+-                    info.gname = "root"
+-
+-                    if source_date_epoch is not None and info.mtime > source_date_epoch:
+-                        info.mtime = source_date_epoch
+-
+-                    archive.addfile(info, f)
+-
+-            file_counter += 1
+-
+-    return spdx_files
+-
+-
+-def get_package_sources_from_debug(d, package, package_files, sources, source_hash_cache):
+-    from pathlib import Path
+-    import oe.packagedata
+-
+-    def file_path_match(file_path, pkg_file):
+-        if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
+-            return True
+-
+-        for e in pkg_file.extension:
+-            if isinstance(e, oe.sbom30.OEFileNameAliasExtension):
+-                for a in e.aliases:
+-                    if file_path.lstrip("/") == a.lstrip("/"):
+-                        return True
+-
+-        return False
+-
+-    debug_search_paths = [
+-        Path(d.getVar('PKGD')),
+-        Path(d.getVar('STAGING_DIR_TARGET')),
+-        Path(d.getVar('STAGING_DIR_NATIVE')),
+-        Path(d.getVar('STAGING_KERNEL_DIR')),
+-    ]
+-
+-    pkg_data = oe.packagedata.read_subpkgdata_extended(package, d)
+-
+-    if pkg_data is None:
 -        return
 -
--    with open(d.getVar("SPDX_LICENSES"), "r") as f:
--        data = json.load(f)
--        # Transform the license array to a dictionary
--        data["licenses"] = {l["licenseId"]: l for l in data["licenses"]}
--        d.setVar("SPDX_LICENSE_DATA", data)
+-    dep_source_files = set()
 -
- python() {
--    load_spdx_license_data(d)
-+    import oe.spdx_common
-+    oe.spdx_common.load_spdx_license_data(d)
- }
- 
--def process_sources(d):
--    pn = d.getVar('PN')
--    assume_provided = (d.getVar("ASSUME_PROVIDED") or "").split()
--    if pn in assume_provided:
--        for p in d.getVar("PROVIDES").split():
--            if p != pn:
--                pn = p
+-    for file_path, file_data in pkg_data["files_info"].items():
+-        if not "debugsrc" in file_data:
+-            continue
+-
+-        if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
+-            bb.fatal("No package file found for %s in %s; SPDX found: %s" % (str(file_path), package,
+-                " ".join(p.name for p in package_files)))
+-            continue
+-
+-        for debugsrc in file_data["debugsrc"]:
+-            for search in debug_search_paths:
+-                if debugsrc.startswith("/usr/src/kernel"):
+-                    debugsrc_path = search / debugsrc.replace('/usr/src/kernel/', '')
+-                else:
+-                    debugsrc_path = search / debugsrc.lstrip("/")
+-
+-                if debugsrc_path in source_hash_cache:
+-                    file_sha256 = source_hash_cache[debugsrc_path]
+-                    if file_sha256 is None:
+-                        continue
+-                else:
+-                    if not debugsrc_path.exists():
+-                        source_hash_cache[debugsrc_path] = None
+-                        continue
+-
+-                    file_sha256 = bb.utils.sha256_file(debugsrc_path)
+-                    source_hash_cache[debugsrc_path] = file_sha256
+-
+-                if file_sha256 in sources:
+-                    source_file = sources[file_sha256]
+-                    dep_source_files.add(source_file)
+-                else:
+-                    bb.debug(1, "Debug source %s with SHA256 %s not found in any dependency" % (str(debugsrc_path), file_sha256))
 -                break
+-            else:
+-                bb.debug(1, "Debug source %s not found" % debugsrc)
 -
--    # glibc-locale: do_fetch, do_unpack and do_patch tasks have been deleted,
--    # so avoid archiving source here.
--    if pn.startswith('glibc-locale'):
--        return False
--    if d.getVar('PN') == "libtool-cross":
--        return False
--    if d.getVar('PN') == "libgcc-initial":
--        return False
--    if d.getVar('PN') == "shadow-sysroot":
--        return False
+-    return dep_source_files
 -
--    # We just archive gcc-source for all the gcc related recipes
--    if d.getVar('BPN') in ['gcc', 'libgcc']:
--        bb.debug(1, 'spdx: There is bug in scan of %s is, do nothing' % pn)
--        return False
+-get_package_sources_from_debug[vardepsexclude] += "STAGING_KERNEL_DIR"
 -
--    return True
+-def collect_dep_objsets(d, build):
+-    import json
+-    from pathlib import Path
+-    import oe.sbom30
+-    import oe.spdx30
+-    import oe.spdx_common
 -
--def collect_direct_deps(d, dep_task):
--    current_task = "do_" + d.getVar("BB_CURRENTTASK")
--    pn = d.getVar("PN")
+-    deps = oe.spdx_common.get_spdx_deps(d)
 -
--    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
+-    dep_objsets = []
+-    dep_builds = set()
 -
--    for this_dep in taskdepdata.values():
--        if this_dep[0] == pn and this_dep[1] == current_task:
+-    dep_build_spdxids = set()
+-    for dep in deps:
+-        bb.debug(1, "Fetching SPDX for dependency %s" % (dep.pn))
+-        dep_build, dep_objset = oe.sbom30.find_root_obj_in_jsonld(d, "recipes", dep.pn, oe.spdx30.build_Build)
+-        # If the dependency is part of the taskhash, return it to be linked
+-        # against. Otherwise, it cannot be linked against because this recipe
+-        # will not rebuilt if dependency changes
+-        if dep.in_taskhash:
+-            dep_objsets.append(dep_objset)
+-
+-        # The build _can_ be linked against (by alias)
+-        dep_builds.add(dep_build)
+-
+-    return dep_objsets, dep_builds
+-
+-collect_dep_objsets[vardepsexclude] = "SSTATE_ARCHS"
+-
+-def collect_dep_sources(dep_objsets):
+-    import oe.spdx30
+-    import oe.sbom30
+-
+-    sources = {}
+-    for objset in dep_objsets:
+-        # Don't collect sources from native recipes as they
+-        # match non-native sources also.
+-        if objset.is_native():
+-            continue
+-
+-        bb.debug(1, "Fetching Sources for dependency %s" % (objset.doc.name))
+-
+-        dep_build = objset.find_root(oe.spdx30.build_Build)
+-        if not dep_build:
+-            bb.fatal("Unable to find a build")
+-
+-        for e in objset.foreach_type(oe.spdx30.Relationship):
+-            if dep_build is not e.from_:
+-                continue
+-
+-            if e.relationshipType != oe.spdx30.RelationshipType.hasInputs:
+-                continue
+-
+-            for to in e.to:
+-                if not isinstance(to, oe.spdx30.software_File):
+-                    continue
+-
+-                if to.software_primaryPurpose != oe.spdx30.software_SoftwarePurpose.source:
+-                    continue
+-
+-                for v in to.verifiedUsing:
+-                    if v.algorithm == oe.spdx30.HashAlgorithm.sha256:
+-                        sources[v.hashValue] = to
+-                        break
+-                else:
+-                    bb.fatal("No SHA256 found for %s in %s" % (to.name, objset.doc.name))
+-
+-    return sources
+-
+-def add_download_files(d, objset):
+-    import oe.patch
+-    import oe.spdx30
+-    import os
+-
+-    inputs = set()
+-
+-    urls = d.getVar("SRC_URI").split()
+-    fetch = bb.fetch2.Fetch(urls, d)
+-
+-    for download_idx, src_uri in enumerate(urls):
+-        fd = fetch.ud[src_uri]
+-
+-        for name in fd.names:
+-            file_name = os.path.basename(fetch.localpath(src_uri))
+-            if oe.patch.patch_path(src_uri, fetch, '', expand=False):
+-                primary_purpose = oe.spdx30.software_SoftwarePurpose.patch
+-            else:
+-                primary_purpose = oe.spdx30.software_SoftwarePurpose.source
+-
+-            if fd.type == "file":
+-                if os.path.isdir(fd.localpath):
+-                    walk_idx = 1
+-                    for root, dirs, files in os.walk(fd.localpath):
+-                        for f in files:
+-                            f_path = os.path.join(root, f)
+-                            if os.path.islink(f_path):
+-                                # TODO: SPDX doesn't support symlinks yet
+-                                continue
+-
+-                            file = objset.new_file(
+-                                objset.new_spdxid("source", str(download_idx + 1), str(walk_idx)),
+-                                os.path.join(file_name, os.path.relpath(f_path, fd.localpath)),
+-                                f_path,
+-                                purposes=[primary_purpose],
+-                            )
+-
+-                            inputs.add(file)
+-                            walk_idx += 1
+-
+-                else:
+-                    file = objset.new_file(
+-                        objset.new_spdxid("source", str(download_idx + 1)),
+-                        file_name,
+-                        fd.localpath,
+-                        purposes=[primary_purpose],
+-                    )
+-                    inputs.add(file)
+-
+-            else:
+-                uri = fd.type
+-                proto = getattr(fd, "proto", None)
+-                if proto is not None:
+-                    uri = uri + "+" + proto
+-                uri = uri + "://" + fd.host + fd.path
+-
+-                if fd.method.supports_srcrev():
+-                    uri = uri + "@" + fd.revisions[name]
+-
+-                dl = objset.add(oe.spdx30.software_Package(
+-                    _id=objset.new_spdxid("source", str(download_idx + 1)),
+-                    creationInfo=objset.doc.creationInfo,
+-                    name=file_name,
+-                    software_primaryPurpose=primary_purpose,
+-                    software_downloadLocation=uri,
+-                ))
+-
+-                if fd.method.supports_checksum(fd):
+-                    # TODO Need something better than hard coding this
+-                    for checksum_id in ["sha256", "sha1"]:
+-                        expected_checksum = getattr(fd, "%s_expected" % checksum_id, None)
+-                        if expected_checksum is None:
+-                            continue
+-
+-                        dl.verifiedUsing.append(
+-                            oe.spdx30.Hash(
+-                                algorithm=getattr(oe.spdx30.HashAlgorithm, checksum_id),
+-                                hashValue=expected_checksum,
+-                            )
+-                        )
+-
+-                inputs.add(dl)
+-
+-    return inputs
+-
+-
+-def set_purposes(d, element, *var_names, force_purposes=[]):
+-    purposes = force_purposes[:]
+-
+-    for var_name in var_names:
+-        val = d.getVar(var_name)
+-        if val:
+-            purposes.extend(val.split())
 -            break
--    else:
--        bb.fatal(f"Unable to find this {pn}:{current_task} in taskdepdata")
 -
--    deps = set()
+-    if not purposes:
+-        bb.warn("No SPDX purposes found in %s" % " ".join(var_names))
+-        return
 -
--    for dep_name in this_dep.deps:
--        dep_data = taskdepdata[dep_name]
--        if dep_data.taskname == dep_task and dep_data.pn != pn:
--            deps.add((dep_data.pn, dep_data.hashfn, dep_name in this_dep.taskhash_deps))
--
--    return sorted(deps)
--
--collect_direct_deps[vardepsexclude] += "BB_TASKDEPDATA"
--collect_direct_deps[vardeps] += "DEPENDS"
+-    element.software_primaryPurpose = getattr(oe.spdx30.software_SoftwarePurpose, purposes[0])
+-    element.software_additionalPurpose = [getattr(oe.spdx30.software_SoftwarePurpose, p) for p in purposes[1:]]
  
- python do_collect_spdx_deps() {
-     # This task calculates the build time dependencies of the recipe, and is
-@@ -136,11 +51,12 @@ python do_collect_spdx_deps() {
-     # do_create_spdx reads in the found dependencies when writing the actual
-     # SPDX document
-     import json
-+    import oe.spdx_common
-     from pathlib import Path
  
-     spdx_deps_file = Path(d.getVar("SPDXDEPS"))
- 
--    deps = collect_direct_deps(d, "do_create_spdx")
-+    deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
- 
-     with spdx_deps_file.open("w") as f:
-         json.dump(deps, f)
-@@ -151,104 +67,7 @@ do_collect_spdx_deps[depends] += "${PATCHDEPENDENCY}"
- do_collect_spdx_deps[deptask] = "do_create_spdx"
- do_collect_spdx_deps[dirs] = "${SPDXDIR}"
- 
--def get_spdx_deps(d):
--    import json
+ python do_create_spdx() {
+-    import oe.sbom30
+-    import oe.spdx30
+-    import oe.spdx_common
 -    from pathlib import Path
+-    from contextlib import contextmanager
+-    import oe.cve_check
+-    from datetime import datetime
 -
--    spdx_deps_file = Path(d.getVar("SPDXDEPS"))
+-    def set_var_field(var, obj, name, package=None):
+-        val = None
+-        if package:
+-            val = d.getVar("%s:%s" % (var, package))
 -
--    with spdx_deps_file.open("r") as f:
--        return json.load(f)
+-        if not val:
+-            val = d.getVar(var)
 -
--def collect_package_providers(d):
--    from pathlib import Path
--    import oe.sbom
--    import oe.spdx
--    import json
+-        if val:
+-            setattr(obj, name, val)
 -
+-    deploydir = Path(d.getVar("SPDXDEPLOY"))
 -    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+-    spdx_workdir = Path(d.getVar("SPDXWORK"))
+-    include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
+-    pkg_arch = d.getVar("SSTATE_PKGARCH")
+-    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
+-    include_vex = d.getVar("SPDX_INCLUDE_VEX")
+-    if not include_vex in ("none", "current", "all"):
+-        bb.fatal("SPDX_INCLUDE_VEX must be one of 'none', 'current', 'all'")
 -
--    providers = {}
+-    build_objset = oe.sbom30.ObjectSet.new_objset(d, d.getVar("PN"))
 -
--    deps = collect_direct_deps(d, "do_create_spdx")
--    deps.append((d.getVar("PN"), d.getVar("BB_HASHFILENAME"), True))
+-    build = build_objset.new_task_build("recipe", "recipe")
+-    build_objset.doc.rootElement.append(build)
 -
--    for dep_pn, dep_hashfn, _ in deps:
--        localdata = d
--        recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
--        if not recipe_data:
--            localdata = bb.data.createCopy(d)
--            localdata.setVar("PKGDATA_DIR", "${PKGDATA_DIR_SDK}")
--            recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
+-    build_objset.set_is_native(is_native)
 -
--        for pkg in recipe_data.get("PACKAGES", "").split():
+-    for var in (d.getVar('SPDX_CUSTOM_ANNOTATION_VARS') or "").split():
+-        new_annotation(
+-            d,
+-            build_objset,
+-            build,
+-            "%s=%s" % (var, d.getVar(var)),
+-            oe.spdx30.AnnotationType.other
+-        )
 -
--            pkg_data = oe.packagedata.read_subpkgdata_dict(pkg, localdata)
--            rprovides = set(n for n, _ in bb.utils.explode_dep_versions2(pkg_data.get("RPROVIDES", "")).items())
--            rprovides.add(pkg)
+-    build_inputs = set()
 -
--            if "PKG" in pkg_data:
--                pkg = pkg_data["PKG"]
--                rprovides.add(pkg)
+-    # Add CVEs
+-    cve_by_status = {}
+-    if include_vex != "none":
+-        for cve in (d.getVarFlags("CVE_STATUS") or {}):
+-            status, detail, description = oe.cve_check.decode_cve_status(d, cve)
 -
--            for r in rprovides:
--                providers[r] = (pkg, dep_hashfn)
+-            # If this CVE is fixed upstream, skip it unless all CVEs are
+-            # specified.
+-            if include_vex != "all" and detail in ("fixed-version", "cpe-stable-backport"):
+-                bb.debug(1, "Skipping %s since it is already fixed upstream" % cve)
+-                continue
 -
--    return providers
+-            cve_by_status.setdefault(status, {})[cve] = (
+-                build_objset.new_cve_vuln(cve),
+-                detail,
+-                description,
+-            )
 -
--collect_package_providers[vardepsexclude] += "BB_TASKDEPDATA"
+-    cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION"))
 -
--def spdx_get_src(d):
--    """
--    save patched source of the recipe in SPDX_WORKDIR.
--    """
--    import shutil
--    spdx_workdir = d.getVar('SPDXWORK')
--    spdx_sysroot_native = d.getVar('STAGING_DIR_NATIVE')
--    pn = d.getVar('PN')
+-    source_files = add_download_files(d, build_objset)
+-    build_inputs |= source_files
 -
--    workdir = d.getVar("WORKDIR")
--
--    try:
--        # The kernel class functions require it to be on work-shared, so we dont change WORKDIR
--        if not is_work_shared_spdx(d):
--            # Change the WORKDIR to make do_unpack do_patch run in another dir.
--            d.setVar('WORKDIR', spdx_workdir)
--            # Restore the original path to recipe's native sysroot (it's relative to WORKDIR).
--            d.setVar('STAGING_DIR_NATIVE', spdx_sysroot_native)
--
--            # The changed 'WORKDIR' also caused 'B' changed, create dir 'B' for the
--            # possibly requiring of the following tasks (such as some recipes's
--            # do_patch required 'B' existed).
--            bb.utils.mkdirhier(d.getVar('B'))
--
--            bb.build.exec_func('do_unpack', d)
--        # Copy source of kernel to spdx_workdir
--        if is_work_shared_spdx(d):
--            share_src = d.getVar('WORKDIR')
--            d.setVar('WORKDIR', spdx_workdir)
--            d.setVar('STAGING_DIR_NATIVE', spdx_sysroot_native)
--            src_dir = spdx_workdir + "/" + d.getVar('PN')+ "-" + d.getVar('PV') + "-" + d.getVar('PR')
--            bb.utils.mkdirhier(src_dir)
--            if bb.data.inherits_class('kernel',d):
--                share_src = d.getVar('STAGING_KERNEL_DIR')
--            cmd_copy_share = "cp -rf " + share_src + "/* " + src_dir + "/"
--            cmd_copy_shared_res = os.popen(cmd_copy_share).read()
--            bb.note("cmd_copy_shared_result = " + cmd_copy_shared_res)
--
--            git_path = src_dir + "/.git"
--            if os.path.exists(git_path):
--                shutils.rmtree(git_path)
--
--        # Make sure gcc and kernel sources are patched only once
--        if not (d.getVar('SRC_URI') == "" or is_work_shared_spdx(d)):
--            bb.build.exec_func('do_patch', d)
--
--        # Some userland has no source.
--        if not os.path.exists( spdx_workdir ):
--            bb.utils.mkdirhier(spdx_workdir)
--    finally:
--        d.setVar("WORKDIR", workdir)
--
--spdx_get_src[vardepsexclude] += "STAGING_KERNEL_DIR"
--
-+oe.spdx_common.collect_direct_deps[vardepsexclude] += "BB_TASKDEPDATA"
-+oe.spdx_common.collect_direct_deps[vardeps] += "DEPENDS"
-+oe.spdx_common.collect_package_providers[vardepsexclude] += "BB_TASKDEPDATA"
-+oe.spdx_common.get_patched_src[vardepsexclude] += "STAGING_KERNEL_DIR"
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 771e87be796..2532d19dad2 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -12,6 +12,7 @@ import re
- import hashlib
- import uuid
- import os
-+import oe.spdx_common
- from datetime import datetime, timezone
- 
- OE_SPDX_BASE = "https://rdf.openembedded.org/spdx/3.0/"
-@@ -205,24 +206,6 @@ def get_alias(obj):
-     return None
- 
- 
--def extract_licenses(filename):
--    lic_regex = re.compile(
--        rb"^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$", re.MULTILINE
+-    recipe_spdx_license = add_license_expression(d, build_objset, d.getVar("LICENSE"))
+-    build_objset.new_relationship(
+-        source_files,
+-        oe.spdx30.RelationshipType.hasConcludedLicense,
+-        [recipe_spdx_license],
 -    )
 -
--    try:
--        with open(filename, "rb") as f:
--            size = min(15000, os.stat(filename).st_size)
--            txt = f.read(size)
--            licenses = re.findall(lic_regex, txt)
--            if licenses:
--                ascii_licenses = [lic.decode("ascii") for lic in licenses]
--                return ascii_licenses
--    except Exception as e:
--        bb.warn(f"Exception reading {filename}: {e}")
--    return []
+-    if oe.spdx_common.process_sources(d) and include_sources:
+-        bb.debug(1, "Adding source files to SPDX")
+-        oe.spdx_common.get_patched_src(d)
+-
+-        build_inputs |= add_package_files(
+-            d,
+-            build_objset,
+-            spdx_workdir,
+-            lambda file_counter: build_objset.new_spdxid("sourcefile", str(file_counter)),
+-            lambda filepath: [oe.spdx30.software_SoftwarePurpose.source],
+-            ignore_dirs=[".git"],
+-            ignore_top_level_dirs=["temp"],
+-            archive=None,
+-        )
 -
 -
- def to_list(l):
-     if isinstance(l, set):
-         l = sorted(list(l))
-@@ -630,7 +613,7 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-                 return
+-    dep_objsets, dep_builds = collect_dep_objsets(d, build)
+-    if dep_builds:
+-        build_objset.new_scoped_relationship(
+-            [build],
+-            oe.spdx30.RelationshipType.dependsOn,
+-            oe.spdx30.LifecycleScopeType.build,
+-            sorted(oe.sbom30.get_element_link_id(b) for b in dep_builds),
+-        )
+-
+-    debug_source_ids = set()
+-    source_hash_cache = {}
+-
+-    # Write out the package SPDX data now. It is not complete as we cannot
+-    # write the runtime data, so write it to a staging area and a later task
+-    # will write out the final collection
+-
+-    # TODO: Handle native recipe output
+-    if not is_native:
+-        bb.debug(1, "Collecting Dependency sources files")
+-        sources = collect_dep_sources(dep_objsets)
+-
+-        bb.build.exec_func("read_subpackage_metadata", d)
+-
+-        pkgdest = Path(d.getVar("PKGDEST"))
+-        for package in d.getVar("PACKAGES").split():
+-            if not oe.packagedata.packaged(package, d):
+-                continue
+-
+-            pkg_name = d.getVar("PKG:%s" % package) or package
+-
+-            bb.debug(1, "Creating SPDX for package %s" % pkg_name)
+-
+-            pkg_objset = oe.sbom30.ObjectSet.new_objset(d, pkg_name)
+-
+-            spdx_package = pkg_objset.add_root(oe.spdx30.software_Package(
+-                _id=pkg_objset.new_spdxid("package", pkg_name),
+-                creationInfo=pkg_objset.doc.creationInfo,
+-                name=pkg_name,
+-                software_packageVersion=d.getVar("PV"),
+-            ))
+-            set_timestamp_now(d, spdx_package, "builtTime")
+-
+-            set_purposes(
+-                d,
+-                spdx_package,
+-                "SPDX_PACKAGE_ADDITIONAL_PURPOSE:%s" % package,
+-                "SPDX_PACKAGE_ADDITIONAL_PURPOSE",
+-                force_purposes=["install"],
+-            )
+-
+-
+-            supplier = build_objset.new_agent("SPDX_PACKAGE_SUPPLIER")
+-            if supplier is not None:
+-                spdx_package.supplier = supplier if isinstance(supplier, str) else supplier._id
+-
+-            set_var_field("HOMEPAGE", spdx_package, "software_homePage", package=package)
+-            set_var_field("SUMMARY", spdx_package, "summary", package=package)
+-            set_var_field("DESCRIPTION", spdx_package, "description", package=package)
+-
+-            pkg_objset.new_scoped_relationship(
+-                [build._id],
+-                oe.spdx30.RelationshipType.hasOutputs,
+-                oe.spdx30.LifecycleScopeType.build,
+-                [spdx_package],
+-            )
+-
+-            for cpe_id in cpe_ids:
+-                spdx_package.externalIdentifier.append(
+-                    oe.spdx30.ExternalIdentifier(
+-                        externalIdentifierType=oe.spdx30.ExternalIdentifierType.cpe23,
+-                        identifier=cpe_id,
+-                ))
+-
+-            # TODO: Generate a file for each actual IPK/DEB/RPM/TGZ file
+-            # generated and link it to the package
+-            #spdx_package_file = pkg_objset.add(oe.spdx30.software_File(
+-            #    _id=pkg_objset.new_spdxid("distribution", pkg_name),
+-            #    creationInfo=pkg_objset.doc.creationInfo,
+-            #    name=pkg_name,
+-            #    software_primaryPurpose=spdx_package.software_primaryPurpose,
+-            #    software_additionalPurpose=spdx_package.software_additionalPurpose,
+-            #))
+-            #set_timestamp_now(d, spdx_package_file, "builtTime")
+-
+-            ## TODO add hashes
+-            #pkg_objset.new_relationship(
+-            #    [spdx_package],
+-            #    oe.spdx30.RelationshipType.hasDistributionArtifact,
+-            #    [spdx_package_file],
+-            #)
+-
+-            # NOTE: licenses live in the recipe collection and are referenced
+-            # by ID in the package collection(s). This helps reduce duplication
+-            # (since a lot of packages will have the same license), and also
+-            # prevents duplicate license SPDX IDs in the packages
+-            package_license = d.getVar("LICENSE:%s" % package)
+-            if package_license and package_license != d.getVar("LICENSE"):
+-                package_spdx_license = add_license_expression(d, build_objset, package_license)
+-            else:
+-                package_spdx_license = recipe_spdx_license
+-
+-            pkg_objset.new_relationship(
+-                [spdx_package],
+-                oe.spdx30.RelationshipType.hasConcludedLicense,
+-                [package_spdx_license._id],
+-            )
+-
+-            # NOTE: CVE Elements live in the recipe collection
+-            all_cves = set()
+-            for status, cves in cve_by_status.items():
+-                for cve, items in cves.items():
+-                    spdx_cve, detail, description = items
+-
+-                    all_cves.add(spdx_cve._id)
+-
+-                    if status == "Patched":
+-                        pkg_objset.new_vex_patched_relationship([spdx_cve._id], [spdx_package])
+-                    elif status == "Unpatched":
+-                        pkg_objset.new_vex_unpatched_relationship([spdx_cve._id], [spdx_package])
+-                    elif status == "Ignored":
+-                        spdx_vex = pkg_objset.new_vex_ignored_relationship(
+-                            [spdx_cve._id],
+-                            [spdx_package],
+-                            impact_statement=description,
+-                        )
+-
+-                        if detail in ("ignored", "cpe-incorrect", "disputed", "upstream-wontfix"):
+-                            # VEX doesn't have justifications for this
+-                            pass
+-                        elif detail in ("not-applicable-config", "not-applicable-platform"):
+-                            for v in spdx_vex:
+-                                v.security_justificationType = oe.spdx30.security_VexJustificationType.vulnerableCodeNotPresent
+-                        else:
+-                            bb.fatal(f"Unknown detail '{detail}' for ignored {cve}")
+-                    else:
+-                        bb.fatal(f"Unknown CVE status {status}")
+-
+-            if all_cves:
+-                pkg_objset.new_relationship(
+-                    [spdx_package],
+-                    oe.spdx30.RelationshipType.hasAssociatedVulnerability,
+-                    sorted(list(all_cves)),
+-                )
+-
+-            bb.debug(1, "Adding package files to SPDX for package %s" % pkg_name)
+-            package_files = add_package_files(
+-                d,
+-                pkg_objset,
+-                pkgdest / package,
+-                lambda file_counter: pkg_objset.new_spdxid("package", pkg_name, "file", str(file_counter)),
+-                # TODO: Can we know the purpose here?
+-                lambda filepath: [],
+-                ignore_top_level_dirs=['CONTROL', 'DEBIAN'],
+-                archive=None,
+-            )
+-
+-            if package_files:
+-                pkg_objset.new_relationship(
+-                    [spdx_package],
+-                    oe.spdx30.RelationshipType.contains,
+-                    sorted(list(package_files)),
+-                )
+-
+-            if include_sources:
+-                debug_sources = get_package_sources_from_debug(d, package, package_files, sources, source_hash_cache)
+-                debug_source_ids |= set(oe.sbom30.get_element_link_id(d) for d in debug_sources)
+-
+-            oe.sbom30.write_recipe_jsonld_doc(d, pkg_objset, "packages-staging", deploydir, create_spdx_id_links=False)
+-
+-    if include_sources:
+-        bb.debug(1, "Adding sysroot files to SPDX")
+-        sysroot_files = add_package_files(
+-            d,
+-            build_objset,
+-            d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
+-            lambda file_counter: build_objset.new_spdxid("sysroot", str(file_counter)),
+-            lambda filepath: [],
+-            archive=None,
+-        )
+-
+-        if sysroot_files:
+-            build_objset.new_scoped_relationship(
+-                [build],
+-                oe.spdx30.RelationshipType.hasOutputs,
+-                oe.spdx30.LifecycleScopeType.build,
+-                sorted(list(sysroot_files)),
+-            )
+-
+-    if build_inputs or debug_source_ids:
+-        build_objset.new_scoped_relationship(
+-            [build],
+-            oe.spdx30.RelationshipType.hasInputs,
+-            oe.spdx30.LifecycleScopeType.build,
+-            sorted(list(build_inputs)) + sorted(list(debug_source_ids)),
+-        )
+-
+-    oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "recipes", deploydir)
++    import oe.spdx30_tasks
++    oe.spdx30_tasks.create_spdx(d)
+ }
+ do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
+ addtask do_create_spdx after \
+@@ -844,101 +161,9 @@ do_create_spdx[cleandirs] = "${SPDXDEPLOY} ${SPDXWORK}"
+ do_create_spdx[depends] += "${PATCHDEPENDENCY}"
  
-         file_licenses = set()
--        for extracted_lic in extract_licenses(filepath):
-+        for extracted_lic in oe.spdx_common.extract_licenses(filepath):
-             file_licenses.add(self.new_license_expression(extracted_lic))
+ python do_create_package_spdx() {
+-    import oe.sbom30
+-    import oe.spdx30
+-    import oe.spdx_common
+-    import oe.packagedata
+-    from pathlib import Path
+-
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+-    deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
+-    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
+-
+-    providers = oe.spdx_common.collect_package_providers(d)
+-    pkg_arch = d.getVar("SSTATE_PKGARCH")
+-
+-    if not is_native:
+-        bb.build.exec_func("read_subpackage_metadata", d)
+-
+-        dep_package_cache = {}
+-
+-        # Any element common to all packages that need to be referenced by ID
+-        # should be written into this objset set
+-        common_objset = oe.sbom30.ObjectSet.new_objset(d, "%s-package-common" % d.getVar("PN"))
+-
+-        pkgdest = Path(d.getVar("PKGDEST"))
+-        for package in d.getVar("PACKAGES").split():
+-            localdata = bb.data.createCopy(d)
+-            pkg_name = d.getVar("PKG:%s" % package) or package
+-            localdata.setVar("PKG", pkg_name)
+-            localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + package)
+-
+-            if not oe.packagedata.packaged(package, localdata):
+-                continue
+-
+-            spdx_package, pkg_objset = oe.sbom30.load_obj_in_jsonld(
+-                d,
+-                pkg_arch,
+-                "packages-staging",
+-                pkg_name,
+-                oe.spdx30.software_Package,
+-                software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
+-            )
+-
+-            # We will write out a new collection, so link it to the new
+-            # creation info in the common package data. The old creation info
+-            # should still exist and be referenced by all the existing elements
+-            # in the package
+-            pkg_objset.creationInfo = pkg_objset.copy_creation_info(common_objset.doc.creationInfo)
+-
+-            runtime_spdx_deps = set()
+-
+-            deps = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
+-            seen_deps = set()
+-            for dep, _ in deps.items():
+-                if dep in seen_deps:
+-                    continue
+-
+-                if dep not in providers:
+-                    continue
+-
+-                (dep, _) = providers[dep]
+-
+-                if not oe.packagedata.packaged(dep, localdata):
+-                    continue
+-
+-                dep_pkg_data = oe.packagedata.read_subpkgdata_dict(dep, d)
+-                dep_pkg = dep_pkg_data["PKG"]
+-
+-                if dep in dep_package_cache:
+-                    dep_spdx_package = dep_package_cache[dep]
+-                else:
+-                    bb.debug(1, "Searching for %s" % dep_pkg)
+-                    dep_spdx_package, _ = oe.sbom30.find_root_obj_in_jsonld(
+-                        d,
+-                        "packages-staging",
+-                        dep_pkg,
+-                        oe.spdx30.software_Package,
+-                        software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
+-                    )
+-                    dep_package_cache[dep] = dep_spdx_package
+-
+-                runtime_spdx_deps.add(dep_spdx_package)
+-                seen_deps.add(dep)
+-
+-            if runtime_spdx_deps:
+-                pkg_objset.new_scoped_relationship(
+-                    [spdx_package],
+-                    oe.spdx30.RelationshipType.dependsOn,
+-                    oe.spdx30.LifecycleScopeType.runtime,
+-                    [oe.sbom30.get_element_link_id(dep) for dep in runtime_spdx_deps],
+-                )
+-
+-            oe.sbom30.write_recipe_jsonld_doc(d, pkg_objset, "packages", deploydir)
+-
+-        oe.sbom30.write_recipe_jsonld_doc(d, common_objset, "common-package", deploydir)
++    import oe.spdx30_tasks
++    oe.spdx30_tasks.create_package_spdx(d)
+ }
+-
+ do_create_package_spdx[vardepsexclude] += "OVERRIDES SSTATE_ARCHS"
  
-         self.new_relationship(
-diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+ addtask do_create_package_spdx after do_create_spdx before do_build do_rm_work
+@@ -955,91 +180,10 @@ do_create_package_spdx[dirs] = "${SPDXRUNTIMEDEPLOY}"
+ do_create_package_spdx[cleandirs] = "${SPDXRUNTIMEDEPLOY}"
+ do_create_package_spdx[rdeptask] = "do_create_spdx"
+ 
+-
+-
+ python spdx30_build_started_handler () {
+-    import oe.spdx30
+-    import oe.sbom30
+-    import oe.spdx_common
+-    import os
+-    from pathlib import Path
+-    from datetime import datetime, timezone
+-
+-    # Create a copy of the datastore. Set PN to "bitbake" so that SPDX IDs can
+-    # be generated
++    import oe.spdx30_tasks
+     d = e.data.createCopy()
+-    d.setVar("PN", "bitbake")
+-    d.setVar("BB_TASKHASH", "bitbake")
+-    oe.spdx_common.load_spdx_license_data(d)
+-
+-    deploy_dir_spdx = Path(e.data.getVar("DEPLOY_DIR_SPDX"))
+-
+-    objset = oe.sbom30.ObjectSet.new_objset(d, "bitbake", False)
+-
+-    host_import_key = d.getVar("SPDX_BUILD_HOST")
+-    invoked_by = objset.new_agent("SPDX_INVOKED_BY", add=False)
+-    on_behalf_of = objset.new_agent("SPDX_ON_BEHALF_OF", add=False)
+-
+-    if d.getVar("SPDX_INCLUDE_BITBAKE_PARENT_BUILD") == "1":
+-        # Since the Build objects are unique, we may as well set the creation
+-        # time to the current time instead of the fallback SDE
+-        objset.doc.creationInfo.created = datetime.now(timezone.utc)
+-
+-        # Each invocation of bitbake should have a unique ID since it is a
+-        # unique build
+-        nonce = os.urandom(16).hex()
+-
+-        build = objset.add_root(oe.spdx30.build_Build(
+-            _id=objset.new_spdxid(nonce, include_unihash=False),
+-            creationInfo=objset.doc.creationInfo,
+-            build_buildType=oe.sbom30.SPDX_BUILD_TYPE,
+-        ))
+-        set_timestamp_now(d, build, "build_buildStartTime")
+-
+-        if host_import_key:
+-            objset.new_scoped_relationship(
+-                [build],
+-                oe.spdx30.RelationshipType.hasHost,
+-                oe.spdx30.LifecycleScopeType.build,
+-                [objset.new_import("SPDX_BUILD_HOST")],
+-            )
+-
+-        if invoked_by:
+-            objset.add(invoked_by)
+-            invoked_by_spdx = objset.new_scoped_relationship(
+-                [build],
+-                oe.spdx30.RelationshipType.invokedBy,
+-                oe.spdx30.LifecycleScopeType.build,
+-                [invoked_by],
+-            )
+-
+-            if on_behalf_of:
+-                objset.add(on_behalf_of)
+-                objset.new_scoped_relationship(
+-                    [on_behalf_of],
+-                    oe.spdx30.RelationshipType.delegatedTo,
+-                    oe.spdx30.LifecycleScopeType.build,
+-                    invoked_by_spdx,
+-                )
+-
+-        elif on_behalf_of:
+-            bb.warn("SPDX_ON_BEHALF_OF has no effect if SPDX_INVOKED_BY is not set")
+-
+-    else:
+-        if host_import_key:
+-            bb.warn("SPDX_BUILD_HOST has no effect if SPDX_INCLUDE_BITBAKE_PARENT_BUILD is not set")
+-
+-        if invoked_by:
+-            bb.warn("SPDX_INVOKED_BY has no effect if SPDX_INCLUDE_BITBAKE_PARENT_BUILD is not set")
+-
+-        if on_behalf_of:
+-            bb.warn("SPDX_ON_BEHALF_OF has no effect if SPDX_INCLUDE_BITBAKE_PARENT_BUILD is not set")
+-
+-    for obj in objset.foreach_type(oe.spdx30.Element):
+-        obj.extension.append(oe.sbom30.OELinkExtension(link_spdx_id=False))
+-        obj.extension.append(oe.sbom30.OEIdAliasExtension())
+-
+-    oe.sbom30.write_jsonld_doc(d, objset, deploy_dir_spdx / "bitbake.spdx.json")
++    oe.spdx30_tasks.write_bitbake_spdx(d)
+ }
+ 
+ addhandler spdx30_build_started_handler
+diff --git a/meta/classes/create-spdx-image-3.0.bbclass b/meta/classes/create-spdx-image-3.0.bbclass
+index 467719555d6..1cad8537d14 100644
+--- a/meta/classes/create-spdx-image-3.0.bbclass
++++ b/meta/classes/create-spdx-image-3.0.bbclass
+@@ -9,37 +9,6 @@ SPDX_ROOTFS_PACKAGES = "${SPDXDIR}/rootfs-packages.json"
+ SPDXIMAGEDEPLOYDIR = "${SPDXDIR}/image-deploy"
+ SPDXROOTFSDEPLOY = "${SPDXDIR}/rootfs-deploy"
+ 
+-def collect_build_package_inputs(d, objset, build, packages):
+-    import oe.spdx_common
+-    providers = oe.spdx_common.collect_package_providers(d)
+-
+-    build_deps = set()
+-
+-    for name in sorted(packages.keys()):
+-        if name not in providers:
+-            bb.fatal("Unable to find SPDX provider for '%s'" % name)
+-
+-        pkg_name, pkg_hashfn = providers[name]
+-
+-        # Copy all of the package SPDX files into the Sbom elements
+-        pkg_spdx, _ = oe.sbom30.find_root_obj_in_jsonld(
+-            d,
+-            "packages",
+-            pkg_name,
+-            oe.spdx30.software_Package,
+-            software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
+-        )
+-        build_deps.add(pkg_spdx._id)
+-
+-    if build_deps:
+-        objset.new_scoped_relationship(
+-            [build],
+-            oe.spdx30.RelationshipType.hasInputs,
+-            oe.spdx30.LifecycleScopeType.build,
+-            sorted(list(build_deps)),
+-        )
+-
+-
+ python spdx_collect_rootfs_packages() {
+     import json
+     from pathlib import Path
+@@ -58,44 +27,8 @@ python spdx_collect_rootfs_packages() {
+ ROOTFS_POSTUNINSTALL_COMMAND =+ "spdx_collect_rootfs_packages"
+ 
+ python do_create_rootfs_spdx() {
+-    import json
+-    from pathlib import Path
+-    import oe.spdx30
+-    import oe.sbom30
+-    from datetime import datetime
+-
+-    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+-    deploydir = Path(d.getVar("SPDXROOTFSDEPLOY"))
+-    root_packages_file = Path(d.getVar("SPDX_ROOTFS_PACKAGES"))
+-    image_basename = d.getVar("IMAGE_BASENAME")
+-    machine = d.getVar("MACHINE")
+-
+-    with root_packages_file.open("r") as f:
+-        packages = json.load(f)
+-
+-    objset = oe.sbom30.ObjectSet.new_objset(d, "%s-%s" % (image_basename, machine))
+-
+-    rootfs = objset.add_root(oe.spdx30.software_Package(
+-        _id=objset.new_spdxid("rootfs", image_basename),
+-        creationInfo=objset.doc.creationInfo,
+-        name=image_basename,
+-        software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.archive,
+-    ))
+-    set_timestamp_now(d, rootfs, "builtTime")
+-
+-    rootfs_build = objset.add_root(objset.new_task_build("rootfs", "rootfs"))
+-    set_timestamp_now(d, rootfs_build, "build_buildEndTime")
+-
+-    objset.new_scoped_relationship(
+-        [rootfs_build],
+-        oe.spdx30.RelationshipType.hasOutputs,
+-        oe.spdx30.LifecycleScopeType.build,
+-        [rootfs],
+-    )
+-
+-    collect_build_package_inputs(d, objset, rootfs_build, packages)
+-
+-    oe.sbom30.write_recipe_jsonld_doc(d, objset, "rootfs", deploydir)
++    import oe.spdx30_tasks
++    oe.spdx30_tasks.create_rootfs_spdx(d)
+ }
+ addtask do_create_rootfs_spdx after do_rootfs before do_image
+ SSTATETASKS += "do_create_rootfs_spdx"
+@@ -110,79 +43,8 @@ python do_create_rootfs_spdx_setscene() {
+ addtask do_create_rootfs_spdx_setscene
+ 
+ python do_create_image_spdx() {
+-    import oe.spdx30
+-    import oe.sbom30
+-    import json
+-    from pathlib import Path
+-
+-    image_deploy_dir = Path(d.getVar('IMGDEPLOYDIR'))
+-    manifest_path = Path(d.getVar("IMAGE_OUTPUT_MANIFEST"))
+-    spdx_work_dir = Path(d.getVar('SPDXIMAGEWORK'))
+-
+-    image_basename = d.getVar('IMAGE_BASENAME')
+-    machine = d.getVar("MACHINE")
+-
+-    objset = oe.sbom30.ObjectSet.new_objset(d, "%s-%s" % (image_basename, machine))
+-
+-    with manifest_path.open("r") as f:
+-        manifest = json.load(f)
+-
+-    builds = []
+-    for task in manifest:
+-        imagetype = task["imagetype"]
+-        taskname = task["taskname"]
+-
+-        image_build = objset.add_root(objset.new_task_build(taskname, "image/%s" % imagetype))
+-        set_timestamp_now(d, image_build, "build_buildEndTime")
+-        builds.append(image_build)
+-
+-        artifacts = []
+-
+-        for image in task["images"]:
+-            image_filename = image["filename"]
+-            image_path = image_deploy_dir / image_filename
+-            a = objset.add_root(oe.spdx30.software_File(
+-                _id=objset.new_spdxid("image", image_filename),
+-                creationInfo=objset.doc.creationInfo,
+-                name=image_filename,
+-                verifiedUsing=[
+-                    oe.spdx30.Hash(
+-                        algorithm=oe.spdx30.HashAlgorithm.sha256,
+-                        hashValue=bb.utils.sha256_file(image_path),
+-                    )
+-                ]
+-            ))
+-            set_purposes(d, a, "SPDX_IMAGE_PURPOSE:%s" % imagetype, "SPDX_IMAGE_PURPOSE")
+-            set_timestamp_now(d, a, "builtTime")
+-
+-            artifacts.append(a)
+-
+-        if artifacts:
+-            objset.new_scoped_relationship(
+-                [image_build],
+-                oe.spdx30.RelationshipType.hasOutputs,
+-                oe.spdx30.LifecycleScopeType.build,
+-                artifacts,
+-            )
+-
+-    if builds:
+-        rootfs_image, _ = oe.sbom30.find_root_obj_in_jsonld(
+-            d,
+-            "rootfs",
+-            "%s-%s" % (image_basename, machine),
+-            oe.spdx30.software_Package,
+-            # TODO: Should use a purpose to filter here?
+-        )
+-        objset.new_scoped_relationship(
+-            builds,
+-            oe.spdx30.RelationshipType.hasInputs,
+-            oe.spdx30.LifecycleScopeType.build,
+-            [rootfs_image._id],
+-        )
+-
+-    objset.add_aliases()
+-    objset.link()
+-    oe.sbom30.write_recipe_jsonld_doc(d, objset, "image", spdx_work_dir)
++    import oe.spdx30_tasks
++    oe.spdx30_tasks.create_image_spdx(d)
+ }
+ addtask do_create_image_spdx after do_image_complete do_create_rootfs_spdx before do_build
+ SSTATETASKS += "do_create_image_spdx"
+@@ -199,46 +61,8 @@ addtask do_create_image_spdx_setscene
+ 
+ 
+ python do_create_image_sbom_spdx() {
+-    import os
+-    from pathlib import Path
+-    import oe.spdx30
+-    import oe.sbom30
+-
+-    image_name = d.getVar("IMAGE_NAME")
+-    image_basename = d.getVar("IMAGE_BASENAME")
+-    image_link_name = d.getVar("IMAGE_LINK_NAME")
+-    imgdeploydir = Path(d.getVar("SPDXIMAGEDEPLOYDIR"))
+-    machine = d.getVar("MACHINE")
+-
+-    spdx_path = imgdeploydir / (image_name + ".spdx.json")
+-
+-    root_elements = []
+-
+-    # TODO: Do we need to add the rootfs or are the image files sufficient?
+-    rootfs_image, _ = oe.sbom30.find_root_obj_in_jsonld(
+-        d,
+-        "rootfs",
+-        "%s-%s" % (image_basename, machine),
+-        oe.spdx30.software_Package,
+-        # TODO: Should use a purpose here?
+-    )
+-    root_elements.append(rootfs_image._id)
+-
+-    image_objset, _ = oe.sbom30.find_jsonld(d, "image", "%s-%s" % (image_basename, machine), required=True)
+-    for o in image_objset.foreach_root(oe.spdx30.software_File):
+-        root_elements.append(o._id)
+-
+-    objset, sbom = oe.sbom30.create_sbom(d, image_name, root_elements)
+-
+-    oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
+-
+-    def make_image_link(target_path, suffix):
+-        if image_link_name:
+-            link = imgdeploydir / (image_link_name + suffix)
+-            if link != target_path:
+-                link.symlink_to(os.path.relpath(target_path, link.parent))
+-
+-    make_image_link(spdx_path, ".spdx.json")
++    import oe.spdx30_tasks
++    oe.spdx30_tasks.create_image_sbom_spdx(d)
+ }
+ addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_create_image_spdx before do_build
+ SSTATETASKS += "do_create_image_sbom_spdx"
+@@ -268,149 +92,54 @@ POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk-ext = " sdk_ext_target
+ 
+ python sdk_host_create_spdx() {
+     from pathlib import Path
++    import oe.spdx30_tasks
+     spdx_work_dir = Path(d.getVar('SPDXSDKWORK'))
+ 
+-    sdk_create_spdx(d, "host", spdx_work_dir, d.getVar("TOOLCHAIN_OUTPUTNAME"))
++    oe.spdx30_tasks.sdk_create_spdx(d, "host", spdx_work_dir, d.getVar("TOOLCHAIN_OUTPUTNAME"))
+ }
+ 
+ python sdk_target_create_spdx() {
+     from pathlib import Path
++    import oe.spdx30_tasks
+     spdx_work_dir = Path(d.getVar('SPDXSDKWORK'))
+ 
+-    sdk_create_spdx(d, "target", spdx_work_dir, d.getVar("TOOLCHAIN_OUTPUTNAME"))
++    oe.spdx30_tasks.sdk_create_spdx(d, "target", spdx_work_dir, d.getVar("TOOLCHAIN_OUTPUTNAME"))
+ }
+ 
+ python sdk_ext_host_create_spdx() {
+     from pathlib import Path
++    import oe.spdx30_tasks
+     spdx_work_dir = Path(d.getVar('SPDXSDKEXTWORK'))
+ 
+     # TODO: This doesn't seem to work
+-    sdk_create_spdx(d, "host", spdx_work_dir, d.getVar("TOOLCHAINEXT_OUTPUTNAME"))
++    oe.spdx30_tasks.sdk_create_spdx(d, "host", spdx_work_dir, d.getVar("TOOLCHAINEXT_OUTPUTNAME"))
+ }
+ 
+ python sdk_ext_target_create_spdx() {
+     from pathlib import Path
++    import oe.spdx30_tasks
+     spdx_work_dir = Path(d.getVar('SPDXSDKEXTWORK'))
+ 
+     # TODO: This doesn't seem to work
+-    sdk_create_spdx(d, "target", spdx_work_dir, d.getVar("TOOLCHAINEXT_OUTPUTNAME"))
++    oe.spdx30_tasks.sdk_create_spdx(d, "target", spdx_work_dir, d.getVar("TOOLCHAINEXT_OUTPUTNAME"))
+ }
+ 
+-def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
+-    from pathlib import Path
+-    from oe.sdk import sdk_list_installed_packages
+-    import oe.spdx30
+-    import oe.sbom30
+-    from datetime import datetime
+-
+-    sdk_name = toolchain_outputname + "-" + sdk_type
+-    sdk_packages = sdk_list_installed_packages(d, sdk_type == "target")
+-
+-    objset = oe.sbom30.ObjectSet.new_objset(d, sdk_name)
+-
+-    sdk_rootfs = objset.add_root(oe.spdx30.software_Package(
+-        _id=objset.new_spdxid("sdk-rootfs", sdk_name),
+-        creationInfo=objset.doc.creationInfo,
+-        name=sdk_name,
+-        software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.archive,
+-    ))
+-    set_timestamp_now(d, sdk_rootfs, "builtTime")
+-
+-    sdk_build = objset.add_root(objset.new_task_build("sdk-rootfs", "sdk-rootfs"))
+-    set_timestamp_now(d, sdk_build, "build_buildEndTime")
+-
+-    objset.new_scoped_relationship(
+-        [sdk_build],
+-        oe.spdx30.RelationshipType.hasOutputs,
+-        oe.spdx30.LifecycleScopeType.build,
+-        [sdk_rootfs],
+-    )
+-
+-    collect_build_package_inputs(d, objset, sdk_build, sdk_packages)
+-
+-    objset.add_aliases()
+-    oe.sbom30.write_jsonld_doc(d, objset, spdx_work_dir / "sdk-rootfs.spdx.json")
+ 
+ python sdk_create_sbom() {
+     from pathlib import Path
++    import oe.spdx30_tasks
+     sdk_deploydir = Path(d.getVar("SDKDEPLOYDIR"))
+     spdx_work_dir = Path(d.getVar('SPDXSDKWORK'))
+ 
+-    create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, d.getVar("TOOLCHAIN_OUTPUTNAME"))
++    oe.spdx30_tasks.create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, d.getVar("TOOLCHAIN_OUTPUTNAME"))
+ }
+ 
+ python sdk_ext_create_sbom() {
+     from pathlib import Path
++    import oe.spdx30_tasks
+     sdk_deploydir = Path(d.getVar("SDKEXTDEPLOYDIR"))
+     spdx_work_dir = Path(d.getVar('SPDXSDKEXTWORK'))
+ 
+-    create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, d.getVar("TOOLCHAINEXT_OUTPUTNAME"))
++    oe.spdx30_tasks.create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, d.getVar("TOOLCHAINEXT_OUTPUTNAME"))
+ }
+ 
+-def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
+-    import oe.spdx30
+-    import oe.sbom30
+-    from pathlib import Path
+-    from datetime import datetime
+-
+-    # Load the document written earlier
+-    rootfs_objset = oe.sbom30.load_jsonld(d, spdx_work_dir / "sdk-rootfs.spdx.json", required=True)
+-
+-    # Create a new build for the SDK installer
+-    sdk_build = rootfs_objset.new_task_build("sdk-populate", "sdk-populate")
+-    set_timestamp_now(d, sdk_build, "build_buildEndTime")
+-
+-    rootfs = rootfs_objset.find_root(oe.spdx30.software_Package)
+-    if rootfs is None:
+-        bb.fatal("Unable to find rootfs artifact")
+-
+-    rootfs_objset.new_scoped_relationship(
+-        [sdk_build],
+-        oe.spdx30.RelationshipType.hasInputs,
+-        oe.spdx30.LifecycleScopeType.build,
+-        [rootfs]
+-    )
+-
+-    files = set()
+-    root_files = []
+-
+-    # NOTE: os.walk() doesn't return symlinks
+-    for dirpath, dirnames, filenames in os.walk(sdk_deploydir):
+-        for fn in filenames:
+-            fpath = Path(dirpath) / fn
+-            if not fpath.is_file() or fpath.is_symlink():
+-                continue
+-
+-            relpath = str(fpath.relative_to(sdk_deploydir))
+-
+-            f = rootfs_objset.new_file(
+-                rootfs_objset.new_spdxid("sdk-installer", relpath),
+-                relpath,
+-                fpath,
+-            )
+-            set_timestamp_now(d, f, "builtTime")
+-
+-            if fn.endswith(".manifest"):
+-                f.software_primaryPurpose = oe.spdx30.software_SoftwarePurpose.manifest
+-            elif fn.endswith(".testdata.json"):
+-                f.software_primaryPurpose = oe.spdx30.software_SoftwarePurpose.configuration
+-            else:
+-                set_purposes(d, f, "SPDX_SDK_PURPOSE")
+-                root_files.append(f)
+-
+-            files.add(f)
+-
+-    if files:
+-        rootfs_objset.new_scoped_relationship(
+-            [sdk_build],
+-            oe.spdx30.RelationshipType.hasOutputs,
+-            oe.spdx30.LifecycleScopeType.build,
+-            files,
+-        )
+-    else:
+-        bb.warn(f"No SDK output files found in {sdk_deploydir}")
+-
+-    objset, sbom = oe.sbom30.create_sbom(d, toolchain_outputname, sorted(list(files)), [rootfs_objset])
+-
+-    oe.sbom30.write_jsonld_doc(d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json"))
+-
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
 new file mode 100644
-index 00000000000..f23100fe03d
+index 00000000000..59fd8750744
 --- /dev/null
-+++ b/meta/lib/oe/spdx_common.py
-@@ -0,0 +1,228 @@
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -0,0 +1,1229 @@
 +#
 +# Copyright OpenEmbedded Contributors
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
-+import bb
-+import collections
 +import json
++import oe.cve_check
 +import oe.packagedata
-+import re
-+import shutil
++import oe.patch
++import oe.sbom30
++import oe.spdx30
++import oe.spdx_common
++import oe.sdk
++import os
 +
++from contextlib import contextmanager
++from datetime import datetime, timezone
 +from pathlib import Path
 +
 +
-+LIC_REGEX = re.compile(
-+    rb"^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$",
-+    re.MULTILINE,
-+)
++def set_timestamp_now(d, o, prop):
++    if d.getVar("SPDX_INCLUDE_TIMESTAMPS") == "1":
++        setattr(o, prop, datetime.now(timezone.utc))
++    else:
++        # Doing this helps to validated that the property actually exists, and
++        # also that it is not mandatory
++        delattr(o, prop)
 +
 +
-+def extract_licenses(filename):
-+    """
-+    Extract SPDX License identifiers from a file
-+    """
-+    try:
-+        with open(filename, "rb") as f:
-+            size = min(15000, os.stat(filename).st_size)
-+            txt = f.read(size)
-+            licenses = re.findall(LIC_REGEX, txt)
-+            if licenses:
-+                ascii_licenses = [lic.decode("ascii") for lic in licenses]
-+                return ascii_licenses
-+    except Exception as e:
-+        bb.warn(f"Exception reading {filename}: {e}")
-+    return []
++def add_license_expression(d, objset, license_expression):
++    license_data = d.getVar("SPDX_LICENSE_DATA")
++    simple_license_text = {}
++    license_text_map = {}
++    license_ref_idx = 0
++
++    def add_license_text(name):
++        nonlocal objset
++        nonlocal simple_license_text
++
++        if name in simple_license_text:
++            return simple_license_text[name]
++
++        lic = objset.find_filter(
++            oe.spdx30.simplelicensing_SimpleLicensingText,
++            name=name,
++        )
++
++        if lic is not None:
++            simple_license_text[name] = lic
++            return lic
++
++        lic = objset.add(
++            oe.spdx30.simplelicensing_SimpleLicensingText(
++                _id=objset.new_spdxid("license-text", name),
++                creationInfo=objset.doc.creationInfo,
++                name=name,
++            )
++        )
++        simple_license_text[name] = lic
++
++        if name == "PD":
++            lic.simplelicensing_licenseText = "Software released to the public domain"
++            return lic
++
++        # Seach for the license in COMMON_LICENSE_DIR and LICENSE_PATH
++        for directory in [d.getVar("COMMON_LICENSE_DIR")] + (
++            d.getVar("LICENSE_PATH") or ""
++        ).split():
++            try:
++                with (Path(directory) / name).open(errors="replace") as f:
++                    lic.simplelicensing_licenseText = f.read()
++                    return lic
++
++            except FileNotFoundError:
++                pass
++
++        # If it's not SPDX or PD, then NO_GENERIC_LICENSE must be set
++        filename = d.getVarFlag("NO_GENERIC_LICENSE", name)
++        if filename:
++            filename = d.expand("${S}/" + filename)
++            with open(filename, errors="replace") as f:
++                lic.simplelicensing_licenseText = f.read()
++                return lic
++        else:
++            bb.fatal("Cannot find any text for license %s" % name)
++
++    def convert(l):
++        nonlocal license_text_map
++        nonlocal license_ref_idx
++
++        if l == "(" or l == ")":
++            return l
++
++        if l == "&":
++            return "AND"
++
++        if l == "|":
++            return "OR"
++
++        if l == "CLOSED":
++            return "NONE"
++
++        spdx_license = d.getVarFlag("SPDXLICENSEMAP", l) or l
++        if spdx_license in license_data["licenses"]:
++            return spdx_license
++
++        spdx_license = "LicenseRef-" + l
++        if spdx_license not in license_text_map:
++            license_text_map[spdx_license] = add_license_text(l)._id
++
++        return spdx_license
++
++    lic_split = (
++        license_expression.replace("(", " ( ")
++        .replace(")", " ) ")
++        .replace("|", " | ")
++        .replace("&", " & ")
++        .split()
++    )
++    spdx_license_expression = " ".join(convert(l) for l in lic_split)
++
++    return objset.new_license_expression(spdx_license_expression, license_text_map)
 +
 +
-+def is_work_shared_spdx(d):
-+    return bb.data.inherits_class("kernel", d) or ("work-shared" in d.getVar("WORKDIR"))
++def add_package_files(
++    d,
++    objset,
++    topdir,
++    get_spdxid,
++    get_purposes,
++    *,
++    archive=None,
++    ignore_dirs=[],
++    ignore_top_level_dirs=[],
++):
++    source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
++    if source_date_epoch:
++        source_date_epoch = int(source_date_epoch)
++
++    spdx_files = set()
++
++    file_counter = 1
++    for subdir, dirs, files in os.walk(topdir):
++        dirs[:] = [d for d in dirs if d not in ignore_dirs]
++        if subdir == str(topdir):
++            dirs[:] = [d for d in dirs if d not in ignore_top_level_dirs]
++
++        for file in files:
++            filepath = Path(subdir) / file
++            if filepath.is_symlink() or not filepath.is_file():
++                continue
++
++            bb.debug(1, "Adding file %s to %s" % (filepath, objset.doc._id))
++
++            filename = str(filepath.relative_to(topdir))
++            file_purposes = get_purposes(filepath)
++
++            spdx_file = objset.new_file(
++                get_spdxid(file_counter),
++                filename,
++                filepath,
++                purposes=file_purposes,
++            )
++            spdx_files.add(spdx_file)
++
++            if oe.spdx30.software_SoftwarePurpose.source in file_purposes:
++                objset.scan_declared_licenses(spdx_file, filepath)
++
++            if archive is not None:
++                with filepath.open("rb") as f:
++                    info = archive.gettarinfo(fileobj=f)
++                    info.name = filename
++                    info.uid = 0
++                    info.gid = 0
++                    info.uname = "root"
++                    info.gname = "root"
++
++                    if source_date_epoch is not None and info.mtime > source_date_epoch:
++                        info.mtime = source_date_epoch
++
++                    archive.addfile(info, f)
++
++            file_counter += 1
++
++    return spdx_files
 +
 +
-+def load_spdx_license_data(d):
-+    if d.getVar("SPDX_LICENSE_DATA"):
++def get_package_sources_from_debug(
++    d, package, package_files, sources, source_hash_cache
++):
++    def file_path_match(file_path, pkg_file):
++        if file_path.lstrip("/") == pkg_file.name.lstrip("/"):
++            return True
++
++        for e in pkg_file.extension:
++            if isinstance(e, oe.sbom30.OEFileNameAliasExtension):
++                for a in e.aliases:
++                    if file_path.lstrip("/") == a.lstrip("/"):
++                        return True
++
++        return False
++
++    debug_search_paths = [
++        Path(d.getVar("PKGD")),
++        Path(d.getVar("STAGING_DIR_TARGET")),
++        Path(d.getVar("STAGING_DIR_NATIVE")),
++        Path(d.getVar("STAGING_KERNEL_DIR")),
++    ]
++
++    pkg_data = oe.packagedata.read_subpkgdata_extended(package, d)
++
++    if pkg_data is None:
 +        return
 +
-+    with open(d.getVar("SPDX_LICENSES"), "r") as f:
-+        data = json.load(f)
-+        # Transform the license array to a dictionary
-+        data["licenses"] = {l["licenseId"]: l for l in data["licenses"]}
-+        d.setVar("SPDX_LICENSE_DATA", data)
++    dep_source_files = set()
 +
++    for file_path, file_data in pkg_data["files_info"].items():
++        if not "debugsrc" in file_data:
++            continue
 +
-+def process_sources(d):
-+    """
-+    Returns True if the sources for this recipe should be included in the SPDX
-+    or False if not
-+    """
-+    pn = d.getVar("PN")
-+    assume_provided = (d.getVar("ASSUME_PROVIDED") or "").split()
-+    if pn in assume_provided:
-+        for p in d.getVar("PROVIDES").split():
-+            if p != pn:
-+                pn = p
++        if not any(file_path_match(file_path, pkg_file) for pkg_file in package_files):
++            bb.fatal(
++                "No package file found for %s in %s; SPDX found: %s"
++                % (str(file_path), package, " ".join(p.name for p in package_files))
++            )
++            continue
++
++        for debugsrc in file_data["debugsrc"]:
++            for search in debug_search_paths:
++                if debugsrc.startswith("/usr/src/kernel"):
++                    debugsrc_path = search / debugsrc.replace("/usr/src/kernel/", "")
++                else:
++                    debugsrc_path = search / debugsrc.lstrip("/")
++
++                if debugsrc_path in source_hash_cache:
++                    file_sha256 = source_hash_cache[debugsrc_path]
++                    if file_sha256 is None:
++                        continue
++                else:
++                    if not debugsrc_path.exists():
++                        source_hash_cache[debugsrc_path] = None
++                        continue
++
++                    file_sha256 = bb.utils.sha256_file(debugsrc_path)
++                    source_hash_cache[debugsrc_path] = file_sha256
++
++                if file_sha256 in sources:
++                    source_file = sources[file_sha256]
++                    dep_source_files.add(source_file)
++                else:
++                    bb.debug(
++                        1,
++                        "Debug source %s with SHA256 %s not found in any dependency"
++                        % (str(debugsrc_path), file_sha256),
++                    )
 +                break
++            else:
++                bb.debug(1, "Debug source %s not found" % debugsrc)
 +
-+    # glibc-locale: do_fetch, do_unpack and do_patch tasks have been deleted,
-+    # so avoid archiving source here.
-+    if pn.startswith("glibc-locale"):
-+        return False
-+    if d.getVar("PN") == "libtool-cross":
-+        return False
-+    if d.getVar("PN") == "libgcc-initial":
-+        return False
-+    if d.getVar("PN") == "shadow-sysroot":
-+        return False
-+
-+    # We just archive gcc-source for all the gcc related recipes
-+    if d.getVar("BPN") in ["gcc", "libgcc"]:
-+        bb.debug(1, "spdx: There is bug in scan of %s is, do nothing" % pn)
-+        return False
-+
-+    return True
++    return dep_source_files
 +
 +
-+Dep = collections.namedtuple("Dep", ["pn", "hashfn", "in_taskhash"])
++def collect_dep_objsets(d, build):
++    deps = oe.spdx_common.get_spdx_deps(d)
++
++    dep_objsets = []
++    dep_builds = set()
++
++    dep_build_spdxids = set()
++    for dep in deps:
++        bb.debug(1, "Fetching SPDX for dependency %s" % (dep.pn))
++        dep_build, dep_objset = oe.sbom30.find_root_obj_in_jsonld(
++            d, "recipes", dep.pn, oe.spdx30.build_Build
++        )
++        # If the dependency is part of the taskhash, return it to be linked
++        # against. Otherwise, it cannot be linked against because this recipe
++        # will not rebuilt if dependency changes
++        if dep.in_taskhash:
++            dep_objsets.append(dep_objset)
++
++        # The build _can_ be linked against (by alias)
++        dep_builds.add(dep_build)
++
++    return dep_objsets, dep_builds
 +
 +
-+def collect_direct_deps(d, dep_task):
-+    """
-+    Find direct dependencies of current task
++def collect_dep_sources(dep_objsets):
++    sources = {}
++    for objset in dep_objsets:
++        # Don't collect sources from native recipes as they
++        # match non-native sources also.
++        if objset.is_native():
++            continue
 +
-+    Returns the list of recipes that have a dep_task that the current task
-+    depends on
-+    """
-+    current_task = "do_" + d.getVar("BB_CURRENTTASK")
-+    pn = d.getVar("PN")
++        bb.debug(1, "Fetching Sources for dependency %s" % (objset.doc.name))
 +
-+    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++        dep_build = objset.find_root(oe.spdx30.build_Build)
++        if not dep_build:
++            bb.fatal("Unable to find a build")
 +
-+    for this_dep in taskdepdata.values():
-+        if this_dep[0] == pn and this_dep[1] == current_task:
++        for e in objset.foreach_type(oe.spdx30.Relationship):
++            if dep_build is not e.from_:
++                continue
++
++            if e.relationshipType != oe.spdx30.RelationshipType.hasInputs:
++                continue
++
++            for to in e.to:
++                if not isinstance(to, oe.spdx30.software_File):
++                    continue
++
++                if (
++                    to.software_primaryPurpose
++                    != oe.spdx30.software_SoftwarePurpose.source
++                ):
++                    continue
++
++                for v in to.verifiedUsing:
++                    if v.algorithm == oe.spdx30.HashAlgorithm.sha256:
++                        sources[v.hashValue] = to
++                        break
++                else:
++                    bb.fatal(
++                        "No SHA256 found for %s in %s" % (to.name, objset.doc.name)
++                    )
++
++    return sources
++
++
++def add_download_files(d, objset):
++    inputs = set()
++
++    urls = d.getVar("SRC_URI").split()
++    fetch = bb.fetch2.Fetch(urls, d)
++
++    for download_idx, src_uri in enumerate(urls):
++        fd = fetch.ud[src_uri]
++
++        for name in fd.names:
++            file_name = os.path.basename(fetch.localpath(src_uri))
++            if oe.patch.patch_path(src_uri, fetch, "", expand=False):
++                primary_purpose = oe.spdx30.software_SoftwarePurpose.patch
++            else:
++                primary_purpose = oe.spdx30.software_SoftwarePurpose.source
++
++            if fd.type == "file":
++                if os.path.isdir(fd.localpath):
++                    walk_idx = 1
++                    for root, dirs, files in os.walk(fd.localpath):
++                        for f in files:
++                            f_path = os.path.join(root, f)
++                            if os.path.islink(f_path):
++                                # TODO: SPDX doesn't support symlinks yet
++                                continue
++
++                            file = objset.new_file(
++                                objset.new_spdxid(
++                                    "source", str(download_idx + 1), str(walk_idx)
++                                ),
++                                os.path.join(
++                                    file_name, os.path.relpath(f_path, fd.localpath)
++                                ),
++                                f_path,
++                                purposes=[primary_purpose],
++                            )
++
++                            inputs.add(file)
++                            walk_idx += 1
++
++                else:
++                    file = objset.new_file(
++                        objset.new_spdxid("source", str(download_idx + 1)),
++                        file_name,
++                        fd.localpath,
++                        purposes=[primary_purpose],
++                    )
++                    inputs.add(file)
++
++            else:
++                uri = fd.type
++                proto = getattr(fd, "proto", None)
++                if proto is not None:
++                    uri = uri + "+" + proto
++                uri = uri + "://" + fd.host + fd.path
++
++                if fd.method.supports_srcrev():
++                    uri = uri + "@" + fd.revisions[name]
++
++                dl = objset.add(
++                    oe.spdx30.software_Package(
++                        _id=objset.new_spdxid("source", str(download_idx + 1)),
++                        creationInfo=objset.doc.creationInfo,
++                        name=file_name,
++                        software_primaryPurpose=primary_purpose,
++                        software_downloadLocation=uri,
++                    )
++                )
++
++                if fd.method.supports_checksum(fd):
++                    # TODO Need something better than hard coding this
++                    for checksum_id in ["sha256", "sha1"]:
++                        expected_checksum = getattr(
++                            fd, "%s_expected" % checksum_id, None
++                        )
++                        if expected_checksum is None:
++                            continue
++
++                        dl.verifiedUsing.append(
++                            oe.spdx30.Hash(
++                                algorithm=getattr(oe.spdx30.HashAlgorithm, checksum_id),
++                                hashValue=expected_checksum,
++                            )
++                        )
++
++                inputs.add(dl)
++
++    return inputs
++
++
++def set_purposes(d, element, *var_names, force_purposes=[]):
++    purposes = force_purposes[:]
++
++    for var_name in var_names:
++        val = d.getVar(var_name)
++        if val:
++            purposes.extend(val.split())
 +            break
-+    else:
-+        bb.fatal(f"Unable to find this {pn}:{current_task} in taskdepdata")
 +
-+    deps = set()
++    if not purposes:
++        bb.warn("No SPDX purposes found in %s" % " ".join(var_names))
++        return
 +
-+    for dep_name in this_dep.deps:
-+        dep_data = taskdepdata[dep_name]
-+        if dep_data.taskname == dep_task and dep_data.pn != pn:
-+            deps.add((dep_data.pn, dep_data.hashfn, dep_name in this_dep.taskhash_deps))
-+
-+    return sorted(deps)
-+
-+
-+def get_spdx_deps(d):
-+    """
-+    Reads the SPDX dependencies JSON file and returns the data
-+    """
-+    spdx_deps_file = Path(d.getVar("SPDXDEPS"))
-+
-+    deps = []
-+    with spdx_deps_file.open("r") as f:
-+        for d in json.load(f):
-+            deps.append(Dep(*d))
-+    return deps
++    element.software_primaryPurpose = getattr(
++        oe.spdx30.software_SoftwarePurpose, purposes[0]
++    )
++    element.software_additionalPurpose = [
++        getattr(oe.spdx30.software_SoftwarePurpose, p) for p in purposes[1:]
++    ]
 +
 +
-+def collect_package_providers(d):
-+    """
-+    Returns a dictionary where each RPROVIDES is mapped to the package that
-+    provides it
-+    """
++def create_spdx(d):
++    def set_var_field(var, obj, name, package=None):
++        val = None
++        if package:
++            val = d.getVar("%s:%s" % (var, package))
++
++        if not val:
++            val = d.getVar(var)
++
++        if val:
++            setattr(obj, name, val)
++
++    deploydir = Path(d.getVar("SPDXDEPLOY"))
++    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
++    spdx_workdir = Path(d.getVar("SPDXWORK"))
++    include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
++    pkg_arch = d.getVar("SSTATE_PKGARCH")
++    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class(
++        "cross", d
++    )
++    include_vex = d.getVar("SPDX_INCLUDE_VEX")
++    if not include_vex in ("none", "current", "all"):
++        bb.fatal("SPDX_INCLUDE_VEX must be one of 'none', 'current', 'all'")
++
++    build_objset = oe.sbom30.ObjectSet.new_objset(d, d.getVar("PN"))
++
++    build = build_objset.new_task_build("recipe", "recipe")
++    build_objset.doc.rootElement.append(build)
++
++    build_objset.set_is_native(is_native)
++
++    for var in (d.getVar("SPDX_CUSTOM_ANNOTATION_VARS") or "").split():
++        new_annotation(
++            d,
++            build_objset,
++            build,
++            "%s=%s" % (var, d.getVar(var)),
++            oe.spdx30.AnnotationType.other,
++        )
++
++    build_inputs = set()
++
++    # Add CVEs
++    cve_by_status = {}
++    if include_vex != "none":
++        for cve in d.getVarFlags("CVE_STATUS") or {}:
++            status, detail, description = oe.cve_check.decode_cve_status(d, cve)
++
++            # If this CVE is fixed upstream, skip it unless all CVEs are
++            # specified.
++            if include_vex != "all" and detail in (
++                "fixed-version",
++                "cpe-stable-backport",
++            ):
++                bb.debug(1, "Skipping %s since it is already fixed upstream" % cve)
++                continue
++
++            cve_by_status.setdefault(status, {})[cve] = (
++                build_objset.new_cve_vuln(cve),
++                detail,
++                description,
++            )
++
++    cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION"))
++
++    source_files = add_download_files(d, build_objset)
++    build_inputs |= source_files
++
++    recipe_spdx_license = add_license_expression(d, build_objset, d.getVar("LICENSE"))
++    build_objset.new_relationship(
++        source_files,
++        oe.spdx30.RelationshipType.hasConcludedLicense,
++        [recipe_spdx_license],
++    )
++
++    if oe.spdx_common.process_sources(d) and include_sources:
++        bb.debug(1, "Adding source files to SPDX")
++        oe.spdx_common.get_patched_src(d)
++
++        build_inputs |= add_package_files(
++            d,
++            build_objset,
++            spdx_workdir,
++            lambda file_counter: build_objset.new_spdxid(
++                "sourcefile", str(file_counter)
++            ),
++            lambda filepath: [oe.spdx30.software_SoftwarePurpose.source],
++            ignore_dirs=[".git"],
++            ignore_top_level_dirs=["temp"],
++            archive=None,
++        )
++
++    dep_objsets, dep_builds = collect_dep_objsets(d, build)
++    if dep_builds:
++        build_objset.new_scoped_relationship(
++            [build],
++            oe.spdx30.RelationshipType.dependsOn,
++            oe.spdx30.LifecycleScopeType.build,
++            sorted(oe.sbom30.get_element_link_id(b) for b in dep_builds),
++        )
++
++    debug_source_ids = set()
++    source_hash_cache = {}
++
++    # Write out the package SPDX data now. It is not complete as we cannot
++    # write the runtime data, so write it to a staging area and a later task
++    # will write out the final collection
++
++    # TODO: Handle native recipe output
++    if not is_native:
++        bb.debug(1, "Collecting Dependency sources files")
++        sources = collect_dep_sources(dep_objsets)
++
++        bb.build.exec_func("read_subpackage_metadata", d)
++
++        pkgdest = Path(d.getVar("PKGDEST"))
++        for package in d.getVar("PACKAGES").split():
++            if not oe.packagedata.packaged(package, d):
++                continue
++
++            pkg_name = d.getVar("PKG:%s" % package) or package
++
++            bb.debug(1, "Creating SPDX for package %s" % pkg_name)
++
++            pkg_objset = oe.sbom30.ObjectSet.new_objset(d, pkg_name)
++
++            spdx_package = pkg_objset.add_root(
++                oe.spdx30.software_Package(
++                    _id=pkg_objset.new_spdxid("package", pkg_name),
++                    creationInfo=pkg_objset.doc.creationInfo,
++                    name=pkg_name,
++                    software_packageVersion=d.getVar("PV"),
++                )
++            )
++            set_timestamp_now(d, spdx_package, "builtTime")
++
++            set_purposes(
++                d,
++                spdx_package,
++                "SPDX_PACKAGE_ADDITIONAL_PURPOSE:%s" % package,
++                "SPDX_PACKAGE_ADDITIONAL_PURPOSE",
++                force_purposes=["install"],
++            )
++
++            supplier = build_objset.new_agent("SPDX_PACKAGE_SUPPLIER")
++            if supplier is not None:
++                spdx_package.supplier = (
++                    supplier if isinstance(supplier, str) else supplier._id
++                )
++
++            set_var_field(
++                "HOMEPAGE", spdx_package, "software_homePage", package=package
++            )
++            set_var_field("SUMMARY", spdx_package, "summary", package=package)
++            set_var_field("DESCRIPTION", spdx_package, "description", package=package)
++
++            pkg_objset.new_scoped_relationship(
++                [build._id],
++                oe.spdx30.RelationshipType.hasOutputs,
++                oe.spdx30.LifecycleScopeType.build,
++                [spdx_package],
++            )
++
++            for cpe_id in cpe_ids:
++                spdx_package.externalIdentifier.append(
++                    oe.spdx30.ExternalIdentifier(
++                        externalIdentifierType=oe.spdx30.ExternalIdentifierType.cpe23,
++                        identifier=cpe_id,
++                    )
++                )
++
++            # TODO: Generate a file for each actual IPK/DEB/RPM/TGZ file
++            # generated and link it to the package
++            # spdx_package_file = pkg_objset.add(oe.spdx30.software_File(
++            #    _id=pkg_objset.new_spdxid("distribution", pkg_name),
++            #    creationInfo=pkg_objset.doc.creationInfo,
++            #    name=pkg_name,
++            #    software_primaryPurpose=spdx_package.software_primaryPurpose,
++            #    software_additionalPurpose=spdx_package.software_additionalPurpose,
++            # ))
++            # set_timestamp_now(d, spdx_package_file, "builtTime")
++
++            ## TODO add hashes
++            # pkg_objset.new_relationship(
++            #    [spdx_package],
++            #    oe.spdx30.RelationshipType.hasDistributionArtifact,
++            #    [spdx_package_file],
++            # )
++
++            # NOTE: licenses live in the recipe collection and are referenced
++            # by ID in the package collection(s). This helps reduce duplication
++            # (since a lot of packages will have the same license), and also
++            # prevents duplicate license SPDX IDs in the packages
++            package_license = d.getVar("LICENSE:%s" % package)
++            if package_license and package_license != d.getVar("LICENSE"):
++                package_spdx_license = add_license_expression(
++                    d, build_objset, package_license
++                )
++            else:
++                package_spdx_license = recipe_spdx_license
++
++            pkg_objset.new_relationship(
++                [spdx_package],
++                oe.spdx30.RelationshipType.hasConcludedLicense,
++                [package_spdx_license._id],
++            )
++
++            # NOTE: CVE Elements live in the recipe collection
++            all_cves = set()
++            for status, cves in cve_by_status.items():
++                for cve, items in cves.items():
++                    spdx_cve, detail, description = items
++
++                    all_cves.add(spdx_cve._id)
++
++                    if status == "Patched":
++                        pkg_objset.new_vex_patched_relationship(
++                            [spdx_cve._id], [spdx_package]
++                        )
++                    elif status == "Unpatched":
++                        pkg_objset.new_vex_unpatched_relationship(
++                            [spdx_cve._id], [spdx_package]
++                        )
++                    elif status == "Ignored":
++                        spdx_vex = pkg_objset.new_vex_ignored_relationship(
++                            [spdx_cve._id],
++                            [spdx_package],
++                            impact_statement=description,
++                        )
++
++                        if detail in (
++                            "ignored",
++                            "cpe-incorrect",
++                            "disputed",
++                            "upstream-wontfix",
++                        ):
++                            # VEX doesn't have justifications for this
++                            pass
++                        elif detail in (
++                            "not-applicable-config",
++                            "not-applicable-platform",
++                        ):
++                            for v in spdx_vex:
++                                v.security_justificationType = (
++                                    oe.spdx30.security_VexJustificationType.vulnerableCodeNotPresent
++                                )
++                        else:
++                            bb.fatal(f"Unknown detail '{detail}' for ignored {cve}")
++                    else:
++                        bb.fatal(f"Unknown CVE status {status}")
++
++            if all_cves:
++                pkg_objset.new_relationship(
++                    [spdx_package],
++                    oe.spdx30.RelationshipType.hasAssociatedVulnerability,
++                    sorted(list(all_cves)),
++                )
++
++            bb.debug(1, "Adding package files to SPDX for package %s" % pkg_name)
++            package_files = add_package_files(
++                d,
++                pkg_objset,
++                pkgdest / package,
++                lambda file_counter: pkg_objset.new_spdxid(
++                    "package", pkg_name, "file", str(file_counter)
++                ),
++                # TODO: Can we know the purpose here?
++                lambda filepath: [],
++                ignore_top_level_dirs=["CONTROL", "DEBIAN"],
++                archive=None,
++            )
++
++            if package_files:
++                pkg_objset.new_relationship(
++                    [spdx_package],
++                    oe.spdx30.RelationshipType.contains,
++                    sorted(list(package_files)),
++                )
++
++            if include_sources:
++                debug_sources = get_package_sources_from_debug(
++                    d, package, package_files, sources, source_hash_cache
++                )
++                debug_source_ids |= set(
++                    oe.sbom30.get_element_link_id(d) for d in debug_sources
++                )
++
++            oe.sbom30.write_recipe_jsonld_doc(
++                d, pkg_objset, "packages-staging", deploydir, create_spdx_id_links=False
++            )
++
++    if include_sources:
++        bb.debug(1, "Adding sysroot files to SPDX")
++        sysroot_files = add_package_files(
++            d,
++            build_objset,
++            d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
++            lambda file_counter: build_objset.new_spdxid("sysroot", str(file_counter)),
++            lambda filepath: [],
++            archive=None,
++        )
++
++        if sysroot_files:
++            build_objset.new_scoped_relationship(
++                [build],
++                oe.spdx30.RelationshipType.hasOutputs,
++                oe.spdx30.LifecycleScopeType.build,
++                sorted(list(sysroot_files)),
++            )
++
++    if build_inputs or debug_source_ids:
++        build_objset.new_scoped_relationship(
++            [build],
++            oe.spdx30.RelationshipType.hasInputs,
++            oe.spdx30.LifecycleScopeType.build,
++            sorted(list(build_inputs)) + sorted(list(debug_source_ids)),
++        )
++
++    oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "recipes", deploydir)
++
++
++def create_package_spdx(d):
++    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
++    deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
++    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class(
++        "cross", d
++    )
++
++    providers = oe.spdx_common.collect_package_providers(d)
++    pkg_arch = d.getVar("SSTATE_PKGARCH")
++
++    if is_native:
++        return
++
++    bb.build.exec_func("read_subpackage_metadata", d)
++
++    dep_package_cache = {}
++
++    # Any element common to all packages that need to be referenced by ID
++    # should be written into this objset set
++    common_objset = oe.sbom30.ObjectSet.new_objset(
++        d, "%s-package-common" % d.getVar("PN")
++    )
++
++    pkgdest = Path(d.getVar("PKGDEST"))
++    for package in d.getVar("PACKAGES").split():
++        localdata = bb.data.createCopy(d)
++        pkg_name = d.getVar("PKG:%s" % package) or package
++        localdata.setVar("PKG", pkg_name)
++        localdata.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + ":" + package)
++
++        if not oe.packagedata.packaged(package, localdata):
++            continue
++
++        spdx_package, pkg_objset = oe.sbom30.load_obj_in_jsonld(
++            d,
++            pkg_arch,
++            "packages-staging",
++            pkg_name,
++            oe.spdx30.software_Package,
++            software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
++        )
++
++        # We will write out a new collection, so link it to the new
++        # creation info in the common package data. The old creation info
++        # should still exist and be referenced by all the existing elements
++        # in the package
++        pkg_objset.creationInfo = pkg_objset.copy_creation_info(
++            common_objset.doc.creationInfo
++        )
++
++        runtime_spdx_deps = set()
++
++        deps = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
++        seen_deps = set()
++        for dep, _ in deps.items():
++            if dep in seen_deps:
++                continue
++
++            if dep not in providers:
++                continue
++
++            (dep, _) = providers[dep]
++
++            if not oe.packagedata.packaged(dep, localdata):
++                continue
++
++            dep_pkg_data = oe.packagedata.read_subpkgdata_dict(dep, d)
++            dep_pkg = dep_pkg_data["PKG"]
++
++            if dep in dep_package_cache:
++                dep_spdx_package = dep_package_cache[dep]
++            else:
++                bb.debug(1, "Searching for %s" % dep_pkg)
++                dep_spdx_package, _ = oe.sbom30.find_root_obj_in_jsonld(
++                    d,
++                    "packages-staging",
++                    dep_pkg,
++                    oe.spdx30.software_Package,
++                    software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
++                )
++                dep_package_cache[dep] = dep_spdx_package
++
++            runtime_spdx_deps.add(dep_spdx_package)
++            seen_deps.add(dep)
++
++        if runtime_spdx_deps:
++            pkg_objset.new_scoped_relationship(
++                [spdx_package],
++                oe.spdx30.RelationshipType.dependsOn,
++                oe.spdx30.LifecycleScopeType.runtime,
++                [oe.sbom30.get_element_link_id(dep) for dep in runtime_spdx_deps],
++            )
++
++        oe.sbom30.write_recipe_jsonld_doc(d, pkg_objset, "packages", deploydir)
++
++    oe.sbom30.write_recipe_jsonld_doc(d, common_objset, "common-package", deploydir)
++
++
++def write_bitbake_spdx(d):
++    # Set PN to "bitbake" so that SPDX IDs can be generated
++    d.setVar("PN", "bitbake")
++    d.setVar("BB_TASKHASH", "bitbake")
++    oe.spdx_common.load_spdx_license_data(d)
++
 +    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
 +
-+    providers = {}
++    objset = oe.sbom30.ObjectSet.new_objset(d, "bitbake", False)
 +
-+    deps = collect_direct_deps(d, "do_create_spdx")
-+    deps.append((d.getVar("PN"), d.getVar("BB_HASHFILENAME"), True))
++    host_import_key = d.getVar("SPDX_BUILD_HOST")
++    invoked_by = objset.new_agent("SPDX_INVOKED_BY", add=False)
++    on_behalf_of = objset.new_agent("SPDX_ON_BEHALF_OF", add=False)
 +
-+    for dep_pn, dep_hashfn, _ in deps:
-+        localdata = d
-+        recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
-+        if not recipe_data:
-+            localdata = bb.data.createCopy(d)
-+            localdata.setVar("PKGDATA_DIR", "${PKGDATA_DIR_SDK}")
-+            recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
++    if d.getVar("SPDX_INCLUDE_BITBAKE_PARENT_BUILD") == "1":
++        # Since the Build objects are unique, we may as well set the creation
++        # time to the current time instead of the fallback SDE
++        objset.doc.creationInfo.created = datetime.now(timezone.utc)
 +
-+        for pkg in recipe_data.get("PACKAGES", "").split():
-+            pkg_data = oe.packagedata.read_subpkgdata_dict(pkg, localdata)
-+            rprovides = set(
-+                n
-+                for n, _ in bb.utils.explode_dep_versions2(
-+                    pkg_data.get("RPROVIDES", "")
-+                ).items()
++        # Each invocation of bitbake should have a unique ID since it is a
++        # unique build
++        nonce = os.urandom(16).hex()
++
++        build = objset.add_root(
++            oe.spdx30.build_Build(
++                _id=objset.new_spdxid(nonce, include_unihash=False),
++                creationInfo=objset.doc.creationInfo,
++                build_buildType=oe.sbom30.SPDX_BUILD_TYPE,
 +            )
-+            rprovides.add(pkg)
++        )
++        set_timestamp_now(d, build, "build_buildStartTime")
 +
-+            if "PKG" in pkg_data:
-+                pkg = pkg_data["PKG"]
-+                rprovides.add(pkg)
-+
-+            for r in rprovides:
-+                providers[r] = (pkg, dep_hashfn)
-+
-+    return providers
-+
-+
-+def get_patched_src(d):
-+    """
-+    Save patched source of the recipe in SPDX_WORKDIR.
-+    """
-+    spdx_workdir = d.getVar("SPDXWORK")
-+    spdx_sysroot_native = d.getVar("STAGING_DIR_NATIVE")
-+    pn = d.getVar("PN")
-+
-+    workdir = d.getVar("WORKDIR")
-+
-+    try:
-+        # The kernel class functions require it to be on work-shared, so we dont change WORKDIR
-+        if not is_work_shared_spdx(d):
-+            # Change the WORKDIR to make do_unpack do_patch run in another dir.
-+            d.setVar("WORKDIR", spdx_workdir)
-+            # Restore the original path to recipe's native sysroot (it's relative to WORKDIR).
-+            d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
-+
-+            # The changed 'WORKDIR' also caused 'B' changed, create dir 'B' for the
-+            # possibly requiring of the following tasks (such as some recipes's
-+            # do_patch required 'B' existed).
-+            bb.utils.mkdirhier(d.getVar("B"))
-+
-+            bb.build.exec_func("do_unpack", d)
-+        # Copy source of kernel to spdx_workdir
-+        if is_work_shared_spdx(d):
-+            share_src = d.getVar("WORKDIR")
-+            d.setVar("WORKDIR", spdx_workdir)
-+            d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
-+            src_dir = (
-+                spdx_workdir
-+                + "/"
-+                + d.getVar("PN")
-+                + "-"
-+                + d.getVar("PV")
-+                + "-"
-+                + d.getVar("PR")
++        if host_import_key:
++            objset.new_scoped_relationship(
++                [build],
++                oe.spdx30.RelationshipType.hasHost,
++                oe.spdx30.LifecycleScopeType.build,
++                [objset.new_import("SPDX_BUILD_HOST")],
 +            )
-+            bb.utils.mkdirhier(src_dir)
-+            if bb.data.inherits_class("kernel", d):
-+                share_src = d.getVar("STAGING_KERNEL_DIR")
-+            cmd_copy_share = "cp -rf " + share_src + "/* " + src_dir + "/"
-+            cmd_copy_shared_res = os.popen(cmd_copy_share).read()
-+            bb.note("cmd_copy_shared_result = " + cmd_copy_shared_res)
 +
-+            git_path = src_dir + "/.git"
-+            if os.path.exists(git_path):
-+                shutils.rmtree(git_path)
++        if invoked_by:
++            objset.add(invoked_by)
++            invoked_by_spdx = objset.new_scoped_relationship(
++                [build],
++                oe.spdx30.RelationshipType.invokedBy,
++                oe.spdx30.LifecycleScopeType.build,
++                [invoked_by],
++            )
 +
-+        # Make sure gcc and kernel sources are patched only once
-+        if not (d.getVar("SRC_URI") == "" or is_work_shared_spdx(d)):
-+            bb.build.exec_func("do_patch", d)
++            if on_behalf_of:
++                objset.add(on_behalf_of)
++                objset.new_scoped_relationship(
++                    [on_behalf_of],
++                    oe.spdx30.RelationshipType.delegatedTo,
++                    oe.spdx30.LifecycleScopeType.build,
++                    invoked_by_spdx,
++                )
 +
-+        # Some userland has no source.
-+        if not os.path.exists(spdx_workdir):
-+            bb.utils.mkdirhier(spdx_workdir)
-+    finally:
-+        d.setVar("WORKDIR", workdir)
++        elif on_behalf_of:
++            bb.warn("SPDX_ON_BEHALF_OF has no effect if SPDX_INVOKED_BY is not set")
++
++    else:
++        if host_import_key:
++            bb.warn(
++                "SPDX_BUILD_HOST has no effect if SPDX_INCLUDE_BITBAKE_PARENT_BUILD is not set"
++            )
++
++        if invoked_by:
++            bb.warn(
++                "SPDX_INVOKED_BY has no effect if SPDX_INCLUDE_BITBAKE_PARENT_BUILD is not set"
++            )
++
++        if on_behalf_of:
++            bb.warn(
++                "SPDX_ON_BEHALF_OF has no effect if SPDX_INCLUDE_BITBAKE_PARENT_BUILD is not set"
++            )
++
++    for obj in objset.foreach_type(oe.spdx30.Element):
++        obj.extension.append(oe.sbom30.OELinkExtension(link_spdx_id=False))
++        obj.extension.append(oe.sbom30.OEIdAliasExtension())
++
++    oe.sbom30.write_jsonld_doc(d, objset, deploy_dir_spdx / "bitbake.spdx.json")
++
++
++def collect_build_package_inputs(d, objset, build, packages):
++    providers = oe.spdx_common.collect_package_providers(d)
++
++    build_deps = set()
++
++    for name in sorted(packages.keys()):
++        if name not in providers:
++            bb.fatal("Unable to find SPDX provider for '%s'" % name)
++
++        pkg_name, pkg_hashfn = providers[name]
++
++        # Copy all of the package SPDX files into the Sbom elements
++        pkg_spdx, _ = oe.sbom30.find_root_obj_in_jsonld(
++            d,
++            "packages",
++            pkg_name,
++            oe.spdx30.software_Package,
++            software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
++        )
++        build_deps.add(pkg_spdx._id)
++
++    if build_deps:
++        objset.new_scoped_relationship(
++            [build],
++            oe.spdx30.RelationshipType.hasInputs,
++            oe.spdx30.LifecycleScopeType.build,
++            sorted(list(build_deps)),
++        )
++
++
++def create_rootfs_spdx(d):
++    deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
++    deploydir = Path(d.getVar("SPDXROOTFSDEPLOY"))
++    root_packages_file = Path(d.getVar("SPDX_ROOTFS_PACKAGES"))
++    image_basename = d.getVar("IMAGE_BASENAME")
++    machine = d.getVar("MACHINE")
++
++    with root_packages_file.open("r") as f:
++        packages = json.load(f)
++
++    objset = oe.sbom30.ObjectSet.new_objset(d, "%s-%s" % (image_basename, machine))
++
++    rootfs = objset.add_root(
++        oe.spdx30.software_Package(
++            _id=objset.new_spdxid("rootfs", image_basename),
++            creationInfo=objset.doc.creationInfo,
++            name=image_basename,
++            software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.archive,
++        )
++    )
++    set_timestamp_now(d, rootfs, "builtTime")
++
++    rootfs_build = objset.add_root(objset.new_task_build("rootfs", "rootfs"))
++    set_timestamp_now(d, rootfs_build, "build_buildEndTime")
++
++    objset.new_scoped_relationship(
++        [rootfs_build],
++        oe.spdx30.RelationshipType.hasOutputs,
++        oe.spdx30.LifecycleScopeType.build,
++        [rootfs],
++    )
++
++    collect_build_package_inputs(d, objset, rootfs_build, packages)
++
++    oe.sbom30.write_recipe_jsonld_doc(d, objset, "rootfs", deploydir)
++
++
++def create_image_spdx(d):
++    image_deploy_dir = Path(d.getVar("IMGDEPLOYDIR"))
++    manifest_path = Path(d.getVar("IMAGE_OUTPUT_MANIFEST"))
++    spdx_work_dir = Path(d.getVar("SPDXIMAGEWORK"))
++
++    image_basename = d.getVar("IMAGE_BASENAME")
++    machine = d.getVar("MACHINE")
++
++    objset = oe.sbom30.ObjectSet.new_objset(d, "%s-%s" % (image_basename, machine))
++
++    with manifest_path.open("r") as f:
++        manifest = json.load(f)
++
++    builds = []
++    for task in manifest:
++        imagetype = task["imagetype"]
++        taskname = task["taskname"]
++
++        image_build = objset.add_root(
++            objset.new_task_build(taskname, "image/%s" % imagetype)
++        )
++        set_timestamp_now(d, image_build, "build_buildEndTime")
++        builds.append(image_build)
++
++        artifacts = []
++
++        for image in task["images"]:
++            image_filename = image["filename"]
++            image_path = image_deploy_dir / image_filename
++            a = objset.add_root(
++                oe.spdx30.software_File(
++                    _id=objset.new_spdxid("image", image_filename),
++                    creationInfo=objset.doc.creationInfo,
++                    name=image_filename,
++                    verifiedUsing=[
++                        oe.spdx30.Hash(
++                            algorithm=oe.spdx30.HashAlgorithm.sha256,
++                            hashValue=bb.utils.sha256_file(image_path),
++                        )
++                    ],
++                )
++            )
++            set_purposes(
++                d, a, "SPDX_IMAGE_PURPOSE:%s" % imagetype, "SPDX_IMAGE_PURPOSE"
++            )
++            set_timestamp_now(d, a, "builtTime")
++
++            artifacts.append(a)
++
++        if artifacts:
++            objset.new_scoped_relationship(
++                [image_build],
++                oe.spdx30.RelationshipType.hasOutputs,
++                oe.spdx30.LifecycleScopeType.build,
++                artifacts,
++            )
++
++    if builds:
++        rootfs_image, _ = oe.sbom30.find_root_obj_in_jsonld(
++            d,
++            "rootfs",
++            "%s-%s" % (image_basename, machine),
++            oe.spdx30.software_Package,
++            # TODO: Should use a purpose to filter here?
++        )
++        objset.new_scoped_relationship(
++            builds,
++            oe.spdx30.RelationshipType.hasInputs,
++            oe.spdx30.LifecycleScopeType.build,
++            [rootfs_image._id],
++        )
++
++    objset.add_aliases()
++    objset.link()
++    oe.sbom30.write_recipe_jsonld_doc(d, objset, "image", spdx_work_dir)
++
++
++def create_image_sbom_spdx(d):
++    image_name = d.getVar("IMAGE_NAME")
++    image_basename = d.getVar("IMAGE_BASENAME")
++    image_link_name = d.getVar("IMAGE_LINK_NAME")
++    imgdeploydir = Path(d.getVar("SPDXIMAGEDEPLOYDIR"))
++    machine = d.getVar("MACHINE")
++
++    spdx_path = imgdeploydir / (image_name + ".spdx.json")
++
++    root_elements = []
++
++    # TODO: Do we need to add the rootfs or are the image files sufficient?
++    rootfs_image, _ = oe.sbom30.find_root_obj_in_jsonld(
++        d,
++        "rootfs",
++        "%s-%s" % (image_basename, machine),
++        oe.spdx30.software_Package,
++        # TODO: Should use a purpose here?
++    )
++    root_elements.append(rootfs_image._id)
++
++    image_objset, _ = oe.sbom30.find_jsonld(
++        d, "image", "%s-%s" % (image_basename, machine), required=True
++    )
++    for o in image_objset.foreach_root(oe.spdx30.software_File):
++        root_elements.append(o._id)
++
++    objset, sbom = oe.sbom30.create_sbom(d, image_name, root_elements)
++
++    oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
++
++    def make_image_link(target_path, suffix):
++        if image_link_name:
++            link = imgdeploydir / (image_link_name + suffix)
++            if link != target_path:
++                link.symlink_to(os.path.relpath(target_path, link.parent))
++
++    make_image_link(spdx_path, ".spdx.json")
++
++
++def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
++    sdk_name = toolchain_outputname + "-" + sdk_type
++    sdk_packages = oe.sdk.sdk_list_installed_packages(d, sdk_type == "target")
++
++    objset = oe.sbom30.ObjectSet.new_objset(d, sdk_name)
++
++    sdk_rootfs = objset.add_root(
++        oe.spdx30.software_Package(
++            _id=objset.new_spdxid("sdk-rootfs", sdk_name),
++            creationInfo=objset.doc.creationInfo,
++            name=sdk_name,
++            software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.archive,
++        )
++    )
++    set_timestamp_now(d, sdk_rootfs, "builtTime")
++
++    sdk_build = objset.add_root(objset.new_task_build("sdk-rootfs", "sdk-rootfs"))
++    set_timestamp_now(d, sdk_build, "build_buildEndTime")
++
++    objset.new_scoped_relationship(
++        [sdk_build],
++        oe.spdx30.RelationshipType.hasOutputs,
++        oe.spdx30.LifecycleScopeType.build,
++        [sdk_rootfs],
++    )
++
++    collect_build_package_inputs(d, objset, sdk_build, sdk_packages)
++
++    objset.add_aliases()
++    oe.sbom30.write_jsonld_doc(d, objset, spdx_work_dir / "sdk-rootfs.spdx.json")
++
++
++def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
++    # Load the document written earlier
++    rootfs_objset = oe.sbom30.load_jsonld(
++        d, spdx_work_dir / "sdk-rootfs.spdx.json", required=True
++    )
++
++    # Create a new build for the SDK installer
++    sdk_build = rootfs_objset.new_task_build("sdk-populate", "sdk-populate")
++    set_timestamp_now(d, sdk_build, "build_buildEndTime")
++
++    rootfs = rootfs_objset.find_root(oe.spdx30.software_Package)
++    if rootfs is None:
++        bb.fatal("Unable to find rootfs artifact")
++
++    rootfs_objset.new_scoped_relationship(
++        [sdk_build],
++        oe.spdx30.RelationshipType.hasInputs,
++        oe.spdx30.LifecycleScopeType.build,
++        [rootfs],
++    )
++
++    files = set()
++    root_files = []
++
++    # NOTE: os.walk() doesn't return symlinks
++    for dirpath, dirnames, filenames in os.walk(sdk_deploydir):
++        for fn in filenames:
++            fpath = Path(dirpath) / fn
++            if not fpath.is_file() or fpath.is_symlink():
++                continue
++
++            relpath = str(fpath.relative_to(sdk_deploydir))
++
++            f = rootfs_objset.new_file(
++                rootfs_objset.new_spdxid("sdk-installer", relpath),
++                relpath,
++                fpath,
++            )
++            set_timestamp_now(d, f, "builtTime")
++
++            if fn.endswith(".manifest"):
++                f.software_primaryPurpose = oe.spdx30.software_SoftwarePurpose.manifest
++            elif fn.endswith(".testdata.json"):
++                f.software_primaryPurpose = (
++                    oe.spdx30.software_SoftwarePurpose.configuration
++                )
++            else:
++                set_purposes(d, f, "SPDX_SDK_PURPOSE")
++                root_files.append(f)
++
++            files.add(f)
++
++    if files:
++        rootfs_objset.new_scoped_relationship(
++            [sdk_build],
++            oe.spdx30.RelationshipType.hasOutputs,
++            oe.spdx30.LifecycleScopeType.build,
++            files,
++        )
++    else:
++        bb.warn(f"No SDK output files found in {sdk_deploydir}")
++
++    objset, sbom = oe.sbom30.create_sbom(
++        d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
++    )
++
++    oe.sbom30.write_jsonld_doc(
++        d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
++    )
 -- 
 2.45.2
 
