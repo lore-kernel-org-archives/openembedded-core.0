@@ -2,57 +2,57 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE98C3DA50
-	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 16:03:23 +0000 (UTC)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
- by mx.groups.io with SMTP id smtpd.web10.11471.1720800196894726960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC67C2BD09
+	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 16:03:33 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web10.11478.1720800203551896646
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jul 2024 09:03:17 -0700
+ Fri, 12 Jul 2024 09:03:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G4H8EJ8c;
- spf=pass (domain: gmail.com, ip: 209.85.161.44, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5b53bb4bebaso1106880eaf.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 09:03:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KqlYND+6;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-25e400d78b0so848980fac.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 09:03:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720800195; x=1721404995; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1720800202; x=1721405002; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CZBWMwwd9l76frSVWBofn7BnkyRG+ITkf3ToQYJlNsg=;
-        b=G4H8EJ8ce14OQOGz0GNJBZU0zGJcp57TPfR7kv0p1bhjIdrXDXkPyt/f4o4oFmZcG1
-         NrGQLewk8NvfWSM6HcefQof3fpMSkylXVEIVVE3O4uHXMBMJ/9KIsOwS5G7bBeUWGSru
-         0SqO5pe8UWt9C3uUnBVM0pD65/f3RgI+9WqD+/eB36zKkjvP6Qq3l0EDQ67n+MIVnGK8
-         N0O0P5FcFLfi5GdFV3ZrpJlC3RBiT/gGSzp9Lkk0y35dHvr6XPcBLsUJxfqIDYsVXp0Z
-         HalKGKPRRBneWPd9rUpSHJrgunVBaZUeao/36Riz0zAuZkw+6QYTI5Ze8GP7/dD0Fpev
-         22Uw==
+        bh=+VYdiuKrDKrBqkpOiI+JNPgOWytHmfR9UpW3NdsbrnU=;
+        b=KqlYND+6WjJ3gtdRgC5CbRWie+7g+Iai0n7T4uQEwiu2VloxdHHw6U2uuEERGAyMIo
+         y6q6xrL/v8IdoCuasoOALZsiOyt/xh8LLCqm8Iu7Ng6XkToX1JXQzl0/rf/aBixOXQm+
+         fG5EfLGt7wWcSwDL/qvdZbWsov6P111NL+SME/rnvB4BAYj7XXC2TSYqh8p1M54XWcZg
+         MPDpW5JauKhrbCx2iCe7J9HlmNj7fXYs2dCOYJBMTC96vluU+h50pJOOoYMxLiQxu2ge
+         4CYnv9q+TvKnqq3wP/xjIMAKBErRN5KRe8KiZjO2+Vzxueevp/6QDb2Dhe9RsM/1CSD1
+         XZbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720800195; x=1721404995;
+        d=1e100.net; s=20230601; t=1720800202; x=1721405002;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CZBWMwwd9l76frSVWBofn7BnkyRG+ITkf3ToQYJlNsg=;
-        b=QuW3gz07RbnLCpAiuyR5azORo7MCi3VFbAgtmDid5BhhPZwmFK/b5wgD5uD4TH/Vsu
-         vV1SoPf9hliUSfG5ahBC/wFNtiwibBLfGO6T4A6BuU71gO0qCF7OiUsy1Ph4IX5kFcv5
-         mk8HWfrNyBa3iWABlg2Yx2806FY8uOUULUg7Hd084KcTHCpSelgDkgctlkRyyQAO7Mrm
-         qG6DojoylotP6eOb7zb9Qor/WRiTWxqsMsqUYHu9FsLXgTW1BjyFZCHjF87F/fAy2+SL
-         PN1pE0gAVipWuEAce10hiLdTkyEa1r/U+toXkLPJLy1UQhn3YSRorlTNulmowNxOK4r3
-         j5SA==
-X-Gm-Message-State: AOJu0Yy1bkmkgMIzE7sv2GPK7arxSBgpPTipTfEfDqwo/D13UhbuGPdk
-	FL7rMLtK+lWGFUuMwV6vJ8Qi/rJCuV0HtxKv4F04jFmO+RN4xdvqg/ZQjQ==
-X-Google-Smtp-Source: AGHT+IEs8Y9DastxkCWHDRrtgHmjEylnEe/jXanfZGGp+CvDcnZqisyxrPPfTmUZ8B/2+ZOPnT4KrA==
-X-Received: by 2002:a05:6870:2a4e:b0:24f:c715:a4d4 with SMTP id 586e51a60fabf-25eaebdb167mr10058517fac.40.1720800194857;
-        Fri, 12 Jul 2024 09:03:14 -0700 (PDT)
+        bh=+VYdiuKrDKrBqkpOiI+JNPgOWytHmfR9UpW3NdsbrnU=;
+        b=fMXu/lJtAOTQK3dW7Tj3Beb8jVTQt/zVlCobS/ZV0HEvgSFP/2Cl+IOt/hNCVciYrk
+         XALkc9+MEd8BDF/OV+jciducrOrY399BXBG38+k1yIQxI2Ar1pFzDf5Ix/hzlXKPXlHF
+         LkysmEDRWfBiUDmRDGVn1FZTrW8OSgR8sUDp41L54xAq9/j8lI5WkHgW20VXTODoitdy
+         mH1kweMyWLyOPnPBCPbWf99lMkPW7SQIUFx2vB0ZACHJRoc4fJAtSbVcErunbJDAig6C
+         YeRb6ZxkJJ2ngG03sDL/ywUiG3LVW/Qbyfd9FjUWHZXA/nDm8tHoWJKMY/lyjY8RKNv8
+         2XZw==
+X-Gm-Message-State: AOJu0YxSOMdqqlEyba7jUmho30eoHkF1zQ18UX55yiju+Cf+4BxsGeKK
+	RwpyZcrQdIGFHrn5nMV/5qjBl7ZfWdl1csLrVjO9oxHhHstN5P9P5P+mwQ==
+X-Google-Smtp-Source: AGHT+IG69cuxBmpwyQrevepLflPjHvxBJ88TMGoOLVFSFnUgBeoD7Ix2M6xX1H+nozKImK7FvNmqBw==
+X-Received: by 2002:a05:6870:55ce:b0:250:756b:b1ed with SMTP id 586e51a60fabf-25eae806599mr10068761fac.19.1720800202062;
+        Fri, 12 Jul 2024 09:03:22 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4300:19e0::4a71])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25eaa29d16dsm2267694fac.53.2024.07.12.09.03.13
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25eaa29d16dsm2267694fac.53.2024.07.12.09.03.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 09:03:14 -0700 (PDT)
+        Fri, 12 Jul 2024 09:03:21 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v6 04/12] classes-global/staging: Exclude do_create_spdx from automatic sysroot extension
-Date: Fri, 12 Jul 2024 09:58:14 -0600
-Message-ID: <20240712160304.3514496-5-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v6 08/12] selftest: sstatetests: Exclude all SPDX tasks
+Date: Fri, 12 Jul 2024 09:58:18 -0600
+Message-ID: <20240712160304.3514496-9-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240712160304.3514496-1-JPEWhacker@gmail.com>
 References: <20240703140059.4096394-1-JPEWhacker@gmail.com>
@@ -62,46 +62,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 16:03:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201838
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 16:03:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201842
 
-do_create_spdx is a outlier in that it doesn't need the RSS to be
-extended just because it depends on do_populate_sysroot. In fact, it
-only depends on do_populate_sysroot so it can see the actual recipes
-sysroot, and attempting to extend the sysroot can cause problems for
-some recipes (e.g. if a recipe does do_populate_sysroot[noexec] = "1")
-
-As such, explicitly exclude do_create_spdx from extending the sysroot
-just because it depends on do_populate_sysroot.
+SPDX 3.0 introduces a bunch of new SPDX tasks. Instead of explicitly
+enumerating them all, modify the regex to match 'create_.*spdx' which
+will cover all of the SPDX 2.0 and SPDX 3.0 tasks
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes-global/staging.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index 3678a1b4415..c2213ffa2b4 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -652,10 +652,17 @@ python do_prepare_recipe_sysroot () {
- addtask do_prepare_recipe_sysroot before do_configure after do_fetch
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 94ad6e38b68..0153ef37cb6 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -933,8 +933,7 @@ class SStateCheckObjectPresence(SStateBase):
+         # these get influnced by IMAGE_FSTYPES tweaks in yocto-autobuilder-helper's config.json (on x86-64)
+         # additionally, they depend on noexec (thus, absent stamps) package, install, etc. image tasks,
+         # which makes tracing other changes difficult
+-        exceptions += ["{}.*create_spdx".format(t) for t in targets.split()]
+-        exceptions += ["{}.*create_runtime_spdx".format(t) for t in targets.split()]
++        exceptions += ["{}.*create_.*spdx".format(t) for t in targets.split()]
  
- python staging_taskhandler() {
-+    EXCLUDED_TASKS = (
-+        "do_prepare_recipe_sysroot",
-+        "do_create_spdx",
-+    )
-     bbtasks = e.tasklist
-     for task in bbtasks:
-+        if task in EXCLUDED_TASKS:
-+            continue
-+
-         deps = d.getVarFlag(task, "depends")
--        if task != 'do_prepare_recipe_sysroot' and (task == "do_configure" or (deps and "populate_sysroot" in deps)):
-+        if task == "do_configure" or (deps and "populate_sysroot" in deps):
-             d.prependVarFlag(task, "prefuncs", "extend_recipe_sysroot ")
- }
- staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
+         output_l = output.splitlines()
+         for l in output_l:
 -- 
 2.45.2
 
