@@ -1,83 +1,86 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C68C2BD09
-	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 14:59:02 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.web11.9932.1720796332952015884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 130D0C3DA4D
+	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 15:55:43 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.11262.1720799740391008355
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jul 2024 07:58:53 -0700
+ Fri, 12 Jul 2024 08:55:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VeWIYqPY;
- spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5c74f6e5432so1017927eaf.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 07:58:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MMM422oi;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5c47c41eb84so1185876eaf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 08:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720796332; x=1721401132; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ug0h85dfFEAAZTXgwMb0w0Ww0FxxCg7ADZQ9KiE+QeU=;
-        b=VeWIYqPYAikp9cJgpCobCeVuAJp47gJvvMfA/Q2NY/J5HKMHJmJMzp3tI9RRQZfP28
-         8qngfHJuZ4nh73GsvTKQEM2b7FEODfoioaDTfahshLjaOqZCBEMnOjz86UvU4ouX5mZg
-         igpx8rGAMII7h2XRyX6dJKE2l7m4CNcK9/bZ5m9bjg7DdzwkoAGF5tDd/vry8yN3GTde
-         8XthijwLitLEFYEZkG6n4+eanxgAq0j8yeQ4CYwR7Nw9l13g8ybcHYh6aZ3vc32up4rZ
-         H0qAcnEPbcUqqNUAZRWO1iKXt2gt7e9hh7BhBQLd8hxl02HOTT1VqLi0lJKTMz4P6nG0
-         Ykzg==
+        d=gmail.com; s=20230601; t=1720799739; x=1721404539; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jaj5/Y4FYyoNS82Th3K8+6fulE+vCyed3PQwoXuCe0o=;
+        b=MMM422oiInU4hKi0FZvSr/sOAfbxowYVWNMJ+o4oslJBmd5l9DOzNaBgA1rRbuiM30
+         IBX6CTqPTE2aw+cvtHqADfZOJRJIIeI6FLmYo2aWS899ku+GcZ+cz6oQp3PVm8kE8QgI
+         MnGH4OhcK80ytEPTLEntttE9eB1pSivad6JJL5DL1JtaWLNtAEB9idGmb4tbyYPaFUX1
+         CTG4B/b7SThPdIvWkRKIa/fInLRkVVDdbqyK7yxGaag0O3LDl6zK5aCyglLFG6ycv0/R
+         3qvqlPh0RcjuqTVaFhIY0bpcMb1gZXo1/dXgEbmCoVRw0eEPAOPPlxc4uhko9eA6M1cm
+         xVEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720796332; x=1721401132;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ug0h85dfFEAAZTXgwMb0w0Ww0FxxCg7ADZQ9KiE+QeU=;
-        b=kjRUCKfTIVUhCopPS8MW6UxFIH8deilQP+4FX6XOQVOQ7KSmF1UtRl9Jvogk5DI+mi
-         fHYPNPhD3l/l79a/ACJTG5HNalxUJVA2e3EFtPlXd1jNo1MI6AjdGVk5MfI1DCwjhlrQ
-         Labbe+lE6F3sgRmDaXgwEx5eGITriC0B5cTzTDrc38FmD0xYOEyy4yNXg3Lxi+eCk0yf
-         QIBa7czn4kE4EkJ2zmcXFM9qAp9xQBGl5k3WmGF1MwsFNwmPMR+r9UAZYCvGFj9wN7yE
-         k9CvXry4fpEFKR+TkW1KoW96T8SgsGrH9f+6KUhMnEpUtvKnBNOSx7+QJanN/yzr+/Ka
-         j4xg==
-X-Gm-Message-State: AOJu0Yy1FsCbktjD88Tf/cUh0ZOAVsRmlSy67y47JR/gAMyRSp9bBNKn
-	u5YgLexkyJGtuL3rE9sl5g6XcDeUkXQacOgnO2toe0M7J9WxpJM43ZAl2L1749ZqEwQXF8R8eFb
-	JRsmS3pq1mUxcMvXhjE7gmVjAFVGOvMM3tyI=
-X-Google-Smtp-Source: AGHT+IHVEmLT9YoKsfizE2oxff70n4tZV2UYOHbMXcgXfBWu5q0it1HHt0AERCXepR4MXxt/1BgDElABrbZek3/jlX0=
-X-Received: by 2002:a05:6870:168c:b0:25d:6411:a0af with SMTP id
- 586e51a60fabf-25eaec6d8a0mr9757902fac.49.1720796331921; Fri, 12 Jul 2024
- 07:58:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720799739; x=1721404539;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jaj5/Y4FYyoNS82Th3K8+6fulE+vCyed3PQwoXuCe0o=;
+        b=USvdvrMUSJXtKmz2pzvq93blwc4UHXINunjXPTh/5LS3JKMcHIBHxKi7bTMJgLgp5Z
+         8sxmWtJP6uZUOZ2ZGLt+6AYqyLxKsGzRguqZVQDMZMRivAn0NEdkt0QeybhJ35POZBsH
+         lWAasdKs6GNV/Km+pAFn6H45hU+W7vANNJqsI4OfufnX6qTnW6DuvcW+Xsyo4lXklnQ5
+         I5KUnUj7Pp1lzKIvM51NUG6j8rwiER7vumkTLCCSHc8NIBdHTxiOxGyrlslB99tqwy1U
+         ZIOE59y6RxzFzzfdpHd/5hlRu08MibTjSS6kt33uIWJEVDkP511/X2lpfzu2HcYs/pwR
+         D02A==
+X-Gm-Message-State: AOJu0YxbFYSEXHoPsYx0UjVRYcw7bdB27uh2w6GgGeqEF6SU+oo1S3m1
+	s0DOmNsX60LDb9POlD/lChCpDFrjrxFs+mM1eTsWzj27z9gkKHELjU6BCg==
+X-Google-Smtp-Source: AGHT+IG4JUgFjAMtWTSVq1En2jwTm9phdo06Zs2pamA4IYg9x/sNWoMAprE8SSmuGkpKxPmeW+B+eg==
+X-Received: by 2002:a05:6870:6109:b0:259:8cf3:9ec3 with SMTP id 586e51a60fabf-25eaec33c66mr10607015fac.54.1720799738960;
+        Fri, 12 Jul 2024 08:55:38 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::4a71])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70374f7987asm1620424a34.30.2024.07.12.08.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jul 2024 08:55:38 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] perf: Remove SPDX_S
+Date: Fri, 12 Jul 2024 09:55:35 -0600
+Message-ID: <20240712155535.3512470-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20240711234203.3841594-1-raj.khem@gmail.com> <CANNYZj8u7dMXZab6dHYfp0wdtRrimYBjeAdep+4n14KQEqJ7kA@mail.gmail.com>
-In-Reply-To: <CANNYZj8u7dMXZab6dHYfp0wdtRrimYBjeAdep+4n14KQEqJ7kA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 12 Jul 2024 07:58:26 -0700
-Message-ID: <CAMKF1spdtbmpbyiGhthFDPqb=tDphR07FMJEgeio9cbqSewqbQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] mesa: Add packageconfig knob to control
- tegra gallium driver
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 14:59:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201832
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 15:55:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201834
 
-On Fri, Jul 12, 2024 at 2:04=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Fri, 12 Jul 2024 at 01:42, Khem Raj via lists.openembedded.org
-> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
-> > +PACKAGECONFIG[tegra] =3D ""
-> > +GALLIUMDRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'tegra=
-', ',tegra,nouveau', '', d)}"
->
-> Why nouveau as well? It's already enabled elsewhere.
+This variable hasn't been used for some time, so remove it
 
-Its a direct dependency for tegra gallium driver, In its state
-currently in mesa recipe its enabled when gallium-llvm packageconfig
-is set.
-That's not a prerequisite for tegra driver.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
->
-> Alex
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 058f887b861..fc9f70f9f66 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -66,7 +66,6 @@ include ${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perf-perl.inc', '', d)}
+ inherit kernelsrc
+ 
+ S = "${WORKDIR}/${BP}"
+-SPDX_S = "${S}/tools/perf"
+ 
+ # The LDFLAGS is required or some old kernels fails due missing
+ # symbols and this is preferred than requiring patches to every old
+-- 
+2.45.2
+
 
