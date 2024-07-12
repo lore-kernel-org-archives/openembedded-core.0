@@ -1,99 +1,107 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E03C2BD09
-	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 07:34:30 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.2807.1720769665555311164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FDDBC2BD09
+	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 09:04:11 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.3629.1720775048458976385
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jul 2024 00:34:25 -0700
+ Fri, 12 Jul 2024 02:04:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=L7nEo6iH;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=aKL9WyiG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190a5dd5680-a0677ffc-296d-4a25-a2c2-58d326d3e834-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1720769664; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=GmCt/sFSGzXPNO4ypz76AfX159fi09q3Uly1okuNFec=;
-	b=L7nEo6iHjxQ1iMKTZLAHwekiLqTTINRMiCt4lhqqcj0paur0pbk8bxJJ7K5YZX1F
-	KCocvmbDecFOUqgkgcdRyXFumXV/cfM7hZh4Yarb6FOQERhAGXdekDmkHrdzLxQVaim
-	Yf7Xy5xi3p7AmacDfqlkpqVLFrlqDFwul17eowEQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1720769664;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=GmCt/sFSGzXPNO4ypz76AfX159fi09q3Uly1okuNFec=;
-	b=aKL9WyiG31UpFX5GyZe/m8LtmpBuRUK9CwOrHI2tdclOmx0WremhSYiiB+igJGhO
-	TRY8IHOBlwBBtOZp7WTvAM5bKNK4npwV1Ix8uElR2u04x3JM8qFtRiuEKfv00eWxqfS
-	+bio0Xg24gXsp9dp08KFzErB+9Z7ehEnjP9QGSnY=
-From: patchtest@automation.yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [RFC][-oe-core][PATCH] mesa: update
-In-Reply-To: <20240712072256.20869-1-f_l_k@t-online.de>
-References: <20240712072256.20869-1-f_l_k@t-online.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190a5dd5680-a0677ffc-296d-4a25-a2c2-58d326d3e834-000000@us-west-2.amazonses.com>
-Date: Fri, 12 Jul 2024 07:34:24 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.12-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HJKnJ+47;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ee920b0781so17224251fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 02:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720775047; x=1721379847; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BABNDKeJjnE2KM2jbgRh5OzdrIkaQOpXlzoHkLi0r9A=;
+        b=HJKnJ+479I9OQCeCxVikTcjqmiQxH96JgKDrQZpaOWANmysjX+L8uz+uObOEYlbxGR
+         L+GMoYFWeeXUXQpJQ7SKtAM394Yt9yXoZqbnDO4bj6nfU3UoJd5LfbGVSCNrNvqvKIxT
+         0PV6szlgpl//uTlO5+ZGd0T/V9qF+K8vTIVp/dovIboZHJ8bRjGLX20WqOo/s/qJrHCu
+         GaiGAZApzFdZfZI6SrDmNEdAV8lDm1C8DiT7qgdfUeaU1YPhygJiOZaSHbY75DoHRP5F
+         PpE8EbShtDNh3FllT2IF1vW5NjDB24HE/YU448y6e26ybCb4i9uA2bCKODiuLFW0Riio
+         yQIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720775047; x=1721379847;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BABNDKeJjnE2KM2jbgRh5OzdrIkaQOpXlzoHkLi0r9A=;
+        b=gKkU2f9kFf+WbcepLGcLejqWToEuXJDVHoFx8FUTyFDFK5UrNdlq6egmtCZX6y5i9W
+         Akj5qXF3jc6Tj7XKOAtYX652eo7QalYLGjwkR57hKhBjrAiMrpEegqwWZPRRN/Cnmka7
+         AuyEWhJWuaG3vhdnPipysPCnS8vuCcvMVlHiD3FpvQT5LE8uvc3UApvTR+xaQzYz4dcA
+         Co0qUJxX/eRnrAa6D3Sx2SxJt/FQZbwMXI9welcUGIa5S4CfiBuWpOTjETTkTakLEc6G
+         sOwaw9JkTrUpi1hxm+vDXcDjYBGTf/kYqqpF5T272I2vkXq65ZG0P80K+4apFNdSfpKF
+         5vqw==
+X-Gm-Message-State: AOJu0YzmW+MLLeEtom8I7ef49vlkV6/4Zchgpdja6fctQaw92ioSp2If
+	3xYTsPwb1WZv6FK/E5Vx8XP5OPtqSD6bQXz5XL1VVDU3sAqnT7cIXlsD+EcP+oZ6FIlFXZ9f+eP
+	1U8QatFMHgSKqXW6IkTdRBhKj9p8=
+X-Google-Smtp-Source: AGHT+IEp+r/u9UYQAWd8mO8GpBXKEXVMTxDTxNobbCM9IxO1rwlBef70aDP5bjenSMw2FCPRXpc+cmnMkme93zNWFwY=
+X-Received: by 2002:a05:651c:200f:b0:2ee:8555:4742 with SMTP id
+ 38308e7fff4ca-2eeb30fe842mr61828841fa.27.1720775046207; Fri, 12 Jul 2024
+ 02:04:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240711234203.3841594-1-raj.khem@gmail.com> <20240711234203.3841594-2-raj.khem@gmail.com>
+In-Reply-To: <20240711234203.3841594-2-raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 12 Jul 2024 11:03:54 +0200
+Message-ID: <CANNYZj-G1MCyr7OZxB6AnqqrpVY-S2dpxzJYZsS16zCAj6ByNw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] arch-arm64: Use neoverse-v1 ISA for Qemu usermode
+To: raj.khem@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 07:34:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201811
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 09:04:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201813
 
---NextPart
-Content-Type: text/plain
+I don't understand. Why setting an earlier CPU (that supports less
+instructions) solves the problem of trying to execute unsupported
+instructions? I think Arm folks should look at this.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Alex
 
----
-Testing patch /home/patchtest/share/mboxes/RFC--oe-core-mesa-update.patch
-
-FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
-
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Fri, 12 Jul 2024 at 01:42, Khem Raj via lists.openembedded.org
+<raj.khem=gmail.com@lists.openembedded.org> wrote:
+>
+> With latest qemu several places where qemu-usermode is used e.g.
+> nodejs, qtwebengine, chromium, the builds are failing form armv8a
+> tuned machines (e.g. tegra) which is due to qemu crash ( SIGILL )
+> encoutered when 'max' ISA is used ( which is default ), max seems
+> to use neoverse-n2 equivalent features, which is evident that SIGILL
+> also happens when using -cpu neoverse-v2, therefore explicitly select
+> neoverse-v1 for ISA, which works and covers almost all (if not all)
+> cpu tunes for armv8 we have.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/machine/include/arm/arch-arm64.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+> index 832d0000acb..9639911d33b 100644
+> --- a/meta/conf/machine/include/arm/arch-arm64.inc
+> +++ b/meta/conf/machine/include/arm/arch-arm64.inc
+> @@ -42,3 +42,8 @@ TARGET_FPU = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TARGET_FPU_64}
+>  # support these they're meaningless NOP instructions, so there's very little
+>  # reason not to.
+>  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', ' -mbranch-protection=standard', '', d)}"
+> +
+> +# Fix qemu-user crashes while building nodejs/chromium/qtwebengine, defaults ISA is max and it generate SIGILLs
+> +# qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+> +# Select the superset ISA
+> +QEMU_EXTRAOPTIONS_armv8a = "-cpu neoverse-v1"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201796): https://lists.openembedded.org/g/openembedded-core/message/201796
+> Mute This Topic: https://lists.openembedded.org/mt/107173682/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
