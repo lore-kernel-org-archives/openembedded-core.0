@@ -1,100 +1,102 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 666D3C2BD09
-	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 05:36:20 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1293.1720762573983426806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45CF7C41513
+	for <webhook@archiver.kernel.org>; Fri, 12 Jul 2024 06:04:40 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.1592.1720764276959972024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jul 2024 22:36:14 -0700
+ Thu, 11 Jul 2024 23:04:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PZqGEh+8;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=u+yeJjyL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010190a57120e3-488695cd-ea53-4d61-8005-d7972014b362-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1720762573; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=HKkNLrxYHPC1Pw+Uym8ierqxOr5hNTF7XdL7FVJ/E5U=;
-	b=PZqGEh+8V8SatwdyaQxY9EjzTYsxVQWHbkOWjfQpKXZ4bnI1GZBjFytHFJM3ebyW
-	Ihuq7lUFRfmp24Hx7T5+eSK2+7E4rYKEgwsniTRK+JezfNzSau6HILwAuHizZ3JXWHn
-	5IWWxtEnhScg3E2n3cNvAOjQGclK0JXHjBv48VRg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1720762573;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=HKkNLrxYHPC1Pw+Uym8ierqxOr5hNTF7XdL7FVJ/E5U=;
-	b=u+yeJjyLJwqXzygjiv2IjQnaYPgAZTmLr3evcNfvwjrz38rP1xmro8UPtkxhF14f
-	Pnsr9lLBFyvi1jBF+yYHO7smS8o2vAVs0GEfztng8/G5XqudLq156DLXLk2+zPd6vp/
-	qLblE7S1xELlunuzLvDZNmvOx3zIRayQCQGO6kDQ=
-From: patchtest@automation.yoctoproject.org
-To: changqing.li@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap][PATCH 2/2] webkitgtk: fix do_compile errors on
- beaglebone-yocto
-In-Reply-To: <20240712052556.3982466-2-changqing.li@windriver.com>
-References: <20240712052556.3982466-2-changqing.li@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190a57120e3-488695cd-ea53-4d61-8005-d7972014b362-000000@us-west-2.amazonses.com>
-Date: Fri, 12 Jul 2024 05:36:13 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.12-54.240.27.193
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7923e07da7=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46C4iJjE018203
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 06:04:36 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 406u4x5p5y-7
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 06:04:36 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 11 Jul 2024 23:04:35 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Thu, 11 Jul 2024 23:04:34 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [scarthgap][PATCH V2 1/2] webkitgtk: fix do_configure error on beaglebone-yocto
+Date: Fri, 12 Jul 2024 14:04:32 +0800
+Message-ID: <20240712060433.4022435-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 4OHx9SujrKMSgVPYrpzhpbTMIBrLjM07
+X-Proofpoint-GUID: 4OHx9SujrKMSgVPYrpzhpbTMIBrLjM07
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-12_03,2024-07-11_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2406140001 definitions=main-2407120040
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 05:36:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201801
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jul 2024 06:04:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201802
 
---NextPart
-Content-Type: text/plain
+From: Changqing Li <changqing.li@windriver.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+* According to latest comment [1] and the mentioned pull request
+[2], build an ENABLE(WEBASSEMBLY) && !ENABLE(JIT) configuration is
+supported, so original issue already fixed in current version, the
+EXTRA_OECMAKE setting is not needed anymore.
 
+* This EXTRA_OECMAKE setting causes following configure error on
+beaglebone-yocto, remove the setting to let the configure process decide
+the configuration:
+CMake Error at Source/cmake/WebKitFeatures.cmake:312 (message):
+  ENABLE_JIT conflicts with ENABLE_C_LOOP.  You must disable one or the
+  other.
+
+[YOCTO #15254]
+
+[1] https://github.com/WebKit/WebKit/pull/17447
+[2] https://github.com/WebKit/WebKit/pull/17688
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-2-2-webkitgtk-fix-do_compile-errors-on-beaglebone-yocto.patch
+ meta/recipes-sato/webkit/webkitgtk_2.44.1.bb | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
+index 29e12bb8c5..14f7531549 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
+@@ -114,18 +114,6 @@ EXTRA_OECMAKE:append:armv4 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE:append:armv5 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE:append:armv6 = " -DENABLE_JIT=OFF "
+ 
+-# And for armv7* don't enable it for softfp, because after:
+-# https://github.com/WebKit/WebKit/commit/a2ec4ef1997d6fafa6ffc607bffb54e76168a918
+-# https://bugs.webkit.org/show_bug.cgi?id=242172
+-# softfp armv7* fails because WEBASSEMBLY is left enabled by default and JIT gets
+-# explicitly disabled causing:
+-# http://errors.yoctoproject.org/Errors/Details/734587/
+-# PR was sent upstream, but the end result is the same both JIT and WEBASSEMBLY disabled
+-# https://github.com/WebKit/WebKit/pull/17447
+-EXTRA_OECMAKE:append:armv7a = " -DENABLE_JIT=${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'ON', 'OFF', d)}"
+-EXTRA_OECMAKE:append:armv7r = " -DENABLE_JIT=${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'ON', 'OFF', d)}"
+-EXTRA_OECMAKE:append:armv7ve = " -DENABLE_JIT=${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'ON', 'OFF', d)}"
+-
+ EXTRA_OECMAKE:append:mipsarch = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE:append:powerpc = " -DUSE_LD_GOLD=OFF "
+ 
+-- 
+2.25.1
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
