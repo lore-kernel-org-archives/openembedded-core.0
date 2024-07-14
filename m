@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA189C3DA4A
-	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 12:39:08 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.15273.1720960748282067137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D99CCC41513
+	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 12:39:18 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.15279.1720960755891363826
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jul 2024 05:39:08 -0700
+ Sun, 14 Jul 2024 05:39:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pCuuAPSC;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1fb64d627b0so17927095ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 05:39:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=A7faUH4d;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-6eab07ae82bso2015440a12.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 05:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720960747; x=1721565547; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720960755; x=1721565555; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=efsBpu8tRK2srO6XXoQZG+s3vBw4HohVnjt0s8ntdQs=;
-        b=pCuuAPSCeW83TIsQmjBN+RSBLL57/WtnmpgcraeACK43ndP4Zs7QpuktyJ7q5YBBnf
-         dvFnb9/qVck+mTrbeVTDApD97j1EwQzJaH9KqTmTvA0yx7uRJuz7NZyVnBlCctRaINOY
-         eQPkch0h+1SwOnCxNaIu+55UYqO7jytUT/1m7HeKJLthgOP39yQIZkoRAEVdj0JPb+bp
-         NHhsfNBP4EvC/DKoOo/EH7HrK5IdTViOYYvVIVutj7/u5yqBiE3HmGRLATZLlCq3gqou
-         Ibs1oYxWnvVsgoR4dt3ls4ZfFz/CuM0fO6Glpt28qZoIVZGTIhKkvaoT/gT0bczR6JJH
-         /TlQ==
+        bh=CeAf5ssNogx1pkL93L41Fd0mS8W7tqR4Ta1SkhETv70=;
+        b=A7faUH4d7VKj5iLCOLiyKZqLgZGuPBZVmdKoA7HfgEhR0bZ4R3rOgsSOUBIzo/I2Hk
+         tLqGPe+cr6ULtjAH21hg/GEp164yHZK95WOMgnl3XimBSTDs+ZYa9aidEbrPHeuHWqnp
+         2nw2S9x5yX4LCNLc77p1dA4Jw1bRwNA+xoSXqkXMM/UIcMSGjMCXczL/tSraxKzZUTLx
+         YjrXc4mRP87QILatOKP9BF92mZswWk3/l9bJK5eelbw+gZtBb8zn9NKMFqlqUhXfzLtc
+         t0VWq3ML9NZpO1KUx64CVJ1qsi05QMSSyukycTDL0lu2bsdOMUIS3N1Oahf+StdwE0te
+         FHEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720960747; x=1721565547;
+        d=1e100.net; s=20230601; t=1720960755; x=1721565555;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=efsBpu8tRK2srO6XXoQZG+s3vBw4HohVnjt0s8ntdQs=;
-        b=uoZJ7RWX9aj+fVpocD2Ot4K0VhWlboCo1GrblKgmQCo1s/L9NsVwGhm65Lv3iPMK7U
-         a0QCgkNDGVu+tFxzHMtTF6UmhKKxSwjx6wzzk9DCDO+m2EYDauk1gDc6KbtBeO8BLANe
-         KPqDJMo8i+DMJIvey4cLQ+zhFqd4w9/9BZBniT7JX4mSn77SZqiFziki9Eud8zmBneam
-         MuOTGJi1FZ3hizLbNHHaJJunIBjDPLjO3Zhtksu99Hs+isdpYiPem4Dc+9gfOL5hNEUy
-         +bdD7C3pZ1KZNBC+2atotWsG2OH8jPzcRPZQPRlSKPLBMjqSAYVAJPFd7ovGhUg2Syyy
-         haIg==
-X-Gm-Message-State: AOJu0YxZIMei8Q21RzZCm6IKyIzuLKIcN5XUdy5JgLVyKClee2kRIi0/
-	Y7nI17GXcdsidM8zcx+Pv1QCM3P29RNaMy1MRkVntUaYsEACGbTADm/r6TVj2mQz23RhGucRagY
-	Xm9U=
-X-Google-Smtp-Source: AGHT+IFu13++B9/M5riJVkU3/zLF5BshdlFz1vjkXpN1ImoeB43sT8+D4mOTvdqimNMGXOs9fdHf5g==
-X-Received: by 2002:a17:902:ec85:b0:1fb:57e7:5bc6 with SMTP id d9443c01a7336-1fbb6d03e74mr126498615ad.23.1720960747470;
-        Sun, 14 Jul 2024 05:39:07 -0700 (PDT)
+        bh=CeAf5ssNogx1pkL93L41Fd0mS8W7tqR4Ta1SkhETv70=;
+        b=cZP4hoJ7N17DSAWiIs66lcycGOs55UdJy/vWE7DC+Qnb3d++Rxo7xTVzZo5jkOuOBY
+         mXans0Dj7cLdeajULZ3Ghq6Smd43nNG/crGC090mBFjsy/Ne41hbXadxxdbQv/wehy0Z
+         mWK8y64TLKPZhWj7GalS7qtkxtWuYN6oiZU3MF/nNas343pm8gekIU53zkzRbfgGL/Ig
+         u/iAkKlJsppU/KIFx/qcUQvAdX2sXBzoFQUqzVKRazUTfVJ34Gszm0+weirRANbswdDM
+         9wtadIbiLHJkDr08ivqqv9LsUXBH8WaeOiAsMqAQTLVyZvTZsuJpKMSeksLFtd4jZ4dB
+         0wsQ==
+X-Gm-Message-State: AOJu0YxOlSw05lOxqcIvLJ40JQ3bkq0L8caLMEP8c2qO28jAbFxWEhV4
+	veavmmtQ42Jp2WRcZS1Auu6O3SL3ASGjwaB/oU9dfKdGoL7Y7KLWykLNOQxPoRkppC2qKewP/X5
+	Bojc=
+X-Google-Smtp-Source: AGHT+IE/SN6nm9XFzD3ddVVRFfOADYEbzylyAi5sx8layqvtP0jnaad4HFWIDkqhdx6Dstif4eOMGw==
+X-Received: by 2002:a05:6a20:8403:b0:1c3:a55f:6ba3 with SMTP id adf61e73a8af0-1c3a55f7bb0mr12174257637.50.1720960755094;
+        Sun, 14 Jul 2024 05:39:15 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb7006bsm23245245ad.41.2024.07.14.05.39.06
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb7006bsm23245245ad.41.2024.07.14.05.39.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jul 2024 05:39:07 -0700 (PDT)
+        Sun, 14 Jul 2024 05:39:14 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/27] libcap-ng: upgrade 0.8.4 -> 0.8.5
-Date: Sun, 14 Jul 2024 05:38:32 -0700
-Message-Id: <5eff01bbc58dcb1d51639ee4b43ee9a3e23e39ed.1720960579.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/27] llvm: upgrade 18.1.5 -> 18.1.6
+Date: Sun, 14 Jul 2024 05:38:36 -0700
+Message-Id: <941474ed77f6f5397ff4f83a4e4dae1c3b9103d3.1720960579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1720960579.git.steve@sakoman.com>
 References: <cover.1720960579.git.steve@sakoman.com>
@@ -61,134 +61,56 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 12:39:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201862
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 12:39:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201866
 
-From: Yi Zhao <yi.zhao@eng.windriver.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-https://people.redhat.com/sgrubb/libcap-ng/ChangeLog
+==========
+- Fixes issues where LLVM is either generating the incorrect thunk for a
+  function with aligned parameters or didn't correctly pass through the
+  return value when StructRet was used.
+- -Xclang -target-feature -Xclang +unaligned-scalar-mem can be used to enable
+  unaligned scalar memory accesses for CPUs that do not support unaligned
+  vector accesses. -mno-strict-align will enable unaligned scalar and vector
+  memory accesses.
+- Don't replace an aliasee with an alias that has weak linkage. This avoids
+  incorrect linkage that can lead to using the wrong symbols during linking time.
+- This patch fixes build failures when compiling AVX512 code using
+  -march=native on machines without AVX512.
+- Fixes crash in AArch64 backend when having true or false as operand for a
+  fcmp instruction on IR level.
+- Fixes compiler crash when user specifies -mno-evex512 with AVX512 features
+  but no AVX512VL.
+- Fixes a bug that tries to do VBROADCAST_LOAD for f16 without AVX2.
 
- - Remove python global exception handler since it's deprecated
- - Make the utilities link against just built libraries
- - Remove unused macro in cap-ng.h
-
-Drop backport patch fix-issues-with-swig-4-2.patch.
-Backport a patch to fix build for libcap-ng-python.
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0263fd8193e51e54a4598ea3811c3c0a6e781f85)
+(cherry picked from commit 3cd5c40f5736506b2cfc23b180fa915b01d8220c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...hon-path-when-invoking-py-compile-54.patch | 34 +++++++++++++++++++
- .../files/fix-issues-with-swig-4-2.patch      | 32 -----------------
- meta/recipes-support/libcap-ng/libcap-ng.inc  |  4 +--
- ...{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} |  0
- 4 files changed, 36 insertions(+), 34 deletions(-)
- create mode 100644 meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch
- delete mode 100644 meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
- rename meta/recipes-support/libcap-ng/{libcap-ng_0.8.4.bb => libcap-ng_0.8.5.bb} (100%)
+ meta/recipes-devtools/llvm/{llvm_18.1.5.bb => llvm_18.1.6.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/llvm/{llvm_18.1.5.bb => llvm_18.1.6.bb} (98%)
 
-diff --git a/meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch b/meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch
-new file mode 100644
-index 0000000000..a0452ad53d
---- /dev/null
-+++ b/meta/recipes-support/libcap-ng/files/0001-Fix-python-path-when-invoking-py-compile-54.patch
-@@ -0,0 +1,34 @@
-+From 1fe7c1cfeea00ba4eb903fbb39b74361594d4835 Mon Sep 17 00:00:00 2001
-+From: Jan Palus <jpalus@fastmail.com>
-+Date: Wed, 10 Apr 2024 21:30:51 +0200
-+Subject: [PATCH] Fix python path when invoking py-compile (#54)
-+
-+48eebb2 replaced custom PYTHON3 variable with PYTHON by using standard
-+AM_PATH_PYTHON macro. Makefile however still referred to old one.
-+There's no need to set PYTHON explicitly anymore so drop it.
-+
-+Fixes #53
-+
-+Upstream-Status: Backport
-+[https://github.com/stevegrubb/libcap-ng/commit/1fe7c1cfeea00ba4eb903fbb39b74361594d4835]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ bindings/python3/Makefile.am | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/bindings/python3/Makefile.am b/bindings/python3/Makefile.am
-+index 70a1dd8..6072fc2 100644
-+--- a/bindings/python3/Makefile.am
-++++ b/bindings/python3/Makefile.am
-+@@ -27,7 +27,6 @@ AM_CPPFLAGS = -I. -I$(top_builddir) $(PYTHON3_INCLUDES)
-+ LIBS = ${top_builddir}/src/libcap-ng.la
-+ SWIG_FLAGS = -python
-+ SWIG_INCLUDES = ${AM_CPPFLAGS}
-+-PYTHON = $(PYTHON3)
-+ pyexec_PYTHON = capng.py
-+ pyexec_LTLIBRARIES = _capng.la
-+ pyexec_SOLIBRARIES = _capng.so
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch b/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-deleted file mode 100644
-index fb424fe725..0000000000
---- a/meta/recipes-support/libcap-ng/files/fix-issues-with-swig-4-2.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 355eada2d20886287cffc16e304087dd6f66ae37 Mon Sep 17 00:00:00 2001
--From: Steve Grubb <ausearch.1@gmail.com>
--Date: Thu, 4 Jan 2024 15:06:29 -0500
--Subject: [PATCH] Remove python global exception handler since its deprecated
--
--Upstream-Status: Backport [https://github.com/stevegrubb/libcap-ng/commit/30453b6553948cd05c438f9f509013e3bb84f25b]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- bindings/src/capng_swig.i | 7 -------
-- 1 file changed, 7 deletions(-)
--
--diff --git a/bindings/src/capng_swig.i b/bindings/src/capng_swig.i
--index fcdaf18..fa85e13 100644
----- a/bindings/src/capng_swig.i
--+++ b/bindings/src/capng_swig.i
--@@ -30,13 +30,6 @@
-- 
-- %varargs(16, signed capability = 0) capng_updatev;
-- 
---%except(python) {
---  $action
---  if (result < 0) {
---    PyErr_SetFromErrno(PyExc_OSError);
---    return NULL;
---  }
---}
-- #endif
-- 
-- %define __signed__
---- 
--2.43.2
--
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index 845b7c2f0a..12b4002d11 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
- 
- SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
--           file://fix-issues-with-swig-4-2.patch \
-+           file://0001-Fix-python-path-when-invoking-py-compile-54.patch \
+diff --git a/meta/recipes-devtools/llvm/llvm_18.1.5.bb b/meta/recipes-devtools/llvm/llvm_18.1.6.bb
+similarity index 98%
+rename from meta/recipes-devtools/llvm/llvm_18.1.5.bb
+rename to meta/recipes-devtools/llvm/llvm_18.1.6.bb
+index b03cf1465e..b2df5b60e3 100644
+--- a/meta/recipes-devtools/llvm/llvm_18.1.5.bb
++++ b/meta/recipes-devtools/llvm/llvm_18.1.6.bb
+@@ -28,7 +28,7 @@ SRC_URI = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/
+            file://0002-llvm-Fix-CVE-2024-0151.patch;striplevel=2 \
+            file://llvm-config \
             "
+-SRC_URI[sha256sum] = "3591a52761a7d390ede51af01ea73abfecc4b1d16445f9d019b67a57edd7de56"
++SRC_URI[sha256sum] = "bd4b4cb6374bcd5fc5a3ba60cb80425d29da34f316b8821abc12c0db225cf6b4"
  
--SRC_URI[sha256sum] = "68581d3b38e7553cb6f6ddf7813b1fc99e52856f21421f7b477ce5abd2605a8a"
-+SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
- 
- EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-similarity index 100%
-rename from meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb
-rename to meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
+ UPSTREAM_CHECK_URI = "https://github.com/llvm/llvm-project"
+ UPSTREAM_CHECK_REGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
 -- 
 2.34.1
 
