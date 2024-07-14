@@ -1,110 +1,122 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE1D9C3DA49
-	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 09:37:37 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.13412.1720949854488649192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C46DC3DA42
+	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 11:19:38 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web11.14358.1720955969077119477
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jul 2024 02:37:35 -0700
+ Sun, 14 Jul 2024 04:19:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=A4hu/E0A;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202407140937315a29e167ccb2e17f93-xjdpya@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202407140937315a29e167ccb2e17f93
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 14 Jul 2024 11:37:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=V6XAZrIGK9Hq1tBBAfBycj9ASNWNpEaSESeeHj4+mEQ=;
- b=A4hu/E0A7T+JFxM/GiJTxiMhU78cb86Llorg4BUwsju6SFIwBGx/Y1PG5fS0zc8xBLAT6D
- +h7Yk5cLnsqCeSPojQgCDb+r42HXojSxjb27EPNvFzmjYHk3g6ZsUiqWsd804jNEpLvnL8Ib
- ssgT/wfXFX3aSh1Klxhm4gAVx4haQ=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][master][scarthgap][PATCH] libstd-rs,rust-cross-canadian: set CVE_PRODUCT to rust
-Date: Sun, 14 Jul 2024 11:36:28 +0200
-Message-Id: <20240714093628.10082-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qeQyyeI9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.222.175, mailfrom: steve@sakoman.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-79ef8fe0e90so243817285a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 04:19:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720955968; x=1721560768; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SnflLRsqJlJaq4R4Adn0hNL/BbQ4FHtGmEcHB0y7jBY=;
+        b=qeQyyeI9p+k9bBENbSYrXki5DwCotw7377R4YDnQWNsmOBaNy1oITbFIMaTbzCdskk
+         wlpdcMVqhNeMnIwt33kv8PEzSmvw/1jh6CY5/HNWc/H/gHacshJD5B1O7MMt68VogPpn
+         j7T1ol6WfblOyVt60cm/4kJ1mxRUVn97AcZFwWs9vOinIOQqJJNG7Nyc0DdSGYU+SH2t
+         B98WPt0lgFfvtWsZWk7zM+aBhm1l6vYiTdthQcOyNMJyvhlCkkLKjLKiLRVQG/uYHX0Z
+         bM7P0xll76BYh1VFIiE+gxyBs33RfaEJK9HZEY0jkSV6J8xBkz8iAzQknk5bEStl8Hu6
+         UwgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720955968; x=1721560768;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SnflLRsqJlJaq4R4Adn0hNL/BbQ4FHtGmEcHB0y7jBY=;
+        b=e7i8ZQeW8I+CtrV9Jbo8KjNmM1Rq5r3tMOj4CLuRBMujTzaO+t1d4X9ruU0uqxNa+i
+         nHew05XY29/AwFes/gx8lWtHJQrNN3OekcKmjzd77TJAzSlieGjTUKtjXr3V0cnSTj4Y
+         SGcbJ4b+0XN1oU0vSj41dvzWPlPVtXIno6TC9r3z9gIjIKAJQRTHhURrEu0EcndStqct
+         IGQYTmNZMZtlRPHgSfsff0dPFpObPxtJWEVdDLIjPUeDATUypE570BcBENFvpDYOsMcJ
+         y1oomSnU/wtnof9LF52AZPvQBgTwHib36eb0nhgicsFTs7IkgRafXI68kF3YcL+ui67a
+         hsnw==
+X-Gm-Message-State: AOJu0Yyeuwl9C/h4gHI3MtDB4sB4CKp1P3Sb+h/NAISribUdNoERrE6W
+	+sBgdrGquV9XGOtoR6MXm9sDmGcHEDApCqlVrWUxdviSeYFkfF1g7wRvVJLahCUYRZjx1/qjHX/
+	k
+X-Google-Smtp-Source: AGHT+IHuw4Jkn6yO/7stC1n3Y67j+je/fuGmiI/skZStbO69Z1vQkz1jOjT4GSTbpa8uMWHGJ6juFw==
+X-Received: by 2002:ad4:5cc3:0:b0:6b7:42aa:3358 with SMTP id 6a1803df08f44-6b742aa3559mr178134026d6.31.1720955967764;
+        Sun, 14 Jul 2024 04:19:27 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b761aa463bsm12295916d6.141.2024.07.14.04.19.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jul 2024 04:19:27 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 59CEF100437; Sun, 14 Jul 2024 01:19:26 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 14 Jul 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 14 Jul 2024 01:19:26 -1000
+Message-Id: <20240714111926.59CEF100437@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 09:37:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201855
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 11:19:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201856
 
-From: Peter Marko <peter.marko@siemens.com>
+Branch: master
 
-These recipes come from rust sources and CVEs are reported for them
-under rust-lang:rust vendor:product touple.
-Especially libstd-rs needs correct CVE_PRODUCT as is it installed on
-target devices (being statically linked to rust compiled binaries).
+New this week: 2 CVEs
+CVE-2024-36288 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36288 *
+CVE-2024-39472 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-39472 *
 
-before:
-cargo: CVE_PRODUCT="cargo"
-cargo-c-native: CVE_PRODUCT="cargo-c"
-libstd-rs: CVE_PRODUCT="libstd-rs"
-rust: CVE_PRODUCT="rust"
-rust-cross-canadian: CVE_PRODUCT="rust-cross-canadian-<arch>"
-rust-llvm: CVE_PRODUCT="rust-llvm"
+Removed this week: 2 CVEs
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2024-24789 (CVSS3: 5.5 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24789 *
 
-after:
-cargo: CVE_PRODUCT="cargo"
-cargo-c-native: CVE_PRODUCT="cargo-c"
-libstd-rs: CVE_PRODUCT="rust"
-rust: CVE_PRODUCT="rust"
-rust-cross-canadian-x86-64: CVE_PRODUCT="rust"
-rust-llvm: CVE_PRODUCT="rust-llvm"
+Full list:  Found 39 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-14.1.0:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
+CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
+CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
+CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+CVE-2024-25739 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
+CVE-2024-25740 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
+CVE-2024-26596 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26596 *
+CVE-2024-26900 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26900 *
+CVE-2024-26913 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26913 *
+CVE-2024-26949 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26949 *
+CVE-2024-26952 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-26952 *
+CVE-2024-27012 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27012 *
+CVE-2024-27017 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-27017 *
+CVE-2024-36288 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36288 *
+CVE-2024-36971 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-36971 *
+CVE-2024-39472 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-39472 *
+CVE-2024-6505 (CVSS3: 6.8 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6505 *
 
-Product for rust-llvm is uncertain and, should be handled in another
-commit if it is desired to align it, too.
+Summary of CVE counts by recipe:
+  linux-yocto: 31
+  busybox: 3
+  qemu:qemu-native:qemu-system-native: 2
+  gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-14.1.0:libgcc:libgcc-initial: 1
+  gnupg:gnupg-native: 1
+  openssh: 1
 
-sqlite> select vendor, product, count(product) from products where vendor="rust-lang" group by product;
-rust-lang|async-h1|2
-rust-lang|cargo|5
-rust-lang|future-utils|2
-rust-lang|futures-task|2
-rust-lang|mdbook|1
-rust-lang|regex|2
-rust-lang|rsa|2
-rust-lang|rust|45
-rust-lang|socket2|1
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/rust/libstd-rs_1.75.0.bb     | 2 ++
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 1 +
- 2 files changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb
-index 5fc6fb97bb..14161714f2 100644
---- a/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb
-+++ b/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb
-@@ -15,6 +15,8 @@ S = "${RUSTSRC}/library/sysroot"
- RUSTLIB_DEP = ""
- inherit cargo
- 
-+CVE_PRODUCT = "rust"
-+
- DEPENDS:append:libc-musl = " libunwind"
- # rv32 does not have libunwind ported yet
- DEPENDS:remove:riscv32 = "libunwind"
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index f962437d6b..c34b839d15 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -1,5 +1,6 @@
- SUMMARY = "Rust compiler and runtime libaries (cross-canadian for ${TARGET_ARCH} target)"
- PN = "rust-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-+CVE_PRODUCT = "rust"
- 
- inherit rust-target-config
- inherit rust-common
--- 
-2.30.2
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
