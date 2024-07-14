@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24AE9C3DA42
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47322C3DA4A
 	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 12:39:49 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.15292.1720960779725241310
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.15296.1720960784802352154
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jul 2024 05:39:39 -0700
+ Sun, 14 Jul 2024 05:39:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TpGtlg97;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1fb3cf78fbdso20275545ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 05:39:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wZ7jpwRY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1fbda48631cso24885115ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 05:39:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720960779; x=1721565579; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720960784; x=1721565584; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XQyz4nXWXhBeAy+M3WoA50oQnlwgDr+wtyJl1kpwCkI=;
-        b=TpGtlg97cfIeJPEFuKUbSfvGg/N3ze+PIUWfBYLkkrCpfdcWnDKH7aJSKKvWKIBxN/
-         GmVg/Ms8IKO130xtydBOv48ZnYqWjc5F7Y84oWscXWwWlTKVDEPnnHDo7LId07l8zxYb
-         mrYOgBsrWPGArrMI805i+hC/H1QbpMpUl5yrkVh2bore+28pTgjhMhdzQOnn21Wl32p4
-         X+/7dduZDb1a5PKAMuJnKbw9/etP2xyyLizI3bZcfuFZWGpVzQ1vX8vKYYJN8a3LaMg0
-         sSjWyjBX8o5ZkPzSBAuCyKaddZGKJq2kPnmAtATcpQCL0u9l0FpNvgCLI2fk5Ckh4CwV
-         VtaQ==
+        bh=WYmB6qOzLY/M2dpzrYgV3F0AGh2Tsfrb73BGhgrS7+c=;
+        b=wZ7jpwRY0Y2D1ZnNGlzHM0HC1RGUxfwrgmVTH8+klAhR2akVwvZ1tkUGQgkzucPArZ
+         Bzxa9QSdNQDxvYp+uPZy53SRd6RmCHYXMRPyCICHF9beqCDHUyZatdWG78RDb+JbBjug
+         G5XbRimc6B9U/JPdXWaMi+A/Qr65T6SOvK/ZU7dpVkeyxfYAKOKkH9M+0HNDQ+HPsSYk
+         27MvwyoYQgVW49XFvg0NCrfXma+JaX+yXVJnlzQc1lyxBzQK1HtGnv6+oRHPeU9RUf5z
+         1JRDbD81zlATk0SK1EKNt4czS4b6qwfJ6JnaKX3WQ2oJq/Q+pOKhghmHu05iGnVQtC4F
+         HM2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720960779; x=1721565579;
+        d=1e100.net; s=20230601; t=1720960784; x=1721565584;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XQyz4nXWXhBeAy+M3WoA50oQnlwgDr+wtyJl1kpwCkI=;
-        b=aCfG6R065msUI9b4qer7DHNVE2va1E6HY6kCXMC9U3O+ZmX6VWl+cHYc7ljDOccLC6
-         9P8hEj9Mbsl5W+VAiXesOeX20yps7pTXqo0J09zeQjfJzxPRTsNVdxmXv7+64di9iljQ
-         YhxqmMqSAN0eleU3QwbOQSdvuq9g3yLDKprKpX+eXYCWoptVk1s0OhoYy8Ugc+sFxaCK
-         70WqXJmcoNtY/PUlOzHSdEf7pYw2FZ9rP7cZPWslRn0pGcTmI0MMYwZ7HAGhThQlYtnk
-         A3XNuIQ2BGMMvtwAf90sAP+CrMYahLhpD5DrAsGSp1HBQzc0w0OS0qM8WAGjBPCXXAW6
-         koQA==
-X-Gm-Message-State: AOJu0Yw9YoIaw5XVA7sYPbxQTD/Wedm1Ug+7RTvY8BxbcE/vAXarktBJ
-	rJ++NugyQI4yAFDVFLEfkEbF2jTDkIOMXI4pnVtV2yRjzJpAiOzY8vKddJAieLAzIZ0szpAkeHh
-	5/BU=
-X-Google-Smtp-Source: AGHT+IFnnl/v2qKEZwxnEN/pcSMq1iFmTK4S51Kx9xq3KtkDit93Ab1UUX+G3OkJR+CnD3VzcqbuwQ==
-X-Received: by 2002:a17:902:d54e:b0:1fb:72b4:8775 with SMTP id d9443c01a7336-1fbb6d24f87mr142920825ad.40.1720960778866;
-        Sun, 14 Jul 2024 05:39:38 -0700 (PDT)
+        bh=WYmB6qOzLY/M2dpzrYgV3F0AGh2Tsfrb73BGhgrS7+c=;
+        b=AderJjwSUVxYyZQuDxLZswU8/xseLtZQIFJ+jiCfrBUX2zpdpt92AHQYotPG1gp9Qo
+         3LGRjx8AzCUFMEUdO542aG9mOsfFhSsj92bN9L4CdLcVd1jrrTjcqgdm5GtjYlzxSDnM
+         P9PdOKWR8vrlwAPZ6Qa2NHfsVasbLdoEOaGv/8NcpjaNDzaAYYUCJzQQ0sane9cyMuuZ
+         lCon6AwAmQqrd2ROdnqCYAm6xCOkcgi4qmHjufTLd8juO7G0RQpd5zY97Z+/fHZFEC0y
+         JsbnP4U5bPY9YMVs6KADvVsFGTIg48iho9SZS89U/5pT4dHDJ4AuslnluvJZEIYheIKj
+         c5ag==
+X-Gm-Message-State: AOJu0YzPX9nJlLq1plh5TNlMMIfCE97VzHtfPNOkD6+8VFQrqoYVAb24
+	hBW+cG5xMH3OYXtkdNNcGhk4VoUldZgk/U2xhOiTKLEiqpQgD2ZDvnfMuF2R67W0MCvbKzCUE4y
+	Z9Qg=
+X-Google-Smtp-Source: AGHT+IH+Q8lit46SzYn7dxzBBcvYXNxRN8zoy0r19wsqgKH88ED8msVkFln/S8BUKM8J9XoYYyUXjg==
+X-Received: by 2002:a17:902:e54e:b0:1fb:9cb0:3e46 with SMTP id d9443c01a7336-1fc0b4b6453mr66572025ad.7.1720960783893;
+        Sun, 14 Jul 2024 05:39:43 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb7006bsm23245245ad.41.2024.07.14.05.39.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb7006bsm23245245ad.41.2024.07.14.05.39.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jul 2024 05:39:38 -0700 (PDT)
+        Sun, 14 Jul 2024 05:39:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/27] mesa: remove obsolete 0001-meson.build-check-for-all-linux-host_os-combinations.patch
-Date: Sun, 14 Jul 2024 05:38:47 -0700
-Message-Id: <5dabb17313ed5e4e143708f0c7703cac663e9647.1720960579.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 21/27] vorbis: mark patch as Inactive-Upstream
+Date: Sun, 14 Jul 2024 05:38:50 -0700
+Message-Id: <1b3da78af1ea569ac8cbf135159a3f6e7f4f471c.1720960579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1720960579.git.steve@sakoman.com>
 References: <cover.1720960579.git.steve@sakoman.com>
@@ -62,87 +62,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 12:39:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201877
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201880
 
 From: Alexander Kanavin <alex@linutronix.de>
-
-The patch was submitted upstream
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/28895
-but further investigation revealed that the problem had been solved properly
-in meson.class:
-https://git.yoctoproject.org/poky/commit/?id=6bf674374d568b2419a4c6eef00d893028878881
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 020345d63f0ffd3ed2b046bbb5e09b5359b24dd6)
+(cherry picked from commit 618bb8994d66d7d24cca2fb6885a510d69406437)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...k-for-all-linux-host_os-combinations.patch | 42 -------------------
- meta/recipes-graphics/mesa/mesa.inc           |  1 -
- 2 files changed, 43 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+ .../libvorbis/libvorbis/0001-configure-Check-for-clang.patch    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-deleted file mode 100644
-index 7be7d81eeb..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
--From: Alistair Francis <alistair@alistair23.me>
--Date: Thu, 14 Nov 2019 13:04:49 -0800
--Subject: [PATCH] meson.build: check for all linux host_os combinations
--
--Make sure that we are also looking for our host_os combinations like
--linux-musl etc. when assuming support for DRM/KMS.
--
--Also delete a duplicate line.
--
--Upstream-Status: Pending
--
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
--Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
--Signed-off-by: Alistair Francis <alistair@alistair23.me>
-----
-- meson.build | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/meson.build b/meson.build
--index 133fd9a..817861e 100644
----- a/meson.build
--+++ b/meson.build
--@@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
-- # Only build shared_glapi if at least one OpenGL API is enabled
-- with_shared_glapi = with_shared_glapi and with_any_opengl
-- 
---system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd', 'dragonfly', 'linux', 'sunos', 'android', 'managarm'].contains(host_machine.system())
--+system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd', 'dragonfly', 'linux', 'sunos', 'android', 'managarm'].contains(host_machine.system()) or host_machine.system().startswith('linux')
-- 
-- gallium_drivers = get_option('gallium-drivers')
-- if gallium_drivers.contains('auto')
--@@ -997,7 +997,7 @@ if cc.has_function('fmemopen')
-- endif
-- 
-- # TODO: this is very incomplete
---if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd', 'haiku', 'android', 'managarm'].contains(host_machine.system())
--+if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd', 'haiku', 'android', 'managarm'].contains(host_machine.system()) or host_machine.system().startswith('linux')
--   pre_args += '-D_GNU_SOURCE'
-- elif host_machine.system() == 'sunos'
--   pre_args += '-D__EXTENSIONS__'
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 77e9c80fcb..a8f3397e04 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -15,7 +15,6 @@ LIC_FILES_CHKSUM = "file://docs/license.rst;md5=63779ec98d78d823a9dc533a0735ef10
- PE = "2"
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
+index b06029b98b..d4fac605b6 100644
+--- a/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
++++ b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
+@@ -5,9 +5,9 @@ Subject: [PATCH] configure: Check for clang
  
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
--           file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-drisw-fix-build-without-dri3.patch \
-            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
+ Disable gcc specific options if using clang
+ 
++Upstream-Status: Inactive-Upstream [https://gitlab.xiph.org/xiph/vorbis,https://github.com/xiph/vorbis]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+-Upstream-Status: Pending
+ 
+  configure.ac | 19 +++++++++++++++++--
+  1 file changed, 17 insertions(+), 2 deletions(-)
 -- 
 2.34.1
 
