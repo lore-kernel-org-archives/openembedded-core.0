@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47322C3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54791C3DA50
 	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 12:39:49 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.15296.1720960784802352154
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.15298.1720960787141642695
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jul 2024 05:39:44 -0700
+ Sun, 14 Jul 2024 05:39:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wZ7jpwRY;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1fbda48631cso24885115ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 05:39:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ynytUM+J;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1fb0d7e4ee9so23042825ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 05:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720960784; x=1721565584; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1720960786; x=1721565586; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WYmB6qOzLY/M2dpzrYgV3F0AGh2Tsfrb73BGhgrS7+c=;
-        b=wZ7jpwRY0Y2D1ZnNGlzHM0HC1RGUxfwrgmVTH8+klAhR2akVwvZ1tkUGQgkzucPArZ
-         Bzxa9QSdNQDxvYp+uPZy53SRd6RmCHYXMRPyCICHF9beqCDHUyZatdWG78RDb+JbBjug
-         G5XbRimc6B9U/JPdXWaMi+A/Qr65T6SOvK/ZU7dpVkeyxfYAKOKkH9M+0HNDQ+HPsSYk
-         27MvwyoYQgVW49XFvg0NCrfXma+JaX+yXVJnlzQc1lyxBzQK1HtGnv6+oRHPeU9RUf5z
-         1JRDbD81zlATk0SK1EKNt4czS4b6qwfJ6JnaKX3WQ2oJq/Q+pOKhghmHu05iGnVQtC4F
-         HM2g==
+        bh=YixmtihO+hxQy5c7OdcKBujqGAX0+YfTnLe+631S+3Q=;
+        b=ynytUM+J16rIFs9tEwOhNYDIQjxlX6PsNFzWFBJsRu+pZV6D0QTS59Gxw3E1w1nY5X
+         IxEXNWUDOsYE5DjDuBj4bGudk1+cJ/OqZjlkrRnxoOPv/ZNBVL2hvNIvTNvqZYmANLYT
+         uGkmf5vK3gRJOFymPgk9TGZVsXbSSA1iRuwGfsYqZrW+sGH92ZUq4h4bK05EuZKz7Z3d
+         nxrZ6WxJ+aT4tZSuZcFdkLhi594fqimGbfpL1zZAi6z5k/JHOUxqnS4E8v3/OEP+tWOt
+         iqMYfK+7zna2p4tc9G+VgoThhOo8Gx5hrx7sdaLsBTMHrg7IzuJk/6ZgoSdFyPQe5eQu
+         cLoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720960784; x=1721565584;
+        d=1e100.net; s=20230601; t=1720960786; x=1721565586;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WYmB6qOzLY/M2dpzrYgV3F0AGh2Tsfrb73BGhgrS7+c=;
-        b=AderJjwSUVxYyZQuDxLZswU8/xseLtZQIFJ+jiCfrBUX2zpdpt92AHQYotPG1gp9Qo
-         3LGRjx8AzCUFMEUdO542aG9mOsfFhSsj92bN9L4CdLcVd1jrrTjcqgdm5GtjYlzxSDnM
-         P9PdOKWR8vrlwAPZ6Qa2NHfsVasbLdoEOaGv/8NcpjaNDzaAYYUCJzQQ0sane9cyMuuZ
-         lCon6AwAmQqrd2ROdnqCYAm6xCOkcgi4qmHjufTLd8juO7G0RQpd5zY97Z+/fHZFEC0y
-         JsbnP4U5bPY9YMVs6KADvVsFGTIg48iho9SZS89U/5pT4dHDJ4AuslnluvJZEIYheIKj
-         c5ag==
-X-Gm-Message-State: AOJu0YzPX9nJlLq1plh5TNlMMIfCE97VzHtfPNOkD6+8VFQrqoYVAb24
-	hBW+cG5xMH3OYXtkdNNcGhk4VoUldZgk/U2xhOiTKLEiqpQgD2ZDvnfMuF2R67W0MCvbKzCUE4y
-	Z9Qg=
-X-Google-Smtp-Source: AGHT+IH+Q8lit46SzYn7dxzBBcvYXNxRN8zoy0r19wsqgKH88ED8msVkFln/S8BUKM8J9XoYYyUXjg==
-X-Received: by 2002:a17:902:e54e:b0:1fb:9cb0:3e46 with SMTP id d9443c01a7336-1fc0b4b6453mr66572025ad.7.1720960783893;
-        Sun, 14 Jul 2024 05:39:43 -0700 (PDT)
+        bh=YixmtihO+hxQy5c7OdcKBujqGAX0+YfTnLe+631S+3Q=;
+        b=aeF40yjmF6CaWtpGlbG+OocxWiBANrb1vTtgTJspQBEnYIl7A25OlAd13upC1cn9ta
+         +4XcyB6qpWf7C4sL1dQGo7fz4xKtqbSg8oaTuAyh37NU6ZWs4VVXSKzLODCVeV2mx3pN
+         OBZSdCS/U02G8gvPD00jWtfFmb9u7BobTXS7kULCt2WAr8MjNsHJbBXlj5voQrdIZfln
+         XkKud2TqvozFv79vEw7xPHk1xVBnq5sRA0c3JV9BkatoWeZAns5v6kP8Pk4uizksth2B
+         aWvj2RSMH5+ML7RgtlAHy7f4LemcEYtk4tOppef9h/kKpnivhvlV264wt3foqfgkoblu
+         PiRA==
+X-Gm-Message-State: AOJu0Yywqm+5h35p+UDK7ptH77BavkbDSj8QO6AG6smQNkoD4iiydmpj
+	6X8Zihuj2Hxari0t2mu4M0da/uhTgfvlizNvyLX6X5hrJrR5X5e+ZxMFh1Y0PvrVMT/3zE8zXzV
+	zZQE=
+X-Google-Smtp-Source: AGHT+IE8UTP3i3w4gS5gzgfT/EaQBNgYBXTAeFYhzLOoeuDHoD3iMgp15hnScrDb2ZkTh2b0KlAKmQ==
+X-Received: by 2002:a17:903:120b:b0:1f9:b16d:f94f with SMTP id d9443c01a7336-1fbb6d70175mr141979655ad.39.1720960786427;
+        Sun, 14 Jul 2024 05:39:46 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb7006bsm23245245ad.41.2024.07.14.05.39.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb7006bsm23245245ad.41.2024.07.14.05.39.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jul 2024 05:39:43 -0700 (PDT)
+        Sun, 14 Jul 2024 05:39:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 21/27] vorbis: mark patch as Inactive-Upstream
-Date: Sun, 14 Jul 2024 05:38:50 -0700
-Message-Id: <1b3da78af1ea569ac8cbf135159a3f6e7f4f471c.1720960579.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 22/27] grub: mark grub-module-explicitly-keeps-symbole-.module_license.patch as a workaround
+Date: Sun, 14 Jul 2024 05:38:51 -0700
+Message-Id: <8c03f8c4916c802e0e6ad483a019fcaa7b09f509.1720960579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1720960579.git.steve@sakoman.com>
 References: <cover.1720960579.git.steve@sakoman.com>
@@ -62,34 +62,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 12:39:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201880
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201881
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 618bb8994d66d7d24cca2fb6885a510d69406437)
+(cherry picked from commit 6307adb5b0644845f4062c21ac5717eb62a61dd3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libvorbis/libvorbis/0001-configure-Check-for-clang.patch    | 2 +-
+ .../grub-module-explicitly-keeps-symbole-.module_license.patch  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
-index b06029b98b..d4fac605b6 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
-@@ -5,9 +5,9 @@ Subject: [PATCH] configure: Check for clang
+diff --git a/meta/recipes-bsp/grub/files/grub-module-explicitly-keeps-symbole-.module_license.patch b/meta/recipes-bsp/grub/files/grub-module-explicitly-keeps-symbole-.module_license.patch
+index d9012d1dd6..7c8770ce8b 100644
+--- a/meta/recipes-bsp/grub/files/grub-module-explicitly-keeps-symbole-.module_license.patch
++++ b/meta/recipes-bsp/grub/files/grub-module-explicitly-keeps-symbole-.module_license.patch
+@@ -37,7 +37,7 @@ SYMBOL TABLE:
+ 0000000000000000 l    d  .modname       0000000000000000 .modname
+ --------------
  
- Disable gcc specific options if using clang
- 
-+Upstream-Status: Inactive-Upstream [https://gitlab.xiph.org/xiph/vorbis,https://github.com/xiph/vorbis]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
 -Upstream-Status: Pending
++Upstream-Status: Inappropriate [workaround that needs investigation into @TARGET_STRIP@ behaviour in oe-core vs toolchain used by upstream]
  
-  configure.ac | 19 +++++++++++++++++--
-  1 file changed, 17 insertions(+), 2 deletions(-)
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ 
 -- 
 2.34.1
 
