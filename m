@@ -2,395 +2,123 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3333EC3DA42
-	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 18:51:51 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.21613.1720983110205340291
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C05CC3DA49
+	for <webhook@archiver.kernel.org>; Sun, 14 Jul 2024 19:01:41 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.21793.1720983697525089122
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jul 2024 11:51:50 -0700
+ Sun, 14 Jul 2024 12:01:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BpM6Pe7/;
- spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-6bce380eb9bso2199234a12.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 11:51:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DFERmZQA;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2cb0f5ee745so131316a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 12:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720983109; x=1721587909; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1720983697; x=1721588497; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yORU0HoP1s3MaZAQSg0Bf8UVwpWd/DxN1J5KWe+6uYQ=;
-        b=BpM6Pe7/XsXK7PPYhEWjLViGlMHoCR3dSh29kMk1Ja3AEUujacrN0R/vlhAf138FgF
-         2fQCKrCgmqzBh5HPlle6E+0L751PipPKxqODyvm0zrMRxR2Ky/trXXkN746ftclCRBrM
-         OEwTmNqs5mXgDrVN3xOVEPXMjuh+5zeOCNsdMHFEXk5d+rsgJKP3qYUdJGF+oQ5pn0iI
-         RuOPMBsAhu+PipCyH+b7IUQ2FQ+YXx2ujutiqkcL2Uw6YBaJJOBAp5nR+z2O4pV7C9dF
-         bnh1Kj0RRD04zjp3+qgTodMcTOm9t1vIK3PIXFGozCLqeD/kj5RDf1GPUF85yW62tD1+
-         yD8Q==
+        bh=UR/WfdD9ylh1nAwT+76m9z+TiC6b2e5dm+T3fRrn4FI=;
+        b=DFERmZQA7C5Bcikmd9Nu06dqjEHIvwMjPRJhPbmZ0Amgnq425gPLgpMFk6QjOtHOlH
+         p1PA1mQ4jOW0zVAG44ffRpLoIQbe+daAyOgLyiVbItHy2HG66VAib6CoxAtK1swWNxH8
+         J5spo7xdVtzebBakp8ASt4tmDuyEl+h/m+1GHj9+QSIQZkLbkhlCO976mLGofHXfw/I3
+         655UxwKPDzosDaTblrV5MtizCMzLljmc78j6nAWuRDQicgEJdWxE++014xCPTy02o1G1
+         1v+RBcH3xFgni4NlYPI/S0cfDuBCZ4zXkjs0J3FLzlyiRDlDJ3vl4bMDEF5u2A9uRSPb
+         MPiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720983109; x=1721587909;
+        d=1e100.net; s=20230601; t=1720983697; x=1721588497;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yORU0HoP1s3MaZAQSg0Bf8UVwpWd/DxN1J5KWe+6uYQ=;
-        b=ppZswtLH2ow4fuiYF5PLFsErD7Pf2zKQa3PF71T3gPlBTFYIryNxxngvBnj7Op8+Lw
-         l0TKM2F5NTRO1b1AiqodGpATqJ6sMzw0EQV0mzIokRPU8SDaItA3S9280zESwb67buUJ
-         iRsGFF+jXEUalEj/phopUfdWFb8NRihxeWVZWAIb+EtBMcGN0RG0nGsTJVk1KzAyENk3
-         7LzC7uRmDJpikgPJOe1tdmZDEusixJD0if7R+JzkzSWiepIrub7x3++rT7thUghc/avj
-         FRXW4Yklgftd/WSTuVwj4e2AIxo4dJFQP5l//BDnb3GiHd08K0I+5b2GUVdlsSHjnReo
-         BWbQ==
-X-Gm-Message-State: AOJu0Yy2n1/asZORm/2iFZW4mAzokribkMOUuR92Q8d0vhKu4Sn1ADJT
-	JtETagc+0PpDlYlxHzYc2bfpeH8vwgq2x389PdsyRELkL39Nev78XLI7t2kS
-X-Google-Smtp-Source: AGHT+IEC8wQXI0gMkRN/eWZKQCo1ci95GAuDL+JxN2ch4IsDGibJXO0gYbNYXgYreQ0fwj7u0Hm9FQ==
-X-Received: by 2002:a17:902:f552:b0:1fb:6663:b647 with SMTP id d9443c01a7336-1fbb6d2a38cmr168163335ad.3.1720983108920;
-        Sun, 14 Jul 2024 11:51:48 -0700 (PDT)
+        bh=UR/WfdD9ylh1nAwT+76m9z+TiC6b2e5dm+T3fRrn4FI=;
+        b=XkMUZRvm9+iflTjde2rMpxnuNQxKg+2E/jPiNCFuVvJeJV674iiyGG4C3ZZ7pzDKXk
+         mDDilMghbV/lvrBwu1FO37xoaQeUTVqFY84p78KXd1KWclrqKqFHjnr4qectSmM9luZf
+         IdJ0112YdULHRPtBh4STzhwr1CMCzHwnOlB5bG+xuPq1Z9UmGlA/AZ52mXWMb5T716AW
+         qkDY2TqoqWXudK6J9io6ENR+jhWj1QNjpkD1KFDI9hv4o7d8QBEzDHFUReR6CInphKiW
+         I90fm8HTIjB0BVUGHSTcszsousltYXX3caECr4rciSOtGDlnRqikKgoIb+X9ihJbL4Si
+         vjyA==
+X-Gm-Message-State: AOJu0Ywlvb90Mp6QiR/UXRR3BQqF2J2DxGvnn2LCuM5XDPrEA07R1QVj
+	r0Uzg3ZA8GE8lXNImT2VIPXIFo6WiC9zkZMJxpjQMLHZ5lYg8ybSZOydt+G0
+X-Google-Smtp-Source: AGHT+IHwCb2JHqdIs15/CZ1123MAb/wZeGpDSs5ZoIsjZFbwsawulJwY7Hkr9rtvNYBkfR0ZwkjSIw==
+X-Received: by 2002:a17:902:daca:b0:1fb:32fd:8d8d with SMTP id d9443c01a7336-1fbb6ef5429mr130272535ad.68.1720983696666;
+        Sun, 14 Jul 2024 12:01:36 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::f6de])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bbad94bsm26438855ad.90.2024.07.14.11.51.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb6fde3sm26620625ad.56.2024.07.14.12.01.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jul 2024 11:51:48 -0700 (PDT)
+        Sun, 14 Jul 2024 12:01:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] busybox: CVE-2023-42364 and CVE-2023-42365 fixes
-Date: Sun, 14 Jul 2024 11:51:45 -0700
-Message-ID: <20240714185146.927206-1-raj.khem@gmail.com>
+Subject: [PATCH] busybox: Add fix for CVE-2023-42366
+Date: Sun, 14 Jul 2024 12:01:33 -0700
+Message-ID: <20240714190133.946311-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 18:51:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201894
-
-backport upstream fix for CVEs and fix the regression that introduced [1]
-
-[1] http://lists.busybox.net/pipermail/busybox/2024-May/090766.html
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jul 2024 19:01:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201895
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Fix upstream status for patch #2 and typo in recipe
+ ...1-awk.c-fix-CVE-2023-42366-bug-15874.patch | 37 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
 
- ...01-awk-fix-precedence-of-relative-to.patch | 197 ++++++++++++++++++
- ...x-ternary-operator-and-precedence-of.patch |  96 +++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |   2 +
- 3 files changed, 295 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
-
-diff --git a/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch b/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
+diff --git a/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch b/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
 new file mode 100644
-index 00000000000..5836cf8a003
+index 00000000000..282c2fde5a5
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
-@@ -0,0 +1,197 @@
-+From dedc9380c76834ba64c8b526aef6f461ea4e7f2e Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Tue, 30 May 2023 16:42:18 +0200
-+Subject: [PATCH 1/2] awk: fix precedence of = relative to ==
++++ b/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
+@@ -0,0 +1,37 @@
++From 8542236894a8d5f7393327117bc7f64787444efc Mon Sep 17 00:00:00 2001
++From: Valery Ushakov <uwe@stderr.spb.ru>
++Date: Wed, 24 Jan 2024 22:24:41 +0300
++Subject: [PATCH] awk.c: fix CVE-2023-42366 (bug #15874)
 +
-+Discovered while adding code to disallow assignments to non-lvalues
++Make sure we don't read past the end of the string in next_token()
++when backslash is the last character in an (invalid) regexp.
++a fix and issue reported in bugzilla
 +
-+function                                             old     new   delta
-+parse_expr                                           936     991     +55
-+.rodata                                           105243  105247      +4
-+------------------------------------------------------------------------------
-+(add/remove: 0/0 grow/shrink: 2/0 up/down: 59/0)               Total: 59 bytes
-+
-+CVE: CVE-2023-42364 CVE-2023-42365
-+
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=0256e00a9d077588bd3a39f5a1ef7e2eaa2911e4]
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+(cherry picked from commit 0256e00a9d077588bd3a39f5a1ef7e2eaa2911e4)
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ editors/awk.c       | 66 ++++++++++++++++++++++++++++++---------------
-+ testsuite/awk.tests |  5 ++++
-+ 2 files changed, 50 insertions(+), 21 deletions(-)
-+
-+diff --git a/editors/awk.c b/editors/awk.c
-+index ec9301e..aff86fe 100644
-+--- a/editors/awk.c
-++++ b/editors/awk.c
-+@@ -337,7 +337,9 @@ static void debug_parse_print_tc(uint32_t n)
-+ #undef P
-+ #undef PRIMASK
-+ #undef PRIMASK2
-+-#define P(x)      (x << 24)
-++/* Smaller 'x' means _higher_ operator precedence */
-++#define PRECEDENCE(x) (x << 24)
-++#define P(x)      PRECEDENCE(x)
-+ #define PRIMASK   0x7F000000
-+ #define PRIMASK2  0x7E000000
-+ 
-+@@ -360,7 +362,7 @@ enum {
-+ 	OC_MOVE = 0x1f00,       OC_PGETLINE = 0x2000,   OC_REGEXP = 0x2100,
-+ 	OC_REPLACE = 0x2200,    OC_RETURN = 0x2300,     OC_SPRINTF = 0x2400,
-+ 	OC_TERNARY = 0x2500,    OC_UNARY = 0x2600,      OC_VAR = 0x2700,
-+-	OC_DONE = 0x2800,
-++	OC_CONST = 0x2800,      OC_DONE = 0x2900,
-+ 
-+ 	ST_IF = 0x3000,         ST_DO = 0x3100,         ST_FOR = 0x3200,
-+ 	ST_WHILE = 0x3300
-+@@ -440,9 +442,9 @@ static const uint32_t tokeninfo[] ALIGN4 = {
-+ #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
-+ #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
-+ 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
-+-	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(74),        OC_REPLACE|NV|P(74)|'+', OC_REPLACE|NV|P(74)|'-',
-+-	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%', OC_REPLACE|NV|P(74)|'&',
-+-	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&', OC_BINARY|NV|P(15)|'&',
-++	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+', OC_REPLACE|NV|P(38)|'-',
-++	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%', OC_REPLACE|NV|P(38)|'&',
-++	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&', OC_BINARY|NV|P(15)|'&',
-+ 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&',  OC_BINARY|NV|P(25)|'*',
-+ 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,   OC_COMPARE|VV|P(39)|1,
-+ #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
-+@@ -1290,7 +1292,7 @@ static uint32_t next_token(uint32_t expected)
-+ 			save_tclass = tc;
-+ 			save_info = t_info;
-+ 			tc = TC_BINOPX;
-+-			t_info = OC_CONCAT | SS | P(35);
-++			t_info = OC_CONCAT | SS | PRECEDENCE(35);
-+ 		}
-+ 
-+ 		t_tclass = tc;
-+@@ -1350,9 +1352,8 @@ static node *parse_expr(uint32_t term_tc)
-+ {
-+ 	node sn;
-+ 	node *cn = &sn;
-+-	node *vn, *glptr;
-++	node *glptr;
-+ 	uint32_t tc, expected_tc;
-+-	var *v;
-+ 
-+ 	debug_printf_parse("%s() term_tc(%x):", __func__, term_tc);
-+ 	debug_parse_print_tc(term_tc);
-+@@ -1363,11 +1364,12 @@ static node *parse_expr(uint32_t term_tc)
-+ 	expected_tc = TS_OPERAND | TS_UOPPRE | TC_REGEXP | term_tc;
-+ 
-+ 	while (!((tc = next_token(expected_tc)) & term_tc)) {
-++		node *vn;
-+ 
-+ 		if (glptr && (t_info == TI_LESS)) {
-+ 			/* input redirection (<) attached to glptr node */
-+ 			debug_printf_parse("%s: input redir\n", __func__);
-+-			cn = glptr->l.n = new_node(OC_CONCAT | SS | P(37));
-++			cn = glptr->l.n = new_node(OC_CONCAT | SS | PRECEDENCE(37));
-+ 			cn->a.n = glptr;
-+ 			expected_tc = TS_OPERAND | TS_UOPPRE;
-+ 			glptr = NULL;
-+@@ -1379,24 +1381,42 @@ static node *parse_expr(uint32_t term_tc)
-+ 			 * previous operators with higher priority */
-+ 			vn = cn;
-+ 			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
-+-			    || ((t_info == vn->info) && t_info == TI_COLON)
-++			    || (t_info == vn->info && t_info == TI_COLON)
-+ 			) {
-+ 				vn = vn->a.n;
-+ 				if (!vn->a.n) syntax_error(EMSG_UNEXP_TOKEN);
-+ 			}
-+ 			if (t_info == TI_TERNARY)
-+ //TODO: why?
-+-				t_info += P(6);
-++				t_info += PRECEDENCE(6);
-+ 			cn = vn->a.n->r.n = new_node(t_info);
-+ 			cn->a.n = vn->a.n;
-+ 			if (tc & TS_BINOP) {
-+ 				cn->l.n = vn;
-+-//FIXME: this is the place to detect and reject assignments to non-lvalues.
-+-//Currently we allow "assignments" to consts and temporaries, nonsense like this:
-+-// awk 'BEGIN { "qwe" = 1 }'
-+-// awk 'BEGIN { 7 *= 7 }'
-+-// awk 'BEGIN { length("qwe") = 1 }'
-+-// awk 'BEGIN { (1+1) += 3 }'
-++
-++				/* Prevent:
-++				 * awk 'BEGIN { "qwe" = 1 }'
-++				 * awk 'BEGIN { 7 *= 7 }'
-++				 * awk 'BEGIN { length("qwe") = 1 }'
-++				 * awk 'BEGIN { (1+1) += 3 }'
-++				 */
-++				/* Assignment? (including *= and friends) */
-++				if (((t_info & OPCLSMASK) == OC_MOVE)
-++				 || ((t_info & OPCLSMASK) == OC_REPLACE)
-++				) {
-++					debug_printf_parse("%s: MOVE/REPLACE vn->info:%08x\n", __func__, vn->info);
-++					/* Left side is a (variable or array element)
-++					 * or function argument
-++					 * or $FIELD ?
-++					 */
-++					if ((vn->info & OPCLSMASK) != OC_VAR
-++					 && (vn->info & OPCLSMASK) != OC_FNARG
-++					 && (vn->info & OPCLSMASK) != OC_FIELD
-++					) {
-++						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
-++					}
-++				}
-++
-+ 				expected_tc = TS_OPERAND | TS_UOPPRE | TC_REGEXP;
-+ 				if (t_info == TI_PGETLINE) {
-+ 					/* it's a pipe */
-+@@ -1432,6 +1452,8 @@ static node *parse_expr(uint32_t term_tc)
-+ 		/* one should be very careful with switch on tclass -
-+ 		 * only simple tclasses should be used (TC_xyz, not TS_xyz) */
-+ 		switch (tc) {
-++			var *v;
-++
-+ 		case TC_VARIABLE:
-+ 		case TC_ARRAY:
-+ 			debug_printf_parse("%s: TC_VARIABLE | TC_ARRAY\n", __func__);
-+@@ -1452,14 +1474,14 @@ static node *parse_expr(uint32_t term_tc)
-+ 		case TC_NUMBER:
-+ 		case TC_STRING:
-+ 			debug_printf_parse("%s: TC_NUMBER | TC_STRING\n", __func__);
-+-			cn->info = OC_VAR;
-++			cn->info = OC_CONST;
-+ 			v = cn->l.v = xzalloc(sizeof(var));
-+-			if (tc & TC_NUMBER)
-++			if (tc & TC_NUMBER) {
-+ 				setvar_i(v, t_double);
-+-			else {
-++			 } else {
-+ 				setvar_s(v, t_string);
-+-				expected_tc &= ~TC_UOPPOST; /* "str"++ is not allowed */
-+ 			}
-++			expected_tc &= ~TC_UOPPOST; /* NUM++, "str"++ not allowed */
-+ 			break;
-+ 
-+ 		case TC_REGEXP:
-+@@ -3107,6 +3129,8 @@ static var *evaluate(node *op, var *res)
-+ 
-+ 		/* -- recursive node type -- */
-+ 
-++		case XC( OC_CONST ):
-++			debug_printf_eval("CONST ");
-+ 		case XC( OC_VAR ):
-+ 			debug_printf_eval("VAR\n");
-+ 			L.v = op->l.v;
-+diff --git a/testsuite/awk.tests b/testsuite/awk.tests
-+index ddc5104..a78fdcd 100755
-+--- a/testsuite/awk.tests
-++++ b/testsuite/awk.tests
-+@@ -540,4 +540,9 @@ testing 'awk assign while assign' \
-+ │    trim/eff : 57.02%/26, 0.00%                     │          [cpu000:100%]
-+ └────────────────────────────────────────────────────┘^C"
-+ 
-++testing "awk = has higher precedence than == (despite what gawk manpage claims)" \
-++	"awk 'BEGIN { v=1; print 2==v; print 2==v=2; print v; print v=3==3; print v}'" \
-++	'0\n1\n2\n1\n3\n' \
-++	'' ''
-++
-+ exit $FAILCOUNT
-diff --git a/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch b/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
-new file mode 100644
-index 00000000000..ea3c84897b9
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
-@@ -0,0 +1,96 @@
-+From c3bfdac8e0e9a21d524ad72036953f68d2193e52 Mon Sep 17 00:00:00 2001
-+From: Natanael Copa <ncopa@alpinelinux.org>
-+Date: Tue, 21 May 2024 14:46:08 +0200
-+Subject: [PATCH 2/2] awk: fix ternary operator and precedence of =
-+
-+Adjust the = precedence test to match behavior of gawk, mawk and
-+FreeBSD.  awk 'BEGIN {print v=3==3; print v}' should print two '1'.
-+
-+To fix this, and to unbreak the ternary conditional operator, we restore
-+the precedence of = in the token list, but override this with a lower
-+priority when the assignment is on the right side of a compare.
-+
-+This fixes commit 0256e00a9d07 (awk: fix precedence of = relative to ==) [1]
-+
-+CVE: CVE-2023-42364 CVE-2023-42365
++https://bugs.busybox.net/show_bug.cgi?id=15874
 +
 +Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2024-May/090766.html]
 +
-+[1] https://bugs.busybox.net/show_bug.cgi?id=15871#c6
-+
-+Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
-+(cherry picked from commit 1714301c405ef03b39605c85c23f22a190cddd95)
++CVE: CVE-2023-42366
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ editors/awk.c       | 18 ++++++++++++++----
-+ testsuite/awk.tests |  9 +++++++--
-+ 2 files changed, 21 insertions(+), 6 deletions(-)
++ editors/awk.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
 +
 +diff --git a/editors/awk.c b/editors/awk.c
-+index aff86fe..f320d8c 100644
++index f320d8c..a53b193 100644
 +--- a/editors/awk.c
 ++++ b/editors/awk.c
-+@@ -442,9 +442,10 @@ static const uint32_t tokeninfo[] ALIGN4 = {
-+ #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
-+ #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
-+ 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
-+-	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+', OC_REPLACE|NV|P(38)|'-',
-+-	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%', OC_REPLACE|NV|P(38)|'&',
-+-	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&', OC_BINARY|NV|P(15)|'&',
-++#define TI_ASSIGN (OC_MOVE|VV|P(74))
-++	OC_COMPARE|VV|P(39)|5,   TI_ASSIGN,               OC_REPLACE|NV|P(74)|'+', OC_REPLACE|NV|P(74)|'-',
-++	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%', OC_REPLACE|NV|P(74)|'&',
-++	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&', OC_BINARY|NV|P(15)|'&',
-+ 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&',  OC_BINARY|NV|P(25)|'*',
-+ 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,   OC_COMPARE|VV|P(39)|1,
-+ #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
-+@@ -1376,11 +1377,19 @@ static node *parse_expr(uint32_t term_tc)
-+ 			continue;
-+ 		}
-+ 		if (tc & (TS_BINOP | TC_UOPPOST)) {
-++			int prio;
-+ 			debug_printf_parse("%s: TS_BINOP | TC_UOPPOST tc:%x\n", __func__, tc);
-+ 			/* for binary and postfix-unary operators, jump back over
-+ 			 * previous operators with higher priority */
-+ 			vn = cn;
-+-			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
-++			/* Let assignment get higher priority when used on right
-++			 * side in compare. i.e: 2==v=3 */
-++			if (t_info == TI_ASSIGN && (vn->a.n->info & OPCLSMASK) == OC_COMPARE) {
-++				prio = PRECEDENCE(38);
-++			} else {
-++				prio = (t_info & PRIMASK);
-++			}
-++			while ((prio > (vn->a.n->info & PRIMASK2))
-+ 			    || (t_info == vn->info && t_info == TI_COLON)
-+ 			) {
-+ 				vn = vn->a.n;
-+@@ -1412,6 +1421,7 @@ static node *parse_expr(uint32_t term_tc)
-+ 					if ((vn->info & OPCLSMASK) != OC_VAR
-+ 					 && (vn->info & OPCLSMASK) != OC_FNARG
-+ 					 && (vn->info & OPCLSMASK) != OC_FIELD
-++					 && (vn->info & OPCLSMASK) != OC_COMPARE
-+ 					) {
-+ 						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
-+ 					}
-+diff --git a/testsuite/awk.tests b/testsuite/awk.tests
-+index a78fdcd..d2706de 100755
-+--- a/testsuite/awk.tests
-++++ b/testsuite/awk.tests
-+@@ -540,9 +540,14 @@ testing 'awk assign while assign' \
-+ │    trim/eff : 57.02%/26, 0.00%                     │          [cpu000:100%]
-+ └────────────────────────────────────────────────────┘^C"
-+ 
-+-testing "awk = has higher precedence than == (despite what gawk manpage claims)" \
-++testing "awk = has higher precedence than == on right side" \
-+ 	"awk 'BEGIN { v=1; print 2==v; print 2==v=2; print v; print v=3==3; print v}'" \
-+-	'0\n1\n2\n1\n3\n' \
-++	'0\n1\n2\n1\n1\n' \
-++	'' ''
-++
-++testing 'awk ternary precedence' \
-++	"awk 'BEGIN { a = 0 ? \"yes\": \"no\"; print a }'" \
-++	'no\n' \
-+ 	'' ''
-+ 
-+ exit $FAILCOUNT
++@@ -1168,9 +1168,11 @@ static uint32_t next_token(uint32_t expected)
++ 					s[-1] = bb_process_escape_sequence((const char **)&pp);
++ 					if (*p == '\\')
++ 						*s++ = '\\';
++-					if (pp == p)
+++					if (pp == p) {
+++						if (*p == '\0')
+++							syntax_error(EMSG_UNEXP_EOS);
++ 						*s++ = *p++;
++-					else
+++					} else
++ 						p = pp;
++ 				}
++ 			}
 diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
-index 67bc5c0cadd..6972eef81ff 100644
+index 6972eef81ff..980a96b88ae 100644
 --- a/meta/recipes-core/busybox/busybox_1.36.1.bb
 +++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
-@@ -53,6 +53,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-awk-fix-segfault-when-compiled-by-clang.patch \
-            file://CVE-2023-42363.patch \
+@@ -55,6 +55,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
             file://busybox-1.36.1-no-cbq.patch \
-+           file://0001-awk-fix-precedence-of-relative-to.patch \
-+           file://0002-awk-fix-ternary-operator-and-precedence-of.patch \
+            file://0001-awk-fix-precedence-of-relative-to.patch \
+            file://0002-awk-fix-ternary-operator-and-precedence-of.patch \
++           file://0001-awk.c-fix-CVE-2023-42366-bug-15874.patch \
             "
  SRC_URI:append:libc-musl = " file://musl.cfg "
  # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
