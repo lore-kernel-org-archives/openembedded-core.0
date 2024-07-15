@@ -1,123 +1,162 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC6EC3DA59
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 22:58:43 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.5391.1721084318178103544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DC1C3DA4B
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 23:00:53 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.5495.1721084444578371775
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 15:58:38 -0700
+ Mon, 15 Jul 2024 16:00:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=xfec8nFo;
- spf=pass (domain: linaro.org, ip: 209.85.167.43, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52e94eaf5efso5874534e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 15:58:37 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WOzEAbBJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-36796bbf687so2732607f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 16:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721084316; x=1721689116; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ta+DKsKn/wSlI3RcPxmLyF30eiyPcl1eMlCETHNoc5w=;
-        b=xfec8nFo1BRS0M5OgvDZ10OQCvZeTu0JQDiA6XWNq3+NWYPgQ/YLHWKLP7yTVCHEvG
-         tE9hr2oA7YjtUJ6IL5mE9zu4BytjAjySWyd9qxSfFHb3dZqRl8DTP2ffJAEvtMirN4R0
-         rRQibfkNqrtyMIFy9cLhphVOWn2jflQofAklz2WakLlijLK/YKsf3RQ0Ryz2CwkCYGCe
-         a+uY2PNiYBUY803FL9Dv2BCQWV66DO2Vgey2C8Pak7vO9y+UrS8UBX9nYABi5v6o5OM8
-         8hS8wNberFjzVTE9Pz79UvE1cfN/+P/Ea1N4xIZbEBXCpRBEwsO11IK0QNzjHfEvxh0L
-         A5Dw==
+        d=linuxfoundation.org; s=google; t=1721084443; x=1721689243; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TCWQZRAKao+qRpFx2FCBRUZptoSa3w+UQSeIYDWrQ60=;
+        b=WOzEAbBJ/qJKQer4KgchS/cs3sF7fxn/KG0GE38ymMsTUmfeXtQHsOZ3Lygm0WfEsa
+         v/01eUymmItjKC+NQSrZcP0BzelXNoE3C6USzZjKg30kBKGsQ+VEACV03BCaTebX38bM
+         C0WSrYmbNKD7pfP/uajbGVZkddykyPKlB33ao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721084316; x=1721689116;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ta+DKsKn/wSlI3RcPxmLyF30eiyPcl1eMlCETHNoc5w=;
-        b=YXJ2ZQmbBfOHp4nRnAtjprqv6ARXZDsbqOUemyiW+t7CrB/lHBRhApH5OHdFm/n1d8
-         mEJGFz4+iy9IZ0zqpe5cEsSZWBtVJ6aKXRoeNFTaSJwfWIsvdxp8nPkfdnZ2HPqCxesP
-         14F9DnTQWaUB8uA14kuNcBE+3e7WKjD5U55bKvCIrPF+Ay4+T98hb400PY/vhpqOiCpF
-         4IHq77NS03FshuAgEGk0fTEarH0jjdkAZdLVsIxAp6q6W7+yj3eulUaHpLlEbYFufHad
-         K992+4yPeudutQO2IaItPV14BM58WH8hthajqrx0NTYELHQclRGOAbIMqr1EIzabVTIT
-         PYSg==
-X-Gm-Message-State: AOJu0YymtBuMiIhLvYpZB8eWoGG452SHrL6i5NIuQQ8LitRpmxTvxlqC
-	LS+xp4A8W+08ZKnlH4svaUkIVrsOwXDtdhKHseZkwRBu5qoJkAaEtyhhxIt2xqsXx4q/FPP0OM+
-	1oYIBNQ==
-X-Google-Smtp-Source: AGHT+IHVVeMyD1EXN7M4pi86qd5SNHQXJhGDJd8q80Bt+/ArvCPyGFcyk7D6l6xln1msqPh06XFRQQ==
-X-Received: by 2002:a05:6512:1384:b0:52c:e5ac:ecd2 with SMTP id 2adb3069b0e04-52edf038bf9mr165272e87.51.1721084315585;
-        Mon, 15 Jul 2024 15:58:35 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ed2532794sm986614e87.228.2024.07.15.15.58.34
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1721084443; x=1721689243;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TCWQZRAKao+qRpFx2FCBRUZptoSa3w+UQSeIYDWrQ60=;
+        b=Rup0VE6AwjDKZC1RptNn8Xc85PSMJvBvp/q4qu5eja9/oaNNkVNXHhbIF8Q9+Dyi2t
+         0spSLou/VofZWPMEJkiHcFq6iBs0I9xzY/v23j25c7KuTyWWclvQMzVIi/5X3rxnLXyd
+         fw5lVFVpvEo6vW9/GjTkJkTPh4PuH1z3gLZCCb3HF613v2ybdBQw6+1ZCGLs0bQlGsTn
+         PTWxu6hleDQQ3rh4QQvPmmJ8DOZyzsfPLeGdzPh9SLougip6n99rtoFuGwhPbCDV81gX
+         GOA/W6Wi46tBa5nxOr1NNFUanZlkhv8rk6DiR03Mgc6hn92mzOjdgcSIM4xultsTNbHZ
+         LpUg==
+X-Gm-Message-State: AOJu0YwDWYciWVvqDPIwgBrW83xd9vpUgMAjS0FG58JYtBwHKXlXR1AY
+	PQMVp7EddVRApR5J/AkHS94YjTiMFfbt1OUnBBM78gPTnafVhF8tvr8H9Z3Hm4Y=
+X-Google-Smtp-Source: AGHT+IF8ut7NvkQIELFBn7n4h4dovjj0MV/Na9DlADjkAByljxIsrS+Au/DoQsC7S36ZxpOtTsfvwQ==
+X-Received: by 2002:a5d:4f8c:0:b0:367:96b5:784e with SMTP id ffacd0b85a97d-36826320db2mr152926f8f.50.1721084442787;
+        Mon, 15 Jul 2024 16:00:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4132:3ff0:dd64:6503? ([2001:8b0:aba:5f3c:4132:3ff0:dd64:6503])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dab3cb0sm7458578f8f.10.2024.07.15.16.00.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 15:58:35 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa: fix QA warnings caused by freedreno tools
-Date: Tue, 16 Jul 2024 01:58:34 +0300
-Message-Id: <20240715225834.3778274-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+        Mon, 15 Jul 2024 16:00:42 -0700 (PDT)
+Message-ID: <f900f8bef462def301f66f837035d112beac01d2.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v6 00/12] Add SPDX 3.0 support
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jul 2024 00:00:41 +0100
+In-Reply-To: <CAJdd5GZV2Ygb4iAPtRgyHt_40nBAonzfS6=XzmH9KwxOyUfyag@mail.gmail.com>
+References: <20240703140059.4096394-1-JPEWhacker@gmail.com>
+	 <20240712160304.3514496-1-JPEWhacker@gmail.com>
+	 <54c574fdb35ef25b71baaf1e1adfa8bd909a5f39.camel@linuxfoundation.org>
+	 <CAJdd5GaA4tByvK04pNycoApWYHeznYVe=y1ckSWsUVu=jwmjnQ@mail.gmail.com>
+	 <330caeaef519ceaf40dceac15ccd00be2ed38d60.camel@linuxfoundation.org>
+	 <CAJdd5GZV2Ygb4iAPtRgyHt_40nBAonzfS6=XzmH9KwxOyUfyag@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 22:58:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202073
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 23:00:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202074
 
-Fix following QA warnings / errors
+On Mon, 2024-07-15 at 15:26 -0600, Joshua Watt wrote:
+> On Mon, Jul 15, 2024 at 3:07=E2=80=AFPM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >=20
+> > On Mon, 2024-07-15 at 14:40 -0600, Joshua Watt wrote:
+> > > On Sat, Jul 13, 2024 at 12:44=E2=80=AFAM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >=20
+> > > > On Fri, 2024-07-12 at 09:58 -0600, Joshua Watt via
+> > > > lists.openembedded.org wrote:
+> > > > > This patch series add support for SPDX 3.0 and sets it as the
+> > > > > default.
+> > > > > Currently it is not possible to have SPDX 2.2 and SPDX 3.0
+> > > > > enabled at
+> > > > > the same time
+> > > > >=20
+> > > > > v2: Added tests and addressed feedback
+> > > > > v3: Fixed several oe-selftest and build failures
+> > > > > v4: Fixed silly typo mistake in staging.bbclass
+> > > > > v5: Reworked to make SPDX 3 output reproducible by default.
+> > > > > Variables
+> > > > > =C2=A0=C2=A0=C2=A0 that introduce non-reproducible output are doc=
+umented as
+> > > > > such.
+> > > > > v6: Many changes:
+> > > > > =C2=A0 * Fixed bug where building baremetal images would break
+> > > > > SPDX
+> > > > > 2.2
+> > > > > =C2=A0 * Most SPDX code is now in python library files instead of
+> > > > > tasks
+> > > > > =C2=A0 * Removed dependency on pacakge_write_* tasks
+> > > > > =C2=A0 * Fixed sstate selftest cases to account for SPDX 3.0 task
+> > > > > names
+> > > >=20
+> > > > This had a lot of failures in testing I'm afraid:
+> > > >=20
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7=
+134
+> > >=20
+> > > This appears to be caused because the SPDX tasks are not running
+> > > for
+> > > some recipes (e.g. automake). It looks like this like:
+> > >=20
+> > > =C2=A0 do_create_rootfs_spdx[recrdeptask] +=3D "do_create_spdx
+> > > do_create_package_spdx"
+> > >=20
+> > > is not actually strong enough to make sure the SPDX tasks for
+> > > automake
+> > > run for e.g. core-image-sato-sdk, but I don't know why. I'll keep
+> > > looking, but if anyone happens to know off the top of their head
+> > > let
+> > > me know
+> >=20
+> > Can you be specific about which tasks you mean when you say "make
+> > sure
+> > the SPDX tasks for automake run"? Do you mean do_create_spdx,
+> > do_create_package_spdx or a different one?
+>=20
+> Specifically, do_create_package_spdx must be run for each package
+> installed in the rootfs before do_create_rootfs_spdx runs. I thought
+> that
+>=20
+> =C2=A0 do_create_rootfs_spdx[recrdeptask] +=3D "do_create_spdx
+> do_create_package_spdx"
+>=20
+> would do this (the do_create_spdx is probably not necessary), since
+> AFIACT, this is also how the packages get generated before being
+> installed in the root file system via manipulation of
+> do_rootfs[recrdeptask], but I think I'm missing something?
 
-File /usr/bin/afuc-asm in package mesa-tools contains reference to TMPDIR [buildpaths]
-File /usr/bin/afuc-disasm in package mesa-tools contains reference to TMPDIR [buildpaths]
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- ...t-include-rnn_src_path-into-rnn_path.patch | 27 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-don-t-include-rnn_src_path-into-rnn_path.patch
+In packagegroups.bbclass there is this being added:
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-include-rnn_src_path-into-rnn_path.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-include-rnn_src_path-into-rnn_path.patch
-new file mode 100644
-index 000000000000..0899d5b515f6
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-include-rnn_src_path-into-rnn_path.patch
-@@ -0,0 +1,27 @@
-+From 7a8044621ae7dcba1873a13190ac51a6465937b7 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+Date: Mon, 15 Jul 2024 22:23:32 +0300
-+Subject: [PATCH] freedreno: don't include rnn_src_path into rnn_path
-+
-+rnn_path gets compiled-in into several tools, which triggers OE QA
-+errors. Remove rnn_src_path from rnn_path.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+---
-+ src/freedreno/meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
-+index cae09c88edbb..20a121b43b1c 100644
-+--- a/src/freedreno/meson.build
-++++ b/src/freedreno/meson.build
-+@@ -23,7 +23,7 @@ inc_freedreno_rnn = include_directories('rnn')
-+ 
-+ rnn_src_path = dir_source_root + '/src/freedreno/registers'
-+ rnn_install_path = get_option('datadir') + '/freedreno/registers'
-+-rnn_path = rnn_src_path + ':' + get_option('prefix') + '/' + rnn_install_path
-++rnn_path = get_option('prefix') + '/' + rnn_install_path
-+ 
-+ dep_lua = dependency('lua54', 'lua53', 'lua52', 'lua', required: false,
-+                      allow_fallback: true, version: '>=5.2')
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index c426e8fddd46..2522294a047d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,6 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
-            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
-            file://0001-amd-Include-missing-llvm-IR-header-Module.h.patch \
-+           file://0001-freedreno-don-t-include-rnn_src_path-into-rnn_path.patch \
- "
- 
- SRC_URI[sha256sum] = "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae2c7d96db93f6c26a"
--- 
-2.39.2
+do_create_package_spdx[deptask] =3D "do_create_spdx"
+do_create_package_spdx[rdeptask] =3D ""
 
+and=20
+
+bitbake core-image-sato-sdk -g -c create_rootfs_spdx
+
+lists
+
+"core-image-sato-sdk.do_create_rootfs_spdx" -> "automake.do_create_package_=
+spdx"
+
+in tasks-depends.dot if I disable it.
+
+I'm not 100% sure what is going on and should sleep but wanted to share
+that before I did.
+
+Cheers,
+
+Richard
 
