@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDECDC54EDA
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:21 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.1293.1721071145581690660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F448C54ED1
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:22 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.1298.1721071146167531130
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=avjECkEK;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=EsLe+LPS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190b7d59214-aa57c34b-327d-49bc-ac2a-cdb40bdb0a72-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Yax92v2A;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=iqqQ3sAX;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190b7d591d0-bd3e9972-4124-4bb4-bfd4-99746991a94b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071145;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=VGTI1xEtG2wPCqocHIABHhY17cKcssuaDPJ/XHt4kQw=;
-	b=avjECkEKuVrknbOsvhVhd6auMwnlGvevvGdlIQtPhEtkl2oC2GStGBcwjfOlE956
-	pZbzmpP3nFssoFl78jfzmvEyyPVhSOkZBq/eabOtzJEiob55qIa9poP8O3z9s1lSpLl
-	qZSK6Xi+kbHOcsXnRc00rlcMiemhLabSoRPlRVI4=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=bOgQNc5KGRGZ3SgmGcwdApSdqz7lsoWnwwcJPpwOGUI=;
+	b=Yax92v2AzEJ+rkBoAePTabcJ81LpGSPhhGl8kDLRVp62yx/i/sBdn+Pt5eE6gEXr
+	UfHaix65ZEzCBjOLfIgBeoTC9bmTSS9f4Kc78OdLVtWBX0zZVIOXAmdsxqRNLbPpXq8
+	NLvRz7HTlSTfLU29FYNK6U/0LvHbF/P7Mh69kG+E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071145;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=VGTI1xEtG2wPCqocHIABHhY17cKcssuaDPJ/XHt4kQw=;
-	b=EsLe+LPSfQJA1EaTx0QtXrMqqlZPtzsjMsgXbZZt1mKp3btP0n+YGWLSgFyvrwrt
-	x7sEW3dPRFmbd8048R1zQpzTVDiR4dUR3P4HwZZOh4fG5jVSoOYxf7DkxFJ6ZmtvAV0
-	i/HWsfVNKOekbt2HPo+qTksuu249nL0XeUnL6Vrc=
-Content-Type: multipart/mixed; boundary="===============3784233326835268205=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=bOgQNc5KGRGZ3SgmGcwdApSdqz7lsoWnwwcJPpwOGUI=;
+	b=iqqQ3sAXmrXle6A5g7MygqtLZUK3uuRp/KLrWO9So+lxqdzIB7qbvjLEATa4ivuB
+	fNUzIeveolPA72tTkQqVtqUhqeo0A1VjQ+Y9wPEHP/FTnqi2Pcj//uXqIVREjTesleY
+	nZQ/CGKbk6A4ba/1plzyszmIWFYHK7wj2rPtOs4s=
+Content-Type: multipart/mixed; boundary="===============2291816068084548855=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] cmake: upgrading to 3.30.0 FAILED
-Message-ID: <01010190b7d59214-aa57c34b-327d-49bc-ac2a-cdb40bdb0a72-000000@us-west-2.amazonses.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] glib-networking: upgrading to 2.80.0 SUCCEEDED
+Message-ID: <01010190b7d591d0-bd3e9972-4124-4bb4-bfd4-99746991a94b-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:05 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.23
+X-SES-Outgoing: 2024.07.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201953
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201956
 
---===============3784233326835268205==
+--===============2291816068084548855==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cmake* to *3.30.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *glib-networking* to *2.80.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-cmake-upgrade-3.29.3-3.30.0.patch
+    - apply the patch: git am 0001-glib-networking-upgrade-2.78.1-2.80.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,457 +72,298 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 39c9302b65bc687b9a1f44eadf2295cdf904e848 Mon Sep 17 00:00:00 2001
+From 93dba9ab0afeb362757653244bb17cc8753ce47d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 08:54:49 +0000
-Subject: [PATCH] cmake: upgrade 3.29.3 -> 3.30.0
+Date: Mon, 15 Jul 2024 08:03:39 +0000
+Subject: [PATCH] glib-networking: upgrade 2.78.1 -> 2.80.0
 
 ---
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- .../recipes-devtools/cmake/{cmake_3.29.3.bb => cmake_3.30.0.bb} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake_3.29.3.bb => cmake_3.30.0.bb} (100%)
+ meta/recipes-core/glib-networking/glib-networking/eagain.patch  | 2 +-
+ .../{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb}    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb} (95%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 1155c1bbe0..cc5f135a99 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
- "
+diff --git a/meta/recipes-core/glib-networking/glib-networking/eagain.patch b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
+index 98ff476071..98974aa4e7 100644
+--- a/meta/recipes-core/glib-networking/glib-networking/eagain.patch
++++ b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
+@@ -1,4 +1,4 @@
+-From 5604707bed4b4a4bc4658c7158a18c1774775775 Mon Sep 17 00:00:00 2001
++From f917ef5579257007bc02850e79769fe5ec48b2b7 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Sat, 6 May 2023 12:18:50 +0100
+ Subject: [PATCH] In autobuilder testing we regularly see glib-networking ptest
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
+similarity index 95%
+rename from meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
+index 5060d9fd7a..c8a1355548 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ SECTION = "libs"
+ DEPENDS = "glib-2.0-native glib-2.0"
  
--SRC_URI[sha256sum] = "252aee1448d49caa04954fd5e27d189dd51570557313e7b281636716a238bccb"
-+SRC_URI[sha256sum] = "157e5be6055c154c34f580795fe5832f260246506d32954a971300ed7899f579"
+-SRC_URI[archive.sha256sum] = "e48f2ddbb049832cbb09230529c5e45daca9f0df0eda325f832f7379859bf09f"
++SRC_URI[archive.sha256sum] = "d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf"
  
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.29.3.bb b/meta/recipes-devtools/cmake/cmake_3.30.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.29.3.bb
-rename to meta/recipes-devtools/cmake/cmake_3.30.0.bb
+ # Upstream note that for the openssl backend, half the tests where this backend don't return
+ # the expected error code or don't work as expected so default to gnutls
 -- 
 2.44.0
 
 
---===============3784233326835268205==
+--===============2291816068084548855==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1880 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (916 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGSIZE changed from 4443 to 7344 (+65%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGSIZE changed from 5360 to 6010 (+12%)
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-df8bb0a433dc2e0c3a67cb062ef7cbecf54a96e8"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:df8bb0a433dc2e0c3a67cb062ef7cbecf54a96e8"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 198 Local 99 Mirrors 0 Missed 99 Current 219 (50% match, 76% complete)
-Removing 20 stale sstate objects for arch qemux86_64...done.
-Removing 17 stale sstate objects for arch core2-64...done.
-Removing 15 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 238 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 249 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 251 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 256 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 260 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 264 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 268 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 277 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 278 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 281 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 291 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 294 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 297 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 302 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 303 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.8.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 309 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_create_spdx_setscene)
-NOTE: recipe expat-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zstd-1.5.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libarchive-3.7.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe expat-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 310 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_14.1.bb:do_create_spdx_setscene)
-NOTE: recipe bash-5.2.21-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 316 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 321 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_stash_locale_setscene)
-NOTE: recipe libidn2-2.3.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe curl-8.8.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 322 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libarchive-3.7.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 323 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe zstd-1.5.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 326 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 327 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 359 of 417 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb:do_create_spdx_setscene)
-NOTE: recipe bash-completion-2.14.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 369 of 417 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libgcc-initial-14.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe curl-8.8.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 395 of 417 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bash-5.2.21-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgcc-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 407 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_recipe_qa_setscene)
-NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Started
-NOTE: recipe gcc-runtime-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgcc-initial-14.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libgcc-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.40.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe linux-libc-headers-6.9-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libunistring-1.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-5.2.21-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-native-2.40.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe expat-native-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libtool-cross-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 409 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_recipe_qa_setscene)
-NOTE: Running task 335 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake-native_3.29.3.bb:do_recipe_qa)
-NOTE: recipe util-linux-libuuid-native-2.40.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-5.2.21-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libunistring-1.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 399 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_fetch)
-NOTE: recipe util-linux-native-2.40.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe expat-native-2.6.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 410 of 417 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_recipe_qa_setscene)
-NOTE: Running task 410 of 1200 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_fetch)
-NOTE: recipe cmake-native-3.29.3-r0: task do_recipe_qa: Started
-NOTE: recipe libtool-cross-2.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running noexec task 479 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_fetch)
-NOTE: recipe linux-libc-headers-6.9-r0: task do_fetch: Started
-NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Succeeded
-NOTE: Running noexec task 573 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_fetch)
-NOTE: Running task 575 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_fetch)
-NOTE: Running setscene task 411 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 412 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_14.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.9-r0: task do_fetch: Succeeded
-NOTE: Running task 597 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_unpack)
-NOTE: Running task 598 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 616 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_fetch)
-NOTE: Running task 620 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_fetch)
-NOTE: recipe expat-native-2.6.2-r0: task do_fetch: Started
-NOTE: Running task 651 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_fetch)
-NOTE: Running task 653 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_fetch)
-NOTE: Running task 672 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_fetch)
-NOTE: Running task 673 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_fetch)
-NOTE: Running task 681 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_fetch)
-NOTE: recipe util-linux-native-2.40.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-native-2.6.2-r0: task do_fetch: Succeeded
-NOTE: Running task 689 of 1200 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_unpack)
-NOTE: Running task 694 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_fetch)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_fetch: Started
-NOTE: recipe cmake-native-3.29.3-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake-native_3.29.3.bb:do_recipe_qa unihash changed to 502cc1b245d32d816bafe48185fe74b08e0a8412574c634139b085d2eec599f0
-NOTE: recipe libgcc-initial-14.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.0-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-native-2.40.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe zlib-1.3.1-r0: task do_fetch: Started
-NOTE: recipe linux-libc-headers-6.9-r0: task do_unpack: Started
-NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_fetch: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_fetch: Started
-NOTE: recipe attr-2.5.2-r0: task do_fetch: Started
-NOTE: recipe xz-5.4.6-r0: task do_fetch: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_fetch: Started
-NOTE: recipe expat-native-2.6.2-r0: task do_unpack: Started
-NOTE: recipe attr-2.5.2-r0: task do_fetch: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_fetch: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_fetch: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Started
-NOTE: recipe expat-2.6.2-r0: task do_fetch: Started
-NOTE: recipe openssl-3.3.1-r0: task do_fetch: Succeeded
-NOTE: recipe linux-libc-headers-6.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_fetch: Succeeded
-NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgcc-initial-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.2-r0: task do_fetch: Succeeded
-NOTE: recipe expat-native-2.6.2-r0: task do_unpack: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 336 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_14.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 396 of 417 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_gcc_stash_builddir_setscene)
-NOTE: Running task 695 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_fetch)
-NOTE: Running task 696 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake-native_3.29.3.bb:do_fetch)
-NOTE: Running task 697 of 1200 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_patch)
-NOTE: Running task 699 of 1200 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_fetch)
-NOTE: Running task 700 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_unpack)
-NOTE: Running task 701 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_unpack)
-NOTE: Running task 702 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_unpack)
-NOTE: Running task 703 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_unpack)
-NOTE: Running task 704 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_unpack)
-NOTE: Running task 705 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_unpack)
-NOTE: Running task 706 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_unpack)
-NOTE: Running task 708 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_fetch)
-NOTE: Running task 709 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_unpack)
-NOTE: recipe libgcc-initial-14.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cmake-native-3.29.3-r0: task do_fetch: Started
-WARNING: cmake-native-3.29.3-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/downloads/cmake-3.29.3.tar.gz
-Cleaning and trying again.
-WARNING: cmake-native-3.29.3-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/downloads/cmake-3.29.3.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/downloads/cmake-3.29.3.tar.gz_bad-checksum_252aee1448d49caa04954fd5e27d189dd51570557313e7b281636716a238bccb
-NOTE: recipe opkg-utils-0.6.3-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_gcc_stash_builddir_setscene: Started
-NOTE: recipe libgcc-initial-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.0-r0: task do_unpack: Started
-NOTE: Running task 715 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_fetch)
-NOTE: recipe zlib-1.3.1-r0: task do_unpack: Started
-NOTE: recipe attr-2.5.2-r0: task do_unpack: Started
-NOTE: recipe libunistring-1.2-r0: task do_fetch: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Started
-NOTE: recipe glibc-2.39+git-r0: task do_fetch: Started
-NOTE: recipe xz-5.4.6-r0: task do_unpack: Started
-NOTE: recipe acl-2.3.2-r0: task do_unpack: Started
-NOTE: recipe openssl-3.3.1-r0: task do_unpack: Started
-NOTE: recipe libunistring-1.2-r0: task do_fetch: Succeeded
-NOTE: recipe expat-native-2.6.2-r0: task do_patch: Started
-NOTE: Running task 719 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.8.0.bb:do_fetch)
-NOTE: recipe attr-2.5.2-r0: task do_unpack: Succeeded
-NOTE: Running task 720 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_patch)
-NOTE: recipe util-linux-native-2.40.1-r0: task do_fetch: Started
-NOTE: recipe glibc-2.39+git-r0: task do_fetch: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_unpack: Succeeded
-NOTE: Running task 721 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_unpack)
-NOTE: Running task 722 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_patch)
-NOTE: recipe acl-2.3.2-r0: task do_unpack: Succeeded
-NOTE: recipe expat-native-2.6.2-r0: task do_patch: Succeeded
-NOTE: recipe libidn2-2.3.7-r0: task do_fetch: Started
-NOTE: Running task 723 of 1200 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_generate_toolchain_file)
-NOTE: Running task 725 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_patch)
-NOTE: recipe libidn2-2.3.7-r0: task do_fetch: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_unpack: Succeeded
-NOTE: Running task 726 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_unpack)
-NOTE: Running task 727 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_patch)
-NOTE: recipe libtool-cross-2.5.0-r0: task do_unpack: Succeeded
-NOTE: Running task 730 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_unpack)
-NOTE: recipe attr-2.5.2-r0: task do_patch: Started
-NOTE: recipe curl-8.8.0-r0: task do_fetch: Started
-NOTE: recipe acl-2.3.2-r0: task do_patch: Started
-NOTE: recipe zlib-1.3.1-r0: task do_patch: Started
-NOTE: recipe libunistring-1.2-r0: task do_unpack: Started
-NOTE: recipe curl-8.8.0-r0: task do_fetch: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_patch: Started
-NOTE: Running task 731 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_unpack)
-NOTE: recipe glibc-2.39+git-r0: task do_unpack: Started
-NOTE: recipe expat-2.6.2-r0: task do_unpack: Started
-NOTE: recipe expat-native-2.6.2-r0: task do_generate_toolchain_file: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_unpack: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_patch: Succeeded
-NOTE: Running task 732 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_patch)
-NOTE: recipe attr-2.5.2-r0: task do_patch: Succeeded
-NOTE: Running task 734 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.8.0.bb:do_unpack)
-NOTE: recipe libidn2-2.3.7-r0: task do_unpack: Started
-NOTE: Running task 741 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_fetch)
-NOTE: recipe expat-native-2.6.2-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 743 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_fetch)
-NOTE: recipe zlib-1.3.1-r0: task do_patch: Succeeded
-NOTE: Running task 746 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_fetch)
-NOTE: recipe util-linux-native-2.40.1-r0: task do_fetch: Succeeded
-NOTE: Running task 747 of 1200 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_unpack)
-NOTE: recipe acl-2.3.2-r0: task do_patch: Succeeded
-NOTE: recipe libunistring-1.2-r0: task do_unpack: Succeeded
-NOTE: Running task 750 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_fetch)
-NOTE: recipe expat-2.6.2-r0: task do_unpack: Succeeded
-NOTE: Running task 751 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_patch)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_patch: Started
-NOTE: Running task 752 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_patch)
-NOTE: recipe curl-8.8.0-r0: task do_unpack: Started
-NOTE: recipe zstd-1.5.6-r0: task do_fetch: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_unpack: Succeeded
-NOTE: Running task 753 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_patch)
-NOTE: recipe libidn2-2.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 754 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_patch)
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_fetch: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_fetch: Succeeded
-NOTE: recipe libunistring-1.2-r0: task do_patch: Started
-NOTE: Running task 755 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_unpack)
-NOTE: recipe libarchive-3.7.4-r0: task do_fetch: Started
-NOTE: recipe util-linux-native-2.40.1-r0: task do_unpack: Started
-NOTE: recipe libarchive-3.7.4-r0: task do_fetch: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_unpack: Succeeded
-NOTE: Running task 757 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_fetch)
-NOTE: Running task 758 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_patch)
-NOTE: recipe expat-2.6.2-r0: task do_patch: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_patch: Started
-NOTE: recipe zstd-1.5.6-r0: task do_fetch: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_patch: Started
-NOTE: Running task 759 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_unpack)
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_patch: Succeeded
-NOTE: recipe libunistring-1.2-r0: task do_patch: Succeeded
-NOTE: Running task 761 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_unpack)
-NOTE: Running task 763 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_unpack)
-NOTE: Running task 764 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake_3.30.0.bb:do_recipe_qa)
-NOTE: recipe expat-2.6.2-r0: task do_patch: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_unpack: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 765 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_generate_toolchain_file)
-NOTE: recipe openssl-3.3.1-r0: task do_patch: Started
-NOTE: recipe bash-5.2.21-r0: task do_fetch: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_patch: Succeeded
-NOTE: recipe zstd-1.5.6-r0: task do_unpack: Started
-NOTE: recipe cmake-3.30.0-r0: task do_recipe_qa: Started
-NOTE: recipe libarchive-3.7.4-r0: task do_unpack: Started
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Started
-NOTE: recipe expat-2.6.2-r0: task do_generate_toolchain_file: Started
-NOTE: recipe curl-8.8.0-r0: task do_unpack: Succeeded
-NOTE: Running task 839 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.8.0.bb:do_patch)
-NOTE: recipe bash-completion-2.14.0-r0: task do_unpack: Succeeded
-NOTE: recipe expat-2.6.2-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 840 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_patch)
-NOTE: recipe openssl-3.3.1-r0: task do_patch: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_patch: Started
-NOTE: recipe libarchive-3.7.4-r0: task do_unpack: Succeeded
-NOTE: Running task 842 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_patch)
-NOTE: recipe cmake-3.30.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_patch: Succeeded
-NOTE: Running task 844 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake_3.30.0.bb:do_fetch)
-NOTE: recipe curl-8.8.0-r0: task do_patch: Started
-NOTE: recipe libarchive-3.7.4-r0: task do_patch: Started
-NOTE: recipe cmake-3.30.0-r0: task do_fetch: Started
-NOTE: recipe curl-8.8.0-r0: task do_patch: Succeeded
-NOTE: recipe cmake-3.30.0-r0: task do_fetch: Succeeded
-NOTE: Running task 846 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake_3.30.0.bb:do_unpack)
-NOTE: recipe zstd-1.5.6-r0: task do_unpack: Succeeded
-NOTE: Running task 847 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_patch)
-WARNING: cmake-native-3.29.3-r0 do_fetch: Checksum failure encountered with download of https://cmake.org/files/v3.29/cmake-3.29.3.tar.gz - will attempt other sources if available
-NOTE: recipe libarchive-3.7.4-r0: task do_patch: Succeeded
-NOTE: recipe zstd-1.5.6-r0: task do_patch: Started
-NOTE: recipe cmake-3.30.0-r0: task do_unpack: Started
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Succeeded
-NOTE: Running task 849 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_patch)
-NOTE: recipe zstd-1.5.6-r0: task do_patch: Succeeded
-NOTE: recipe util-linux-native-2.40.1-r0: task do_unpack: Succeeded
-NOTE: Running task 851 of 1200 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_patch)
-NOTE: recipe ncurses-6.5-r0: task do_patch: Started
-WARNING: cmake-native-3.29.3-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/downloads/cmake-3.29.3.tar.gz
-Cleaning and trying again.
-WARNING: cmake-native-3.29.3-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/downloads/cmake-3.29.3.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/downloads/cmake-3.29.3.tar.gz_bad-checksum_252aee1448d49caa04954fd5e27d189dd51570557313e7b281636716a238bccb
-NOTE: recipe util-linux-native-2.40.1-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 854 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_14.1.bb:do_patch)
-NOTE: recipe ncurses-6.5-r0: task do_patch: Succeeded
-NOTE: recipe gcc-source-14.1.0-14.1.0-r0: task do_patch: Started
-NOTE: recipe util-linux-native-2.40.1-r0: task do_patch: Succeeded
-NOTE: recipe bash-5.2.21-r0: task do_fetch: Succeeded
-NOTE: Running task 858 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_unpack)
-NOTE: recipe bash-5.2.21-r0: task do_unpack: Started
-NOTE: recipe cmake-3.30.0-r0: task do_unpack: Succeeded
-NOTE: Running task 859 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake_3.30.0.bb:do_patch)
-NOTE: recipe glibc-2.39+git-r0: task do_unpack: Succeeded
-NOTE: Running task 860 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_patch)
-NOTE: recipe cmake-3.30.0-r0: task do_patch: Started
-NOTE: recipe glibc-2.39+git-r0: task do_patch: Started
-NOTE: recipe bash-5.2.21-r0: task do_unpack: Succeeded
-NOTE: Running task 861 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_patch)
-NOTE: recipe cmake-3.30.0-r0: task do_patch: Succeeded
-NOTE: Running task 862 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake_3.30.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 863 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake_3.30.0.bb:do_generate_toolchain_file)
-NOTE: Running task 864 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake_3.30.0.bb:do_populate_lic)
-NOTE: recipe bash-5.2.21-r0: task do_patch: Started
-NOTE: recipe cmake-3.30.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cmake-3.30.0-r0: task do_populate_lic: Started
-NOTE: recipe cmake-3.30.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe cmake-3.30.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe cmake-3.30.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cmake-3.30.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe bash-5.2.21-r0: task do_patch: Succeeded
-NOTE: recipe gcc-source-14.1.0-14.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 867 of 1200 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_14.1.bb:do_preconfigure)
-NOTE: recipe gcc-source-14.1.0-14.1.0-r0: task do_preconfigure: Started
-NOTE: recipe glibc-2.39+git-r0: task do_patch: Succeeded
-NOTE: recipe gcc-source-14.1.0-14.1.0-r0: task do_preconfigure: Succeeded
-NOTE: recipe cmake-native-3.29.3-r0: task do_fetch: Failed
-NOTE: recipe linux-libc-headers-6.9-r0: task do_unpack: Succeeded
-NOTE: Tasks Summary: Attempted 872 tasks of which 795 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715085428.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715085428.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake-native_3.29.3.bb:do_fetch
-Summary: There were 5 WARNING messages.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: cmake-native-3.29.3-r0 do_fetch: Checksum failure fetching https://cmake.org/files/v3.29/cmake-3.29.3.tar.gz
-ERROR: cmake-native-3.29.3-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/downloads/cmake-3.29.3.tar.gz\' has sha256 checksum \'252aee1448d49caa04954fd5e27d189dd51570557313e7b281636716a238bccb\' when \'157e5be6055c154c34f580795fe5832f260246506d32954a971300ed7899f579\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "252aee1448d49caa04954fd5e27d189dd51570557313e7b281636716a238bccb"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cmake.org/files/v3.29/cmake-3.29.3.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/3.29.3/temp/log.do_fetch.845095
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/cmake/cmake-native_3.29.3.bb:do_fetch) failed with exit code '1'
-
---===============3784233326835268205==
+--===============2291816068084548855==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-cmake-upgrade-3.29.3-3.30.0.patch"
+ filename="0001-glib-networking-upgrade-2.78.1-2.80.0.patch"
 
-RnJvbSAzOWM5MzAyYjY1YmM2ODdiOWExZjQ0ZWFkZjIyOTVjZGY5MDRlODQ4IE1vbiBTZXAgMTcg
+RnJvbSA5M2RiYTlhYjBhZmViMzYyNzU3NjUzMjQ0YmIxN2NjODc1M2NlNDdkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDg6NTQ6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-bWFrZTogdXBncmFkZSAzLjI5LjMgLT4gMy4zMC4wCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9jbWFrZS9jbWFrZS5pbmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIC4uLi9y
-ZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV8zLjI5LjMuYmIgPT4gY21ha2VfMy4zMC4wLmJi
-fSB8IDAKIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtlXzMuMjkuMy5iYiA9PiBjbWFr
-ZV8zLjMwLjAuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9j
-bWFrZS9jbWFrZS5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCmlu
-ZGV4IDExNTVjMWJiZTAuLmNjNWYxMzVhOTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9jbWFrZS9jbWFrZS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
-YWtlLmluYwpAQCAtMTksNyArMTksNyBAQCBDTUFLRV9NQUpPUl9WRVJTSU9OID0gIiR7QCcuJy5q
-b2luKGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcuJylbMDoyXSl9IgogU1JDX1VSSSA9ICJodHRwczov
-L2NtYWtlLm9yZy9maWxlcy92JHtDTUFLRV9NQUpPUl9WRVJTSU9OfS9jbWFrZS0ke1BWfS50YXIu
-Z3ogXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjUyYWVlMTQ0OGQ0OWNhYTA0OTU0ZmQ1
-ZTI3ZDE4OWRkNTE1NzA1NTczMTNlN2IyODE2MzY3MTZhMjM4YmNjYiIKK1NSQ19VUklbc2hhMjU2
-c3VtXSA9ICIxNTdlNWJlNjA1NWMxNTRjMzRmNTgwNzk1ZmU1ODMyZjI2MDI0NjUwNmQzMjk1NGE5
-NzEzMDBlZDc4OTlmNTc5IgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJjbWFrZS0oP1A8cHZl
-cj5cZCsoXC5cZCspKylcLnRhciIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2NtYWtlL2NtYWtlXzMuMjkuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFr
-ZV8zLjMwLjAuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjI5LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9jbWFrZS9jbWFrZV8zLjMwLjAuYmIKLS0gCjIuNDQuMAoK
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDg6MDM6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bGliLW5ldHdvcmtpbmc6IHVwZ3JhZGUgMi43OC4xIC0+IDIuODAuMAoKLS0tCiBtZXRhL3JlY2lw
+ZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaCAgfCAy
+ICstCiAuLi4ve2dsaWItbmV0d29ya2luZ18yLjc4LjEuYmIgPT4gZ2xpYi1uZXR3b3JraW5nXzIu
+ODAuMC5iYn0gICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcve2ds
+aWItbmV0d29ya2luZ18yLjc4LjEuYmIgPT4gZ2xpYi1uZXR3b3JraW5nXzIuODAuMC5iYn0gKDk1
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1u
+ZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2lu
+Zy9nbGliLW5ldHdvcmtpbmcvZWFnYWluLnBhdGNoCmluZGV4IDk4ZmY0NzYwNzEuLjk4OTc0YWE0
+ZTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5l
+dHdvcmtpbmcvZWFnYWluLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29y
+a2luZy9nbGliLW5ldHdvcmtpbmcvZWFnYWluLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1
+NjA0NzA3YmVkNGI0YTRiYzQ2NThjNzE1OGExOGMxNzc0Nzc1Nzc1IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBmOTE3ZWY1NTc5MjU3MDA3YmMwMjg1MGU3OTc2OWZlNWVjNDhiMmI3IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVy
+ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiBEYXRlOiBTYXQsIDYgTWF5IDIwMjMgMTI6MTg6NTAg
+KzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gSW4gYXV0b2J1aWxkZXIgdGVzdGluZyB3ZSByZWd1bGFy
+bHkgc2VlIGdsaWItbmV0d29ya2luZyBwdGVzdApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
+cmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjc4LjEuYmIgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuODAuMC5iYgpzaW1pbGFy
+aXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtp
+bmcvZ2xpYi1uZXR3b3JraW5nXzIuNzguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUv
+Z2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjgwLjAuYmIKaW5kZXggNTA2MGQ5ZmQ3
+YS4uYzhhMTM1NTU0OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3Jr
+aW5nL2dsaWItbmV0d29ya2luZ18yLjc4LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
+Yi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjgwLjAuYmIKQEAgLTE0LDcgKzE0LDcgQEAg
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NGZiZDY1MzgwY2RkMjU1OTUx
+MDc5MDA4YjM2NDUxNmMgXAogU0VDVElPTiA9ICJsaWJzIgogREVQRU5EUyA9ICJnbGliLTIuMC1u
+YXRpdmUgZ2xpYi0yLjAiCiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImU0OGYyZGRi
+YjA0OTgzMmNiYjA5MjMwNTI5YzVlNDVkYWNhOWYwZGYwZWRhMzI1ZjgzMmY3Mzc5ODU5YmYwOWYi
+CitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJkOGY0ZjFhYWIyMTMxNzlhZTMzNTE2MTdi
+NTlkYWI1ZGU2YmNjOWU3ODUwMjFlZWUxNzg5OThlYmQ0YmIzYWNmIgogCiAjIFVwc3RyZWFtIG5v
+dGUgdGhhdCBmb3IgdGhlIG9wZW5zc2wgYmFja2VuZCwgaGFsZiB0aGUgdGVzdHMgd2hlcmUgdGhp
+cyBiYWNrZW5kIGRvbid0IHJldHVybgogIyB0aGUgZXhwZWN0ZWQgZXJyb3IgY29kZSBvciBkb24n
+dCB3b3JrIGFzIGV4cGVjdGVkIHNvIGRlZmF1bHQgdG8gZ251dGxzCi0tIAoyLjQ0LjAKCg==
 
---===============3784233326835268205==--
+--===============2291816068084548855==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGSIZE changed from 833608 to 833784 (+0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGSIZE changed from 8462 to 8914 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGSIZE changed from 7631 to 8085 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGSIZE changed from 8338 to 8452 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGSIZE changed from 4443 to 7344 (+65%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGSIZE changed from 7261 to 7753 (+7%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGSIZE changed from 7951 to 8379 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGSIZE changed from 7652 to 8106 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGSIZE changed from 9523 to 10017 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGSIZE changed from 5360 to 6010 (+12%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PKGSIZE changed from 8335 to 8877 (+7%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGSIZE changed from 8313 to 8780 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGSIZE changed from 9064 to 9530 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGSIZE changed from 8124 to 8600 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGSIZE changed from 7414 to 7832 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGSIZE changed from 8047 to 8523 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGSIZE changed from 11868 to 12595 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PKGSIZE changed from 9719 to 10296 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGSIZE changed from 8342 to 8805 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGSIZE changed from 7830 to 8264 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PKGSIZE changed from 7953 to 8489 (+7%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGSIZE changed from 8173 to 8616 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGSIZE changed from 8219 to 8699 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGSIZE changed from 8060 to 8248 (+2%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PKGSIZE changed from 10411 to 10968 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGSIZE changed from 8193 to 8607 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGSIZE changed from 7752 to 8181 (+6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGSIZE changed from 7403 to 7805 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGSIZE changed from 11136 to 11741 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGSIZE changed from 6775 to 7146 (+5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGSIZE changed from 744568 to 744834 (+0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking: PKGV changed from 2.78.1 [default] to 2.80.0 [default]
+packages/core2-64-poky-linux/glib-networking: PV changed from "2.78.1" to "2.80.0"
+packages/core2-64-poky-linux/glib-networking: SRC_URI changed from "https://download.gnome.org/sources//glib-networking/2.78/glib-networking-2.78.1.tar.xz;name=archive file://run-ptest file://eagain.patch" to "https://download.gnome.org/sources//glib-networking/2.80/glib-networking-2.80.0.tar.xz;name=archive file://run-ptest file://eagain.patch"
+
+--===============2291816068084548855==--
 
