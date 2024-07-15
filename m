@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBC7C54ED0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B36A9C54E93
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:21 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.1362.1721071146337108433
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.1292.1721071145192688341
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Q9YcQUaV;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mQ6fZYlQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190b7d591c5-210e3db6-a360-4468-9d47-b4d56617a31a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=i+Q6rN+9;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hwBZpsyc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190b7d5933f-3563aff7-112d-437e-aefd-ee9d23ca10fd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071145;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dXkQm6e3hBw8q5Ana/XoPMNx7OvkLqZiJjqtATGMsoE=;
-	b=Q9YcQUaVHd/mIwOjbWNRzvvau8MihXFVjQgt/GoRRH/2irK1sGQbPYKL9DBnCJvz
-	8RFKKVRe3yepAhLycrE2LrB0KhlxBRHhCktngqS7SUbYY+TwKHjU+6kz6xyMHz3nRpj
-	Ou0VwqDRKuZWUVDLFIiV7zMwz3zoU6h9dk++mtn8=
+	bh=WafR0bM9x9xgd2WXfN/nYn8pLj6yA1Vsy9qder0Rnlg=;
+	b=i+Q6rN+9Z3z6OAjP6sXNiBsiLolwk4wen4D64qe/0XpLpEb4be9WQEe4YAoohwTA
+	5ml8mzsT1hEYUoUpyeXUREjsFA9esoeBl7OJZ6OqUsUCLTnuuUUWX0Xh9jRB4z157PV
+	JgTxVAxbPD6JjT1UQnTfbs9jKclYzJg5r+qWi+Wg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071145;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dXkQm6e3hBw8q5Ana/XoPMNx7OvkLqZiJjqtATGMsoE=;
-	b=mQ6fZYlQqBBHBb6qV1D8AMzDMee9/N651NgerAOxcxHeSCv4NYcgTO+6YzBN4jco
-	US1vZtHf1XeidHkst21NKzkVOf8XJkD9XS3naMrieuJgPe2r1Ct4Edf+eKv4gCzNSyg
-	wmTx7T48gcG+uL6D1ic86ocxePXQTDEZRRwDiOb0=
-Content-Type: multipart/mixed; boundary="===============7898314324021327289=="
+	bh=WafR0bM9x9xgd2WXfN/nYn8pLj6yA1Vsy9qder0Rnlg=;
+	b=hwBZpsycAhNwjq5q9XRTi1/9P9tLqu/ZpwXRCpVtXiHg+jI30lBFQogJb4/JBAyb
+	I/En3aPRMMyV4bToWJlDZWKELGoqaX6fEvd97uuAGiyPgfl6W1q/aAjeu4tf2sVQ9KV
+	qZw1OnJa7H4QuQGHoWZeZtaCWsKIIf79sE9MVoHw=
+Content-Type: multipart/mixed; boundary="===============1438631370993009233=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ccache: upgrading to 4.10.1 SUCCEEDED
-Message-ID: <01010190b7d591c5-210e3db6-a360-4468-9d47-b4d56617a31a-000000@us-west-2.amazonses.com>
+Subject: [AUH] mmc-utils: upgrading to
+ f884bfe684f2c31e1f5b7c9247b364178fa20ea3 FAILED
+Message-ID: <01010190b7d5933f-3563aff7-112d-437e-aefd-ee9d23ca10fd-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:05 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.45
+X-SES-Outgoing: 2024.07.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201961
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201957
 
---===============7898314324021327289==
+--===============1438631370993009233==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ccache* to *4.10.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *mmc-utils* to *f884bfe684f2c31e1f5b7c9247b364178fa20ea3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-ccache-upgrade-4.10-4.10.1.patch
+    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,216 +79,162 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 9a6efddc8841c7604bfeca2f0465a6d665892c7f Mon Sep 17 00:00:00 2001
+From e261cb96c69e3b83adf6d83d6bc22b0f0c370f97 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 08:47:23 +0000
-Subject: [PATCH] ccache: upgrade 4.10 -> 4.10.1
+Date: Mon, 15 Jul 2024 10:05:46 +0000
+Subject: [PATCH] mmc-utils: upgrade to latest revision
 
 ---
- .../{ccache_4.10.bb => ccache_4.10.1.bb}      | 62 ++++++++++++++++++-
- 1 file changed, 59 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/ccache/{ccache_4.10.bb => ccache_4.10.1.bb} (33%)
+ meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_4.10.bb b/meta/recipes-devtools/ccache/ccache_4.10.1.bb
-similarity index 33%
-rename from meta/recipes-devtools/ccache/ccache_4.10.bb
-rename to meta/recipes-devtools/ccache/ccache_4.10.1.bb
-index df169b9c2b..0c877363f2 100644
---- a/meta/recipes-devtools/ccache/ccache_4.10.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.10.1.bb
-@@ -1,3 +1,59 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE.adoc
-+# +++ LICENSE.adoc
-+# @@ -448,6 +448,42 @@
-+#  ----
-+#  
-+#  
-+# +=== src/third_party/fmt/fmt/*.h and src/third_party/fmt/fmt/format.cc
-+# +
-+# +This is a subset of https://fmt.dev[fmt] 10.2.1 with the following license:
-+# +
-+# +----
-+# +Formatting library for C++
-+# +
-+# +Copyright (c) 2012 - present, Victor Zverovich
-+# +
-+# +Permission is hereby granted, free of charge, to any person obtaining a copy
-+# +of this software and associated documentation files (the "Software"), to deal
-+# +in the Software without restriction, including without limitation the rights
-+# +to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+# +copies of the Software, and to permit persons to whom the Software is furnished
-+# +to do so, subject to the following conditions:
-+# +
-+# +The above copyright notice and this permission notice shall be included in
-+# +all copies or substantial portions of the Software.
-+# +
-+# +THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+# +IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+# +FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+# +AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+# +LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+# +OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+# +SOFTWARE.
-+# +
-+# +--- Optional exception to the license ---
-+# +
-+# +As an exception, if, as a result of your compiling your source code, portions
-+# +of this Software are embedded into a machine-executable object form of such
-+# +source code, you may redistribute such embedded portions in such object form
-+# +without including the above copyright and permission notices.
-+# +----
-+# +
-+# +
-+#  === src/third_party/nonstd-span/nonstd/span.hpp
-+#  
-+#  This is the single header version of
-+# 
-+#
-+
- SUMMARY = "a fast C/C++ compiler cache"
- DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
- by caching the result of previous compilations and detecting when the \
-@@ -7,17 +63,17 @@ HOMEPAGE = "http://ccache.samba.org"
- SECTION = "devel"
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index 0bfd5c1cc8..30def96018 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
  
- LICENSE = "GPL-3.0-or-later & MIT & BSL-1.0 & ISC"
--LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=c72fa5755dc70ec5b439212d47299414 \
-+LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=73b86311eaf2b66b0d093ec1a15fa60d \
-                     file://src/third_party/cpp-httplib/httplib.h;endline=6;md5=5389d9f5a88a138e42ba58894bbceeac \
-                     file://src/third_party/nonstd-span/nonstd/span.hpp;endline=9;md5=b4af92a7f068b38c5b3410dceb30c186 \
-                     file://src/third_party/win32-compat/win32/mktemp.c;endline=17;md5=d287e9c1f1cd2bb2bd164490e1cf449a \
--"
-+                    "
+ SRCBRANCH ?= "master"
+-SRCREV = "f757f413dea4a143ad7c3b48b8264176f0499a82"
++SRCREV = "f884bfe684f2c31e1f5b7c9247b364178fa20ea3"
  
- DEPENDS = "zstd fmt xxhash"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
- 
--SRC_URI[sha256sum] = "16972ba62c8499045edc3ae7d7b8a0b419a961567f5ff0f01bf5a44194204775"
-+SRC_URI[sha256sum] = "8f8ad60d9363857812aa8af3fa7fb72be5ea5cf193f824d16d237a8a79256be4"
- 
- inherit cmake github-releases
+ PV = "0.1+git"
  
 -- 
 2.44.0
 
 
---===============7898314324021327289==
+--===============1438631370993009233==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ccache-upgrade-4.10-4.10.1.patch"
+ filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
 
-RnJvbSA5YTZlZmRkYzg4NDFjNzYwNGJmZWNhMmYwNDY1YTZkNjY1ODkyYzdmIE1vbiBTZXAgMTcg
+RnJvbSBlMjYxY2I5NmM2OWUzYjgzYWRmNmQ4M2Q2YmMyMmIwZjBjMzcwZjk3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDg6NDc6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-Y2FjaGU6IHVwZ3JhZGUgNC4xMCAtPiA0LjEwLjEKCi0tLQogLi4uL3tjY2FjaGVfNC4xMC5iYiA9
-PiBjY2FjaGVfNC4xMC4xLmJifSAgICAgIHwgNjIgKysrKysrKysrKysrKysrKysrLQogMSBmaWxl
-IGNoYW5nZWQsIDU5IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2NjYWNoZS97Y2NhY2hlXzQuMTAuYmIgPT4gY2NhY2hlXzQuMTAuMS5i
-Yn0gKDMzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNo
-ZV80LjEwLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xMC4xLmJi
-CnNpbWlsYXJpdHkgaW5kZXggMzMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9j
-Y2FjaGUvY2NhY2hlXzQuMTAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2Fj
-aGUvY2NhY2hlXzQuMTAuMS5iYgppbmRleCBkZjE2OWI5YzJiLi4wYzg3NzM2M2YyIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjEwLmJiCisrKyBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTAuMS5iYgpAQCAtMSwzICsxLDU5
-IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0
-ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVu
-Y2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVw
-ZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5n
-ZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisj
-IChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisj
-CisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRS5hZG9jCisjICsrKyBMSUNFTlNFLmFk
-b2MKKyMgQEAgLTQ0OCw2ICs0NDgsNDIgQEAKKyMgIC0tLS0KKyMgIAorIyAgCisjICs9PT0gc3Jj
-L3RoaXJkX3BhcnR5L2ZtdC9mbXQvKi5oIGFuZCBzcmMvdGhpcmRfcGFydHkvZm10L2ZtdC9mb3Jt
-YXQuY2MKKyMgKworIyArVGhpcyBpcyBhIHN1YnNldCBvZiBodHRwczovL2ZtdC5kZXZbZm10XSAx
-MC4yLjEgd2l0aCB0aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisjICsKKyMgKy0tLS0KKyMgK0Zvcm1h
-dHRpbmcgbGlicmFyeSBmb3IgQysrCisjICsKKyMgK0NvcHlyaWdodCAoYykgMjAxMiAtIHByZXNl
-bnQsIFZpY3RvciBadmVyb3ZpY2gKKyMgKworIyArUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRl
-ZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEgY29weQorIyArb2Yg
-dGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNv
-ZnR3YXJlIiksIHRvIGRlYWwKKyMgK2luIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9u
-LCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHMKKyMgK3RvIHVzZSwgY29w
-eSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29y
-IHNlbGwKKyMgK2NvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0
-byB3aG9tIHRoZSBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQKKyMgK3RvIGRvIHNvLCBzdWJqZWN0IHRv
-IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMgKworIyArVGhlIGFib3ZlIGNvcHlyaWdodCBu
-b3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5jbHVkZWQgaW4KKyMg
-K2FsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLgorIyAr
-CisjICtUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBP
-RiBBTlkgS0lORCwgRVhQUkVTUyBPUgorIyArSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElN
-SVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCisjICtGSVRORVNTIEZP
-UiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiBJTiBOTyBFVkVOVCBT
-SEFMTCBUSEUKKyMgK0FVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZPUiBB
-TlkgQ0xBSU0sIERBTUFHRVMgT1IgT1RIRVIKKyMgK0xJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBB
-Q1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sCisjICtP
-VVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9U
-SEVSIERFQUxJTkdTIElOIFRIRQorIyArU09GVFdBUkUuCisjICsKKyMgKy0tLSBPcHRpb25hbCBl
-eGNlcHRpb24gdG8gdGhlIGxpY2Vuc2UgLS0tCisjICsKKyMgK0FzIGFuIGV4Y2VwdGlvbiwgaWYs
-IGFzIGEgcmVzdWx0IG9mIHlvdXIgY29tcGlsaW5nIHlvdXIgc291cmNlIGNvZGUsIHBvcnRpb25z
-CisjICtvZiB0aGlzIFNvZnR3YXJlIGFyZSBlbWJlZGRlZCBpbnRvIGEgbWFjaGluZS1leGVjdXRh
-YmxlIG9iamVjdCBmb3JtIG9mIHN1Y2gKKyMgK3NvdXJjZSBjb2RlLCB5b3UgbWF5IHJlZGlzdHJp
-YnV0ZSBzdWNoIGVtYmVkZGVkIHBvcnRpb25zIGluIHN1Y2ggb2JqZWN0IGZvcm0KKyMgK3dpdGhv
-dXQgaW5jbHVkaW5nIHRoZSBhYm92ZSBjb3B5cmlnaHQgYW5kIHBlcm1pc3Npb24gbm90aWNlcy4K
-KyMgKy0tLS0KKyMgKworIyArCisjICA9PT0gc3JjL3RoaXJkX3BhcnR5L25vbnN0ZC1zcGFuL25v
-bnN0ZC9zcGFuLmhwcAorIyAgCisjICBUaGlzIGlzIHRoZSBzaW5nbGUgaGVhZGVyIHZlcnNpb24g
-b2YKKyMgCisjCisKIFNVTU1BUlkgPSAiYSBmYXN0IEMvQysrIGNvbXBpbGVyIGNhY2hlIgogREVT
-Q1JJUFRJT04gPSAiY2NhY2hlIGlzIGEgY29tcGlsZXIgY2FjaGUuIEl0IHNwZWVkcyB1cCByZWNv
-bXBpbGF0aW9uIFwKIGJ5IGNhY2hpbmcgdGhlIHJlc3VsdCBvZiBwcmV2aW91cyBjb21waWxhdGlv
-bnMgYW5kIGRldGVjdGluZyB3aGVuIHRoZSBcCkBAIC03LDE3ICs2MywxNyBAQCBIT01FUEFHRSA9
-ICJodHRwOi8vY2NhY2hlLnNhbWJhLm9yZyIKIFNFQ1RJT04gPSAiZGV2ZWwiCiAKIExJQ0VOU0Ug
-PSAiR1BMLTMuMC1vci1sYXRlciAmIE1JVCAmIEJTTC0xLjAgJiBJU0MiCi1MSUNfRklMRVNfQ0hL
-U1VNID0gImZpbGU6Ly9MSUNFTlNFLmFkb2M7bWQ1PWM3MmZhNTc1NWRjNzBlYzViNDM5MjEyZDQ3
-Mjk5NDE0IFwKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuYWRvYzttZDU9NzNi
-ODYzMTFlYWYyYjY2YjBkMDkzZWMxYTE1ZmE2MGQgXAogICAgICAgICAgICAgICAgICAgICBmaWxl
-Oi8vc3JjL3RoaXJkX3BhcnR5L2NwcC1odHRwbGliL2h0dHBsaWIuaDtlbmRsaW5lPTY7bWQ1PTUz
-ODlkOWY1YTg4YTEzOGU0MmJhNTg4OTRiYmNlZWFjIFwKICAgICAgICAgICAgICAgICAgICAgZmls
-ZTovL3NyYy90aGlyZF9wYXJ0eS9ub25zdGQtc3Bhbi9ub25zdGQvc3Bhbi5ocHA7ZW5kbGluZT05
-O21kNT1iNGFmOTJhN2YwNjhiMzhjNWIzNDEwZGNlYjMwYzE4NiBcCiAgICAgICAgICAgICAgICAg
-ICAgIGZpbGU6Ly9zcmMvdGhpcmRfcGFydHkvd2luMzItY29tcGF0L3dpbjMyL21rdGVtcC5jO2Vu
-ZGxpbmU9MTc7bWQ1PWQyODdlOWMxZjFjZDJiYjJiZDE2NDQ5MGUxY2Y0NDlhIFwKLSIKKyAgICAg
-ICAgICAgICAgICAgICAgIgogCiBERVBFTkRTID0gInpzdGQgZm10IHh4aGFzaCIKIAogU1JDX1VS
-SSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiIKIAot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjE2OTcyYmE2MmM4NDk5MDQ1ZWRjM2FlN2Q3YjhhMGI0MTlh
-OTYxNTY3ZjVmZjBmMDFiZjVhNDQxOTQyMDQ3NzUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGY4
-YWQ2MGQ5MzYzODU3ODEyYWE4YWYzZmE3ZmI3MmJlNWVhNWNmMTkzZjgyNGQxNmQyMzdhOGE3OTI1
-NmJlNCIKIAogaW5oZXJpdCBjbWFrZSBnaXRodWItcmVsZWFzZXMKIAotLSAKMi40NC4wCgo=
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6MDU6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+bWMtdXRpbHM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1j
+LXV0aWxzX2dpdC5iYgppbmRleCAwYmZkNWMxY2M4Li4zMGRlZjk2MDE4IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiCkBAIC01LDcgKzUsNyBAQCBMSUNFTlNF
+ID0gIkdQTC0yLjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL21tYy5jO2JlZ2lu
+bGluZT0xO2VuZGxpbmU9MjA7bWQ1PWZhZTMyNzkyZTIwZjRkMjdhZGUxYzVhNzYyZDE2YjdkIgog
+CiBTUkNCUkFOQ0ggPz0gIm1hc3RlciIKLVNSQ1JFViA9ICJmNzU3ZjQxM2RlYTRhMTQzYWQ3YzNi
+NDhiODI2NDE3NmYwNDk5YTgyIgorU1JDUkVWID0gImY4ODRiZmU2ODRmMmMzMWUxZjViN2M5MjQ3
+YjM2NDE3OGZhMjBlYTMiCiAKIFBWID0gIjAuMStnaXQiCiAKLS0gCjIuNDQuMAoK
 
---===============7898314324021327289==
+--===============1438631370993009233==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 32857112 to 32869392 (+0%)
-packages/core2-64-poky-linux/ccache/ccache-dbg: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache/ccache-dbg: PV changed from "4.10" to "4.10.1"
-packages/core2-64-poky-linux/ccache/ccache-dev: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache/ccache-dev: PV changed from "4.10" to "4.10.1"
-packages/core2-64-poky-linux/ccache/ccache-doc: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache/ccache-doc: PV changed from "4.10" to "4.10.1"
-packages/core2-64-poky-linux/ccache/ccache-locale: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache/ccache-locale: PV changed from "4.10" to "4.10.1"
-packages/core2-64-poky-linux/ccache/ccache-src: PKGSIZE changed from 1636715 to 1637075 (+0%)
-packages/core2-64-poky-linux/ccache/ccache-src: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache/ccache-src: PV changed from "4.10" to "4.10.1"
-packages/core2-64-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache/ccache-staticdev: PV changed from "4.10" to "4.10.1"
-packages/core2-64-poky-linux/ccache/ccache: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache/ccache: PV changed from "4.10" to "4.10.1"
-packages/core2-64-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.10/ccache-4.10.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.10.1/ccache-4.10.1.tar.gz"
-packages/core2-64-poky-linux/ccache: PKGV changed from 4.10 [default] to 4.10.1 [default]
-packages/core2-64-poky-linux/ccache: PV changed from "4.10" to "4.10.1"
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1878 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (917 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
---===============7898314324021327289==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-451a0fd3e5f241b0a246ddb906b60023e7038955"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:451a0fd3e5f241b0a246ddb906b60023e7038955"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 94 Local 83 Mirrors 0 Missed 11 Current 197 (88% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 230 of 291 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_recipe_qa_setscene)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 866 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_fetch)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_fetch: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_fetch: Succeeded
+NOTE: Running task 867 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_unpack)
+NOTE: Running task 868 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_unpack: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mmc-utils-0.1+git-r0: task do_unpack: Succeeded
+NOTE: Running task 869 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_patch)
+NOTE: Running task 870 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_collect_spdx_deps)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_patch: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_patch: Succeeded
+NOTE: Running task 871 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 872 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_lic: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic unihash changed to 48090a693fe1c2a03cd05353eca6050e9be14327d36a6b889718db2414ed3a3f
+NOTE: recipe mmc-utils-0.1+git-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 873 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_configure)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_configure: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_configure: Succeeded
+NOTE: Running task 874 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" mmc.c
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" mmc_cmds.c
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" lsmmc.c
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" 3rdparty/hmac_sha/hmac_sha2.c
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" 3rdparty/hmac_sha/sha2.c
+| /bin/sh: sparse: command not found
+| /bin/sh: sparse: command not found
+| make: *** [Makefile:38: mmc.o] Error 127
+| make: *** Waiting for unfinished jobs....
+| make: *** [Makefile:38: mmc_cmds.o] Error 127
+| /bin/sh: sparse: command not found
+| /bin/sh: sparse: command not found
+| make: *** [Makefile:38: 3rdparty/hmac_sha/hmac_sha2.o] Error 127
+| /bin/sh: sparse: command not found
+| make: *** [Makefile:38: lsmmc.o] Error 127
+| make: *** [Makefile:38: 3rdparty/hmac_sha/sha2.o] Error 127
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413:179 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413, line 179
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413, line 164
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413, line 169
+| 	#4: base_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413, line 147
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413, line 141
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413, line 189
+NOTE: recipe mmc-utils-0.1+git-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 874 tasks of which 865 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715100534.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715100534.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: mmc-utils-0.1+git-r0 do_compile: oe_runmake failed
+ERROR: mmc-utils-0.1+git-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.1085413', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/log.do_compile.1085413
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile) failed with exit code '1'
+
+--===============1438631370993009233==--
 
