@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C642C54E90
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:21 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.1360.1721071146248746833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB5EC54F2E
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:22 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.1357.1721071145701073063
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 12:19:06 -0700
+ Mon, 15 Jul 2024 12:19:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MZKTfj/V;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=EBCt03Aq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010190b7d5928d-010701fa-793f-4ae8-8009-baff7ad45762-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EkJE2yfp;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GsX+h0L0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010190b7d58eef-2e977912-c4a4-4262-b67f-e8b964cca2d7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721071145;
+	t=1721071144;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=MV1hYXYIk7znx6auRqnL9PmL8sS7TCcDARr+of5m0Mo=;
-	b=MZKTfj/VB9OFsC2QU+mQCYg+BBk58iaZoQPcmoMJsnfabcLenVuSlg2Y+eVWlNqH
-	ciUTjrdMlNfrp/H3wz4LCKtz5M8tubB15jdDgg0U9OfG/STZt/ue6YQMr3bB8K3Vpo1
-	53bq7KBvLEWsh5ez6BH7T7BbPSwrkiJae/yV+sB0=
+	bh=oilgklHor7dIz47olqC/AwCNFkwGJKmT7kEr2+9Ha4w=;
+	b=EkJE2yfpK/Jz4YPYyFFTjGlqG9/thJqCVyMMtFxiv902JzWmwJLcFNzppnKQaKMm
+	gX37RgVO1i1KYgbxEkK58OQ6rJJx7SU90GMBQSPXa8BY0C6TP5g4YRETbwcXpQIS+ol
+	FNuMWw1slyHkp87D3GqLMt0UX/FNv+LJmjV9Vc+U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071145;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071144;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=MV1hYXYIk7znx6auRqnL9PmL8sS7TCcDARr+of5m0Mo=;
-	b=EBCt03Aqu2kMxw6msfoKNxiGVTyg0gOscAIVJSk+69lQzTx7+1Wv4hirsGk1g0JF
-	cemEPcfFKFFNvKEsYpstaBBnxToBhpQThwMXr/0xdzHpSuqAdw0XPNLpVTQb/YGihhe
-	YjDjrq3haN0LJq45Y7ZmSge8z4z2Fya73rCdmxUU=
-Content-Type: multipart/mixed; boundary="===============0879408683840259780=="
+	bh=oilgklHor7dIz47olqC/AwCNFkwGJKmT7kEr2+9Ha4w=;
+	b=GsX+h0L0IKf2KlAs+vlO45quQr4hno9noGiCHU95NbvGt8bms7WRHOdOYhpiLh7A
+	nNjXPb/2Ujjbj0HzitQWyVhoreb546e4ju3eJkj1nx9aJl8LSbpckQFPH6aW6hMTyCp
+	bsYmq23xt3mLSR13rnZvY7eaw7+rPfDpxR5ACYmE=
+Content-Type: multipart/mixed; boundary="===============5984103064923020392=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Zang Ruochen <zangruochen@loongson.cn>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] e2fsprogs: upgrading to 1.47.1 SUCCEEDED
-Message-ID: <01010190b7d5928d-010701fa-793f-4ae8-8009-baff7ad45762-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jul 2024 19:19:05 +0000
+Subject: [AUH] ell: upgrading to 0.67 SUCCEEDED
+Message-ID: <01010190b7d58eef-2e977912-c4a4-4262-b67f-e8b964cca2d7-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jul 2024 19:19:04 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.30
+X-SES-Outgoing: 2024.07.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201962
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201951
 
---===============0879408683840259780==
+--===============5984103064923020392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *e2fsprogs* to *1.47.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *ell* to *0.67* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-e2fsprogs-upgrade-1.47.0-1.47.1.patch
+    - apply the patch: git am 0001-ell-upgrade-0.66-0.67.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,202 +72,39 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 86342428aa4fba8092919a8d8791f133c7ddf74c Mon Sep 17 00:00:00 2001
+From f6d0aba3708ecd15d2be0d0698ccbb306e228edd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 09:29:59 +0000
-Subject: [PATCH] e2fsprogs: upgrade 1.47.0 -> 1.47.1
+Date: Mon, 15 Jul 2024 07:56:26 +0000
+Subject: [PATCH] ell: upgrade 0.66 -> 0.67
 
 ---
- ...-fix-missing-check-for-permission-denied.patch |  3 +--
- .../e2fsprogs/e2fsprogs/mkdir_p.patch             |  7 +++----
- .../e2fsprogs/e2fsprogs/ptest.patch               |  8 ++++----
- .../e2fsprogs/e2fsprogs/quiet-debugfs.patch       |  7 +++----
- .../e2fsprogs/remove.ldconfig.call.patch          | 15 ++++++---------
- .../{e2fsprogs_1.47.0.bb => e2fsprogs_1.47.1.bb}  |  2 +-
- 6 files changed, 18 insertions(+), 24 deletions(-)
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.0.bb => e2fsprogs_1.47.1.bb} (99%)
+ meta/recipes-core/ell/{ell_0.66.bb => ell_0.67.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ell/{ell_0.66.bb => ell_0.67.bb} (88%)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-index b038e61eb7..c6e789dd65 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-@@ -1,4 +1,4 @@
--From 5bc75654690a2d916190168b865770a7c93e65dd Mon Sep 17 00:00:00 2001
-+From e52aacc4777c02fecfc5bbf6b9284e9b644bde24 Mon Sep 17 00:00:00 2001
- From: Jackie Huang <jackie.huang@windriver.com>
- Date: Wed, 10 Aug 2016 11:19:44 +0800
- Subject: [PATCH] Fix missing check for permission denied.
-@@ -13,7 +13,6 @@ Upstream-Status: Pending
- Written-by: Henrik Wallin <henrik.b.wallin@ericsson.com>
+diff --git a/meta/recipes-core/ell/ell_0.66.bb b/meta/recipes-core/ell/ell_0.67.bb
+similarity index 88%
+rename from meta/recipes-core/ell/ell_0.66.bb
+rename to meta/recipes-core/ell/ell_0.67.bb
+index 899e2f6849..6b0ebbe621 100644
+--- a/meta/recipes-core/ell/ell_0.66.bb
++++ b/meta/recipes-core/ell/ell_0.67.bb
+@@ -15,4 +15,4 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
  
- Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
--
- ---
-  lib/support/profile.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
-index f6916a1112..34ccc9b668 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
-@@ -1,4 +1,4 @@
--From e3a30baa5c1e2f0ac7e246539db1c7db5a2fe302 Mon Sep 17 00:00:00 2001
-+From 9976a726bc00256699a698b0ac83ea815148e5a4 Mon Sep 17 00:00:00 2001
- From: Joe Slater <jslater@windriver.com>
- Date: Tue, 7 Mar 2017 14:53:19 -0800
- Subject: [PATCH] e2fsprogs: expand @mkdir_p@
-@@ -9,16 +9,15 @@ not expanded so no locale data is written into usr/share/locale.
- Upstream-Status: Pending
- 
- Signed-off-by: Joe Slater <jslater@windriver.com>
--
- ---
-  configure.ac | 2 ++
-  1 file changed, 2 insertions(+)
- 
- diff --git a/configure.ac b/configure.ac
--index 4c4b5523..3475c707 100644
-+index 131caef3..ca448d97 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -919,6 +919,8 @@ AC_SUBST(PACKAGE)
-+@@ -938,6 +938,8 @@ AC_SUBST(PACKAGE)
-  AC_SUBST(VERSION)
-  
-  AM_GNU_GETTEXT([external])
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-index 20839b7286..5e2f3c10a3 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-@@ -1,4 +1,4 @@
--From b8842065ad621a03a971dfd50db862c5bffdeb49 Mon Sep 17 00:00:00 2001
-+From 24643c451046df0bc06bf7ed6b3d704c0358cf7c Mon Sep 17 00:00:00 2001
- From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
- Date: Sat, 18 Apr 2015 17:58:17 +0300
- Subject: [PATCH] e2fsprogs: add ptest
-@@ -14,10 +14,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
-  2 files changed, 18 insertions(+), 18 deletions(-)
- 
- diff --git a/tests/Makefile.in b/tests/Makefile.in
--index 8c4d2048..e021af32 100644
-+index ba06b3b6..5a3e48f4 100644
- --- a/tests/Makefile.in
- +++ b/tests/Makefile.in
--@@ -19,7 +19,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
-+@@ -20,7 +20,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf test_data.tmp
-  	@echo "#!/bin/sh" > test_one
-  	@echo "HTREE=y" >> test_one
-  	@echo "QUOTA=y" >> test_one
-@@ -26,7 +26,7 @@ index 8c4d2048..e021af32 100644
-  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
-  	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
-  	@echo "DD=@DD@" >>test_one
--@@ -30,7 +30,7 @@ test_script: test_one test_script.in Makefile mke2fs.conf
-+@@ -31,7 +31,7 @@ test_script: test_one test_script.in Makefile mke2fs.conf test_data.tmp
-  	@echo "Creating test_script..."
-  	@[ -f test_script ] && chmod u+w test_script || true
-  	@echo "#!/bin/sh" > test_script
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-index 0a6904208d..6ffef3c5f3 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-@@ -1,4 +1,4 @@
--From 580ef6cae2d353f3aa5d5c52d6614bdc1df50f08 Mon Sep 17 00:00:00 2001
-+From 9fda37dce78e309a5d11cf1c2a56b80941275b8c Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 23 Dec 2013 13:38:34 +0000
- Subject: [PATCH] e2fsprogs: silence debugfs
-@@ -8,16 +8,15 @@ filesystems at rootfs time.
- 
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@intel.com>
--
- ---
-  debugfs/debugfs.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
--index 9b6321dc..8ebf3ddb 100644
-+index 909c1df3..0842369e 100644
- --- a/debugfs/debugfs.c
- +++ b/debugfs/debugfs.c
--@@ -2516,7 +2516,7 @@ static int source_file(const char *cmd_file, int ss_idx)
-+@@ -2529,7 +2529,7 @@ static int source_file(const char *cmd_file, int ss_idx)
-  		cp = strchr(buf, '\r');
-  		if (cp)
-  			*cp = 0;
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
-index f3e6eb778f..35bc41e0b0 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
-@@ -1,10 +1,10 @@
--From b139e03ac2f72e644e547c7ee9b1514383af4d97 Mon Sep 17 00:00:00 2001
-+From 3256fa5dee0abface3f6efa03e6c34385a2270dd Mon Sep 17 00:00:00 2001
- From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
- Date: Wed, 30 Jan 2013 15:22:04 +0200
- Subject: [PATCH] When /etc/ld.so.cache is writeable by user running bitbake
-- then it creates invalid cache (in my case libstdc++.so
-- cannot be found after building zlib(-native) and I have to
-- call touch */libstdc++.so && /sbin/ldconfig to fix it.
-+ then it creates invalid cache (in my case libstdc++.so cannot be found after
-+ building zlib(-native) and I have to call touch */libstdc++.so &&
-+ /sbin/ldconfig to fix it.
- 
- So remove ldconfig call from make install-libs
- 
-@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate [disable feature]
- Signed-off-by: Scott Garman <scott.a.garman@intel.com>
- Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
- ---
-- lib/Makefile.elf-lib |    3 ---
-+ lib/Makefile.elf-lib | 3 ---
-  1 file changed, 3 deletions(-)
- 
- diff --git a/lib/Makefile.elf-lib b/lib/Makefile.elf-lib
--index 78479d3..4a4a5ac 100644
-+index f850f3dd..cc1e6a70 100644
- --- a/lib/Makefile.elf-lib
- +++ b/lib/Makefile.elf-lib
- @@ -50,8 +50,6 @@ install-shlibs install:: $(ELF_LIB) installdirs-elf-lib $(DEP_INSTALL_SYMLINK)
-@@ -39,6 +39,3 @@ index 78479d3..4a4a5ac 100644
-  
-  clean::
-  	$(RM) -rf elfshared
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-similarity index 99%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-index 940b47c155..bd6ac92cb1 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-@@ -10,7 +10,7 @@ SRC_URI:append:class-native = " \
-            file://quiet-debugfs.patch \
-            "
- 
--SRCREV = "f4c9cc4bedacde8408edda3520a32d3842290112"
-+SRCREV = "b571b9b4240739a982e8bca62cfc914a3b50190a"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
- 
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "7a78b757080ed6518c1c4fa26ad6a7a3d6e4e385386a20b6fb52379e7d1ffa36"
++SRC_URI[sha256sum] = "97942e8cefb130b632496e5485242f3f374f3b8846800fb74fffd76dc2a0c726"
 -- 
 2.44.0
 
 
---===============0879408683840259780==
+--===============5984103064923020392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PKGSIZE changed from 34318 to 38084 (+11%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PKGSIZE changed from 16839531 to 19156882 (+14%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: FILELIST: added "/usr/lib/e2fsprogs/ptest/test/m_root_perms/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/image.gz /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/name /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/image.gz /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/image /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/name /usr/lib/e2fsprogs/ptest/test/m_roottar/output.sed /usr/lib/e2fsprogs/ptest/test/m_roottar/expect /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/name /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.1
-  /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.2 /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/image /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/script /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/name /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/name /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/script /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/image.gz /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/mkpaxtar.pl /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/mkgnutar.pl /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.1 /usr/lib/e2fsprogs/ptest/test/m_roottar/mktar.pl /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.2 /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/image.gz /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/script /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/expect /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/expect /usr/lib/e2fsprogs/ptest/test/m_ro
- otpaxtar/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/image.gz /usr/lib/e2fsprogs/ptest/test/m_root_perms/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/image.gz /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.2 /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.1 /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.2 /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/name /usr/lib/e2fsprogs/ptest/test/m_roottar/script /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/output.sed /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/output.sed /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.2 /usr/lib/e2fsprogs/ptest/test/f_preen_
- htree_csum/expect.2 /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/expect.1 /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/name"
-packages/core2-64-poky-linux/e2fsprogs: PACKAGES: added "e2fsprogs-locale-ro"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1778,295 +1615,946 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============0879408683840259780==
+--===============5984103064923020392==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (0 cached, 918 parsed). 1879 targets, 46 skipped, 0 masked, 0 errors.
+Removing 58 recipes from the core2-64 sysroot...done.
+Removing 58 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-c03dfb91e8c220bfbb1e5575a0ac8615ac440ef6"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:c03dfb91e8c220bfbb1e5575a0ac8615ac440ef6"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 460 Local 424 Mirrors 0 Missed 36 Current 191 (92% match, 94% complete)
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 5 stale sstate objects for arch x86_64...done.
+Removing 1 stale sstate objects for arch allarch...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 203 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 210 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 211 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 219 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 220 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 223 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 225 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 226 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 227 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.9.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 228 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 229 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-passwd-3.6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.9-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 351 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_recipe_qa)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 337 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_create_spdx_setscene)
+NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.9-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 349 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 352 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 353 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 355 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 360 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 363 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe base-passwd-3.6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 369 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 370 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 374 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 375 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 376 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 377 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
+NOTE: recipe ell-0.67-r0: task do_recipe_qa: Started
+NOTE: Running setscene task 381 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 386 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 387 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-2.40.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 390 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 391 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 392 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 393 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 394 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_packagedata_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 395 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 396 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
+NOTE: recipe dbus-1.14.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 397 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 400 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 401 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-2.40.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 402 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 404 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.9.bb:do_packagedata_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 406 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.15.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dbus-1.14.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libx11-1_1.8.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ell-0.67-r0: task do_recipe_qa: Succeeded
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 407 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 408 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe shadow-4.15.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpam-1.6.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe util-linux-2.40.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 409 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 410 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_recipe_qa_setscene)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/base-passwd/3.6.3/temp/log.do_packagedata_setscene.3212528
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 411 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_package_setscene)
+NOTE: recipe dbus-1.14.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.15.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-4.15.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 414 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 416 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 417 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 418 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 419 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 421 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 423 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 424 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 426 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 429 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.9.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 430 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 431 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 433 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 434 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 435 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libx11-1_1.8.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.12.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.12.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 436 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 437 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_create_spdx_setscene)
+NOTE: recipe libx11-1_1.8.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 438 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_create_spdx_setscene)
+NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 388 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_fetch)
+NOTE: Running task 391 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_fetch)
+NOTE: Running setscene task 444 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_packagedata_setscene)
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 446 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 395 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_fetch)
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 449 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_recipe_qa_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 450 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 452 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libpcre2-10.44-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 454 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.2.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_fetch: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 456 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-2.40.1-r0: task do_fetch: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 457 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_fetch: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 458 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 459 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpcre2-10.44-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 460 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 462 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_create_spdx_setscene)
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 463 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 465 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 466 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 467 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 469 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glib-2.0-initial-1_2.80.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.12.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 470 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 472 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-passwd-3.6.3-r0: task do_package_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 474 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.12.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 477 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 479 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_packagedata_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 480 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 481 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 482 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 483 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.6.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 484 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 485 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_create_spdx_setscene)
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 486 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240517-3.1.bb:do_packagedata_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 487 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240517-3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 489 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_recipe_qa_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 490 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20240517-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 491 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 492 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_packagedata_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 493 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 495 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 499 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 503 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libedit-20240517-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 505 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 507 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.12.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 511 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe base-passwd-3.6.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 513 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.2.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 515 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 517 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 518 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 520 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240517-3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 523 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.12.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 524 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 525 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-passwd-3.6.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 527 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 528 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 529 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 530 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 534 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 535 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.6.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 537 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 538 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 539 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 542 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libedit-20240517-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 543 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 544 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-macros-1_1.20.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.20.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 546 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 548 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 549 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_packagedata_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 551 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 553 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 569 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.20.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 572 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 574 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 578 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
+NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 580 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 582 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 583 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe util-macros-1_1.20.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 585 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 586 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 588 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 590 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.45.3.bb:do_recipe_qa_setscene)
+NOTE: Running task 736 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_unpack)
+NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 923 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_unpack)
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_unpack: Started
+NOTE: Running task 986 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_unpack)
+NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1020 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_write_config)
+NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1058 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_fetch)
+NOTE: Running task 1059 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: Running task 1067 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_fetch)
+NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.45.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1163 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_fetch)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 593 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 595 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-2.40.1-r0: task do_unpack: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 596 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 597 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 599 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_write_config: Started
+NOTE: recipe shadow-4.15.1-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe dbus-1.14.10-r0: task do_fetch: Started
+NOTE: Running task 1204 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1205 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe shadow-4.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe dbus-1.14.10-r0: task do_fetch: Succeeded
+NOTE: Running task 1206 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_unpack)
+NOTE: Running task 1207 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_unpack)
+NOTE: recipe ell-0.67-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_write_config: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ell-0.67-r0: task do_fetch: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1208 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_unpack)
+NOTE: recipe libpam-1.6.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1209 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_patch)
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-4.15.1-r0: task do_unpack: Started
+NOTE: recipe dbus-1.14.10-r0: task do_unpack: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ell-0.67-r0: task do_unpack: Started
+NOTE: Running setscene task 601 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libpam-1.6.1-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1220 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe libtool-cross-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1221 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_collect_spdx_deps)
+NOTE: Running setscene task 603 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 604 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 606 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ell-0.67-r0: task do_unpack: Succeeded
+NOTE: Running task 1222 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_patch)
+NOTE: recipe libpam-1.6.1-r0: task do_patch: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe shadow-4.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1224 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_patch)
+NOTE: Running task 1226 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe dbus-1.14.10-r0: task do_unpack: Succeeded
+NOTE: Running task 1227 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_patch)
+NOTE: recipe libtool-cross-2.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ell-0.67-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe ell-0.67-r0: task do_patch: Succeeded
+NOTE: Running task 1238 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1239 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_populate_lic)
+NOTE: recipe shadow-4.15.1-r0: task do_patch: Started
+NOTE: recipe dbus-1.14.10-r0: task do_patch: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 608 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_packagedata_setscene)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1240 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running task 1241 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe ell-0.67-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ell-0.67-r0: task do_populate_lic: Started
+NOTE: recipe dbus-1.14.10-r0: task do_patch: Succeeded
+NOTE: recipe libgcc-14.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 610 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 611 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_patch: Started
+NOTE: recipe shadow-4.15.1-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1244 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libgcc-14.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 613 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-14.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1245 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe ell-0.67-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_populate_lic unihash changed to d4fd322a8b31c364d443220b90e0159716cebd5facd4d3befc1c5d6be43a3154
+NOTE: recipe libgcc-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 614 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 616 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_recipe_qa_setscene)
+NOTE: recipe ell-0.67-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe util-linux-2.40.1-r0: task do_patch: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 618 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 619 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 620 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-14.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 621 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 622 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 624 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1252 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_patch: Succeeded
+NOTE: recipe util-linux-2.40.1-r0: task do_patch: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 632 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 634 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 635 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 638 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 640 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 641 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 643 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 1313 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe linux-libc-headers-6.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 651 of 651 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 70b51aade0868d2e9665cb098e7343a206fad5376f133e2526ffd66fdb682fa5
+NOTE: Running task 1327 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1404 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx: Started
+NOTE: Running task 1606 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1678 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata)
+NOTE: recipe libpam-1.6.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1706 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_collect_spdx_deps)
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata: Started
+NOTE: recipe libpam-1.6.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx: Succeeded
+NOTE: recipe libpam-1.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libpam-1.6.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1745 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_configure)
+NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 75482368ea8bb62c21e5ad540fc5e8ee0e758e6ed6bace533e0f25309336c555
+NOTE: recipe libpam-1.6.1-r0: task do_configure: Started
+NOTE: recipe libpam-1.6.1-r0: task do_configure: Succeeded
+NOTE: Running task 1749 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_configure_ptest_base)
+NOTE: recipe libpam-1.6.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe libpam-1.6.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1750 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_compile)
+NOTE: recipe libpam-1.6.1-r0: task do_compile: Started
+NOTE: recipe libpam-1.6.1-r0: task do_compile: Succeeded
+NOTE: Running task 1751 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_compile_ptest_base)
+NOTE: recipe libpam-1.6.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe libpam-1.6.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1752 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_install)
+NOTE: recipe libpam-1.6.1-r0: task do_install: Started
+NOTE: recipe libpam-1.6.1-r0: task do_install: Succeeded
+NOTE: Running task 1753 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_install_ptest_base)
+NOTE: recipe libpam-1.6.1-r0: task do_install_ptest_base: Started
+NOTE: recipe libpam-1.6.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1754 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_populate_sysroot)
+NOTE: Running task 1755 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_package)
+NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libpam-1.6.1-r0: task do_package: Started
+NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1756 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1757 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe shadow-4.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe shadow-4.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1758 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_configure)
+NOTE: recipe shadow-4.15.1-r0: task do_configure: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1759 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_configure)
+NOTE: recipe util-linux-2.40.1-r0: task do_configure: Started
+NOTE: recipe libpam-1.6.1-r0: task do_package: Succeeded
+NOTE: Running task 1760 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata)
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata: Started
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1761 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_create_spdx)
+NOTE: recipe libpam-1.6.1-r0: task do_create_spdx: Started
+NOTE: recipe libpam-1.6.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1762 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_collect_spdx_deps)
+NOTE: Running task 1763 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_collect_spdx_deps)
+NOTE: recipe shadow-4.15.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe shadow-4.15.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe util-linux-2.40.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe shadow-4.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1764 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_compile)
+NOTE: recipe shadow-4.15.1-r0: task do_compile: Started
+NOTE: recipe shadow-4.15.1-r0: task do_compile: Succeeded
+NOTE: Running task 1765 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_install)
+NOTE: recipe shadow-4.15.1-r0: task do_install: Started
+NOTE: recipe shadow-4.15.1-r0: task do_install: Succeeded
+NOTE: Running task 1766 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_populate_sysroot)
+NOTE: Running task 1767 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_package)
+NOTE: recipe shadow-4.15.1-r0: task do_populate_sysroot: Started
+NOTE: recipe shadow-4.15.1-r0: task do_package: Started
+NOTE: recipe shadow-4.15.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe shadow-4.15.1-r0: task do_package: Succeeded
+NOTE: Running task 1768 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_packagedata)
+NOTE: recipe shadow-4.15.1-r0: task do_packagedata: Started
+NOTE: recipe shadow-4.15.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1769 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.15.1.bb:do_create_spdx)
+NOTE: recipe shadow-4.15.1-r0: task do_create_spdx: Started
+NOTE: recipe shadow-4.15.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe util-linux-2.40.1-r0: task do_configure: Succeeded
+NOTE: Running task 1770 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_configure_ptest_base)
+NOTE: recipe util-linux-2.40.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1771 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_compile)
+NOTE: recipe util-linux-2.40.1-r0: task do_compile: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_compile: Succeeded
+NOTE: Running task 1772 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_compile_ptest_base)
+NOTE: recipe util-linux-2.40.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1773 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_install)
+NOTE: recipe util-linux-2.40.1-r0: task do_install: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_install: Succeeded
+NOTE: Running task 1774 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_install_ptest_base)
+NOTE: recipe util-linux-2.40.1-r0: task do_install_ptest_base: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1775 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_populate_sysroot)
+NOTE: Running task 1776 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_package)
+NOTE: recipe util-linux-2.40.1-r0: task do_populate_sysroot: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_package: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1777 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1778 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_configure: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_configure: Succeeded
+NOTE: Running task 1779 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1780 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_compile: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_package: Succeeded
+NOTE: Running task 1781 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_packagedata)
+NOTE: recipe util-linux-2.40.1-r0: task do_packagedata: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1782 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_create_spdx)
+NOTE: recipe util-linux-2.40.1-r0: task do_create_spdx: Started
+NOTE: recipe util-linux-2.40.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1783 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_collect_spdx_deps)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_compile: Succeeded
+NOTE: Running task 1784 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_compile_ptest_base)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1785 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_install)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_install: Succeeded
+NOTE: Running task 1786 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1787 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot)
+NOTE: Running task 1788 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_package)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1789 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_prepare_recipe_sysroot)
+NOTE: recipe dbus-1.14.10-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dbus-1.14.10-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1790 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_configure)
+NOTE: recipe dbus-1.14.10-r0: task do_configure: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_package: Succeeded
+NOTE: Running task 1791 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_packagedata: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_packagedata unihash changed to 7033df7bd96d24bb23c2e1c9d7b9f52b6a462f6b249b0602c5a8c8dda167861d
+NOTE: Setscene tasks completed
+NOTE: Running task 1792 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_create_spdx)
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_create_spdx: Started
+NOTE: recipe glib-2.0-1_2.80.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1793 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps)
+NOTE: recipe dbus-1.14.10-r0: task do_collect_spdx_deps: Started
+NOTE: recipe dbus-1.14.10-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe dbus-1.14.10-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1794 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_configure_ptest_base)
+NOTE: recipe dbus-1.14.10-r0: task do_configure_ptest_base: Started
+NOTE: recipe dbus-1.14.10-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1795 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_compile)
+NOTE: recipe dbus-1.14.10-r0: task do_compile: Started
+NOTE: recipe dbus-1.14.10-r0: task do_compile: Succeeded
+NOTE: Running task 1796 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_compile_ptest_base)
+NOTE: recipe dbus-1.14.10-r0: task do_compile_ptest_base: Started
+NOTE: recipe dbus-1.14.10-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1797 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_install)
+NOTE: recipe dbus-1.14.10-r0: task do_install: Started
+NOTE: recipe dbus-1.14.10-r0: task do_install: Succeeded
+NOTE: Running task 1798 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_install_ptest_base)
+NOTE: recipe dbus-1.14.10-r0: task do_install_ptest_base: Started
+NOTE: recipe dbus-1.14.10-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1799 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_package)
+NOTE: Running task 1800 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_populate_sysroot)
+NOTE: recipe dbus-1.14.10-r0: task do_package: Started
+NOTE: recipe dbus-1.14.10-r0: task do_populate_sysroot: Started
+NOTE: recipe dbus-1.14.10-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1801 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ell-0.67-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ell-0.67-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1802 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_configure)
+NOTE: recipe ell-0.67-r0: task do_configure: Started
+NOTE: recipe dbus-1.14.10-r0: task do_package: Succeeded
+NOTE: Running task 1803 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_packagedata)
+NOTE: recipe dbus-1.14.10-r0: task do_packagedata: Started
+NOTE: recipe dbus-1.14.10-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_packagedata unihash changed to 39437ee7c4aecb1cb3f7ee9b7712d858917ccfe6944577c92c0bf37ed43b10cf
+NOTE: Setscene tasks completed
+NOTE: Running task 1804 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_create_spdx)
+NOTE: recipe dbus-1.14.10-r0: task do_create_spdx: Started
+NOTE: recipe dbus-1.14.10-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1805 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_collect_spdx_deps)
+NOTE: recipe ell-0.67-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ell-0.67-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe ell-0.67-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1806 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_compile)
+NOTE: recipe ell-0.67-r0: task do_compile: Started
+NOTE: recipe ell-0.67-r0: task do_compile: Succeeded
+NOTE: Running task 1807 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_install)
+NOTE: recipe ell-0.67-r0: task do_install: Started
+NOTE: recipe ell-0.67-r0: task do_install: Succeeded
+NOTE: Running task 1808 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_package)
+NOTE: Running task 1809 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_populate_sysroot)
+NOTE: recipe ell-0.67-r0: task do_package: Started
+NOTE: recipe ell-0.67-r0: task do_populate_sysroot: Started
+NOTE: recipe ell-0.67-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe ell-0.67-r0: task do_package: Succeeded
+NOTE: Running task 1810 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_packagedata)
+NOTE: recipe ell-0.67-r0: task do_packagedata: Started
+NOTE: recipe ell-0.67-r0: task do_packagedata: Succeeded
+NOTE: Running task 1811 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_create_spdx)
+NOTE: Running task 1812 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_package_write_ipk)
+NOTE: Running task 1813 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_package_write_deb)
+NOTE: Running task 1814 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_package_write_rpm)
+NOTE: Running task 1815 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_package_qa)
+NOTE: recipe ell-0.67-r0: task do_create_spdx: Started
+NOTE: recipe ell-0.67-r0: task do_package_write_ipk: Started
+NOTE: recipe ell-0.67-r0: task do_package_write_deb: Started
+NOTE: recipe ell-0.67-r0: task do_package_write_rpm: Started
+NOTE: recipe ell-0.67-r0: task do_package_qa: Started
+NOTE: recipe ell-0.67-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1816 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_create_runtime_spdx)
+NOTE: recipe ell-0.67-r0: task do_create_runtime_spdx: Started
+NOTE: recipe ell-0.67-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe ell-0.67-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe ell-0.67-r0: task do_package_qa: Succeeded
+NOTE: recipe ell-0.67-r0: task do_package_write_deb: Succeeded
+NOTE: recipe ell-0.67-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1817 of 1817 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.67.bb:do_build)
+NOTE: Tasks Summary: Attempted 1817 tasks of which 1710 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd-src went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd-dbg went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd-update went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd-staticdev went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd-dev went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd-doc went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd-locale went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: QA Issue: Package version for package base-passwd went backwards which would break package feeds (from 0:3.6.4-r0 to 0:3.6.3-r0) [version-going-backwards]
+ERROR: base-passwd-3.6.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============5984103064923020392==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-e2fsprogs-upgrade-1.47.0-1.47.1.patch"
+Content-Disposition: attachment; filename="0001-ell-upgrade-0.66-0.67.patch"
 
-RnJvbSA4NjM0MjQyOGFhNGZiYTgwOTI5MTlhOGQ4NzkxZjEzM2M3ZGRmNzRjIE1vbiBTZXAgMTcg
+RnJvbSBmNmQwYWJhMzcwOGVjZDE1ZDJiZTBkMDY5OGNjYmIzMDZlMjI4ZWRkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDk6Mjk6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-MmZzcHJvZ3M6IHVwZ3JhZGUgMS40Ny4wIC0+IDEuNDcuMQoKLS0tCiAuLi4tZml4LW1pc3Npbmct
-Y2hlY2stZm9yLXBlcm1pc3Npb24tZGVuaWVkLnBhdGNoIHwgIDMgKy0tCiAuLi4vZTJmc3Byb2dz
-L2UyZnNwcm9ncy9ta2Rpcl9wLnBhdGNoICAgICAgICAgICAgIHwgIDcgKysrLS0tLQogLi4uL2Uy
-ZnNwcm9ncy9lMmZzcHJvZ3MvcHRlc3QucGF0Y2ggICAgICAgICAgICAgICB8ICA4ICsrKystLS0t
-CiAuLi4vZTJmc3Byb2dzL2UyZnNwcm9ncy9xdWlldC1kZWJ1Z2ZzLnBhdGNoICAgICAgIHwgIDcg
-KysrLS0tLQogLi4uL2UyZnNwcm9ncy9yZW1vdmUubGRjb25maWcuY2FsbC5wYXRjaCAgICAgICAg
-ICB8IDE1ICsrKysrKy0tLS0tLS0tLQogLi4uL3tlMmZzcHJvZ3NfMS40Ny4wLmJiID0+IGUyZnNw
-cm9nc18xLjQ3LjEuYmJ9ICB8ICAyICstCiA2IGZpbGVzIGNoYW5nZWQsIDE4IGluc2VydGlvbnMo
-KyksIDI0IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJv
-Z3Mve2UyZnNwcm9nc18xLjQ3LjAuYmIgPT4gZTJmc3Byb2dzXzEuNDcuMS5iYn0gKDk5JSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9lMmZz
-cHJvZ3MtZml4LW1pc3NpbmctY2hlY2stZm9yLXBlcm1pc3Npb24tZGVuaWVkLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvZTJmc3Byb2dzLWZpeC1taXNz
-aW5nLWNoZWNrLWZvci1wZXJtaXNzaW9uLWRlbmllZC5wYXRjaAppbmRleCBiMDM4ZTYxZWI3Li5j
-NmU3ODlkZDY1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2Uy
-ZnNwcm9ncy9lMmZzcHJvZ3MtZml4LW1pc3NpbmctY2hlY2stZm9yLXBlcm1pc3Npb24tZGVuaWVk
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL2Uy
-ZnNwcm9ncy1maXgtbWlzc2luZy1jaGVjay1mb3ItcGVybWlzc2lvbi1kZW5pZWQucGF0Y2gKQEAg
-LTEsNCArMSw0IEBACi1Gcm9tIDViYzc1NjU0NjkwYTJkOTE2MTkwMTY4Yjg2NTc3MGE3YzkzZTY1
-ZGQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGU1MmFhY2M0Nzc3YzAyZmVjZmM1YmJm
-NmI5Mjg0ZTliNjQ0YmRlMjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKYWNraWUg
-SHVhbmcgPGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAxMCBBdWcgMjAx
-NiAxMToxOTo0NCArMDgwMAogU3ViamVjdDogW1BBVENIXSBGaXggbWlzc2luZyBjaGVjayBmb3Ig
-cGVybWlzc2lvbiBkZW5pZWQuCkBAIC0xMyw3ICsxMyw2IEBAIFVwc3RyZWFtLVN0YXR1czogUGVu
-ZGluZwogV3JpdHRlbi1ieTogSGVucmlrIFdhbGxpbiA8aGVucmlrLmIud2FsbGluQGVyaWNzc29u
-LmNvbT4KIAogU2lnbmVkLW9mZi1ieTogSmFja2llIEh1YW5nIDxqYWNraWUuaHVhbmdAd2luZHJp
-dmVyLmNvbT4KLQogLS0tCiAgbGliL3N1cHBvcnQvcHJvZmlsZS5jIHwgMiArLQogIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvbWtkaXJfcC5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL21rZGlyX3AucGF0Y2gKaW5kZXgg
-ZjY5MTZhMTExMi4uMzRjY2M5YjY2OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2UyZnNwcm9ncy9lMmZzcHJvZ3MvbWtkaXJfcC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9ta2Rpcl9wLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSBlM2EzMGJhYTVjMWUyZjBhYzdlMjQ2NTM5ZGIxYzdkYjVhMmZlMzAyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSA5OTc2YTcyNmJjMDAyNTY2OTlhNjk4YjBhYzgzZWE4MTUxNDhl
-NWE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9lIFNsYXRlciA8anNsYXRlckB3
-aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCA3IE1hciAyMDE3IDE0OjUzOjE5IC0wODAwCiBTdWJq
-ZWN0OiBbUEFUQ0hdIGUyZnNwcm9nczogZXhwYW5kIEBta2Rpcl9wQApAQCAtOSwxNiArOSwxNSBA
-QCBub3QgZXhwYW5kZWQgc28gbm8gbG9jYWxlIGRhdGEgaXMgd3JpdHRlbiBpbnRvIHVzci9zaGFy
-ZS9sb2NhbGUuCiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKIAogU2lnbmVkLW9mZi1ieTogSm9l
-IFNsYXRlciA8anNsYXRlckB3aW5kcml2ZXIuY29tPgotCiAtLS0KICBjb25maWd1cmUuYWMgfCAy
-ICsrCiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvY29u
-ZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCA0YzRiNTUyMy4uMzQ3NWM3MDcgMTAwNjQ0
-CitpbmRleCAxMzFjYWVmMy4uY2E0NDhkOTcgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsr
-KyBiL2NvbmZpZ3VyZS5hYwotQEAgLTkxOSw2ICs5MTksOCBAQCBBQ19TVUJTVChQQUNLQUdFKQor
-QEAgLTkzOCw2ICs5MzgsOCBAQCBBQ19TVUJTVChQQUNLQUdFKQogIEFDX1NVQlNUKFZFUlNJT04p
-CiAgCiAgQU1fR05VX0dFVFRFWFQoW2V4dGVybmFsXSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL3B0ZXN0LnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcHRlc3QucGF0Y2gKaW5kZXggMjA4MzliNzI4
-Ni4uNWUyZjNjMTBhMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9n
-cy9lMmZzcHJvZ3MvcHRlc3QucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNw
-cm9ncy9lMmZzcHJvZ3MvcHRlc3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGI4ODQyMDY1
-YWQ2MjFhMDNhOTcxZGZkNTBkYjg2MmM1YmZmZGViNDkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CitGcm9tIDI0NjQzYzQ1MTA0NmRmMGJjMDZiZjdlZDZiM2Q3MDRjMDM1OGNmN2MgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCiBGcm9tOiBEbWl0cnkgRXJlbWluLVNvbGVuaWtvdiA8ZG1pdHJ5X2Vy
-ZW1pbkBtZW50b3IuY29tPgogRGF0ZTogU2F0LCAxOCBBcHIgMjAxNSAxNzo1ODoxNyArMDMwMAog
-U3ViamVjdDogW1BBVENIXSBlMmZzcHJvZ3M6IGFkZCBwdGVzdApAQCAtMTQsMTAgKzE0LDEwIEBA
-IFNpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPgogIDIgZmls
-ZXMgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMTggZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1n
-aXQgYS90ZXN0cy9NYWtlZmlsZS5pbiBiL3Rlc3RzL01ha2VmaWxlLmluCi1pbmRleCA4YzRkMjA0
-OC4uZTAyMWFmMzIgMTAwNjQ0CitpbmRleCBiYTA2YjNiNi4uNWEzZTQ4ZjQgMTAwNjQ0CiAtLS0g
-YS90ZXN0cy9NYWtlZmlsZS5pbgogKysrIGIvdGVzdHMvTWFrZWZpbGUuaW4KLUBAIC0xOSw3ICsx
-OSw3IEBAIHRlc3Rfb25lOiAkKHNyY2RpcikvdGVzdF9vbmUuaW4gTWFrZWZpbGUgbWtlMmZzLmNv
-bmYKK0BAIC0yMCw3ICsyMCw3IEBAIHRlc3Rfb25lOiAkKHNyY2RpcikvdGVzdF9vbmUuaW4gTWFr
-ZWZpbGUgbWtlMmZzLmNvbmYgdGVzdF9kYXRhLnRtcAogIAlAZWNobyAiIyEvYmluL3NoIiA+IHRl
-c3Rfb25lCiAgCUBlY2hvICJIVFJFRT15IiA+PiB0ZXN0X29uZQogIAlAZWNobyAiUVVPVEE9eSIg
-Pj4gdGVzdF9vbmUKQEAgLTI2LDcgKzI2LDcgQEAgaW5kZXggOGM0ZDIwNDguLmUwMjFhZjMyIDEw
-MDY0NAogIAlAZWNobyAiRElGRl9PUFRTPUBVTklfRElGRl9PUFRTQCIgPj4gdGVzdF9vbmUKICAJ
-QGVjaG8gIlNJWkVPRl9USU1FX1Q9QFNJWkVPRl9USU1FX1RAIiA+PiB0ZXN0X29uZQogIAlAZWNo
-byAiREQ9QEREQCIgPj50ZXN0X29uZQotQEAgLTMwLDcgKzMwLDcgQEAgdGVzdF9zY3JpcHQ6IHRl
-c3Rfb25lIHRlc3Rfc2NyaXB0LmluIE1ha2VmaWxlIG1rZTJmcy5jb25mCitAQCAtMzEsNyArMzEs
-NyBAQCB0ZXN0X3NjcmlwdDogdGVzdF9vbmUgdGVzdF9zY3JpcHQuaW4gTWFrZWZpbGUgbWtlMmZz
-LmNvbmYgdGVzdF9kYXRhLnRtcAogIAlAZWNobyAiQ3JlYXRpbmcgdGVzdF9zY3JpcHQuLi4iCiAg
-CUBbIC1mIHRlc3Rfc2NyaXB0IF0gJiYgY2htb2QgdSt3IHRlc3Rfc2NyaXB0IHx8IHRydWUKICAJ
-QGVjaG8gIiMhL2Jpbi9zaCIgPiB0ZXN0X3NjcmlwdApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcXVpZXQtZGVidWdmcy5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL3F1aWV0LWRlYnVnZnMucGF0Y2gK
-aW5kZXggMGE2OTA0MjA4ZC4uNmZmZWYzYzVmMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3MvcXVpZXQtZGVidWdmcy5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9xdWlldC1kZWJ1Z2ZzLnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1ODBlZjZjYWUyZDM1M2YzYWE1ZDVjNTJkNjYxNGJkYzFk
-ZjUwZjA4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5ZmRhMzdkY2U3OGUzMDlhNWQx
-MWNmMWMyYTU2YjgwOTQxMjc1YjhjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9z
-cyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IE1vbiwgMjMgRGVjIDIwMTMg
-MTM6Mzg6MzQgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZTJmc3Byb2dzOiBzaWxlbmNlIGRlYnVn
-ZnMKQEAgLTgsMTYgKzgsMTUgQEAgZmlsZXN5c3RlbXMgYXQgcm9vdGZzIHRpbWUuCiAKIFVwc3Ry
-ZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZQogU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJv
-c3MuYnVydG9uQGludGVsLmNvbT4KLQogLS0tCiAgZGVidWdmcy9kZWJ1Z2ZzLmMgfCAyICstCiAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1n
-aXQgYS9kZWJ1Z2ZzL2RlYnVnZnMuYyBiL2RlYnVnZnMvZGVidWdmcy5jCi1pbmRleCA5YjYzMjFk
-Yy4uOGViZjNkZGIgMTAwNjQ0CitpbmRleCA5MDljMWRmMy4uMDg0MjM2OWUgMTAwNjQ0CiAtLS0g
-YS9kZWJ1Z2ZzL2RlYnVnZnMuYwogKysrIGIvZGVidWdmcy9kZWJ1Z2ZzLmMKLUBAIC0yNTE2LDcg
-KzI1MTYsNyBAQCBzdGF0aWMgaW50IHNvdXJjZV9maWxlKGNvbnN0IGNoYXIgKmNtZF9maWxlLCBp
-bnQgc3NfaWR4KQorQEAgLTI1MjksNyArMjUyOSw3IEBAIHN0YXRpYyBpbnQgc291cmNlX2ZpbGUo
-Y29uc3QgY2hhciAqY21kX2ZpbGUsIGludCBzc19pZHgpCiAgCQljcCA9IHN0cmNocihidWYsICdc
-cicpOwogIAkJaWYgKGNwKQogIAkJCSpjcCA9IDA7CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9ncy9yZW1vdmUubGRjb25maWcuY2FsbC5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL3JlbW92ZS5sZGNvbmZp
-Zy5jYWxsLnBhdGNoCmluZGV4IGYzZTZlYjc3OGYuLjM1YmM0MWUwYjAgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzL3JlbW92ZS5sZGNvbmZpZy5j
-YWxsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dz
-L3JlbW92ZS5sZGNvbmZpZy5jYWxsLnBhdGNoCkBAIC0xLDEwICsxLDEwIEBACi1Gcm9tIGIxMzll
-MDNhYzJmNzJlNjQ0ZTU0N2M3ZWU5YjE1MTQzODNhZjRkOTcgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tIDMyNTZmYTVkZWUwYWJmYWNlM2Y2ZWZhMDNlNmMzNDM4NWEyMjcwZGQgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbmRyZWkgRGludSA8YW5kcmVpLmFkcmlhbnguZGlu
-dUBpbnRlbC5jb20+CiBEYXRlOiBXZWQsIDMwIEphbiAyMDEzIDE1OjIyOjA0ICswMjAwCiBTdWJq
-ZWN0OiBbUEFUQ0hdIFdoZW4gL2V0Yy9sZC5zby5jYWNoZSBpcyB3cml0ZWFibGUgYnkgdXNlciBy
-dW5uaW5nIGJpdGJha2UKLSB0aGVuIGl0IGNyZWF0ZXMgaW52YWxpZCBjYWNoZSAoaW4gbXkgY2Fz
-ZSBsaWJzdGRjKysuc28KLSBjYW5ub3QgYmUgZm91bmQgYWZ0ZXIgYnVpbGRpbmcgemxpYigtbmF0
-aXZlKSBhbmQgSSBoYXZlIHRvCi0gY2FsbCB0b3VjaCAqL2xpYnN0ZGMrKy5zbyAmJiAvc2Jpbi9s
-ZGNvbmZpZyB0byBmaXggaXQuCisgdGhlbiBpdCBjcmVhdGVzIGludmFsaWQgY2FjaGUgKGluIG15
-IGNhc2UgbGlic3RkYysrLnNvIGNhbm5vdCBiZSBmb3VuZCBhZnRlcgorIGJ1aWxkaW5nIHpsaWIo
-LW5hdGl2ZSkgYW5kIEkgaGF2ZSB0byBjYWxsIHRvdWNoICovbGlic3RkYysrLnNvICYmCisgL3Ni
-aW4vbGRjb25maWcgdG8gZml4IGl0LgogCiBTbyByZW1vdmUgbGRjb25maWcgY2FsbCBmcm9tIG1h
-a2UgaW5zdGFsbC1saWJzCiAKQEAgLTE1LDExICsxNSwxMSBAQCBVcHN0cmVhbS1TdGF0dXM6IElu
-YXBwcm9wcmlhdGUgW2Rpc2FibGUgZmVhdHVyZV0KIFNpZ25lZC1vZmYtYnk6IFNjb3R0IEdhcm1h
-biA8c2NvdHQuYS5nYXJtYW5AaW50ZWwuY29tPgogU2lnbmVkLW9mZi1ieTogQW5kcmVpIERpbnUg
-PGFuZHJlaS5hZHJpYW54LmRpbnVAaW50ZWwuY29tPgogLS0tCi0gbGliL01ha2VmaWxlLmVsZi1s
-aWIgfCAgICAzIC0tLQorIGxpYi9NYWtlZmlsZS5lbGYtbGliIHwgMyAtLS0KICAxIGZpbGUgY2hh
-bmdlZCwgMyBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL2xpYi9NYWtlZmlsZS5lbGYtbGli
-IGIvbGliL01ha2VmaWxlLmVsZi1saWIKLWluZGV4IDc4NDc5ZDMuLjRhNGE1YWMgMTAwNjQ0Citp
-bmRleCBmODUwZjNkZC4uY2MxZTZhNzAgMTAwNjQ0CiAtLS0gYS9saWIvTWFrZWZpbGUuZWxmLWxp
-YgogKysrIGIvbGliL01ha2VmaWxlLmVsZi1saWIKIEBAIC01MCw4ICs1MCw2IEBAIGluc3RhbGwt
-c2hsaWJzIGluc3RhbGw6OiAkKEVMRl9MSUIpIGluc3RhbGxkaXJzLWVsZi1saWIgJChERVBfSU5T
-VEFMTF9TWU1MSU5LKQpAQCAtMzksNiArMzksMyBAQCBpbmRleCA3ODQ3OWQzLi40YTRhNWFjIDEw
-MDY0NAogIAogIGNsZWFuOjoKICAJJChSTSkgLXJmIGVsZnNoYXJlZAotLS0gCi0xLjcuOS41Ci0K
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzXzEu
-NDcuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzXzEuNDcu
-MS5iYgpzaW1pbGFyaXR5IGluZGV4IDk5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvZTJmc3Byb2dzL2UyZnNwcm9nc18xLjQ3LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9lMmZzcHJvZ3MvZTJmc3Byb2dzXzEuNDcuMS5iYgppbmRleCA5NDBiNDdjMTU1Li5i
-ZDZhYzkyY2IxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2Uy
-ZnNwcm9nc18xLjQ3LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9l
-MmZzcHJvZ3NfMS40Ny4xLmJiCkBAIC0xMCw3ICsxMCw3IEBAIFNSQ19VUkk6YXBwZW5kOmNsYXNz
-LW5hdGl2ZSA9ICIgXAogICAgICAgICAgICBmaWxlOi8vcXVpZXQtZGVidWdmcy5wYXRjaCBcCiAg
-ICAgICAgICAgICIKIAotU1JDUkVWID0gImY0YzljYzRiZWRhY2RlODQwOGVkZGEzNTIwYTMyZDM4
-NDIyOTAxMTIiCitTUkNSRVYgPSAiYjU3MWI5YjQyNDA3MzlhOTgyZThiY2E2MmNmYzkxNGEzYjUw
-MTkwYSIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gInYoP1A8cHZlcj5cZCtcLlxkKyhc
-LlxkKykqKSQiCiAKIEVYVFJBX09FQ09ORiArPSAiLS1saWJkaXI9JHtiYXNlX2xpYmRpcn0gLS1z
-YmluZGlyPSR7YmFzZV9zYmluZGlyfSBcCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDc6NTY6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+bGw6IHVwZ3JhZGUgMC42NiAtPiAwLjY3CgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL2VsbC97ZWxs
+XzAuNjYuYmIgPT4gZWxsXzAuNjcuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZWxsL3tlbGxf
+MC42Ni5iYiA9PiBlbGxfMC42Ny5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Y29yZS9lbGwvZWxsXzAuNjYuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxsXzAuNjcuYmIK
+c2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvZWxsL2Vs
+bF8wLjY2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxsXzAuNjcuYmIKaW5k
+ZXggODk5ZTJmNjg0OS4uNmIwZWJiZTYyMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+ZWxsL2VsbF8wLjY2LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2VsbC9lbGxfMC42Ny5iYgpA
+QCAtMTUsNCArMTUsNCBAQCBERVBFTkRTID0gImRidXMiCiBpbmhlcml0IGF1dG90b29scyBwa2dj
+b25maWcKIAogU1JDX1VSSSA9ICJodHRwczovL21pcnJvcnMuZWRnZS5rZXJuZWwub3JnL3B1Yi9s
+aW51eC9saWJzLyR7QlBOfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjdhNzhiNzU3MDgwZWQ2NTE4YzFjNGZhMjZhZDZhN2EzZDZlNGUzODUzODZhMjBiNmZiNTIz
+NzllN2QxZmZhMzYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTc5NDJlOGNlZmIxMzBiNjMyNDk2
+ZTU0ODUyNDJmM2YzNzRmM2I4ODQ2ODAwZmI3NGZmZmQ3NmRjMmEwYzcyNiIKLS0gCjIuNDQuMAoK
 
---===============0879408683840259780==
+--===============5984103064923020392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-badblocks: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-badblocks: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dbg: PKGSIZE changed from 5443168 to 5498816 (+1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dbg: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dbg: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dev: PKGSIZE changed from 211303 to 214981 (+2%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dev: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dev: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-doc: PKGSIZE changed from 229602 to 230292 (+0%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-doc: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-doc: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dumpe2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-dumpe2fs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2fsck: PKGSIZE changed from 360520 to 360680 (+0%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2fsck: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2fsck: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2scrub: PKGSIZE changed from 12708 to 12581 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2scrub: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-e2scrub: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ca: PKGSIZE changed from 138233 to 137879 (-0%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ca: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ca: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-cs: PKGSIZE changed from 187318 to 194288 (+4%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-cs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-cs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-da: PKGSIZE changed from 139525 to 138241 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-da: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-da: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-de: PKGSIZE changed from 174877 to 173516 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-de: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-de: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-eo: PKGSIZE changed from 87621 to 87445 (-0%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-eo: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-eo: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-es: PKGSIZE changed from 192760 to 191246 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-es: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-es: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fi: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fi: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fr: PKGSIZE changed from 191387 to 198645 (+4%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fr: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fur: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-fur: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-hu: PKGSIZE changed from 172240 to 170827 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-hu: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-hu: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-id: PKGSIZE changed from 79593 to 79436 (-0%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-id: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-id: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-it: PKGSIZE changed from 55778 to 55385 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-it: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-it: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PKGSIZE changed from 34318 to 38084 (+11%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-ms: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-nl: PKGSIZE changed from 181862 to 180360 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-nl: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-nl: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pl: PKGSIZE changed from 183887 to 190784 (+4%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pl: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pl: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pt: PKGSIZE changed from 181221 to 179847 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pt: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-pt: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sr: PKGSIZE changed from 243724 to 241885 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sr: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sv: PKGSIZE changed from 179148 to 185970 (+4%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sv: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-sv: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-tr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-tr: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-uk: PKGSIZE changed from 248181 to 257172 (+4%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-uk: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-uk: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-vi: PKGSIZE changed from 183915 to 182379 (-1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-vi: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-vi: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-zh-cn: PKGSIZE changed from 167075 to 173287 (+4%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-zh-cn: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-locale-zh-cn: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-mke2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-mke2fs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PKGSIZE changed from 16839531 to 19156882 (+14%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: FILELIST: added "/usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/image.gz /usr/lib/e2fsprogs/ptest/test/m_roottar/mktar.pl /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/image.gz /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/name /usr/lib/e2fsprogs/ptest/test/m_roottar/output.sed /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/image /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.1 /usr/lib/e2fsprogs/ptest/test/m_root_perms/script /usr/lib/e2fsprogs/ptest/test/m_roottar/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/image.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/name /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/imag
- e.gz /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_spurious_flag_dir/image /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.1 /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/expect.2 /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/expect.2 /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/mkgnutar.pl /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/mkpaxtar.pl /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/expect.1 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/image.gz /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/name /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/name /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/expect.2 /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/expect.1 /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/output.sed /usr/lib/e2fsprogs/ptest/test/m_root_perms/expect.1 /us
- r/lib/e2fsprogs/ptest/test/m_rootgnutar/output.sed /usr/lib/e2fsprogs/ptest/test/f_ea_inode_no_feature/image.gz /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/expect /usr/lib/e2fsprogs/ptest/test/m_rootpaxtar/script /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.2 /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/expect.1 /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/expect /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.2 /usr/lib/e2fsprogs/ptest/test/m_rootgnutar/script /usr/lib/e2fsprogs/ptest/test/f_ea_inode_disconnected/expect.1 /usr/lib/e2fsprogs/ptest/test/f_preen_htree_csum/name /usr/lib/e2fsprogs/ptest/test/f_desc_size_zero/script /usr/lib/e2fsprogs/ptest/test/m_roottar/expect /usr/lib/e2fsprogs/ptest/test/f_inlinedir_bad_symlink/name /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkdir/expect.2 /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.1 /usr/lib/e2fsprogs/ptest/test/f_quota_shrinkd
- ir/name /usr/lib/e2fsprogs/ptest/test/f_ea_inode_dir_ref/expect.2 /usr/lib/e2fsprogs/ptest/test/f_quota_deallocate_inode/image.gz"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-ptest: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-resize2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-resize2fs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: PKGSIZE changed from 3711490 to 3749801 (+1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: FILELIST: directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/support -> /usr/src/debug/e2fsprogs/1.47.1/lib/support, directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/e2p -> /usr/src/debug/e2fsprogs/1.47.1/lib/e2p, directory renamed /usr/src/debug/e2fsprogs/1.47.0/debugfs -> /usr/src/debug/e2fsprogs/1.47.1/debugfs, directory renamed /usr/src/debug/e2fsprogs/1.47.0/resize -> /usr/src/debug/e2fsprogs/1.47.1/resize, directory renamed /usr/src/debug/e2fsprogs/1.47.0/e2fsck -> /usr/src/debug/e2fsprogs/1.47.1/e2fsck, directory renamed /usr/src/debug/e2fsprogs/1.47.0/tests/progs -> /usr/src/debug/e2fsprogs/1.47.1/tests/progs, directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/ss -> /usr/src/debug/e2fsprogs/1.47.1/lib/ss, directory renamed /usr/src/debug/e2fsprogs/1.47.0/lib/et -> /usr/src/debug/e2fsprogs/1.47.1/lib/et, removed "/usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/e2image.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bb_in
- ode.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/io_manager.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dblist_dir.c /usr/src/debug/e2fsprogs/1.47.0/misc/dumpe2fs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/initialize.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/finddev.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_types.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/blknum.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_ext_attr.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/nls_utf8.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inline.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/native.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/rbtree.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/rbtree.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/version.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/flushb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext_attr.c /usr/src/debug/e2fsprogs/1.47.0/misc/e2image.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fallocate.c /usr/src/debug/e2fsprogs/1.47.0/
- lib/ext2fs/blkmap64_ba.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/closefs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/symlink.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inode_io.c /usr/src/debug/e2fsprogs/1.47.0/misc/chattr.c /usr/src/debug/e2fsprogs/1.47.0/misc/lsattr.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/blkmap64_rb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_fs.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/alloc_sb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/alloc_stats.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext3_extents.h /usr/src/debug/e2fsprogs/1.47.0/misc/e4defrag.c /usr/src/debug/e2fsprogs/1.47.0/misc/filefrag.c /usr/src/debug/e2fsprogs/1.47.0/misc/mk_hugefiles.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/mkjournal.c /usr/src/debug/e2fsprogs/1.47.0/misc/e2initrd_helper.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bmap.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/csum.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/link.c /usr/src/debug/e2fsprogs/1.47.0/l
- ib/ext2fs/namei.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/getsectsize.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/orphan.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/progress.c /usr/src/debug/e2fsprogs/1.47.0/misc/e2freefrag.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ismounted.c /usr/src/debug/e2fsprogs/1.47.0/misc/mklost+found.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/jfs_compat.h /usr/src/debug/e2fsprogs/1.47.0/misc/e2undo.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fast_commit.h /usr/src/debug/e2fsprogs/1.47.0/misc/e2freefrag.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/expanddir.c /usr/src/debug/e2fsprogs/1.47.0/misc/e4crypt.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dirhash.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2fsP.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/test_io.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/undo_io.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/unix_io.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fileio.c /usr/src/debug/e2fsprogs/1.47.0
- /lib/ext2fs/ext2_io.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/mmp.c /usr/src/debug/e2fsprogs/1.47.0/misc/tune2fs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/kernel-jbd.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext4_acl.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/get_num_dirs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inline_data.c /usr/src/debug/e2fsprogs/1.47.0/misc/mke2fs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/rw_bitmaps.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/gen_bitmap64.c /usr/src/debug/e2fsprogs/1.47.0/misc/mke2fs.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bmap64.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/openfs.c /usr/src/debug/e2fsprogs/1.47.0/misc/util.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/read_bb_file.c /usr/src/debug/e2fsprogs/1.47.0/misc/util.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/llseek.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ind_block.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/unlink.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext
- 2fs/lookup.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dirblock.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/fiemap.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/getsize.c /usr/src/debug/e2fsprogs/1.47.0/misc/logsave.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/res_gdt.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/crc16.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/qcow2.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/utf8data.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/icount.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/atexit.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dblist.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/extent.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/punch.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/qcow2.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/swapfs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/inode.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/mkdir.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/alloc.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bitops.c /u
- sr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/block.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/crc16.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dupfs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/freefs.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/get_pathname.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2fs.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/dir_iterate.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bitops.h /usr/src/debug/e2fsprogs/1.47.0/misc/create_inode.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bitmaps.c /usr/src/debug/e2fsprogs/1.47.0/misc/create_inode.h /usr/src/debug/e2fsprogs/1.47.0/misc/default_profile.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/check_desc.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/valid_blk.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/sparse_io.c /usr/src/debug/e2fsprogs/1.47.0/misc/badblocks.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/read_bb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/ext2_err.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2f
- s/ext2_err.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/kernel-list.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/write_bb_file.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/gen_bitmap.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/tdb.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/tdb.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/sha512.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/crc32c.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/bb_compat.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/hashmap.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/alloc_tables.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/i_block.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/hashmap.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/badblocks.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/crc32c_table.h /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/imager.c /usr/src/debug/e2fsprogs/1.47.0/lib/ext2fs/newdir.c", added "/usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/e2image.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bb_inode.c /usr/
- src/debug/e2fsprogs/1.47.1/lib/ext2fs/io_manager.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dblist_dir.c /usr/src/debug/e2fsprogs/1.47.1/misc/dumpe2fs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/initialize.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/finddev.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_types.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/blknum.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_ext_attr.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/nls_utf8.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inline.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/native.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/rbtree.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/rbtree.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/version.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/flushb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext_attr.c /usr/src/debug/e2fsprogs/1.47.1/misc/e2image.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/fallocate.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/
- blkmap64_ba.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/closefs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/symlink.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inode_io.c /usr/src/debug/e2fsprogs/1.47.1/misc/chattr.c /usr/src/debug/e2fsprogs/1.47.1/misc/lsattr.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/blkmap64_rb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_fs.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc_sb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc_stats.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext3_extents.h /usr/src/debug/e2fsprogs/1.47.1/misc/e4defrag.c /usr/src/debug/e2fsprogs/1.47.1/misc/filefrag.c /usr/src/debug/e2fsprogs/1.47.1/misc/mk_hugefiles.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/mkjournal.c /usr/src/debug/e2fsprogs/1.47.1/misc/e2initrd_helper.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bmap.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/csum.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/link.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/m
- kdir.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/getsectsize.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/orphan.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/progress.c /usr/src/debug/e2fsprogs/1.47.1/misc/e2freefrag.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ismounted.c /usr/src/debug/e2fsprogs/1.47.1/misc/mklost+found.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/jfs_compat.h /usr/src/debug/e2fsprogs/1.47.1/misc/e2undo.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/fast_commit.h /usr/src/debug/e2fsprogs/1.47.1/misc/e2freefrag.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/expanddir.c /usr/src/debug/e2fsprogs/1.47.1/misc/e4crypt.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dirhash.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2fsP.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/test_io.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/undo_io.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/unix_io.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/fileio.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs
- /ext2_io.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/mmp.c /usr/src/debug/e2fsprogs/1.47.1/misc/tune2fs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/kernel-jbd.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext4_acl.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/get_num_dirs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inline_data.c /usr/src/debug/e2fsprogs/1.47.1/misc/mke2fs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/rw_bitmaps.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/gen_bitmap64.c /usr/src/debug/e2fsprogs/1.47.1/misc/mke2fs.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bmap64.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/openfs.c /usr/src/debug/e2fsprogs/1.47.1/misc/util.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/read_bb_file.c /usr/src/debug/e2fsprogs/1.47.1/misc/util.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/llseek.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ind_block.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/unlink.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/lookup.
- c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dirblock.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/fiemap.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/getsize.c /usr/src/debug/e2fsprogs/1.47.1/misc/logsave.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/res_gdt.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc16.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/qcow2.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/utf8data.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/icount.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/atexit.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dblist.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/extent.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/namei.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/punch.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/qcow2.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/swapfs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/inode.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bitops.c /usr/src/debu
- g/e2fsprogs/1.47.1/lib/ext2fs/block.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc16.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dupfs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/freefs.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/get_pathname.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/getenv.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2fs.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/dir_iterate.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bitops.h /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bitmaps.c /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode.h /usr/src/debug/e2fsprogs/1.47.1/misc/default_profile.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/check_desc.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/valid_blk.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/sparse_io.c /usr/src/debug/e2fsprogs/1.47.1/misc/badblocks.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/read_bb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_err.c 
- /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/ext2_err.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/kernel-list.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/write_bb_file.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/gen_bitmap.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/tdb.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/tdb.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/sha512.c /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode_libarchive.c /usr/src/debug/e2fsprogs/1.47.1/misc/create_inode_libarchive.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc32c.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/bb_compat.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/hashmap.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/alloc_tables.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/i_block.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/hashmap.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/badblocks.c /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/crc32c_table.h /usr/src/debug/e2fsprogs/1.47.1/lib/ext2fs/imager.c /usr/s
- rc/debug/e2fsprogs/1.47.1/lib/ext2fs/newdir.c"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-src: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-staticdev: PKGSIZE changed from 3369004 to 3398774 (+1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-staticdev: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-staticdev: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-tune2fs: PKGSIZE changed from 121160 to 125256 (+3%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-tune2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs-tune2fs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs: PKGSIZE changed from 499433 to 503529 (+1%)
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/e2fsprogs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs: PACKAGES: added "e2fsprogs-locale-ro"
-packages/core2-64-poky-linux/e2fsprogs/libcomerr: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/libcomerr: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/libe2p: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/libe2p: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/libext2fs: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/libext2fs: PV changed from "1.47.0" to "1.47.1"
-packages/core2-64-poky-linux/e2fsprogs/libss: PKGV changed from 1.47.0 [default] to 1.47.1 [default]
-packages/core2-64-poky-linux/e2fsprogs/libss: PV changed from "1.47.0" to "1.47.1"
+packages/core2-64-poky-linux/ell/ell-dbg: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell/ell-dbg: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell/ell-dbg: PKGSIZE changed from 1721768 to 1722536 (+0%)
+packages/core2-64-poky-linux/ell/ell-dev: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell/ell-dev: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell/ell-dev: PKGSIZE changed from 124715 to 124915 (+0%)
+packages/core2-64-poky-linux/ell/ell-doc: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell/ell-doc: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell/ell-locale: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell/ell-locale: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell/ell-src: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell/ell-src: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell/ell-src: PKGSIZE changed from 1409307 to 1409392 (+0%)
+packages/core2-64-poky-linux/ell/ell-staticdev: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell/ell-staticdev: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell/ell: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell/ell: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell/ell: PKGSIZE changed from 542335 to 542367 (+0%)
+packages/core2-64-poky-linux/ell: PKGV changed from 0.66 [default] to 0.67 [default]
+packages/core2-64-poky-linux/ell: PV changed from "0.66" to "0.67"
+packages/core2-64-poky-linux/ell: SRC_URI changed from "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.66.tar.xz" to "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.67.tar.xz"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3577,5 +4065,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============0879408683840259780==--
+--===============5984103064923020392==--
 
