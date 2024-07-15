@@ -2,72 +2,83 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BCAC3DA4B
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 12:30:27 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.36656.1721046626000960146
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CBEC3DA4B
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 12:41:48 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.37143.1721047297946068733
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 05:30:26 -0700
+ Mon, 15 Jul 2024 05:41:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UnsBGkI5;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52e96d4986bso4262084e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 05:30:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mDep8jQl;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52e99060b0dso4482720e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 05:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721046624; x=1721651424; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1721047296; x=1721652096; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bCuwZvqi9PEMuy0y9vN3tpxsx5H04TZaJmmmMOfx7HU=;
-        b=UnsBGkI5Nov+8Mg2g7icnkL/clNBz2ykZiSsAnIOzlTb0uVEXStUgZn9TGZeIkbsEH
-         oDNBIv/8e39wJG6MZL+SgT0Z5meR74mKYXdffJev7soR2eFhPc1dRiASBSR1wiTmElgi
-         wqfFN2t0knX5X1rAkUE/yDge2CvqfgpJMIholqLj9oZ9VBvd4edhm4fyxbYDSD8WXGHT
-         1Kp2gwW0E6BQVlovcupb+Xksnixk+UI6qwPnWslNPOmoOtSu6ldixO2neDihoAAffRE/
-         PbN7mUEkeLYB6Bx6QgnFQCDyY1hj5yw2iYtpKlmYOCWjfjUVeXQOWO5QOwDMqH+qIE+B
-         ucRw==
+        bh=7dvWVp+u21Hx3SCH1NXEaNRDSyBwV/LnL4DFfilM400=;
+        b=mDep8jQlcabmAoBfVzosKOnmLHXB7nk279ibpKr2Qc3OVt1jNMlDX0Qs4h1BXBA5nm
+         I27e9CgY/ccg7Og32uiszp4JWoYYBescX+H+mB1PpQQBvU1VLuTexyytH7yLVwBAM8iX
+         T/V5aN9W8IF1DePZi5BOTuF5/Et8+WkwNMA7I8y/A9DjpcCfxZEDF9HjsxShyp+XiaSt
+         tryQ3gM0kg7jMGKHrlRdJqJIBBbPIgagZrDpGucpnTs6ggrjHuKe1XcDnbvLSQsmb/GN
+         JbJxzO+43s2fU7Ufq9ZErclO+V3mQW376GZiIoR6Ntw4EZ2Y2YcFnODT73wn/C8w4tIJ
+         n3vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721046624; x=1721651424;
+        d=1e100.net; s=20230601; t=1721047296; x=1721652096;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bCuwZvqi9PEMuy0y9vN3tpxsx5H04TZaJmmmMOfx7HU=;
-        b=vyg6nflR13oqReaTmxc+cyNxgqB9WBtehZH8b1675dJicuv5SQ0yRSMnz4E161q9qV
-         tlfDzXNz+3lv/33uPHessuCLF+7ZoRQYgCwhe/29nncxViyJOsZYe87aj3hTAesu9J7v
-         U7RKM+e40ceamf6b/XcraHjgZs2Kb3B7o/SPzLXyGMya+rnTE1hrFiy5EY2KCwVMmg14
-         +XHSUp7vKP33woOoPI84gbTs2wTkDh0Z8D3CXP5JCB34/hRap0Iry2LfmbGZLpAdsziO
-         MjLVcN8dAbFe2OrQfsoJhOXqWayab1GTvGE5qnTX8CKjFFxL7Uqa78J+m1N4wqzv2Dgs
-         zTNg==
-X-Gm-Message-State: AOJu0YyXuJeXLu8WkDKLkwpFit30CA6EuGTciaLh6/roMBloELr8Pbxq
-	oYndDJUIcXTXlJlXfa65+pXDLFz4oQz8ZRe/FLtmaHRVMIiEJe/fjkmZojbpeu/6KBrv8K+8ifw
-	WoCEyfA4uvmvgYLRCToTW7REDFqoGiw==
-X-Google-Smtp-Source: AGHT+IEoinAsMN0yq439ZHCwqXnK+Ns010OUg5RlMdxFeB3UELuqz4AFuQm22UjqJ7d1nRTwWqbk4HtPlh22EXFp+n0=
-X-Received: by 2002:a05:6512:1095:b0:52c:de3a:839f with SMTP id
- 2adb3069b0e04-52eb999535fmr12759846e87.20.1721046623706; Mon, 15 Jul 2024
- 05:30:23 -0700 (PDT)
+        bh=7dvWVp+u21Hx3SCH1NXEaNRDSyBwV/LnL4DFfilM400=;
+        b=YuXeSgOuUcZZvPfBgdJ/LDDlMuJAmCDOnMoTulyWR7sWKRJBfwTCx2tfOZCQka0Lh6
+         H9My/XM0R8LlUhQa9zAN/yY64R3ykCLXQtDZLdocGHm2jA0sEtMAVWey4cGMZzyxeQ00
+         12ktDzcMJfujFO8lZWXHdWp15ScdfKrZQfQeMHGxWYvFkHfNul3HEWjy7PIziKeF5+X/
+         R99tlAXVfWc7hlFZc3ST5WL3LsAuGv9Mzq9cavUFidNn5KzvlHE7z7+aBkJ8+ueCQlnd
+         tMbyaFN/P7KBmJREYVenJbEPVHrd1GVs0KZaB+Zn6GJWyjnHFrbfulNaHCcwQ+mY4tz1
+         5TJA==
+X-Gm-Message-State: AOJu0YzravzxxsK/SYdoJG21r9ZQoxqwBvr2s0YvfOf/kflUqsbJw91V
+	gErIu4Ffuwoyg1P8nVZ8sgT6vlwMP0/Q7wogYzknkH3Zf17LqXaSdegb8h4YyKUWVb5rfHuPpl/
+	lrwwC14NhEvTc2Q/u0+QX1FREf0pMWQ==
+X-Google-Smtp-Source: AGHT+IFriIbBUTfl0Ki98Csdw+40dPeGSt2VtmZd2/KlyE4yLmC9qpnNH8+Vskervfz5+AU9wyW//wZt9L4wCzlSJfE=
+X-Received: by 2002:a19:434e:0:b0:52e:9e70:d06e with SMTP id
+ 2adb3069b0e04-52eb99d4c9bmr11013587e87.53.1721047295680; Mon, 15 Jul 2024
+ 05:41:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANNYZj8AxXZ2Cpk6DiCo0V8sk7pROD-Rp-WXkUHU5mGmHcK2Qg@mail.gmail.com>
- <28508.1720812152706147809@lists.openembedded.org>
-In-Reply-To: <28508.1720812152706147809@lists.openembedded.org>
+References: <PH8PR11MB69284EC66E641DB6521B904EB8A12@PH8PR11MB6928.namprd11.prod.outlook.com>
+In-Reply-To: <PH8PR11MB69284EC66E641DB6521B904EB8A12@PH8PR11MB6928.namprd11.prod.outlook.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 15 Jul 2024 14:30:12 +0200
-Message-ID: <CANNYZj8Bn-5twN5pK-PikX2Tr-00V4V72SNEGUVm_osHYMjAtA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc: remove paths to sysroot from configargs.h
- and checksum-options for gcc-cross-canadian
-To: ohnatiuk@cisco.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jul 2024 14:41:24 +0200
+Message-ID: <CANNYZj-Drv_kv_M29iYvQohCLdNR9MFb8BOwCVxJ6Gd1oP-rCQ@mail.gmail.com>
+Subject: Re: [OE-core] Regarding the issue of adding a symbolic link from
+ python to python3
+To: Jiaying.Song.CN@windriver.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Li, Changqing" <Changqing.Li@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 12:30:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201921
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 12:41:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201922
 
-On Fri, 12 Jul 2024 at 21:22, Oleksandr Hnatiuk via
-lists.openembedded.org <ohnatiuk=cisco.com@lists.openembedded.org>
-wrote:
-> gcc recipe structure is quite complex. Where should I put these common functions? gcc-configure-common.inc ?
-> I see that all 3 files (gcc-target.inc, gcc-cross.inc, gcc-cross-canadian.inc) which use this code `require gcc-configure-common.inc`.
+On Mon, 15 Jul 2024 at 08:31, Song, Jiaying (CN) via
+lists.openembedded.org
+<Jiaying.Song.CN=windriver.com@lists.openembedded.org> wrote:
+> 2) Add the symbolic link directly to the python3-core package, so this modification will take effect as long as python3 is used.
+> Reference attachment: [PATCH] Add Python symbolic links into the Python3-core package
+>
+> A similar issue was resolved this way in Ubuntu 20.04:  https://askubuntu.com/questions/1296790/python-is-python3-package-in-ubuntu-20-04-what-is-it-and-what-does-it-actually
 
-Yes, I think that'd be the best location.
+Fedora and Debian take option one for now, but I do think we should
+just go ahead and provide /usr/bin/python from the core package. If
+someone is *still* using python 2.x (the public layer is not
+supporting anything after kirkstone but people can do private hacks),
+they can undo that provision with a .bbappend easily. Meanwhile we'll
+be able to drop a whole lot of patches that tweak #! in scripts.
+
+Can you send the second patch as an email with 'git send-email'?
+Please adjust the title to say: 'python3: provide /usr/bin/python as a
+symlink to python3'.
 
 Alex
 
