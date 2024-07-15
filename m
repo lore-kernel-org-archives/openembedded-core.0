@@ -2,155 +2,462 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D589C52D54
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1AFC52CD8
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:14 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.1303.1721071146400217605
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.1302.1721071146309465418
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Y7/GNKy9;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=le9i9X/r;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190b7d59d8d-f9121d1d-7451-42b3-8fce-d5c83dcdf290-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Uz/CGHkV;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=WriUBNsC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190b7d59f88-3c477bf2-b4ae-4a2b-860b-2a10a0446270-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721071148;
+	t=1721071149;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yuUBmWtGg+D65gF8LfLPO4CA2VM1xw8q48yCfTa9srk=;
-	b=Y7/GNKy9XGkPhVtW/+eVjvD78wIrKNMitR2SmX+XxRgT0CvD1snvL3sBzru11u98
-	E9OkAqDUtULd/h9xJpJU6X0SYkedXdQASfSyaacuKjxOKDrWzs+2srsyXcHY0kemsl7
-	GoPAseMRl99GLG8hOoHvdru9seONy+ZApChedqsk=
+	bh=iqEYG1nS16S3/x1DFa370uPtNSMNmjm+AnBhRJCXzjQ=;
+	b=Uz/CGHkV5PrMos29a5cmlABSW9PM26mxrqScNuyOp3Us8sQQHbW1A5rwLhsVvCma
+	wpbpdicykTnaSrL5iasEADtkktw11B4ldBaM0P1/vJYnkAgE94yQexRAJrSUJjKtOiM
+	OXdv6YSFw+Kfph6irAp0vA/xi1hS6KJ5fXRwNFGg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071148;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071149;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yuUBmWtGg+D65gF8LfLPO4CA2VM1xw8q48yCfTa9srk=;
-	b=le9i9X/r4o6HgKX7GTgl4bIN7/R0RJjkD3UBT0TbGsfRUZ7Q4Ds7RLxE6L4JFXaz
-	WwualFORt9J2snq+aRWzzgmLqDhLbtd8lCFF5WKGJcIymgr3hmEBSArFtiNM3KShSX0
-	8IIhzoCBvl5oPMGM3cLfyCuWkafNZ5BpkzbPj0og=
-Content-Type: multipart/mixed; boundary="===============3882131814871450765=="
+	bh=iqEYG1nS16S3/x1DFa370uPtNSMNmjm+AnBhRJCXzjQ=;
+	b=WriUBNsCgPK+YQ7aeXMXcK0QCqKuvA3kbp2lXAdnBwMqO+jyvUcPCSinD1abGqV0
+	WVFE3fsQ0t89qUMQMs13DVlSRJzXyRNEuzNJizRkzzdXSf+JJ2Ft+l/dZh8B2BaiB7y
+	Q9QcExjt+nVcLC2Lfh4TCZfQOmQykTtz4xs9tYac=
+Content-Type: multipart/mixed; boundary="===============6626052027039185461=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] puzzles: upgrading to fd304c53cc45dc05b3f95c20a466e20a7e1c9194
- SUCCEEDED
-Message-ID: <01010190b7d59d8d-f9121d1d-7451-42b3-8fce-d5c83dcdf290-000000@us-west-2.amazonses.com>
+Subject: [AUH] vte: upgrading to 0.76.3 FAILED
+Message-ID: <01010190b7d59f88-3c477bf2-b4ae-4a2b-860b-2a10a0446270-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:08 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.23
+X-SES-Outgoing: 2024.07.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202042
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202048
 
---===============3882131814871450765==
-Content-Type: text/plain; charset="us-ascii"
+--===============6626052027039185461==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+ICp2dGUqIHRvICowLjc2LjMqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxlZCBlcnJv
+ciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAgICAtIGFw
+cGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtdnRlLXVwZ3JhZGUtMC43NC4yLTAuNzYuMy5wYXRj
+aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
+emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
+dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
+c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
+LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
+YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
+dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
+VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
+IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
+ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
+IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
+bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
+ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
+bSAxNGRmZDY4NjViYjU0YTU0YzkzMGNmMDFhOTIzYmEyZWQ4MDY3MDI1IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
+dGU6IE1vbiwgMTUgSnVsIDIwMjQgMTk6MTk6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2dGU6
+IHVwZ3JhZGUgMC43NC4yIC0+IDAuNzYuMwoKLS0tCiAuLi4xLUFkZC1XX0VYSVRDT0RFLW1hY3Jv
+LWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaCB8IDExICsrKystLS0tLS0tCiAuLi4vdnRlL3t2
+dGVfMC43NC4yLmJiID0+IHZ0ZV8wLjc2LjMuYmJ9ICAgICAgICAgICAgICB8ICAyICstCiAyIGZp
+bGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC92dGUve3Z0ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMy5iYn0gKDk2
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdf
+RVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvdnRlL3Z0ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMt
+c3lzdGVtcy5wYXRjaAppbmRleCA4OTM0ZDVmODBhLi4zZmY5NWU4ODQxIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8tZm9y
+LW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92
+dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0Y2gK
+QEAgLTEsNCArMSw0IEBACi1Gcm9tIGRlOTYzOWJhYWM3OTIzMjdjNzAxZTUwOTI1OGI4YTEzZjY5
+NTllODIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDE4MWM0ZTQ2YzBmNTNhYjUxNzg2
+MWY0N2QwM2UzNGViYmIxMjgwYzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBEYW5p
+bG8gU3BpbmVsbGEgPGRhbnlzcGluOTdAcHJvdG9ubWFpbC5jb20+CiBEYXRlOiBUaHUsIDIxIE1h
+ciAyMDE5IDE0OjE5OjI2ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBXX0VYSVRDT0RFIG1h
+Y3JvIGZvciBub24tZ2xpYmMgc3lzdGVtcwpAQCAtMTIsMTEgKzEyLDExIEBAIFNpZ25lZC1vZmYt
+Ynk6IEFuZHJlYXMgTcO8bGxlciA8c2Nobml0emVsdG9ueUBnbWFpbC5jb20+CiAKIFsxXSBodHRw
+czovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvdnRlL2lzc3Vlcy83MgogLS0tCi0gc3JjL3dpZGdl
+dC5jYyAgfCA0ICsrKwotIDEgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCisgc3JjL3dp
+ZGdldC5jYyB8IDQgKysrKworIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKIAogZGlm
+ZiAtLWdpdCBhL3NyYy93aWRnZXQuY2MgYi9zcmMvd2lkZ2V0LmNjCi1pbmRleCAwN2Y3Y2FiZi4u
+MzFhNzdmNjggMTAwNjQ0CitpbmRleCBiOGRhYTVjLi5jMzU3OTYwIDEwMDY0NAogLS0tIGEvc3Jj
+L3dpZGdldC5jYwogKysrIGIvc3JjL3dpZGdldC5jYwogQEAgLTE2LDYgKzE2LDEwIEBACkBAIC0z
+MCw2ICszMCwzIEBAIGluZGV4IDA3ZjdjYWJmLi4zMWE3N2Y2OCAxMDA2NDQKICAjaW5jbHVkZSAi
+Y29uZmlnLmgiCiAgCiAgI2luY2x1ZGUgIndpZGdldC5oaCIKLS0tIAotMi40Mi4wCi0KZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43NC4yLmJiIGIvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43Ni4zLmJiCmluZGV4IGQ4ZWFmZGUyZmIuLjhi
+ZWVjMWE4ZjYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43NC4y
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43Ni4zLmJiCkBAIC0xOSw3
+ICsxOSw3IEBAIEdJRE9DR0VOX01FU09OX09QVElPTiA9ICJkb2NzIgogaW5oZXJpdCBnbm9tZWJh
+c2UgZ2ktZG9jZ2VuIGZlYXR1cmVzX2NoZWNrIHVwc3RyZWFtLXZlcnNpb24taXMtZXZlbiBnb2Jq
+ZWN0LWludHJvc3BlY3Rpb24gc3lzdGVtZCB2YWxhCiAKIFNSQ19VUkkgKz0gImZpbGU6Ly8wMDAx
+LUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaCIKLVNSQ19V
+UklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImE1MzVmYjJhOThmZWE4YTI0NDljZDFhMDJjY2NmNTE5
+MDEzMWRkZGZmNTJlNzE1YWZkYWNlM2ZlYjUzNmVhZTciCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2
+c3VtXSA9ICJmNjc4ZTk0YzA1NmYzNzdmZDAwMjEyMTRhZGZmNTQ1MGNiMTcyZTlhMDhiMTYwOTEx
+MTgxZGRmZjdiN2Q1ZDYwIgogCiBBTllfT0ZfRElTVFJPX0ZFQVRVUkVTID0gIiR7R1RLM0RJU1RS
+T0ZFQVRVUkVTfSIKIAotLSAKMi40NC4wCgo=
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *puzzles* to *fd304c53cc45dc05b3f95c20a466e20a7e1c9194* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 30bcfc6859759f7e9a9e880fb6bb0ec4a3edb0df Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 16:44:14 +0000
-Subject: [PATCH] puzzles: upgrade to latest revision
-
----
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index e9403ee130..0ed066a5b5 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "80aac3104096aee4057b675c53ece8e60793aa90"
-+SRCREV = "fd304c53cc45dc05b3f95c20a466e20a7e1c9194"
- PE = "2"
- PV = "0.0+git"
- 
--- 
-2.44.0
-
-
---===============3882131814871450765==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-
---===============3882131814871450765==
+--===============6626052027039185461==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-puzzles-upgrade-to-latest-revision.patch"
+ filename="0001-vte-upgrade-0.74.2-0.76.3.patch"
 
-RnJvbSAzMGJjZmM2ODU5NzU5ZjdlOWE5ZTg4MGZiNmJiMGVjNGEzZWRiMGRmIE1vbiBTZXAgMTcg
+RnJvbSAxNGRmZDY4NjViYjU0YTU0YzkzMGNmMDFhOTIzYmEyZWQ4MDY3MDI1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTY6NDQ6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-dXp6bGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtc2F0
-by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6
-emxlcy9wdXp6bGVzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1zYXRvL3B1enpsZXMvcHV6emxlc19n
-aXQuYmIKaW5kZXggZTk0MDNlZTEzMC4uMGVkMDY2YTViNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9w
-dXp6bGVzL3B1enpsZXNfZ2l0LmJiCkBAIC0xMCw3ICsxMCw3IEBAIFJFUVVJUkVEX0RJU1RST19G
-RUFUVVJFUyA9ICJ4MTEiCiBTUkNfVVJJID0gImdpdDovL2dpdC50YXJ0YXJ1cy5vcmcvc2ltb24v
-cHV6emxlcy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNL
-X0NPTU1JVFMgPSAiMSIKLVNSQ1JFViA9ICI4MGFhYzMxMDQwOTZhZWU0MDU3YjY3NWM1M2VjZThl
-NjA3OTNhYTkwIgorU1JDUkVWID0gImZkMzA0YzUzY2M0NWRjMDViM2Y5NWMyMGE0NjZlMjBhN2Ux
-YzkxOTQiCiBQRSA9ICIyIgogUFYgPSAiMC4wK2dpdCIKIAotLSAKMi40NC4wCgo=
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTk6MTk6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dGU6IHVwZ3JhZGUgMC43NC4yIC0+IDAuNzYuMwoKLS0tCiAuLi4xLUFkZC1XX0VYSVRDT0RFLW1h
+Y3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaCB8IDExICsrKystLS0tLS0tCiAuLi4vdnRl
+L3t2dGVfMC43NC4yLmJiID0+IHZ0ZV8wLjc2LjMuYmJ9ICAgICAgICAgICAgICB8ICAyICstCiAy
+IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUve3Z0ZV8wLjc0LjIuYmIgPT4gdnRlXzAuNzYuMy5iYn0g
+KDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRk
+LVdfRVhJVENPREUtbWFjcm8tZm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvdnRlL3Z0ZS8wMDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xp
+YmMtc3lzdGVtcy5wYXRjaAppbmRleCA4OTM0ZDVmODBhLi4zZmY5NWU4ODQxIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92dGUvdnRlLzAwMDEtQWRkLVdfRVhJVENPREUtbWFjcm8t
+Zm9yLW5vbi1nbGliYy1zeXN0ZW1zLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0
+ZS92dGUvMDAwMS1BZGQtV19FWElUQ09ERS1tYWNyby1mb3Itbm9uLWdsaWJjLXN5c3RlbXMucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGRlOTYzOWJhYWM3OTIzMjdjNzAxZTUwOTI1OGI4YTEz
+ZjY5NTllODIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDE4MWM0ZTQ2YzBmNTNhYjUx
+Nzg2MWY0N2QwM2UzNGViYmIxMjgwYzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBE
+YW5pbG8gU3BpbmVsbGEgPGRhbnlzcGluOTdAcHJvdG9ubWFpbC5jb20+CiBEYXRlOiBUaHUsIDIx
+IE1hciAyMDE5IDE0OjE5OjI2ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBXX0VYSVRDT0RF
+IG1hY3JvIGZvciBub24tZ2xpYmMgc3lzdGVtcwpAQCAtMTIsMTEgKzEyLDExIEBAIFNpZ25lZC1v
+ZmYtYnk6IEFuZHJlYXMgTcO8bGxlciA8c2Nobml0emVsdG9ueUBnbWFpbC5jb20+CiAKIFsxXSBo
+dHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvdnRlL2lzc3Vlcy83MgogLS0tCi0gc3JjL3dp
+ZGdldC5jYyAgfCA0ICsrKwotIDEgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCisgc3Jj
+L3dpZGdldC5jYyB8IDQgKysrKworIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKIAog
+ZGlmZiAtLWdpdCBhL3NyYy93aWRnZXQuY2MgYi9zcmMvd2lkZ2V0LmNjCi1pbmRleCAwN2Y3Y2Fi
+Zi4uMzFhNzdmNjggMTAwNjQ0CitpbmRleCBiOGRhYTVjLi5jMzU3OTYwIDEwMDY0NAogLS0tIGEv
+c3JjL3dpZGdldC5jYwogKysrIGIvc3JjL3dpZGdldC5jYwogQEAgLTE2LDYgKzE2LDEwIEBACkBA
+IC0zMCw2ICszMCwzIEBAIGluZGV4IDA3ZjdjYWJmLi4zMWE3N2Y2OCAxMDA2NDQKICAjaW5jbHVk
+ZSAiY29uZmlnLmgiCiAgCiAgI2luY2x1ZGUgIndpZGdldC5oaCIKLS0tIAotMi40Mi4wCi0KZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43NC4yLmJiIGIvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc2LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvdnRlL3Z0ZV8wLjc0LjIuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43Ni4zLmJiCmluZGV4IGQ4ZWFmZGUyZmIu
+LjhiZWVjMWE4ZjYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43
+NC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3Z0ZS92dGVfMC43Ni4zLmJiCkBAIC0x
+OSw3ICsxOSw3IEBAIEdJRE9DR0VOX01FU09OX09QVElPTiA9ICJkb2NzIgogaW5oZXJpdCBnbm9t
+ZWJhc2UgZ2ktZG9jZ2VuIGZlYXR1cmVzX2NoZWNrIHVwc3RyZWFtLXZlcnNpb24taXMtZXZlbiBn
+b2JqZWN0LWludHJvc3BlY3Rpb24gc3lzdGVtZCB2YWxhCiAKIFNSQ19VUkkgKz0gImZpbGU6Ly8w
+MDAxLUFkZC1XX0VYSVRDT0RFLW1hY3JvLWZvci1ub24tZ2xpYmMtc3lzdGVtcy5wYXRjaCIKLVNS
+Q19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImE1MzVmYjJhOThmZWE4YTI0NDljZDFhMDJjY2Nm
+NTE5MDEzMWRkZGZmNTJlNzE1YWZkYWNlM2ZlYjUzNmVhZTciCitTUkNfVVJJW2FyY2hpdmUuc2hh
+MjU2c3VtXSA9ICJmNjc4ZTk0YzA1NmYzNzdmZDAwMjEyMTRhZGZmNTQ1MGNiMTcyZTlhMDhiMTYw
+OTExMTgxZGRmZjdiN2Q1ZDYwIgogCiBBTllfT0ZfRElTVFJPX0ZFQVRVUkVTID0gIiR7R1RLM0RJ
+U1RST0ZFQVRVUkVTfSIKIAotLSAKMi40NC4wCgo=
 
---===============3882131814871450765==
+--===============6626052027039185461==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 19606896 to 19606928 (+0%)
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3838603 to 3839116 (+0%)
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+fd304c53cc
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1879 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (917 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============3882131814871450765==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-9f5f32620ecc9c5eabb326765744e42a708e3f68"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:9f5f32620ecc9c5eabb326765744e42a708e3f68"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 514 Local 501 Mirrors 0 Missed 13 Current 801 (97% match, 99% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 3259 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_recipe_qa)
+NOTE: Running task 3451 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_write_config)
+NOTE: recipe vte-0.76.3-r0: task do_recipe_qa: Started
+NOTE: recipe vte-0.76.3-r0: task do_write_config: Started
+NOTE: recipe vte-0.76.3-r0: task do_write_config: Succeeded
+NOTE: recipe vte-0.76.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 3584 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_fetch)
+NOTE: recipe vte-0.76.3-r0: task do_fetch: Started
+NOTE: recipe vte-0.76.3-r0: task do_fetch: Succeeded
+NOTE: Running task 3585 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_unpack)
+NOTE: Running task 3586 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vte-0.76.3-r0: task do_unpack: Started
+NOTE: recipe vte-0.76.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vte-0.76.3-r0: task do_unpack: Succeeded
+NOTE: Running task 3587 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_patch)
+NOTE: Running task 3588 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_collect_spdx_deps)
+NOTE: recipe vte-0.76.3-r0: task do_patch: Started
+NOTE: recipe vte-0.76.3-r0: task do_patch: Succeeded
+NOTE: recipe vte-0.76.3-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 3589 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3590 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_populate_lic)
+NOTE: recipe vte-0.76.3-r0: task do_populate_lic: Started
+NOTE: recipe vte-0.76.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vte-0.76.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe vte-0.76.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vte-0.76.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vte-0.76.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 3591 of 3603 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_configure)
+NOTE: recipe vte-0.76.3-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_256.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_9.0.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.68.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot'
+ , '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk+3_3.24.42.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.14.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.12.8.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.4.0.bb:d
+ o_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gperf/gperf_3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:nati
+ ve:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'cracklib', 'libidn2', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gi-docgen', 'gobject-introspection', 'gtk+3', 'gtk4', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-s
+ tubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libical', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', '
+ libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'gperf-native', 'libnsl2-native', 'libtirpc-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dgir=true -Ddocs=false -Dvapi=true -Dfribidi=false -Dgnutls=true -Dgtk4=true -D_systemd=true...
+| The Meson build system
+| Version: 1.4.0
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/vte-0.76.3
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/build
+| Build type: cross build
+| Project name: vte
+| Project version: 0.76.3
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-gcc (GCC) 14.1.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot ld.bfd 2.42.0.20240620
+| C++ compiler for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot (gcc 14.1.0 "x86_64-poky-linux-g++ (GCC) 14.1.0")
+| C++ linker for the host machine: x86_64-poky-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot ld.bfd 2.42.0.20240620
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.42.0.20240216
+| C++ compiler for the build machine: g++ (gcc 13.2.0 "g++ (GCC) 13.2.0")
+| C++ linker for the build machine: g++ ld.bfd 2.42.0.20240216
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Compiler for C supports arguments -std=gnu11: YES
+| ../vte-0.76.3/meson.build:143: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu11".
+| Compiler for C++ supports arguments -std=gnu++20: YES
+| ../vte-0.76.3/meson.build:151: WARNING: Consider using the built-in option for language standard version instead of using "-std=gnu++20".
+| Program python3 (dataclasses) found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot-native/usr/bin/nativepython3) modules: dataclasses
+| Header "sys/ioctl.h" has symbol "TIOCGWINSZ" : YES
+| Library m found: YES
+| Checking if "fork" compiles: YES
+| Checking if "grantpt" compiles: YES
+| Checking if "posix_openpt" compiles: YES
+| Checking if "ptsname" compiles: YES
+| Checking if "tcgetattr" compiles: YES
+| Checking if "unlockpt" compiles: YES
+| Checking if "explicit_bzero" compiles: YES
+| Checking if "fdwalk" compiles: NO
+| Checking if "pread" compiles: YES
+| Checking if "pwrite" compiles: YES
+| Checking if "strchrnul" compiles: YES
+| Checking if "close_range" compiles: YES
+| Checking if "ceil" with dependency -lm compiles: YES
+| Checking if "floor" with dependency -lm compiles: YES
+| Checking if "round" with dependency -lm compiles: YES
+| Compiler for C supports arguments -Wall: YES
+| Compiler for C supports arguments -Wextra: YES
+| Compiler for C supports arguments -Wcast-align: YES
+| Compiler for C supports arguments -Wcast-function-type: YES
+| Compiler for C supports arguments -Wclobbered: YES
+| Compiler for C supports arguments -Wempty-body: YES
+| Compiler for C supports arguments -Wendif-labels: YES
+| Compiler for C supports arguments -Werror=init-self: YES
+| Compiler for C supports arguments -Werror=missing-include-dirs: YES
+| Compiler for C supports arguments -Werror=pointer-arith: YES
+| Compiler for C supports arguments -Wfloat-equal: YES
+| Compiler for C supports arguments -Wignored-qualifiers: YES
+| Compiler for C supports arguments -Winvalid-pch: YES
+| Compiler for C supports arguments -Wlogical-op: YES
+| Compiler for C supports arguments -Wmisleading-indentation: YES
+| Compiler for C supports arguments -Wmissing-declarations: YES
+| Compiler for C supports arguments -Wmissing-field-initializers: YES
+| Compiler for C supports arguments -Wmissing-format-attribute: YES
+| Compiler for C supports arguments -Wmissing-include-dirs: YES
+| Compiler for C supports arguments -Wmissing-noreturn: YES
+| Compiler for C supports arguments -Wno-deprecated-declarations: YES
+| Compiler for C supports arguments -Wno-address-of-packed-member: YES
+| Compiler for C supports arguments -Wno-c99-designator: NO
+| Compiler for C supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C supports arguments -Wno-packed: YES
+| Compiler for C supports arguments -Wno-switch-enum: YES
+| Compiler for C supports arguments -Wno-unused-parameter: YES
+| Compiler for C supports arguments -Wno-volatile: NO
+| Compiler for C supports arguments -Wshadow: YES
+| Compiler for C supports arguments -Wshift-negative-value: YES
+| Compiler for C supports arguments -Wsign-compare: YES
+| Compiler for C supports arguments -Wstrict-aliasing=2: YES
+| Compiler for C supports arguments -Wtype-limits: YES
+| Compiler for C supports arguments -Wundef: YES
+| Compiler for C supports arguments -Wuninitialized: YES
+| Compiler for C supports arguments -Wuninitialized: YES (cached)
+| Compiler for C supports arguments -Wunsafe-loop-optimizations: YES
+| Compiler for C supports arguments -Wunused: YES
+| Compiler for C supports arguments -Wunused-but-set-parameter: YES
+| Compiler for C supports arguments -Wunused-but-set-variable: YES
+| Compiler for C supports arguments -Wunused-function: YES
+| Compiler for C supports arguments -Wunused-label: YES
+| Compiler for C supports arguments -Wunused-local-typedefs: YES
+| Compiler for C supports arguments -Wunused-value: YES
+| Compiler for C supports arguments -Wunused-variable: YES
+| Compiler for C supports arguments -Wvla: YES
+| Compiler for C supports arguments -Wwrite-strings: YES
+| Compiler for C supports arguments -fdiagnostics-show-option: YES
+| Compiler for C supports arguments -fno-common: YES
+| Compiler for C supports arguments -fno-semantic-interposition: YES
+| Compiler for C supports arguments -fno-strict-aliasing: YES
+| Compiler for C supports arguments -Waggregate-return: YES
+| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
+| Compiler for C supports arguments -Werror=missing-prototypes: YES
+| Compiler for C supports arguments -Wimplicit: YES
+| Compiler for C supports arguments -Wimplicit-fallthrough=3: YES
+| Compiler for C supports arguments -Wmissing-parameter-type: YES
+| Compiler for C supports arguments -Wnested-externs: YES
+| Compiler for C supports arguments -Wold-style-declaration: YES
+| Compiler for C supports arguments -Wold-style-definition: YES
+| Compiler for C supports arguments -Woverride-init: YES
+| Compiler for C supports arguments -Wsign-compare: YES (cached)
+| Compiler for C supports arguments -Wstrict-prototypes: YES
+| Compiler for C++ supports arguments -Wall: YES
+| Compiler for C++ supports arguments -Wextra: YES
+| Compiler for C++ supports arguments -Wcast-align: YES
+| Compiler for C++ supports arguments -Wcast-function-type: YES
+| Compiler for C++ supports arguments -Wclobbered: YES
+| Compiler for C++ supports arguments -Wempty-body: YES
+| Compiler for C++ supports arguments -Wendif-labels: YES
+| Compiler for C++ supports arguments -Werror=init-self: YES
+| Compiler for C++ supports arguments -Werror=missing-include-dirs: YES
+| Compiler for C++ supports arguments -Werror=pointer-arith: YES
+| Compiler for C++ supports arguments -Wfloat-equal: YES
+| Compiler for C++ supports arguments -Wignored-qualifiers: YES
+| Compiler for C++ supports arguments -Winvalid-pch: YES
+| Compiler for C++ supports arguments -Wlogical-op: YES
+| Compiler for C++ supports arguments -Wmisleading-indentation: YES
+| Compiler for C++ supports arguments -Wmissing-declarations: YES
+| Compiler for C++ supports arguments -Wmissing-field-initializers: YES
+| Compiler for C++ supports arguments -Wmissing-format-attribute: YES
+| Compiler for C++ supports arguments -Wmissing-include-dirs: YES
+| Compiler for C++ supports arguments -Wmissing-noreturn: YES
+| Compiler for C++ supports arguments -Wno-deprecated-declarations: YES
+| Compiler for C++ supports arguments -Wno-address-of-packed-member: YES
+| Compiler for C++ supports arguments -Wno-c99-designator: NO
+| Compiler for C++ supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C++ supports arguments -Wno-packed: YES
+| Compiler for C++ supports arguments -Wno-switch-enum: YES
+| Compiler for C++ supports arguments -Wno-unused-parameter: YES
+| Compiler for C++ supports arguments -Wno-volatile: YES
+| Compiler for C++ supports arguments -Wshadow: YES
+| Compiler for C++ supports arguments -Wshift-negative-value: YES
+| Compiler for C++ supports arguments -Wsign-compare: YES
+| Compiler for C++ supports arguments -Wstrict-aliasing=2: YES
+| Compiler for C++ supports arguments -Wtype-limits: YES
+| Compiler for C++ supports arguments -Wundef: YES
+| Compiler for C++ supports arguments -Wuninitialized: YES
+| Compiler for C++ supports arguments -Wuninitialized: YES (cached)
+| Compiler for C++ supports arguments -Wunsafe-loop-optimizations: YES
+| Compiler for C++ supports arguments -Wunused: YES
+| Compiler for C++ supports arguments -Wunused-but-set-parameter: YES
+| Compiler for C++ supports arguments -Wunused-but-set-variable: YES
+| Compiler for C++ supports arguments -Wunused-function: YES
+| Compiler for C++ supports arguments -Wunused-label: YES
+| Compiler for C++ supports arguments -Wunused-local-typedefs: YES
+| Compiler for C++ supports arguments -Wunused-value: YES
+| Compiler for C++ supports arguments -Wunused-variable: YES
+| Compiler for C++ supports arguments -Wvla: YES
+| Compiler for C++ supports arguments -Wwrite-strings: YES
+| Compiler for C++ supports arguments -fdiagnostics-show-option: YES
+| Compiler for C++ supports arguments -fno-common: YES
+| Compiler for C++ supports arguments -fno-semantic-interposition: YES
+| Compiler for C++ supports arguments -fno-strict-aliasing: YES
+| Compiler for C++ supports arguments -Wimplicit-fallthrough=5: YES
+| Compiler for C++ supports arguments -Wnon-virtual-dtor: YES
+| Compiler for C++ supports arguments -Wstrict-null-sentinel: YES
+| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES
+| Compiler for C++ supports arguments -fvisibility=hidden: YES
+| Compiler for C++ supports arguments -fvisibility-inlines-hidden: YES (cached)
+| Compiler for C++ supports arguments -fvisibility=hidden: YES (cached)
+| Compiler for C supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
+| Compiler for C++ supports arguments -Werror=format=2 -Werror=format-nonliteral -Werror=format-security: YES
+| ../vte-0.76.3/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
+| ../vte-0.76.3/meson.build:577: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
+| ../vte-0.76.3/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wall".
+| ../vte-0.76.3/meson.build:578: WARNING: Consider using the built-in warning_level option instead of using "-Wextra".
+| Compiler for C supports link arguments -Wl,-Bsymbolic: YES
+| Compiler for C++ supports link arguments -Wl,-Bsymbolic: YES
+| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
+| Compiler for C++ supports link arguments -Wl,-Bsymbolic-functions: YES
+| Compiler for C supports link arguments -fstack-protector: YES
+| Compiler for C++ supports link arguments -fstack-protector: YES
+| Compiler for C supports link arguments -fstack-protector-strong: YES
+| Compiler for C++ supports link arguments -fstack-protector-strong: YES
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Run-time dependency cairo found: YES 1.18.0
+| Run-time dependency cairo-gobject found: YES 1.18.0
+| Run-time dependency gio-2.0 found: YES 2.80.2
+| Run-time dependency glib-2.0 found: YES 2.80.2
+| Run-time dependency gobject-2.0 found: YES 2.80.2
+| Run-time dependency pango found: YES 1.52.2
+| Run-time dependency libpcre2-8 found: YES 10.44
+| Run-time dependency threads found: YES
+| Found CMake: NO
+| Run-time dependency liblz4 found: NO (tried pkgconfig)
+| 
+| ../vte-0.76.3/meson.build:615:20: ERROR: Dependency "liblz4" not found, tried pkgconfig
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.525588:177 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.525588, line 177
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.525588, line 166
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.525588, line 155
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.525588, line 190
+NOTE: recipe vte-0.76.3-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 3591 tasks of which 3581 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715191842.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715191842.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: vte-0.76.3-r0 do_configure: meson failed
+ERROR: vte-0.76.3-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/run.do_configure.525588', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vte/0.76.3/temp/log.do_configure.525588
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/vte/vte_0.76.3.bb:do_configure) failed with exit code '1'
+
+--===============6626052027039185461==--
 
