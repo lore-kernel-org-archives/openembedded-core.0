@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0922C52D74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E2BC52D70
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:14 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.1315.1721071148688272010
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.1360.1721071146248746833
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=d/qUg/4L;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ti0uJvU3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190b7d59c7a-8f44e18e-4d9c-4547-9a1d-8c25b30e4d02-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=UyYsBKmJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NDzkWRjQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010190b7d59d11-cac65fca-de98-4ea7-8e7c-fe3014385ab0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071148;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=/VIadUPS9uI4yF9oLQaq7NVK6W4MV3VM2uCun8d2Hsw=;
-	b=d/qUg/4LpjFEIi8+cR3dnYZjGQnO5MTX+UjgsxEnI1FqvH1w+UTyumK5HqAqVolc
-	UCDxAmaZZtV0+KYGeM0Ov1g6X2aIDPm2UaGsM+cvysVrGLYFF0oi75UWCmcBkj2rpHy
-	Zch2LIkvcmgixcF4EWwoONsIrMrmzAyaY7yj8438=
+	bh=ekPnEcuA5IkyoJLo+snc9Jq+E0iLjpPkvz/fCCLu01I=;
+	b=UyYsBKmJ6WZhjKzr6uPqDWxWeYiO5xd7c0x0YW+ztQtts1Jy+qTs097jnPMjixhW
+	Nx/cV1mMVVs8MWW98HO+D5YHBI7hdH0IcmrBDVeqeC+F64y5Np9x+uNKc8QzG3ZxQz/
+	UnUjS8z4qd+bu2rFsIolCqYwPK0xu+IzIITgaA9M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071148;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=/VIadUPS9uI4yF9oLQaq7NVK6W4MV3VM2uCun8d2Hsw=;
-	b=ti0uJvU3BdCaDvX80z/07z78F+lrhaSkkaMebvrAsEa18f87saRPe9lGjJsgfIzl
-	dMajVpP7KMsYu0uiybAOQJT2TwnJ03kAazM+WMZTKuNukjpS1cBaqzz+7qfcR9kCno8
-	THZCMXUKm/hi4N9kTzywS0QSx0X4USo2MdKJU0h4=
-Content-Type: multipart/mixed; boundary="===============7717068277153302109=="
+	bh=ekPnEcuA5IkyoJLo+snc9Jq+E0iLjpPkvz/fCCLu01I=;
+	b=NDzkWRjQo2CHxTjNmKsoAvMzOvvuia3nrHsU6ID3nmDvp6mQESk87ExunIJWNLZF
+	57sBSwo3Au+AmtFi5xa4Fb2s93HYY8F3Xhp6rIUQdr1JUN2n2AAoOZBZTmsz+s8UHzS
+	AI+sUy3YpcdQVJ3vXd9KCZBZQlyYMeBPuj+al32I=
+Content-Type: multipart/mixed; boundary="===============4514539081856209872=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gst-devtools: upgrading to 1.24.5 SUCCEEDED
-Message-ID: <01010190b7d59c7a-8f44e18e-4d9c-4547-9a1d-8c25b30e4d02-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-plugins-ugly: upgrading to 1.24.5 SUCCEEDED
+Message-ID: <01010190b7d59d11-cac65fca-de98-4ea7-8e7c-fe3014385ab0-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:08 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.192
+X-SES-Outgoing: 2024.07.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202034
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202036
 
---===============7717068277153302109==
+--===============4514539081856209872==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gst-devtools* to *1.24.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-ugly* to *1.24.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gst-devtools-upgrade-1.24.4-1.24.5.patch
+    - apply the patch: git am 0001-gstreamer1.0-plugins-ugly-upgrade-1.24.4-1.24.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,137 +72,194 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 04962aa14af4e911445e828e5d582cac56b04fa9 Mon Sep 17 00:00:00 2001
+From 5050d5d4db28dfd3c3a100ea8a53cc168120b039 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 16:03:53 +0000
-Subject: [PATCH] gst-devtools: upgrade 1.24.4 -> 1.24.5
+Date: Mon, 15 Jul 2024 16:27:24 +0000
+Subject: [PATCH] gstreamer1.0-plugins-ugly: upgrade 1.24.4 -> 1.24.5
 
 ---
- .../0001-connect-has-a-different-signature-on-musl.patch        | 2 +-
- .../{gst-devtools_1.24.4.bb => gst-devtools_1.24.5.bb}          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.4.bb => gst-devtools_1.24.5.bb} (95%)
+ ...ugins-ugly_1.24.4.bb => gstreamer1.0-plugins-ugly_1.24.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.24.4.bb => gstreamer1.0-plugins-ugly_1.24.5.bb} (94%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-index 8520567f17..00c0926c33 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-@@ -1,4 +1,4 @@
--From c20894a5e6f52aa9fe3437e733a228b1a0eb6428 Mon Sep 17 00:00:00 2001
-+From 60377e0b7bf2ae083ec79115cacc50b1ce79648e Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 9 Sep 2018 17:38:10 -0700
- Subject: [PATCH] connect has a different signature on musl
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.4.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb
-index eca0753cf2..d4a81b69a1 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.5.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.5.bb
+index 37f870be59..6cae61ed35 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.5.bb
+@@ -15,7 +15,7 @@ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
  
--SRC_URI[sha256sum] = "8bff1b388522e03d761786e61fe9aff1f9867b8f7cc230043cbb2622dcf6f0fe"
-+SRC_URI[sha256sum] = "a96675898129a480d05bbf91071ec4e40154dcad6d62f3944154a6cb326045a4"
+-SRC_URI[sha256sum] = "4604f8709c0bc4d6960ef6ae6fd91e0b20af011bfe22e103f5b85377cf3f1ef4"
++SRC_URI[sha256sum] = "333267b6e00770440a4a00402910dd59ed8fd619eaebf402815fbe111da7776d"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
 -- 
 2.44.0
 
 
---===============7717068277153302109==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0 /usr/lib/libgstvalidate-1.0.so.0.2404.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0 /usr/lib/libgstvalidate-1.0.so.0.2405.0"
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2404.0 to libgstvalidate-1.0.so.0.2405.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2404.0 to libgstvalidate-default-overrides-1.0.so.0.2405.0
-  /usr/lib/libgstvalidate-1.0.so.0.2404.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2405.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0
-
---===============7717068277153302109==
+--===============4514539081856209872==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gst-devtools-upgrade-1.24.4-1.24.5.patch"
+ filename="0001-gstreamer1.0-plugins-ugly-upgrade-1.24.4-1.24.5.patch"
 
-RnJvbSAwNDk2MmFhMTRhZjRlOTExNDQ1ZTgyOGU1ZDU4MmNhYzU2YjA0ZmE5IE1vbiBTZXAgMTcg
+RnJvbSA1MDUwZDVkNGRiMjhkZmQzYzNhMTAwZWE4YTUzY2MxNjgxMjBiMDM5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTY6MDM6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3QtZGV2dG9vbHM6IHVwZ3JhZGUgMS4yNC40IC0+IDEuMjQuNQoKLS0tCiAuLi4vMDAwMS1jb25u
-ZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRjaCAgICAgICAgfCAyICst
-CiAuLi4ve2dzdC1kZXZ0b29sc18xLjI0LjQuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuNS5iYn0g
-ICAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdC1k
-ZXZ0b29sc18xLjI0LjQuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuNS5iYn0gKDk1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAw
-MDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAwMDEtY29ubmVjdC1o
-YXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2gKaW5kZXggODUyMDU2N2YxNy4u
-MDBjMDkyNmMzMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdC1kZXZ0b29scy8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1t
-dXNsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2
-dG9vbHMvMDAwMS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYzIwODk0YTVlNmY1MmFhOWZlMzQzN2U3MzNhMjI4YjFh
-MGViNjQyOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNjAzNzdlMGI3YmYyYWUwODNl
-Yzc5MTE1Y2FjYzUwYjFjZTc5NjQ4ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEto
-ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDkgU2VwIDIwMTggMTc6Mzg6
-MTAgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gY29ubmVjdCBoYXMgYSBkaWZmZXJlbnQgc2lnbmF0
-dXJlIG9uIG11c2wKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3QtZGV2dG9vbHNfMS4yNC40LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdC1kZXZ0b29sc18xLjI0LjUuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjI0LjQu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9v
-bHNfMS4yNC41LmJiCmluZGV4IGVjYTA3NTNjZjIuLmQ0YTgxYjY5YTEgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yNC40LmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yNC41
-LmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRl
-c2t0b3Aub3JnL3NyYy9nc3QtZGV2dG9vbHMvZ3N0LWRldnRvb2xzLSR7UFZ9CiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBh
-dGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGJmZjFiMzg4NTIy
-ZTAzZDc2MTc4NmU2MWZlOWFmZjFmOTg2N2I4ZjdjYzIzMDA0M2NiYjI2MjJkY2Y2ZjBmZSIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICJhOTY2NzU4OTgxMjlhNDgwZDA1YmJmOTEwNzFlYzRlNDAxNTRk
-Y2FkNmQ2MmYzOTQ0MTU0YTZjYjMyNjA0NWE0IgogCiBERVBFTkRTID0gImpzb24tZ2xpYiBnbGli
-LTIuMCBnbGliLTIuMC1uYXRpdmUgZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJh
-c2UiCiBSUkVDT01NRU5EUzoke1BOfSA9ICJnaXQiCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTY6Mjc6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5OiB1cGdyYWRlIDEuMjQuNCAtPiAxLjI0LjUKCi0tLQog
+Li4udWdpbnMtdWdseV8xLjI0LjQuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0
+LjUuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIx
+LjAtcGx1Z2lucy11Z2x5XzEuMjQuNC5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5XzEu
+MjQuNS5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0LjQuYmIgYi9tZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0LjUuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
+Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4yNC40LmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWds
+eV8xLjI0LjUuYmIKaW5kZXggMzdmODcwYmU1OS4uNmNhZTYxZWQzNSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlf
+MS4yNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtcGx1Z2lucy11Z2x5XzEuMjQuNS5iYgpAQCAtMTUsNyArMTUsNyBAQCBTUkNfVVJJID0g
+IiBcCiAgICAgICAgICAgICBodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dz
+dC1wbHVnaW5zLXVnbHkvZ3N0LXBsdWdpbnMtdWdseS0ke1BWfS50YXIueHogXAogICAgICAgICAg
+ICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDYwNGY4NzA5YzBiYzRkNjk2MGVmNmFlNmZk
+OTFlMGIyMGFmMDExYmZlMjJlMTAzZjViODUzNzdjZjNmMWVmNCIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIzMzMyNjdiNmUwMDc3MDQ0MGE0YTAwNDAyOTEwZGQ1OWVkOGZkNjE5ZWFlYmY0MDI4MTVm
+YmUxMTFkYTc3NzZkIgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMtdWdseS0ke1BWfSIK
+IAotLSAKMi40NC4wCgo=
 
---===============7717068277153302109==
+--===============4514539081856209872==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-1.0.so.0.2404.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2404.0", added "/usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2405.0 /usr/lib/.debug/libgstvalidate-1.0.so.0.2405.0"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-1.0.so.0.2404.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0", added "/usr/lib/libgstvalidate-1.0.so.0.2405.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-packages/core2-64-poky-linux/gst-devtools: PV changed from "1.24.4" to "1.24.5"
-packages/core2-64-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.4.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.5.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
-packages/core2-64-poky-linux/gst-devtools: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2404.0 to libgstvalidate-1.0.so.0.2405.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2404.0 to libgstvalidate-default-overrides-1.0.so.0.2405.0
-  /usr/lib/libgstvalidate-1.0.so.0.2404.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2405.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2404.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.24.4.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.24.5.tar.xz"
 
---===============7717068277153302109==--
+--===============4514539081856209872==--
 
