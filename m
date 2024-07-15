@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A40EC52D7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 135D1C52D7B
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:15 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1370.1721071147062817925
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.1368.1721071146842268588
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZMN68Y3u;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ExIvuxLv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190b7d59de3-6de9a3ae-6952-4606-84b6-7ab5a6fcadeb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aORO1PmK;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hW73XcRL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010190b7d59d38-8c445c41-ef2c-4be4-81b4-13e71c8817e4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071148;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3F+/3TTMK+xo45leadMkFzjJVLHqCV1+44eRMLlLqiY=;
-	b=ZMN68Y3ulJOWh9IHBbfM+RAoW3JYGk/kwfwgKbKG9E/eFSz6rpOvmz9l0r27Yr1w
-	aKcF/EjI4Y4c3tAE3ZJsTSKWijFrA0EGbJmp8E+uM3vEGgWW0P7jyv11llFDe2e9ALK
-	A0IshHDuYpm4oKWn+88dlsZRnQc4KIuKStqH9eu8=
+	bh=IXs9GbXDcXKmi5qFuzRQAHg/U8+YnS31oE1KxZgIuJE=;
+	b=aORO1PmKRTAa+N0Yjz05sZfMm6G8q6LWb6zWyX2jllqQqDckyX3t50WIpnzwzuS8
+	JhBBKQfK4Fq4aXFKChMmRHcgfGyWeX1eB8NmdD2Y8EN4hKYoxEku0PFUam8bu5awbf8
+	SrHT2S3Vp/vX4dnr3c/adbTq8etMFeGj/Jd/LeOw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071148;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3F+/3TTMK+xo45leadMkFzjJVLHqCV1+44eRMLlLqiY=;
-	b=ExIvuxLv2hRAUWLfxPSWyk6qulifHOOdKuvpgoPrGR8XgwlT87PFOU9crwvKT4ly
-	zlwFIv/r60fyJSYdTQn4McVl/qjikHoNEc+xW/gUHW5PiP+j2LyScb7rt7r9d+zZmW/
-	BE2JOsu8a0MqtJ+m1zS1YdS1riSGFzJ+L8Zh6bqU=
-Content-Type: multipart/mixed; boundary="===============3237966753295855493=="
+	bh=IXs9GbXDcXKmi5qFuzRQAHg/U8+YnS31oE1KxZgIuJE=;
+	b=hW73XcRLhC5OItaI4/H2w6OAPPNI8a8WwN42N/FnhhmobWadDWTIeuu3EXFpcJAS
+	HVmPk2ju4VUKhXIIx3EgiPtxVyHKnxsTxtSxdDQ+C+xkeVsMw18vGIHVU0WbmmwD251
+	a8fawxGp4/f3pJYxcHLlZV+4+ajxuwoPDJ6E4NTs=
+Content-Type: multipart/mixed; boundary="===============8428246336281620290=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] debianutils: upgrading to 5.20 SUCCEEDED
-Message-ID: <01010190b7d59de3-6de9a3ae-6952-4606-84b6-7ab5a6fcadeb-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-rtsp-server: upgrading to 1.24.5 SUCCEEDED
+Message-ID: <01010190b7d59d38-8c445c41-ef2c-4be4-81b4-13e71c8817e4-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:08 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.192
+X-SES-Outgoing: 2024.07.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202031
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202030
 
---===============3237966753295855493==
+--===============8428246336281620290==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *debianutils* to *5.20* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-rtsp-server* to *1.24.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-debianutils-upgrade-5.19-5.20.patch
+    - apply the patch: git am 0001-gstreamer1.0-rtsp-server-upgrade-1.24.4-1.24.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,91 +72,120 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f6f9158d45899e4a1b9979d4a9aadc65fa37657a Mon Sep 17 00:00:00 2001
+From 38aef5c2bb93b51f99050329a7d3510dfb7a25e1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 17:57:20 +0000
-Subject: [PATCH] debianutils: upgrade 5.19 -> 5.20
+Date: Mon, 15 Jul 2024 16:33:42 +0000
+Subject: [PATCH] gstreamer1.0-rtsp-server: upgrade 1.24.4 -> 1.24.5
 
 ---
- .../debianutils/{debianutils_5.19.bb => debianutils_5.20.bb}    | 2 +-
+ ...rtsp-server_1.24.4.bb => gstreamer1.0-rtsp-server_1.24.5.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/debianutils/{debianutils_5.19.bb => debianutils_5.20.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.24.4.bb => gstreamer1.0-rtsp-server_1.24.5.bb} (90%)
 
-diff --git a/meta/recipes-support/debianutils/debianutils_5.19.bb b/meta/recipes-support/debianutils/debianutils_5.20.bb
-similarity index 97%
-rename from meta/recipes-support/debianutils/debianutils_5.19.bb
-rename to meta/recipes-support/debianutils/debianutils_5.20.bb
-index 0fe9b1ec14..61438121da 100644
---- a/meta/recipes-support/debianutils/debianutils_5.19.bb
-+++ b/meta/recipes-support/debianutils/debianutils_5.20.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=4b667f30411d21bc8fd7db85d502a8e9
- SRC_URI = "git://salsa.debian.org/debian/debianutils.git;protocol=https;branch=master \
-            "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.5.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.5.bb
+index 13431ed788..9971eee48e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.5.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
  
--SRCREV = "295d7674cdd526f3c9ec9de76db50efa280a5df0"
-+SRCREV = "9f3d6fa6b8d91849a78d681294fa8ea7bfa9086f"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
  
- inherit autotools update-alternatives
+-SRC_URI[sha256sum] = "eeca811cef6312fa21433294ae216b3c6fa0a389d8980727102516bdcf973eae"
++SRC_URI[sha256sum] = "a3062665e41814d3dba3e02b7b06b77326d54d2b6f178ffcb196af9b91a1bfb9"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
  
 -- 
 2.44.0
 
 
---===============3237966753295855493==
+--===============8428246336281620290==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2404.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2405.0"
+Changes to packages/core2-64-poky-linux/gstreamer1.0-rtsp-server (sysroot):
+  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2404.0 to libgstrtspserver-1.0.so.0.2405.0
+  /usr/lib/libgstrtspserver-1.0.so.0.2404.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2405.0
+
+--===============8428246336281620290==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-debianutils-upgrade-5.19-5.20.patch"
+ filename="0001-gstreamer1.0-rtsp-server-upgrade-1.24.4-1.24.5.patch"
 
-RnJvbSBmNmY5MTU4ZDQ1ODk5ZTRhMWI5OTc5ZDRhOWFhZGM2NWZhMzc2NTdhIE1vbiBTZXAgMTcg
+RnJvbSAzOGFlZjVjMmJiOTNiNTFmOTkwNTAzMjlhN2QzNTEwZGZiN2EyNWUxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTc6NTc6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-ZWJpYW51dGlsczogdXBncmFkZSA1LjE5IC0+IDUuMjAKCi0tLQogLi4uL2RlYmlhbnV0aWxzL3tk
-ZWJpYW51dGlsc181LjE5LmJiID0+IGRlYmlhbnV0aWxzXzUuMjAuYmJ9ICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZGViaWFudXRpbHMve2RlYmlhbnV0aWxzXzUuMTkuYmIgPT4gZGViaWFu
-dXRpbHNfNS4yMC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9k
-ZWJpYW51dGlscy9kZWJpYW51dGlsc181LjE5LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGVi
-aWFudXRpbHMvZGViaWFudXRpbHNfNS4yMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9kZWJpYW51dGlscy9kZWJpYW51dGlsc181LjE5LmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9kZWJpYW51dGlscy9kZWJpYW51dGlsc181
-LjIwLmJiCmluZGV4IDBmZTliMWVjMTQuLjYxNDM4MTIxZGEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1zdXBwb3J0L2RlYmlhbnV0aWxzL2RlYmlhbnV0aWxzXzUuMTkuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZGViaWFudXRpbHMvZGViaWFudXRpbHNfNS4yMC5iYgpAQCAtMTEsNyAr
-MTEsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9kZWJpYW4vY29weXJpZ2h0O21kNT00
-YjY2N2YzMDQxMWQyMWJjOGZkN2RiODVkNTAyYThlOQogU1JDX1VSSSA9ICJnaXQ6Ly9zYWxzYS5k
-ZWJpYW4ub3JnL2RlYmlhbi9kZWJpYW51dGlscy5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1h
-c3RlciBcCiAgICAgICAgICAgICIKIAotU1JDUkVWID0gIjI5NWQ3Njc0Y2RkNTI2ZjNjOWVjOWRl
-NzZkYjUwZWZhMjgwYTVkZjAiCitTUkNSRVYgPSAiOWYzZDZmYTZiOGQ5MTg0OWE3OGQ2ODEyOTRm
-YThlYTdiZmE5MDg2ZiIKIAogaW5oZXJpdCBhdXRvdG9vbHMgdXBkYXRlLWFsdGVybmF0aXZlcwog
-Ci0tIAoyLjQ0LjAKCg==
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTY6MzM6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXI6IHVwZ3JhZGUgMS4yNC40IC0+IDEuMjQuNQoKLS0tCiAu
+Li5ydHNwLXNlcnZlcl8xLjI0LjQuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQu
+NS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
+MC1ydHNwLXNlcnZlcl8xLjI0LjQuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQu
+NS5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
+ZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQuNC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0
+aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yNC41LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yNC40LmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQu
+NS5iYgppbmRleCAxMzQzMWVkNzg4Li45OTcxZWVlNDhlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQuNC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0
+c3Atc2VydmVyXzEuMjQuNS5iYgpAQCAtMTAsNyArMTAsNyBAQCBQTlJFQUwgPSAiZ3N0LXJ0c3At
+c2VydmVyIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9z
+cmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJlZWNhODExY2VmNjMxMmZhMjE0MzMyOTRhZTIxNmIzYzZmYTBhMzg5ZDg5ODA3MjcxMDI1
+MTZiZGNmOTczZWFlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEzMDYyNjY1ZTQxODE0ZDNkYmEz
+ZTAyYjdiMDZiNzczMjZkNTRkMmI2ZjE3OGZmY2IxOTZhZjliOTFhMWJmYjkiCiAKIFMgPSAiJHtX
+T1JLRElSfS8ke1BOUkVBTH0tJHtQVn0iCiAKLS0gCjIuNDQuMAoK
 
---===============3237966753295855493==
+--===============8428246336281620290==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/debianutils/debianutils-dbg: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-dbg: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils/debianutils-dev: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-dev: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils/debianutils-doc: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-doc: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils/debianutils-locale: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-locale: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils/debianutils-run-parts: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-run-parts: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils/debianutils-src: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-src: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils/debianutils-staticdev: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-staticdev: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils/debianutils: PKGSIZE changed from 49656 to 49679 (+0%)
-packages/core2-64-poky-linux/debianutils/debianutils: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils/debianutils: PV changed from "5.19" to "5.20"
-packages/core2-64-poky-linux/debianutils: PKGV changed from 5.19 [default] to 5.20 [default]
-packages/core2-64-poky-linux/debianutils: PV changed from "5.19" to "5.20"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: FILELIST: removed "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2404.0", added "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.24.4.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.24.5.tar.xz"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILES: removed "/usr/lib/libgstrtspserver-1.0.so.0.2404.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2405.0"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PV changed from "1.24.4" to "1.24.5"
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PKGV changed from 1.24.4 [default] to 1.24.5 [default]
+packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2404.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2405.0"
+Changes to packages/core2-64-poky-linux/gstreamer1.0-rtsp-server (sysroot):
+  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2404.0 to libgstrtspserver-1.0.so.0.2405.0
+  /usr/lib/libgstrtspserver-1.0.so.0.2404.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2405.0
 
---===============3237966753295855493==--
+--===============8428246336281620290==--
 
