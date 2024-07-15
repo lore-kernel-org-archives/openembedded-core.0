@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9FCC54752
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC14C5479B
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:20 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.1362.1721071146337108433
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.1358.1721071145708285884
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 12:19:07 -0700
+ Mon, 15 Jul 2024 12:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dWEHzNP1;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GMqkrycN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190b7d5950f-67392ae0-9b01-4129-9f1d-4d422ff7f371-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Z3Fke26y;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=wh8M1IUX;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010190b7d593fe-fe205f57-cb6c-4799-9839-b53c69469e28-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OhyvYyBJriKJMf0VkWc+r2236vxN3NLPParHm4/T+Pk=;
-	b=dWEHzNP1xuYujOZ2iUIiKDi9J8LPeaRuN0p2oJwWHneBKBRhbPwAdbBI3A69p3pN
-	lqNKznPIcAJvto3EABRTXwUw73FVW3V/yyCWE5s0wHWlx+kTjtpwy0ZwuvpLW7OSHjm
-	akSPidN27bKSIUeFAxG9NgwcdNRi78liDXS5IGeo=
+	bh=cXu7HVHOt1DzXyvTl9+031wT6eQ3aIf4DDXKBZg6q4M=;
+	b=Z3Fke26yviVuzcS9/YUq/yCRI8vVZSYmyerR7W9OS0TrJhldjmrbkvL6Xw2BwdUf
+	5nfxsvZqgBY48JLqitirbOBd++HRmL4rM4qP2Mjvr4mADhrS6gh/sdFOjChqea1zZDk
+	oTYoHCxta+yd7Gidv6x2Sje/Z3OZaXeIzlMz8LYY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OhyvYyBJriKJMf0VkWc+r2236vxN3NLPParHm4/T+Pk=;
-	b=GMqkrycNocSMW5FpVpIGLAT2y4Lkh9S4WUGxSVwS95nEMo6pu1Dk6o/FJSDqg95z
-	cG0hNFgnOYKFIhj8+0XKomtx2XSz56x2qkz4ngG1AeTYTXIpLGyF8b+1pi0AqvhapTF
-	/iMcxDkV5rUaA6OiqZc6QI4UEIpyca9wDdsTbHTY=
-Content-Type: multipart/mixed; boundary="===============6237197857166640821=="
+	bh=cXu7HVHOt1DzXyvTl9+031wT6eQ3aIf4DDXKBZg6q4M=;
+	b=wh8M1IUXC9lRQ3UldjsqE8f47ZDyEpUVLakil9BlAXpFQviBOPDpCDI+mIXW2t2B
+	+DGRQvxubBXaeU+heFSa0pCiUfL2UHPcyuT7CN2FW9LEOMYNlsvo9v/DjRq9VBZTQSj
+	9K84sWHpAxAjc3+p+TC2pYGTIW79vPR/jrcyMllE=
+Content-Type: multipart/mixed; boundary="===============4050835946354675601=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alex Stewart <alex.stewart@ni.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] opkg-utils: upgrading to 0.7.0 SUCCEEDED
-Message-ID: <01010190b7d5950f-67392ae0-9b01-4129-9f1d-4d422ff7f371-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-dbusmock: upgrading to 0.32.1 SUCCEEDED
+Message-ID: <01010190b7d593fe-fe205f57-cb6c-4799-9839-b53c69469e28-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.45
+X-SES-Outgoing: 2024.07.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201978
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201970
 
---===============6237197857166640821==
+--===============4050835946354675601==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *opkg-utils* to *0.7.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-dbusmock* to *0.32.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-opkg-utils-upgrade-0.6.3-0.7.0.patch
+    - apply the patch: git am 0001-python3-dbusmock-upgrade-0.31.1-0.32.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,97 +72,78 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3ed5435bc101d1183decac98fe78b1ba5287c41d Mon Sep 17 00:00:00 2001
+From 49c1935c2b807f6cc64f40fe9a10946f2c0919c4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 10:12:33 +0000
-Subject: [PATCH] opkg-utils: upgrade 0.6.3 -> 0.7.0
+Date: Mon, 15 Jul 2024 10:19:45 +0000
+Subject: [PATCH] python3-dbusmock: upgrade 0.31.1 -> 0.32.1
 
 ---
- ...e-numeric-owner-parameter-overzealou.patch | 34 -------------------
- ...lternatives-correctly-match-priority.patch |  2 +-
- ...pkg-utils_0.6.3.bb => opkg-utils_0.7.0.bb} |  3 +-
- 3 files changed, 2 insertions(+), 37 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
- rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.6.3.bb => opkg-utils_0.7.0.bb} (94%)
+ .../{python3-dbusmock_0.31.1.bb => python3-dbusmock_0.32.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-dbusmock_0.31.1.bb => python3-dbusmock_0.32.1.bb} (87%)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
-deleted file mode 100644
-index 0cdeb9574a..0000000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 19c2c6a14c8760c3595f5dc6cc89cde85fbdbac1 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
--Date: Tue, 9 Jan 2024 09:20:55 +0100
--Subject: [PATCH] opkg-build: remove `--numeric-owner` parameter overzealously
-- added
--
--In some corner cases this parameter has been added overzealously.
--All discussion on this topic can be read in here:
--https://bugzilla.yoctoproject.org/show_bug.cgi?id=15334
--
--Upstream-Status: Backport [https://git.yoctoproject.org/opkg-utils/commit/?id=68a969f0e867ace0d94faf8ebe7c7bb67f59d386]
--
--Signed-off-by: Alex Stewart <alex.stewart@ni.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- opkg-build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/opkg-build b/opkg-build
--index 6edd938..0582958 100755
----- a/opkg-build
--+++ b/opkg-build
--@@ -337,7 +337,7 @@ export LANG=C
-- export LC_ALL=C
-- ( cd $pkg_dir/$CONTROL && find . -type f | sort > $tmp_dir/control_list )
-- ( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  | sort > $tmp_dir/file_list )
---( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --numeric-owner --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
--+( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-- ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
-- rm $tmp_dir/file_list
-- rm $tmp_dir/control_list
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
-index 556d4ce5f5..687349bfbd 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
-@@ -1,4 +1,4 @@
--From 26206005dacd61380663bb4fd9b18178bb33665b Mon Sep 17 00:00:00 2001
-+From 7b4d0d3268ada85408ddf9abc021a73f69f5fb01 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Sat, 24 Oct 2020 21:59:27 +0200
- Subject: [PATCH] update-alternatives: correctly match priority
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-index e138bc24af..44958b442e 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-@@ -9,9 +9,8 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
+diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb b/meta/recipes-devtools/python/python3-dbusmock_0.32.1.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb
+rename to meta/recipes-devtools/python/python3-dbusmock_0.32.1.bb
+index fc32c6bbb6..db7011831b 100644
+--- a/meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb
++++ b/meta/recipes-devtools/python/python3-dbusmock_0.32.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
+ LICENSE = "GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
  
- SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master \
-            file://0001-update-alternatives-correctly-match-priority.patch \
--           file://0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch \
-            "
--SRCREV = "589880d01969eb9af1e66120e731d43193504718"
-+SRCREV = "68a969f0e867ace0d94faf8ebe7c7bb67f59d386"
+-SRC_URI[sha256sum] = "b23b8e1b51fe2a9b13e617fff6b60b3ed8e536c080cf3498019d223678d5ea49"
++SRC_URI[sha256sum] = "f02c34493d420b3cf2d8d341b79a60841593b7b7615adc3ece17ff86f8275924"
  
- S = "${WORKDIR}/git"
+ PYPI_PACKAGE = "python-dbusmock"
  
 -- 
 2.44.0
 
 
---===============6237197857166640821==
+--===============4050835946354675601==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-dbusmock-upgrade-0.31.1-0.32.1.patch"
+
+RnJvbSA0OWMxOTM1YzJiODA3ZjZjYzY0ZjQwZmU5YTEwOTQ2ZjJjMDkxOWM0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6MTk6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWRidXNtb2NrOiB1cGdyYWRlIDAuMzEuMSAtPiAwLjMyLjEKCi0tLQogLi4uL3tweXRo
+b24zLWRidXNtb2NrXzAuMzEuMS5iYiA9PiBweXRob24zLWRidXNtb2NrXzAuMzIuMS5iYn0gIHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1kYnVzbW9ja18wLjMxLjEu
+YmIgPT4gcHl0aG9uMy1kYnVzbW9ja18wLjMyLjEuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRidXNtb2NrXzAuMzEuMS5iYiBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kYnVzbW9ja18wLjMyLjEuYmIKc2lt
+aWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWRidXNtb2NrXzAuMzEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLWRidXNtb2NrXzAuMzIuMS5iYgppbmRleCBmYzMyYzZiYmI2Li5k
+YjcwMTE4MzFiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtZGJ1c21vY2tfMC4zMS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1kYnVzbW9ja18wLjMyLjEuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0
+dHBzOi8vcHlwaS5vcmcvcHJvamVjdC9weXRob24tZGJ1c21vY2svIgogTElDRU5TRSA9ICJHUEwt
+My4wLW9ubHkiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1lNmE2MDBm
+ZDVlMWQ5Y2JkZTJkOTgzNjgwMjMzYWQwMiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImIyM2I4
+ZTFiNTFmZTJhOWIxM2U2MTdmZmY2YjYwYjNlZDhlNTM2YzA4MGNmMzQ5ODAxOWQyMjM2NzhkNWVh
+NDkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjAyYzM0NDkzZDQyMGIzY2YyZDhkMzQxYjc5YTYw
+ODQxNTkzYjdiNzYxNWFkYzNlY2UxN2ZmODZmODI3NTkyNCIKIAogUFlQSV9QQUNLQUdFID0gInB5
+dGhvbi1kYnVzbW9jayIKIAotLSAKMi40NC4wCgo=
+
+--===============4050835946354675601==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock: FILELIST: directory renamed /usr/lib/python3.12/site-packages/python_dbusmock-0.31.1.dist-info -> /usr/lib/python3.12/site-packages/python_dbusmock-0.32.1.dist-info, added "/usr/lib/python3.12/site-packages/dbusmock/templates/modemmanager.py /usr/lib/python3.12/site-packages/dbusmock/templates/__pycache__/modemmanager.cpython-312.pyc"
+Changes to packages/core2-64-poky-linux/python3-dbusmock (sysroot):
+  /usr/lib/python3.12/site-packages/python_dbusmock-0.31.1.dist-info moved to /usr/lib/python3.12/site-packages/python_dbusmock-0.32.1.dist-info
+  /usr/lib/python3.12/site-packages/dbusmock/templates/modemmanager.py was added
+  /usr/lib/python3.12/site-packages/dbusmock/templates/__pycache__/modemmanager.cpython-312.pyc was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1928,27 +1909,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============6237197857166640821==
+--===============4050835946354675601==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/opkg-utils: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils: SRC_URI changed from "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master file://0001-update-alternatives-correctly-match-priority.patch file://0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch" to "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master file://0001-update-alternatives-correctly-match-priority.patch"
-packages/core2-64-poky-linux/opkg-utils: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-dbg: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-dbg: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-doc: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-doc: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-locale: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-locale: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-src: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils-src: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/opkg-utils: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/opkg-utils: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
-packages/core2-64-poky-linux/opkg-utils/update-alternatives-opkg: PV changed from "0.6.3" to "0.7.0"
-packages/core2-64-poky-linux/opkg-utils/update-alternatives-opkg: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
+packages/core2-64-poky-linux/python3-dbusmock: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-dbusmock/python-dbusmock-0.31.1.tar.gz;downloadfilename=python-dbusmock-0.31.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-dbusmock/python-dbusmock-0.32.1.tar.gz;downloadfilename=python-dbusmock-0.32.1.tar.gz"
+packages/core2-64-poky-linux/python3-dbusmock: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-dbg: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-dbg: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-dev: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-dev: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-doc: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-doc: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-locale: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-locale: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-src: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-src: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-staticdev: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock-staticdev: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock: PKGSIZE changed from 476511 to 506000 (+6%)
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock: PV changed from "0.31.1" to "0.32.1"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock: FILELIST: directory renamed /usr/lib/python3.12/site-packages/python_dbusmock-0.31.1.dist-info -> /usr/lib/python3.12/site-packages/python_dbusmock-0.32.1.dist-info, added "/usr/lib/python3.12/site-packages/dbusmock/templates/modemmanager.py /usr/lib/python3.12/site-packages/dbusmock/templates/__pycache__/modemmanager.cpython-312.pyc"
+packages/core2-64-poky-linux/python3-dbusmock/python3-dbusmock: PKGV changed from 0.31.1 [default] to 0.32.1 [default]
+Changes to packages/core2-64-poky-linux/python3-dbusmock (sysroot):
+  /usr/lib/python3.12/site-packages/python_dbusmock-0.31.1.dist-info moved to /usr/lib/python3.12/site-packages/python_dbusmock-0.32.1.dist-info
+  /usr/lib/python3.12/site-packages/dbusmock/templates/modemmanager.py was added
+  /usr/lib/python3.12/site-packages/dbusmock/templates/__pycache__/modemmanager.cpython-312.pyc was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3714,92 +3703,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============6237197857166640821==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-opkg-utils-upgrade-0.6.3-0.7.0.patch"
-
-RnJvbSAzZWQ1NDM1YmMxMDFkMTE4M2RlY2FjOThmZTc4YjFiYTUyODdjNDFkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6MTI6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
-cGtnLXV0aWxzOiB1cGdyYWRlIDAuNi4zIC0+IDAuNy4wCgotLS0KIC4uLmUtbnVtZXJpYy1vd25l
-ci1wYXJhbWV0ZXItb3ZlcnplYWxvdS5wYXRjaCB8IDM0IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4u
-Lmx0ZXJuYXRpdmVzLWNvcnJlY3RseS1tYXRjaC1wcmlvcml0eS5wYXRjaCB8ICAyICstCiAuLi5w
-a2ctdXRpbHNfMC42LjMuYmIgPT4gb3BrZy11dGlsc18wLjcuMC5iYn0gfCAgMyArLQogMyBmaWxl
-cyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDM3IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS1v
-cGtnLWJ1aWxkLXJlbW92ZS1udW1lcmljLW93bmVyLXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNo
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMve29wa2ctdXRpbHNfMC42
-LjMuYmIgPT4gb3BrZy11dGlsc18wLjcuMC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0aWxzLzAwMDEtb3BrZy1idWlsZC1yZW1v
-dmUtbnVtZXJpYy1vd25lci1wYXJhbWV0ZXItb3ZlcnplYWxvdS5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS1vcGtnLWJ1aWxkLXJlbW92ZS1u
-dW1lcmljLW93bmVyLXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2Rl
-IDEwMDY0NAppbmRleCAwY2RlYjk1NzRhLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS1vcGtnLWJ1aWxkLXJlbW92ZS1udW1l
-cmljLW93bmVyLXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEs
-MzQgKzAsMCBAQAotRnJvbSAxOWMyYzZhMTRjODc2MGMzNTk1ZjVkYzZjYzg5Y2RlODVmYmRiYWMx
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogPT9VVEYtOD9xP1Bpb3RyPTIwPUM1PTgx
-b2JhY3o/PSA8cC5sb2JhY3pAd2Vsb3RlYy5jb20+Ci1EYXRlOiBUdWUsIDkgSmFuIDIwMjQgMDk6
-MjA6NTUgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gb3BrZy1idWlsZDogcmVtb3ZlIGAtLW51bWVy
-aWMtb3duZXJgIHBhcmFtZXRlciBvdmVyemVhbG91c2x5Ci0gYWRkZWQKLQotSW4gc29tZSBjb3Ju
-ZXIgY2FzZXMgdGhpcyBwYXJhbWV0ZXIgaGFzIGJlZW4gYWRkZWQgb3ZlcnplYWxvdXNseS4KLUFs
-bCBkaXNjdXNzaW9uIG9uIHRoaXMgdG9waWMgY2FuIGJlIHJlYWQgaW4gaGVyZToKLWh0dHBzOi8v
-YnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTUzMzQKLQotVXBzdHJl
-YW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9vcGtnLXV0
-aWxzL2NvbW1pdC8/aWQ9NjhhOTY5ZjBlODY3YWNlMGQ5NGZhZjhlYmU3YzdiYjY3ZjU5ZDM4Nl0K
-LQotU2lnbmVkLW9mZi1ieTogQWxleCBTdGV3YXJ0IDxhbGV4LnN0ZXdhcnRAbmkuY29tPgotU2ln
-bmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQotIG9wa2ctYnVp
-bGQgfCAyICstCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-Ci0KLWRpZmYgLS1naXQgYS9vcGtnLWJ1aWxkIGIvb3BrZy1idWlsZAotaW5kZXggNmVkZDkzOC4u
-MDU4Mjk1OCAxMDA3NTUKLS0tLSBhL29wa2ctYnVpbGQKLSsrKyBiL29wa2ctYnVpbGQKLUBAIC0z
-MzcsNyArMzM3LDcgQEAgZXhwb3J0IExBTkc9QwotIGV4cG9ydCBMQ19BTEw9QwotICggY2QgJHBr
-Z19kaXIvJENPTlRST0wgJiYgZmluZCAuIC10eXBlIGYgfCBzb3J0ID4gJHRtcF9kaXIvY29udHJv
-bF9saXN0ICkKLSAoIGNkICRwa2dfZGlyICYmIGZpbmQgLiAtcGF0aCAuLyRDT05UUk9MIC1wcnVu
-ZSAtbyAtcGF0aCAuIC1vIC1wcmludCAgfCBzb3J0ID4gJHRtcF9kaXIvZmlsZV9saXN0ICkKLS0o
-IGNkICRwa2dfZGlyICYmIHRhciAkYXR0cmlidXRlc2FyZ3MgJG9nYXJncyAkdHNvcnRhcmdzIC0t
-bnVtZXJpYy1vd25lciAtLW5vLXJlY3Vyc2lvbiAkbXRpbWVfYXJncyAtYyAkdGFyZm9ybWF0IC1U
-ICR0bXBfZGlyL2ZpbGVfbGlzdCB8ICRjb21wcmVzc29yICRjb21wcmVzc29yYXJncyA+ICR0bXBf
-ZGlyL2RhdGEudGFyLiRjZXh0ICkKLSsoIGNkICRwa2dfZGlyICYmIHRhciAkYXR0cmlidXRlc2Fy
-Z3MgJG9nYXJncyAkdHNvcnRhcmdzIC0tbm8tcmVjdXJzaW9uICRtdGltZV9hcmdzIC1jICR0YXJm
-b3JtYXQgLVQgJHRtcF9kaXIvZmlsZV9saXN0IHwgJGNvbXByZXNzb3IgJGNvbXByZXNzb3Jhcmdz
-ID4gJHRtcF9kaXIvZGF0YS50YXIuJGNleHQgKQotICggY2QgJHBrZ19kaXIvJENPTlRST0wgJiYg
-dGFyICRvZ2FyZ3MgJHRzb3J0YXJncyAtLW5vLXJlY3Vyc2lvbiAkbXRpbWVfYXJncyAtYyAkdGFy
-Zm9ybWF0IC1UICR0bXBfZGlyL2NvbnRyb2xfbGlzdCB8IGd6aXAgJHppcGFyZ3MgPiAkdG1wX2Rp
-ci9jb250cm9sLnRhci5neiApCi0gcm0gJHRtcF9kaXIvZmlsZV9saXN0Ci0gcm0gJHRtcF9kaXIv
-Y29udHJvbF9saXN0Ci0tLSAKLTIuNDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0aWxzLzAwMDEtdXBkYXRlLWFsdGVybmF0aXZlcy1jb3Jy
-ZWN0bHktbWF0Y2gtcHJpb3JpdHkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy11
-dGlscy9vcGtnLXV0aWxzLzAwMDEtdXBkYXRlLWFsdGVybmF0aXZlcy1jb3JyZWN0bHktbWF0Y2gt
-cHJpb3JpdHkucGF0Y2gKaW5kZXggNTU2ZDRjZTVmNS4uNjg3MzQ5YmZiZCAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlscy8wMDAxLXVwZGF0ZS1h
-bHRlcm5hdGl2ZXMtY29ycmVjdGx5LW1hdGNoLXByaW9yaXR5LnBhdGNoCisrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS11cGRhdGUtYWx0ZXJuYXRp
-dmVzLWNvcnJlY3RseS1tYXRjaC1wcmlvcml0eS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-MjYyMDYwMDVkYWNkNjEzODA2NjNiYjRmZDliMTgxNzhiYjMzNjY1YiBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gN2I0ZDBkMzI2OGFkYTg1NDA4ZGRmOWFiYzAyMWE3M2Y2OWY1ZmIwMSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
-bmF2aW5AZ21haWwuY29tPgogRGF0ZTogU2F0LCAyNCBPY3QgMjAyMCAyMTo1OToyNyArMDIwMAog
-U3ViamVjdDogW1BBVENIXSB1cGRhdGUtYWx0ZXJuYXRpdmVzOiBjb3JyZWN0bHkgbWF0Y2ggcHJp
-b3JpdHkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ct
-dXRpbHNfMC42LjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0
-aWxzXzAuNy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHNfMC42LjMuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHNfMC43LjAuYmIKaW5kZXggZTEz
-OGJjMjRhZi4uNDQ5NThiNDQyZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29w
-a2ctdXRpbHMvb3BrZy11dGlsc18wLjYuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-b3BrZy11dGlscy9vcGtnLXV0aWxzXzAuNy4wLmJiCkBAIC05LDkgKzksOCBAQCBQUk9WSURFUyAr
-PSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLCAndXBkYXRlLWFsdGVybmF0
-aXZlcycsICd2aXJ0dQogCiBTUkNfVVJJID0gImdpdDovL2dpdC55b2N0b3Byb2plY3Qub3JnL29w
-a2ctdXRpbHM7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLXVwZGF0ZS1hbHRlcm5hdGl2ZXMtY29ycmVjdGx5LW1hdGNoLXByaW9yaXR5LnBhdGNo
-IFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtb3BrZy1idWlsZC1yZW1vdmUtbnVtZXJpYy1vd25l
-ci1wYXJhbWV0ZXItb3ZlcnplYWxvdS5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICI1
-ODk4ODBkMDE5NjllYjlhZjFlNjYxMjBlNzMxZDQzMTkzNTA0NzE4IgorU1JDUkVWID0gIjY4YTk2
-OWYwZTg2N2FjZTBkOTRmYWY4ZWJlN2M3YmI2N2Y1OWQzODYiCiAKIFMgPSAiJHtXT1JLRElSfS9n
-aXQiCiAKLS0gCjIuNDQuMAoK
-
---===============6237197857166640821==--
+--===============4050835946354675601==--
 
