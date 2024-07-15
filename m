@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68005C5321D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AD2C5472C
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:16 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.1375.1721071147900558110
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.1371.1721071147167946565
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 12:19:08 -0700
+ Mon, 15 Jul 2024 12:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QjSb1DMd;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=v1I6ZIYw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010190b7d59811-7e5dfef4-4f4a-4ec2-88d0-2af26e7b1087-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JkXccbf0;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pcWd2StB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190b7d599e2-d2680e83-17a8-42dd-a9f2-07f73c9473e1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071147;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=/fEqC5oBl3s07t063cks0QiOTwp0cMoGdYq4XjS1q9k=;
-	b=QjSb1DMdh69uedVXd9ZRTdPInB4NpLuOzCQuJvMAMCpNTaVhxeDnEaDrKtumVKFr
-	Zblz+LU3ryrO7CIP0X+0RdhWz2w2g72RL0BM52YLDE6qkDlI1/j9VA51pwFI3Xy6Xin
-	cWiG+05Yb+K/0gqIFxKJ4mllEtfbKA7HYW6QyQgI=
+	bh=onvsT9aGmKdNPBLaSSIyW+OAgp3a0H6//aQmadRu/MY=;
+	b=JkXccbf0KidWOv52K6WUJIOcEFOV8UIHVAbhxDBcsJ0qWsCc7TL1aeWwrYA6ZnaX
+	NU4qaLLI+yf47yaYrVa2/KcYV+/u1y/Jb2gSH1BE52ns4oihn136s6DGOgjpLJF2KSM
+	1mT9bAXBITMAzc+oHlC3ym53TOS9CapRMLAcWf2s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071147;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=/fEqC5oBl3s07t063cks0QiOTwp0cMoGdYq4XjS1q9k=;
-	b=v1I6ZIYwfHY49Ad9ATsi6MfYzo0ynla2hVbe1aOi7FUXq8VU+I0ce7WRnohd1Hn/
-	TlDqq8xJBNspxks6Qy0Pi97/kA9ioAThRCKKcV6HalNb2Z2w4SvgsrUBg6gABSJGIHK
-	33XMnmI56O8B6sr6qs1L47smMf8sEBY9ArwnihPc=
-Content-Type: multipart/mixed; boundary="===============6234867229623395644=="
+	bh=onvsT9aGmKdNPBLaSSIyW+OAgp3a0H6//aQmadRu/MY=;
+	b=pcWd2StBCJBwkIirOV1uxL5gMrnc/bwsPQXs3S7RmmYSKm1C0So4vq6MOA2+LT7d
+	prGIAudsuuoSNzOjX8qBA4O7Uky3F0QjtUwErWR5fPtRXRhB1bd4gSVqdHuh6Uztne9
+	IHAsIbOerRoYT6DZQFvzUnSLBeXraQ1coBzSPN1A=
+Content-Type: multipart/mixed; boundary="===============4775124222622824896=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] xmlto: upgrading to 635dcd5bc84a7b67a3a2050a179d96e1d3050b15
- FAILED
-Message-ID: <01010190b7d59811-7e5dfef4-4f4a-4ec2-88d0-2af26e7b1087-000000@us-west-2.amazonses.com>
+Subject: [AUH] hicolor-icon-theme: upgrading to 0.18 FAILED
+Message-ID: <01010190b7d599e2-d2680e83-17a8-42dd-a9f2-07f73c9473e1-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:07 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.30
+X-SES-Outgoing: 2024.07.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202009
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202007
 
---===============6234867229623395644==
+--===============4775124222622824896==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xmlto* to *635dcd5bc84a7b67a3a2050a179d96e1d3050b15* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *hicolor-icon-theme* to *0.18* has Failed(do_compile).
 
 Detailed error information:
 
@@ -61,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-xmlto-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-hicolor-icon-theme-upgrade-0.17-0.18.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -79,57 +78,38 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6344dfde6723a25c7f2f41d11d7aa01fd2f7a675 Mon Sep 17 00:00:00 2001
+From bff528d9e9e2d3838f82a8084fc719662487fa2b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 12:10:23 +0000
-Subject: [PATCH] xmlto: upgrade to latest revision
+Date: Mon, 15 Jul 2024 14:39:49 +0000
+Subject: [PATCH] hicolor-icon-theme: upgrade 0.17 -> 0.18
 
 ---
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../{hicolor-icon-theme_0.17.bb => hicolor-icon-theme_0.18.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-gnome/hicolor-icon-theme/{hicolor-icon-theme_0.17.bb => hicolor-icon-theme_0.18.bb} (80%)
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index d5a0e69849..ce4aed8240 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-only"
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb
+similarity index 80%
+rename from meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
+rename to meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb
+index bb6cb000ab..0cbd00544b 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb
+@@ -8,8 +8,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ SRC_URI = "https://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "84eec8d6f810240a069c731f1870b474"
+-SRC_URI[sha256sum] = "317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8"
++SRC_URI[sha256sum] = "db0e50a80aa3bf64bb45cbca5cf9f75efd9348cf2ac690b907435238c3cf81d7"
  
--SRCREV = "6fa6a0e07644f20abf2596f78a60112713e11cbe"
-+SRCREV = "635dcd5bc84a7b67a3a2050a179d96e1d3050b15"
- UPSTREAM_CHECK_COMMITS = "1"
- SRC_URI = "git://pagure.io/xmlto.git;protocol=https;branch=master"
- S = "${WORKDIR}/git"
+ inherit allarch autotools
+ 
 -- 
 2.44.0
 
 
---===============6234867229623395644==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xmlto-upgrade-to-latest-revision.patch"
-
-RnJvbSA2MzQ0ZGZkZTY3MjNhMjVjN2YyZjQxZDExZDdhYTAxZmQyZjdhNjc1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTI6MTA6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-bWx0bzogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3htbHRvL3htbHRvXzAuMC4yOC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy94bWx0by94bWx0b18wLjAuMjguYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMveG1sdG8veG1s
-dG9fMC4wLjI4LmJiCmluZGV4IGQ1YTBlNjk4NDkuLmNlNGFlZDgyNDAgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy94bWx0by94bWx0b18wLjAuMjguYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3htbHRvL3htbHRvXzAuMC4yOC5iYgpAQCAtNiw3ICs2LDcgQEAgTElDRU5T
-RSA9ICJHUEwtMi4wLW9ubHkiCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
-bWQ1PTU5NTMwYmRmMzM2NTliMjllNzNkNGFkYjlmOWY2NTUyIgogCi1TUkNSRVYgPSAiNmZhNmEw
-ZTA3NjQ0ZjIwYWJmMjU5NmY3OGE2MDExMjcxM2UxMWNiZSIKK1NSQ1JFViA9ICI2MzVkY2Q1YmM4
-NGE3YjY3YTNhMjA1MGExNzlkOTZlMWQzMDUwYjE1IgogVVBTVFJFQU1fQ0hFQ0tfQ09NTUlUUyA9
-ICIxIgogU1JDX1VSSSA9ICJnaXQ6Ly9wYWd1cmUuaW8veG1sdG8uZ2l0O3Byb3RvY29sPWh0dHBz
-O2JyYW5jaD1tYXN0ZXIiCiBTID0gIiR7V09SS0RJUn0vZ2l0IgotLSAKMi40NC4wCgo=
-
---===============6234867229623395644==
+--===============4775124222622824896==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -137,9 +117,11 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1882 entries from dependency cache.
+Loaded 1881 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 918 .bb files complete (917 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the allarch sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -149,189 +131,113 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-649978940db87ff462a89978ca3c5a05e947e92e"
+DISTRO_VERSION       = "5.0+snapshot-8335ee04496563d79013e581d14b14dfa37b7619"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:649978940db87ff462a89978ca3c5a05e947e92e"
+workspace            = "tmp-auh-upgrades:8335ee04496563d79013e581d14b14dfa37b7619"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 404 Local 385 Mirrors 0 Missed 19 Current 519 (95% match, 97% complete)
-Removing 2 stale sstate objects for arch qemux86_64...done.
-Removing 10 stale sstate objects for arch core2-64...done.
-Removing 1 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 64 Local 52 Mirrors 0 Missed 12 Current 156 (81% match, 94% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 831 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 832 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 910 of 923 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_recipe_qa_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glib-2.0-1_2.80.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 912 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_recipe_qa_setscene)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.80.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 914 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 915 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.80.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1629 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_fetch)
-NOTE: Running task 1744 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.80.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1822 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_fetch)
-NOTE: Running task 1831 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_fetch)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 920 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 921 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_fetch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_fetch: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_fetch: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 2106 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_write_config)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_fetch: Started
-NOTE: Running task 2124 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_write_config)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_fetch: Succeeded
-NOTE: Running task 2211 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_unpack)
-NOTE: Running task 2212 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_write_config: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 923 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_recipe_qa_setscene)
-NOTE: Running task 2364 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_unpack)
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_write_config: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_write_config: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_fetch: Succeeded
-NOTE: Running task 2444 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_unpack)
-NOTE: Running task 2445 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_unpack: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_write_config: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_unpack: Started
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2497 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_unpack)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_unpack: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_unpack: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_unpack: Succeeded
-NOTE: Running task 2543 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_patch)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_patch: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2544 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_patch)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_patch: Succeeded
-NOTE: Running task 2545 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_deploy_source_date_epoch)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_unpack: Succeeded
-NOTE: Running task 2546 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_patch)
-NOTE: Running task 2547 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_collect_spdx_deps)
-NOTE: recipe shared-mime-info-2.4-r0: task do_patch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_patch: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_patch: Succeeded
-NOTE: Running task 2548 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2549 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_populate_lic)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_populate_lic: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_patch: Succeeded
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2551 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_patch)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2552 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_configure)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_populate_lic unihash changed to 79460b7fc69ff35808a7d26b4e36b9c95519259479dbb3e0a3c64099b8a49777
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_patch: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_configure: Started
-NOTE: Running task 2553 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_configure)
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_patch: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_configure: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_configure: Succeeded
-NOTE: Running task 2555 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_compile)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_compile: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_configure: Succeeded
-NOTE: Running task 2556 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_compile)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_compile: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_compile: Succeeded
-NOTE: Running task 2557 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_install)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_install: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_compile: Succeeded
-NOTE: Running task 2558 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_install)
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_install: Succeeded
-NOTE: Running task 2559 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_populate_sysroot)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_install: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_populate_sysroot: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_install: Succeeded
-NOTE: Running task 2560 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package)
-NOTE: Running task 2561 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_populate_sysroot)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_populate_sysroot: Started
-NOTE: recipe xmlto-native-0.0.28+0.0.29+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2562 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_populate_sysroot unihash changed to d8731bc1324662ab7ffb83b2b7fccf8e7cde8015a68ddf8bb5714d34be8f48d9
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2563 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_configure)
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_configure: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package: Succeeded
-NOTE: Running task 2564 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_packagedata)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_packagedata: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_packagedata: Succeeded
-NOTE: Running task 2565 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_create_spdx)
-NOTE: Running task 2566 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_ipk)
-NOTE: Running task 2567 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_deb)
-NOTE: Running task 2568 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_write_rpm)
-NOTE: Running task 2569 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_qa)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_spdx: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_ipk: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_deb: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_rpm: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_qa: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2570 of 2597 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_create_runtime_spdx)
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_runtime_spdx: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_deb: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_configure: Succeeded
-NOTE: Running task 2571 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_compile)
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_compile: Started
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_compile: Succeeded
-NOTE: Running task 2572 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_install)
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_install: Started
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_install: Succeeded
-NOTE: Running task 2573 of 2597 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_populate_sysroot)
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_populate_sysroot: Started
-NOTE: recipe xmlto-0.0.28+0.0.29+git-r0: task do_package_qa: Failed
-NOTE: recipe shared-mime-info-native-2.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Tasks Summary: Attempted 2573 tasks of which 2532 didn't need to be rerun and 1 failed.
+NOTE: Running task 450 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_recipe_qa)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_recipe_qa: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 688 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_fetch)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_fetch: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_fetch: Succeeded
+NOTE: Running task 689 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_unpack)
+NOTE: Running task 690 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_prepare_recipe_sysroot)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_unpack: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_unpack: Succeeded
+NOTE: Running task 691 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_patch)
+NOTE: Running task 692 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_collect_spdx_deps)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_patch: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_collect_spdx_deps: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_patch: Succeeded
+NOTE: Running task 693 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 694 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_lic)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_populate_lic: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_populate_lic: Succeeded
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 695 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_configure)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_configure: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_configure: Succeeded
+NOTE: Running task 696 of 707 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_compile)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'bit-32', 'common-linux', 'common-glibc', 'allarch-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75
+| make: *** No targets specified and no makefile found.  Stop.
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862:182 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862, line 182
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862, line 166
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862, line 161
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862, line 156
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862, line 151
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862, line 195
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 696 tasks of which 686 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715121000.txt
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715143937.txt
 You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715121000.txt [-s server]
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715143937.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_qa
-Summary: There were 3 ERROR messages, returning a non-zero exit code.
-ERROR: xmlto-0.0.28+0.0.29+git-r0 do_package_qa: QA Issue: File /usr/bin/xmlto in package xmlto contains reference to TMPDIR [buildpaths]
-ERROR: xmlto-0.0.28+0.0.29+git-r0 do_package_qa: QA Issue: /usr/bin/xmlto contained in package xmlto requires /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/bash, but no providers found in RDEPENDS:xmlto? [file-rdeps]
-ERROR: xmlto-0.0.28+0.0.29+git-r0 do_package_qa: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xmlto/0.0.28+0.0.29+git/temp/log.do_package_qa.1761216
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb:do_package_qa) failed with exit code '1'
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: hicolor-icon-theme-0.18-r0 do_compile: oe_runmake failed
+ERROR: hicolor-icon-theme-0.18-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/run.do_compile.35862', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/hicolor-icon-theme/0.18/temp/log.do_compile.35862
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_compile) failed with exit code '1'
 
---===============6234867229623395644==--
+--===============4775124222622824896==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-hicolor-icon-theme-upgrade-0.17-0.18.patch"
+
+RnJvbSBiZmY1MjhkOWU5ZTJkMzgzOGY4MmE4MDg0ZmM3MTk2NjI0ODdmYTJiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTQ6Mzk6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
+aWNvbG9yLWljb24tdGhlbWU6IHVwZ3JhZGUgMC4xNyAtPiAwLjE4CgotLS0KIC4uLi97aGljb2xv
+ci1pY29uLXRoZW1lXzAuMTcuYmIgPT4gaGljb2xvci1pY29uLXRoZW1lXzAuMTguYmJ9IHwgMyAr
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL3toaWNvbG9yLWljb24tdGhl
+bWVfMC4xNy5iYiA9PiBoaWNvbG9yLWljb24tdGhlbWVfMC4xOC5iYn0gKDgwJSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL2hpY29sb3ItaWNvbi10
+aGVtZV8wLjE3LmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2hpY29sb3ItaWNvbi10aGVtZS9oaWNv
+bG9yLWljb24tdGhlbWVfMC4xOC5iYgpzaW1pbGFyaXR5IGluZGV4IDgwJQpyZW5hbWUgZnJvbSBt
+ZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL2hpY29sb3ItaWNvbi10aGVtZV8w
+LjE3LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvaGljb2xvci1pY29uLXRoZW1lL2hp
+Y29sb3ItaWNvbi10aGVtZV8wLjE4LmJiCmluZGV4IGJiNmNiMDAwYWIuLjBjYmQwMDU0NGIgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9oaWNvbG9yLWljb24tdGhlbWUvaGljb2xvci1p
+Y29uLXRoZW1lXzAuMTcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2hpY29sb3ItaWNvbi10
+aGVtZS9oaWNvbG9yLWljb24tdGhlbWVfMC4xOC5iYgpAQCAtOCw4ICs4LDcgQEAgTElDRU5TRSA9
+ICJHUEwtMi4wLW9ubHkiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1m
+MDhhNDQ2ODA5OTEzZmM5YjNjNzE4ZjBlYWVhMDQyNiIKIAogU1JDX1VSSSA9ICJodHRwczovL2lj
+b24tdGhlbWUuZnJlZWRlc2t0b3Aub3JnL3JlbGVhc2VzLyR7QlBOfS0ke1BWfS50YXIueHoiCi1T
+UkNfVVJJW21kNXN1bV0gPSAiODRlZWM4ZDZmODEwMjQwYTA2OWM3MzFmMTg3MGI0NzQiCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiMzE3NDg0MzUyMjcxZDE4Y2JiY2ZhYzM4NjhlYWI3OThkNjdmZmYx
+Yjg0MDJlNzQwYmFhNmZmNDFkNTg4YTlkOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkYjBlNTBh
+ODBhYTNiZjY0YmI0NWNiY2E1Y2Y5Zjc1ZWZkOTM0OGNmMmFjNjkwYjkwNzQzNTIzOGMzY2Y4MWQ3
+IgogCiBpbmhlcml0IGFsbGFyY2ggYXV0b3Rvb2xzCiAKLS0gCjIuNDQuMAoK
+
+--===============4775124222622824896==--
 
