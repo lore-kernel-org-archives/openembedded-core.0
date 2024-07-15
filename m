@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 933DEC54E75
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B24C54E83
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:21 +0000 (UTC)
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.1361.1721071146299283167
+ by mx.groups.io with SMTP id smtpd.web11.1303.1721071146400217605
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QdBubNJy;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Z3iw/2mc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190b7d5920d-10ac8194-424d-4f3f-8e8a-d69cf5595852-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Kb/S+Mza;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2wNtl6R9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190b7d59292-c70371b8-f339-486b-ba84-fb6bba77714e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071145;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=kD/Qkprh3jRY6jL5YQljDrFEDzJ6uwpCXcv/dX2SCgk=;
-	b=QdBubNJyGlq+0aDYvtYuOMO3Nx7YyMn1m+CrvU+hrqHvzOinDIlAGkpwFNlajKR0
-	Kw9Z+iqQgnX8EUimcjP+JoDkEqKbpmVkGkSi/HNfDMPQ/U5MiP+tGa4RBGnYkRS8MdQ
-	CtHDwretOUAMfSVuaBbYw6CnaxOYaEkGVSTztHDA=
+	bh=FFOm9NX1WTAV6y4mj7vXu5WgWV+K60m162Hv21IDJHI=;
+	b=Kb/S+MzafO/ZZdTtG1zJz3WkoQwcu9LCt5U1sB1HxO/g4+Hj2L5C/83wFMY0qANX
+	pDiD9l6MoRDbBweZYtUzkkDtGGtTKA7vMaIYqYxf2p6LZ5rL7Yf7khXwesueilm+wKc
+	wKROm1Yp/fV/CEu6httHdF8xsCCCHlOM263/5Cc4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071145;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=kD/Qkprh3jRY6jL5YQljDrFEDzJ6uwpCXcv/dX2SCgk=;
-	b=Z3iw/2mcPrPxUYTZsZzTW0s7jkLRJhWZ6856UQJLQqZcJFBtZPfASmk34ovUOKJ9
-	c0V3s2HXs0djiLyLFMlHG8kUW3a1eQPSM8NGl6W8bJX7cLe5YnQ7hPcoL0rTyOK8gZQ
-	i/IDv5Q5Yrh1eFVkOYV0MURtO5gC2/fYRHe0c+VM=
-Content-Type: multipart/mixed; boundary="===============8985367404428386995=="
+	bh=FFOm9NX1WTAV6y4mj7vXu5WgWV+K60m162Hv21IDJHI=;
+	b=2wNtl6R9GbeIhdAH6xgAYFm+X7juzV5rGnI3VFGFNzWYjO2KXJiXgZyks8JlHoH7
+	7/nDci7A49I0T/QlFh6NXqeGPC7kNGNxKS48aaAYf3tUf92gC3+cG+USDeHAPHs8vgJ
+	2k9V6RcV0q+VWWGMZp/8C8i9Bk0n8Dg1VMi00NxY=
+Content-Type: multipart/mixed; boundary="===============7822810191861702110=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] btrfs-tools: upgrading to 6.9.2 SUCCEEDED
-Message-ID: <01010190b7d5920d-10ac8194-424d-4f3f-8e8a-d69cf5595852-000000@us-west-2.amazonses.com>
+Subject: [AUH] util-linux-libuuid: upgrading to 2.40.2 FAILED
+Message-ID: <01010190b7d59292-c70371b8-f339-486b-ba84-fb6bba77714e-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:05 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.07.15-54.240.27.23
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201960
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201964
 
---===============8985367404428386995==
+--===============7822810191861702110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *btrfs-tools* to *6.9.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *util-linux-libuuid* to *2.40.2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-btrfs-tools-upgrade-6.8.1-6.9.2.patch
+    - apply the patch: git am 0001-util-linux-libuuid-upgrade-2.40.1-2.40.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,318 +78,505 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5f6831284fd24b89cdddbcde972c67c7ca005cb7 Mon Sep 17 00:00:00 2001
+From 8e5eeb0dac64e381cf3fdcb13a64884065932ef9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 08:42:12 +0000
-Subject: [PATCH] btrfs-tools: upgrade 6.8.1 -> 6.9.2
+Date: Mon, 15 Jul 2024 08:15:46 +0000
+Subject: [PATCH] util-linux-libuuid: upgrade 2.40.1 -> 2.40.2
 
 ---
- ...y-to-specify-where-python-modules-ar.patch |  6 +-
- ...ename-of-inode_includes-from-e2fspro.patch | 64 -------------------
- ...fs-tools_6.8.1.bb => btrfs-tools_6.9.2.bb} |  3 +-
- 3 files changed, 4 insertions(+), 69 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.8.1.bb => btrfs-tools_6.9.2.bb} (95%)
+ ...linux-libuuid_2.40.1.bb => util-linux-libuuid_2.40.2.bb} | 0
+ meta/recipes-core/util-linux/util-linux.inc                 | 2 +-
+ .../util-linux/util-linux/avoid_parallel_tests.patch        | 4 ++--
+ .../util-linux/util-linux/configure-sbindir.patch           | 4 ++--
+ .../util-linux/display_testname_for_subtest.patch           | 2 +-
+ meta/recipes-core/util-linux/util-linux/ptest.patch         | 6 +++---
+ 6 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-core/util-linux/{util-linux-libuuid_2.40.1.bb => util-linux-libuuid_2.40.2.bb} (100%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
-index 4b1797b65f..2984a6a1ad 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux-libuuid_2.40.1.bb
+rename to meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 0f5f838e84..d2c1231375 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -40,4 +40,4 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://fcntl-lock.c \
+            "
+ 
+-SRC_URI[sha256sum] = "59e676aa53ccb44b6c39f0ffe01a8fa274891c91bef1474752fad92461def24f"
++SRC_URI[sha256sum] = "d78b37a66f5922d70edf3bdfb01a6b33d34ed3c3cafd6628203b2a2b67c8e8b3"
+diff --git a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+index 8ea00dbb95..5253fb16c8 100644
+--- a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
++++ b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
 @@ -1,4 +1,4 @@
--From 980f6edc269fa3ef8d4d4b9cd1aada2328131c19 Mon Sep 17 00:00:00 2001
-+From 68203da88f59d78e539710a76d4eaa30d3a31817 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 23 May 2018 21:20:35 +0300
- Subject: [PATCH] Add a possibility to specify where python modules are
-@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-From da58b4150f6932de36c962ea657713bcf4ea44be Mon Sep 17 00:00:00 2001
++From 90a36e0a1c89764ef086bfd66953d91e63e8211f Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Mon, 14 Jun 2021 14:00:31 +0200
+ Subject: [PATCH] util-linux: Add ptest
+@@ -14,7 +14,7 @@ Upstream-Status: Inappropriate
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/Makefile b/Makefile
--index 374f59b9..ed083f6b 100644
-+index 82dfb1b4..4968989a 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -959,7 +959,7 @@ endif
-+@@ -984,7 +984,7 @@ endif
-  ifeq ($(PYTHON_BINDINGS),1)
-  install_python: libbtrfsutil_python
-  	$(Q)cd libbtrfsutil/python; \
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch
-deleted file mode 100644
-index 6fefbb2bca..0000000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch
-+++ /dev/null
-@@ -1,64 +0,0 @@
--From f9ba9752ba5fd72441bc2018b2453967e75460d4 Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@fujitsu.com>
--Date: Mon, 24 Jun 2024 02:00:11 +0000
--Subject: [PATCH] convert: handle rename of inode_includes() from e2fsprogs
-- 1.47.1
--
--Upstream-Status: Backport
--[https://kernel.googlesource.com/pub/scm/linux/kernel/git/kdave/btrfs-progs/+/bcb887a4de2c56426a7a7de8d440b6ad75579f10%5E%21/#F0]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- configure.ac          |  3 ++-
-- convert/source-ext2.c | 11 +++++++++--
-- 2 files changed, 11 insertions(+), 3 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 007d29b..816dd36 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -312,7 +312,8 @@ AS_IF([test "x$have_ext4_epoch_mask_define" = xno], [
--             AC_DEFINE([EXT4_EPOCH_BITS], [2],[for encode and decode tv_nsec in ext2 inode])
--             AC_DEFINE([EXT4_EPOCH_MASK], [((1U << EXT4_EPOCH_BITS) - 1)], [For encode and decode tv_nsec info in ext2 inode])
--             AC_DEFINE([EXT4_NSEC_MASK],  [(~0UL << EXT4_EPOCH_BITS)], [For encode and decode tv_nsec info in ext2 inode])
---            AC_DEFINE([inode_includes(size, field)],[m4_normalize[(size >= (sizeof(((struct ext2_inode_large *)0)->field) + offsetof(struct ext2_inode_large, field)))]],
--+            # Use name from 1.47.1, backward compatibility is handled in convert/source-ext2.c
--+            AC_DEFINE([ext2fs_inode_includes(size, field)],[m4_normalize[(size >= (sizeof(((struct ext2_inode_large *)0)->field) + offsetof(struct ext2_inode_large, field)))]],
--                 [For encode and decode tv_nsec info in ext2 inode])
--         ],
--         [AC_MSG_WARN([It seems that ext2_inode_large don't includes tv_nsec related info, probably old e2fsprogs, no 64bit time precision of converted images])],
--diff --git a/convert/source-ext2.c b/convert/source-ext2.c
--index 2186b25..bba81e4 100644
----- a/convert/source-ext2.c
--+++ b/convert/source-ext2.c
--@@ -727,10 +727,17 @@ static inline void ext4_decode_extra_time(__le32 * tv_sec, __le32 * tv_nsec,
--         *tv_nsec = (le32_to_cpu(extra) & EXT4_NSEC_MASK) >> EXT4_EPOCH_BITS;
-- }
-- 
--+/*
--+ * In e2fsprogs < 1.47.1 it's inode_includes, from >= on it's with ext2fs_ prefix.
--+ */
--+#ifndef ext2fs_inode_includes
--+#define ext2fs_inode_includes(size, field)	inode_includes(size, field)
--+#endif
--+
-- #define EXT4_COPY_XTIME(xtime, dst, tv_sec, tv_nsec)					\
-- do {											\
-- 	tv_sec = src->i_ ## xtime ;							\
---	if (inode_includes(inode_size, i_ ## xtime ## _extra)) {			\
--+	if (ext2fs_inode_includes(inode_size, i_ ## xtime ## _extra)) {			\
-- 		tv_sec = src->i_ ## xtime ;						\
-- 		ext4_decode_extra_time(&tv_sec, &tv_nsec, src->i_ ## xtime ## _extra);	\
-- 		btrfs_set_stack_timespec_sec(&dst->xtime , tv_sec);			\
--@@ -771,7 +778,7 @@ static int ext4_copy_inode_timespec_extra(struct btrfs_inode_item *dst,
-- 	EXT4_COPY_XTIME(ctime, dst, tv_sec, tv_nsec);
-- 
-- 	tv_sec = src->i_crtime;
---	if (inode_includes(inode_size, i_crtime_extra)) {
--+	if (ext2fs_inode_includes(inode_size, i_crtime_extra)) {
-- 		tv_sec = src->i_crtime;
-- 		ext4_decode_extra_time(&tv_sec, &tv_nsec, src->i_crtime_extra);
-- 		btrfs_set_stack_timespec_sec(&dst->otime, tv_sec);
---- 
--2.34.1
--
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
-similarity index 95%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
-index d61d956a70..9f5586490d 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.8.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
-@@ -17,9 +17,8 @@ DEPENDS = "util-linux zlib"
+ diff --git a/configure.ac b/configure.ac
+-index 651ef2b..2a8012e 100644
++index af86e1e..0375d29 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+index 74abdc2038..f87ec0cefd 100644
+--- a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
++++ b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+@@ -1,4 +1,4 @@
+-From 0387d71516c978899cfd556ca512f530a212b4a9 Mon Sep 17 00:00:00 2001
++From 609f03277bc317927daabab562b483149e399287 Mon Sep 17 00:00:00 2001
+ From: Phil Blundell <pb@pbcl.net>
+ Date: Mon, 24 Sep 2012 07:24:51 +0100
+ Subject: [PATCH] util-linux: Ensure that ${sbindir} is respected
+@@ -14,7 +14,7 @@ Upstream-Status: Inappropriate [configuration]
+  1 file changed, 4 insertions(+), 1 deletion(-)
  
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
--           file://0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch \
-            "
--SRCREV = "5d97c32d6f94cf6f473a5f82964e3edaeb1b146e"
-+SRCREV = "b0e5ef4cf7c8b473119e0d487a26b96058e8f80d"
- S = "${WORKDIR}/git"
+ diff --git a/configure.ac b/configure.ac
+-index 23594ff..651ef2b 100644
++index 82d0e4b..af86e1e 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -110,7 +110,10 @@ AC_SUBST([runstatedir])
+diff --git a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+index 871b0b2d30..4d6de8bb42 100644
+--- a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
++++ b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+@@ -1,4 +1,4 @@
+-From 45450d0339cd7ee27f53c0f2fac1cc74ed9bbfb8 Mon Sep 17 00:00:00 2001
++From 74a50735fae5b30aa0acbf1d0dfb9248d4b6b511 Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Thu, 3 Dec 2015 04:08:00 +0100
+ Subject: [PATCH] Display testname for subtest
+diff --git a/meta/recipes-core/util-linux/util-linux/ptest.patch b/meta/recipes-core/util-linux/util-linux/ptest.patch
+index 7345926b88..e2086a0178 100644
+--- a/meta/recipes-core/util-linux/util-linux/ptest.patch
++++ b/meta/recipes-core/util-linux/util-linux/ptest.patch
+@@ -1,4 +1,4 @@
+-From f9be73c3e2b0a4f0923950dcb058be85d3ee8ed7 Mon Sep 17 00:00:00 2001
++From 7a8dacb06c41b124fd4644b0bb3d805c237a8829 Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Thu, 3 Dec 2015 04:08:00 +0100
+ Subject: [PATCH] Define TESTS variable
+@@ -10,10 +10,10 @@ Upstream-Status: Pending
+  1 file changed, 1 insertion(+)
  
- PACKAGECONFIG ??= " \
+ diff --git a/Makefile.am b/Makefile.am
+-index 50ab8d0..7e2340d 100644
++index 54e0fd4..ee2d553 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -64,6 +64,7 @@ tmpfiles_DATA =
++@@ -65,6 +65,7 @@ tmpfiles_DATA =
+  dist_bashcompletion_DATA =
+  check_PROGRAMS =
+  dist_check_SCRIPTS =
 -- 
 2.44.0
 
 
---===============8985367404428386995==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info -> /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info, removed "/usr/lib/libbtrfsutil.so.1.3.0", added "/usr/lib/libbtrfs.so.0.1.3 /usr/lib/libbtrfsutil.so.1.3 /usr/lib/libbtrfsutil.so.1.3.2"
-Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/libbtrfs.so.0.1 changed type from file to symlink
-  /usr/lib/libbtrfs.so.0.1 changed permissions from rwxr-xr-x to rwxrwxrwx
-  /usr/lib/libbtrfs.so.0.1 changed symlink target from None to libbtrfs.so.0.1.3
-  /usr/lib/libbtrfs.so.0 changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
-  /usr/lib/libbtrfs.so changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
-  /usr/lib/libbtrfsutil.so.1 changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
-  /usr/lib/libbtrfsutil.so changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
-  /usr/lib/libbtrfsutil.so.1.3.0 moved to /usr/lib/libbtrfsutil.so.1.3.2
-  /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info moved to /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info
-  /usr/lib/libbtrfs.so.0.1.3 was added
-  /usr/lib/libbtrfsutil.so.1.3 was added
-
---===============8985367404428386995==
+--===============7822810191861702110==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-btrfs-tools-upgrade-6.8.1-6.9.2.patch"
+ filename="0001-util-linux-libuuid-upgrade-2.40.1-2.40.2.patch"
 
-RnJvbSA1ZjY4MzEyODRmZDI0Yjg5Y2RkZGJjZGU5NzJjNjdjN2NhMDA1Y2I3IE1vbiBTZXAgMTcg
+RnJvbSA4ZTVlZWIwZGFjNjRlMzgxY2YzZmRjYjEzYTY0ODg0MDY1OTMyZWY5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDg6NDI6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-dHJmcy10b29sczogdXBncmFkZSA2LjguMSAtPiA2LjkuMgoKLS0tCiAuLi55LXRvLXNwZWNpZnkt
-d2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggfCAgNiArLQogLi4uZW5hbWUtb2YtaW5vZGVf
-aW5jbHVkZXMtZnJvbS1lMmZzcHJvLnBhdGNoIHwgNjQgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
-ZnMtdG9vbHNfNi44LjEuYmIgPT4gYnRyZnMtdG9vbHNfNi45LjIuYmJ9IHwgIDMgKy0KIDMgZmls
-ZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA2OSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2Rl
-IDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAw
-MS1jb252ZXJ0LWhhbmRsZS1yZW5hbWUtb2YtaW5vZGVfaW5jbHVkZXMtZnJvbS1lMmZzcHJvLnBh
-dGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL3tidHJmcy10b29s
-c182LjguMS5iYiA9PiBidHJmcy10b29sc182LjkuMi5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1w
-b3NzaWJpbGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9z
-c2liaWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaAppbmRleCA0
-YjE3OTdiNjVmLi4yOTg0YTZhMWFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-YnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVjaWZ5
-LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNp
-Znktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk4
-MGY2ZWRjMjY5ZmEzZWY4ZDRkNGI5Y2QxYWFkYTIzMjgxMzFjMTkgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIDY4MjAzZGE4OGY1OWQ3OGU1Mzk3MTBhNzZkNGVhYTMwZDNhMzE4MTcgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
-dmluQGdtYWlsLmNvbT4KIERhdGU6IFdlZCwgMjMgTWF5IDIwMTggMjE6MjA6MzUgKzAzMDAKIFN1
-YmplY3Q6IFtQQVRDSF0gQWRkIGEgcG9zc2liaWxpdHkgdG8gc3BlY2lmeSB3aGVyZSBweXRob24g
-bW9kdWxlcyBhcmUKQEAgLTExLDEwICsxMSwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIg
-S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlIGIvTWFrZWZp
-bGUKLWluZGV4IDM3NGY1OWI5Li5lZDA4M2Y2YiAxMDA2NDQKK2luZGV4IDgyZGZiMWI0Li40OTY4
-OTg5YSAxMDA2NDQKIC0tLSBhL01ha2VmaWxlCiArKysgYi9NYWtlZmlsZQotQEAgLTk1OSw3ICs5
-NTksNyBAQCBlbmRpZgorQEAgLTk4NCw3ICs5ODQsNyBAQCBlbmRpZgogIGlmZXEgKCQoUFlUSE9O
-X0JJTkRJTkdTKSwxKQogIGluc3RhbGxfcHl0aG9uOiBsaWJidHJmc3V0aWxfcHl0aG9uCiAgCSQo
-USljZCBsaWJidHJmc3V0aWwvcHl0aG9uOyBcCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1jb252ZXJ0LWhhbmRsZS1yZW5hbWUt
-b2YtaW5vZGVfaW5jbHVkZXMtZnJvbS1lMmZzcHJvLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtY29udmVydC1oYW5kbGUtcmVuYW1lLW9m
-LWlub2RlX2luY2x1ZGVzLWZyb20tZTJmc3Byby5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2
-NDQKaW5kZXggNmZlZmJiMmJjYS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1jb252ZXJ0LWhhbmRsZS1yZW5hbWUtb2Yt
-aW5vZGVfaW5jbHVkZXMtZnJvbS1lMmZzcHJvLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNjQg
-KzAsMCBAQAotRnJvbSBmOWJhOTc1MmJhNWZkNzI0NDFiYzIwMThiMjQ1Mzk2N2U3NTQ2MGQ0IE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogV2FuZyBNaW5neXUgPHdhbmdteUBmdWppdHN1
-LmNvbT4KLURhdGU6IE1vbiwgMjQgSnVuIDIwMjQgMDI6MDA6MTEgKzAwMDAKLVN1YmplY3Q6IFtQ
-QVRDSF0gY29udmVydDogaGFuZGxlIHJlbmFtZSBvZiBpbm9kZV9pbmNsdWRlcygpIGZyb20gZTJm
-c3Byb2dzCi0gMS40Ny4xCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQKLVtodHRwczovL2tl
-cm5lbC5nb29nbGVzb3VyY2UuY29tL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9rZGF2ZS9idHJm
-cy1wcm9ncy8rL2JjYjg4N2E0ZGUyYzU2NDI2YTdhN2RlOGQ0NDBiNmFkNzU1NzlmMTAlNUUlMjEv
-I0YwXQotCi1TaWduZWQtb2ZmLWJ5OiBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0c3UuY29tPgot
-LS0tCi0gY29uZmlndXJlLmFjICAgICAgICAgIHwgIDMgKystCi0gY29udmVydC9zb3VyY2UtZXh0
-Mi5jIHwgMTEgKysrKysrKysrLS0KLSAyIGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyks
-IDMgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUu
-YWMKLWluZGV4IDAwN2QyOWIuLjgxNmRkMzYgMTAwNjQ0Ci0tLS0gYS9jb25maWd1cmUuYWMKLSsr
-KyBiL2NvbmZpZ3VyZS5hYwotQEAgLTMxMiw3ICszMTIsOCBAQCBBU19JRihbdGVzdCAieCRoYXZl
-X2V4dDRfZXBvY2hfbWFza19kZWZpbmUiID0geG5vXSwgWwotICAgICAgICAgICAgIEFDX0RFRklO
-RShbRVhUNF9FUE9DSF9CSVRTXSwgWzJdLFtmb3IgZW5jb2RlIGFuZCBkZWNvZGUgdHZfbnNlYyBp
-biBleHQyIGlub2RlXSkKLSAgICAgICAgICAgICBBQ19ERUZJTkUoW0VYVDRfRVBPQ0hfTUFTS10s
-IFsoKDFVIDw8IEVYVDRfRVBPQ0hfQklUUykgLSAxKV0sIFtGb3IgZW5jb2RlIGFuZCBkZWNvZGUg
-dHZfbnNlYyBpbmZvIGluIGV4dDIgaW5vZGVdKQotICAgICAgICAgICAgIEFDX0RFRklORShbRVhU
-NF9OU0VDX01BU0tdLCAgWyh+MFVMIDw8IEVYVDRfRVBPQ0hfQklUUyldLCBbRm9yIGVuY29kZSBh
-bmQgZGVjb2RlIHR2X25zZWMgaW5mbyBpbiBleHQyIGlub2RlXSkKLS0gICAgICAgICAgICBBQ19E
-RUZJTkUoW2lub2RlX2luY2x1ZGVzKHNpemUsIGZpZWxkKV0sW200X25vcm1hbGl6ZVsoc2l6ZSA+
-PSAoc2l6ZW9mKCgoc3RydWN0IGV4dDJfaW5vZGVfbGFyZ2UgKikwKS0+ZmllbGQpICsgb2Zmc2V0
-b2Yoc3RydWN0IGV4dDJfaW5vZGVfbGFyZ2UsIGZpZWxkKSkpXV0sCi0rICAgICAgICAgICAgIyBV
-c2UgbmFtZSBmcm9tIDEuNDcuMSwgYmFja3dhcmQgY29tcGF0aWJpbGl0eSBpcyBoYW5kbGVkIGlu
-IGNvbnZlcnQvc291cmNlLWV4dDIuYwotKyAgICAgICAgICAgIEFDX0RFRklORShbZXh0MmZzX2lu
-b2RlX2luY2x1ZGVzKHNpemUsIGZpZWxkKV0sW200X25vcm1hbGl6ZVsoc2l6ZSA+PSAoc2l6ZW9m
-KCgoc3RydWN0IGV4dDJfaW5vZGVfbGFyZ2UgKikwKS0+ZmllbGQpICsgb2Zmc2V0b2Yoc3RydWN0
-IGV4dDJfaW5vZGVfbGFyZ2UsIGZpZWxkKSkpXV0sCi0gICAgICAgICAgICAgICAgIFtGb3IgZW5j
-b2RlIGFuZCBkZWNvZGUgdHZfbnNlYyBpbmZvIGluIGV4dDIgaW5vZGVdKQotICAgICAgICAgXSwK
-LSAgICAgICAgIFtBQ19NU0dfV0FSTihbSXQgc2VlbXMgdGhhdCBleHQyX2lub2RlX2xhcmdlIGRv
-bid0IGluY2x1ZGVzIHR2X25zZWMgcmVsYXRlZCBpbmZvLCBwcm9iYWJseSBvbGQgZTJmc3Byb2dz
-LCBubyA2NGJpdCB0aW1lIHByZWNpc2lvbiBvZiBjb252ZXJ0ZWQgaW1hZ2VzXSldLAotZGlmZiAt
-LWdpdCBhL2NvbnZlcnQvc291cmNlLWV4dDIuYyBiL2NvbnZlcnQvc291cmNlLWV4dDIuYwotaW5k
-ZXggMjE4NmIyNS4uYmJhODFlNCAxMDA2NDQKLS0tLSBhL2NvbnZlcnQvc291cmNlLWV4dDIuYwot
-KysrIGIvY29udmVydC9zb3VyY2UtZXh0Mi5jCi1AQCAtNzI3LDEwICs3MjcsMTcgQEAgc3RhdGlj
-IGlubGluZSB2b2lkIGV4dDRfZGVjb2RlX2V4dHJhX3RpbWUoX19sZTMyICogdHZfc2VjLCBfX2xl
-MzIgKiB0dl9uc2VjLAotICAgICAgICAgKnR2X25zZWMgPSAobGUzMl90b19jcHUoZXh0cmEpICYg
-RVhUNF9OU0VDX01BU0spID4+IEVYVDRfRVBPQ0hfQklUUzsKLSB9Ci0gCi0rLyoKLSsgKiBJbiBl
-MmZzcHJvZ3MgPCAxLjQ3LjEgaXQncyBpbm9kZV9pbmNsdWRlcywgZnJvbSA+PSBvbiBpdCdzIHdp
-dGggZXh0MmZzXyBwcmVmaXguCi0rICovCi0rI2lmbmRlZiBleHQyZnNfaW5vZGVfaW5jbHVkZXMK
-LSsjZGVmaW5lIGV4dDJmc19pbm9kZV9pbmNsdWRlcyhzaXplLCBmaWVsZCkJaW5vZGVfaW5jbHVk
-ZXMoc2l6ZSwgZmllbGQpCi0rI2VuZGlmCi0rCi0gI2RlZmluZSBFWFQ0X0NPUFlfWFRJTUUoeHRp
-bWUsIGRzdCwgdHZfc2VjLCB0dl9uc2VjKQkJCQkJXAotIGRvIHsJCQkJCQkJCQkJCVwKLSAJdHZf
-c2VjID0gc3JjLT5pXyAjIyB4dGltZSA7CQkJCQkJCVwKLS0JaWYgKGlub2RlX2luY2x1ZGVzKGlu
-b2RlX3NpemUsIGlfICMjIHh0aW1lICMjIF9leHRyYSkpIHsJCQlcCi0rCWlmIChleHQyZnNfaW5v
-ZGVfaW5jbHVkZXMoaW5vZGVfc2l6ZSwgaV8gIyMgeHRpbWUgIyMgX2V4dHJhKSkgewkJCVwKLSAJ
-CXR2X3NlYyA9IHNyYy0+aV8gIyMgeHRpbWUgOwkJCQkJCVwKLSAJCWV4dDRfZGVjb2RlX2V4dHJh
-X3RpbWUoJnR2X3NlYywgJnR2X25zZWMsIHNyYy0+aV8gIyMgeHRpbWUgIyMgX2V4dHJhKTsJXAot
-IAkJYnRyZnNfc2V0X3N0YWNrX3RpbWVzcGVjX3NlYygmZHN0LT54dGltZSAsIHR2X3NlYyk7CQkJ
-XAotQEAgLTc3MSw3ICs3NzgsNyBAQCBzdGF0aWMgaW50IGV4dDRfY29weV9pbm9kZV90aW1lc3Bl
-Y19leHRyYShzdHJ1Y3QgYnRyZnNfaW5vZGVfaXRlbSAqZHN0LAotIAlFWFQ0X0NPUFlfWFRJTUUo
-Y3RpbWUsIGRzdCwgdHZfc2VjLCB0dl9uc2VjKTsKLSAKLSAJdHZfc2VjID0gc3JjLT5pX2NydGlt
-ZTsKLS0JaWYgKGlub2RlX2luY2x1ZGVzKGlub2RlX3NpemUsIGlfY3J0aW1lX2V4dHJhKSkgewot
-KwlpZiAoZXh0MmZzX2lub2RlX2luY2x1ZGVzKGlub2RlX3NpemUsIGlfY3J0aW1lX2V4dHJhKSkg
-ewotIAkJdHZfc2VjID0gc3JjLT5pX2NydGltZTsKLSAJCWV4dDRfZGVjb2RlX2V4dHJhX3RpbWUo
-JnR2X3NlYywgJnR2X25zZWMsIHNyYy0+aV9jcnRpbWVfZXh0cmEpOwotIAkJYnRyZnNfc2V0X3N0
-YWNrX3RpbWVzcGVjX3NlYygmZHN0LT5vdGltZSwgdHZfc2VjKTsKLS0tIAotMi4zNC4xCi0KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182
-LjguMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182
-LjkuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi44LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjkuMi5iYgppbmRleCBkNjFk
-OTU2YTcwLi45ZjU1ODY0OTBkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRy
-ZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi44LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuOS4yLmJiCkBAIC0xNyw5ICsxNyw4IEBAIERFUEVO
-RFMgPSAidXRpbC1saW51eCB6bGliIgogCiBTUkNfVVJJID0gImdpdDovL2dpdC5rZXJuZWwub3Jn
-L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9rZGF2ZS9idHJmcy1wcm9ncy5naXQ7YnJhbmNoPW1h
-c3Rlcjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUFkZC1hLXBvc3Np
-YmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggXAotICAgICAg
-ICAgICBmaWxlOi8vMDAwMS1jb252ZXJ0LWhhbmRsZS1yZW5hbWUtb2YtaW5vZGVfaW5jbHVkZXMt
-ZnJvbS1lMmZzcHJvLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjVkOTdjMzJkNmY5
-NGNmNmY0NzNhNWY4Mjk2NGUzZWRhZWIxYjE0NmUiCitTUkNSRVYgPSAiYjBlNWVmNGNmN2M4YjQ3
-MzExOWUwZDQ4N2EyNmI5NjA1OGU4ZjgwZCIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIFBBQ0tB
-R0VDT05GSUcgPz89ICIgXAotLSAKMi40NC4wCgo=
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDg6MTU6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
+dGlsLWxpbnV4LWxpYnV1aWQ6IHVwZ3JhZGUgMi40MC4xIC0+IDIuNDAuMgoKLS0tCiAuLi5saW51
+eC1saWJ1dWlkXzIuNDAuMS5iYiA9PiB1dGlsLWxpbnV4LWxpYnV1aWRfMi40MC4yLmJifSB8IDAK
+IG1ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC5pbmMgICAgICAgICAgICAg
+ICAgIHwgMiArLQogLi4uL3V0aWwtbGludXgvdXRpbC1saW51eC9hdm9pZF9wYXJhbGxlbF90ZXN0
+cy5wYXRjaCAgICAgICAgfCA0ICsrLS0KIC4uLi91dGlsLWxpbnV4L3V0aWwtbGludXgvY29uZmln
+dXJlLXNiaW5kaXIucGF0Y2ggICAgICAgICAgIHwgNCArKy0tCiAuLi4vdXRpbC1saW51eC9kaXNw
+bGF5X3Rlc3RuYW1lX2Zvcl9zdWJ0ZXN0LnBhdGNoICAgICAgICAgICB8IDIgKy0KIG1ldGEvcmVj
+aXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC9wdGVzdC5wYXRjaCAgICAgICAgIHwgNiAr
+KystLS0KIDYgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgve3V0aWwtbGludXgtbGlidXVpZF8y
+LjQwLjEuYmIgPT4gdXRpbC1saW51eC1saWJ1dWlkXzIuNDAuMi5iYn0gKDEwMCUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LWxpYnV1aWRfMi40
+MC4xLmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LWxpYnV1aWRf
+Mi40MC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+Y29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgtbGlidXVpZF8yLjQwLjEuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC1saWJ1dWlkXzIuNDAuMi5iYgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LmluYyBi
+L21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC5pbmMKaW5kZXggMGY1Zjgz
+OGU4NC4uZDJjMTIzMTM3NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51
+eC91dGlsLWxpbnV4LmluYworKysgYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwt
+bGludXguaW5jCkBAIC00MCw0ICs0MCw0IEBAIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9S
+fS9saW51eC91dGlscy91dGlsLWxpbnV4L3Yke01BSk9SX1ZFUlNJT059L3V0aWwtbGluCiAgICAg
+ICAgICAgIGZpbGU6Ly9mY250bC1sb2NrLmMgXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICI1OWU2NzZhYTUzY2NiNDRiNmMzOWYwZmZlMDFhOGZhMjc0ODkxYzkxYmVmMTQ3
+NDc1MmZhZDkyNDYxZGVmMjRmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ3OGIzN2E2NmY1OTIy
+ZDcwZWRmM2JkZmIwMWE2YjMzZDM0ZWQzYzNjYWZkNjYyODIwM2IyYTJiNjdjOGU4YjMiCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvYXZvaWRfcGFy
+YWxsZWxfdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGlu
+dXgvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKaW5kZXggOGVhMDBkYmI5NS4uNTI1M2ZiMTZj
+OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4L2F2
+b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGlu
+dXgvdXRpbC1saW51eC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
+LUZyb20gZGE1OGI0MTUwZjY5MzJkZTM2Yzk2MmVhNjU3NzEzYmNmNGVhNDRiZSBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKK0Zyb20gOTBhMzZlMGExYzg5NzY0ZWYwODZiZmQ2Njk1M2Q5MWU2M2U4
+MjExZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFR1ZG9yIEZsb3JlYSA8dHVkb3Iu
+ZmxvcmVhQGVuZWEuY29tPgogRGF0ZTogTW9uLCAxNCBKdW4gMjAyMSAxNDowMDozMSArMDIwMAog
+U3ViamVjdDogW1BBVENIXSB1dGlsLWxpbnV4OiBBZGQgcHRlc3QKQEAgLTE0LDcgKzE0LDcgQEAg
+VXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25m
+aWd1cmUuYWMKLWluZGV4IDY1MWVmMmIuLjJhODAxMmUgMTAwNjQ0CitpbmRleCBhZjg2ZTFlLi4w
+Mzc1ZDI5IDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKIEBA
+IC0xMSw3ICsxMSw3IEBAIEFDX0NPTkZJR19NQUNST19ESVIoW200XSkKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC9jb25maWd1cmUtc2JpbmRpci5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC9jb25maWd1cmUt
+c2JpbmRpci5wYXRjaAppbmRleCA3NGFiZGMyMDM4Li5mODdlYzBjZWZkIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvY29uZmlndXJlLXNiaW5kaXIu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4L2NvbmZp
+Z3VyZS1zYmluZGlyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMzg3ZDcxNTE2Yzk3ODg5
+OWNmZDU1NmNhNTEyZjUzMGEyMTJiNGE5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2
+MDlmMDMyNzdiYzMxNzkyN2RhYWJhYjU2MmI0ODMxNDllMzk5Mjg3IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogUGhpbCBCbHVuZGVsbCA8cGJAcGJjbC5uZXQ+CiBEYXRlOiBNb24sIDI0
+IFNlcCAyMDEyIDA3OjI0OjUxICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHV0aWwtbGludXg6IEVu
+c3VyZSB0aGF0ICR7c2JpbmRpcn0gaXMgcmVzcGVjdGVkCkBAIC0xNCw3ICsxNCw3IEBAIFVwc3Ry
+ZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbY29uZmlndXJhdGlvbl0KICAxIGZpbGUgY2hhbmdl
+ZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1
+cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDIzNTk0ZmYuLjY1MWVmMmIgMTAwNjQ0CitpbmRl
+eCA4MmQwZTRiLi5hZjg2ZTFlIDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25m
+aWd1cmUuYWMKIEBAIC0xMTAsNyArMTEwLDEwIEBAIEFDX1NVQlNUKFtydW5zdGF0ZWRpcl0pCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvZGlzcGxh
+eV90ZXN0bmFtZV9mb3Jfc3VidGVzdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGlu
+dXgvdXRpbC1saW51eC9kaXNwbGF5X3Rlc3RuYW1lX2Zvcl9zdWJ0ZXN0LnBhdGNoCmluZGV4IDg3
+MWIwYjJkMzAuLjRkNmRlOGJiNDIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwt
+bGludXgvdXRpbC1saW51eC9kaXNwbGF5X3Rlc3RuYW1lX2Zvcl9zdWJ0ZXN0LnBhdGNoCisrKyBi
+L21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC9kaXNwbGF5X3Rlc3RuYW1l
+X2Zvcl9zdWJ0ZXN0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0NTQ1MGQwMzM5Y2Q3ZWUy
+N2Y1M2MwZjJmYWMxY2M3NGVkOWJiZmI4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3
+NGE1MDczNWZhZTViMzBhYTBhY2JmMWQwZGZiOTI0OGQ0YjZiNTExIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogVHVkb3IgRmxvcmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+CiBEYXRl
+OiBUaHUsIDMgRGVjIDIwMTUgMDQ6MDg6MDAgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gRGlzcGxh
+eSB0ZXN0bmFtZSBmb3Igc3VidGVzdApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRp
+bC1saW51eC91dGlsLWxpbnV4L3B0ZXN0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1s
+aW51eC91dGlsLWxpbnV4L3B0ZXN0LnBhdGNoCmluZGV4IDczNDU5MjZiODguLmUyMDg2YTAxNzgg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC9wdGVz
+dC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvcHRl
+c3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGY5YmU3M2MzZTJiMGE0ZjA5MjM5NTBkY2Iw
+NThiZTg1ZDNlZThlZDcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDdhOGRhY2IwNmM0
+MWIxMjRmZDQ2NDRiMGJiM2Q4MDVjMjM3YTg4MjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBUdWRvciBGbG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4KIERhdGU6IFRodSwgMyBE
+ZWMgMjAxNSAwNDowODowMCArMDEwMAogU3ViamVjdDogW1BBVENIXSBEZWZpbmUgVEVTVFMgdmFy
+aWFibGUKQEAgLTEwLDEwICsxMCwxMCBAQCBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlLmFtIGIv
+TWFrZWZpbGUuYW0KLWluZGV4IDUwYWI4ZDAuLjdlMjM0MGQgMTAwNjQ0CitpbmRleCA1NGUwZmQ0
+Li5lZTJkNTUzIDEwMDY0NAogLS0tIGEvTWFrZWZpbGUuYW0KICsrKyBiL01ha2VmaWxlLmFtCi1A
+QCAtNjQsNiArNjQsNyBAQCB0bXBmaWxlc19EQVRBID0KK0BAIC02NSw2ICs2NSw3IEBAIHRtcGZp
+bGVzX0RBVEEgPQogIGRpc3RfYmFzaGNvbXBsZXRpb25fREFUQSA9CiAgY2hlY2tfUFJPR1JBTVMg
+PQogIGRpc3RfY2hlY2tfU0NSSVBUUyA9Ci0tIAoyLjQ0LjAKCg==
 
---===============8985367404428386995==
+--===============7822810191861702110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: FILELIST: removed "/usr/lib/.debug/libbtrfsutil.so.1.3.0 /usr/lib/.debug/libbtrfs.so.0.1", added "/usr/lib/.debug/libbtrfs.so.0.1.3 /usr/lib/.debug/libbtrfsutil.so.1.3.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 25043400 to 25109456 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 218990 to 219002 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4179972 to 4192255 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info -> /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info, removed "/usr/lib/libbtrfsutil.so.1.3.0", added "/usr/lib/libbtrfsutil.so.1.3 /usr/lib/libbtrfs.so.0.1.3 /usr/lib/libbtrfsutil.so.1.3.2"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 5824852 to 5829244 (+0%)
-packages/core2-64-poky-linux/btrfs-tools: PV changed from "6.8.1" to "6.9.2"
-packages/core2-64-poky-linux/btrfs-tools: SRC_URI changed from "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch file://0001-convert-handle-rename-of-inode_includes-from-e2fspro.patch" to "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch"
-packages/core2-64-poky-linux/btrfs-tools: PKGV changed from 6.8.1 [default] to 6.9.2 [default]
-Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/libbtrfs.so.0.1 changed type from file to symlink
-  /usr/lib/libbtrfs.so.0.1 changed permissions from rwxr-xr-x to rwxrwxrwx
-  /usr/lib/libbtrfs.so.0.1 changed symlink target from None to libbtrfs.so.0.1.3
-  /usr/lib/libbtrfs.so.0 changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
-  /usr/lib/libbtrfs.so changed symlink target from libbtrfs.so.0.1 to libbtrfs.so.0.1.3
-  /usr/lib/libbtrfsutil.so.1 changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
-  /usr/lib/libbtrfsutil.so changed symlink target from libbtrfsutil.so.1.3.0 to libbtrfsutil.so.1.3.2
-  /usr/lib/libbtrfsutil.so.1.3.0 moved to /usr/lib/libbtrfsutil.so.1.3.2
-  /usr/lib/python3.12/site-packages/btrfsutil-6.8.1-py3.12.egg-info moved to /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info
-  /usr/lib/libbtrfs.so.0.1.3 was added
-  /usr/lib/libbtrfsutil.so.1.3 was added
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1882 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (916 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============8985367404428386995==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-969c1df084a7ffaa518467108605900f10c80063"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:969c1df084a7ffaa518467108605900f10c80063"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 148 Local 107 Mirrors 0 Missed 41 Current 148 (72% match, 86% complete)
+Removing 4 stale sstate objects for arch qemux86_64...done.
+Removing 2 stale sstate objects for arch core2-64...done.
+Removing 11 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 169 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 172 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 173 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_14.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 178 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_stash_locale_setscene)
+NOTE: Running setscene task 179 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 180 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 189 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 202 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 220 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 221 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 222 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rsync/rsync_3.3.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 223 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rsync/rsync_3.3.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 224 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/unifdef/unifdef_2.12.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 225 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/unifdef/unifdef_2.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 233 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 234 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtool-cross-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-initial-14.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Started
+NOTE: recipe linux-libc-headers-6.9-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe unifdef-native-2.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe unifdef-native-2.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe rsync-native-3.3.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libarchive-native-3.7.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe elfutils-native-0.191-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe rpm-native-1_4.19.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe rsync-native-3.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-initial-14.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libgcc-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 256 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gcc-runtime-14.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 257 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 263 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 264 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 267 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe unifdef-native-2.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe rsync-native-3.3.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libarchive-native-3.7.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe rpm-native-1_4.19.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 284 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_recipe_qa_setscene)
+NOTE: recipe elfutils-native-0.191-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 285 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_recipe_qa_setscene)
+NOTE: recipe unifdef-native-2.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 287 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/unifdef/unifdef_2.12.bb:do_recipe_qa_setscene)
+NOTE: Running task 196 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.9.bb:do_fetch)
+NOTE: Running task 278 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa)
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtool-cross-2.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe rsync-native-3.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 289 of 296 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rsync/rsync_3.3.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gnutls-native-3.8.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libidn2-native-2.3.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 464 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_recipe_qa)
+NOTE: Running task 475 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_fetch)
+NOTE: Running task 477 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_fetch)
+NOTE: recipe linux-libc-headers-6.9-r0: task do_fetch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_stash_locale_setscene: Succeeded
+NOTE: Running task 493 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb:do_fetch)
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 290 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 291 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe unifdef-native-2.12-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 494 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_fetch)
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gnutls-native-3.8.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libidn2-native-2.3.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-native-3.12.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 495 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_fetch)
+NOTE: Running task 496 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_fetch)
+NOTE: Running task 497 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_fetch)
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_recipe_qa: Started
+NOTE: recipe unifdef-native-2.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe rsync-native-3.3.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 509 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_fetch)
+NOTE: recipe libgcc-initial-14.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 545 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_fetch)
+NOTE: recipe libarchive-native-3.7.4-r0: task do_fetch: Started
+NOTE: recipe python3-native-3.12.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe elfutils-native-0.191-r0: task do_fetch: Started
+NOTE: recipe rpm-native-1_4.19.1.1-r0: task do_fetch: Started
+NOTE: Running task 546 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_fetch)
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_fetch: Started
+NOTE: recipe util-linux-native-2.40.1-r0: task do_recipe_qa: Started
+NOTE: recipe rsync-native-3.3.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_fetch: Started
+NOTE: recipe libidn2-native-2.3.7-r0: task do_fetch: Started
+NOTE: recipe elfutils-native-0.191-r0: task do_fetch: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 577 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_unpack)
+NOTE: recipe gnutls-native-3.8.5-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 594 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_unpack)
+NOTE: Running noexec task 616 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.1.bb:do_fetch)
+NOTE: Running noexec task 644 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_fetch)
+NOTE: Running task 647 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa)
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_fetch: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_fetch: Succeeded
+NOTE: Running task 648 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_unpack)
+NOTE: recipe libgcc-initial-14.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_fetch: Started
+NOTE: Running setscene task 292 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_gcc_stash_builddir_setscene)
+NOTE: recipe glibc-2.39+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 294 of 296 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_14.1.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa: Started
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_recipe_qa: Succeeded
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_unpack: Started
+NOTE: Running task 649 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_fetch)
+NOTE: recipe elfutils-native-0.191-r0: task do_unpack: Started
+NOTE: recipe util-linux-native-2.40.1-r0: task do_recipe_qa: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_gcc_stash_builddir_setscene: Started
+NOTE: Task virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_recipe_qa unihash changed to 1f02a07bb2015aa4a2c56257f006a022858101f9d356c1f0cbcc82f169c7c680
+NOTE: recipe libgcc-initial-14.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-native-3.12.4-r0: task do_fetch: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_unpack: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_unpack: Succeeded
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe libgcc-initial-14.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_fetch: Started
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_fetch: Succeeded
+NOTE: recipe libarchive-native-3.7.4-r0: task do_fetch: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 650 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_unpack)
+NOTE: Running task 651 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 652 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_fetch)
+NOTE: Running task 655 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_fetch)
+NOTE: Running task 656 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_unpack)
+NOTE: Running task 657 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_patch)
+NOTE: Running task 658 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_patch)
+NOTE: recipe glibc-2.39+git-r0: task do_fetch: Started
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_patch: Started
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_patch: Started
+NOTE: recipe libarchive-native-3.7.4-r0: task do_unpack: Started
+NOTE: recipe util-linux-native-2.40.1-r0: task do_fetch: Started
+NOTE: recipe libmicrohttpd-native-1.0.1-r0: task do_patch: Succeeded
+NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_patch: Succeeded
+NOTE: Running task 660 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_fetch)
+WARNING: util-linux-native-2.40.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/downloads/util-linux-2.40.1.tar.xz
+Cleaning and trying again.
+WARNING: util-linux-native-2.40.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/downloads/util-linux-2.40.1.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/downloads/util-linux-2.40.1.tar.xz_bad-checksum_59e676aa53ccb44b6c39f0ffe01a8fa274891c91bef1474752fad92461def24f
+NOTE: Running task 663 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_fetch)
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libtool-cross-2.5.0-r0: task do_fetch: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_fetch: Started
+NOTE: recipe python3-native-3.12.4-r0: task do_fetch: Succeeded
+NOTE: Running task 702 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_unpack)
+NOTE: recipe glibc-2.39+git-r0: task do_fetch: Succeeded
+NOTE: Running task 713 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_unpack)
+NOTE: recipe libarchive-native-3.7.4-r0: task do_unpack: Succeeded
+NOTE: Running task 714 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.4.bb:do_patch)
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_fetch: Succeeded
+NOTE: Running task 715 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_unpack)
+NOTE: recipe libidn2-native-2.3.7-r0: task do_fetch: Succeeded
+NOTE: Running task 716 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_unpack)
+NOTE: recipe elfutils-native-0.191-r0: task do_unpack: Succeeded
+NOTE: Running task 717 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_patch)
+NOTE: recipe glibc-2.39+git-r0: task do_unpack: Started
+WARNING: util-linux-native-2.40.1-r0 do_fetch: Checksum failure encountered with download of https://cdn.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.1.tar.xz - will attempt other sources if available
+NOTE: recipe python3-native-3.12.4-r0: task do_unpack: Started
+NOTE: recipe libarchive-native-3.7.4-r0: task do_patch: Started
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_unpack: Started
+NOTE: recipe libidn2-native-2.3.7-r0: task do_unpack: Started
+NOTE: recipe elfutils-native-0.191-r0: task do_patch: Started
+NOTE: recipe libarchive-native-3.7.4-r0: task do_patch: Succeeded
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_unpack: Succeeded
+NOTE: Running task 719 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_patch)
+NOTE: recipe libidn2-native-2.3.7-r0: task do_unpack: Succeeded
+NOTE: Running task 720 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_patch)
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_patch: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_fetch: Succeeded
+NOTE: Running task 721 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_unpack)
+NOTE: recipe libidn2-native-2.3.7-r0: task do_patch: Started
+NOTE: recipe libtasn1-native-4.19.0-r0: task do_patch: Succeeded
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_unpack: Succeeded
+NOTE: Running task 723 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_patch)
+NOTE: recipe libidn2-native-2.3.7-r0: task do_patch: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_unpack: Started
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_patch: Started
+NOTE: recipe gcc-cross-x86_64-14.1.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 725 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_14.1.bb:do_fetch)
+NOTE: recipe elfutils-native-0.191-r0: task do_patch: Succeeded
+NOTE: recipe gcc-source-14.1.0-14.1.0-r0: task do_fetch: Started
+NOTE: recipe libtool-cross-2.5.0-r0: task do_fetch: Succeeded
+NOTE: Running task 728 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_unpack)
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_patch: Succeeded
+NOTE: Running task 729 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libtool-cross-2.5.0-r0: task do_unpack: Started
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtool-cross-2.5.0-r0: task do_unpack: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_unpack: Succeeded
+WARNING: util-linux-native-2.40.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/downloads/util-linux-2.40.1.tar.xz
+Cleaning and trying again.
+WARNING: util-linux-native-2.40.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/downloads/util-linux-2.40.1.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/downloads/util-linux-2.40.1.tar.xz_bad-checksum_59e676aa53ccb44b6c39f0ffe01a8fa274891c91bef1474752fad92461def24f
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 732 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_patch)
+NOTE: Running task 733 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_configure)
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_patch: Started
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_configure: Started
+NOTE: recipe python3-native-3.12.4-r0: task do_unpack: Succeeded
+NOTE: Running task 734 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.4.bb:do_patch)
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_patch: Succeeded
+NOTE: Running task 735 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 736 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_populate_lic)
+NOTE: recipe python3-native-3.12.4-r0: task do_patch: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_lic: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glibc-2.39+git-r0: task do_unpack: Succeeded
+NOTE: Running task 737 of 899 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_patch)
+NOTE: recipe glibc-2.39+git-r0: task do_patch: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-native-3.12.4-r0: task do_patch: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_patch: Succeeded
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_fetch: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 740 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_unpack)
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_unpack: Started
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_unpack: Succeeded
+NOTE: Running task 741 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_patch)
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_patch: Started
+NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_patch: Succeeded
+NOTE: recipe gnutls-native-3.8.5-r0: task do_fetch: Succeeded
+NOTE: Running task 743 of 899 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.5.bb:do_unpack)
+NOTE: recipe gnutls-native-3.8.5-r0: task do_unpack: Started
+NOTE: recipe util-linux-native-2.40.1-r0: task do_fetch: Failed
+NOTE: recipe gcc-source-14.1.0-14.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe linux-libc-headers-6.9-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-native-3.8.5-r0: task do_unpack: Succeeded
+NOTE: recipe rpm-native-1_4.19.1.1-r0: task do_fetch: Succeeded
+NOTE: recipe util-linux-libuuid-native-2.40.2-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 743 tasks of which 692 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715081511.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715081511.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_fetch
+Summary: There were 5 WARNING messages.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: util-linux-native-2.40.1-r0 do_fetch: Checksum failure fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.1.tar.xz
+ERROR: util-linux-native-2.40.1-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/downloads/util-linux-2.40.1.tar.xz\' has sha256 checksum \'59e676aa53ccb44b6c39f0ffe01a8fa274891c91bef1474752fad92461def24f\' when \'d78b37a66f5922d70edf3bdfb01a6b33d34ed3c3cafd6628203b2a2b67c8e8b3\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "59e676aa53ccb44b6c39f0ffe01a8fa274891c91bef1474752fad92461def24f"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cdn.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.1.tar.xz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/util-linux-native/2.40.1/temp/log.do_fetch.3776739
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.1.bb:do_fetch) failed with exit code '1'
+
+--===============7822810191861702110==--
 
