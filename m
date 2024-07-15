@@ -1,162 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DC1C3DA4B
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 23:00:53 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.5495.1721084444578371775
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1177C3DA4B
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 23:04:13 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.5587.1721084645028461591
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 16:00:44 -0700
+ Mon, 15 Jul 2024 16:04:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WOzEAbBJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-36796bbf687so2732607f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 16:00:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721084443; x=1721689243; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TCWQZRAKao+qRpFx2FCBRUZptoSa3w+UQSeIYDWrQ60=;
-        b=WOzEAbBJ/qJKQer4KgchS/cs3sF7fxn/KG0GE38ymMsTUmfeXtQHsOZ3Lygm0WfEsa
-         v/01eUymmItjKC+NQSrZcP0BzelXNoE3C6USzZjKg30kBKGsQ+VEACV03BCaTebX38bM
-         C0WSrYmbNKD7pfP/uajbGVZkddykyPKlB33ao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721084443; x=1721689243;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TCWQZRAKao+qRpFx2FCBRUZptoSa3w+UQSeIYDWrQ60=;
-        b=Rup0VE6AwjDKZC1RptNn8Xc85PSMJvBvp/q4qu5eja9/oaNNkVNXHhbIF8Q9+Dyi2t
-         0spSLou/VofZWPMEJkiHcFq6iBs0I9xzY/v23j25c7KuTyWWclvQMzVIi/5X3rxnLXyd
-         fw5lVFVpvEo6vW9/GjTkJkTPh4PuH1z3gLZCCb3HF613v2ybdBQw6+1ZCGLs0bQlGsTn
-         PTWxu6hleDQQ3rh4QQvPmmJ8DOZyzsfPLeGdzPh9SLougip6n99rtoFuGwhPbCDV81gX
-         GOA/W6Wi46tBa5nxOr1NNFUanZlkhv8rk6DiR03Mgc6hn92mzOjdgcSIM4xultsTNbHZ
-         LpUg==
-X-Gm-Message-State: AOJu0YwDWYciWVvqDPIwgBrW83xd9vpUgMAjS0FG58JYtBwHKXlXR1AY
-	PQMVp7EddVRApR5J/AkHS94YjTiMFfbt1OUnBBM78gPTnafVhF8tvr8H9Z3Hm4Y=
-X-Google-Smtp-Source: AGHT+IF8ut7NvkQIELFBn7n4h4dovjj0MV/Na9DlADjkAByljxIsrS+Au/DoQsC7S36ZxpOtTsfvwQ==
-X-Received: by 2002:a5d:4f8c:0:b0:367:96b5:784e with SMTP id ffacd0b85a97d-36826320db2mr152926f8f.50.1721084442787;
-        Mon, 15 Jul 2024 16:00:42 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4132:3ff0:dd64:6503? ([2001:8b0:aba:5f3c:4132:3ff0:dd64:6503])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dab3cb0sm7458578f8f.10.2024.07.15.16.00.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 16:00:42 -0700 (PDT)
-Message-ID: <f900f8bef462def301f66f837035d112beac01d2.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v6 00/12] Add SPDX 3.0 support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jul 2024 00:00:41 +0100
-In-Reply-To: <CAJdd5GZV2Ygb4iAPtRgyHt_40nBAonzfS6=XzmH9KwxOyUfyag@mail.gmail.com>
-References: <20240703140059.4096394-1-JPEWhacker@gmail.com>
-	 <20240712160304.3514496-1-JPEWhacker@gmail.com>
-	 <54c574fdb35ef25b71baaf1e1adfa8bd909a5f39.camel@linuxfoundation.org>
-	 <CAJdd5GaA4tByvK04pNycoApWYHeznYVe=y1ckSWsUVu=jwmjnQ@mail.gmail.com>
-	 <330caeaef519ceaf40dceac15ccd00be2ed38d60.camel@linuxfoundation.org>
-	 <CAJdd5GZV2Ygb4iAPtRgyHt_40nBAonzfS6=XzmH9KwxOyUfyag@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
-MIME-Version: 1.0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BUzjXSpP;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XjNdqJGJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190b8a38b3c-c6c2cece-a19d-4ad6-a6c3-b5fa6e72e13e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1721084644; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=wkzR7Cm2wflEWLiN/WCJNU8ysiDnk73Rcy4NXCRpn/k=;
+	b=BUzjXSpP2z6yDye6HzeLouFMNCrI+EKGfAWYrjbhiu9ZtPVFwxx0SHM1Bvp+npAd
+	oLpylk9whWVxaI0WX3Ojn2NsdIamCKGQ4h8FY5sDeEwOR2fGgOV98gOMfoatT7NZdqx
+	YfMVuepZ49MMy/lFv34dNXRsSsZ/bo2i+528a740=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721084644;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=wkzR7Cm2wflEWLiN/WCJNU8ysiDnk73Rcy4NXCRpn/k=;
+	b=XjNdqJGJYJltqqy4YhJsoAFsyoRltCzUhoXOzgcHVCS8mq5pTxENJUUgcERiYqZg
+	H3T6DJoX3s0h2q6XcTPExmAFa3sRlW8Yd7vWVjEBjICjXF3KoL9RkG5uAyB/mNDpWmk
+	Kc9ACtumjHqOz906e6NmyvjI5DYN+Rkvcz9JxdCE=
+From: patchtest@automation.yoctoproject.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] mesa: fix QA warnings caused by freedreno tools
+In-Reply-To: <20240715225834.3778274-1-dmitry.baryshkov@linaro.org>
+References: <20240715225834.3778274-1-dmitry.baryshkov@linaro.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190b8a38b3c-c6c2cece-a19d-4ad6-a6c3-b5fa6e72e13e-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jul 2024 23:04:04 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 23:00:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202074
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 23:04:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202075
 
-On Mon, 2024-07-15 at 15:26 -0600, Joshua Watt wrote:
-> On Mon, Jul 15, 2024 at 3:07=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Mon, 2024-07-15 at 14:40 -0600, Joshua Watt wrote:
-> > > On Sat, Jul 13, 2024 at 12:44=E2=80=AFAM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > On Fri, 2024-07-12 at 09:58 -0600, Joshua Watt via
-> > > > lists.openembedded.org wrote:
-> > > > > This patch series add support for SPDX 3.0 and sets it as the
-> > > > > default.
-> > > > > Currently it is not possible to have SPDX 2.2 and SPDX 3.0
-> > > > > enabled at
-> > > > > the same time
-> > > > >=20
-> > > > > v2: Added tests and addressed feedback
-> > > > > v3: Fixed several oe-selftest and build failures
-> > > > > v4: Fixed silly typo mistake in staging.bbclass
-> > > > > v5: Reworked to make SPDX 3 output reproducible by default.
-> > > > > Variables
-> > > > > =C2=A0=C2=A0=C2=A0 that introduce non-reproducible output are doc=
-umented as
-> > > > > such.
-> > > > > v6: Many changes:
-> > > > > =C2=A0 * Fixed bug where building baremetal images would break
-> > > > > SPDX
-> > > > > 2.2
-> > > > > =C2=A0 * Most SPDX code is now in python library files instead of
-> > > > > tasks
-> > > > > =C2=A0 * Removed dependency on pacakge_write_* tasks
-> > > > > =C2=A0 * Fixed sstate selftest cases to account for SPDX 3.0 task
-> > > > > names
-> > > >=20
-> > > > This had a lot of failures in testing I'm afraid:
-> > > >=20
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7=
-134
-> > >=20
-> > > This appears to be caused because the SPDX tasks are not running
-> > > for
-> > > some recipes (e.g. automake). It looks like this like:
-> > >=20
-> > > =C2=A0 do_create_rootfs_spdx[recrdeptask] +=3D "do_create_spdx
-> > > do_create_package_spdx"
-> > >=20
-> > > is not actually strong enough to make sure the SPDX tasks for
-> > > automake
-> > > run for e.g. core-image-sato-sdk, but I don't know why. I'll keep
-> > > looking, but if anyone happens to know off the top of their head
-> > > let
-> > > me know
-> >=20
-> > Can you be specific about which tasks you mean when you say "make
-> > sure
-> > the SPDX tasks for automake run"? Do you mean do_create_spdx,
-> > do_create_package_spdx or a different one?
->=20
-> Specifically, do_create_package_spdx must be run for each package
-> installed in the rootfs before do_create_rootfs_spdx runs. I thought
-> that
->=20
-> =C2=A0 do_create_rootfs_spdx[recrdeptask] +=3D "do_create_spdx
-> do_create_package_spdx"
->=20
-> would do this (the do_create_spdx is probably not necessary), since
-> AFIACT, this is also how the packages get generated before being
-> installed in the root file system via manipulation of
-> do_rootfs[recrdeptask], but I think I'm missing something?
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/mesa-fix-QA-warnings-caused-by-freedreno-tools.patch
+
+FAIL: test Upstream-Status presence: Upstream-Status is Inappropriate, but no reason was provided (test_patch.TestPatch.test_upstream_status_presence_format)
+
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
-In packagegroups.bbclass there is this being added:
-
-do_create_package_spdx[deptask] =3D "do_create_spdx"
-do_create_package_spdx[rdeptask] =3D ""
-
-and=20
-
-bitbake core-image-sato-sdk -g -c create_rootfs_spdx
-
-lists
-
-"core-image-sato-sdk.do_create_rootfs_spdx" -> "automake.do_create_package_=
-spdx"
-
-in tasks-depends.dot if I disable it.
-
-I'm not 100% sure what is going on and should sleep but wanted to share
-that before I did.
-
-Cheers,
-
-Richard
+--NextPart--
 
