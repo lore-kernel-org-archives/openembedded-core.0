@@ -1,238 +1,153 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 304C2C3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 09:59:27 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.34585.1721037562687456749
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 361A9C3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 10:00:17 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.34605.1721037612497673469
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 02:59:23 -0700
+ Mon, 15 Jul 2024 03:00:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D5UbPUxi;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2eea7e2b073so53725281fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 02:59:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h1/VVRpp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52e9c6b5a62so4246723e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 03:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721037561; x=1721642361; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HBpBHEpcMqyAN2MdpSSc4J/0yI1gypybAiL96mjIP4U=;
-        b=D5UbPUxi7MEUhvjXbDhM1p0LgOBWvdwyf0/vYktbvV91gsLbIKV7KryCKWz5rNhMz7
-         NPDsEiyKLNEIImVo26K0t2dDhBmsPxdnsPeoaa7JPZVgOG0iJ7lZUH+7ndoFNWXgLE2D
-         Sm7Rj2xhHadRlkaRQ1KHE5sI36oAEDP+Nuwk8nnd1ND+DZZhPXOqJtlLFn4+2+t1NLL+
-         kVG3ORj7qKEhegQAER12YeWD/tMllRrJC2cL5c9FQWjqsZzvCIy3m5V8IUevN7++oJKS
-         OxFVwLRsL5hVDyQM+y87SBEjaFjpSKWWmsJMilgGvT8yxv+jVHyG8LdMRQVO6NK6Hbm7
-         KpMw==
+        d=gmail.com; s=20230601; t=1721037610; x=1721642410; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nq7UhJDDUlBiQ+g9m+FY59D5KfP9gvU451WuRXsSSGk=;
+        b=h1/VVRppebxdk8i0kaPWaYOVPF8BnAHCHyBfBhNmDQhG1O9JypLjLvxwByhVmA0ScQ
+         1sEPs8SQ5dIQvkmxbI6BwG4Qzoq4OF0kxFDjD6LZHEJpm5xWrcgd1JMCT+ASVxGYhSqC
+         Dtjb90jJ7+R5musexdkXXtiyUuTPP/lEhRbSuaEhb3jOj/celkLBiCKaeOgmk9tPpHTp
+         2KDxcDUPFP1gA2tkdjqHn9+jANN38ZYwo/YdLRkjbegONX0vFjA3tnyGGuX0tzwL6t2h
+         9axTFc0ficA+gDvHf90uwaZ+1lvWaXqPYuEOyDLtWQeuum3tDjKxQsVK2TaNCIRoh+Y2
+         N2SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721037561; x=1721642361;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HBpBHEpcMqyAN2MdpSSc4J/0yI1gypybAiL96mjIP4U=;
-        b=LRe/RuCvzBM+Nx6LMkMyAPZ0j4Ip3mu69n3ESzu/Ul7VhLVlM44U1UnnwDYNKQMN+X
-         bB7KHJ/SqZwM0dpFcocTHv6hjtTWPaANUrq2DLWQ/nt5cBf9OIxpuYpulIikXzOg1bPi
-         hUtlQsoxYjja7cirCrdPOAGroPEJOEOiGHSs+pJ7oepQND8nIsqhPAF0Fj4nKtFb4nie
-         SX41rnVcKQj7BhmOshSgjMpBaLvitU+rBm48egOvxQZweZ4+8EYsFbL35H50jWDEz8KK
-         5ObXISKWvLyxcrWXEIxfLPH84OYcrLE6qVctcx8GdZELfvdi4sLq9y+EA5lERAdhS5aM
-         FD5A==
-X-Forwarded-Encrypted: i=1; AJvYcCVT0nxBTshz1xgP/xDlxbodvFkDe744UbpQS/gNOPVVfaB6Pqh49U4ke6rAnxVuvd3VuvtpfgGm2NtvkXGxYEfJURcpKZhKnLJc8x3kPRmMP9lWcCbyXZbL
-X-Gm-Message-State: AOJu0Yz8YHv+BwS+PyvLj1MZ2Dp0KyG+mtkmfRgf9o+c9ia1+cqxfVXr
-	y//jPfkgZLhcjMcHyyF66LvgMilul+zAadsSoUl0m73qgpivAe9E8Ql0ABw9PMy45fG+UQh9OLR
-	oFgM3KkoprwfLX9ayJ6ELWfRdF0A=
-X-Google-Smtp-Source: AGHT+IFzB6EP3iurXlOsNMGjMeGVcVhPfbE6bx9jNTxMBsgGi1oSGjcfOG//9p0lyRKWcSH7Sx6E4b5vtd8Atg+dD+M=
-X-Received: by 2002:a05:6512:1391:b0:52d:6663:5cbe with SMTP id
- 2adb3069b0e04-52eb9990ebemr14508386e87.12.1721037560284; Mon, 15 Jul 2024
- 02:59:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721037610; x=1721642410;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nq7UhJDDUlBiQ+g9m+FY59D5KfP9gvU451WuRXsSSGk=;
+        b=HWtYxKs7NGD2l3oZbF8Bhzn4ycAE/URgpbHw7ZLnRxJ7PpnSmqlCXVeX4hHXv9L7/K
+         RHgv5dSUbYJs8O3Fy70ohpBgVM6YEh5NuBK/mZEe2gnPane6n3iSD5X22Rf2IzHJbXxs
+         F+v3n1NNatOTmecFgTqGvBTq/0STABfFGyIdzF1N0Tb9OIWyhv3YLIpRO8MxtgNcwPA5
+         DuiSS6rkLRrT3Y4a4zs5MAfUmEXaTJfPtbUfnqhnOlhcMtAl9wJANPxKwOW5U5pL/gZc
+         OSoHafZOAM0nLzswlJb4U2jfxao+l8SuW+49s7Lk1J5efJh0HRFxL3kBTxLaOfmDqBT/
+         gIMw==
+X-Gm-Message-State: AOJu0YwAE0PsPA4tjHgSJJBOQhLaUHsZknsLw8tlVgwD6By0XBgCtRoM
+	07wzg/rh5oF8qHdsJRzNqOSv9R+lobVOwU2lzNk9v7wBEhyHrIQCpxeG4w==
+X-Google-Smtp-Source: AGHT+IFPS96roVc+R2dAbzf0pWcjLw6HXUMPRfNcR7Y4djCPswkUKg6Au0xeN5YJ1tjoYuAJ1J21Yg==
+X-Received: by 2002:ac2:55b2:0:b0:52c:f12a:d0e0 with SMTP id 2adb3069b0e04-52eb999c2admr10268138e87.28.1721037609957;
+        Mon, 15 Jul 2024 03:00:09 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ed24e2988sm807386e87.49.2024.07.15.03.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jul 2024 03:00:09 -0700 (PDT)
+Date: Mon, 15 Jul 2024 12:00:07 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Quentin Schulz <quentin.schulz@cherry.de>, kweihmann@outlook.com
+Subject: Re: [PATCH v6 0/2] image-bootfiles: new class
+Message-ID: <ZpTzJ5Qkid1oy8AT@gmail.com>
+References: <20240710085310.147425-1-marcus.folkesson@gmail.com>
 MIME-Version: 1.0
-References: <20240616153135.3058410-1-kai.kang@windriver.com>
- <20240616153135.3058410-2-kai.kang@windriver.com> <17DA6AA6C1087792.28936@lists.openembedded.org>
- <CA+chaQexmQso_xy45yCMU_EsVDq9RsX+qmmuuVb3r8ur3XQe4A@mail.gmail.com> <7001a7c7-f500-49bd-ae2b-711d42a97f06@windriver.com>
-In-Reply-To: <7001a7c7-f500-49bd-ae2b-711d42a97f06@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 15 Jul 2024 11:59:07 +0200
-Message-ID: <CA+chaQczh+jy5tEz67r+dcLUJzV=tpnbMad3dHGGR1+KOmLFbw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 1/1] gfortran: update runtime dependencies
-To: Kai <kai.kang@windriver.com>
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qaN+pjmDlG1PWKDy"
+Content-Disposition: inline
+In-Reply-To: <20240710085310.147425-1-marcus.folkesson@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 09:59:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201904
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 10:00:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201905
 
-Hi Kai,
 
-are you also seeing these buildpaths warnings from libgfortran? These
-will be fatal since ERROR_QA update from yesterday:
-https://git.openembedded.org/openembedded-core/commit/?id=3Db79b191cc43a45d=
-de2adb61ea349b426cb2461d1
-and it probably wasn't detected in AB builds which might not enable fortran=
-.
+--qaN+pjmDlG1PWKDy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
+Hi,
 
-On Mon, Jun 24, 2024 at 12:12=E2=80=AFPM Kai <kai.kang@windriver.com> wrote=
-:
->
-> On 6/19/24 23:00, Martin Jansa wrote:
-> > See https://lists.openembedded.org/g/openembedded-core/message/200915
-> > which allows to me to build nativesdk-gcc again.
->
-> Thanks for your fix.
->
-> Regards,
-> Kai
->
-> >
-> > I've built nativesdk-libgfortran and libgfortran with the patch, but
-> > haven't used fortran in runtime at all, that's why it's an RFC, there
-> > were also 2 warnings:
-> > WARNING: nativesdk-libgfortran-14.1.0-r0 do_package_qa: QA Issue: File
-> > /opt/.../usr/lib/.debug/libgfortran.so.5.0.0 in package
-> > nativesdk-libgfortran-dbg contains reference to TMPDIR [buildpaths]
-> > WARNING: libgfortran-14.1.0-r0 do_package_qa: QA Issue: File
-> > /usr/lib/.debug/libgfortran.so.5.0.0 in package libgfortran-dbg
-> > contains reference to TMPDIR [buildpaths]
-> > which I guess were already there.
-> >
-> > On Wed, Jun 19, 2024 at 3:24=E2=80=AFPM Martin Jansa via
-> > lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org=
->
-> > wrote:
-> >> Something seems wrong with this change which was merged today, now wit=
-h:
-> >> MACHINE=3Dqemuarm64
-> >> FORTRAN:forcevariable =3D ",fortran"
-> >>
-> >> I'm seeing:
-> >> build/oe-core $ bitbake -g nativesdk-libgfortran
-> >> NOTE: Resolving any missing task queue dependencies
-> >> ERROR: Nothing PROVIDES 'gcc-cross-x86_64' (but
-> >> virtual:nativesdk:/OE/build/oe-core/openembedded-core/meta/recipes-dev=
-tools/gcc/libgfortran_14.1.bb
-> >> DEPENDS on or otherwise requires it). Close matches:
-> >>    gcc-cross-aarch64
-> >> ...
-> >>
-> >> This might have been broken even before this change, but now it got
-> >> included in dependency tree of nativesdk-gcc (as shown in bitbake -g
-> >> nativesdk-gcc now failing when host and target arch don't match):
-> >>
-> >> "nativesdk-gcc.do_package_qa" -> "nativesdk-libgfortran.do_packagedata=
-"
-> >> nativesdk-gcc.do_package_write_ipk" -> "nativesdk-libgfortran.do_packa=
-gedata"
-> >>
-> >> Missing or unbuildable dependency chain was: ['image',
-> >> 'nativesdk-packagegroup-sdk-host', 'nativesdk-lcov',
-> >> 'nativesdk-gcov-symlinks', 'nativesdk-libgfortran-dev',
-> >> 'gcc-cross-x86_64']
-> >>
-> >> I guess the easiest fix would be in:
-> >> meta/recipes-devtools/gcc/libgfortran.inc:DEPENDS =3D "gcc-runtime
-> >> gcc-cross-${TARGET_ARCH}"
-> >> but I'm not very familiar with fortran (we've enabled it long time ago
-> >> to build lapack(blas) for snowboy, but wasn't actively used for couple
-> >> years).
-> >>
-> >> Regards,
-> >>
-> >>
-> >>
-> >> On Sun, Jun 16, 2024 at 5:32=E2=80=AFPM Kai Kang via lists.openembedde=
-d.org
-> >> <kai.kang=3Dwindriver.com@lists.openembedded.org> wrote:
-> >>> From: Kai Kang <kai.kang@windriver.com>
-> >>>
-> >>> It fails to run both `gcc` and `gfortran` with errors:
-> >>>
-> >>> | root@qemux86-64:~# x86_64-poky-linux-gcc a.c
-> >>> | x86_64-poky-linux-gcc: fatal error: cannot execute 'as': posix_spaw=
-np: No such file or directory
-> >>>
-> >>> then add binutils which provides `as` to RDEPENDS of gcc.
-> >>>
-> >>> libgfortran-dev provides libgfortran.spec which required by gfortran:
-> >>>
-> >>> | root@qemux86-64:~# gfortran hello.f95
-> >>> | gfortran: fatal error: cannot read spec file 'libgfortran.spec': No=
- such file or directory
-> >>>
-> >>> And gcc provides liblto_plugin.so:
-> >>>
-> >>> | root@qemux86-64:~# gfortran hello.f95
-> >>> | gfortran: fatal error: '-fuse-linker-plugin', but liblto_plugin.so =
-not found
-> >>>
-> >>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> >>> ---
-> >>>   meta/recipes-devtools/gcc/gcc-target.inc | 9 +++++++--
-> >>>   1 file changed, 7 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-=
-devtools/gcc/gcc-target.inc
-> >>> index 8e9693b4cb..e9187fc444 100644
-> >>> --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> >>> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> >>> @@ -33,7 +33,7 @@ PACKAGES =3D "\
-> >>>       ${PN} ${PN}-plugins ${PN}-symlinks \
-> >>>       g++ g++-symlinks \
-> >>>       cpp cpp-symlinks \
-> >>> -    gfortran gfortran-symlinks \
-> >>> +    ${@bb.utils.contains('FORTRAN', ',fortran', 'gfortran gfortran-s=
-ymlinks', '', d)} \
-> >>>       gcov gcov-symlinks \
-> >>>       ${PN}-doc \
-> >>>       ${PN}-dev \
-> >>> @@ -60,7 +60,7 @@ RRECOMMENDS:${PN} +=3D "\
-> >>>       libssp \
-> >>>       libssp-dev \
-> >>>   "
-> >>> -RDEPENDS:${PN} +=3D "cpp"
-> >>> +RDEPENDS:${PN} +=3D "binutils cpp"
-> >>>
-> >>>   FILES:${PN}-dev =3D "\
-> >>>       ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
-> >>> @@ -80,10 +80,15 @@ FILES:${PN}-plugins =3D "\
-> >>>   "
-> >>>   ALLOW_EMPTY:${PN}-plugins =3D "1"
-> >>>
-> >>> +INSANE_SKIP:${MLPREFIX}gfortran +=3D "dev-deps"
-> >>>   FILES:gfortran =3D "\
-> >>>       ${bindir}/${TARGET_PREFIX}gfortran \
-> >>>       ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f951 \
-> >>>   "
-> >>> +RDEPENDS:gfortran =3D "\
-> >>> +    gcc \
-> >>> +    libgfortran-dev \
-> >>> +"
-> >>>   RRECOMMENDS:gfortran =3D "\
-> >>>       libquadmath \
-> >>>       libquadmath-dev \
-> >>> --
-> >>> 2.34.1
-> >>>
-> >>>
-> >>>
-> >>>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#200913): https://lists.openembedded.org/g/openembe=
-dded-core/message/200913
-> >> Mute This Topic: https://lists.openembedded.org/mt/106704990/3617156
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[martin.jansa@gmail.com]
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
->
-> --
-> Kai Kang
-> Wind River Linux
->
+On Wed, Jul 10, 2024 at 10:53:08AM +0200, Marcus Folkesson wrote:
+> The image-bootfiles class is used to put all files listed in
+> IMAGE_BOOT_FILES into the root filesystem.
+>=20
+> IMAGE_BOOT_FILES is used by the bootimg-partition wic plugin to put the
+> files into a boot partition.=20
+> Be able to list files as "boot files" in e.g. your .conf or image files
+> instead of install those in every recipe is a good thing.
+>=20
+> It is not always desired to have a separate boot partition for boot
+> files. Sometimes it could be good to have them as a part of the root
+> filesystem.
+>=20
+> For example, if a double copy strategy is used for update the system,
+> then you probably want to update both the boot files and root filesystem
+> at the same time as there may be dependencies.
+>=20
+> v2:
+>     - Removed the documentation from the patch series (will be submitted =
+later)
+>     - Break out the parts in bootimg-partition that is used by
+>       image-bootfiles to a common library
+>     - Make the destination directory in root filesystem configurable
+> v3:
+>     - See changelog in patches
+>=20
+> v4:
+>     - See changelog in patches
+>=20
+> v5:
+>     - See changelog in patches
+>=20
+> v6:
+>     - See changelog in patches
+>=20
+> Marcus Folkesson (2):
+>   bootimg-partition: break out code to a common library.
+>   image-bootfiles.bbclass: new class, copy boot files to root filesystem
+>=20
+>  meta/classes/image-bootfiles.bbclass          | 41 +++++++++++++
+>  meta/lib/oe/bootfiles.py                      | 57 +++++++++++++++++++
+>  .../wic/plugins/source/bootimg-partition.py   | 39 +------------
+>  3 files changed, 100 insertions(+), 37 deletions(-)
+>  create mode 100644 meta/classes/image-bootfiles.bbclass
+>  create mode 100644 meta/lib/oe/bootfiles.py
+>=20
+> --=20
+> 2.45.1
+>=20
+
+I think this is ready to be merged unless someone has any objections.
+It has been under review since June 19, v6 that I sent out just under a
+week ago just adds Reviewed-by tags to the commit messages.
+
+Thanks,
+Marcus Folkesson
+
+
+--qaN+pjmDlG1PWKDy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmaU8yIACgkQiIBOb1ld
+UjLNaQ//dUKB44M26SvUaoAkHIlb8+iVwz2Guv4DsrCYDys2iSxCI7QrVExxZ65S
+8O2DKYpoNJtLfsjDSJDnVkbjKikQDWwc7Hb8wcH9hgu0fxzsCf8pcIWTKO/9oeak
+DobIQ6c2oGCmKn7CGt+LkAWjH8A6voO/1g0UjhlHcBBgDj7cs/JZELwvvDBhCYR/
+kz6q+Q5pmJiq4jNLIDiJ2GeCsvd5dw93sa3hNJ/NSyRBH7HMvIRC4z45sjQO04lx
+2hSC1uJTk78mH037L35/3gvHsSqGChCQi9TTLukgjCgKC0RTxFiCB0euV/1ZGX1y
+aGwVR0aWMMlMNqFMRbVIHOuEdzC7E2tqN1Gc9eeqIslRTisBTPJuFF1ns9e2B+uX
+u6ouYril7B+l+epU7/rOoi90nzDrnbb1SmXNWIPDs7wZVbFvNLIm+XRUAZsBCUx0
+YJp2nrEB8wZaeNZadY10HHHm4tmsQu/H4nNl8F5Iwl1/jdX5h40TZERrJG0vtMIj
+eSFb2OSlYvkT+P/A0YqEoCw33a5eZumbUaaEkKRM+980rfmvqf58Xxz9piEq8Pf9
+t1Js8gCGTtOEvPeJr8globzaAjRmxV/IEl791niJR0Kokf17gzGiEQyLcl43p4mD
+6zfCEg1zp18hnLjOQUUZJ4xA6uhP+GcoNIYJ91G9daAakLqMUfY=
+=SPy0
+-----END PGP SIGNATURE-----
+
+--qaN+pjmDlG1PWKDy--
 
