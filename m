@@ -2,273 +2,238 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D85FC3DA61
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B5DC3DA4B
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 14:15:18 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.38955.1721052912469732292
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.38951.1721052909029937683
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 07:15:12 -0700
+ Mon, 15 Jul 2024 07:15:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AFET894V;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4266f535e82so29279805e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 07:15:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=X5YIGiDS;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3678f36f154so2598942f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 07:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721052910; x=1721657710; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kD/aYAryd6/wqUT21FIB3IeIMdHmrv4D3N1V3rHL7kM=;
-        b=AFET894VbfO96jBoDVZKYjKBeX6NMTqeqSYJVszLzBhpMkX7hOs+ACrGj9m9UhaviD
-         ymFRu7aXI8rtU9izY/6jomk9L+MMnuRQJCF/bZanD8SmklOFgF7aHNd2ols0uTtu0IWB
-         Wb1s/oomk3FPFolkV8ALLSt/or0mvYBCogM/IibsTyqCMacbO/PETHwy8MRtShU8DiCv
-         88hiLZPBeve74eoqS0lH6sCoQ08Jw7+o/J2gzPujS+wyjJWiSy711k//00r+ectTYGNF
-         eyI0s5eDZBbTJ5l/gPf4GQPOj4Ng2nPLJQr9fl0WJCgCGddFgFhvas2o47+QHgh5Cu+X
-         jXNg==
+        d=gmail.com; s=20230601; t=1721052907; x=1721657707; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MXe2y7dfuUKdPidHGkGFtmXp9CHjbjDmtMfdI//qSHA=;
+        b=X5YIGiDSsmZXnd3ktLkHe0RWBXe38nfLCCh9yhmxxkfdNAqBO5UUaN1Y15allvJx5b
+         0LSnYua41wAmkS25lb0GS3i3ZD82584SjtTDPbJ4eg28IKQApw5eFACqlupHk+wKLJ+Z
+         2sdeLMDBzxv+Ur4iRQa6HiTXZZ0zm1ioWMJCQkdpBUr5zN/PwsS7H0tOmL2inX9VTOSG
+         41fxsrzbymeeYBujh3MbSu5zQP5YRqbF9LthnImfF3shH9en5cESTyFDSnUBEtZfNl+J
+         9/2HFWWcT0I8AgzZSfPP2idcHHkFs/MPZP/vivWEErq2uk2B+T0YeUtVPAUsQt4qNQZf
+         foSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721052910; x=1721657710;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kD/aYAryd6/wqUT21FIB3IeIMdHmrv4D3N1V3rHL7kM=;
-        b=g/BlObNwlbmtpwLZV7nddiTRSJw46RC9CNasvwh0XWM4OLk2zU9T4rwz20qagrQ8It
-         okQdbIWA2v50L8MkJcwsaMniOZ6KDWiR1+Ki6SMJu4yH6ijLsu2ZRAxmntXOr4yhRT+c
-         eCPO60bUAdlo2Cnm8Wzey87B/pclEBuYVrAN5nDfZTryNK7WwfhQA4yNZHskzIIvBe0j
-         W2pqMp4MC/U/Wa84dxJUTxeIX/if9yaG+ru1kIQv+Q2DIqoDKxCrjHjZLNiMRIkK2wEo
-         WuMZfqyemTM3J1I4qR32bhuJmAh3QacwDTmto91n6JiUHDiUfzlwoyz4OJUJieLK5pSh
-         HQEg==
-X-Gm-Message-State: AOJu0YzxgaGWd3R/Yir9ldZmNI6ytqWiIXCi7W+tVPgwaOuToac+sfKw
-	YpxKlvanFcIWVdkffcF4yLpBz5cn/wMPMNsWf/65rg0F+wQPO+YDyzJkgA==
-X-Google-Smtp-Source: AGHT+IHdzTkFFiWN66HxM7hVaYvermvX2isdDfXgh/uaFYSog/JNDiSIhzY19AYAe3jNsOrXQSI/Hg==
-X-Received: by 2002:a05:600c:48a7:b0:425:7bbf:fd07 with SMTP id 5b1f17b1804b1-426707cea0bmr121285305e9.5.1721052910439;
-        Mon, 15 Jul 2024 07:15:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721052907; x=1721657707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MXe2y7dfuUKdPidHGkGFtmXp9CHjbjDmtMfdI//qSHA=;
+        b=qpPIYqA7+7HZWWmZGN96VtZWcVRM5JqwrAQyRXLE0qFZXQB+XoD+stbM5KvUkkKs2L
+         Jp2/wzP4KJyFpSVxroxDLxYzbJCeRHqJX/OLVhhEOdvLOJkXB6toh6JJfICZeyB9BKXg
+         fVXx+x89dN24aEKWe9DB+ajIJvLYof9wDh0zutMCBMmDNv4LBWvCL1w67uzHpTvMJvsW
+         wkC/FNbtrc5X9YMWLbN96cvVFKKC3nq61Qa45WxAVHoXHqJaNuPiy1c1YBIGdCnGGlZI
+         yey/pcLw6/YAEU4lmiJhFUn8YxNIlFgooLEJOwCeP8LZKu1qYOF2bfkJ/zKh306TM4Bg
+         vrXw==
+X-Gm-Message-State: AOJu0YyFeFTl+p/kqY4wIszJTaZ9SyH3o2g204f5tC+sFuphUjow2KIe
+	zOM6L1nHwL8CR+3/LzWnRmDhVXvBL6GqRbE1foEZQEmV4y+flMJLWZmz/w==
+X-Google-Smtp-Source: AGHT+IFj+rELt9eK2Rbuv1ffbSuvAZ4JcPlpSKp3xqh0064HrDGRV9602jq/PX3yBSQhoKykSm0pKA==
+X-Received: by 2002:a05:6000:bcb:b0:367:8120:73ea with SMTP id ffacd0b85a97d-367ceadc95fmr11081869f8f.67.1721052906864;
+        Mon, 15 Jul 2024 07:15:06 -0700 (PDT)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680daccbddsm6499074f8f.64.2024.07.15.07.15.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680daccbddsm6499074f8f.64.2024.07.15.07.15.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 07:15:09 -0700 (PDT)
+        Mon, 15 Jul 2024 07:15:06 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 5/6] kernel: refactor fitimage
-Date: Mon, 15 Jul 2024 16:10:42 +0200
-Message-ID: <20240715141448.2158477-6-adrian.freihofer@gmail.com>
+Cc: Adrian Freihofer <adrian.freihofer@gmail.com>
+Subject: [PATCH v2 0/6] Use the kernel from sstate when building fitImages
+Date: Mon, 15 Jul 2024 16:10:37 +0200
+Message-ID: <20240715141448.2158477-1-adrian.freihofer@gmail.com>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240715141448.2158477-1-adrian.freihofer@gmail.com>
-References: <20240715141448.2158477-1-adrian.freihofer@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 14:15:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201931
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201926
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+Changes in comparison to v1:
+- Add the missing dependency from do_image_wic to
+  initramfs.do_image_complete which caused the build failure on the AB.
+- Support symbolic links for $dtb_path again, as suggested by Mark.
+- Simplify the refactoring of the uboot_prep_kimage function.
+- Evaluate staging via sysroot instead of taking the kernel artifacts
+  from the deploy folder. But there is an issue with this approach: It
+  does not allow to remove the dependency from do_deploy on do_install.
+- Rebasing to latest master
 
-* do_bundle_initramfs only when needed
-  With INITRAMFS_IMAGE_BUNDLE = "1" the kernel Makefile is used to
-  bundle the kernel binary and the initramfs. This works only when the
-  build folder of the kernel is available. Building with sstate but with
-  an empty TMPDIR requires to rebuild the kernel from scratch whenever
-  something in the initramfs changes.
+If the KERNEL_IMAGETYPES(S) contains fitImage, the kernel is always
+rebuilt when something changes in the initramfs frequently.
+This is even worse if the build runs from an empty TMPDIR. The kernel
+re-build starts by fetching the large kernel git repository and
+recompiling it from scratch.
 
-  With INITRAMFS_IMAGE_BUNDLE = "" the fitImage generation is basically
-  independent from the kernel Makefile and could therefore work with
-  kernel binaries and tools provided by the sstate. But the dependency
-  on the do_bundle_initramfs tasks does not allow this. However, if the
-  INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0 the
-  do_bundle_initramfs does nothing. There is no real argument for
-  running this tasks.
+This cannot be improved if INITRAMFS_IMAGE_BUNDLE = "1". If the kernel
+Makefile is needed to generate the initramfs bundle the kernel build
+folder is required.
+But for a build configuration with INITRAMFS_IMAGE_BUNDLE = "" the
+build folder is not needed. Creating the initramfs bundle requires:
+linux.bin, DTBs and the initramfs which are available in the deploy
+directory. That means creating the fitImage can be done with artifacts
+which are already cached by the sstate.
 
-  As a first step towards getting the kernel from sstate when building
-  an unbundled fitImage, the task dependencies need to be simplified.
-  The do_bundle_initramfs task is now scheduled only when needed.
+There is an extra commit providing a html file. This html file provides
+some graphics which show the changes in the kernel's task dependencies.
+I hope this simplifies the re-view of this patch series.
 
-* If KERNEL_IMAGETYPES does not contain fitImage and INITRAMFS_IMAGE is
-  not set, the do_assemble_fitimage_initramfs ends up as an empty task.
-  Add the do_assemble_fitimage_initramfs only if a fitImage with
-  initramfs needs to be built.
+Testing:
+- oe-selftest -a --skip-tests distrodata.Distrodata.test_checkpkg \
+     reproducible -T yocto-mirrors -T machine -T toolchain-user \
+     -T toolchain-system
+- Build for core-image-minimal for MACHINE = "genericarm64"
+  (failure from AB was reproducible and is fixed now)
+- Build clean followed by build from sstate
+  Note: Adding this test to oe-selftest failed because sstate is read only
+  - Clean build config:
+    KERNEL_IMAGETYPE = "Image"
+    KERNEL_IMAGETYPES += " fitImage "
+    KERNEL_CLASSES = " kernel-fitimage "
+    IMAGE_FSTYPES += "cpio.gz"
+    INITRAMFS_IMAGE = "core-image-minimal"
+    IMAGE_NAME_SUFFIX:pn-core-image-minimal = ""
+    UBOOT_RD_LOADADDRESS = "0x88000000"
+    UBOOT_RD_ENTRYPOINT = "0x88000000"
+    UBOOT_LOADADDRESS = "0x80080000"
+    UBOOT_ENTRYPOINT = "0x80080000"
+    FIT_DESC = "A model description"
+    FOO_VAR = "1"
+    INHERIT += "image-buildinfo"
+    IMAGE_BUILDINFO_VARS:append = " FOO_VAR"
+  - Append the following and rebuild with sstate:
+    FOO_VAR = "2"
+    TMPDIR = "${TOPDIR}/tmp-2"
+  - Check the log files:
+    - tmp/log/cooker/qemux86-64 contains:
+      linux-yocto-6.6.35+git-r0: task do_deploy: Succeeded
+      linux-yocto-6.6.35+git-r0: task do_deploy_fitimage_unbundled: Succeeded
+    - tmp-2/log/cooker/qemux86-64 contains:
+      linux-yocto-6.6.35+git-r0: task do_deploy_setscene: Succeeded
+      linux-yocto-6.6.35+git-r0: task do_deploy_fitimage_unbundled: Succeeded
+- To re-view the chagnes in the task dependencies, the script bellow
+  has been used. It confirms:
+  - For builds with fitImage and unbundled initramfs:
+    - the do_deploy_fitimage_unbundled task runs after do_deploy
+    - do_assemble_fitimage_initramfs is not executed
+    - do_bundle_initramfs is not executed
+    - It works for fitImage in KERNEL_IMAGETYPE as well as for fitImage
+      in KERNEL_IMAGETYPES
+  - For builds with fitImage and bundled initramfs: No changes
+  - For builds with fitImage, without initramfs:
+    - do_assemble_fitimage_initramfs is not executed
+    - do_bundle_initramfs is not executed
 
-* cd in bitbake task is easy to break e.g. by bbappend. Replace the cd
-  by defining the task's dirs variable flag.
+OUTPUT_FILE=task-depends.md
+GIT_BRANCH=master
+GIT_BRANCH_NEXT=adrianf/kernel-fitimage-sstate
 
-* Add 3 comments which are helpful for the next commits.
+echo "# Task dependeny changes" > "$OUTPUT_FILE"
+echo "" >> "$OUTPUT_FILE"
 
-* Since the tasks and task dependencies are anyway created by an
-  anonymous function, align and make the DEPENDS code more specific too.
+run_bitbake(){
+    echo "$1" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
 
-This refactoring is not very valuable on its own. But it simplifies the
-task dependencies which is helpful for the next commit.
+    bitbake virtual/kernel -g
+    grep -E '(digraph depends|linux-yocto|\})' task-depends.dot \
+    | grep -v -E '(spdx|do_kernel_configcheck|do_prepare_recipe_sysroot|do_populate_lic|native.do_populate_sysroot)' \
+    | grep -v -E '(depmodwrapper-cross.do_populate_sysroot|binutils-cross-x86_64.do_populate_sysroot|do_package)' \
+    | grep -v -E '(do_validate_branches|do_unpack|do_recipe_qa|do_patch|do_kernel_checkout|do_kernel_configme|do_kernel_metadata)' \
+    | grep -v -E '(do_sizecheck|do_strip|do_compile_kernelmodules|do_shared_workdir|do_transform_kernel|do_kernel_link_images)' \
+    | grep -v -E '(do_kernel_version_sanity_check|do_symlink_kernsrc|do_deploy_source_date_epoch|do_configure|do_fetch)' \
+    | sed -e 's;\\n\:.*.bb;;g' -e 's;linux-yocto[. ];;g' > task-depends-filtered.dot
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/classes-recipe/kernel-fitimage.bbclass | 57 ++++++++++++---------
- meta/classes-recipe/kernel.bbclass          | 28 ++++++----
- 2 files changed, 50 insertions(+), 35 deletions(-)
+    echo '```plantuml' >> "$OUTPUT_FILE"
+    cat task-depends-filtered.dot >> "$OUTPUT_FILE"
+    echo '```' >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+}
 
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index 705b3ab657f..2dda5aec056 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -26,20 +26,8 @@ def get_fit_replacement_type(d):
-     return replacementtype
- 
- KERNEL_IMAGETYPE_REPLACEMENT ?= "${@get_fit_replacement_type(d)}"
--DEPENDS:append = " ${@'u-boot-tools-native dtc-native' if 'fitImage' in (d.getVar('KERNEL_IMAGETYPES') or '').split() else ''}"
- 
- python __anonymous () {
--    # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
--    # to kernel.bbclass . We have to override it, since we pack zImage
--    # (at least for now) into the fitImage .
--    typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
--    if 'fitImage' in typeformake.split():
--        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', d.getVar('KERNEL_IMAGETYPE_REPLACEMENT')))
--
--    image = d.getVar('INITRAMFS_IMAGE')
--    if image:
--        d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
--
-     ubootenv = d.getVar('UBOOT_ENV')
-     if ubootenv:
-         d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/bootloader:do_populate_sysroot')
-@@ -48,8 +36,31 @@ python __anonymous () {
-     providerdtb = d.getVar("PREFERRED_PROVIDER_virtual/dtb")
-     if providerdtb:
-         d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/dtb:do_populate_sysroot')
--        d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' virtual/dtb:do_populate_sysroot')
-         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
-+
-+    typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
-+    if 'fitImage' in typeformake.split():
-+        # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
-+        # to kernel.bbclass . We have to override it, since we pack zImage
-+        # (at least for now) into the fitImage .
-+        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', d.getVar('KERNEL_IMAGETYPE_REPLACEMENT')))
-+
-+        # mkimage and dtc are required by the fitimage_assemble function
-+        d.appendVarFlag('do_assemble_fitimage', 'depends',
-+                        ' u-boot-tools-native:do_populate_sysroot dtc-native:do_populate_sysroot')
-+
-+        initramfs_image = d.getVar('INITRAMFS_IMAGE')
-+        bundled = bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE'))
-+        if initramfs_image:
-+            if bundled:
-+                bb.build.addtask('do_assemble_fitimage_initramfs', 'do_deploy', 'do_bundle_initramfs', d)
-+            else:
-+                bb.build.addtask('do_assemble_fitimage_initramfs', 'do_deploy', 'do_install', d)
-+
-+            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends',
-+                            ' u-boot-tools-native:do_populate_sysroot dtc-native:do_populate_sysroot ${INITRAMFS_IMAGE}:do_image_complete')
-+            if providerdtb:
-+                d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' virtual/dtb:do_populate_sysroot')
- }
- 
- 
-@@ -797,19 +808,14 @@ do_install:append() {
- }
- 
- do_assemble_fitimage_initramfs() {
--	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
--		test -n "${INITRAMFS_IMAGE}" ; then
--		cd ${B}
--		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
--			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-bundle ""
--			ln -sf fitImage-bundle ${B}/${KERNEL_OUTPUT_DIR}/fitImage
--		else
--			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
--		fi
-+	if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
-+		fitimage_assemble "fit-image-${INITRAMFS_IMAGE}.its" "${KERNEL_OUTPUT_DIR}/fitImage-bundle" ""
-+		ln -sf fitImage-bundle "${B}/${KERNEL_OUTPUT_DIR}/fitImage"
-+	else
-+		fitimage_assemble "fit-image-${INITRAMFS_IMAGE}.its" "${KERNEL_OUTPUT_DIR}/fitImage-${INITRAMFS_IMAGE}" 1
- 	fi
- }
--
--addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
-+do_assemble_fitimage_initramfs[dirs] = "${B}"
- 
- do_kernel_generate_rsa_keys() {
- 	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
-@@ -864,6 +870,7 @@ kernel_do_deploy:append() {
- 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
- 
- 		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
-+			# deploy the artifacts of do_assemble_fitimage
- 			bbnote "Copying fit-image.its source file..."
- 			install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
- 			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
-@@ -878,12 +885,14 @@ kernel_do_deploy:append() {
- 		fi
- 
- 		if [ -n "${INITRAMFS_IMAGE}" ]; then
-+			# deploy the artifacts of do_assemble_fitimage_initramfs for bundled as well as un-bundled mode
- 			bbnote "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
- 			install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
- 			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
- 				ln -snf fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
- 			fi
- 
-+			# deploy the artifacts of do_assemble_fitimage_initramfs for bundled mode only
- 			if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
- 				bbnote "Copying fitImage-${INITRAMFS_IMAGE} file..."
- 				install -m 0644 ${B}/${KERNEL_OUTPUT_DIR}/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 89badd90f18..6a8c3c25c07 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -136,18 +136,24 @@ fi
- set -e
- """ % (type, type, type))
- 
--
-     image = d.getVar('INITRAMFS_IMAGE')
--    # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
--    # the do_bundle_initramfs does nothing, but the INITRAMFS_IMAGE is built
--    # standalone for use by wic and other tools.
-     if image:
--        if d.getVar('INITRAMFS_MULTICONFIG'):
--            d.appendVarFlag('do_bundle_initramfs', 'mcdepends', ' mc::${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
-+        # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
-+        # the do_bundle_initramfs is not needed, but the INITRAMFS_IMAGE is built
-+        # standalone for use by wic and other tools.
-+        def add_initramfs_dep_task(initramfs_dep_task, d):
-+            if d.getVar('INITRAMFS_MULTICONFIG'):
-+                d.appendVarFlag(initramfs_dep_task, 'mcdepends', ' mc::${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
-+            else:
-+                d.appendVarFlag(initramfs_dep_task, 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
-+
-+        if bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
-+            bb.build.addtask('do_bundle_initramfs', 'do_deploy', 'do_install', d)
-+            add_initramfs_dep_task('do_bundle_initramfs', d)
-+            bb.build.addtask('do_transform_bundled_initramfs', 'do_deploy', 'do_bundle_initramfs', d)
-         else:
--            d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
--    if image and bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
--        bb.build.addtask('do_transform_bundled_initramfs', 'do_deploy', 'do_bundle_initramfs', d)
-+            add_initramfs_dep_task('do_deploy', d)
-+            d.appendVarFlag('do_deploy', 'depends', ' ${PN}:do_install')
- 
-     # NOTE: setting INITRAMFS_TASK is for backward compatibility
-     #       The preferred method is to set INITRAMFS_IMAGE, because
-@@ -327,6 +333,8 @@ do_bundle_initramfs () {
- 				mv -f ${KERNEL_OUTPUT_DIR}/$imageType.bak ${KERNEL_OUTPUT_DIR}/$imageType
- 			fi
- 		done
-+	else
-+		bbwarn "Calling do_bundle_initramfs with INITRAMFS_IMAGE_BUNDLE=1 is deprecated"
- 	fi
- }
- do_bundle_initramfs[dirs] = "${B}"
-@@ -347,8 +355,6 @@ python do_devshell:prepend () {
-     os.environ["LDFLAGS"] = ''
- }
- 
--addtask bundle_initramfs after do_install before do_deploy
--
- KERNEL_DEBUG_TIMESTAMPS ??= "0"
- 
- kernel_do_compile() {
+run_bitbake_per_branch(){
+    echo "## Configuration: $1" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+    echo '```raw' >> "$OUTPUT_FILE"
+    cat build/conf/auto.conf >> "$OUTPUT_FILE"
+    echo '```' >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+
+    git checkout $GIT_BRANCH
+    run_bitbake "### branch: $GIT_BRANCH"
+    mv -f task-depends-filtered.dot task-depends-filtered-old.dot
+
+    git checkout $GIT_BRANCH_NEXT
+    run_bitbake "### branch: $GIT_BRANCH_NEXT"
+
+    echo "## Diff" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+    echo '```patch' >> "$OUTPUT_FILE"
+    diff task-depends-filtered-old.dot task-depends-filtered.dot >> "$OUTPUT_FILE"
+    echo '```' >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+}
+
+cat << EOF > build/conf/auto.conf
+KERNEL_IMAGETYPE = "Image"
+KERNEL_IMAGETYPES += " fitImage "
+KERNEL_CLASSES = " kernel-fitimage "
+IMAGE_FSTYPES += "cpio.gz"
+INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+EOF
+run_bitbake_per_branch "image, fitimage, initramfs, unbundled"
+
+cat << EOF > build/conf/auto.conf
+KERNEL_IMAGETYPE:forcevariable = "fitImage"
+KERNEL_CLASSES = " kernel-fitimage "
+IMAGE_FSTYPES += "cpio.gz"
+INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+EOF
+run_bitbake_per_branch "fitimage, initramfs, unbundled"
+
+cat << EOF > build/conf/auto.conf
+KERNEL_IMAGETYPE = "Image"
+KERNEL_IMAGETYPES += " fitImage "
+KERNEL_CLASSES = " kernel-fitimage "
+IMAGE_FSTYPES += "cpio.gz"
+INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+INITRAMFS_IMAGE_BUNDLE = "1"
+EOF
+run_bitbake_per_branch "image, fitimage, initramfs, bundled"
+
+cat << EOF > build/conf/auto.conf
+KERNEL_IMAGETYPE = "Image"
+KERNEL_IMAGETYPES += " fitImage "
+KERNEL_CLASSES = " kernel-fitimage "
+EOF
+run_bitbake_per_branch "image, fitimage"
+
+rm -f build/conf/auto.conf task-depends-filtered-old.dot task-depends-filtered.dot task-depends.dot
+
+Adrian Freihofer (6):
+  kernel-fitimage: fix intentation
+  kernel-fitimage: fix external dtb check
+  kernel: refactor linux compression
+  kernel-fitimage: refactor fitimage_assemble
+  kernel: refactor fitimage
+  kernel-fitimage: run unbundled fitimage after deploy
+
+ meta/classes-recipe/image.bbclass           |  12 +-
+ meta/classes-recipe/kernel-fitimage.bbclass | 188 ++++++++++++--------
+ meta/classes-recipe/kernel-uboot.bbclass    |   1 +
+ meta/classes-recipe/kernel.bbclass          |  31 ++--
+ 4 files changed, 148 insertions(+), 84 deletions(-)
+
 -- 
 2.45.2
 
