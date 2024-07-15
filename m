@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA75DC5474C
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:19 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.1307.1721071147004331545
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F4BC54751
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:20 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.1368.1721071146842268588
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jZSAddwC;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=fK3bkAU8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010190b7d594d3-bd41a753-fda2-4e8a-9dfc-572d56eb2b55-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jkwOtCzD;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cSv0V3fY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010190b7d59388-5bf1c3c1-72c9-4b66-88b3-86adb77e7fb7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lNBS+A7EuoeKGUM7rUeVmN2iXj13uj0yJz6Ns9pXGG0=;
-	b=jZSAddwCDGKtRPpHQXPjO4jOFkVg/NgBKGA5TUWqduYvA8Ss7Bl6AcsKrxBZJn3U
-	9G79bzKUxXBIOznZpyFfRcOvtHV9W4UDPMPDHqecSlz9R9hU+Nph50P+NQ5q+kfCaOf
-	i/xiUuOns8zhCkLacUqAmnWXxb1yW4XMaii6N8ZU=
+	bh=gl8WB2GguPphBZgW9xcFjdnvZGzTq6+1RnrTTqaTe6w=;
+	b=jkwOtCzDgNqQliqDlsBxOD5xockhdBNbclZtHmnmA3zB0dj05saa0rEzp5f+HHi3
+	4ZtnWgRR6Us0KrTHl/6F+eOze/7p4viwGruODAsDDx7s80bB72hUrbFx4G7Yv18Qahh
+	IEfvFVIB5uMl+MlLf9lyGLXTT1HbD+DGMsbTXrvQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lNBS+A7EuoeKGUM7rUeVmN2iXj13uj0yJz6Ns9pXGG0=;
-	b=fK3bkAU8VwqJqBqrAQhSd8C5Z3hQM5RL3nOkY7KYr2swYCtv6nKXOJPAI1Myymrk
-	6gFFmC/bih0qhRjCKuNqfCXVoyMCOJ4xbYKuXrq+4i8JPklCpPzjyKHccUFzciHNs4O
-	wRYFXVu6XxfjbMFkQmBESjcjM8Z+Q/YVrY0BSX5M=
-Content-Type: multipart/mixed; boundary="===============3036759864250298970=="
+	bh=gl8WB2GguPphBZgW9xcFjdnvZGzTq6+1RnrTTqaTe6w=;
+	b=cSv0V3fYA/kArx1zYJwpUdtzgvrDC6xnnTQmGZPpQyNf2sCwgeQInqpbFYajj6J6
+	U8qRye635z0zpLjNBsge0vq2ErN7w2pHTSoz7UCmNEvPvzcQeCVrPakq8MLxjnLuEdb
+	gDU4tICf5hHmYfjioWuj7GL7K64VfWTQiQYRu6sw=
+Content-Type: multipart/mixed; boundary="===============0374888430949886897=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.108.2 SUCCEEDED
-Message-ID: <01010190b7d594d3-bd41a753-fda2-4e8a-9dfc-572d56eb2b55-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jul 2024 19:19:06 +0000
+Subject: [AUH] lua: upgrading to 5.4.7 SUCCEEDED
+Message-ID: <01010190b7d59388-5bf1c3c1-72c9-4b66-88b3-86adb77e7fb7-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jul 2024 19:19:05 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.29
+X-SES-Outgoing: 2024.07.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201986
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201979
 
---===============3036759864250298970==
+--===============0374888430949886897==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.108.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *lua* to *5.4.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.103.2-6.108.2.patch
+    - apply the patch: git am 0001-lua-upgrade-5.4.6-5.4.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,44 +72,78 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7c93a0ad7d4d6e17f64a556c1dfe01897a2bb88c Mon Sep 17 00:00:00 2001
+From 4b9a2e63ec1ae46ea93a21948f6b995a6e8303aa Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 10:27:29 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.103.2 -> 6.108.2
+Date: Mon, 15 Jul 2024 10:01:16 +0000
+Subject: [PATCH] lua: upgrade 5.4.6 -> 5.4.7
 
 ---
- ...hon3-hypothesis_6.103.2.bb => python3-hypothesis_6.108.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.103.2.bb => python3-hypothesis_6.108.2.bb} (91%)
+ .../lua/{lua_5.4.6.bb => lua_5.4.7.bb}        | 31 +++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/lua/{lua_5.4.6.bb => lua_5.4.7.bb} (67%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.103.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.108.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.103.2.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.108.2.bb
-index b935bb02cf..784533e1d0 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.103.2.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.108.2.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/lua/lua_5.4.6.bb b/meta/recipes-devtools/lua/lua_5.4.7.bb
+similarity index 67%
+rename from meta/recipes-devtools/lua/lua_5.4.6.bb
+rename to meta/recipes-devtools/lua/lua_5.4.7.bb
+index 17dc8fb17d..47edb39509 100644
+--- a/meta/recipes-devtools/lua/lua_5.4.6.bb
++++ b/meta/recipes-devtools/lua/lua_5.4.7.bb
+@@ -1,7 +1,34 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- doc/readme.html
++# +++ doc/readme.html
++# @@ -1,4 +1,6 @@
++# -Copyright &copy; 1994&ndash;2023 Lua.org, PUC-Rio.
++# +
++# +<BLOCKQUOTE STYLE="padding-bottom: 0em">
++# +Copyright &copy; 1994&ndash;2024 Lua.org, PUC-Rio.
++#  
++#  <P>
++#  Permission is hereby granted, free of charge, to any person obtaining a copy
++# @@ -18,5 +20,3 @@
++#  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
++#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++# -OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++# -THE SOFTWARE.
++# 
++#
++
+ SUMMARY = "Lua is a powerful light-weight programming language designed \
+ for extending applications."
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=303;endline=324;md5=e05449eb28c092473f854670c6e8375a"
++LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=303;endline=324;md5=41f9e2b41229cf6e69aac18c0eb5bfa7"
+ HOMEPAGE = "http://www.lua.org/"
  
--SRC_URI[sha256sum] = "83504e31e90a0d7d6e8eb93e51525dc1a48d79c932a50ad6035e29f8295328cd"
-+SRC_URI[sha256sum] = "62cf1c16bd98548b6a84007c5fb8cf6d9cb358dad870adb4f236c795ef162fdd"
+ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
+@@ -12,7 +39,7 @@ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
+ # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
+ PV_testsuites = "5.4.4"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRC_URI[tarballsrc.sha256sum] = "7d5ea1b9cb6aa0b59ca3dde1c6adcb57ef83a1ba8e5432c0ecd06bf439b3ad88"
++SRC_URI[tarballsrc.sha256sum] = "9fbf5e28ef86c69858f6d3d34eccc32e911c1a28b4120ff3e84aaa70cfbf1e30"
+ SRC_URI[tarballtest.sha256sum] = "04d28355cd67a2299dfe5708b55a0ff221ccb1a3907a3113cc103ccc05ac6aad"
+ 
+ inherit pkgconfig binconfig ptest
 -- 
 2.44.0
 
 
---===============3036759864250298970==
+--===============0374888430949886897==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.103.2.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.108.2.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1875,64 +1909,94 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============3036759864250298970==
+--===============0374888430949886897==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.103.2-6.108.2.patch"
+Content-Disposition: attachment; filename="0001-lua-upgrade-5.4.6-5.4.7.patch"
 
-RnJvbSA3YzkzYTBhZDdkNGQ2ZTE3ZjY0YTU1NmMxZGZlMDE4OTdhMmJiODhjIE1vbiBTZXAgMTcg
+RnJvbSA0YjlhMmU2M2VjMWFlNDZlYTkzYTIxOTQ4ZjZiOTk1YTZlODMwM2FhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6Mjc6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xMDMuMiAtPiA2LjEwOC4yCgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjEwMy4yLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEwOC4yLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjEwMy4yLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEwOC4yLmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTAzLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjEwOC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTAzLjIuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTA4LjIu
-YmIKaW5kZXggYjkzNWJiMDJjZi4uNzg0NTMzZTFkMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMDMuMi5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjEwOC4yLmJiCkBA
-IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4MzUwNGUzMWU5MGEwZDdkNmU4ZWI5M2U1
-MTUyNWRjMWE0OGQ3OWM5MzJhNTBhZDYwMzVlMjlmODI5NTMyOGNkIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjYyY2YxYzE2YmQ5ODU0OGI2YTg0MDA3YzVmYjhjZjZkOWNiMzU4ZGFkODcwYWRiNGYy
-MzZjNzk1ZWYxNjJmZGQiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40NC4wCgo=
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6MDE6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+dWE6IHVwZ3JhZGUgNS40LjYgLT4gNS40LjcKCi0tLQogLi4uL2x1YS97bHVhXzUuNC42LmJiID0+
+IGx1YV81LjQuNy5iYn0gICAgICAgIHwgMzEgKysrKysrKysrKysrKysrKystLQogMSBmaWxlIGNo
+YW5nZWQsIDI5IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2x1YS97bHVhXzUuNC42LmJiID0+IGx1YV81LjQuNy5iYn0gKDY3JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuNi5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC43LmJiCnNpbWlsYXJpdHkgaW5kZXggNjclCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC42LmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuNy5iYgppbmRleCAxN2RjOGZiMTdk
+Li40N2VkYjM5NTA5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81
+LjQuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuNy5iYgpAQCAt
+MSw3ICsxLDM0IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
+ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
+IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
+UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
+dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
+JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
+dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gZG9jL3JlYWRtZS5odG1sCisjICsr
+KyBkb2MvcmVhZG1lLmh0bWwKKyMgQEAgLTEsNCArMSw2IEBACisjIC1Db3B5cmlnaHQgJmNvcHk7
+IDE5OTQmbmRhc2g7MjAyMyBMdWEub3JnLCBQVUMtUmlvLgorIyArCisjICs8QkxPQ0tRVU9URSBT
+VFlMRT0icGFkZGluZy1ib3R0b206IDBlbSI+CisjICtDb3B5cmlnaHQgJmNvcHk7IDE5OTQmbmRh
+c2g7MjAyNCBMdWEub3JnLCBQVUMtUmlvLgorIyAgCisjICA8UD4KKyMgIFBlcm1pc3Npb24gaXMg
+aGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBh
+IGNvcHkKKyMgQEAgLTE4LDUgKzIwLDMgQEAKKyMgIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQ
+VVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBTSEFMTCBUSEUKKyMgIEFV
+VEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFH
+RVMgT1IgT1RIRVIKKyMgIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJB
+Q1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sCisjIC1PVVQgT0YgT1IgSU4gQ09O
+TkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElO
+CisjIC1USEUgU09GVFdBUkUuCisjIAorIworCiBTVU1NQVJZID0gIkx1YSBpcyBhIHBvd2VyZnVs
+IGxpZ2h0LXdlaWdodCBwcm9ncmFtbWluZyBsYW5ndWFnZSBkZXNpZ25lZCBcCiBmb3IgZXh0ZW5k
+aW5nIGFwcGxpY2F0aW9ucy4iCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL2RvYy9yZWFkbWUuaHRtbDtiZWdpbmxpbmU9MzAzO2VuZGxpbmU9MzI0O21kNT1lMDU0
+NDllYjI4YzA5MjQ3M2Y4NTQ2NzBjNmU4Mzc1YSIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
+L2RvYy9yZWFkbWUuaHRtbDtiZWdpbmxpbmU9MzAzO2VuZGxpbmU9MzI0O21kNT00MWY5ZTJiNDEy
+MjljZjZlNjlhYWMxOGMwZWI1YmZhNyIKIEhPTUVQQUdFID0gImh0dHA6Ly93d3cubHVhLm9yZy8i
+CiAKIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5sdWEub3JnL2Z0cC9sdWEtJHtQVn0udGFyLmd6O25h
+bWU9dGFyYmFsbHNyYyBcCkBAIC0xMiw3ICszOSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5s
+dWEub3JnL2Z0cC9sdWEtJHtQVn0udGFyLmd6O25hbWU9dGFyYmFsbHNyYyBcCiAjIGlmIG5vIHRl
+c3Qgc3VpdGUgbWF0Y2hlcyBQViByZWxlYXNlIG9mIEx1YSBleGFjdGx5LCBkb3dubG9hZCB0aGUg
+c3VpdGUgZm9yIHRoZSBjbG9zZXN0IEx1YSByZWxlYXNlLgogUFZfdGVzdHN1aXRlcyA9ICI1LjQu
+NCIKIAotU1JDX1VSSVt0YXJiYWxsc3JjLnNoYTI1NnN1bV0gPSAiN2Q1ZWExYjljYjZhYTBiNTlj
+YTNkZGUxYzZhZGNiNTdlZjgzYTFiYThlNTQzMmMwZWNkMDZiZjQzOWIzYWQ4OCIKK1NSQ19VUklb
+dGFyYmFsbHNyYy5zaGEyNTZzdW1dID0gIjlmYmY1ZTI4ZWY4NmM2OTg1OGY2ZDNkMzRlY2NjMzJl
+OTExYzFhMjhiNDEyMGZmM2U4NGFhYTcwY2ZiZjFlMzAiCiBTUkNfVVJJW3RhcmJhbGx0ZXN0LnNo
+YTI1NnN1bV0gPSAiMDRkMjgzNTVjZDY3YTIyOTlkZmU1NzA4YjU1YTBmZjIyMWNjYjFhMzkwN2Ez
+MTEzY2MxMDNjY2MwNWFjNmFhZCIKIAogaW5oZXJpdCBwa2djb25maWcgYmluY29uZmlnIHB0ZXN0
+Ci0tIAoyLjQ0LjAKCg==
 
---===============3036759864250298970==
+--===============0374888430949886897==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.103.2.tar.gz;downloadfilename=hypothesis-6.103.2.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.108.2.tar.gz;downloadfilename=hypothesis-6.108.2.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.103.2" to "6.108.2"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.103.2 [default] to 6.108.2 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3069984 to 3100207 (+1%)
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.103.2.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.108.2.dist-info
+packages/core2-64-poky-linux/lua: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua: SRC_URI changed from "http://www.lua.org/ftp/lua-5.4.6.tar.gz;name=tarballsrc file://lua.pc.in http://www.lua.org/tests/lua-5.4.4-tests.tar.gz;name=tarballtest file://run-ptest" to "http://www.lua.org/ftp/lua-5.4.7.tar.gz;name=tarballsrc file://lua.pc.in http://www.lua.org/tests/lua-5.4.4-tests.tar.gz;name=tarballtest file://run-ptest"
+packages/core2-64-poky-linux/lua/lua-dbg: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua-dbg: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua-dbg: PKGSIZE changed from 1805704 to 1809048 (+0%)
+packages/core2-64-poky-linux/lua/lua-dev: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua-dev: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua-dev: PKGSIZE changed from 48224 to 48473 (+1%)
+packages/core2-64-poky-linux/lua/lua-doc: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua-doc: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua-doc: PKGSIZE changed from 6172 to 6171 (-0%)
+packages/core2-64-poky-linux/lua/lua-locale: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua-locale: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua-ptest: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua-ptest: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua-src: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua-src: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua-src: PKGSIZE changed from 846691 to 850860 (+0%)
+packages/core2-64-poky-linux/lua/lua-staticdev: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua-staticdev: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua-staticdev: PKGSIZE changed from 1886048 to 1884750 (-0%)
+packages/core2-64-poky-linux/lua/lua: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
+packages/core2-64-poky-linux/lua/lua: PV changed from "5.4.6" to "5.4.7"
+packages/core2-64-poky-linux/lua/lua: PKGSIZE changed from 479496 to 483592 (+1%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3698,5 +3762,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============3036759864250298970==--
+--===============0374888430949886897==--
 
