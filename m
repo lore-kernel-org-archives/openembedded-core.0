@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A44E4C54739
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:18 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.1292.1721071145192688341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 198F9C5473F
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:19 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.1310.1721071147277449991
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 12:19:05 -0700
+ Mon, 15 Jul 2024 12:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Z7hv58E+;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=0B5Yblys;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190b7d58d59-3aa09458-3a3e-4526-820e-0aaf31e0f1e4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RfTlWg6q;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=EhCVu7dj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190b7d59625-2f877321-8f37-4be9-a8a4-eb3bc36b23b9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721071144;
+	t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+uFUFYS98B0Kbeh8IavGZqu7GevnUpeFjkEMjemwTAk=;
-	b=Z7hv58E+zcZoG50508xV0yxYQa+E7+0cBbm/cxdU7vuv4kCt4OMjNCvHQXRDkmXW
-	6ATUQU7fRcRt0LzJRvPh6FiJUAWAgvIv2fYEg+Pa+Fu//Lr4QIhEDZ1pfIZOA861FJN
-	bHRLBD6ylhfm2bEsyvtmxGr9Xq2Ny+Eize5DZOnw=
+	bh=L3xsjQXiuhI3N4N1nOo8OXDnjZdVNzLU/soRs8zlBNM=;
+	b=RfTlWg6qvrMOtqbZZhVmSmLpxDjhkLgHnG/FeelUhvYWFHeXFV77k+wMASRRWmhX
+	6hlHeCuVF7mvhhpUv8vad8EBJv7AojNO3vV4XMLAe14eU6E0pgtlMs3m3qbBVaH107i
+	Afop5HSrgjpPV8IyGpFuZ9CgtfOZIcHWO0Qdss0E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071144;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+uFUFYS98B0Kbeh8IavGZqu7GevnUpeFjkEMjemwTAk=;
-	b=0B5YblyspYZ5MinQ18X3YECl99IeSPjp2CSb0eFodbq+wnujdFmeFKR66w8fsyke
-	8WWql5QgaFq2x8I9R0Ca6u9Dw/ADCHvVldvXbze+areh7lDbf2EED3m5DRO9GoFfX/q
-	rOEJ5y7IDOq3IeSS541dS0Sp3ZaAw7JTsbhbVDhg=
-Content-Type: multipart/mixed; boundary="===============8363420607703427662=="
+	bh=L3xsjQXiuhI3N4N1nOo8OXDnjZdVNzLU/soRs8zlBNM=;
+	b=EhCVu7djRG6WOMNTcrqnSRTX7RoSGjyRdRW7hZsEf5z2x5n7emaohDlRiYySG8GI
+	rQMS/FI021GGuHE9+QSTue6O1kjQJFaomuhtypSrFaffJj0uZEhPwTme47+T4xha8C8
+	6IrukKmP9yZUiNTz7xZnCnE30H5LYdWGuKwo7O6w=
+Content-Type: multipart/mixed; boundary="===============0424719529727605102=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ofono: upgrading to 2.9 FAILED
-Message-ID: <01010190b7d58d59-3aa09458-3a3e-4526-820e-0aaf31e0f1e4-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jul 2024 19:19:04 +0000
+Subject: [AUH] python3-rpds-py: upgrading to 0.19.0 FAILED
+Message-ID: <01010190b7d59625-2f877321-8f37-4be9-a8a4-eb3bc36b23b9-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jul 2024 19:19:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.23
+X-SES-Outgoing: 2024.07.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201945
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201995
 
---===============8363420607703427662==
+--===============0424719529727605102==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ofono* to *2.9* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *python3-rpds-py* to *0.19.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-ofono-upgrade-2.8-2.9.patch
+    - apply the patch: git am 0001-python3-rpds-py-upgrade-0.18.1-0.19.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,316 +78,533 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 11d6cc53863da6c5cc79731a9d47c46ab870eb6c Mon Sep 17 00:00:00 2001
+From 580c6be1025ea5bbe38e36182a03d729beb7fe6e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 07:47:02 +0000
-Subject: [PATCH] ofono: upgrade 2.8 -> 2.9
+Date: Mon, 15 Jul 2024 11:20:26 +0000
+Subject: [PATCH] python3-rpds-py: upgrade 0.18.1 -> 0.19.0
 
 ---
- meta/recipes-connectivity/ofono/{ofono_2.8.bb => ofono_2.9.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/ofono/{ofono_2.8.bb => ofono_2.9.bb} (95%)
+ .../python/python3-rpds-py-crates.inc         | 98 +++++++------------
+ ...py_0.18.1.bb => python3-rpds-py_0.19.0.bb} |  2 +-
+ 2 files changed, 35 insertions(+), 65 deletions(-)
+ rename meta/recipes-devtools/python/{python3-rpds-py_0.18.1.bb => python3-rpds-py_0.19.0.bb} (88%)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono_2.8.bb b/meta/recipes-connectivity/ofono/ofono_2.9.bb
-similarity index 95%
-rename from meta/recipes-connectivity/ofono/ofono_2.8.bb
-rename to meta/recipes-connectivity/ofono/ofono_2.9.bb
-index 809485d421..26cb9bb7ff 100644
---- a/meta/recipes-connectivity/ofono/ofono_2.8.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_2.9.bb
-@@ -11,7 +11,7 @@ SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-     file://ofono \
+diff --git a/meta/recipes-devtools/python/python3-rpds-py-crates.inc b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
+index 3551bdb5f7..0fcdb49bb4 100644
+--- a/meta/recipes-devtools/python/python3-rpds-py-crates.inc
++++ b/meta/recipes-devtools/python/python3-rpds-py-crates.inc
+@@ -3,80 +3,50 @@
+ # from Cargo.lock
+ SRC_URI += " \
+     crate://crates.io/archery/1.2.0 \
+-    crate://crates.io/autocfg/1.1.0 \
+-    crate://crates.io/bitflags/1.3.2 \
++    crate://crates.io/autocfg/1.3.0 \
+     crate://crates.io/cfg-if/1.0.0 \
+-    crate://crates.io/heck/0.4.1 \
+-    crate://crates.io/indoc/2.0.4 \
+-    crate://crates.io/libc/0.2.147 \
+-    crate://crates.io/lock_api/0.4.10 \
+-    crate://crates.io/memoffset/0.9.0 \
+-    crate://crates.io/once_cell/1.18.0 \
+-    crate://crates.io/parking_lot/0.12.1 \
+-    crate://crates.io/parking_lot_core/0.9.8 \
++    crate://crates.io/heck/0.5.0 \
++    crate://crates.io/indoc/2.0.5 \
++    crate://crates.io/libc/0.2.155 \
++    crate://crates.io/memoffset/0.9.1 \
++    crate://crates.io/once_cell/1.19.0 \
+     crate://crates.io/portable-atomic/1.6.0 \
+-    crate://crates.io/proc-macro2/1.0.66 \
+-    crate://crates.io/pyo3/0.20.3 \
+-    crate://crates.io/pyo3-build-config/0.20.3 \
+-    crate://crates.io/pyo3-ffi/0.20.3 \
+-    crate://crates.io/pyo3-macros/0.20.3 \
+-    crate://crates.io/pyo3-macros-backend/0.20.3 \
+-    crate://crates.io/quote/1.0.31 \
+-    crate://crates.io/redox_syscall/0.3.5 \
++    crate://crates.io/proc-macro2/1.0.86 \
++    crate://crates.io/pyo3/0.22.1 \
++    crate://crates.io/pyo3-build-config/0.22.1 \
++    crate://crates.io/pyo3-ffi/0.22.1 \
++    crate://crates.io/pyo3-macros/0.22.1 \
++    crate://crates.io/pyo3-macros-backend/0.22.1 \
++    crate://crates.io/quote/1.0.36 \
+     crate://crates.io/rpds/1.1.0 \
+-    crate://crates.io/scopeguard/1.1.0 \
+-    crate://crates.io/smallvec/1.11.0 \
+     crate://crates.io/static_assertions/1.1.0 \
+-    crate://crates.io/syn/2.0.32 \
+-    crate://crates.io/target-lexicon/0.12.9 \
+-    crate://crates.io/triomphe/0.1.9 \
+-    crate://crates.io/unicode-ident/1.0.11 \
++    crate://crates.io/syn/2.0.69 \
++    crate://crates.io/target-lexicon/0.12.14 \
++    crate://crates.io/triomphe/0.1.13 \
++    crate://crates.io/unicode-ident/1.0.12 \
+     crate://crates.io/unindent/0.2.3 \
+-    crate://crates.io/windows-targets/0.48.1 \
+-    crate://crates.io/windows_aarch64_gnullvm/0.48.0 \
+-    crate://crates.io/windows_aarch64_msvc/0.48.0 \
+-    crate://crates.io/windows_i686_gnu/0.48.0 \
+-    crate://crates.io/windows_i686_msvc/0.48.0 \
+-    crate://crates.io/windows_x86_64_gnu/0.48.0 \
+-    crate://crates.io/windows_x86_64_gnullvm/0.48.0 \
+-    crate://crates.io/windows_x86_64_msvc/0.48.0 \
  "
--SRC_URI[sha256sum] = "b5aef455b3a374ce43bad43c2ade9d0430d9c0d28952385c44ac7d0dc933bbb8"
-+SRC_URI[sha256sum] = "9d2612925a23a7fb668f297a044b5ea136215cc399ecc3f127135c8f2a9845f9"
  
- inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
+ SRC_URI[archery-1.2.0.sha256sum] = "8967cd1cc9e9e1954f644e14fbd6042fe9a37da96c52a67e44a2ac18261f8561"
+-SRC_URI[autocfg-1.1.0.sha256sum] = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
+-SRC_URI[bitflags-1.3.2.sha256sum] = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
++SRC_URI[autocfg-1.3.0.sha256sum] = "0c4b4d0bd25bd0b74681c0ad21497610ce1b7c91b1022cd21c80c6fbdd9476b0"
+ SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+-SRC_URI[heck-0.4.1.sha256sum] = "95505c38b4572b2d910cecb0281560f54b440a19336cbbcb27bf6ce6adc6f5a8"
+-SRC_URI[indoc-2.0.4.sha256sum] = "1e186cfbae8084e513daff4240b4797e342f988cecda4fb6c939150f96315fd8"
+-SRC_URI[libc-0.2.147.sha256sum] = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
+-SRC_URI[lock_api-0.4.10.sha256sum] = "c1cc9717a20b1bb222f333e6a92fd32f7d8a18ddc5a3191a11af45dcbf4dcd16"
+-SRC_URI[memoffset-0.9.0.sha256sum] = "5a634b1c61a95585bd15607c6ab0c4e5b226e695ff2800ba0cdccddf208c406c"
+-SRC_URI[once_cell-1.18.0.sha256sum] = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
+-SRC_URI[parking_lot-0.12.1.sha256sum] = "3742b2c103b9f06bc9fff0a37ff4912935851bee6d36f3c02bcc755bcfec228f"
+-SRC_URI[parking_lot_core-0.9.8.sha256sum] = "93f00c865fe7cabf650081affecd3871070f26767e7b2070a3ffae14c654b447"
++SRC_URI[heck-0.5.0.sha256sum] = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
++SRC_URI[indoc-2.0.5.sha256sum] = "b248f5224d1d606005e02c97f5aa4e88eeb230488bcc03bc9ca4d7991399f2b5"
++SRC_URI[libc-0.2.155.sha256sum] = "97b3888a4aecf77e811145cadf6eef5901f4782c53886191b2f693f24761847c"
++SRC_URI[memoffset-0.9.1.sha256sum] = "488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a"
++SRC_URI[once_cell-1.19.0.sha256sum] = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
+ SRC_URI[portable-atomic-1.6.0.sha256sum] = "7170ef9988bc169ba16dd36a7fa041e5c4cbeb6a35b76d4c03daded371eae7c0"
+-SRC_URI[proc-macro2-1.0.66.sha256sum] = "18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e2ead9"
+-SRC_URI[pyo3-0.20.3.sha256sum] = "53bdbb96d49157e65d45cc287af5f32ffadd5f4761438b527b055fb0d4bb8233"
+-SRC_URI[pyo3-build-config-0.20.3.sha256sum] = "deaa5745de3f5231ce10517a1f5dd97d53e5a2fd77aa6b5842292085831d48d7"
+-SRC_URI[pyo3-ffi-0.20.3.sha256sum] = "62b42531d03e08d4ef1f6e85a2ed422eb678b8cd62b762e53891c05faf0d4afa"
+-SRC_URI[pyo3-macros-0.20.3.sha256sum] = "7305c720fa01b8055ec95e484a6eca7a83c841267f0dd5280f0c8b8551d2c158"
+-SRC_URI[pyo3-macros-backend-0.20.3.sha256sum] = "7c7e9b68bb9c3149c5b0cade5d07f953d6d125eb4337723c4ccdb665f1f96185"
+-SRC_URI[quote-1.0.31.sha256sum] = "5fe8a65d69dd0808184ebb5f836ab526bb259db23c657efa38711b1072ee47f0"
+-SRC_URI[redox_syscall-0.3.5.sha256sum] = "567664f262709473930a4bf9e51bf2ebf3348f2e748ccc50dea20646858f8f29"
++SRC_URI[proc-macro2-1.0.86.sha256sum] = "5e719e8df665df0d1c8fbfd238015744736151d4445ec0836b8e628aae103b77"
++SRC_URI[pyo3-0.22.1.sha256sum] = "4e99090d12f6182924499253aaa1e73bf15c69cea8d2774c3c781e35badc3548"
++SRC_URI[pyo3-build-config-0.22.1.sha256sum] = "7879eb018ac754bba32cb0eec7526391c02c14a093121857ed09fbf1d1057d41"
++SRC_URI[pyo3-ffi-0.22.1.sha256sum] = "ce2baa5559a411fc1cf519295f24c34b53d5d725818bc96b5abf94762da09041"
++SRC_URI[pyo3-macros-0.22.1.sha256sum] = "049621c20a23f2def20f4fe67978d1da8d8a883d64b9c21362f3b776e254edc7"
++SRC_URI[pyo3-macros-backend-0.22.1.sha256sum] = "0e969ee2e025435f1819d31a275ba4bb9cbbdf3ac535227fdbd85b9322ffe144"
++SRC_URI[quote-1.0.36.sha256sum] = "0fa76aaf39101c457836aec0ce2316dbdc3ab723cdda1c6bd4e6ad4208acaca7"
+ SRC_URI[rpds-1.1.0.sha256sum] = "a0e15515d3ce3313324d842629ea4905c25a13f81953eadb88f85516f59290a4"
+-SRC_URI[scopeguard-1.1.0.sha256sum] = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
+-SRC_URI[smallvec-1.11.0.sha256sum] = "62bb4feee49fdd9f707ef802e22365a35de4b7b299de4763d44bfea899442ff9"
+ SRC_URI[static_assertions-1.1.0.sha256sum] = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
+-SRC_URI[syn-2.0.32.sha256sum] = "239814284fd6f1a4ffe4ca893952cdd93c224b6a1571c9a9eadd670295c0c9e2"
+-SRC_URI[target-lexicon-0.12.9.sha256sum] = "df8e77cb757a61f51b947ec4a7e3646efd825b73561db1c232a8ccb639e611a0"
+-SRC_URI[triomphe-0.1.9.sha256sum] = "0eee8098afad3fb0c54a9007aab6804558410503ad676d4633f9c2559a00ac0f"
+-SRC_URI[unicode-ident-1.0.11.sha256sum] = "301abaae475aa91687eb82514b328ab47a211a533026cb25fc3e519b86adfc3c"
++SRC_URI[syn-2.0.69.sha256sum] = "201fcda3845c23e8212cd466bfebf0bd20694490fc0356ae8e428e0824a915a6"
++SRC_URI[target-lexicon-0.12.14.sha256sum] = "e1fc403891a21bcfb7c37834ba66a547a8f402146eba7265b5a6d88059c9ff2f"
++SRC_URI[triomphe-0.1.13.sha256sum] = "e6631e42e10b40c0690bf92f404ebcfe6e1fdb480391d15f17cc8e96eeed5369"
++SRC_URI[unicode-ident-1.0.12.sha256sum] = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
+ SRC_URI[unindent-0.2.3.sha256sum] = "c7de7d73e1754487cb58364ee906a499937a0dfabd86bcb980fa99ec8c8fa2ce"
+-SRC_URI[windows-targets-0.48.1.sha256sum] = "05d4b17490f70499f20b9e791dcf6a299785ce8af4d709018206dc5b4953e95f"
+-SRC_URI[windows_aarch64_gnullvm-0.48.0.sha256sum] = "91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f7e1bc"
+-SRC_URI[windows_aarch64_msvc-0.48.0.sha256sum] = "b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98d7cf3"
+-SRC_URI[windows_i686_gnu-0.48.0.sha256sum] = "622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467daa241"
+-SRC_URI[windows_i686_msvc-0.48.0.sha256sum] = "4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19f8e00"
+-SRC_URI[windows_x86_64_gnu-0.48.0.sha256sum] = "ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af974b1"
+-SRC_URI[windows_x86_64_gnullvm-0.48.0.sha256sum] = "7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f7b953"
+-SRC_URI[windows_x86_64_msvc-0.48.0.sha256sum] = "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
+diff --git a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb b/meta/recipes-devtools/python/python3-rpds-py_0.19.0.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
+rename to meta/recipes-devtools/python/python3-rpds-py_0.19.0.bb
+index f46df1115c..19e6251bb9 100644
+--- a/meta/recipes-devtools/python/python3-rpds-py_0.18.1.bb
++++ b/meta/recipes-devtools/python/python3-rpds-py_0.19.0.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=7767fa537c4596c54141f32882c4a984"
+ 
+ SRC_URI += "file://run-ptest"
+ 
+-SRC_URI[sha256sum] = "dc48b479d540770c811fbd1eb9ba2bb66951863e448efec2e2c102625328e92f"
++SRC_URI[sha256sum] = "4fdc9afadbeb393b4bbbad75481e0ea78e4469f2e1d713a90811700830b553a9"
+ 
+ require ${BPN}-crates.inc
  
 -- 
 2.44.0
 
 
---===============8363420607703427662==
+--===============0424719529727605102==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+Tk9URTogUmVjb25uZWN0aW5nIHRvIGJpdGJha2Ugc2VydmVyLi4uCkxvYWRpbmcgY2FjaGUuLi5k
+b25lLgpMb2FkZWQgMTg4MiBlbnRyaWVzIGZyb20gZGVwZW5kZW5jeSBjYWNoZS4KUGFyc2luZyBy
+ZWNpcGVzLi4uZG9uZS4KUGFyc2luZyBvZiA5MTggLmJiIGZpbGVzIGNvbXBsZXRlICg5MTcgY2Fj
+aGVkLCAxIHBhcnNlZCkuIDE4NzggdGFyZ2V0cywgMzUgc2tpcHBlZCwgMCBtYXNrZWQsIDAgZXJy
+b3JzLgpSZW1vdmluZyAxIHJlY2lwZXMgZnJvbSB0aGUgY29yZTItNjQgc3lzcm9vdC4uLmRvbmUu
+ClJlbW92aW5nIDEgcmVjaXBlcyBmcm9tIHRoZSBxZW11eDg2XzY0IHN5c3Jvb3QuLi5kb25lLgpO
+T1RFOiBSZXNvbHZpbmcgYW55IG1pc3NpbmcgdGFzayBxdWV1ZSBkZXBlbmRlbmNpZXMKCkJ1aWxk
+IENvbmZpZ3VyYXRpb246CkJCX1ZFUlNJT04gICAgICAgICAgID0gIjIuOS4xIgpCVUlMRF9TWVMg
+ICAgICAgICAgICA9ICJ4ODZfNjQtbGludXgiCk5BVElWRUxTQlNUUklORyAgICAgID0gInVuaXZl
+cnNhbCIKVEFSR0VUX1NZUyAgICAgICAgICAgPSAieDg2XzY0LXBva3ktbGludXgiCk1BQ0hJTkUg
+ICAgICAgICAgICAgID0gInFlbXV4ODYtNjQiCkRJU1RSTyAgICAgICAgICAgICAgID0gInBva3ki
+CkRJU1RST19WRVJTSU9OICAgICAgID0gIjUuMCtzbmFwc2hvdC0xZDk3MzlhYmM4NzhiMTM3NzFm
+MzNkZjcwM2NiYzhmY2MyNzJiODRlIgpUVU5FX0ZFQVRVUkVTICAgICAgICA9ICJtNjQgY29yZTIi
+ClRBUkdFVF9GUFUgICAgICAgICAgID0gIiIKbWV0YSAgICAgICAgICAgICAgICAgCm1ldGEtcG9r
+eSAgICAgICAgICAgIAptZXRhLXlvY3RvLWJzcCAgICAgICAKd29ya3NwYWNlICAgICAgICAgICAg
+PSAidG1wLWF1aC11cGdyYWRlczoxZDk3MzlhYmM4NzhiMTM3NzFmMzNkZjcwM2NiYzhmY2MyNzJi
+ODRlIgoKSW5pdGlhbGlzaW5nIHRhc2tzLi4uTk9URTogVGhlIC9wcm9jL3ByZXNzdXJlIGZpbGVz
+IGNhbid0IGJlIHJlYWQuIENvbnRpbnVpbmcgYnVpbGQgd2l0aG91dCBtb25pdG9yaW5nIHByZXNz
+dXJlClNzdGF0ZSBzdW1tYXJ5OiBXYW50ZWQgMzc1IExvY2FsIDM2MSBNaXJyb3JzIDAgTWlzc2Vk
+IDE0IEN1cnJlbnQgNDYzICg5NiUgbWF0Y2gsIDk4JSBjb21wbGV0ZSkKZG9uZS4KTk9URTogRXhl
+Y3V0aW5nIFRhc2tzCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA3NzEgb2YgODM4ICh2aXJ0
+dWFsOm5hdGl2ZTovaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWF0dXJpbl8xLjYuMC5iYjpkb19wb3B1bGF0
+ZV9zeXNyb290X3NldHNjZW5lKQpOT1RFOiByZWNpcGUgcHl0aG9uMy1tYXR1cmluLW5hdGl2ZS0x
+LjYuMC1yMDogdGFzayBkb19wb3B1bGF0ZV9zeXNyb290X3NldHNjZW5lOiBTdGFydGVkCk5PVEU6
+IFJ1bm5pbmcgdGFzayAxNDAzIG9mIDIzODEgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIv
+YXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAu
+MTkuMC5iYjpkb19yZWNpcGVfcWEpCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4w
+LXIwOiB0YXNrIGRvX3JlY2lwZV9xYTogU3RhcnRlZApOT1RFOiByZWNpcGUgcHl0aG9uMy1tYXR1
+cmluLW5hdGl2ZS0xLjYuMC1yMDogdGFzayBkb19wb3B1bGF0ZV9zeXNyb290X3NldHNjZW5lOiBT
+dWNjZWVkZWQKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgzMiBvZiA4MzggKHZpcnR1YWw6
+bmF0aXZlOi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXR1cmluXzEuNi4wLmJiOmRvX3JlY2lwZV9xYV9z
+ZXRzY2VuZSkKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgzMyBvZiA4MzggKHZpcnR1YWw6
+bmF0aXZlOi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLXJ1c3RfMS45LjAuYmI6ZG9fcG9w
+dWxhdGVfc3lzcm9vdF9zZXRzY2VuZSkKTk9URTogcmVjaXBlIHB5dGhvbjMtc2V0dXB0b29scy1y
+dXN0LW5hdGl2ZS0xLjkuMC1yMDogdGFzayBkb19wb3B1bGF0ZV9zeXNyb290X3NldHNjZW5lOiBT
+dGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX3Jl
+Y2lwZV9xYTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMTMwIG9mIDIzODEgKC9ob21l
+L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMTkuMC5iYjpkb19mZXRjaCkKTk9URTogcmVjaXBlIHB5
+dGhvbjMtbWF0dXJpbi1uYXRpdmUtMS42LjAtcjA6IHRhc2sgZG9fcmVjaXBlX3FhX3NldHNjZW5l
+OiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXNldHVwdG9vbHMtcnVzdC1uYXRpdmUtMS45
+LjAtcjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6
+IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA4MzUgb2YgODM4ICh2aXJ0dWFsOm5hdGl2ZTovaG9tZS9w
+b2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVz
+dC9jYXJnb18xLjc1LjAuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZSkKTk9URTogcmVj
+aXBlIHB5dGhvbjMtbWF0dXJpbi1uYXRpdmUtMS42LjAtcjA6IHRhc2sgZG9fcmVjaXBlX3FhX3Nl
+dHNjZW5lOiBTdWNjZWVkZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjE5LjAtcjA6
+IHRhc2sgZG9fZmV0Y2g6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGNhcmdvLW5hdGl2ZS0xLjc1LjAt
+cjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNp
+cGUgY2FyZ28tbmF0aXZlLTEuNzUuMC1yMDogdGFzayBkb19wb3B1bGF0ZV9zeXNyb290X3NldHNj
+ZW5lOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgzNyBvZiA4MzggKHZp
+cnR1YWw6bmF0aXZlOi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3RfMS43NS4wLmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3Rf
+c2V0c2NlbmUpCk5PVEU6IHJlY2lwZSBydXN0LW5hdGl2ZS0xLjc1LjAtcjA6IHRhc2sgZG9fcG9w
+dWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgcnVzdC1uYXRpdmUt
+MS43NS4wLXIwOiB0YXNrIGRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmU6IFN1Y2NlZWRlZApO
+T1RFOiBTZXRzY2VuZSB0YXNrcyBjb21wbGV0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1w
+eS0wLjE5LjAtcjA6IHRhc2sgZG9fZmV0Y2g6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sg
+MjM1OCBvZiAyMzgxICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjE5LjAuYmI6ZG9fdW5w
+YWNrKQpOT1RFOiBSdW5uaW5nIHRhc2sgMjM1OSBvZiAyMzgxICgvaG9tZS9wb2t5YnVpbGQveW9j
+dG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+cnBkcy1weV8wLjE5LjAuYmI6ZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdCkKTk9URTogcmVjaXBl
+IHB5dGhvbjMtcnBkcy1weS0wLjE5LjAtcjA6IHRhc2sgZG9fdW5wYWNrOiBTdGFydGVkCk5PVEU6
+IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX3ByZXBhcmVfcmVjaXBl
+X3N5c3Jvb3Q6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjE5LjAtcjA6
+IHRhc2sgZG9fdW5wYWNrOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIzNjAgb2YgMjM4
+MSAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4xOS4wLmJiOmRvX3BhdGNoKQpOT1RFOiBS
+dW5uaW5nIHRhc2sgMjM2MSBvZiAyMzgxICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjE5
+LjAuYmI6ZG9fY29sbGVjdF9zcGR4X2RlcHMpCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHkt
+MC4xOS4wLXIwOiB0YXNrIGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3Q6IFN1Y2NlZWRlZApOT1RF
+OiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMTkuMC1yMDogdGFzayBkb19wYXRjaDogU3RhcnRl
+ZApOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMTkuMC1yMDogdGFzayBkb19jb2xsZWN0
+X3NwZHhfZGVwczogU3RhcnRlZApOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMTkuMC1y
+MDogdGFzayBkb19wYXRjaDogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMzYyIG9mIDIz
+ODEgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMTkuMC5iYjpkb19kZXBsb3lfc291cmNl
+X2RhdGVfZXBvY2gpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMzYzIG9mIDIzODEgKC9ob21lL3Bva3li
+dWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1ycGRzLXB5XzAuMTkuMC5iYjpkb19ydXN0X2NyZWF0ZV93cmFwcGVycykKTk9URTog
+UnVubmluZyB0YXNrIDIzNjQgb2YgMjM4MSAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9h
+dWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4x
+OS4wLmJiOmRvX3J1c3RfZ2VuX3RhcmdldHMpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMzY1IG9mIDIz
+ODEgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMTkuMC5iYjpkb19wb3B1bGF0ZV9saWMp
+Ck5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX2NvbGxlY3Rf
+c3BkeF9kZXBzOiBTdWNjZWVkZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0wLjE5LjAt
+cjA6IHRhc2sgZG9fZGVwbG95X3NvdXJjZV9kYXRlX2Vwb2NoOiBTdGFydGVkCk5PVEU6IHJlY2lw
+ZSBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX3J1c3RfY3JlYXRlX3dyYXBwZXJz
+OiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRv
+X3J1c3RfZ2VuX3RhcmdldHM6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHB5dGhvbjMtcnBkcy1weS0w
+LjE5LjAtcjA6IHRhc2sgZG9fcG9wdWxhdGVfbGljOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBweXRo
+b24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX3J1c3RfZ2VuX3RhcmdldHM6IFN1Y2NlZWRl
+ZApOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMTkuMC1yMDogdGFzayBkb19ydXN0X2Ny
+ZWF0ZV93cmFwcGVyczogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4x
+OS4wLXIwOiB0YXNrIGRvX2RlcGxveV9zb3VyY2VfZGF0ZV9lcG9jaDogU3VjY2VlZGVkCk5PVEU6
+IFJ1bm5pbmcgdGFzayAyMzY2IG9mIDIzODEgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIv
+YXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAu
+MTkuMC5iYjpkb19jb25maWd1cmUpCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4w
+LXIwOiB0YXNrIGRvX3BvcHVsYXRlX2xpYzogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBweXRob24z
+LXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZTogU3RhcnRlZApOT1RFOiByZWNp
+cGUgcHl0aG9uMy1ycGRzLXB5LTAuMTkuMC1yMDogdGFzayBkb19jb25maWd1cmU6IFN1Y2NlZWRl
+ZApOT1RFOiBSdW5uaW5nIHRhc2sgMjM2NyBvZiAyMzgxICgvaG9tZS9wb2t5YnVpbGQveW9jdG8t
+d29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBk
+cy1weV8wLjE5LjAuYmI6ZG9fY29uZmlndXJlX3B0ZXN0X2Jhc2UpCk5PVEU6IHJlY2lwZSBweXRo
+b24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZV9wdGVzdF9iYXNlOiBTdGFy
+dGVkCk5PVEU6IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX2NvbmZp
+Z3VyZV9wdGVzdF9iYXNlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIzNjggb2YgMjM4
+MSAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4xOS4wLmJiOmRvX2NvbXBpbGUpCk5PVEU6
+IHJlY2lwZSBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwOiB0YXNrIGRvX2NvbXBpbGU6IFN0YXJ0
+ZWQKTG9nIGRhdGEgZm9sbG93czoKfCBERUJVRzogRXhlY3V0aW5nIHNoZWxsIGZ1bmN0aW9uIGRv
+X2NvbXBpbGUKfCAqIEdldHRpbmcgYnVpbGQgZGVwZW5kZW5jaWVzIGZvciB3aGVlbC4uLgp8ICog
+QnVpbGRpbmcgd2hlZWwuLi4KfCBSdW5uaW5nIGBtYXR1cmluIHBlcDUxNyBidWlsZC13aGVlbCAt
+aSAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29yay9j
+b3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjE5LjAvcmVjaXBlLXN5c3Jvb3Qt
+bmF0aXZlL3Vzci9iaW4vbmF0aXZlcHl0aG9uMyAtLWNvbXBhdGliaWxpdHkgb2ZmYAp8IPCfk6Yg
+SW5jbHVkaW5nIGxpY2Vuc2UgZmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgv
+YnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJwZHMtcHkv
+MC4xOS4wL3JwZHNfcHktMC4xOS4wL0xJQ0VOU0UiCnwg8J+UlyBGb3VuZCBweW8zIGJpbmRpbmdz
+Cnwg8J+QjSBGb3VuZCBDUHl0aG9uIDMuMTIKfCDwn5OhIFVzaW5nIGJ1aWxkIG9wdGlvbnMgZmVh
+dHVyZXMgZnJvbSBweXByb2plY3QudG9tbAp8IGVycm9yOiBwYWNrYWdlIGB0cmlvbXBoZSB2MC4x
+LjEzYCBjYW5ub3QgYmUgYnVpbHQgYmVjYXVzZSBpdCByZXF1aXJlcyBydXN0YyAxLjc2IG9yIG5l
+d2VyLCB3aGlsZSB0aGUgY3VycmVudGx5IGFjdGl2ZSBydXN0YyB2ZXJzaW9uIGlzIDEuNzUuMAp8
+IEVpdGhlciB1cGdyYWRlIHRvIHJ1c3RjIDEuNzYgb3IgbmV3ZXIsIG9yIHVzZQp8IGNhcmdvIHVw
+ZGF0ZSB0cmlvbXBoZUAwLjEuMTMgLS1wcmVjaXNlIHZlcgp8IHdoZXJlIGB2ZXJgIGlzIHRoZSBs
+YXRlc3QgdmVyc2lvbiBvZiBgdHJpb21waGVgIHN1cHBvcnRpbmcgcnVzdGMgMS43NS4wCnwg8J+S
+pSBtYXR1cmluIGZhaWxlZAp8ICAgQ2F1c2VkIGJ5OiBGYWlsZWQgdG8gYnVpbGQgYSBuYXRpdmUg
+bGlicmFyeSB0aHJvdWdoIGNhcmdvCnwgICBDYXVzZWQgYnk6IENhcmdvIGJ1aWxkIGZpbmlzaGVk
+IHdpdGggImV4aXQgc3RhdHVzOiAxMDEiOiBgZW52IC11IENBUkdPICJjYXJnbyIgInJ1c3RjIiAi
+LS1mZWF0dXJlcyIgInB5bzMvZXh0ZW5zaW9uLW1vZHVsZSIgIi0tdGFyZ2V0IiAieDg2XzY0LXBv
+a3ktbGludXgtZ251IiAiLS1tZXNzYWdlLWZvcm1hdCIgImpzb24tcmVuZGVyLWRpYWdub3N0aWNz
+IiAiLS1tYW5pZmVzdC1wYXRoIiAiL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVp
+bGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJwZHMtcHkvMC4x
+OS4wL3JwZHNfcHktMC4xOS4wL0NhcmdvLnRvbWwiICItLXJlbGVhc2UiICItLWxpYiJgCnwgRXJy
+b3I6IGNvbW1hbmQgWydtYXR1cmluJywgJ3BlcDUxNycsICdidWlsZC13aGVlbCcsICctaScsICcv
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3Jl
+Mi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjE5LjAvcmVjaXBlLXN5c3Jvb3QtbmF0
+aXZlL3Vzci9iaW4vbmF0aXZlcHl0aG9uMycsICctLWNvbXBhdGliaWxpdHknLCAnb2ZmJ10gcmV0
+dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMQp8IAp8IEVSUk9SIEJhY2tlbmQgc3VicHJvY2Vz
+cyBleGl0ZWQgd2hlbiB0cnlpbmcgdG8gaW52b2tlIGJ1aWxkX3doZWVsCnwgV0FSTklORzogL2hv
+bWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTIt
+NjQtcG9reS1saW51eC9weXRob24zLXJwZHMtcHkvMC4xOS4wL3RlbXAvcnVuLmRvX2NvbXBpbGUu
+MTQ5MTUzNToxOTAgZXhpdCAxIGZyb20gJ25hdGl2ZXB5dGhvbjMgLW0gYnVpbGQgLS1uby1pc29s
+YXRpb24gLS13aGVlbCAtLW91dGRpciAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
+dWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8w
+LjE5LjAvZGlzdCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90
+bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjE5LjAvcnBkc19w
+eS0wLjE5LjAnCnwgV0FSTklORzogQmFja3RyYWNlIChCQiBnZW5lcmF0ZWQgc2NyaXB0KToKfCAJ
+IzE6IHB5dGhvbl9wZXA1MTdfZG9fY29tcGlsZSwgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
+ci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9weXRob24zLXJw
+ZHMtcHkvMC4xOS4wL3RlbXAvcnVuLmRvX2NvbXBpbGUuMTQ5MTUzNSwgbGluZSAxOTAKfCAJIzI6
+IGRvX2NvbXBpbGUsIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxk
+L3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvcHl0aG9uMy1ycGRzLXB5LzAuMTkuMC90ZW1w
+L3J1bi5kb19jb21waWxlLjE0OTE1MzUsIGxpbmUgMTY2CnwgCSMzOiBtYWluLCAvaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5
+LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjE5LjAvdGVtcC9ydW4uZG9fY29tcGlsZS4xNDkxNTM1
+LCBsaW5lIDIwMQpOT1RFOiByZWNpcGUgcHl0aG9uMy1ycGRzLXB5LTAuMTkuMC1yMDogdGFzayBk
+b19jb21waWxlOiBGYWlsZWQKTk9URTogVGFza3MgU3VtbWFyeTogQXR0ZW1wdGVkIDIzNjggdGFz
+a3Mgb2Ygd2hpY2ggMjM1NSBkaWRuJ3QgbmVlZCB0byBiZSByZXJ1biBhbmQgMSBmYWlsZWQuCk5P
+VEU6IFdyaXRpbmcgYnVpbGRoaXN0b3J5Ck5PVEU6IFdyaXRpbmcgYnVpbGRoaXN0b3J5IHRvb2s6
+IDEgc2Vjb25kcwpOT1RFOiBUaGUgZXJyb3JzIGZvciB0aGlzIGJ1aWxkIGFyZSBzdG9yZWQgaW4g
+L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL2xvZy9lcnJv
+ci1yZXBvcnQvZXJyb3JfcmVwb3J0XzIwMjQwNzE1MTEyMDA5LnR4dApZb3UgY2FuIHNlbmQgdGhl
+IGVycm9ycyB0byBhIHJlcG9ydHMgc2VydmVyIGJ5IHJ1bm5pbmc6CiAgc2VuZC1lcnJvci1yZXBv
+cnQgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL2xvZy9l
+cnJvci1yZXBvcnQvZXJyb3JfcmVwb3J0XzIwMjQwNzE1MTEyMDA5LnR4dCBbLXMgc2VydmVyXQpO
+T1RFOiBUaGUgY29udGVudHMgb2YgdGhlc2UgbG9ncyB3aWxsIGJlIHBvc3RlZCBpbiBwdWJsaWMg
+aWYgeW91IHVzZSB0aGUgYWJvdmUgY29tbWFuZCB3aXRoIHRoZSBkZWZhdWx0IHNlcnZlci4gUGxl
+YXNlIGVuc3VyZSB5b3UgcmVtb3ZlIGFueSBpZGVudGlmeWluZyBvciBwcm9wcmlldGFyeSBpbmZv
+cm1hdGlvbiB3aGVuIHByb21wdGVkIGJlZm9yZSBzZW5kaW5nLgoKU3VtbWFyeTogMSB0YXNrIGZh
+aWxlZDoKICAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjE5LjAuYmI6ZG9fY29tcGlsZQpT
+dW1tYXJ5OiBUaGVyZSB3YXMgMSBFUlJPUiBtZXNzYWdlLCByZXR1cm5pbmcgYSBub24temVybyBl
+eGl0IGNvZGUuCkVSUk9SOiBweXRob24zLXJwZHMtcHktMC4xOS4wLXIwIGRvX2NvbXBpbGU6IEV4
+ZWN1dGlvbkVycm9yKCcvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWls
+ZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3B5dGhvbjMtcnBkcy1weS8wLjE5LjAvdGVt
+cC9ydW4uZG9fY29tcGlsZS4xNDkxNTM1JywgMSwgTm9uZSwgTm9uZSkKRVJST1I6IExvZ2ZpbGUg
+b2YgZmFpbHVyZSBzdG9yZWQgaW46IC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1
+aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvcHl0aG9uMy1ycGRzLXB5LzAu
+MTkuMC90ZW1wL2xvZy5kb19jb21waWxlLjE0OTE1MzUKRVJST1I6IFRhc2sgKC9ob21lL3Bva3li
+dWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1ycGRzLXB5XzAuMTkuMC5iYjpkb19jb21waWxlKSBmYWlsZWQgd2l0aCBleGl0IGNv
+ZGUgJzEnCg==
+
+--===============0424719529727605102==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ofono-upgrade-2.8-2.9.patch"
+Content-Disposition: attachment;
+ filename="0001-python3-rpds-py-upgrade-0.18.1-0.19.0.patch"
 
-RnJvbSAxMWQ2Y2M1Mzg2M2RhNmM1Y2M3OTczMWE5ZDQ3YzQ2YWI4NzBlYjZjIE1vbiBTZXAgMTcg
+RnJvbSA1ODBjNmJlMTAyNWVhNWJiZTM4ZTM2MTgyYTAzZDcyOWJlYjdmZTZlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDc6NDc6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
-Zm9ubzogdXBncmFkZSAyLjggLT4gMi45CgotLS0KIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-b2Zvbm8ve29mb25vXzIuOC5iYiA9PiBvZm9ub18yLjkuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9vZm9uby97b2Zvbm9fMi44LmJiID0+IG9mb25vXzIuOS5iYn0gKDk1JSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vXzIuOC5iYiBi
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi45LmJiCnNpbWlsYXJpdHkg
-aW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zv
-bm9fMi44LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25v
-XzIuOS5iYgppbmRleCA4MDk0ODVkNDIxLi4yNmNiOWJiN2ZmIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vXzIuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-Y29ubmVjdGl2aXR5L29mb25vL29mb25vXzIuOS5iYgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJ
-ID0gIlwKICAgICAke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L25ldHdvcmsvJHtCUE59LyR7QlB9
-LnRhci54eiBcCiAgICAgZmlsZTovL29mb25vIFwKICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJi
-NWFlZjQ1NWIzYTM3NGNlNDNiYWQ0M2MyYWRlOWQwNDMwZDljMGQyODk1MjM4NWM0NGFjN2QwZGM5
-MzNiYmI4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjlkMjYxMjkyNWEyM2E3ZmI2NjhmMjk3YTA0
-NGI1ZWExMzYyMTVjYzM5OWVjYzNmMTI3MTM1YzhmMmE5ODQ1ZjkiCiAKIGluaGVyaXQgYXV0b3Rv
-b2xzIHBrZ2NvbmZpZyB1cGRhdGUtcmMuZCBzeXN0ZW1kIGdvYmplY3QtaW50cm9zcGVjdGlvbi1k
-YXRhCiAKLS0gCjIuNDQuMAoK
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTE6MjA6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXJwZHMtcHk6IHVwZ3JhZGUgMC4xOC4xIC0+IDAuMTkuMAoKLS0tCiAuLi4vcHl0aG9u
+L3B5dGhvbjMtcnBkcy1weS1jcmF0ZXMuaW5jICAgICAgICAgfCA5OCArKysrKysrLS0tLS0tLS0t
+LS0tCiAuLi5weV8wLjE4LjEuYmIgPT4gcHl0aG9uMy1ycGRzLXB5XzAuMTkuMC5iYn0gfCAgMiAr
+LQogMiBmaWxlcyBjaGFuZ2VkLCAzNSBpbnNlcnRpb25zKCspLCA2NSBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXJwZHMtcHlfMC4xOC4x
+LmJiID0+IHB5dGhvbjMtcnBkcy1weV8wLjE5LjAuYmJ9ICg4OCUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHktY3JhdGVzLmluYyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5LWNyYXRlcy5pbmMKaW5k
+ZXggMzU1MWJkYjVmNy4uMGZjZGI0OWJiNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHktY3JhdGVzLmluYworKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weS1jcmF0ZXMuaW5jCkBAIC0zLDgwICszLDUw
+IEBACiAjIGZyb20gQ2FyZ28ubG9jawogU1JDX1VSSSArPSAiIFwKICAgICBjcmF0ZTovL2NyYXRl
+cy5pby9hcmNoZXJ5LzEuMi4wIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9hdXRvY2ZnLzEuMS4w
+IFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9iaXRmbGFncy8xLjMuMiBcCisgICAgY3JhdGU6Ly9j
+cmF0ZXMuaW8vYXV0b2NmZy8xLjMuMCBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vY2ZnLWlmLzEu
+MC4wIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9oZWNrLzAuNC4xIFwKLSAgICBjcmF0ZTovL2Ny
+YXRlcy5pby9pbmRvYy8yLjAuNCBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vbGliYy8wLjIuMTQ3
+IFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9sb2NrX2FwaS8wLjQuMTAgXAotICAgIGNyYXRlOi8v
+Y3JhdGVzLmlvL21lbW9mZnNldC8wLjkuMCBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vb25jZV9j
+ZWxsLzEuMTguMCBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcGFya2luZ19sb3QvMC4xMi4xIFwK
+LSAgICBjcmF0ZTovL2NyYXRlcy5pby9wYXJraW5nX2xvdF9jb3JlLzAuOS44IFwKKyAgICBjcmF0
+ZTovL2NyYXRlcy5pby9oZWNrLzAuNS4wIFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby9pbmRvYy8y
+LjAuNSBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vbGliYy8wLjIuMTU1IFwKKyAgICBjcmF0ZTov
+L2NyYXRlcy5pby9tZW1vZmZzZXQvMC45LjEgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL29uY2Vf
+Y2VsbC8xLjE5LjAgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3BvcnRhYmxlLWF0b21pYy8xLjYu
+MCBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHJvYy1tYWNybzIvMS4wLjY2IFwKLSAgICBjcmF0
+ZTovL2NyYXRlcy5pby9weW8zLzAuMjAuMyBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1i
+dWlsZC1jb25maWcvMC4yMC4zIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9weW8zLWZmaS8wLjIw
+LjMgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtbWFjcm9zLzAuMjAuMyBcCi0gICAgY3Jh
+dGU6Ly9jcmF0ZXMuaW8vcHlvMy1tYWNyb3MtYmFja2VuZC8wLjIwLjMgXAotICAgIGNyYXRlOi8v
+Y3JhdGVzLmlvL3F1b3RlLzEuMC4zMSBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcmVkb3hfc3lz
+Y2FsbC8wLjMuNSBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHJvYy1tYWNybzIvMS4wLjg2IFwK
+KyAgICBjcmF0ZTovL2NyYXRlcy5pby9weW8zLzAuMjIuMSBcCisgICAgY3JhdGU6Ly9jcmF0ZXMu
+aW8vcHlvMy1idWlsZC1jb25maWcvMC4yMi4xIFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby9weW8z
+LWZmaS8wLjIyLjEgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3B5bzMtbWFjcm9zLzAuMjIuMSBc
+CisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcHlvMy1tYWNyb3MtYmFja2VuZC8wLjIyLjEgXAorICAg
+IGNyYXRlOi8vY3JhdGVzLmlvL3F1b3RlLzEuMC4zNiBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8v
+cnBkcy8xLjEuMCBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vc2NvcGVndWFyZC8xLjEuMCBcCi0g
+ICAgY3JhdGU6Ly9jcmF0ZXMuaW8vc21hbGx2ZWMvMS4xMS4wIFwKICAgICBjcmF0ZTovL2NyYXRl
+cy5pby9zdGF0aWNfYXNzZXJ0aW9ucy8xLjEuMCBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vc3lu
+LzIuMC4zMiBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vdGFyZ2V0LWxleGljb24vMC4xMi45IFwK
+LSAgICBjcmF0ZTovL2NyYXRlcy5pby90cmlvbXBoZS8wLjEuOSBcCi0gICAgY3JhdGU6Ly9jcmF0
+ZXMuaW8vdW5pY29kZS1pZGVudC8xLjAuMTEgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3N5bi8y
+LjAuNjkgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL3RhcmdldC1sZXhpY29uLzAuMTIuMTQgXAor
+ICAgIGNyYXRlOi8vY3JhdGVzLmlvL3RyaW9tcGhlLzAuMS4xMyBcCisgICAgY3JhdGU6Ly9jcmF0
+ZXMuaW8vdW5pY29kZS1pZGVudC8xLjAuMTIgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3VuaW5k
+ZW50LzAuMi4zIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby93aW5kb3dzLXRhcmdldHMvMC40OC4x
+IFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby93aW5kb3dzX2FhcmNoNjRfZ251bGx2bS8wLjQ4LjAg
+XAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3dpbmRvd3NfYWFyY2g2NF9tc3ZjLzAuNDguMCBcCi0g
+ICAgY3JhdGU6Ly9jcmF0ZXMuaW8vd2luZG93c19pNjg2X2dudS8wLjQ4LjAgXAotICAgIGNyYXRl
+Oi8vY3JhdGVzLmlvL3dpbmRvd3NfaTY4Nl9tc3ZjLzAuNDguMCBcCi0gICAgY3JhdGU6Ly9jcmF0
+ZXMuaW8vd2luZG93c194ODZfNjRfZ251LzAuNDguMCBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8v
+d2luZG93c194ODZfNjRfZ251bGx2bS8wLjQ4LjAgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3dp
+bmRvd3NfeDg2XzY0X21zdmMvMC40OC4wIFwKICIKIAogU1JDX1VSSVthcmNoZXJ5LTEuMi4wLnNo
+YTI1NnN1bV0gPSAiODk2N2NkMWNjOWU5ZTE5NTRmNjQ0ZTE0ZmJkNjA0MmZlOWEzN2RhOTZjNTJh
+NjdlNDRhMmFjMTgyNjFmODU2MSIKLVNSQ19VUklbYXV0b2NmZy0xLjEuMC5zaGEyNTZzdW1dID0g
+ImQ0Njg4MDJiYWIxN2NiYzBjYzU3NWU5YjA1M2Y0MWU3MmFhMzZiZmE2YjdmNTVlMzUyOWZmYTQz
+MTYxYjk3ZmEiCi1TUkNfVVJJW2JpdGZsYWdzLTEuMy4yLnNoYTI1NnN1bV0gPSAiYmVmMzhkNDUx
+NjNjMmYxZGRlMDk0YTdkZmQzM2NjZjU5NWM5MjkwNWM4ZjhmNGZkYzE4ZDA2ZmIxMDM3NzE4YSIK
+K1NSQ19VUklbYXV0b2NmZy0xLjMuMC5zaGEyNTZzdW1dID0gIjBjNGI0ZDBiZDI1YmQwYjc0Njgx
+YzBhZDIxNDk3NjEwY2UxYjdjOTFiMTAyMmNkMjFjODBjNmZiZGQ5NDc2YjAiCiBTUkNfVVJJW2Nm
+Zy1pZi0xLjAuMC5zaGEyNTZzdW1dID0gImJhZjFkZTQzMzk3NjE1ODhiYzA2MTllM2NiYzAxMjBl
+ZTU4MmViYjc0YjUzYjRlZmJmNzkxMTdiZDJkYTQwZmQiCi1TUkNfVVJJW2hlY2stMC40LjEuc2hh
+MjU2c3VtXSA9ICI5NTUwNWMzOGI0NTcyYjJkOTEwY2VjYjAyODE1NjBmNTRiNDQwYTE5MzM2Y2Ji
+Y2IyN2JmNmNlNmFkYzZmNWE4IgotU1JDX1VSSVtpbmRvYy0yLjAuNC5zaGEyNTZzdW1dID0gIjFl
+MTg2Y2ZiYWU4MDg0ZTUxM2RhZmY0MjQwYjQ3OTdlMzQyZjk4OGNlY2RhNGZiNmM5MzkxNTBmOTYz
+MTVmZDgiCi1TUkNfVVJJW2xpYmMtMC4yLjE0Ny5zaGEyNTZzdW1dID0gImI0NjY4ZmIwZWE4NjFj
+MWRmMDk0MTI3YWM1ZjFkYTM0MDlhODIxMTZhNGJhNzRmY2EyZTU4ZWY5MjcxNTliYjMiCi1TUkNf
+VVJJW2xvY2tfYXBpLTAuNC4xMC5zaGEyNTZzdW1dID0gImMxY2M5NzE3YTIwYjFiYjIyMmYzMzNl
+NmE5MmZkMzJmN2Q4YTE4ZGRjNWEzMTkxYTExYWY0NWRjYmY0ZGNkMTYiCi1TUkNfVVJJW21lbW9m
+ZnNldC0wLjkuMC5zaGEyNTZzdW1dID0gIjVhNjM0YjFjNjFhOTU1ODViZDE1NjA3YzZhYjBjNGU1
+YjIyNmU2OTVmZjI4MDBiYTBjZGNjZGRmMjA4YzQwNmMiCi1TUkNfVVJJW29uY2VfY2VsbC0xLjE4
+LjAuc2hhMjU2c3VtXSA9ICJkZDhiNWRkMmFlNWVkNzE0NjJjNTQwMjU4YmVkY2I1MTk2NTEyM2Fk
+N2U3Y2NmNGI5YThjYWZhYTRhNjM1NzZkIgotU1JDX1VSSVtwYXJraW5nX2xvdC0wLjEyLjEuc2hh
+MjU2c3VtXSA9ICIzNzQyYjJjMTAzYjlmMDZiYzlmZmYwYTM3ZmY0OTEyOTM1ODUxYmVlNmQzNmYz
+YzAyYmNjNzU1YmNmZWMyMjhmIgotU1JDX1VSSVtwYXJraW5nX2xvdF9jb3JlLTAuOS44LnNoYTI1
+NnN1bV0gPSAiOTNmMDBjODY1ZmU3Y2FiZjY1MDA4MWFmZmVjZDM4NzEwNzBmMjY3NjdlN2IyMDcw
+YTNmZmFlMTRjNjU0YjQ0NyIKK1NSQ19VUklbaGVjay0wLjUuMC5zaGEyNTZzdW1dID0gIjIzMDRl
+MDA5ODNmODdmZmIzOGI1NWI0NDRiNWUzYjYwYTg4NGI1ZDMwYzBmY2E3ZDgyZmUzMzQ0OWJiZTU1
+ZWEiCitTUkNfVVJJW2luZG9jLTIuMC41LnNoYTI1NnN1bV0gPSAiYjI0OGY1MjI0ZDFkNjA2MDA1
+ZTAyYzk3ZjVhYTRlODhlZWIyMzA0ODhiY2MwM2JjOWNhNGQ3OTkxMzk5ZjJiNSIKK1NSQ19VUklb
+bGliYy0wLjIuMTU1LnNoYTI1NnN1bV0gPSAiOTdiMzg4OGE0YWVjZjc3ZTgxMTE0NWNhZGY2ZWVm
+NTkwMWY0NzgyYzUzODg2MTkxYjJmNjkzZjI0NzYxODQ3YyIKK1NSQ19VUklbbWVtb2Zmc2V0LTAu
+OS4xLnNoYTI1NnN1bV0gPSAiNDg4MDE2YmZhZTQ1N2IwMzZkOTk2MDkyZjZjYjQ0ODY3NzYxMWNl
+NDQ0OWU5NzBjZWFmNDI2OTUyMDNmMjE4YSIKK1NSQ19VUklbb25jZV9jZWxsLTEuMTkuMC5zaGEy
+NTZzdW1dID0gIjNmZGIxMmIyNDc2YjU5NWY5MzU4YzUxNjFhYTQ2N2MyNDM4ODU5Y2FhMTM2ZGVj
+ODZjMjZmZGQyZWZlMTdiOTIiCiBTUkNfVVJJW3BvcnRhYmxlLWF0b21pYy0xLjYuMC5zaGEyNTZz
+dW1dID0gIjcxNzBlZjk5ODhiYzE2OWJhMTZkZDM2YTdmYTA0MWU1YzRjYmViNmEzNWI3NmQ0YzAz
+ZGFkZWQzNzFlYWU3YzAiCi1TUkNfVVJJW3Byb2MtbWFjcm8yLTEuMC42Ni5zaGEyNTZzdW1dID0g
+IjE4ZmIzMWRiM2Y5YmRkYjJlYTgyMWNkZTMwYTlmNzAxMTdlM2YxMTk5MzhiNWVlNjMwYjc0MDNh
+YTZlMmVhZDkiCi1TUkNfVVJJW3B5bzMtMC4yMC4zLnNoYTI1NnN1bV0gPSAiNTNiZGJiOTZkNDkx
+NTdlNjVkNDVjYzI4N2FmNWYzMmZmYWRkNWY0NzYxNDM4YjUyN2IwNTVmYjBkNGJiODIzMyIKLVNS
+Q19VUklbcHlvMy1idWlsZC1jb25maWctMC4yMC4zLnNoYTI1NnN1bV0gPSAiZGVhYTU3NDVkZTNm
+NTIzMWNlMTA1MTdhMWY1ZGQ5N2Q1M2U1YTJmZDc3YWE2YjU4NDIyOTIwODU4MzFkNDhkNyIKLVNS
+Q19VUklbcHlvMy1mZmktMC4yMC4zLnNoYTI1NnN1bV0gPSAiNjJiNDI1MzFkMDNlMDhkNGVmMWY2
+ZTg1YTJlZDQyMmViNjc4YjhjZDYyYjc2MmU1Mzg5MWMwNWZhZjBkNGFmYSIKLVNSQ19VUklbcHlv
+My1tYWNyb3MtMC4yMC4zLnNoYTI1NnN1bV0gPSAiNzMwNWM3MjBmYTAxYjgwNTVlYzk1ZTQ4NGE2
+ZWNhN2E4M2M4NDEyNjdmMGRkNTI4MGYwYzhiODU1MWQyYzE1OCIKLVNSQ19VUklbcHlvMy1tYWNy
+b3MtYmFja2VuZC0wLjIwLjMuc2hhMjU2c3VtXSA9ICI3YzdlOWI2OGJiOWMzMTQ5YzViMGNhZGU1
+ZDA3Zjk1M2Q2ZDEyNWViNDMzNzcyM2M0Y2NkYjY2NWYxZjk2MTg1IgotU1JDX1VSSVtxdW90ZS0x
+LjAuMzEuc2hhMjU2c3VtXSA9ICI1ZmU4YTY1ZDY5ZGQwODA4MTg0ZWJiNWY4MzZhYjUyNmJiMjU5
+ZGIyM2M2NTdlZmEzODcxMWIxMDcyZWU0N2YwIgotU1JDX1VSSVtyZWRveF9zeXNjYWxsLTAuMy41
+LnNoYTI1NnN1bV0gPSAiNTY3NjY0ZjI2MjcwOTQ3MzkzMGE0YmY5ZTUxYmYyZWJmMzM0OGYyZTc0
+OGNjYzUwZGVhMjA2NDY4NThmOGYyOSIKK1NSQ19VUklbcHJvYy1tYWNybzItMS4wLjg2LnNoYTI1
+NnN1bV0gPSAiNWU3MTllOGRmNjY1ZGYwZDFjOGZiZmQyMzgwMTU3NDQ3MzYxNTFkNDQ0NWVjMDgz
+NmI4ZTYyOGFhZTEwM2I3NyIKK1NSQ19VUklbcHlvMy0wLjIyLjEuc2hhMjU2c3VtXSA9ICI0ZTk5
+MDkwZDEyZjYxODI5MjQ0OTkyNTNhYWExZTczYmYxNWM2OWNlYThkMjc3NGMzYzc4MWUzNWJhZGMz
+NTQ4IgorU1JDX1VSSVtweW8zLWJ1aWxkLWNvbmZpZy0wLjIyLjEuc2hhMjU2c3VtXSA9ICI3ODc5
+ZWIwMThhYzc1NGJiYTMyY2IwZWVjNzUyNjM5MWMwMmMxNGEwOTMxMjE4NTdlZDA5ZmJmMWQxMDU3
+ZDQxIgorU1JDX1VSSVtweW8zLWZmaS0wLjIyLjEuc2hhMjU2c3VtXSA9ICJjZTJiYWE1NTU5YTQx
+MWZjMWNmNTE5Mjk1ZjI0YzM0YjUzZDVkNzI1ODE4YmM5NmI1YWJmOTQ3NjJkYTA5MDQxIgorU1JD
+X1VSSVtweW8zLW1hY3Jvcy0wLjIyLjEuc2hhMjU2c3VtXSA9ICIwNDk2MjFjMjBhMjNmMmRlZjIw
+ZjRmZTY3OTc4ZDFkYThkOGE4ODNkNjRiOWMyMTM2MmYzYjc3NmUyNTRlZGM3IgorU1JDX1VSSVtw
+eW8zLW1hY3Jvcy1iYWNrZW5kLTAuMjIuMS5zaGEyNTZzdW1dID0gIjBlOTY5ZWUyZTAyNTQzNWYx
+ODE5ZDMxYTI3NWJhNGJiOWNiYmRmM2FjNTM1MjI3ZmRiZDg1YjkzMjJmZmUxNDQiCitTUkNfVVJJ
+W3F1b3RlLTEuMC4zNi5zaGEyNTZzdW1dID0gIjBmYTc2YWFmMzkxMDFjNDU3ODM2YWVjMGNlMjMx
+NmRiZGMzYWI3MjNjZGRhMWM2YmQ0ZTZhZDQyMDhhY2FjYTciCiBTUkNfVVJJW3JwZHMtMS4xLjAu
+c2hhMjU2c3VtXSA9ICJhMGUxNTUxNWQzY2UzMzEzMzI0ZDg0MjYyOWVhNDkwNWMyNWExM2Y4MTk1
+M2VhZGI4OGY4NTUxNmY1OTI5MGE0IgotU1JDX1VSSVtzY29wZWd1YXJkLTEuMS4wLnNoYTI1NnN1
+bV0gPSAiZDI5YWIwYzZkM2ZjMGVlOTJmZTY2ZTJkOTlmNzAwZWFiMTdhOGQ1N2QxYzFkM2I3NDgz
+ODBmYjIwYmFhNzhjZCIKLVNSQ19VUklbc21hbGx2ZWMtMS4xMS4wLnNoYTI1NnN1bV0gPSAiNjJi
+YjRmZWVlNDlmZGQ5ZjcwN2VmODAyZTIyMzY1YTM1ZGU0YjdiMjk5ZGU0NzYzZDQ0YmZlYTg5OTQ0
+MmZmOSIKIFNSQ19VUklbc3RhdGljX2Fzc2VydGlvbnMtMS4xLjAuc2hhMjU2c3VtXSA9ICJhMmVi
+OTM0OWI2NDQ0YjMyNjg3MmUxNDBlYjFjZjVlN2M1MjIxNTRkNjllN2EwZmZiMGZiODFjMDZiMzc1
+NDNmIgotU1JDX1VSSVtzeW4tMi4wLjMyLnNoYTI1NnN1bV0gPSAiMjM5ODE0Mjg0ZmQ2ZjFhNGZm
+ZTRjYTg5Mzk1MmNkZDkzYzIyNGI2YTE1NzFjOWE5ZWFkZDY3MDI5NWMwYzllMiIKLVNSQ19VUklb
+dGFyZ2V0LWxleGljb24tMC4xMi45LnNoYTI1NnN1bV0gPSAiZGY4ZTc3Y2I3NTdhNjFmNTFiOTQ3
+ZWM0YTdlMzY0NmVmZDgyNWI3MzU2MWRiMWMyMzJhOGNjYjYzOWU2MTFhMCIKLVNSQ19VUklbdHJp
+b21waGUtMC4xLjkuc2hhMjU2c3VtXSA9ICIwZWVlODA5OGFmYWQzZmIwYzU0YTkwMDdhYWI2ODA0
+NTU4NDEwNTAzYWQ2NzZkNDYzM2Y5YzI1NTlhMDBhYzBmIgotU1JDX1VSSVt1bmljb2RlLWlkZW50
+LTEuMC4xMS5zaGEyNTZzdW1dID0gIjMwMWFiYWFlNDc1YWE5MTY4N2ViODI1MTRiMzI4YWI0N2Ey
+MTFhNTMzMDI2Y2IyNWZjM2U1MTliODZhZGZjM2MiCitTUkNfVVJJW3N5bi0yLjAuNjkuc2hhMjU2
+c3VtXSA9ICIyMDFmY2RhMzg0NWMyM2U4MjEyY2Q0NjZiZmViZjBiZDIwNjk0NDkwZmMwMzU2YWU4
+ZTQyOGUwODI0YTkxNWE2IgorU1JDX1VSSVt0YXJnZXQtbGV4aWNvbi0wLjEyLjE0LnNoYTI1NnN1
+bV0gPSAiZTFmYzQwMzg5MWEyMWJjZmI3YzM3ODM0YmE2NmE1NDdhOGY0MDIxNDZlYmE3MjY1YjVh
+NmQ4ODA1OWM5ZmYyZiIKK1NSQ19VUklbdHJpb21waGUtMC4xLjEzLnNoYTI1NnN1bV0gPSAiZTY2
+MzFlNDJlMTBiNDBjMDY5MGJmOTJmNDA0ZWJjZmU2ZTFmZGI0ODAzOTFkMTVmMTdjYzhlOTZlZWVk
+NTM2OSIKK1NSQ19VUklbdW5pY29kZS1pZGVudC0xLjAuMTIuc2hhMjU2c3VtXSA9ICIzMzU0Yjlh
+YzNmYWUxZmY2NzU1Y2I2ZGI1MzY4M2FkYjY2MTYzNGY2NzU1Nzk0MmRlYTRmYWNlYmVjMGZlZTRi
+IgogU1JDX1VSSVt1bmluZGVudC0wLjIuMy5zaGEyNTZzdW1dID0gImM3ZGU3ZDczZTE3NTQ0ODdj
+YjU4MzY0ZWU5MDZhNDk5OTM3YTBkZmFiZDg2YmNiOTgwZmE5OWVjOGM4ZmEyY2UiCi1TUkNfVVJJ
+W3dpbmRvd3MtdGFyZ2V0cy0wLjQ4LjEuc2hhMjU2c3VtXSA9ICIwNWQ0YjE3NDkwZjcwNDk5ZjIw
+YjllNzkxZGNmNmEyOTk3ODVjZThhZjRkNzA5MDE4MjA2ZGM1YjQ5NTNlOTVmIgotU1JDX1VSSVt3
+aW5kb3dzX2FhcmNoNjRfZ251bGx2bS0wLjQ4LjAuc2hhMjU2c3VtXSA9ICI5MWFlNTcyZTFiNzlk
+YmE4ODNlMGQzMTU0NzRkZjczMDVkMTJmNTY5YjQwMGZjZjkwNTgxYjA2MDYyZjdlMWJjIgotU1JD
+X1VSSVt3aW5kb3dzX2FhcmNoNjRfbXN2Yy0wLjQ4LjAuc2hhMjU2c3VtXSA9ICJiMmVmMjdlMGQ3
+YmRmY2ZjN2I4NjhiMzE3YzFkMzJjNjQxYTZmZTQ2MjljMTcxYjg5MjhjN2IwOGQ5OGQ3Y2YzIgot
+U1JDX1VSSVt3aW5kb3dzX2k2ODZfZ251LTAuNDguMC5zaGEyNTZzdW1dID0gIjYyMmExOTYyYTdk
+YjgzMGQ2ZmQwYTY5NjgzYzgwYTE4ZmRhMjAxODc5ZjBmNDQ3ZjA2NWEzYjc0NjdkYWEyNDEiCi1T
+UkNfVVJJW3dpbmRvd3NfaTY4Nl9tc3ZjLTAuNDguMC5zaGEyNTZzdW1dID0gIjQ1NDJjNmUzNjRj
+ZTIxYmY0NWQ2OWZkZDJhOGU0NTVmYTM4ZDMxNjE1OGNmZDQzYjNhYzFjNWIxYjE5ZjhlMDAiCi1T
+UkNfVVJJW3dpbmRvd3NfeDg2XzY0X2dudS0wLjQ4LjAuc2hhMjU2c3VtXSA9ICJjYTJiOGE2NjFm
+NzYyOGNiZDIzNDQwZTUwYjA1ZDcwNWRiMzY4NmY4OTRmYzk1ODA4MjA2MjM2NTZhZjk3NGIxIgot
+U1JDX1VSSVt3aW5kb3dzX3g4Nl82NF9nbnVsbHZtLTAuNDguMC5zaGEyNTZzdW1dID0gIjc4OTZk
+YmMxZjQxZTA4ODcyZTlkNWU4ZjhiYWE4ZmRkMjY3N2YyOTQ2OGM0ZTE1NjIxMDE3NGVkYzdmN2I5
+NTMiCi1TUkNfVVJJW3dpbmRvd3NfeDg2XzY0X21zdmMtMC40OC4wLnNoYTI1NnN1bV0gPSAiMWE1
+MTVmNTc5OWZlNDk2MWNiNTMyZjk4M2NlMmIyMzA4MjM2NmI4OThlNTJmZmJjZTQ1OWM4NmY2N2M4
+Mzc4YSIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1y
+cGRzLXB5XzAuMTguMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1y
+cGRzLXB5XzAuMTkuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjE4LjEuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ycGRzLXB5XzAuMTkuMC5iYgpp
+bmRleCBmNDZkZjExMTVjLi4xOWU2MjUxYmI5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnBkcy1weV8wLjE4LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJwZHMtcHlfMC4xOS4wLmJiCkBAIC02LDcgKzYsNyBA
+QCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT03NzY3ZmE1MzdjNDU5NmM1
+NDE0MWYzMjg4MmM0YTk4NCIKIAogU1JDX1VSSSArPSAiZmlsZTovL3J1bi1wdGVzdCIKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gImRjNDhiNDc5ZDU0MDc3MGM4MTFmYmQxZWI5YmEyYmI2Njk1MTg2
+M2U0NDhlZmVjMmUyYzEwMjYyNTMyOGU5MmYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNGZkYzlh
+ZmFkYmViMzkzYjRiYmJhZDc1NDgxZTBlYTc4ZTQ0NjlmMmUxZDcxM2E5MDgxMTcwMDgzMGI1NTNh
+OSIKIAogcmVxdWlyZSAke0JQTn0tY3JhdGVzLmluYwogCi0tIAoyLjQ0LjAKCg==
 
---===============8363420607703427662==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (917 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-633c6b79184113aa8ee04b2df5705f681dd3f198"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:633c6b79184113aa8ee04b2df5705f681dd3f198"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 557 Local 543 Mirrors 0 Missed 14 Current 519 (97% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2408 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_recipe_qa)
-NOTE: recipe ofono-2.9-r0: task do_recipe_qa: Started
-NOTE: recipe ofono-2.9-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2921 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_fetch)
-NOTE: recipe ofono-2.9-r0: task do_fetch: Started
-NOTE: recipe ofono-2.9-r0: task do_fetch: Succeeded
-NOTE: Running task 2922 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_unpack)
-NOTE: Running task 2923 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.9-r0: task do_unpack: Started
-NOTE: recipe ofono-2.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.9-r0: task do_unpack: Succeeded
-NOTE: Running task 2924 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_patch)
-NOTE: Running task 2925 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_collect_spdx_deps)
-NOTE: recipe ofono-2.9-r0: task do_patch: Started
-NOTE: recipe ofono-2.9-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ofono-2.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ofono-2.9-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ofono-2.9-r0: task do_patch: Succeeded
-NOTE: Running task 2926 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2927 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_populate_lic)
-NOTE: recipe ofono-2.9-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ofono-2.9-r0: task do_populate_lic: Started
-NOTE: recipe ofono-2.9-r0: task do_populate_lic: Succeeded
-NOTE: recipe ofono-2.9-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2928 of 2940 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_configure)
-NOTE: recipe ofono-2.9-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.72.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.66.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/
- systemd_256.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-native_2.5.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.68.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf_2.72e.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/automake/automake_1.16.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-wo
- rker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'mobile-broadband-provider-info', 'openssl', 'base-files', 'base-passwd', 'dbus', 'ell', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'quilt-native', 'vala', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'wayland-protocols', 'wayland', 'libice', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdmcp', 'libxkbcommon', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'acl', 'attr', 'bash-completion', 'gdbm', 'icu', 'libcap-ng', 'libcap', 'libffi', 
- 'libical', 'libpcre2', 'libseccomp', 'shared-mime-info', 'sqlite3', 'zlib-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'shadow-native', 'xz-native', 'zstd-native', 'attr-native', 'gmp-native', 'libbsd-native', 'libmd-native', 'libmpc-native', 'mpfr-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_configure
-| automake (GNU automake) 1.16.5
-| Copyright (C) 2021 Free Software Foundation, Inc.
-| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
-| This is free software: you are free to change and redistribute it.
-| There is NO WARRANTY, to the extent permitted by law.
-| 
-| Written by Tom Tromey <tromey@redhat.com>
-|        and Alexandre Duret-Lutz <adl@gnu.org>.
-| AUTOV is 1.16
-| NOTE: Executing ACLOCAL="aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal-1.16" autoreconf -Wcross --verbose --install --force --exclude=autopoint -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/ofono-2.9/build-aux/ -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal/
-| autoreconf: export WARNINGS=cross,no-obsolete
-| autoreconf: Entering directory '.'
-| autoreconf: configure.ac: not using Gettext
-| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/ofono-2.9/build-aux/ -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal/ --force -I build-aux
-| autoreconf: configure.ac: tracing
-| autoreconf: running: libtoolize --copy --force
-| libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
-| libtoolize: copying file 'build-aux/ltmain.sh'
-| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'build-aux'.
-| libtoolize: copying file 'build-aux/libtool.m4'
-| libtoolize: copying file 'build-aux/ltoptions.m4'
-| libtoolize: copying file 'build-aux/ltsugar.m4'
-| libtoolize: copying file 'build-aux/ltversion.m4'
-| libtoolize: copying file 'build-aux/lt~obsolete.m4'
-| autoreconf: configure.ac: not using Intltool
-| autoreconf: configure.ac: not using Gtkdoc
-| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/ofono-2.9/build-aux/ -I /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal/ --force -I build-aux
-| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/ofono-2.9/build-aux/ --include=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal/ --force
-| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/ofono-2.9/build-aux/ --include=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/share/aclocal/ --force
-| autoreconf: running: automake --add-missing --copy --force-missing
-| configure.ac:23: installing 'build-aux/compile'
-| configure.ac:8: installing 'build-aux/missing'
-| Makefile.am: installing 'build-aux/depcomp'
-| autoreconf: 'build-aux/install-sh' is updated
-| autoreconf: 'build-aux/config.sub' is updated
-| autoreconf: 'build-aux/config.guess' is updated
-| autoreconf: Leaving directory '.'
-| NOTE: Running ../ofono-2.9/configure  --build=x86_64-linux 		  --host=x86_64-poky-linux 		  --target=x86_64-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking  --enable-test --enable-external-ell --disable-static  --enable-bluetooth --with-systemdunitdir=/usr/lib/systemd/system/
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/endian-little
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/common-linux
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/common-glibc
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/x86_64-linux
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/meta/site/common
-| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c
-| checking whether build environment is sane... yes
-| checking for x86_64-poky-linux-strip... x86_64-poky-linux-strip
-| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p
-| checking for gawk... gawk
-| checking whether make sets $(MAKE)... yes
-| checking whether make supports nested variables... yes
-| checking how to create a pax tar archive... gnutar
-| checking whether make supports nested variables... (cached) yes
-| checking whether to enable maintainer-specific portions of Makefiles... no
-| checking for x86_64-poky-linux-pkg-config... no
-| checking for pkg-config... /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot-native/usr/bin/pkg-config
-| configure: WARNING: using cross tools not prefixed with host triplet
-| checking pkg-config is at least version 0.9.0... yes
-| checking whether make supports the include directive... yes (GNU style)
-| checking for x86_64-poky-linux-gcc... x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot
-| checking whether the C compiler works... yes
-| checking for C compiler default output file name... a.out
-| checking for suffix of executables...
-| checking whether we are cross compiling... yes
-| checking for suffix of object files... o
-| checking whether the compiler supports GNU C... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot accepts -g... yes
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot option to enable C11 features... none needed
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot understands -c and -o together... yes
-| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot... none
-| checking for C/C++ restrict keyword... __restrict__
-| checking for x86_64-poky-linux-gcc... (cached) x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot
-| checking whether the compiler supports GNU C... (cached) yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot accepts -g... (cached) yes
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot option to enable C11 features... (cached) none needed
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot understands -c and -o together... (cached) yes
-| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot... (cached) none
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot accepts -fPIE... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot accepts -fsanitize=address... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot accepts -fsanitize=leak... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot accepts -fsanitize=undefined... yes
-| checking build system type... x86_64-pc-linux-gnu
-| checking host system type... x86_64-poky-linux-gnu
-| checking how to print strings... printf
-| checking for a sed that does not truncate output... (cached) sed
-| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep
-| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -E
-| checking for fgrep... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -F
-| checking for ld used by x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot... x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot
-| checking if the linker (x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot  ) is GNU ld... yes
-| checking for BSD- or MS-compatible name lister (nm)... x86_64-poky-linux-gcc-nm
-| checking the name lister (x86_64-poky-linux-gcc-nm) interface... BSD nm
-| checking whether ln -s works... yes
-| checking the maximum length of command line arguments... 1572864
-| checking how to convert x86_64-pc-linux-gnu file names to x86_64-poky-linux-gnu format... func_convert_file_noop
-| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-| checking for x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot   option to reload object files... -r
-| checking for file... file
-| checking for x86_64-poky-linux-objdump... x86_64-poky-linux-objdump
-| checking how to recognize dependent libraries... pass_all
-| checking for x86_64-poky-linux-dlltool... no
-| checking for dlltool... no
-| checking how to associate runtime and link libraries... printf %s\n
-| checking for x86_64-poky-linux-ar... x86_64-poky-linux-gcc-ar
-| checking for archiver @FILE support... @
-| checking for x86_64-poky-linux-strip... (cached) x86_64-poky-linux-strip
-| checking for x86_64-poky-linux-ranlib... x86_64-poky-linux-gcc-ranlib
-| checking command to parse x86_64-poky-linux-gcc-nm output from x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot object... ok
-| checking for sysroot... /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot
-| checking for a working dd... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd
-| checking how to truncate binary pipes... /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd bs=4096 count=1
-| checking for x86_64-poky-linux-mt... no
-| checking for mt... no
-| checking if : is a manifest tool... no
-| checking for stdio.h... yes
-| checking for stdlib.h... yes
-| checking for string.h... yes
-| checking for inttypes.h... yes
-| checking for stdint.h... yes
-| checking for strings.h... yes
-| checking for sys/stat.h... yes
-| checking for sys/types.h... yes
-| checking for unistd.h... yes
-| checking for dlfcn.h... yes
-| checking for objdir... .libs
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot supports -fno-rtti -fno-exceptions... no
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot static flag -static works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot supports -c -o file.o... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot linker (x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/recipe-sysroot   -m elf_x86_64) supports shared libraries... yes
-| checking whether -lc should be explicitly linked in... no
-| checking dynamic linker characteristics... GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking whether stripping libraries is possible... yes
-| checking if libtool supports shared libraries... yes
-| checking whether to build shared libraries... yes
-| checking whether to build static libraries... no
-| checking for _init in -lasan... no
-| checking for _init in -llsan... no
-| checking for _init in -lubsan... no
-| checking for explicit_bzero... yes
-| checking for rawmemchr... yes
-| checking for signalfd... yes
-| checking for dlopen in -ldl... yes
-| checking for glib-2.0 >= 2.68... yes
-| checking for dbus-1 >= 1.6... yes
-| checking for libudev >= 143... yes
-| checking for ell >= 0.67... no
-| configure: error: Embedded Linux library >= 0.67 is required
-| NOTE: The following config.log files may provide further information.
-| NOTE: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/build/config.log
-| ERROR: configure failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/run.do_configure.3145646:285 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/run.do_configure.3145646, line 285
-| 	#2: oe_runconf, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/run.do_configure.3145646, line 261
-| 	#3: autotools_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/run.do_configure.3145646, line 231
-| 	#4: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/run.do_configure.3145646, line 151
-| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/run.do_configure.3145646, line 289
-NOTE: recipe ofono-2.9-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2928 tasks of which 2919 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715074639.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715074639.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ofono-2.9-r0 do_configure: configure failed
-ERROR: ofono-2.9-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/run.do_configure.3145646', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.9/temp/log.do_configure.3145646
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.9.bb:do_configure) failed with exit code '1'
-
---===============8363420607703427662==--
+--===============0424719529727605102==--
 
