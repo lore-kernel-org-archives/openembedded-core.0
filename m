@@ -1,131 +1,97 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 787F0C3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 10:31:37 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.35048.1721039480371570855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74983C3DA59
+	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 10:37:07 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.35132.1721039826822349347
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 03:31:20 -0700
+ Mon, 15 Jul 2024 03:37:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=KsU3/2Zc;
- spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52e9f863c46so4554974e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 03:31:20 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JCtbHBdi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3678aa359b7so3095362f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 03:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721039478; x=1721644278; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5DL5Bx27AX8a+46IY9n6E8jChxSlmauheA1oyQEbZlw=;
-        b=KsU3/2ZcQixmc4PkfJo27tCjwEdxbiKJ68OBPf4BH0U5nVxDSefcKJHPD4/B/sY81z
-         REvjSb6n46rxffPMKkzW5aQ12+qghYNE/2O61BiP58Io7Z2bwqVNauVYuyEv9MJ0Ph1y
-         IYGqqr/uxPhXnodpGso+XrbsiAGQncRWPP+lhZ/13xCl2vRhjqIhYRIZtjRSkHbNwXbv
-         VYrXoi9O0Mcz7PyylX6Fo9+6PhGEydUI1aIrXmceKsKFN2Kukpv74I0pir7UtXM0Vg5n
-         V3lb2fwoPdc2FzEmQPWlRhlcOy10iIiG/stsS4NRtgaPPcH5uNMJyYDatk6ixX/7O2F6
-         P4DQ==
+        d=linuxfoundation.org; s=google; t=1721039825; x=1721644625; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=g9IkuBQBJzpHMwtmd/DoyusCTEkBEdPGQMYBXUWw+ak=;
+        b=JCtbHBdiuOFSeh0Ku7lSbqXAu0UCb0qhEl3IcD+C7+h4R2W1b3bsivHzUdogzyPPvh
+         +eZDJchKrV65EvYglJ6sU2KYWRvwWVqcw+QyBhyoRAO8fLINvZHyOSYvVNBjSjy8ihfq
+         3FEa762JQeE7NuXg9NuWqZCnAlnM7TkObZDZY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721039478; x=1721644278;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5DL5Bx27AX8a+46IY9n6E8jChxSlmauheA1oyQEbZlw=;
-        b=eUdNDKcAx1R2EYDeKL07rTxnbbHO7ENz0fcitbg1vNkaTvheNXnae1fBnrdEmdgmvx
-         NnwyTFXGRHyjgog9hWpa6rb17z85QTfRlLlO1n45llPvB9lNH0Pv6m2rjNnZkv5jFtzZ
-         KVnYgE9a3TWVE3daGYA+i1oSmgXBEeKM7369IBpXsSQuHkW5EVnJUoLedmrQ2u0xUinC
-         kNdcv2fc2foMXSPy5SVcLuo5F4dEH+0cebnB7X/dun5UhLtmIzNHPfT4CJyzpz+CQMdm
-         1oQNe3LMRYxB9LW7juqJ9R/E2ooYJ2OPbz91/E55PrQAj6fa5ig+51A+OAbm6zZnwiUT
-         wJYg==
-X-Gm-Message-State: AOJu0Yz3fwfi2d88cH2AOi7dmBJ5u2ZC3mEK7q8LF6S/DZteyKzL3bO8
-	S0O6IVYvfN9nd7Md2qAYnOBkZCxvQD9dnX6xO8lem3C48kxx1Q6gdx7NDPP1b+I=
-X-Google-Smtp-Source: AGHT+IEb51OGRY8W2Jv+wPIjiPbxCg2M7VQ3COlQIoBKXyy6MCuEKlYKG1DS8HtHvcPtxGCtNSyo+Q==
-X-Received: by 2002:a05:6512:b8e:b0:52c:8a12:3d3b with SMTP id 2adb3069b0e04-52eb99d4a36mr13725669e87.56.1721039478308;
-        Mon, 15 Jul 2024 03:31:18 -0700 (PDT)
-Received: from nuoska (85-76-35-27-nat.elisa-mobile.fi. [85.76.35.27])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ed252d859sm809999e87.150.2024.07.15.03.31.17
+        d=1e100.net; s=20230601; t=1721039825; x=1721644625;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g9IkuBQBJzpHMwtmd/DoyusCTEkBEdPGQMYBXUWw+ak=;
+        b=WsdwPzepTD27AUujn6W7DoMjSrUtztq/tebJ3PrwzqR/tbwMCagN0hTf4T7WoxVbEn
+         ByYmsiiGMdwnv1ueSBPyoHhWYW7QFw79P9lXCCARCS/q10ITEJZPH+FAI5QDLaRX1Dt9
+         a/1fp4a/OtIgoXDpL+P49CAksRLEv1X9AMVjTgr5J3hEmZLkQXbIPC+35FOYjx5GosrT
+         Zy+DD6pQkCSnftsyd1aWGHbMjqeVmSzoQOUt+tsBHuTcMu6cSQ6Xr/LQbuY0FNGPju6F
+         4M874isF/bz/aHyF9XrDVWC8DlN2NVv2J34UX8I3+25qHb5VI3Zm8+xyufC0oMLzEf19
+         lmZg==
+X-Gm-Message-State: AOJu0YxaYh2wV7j0ax9xSLoWoYHKY+UUtp6QkspVnfJc61ZoFpdcrcJ0
+	ifCYegzhNME8ySwqAeL4NTV/KDrz0SKeayj53jd957+lQj973J5j1UGjth131fk=
+X-Google-Smtp-Source: AGHT+IHIqarH5AY16orcPzmyQ4Kvim+o5l5DdCVC/TZhJAW8Q41J2+5G67nYJAjoaWHNGVYkvpXWNQ==
+X-Received: by 2002:a05:6000:cc:b0:362:69b3:8e4d with SMTP id ffacd0b85a97d-36804fd37cemr6442337f8f.25.1721039825031;
+        Mon, 15 Jul 2024 03:37:05 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b820:e15f:2b8d:2478? ([2001:8b0:aba:5f3c:b820:e15f:2b8d:2478])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dabf445sm6034248f8f.46.2024.07.15.03.37.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 03:31:17 -0700 (PDT)
-Date: Mon, 15 Jul 2024 13:31:15 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: ross.burton@arm.com
+        Mon, 15 Jul 2024 03:37:04 -0700 (PDT)
+Message-ID: <e49942ebd6e0a59880819dfe39ced869b12d7aad.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 1/1] gfortran: update runtime dependencies
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kai <kai.kang@windriver.com>, Martin Jansa <martin.jansa@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] oeqa/sdk: add out-of-tree kernel module
- building test
-Message-ID: <ZpT6c4hgYV6xIJsf@nuoska>
-References: <20240712184358.3103083-1-ross.burton@arm.com>
+Date: Mon, 15 Jul 2024 11:37:03 +0100
+In-Reply-To: <6a947a6b-4052-413a-bd90-fb460be51ce5@windriver.com>
+References: <20240616153135.3058410-1-kai.kang@windriver.com>
+	 <20240616153135.3058410-2-kai.kang@windriver.com>
+	 <17DA6AA6C1087792.28936@lists.openembedded.org>
+	 <CA+chaQexmQso_xy45yCMU_EsVDq9RsX+qmmuuVb3r8ur3XQe4A@mail.gmail.com>
+	 <7001a7c7-f500-49bd-ae2b-711d42a97f06@windriver.com>
+	 <CA+chaQczh+jy5tEz67r+dcLUJzV=tpnbMad3dHGGR1+KOmLFbw@mail.gmail.com>
+	 <6a947a6b-4052-413a-bd90-fb460be51ce5@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240712184358.3103083-1-ross.burton@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 10:31:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201910
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 10:37:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201911
 
-Hi,
+On Mon, 2024-07-15 at 18:20 +0800, Kai wrote:
+> On 7/15/24 17:59, Martin Jansa wrote:
+> > Hi Kai,
+> >=20
+> > are you also seeing these buildpaths warnings from libgfortran?
+> > These
+> > will be fatal since ERROR_QA update from yesterday:
+> > https://git.openembedded.org/openembedded-core/commit/?id=3Db79b191cc43=
+a45dde2adb61ea349b426cb2461d1
+> > and it probably wasn't detected in AB builds which might not enable
+> > fortran.
+> Yes, it seems exists for long time. My colleague worked on it for=20
+> several days. But it seems hard to resolve that
+>=20
+> host path are somehow set to the intrinsic path.
+>=20
+> I'll discuss with him tomorrow and check if we can fix it.
 
-On Fri, Jul 12, 2024 at 07:43:58PM +0100, Ross Burton via lists.openembedded.org wrote:
-> Validate that out-of-tree kernel module building using kernel-devsrc
-> works as expected.
-> 
-> This test uses cryptodev-linux as a idiomatic out of tree module. As the
-> latest release doesn't actually build with kernel 6.7+, use the same
-> commit that our recipe uses.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/lib/oeqa/sdk/cases/kmod.py | 41 +++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
->  create mode 100644 meta/lib/oeqa/sdk/cases/kmod.py
-> 
-> diff --git a/meta/lib/oeqa/sdk/cases/kmod.py b/meta/lib/oeqa/sdk/cases/kmod.py
-> new file mode 100644
-> index 00000000000..9e8fdbcd403
-> --- /dev/null
-> +++ b/meta/lib/oeqa/sdk/cases/kmod.py
-> @@ -0,0 +1,41 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +import os
-> +import subprocess
-> +import tempfile
-> +import unittest
-> +
-> +from oeqa.sdk.case import OESDKTestCase
-> +from oeqa.utils.subprocesstweak import errors_have_output
-> +errors_have_output()
-> +
-> +class KernelModuleTest(OESDKTestCase):
-> +    """
-> +    Test that out-of-tree kernel modules build.
-> +    """
-> +
-> +    def setUp(self):
-> +        if not self.tc.hasTargetPackage("kernel-devsrc"):
-> +            raise unittest.SkipTest("KernelModuleTest needs kernel-devsrc")
-> +
-> +        # These targets need to be built before kernel modules can be built.
-> +        self._run("make -j -C $OECORE_TARGET_SYSROOT/usr/src/kernel prepare scripts")
-> +
-> +
-> +    def test_cryptodev(self):
-> +        with tempfile.TemporaryDirectory(prefix="cryptodev", dir=self.tc.sdk_dir) as testdir:
-> +            git_url = "https://github.com/cryptodev-linux/cryptodev-linux"
-> +            # This is a knnown-good commit post-1.13 that builds with kernel 6.7+
-> +            git_sha = "bb8bc7cf60d2c0b097c8b3b0e807f805b577a53f"
-> +
-> +            sourcedir = os.path.join(testdir, "cryptodev-linux")
-> +            subprocess.check_output(["git", "clone", git_url, sourcedir], stderr=subprocess.STDOUT)
+We're seeing these in automated testing now too.
 
-Is there any way to cache this, e.g. yocto build download cache?
-
-Adding Internet downloads to test steps is a bad design IMO which eventually
-causes a lot of failures.
+I'm wondering if adding -ffile-prefix-map might avoid them. Sadly there
+are tools which don't support that option so it isn't an easy thing to
+add/test.
 
 Cheers,
+
+Richard
 
