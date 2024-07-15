@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 292B8C54750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9FCC54752
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:20 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.1294.1721071145627914584
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.1362.1721071146337108433
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=J8xHEeyY;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=t4IAh3bw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010190b7d59533-9d1eb319-6844-47da-9a16-4544138fdb76-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dWEHzNP1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GMqkrycN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190b7d5950f-67392ae0-9b01-4129-9f1d-4d422ff7f371-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=O/nx80cb9bSkcW4TyT/MKHQxD6751vQntR9lL4Eomd0=;
-	b=J8xHEeyYF76J1GdgBqQ5RQHmj/mkgJQtBmqhyi6uCcrHQY+Jqf3dSzDPi5kRM1BL
-	Ljm4ghh7Vv4nt8Jrask0JuNbVFclsolMxVYje3QLBxyfg7tviLs0VKJnQmOaqUED6NX
-	4SIYXuM2EbMAgYS+p7QvuerGNSiR4l3Cp9nmRKSk=
+	bh=OhyvYyBJriKJMf0VkWc+r2236vxN3NLPParHm4/T+Pk=;
+	b=dWEHzNP1xuYujOZ2iUIiKDi9J8LPeaRuN0p2oJwWHneBKBRhbPwAdbBI3A69p3pN
+	lqNKznPIcAJvto3EABRTXwUw73FVW3V/yyCWE5s0wHWlx+kTjtpwy0ZwuvpLW7OSHjm
+	akSPidN27bKSIUeFAxG9NgwcdNRi78liDXS5IGeo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=O/nx80cb9bSkcW4TyT/MKHQxD6751vQntR9lL4Eomd0=;
-	b=t4IAh3bwBYNogvpBkhK55us8vo2OpLUPom31cuItYbgDNUvTmO+5kjAg9PbhCp0y
-	ly152uqn5ps1VV6TfH3kOHF5BqqhDl6Go5CfHn4FfDjwj0lRg2SA7uKMAtUNC4P6uGy
-	TfAYpMdD7jX03kKK/+wqqK/V7ND/5rBlvRgrJvM8=
-Content-Type: multipart/mixed; boundary="===============6612428222459752173=="
+	bh=OhyvYyBJriKJMf0VkWc+r2236vxN3NLPParHm4/T+Pk=;
+	b=GMqkrycNocSMW5FpVpIGLAT2y4Lkh9S4WUGxSVwS95nEMo6pu1Dk6o/FJSDqg95z
+	cG0hNFgnOYKFIhj8+0XKomtx2XSz56x2qkz4ngG1AeTYTXIpLGyF8b+1pi0AqvhapTF
+	/iMcxDkV5rUaA6OiqZc6QI4UEIpyca9wDdsTbHTY=
+Content-Type: multipart/mixed; boundary="===============6237197857166640821=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Alex Stewart <alex.stewart@ni.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-importlib-metadata: upgrading to 8.0.0 SUCCEEDED
-Message-ID: <01010190b7d59533-9d1eb319-6844-47da-9a16-4544138fdb76-000000@us-west-2.amazonses.com>
+Subject: [AUH] opkg-utils: upgrading to 0.7.0 SUCCEEDED
+Message-ID: <01010190b7d5950f-67392ae0-9b01-4129-9f1d-4d422ff7f371-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jul 2024 19:19:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.33
+X-SES-Outgoing: 2024.07.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201981
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201978
 
---===============6612428222459752173==
+--===============6237197857166640821==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *8.0.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *opkg-utils* to *0.7.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-7.1.0-8.0.0.patch
+    - apply the patch: git am 0001-opkg-utils-upgrade-0.6.3-0.7.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,79 +72,97 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From eca099f559f6791199d4e825582a35b75910ce31 Mon Sep 17 00:00:00 2001
+From 3ed5435bc101d1183decac98fe78b1ba5287c41d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 10:29:55 +0000
-Subject: [PATCH] python3-importlib-metadata: upgrade 7.1.0 -> 8.0.0
+Date: Mon, 15 Jul 2024 10:12:33 +0000
+Subject: [PATCH] opkg-utils: upgrade 0.6.3 -> 0.7.0
 
 ---
- ...ib-metadata_7.1.0.bb => python3-importlib-metadata_8.0.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-importlib-metadata_7.1.0.bb => python3-importlib-metadata_8.0.0.bb} (88%)
+ ...e-numeric-owner-parameter-overzealou.patch | 34 -------------------
+ ...lternatives-correctly-match-priority.patch |  2 +-
+ ...pkg-utils_0.6.3.bb => opkg-utils_0.7.0.bb} |  3 +-
+ 3 files changed, 2 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
+ rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.6.3.bb => opkg-utils_0.7.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_7.1.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_8.0.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-importlib-metadata_7.1.0.bb
-rename to meta/recipes-devtools/python/python3-importlib-metadata_8.0.0.bb
-index fdb37cecef..7c920cffa2 100644
---- a/meta/recipes-devtools/python/python3-importlib-metadata_7.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_8.0.0.bb
-@@ -8,7 +8,7 @@ inherit pypi python_setuptools_build_meta
- PYPI_PACKAGE = "importlib_metadata"
- UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
+deleted file mode 100644
+index 0cdeb9574a..0000000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 19c2c6a14c8760c3595f5dc6cc89cde85fbdbac1 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
+-Date: Tue, 9 Jan 2024 09:20:55 +0100
+-Subject: [PATCH] opkg-build: remove `--numeric-owner` parameter overzealously
+- added
+-
+-In some corner cases this parameter has been added overzealously.
+-All discussion on this topic can be read in here:
+-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15334
+-
+-Upstream-Status: Backport [https://git.yoctoproject.org/opkg-utils/commit/?id=68a969f0e867ace0d94faf8ebe7c7bb67f59d386]
+-
+-Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- opkg-build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/opkg-build b/opkg-build
+-index 6edd938..0582958 100755
+---- a/opkg-build
+-+++ b/opkg-build
+-@@ -337,7 +337,7 @@ export LANG=C
+- export LC_ALL=C
+- ( cd $pkg_dir/$CONTROL && find . -type f | sort > $tmp_dir/control_list )
+- ( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  | sort > $tmp_dir/file_list )
+--( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --numeric-owner --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
+-+( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
+- ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
+- rm $tmp_dir/file_list
+- rm $tmp_dir/control_list
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
+index 556d4ce5f5..687349bfbd 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-update-alternatives-correctly-match-priority.patch
+@@ -1,4 +1,4 @@
+-From 26206005dacd61380663bb4fd9b18178bb33665b Mon Sep 17 00:00:00 2001
++From 7b4d0d3268ada85408ddf9abc021a73f69f5fb01 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Sat, 24 Oct 2020 21:59:27 +0200
+ Subject: [PATCH] update-alternatives: correctly match priority
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
+rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
+index e138bc24af..44958b442e 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
+@@ -9,9 +9,8 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
  
--SRC_URI[sha256sum] = "b78938b926ee8d5f020fc4772d487045805a55ddbad2ecf21c6d60938dc7fcd2"
-+SRC_URI[sha256sum] = "188bd24e4c346d3f0a933f275c2fec67050326a856b9a359881d7c2a697e8812"
+ SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master \
+            file://0001-update-alternatives-correctly-match-priority.patch \
+-           file://0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch \
+            "
+-SRCREV = "589880d01969eb9af1e66120e731d43193504718"
++SRCREV = "68a969f0e867ace0d94faf8ebe7c7bb67f59d386"
  
- S = "${WORKDIR}/importlib_metadata-${PV}"
+ S = "${WORKDIR}/git"
  
 -- 
 2.44.0
 
 
---===============6612428222459752173==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-importlib-metadata-upgrade-7.1.0-8.0.0.patch"
-
-RnJvbSBlY2EwOTlmNTU5ZjY3OTExOTlkNGU4MjU1ODJhMzViNzU5MTBjZTMxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6Mjk6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWltcG9ydGxpYi1tZXRhZGF0YTogdXBncmFkZSA3LjEuMCAtPiA4LjAuMAoKLS0tCiAu
-Li5pYi1tZXRhZGF0YV83LjEuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAu
-MC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWltcG9ydGxp
-Yi1tZXRhZGF0YV83LjEuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAuMC5i
-Yn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtaW1wb3J0bGliLW1ldGFkYXRhXzcuMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW1w
-b3J0bGliLW1ldGFkYXRhXzcuMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzguMC4wLmJiCmluZGV4IGZkYjM3Y2Vj
-ZWYuLjdjOTIwY2ZmYTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1pbXBvcnRsaWItbWV0YWRhdGFfNy4xLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAuMC5iYgpAQCAtOCw3
-ICs4LDcgQEAgaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIFBZUElf
-UEFDS0FHRSA9ICJpbXBvcnRsaWJfbWV0YWRhdGEiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIv
-aW1wb3J0bGliLW1ldGFkYXRhLyg/UDxwdmVyPihcZCtbXC5cLV9dKikrKS8iCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICJiNzg5MzhiOTI2ZWU4ZDVmMDIwZmM0NzcyZDQ4NzA0NTgwNWE1NWRkYmFk
-MmVjZjIxYzZkNjA5MzhkYzdmY2QyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE4OGJkMjRlNGMz
-NDZkM2YwYTkzM2YyNzVjMmZlYzY3MDUwMzI2YTg1NmI5YTM1OTg4MWQ3YzJhNjk3ZTg4MTIiCiAK
-IFMgPSAiJHtXT1JLRElSfS9pbXBvcnRsaWJfbWV0YWRhdGEtJHtQVn0iCiAKLS0gCjIuNDQuMAoK
-
---===============6612428222459752173==
+--===============6237197857166640821==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info -> /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info, added "/usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py /usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc"
-Changes to packages/core2-64-poky-linux/python3-importlib-metadata (sysroot):
-  /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info moved to /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info
-  /usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py was added
-  /usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1910,35 +1928,27 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============6612428222459752173==
+--===============6237197857166640821==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-importlib-metadata: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-7.1.0.tar.gz;downloadfilename=importlib_metadata-7.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-8.0.0.tar.gz;downloadfilename=importlib_metadata-8.0.0.tar.gz"
-packages/core2-64-poky-linux/python3-importlib-metadata: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "7.1.0" to "8.0.0"
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 145198 to 145448 (+0%)
-packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info -> /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info, added "/usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc /usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py"
-Changes to packages/core2-64-poky-linux/python3-importlib-metadata (sysroot):
-  /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info moved to /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info
-  /usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py was added
-  /usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc was added
+packages/core2-64-poky-linux/opkg-utils: PV changed from "0.6.3" to "0.7.0"
+packages/core2-64-poky-linux/opkg-utils: SRC_URI changed from "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master file://0001-update-alternatives-correctly-match-priority.patch file://0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch" to "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master file://0001-update-alternatives-correctly-match-priority.patch"
+packages/core2-64-poky-linux/opkg-utils: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-dbg: PV changed from "0.6.3" to "0.7.0"
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-dbg: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-doc: PV changed from "0.6.3" to "0.7.0"
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-doc: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-locale: PV changed from "0.6.3" to "0.7.0"
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-locale: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-src: PV changed from "0.6.3" to "0.7.0"
+packages/core2-64-poky-linux/opkg-utils/opkg-utils-src: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
+packages/core2-64-poky-linux/opkg-utils/opkg-utils: PV changed from "0.6.3" to "0.7.0"
+packages/core2-64-poky-linux/opkg-utils/opkg-utils: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
+packages/core2-64-poky-linux/opkg-utils/update-alternatives-opkg: PV changed from "0.6.3" to "0.7.0"
+packages/core2-64-poky-linux/opkg-utils/update-alternatives-opkg: PKGV changed from 0.6.3 [default] to 0.7.0 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3704,5 +3714,92 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============6612428222459752173==--
+--===============6237197857166640821==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-opkg-utils-upgrade-0.6.3-0.7.0.patch"
+
+RnJvbSAzZWQ1NDM1YmMxMDFkMTE4M2RlY2FjOThmZTc4YjFiYTUyODdjNDFkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6MTI6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+cGtnLXV0aWxzOiB1cGdyYWRlIDAuNi4zIC0+IDAuNy4wCgotLS0KIC4uLmUtbnVtZXJpYy1vd25l
+ci1wYXJhbWV0ZXItb3ZlcnplYWxvdS5wYXRjaCB8IDM0IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4u
+Lmx0ZXJuYXRpdmVzLWNvcnJlY3RseS1tYXRjaC1wcmlvcml0eS5wYXRjaCB8ICAyICstCiAuLi5w
+a2ctdXRpbHNfMC42LjMuYmIgPT4gb3BrZy11dGlsc18wLjcuMC5iYn0gfCAgMyArLQogMyBmaWxl
+cyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDM3IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS1v
+cGtnLWJ1aWxkLXJlbW92ZS1udW1lcmljLW93bmVyLXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNo
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMve29wa2ctdXRpbHNfMC42
+LjMuYmIgPT4gb3BrZy11dGlsc18wLjcuMC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0aWxzLzAwMDEtb3BrZy1idWlsZC1yZW1v
+dmUtbnVtZXJpYy1vd25lci1wYXJhbWV0ZXItb3ZlcnplYWxvdS5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS1vcGtnLWJ1aWxkLXJlbW92ZS1u
+dW1lcmljLW93bmVyLXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2Rl
+IDEwMDY0NAppbmRleCAwY2RlYjk1NzRhLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS1vcGtnLWJ1aWxkLXJlbW92ZS1udW1l
+cmljLW93bmVyLXBhcmFtZXRlci1vdmVyemVhbG91LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEs
+MzQgKzAsMCBAQAotRnJvbSAxOWMyYzZhMTRjODc2MGMzNTk1ZjVkYzZjYzg5Y2RlODVmYmRiYWMx
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogPT9VVEYtOD9xP1Bpb3RyPTIwPUM1PTgx
+b2JhY3o/PSA8cC5sb2JhY3pAd2Vsb3RlYy5jb20+Ci1EYXRlOiBUdWUsIDkgSmFuIDIwMjQgMDk6
+MjA6NTUgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gb3BrZy1idWlsZDogcmVtb3ZlIGAtLW51bWVy
+aWMtb3duZXJgIHBhcmFtZXRlciBvdmVyemVhbG91c2x5Ci0gYWRkZWQKLQotSW4gc29tZSBjb3Ju
+ZXIgY2FzZXMgdGhpcyBwYXJhbWV0ZXIgaGFzIGJlZW4gYWRkZWQgb3ZlcnplYWxvdXNseS4KLUFs
+bCBkaXNjdXNzaW9uIG9uIHRoaXMgdG9waWMgY2FuIGJlIHJlYWQgaW4gaGVyZToKLWh0dHBzOi8v
+YnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTUzMzQKLQotVXBzdHJl
+YW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9vcGtnLXV0
+aWxzL2NvbW1pdC8/aWQ9NjhhOTY5ZjBlODY3YWNlMGQ5NGZhZjhlYmU3YzdiYjY3ZjU5ZDM4Nl0K
+LQotU2lnbmVkLW9mZi1ieTogQWxleCBTdGV3YXJ0IDxhbGV4LnN0ZXdhcnRAbmkuY29tPgotU2ln
+bmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQotIG9wa2ctYnVp
+bGQgfCAyICstCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+Ci0KLWRpZmYgLS1naXQgYS9vcGtnLWJ1aWxkIGIvb3BrZy1idWlsZAotaW5kZXggNmVkZDkzOC4u
+MDU4Mjk1OCAxMDA3NTUKLS0tLSBhL29wa2ctYnVpbGQKLSsrKyBiL29wa2ctYnVpbGQKLUBAIC0z
+MzcsNyArMzM3LDcgQEAgZXhwb3J0IExBTkc9QwotIGV4cG9ydCBMQ19BTEw9QwotICggY2QgJHBr
+Z19kaXIvJENPTlRST0wgJiYgZmluZCAuIC10eXBlIGYgfCBzb3J0ID4gJHRtcF9kaXIvY29udHJv
+bF9saXN0ICkKLSAoIGNkICRwa2dfZGlyICYmIGZpbmQgLiAtcGF0aCAuLyRDT05UUk9MIC1wcnVu
+ZSAtbyAtcGF0aCAuIC1vIC1wcmludCAgfCBzb3J0ID4gJHRtcF9kaXIvZmlsZV9saXN0ICkKLS0o
+IGNkICRwa2dfZGlyICYmIHRhciAkYXR0cmlidXRlc2FyZ3MgJG9nYXJncyAkdHNvcnRhcmdzIC0t
+bnVtZXJpYy1vd25lciAtLW5vLXJlY3Vyc2lvbiAkbXRpbWVfYXJncyAtYyAkdGFyZm9ybWF0IC1U
+ICR0bXBfZGlyL2ZpbGVfbGlzdCB8ICRjb21wcmVzc29yICRjb21wcmVzc29yYXJncyA+ICR0bXBf
+ZGlyL2RhdGEudGFyLiRjZXh0ICkKLSsoIGNkICRwa2dfZGlyICYmIHRhciAkYXR0cmlidXRlc2Fy
+Z3MgJG9nYXJncyAkdHNvcnRhcmdzIC0tbm8tcmVjdXJzaW9uICRtdGltZV9hcmdzIC1jICR0YXJm
+b3JtYXQgLVQgJHRtcF9kaXIvZmlsZV9saXN0IHwgJGNvbXByZXNzb3IgJGNvbXByZXNzb3Jhcmdz
+ID4gJHRtcF9kaXIvZGF0YS50YXIuJGNleHQgKQotICggY2QgJHBrZ19kaXIvJENPTlRST0wgJiYg
+dGFyICRvZ2FyZ3MgJHRzb3J0YXJncyAtLW5vLXJlY3Vyc2lvbiAkbXRpbWVfYXJncyAtYyAkdGFy
+Zm9ybWF0IC1UICR0bXBfZGlyL2NvbnRyb2xfbGlzdCB8IGd6aXAgJHppcGFyZ3MgPiAkdG1wX2Rp
+ci9jb250cm9sLnRhci5neiApCi0gcm0gJHRtcF9kaXIvZmlsZV9saXN0Ci0gcm0gJHRtcF9kaXIv
+Y29udHJvbF9saXN0Ci0tLSAKLTIuNDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0aWxzLzAwMDEtdXBkYXRlLWFsdGVybmF0aXZlcy1jb3Jy
+ZWN0bHktbWF0Y2gtcHJpb3JpdHkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy11
+dGlscy9vcGtnLXV0aWxzLzAwMDEtdXBkYXRlLWFsdGVybmF0aXZlcy1jb3JyZWN0bHktbWF0Y2gt
+cHJpb3JpdHkucGF0Y2gKaW5kZXggNTU2ZDRjZTVmNS4uNjg3MzQ5YmZiZCAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlscy8wMDAxLXVwZGF0ZS1h
+bHRlcm5hdGl2ZXMtY29ycmVjdGx5LW1hdGNoLXByaW9yaXR5LnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvMDAwMS11cGRhdGUtYWx0ZXJuYXRp
+dmVzLWNvcnJlY3RseS1tYXRjaC1wcmlvcml0eS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
+MjYyMDYwMDVkYWNkNjEzODA2NjNiYjRmZDliMTgxNzhiYjMzNjY1YiBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKK0Zyb20gN2I0ZDBkMzI2OGFkYTg1NDA4ZGRmOWFiYzAyMWE3M2Y2OWY1ZmIwMSBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
+bmF2aW5AZ21haWwuY29tPgogRGF0ZTogU2F0LCAyNCBPY3QgMjAyMCAyMTo1OToyNyArMDIwMAog
+U3ViamVjdDogW1BBVENIXSB1cGRhdGUtYWx0ZXJuYXRpdmVzOiBjb3JyZWN0bHkgbWF0Y2ggcHJp
+b3JpdHkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ct
+dXRpbHNfMC42LjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0
+aWxzXzAuNy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHNfMC42LjMuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHNfMC43LjAuYmIKaW5kZXggZTEz
+OGJjMjRhZi4uNDQ5NThiNDQyZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29w
+a2ctdXRpbHMvb3BrZy11dGlsc18wLjYuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+b3BrZy11dGlscy9vcGtnLXV0aWxzXzAuNy4wLmJiCkBAIC05LDkgKzksOCBAQCBQUk9WSURFUyAr
+PSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLCAndXBkYXRlLWFsdGVybmF0
+aXZlcycsICd2aXJ0dQogCiBTUkNfVVJJID0gImdpdDovL2dpdC55b2N0b3Byb2plY3Qub3JnL29w
+a2ctdXRpbHM7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciBcCiAgICAgICAgICAgIGZpbGU6
+Ly8wMDAxLXVwZGF0ZS1hbHRlcm5hdGl2ZXMtY29ycmVjdGx5LW1hdGNoLXByaW9yaXR5LnBhdGNo
+IFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtb3BrZy1idWlsZC1yZW1vdmUtbnVtZXJpYy1vd25l
+ci1wYXJhbWV0ZXItb3ZlcnplYWxvdS5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICI1
+ODk4ODBkMDE5NjllYjlhZjFlNjYxMjBlNzMxZDQzMTkzNTA0NzE4IgorU1JDUkVWID0gIjY4YTk2
+OWYwZTg2N2FjZTBkOTRmYWY4ZWJlN2M3YmI2N2Y1OWQzODYiCiAKIFMgPSAiJHtXT1JLRElSfS9n
+aXQiCiAKLS0gCjIuNDQuMAoK
+
+--===============6237197857166640821==--
 
