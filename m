@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 284FFC54E65
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C9F5C54E91
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:21 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.1356.1721071145260986075
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.1369.1721071146922345961
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 12:19:06 -0700
+ Mon, 15 Jul 2024 12:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DQog2FPu;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=vh3wOoN2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010190b7d5922a-8809c563-45dd-4e86-9208-bb80be7a6806-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ER9oTDW9;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hUTql7Fw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190b7d594bc-717d7e86-f31b-4dc7-9e2e-f8a1c7fb15b7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7EA6ZN87jlVKzVkiVazo6QtDKwR/xzQN4XZZwQig2eU=;
-	b=DQog2FPu0xCb4etUxrq7NL0P/PL4EpQJpd8MHDy6cT+7kJxU9NeM24+NMlY7WgKG
-	xSYTxwjrDWcdzhxLPpgemTHPsqLC27oR06d98aL+dYTVJAZzWurMKXxmGrnLvB+mMO+
-	ltX/0f/sYMlA4VTgzP1Ev/toPwhqlSwleKaD+Ix4=
+	bh=Y6kp2ilNVMqFi+kwdNOnzM1tGPZPQ6uzN9Xct9CBPWU=;
+	b=ER9oTDW9kXmqFe9WI+f8NqNlXAAlGwK/S23/nuw8uxDZtYJ/P3BbkDxCxiFNMIdL
+	178IwB5QyxH7U3HlH0WjJNcXUT110vYX/Lg4mxQsw6Wy47Pm3elJ9BOxu3SLXGjPZlj
+	EsmATaGYOLl6naavHSKUubXCg9tKWOoOkIsfJZ+U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7EA6ZN87jlVKzVkiVazo6QtDKwR/xzQN4XZZwQig2eU=;
-	b=vh3wOoN2xXwbvd+q0O5Xz94lfkn6q+Lgpam+ETkg8QHry2ppM+T18zvAjWRaeYlo
-	h56Cs2Bb0QozTZOkOyZG2mFO8x0gW2mpkyNyg5bxYzp1km53TjXiRFaQLZ9CnrVj1Hi
-	B4F1EV+c8FXzc6xtTqjBJ3dJ3e+lNUjnAqudgkLY=
-Content-Type: multipart/mixed; boundary="===============3946777849454287273=="
+	bh=Y6kp2ilNVMqFi+kwdNOnzM1tGPZPQ6uzN9Xct9CBPWU=;
+	b=hUTql7FwZFiTdssNjRHVupqC0Vc4cuKima6KJtJxmeLlsHi1QH6gRndlxq5RIC8w
+	w/BNruvIvGfdd0TPj4l2qoWmXzQ8JJyXawRJ1KuOvSQNJY4Ekm87SNjGm0tY+/Z8/RW
+	U/0Mr+0V0g+1PZwJ/SXqixWClsW/VToBj/65Rcbg=
+Content-Type: multipart/mixed; boundary="===============2735138682768582104=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dnf: upgrading to 4.21.0 SUCCEEDED
-Message-ID: <01010190b7d5922a-8809c563-45dd-4e86-9208-bb80be7a6806-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jul 2024 19:19:05 +0000
+Subject: [AUH] mtools: upgrading to 4.0.44 SUCCEEDED
+Message-ID: <01010190b7d594bc-717d7e86-f31b-4dc7-9e2e-f8a1c7fb15b7-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jul 2024 19:19:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.30
+X-SES-Outgoing: 2024.07.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201966
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201977
 
---===============3946777849454287273==
+--===============2735138682768582104==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dnf* to *4.21.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *mtools* to *4.0.44* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dnf-upgrade-4.20.0-4.21.0.patch
+    - apply the patch: git am 0001-mtools-upgrade-4.0.43-4.0.44.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,478 +72,272 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From aaaa31dd8e38a8805e31c349e7744988274139c6 Mon Sep 17 00:00:00 2001
+From 445169befdc546a8b2d8349250bd5610c75e5526 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 09:04:59 +0000
-Subject: [PATCH] dnf: upgrade 4.20.0 -> 4.21.0
+Date: Mon, 15 Jul 2024 10:08:41 +0000
+Subject: [PATCH] mtools: upgrade 4.0.43 -> 4.0.44
 
 ---
- .../0001-Corretly-install-tmpfiles.d-configuration.patch    | 2 +-
- ...1-Do-not-hardcode-etc-and-systemd-unit-directories.patch | 2 +-
- .../dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch       | 2 +-
- .../dnf/dnf/0001-lock.py-fix-Exception-handling.patch       | 5 +----
- .../dnf/0001-set-python-path-for-completion_helper.patch    | 2 +-
- .../dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch | 6 +++---
- ...29-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch | 2 +-
- .../dnf/dnf/0030-Run-python-scripts-using-env.patch         | 6 +++---
- meta/recipes-devtools/dnf/{dnf_4.20.0.bb => dnf_4.21.0.bb}  | 2 +-
- 9 files changed, 13 insertions(+), 16 deletions(-)
- rename meta/recipes-devtools/dnf/{dnf_4.20.0.bb => dnf_4.21.0.bb} (98%)
+ .../mtools/mtools/clang_UNUSED.patch          | 19 +++++++++++++------
+ .../mtools/disable-hardcoded-configs.patch    |  7 +++----
+ .../mtools/mtools/mtools-makeinfo.patch       | 11 +++++------
+ .../{mtools_4.0.43.bb => mtools_4.0.44.bb}    |  2 +-
+ 4 files changed, 22 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.43.bb => mtools_4.0.44.bb} (93%)
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
-index fd942228b9..cb376dbcef 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
+diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+index 6bb9d6a3da..de1371f4a0 100644
+--- a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
++++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+@@ -1,12 +1,19 @@
+-Undefine UNUSED macros with clang
++From ee9c0cd34204f38d0a6c78fe7ee615c8a2da66fc Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 19 Sep 2018 11:55:41 -0700
++Subject: [PATCH] Undefine UNUSED macros with clang
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Index: mtools-4.0.18/sysincludes.h
+-===================================================================
+---- mtools-4.0.18.orig/sysincludes.h
+-+++ mtools-4.0.18/sysincludes.h
+-@@ -101,7 +101,7 @@ typedef void *caddr_t;
++---
++ sysincludes.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sysincludes.h b/sysincludes.h
++index e16ab45..8d285d4 100644
++--- a/sysincludes.h
+++++ b/sysincludes.h
++@@ -98,7 +98,7 @@ typedef void *caddr_t;
+  #if defined __GNUC__ && defined __STDC__
+  /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
+  # define PACKED __attribute__ ((packed))
+diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+index 57be935487..f4fb4271da 100644
+--- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
++++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
 @@ -1,4 +1,4 @@
--From f70eb308c837f2c944e23bb680a501a605004d65 Mon Sep 17 00:00:00 2001
-+From ce0c18a4f91a3a3c1053b3e69f904d5a3a3694f6 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 26 Jan 2017 16:36:20 +0200
- Subject: [PATCH] Corretly install tmpfiles.d configuration
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-index 37359a5765..0e3c1c7fab 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-@@ -1,4 +1,4 @@
--From 3ca6d14fbc6419ff6239b4ba16f77da20fb31d03 Mon Sep 17 00:00:00 2001
-+From 3d77be3cdc88f4d3eb9586aae3713a6215d3c829 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 26 Jan 2017 16:25:47 +0200
- Subject: [PATCH] Do not hardcode /etc and systemd unit directories
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch b/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
-index 18f9a30949..f25d3fd0ad 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
-@@ -1,4 +1,4 @@
--From 049e2832284ab883e185d9020c881518a68e6c38 Mon Sep 17 00:00:00 2001
-+From acd68b43c685b587b8a3385e8a66fbdb70cfc134 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 28 Apr 2020 15:55:00 +0200
- Subject: [PATCH] dnf: write the log lock to root
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch b/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
-index 6bffe9af0a..48db8f537d 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
-@@ -1,4 +1,4 @@
--From 3881757eabfde2ff54400ab127b106ab085d83f0 Mon Sep 17 00:00:00 2001
-+From bae92744b75fd57849bfb6eaa9085bff595206a1 Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Wed, 13 Mar 2024 11:22:05 +0800
- Subject: [PATCH] lock.py: fix Exception handling
-@@ -57,6 +57,3 @@ index 6817aac9..5718062a 100644
-  
-      def __exit__(self, *exc_args):
-          if self.count == 1:
---- 
--2.25.1
+-From 2ef9b371a5cc44e730143e694d71665831fac216 Mon Sep 17 00:00:00 2001
++From f0846fccf803de319f2ad8a75925ad83c510b351 Mon Sep 17 00:00:00 2001
+ From: Ed Bartosh <ed.bartosh@linux.intel.com>
+ Date: Tue, 13 Jun 2017 14:55:52 +0300
+ Subject: [PATCH] Disabled reading host configs.
+@@ -6,16 +6,15 @@ Subject: [PATCH] Disabled reading host configs.
+ Upstream-Status: Inappropriate [native]
+ 
+ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 -
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch b/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
-index fcd970a7ae..94080d0a1b 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
-@@ -1,4 +1,4 @@
--From fa32c7dcabaa3c00d3620a3266e49629365c0cbe Mon Sep 17 00:00:00 2001
-+From 4d7398a1643771ff8c0f9895468fed99bb2c191c Mon Sep 17 00:00:00 2001
- From: Jeremy Puhlman <jpuhlman@mvista.com>
- Date: Wed, 11 Mar 2020 22:10:02 +0000
- Subject: [PATCH] set python path for completion_helper
-diff --git a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-index cfbda11f77..b29440821c 100644
---- a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-@@ -1,4 +1,4 @@
--From c6d03b51e2098fc681e6811790bd5dc6597091eb Mon Sep 17 00:00:00 2001
-+From d73ec53985538e60e04aae32f81af39a1ba2eec6 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 11 Jan 2017 15:10:13 +0200
- Subject: [PATCH] Do not prepend installroot to logdir.
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ ---
+  config.c | 8 --------
+  1 file changed, 8 deletions(-)
  
- diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
--index 1824bd00..4dcb1c1c 100644
-+index c14f8363..bfc07ab9 100644
- --- a/dnf/cli/cli.py
- +++ b/dnf/cli/cli.py
--@@ -944,7 +944,7 @@ class Cli(object):
-+@@ -953,7 +953,7 @@ class Cli(object):
-              logger.warning(_("Unable to detect release version (use '--releasever' to specify "
-                               "release version)"))
+ diff --git a/config.c b/config.c
+-index 2f6a297..3181ed7 100644
++index 358282b..8ebafb4 100644
+ --- a/config.c
+ +++ b/config.c
+-@@ -844,14 +844,6 @@ void read_config(void)
++@@ -868,14 +868,6 @@ void read_config(void)
+  	memcpy(devices, const_devices,
+  	       nr_const_devices*sizeof(struct device));
   
-diff --git a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-index 64ea7874d3..114b6319e6 100644
---- a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -1,4 +1,4 @@
--From d5b154ea69afdcd862299a0b7f255f6ece3686c6 Mon Sep 17 00:00:00 2001
-+From f8bb32b273521e0edac0254b46bc21532c3b4135 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:29:07 +0200
- Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
-diff --git a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
-index eb46113f3a..96ab2c1e04 100644
---- a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
-@@ -1,4 +1,4 @@
--From d3556767b84f3687743fdad0a88af0739d736ea9 Mon Sep 17 00:00:00 2001
-+From 855666d49227d6f7f4817ac52eddf6d2c17e276d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:29:37 +0200
- Subject: [PATCH] Run python scripts using env
-@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  2 files changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+index 6ae91d6cb9..bf13561dd0 100644
+--- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
++++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+@@ -1,17 +1,16 @@
+-From 3cf56b36db78679273f61ba78fbbf7f3fab52f68 Mon Sep 17 00:00:00 2001
++From 71886e950fd3aba4d7775854cbd7c0c09ae27642 Mon Sep 17 00:00:00 2001
+ From: Marcin Juszkiewicz <hrw@openedhand.com>
+ Date: Fri, 8 Jun 2007 08:35:12 +0000
+ Subject: [PATCH] mtools: imported from OE
  
- diff --git a/bin/dnf-automatic.in b/bin/dnf-automatic.in
--index 17e35a05..28827e38 100755
-+index 1fb712b0..ce8d4b8f 100755
- --- a/bin/dnf-automatic.in
- +++ b/bin/dnf-automatic.in
- @@ -1,4 +1,4 @@
-@@ -23,7 +23,7 @@ index 17e35a05..28827e38 100755
-  #
-  # Copyright (C) 2014-2016 Red Hat, Inc.
- diff --git a/bin/dnf.in b/bin/dnf.in
--index 55ceb3f2..e38973c7 100755
-+index 10716dec..817d7da5 100755
- --- a/bin/dnf.in
- +++ b/bin/dnf.in
- @@ -1,4 +1,4 @@
-diff --git a/meta/recipes-devtools/dnf/dnf_4.20.0.bb b/meta/recipes-devtools/dnf/dnf_4.21.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/dnf/dnf_4.20.0.bb
-rename to meta/recipes-devtools/dnf/dnf_4.21.0.bb
-index 98edab0614..6800b5c716 100644
---- a/meta/recipes-devtools/dnf/dnf_4.20.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.21.0.bb
-@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
+ Upstream-Status: Inappropriate [licensing]
+-
+ ---
+  Makefile.in  | 11 ++++++-----
+  configure.in | 27 +++++++++++++++++++++++++++
+  2 files changed, 33 insertions(+), 5 deletions(-)
  
- SRC_URI:append:class-native = " file://0001-dnf-write-the-log-lock-to-root.patch"
+ diff --git a/Makefile.in b/Makefile.in
+-index 616d59f..85b5b1d 100644
++index 5db50d7..92ad461 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -26,10 +26,11 @@ USERCFLAGS =
+@@ -30,7 +29,7 @@ index 616d59f..85b5b1d 100644
+  
+  
+  # do not edit below this line
+-@@ -199,7 +200,7 @@ dvi: mtools.dvi
++@@ -185,7 +186,7 @@ dvi: mtools.dvi
+  
+  ps: mtools.ps
+  %.ps: %.dvi
+@@ -40,10 +39,10 @@ index 616d59f..85b5b1d 100644
+  pdf: mtools.pdf
+  %.pdf: %.texi sysconfdir.texi
+ diff --git a/configure.in b/configure.in
+-index 5ff75c1..c0f7440 100644
++index 1de916e..fd6cb08 100644
+ --- a/configure.in
+ +++ b/configure.in
+-@@ -35,6 +35,33 @@ AC_CANONICAL_SYSTEM
++@@ -32,6 +32,33 @@ AC_CANONICAL_TARGET
+  AC_C_CONST
+  AC_C_INLINE
+  
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.43.bb b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.43.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.44.bb
+index 859103979e..d8dd671be2 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.43.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "541e179665dc4e272b9602f2074243591a157da89cc47064da8c5829dbd2b339"
++SRC_URI[sha256sum] = "37dc4df022533c3d4b2ec1c78973c27c7e8b585374c2d46ab64c6a3db31eddb8"
  
--SRCREV = "e3cb438c0fd08c79676c0f3276aa7d75cd8557c6"
-+SRCREV = "d29dfa0634235d7ad957c4746a749eb1e4a85a88"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
 -- 
 2.44.0
 
 
---===============3946777849454287273==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/dnf/dnf: FILELIST: directory renamed /usr/lib/python3.12/site-packages/dnf-4.20.0.dist-info -> /usr/lib/python3.12/site-packages/dnf-4.21.0.dist-info, removed "/etc/libreport/events.d/collect_dnf.conf"
-Changes to packages/core2-64-poky-linux/dnf (sysroot):
-  /usr/lib/python3.12/site-packages/dnf-4.20.0.dist-info moved to /usr/lib/python3.12/site-packages/dnf-4.21.0.dist-info
-
---===============3946777849454287273==
+--===============2735138682768582104==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-dnf-upgrade-4.20.0-4.21.0.patch"
+ filename="0001-mtools-upgrade-4.0.43-4.0.44.patch"
 
-RnJvbSBhYWFhMzFkZDhlMzhhODgwNWUzMWMzNDllNzc0NDk4ODI3NDEzOWM2IE1vbiBTZXAgMTcg
+RnJvbSA0NDUxNjliZWZkYzU0NmE4YjJkODM0OTI1MGJkNTYxMGM3NWU1NTI2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDk6MDQ6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-bmY6IHVwZ3JhZGUgNC4yMC4wIC0+IDQuMjEuMAoKLS0tCiAuLi4vMDAwMS1Db3JyZXRseS1pbnN0
-YWxsLXRtcGZpbGVzLmQtY29uZmlndXJhdGlvbi5wYXRjaCAgICB8IDIgKy0KIC4uLjEtRG8tbm90
-LWhhcmRjb2RlLWV0Yy1hbmQtc3lzdGVtZC11bml0LWRpcmVjdG9yaWVzLnBhdGNoIHwgMiArLQog
-Li4uL2RuZi9kbmYvMDAwMS1kbmYtd3JpdGUtdGhlLWxvZy1sb2NrLXRvLXJvb3QucGF0Y2ggICAg
-ICAgfCAyICstCiAuLi4vZG5mL2RuZi8wMDAxLWxvY2sucHktZml4LUV4Y2VwdGlvbi1oYW5kbGlu
-Zy5wYXRjaCAgICAgICB8IDUgKy0tLS0KIC4uLi9kbmYvMDAwMS1zZXQtcHl0aG9uLXBhdGgtZm9y
-LWNvbXBsZXRpb25faGVscGVyLnBhdGNoICAgIHwgMiArLQogLi4uL2RuZi9kbmYvMDAwNS1Eby1u
-b3QtcHJlcGVuZC1pbnN0YWxscm9vdC10by1sb2dkaXIucGF0Y2ggfCA2ICsrKy0tLQogLi4uMjkt
-RG8tbm90LXNldC1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1weXRob24ucGF0Y2ggfCAy
-ICstCiAuLi4vZG5mL2RuZi8wMDMwLVJ1bi1weXRob24tc2NyaXB0cy11c2luZy1lbnYucGF0Y2gg
-ICAgICAgICB8IDYgKysrLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL3tkbmZfNC4yMC4w
-LmJiID0+IGRuZl80LjIxLjAuYmJ9ICB8IDIgKy0KIDkgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0
-aW9ucygrKSwgMTYgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Ru
-Zi97ZG5mXzQuMjAuMC5iYiA9PiBkbmZfNC4yMS4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDEtQ29ycmV0bHktaW5zdGFsbC10bXBmaWxl
-cy5kLWNvbmZpZ3VyYXRpb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8w
-MDAxLUNvcnJldGx5LWluc3RhbGwtdG1wZmlsZXMuZC1jb25maWd1cmF0aW9uLnBhdGNoCmluZGV4
-IGZkOTQyMjI4YjkuLmNiMzc2ZGJjZWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9kbmYvZG5mLzAwMDEtQ29ycmV0bHktaW5zdGFsbC10bXBmaWxlcy5kLWNvbmZpZ3VyYXRpb24u
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1Db3JyZXRseS1p
-bnN0YWxsLXRtcGZpbGVzLmQtY29uZmlndXJhdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gZjcwZWIzMDhjODM3ZjJjOTQ0ZTIzYmI2ODBhNTAxYTYwNTAwNGQ2NSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gY2UwYzE4YTRmOTFhM2EzYzEwNTNiM2U2OWY5MDRkNWEzYTM2OTRm
-NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
-LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogVGh1LCAyNiBKYW4gMjAxNyAxNjozNjoyMCArMDIw
-MAogU3ViamVjdDogW1BBVENIXSBDb3JyZXRseSBpbnN0YWxsIHRtcGZpbGVzLmQgY29uZmlndXJh
-dGlvbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1Eby1u
-b3QtaGFyZGNvZGUtZXRjLWFuZC1zeXN0ZW1kLXVuaXQtZGlyZWN0b3JpZXMucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLURvLW5vdC1oYXJkY29kZS1ldGMtYW5kLXN5
-c3RlbWQtdW5pdC1kaXJlY3Rvcmllcy5wYXRjaAppbmRleCAzNzM1OWE1NzY1Li4wZTNjMWM3ZmFi
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLURvLW5vdC1o
-YXJkY29kZS1ldGMtYW5kLXN5c3RlbWQtdW5pdC1kaXJlY3Rvcmllcy5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLURvLW5vdC1oYXJkY29kZS1ldGMtYW5kLXN5
-c3RlbWQtdW5pdC1kaXJlY3Rvcmllcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2NhNmQx
-NGZiYzY0MTlmZjYyMzliNGJhMTZmNzdkYTIwZmIzMWQwMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gM2Q3N2JlM2NkYzg4ZjRkM2ViOTU4NmFhZTM3MTNhNjIxNWQzYzgyOSBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
-Z21haWwuY29tPgogRGF0ZTogVGh1LCAyNiBKYW4gMjAxNyAxNjoyNTo0NyArMDIwMAogU3ViamVj
-dDogW1BBVENIXSBEbyBub3QgaGFyZGNvZGUgL2V0YyBhbmQgc3lzdGVtZCB1bml0IGRpcmVjdG9y
-aWVzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLWRuZi13
-cml0ZS10aGUtbG9nLWxvY2stdG8tcm9vdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9k
-bmYvZG5mLzAwMDEtZG5mLXdyaXRlLXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoCmluZGV4IDE4
-ZjlhMzA5NDkuLmYyNWQzZmQwYWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9k
-bmYvZG5mLzAwMDEtZG5mLXdyaXRlLXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoCisrKyBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDEtZG5mLXdyaXRlLXRoZS1sb2ctbG9jay10
-by1yb290LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwNDllMjgzMjI4NGFiODgzZTE4NWQ5
-MDIwYzg4MTUxOGE2OGU2YzM4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhY2Q2OGI0
-M2M2ODViNTg3YjhhMzM4NWU4YTY2ZmJkYjcwY2ZjMTM0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRl
-OiBUdWUsIDI4IEFwciAyMDIwIDE1OjU1OjAwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGRuZjog
-d3JpdGUgdGhlIGxvZyBsb2NrIHRvIHJvb3QKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9kbmYvZG5mLzAwMDEtbG9jay5weS1maXgtRXhjZXB0aW9uLWhhbmRsaW5nLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1sb2NrLnB5LWZpeC1FeGNlcHRpb24t
-aGFuZGxpbmcucGF0Y2gKaW5kZXggNmJmZmU5YWYwYS4uNDhkYjhmNTM3ZCAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1sb2NrLnB5LWZpeC1FeGNlcHRpb24t
-aGFuZGxpbmcucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1s
-b2NrLnB5LWZpeC1FeGNlcHRpb24taGFuZGxpbmcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
-IDM4ODE3NTdlYWJmZGUyZmY1NDQwMGFiMTI3YjEwNmFiMDg1ZDgzZjAgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCitGcm9tIGJhZTkyNzQ0Yjc1ZmQ1Nzg0OWJmYjZlYWE5MDg1YmZmNTk1MjA2YTEg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaGFuZ3FpbmcgTGkgPGNoYW5ncWluZy5s
-aUB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAxMyBNYXIgMjAyNCAxMToyMjowNSArMDgwMAog
-U3ViamVjdDogW1BBVENIXSBsb2NrLnB5OiBmaXggRXhjZXB0aW9uIGhhbmRsaW5nCkBAIC01Nyw2
-ICs1NywzIEBAIGluZGV4IDY4MTdhYWM5Li41NzE4MDYyYSAxMDA2NDQKICAKICAgICAgZGVmIF9f
-ZXhpdF9fKHNlbGYsICpleGNfYXJncyk6CiAgICAgICAgICBpZiBzZWxmLmNvdW50ID09IDE6Ci0t
-LSAKLTIuMjUuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8w
-MDAxLXNldC1weXRob24tcGF0aC1mb3ItY29tcGxldGlvbl9oZWxwZXIucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDAxLXNldC1weXRob24tcGF0aC1mb3ItY29tcGxldGlv
-bl9oZWxwZXIucGF0Y2gKaW5kZXggZmNkOTcwYTdhZS4uOTQwODBkMGExYiAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAwMS1zZXQtcHl0aG9uLXBhdGgtZm9yLWNv
-bXBsZXRpb25faGVscGVyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5m
-LzAwMDEtc2V0LXB5dGhvbi1wYXRoLWZvci1jb21wbGV0aW9uX2hlbHBlci5wYXRjaApAQCAtMSw0
-ICsxLDQgQEAKLUZyb20gZmEzMmM3ZGNhYmFhM2MwMGQzNjIwYTMyNjZlNDk2MjkzNjVjMGNiZSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNGQ3Mzk4YTE2NDM3NzFmZjhjMGY5ODk1NDY4
-ZmVkOTliYjJjMTkxYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEplcmVteSBQdWhs
-bWFuIDxqcHVobG1hbkBtdmlzdGEuY29tPgogRGF0ZTogV2VkLCAxMSBNYXIgMjAyMCAyMjoxMDow
-MiArMDAwMAogU3ViamVjdDogW1BBVENIXSBzZXQgcHl0aG9uIHBhdGggZm9yIGNvbXBsZXRpb25f
-aGVscGVyCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDA1LURv
-LW5vdC1wcmVwZW5kLWluc3RhbGxyb290LXRvLWxvZ2Rpci5wYXRjaCBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9kbmYvZG5mLzAwMDUtRG8tbm90LXByZXBlbmQtaW5zdGFsbHJvb3QtdG8tbG9nZGly
-LnBhdGNoCmluZGV4IGNmYmRhMTFmNzcuLmIyOTQ0MDgyMWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDUtRG8tbm90LXByZXBlbmQtaW5zdGFsbHJvb3QtdG8t
-bG9nZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMDUtRG8t
-bm90LXByZXBlbmQtaW5zdGFsbHJvb3QtdG8tbG9nZGlyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSBjNmQwM2I1MWUyMDk4ZmM2ODFlNjgxMTc5MGJkNWRjNjU5NzA5MWViIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSBkNzNlYzUzOTg1NTM4ZTYwZTA0YWFlMzJmODFhZjM5YTFiYTJl
-ZWM2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDExIEphbiAyMDE3IDE1OjEwOjEzICsw
-MjAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvIG5vdCBwcmVwZW5kIGluc3RhbGxyb290IHRvIGxvZ2Rp
-ci4KQEAgLTE0LDEwICsxNCwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
-IDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2RuZi9jbGkvY2xpLnB5IGIvZG5mL2NsaS9j
-bGkucHkKLWluZGV4IDE4MjRiZDAwLi40ZGNiMWMxYyAxMDA2NDQKK2luZGV4IGMxNGY4MzYzLi5i
-ZmMwN2FiOSAxMDA2NDQKIC0tLSBhL2RuZi9jbGkvY2xpLnB5CiArKysgYi9kbmYvY2xpL2NsaS5w
-eQotQEAgLTk0NCw3ICs5NDQsNyBAQCBjbGFzcyBDbGkob2JqZWN0KToKK0BAIC05NTMsNyArOTUz
-LDcgQEAgY2xhc3MgQ2xpKG9iamVjdCk6CiAgICAgICAgICAgICAgbG9nZ2VyLndhcm5pbmcoXygi
-VW5hYmxlIHRvIGRldGVjdCByZWxlYXNlIHZlcnNpb24gKHVzZSAnLS1yZWxlYXNldmVyJyB0byBz
-cGVjaWZ5ICIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJyZWxlYXNlIHZlcnNpb24p
-IikpCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDI5LURv
-LW5vdC1zZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmYvMDAyOS1Eby1ub3Qtc2V0LVBZVEhPTl9JTlNUQUxM
-X0RJUi1ieS1ydW5uaW5nLXB5dGhvbi5wYXRjaAppbmRleCA2NGVhNzg3NGQzLi4xMTRiNjMxOWU2
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8wMDI5LURvLW5vdC1z
-ZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMjktRG8tbm90LXNldC1QWVRIT05fSU5TVEFMTF9E
-SVItYnktcnVubmluZy1weXRob24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQ1YjE1NGVh
-NjlhZmRjZDg2MjI5OWEwYjdmMjU1ZjZlY2UzNjg2YzYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CitGcm9tIGY4YmIzMmIyNzM1MjFlMGVkYWMwMjU0YjQ2YmMyMTUzMmMzYjQxMzUgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT4KIERhdGU6IEZyaSwgMzAgRGVjIDIwMTYgMTg6Mjk6MDcgKzAyMDAKIFN1YmplY3Q6
-IFtQQVRDSF0gRG8gbm90IHNldCBQWVRIT05fSU5TVEFMTF9ESVIgYnkgcnVubmluZyBweXRob24K
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mLzAwMzAtUnVuLXB5dGhv
-bi1zY3JpcHRzLXVzaW5nLWVudi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5m
-LzAwMzAtUnVuLXB5dGhvbi1zY3JpcHRzLXVzaW5nLWVudi5wYXRjaAppbmRleCBlYjQ2MTEzZjNh
-Li45NmFiMmMxZTA0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZi8w
-MDMwLVJ1bi1weXRob24tc2NyaXB0cy11c2luZy1lbnYucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2RuZi9kbmYvMDAzMC1SdW4tcHl0aG9uLXNjcmlwdHMtdXNpbmctZW52LnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkMzU1Njc2N2I4NGYzNjg3NzQzZmRhZDBhODhhZjA3Mzlk
-NzM2ZWE5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA4NTU2NjZkNDkyMjdkNmY3ZjQ4
-MTdhYzUyZWRkZjZkMmMxN2UyNzZkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDMwIERl
-YyAyMDE2IDE4OjI5OjM3ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJ1biBweXRob24gc2NyaXB0
-cyB1c2luZyBlbnYKQEAgLTEzLDcgKzEzLDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEth
-bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9iaW4vZG5mLWF1dG9tYXRp
-Yy5pbiBiL2Jpbi9kbmYtYXV0b21hdGljLmluCi1pbmRleCAxN2UzNWEwNS4uMjg4MjdlMzggMTAw
-NzU1CitpbmRleCAxZmI3MTJiMC4uY2U4ZDRiOGYgMTAwNzU1CiAtLS0gYS9iaW4vZG5mLWF1dG9t
-YXRpYy5pbgogKysrIGIvYmluL2RuZi1hdXRvbWF0aWMuaW4KIEBAIC0xLDQgKzEsNCBAQApAQCAt
-MjMsNyArMjMsNyBAQCBpbmRleCAxN2UzNWEwNS4uMjg4MjdlMzggMTAwNzU1CiAgIwogICMgQ29w
-eXJpZ2h0IChDKSAyMDE0LTIwMTYgUmVkIEhhdCwgSW5jLgogZGlmZiAtLWdpdCBhL2Jpbi9kbmYu
-aW4gYi9iaW4vZG5mLmluCi1pbmRleCA1NWNlYjNmMi4uZTM4OTczYzcgMTAwNzU1CitpbmRleCAx
-MDcxNmRlYy4uODE3ZDdkYTUgMTAwNzU1CiAtLS0gYS9iaW4vZG5mLmluCiArKysgYi9iaW4vZG5m
-LmluCiBAQCAtMSw0ICsxLDQgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9k
-bmYvZG5mXzQuMjAuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5mXzQuMjEuMC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-ZG5mL2RuZl80LjIwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9kbmYvZG5m
-XzQuMjEuMC5iYgppbmRleCA5OGVkYWIwNjE0Li42ODAwYjVjNzE2IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZG5mL2RuZl80LjIwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2RuZi9kbmZfNC4yMS4wLmJiCkBAIC0yMCw3ICsyMCw3IEBAIFNSQ19VUkkgPSAiZ2l0
-Oi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9kbmYuZ2l0O2JyYW5jaD1tYXN0
-ZXI7cHJvdG9jCiAKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmlsZTovLzAwMDEt
-ZG5mLXdyaXRlLXRoZS1sb2ctbG9jay10by1yb290LnBhdGNoIgogCi1TUkNSRVYgPSAiZTNjYjQz
-OGMwZmQwOGM3OTY3NmMwZjMyNzZhYTdkNzVjZDg1NTdjNiIKK1NSQ1JFViA9ICJkMjlkZmEwNjM0
-MjM1ZDdhZDk1N2M0NzQ2YTc0OWViMWU0YTg1YTg4IgogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVH
-RVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgotLSAK
-Mi40NC4wCgo=
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6MDg6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+dG9vbHM6IHVwZ3JhZGUgNC4wLjQzIC0+IDQuMC40NAoKLS0tCiAuLi4vbXRvb2xzL210b29scy9j
+bGFuZ19VTlVTRUQucGF0Y2ggICAgICAgICAgfCAxOSArKysrKysrKysrKysrLS0tLS0tCiAuLi4v
+bXRvb2xzL2Rpc2FibGUtaGFyZGNvZGVkLWNvbmZpZ3MucGF0Y2ggICAgfCAgNyArKystLS0tCiAu
+Li4vbXRvb2xzL210b29scy9tdG9vbHMtbWFrZWluZm8ucGF0Y2ggICAgICAgfCAxMSArKysrKy0t
+LS0tLQogLi4uL3ttdG9vbHNfNC4wLjQzLmJiID0+IG10b29sc180LjAuNDQuYmJ9ICAgIHwgIDIg
+Ky0KIDQgZmlsZXMgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy97bXRvb2xzXzQuMC40My5iYiA9PiBt
+dG9vbHNfNC4wLjQ0LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9tdG9vbHMvbXRvb2xzL2NsYW5nX1VOVVNFRC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9tdG9vbHMvbXRvb2xzL2NsYW5nX1VOVVNFRC5wYXRjaAppbmRleCA2YmI5ZDZhM2RhLi5kZTEz
+NzFmNGEwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9j
+bGFuZ19VTlVTRUQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9v
+bHMvY2xhbmdfVU5VU0VELnBhdGNoCkBAIC0xLDEyICsxLDE5IEBACi1VbmRlZmluZSBVTlVTRUQg
+bWFjcm9zIHdpdGggY2xhbmcKK0Zyb20gZWU5YzBjZDM0MjA0ZjM4ZDBhNmM3OGZlN2VlNjE1Yzhh
+MmRhNjZmYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb206IEtoZW0gUmFqIDxyYWoua2hl
+bUBnbWFpbC5jb20+CitEYXRlOiBXZWQsIDE5IFNlcCAyMDE4IDExOjU1OjQxIC0wNzAwCitTdWJq
+ZWN0OiBbUEFUQ0hdIFVuZGVmaW5lIFVOVVNFRCBtYWNyb3Mgd2l0aCBjbGFuZwogCiBVcHN0cmVh
+bS1TdGF0dXM6IFBlbmRpbmcKIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
+bC5jb20+Ci1JbmRleDogbXRvb2xzLTQuMC4xOC9zeXNpbmNsdWRlcy5oCi09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0t
+LS0gbXRvb2xzLTQuMC4xOC5vcmlnL3N5c2luY2x1ZGVzLmgKLSsrKyBtdG9vbHMtNC4wLjE4L3N5
+c2luY2x1ZGVzLmgKLUBAIC0xMDEsNyArMTAxLDcgQEAgdHlwZWRlZiB2b2lkICpjYWRkcl90Owor
+LS0tCisgc3lzaW5jbHVkZXMuaCB8IDIgKy0KKyAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSkKKworZGlmZiAtLWdpdCBhL3N5c2luY2x1ZGVzLmggYi9zeXNpbmNs
+dWRlcy5oCitpbmRleCBlMTZhYjQ1Li44ZDI4NWQ0IDEwMDY0NAorLS0tIGEvc3lzaW5jbHVkZXMu
+aAorKysrIGIvc3lzaW5jbHVkZXMuaAorQEAgLTk4LDcgKzk4LDcgQEAgdHlwZWRlZiB2b2lkICpj
+YWRkcl90OwogICNpZiBkZWZpbmVkIF9fR05VQ19fICYmIGRlZmluZWQgX19TVERDX18KICAvKiBn
+Y2MgLXRyYWRpdGlvbmFsIGRvZXNuJ3QgaGF2ZSBQQUNLRUQsIFVOVVNFRCBhbmQgTk9SRVRVUk4g
+Ki8KICAjIGRlZmluZSBQQUNLRUQgX19hdHRyaWJ1dGVfXyAoKHBhY2tlZCkpCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9kaXNhYmxlLWhhcmRjb2RlZC1j
+b25maWdzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9vbHMvZGlzYWJs
+ZS1oYXJkY29kZWQtY29uZmlncy5wYXRjaAppbmRleCA1N2JlOTM1NDg3Li5mNGZiNDI3MWRhIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9kaXNhYmxlLWhh
+cmRjb2RlZC1jb25maWdzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMv
+bXRvb2xzL2Rpc2FibGUtaGFyZGNvZGVkLWNvbmZpZ3MucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIDJlZjliMzcxYTVjYzQ0ZTczMDE0M2U2OTRkNzE2NjU4MzFmYWMyMTYgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIGYwODQ2ZmNjZjgwM2RlMzE5ZjJhZDhhNzU5MjVhZDgzYzUxMGIz
+NTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBFZCBCYXJ0b3NoIDxlZC5iYXJ0b3No
+QGxpbnV4LmludGVsLmNvbT4KIERhdGU6IFR1ZSwgMTMgSnVuIDIwMTcgMTQ6NTU6NTIgKzAzMDAK
+IFN1YmplY3Q6IFtQQVRDSF0gRGlzYWJsZWQgcmVhZGluZyBob3N0IGNvbmZpZ3MuCkBAIC02LDE2
+ICs2LDE1IEBAIFN1YmplY3Q6IFtQQVRDSF0gRGlzYWJsZWQgcmVhZGluZyBob3N0IGNvbmZpZ3Mu
+CiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW25hdGl2ZV0KIAogU2lnbmVkLW9mZi1i
+eTogRWQgQmFydG9zaCA8ZWQuYmFydG9zaEBsaW51eC5pbnRlbC5jb20+Ci0KIC0tLQogIGNvbmZp
+Zy5jIHwgOCAtLS0tLS0tLQogIDEgZmlsZSBjaGFuZ2VkLCA4IGRlbGV0aW9ucygtKQogCiBkaWZm
+IC0tZ2l0IGEvY29uZmlnLmMgYi9jb25maWcuYwotaW5kZXggMmY2YTI5Ny4uMzE4MWVkNyAxMDA2
+NDQKK2luZGV4IDM1ODI4MmIuLjhlYmFmYjQgMTAwNjQ0CiAtLS0gYS9jb25maWcuYwogKysrIGIv
+Y29uZmlnLmMKLUBAIC04NDQsMTQgKzg0NCw2IEBAIHZvaWQgcmVhZF9jb25maWcodm9pZCkKK0BA
+IC04NjgsMTQgKzg2OCw2IEBAIHZvaWQgcmVhZF9jb25maWcodm9pZCkKICAJbWVtY3B5KGRldmlj
+ZXMsIGNvbnN0X2RldmljZXMsCiAgCSAgICAgICBucl9jb25zdF9kZXZpY2VzKnNpemVvZihzdHJ1
+Y3QgZGV2aWNlKSk7CiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xz
+L210b29scy9tdG9vbHMtbWFrZWluZm8ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRv
+b2xzL210b29scy9tdG9vbHMtbWFrZWluZm8ucGF0Y2gKaW5kZXggNmFlOTFkNmNiOS4uYmYxMzU2
+MWRkMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9vbHMvbXRv
+b2xzLW1ha2VpbmZvLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRv
+b2xzL210b29scy1tYWtlaW5mby5wYXRjaApAQCAtMSwxNyArMSwxNiBAQAotRnJvbSAzY2Y1NmIz
+NmRiNzg2NzkyNzNmNjFiYTc4ZmJiZjdmM2ZhYjUyZjY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSA3MTg4NmU5NTBmZDNhYmE0ZDc3NzU4NTRjYmQ3YzBjMDlhZTI3NjQyIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWFyY2luIEp1c3praWV3aWN6IDxocndAb3BlbmVkaGFu
+ZC5jb20+CiBEYXRlOiBGcmksIDggSnVuIDIwMDcgMDg6MzU6MTIgKzAwMDAKIFN1YmplY3Q6IFtQ
+QVRDSF0gbXRvb2xzOiBpbXBvcnRlZCBmcm9tIE9FCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHBy
+b3ByaWF0ZSBbbGljZW5zaW5nXQotCiAtLS0KICBNYWtlZmlsZS5pbiAgfCAxMSArKysrKystLS0t
+LQogIGNvbmZpZ3VyZS5pbiB8IDI3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKwogIDIgZmls
+ZXMgY2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdp
+dCBhL01ha2VmaWxlLmluIGIvTWFrZWZpbGUuaW4KLWluZGV4IDYxNmQ1OWYuLjg1YjViMWQgMTAw
+NjQ0CitpbmRleCA1ZGI1MGQ3Li45MmFkNDYxIDEwMDY0NAogLS0tIGEvTWFrZWZpbGUuaW4KICsr
+KyBiL01ha2VmaWxlLmluCiBAQCAtMjYsMTAgKzI2LDExIEBAIFVTRVJDRkxBR1MgPQpAQCAtMzAs
+NyArMjksNyBAQCBpbmRleCA2MTZkNTlmLi44NWI1YjFkIDEwMDY0NAogIAogIAogICMgZG8gbm90
+IGVkaXQgYmVsb3cgdGhpcyBsaW5lCi1AQCAtMTk5LDcgKzIwMCw3IEBAIGR2aTogbXRvb2xzLmR2
+aQorQEAgLTE4NSw3ICsxODYsNyBAQCBkdmk6IG10b29scy5kdmkKICAKICBwczogbXRvb2xzLnBz
+CiAgJS5wczogJS5kdmkKQEAgLTQwLDEwICszOSwxMCBAQCBpbmRleCA2MTZkNTlmLi44NWI1YjFk
+IDEwMDY0NAogIHBkZjogbXRvb2xzLnBkZgogICUucGRmOiAlLnRleGkgc3lzY29uZmRpci50ZXhp
+CiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmluIGIvY29uZmlndXJlLmluCi1pbmRleCA1ZmY3NWMx
+Li5jMGY3NDQwIDEwMDY0NAoraW5kZXggMWRlOTE2ZS4uZmQ2Y2IwOCAxMDA2NDQKIC0tLSBhL2Nv
+bmZpZ3VyZS5pbgogKysrIGIvY29uZmlndXJlLmluCi1AQCAtMzUsNiArMzUsMzMgQEAgQUNfQ0FO
+T05JQ0FMX1NZU1RFTQorQEAgLTMyLDYgKzMyLDMzIEBAIEFDX0NBTk9OSUNBTF9UQVJHRVQKICBB
+Q19DX0NPTlNUCiAgQUNfQ19JTkxJTkUKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9tdG9vbHMvbXRvb2xzXzQuMC40My5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9v
+bHMvbXRvb2xzXzQuMC40NC5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29sc180LjAuNDMuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzXzQuMC40NC5iYgppbmRleCA4NTkxMDM5Nzll
+Li5kOGRkNjcxYmUyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210
+b29sc180LjAuNDMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9vbHNf
+NC4wLjQ0LmJiCkBAIC0yNCw3ICsyNCw3IEBAIFJSRUNPTU1FTkRTOiR7UE59OmxpYmMtZ2xpYmMg
+PSAiXAogCWdsaWJjLWdjb252LWlibTg2NiBcCiAJZ2xpYmMtZ2NvbnYtaWJtODY5IFwKIAkiCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiNTQxZTE3OTY2NWRjNGUyNzJiOTYwMmYyMDc0MjQzNTkxYTE1
+N2RhODljYzQ3MDY0ZGE4YzU4MjlkYmQyYjMzOSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzN2Rj
+NGRmMDIyNTMzYzNkNGIyZWMxYzc4OTczYzI3YzdlOGI1ODUzNzRjMmQ0NmFiNjRjNmEzZGIzMWVk
+ZGI4IgogCiBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vbXRvb2xzL210b29scy0ke1BWfS50YXIu
+YnoyIFwKICAgICAgICAgICAgZmlsZTovL210b29scy1tYWtlaW5mby5wYXRjaCBcCi0tIAoyLjQ0
+LjAKCg==
 
---===============3946777849454287273==
+--===============2735138682768582104==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/dnf/dnf-bash-completion: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-bash-completion: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-dbg: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-dbg: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-dev: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-dev: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-doc: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-doc: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ar: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ar: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-be: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-be: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-bg: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-bg: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-bn-in: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-bn-in: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-bn: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-bn: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ca: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ca: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-cs: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-cs: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-da: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-da: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-de: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-de: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-el: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-el: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-en-gb: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-en-gb: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-eo: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-eo: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-es: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-es: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-eu: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-eu: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-fa: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-fa: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-fi: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-fi: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-fil: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-fil: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-fr: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-fr: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-fur: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-fur: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-gd: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-gd: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-gu: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-gu: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-he: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-he: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-hi: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-hi: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-hr: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-hr: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-hu: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-hu: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-id: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-id: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ie: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ie: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-it: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-it: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ja: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ja: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ka: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ka: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-kk: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-kk: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ko: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ko: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-lt: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-lt: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ml: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ml: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-mr: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-mr: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ms: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ms: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-nb: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-nb: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-nl: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-nl: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-om: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-om: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-or: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-or: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-pa: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-pa: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-pl: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-pl: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-pt-br: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-pt-br: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-pt: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-pt: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ru: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ru: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-si: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-si: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-sk: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-sk: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-sl: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-sl: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-sq: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-sq: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-sr+latin: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-sr+latin: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-sr: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-sr: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-sv: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-sv: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-th: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-th: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-tr: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-tr: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-uk: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-uk: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-ur: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-ur: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-vi: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-vi: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-zh-cn: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-zh-cn: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-zh-hans: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-zh-hans: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-locale-zh-tw: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-locale-zh-tw: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-src: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-src: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-staticdev: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-staticdev: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-test-dep: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-test-dep: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf-test-main: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf-test-main: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf/dnf: FILELIST: directory renamed /usr/lib/python3.12/site-packages/dnf-4.20.0.dist-info -> /usr/lib/python3.12/site-packages/dnf-4.21.0.dist-info, removed "/etc/libreport/events.d/collect_dnf.conf"
-packages/core2-64-poky-linux/dnf/dnf: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf/dnf: PKGSIZE changed from 960915 to 961603 (+0%)
-packages/core2-64-poky-linux/dnf/dnf: PV changed from "4.20.0" to "4.21.0"
-packages/core2-64-poky-linux/dnf: PKGV changed from 4.20.0 [default] to 4.21.0 [default]
-packages/core2-64-poky-linux/dnf: PV changed from "4.20.0" to "4.21.0"
-Changes to packages/core2-64-poky-linux/dnf (sysroot):
-  /usr/lib/python3.12/site-packages/dnf-4.20.0.dist-info moved to /usr/lib/python3.12/site-packages/dnf-4.21.0.dist-info
+packages/core2-64-poky-linux/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.43.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.44.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch"
+packages/core2-64-poky-linux/mtools: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 818296 to 818456 (+0%)
+packages/core2-64-poky-linux/mtools/mtools-dbg: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-dev: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-doc: PKGSIZE changed from 242854 to 244453 (+1%)
+packages/core2-64-poky-linux/mtools/mtools-doc: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-locale: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-src: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-src: PKGSIZE changed from 597781 to 598938 (+0%)
+packages/core2-64-poky-linux/mtools/mtools-src: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools: PKGSIZE changed from 227346 to 223250 (-2%)
+packages/core2-64-poky-linux/mtools/mtools: PV changed from "4.0.43" to "4.0.44"
 
---===============3946777849454287273==--
+--===============2735138682768582104==--
 
