@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F4BC54751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 292B8C54750
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:20 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1368.1721071146842268588
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.1294.1721071145627914584
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jul 2024 12:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jkwOtCzD;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cSv0V3fY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010190b7d59388-5bf1c3c1-72c9-4b66-88b3-86adb77e7fb7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=J8xHEeyY;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=t4IAh3bw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010190b7d59533-9d1eb319-6844-47da-9a16-4544138fdb76-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gl8WB2GguPphBZgW9xcFjdnvZGzTq6+1RnrTTqaTe6w=;
-	b=jkwOtCzDgNqQliqDlsBxOD5xockhdBNbclZtHmnmA3zB0dj05saa0rEzp5f+HHi3
-	4ZtnWgRR6Us0KrTHl/6F+eOze/7p4viwGruODAsDDx7s80bB72hUrbFx4G7Yv18Qahh
-	IEfvFVIB5uMl+MlLf9lyGLXTT1HbD+DGMsbTXrvQ=
+	bh=O/nx80cb9bSkcW4TyT/MKHQxD6751vQntR9lL4Eomd0=;
+	b=J8xHEeyYF76J1GdgBqQ5RQHmj/mkgJQtBmqhyi6uCcrHQY+Jqf3dSzDPi5kRM1BL
+	Ljm4ghh7Vv4nt8Jrask0JuNbVFclsolMxVYje3QLBxyfg7tviLs0VKJnQmOaqUED6NX
+	4SIYXuM2EbMAgYS+p7QvuerGNSiR4l3Cp9nmRKSk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gl8WB2GguPphBZgW9xcFjdnvZGzTq6+1RnrTTqaTe6w=;
-	b=cSv0V3fYA/kArx1zYJwpUdtzgvrDC6xnnTQmGZPpQyNf2sCwgeQInqpbFYajj6J6
-	U8qRye635z0zpLjNBsge0vq2ErN7w2pHTSoz7UCmNEvPvzcQeCVrPakq8MLxjnLuEdb
-	gDU4tICf5hHmYfjioWuj7GL7K64VfWTQiQYRu6sw=
-Content-Type: multipart/mixed; boundary="===============0374888430949886897=="
+	bh=O/nx80cb9bSkcW4TyT/MKHQxD6751vQntR9lL4Eomd0=;
+	b=t4IAh3bwBYNogvpBkhK55us8vo2OpLUPom31cuItYbgDNUvTmO+5kjAg9PbhCp0y
+	ly152uqn5ps1VV6TfH3kOHF5BqqhDl6Go5CfHn4FfDjwj0lRg2SA7uKMAtUNC4P6uGy
+	TfAYpMdD7jX03kKK/+wqqK/V7ND/5rBlvRgrJvM8=
+Content-Type: multipart/mixed; boundary="===============6612428222459752173=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lua: upgrading to 5.4.7 SUCCEEDED
-Message-ID: <01010190b7d59388-5bf1c3c1-72c9-4b66-88b3-86adb77e7fb7-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jul 2024 19:19:05 +0000
+Subject: [AUH] python3-importlib-metadata: upgrading to 8.0.0 SUCCEEDED
+Message-ID: <01010190b7d59533-9d1eb319-6844-47da-9a16-4544138fdb76-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jul 2024 19:19:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.193
+X-SES-Outgoing: 2024.07.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201979
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201981
 
---===============0374888430949886897==
+--===============6612428222459752173==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lua* to *5.4.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *8.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lua-upgrade-5.4.6-5.4.7.patch
+    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-7.1.0-8.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,78 +72,79 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4b9a2e63ec1ae46ea93a21948f6b995a6e8303aa Mon Sep 17 00:00:00 2001
+From eca099f559f6791199d4e825582a35b75910ce31 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 10:01:16 +0000
-Subject: [PATCH] lua: upgrade 5.4.6 -> 5.4.7
+Date: Mon, 15 Jul 2024 10:29:55 +0000
+Subject: [PATCH] python3-importlib-metadata: upgrade 7.1.0 -> 8.0.0
 
 ---
- .../lua/{lua_5.4.6.bb => lua_5.4.7.bb}        | 31 +++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/lua/{lua_5.4.6.bb => lua_5.4.7.bb} (67%)
+ ...ib-metadata_7.1.0.bb => python3-importlib-metadata_8.0.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-importlib-metadata_7.1.0.bb => python3-importlib-metadata_8.0.0.bb} (88%)
 
-diff --git a/meta/recipes-devtools/lua/lua_5.4.6.bb b/meta/recipes-devtools/lua/lua_5.4.7.bb
-similarity index 67%
-rename from meta/recipes-devtools/lua/lua_5.4.6.bb
-rename to meta/recipes-devtools/lua/lua_5.4.7.bb
-index 17dc8fb17d..47edb39509 100644
---- a/meta/recipes-devtools/lua/lua_5.4.6.bb
-+++ b/meta/recipes-devtools/lua/lua_5.4.7.bb
-@@ -1,7 +1,34 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- doc/readme.html
-+# +++ doc/readme.html
-+# @@ -1,4 +1,6 @@
-+# -Copyright &copy; 1994&ndash;2023 Lua.org, PUC-Rio.
-+# +
-+# +<BLOCKQUOTE STYLE="padding-bottom: 0em">
-+# +Copyright &copy; 1994&ndash;2024 Lua.org, PUC-Rio.
-+#  
-+#  <P>
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy
-+# @@ -18,5 +20,3 @@
-+#  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-+#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+# -OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+# -THE SOFTWARE.
-+# 
-+#
-+
- SUMMARY = "Lua is a powerful light-weight programming language designed \
- for extending applications."
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=303;endline=324;md5=e05449eb28c092473f854670c6e8375a"
-+LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=303;endline=324;md5=41f9e2b41229cf6e69aac18c0eb5bfa7"
- HOMEPAGE = "http://www.lua.org/"
+diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_7.1.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_8.0.0.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-importlib-metadata_7.1.0.bb
+rename to meta/recipes-devtools/python/python3-importlib-metadata_8.0.0.bb
+index fdb37cecef..7c920cffa2 100644
+--- a/meta/recipes-devtools/python/python3-importlib-metadata_7.1.0.bb
++++ b/meta/recipes-devtools/python/python3-importlib-metadata_8.0.0.bb
+@@ -8,7 +8,7 @@ inherit pypi python_setuptools_build_meta
+ PYPI_PACKAGE = "importlib_metadata"
+ UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
  
- SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
-@@ -12,7 +39,7 @@ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
- # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
- PV_testsuites = "5.4.4"
+-SRC_URI[sha256sum] = "b78938b926ee8d5f020fc4772d487045805a55ddbad2ecf21c6d60938dc7fcd2"
++SRC_URI[sha256sum] = "188bd24e4c346d3f0a933f275c2fec67050326a856b9a359881d7c2a697e8812"
  
--SRC_URI[tarballsrc.sha256sum] = "7d5ea1b9cb6aa0b59ca3dde1c6adcb57ef83a1ba8e5432c0ecd06bf439b3ad88"
-+SRC_URI[tarballsrc.sha256sum] = "9fbf5e28ef86c69858f6d3d34eccc32e911c1a28b4120ff3e84aaa70cfbf1e30"
- SRC_URI[tarballtest.sha256sum] = "04d28355cd67a2299dfe5708b55a0ff221ccb1a3907a3113cc103ccc05ac6aad"
+ S = "${WORKDIR}/importlib_metadata-${PV}"
  
- inherit pkgconfig binconfig ptest
 -- 
 2.44.0
 
 
---===============0374888430949886897==
+--===============6612428222459752173==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-importlib-metadata-upgrade-7.1.0-8.0.0.patch"
+
+RnJvbSBlY2EwOTlmNTU5ZjY3OTExOTlkNGU4MjU1ODJhMzViNzU5MTBjZTMxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6Mjk6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWltcG9ydGxpYi1tZXRhZGF0YTogdXBncmFkZSA3LjEuMCAtPiA4LjAuMAoKLS0tCiAu
+Li5pYi1tZXRhZGF0YV83LjEuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAu
+MC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWltcG9ydGxp
+Yi1tZXRhZGF0YV83LjEuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAuMC5i
+Yn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtaW1wb3J0bGliLW1ldGFkYXRhXzcuMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4
+IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW1w
+b3J0bGliLW1ldGFkYXRhXzcuMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzguMC4wLmJiCmluZGV4IGZkYjM3Y2Vj
+ZWYuLjdjOTIwY2ZmYTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1pbXBvcnRsaWItbWV0YWRhdGFfNy4xLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV84LjAuMC5iYgpAQCAtOCw3
+ICs4LDcgQEAgaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIFBZUElf
+UEFDS0FHRSA9ICJpbXBvcnRsaWJfbWV0YWRhdGEiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIv
+aW1wb3J0bGliLW1ldGFkYXRhLyg/UDxwdmVyPihcZCtbXC5cLV9dKikrKS8iCiAKLVNSQ19VUklb
+c2hhMjU2c3VtXSA9ICJiNzg5MzhiOTI2ZWU4ZDVmMDIwZmM0NzcyZDQ4NzA0NTgwNWE1NWRkYmFk
+MmVjZjIxYzZkNjA5MzhkYzdmY2QyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE4OGJkMjRlNGMz
+NDZkM2YwYTkzM2YyNzVjMmZlYzY3MDUwMzI2YTg1NmI5YTM1OTg4MWQ3YzJhNjk3ZTg4MTIiCiAK
+IFMgPSAiJHtXT1JLRElSfS9pbXBvcnRsaWJfbWV0YWRhdGEtJHtQVn0iCiAKLS0gCjIuNDQuMAoK
+
+--===============6612428222459752173==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info -> /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info, added "/usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py /usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc"
+Changes to packages/core2-64-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info moved to /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info
+  /usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py was added
+  /usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1909,94 +1910,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============0374888430949886897==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-lua-upgrade-5.4.6-5.4.7.patch"
-
-RnJvbSA0YjlhMmU2M2VjMWFlNDZlYTkzYTIxOTQ4ZjZiOTk1YTZlODMwM2FhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTA6MDE6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-dWE6IHVwZ3JhZGUgNS40LjYgLT4gNS40LjcKCi0tLQogLi4uL2x1YS97bHVhXzUuNC42LmJiID0+
-IGx1YV81LjQuNy5iYn0gICAgICAgIHwgMzEgKysrKysrKysrKysrKysrKystLQogMSBmaWxlIGNo
-YW5nZWQsIDI5IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2x1YS97bHVhXzUuNC42LmJiID0+IGx1YV81LjQuNy5iYn0gKDY3JSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuNi5iYiBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC43LmJiCnNpbWlsYXJpdHkgaW5kZXggNjclCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC42LmJiCnJlbmFtZSB0
-byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuNy5iYgppbmRleCAxN2RjOGZiMTdk
-Li40N2VkYjM5NTA5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81
-LjQuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuNy5iYgpAQCAt
-MSw3ICsxLDM0IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
-ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
-IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
-UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
-dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
-JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
-dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gZG9jL3JlYWRtZS5odG1sCisjICsr
-KyBkb2MvcmVhZG1lLmh0bWwKKyMgQEAgLTEsNCArMSw2IEBACisjIC1Db3B5cmlnaHQgJmNvcHk7
-IDE5OTQmbmRhc2g7MjAyMyBMdWEub3JnLCBQVUMtUmlvLgorIyArCisjICs8QkxPQ0tRVU9URSBT
-VFlMRT0icGFkZGluZy1ib3R0b206IDBlbSI+CisjICtDb3B5cmlnaHQgJmNvcHk7IDE5OTQmbmRh
-c2g7MjAyNCBMdWEub3JnLCBQVUMtUmlvLgorIyAgCisjICA8UD4KKyMgIFBlcm1pc3Npb24gaXMg
-aGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBh
-IGNvcHkKKyMgQEAgLTE4LDUgKzIwLDMgQEAKKyMgIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQ
-VVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBTSEFMTCBUSEUKKyMgIEFV
-VEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFH
-RVMgT1IgT1RIRVIKKyMgIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJB
-Q1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sCisjIC1PVVQgT0YgT1IgSU4gQ09O
-TkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElO
-CisjIC1USEUgU09GVFdBUkUuCisjIAorIworCiBTVU1NQVJZID0gIkx1YSBpcyBhIHBvd2VyZnVs
-IGxpZ2h0LXdlaWdodCBwcm9ncmFtbWluZyBsYW5ndWFnZSBkZXNpZ25lZCBcCiBmb3IgZXh0ZW5k
-aW5nIGFwcGxpY2F0aW9ucy4iCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL2RvYy9yZWFkbWUuaHRtbDtiZWdpbmxpbmU9MzAzO2VuZGxpbmU9MzI0O21kNT1lMDU0
-NDllYjI4YzA5MjQ3M2Y4NTQ2NzBjNmU4Mzc1YSIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L2RvYy9yZWFkbWUuaHRtbDtiZWdpbmxpbmU9MzAzO2VuZGxpbmU9MzI0O21kNT00MWY5ZTJiNDEy
-MjljZjZlNjlhYWMxOGMwZWI1YmZhNyIKIEhPTUVQQUdFID0gImh0dHA6Ly93d3cubHVhLm9yZy8i
-CiAKIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5sdWEub3JnL2Z0cC9sdWEtJHtQVn0udGFyLmd6O25h
-bWU9dGFyYmFsbHNyYyBcCkBAIC0xMiw3ICszOSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5s
-dWEub3JnL2Z0cC9sdWEtJHtQVn0udGFyLmd6O25hbWU9dGFyYmFsbHNyYyBcCiAjIGlmIG5vIHRl
-c3Qgc3VpdGUgbWF0Y2hlcyBQViByZWxlYXNlIG9mIEx1YSBleGFjdGx5LCBkb3dubG9hZCB0aGUg
-c3VpdGUgZm9yIHRoZSBjbG9zZXN0IEx1YSByZWxlYXNlLgogUFZfdGVzdHN1aXRlcyA9ICI1LjQu
-NCIKIAotU1JDX1VSSVt0YXJiYWxsc3JjLnNoYTI1NnN1bV0gPSAiN2Q1ZWExYjljYjZhYTBiNTlj
-YTNkZGUxYzZhZGNiNTdlZjgzYTFiYThlNTQzMmMwZWNkMDZiZjQzOWIzYWQ4OCIKK1NSQ19VUklb
-dGFyYmFsbHNyYy5zaGEyNTZzdW1dID0gIjlmYmY1ZTI4ZWY4NmM2OTg1OGY2ZDNkMzRlY2NjMzJl
-OTExYzFhMjhiNDEyMGZmM2U4NGFhYTcwY2ZiZjFlMzAiCiBTUkNfVVJJW3RhcmJhbGx0ZXN0LnNo
-YTI1NnN1bV0gPSAiMDRkMjgzNTVjZDY3YTIyOTlkZmU1NzA4YjU1YTBmZjIyMWNjYjFhMzkwN2Ez
-MTEzY2MxMDNjY2MwNWFjNmFhZCIKIAogaW5oZXJpdCBwa2djb25maWcgYmluY29uZmlnIHB0ZXN0
-Ci0tIAoyLjQ0LjAKCg==
-
---===============0374888430949886897==
+--===============6612428222459752173==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/lua: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua: SRC_URI changed from "http://www.lua.org/ftp/lua-5.4.6.tar.gz;name=tarballsrc file://lua.pc.in http://www.lua.org/tests/lua-5.4.4-tests.tar.gz;name=tarballtest file://run-ptest" to "http://www.lua.org/ftp/lua-5.4.7.tar.gz;name=tarballsrc file://lua.pc.in http://www.lua.org/tests/lua-5.4.4-tests.tar.gz;name=tarballtest file://run-ptest"
-packages/core2-64-poky-linux/lua/lua-dbg: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-dbg: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-dbg: PKGSIZE changed from 1805704 to 1809048 (+0%)
-packages/core2-64-poky-linux/lua/lua-dev: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-dev: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-dev: PKGSIZE changed from 48224 to 48473 (+1%)
-packages/core2-64-poky-linux/lua/lua-doc: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-doc: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-doc: PKGSIZE changed from 6172 to 6171 (-0%)
-packages/core2-64-poky-linux/lua/lua-locale: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-locale: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-ptest: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-ptest: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-src: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-src: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-src: PKGSIZE changed from 846691 to 850860 (+0%)
-packages/core2-64-poky-linux/lua/lua-staticdev: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua-staticdev: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua-staticdev: PKGSIZE changed from 1886048 to 1884750 (-0%)
-packages/core2-64-poky-linux/lua/lua: PKGV changed from 5.4.6 [default] to 5.4.7 [default]
-packages/core2-64-poky-linux/lua/lua: PV changed from "5.4.6" to "5.4.7"
-packages/core2-64-poky-linux/lua/lua: PKGSIZE changed from 479496 to 483592 (+1%)
+packages/core2-64-poky-linux/python3-importlib-metadata: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-7.1.0.tar.gz;downloadfilename=importlib_metadata-7.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-8.0.0.tar.gz;downloadfilename=importlib_metadata-8.0.0.tar.gz"
+packages/core2-64-poky-linux/python3-importlib-metadata: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 7.1.0 [default] to 8.0.0 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "7.1.0" to "8.0.0"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 145198 to 145448 (+0%)
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info -> /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info, added "/usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc /usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py"
+Changes to packages/core2-64-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.12/site-packages/importlib_metadata-7.1.0.dist-info moved to /usr/lib/python3.12/site-packages/importlib_metadata-8.0.0.dist-info
+  /usr/lib/python3.12/site-packages/importlib_metadata/compat/py311.py was added
+  /usr/lib/python3.12/site-packages/importlib_metadata/compat/__pycache__/py311.cpython-312.pyc was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3762,5 +3704,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============0374888430949886897==--
+--===============6612428222459752173==--
 
