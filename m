@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C84D7C54734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD47C5472D
 	for <webhook@archiver.kernel.org>; Mon, 15 Jul 2024 19:19:16 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.1302.1721071146309465418
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.1359.1721071146239194684
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 12:19:07 -0700
+ Mon, 15 Jul 2024 12:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Uzy6nTyr;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=HBkTgaoY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190b7d59907-218905f4-8fb3-4f18-ae9a-44d86cfd8022-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=edQlMwR6;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=iXFyovOP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010190b7d591b6-b2fe2814-748f-4767-b23f-160b18ce919e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721071147;
+	t=1721071145;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=K8bAS91AKbaEj1NkSahEGcQhOAGTQpJ6vJVduNnl0hQ=;
-	b=Uzy6nTyrKxndwtjxoKf+Hk3jHYwRmPrpiOUM7TgOYxVztxLWpsaxEhADBtc+hTZL
-	CeI62NDPKg1WegktyeU/mGtLQg5ehh1PiZQifWRi8GHDLTtOOZmwkGDlLJm/mlaprWM
-	dTSXDOBqm8xkURAoAd4TGz1Z7pU0b/0bNzC6AEtI=
+	bh=IA5dPkF+KBOC93ehA2aTl1CwanxqKSti2lO/S8Fd/hQ=;
+	b=edQlMwR63E9FB66QNVJhBohr30TJ47ZR7HzyhE/WbaXQW5qy8xxuIae6lDevM89l
+	hucBu4HhKomP3Zz9MLBTTjRLuj9PPC5WwuzC9TI861ZjgVNe4SgTfmeQ7QkdaBd+eHb
+	pvtD9bhC35smZR0+cTASjL8pbfs+/oY4tdRAqt8A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071147;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721071145;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=K8bAS91AKbaEj1NkSahEGcQhOAGTQpJ6vJVduNnl0hQ=;
-	b=HBkTgaoY+XJwmtkx0blCP0FVggnn5ghmuJZRvOXxF+HtKaPSbJlWeikcza9E3s96
-	KQVfq2NN+I6PjdtHNu9rdb/sIy28fct/QtWn+tHUraQ1RdTRubuZ1kZnnNNvI2PZ+UT
-	X3Dg1ZVv/ehgOW6m6DUZB5YSD4QPdc3uyEmI1w/E=
-Content-Type: multipart/mixed; boundary="===============8300751175689677762=="
+	bh=IA5dPkF+KBOC93ehA2aTl1CwanxqKSti2lO/S8Fd/hQ=;
+	b=iXFyovOPpFNjBVmxqGi4HsIHcyBcjN+lS6QQzy+CNKZiKje5ajGyzpQ62UetVntj
+	0LMxyJxGdlD3Wl/5cUSxsp/IYQazPAwPv3ZOieWKLk9DJ2S2ccHhQHUhuPIQKpGGTnN
+	TMYs/KHgyGQmumGGKNuisIfoD5YYhO2/zUTWJ5mM=
+Content-Type: multipart/mixed; boundary="===============5092613687438141031=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.9 SUCCEEDED
-Message-ID: <01010190b7d59907-218905f4-8fb3-4f18-ae9a-44d86cfd8022-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jul 2024 19:19:07 +0000
+Subject: [AUH] ifupdown: upgrading to 0.8.43 FAILED
+Message-ID: <01010190b7d591b6-b2fe2814-748f-4767-b23f-160b18ce919e-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jul 2024 19:19:05 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.15-54.240.27.192
+X-SES-Outgoing: 2024.07.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 19:19:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202001
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/201958
 
---===============8300751175689677762==
+--===============5092613687438141031==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ethtool* to *6.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *ifupdown* to *0.8.43* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-6.7-6.9.patch
+    - apply the patch: git am 0001-ifupdown-upgrade-0.8.41-0.8.43.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,150 +78,650 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b6aa7c346c288308a8a5fe297f19534c714697d9 Mon Sep 17 00:00:00 2001
+From 53882272d1f55a5ca15ef6aedbc6f97159ee6fba Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jul 2024 12:20:10 +0000
-Subject: [PATCH] ethtool: upgrade 6.7 -> 6.9
+Date: Mon, 15 Jul 2024 08:05:13 +0000
+Subject: [PATCH] ifupdown: upgrade 0.8.41 -> 0.8.43
 
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch             | 7 +++----
- .../ethtool/{ethtool_6.7.bb => ethtool_6.9.bb}             | 2 +-
- 2 files changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_6.7.bb => ethtool_6.9.bb} (93%)
+ .../ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch | 3 +--
+ ...-Makefile-do-not-use-dpkg-for-determining-OS-type.patch | 7 +++----
+ .../files/0001-ifupdown-skip-wrong-test-case.patch         | 3 +--
+ ...n2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch | 3 +--
+ meta/recipes-core/ifupdown/files/tweak-ptest-script.patch  | 3 +--
+ .../ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb}    | 2 +-
+ 6 files changed, 8 insertions(+), 13 deletions(-)
+ rename meta/recipes-core/ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb} (97%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 69df8632f2..8071961606 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+diff --git a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
+index 6c4ed526bf..d39298a30a 100644
+--- a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
++++ b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
 @@ -1,4 +1,4 @@
--From 758fde7186730ee331a0ee6149276cd412766ee0 Mon Sep 17 00:00:00 2001
-+From a68d60a38342eb55ef6d566ad0c83b2becb374af Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -9,16 +9,15 @@ serial-tests is required to generate those targets.
- Signed-off-by: Tudor Florea <tudor.florea@enea.com>
- Upstream-Status: Inappropriate
- (default automake behavior incompatible with ptest)
+-From 8dfbcf02e424ba1fdef587d81c9e08a37ab8c1b6 Mon Sep 17 00:00:00 2001
++From 2bf3a95aa671d3ad8fc72c93f7271382c66de736 Mon Sep 17 00:00:00 2001
+ From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+ Date: Tue, 2 Jul 2019 20:10:42 +0200
+ Subject: [PATCH] Define FNM_EXTMATCH for musl
+@@ -24,7 +24,6 @@ function); did you mean 'FNM_NOMATCH'?
+ Upstream-Status: Submitted [https://salsa.debian.org/debian/ifupdown/merge_requests/5]
+ 
+ Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 -
  ---
-  configure.ac | 2 +-
+  archcommon.h | 4 ++++
+  1 file changed, 4 insertions(+)
+diff --git a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
+index 6e15a25224..4a6b37e97c 100644
+--- a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
++++ b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
+@@ -1,17 +1,16 @@
+-From 7fe516cbaf9fda09d99dcb54d4645367cffc8a4d Mon Sep 17 00:00:00 2001
++From eae96e289733f53e8d0934362de4ef2181548096 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 9 Jan 2020 15:38:06 +0100
+ Subject: [PATCH] Makefile: do not use dpkg for determining OS type
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  Makefile | 2 +-
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/configure.ac b/configure.ac
--index c871558..8ea1eaa 100644
-+index e494aac..42dd40f 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.7, netdev@vger.kernel.org)
-+@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.9, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_MACRO_DIR([m4])
-  AC_CONFIG_SRCDIR([ethtool.c])
-diff --git a/meta/recipes-extended/ethtool/ethtool_6.7.bb b/meta/recipes-extended/ethtool/ethtool_6.9.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_6.7.bb
-rename to meta/recipes-extended/ethtool/ethtool_6.9.bb
-index 33df0e0e80..1837b1ed1e 100644
---- a/meta/recipes-extended/ethtool/ethtool_6.7.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_6.9.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
+ diff --git a/Makefile b/Makefile
+-index 0ce2fa3..739aef2 100644
++index 9cd758b..58b4173 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -1,6 +1,6 @@
+@@ -21,4 +20,4 @@ index 0ce2fa3..739aef2 100644
+ +ARCH := linux
+  
+  BASEDIR ?= $(DESTDIR)
+- 
++ PKGLIBDIR ?= /lib/ifupdown
+diff --git a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
+index 9ae24da51e..b10ddef461 100644
+--- a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
++++ b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
+@@ -1,4 +1,4 @@
+-From 782d8a869c266820d0f34974436f244f67afaea7 Mon Sep 17 00:00:00 2001
++From 098b01668638a6dce5b7e56707372904015c4fb4 Mon Sep 17 00:00:00 2001
+ From: Zqiang <qiang.zhang@windriver.com>
+ Date: Mon, 19 Apr 2021 14:15:45 +0800
+ Subject: [PATCH] ifupdown: skip wrong test case
+@@ -10,7 +10,6 @@ and are skipped directly.
+ Upstream-Status: Inappropriate [oe-core specific]
+ 
+ Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+-
+ ---
+  tests/testbuild-linux | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+index 7b4b761e6a..67c06442fa 100644
+--- a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
++++ b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+@@ -1,4 +1,4 @@
+-From fc8e8d4cb19ff30e69aa1855332544f1017f974c Mon Sep 17 00:00:00 2001
++From fb0453de128cf01744456272b0082a2d933481b5 Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Wed, 6 Aug 2014 14:54:12 -0400
+ Subject: [PATCH] defn2[c|man]: don't rely on dpkg-architecture to set arch
+@@ -13,7 +13,6 @@ like the loopback device not being configured/enabled.
+ 
+ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Upstream-Status: Pending
+-
+ ---
+  defn2c.pl   | 6 +++---
+  defn2man.pl | 6 +++---
+diff --git a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
+index fa6bb84df3..cb5af62dde 100644
+--- a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
++++ b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
+@@ -1,4 +1,4 @@
+-From a6bb2ac5f521c678abbbdb1960d28f750f4357a6 Mon Sep 17 00:00:00 2001
++From 96bb984e689b010607f57d7a5eadb1644bc15224 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Mon, 3 Feb 2020 17:33:11 +0800
+ Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
+@@ -7,7 +7,6 @@ Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
+ Upstream-Status: Inappropriate [oe-core specific]
+ 
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-
+ ---
+  tests/testbuild-linux | 11 ++++++-----
+  1 file changed, 6 insertions(+), 5 deletions(-)
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
+similarity index 97%
+rename from meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
+rename to meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
+index c7004ab41d..db454be347 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
+@@ -16,7 +16,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https;branch=mast
+            file://defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch \
+            file://tweak-ptest-script.patch \
             "
+-SRCREV = "369d9d3c13a0c56ad09fd4f13b4a80eb9a94e270"
++SRCREV = "cf86ad5819aba8f9b020a95257c9a8c4911b1c85"
  
--SRC_URI[sha256sum] = "ace0e95a03b38208af4ebacb415244568ace44c5d5a279ea434844f900179c75"
-+SRC_URI[sha256sum] = "0011fb1b20101879f2d01d39cd2bc1d9646990d07d64de893415404a3afc53ef"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ S = "${WORKDIR}/git"
  
 -- 
 2.44.0
 
 
---===============8300751175689677762==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ethtool-upgrade-6.7-6.9.patch"
-
-RnJvbSBiNmFhN2MzNDZjMjg4MzA4YThhNWZlMjk3ZjE5NTM0YzcxNDY5N2Q5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTI6MjA6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-dGh0b29sOiB1cGdyYWRlIDYuNyAtPiA2LjkKCi0tLQogLi4uL2V0aHRvb2wvZXRodG9vbC9hdm9p
-ZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCAgICAgICAgICAgICB8IDcgKysrLS0tLQogLi4uL2V0aHRv
-b2wve2V0aHRvb2xfNi43LmJiID0+IGV0aHRvb2xfNi45LmJifSAgICAgICAgICAgICB8IDIgKy0K
-IDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL3tldGh0b29sXzYuNy5iYiA9PiBldGh0b29s
-XzYuOS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9v
-bC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaAppbmRleCA2OWRm
-ODYzMmYyLi44MDcxOTYxNjA2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRo
-dG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKQEAg
-LTEsNCArMSw0IEBACi1Gcm9tIDc1OGZkZTcxODY3MzBlZTMzMWEwZWU2MTQ5Mjc2Y2Q0MTI3NjZl
-ZTAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGE2OGQ2MGEzODM0MmViNTVlZjZkNTY2
-YWQwYzgzYjJiZWNiMzc0YWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBUdWRvciBG
-bG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4KIERhdGU6IFdlZCwgMjggTWF5IDIwMTQgMTg6
-NTk6NTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXRodG9vbDogdXNlIHNlcmlhbC10ZXN0cyBj
-b25maWcgbmVlZGVkIGJ5IHB0ZXN0LgpAQCAtOSwxNiArOSwxNSBAQCBzZXJpYWwtdGVzdHMgaXMg
-cmVxdWlyZWQgdG8gZ2VuZXJhdGUgdGhvc2UgdGFyZ2V0cy4KIFNpZ25lZC1vZmYtYnk6IFR1ZG9y
-IEZsb3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEuY29tPgogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
-cHJpYXRlCiAoZGVmYXVsdCBhdXRvbWFrZSBiZWhhdmlvciBpbmNvbXBhdGlibGUgd2l0aCBwdGVz
-dCkKLQogLS0tCiAgY29uZmlndXJlLmFjIHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29u
-ZmlndXJlLmFjCi1pbmRleCBjODcxNTU4Li44ZWExZWFhIDEwMDY0NAoraW5kZXggZTQ5NGFhYy4u
-NDJkZDQwZiAxMDA2NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCi1A
-QCAtMyw3ICszLDcgQEAgQUNfSU5JVChldGh0b29sLCA2LjcsIG5ldGRldkB2Z2VyLmtlcm5lbC5v
-cmcpCitAQCAtMyw3ICszLDcgQEAgQUNfSU5JVChldGh0b29sLCA2LjksIG5ldGRldkB2Z2VyLmtl
-cm5lbC5vcmcpCiAgQUNfUFJFUkVRKDIuNTIpCiAgQUNfQ09ORklHX01BQ1JPX0RJUihbbTRdKQog
-IEFDX0NPTkZJR19TUkNESVIoW2V0aHRvb2wuY10pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuNy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9l
-dGh0b29sL2V0aHRvb2xfNi45LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi43LmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuOS5iYgppbmRleCAzM2RmMGUwZTgw
-Li4xODM3YjFlZDFlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9l
-dGh0b29sXzYuNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29s
-XzYuOS5iYgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0v
-c29mdHdhcmUvbmV0d29yay9ldGh0b29sL2V0aHRvb2wtJHtQVn0udGFyLmd6IFwKICAgICAgICAg
-ICAgZmlsZTovL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1T
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiYWNlMGU5NWEwM2IzODIwOGFmNGViYWNiNDE1MjQ0NTY4YWNl
-NDRjNWQ1YTI3OWVhNDM0ODQ0ZjkwMDE3OWM3NSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwMDEx
-ZmIxYjIwMTAxODc5ZjJkMDFkMzljZDJiYzFkOTY0Njk5MGQwN2Q2NGRlODkzNDE1NDA0YTNhZmM1
-M2VmIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly93d3cua2VybmVsLm9yZy9wdWIv
-c29mdHdhcmUvbmV0d29yay9ldGh0b29sLyIKIAotLSAKMi40NC4wCgo=
-
---===============8300751175689677762==
+--===============5092613687438141031==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PKGSIZE changed from 24621 to 24728 (+0%)
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 4447160 to 4458240 (+0%)
-packages/core2-64-poky-linux/ethtool/ethtool-dev: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 48101 to 48871 (+2%)
-packages/core2-64-poky-linux/ethtool/ethtool-locale: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1709259 to 1713355 (+0%)
-packages/core2-64-poky-linux/ethtool/ethtool-src: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-src: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1401782 to 1427444 (+2%)
-packages/core2-64-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool/ethtool: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool/ethtool: PKGV changed from 6.7 [default] to 6.9 [default]
-packages/core2-64-poky-linux/ethtool: PV changed from "6.7" to "6.9"
-packages/core2-64-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.7.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.9.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
-packages/core2-64-poky-linux/ethtool: PKGV changed from 6.7 [default] to 6.9 [default]
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1878 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (917 cached, 1 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============8300751175689677762==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-2654489ac7a6c5f6d8d86e90f3002245d4d02ed1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:2654489ac7a6c5f6d8d86e90f3002245d4d02ed1"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 204 Local 190 Mirrors 0 Missed 14 Current 203 (93% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 903 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_recipe_qa)
+NOTE: recipe ifupdown-0.8.43-r0: task do_recipe_qa: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1154 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_fetch)
+NOTE: recipe ifupdown-0.8.43-r0: task do_fetch: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_fetch: Succeeded
+NOTE: Running task 1155 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_unpack)
+NOTE: Running task 1156 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ifupdown-0.8.43-r0: task do_unpack: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ifupdown-0.8.43-r0: task do_unpack: Succeeded
+NOTE: Running task 1157 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_patch)
+NOTE: Running task 1158 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_collect_spdx_deps)
+NOTE: recipe ifupdown-0.8.43-r0: task do_patch: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe ifupdown-0.8.43-r0: task do_patch: Succeeded
+NOTE: Running task 1159 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1160 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_populate_lic)
+NOTE: recipe ifupdown-0.8.43-r0: task do_populate_lic: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_populate_lic: Succeeded
+NOTE: recipe ifupdown-0.8.43-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1161 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_configure)
+NOTE: recipe ifupdown-0.8.43-r0: task do_configure: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_configure: Succeeded
+NOTE: Running task 1162 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_configure_ptest_base)
+NOTE: recipe ifupdown-0.8.43-r0: task do_configure_ptest_base: Started
+NOTE: recipe ifupdown-0.8.43-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1163 of 1176 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile)
+NOTE: recipe ifupdown-0.8.43-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75 CC=x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot CFLAGS= -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/t
+ mp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o main.o main.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o addrfam.o addrfam.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o execute.o execute.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o config.o config.c
+| ./defn2c.pl inet.defn > inet.c
+| ./defn2c.pl ipx.defn > ipx.c
+| ./defn2c.pl inet6.defn > inet6.c
+| ./defn2c.pl can.defn > can.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o archcommon.o archcommon.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o archlinux.o archlinux.c
+| ./defn2c.pl meta.defn > meta.c
+| ./defn2c.pl link.defn > link.c
+| ln -sf ifup.8 ifdown.8
+| ln -sf ifup.8 ifquery.8
+| ./defn2man.pl inet.defn > inet.man
+| ./defn2man.pl ipx.defn > ipx.man
+| ./defn2man.pl inet6.defn > inet6.man
+| ./defn2man.pl can.defn > can.man
+| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 30.
+| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 30.
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o ipx.o ipx.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o can.o can.c
+| Use of uninitialized value $line in pattern match (m//) at ./defn2c.pl line 40, <> line 7.
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o meta.o meta.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o inet.o inet.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o link.o link.c
+| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/git=/usr/src/debug/ifupdown/0.8.43  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdo
+ wn/0.8.43/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/recipe-sysroot-native=  -pipe -Wall -W -D'IFUPDOWN_VERSION="0.8.43"'   -c -o inet6.o inet6.c
+| sed -e '/^##ADDRESSFAM##$/r inet.man' -e '/^##ADDRESSFAM##$/r ipx.man' -e '/^##ADDRESSFAM##$/r inet6.man' -e '/^##ADDRESSFAM##$/r can.man' \
+|      -e '/^##ADDRESSFAM##$/d' < interfaces.5.pre > interfaces.5
+| ipx.c: In function '_static_rename':
+| ipx.c:27:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    27 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| ipx.c:27:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|    27 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| ipx.c: In function '_dynamic_rename':
+| ipx.c:46:44: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    46 | static int _dynamic_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                            ~~~~~~~~~~~~~~~~^~~
+| ipx.c:46:57: warning: unused parameter 'exec' [-Wunused-parameter]
+|    46 | static int _dynamic_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                 ~~~~~~~~^~~~
+| can.c: In function '_static_rename':
+| can.c:48:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    48 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| can.c:48:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|    48 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| meta.c: In function '_none_up':
+| meta.c:15:37: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    15 | static int _none_up(interface_defn *ifd, execfn *exec) {
+|       |                     ~~~~~~~~~~~~~~~~^~~
+| meta.c:15:50: warning: unused parameter 'exec' [-Wunused-parameter]
+|    15 | static int _none_up(interface_defn *ifd, execfn *exec) {
+|       |                                          ~~~~~~~~^~~~
+| meta.c: In function '_none_down':
+| meta.c:18:39: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    18 | static int _none_down(interface_defn *ifd, execfn *exec) {
+|       |                       ~~~~~~~~~~~~~~~~^~~
+| meta.c:18:52: warning: unused parameter 'exec' [-Wunused-parameter]
+|    18 | static int _none_down(interface_defn *ifd, execfn *exec) {
+|       |                                            ~~~~~~~~^~~~
+| meta.c: In function '_none_rename':
+| meta.c:21:41: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    21 | static int _none_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                         ~~~~~~~~~~~~~~~~^~~
+| meta.c:21:54: warning: unused parameter 'exec' [-Wunused-parameter]
+|    21 | static int _none_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                              ~~~~~~~~^~~~
+| inet.c: In function '_loopback_rename':
+| inet.c:27:45: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    27 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                             ~~~~~~~~~~~~~~~~^~~
+| inet.c:27:58: warning: unused parameter 'exec' [-Wunused-parameter]
+|    27 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                  ~~~~~~~~^~~~
+| inet.c: In function '_static_rename':
+| inet.c:68:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    68 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet.c:68:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|    68 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet.c: In function '_manual_rename':
+| inet.c:97:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    97 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet.c:97:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|    97 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet6.c: In function '_auto_rename':
+| inet6.c:67:41: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    67 | static int _auto_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                         ~~~~~~~~~~~~~~~~^~~
+| inet6.c:67:54: warning: unused parameter 'exec' [-Wunused-parameter]
+|    67 | static int _auto_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                              ~~~~~~~~^~~~
+| inet.c: In function '_dhcp_rename':
+| inet.c:143:41: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   143 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                         ~~~~~~~~~~~~~~~~^~~
+| inet6.c: In function '_loopback_rename':
+| inet6.c:92:45: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    92 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                             ~~~~~~~~~~~~~~~~^~~
+| inet.c:143:54: warning: unused parameter 'exec' [-Wunused-parameter]
+|   143 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                              ~~~~~~~~^~~~
+| inet6.c:92:58: warning: unused parameter 'exec' [-Wunused-parameter]
+|    92 | static int _loopback_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                  ~~~~~~~~^~~~
+| inet.c: In function '_bootp_rename':
+| inet.c:163:42: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   163 | static int _bootp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                          ~~~~~~~~~~~~~~~~^~~
+| inet.c:163:55: warning: unused parameter 'exec' [-Wunused-parameter]
+|   163 | static int _bootp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                               ~~~~~~~~^~~~
+| inet.c: In function '_tunnel_rename':
+| inet.c:192:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   192 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet.c:192:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|   192 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet6.c: In function '_static_rename':
+| inet6.c:159:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   159 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet.c: In function '_ppp_rename':
+| inet6.c:159:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|   159 | static int _static_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet.c:211:40: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   211 | static int _ppp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                        ~~~~~~~~~~~~~~~~^~~
+| inet.c:211:53: warning: unused parameter 'exec' [-Wunused-parameter]
+|   211 | static int _ppp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                             ~~~~~~~~^~~~
+| inet6.c: In function '_manual_rename':
+| inet.c: In function '_wvdial_rename':
+| inet6.c:188:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   188 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet.c:232:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   232 | static int _wvdial_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet6.c:188:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|   188 | static int _manual_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet.c:232:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|   232 | static int _wvdial_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet.c: In function '_ipv4ll_rename':
+| inet.c:251:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   251 | static int _ipv4ll_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet.c:251:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|   251 | static int _ipv4ll_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet6.c: In function '_dhcp_rename':
+| inet6.c:242:41: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   242 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                         ~~~~~~~~~~~~~~~~^~~
+| inet6.c:242:54: warning: unused parameter 'exec' [-Wunused-parameter]
+|   242 | static int _dhcp_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                              ~~~~~~~~^~~~
+| inet6.c: In function '_tunnel_rename':
+| inet6.c:277:43: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   277 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                           ~~~~~~~~~~~~~~~~^~~
+| inet6.c:277:56: warning: unused parameter 'exec' [-Wunused-parameter]
+|   277 | static int _tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                ~~~~~~~~^~~~
+| inet6.c: In function '_v4tunnel_rename':
+| inet6.c:314:45: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   314 | static int _v4tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                             ~~~~~~~~~~~~~~~~^~~
+| inet6.c:314:58: warning: unused parameter 'exec' [-Wunused-parameter]
+|   314 | static int _v4tunnel_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                                  ~~~~~~~~^~~~
+| inet6.c: In function '_6to4_rename':
+| inet6.c:355:41: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   355 | static int _6to4_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                         ~~~~~~~~~~~~~~~~^~~
+| inet6.c:355:54: warning: unused parameter 'exec' [-Wunused-parameter]
+|   355 | static int _6to4_rename(interface_defn *ifd, execfn *exec) { return 0; }
+|       |                                              ~~~~~~~~^~~~
+| archcommon.c: In function 'cleanup_hwaddress':
+| archcommon.c:82:40: warning: unused parameter 'ifd' [-Wunused-parameter]
+|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                        ~~~~~~~~~~~~~~~~^~~
+| archcommon.c:82:64: warning: unused parameter 'argc' [-Wunused-parameter]
+|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                            ~~~~^~~~
+| archcommon.c:82:77: warning: unused parameter 'argv' [-Wunused-parameter]
+|    82 | void cleanup_hwaddress(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                                      ~~~~~~~^~~~
+| archcommon.c: In function 'make_hex_address':
+| archcommon.c:120:39: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                       ~~~~~~~~~~~~~~~~^~~
+| archcommon.c:120:63: warning: unused parameter 'argc' [-Wunused-parameter]
+|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                           ~~~~^~~~
+| archcommon.c:120:76: warning: unused parameter 'argv' [-Wunused-parameter]
+|   120 | void make_hex_address(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                                     ~~~~~~~^~~~
+| archcommon.c: In function 'compute_v4_addr':
+| archcommon.c:134:38: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                      ~~~~~~~~~~~~~~~~^~~
+| archcommon.c:134:62: warning: unused parameter 'argc' [-Wunused-parameter]
+|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                          ~~~~^~~~
+| archcommon.c:134:75: warning: unused parameter 'argv' [-Wunused-parameter]
+|   134 | void compute_v4_addr(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                                    ~~~~~~~^~~~
+| archcommon.c: In function 'compute_v4_mask':
+| archcommon.c:150:38: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                      ~~~~~~~~~~~~~~~~^~~
+| archcommon.c:150:62: warning: unused parameter 'argc' [-Wunused-parameter]
+|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                          ~~~~^~~~
+| archcommon.c:150:75: warning: unused parameter 'argv' [-Wunused-parameter]
+|   150 | void compute_v4_mask(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                                    ~~~~~~~^~~~
+| config.c: In function 'add_allow_up':
+| config.c:182:47: warning: unused parameter 'filename' [-Wunused-parameter]
+|   182 | static allowup_defn *add_allow_up(const char *filename, int line, allowup_defn *allow_up, const char *iface_name) {
+|       |                                   ~~~~~~~~~~~~^~~~~~~~
+| config.c:182:61: warning: unused parameter 'line' [-Wunused-parameter]
+|   182 | static allowup_defn *add_allow_up(const char *filename, int line, allowup_defn *allow_up, const char *iface_name) {
+|       |                                                         ~~~~^~~~
+| archcommon.c: In function 'compute_v4_broadcast':
+| archcommon.c:201:67: warning: unused parameter 'argc' [-Wunused-parameter]
+|   201 | void compute_v4_broadcast(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                               ~~~~^~~~
+| archcommon.c:201:80: warning: unused parameter 'argv' [-Wunused-parameter]
+|   201 | void compute_v4_broadcast(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                                         ~~~~~~~^~~~
+| archcommon.c: In function 'set_preferred_lft':
+| archcommon.c:252:64: warning: unused parameter 'argc' [-Wunused-parameter]
+|   252 | void set_preferred_lft(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                            ~~~~^~~~
+| archcommon.c:252:77: warning: unused parameter 'argv' [-Wunused-parameter]
+|   252 | void set_preferred_lft(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                                                                      ~~~~~~~^~~~
+| archcommon.c: In function 'get_token':
+| archcommon.c:266:32: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   266 | void get_token(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                ~~~~~~~~~~~~~~~~^~~
+| archcommon.c: In function 'to_decimal':
+| archcommon.c:297:33: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   297 | void to_decimal(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                 ~~~~~~~~~~~~~~~~^~~
+| archcommon.c: In function 'map_value':
+| archcommon.c:312:32: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   312 | void map_value(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |                ~~~~~~~~~~~~~~~~^~~
+| archcommon.c: In function 'if_set':
+| archcommon.c:331:29: warning: unused parameter 'ifd' [-Wunused-parameter]
+|   331 | void if_set(interface_defn *ifd, char **pparam, int argc, char **argv) {
+|       |             ~~~~~~~~~~~~~~~~^~~
+| execute.c: In function 'set_environ':
+| execute.c:107:48: error: 'PKGLIBDIR' undeclared (first use in this function)
+|   107 |         *ppch++ = setlocalenv("%s=%s", "PATH", PKGLIBDIR ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+|       |                                                ^~~~~~~~~
+| execute.c:107:48: note: each undeclared identifier is reported only once for each function it appears in
+| execute.c:107:57: error: expected ')' before string constant
+|   107 |         *ppch++ = setlocalenv("%s=%s", "PATH", PKGLIBDIR ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+|       |                              ~                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                         )
+| make: *** [<builtin>: execute.o] Error 1
+| make: *** Waiting for unfinished jobs....
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3653284:167 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3653284, line 167
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3653284, line 151
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3653284, line 146
+| 	#4: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3653284, line 141
+| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3653284, line 180
+NOTE: recipe ifupdown-0.8.43-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1163 tasks of which 1152 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715080459.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240715080459.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: ifupdown-0.8.43-r0 do_compile: oe_runmake failed
+ERROR: ifupdown-0.8.43-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/run.do_compile.3653284', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ifupdown/0.8.43/temp/log.do_compile.3653284
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb:do_compile) failed with exit code '1'
+
+--===============5092613687438141031==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ifupdown-upgrade-0.8.41-0.8.43.patch"
+
+RnJvbSA1Mzg4MjI3MmQxZjU1YTVjYTE1ZWY2YWVkYmM2Zjk3MTU5ZWU2ZmJhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMDg6MDU6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
+ZnVwZG93bjogdXBncmFkZSAwLjguNDEgLT4gMC44LjQzCgotLS0KIC4uLi9pZnVwZG93bi9maWxl
+cy8wMDAxLURlZmluZS1GTk1fRVhUTUFUQ0gtZm9yLW11c2wucGF0Y2ggfCAzICstLQogLi4uLU1h
+a2VmaWxlLWRvLW5vdC11c2UtZHBrZy1mb3ItZGV0ZXJtaW5pbmctT1MtdHlwZS5wYXRjaCB8IDcg
+KysrLS0tLQogLi4uL2ZpbGVzLzAwMDEtaWZ1cGRvd24tc2tpcC13cm9uZy10ZXN0LWNhc2UucGF0
+Y2ggICAgICAgICB8IDMgKy0tCiAuLi5uMi1jLW1hbi1kb24tdC1yZWx5LW9uLWRwa2ctYXJjaGl0
+ZWN0dXJlLXRvLXNldC1hLnBhdGNoIHwgMyArLS0KIG1ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3du
+L2ZpbGVzL3R3ZWFrLXB0ZXN0LXNjcmlwdC5wYXRjaCAgfCAzICstLQogLi4uL2lmdXBkb3duL3tp
+ZnVwZG93bl8wLjguNDEuYmIgPT4gaWZ1cGRvd25fMC44LjQzLmJifSAgICB8IDIgKy0KIDYgZmls
+ZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtY29yZS9pZnVwZG93bi97aWZ1cGRvd25fMC44LjQxLmJiID0+IGlmdXBkb3duXzAu
+OC40My5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9m
+aWxlcy8wMDAxLURlZmluZS1GTk1fRVhUTUFUQ0gtZm9yLW11c2wucGF0Y2ggYi9tZXRhL3JlY2lw
+ZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLURlZmluZS1GTk1fRVhUTUFUQ0gtZm9yLW11c2wu
+cGF0Y2gKaW5kZXggNmM0ZWQ1MjZiZi4uZDM5Mjk4YTMwYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1EZWZpbmUtRk5NX0VYVE1BVENILWZvci1tdXNs
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVzLzAwMDEtRGVmaW5l
+LUZOTV9FWFRNQVRDSC1mb3ItbXVzbC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOGRmYmNm
+MDJlNDI0YmExZmRlZjU4N2Q4MWM5ZTA4YTM3YWI4YzFiNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gMmJmM2E5NWFhNjcxZDNhZDhmYzcyYzkzZjcyNzEzODJjNjZkZTczNiBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VA
+b2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KIERhdGU6IFR1ZSwgMiBKdWwgMjAxOSAyMDoxMDo0MiAr
+MDIwMAogU3ViamVjdDogW1BBVENIXSBEZWZpbmUgRk5NX0VYVE1BVENIIGZvciBtdXNsCkBAIC0y
+NCw3ICsyNCw2IEBAIGZ1bmN0aW9uKTsgZGlkIHlvdSBtZWFuICdGTk1fTk9NQVRDSCc/CiBVcHN0
+cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9zYWxzYS5kZWJpYW4ub3JnL2RlYmlhbi9p
+ZnVwZG93bi9tZXJnZV9yZXF1ZXN0cy81XQogCiBTaWduZWQtb2ZmLWJ5OiBPbGVrc2FuZHIgS3Jh
+dmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+Ci0KIC0tLQogIGFyY2hj
+b21tb24uaCB8IDQgKysrKwogIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVzLzAwMDEtTWFrZWZpbGUtZG8t
+bm90LXVzZS1kcGtnLWZvci1kZXRlcm1pbmluZy1PUy10eXBlLnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1NYWtlZmlsZS1kby1ub3QtdXNlLWRwa2ctZm9yLWRl
+dGVybWluaW5nLU9TLXR5cGUucGF0Y2gKaW5kZXggNmUxNWEyNTIyNC4uNGE2YjM3ZTk3YyAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1NYWtlZmlsZS1k
+by1ub3QtdXNlLWRwa2ctZm9yLWRldGVybWluaW5nLU9TLXR5cGUucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1NYWtlZmlsZS1kby1ub3QtdXNlLWRwa2ct
+Zm9yLWRldGVybWluaW5nLU9TLXR5cGUucGF0Y2gKQEAgLTEsMTcgKzEsMTYgQEAKLUZyb20gN2Zl
+NTE2Y2JhZjlmZGEwOWQ5OWRjYjU0ZDQ2NDUzNjdjZmZjOGE0ZCBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKK0Zyb20gZWFlOTZlMjg5NzMzZjUzZThkMDkzNDM2MmRlNGVmMjE4MTU0ODA5NiBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
+aW5AZ21haWwuY29tPgogRGF0ZTogVGh1LCA5IEphbiAyMDIwIDE1OjM4OjA2ICswMTAwCiBTdWJq
+ZWN0OiBbUEFUQ0hdIE1ha2VmaWxlOiBkbyBub3QgdXNlIGRwa2cgZm9yIGRldGVybWluaW5nIE9T
+IHR5cGUKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtvZS1jb3JlIHNwZWNpZmlj
+XQogU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
+b20+Ci0KIC0tLQogIE1ha2VmaWxlIHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQot
+aW5kZXggMGNlMmZhMy4uNzM5YWVmMiAxMDA2NDQKK2luZGV4IDljZDc1OGIuLjU4YjQxNzMgMTAw
+NjQ0CiAtLS0gYS9NYWtlZmlsZQogKysrIGIvTWFrZWZpbGUKIEBAIC0xLDYgKzEsNiBAQApAQCAt
+MjEsNCArMjAsNCBAQCBpbmRleCAwY2UyZmEzLi43MzlhZWYyIDEwMDY0NAogK0FSQ0ggOj0gbGlu
+dXgKICAKICBCQVNFRElSID89ICQoREVTVERJUikKLSAKKyBQS0dMSUJESVIgPz0gL2xpYi9pZnVw
+ZG93bgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvMDAwMS1p
+ZnVwZG93bi1za2lwLXdyb25nLXRlc3QtY2FzZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2lm
+dXBkb3duL2ZpbGVzLzAwMDEtaWZ1cGRvd24tc2tpcC13cm9uZy10ZXN0LWNhc2UucGF0Y2gKaW5k
+ZXggOWFlMjRkYTUxZS4uYjEwZGRlZjQ2MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+aWZ1cGRvd24vZmlsZXMvMDAwMS1pZnVwZG93bi1za2lwLXdyb25nLXRlc3QtY2FzZS5wYXRjaAor
+KysgYi9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9maWxlcy8wMDAxLWlmdXBkb3duLXNraXAt
+d3JvbmctdGVzdC1jYXNlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3ODJkOGE4NjljMjY2
+ODIwZDBmMzQ5NzQ0MzZmMjQ0ZjY3YWZhZWE3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSAwOThiMDE2Njg2MzhhNmRjZTViN2U1NjcwNzM3MjkwNDAxNWM0ZmI0IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogWnFpYW5nIDxxaWFuZy56aGFuZ0B3aW5kcml2ZXIuY29tPgogRGF0
+ZTogTW9uLCAxOSBBcHIgMjAyMSAxNDoxNTo0NSArMDgwMAogU3ViamVjdDogW1BBVENIXSBpZnVw
+ZG93bjogc2tpcCB3cm9uZyB0ZXN0IGNhc2UKQEAgLTEwLDcgKzEwLDYgQEAgYW5kIGFyZSBza2lw
+cGVkIGRpcmVjdGx5LgogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtvZS1jb3JlIHNw
+ZWNpZmljXQogCiBTaWduZWQtb2ZmLWJ5OiBacWlhbmcgPHFpYW5nLnpoYW5nQHdpbmRyaXZlci5j
+b20+Ci0KIC0tLQogIHRlc3RzL3Rlc3RidWlsZC1saW51eCB8IDIgKy0KICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1jb3JlL2lmdXBkb3duL2ZpbGVzL2RlZm4yLWMtbWFuLWRvbi10LXJlbHktb24tZHBrZy1hcmNo
+aXRlY3R1cmUtdG8tc2V0LWEucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9maWxl
+cy9kZWZuMi1jLW1hbi1kb24tdC1yZWx5LW9uLWRwa2ctYXJjaGl0ZWN0dXJlLXRvLXNldC1hLnBh
+dGNoCmluZGV4IDdiNGI3NjFlNmEuLjY3YzA2NDQyZmEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb3JlL2lmdXBkb3duL2ZpbGVzL2RlZm4yLWMtbWFuLWRvbi10LXJlbHktb24tZHBrZy1hcmNo
+aXRlY3R1cmUtdG8tc2V0LWEucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24v
+ZmlsZXMvZGVmbjItYy1tYW4tZG9uLXQtcmVseS1vbi1kcGtnLWFyY2hpdGVjdHVyZS10by1zZXQt
+YS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZmM4ZThkNGNiMTlmZjMwZTY5YWExODU1MzMy
+NTQ0ZjEwMTdmOTc0YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZmIwNDUzZGUxMjhj
+ZjAxNzQ0NDU2MjcyYjAwODJhMmQ5MzM0ODFiNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IFBhdWwgR29ydG1ha2VyIDxwYXVsLmdvcnRtYWtlckB3aW5kcml2ZXIuY29tPgogRGF0ZTog
+V2VkLCA2IEF1ZyAyMDE0IDE0OjU0OjEyIC0wNDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGRlZm4yW2N8
+bWFuXTogZG9uJ3QgcmVseSBvbiBkcGtnLWFyY2hpdGVjdHVyZSB0byBzZXQgYXJjaApAQCAtMTMs
+NyArMTMsNiBAQCBsaWtlIHRoZSBsb29wYmFjayBkZXZpY2Ugbm90IGJlaW5nIGNvbmZpZ3VyZWQv
+ZW5hYmxlZC4KIAogU2lnbmVkLW9mZi1ieTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2Vy
+QHdpbmRyaXZlci5jb20+CiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKLQogLS0tCiAgZGVmbjJj
+LnBsICAgfCA2ICsrKy0tLQogIGRlZm4ybWFuLnBsIHwgNiArKystLS0KZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVzL3R3ZWFrLXB0ZXN0LXNjcmlwdC5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2ZpbGVzL3R3ZWFrLXB0ZXN0LXNjcmlwdC5wYXRj
+aAppbmRleCBmYTZiYjg0ZGYzLi5jYjVhZjYyZGRlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+Y29yZS9pZnVwZG93bi9maWxlcy90d2Vhay1wdGVzdC1zY3JpcHQucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWNvcmUvaWZ1cGRvd24vZmlsZXMvdHdlYWstcHRlc3Qtc2NyaXB0LnBhdGNoCkBAIC0x
+LDQgKzEsNCBAQAotRnJvbSBhNmJiMmFjNWY1MjFjNjc4YWJiYmRiMTk2MGQyOGY3NTBmNDM1N2E2
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5NmJiOTg0ZTY4OWIwMTA2MDdmNTdkN2E1
+ZWFkYjE2NDRiYzE1MjI0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2FpIEthbmcg
+PGthaS5rYW5nQHdpbmRyaXZlci5jb20+CiBEYXRlOiBNb24sIDMgRmViIDIwMjAgMTc6MzM6MTEg
+KzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gVHdlYWsgdGVzdHMgb2YgaWZ1cGRvd24gdG8gbWFrZSBp
+dCB3b3JrIHdpdGggb2UtY29yZSBwdGVzdApAQCAtNyw3ICs3LDYgQEAgU3ViamVjdDogW1BBVENI
+XSBUd2VhayB0ZXN0cyBvZiBpZnVwZG93biB0byBtYWtlIGl0IHdvcmsgd2l0aCBvZS1jb3JlIHB0
+ZXN0CiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWNdCiAK
+IFNpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPgotCiAtLS0K
+ICB0ZXN0cy90ZXN0YnVpbGQtbGludXggfCAxMSArKysrKystLS0tLQogIDEgZmlsZSBjaGFuZ2Vk
+LCA2IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29yZS9pZnVwZG93bi9pZnVwZG93bl8wLjguNDEuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9p
+ZnVwZG93bi9pZnVwZG93bl8wLjguNDMuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRvd24vaWZ1cGRvd25fMC44LjQxLmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtY29yZS9pZnVwZG93bi9pZnVwZG93bl8wLjguNDMuYmIKaW5kZXggYzcw
+MDRhYjQxZC4uZGI0NTRiZTM0NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvaWZ1cGRv
+d24vaWZ1cGRvd25fMC44LjQxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2lmdXBkb3duL2lm
+dXBkb3duXzAuOC40My5iYgpAQCAtMTYsNyArMTYsNyBAQCBTUkNfVVJJID0gImdpdDovL3NhbHNh
+LmRlYmlhbi5vcmcvZGViaWFuL2lmdXBkb3duLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFz
+dAogICAgICAgICAgICBmaWxlOi8vZGVmbjItYy1tYW4tZG9uLXQtcmVseS1vbi1kcGtnLWFyY2hp
+dGVjdHVyZS10by1zZXQtYS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly90d2Vhay1wdGVzdC1z
+Y3JpcHQucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiMzY5ZDlkM2MxM2EwYzU2YWQw
+OWZkNGYxM2I0YTgwZWI5YTk0ZTI3MCIKK1NSQ1JFViA9ICJjZjg2YWQ1ODE5YWJhOGY5YjAyMGE5
+NTI1N2M5YThjNDkxMWIxYzg1IgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjQ0LjAK
+Cg==
+
+--===============5092613687438141031==--
 
