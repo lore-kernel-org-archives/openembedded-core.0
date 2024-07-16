@@ -2,55 +2,55 @@ Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A9BC3DA49
-	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 16:17:33 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.761.1721146651897030918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 027B2C3DA59
+	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 16:19:43 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.812.1721146773501583120
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jul 2024 09:17:32 -0700
+ Tue, 16 Jul 2024 09:19:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CQf9VS+9;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4267345e746so39476865e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 09:17:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PI3lpjLA;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4266dc7591fso40097355e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 09:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721146649; x=1721751449; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1721146771; x=1721751571; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rG3l0WJGVetnpAVAMt/8mQfUdqPA6Qp0agdpVMBMoRk=;
-        b=CQf9VS+9QDSYpxbaTvRJsd97/+HYuQ8yT7DZIYpfyAOEJo7JSpalP3zyFasSGneVi3
-         HgB2sd/2uXmtZ+3YpNEM7rslhiSdud1M9dUREDuGhiL50ZUcwxFbsEbN3cEy9Phm05Zc
-         i9qq5qx8uqXXePXuLuRBOkYQUFdUdjaUq1fb00orILFDn2n3zmDI6z/Z2nRmuaMJxFYY
-         bgBVxa+02RABjd7eBmRVXYrC95uL/ObRFBXMTlQQrf82sEMzKZYy8KSVFKPnAgaASppn
-         12y4lNsnmrEKYkOjWzJvwzNfkL89AES9gGJyhXZsTwHkOI6q3TKpNmLklqBbG3QP7S43
-         45pQ==
+        bh=Uuzp+YH51o9w2bswZuLyB8YIGdn9JLZ5frwdcOqqje8=;
+        b=PI3lpjLA+2cIbxXYY8ypPffz4eme2/eU06NgflJeUUtwko/bK+EnwlIYjcM3ULTusY
+         Y/Mu/qJdFJ2NwKWvgelUPEsgII4L/Mqf4nfjxNhwEbtfhmiVGqZSmyxGIryfxgnrBNVq
+         kanpIHr/d/zv1baQQPBwoXS2G2fG4vJIQqhp8jAjVEIonNGna4X3e0JPZQAo31e2FguA
+         yETupNsxZ5yXKA0AOKO6a6JJWPHjGn4qo4mrpTNHBxQlbvM/9gKPRB2EzJFD4keaZbXB
+         vX4q/yvtZPwOp1h5VwAzScAQsYppgIpaE1MLNgylZysiFxwPQFWpqOpzzpHt7h5LVL2z
+         d6Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721146649; x=1721751449;
+        d=1e100.net; s=20230601; t=1721146771; x=1721751571;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rG3l0WJGVetnpAVAMt/8mQfUdqPA6Qp0agdpVMBMoRk=;
-        b=BHSCXgpwkoO5l0COYvpgxTQzbuMXzKhSSdSvbndyQBvcx2lz9QDBA0qHffBioKcB93
-         gRXqUJi8mz3pvPf2KYF+Ox0i0weq6shjyi+2YGShj2GWnwCdUUndIZ+9bbRfvKOKN1eF
-         dlvOMi3WVo3fO8gm1NJzb/iMUWeDYNqifj6Ck7IYbuO/BvVk15wsonLx3oAgyf6Fc/WE
-         MUgmpxobRNMV9m5feqU+mt9mnaahbkoW14fBZ3+uyf3q/njFRet0pfmMMz3B4HNn5JTW
-         PRwytztDcG3pmC9M/586O1j+PRaQ9vHbimENN90OdlSTfrC+eMp+93O5tKPYDG4pNp+U
-         2qFw==
-X-Gm-Message-State: AOJu0YwBwyFQ3K6Kc1pyB2Eximc4r8u8tedNDtFWcQULscX+pQMCJnkl
-	x7W2pLxNte+VhkA2bT9ru6aCIgCAxC7pc3pBsXFenounrRU3UbXiYZMn+Q==
-X-Google-Smtp-Source: AGHT+IElWQIMSLfTXFyayynxW3Z5aVGrSG/t/fL4pEKbIRzSwCgSkECENg4VjlOftVASEhISDLT7bg==
-X-Received: by 2002:a5d:574d:0:b0:367:8c64:d969 with SMTP id ffacd0b85a97d-368261446f0mr1781623f8f.39.1721146648566;
-        Tue, 16 Jul 2024 09:17:28 -0700 (PDT)
+        bh=Uuzp+YH51o9w2bswZuLyB8YIGdn9JLZ5frwdcOqqje8=;
+        b=NZCZJE0VO8dX87m66YQWmCSOJvFnCo9ROMEPERWl0MhIskBCC4aHdGoktHue638V1A
+         7x4AiRIGM1sMziej+ukyDCPh1GyleTGvR3//TKAgrc0gS0c2/F8FiYJm3Vx9vCkGp2fc
+         h99a9XIvBgkgDdJRDKS9in21jC24DSPij6hHiB4/H57mW/+hhxOpMERKaD0lXCNEH5Wu
+         aOU9xA7Q637XjS4Z6zvfMLOAPInhUsXw8oqdlxR4s4Yxv7z2t7uXNPxItitn5ED7G0Bl
+         a3Z9S1hyuzNXbab34zi9Co7CyKqxJmb9f54u456WPUtPWXfhs1/+siMbLoSJtTSzydgm
+         x0Og==
+X-Gm-Message-State: AOJu0YwLyuOSrw7d8GNDNvHvhEMtBzibeUQHzSvkGLkX9HJ1xGbbEVrr
+	2z11C/npY1qh1x45FjsnxkQkcAgLaSf05aWBidAGAVha1aAYu3i4CFffFw==
+X-Google-Smtp-Source: AGHT+IEw369tAUx89rzwfqNgSVMmMPquDcfWGEw4uBfoR8YPImdvMVSMZQB9+1iyfb/y3KFfeb2xSw==
+X-Received: by 2002:a05:600c:350f:b0:426:5dde:627a with SMTP id 5b1f17b1804b1-427ba67db02mr21551495e9.23.1721146771534;
+        Tue, 16 Jul 2024 09:19:31 -0700 (PDT)
 Received: from gudni-virtual-machine.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680db048a8sm9447257f8f.111.2024.07.16.09.17.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427a5edb489sm133808125e9.37.2024.07.16.09.19.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jul 2024 09:17:27 -0700 (PDT)
+        Tue, 16 Jul 2024 09:19:30 -0700 (PDT)
 From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] bluez5: cleanup redundant backslashes
-Date: Tue, 16 Jul 2024 16:17:19 +0000
-Message-Id: <20240716161719.4519-1-gudni.m.g@gmail.com>
+Subject: [PATCH v2] bluez5: cleanup redundant backslashes
+Date: Tue, 16 Jul 2024 16:19:18 +0000
+Message-Id: <20240716161918.4840-1-gudni.m.g@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,11 +58,11 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 16:17:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202125
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 16:19:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202126
 
 Noticed in the installation logs a few paths have
-double slahes '//'. Doesn't seem to do any harm, though
+double slashes '//'. Doesn't seem to do any harm, though
 it is good to clean this up for consistency.
 
 Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
