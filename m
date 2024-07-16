@@ -1,588 +1,215 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 701B6C3DA49
-	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 10:00:19 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.7342.1721124014778827466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91545C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 10:12:19 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.72])
+ by mx.groups.io with SMTP id smtpd.web10.7546.1721124738053198855
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jul 2024 03:00:14 -0700
+ Tue, 16 Jul 2024 03:12:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=79271bf3b2=changqing.li@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46G4wirh015674
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 03:00:14 -0700
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40bmv0appn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 03:00:14 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=nlRODEVV;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=nlRODEVV;
+ spf=pass (domain: arm.com, ip: 40.107.104.72, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=FOBH5k3MwfZ8WyMb7zfVpDiZvO+4eA8TGsISmUri9i1jg47EooLKF5st34giC2vBHmz9Snh/wz8Bf15iP4ejPOO5NQ+imAZdLXcWclzBLdKgOEcMWpc4VznxestDuThUPXYl775kpwdSgH2UzLg0Bye6x+S1NPTQbRSsqrGiLOWLV6l6zsTEbUBWuSdO0aynkbfrD+kKbLcIpovHnRelMPL1CXWaFFYIhErtbX4lNVhBNC79pyy3Qe+uiAB6yQ+BvTvWSM0oh8ebNsvkw+bAIscX2BbrXWH7Ix64X0qOBHGSikFlDQH7BwU5pxIwhpRc7vkDiT5BmRi9SIRleJBVrw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RL1s+AflWdYxPdwEb0eg/Hj4RVfZxBNUt3PKNr8aS6Y=;
+ b=nPU+5PYH/fPJiCXCe/MqLquD8RwjtVMoDik+nI6UTa+biQNA7W4kVsd6porfRhklvBU6VovYuaUpYEEbZAayNF/RRhRgS6HEu0iXZh1a1ky4gR+ejH/zYjqXxkeXVgXArew1fjKKNMHLZv2GCZT9T5p0iPf2ScCf4/amFSJZlk6H1p71FyoE+gZr1ViB8jb+Rk1ORyWqdoGpSCFlHo/rnjT6OHVmnuq34A9+fNOt3qCbC3yTh7DtsI3PX/f/abGca+6WvSZTICtCdMQSp3fsMFZnXSEm3ZVeUpbEgEfKzDdg/iYmMtJFs4HhQEY3WpGHmTI2cAZm6HAWjOapg7ewRQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RL1s+AflWdYxPdwEb0eg/Hj4RVfZxBNUt3PKNr8aS6Y=;
+ b=nlRODEVV3pYmyDnJddyKQy9KVaeYupDSCG6drJoFq8Cf3IOQldGxSwvQbzG2H/S53rWPjjHWR6ClTyH0p9u5t9Gq+x93tduWAONZUX2ZIRv2DrtWOJsShv7SSRk2mf8DOt1+47hsn8u06iS3A8TLa6Cvp6D1CT/WSS5wNHVIfAE=
+Received: from AM0PR04CA0088.eurprd04.prod.outlook.com (2603:10a6:208:be::29)
+ by GVXPR08MB8235.eurprd08.prod.outlook.com (2603:10a6:150:16::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.25; Tue, 16 Jul
+ 2024 10:12:10 +0000
+Received: from AM3PEPF0000A79A.eurprd04.prod.outlook.com
+ (2603:10a6:208:be:cafe::55) by AM0PR04CA0088.outlook.office365.com
+ (2603:10a6:208:be::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29 via Frontend
+ Transport; Tue, 16 Jul 2024 10:12:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM3PEPF0000A79A.mail.protection.outlook.com (10.167.16.105) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7784.11
+ via Frontend Transport; Tue, 16 Jul 2024 10:12:10 +0000
+Received: ("Tessian outbound 2679ea9529ec:v365"); Tue, 16 Jul 2024 10:12:10 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 270dda718b7b6aec
+X-CR-MTA-TID: 64aa7808
+Received: from L5ddeb813d3ff.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B48CAD34-E59E-45FC-A791-F5E489F6C8F6.1;
+	Tue, 16 Jul 2024 10:12:03 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L5ddeb813d3ff.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 16 Jul 2024 10:12:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d2jhK2dtVjLZk3Uty/KNP9XpU27QQDKv/qOhreW/UpBeVZCKuPDQbo/acDf8CkSDn1Vzg7/LdmJR7C2rDHgmzgHt+Q2v2aqQRSxsc+5o66ia7LT5XkGZHmc9axXFrIuoODoG5SqMtb+IcHcMP9BRSI+tKLnVCI0mxcRN3KuDA8NivoVqMuFYeLTW8oqhHjQhZRGKCzWOEjMk4U4tmsqQWtQLoAho35My4W1npeUuZzBRGIihGD4NcdtdyKNWMZqKbbcdjrcR82P5izD8JQ5vyWdZeRVRV2DiPaT/2VE54/TkJovV1OIrj3AK6w9ZJP9HuDJChZ2KpLXZeDQXG0hFKQ==
+ b=eUd+UzSvTRCJ1n3ERwj33CbpLTutj2lo8wJegaj+fLhFF9AIHfu1/r/f2A8NchEFx4kvHq4dJIC0Ff1WDEO9ZF+Yx5Qz12iV4hw3qIHYozZbVJY5ZZ45maDd9gyu+92E3Bx7ToSZTTN2NkYjklb21HCYRttGSISce5BHFv/4zjnO0kz+OwtCP9HnYPDc/Wge8whlymQSxzRfMfo0TSKMzEJDZ1G3YwDAqScS6WjusQRcxC045biiZx/2Ye6epk0BybRKszZ7HwowzqagREMbCEb/nP5PBuGiBQWVUbvMVLsQYcHB6LltCvMkxNNDjsARb7oW9hgIqblr8KINlotGSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9zwWPpMOKU6DEz8/tEAxld0n3lpBMYTMLqcuFeZTDA0=;
- b=qZ8vc2xl/lUY5m6eKztcudjxNSDcEtsZ+YUpBsgngeafDhxJJMBOQKPFNPoOlK5AzpZyrBDHvyb0PQpLl00DkuqUFyBgMdH2YTjENE15rpv0Ll/YjdqpZRfmjzfssx9CR9KH3ib1JbOz/hbZHPSrAyotwWAsHoY4AfXPAjxB42/klLkH6l0otk72Wsqi31HS0lhXHw81rKiWiAlD77NgWh1Gy+oDsw0NFNGgDK5Rm8RuirN8fUrg1Jkp8xxyVNOHFhIdleARedChW2J5BFl+pLYLYiaEktKdRKL04r3LPucx9d/2NLAYT4GEUioOor7n45WRj7sYWKP2qUQK0kCscA==
+ bh=RL1s+AflWdYxPdwEb0eg/Hj4RVfZxBNUt3PKNr8aS6Y=;
+ b=c3CZObW5ztJzFv12h9P6qkthbqMKDTjKh5LAqdCYyWewm4QUTPQriz8picpJDW+JILLcg3xk0jRBn+TfAwOwnLnh10eV6ecof5IS3tCff3vtF6Ma2JMWmo8n0b9tb6WWB540kv8iLZyDPY6oUi0X4izTOxoAFNCnz6B+L2/jvF9Y1y7JhSKcb0p3gFwtUFVrIBlPBB/FrifovB40U3J2ATqr6XkrNBf2RbXmRyJAocaiJywwP8W+3CWjVR7wV89fSWWLI2voS7DBuYW8tnrlIsxa9F0uQwDwbGCwomA1NB29jZx1XQxlgPxc7WvS/DtRlq4SO4qdCp9ZOhLdQ+kqjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by IA1PR11MB6289.namprd11.prod.outlook.com (2603:10b6:208:3e7::9) with
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RL1s+AflWdYxPdwEb0eg/Hj4RVfZxBNUt3PKNr8aS6Y=;
+ b=nlRODEVV3pYmyDnJddyKQy9KVaeYupDSCG6drJoFq8Cf3IOQldGxSwvQbzG2H/S53rWPjjHWR6ClTyH0p9u5t9Gq+x93tduWAONZUX2ZIRv2DrtWOJsShv7SSRk2mf8DOt1+47hsn8u06iS3A8TLa6Cvp6D1CT/WSS5wNHVIfAE=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB9368.eurprd08.prod.outlook.com (2603:10a6:20b:594::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29; Tue, 16 Jul
- 2024 10:00:10 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c%4]) with mapi id 15.20.7762.027; Tue, 16 Jul 2024
- 10:00:10 +0000
-Content-Type: multipart/alternative;
- boundary="------------2STpHZ4oSl9Sw4Fa40hEXmFs"
-Message-ID: <4cad678f-e3ef-4cbd-ba3e-bc13dd66dea5@windriver.com>
-Date: Tue, 16 Jul 2024 18:00:05 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [scarthgap][master][PATCH] pixman: update patch for
- fixing inline failure with -Og
-To: openembedded-core@lists.openembedded.org
-References: <17E2A86D7AF261DF.18588@lists.openembedded.org>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Tue, 16 Jul
+ 2024 10:12:01 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%4]) with mapi id 15.20.7762.027; Tue, 16 Jul 2024
+ 10:12:01 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "kweihmann@outlook.com" <kweihmann@outlook.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] classes/flit-core: fix dependency loop
+Thread-Topic: [OE-core] [PATCH] classes/flit-core: fix dependency loop
+Thread-Index: AQHa1rFtiLymMqFzIEezvnhx9evJfbH5I8IA
+Date: Tue, 16 Jul 2024 10:12:01 +0000
+Message-ID: <3D92F9FB-177D-4E13-B21E-2CC9BF2BEC9A@arm.com>
+References: 
+ <GV1PR07MB91206A63390D43C3F32D7118A8A12@GV1PR07MB9120.eurprd07.prod.outlook.com>
+In-Reply-To: 
+ <GV1PR07MB91206A63390D43C3F32D7118A8A12@GV1PR07MB9120.eurprd07.prod.outlook.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: <17E2A86D7AF261DF.18588@lists.openembedded.org>
-X-ClientProxiedBy: TYCPR01CA0162.jpnprd01.prod.outlook.com
- (2603:1096:400:2b1::20) To DS0PR11MB7312.namprd11.prod.outlook.com
- (2603:10b6:8:11f::18)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|IA1PR11MB6289:EE_
-X-MS-Office365-Filtering-Correlation-Id: f97f05a9-4411-4775-ce5d-08dca57e1429
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.600.62)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB9368:EE_|AM3PEPF0000A79A:EE_|GVXPR08MB8235:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17d05e95-d532-411f-fed0-08dca57fc197
+x-checkrecipientrouted: true
+nodisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|4022899009;
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?us-ascii?Q?IYr9vAV8D+UQU1IQzhQriUxjxG4k5tZtfFO4Hvyj6oGn0gR/Xs4BmZjiXTTF?=
+ =?us-ascii?Q?FBBxA9fBLdgg8Z6xbdCOZUps7MW3I8cMiR8adpwBj8caxsppObAYnNkP+jj5?=
+ =?us-ascii?Q?KHEIHLLlnoX6/BpqbNxzaKmADbITBZFImFTvv0TS4j6dCe4u2O6LUXa0R4aQ?=
+ =?us-ascii?Q?wysgTENbT5O1bwnbaaKrebGNCoBKeybN4C4F1+gWkTof+wtLxEw+Gvt2M5Kj?=
+ =?us-ascii?Q?E0yyuN1JP5pdQ0mhb8sT2npCkfWyYnCPqTInGucYgmkpxfkL2hOKTT5aAxT6?=
+ =?us-ascii?Q?86jmC9LTYV3wHRslrESWi2+cE+PfCLrfC3xvb2yHtUrdUvoVpR+zyIijHt3g?=
+ =?us-ascii?Q?KusqZNJQ4/MNx6eWK6cG39l4Xax+NvUdBENVmK/2lQYfVJeROhQ3i2Z5liJB?=
+ =?us-ascii?Q?T64JPRGF6cpw9PIK+5SmhditMT8o1amP/3xkzFvlh+HGu56Hs5gT5qgtScjq?=
+ =?us-ascii?Q?YnHE7/Nu3nnxHm8/9BZJZCAJ/gOpfrdSYHmGBSdwxyyMFGctgWrtjV8IxvRx?=
+ =?us-ascii?Q?p1vdUXx5nkuD2KpRHwFZvlfsY5xdASb/3JWtZLHgAaTTYQWsRJP1AUjYUXGc?=
+ =?us-ascii?Q?uj4+z8DySAp1Wwc00M0LJYv5sPnPCJPNjSKpgGW6JRltjNCbbIKsjOqB4ep6?=
+ =?us-ascii?Q?5JkiS8SXr7VZ7OtAiUuEVRo8SAxCLcKMUaThX+Vhd6m+niGmilXobjR6X/02?=
+ =?us-ascii?Q?V1EY5eKZppOSg9UBPy+Px0M469+A4MOjTQ/+S5ntJE+6XFvWWBMg298YDXNg?=
+ =?us-ascii?Q?Xdz/zatlL4CTSpabp//ALt5MlUY4xcNEtLAo0Pa2VmAjgX7ZUe0+GVAV0XoM?=
+ =?us-ascii?Q?g9VQ7H3U0oiRd1TNqRxyHM6a0W25lbRa0Q0OL8V1b6uv0luvz005Snaj/sux?=
+ =?us-ascii?Q?l4JSFjZBQavNSWuV8p6Ic2als2kVyQbhjp9zkjcnHTZdqV2F2p/gdhFrucyU?=
+ =?us-ascii?Q?LqCGG1RqGDyqWZM19cMSJdNEbfOrxdfc4YXRnSvCSz82R+2KMHPeQ6lBAxzq?=
+ =?us-ascii?Q?Y02t3CsVtM/tmW8Y/Zj6hoUSdToJVgZZKKeQAdGn/4gij0PSYoazH73u8xT5?=
+ =?us-ascii?Q?SDYOGrbgYmme2gE7HHPX5O9x0VCsyhn68x4X6vO3rAB5zRgA5wf96VD6SX9J?=
+ =?us-ascii?Q?tm34R2DsyTNkBdtVGwEPzX7AE+zVNCfeNrEVPeorwvgUtdlFUtNmcbQ+SvUM?=
+ =?us-ascii?Q?IR5WrnU8IyG08373Ezs0HoaZCP92MgCT1nKc6uANqZ3UxNsMe+BstBxTxZiK?=
+ =?us-ascii?Q?EvtZUBguoTBkRRM7UiLsuCAo6g9t09ZX+nwIlS1rVlQ77i8thsR7uIr0iptf?=
+ =?us-ascii?Q?tkoB0+QzaDEBbB9Kw99PRIp4t/RY0Lt89kXrAFAxUmREa7vt0mEFuilWLRNS?=
+ =?us-ascii?Q?sNV3Dovwm63OUwUVt8XF+4Mr2UHS5doQQnz4m9eISZz3K9/uWg=3D=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3CA228A0B1C77E4F884D07B54093BB4B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9368
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM3PEPF0000A79A.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	aed9fd7c-64a4-40d7-08ce-08dca57fbc15
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|35042699022|36860700013|376014|82310400026;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?cUEzS1RMcEQxeHU0SlNiYkxNbVk1M2MxS3gzWCt0RnV6cXVlNUlhdERuenBw?=
- =?utf-8?B?UkVkWENGK2VHNWRNUVJJcVlVejM1R2I2ZjJyTndOYzQrdDNpTzVrSFF3ZVhr?=
- =?utf-8?B?WWJnTXVLTlpwUTFORE9qNFBlTXhjaUozTHJJbnJWTTlKVXhmMUFHNnNQS2dL?=
- =?utf-8?B?cENadEw2d2FKRHVtUGJhZ2xBL3lPdzBlM1ZuOFdwbWtQZFZXbHlvUjNRcWtB?=
- =?utf-8?B?Rno1U3RtQ3NTeHhQMkRCbjM1MDJVOHFDWmU4K3cyaGhXcWswVXNWanpxTGps?=
- =?utf-8?B?cnoxNktIZ3Z1dzJ4L1Z3Ui92WDh4RWFiZGkwUFc0aHYyNjc2UWtyQmJZSVd4?=
- =?utf-8?B?WjNubmI1ZnRtV0owemxnSGtvcStrZU5MMGRZUEhlL2Z4T1JPaXdTQ253M0FN?=
- =?utf-8?B?QjJaMFAzOGlhNThxYnhLTldRc3NNUW81NndIZnVUNktZUGlTVUdCdmRGblNo?=
- =?utf-8?B?NVFydlhGZGx0ZS9PNVZsc0dVSm85bm9DY0V3MCtQUDBXa2o1L3dZY2k4S0JF?=
- =?utf-8?B?VUJzdGlUVEp6RldVWDlzZFpUMDU0dkRob0NVQUovL3JicE92ZGJROWdZSGov?=
- =?utf-8?B?cTJPSEV6VE5QQ1pDN3NUZFU4NkY5N05MVGl4d1NUcFhPTVJZaUZ1cGN5VGZr?=
- =?utf-8?B?UWdNRk1NQUtPazF0SnNjNlJWZWJvMjRNLzdxa2xNaHh4NTFMVVlHcEdXSkV0?=
- =?utf-8?B?RXA4UGVpWUppbG5EcStQS3FDZmkzWm42UlJtOWEyS0tSd0hjT1hFWjYxUk0x?=
- =?utf-8?B?dmg1djFYQy9PZlo5QUM2SXdSRVlUenZBODZyUHU0dVg0Zkc3S0xTYU9Gb2tX?=
- =?utf-8?B?Smw5VFFTN3BjbGYwRU1YMjgxN2ZNOXBZSDhqTkFITjFuYkd2V2J1WG9ZL1A4?=
- =?utf-8?B?cVlkSmFrK2VTZkVPcE9hL3ZEcVNCd2dRay9oZktySDhVaExlR1JqdG81Wldz?=
- =?utf-8?B?REtBd2hISUYxeE1wSDZaQmZjeVVKMEwyV0NocDdlQjBLdUFuZUxuTGVaS2ZZ?=
- =?utf-8?B?dEtwdG84TGFBd2FpY1dCM1FqcWd6MVVpTGhXYkVFdzB2YXBzUGVka0hIbTJw?=
- =?utf-8?B?OFBKWjIrOGlEaGhHY1NOTUpldHcwNy9oSThLR01nNW5aTEtaY2I2QWErbUo5?=
- =?utf-8?B?NU5JaVdlazZkd010amNtSHJVWHdNRnkvVW5jZGk5UW9pdUVwa1o5UEtIUFlP?=
- =?utf-8?B?VUdPQi9ub3k0cjdUMEcrV3htREYwbHNKMWxsV003OXNaTVUwclBxQjhFdGll?=
- =?utf-8?B?MHJvNG9jMHc0ZDJpZTkzWm5xQjVVK09TTkVybzBUSW9hYnRKMUdmY1VXUUR4?=
- =?utf-8?B?YmJwdnFJcFNFbGdsOVJyMUx2TlhwUmxQVXF4bWp5UmdwTlk1T2ljcnJySUtn?=
- =?utf-8?B?UTFOeHI5M0FoQmlZRzdnSjJpajNhU0xFM2oyWkNZTVhHbElsYmROSnJhbDVI?=
- =?utf-8?B?djJsRS9IY2dXZkNIUTZzb3YrTHBDM1RQdkZnZ1Y4Q0Jzcm9GK3BjZmFkQTgz?=
- =?utf-8?B?bE5uQlVTMGtRUHJISVdLSXRIZ3A3bDhiMUtHRzFkWUdPeWhOdHRpcjdNSTlm?=
- =?utf-8?B?OXZkQ0ZXck96VlNtVnVYMDdQeGYrRjMwb0o2YTlNa0NtbVd1VUU1K0MzMnhw?=
- =?utf-8?B?S3Q5cm4vc1ZkN1NwRm40bDJjcVdJTFYvZG1qclVhTHpKYVNmWGZGRkp3YlNC?=
- =?utf-8?B?VHB2WDhHNUlxWW90TXR3M2wxWGxkUXN0QjZuMDVHUFNYS0tkNGd5TWVFYUJY?=
- =?utf-8?Q?iHis28YZujHCwmbPeA=3D?=
+	=?us-ascii?Q?Ptl6iD74mlfbxliRT3LrNrnvxPmudl1ThOfhKDlJSJvznHqPYsilFe7qC8hs?=
+ =?us-ascii?Q?Aruomrf4kIr6vwBCYw0FfGRKqQivdipgrmHUZ8QWlufMpmzZCKmnn7Vm2DAu?=
+ =?us-ascii?Q?Eh6MG+3iZAcqUatK0vXR4tU89q0UaWDxQDKODLdZi3N62VB7Fgye0teMwtUm?=
+ =?us-ascii?Q?EtzZZ7iM+gRpALBp9SjXkxq1wHvGCr+NFt7px/29xIS7P6sOkiAYhjlqpyDy?=
+ =?us-ascii?Q?pX7o8NnpCGbD4pD4kmVc4n3EYH9anNM8CSU6est7EOs/Wc0knlUPeVE5Z5Ju?=
+ =?us-ascii?Q?r+j267mrPGDdtxvOoi+ap0DP0MWJsJt10zT+6btYzaLBcFdhQBQsItfHC+Bj?=
+ =?us-ascii?Q?ivzuh0pF+wLk7saaGIe0I0q35nCzETLPnxbbbTAE9C9NGLr17ZYN/HEU77Bl?=
+ =?us-ascii?Q?1ERfG39ObILfol/UZgqwKDPV+Jsg6sby+DCxp7+FZb3BRFpE7bl8Q7XL072N?=
+ =?us-ascii?Q?wKRT/mjWLBQef/H4h0p39g9cQ/beDqFCBvicwlSqQj5UrvIrg9bdEM+ZpZ4A?=
+ =?us-ascii?Q?UiLe0sMKVthrM79a/FvObiRCZAdj19gGa2ZfUELI0UA2NG2SkyxKP2XIHMfL?=
+ =?us-ascii?Q?8hr/qXMTAXUkEE2HU2mp2lrL126q0scpxvQK0fYvi7kKo1Sq6sdMfmVcprHt?=
+ =?us-ascii?Q?5IHoeYhG77itNfieLM2GoB1ynml64NjtpW/wRjZ8d3KJjUkwpBDL7tJNUNJf?=
+ =?us-ascii?Q?547VMwV2ECJEaxH2uDFIKg6VLuNHzOnP4Exe7Iy+Fa2WVWctERx2y7sVAUUb?=
+ =?us-ascii?Q?iFcHJd8CYe+2OtfNtrIHJkL+ynQIrE05mAsbNHNVI5SC1yLco9ZaIn5V6BMP?=
+ =?us-ascii?Q?hNjtJFY/fxDxoKZHcuP8bnh1uQBoFYOIj87MflhUEIjqUzeb6T2rmhY4locF?=
+ =?us-ascii?Q?Goi5CaeY5Mf60fWD3yrhKSKZrv4NE1TAD9Yq9jtNX2m6wqCUWG09BERprKQz?=
+ =?us-ascii?Q?MtXeUK7wyC69JCF2M6b1yosGJjpbCwpgjynJGxdZh38n7pFiSINOj/H7T4b/?=
+ =?us-ascii?Q?fDIwZ/F4bbFaTOA2wP4pm99WQNm4/3NbFjeqPgpIOwErC4+2Mm0M3cBOgksW?=
+ =?us-ascii?Q?mMqhqjHxHdKonR3DBQGd6Trl5QQUnjQcYEDrCmiZAhlxhiH4lak3wRnzCKyc?=
+ =?us-ascii?Q?HWOcuG4JoE51U7KpCg6XadvL4ykOuv5oIebC06y0Bu/3+oloBKW06S/3M6No?=
+ =?us-ascii?Q?u0jdFoKN8VzchKXYuE1ToXXDGBfANjFoBT2DMgi898WLOMumroebJbn94QJL?=
+ =?us-ascii?Q?RYd5iwa/t38u5EuC7MthDt2L1O5qKvZ1LtVfjS6sweZVNe7MTbHAlt3Hx5FH?=
+ =?us-ascii?Q?71kNBZdhaGCl6kO9j3JnhRzQ0KCyoL04wtBshUpu11lY7NwG0rYxod6gq0Jr?=
+ =?us-ascii?Q?1XYGIogK2Dc5QgPiQ8wuO60Sm2asPq/2l+3VRGreY8IdPWWHl3UBqkb0wF+d?=
+ =?us-ascii?Q?jgHtX/wU4sD5yIy7zY+vS96keMQONJet?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(4022899009);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NHQxRk02cERIZ0EyaGhOYjgwOWxwV3krNnE3bGlSQm9qUmMzdGxXckgralVJ?=
- =?utf-8?B?azlOTFRFR3VueTJFZUhFemJib1F5Z3I0S1RRN29RRmV3Z3NtN1JrSlVIZ0pR?=
- =?utf-8?B?VnJZZmhuNHdIRHJyQmFZeGtaTWdFelp0cGptSStKbkJtTmFvS0ZyOUkzOThQ?=
- =?utf-8?B?K2NpTEFzK3Y1ZFo4R0lQbGh1bnkvYlVReEQxQzNrS3A1YzlwLzJKRkxBRnNt?=
- =?utf-8?B?UytFNnZ6MlRoKzlmU3NPUnkrcy9TcDJqeUV6NGZjUGRReWlaaWJhREhXWUg2?=
- =?utf-8?B?SDdJMGdYSDNSVTJ4QXNBY0hkSUlJQTNwL2JvcHBsbTFia1dKVy9pTWlhRVNo?=
- =?utf-8?B?ZzRmcWFJN3hlSWVaSWJlb05Nb29TTTdMdTVOT1VOYlZwRGxEOHIrTllUS0ZM?=
- =?utf-8?B?Y0U0aUl4aU1pYms2d0NaZDVad1JsK3c5SU84Yzg1dFpxK1lHRTkxalQzSXFM?=
- =?utf-8?B?ZE0vZ1FpUWxwaVlrenRXeHgxcjFwQ3llenY1ZzJJZmIwTGwrTVRpbVVrTXU2?=
- =?utf-8?B?bFFYMFJQZlpxVUZjZm5yZzduV0YrNkErSGgvM0F4N1BQQXhMVTAvWDlxVTZh?=
- =?utf-8?B?WEV0QVV2b3hFM29LbityQ1VhTDBHNjVWeDJBaGdOcTZ4NHlyWnNETnIwM3A1?=
- =?utf-8?B?K3duRS9wdjFnQjJRTHVBWXp5WHJ6Z0JqdUZCaUIvenpxWWNNYVlEUEhnMy9o?=
- =?utf-8?B?T0Q3cnZWUm42WEVaZDM2NXpJQ2RWNXVHcW1zaHZkMFlIRURlMkJjWUQyenRU?=
- =?utf-8?B?ZVJHdVREUVpmTUwvV2R2MEI0TzJqT2NZL0Z0eXpTSEdPdUZTN2VCRm9sekdK?=
- =?utf-8?B?cmlJV1RSZmpzYXdVeWhkWHA4Q2NSNFVzNVRKWnl5dnNsWDdLVmRUSC81Sjlw?=
- =?utf-8?B?WnF2V0doMVBIKzRQZzIvZk1RUnlTb05YTEVPdHphZ2ZQSDNvUklJemc4Y2I0?=
- =?utf-8?B?RUszazNvbTVLOEQxc2lVNTFaRjhsMmlqc2loQU9rekVTa2hKNEovMEF4TjRn?=
- =?utf-8?B?emN0QjZCUW5CeDVsVHloeUJIbHlyTWFSNE1xUENMN2IrY2NyRm1Ba000V2tW?=
- =?utf-8?B?YldETE95ZTcwYU1NS0grT1RDR2tXRkF5NE9ndURscGUyM3g0ZEg0K1NTazBx?=
- =?utf-8?B?NFpHZDVUYjBrU3o5bkMyTHYvQ0JLSnhBVmg3aUcyUVgyL3BySExRcVFsbWNw?=
- =?utf-8?B?VkxnWmtGOWJpN0xYUmZVR3R2ZTdsbGlnaDJYODM1alV2L3p4eVpoRkFQejdx?=
- =?utf-8?B?OFhnK0ZrZUZBLy9YckUrN2VsV3dnWXdCbFE2OVZEaWh5cTRMb3VnSThOVXls?=
- =?utf-8?B?aDlSQVc2ODJCcHJXeC9tUWd6a2Z1SDBPano5RjkxbDl3VXdOV0psQUlhVjdJ?=
- =?utf-8?B?SE1oYWI1SzdHNTN6dkpsaExIUjRWS1dZejZ1RDBqOUYvNGZNYmg3ZmVYeHF1?=
- =?utf-8?B?ekZoYmlzd0x3NWxOdVZlOFhNTEpST1F5VWdHY3lJOEZHVEowcHJiN0lvamo4?=
- =?utf-8?B?RE1Wc3o3RFVPamVNM2ZiZXRQUnhua1hXMzkzTUVWMHVyODVKWFFqT1ZqWkpU?=
- =?utf-8?B?MUd4NG9veHllamVvblNJOTZoVi94TFNuODVBMXJhYnRLdnVhZXhVQTJxVisv?=
- =?utf-8?B?eTVsZFErUzFvS05Rbmc5Tk9tSGQ5SmkrOGFjQzZnNWdMRkFENEpNMkltVEpV?=
- =?utf-8?B?T00xVzRYTC9IdVNYL3B4VTJjVllCTU15ZEJqVkRLd0pBNGFuSUVUQ0VWRC9I?=
- =?utf-8?B?S1doMzM4Wll6SHkwcHlLQzk1Z3BPMzlXb3libU8wMnVJR2hXTGRQVUZTbDVq?=
- =?utf-8?B?eWJSSlZzK2FpdEhpbFNVMFR1OFMrQUFqcTkrSmN6Q3VPS2R2WSsrMnNjY3VS?=
- =?utf-8?B?dmh6dXM1QURYMXVaaVlPNURPZlA5UnFWNDhjU2JCZWRIaStQc1NKcHNLK2E1?=
- =?utf-8?B?Ukpub1ZEYmI2dFozcStrdk40eFJLaC9nbGZudXpzd3IxQzRNbktZUlBkSWtV?=
- =?utf-8?B?UkJ6ZllpM3RuQ2dxQ29QY0VXUXp5VGU4Y3V1TGJXL1p4ODRHSmw3RG8xbjNO?=
- =?utf-8?B?MXdNbk9xd3pwTkQ2aE5Lc09nR05aN3BNM2NiWFBheHRxa3UxUDRCVmplWDVB?=
- =?utf-8?B?OUZEOW5oaHJ3Q2dQdm85a2dWcFAxV3VjWWNwZzRvbUFDaW5FTWhzc2NsaHZ2?=
- =?utf-8?B?VVE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f97f05a9-4411-4775-ce5d-08dca57e1429
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2024 10:00:10.3885
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(1800799024)(35042699022)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2024 10:12:10.6692
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ll4d3kahAEPWSYMA4G4w64Wmm1iwppszZ1Z+HFVOlMQTuIvmijpBGVxzpP9lcFgbB4AdGFQWKjfxLOPPzx/x/LK5sRMsQ5RnSIy23mNvZiA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6289
-X-Proofpoint-ORIG-GUID: oQGA7qlC0owGjH7_J_d5WmlJGqfzZjLN
-X-Proofpoint-GUID: oQGA7qlC0owGjH7_J_d5WmlJGqfzZjLN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-15_19,2024-07-16_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- mlxscore=0 impostorscore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 spamscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2406140001 definitions=main-2407160072
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17d05e95-d532-411f-fed0-08dca57fc197
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM3PEPF0000A79A.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB8235
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 10:00:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202100
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 10:12:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202101
 
---------------2STpHZ4oSl9Sw4Fa40hEXmFs
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 46G4wirh015674
+On 15 Jul 2024, at 13:18, Konrad Weihmann via lists.openembedded.org <kweih=
+mann=3Doutlook.com@lists.openembedded.org> wrote:
+>=20
+> when using python_flit_core on a native recipe
+> it was creating a dependency loop, as tasks for
+> python3 requires tasks for python3-native,
+> which is essential for building any native python recipes.
 
-Please ignore this mail,=C2=A0 the patch will send out for scarthgap and=20
-master separately.
+We build native recipes in oe-core with flit, can you give an example of ho=
+w this breaks?
 
-On 7/16/24 17:46, Changqing Li via lists.openembedded.org wrote:
-> From: Changqing Li<changqing.li@windriver.com>
->
-> Previous patch works on fedora40 with gcc-14, but not works
-> on ubuntu2004 with gcc-9. Update the patch to fix the do_compile
-> failure:
->      In function =E2=80=98combine_inner=E2=80=99,
->          inlined from =E2=80=98combine_soft_light_ca_float=E2=80=99 at =
-../pixman-0.42.2/pixman/pixman-combine-float.c:655:1:
->      ../pixman-0.42.2/pixman/pixman-combine-float.c:370:5: error: inlin=
-ing failed in call to =E2=80=98always_inline=E2=80=99 =E2=80=98combine_so=
-ft_light_c=E2=80=99: function not
-> considered for inlining
->        370 |     combine_ ## name ## _c (float sa, float s, float da, f=
-loat d)
->
-> Signed-off-by: Changqing Li<changqing.li@windriver.com>
-> ---
->   ...loat.c-fix-inlining-failed-in-call-t.patch | 56 ++++++++++++++++++=
-+
->   ...float.c-replace-force_inline-with-__.patch | 36 ------------
->   .../xorg-lib/pixman_0.42.2.bb                 |  2 +-
->   3 files changed, 57 insertions(+), 37 deletions(-)
->   create mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-pixman-=
-combine-float.c-fix-inlining-failed-in-call-t.patch
->   delete mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-pixman-=
-combine-float.c-replace-force_inline-with-__.patch
->
-> diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-=
-float.c-fix-inlining-failed-in-call-t.patch b/meta/recipes-graphics/xorg-=
-lib/pixman/0001-pixman-combine-float.c-fix-inlining-failed-in-call-t.patc=
-h
-> new file mode 100644
-> index 0000000000..5c79754e50
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-float.c=
--fix-inlining-failed-in-call-t.patch
-> @@ -0,0 +1,56 @@
-> +From 1e32984ccd58da1a66ca918d170a6b1829ef9df2 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li<changqing.li@windriver.com>
-> +Date: Tue, 16 Jul 2024 15:31:16 +0800
-> +Subject: [PATCH] pixman-combine-float.c: fix inlining failed in call t=
-o
-> + always_inline
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Refer [1], always-inline is not suggested to be used if you have indir=
-ect
-> +calls. so replace force_inline with inline to fix error:
-> +In function =E2=80=98combine_inner=E2=80=99,
-> +    inlined from =E2=80=98combine_soft_light_ca_float=E2=80=99 at ../p=
-ixman/pixman-combine-float.c:655:511:
-> +../pixman/pixman-combine-float.c:655:211: error: inlining failed in ca=
-ll to =E2=80=98always_inline=E2=80=99 =E2=80=98combine_soft_light_c=E2=80=
-=99: function not considered for inlining
-> +
-> +[1]https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D115679
-> +
-> +Upstream-Status: Submitted [https://www.mail-archive.com/pixman@lists.=
-freedesktop.org/msg04812.html]
-> +
-> +Signed-off-by: Changqing Li<changqing.li@windriver.com>
-> +---
-> + pixman/pixman-combine-float.c | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/pixman/pixman-combine-float.c b/pixman/pixman-combine-flo=
-at.c
-> +index f5145bc..f65eb5f 100644
-> +--- a/pixman/pixman-combine-float.c
-> ++++ b/pixman/pixman-combine-float.c
-> +@@ -261,7 +261,7 @@ get_factor (combine_factor_t factor, float sa, flo=
-at da)
-> + }
-> +
-> + #define MAKE_PD_COMBINERS(name, a, b)					\
-> +-    static float force_inline						\
-> ++    static float inline						\
-> +     pd_combine_ ## name (float sa, float s, float da, float d)		\
-> +     {									\
-> + 	const float fa =3D get_factor (a, sa, da);			\
-> +@@ -360,13 +360,13 @@ MAKE_PD_COMBINERS (conjoint_xor,		ONE_MINUS_DA_O=
-VER_SA,		ONE_MINUS_SA_OVER_DA)
-> +  */
-> +
-> + #define MAKE_SEPARABLE_PDF_COMBINERS(name)				\
-> +-    static force_inline float						\
-> ++    static inline float						\
-> +     combine_ ## name ## _a (float sa, float s, float da, float d)	\
-> +     {									\
-> + 	return da + sa - da * sa;					\
-> +     }									\
-> +     									\
-> +-    static force_inline float						\
-> ++    static inline float						\
-> +     combine_ ## name ## _c (float sa, float s, float da, float d)	\
-> +     {									\
-> + 	float f =3D (1 - sa) * d + (1 - da) * s;				\
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-=
-float.c-replace-force_inline-with-__.patch b/meta/recipes-graphics/xorg-l=
-ib/pixman/0001-pixman-combine-float.c-replace-force_inline-with-__.patch
-> deleted file mode 100644
-> index cae201629f..0000000000
-> --- a/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-float.c=
--replace-force_inline-with-__.patch
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -From 49a1644015d073829c17dcd977aab6fdda1ebdee Mon Sep 17 00:00:00 2001
-> -From: Changqing Li<changqing.li@windriver.com>
-> -Date: Fri, 5 Jul 2024 07:33:44 +0000
-> -Subject: [PATCH] pixman-combine-float.c: replace force_inline with __i=
-nline__
-> -
-> -Refer [1], always-inline is not suggested to be used if you have indir=
-ect
-> -calls. so replace force_inline with __inline__ to fix error:
-> -In function =E2=80=98combine_inner=E2=80=99,
-> -    inlined from =E2=80=98combine_soft_light_ca_float=E2=80=99 at ../p=
-ixman/pixman-combine-float.c:655:511:
-> -../pixman/pixman-combine-float.c:655:211: error: inlining failed in ca=
-ll to =E2=80=98always_inline=E2=80=99 =E2=80=98combine_soft_light_c=E2=80=
-=99: function not considered for inlining
-> -
-> -[1]https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D115679
-> -
-> -Upstream-Status: Submitted [https://www.mail-archive.com/pixman@lists.=
-freedesktop.org/msg04812.html]
-> -
-> -Signed-off-by: Changqing Li<changqing.li@windriver.com>
-> ----
-> - pixman/pixman-combine-float.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/pixman/pixman-combine-float.c b/pixman/pixman-combine-flo=
-at.c
-> -index f5145bc..52400f4 100644
-> ---- a/pixman/pixman-combine-float.c
-> -+++ b/pixman/pixman-combine-float.c
-> -@@ -44,7 +44,7 @@
-> -
-> - typedef float (* combine_channel_t) (float sa, float s, float da, flo=
-at d);
-> -
-> --static force_inline void
-> -+static __inline__ void
-> - combine_inner (pixman_bool_t component,
-> - 	       float *dest, const float *src, const float *mask, int n_pixel=
-s,
-> - 	       combine_channel_t combine_a, combine_channel_t combine_c)
-> ---
-> -2.44.0
-> -
-> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb b/meta/rec=
-ipes-graphics/xorg-lib/pixman_0.42.2.bb
-> index 88eef50f7b..3c55c1705a 100644
-> --- a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-> @@ -9,7 +9,7 @@ DEPENDS =3D "zlib"
->  =20
->   SRC_URI =3D"https://www.cairographics.org/releases/${BP}.tar.gz \=20
-> file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch=20
-> \ -=20
-> file://0001-pixman-combine-float.c-replace-force_inline-with-__.patch=20
-> \ +=20
-> file://0001-pixman-combine-float.c-fix-inlining-failed-in-call-t.patch =
-\ "
->   SRC_URI[sha256sum] =3D "ea1480efada2fd948bc75366f7c349e1c96d3297d09a3=
-fe62626e38e234a625e"
->  =20
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#202095):https://lists.openembedded.org/g/openembedd=
-ed-core/message/202095
-> Mute This Topic:https://lists.openembedded.org/mt/107249094/3616873
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [=
-changqing.li@windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
---------------2STpHZ4oSl9Sw4Fa40hEXmFs
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 46G4wirh015674
-
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body text=3D"#000000" bgcolor=3D"#cceed0">
-    <p>Please ignore this mail,&nbsp; the patch will send out for scarthg=
-ap
-      and master <span class=3D"HwtZe" lang=3D"en"><span class=3D"jCAhz C=
-hMk0b"><span class=3D"ryNqvb">separately.</span></span></span></p>
-    <div class=3D"moz-cite-prefix">On 7/16/24 17:46, Changqing Li via
-      lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:17E2A86D7AF261DF.18588@lists.op=
-enembedded.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">From: Changqing Li <a class=3D=
-"moz-txt-link-rfc2396E" href=3D"mailto:changqing.li@windriver.com">&lt;ch=
-angqing.li@windriver.com&gt;</a>
-
-Previous patch works on fedora40 with gcc-14, but not works
-on ubuntu2004 with gcc-9. Update the patch to fix the do_compile
-failure:
-    In function =E2=80=98combine_inner=E2=80=99,
-        inlined from =E2=80=98combine_soft_light_ca_float=E2=80=99 at ../=
-pixman-0.42.2/pixman/pixman-combine-float.c:655:1:
-    ../pixman-0.42.2/pixman/pixman-combine-float.c:370:5: error: inlining=
- failed in call to =E2=80=98always_inline=E2=80=99 =E2=80=98combine_soft_=
-light_c=E2=80=99: function not
-considered for inlining
-      370 |     combine_ ## name ## _c (float sa, float s, float da, floa=
-t d)
-
-Signed-off-by: Changqing Li <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
----
- ...loat.c-fix-inlining-failed-in-call-t.patch | 56 +++++++++++++++++++
- ...float.c-replace-force_inline-with-__.patch | 36 ------------
- .../xorg-lib/pixman_0.42.2.bb                 |  2 +-
- 3 files changed, 57 insertions(+), 37 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-pixman-com=
-bine-float.c-fix-inlining-failed-in-call-t.patch
- delete mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-pixman-com=
-bine-float.c-replace-force_inline-with-__.patch
-
-diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-fl=
-oat.c-fix-inlining-failed-in-call-t.patch b/meta/recipes-graphics/xorg-li=
-b/pixman/0001-pixman-combine-float.c-fix-inlining-failed-in-call-t.patch
-new file mode 100644
-index 0000000000..5c79754e50
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-float.c-f=
-ix-inlining-failed-in-call-t.patch
-@@ -0,0 +1,56 @@
-+From 1e32984ccd58da1a66ca918d170a6b1829ef9df2 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:cha=
-ngqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-+Date: Tue, 16 Jul 2024 15:31:16 +0800
-+Subject: [PATCH] pixman-combine-float.c: fix inlining failed in call to
-+ always_inline
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Refer [1], always-inline is not suggested to be used if you have indirec=
-t
-+calls. so replace force_inline with inline to fix error:
-+In function =E2=80=98combine_inner=E2=80=99,
-+    inlined from =E2=80=98combine_soft_light_ca_float=E2=80=99 at ../pix=
-man/pixman-combine-float.c:655:511:
-+../pixman/pixman-combine-float.c:655:211: error: inlining failed in call=
- to =E2=80=98always_inline=E2=80=99 =E2=80=98combine_soft_light_c=E2=80=99=
-: function not considered for inlining
-+
-+[1] <a class=3D"moz-txt-link-freetext" href=3D"https://gcc.gnu.org/bugzi=
-lla/show_bug.cgi?id=3D115679">https://gcc.gnu.org/bugzilla/show_bug.cgi?i=
-d=3D115679</a>
-+
-+Upstream-Status: Submitted [<a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://www.mail-archive.com/pixman@lists.freedesktop.org/msg04812.html">h=
-ttps://www.mail-archive.com/pixman@lists.freedesktop.org/msg04812.html</a=
->]
-+
-+Signed-off-by: Changqing Li <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
-ailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-+---
-+ pixman/pixman-combine-float.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/pixman/pixman-combine-float.c b/pixman/pixman-combine-float=
-.c
-+index f5145bc..f65eb5f 100644
-+--- a/pixman/pixman-combine-float.c
-++++ b/pixman/pixman-combine-float.c
-+@@ -261,7 +261,7 @@ get_factor (combine_factor_t factor, float sa, float=
- da)
-+ }
-+=20
-+ #define MAKE_PD_COMBINERS(name, a, b)					\
-+-    static float force_inline						\
-++    static float inline						\
-+     pd_combine_ ## name (float sa, float s, float da, float d)		\
-+     {									\
-+ 	const float fa =3D get_factor (a, sa, da);			\
-+@@ -360,13 +360,13 @@ MAKE_PD_COMBINERS (conjoint_xor,		ONE_MINUS_DA_OVE=
-R_SA,		ONE_MINUS_SA_OVER_DA)
-+  */
-+=20
-+ #define MAKE_SEPARABLE_PDF_COMBINERS(name)				\
-+-    static force_inline float						\
-++    static inline float						\
-+     combine_ ## name ## _a (float sa, float s, float da, float d)	\
-+     {									\
-+ 	return da + sa - da * sa;					\
-+     }									\
-+     									\
-+-    static force_inline float						\
-++    static inline float						\
-+     combine_ ## name ## _c (float sa, float s, float da, float d)	\
-+     {									\
-+ 	float f =3D (1 - sa) * d + (1 - da) * s;				\
-+--=20
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-fl=
-oat.c-replace-force_inline-with-__.patch b/meta/recipes-graphics/xorg-lib=
-/pixman/0001-pixman-combine-float.c-replace-force_inline-with-__.patch
-deleted file mode 100644
-index cae201629f..0000000000
---- a/meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-float.c-r=
-eplace-force_inline-with-__.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 49a1644015d073829c17dcd977aab6fdda1ebdee Mon Sep 17 00:00:00 2001
--From: Changqing Li <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:cha=
-ngqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
--Date: Fri, 5 Jul 2024 07:33:44 +0000
--Subject: [PATCH] pixman-combine-float.c: replace force_inline with __inl=
-ine__
--   =20
--Refer [1], always-inline is not suggested to be used if you have indirec=
-t
--calls. so replace force_inline with __inline__ to fix error:
--In function =E2=80=98combine_inner=E2=80=99,
--    inlined from =E2=80=98combine_soft_light_ca_float=E2=80=99 at ../pix=
-man/pixman-combine-float.c:655:511:
--../pixman/pixman-combine-float.c:655:211: error: inlining failed in call=
- to =E2=80=98always_inline=E2=80=99 =E2=80=98combine_soft_light_c=E2=80=99=
-: function not considered for inlining
--
--[1] <a class=3D"moz-txt-link-freetext" href=3D"https://gcc.gnu.org/bugzi=
-lla/show_bug.cgi?id=3D115679">https://gcc.gnu.org/bugzilla/show_bug.cgi?i=
-d=3D115679</a>
--
--Upstream-Status: Submitted [<a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://www.mail-archive.com/pixman@lists.freedesktop.org/msg04812.html">h=
-ttps://www.mail-archive.com/pixman@lists.freedesktop.org/msg04812.html</a=
->]
--
--Signed-off-by: Changqing Li <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
-ailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-----
-- pixman/pixman-combine-float.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/pixman/pixman-combine-float.c b/pixman/pixman-combine-float=
-.c
--index f5145bc..52400f4 100644
----- a/pixman/pixman-combine-float.c
--+++ b/pixman/pixman-combine-float.c
--@@ -44,7 +44,7 @@
--=20
-- typedef float (* combine_channel_t) (float sa, float s, float da, float=
- d);
--=20
---static force_inline void
--+static __inline__ void
-- combine_inner (pixman_bool_t component,
-- 	       float *dest, const float *src, const float *mask, int n_pixels,
-- 	       combine_channel_t combine_a, combine_channel_t combine_c)
----=20
--2.44.0
--
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb b/meta/recip=
-es-graphics/xorg-lib/pixman_0.42.2.bb
-index 88eef50f7b..3c55c1705a 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-@@ -9,7 +9,7 @@ DEPENDS =3D &quot;zlib&quot;
-=20
- SRC_URI =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"https://www.cairo=
-graphics.org/releases/${BP}.tar.gz\file://0001-ARM-qemu-related-workaroun=
-ds-in-cpu-features-detecti.patch\-file://0001-pixman-combine-float.c-repl=
-ace-force_inline-with-__.patch\+file://0001-pixman-combine-float.c-fix-in=
-lining-failed-in-call-t.patch\">&quot;https://www.cairographics.org/relea=
-ses/${BP}.tar.gz \
-            file://0001-ARM-qemu-related-workarounds-in-cpu-features-dete=
-cti.patch \
--           file://0001-pixman-combine-float.c-replace-force_inline-with-=
-__.patch \
-+           file://0001-pixman-combine-float.c-fix-inlining-failed-in-cal=
-l-t.patch \
-            &quot;</a>
- SRC_URI[sha256sum] =3D &quot;ea1480efada2fd948bc75366f7c349e1c96d3297d09=
-a3fe62626e38e234a625e&quot;
-=20
-</pre>
-      <br>
-      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
-      <pre class=3D"moz-quote-pre" wrap=3D"">
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#202095): <a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://lists.openembedded.org/g/openembedded-core/message/202095">https:/=
-/lists.openembedded.org/g/openembedded-core/message/202095</a>
-Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
-.openembedded.org/mt/107249094/3616873">https://lists.openembedded.org/mt=
-/107249094/3616873</a>
-Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
-edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
-enembedded.org</a>
-Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
-nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
-/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
-"mailto:changqing.li@windriver.com">changqing.li@windriver.com</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------2STpHZ4oSl9Sw4Fa40hEXmFs--
+Ross=
 
