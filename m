@@ -1,79 +1,86 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6218AC3DA59
-	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 18:20:26 +0000 (UTC)
-Subject: Re: [PATCH 1/2] gcc: Oe-selftest failure analysis - fix for host key verfication & kex exchange identification failures
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA79C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 22:09:50 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.2363.1721167782689294396
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 16 Jul 2024 15:09:42 -0700
+Authentication-Results: mx.groups.io;
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 0909240C79;
+	Tue, 16 Jul 2024 22:09:42 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OaPOBJzV1TH8; Tue, 16 Jul 2024 22:09:42 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id E678B407DA;
+	Tue, 16 Jul 2024 22:09:40 +0000 (UTC)
+Received: from thorin.han-sole.ts.net (thorin.denix [192.168.30.9])
+	by mail.denix.org (Postfix) with ESMTP id A515E163FF0;
+	Tue, 16 Jul 2024 18:09:40 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-From: "Sadineni, Harish" <Harish.Sadineni@windriver.com>
-X-Originating-Location: Bengaluru, Karnataka, IN (106.196.22.143)
-X-Originating-Platform: Windows Chrome 126
-User-Agent: GROUPS.IO Web Poster
+Cc: Denys Dmytriyenko <denys@konsulko.com>
+Subject: [PATCH] nativesdk-libtool: sanitize the script, remove buildpaths
+Date: Tue, 16 Jul 2024 18:09:40 -0400
+Message-Id: <20240716220940.3828246-1-denis@denix.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Tue, 16 Jul 2024 11:20:16 -0700
-References: <9e2d9685c9d39d04cc58ae3f8a9e24cdf4b9d8ea.camel@linuxfoundation.org>
-In-Reply-To: <9e2d9685c9d39d04cc58ae3f8a9e24cdf4b9d8ea.camel@linuxfoundation.org>
-Message-ID: <24889.1721154016244458489@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="ieiDNXxa7eJjlO1YVYEJ"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 18:20:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202127
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 22:09:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202128
 
---ieiDNXxa7eJjlO1YVYEJ
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Denys Dmytriyenko <denys@konsulko.com>
 
-In fedora distro while running oe-selftest for gcc, owner permessions of fi=
-les in /etc/ssh/ is getting changed to "nobody nobody" as following "-rw-r-=
--r--. 1 nobody nobody 581 Jan 10 =C2=A02024 /etc/ssh/ssh_config.d/50-redhat=
-.conf". Because of this we are getting bad owner permission's on /etc/ssh/s=
-sh-config.d/5-redhat.conf.
-But in Ubuntu while running oe-selftest for gcc, owner permissions of files=
- in /etc/ssh/ =C2=A0are =C2=A0"root root" that why its working in Ubuntu.
+Copy the same sed command to sanitize libtool script from target recipe
+to nativesdk one. Otherwise fails with buildpaths QA error:
 
-when checked with upstream they suggested this can happen if the tests run =
-through systemd unit and if systemd unit have ProtectHome=3Dyes or PrivateU=
-sers=3Dyes then this can make the ownership of the file appear to be nobody=
- instead of root .
-https://www.reddit.com/r/Fedora/comments/1dimh0i/bad_owner_or_permissions_o=
-n_etcsshssh/
+ERROR: nativesdk-libtool-2.5.0-r0 do_package_qa: QA Issue: File /usr/loca=
+l/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/bin/libtoo=
+l in package nativesdk-libtool contains reference to TMPDIR [buildpaths]
 
-we have tried in fedora docker and there also while running oe-selftest for=
- gcc, we are having owner permissions of files in /etc/ssh/ =C2=A0are =C2=
-=A0"root root".
+Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
+---
+ .../libtool/nativesdk-libtool_2.5.0.bb               | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-May be this is to be changed on fedora host machine(autobuilder?).
+diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.0.bb b/m=
+eta/recipes-devtools/libtool/nativesdk-libtool_2.5.0.bb
+index ddb60e717c..69de7a8e40 100644
+--- a/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.0.bb
++++ b/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.0.bb
+@@ -13,6 +13,18 @@ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${bindir}/
+ 	install -m 0755 libtool ${D}${bindir}/
++
++	sed -e 's@--sysroot=3D${STAGING_DIR_HOST}@@g' \
++	    -e "s@${DEBUG_PREFIX_MAP}@@g" \
++	    -e 's@${STAGING_DIR_HOST}@@g' \
++	    -e 's@${STAGING_DIR_NATIVE}@@g' \
++	    -e 's@^\(sys_lib_search_path_spec=3D"\).*@\1${libdir} ${base_libdir=
+}"@' \
++	    -e 's@^\(compiler_lib_search_dirs=3D"\).*@\1${libdir} ${base_libdir=
+}"@' \
++	    -e 's@^\(compiler_lib_search_path=3D"\).*@\1${libdir} ${base_libdir=
+}"@' \
++	    -e 's@^\(predep_objects=3D"\).*@\1"@' \
++	    -e 's@^\(postdep_objects=3D"\).*@\1"@' \
++	    -e "s@${HOSTTOOLS_DIR}/@@g" \
++	    -i ${D}${bindir}/libtool
+ }
+=20
+ SYSROOT_PREPROCESS_FUNCS +=3D "libtoolnativesdk_sysroot_preprocess"
+--=20
+2.25.1
 
-Thanks,
-Harish
-
---ieiDNXxa7eJjlO1YVYEJ
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>In fedora distro while running oe-selftest for gcc, owner permessions =
-of files in /etc/ssh/ is getting changed to "nobody nobody" as following "-=
-rw-r--r--. 1 nobody nobody 581 Jan 10 &nbsp;2024 /etc/ssh/ssh_config.d/50-r=
-edhat.conf". Because of this we are getting bad owner permission's on /etc/=
-ssh/ssh-config.d/5-redhat.conf.&nbsp;</div>
-<div>But in Ubuntu while running oe-selftest for gcc, owner permissions of =
-files in /etc/ssh/ &nbsp;are &nbsp;"root root" that why its working in Ubun=
-tu.&nbsp;</div>
-<div><br />when checked with upstream they suggested this can happen if the=
- tests run through systemd unit and if systemd unit have ProtectHome=3Dyes =
-or PrivateUsers=3Dyes then this can make the ownership of the file appear t=
-o be nobody instead of root .<br /><a href=3D"https://www.reddit.com/r/Fedo=
-ra/comments/1dimh0i/bad_owner_or_permissions_on_etcsshssh/" target=3D"_blan=
-k" rel=3D"noopener">https://www.reddit.com/r/Fedora/comments/1dimh0i/bad_ow=
-ner_or_permissions_on_etcsshssh/</a></div>
-<div><br />we have tried in fedora docker and there also while running oe-s=
-elftest for gcc, we are having owner permissions of files in /etc/ssh/ &nbs=
-p;are &nbsp;"root root".</div>
-<div><br />May be this is to be changed on fedora host machine(autobuilder?=
-).&nbsp;<br /><br />Thanks,<br />Harish</div>
-
---ieiDNXxa7eJjlO1YVYEJ--
 
