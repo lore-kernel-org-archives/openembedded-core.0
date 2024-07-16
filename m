@@ -2,57 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24EF7C3DA59
-	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 08:53:29 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.6499.1721120000920408811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFA9C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 09:00:59 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.6590.1721120448890195871
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jul 2024 01:53:21 -0700
+ Tue, 16 Jul 2024 02:00:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GDgrRn+s;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-426636ef8c9so35021895e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 01:53:20 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XXkNFsBt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-36816ff695dso1432963f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 02:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721119999; x=1721724799; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1721120447; x=1721725247; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=F8a9GOcAdn8rsi5HB7Vc8KDti9snW8leyDOkygSGP90=;
-        b=GDgrRn+sQSl0lfocvj7rohk4p/rdLbQzCrpT0KGr0eiDSBamxC4N7L7i5d3CMwwlXs
-         yDtM5ZXSsPuTLTHZCOAMId8fKn4aq8tYBIdCaEnCdEkSQSj+AiAlogilQ6+WIA/LuLZX
-         kifWZKNNXwCqeL/QbHkYfDHSUiOdOqYNUICzI=
+        bh=SdXowb9vBWvdX1LRb9niulXrCWhB5dVEubSXSp9nL0U=;
+        b=XXkNFsBt1/MqFj+OsK3jh24qD3Zjx51Iu5RuiLyLHk+t+KwsPETdBPRNOhwPpLLMbV
+         pVwFi0CegnnWNpMyKPguKXn8OwHkIP6nI9jzMGggB473c3atqfQUHOSqtIGecu5YzOOl
+         mA2S3Sshi6jdxXnyx/qkKA+00itNyQNRbihIY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721119999; x=1721724799;
+        d=1e100.net; s=20230601; t=1721120447; x=1721725247;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=F8a9GOcAdn8rsi5HB7Vc8KDti9snW8leyDOkygSGP90=;
-        b=VUDbelWRXvSVItFJVaW6Bznl3AxQdqZZRDyDTMATJDxqDoPWyUqM3h/eYbFsQzX0vI
-         qTPhCX2HWyb/Swtm98Uy7tSyfbs1GWXIHXSXyjJygkGlFOpgEYsnykUzY8hXKO7RuPxm
-         roug5PFNkns4g0T4yMFdsXUs/wVCngWLRKSKyZDh1zeSMiw8UcSNJr09k3tjlg653AM6
-         1lMzhFy0rCVWCcN3HHr/NiTFy1YbhRs8N0RLR7vPRsh6Ikm4QctD9br5mm4RXFGF88SW
-         DPd8Syz1f5Bd3b3s26klOgfwftMOchl3mWJ7jE9JYfDT50Sfultw2YfTHLFA+CC8sygq
-         u2Bg==
-X-Gm-Message-State: AOJu0Yx/comCRLRVsLP+Uh8fHpE9tCrap85scyT/6KHrZLjijZXcaWA0
-	Cyg2zYRnbsuZvyfhdSljnKkVk1GwnSoasY9s8RPlGh2JBmOc4WdDp4YJa0u7+jc=
-X-Google-Smtp-Source: AGHT+IHfO5g8bDh8/0xUwdxfxIPr9WXqS2s+pp7XPYto8/KOI/hWIYoY3fXe9l7Fr7WZECIR6S/Hig==
-X-Received: by 2002:a05:600c:1383:b0:426:5269:9824 with SMTP id 5b1f17b1804b1-427ba4a3d90mr11385195e9.0.1721119999353;
-        Tue, 16 Jul 2024 01:53:19 -0700 (PDT)
+        bh=SdXowb9vBWvdX1LRb9niulXrCWhB5dVEubSXSp9nL0U=;
+        b=AOFieoG6euJFU06Fxh7+UtJBdnQVH55oCRThBe2tLXqxH99Jn8JU8FWWvykF0CP4W2
+         ZjLv91W99H7CxF0SROkHFW1XgDhjNnGI0diqGYowyEb/igeQQLNFq6J1tw10da01171U
+         3tiUzZF1meEKUREnLfqGMrXUJxLc+wr3I9+5h5syIwfhczcvZ/nFZWmD+6DBZqM1s5Cv
+         HHcV5xX00gOcJnycyH0Tl4jqdJL9NpCRGbSDFImvA9Vnu1y7IJjNOKJGkqix5jQ4lox6
+         wd0qDsjH/qKrqVW3wc+XA9ZIKD9HNsT35zsHSyU/CGyu0FS6UyYiWSvxbKdE4/R36Ll7
+         QCYA==
+X-Gm-Message-State: AOJu0Yxp7eT4bdhXH+XJ/dtpCMOJ1HA9/rgxQVWppTtEsqaOHaPYNAGr
+	0ktEyJFypaUvhd+e+QO4NnEiYOcMr4HpbEZqJmUkap1/37Ql1f7M9PQUuEwKTsQ1E9HNv2Y/Z/i
+	b
+X-Google-Smtp-Source: AGHT+IH7hEPHZrIoz1igPVDWdEcD0e+NwxXa/yOLRCuGVJcnpZqgtMsBv/2rfnctFbudAPUfdjn/dA==
+X-Received: by 2002:adf:f9c5:0:b0:367:f2ea:13e4 with SMTP id ffacd0b85a97d-3682613a229mr865095f8f.32.1721120447285;
+        Tue, 16 Jul 2024 02:00:47 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:86a0:3ee3:878:91c7? ([2001:8b0:aba:5f3c:86a0:3ee3:878:91c7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427a5ef44b4sm115799965e9.42.2024.07.16.01.53.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427a5e81f0dsm114666125e9.12.2024.07.16.02.00.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jul 2024 01:53:19 -0700 (PDT)
-Message-ID: <e8520d5c4575c030098a7171cc5b0afb0d161954.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v3] openssh: upgrade 9.7p1 -> 9.8p1
+        Tue, 16 Jul 2024 02:00:46 -0700 (PDT)
+Message-ID: <c669ae7c3316ad33931bc9c40bb9c49e8af1895e.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] package: Add support for INSANE_SKIP for
+ incompatible-license
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, quaresma.jose@gmail.com
-Cc: openembedded-core@lists.openembedded.org, Jose Quaresma
-	 <jose.quaresma@foundries.io>
-Date: Tue, 16 Jul 2024 09:53:18 +0100
-In-Reply-To: <CANNYZj_UaF5VkQB2DaxB_2nDeO4aEckvd92PZpGQo1AdJj+=-Q@mail.gmail.com>
-References: <20240715180205.2493035-2-jose.quaresma@foundries.io>
-	 <CANNYZj_UaF5VkQB2DaxB_2nDeO4aEckvd92PZpGQo1AdJj+=-Q@mail.gmail.com>
+To: alex.kanavin@gmail.com, reatmon@ti.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jul 2024 10:00:46 +0100
+In-Reply-To: <CANNYZj9DXbuFwHLHZa2p8asasehxkDaGYoH+PuMWEbfiHFx20g@mail.gmail.com>
+References: <20240715190738.32206-1-reatmon@ti.com>
+	 <CANNYZj9DXbuFwHLHZa2p8asasehxkDaGYoH+PuMWEbfiHFx20g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.0-1build2 
@@ -60,42 +61,53 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 08:53:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202086
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 09:00:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202087
 
-On Tue, 2024-07-16 at 09:48 +0200, Alexander Kanavin via
+On Tue, 2024-07-16 at 09:57 +0200, Alexander Kanavin via
 lists.openembedded.org wrote:
-> On Mon, 15 Jul 2024 at 20:02, Jose Quaresma via
-> lists.openembedded.org
-> <quaresma.jose=3Dgmail.com@lists.openembedded.org> wrote:
-> > +From: Jose Quaresma <jose.quaresma@foundries.io>
-> > +Date: Mon, 15 Jul 2024 18:43:08 +0100
-> > +Subject: [PATCH] regress/test-exec: use the absolute path in the
-> > SSH env
-> > +
-> > +The SSHAGENT_BIN was changed in [1] to SSH_BIN but
-> > +the last one don't use the absolute path and consequently
-> > +the function increase_datafile_size can loops forever.
-> > +
-> > +[1]
-> > https://github.com/openssh/openssh-portable/commit/a68f80f2511f0e0c5cef=
-737a8284cc2dfabad818
-> > +
-> > +Upstream-Status: Pending
+> On Mon, 15 Jul 2024 at 21:07, Ryan Eatmon via lists.openembedded.org
+> <reatmon=3Dti.com@lists.openembedded.org> wrote:
+> >=20
+> > With the move to make more warnings into errors it is inevitable
+> > that we
+> > will need more hooks to skip the errors on a recipe by recipe
+> > basis.
+> > This patch just adds INSANE_SKIP support for the incompatible-
+> > license check.
 >=20
-> No Pending patches without a (good) reason please. Submit upstream
-> before you submit here.
+> I do not think this is a good idea. This was a warning before, the
+> warning was never fixed, and now, instead of addressing the issue,
+> the
+> error should be suppressed so that it's *never* going to be fixed?
+>=20
+> You can still revert to a warning if you so wish, but in general,
+> global INCOMPATIBLE_LICENSE is essentialy deprecated in favour a
+> per-image one, is there a reason you are still using that?
 
-We need to be a little bit careful with this. I don't want to put
-people off submitting upgrades to key components like this and the work
-Jose has done to get this far is really helpful and appreciated.
+The ERROR_QA change is going to take a bit of adjustment for people.
+There are some things in there which recipes will need to tweak for
+various reasons (e.g. pre-built binaries). After much thought, I (and
+others) concluded it was better to have recipes marked up with the
+issues rather than have it as some "random" warning in the build people
+ignored. I therefore think it is the right move but we need to support
+people in marking up the recipes (and ultimately ideally fixing some of
+the issues).
 
-I agree we need to cut down on the number of pending patches, so asking
-people if they're able to submit is fair enough. Requiring it may be
-something we can't afford to do though.
+With regard to the patch, I think the key question is whether we want
+to add INSANE_SKIP support to every call site (potentially) or whether
+there is some better function abstraction we can use.
 
-I am very worried about the height of the bar for submissions and I'm
-struggling to make changes, let alone others :/.
+The implementation in do_package_qa is:
+
+        skip =3D set((d.getVar('INSANE_SKIP') or "").split() +
+                   (d.getVar('INSANE_SKIP:' + package) or "").split())
+
+which shows the first issue with this patch - INSANE_SKIP itself isn't
+looked at (for a recipe wide disable).
+
+So I think we need a new common function alongside oe.qa.handle_error()
+which adds the pkg option and checks accordingly?
 
 Cheers,
 
