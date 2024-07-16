@@ -2,56 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 162D2C3DA59
-	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 06:59:17 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.4939.1721113154575208582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AFF2C3DA59
+	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 07:12:37 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.5167.1721113948770126096
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jul 2024 23:59:15 -0700
+ Tue, 16 Jul 2024 00:12:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Dm9lvE8x;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42797289c8bso37682265e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jul 2024 23:59:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OmES71Kx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-427b9dcbb09so3248335e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 00:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721113153; x=1721717953; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1721113947; x=1721718747; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=w5ABavBSNMXXpH4uVecaYCPKbW38l6yyAFAY05eZ03U=;
-        b=Dm9lvE8xvg1XC7JdpXDHsWE0VLcz5rpPBAsEAtPL0mh7MR1bQo0sAYAInyh6h3bPa4
-         r7yl5HCQ3XVNSMzddOwFg6FZ0bwmMe1QBVhekIE9W+1P6B7x0UDgQeZPBDigjnkuNI/J
-         G0Zb83dn18zhs+B/WZ7ZBx7hvM2t7jZlEqqJg=
+        bh=yL3t4H3Ep1nrY5GbMqIc+eDJLR4FsQhSRRSOLeGwFJo=;
+        b=OmES71Kx1+AphJsBUQ9Zgw4v9K3CsRdZNo4fxrHcyIv4bG2/FVZjsbZoDM5/rZhLiW
+         vo9nRVo70/d2eqIZ7ZTrePrqjvBgWFmMx3PnL+8Mjr9NsZ6imKF+d8B7Xxhw/s2THk4h
+         5XUv5fvlAhGZCqlAd6pzJpYpbypi4ttQDFBVQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721113153; x=1721717953;
+        d=1e100.net; s=20230601; t=1721113947; x=1721718747;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=w5ABavBSNMXXpH4uVecaYCPKbW38l6yyAFAY05eZ03U=;
-        b=OZiIijyUKPanObfRXfzi9rVwbPy/LM5yWd4CkafmWTjydHawUPUNr/iO3aRGNzQSQG
-         ncNXFCbhFLoFuF5He8AD4NEiWIVqZvaRuCzEsDyFJMQPXQB5xEd644GJPTZezpxptt+r
-         btNqCQYE56Iht/HW3gMjH8DSE5wxwa2e6+AC/FIMm/adX45AJIPKvz5X8cM0D5FGFVTz
-         wpsHmJKlw82VyP6q+iJuqaSFWBf2uejc+gfoAD9TTt1iqFDWvzg9WeXY8aeI5T5ehB7z
-         7WMZAOKGq/6gpTIbaJcdBl24uzFG43kw1PAZ18tCqdGALTxdrwYoi3DoW5ez3tK1nSEL
-         k4Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCXimoqta3+uK/HCsRsS2OKHlq+yZYiYlY0sdpixlQzCrXH35XUal+88s7G8Vn7smm7kljPAAAznzMQYw0bL8gnYfSzxJwn5c9bjN69DjSfX1KgouLJdU4xj
-X-Gm-Message-State: AOJu0YzTqUhGbBUa+mOdG7HyWCTW25AGwXDZsiQjslIT2X4aKJqB+yyh
-	hajJTosdJv6wI7DGUqQgDmmCCl0uVLLiDZxBegPDdN6bkOloMGOX+qbN3b8T0vA=
-X-Google-Smtp-Source: AGHT+IFIZLgUWZNWHu/kZ9FnSnGoNs1ZudilPcsVUz/K3MREB3h4M9WAM1BGPmQAbsc1SdJtCzHHUA==
-X-Received: by 2002:a05:600c:6a95:b0:426:55c4:ff34 with SMTP id 5b1f17b1804b1-427ba690fb4mr8299665e9.15.1721113152986;
-        Mon, 15 Jul 2024 23:59:12 -0700 (PDT)
+        bh=yL3t4H3Ep1nrY5GbMqIc+eDJLR4FsQhSRRSOLeGwFJo=;
+        b=mJwjVvswbETC2KSVwpkG8JQw7+iVqpr7J7aBkkPxrVLlQUaNQg2As501ePty91xtDj
+         DJytma9f0LAd9vSjiPwXkpclAcfK+BG9POklWm9s+tMgrR48vHu4InG74S7gJqRj5kJo
+         SWCpTwATLuQbRJEQWkS5rVzJ5/Un9RuCYAckN9kaUOFeufJB3+JznNvIE0Rtf54iN0Tx
+         FnrDWwCda4wY1bEF1QQhsfXKKAcanmaUmwsKSZgTlkFbe3PouGkyKc+DdWe5LxB2hxnS
+         kMtnEkU29LhjtPtACS/OVoBcrBGt6tEaieojObDKa5ojFx7hnJ2bTTZAMK7f3l9IlWxq
+         ZWAw==
+X-Forwarded-Encrypted: i=1; AJvYcCXko9lGVUSJZCUJW2a8kjvuKm96dZKPydRyx7+a845AyY7FamTcRHj4TXe+X4TRqgwdEiUQOaSzX1y/xumMXVcNX9rb4UQv37dUIyD9Bq+I0jMzCO+Sk7Rz
+X-Gm-Message-State: AOJu0Yyp0++1ReiT+xxQWTVLU8T8fKruMkcmnIGc0ZpJwHNP8DZsv2by
+	zQJAW4o+Z2SX76QjPhwkKyC3xjjlDr4f64ANe3ovfWU+hpxtOifF0KfH1BnUOSQ=
+X-Google-Smtp-Source: AGHT+IHPZas+Uvnt2UXyLMtVPQLQoatwkJRZzeiirhpitjpQyFsyRZS/l/ULwcspN4vTXQskdWFvdg==
+X-Received: by 2002:a05:600c:470e:b0:426:6314:3336 with SMTP id 5b1f17b1804b1-427ba725da2mr7567505e9.36.1721113947129;
+        Tue, 16 Jul 2024 00:12:27 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:86a0:3ee3:878:91c7? ([2001:8b0:aba:5f3c:86a0:3ee3:878:91c7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dab3bd8sm8153962f8f.13.2024.07.15.23.59.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427a5e7749esm112901945e9.2.2024.07.16.00.12.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jul 2024 23:59:12 -0700 (PDT)
-Message-ID: <5d12bc39242bdae7d3d90f7f1a3152dc790c3aea.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] mesa: fix QA warnings caused by freedreno
- tools
+        Tue, 16 Jul 2024 00:12:26 -0700 (PDT)
+Message-ID: <725daf1938215f5228a29b272f446ad37d96d58e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] llvm: extend llvm-config reproducivility fix
+ to all classes
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: dbaryshkov@gmail.com, openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jul 2024 07:59:11 +0100
-In-Reply-To: <20240715230539.139514-1-dmitry.baryshkov@linaro.org>
-References: <20240715230539.139514-1-dmitry.baryshkov@linaro.org>
+To: denis@denix.org, openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jul 2024 08:12:25 +0100
+In-Reply-To: <20240716013642.3050435-1-denis@denix.org>
+References: <20240716013642.3050435-1-denis@denix.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.0-1build2 
@@ -59,61 +59,45 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 06:59:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202081
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 07:12:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202082
 
-On Tue, 2024-07-16 at 02:05 +0300, Dmitry Baryshkov via lists.openembedded.=
-org wrote:
-> Fix following QA warnings / errors
+On Mon, 2024-07-15 at 21:36 -0400, Denys Dmytriyenko via
+lists.openembedded.org wrote:
+> It's not limited to "target", but also happens to e.g. nativesdk:
 >=20
-> File /usr/bin/afuc-asm in package mesa-tools contains reference to TMPDIR=
- [buildpaths]
-> File /usr/bin/afuc-disasm in package mesa-tools contains reference to TMP=
-DIR [buildpaths]
+> ERROR: nativesdk-llvm-18.1.8-r0 do_package_qa: QA Issue: File
+> /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-
+> linux/usr/bin/llvm-config in package nativesdk-llvm contains
+> reference to TMPDIR [buildpaths]
 >=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Denys Dmytriyenko <denis@denix.org>
 > ---
-> =C2=A0...t-include-rnn_src_path-into-rnn_path.patch | 27 ++++++++++++++++=
-+++
-> =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A02 files changed, 28 insertions(+)
-> =C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-=
-don-t-include-rnn_src_path-into-rnn_path.patch
+> =C2=A0meta/recipes-devtools/llvm/llvm_18.1.8.bb | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-includ=
-e-rnn_src_path-into-rnn_path.patch b/meta/recipes-graphics/mesa/files/0001-=
-freedreno-don-t-include-rnn_src_path-into-rnn_path.patch
-> new file mode 100644
-> index 000000000000..2741f87ed00b
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-include-rnn_s=
-rc_path-into-rnn_path.patch
-> @@ -0,0 +1,27 @@
-> +From 7a8044621ae7dcba1873a13190ac51a6465937b7 Mon Sep 17 00:00:00 2001
-> +From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +Date: Mon, 15 Jul 2024 22:23:32 +0300
-> +Subject: [PATCH] freedreno: don't include rnn_src_path into rnn_path
-> +
-> +rnn_path gets compiled-in into several tools, which triggers OE QA
-> +errors. Remove rnn_src_path from rnn_path.
-> +
-> +Upstream-Status: Inappropriate [OE-Core QA issue]
-> +Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +---
-> + src/freedreno/meson.build | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
+> diff --git a/meta/recipes-devtools/llvm/llvm_18.1.8.bb
+> b/meta/recipes-devtools/llvm/llvm_18.1.8.bb
+> index 8dad952923..6afca9c7d7 100644
+> --- a/meta/recipes-devtools/llvm/llvm_18.1.8.bb
+> +++ b/meta/recipes-devtools/llvm/llvm_18.1.8.bb
+> @@ -95,7 +95,7 @@ EXTRA_OECMAKE:append:class-nativesdk =3D "\
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
+> =C2=A0
+> =C2=A0# patch out build host paths for reproducibility
+> -do_compile:prepend:class-target() {
+> +do_compile:prepend() {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sed -i -e "s,${WORKDIR},=
+,g" ${B}/tools/llvm-
+> config/BuildVariables.inc
+> =C2=A0}
+> =C2=A0
 
-I'm not sure Inapproriate is the right choice here. I'd say this is an
-actual bug in mesa when cross compiling. When cross compiling the build
-system shouldn't be putting build paths into target binaries.
 
-We should really discuss this with upstream and see if mesa can avoid
-doing this when cross compiling?
+Do we need those buildpaths in llvm-native?
 
 Cheers,
 
 Richard
-
 
