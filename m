@@ -1,99 +1,99 @@
-Return-Path: <florian.amstutz@scs.ch>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C59C3DA49
-	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 14:20:50 +0000 (UTC)
-Received: from mail.scs.ch (mail.scs.ch [212.203.110.131])
- by mx.groups.io with SMTP id smtpd.web11.11917.1721139642217112983
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA801C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 14:37:20 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.12399.1721140633622023392
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jul 2024 07:20:42 -0700
+ Tue, 16 Jul 2024 07:37:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@scs.ch header.s=sophosdkim2 header.b=J69yN5j2;
- spf=pass (domain: scs.ch, ip: 212.203.110.131, mailfrom: florian.amstutz@scs.ch)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=scs.ch;
-	s=sophosdkim2; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=p4EptdDpf1R2RZDqSqZKJVp04NC6lOEm5Y7eNEGVXtg=; b=J69yN5j24lai4pbndD1Q3b9Zf0
-	SlNFbX643wLi2zvJZUF09QpEBq2uDx9pd8Z/CI0tTWwlDaZBGJJf/tV7y5vEB9se1xO362x9TdHyX
-	TlvdCg3y4zsZ7bfv3Sy4bmwspZv65Rflnrd3BPIKe02Ij+VI6eiaNSekOajy9gZcCQx1GXLsFzlta
-	Ui+Us8ZQng0Wug0FOulP8IPF3sCD5O1w2OK/UM17DGjEt95LSPXGcMFI/m9EX1D7ixcYN56FswD26
-	ECtzjblQQkbxrhd5zEPIwU5k8+C2gc3RzWKcQL+heKmj0FSlhwqEQyZjaDmUEx5of34g7yGdAxzVH
-	Ws2yIt7g==;
-Received: from vm-tango.scs-ad.scs.ch ([172.18.0.110]:37867)
-	by mail.scs.ch with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <florian.amstutz@scs.ch>)
-	id 1sTj2k-000000003RP-0T0j
-	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Jul 2024 16:20:38 +0200
-Received: from vm-tango.scs-ad.scs.ch (172.18.0.110) by vm-tango.scs-ad.scs.ch
- (172.18.0.110) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 16 Jul
- 2024 16:20:37 +0200
-Received: from quecto.scs-ad.scs.ch (192.168.34.41) by smtprelay.scs-ad.scs.ch
- (172.18.0.110) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Tue, 16 Jul 2024 16:20:37 +0200
-From: Florian Amstutz <florian.amstutz@scs.ch>
-To: <openembedded-core@lists.openembedded.org>
-CC: Florian Amstutz <florian.amstutz@scs.ch>
-Subject: [kirkstone][PATCH v2] uboot-sign: Fix index error in concat_dtb_helper() with multiple configs
-Date: Tue, 16 Jul 2024 14:19:56 +0000
-Message-ID: <20240716141956.1105085-1-florian.amstutz@scs.ch>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LZgOHbBP;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XnbGO+7O;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190bbf9dc75-9bb155ec-a001-492c-b6d2-87af8d5b02e4-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1721140632; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=+rGOUJja7RxA8hJMIFx3QCjJ8dUi9RtZk/t+NSNa2kQ=;
+	b=LZgOHbBPMBXhtsvjPqCbkHKq3xa9am1C5LNmMDcDyzQBekcswHi5IgdAjtSv06Sj
+	GQ0mdAdFXK0FeT3fKP6d89ANmwpT+Kl0oaEOlJQkMS1SRdpTCEPK4JBsLywEI7momIM
+	0/HjjlSFS+ZfEZIlk4vgAaaE/UiJv9ba0DjgLHvw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721140632;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=+rGOUJja7RxA8hJMIFx3QCjJ8dUi9RtZk/t+NSNa2kQ=;
+	b=XnbGO+7OXMc/o18umEWFAC/llnMe5tOB9k8R/Ri02vgVq+3NK7JMCxnuccipkiW5
+	JjeloExRKqyuINiRCeR6J0yU4uNisEWvw58pJF85t5SjuQEegxlwANuBlatjx5SHhAP
+	CKbFKUXU1lZ9Pz4gXpeqndVjtFnpsbzH1zlKHngE=
+From: patchtest@automation.yoctoproject.org
+To: Jose Quaresma <quaresma.jose@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH v5 3/3] openssh: upgrade 9.7p1 -> 9.8p1
+In-Reply-To: <20240716141639.1564355-3-jose.quaresma@foundries.io>
+References: <20240716141639.1564355-3-jose.quaresma@foundries.io>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190bbf9dc75-9bb155ec-a001-492c-b6d2-87af8d5b02e4-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Jul 2024 14:37:12 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.16-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 14:20:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202118
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 14:37:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202119
 
-Commit 60774248a5570899a66f9f88e597cc4f723d6278 solves issues when i or j
-have been set in other shell functions.
+--NextPart
+Content-Type: text/plain
 
-Since j is not unset after the inner loop, the image will only be copied
-for the first configuration.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Unsetting i and j after the loops also prevents index issues in other functions.
-
-Signed-off-by: Florian Amstutz <florian.amstutz@scs.ch>
 ---
- meta/classes/uboot-sign.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Testing patch /home/patchtest/share/mboxes/v5-3-3-openssh-upgrade-9.7p1---9.8p1.patch
 
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index 6bb4ddc600..f3bbd8980e 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -137,8 +137,7 @@ concat_dtb_helper() {
- 
- 			if [ -n "${UBOOT_CONFIG}" ]
- 			then
--				i=0
--				j=0
-+				unset i j
- 				for config in ${UBOOT_MACHINE}; do
- 					i=$(expr $i + 1);
- 					for type in ${UBOOT_CONFIG}; do
-@@ -146,9 +145,12 @@ concat_dtb_helper() {
- 						if [ $j -eq $i ]
- 						then
- 							cp ${UBOOT_IMAGE} ${B}/${CONFIG_B_PATH}/u-boot-$type.${UBOOT_SUFFIX}
-+							break
- 						fi
- 					done
-+					unset j
- 				done
-+				unset i
- 			fi
- 		else
- 			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
--- 
-2.34.1
+FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
