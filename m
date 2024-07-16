@@ -1,99 +1,182 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BFFEC3DA49
-	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 09:53:39 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.7104.1721123618152870353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 711CAC3DA49
+	for <webhook@archiver.kernel.org>; Tue, 16 Jul 2024 09:54:49 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.7122.1721123682031210480
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jul 2024 02:53:38 -0700
+ Tue, 16 Jul 2024 02:54:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VaNCmViT;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=accM5pQQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190baf639b3-46fef314-3401-40af-ba97-026e63fd9810-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721123617; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=fKfo63F1fypK18J1vuB/X0JdtF4043df+cA3/MT0saI=;
-	b=VaNCmViTXy8tO+XWB0Tu1UcAnz/RfhWyJgmlKIngEXjBm/1w4YZDIBqNdE/YNqSp
-	wW7v/UEpWtrk6RT9htQB9dTfYHtSZqfwRP7/nza3rx6r53rTL9kuKc2FLGJm73p0aLP
-	JYnVE3pwXSJ4lAxG2GsJcoDcTwV4rfPtQIoDqr04=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721123617;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=fKfo63F1fypK18J1vuB/X0JdtF4043df+cA3/MT0saI=;
-	b=accM5pQQknUg38Nrv70rCeCRpQLIPHRzbm8DkK0Hv7JOnT73YLODy2eqdnWMeNkb
-	8wdTBflE/lA/PsKN3qGBNbtcyFhyidxNnMZ4Juxh6MopbB41JxhePyS2GXz5yZb1aS+
-	KBPC+idp+ey2Bcb/TAXixwZgiKBXff9Ow9uEijO8=
-From: patchtest@automation.yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH v4 3/3] openssh: upgrade 9.7p1 -> 9.8p1
-In-Reply-To: <20240716092955.2463-4-jose.quaresma@foundries.io>
-References: <20240716092955.2463-4-jose.quaresma@foundries.io>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190baf639b3-46fef314-3401-40af-ba97-026e63fd9810-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Jul 2024 09:53:37 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.16-54.240.27.191
+ dkim=pass header.i=@linaro.org header.s=google header.b=NZ9jgCCB;
+ spf=pass (domain: linaro.org, ip: 209.85.208.172, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2eeb1ba0481so72813041fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 02:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721123680; x=1721728480; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FeP3aZtb83MpaCYTm/vBl8JXVRnjkV7OdPnvtqTBdyE=;
+        b=NZ9jgCCBLyIJ3w07zZ+f8CTljjoogsdS4AVyCURJdCBzfcklr54A5zshzgW+gSSo9H
+         cDD4aABZWLhTL96cIue9QmDZVzyGOX2lL724Y1zLkTnO8Sos/8UGvDfTd8kjnqU22iSk
+         cHqcuMt35MtnIer2zxhv5dDgUxEEmnmTAfh1MKvvnQeuvymFSs8jyXicmdOPwjqmiMxu
+         LAxbrY/b+0aOUbGQqY/Y074aIbZQZpjmJnPbwVdi1LksH0RIqC4xqbRI706DmnsxNXgq
+         KbwvX67t/Btv8egk/Svfq6R6LncVN0kce5s2gysgE8lul9ejQDsGaYfbLm1LH5QpW9Nf
+         85Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721123680; x=1721728480;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FeP3aZtb83MpaCYTm/vBl8JXVRnjkV7OdPnvtqTBdyE=;
+        b=XpKZfPalATZReEC9UrwtM9HHRF+A+R4+X8xmOk4/lCsIUMla5g4DtCTPqaKyVUywW7
+         H5yIZ/DAd6UwLtpBhmi/pXffKd8emQYhn5ySpnQ168nrye/Fk4TATjR3s0oMuW/KmBOp
+         kSTWw8TEX+A3WoAnD7ofX+L5jjl2KRez2gYDui3Ho1MUxqQdj9DpIwkRn+auDtRu6Zpy
+         NE3jA1fKIF3rump7NKww/eKx30ZXVjiV1OPW1zT6eg7dtUJR0tCky+A0Nhgn5AasFx3f
+         XStsxV3aZz9MZwgl99/JUDeWwYPO68OuQjBrNnDn6uQgcnAYM/WOAj8bdNfMeSSPg+uE
+         CBDQ==
+X-Gm-Message-State: AOJu0YznO5dwo97OBn2B6jQZQHDUi9rbty+cPbDgw3g/clmCe9WHKluX
+	V5QXrU1vTC9ZjbawE7tIdmM8qv9ZSs8Rr4JX0RGiXOvBJ19aEXHfTlqy7KkcBPm+ydqbDy+6Q0+
+	9
+X-Google-Smtp-Source: AGHT+IFwiNiSlGUtz48cFgVsMK+70XB7dFYc9br/867G2Q8Ex6hV55rGkGL9o7dLBA97jXGEYmpQzA==
+X-Received: by 2002:a2e:9cd2:0:b0:2ee:494c:c3d3 with SMTP id 38308e7fff4ca-2eef41eb355mr11047441fa.43.1721123679675;
+        Tue, 16 Jul 2024 02:54:39 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2eee179ed5dsm11763181fa.25.2024.07.16.02.54.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jul 2024 02:54:39 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v3] mesa: fix QA warnings caused by freedreno tools
+Date: Tue, 16 Jul 2024 12:54:38 +0300
+Message-Id: <20240716095438.209874-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 09:53:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202097
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 09:54:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202098
 
---NextPart
-Content-Type: text/plain
+Fix following QA warnings / errors
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+File /usr/bin/afuc-asm in package mesa-tools contains reference to TMPDIR [buildpaths]
+File /usr/bin/afuc-disasm in package mesa-tools contains reference to TMPDIR [buildpaths]
 
----
-Testing patch /home/patchtest/share/mboxes/v4-3-3-openssh-upgrade-9.7p1---9.8p1.patch
-
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
-
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Changes since v2:
+ - Reimplemented the patch and submitted it upstream (Richard)
 
---NextPart
+Changes since v1:
+ - Added the reason to the Upstream-Status tag.
 
+---
+ ...on-t-encode-build-path-into-binaries.patch | 78 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
 
---NextPart--
+diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
+new file mode 100644
+index 000000000000..19e7fe668aa6
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
+@@ -0,0 +1,78 @@
++From 027ac36756cc75eea9ed4fee135a351af30b35fd Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++Date: Tue, 16 Jul 2024 12:32:47 +0300
++Subject: [PATCH] freedreno: don't encode build path into binaries
++
++Encoding build-specific path into installed binaries is generally
++frowned upon. It harms the reproducibility of the build and e.g.
++OpenEmbedded now considers that to be an error.
++
++Instead of hardcoding rnn_src_path into the RNN_DEF_PATH define specify
++it manually when running the tests.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30206]
++Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++---
++ src/freedreno/afuc/meson.build   | 4 ++++
++ src/freedreno/decode/meson.build | 4 +++-
++ src/freedreno/meson.build        | 2 +-
++ 3 files changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/src/freedreno/afuc/meson.build b/src/freedreno/afuc/meson.build
++index bb7cebf5a748..351cc31ef2de 100644
++--- a/src/freedreno/afuc/meson.build
+++++ b/src/freedreno/afuc/meson.build
++@@ -56,6 +56,7 @@ if with_tests
++   asm_fw = custom_target('afuc_test.fw',
++     output: 'afuc_test.fw',
++     command: [asm, '-g', '6', files('../.gitlab-ci/traces/afuc_test.asm'), '@OUTPUT@'],
+++    env: {'RNN_PATH': rnn_src_path},
++   )
++   test('afuc-asm',
++     diff,
++@@ -120,6 +122,7 @@ if cc.sizeof('size_t') > 4
++     disasm_fw = custom_target('afuc_test.asm',
++       output: 'afuc_test.asm',
++       command: [disasm, '-u', files('../.gitlab-ci/reference/afuc_test.fw'), '-g', '630'],
+++      env: {'RNN_PATH': rnn_src_path},
++       capture: true
++     )
++     test('afuc-disasm',
++diff --git a/src/freedreno/decode/meson.build b/src/freedreno/decode/meson.build
++index 469eeb4eb597..dfa1c12d0d9f 100644
++--- a/src/freedreno/decode/meson.build
+++++ b/src/freedreno/decode/meson.build
++@@ -194,6 +194,7 @@ if dep_lua.found() and dep_libarchive.found()
++       log = custom_target(name + '.log',
++         output: name + '.log',
++         command: [cffdump, '--unit-test', args, files('../.gitlab-ci/traces/' + name + '.rd.gz')],
+++        env: {'RNN_PATH': rnn_src_path},
++         capture: true,
++       )
++       test('cffdump-' + name,
++@@ -247,7 +248,8 @@ if with_tests
++       output: name + '.log',
++       command: [crashdec, args, files('../.gitlab-ci/traces/' + name + '.devcore')],
++       capture: true,
++-      env: {'GALLIUM_DUMP_CPU': 'false'},
+++      env: {'GALLIUM_DUMP_CPU': 'false',
+++            'RNN_PATH': rnn_src_path},
++     )
++ 
++     test('crashdec-' + name,
++diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
++index 98e49b8fcf0e..145e72597eb9 100644
++--- a/src/freedreno/meson.build
+++++ b/src/freedreno/meson.build
++@@ -6,7 +6,7 @@ inc_freedreno_rnn = include_directories('rnn')
++ 
++ rnn_src_path = dir_source_root + '/src/freedreno/registers'
++ rnn_install_path = get_option('datadir') + '/freedreno/registers'
++-rnn_path = rnn_src_path + ':' + get_option('prefix') + '/' + rnn_install_path
+++rnn_path = get_option('prefix') + '/' + rnn_install_path
++ 
++ dep_lua = dependency('lua54', 'lua53', 'lua52', 'lua', required: false,
++                      allow_fallback: true, version: '>=5.2')
++-- 
++2.39.2
++
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c426e8fddd46..973b76213571 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,6 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
+            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+            file://0001-amd-Include-missing-llvm-IR-header-Module.h.patch \
++           file://0001-freedreno-don-t-encode-build-path-into-binaries.patch\
+ "
+ 
+ SRC_URI[sha256sum] = "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae2c7d96db93f6c26a"
+-- 
+2.39.2
+
 
