@@ -1,552 +1,712 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D91C3DA42
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 06:38:22 +0000 (UTC)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
- by mx.groups.io with SMTP id smtpd.web10.9344.1721198299254668670
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D35AC3DA42
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 07:11:53 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.73])
+ by mx.groups.io with SMTP id smtpd.web11.9581.1721200302818283929
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jul 2024 23:38:19 -0700
+ Wed, 17 Jul 2024 00:11:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MIgONPJn;
- spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-25d634c5907so3480190fac.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 23:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721198298; x=1721803098; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r1NUdH9n2QXbnvKqi2xqPaBf26H+eiyDHhjklhb41T4=;
-        b=MIgONPJnR4U/bGfh+2J4qxxkIqSFtfRTvK8xMbImIJ5w3wqleAvn7HPbDtUHoP9gSM
-         hFcc2KHPSTBnWWmQeLFpt9hCY6PQZhGyB7ygWh7Q9+1FbXMM5vrK+8DMU73SZJR6/HCS
-         TQgpJM8Jqz9s4ipxY2XSHkbGV/Srj61QvgW2BQtzdR4wL36qzb4rANxSy4T3dZLfbUU0
-         6vouFA7yXK1Imce/AWvhK5iCwPBBiRVpjsaA7v1s5XdCmXgpxuWGV3yfWaP0MIeXJH1l
-         jt53gLj5Xn5PjAti0n/A34sC0v50P3TuqHKp7LDvxnUi9MsVXeyTWmn+QGHy3FbbI37D
-         EORQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721198298; x=1721803098;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r1NUdH9n2QXbnvKqi2xqPaBf26H+eiyDHhjklhb41T4=;
-        b=nWl9Je0UdIFeETZJxE0va4XcoBRXpHvbiOcxH0Yabk6POaSdil2BEnsMjILbxJnNyo
-         ggqw00KVmDTfOK/eTWZg4uy0xiYLqgNCCwYxx5OOOf4BsHnFMF9esLhki0HeyMER1dPY
-         0IBxE2kDbaXtir+ElTDbztaFc9k3JK78nE8fIu4pA+kH3t5QlxUbZikar62zdPRf5Q0Y
-         88hIDrvyxoQx2jWouIXtLdgt3Aw+kHMqneD3MeSewHWuvQBzXdzDaYTyNZt2qk30HgUo
-         V2djz71VhEQHpeEPAH3vdmrI0fnMm9iu/S7IN3fpdfBKUlWhX3v/mfrJ17RyR6CLWFXU
-         Td0A==
-X-Gm-Message-State: AOJu0YysHfyzjoPXIbovNhIcrVOxqE+lAqntsoAn2YqduN4jo6TZOMyf
-	agSUA7y1DWD1erF83bmDbV59Im6H+OziZNWiGGKirf7ZJsWqF2Z0ObxSulV71bs5TYo1vTlOHyI
-	jwoPbLpsgXN6EoUxg2N7fITVc34ooAmZy
-X-Google-Smtp-Source: AGHT+IFJ3M9LOMmSFH9zjRypuQawFn/LHLcyZCNC2j4naHJOHhcYi3IPtqDxL3KCBcDaTjqZ77rF95akCULTB4HXSpM=
-X-Received: by 2002:a05:6870:f613:b0:25e:c013:a7fb with SMTP id
- 586e51a60fabf-260d944deb0mr604191fac.43.1721198298236; Tue, 16 Jul 2024
- 23:38:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240716141639.1564355-1-jose.quaresma@foundries.io> <20240716141639.1564355-2-jose.quaresma@foundries.io>
-In-Reply-To: <20240716141639.1564355-2-jose.quaresma@foundries.io>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 16 Jul 2024 23:37:51 -0700
-Message-ID: <CAMKF1sq9uq7tf_8K_-54mVdnerEbQQubBx2QXmX6xuU-RTgYXg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v5 2/3] openssh: systemd notification was
- implemented upstream
-To: quaresma.jose@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=J+RevIqb;
+ spf=pass (domain: siemens.com, ip: 40.107.104.73, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JuXrd0kDiRPS+V7NoKQmFGvigrotiRDANuEXXpITKKAqGP4TNPOFypzqW5118Zvryap9WOZEG1m9VCRanJa4gRfnp42O3dc7cyAv6UNyRatEx0SNmFpcZPTpvtr6c+w/d63Sk4Jill/11T7blJBoJmdtMQ8nzCZvXmscx5ejEOK1NeXGXHU49GJ0A+lsCnBGrRZQ64GVpVYESn7ScBA8kue/Zk6m6/CPZWXunr8b8easuD1q7IcqzUinYNVNtZvIRmzfBqzRIHjGrI7mvBcQZ28ZuY/cVAEbGFqfe6+1Cwq0gvpAjR389cRWqZYH45jPY4zT78P5Wt6XBBuFgKkNMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=svSyI6lywRNLHgy8G28HhnA4o+jqEc49EOPf51J+ah0=;
+ b=fMhV9YWb2RuO5O+S3qDqCgJp5IuLhXj7mw/3+DgDhzg/KNRYjnq+9VAuBH6wkHNz3InEPDppWAjJ7KjkrfoT7Y/EGuyX8Hu92TCDQdiKkx+RtKjix+CqH3phT643ErDl89/mW2jVrbEdHvOjsdfbUTl9KDrBQTCLhQrxO1kMyfRItrO6g1Yc0XTYh+qy1aPU4AHfENFvzwbiPWSYtwJTpvgcPqG7bX5guEasPCwwetY45TeKkovAD0oAEvmG55eeQdoSVVRvTzAQGJCxcD+E3eljBTs5VK/A7iMqv5O+or4seShB9BJqNDbBS/DehtgfJviDYbd3+h2TxQNBd/vCjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=svSyI6lywRNLHgy8G28HhnA4o+jqEc49EOPf51J+ah0=;
+ b=J+RevIqboB4kzWvqME/hEyNXDiXh3tU5QsGVt1kLy0czKU2GzjAqn4+dZ/kxD2vG2EvTEOSFNmwgyxC5vgDUUodoRyhn/gTNe4fuLW9WxnqQSNFBduTUjJ4jvH+VJ61xwHVPBt+GiLjSsZ63lHTtLNKt1UDAJrlG3u7Bp7C2qkZEAxnPKWjYvX75lrEHWLLX0TNrofvgn4X/3sImhdiiPbAMkxX+xV6nMFC9NT+TqEUwbeCli+9FKI/TtuS5rQvD/i/kGKR/ZuYhkxk2wVyGc3X+/vGJ0u4eTVlwsMfc/+nO4ddJYs2tfOKSijEap9NDjzwPnyt+KlLGJYahWN+qYQ==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by PAXPR10MB5352.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:281::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29; Wed, 17 Jul
+ 2024 07:11:39 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%5]) with mapi id 15.20.7762.025; Wed, 17 Jul 2024
+ 07:11:39 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "rybczynska@gmail.com" <rybczynska@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Marta Rybczynska <marta.rybczynska@syslinbit.com>, Samantha Jalabert
+	<samantha.jalabert@syslinbit.com>
+Subject: RE: [OE-core] [PATCH 1/3] cve-check: enrich annotation of CVEs
+Thread-Topic: [OE-core] [PATCH 1/3] cve-check: enrich annotation of CVEs
+Thread-Index: AQHa1qCiQth0lize10eRaXjJoYxxjLH6fa+g
+Date: Wed, 17 Jul 2024 07:11:39 +0000
+Message-ID: 
+ <AS1PR10MB56970CABA311ECF1A76C7566FDA32@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240715102003.10122-1-marta.rybczynska@syslinbit.com>
+In-Reply-To: <20240715102003.10122-1-marta.rybczynska@syslinbit.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=9f9dd694-6052-430c-8ada-683037275d81;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-07-17T06:49:29Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAXPR10MB5352:EE_
+x-ms-office365-filtering-correlation-id: d2ad6def-1e32-431a-4fa6-08dca62fb41b
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?er04uKHeUi56nwnndOcvYZ2YegDh0omHI6Sy7sQgr2P0BOmq5jZ5HxVHY93/?=
+ =?us-ascii?Q?83Gxvn6OQhI3JiHVHARBKgCZUCDOiIbomNxZs6SUhSo1r17RP1sXMA0u6FYc?=
+ =?us-ascii?Q?Ft1xYbWZtRTQwrwUll+JpX25NnzDdtqbCKMxMhAi0+PyGR7mF9OHU7OzMVTu?=
+ =?us-ascii?Q?7NEN5bfJ2ZYiSBJZWf0Ka8zZgWIFoMwzYDQzCOBYFWwCTD+A/OP++chPMLZz?=
+ =?us-ascii?Q?qDGI0YQSWgqETVsVq0JNW6nUIFevZdXc7wj+uDATCmfxpkGvSmnir2vAv2Kc?=
+ =?us-ascii?Q?ofjND24pUS/tN5/hd+Tfka/wzEBJYZkCbN9L7n88D/chvl7m26IymdELlXOO?=
+ =?us-ascii?Q?ymLnozafrBFC2bRpLqx86umD3IghovoIZiLLmOCG3Txrs4vEG6jyMoieMM/b?=
+ =?us-ascii?Q?6u0vVNR+zrM9bLWEQk5CK5WSgbmvwWHf1uF4FAtFWodIPgbZhgq4wJYf2hla?=
+ =?us-ascii?Q?bEiZ0vYMw3q/AbhIj62Nrhkq8vrzNNKSAL0JAqv9KRMA6atd8x6FnYfErI/n?=
+ =?us-ascii?Q?SofynwHClvdmRJuuTHX/oNq/VkROatvnO5t6HqQkqYWVQnXFI0c20WkdIRrf?=
+ =?us-ascii?Q?d6/bW4CoLLXQrSFsE+wpMt4D9DjNrqCpOIJjuG07YpECwEPRY/FmVGColvUB?=
+ =?us-ascii?Q?pW9nGQnzvgwn80AVXqGifFP2EPa0jpB5/uQjdqqPcDwN7wLj0U0TN97S9oS6?=
+ =?us-ascii?Q?lyjXkvXUzD24/2wD1c5fGWsOnRYFfvk9WFfO1+WUtNhtziRRbjb6B3+TAdK3?=
+ =?us-ascii?Q?ECMsbEOZnAlA2cJL8JOTxT/rXiUWSJRqzSTCF4nl8Ph+VjwBAhTnTA0omyHL?=
+ =?us-ascii?Q?ZVD93baomuZqfW0bnmfpB1Jo/3K/nUwwR/9SSO1RwqKd9I38K8b26FSISjfx?=
+ =?us-ascii?Q?Y0SkAqhqu3aM5Xd/CuTfg85kIXtZMLGB8JDi4FDu/SrKxRgulvadDb5oFo/9?=
+ =?us-ascii?Q?oOlVTCip7p6sm6MfUk0Dfsx6zA4llDmcXuxjmM3V6TM12XxjH+fRzqf9zJA/?=
+ =?us-ascii?Q?cKZD5t9+A2wjJVt+kzupOKRSWXEpZ1bbqjFBIsceHn558hikN9zsEAf9NwDm?=
+ =?us-ascii?Q?zKvQSNShtGUxBDnQ1RXiJc+A7nqwEIclPz5PVrvGGED5l7qiIenwUOfRK+Kv?=
+ =?us-ascii?Q?OWhwSqH9fuajmJTvY4rgIpszOqF+3J+h1LVE3w5nHoZTmEErU3lxD6xkSsUB?=
+ =?us-ascii?Q?5iKW7Bu06086qcyf3/fs14HuDuQVZXdCLyKeB4KJoGzKalRX/1kqt+b1stTt?=
+ =?us-ascii?Q?VrmNUVmHnHPhgx4WTWtT+FK/neJFJC53YCQRRkzzwBnO4yDVhllbFyZJgg8p?=
+ =?us-ascii?Q?TtCT0EbnLkN7XKSCegmnc3fm8t6xtqUIr/4EG4d7RIMiM1YugqdY70P/os8p?=
+ =?us-ascii?Q?N09Oc7OvYLWl9mu3pQfJstwkz48JaieO+jc8hmJWqcRtrFLW1A=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?qw/+phIYtay8efxrlqm4C/Dl+sN/WsUMDhkIF4cjlt95ljQVR2f5Lo6fH+0J?=
+ =?us-ascii?Q?H0rCyhU4pwHHz79FIZHqqozVCTLcpNXM8BxFg2oN/l4EGxyMCSjQYRG7f6pP?=
+ =?us-ascii?Q?VacfEzUa5lnPMFo6E3bzJlEemc2Eh548fDnKBSuEBmQZYkcVdp5E5a/+a7yq?=
+ =?us-ascii?Q?VTFMFj9DzfpVIJC8Aqy5z9z8J9tzymElw2t5nRmBrvsUQN3e0R0/WyppU/8h?=
+ =?us-ascii?Q?rGolm2GfkZAheNpNRatSZ+auq5DQqJBF8EkacBKGsZA5rhYf9WxUaWLTDJji?=
+ =?us-ascii?Q?CmuTJjK0Vij3Cn1NkiEydF6Icf76AEjkxfTRj7U2Aj+tNhzkZsId+pXUi8x6?=
+ =?us-ascii?Q?eqAk0LJe1AK1wFq6LHqY26WZRewaBZj7FbvRNqWsozGPD35z5D5+QkRmvl4C?=
+ =?us-ascii?Q?66qepGp0C2UZDPDeAy86uU283Fv+mNJSx5D2337VE4UP664eoO32749V3vE5?=
+ =?us-ascii?Q?ApemlLTGItHhtJsPvHWkjGb5dg55JBECfFGkWoOBzMPgD7prGGMUeOA2mLfw?=
+ =?us-ascii?Q?xjkcobsequ6JXQmx6dkV7A/QWEBKIaUoc7/ocj8XEDf18cki31rn0Q1pX6gE?=
+ =?us-ascii?Q?K14cAVYkcThV20+K7Eq08hrseJu7MNQ0Q7VH3+NSU76AaMFLr0UKbCs8YX6C?=
+ =?us-ascii?Q?OTDLu23YDb2/FoxA5ngJ6EsDlAS6Pt8RhUmV7+TzCD12K4UYGhXSgwgVZZ9N?=
+ =?us-ascii?Q?Ia2pePRfhnsvKu/6HnrTuyxK6SSySHaRKXoMeCI6gfvsbX78g19gTma2M8Hs?=
+ =?us-ascii?Q?DwMCTQJ3KfrNysnQi5QfyxnJFA5+bvKtBesKXwvvcfpk9XFsfxu9Y92ONK9Y?=
+ =?us-ascii?Q?JewzgcL5qIwOTQvse+nwcEJfBbNjUH7Ne7uHc9WllCmur+wZgZF/UQGwjffa?=
+ =?us-ascii?Q?gZljgewkBrah0RCkSqvokj8ZGCKhdDQqlGp0O5ZlNXdZp+RBpAZ18nbJwEB6?=
+ =?us-ascii?Q?iKceHppkURIz4rfRlVt5cdFaYU7W7BsiBCo5Y7MU/F4GFCTcE/v0faCTepG1?=
+ =?us-ascii?Q?GDeQxWuxLXhSzQ5FEyGkG9Avg7/XePqe+K1ej239cUp1+uwjPMup7DpcH9pK?=
+ =?us-ascii?Q?BtZO6xWYKbWzyctfOGNt3EeqnoFJKL3UoB0qVFHQxvY9n1hltXbamq5JHAjy?=
+ =?us-ascii?Q?04QCqHXuWGNu2uFQPBPwir7iVU3Qie05B4eLq+aDsRXP7qTqK10HtmZ1MwT6?=
+ =?us-ascii?Q?JwnOthv3AOKyNJoWKk5W9I76fXPQEjSu0TDIZmV9NEbKYxr0jATlYlVxdRqW?=
+ =?us-ascii?Q?RkOCYsVI7dHihi80gzCxid1JhlHnAXU6aUZUDljW1obGSlMBfp49/ipYZesx?=
+ =?us-ascii?Q?2+NFzkRJenW/1s6svCFdwpQCHSpqQGy1RbrLYHTECre7WPhweuDK5WFbecwW?=
+ =?us-ascii?Q?YTa47t/vJuw98rEBlgsBOpBHpdfAxi9b6JqrQ8Dn5K98U8jJ3Wu0zL9pthXg?=
+ =?us-ascii?Q?nSqDScYKQt8F0IOfZHB9DuppZXC7zIq2+KVw1IgZ3ysyhA0y9VjaxwPLkvdS?=
+ =?us-ascii?Q?NICJatoDgZKlXgFmK5TyRRHRxV7+KmguqJsWS42vlOJ0iM0JIIe4Ozqg45Me?=
+ =?us-ascii?Q?qZArsljDI0F/y/6oxtSj4/c8FncKnJTO+4GNyutP?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2ad6def-1e32-431a-4fa6-08dca62fb41b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2024 07:11:39.4644
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MuyCvTldNUyKHb1jypYw2rHjM1NxlQHSED3sOy6KwgEB8/meekDTFF5rpyfC7ZqhmOddIUhgBPqQjPiey9XcUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB5352
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 06:38:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202140
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 07:11:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202141
 
-actually I narrowed down my problem of disconnection to this patch in
-the series. Earlier I thought it might be related to the openssh
-upgrade patch
-but reverting that still causes the problem but this patch when
-reverted, the problem is gone.
+Hi Marta,
 
-On Tue, Jul 16, 2024 at 7:17=E2=80=AFAM Jose Quaresma via
-lists.openembedded.org
-<quaresma.jose=3Dgmail.com@lists.openembedded.org> wrote:
->
-> Still side effects of the XZ backdoor. The systemd sd-notify patch
-> was rejected [1] upstream and was chosen a standalone implementation
-> that does not depend on libsystemd [2].
->
-> Racional [1]:
->
-> License incompatibility and library bloatedness were the reasons.
-> Given recent events we're never going to take a dependency on libsystemd,
-> though we might implement the notification protocol ourselves if it isn't=
- too much work.
->
-> [1] https://github.com/openssh/openssh-portable/pull/375#issuecomment-202=
-7749729
-> [2] https://github.com/openssh/openssh-portable/commit/08f579231cd38a1c65=
-7aaa6ddeb8ab57a1fd4f5c
->
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Thanks for the great work on this topic.
+I have left 3 comments below.
+
+Thanks for considering them.
+  Peter
+
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Marta Rybczynska via
+> lists.openembedded.org
+> Sent: Monday, July 15, 2024 12:20
+> To: openembedded-core@lists.openembedded.org
+> Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>; Samantha Jalabert
+> <samantha.jalabert@syslinbit.com>
+> Subject: [OE-core] [PATCH 1/3] cve-check: enrich annotation of CVEs
+>=20
+> Previously the information passed between different function of the
+> cve-check class included only tables of patched, unpatched, ignored
+> vulnerabilities and the general status of the recipe.
+>=20
+> The VEX work requires more information, and we need to pass them
+> between different functions, so that it can be enriched as the
+> analysis progresses. Instead of multiple tables, use a single one
+> with annotations for each CVE encountered. For example, a patched
+> CVE will have:
+>=20
+> {"abbrev-status": "Patched", "status": "version-not-in-range"}
+>=20
+> abbrev-status contains the general status (Patched, Unpatched,
+> Ignored and Unknown that will be added in the VEX code)
+> status contains more detailed information that can come from
+> CVE_STATUS and the analysis.
+>=20
+> Additional fields of the annotation include for example the name
+> of the patch file fixing a given CVE.
+>=20
+> Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+> Signed-off-by: Samantha Jalabert <samantha.jalabert@syslinbit.com>
 > ---
->
-> v4:
->  - split update of Upstream-Status in new patches in the serie
->
-> v5:
->  - use the upstream solution
->
->  ...-notify-systemd-on-listen-and-reload.patch | 225 ++++++++++++++++++
->  ...tional-support-for-systemd-sd_notify.patch |  96 --------
->  .../openssh/openssh/sshd.service              |   2 +-
->  .../openssh/openssh/sshd@.service             |   1 +
->  .../openssh/openssh_9.7p1.bb                  |   4 +-
->  5 files changed, 228 insertions(+), 100 deletions(-)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-notify=
--systemd-on-listen-and-reload.patch
->  delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-system=
-d-Add-optional-support-for-systemd-sd_notify.patch
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-notify-system=
-d-on-listen-and-reload.patch b/meta/recipes-connectivity/openssh/openssh/00=
-01-notify-systemd-on-listen-and-reload.patch
-> new file mode 100644
-> index 0000000000..4925c969fe
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-li=
-sten-and-reload.patch
-> @@ -0,0 +1,225 @@
-> +From fc73e2405a8ca928465580b74a4d76112919367b Mon Sep 17 00:00:00 2001
-> +From: Damien Miller <djm@mindrot.org>
-> +Date: Wed, 3 Apr 2024 14:40:32 +1100
-> +Subject: [PATCH] notify systemd on listen and reload
+>  meta/classes/cve-check.bbclass | 208 +++++++++++++++++----------------
+>  meta/lib/oe/cve_check.py       |  12 +-
+>  2 files changed, 113 insertions(+), 107 deletions(-)
+>=20
+> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbcl=
+ass
+> index 93a2a1413d..f177223568 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -188,10 +188,10 @@ python do_cve_check () {
+>                  patched_cves =3D get_patched_cves(d)
+>              except FileNotFoundError:
+>                  bb.fatal("Failure in searching patches")
+> -            ignored, patched, unpatched, status =3D check_cves(d, patche=
+d_cves)
+> -            if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") =
+=3D=3D "1"
+> and status):
+> -                cve_data =3D get_cve_info(d, patched + unpatched + ignor=
+ed)
+> -                cve_write_data(d, patched, unpatched, ignored, cve_data,=
+ status)
+> +            cve_data, status =3D check_cves(d, patched_cves)
+> +            if len(cve_data) or (d.getVar("CVE_CHECK_COVERAGE") =3D=3D "=
+1" and
+> status):
+> +                get_cve_info(d, cve_data)
+> +                cve_write_data(d, cve_data, status)
+>          else:
+>              bb.note("No CVE database found, skipping CVE check")
+>=20
+> @@ -294,7 +294,51 @@ ROOTFS_POSTPROCESS_COMMAND:prepend =3D
+> "${@'cve_check_write_rootfs_manifest ' if d
+>  do_rootfs[recrdeptask] +=3D "${@'do_cve_check' if
+> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
+>  do_populate_sdk[recrdeptask] +=3D "${@'do_cve_check' if
+> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
+>=20
+> -def check_cves(d, patched_cves):
+> +def cve_is_ignored(d, cve_data, cve):
+> +    if cve not in cve_data:
+> +        return False
+> +    if cve_data[cve]['abbrev-status'] =3D=3D "Ignored":
+> +        return True
+> +    return False
 > +
-> +Standalone implementation that does not depend on libsystemd.
-> +With assistance from Luca Boccassi, and feedback/testing from Colin
-> +Watson. bz2641
+> +def cve_is_patched(d, cve_data, cve):
+> +    if cve not in cve_data:
+> +        return False
+> +    if cve_data[cve]['abbrev-status'] =3D=3D "Patched":
+> +        return True
+> +    return False
 > +
-> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/c=
-ommit/08f579231cd38a1c657aaa6ddeb8ab57a1fd4f5c]
+> +def cve_update(d, cve_data, cve, entry):
+
+I think that there is a fundamental change in behavior here.
+Previously we were taking (NVD) DB as base and only vulnerable CVEs were co=
+mpared annotated with CVE_STATUS or our presence of CVE patches.
+Now we take the CVE_STATUS and CVE patches as base and add entries from DB =
+only if they were not annotated yet.
+
+I am not arguing against it, I actually like it much more as we will be abl=
+e to insert also CVEs not in DB into our reports.
+But I have two comments on this:
+* this should be explicitly described in commit message
+* this makes global cve includes spill into all recipe reports, so this com=
+mit series should also get rid of cve-extra-exclusions.inc file finally (or=
+ at least add a comment into it with this sideeffect)
+
+> +    # If no entry, just add it
+> +    if cve not in cve_data:
+> +        cve_data[cve] =3D entry
+> +        return
+> +    # If we are updating, there might be change in the status
+> +    bb.debug("Trying CVE entry update for %s from %s to %s" % (cve,
+> cve_data[cve]['abbrev-status'], entry['abbrev-status']))
+> +    if cve_data[cve]['abbrev-status'] =3D=3D "Unknown":
+> +        cve_data[cve] =3D entry
+> +        return
+> +    if cve_data[cve]['abbrev-status'] =3D=3D entry['abbrev-status']:
+> +        return
+> +    # Update like in {'abbrev-status': 'Patched', 'status': 'version-not=
+-in-range'}
+> to {'abbrev-status': 'Unpatched', 'status': 'version-in-range'}
+> +    if entry['abbrev-status'] =3D=3D "Unpatched" and cve_data[cve]['abbr=
+ev-
+> status'] =3D=3D "Patched":
+> +        if entry['status'] =3D=3D "version-in-range" and cve_data[cve]['=
+status'] =3D=3D
+> "version-not-in-range":
+> +            # New result from the scan, vulnerable
+> +            cve_data[cve] =3D entry
+> +            bb.debug("CVE entry %s update from Patched to Unpatched from=
+ the
+> scan result" % cve)
+> +            return
+> +    if entry['abbrev-status'] =3D=3D "Patched" and cve_data[cve]['abbrev=
+-status']
+> =3D=3D "Unpatched":
+> +        if entry['status'] =3D=3D "version-not-in-range" and cve_data[cv=
+e]['status'] =3D=3D
+> "version-in-range":
+> +            # Range does not match the scan, but we already have a vulne=
+rable
+> match, ignore
+> +            bb.debug("CVE entry %s update from Patched to Unpatched from=
+ the
+> scan result - not applying" % cve)
+> +            return
+> +    # If we have an "Ignored", it has a priority
+> +    if cve_data[cve]['abbrev-status'] =3D=3D "Ignored":
+> +        bb.debug("CVE %s not updating because Ignored" % cve)
+> +        return
+> +    bb.warn("Unhandled CVE entry update for %s from %s to %s" % (cve,
+> cve_data[cve], entry))
 > +
-> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> +---
-> + configure.ac                |  1 +
-> + openbsd-compat/port-linux.c | 97 ++++++++++++++++++++++++++++++++++++-
-> + openbsd-compat/port-linux.h |  5 ++
-> + platform.c                  | 11 +++++
-> + platform.h                  |  1 +
-> + sshd.c                      |  2 +
-> + 6 files changed, 115 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 82e8bb7c1..854f92b5b 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -915,6 +915,7 @@ int main(void) { if (NSVersionOfRunTimeLibrary("Syst=
-em") >=3D (60 << 16))
-> +       AC_DEFINE([_PATH_BTMP], ["/var/log/btmp"], [log for bad login att=
-empts])
-> +       AC_DEFINE([USE_BTMP])
-> +       AC_DEFINE([LINUX_OOM_ADJUST], [1], [Adjust Linux out-of-memory ki=
-ller])
-> ++      AC_DEFINE([SYSTEMD_NOTIFY], [1], [Have sshd notify systemd on sta=
-rt/reload])
-> +       inet6_default_4in6=3Dyes
-> +       case `uname -r` in
-> +       1.*|2.0.*)
-> +diff --git a/openbsd-compat/port-linux.c b/openbsd-compat/port-linux.c
-> +index 0457e28d0..df7290246 100644
-> +--- a/openbsd-compat/port-linux.c
-> ++++ b/openbsd-compat/port-linux.c
-> +@@ -21,16 +21,23 @@
-> +
-> + #include "includes.h"
-> +
-> +-#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST)
-> ++#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST) || \
-> ++    defined(SYSTEMD_NOTIFY)
-> ++#include <sys/socket.h>
-> ++#include <sys/un.h>
-> ++
-> + #include <errno.h>
-> ++#include <inttypes.h>
-> + #include <stdarg.h>
-> + #include <string.h>
-> + #include <stdio.h>
-> + #include <stdlib.h>
-> ++#include <time.h>
-> +
-> + #include "log.h"
-> + #include "xmalloc.h"
-> + #include "port-linux.h"
-> ++#include "misc.h"
-> +
-> + #ifdef WITH_SELINUX
-> + #include <selinux/selinux.h>
-> +@@ -310,4 +317,90 @@ oom_adjust_restore(void)
-> +       return;
-> + }
-> + #endif /* LINUX_OOM_ADJUST */
-> +-#endif /* WITH_SELINUX || LINUX_OOM_ADJUST */
-> ++
-> ++#ifdef SYSTEMD_NOTIFY
-> ++
-> ++static void ssh_systemd_notify(const char *, ...)
-> ++    __attribute__((__format__ (printf, 1, 2))) __attribute__((__nonnull=
-__ (1)));
-> ++
-> ++static void
-> ++ssh_systemd_notify(const char *fmt, ...)
-> ++{
-> ++      char *s =3D NULL;
-> ++      const char *path;
-> ++      struct stat sb;
-> ++      struct sockaddr_un addr;
-> ++      int fd =3D -1;
-> ++      va_list ap;
-> ++
-> ++      if ((path =3D getenv("NOTIFY_SOCKET")) =3D=3D NULL || strlen(path=
-) =3D=3D 0)
-> ++              return;
-> ++
-> ++      va_start(ap, fmt);
-> ++      xvasprintf(&s, fmt, ap);
-> ++      va_end(ap);
-> ++
-> ++      /* Only AF_UNIX is supported, with path or abstract sockets */
-> ++      if (path[0] !=3D '/' && path[0] !=3D '@') {
-> ++              error_f("socket \"%s\" is not compatible with AF_UNIX", p=
-ath);
-> ++              goto out;
-> ++      }
-> ++
-> ++      if (path[0] =3D=3D '/' && stat(path, &sb) !=3D 0) {
-> ++              error_f("socket \"%s\" stat: %s", path, strerror(errno));
-> ++              goto out;
-> ++      }
-> ++
-> ++      memset(&addr, 0, sizeof(addr));
-> ++      addr.sun_family =3D AF_UNIX;
-> ++      if (strlcpy(addr.sun_path, path,
-> ++          sizeof(addr.sun_path)) >=3D sizeof(addr.sun_path)) {
-> ++              error_f("socket path \"%s\" too long", path);
-> ++              goto out;
-> ++      }
-> ++      /* Support for abstract socket */
-> ++      if (addr.sun_path[0] =3D=3D '@')
-> ++              addr.sun_path[0] =3D 0;
-> ++      if ((fd =3D socket(PF_UNIX, SOCK_DGRAM, 0)) =3D=3D -1) {
-> ++              error_f("socket \"%s\": %s", path, strerror(errno));
-> ++              goto out;
-> ++      }
-> ++      if (connect(fd, &addr, sizeof(addr)) !=3D 0) {
-> ++              error_f("socket \"%s\" connect: %s", path, strerror(errno=
-));
-> ++              goto out;
-> ++      }
-> ++      if (write(fd, s, strlen(s)) !=3D (ssize_t)strlen(s)) {
-> ++              error_f("socket \"%s\" write: %s", path, strerror(errno))=
-;
-> ++              goto out;
-> ++      }
-> ++      debug_f("socket \"%s\" notified %s", path, s);
-> ++ out:
-> ++      if (fd !=3D -1)
-> ++              close(fd);
-> ++      free(s);
-> ++}
-> ++
-> ++void
-> ++ssh_systemd_notify_ready(void)
-> ++{
-> ++      ssh_systemd_notify("READY=3D1");
-> ++}
-> ++
-> ++void
-> ++ssh_systemd_notify_reload(void)
-> ++{
-> ++      struct timespec now;
-> ++
-> ++      monotime_ts(&now);
-> ++      if (now.tv_sec < 0 || now.tv_nsec < 0) {
-> ++              error_f("monotime returned negative value");
-> ++              ssh_systemd_notify("RELOADING=3D1");
-> ++      } else {
-> ++              ssh_systemd_notify("RELOADING=3D1\nMONOTONIC_USEC=3D%llu"=
-,
-> ++                  ((uint64_t)now.tv_sec * 1000000ULL) +
-> ++                  ((uint64_t)now.tv_nsec / 1000ULL));
-> ++      }
-> ++}
-> ++#endif /* SYSTEMD_NOTIFY */
-> ++
-> ++#endif /* WITH_SELINUX || LINUX_OOM_ADJUST || SYSTEMD_NOTIFY */
-> +diff --git a/openbsd-compat/port-linux.h b/openbsd-compat/port-linux.h
-> +index 3c22a854d..14064f87d 100644
-> +--- a/openbsd-compat/port-linux.h
-> ++++ b/openbsd-compat/port-linux.h
-> +@@ -30,4 +30,9 @@ void oom_adjust_restore(void);
-> + void oom_adjust_setup(void);
-> + #endif
-> +
-> ++#ifdef SYSTEMD_NOTIFY
-> ++void ssh_systemd_notify_ready(void);
-> ++void ssh_systemd_notify_reload(void);
-> ++#endif
-> ++
-> + #endif /* ! _PORT_LINUX_H */
-> +diff --git a/platform.c b/platform.c
-> +index 4fe8744ee..9cf818153 100644
-> +--- a/platform.c
-> ++++ b/platform.c
-> +@@ -44,6 +44,14 @@ platform_pre_listen(void)
-> + #endif
-> + }
-> +
-> ++void
-> ++platform_post_listen(void)
-> ++{
-> ++#ifdef SYSTEMD_NOTIFY
-> ++      ssh_systemd_notify_ready();
-> ++#endif
-> ++}
-> ++
-> + void
-> + platform_pre_fork(void)
-> + {
-> +@@ -55,6 +63,9 @@ platform_pre_fork(void)
-> + void
-> + platform_pre_restart(void)
-> + {
-> ++#ifdef SYSTEMD_NOTIFY
-> ++      ssh_systemd_notify_reload();
-> ++#endif
-> + #ifdef LINUX_OOM_ADJUST
-> +       oom_adjust_restore();
-> + #endif
-> +diff --git a/platform.h b/platform.h
-> +index 7fef8c983..5dec23276 100644
-> +--- a/platform.h
-> ++++ b/platform.h
-> +@@ -21,6 +21,7 @@
-> + void platform_pre_listen(void);
-> + void platform_pre_fork(void);
-> + void platform_pre_restart(void);
-> ++void platform_post_listen(void);
-> + void platform_post_fork_parent(pid_t child_pid);
-> + void platform_post_fork_child(void);
-> + int  platform_privileged_uidswap(void);
-> +diff --git a/sshd.c b/sshd.c
-> +index b4f2b9742..865331b46 100644
-> +--- a/sshd.c
-> ++++ b/sshd.c
-> +@@ -2077,6 +2077,8 @@ main(int ac, char **av)
-> +               ssh_signal(SIGTERM, sigterm_handler);
-> +               ssh_signal(SIGQUIT, sigterm_handler);
-> +
-> ++              platform_post_listen();
-> ++
-> +               /*
-> +                * Write out the pid file after the sigterm handler
-> +                * is setup and the listen sockets are bound
-> +--
-> +2.45.2
-> +
-> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-o=
-ptional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/ope=
-nssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-> deleted file mode 100644
-> index f079d936a4..0000000000
-> --- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional=
--support-for-systemd-sd_notify.patch
-> +++ /dev/null
-> @@ -1,96 +0,0 @@
-> -From b02ef7621758f06eb686ef4f620636dbad086eda Mon Sep 17 00:00:00 2001
-> -From: Matt Jolly <Matt.Jolly@footclan.ninja>
-> -Date: Thu, 2 Feb 2023 21:05:40 +1100
-> -Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
+> +def check_cves(d, cve_data):
+>      """
+>      Connect to the NVD database and find unpatched cves.
+>      """
+> @@ -304,28 +348,19 @@ def check_cves(d, patched_cves):
+>      real_pv =3D d.getVar("PV")
+>      suffix =3D d.getVar("CVE_VERSION_SUFFIX")
+>=20
+> -    cves_unpatched =3D []
+> -    cves_ignored =3D []
+>      cves_status =3D []
+>      cves_in_recipe =3D False
+>      # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
+>      products =3D d.getVar("CVE_PRODUCT").split()
+>      # If this has been unset then we're not scanning for CVEs here (for =
+example,
+> image recipes)
+>      if not products:
+> -        return ([], [], [], [])
+> +        return ([], [])
+>      pv =3D d.getVar("CVE_VERSION").split("+git")[0]
+>=20
+>      # If the recipe has been skipped/ignored we return empty lists
+>      if pn in d.getVar("CVE_CHECK_SKIP_RECIPE").split():
+>          bb.note("Recipe has been skipped by cve-check")
+> -        return ([], [], [], [])
 > -
-> -This is a rebase of Dennis Lamm's <expeditioneer@gentoo.org>
-> -patch based on Jakub Jelen's <jjelen@redhat.com> original patch
+> -    # Convert CVE_STATUS into ignored CVEs and check validity
+> -    cve_ignore =3D []
+> -    for cve in (d.getVarFlags("CVE_STATUS") or {}):
+> -        decoded_status, _, _ =3D decode_cve_status(d, cve)
+> -        if decoded_status =3D=3D "Ignored":
+> -            cve_ignore.append(cve)
+> +        return ([], [])
+>=20
+>      import sqlite3
+>      db_file =3D d.expand("file:${CVE_CHECK_DB_FILE}?mode=3Dro")
+> @@ -344,11 +379,10 @@ def check_cves(d, patched_cves):
+>          for cverow in cve_cursor:
+>              cve =3D cverow[0]
+>=20
+> -            if cve in cve_ignore:
+> +            if cve_is_ignored(d, cve_data, cve):
+>                  bb.note("%s-%s ignores %s" % (product, pv, cve))
+> -                cves_ignored.append(cve)
+>                  continue
+> -            elif cve in patched_cves:
+> +            elif cve_is_patched(d, cve_data, cve):
+>                  bb.note("%s has been patched" % (cve))
+>                  continue
+>              # Write status once only for each product
+> @@ -364,7 +398,7 @@ def check_cves(d, patched_cves):
+>              for row in product_cursor:
+>                  (_, _, _, version_start, operator_start, version_end, op=
+erator_end) =3D
+> row
+>                  #bb.debug(2, "Evaluating row " + str(row))
+> -                if cve in cve_ignore:
+> +                if cve_is_ignored(d, cve_data, cve):
+>                      ignored =3D True
+>=20
+>                  version_start =3D convert_cve_version(version_start)
+> @@ -403,16 +437,16 @@ def check_cves(d, patched_cves):
+>                  if vulnerable:
+>                      if ignored:
+>                          bb.note("%s is ignored in %s-%s" % (cve, pn, rea=
+l_pv))
+> -                        cves_ignored.append(cve)
+> +                        cve_update(d, cve_data, cve, {"abbrev-status": "=
+Ignored"})
+
+I think that this case happens only when we ignore the CVE via CVE_STATUS.
+So calling this is not necessary as it is already prefilled from for it, co=
+rrect?
+In case it would not be prefilled, then it would drop our enrichment...
+
+>                      else:
+>                          bb.note("%s-%s is vulnerable to %s" % (pn, real_=
+pv, cve))
+> -                        cves_unpatched.append(cve)
+> +                        cve_update(d, cve_data, cve, {"abbrev-status": "=
+Unpatched",
+> "status": "version-in-range"})
+
+Could you please include the new statuses in cve-check-map.conf
+(e.g. version-in-range, version-not-in-range, fix-file-included)
+I think it's important to have all possible statuses there to be able to co=
+rrect the DB manually.
+
+>                      break
+>              product_cursor.close()
+>=20
+>              if not vulnerable:
+>                  bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, =
+cve))
+> -                patched_cves.add(cve)
+> +                cve_update(d, cve_data, cve, {"abbrev-status": "Patched"=
+, "status":
+> "version-not-in-range"})
+>          cve_cursor.close()
+>=20
+>          if not cves_in_product:
+> @@ -420,48 +454,45 @@ def check_cves(d, patched_cves):
+>              cves_status.append([product, False])
+>=20
+>      conn.close()
+> -    diff_ignore =3D list(set(cve_ignore) - set(cves_ignored))
+> -    if diff_ignore:
+> -        oe.qa.handle_error("cve_status_not_in_db", "Found CVE (%s) with
+> CVE_STATUS set that are not found in database for this component" % "
+> ".join(diff_ignore), d)
+>=20
+>      if not cves_in_recipe:
+>          bb.note("No CVE records for products in recipe %s" % (pn))
+>=20
+> -    return (list(cves_ignored), list(patched_cves), cves_unpatched,
+> cves_status)
+> +    return (cve_data, cves_status)
+>=20
+> -def get_cve_info(d, cves):
+> +def get_cve_info(d, cve_data):
+>      """
+>      Get CVE information from the database.
+>      """
+>=20
+>      import sqlite3
+>=20
+> -    cve_data =3D {}
+>      db_file =3D d.expand("file:${CVE_CHECK_DB_FILE}?mode=3Dro")
+>      conn =3D sqlite3.connect(db_file, uri=3DTrue)
+>=20
+> -    for cve in cves:
+> +    for cve in cve_data:
+>          cursor =3D conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,=
+))
+>          for row in cursor:
+> -            cve_data[row[0]] =3D {}
+> -            cve_data[row[0]]["summary"] =3D row[1]
+> -            cve_data[row[0]]["scorev2"] =3D row[2]
+> -            cve_data[row[0]]["scorev3"] =3D row[3]
+> -            cve_data[row[0]]["modified"] =3D row[4]
+> -            cve_data[row[0]]["vector"] =3D row[5]
+> -            cve_data[row[0]]["vectorString"] =3D row[6]
+> +            # The CVE itdelf has been added already
+> +            if row[0] not in cve_data:
+> +                bb.note("CVE record %s not present" % row[0])
+> +                continue
+> +            #cve_data[row[0]] =3D {}
+> +            cve_data[row[0]]["NVD-summary"] =3D row[1]
+> +            cve_data[row[0]]["NVD-scorev2"] =3D row[2]
+> +            cve_data[row[0]]["NVD-scorev3"] =3D row[3]
+> +            cve_data[row[0]]["NVD-modified"] =3D row[4]
+> +            cve_data[row[0]]["NVD-vector"] =3D row[5]
+> +            cve_data[row[0]]["NVD-vectorString"] =3D row[6]
+>          cursor.close()
+>      conn.close()
+> -    return cve_data
+>=20
+> -def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+> +def cve_write_data_text(d, cve_data):
+>      """
+>      Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
+>      CVE manifest if enabled.
+>      """
+>=20
+> -    from oe.cve_check import decode_cve_status
 > -
-> -Upstream-Status: Submitted [https://github.com/openssh/openssh-portable/=
-pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
+>      cve_file =3D d.getVar("CVE_CHECK_LOG")
+>      fdir_name  =3D d.getVar("FILE_DIRNAME")
+>      layer =3D fdir_name.split("/")[-3]
+> @@ -478,7 +509,7 @@ def cve_write_data_text(d, patched, unpatched,
+> ignored, cve_data):
+>          return
+>=20
+>      # Early exit, the text format does not report packages without CVEs
+> -    if not patched+unpatched+ignored:
+> +    if not len(cve_data):
+>          return
+>=20
+>      nvd_link =3D "https://nvd.nist.gov/vuln/detail/"
+> @@ -487,36 +518,27 @@ def cve_write_data_text(d, patched, unpatched,
+> ignored, cve_data):
+>      bb.utils.mkdirhier(os.path.dirname(cve_file))
+>=20
+>      for cve in sorted(cve_data):
+> -        is_patched =3D cve in patched
+> -        is_ignored =3D cve in ignored
 > -
-> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ----
-> - configure.ac | 24 ++++++++++++++++++++++++
-> - sshd.c       | 13 +++++++++++++
-> - 2 files changed, 37 insertions(+)
+> -        status =3D "Unpatched"
+> -        if (is_patched or is_ignored) and not report_all:
+> -            continue
+> -        if is_ignored:
+> -            status =3D "Ignored"
+> -        elif is_patched:
+> -            status =3D "Patched"
+> -        else:
+> -            # default value of status is Unpatched
+> -            unpatched_cves.append(cve)
 > -
-> -diff --git a/configure.ac b/configure.ac
-> -index 82e8bb7..d1145d3 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -4870,6 +4870,29 @@ AC_SUBST([GSSLIBS])
-> - AC_SUBST([K5LIBS])
-> - AC_SUBST([CHANNELLIBS])
+>          write_string +=3D "LAYER: %s\n" % layer
+>          write_string +=3D "PACKAGE NAME: %s\n" % d.getVar("PN")
+>          write_string +=3D "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDP=
+E"),
+> d.getVar("PV"))
+>          write_string +=3D "CVE: %s\n" % cve
+> -        write_string +=3D "CVE STATUS: %s\n" % status
+> -        _, detail, description =3D decode_cve_status(d, cve)
+> -        if detail:
+> -            write_string +=3D "CVE DETAIL: %s\n" % detail
+> -        if description:
+> -            write_string +=3D "CVE DESCRIPTION: %s\n" % description
+> -        write_string +=3D "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
+> -        write_string +=3D "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["sc=
+orev2"]
+> -        write_string +=3D "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["sc=
+orev3"]
+> -        write_string +=3D "VECTOR: %s\n" % cve_data[cve]["vector"]
+> -        write_string +=3D "VECTORSTRING: %s\n" % cve_data[cve]["vectorSt=
+ring"]
+> +        write_string +=3D "CVE STATUS: %s\n" % cve_data[cve]["abbrev-sta=
+tus"]
+> +
+> +        if 'status' in cve_data[cve]:
+> +            write_string +=3D "CVE DETAIL: %s\n" % cve_data[cve]["status=
+"]
+> +        if 'justification' in cve_data[cve]:
+> +            write_string +=3D "CVE DESCRIPTION: %s\n" %
+> cve_data[cve]["justification"]
+> +
+> +        if "NVD-summary" in cve_data[cve]:
+> +            write_string +=3D "CVE SUMMARY: %s\n" % cve_data[cve]["NVD-
+> summary"]
+> +            write_string +=3D "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]=
+["NVD-
+> scorev2"]
+> +            write_string +=3D "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]=
+["NVD-
+> scorev3"]
+> +            write_string +=3D "VECTOR: %s\n" % cve_data[cve]["NVD-vector=
+"]
+> +            write_string +=3D "VECTORSTRING: %s\n" % cve_data[cve]["NVD-
+> vectorString"]
+> +
+>          write_string +=3D "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
+> +        if cve_data[cve]["abbrev-status"] =3D=3D "Unpatched":
+> +            unpatched_cves.append(cve)
+>=20
+>      if unpatched_cves and d.getVar("CVE_CHECK_SHOW_WARNINGS") =3D=3D "1"=
+:
+>          bb.warn("Found unpatched CVE (%s), for more information check %s=
+" %
+> (" ".join(unpatched_cves),cve_file))
+> @@ -568,13 +590,11 @@ def cve_check_write_json_output(d, output,
+> direct_file, deploy_file, manifest_fi
+>          with open(index_path, "a+") as f:
+>              f.write("%s\n" % fragment_path)
+>=20
+> -def cve_write_data_json(d, patched, unpatched, ignored, cve_data,
+> cve_status):
+> +def cve_write_data_json(d, cve_data, cve_status):
+>      """
+>      Prepare CVE data for the JSON format, then write it.
+>      """
+>=20
+> -    from oe.cve_check import decode_cve_status
 > -
-> -+# Check whether user wants systemd support
-> -+SYSTEMD_MSG=3D"no"
-> -+AC_ARG_WITH(systemd,
-> -+      [  --with-systemd          Enable systemd support],
-> -+      [ if test "x$withval" !=3D "xno" ; then
-> -+              AC_PATH_TOOL([PKGCONFIG], [pkg-config], [no])
-> -+              if test "$PKGCONFIG" !=3D "no"; then
-> -+                      AC_MSG_CHECKING([for libsystemd])
-> -+                      if $PKGCONFIG --exists libsystemd; then
-> -+                              SYSTEMD_CFLAGS=3D`$PKGCONFIG --cflags lib=
-systemd`
-> -+                              SYSTEMD_LIBS=3D`$PKGCONFIG --libs libsyst=
-emd`
-> -+                              CPPFLAGS=3D"$CPPFLAGS $SYSTEMD_CFLAGS"
-> -+                              SSHDLIBS=3D"$SSHDLIBS $SYSTEMD_LIBS"
-> -+                              AC_MSG_RESULT([yes])
-> -+                              AC_DEFINE(HAVE_SYSTEMD, 1, [Define if you=
- want systemd support.])
-> -+                              SYSTEMD_MSG=3D"yes"
-> -+                      else
-> -+                              AC_MSG_RESULT([no])
-> -+                      fi
-> -+              fi
-> -+      fi ]
-> -+)
-> -+
-> - # Looking for programs, paths and files
+>      output =3D {"version":"1", "package": []}
+>      nvd_link =3D "https://nvd.nist.gov/vuln/detail/"
+>=20
+> @@ -592,8 +612,6 @@ def cve_write_data_json(d, patched, unpatched,
+> ignored, cve_data, cve_status):
+>      if include_layers and layer not in include_layers:
+>          return
+>=20
+> -    unpatched_cves =3D []
 > -
-> - PRIVSEP_PATH=3D/var/empty
-> -@@ -5688,6 +5711,7 @@ echo "                   libldns support: $LDNS_MS=
-G"
-> - echo "  Solaris process contract support: $SPC_MSG"
-> - echo "           Solaris project support: $SP_MSG"
-> - echo "         Solaris privilege support: $SPP_MSG"
-> -+echo "                   systemd support: $SYSTEMD_MSG"
-> - echo "       IP address in \$DISPLAY hack: $DISPLAY_HACK_MSG"
-> - echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
-> - echo "                  BSD Auth support: $BSD_AUTH_MSG"
-> -diff --git a/sshd.c b/sshd.c
-> -index b4f2b97..6820a41 100644
-> ---- a/sshd.c
-> -+++ b/sshd.c
-> -@@ -88,6 +88,10 @@
-> - #include <prot.h>
-> - #endif
+>      product_data =3D []
+>      for s in cve_status:
+>          p =3D {"product": s[0], "cvesInRecord": "Yes"}
+> @@ -608,39 +626,29 @@ def cve_write_data_json(d, patched, unpatched,
+> ignored, cve_data, cve_status):
+>          "version" : package_version,
+>          "products": product_data
+>      }
+> +
+>      cve_list =3D []
+>=20
+>      for cve in sorted(cve_data):
+> -        is_patched =3D cve in patched
+> -        is_ignored =3D cve in ignored
+> -        status =3D "Unpatched"
+> -        if (is_patched or is_ignored) and not report_all:
+> -            continue
+> -        if is_ignored:
+> -            status =3D "Ignored"
+> -        elif is_patched:
+> -            status =3D "Patched"
+> -        else:
+> -            # default value of status is Unpatched
+> -            unpatched_cves.append(cve)
 > -
-> -+#ifdef HAVE_SYSTEMD
-> -+#include <systemd/sd-daemon.h>
-> -+#endif
-> -+
-> - #include "xmalloc.h"
-> - #include "ssh.h"
-> - #include "ssh2.h"
-> -@@ -308,6 +312,10 @@ static void
-> - sighup_restart(void)
-> - {
-> -       logit("Received SIGHUP; restarting.");
-> -+#ifdef HAVE_SYSTEMD
-> -+      /* Signal systemd that we are reloading */
-> -+      sd_notify(0, "RELOADING=3D1");
-> -+#endif
-> -       if (options.pid_file !=3D NULL)
-> -               unlink(options.pid_file);
-> -       platform_pre_restart();
-> -@@ -2093,6 +2101,11 @@ main(int ac, char **av)
-> -                       }
-> -               }
-> -
-> -+#ifdef HAVE_SYSTEMD
-> -+              /* Signal systemd that we are ready to accept connections=
- */
-> -+              sd_notify(0, "READY=3D1");
-> -+#endif
-> -+
-> -               /* Accept a connection and return in a forked child */
-> -               server_accept_loop(&sock_in, &sock_out,
-> -                   &newsock, config_s);
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.service b/met=
-a/recipes-connectivity/openssh/openssh/sshd.service
-> index 3e570ab1e5..c71fff1cc1 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshd.service
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd.service
-> @@ -5,11 +5,11 @@ After=3Dsshdgenkeys.service
->  After=3Dnss-user-lookup.target
->
->  [Service]
-> +Type=3Dnotify-reload
->  Environment=3D"SSHD_OPTS=3D"
->  EnvironmentFile=3D-/etc/default/ssh
->  ExecStartPre=3D@BASE_BINDIR@/mkdir -p /var/run/sshd
->  ExecStart=3D-@SBINDIR@/sshd -D $SSHD_OPTS
-> -ExecReload=3D@BASE_BINDIR@/kill -HUP $MAINPID
->  KillMode=3Dprocess
->  Restart=3Don-failure
->  RestartSec=3D42s
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/me=
-ta/recipes-connectivity/openssh/openssh/sshd@.service
-> index 9d9965e624..dcfec8f054 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> @@ -3,6 +3,7 @@ Description=3DOpenSSH Per-Connection Daemon
->  After=3Dsshdgenkeys.service
->
->  [Service]
-> +Type=3Dnotify-reload
->  Environment=3D"SSHD_OPTS=3D"
->  EnvironmentFile=3D-/etc/default/ssh
->  ExecStart=3D-@SBINDIR@/sshd -i $SSHD_OPTS
-> diff --git a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb b/meta/re=
-cipes-connectivity/openssh/openssh_9.7p1.bb
-> index 4f20616295..4680d12be5 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
-> @@ -24,7 +24,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH=
-/portable/openssh-${PV}.tar
->             file://run-ptest \
->             file://sshd_check_keys \
->             file://0001-regress-banner.sh-log-input-and-output-files-on-e=
-rro.patch \
-> -           file://0001-systemd-Add-optional-support-for-systemd-sd_notif=
-y.patch \
-> +           file://0001-notify-systemd-on-listen-and-reload.patch \
->             file://CVE-2024-6387.patch \
->             "
->  SRC_URI[sha256sum] =3D "490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2=
-e57dc5660f773ffd"
-> @@ -52,7 +52,6 @@ SYSTEMD_PACKAGES =3D "${PN}-sshd"
->  SYSTEMD_SERVICE:${PN}-sshd =3D "${@bb.utils.contains('PACKAGECONFIG','sy=
-stemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAG=
-ECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
->
->  inherit autotools-brokensep ptest pkgconfig
-> -DEPENDS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'system=
-d', '', d)}"
->
->  # systemd-sshd-socket-mode means installing sshd.socket
->  # and systemd-sshd-service-mode corresponding to sshd.service
-> @@ -78,7 +77,6 @@ EXTRA_OECONF =3D "'LOGIN_PROGRAM=3D${base_bindir}/login=
-' \
->                  --sysconfdir=3D${sysconfdir}/ssh \
->                  --with-xauth=3D${bindir}/xauth \
->                  --disable-strip \
-> -                ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--wi=
-th-systemd', '--without-systemd', d)} \
->                  "
->
->  # musl doesn't implement wtmp/utmp and logwtmp
+>          issue_link =3D "%s%s" % (nvd_link, cve)
+>=20
+>          cve_item =3D {
+>              "id" : cve,
+> -            "summary" : cve_data[cve]["summary"],
+> -            "scorev2" : cve_data[cve]["scorev2"],
+> -            "scorev3" : cve_data[cve]["scorev3"],
+> -            "vector" : cve_data[cve]["vector"],
+> -            "vectorString" : cve_data[cve]["vectorString"],
+> -            "status" : status,
+> -            "link": issue_link
+> +            "status" : cve_data[cve]["abbrev-status"],
+> +            "link": issue_link,
+>          }
+> -        _, detail, description =3D decode_cve_status(d, cve)
+> -        if detail:
+> -            cve_item["detail"] =3D detail
+> -        if description:
+> -            cve_item["description"] =3D description
+> +        if 'NVD-summary' in cve_data[cve]:
+> +            cve_item["summary"] =3D cve_data[cve]["NVD-summary"]
+> +            cve_item["scorev2"] =3D cve_data[cve]["NVD-scorev2"]
+> +            cve_item["scorev3"] =3D cve_data[cve]["NVD-scorev3"]
+> +            cve_item["vector"] =3D cve_data[cve]["NVD-vector"]
+> +            cve_item["vectorString"] =3D cve_data[cve]["NVD-vectorString=
+"]
+> +        if 'status' in cve_data[cve]:
+> +            cve_item["detail"] =3D cve_data[cve]["status"]
+> +        if 'justification' in cve_data[cve]:
+> +            cve_item["description"] =3D cve_data[cve]["justification"]
+> +        if 'resource' in cve_data[cve]:
+> +            cve_item["patch-file"] =3D cve_data[cve]["resource"]
+>          cve_list.append(cve_item)
+>=20
+>      package_data["issue"] =3D cve_list
+> @@ -652,12 +660,12 @@ def cve_write_data_json(d, patched, unpatched,
+> ignored, cve_data, cve_status):
+>=20
+>      cve_check_write_json_output(d, output, direct_file, deploy_file,
+> manifest_file)
+>=20
+> -def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
+> +def cve_write_data(d, cve_data, status):
+>      """
+>      Write CVE data in each enabled format.
+>      """
+>=20
+>      if d.getVar("CVE_CHECK_FORMAT_TEXT") =3D=3D "1":
+> -        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
+> +        cve_write_data_text(d, cve_data)
+>      if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
+> -        cve_write_data_json(d, patched, unpatched, ignored, cve_data, st=
+atus)
+> +        cve_write_data_json(d, cve_data, status)
+> diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+> index ed5c714cb8..6aba90183a 100644
+> --- a/meta/lib/oe/cve_check.py
+> +++ b/meta/lib/oe/cve_check.py
+> @@ -88,7 +88,7 @@ def get_patched_cves(d):
+>      # (cve_match regular expression)
+>      cve_file_name_match =3D re.compile(r".*(CVE-\d{4}-\d+)", re.IGNORECA=
+SE)
+>=20
+> -    patched_cves =3D set()
+> +    patched_cves =3D {}
+>      patches =3D oe.patch.src_patches(d)
+>      bb.debug(2, "Scanning %d patches for CVEs" % len(patches))
+>      for url in patches:
+> @@ -98,7 +98,7 @@ def get_patched_cves(d):
+>          fname_match =3D cve_file_name_match.search(patch_file)
+>          if fname_match:
+>              cve =3D fname_match.group(1).upper()
+> -            patched_cves.add(cve)
+> +            patched_cves[cve] =3D {"abbrev-status": "Patched", "status":=
+ "fix-file-
+> included", "resource": patch_file}
+>              bb.debug(2, "Found %s from patch file name %s" % (cve, patch=
+_file))
+>=20
+>          # Remote patches won't be present and compressed patches won't b=
+e
+> @@ -124,7 +124,7 @@ def get_patched_cves(d):
+>              cves =3D patch_text[match.start()+5:match.end()]
+>              for cve in cves.split():
+>                  bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
+> -                patched_cves.add(cve)
+> +                patched_cves[cve] =3D {"abbrev-status": "Patched", "stat=
+us": "fix-file-
+> included", "resource": patch_file}
+>                  text_match =3D True
+>=20
+>          if not fname_match and not text_match:
+> @@ -132,10 +132,8 @@ def get_patched_cves(d):
+>=20
+>      # Search for additional patched CVEs
+>      for cve in (d.getVarFlags("CVE_STATUS") or {}):
+> -        decoded_status, _, _ =3D decode_cve_status(d, cve)
+> -        if decoded_status =3D=3D "Patched":
+> -            bb.debug(2, "CVE %s is additionally patched" % cve)
+> -            patched_cves.add(cve)
+> +        decoded_status, detail, description =3D decode_cve_status(d, cve=
+)
+> +        patched_cves[cve] =3D {"abbrev-status": decoded_status, "status"=
+: detail,
+> "justification": description}
+>=20
+>      return patched_cves
+>=20
 > --
-> 2.45.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#202116): https://lists.openembedded.org/g/openembedde=
-d-core/message/202116
-> Mute This Topic: https://lists.openembedded.org/mt/107252588/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> 2.43.0
+
 
