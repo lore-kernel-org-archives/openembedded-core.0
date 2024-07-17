@@ -1,140 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DDBC3DA63
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 18:22:50 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.321.1721240562408722317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 028A5C41513
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 18:39:00 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.675.1721241531677382446
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jul 2024 11:22:42 -0700
+ Wed, 17 Jul 2024 11:38:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BqGHU/qC;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3683329f787so5223f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 11:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721240561; x=1721845361; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fd9F+oHepi4Po6B9jzD0FE/KVTJ11qgndkEoPu+clp0=;
-        b=BqGHU/qCIPaZQ/9vCR3EkVXCdX0PUP0E92oUHH7XURTagqUNjl0WABCWn9kirHNKiQ
-         DA/Lx2ibHQgR/3lGjs7RNAEeG8vUa+xruT6JZzY5CTgC/ud+ekKA3t50lQlqzelbIyHv
-         g9RLjsuHogt9LHNGqRx44UeENE+soBfaAcpP3fzrnRStvutd0wbrUQjAmB22dKW9WRoJ
-         EEUFO8cb89WiNy8BseLyzt3+scjHqrBO1Vnzdul/51JoqgTLQ3jsWL0LakJT2LS5T0v3
-         Ro8awdlaCuPw+U0CUNPm3nY9Wm39SmqYjAR4Tg+EBs+loVdcbLflomBeSWy+2kafdQdo
-         qHrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721240561; x=1721845361;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fd9F+oHepi4Po6B9jzD0FE/KVTJ11qgndkEoPu+clp0=;
-        b=HNMpIaU98sFgio+YHJUuqYRPYuoBYWBK4SdG8ZvDGMaFse2l5eGCQeDU0elX6ox6mh
-         rf8yd2pIqmxudSPKC3pYxW+yXWTGQd7+lKS86zU4IIYi28uKjmsDzxfGzifTAPU0E52I
-         fYxCTXJ/Ec678s7Ij04ZJI0SVTpfdY8Fev7ikfGqxPv1KMEttvO96dmdEgeMpULT/zLo
-         9Zl+Bka3XAJ89gUlvWSAQeB2PGYFOwf2K5lwwJKyKPLY7enFKkgaHotB4NQPPnDYC2bN
-         cLm2nLAALqy7oJ97qw7YgOum/FtvGsc0ifYb6VA6bEWltg5RotrbZtzRXMzItd0Itfut
-         Hk4w==
-X-Gm-Message-State: AOJu0YwP4Lc3RufQ5WIN9vMtFFGvU+d8jZXrTvd6N6DPKrEs1CUVOxNN
-	qlrcDLeVrPxKAoCE6y/oWE6D/IDh/O4GN/bDzbnB1ZxArRVf92CyxcJfrg==
-X-Google-Smtp-Source: AGHT+IFg5q8ikwbh2AVRhRRdMUrdM2SKPzfTzwBZa5hUvGDMvOGLnrROaQF4i+eYhc14AsdhflvotQ==
-X-Received: by 2002:a5d:5f4b:0:b0:368:4492:eca9 with SMTP id ffacd0b85a97d-3684492f176mr748500f8f.20.1721240560766;
-        Wed, 17 Jul 2024 11:22:40 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680db0489csm12421868f8f.104.2024.07.17.11.22.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 11:22:40 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/4] devtool/upgrade: use PN instead of BPN for naming newly created upgraded recipes
-Date: Wed, 17 Jul 2024 20:22:16 +0200
-Message-Id: <20240717182216.1661015-4-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iWcKY0ff;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hwCA/wuL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190c1fd719d-fd54e805-f06c-47b8-8378-ead4b3541a8d-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1721241530; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=QHtCwS4nkdcqjsmvWNhyL1LeIyrMQklyVWQkT4OjVMQ=;
+	b=iWcKY0ffdmkleSj+bEtoa38YTVY6VaHcolKKdxY+9NiY3mrhCIVwflYgJ8cLUvqP
+	FD0JT/c3TS9Idiyt8A27wV7YX3aLqetjiaH95Po3VlL6UsIupLaOJ55D/4fdWvp2E3o
+	y6OO8r6aoCItQbs5WSUpDX0p8edx8xjsPIM0xbFo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721241530;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=QHtCwS4nkdcqjsmvWNhyL1LeIyrMQklyVWQkT4OjVMQ=;
+	b=hwCA/wuLJgvVJ1JYQ6hZcCfPsZUWCK+RN33rXMb0ngK5LN+uJ4MUvJF6GX4e/lvq
+	edMXLKOdyOH2f5vCIgAzsYHLkZD1Ez08gosNsw6FS6xr3MPQF4GnxCvxjKkb2djPhRp
+	8p7/4rneEybVp5n491WKIburIJx4XwOX2/z4sKPk=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/4] lib/oe/recipeutils: return a dict in
+ get_recipe_upgrade_status() instead of a tuple
 In-Reply-To: <20240717182216.1661015-1-alex.kanavin@gmail.com>
 References: <20240717182216.1661015-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190c1fd719d-fd54e805-f06c-47b8-8378-ead4b3541a8d-000000@us-west-2.amazonses.com>
+Date: Wed, 17 Jul 2024 18:38:50 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.17-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 18:22:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202175
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 18:39:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202176
 
-From: Alexander Kanavin <alex@linutronix.de>
+--NextPart
+Content-Type: text/plain
 
-BPN isn't correct, as it is set to 'cmake' when 'cmake-native' is being upgraded
-(or libva for libva-initial etc.)
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/lib/devtool/upgrade.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Testing patch /home/patchtest/share/mboxes/1-4-lib-oe-recipeutils-return-a-dict-in-get_recipe_upgrade_status-instead-of-a-tuple.patch
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 4c268af3a7c..9ec66488516 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -76,19 +76,19 @@ def _rename_recipe_dirs(oldpv, newpv, path):
-                         bb.utils.rename(os.path.join(path, oldfile),
-                               os.path.join(path, newfile))
- 
--def _rename_recipe_file(oldrecipe, bpn, oldpv, newpv, path):
-+def _rename_recipe_file(oldrecipe, pn, oldpv, newpv, path):
-     oldrecipe = os.path.basename(oldrecipe)
-     if oldrecipe.endswith('_%s.bb' % oldpv):
--        newrecipe = '%s_%s.bb' % (bpn, newpv)
-+        newrecipe = '%s_%s.bb' % (pn, newpv)
-         if oldrecipe != newrecipe:
-             shutil.move(os.path.join(path, oldrecipe), os.path.join(path, newrecipe))
-     else:
-         newrecipe = oldrecipe
-     return os.path.join(path, newrecipe)
- 
--def _rename_recipe_files(oldrecipe, bpn, oldpv, newpv, path):
-+def _rename_recipe_files(oldrecipe, pn, oldpv, newpv, path):
-     _rename_recipe_dirs(oldpv, newpv, path)
--    return _rename_recipe_file(oldrecipe, bpn, oldpv, newpv, path)
-+    return _rename_recipe_file(oldrecipe, pn, oldpv, newpv, path)
- 
- def _write_append(rc, srctreebase, srctree, same_dir, no_same_dir, revs, copied, workspace, d):
-     """Writes an append file"""
-@@ -335,19 +335,19 @@ def _add_license_diff_to_recipe(path, diff):
- def _create_new_recipe(newpv, checksums, srcrev, srcbranch, srcsubdir_old, srcsubdir_new, workspace, tinfoil, rd, license_diff, new_licenses, srctree, keep_failure):
-     """Creates the new recipe under workspace"""
- 
--    bpn = rd.getVar('BPN')
--    path = os.path.join(workspace, 'recipes', bpn)
-+    pn = rd.getVar('PN')
-+    path = os.path.join(workspace, 'recipes', pn)
-     bb.utils.mkdirhier(path)
-     copied, _ = oe.recipeutils.copy_recipe_files(rd, path, all_variants=True)
-     if not copied:
--        raise DevtoolError('Internal error - no files were copied for recipe %s' % bpn)
-+        raise DevtoolError('Internal error - no files were copied for recipe %s' % pn)
-     logger.debug('Copied %s to %s' % (copied, path))
- 
-     oldpv = rd.getVar('PV')
-     if not newpv:
-         newpv = oldpv
-     origpath = rd.getVar('FILE')
--    fullpath = _rename_recipe_files(origpath, bpn, oldpv, newpv, path)
-+    fullpath = _rename_recipe_files(origpath, pn, oldpv, newpv, path)
-     logger.debug('Upgraded %s => %s' % (origpath, fullpath))
- 
-     newvalues = {}
-@@ -610,7 +610,7 @@ def upgrade(args, config, basepath, workspace):
-             license_diff = _generate_license_diff(old_licenses, new_licenses)
-             rf, copied = _create_new_recipe(args.version, checksums, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses, srctree, args.keep_failure)
-         except (bb.process.CmdError, DevtoolError) as e:
--            recipedir = os.path.join(config.workspace_path, 'recipes', rd.getVar('BPN'))
-+            recipedir = os.path.join(config.workspace_path, 'recipes', rd.getVar('PN'))
-             _upgrade_error(e, recipedir, srctree, args.keep_failure)
-         standard._add_md5(config, pn, os.path.dirname(rf))
- 
--- 
-2.39.2
+FAIL: test max line length: Patch line too long (current length 217, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
