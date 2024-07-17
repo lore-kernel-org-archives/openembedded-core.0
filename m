@@ -1,712 +1,772 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D35AC3DA42
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 07:11:53 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.73])
- by mx.groups.io with SMTP id smtpd.web11.9581.1721200302818283929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D63CC3DA42
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 07:57:13 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.10092.1721203022814105728
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jul 2024 00:11:43 -0700
+ Wed, 17 Jul 2024 00:57:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=J+RevIqb;
- spf=pass (domain: siemens.com, ip: 40.107.104.73, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JuXrd0kDiRPS+V7NoKQmFGvigrotiRDANuEXXpITKKAqGP4TNPOFypzqW5118Zvryap9WOZEG1m9VCRanJa4gRfnp42O3dc7cyAv6UNyRatEx0SNmFpcZPTpvtr6c+w/d63Sk4Jill/11T7blJBoJmdtMQ8nzCZvXmscx5ejEOK1NeXGXHU49GJ0A+lsCnBGrRZQ64GVpVYESn7ScBA8kue/Zk6m6/CPZWXunr8b8easuD1q7IcqzUinYNVNtZvIRmzfBqzRIHjGrI7mvBcQZ28ZuY/cVAEbGFqfe6+1Cwq0gvpAjR389cRWqZYH45jPY4zT78P5Wt6XBBuFgKkNMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=svSyI6lywRNLHgy8G28HhnA4o+jqEc49EOPf51J+ah0=;
- b=fMhV9YWb2RuO5O+S3qDqCgJp5IuLhXj7mw/3+DgDhzg/KNRYjnq+9VAuBH6wkHNz3InEPDppWAjJ7KjkrfoT7Y/EGuyX8Hu92TCDQdiKkx+RtKjix+CqH3phT643ErDl89/mW2jVrbEdHvOjsdfbUTl9KDrBQTCLhQrxO1kMyfRItrO6g1Yc0XTYh+qy1aPU4AHfENFvzwbiPWSYtwJTpvgcPqG7bX5guEasPCwwetY45TeKkovAD0oAEvmG55eeQdoSVVRvTzAQGJCxcD+E3eljBTs5VK/A7iMqv5O+or4seShB9BJqNDbBS/DehtgfJviDYbd3+h2TxQNBd/vCjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=svSyI6lywRNLHgy8G28HhnA4o+jqEc49EOPf51J+ah0=;
- b=J+RevIqboB4kzWvqME/hEyNXDiXh3tU5QsGVt1kLy0czKU2GzjAqn4+dZ/kxD2vG2EvTEOSFNmwgyxC5vgDUUodoRyhn/gTNe4fuLW9WxnqQSNFBduTUjJ4jvH+VJ61xwHVPBt+GiLjSsZ63lHTtLNKt1UDAJrlG3u7Bp7C2qkZEAxnPKWjYvX75lrEHWLLX0TNrofvgn4X/3sImhdiiPbAMkxX+xV6nMFC9NT+TqEUwbeCli+9FKI/TtuS5rQvD/i/kGKR/ZuYhkxk2wVyGc3X+/vGJ0u4eTVlwsMfc/+nO4ddJYs2tfOKSijEap9NDjzwPnyt+KlLGJYahWN+qYQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PAXPR10MB5352.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:281::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29; Wed, 17 Jul
- 2024 07:11:39 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%5]) with mapi id 15.20.7762.025; Wed, 17 Jul 2024
- 07:11:39 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "rybczynska@gmail.com" <rybczynska@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Marta Rybczynska <marta.rybczynska@syslinbit.com>, Samantha Jalabert
-	<samantha.jalabert@syslinbit.com>
-Subject: RE: [OE-core] [PATCH 1/3] cve-check: enrich annotation of CVEs
-Thread-Topic: [OE-core] [PATCH 1/3] cve-check: enrich annotation of CVEs
-Thread-Index: AQHa1qCiQth0lize10eRaXjJoYxxjLH6fa+g
-Date: Wed, 17 Jul 2024 07:11:39 +0000
-Message-ID: 
- <AS1PR10MB56970CABA311ECF1A76C7566FDA32@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20240715102003.10122-1-marta.rybczynska@syslinbit.com>
-In-Reply-To: <20240715102003.10122-1-marta.rybczynska@syslinbit.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=9f9dd694-6052-430c-8ada-683037275d81;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-07-17T06:49:29Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAXPR10MB5352:EE_
-x-ms-office365-filtering-correlation-id: d2ad6def-1e32-431a-4fa6-08dca62fb41b
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?er04uKHeUi56nwnndOcvYZ2YegDh0omHI6Sy7sQgr2P0BOmq5jZ5HxVHY93/?=
- =?us-ascii?Q?83Gxvn6OQhI3JiHVHARBKgCZUCDOiIbomNxZs6SUhSo1r17RP1sXMA0u6FYc?=
- =?us-ascii?Q?Ft1xYbWZtRTQwrwUll+JpX25NnzDdtqbCKMxMhAi0+PyGR7mF9OHU7OzMVTu?=
- =?us-ascii?Q?7NEN5bfJ2ZYiSBJZWf0Ka8zZgWIFoMwzYDQzCOBYFWwCTD+A/OP++chPMLZz?=
- =?us-ascii?Q?qDGI0YQSWgqETVsVq0JNW6nUIFevZdXc7wj+uDATCmfxpkGvSmnir2vAv2Kc?=
- =?us-ascii?Q?ofjND24pUS/tN5/hd+Tfka/wzEBJYZkCbN9L7n88D/chvl7m26IymdELlXOO?=
- =?us-ascii?Q?ymLnozafrBFC2bRpLqx86umD3IghovoIZiLLmOCG3Txrs4vEG6jyMoieMM/b?=
- =?us-ascii?Q?6u0vVNR+zrM9bLWEQk5CK5WSgbmvwWHf1uF4FAtFWodIPgbZhgq4wJYf2hla?=
- =?us-ascii?Q?bEiZ0vYMw3q/AbhIj62Nrhkq8vrzNNKSAL0JAqv9KRMA6atd8x6FnYfErI/n?=
- =?us-ascii?Q?SofynwHClvdmRJuuTHX/oNq/VkROatvnO5t6HqQkqYWVQnXFI0c20WkdIRrf?=
- =?us-ascii?Q?d6/bW4CoLLXQrSFsE+wpMt4D9DjNrqCpOIJjuG07YpECwEPRY/FmVGColvUB?=
- =?us-ascii?Q?pW9nGQnzvgwn80AVXqGifFP2EPa0jpB5/uQjdqqPcDwN7wLj0U0TN97S9oS6?=
- =?us-ascii?Q?lyjXkvXUzD24/2wD1c5fGWsOnRYFfvk9WFfO1+WUtNhtziRRbjb6B3+TAdK3?=
- =?us-ascii?Q?ECMsbEOZnAlA2cJL8JOTxT/rXiUWSJRqzSTCF4nl8Ph+VjwBAhTnTA0omyHL?=
- =?us-ascii?Q?ZVD93baomuZqfW0bnmfpB1Jo/3K/nUwwR/9SSO1RwqKd9I38K8b26FSISjfx?=
- =?us-ascii?Q?Y0SkAqhqu3aM5Xd/CuTfg85kIXtZMLGB8JDi4FDu/SrKxRgulvadDb5oFo/9?=
- =?us-ascii?Q?oOlVTCip7p6sm6MfUk0Dfsx6zA4llDmcXuxjmM3V6TM12XxjH+fRzqf9zJA/?=
- =?us-ascii?Q?cKZD5t9+A2wjJVt+kzupOKRSWXEpZ1bbqjFBIsceHn558hikN9zsEAf9NwDm?=
- =?us-ascii?Q?zKvQSNShtGUxBDnQ1RXiJc+A7nqwEIclPz5PVrvGGED5l7qiIenwUOfRK+Kv?=
- =?us-ascii?Q?OWhwSqH9fuajmJTvY4rgIpszOqF+3J+h1LVE3w5nHoZTmEErU3lxD6xkSsUB?=
- =?us-ascii?Q?5iKW7Bu06086qcyf3/fs14HuDuQVZXdCLyKeB4KJoGzKalRX/1kqt+b1stTt?=
- =?us-ascii?Q?VrmNUVmHnHPhgx4WTWtT+FK/neJFJC53YCQRRkzzwBnO4yDVhllbFyZJgg8p?=
- =?us-ascii?Q?TtCT0EbnLkN7XKSCegmnc3fm8t6xtqUIr/4EG4d7RIMiM1YugqdY70P/os8p?=
- =?us-ascii?Q?N09Oc7OvYLWl9mu3pQfJstwkz48JaieO+jc8hmJWqcRtrFLW1A=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?qw/+phIYtay8efxrlqm4C/Dl+sN/WsUMDhkIF4cjlt95ljQVR2f5Lo6fH+0J?=
- =?us-ascii?Q?H0rCyhU4pwHHz79FIZHqqozVCTLcpNXM8BxFg2oN/l4EGxyMCSjQYRG7f6pP?=
- =?us-ascii?Q?VacfEzUa5lnPMFo6E3bzJlEemc2Eh548fDnKBSuEBmQZYkcVdp5E5a/+a7yq?=
- =?us-ascii?Q?VTFMFj9DzfpVIJC8Aqy5z9z8J9tzymElw2t5nRmBrvsUQN3e0R0/WyppU/8h?=
- =?us-ascii?Q?rGolm2GfkZAheNpNRatSZ+auq5DQqJBF8EkacBKGsZA5rhYf9WxUaWLTDJji?=
- =?us-ascii?Q?CmuTJjK0Vij3Cn1NkiEydF6Icf76AEjkxfTRj7U2Aj+tNhzkZsId+pXUi8x6?=
- =?us-ascii?Q?eqAk0LJe1AK1wFq6LHqY26WZRewaBZj7FbvRNqWsozGPD35z5D5+QkRmvl4C?=
- =?us-ascii?Q?66qepGp0C2UZDPDeAy86uU283Fv+mNJSx5D2337VE4UP664eoO32749V3vE5?=
- =?us-ascii?Q?ApemlLTGItHhtJsPvHWkjGb5dg55JBECfFGkWoOBzMPgD7prGGMUeOA2mLfw?=
- =?us-ascii?Q?xjkcobsequ6JXQmx6dkV7A/QWEBKIaUoc7/ocj8XEDf18cki31rn0Q1pX6gE?=
- =?us-ascii?Q?K14cAVYkcThV20+K7Eq08hrseJu7MNQ0Q7VH3+NSU76AaMFLr0UKbCs8YX6C?=
- =?us-ascii?Q?OTDLu23YDb2/FoxA5ngJ6EsDlAS6Pt8RhUmV7+TzCD12K4UYGhXSgwgVZZ9N?=
- =?us-ascii?Q?Ia2pePRfhnsvKu/6HnrTuyxK6SSySHaRKXoMeCI6gfvsbX78g19gTma2M8Hs?=
- =?us-ascii?Q?DwMCTQJ3KfrNysnQi5QfyxnJFA5+bvKtBesKXwvvcfpk9XFsfxu9Y92ONK9Y?=
- =?us-ascii?Q?JewzgcL5qIwOTQvse+nwcEJfBbNjUH7Ne7uHc9WllCmur+wZgZF/UQGwjffa?=
- =?us-ascii?Q?gZljgewkBrah0RCkSqvokj8ZGCKhdDQqlGp0O5ZlNXdZp+RBpAZ18nbJwEB6?=
- =?us-ascii?Q?iKceHppkURIz4rfRlVt5cdFaYU7W7BsiBCo5Y7MU/F4GFCTcE/v0faCTepG1?=
- =?us-ascii?Q?GDeQxWuxLXhSzQ5FEyGkG9Avg7/XePqe+K1ej239cUp1+uwjPMup7DpcH9pK?=
- =?us-ascii?Q?BtZO6xWYKbWzyctfOGNt3EeqnoFJKL3UoB0qVFHQxvY9n1hltXbamq5JHAjy?=
- =?us-ascii?Q?04QCqHXuWGNu2uFQPBPwir7iVU3Qie05B4eLq+aDsRXP7qTqK10HtmZ1MwT6?=
- =?us-ascii?Q?JwnOthv3AOKyNJoWKk5W9I76fXPQEjSu0TDIZmV9NEbKYxr0jATlYlVxdRqW?=
- =?us-ascii?Q?RkOCYsVI7dHihi80gzCxid1JhlHnAXU6aUZUDljW1obGSlMBfp49/ipYZesx?=
- =?us-ascii?Q?2+NFzkRJenW/1s6svCFdwpQCHSpqQGy1RbrLYHTECre7WPhweuDK5WFbecwW?=
- =?us-ascii?Q?YTa47t/vJuw98rEBlgsBOpBHpdfAxi9b6JqrQ8Dn5K98U8jJ3Wu0zL9pthXg?=
- =?us-ascii?Q?nSqDScYKQt8F0IOfZHB9DuppZXC7zIq2+KVw1IgZ3ysyhA0y9VjaxwPLkvdS?=
- =?us-ascii?Q?NICJatoDgZKlXgFmK5TyRRHRxV7+KmguqJsWS42vlOJ0iM0JIIe4Ozqg45Me?=
- =?us-ascii?Q?qZArsljDI0F/y/6oxtSj4/c8FncKnJTO+4GNyutP?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=psf82CiP;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A0038240004;
+	Wed, 17 Jul 2024 07:57:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1721203021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UNgs2bYT2QjQybFHdr1sdRK4VZyxlIbxufS0OLyoj8c=;
+	b=psf82CiPXfjVXXNfJFzW5zLRV9p0h43mGVGEPu2CuUad0huu1sFdPKSeXzRchzWPRLQpcL
+	cIyacROYZVUzrkVMjLP5FDx1RgXc/7rE6IVGBuB0KEnU6VpfiLoHMiqv2iOH5i5KBdbsWi
+	1ksEBvkFK9rJ72iJ+DwuH2rjD1xDgPb2AL7xbW09iy6L0a7gA7ZRv1F7LMQ5vhfes7tTQ+
+	UmMRfls/zcUhk4HBzJQcNeJVsADgNPWOdc6Q7b3ZA/GJlz+iCap4b4LrAGmeF3uGHEC0o/
+	Z44QFmpJY5P7MNFjysb7VjMDi52o7q4Xrf+VIgsiLDwTISFfxsOLY0MFv9xiHQ==
+Date: Wed, 17 Jul 2024 09:57:00 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: Re: [OE-core][PATCH v5 3/3] openssh: upgrade 9.7p1 -> 9.8p1
+Message-ID: <20240717075700774bd475@mail.local>
+References: <20240716141639.1564355-1-jose.quaresma@foundries.io>
+ <20240716141639.1564355-3-jose.quaresma@foundries.io>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2ad6def-1e32-431a-4fa6-08dca62fb41b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2024 07:11:39.4644
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MuyCvTldNUyKHb1jypYw2rHjM1NxlQHSED3sOy6KwgEB8/meekDTFF5rpyfC7ZqhmOddIUhgBPqQjPiey9XcUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB5352
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240716141639.1564355-3-jose.quaresma@foundries.io>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 07:11:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202141
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 07:57:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202142
 
-Hi Marta,
+Hello,
 
-Thanks for the great work on this topic.
-I have left 3 comments below.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6812/steps/13/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6636/steps/12/logs/stdio
 
-Thanks for considering them.
-  Peter
+This causes libssh2 ptest failures:
+https://autobuilder.yocto.io/pub/non-release/20240716-73/testresults/qemux86-64-ptest/libssh2.log
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Marta Rybczynska via
-> lists.openembedded.org
-> Sent: Monday, July 15, 2024 12:20
-> To: openembedded-core@lists.openembedded.org
-> Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>; Samantha Jalabert
-> <samantha.jalabert@syslinbit.com>
-> Subject: [OE-core] [PATCH 1/3] cve-check: enrich annotation of CVEs
->=20
-> Previously the information passed between different function of the
-> cve-check class included only tables of patched, unpatched, ignored
-> vulnerabilities and the general status of the recipe.
->=20
-> The VEX work requires more information, and we need to pass them
-> between different functions, so that it can be enriched as the
-> analysis progresses. Instead of multiple tables, use a single one
-> with annotations for each CVE encountered. For example, a patched
-> CVE will have:
->=20
-> {"abbrev-status": "Patched", "status": "version-not-in-range"}
->=20
-> abbrev-status contains the general status (Patched, Unpatched,
-> Ignored and Unknown that will be added in the VEX code)
-> status contains more detailed information that can come from
-> CVE_STATUS and the analysis.
->=20
-> Additional fields of the annotation include for example the name
-> of the patch file fixing a given CVE.
->=20
-> Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-> Signed-off-by: Samantha Jalabert <samantha.jalabert@syslinbit.com>
+START: ptest-runner
+2024-07-16T23:20
+PASS: mansyntax.sh
+PASS: test_simple
+FAIL: test_sshd.test
+DURATION: 14
+
+
+On 16/07/2024 15:16:39+0100, Jose Quaresma wrote:
+> - drop the CVE-2024-6387
+> - drop the backported systemd notify
+> - backported fix for musl build
+> - submited fix for ptest regression
+> - sshd now had the sshd-session
+> 
+> Release notes at https://www.openssh.com/txt/release-9.8
+> 
+> Security
+> ========
+> 
+> This release contains fixes for two security problems, one critical
+> and one minor.
+> 
+> 1) Race condition in sshd(8)
+> 
+> A critical vulnerability in sshd(8) was present in Portable OpenSSH
+> versions between 8.5p1 and 9.7p1 (inclusive) that may allow arbitrary
+> code execution with root privileges.
+> 
+> Successful exploitation has been demonstrated on 32-bit Linux/glibc
+> systems with ASLR. Under lab conditions, the attack requires on
+> average 6-8 hours of continuous connections up to the maximum the
+> server will accept. Exploitation on 64-bit systems is believed to be
+> possible but has not been demonstrated at this time. It's likely that
+> these attacks will be improved upon.
+> 
+> Exploitation on non-glibc systems is conceivable but has not been
+> examined. Systems that lack ASLR or users of downstream Linux
+> distributions that have modified OpenSSH to disable per-connection
+> ASLR re-randomisation (yes - this is a thing, no - we don't
+> understand why) may potentially have an easier path to exploitation.
+> OpenBSD is not vulnerable.
+> 
+> We thank the Qualys Security Advisory Team for discovering, reporting
+> and demonstrating exploitability of this problem, and for providing
+> detailed feedback on additional mitigation measures.
+> 
+> 2) Logic error in ssh(1) ObscureKeystrokeTiming
+> 
+> In OpenSSH version 9.5 through 9.7 (inclusive), when connected to an
+> OpenSSH server version 9.5 or later, a logic error in the ssh(1)
+> ObscureKeystrokeTiming feature (on by default) rendered this feature
+> ineffective - a passive observer could still detect which network
+> packets contained real keystrokes when the countermeasure was active
+> because both fake and real keystroke packets were being sent
+> unconditionally.
+> 
+> This bug was found by Philippos Giavridis and also independently by
+> Jacky Wei En Kung, Daniel Hugenroth and Alastair Beresford of the
+> University of Cambridge Computer Lab.
+> 
+> Worse, the unconditional sending of both fake and real keystroke
+> packets broke another long-standing timing attack mitigation. Since
+> OpenSSH 2.9.9 sshd(8) has sent fake keystoke echo packets for
+> traffic received on TTYs in echo-off mode, such as when entering a
+> password into su(8) or sudo(8). This bug rendered these fake
+> keystroke echoes ineffective and could allow a passive observer of
+> a SSH session to once again detect when echo was off and obtain
+> fairly limited timing information about keystrokes in this situation
+> (20ms granularity by default).
+> 
+> This additional implication of the bug was identified by Jacky Wei
+> En Kung, Daniel Hugenroth and Alastair Beresford and we thank them
+> for their detailed analysis.
+> 
+> This bug does not affect connections when ObscureKeystrokeTiming
+> was disabled or sessions where no TTY was requested.
+> 
+> Future deprecation notice
+> =========================
+> 
+> OpenSSH plans to remove support for the DSA signature algorithm in
+> early 2025. This release disables DSA by default at compile time.
+> 
+> DSA, as specified in the SSHv2 protocol, is inherently weak - being
+> limited to a 160 bit private key and use of the SHA1 digest. Its
+> estimated security level is only 80 bits symmetric equivalent.
+> 
+> OpenSSH has disabled DSA keys by default since 2015 but has retained
+> run-time optional support for them. DSA was the only mandatory-to-
+> implement algorithm in the SSHv2 RFCs, mostly because alternative
+> algorithms were encumbered by patents when the SSHv2 protocol was
+> specified.
+> 
+> This has not been the case for decades at this point and better
+> algorithms are well supported by all actively-maintained SSH
+> implementations. We do not consider the costs of maintaining DSA
+> in OpenSSH to be justified and hope that removing it from OpenSSH
+> can accelerate its wider deprecation in supporting cryptography
+> libraries.
+> 
+> This release, and its deactivation of DSA by default at compile-time,
+> marks the second step in our timeline to finally deprecate DSA. The
+> final step of removing DSA support entirely is planned for the first
+> OpenSSH release of 2025.
+> 
+> DSA support may be re-enabled in OpenBSD by setting "DSAKEY=yes"
+> in Makefile.inc. To enable DSA support in portable OpenSSH, pass
+> the "--enable-dsa-keys" option to configure.
+> 
+> Potentially-incompatible changes
+> --------------------------------
+> 
+>  * all: as mentioned above, the DSA signature algorithm is now
+>    disabled at compile time.
+> 
+>  * sshd(8): the server will now block client addresses that
+>    repeatedly fail authentication, repeatedly connect without ever
+>    completing authentication or that crash the server. See the
+>    discussion of PerSourcePenalties below for more information.
+>    Operators of servers that accept connections from many users, or
+>    servers that accept connections from addresses behind NAT or
+>    proxies may need to consider these settings.
+> 
+>  * sshd(8): the server has been split into a listener binary, sshd(8),
+>    and a per-session binary "sshd-session". This allows for a much
+>    smaller listener binary, as it no longer needs to support the SSH
+>    protocol. As part of this work, support for disabling privilege
+>    separation (which previously required code changes to disable) and
+>    disabling re-execution of sshd(8) has been removed. Further
+>    separation of sshd-session into additional, minimal binaries is
+>    planned for the future.
+> 
+>  * sshd(8): several log messages have changed. In particular, some
+>    log messages will be tagged with as originating from a process
+>    named "sshd-session" rather than "sshd".
+> 
+>  * ssh-keyscan(1): this tool previously emitted comment lines
+>    containing the hostname and SSH protocol banner to standard error.
+>    This release now emits them to standard output, but adds a new
+>    "-q" flag to silence them altogether.
+> 
+>  * sshd(8): (portable OpenSSH only) sshd will no longer use argv[0]
+>    as the PAM service name. A new "PAMServiceName" sshd_config(5)
+>    directive allows selecting the service name at runtime. This
+>    defaults to "sshd". bz2101
+> 
+>  * (portable OpenSSH only) Automatically-generated files, such as
+>    configure, config.h.in, etc will now be checked in to the portable
+>    OpenSSH git release branch (e.g. V_9_8). This should ensure that
+>    the contents of the signed release branch exactly match the
+>    contents of the signed release tarball.
+> 
+> Changes since OpenSSH 9.7
+> =========================
+> 
+> This release contains mostly bugfixes.
+> 
+> New features
+> ------------
+> 
+>  * sshd(8): as described above, sshd(8) will now penalise client
+>    addresses that, for various reasons, do not successfully complete
+>    authentication. This feature is controlled by a new sshd_config(5)
+>    PerSourcePenalties option and is on by default.
+> 
+>    sshd(8) will now identify situations where the session did not
+>    authenticate as expected. These conditions include when the client
+>    repeatedly attempted authentication unsucessfully (possibly
+>    indicating an attack against one or more accounts, e.g. password
+>    guessing), or when client behaviour caused sshd to crash (possibly
+>    indicating attempts to exploit bugs in sshd).
+> 
+>    When such a condition is observed, sshd will record a penalty of
+>    some duration (e.g. 30 seconds) against the client's address. If
+>    this time is above a minimum configurable threshold, then all
+>    connections from the client address will be refused (along with any
+>    others in the same PerSourceNetBlockSize CIDR range) until the
+>    penalty expire.
+> 
+>    Repeated offenses by the same client address will accrue greater
+>    penalties, up to a configurable maximum. Address ranges may be
+>    fully exempted from penalties, e.g. to guarantee access from a set
+>    of trusted management addresses, using the new sshd_config(5)
+>    PerSourcePenaltyExemptList option.
+> 
+>    We hope these options will make it significantly more difficult for
+>    attackers to find accounts with weak/guessable passwords or exploit
+>    bugs in sshd(8) itself. This option is enabled by default.
+> 
+>  * ssh(8): allow the HostkeyAlgorithms directive to disable the
+>    implicit fallback from certificate host key to plain host keys.
+> 
+> Bugfixes
+> --------
+> 
+>  * misc: fix a number of inaccuracies in the PROTOCOL.*
+>    documentation files. GHPR430 GHPR487
+> 
+>  * all: switch to strtonum(3) for more robust integer parsing in most
+>    places.
+> 
+>  * ssh(1), sshd(8): correctly restore sigprocmask around ppoll()
+> 
+>  * ssh-keysign(8): stricter validation of messaging socket fd GHPR492
+> 
+>  * sftp(1): flush stdout after writing "sftp>" prompt when not using
+>    editline. GHPR480
+> 
+>  * sftp-server(8): fix home-directory extension implementation, it
+>    previously always returned the current user's home directory
+>    contrary to the spec. GHPR477
+> 
+>  * ssh-keyscan(1): do not close stdin to prevent error messages when
+>    stdin is read multiple times. E.g.
+>    echo localhost | ssh-keyscan -f - -f -
+> 
+>  * regression tests: fix rekey test that was testing the same KEX
+>    algorithm repeatedly instead of testing all of them. bz3692
+> 
+>  * ssh_config(5), sshd_config(5): clarify the KEXAlgorithms directive
+>    documentation, especially around what is supported vs available.
+>    bz3701.
+> 
+> Portability
+> -----------
+> 
+>  * sshd(8): expose SSH_AUTH_INFO_0 always to PAM auth modules
+>    unconditionally. The previous behaviour was to expose it only when
+>    particular authentication methods were in use.
+> 
+>  * build: fix OpenSSL ED25519 support detection. An incorrect function
+>    signature in configure.ac previously prevented enabling the recently
+>    added support for ED25519 private keys in PEM PKCS8 format.
+> 
+>  * ssh(1), ssh-agent(8): allow the presence of the WAYLAND_DISPLAY
+>    environment variable to enable SSH_ASKPASS, similarly to the X11
+>    DISPLAY environment variable. GHPR479
+> 
+>  * build: improve detection of the -fzero-call-used-regs compiler
+>    flag. bz3673.
+> 
+>  * build: relax OpenSSL version check to accept all OpenSSL 3.x
+>    versions.
+> 
+>  * sshd(8): add support for notifying systemd on server listen and
+>    reload, using a standalone implementation that doesn't depend on
+>    libsystemd. bz2641
+> 
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 > ---
->  meta/classes/cve-check.bbclass | 208 +++++++++++++++++----------------
->  meta/lib/oe/cve_check.py       |  12 +-
->  2 files changed, 113 insertions(+), 107 deletions(-)
->=20
-> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbcl=
-ass
-> index 93a2a1413d..f177223568 100644
-> --- a/meta/classes/cve-check.bbclass
-> +++ b/meta/classes/cve-check.bbclass
-> @@ -188,10 +188,10 @@ python do_cve_check () {
->                  patched_cves =3D get_patched_cves(d)
->              except FileNotFoundError:
->                  bb.fatal("Failure in searching patches")
-> -            ignored, patched, unpatched, status =3D check_cves(d, patche=
-d_cves)
-> -            if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") =
-=3D=3D "1"
-> and status):
-> -                cve_data =3D get_cve_info(d, patched + unpatched + ignor=
-ed)
-> -                cve_write_data(d, patched, unpatched, ignored, cve_data,=
- status)
-> +            cve_data, status =3D check_cves(d, patched_cves)
-> +            if len(cve_data) or (d.getVar("CVE_CHECK_COVERAGE") =3D=3D "=
-1" and
-> status):
-> +                get_cve_info(d, cve_data)
-> +                cve_write_data(d, cve_data, status)
->          else:
->              bb.note("No CVE database found, skipping CVE check")
->=20
-> @@ -294,7 +294,51 @@ ROOTFS_POSTPROCESS_COMMAND:prepend =3D
-> "${@'cve_check_write_rootfs_manifest ' if d
->  do_rootfs[recrdeptask] +=3D "${@'do_cve_check' if
-> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
->  do_populate_sdk[recrdeptask] +=3D "${@'do_cve_check' if
-> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
->=20
-> -def check_cves(d, patched_cves):
-> +def cve_is_ignored(d, cve_data, cve):
-> +    if cve not in cve_data:
-> +        return False
-> +    if cve_data[cve]['abbrev-status'] =3D=3D "Ignored":
-> +        return True
-> +    return False
+> 
+> v2:
+>  - fix musl build
+>  - fix sshd-session packing on openssh-sshd
+>  - rebase on top of the CVE-2024-6387 fix sent
+> 
+> v3:
+>  - fix the ptest fail
+>  - update upstream status of the systemd sd-notify patch
+> 
+> v4:
+>  - split update of Upstream-Status in new patches in the serie
+>  - submit the the ptest fix upstream
+> 
+> v5:
+>  - backport upstream fix for musl build
+>  - drop the backported systemd notify
+> 
+>  ...ast-to-sockaddr-in-systemd-interface.patch |  30 +++
+>  ...-notify-systemd-on-listen-and-reload.patch | 225 ------------------
+>  ...h-log-input-and-output-files-on-erro.patch |   8 +-
+>  ...c-use-the-absolute-path-in-the-SSH-e.patch |  35 +++
+>  .../openssh/openssh/CVE-2024-6387.patch       |  27 ---
+>  .../openssh/openssh/run-ptest                 |   1 +
+>  .../{openssh_9.7p1.bb => openssh_9.8p1.bb}    |   8 +-
+>  7 files changed, 73 insertions(+), 261 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-Cast-to-sockaddr-in-systemd-interface.patch
+>  delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
+>  delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
+>  rename meta/recipes-connectivity/openssh/{openssh_9.7p1.bb => openssh_9.8p1.bb} (96%)
+> 
+> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-Cast-to-sockaddr-in-systemd-interface.patch b/meta/recipes-connectivity/openssh/openssh/0001-Cast-to-sockaddr-in-systemd-interface.patch
+> new file mode 100644
+> index 0000000000..c41642ae10
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/0001-Cast-to-sockaddr-in-systemd-interface.patch
+> @@ -0,0 +1,30 @@
+> +From a3068c6edb81c0b0b9a2ced82e8632c79314e409 Mon Sep 17 00:00:00 2001
+> +From: Darren Tucker <dtucker@dtucker.net>
+> +Date: Sun, 7 Jul 2024 18:46:19 +1000
+> +Subject: [PATCH] Cast to sockaddr * in systemd interface.
 > +
-> +def cve_is_patched(d, cve_data, cve):
-> +    if cve not in cve_data:
-> +        return False
-> +    if cve_data[cve]['abbrev-status'] =3D=3D "Patched":
-> +        return True
-> +    return False
+> +Fixes build with musl libx.  bz#3707.
 > +
-> +def cve_update(d, cve_data, cve, entry):
-
-I think that there is a fundamental change in behavior here.
-Previously we were taking (NVD) DB as base and only vulnerable CVEs were co=
-mpared annotated with CVE_STATUS or our presence of CVE patches.
-Now we take the CVE_STATUS and CVE patches as base and add entries from DB =
-only if they were not annotated yet.
-
-I am not arguing against it, I actually like it much more as we will be abl=
-e to insert also CVEs not in DB into our reports.
-But I have two comments on this:
-* this should be explicitly described in commit message
-* this makes global cve includes spill into all recipe reports, so this com=
-mit series should also get rid of cve-extra-exclusions.inc file finally (or=
- at least add a comment into it with this sideeffect)
-
-> +    # If no entry, just add it
-> +    if cve not in cve_data:
-> +        cve_data[cve] =3D entry
-> +        return
-> +    # If we are updating, there might be change in the status
-> +    bb.debug("Trying CVE entry update for %s from %s to %s" % (cve,
-> cve_data[cve]['abbrev-status'], entry['abbrev-status']))
-> +    if cve_data[cve]['abbrev-status'] =3D=3D "Unknown":
-> +        cve_data[cve] =3D entry
-> +        return
-> +    if cve_data[cve]['abbrev-status'] =3D=3D entry['abbrev-status']:
-> +        return
-> +    # Update like in {'abbrev-status': 'Patched', 'status': 'version-not=
--in-range'}
-> to {'abbrev-status': 'Unpatched', 'status': 'version-in-range'}
-> +    if entry['abbrev-status'] =3D=3D "Unpatched" and cve_data[cve]['abbr=
-ev-
-> status'] =3D=3D "Patched":
-> +        if entry['status'] =3D=3D "version-in-range" and cve_data[cve]['=
-status'] =3D=3D
-> "version-not-in-range":
-> +            # New result from the scan, vulnerable
-> +            cve_data[cve] =3D entry
-> +            bb.debug("CVE entry %s update from Patched to Unpatched from=
- the
-> scan result" % cve)
-> +            return
-> +    if entry['abbrev-status'] =3D=3D "Patched" and cve_data[cve]['abbrev=
--status']
-> =3D=3D "Unpatched":
-> +        if entry['status'] =3D=3D "version-not-in-range" and cve_data[cv=
-e]['status'] =3D=3D
-> "version-in-range":
-> +            # Range does not match the scan, but we already have a vulne=
-rable
-> match, ignore
-> +            bb.debug("CVE entry %s update from Patched to Unpatched from=
- the
-> scan result - not applying" % cve)
-> +            return
-> +    # If we have an "Ignored", it has a priority
-> +    if cve_data[cve]['abbrev-status'] =3D=3D "Ignored":
-> +        bb.debug("CVE %s not updating because Ignored" % cve)
-> +        return
-> +    bb.warn("Unhandled CVE entry update for %s from %s to %s" % (cve,
-> cve_data[cve], entry))
+> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/8b664df75966e5aed8dabea00b8838303d3488b8]
 > +
-> +def check_cves(d, cve_data):
->      """
->      Connect to the NVD database and find unpatched cves.
->      """
-> @@ -304,28 +348,19 @@ def check_cves(d, patched_cves):
->      real_pv =3D d.getVar("PV")
->      suffix =3D d.getVar("CVE_VERSION_SUFFIX")
->=20
-> -    cves_unpatched =3D []
-> -    cves_ignored =3D []
->      cves_status =3D []
->      cves_in_recipe =3D False
->      # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
->      products =3D d.getVar("CVE_PRODUCT").split()
->      # If this has been unset then we're not scanning for CVEs here (for =
-example,
-> image recipes)
->      if not products:
-> -        return ([], [], [], [])
-> +        return ([], [])
->      pv =3D d.getVar("CVE_VERSION").split("+git")[0]
->=20
->      # If the recipe has been skipped/ignored we return empty lists
->      if pn in d.getVar("CVE_CHECK_SKIP_RECIPE").split():
->          bb.note("Recipe has been skipped by cve-check")
-> -        return ([], [], [], [])
-> -
-> -    # Convert CVE_STATUS into ignored CVEs and check validity
-> -    cve_ignore =3D []
-> -    for cve in (d.getVarFlags("CVE_STATUS") or {}):
-> -        decoded_status, _, _ =3D decode_cve_status(d, cve)
-> -        if decoded_status =3D=3D "Ignored":
-> -            cve_ignore.append(cve)
-> +        return ([], [])
->=20
->      import sqlite3
->      db_file =3D d.expand("file:${CVE_CHECK_DB_FILE}?mode=3Dro")
-> @@ -344,11 +379,10 @@ def check_cves(d, patched_cves):
->          for cverow in cve_cursor:
->              cve =3D cverow[0]
->=20
-> -            if cve in cve_ignore:
-> +            if cve_is_ignored(d, cve_data, cve):
->                  bb.note("%s-%s ignores %s" % (product, pv, cve))
-> -                cves_ignored.append(cve)
->                  continue
-> -            elif cve in patched_cves:
-> +            elif cve_is_patched(d, cve_data, cve):
->                  bb.note("%s has been patched" % (cve))
->                  continue
->              # Write status once only for each product
-> @@ -364,7 +398,7 @@ def check_cves(d, patched_cves):
->              for row in product_cursor:
->                  (_, _, _, version_start, operator_start, version_end, op=
-erator_end) =3D
-> row
->                  #bb.debug(2, "Evaluating row " + str(row))
-> -                if cve in cve_ignore:
-> +                if cve_is_ignored(d, cve_data, cve):
->                      ignored =3D True
->=20
->                  version_start =3D convert_cve_version(version_start)
-> @@ -403,16 +437,16 @@ def check_cves(d, patched_cves):
->                  if vulnerable:
->                      if ignored:
->                          bb.note("%s is ignored in %s-%s" % (cve, pn, rea=
-l_pv))
-> -                        cves_ignored.append(cve)
-> +                        cve_update(d, cve_data, cve, {"abbrev-status": "=
-Ignored"})
-
-I think that this case happens only when we ignore the CVE via CVE_STATUS.
-So calling this is not necessary as it is already prefilled from for it, co=
-rrect?
-In case it would not be prefilled, then it would drop our enrichment...
-
->                      else:
->                          bb.note("%s-%s is vulnerable to %s" % (pn, real_=
-pv, cve))
-> -                        cves_unpatched.append(cve)
-> +                        cve_update(d, cve_data, cve, {"abbrev-status": "=
-Unpatched",
-> "status": "version-in-range"})
-
-Could you please include the new statuses in cve-check-map.conf
-(e.g. version-in-range, version-not-in-range, fix-file-included)
-I think it's important to have all possible statuses there to be able to co=
-rrect the DB manually.
-
->                      break
->              product_cursor.close()
->=20
->              if not vulnerable:
->                  bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, =
-cve))
-> -                patched_cves.add(cve)
-> +                cve_update(d, cve_data, cve, {"abbrev-status": "Patched"=
-, "status":
-> "version-not-in-range"})
->          cve_cursor.close()
->=20
->          if not cves_in_product:
-> @@ -420,48 +454,45 @@ def check_cves(d, patched_cves):
->              cves_status.append([product, False])
->=20
->      conn.close()
-> -    diff_ignore =3D list(set(cve_ignore) - set(cves_ignored))
-> -    if diff_ignore:
-> -        oe.qa.handle_error("cve_status_not_in_db", "Found CVE (%s) with
-> CVE_STATUS set that are not found in database for this component" % "
-> ".join(diff_ignore), d)
->=20
->      if not cves_in_recipe:
->          bb.note("No CVE records for products in recipe %s" % (pn))
->=20
-> -    return (list(cves_ignored), list(patched_cves), cves_unpatched,
-> cves_status)
-> +    return (cve_data, cves_status)
->=20
-> -def get_cve_info(d, cves):
-> +def get_cve_info(d, cve_data):
->      """
->      Get CVE information from the database.
->      """
->=20
->      import sqlite3
->=20
-> -    cve_data =3D {}
->      db_file =3D d.expand("file:${CVE_CHECK_DB_FILE}?mode=3Dro")
->      conn =3D sqlite3.connect(db_file, uri=3DTrue)
->=20
-> -    for cve in cves:
-> +    for cve in cve_data:
->          cursor =3D conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,=
-))
->          for row in cursor:
-> -            cve_data[row[0]] =3D {}
-> -            cve_data[row[0]]["summary"] =3D row[1]
-> -            cve_data[row[0]]["scorev2"] =3D row[2]
-> -            cve_data[row[0]]["scorev3"] =3D row[3]
-> -            cve_data[row[0]]["modified"] =3D row[4]
-> -            cve_data[row[0]]["vector"] =3D row[5]
-> -            cve_data[row[0]]["vectorString"] =3D row[6]
-> +            # The CVE itdelf has been added already
-> +            if row[0] not in cve_data:
-> +                bb.note("CVE record %s not present" % row[0])
-> +                continue
-> +            #cve_data[row[0]] =3D {}
-> +            cve_data[row[0]]["NVD-summary"] =3D row[1]
-> +            cve_data[row[0]]["NVD-scorev2"] =3D row[2]
-> +            cve_data[row[0]]["NVD-scorev3"] =3D row[3]
-> +            cve_data[row[0]]["NVD-modified"] =3D row[4]
-> +            cve_data[row[0]]["NVD-vector"] =3D row[5]
-> +            cve_data[row[0]]["NVD-vectorString"] =3D row[6]
->          cursor.close()
->      conn.close()
-> -    return cve_data
->=20
-> -def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-> +def cve_write_data_text(d, cve_data):
->      """
->      Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
->      CVE manifest if enabled.
->      """
->=20
-> -    from oe.cve_check import decode_cve_status
-> -
->      cve_file =3D d.getVar("CVE_CHECK_LOG")
->      fdir_name  =3D d.getVar("FILE_DIRNAME")
->      layer =3D fdir_name.split("/")[-3]
-> @@ -478,7 +509,7 @@ def cve_write_data_text(d, patched, unpatched,
-> ignored, cve_data):
->          return
->=20
->      # Early exit, the text format does not report packages without CVEs
-> -    if not patched+unpatched+ignored:
-> +    if not len(cve_data):
->          return
->=20
->      nvd_link =3D "https://nvd.nist.gov/vuln/detail/"
-> @@ -487,36 +518,27 @@ def cve_write_data_text(d, patched, unpatched,
-> ignored, cve_data):
->      bb.utils.mkdirhier(os.path.dirname(cve_file))
->=20
->      for cve in sorted(cve_data):
-> -        is_patched =3D cve in patched
-> -        is_ignored =3D cve in ignored
-> -
-> -        status =3D "Unpatched"
-> -        if (is_patched or is_ignored) and not report_all:
-> -            continue
-> -        if is_ignored:
-> -            status =3D "Ignored"
-> -        elif is_patched:
-> -            status =3D "Patched"
-> -        else:
-> -            # default value of status is Unpatched
-> -            unpatched_cves.append(cve)
-> -
->          write_string +=3D "LAYER: %s\n" % layer
->          write_string +=3D "PACKAGE NAME: %s\n" % d.getVar("PN")
->          write_string +=3D "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDP=
-E"),
-> d.getVar("PV"))
->          write_string +=3D "CVE: %s\n" % cve
-> -        write_string +=3D "CVE STATUS: %s\n" % status
-> -        _, detail, description =3D decode_cve_status(d, cve)
-> -        if detail:
-> -            write_string +=3D "CVE DETAIL: %s\n" % detail
-> -        if description:
-> -            write_string +=3D "CVE DESCRIPTION: %s\n" % description
-> -        write_string +=3D "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
-> -        write_string +=3D "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["sc=
-orev2"]
-> -        write_string +=3D "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["sc=
-orev3"]
-> -        write_string +=3D "VECTOR: %s\n" % cve_data[cve]["vector"]
-> -        write_string +=3D "VECTORSTRING: %s\n" % cve_data[cve]["vectorSt=
-ring"]
-> +        write_string +=3D "CVE STATUS: %s\n" % cve_data[cve]["abbrev-sta=
-tus"]
+> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> +---
+> + openbsd-compat/port-linux.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
 > +
-> +        if 'status' in cve_data[cve]:
-> +            write_string +=3D "CVE DETAIL: %s\n" % cve_data[cve]["status=
-"]
-> +        if 'justification' in cve_data[cve]:
-> +            write_string +=3D "CVE DESCRIPTION: %s\n" %
-> cve_data[cve]["justification"]
+> +diff --git a/openbsd-compat/port-linux.c b/openbsd-compat/port-linux.c
+> +index 4c024c6d2..8adfec5a7 100644
+> +--- a/openbsd-compat/port-linux.c
+> ++++ b/openbsd-compat/port-linux.c
+> +@@ -366,7 +366,7 @@ ssh_systemd_notify(const char *fmt, ...)
+> + 		error_f("socket \"%s\": %s", path, strerror(errno));
+> + 		goto out;
+> + 	}
+> +-	if (connect(fd, &addr, sizeof(addr)) != 0) {
+> ++	if (connect(fd, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
+> + 		error_f("socket \"%s\" connect: %s", path, strerror(errno));
+> + 		goto out;
+> + 	}
+> +-- 
+> +2.45.2
 > +
-> +        if "NVD-summary" in cve_data[cve]:
-> +            write_string +=3D "CVE SUMMARY: %s\n" % cve_data[cve]["NVD-
-> summary"]
-> +            write_string +=3D "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]=
-["NVD-
-> scorev2"]
-> +            write_string +=3D "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]=
-["NVD-
-> scorev3"]
-> +            write_string +=3D "VECTOR: %s\n" % cve_data[cve]["NVD-vector=
-"]
-> +            write_string +=3D "VECTORSTRING: %s\n" % cve_data[cve]["NVD-
-> vectorString"]
+> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch b/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
+> deleted file mode 100644
+> index 4925c969fe..0000000000
+> --- a/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
+> +++ /dev/null
+> @@ -1,225 +0,0 @@
+> -From fc73e2405a8ca928465580b74a4d76112919367b Mon Sep 17 00:00:00 2001
+> -From: Damien Miller <djm@mindrot.org>
+> -Date: Wed, 3 Apr 2024 14:40:32 +1100
+> -Subject: [PATCH] notify systemd on listen and reload
+> -
+> -Standalone implementation that does not depend on libsystemd.
+> -With assistance from Luca Boccassi, and feedback/testing from Colin
+> -Watson. bz2641
+> -
+> -Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/08f579231cd38a1c657aaa6ddeb8ab57a1fd4f5c]
+> -
+> -Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ----
+> - configure.ac                |  1 +
+> - openbsd-compat/port-linux.c | 97 ++++++++++++++++++++++++++++++++++++-
+> - openbsd-compat/port-linux.h |  5 ++
+> - platform.c                  | 11 +++++
+> - platform.h                  |  1 +
+> - sshd.c                      |  2 +
+> - 6 files changed, 115 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 82e8bb7c1..854f92b5b 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -915,6 +915,7 @@ int main(void) { if (NSVersionOfRunTimeLibrary("System") >= (60 << 16))
+> - 	AC_DEFINE([_PATH_BTMP], ["/var/log/btmp"], [log for bad login attempts])
+> - 	AC_DEFINE([USE_BTMP])
+> - 	AC_DEFINE([LINUX_OOM_ADJUST], [1], [Adjust Linux out-of-memory killer])
+> -+	AC_DEFINE([SYSTEMD_NOTIFY], [1], [Have sshd notify systemd on start/reload])
+> - 	inet6_default_4in6=yes
+> - 	case `uname -r` in
+> - 	1.*|2.0.*)
+> -diff --git a/openbsd-compat/port-linux.c b/openbsd-compat/port-linux.c
+> -index 0457e28d0..df7290246 100644
+> ---- a/openbsd-compat/port-linux.c
+> -+++ b/openbsd-compat/port-linux.c
+> -@@ -21,16 +21,23 @@
+> - 
+> - #include "includes.h"
+> - 
+> --#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST)
+> -+#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST) || \
+> -+    defined(SYSTEMD_NOTIFY)
+> -+#include <sys/socket.h>
+> -+#include <sys/un.h>
+> -+
+> - #include <errno.h>
+> -+#include <inttypes.h>
+> - #include <stdarg.h>
+> - #include <string.h>
+> - #include <stdio.h>
+> - #include <stdlib.h>
+> -+#include <time.h>
+> - 
+> - #include "log.h"
+> - #include "xmalloc.h"
+> - #include "port-linux.h"
+> -+#include "misc.h"
+> - 
+> - #ifdef WITH_SELINUX
+> - #include <selinux/selinux.h>
+> -@@ -310,4 +317,90 @@ oom_adjust_restore(void)
+> - 	return;
+> - }
+> - #endif /* LINUX_OOM_ADJUST */
+> --#endif /* WITH_SELINUX || LINUX_OOM_ADJUST */
+> -+
+> -+#ifdef SYSTEMD_NOTIFY
+> -+
+> -+static void ssh_systemd_notify(const char *, ...)
+> -+    __attribute__((__format__ (printf, 1, 2))) __attribute__((__nonnull__ (1)));
+> -+
+> -+static void
+> -+ssh_systemd_notify(const char *fmt, ...)
+> -+{
+> -+	char *s = NULL;
+> -+	const char *path;
+> -+	struct stat sb;
+> -+	struct sockaddr_un addr;
+> -+	int fd = -1;
+> -+	va_list ap;
+> -+
+> -+	if ((path = getenv("NOTIFY_SOCKET")) == NULL || strlen(path) == 0)
+> -+		return;
+> -+
+> -+	va_start(ap, fmt);
+> -+	xvasprintf(&s, fmt, ap);
+> -+	va_end(ap);
+> -+
+> -+	/* Only AF_UNIX is supported, with path or abstract sockets */
+> -+	if (path[0] != '/' && path[0] != '@') {
+> -+		error_f("socket \"%s\" is not compatible with AF_UNIX", path);
+> -+		goto out;
+> -+	}
+> -+
+> -+	if (path[0] == '/' && stat(path, &sb) != 0) {
+> -+		error_f("socket \"%s\" stat: %s", path, strerror(errno));
+> -+		goto out;
+> -+	}
+> -+
+> -+	memset(&addr, 0, sizeof(addr));
+> -+	addr.sun_family = AF_UNIX;
+> -+	if (strlcpy(addr.sun_path, path,
+> -+	    sizeof(addr.sun_path)) >= sizeof(addr.sun_path)) {
+> -+		error_f("socket path \"%s\" too long", path);
+> -+		goto out;
+> -+	}
+> -+	/* Support for abstract socket */
+> -+	if (addr.sun_path[0] == '@')
+> -+		addr.sun_path[0] = 0;
+> -+	if ((fd = socket(PF_UNIX, SOCK_DGRAM, 0)) == -1) {
+> -+		error_f("socket \"%s\": %s", path, strerror(errno));
+> -+		goto out;
+> -+	}
+> -+	if (connect(fd, &addr, sizeof(addr)) != 0) {
+> -+		error_f("socket \"%s\" connect: %s", path, strerror(errno));
+> -+		goto out;
+> -+	}
+> -+	if (write(fd, s, strlen(s)) != (ssize_t)strlen(s)) {
+> -+		error_f("socket \"%s\" write: %s", path, strerror(errno));
+> -+		goto out;
+> -+	}
+> -+	debug_f("socket \"%s\" notified %s", path, s);
+> -+ out:
+> -+	if (fd != -1)
+> -+		close(fd);
+> -+	free(s);
+> -+}
+> -+
+> -+void
+> -+ssh_systemd_notify_ready(void)
+> -+{
+> -+	ssh_systemd_notify("READY=1");
+> -+}
+> -+
+> -+void
+> -+ssh_systemd_notify_reload(void)
+> -+{
+> -+	struct timespec now;
+> -+
+> -+	monotime_ts(&now);
+> -+	if (now.tv_sec < 0 || now.tv_nsec < 0) {
+> -+		error_f("monotime returned negative value");
+> -+		ssh_systemd_notify("RELOADING=1");
+> -+	} else {
+> -+		ssh_systemd_notify("RELOADING=1\nMONOTONIC_USEC=%llu",
+> -+		    ((uint64_t)now.tv_sec * 1000000ULL) +
+> -+		    ((uint64_t)now.tv_nsec / 1000ULL));
+> -+	}
+> -+}
+> -+#endif /* SYSTEMD_NOTIFY */
+> -+
+> -+#endif /* WITH_SELINUX || LINUX_OOM_ADJUST || SYSTEMD_NOTIFY */
+> -diff --git a/openbsd-compat/port-linux.h b/openbsd-compat/port-linux.h
+> -index 3c22a854d..14064f87d 100644
+> ---- a/openbsd-compat/port-linux.h
+> -+++ b/openbsd-compat/port-linux.h
+> -@@ -30,4 +30,9 @@ void oom_adjust_restore(void);
+> - void oom_adjust_setup(void);
+> - #endif
+> - 
+> -+#ifdef SYSTEMD_NOTIFY
+> -+void ssh_systemd_notify_ready(void);
+> -+void ssh_systemd_notify_reload(void);
+> -+#endif
+> -+
+> - #endif /* ! _PORT_LINUX_H */
+> -diff --git a/platform.c b/platform.c
+> -index 4fe8744ee..9cf818153 100644
+> ---- a/platform.c
+> -+++ b/platform.c
+> -@@ -44,6 +44,14 @@ platform_pre_listen(void)
+> - #endif
+> - }
+> - 
+> -+void
+> -+platform_post_listen(void)
+> -+{
+> -+#ifdef SYSTEMD_NOTIFY
+> -+	ssh_systemd_notify_ready();
+> -+#endif
+> -+}
+> -+
+> - void
+> - platform_pre_fork(void)
+> - {
+> -@@ -55,6 +63,9 @@ platform_pre_fork(void)
+> - void
+> - platform_pre_restart(void)
+> - {
+> -+#ifdef SYSTEMD_NOTIFY
+> -+	ssh_systemd_notify_reload();
+> -+#endif
+> - #ifdef LINUX_OOM_ADJUST
+> - 	oom_adjust_restore();
+> - #endif
+> -diff --git a/platform.h b/platform.h
+> -index 7fef8c983..5dec23276 100644
+> ---- a/platform.h
+> -+++ b/platform.h
+> -@@ -21,6 +21,7 @@
+> - void platform_pre_listen(void);
+> - void platform_pre_fork(void);
+> - void platform_pre_restart(void);
+> -+void platform_post_listen(void);
+> - void platform_post_fork_parent(pid_t child_pid);
+> - void platform_post_fork_child(void);
+> - int  platform_privileged_uidswap(void);
+> -diff --git a/sshd.c b/sshd.c
+> -index b4f2b9742..865331b46 100644
+> ---- a/sshd.c
+> -+++ b/sshd.c
+> -@@ -2077,6 +2077,8 @@ main(int ac, char **av)
+> - 		ssh_signal(SIGTERM, sigterm_handler);
+> - 		ssh_signal(SIGQUIT, sigterm_handler);
+> - 
+> -+		platform_post_listen();
+> -+
+> - 		/*
+> - 		 * Write out the pid file after the sigterm handler
+> - 		 * is setup and the listen sockets are bound
+> --- 
+> -2.45.2
+> -
+> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+> index 8763f30f4b..f424288e37 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+> +++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+> @@ -1,4 +1,4 @@
+> -From f5a4dacc987ca548fc86577c2dba121c86da3c34 Mon Sep 17 00:00:00 2001
+> +From 5cc897fe2effe549e1e280c2f606bce8b532b61e Mon Sep 17 00:00:00 2001
+>  From: Mikko Rapeli <mikko.rapeli@linaro.org>
+>  Date: Mon, 11 Sep 2023 09:55:21 +0100
+>  Subject: [PATCH] regress/banner.sh: log input and output files on error
+> @@ -37,12 +37,13 @@ See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
+>  Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/437]
+>  
+>  Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+>  ---
+>   regress/banner.sh | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>  
+>  diff --git a/regress/banner.sh b/regress/banner.sh
+> -index a84feb5a..de84957a 100644
+> +index a84feb5..de84957 100644
+>  --- a/regress/banner.sh
+>  +++ b/regress/banner.sh
+>  @@ -32,7 +32,9 @@ for s in 0 10 100 1000 10000 100000 ; do
+> @@ -56,6 +57,3 @@ index a84feb5a..de84957a 100644
+>   done
+>   
+>   trace "test suppress banner (-q)"
+> --- 
+> -2.34.1
+> -
+> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
+> new file mode 100644
+> index 0000000000..b90cd2e69d
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
+> @@ -0,0 +1,35 @@
+> +From fb762172fb678fe29327b667f8fe7380962a4540 Mon Sep 17 00:00:00 2001
+> +From: Jose Quaresma <jose.quaresma@foundries.io>
+> +Date: Mon, 15 Jul 2024 18:43:08 +0100
+> +Subject: [PATCH] regress/test-exec: use the absolute path in the SSH env
 > +
->          write_string +=3D "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
-> +        if cve_data[cve]["abbrev-status"] =3D=3D "Unpatched":
-> +            unpatched_cves.append(cve)
->=20
->      if unpatched_cves and d.getVar("CVE_CHECK_SHOW_WARNINGS") =3D=3D "1"=
-:
->          bb.warn("Found unpatched CVE (%s), for more information check %s=
-" %
-> (" ".join(unpatched_cves),cve_file))
-> @@ -568,13 +590,11 @@ def cve_check_write_json_output(d, output,
-> direct_file, deploy_file, manifest_fi
->          with open(index_path, "a+") as f:
->              f.write("%s\n" % fragment_path)
->=20
-> -def cve_write_data_json(d, patched, unpatched, ignored, cve_data,
-> cve_status):
-> +def cve_write_data_json(d, cve_data, cve_status):
->      """
->      Prepare CVE data for the JSON format, then write it.
->      """
->=20
-> -    from oe.cve_check import decode_cve_status
-> -
->      output =3D {"version":"1", "package": []}
->      nvd_link =3D "https://nvd.nist.gov/vuln/detail/"
->=20
-> @@ -592,8 +612,6 @@ def cve_write_data_json(d, patched, unpatched,
-> ignored, cve_data, cve_status):
->      if include_layers and layer not in include_layers:
->          return
->=20
-> -    unpatched_cves =3D []
-> -
->      product_data =3D []
->      for s in cve_status:
->          p =3D {"product": s[0], "cvesInRecord": "Yes"}
-> @@ -608,39 +626,29 @@ def cve_write_data_json(d, patched, unpatched,
-> ignored, cve_data, cve_status):
->          "version" : package_version,
->          "products": product_data
->      }
+> +The SSHAGENT_BIN was changed in [1] to SSH_BIN but
+> +the last one don't use the absolute path and consequently
+> +the function increase_datafile_size can loops forever
+> +if the binary not found.
 > +
->      cve_list =3D []
->=20
->      for cve in sorted(cve_data):
-> -        is_patched =3D cve in patched
-> -        is_ignored =3D cve in ignored
-> -        status =3D "Unpatched"
-> -        if (is_patched or is_ignored) and not report_all:
-> -            continue
-> -        if is_ignored:
-> -            status =3D "Ignored"
-> -        elif is_patched:
-> -            status =3D "Patched"
-> -        else:
-> -            # default value of status is Unpatched
-> -            unpatched_cves.append(cve)
+> +[1] https://github.com/openssh/openssh-portable/commit/a68f80f2511f0e0c5cef737a8284cc2dfabad818
+> +
+> +Upstream-Status: Submitted [https://github.com/openssh/openssh-portable/pull/510]
+> +
+> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> +---
+> + regress/test-exec.sh | 5 +++++
+> + 1 file changed, 5 insertions(+)
+> +
+> +diff --git a/regress/test-exec.sh b/regress/test-exec.sh
+> +index 7afc2807..175f554b 100644
+> +--- a/regress/test-exec.sh
+> ++++ b/regress/test-exec.sh
+> +@@ -175,6 +175,11 @@ if [ "x$TEST_SSH_OPENSSL" != "x" ]; then
+> + fi
+> + 
+> + # Path to sshd must be absolute for rexec
+> ++case "$SSH" in
+> ++/*) ;;
+> ++*) SSH=`which $SSH` ;;
+> ++esac
+> ++
+> + case "$SSHD" in
+> + /*) ;;
+> + *) SSHD=`which $SSHD` ;;
+> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
+> deleted file mode 100644
+> index 3e7c707100..0000000000
+> --- a/meta/recipes-connectivity/openssh/openssh/CVE-2024-6387.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -Description: fix signal handler race condition
+> -Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/2070497
 > -
->          issue_link =3D "%s%s" % (nvd_link, cve)
->=20
->          cve_item =3D {
->              "id" : cve,
-> -            "summary" : cve_data[cve]["summary"],
-> -            "scorev2" : cve_data[cve]["scorev2"],
-> -            "scorev3" : cve_data[cve]["scorev3"],
-> -            "vector" : cve_data[cve]["vector"],
-> -            "vectorString" : cve_data[cve]["vectorString"],
-> -            "status" : status,
-> -            "link": issue_link
-> +            "status" : cve_data[cve]["abbrev-status"],
-> +            "link": issue_link,
->          }
-> -        _, detail, description =3D decode_cve_status(d, cve)
-> -        if detail:
-> -            cve_item["detail"] =3D detail
-> -        if description:
-> -            cve_item["description"] =3D description
-> +        if 'NVD-summary' in cve_data[cve]:
-> +            cve_item["summary"] =3D cve_data[cve]["NVD-summary"]
-> +            cve_item["scorev2"] =3D cve_data[cve]["NVD-scorev2"]
-> +            cve_item["scorev3"] =3D cve_data[cve]["NVD-scorev3"]
-> +            cve_item["vector"] =3D cve_data[cve]["NVD-vector"]
-> +            cve_item["vectorString"] =3D cve_data[cve]["NVD-vectorString=
-"]
-> +        if 'status' in cve_data[cve]:
-> +            cve_item["detail"] =3D cve_data[cve]["status"]
-> +        if 'justification' in cve_data[cve]:
-> +            cve_item["description"] =3D cve_data[cve]["justification"]
-> +        if 'resource' in cve_data[cve]:
-> +            cve_item["patch-file"] =3D cve_data[cve]["resource"]
->          cve_list.append(cve_item)
->=20
->      package_data["issue"] =3D cve_list
-> @@ -652,12 +660,12 @@ def cve_write_data_json(d, patched, unpatched,
-> ignored, cve_data, cve_status):
->=20
->      cve_check_write_json_output(d, output, direct_file, deploy_file,
-> manifest_file)
->=20
-> -def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
-> +def cve_write_data(d, cve_data, status):
->      """
->      Write CVE data in each enabled format.
->      """
->=20
->      if d.getVar("CVE_CHECK_FORMAT_TEXT") =3D=3D "1":
-> -        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
-> +        cve_write_data_text(d, cve_data)
->      if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
-> -        cve_write_data_json(d, patched, unpatched, ignored, cve_data, st=
-atus)
-> +        cve_write_data_json(d, cve_data, status)
-> diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-> index ed5c714cb8..6aba90183a 100644
-> --- a/meta/lib/oe/cve_check.py
-> +++ b/meta/lib/oe/cve_check.py
-> @@ -88,7 +88,7 @@ def get_patched_cves(d):
->      # (cve_match regular expression)
->      cve_file_name_match =3D re.compile(r".*(CVE-\d{4}-\d+)", re.IGNORECA=
-SE)
->=20
-> -    patched_cves =3D set()
-> +    patched_cves =3D {}
->      patches =3D oe.patch.src_patches(d)
->      bb.debug(2, "Scanning %d patches for CVEs" % len(patches))
->      for url in patches:
-> @@ -98,7 +98,7 @@ def get_patched_cves(d):
->          fname_match =3D cve_file_name_match.search(patch_file)
->          if fname_match:
->              cve =3D fname_match.group(1).upper()
-> -            patched_cves.add(cve)
-> +            patched_cves[cve] =3D {"abbrev-status": "Patched", "status":=
- "fix-file-
-> included", "resource": patch_file}
->              bb.debug(2, "Found %s from patch file name %s" % (cve, patch=
-_file))
->=20
->          # Remote patches won't be present and compressed patches won't b=
-e
-> @@ -124,7 +124,7 @@ def get_patched_cves(d):
->              cves =3D patch_text[match.start()+5:match.end()]
->              for cve in cves.split():
->                  bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
-> -                patched_cves.add(cve)
-> +                patched_cves[cve] =3D {"abbrev-status": "Patched", "stat=
-us": "fix-file-
-> included", "resource": patch_file}
->                  text_match =3D True
->=20
->          if not fname_match and not text_match:
-> @@ -132,10 +132,8 @@ def get_patched_cves(d):
->=20
->      # Search for additional patched CVEs
->      for cve in (d.getVarFlags("CVE_STATUS") or {}):
-> -        decoded_status, _, _ =3D decode_cve_status(d, cve)
-> -        if decoded_status =3D=3D "Patched":
-> -            bb.debug(2, "CVE %s is additionally patched" % cve)
-> -            patched_cves.add(cve)
-> +        decoded_status, detail, description =3D decode_cve_status(d, cve=
-)
-> +        patched_cves[cve] =3D {"abbrev-status": decoded_status, "status"=
-: detail,
-> "justification": description}
->=20
->      return patched_cves
->=20
-> --
-> 2.43.0
+> -CVE: CVE-2024-6387
+> -
+> -Upstream-Status: Backport
+> -https://git.launchpad.net/ubuntu/+source/openssh/commit/?h=applied/ubuntu/jammy-devel&id=b059bcfa928df4ff2d103ae2e8f4e3136ee03efc
+> -
+> -Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> -
+> ---- a/log.c
+> -+++ b/log.c
+> -@@ -452,12 +452,14 @@ void
+> - sshsigdie(const char *file, const char *func, int line, int showfunc,
+> -     LogLevel level, const char *suffix, const char *fmt, ...)
+> - {
+> -+#if 0
+> - 	va_list args;
+> - 
+> - 	va_start(args, fmt);
+> - 	sshlogv(file, func, line, showfunc, SYSLOG_LEVEL_FATAL,
+> - 	    suffix, fmt, args);
+> - 	va_end(args);
+> -+#endif
+> - 	_exit(1);
+> - }
+> - 
+> diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
+> index b2244d725a..c9100f9f37 100755
+> --- a/meta/recipes-connectivity/openssh/openssh/run-ptest
+> +++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
+> @@ -1,5 +1,6 @@
+>  #!/bin/sh
+>  
+> +export TEST_SSH_SSH=ssh
+>  export TEST_SHELL=sh
+>  export SKIP_UNIT=1
+>  
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb b/meta/recipes-connectivity/openssh/openssh_9.8p1.bb
+> similarity index 96%
+> rename from meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+> rename to meta/recipes-connectivity/openssh/openssh_9.8p1.bb
+> index 4680d12be5..9554b4783f 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.8p1.bb
+> @@ -23,11 +23,11 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+>             file://volatiles.99_sshd \
+>             file://run-ptest \
+>             file://sshd_check_keys \
+> +           file://0001-Cast-to-sockaddr-in-systemd-interface.patch \
+>             file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+> -           file://0001-notify-systemd-on-listen-and-reload.patch \
+> -           file://CVE-2024-6387.patch \
+> +           file://0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch \
+>             "
+> -SRC_URI[sha256sum] = "490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2e57dc5660f773ffd"
+> +SRC_URI[sha256sum] = "dd8bd002a379b5d499dfb050dd1fa9af8029e80461f4bb6c523c49973f5a39f3"
+>  
+>  CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
+>  
+> @@ -195,7 +195,7 @@ ALLOW_EMPTY:${PN} = "1"
+>  PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
+>  FILES:${PN}-scp = "${bindir}/scp.${BPN}"
+>  FILES:${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
+> -FILES:${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd ${systemd_system_unitdir}"
+> +FILES:${PN}-sshd = "${sbindir}/sshd ${libexecdir}/sshd-session ${sysconfdir}/init.d/sshd ${systemd_system_unitdir}"
+>  FILES:${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
+>  FILES:${PN}-sshd += "${libexecdir}/${BPN}/sshd_check_keys"
+>  FILES:${PN}-sftp = "${bindir}/sftp"
+> -- 
+> 2.45.2
+> 
 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202117): https://lists.openembedded.org/g/openembedded-core/message/202117
+> Mute This Topic: https://lists.openembedded.org/mt/107252589/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
