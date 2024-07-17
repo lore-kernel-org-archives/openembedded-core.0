@@ -2,106 +2,103 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E6DC3DA4B
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 08:50:23 +0000 (UTC)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
- by mx.groups.io with SMTP id smtpd.web11.10665.1721206218825890327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A4A3C3DA4B
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 08:51:53 +0000 (UTC)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+ by mx.groups.io with SMTP id smtpd.web11.10682.1721206307414036375
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jul 2024 01:50:19 -0700
+ Wed, 17 Jul 2024 01:51:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HvcCzBqV;
- spf=pass (domain: gmail.com, ip: 209.85.222.53, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-81f91171316so253278241.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 01:50:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WwDgsIAg;
+ spf=pass (domain: gmail.com, ip: 209.85.222.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-8100ff1cec5so368855241.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 01:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721206218; x=1721811018; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1721206306; x=1721811106; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lyy7nqLj8FS65q9819okWsqN+Uq5WSSOIvCkrDJNkB0=;
-        b=HvcCzBqVZI6U31H3k2pw4+SsYFqxbJLFz+4BJs4ry7nz13G+MamKqalfXjVvY1qaut
-         3x5wlpVimJThUqCYTGGPtJOBSthKlJwAo6qdon+/6hjxhhv30tgT1y6W3Uk+SHBIy9E9
-         EvpXkDHKweukbAF8JP7iDApNqlnh5jNNDedbmuOcOpee/zf6aQdM9OTu0grC5Xglzjom
-         wqFzSae1dZV/mL9zNLZxeeqkvcEHu/H8jRl2avUEG/K58vJZQ0qfGRDZZf20w0Vo9Z/Z
-         XzentHhAsq5xr2hsDnMjbNJHLRyE22bnmAdSJa77/eZQvBsv1hR1MHZ052+Dl/jDo5gs
-         gkwQ==
+        bh=n+meoddPmsMzQ3HET7aE81s2R3vqc+5+whapZP9LpT8=;
+        b=WwDgsIAgga4/ahoeCcJtlHdY+alsYdY2qHdaRedixJ23OQkcSIPifeTMQGzaI2wS+B
+         RF0CfQnW0rgj8zr/wBfvb6S2+lWtODm7M5+AvBELL6Bdh4lrB7YaagyPlyzirjkUJpsg
+         kUWYG757GqkZ5PUnP6aKGRrmB4J3kmkYj4RMZRWLTJuEvqy9kkS3gB6/9o5EcB2P1Lc8
+         /nsuow/vt5gAGZqzOINFCBW+en0dA8qzFZyQMe5frvu9DTlRLQtVdqsjWd6QuQmKSIv3
+         pD0WwThb5gGpn/wM5uDvdSYyNU5xgc3zirMOmVXsbXZvZ0ZwNpzW94BcgQRJXsnKb8w4
+         c5nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721206218; x=1721811018;
+        d=1e100.net; s=20230601; t=1721206306; x=1721811106;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lyy7nqLj8FS65q9819okWsqN+Uq5WSSOIvCkrDJNkB0=;
-        b=fL9FsM583/sdt0xR7K6lNq6YTwCaWPKYf8ZsYiKoepT8CI85JZIf4qC9R474NbtRoj
-         bmdl4/D+fmXNBfEfKMFwxzeflz/DymwkHJx7pQmCRb3ULEoRFMHKvwaFk/iDMFUhR7Ax
-         gl3ecwVh/9T9JAqEsGv0tshLo2+M8DS1abdZqc0n6xzl1TrCvZWXNPXewvvj8dzb7d9R
-         VSmDCz8LYwKaOGKRW1yJwWpjMiFp1Rjd59Ju/T+brnU/ISqeZey8UkrGxsq2TA7jESsn
-         F9RAmgnc3oHXiO3mrWaOAHysPTs6aSp6bCqB0fvk4NqD3Jjn9UOfHflyRfpWSX2VzOju
-         8/SA==
-X-Gm-Message-State: AOJu0YxIS1TI3f76i4nMyxNd35pi9HXBSHz+6fradtG8W2AERoyHu6u8
-	PsnOIDekBWSeqHh3JHZD5Pmaryyyz9EytdQRLzlfTs9I7vht/AvrbTvpMcQGPs32Ujan7TnwMCJ
-	E4JwVuctwyzwMyC6JCPGX7KOLeVup3PRl
-X-Google-Smtp-Source: AGHT+IHzOI5JZnEVm43DbeD+tRCD9YeQpwf+q2xFj3dGOV9GN2XX/rOR66BrTiR39K/08kBmwjdEIcZmRkuUOCvASDg=
-X-Received: by 2002:a05:6102:2909:b0:48f:62bb:357c with SMTP id
- ada2fe7eead31-491561583b7mr1198288137.3.1721206217466; Wed, 17 Jul 2024
- 01:50:17 -0700 (PDT)
+        bh=n+meoddPmsMzQ3HET7aE81s2R3vqc+5+whapZP9LpT8=;
+        b=Yhn6UUhwLon/uAQAApDsZDb45E7YQbHBgqNViVzWlg71JkuFYpyuHC4JE1xCyYFPGO
+         sEaMP8LCcUpsJoimFtwLr+vnYvku6fVIRfjxUYEnhwEGCBIz2LXDfJJx472JbXpoU7uX
+         tbnEyTYRpPTNEB6OeW7/CeJxA7g6m/R6HGS7j7p6w/VSWO8iNASbzDU1nJBF3IOzcc68
+         SH4C2iXwIlp8WAvlS9efWOHDmuDMZG/Xs1IipITxo9g8Mql58sJIXuuYzCuzUKmoynbA
+         Ag/VTzLFx613aGObTbX82oON0K3VyBPCjv/9tSjA7mXPpKTGVt2H6Qk1Wx8AFKvPjWNH
+         3qFA==
+X-Gm-Message-State: AOJu0YxdK/nzVHM4VV3R3dYghJYnEG3fT5Y2YzdAryrKWnzzd2MApw0O
+	JwrviV7VOFtik8sjSfHw8OPVRVEAbmEBNUDE4oJpOMbh/VUTutuGvwHDFSU/eZEE9CDm9cbbqqv
+	66sVGoKkyhYYaZvFKakkqfTU1V+CknIdb
+X-Google-Smtp-Source: AGHT+IENB0CHv06nY27EjwaDvI7yDlf5hiM4M1kv9QeAZ2Yn6K3wEEPxnbW4Xqr7d6LQcU89kOis9KGYNlSuZ0USYTQ=
+X-Received: by 2002:a05:6102:1524:b0:48f:df47:a4a5 with SMTP id
+ ada2fe7eead31-491597a6557mr1459690137.11.1721206306069; Wed, 17 Jul 2024
+ 01:51:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240716141639.1564355-1-jose.quaresma@foundries.io>
- <20240716141639.1564355-3-jose.quaresma@foundries.io> <202407170759288fd139d6@mail.local>
-In-Reply-To: <202407170759288fd139d6@mail.local>
+ <20240716141639.1564355-3-jose.quaresma@foundries.io> <20240717075700774bd475@mail.local>
+In-Reply-To: <20240717075700774bd475@mail.local>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 17 Jul 2024 09:50:06 +0100
-Message-ID: <CANPvuR=BUV82=QPLfoWW9i+zjaa+VC+wQPn+75XxNXw8aGShRA@mail.gmail.com>
+Date: Wed, 17 Jul 2024 09:51:35 +0100
+Message-ID: <CANPvuRm5m8EdptzGb1EewxB_yFoVtoax0iSqJX2=TQvQQimg+g@mail.gmail.com>
 Subject: Re: [OE-core][PATCH v5 3/3] openssh: upgrade 9.7p1 -> 9.8p1
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Cc: openembedded-core@lists.openembedded.org, 
 	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="0000000000002d6e8e061d6d8d46"
+Content-Type: multipart/alternative; boundary="00000000000075642d061d6d922d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 08:50:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202145
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 08:51:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202146
 
---0000000000002d6e8e061d6d8d46
+--00000000000075642d061d6d922d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Alexandre Belloni <alexandre.belloni@bootlin.com> escreveu (quarta,
-17/07/2024 =C3=A0(s) 08:59):
+17/07/2024 =C3=A0(s) 08:57):
 
-> This also break with systemd:
+> Hello,
 >
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/7961/s=
-teps/15/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6812/st=
+eps/13/logs/stdio
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/8073/s=
-teps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6636/st=
+eps/12/logs/stdio
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9247/st=
-eps/15/logs/stdio
+> This causes libssh2 ptest failures:
 >
-> AssertionError: 3 !=3D 0 : SYSTEMD_BUS_TIMEOUT=3D240s systemctl status --=
-full
-> --failed
-> =D0=B2 sshd@0-192.168.7.4:22-192.168.7.3:34206.service - OpenSSH
-> Per-Connection Daemon
->      Loaded: loaded (/usr/lib/systemd/system/sshd@.service; static)
->      Active: failed (Result: protocol) since Wed 2024-07-17 00:49:38 UTC;
-> 1min 2s ago
->  Invocation: 601a75c93d4b442b8d14288d46e9c8b3
->    Main PID: 317 (code=3Dexited, status=3D255/EXCEPTION)
+> https://autobuilder.yocto.io/pub/non-release/20240716-73/testresults/qemu=
+x86-64-ptest/libssh2.log
+>
+> START: ptest-runner
+> 2024-07-16T23:20
+> PASS: mansyntax.sh
+> PASS: test_simple
+> FAIL: test_sshd.test
+> DURATION: 14
 >
 
-I will jump on this today and try to find the root cause.
-The ptest goes well in my local tests but I didn't do anything with
-testimage.
-I'll see if the testimage picks up something.
+I'll have to test libssh2 to see what's happening.
 
 Thanks for the feedback.
 
 Jose
 
 
+
+>
 >
 > On 16/07/2024 15:16:39+0100, Jose Quaresma wrote:
 > > - drop the CVE-2024-6387
@@ -902,49 +899,45 @@ Best regards,
 
 Jos=C3=A9 Quaresma
 
---0000000000002d6e8e061d6d8d46
+--00000000000075642d061d6d922d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
 <div dir=3D"ltr" class=3D"gmail_attr">Alexandre Belloni &lt;<a href=3D"mail=
 to:alexandre.belloni@bootlin.com">alexandre.belloni@bootlin.com</a>&gt; esc=
-reveu (quarta, 17/07/2024 =C3=A0(s) 08:59):<br></div><blockquote class=3D"g=
+reveu (quarta, 17/07/2024 =C3=A0(s) 08:57):<br></div><blockquote class=3D"g=
 mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">This also break with systemd:<br>
+,204,204);padding-left:1ex">Hello,<br>
 <br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/101/buil=
-ds/7961/steps/15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://a=
-utobuilder.yoctoproject.org/typhoon/#/builders/101/builds/7961/steps/15/log=
-s/stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/109/buil=
-ds/8073/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://a=
-utobuilder.yoctoproject.org/typhoon/#/builders/109/builds/8073/steps/14/log=
-s/stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/40/build=
-s/9247/steps/15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9247/steps/15/logs/=
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
+s/6812/steps/13/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6812/steps/13/logs/=
+stdio</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
+s/6636/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6636/steps/12/logs/=
 stdio</a><br>
 <br>
-AssertionError: 3 !=3D 0 : SYSTEMD_BUS_TIMEOUT=3D240s systemctl status --fu=
-ll --failed <br>
-=D0=B2 sshd@0-192.168.7.4:22-192.168.7.3:34206.service - OpenSSH Per-Connec=
-tion Daemon<br>
-=C2=A0 =C2=A0 =C2=A0Loaded: loaded (/usr/lib/systemd/system/sshd@.service; =
-static)<br>
-=C2=A0 =C2=A0 =C2=A0Active: failed (Result: protocol) since Wed 2024-07-17 =
-00:49:38 UTC; 1min 2s ago<br>
-=C2=A0Invocation: 601a75c93d4b442b8d14288d46e9c8b3<br>
-=C2=A0 =C2=A0Main PID: 317 (code=3Dexited, status=3D255/EXCEPTION)<br></blo=
-ckquote><div><br></div><div><div style=3D"color:rgb(80,0,80)">I will jump o=
-n this today and try to find the root cause.</div><div style=3D"color:rgb(8=
-0,0,80)">The ptest goes well in my local tests but I didn&#39;t do anything=
- with testimage.<br>I&#39;ll see if the testimage picks up something.<br></=
-div><div style=3D"color:rgb(80,0,80)"><br></div><div style=3D"color:rgb(80,=
-0,80)">Thanks=C2=A0for the feedback.<br></div><div style=3D"color:rgb(80,0,=
-80)"><br></div><div style=3D"color:rgb(80,0,80)">Jose</div></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+This causes libssh2 ptest failures:<br>
+<a href=3D"https://autobuilder.yocto.io/pub/non-release/20240716-73/testres=
+ults/qemux86-64-ptest/libssh2.log" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://autobuilder.yocto.io/pub/non-release/20240716-73/testresults/qemux86-6=
+4-ptest/libssh2.log</a><br>
+<br>
+START: ptest-runner<br>
+2024-07-16T23:20<br>
+PASS: mansyntax.sh<br>
+PASS: test_simple<br>
+FAIL: test_sshd.test<br>
+DURATION: 14<br></blockquote><div><br></div><div>I&#39;ll have to test libs=
+sh2 to see what&#39;s happening.<br></div><div><br></div><div><div><div sty=
+le=3D"color:rgb(80,0,80)">Thanks=C2=A0for the feedback.<br></div><div style=
+=3D"color:rgb(80,0,80)"><br></div><div style=3D"color:rgb(80,0,80)">Jose</d=
+iv></div><br class=3D"gmail-Apple-interchange-newline"></div><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
 <br>
 On 16/07/2024 15:16:39+0100, Jose Quaresma wrote:<br>
 &gt; - drop the CVE-2024-6387<br>
@@ -1916,5 +1909,5 @@ gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
 iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
 div>
 
---0000000000002d6e8e061d6d8d46--
+--00000000000075642d061d6d922d--
 
