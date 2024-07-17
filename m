@@ -1,193 +1,81 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82951C3DA42
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 12:58:14 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web11.14462.1721221088962202764
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E6EC3DA42
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 13:36:14 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.15314.1721223365404012379
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jul 2024 05:58:09 -0700
+ Wed, 17 Jul 2024 06:36:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DeXBrAlj;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.170, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6512866fa87so65086517b3.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 05:58:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nanl9T5c;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4279ca8af51so43703065e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 06:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721221088; x=1721825888; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uRZZMXnKYz0EcMzcJHE1DY5BA/OxB7DtNHCdFfBFMWk=;
-        b=DeXBrAljrd8NYM3yNZjoM6+fHuMf+Tavq4FKWjKpltizFJiOpCf2EgT+WyvjSkXb9g
-         sLBC4SOZGG8DczLWFMd069EwdX8lqn4RZME2olZ4ca5pfoVEPh8SUkunm6CnOFFoUIL0
-         cutQ7k7HnqtUAqCZf4ceXP2cQAkWF6KbOpRQ3u4WbWGE0U61VqXA7v9CZJLfDjURB+jA
-         Kl7rh3jQpugCnfujhZDJI0MHy6kTzXWGkWgGDdUN9Yr/eN0/56tle7nlaqXV4fkZe5W1
-         WWeriru6klggX9MdWDYtbXFBGaum8joHWn6BtxblYpTc0T44mic2cKYA0CE4ttxUcH3S
-         Igeg==
+        d=linuxfoundation.org; s=google; t=1721223363; x=1721828163; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d/4carcqG4vVkXpkpV25+llqOa3OBm7IcQgBejLYlqY=;
+        b=Nanl9T5cpckTl+tHI0qbw/1yQsx2rE2nZjx2xYvHzRhE36tv4vB27cVzxqSygEx8zV
+         buzjICAaElqWKBfofHbuLe9l1b5zgNoBu6WnxqchHWNoUfQH24phoCcm5DSiOh4MHYM8
+         0j48UKJoqWNL17gkn8gS1pZb7lMqT5zbV1yGc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721221088; x=1721825888;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uRZZMXnKYz0EcMzcJHE1DY5BA/OxB7DtNHCdFfBFMWk=;
-        b=U+FjRU5mm4xXdOYggD/2xuXIPEd1myaSJ6xFSP2jqhe8Pvq4f4WxVG5USuluf55k2I
-         WVCWJKf2rmMH+ssETouPBxj1hGJVwj1OgdClER1CfQIprNgkMnkE+wQ5nXtSN8lvd4xZ
-         grRCTa5CGvOP3kZodoJm5NAuacKIowmStrINuEV04+Wj4soHkcrrOKLmi93p83ykyVDp
-         55QC3Jc+P4dS0lavViyHZ5lneY7zkQ2rxq4ymScvVNawL2Y9xwXZxZESjdoKasH3P0xB
-         ypVeJBKx485n3lwI60QUsVQfxuVUa74bRJH+RdzBZLPYpLsyzQrij2I8EFIhHgkWnOom
-         H/ww==
-X-Gm-Message-State: AOJu0Yx9c4fKKJdta+7bOGQa8rSdRKy5CZg3XPYQ27HD22VT6e/fbLYD
-	A4BIrqzqhc1eOePBowI0TaiHpPjl5MsXkNuduiNlGmoFVbyfUU31XaR8SzNRMDrmiAnSUl9d5Yq
-	KrmUivD26jqCsLUVEeptUOMbMihzIz/1OLdM4HcfS063VgkVL
-X-Google-Smtp-Source: AGHT+IFcUGbwaAZp1CkTY6kznH8RQmSEbhOLoIVNjh5VjkOzDDhWwKF16qfXMc4pKE4gvfBVLFC8yUUrzfPVWPRZADQ=
-X-Received: by 2002:a0d:f104:0:b0:647:7782:421a with SMTP id
- 00721157ae682-6650085aad3mr17456207b3.45.1721221088107; Wed, 17 Jul 2024
- 05:58:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721223363; x=1721828163;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d/4carcqG4vVkXpkpV25+llqOa3OBm7IcQgBejLYlqY=;
+        b=fU3rXAJ4e6pmPzsdn0S5ufYk/SSayT6axodR7QSuNllA3p9VIDWbxrIrTziOJQlbPz
+         AakoUowlNGnrsRfHmTYFyF0XNhWGCoa0TCoS+Kal3eI7IP+X1zjSRaB+dR2bl4hU/oKx
+         jQL/5zaclMhYOEzfRwM2SoAdm8bl/Zb25nXtCxSDBrtg1P+Yse+WGdkWWy5e/Rm2xIwu
+         5XJ341L1N/n0ueGZ3owFnUBqdyNkbXysX90Y8Tb+ymbMixwkyDIBQS1VsTCNH+d+KkV6
+         TDeFa7jS6yFumQrOy6/+TyBf+DU25UyaiWYIaeSbj5q8JDSjeMjfn1OCNI4IXL4vaIMt
+         9A9g==
+X-Gm-Message-State: AOJu0YyhWWsGpRGbDYEIAMROrR+53L+9SgqvhBOiZVYr9J2ueSQJObBx
+	peiowWlmqEesT1U9MV0hR8V8GPpTe+Plj2pY6xyLWba57vP9XALSkFlSYOCb7UdgTe6tDCFgr6m
+	W
+X-Google-Smtp-Source: AGHT+IFfAP3Uk70CYhaHqKsKAG0HL2Q4AzXTdbKcrHELkV28SUjSSjC9bH+wz5lba/YILzZrxymGSA==
+X-Received: by 2002:a05:600c:1f89:b0:426:6c7a:3a61 with SMTP id 5b1f17b1804b1-427c2cc993bmr10893355e9.3.1721223363117;
+        Wed, 17 Jul 2024 06:36:03 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9a16:3e6:efff:89c6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4279f2d7c9csm206878725e9.48.2024.07.17.06.36.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jul 2024 06:36:02 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] testimage: Fix TESTIMAGE_FAILED_QA_ARTIFACTS setting
+Date: Wed, 17 Jul 2024 14:36:02 +0100
+Message-ID: <20240717133602.3601318-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <17D39C0F507EB7F4.7888@lists.openembedded.org> <1d0210ba-b44c-4e08-912d-b325f91a2665@windriver.com>
-In-Reply-To: <1d0210ba-b44c-4e08-912d-b325f91a2665@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 17 Jul 2024 05:57:57 -0700
-Message-ID: <CAOSpxdYS306cTdujh0Bt88kE_E-gVBEbRusd6MfL7YpcSNrSig@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gettext: fix a parallel build issue
-To: Changqing Li <changqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 12:58:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202163
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 13:36:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202164
 
-On Tue, Jul 16, 2024 at 7:55=E2=80=AFPM Changqing Li <changqing.li@windrive=
-r.com> wrote:
->
-> Hi, Steve
->
-> Could you help to cherry-pick this patch to scarthgap? Thanks
+MCNAME isn't defined outside our mcextend ptest images so use a wildcard in
+TESTIMAGE_FAILED_QA_ARTIFACTS instead. This unbreaks the value in other images.
 
-Yes, will do.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/testimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Steve
-
->
-> Regards
->
-> Changqing
->
-> On 5/28/24 17:11, Changqing Li wrote:
->
-> From: Changqing Li <changqing.li@windriver.com>
->
-> Occasionally, gettext will build failed with error:
-> In file included from ../../../gettext-0.22.5/gettext-runtime/intl/gettex=
-tP.h:71,
->                  from ../../../gettext-0.22.5/gettext-runtime/intl/log.c:=
-24:
-> ./libgnuintl.h:98:1: error: unterminated comment
->    98 | /* The user can define _INTL_RE
->       | ^
-> ./libgnuintl.h:17: error: unterminated #ifndef
->    17 | #ifndef _LIBINTL_H
->
-> In file included from ../../../gettext-0.22.5/gettext-runtime/intl/gettex=
-tP.h:71,
->                  from ../../../gettext-0.22.5/gettext-runtime/intl/langpr=
-efs.c:25:
-> ./libgnuintl.h:98:1: error: unterminated comment
->    98 | /* The user can define _INTL_RE
->       | ^
-> ./libgnuintl.h:17: error: unterminated #ifndef
->    17 | #ifndef _LIBINTL_H
->
-> It is a parallel build issue caused by missing dependencies, backport
-> patch to fix it.
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  ...1-intl-Fix-build-failure-with-make-j.patch | 35 +++++++++++++++++++
->  meta/recipes-core/gettext/gettext_0.22.5.bb   |  1 +
->  2 files changed, 36 insertions(+)
->  create mode 100644 meta/recipes-core/gettext/gettext/0001-intl-Fix-build=
--failure-with-make-j.patch
->
-> diff --git a/meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failur=
-e-with-make-j.patch b/meta/recipes-core/gettext/gettext/0001-intl-Fix-build=
--failure-with-make-j.patch
-> new file mode 100644
-> index 0000000000..144259dd3f
-> --- /dev/null
-> +++ b/meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure-with-=
-make-j.patch
-> @@ -0,0 +1,35 @@
-> +From 97a6a63ad61949663283f5fad68c9d5fb9be1f15 Mon Sep 17 00:00:00 2001
-> +From: Bruno Haible <bruno@clisp.org>
-> +Date: Tue, 12 Sep 2023 11:33:41 +0200
-> +Subject: [PATCH] intl: Fix build failure with "make -j".
-> +
-> +Reported by Christian Weisgerber <naddy@mips.inka.de> at
-> +<https://lists.gnu.org/archive/html/bug-gettext/2023-09/msg00005.html>.
-> +
-> +* gettext-runtime/intl/Makefile.am (langprefs.lo, log.lo): Depend on get=
-textP.h
-> +and its subordinate includes.
-> +
-> +Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=3Dgett=
-ext.git;a=3Dcommit;h=3D97a6a63ad61949663283f5fad68c9d5fb9be1f15]
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +---
-> + gettext-runtime/intl/Makefile.am | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/gettext-runtime/intl/Makefile.am b/gettext-runtime/intl/Mak=
-efile.am
-> +index da7abb758..9e56978bc 100644
-> +--- a/gettext-runtime/intl/Makefile.am
-> ++++ b/gettext-runtime/intl/Makefile.am
-> +@@ -387,8 +387,8 @@ dngettext.lo:        ../config.h $(srcdir)/gettextP.=
-h libgnuintl.h $(srcdir)/gmo
-> + ngettext.lo:         ../config.h $(srcdir)/gettextP.h libgnuintl.h $(sr=
-cdir)/gmo.h $(srcdir)/loadinfo.h
-> + plural.lo:           ../config.h $(srcdir)/plural-exp.h $(PLURAL_DEPS)
-> + plural-exp.lo:       ../config.h $(srcdir)/plural-exp.h
-> +-langprefs.lo:        ../config.h
-> +-log.lo:              ../config.h
-> ++langprefs.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(sr=
-cdir)/gmo.h $(srcdir)/loadinfo.h
-> ++log.lo:              ../config.h $(srcdir)/gettextP.h libgnuintl.h $(sr=
-cdir)/gmo.h $(srcdir)/loadinfo.h
-> + printf.lo:           ../config.h
-> + setlocale.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(sr=
-cdir)/gmo.h $(srcdir)/loadinfo.h
-> + version.lo:          ../config.h libgnuintl.h
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-core/gettext/gettext_0.22.5.bb b/meta/recipes-c=
-ore/gettext/gettext_0.22.5.bb
-> index 1a66d37916..7eeb1a86fd 100644
-> --- a/meta/recipes-core/gettext/gettext_0.22.5.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.22.5.bb
-> @@ -28,6 +28,7 @@ SRC_URI +=3D " \
->             file://serial-tests-config.patch \
->             file://0001-tests-autopoint-3-unset-MAKEFLAGS.patch \
->             file://0001-init-env.in-do-not-add-C-CXX-parameters.patch \
-> +           file://0001-intl-Fix-build-failure-with-make-j.patch \
->             "
->
->  inherit autotools texinfo pkgconfig ptest
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#199962): https://lists.openembedded.org/g/openembedde=
-d-core/message/199962
-> Mute This Topic: https://lists.openembedded.org/mt/106345410/3616873
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ch=
-angqing.li@eng.windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index 72282ac3624..531330f3848 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -28,7 +28,7 @@ TESTIMAGE_FAILED_QA_ARTIFACTS = "\
+     ${sysconfdir}/os-release"
+ 
+ # If some ptests are run and fail, retrieve corresponding directories
+-TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${libdir}/${MCNAME}/ptest', '', d)}"
++TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${libdir}/*/ptest', '', d)}"
+ 
+ # You can set (or append to) TEST_SUITES in local.conf to select the tests
+ # which you want to run for your target.
 
