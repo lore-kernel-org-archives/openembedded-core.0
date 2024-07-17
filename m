@@ -1,99 +1,552 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0909C3DA4B
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 06:33:22 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.9294.1721197994614107700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D91C3DA42
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 06:38:22 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web10.9344.1721198299254668670
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jul 2024 23:33:14 -0700
+ Tue, 16 Jul 2024 23:38:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZGFx0+HI;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=s2syCczh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190bf651efb-93b47654-3672-4644-99f8-7dce6fceb6de-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721197993; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=PilIOfHzvUlkgZM6VH9Q+KhZh7ket2u4A53U/NuhczI=;
-	b=ZGFx0+HI1PjbwXRF7MSOjUD78b7ey92NIqEPW0fQhyAZ2TDTWSrE8milCZkmzdoP
-	T5Wp/p2W8A7YWQiOPvlFnckf5hmrWlPPPnLiEXg2zjaUtet2WWG12m6fV2322gIqSA9
-	a3tuyoNCe2mzxCRb5NWsHV/KJHgDj8NDC6nbxiNo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721197993;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=PilIOfHzvUlkgZM6VH9Q+KhZh7ket2u4A53U/NuhczI=;
-	b=s2syCczhGIGQTnufBAbJCHqZ1ZBYK3GBW7aKt6W0pFFR5VYMA1GvdfNJzjQaTuQ7
-	QYPy8J5GvlFnXl9XiRAL4XFu5L5o4Eze7jL9eOlj3hg2R92Of09+XmtV0jBXCKjOa+2
-	7LDQNndTKgHCW4ATzw2/5VRCSiATjV4dJ5MUo9BI=
-From: patchtest@automation.yoctoproject.org
-To: vanusuri@mvista.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH] python3-jinja2: Upgrade 3.1.3 -> 3.1.4
-In-Reply-To: <20240717061836.1014191-1-vanusuri@mvista.com>
-References: <20240717061836.1014191-1-vanusuri@mvista.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190bf651efb-93b47654-3672-4644-99f8-7dce6fceb6de-000000@us-west-2.amazonses.com>
-Date: Wed, 17 Jul 2024 06:33:13 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.17-54.240.27.191
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MIgONPJn;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-25d634c5907so3480190fac.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jul 2024 23:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721198298; x=1721803098; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r1NUdH9n2QXbnvKqi2xqPaBf26H+eiyDHhjklhb41T4=;
+        b=MIgONPJnR4U/bGfh+2J4qxxkIqSFtfRTvK8xMbImIJ5w3wqleAvn7HPbDtUHoP9gSM
+         hFcc2KHPSTBnWWmQeLFpt9hCY6PQZhGyB7ygWh7Q9+1FbXMM5vrK+8DMU73SZJR6/HCS
+         TQgpJM8Jqz9s4ipxY2XSHkbGV/Srj61QvgW2BQtzdR4wL36qzb4rANxSy4T3dZLfbUU0
+         6vouFA7yXK1Imce/AWvhK5iCwPBBiRVpjsaA7v1s5XdCmXgpxuWGV3yfWaP0MIeXJH1l
+         jt53gLj5Xn5PjAti0n/A34sC0v50P3TuqHKp7LDvxnUi9MsVXeyTWmn+QGHy3FbbI37D
+         EORQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721198298; x=1721803098;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r1NUdH9n2QXbnvKqi2xqPaBf26H+eiyDHhjklhb41T4=;
+        b=nWl9Je0UdIFeETZJxE0va4XcoBRXpHvbiOcxH0Yabk6POaSdil2BEnsMjILbxJnNyo
+         ggqw00KVmDTfOK/eTWZg4uy0xiYLqgNCCwYxx5OOOf4BsHnFMF9esLhki0HeyMER1dPY
+         0IBxE2kDbaXtir+ElTDbztaFc9k3JK78nE8fIu4pA+kH3t5QlxUbZikar62zdPRf5Q0Y
+         88hIDrvyxoQx2jWouIXtLdgt3Aw+kHMqneD3MeSewHWuvQBzXdzDaYTyNZt2qk30HgUo
+         V2djz71VhEQHpeEPAH3vdmrI0fnMm9iu/S7IN3fpdfBKUlWhX3v/mfrJ17RyR6CLWFXU
+         Td0A==
+X-Gm-Message-State: AOJu0YysHfyzjoPXIbovNhIcrVOxqE+lAqntsoAn2YqduN4jo6TZOMyf
+	agSUA7y1DWD1erF83bmDbV59Im6H+OziZNWiGGKirf7ZJsWqF2Z0ObxSulV71bs5TYo1vTlOHyI
+	jwoPbLpsgXN6EoUxg2N7fITVc34ooAmZy
+X-Google-Smtp-Source: AGHT+IFJ3M9LOMmSFH9zjRypuQawFn/LHLcyZCNC2j4naHJOHhcYi3IPtqDxL3KCBcDaTjqZ77rF95akCULTB4HXSpM=
+X-Received: by 2002:a05:6870:f613:b0:25e:c013:a7fb with SMTP id
+ 586e51a60fabf-260d944deb0mr604191fac.43.1721198298236; Tue, 16 Jul 2024
+ 23:38:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240716141639.1564355-1-jose.quaresma@foundries.io> <20240716141639.1564355-2-jose.quaresma@foundries.io>
+In-Reply-To: <20240716141639.1564355-2-jose.quaresma@foundries.io>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 16 Jul 2024 23:37:51 -0700
+Message-ID: <CAMKF1sq9uq7tf_8K_-54mVdnerEbQQubBx2QXmX6xuU-RTgYXg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v5 2/3] openssh: systemd notification was
+ implemented upstream
+To: quaresma.jose@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 06:33:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202139
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 06:38:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202140
 
---NextPart
-Content-Type: text/plain
+actually I narrowed down my problem of disconnection to this patch in
+the series. Earlier I thought it might be related to the openssh
+upgrade patch
+but reverting that still causes the problem but this patch when
+reverted, the problem is gone.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-python3-jinja2-Upgrade-3.1.3---3.1.4.patch
-
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Tue, Jul 16, 2024 at 7:17=E2=80=AFAM Jose Quaresma via
+lists.openembedded.org
+<quaresma.jose=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> Still side effects of the XZ backdoor. The systemd sd-notify patch
+> was rejected [1] upstream and was chosen a standalone implementation
+> that does not depend on libsystemd [2].
+>
+> Racional [1]:
+>
+> License incompatibility and library bloatedness were the reasons.
+> Given recent events we're never going to take a dependency on libsystemd,
+> though we might implement the notification protocol ourselves if it isn't=
+ too much work.
+>
+> [1] https://github.com/openssh/openssh-portable/pull/375#issuecomment-202=
+7749729
+> [2] https://github.com/openssh/openssh-portable/commit/08f579231cd38a1c65=
+7aaa6ddeb8ab57a1fd4f5c
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>
+> v4:
+>  - split update of Upstream-Status in new patches in the serie
+>
+> v5:
+>  - use the upstream solution
+>
+>  ...-notify-systemd-on-listen-and-reload.patch | 225 ++++++++++++++++++
+>  ...tional-support-for-systemd-sd_notify.patch |  96 --------
+>  .../openssh/openssh/sshd.service              |   2 +-
+>  .../openssh/openssh/sshd@.service             |   1 +
+>  .../openssh/openssh_9.7p1.bb                  |   4 +-
+>  5 files changed, 228 insertions(+), 100 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-notify=
+-systemd-on-listen-and-reload.patch
+>  delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-system=
+d-Add-optional-support-for-systemd-sd_notify.patch
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-notify-system=
+d-on-listen-and-reload.patch b/meta/recipes-connectivity/openssh/openssh/00=
+01-notify-systemd-on-listen-and-reload.patch
+> new file mode 100644
+> index 0000000000..4925c969fe
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-li=
+sten-and-reload.patch
+> @@ -0,0 +1,225 @@
+> +From fc73e2405a8ca928465580b74a4d76112919367b Mon Sep 17 00:00:00 2001
+> +From: Damien Miller <djm@mindrot.org>
+> +Date: Wed, 3 Apr 2024 14:40:32 +1100
+> +Subject: [PATCH] notify systemd on listen and reload
+> +
+> +Standalone implementation that does not depend on libsystemd.
+> +With assistance from Luca Boccassi, and feedback/testing from Colin
+> +Watson. bz2641
+> +
+> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/c=
+ommit/08f579231cd38a1c657aaa6ddeb8ab57a1fd4f5c]
+> +
+> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> +---
+> + configure.ac                |  1 +
+> + openbsd-compat/port-linux.c | 97 ++++++++++++++++++++++++++++++++++++-
+> + openbsd-compat/port-linux.h |  5 ++
+> + platform.c                  | 11 +++++
+> + platform.h                  |  1 +
+> + sshd.c                      |  2 +
+> + 6 files changed, 115 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 82e8bb7c1..854f92b5b 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -915,6 +915,7 @@ int main(void) { if (NSVersionOfRunTimeLibrary("Syst=
+em") >=3D (60 << 16))
+> +       AC_DEFINE([_PATH_BTMP], ["/var/log/btmp"], [log for bad login att=
+empts])
+> +       AC_DEFINE([USE_BTMP])
+> +       AC_DEFINE([LINUX_OOM_ADJUST], [1], [Adjust Linux out-of-memory ki=
+ller])
+> ++      AC_DEFINE([SYSTEMD_NOTIFY], [1], [Have sshd notify systemd on sta=
+rt/reload])
+> +       inet6_default_4in6=3Dyes
+> +       case `uname -r` in
+> +       1.*|2.0.*)
+> +diff --git a/openbsd-compat/port-linux.c b/openbsd-compat/port-linux.c
+> +index 0457e28d0..df7290246 100644
+> +--- a/openbsd-compat/port-linux.c
+> ++++ b/openbsd-compat/port-linux.c
+> +@@ -21,16 +21,23 @@
+> +
+> + #include "includes.h"
+> +
+> +-#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST)
+> ++#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST) || \
+> ++    defined(SYSTEMD_NOTIFY)
+> ++#include <sys/socket.h>
+> ++#include <sys/un.h>
+> ++
+> + #include <errno.h>
+> ++#include <inttypes.h>
+> + #include <stdarg.h>
+> + #include <string.h>
+> + #include <stdio.h>
+> + #include <stdlib.h>
+> ++#include <time.h>
+> +
+> + #include "log.h"
+> + #include "xmalloc.h"
+> + #include "port-linux.h"
+> ++#include "misc.h"
+> +
+> + #ifdef WITH_SELINUX
+> + #include <selinux/selinux.h>
+> +@@ -310,4 +317,90 @@ oom_adjust_restore(void)
+> +       return;
+> + }
+> + #endif /* LINUX_OOM_ADJUST */
+> +-#endif /* WITH_SELINUX || LINUX_OOM_ADJUST */
+> ++
+> ++#ifdef SYSTEMD_NOTIFY
+> ++
+> ++static void ssh_systemd_notify(const char *, ...)
+> ++    __attribute__((__format__ (printf, 1, 2))) __attribute__((__nonnull=
+__ (1)));
+> ++
+> ++static void
+> ++ssh_systemd_notify(const char *fmt, ...)
+> ++{
+> ++      char *s =3D NULL;
+> ++      const char *path;
+> ++      struct stat sb;
+> ++      struct sockaddr_un addr;
+> ++      int fd =3D -1;
+> ++      va_list ap;
+> ++
+> ++      if ((path =3D getenv("NOTIFY_SOCKET")) =3D=3D NULL || strlen(path=
+) =3D=3D 0)
+> ++              return;
+> ++
+> ++      va_start(ap, fmt);
+> ++      xvasprintf(&s, fmt, ap);
+> ++      va_end(ap);
+> ++
+> ++      /* Only AF_UNIX is supported, with path or abstract sockets */
+> ++      if (path[0] !=3D '/' && path[0] !=3D '@') {
+> ++              error_f("socket \"%s\" is not compatible with AF_UNIX", p=
+ath);
+> ++              goto out;
+> ++      }
+> ++
+> ++      if (path[0] =3D=3D '/' && stat(path, &sb) !=3D 0) {
+> ++              error_f("socket \"%s\" stat: %s", path, strerror(errno));
+> ++              goto out;
+> ++      }
+> ++
+> ++      memset(&addr, 0, sizeof(addr));
+> ++      addr.sun_family =3D AF_UNIX;
+> ++      if (strlcpy(addr.sun_path, path,
+> ++          sizeof(addr.sun_path)) >=3D sizeof(addr.sun_path)) {
+> ++              error_f("socket path \"%s\" too long", path);
+> ++              goto out;
+> ++      }
+> ++      /* Support for abstract socket */
+> ++      if (addr.sun_path[0] =3D=3D '@')
+> ++              addr.sun_path[0] =3D 0;
+> ++      if ((fd =3D socket(PF_UNIX, SOCK_DGRAM, 0)) =3D=3D -1) {
+> ++              error_f("socket \"%s\": %s", path, strerror(errno));
+> ++              goto out;
+> ++      }
+> ++      if (connect(fd, &addr, sizeof(addr)) !=3D 0) {
+> ++              error_f("socket \"%s\" connect: %s", path, strerror(errno=
+));
+> ++              goto out;
+> ++      }
+> ++      if (write(fd, s, strlen(s)) !=3D (ssize_t)strlen(s)) {
+> ++              error_f("socket \"%s\" write: %s", path, strerror(errno))=
+;
+> ++              goto out;
+> ++      }
+> ++      debug_f("socket \"%s\" notified %s", path, s);
+> ++ out:
+> ++      if (fd !=3D -1)
+> ++              close(fd);
+> ++      free(s);
+> ++}
+> ++
+> ++void
+> ++ssh_systemd_notify_ready(void)
+> ++{
+> ++      ssh_systemd_notify("READY=3D1");
+> ++}
+> ++
+> ++void
+> ++ssh_systemd_notify_reload(void)
+> ++{
+> ++      struct timespec now;
+> ++
+> ++      monotime_ts(&now);
+> ++      if (now.tv_sec < 0 || now.tv_nsec < 0) {
+> ++              error_f("monotime returned negative value");
+> ++              ssh_systemd_notify("RELOADING=3D1");
+> ++      } else {
+> ++              ssh_systemd_notify("RELOADING=3D1\nMONOTONIC_USEC=3D%llu"=
+,
+> ++                  ((uint64_t)now.tv_sec * 1000000ULL) +
+> ++                  ((uint64_t)now.tv_nsec / 1000ULL));
+> ++      }
+> ++}
+> ++#endif /* SYSTEMD_NOTIFY */
+> ++
+> ++#endif /* WITH_SELINUX || LINUX_OOM_ADJUST || SYSTEMD_NOTIFY */
+> +diff --git a/openbsd-compat/port-linux.h b/openbsd-compat/port-linux.h
+> +index 3c22a854d..14064f87d 100644
+> +--- a/openbsd-compat/port-linux.h
+> ++++ b/openbsd-compat/port-linux.h
+> +@@ -30,4 +30,9 @@ void oom_adjust_restore(void);
+> + void oom_adjust_setup(void);
+> + #endif
+> +
+> ++#ifdef SYSTEMD_NOTIFY
+> ++void ssh_systemd_notify_ready(void);
+> ++void ssh_systemd_notify_reload(void);
+> ++#endif
+> ++
+> + #endif /* ! _PORT_LINUX_H */
+> +diff --git a/platform.c b/platform.c
+> +index 4fe8744ee..9cf818153 100644
+> +--- a/platform.c
+> ++++ b/platform.c
+> +@@ -44,6 +44,14 @@ platform_pre_listen(void)
+> + #endif
+> + }
+> +
+> ++void
+> ++platform_post_listen(void)
+> ++{
+> ++#ifdef SYSTEMD_NOTIFY
+> ++      ssh_systemd_notify_ready();
+> ++#endif
+> ++}
+> ++
+> + void
+> + platform_pre_fork(void)
+> + {
+> +@@ -55,6 +63,9 @@ platform_pre_fork(void)
+> + void
+> + platform_pre_restart(void)
+> + {
+> ++#ifdef SYSTEMD_NOTIFY
+> ++      ssh_systemd_notify_reload();
+> ++#endif
+> + #ifdef LINUX_OOM_ADJUST
+> +       oom_adjust_restore();
+> + #endif
+> +diff --git a/platform.h b/platform.h
+> +index 7fef8c983..5dec23276 100644
+> +--- a/platform.h
+> ++++ b/platform.h
+> +@@ -21,6 +21,7 @@
+> + void platform_pre_listen(void);
+> + void platform_pre_fork(void);
+> + void platform_pre_restart(void);
+> ++void platform_post_listen(void);
+> + void platform_post_fork_parent(pid_t child_pid);
+> + void platform_post_fork_child(void);
+> + int  platform_privileged_uidswap(void);
+> +diff --git a/sshd.c b/sshd.c
+> +index b4f2b9742..865331b46 100644
+> +--- a/sshd.c
+> ++++ b/sshd.c
+> +@@ -2077,6 +2077,8 @@ main(int ac, char **av)
+> +               ssh_signal(SIGTERM, sigterm_handler);
+> +               ssh_signal(SIGQUIT, sigterm_handler);
+> +
+> ++              platform_post_listen();
+> ++
+> +               /*
+> +                * Write out the pid file after the sigterm handler
+> +                * is setup and the listen sockets are bound
+> +--
+> +2.45.2
+> +
+> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-o=
+ptional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/ope=
+nssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
+> deleted file mode 100644
+> index f079d936a4..0000000000
+> --- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional=
+-support-for-systemd-sd_notify.patch
+> +++ /dev/null
+> @@ -1,96 +0,0 @@
+> -From b02ef7621758f06eb686ef4f620636dbad086eda Mon Sep 17 00:00:00 2001
+> -From: Matt Jolly <Matt.Jolly@footclan.ninja>
+> -Date: Thu, 2 Feb 2023 21:05:40 +1100
+> -Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
+> -
+> -This is a rebase of Dennis Lamm's <expeditioneer@gentoo.org>
+> -patch based on Jakub Jelen's <jjelen@redhat.com> original patch
+> -
+> -Upstream-Status: Submitted [https://github.com/openssh/openssh-portable/=
+pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
+> -
+> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ----
+> - configure.ac | 24 ++++++++++++++++++++++++
+> - sshd.c       | 13 +++++++++++++
+> - 2 files changed, 37 insertions(+)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 82e8bb7..d1145d3 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -4870,6 +4870,29 @@ AC_SUBST([GSSLIBS])
+> - AC_SUBST([K5LIBS])
+> - AC_SUBST([CHANNELLIBS])
+> -
+> -+# Check whether user wants systemd support
+> -+SYSTEMD_MSG=3D"no"
+> -+AC_ARG_WITH(systemd,
+> -+      [  --with-systemd          Enable systemd support],
+> -+      [ if test "x$withval" !=3D "xno" ; then
+> -+              AC_PATH_TOOL([PKGCONFIG], [pkg-config], [no])
+> -+              if test "$PKGCONFIG" !=3D "no"; then
+> -+                      AC_MSG_CHECKING([for libsystemd])
+> -+                      if $PKGCONFIG --exists libsystemd; then
+> -+                              SYSTEMD_CFLAGS=3D`$PKGCONFIG --cflags lib=
+systemd`
+> -+                              SYSTEMD_LIBS=3D`$PKGCONFIG --libs libsyst=
+emd`
+> -+                              CPPFLAGS=3D"$CPPFLAGS $SYSTEMD_CFLAGS"
+> -+                              SSHDLIBS=3D"$SSHDLIBS $SYSTEMD_LIBS"
+> -+                              AC_MSG_RESULT([yes])
+> -+                              AC_DEFINE(HAVE_SYSTEMD, 1, [Define if you=
+ want systemd support.])
+> -+                              SYSTEMD_MSG=3D"yes"
+> -+                      else
+> -+                              AC_MSG_RESULT([no])
+> -+                      fi
+> -+              fi
+> -+      fi ]
+> -+)
+> -+
+> - # Looking for programs, paths and files
+> -
+> - PRIVSEP_PATH=3D/var/empty
+> -@@ -5688,6 +5711,7 @@ echo "                   libldns support: $LDNS_MS=
+G"
+> - echo "  Solaris process contract support: $SPC_MSG"
+> - echo "           Solaris project support: $SP_MSG"
+> - echo "         Solaris privilege support: $SPP_MSG"
+> -+echo "                   systemd support: $SYSTEMD_MSG"
+> - echo "       IP address in \$DISPLAY hack: $DISPLAY_HACK_MSG"
+> - echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
+> - echo "                  BSD Auth support: $BSD_AUTH_MSG"
+> -diff --git a/sshd.c b/sshd.c
+> -index b4f2b97..6820a41 100644
+> ---- a/sshd.c
+> -+++ b/sshd.c
+> -@@ -88,6 +88,10 @@
+> - #include <prot.h>
+> - #endif
+> -
+> -+#ifdef HAVE_SYSTEMD
+> -+#include <systemd/sd-daemon.h>
+> -+#endif
+> -+
+> - #include "xmalloc.h"
+> - #include "ssh.h"
+> - #include "ssh2.h"
+> -@@ -308,6 +312,10 @@ static void
+> - sighup_restart(void)
+> - {
+> -       logit("Received SIGHUP; restarting.");
+> -+#ifdef HAVE_SYSTEMD
+> -+      /* Signal systemd that we are reloading */
+> -+      sd_notify(0, "RELOADING=3D1");
+> -+#endif
+> -       if (options.pid_file !=3D NULL)
+> -               unlink(options.pid_file);
+> -       platform_pre_restart();
+> -@@ -2093,6 +2101,11 @@ main(int ac, char **av)
+> -                       }
+> -               }
+> -
+> -+#ifdef HAVE_SYSTEMD
+> -+              /* Signal systemd that we are ready to accept connections=
+ */
+> -+              sd_notify(0, "READY=3D1");
+> -+#endif
+> -+
+> -               /* Accept a connection and return in a forked child */
+> -               server_accept_loop(&sock_in, &sock_out,
+> -                   &newsock, config_s);
+> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.service b/met=
+a/recipes-connectivity/openssh/openssh/sshd.service
+> index 3e570ab1e5..c71fff1cc1 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/sshd.service
+> +++ b/meta/recipes-connectivity/openssh/openssh/sshd.service
+> @@ -5,11 +5,11 @@ After=3Dsshdgenkeys.service
+>  After=3Dnss-user-lookup.target
+>
+>  [Service]
+> +Type=3Dnotify-reload
+>  Environment=3D"SSHD_OPTS=3D"
+>  EnvironmentFile=3D-/etc/default/ssh
+>  ExecStartPre=3D@BASE_BINDIR@/mkdir -p /var/run/sshd
+>  ExecStart=3D-@SBINDIR@/sshd -D $SSHD_OPTS
+> -ExecReload=3D@BASE_BINDIR@/kill -HUP $MAINPID
+>  KillMode=3Dprocess
+>  Restart=3Don-failure
+>  RestartSec=3D42s
+> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/me=
+ta/recipes-connectivity/openssh/openssh/sshd@.service
+> index 9d9965e624..dcfec8f054 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
+> +++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
+> @@ -3,6 +3,7 @@ Description=3DOpenSSH Per-Connection Daemon
+>  After=3Dsshdgenkeys.service
+>
+>  [Service]
+> +Type=3Dnotify-reload
+>  Environment=3D"SSHD_OPTS=3D"
+>  EnvironmentFile=3D-/etc/default/ssh
+>  ExecStart=3D-@SBINDIR@/sshd -i $SSHD_OPTS
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb b/meta/re=
+cipes-connectivity/openssh/openssh_9.7p1.bb
+> index 4f20616295..4680d12be5 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.7p1.bb
+> @@ -24,7 +24,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH=
+/portable/openssh-${PV}.tar
+>             file://run-ptest \
+>             file://sshd_check_keys \
+>             file://0001-regress-banner.sh-log-input-and-output-files-on-e=
+rro.patch \
+> -           file://0001-systemd-Add-optional-support-for-systemd-sd_notif=
+y.patch \
+> +           file://0001-notify-systemd-on-listen-and-reload.patch \
+>             file://CVE-2024-6387.patch \
+>             "
+>  SRC_URI[sha256sum] =3D "490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2=
+e57dc5660f773ffd"
+> @@ -52,7 +52,6 @@ SYSTEMD_PACKAGES =3D "${PN}-sshd"
+>  SYSTEMD_SERVICE:${PN}-sshd =3D "${@bb.utils.contains('PACKAGECONFIG','sy=
+stemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAG=
+ECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
+>
+>  inherit autotools-brokensep ptest pkgconfig
+> -DEPENDS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'system=
+d', '', d)}"
+>
+>  # systemd-sshd-socket-mode means installing sshd.socket
+>  # and systemd-sshd-service-mode corresponding to sshd.service
+> @@ -78,7 +77,6 @@ EXTRA_OECONF =3D "'LOGIN_PROGRAM=3D${base_bindir}/login=
+' \
+>                  --sysconfdir=3D${sysconfdir}/ssh \
+>                  --with-xauth=3D${bindir}/xauth \
+>                  --disable-strip \
+> -                ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--wi=
+th-systemd', '--without-systemd', d)} \
+>                  "
+>
+>  # musl doesn't implement wtmp/utmp and logwtmp
+> --
+> 2.45.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202116): https://lists.openembedded.org/g/openembedde=
+d-core/message/202116
+> Mute This Topic: https://lists.openembedded.org/mt/107252588/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
