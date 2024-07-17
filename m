@@ -2,130 +2,138 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05BDCC3DA60
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 18:22:51 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.320.1721240561767405306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DDBC3DA63
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 18:22:50 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.321.1721240562408722317
  for <openembedded-core@lists.openembedded.org>;
  Wed, 17 Jul 2024 11:22:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EMv6eiVC;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so14701fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 11:22:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BqGHU/qC;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3683329f787so5223f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 11:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721240559; x=1721845359; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vXI9Aog+t6CCsaSLBhYJScPX0YQX6T/lzu75FrjzTRI=;
-        b=EMv6eiVCJQ10qsXeAWNtW8faS0Hy9mO4AN6vIUq5Oainkxv2SjZPIXqBtaWyU8O0nO
-         VCRLXyTBE01ecoLFB3aVhfn/FhaA8L8QFP10iXBJKhbcq4AMiaLsSFk5TYj72ZgCDpQF
-         ygAWIZ85sj2Rn34OV2QX/KAxXurfyXcLYRwI9hhta5fRxoru6G6Yrz5RoPJFahKpKrB6
-         wpesf9S+9LEawmCYTBMyBZGn32fSr7iMImCGWteLGktpNcLYBJulY/EAj2//WGMC9zXE
-         nW30bNhpVmbyIRl93M3crdw+x5lLnK7N1mThVC4sTmzZ3CBkt0W/HwijvnO5GRLqurCU
-         2Kwg==
+        d=gmail.com; s=20230601; t=1721240561; x=1721845361; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fd9F+oHepi4Po6B9jzD0FE/KVTJ11qgndkEoPu+clp0=;
+        b=BqGHU/qCIPaZQ/9vCR3EkVXCdX0PUP0E92oUHH7XURTagqUNjl0WABCWn9kirHNKiQ
+         DA/Lx2ibHQgR/3lGjs7RNAEeG8vUa+xruT6JZzY5CTgC/ud+ekKA3t50lQlqzelbIyHv
+         g9RLjsuHogt9LHNGqRx44UeENE+soBfaAcpP3fzrnRStvutd0wbrUQjAmB22dKW9WRoJ
+         EEUFO8cb89WiNy8BseLyzt3+scjHqrBO1Vnzdul/51JoqgTLQ3jsWL0LakJT2LS5T0v3
+         Ro8awdlaCuPw+U0CUNPm3nY9Wm39SmqYjAR4Tg+EBs+loVdcbLflomBeSWy+2kafdQdo
+         qHrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721240559; x=1721845359;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vXI9Aog+t6CCsaSLBhYJScPX0YQX6T/lzu75FrjzTRI=;
-        b=lSpYVb1EB4h44UKvm2+lxspBuqiWd6R1f3dh8iBVDQFz6wY1hY4bcRaOCGq2GDN1U5
-         te9bxszWUFaTr2Pyy/cufzINYbeg0oz+Q99lZLQjZ6V/i7pzGkJpGngH2QEXsRSu0NL+
-         jASLitc8Ir1r1BSsXZS2ZC20XFrSCorekj2Hiq0B3Ew6fHHjZxLubNgB3ttUxiuBAptg
-         emP+D/yelARMNaV9gC8RoZvGEGYvUaXRaGex6jnZOLKtcbn9ATNh8le9a1Iltjyx2f/Y
-         I9Dlge43MpoR5FbWb/7JZjGuZm0Ig1NbznklOu/i1yrNfHyOTO/ayFh+7G+LEXf+JJi1
-         6Pew==
-X-Gm-Message-State: AOJu0YzAG81/tn4wwqX40clcDEmiRAJivItlx7xJHLgWtsEXjR6PtcTb
-	ZShYx9UY7Y0P972NQjiXrC7Vc9D9CgC2B7LPDdZoj9p6YEXbUQYci8nEjw==
-X-Google-Smtp-Source: AGHT+IH2WFXH1KfQtQSd3NaDQNlBsxDR1DtVvzla6DTTPwigfDobz1gPXBxuYRTSLAjZ8h1komLWBg==
-X-Received: by 2002:a05:6512:280d:b0:52e:954d:3592 with SMTP id 2adb3069b0e04-52ee5446158mr1629790e87.46.1721240558998;
-        Wed, 17 Jul 2024 11:22:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721240561; x=1721845361;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fd9F+oHepi4Po6B9jzD0FE/KVTJ11qgndkEoPu+clp0=;
+        b=HNMpIaU98sFgio+YHJUuqYRPYuoBYWBK4SdG8ZvDGMaFse2l5eGCQeDU0elX6ox6mh
+         rf8yd2pIqmxudSPKC3pYxW+yXWTGQd7+lKS86zU4IIYi28uKjmsDzxfGzifTAPU0E52I
+         fYxCTXJ/Ec678s7Ij04ZJI0SVTpfdY8Fev7ikfGqxPv1KMEttvO96dmdEgeMpULT/zLo
+         9Zl+Bka3XAJ89gUlvWSAQeB2PGYFOwf2K5lwwJKyKPLY7enFKkgaHotB4NQPPnDYC2bN
+         cLm2nLAALqy7oJ97qw7YgOum/FtvGsc0ifYb6VA6bEWltg5RotrbZtzRXMzItd0Itfut
+         Hk4w==
+X-Gm-Message-State: AOJu0YwP4Lc3RufQ5WIN9vMtFFGvU+d8jZXrTvd6N6DPKrEs1CUVOxNN
+	qlrcDLeVrPxKAoCE6y/oWE6D/IDh/O4GN/bDzbnB1ZxArRVf92CyxcJfrg==
+X-Google-Smtp-Source: AGHT+IFg5q8ikwbh2AVRhRRdMUrdM2SKPzfTzwBZa5hUvGDMvOGLnrROaQF4i+eYhc14AsdhflvotQ==
+X-Received: by 2002:a5d:5f4b:0:b0:368:4492:eca9 with SMTP id ffacd0b85a97d-3684492f176mr748500f8f.20.1721240560766;
+        Wed, 17 Jul 2024 11:22:40 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680db0489csm12421868f8f.104.2024.07.17.11.22.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680db0489csm12421868f8f.104.2024.07.17.11.22.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 11:22:38 -0700 (PDT)
+        Wed, 17 Jul 2024 11:22:40 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/4] lib/oe/recipeutils: return a dict in get_recipe_upgrade_status() instead of a tuple
-Date: Wed, 17 Jul 2024 20:22:13 +0200
-Message-Id: <20240717182216.1661015-1-alex.kanavin@gmail.com>
+Subject: [PATCH 4/4] devtool/upgrade: use PN instead of BPN for naming newly created upgraded recipes
+Date: Wed, 17 Jul 2024 20:22:16 +0200
+Message-Id: <20240717182216.1661015-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240717182216.1661015-1-alex.kanavin@gmail.com>
+References: <20240717182216.1661015-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 18:22:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202173
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 18:22:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202175
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Putting various things in a tuple is an anti-pattern of sorts, as the consumers
-have to unpack it into local variables for readability, or access items directly
-with indexes, which makes code pretty much unreadable.
+BPN isn't correct, as it is set to 'cmake' when 'cmake-native' is being upgraded
+(or libva for libva-initial etc.)
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oe/recipeutils.py                 |  2 +-
- meta/lib/oeqa/selftest/cases/distrodata.py |  4 ++--
- scripts/lib/devtool/upgrade.py             | 14 +++++++-------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ scripts/lib/devtool/upgrade.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 2d69a331132..f9d7dfe253a 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -1112,7 +1112,7 @@ def _get_recipe_upgrade_status(data):
-     maintainer = data.getVar('RECIPE_MAINTAINER')
-     no_upgrade_reason = data.getVar('RECIPE_NO_UPDATE_REASON')
- 
--    return (pn, status, cur_ver, next_ver, maintainer, revision, no_upgrade_reason)
-+    return {'pn':pn, 'status':status, 'cur_ver':cur_ver, 'next_ver':next_ver, 'maintainer':maintainer, 'revision':revision, 'no_upgrade_reason':no_upgrade_reason}
- 
- def get_recipe_upgrade_status(recipes=None):
-     pkgs_list = []
-diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
-index ad952c004b5..b60913dbca4 100644
---- a/meta/lib/oeqa/selftest/cases/distrodata.py
-+++ b/meta/lib/oeqa/selftest/cases/distrodata.py
-@@ -22,8 +22,8 @@ class Distrodata(OESelftestTestCase):
- 
-         pkgs = oe.recipeutils.get_recipe_upgrade_status()
- 
--        regressed_failures = [pkg[0] for pkg in pkgs if pkg[1] == 'UNKNOWN_BROKEN']
--        regressed_successes = [pkg[0] for pkg in pkgs if pkg[1] == 'KNOWN_BROKEN']
-+        regressed_failures = [pkg['pn'] for pkg in pkgs if pkg['status'] == 'UNKNOWN_BROKEN']
-+        regressed_successes = [pkg['pn'] for pkg in pkgs if pkg['status'] == 'KNOWN_BROKEN']
-         msg = ""
-         if len(regressed_failures) > 0:
-             msg = msg + """
 diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 8e13833b51c..10b4f8b5ee5 100644
+index 4c268af3a7c..9ec66488516 100644
 --- a/scripts/lib/devtool/upgrade.py
 +++ b/scripts/lib/devtool/upgrade.py
-@@ -659,13 +659,13 @@ def check_upgrade_status(args, config, basepath, workspace):
-     results = oe.recipeutils.get_recipe_upgrade_status(args.recipe)
-     for result in results:
-         # pn, update_status, current, latest, maintainer, latest_commit, no_update_reason
--        if args.all or result[1] != 'MATCH':
--            print("{:25} {:15} {:15} {} {} {}".format(   result[0],
--                                                               result[2],
--                                                               result[1] if result[1] != 'UPDATE' else (result[3] if not result[3].endswith("new-commits-available") else "new commits"),
--                                                               result[4],
--                                                               result[5] if result[5] != 'N/A' else "",
--                                                               "cannot be updated due to: %s" %(result[6]) if result[6] else ""))
-+        if args.all or result['status'] != 'MATCH':
-+            print("{:25} {:15} {:15} {} {} {}".format(   result['pn'],
-+                                                               result['cur_ver'],
-+                                                               result['status'] if result['status'] != 'UPDATE' else (result['next_ver'] if not result['next_ver'].endswith("new-commits-available") else "new commits"),
-+                                                               result['maintainer'],
-+                                                               result['revision'] if result['revision'] != 'N/A' else "",
-+                                                               "cannot be updated due to: %s" %(result['no_upgrade_reason']) if result['no_upgrade_reason'] else ""))
+@@ -76,19 +76,19 @@ def _rename_recipe_dirs(oldpv, newpv, path):
+                         bb.utils.rename(os.path.join(path, oldfile),
+                               os.path.join(path, newfile))
  
- def register_commands(subparsers, context):
-     """Register devtool subcommands from this plugin"""
+-def _rename_recipe_file(oldrecipe, bpn, oldpv, newpv, path):
++def _rename_recipe_file(oldrecipe, pn, oldpv, newpv, path):
+     oldrecipe = os.path.basename(oldrecipe)
+     if oldrecipe.endswith('_%s.bb' % oldpv):
+-        newrecipe = '%s_%s.bb' % (bpn, newpv)
++        newrecipe = '%s_%s.bb' % (pn, newpv)
+         if oldrecipe != newrecipe:
+             shutil.move(os.path.join(path, oldrecipe), os.path.join(path, newrecipe))
+     else:
+         newrecipe = oldrecipe
+     return os.path.join(path, newrecipe)
+ 
+-def _rename_recipe_files(oldrecipe, bpn, oldpv, newpv, path):
++def _rename_recipe_files(oldrecipe, pn, oldpv, newpv, path):
+     _rename_recipe_dirs(oldpv, newpv, path)
+-    return _rename_recipe_file(oldrecipe, bpn, oldpv, newpv, path)
++    return _rename_recipe_file(oldrecipe, pn, oldpv, newpv, path)
+ 
+ def _write_append(rc, srctreebase, srctree, same_dir, no_same_dir, revs, copied, workspace, d):
+     """Writes an append file"""
+@@ -335,19 +335,19 @@ def _add_license_diff_to_recipe(path, diff):
+ def _create_new_recipe(newpv, checksums, srcrev, srcbranch, srcsubdir_old, srcsubdir_new, workspace, tinfoil, rd, license_diff, new_licenses, srctree, keep_failure):
+     """Creates the new recipe under workspace"""
+ 
+-    bpn = rd.getVar('BPN')
+-    path = os.path.join(workspace, 'recipes', bpn)
++    pn = rd.getVar('PN')
++    path = os.path.join(workspace, 'recipes', pn)
+     bb.utils.mkdirhier(path)
+     copied, _ = oe.recipeutils.copy_recipe_files(rd, path, all_variants=True)
+     if not copied:
+-        raise DevtoolError('Internal error - no files were copied for recipe %s' % bpn)
++        raise DevtoolError('Internal error - no files were copied for recipe %s' % pn)
+     logger.debug('Copied %s to %s' % (copied, path))
+ 
+     oldpv = rd.getVar('PV')
+     if not newpv:
+         newpv = oldpv
+     origpath = rd.getVar('FILE')
+-    fullpath = _rename_recipe_files(origpath, bpn, oldpv, newpv, path)
++    fullpath = _rename_recipe_files(origpath, pn, oldpv, newpv, path)
+     logger.debug('Upgraded %s => %s' % (origpath, fullpath))
+ 
+     newvalues = {}
+@@ -610,7 +610,7 @@ def upgrade(args, config, basepath, workspace):
+             license_diff = _generate_license_diff(old_licenses, new_licenses)
+             rf, copied = _create_new_recipe(args.version, checksums, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses, srctree, args.keep_failure)
+         except (bb.process.CmdError, DevtoolError) as e:
+-            recipedir = os.path.join(config.workspace_path, 'recipes', rd.getVar('BPN'))
++            recipedir = os.path.join(config.workspace_path, 'recipes', rd.getVar('PN'))
+             _upgrade_error(e, recipedir, srctree, args.keep_failure)
+         standard._add_md5(config, pn, os.path.dirname(rf))
+ 
 -- 
 2.39.2
 
