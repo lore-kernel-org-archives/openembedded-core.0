@@ -2,63 +2,62 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D63CC3DA42
-	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 07:57:13 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.10092.1721203022814105728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEBEC3DA4B
+	for <webhook@archiver.kernel.org>; Wed, 17 Jul 2024 07:59:43 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.10110.1721203171034892246
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jul 2024 00:57:03 -0700
+ Wed, 17 Jul 2024 00:59:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=psf82CiP;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A0038240004;
-	Wed, 17 Jul 2024 07:57:00 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=UP9Hf1Ar;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E0A2220003;
+	Wed, 17 Jul 2024 07:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1721203021;
+	t=1721203169;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UNgs2bYT2QjQybFHdr1sdRK4VZyxlIbxufS0OLyoj8c=;
-	b=psf82CiPXfjVXXNfJFzW5zLRV9p0h43mGVGEPu2CuUad0huu1sFdPKSeXzRchzWPRLQpcL
-	cIyacROYZVUzrkVMjLP5FDx1RgXc/7rE6IVGBuB0KEnU6VpfiLoHMiqv2iOH5i5KBdbsWi
-	1ksEBvkFK9rJ72iJ+DwuH2rjD1xDgPb2AL7xbW09iy6L0a7gA7ZRv1F7LMQ5vhfes7tTQ+
-	UmMRfls/zcUhk4HBzJQcNeJVsADgNPWOdc6Q7b3ZA/GJlz+iCap4b4LrAGmeF3uGHEC0o/
-	Z44QFmpJY5P7MNFjysb7VjMDi52o7q4Xrf+VIgsiLDwTISFfxsOLY0MFv9xiHQ==
-Date: Wed, 17 Jul 2024 09:57:00 +0200
+	bh=ZKrdBlD9pH4je0xw5wgTj1hKF2axf8O+jI8dX8eu4FA=;
+	b=UP9Hf1ArpcUeAQD2RuKoviN9Co3sOJDao/h6quLmaDbDlUw2Ogbz7ZgclKzSS0kQQqJrju
+	ymS7FOHsEQNloYF69ezVjrEXcYFXavOPx6ueu4cRW5pxUkZ7YrHdqFcARtFMP/ogT2Ym8G
+	7Hzg9Y+YVkmbZy06PxAe/INAnNNRWdYMVYRJzsSwwyaHag6KKOQ6VYgF2QjRBqxBcxIj9c
+	LomSPUivU+kjizGXhD+qxnC4VRrdFNAS787u6m8KqgwB5SEQbZqHczo0OkYbj0wsps5C6F
+	NG5J9Rr2np5tc6Smxn4ZQr7f7xiF6vUKmA25NG+qrXu9E0faS/IFAILAEgf4Pg==
+Date: Wed, 17 Jul 2024 09:59:28 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org,
 	Jose Quaresma <jose.quaresma@foundries.io>
 Subject: Re: [OE-core][PATCH v5 3/3] openssh: upgrade 9.7p1 -> 9.8p1
-Message-ID: <20240717075700774bd475@mail.local>
+Message-ID: <202407170759288fd139d6@mail.local>
 References: <20240716141639.1564355-1-jose.quaresma@foundries.io>
  <20240716141639.1564355-3-jose.quaresma@foundries.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20240716141639.1564355-3-jose.quaresma@foundries.io>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 07:57:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202142
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jul 2024 07:59:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202143
 
-Hello,
+This also break with systemd:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6812/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6636/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/7961/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/8073/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9247/steps/15/logs/stdio
 
-This causes libssh2 ptest failures:
-https://autobuilder.yocto.io/pub/non-release/20240716-73/testresults/qemux86-64-ptest/libssh2.log
-
-START: ptest-runner
-2024-07-16T23:20
-PASS: mansyntax.sh
-PASS: test_simple
-FAIL: test_sshd.test
-DURATION: 14
-
+AssertionError: 3 != 0 : SYSTEMD_BUS_TIMEOUT=240s systemctl status --full --failed 
+� sshd@0-192.168.7.4:22-192.168.7.3:34206.service - OpenSSH Per-Connection Daemon
+     Loaded: loaded (/usr/lib/systemd/system/sshd@.service; static)
+     Active: failed (Result: protocol) since Wed 2024-07-17 00:49:38 UTC; 1min 2s ago
+ Invocation: 601a75c93d4b442b8d14288d46e9c8b3
+   Main PID: 317 (code=exited, status=255/EXCEPTION)
 
 On 16/07/2024 15:16:39+0100, Jose Quaresma wrote:
 > - drop the CVE-2024-6387
