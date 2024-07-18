@@ -1,214 +1,106 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90AF3C3DA49
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 08:00:19 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.10266.1721289615285422506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE9BC3DA60
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 08:09:59 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.10302.1721290193279363941
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jul 2024 01:00:15 -0700
+ Thu, 18 Jul 2024 01:09:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ENONNW3m;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-36786081ac8so338316f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 01:00:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b22G2SRd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-426526d30aaso338905e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 01:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721289614; x=1721894414; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1721290192; x=1721894992; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=MleLGB2KOrMCHYTiEs9RWaURn/2sq7fCooNmCIWW2Wg=;
-        b=ENONNW3meuMOTIShpgIP6Vef/ZF7eko/Zjh6YEjHZOiGZ7b3G6tLzGCLEk6LrsH5lj
-         EO6s1MNIKyLJaHhGO073VQ4NVa+grQEiBqj68E3cPQVqGcrggnlOgJz/BwxVTpKLH3FH
-         gQfQRsqPkCCFL79WIAUS7WpLWsYa+5zlOlAI0Vpm6sBaANhmmdinarzKcOkGsVguIu4K
-         IIT+N0fkzO7/dH6fwhw3OAWSQpgATNpTxvqndR2A9eymj0+6uXXqRqs6Aqa97OYOwS5D
-         faxAK/prZb55YN0f0A+X4nBMY8foHSbV6vN4mVKS0gjcOmEM0s8nnHyQoSoWPDnw60KA
-         qzLg==
+        bh=F5/kx0tEMDeH7egCdujn2NobFanywUuSn0uL5KE65kQ=;
+        b=b22G2SRdfMK0b8Lzjtyl/56hE2X8k9uiLX+lY5Mkj9OQl7npVxVTo3PdZk7LE/Yjnl
+         hKh7fdq1WrqnYyQO2FZh7YBO5xX045BKTkMr416Hv2D5iVMJOf0VVVnu4pjF+bJbVj8Y
+         h0xZegFhOQd9zif2bNOWFPa2S2kZe5zJUrEPQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721289614; x=1721894414;
+        d=1e100.net; s=20230601; t=1721290192; x=1721894992;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=MleLGB2KOrMCHYTiEs9RWaURn/2sq7fCooNmCIWW2Wg=;
-        b=cxyG6NItbohrfc7vsNuwB+74QkhvHLPw7S5ibE3GDta2n4LUpVbfcaLLIisoEDM3bq
-         qNtJ64F40LfDQe6NIRi1VpRe9MGt1KpLAv7/fNd0HQjUBFUKucFGDATpA7NACx+/+y0v
-         JLeMdXsxQXZ4vcBHFdcmFdC2lCRMvscPDpwRxx6XT9/Xn2Sc6CHoHiecL2f3EGmc66bm
-         XfndIPvdgd77WlIKkJlmWigSQRICW9+Q9NnL2ZQrmHHCUgmEdbhVkCSa26RtRrgVYK8s
-         ErtcujeCt32nWZNHjqqEHnmcR052kwmMa+qnIIT+WTdrD7UJm6pMbC7kM8mv3uZtV8U1
-         4E+Q==
-X-Gm-Message-State: AOJu0YxLMLTEpAQK5BNz3PZu50V+y+k04enQIB9tO4tRvAJT/EpvKIBv
-	8cIOMsoUfIPlWCFfhF/J49Q8gZJVRIbz1M9/MyDwu3t5Kx9AP2nW
-X-Google-Smtp-Source: AGHT+IGGNmc+dCz+JAynhMxlLPSnY2mYerrVE6EWBQFqYASiR30fkCvz/31yHGE/tR+qE37EOr3NEA==
-X-Received: by 2002:a5d:4444:0:b0:368:3717:10b3 with SMTP id ffacd0b85a97d-36837171286mr2292525f8f.8.1721289613315;
-        Thu, 18 Jul 2024 01:00:13 -0700 (PDT)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2a3c09csm1221335e9.9.2024.07.18.01.00.12
+        bh=F5/kx0tEMDeH7egCdujn2NobFanywUuSn0uL5KE65kQ=;
+        b=lyUKzHICPUXgfHLcGUZAQPvXDdvN8F3xZl8tuNESgvrGKxPtfaQlO4lzxItkMLp0gA
+         TGFH5VOC2RyI7/6O9oCCjm5kUrnNzCMByHg/hzcgGkwdPdnmvGtqfl3s19LgUqJnAQTM
+         1GTeZvjKHJV/oJmm54NOjXwEqIHa9Ue9yDieC8LpO6AvoqDCb7rpGGUTeatnc67JYEb/
+         DJ39GiRT98dVdyuyNEahh7lIFlkgShfSRZvrSGqe3hkSG0M6AQy/ChzFRrjyOjA/2nz6
+         7cybQuG0SkldR/96u39MaXK0rj88/QXL1Mj+uDveTsX47i7C/fnjRyhyXb2mK99hJnE7
+         yW5g==
+X-Gm-Message-State: AOJu0Yy5R5sdccJsS4I1mqz91NK7YWMNOdaGsRZp0IjlWAQK6xnGL6Ho
+	ukGUZX8TIufhivW7GzHQhxfDMbwC81GFMK0TUD7XSEKvbFq4EFrGi25QKPPjcDu4Von3ja+fuOz
+	d
+X-Google-Smtp-Source: AGHT+IEO7U0Yq6QYL8EMnDmhJ1JwcmcwU32xYqzV9LitgmNnIZg56b/GJOaUcIeIrwQc5wl4clgzpw==
+X-Received: by 2002:a05:600c:4f42:b0:425:649b:60e8 with SMTP id 5b1f17b1804b1-427c2ce4ec2mr28583535e9.18.1721290191611;
+        Thu, 18 Jul 2024 01:09:51 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:490f:365a:34f5:8141? ([2001:8b0:aba:5f3c:490f:365a:34f5:8141])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2b29d68sm285295e9.38.2024.07.18.01.09.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 01:00:12 -0700 (PDT)
-Message-ID: <f8486647cf50da429e45b457e483bb89a2f2a1b6.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/6] Use the kernel from sstate when
- building fitImages
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2024 10:00:12 +0200
-In-Reply-To: <CA+chaQeGeXFd7rH2KjsYdtW50Nnre0DL8ykjjmWSRKNX89OrYg@mail.gmail.com>
-References: <20240715141448.2158477-1-adrian.freihofer@gmail.com>
-	 <50bea4fa4fe781c4b584d746fec34c758d28599f.camel@gmail.com>
-	 <CA+chaQeGeXFd7rH2KjsYdtW50Nnre0DL8ykjjmWSRKNX89OrYg@mail.gmail.com>
+        Thu, 18 Jul 2024 01:09:51 -0700 (PDT)
+Message-ID: <011f18a97cd6ff44e917828739b62eb49efe2ee9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] gcc: remove paths to sysroot from
+ configargs.h and checksum-options for gcc-cross-canadian
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ohnatiuk@cisco.com, Denys Dmytriyenko <denis@denix.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jul 2024 09:09:50 +0100
+In-Reply-To: <SA1PR11MB582845C51666A74D1410542DCBAC2@SA1PR11MB5828.namprd11.prod.outlook.com>
+References: 
+	<CANNYZj8AxXZ2Cpk6DiCo0V8sk7pROD-Rp-WXkUHU5mGmHcK2Qg@mail.gmail.com>
+	 <20240717095606.3572072-1-ohnatiuk@cisco.com>
+	 <20240718002131.GK17572@denix.org>
+	 <SA1PR11MB582845C51666A74D1410542DCBAC2@SA1PR11MB5828.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40app2) 
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 08:00:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202191
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 08:09:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202192
 
-Hi Martin
+On Thu, 2024-07-18 at 07:40 +0000, Oleksandr Hnatiuk via lists.openembedded=
+.org wrote:
+> I am aware of this issue. As stated in my commit, it is designed to
+> improve reproducibility of gcc-cross-canadian as opposed to fully
+> fixing it.
+>=20
+> I have another patch I was going to submit which fully fixes this
+> package by modifying the code of gcc's fixincludes program to not
+> include full source directory, only source file name. However,
+> removing these files entirely as you suggest will also work.
+>=20
+> Of course, it would be best to fix this in code and submit the same
+> patch to gcc upstream to fix this issue for everyone. However, this
+> would take more time and require us to maintain another patch in
+> openembedded-core. Not sure which approach is preferred in OE.
 
-Thank you for looking at my patches.
+We've now worked out why we didn't see this in our CI and have patches
+to fix that but that does mean we need the patches to fix this error
+more urgently! If you have something please do send it as I was
+thinking I might have to look at this today.
 
-On Mon, 2024-07-15 at 16:32 +0200, Martin Jansa wrote:
-> Doesn't it still rebuild from scratch when IMAGE_VERSION_SUFFIX
-> changes?
+Ideally we'd fix this with something acceptable to upstream, they'd
+take that and then we'd drop our changes next time we upgrade gcc.
+Maintaining a backported patch is fine, it is the ones that never get
+discussed with upstream we've been pushing back against.
 
-I wonder why this happens in WebOS. I think that this line
-kernel_do_deploy[vardepsexclude] =3D "DATETIME"
-prevents such unnecessary rebuilds.
+Re: deleting the files, the question is whether they're being used. If
+they are, we need to keep them. If they are never used, they could be
+deleted. I don't know which is the case here.
 
-So far we haven't had any problems with rebuilding kernels. The trouble
-started when we started using fitImages with initramfs for some
-devices.=C2=A0It is also worth noting that we build from sstate, but with a=
-n
-empty TMPDIR.
+Cheers,
 
-In such a scenario bitbake does:
+Richard
 
- * The initramfs gets assembled. This is expected because images are
-   not sstate cached. This runs quickly because all the packages which
-   are required to build the initramfs come from sstate-cache.
- * Since the initramfs changes, the fitImage which includes it must be
-   re-assembled as well.
- * Now the hassle starts: The do_assemble_fitimage_initramfs needs the
-   kernel binaries (linux.bin, DTBs...) which are not available from
-   sttate. Bitbake has to start with kernel do_fetch in case of an
-   empty TMPDIR just to get the fitImage assembled.
-
-With my patches the kernel binaries used for the fitImage come from
-sstate (if the initramfs is not bundled).
-
-I tested this like that:
-
-cat build/conf/local.conf
-
-KERNEL_IMAGETYPE =3D "Image"
-KERNEL_IMAGETYPES +=3D " fitImage "
-KERNEL_CLASSES =3D " kernel-fitimage "and RAM disk
-IMAGE_FSTYPES +=3D "cpio.gz"
-INITRAMFS_IMAGE =3D "core-image-minimal"
-IMAGE_NAME_SUFFIX:pn-core-image-minimal =3D ""
-UBOOT_RD_LOADADDRESS =3D "0x88000000"
-UBOOT_RD_ENTRYPOINT =3D "0x88000000"
-UBOOT_LOADADDRESS =3D "0x80080000"
-UBOOT_ENTRYPOINT =3D "0x80080000"
-FIT_DESC =3D "A model description"
-
-# Allow to change the initramfs
-FOO_VAR =3D "1"
-INHERIT +=3D "image-buildinfo"
-IMAGE_BUILDINFO_VARS:append =3D " FOO_VAR"
-
-
-bitbake virtual/kernel
-
-mv build/tmp build/tmp-old-1
-
-bitbake virtual/kernel
--> bitbake does:
-- setscene tasks
-- core-image-minimal do_rootfs ...
-- kernel do_deploy (from sstate)
-- kernel do_deploy_fitimage_unbundled
-
-
-bitbake virtual/kernel
--> bitbake does: nothing
-
-
-# Enforce a re-build of the initramfs
-mv build/tmp build/tmp-old-2
-echo 'FOO_VAR =3D "1"' >> build/conf/local.conf
-
-bitbake virtual/kernel
--> bitbake does:
-- setscene tasks
-- core-image-minimal do_rootfs ...
-- kernel do_deploy (from sstate)
-- kernel do_deploy_fitimage_unbundled
-
-
-bitbake virtual/kernel
--> bitbake does: nothing
-
-
-diff \
-<(ls build/tmp-old-2/deploy/images/qemux86-64 -1) \
-<(ls build/tmp/deploy/images/qemux86-64/ -1)
-4,10c4,10
-< core-image-minimal-qemux86-64-20240718065105.cpio.gz
-< core-image-minimal-qemux86-64-20240718065105.ext4
-< core-image-minimal-qemux86-64-20240718065105.manifest
-< core-image-minimal-qemux86-64-20240718065105.qemuboot.conf
-< core-image-minimal-qemux86-64-20240718065105.spdx.tar.zst
-< core-image-minimal-qemux86-64-20240718065105.tar.bz2
-< core-image-minimal-qemux86-64-20240718065105.testdata.json
----
-> core-image-minimal-qemux86-64-20240718073341.cpio.gz
-> core-image-minimal-qemux86-64-20240718073341.ext4
-> core-image-minimal-qemux86-64-20240718073341.manifest
-> core-image-minimal-qemux86-64-20240718073341.qemuboot.conf
-> core-image-minimal-qemux86-64-20240718073341.spdx.tar.zst
-> core-image-minimal-qemux86-64-20240718073341.tar.bz2
-> core-image-minimal-qemux86-64-20240718073341.testdata.json
-20c20
-< fitImage-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
-20240718065105.bin
----
-> fitImage-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
-20240718073341.bin
-22c22
-< fitImage-its-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
-20240718065105.its
----
-> fitImage-its-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
-20240718073341.its
-
-
-
-The answer is then: No it does not re-build. At least not in the
-scenario which I would like to fix it, it does not rebuild from
-scratch.
-
-Does that make sense?
-
-Regards,
-Adrian
-
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#201933):
-> > https://lists.openembedded.org/g/openembedded-core/message/201933
-> > Mute This Topic:
-> > https://lists.openembedded.org/mt/107231736/3617156
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> > martin.jansa@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
 
 
