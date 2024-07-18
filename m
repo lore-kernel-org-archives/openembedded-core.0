@@ -1,191 +1,66 @@
-Return-Path: <denis@denix.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 793D3C3DA5D
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 02:15:27 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.6499.1721268925035958105
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5FBC3DA5D
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 03:29:47 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web11.7417.1721273380140618386
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jul 2024 19:15:26 -0700
+ Wed, 17 Jul 2024 20:29:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 3E34D40BEC;
-	Thu, 18 Jul 2024 02:15:24 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DPboI_iGtz0C; Thu, 18 Jul 2024 02:15:24 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 0880D40B66;
-	Thu, 18 Jul 2024 02:15:21 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 1D5FB163FFB; Wed, 17 Jul 2024 22:15:21 -0400 (EDT)
-Date: Wed, 17 Jul 2024 22:15:21 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: ohnatiuk@cisco.com, Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] gcc: remove paths to sysroot from
- configargs.h and checksum-options for gcc-cross-canadian
-Message-ID: <20240718021521.GL17572@denix.org>
-References: <CANNYZj8AxXZ2Cpk6DiCo0V8sk7pROD-Rp-WXkUHU5mGmHcK2Qg@mail.gmail.com>
- <20240717095606.3572072-1-ohnatiuk@cisco.com>
- <17E326C1F13DA2A9.25516@lists.openembedded.org>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd86.aul.t-online.de (fwd86.aul.t-online.de [10.223.144.112])
+	by mailout08.t-online.de (Postfix) with SMTP id 400C511D46
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 05:29:38 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.40.87]) by fwd86.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1sUHpp-1NxhvF0; Thu, 18 Jul 2024 05:29:37 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] libdrm: update 2.4.120 -> 2.4.122
+Date: Thu, 18 Jul 2024 05:30:48 +0200
+Message-ID: <20240718033048.51090-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17E326C1F13DA2A9.25516@lists.openembedded.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+X-TOI-EXPURGATEID: 150726::1721273377-ADFF9850-D3BBD3AA/0/0 CLEAN NORMAL
+X-TOI-MSGID: 3c3295c5-dadc-440e-ab6e-eb08d9f30b98
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 02:15:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202182
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 03:29:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202183
 
-On Wed, Jul 17, 2024 at 08:21:31PM -0400, Denys Dmytriyenko wrote:
-> FWIW, I'm testing master-next now with your patch applied and I'm also seeing 
-> the same buildpaths QA error in .../include-fixed/pthread.h
-> 
-> ERROR: gcc-cross-canadian-aarch64-14.1.0-r0 do_package_qa: QA Issue: File /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/aarch64-poky-linux/gcc/aarch64-poky-linux/14.1.0/include-fixed/pthread.h in package gcc-cross-canadian-aarch64 contains reference to TMPDIR [buildpaths]
-> ERROR: gcc-cross-canadian-aarch64-14.1.0-r0 do_package_qa: Fatal QA errors were found, failing task.
-> ERROR: Logfile of failure stored in: /OE/poky-master/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gcc-cross-canadian-aarch64/14.1.0/temp/log.do_package_qa.820539
-> ERROR: Task (/OE/poky-master/meta/recipes-devtools/gcc/gcc-cross-canadian_14.1.bb:do_package_qa) failed with exit code '1'
-> 
-> The header file contains this:
-> 
-> /*  DO NOT EDIT THIS FILE.
-> 
->     It has been auto-edited by fixincludes from:
-> 
->         "/OE/poky-master/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gcc-cross-canadian-aarch64/14.1.0/recipe-sysroot/usr/include/pthread.h"
-> 
->     This had to be done to correct non-standard usages in the
->     original, manufacturer supplied header file.  */
-> 
-> Both gcc-target and gcc-cross end up removing this header file:
-> https://git.openembedded.org/openembedded-core/commit/?id=e0af4b2c8f8e29ac6f8eccef401c7c004355359d
-> https://git.openembedded.org/openembedded-core/commit/?id=f0fcaa88b7b2977c2cb35b060747442ee9ff3dcd
-> 
-> I'm not sure if we should do the same for gcc-cross-canadian as well - I'm 
-> trying it locally now...
+This update is required for wlroots 0.18.0 release
 
-Well, similarly pruning include-fixed with find+rm makes all the builds 
-succeed. But I haven't tried using the resulting gcc-canadian-cross yet.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ .../drm/{libdrm_2.4.120.bb =3D> libdrm_2.4.122.bb}                | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.120.bb =3D> libdrm_2.4.122.=
+bb} (97%)
 
-Also, just a nitpick - I noticed the 2 new functions are used from 
-do_compile(), while being added to gcc-configure-common.inc, not 
-gcc-common.inc
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.120.bb b/meta/recipes-g=
+raphics/drm/libdrm_2.4.122.bb
+similarity index 97%
+rename from meta/recipes-graphics/drm/libdrm_2.4.120.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.122.bb
+index 18b3256843..e295f64178 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.120.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.122.bb
+@@ -13,7 +13,7 @@ DEPENDS =3D "libpthread-stubs"
+ SRC_URI =3D "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
+           "
+=20
+-SRC_URI[sha256sum] =3D "3bf55363f76c7250946441ab51d3a6cc0ae518055c0ff017=
+324ab76cdefb327a"
++SRC_URI[sha256sum] =3D "d9f5079b777dffca9300ccc56b10a93588cdfbc9dde2fae1=
+11940dfb6292f251"
+=20
+ inherit meson pkgconfig manpages
+=20
+--=20
+2.45.1
 
-
-> On Wed, Jul 17, 2024 at 02:56:06AM -0700, Oleksandr Hnatiuk via lists.openembedded.org wrote:
-> > Apply fixes from gcc-cross (84a78f46d594 and 0ead8cbdfb96) to gcc-cross-canadian.
-> > This will improve (but not fix) reproducibility of gcc-cross-canadian.
-> > Also move this code to functions to avoid code duplication.
-> > 
-> > Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
-> > ---
-> >  .../gcc/gcc-configure-common.inc              | 19 +++++++++++++++++++
-> >  .../gcc/gcc-cross-canadian.inc                |  3 +++
-> >  meta/recipes-devtools/gcc/gcc-cross.inc       | 15 ++-------------
-> >  meta/recipes-devtools/gcc/gcc-target.inc      | 16 ++--------------
-> >  4 files changed, 26 insertions(+), 27 deletions(-)
-> > 
-> > diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> > index d77b2ec3d1de..c936d1a9bd7b 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> > @@ -120,3 +120,22 @@ do_configure () {
-> >  	oe_runconf
-> >  }
-> >  
-> > +remove_sysroot_paths_from_configargs () {
-> > +	# Prevent sysroot path from being used in configargs.h header, as it will
-> > +	# be rewritten when used by other sysroots preventing support for gcc
-> > +	# plugins. Additionally the path is embeddeded into the output binary, this
-> > +	# prevents building a reproducible binary.
-> > +	oe_runmake configure-gcc
-> > +	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
-> > +	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
-> > +}
-> > +
-> > +remove_sysroot_paths_from_checksum_options () {
-> > +	# Prevent sysroot/workdir paths from being used in checksum-options.
-> > +	# checksum-options is used to generate a checksum which is embedded into
-> > +	# the output binary.
-> > +	oe_runmake TARGET-gcc=checksum-options all-gcc
-> > +	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
-> > +	sed -i 's@${1}@/host@g' ${B}/gcc/checksum-options
-> > +}
-> > +
-> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> > index 7c4233c21157..9528b71272dd 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> > @@ -64,6 +64,9 @@ do_configure () {
-> >  }
-> >  
-> >  do_compile () {
-> > +	remove_sysroot_paths_from_configargs
-> > +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}'
-> > +
-> >  	oe_runmake all-host configure-target-libgcc
-> >  	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
-> >  }
-> > diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-> > index 5b0ca15d4762..f8a7730cf322 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> > @@ -62,19 +62,8 @@ do_compile () {
-> >  	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
-> >  	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
-> >  
-> > -	# Prevent native/host sysroot path from being used in configargs.h header,
-> > -	# as it will be rewritten when used by other sysroots preventing support
-> > -	# for gcc plugins
-> > -	oe_runmake configure-gcc
-> > -	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
-> > -	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
-> > -
-> > -	# Prevent sysroot/workdir paths from being used in checksum-options.
-> > -	# checksum-options is used to generate a checksum which is embedded into
-> > -	# the output binary.
-> > -	oe_runmake TARGET-gcc=checksum-options all-gcc
-> > -	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
-> > -	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/checksum-options
-> > +	remove_sysroot_paths_from_configargs
-> > +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}'
-> >  
-> >  	oe_runmake all-host configure-target-libgcc
-> >  	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
-> > diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-> > index e9187fc444b9..bd7506fe3a55 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> > @@ -132,20 +132,8 @@ FILES:${PN}-doc = "\
-> >  "
-> >  
-> >  do_compile () {
-> > -	# Prevent full target sysroot path from being used in configargs.h header,
-> > -	# as it will be rewritten when used by other sysroots preventing support
-> > -	# for gcc plugins. Additionally the path is embeddeded into the output
-> > -	# binary, this prevents building a reproducible binary.
-> > -	oe_runmake configure-gcc
-> > -	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/configargs.h
-> > -	sed -i 's@${STAGING_DIR_HOST}@/@g' ${B}/gcc/configargs.h
-> > -
-> > -	# Prevent sysroot/workdir paths from being used in checksum-options.
-> > -	# checksum-options is used to generate a checksum which is embedded into
-> > -	# the output binary.
-> > -	oe_runmake TARGET-gcc=checksum-options all-gcc
-> > -	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
-> > -	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/checksum-options
-> > +	remove_sysroot_paths_from_configargs
-> > +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_TARGET}'
-> >  
-> >  	oe_runmake all-host
-> >  }
-> > -- 
-> > 2.35.6
 
