@@ -2,166 +2,141 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41272C3DA49
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 13:45:51 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.15383.1721310350573660454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 232E9C3DA49
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 13:46:01 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.15388.1721310360064708908
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jul 2024 06:45:50 -0700
+ Thu, 18 Jul 2024 06:46:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xpQe8bI+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fbc3a9d23bso6543785ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 06:45:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=E7OD4Pag;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-78964fd9f2dso558851a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 06:46:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721310350; x=1721915150; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y247v4ZfsqHlXJW/wK0/mk8DO7uRaOdcIJbs2pKcp0Y=;
-        b=xpQe8bI+2FsGaaSpL5kuOAXnaokPwwPVoc4I2iLFixnwGi1DmPO/4YAqivySbn02Uw
-         103GUwRbrKU8mO9njwadIZbzOFaJwK5Sl5gySo0JWptrkv0Nx+Okci4STRi+DzlEqsrQ
-         ddKQY6ziRcpye2hyQ3TceTSrWupZD+WZP8h2BYj3my8nrRHFdfKbbZeinLjExdrTbts+
-         Wwhy757MK7wAGBJe9sUp5ygOhTVUyAG6sQrRDNJ6pBn1NVlLweSM0ayy6czfGJ7NC+uD
-         iXRY/YFZmF2CeycHzW9oxds0Oqmhr82zAhu5uqM8tYO/LmrNIpA/ScKFbGbRrTZ/AeJB
-         ex4Q==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721310359; x=1721915159; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DAkNpWnSKRt5BmLxxPwZJSpdZ+nQYkhnAQxi1uErDo0=;
+        b=E7OD4PagIJkKzw0ZZF89KSe7WETkUcG8lOIy8zqDSa6CL0BYrQkmycYDEhf1Amyqg5
+         ne5+qFB1886rGNlky9fL35p/v+tDzuolAuyikbM1wkcoyr7yFqJqIqIYw3Vhli+nBkxk
+         tNEOZapqhRQHv0UxdEyNg2C7jO8RM3uw95V5efSjP0En8XRRsVns61eGmoWNYCeX5JmX
+         68WCAVfvBksA5MCLFf5aLbVl+3YqhAQj0tzfPbpe+60CwRwNwmAy6amd+XMWzwDy6ofg
+         XxtZFGKkIQW63VvK78U0+tChZETReM25c2i+uRJIKFcYrQPUOZSdObz3ytEczhhVW/JM
+         qmSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721310350; x=1721915150;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y247v4ZfsqHlXJW/wK0/mk8DO7uRaOdcIJbs2pKcp0Y=;
-        b=nbwJ2bu/zDNkOq4EbmY3n6bB1f8l54UN0YAEZTaf5cnwE5P+WEgBDqiMrN+1OqIc+z
-         NQZKL3almtcKXU71OGooff5YlIV4mq7cloP0Rep4UQm2oZDWDDMPg8IcijvHj9DoZv8U
-         W4HvW0JUwdDEldpLrzsAGOysVTPgstsUmpoWM8oku9VarrBb6los3hMZokds7dg38oE+
-         Ebobde4f1X9Uax+K8IqjgQKdM2YSeL4bKdKt3j9mGKlc3Pa1ocjrOf0DFivibtQPap2V
-         wzYT4flajnbzmwE8wBm7LRb7BdA9q9Mk0ihcnfatbuUPvZ6DrNJ+9S+4BmqWyrr6eDs0
-         +i8Q==
-X-Gm-Message-State: AOJu0YzSTJTxr8/Ow1yehfdQHDvQfvICUQT0Msjz7ekU7q0034oOu91G
-	8dnLJZQC53OicQxj+4eGgPROwWGJbV7Rw2nu9ZqF8v2qxyE6kSrywLcK2GEjbRaM7WIV/PDkdxN
-	U
-X-Google-Smtp-Source: AGHT+IGJGKG+rtupnT2F3v0+SLyJ5J07vxTICVNHaq93wPKPlnHPcSNv55XPJ9ctv04waWO5Y2UpCA==
-X-Received: by 2002:a17:902:e54e:b0:1fc:4aff:5b46 with SMTP id d9443c01a7336-1fc4e67c6abmr42623165ad.47.1721310349527;
-        Thu, 18 Jul 2024 06:45:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721310359; x=1721915159;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DAkNpWnSKRt5BmLxxPwZJSpdZ+nQYkhnAQxi1uErDo0=;
+        b=cFblZ7M40Qgw1/Uto8fnTiTxBEOYKh+oMX3GzLVSYavHNtTShoo8Aak8u5mSWy61AZ
+         hRnFRgQDecNOBt+hI+zyQUsra10lTQ7Hit63Cvv7hI/FuGIfAKklEbXVZlATB8hO9y1J
+         vjBDraVLH57vK+HEtUieC0rNYezB9rUzAnCDDlfUmBb/6o25mb7o8hcMOb5JKBF0TmvK
+         Gf8rSh9Hc0iUQBG/2eZHvjAkv6aNrmUsqShjaVKSijP8FYSyFP/Kim8YOFTYal0Mprcf
+         tc86rJCoio9SRrfUCKwj58jFtf5VKJYudazjtP9xf4AMx6Cn60EYhcHRmWn01OjYBot1
+         fjOQ==
+X-Gm-Message-State: AOJu0YwCZgqjC46uprISgxC0QXl9TSDO9P/fjRFiE+yJCHv6IaO3QQqa
+	8qsOZan4SqHuKlgrOHaObtqN9msr+195uwHVl+0mJQqX1uQhEBEdwgnOWCBSKPdluo3r85KSIdO
+	C
+X-Google-Smtp-Source: AGHT+IHMgSzBw0I4gANgWSgcoaAT2WYRvJsVES8h8aNs9m4T58WqDbS/cyD5eqmMUo0oLeOgMLjyKw==
+X-Received: by 2002:a05:6a20:d50a:b0:1bd:1d15:f089 with SMTP id adf61e73a8af0-1c3fddf9dd8mr4717054637.54.1721310359050;
+        Thu, 18 Jul 2024 06:45:59 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb6ffbdsm93366985ad.60.2024.07.18.06.45.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fc0bb6ffbdsm93366985ad.60.2024.07.18.06.45.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 06:45:49 -0700 (PDT)
+        Thu, 18 Jul 2024 06:45:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/12] Patch review
-Date: Thu, 18 Jul 2024 06:45:29 -0700
-Message-Id: <cover.1721310237.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/12] openssh: fix CVE-2024-39894
+Date: Thu, 18 Jul 2024 06:45:34 -0700
+Message-Id: <644716564d8c223c71be635e2f1794c74ae23d7f.1721310237.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1721310237.git.steve@sakoman.com>
+References: <cover.1721310237.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 13:45:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202213
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 13:46:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202218
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Monday, July 21
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+ssh(1) in OpenSSH versions 9.5p1 to 9.7p1 (inclusive).
+Logic error in ObscureKeystrokeTiming option.
+A logic error in the implementation of the ssh(1) ObscureKeystrokeTiming option rendered the feature ineffective and additionally exposed limited keystroke timing information when terminal echo was disabled, e.g. while entering passwords to su(8) or sudo(8). This condition could be avoided for affected versions by disabling the feature using ObscureKeystrokeTiming=no.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7150
+References:
+https://www.openssh.com/security.html
+https://www.openssh.com/txt/release-9.8
 
-The following changes since commit bf3fe8c01c5cc00ada22049f4f0abb485e2a626f:
+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/146c420d29d055cc75c8606327a1cf8439fe3a08]
 
-  webkitgtk: fix do_compile errors on beaglebone-yocto (2024-07-13 07:07:10 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Archana Polampalli (1):
-  less: fix CVE-2024-32487
-
-Changqing Li (4):
-  vulkan-samples: fix do_compile error when -Og enabled
-  multilib.conf: remove appending to PKG_CONFIG_PATH
-  gettext: fix a parallel build issue
-  pixman: fixing inline failure with -Og
-
-Deepthi Hemraj (1):
-  binutils: stable 2.42 branch updates
-
-Hitendra Prajapati (1):
-  vte: fix CVE-2024-37535
-
-Jose Quaresma (1):
-  go: upgrade 1.22.4 -> 1.22.5
-
-Peter Marko (2):
-  busybox: Patch CVE-2021-42380
-  busybox: Patch CVE-2023-42363
-
-Steve Sakoman (1):
-  Revert "apt: runtime error: filename too long (tmpdir length)"
-
-Vijay Anusuri (1):
-  openssh: fix CVE-2024-39894
-
- meta/conf/multilib.conf                       |   9 --
- .../openssh/openssh/CVE-2024-39894.patch      |  35 ++++
- .../openssh/openssh_9.6p1.bb                  |   1 +
- ...-fix-segfault-when-compiled-by-clang.patch |  41 +++++
- .../busybox/busybox/CVE-2021-42380.patch      | 151 ++++++++++++++++++
- .../busybox/busybox/CVE-2023-42363.patch      |  67 ++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |   3 +
- ...1-intl-Fix-build-failure-with-make-j.patch |  35 ++++
- meta/recipes-core/gettext/gettext_0.22.5.bb   |   1 +
- ...he-filename-can-t-be-longer-than-255.patch |  40 -----
- meta/recipes-devtools/apt/apt_2.6.1.bb        |   1 -
- .../binutils/binutils-2.42.inc                |   2 +-
- .../go/{go-1.22.4.inc => go-1.22.5.inc}       |   2 +-
- ...e_1.22.4.bb => go-binary-native_1.22.5.bb} |   6 +-
- ..._1.22.4.bb => go-cross-canadian_1.22.5.bb} |   0
- ...{go-cross_1.22.4.bb => go-cross_1.22.5.bb} |   0
- ...osssdk_1.22.4.bb => go-crosssdk_1.22.5.bb} |   0
- ...runtime_1.22.4.bb => go-runtime_1.22.5.bb} |   0
- ...ent-based-hash-generation-less-pedan.patch |  11 +-
- ...OOLDIR-to-be-overridden-in-the-envir.patch |  12 +-
- ...3-ld-add-soname-to-shareable-objects.patch |   9 +-
- ...de-CC-when-building-dist-and-go_boot.patch |  10 +-
- ...dist-separate-host-and-target-builds.patch |   9 +-
- ...d-go-make-GOROOT-precious-by-default.patch |  13 +-
- ...ut-build-specific-paths-from-linker-.patch |  12 +-
- ...ldgo.go-do-not-hardcode-host-compile.patch |  11 +-
- ...uild-paths-on-staticly-linked-arches.patch |   9 +-
- .../go/{go_1.22.4.bb => go_1.22.5.bb}         |   0
- .../less/files/CVE-2024-32487.patch           |  74 +++++++++
- meta/recipes-extended/less/less_643.bb        |   1 +
- ...ce-FORCE_INLINE_TEMPLATE-with-inline.patch |  52 ++++++
- .../vulkan/vulkan-samples_git.bb              |   1 +
- ...loat.c-fix-inlining-failed-in-call-t.patch |  56 +++++++
- .../xorg-lib/pixman_0.42.2.bb                 |   1 +
- .../vte/vte/CVE-2024-37535-01.patch           |  64 ++++++++
- .../vte/vte/CVE-2024-37535-02.patch           |  85 ++++++++++
- meta/recipes-support/vte/vte_0.74.2.bb        |   5 +-
- 37 files changed, 711 insertions(+), 118 deletions(-)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../openssh/openssh/CVE-2024-39894.patch      | 35 +++++++++++++++++++
+ .../openssh/openssh_9.6p1.bb                  |  1 +
+ 2 files changed, 36 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2024-39894.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0001-awk-fix-segfault-when-compiled-by-clang.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2021-42380.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2023-42363.patch
- create mode 100644 meta/recipes-core/gettext/gettext/0001-intl-Fix-build-failure-with-make-j.patch
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-strutl.cc-the-filename-can-t-be-longer-than-255.patch
- rename meta/recipes-devtools/go/{go-1.22.4.inc => go-1.22.5.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.4.bb => go-binary-native_1.22.5.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.4.bb => go-cross-canadian_1.22.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.4.bb => go-cross_1.22.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.4.bb => go-crosssdk_1.22.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.4.bb => go-runtime_1.22.5.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.4.bb => go_1.22.5.bb} (100%)
- create mode 100644 meta/recipes-extended/less/files/CVE-2024-32487.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-zstd.c-replace-FORCE_INLINE_TEMPLATE-with-inline.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-pixman-combine-float.c-fix-inlining-failed-in-call-t.patch
- create mode 100644 meta/recipes-support/vte/vte/CVE-2024-37535-01.patch
- create mode 100644 meta/recipes-support/vte/vte/CVE-2024-37535-02.patch
 
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2024-39894.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2024-39894.patch
+new file mode 100644
+index 0000000000..898295340d
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2024-39894.patch
+@@ -0,0 +1,35 @@
++From 146c420d29d055cc75c8606327a1cf8439fe3a08 Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Mon, 1 Jul 2024 04:31:17 +0000
++Subject: [PATCH] upstream: when sending ObscureKeystrokeTiming chaff packets,
++ we
++
++can't rely on channel_did_enqueue to tell that there is data to send. This
++flag indicates that the channels code enqueued a packet on _this_ ppoll()
++iteration, not that data was enqueued in _any_ ppoll() iteration in the
++timeslice. ok markus@
++
++OpenBSD-Commit-ID: 009b74fd2769b36b5284a0188ade182f00564136
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/openssh/tree/debian/patches/CVE-2024-39894.patch?h=ubuntu/noble-security
++Upstream commit https://github.com/openssh/openssh-portable/commit/146c420d29d055cc75c8606327a1cf8439fe3a08]
++CVE: CVE-2024-39894
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ clientloop.c | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
++
++--- a/clientloop.c
+++++ b/clientloop.c
++@@ -612,8 +612,9 @@ obfuscate_keystroke_timing(struct ssh *s
++ 		if (timespeccmp(&now, &chaff_until, >=)) {
++ 			/* Stop if there have been no keystrokes for a while */
++ 			stop_reason = "chaff time expired";
++-		} else if (timespeccmp(&now, &next_interval, >=)) {
++-			/* Otherwise if we were due to send, then send chaff */
+++		} else if (timespeccmp(&now, &next_interval, >=) &&
+++		    !ssh_packet_have_data_to_write(ssh)) {
+++			/* If due to send but have no data, then send chaff */
++ 			if (send_chaff(ssh))
++ 				nchaff++;
++ 		}
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index 3cdf0327b0..8bc4f4269a 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -28,6 +28,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
+            file://CVE-2024-6387.patch \
++           file://CVE-2024-39894.patch \
+            "
+ SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
+ 
 -- 
 2.34.1
 
