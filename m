@@ -2,62 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE9BC3DA60
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 08:09:59 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.10302.1721290193279363941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8715C3DA60
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 08:37:09 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.10659.1721291820466606649
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jul 2024 01:09:54 -0700
+ Thu, 18 Jul 2024 01:37:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b22G2SRd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-426526d30aaso338905e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 01:09:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fFw6clEf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-426636ef8c9so383015e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 01:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721290192; x=1721894992; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1721291818; x=1721896618; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=F5/kx0tEMDeH7egCdujn2NobFanywUuSn0uL5KE65kQ=;
-        b=b22G2SRdfMK0b8Lzjtyl/56hE2X8k9uiLX+lY5Mkj9OQl7npVxVTo3PdZk7LE/Yjnl
-         hKh7fdq1WrqnYyQO2FZh7YBO5xX045BKTkMr416Hv2D5iVMJOf0VVVnu4pjF+bJbVj8Y
-         h0xZegFhOQd9zif2bNOWFPa2S2kZe5zJUrEPQ=
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9Aa2zmyhq4NmAvlvoELf4UY7tnZjmUg48YhsUoqrqNA=;
+        b=fFw6clEfv1zMesJ73MZh1eJ5ZmKFcQ3ROD6y2ijmhEXnTKQDyNKhQTo7q2i0MlQiBU
+         pB5H6tOXU9qs9aRDZ2zJ2lQQHT5RFfPs1LzwtbH8n4E8CvvsWqnQ7/oCkbxaWTC53nHh
+         fanILdKA8NhAhwF+4Fx7OkKQ9tNZ/nbnodrGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721290192; x=1721894992;
+        d=1e100.net; s=20230601; t=1721291818; x=1721896618;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F5/kx0tEMDeH7egCdujn2NobFanywUuSn0uL5KE65kQ=;
-        b=lyUKzHICPUXgfHLcGUZAQPvXDdvN8F3xZl8tuNESgvrGKxPtfaQlO4lzxItkMLp0gA
-         TGFH5VOC2RyI7/6O9oCCjm5kUrnNzCMByHg/hzcgGkwdPdnmvGtqfl3s19LgUqJnAQTM
-         1GTeZvjKHJV/oJmm54NOjXwEqIHa9Ue9yDieC8LpO6AvoqDCb7rpGGUTeatnc67JYEb/
-         DJ39GiRT98dVdyuyNEahh7lIFlkgShfSRZvrSGqe3hkSG0M6AQy/ChzFRrjyOjA/2nz6
-         7cybQuG0SkldR/96u39MaXK0rj88/QXL1Mj+uDveTsX47i7C/fnjRyhyXb2mK99hJnE7
-         yW5g==
-X-Gm-Message-State: AOJu0Yy5R5sdccJsS4I1mqz91NK7YWMNOdaGsRZp0IjlWAQK6xnGL6Ho
-	ukGUZX8TIufhivW7GzHQhxfDMbwC81GFMK0TUD7XSEKvbFq4EFrGi25QKPPjcDu4Von3ja+fuOz
-	d
-X-Google-Smtp-Source: AGHT+IEO7U0Yq6QYL8EMnDmhJ1JwcmcwU32xYqzV9LitgmNnIZg56b/GJOaUcIeIrwQc5wl4clgzpw==
-X-Received: by 2002:a05:600c:4f42:b0:425:649b:60e8 with SMTP id 5b1f17b1804b1-427c2ce4ec2mr28583535e9.18.1721290191611;
-        Thu, 18 Jul 2024 01:09:51 -0700 (PDT)
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9Aa2zmyhq4NmAvlvoELf4UY7tnZjmUg48YhsUoqrqNA=;
+        b=hLOGrUflvPd0RrhxkadLQRYfigfru8B7g8y/XEVNDf0Gj6pDD3Hs0zU3pzBNj3K0/J
+         YmHXsq/CJwlE0vpiqCfx8m5v38Io5HSZH0jKgiydmzp/jkzmRKX13WJccS7DB9uOrNQr
+         ksCLhv6Jjl5t7UMafCN+x3xd81BIWvhXtDwImzCV0Zvo3QBFrfxZYwqua3g7g1m2KDfm
+         /xuUwUlmoviRWBUBxtGGud9l/U5CRy0ayk71K5W6S8z0DMkW7Ord4VKUdLnLDwK1yujq
+         FFITTUTbNGZfIZe2/wlXf+UZzn043A/+0kL0rZKYFmE4NI3wVV3HFXoSyLq/wdGINBCy
+         bZ+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVJCBvEVbqOrwQ8NbYNXJcuKpQwa5wch5mFTtubqPguPfk06NY5MpNonTrcB5ro3cvdKLFi/Q6GsrmbrpZQFl7ksk7g8zSJ7nAbEX895xBK8s5gIKU+uhgR
+X-Gm-Message-State: AOJu0YyGgorVY9bhfkLHX1eOJyHS2XD8/EinWYaB8gSZyITSiZ8/kZwV
+	2EF1hVb4VYlU+1J/Lxop8TQ7AIeMTdcyPzVZQsW6vmtCpoPS/AjYzZDuZEMmqV0=
+X-Google-Smtp-Source: AGHT+IE0+Ju17brNPhtsylvcJ9R8G/t8QtjnuMNh4uj248vyk5SFdoevtePFpuWHC+T6byhN2XCQfA==
+X-Received: by 2002:a05:600c:3153:b0:426:5fcf:5e89 with SMTP id 5b1f17b1804b1-427c2d0733cmr27392725e9.33.1721291818410;
+        Thu, 18 Jul 2024 01:36:58 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:490f:365a:34f5:8141? ([2001:8b0:aba:5f3c:490f:365a:34f5:8141])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2b29d68sm285295e9.38.2024.07.18.01.09.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2b18420sm1288065e9.19.2024.07.18.01.36.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 01:09:51 -0700 (PDT)
-Message-ID: <011f18a97cd6ff44e917828739b62eb49efe2ee9.camel@linuxfoundation.org>
+        Thu, 18 Jul 2024 01:36:58 -0700 (PDT)
+Message-ID: <eec760ce10c80b3fc1f3d36858e73d369e7162c5.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v2] gcc: remove paths to sysroot from
  configargs.h and checksum-options for gcc-cross-canadian
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ohnatiuk@cisco.com, Denys Dmytriyenko <denis@denix.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Jul 2024 09:09:50 +0100
-In-Reply-To: <SA1PR11MB582845C51666A74D1410542DCBAC2@SA1PR11MB5828.namprd11.prod.outlook.com>
+To: ohnatiuk@cisco.com, openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2024 09:36:56 +0100
+In-Reply-To: <20240717095606.3572072-1-ohnatiuk@cisco.com>
 References: 
 	<CANNYZj8AxXZ2Cpk6DiCo0V8sk7pROD-Rp-WXkUHU5mGmHcK2Qg@mail.gmail.com>
 	 <20240717095606.3572072-1-ohnatiuk@cisco.com>
-	 <20240718002131.GK17572@denix.org>
-	 <SA1PR11MB582845C51666A74D1410542DCBAC2@SA1PR11MB5828.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.0-1build2 
@@ -65,42 +61,154 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 08:09:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202192
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 08:37:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202193
 
-On Thu, 2024-07-18 at 07:40 +0000, Oleksandr Hnatiuk via lists.openembedded=
+On Wed, 2024-07-17 at 02:56 -0700, Oleksandr Hnatiuk via lists.openembedded=
 .org wrote:
-> I am aware of this issue. As stated in my commit, it is designed to
-> improve reproducibility of gcc-cross-canadian as opposed to fully
-> fixing it.
+> Apply fixes from gcc-cross (84a78f46d594 and 0ead8cbdfb96) to gcc-cross-c=
+anadian.
+> This will improve (but not fix) reproducibility of gcc-cross-canadian.
+> Also move this code to functions to avoid code duplication.
 >=20
-> I have another patch I was going to submit which fully fixes this
-> package by modifying the code of gcc's fixincludes program to not
-> include full source directory, only source file name. However,
-> removing these files entirely as you suggest will also work.
+> Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+> ---
+> =C2=A0.../gcc/gcc-configure-common.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 +++++++++++++++++++
+> =C2=A0.../gcc/gcc-cross-canadian.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
+> =C2=A0meta/recipes-devtools/gcc/gcc-cross.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 15 ++-------------
+> =C2=A0meta/recipes-devtools/gcc/gcc-target.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 16 ++--------------
+> =C2=A04 files changed, 26 insertions(+), 27 deletions(-)
 >=20
-> Of course, it would be best to fix this in code and submit the same
-> patch to gcc upstream to fix this issue for everyone. However, this
-> would take more time and require us to maintain another patch in
-> openembedded-core. Not sure which approach is preferred in OE.
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/re=
+cipes-devtools/gcc/gcc-configure-common.inc
+> index d77b2ec3d1de..c936d1a9bd7b 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -120,3 +120,22 @@ do_configure () {
+> =C2=A0	oe_runconf
+> =C2=A0}
+> =C2=A0
+> +remove_sysroot_paths_from_configargs () {
+> +	# Prevent sysroot path from being used in configargs.h header, as it wi=
+ll
+> +	# be rewritten when used by other sysroots preventing support for gcc
+> +	# plugins. Additionally the path is embeddeded into the output binary, =
+this
+> +	# prevents building a reproducible binary.
+> +	oe_runmake configure-gcc
+> +	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
+> +	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
+> +}
+> +
+> +remove_sysroot_paths_from_checksum_options () {
+> +	# Prevent sysroot/workdir paths from being used in checksum-options.
+> +	# checksum-options is used to generate a checksum which is embedded int=
+o
+> +	# the output binary.
+> +	oe_runmake TARGET-gcc=3Dchecksum-options all-gcc
+> +	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
+> +	sed -i 's@${1}@/host@g' ${B}/gcc/checksum-options
+> +}
+> +
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/reci=
+pes-devtools/gcc/gcc-cross-canadian.inc
+> index 7c4233c21157..9528b71272dd 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -64,6 +64,9 @@ do_configure () {
+> =C2=A0}
+> =C2=A0
+> =C2=A0do_compile () {
+> +	remove_sysroot_paths_from_configargs
+> +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}'
+> +
+> =C2=A0	oe_runmake all-host configure-target-libgcc
+> =C2=A0	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c u=
+nwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
+> =C2=A0}
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devto=
+ols/gcc/gcc-cross.inc
+> index 5b0ca15d4762..f8a7730cf322 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+> @@ -62,19 +62,8 @@ do_compile () {
+> =C2=A0	export CXXFLAGS_FOR_TARGET=3D"${TARGET_CXXFLAGS}"
+> =C2=A0	export LDFLAGS_FOR_TARGET=3D"${TARGET_LDFLAGS}"
+> =C2=A0
+> -	# Prevent native/host sysroot path from being used in configargs.h head=
+er,
+> -	# as it will be rewritten when used by other sysroots preventing suppor=
+t
+> -	# for gcc plugins
+> -	oe_runmake configure-gcc
+> -	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
+> -	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
+> -
+> -	# Prevent sysroot/workdir paths from being used in checksum-options.
+> -	# checksum-options is used to generate a checksum which is embedded int=
+o
+> -	# the output binary.
+> -	oe_runmake TARGET-gcc=3Dchecksum-options all-gcc
+> -	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
+> -	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/checksum-options
+> +	remove_sysroot_paths_from_configargs
+> +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}'
+> =C2=A0
+> =C2=A0	oe_runmake all-host configure-target-libgcc
+> =C2=A0	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c u=
+nwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
+> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devt=
+ools/gcc/gcc-target.inc
+> index e9187fc444b9..bd7506fe3a55 100644
+> --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> @@ -132,20 +132,8 @@ FILES:${PN}-doc =3D "\
+> =C2=A0"
+> =C2=A0
+> =C2=A0do_compile () {
+> -	# Prevent full target sysroot path from being used in configargs.h head=
+er,
+> -	# as it will be rewritten when used by other sysroots preventing suppor=
+t
+> -	# for gcc plugins. Additionally the path is embeddeded into the output
+> -	# binary, this prevents building a reproducible binary.
+> -	oe_runmake configure-gcc
+> -	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/configargs.h
+> -	sed -i 's@${STAGING_DIR_HOST}@/@g' ${B}/gcc/configargs.h
+> -
+> -	# Prevent sysroot/workdir paths from being used in checksum-options.
+> -	# checksum-options is used to generate a checksum which is embedded int=
+o
+> -	# the output binary.
+> -	oe_runmake TARGET-gcc=3Dchecksum-options all-gcc
+> -	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
+> -	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/checksum-options
+> +	remove_sysroot_paths_from_configargs
+> +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_TARGET}'
+> =C2=A0
+> =C2=A0	oe_runmake all-host
+> =C2=A0}
 
-We've now worked out why we didn't see this in our CI and have patches
-to fix that but that does mean we need the patches to fix this error
-more urgently! If you have something please do send it as I was
-thinking I might have to look at this today.
+I think this also causes a reproducibility issue. In testing this patch see=
+med to cause:
 
-Ideally we'd fix this with something acceptable to upstream, they'd
-take that and then we'd drop our changes next time we upgrade gcc.
-Maintaining a backported patch is fine, it is the ones that never get
-discussed with upstream we've been pushing back against.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/5079/ste=
+ps/13/logs/stdio
 
-Re: deleting the files, the question is whether they're being used. If
-they are, we need to keep them. If they are never used, they could be
-deleted. I don't know which is the case here.
+which leads to:
+
+http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20240717-49lmc_9=
+g/packages/diff-html/
+
+which is a difference in EXPORTED_CONST=C2=B7unsigned=C2=B7char=C2=B7execut=
+able_checksum[16].
 
 Cheers,
 
 Richard
-
 
 
