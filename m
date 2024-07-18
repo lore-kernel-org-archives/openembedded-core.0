@@ -1,214 +1,235 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8715C3DA60
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 08:37:09 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.10659.1721291820466606649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A6AC3DA49
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 08:40:19 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.10696.1721292009839991424
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jul 2024 01:37:00 -0700
+ Thu, 18 Jul 2024 01:40:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fFw6clEf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-426636ef8c9so383015e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 01:37:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c/XzuOgZ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52e9a920e73so60873e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 01:40:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721291818; x=1721896618; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1721292008; x=1721896808; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9Aa2zmyhq4NmAvlvoELf4UY7tnZjmUg48YhsUoqrqNA=;
-        b=fFw6clEfv1zMesJ73MZh1eJ5ZmKFcQ3ROD6y2ijmhEXnTKQDyNKhQTo7q2i0MlQiBU
-         pB5H6tOXU9qs9aRDZ2zJ2lQQHT5RFfPs1LzwtbH8n4E8CvvsWqnQ7/oCkbxaWTC53nHh
-         fanILdKA8NhAhwF+4Fx7OkKQ9tNZ/nbnodrGE=
+        bh=wN0IcjSI5h5wuBgThB95tfhAU1Dj1PDUMcCouXIXFnU=;
+        b=c/XzuOgZ5nsTBJus7zxZwpcRGC7xy5HvgrzqzHxGgvz+j6kEJtaFxlOMwMQqRU3NCh
+         mL6EUVy09TTXBk/rnAb0QAs/bc80Dgr8U/9NouNRqOfzuwc0svFffcjiUBgmFJaLPMDF
+         cF/ut78ZPWPH+Egw57Xi0M/Sk/wjJ3FHYTudUF00f70SgOaXpba0vw/VVEzk+E1Chzs6
+         y03PiJQT2S7T2MBqXyoURQ3Qe2td93d+h45rOWPSvssi/UqyP4TFTYucCtN87erWxRKP
+         YKllkdl+mpXBALPfuh/BA1cHaxfFpp55bBACflVxKbPn5feT8L4OXpUoIhnczp0HMf+6
+         BOlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721291818; x=1721896618;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9Aa2zmyhq4NmAvlvoELf4UY7tnZjmUg48YhsUoqrqNA=;
-        b=hLOGrUflvPd0RrhxkadLQRYfigfru8B7g8y/XEVNDf0Gj6pDD3Hs0zU3pzBNj3K0/J
-         YmHXsq/CJwlE0vpiqCfx8m5v38Io5HSZH0jKgiydmzp/jkzmRKX13WJccS7DB9uOrNQr
-         ksCLhv6Jjl5t7UMafCN+x3xd81BIWvhXtDwImzCV0Zvo3QBFrfxZYwqua3g7g1m2KDfm
-         /xuUwUlmoviRWBUBxtGGud9l/U5CRy0ayk71K5W6S8z0DMkW7Ord4VKUdLnLDwK1yujq
-         FFITTUTbNGZfIZe2/wlXf+UZzn043A/+0kL0rZKYFmE4NI3wVV3HFXoSyLq/wdGINBCy
-         bZ+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVJCBvEVbqOrwQ8NbYNXJcuKpQwa5wch5mFTtubqPguPfk06NY5MpNonTrcB5ro3cvdKLFi/Q6GsrmbrpZQFl7ksk7g8zSJ7nAbEX895xBK8s5gIKU+uhgR
-X-Gm-Message-State: AOJu0YyGgorVY9bhfkLHX1eOJyHS2XD8/EinWYaB8gSZyITSiZ8/kZwV
-	2EF1hVb4VYlU+1J/Lxop8TQ7AIeMTdcyPzVZQsW6vmtCpoPS/AjYzZDuZEMmqV0=
-X-Google-Smtp-Source: AGHT+IE0+Ju17brNPhtsylvcJ9R8G/t8QtjnuMNh4uj248vyk5SFdoevtePFpuWHC+T6byhN2XCQfA==
-X-Received: by 2002:a05:600c:3153:b0:426:5fcf:5e89 with SMTP id 5b1f17b1804b1-427c2d0733cmr27392725e9.33.1721291818410;
-        Thu, 18 Jul 2024 01:36:58 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:490f:365a:34f5:8141? ([2001:8b0:aba:5f3c:490f:365a:34f5:8141])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2b18420sm1288065e9.19.2024.07.18.01.36.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 01:36:58 -0700 (PDT)
-Message-ID: <eec760ce10c80b3fc1f3d36858e73d369e7162c5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] gcc: remove paths to sysroot from
- configargs.h and checksum-options for gcc-cross-canadian
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ohnatiuk@cisco.com, openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2024 09:36:56 +0100
-In-Reply-To: <20240717095606.3572072-1-ohnatiuk@cisco.com>
-References: 
-	<CANNYZj8AxXZ2Cpk6DiCo0V8sk7pROD-Rp-WXkUHU5mGmHcK2Qg@mail.gmail.com>
-	 <20240717095606.3572072-1-ohnatiuk@cisco.com>
+        d=1e100.net; s=20230601; t=1721292008; x=1721896808;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wN0IcjSI5h5wuBgThB95tfhAU1Dj1PDUMcCouXIXFnU=;
+        b=O1ZNc0OedO2z+MxohtVvr7l+GeWKSS6IB3eSFXUsa7995OGRiUoc1E21HoPag163qN
+         DsHSkRcae03Yk2+0ZviSbQoqBnoTBrOT7Ur5EGOvTWa8h8DjY6KtLMCtlhnr0ENUUVOF
+         qLrp1gfBpwhz7yfwZbPtaaJTknRuLh4LHYD2PxkPpTXuemINDxU97IJQWC3hw+FAQUpg
+         Cj3gCShBLViTRyO9q0E9wR+Ay2ILDZaF+xbg6IBVoc5aKbNP0J/nYbD2wOl9MSHlSxmH
+         gmtmG4Jtb711LoSitPYO2PuHylNwLZhPqtsHXgJZB4bzwEjyhwzDoDB2GdIah7GDABJ4
+         yZ+g==
+X-Gm-Message-State: AOJu0YxKNflAQwGXZKxjMcKEmE38M01+oNulHjZQtWQZ4tB6QSrciIiy
+	qur2HW4ghmpIdvN4MzcghxKe4Bb3vijHdPr0C3M77ezYcpMAk1cIoSHbXSgYgGeNck6P7DXIRLr
+	vd0KUE8cZ+e7roHYvtu+7BghCQeQ=
+X-Google-Smtp-Source: AGHT+IFK7zH9/dNBSSjhQkGIzylibh6v5LmLIyO3bOiqY7h7dia+UYHcVLqgi4+lmYdncicIBrObsm8UtdKBCOJ3VhY=
+X-Received: by 2002:a05:6512:2397:b0:52c:8979:9627 with SMTP id
+ 2adb3069b0e04-52ee53ad335mr3270260e87.3.1721292007253; Thu, 18 Jul 2024
+ 01:40:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240715141448.2158477-1-adrian.freihofer@gmail.com>
+ <50bea4fa4fe781c4b584d746fec34c758d28599f.camel@gmail.com>
+ <CA+chaQeGeXFd7rH2KjsYdtW50Nnre0DL8ykjjmWSRKNX89OrYg@mail.gmail.com> <f8486647cf50da429e45b457e483bb89a2f2a1b6.camel@gmail.com>
+In-Reply-To: <f8486647cf50da429e45b457e483bb89a2f2a1b6.camel@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 18 Jul 2024 10:39:55 +0200
+Message-ID: <CA+chaQfrdAhRKwbEwe+5nRxZ71J6RE4eBLzFNsg-u0FZJS815g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/6] Use the kernel from sstate when building fitImages
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 08:37:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202193
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 08:40:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202194
 
-On Wed, 2024-07-17 at 02:56 -0700, Oleksandr Hnatiuk via lists.openembedded=
-.org wrote:
-> Apply fixes from gcc-cross (84a78f46d594 and 0ead8cbdfb96) to gcc-cross-c=
-anadian.
-> This will improve (but not fix) reproducibility of gcc-cross-canadian.
-> Also move this code to functions to avoid code duplication.
->=20
-> Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
-> ---
-> =C2=A0.../gcc/gcc-configure-common.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 +++++++++++++++++++
-> =C2=A0.../gcc/gcc-cross-canadian.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
-> =C2=A0meta/recipes-devtools/gcc/gcc-cross.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 15 ++-------------
-> =C2=A0meta/recipes-devtools/gcc/gcc-target.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 16 ++--------------
-> =C2=A04 files changed, 26 insertions(+), 27 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/re=
-cipes-devtools/gcc/gcc-configure-common.inc
-> index d77b2ec3d1de..c936d1a9bd7b 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> @@ -120,3 +120,22 @@ do_configure () {
-> =C2=A0	oe_runconf
-> =C2=A0}
-> =C2=A0
-> +remove_sysroot_paths_from_configargs () {
-> +	# Prevent sysroot path from being used in configargs.h header, as it wi=
-ll
-> +	# be rewritten when used by other sysroots preventing support for gcc
-> +	# plugins. Additionally the path is embeddeded into the output binary, =
-this
-> +	# prevents building a reproducible binary.
-> +	oe_runmake configure-gcc
-> +	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
-> +	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
-> +}
-> +
-> +remove_sysroot_paths_from_checksum_options () {
-> +	# Prevent sysroot/workdir paths from being used in checksum-options.
-> +	# checksum-options is used to generate a checksum which is embedded int=
-o
-> +	# the output binary.
-> +	oe_runmake TARGET-gcc=3Dchecksum-options all-gcc
-> +	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
-> +	sed -i 's@${1}@/host@g' ${B}/gcc/checksum-options
-> +}
-> +
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/reci=
-pes-devtools/gcc/gcc-cross-canadian.inc
-> index 7c4233c21157..9528b71272dd 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> @@ -64,6 +64,9 @@ do_configure () {
-> =C2=A0}
-> =C2=A0
-> =C2=A0do_compile () {
-> +	remove_sysroot_paths_from_configargs
-> +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}'
-> +
-> =C2=A0	oe_runmake all-host configure-target-libgcc
-> =C2=A0	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c u=
-nwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
-> =C2=A0}
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devto=
-ols/gcc/gcc-cross.inc
-> index 5b0ca15d4762..f8a7730cf322 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> @@ -62,19 +62,8 @@ do_compile () {
-> =C2=A0	export CXXFLAGS_FOR_TARGET=3D"${TARGET_CXXFLAGS}"
-> =C2=A0	export LDFLAGS_FOR_TARGET=3D"${TARGET_LDFLAGS}"
-> =C2=A0
-> -	# Prevent native/host sysroot path from being used in configargs.h head=
-er,
-> -	# as it will be rewritten when used by other sysroots preventing suppor=
-t
-> -	# for gcc plugins
-> -	oe_runmake configure-gcc
-> -	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
-> -	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
-> -
-> -	# Prevent sysroot/workdir paths from being used in checksum-options.
-> -	# checksum-options is used to generate a checksum which is embedded int=
-o
-> -	# the output binary.
-> -	oe_runmake TARGET-gcc=3Dchecksum-options all-gcc
-> -	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
-> -	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/checksum-options
-> +	remove_sysroot_paths_from_configargs
-> +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}'
-> =C2=A0
-> =C2=A0	oe_runmake all-host configure-target-libgcc
-> =C2=A0	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c u=
-nwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
-> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devt=
-ools/gcc/gcc-target.inc
-> index e9187fc444b9..bd7506fe3a55 100644
-> --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> @@ -132,20 +132,8 @@ FILES:${PN}-doc =3D "\
-> =C2=A0"
-> =C2=A0
-> =C2=A0do_compile () {
-> -	# Prevent full target sysroot path from being used in configargs.h head=
-er,
-> -	# as it will be rewritten when used by other sysroots preventing suppor=
-t
-> -	# for gcc plugins. Additionally the path is embeddeded into the output
-> -	# binary, this prevents building a reproducible binary.
-> -	oe_runmake configure-gcc
-> -	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/configargs.h
-> -	sed -i 's@${STAGING_DIR_HOST}@/@g' ${B}/gcc/configargs.h
-> -
-> -	# Prevent sysroot/workdir paths from being used in checksum-options.
-> -	# checksum-options is used to generate a checksum which is embedded int=
-o
-> -	# the output binary.
-> -	oe_runmake TARGET-gcc=3Dchecksum-options all-gcc
-> -	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
-> -	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/checksum-options
-> +	remove_sysroot_paths_from_configargs
-> +	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_TARGET}'
-> =C2=A0
-> =C2=A0	oe_runmake all-host
-> =C2=A0}
+On Thu, Jul 18, 2024 at 10:00=E2=80=AFAM Adrian Freihofer
+<adrian.freihofer@gmail.com> wrote:
+>
+> Hi Martin
+>
+> Thank you for looking at my patches.
+>
+> On Mon, 2024-07-15 at 16:32 +0200, Martin Jansa wrote:
+> > Doesn't it still rebuild from scratch when IMAGE_VERSION_SUFFIX
+> > changes?
+>
+> I wonder why this happens in WebOS. I think that this line
+> kernel_do_deploy[vardepsexclude] =3D "DATETIME"
+> prevents such unnecessary rebuilds.
 
-I think this also causes a reproducibility issue. In testing this patch see=
-med to cause:
+Hi Adrian,
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/5079/ste=
-ps/13/logs/stdio
+yes DATETIME is excluded by default, but it's useful to use different
+suffix in IMAGE_VERSION_SUFFIX (e.g. BUILD_NUMBER from CI on jenkins
+or release version when building release) and in such cases you don't
+want to vardepexclude it, because it's useful to produce matching
+version in images as well as kernel (and other artifacts you might
+have), so your 1.2.1 release images doesn't end with 1.2.0 kernel
+artifacts just because kernel sstate signature didn't change in 1.2.1
+bugfix release.
 
-which leads to:
+Does this make sense? I bet it would happen in your builds as well.
 
-http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20240717-49lmc_9=
-g/packages/diff-html/
-
-which is a difference in EXPORTED_CONST=C2=B7unsigned=C2=B7char=C2=B7execut=
-able_checksum[16].
+Whole point of:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12937
+is to allow "renaming" (adding more hardlinks) artifacts with matching
+IMAGE_VERSION_SUFFIX without the need of rebuilding anything (e.g.
+version-less kernel artifacts are re-used from sstate and then only
+quick deploy-links task is executed to add right versioned hardlinks
+in deploy directory.)
 
 Cheers,
 
-Richard
-
+> So far we haven't had any problems with rebuilding kernels. The trouble
+> started when we started using fitImages with initramfs for some
+> devices. It is also worth noting that we build from sstate, but with an
+> empty TMPDIR.
+>
+> In such a scenario bitbake does:
+>
+>  * The initramfs gets assembled. This is expected because images are
+>    not sstate cached. This runs quickly because all the packages which
+>    are required to build the initramfs come from sstate-cache.
+>  * Since the initramfs changes, the fitImage which includes it must be
+>    re-assembled as well.
+>  * Now the hassle starts: The do_assemble_fitimage_initramfs needs the
+>    kernel binaries (linux.bin, DTBs...) which are not available from
+>    sttate. Bitbake has to start with kernel do_fetch in case of an
+>    empty TMPDIR just to get the fitImage assembled.
+>
+> With my patches the kernel binaries used for the fitImage come from
+> sstate (if the initramfs is not bundled).
+>
+> I tested this like that:
+>
+> cat build/conf/local.conf
+>
+> KERNEL_IMAGETYPE =3D "Image"
+> KERNEL_IMAGETYPES +=3D " fitImage "
+> KERNEL_CLASSES =3D " kernel-fitimage "and RAM disk
+> IMAGE_FSTYPES +=3D "cpio.gz"
+> INITRAMFS_IMAGE =3D "core-image-minimal"
+> IMAGE_NAME_SUFFIX:pn-core-image-minimal =3D ""
+> UBOOT_RD_LOADADDRESS =3D "0x88000000"
+> UBOOT_RD_ENTRYPOINT =3D "0x88000000"
+> UBOOT_LOADADDRESS =3D "0x80080000"
+> UBOOT_ENTRYPOINT =3D "0x80080000"
+> FIT_DESC =3D "A model description"
+>
+> # Allow to change the initramfs
+> FOO_VAR =3D "1"
+> INHERIT +=3D "image-buildinfo"
+> IMAGE_BUILDINFO_VARS:append =3D " FOO_VAR"
+>
+>
+> bitbake virtual/kernel
+>
+> mv build/tmp build/tmp-old-1
+>
+> bitbake virtual/kernel
+> -> bitbake does:
+> - setscene tasks
+> - core-image-minimal do_rootfs ...
+> - kernel do_deploy (from sstate)
+> - kernel do_deploy_fitimage_unbundled
+>
+>
+> bitbake virtual/kernel
+> -> bitbake does: nothing
+>
+>
+> # Enforce a re-build of the initramfs
+> mv build/tmp build/tmp-old-2
+> echo 'FOO_VAR =3D "1"' >> build/conf/local.conf
+>
+> bitbake virtual/kernel
+> -> bitbake does:
+> - setscene tasks
+> - core-image-minimal do_rootfs ...
+> - kernel do_deploy (from sstate)
+> - kernel do_deploy_fitimage_unbundled
+>
+>
+> bitbake virtual/kernel
+> -> bitbake does: nothing
+>
+>
+> diff \
+> <(ls build/tmp-old-2/deploy/images/qemux86-64 -1) \
+> <(ls build/tmp/deploy/images/qemux86-64/ -1)
+> 4,10c4,10
+> < core-image-minimal-qemux86-64-20240718065105.cpio.gz
+> < core-image-minimal-qemux86-64-20240718065105.ext4
+> < core-image-minimal-qemux86-64-20240718065105.manifest
+> < core-image-minimal-qemux86-64-20240718065105.qemuboot.conf
+> < core-image-minimal-qemux86-64-20240718065105.spdx.tar.zst
+> < core-image-minimal-qemux86-64-20240718065105.tar.bz2
+> < core-image-minimal-qemux86-64-20240718065105.testdata.json
+> ---
+> > core-image-minimal-qemux86-64-20240718073341.cpio.gz
+> > core-image-minimal-qemux86-64-20240718073341.ext4
+> > core-image-minimal-qemux86-64-20240718073341.manifest
+> > core-image-minimal-qemux86-64-20240718073341.qemuboot.conf
+> > core-image-minimal-qemux86-64-20240718073341.spdx.tar.zst
+> > core-image-minimal-qemux86-64-20240718073341.tar.bz2
+> > core-image-minimal-qemux86-64-20240718073341.testdata.json
+> 20c20
+> < fitImage-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
+> 20240718065105.bin
+> ---
+> > fitImage-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
+> 20240718073341.bin
+> 22c22
+> < fitImage-its-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
+> 20240718065105.its
+> ---
+> > fitImage-its-core-image-minimal-qemux86-64--6.6.35+git-r0-qemux86-64-
+> 20240718073341.its
+>
+>
+>
+> The answer is then: No it does not re-build. At least not in the
+> scenario which I would like to fix it, it does not rebuild from
+> scratch.
+>
+> Does that make sense?
+>
+> Regards,
+> Adrian
+>
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#201933):
+> > > https://lists.openembedded.org/g/openembedded-core/message/201933
+> > > Mute This Topic:
+> > > https://lists.openembedded.org/mt/107231736/3617156
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe:
+> > > https://lists.openembedded.org/g/openembedded-core/unsub [
+> > > martin.jansa@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
+>
 
