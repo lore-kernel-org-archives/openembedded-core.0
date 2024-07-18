@@ -2,106 +2,307 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E6CFC3DA49
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 21:59:00 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.5762.1721339933380792516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95F39C3DA61
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 22:25:50 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.6341.1721341544416345040
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jul 2024 14:58:54 -0700
+ Thu, 18 Jul 2024 15:25:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ImTlm/2I;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4DB0820003;
-	Thu, 18 Jul 2024 21:58:50 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=bwHiSOiH;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6BD5EFF807;
+	Thu, 18 Jul 2024 22:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1721339931;
+	t=1721341542;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oaZaMPOuQwkEOSTh+T0bySG5lYmUAM8hMI4aHsWNl9A=;
-	b=ImTlm/2IazPXmDe4/EKGVpTFviZ01N9pxKBQWMTroYSSfFNmLXRwgQXj+OyL7BxXeW58IJ
-	S/sisc6FWfFjnPVngYZjGwXBiL0bz/zzQsKxVG7E2m6VCq+Pb+7vPSc4TXsNvDoX8tMWgT
-	MuIceXsW1BRghQAVGks272mHjmrqcGrqXdraGTLEKXST8Xx0h35PO6Vbo081qj2tmoFCpU
-	0hkOnCB/na5vYLM4HPfJOmVaIqOSIShZCW7AUmw/9NPxt+4/qP1FgAd/2S7zhIX1h+vTaJ
-	x4Hm10LD0lzNUK+zwPB5y8plVy3M7HFzQGn+ILZTsxnXrgagLTJJ3BqS97CL5w==
-Date: Thu, 18 Jul 2024 23:58:49 +0200
+	bh=yqfIgeztpNan4/GVVpxAfBK47A+pB2EZR/bp51K1qFg=;
+	b=bwHiSOiHN6jz7Qp+n0/9/pUvrHHzYrCLTRx5seK2chI2uEv51Xy0RW+JSUN/VmbryQDsT1
+	W3qz2qzffsE8ZjV6kZpuLrEkqtpRhQDJRbadLg7iHi7V+An3QXHX+hGvGbBWTQxbkIeTw/
+	qwuXBSKJxoqai5zU0+GEyx0CBeMcFxNLfmYYok7A0efYOhGuOySm3VnImqBepBZ2UY/TpK
+	d7YkdY/omjonbfwmJk2RfqmWjGg+5/y2RKjMvbxOdgn5kpCMhLxUmlWuS14gliv7i/Weuh
+	JUZ3eclOTFYrMX04OSWm+5KkjV2bjU2wpVPDj8cj2haFDJ/Nil4NobPNb1cqDQ==
+Date: Fri, 19 Jul 2024 00:25:42 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: yoann.congal@smile.fr
-Cc: sundeep.kokkonda@windriver.com,
-	openembedded-core@lists.openembedded.org,
-	randy.macleod@windriver.com, naveen.gowda@windriver.com,
-	shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com,
-	deepthi.hemraj@windriver.com, harish.sadineni@windriver.com
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/reproducibile: rename of
- reproducible directories
-Message-ID: <202407182158492c41de2a@mail.local>
-References: <20240718100440.1555319-1-sundeep.kokkonda@windriver.com>
- <CAMSfU+66tLkOehv29BiAzo5gb+you3tqUWywrTaP9CBaVTmZzA@mail.gmail.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][PATCH] mesa: update 24.0.7 -> 24.1.3
+Message-ID: <20240718222542dff059ea@mail.local>
+References: <20240712094928.66832-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMSfU+66tLkOehv29BiAzo5gb+you3tqUWywrTaP9CBaVTmZzA@mail.gmail.com>
+In-Reply-To: <20240712094928.66832-1-f_l_k@t-online.de>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 21:59:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202238
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 22:25:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202239
 
-On 18/07/2024 12:27:43+0200, Yoann Congal via lists.openembedded.org wrote:
-> Le jeu. 18 juil. 2024 � 12:05, Sundeep KOKKONDA via lists.openembedded.org
-> <sundeep.kokkonda=windriver.com@lists.openembedded.org> a �crit :
+Hello Markus,
+
+Can you rebase on master?
+
+Thanks!
+
+On 12/07/2024 11:49:28+0200, Markus Volk wrote:
+> - Remove two patches that have been merged upstream
+> - Remove 0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+>   Upstream managed to fix this:
+>   https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/meson.build?ref_type=heads#L839
+> - Drop OPENCL_NATIVE since the according option has been removed from meson_options.txt
 > 
-> > From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
-> >
-> > We do see a few reproducible issues are depending on the path length of
-> > the build directory.
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=15554
-> >
-> > The current implementation of reproducible tests having different names
-> > for directories but with same length.
-> > The build directory names are changed to have difefrent lenth.
-> >
-> > Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/reproducible.py | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
-> > b/meta/lib/oeqa/selftest/cases/reproducible.py
-> > index 7c6cf3eb1f..6932b0c2a5 100644
-> > --- a/meta/lib/oeqa/selftest/cases/reproducible.py
-> > +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-> > @@ -276,9 +276,13 @@ class ReproducibleTests(OESelftestTestCase):
-> >              os.chmod(save_dir, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP
-> > | stat.S_IROTH | stat.S_IXOTH)
-> >              self.logger.info('Non-reproducible packages will be copied
-> > to %s', save_dir)
-> >
-> > -        vars_A = self.do_test_build('reproducibleA',
-> > self.build_from_sstate)
-> > +        # The below bug shows that a few reproducible issues are depends
-> > on build dir path length.
-> > +        # https://bugzilla.yoctoproject.org/show_bug.cgi?id=15554
-> > +        # So, the reproducibleA & reproducibleB directories are changed
-> > to reproducible & reproducible-extended to have different size.
-> >
-> > -        vars_B = self.do_test_build('reproducibleB', False)
-> > +        vars_A = self.do_test_build('reproducible',
-> > self.build_from_sstate)
-> > +
-> > +        vars_B = self.do_test_build('reproducible-extended', False)
-> >
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  ...-meson-do-not-pull-in-clc-for-clover.patch | 53 -----------------
+>  .../0001-drisw-fix-build-without-dri3.patch   | 58 -------------------
+>  ...sdetects-64bit-atomics-on-mips-clang.patch |  2 +-
+>  ...on-t-try-zink-if-not-enabled-in-mesa.patch | 42 --------------
+>  .../{mesa-gl_24.0.7.bb => mesa-gl_24.1.3.bb}  |  0
+>  meta/recipes-graphics/mesa/mesa.inc           | 10 +---
+>  .../mesa/{mesa_24.0.7.bb => mesa_24.1.3.bb}   |  0
+>  7 files changed, 4 insertions(+), 161 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+>  delete mode 100644 meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+>  delete mode 100644 meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+>  rename meta/recipes-graphics/mesa/{mesa-gl_24.0.7.bb => mesa-gl_24.1.3.bb} (100%)
+>  rename meta/recipes-graphics/mesa/{mesa_24.0.7.bb => mesa_24.1.3.bb} (100%)
 > 
-> How about "reproducible-sstate" & "reproducible-no-sstate" (diff length but
-> match what happens under the hood) ?
+> diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+> deleted file mode 100644
+> index 1711e22585..0000000000
+> --- a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+> +++ /dev/null
+> @@ -1,53 +0,0 @@
+> -From 051f41beda540f0ae77b341db01a6de83c9e938a Mon Sep 17 00:00:00 2001
+> -From: Markus Volk <f_l_k@t-online.de>
+> -Date: Fri, 8 Mar 2024 15:53:11 +0100
+> -Subject: [PATCH] Revert "meson: do not pull in clc for clover"
+> -
+> -This reverts commit 815a6647eb1383e9dc704ffcc266d85f3b13338a.
+> -Upstream-Status: Inappropriate [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27783/diffs?commit_id=a976f2c9f0c07f9e06cc9affd9124b45bc60c2bd]
+> -
+> -Once the merge request above was added, it will only be possible to provide opencl spir-v with gallium-rusticl=true. This is not yet supported in the mesa recipe.
+> -For now reverting this commit allows to still use clover with opencl-spirv, which would otherwise be broken starting from mesa 24.0.2.
+> -
+> -After it was merged, this patch needs to be removed and rusticl support will be required
+> -
+> -Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ----
+> - meson.build              | 3 ++-
+> - src/compiler/meson.build | 2 +-
+> - 2 files changed, 3 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/meson.build b/meson.build
+> -index 2db6185..741b5d1 100644
+> ---- a/meson.build
+> -+++ b/meson.build
+> -@@ -813,6 +813,7 @@ if _opencl != 'disabled'
+> -     error('The Clover OpenCL state tracker requires rtti')
+> -   endif
+> - 
+> -+  with_clc = true
+> -   with_gallium_opencl = true
+> -   with_opencl_icd = _opencl == 'icd'
+> - else
+> -@@ -837,7 +838,7 @@ if with_gallium_rusticl
+> - endif
+> - 
+> - dep_clc = null_dep
+> --if with_gallium_opencl or with_clc
+> -+if with_clc
+> -   dep_clc = dependency('libclc')
+> - endif
+> - 
+> -diff --git a/src/compiler/meson.build b/src/compiler/meson.build
+> -index 8d73544..1dae56d 100644
+> ---- a/src/compiler/meson.build
+> -+++ b/src/compiler/meson.build
+> -@@ -79,7 +79,7 @@ subdir('nir')
+> - 
+> - subdir('spirv')
+> - 
+> --if with_clc
+> -+if with_opencl_spirv
+> -   subdir('clc')
+> - endif
+> - if with_gallium
+> diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+> deleted file mode 100644
+> index ab16152090..0000000000
+> --- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+> +++ /dev/null
+> @@ -1,58 +0,0 @@
+> -From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
+> -From: Romain Naour <romain.naour@smile.fr>
+> -Date: Tue, 6 Feb 2024 09:47:09 +0100
+> -Subject: [PATCH 1/2] drisw: fix build without dri3
+> -
+> -commit 1887368df41 ("glx/sw: check for modifier support in the kopper path")
+> -added dri3_priv.h header and dri3_check_multibuffer() function in drisw that
+> -can be build without dri3.
+> -
+> -  i686-buildroot-linux-gnu/bin/ld: src/glx/libglx.a.p/drisw_glx.c.o: in function `driswCreateScreenDriver':
+> -  drisw_glx.c:(.text.driswCreateScreenDriver+0x3a0): undefined reference to `dri3_check_multibuffer'
+> -  collect2: error: ld returned 1 exit status
+> -
+> -Add HAVE_DRI3 guard around dri3_priv.h header and the zink code using
+> -dri3_check_multibuffer().
+> -
+> -Fixes: 1887368df41 ("glx/sw: check for modifier support in the kopper path")
+> -
+> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27478]
+> -Signed-off-by: Romain Naour <romain.naour@smile.fr>
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - src/glx/drisw_glx.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/src/glx/drisw_glx.c b/src/glx/drisw_glx.c
+> -index 3d3f752..4b19e2d 100644
+> ---- a/src/glx/drisw_glx.c
+> -+++ b/src/glx/drisw_glx.c
+> -@@ -32,7 +32,9 @@
+> - #include <dlfcn.h>
+> - #include "dri_common.h"
+> - #include "drisw_priv.h"
+> -+#ifdef HAVE_DRI3
+> - #include "dri3_priv.h"
+> -+#endif
+> - #include <X11/extensions/shmproto.h>
+> - #include <assert.h>
+> - #include <vulkan/vulkan_core.h>
+> -@@ -995,6 +997,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
+> -        goto handle_error;
+> -    }
+> - 
+> -+#ifdef HAVE_DRI3
+> -    if (pdpyp->zink) {
+> -       bool err;
+> -       psc->has_multibuffer = dri3_check_multibuffer(priv->dpy, &err);
+> -@@ -1005,6 +1008,7 @@ driswCreateScreenDriver(int screen, struct glx_display *priv,
+> -          goto handle_error;
+> -       }
+> -    }
+> -+#endif
+> - 
+> -    glx_config_destroy_list(psc->base.configs);
+> -    psc->base.configs = configs;
+> --- 
+> -2.44.0
+> -
+> diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+> index baa98a0d46..6b5d5ea1a5 100644
+> --- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+> +++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+> @@ -1,4 +1,4 @@
+> -From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
+> +From 251f18fec005c522d0bf91b36ddbc89d06c86f76 Mon Sep 17 00:00:00 2001
+>  From: Khem Raj <raj.khem@gmail.com>
+>  Date: Mon, 13 Jan 2020 15:23:47 -0800
+>  Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+> diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+> deleted file mode 100644
+> index 036a0b4945..0000000000
+> --- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
+> -From: Romain Naour <romain.naour@smile.fr>
+> -Date: Tue, 6 Feb 2024 09:47:10 +0100
+> -Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
+> -
+> -Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw and sw drivers")
+> -added an automatic zink fallback even when the zink gallium is not
+> -enabled at build time.
+> -
+> -It leads to unexpected error log while loading drisw driver and
+> -zink is not installed on the rootfs:
+> -
+> -  MESA-LOADER: failed to open zink: /usr/lib/dri/zink_dri.so
+> -
+> -Fixes: 7d9ea77b459 ("glx: add automatic zink fallback loading between hw and sw drivers")
+> -
+> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27478]
+> -Signed-off-by: Romain Naour <romain.naour@smile.fr>
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - src/glx/glxext.c | 2 ++
+> - 1 file changed, 2 insertions(+)
+> -
+> -diff --git a/src/glx/glxext.c b/src/glx/glxext.c
+> -index 05c825a..7a06aa9 100644
+> ---- a/src/glx/glxext.c
+> -+++ b/src/glx/glxext.c
+> -@@ -908,9 +908,11 @@ __glXInitialize(Display * dpy)
+> - #endif /* HAVE_DRI3 */
+> -       if (!debug_get_bool_option("LIBGL_DRI2_DISABLE", false))
+> -          dpyPriv->dri2Display = dri2CreateDisplay(dpy);
+> -+#if defined(HAVE_ZINK)
+> -       if (!dpyPriv->dri3Display && !dpyPriv->dri2Display)
+> -          try_zink = !debug_get_bool_option("LIBGL_KOPPER_DISABLE", false) &&
+> -                     !getenv("GALLIUM_DRIVER");
+> -+#endif /* HAVE_ZINK */
+> -    }
+> - #endif /* GLX_USE_DRM */
+> -    if (glx_direct)
+> --- 
+> -2.44.0
+> -
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb b/meta/recipes-graphics/mesa/mesa-gl_24.1.3.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_24.1.3.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 2581ccb120..b403a2481a 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -16,12 +16,9 @@ PE = "2"
+>  
+>  SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>             file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+> -           file://0001-drisw-fix-build-without-dri3.patch \
+> -           file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
+> -           file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+>  "
+>  
+> -SRC_URI[sha256sum] = "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae2c7d96db93f6c26a"
+> +SRC_URI[sha256sum] = "63236426b25a745ba6aa2d6daf8cd769d5ea01887b0745ab7124d2ef33a9020d"
+>  
+>  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>  
+> @@ -142,9 +139,8 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
+>  # "egl" requires "opengl"
+>  PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+>  
+> -# "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
+> -OPENCL_NATIVE = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-Dopencl-native=true', '', d)}"
+> -PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools python3-ply-native"
+> +# "opencl" requires libclc from meta-clang
+> +PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true,-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools python3-ply-native"
+>  
+>  PACKAGECONFIG[broadcom] = ""
+>  PACKAGECONFIG[etnaviv] = ""
+> diff --git a/meta/recipes-graphics/mesa/mesa_24.0.7.bb b/meta/recipes-graphics/mesa/mesa_24.1.3.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa_24.0.7.bb
+> rename to meta/recipes-graphics/mesa/mesa_24.1.3.bb
+> -- 
+> 2.45.2
+> 
 
-This was discussed out of the ML, because we have pids in paths, we need
-more than 3 chars to ensure the difference un path length is not hidden
-again.
-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#201817): https://lists.openembedded.org/g/openembedded-core/message/201817
+> Mute This Topic: https://lists.openembedded.org/mt/107179247/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
 -- 
