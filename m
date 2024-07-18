@@ -1,214 +1,233 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <simit.ghane@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2784AC3DA49
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 10:12:30 +0000 (UTC)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web10.12020.1721297548587853260
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40D13C3DA60
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 10:15:10 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.web11.11994.1721297706276621895
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jul 2024 03:12:28 -0700
+ Thu, 18 Jul 2024 03:15:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GrP4AaAt;
- spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-8100f08b5a8so260111241.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 03:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721297547; x=1721902347; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nFew3TxDVHN8E0DQDQJEvx4Nq+IH/46F5L5EkC0R3co=;
-        b=GrP4AaAtmG3uPF3X8gtmNgK0EucLZkhmUzUPeD9bnOo+jjBIwC/IVWYRWdWw880Fq3
-         qe3IvHI12ZmYVg5xwaI1+vXLM5IqpLrN94dGSEqfkS1OzrNzKXuNSoiYL2QrIeV1GXoH
-         K50Eec+2lm4+W+N/LlFhjtitP5AnetRum4Dp8jB2y7QA0Zi4dlnfOyFoHajAtBJNxQnR
-         mnnrU/f4wbr8r4QUXFoeGvEIMTKxHe2cIgH2DRr+AjJRDDS5MmD5UtDcmCE2rOK4MGkk
-         RQ3S30iwlhaJUxoUHy46RPuy6aTEDD+Ky1OC0FR3paLpT4qipOtwamPfSCS1fj+XkXUL
-         8ieQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721297547; x=1721902347;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nFew3TxDVHN8E0DQDQJEvx4Nq+IH/46F5L5EkC0R3co=;
-        b=Jdy8K9aEbBi+rzlg8DbfvpJGtDZrXck5jd3xfQaf6ydGw4TfASRkLh9nVHrvW0aqVA
-         OzMScSQ7hYH45IE8YC5C80H5hiLUoTV04cRq/mbwhGNWwEiAS96Iii8M3IUpfeQRJd19
-         ivMiRRpBSPqiMnnRlDaZJ085UAyzXpKZoJBysoendw+znKd7IHQJcU7Nw0cjmnWxDKaj
-         bp6qM64hdMtagt69ehVboz1CRHW175KCk4q4v9BcQ1YDPp4uLhSjFBBrLYlUTHp81ha2
-         P281D/AICElt9rWfyg1b2map1L1zmOTcBDrGNsOjZghpJnFxBFed3k1l8RSkIAqL1fer
-         8YvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLO3IB3+mpm2Vvwli7dxWryLQP8XoQOqRX6tHf4T+f5m62p+rIvHavNrkgx8pN1TEg7c7ZTBbr6DgTm/+O1Ft4bevedD6gzuZGjlapWSr456zSMImkUxNj
-X-Gm-Message-State: AOJu0YyG/9sqmStfNkkU6AOPakdwwxMCYst6p0TjYHyD6qea/0r+rJGJ
-	Kw+Pl7CgWJxJ5Tc0ZvYG+nchFXv8oDhL11osg4ifBrhqVLoTRHi2ZRmQW5Mfg1zPMITSKfzQp6E
-	UsVU10TN++AyV2wGqsogOvz/kT1c=
-X-Google-Smtp-Source: AGHT+IFQGrL6JsQwgK8IATry6n8irbl8X4aqrAKa4lAwgpPukGvAzwEmQ+xRZzw9wgApEA67yCiLS9LfO69EFh0tFJ8=
-X-Received: by 2002:a05:6102:809e:b0:48f:ba1e:8ce3 with SMTP id
- ada2fe7eead31-4915976d110mr5847736137.4.1721297547423; Thu, 18 Jul 2024
- 03:12:27 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: simit.ghane@lge.com)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.53 with ESMTP; 18 Jul 2024 19:15:04 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: simit.ghane@lge.com
+Received: from unknown (HELO si-rd23-bld64.lge.net) (10.221.31.64)
+	by 156.147.1.126 with ESMTP; 18 Jul 2024 19:15:03 +0900
+X-Original-SENDERIP: 10.221.31.64
+X-Original-MAILFROM: simit.ghane@lge.com
+From: "simit.ghane" <simit.ghane@lge.com>
+To: openembedded-core@lists.openembedded.org
+Cc: "simit.ghane" <simit.ghane@lge.com>
+Subject: [PATCHv1] libgcrypt: upgrade 1.10.3 -> 1.11.0
+Date: Thu, 18 Jul 2024 15:44:57 +0530
+Message-Id: <20240718101457.4078289-1-simit.ghane@lge.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240307200830.221403-1-emil.kronborg@protonmail.com>
- <856288DD-FACC-45EA-8248-C2FD0EC724C6@arm.com> <s3wfvdgfsf3niuxqr4waflxlwjv3mh7qvlylcqg24k4t2uv35v@65c6olmmmpqq>
-In-Reply-To: <s3wfvdgfsf3niuxqr4waflxlwjv3mh7qvlylcqg24k4t2uv35v@65c6olmmmpqq>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 18 Jul 2024 11:12:16 +0100
-Message-ID: <CANPvuRkMki=YLnKjnFRZ6RVGEtCpKWeCp_S6=JCgve_ch2rn5A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssh: enable sshd.service by default
-To: emil.kronborg@protonmail.com
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ddf72a061d82d013"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 10:12:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202200
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 10:15:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202201
 
---000000000000ddf72a061d82d013
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changelog:
+==========
+- Add Kyber algorithm according to FIPS 203 ipd 2023-08-24
+- Fix AESWRAP padding length check.
 
-Emil Kronborg via lists.openembedded.org <emil.kronborg=3D
-protonmail.com@lists.openembedded.org> escreveu (segunda, 18/03/2024 =C3=A0=
-(s)
-18:55):
+License-Update: Add 3-clause BSD license for poly1305-amd64-avx512.S.
+                Add 'cipher/keccak-amd64-avx512.S'.
+                Update license docs for FSF new address and update gcrypt.texi.
 
-> On Fri, Mar 15, 2024 at 16:09 +0000, Ross Burton wrote:
-> > On 7 Mar 2024, at 20:08, Emil Kronborg via lists.openembedded.org
-> <emil.kronborg=3Dprotonmail.com@lists.openembedded.org> wrote:
-> > >
-> > > Socket activation is prone to DoS (denial of service) because too man=
-y
-> > > connections will permanently deactivate sshd.socket [1]. Also, since
-> > > socket units do not allow setting Restart, accepting new connections
-> can
-> > > fail due to, for example, OOM (out of memory) [2]. Therefore, it seem=
-s
-> > > more sensible to use sshd.service by default and let sshd.socket be a=
-n
-> > > optional choice.
-> >
-> > Counter-argument: this is why it=E2=80=99s a PACKAGECONFIG, and socket
-> activation has the advantage that it makes boots faster.  If DoS is a
-> concern, then the distro can switch trivially to service activated.
-> >
-> > Ross
->
-> Those are fair arguments. What do you think about the situation where
-> sshd.socket becomes disabled, and you are unable to connect? I can see
-> this being a problem for remote boards or boards that are not easily
-> accessible. FWIW, socket activation is disabled by default on Arch Linux
-> and Fedora. I don't have a box running Debian (or any other distros)
-> right now to check those as well.
->
+Apart from upgrade also refreshed the patches like
+0001-libgcrypt-fix-m4-file-for-oe-core.patch
+0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
+no-bench-slope.patch
 
-Gentoo also doesn't have the socket activation option installed.
-I am in favor of merging this change.
+In 0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
+reverted back the change in cipher/Makefile.am related to o_flag_munging
 
-With the new openssh 9.8p1 the systemd service notification doesn't
-work with the "-i" so we can't use that also in socket mode.
+Signed-off-by: simit.ghane <simit.ghane@lge.com>
+---
+ ...01-libgcrypt-fix-m4-file-for-oe-core.patch | 17 ++++++++------
+ ...ilding-error-with-O2-in-sysroot-path.patch | 23 ++++++++++---------
+ .../libgcrypt/files/no-bench-slope.patch      | 12 ++++++----
+ ...ibgcrypt_1.10.3.bb => libgcrypt_1.11.0.bb} |  8 +++----
+ 4 files changed, 34 insertions(+), 26 deletions(-)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.10.3.bb => libgcrypt_1.11.0.bb} (85%)
 
-Jose
-
-
->
-> --
-> Emil Kronborg
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197312):
-> https://lists.openembedded.org/g/openembedded-core/message/197312
-> Mute This Topic: https://lists.openembedded.org/mt/104795507/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000ddf72a061d82d013
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Emil Kronborg via <a href=3D"http://l=
-ists.openembedded.org">lists.openembedded.org</a> &lt;emil.kronborg=3D<a hr=
-ef=3D"mailto:protonmail.com@lists.openembedded.org">protonmail.com@lists.op=
-enembedded.org</a>&gt; escreveu (segunda, 18/03/2024 =C3=A0(s) 18:55):<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, Mar 15, 2024=
- at 16:09 +0000, Ross Burton wrote:<br>
-&gt; On 7 Mar 2024, at 20:08, Emil Kronborg via <a href=3D"http://lists.ope=
-nembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org<=
-/a> &lt;emil.kronborg=3D<a href=3D"mailto:protonmail.com@lists.openembedded=
-.org" target=3D"_blank">protonmail.com@lists.openembedded.org</a>&gt; wrote=
-:<br>
-&gt; &gt;<br>
-&gt; &gt; Socket activation is prone to DoS (denial of service) because too=
- many<br>
-&gt; &gt; connections will permanently deactivate sshd.socket [1]. Also, si=
-nce<br>
-&gt; &gt; socket units do not allow setting Restart, accepting new connecti=
-ons can<br>
-&gt; &gt; fail due to, for example, OOM (out of memory) [2]. Therefore, it =
-seems<br>
-&gt; &gt; more sensible to use sshd.service by default and let sshd.socket =
-be an<br>
-&gt; &gt; optional choice.<br>
-&gt; <br>
-&gt; Counter-argument: this is why it=E2=80=99s a PACKAGECONFIG, and socket=
- activation has the advantage that it makes boots faster.=C2=A0 If DoS is a=
- concern, then the distro can switch trivially to service activated.<br>
-&gt; <br>
-&gt; Ross<br>
-<br>
-Those are fair arguments. What do you think about the situation where<br>
-sshd.socket becomes disabled, and you are unable to connect? I can see<br>
-this being a problem for remote boards or boards that are not easily<br>
-accessible. FWIW, socket activation is disabled by default on Arch Linux<br=
->
-and Fedora. I don&#39;t have a box running Debian (or any other distros)<br=
->
-right now to check those as well.<br></blockquote><div><br></div><div style=
-=3D"color:rgb(0,0,0)">Gentoo also doesn&#39;t have the socket activation op=
-tion installed.<br>I am in favor of merging=C2=A0this change.<br><br>With t=
-he new openssh 9.8p1 the systemd service notification doesn&#39;t</div><div=
- style=3D"color:rgb(0,0,0)">work with the &quot;-i&quot; so we can&#39;t us=
-e that also in socket mode.<br><br></div><div><span style=3D"color:rgb(0,0,=
-0)">Jose</span></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
-<br>
--- <br>
-Emil Kronborg<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#197312): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/197312" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/197312</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104795507/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/104795507/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---000000000000ddf72a061d82d013--
+diff --git a/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch b/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
+index cbfa30f0ad..9615611f6e 100644
+--- a/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
++++ b/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
+@@ -17,13 +17,13 @@ Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+  1 file changed, 4 insertions(+), 86 deletions(-)
+ 
+ diff --git a/src/libgcrypt.m4 b/src/libgcrypt.m4
+-index cd4249e..e53a36f 100644
++index 353df81b6d..b195e22894 100644
+ --- a/src/libgcrypt.m4
+ +++ b/src/libgcrypt.m4
+-@@ -29,41 +29,6 @@ dnl is added to the gpg_config_script_warn variable.
+- dnl
++@@ -116,41 +116,6 @@ dnl
+  AC_DEFUN([AM_PATH_LIBGCRYPT],
+- [ AC_REQUIRE([AC_CANONICAL_HOST])
++ [ AC_REQUIRE([AC_CANONICAL_HOST])dnl
++   AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
+ -  AC_ARG_WITH(libgcrypt-prefix,
+ -            AS_HELP_STRING([--with-libgcrypt-prefix=PFX],
+ -                           [prefix where LIBGCRYPT is installed (optional)]),
+@@ -62,7 +62,7 @@ index cd4249e..e53a36f 100644
+  
+    tmp=ifelse([$1], ,1:1.2.0,$1)
+    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
+-@@ -74,56 +39,13 @@ AC_DEFUN([AM_PATH_LIBGCRYPT],
++@@ -161,56 +126,13 @@ AC_DEFUN([AM_PATH_LIBGCRYPT],
+       min_libgcrypt_version="$tmp"
+    fi
+  
+@@ -122,7 +122,7 @@ index cd4249e..e53a36f 100644
+          if test "$tmp" -gt 0 ; then
+             AC_MSG_CHECKING([LIBGCRYPT API version])
+             if test "$req_libgcrypt_api" -eq "$tmp" ; then
+-@@ -136,11 +58,9 @@ AC_DEFUN([AM_PATH_LIBGCRYPT],
++@@ -223,11 +145,9 @@ AC_DEFUN([AM_PATH_LIBGCRYPT],
+       fi
+    fi
+    if test $ok = yes; then
+@@ -135,7 +135,7 @@ index cd4249e..e53a36f 100644
+      else
+        libgcrypt_config_host=`$LIBGCRYPT_CONFIG --variable=host 2>/dev/null || echo none`
+      fi
+-@@ -158,8 +78,6 @@ AC_DEFUN([AM_PATH_LIBGCRYPT],
++@@ -245,8 +165,6 @@ AC_DEFUN([AM_PATH_LIBGCRYPT],
+        fi
+      fi
+    else
+@@ -144,3 +144,6 @@ index cd4249e..e53a36f 100644
+      ifelse([$3], , :, [$3])
+    fi
+    AC_SUBST(LIBGCRYPT_CFLAGS)
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
+index ea5bba8891..c93c9dad85 100644
+--- a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
++++ b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
+@@ -1,11 +1,9 @@
+-From 7d9817ca935a35fe6c8e2c2c7615825fa08a3a19 Mon Sep 17 00:00:00 2001
++From 5fc6ab73bb077da123a4fbce3169e3dbe25ad46c Mon Sep 17 00:00:00 2001
+ From: "simit.ghane" <simit.ghane@lge.com>
+ Date: Tue, 7 May 2024 14:09:03 +0530
+-Subject: [PATCHV2] Fix building error with '-O2' in sysroot path
++Subject: [PATCH] Fix building error with '-O2' in sysroot path
+ 
+-Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=7d9817ca935a35fe6c8e2c2c7615825fa08a3a19 
+-https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=e96df0c82e086bf348753d2d0fa37fa6191b4b14
+-https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=5afadba008918d651afefb842ae123cc18454c74]
++Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=e96df0c82e086bf348753d2d0fa37fa6191b4b14]
+ 
+ * cipher/Makefile.am (o_flag_munging): Tweak the sed script.
+ * random/Makefile.am (o_flag_munging): Ditto.
+@@ -43,28 +41,31 @@ Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/cipher/Makefile.am b/cipher/Makefile.am
+-index c3d642b2ac..f1c3971c40 100644
++index ea9014cc98..149c9f2101 100644
+ --- a/cipher/Makefile.am
+ +++ b/cipher/Makefile.am
+-@@ -153,7 +153,7 @@ gost-s-box: gost-s-box.c
++@@ -169,7 +169,7 @@ gost-s-box$(EXEEXT_FOR_BUILD): gost-s-box.c
+  
+  
+  if ENABLE_O_FLAG_MUNGING
+--o_flag_munging = sed -e 's/-O\([2-9sgz][2-9sgz]*\)/-O1/' -e 's/-Ofast/-O1/g'
+-+o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
++-o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /' -e 's/[[:blank:]]-Ofast/ -O1 /g'
+++o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
+  else
+  o_flag_munging = cat
+  endif
+ diff --git a/random/Makefile.am b/random/Makefile.am
+-index 0c935a0595..340df38a79 100644
++index c7100ef8b8..a42e430649 100644
+ --- a/random/Makefile.am
+ +++ b/random/Makefile.am
+ @@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy-base-user.h
+  
+  # The rndjent module needs to be compiled without optimization.  */
+  if ENABLE_O_FLAG_MUNGING
+--o_flag_munging = sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-Ofast/-O0/g'
++-o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O0 /' -e 's/[[:blank:]]-Ofast/ -O0 /g'
+ +o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O0 /g' -e 's/[[:blank:]]-Ofast/ -O0 /g'
+  else
+  o_flag_munging = cat
+  endif
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libgcrypt/files/no-bench-slope.patch b/meta/recipes-support/libgcrypt/files/no-bench-slope.patch
+index 8de3c6713b..ed65ed4e67 100644
+--- a/meta/recipes-support/libgcrypt/files/no-bench-slope.patch
++++ b/meta/recipes-support/libgcrypt/files/no-bench-slope.patch
+@@ -5,9 +5,12 @@ Until this has been root-caused, disable the test.
+ 
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ tests/testdrv.c | 1 -
++ 1 file changed, 1 deletion(-)
+ 
+ diff --git a/tests/testdrv.c b/tests/testdrv.c
+-index 0ccde326..d3455186 100644
++index bfca4c2314..5a755f512e 100644
+ --- a/tests/testdrv.c
+ +++ b/tests/testdrv.c
+ @@ -77,7 +77,6 @@ static struct {
+@@ -15,6 +18,7 @@ index 0ccde326..d3455186 100644
+     { "t-ed448"     },
+     { "benchmark"   },
+ -   { "bench-slope" },
+-    { "hashtest-256g",  "hashtest", "--gigs 256 SHA1 SHA256 SHA512 SM3",
+-      LONG_RUNNING },
+-    { NULL }
++    { "hashtest-6g", "hashtest", "--hugeblock --gigs 6 SHA1 SHA256 SHA512 "
++                                                      "SHA3-512 SM3 BLAKE2S_256 "
++                                                      "BLAKE2B_512 CRC32 "
++
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb
+similarity index 85%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb
+index 5a76201ab5..1235c2f64d 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb
+@@ -11,9 +11,9 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+ LICENSE:${PN}-dev = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
+-                    file://LICENSES;md5=ef545b6cc717747072616519a1256d69 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
++                    file://LICENSES;md5=034b4e369944ad4b52a68368f1cf98b8 \
+                     "
+ 
+ DEPENDS = "libgpg-error"
+@@ -27,7 +27,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://no-bench-slope.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60af2a9eadc2a3272aa"
++SRC_URI[sha256sum] = "09120c9867ce7f2081d6aaa1775386b98c2f2f246135761aae47d81f58685b9c"
+ 
+ BINCONFIG = "${bindir}/libgcrypt-config"
+ 
 
