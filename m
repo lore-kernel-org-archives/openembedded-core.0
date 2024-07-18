@@ -1,122 +1,111 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD2EC41513
-	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 20:41:19 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.4292.1721335270619625493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E6CFC3DA49
+	for <webhook@archiver.kernel.org>; Thu, 18 Jul 2024 21:59:00 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.5762.1721339933380792516
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jul 2024 13:41:10 -0700
+ Thu, 18 Jul 2024 14:58:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org.net (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 46IKf9nr013005
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 15:41:09 -0500
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] selftest-hardlink: Add additional test cases
-Date: Thu, 18 Jul 2024 15:41:08 -0500
-Message-Id: <1721335268-8718-2-git-send-email-mark.hatle@kernel.crashing.org>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1721335268-8718-1-git-send-email-mark.hatle@kernel.crashing.org>
-References: <1721335268-8718-1-git-send-email-mark.hatle@kernel.crashing.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ImTlm/2I;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4DB0820003;
+	Thu, 18 Jul 2024 21:58:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1721339931;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oaZaMPOuQwkEOSTh+T0bySG5lYmUAM8hMI4aHsWNl9A=;
+	b=ImTlm/2IazPXmDe4/EKGVpTFviZ01N9pxKBQWMTroYSSfFNmLXRwgQXj+OyL7BxXeW58IJ
+	S/sisc6FWfFjnPVngYZjGwXBiL0bz/zzQsKxVG7E2m6VCq+Pb+7vPSc4TXsNvDoX8tMWgT
+	MuIceXsW1BRghQAVGks272mHjmrqcGrqXdraGTLEKXST8Xx0h35PO6Vbo081qj2tmoFCpU
+	0hkOnCB/na5vYLM4HPfJOmVaIqOSIShZCW7AUmw/9NPxt+4/qP1FgAd/2S7zhIX1h+vTaJ
+	x4Hm10LD0lzNUK+zwPB5y8plVy3M7HFzQGn+ILZTsxnXrgagLTJJ3BqS97CL5w==
+Date: Thu, 18 Jul 2024 23:58:49 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: yoann.congal@smile.fr
+Cc: sundeep.kokkonda@windriver.com,
+	openembedded-core@lists.openembedded.org,
+	randy.macleod@windriver.com, naveen.gowda@windriver.com,
+	shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com,
+	deepthi.hemraj@windriver.com, harish.sadineni@windriver.com
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/reproducibile: rename of
+ reproducible directories
+Message-ID: <202407182158492c41de2a@mail.local>
+References: <20240718100440.1555319-1-sundeep.kokkonda@windriver.com>
+ <CAMSfU+66tLkOehv29BiAzo5gb+you3tqUWywrTaP9CBaVTmZzA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMSfU+66tLkOehv29BiAzo5gb+you3tqUWywrTaP9CBaVTmZzA@mail.gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 20:41:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202237
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jul 2024 21:59:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202238
 
-From: Mark Hatle <mark.hatle@amd.com>
+On 18/07/2024 12:27:43+0200, Yoann Congal via lists.openembedded.org wrote:
+> Le jeu. 18 juil. 2024 � 12:05, Sundeep KOKKONDA via lists.openembedded.org
+> <sundeep.kokkonda=windriver.com@lists.openembedded.org> a �crit :
+> 
+> > From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> >
+> > We do see a few reproducible issues are depending on the path length of
+> > the build directory.
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=15554
+> >
+> > The current implementation of reproducible tests having different names
+> > for directories but with same length.
+> > The build directory names are changed to have difefrent lenth.
+> >
+> > Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> > ---
+> >  meta/lib/oeqa/selftest/cases/reproducible.py | 10 +++++++---
+> >  1 file changed, 7 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
+> > b/meta/lib/oeqa/selftest/cases/reproducible.py
+> > index 7c6cf3eb1f..6932b0c2a5 100644
+> > --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> > +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> > @@ -276,9 +276,13 @@ class ReproducibleTests(OESelftestTestCase):
+> >              os.chmod(save_dir, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP
+> > | stat.S_IROTH | stat.S_IXOTH)
+> >              self.logger.info('Non-reproducible packages will be copied
+> > to %s', save_dir)
+> >
+> > -        vars_A = self.do_test_build('reproducibleA',
+> > self.build_from_sstate)
+> > +        # The below bug shows that a few reproducible issues are depends
+> > on build dir path length.
+> > +        # https://bugzilla.yoctoproject.org/show_bug.cgi?id=15554
+> > +        # So, the reproducibleA & reproducibleB directories are changed
+> > to reproducible & reproducible-extended to have different size.
+> >
+> > -        vars_B = self.do_test_build('reproducibleB', False)
+> > +        vars_A = self.do_test_build('reproducible',
+> > self.build_from_sstate)
+> > +
+> > +        vars_B = self.do_test_build('reproducible-extended', False)
+> >
+> 
+> How about "reproducible-sstate" & "reproducible-no-sstate" (diff length but
+> match what happens under the hood) ?
 
-Additional test cases for debug symlink generation both binaries
-and static libraries.
+This was discussed out of the ML, because we have pids in paths, we need
+more than 3 chars to ensure the difference un path length is not hidden
+again.
 
-This also has the side effect of testing for race conditions in the
-hardlink debug generation and stripping.
 
-Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
----
- .../selftest-hardlink/selftest-hardlink.bb         | 13 ++++++++++++
- meta/lib/oeqa/selftest/cases/package.py            | 24 ++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-index 5632bda..64fea8e 100644
---- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-@@ -11,6 +11,9 @@ UNPACKDIR = "${S}"
- 
- do_compile () {
- 	${CC} hello.c -o hello1 ${CFLAGS} ${LDFLAGS}
-+
-+	${CC} hello.c -c -o hello.o ${CFLAGS}
-+	${AR} rcs libhello.a hello.o
- }
- 
- do_install () {
-@@ -23,9 +26,19 @@ do_install () {
- 	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello3
- 	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello4
- 
-+	# We need so many hardlink copies to look for specific race conditions
-+	install -d ${D}${libdir}
-+	install -m 0644 libhello.a ${D}${libdir}
-+	for num in `seq 1 100` ; do
-+		ln ${D}${libdir}/libhello.a ${D}${libdir}/libhello-${num}.a
-+	done
-+
- 	dd if=/dev/zero of=${D}${bindir}/sparsetest bs=1 count=0 seek=1M
- }
- 
- RDEPENDS:${PN}-gdb += "gdb"
- PACKAGES =+ "${PN}-gdb"
- FILES:${PN}-gdb = "${bindir}/gdb.sh"
-+
-+PACKAGE_STRIP_STATIC = "1"
-+PACKAGE_DEBUG_STATIC_SPLIT = "1"
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 1aa6c03..71231f5 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -103,11 +103,35 @@ class PackageTests(OESelftestTestCase):
- 
-         dest = get_bb_var('PKGDEST', 'selftest-hardlink')
-         bindir = get_bb_var('bindir', 'selftest-hardlink')
-+        libdir = get_bb_var('libdir', 'selftest-hardlink')
-+        libexecdir = get_bb_var('libexecdir', 'selftest-hardlink')
- 
-         def checkfiles():
-             # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
-             # so expect 8 in total.
-             self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello1").st_nlink, 8)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink" + libexecdir + "/hello3").st_nlink, 8)
-+
-+            # Check dbg version
-+            # 4 items, a copy in both package/packages-split so 8
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + bindir + "/.debug/hello1").st_nlink, 8)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + bindir + "/.debug/hello2").st_nlink, 8)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello3").st_nlink, 8)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello4").st_nlink, 8)
-+
-+            # Check the staticdev libraries
-+            # 101 items, a copy in both package/packages-split so 202
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-25.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-50.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-75.a").st_nlink, 202)
-+
-+            # Check static dbg
-+            # 101 items, a copy in both package/packages-split so 202
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-25.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-50.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-75.a").st_nlink, 202)
- 
-             # Test a sparse file remains sparse
-             sparsestat = os.stat(dest + "/selftest-hardlink" + bindir + "/sparsetest")
 -- 
-1.8.3.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
