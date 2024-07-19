@@ -1,209 +1,121 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79494C3DA5D
-	for <webhook@archiver.kernel.org>; Fri, 19 Jul 2024 15:51:56 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.21782.1721404313604371560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B5CAC3DA5D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jul 2024 16:46:46 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.23011.1721407603083679046
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jul 2024 08:51:53 -0700
+ Fri, 19 Jul 2024 09:46:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 99F2C169E
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:52:18 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D51FB3F73F
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:51:52 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] pango: upgrade 1.52.2 -> 1.54.0
-Date: Fri, 19 Jul 2024 16:51:50 +0100
-Message-Id: <20240719155150.3250185-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4AA2B40C83;
+	Fri, 19 Jul 2024 16:46:42 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uO6_g8WxOezr; Fri, 19 Jul 2024 16:46:42 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2209D407DA;
+	Fri, 19 Jul 2024 16:46:40 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 2F27D164000; Fri, 19 Jul 2024 12:46:39 -0400 (EDT)
+Date: Fri, 19 Jul 2024 12:46:39 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Jiaying.Song.CN@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [scarthgap][master][PATCH] python3: provide
+ /usr/bin/python as a symlink to python3
+Message-ID: <20240719164639.GN17572@denix.org>
+References: <20240717023201.861394-1-jiaying.song.cn@windriver.com>
+ <20240718224715.GM17572@denix.org>
+ <CANNYZj_PDL3P6WKEkN1BdioyPEMbYVJZP=WmuVkbKeW7=O_vVA@mail.gmail.com>
+ <CANNYZj_6miWR2kz3qQpMNFEtNQM6v1iwr6ia9a-=T5hTUje92g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj_6miWR2kz3qQpMNFEtNQM6v1iwr6ia9a-=T5hTUje92g@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 15:51:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202267
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 16:46:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202268
 
-Upstream has removed installable tests, although there is pressure to
-bring them back[1].
+On Fri, Jul 19, 2024 at 08:18:26AM +0200, Alexander Kanavin wrote:
+> There was a proposal with two option (maybe that was missed) and I
 
-- Build fixes
-- Memory leak fixes
-- Drop the install-tests build option
-- Add build-examples and build-tests build options
-- Require meson 0.63
-- Add pango_item_get_char_offset
-- Update to Unicode 15.1
-- Fix wrong use of GWeakRef, leading to crashes
+Yeah, I guess I missed that one.
 
-[1] https://gitlab.gnome.org/GNOME/pango/-/issues/799
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../distro/include/ptest-packagelists.inc     |  1 -
- .../0001-Skip-running-test-layout-test.patch  | 45 -------------------
- meta/recipes-graphics/pango/pango/run-ptest   |  6 ---
- .../{pango_1.52.2.bb =3D> pango_1.54.0.bb}      | 20 ++-------
- 4 files changed, 3 insertions(+), 69 deletions(-)
- delete mode 100644 meta/recipes-graphics/pango/pango/0001-Skip-running-t=
-est-layout-test.patch
- delete mode 100644 meta/recipes-graphics/pango/pango/run-ptest
- rename meta/recipes-graphics/pango/{pango_1.52.2.bb =3D> pango_1.54.0.bb=
-} (68%)
+> suggested just adding the link and be done with it. We can drop lots of
+> patches and send tweaks then.
+> 
+> Alex
+> 
+> On Fri 19. Jul 2024 at 8.17, Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+> 
+> > But there is no alternative. Python is python3 and has been for years.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-index d7d711383c0..16d7b9e6b2c 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -53,7 +53,6 @@ PTESTS_FAST =3D "\
-     m4 \
-     nettle \
-     opkg \
--    pango \
-     popt \
-     python3-atomicwrites \
-     python3-attrs \
-diff --git a/meta/recipes-graphics/pango/pango/0001-Skip-running-test-lay=
-out-test.patch b/meta/recipes-graphics/pango/pango/0001-Skip-running-test=
--layout-test.patch
-deleted file mode 100644
-index ec7fb4727eb..00000000000
---- a/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-tes=
-t.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From b9bfe3a79f165682a6db3d7ee1928365e93b1ccf Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 13 Apr 2022 19:39:29 -0700
--Subject: [PATCH] Skip running test-layout test
--
--This fails intermittently, it varies based on what version of harfbuzz
--is installed and if it does not match with what pango CI tests then we
--get random failures in this test. This has been disabled in other
--distros [1] too
--
--We want to drop this on next upgrade and see if this test passes if not
--then keep it disabled
--
--Fixes
--
--Running test: pango/test-layout.test
--1..36
--ok 1 /layout/letterspacing.layout
--ok 2 /layout/valid-7.layout
--not ok 3 /layout/valid-14.layout
--Bail out!
--FAIL: pango/test-layout.test (Child process killed by signal 6)
--
--[1] https://github.com/archlinux/svntogit-packages/commit/3f883e7ff8071a=
-dad23b6bcc0ba4b995aff10d52
--
--Upstream-Status: Inappropriate [bugfix https://gitlab.gnome.org/GNOME/pa=
-ngo/-/issues/677]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- tests/test-layout.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tests/test-layout.c b/tests/test-layout.c
--index 1139e4f..b47a066 100644
----- a/tests/test-layout.c
--+++ b/tests/test-layout.c
--@@ -222,5 +222,5 @@ main (int argc, char *argv[])
--     }
--   g_dir_close (dir);
--=20
---  return g_test_run ();
--+  return 77;
-- }
----=20
--2.35.2
--
-diff --git a/meta/recipes-graphics/pango/pango/run-ptest b/meta/recipes-g=
-raphics/pango/pango/run-ptest
-deleted file mode 100644
-index e1fab050ef9..00000000000
---- a/meta/recipes-graphics/pango/pango/run-ptest
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#! /bin/sh
--
--# workaround for https://gitlab.gnome.org/GNOME/pango/-/issues/668
--mkdir -p /usr/share/fonts/pango-private
--cp -rf /usr/libexec/installed-tests/pango/fonts/* /usr/share/fonts/pango=
--private
--gnome-desktop-testing-runner pango
-diff --git a/meta/recipes-graphics/pango/pango_1.52.2.bb b/meta/recipes-g=
-raphics/pango/pango_1.54.0.bb
-similarity index 68%
-rename from meta/recipes-graphics/pango/pango_1.52.2.bb
-rename to meta/recipes-graphics/pango/pango_1.54.0.bb
-index 4f748e65540..de6f8bb3619 100644
---- a/meta/recipes-graphics/pango/pango_1.52.2.bb
-+++ b/meta/recipes-graphics/pango/pango_1.54.0.bb
-@@ -11,42 +11,28 @@ LICENSE =3D "LGPL-2.0-or-later"
-=20
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D3bf50002aefd002f49e7bb854063f=
-7e7"
-=20
--
--inherit gnomebase gi-docgen ptest-gnome upstream-version-is-even gobject=
--introspection
-+inherit gnomebase gi-docgen upstream-version-is-even gobject-introspecti=
-on
-=20
- UPSTREAM_CHECK_REGEX =3D "pango-(?P<pver>\d+\.(?!9\d+)\d+\.\d+)"
-=20
- GIR_MESON_ENABLE_FLAG =3D "enabled"
- GIR_MESON_DISABLE_FLAG =3D "disabled"
-=20
--SRC_URI +=3D "file://run-ptest \
--           file://0001-Skip-running-test-layout-test.patch \
--           "
--
--SRC_URI[archive.sha256sum] =3D "d0076afe01082814b853deec99f9349ece5f2ce8=
-3908b8e58ff736b41f78a96b"
-+SRC_URI[archive.sha256sum] =3D "8a9eed75021ee734d7fc0fdf3a65c3bba51dfefe=
-4ae51a9b414a60c70b2d1ed8"
-=20
- DEPENDS =3D "glib-2.0 glib-2.0-native fontconfig freetype virtual/libico=
-nv cairo harfbuzz fribidi"
-=20
--PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
--                   ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '=
-', d)}"
-+PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
-=20
- PACKAGECONFIG[x11] =3D ",,virtual/libx11 libxft"
--PACKAGECONFIG[tests] =3D "-Dinstall-tests=3Dtrue, -Dinstall-tests=3Dfals=
-e"
- PACKAGECONFIG[thai] =3D "-Dlibthai=3Denabled,-Dlibthai=3Ddisabled,libtha=
-i"
-=20
- GIR_MESON_OPTION =3D 'introspection'
-=20
--do_configure:prepend() {
--	chmod +x ${S}/tests/*.py
--}
--
- LEAD_SONAME =3D "libpango-1.0*"
-=20
- FILES:${PN} =3D "${bindir}/* ${libdir}/libpango*${SOLIBS}"
-=20
--RDEPENDS:${PN}-ptest +=3D "cantarell-fonts"
--RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-en-us"
--
- RPROVIDES:${PN} +=3D "pango-modules pango-module-indic-lang \
-                     pango-module-basic-fc pango-module-arabic-lang"
-=20
---=20
-2.34.1
+Understood, but many distros still manage symlinks via update-alternatives, 
+hence my question. I guess since we don't supoort multiple versions at the 
+same time, it does make sense to keep it simple...
 
+
+> > Alex
+> >
+> > On Fri 19. Jul 2024 at 0.47, Denys Dmytriyenko <denis@denix.org> wrote:
+> >
+> >> Should this be done via update-alternatives, like many other Linux
+> >> distros do?
+> >>
+> >>
+> >> On Wed, Jul 17, 2024 at 10:32:01AM +0800, Song, Jiaying (CN) via
+> >> lists.openembedded.org wrote:
+> >> > From: Jiaying Song <jiaying.song.cn@windriver.com>
+> >> >
+> >> > The /usr/bin/python cannot find the correct Python interpreter, so a
+> >> symbolic
+> >> > link is added to point it to the Python3 interpreter.
+> >> >
+> >> > Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+> >> > ---
+> >> >  meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
+> >> >  meta/recipes-devtools/python/python3_3.12.4.bb             | 1 +
+> >> >  2 files changed, 2 insertions(+)
+> >> >
+> >> > diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json
+> >> b/meta/recipes-devtools/python/python3/python3-manifest.json
+> >> > index 46092d4004..f9259e1450 100644
+> >> > --- a/meta/recipes-devtools/python/python3/python3-manifest.json
+> >> > +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+> >> > @@ -220,6 +220,7 @@
+> >> >          "files": [
+> >> >              "${bindir}/python${PYTHON_MAJMIN}",
+> >> >              "${bindir}/python${PYTHON_MAJMIN}.real",
+> >> > +            "${bindir}/python",
+> >> >              "${bindir}/python3",
+> >> >              "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
+> >> >              "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
+> >> > diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb
+> >> b/meta/recipes-devtools/python/python3_3.12.4.bb
+> >> > index 743ba0b1f1..94535e7678 100644
+> >> > --- a/meta/recipes-devtools/python/python3_3.12.4.bb
+> >> > +++ b/meta/recipes-devtools/python/python3_3.12.4.bb
+> >> > @@ -165,6 +165,7 @@ do_install:prepend() {
+> >> >
+> >> >  do_install:append:class-target() {
+> >> >          oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
+> >> > +        ln -sf ${bindir}/python3 ${D}${bindir}/python
+> >> >  }
+> >> >
+> >> >  do_install:append:class-native() {
+> >> > --
+> >> > 2.44.0
+> >>
+> >
 
