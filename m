@@ -1,460 +1,210 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <Deepthi.Hemraj@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1664C3DA59
-	for <webhook@archiver.kernel.org>; Fri, 19 Jul 2024 08:09:53 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web10.14433.1721376584876005661
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6859C3DA5D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jul 2024 08:30:03 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.14548.1721377787609378627
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jul 2024 01:09:45 -0700
+ Fri, 19 Jul 2024 01:29:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
-Received: from fwd83.aul.t-online.de (fwd83.aul.t-online.de [10.223.144.109])
-	by mailout02.t-online.de (Postfix) with SMTP id CF52AEFD8
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 10:09:42 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.38.70]) by fwd83.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1sUigQ-2N0q8H0; Fri, 19 Jul 2024 10:09:42 +0200
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7930018dd3=deepthi.hemraj@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46J6Rgc2030719
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:29:46 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2172.outbound.protection.outlook.com [104.47.73.172])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40ergc9cj1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:29:46 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=neCeA+LSauchT54Edea+SMsFgzWZ16M5/AmxPEBzSyidDqLqAXswc1KYmuKQVsRXN3BADyZ55FzoC0jdLt5kDEJXFEt8isz0HoQo1pbNvf+hefg+6T/pLtLLdleiIQsRsTSiWB7MOXKrnW9CntJg36yMapOQmzKdlHroxrE9Yg6b6wCm4g2yrQ1NR8V4+wxD49gKN0eHZ7HGgqeRapPZF8v/XyIYl5kfUnW/13dg0MWJ6sY2A4NuMwCGFGAXGmitQxJnWtyflDHPTm90/24LwVyVaU0n1Msy8hsoYb5ZHwAhhUXfzOZozZPa7QkMU7IqJ5G/mYZIyQE3g4Sj+xM1kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QVcbSBAEBLpYBh/anX7eyqhz9ULXY6lZl/f81vmjBpY=;
+ b=etUAWPCRlgghFfT+cEGtVnRdSzg3vCNygMZtGhfx6K87uxvXND47RQ2OknySsTe6jFRjYHBMX8LW+OBzFYEFc/Wm5u2Y/LrRjoPpHtAwpjUsFxfRJ6ub+nS2K/X325iOJVxWNvuHxjE+5TCjALWnCQOkQfopwqsbmWvwsSqeaTkcaFYgLADzF6fCSOF8h3RcmSw7LOoLm93PHEhlHtv0WP0DGSTYSavV9jSu6W/Rnn3WLVYqvyf2M+3CMbi3tOpD+7nmyUi9gDIf0c+3cjgD7WhoPM0QRFfdeUChcnBukrwCEAeBeY4rQo2P6tlgZT+Z6ZZ59H/VmY6pCaSHNjz7QA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from LV3PR11MB8602.namprd11.prod.outlook.com (2603:10b6:408:1b3::11)
+ by LV8PR11MB8557.namprd11.prod.outlook.com (2603:10b6:408:1e8::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29; Fri, 19 Jul
+ 2024 08:29:41 +0000
+Received: from LV3PR11MB8602.namprd11.prod.outlook.com
+ ([fe80::5e20:4508:a523:df39]) by LV3PR11MB8602.namprd11.prod.outlook.com
+ ([fe80::5e20:4508:a523:df39%5]) with mapi id 15.20.7762.027; Fri, 19 Jul 2024
+ 08:29:40 +0000
+From: Deepthi.Hemraj@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv2] mesa: update 24.0.7 -> 24.1.4
-Date: Fri, 19 Jul 2024 10:10:47 +0200
-Message-ID: <20240719081047.2382310-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.45.1
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com
+Subject: [scarthgap][PATCH] glibc: stable 2.39 branch updates
+Date: Fri, 19 Jul 2024 01:28:42 -0700
+Message-ID: <20240719082842.3916170-1-Deepthi.Hemraj@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0209.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::34) To LV3PR11MB8602.namprd11.prod.outlook.com
+ (2603:10b6:408:1b3::11)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1721376582-BF7F0839-7D7A9B64/0/0 CLEAN NORMAL
-X-TOI-MSGID: 712a644c-b85f-458c-808c-7f748982cd59
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8602:EE_|LV8PR11MB8557:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55805cc5-4ea7-4f04-85b5-08dca7ccef24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?kBHsRDgeHF+zv9lzp2GSFODJVNlazHhIefcFlSIvOwpVogVEz5/j9mN/Cuv3?=
+ =?us-ascii?Q?vCSr5+szz0fyg4ZpKatv5tYN3mDfXLGUbUT5ZhFQiEGYdbYRKu7VsHe2Pymi?=
+ =?us-ascii?Q?4mzzTdr5GcNEZnxqHa/ePDfqAkR0ITYvy28LqtuHq4pGgum/F/Nza29/IK0Z?=
+ =?us-ascii?Q?+QwnHA8tgpUMsRLU07ht0S13fRKL2ACf0P7OSHcBgjBtOIoZs8e3Z8Rj2S1d?=
+ =?us-ascii?Q?d4NI2zYZd215rU1xpfnEzGTSRQc45lwUASzhTulPZk247aHPtBjN45nltzG6?=
+ =?us-ascii?Q?zNVruGRrb9zvTMYPQapMVwATzqiyweZCCBF5vYpTv2oEVxBiXqrYjNdAQIwh?=
+ =?us-ascii?Q?HefGdG3BDJbtJy+CyVj6UsF1Z0Ts87QHGpW6zAgqVFdr7noUt9fpKnmWjODB?=
+ =?us-ascii?Q?MAW3egYnTckkKus56fM51mDjZpdDnZXhsW4/GlrC/g/UctCWYjKjgKeI9CuZ?=
+ =?us-ascii?Q?VZO+H8g+8xbzlKpTLZaNisHezqHRa4fR3Si5CDVB3LEuG0RJos+gqxHfgNnA?=
+ =?us-ascii?Q?smLIpnWkrLG336hLUsI74GBIuvn71+ffjbCnJ5pYcqzJlkjxOvgtlSA2pxKD?=
+ =?us-ascii?Q?uJf49NhkMXalqzZkOqPEktsaCiYQwRhhlgyndVdMMs1lBUFVvw6AUKdEa2rM?=
+ =?us-ascii?Q?551ttPCceyaOVaerotDi85H2EtoxDC4YkuldM8JLRAYmnJGKrr+D6ynUBHcI?=
+ =?us-ascii?Q?m42bybuPLYwYJizY5p725gnFMfiMqpJlzMkP8uu1562ZwjRTNJUgRx4k6p88?=
+ =?us-ascii?Q?gfifopEmmZSBZpWzYkh7j11HWDxOAGa76oLhPs1j0K1hW3EvAyQE4MnL37eG?=
+ =?us-ascii?Q?a6sFAAxLz7mCrfkd70Jo3zhOYqPHkffz9Yu+larbmYhLsu+wJ0n1018aU7t4?=
+ =?us-ascii?Q?PkekL2gjcA8Y9x11JCFdAkhl8QNVkjYF3+biPDc7OO5GYCkpyRgzB+1KZQq1?=
+ =?us-ascii?Q?5jk32gwS+k6TiSXFXepz6By1OjYtaa/xvWmXgKitCiFf5sO3Tp6eIcR8DUsX?=
+ =?us-ascii?Q?kAWScKfq3GaIinr0ehEu/HBZ4WGYvpCG7g5NmYE4LNmTw/Kc+fnhC0afseJ3?=
+ =?us-ascii?Q?hCua2tPgbvwVhowoHtAShyzmMIrruu49C4Q4sLxyZ7cUkNRw9jXbh1rrh50w?=
+ =?us-ascii?Q?ouKn2iS2PeVkDpmd2jcoPZ4SYcF1YhI8v6oGdbDhzaLCRE9ZbguYK46XULav?=
+ =?us-ascii?Q?SYlSBSVMlmMiYB8lumQyAUgJ3kF+ebLPw9zltK/6dZ3xQSWTiHz7qF4MWxN8?=
+ =?us-ascii?Q?WWA4WowsmABPf2hmQgU8Bhd1/rqTul7ptFYoeQlTwn756T7rwiUc+8oZ09Pv?=
+ =?us-ascii?Q?fv1iudzdXgxvxkPbvgICT7pIHWDjKgPa2twRQtxC++E3wbIn3RJyCU6aMXEs?=
+ =?us-ascii?Q?xDezGkFQUDNqbU6I4uRK9TJYXPI9z24uYbN0dEObzsdiGVwJfA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?vAcFPivyN8ElZYSdJqfuVMRlHqnKyG9YUHe+d59yr7maabyoY1XmbD1A7KBP?=
+ =?us-ascii?Q?aC0wY9Oi/S9IVISVsggI5Kb7MSfH4rsm9nC9zqFR3LdaekiKY+j3+O7qL+xf?=
+ =?us-ascii?Q?phSyqw78fgty4BrD8SjdF05yjqimGmup9sEmmfKVUQnfDfCUojp/Ouc3aPVc?=
+ =?us-ascii?Q?KXBAUucqyRd4gfMvRh1+TY6Vom546Yl6xUz1xawo1eba0q9+I8d40sOLF257?=
+ =?us-ascii?Q?cCeAdl+50rNqMH9pI2919yLqqHkcxpSA+88T0Xz8qfcrbj8648Mst5LEXgBt?=
+ =?us-ascii?Q?vHabRYyGhkaUtrw5bjuqH/TTPJ7uSGO5PJavwvPRZVz/A1OW+hiIKqDjlpL1?=
+ =?us-ascii?Q?V6nwOh6lL3vttS6cQFfoiK9reH28mUHA5UjreAgxbVyVlmdsKhw7I/Xb+pQS?=
+ =?us-ascii?Q?386pP17iUafrL8rre00GidEefv2pgHHRwyhE1YCPniNcUNdiZLhC6msTsGfi?=
+ =?us-ascii?Q?SiZKUH+nNXUFOi2loIJBe8DYQRsGmpeR6aWEMy8tVE1W2Xw2G5odn9X5QsIS?=
+ =?us-ascii?Q?lXLv/RK5fcZqWpvCWc4J8TzZsSBqWYoRiEvNiE4N/CW9EgstNyOF629kHm0g?=
+ =?us-ascii?Q?KzwbsuRe6XAGSI6U0QVj+r0I0NMmJZ0+vFlq/XM7LzXmSivW/7w7BmpiL8lN?=
+ =?us-ascii?Q?8RWZXaw9JpZl7xnbpOZRoaCnpHn4pkojRcH68jMY63r6p6bxw3afr78QXyrC?=
+ =?us-ascii?Q?yc6mrStClpBc1orNplr2qSdQxq39k6N2/xtZV96GppM52KkgYbnzw1XE/p7a?=
+ =?us-ascii?Q?x8hj2e/NO9LRKak8PE6531IAGkg5iV3Ga6oJVVBfQm717dWLGU3bEEe2I2gU?=
+ =?us-ascii?Q?r8Yi/czCjhLQgaraT1qjoyiu9oqyenl87zGTb4zbVPkzSDbFamKWBYKQye0Z?=
+ =?us-ascii?Q?8BMGUccs0S3wtEEOMclQfx7xuizVWBlPllhAL5r8wn/Cx/7EBunUbhlMa2Z0?=
+ =?us-ascii?Q?3fTwgBINJfSdg0vGj8Fd9B67FbLq+XS3b+/zO7SOtYZJ9dKyUj4QVODlFbXr?=
+ =?us-ascii?Q?h2trgDHUxj9sD9F1kOwTBNJSCRLWbLWp+XFJVbA1rd9znTZtmtD5pLmEOpKh?=
+ =?us-ascii?Q?vGK3HjPAcyWxHEhixV5Ygfs8RZwSIOCz5u5nmtlsiJgAMf2wwt49EP2LdYC9?=
+ =?us-ascii?Q?QJ+9nxMmWGEdgDvNgql76pva9YmDVnFxGPxAwfE1dvsc94af+ULvor8IiKEZ?=
+ =?us-ascii?Q?8nXHrS0Fv4xnogB4BDj6WcJi+hXZu5dfC9kTzwipiU6y7o4CsYLncmRiM+eA?=
+ =?us-ascii?Q?HitjkU5bningjjJwX+cdo71e2l0fTZ6JKZVYL4vZteGQ11lAy0qQKtKWrM2y?=
+ =?us-ascii?Q?/FzbUAyS6bCECRBMdUVWCG7GrKrq6W1vjCdmDMhs5nEwsXb++lWQydWht102?=
+ =?us-ascii?Q?k8gdA+XVoWUmLx+EAt4b7ql1pVPLbjiJ3MqKgChxSmrlSFPe78eJR5Ie7LX4?=
+ =?us-ascii?Q?Pn+G7TcFS6CXONBoT4/HgPZeZ1gejztpvqTHVBCxR1qWFn6Nsz1H4RLaEVaO?=
+ =?us-ascii?Q?uoCO5mhaI1D4BKzbiClzW+vwu+6b+OR3NBmkwOeZO3Nay6b67LQkQ267glSQ?=
+ =?us-ascii?Q?5VbvqUWZT2W4CcL2dm8o/FgzRvVzTuiVTDBHJOhfWTs/X1d+KMglmrAwE6uk?=
+ =?us-ascii?Q?rA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55805cc5-4ea7-4f04-85b5-08dca7ccef24
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2024 08:29:40.8138
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wu2xvZ1dBUPaVgu7IkPcF6wchqnuLw92rwrrAaSiOBuyS5OJDQeqMUE8j+rl3x+S/WHAYQBTzNr99A+vgVV2Wi2vR+c18j6+5hF0hY+OHS0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8557
+X-Proofpoint-GUID: wg9RJ6TMQoedlqWkRjwdI-QOrIc52KTl
+X-Proofpoint-ORIG-GUID: wg9RJ6TMQoedlqWkRjwdI-QOrIc52KTl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-19_04,2024-07-18_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ spamscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
+ malwarescore=0 adultscore=0 mlxscore=0 phishscore=0 clxscore=1011
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2407190065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:09:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202255
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:30:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202256
 
- - Remove two patches that have been merged upstream
- - Remove 0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
-   Upstream managed to fix this:
-   https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/meson.build?ref_t=
-ype=3Dheads#L839
- - Drop OPENCL_NATIVE since the according option has been removed from me=
-son_options.txt
- - Update 0001-freedreno-don-t-encode-build-path-into-binaries.patch
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Below commits on glibc-2.39 stable branch are updated.
+e8f5217097 Linux: Make __rseq_size useful for feature detection (bug 31965)
+143a7a0623 elf: Make dl-rseq-symbols Linux only
+1062ebbd19 nptl: fix potential merge of __rseq_* relro symbols
+5c46e6b666 s390x: Fix segfault in wcsncmp [BZ #31934]
+a036311246 stdlib: fix arc4random fallback to /dev/urandom (BZ 31612)
+d2cbfcf1d9 math: Provide missing math symbols on libc.a (BZ 31781)
+d473c9bb3b math: Fix isnanf128 static build (BZ 31774)
+3950cbd7a1 math: Fix i386 and m68k exp10 on static build (BZ 31775)
+6cb25aff85 math: Fix i386 and m68k fmod/fmodf on static build (BZ 31488)
+74630b1bb7 posix: Fix pidfd_spawn/pidfd_spawnp leak if execve fails (BZ 31695)
+7f9f25f255 Linux: Include <dl-symbol-redir-ifunc.h> in dl-sysdep.c
+198632a05f NEWS: update list of fixed CVEs in 2.39
+77bb3c7154 NEWS: update list of fixed bugs in 2.39
+f05638731e x86: Properly set x86 minimum ISA level [BZ #31883]
+b7f5b0a711 x86: Properly set MINIMUM_X86_ISA_LEVEL for i386 [BZ #31867]
+e1d0040a6d localedata: ssy_ER: Fix syntax error
+9de9cd17e7 malloc: New test to check malloc alternate path using memory obstruction
+a2da98aa2a malloc: Improve aligned_alloc and calloc test coverage.
+305ee48826 malloc/Makefile: Split and sort tests
+00899eba26 x86/cet: fix shadow stack test scripts
+6ade91c211 elf: Avoid some free (NULL) calls in _dl_update_slotinfo
+70f560fc22 misc: Add support for Linux uio.h RWF_NOAPPEND flag
+c9d8534406 i386: Disable Intel Xeon Phi tests for GCC 15 and above (BZ 31782)
+aee37de299 Reinstate generic features-time64.h
+dd535f4f19 Always define __USE_TIME_BITS64 when 64 bit time_t is used
+26e7005728 socket: Use may_alias on sockaddr structs (bug 19622)
+9f2b100d67 parse_fdinfo: Don't advance pointer twice [BZ #31798]
+c7c3f5bf80 LoongArch: Fix undefined `__memset_aligned` reference in ld.so linking.
+32969a2b36 socket: Add new test for connect
+2db79c96ba libsupport: Add xgetpeername
+ab4ef4421f x86_64: Fix missing wcsncat function definition without multiarch (x86-64-v4)
+97bb89668d Force DT_RPATH for --enable-hardcoded-path-in-tests
+71149c2a2e elf: Only process multiple tunable once (BZ 31686)
+f8e4623421 Add a test to check for duplicate definitions in the static library
+8b005d7869 i686: Fix multiple definitions of __memmove_chk and __memset_chk
+8323a83abd i586: Fix multiple definitions of __memcpy_chk and __mempcpy_chk
+5141d4d83c Revert "i586: Fix multiple definitions of __memcpy_chk and __mempcpy_chk"
+c16871e662 Revert "i686: Fix multiple definitions of __memmove_chk and __memset_chk"
+fa616ea373 Revert "Add a test to check for duplicate definitions in the static library"
+ff110b2591 Add a test to check for duplicate definitions in the static library
+ad92c483a4 i686: Fix multiple definitions of __memmove_chk and __memset_chk
+3148714ab6 i586: Fix multiple definitions of __memcpy_chk and __mempcpy_chk
+
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 ---
- ...-meson-do-not-pull-in-clc-for-clover.patch | 53 --------------
- .../0001-drisw-fix-build-without-dri3.patch   | 58 ---------------
- ...on-t-encode-build-path-into-binaries.patch | 71 +++++++++++++++----
- ...on-t-try-zink-if-not-enabled-in-mesa.patch | 42 -----------
- .../{mesa-gl_24.0.7.bb =3D> mesa-gl_24.1.4.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           | 10 +--
- .../mesa/{mesa_24.0.7.bb =3D> mesa_24.1.4.bb}   |  0
- 7 files changed, 61 insertions(+), 173 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-Revert-meson-do=
--not-pull-in-clc-for-clover.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-drisw-fix-build=
--without-dri3.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/0002-glxext-don-t-tr=
-y-zink-if-not-enabled-in-mesa.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_24.0.7.bb =3D> mesa-gl_24.1.4=
-.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_24.0.7.bb =3D> mesa_24.1.4.bb} (=
-100%)
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pu=
-ll-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert=
--meson-do-not-pull-in-clc-for-clover.patch
-deleted file mode 100644
-index 1711e22585..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-c=
-lc-for-clover.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From 051f41beda540f0ae77b341db01a6de83c9e938a Mon Sep 17 00:00:00 2001
--From: Markus Volk <f_l_k@t-online.de>
--Date: Fri, 8 Mar 2024 15:53:11 +0100
--Subject: [PATCH] Revert "meson: do not pull in clc for clover"
--
--This reverts commit 815a6647eb1383e9dc704ffcc266d85f3b13338a.
--Upstream-Status: Inappropriate [https://gitlab.freedesktop.org/mesa/mesa=
-/-/merge_requests/27783/diffs?commit_id=3Da976f2c9f0c07f9e06cc9affd9124b4=
-5bc60c2bd]
--
--Once the merge request above was added, it will only be possible to prov=
-ide opencl spir-v with gallium-rusticl=3Dtrue. This is not yet supported =
-in the mesa recipe.
--For now reverting this commit allows to still use clover with opencl-spi=
-rv, which would otherwise be broken starting from mesa 24.0.2.
--
--After it was merged, this patch needs to be removed and rusticl support =
-will be required
--
--Signed-off-by: Markus Volk <f_l_k@t-online.de>
-----
-- meson.build              | 3 ++-
-- src/compiler/meson.build | 2 +-
-- 2 files changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/meson.build b/meson.build
--index 2db6185..741b5d1 100644
----- a/meson.build
--+++ b/meson.build
--@@ -813,6 +813,7 @@ if _opencl !=3D 'disabled'
--     error('The Clover OpenCL state tracker requires rtti')
--   endif
--=20
--+  with_clc =3D true
--   with_gallium_opencl =3D true
--   with_opencl_icd =3D _opencl =3D=3D 'icd'
-- else
--@@ -837,7 +838,7 @@ if with_gallium_rusticl
-- endif
--=20
-- dep_clc =3D null_dep
---if with_gallium_opencl or with_clc
--+if with_clc
--   dep_clc =3D dependency('libclc')
-- endif
--=20
--diff --git a/src/compiler/meson.build b/src/compiler/meson.build
--index 8d73544..1dae56d 100644
----- a/src/compiler/meson.build
--+++ b/src/compiler/meson.build
--@@ -79,7 +79,7 @@ subdir('nir')
--=20
-- subdir('spirv')
--=20
---if with_clc
--+if with_opencl_spirv
--   subdir('clc')
-- endif
-- if with_gallium
-diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-withou=
-t-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-with=
-out-dri3.patch
-deleted file mode 100644
-index ab16152090..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.=
-patch
-+++ /dev/null
-@@ -1,58 +0,0 @@
--From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
--From: Romain Naour <romain.naour@smile.fr>
--Date: Tue, 6 Feb 2024 09:47:09 +0100
--Subject: [PATCH 1/2] drisw: fix build without dri3
--
--commit 1887368df41 ("glx/sw: check for modifier support in the kopper pa=
-th")
--added dri3_priv.h header and dri3_check_multibuffer() function in drisw =
-that
--can be build without dri3.
--
--  i686-buildroot-linux-gnu/bin/ld: src/glx/libglx.a.p/drisw_glx.c.o: in =
-function `driswCreateScreenDriver':
--  drisw_glx.c:(.text.driswCreateScreenDriver+0x3a0): undefined reference=
- to `dri3_check_multibuffer'
--  collect2: error: ld returned 1 exit status
--
--Add HAVE_DRI3 guard around dri3_priv.h header and the zink code using
--dri3_check_multibuffer().
--
--Fixes: 1887368df41 ("glx/sw: check for modifier support in the kopper pa=
-th")
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/27478]
--Signed-off-by: Romain Naour <romain.naour@smile.fr>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/glx/drisw_glx.c | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/src/glx/drisw_glx.c b/src/glx/drisw_glx.c
--index 3d3f752..4b19e2d 100644
----- a/src/glx/drisw_glx.c
--+++ b/src/glx/drisw_glx.c
--@@ -32,7 +32,9 @@
-- #include <dlfcn.h>
-- #include "dri_common.h"
-- #include "drisw_priv.h"
--+#ifdef HAVE_DRI3
-- #include "dri3_priv.h"
--+#endif
-- #include <X11/extensions/shmproto.h>
-- #include <assert.h>
-- #include <vulkan/vulkan_core.h>
--@@ -995,6 +997,7 @@ driswCreateScreenDriver(int screen, struct glx_displ=
-ay *priv,
--        goto handle_error;
--    }
--=20
--+#ifdef HAVE_DRI3
--    if (pdpyp->zink) {
--       bool err;
--       psc->has_multibuffer =3D dri3_check_multibuffer(priv->dpy, &err);
--@@ -1005,6 +1008,7 @@ driswCreateScreenDriver(int screen, struct glx_dis=
-play *priv,
--          goto handle_error;
--       }
--    }
--+#endif
--=20
--    glx_config_destroy_list(psc->base.configs);
--    psc->base.configs =3D configs;
----=20
--2.44.0
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode=
--build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-f=
-reedreno-don-t-encode-build-path-into-binaries.patch
-index 5975ab4472..38871b6d11 100644
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-=
-path-into-binaries.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-=
-path-into-binaries.patch
-@@ -1,4 +1,4 @@
--From 027ac36756cc75eea9ed4fee135a351af30b35fd Mon Sep 17 00:00:00 2001
-+From 66d73feaac088d1a588a44a1780f2eaf4335fccf Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
- Date: Tue, 16 Jul 2024 12:32:47 +0300
- Subject: [PATCH] freedreno: don't encode build path into binaries
-@@ -13,33 +13,76 @@ it manually when running the tests.
- Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/30206]
- Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
- ---
-+ meson.build                      | 1 +
-+ meson_options.txt                | 7 +++++++
-  src/freedreno/afuc/meson.build   | 4 ++++
-  src/freedreno/decode/meson.build | 4 +++-
-- src/freedreno/meson.build        | 2 +-
-- 3 files changed, 8 insertions(+), 2 deletions(-)
-+ src/freedreno/meson.build        | 5 ++++-
-+ 5 files changed, 19 insertions(+), 2 deletions(-)
-=20
-+diff --git a/meson.build b/meson.build
-+index 3bc837813f967..5c94e76649c63 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -76,6 +76,7 @@ if with_tools.contains('all')
-+     'imagination',
-+   ]
-+ endif
-++with_tools_for_development =3D get_option('tools-for-development')
-+=20
-+ with_any_vulkan_layers =3D get_option('vulkan-layers').length() !=3D 0
-+ with_intel_tools =3D with_tools.contains('intel') or with_tools.contain=
-s('intel-ui')
-+diff --git a/meson_options.txt b/meson_options.txt
-+index 753bebd961e3f..9bc308b512c13 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -537,6 +537,13 @@ option(
-+   description : 'List of tools to build. (Note: `intel-ui` selects `int=
-el`)',
-+ )
-+=20
-++option(
-++  'tools-for-development',
-++  type : 'boolean',
-++  value : false,
-++  description : 'Support running tools from the build tree (for develop=
-ers)',
-++)
-++
-+ option(
-+   'power8',
-+   type : 'feature',
- diff --git a/src/freedreno/afuc/meson.build b/src/freedreno/afuc/meson.b=
-uild
--index bb7cebf5a748..351cc31ef2de 100644
-+index bb7cebf5a748c..351cc31ef2dec 100644
- --- a/src/freedreno/afuc/meson.build
- +++ b/src/freedreno/afuc/meson.build
--@@ -56,6 +56,7 @@ if with_tests
-+@@ -56,10 +56,12 @@ if with_tests
-    asm_fw =3D custom_target('afuc_test.fw',
-      output: 'afuc_test.fw',
--     command: [asm, '-g', '6', files('../.gitlab-ci/traces/afuc_test.asm=
-'), '@OUTPUT@'],
-+     command: [asm, files('../.gitlab-ci/traces/afuc_test.asm'), '@OUTPU=
-T@'],
-++    env: {'RNN_PATH': rnn_src_path},
-+   )
-+   asm_fw_a7xx =3D custom_target('afuc_test_a7xx.fw',
-+     output: 'afuc_test_a7xx.fw',
-+     command: [asm, files('../.gitlab-ci/traces/afuc_test_a7xx.asm'), '@=
-OUTPUT@'],
- +    env: {'RNN_PATH': rnn_src_path},
-    )
-    test('afuc-asm',
-      diff,
--@@ -120,6 +122,7 @@ if cc.sizeof('size_t') > 4
-+@@ -120,11 +122,13 @@ if cc.sizeof('size_t') > 4
-      disasm_fw =3D custom_target('afuc_test.asm',
-        output: 'afuc_test.asm',
--       command: [disasm, '-u', files('../.gitlab-ci/reference/afuc_test.=
-fw'), '-g', '630'],
-+       command: [disasm, '-u', files('../.gitlab-ci/reference/afuc_test.=
-fw')],
-++      env: {'RNN_PATH': rnn_src_path},
-+       capture: true
-+     )
-+     disasm_fw_a7xx =3D custom_target('afuc_test_a7xx.asm',
-+       output: 'afuc_test_a7xx.asm',
-+       command: [disasm, '-u', files('../.gitlab-ci/reference/afuc_test_=
-a7xx.fw')],
- +      env: {'RNN_PATH': rnn_src_path},
-        capture: true
-      )
-      test('afuc-disasm',
- diff --git a/src/freedreno/decode/meson.build b/src/freedreno/decode/mes=
-on.build
--index 469eeb4eb597..dfa1c12d0d9f 100644
-+index 469eeb4eb5975..915ba11af3b33 100644
- --- a/src/freedreno/decode/meson.build
- +++ b/src/freedreno/decode/meson.build
- @@ -194,6 +194,7 @@ if dep_lua.found() and dep_libarchive.found()
-@@ -61,18 +104,20 @@ index 469eeb4eb597..dfa1c12d0d9f 100644
- =20
-      test('crashdec-' + name,
- diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
--index 98e49b8fcf0e..145e72597eb9 100644
-+index 98e49b8fcf0e9..f8bdc5299841b 100644
- --- a/src/freedreno/meson.build
- +++ b/src/freedreno/meson.build
--@@ -6,7 +6,7 @@ inc_freedreno_rnn =3D include_directories('rnn')
-+@@ -6,7 +6,10 @@ inc_freedreno_rnn =3D include_directories('rnn')
- =20
-  rnn_src_path =3D dir_source_root + '/src/freedreno/registers'
-  rnn_install_path =3D get_option('datadir') + '/freedreno/registers'
- -rnn_path =3D rnn_src_path + ':' + get_option('prefix') + '/' + rnn_inst=
-all_path
- +rnn_path =3D get_option('prefix') + '/' + rnn_install_path
-++if with_tools_for_development
-++  rnn_path =3D rnn_src_path + ':' + rnn_path
-++endif
- =20
-  dep_lua =3D dependency('lua54', 'lua53', 'lua52', 'lua', required: fals=
-e,
-                       allow_fallback: true, version: '>=3D5.2')
- --=20
--2.39.2
--
-+GitLab
-diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-=
-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxe=
-xt-don-t-try-zink-if-not-enabled-in-mesa.patch
-deleted file mode 100644
-index 036a0b4945..0000000000
---- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-=
-enabled-in-mesa.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
--From: Romain Naour <romain.naour@smile.fr>
--Date: Tue, 6 Feb 2024 09:47:10 +0100
--Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
--
--Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw=
- and sw drivers")
--added an automatic zink fallback even when the zink gallium is not
--enabled at build time.
--
--It leads to unexpected error log while loading drisw driver and
--zink is not installed on the rootfs:
--
--  MESA-LOADER: failed to open zink: /usr/lib/dri/zink_dri.so
--
--Fixes: 7d9ea77b459 ("glx: add automatic zink fallback loading between hw=
- and sw drivers")
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/27478]
--Signed-off-by: Romain Naour <romain.naour@smile.fr>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/glx/glxext.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/src/glx/glxext.c b/src/glx/glxext.c
--index 05c825a..7a06aa9 100644
----- a/src/glx/glxext.c
--+++ b/src/glx/glxext.c
--@@ -908,9 +908,11 @@ __glXInitialize(Display * dpy)
-- #endif /* HAVE_DRI3 */
--       if (!debug_get_bool_option("LIBGL_DRI2_DISABLE", false))
--          dpyPriv->dri2Display =3D dri2CreateDisplay(dpy);
--+#if defined(HAVE_ZINK)
--       if (!dpyPriv->dri3Display && !dpyPriv->dri2Display)
--          try_zink =3D !debug_get_bool_option("LIBGL_KOPPER_DISABLE", fa=
-lse) &&
--                     !getenv("GALLIUM_DRIVER");
--+#endif /* HAVE_ZINK */
--    }
-- #endif /* GLX_USE_DRM */
--    if (glx_direct)
----=20
--2.44.0
--
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb b/meta/recipes-=
-graphics/mesa/mesa-gl_24.1.4.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_24.1.4.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 973b762135..a73e9d52c5 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -16,14 +16,11 @@ PE =3D "2"
-=20
- SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
--           file://0001-drisw-fix-build-without-dri3.patch \
--           file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patc=
-h \
--           file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch =
-\
-            file://0001-amd-Include-missing-llvm-IR-header-Module.h.patch=
- \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch\
- "
-=20
--SRC_URI[sha256sum] =3D "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae=
-2c7d96db93f6c26a"
-+SRC_URI[sha256sum] =3D "7cf7c6f665263ad0122889c1d4b076654c1eedea7a2f38c6=
-9c8c51579937ade1"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
-=20
-@@ -144,9 +141,8 @@ PACKAGECONFIG[gles] =3D "-Dgles1=3Denabled -Dgles2=3D=
-enabled, -Dgles1=3Ddisabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Ddisabled"
-=20
--# "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
--OPENCL_NATIVE =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-=
-Dopencl-native=3Dtrue', '', d)}"
--PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtrue =
-${OPENCL_NATIVE},-Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libcl=
-c spirv-tools python3-ply-native"
-+# "opencl" requires libclc from meta-clang
-+PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtrue,=
--Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libclc spirv-tools pyt=
-hon3-ply-native"
-=20
- PACKAGECONFIG[broadcom] =3D ""
- PACKAGECONFIG[etnaviv] =3D ""
-diff --git a/meta/recipes-graphics/mesa/mesa_24.0.7.bb b/meta/recipes-gra=
-phics/mesa/mesa_24.1.4.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_24.0.7.bb
-rename to meta/recipes-graphics/mesa/mesa_24.1.4.bb
---=20
-2.45.1
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 1e4a323d64..ad58bebcf1 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "273a835fe7c685cc54266bb8b502787bad5e9bae"
++SRCREV_glibc ?= "e8f521709731ce3ae8d6f1eca30135d5c0606f02"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+-- 
+2.43.0
 
 
