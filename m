@@ -1,106 +1,199 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E11E6C3DA5D
-	for <webhook@archiver.kernel.org>; Fri, 19 Jul 2024 14:33:05 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.19945.1721399581753627171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF0EC3DA59
+	for <webhook@archiver.kernel.org>; Fri, 19 Jul 2024 15:50:46 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.21751.1721404244517907955
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jul 2024 07:33:02 -0700
+ Fri, 19 Jul 2024 08:50:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MBfdQWdV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-36799fb93baso779396f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 07:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721399580; x=1722004380; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=F69HimBqjWaQWwVVK7JI8+uwBiZLmTyYSFGTaprqeRo=;
-        b=MBfdQWdVT3g/7RvtTN3t3lZeYoteLnsSZX+i5fKALUT7UofksZ1eBTAxcw8mCZNjz+
-         zPT8rkDS1ZzF0CtxaGXFwL5J88Cdp1n/1aGQ0Ed6GymVmtBhp/DQUOHLzunmrVaQE4K2
-         LQHPTDBWgBZ0SCEC3w4oL8jDMgPmNPWspYvck=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721399580; x=1722004380;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F69HimBqjWaQWwVVK7JI8+uwBiZLmTyYSFGTaprqeRo=;
-        b=gvSHvZByVepEcSWR6Nazkka3Izw0TqxwNXi+JYvX7saVsJcSaZ5b20g1/Zh0pTQeLs
-         5Ufk7zllwmRONPmVoeRI0SaVpcXfOUdUzeJ9MMyG/yXP+M8YS23hJOeDsoSdWk/gxraf
-         4skIgYtT66uiSkT/eIouaDG7Pk2hTP7EoT6WHmdKVJJYWkKHzdGJAhTvYX3UUZfn14Zd
-         kwwbmGGIIJAo3C90PdCr4y1xnJkSPsH9E2nYDDAiHwiB1DKx+9JzNXn2a93tBpdsjqLa
-         Cc/uQjkE2m2y2xpEsmGSWJQ2VFPj1amLn0MYMUfmSZ5+tkeqKyvirnOOR3iANsPz3tWn
-         1A8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVGp+i2stRAoNR+/wGyY9URCY/nsn5Hlj9cz3aDfSWNN/2CyYvXrTi/7B9UrUyVrNbUADG3iWg+ClmNp3Fy23hWSV8fv1U9IG/tiqWSM/YKblqISE6N11e5
-X-Gm-Message-State: AOJu0YwZVnN1mB4xBRoEKi1hO75csu7q2O5/FGLckiFpuiMasrw+QQFg
-	Sc5XMliv8hytr/UhHmkIggxIf6sc09j8UNDXBC98InrABH/DGVLIOWMdu+wh6H8=
-X-Google-Smtp-Source: AGHT+IEZouI6Y4gAsZkAx7akbBHGfF3mtlkYbGugdArUjC/PDJY94+oTjjcDNAq4gGwbO4anqlcc/w==
-X-Received: by 2002:adf:a311:0:b0:367:8875:dd4c with SMTP id ffacd0b85a97d-368315fb700mr6210246f8f.23.1721399579957;
-        Fri, 19 Jul 2024 07:32:59 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ae78:24f6:1d30:8e7c? ([2001:8b0:aba:5f3c:ae78:24f6:1d30:8e7c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36878694d08sm1781184f8f.63.2024.07.19.07.32.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jul 2024 07:32:59 -0700 (PDT)
-Message-ID: <a703abe53573ba10add3194a9bca5a368619e217.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 1/4] package.py: Fix static debuginfo split
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mark.hatle@kernel.crashing.org, openembedded-core@lists.openembedded.org
-Cc: mark.hatle@amd.com
-Date: Fri, 19 Jul 2024 15:32:58 +0100
-In-Reply-To: <1721345282-10901-2-git-send-email-mark.hatle@kernel.crashing.org>
-References: 
-	<1721345282-10901-1-git-send-email-mark.hatle@kernel.crashing.org>
-	 <1721345282-10901-2-git-send-email-mark.hatle@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69928169E
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:51:09 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B5FDB3F73F
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 08:50:43 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] meson: upgrade 1.4.0 -> 1.5.0
+Date: Fri, 19 Jul 2024 16:50:39 +0100
+Message-Id: <20240719155039.3243662-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 14:33:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202265
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jul 2024 15:50:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202266
 
-On Thu, 2024-07-18 at 18:27 -0500, Mark Hatle via lists.openembedded.org wr=
-ote:
-> From: Mark Hatle <mark.hatle@amd.com>
->=20
-> Fix:
-> =C2=A0 NameError: name 'shutil' is not defined
->=20
-> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-> ---
-> =C2=A0meta/lib/oe/package.py | 2 ++
-> =C2=A01 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> index e6b46a0..8a64e13 100644
-> --- a/meta/lib/oe/package.py
-> +++ b/meta/lib/oe/package.py
-> @@ -838,6 +838,8 @@ def splitdebuginfo(file, dvar, dv, d):
-> =C2=A0=C2=A0=C2=A0=C2=A0 return (file, sources)
-> =C2=A0
-> =C2=A0def splitstaticdebuginfo(file, dvar, dv, d):
-> +=C2=A0=C2=A0=C2=A0 import shutil
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0 # Unlike the function above, there is no way to =
-split a static library
-> =C2=A0=C2=A0=C2=A0=C2=A0 # two components.=C2=A0 So to get similar result=
-s we will copy the unmodified
-> =C2=A0=C2=A0=C2=A0=C2=A0 # static library (containing the debug symbols) =
-into a new directory.
->=20
+- Support for `bztar` in `meson dist`
+- Cargo dependencies names now include the API version
+- Added support `Cargo.lock` file
+- Meson now propagates its build type to CMake
+- compiler.run() method is now available for all languages
+- dependencies created by compiler.find_library implement the `name()` me=
+thod
+- New version_argument kwarg for find_program
+- Meson configure handles changes to options in more cases
+- New meson format command
+- Added support for GCC's `null_terminated_string_arg` function attribute
+- A new dependency for ObjFW is now supported
+- Support of indexed `@PLAINNAME@` and `@BASENAME@`
+- Required kwarg on more `compiler` methods
+- The Meson test program supports a new "--interactive" argument
+- meson test now sets the `MESON_TEST_ITERATION` environment variable
+- The Meson test program supports a new "--max-lines" argument
+- Basic support for TI Arm Clang (tiarmclang)
+- Support for Texas Instruments C6000 C/C++ compiler
+- Wayland stable protocols can be versioned
 
-For a really minor performance tweak and general python styling, this
-should probably go at the top of the file since there isn't any real
-reason to have it in this function.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../meson/0001-Make-CPU-family-warnings-fatal.patch    | 10 +++++-----
+ ...module-do-not-manipulate-the-environment-when.patch |  8 ++++----
+ .../0002-Support-building-allarch-recipes-again.patch  |  4 ++--
+ .../meson/{meson_1.4.0.bb =3D> meson_1.5.0.bb}           |  2 +-
+ 4 files changed, 12 insertions(+), 12 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.4.0.bb =3D> meson_1.5.0.bb} =
+(98%)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warni=
+ngs-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-=
+warnings-fatal.patch
+index 94129b2f25f..b319eddf644 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
+al.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
+al.patch
+@@ -1,4 +1,4 @@
+-From c61c93f43b70ba0670d41e841bff9f2a7186cc2f Mon Sep 17 00:00:00 2001
++From f6076436e5de9a768488c34ca301bf52eee947af Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  2 files changed, 4 insertions(+), 6 deletions(-)
+=20
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index 0e9cd23..b44e60c 100644
++index 86bad9b..9703315 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+-@@ -276,8 +276,8 @@ class MachineInfo(HoldableObject):
++@@ -277,8 +277,8 @@ class MachineInfo(HoldableObject):
+                  'but is missing {}.'.format(minimum_literal - set(liter=
+al)))
+ =20
+          cpu_family =3D literal['cpu_family']
+@@ -26,10 +26,10 @@ index 0e9cd23..b44e60c 100644
+          endian =3D literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index af69f64..248d6dd 100644
++index be40dbc..630eb4d 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -379,10 +379,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
+str:
++@@ -384,10 +384,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
+str:
+          if compilers and not any_compiler_has_define(compilers, '__mips=
+64'):
+              trial =3D 'mips'
+ =20
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-=
+manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson=
+/0001-python-module-do-not-manipulate-the-environment-when.patch
+index 9f3f516a5c1..e6db6121abc 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
+ate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
+ate-the-environment-when.patch
+@@ -1,4 +1,4 @@
+-From b4c0602a56d3517ab66b98a7dbb69defe77d29a3 Mon Sep 17 00:00:00 2001
++From 786cdef7339ad865d29f92594ee7d18589b22fd2 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when c=
+alling
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.=
+com>
+  1 file changed, 1 insertion(+), 5 deletions(-)
+=20
+ diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies=
+/python.py
+-index b9b17f8..a305afb 100644
++index 883a29a..52bfbf3 100644
+ --- a/mesonbuild/dependencies/python.py
+ +++ b/mesonbuild/dependencies/python.py
+-@@ -381,9 +381,6 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
++@@ -399,9 +399,6 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
+                      empty.name =3D 'python'
+                      return empty
+ =20
+@@ -24,7 +24,7 @@ index b9b17f8..a305afb 100644
+                  try:
+                      return PythonPkgConfigDependency(name, env, kwargs,=
+ installation, True)
+                  finally:
+-@@ -392,8 +389,7 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
++@@ -410,8 +407,7 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
+                              os.environ[name] =3D value
+                          elif name in os.environ:
+                              del os.environ[name]
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-alla=
+rch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-=
+building-allarch-recipes-again.patch
+index fa5ea57d5b9..bceb149bbf8 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
+ipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
+ipes-again.patch
+@@ -1,4 +1,4 @@
+-From 7f69bfabb87d311d7409ea6699f7dee8e9b3a95b Mon Sep 17 00:00:00 2001
++From 249df6f74a8609663a79506374b9c632848e41f2 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+@@ -12,7 +12,7 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@a=
+xis.com>
+  1 file changed, 1 insertion(+)
+=20
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index b44e60c..c70e8cb 100644
++index 9703315..74f2477 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+ @@ -28,6 +28,7 @@ from pathlib import Path
+diff --git a/meta/recipes-devtools/meson/meson_1.4.0.bb b/meta/recipes-de=
+vtools/meson/meson_1.5.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.4.0.bb
+rename to meta/recipes-devtools/meson/meson_1.5.0.bb
+index a0c2ee633ae..fb20f6895eb 100644
+--- a/meta/recipes-devtools/meson/meson_1.4.0.bb
++++ b/meta/recipes-devtools/meson/meson_1.5.0.bb
+@@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/meson-${=
+PV}.tar.gz \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
+            "
+-SRC_URI[sha256sum] =3D "8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b3=
+30e25935b750138d"
++SRC_URI[sha256sum] =3D "45d7b8653c1e5139df35b33be2dd5b2d040c5b2c6129f9a7=
+c890d507e33312b8"
+ UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)$"
+=20
+ inherit python_setuptools_build_meta github-releases
+--=20
+2.34.1
 
 
