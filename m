@@ -1,86 +1,128 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9296DC3DA59
-	for <webhook@archiver.kernel.org>; Sat, 20 Jul 2024 13:07:54 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.5714.1721480873129549537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE36C3DA59
+	for <webhook@archiver.kernel.org>; Sat, 20 Jul 2024 13:12:44 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web11.5797.1721481158263994092
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jul 2024 06:07:53 -0700
+ Sat, 20 Jul 2024 06:12:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QZqQ0X0z;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4266fd39527so19918275e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jul 2024 06:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721480871; x=1722085671; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MiCINsy+n6kCHxvkcZGrh+vVfWIGwUR+R0u6lLf11I4=;
-        b=QZqQ0X0zgp/PpzKTznCWsUMMvggH/dIzx7SPT5qgX5ATTsthB4OydWpm33VruGC6kf
-         6Ru2VY/L/NkdJtdFMSD2DTmbEsBsGU34/w68AQ2aSQ5bUR2edaB5Qy9NQ9p37ew4rpM4
-         xUIdlVW0wHd6bknlI48rxb0cUpHZiQzStiS6DNKftQ6z27WxoZ19vesB0hy1DUX45ahb
-         cIBpyU2p0rEhftd/Hi2MmioUg2xpg+yOuQ0EXnu4TPT1iFokg5QIT/W8V14bDl4Kr28y
-         3G0woWe7SJ9cgOZC97xzQAOsNd8ATZG2dUnrhcU3VIQGSvticQCP4V5hVOeEECjM7IZK
-         izJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721480871; x=1722085671;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MiCINsy+n6kCHxvkcZGrh+vVfWIGwUR+R0u6lLf11I4=;
-        b=pw6nedP8qEVTTtI3I8pzsjUdwbW2VXluHG4xHc67/20Troqsmjvw4dzJdyv41omyVL
-         C/fBmkwi06H2sAQ4+0iRkNClhp8BIuaT1uUANFE7CYraFERnIQgfFPRfcboNyHchmqkg
-         1P/p1teJyxi6MckV5h9h9VePc/tUPN8v3YsfOytwUQWAH6DdMVJlKAOgJDy6TtGDdPU3
-         1idDxRtjtQB2+nESlMAyASwaE79AvNJ9Jy18dQQjfokxUq9G8TOx+OOXoKswNLKuQj9R
-         Ma4IuGnIAiCU/eBkaK9wLPu8dbsbSxJj1r0R62PO28U2HGXlqMkrr2QId0jVu+EBqzlS
-         clVw==
-X-Gm-Message-State: AOJu0Yye8e3Ryuq1G3x3ea6mXp39jry39dzqH903yFI7tTCYp/Pde7Cz
-	XDugs5hIpAg1rKdqhW6Wxzi9zvRFw3oviwTcrE8GQPbFWp0o5nbZMEmLyg==
-X-Google-Smtp-Source: AGHT+IFQPggy7cnwoJ/fYlmOOC5mXJvzntv+f4jjCKCe8x9JFRocjcDyzfR1XuElZ1bFVQ4u98FOsw==
-X-Received: by 2002:a05:600c:4706:b0:426:593c:935f with SMTP id 5b1f17b1804b1-427dee74530mr2182195e9.1.1721480870700;
-        Sat, 20 Jul 2024 06:07:50 -0700 (PDT)
-Received: from gudni-virtual-machine.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d68fa09bsm57684325e9.7.2024.07.20.06.07.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jul 2024 06:07:49 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] python3-attrs: drop python3-ctypes from RDEPENDS
-Date: Sat, 20 Jul 2024 13:07:24 +0000
-Message-Id: <20240720130724.3255946-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd82.aul.t-online.de (fwd82.aul.t-online.de [10.223.144.108])
+	by mailout06.t-online.de (Postfix) with SMTP id 9FC7780F;
+	Sat, 20 Jul 2024 15:12:35 +0200 (CEST)
+Received: from [192.168.178.67] ([84.154.170.18]) by fwd82.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1sV9t0-04IjRI0; Sat, 20 Jul 2024 15:12:30 +0200
+Date: Sat, 20 Jul 2024 15:13:27 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCHv2] mesa: update 24.0.7 -> 24.1.4
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <FEBXGS.KNKG6FKVWFHG3@t-online.de>
+In-Reply-To: <e60b141e96810107ceda0be06d4a084f0ff0fd88.camel@linuxfoundation.org>
+References: <20240719081047.2382310-1-f_l_k@t-online.de>
+	<e60b141e96810107ceda0be06d4a084f0ff0fd88.camel@linuxfoundation.org>
+X-Mailer: geary/46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="=-ONNPiP6rkmqqvmyTxkCZ"
+X-TOI-EXPURGATEID: 150726::1721481150-E27FFA3B-83DEE402/0/0 CLEAN NORMAL
+X-TOI-MSGID: fd022e53-3912-462c-9e82-4bf98ba53059
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jul 2024 13:07:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202286
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jul 2024 13:12:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202287
 
-python3-ctypes was dropped as a dependency in v19.2.0
+--=-ONNPiP6rkmqqvmyTxkCZ
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
----
- meta/recipes-devtools/python/python3-attrs_23.2.0.bb | 1 -
- 1 file changed, 1 deletion(-)
+I had a look. libclc dependency becomes mandatory once 'iris' is in 
+gallium drivers or 'intel' is in vulkan drivers. It would also be 
+included for gallium-asahi, but that is not enabled by default.
+iris gallium driver is built by default and vulkan depends on 
+DISTRO_FEATURE
 
-diff --git a/meta/recipes-devtools/python/python3-attrs_23.2.0.bb b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-index a638097988..e39b64306c 100644
---- a/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-@@ -20,7 +20,6 @@ DEPENDS += " \
- 
- RDEPENDS:${PN}+= " \
-     python3-compression \
--    python3-ctypes \
-     python3-crypt \
- "
- 
--- 
-2.34.1
+This makes libclc required for quite a few common drivers now.
+
+What would be the desired way to go here?
+Make vulkan dependent on opencl and additionally dont build 
+gallium-iris by default?
+Or make libclc a requirement for mesa?
+
+On Sat, Jul 20 2024 at 12:04:04 PM +01:00:00, Richard Purdie 
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2024-07-19 at 10:10 +0200, Markus Volk via
+> lists.openembedded.org wrote:
+>>   - Remove two patches that have been merged upstream
+>>   - Remove 0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+>>     Upstream managed to fix this:
+>> 
+>>  
+>> <https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/meson.build?ref_type=heads#L839>
+>>   - Drop OPENCL_NATIVE since the according option has been removed
+>>  from meson_options.txt
+>>   - Update 0001-freedreno-don-t-encode-build-path-into-binaries.patch
+> 
+> <https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/9096/steps/12/logs/stdio>
+> 
+> (and lots more in that parent build)
+> 
+> Maybe the option was removed as it probably became mandatory? :/
+> 
+> Cheers,
+> 
+> Richard
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202276): 
+> <https://lists.openembedded.org/g/openembedded-core/message/202276>
+> Mute This Topic: <https://lists.openembedded.org/mt/107431781/3618223>
+> Group Owner: openembedded-core+owner@lists.openembedded.org 
+> <mailto:openembedded-core+owner@lists.openembedded.org>
+> Unsubscribe: 
+> <https://lists.openembedded.org/g/openembedded-core/unsub> 
+> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+--=-ONNPiP6rkmqqvmyTxkCZ
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto"><div>I had a look. libclc dependency becomes mandatory once 'iris' is in gallium drivers or 'intel' is in vulkan drivers. It would also be included for gallium-asahi, but that is not enabled by default.&nbsp;</div><div>iris gallium driver is built by default and vulkan depends on DISTRO_FEATURE</div><div><br></div><div>This makes libclc required for quite a few common drivers now.</div><div><br></div><div>What would be the desired way to go here?</div><div>Make vulkan dependent on opencl and additionally dont build gallium-iris by default?</div><div>Or make libclc a requirement for mesa?</div></div><div id="geary-quote" dir="auto"><br>On Sat, Jul 20 2024 at 12:04:04 PM +01:00:00, Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">On Fri, 2024-07-19 at 10:10 +0200, Markus Volk via
+lists.openembedded.org wrote:
+<blockquote> &nbsp;- Remove two patches that have been merged upstream
+ &nbsp;- Remove 0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+ &nbsp;&nbsp; Upstream managed to fix this:
+ &nbsp;&nbsp;
+ <a href="https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/meson.build?ref_type=heads#L839">https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/meson.build?ref_type=heads#L839</a>
+ &nbsp;- Drop OPENCL_NATIVE since the according option has been removed
+ from meson_options.txt
+ &nbsp;- Update 0001-freedreno-don-t-encode-build-path-into-binaries.patch
+</blockquote>
+<a href="https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/9096/steps/12/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/9096/steps/12/logs/stdio</a>
+
+(and lots more in that parent build)
+
+Maybe the option was removed as it probably became mandatory? :/
+
+Cheers,
+
+Richard
+</div><div class="plaintext" style="white-space: break-spaces;">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#202276): <a href="https://lists.openembedded.org/g/openembedded-core/message/202276">https://lists.openembedded.org/g/openembedded-core/message/202276</a>
+Mute This Topic: <a href="https://lists.openembedded.org/mt/107431781/3618223">https://lists.openembedded.org/mt/107431781/3618223</a>
+Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</div></blockquote></div>
+--=-ONNPiP6rkmqqvmyTxkCZ--
 
 
