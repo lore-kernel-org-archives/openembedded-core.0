@@ -1,101 +1,107 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C654C3DA49
-	for <webhook@archiver.kernel.org>; Sat, 20 Jul 2024 12:53:34 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.5535.1721480009414313754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A1FC3DA59
+	for <webhook@archiver.kernel.org>; Sat, 20 Jul 2024 13:06:54 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.5752.1721480810521328235
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jul 2024 05:53:29 -0700
+ Sat, 20 Jul 2024 06:06:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=C0Vt72DU;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=gEmWFmBJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010190d0345308-583ebdc3-dc11-45e9-a4df-c93b1e480232-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721480008; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=2Ytn23COxj6NHqOxyjbWMGo/VSkiiJ12llcwYYoc8xw=;
-	b=C0Vt72DUlZvnxKgE1fF2lqJMAz8GUbUkfMqvpi8RzqXaPuXxPQlTP2kcwT6mJw1B
-	o/Ey9G7U/CMKLqeftgEGfOr5UR5/4O8xe9IdpT7f5WRwY0/DfxtABNubaFvshWhzSQf
-	g+6tEDw43w7SsKOHx5g7t6hUM/EIpyfUDEa3TefE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721480008;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=2Ytn23COxj6NHqOxyjbWMGo/VSkiiJ12llcwYYoc8xw=;
-	b=gEmWFmBJEs7HMmBkR/h/orBdfKYaVkWM9i+Mc6o8poVfiGdn4lqk+L5RbmiifHUa
-	wiOw/XvwAcKAtObC95dXGSjHE/y3BVriK9a8IAOhqdm2EY/S8tGLCSoq103B5Jel6uK
-	LQrZKIPs4W6HgTEy0Absm+Rlb8iyPbEU/vYqLQtE=
-From: patchtest@automation.yoctoproject.org
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone 5/6] python3-jinja2: Upgrade 3.1.3 -> 3.1.4
-In-Reply-To: 
- <58ee84c274b0c93902aad5d4f434daec5da55134.1721479252.git.steve@sakoman.com>
-References: 
- <58ee84c274b0c93902aad5d4f434daec5da55134.1721479252.git.steve@sakoman.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190d0345308-583ebdc3-dc11-45e9-a4df-c93b1e480232-000000@us-west-2.amazonses.com>
-Date: Sat, 20 Jul 2024 12:53:28 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.20-54.240.27.31
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g/lwxsyL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4266f535e82so18160495e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jul 2024 06:06:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1721480809; x=1722085609; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NJN0mDcKv3nrFS1jl5kBjoQdUSM7G2KSDeOch3wCEtQ=;
+        b=g/lwxsyL7zWuwSUrAlugDocOFTsVx0DzDeZoyENt05k8jKrb9MAOMrAr86Ang8dGsk
+         dI4jRCfRs9iupZDuWXBmw0jjETXLj3LqRFfduyUpT3kSxuHOUEMvlFDtu6yMFELTMa+g
+         Fk2gWB42cU/0xmnM5diX8GKl3++eV9n1ni1RE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721480809; x=1722085609;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NJN0mDcKv3nrFS1jl5kBjoQdUSM7G2KSDeOch3wCEtQ=;
+        b=J0Wz0w/lgDoGruD5mZ370VXSgNz76JqwEtIlqwqBawx763yUP3LitsXckdvdfwMXrG
+         s94ueSGPztblG9RUCpLgIFetkSoSWrqcmREqbpCSeBNh3TJPl9bw8I1XxnzinT0CCVwb
+         ajKO74JWa99OeLn8iA4gxOAx8eWlH3XPggKic36TDkruMOtln5lBHJJEY4bLXBwgBpxX
+         ytv9J/Bn0M+uGhWu1dG8yFhbqtY3RKO0MePffxUfXYiV/FCSlJkYp5+lJsZixlHgMAEb
+         5xfykGNUHYWiuJsP3Q/wzIu/UC4F/YIcfCkCAajApi3jnGVMKYKhnsj3GHERpFKJkBGL
+         /9lw==
+X-Forwarded-Encrypted: i=1; AJvYcCXyCs0fcuN1YH0jmcS9z4HZtldrv6vsX79ksnw/MtI1yX/vgiNRFLBMxjRlx6iCR87R0PWfrvEOhHN8zuW6/JZ001KuFANUMw1M6ZGzD9KN4Ud2MMTFmPkQ
+X-Gm-Message-State: AOJu0YxHlmuJZTJ7wPSigcT3ZRBRYS/BSneQGup1uOJp7nRLOlPe5upF
+	drRLOn3M18veae0DmIvLDXAP9pTXEIbqJtaTLMWuU+CWGNdoDxknbUiJ5+67BMg=
+X-Google-Smtp-Source: AGHT+IG3j61Dt7IbgD4/hztDhjh3Vrw4cIHUNK6yP86iix/tfa2ik9wZ61AhgZTlf9zdKDksxDkKhg==
+X-Received: by 2002:a05:600c:83c8:b0:427:abf6:f0e6 with SMTP id 5b1f17b1804b1-427dc51f966mr10298995e9.9.1721480808774;
+        Sat, 20 Jul 2024 06:06:48 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:47af:df48:475e:ef50? ([2001:8b0:aba:5f3c:47af:df48:475e:ef50])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d690152esm56312675e9.13.2024.07.20.06.06.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jul 2024 06:06:48 -0700 (PDT)
+Message-ID: <0a8d102337d8ae985340cc99033043190340b2a5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] meson: upgrade 1.4.0 -> 1.5.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
+Date: Sat, 20 Jul 2024 14:06:47 +0100
+In-Reply-To: <20240719155039.3243662-1-ross.burton@arm.com>
+References: <20240719155039.3243662-1-ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jul 2024 12:53:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202284
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jul 2024 13:06:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202285
 
---NextPart
-Content-Type: text/plain
+On Fri, 2024-07-19 at 16:50 +0100, Ross Burton via lists.openembedded.org w=
+rote:
+> - Support for `bztar` in `meson dist`
+> - Cargo dependencies names now include the API version
+> - Added support `Cargo.lock` file
+> - Meson now propagates its build type to CMake
+> - compiler.run() method is now available for all languages
+> - dependencies created by compiler.find_library implement the `name()` me=
+thod
+> - New version_argument kwarg for find_program
+> - Meson configure handles changes to options in more cases
+> - New meson format command
+> - Added support for GCC's `null_terminated_string_arg` function attribute
+> - A new dependency for ObjFW is now supported
+> - Support of indexed `@PLAINNAME@` and `@BASENAME@`
+> - Required kwarg on more `compiler` methods
+> - The Meson test program supports a new "--interactive" argument
+> - meson test now sets the `MESON_TEST_ITERATION` environment variable
+> - The Meson test program supports a new "--max-lines" argument
+> - Basic support for TI Arm Clang (tiarmclang)
+> - Support for Texas Instruments C6000 C/C++ compiler
+> - Wayland stable protocols can be versioned
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+> =C2=A0.../meson/0001-Make-CPU-family-warnings-fatal.patch=C2=A0=C2=A0=C2=
+=A0 | 10 +++++-----
+> =C2=A0...module-do-not-manipulate-the-environment-when.patch |=C2=A0 8 ++=
+++----
+> =C2=A0.../0002-Support-building-allarch-recipes-again.patch=C2=A0 |=C2=A0=
+ 4 ++--
+> =C2=A0.../meson/{meson_1.4.0.bb =3D> meson_1.5.0.bb}=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A04 files changed, 12 insertions(+), 12 deletions(-)
+> =C2=A0rename meta/recipes-devtools/meson/{meson_1.4.0.bb =3D> meson_1.5.0=
+.bb} (98%)
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/9210/step=
+s/13/logs/stdio
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-5-6-python3-jinja2-Upgrade-3.1.3---3.1.4.patch
+Cheers,
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Richard
 
