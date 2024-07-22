@@ -1,90 +1,99 @@
-Return-Path: <mhalstead@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD7BC3DA59
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 18:10:46 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.25049.1721671836222287291
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB0FC3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 18:19:16 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.25307.1721672348846903951
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jul 2024 11:10:36 -0700
+ Mon, 22 Jul 2024 11:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZArmlptW;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.216.43, mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2cb576db1c5so2262047a91.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 11:10:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721671835; x=1722276635; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oy/BO0eayLoytxuL71ZIxBBOR+gdfUKzYRPEcAFQzz4=;
-        b=ZArmlptWzaCTHcIN9n1CWDocAYqfABFHWXIp8coI+UafMwdYK4LqpqjbHo4VBsu6xx
-         Jybh2wxd+kwrDIT2dT9/vsNTypXEChm6novJtRae7Kw6NmyH9CU4/N7AL+WhtOGoDnM7
-         DN/QMX9Pr1nlEu78PtQNn3e6Dfa1GZLvHS8nY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721671835; x=1722276635;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oy/BO0eayLoytxuL71ZIxBBOR+gdfUKzYRPEcAFQzz4=;
-        b=pI3a6/Gd22G+0mt7Y0kyvbAOb4Otm2T2VNW/Ijm9cSaakdHjYMwJSBa0CSd1EO8E/M
-         Qcn2XnGXrHIQzAT1K8JZ9bbqXct8vCxAsdE39sF58LnGnzGhliDE0C5pLYM5fRdk7lkQ
-         bINEGe1A0RdkoqGvv2VAbtCjuCXbN84YzwwTH4xtyU54+7gWCCV+6ocllqu2/TN05J3E
-         6E5AdXmPgfS5eoe1fbmoHU9wNa7OAEdYyyC8l/nEMAisfnUpBl1JXS3PEigtBe83nR0L
-         +mNEA2XR/Qa81bVV4SznRyZvgvbwmjnnjBmfF0v+UmM2Jht7atEAEFuXlF8PGjPsceVX
-         vSlA==
-X-Gm-Message-State: AOJu0Yx5ohn2rh2+m4NzQmVvOOWypTbyVPIaEP/XJvjzCFHcij7VLhEx
-	ik+AmYB49NwC5fKURSmwbxCKsLGt5Tt6it6N5QRn/V94tMsVNt4Ji42xcl/MJqKwdtFSxvnjvFf
-	lhqBNfg==
-X-Google-Smtp-Source: AGHT+IEHCWMzzrDiEifSs5JDa2vA6Fk337JWt/yxFXbRt7CUopYBaGS6YU6BEmRG+B72rooxNPKWiQ==
-X-Received: by 2002:a17:90a:db03:b0:2c9:5f45:5d30 with SMTP id 98e67ed59e1d1-2cd27439081mr3680973a91.26.1721671834546;
-        Mon, 22 Jul 2024 11:10:34 -0700 (PDT)
-Received: from hd-yct-laptop.hsd1.or.comcast.net ([2601:1c2:c181:f910::ef7e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ccf7c76fe7sm7332870a91.33.2024.07.22.11.10.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 11:10:33 -0700 (PDT)
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	Michael Halstead <mhalstead@linuxfoundation.org>
-Subject: [OE-core][PATCH] yocto-uninative: Update to 4.6 for glibc 2.40
-Date: Mon, 22 Jul 2024 11:10:04 -0700
-Message-ID: <20240722181003.73353-2-mhalstead@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=U++xOyqM;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZXtuD+W4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010190dbab30e0-1ae0575a-f982-40a3-ae63-96283c1ae91e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1721672348; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=sePBIBhZs6kzErYlh1OMtXNEpzj18S1X+EWYWcUM7aw=;
+	b=U++xOyqM8RQpvZ2eqA70UD1NMyLUmRAYsfJh/HxOOc2x2vA/S60GvtalFXnZSMH/
+	rVPohdwanPqxp1hw2BPNMvthNGFD8SXud2ZXcJYNoXbDrcKJaRjVbDWOmIrBv8D/Gt3
+	ltbaF/5fFq1eXGbPPatPVjZu2HJtLyDUWCp/F7JU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721672348;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=sePBIBhZs6kzErYlh1OMtXNEpzj18S1X+EWYWcUM7aw=;
+	b=ZXtuD+W4RDIW2jOmGFbA9Lu219bSqBIDkaEUAXzrVmf2UIEMZ+ecuTLw7r+YqkmC
+	//YB7UokI690tok3du98CVzBeRug5fABNwqC4ORAJkR841coVvm1KdPLcwPBUyRUfFO
+	erFy/qunp3pw+uqTm3AfJcyXcBVCYWmh7NpuG4HE=
+From: patchtest@automation.yoctoproject.org
+To: Michael Halstead <mhalstead@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH] yocto-uninative: Update to 4.6 for glibc 2.40
+In-Reply-To: <20240722181003.73353-2-mhalstead@linuxfoundation.org>
+References: <20240722181003.73353-2-mhalstead@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190dbab30e0-1ae0575a-f982-40a3-ae63-96283c1ae91e-000000@us-west-2.amazonses.com>
+Date: Mon, 22 Jul 2024 18:19:07 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.22-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 18:10:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202320
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 18:19:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202321
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Testing patch /home/patchtest/share/mboxes/yocto-uninative-Update-to-4.6-for-glibc-2.40.patch
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 657c1032f9..a6f7107dfe 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.39"
--UNINATIVE_VERSION = "4.5"
-+UNINATIVE_MAXGLIBCVERSION = "2.40"
-+UNINATIVE_VERSION = "4.6"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "df2e29e2e6feb187a3499abf3b1322a3b251da819c77a7b19d4fe952351365ab"
--UNINATIVE_CHECKSUM[i686] ?= "8ef3eda53428b484c20157f6ec3c130b03080b3d4b3889067e0e184e05102d35"
--UNINATIVE_CHECKSUM[x86_64] ?= "43ee6a25bcf5fce16ea87076d6a96e79ead6ced90690a058d07432f902773473"
-+UNINATIVE_CHECKSUM[aarch64] ?= "c2d36338272eba101580f648dd8dff5352cdb4c1809db7dedf8fc4d7e7df716c"
-+UNINATIVE_CHECKSUM[i686] ?= "0041584678109c18deca48fb59eaf14cf725cf024a170ab537b354b63240c504"
-+UNINATIVE_CHECKSUM[x86_64] ?= "6bf00154c5a7bc48adbf63fd17684bb87eb07f4814fbb482a3fbd817c1ccf4c5"
--- 
-2.45.2
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
