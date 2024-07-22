@@ -1,83 +1,149 @@
-Return-Path: <w.egorov@phytec.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE4F6C3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 08:58:53 +0000 (UTC)
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
- by mx.groups.io with SMTP id smtpd.web11.14171.1721638731362124561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D76ADC3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 09:22:43 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.14278.1721640156005478829
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jul 2024 01:58:52 -0700
+ Mon, 22 Jul 2024 02:22:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@phytec.de header.s=a4 header.b=WuvcT7rR;
- spf=pass (domain: phytec.de, ip: 91.26.50.163, mailfrom: w.egorov@phytec.de)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
-	q=dns/txt; i=@phytec.de; t=1721638728; x=1724230728;
-	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=J94et+CTrYVx+nSghDGu58MDihpnFcidRALuvSGpLWk=;
-	b=WuvcT7rR0DtifQvxchYhr79yf0TQbZBGQ5+qIOLk6XKl+pj/fonOaz/9giBGnnWH
-	4rdlfBPMs7yjVWdecLQeWfkza7paMXdEi91KDfUTX8ofJGPjd/SVXHeWoidOD61p
-	FHfSdHXFDcy0H/XQm/1o8Wmhrrl+9ge5dMzu8ZO7y48=;
-X-AuditID: ac14000a-03251700000021bc-3c-669e1f48d123
-Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
-	(using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(Client did not present a certificate)
-	by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id A2.8D.08636.84F1E966; Mon, 22 Jul 2024 10:58:48 +0200 (CEST)
-Received: from augenblix2.phytec.de (172.25.0.11) by Berlix.phytec.de
- (172.25.0.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Mon, 22 Jul
- 2024 10:58:48 +0200
-From: Wadim Egorov <w.egorov@phytec.de>
-To: <openembedded-core@lists.openembedded.org>, <upstream@lists.phytec.de>
-Subject: [PATCH] watchdog: Set watchdog_module in default config
-Date: Mon, 22 Jul 2024 10:58:40 +0200
-Message-ID: <20240722085840.2145487-1-w.egorov@phytec.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YzQlpmWl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42726d6eca5so29378825e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 02:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1721640154; x=1722244954; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AChxlrSPR4An3j8xuRqtgKfrIOTFX1nBCTGDrh0zYc8=;
+        b=YzQlpmWl8bfFfbXJyrHbMs0hejyzkb+I+RZ21vSbWmEDgHLxJbFrdep2yn6iQxiHgM
+         s5wBSJVbrtSirNkdXPdqrcoI3mSvYS5f4q6ZTLAdVStkcjQHWCHD6hN8KV/PExzQWsUi
+         rD7Kw72yTCVHu2VZUdrHiAWBYPZVGgDpmZE30=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721640154; x=1722244954;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AChxlrSPR4An3j8xuRqtgKfrIOTFX1nBCTGDrh0zYc8=;
+        b=o9esGyAVITK2KR9OvJJlU+QZ6OnQv8tNxFOtVG00xiKxIwYLCt/CQVXYUrl9ptQEnl
+         raBbcQT5cvD+tctkj7uH1q40Xuyk9PPTW4mJPjOflqSPKJfVtKad1EtQ4V8anf8cRPIt
+         pn0nVQMVJsipHfdQGhQnCcx5FVbYv7gzG+m8VuLqrVPLDZWZ5gmhjDwsfYkWckXbQuBy
+         4Nvdbk5VRvfReeyYU80I9qU/GDNSOUWfg/LjH/8TnkPWq1yWwg/RA7xN7ETmE+8d9T2N
+         lCqOgif84kYSlvsYjOcpm73lek6yTTJh1elRqev/O4t7rg9L9Nwuom/A21WY/FnaYK8p
+         2CTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWZDGH5ktEb9cvpRqV34pb50QzDHl/RIwZK/V1yZ2mra2UBzu4albeW55T/7EeBmC8IXZLwgX2X6uZELzNvfzVsqDwaRlcDJkjgcKIcmBi9dGMGil69nBv
+X-Gm-Message-State: AOJu0YwyjR2UZxPrj3Za09Zhu+/NbBnxKVexq7gcWzC7c7YSVrrpRU3M
+	ET2xCxh8eCiUsPbXplOy7S/c5X75Y2sPCmfDtKp13toQJxdP168IRILSwMEk64w=
+X-Google-Smtp-Source: AGHT+IG+Yv2sAP/9tyFu7ZFZbem/gFlrxxEVHoWhPbAHdziggqEF1K1k51u5Cuq/IA239NnZU8ZUuw==
+X-Received: by 2002:a05:600c:45ce:b0:426:63b4:73b0 with SMTP id 5b1f17b1804b1-427dc578924mr40479675e9.34.1721640154215;
+        Mon, 22 Jul 2024 02:22:34 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1ff2:149f:b661:e63c? ([2001:8b0:aba:5f3c:1ff2:149f:b661:e63c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2a947fasm146594755e9.43.2024.07.22.02.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 02:22:33 -0700 (PDT)
+Message-ID: <f4d52025ba8c00ceaf60819d21ebf62532e8b535.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFT][PATCH 1/2] glibc: Upgrade to 2.40
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jul 2024 10:22:33 +0100
+In-Reply-To: <20240721180336.2642270-1-raj.khem@gmail.com>
+References: <20240721180336.2642270-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.25.0.11]
-X-ClientProxiedBy: Berlix.phytec.de (172.25.0.12) To Berlix.phytec.de
- (172.25.0.12)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGLMWRmVeSWpSXmKPExsWyRpKBR9dDfl6awaa3khZ3fr5jt+h+p+7A
-	5HFu4wpGj/7uFtYApigum5TUnMyy1CJ9uwSujAPvV7IU/GCr6FrVytrA2MbWxcjJISFgIvFy
-	UzdLFyMXh5DAEiaJL+uvM0E4jxklZk/aDFbFJqAucWfDN1YQW0TAS+LduffsXYwcHMICDhKL
-	GpRAwiwCqhJ9bzYwgti8ApYS145uYoRYIC8x89J3doi4oMTJmU9YQGxmoHjz1tnMELaExMEX
-	L8BsIaD4i0vLWWB6p517zQxhh0ps/bKdaQIj/ywko2YhGTULyagFjMyrGIVyM5OzU4sys/UK
-	MipLUpP1UlI3MYLCToSBawdj3xyPQ4xMHIyHGCU4mJVEeJ+8mpsmxJuSWFmVWpQfX1Sak1p8
-	iFGag0VJnHd1R3CqkEB6YklqdmpqQWoRTJaJg1OqgdFs9oHTDCUHj9Zp3imX3pJz/lxP69wN
-	twyZ+yeLb7jGa2u8+uV7MwPTDKmA0v0GKQHXV946f1hqm2rE/64px7X0cjLObrt2SSgnr6XD
-	d4Yh80VplvITvVte5D/adDV+5qa9W6+6zgjepmbKztf3cOrNSF1n9cnrdslLzV0YNGmTfPGj
-	uB1Pn/1WYinOSDTUYi4qTgQA4XjNmCkCAAA=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 08:58:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202311
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 09:22:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202312
 
-systemd started to warn about used but unset environment variables.
-Let us set watchdog_module=none which is used by the watchdog.service to get
-rid of the following warning:
+On Sun, 2024-07-21 at 11:03 -0700, Khem Raj via lists.openembedded.org wrot=
+e:
+> Major new features:
+>=20
+> * The <stdbit.h> header type-generic macros have been changed when using
+> =C2=A0 GCC 14.1 or later to use __builtin_stdc_bit_ceil etc. built-in fun=
+ctions
+> =C2=A0 in order to support unsigned __int128 and/or unsigned _BitInt(N) o=
+perands
+> =C2=A0 with arbitrary precisions when supported by the target.
+>=20
+> * The GNU C Library now supports a feature test macro _ISOC23_SOURCE to
+> =C2=A0 enable features from the ISO C23 standard.=C2=A0 Only some feature=
+s from
+> =C2=A0 this standard are supported by the GNU C Library.=C2=A0 The older =
+name
+> =C2=A0 _ISOC2X_SOURCE is still supported.=C2=A0 Features from C23 are als=
+o enabled
+> =C2=A0 by _GNU_SOURCE, or by compiling with the GCC options -std=3Dc23,
+> =C2=A0 -std=3Dgnu23, -std=3Dc2x or -std=3Dgnu2x.
+>=20
+> * The following ISO C23 function families (introduced in TS
+> =C2=A0 18661-4:2015) are now supported in <math.h>.=C2=A0 Each family inc=
+ludes
+> =C2=A0 functions for float, double, long double, _FloatN and _FloatNx, an=
+d a
+> =C2=A0 type-generic macro in <tgmath.h>.
+>=20
+> =C2=A0 - Exponential functions: exp2m1, exp10m1.
+>=20
+> =C2=A0 - Logarithmic functions: log2p1, log10p1, logp1.
+>=20
+> * A new tunable, glibc.rtld.enable_secure, can be used to run a program
+> =C2=A0 as if it were a setuid process. This is currently a testing tool t=
+o allow
+> =C2=A0 more extensive verification tests for AT_SECURE programs and not m=
+eant to
+> =C2=A0 be a security feature.
+>=20
+> * On Linux, the epoll header was updated to include epoll ioctl definitio=
+ns
+> =C2=A0 and the related structure added in Linux kernel 6.9.
+>=20
+> * The fortify functionality has been significantly enhanced for building
+> =C2=A0 programs with clang against the GNU C Library.
+>=20
+> * Many functions have been added to the vector library for aarch64:
+> =C2=A0=C2=A0=C2=A0 acosh, asinh, atanh, cbrt, cosh, erf, erfc, hypot, pow=
+, sinh, tanh
+>=20
+> * On x86, memset can now use non-temporal stores to improve the performan=
+ce
+> =C2=A0 of large writes. This behaviour is controlled by a new tunable
+> =C2=A0 x86_memset_non_temporal_threshold.
+>=20
+> Deprecated and removed features, and other changes affecting compatibilit=
+y:
+>=20
+> * Architectures which use a 32-bit seconds-since-epoch field in struct
+> =C2=A0 lastlog, struct utmp, struct utmpx (such as i386, powerpc64le, rv3=
+2,
+> =C2=A0 rv64, x86-64) switched from a signed to an unsigned type for that
+> =C2=A0 field.=C2=A0 This allows these fields to store timestamps beyond t=
+he year
+> =C2=A0 2038, until the year 2106.=C2=A0 Please note that applications are=
+ still
+> =C2=A0 expected to migrate off the interfaces declared in <utmp.h> and
+> =C2=A0 <utmpx.h> (except for login_tty) due to locking and session manage=
+ment
+> =C2=A0 problems.
+>=20
+> * __rseq_size now denotes the size of the active rseq area (20 bytes
+> =C2=A0 initially), not the size of struct rseq (32 bytes initially).
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-  watchdog.service: Referenced but unset environment variable evaluates to an empty string: watchdog_module
+Thanks Khem. I ran this through the autobuilder and there were only two
+failures. One expected as it tests the buildtools libc which doesn't
+work until we upgrade uninative. The other looks to be an intermittent
+qemuarm failure. From my perspective I think we're looking good to
+merge this!
 
-Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
----
- meta/recipes-extended/watchdog/watchdog-config/watchdog.default | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
 
-diff --git a/meta/recipes-extended/watchdog/watchdog-config/watchdog.default b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
-index 647d5abca5..cee5fdc2b6 100644
---- a/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
-+++ b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
-@@ -1,2 +1,3 @@
- # Start watchdog at boot time? 0 or 1
- run_watchdog=1
-+watchdog_module=none
--- 
-2.25.1
-
+Richard
 
