@@ -1,110 +1,156 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C22C3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 14:44:05 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.19941.1721659442004754803
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80CA4C3DA59
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 14:54:45 +0000 (UTC)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+ by mx.groups.io with SMTP id smtpd.web11.20225.1721660076074593449
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jul 2024 07:44:02 -0700
+ Mon, 22 Jul 2024 07:54:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JyuXNuot;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3683178b226so2147262f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 07:44:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=B7d1OItD;
+ spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-260f94067bcso2467202fac.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 07:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721659440; x=1722264240; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TX2X3ae+sFKiYiU0m3Uul7KRz823tY6weMtkAG1q8cg=;
-        b=JyuXNuotat7MpHPXB3ojEruBpZ4ekThW4zxvk8f7ljWYo5VjXtfk64tpSru4g5d8UH
-         LRkT4kVL/dU8dC43xtmKp5VEZxyJRPzFS8aWcmzXQlusuJmltaRV0EKlXFDkh3JdXada
-         cHooQm2GxjEepJhpjRp4XEd8agXlCeUXiaw1Q=
+        d=gmail.com; s=20230601; t=1721660075; x=1722264875; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lbIeYXIevpM7iYPeDpcRk6M1d2LztSXf0lAJdCPv1bs=;
+        b=B7d1OItD3K0lcfm8Qw4ShMHpaOkeqwRdxKe78ZbgI1MmaiBy0ookqLuj7df66tCG/D
+         6LFTrN91K5RfMlRLmpnoLBvemN5RWuFrA5LT4eL/BUZd2LQyW6vvCSKvFHRkEj/oXlEt
+         r/cEeSMBzgEubiwPYkK8TYil2bTC6FjeSSdXpx//n8cjNYmJhVNPS3i8x/6hINR7NIVm
+         eszVDU9ixQHS3YQUPqm59lBAUBOfqoEbYDn4MvQohXLtd3uvqM1f1Ui8Dy0qj2tadq+u
+         2rTLOUsntMLilOvYDiTPcYE7DbE4AGVx+YM8gFEh9rICKu6EEYZDpTRYPYbHy7+diAIN
+         KiyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721659440; x=1722264240;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TX2X3ae+sFKiYiU0m3Uul7KRz823tY6weMtkAG1q8cg=;
-        b=byVKzuUOPD5fGOtMXbrLNKgvxWhQhnI+P9qJh1PJBhFrIROxttBljPASA4xB24YZ4Z
-         hSIdD71hVugx7PqiECSaV4r3ekGcGVCpaBdCo9JvhS5iyC6py6M5DmmEDTtQiRDh/O4n
-         RefiiNeGkQCKxAKXzhcbcHjAeHGUtQkkS4scf7yCIzDIkmJs2vSUMJo3ZcT/Ig+PgPzs
-         G4KzchuFWteE6WMZw/6jU8obupTk7lCIWKMAhD9xeLCY44bqhve8ZIP9TUhjAm92d4on
-         Y4CM727VpLFyIUCL8Cp/M1fvEah0RGr1aRIvm0Vazf5pJ8DqCiaeRP2ZbusTR3zaxdVQ
-         3iVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWveQq/hpnli5n6WOQQEBQ5BADw9WHe6wdFvNzXNJokeC02ElQx/lHajJBhC0AyeKINEUxFmMTFSW7p/96HKThpe2YKHTBnP97lW90s8s1+Iqhx6EGgJnAg
-X-Gm-Message-State: AOJu0YwcOPg9YhZnWzZdcdqTmkT4G88TBuLcTu+4RUd//GYSOuQaCV+W
-	DRUHxBcxnjmMXHDux4y4Xdb5hQ3MCMHByC0ww4RvUmHGrcP3b4EzPLfBdC4oCzQ=
-X-Google-Smtp-Source: AGHT+IGFRw9OnmFM9yrop0/nZtno3/TRYwBWHtWegFRdYfhcm6FknEgaoNClmy833OAalvQkAyxkng==
-X-Received: by 2002:adf:e882:0:b0:368:4c38:a669 with SMTP id ffacd0b85a97d-369bae3c660mr4514928f8f.10.1721659440342;
-        Mon, 22 Jul 2024 07:44:00 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1ff2:149f:b661:e63c? ([2001:8b0:aba:5f3c:1ff2:149f:b661:e63c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-368787ed580sm8655926f8f.112.2024.07.22.07.43.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 07:44:00 -0700 (PDT)
-Message-ID: <c52ad793f05ea2fd92ee97711dddb29c039a175e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/4] lib/recipeutils: add a function to
- determine recipes with shared include files
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Mon, 22 Jul 2024 15:43:59 +0100
-In-Reply-To: <20240717182216.1661015-2-alex.kanavin@gmail.com>
-References: <20240717182216.1661015-1-alex.kanavin@gmail.com>
-	 <20240717182216.1661015-2-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        d=1e100.net; s=20230601; t=1721660075; x=1722264875;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lbIeYXIevpM7iYPeDpcRk6M1d2LztSXf0lAJdCPv1bs=;
+        b=mr5ACBN80dqI5GpmKFO6LhbLq5NbUQsH2Oyt5Cw7w9tPnf9ikw4A42PM7rVQ4f7PQN
+         w49/7n/EpakOe1x7QApc+EiJYI8aH9Wwr0jYVyUCaP6hivtGamZVTaSc1NXfgDCC2AP6
+         UERfsx85T9dBrI4F1SdcPcgbuh7Kd4Tv4KhmhB2y1pTrcha+qa8MDmAyBBon4reZwI/B
+         4nzNKXFo4g+CZwZIpo/MaWbGptqueK1wC2enzOtEHfvG7cytClDH0A1Lzafkkf9e6DSe
+         0s+p/VawcyPTt/X3LPBpCR/Nm3wv8EJK2qo852itvUVifg5fR0z9UPWxH+UEOzGXsKb4
+         kElQ==
+X-Gm-Message-State: AOJu0YzQBUdsl72eVfSGZ7MOj+sd0uQT7DhQQVKnmjgtB/m2zKiVFZZ4
+	q17m42gqisww61uQgp1LI46pNuqnpwqRh3+26I7vl0ZJusN0LS1LP5XJh0kuBU/tpVH0mnMkFr9
+	mcq5t3Uj8y1ypCVIsQHLpDisGvglC+78w
+X-Google-Smtp-Source: AGHT+IEJ5COfNnVwLf6T/N5EZbiaFK4RSUg8E1LNKVxyu9cX/7GzQCaY28pNQymuaXfBa4IMv2KV3omsBRbQHmXrkbw=
+X-Received: by 2002:a05:6871:b28:b0:25b:6d53:d294 with SMTP id
+ 586e51a60fabf-2638df9ff70mr6100109fac.23.1721660075115; Mon, 22 Jul 2024
+ 07:54:35 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240722055715.2600693-1-Deepthi.Hemraj@windriver.com> <31107.1721627969142118796@lists.openembedded.org>
+In-Reply-To: <31107.1721627969142118796@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 22 Jul 2024 07:54:23 -0700
+Message-ID: <CAMKF1sq+6L0ZUes4jXPSttoACS51EFSc4BE=g2nk+ETP9E4yPQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] binutils: stable 2.42 branch updates
+To: Deepthi.Hemraj@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000338b9b061dd73917"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 14:44:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202315
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 14:54:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202316
 
-On Wed, 2024-07-17 at 20:22 +0200, Alexander Kanavin via lists.openembedded=
-.org wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
->=20
-> This functionality is needed for 'lockstep version upgrades' where severa=
-l
-> recipes need to be upgraded at the same time to produce a buildable
-> outcome.
->=20
-> The function itself obtains BBINCLUDED for each recipe and then massages
-> the data until it takes the form of a list of sets:
->=20
-> [{'cmake','cmake-native'},
-> =C2=A0{'qemu','qemu-native','qemu-system-native'},
-> ... ]
->=20
-> There's also a selftest that checks for the above.
->=20
-> Unfortunately this won't detect mutually exclusive recipes like mesa and =
-mesa-gl
-> as they're chosen with PREFERRED_PROVIDER and can't be enabled in the sam=
-e build
-> at the same time. ('devtool upgrade' will also accept just one of them bu=
-t not the other)
+--000000000000338b9b061dd73917
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is partly why I was suggesting the internal list of files that
-bitbake has instead of BBINCLUDED, even if it comes from the same data.
+On Sun, Jul 21, 2024 at 10:59=E2=80=AFPM Hemraj, Deepthi via lists.openembe=
+dded.org
+<Deepthi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
 
-Even if a recipe is skipped (as conflicting providers are), I think the
-cache entry in bitbake is still needed to know if/when to reparse the
-recipe.
+> after update:
+>
+> =3D=3D=3D binutils Summary =3D=3D=3D
+>
+> # of expected passes            302
+> # of unexpected failures        2
+> # of untested testcases         1
+> # of unsupported tests          7
+>
+> before update:
+>
+> =3D=3D=3D binutils Summary =3D=3D=3D
+>
+> # of expected passes            302
+> # of unexpected failures        2
+> # of untested testcases         1
+> # of unsupported tests          7
+>
+> The testing was done and there are no regressions found.
+>
 
-Your patch is good and I'm happy to merge as is, I just wanted to
-mention that it might be possible to catch the mesa issue.
+Lgtm
 
-The challenge is that even if it were identifiable, the code still
-probably can't know how to actually enable it for the upgrade/testing=C2=A0
-:(.
 
-Cheers,
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202304):
+> https://lists.openembedded.org/g/openembedded-core/message/202304
+> Mute This Topic: https://lists.openembedded.org/mt/107480341/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Richard
+--000000000000338b9b061dd73917
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Jul 21, 2024 at 10:59=E2=80=AFPM Hemraj, Deepthi vi=
+a <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;=
+Deepthi.Hemraj=3D<a href=3D"mailto:windriver.com@lists.openembedded.org">wi=
+ndriver.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex"><div>
+<p>after update:</p>
+<p>=3D=3D=3D binutils Summary =3D=3D=3D</p>
+<p># of expected passes=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 302<br># of unexpected failures=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 2<br># of untested testcases=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 1<br># of unsupported tests=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 7</p>
+<p>before update:</p>
+<p>=3D=3D=3D binutils Summary =3D=3D=3D</p>
+<p># of expected passes=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 302<br># of unexpected failures=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 2<br># of untested testcases=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 1<br># of unsupported tests=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 7<br><br>The testing was done and there are no =
+regressions found.</p>
+</div>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Lgtm</div><div d=
+ir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#202304): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/202304" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/202304</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/107480341/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/107480341/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000338b9b061dd73917--
 
