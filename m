@@ -2,89 +2,109 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66943C3DA59
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 14:29:25 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.19525.1721658564123017130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C22C3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 14:44:05 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.19941.1721659442004754803
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jul 2024 07:29:24 -0700
+ Mon, 22 Jul 2024 07:44:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DeVRPDvJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-427b9dcbb09so32662065e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 07:29:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JyuXNuot;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3683178b226so2147262f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 07:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721658562; x=1722263362; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=w/OjweEZkC2BLUZCjmwWoKQ3GKS4kiLK/5kyrAzEcyQ=;
-        b=DeVRPDvJB/Qug0y2/LC/fWsnk4Og5nE0bwxdh8drlcZGxqPBDjxyVNCMvz2Gx+QGz+
-         aRmTr7QMtfp/OHmxNYBCapGlkz4sb5ctub6+xFpGJycpCAln7cl4qOwx1tcVJXeIOJvM
-         X0xaLyao0P49y2+31sQvvUcuhJtOKbRvuDQgQ=
+        d=linuxfoundation.org; s=google; t=1721659440; x=1722264240; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TX2X3ae+sFKiYiU0m3Uul7KRz823tY6weMtkAG1q8cg=;
+        b=JyuXNuotat7MpHPXB3ojEruBpZ4ekThW4zxvk8f7ljWYo5VjXtfk64tpSru4g5d8UH
+         LRkT4kVL/dU8dC43xtmKp5VEZxyJRPzFS8aWcmzXQlusuJmltaRV0EKlXFDkh3JdXada
+         cHooQm2GxjEepJhpjRp4XEd8agXlCeUXiaw1Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721658562; x=1722263362;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w/OjweEZkC2BLUZCjmwWoKQ3GKS4kiLK/5kyrAzEcyQ=;
-        b=VnKm5b1+gfjzT+MpkMSAx2lO5EvODYEt7ivBhXgd7xoNqSMi0QLDp+GUrKjJPu9a1C
-         d3nGoolYLMdkUNf5X1cKU8QDwowm7ZRMvVzVDvikjvw7QEwDWd2AkutOb8apMrU9URcC
-         ydnJqOhb76MMLU+sQmlxPVz7gpGcEKS9hjHORodWKcic7HcuCrr1dl1+8fEhjtFVeGZd
-         6UOW3SL7/IhKfBTCvGol5W+H2uKi2FMpkxXERwuIhosO4dCg33DL1FJLEVPQM4YP5pEw
-         JcT3gr90muvltSPZrxSAvjnmCLylkgUndZA2ZTAN+DZnUAWdfJbh4G3l0pYIBM8VjjhB
-         /vdg==
-X-Gm-Message-State: AOJu0Yy9M2V3BY+8zpIaJvizB8H8g/ree2sPndiamWSPNb8ziPq7RMR3
-	aaxWZRkFBYBJzuwYG56tJ2Qf1Z60xicicjZ6A6lYsowl/Ovj9eeyQS/C7fIYQ1cagSeRkRXp59f
-	7
-X-Google-Smtp-Source: AGHT+IHeSU8SfaJxnkgVmY+H9a+VhvvYO+juMWd+YWJR3gGm5bdhYfVUN44KuP90bSBQr+gdn0QsUg==
-X-Received: by 2002:a05:600c:1d29:b0:426:61af:e1d6 with SMTP id 5b1f17b1804b1-427dc558537mr53690055e9.29.1721658561845;
-        Mon, 22 Jul 2024 07:29:21 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1ff2:149f:b661:e63c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d6901405sm129399885e9.16.2024.07.22.07.29.21
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1721659440; x=1722264240;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TX2X3ae+sFKiYiU0m3Uul7KRz823tY6weMtkAG1q8cg=;
+        b=byVKzuUOPD5fGOtMXbrLNKgvxWhQhnI+P9qJh1PJBhFrIROxttBljPASA4xB24YZ4Z
+         hSIdD71hVugx7PqiECSaV4r3ekGcGVCpaBdCo9JvhS5iyC6py6M5DmmEDTtQiRDh/O4n
+         RefiiNeGkQCKxAKXzhcbcHjAeHGUtQkkS4scf7yCIzDIkmJs2vSUMJo3ZcT/Ig+PgPzs
+         G4KzchuFWteE6WMZw/6jU8obupTk7lCIWKMAhD9xeLCY44bqhve8ZIP9TUhjAm92d4on
+         Y4CM727VpLFyIUCL8Cp/M1fvEah0RGr1aRIvm0Vazf5pJ8DqCiaeRP2ZbusTR3zaxdVQ
+         3iVg==
+X-Forwarded-Encrypted: i=1; AJvYcCWveQq/hpnli5n6WOQQEBQ5BADw9WHe6wdFvNzXNJokeC02ElQx/lHajJBhC0AyeKINEUxFmMTFSW7p/96HKThpe2YKHTBnP97lW90s8s1+Iqhx6EGgJnAg
+X-Gm-Message-State: AOJu0YwcOPg9YhZnWzZdcdqTmkT4G88TBuLcTu+4RUd//GYSOuQaCV+W
+	DRUHxBcxnjmMXHDux4y4Xdb5hQ3MCMHByC0ww4RvUmHGrcP3b4EzPLfBdC4oCzQ=
+X-Google-Smtp-Source: AGHT+IGFRw9OnmFM9yrop0/nZtno3/TRYwBWHtWegFRdYfhcm6FknEgaoNClmy833OAalvQkAyxkng==
+X-Received: by 2002:adf:e882:0:b0:368:4c38:a669 with SMTP id ffacd0b85a97d-369bae3c660mr4514928f8f.10.1721659440342;
+        Mon, 22 Jul 2024 07:44:00 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1ff2:149f:b661:e63c? ([2001:8b0:aba:5f3c:1ff2:149f:b661:e63c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-368787ed580sm8655926f8f.112.2024.07.22.07.43.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 07:29:21 -0700 (PDT)
+        Mon, 22 Jul 2024 07:44:00 -0700 (PDT)
+Message-ID: <c52ad793f05ea2fd92ee97711dddb29c039a175e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/4] lib/recipeutils: add a function to
+ determine recipes with shared include files
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] time64.inc: Add warnings exclusion for known toolchain problems for now
-Date: Mon, 22 Jul 2024 15:29:20 +0100
-Message-ID: <20240722142920.1202402-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Mon, 22 Jul 2024 15:43:59 +0100
+In-Reply-To: <20240717182216.1661015-2-alex.kanavin@gmail.com>
+References: <20240717182216.1661015-1-alex.kanavin@gmail.com>
+	 <20240717182216.1661015-2-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 14:29:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202314
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 14:44:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202315
 
-Fixing our infrastructure to show warnings for nativesdk packages resulted
-in some issues with 32 bit toolchains and 32 bit time becoming clear.
+On Wed, 2024-07-17 at 20:22 +0200, Alexander Kanavin via lists.openembedded=
+.org wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
+>=20
+> This functionality is needed for 'lockstep version upgrades' where severa=
+l
+> recipes need to be upgraded at the same time to produce a buildable
+> outcome.
+>=20
+> The function itself obtains BBINCLUDED for each recipe and then massages
+> the data until it takes the form of a list of sets:
+>=20
+> [{'cmake','cmake-native'},
+> =C2=A0{'qemu','qemu-native','qemu-system-native'},
+> ... ]
+>=20
+> There's also a selftest that checks for the above.
+>=20
+> Unfortunately this won't detect mutually exclusive recipes like mesa and =
+mesa-gl
+> as they're chosen with PREFERRED_PROVIDER and can't be enabled in the sam=
+e build
+> at the same time. ('devtool upgrade' will also accept just one of them bu=
+t not the other)
 
-For now, add INSANE_SKIP entries for these which effectively documents
-the issue and allows us to at least start running the tests in the
-infrastructure.
+This is partly why I was suggesting the internal list of files that
+bitbake has instead of BBINCLUDED, even if it comes from the same data.
 
-Over time we will need to try and fix these if upstream doesn't.
+Even if a recipe is skipped (as conflicting providers are), I think the
+cache entry in bitbake is still needed to know if/when to reparse the
+recipe.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/distro/include/time64.inc | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Your patch is good and I'm happy to merge as is, I just wanted to
+mention that it might be possible to catch the mesa issue.
 
-diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
-index 6ee7b491526..2c23dbd6cbc 100644
---- a/meta/conf/distro/include/time64.inc
-+++ b/meta/conf/distro/include/time64.inc
-@@ -42,3 +42,11 @@ INSANE_SKIP:append:pn-strace = " 32bit-time"
- # has the same INSANE_SKIP setting.
- # Please check the comment in meta/classes-recipe/cargo_common.bbclass
- # for information about why, and the overall Y2038 situation in rust.
-+
-+# binutils/gcc/gdb still need fixing for qemuarm/qemuarmv5/qemumips/qemuppc
-+#binutils-cross-canadian-arm-2.42-r0 do_package_qa: QA Issue: xxx/x86_64-oesdk-linux/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-ranlib uses 32-bit api 'lstat'
-+INSANE_SKIP:append:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} = " 32bit-time"
-+#gcc-cross-canadian-arm-14.1.0-r0 do_package_qa: QA Issue: xxx/x86_64-oesdk-linux/usr/libexec/arm-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/14.1.0/plugin/gengtype uses 32-bit api 'ctime'
-+INSANE_SKIP:append:pn-gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} = " 32bit-time"
-+#gdb-cross-canadian-arm-15.1-r0 do_package_qa: QA Issue: xxx/x86_64-oesdk-linux/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-gdb uses 32-bit api 'lstat'
-+INSANE_SKIP:append:pn-gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} = " 32bit-time"
+The challenge is that even if it were identifiable, the code still
+probably can't know how to actually enable it for the upgrade/testing=C2=A0
+:(.
+
+Cheers,
+
+Richard
+
 
