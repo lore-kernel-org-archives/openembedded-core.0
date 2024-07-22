@@ -1,107 +1,108 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <changhyeok.bae@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E7FC3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 20:51:57 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.29146.1721681514191835073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76BBBC3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 20:57:57 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.29287.1721681868658665227
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jul 2024 13:51:54 -0700
+ Mon, 22 Jul 2024 13:57:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YcUHuzNL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4266fcb311cso35587905e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 13:51:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nk4ypR2f;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: changhyeok.bae@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a0403a84aso1302966b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 13:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721681512; x=1722286312; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lM+WmybGifgKsAJefHw+RyveLYo1oDYJTkeoZiXr2Rc=;
-        b=YcUHuzNL9Gc+BW2WsfOJ1pTMjO+tY6bg9eJqsKiiauhrRfZWGnqGu1fVA0BJLAPUuz
-         QEVtrWxgOVx+ODyqsFPis2ePD0ez4uBGBJoChdOPbiGJd230Vit0552VRXD/NufNTV++
-         3gO7t9ZCXEmRfo98yv47dXDVn6a4J/i/q9mLU=
+        d=gmail.com; s=20230601; t=1721681867; x=1722286667; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ulno/S6SvqBbgFV5vaCb35Ny1HYBuUnzRBsnSFPsd2k=;
+        b=nk4ypR2fpmtfZyBg5ZJN8EgX1T6309TVH412+bu54H1XxdY6jB45pwG766ISlr4zun
+         zWhKrc0wz7IH9k3D83gJTd6wr9WL2uxtNT5QGhrvde7LRQttx3SW+R6UeGWpZ9kY+i9V
+         vEGK+JhCcNR+5yF93wbn3MwLS1+QQY44qSpYUnHSDrOXasajnmbyY6zrJ/gRDY10FK/5
+         wwmuUZut5+zztqkLf/48mEFUt798sNVSmd5HFBT8LVppj/G4a3l31BQEucM87Rcy5nmQ
+         DiiZIl5n4YZLL3VDW1a2wqtMxoLwkpT3kEpO3MokT0krYAhHkGp/SNDGT0ZTv0AUqcBk
+         ec9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721681512; x=1722286312;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lM+WmybGifgKsAJefHw+RyveLYo1oDYJTkeoZiXr2Rc=;
-        b=neb6PZi8WJ9W1+RiQjMXFAviUAPZ17OdWtVIi0JKFsVVPpIY10QESGL8RmI+xVi2rr
-         rJ8YWYYhChNhh7Z5yAWBJRBW+89XBe6Bfb/b2aGz8gLGPYw00mwYtY+nnJ2v2W4dBTUN
-         4HcZdEhzFdR0HPQnJWX4gWF/iiW7hsv52qakP7sCMBcnO4guwl764zo4Gtb5eMfTurFY
-         Gfq8wsOhZLqJJsxd5a/m74iLZlv8zuoTA3oW4v2cq8meAP0Icw+0I7hr0e2n15FEJYZx
-         zUtps3+cD1HuUx/yk6fR6o5NXR3u/ak9H6rldl3wYaahHo4b5zhBbxE2Oz1E2DYWpe/v
-         Y7yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5IAgYlgI+e+VLQc7CMVpLqyzUlWUWuq4Lke3hSaWjP1Ko7wa5H8uMO+3gTGzJ1SV0uKSz7vm1Qhhm49hInVwssLw7qxDNFDhV57TkUSmsmoDCy1OU7y2a
-X-Gm-Message-State: AOJu0Yy8wlgCckJz9E85qUMigl4JJDxuZUG3HaFZgeTY8epn7++Q/yu7
-	S0zmjv1ZsAkzLedUI3n2ThWXh5XIGXlmKDExPDuNH2jRDW1LqLYwYuUIUT22VgM=
-X-Google-Smtp-Source: AGHT+IGqXHhn7wbV+L2x54jt6OCTG4UCq7SBCFyoinFTLsjJDpgtADBlo57ueAnQqwtUCrC0WaWluQ==
-X-Received: by 2002:a05:600c:19cb:b0:426:51ce:bb14 with SMTP id 5b1f17b1804b1-427dc565926mr46307275e9.30.1721681512508;
-        Mon, 22 Jul 2024 13:51:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2981:be39:a4a4:14a2? ([2001:8b0:aba:5f3c:2981:be39:a4a4:14a2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2a8d8b5sm165984915e9.38.2024.07.22.13.51.51
+        d=1e100.net; s=20230601; t=1721681867; x=1722286667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ulno/S6SvqBbgFV5vaCb35Ny1HYBuUnzRBsnSFPsd2k=;
+        b=F+aHx/0HNf8deoAjhJzmwtfYU+ny6BMFlq6d9Mx7FVhi0MJ18D5rQMpk9Mz8ypB/pJ
+         a7RDGkaBPv30zj1OB1yVfRPtvsY0KpmTUNJfkPo2srSjnHzprt1iC7eKYxSAxLxg4Y17
+         zDGZ73Cl8e4GvyaYG8nZTd9DQfpDXsxKfx0fHszdpMNnD0eECaTyCWUtWW3UOdJFvKey
+         eGAfOFNUzoxxzR7rdbQF9c1Kzsjt/s9mR/mkLhmKFgcHF3qpJEtH/r/TsPbbRTSqOrx3
+         iY3hxWHBAYsAsVFQkTg7QwdDkDRl0DV16AYjR0t3d5BYPCEHTA8GbRkLfXOTDeuK7OXE
+         P/Ew==
+X-Gm-Message-State: AOJu0YxZK5DeXcUW5YUZ/O+emNL+jgBNI63MKg21RGIQlkN3KBKZ8Ys+
+	SVbo8/oVYJAAUd3diAqSiLMo9lYOWXv5NpZ7GSuo7p1Qi+guRNtcIPPjIA==
+X-Google-Smtp-Source: AGHT+IHVd2gujjaGIV/AmlcjW1l3wmpQPW2kx3dNMip3DBqgpsRKV7+NTOpE/VQGMk5oME7tMpYkYA==
+X-Received: by 2002:a17:907:2d8e:b0:a7a:87b3:722f with SMTP id a640c23a62f3a-a7a87b374ddmr42611166b.3.1721681866314;
+        Mon, 22 Jul 2024 13:57:46 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5af7df.dynamic.kabel-deutschland.de. [95.90.247.223])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7a83b0a0cfsm48258266b.132.2024.07.22.13.57.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 13:51:52 -0700 (PDT)
-Message-ID: <d938bbd2df1a8138bd8e181e945cd0911f22d03e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/2] gcc: remove paths to sysroot from
- configargs.h and checksum-options for gcc-cross-canadian
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: denis@denix.org, openembedded-core@lists.openembedded.org
-Cc: Oleksandr Hnatiuk <ohnatiuk@cisco.com>, Denys Dmytriyenko
-	 <denys@konsulko.com>
-Date: Mon, 22 Jul 2024 21:51:51 +0100
-In-Reply-To: <20240722053459.2462155-1-denis@denix.org>
-References: <20240722053459.2462155-1-denis@denix.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        Mon, 22 Jul 2024 13:57:46 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
+Subject: [OE-core][PATCH] ethtool: upgrade 6.7 -> 6.9
+Date: Mon, 22 Jul 2024 20:57:02 +0000
+Message-Id: <20240722205702.46709-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 20:51:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202322
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 20:57:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202323
 
-On Mon, 2024-07-22 at 01:34 -0400, Denys Dmytriyenko via lists.openembedded=
-.org wrote:
-> From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
->=20
-> Apply fixes from gcc-cross (84a78f46d594 and 0ead8cbdfb96) to gcc-cross-c=
-anadian.
-> This will improve (but not fix) reproducibility of gcc-cross-canadian.
-> Also move this code to functions to avoid code duplication.
->=20
-> Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
-> Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
-> ---
-> v3 - add common functions to gcc-common.inc instead of gcc-configure-comm=
-on.h
->=20
-> =C2=A0meta/recipes-devtools/gcc/gcc-common.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 19 +++++++++++++++++++
-> =C2=A0.../gcc/gcc-configure-common.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
-> =C2=A0.../gcc/gcc-cross-canadian.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
-> =C2=A0meta/recipes-devtools/gcc/gcc-cross.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 15 ++-------------
-> =C2=A0meta/recipes-devtools/gcc/gcc-target.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 16 ++--------------
-> =C2=A05 files changed, 26 insertions(+), 28 deletions(-)
+Release notes:
+* Feature: support for rx-flow-hash gtp (-N)
+* Feature: support for RSS input transformation (-X)
+* Fix: typo in coalescing output (-c)
+* Fix: document all debugging flags in man page
 
-I ran a test build with this series and there is still a reproducibility is=
-sue:
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch | 2 +-
+ .../recipes-extended/ethtool/{ethtool_6.7.bb => ethtool_6.9.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_6.7.bb => ethtool_6.9.bb} (93%)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/5097
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 69df8632f2..ad4aabaa96 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -18,7 +18,7 @@ diff --git a/configure.ac b/configure.ac
+ index c871558..8ea1eaa 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.7, netdev@vger.kernel.org)
++@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.9, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
+  AC_CONFIG_MACRO_DIR([m4])
+  AC_CONFIG_SRCDIR([ethtool.c])
+diff --git a/meta/recipes-extended/ethtool/ethtool_6.7.bb b/meta/recipes-extended/ethtool/ethtool_6.9.bb
+similarity index 93%
+rename from meta/recipes-extended/ethtool/ethtool_6.7.bb
+rename to meta/recipes-extended/ethtool/ethtool_6.9.bb
+index 33df0e0e80..1837b1ed1e 100644
+--- a/meta/recipes-extended/ethtool/ethtool_6.7.bb
++++ b/meta/recipes-extended/ethtool/ethtool_6.9.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "ace0e95a03b38208af4ebacb415244568ace44c5d5a279ea434844f900179c75"
++SRC_URI[sha256sum] = "0011fb1b20101879f2d01d39cd2bc1d9646990d07d64de893415404a3afc53ef"
+ 
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ 
+-- 
+2.34.1
 
-http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20240722-tr5vb5s=
-a/packages/
-
-the key difference appearing to start in gcc-src.
-
-Cheers,
-
-Richard
 
