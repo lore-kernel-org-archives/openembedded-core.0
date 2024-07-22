@@ -1,94 +1,152 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DA7C3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 16:36:56 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.22720.1721666214761840077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0554DC3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 16:41:26 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web11.22991.1721666481113710292
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jul 2024 09:36:55 -0700
+ Mon, 22 Jul 2024 09:41:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c1BVN13k;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-427edcc207cso102425e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 09:36:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WwCzjMqL;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5c69848ca98so2330259eaf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 09:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721666213; x=1722271013; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=8EulSyKCAVQIYNhBKjgucYGW0KyRN6i4bEj/xRDze54=;
-        b=c1BVN13kw+Me52scnEI/WiI15lmFSeD+VoIX4LeqvcoAj5x77a2BFw3N4DTxxktil2
-         jsywcsDZEHzLMi4PSb+baPZhj/bfc5Y3aGNVSmhIuHNyXq696eRkdZx7+jKzcCuaHmRo
-         lNthbihBbfiPr7S3vn941IATIaJeRQk6NrU0Q=
+        d=gmail.com; s=20230601; t=1721666480; x=1722271280; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=L8iEEf2AABzRwnNZTPGedG4tn5LhsE9JrkdnH6zM4MA=;
+        b=WwCzjMqLLzGfn+fjrRb7qfFUEkFVGHKo5wZzv5FLlPdAsqSLWpjqUo/qaVT05/2IK1
+         AL7p5Foou11cCYiDfcOI1x24iSMLaxKZF/fTjQAZN69Ba97cVOptKeBBeR+kHaWQjw+Z
+         gnkKXGF+nPP6psbER19gdwIeWKjkouZLhUdBklIsAQ+V3pJ4Sxl95OqiMOXP+punOOXW
+         ptAFhtKRr9Vxi/CYMVQ/viPKMrmxH08ffY76qw6FAnROUA4uBUjkLxANsEOeJMelCQcl
+         9DpCmRD2WlcFxKMnxX1vkLVLGBT3qGoJYkPxtYdu4DSbQqUfRTyfAlASRhh4bFT4dLb9
+         J90Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721666213; x=1722271013;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8EulSyKCAVQIYNhBKjgucYGW0KyRN6i4bEj/xRDze54=;
-        b=GJY/YFavbaj2yAhduDWbxi+0GdfW9MxuAHsgChSDHM1dwXpkC+l0Z8saiBF4rqFgGU
-         gHpkEu6+mr0yNQiZX6jzbP2ASrv4nfI79OheUDT+8Th3It4/2yaxCFEuOREkZZi6EQ9/
-         0L2AoHCTZ2ydtA3ihbNUAuNNhH9DUwlcdF/D5HJaK/pVq72qweQV8qnFPyTpJnnwCirh
-         T2R//Vy6vui/9a+fgz3zD3NgnUGPnUW8a2W73dgw+/3rSSSOU/KUva3nLq9dLFHTQNQA
-         s9h/fCPqrhe97Ts3I1GKnWbY0WT1TW5WY6Zq9r+FrQaV9b69ks2nCZeUCxFFAPey4NzZ
-         C05A==
-X-Gm-Message-State: AOJu0YwPD29hZDASq+6vxd7+kfjkzQubfuYP429wWi5oi6u0lGqEd5iX
-	uwP8aDgZA2OUKDI9UewZq25My+Zck4g0kzB78OZtuEAxBuaHzG9zLcWFiuEc194=
-X-Google-Smtp-Source: AGHT+IHOIPSQiNnjxg6xeqKq7xo0bnSAnM+NpzIV2A5E+egOMHQm4ze0hMk1H6mHWrKJT249v7Go3w==
-X-Received: by 2002:a05:600c:1e10:b0:427:9dad:e6ac with SMTP id 5b1f17b1804b1-427ed06158fmr3541105e9.34.1721666213124;
-        Mon, 22 Jul 2024 09:36:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1ff2:149f:b661:e63c? ([2001:8b0:aba:5f3c:1ff2:149f:b661:e63c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36878684767sm9033970f8f.8.2024.07.22.09.36.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 09:36:52 -0700 (PDT)
-Message-ID: <90ef6669ed9ada15d6db57cdb24059178bf86207.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFT][PATCH 1/2] glibc: Upgrade to 2.40
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jul 2024 17:36:52 +0100
-In-Reply-To: <CAMKF1sroJs_73HtyVYszWog2dr3zrUgsJqmF5+SourfUcg9+ow@mail.gmail.com>
-References: <20240721180336.2642270-1-raj.khem@gmail.com>
-	 <f4d52025ba8c00ceaf60819d21ebf62532e8b535.camel@linuxfoundation.org>
-	 <CAMKF1sroJs_73HtyVYszWog2dr3zrUgsJqmF5+SourfUcg9+ow@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        d=1e100.net; s=20230601; t=1721666480; x=1722271280;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L8iEEf2AABzRwnNZTPGedG4tn5LhsE9JrkdnH6zM4MA=;
+        b=mMvusMOLh4wsBrdaZc9/OqoLHPK72nXKBelBMx9CcX3AdQX5LlBXuHgPemyIwtfGea
+         HE49pKwxr8ubGcoRSBsHFiq0wT/cSr9D3riEsjvdOPVEx4DJb4eHces8Wd9b4P5KAPkl
+         1Mz5s7yQ065psspjbzA0deZPwHwxCtinIBqiL9T1fV7DkdYByc+gNZS+dtkXJhwlitXv
+         XCjMkeWFWz7ufZgDmlpHLRpF7353KZ13fCA5rDWNu2ynxdOvEDgfAgRwoGaXF6aZxwEm
+         E41gcAlcLCZwbevl7rxUlHHB36q3DVGNSZXzGk8HXybCzmlVUbKvyhW9pwKETrfSLr+c
+         /a4A==
+X-Gm-Message-State: AOJu0YyWzatjLKbOFUYS1cexrrIgS2XuCbRrv3V/q2Pm1nUej7UtH1MQ
+	0cLQ0WXTns3DEET5N9q9ZteXXS2OLaX/UsvMKffbKqQleS2fLPna3kuJSpJSKtMAFFwa7mQHRMk
+	V34puFVG9YGJRZPpyOCCZClVvirQ=
+X-Google-Smtp-Source: AGHT+IFZHSOKUgkeCP5IuGlnV1bZ1ZodO7i1IH6pDZk+5id8m4ZSTuaTOcrFNcuoqV+UnYvR8MothYBZj9pGhuWAcWM=
+X-Received: by 2002:a05:6870:f151:b0:25e:1976:37b8 with SMTP id
+ 586e51a60fabf-2638df92737mr6565262fac.29.1721666480323; Mon, 22 Jul 2024
+ 09:41:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240721180336.2642270-1-raj.khem@gmail.com> <f4d52025ba8c00ceaf60819d21ebf62532e8b535.camel@linuxfoundation.org>
+ <CAMKF1sroJs_73HtyVYszWog2dr3zrUgsJqmF5+SourfUcg9+ow@mail.gmail.com> <90ef6669ed9ada15d6db57cdb24059178bf86207.camel@linuxfoundation.org>
+In-Reply-To: <90ef6669ed9ada15d6db57cdb24059178bf86207.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 22 Jul 2024 09:41:08 -0700
+Message-ID: <CAMKF1soD4RDa6G=3COqsoCEtz8CFtra6j_8Rgo1+O9Y_Psb4FQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFT][PATCH 1/2] glibc: Upgrade to 2.40
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000fb451b061dd8b6e6"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 16:36:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202318
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 16:41:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202319
 
-On Mon, 2024-07-22 at 07:18 -0700, Khem Raj wrote:
->=20
->=20
-> On Mon, Jul 22, 2024 at 2:22=E2=80=AFAM Richard Purdie <richard.purdie@li=
-nuxfoundation.org> wrote:
-> > On Sun, 2024-07-21 at 11:03 -0700, Khem Raj via lists.openembedded.org =
-wrote:
-> >=20
-> > Thanks Khem. I ran this through the autobuilder and there were only two
-> > failures. One expected as it tests the buildtools libc which doesn't
-> > work until we upgrade uninative. The other looks to be an intermittent
-> > qemuarm failure. From my perspective I think we're looking good to
-> > merge this!
-> >=20
->=20
->=20
->=20
-> Cool yeah and today the release also came out so I am not expecting to ma=
-ke any more changes to the RFT series=C2=A0
->=20
+--000000000000fb451b061dd8b6e6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I've gone ahead and merged it which lets us proceed with a uninative
-build/release.
+Looks good, thanks!
 
-Cheers,
+On Mon, Jul 22, 2024 at 9:36=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Richard
+> On Mon, 2024-07-22 at 07:18 -0700, Khem Raj wrote:
+> >
+> >
+> > On Mon, Jul 22, 2024 at 2:22=E2=80=AFAM Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > > On Sun, 2024-07-21 at 11:03 -0700, Khem Raj via lists.openembedded.or=
+g
+> wrote:
+> > >
+> > > Thanks Khem. I ran this through the autobuilder and there were only t=
+wo
+> > > failures. One expected as it tests the buildtools libc which doesn't
+> > > work until we upgrade uninative. The other looks to be an intermitten=
+t
+> > > qemuarm failure. From my perspective I think we're looking good to
+> > > merge this!
+> > >
+> >
+> >
+> >
+> > Cool yeah and today the release also came out so I am not expecting to
+> make any more changes to the RFT series
+> >
+>
+> I've gone ahead and merged it which lets us proceed with a uninative
+> build/release.
+>
+> Cheers,
+>
+> Richard
+>
+>
 
+--000000000000fb451b061dd8b6e6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Looks good, thanks!</div><div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, Jul 22, 2024 at 9:36=E2=80=AFAM Richa=
+rd Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard=
+.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">On Mon, 2024-07-22 at 07:18 -0700, Khem Raj wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Mon, Jul 22, 2024 at 2:22=E2=80=AFAM Richard Purdie &lt;<a href=3D"=
+mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie=
+@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; On Sun, 2024-07-21 at 11:03 -0700, Khem Raj via <a href=3D"http:/=
+/lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openemb=
+edded.org</a> wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; Thanks Khem. I ran this through the autobuilder and there were on=
+ly two<br>
+&gt; &gt; failures. One expected as it tests the buildtools libc which does=
+n&#39;t<br>
+&gt; &gt; work until we upgrade uninative. The other looks to be an intermi=
+ttent<br>
+&gt; &gt; qemuarm failure. From my perspective I think we&#39;re looking go=
+od to<br>
+&gt; &gt; merge this!<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Cool yeah and today the release also came out so I am not expecting to=
+ make any more changes to the RFT series=C2=A0<br>
+&gt; <br>
+<br>
+I&#39;ve gone ahead and merged it which lets us proceed with a uninative<br=
+>
+build/release.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fb451b061dd8b6e6--
 
