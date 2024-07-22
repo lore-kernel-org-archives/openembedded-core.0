@@ -1,111 +1,108 @@
-Return-Path: <marcus.folkesson@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E18C3DA5D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 07:37:53 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.13139.1721633862339980968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6C1C3DA5D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jul 2024 08:15:33 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.13468.1721636126965045028
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jul 2024 00:37:42 -0700
+ Mon, 22 Jul 2024 01:15:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iVbUhZpq;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: marcus.folkesson@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ef27bfd15bso13852061fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 00:37:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RPMvzO9f;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a77abe5c709so385849766b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 01:15:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721633860; x=1722238660; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=voZ9YLmrvi04UOzn9PKc14NiZ3MwcLt1t1jplLMho/M=;
-        b=iVbUhZpqPnJQp0QHsDWdvqAWQ7yLIpYJF7qWooO3Ob4MEYqGPde7SqdyTC3ak6IugU
-         0TCkrj91bmHiFlM4T9FC8QpIlR2DfmEleeynyanlZGlV10XzuSXCth/briF0FyWwspBd
-         uXoRcoU357ZwImmQD8LbpcadLfeGMJA5zsWmhkJ/t8Jpg7AmARgStqxPmFdYi6DuS4Be
-         503cKDA04x+A3yUt4jUEG9bt49cSDUn2vQMRQPJKzynN3YMYqv/kz1ovhHFy4TdQkHlE
-         ru2PqtHY0pgE5S4F6qvzGK3Ib7h5IKzOIlDFJFvKLIMuLecw0PB3qY7rb4ax+MF0M1lf
-         4b6w==
+        d=gmail.com; s=20230601; t=1721636125; x=1722240925; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ufJBtcrA3SKfs8K7W+1jPIHL/mX3cDeJD9kXseCkUOk=;
+        b=RPMvzO9fpQ7N/TTxprDODbVhDkMtVfwWTwD44vC6UOLxVeDcffs6rA/L2B06redHA0
+         D9L/eRJLCXTFLhx9kzjLvlX+ISV+L05AT7wyUnKWJLO6bkcQY5mQv/XskPAGnRzoVp3s
+         WJNcLqKhPPNC4qh84oEg4rxMCr1hdz78r3wKMZy+I4sTaFEHQ0iBZJ/fk8soz/U5A/aY
+         stjQAGMgwCfuvQ1wsyaEcDajYVlhTLZG3eKU2mVxLhYB6EKvJzR3ogEq83VuWtu1DfiO
+         PDhrO1tz0/CfvXVQtHl4p66Vr6t9nRgyrZhKiQD+xK92siI9Y8YzJZptPkFr8PfjuoWh
+         XsbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721633860; x=1722238660;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=voZ9YLmrvi04UOzn9PKc14NiZ3MwcLt1t1jplLMho/M=;
-        b=F8zs3gENDynSRBtNmD7t5RQgtVQHSfyfxmktIAQZRnjsGLeYGwe5qgLAUsPPdvfORR
-         QEjxQYAQTmp1DvcT1Wz8D0hS9ELIsZKc9VVIwSV6NXcNL27mko4VvyLsVJcPnN6Hkfc9
-         3SOjSk9uoZiEy0zehEyX47qTa2bLl+xb+0oV/UNV77Eg/tEJeNsoEvKRrhvqDkSOPCyq
-         sitAxTvI0oh96F+hGO6hUO0+N3lyKE6jeP9xE/uYLWwVkyDzCFjw3ReYp1Iu9a8nh88t
-         ajOtTtM5Pay4bcVAVZmUHDPLgxSeZ9Rzbm1JIT+etRMIOJQowtvL0x17APC5Y5xUyF23
-         43yg==
-X-Gm-Message-State: AOJu0Yz7nz3nkJCdHliQc062mrqxKbfEco3kvyJ/oAAD7pwFGuzV0dTS
-	lydh0Yu/xwdJ35enqWxle4gaMpDBVKU3xuhesriPR1C4AeV0Za0o
-X-Google-Smtp-Source: AGHT+IFb212TG7P64DbGx3OstjyPLQojlIV2VwmrWnlv21NDaKWZm5IutS2ZSP71ZaItCwIOMnaltA==
-X-Received: by 2002:a2e:80c6:0:b0:2ef:1db2:c02c with SMTP id 38308e7fff4ca-2ef1db2c1bbmr36551061fa.10.1721633859900;
-        Mon, 22 Jul 2024 00:37:39 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ef290242b9sm5834801fa.139.2024.07.22.00.37.39
+        d=1e100.net; s=20230601; t=1721636125; x=1722240925;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ufJBtcrA3SKfs8K7W+1jPIHL/mX3cDeJD9kXseCkUOk=;
+        b=ou47yo9ZcZpAvFwBEIemPpo+Wq4VZyI3OF7CAn1cZc0FaHssnNvTbTg1bPAelLF61p
+         OiubYDSkpC/lAgAZ3MfLoOoGIbQFAzDqndPTvaKWpGnqaa3XrZ9rWN5aRJ6TbG5zL8BY
+         lFRgxm7Xg/I1ai6Y2CgC37enkdPKHwpDIYhlOPMhpvXb99dqtyKqKz52oTOgAJCJBugK
+         IzrJvR96DvaaloNWQW6wtDL1xSxeJHXDPnGNIfoMCrXLwS7nX86GV+DHMUrYSdPcjzOF
+         her6RioLzGGbI3VERpfZMhV26g6qsic83my6HhGOYDB8E7ypBOyys1iwClsc4n6A6SJY
+         OJPA==
+X-Gm-Message-State: AOJu0YwbG+swDzcSly6RfNmXjJIouMM6K/9jxPpI4S7e0sxYUTtwjJmp
+	XXX1E59wh4amt5XEovAC/TZk+lqEG5LIkAMvEcVVeJfg4uRZJQLs9Vl4uA==
+X-Google-Smtp-Source: AGHT+IEjhW+MUhcPjTcjq9pzHwot/nByEFnoV61XlYTLMTzoCNA6BgtqY1kGa/zYYzm7iOYrdseXfA==
+X-Received: by 2002:a17:906:f5a5:b0:a77:d201:b894 with SMTP id a640c23a62f3a-a7a4c4768a3mr375875166b.62.1721636125022;
+        Mon, 22 Jul 2024 01:15:25 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7a3c91db91sm392787966b.152.2024.07.22.01.15.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 00:37:39 -0700 (PDT)
-Date: Mon, 22 Jul 2024 09:37:37 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Quentin Schulz <quentin.schulz@cherry.de>, kweihmann@outlook.com
-Subject: Re: [OE-core] [PATCH v6 0/2] image-bootfiles: new class
-Message-ID: <Zp4MQU-Swj-Ia6eV@gmail.com>
-References: <20240710085310.147425-1-marcus.folkesson@gmail.com>
- <ZpTzJ5Qkid1oy8AT@gmail.com>
- <2024071512261243271aac@mail.local>
+        Mon, 22 Jul 2024 01:15:24 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] kernel.bbclass: add original package name to RPROVIDES for -image and -base
+Date: Mon, 22 Jul 2024 10:15:11 +0200
+Message-ID: <20240722081511.1329330-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="H3YXvWZ0sMZNt2E2"
-Content-Disposition: inline
-In-Reply-To: <2024071512261243271aac@mail.local>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 07:37:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202308
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jul 2024 08:15:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202309
 
+* -image and -base change PKG to:
+  PKG:${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name(d.getVar(KERNEL_VERSION))}"
+  PKG:${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name(d.getVar(KERNEL_VERSION))}"
 
---H3YXvWZ0sMZNt2E2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* but only when debian.bbclass is inheritted they add the original package name into RPROVIDES by:
+  https://git.openembedded.org/openembedded-core/commit/?id=3409c4379559afbb1d1d29045582995147a33bbc
 
-On Mon, Jul 15, 2024 at 02:26:12PM +0200, Alexandre Belloni wrote:
-> On 15/07/2024 12:00:07+0200, Marcus Folkesson wrote:
-> >=20
-> > I think this is ready to be merged unless someone has any objections.
-> > It has been under review since June 19, v6 that I sent out just under a
-> > week ago just adds Reviewed-by tags to the commit messages.
-> >=20
->=20
-> I didn't carry this in my branch yet so it has not been tested but I'll
-> do this this week.
+* fixes the build if some packagegroup or something RDEPENDS on kernel-image or kernel-base
+  and the DISTRO doesn't inherit debian.bbclass
 
-How did it go?
+* as shown in pkgdata:
+  linux-raspberrypi $ egrep "^(PKG:)|(RPRO)" 6.6.36+git-*/pkgdata/runtime/kernel-image
+  6.6.36+git-debian/pkgdata/runtime/kernel-image:RPROVIDES:kernel-image:  kernel-image (=6.6.36+git@PRSERV_PV_AUTOINC@+733366844f_769634f344)
+  6.6.36+git-debian/pkgdata/runtime/kernel-image:PKG:kernel-image: kernel-image-6.6.36-v8
+  6.6.36+git-without-debian/pkgdata/runtime/kernel-image:PKG:kernel-image: kernel-image-6.6.36-v8
 
-/Marcus
+  linux-raspberrypi $ egrep "^(PKG:)|(RPRO)" 6.6.36+git-*/pkgdata/runtime/kernel-image-image
+  6.6.36+git-debian/pkgdata/runtime/kernel-image-image:RPROVIDES:kernel-image-image:  kernel-image-image (=6.6.36+git@PRSERV_PV_AUTOINC@+733366844f_769634f344)
+  6.6.36+git-debian/pkgdata/runtime/kernel-image-image:PKG:kernel-image-image: kernel-image-image-6.6.36-v8
+  6.6.36+git-without-debian/pkgdata/runtime/kernel-image-image:PKG:kernel-image-image: kernel-image-image-6.6.36-v8
 
---H3YXvWZ0sMZNt2E2
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/classes-recipe/kernel.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 2a4f3defda..4464155b73 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -720,9 +720,10 @@ RDEPENDS:${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base (= ${EXTENDPKGV})
+ # not wanted in images as standard
+ RRECOMMENDS:${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image (= ${EXTENDPKGV})"
+ PKG:${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
++RPROVIDES:${KERNEL_PACKAGE_NAME}-image += "${KERNEL_PACKAGE_NAME}-image"
+ RDEPENDS:${KERNEL_PACKAGE_NAME}-image += "${@oe.utils.conditional('KERNEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux (= ${EXTENDPKGV})', '', d)}"
+ PKG:${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
+-RPROVIDES:${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
++RPROVIDES:${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION} ${KERNEL_PACKAGE_NAME}-base"
+ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME} = "1"
+ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-base = "1"
+ ALLOW_EMPTY:${KERNEL_PACKAGE_NAME}-image = "1"
+-- 
+2.45.2
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmaeDD0ACgkQiIBOb1ld
-UjIeoxAAjAGTiXN0V8tFws6pvzYe+BVIzjLgV7L/SsRKiU1o36Dd972439yJFm6q
-4Q54kt7nEeVIiTQhHN1MbSo1TAMnMiZsY6MEoJG/CqDUELlAERpptfOZFsPkRKP9
-awQqD7D4odQJ7rRsNSC0kKws3PzvUH/mHK4RiVhqkYgb4+cuLX0YQCYHAZKGJmlv
-HLpckxT63T+ey0OAXK0zCg3TsMKsWxDUOK8q4K6N17uyox6t/B2x+YYmCAHiJWA5
-LC89iezUKW/fNJDez0yZ59QcCBkpoZs9xUH1mDxj2dp4b837t0Bz6yPCilAUJlx1
-pbnr2L4c/AzQIchzXUO5c3hfH48OW2W942GClDTwAvN+biQr/7EjvHWsoGyhPc/r
-tVxO1tTKlw85CRfAcKwA5vjysvWgwsRmxfarE3UsMjY5zp24arLPsn/xN8chANKk
-8qXNHbi9++11O6oKJAuj96Vohb/GuZEQvYDBhHaQyLh+vVdoSc5/gQ6WK/izf41j
-G1myIu1jMwhQpwTiF7peSq87Spcro6kSTk/48wpRZncBVnw2EURldS463KfErXjs
-NpbeB3Fy6P6vOCtEkbCmwowL+b/foRiP6NsT4r3EPGez+cBq2RB8gkJV18ci7Tjp
-kPxIbiE60kb8F/sUqj/X86VvcCqEd22RuglexmWH5OUvWqakpBU=
-=hNL3
------END PGP SIGNATURE-----
-
---H3YXvWZ0sMZNt2E2--
 
