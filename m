@@ -1,101 +1,99 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9C8C3DA49
-	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 17:04:27 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.549.1721754258784814437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8E0C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 17:07:57 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.629.1721754471841556987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 10:04:19 -0700
+ Tue, 23 Jul 2024 10:07:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 46NH4HGE020652
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 12:04:17 -0500
-Received: from [192.168.2.236] ([192.168.2.236])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 46NH4GEX009949
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 12:04:16 -0500
-Message-ID: <5e6a2234-a842-482b-93a8-d8084b77c68f@kernel.crashing.org>
-Date: Tue, 23 Jul 2024 12:04:16 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: openembedded-core@lists.openembedded.org
-Content-Language: en-US
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-Subject: [scarthgap] package.py and selftest-hardlink backport request
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JG1MD0Ay;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Eg+BXfWr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190e0904a6b-49473a8a-2795-4253-ac97-6984416ae13e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1721754471; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=TlQ2Or7MIpdV3Lqoa/ZIk7VaU/sySgtdci9wE6FJs9Q=;
+	b=JG1MD0AyaIGgP/VDCWamUE+DzRA/elwcvuT+Mpcy0wNpDlqLvAbpEWIkkI1Tz6fQ
+	aQ4hPaRLxjnDM8V3k602Pq31czGSYMwSWfbJlGoobEka3L3tVZz1pu5BO5ddlvvLEKN
+	BoDwZAwP13fcZ8giJI2AuhIU87mvm3U85OLj1s/U=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721754471;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=TlQ2Or7MIpdV3Lqoa/ZIk7VaU/sySgtdci9wE6FJs9Q=;
+	b=Eg+BXfWrFeiUbkKRvr8Fg7OsYfzyB8YpkCtekf00BGX5nMUPzcJwKKlA+yFwmAYI
+	H3NBONQHqDlJpLIn+KFm5xAlw0uN7k2o0EOpAmB30w5HiBiTQ4LqAWtGlPFaaI47Dar
+	vN1fJg4UHglr0ei37K6HKghsXD8QMfpR7AjwThWM=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] gi-docgen: upgrade to 2024.1
+In-Reply-To: <20240723160359.2247774-1-ross.burton@arm.com>
+References: <20240723160359.2247774-1-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190e0904a6b-49473a8a-2795-4253-ac97-6984416ae13e-000000@us-west-2.amazonses.com>
+Date: Tue, 23 Jul 2024 17:07:51 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.23-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 17:04:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202413
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 17:07:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202414
 
-I'm requesting the following changes be backported to scarthgap.  The commits 
-should apply directly.  Any questions, let me know.
+--NextPart
+Content-Type: text/plain
 
-commit def276f0c4c43fa4b95b7b38a944de7cc7e9286f
-Author: Mark Hatle <mark.hatle@amd.com>
-Date:   Fri Jul 19 13:58:16 2024 -0500
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-     package.py: Fix static debuginfo split
+---
+Testing patch /home/patchtest/share/mboxes/gi-docgen-upgrade-to-2024.1.patch
 
-     Fix:
-       NameError: name 'shutil' is not defined
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-     (From OE-Core rev: 13bdd750ae54d57a5f459e4b7d8636c864978241)
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
 
-     Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-     Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
-commit fa894486a99237b56469354c24ef913a96753aaf
-Author: Mark Hatle <mark.hatle@amd.com>
-Date:   Fri Jul 19 13:58:17 2024 -0500
-
-     package.py: Fix static library processing
-
-     When PACKAGE_STRIP_STATIC is enabled the system did not pay attention to
-     hardlinks.  This could trigger a race condition during stripping of static
-     libraries where multiple strips (through hardlinks) could run at the same
-     time triggering a truncated or modified file error.
-
-     The hardlink breaking code is based on the existing code for elf files, but
-     due to the nature of the symlinks needed to be done in a separate block of
-     code.
-
-     Add support for static-library debugfs hardlinking through the existing
-     inode processing code.
-
-     Print a note to the logs if the link target can't be found.  This isn't
-     strictly an error, but may be useful for debugging an issue where a file
-     isn't present.
-
-     (From OE-Core rev: ff371d69f60a1529ed456acb7d8e9305242e74bd)
-
-     Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-     Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-
-commit 4462724cab96ed3990fdf9b30edcea2adc9095ee
-Author: Mark Hatle <mark.hatle@amd.com>
-Date:   Fri Jul 19 13:58:18 2024 -0500
-
-     selftest-hardlink: Add additional test cases
-
-     Additional test cases for debug symlink generation both binaries
-     and static libraries.
-
-     This also has the side effect of testing for race conditions in the
-     hardlink debug generation and stripping.
-
-     (From OE-Core rev: 7171f41c07a39a7543bb64f075d38b8e74563089)
-
-     Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-     Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
+--NextPart--
 
