@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 258B2C49EA1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E104C3DA7F
 	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 13:13:42 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.43671.1721740414735454141
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web11.43726.1721740418281330895
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 06:13:34 -0700
+ Tue, 23 Jul 2024 06:13:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Y7o444Qm;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2cb566d528aso3444139a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NHhxOVFw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2cb4c584029so2959105a91.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740414; x=1722345214; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740417; x=1722345217; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Tfd20jk+9uidFpJHNYH7g7yRGLzfJndS6fU2D+/+vrY=;
-        b=Y7o444QmcWXEALY9w4/aAPzS3g5WVNh2dvtMUpzXXPB/gimmCdXctcorbkUo4q7+FG
-         jkyTfqSEhiTxZ9P+zBEjVknJfVuAYVXhQDphS1QQkw9O6N7uoh9TyxfNTgOdlf/ThF9m
-         OGXfXNFpLLA69oRVmJlvI6GyrqsIkaMkbFD00iUiefPiIOzFA3gwCHA7059HR6fraJIp
-         i/ehCCSby1icdZnCW8wwD95XDeeOoOZuCGzZLOjH+cdo32+T46F5lV/KOTCyE2vPsfF2
-         Mz8EYvZyvOHb25ZVbtr1JzNOZfUOFtvpBjM4l/5XBs7S1e39AtlYyM+JW1ROv3LCpR76
-         3REw==
+        bh=vjAWjaiwBC441RODwHKF47QUNy/U9aLi/gHbKmiihj8=;
+        b=NHhxOVFwHEe6aLf1KIdGEi7rEzIDagrrYGX2NwthBI+d2gcOnHi2Z8w6aZWEg7Axam
+         ct6D7GOiVimPMOsLn8+lQIIE2V8mg1sncptvE4HwCcleyKvFK0syW6152UDHavnbtjSI
+         GGiHP4GjFdAEM3XLNnex+nZUYwhwuVfU3qOZBMgbd86ojg0ftLCb05ynDPtzAn/efSw7
+         TKvWxC6pyLHWhAK2+0bkAwBMNnmbi3bYx/Qj8kYVm51G1RrRYPVFXlRI1Y/wG7yjUwnF
+         PQJMdApfqTMvrckY6lhFqbHe6wu1L6/88PEFVV/68w+vn/RAB89C/tSJ2UfbFLl1pa4j
+         WLIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721740414; x=1722345214;
+        d=1e100.net; s=20230601; t=1721740417; x=1722345217;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Tfd20jk+9uidFpJHNYH7g7yRGLzfJndS6fU2D+/+vrY=;
-        b=IRUUF7SCZaIEldSjgIFi6PBGi7Z8yXgzU69FcqRF+ICR6KMsQFh/kuFqNu/J5LIaYj
-         ch545oMGHTsJifXj+vnJpyC1/PVkTCXPSFdnqvK6k0V5uIkSCi8FZ+nlcl2C1MEon8k9
-         ZUD1F0zh9d+evAPxiEIB/dxwSpLo76+29UIy0LIxTC0qXU81E7JrSofvVZZTuxu5g/s9
-         VGxLtxcd5hOsB6EQE+nwnuiwQF7HPYvVMN9qnULYtzDlD1tOWBMK0L7LnU1crM0nPEE1
-         /cZ8s9iBbUFdcwacY2n6f6Hqp9U8eTT4Ap/WSmgc4T+/sihLiRtmYSTC++8DQ3xfazzE
-         MNYw==
-X-Gm-Message-State: AOJu0YzuJ+mlX4yXVLy++2I7Go23zTTDYeNWWcc6YjDrKScQBktGAWto
-	gpvLQW1QWGJPGQrUTwY49+07rUlUKNMPfxZKJ7XAr6cGfRoUjwp/0EAS4ZjnW3OmdQkilh4bItA
-	3X04=
-X-Google-Smtp-Source: AGHT+IFBYZFemjecSyXJpVwww04p3b9sBxWqRVlLLqMYqgn4BNMKeI/LSzo5DPc0Wqg1Iaarn+XfXg==
-X-Received: by 2002:a17:90b:3908:b0:2c8:f3b7:ec45 with SMTP id 98e67ed59e1d1-2cd274aa68bmr8464363a91.36.1721740413941;
-        Tue, 23 Jul 2024 06:13:33 -0700 (PDT)
+        bh=vjAWjaiwBC441RODwHKF47QUNy/U9aLi/gHbKmiihj8=;
+        b=nHpj0Z6G3mNYTZ5kuqpXZr7er/BHMNHYVaownACOy1sU/5P9XA8UeTF3dG8iuNqI/t
+         tgwhnci7tcl1uQwhY92M4dde6J+p3OV+/coL1nkh27rTg+I7bc05+EyidZnZ8IQ+s/eb
+         YX0gCF0yrwR116v+fXWYGJkiLzolRBqX0t4/kVfQkMoj1KsKy3BsPgfqvqTeXJGwh6Cx
+         9rERgKqWCpc8GN8vFtiiv2++Osix//RIUcjNLn8cHEpgwOyN5UBpLxM7NxVNNKYCauq/
+         mGMJyuoJdPhTEeQ2U/S06i9M+M6jy935urDF9c/Sc4AevkhgEXZK8pEAEhLFJgSjj0Xs
+         3aHQ==
+X-Gm-Message-State: AOJu0YxTKgIl0YTkOmLad6gZ5EglSQTXEQ8BPm/0k0q5XnYILpmtQDoF
+	93o5cM3XsIyUWwQvtsWYMI7gpBWU4FryJDGUoLX1/3XlDR6rGpi9Rti9EPNUmqKNAfeefoZePRo
+	cn4w=
+X-Google-Smtp-Source: AGHT+IENMLdSDIZoD9b4OG7W/7Unyfj+S8iJOL145bxKX7gAYBY0bDT8Fwt74xaGdUmsbzbIqvJYRw==
+X-Received: by 2002:a17:90b:1d8d:b0:2c9:6f06:8006 with SMTP id 98e67ed59e1d1-2cd27430ca8mr6523574a91.25.1721740417586;
+        Tue, 23 Jul 2024 06:13:37 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.33
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 06:13:33 -0700 (PDT)
+        Tue, 23 Jul 2024 06:13:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/17] libadwaita: update 1.5.0 -> 1.5.1
-Date: Tue, 23 Jul 2024 06:13:05 -0700
-Message-Id: <497383a38b76deff6d800a1f3d3e9355ee6335ce.1721740245.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 08/17] mmc-utils: fix URL
+Date: Tue, 23 Jul 2024 06:13:07 -0700
+Message-Id: <03b1b0798e6eda991f78ada80d4c2846034ea0ff.1721740245.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1721740245.git.steve@sakoman.com>
 References: <cover.1721740245.git.steve@sakoman.com>
@@ -62,98 +62,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 13:13:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202351
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202353
 
-From: Markus Volk <f_l_k@t-online.de>
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-=============
-Version 1.5.1
-=============
+The current mmc-utils git URL still (for now?) redirects to the URL in
+this patch, but the homepage doesn't, so let's just migrate both to the
+new URL.
 
-- AdwAboutDialog/Window
-  - Fix an outdated appstream reference in docs
-- AdwActionRow
-  - Mention .property in docs
-- AdwAlertDialog
-  - Fix the accessible role
-  - Fix initial focus
-- AdwAvatar
-  - Fix portrait avatars on hidpi
-- AdwBin
-  - Fix a potential focus issue
-- AdwBreakpoint
-  - Fix add_setter() annotations
-- AdwCarousel
-  - Fix a build warning
-- AdwComboRow
-  - Fix initial checkmark
-  - Handle model changes properly
-- AdwDialog
-  - Fix accessibility warnings
-  - Make shortcuts work when there are no focusable widgets
-  - Correctly restore focus when opening a dialog from a menu
-  - Fix GtkWindow:deletable=false hiding close buttons in dialogs
-- AdwExpanderRow
-  - Fix get_title_lines() and get_subtitle_lines() return types
-  - Fix remove() docs
-- AdwOverlaySplitView
-  - Unmap sidebar when it's hidden
-- AdwPreferencesGroup
-  - Fix a potential focus issue
-  - Fix :header-group annotations and notifications
-- AdwPreferencesPage
-  - Fix a potential focus issue
-- AdwTabView
-  - Document :close-page return value
-  - Fix a leak when closing the last page
-- AdwViewStack
-  - Fix a typo in docs
-- Docs
-  - Update screenshots
-- Stylesheet
-  - Fix entry progress bars
-- Add missing return annotations
-- Translation updates
-  - Brazilian Portuguese
-  - Hindi
-  - Kabyle
-  - Portuguese
-  - Slovak
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 301470de9a1a6a44de9a3d7c815e86dba162da68)
+(cherry picked from commit 59870f6d87bb516d74081fde1c670e4838e6e134)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libadwaita/{libadwaita_1.5.0.bb => libadwaita_1.5.1.bb}    | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.5.0.bb => libadwaita_1.5.1.bb} (88%)
+ meta/recipes-devtools/mmc/mmc-utils_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
-index b0b1e4502a..6cb67c0db0 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
-@@ -3,7 +3,6 @@ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libadwaita"
- LICENSE="LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index a7e4d369ff..9d3f673273 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Userspace tools for MMC/SD devices"
+-HOMEPAGE = "http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/"
++HOMEPAGE = "https://git.kernel.org/pub/scm/utils/mmc/mmc-utils.git/"
+ DESCRIPTION = "${SUMMARY}"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+@@ -9,7 +9,7 @@ SRCREV = "b5ca140312d279ad2f22068fd72a6230eea13436"
  
--
- DEPENDS = " \
-     gtk4 \
-     appstream \
-@@ -11,7 +10,7 @@ DEPENDS = " \
+ PV = "0.1+git"
  
- inherit gnomebase gobject-introspection gi-docgen vala features_check
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH};protocol=https"
++SRC_URI = "git://git.kernel.org/pub/scm/utils/mmc/mmc-utils.git;branch=${SRCBRANCH};protocol=https"
+ UPSTREAM_CHECK_COMMITS = "1"
  
--SRC_URI[archive.sha256sum] = "fd92287df9bb95c963654fb6e70d3e082e2bcb37b147e0e3c905567167993783"
-+SRC_URI[archive.sha256sum] = "7f144c5887d6dd2d99517c00fd42395ee20abc13ce55958a4fda64e6d7e473f8"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES = "opengl"
+ S = "${WORKDIR}/git"
 -- 
 2.34.1
 
