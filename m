@@ -1,121 +1,101 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4107AC3DA70
-	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 13:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75DB3C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 13:30:22 +0000 (UTC)
 Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.43740.1721740434211235528
+ by mx.groups.io with SMTP id smtpd.web11.44073.1721741417086895166
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 06:13:54 -0700
+ Tue, 23 Jul 2024 06:30:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Rkvr4V5S;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7163489149eso463958a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bxenhw73;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: rybczynska@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7a1be7b7bb5so1637071a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740433; x=1722345233; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ej94kDsL8+qVaUoND1AV77fYnEpKTdxD/KsyeIrMxFo=;
-        b=Rkvr4V5S4Dy1iOKARVyND8xsVEiMH4U6NLZB5tJ7RDSbtQQgVS5SLwGjov+bs/jGHB
-         v/M79xCH/2/IspeX/hTD3xQMjfzxBvt2BsMG/lXG0lBHFow3We2IpQuSwJaoQWJosY0d
-         bwC5Si8vl8RNgTGZUtF4mvqdQC6jqWVBEi3KxJEPgRmYyVDYQWg+QjRksj5xmyJ+L3/e
-         aG76c9g32ljqge80Ay8evNbnckGrSq5pEcXktuwKvubGnnxOk60NXj4sG7q5iUnvWANr
-         JefWpArHSjmaiCQw7Dl/FXn/FD+iAOs03Rc0GWZ5b/v8RxarUDQyT/rG+JbWpt3Hke8y
-         eDiw==
+        d=gmail.com; s=20230601; t=1721741416; x=1722346216; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hjOLNoTwbU6JBEYtKQvR66YIXY4cnPbTS3firfHaDu4=;
+        b=bxenhw73vER0HX1aQ+5Ht9xbV1lRRuoihnXBBeL+Ov0Y91nDmfpBBMXz/Ltg8Tj8a5
+         d1DUuAWNm0B0iLdTE0Jot+T+myEJgtYlj1YqPM0kPTinJtiUE7iyBk8bFkhivERb/eL2
+         5qzqCr5owNe11egPBzW8Rz099N51GqZ3mEcLKqN959RmhIcChDZ2vfDnsjPheSQTvlE1
+         U2G+h7LRnkktrWJYeXW+nkcoUj5MHGL4zNQA2BM1ycwM2lkQjfSy37A67emeA4xL9YgC
+         qXfqiMw87TcyMBoxACYy2Zm5NQUl5De2+rpnon1cfZW438mXJ5cTylfp+fWgo6Xk2cQR
+         yiYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721740433; x=1722345233;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ej94kDsL8+qVaUoND1AV77fYnEpKTdxD/KsyeIrMxFo=;
-        b=gWXZqXWtFbP6j8vfq21dk+VaMn+2Z4Bh0Apeo05k//Xvla0MhxKuWA+2iYtGFUgT5l
-         qBLUPzqfB4C0EWtvdBUsEKqqxtftQTUIWdSVLDWfCzBKgqfuPlzb4VjI6eoogPozBj3a
-         DYtB4TrIdvle46HBEeb1Z2+g++7yr92Hn+NvsyvLreKW/rMt92WVw/JlLA3h6tuPz8qE
-         B0XAQvzPGA6refBvypagRle8epVwpcS8D3kRd/uHBGoT2M+jT9TXmq7wTTcEYcrOQJrS
-         SlJbU48SOf7xLX2xu3+QUMBrtZdag+9U9205N/3mIwo5h8JggeBmPEYJZvZh0CHIKW1w
-         wWig==
-X-Gm-Message-State: AOJu0Yzm/UmxAiwjOrPNrH/6fL/2OrnV/orK1DiL9S3NrCHUD7aQ0iMS
-	z2kJEHM3gAVYOfqQs6FI/u3CvnD+pzPPAuVvhEB6vZDMYk4d+9hCyflXTPRaln9o4RlZ3gxO53H
-	eQVg=
-X-Google-Smtp-Source: AGHT+IG5TVfF6HJFJlcm3EpD/UzL7j3hwB5F++f2caI37O9K4zLeBz9ZA48V/kmWF/UZ3mf5DD8fug==
-X-Received: by 2002:a17:90a:ac0d:b0:2c9:8891:e12a with SMTP id 98e67ed59e1d1-2cd27434d39mr8499652a91.23.1721740433342;
-        Tue, 23 Jul 2024 06:13:53 -0700 (PDT)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 06:13:53 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/17] insane.bbclass: fix HOST_ variable names
-Date: Tue, 23 Jul 2024 06:13:15 -0700
-Message-Id: <7fd25eaa8fd5533d03d5f10792e2e6c30c64cc3c.1721740245.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1721740245.git.steve@sakoman.com>
-References: <cover.1721740245.git.steve@sakoman.com>
+        d=1e100.net; s=20230601; t=1721741416; x=1722346216;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hjOLNoTwbU6JBEYtKQvR66YIXY4cnPbTS3firfHaDu4=;
+        b=RqsvGmPYtDl5Max8AueQtxCe+bUpcPHQEItDwjbWOT+2tdr+l4u/hxukSbjxwCAs/X
+         a8ek42w44uhWdGyBlBnzUT1VaLDe3Y7io0H35s4LEe87pXgOrW2ekB//z6rnCX2EF6Qd
+         X5/6cn4TzzvYLmR2/CohO2L4QjC4EBz5UV1ssaO8T2+lBc0Vqozt0gaLPh4BJheTXkX6
+         nIjSrQaTc6L+hDDbgqgXujeaXbfIDsQZLcbG5hKlFpvDgRzHVKyGBHCLc45nL6pvIEWk
+         zGP9cOYeaJH9HPYjFBoq53bbL3R96yjPWpRKnhJW0AukaXL7IPQer0uviuGlkdm7pgpD
+         Yi1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWkvHR6Vjc7edjcTw/tzp/jDuGuPqHDm0RB3FxxPK7nif9/D/oFoYXfRieB/kkw/D7ah2wb7KmPCJa1ccSmh2D6aj3YWi6LbdX4WB/g15lBpX/RLexpxamo
+X-Gm-Message-State: AOJu0YzHUCQzTE9meYfpYcYVMX4IhMHEdupkrOT3qDDxdmvIpRZcO28Z
+	yuvOISHhKsEue3vonk+hqFkG8rGEwmJrHc9VOrHIOwJQiVo+h7ZoU738Stiwg54okHHgtwIcH94
+	CZCKiGusYryD8rKexzJ6RJiWcQNI=
+X-Google-Smtp-Source: AGHT+IH+BF6xhctaXyFIWMMZLm8R9wPtp84nnND9vUzSAMLkxils8Bfqk4U2aHAkUbFZkHTlSRyoPM8TJGv39uhj/p0=
+X-Received: by 2002:a17:90a:a114:b0:2cd:4593:2a8e with SMTP id
+ 98e67ed59e1d1-2cd45932ad1mr7126878a91.15.1721741416305; Tue, 23 Jul 2024
+ 06:30:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 23 Jul 2024 15:30:03 +0200
+Message-ID: <CAApg2=QMPfEF30cuTRoZmEsE0CTpRH8+0FOWheFSbyRHLWZ9Yg@mail.gmail.com>
+Subject: OE CVE improvements work status
+To: yocto-security@lists.yoctoproject.org, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="000000000000839e9f061dea292c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 13:14:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202361
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 13:30:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202363
 
-From: Emil Kronborg <emil.kronborg@protonmail.com>
+--000000000000839e9f061dea292c
+Content-Type: text/plain; charset="UTF-8"
 
-Commit cd25e5544ca3 ("insane: use HOST_ variables, not TARGET_ to
-determine the cross system") updated the variables themselves, but not
-their names. To prevent confusion, match the Python variable name to the
-BitBake variable name.
+Hello all,
+An update of the CVE checking improvement work:
+- v2 has been submitted today. It includes fixes for tests, updates in
+comment, removed unused code, added deprecation of cve-extra-exclusions.inc
 
-Signed-off-by: Emil Kronborg <emil.kronborg@protonmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f5bebc96580ec74d10bc96b4265357ebc9bcd6ad)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes-global/insane.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Now back to the tool update, we have the ADP support to be merged and used.
+During that time https://vulnogram.github.io/#editor now generates ADP, and
+it will make creation of valid entries easier.
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index 4eb8cb1397..bcc179fe26 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -334,12 +334,12 @@ def package_qa_check_arch(path,name,d, elf, messages):
-     if not elf:
-         return
- 
--    target_os   = d.getVar('HOST_OS')
--    target_arch = d.getVar('HOST_ARCH')
-+    host_os   = d.getVar('HOST_OS')
-+    host_arch = d.getVar('HOST_ARCH')
-     provides = d.getVar('PROVIDES')
-     bpn = d.getVar('BPN')
- 
--    if target_arch == "allarch":
-+    if host_arch == "allarch":
-         pn = d.getVar('PN')
-         oe.qa.add_message(messages, "arch", pn + ": Recipe inherits the allarch class, but has packaged architecture-specific binaries")
-         return
-@@ -351,12 +351,12 @@ def package_qa_check_arch(path,name,d, elf, messages):
- 
-     #if this will throw an exception, then fix the dict above
-     (machine, osabi, abiversion, littleendian, bits) \
--        = oe.elf.machine_dict(d)[target_os][target_arch]
-+        = oe.elf.machine_dict(d)[host_os][host_arch]
- 
-     # Check the architecture and endiannes of the binary
-     is_32 = (("virtual/kernel" in provides) or bb.data.inherits_class("module", d)) and \
--            (target_os == "linux-gnux32" or target_os == "linux-muslx32" or \
--            target_os == "linux-gnu_ilp32" or re.match(r'mips64.*32', d.getVar('DEFAULTTUNE')))
-+            (host_os == "linux-gnux32" or host_os == "linux-muslx32" or \
-+            host_os == "linux-gnu_ilp32" or re.match(r'mips64.*32', d.getVar('DEFAULTTUNE')))
-     is_bpf = (oe.qa.elf_machine_to_string(elf.machine()) == "BPF")
-     if not ((machine == elf.machine()) or is_32 or is_bpf):
-         oe.qa.add_message(messages, "arch", "Architecture did not match (%s, expected %s) in %s" % \
--- 
-2.34.1
+We also have automatic runs of the tool every night for world in oe-core,
+will forward the message of the next night (just rebased the database).
 
+Kind regards,
+Marta
+
+--000000000000839e9f061dea292c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello all,</div><div>An update of the CVE checking im=
+provement work:</div><div>- v2 has been submitted today. It includes fixes =
+for tests, updates in comment, removed unused code, added deprecation of <s=
+pan style=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);backgro=
+und-color:rgb(255,255,255)">cve-extra-exclusions.inc</span></span></div><di=
+v><span style=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);bac=
+kground-color:rgb(255,255,255)"><br></span></span></div><div><font face=3D"=
+arial,sans-serif"><span style=3D"color:rgb(0,0,0);background-color:rgb(255,=
+255,255)">Now back to the tool update, we have the ADP support to be merged=
+ and used. During that time </span></font><a href=3D"https://vulnogram.gith=
+ub.io/#editor">https://vulnogram.github.io/#editor</a> now generates ADP, a=
+nd it will make creation of valid entries easier.</div><div><br></div><div>=
+We also have automatic runs of the tool every night for world in oe-core, w=
+ill forward the message of the next night (just rebased the database).</div=
+><div><br></div><div>Kind regards,</div><div>Marta<br></div></div>
+
+--000000000000839e9f061dea292c--
 
