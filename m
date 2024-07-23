@@ -1,74 +1,128 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D459C3DA49
-	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 07:27:40 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.38942.1721719654969453538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD75C3DA63
+	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 08:28:30 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.39563.1721723305361809666
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 00:27:35 -0700
+ Tue, 23 Jul 2024 01:28:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CQDwuvSI;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52efbb55d24so4021382e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 00:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721719653; x=1722324453; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zmS70sim/FqNMsGu0CfZXRTupL/llqgvRaF1TBc4l44=;
-        b=CQDwuvSIuu2rmONucu1nmGQLwpBxby+aMijhzx1r7wQrVp30IePoRGMhoXB3VnGB4o
-         fec9mW3IcqEAVFVdnPf/6/XLxkKG0LYhyoRHUuxCcSdDSzYI2RinGBPVh861HbFlpKrm
-         4Lm3Ukj9LUul7y13v0JjTgnabSjp3QB1mGEmbF8OKzyDQWuBO7X9lsG8n3CkMtBwtItH
-         h8ndseT0SRWOJ8eTsmuywKeETm8rAL2RlLvU57p/4Mq2eAnqYx17Sb0WwDrvONH6e/Zg
-         07ExlmlMynJZZdwsm4vojh1DRhQ9gVCNjhptFhLRJGeqNLxJ2IEfWlAjBzXfAt2cTqKD
-         S9RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721719653; x=1722324453;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zmS70sim/FqNMsGu0CfZXRTupL/llqgvRaF1TBc4l44=;
-        b=ByNvpII8qVtSmtnuCXT+50mGuBEbscQWQ6uEBgP1Cr11pTBnfSiubleh0rslmJHBMl
-         J45zREQNPcB0t3397JBcE9GqPiNmAofYLne5r9foSfhdvhN1AyLIIcz3uBhmTQRVIl3m
-         EZ0d1LeyJj7K8JviHXUpb+sNlVu0thsHLARUPaZfQopDYECI23csHaFCKaLFbHNFVQ0Y
-         uAOqAoUaxS9V08Br07N8752TjuTHTb/gQdcAp4Epd3bq6pEnV8MLTPCAuHhiWeE6iZN/
-         61FTQiOCR7gGHFN6V4CP9+X9gpS/7TOo1otdbMgJ657/kSxUCGZj6VIBNEousFsxjyCS
-         aRHA==
-X-Gm-Message-State: AOJu0YzNaGQr3d0tZeYkaru8JKnp+FQLCZyrAPFZV1K4PVJQxYPZE0TZ
-	+e9u8LSuN9U2xMrfhFUnRlcj0MJ2uQQt5Gd85wxF4yeYm3jnUTdjTvy4pCXfV7bHe/b0fFDihsK
-	nVOpJ0IT7lvMMx37AeRaclFpT/gc=
-X-Google-Smtp-Source: AGHT+IGf4VTjm9Jeghb29MOF2yAYLP/voRz0Kh887ANKWmlFkMMNb+STXy+e/7Rn3Y79jGgfQN4Z8EqJu+apNBNJBNo=
-X-Received: by 2002:a05:6512:2304:b0:52c:dcdc:f186 with SMTP id
- 2adb3069b0e04-52efb644461mr6719758e87.27.1721719652714; Tue, 23 Jul 2024
- 00:27:32 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58D7F139F
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 01:28:50 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 927D33F766
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 01:28:24 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Revert "python3: drop deterministic_imports.patch"
+Date: Tue, 23 Jul 2024 09:28:12 +0100
+Message-Id: <20240723082812.1488379-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240717182216.1661015-1-alex.kanavin@gmail.com>
- <20240717182216.1661015-2-alex.kanavin@gmail.com> <c52ad793f05ea2fd92ee97711dddb29c039a175e.camel@linuxfoundation.org>
- <CANNYZj9fxRzO2pwUaYuDCagMEmz2+sa=D_56p-pWr+fq0yNF_A@mail.gmail.com> <a1a5f23710540de0b194503c8511a7394c1f1a81.camel@linuxfoundation.org>
-In-Reply-To: <a1a5f23710540de0b194503c8511a7394c1f1a81.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 23 Jul 2024 09:27:20 +0200
-Message-ID: <CANNYZj-5-aQ6_8R3PUhYPds5jX4HdzwjGZSfszY3iUD0FCPFmw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/4] lib/recipeutils: add a function to
- determine recipes with shared include files
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 07:27:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202332
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 08:28:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202333
 
-On Tue, 23 Jul 2024 at 09:21, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> FWIW, PV doesn't have to come from the filename. We could set PV from
-> the inc file and rename the files so PV isn't there...
+There are still issues with importlib.metadata and empty directories,
+which surface when doing builds with existing build trees.
 
-That's fine with me too. Let's do that then.
+I've raised this on the upstream ticket that Alex Kanavin has already
+filed[1] so hopefully we can have a resolution soon.
 
-Alex
+This reverts commit 058c3a6e2b30103202f3995930825fc2f366274f.
+
+[1] https://github.com/python/importlib_metadata/issues/489
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../python3/deterministic_imports.patch       | 40 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.12.4.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/deterministic_im=
+ports.patch
+
+diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.p=
+atch b/meta/recipes-devtools/python/python3/deterministic_imports.patch
+new file mode 100644
+index 00000000000..2de6ae2e981
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/deterministic_imports.patch
+@@ -0,0 +1,40 @@
++From 039d5e652796b55f1132afa568c7432b6ed89afd Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Fri, 27 May 2022 17:05:44 +0100
++Subject: [PATCH] python3: Ensure stale empty python module directories d=
+on't
++
++There are two issues here. Firstly, the modules are accessed in on disk =
+order. This
++means behaviour seen on one system might not reproduce on another and is=
+ a real headache.
++
++Secondly, empty directories left behind by previous modules might be loo=
+ked at. This
++has caused a long string of different issues for us.
++
++As a result, patch this to a behaviour which works for us.
++
++Upstream-Status: Submitted [https://github.com/python/cpython/issues/120=
+492; need to first talk to upstream to see if they'll take one or both fi=
+xes]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++---
++ Lib/importlib/metadata/__init__.py | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
++
++diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata=
+/__init__.py
++index 82e0ce1..969cac4 100644
++--- a/Lib/importlib/metadata/__init__.py
+++++ b/Lib/importlib/metadata/__init__.py
++@@ -710,7 +710,14 @@ class Lookup:
++         self.infos =3D FreezableDefaultDict(list)
++         self.eggs =3D FreezableDefaultDict(list)
++=20
++-        for child in path.children():
+++        for child in sorted(path.children()):
+++            childpath =3D pathlib.Path(path.root, child)
+++            try:
+++                if childpath.is_dir() and not any(childpath.iterdir()):
+++                    # Empty directories aren't interesting
+++                    continue
+++            except PermissionError:
+++                continue
++             low =3D child.lower()
++             if low.endswith((".dist-info", ".egg-info")):
++                 # rpartition is faster than splitext and suitable for t=
+his purpose.
+diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb b/meta/recipe=
+s-devtools/python/python3_3.12.4.bb
+index 743ba0b1f1f..119fe10ca93 100644
+--- a/meta/recipes-devtools/python/python3_3.12.4.bb
++++ b/meta/recipes-devtools/python/python3_3.12.4.bb
+@@ -24,6 +24,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
+hon-${PV}.tar.xz \
+            file://makerace.patch \
+            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patc=
+h \
+            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-ma=
+ste.patch \
++           file://deterministic_imports.patch \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch =
+\
+            file://0001-Update-test_sysconfig-for-posix_user-purelib.patc=
+h \
+            file://0001-skip-no_stdout_fileno-test-due-to-load-variabilit=
+y.patch \
+--=20
+2.34.1
+
 
