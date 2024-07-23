@@ -1,127 +1,93 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4172EC3DA49
-	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 10:51:11 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.41355.1721731865301737412
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A97EC3DA63
+	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 11:53:41 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.42254.1721735616758056482
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 03:51:06 -0700
+ Tue, 23 Jul 2024 04:53:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PbUNABVZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-427edcc207cso6013865e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 03:51:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=N86BnU85;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: rybczynska@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4279c924ca7so39496115e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 04:53:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721731863; x=1722336663; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1721735614; x=1722340414; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xttD4WSL90EcD/DeafZZXh3PIAi48qj8gOaa4vQ7tZ0=;
-        b=PbUNABVZMxRIFPrLt8G6A/EDJeu7AzfTW+uOV6RXPGX2+h6O+u9O7q0eEY4Wzm7RBH
-         HoBNJgjkxysVD9cSfhLZIvHkOBjlrt3eV0KDBho4B69NmY9WobfmzsnVHgIVUyk0qBF9
-         XSeTykKlBKL1W6GpHrFsM+v59T5kfrMv/gUWg=
+        bh=tlKfbcfn22MoEbFdtPuFFk+fkB0wwanH/Btl7nDIgc0=;
+        b=N86BnU85mvGdEuFL1SMrwBebGKnPfuVrpudwcTwutoNtEjhNwv03F6dhr/0DFL/S/K
+         h3FRjvVEOPXJp35BwXLHbqcbdDi8OHy+ci3xx1bVUw1T/vqwyjfzKDdvcHtLah6p/IUY
+         KbU3zYpyQemDEpVADmuKbNddmWNU77n0WR3a6VChHkPj2QlU7FcIBvAOTzQ/uMteuYlI
+         6VzLy9bsu2OhNB7TdwVE4wBZnT9FKVA0nK8nBA287B+B5TprhfHiQwp8A1y2W1/RPPf/
+         QjKIeJ6XFMU7jXq10RdVDbBuuNSle95VyB2XGtjpgUAJUvV1tLemLI5mvEZwY2TsZxjQ
+         oi0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721731863; x=1722336663;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xttD4WSL90EcD/DeafZZXh3PIAi48qj8gOaa4vQ7tZ0=;
-        b=diU62m1VWEZD2EElcJyQyQE1oRvNVpe3XYhsUcHXD4VqYV0zpoVPJ86/yx/o3vsv1D
-         NC/J5yVSS0QVxyCHYeiQJEwj4VeKS9VLb5IUTQkGrLBx2p00N0v+Wzb8GVGWi8jPoe0k
-         c3L1JGLxBHdg39gKSq8kdfLGaONPkOItuMunghMBbTQc1ic2Sg7w7qhAB3k0fxd2oLlw
-         LXArqOMj0MnnWgCGP6jXEDR/DhxTalRz8ktnIw/SRM0SZ9W8IHxbn1/ly1NKlndzrWOw
-         JSagZ6qTOCspOKjZqp57/f2b/0wsrAG1XFW5h/XUSB78cb9Pl5/COczugw0VB5uTTJou
-         e73w==
-X-Forwarded-Encrypted: i=1; AJvYcCV3kx2yFrsjXkDQKT6rAV5k3kqBUGTu6Wxu1EvSERyQWc+9EBErB6kYQ1jz6A40pC3b6ytzGJUIqbKwqRaSjN+RQi+r1IgF91ZQgko1okScHS3U/SbA/29I
-X-Gm-Message-State: AOJu0Yws3xD8juue4Vxe/ikw2mUHOf+GHk+seo5MqTAgwpkhbk4vSaI+
-	cEzuKRWx/caX8b+P05PZ54VP2e1AII/a03+ucvhFwEYPNWCIpEZBvTNJOHZJZ7c=
-X-Google-Smtp-Source: AGHT+IFEDtnLXm+xIySIbaGD9SCcCuuvr5qilpRcZNLloXIc4rh/NO3ZQ/t6X262/aAzaEzQMDCk9Q==
-X-Received: by 2002:a05:600c:138a:b0:426:6f3e:feef with SMTP id 5b1f17b1804b1-427ed0599a8mr22106425e9.29.1721731863206;
-        Tue, 23 Jul 2024 03:51:03 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:dcbe:ae7b:e03d:272d? ([2001:8b0:aba:5f3c:dcbe:ae7b:e03d:272d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2a8d8a8sm198699475e9.36.2024.07.23.03.51.02
+        d=1e100.net; s=20230601; t=1721735614; x=1722340414;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tlKfbcfn22MoEbFdtPuFFk+fkB0wwanH/Btl7nDIgc0=;
+        b=JeFxR2BETE/anPFS65iRZblScTzqqs96Ufa8QvhE+K1m2aJbuKRi6XQKD8xPUs7zgv
+         f5yktKX0Rnd0cv/3PRu39xacwkNSvLDdapDnA31oc4WFBFuB8w4NX8nc8Fa8oQ++zoPX
+         gTHvs+c+9coXvC+0dBjgfp5kcyjrNjHrUBO4GMvhgpm/y5a2IQpdRX31kGAA19ZGyLJz
+         YtD5b8w7Y/f5ME7/BftJD0JtxQpqExWKGas4CPS2Hr63UMosJx6fD/XtXreZMj8srzQB
+         EnxrcUVzTOudJvceyPaIYZE4abRAmpgjInA9K2jhvb8pPx7UDfhx7NeLnjzWKEhishVq
+         /BIQ==
+X-Gm-Message-State: AOJu0YyUNPG06qWASE32tIHYMuCtcfwElcdcluJZXlodb08U0wSXtUrN
+	yTqGtjNsXLuUdFBNiQbZ1k9e6DvcoMI8bRsrtlCflA0uU4ClvWJP3xDjvw==
+X-Google-Smtp-Source: AGHT+IETmQZ5ahW9trukkF3DSBGukMCgcI4qHEyp0XVuJe0jnlkBqLBW0KjaIgAIz6EHLebgolcJHw==
+X-Received: by 2002:a05:600c:3d14:b0:426:6675:a115 with SMTP id 5b1f17b1804b1-427dc5298a8mr70412785e9.22.1721735614387;
+        Tue, 23 Jul 2024 04:53:34 -0700 (PDT)
+Received: from localhost.localdomain ([80.215.234.192])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d6900caasm168537075e9.11.2024.07.23.04.53.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 03:51:02 -0700 (PDT)
-Message-ID: <3ce8cc9108715bb23b6550b841a07511e0dc786e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v6 0/2] image-bootfiles: new class
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: marcus.folkesson@gmail.com, openembedded-core@lists.openembedded.org, 
- Quentin Schulz <quentin.schulz@cherry.de>, kweihmann@outlook.com
-Date: Tue, 23 Jul 2024 11:51:02 +0100
-In-Reply-To: <20240710085310.147425-1-marcus.folkesson@gmail.com>
-References: <20240710085310.147425-1-marcus.folkesson@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        Tue, 23 Jul 2024 04:53:33 -0700 (PDT)
+From: Marta Rybczynska <rybczynska@gmail.com>
+X-Google-Original-From: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Samantha Jalabert <samantha.jalabert@syslinbit.com>
+Subject: [OE-core][PATCH v2 2/5] cve_check: Update selftest with new status detail
+Date: Tue, 23 Jul 2024 13:53:12 +0200
+Message-ID: <20240723115315.207013-2-marta.rybczynska@syslinbit.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240723115315.207013-1-marta.rybczynska@syslinbit.com>
+References: <20240723115315.207013-1-marta.rybczynska@syslinbit.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 10:51:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202335
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 11:53:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202337
 
-On Wed, 2024-07-10 at 10:53 +0200, Marcus Folkesson via lists.openembedded.=
-org wrote:
-> The image-bootfiles class is used to put all files listed in
-> IMAGE_BOOT_FILES into the root filesystem.
->=20
-> IMAGE_BOOT_FILES is used by the bootimg-partition wic plugin to put the
-> files into a boot partition.=20
-> Be able to list files as "boot files" in e.g. your .conf or image files
-> instead of install those in every recipe is a good thing.
->=20
-> It is not always desired to have a separate boot partition for boot
-> files. Sometimes it could be good to have them as a part of the root
-> filesystem.
->=20
-> For example, if a double copy strategy is used for update the system,
-> then you probably want to update both the boot files and root filesystem
-> at the same time as there may be dependencies.
->=20
-> v2:
-> =C2=A0=C2=A0=C2=A0 - Removed the documentation from the patch series (wil=
-l be submitted later)
-> =C2=A0=C2=A0=C2=A0 - Break out the parts in bootimg-partition that is use=
-d by
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 image-bootfiles to a common library
-> =C2=A0=C2=A0=C2=A0 - Make the destination directory in root filesystem co=
-nfigurable
-> v3:
-> =C2=A0=C2=A0=C2=A0 - See changelog in patches
->=20
-> v4:
-> =C2=A0=C2=A0=C2=A0 - See changelog in patches
->=20
-> v5:
-> =C2=A0=C2=A0=C2=A0 - See changelog in patches
->=20
-> v6:
-> =C2=A0=C2=A0=C2=A0 - See changelog in patches
->=20
-> Marcus Folkesson (2):
-> =C2=A0 bootimg-partition: break out code to a common library.
-> =C2=A0 image-bootfiles.bbclass: new class, copy boot files to root filesy=
-stem
+From: Samantha Jalabert <samantha.jalabert@syslinbit.com>
 
-During review we've been in two minds about these changes. It is a
-fairly specific use case. In general if you wanted these files in the
-rootfs, you'd never have set the variable in the first place. Setting
-the variable, then using a class to put them back where they were
-originally seems a strange thing to want to do and I'm not sure we want
-core support for it.
+Signed-off-by: Samantha Jalabert <samantha.jalabert@syslinbit.com>
+---
+ meta/lib/oeqa/selftest/cases/cve_check.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-That said, I understand how someone can get into that situation.
+diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
+index 60cecd1328..a40272c919 100644
+--- a/meta/lib/oeqa/selftest/cases/cve_check.py
++++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+@@ -217,9 +217,10 @@ CVE_CHECK_REPORT_PATCHED = "1"
+             # m4 CVE should not be in logrotate
+             self.assertNotIn("CVE-2008-1687", found_cves)
+             # logrotate has both Patched and Ignored CVEs
++            detail = "version-not-in-range"
+             self.assertIn("CVE-2011-1098", found_cves)
+             self.assertEqual(found_cves["CVE-2011-1098"]["status"], "Patched")
+-            self.assertEqual(len(found_cves["CVE-2011-1098"]["detail"]), 0)
++            self.assertEqual(found_cves["CVE-2011-1098"]["detail"], detail)
+             self.assertEqual(len(found_cves["CVE-2011-1098"]["description"]), 0)
+             detail = "not-applicable-platform"
+             description = "CVE is debian, gentoo or SUSE specific on the way logrotate was installed/used"
+-- 
+2.43.0
 
-We have therefore merged the first patch which allows a standalone
-class but we don't really want to take the class itself. This is partly
-also partly as there wouldn't usage/testing in core.
-
-If there becomes a large number of users of it over time, we can
-reconsider that decision but right now, I don't think it make sense.
-
-Cheers,
-
-Richard
 
