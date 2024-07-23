@@ -1,99 +1,183 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8E0C3DA49
-	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 17:07:57 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.629.1721754471841556987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC79C3DA63
+	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 17:57:17 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.1809.1721757432648311173
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 10:07:51 -0700
+ Tue, 23 Jul 2024 10:57:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JG1MD0Ay;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Eg+BXfWr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190e0904a6b-49473a8a-2795-4253-ac97-6984416ae13e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721754471; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=TlQ2Or7MIpdV3Lqoa/ZIk7VaU/sySgtdci9wE6FJs9Q=;
-	b=JG1MD0AyaIGgP/VDCWamUE+DzRA/elwcvuT+Mpcy0wNpDlqLvAbpEWIkkI1Tz6fQ
-	aQ4hPaRLxjnDM8V3k602Pq31czGSYMwSWfbJlGoobEka3L3tVZz1pu5BO5ddlvvLEKN
-	BoDwZAwP13fcZ8giJI2AuhIU87mvm3U85OLj1s/U=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721754471;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=TlQ2Or7MIpdV3Lqoa/ZIk7VaU/sySgtdci9wE6FJs9Q=;
-	b=Eg+BXfWrFeiUbkKRvr8Fg7OsYfzyB8YpkCtekf00BGX5nMUPzcJwKKlA+yFwmAYI
-	H3NBONQHqDlJpLIn+KFm5xAlw0uN7k2o0EOpAmB30w5HiBiTQ4LqAWtGlPFaaI47Dar
-	vN1fJg4UHglr0ei37K6HKghsXD8QMfpR7AjwThWM=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gi-docgen: upgrade to 2024.1
-In-Reply-To: <20240723160359.2247774-1-ross.burton@arm.com>
-References: <20240723160359.2247774-1-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190e0904a6b-49473a8a-2795-4253-ac97-6984416ae13e-000000@us-west-2.amazonses.com>
-Date: Tue, 23 Jul 2024 17:07:51 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.23-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YtJeNp8G;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ef2c56d9dcso28940151fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 10:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721757431; x=1722362231; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u2DF1xysBgbwDKRp2w3Pvg+8v22CjUev6Wx7m5okkDw=;
+        b=YtJeNp8GmXqxpx+FGwcAyIcAchJ0sCq3HBjn+0vjMItBtQUw1GnzmczxboMMFgGvol
+         KqovCMnF2E1EN97BJL/RniRdhGuY3GLMAkIUuZpSTQLeBSMSbvGtcDIpF7wVQrSimTf4
+         Ggfw8tIB3tvW0Z+UWtp0FpjBxkJ3o3h6GReGc0sUZrJs6luqNjeefpBCg+efbAkUfIsR
+         j5RgFNE/UOxG/bvd+EEncGsZKEq1pDEyhHFYO51hOEQGVG+YZDe23myHUjncm3QPcLum
+         ZYKfg34G0ee4+vtEMqgLj8o2sLVdnw8Qx2sThsookVLbEOGorK+avOq93FTfAQ4eqIlt
+         HasA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721757431; x=1722362231;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u2DF1xysBgbwDKRp2w3Pvg+8v22CjUev6Wx7m5okkDw=;
+        b=DEEaKcuxNqsVt9uijvYvl5hVE3fAGZqBRab6BQThXgDJk5l/n8j3M6Nxgx3qnqmxZp
+         /eU+x7grCBforaXZ+0TJfqcIulUqPcLFCDGf3ZGmpFHuVXd4TWnH6zzBb1vTwaOWVLmq
+         CVxr82IFBl1PKZGBskIPRMqZx78WAJssI6BgnNNZxtcB65OZzPjIIwhI7iH+owXUX0a+
+         qYRQJkf49E+nluRv3Wvoj0heZc5wszuvNc3yuOQCM2BDxETX3zIECabDUiGWc8jw9Dhd
+         SaydBCCJr61SrmC+Y7AVojoJDIdSfYRub6WM7jL8O+9a+kEhYrI4eqTQUYC4DdpmNw3q
+         goKA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqlhM/2RNM+6e7b6RyHBU7XK7/DyZTuTvLUaZskR2Zg+WSp0c+LlrXrahVcTxVp4hWSdmzhZu6P9H06E6WhY239oL02Hz+BP797W/XZ08pYgA8pEU3OzG2
+X-Gm-Message-State: AOJu0Ywp3WtMTqT8ooUefWLyFzyGwEMqrCXEvDMM0gSfr39hSuEHeQ/u
+	S303ysqCDG21XGqcAZiPQibadGPbKMEN1KZM6uL3xApNHSfijrpzki74wJyHUF24wLNEJ4Wxspc
+	BuG0gjqn/+sySj7YtvIAbiUiS8lQ=
+X-Google-Smtp-Source: AGHT+IFh3GYhA6h4ze0/wao63hzxYs+VfRINTvRsxg7NfU9459uRvUMadiHZtBZLObHScsOhlB5iU+ry1bHi3qDLXkk=
+X-Received: by 2002:a2e:b704:0:b0:2ec:63f:fe91 with SMTP id
+ 38308e7fff4ca-2ef16849d7emr77002161fa.38.1721757430296; Tue, 23 Jul 2024
+ 10:57:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240719164639.GN17572@denix.org> <15389.1721741918254132393@lists.openembedded.org>
+ <878fe028-ade0-4646-8294-429eebdaeb14@windriver.com>
+In-Reply-To: <878fe028-ade0-4646-8294-429eebdaeb14@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 23 Jul 2024 19:56:58 +0200
+Message-ID: <CANNYZj9_8v+c_ddG8OOYcBgOidWQdLDMj5pJeTW9uGZk8fBw=w@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][master][PATCH] python3: provide
+ /usr/bin/python as a symlink to python3
+To: randy.macleod@windriver.com
+Cc: kweihmann@outlook.com, openembedded-core@lists.openembedded.org, 
+	Jiaying.Song.CN@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 17:07:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202414
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 17:57:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202415
 
---NextPart
-Content-Type: text/plain
+I guess the recommendation to remove the symlink if needed was a bit
+poorly thought out.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On the other hand, I fail to see any benefit whatsoever in a separate
+python-is-python3. If you do not have python 2.x installed on target,
+there is no difference in whether there is a python symlink on the
+target or not. And if you do, you still have the same clash between
+2.x scripts that refer to python, and 3.x scripts that refer to
+python, and no easy way to resolve that clash.
 
----
-Testing patch /home/patchtest/share/mboxes/gi-docgen-upgrade-to-2024.1.patch
+What I am proposing instead is this:
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+- python to python3 symlink is still provided by the base package.
+It's not accurate to say that 'patching' things from recipes to use
+python3 is what people 'prefer', it's that up until now they were
+forced to do it, Randy.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+- if anyone is still using python 2.x in target images in 2024 with
+yocto master (nevermind that the public python2 layer is dead and
+unmaintained), and is relying on python 2.x being symlinked to python,
+they should be adjusting their scripts to point to python2 instead.
+They no longer own the unversioned python symlink and we should not be
+catering to them.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+Please reframe your arguments.
 
----
+Alex
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Tue, 23 Jul 2024 at 18:44, Randy MacLeod via lists.openembedded.org
+<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> On 2024-07-23 9:38 a.m., Konrad Weihmann via lists.openembedded.org wrote=
+:
+>
+> I also vote against it.
+>
+> I'm on the fence but I'll be swayed by the "against" voters.
+>
+> There are pros and cons to a system-wide solution but it seems that
+> people prefer to have these problems fixed in each affected recipe.
+> Best solution is to update the script to call and work with python3.
+> If the upstream refuses to do that, the layer would have to carry a patch=
+.
+>
+> This is how most such '/usr/bin/python' problems have been solved.
+> It's a shame that upstream python didn't mandate a specific solution.
+>
+> Btw, some people could use:
+>
+> https://github.com/Igalia/meta-webkit/blob/main/recipes-devtools/python/p=
+ython-is-python3_1.0.bb
+> https://github.com/Igalia/meta-webkit/commit/b2156c282a6e727100dee25155fb=
+c38d1532b573
+> https://github.com/Igalia/meta-webkit/commit/46fbfbc58f82abc3dc8794c63017=
+2d4554be0830
+>
+> =E2=9D=AF git log --stat 46fbfbc5
+> commit 46fbfbc58f82abc3dc8794c630172d4554be0830
+> Author: Carlos Alberto Lopez Perez <clopez@igalia.com>
+> Date:   Mon Dec 19 20:29:05 2022
+>
+>     Add a new image and distro definition for using on the WebKit CI for =
+WPE perf bots
+>
+>  ...
+>
+>     * It adds also a 'python-is-python3' recipe that creates a symlink
+>     to provide the unversioned python interpreter as python3.
+>
+>
+> but both oe-core and meta-oe maintainers said on today's YP tech call tha=
+t
+> they would *not* carry that recipe.
+>
+> ../Randy
+>
+>
+>
+>
+> While I see the convenience in dropping a lot of patches the better appro=
+ach would be to add something like python-is-python3, for the ones that req=
+uire it.
+> (meta-webkit does provide it already https://github.com/Igalia/meta-webki=
+t/blob/main/recipes-devtools/python/python-is-python3_1.0.bb).
+>
+> Adding a link by the base package and recommending to the user to remove =
+it again, would create two very unwelcome situations.
+>
+> a) it will clash at image assembly with an error message that will no eas=
+ily point to the python base package
+> b) create a need to run with a permanent remove operation on top of poky =
+(creating the need for new sstate cache artifacts)
+>
+> What I could see is to move the symlink into an optional package, which c=
+ould be used by the few recipes that still use the "wrong" interpreter line=
+ via RDEPENDS, that would be the much cleaner solution here
+>
+>
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202412): https://lists.openembedded.org/g/openembedde=
+d-core/message/202412
+> Mute This Topic: https://lists.openembedded.org/mt/107264938/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
