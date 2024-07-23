@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB60C49EA1
-	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 13:13:31 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.43668.1721740407855146049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E1DC52CD8
+	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 13:13:32 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.43721.1721740406064881877
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 06:13:27 -0700
+ Tue, 23 Jul 2024 06:13:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OhnP4p6e;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-70b703eda27so2513154b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=d4mQ8/1g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2cb81c0ecb4so3065588a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740407; x=1722345207; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740405; x=1722345205; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eWbQhdJjs2SB4Jplw52DHxWzJrdEnbcXYFEM91MLKhs=;
-        b=OhnP4p6e9jnkssiSYPIT8JVhW+4+EA5TgqGrcO9RLSFL6yOimZp/FeUUniUs1b8HXV
-         OYE/XO2W3XoPfz2vSlQlWA9b69QBnSU4rOecD0bCl+mpK3Pw0NqQCsnwfNM8Xr2tgKhZ
-         dElFg/BS6OAWrCARAHIfo0nGRaEcMxSdL30C7H2d58L4rD0nCVx/bPtG9eG8TU/LWFrp
-         3ldsH7TcL9MpiVCJLhSe0eTOCCdSPELyjjLyIh9Vr+wt/2rr07qqYP5BkDoIyTjUI5Yu
-         upkpmfU3kkhl+joDd/BhRDhpYRJbHKsIEtJQCOGlIfDrGXZY4fKY8wxCNaJHZomHWZxB
-         Acew==
+        bh=b7vVnqcxO+0iOFJ6VMfHNb7sxyX3pnpPWVEK8R65E6c=;
+        b=d4mQ8/1gW4gX2D6Dd0HL5k/64g3hd3OyHivSd2bAiEv9aEGWHoRHSD2k9y55nxPmuL
+         1mF23Xce/9w8WEB0UvQpV1bKj1AqPF0n9+1rDGPyNjLSCW4INKc3A6x6WLaZ99kEXEhG
+         z1P1GYPNGgZRO+/lK24DzeL8puJcvZkKdPfJl0nCC0+iUUF+86HP7G6XP/IYW+5frv9J
+         0E4qch7f8v2s4JYYXgYnrRJCzp2A6jp+tQoKtLnB+ENBIh6r2pgZrx8S9A1CJ38bKity
+         gPgIlsFlHiPY/mJXPnI8S3aWiyPkczs7Wj/njaoRRM5yIcHVDJMiHT5KsnZM0CM3Sj5C
+         RegA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721740407; x=1722345207;
+        d=1e100.net; s=20230601; t=1721740405; x=1722345205;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eWbQhdJjs2SB4Jplw52DHxWzJrdEnbcXYFEM91MLKhs=;
-        b=dQy4cvnjdvQ1LHfyDpY/p5zYTzx3izpIZu7T0l6ukEYFb642AjK+qrPkvYYNtI4iBf
-         BTiq10E6VThZvxZQUGEBQ1zrhoRoL/UhT9o3CUGVQhGLNWFKPlP/af2YkNrMAlPbzBhF
-         qPqSWepMUqg5pAz/dXDJZoi7p00OaD+ERTACjBqEXyHoGe8KeLGKZSdoF3XB7yjDAcMh
-         TnBLXuHHAxovi1np22fF61HQQt/lSv9oG2pfXHvhCNApmhy+B1fkamKBmmJXFH6JggOl
-         ek6ewc/dai1rgNohStn+QqeoeRfoZnuXR3sYdmibp2igN1kDfLNZTCW8gP6t0FPKvL+A
-         FZBg==
-X-Gm-Message-State: AOJu0Yys68Tnr9mwG9xn4r+KnVW10aaWr7JJbQlA6g6AqI/yMiODYD0E
-	Fe+gTdAo69+ytkYANUtGMmUjSVa7UmO0TfPVtMgkQ/WtkiHTwBfOwQdGD7HOj9ong39xhg5xR/E
-	Yois=
-X-Google-Smtp-Source: AGHT+IFBdrbMIL3tp3ouvkVq4MqCqK5JSneddmik1PtwSeETmWpRMMzr1AqxGjd1Kch2Md/KBTwkEw==
-X-Received: by 2002:a17:90b:1c10:b0:2c2:deda:8561 with SMTP id 98e67ed59e1d1-2cd274da1fcmr5937755a91.41.1721740407079;
-        Tue, 23 Jul 2024 06:13:27 -0700 (PDT)
+        bh=b7vVnqcxO+0iOFJ6VMfHNb7sxyX3pnpPWVEK8R65E6c=;
+        b=oLlsQLpzCRQI0OFKIIMma/ljwFCR1vpVZX8kS2yXoWh1R9JSi4VDcFRIbaBI0w02OT
+         5E4tCp5nhcd5/ZqVXMtBxolIGQAVmf1jlmrC0CdEeNfE1v2Cdww5XjwdZaxSY10cHzNH
+         hDuoXvXkrs5JpyuUJrio/KxITUZ3hStoVIt607xV8ZngfgCslA9hAOnKb3GK3nQcQ8FU
+         YHKdawSDmFNyG4gjxMOoBDpCFxkBHz7pyQ6jZLdne04TJqCSz3Tta55uBLvBq4Htj/zE
+         dTOUeaA+Xw+kpQ7K2XoZlrsilFtrRRiGEV8oFMJwGoe5JTk/AMDl6+jDYPUb8Ymj2FGZ
+         gllQ==
+X-Gm-Message-State: AOJu0Yymihv1Odbqc4VTZdX+YY/ZoUojXwzpx5Aou56KAx3KwqX3jMK0
+	Hfj7u8GA7D8eBV9MJ06S7G7LRo5RtE0FJSiUBtYHX6e9UOtYoDmoE3QPAUBjNeu9uHm0kA0Yx9L
+	C6p8=
+X-Google-Smtp-Source: AGHT+IEVOzmYTNiuBKXaZikDQYCQin7/AOhWhqqe1Vdx0mtjkGN55VmIXFf2qCCS/wY7ctRlNjbn2Q==
+X-Received: by 2002:a17:90b:3b8b:b0:2c9:63fb:d3ab with SMTP id 98e67ed59e1d1-2cd8d13522bmr3128292a91.22.1721740404983;
+        Tue, 23 Jul 2024 06:13:24 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.26
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 06:13:26 -0700 (PDT)
+        Tue, 23 Jul 2024 06:13:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/17] mesa: upgrade 24.0.5 -> 24.0.7
-Date: Tue, 23 Jul 2024 06:13:01 -0700
-Message-Id: <247f62169d1fff5df16606c64aed38b642f36857.1721740245.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/17] glibc: stable 2.39 branch updates
+Date: Tue, 23 Jul 2024 06:13:00 -0700
+Message-Id: <b1fd313c75f08ad34cce5716d18abebc30982ec7.1721740245.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1721740245.git.steve@sakoman.com>
 References: <cover.1721740245.git.steve@sakoman.com>
@@ -61,50 +61,73 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 13:13:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202347
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 13:13:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202346
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-Mesa 24.0.7 is a bug fix release
+Below commits on glibc-2.39 stable branch are updated.
+e8f5217097 Linux: Make __rseq_size useful for feature detection (bug 31965)
+143a7a0623 elf: Make dl-rseq-symbols Linux only
+1062ebbd19 nptl: fix potential merge of __rseq_* relro symbols
+5c46e6b666 s390x: Fix segfault in wcsncmp [BZ #31934]
+a036311246 stdlib: fix arc4random fallback to /dev/urandom (BZ 31612)
+d2cbfcf1d9 math: Provide missing math symbols on libc.a (BZ 31781)
+d473c9bb3b math: Fix isnanf128 static build (BZ 31774)
+3950cbd7a1 math: Fix i386 and m68k exp10 on static build (BZ 31775)
+6cb25aff85 math: Fix i386 and m68k fmod/fmodf on static build (BZ 31488)
+74630b1bb7 posix: Fix pidfd_spawn/pidfd_spawnp leak if execve fails (BZ 31695)
+7f9f25f255 Linux: Include <dl-symbol-redir-ifunc.h> in dl-sysdep.c
+198632a05f NEWS: update list of fixed CVEs in 2.39
+77bb3c7154 NEWS: update list of fixed bugs in 2.39
+f05638731e x86: Properly set x86 minimum ISA level [BZ #31883]
+b7f5b0a711 x86: Properly set MINIMUM_X86_ISA_LEVEL for i386 [BZ #31867]
+e1d0040a6d localedata: ssy_ER: Fix syntax error
+9de9cd17e7 malloc: New test to check malloc alternate path using memory obstruction
+a2da98aa2a malloc: Improve aligned_alloc and calloc test coverage.
+305ee48826 malloc/Makefile: Split and sort tests
+00899eba26 x86/cet: fix shadow stack test scripts
+6ade91c211 elf: Avoid some free (NULL) calls in _dl_update_slotinfo
+70f560fc22 misc: Add support for Linux uio.h RWF_NOAPPEND flag
+c9d8534406 i386: Disable Intel Xeon Phi tests for GCC 15 and above (BZ 31782)
+aee37de299 Reinstate generic features-time64.h
+dd535f4f19 Always define __USE_TIME_BITS64 when 64 bit time_t is used
+26e7005728 socket: Use may_alias on sockaddr structs (bug 19622)
+9f2b100d67 parse_fdinfo: Don't advance pointer twice [BZ #31798]
+c7c3f5bf80 LoongArch: Fix undefined `__memset_aligned` reference in ld.so linking.
+32969a2b36 socket: Add new test for connect
+2db79c96ba libsupport: Add xgetpeername
+ab4ef4421f x86_64: Fix missing wcsncat function definition without multiarch (x86-64-v4)
+97bb89668d Force DT_RPATH for --enable-hardcoded-path-in-tests
+71149c2a2e elf: Only process multiple tunable once (BZ 31686)
+f8e4623421 Add a test to check for duplicate definitions in the static library
+8b005d7869 i686: Fix multiple definitions of __memmove_chk and __memset_chk
+8323a83abd i586: Fix multiple definitions of __memcpy_chk and __mempcpy_chk
+5141d4d83c Revert "i586: Fix multiple definitions of __memcpy_chk and __mempcpy_chk"
+c16871e662 Revert "i686: Fix multiple definitions of __memmove_chk and __memset_chk"
+fa616ea373 Revert "Add a test to check for duplicate definitions in the static library"
+ff110b2591 Add a test to check for duplicate definitions in the static library
+ad92c483a4 i686: Fix multiple definitions of __memmove_chk and __memset_chk
+3148714ab6 i586: Fix multiple definitions of __memcpy_chk and __mempcpy_chk
 
-Changelog:
- https://docs.mesa3d.org/relnotes/24.0.7.html
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 55d962ff7e3475d2c46e1a76d9efa55e1de6e940)
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mesa/{mesa-gl_24.0.5.bb => mesa-gl_24.0.7.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_24.0.5.bb => mesa_24.0.7.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_24.0.5.bb => mesa-gl_24.0.7.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_24.0.5.bb => mesa_24.0.7.bb} (100%)
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.0.5.bb b/meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_24.0.5.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 7cc48e8a04..9157fe9c3f 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
- "
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 1e4a323d64..ad58bebcf1 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "273a835fe7c685cc54266bb8b502787bad5e9bae"
++SRCREV_glibc ?= "e8f521709731ce3ae8d6f1eca30135d5c0606f02"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
  
--SRC_URI[sha256sum] = "38cc245ca8faa3c69da6d2687f8906377001f63365348a62cc6f7fafb1e8c018"
-+SRC_URI[sha256sum] = "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae2c7d96db93f6c26a"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_24.0.5.bb b/meta/recipes-graphics/mesa/mesa_24.0.7.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_24.0.5.bb
-rename to meta/recipes-graphics/mesa/mesa_24.0.7.bb
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
 -- 
 2.34.1
 
