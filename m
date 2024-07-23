@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCFD1C3DA70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB60C49EA1
 	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 13:13:31 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.43670.1721740411631114984
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.43668.1721740407855146049
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 06:13:31 -0700
+ Tue, 23 Jul 2024 06:13:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JRWlcIN3;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d265e5278so1260867b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OhnP4p6e;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-70b703eda27so2513154b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740411; x=1722345211; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740407; x=1722345207; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JJRMjMws3cPvBtgvGi1PnJpl8bEzQy62NuUVFxHvU/Q=;
-        b=JRWlcIN3k1R4fxNJ0dr1hG+BsUrvKdWETGW4FXYRym8yNGTvZF6eq8hBlu9f2JSKhA
-         fdNvApK55pJ8NB7RZgWiZhQnssg7gy+06hF8WStv1hH25i4HCzPrt+0KFis4Au16JzUC
-         4G5tsUh9tZFCAQmgmlY/luwSzm9IOTvq9avYR6MWEqcWV8ImLYCmZgeJdxJy8gQhi36b
-         HoYjz1VVuJXPZISN5dh7MndRGb0N95w/8XEtbtxtco6iCLbd3UKdj73KicExhd6PyAZZ
-         /2X+sYHLKiOD3v7eaE+rafe9h0o+BV1TB6LPkuqRvOe2nH4WXmn7LS+YNPVWiYi35j/E
-         6u4w==
+        bh=eWbQhdJjs2SB4Jplw52DHxWzJrdEnbcXYFEM91MLKhs=;
+        b=OhnP4p6e9jnkssiSYPIT8JVhW+4+EA5TgqGrcO9RLSFL6yOimZp/FeUUniUs1b8HXV
+         OYE/XO2W3XoPfz2vSlQlWA9b69QBnSU4rOecD0bCl+mpK3Pw0NqQCsnwfNM8Xr2tgKhZ
+         dElFg/BS6OAWrCARAHIfo0nGRaEcMxSdL30C7H2d58L4rD0nCVx/bPtG9eG8TU/LWFrp
+         3ldsH7TcL9MpiVCJLhSe0eTOCCdSPELyjjLyIh9Vr+wt/2rr07qqYP5BkDoIyTjUI5Yu
+         upkpmfU3kkhl+joDd/BhRDhpYRJbHKsIEtJQCOGlIfDrGXZY4fKY8wxCNaJHZomHWZxB
+         Acew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721740411; x=1722345211;
+        d=1e100.net; s=20230601; t=1721740407; x=1722345207;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JJRMjMws3cPvBtgvGi1PnJpl8bEzQy62NuUVFxHvU/Q=;
-        b=KEdnNe9fLDktnF0vJrZI7WB8Tc2EXMIObbbFclvRYNiiPVeHYvwH3PQptAGrxwGA5O
-         dYH0Zb2m1ZiQGVrVIKoZiGq4HEeOoJ6qV/8oHgIucAAlP/zysg8DViuqXWOoCOvBw0UZ
-         XV0nk3fY9p5fMFeMghG6ilEyZhzDRUVIKvYHt9YinUz1zRWZcZBy/iFuZL5nrRFqSAwx
-         go+kJ/aSKgZe9rWBGoquLJT4l8iG2zFSnH5zYTFb5wsGoQjj1FuaH6SMv5cF8UIlzfw1
-         ONaSjWjrxBOfe1MykWGwwgYhXEZhqJMjYUWNDCiryupwF285DQ5s9J+Gkzr1DB1eKe8J
-         o3Yg==
-X-Gm-Message-State: AOJu0Yz+NAkxaSCwgPsbvBtWWzy3EZsBiDMEs0z0aQBtCIy6h9cEpQMb
-	SZDRbfnt7UYXBvGnrPOhXoFld4kD/YhKGB3sI3Nkc9TBoep/tAml1rDWUkcuWndPFS4yN00bCAZ
-	BgC4=
-X-Google-Smtp-Source: AGHT+IE+NNCUD/GTsedSGgrT6UADXj8fVwR0Ze5XjAZ0+I56f+rRnKIuGot3AuRuwX9v698kcHcY5g==
-X-Received: by 2002:a17:90a:460d:b0:2cc:f293:90a1 with SMTP id 98e67ed59e1d1-2cd1606b633mr7531403a91.25.1721740410736;
-        Tue, 23 Jul 2024 06:13:30 -0700 (PDT)
+        bh=eWbQhdJjs2SB4Jplw52DHxWzJrdEnbcXYFEM91MLKhs=;
+        b=dQy4cvnjdvQ1LHfyDpY/p5zYTzx3izpIZu7T0l6ukEYFb642AjK+qrPkvYYNtI4iBf
+         BTiq10E6VThZvxZQUGEBQ1zrhoRoL/UhT9o3CUGVQhGLNWFKPlP/af2YkNrMAlPbzBhF
+         qPqSWepMUqg5pAz/dXDJZoi7p00OaD+ERTACjBqEXyHoGe8KeLGKZSdoF3XB7yjDAcMh
+         TnBLXuHHAxovi1np22fF61HQQt/lSv9oG2pfXHvhCNApmhy+B1fkamKBmmJXFH6JggOl
+         ek6ewc/dai1rgNohStn+QqeoeRfoZnuXR3sYdmibp2igN1kDfLNZTCW8gP6t0FPKvL+A
+         FZBg==
+X-Gm-Message-State: AOJu0Yys68Tnr9mwG9xn4r+KnVW10aaWr7JJbQlA6g6AqI/yMiODYD0E
+	Fe+gTdAo69+ytkYANUtGMmUjSVa7UmO0TfPVtMgkQ/WtkiHTwBfOwQdGD7HOj9ong39xhg5xR/E
+	Yois=
+X-Google-Smtp-Source: AGHT+IFBdrbMIL3tp3ouvkVq4MqCqK5JSneddmik1PtwSeETmWpRMMzr1AqxGjd1Kch2Md/KBTwkEw==
+X-Received: by 2002:a17:90b:1c10:b0:2c2:deda:8561 with SMTP id 98e67ed59e1d1-2cd274da1fcmr5937755a91.41.1721740407079;
+        Tue, 23 Jul 2024 06:13:27 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.29
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 06:13:30 -0700 (PDT)
+        Tue, 23 Jul 2024 06:13:26 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/17] pseudo: Update to pull in python 3.12+ fix
-Date: Tue, 23 Jul 2024 06:13:03 -0700
-Message-Id: <4643fd6a90627ebec73ed7342f7e0b62e67b5f21.1721740245.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/17] mesa: upgrade 24.0.5 -> 24.0.7
+Date: Tue, 23 Jul 2024 06:13:01 -0700
+Message-Id: <247f62169d1fff5df16606c64aed38b642f36857.1721740245.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1721740245.git.steve@sakoman.com>
 References: <cover.1721740245.git.steve@sakoman.com>
@@ -62,34 +62,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 13:13:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202349
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202347
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Pull in a fix which avoids syntax warnings with python 3.12.
+Mesa 24.0.7 is a bug fix release
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Changelog:
+ https://docs.mesa3d.org/relnotes/24.0.7.html
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 51aa0217e595939f15bd3ffd7625907aef142c05)
+(cherry picked from commit 55d962ff7e3475d2c46e1a76d9efa55e1de6e940)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../mesa/{mesa-gl_24.0.5.bb => mesa-gl_24.0.7.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_24.0.5.bb => mesa_24.0.7.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_24.0.5.bb => mesa-gl_24.0.7.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_24.0.5.bb => mesa_24.0.7.bb} (100%)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index c70b509233..5f32b3777a 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.0.5.bb b/meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_24.0.5.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_24.0.7.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 7cc48e8a04..9157fe9c3f 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+ "
  
--SRCREV = "0d292df61aeb886ae8ca33d9edc3b6d0ff5c0f0f"
-+SRCREV = "e11ae91da7d0711f5e33ea9dfbf1875dde3c1734"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git"
+-SRC_URI[sha256sum] = "38cc245ca8faa3c69da6d2687f8906377001f63365348a62cc6f7fafb1e8c018"
++SRC_URI[sha256sum] = "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae2c7d96db93f6c26a"
  
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_24.0.5.bb b/meta/recipes-graphics/mesa/mesa_24.0.7.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_24.0.5.bb
+rename to meta/recipes-graphics/mesa/mesa_24.0.7.bb
 -- 
 2.34.1
 
