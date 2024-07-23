@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 134A4C3DA70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 258B2C49EA1
 	for <webhook@archiver.kernel.org>; Tue, 23 Jul 2024 13:13:42 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.43672.1721740416523763778
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.43671.1721740414735454141
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jul 2024 06:13:36 -0700
+ Tue, 23 Jul 2024 06:13:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mWrAp/hW;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2cb56c2c30eso3300213a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Y7o444Qm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2cb566d528aso3444139a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 06:13:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740416; x=1722345216; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1721740414; x=1722345214; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SNk1lTX9+E78eXP/ZXxt68+h8ftRyx7qQPAxalByes0=;
-        b=mWrAp/hW4Pn8a7ZLu2oWFGWJXDydJVKZc8q+9OD7xCCWI10Q6TeS9vGxbnmmk8wpaG
-         yd0G5Two4az0P1bwg7bTK9oLw3BDgwyfeX9fytuXuHc0EZNlVcZ+4puEi855/YCVxgIz
-         fXLH6572R/FxsiQBI5rS5uioRnHPkDY2obawaudRkoIeAPFcecHkX8u+6Hb/kAvEPjUY
-         +/YcaVbJrd+IkV0aKlQmch1XXafKmI0+v+LYyVRN1jImd2RuYOROi9ZpjlwzoP/nTL9X
-         seRdN0pUOsvqJ/SZCWeZxtSHeWq8YSPTtBdYQaPDX0Z1RmxvUodba7Wb0pEg5Pmdgkgs
-         IoXQ==
+        bh=Tfd20jk+9uidFpJHNYH7g7yRGLzfJndS6fU2D+/+vrY=;
+        b=Y7o444QmcWXEALY9w4/aAPzS3g5WVNh2dvtMUpzXXPB/gimmCdXctcorbkUo4q7+FG
+         jkyTfqSEhiTxZ9P+zBEjVknJfVuAYVXhQDphS1QQkw9O6N7uoh9TyxfNTgOdlf/ThF9m
+         OGXfXNFpLLA69oRVmJlvI6GyrqsIkaMkbFD00iUiefPiIOzFA3gwCHA7059HR6fraJIp
+         i/ehCCSby1icdZnCW8wwD95XDeeOoOZuCGzZLOjH+cdo32+T46F5lV/KOTCyE2vPsfF2
+         Mz8EYvZyvOHb25ZVbtr1JzNOZfUOFtvpBjM4l/5XBs7S1e39AtlYyM+JW1ROv3LCpR76
+         3REw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721740416; x=1722345216;
+        d=1e100.net; s=20230601; t=1721740414; x=1722345214;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SNk1lTX9+E78eXP/ZXxt68+h8ftRyx7qQPAxalByes0=;
-        b=RurMmfVFT3hvhgw4l+Yj1lz8LROHMfe5tNnNnhng67Nu8aF0b0gqNpqswmCg/eyLd6
-         IYtc3GxgPLRvJTACsP2R8hBGsrzPNydKO4pf72wMG0hf7AOJ+XoDN4+6a1Fip6gpUQps
-         ITsjvXOjdsFiUEwuADOiSCgSCKA2D4ELiGkcxbiguDYpXUxFT4Lr96RXrfNV9XhMu4Tk
-         gCoDlSpoozAXfbqtD1Fds/vcyA9tkIIivelHJYe4jPm9jEuBhHiybJEbRATlKabJR/je
-         /92r3FyO4qbmegFmuXV1v+sRpdqSlzl/hqFp4kmBhl47IS52/DuB/I18n4wb5Q5pQcfD
-         oh+w==
-X-Gm-Message-State: AOJu0Yz4KMWE0V27D+fe/7bUK9HGkVsVbE5o7H0oxsMB8SGuKfWUm4xe
-	GprjqT4qpXsc6rclKqCVaomRsU0GSVdNtAIazZ6HbCb1R5PKLhTH8y2UMMw5hPd4DpAdjWauA89
-	UXaE=
-X-Google-Smtp-Source: AGHT+IFRNbOdr5w+eLHP/PYYzDki3IUHP/5/KYr6O+wwcWkM2cJCtr/Ackpvp/QGk0eVn70Es6bc7w==
-X-Received: by 2002:a17:90b:703:b0:2c9:6d45:8187 with SMTP id 98e67ed59e1d1-2cd8d11cb19mr3132410a91.21.1721740415680;
-        Tue, 23 Jul 2024 06:13:35 -0700 (PDT)
+        bh=Tfd20jk+9uidFpJHNYH7g7yRGLzfJndS6fU2D+/+vrY=;
+        b=IRUUF7SCZaIEldSjgIFi6PBGi7Z8yXgzU69FcqRF+ICR6KMsQFh/kuFqNu/J5LIaYj
+         ch545oMGHTsJifXj+vnJpyC1/PVkTCXPSFdnqvK6k0V5uIkSCi8FZ+nlcl2C1MEon8k9
+         ZUD1F0zh9d+evAPxiEIB/dxwSpLo76+29UIy0LIxTC0qXU81E7JrSofvVZZTuxu5g/s9
+         VGxLtxcd5hOsB6EQE+nwnuiwQF7HPYvVMN9qnULYtzDlD1tOWBMK0L7LnU1crM0nPEE1
+         /cZ8s9iBbUFdcwacY2n6f6Hqp9U8eTT4Ap/WSmgc4T+/sihLiRtmYSTC++8DQ3xfazzE
+         MNYw==
+X-Gm-Message-State: AOJu0YzuJ+mlX4yXVLy++2I7Go23zTTDYeNWWcc6YjDrKScQBktGAWto
+	gpvLQW1QWGJPGQrUTwY49+07rUlUKNMPfxZKJ7XAr6cGfRoUjwp/0EAS4ZjnW3OmdQkilh4bItA
+	3X04=
+X-Google-Smtp-Source: AGHT+IFBYZFemjecSyXJpVwww04p3b9sBxWqRVlLLqMYqgn4BNMKeI/LSzo5DPc0Wqg1Iaarn+XfXg==
+X-Received: by 2002:a17:90b:3908:b0:2c8:f3b7:ec45 with SMTP id 98e67ed59e1d1-2cd274aa68bmr8464363a91.36.1721740413941;
+        Tue, 23 Jul 2024 06:13:33 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.34
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cb7754a888sm10091540a91.57.2024.07.23.06.13.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 06:13:35 -0700 (PDT)
+        Tue, 23 Jul 2024 06:13:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/17] mobile-broadband-provider-info: upgrade 20230416 -> 20240407
-Date: Tue, 23 Jul 2024 06:13:06 -0700
-Message-Id: <081aa8f9e709314bf6a644a43674d8b44e04d894.1721740245.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 06/17] libadwaita: update 1.5.0 -> 1.5.1
+Date: Tue, 23 Jul 2024 06:13:05 -0700
+Message-Id: <497383a38b76deff6d800a1f3d3e9355ee6335ce.1721740245.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1721740245.git.steve@sakoman.com>
 References: <cover.1721740245.git.steve@sakoman.com>
@@ -62,42 +62,98 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jul 2024 13:13:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202352
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202351
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Markus Volk <f_l_k@t-online.de>
 
-Convert to meson.
+=============
+Version 1.5.1
+=============
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+- AdwAboutDialog/Window
+  - Fix an outdated appstream reference in docs
+- AdwActionRow
+  - Mention .property in docs
+- AdwAlertDialog
+  - Fix the accessible role
+  - Fix initial focus
+- AdwAvatar
+  - Fix portrait avatars on hidpi
+- AdwBin
+  - Fix a potential focus issue
+- AdwBreakpoint
+  - Fix add_setter() annotations
+- AdwCarousel
+  - Fix a build warning
+- AdwComboRow
+  - Fix initial checkmark
+  - Handle model changes properly
+- AdwDialog
+  - Fix accessibility warnings
+  - Make shortcuts work when there are no focusable widgets
+  - Correctly restore focus when opening a dialog from a menu
+  - Fix GtkWindow:deletable=false hiding close buttons in dialogs
+- AdwExpanderRow
+  - Fix get_title_lines() and get_subtitle_lines() return types
+  - Fix remove() docs
+- AdwOverlaySplitView
+  - Unmap sidebar when it's hidden
+- AdwPreferencesGroup
+  - Fix a potential focus issue
+  - Fix :header-group annotations and notifications
+- AdwPreferencesPage
+  - Fix a potential focus issue
+- AdwTabView
+  - Document :close-page return value
+  - Fix a leak when closing the last page
+- AdwViewStack
+  - Fix a typo in docs
+- Docs
+  - Update screenshots
+- Stylesheet
+  - Fix entry progress bars
+- Add missing return annotations
+- Translation updates
+  - Brazilian Portuguese
+  - Hindi
+  - Kabyle
+  - Portuguese
+  - Slovak
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 643c7c2219886253857fdc7618d5db12ddc0e9de)
+(cherry picked from commit 301470de9a1a6a44de9a3d7c815e86dba162da68)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mobile-broadband-provider-info_git.bb                   | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../libadwaita/{libadwaita_1.5.0.bb => libadwaita_1.5.1.bb}    | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-gnome/libadwaita/{libadwaita_1.5.0.bb => libadwaita_1.5.1.bb} (88%)
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index a4030b7b32..06ded45934 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -5,13 +5,13 @@ SECTION = "network"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
+similarity index 88%
+rename from meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
+rename to meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
+index b0b1e4502a..6cb67c0db0 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.5.1.bb
+@@ -3,7 +3,6 @@ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libadwaita"
+ LICENSE="LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRCREV = "aae7c68671d225e6d35224613d5b98192b9b2ffe"
--PV = "20230416"
-+SRCREV = "55ba955d53305df96123534488fd160ea882b4dd"
-+PV = "20240407"
- PE = "1"
+-
+ DEPENDS = " \
+     gtk4 \
+     appstream \
+@@ -11,7 +10,7 @@ DEPENDS = " \
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
- S = "${WORKDIR}/git"
+ inherit gnomebase gobject-introspection gi-docgen vala features_check
  
--inherit autotools
-+inherit meson
+-SRC_URI[archive.sha256sum] = "fd92287df9bb95c963654fb6e70d3e082e2bcb37b147e0e3c905567167993783"
++SRC_URI[archive.sha256sum] = "7f144c5887d6dd2d99517c00fd42395ee20abc13ce55958a4fda64e6d7e473f8"
  
- DEPENDS += "libxslt-native"
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES = "opengl"
 -- 
 2.34.1
 
