@@ -1,90 +1,99 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67628C3DA63
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 17:21:01 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.16560.1721841656587223403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F710C3DA64
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 17:37:01 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.16926.1721842612714372732
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 10:20:56 -0700
+ Wed, 24 Jul 2024 10:36:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QqrTXwKj;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52f025ab3a7so5621588e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 10:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721841655; x=1722446455; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NFIZR77fvDxNzuK7uJWr2DcBPhokh5ARWLjCXBjRyaA=;
-        b=QqrTXwKjYoECrZOv71QT4l/w5fPiGU5si0oNJ0nac0GqDUag4pXZ1FWg2kxYwaYZpX
-         I7IugNgZb3xVbxLbD7nzxsf9q75QlplG3y5pNR2a/sxq03tkum4jswyy3niXp7a3iHVe
-         qSxmnWASXIMk2rZnNuc9u0WlQGiBwlV0natDuMUzP+eovFvLCQyUUWTTs8YBdV/OWog7
-         bzWDJlP0FnaTY4D2vqSvFPc16X6ZqvOcVjLBM4hlX2E3uEmAgC42O5+RjJyYS3cqaZTz
-         vrvt9CMlSKuLePRKuNGZYPdxuxuKVXMj42trc4W1fEaMNz8lNc83h7Iy1sQpZK6qi0D7
-         helQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721841655; x=1722446455;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NFIZR77fvDxNzuK7uJWr2DcBPhokh5ARWLjCXBjRyaA=;
-        b=R1cNorbXqYtvpcxLYuOgzjCvk78ozS6n5KIEtiDRDE7QADMm6ykpdfz+1CIDNpctfK
-         2rNIvlpeSTVX3I13V3rVgeqUIzhCDaRVz1IlmCZ1rx9oYARXp1Hxs+TkIARhwj6W587M
-         oN/an/8XmUCjqLZ4t/TLys5COzymnK/boRTaZwTpmiTMeJpgXmhaeZWLPdyEb1zOcqbw
-         TLU/cRtyw5hfqKuZLjk/56lc3thiNuuphkySLZ4sF/CXlefDQpbWsahfsplpiA1gdzNU
-         lm6ZazKA9wF5oztRxqZSopWy64gVidQ4Pf9PcaaZ48UR5dCLLUXFVeocs1bnB37qBuuN
-         1Aaw==
-X-Gm-Message-State: AOJu0Yyvg6iiHemoJRuZqCh+hbXrbovrXGO/z6E+UmzcNZ/Qn3PjqOJq
-	hHbsog2RWI0zTyuV68Om45ZB3M7rx2JPWLw4VPNQNo6VD57iH3BuP+M9O7xJgHbDYwoOS4nPDaR
-	FfqtgZf0N1xxzSibMWsXAXEwPfXE=
-X-Google-Smtp-Source: AGHT+IFx3auS8w++aIi3rtFpT9uMSP0LbCZWneYZrnw6MdWI2pBnkxJUTeNFzTErQQFzAIsUQUErlQxTdRX45G5ucEM=
-X-Received: by 2002:a05:6512:1101:b0:52e:9fe0:bee4 with SMTP id
- 2adb3069b0e04-52fd3ef002fmr281394e87.9.1721841654397; Wed, 24 Jul 2024
- 10:20:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240724170829.3456577-1-tom.hochstein@oss.nxp.com>
-In-Reply-To: <20240724170829.3456577-1-tom.hochstein@oss.nxp.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Jul 2024 19:20:42 +0200
-Message-ID: <CANNYZj_GkEBefDmtp_ANbdZEv2r+i_RfTAYd0TpEbYD1kUZ+3g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] time64.inc: Simplify GLIBC_64BIT_TIME_FLAGS usage
-To: tom.hochstein@oss.nxp.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WGm4m1uO;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=VAjClt4F;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190e5d136f4-2ce16f81-c404-4416-9adf-f6096216f8fd-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1721842612; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=ErQPgXoqEsZrPyqD17nxFHq6M1MKSp1qNBQQRlKVzwQ=;
+	b=WGm4m1uO6lPFPTI6QIzP85iGx21RpmnXwCYJChQ+gW8FxKyVoJLmCksdT6hToEcl
+	s2fB2BqkIZ2ykxPfNAT/BIF/TMYcyiYQpxNRbJf1kRnJaYLIWVMyjMqWQgSLuVtxbMr
+	0LoCGc4iMu3/WRBUyQwzDVceMazUIJVe8/701hFA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721842612;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=ErQPgXoqEsZrPyqD17nxFHq6M1MKSp1qNBQQRlKVzwQ=;
+	b=VAjClt4F+ZtnilxI6Qy0aBseq01Xe1A0bT84dLdisXLAs66qNZKEHEgcfuxSqXoC
+	uU8gYlgd7JZtXKhO2e6fcUvPVSPoYyvHKc8FHgTzQ881V9kQvg3wY3TaUUKHwNJ45/7
+	mB2hSnE/HiqZFc34BkQQ3ryd4Jwuaujtfv2i0Oe0=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/3] python3-idna: enable ptest
+In-Reply-To: <20240724171926.3724005-3-ross.burton@arm.com>
+References: <20240724171926.3724005-3-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190e5d136f4-2ce16f81-c404-4416-9adf-f6096216f8fd-000000@us-west-2.amazonses.com>
+Date: Wed, 24 Jul 2024 17:36:51 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.24-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 17:21:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202474
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 17:37:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202476
 
-On Wed, 24 Jul 2024 at 19:10, Tom Hochstein via lists.openembedded.org
-<tom.hochstein=oss.nxp.com@lists.openembedded.org> wrote:
-> -GLIBC_64BIT_TIME_FLAGS = " -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
-> +TARGET_CC_ARCH += "${GLIBC_64BIT_TIME_FLAGS}"
->
->  # Only needed for some 32-bit architectures, some relatively newer
->  # architectures do not need it ( e.g. riscv32 )
-> -TARGET_CC_ARCH:append:arm = "${GLIBC_64BIT_TIME_FLAGS}"
-> -TARGET_CC_ARCH:append:armeb = "${GLIBC_64BIT_TIME_FLAGS}"
-> -TARGET_CC_ARCH:append:mipsarcho32 = "${GLIBC_64BIT_TIME_FLAGS}"
-> -TARGET_CC_ARCH:append:powerpc = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLIBC_64BIT_TIME_FLAGS}', '', d)}"
-> -TARGET_CC_ARCH:append:x86 = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLIBC_64BIT_TIME_FLAGS}', '', d)}"
-> +GLIBC_64BIT_TIME_FLAGS             = ""
-> +GLIBC_64BIT_TIME_FLAGS:arm         = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
-> +GLIBC_64BIT_TIME_FLAGS:armeb       = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
-> +GLIBC_64BIT_TIME_FLAGS:mipsarcho32 = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
-> +GLIBC_64BIT_TIME_FLAGS:powerpc     = \
-> +    "${@bb.utils.contains('TUNE_FEATURES', 'm32', '-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64', '', d)}"
-> +GLIBC_64BIT_TIME_FLAGS:x86         = \
-> +    "${@bb.utils.contains('TUNE_FEATURES', 'm32', '-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64', '', d)}"
+--NextPart
+Content-Type: text/plain
 
-Apologies, but this is not simpler or better or more readable.
-Repeating "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64" multiple times
-should really be avoided.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-What prompted this patch specifically?
+---
+Testing patch /home/patchtest/share/mboxes/3-3-python3-idna-enable-ptest.patch
 
-Alex
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
