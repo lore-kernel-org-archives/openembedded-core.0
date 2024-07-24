@@ -1,99 +1,128 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <john.ripple@keysight.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD79C3DA63
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 17:37:01 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.16697.1721842612370158355
- for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 10:36:52 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aq8CSyti;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=thwb7bOr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190e5d13539-b654f980-5597-4d70-9bd4-276ed091ea32-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721842611; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=RaPZQhoASjOZkw6Jq7Cdf5Ja1TDGFIJP/UyPVes57Y0=;
-	b=aq8CSytis+RNws7NBFdTIRm58uolhp0a/iYJy5H1Rvp0xTYGjFn7SiK73SxNlqMh
-	Nl5ONaVTOdFMeSB1I8/dpRwUnxLahWS3a+20MGdgImoPEho6GCs90JRSuyOwyMtan6/
-	iHexPxBmv/CiiF8kOuXDgVS2//5gQ9UFjS3P4MoE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721842611;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=RaPZQhoASjOZkw6Jq7Cdf5Ja1TDGFIJP/UyPVes57Y0=;
-	b=thwb7bOrD7+hv5joJ5RXqBn6ZqmKZj3qQIxfUP8Ef8bse/uvbbz5kHAPFlOkEkBU
-	jN1qRLlUsCktuKEgv9Q6bEAgekMOrSO7mMRFpn3NRJziV3NTs8GcG7a6Fqza/TXpBWL
-	1IMQ5VLF/LjSAhaPAcN5y5tJH62AeT4r/VowetvQ=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/3] python3-idna: generalise RDEPENDS
-In-Reply-To: <20240724171926.3724005-2-ross.burton@arm.com>
-References: <20240724171926.3724005-2-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190e5d13539-b654f980-5597-4d70-9bd4-276ed091ea32-000000@us-west-2.amazonses.com>
-Date: Wed, 24 Jul 2024 17:36:51 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.24-54.240.27.45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE2EC3DA61
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 18:28:11 +0000 (UTC)
+Subject: [Bug] virtual/kernel menuconfig disabled with multiple uboot configs
+To: openembedded-core@lists.openembedded.org
+From: "John Ripple" <john.ripple@keysight.com>
+X-Originating-Location: Colorado Springs, Colorado, US (192.25.7.195)
+X-Originating-Platform: Windows Chrome 126
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Wed, 24 Jul 2024 11:28:09 -0700
+Message-ID: <skoU.1721845689752134562.U1br@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="vnWeNzKmdug1tXcADgkJ"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 17:37:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202475
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 18:28:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202477
 
---NextPart
-Content-Type: text/plain
+--vnWeNzKmdug1tXcADgkJ
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi, I've found a bug in the kernel-fitimage.bbclass when it uses the uboot-=
+config.bbclass. The Yocto bugzilla wouldn't let me create an account to rep=
+ort it so I thought I would at least post it here.
 
----
-Testing patch /home/patchtest/share/mboxes/2-3-python3-idna-generalise-RDEPENDS.patch
+On the Scarthgap 5.0.0 Yocto release, the kernel-fitimage.bbclass inherits =
+the uboot-config.bbclass (both in openembedded-core/meta/classes-recipes). =
+This is normally fine but if you are building multiple uboot configs then t=
+he uboot-config.bbclass disables the menuconfig for the recipe. This is a g=
+ood idea when you're building uboot since you don't know what menuconfig to=
+ use, but since the kernel inherits this class too, the kernel menuconfig t=
+ask gets disabled as well.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+Steps to reproduce:
+1. Set UBOOT_CONFIG to have multiple configs (I did this in my machine file=
+).
+UBOOT_CONFIG ??=3D "uboot-a uboot-b"
+2. bitbake virtual/kernel -c menuconfig
+ERROR: linux-fslc-imx-6.6.28+git-r0 do_menuconfig: do_menuconfig is disable=
+d, please check KCONFIG_CONFIG_ENABLE_MENUCONFIG variable.
+ERROR: Logfile of failure stored in: /extra/temp/tlo-p700-seval-build/build=
+/tmp/work/p700_quad-keysight-linux/linux-fslc-imx/6.6.28+git/temp/log.do_me=
+nuconfig.995135
+ERROR: Task (/extra/temp/tlo-p700-seval-build/build/../layers/meta-freescal=
+e/recipes-kernel/linux/linux-fslc-imx_6.6.bb:do_menuconfig) failed with exi=
+t code '1'
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+openembedded-core/meta-classes-recipes/uboot-config.bbclass lines 143 to 14=
+7.
+if len(ubootconfig) =3D=3D 1 :
+d.setVar( 'KCONFIG_CONFIG_ROOTDIR' , os.path.join(d.getVar( "B" ), d.getVar=
+( "UBOOT_MACHINE" ).strip()))
+else :
+# Disable menuconfig for multiple configs
+d.setVar( 'KCONFIG_CONFIG_ENABLE_MENUCONFIG' , "false" )
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+openembedded-core/meta-classes-recipes/kernel-fitimage.bbclass line 7
+inherit kernel-uboot kernel-artifact-names uboot-config
 
----
+--vnWeNzKmdug1tXcADgkJ
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+<div>Hi, I've found a bug in the kernel-fitimage.bbclass when it uses the u=
+boot-config.bbclass. The Yocto bugzilla wouldn't let me create an account t=
+o report it so I thought I would at least post it here.<br /><br />On the S=
+carthgap 5.0.0 Yocto release, the kernel-fitimage.bbclass inherits the uboo=
+t-config.bbclass (both in openembedded-core/meta/classes-recipes). This is =
+normally fine but if you are building multiple uboot configs then the uboot=
+-config.bbclass disables the menuconfig for the recipe. This is a good idea=
+ when you're building uboot since you don't know what menuconfig to use, bu=
+t since the kernel inherits this class too, the kernel menuconfig task gets=
+ disabled as well.&nbsp;<br /><br />Steps to reproduce:<br />1. Set UBOOT_C=
+ONFIG to have multiple configs (I did this in my machine file).<br />&nbsp;=
+ &nbsp; &nbsp;<span style=3D"color: #d4d4d4;">UBOOT_CONFIG ??=3D </span><sp=
+an style=3D"color: #ce9178;">"uboot-a uboot-b"</span><br />2. bitbake virtu=
+al/kernel -c menuconfig<br />&nbsp; &nbsp; ERROR: linux-fslc-imx-6.6.28+git=
+-r0 do_menuconfig: do_menuconfig is disabled, please check KCONFIG_CONFIG_E=
+NABLE_MENUCONFIG variable.<br />&nbsp; &nbsp; ERROR: Logfile of failure sto=
+red in: /extra/temp/tlo-p700-seval-build/build/tmp/work/p700_quad-keysight-=
+linux/linux-fslc-imx/6.6.28+git/temp/log.do_menuconfig.995135<br />&nbsp; &=
+nbsp; ERROR: Task (/extra/temp/tlo-p700-seval-build/build/../layers/meta-fr=
+eescale/recipes-kernel/linux/linux-fslc-imx_6.6.bb:do_menuconfig) failed wi=
+th exit code '1'</div>
+<div><br />openembedded-core/meta-classes-recipes/uboot-config.bbclass line=
+s 143 to 147.</div>
+<div style=3D"color: #d4d4d4; background-color: #1e1e1e; font-family: Conso=
+las, 'Courier New', monospace; font-weight: normal; font-size: 16px; line-h=
+eight: 22px; white-space: pre;">
+<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; </span><span style=3D"color: #569cd6;">if</span><span style=3D"color: #=
+d4d4d4;"> len(ubootconfig) =3D=3D </span><span style=3D"color: #b5cea8;">1<=
+/span><span style=3D"color: #d4d4d4;">:</span></div>
+<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; d.setVar(</span><span style=3D"color: #ce9178;">'KCONFIG_=
+CONFIG_ROOTDIR'</span><span style=3D"color: #d4d4d4;">, os.path.join(d.getV=
+ar(</span><span style=3D"color: #ce9178;">"B"</span><span style=3D"color: #=
+d4d4d4;">), d.getVar(</span><span style=3D"color: #ce9178;">"UBOOT_MACHINE"=
+</span><span style=3D"color: #d4d4d4;">).strip()))</span></div>
+<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; </span><span style=3D"color: #569cd6;">else</span><span style=3D"color:=
+ #d4d4d4;">:</span></div>
+<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; </span><span style=3D"color: #6a9955;"># Disable menuconf=
+ig for multiple configs</span></div>
+<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; d.setVar(</span><span style=3D"color: #ce9178;">'KCONFIG_=
+CONFIG_ENABLE_MENUCONFIG'</span><span style=3D"color: #d4d4d4;">, </span><s=
+pan style=3D"color: #ce9178;">"false"</span><span style=3D"color: #d4d4d4;"=
+>)</span></div>
+</div>
+<div><br />openembedded-core/meta-classes-recipes/kernel-fitimage.bbclass l=
+ine 7</div>
+<div style=3D"color: #d4d4d4; background-color: #1e1e1e; font-family: Conso=
+las, 'Courier New', monospace; font-weight: normal; font-size: 16px; line-h=
+eight: 22px; white-space: pre;">
+<div><span style=3D"color: #569cd6;">inherit</span><span style=3D"color: #d=
+4d4d4;"> kernel-uboot kernel-artifact-names uboot-config</span></div>
+</div>
+<div>&nbsp;</div>
 
---NextPart
-
-
---NextPart--
+--vnWeNzKmdug1tXcADgkJ--
 
