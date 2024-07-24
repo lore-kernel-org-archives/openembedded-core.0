@@ -1,123 +1,107 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EEBC3DA61
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 19:13:51 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.18959.1721848424455813109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16760C3DA63
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 19:15:42 +0000 (UTC)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+ by mx.groups.io with SMTP id smtpd.web10.19207.1721848538206483842
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 12:13:44 -0700
+ Wed, 24 Jul 2024 12:15:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=YEzz0wAu;
- spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: asharma@mvista.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fb3b7d0d3aso661235ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 12:13:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CRtuEkli;
+ spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-261112c303bso52425fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 12:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1721848423; x=1722453223; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fsC+J7biHznpiIJFpSnbCyKGF9B1Dufk+50A/r8piTM=;
-        b=YEzz0wAumTAi8tRW91RUcHw7ZjQIf5iAA+zf1KdziDIDIoQ88mfpUnoSDXy2/OxDoh
-         VNOlhE1uRoqcduEWcN51hkOhElfAFEKLzk6jCrfSdvUO7jFBzF8al0YNWqAxawRXMBza
-         eTzGYfD/U/xm1tmKLL4L52BhB1PJxwpws7TJU=
+        d=gmail.com; s=20230601; t=1721848537; x=1722453337; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G5a4A8UyZpm2bqzp5FUOPWfF7xzskX351sfV/nVzF8s=;
+        b=CRtuEkliFoynr4q4Lwnog3j1mLj7+Ei7BdYdjgmU66ZIFjASTsq0sKs/kbXysPSzaC
+         1IV1CTpDzKQ/ybRXezd/eNj8UFwWUhomVJWhXylP72kGL23pmfCv1fYqVVcWzyvAhK9u
+         jjD4gaEHinIOUUjjUxItsz49mJH5/TgPR6fp9X16/i+dVCcqGJ450l4jfKXJI5tY4beF
+         3X7ponWecsn+csAMN3S2CRL6Em2QOp0QtQlD7x+1adUhpkgF/2lH5YmEmId7tlS+5/g8
+         V2ZcMcDWnMkxXauncZcMRd+Obv9wE3l44cEJtpiunEm2XYGwDZuaGmYsSfYJ+e7dqA7B
+         pcqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721848423; x=1722453223;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fsC+J7biHznpiIJFpSnbCyKGF9B1Dufk+50A/r8piTM=;
-        b=pTVdMk4doXWXqXczuhyvK9aYDydxmdbI4HSGShoLu9wY5L+OXkzp1NEv4aqXrRzHd6
-         pptpp+/1JtqnmhvVpAYUJFqc0K8zpB218UpaySq8AuvBkwUvH6pMun9nqJlJUUYKncME
-         p87S/w34YWGjj0z9f/hXrZvPAIhNurSarjl5h0QsKjPyfWmSnQ3cbLJHeOiY9MuxjnJe
-         byka/nWexIHWlDXO6TyMxsFG6uGPCembMa8zd5c/O4h09L2EugHEMrIrUJV106+L37Lf
-         6Zk3dXi6eBEjrEa+ks6LkE88x8tMwbnbqpq9iDaNBR+Wc83e+ub5dQv0QDJFZrXrYSqt
-         onkA==
-X-Gm-Message-State: AOJu0Yyj5DQTFH+gTfsDWiHheCicjLJ0Gbh0jmrCinPyyzx7Lzgim4F7
-	vjfBp+Ygd5pytl43+GPeBjAkDdxcLCg3E7ax/XoPP/b2ACS7ib0ei7LlBp93nMMi7/s/qQ49D5m
-	5
-X-Google-Smtp-Source: AGHT+IHKNC/RrnJyoicb7krRRuZkys37voJBT26jdtrVTgtXKA6WyiAnq5vT13qNDtVYMalV39W2Vg==
-X-Received: by 2002:a17:902:e88a:b0:1fc:3daa:52 with SMTP id d9443c01a7336-1fed38386ddmr6146895ad.11.1721848423563;
-        Wed, 24 Jul 2024 12:13:43 -0700 (PDT)
-Received: from asharma-Latitude-3400 ([223.190.86.232])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f436c6asm100015465ad.206.2024.07.24.12.13.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 24 Jul 2024 12:13:43 -0700 (PDT)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Thu, 25 Jul 2024 00:41:28 +0530
-From: Ashish Sharma <asharma@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] libarchive: backport fix for CVE-2024-26256
-Date: Thu, 25 Jul 2024 00:41:26 +0530
-Message-ID: <20240724191126.29999-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.44.0
+        d=1e100.net; s=20230601; t=1721848537; x=1722453337;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G5a4A8UyZpm2bqzp5FUOPWfF7xzskX351sfV/nVzF8s=;
+        b=R+zpmsnY7+wQtdpDgq2+VFGLCSIuIknq9KXM1zcbftERXr4RXO/boDjhRMK7Clr85H
+         8kcGdS//tafcisuReQWcak4Ox3wG8wkEfPKNo8Get6u0y8LI15BZuSSwZjsUb/CIIhiP
+         NDwHDZG62CJsCVK/rhrG0kV6/hep15xvP5C+fYDppJejK3uhwge0PHbgAQOXGyuHwlfi
+         qlsfVHVuDoiu5k/R2f/RMDo7Ii60hBlFmndnqcIqjXcEpt+6E4AOjpMd9jgNHnsuxbkP
+         L/N8JyxAgRwew8C4wVKssJDXuuoMa1gQUTKBNvDqE7JWOzX1AVlxj5HpVBnAuEGEqwII
+         Xdkg==
+X-Gm-Message-State: AOJu0Yza+qobM/OAK8xVI4GAkzVmdW0vgGXpOLNfUOg2JRMCNSGIt1Of
+	L5dHy0OyoehfaT0YLiJ+2Ioz2lNbVM2vtXPnleeqA3Texvw7bVOi3tdVHc5kS5F2IVCVMh0RIvg
+	AdX5WQbG4iYRQ+IUTysZQPStg8eM=
+X-Google-Smtp-Source: AGHT+IGinXLSQY+6YNhnyX1LndCxsaUgdM3kd9X9pYZuCl8285qYWdpIlKqFkLozthvTfMbhVFeVKHwmvIPREkGGgmg=
+X-Received: by 2002:a05:6870:8998:b0:259:8805:b634 with SMTP id
+ 586e51a60fabf-264a0fa788bmr638005fac.49.1721848537403; Wed, 24 Jul 2024
+ 12:15:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240724160832.2384962-1-ross.burton@arm.com> <20240724160832.2384962-2-ross.burton@arm.com>
+In-Reply-To: <20240724160832.2384962-2-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 24 Jul 2024 12:15:12 -0700
+Message-ID: <CAMKF1soh-sFFHQwSw6uRffFjg_rb-+4Cnhef=6AVZRpRT8tJZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/4] python3-cffi: generalise RDEPENDS
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 19:13:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202479
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 19:15:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202480
 
-This patch fixes an out-of-bound error in rar e8 filter.
+On Wed, Jul 24, 2024 at 9:08=E2=80=AFAM Ross Burton via lists.openembedded.=
+org
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
+>
+> There's no need to mark these RDEPENDS as target-only.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/python/python3-cffi_1.16.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-cffi_1.16.0.bb b/meta/r=
+ecipes-devtools/python/python3-cffi_1.16.0.bb
+> index 8e829794a56..dfe32c604bd 100644
+> --- a/meta/recipes-devtools/python/python3-cffi_1.16.0.bb
+> +++ b/meta/recipes-devtools/python/python3-cffi_1.16.0.bb
+> @@ -8,7 +8,7 @@ SRC_URI[sha256sum] =3D "bcb3ef43e58665bbda2fb198698fcae67=
+76483e0c4a631aa5647806c25
+>
+>  inherit pypi python_setuptools_build_meta
+>
+> -RDEPENDS:${PN}:class-target =3D " \
+> +RDEPENDS:${PN} =3D " \
+>      python3-ctypes \
+>      python3-io \
+>      python3-pycparser \
 
-Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/eb7939b24a681a04648a59cdebd386b1e9dc9237]
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
----
- .../libarchive/CVE-2024-26256.patch           | 27 +++++++++++++++++++
- .../libarchive/libarchive_3.7.4.bb            |  4 ++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
+I hope the native version is not in the critical dependency chain.
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
-new file mode 100644
-index 00000000000..f9be4fe255d
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
-@@ -0,0 +1,27 @@
-+From eb7939b24a681a04648a59cdebd386b1e9dc9237 Mon Sep 17 00:00:00 2001
-+From: Wei-Cheng Pan <legnaleurc@gmail.com>
-+Date: Mon, 22 Apr 2024 01:55:41 +0900
-+Subject: [PATCH] fix: OOB in rar e8 filter (#2135)
-+
-+This patch fixes an out-of-bound error in rar e8 filter.
-+
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/eb7939b24a681a04648a59cdebd386b1e9dc9237]
-+CVE: CVE-2024-26256
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ libarchive/archive_read_support_format_rar.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
-+index 99a11d1700..266d0ee995 100644
-+--- a/libarchive/archive_read_support_format_rar.c
-++++ b/libarchive/archive_read_support_format_rar.c
-+@@ -3615,7 +3615,7 @@ execute_filter_e8(struct rar_filter *filter, struct rar_virtual_machine *vm, siz
-+   uint32_t filesize = 0x1000000;
-+   uint32_t i;
-+ 
-+-  if (length > PROGRAM_WORK_SIZE || length < 4)
-++  if (length > PROGRAM_WORK_SIZE || length <= 4)
-+     return 0;
-+ 
-+   for (i = 0; i <= length - 5; i++)
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
-index da857641168..22e398f5989 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
-@@ -30,7 +30,9 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
- EXTRA_OECONF += "--enable-largefile --without-iconv"
- 
- SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
--SRC_URI += "file://configurehack.patch"
-+SRC_URI += "file://configurehack.patch \
-+            file://CVE-2024-26256.patch \
-+"
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
- 
- SRC_URI[sha256sum] = "7875d49596286055b52439ed42f044bd8ad426aa4cc5aabd96bfe7abb971d5e8"
--- 
-2.44.0
-
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202460): https://lists.openembedded.org/g/openembedde=
+d-core/message/202460
+> Mute This Topic: https://lists.openembedded.org/mt/107526225/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
