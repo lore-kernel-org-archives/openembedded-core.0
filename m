@@ -1,224 +1,734 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <d.mukhametgaleev@yadro.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E798C3DA63
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 11:04:09 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.45])
- by mx.groups.io with SMTP id smtpd.web10.8174.1721819043886226240
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 173C3C3DA63
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 13:37:50 +0000 (UTC)
+Received: from mta-04.yadro.com (mta-04.yadro.com [89.207.88.248])
+ by mx.groups.io with SMTP id smtpd.web10.10846.1721828262357286542
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 04:04:04 -0700
+ Wed, 24 Jul 2024 06:37:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=bviwKH1A;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=bviwKH1A;
- spf=pass (domain: arm.com, ip: 40.107.22.45, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=thP4WrEcZHS+jEJjatg56KcSZXUycfvhtITZ/b5HTRP9mAMfZ/YsYAjqxkMunhs4+L3c+spbEBtv07WaWlXwK/roJSGI6HfRvqLC6Hok1R5IEjiEB5gi6ifNZ2oMc6JXc6GJV/Od1DYMvaV6HGY6/fI1CScBTi5sn5lltSqxTNvO2ct6FOxtoN7EEpPoAJwqcGAXjk++Krr0vJwr5BE6+3MOSDPh7ZbJU0Hu4MlpF5V9X1jAKwQWopL7or/x/jk1Vbl5ehe4KFtK4M1IMgR3cCYfemXFJKYgnw7kEbiOQkz0xjFjWAcswsTV6PJhmkBiVOZqZm2UDJhsZ0c0sMviDQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J3rsNfePDOG8/bOLPJRVsRtTkhTppDSBFuTxULUsRG4=;
- b=itLHADGqVvbc/XQ6qPO/83hucqZbK2HjKdRi9n/sTJLpP5wxEcnZo6ZhV60GwDnotIVmWdSU3ctk+562CQFpCyN/8vey7iMhQtTmEsM9G74PNhJ/t2LoHMeb2CVlg3O0uLKbtmGyPtZ0FMWBKo/xuVYJpzFLef1z22xDnRpR6hnv2fI1oWPkY/cvRGIzSr966rrQWK33YPegHplG8f320cnqEEpK9hqsL3Da3GQXHAOxs1EQ0Tg/J2CMaiPGqd+0j6wqJQ/XfxcI0MzYHjMeHHSEkG/Yu2K9CC3vojDXbpQ3jGqijI5dQQywRCKtCoQCXwRRnfCuVsGDXWgxmARAHQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J3rsNfePDOG8/bOLPJRVsRtTkhTppDSBFuTxULUsRG4=;
- b=bviwKH1A1GMsSGQKBM004Z3hJin8IOzQwoorc+a+v6KTpZf3R2efcrNpZ/k0HrczdeN+WUEMNv0CacL36s6iLm3g/+7Y0WA4Gb6shLP0Oy+DpGB9oNxm5WrcLSgm8SJRmqD7Nzi7vSX385EmQGjNev+pyHqyrFN8ABo27Wn49WI=
-Received: from AS9P250CA0017.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:532::16)
- by VI1PR08MB10220.eurprd08.prod.outlook.com (2603:10a6:800:1bd::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.16; Wed, 24 Jul
- 2024 11:03:56 +0000
-Received: from AMS0EPF000001AD.eurprd05.prod.outlook.com
- (2603:10a6:20b:532:cafe::c8) by AS9P250CA0017.outlook.office365.com
- (2603:10a6:20b:532::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.20 via Frontend
- Transport; Wed, 24 Jul 2024 11:03:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AMS0EPF000001AD.mail.protection.outlook.com (10.167.16.153) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7784.11
- via Frontend Transport; Wed, 24 Jul 2024 11:03:56 +0000
-Received: ("Tessian outbound 2fd79eef2229:v365"); Wed, 24 Jul 2024 11:03:55 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: a6085ae76237a66f
-X-CR-MTA-TID: 64aa7808
-Received: from Le2b1fd4e7b28.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 4F84ED80-690A-4A88-B37B-9FEC692B2D86.1;
-	Wed, 24 Jul 2024 11:03:49 +0000
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id Le2b1fd4e7b28.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 24 Jul 2024 11:03:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DXRR1jLWnaoSM6f+JkvmUghHWBrn5btjdb/fpyTK5aj8INSIsw/PF2K0G+qQusZArswZ+ZARHUwexb8fTDLfXvl1f7UZPu+H0my/mYNwKC10e6z3JUgMPfF/VswoX4eJBXYERDuNXR68w3Naf+5hJMoL2y3emacL+FYxsfQ+ozrAOykYdrSQ4U2eB0Lo5cSQaxoOJGyu5+SPPgzcY5T/gnGh2vWVLaWN8Y60TOpi1ZCY+1I3j4LLJtrBlCvW/SXkvYB+i9a6LhEDBAGXwQILmvCJR8HBeT+zD9GfjQfek3NgeFS6V6pEVPjKUUNJeWQ+NFTL87ig3mkdCsvVXmiBVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J3rsNfePDOG8/bOLPJRVsRtTkhTppDSBFuTxULUsRG4=;
- b=iCri197xUbJ9eTrhyPYYIuVFaYoZX2/VVVrSxhOmDrxqtqSSMY/7v92vINQydRFga/6gCAzQQe4qxyDgBdfWT6H8SQr+7EtfgtoLtOkXP1CnV4tjwVnte3FhX04y8m5dh5Jyr6KGTPt97qKSTJSGFn34ovjKw7Yq4JUafrC2dfVLYWrHZontQ5FlbXHw/oST/YgzsDQNzCBxt1p++nFlUQwOWYsO0x0ui8oIcSiU5P/S68U5RWiGZfOXqI9EDqSjGrMrpCS2c0TqLsVTauX4ts0i5NhkZ0ZM8piJg2+MM2pG3XDEdj6T7rcIJrzrMr7K0mFAaGsJrhokPS99yTW2Tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J3rsNfePDOG8/bOLPJRVsRtTkhTppDSBFuTxULUsRG4=;
- b=bviwKH1A1GMsSGQKBM004Z3hJin8IOzQwoorc+a+v6KTpZf3R2efcrNpZ/k0HrczdeN+WUEMNv0CacL36s6iLm3g/+7Y0WA4Gb6shLP0Oy+DpGB9oNxm5WrcLSgm8SJRmqD7Nzi7vSX385EmQGjNev+pyHqyrFN8ABo27Wn49WI=
-Received: from AS4PR08MB7429.eurprd08.prod.outlook.com (2603:10a6:20b:4e1::9)
- by DU0PR08MB8208.eurprd08.prod.outlook.com (2603:10a6:10:3b1::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.14; Wed, 24 Jul
- 2024 11:03:46 +0000
-Received: from AS4PR08MB7429.eurprd08.prod.outlook.com
- ([fe80::8db5:7772:a426:2afe]) by AS4PR08MB7429.eurprd08.prod.outlook.com
- ([fe80::8db5:7772:a426:2afe%7]) with mapi id 15.20.7784.016; Wed, 24 Jul 2024
- 11:03:46 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 05/37] python3-pytest: clean up RDEPENDS
-Thread-Topic: [OE-core] [PATCH 05/37] python3-pytest: clean up RDEPENDS
-Thread-Index: AQHa3Q/xQyJnzDthck2nJ5F/WarsMLIFmMiAgAAfWgA=
-Date: Wed, 24 Jul 2024 11:03:46 +0000
-Message-ID: <91C3C9C4-DEFE-4D94-965F-2DD6E96D0A9B@arm.com>
-References: <20240723145137.74198-1-ross.burton@arm.com>
- <20240723145137.74198-5-ross.burton@arm.com>
- <b52d8f89-e4c4-4e25-954f-ef178a7d82d4@bootlin.com>
-In-Reply-To: <b52d8f89-e4c4-4e25-954f-ef178a7d82d4@bootlin.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3774.600.62)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AS4PR08MB7429:EE_|DU0PR08MB8208:EE_|AMS0EPF000001AD:EE_|VI1PR08MB10220:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0557ce9-6398-4cd9-98f8-08dcabd04fe0
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?sp/nysuqsXzfo1+RdC/e92IFsp7Yid8APZqTaBtkTRfUliA49ovp3xmtgx/C?=
- =?us-ascii?Q?0bxWoifSBq3N8dJnCTcN3xjk5Lub3UZysZEDKqdvwZUv3qWh68UZ/Tolud5K?=
- =?us-ascii?Q?Yr3MG/q7Czzkefa7B7mMg1MORx6kATnJl+yI6Hs0hObC6ow4r+2d/OdagJno?=
- =?us-ascii?Q?WrGuuxQDIb64cOA3Dbb9dfaS3tqdA/BaLvc7V7nAKQUm6/5KWZGxxs9dy35B?=
- =?us-ascii?Q?zmWYC99VoZoHru0TI/MgxmOXNm3MyTfDWi59jMFJ7byTBUYyLVIFlscjaf+Z?=
- =?us-ascii?Q?+OONjlHsxXMA3hQFxmm003kFP80dCrjCZFxxOe/Qekwcki7pirFKSGFPKIPs?=
- =?us-ascii?Q?ysEkly5fKBmIDuMdNPGBGp5QL0G1yO9l4xt84inx4F021/hnBpe4XOjvWyw+?=
- =?us-ascii?Q?DKT/hvIF4/ITSM2K0Sbic+zDZlAvIPKB7gI0CodUuQDZwKKWR4/aA5wfDq1D?=
- =?us-ascii?Q?Vbx8+wFlmOp229U2dHI6zMvQ/AMsDt+WmJYsXEA/ZUtXUPxhyL/6qoXyBxaw?=
- =?us-ascii?Q?pP/S4SHDHf/WMF4YJd9RKFCBj8Rl1X/Rqkj7gewjqBFUngB9J3YYFvmYr9TL?=
- =?us-ascii?Q?6fCcJ/utNmHY/fWLzlyUxYY0RdgYaCUwsdIgRZXLXKKh8Ou0+rz0qxXzWc4+?=
- =?us-ascii?Q?fcB4CM6XNKzzSfeOEVoKc1plZVGYE9bYeJOtz8k50GpkZL56+6uBKhWolVdh?=
- =?us-ascii?Q?naDpTLyWlN4JSic3J1PpyEjeImZDHlpXdyXK0v24LypmujjrCLpW3u3bXFm9?=
- =?us-ascii?Q?SRmJ4lAJTpTiMOs8U+ujpSjIw3B+xH2HvKw0tIgobxsFm+pVAwcJahkPO8UG?=
- =?us-ascii?Q?m3VPvuAKRKncOdvLkCrE4dWvksLDFQUvPSA1iMM3zg7jRQ6wIfTtRuLCy886?=
- =?us-ascii?Q?lJgVYxcCcG7kVJ/IkPHTzviZqw2oLQkXuoF4FupYxLsPY34ySXCQ5UzUf7XV?=
- =?us-ascii?Q?Ie2LHHmuBenaT4lPKtkxvLdAdeonc4L0Lvp/p4pFFMPLI2UwLrd9csOrnBKE?=
- =?us-ascii?Q?8zq40OeWscQlVOt4f1YHAqyGkaD+3eQxjbLmGx/1YFRfXjDqnUH+0gzdXCBL?=
- =?us-ascii?Q?kP1besRhPCX7XeuXu98XzFgaChN6fyR8dE/EVUM6Sa3F+XwnwIjG4zm7cg1h?=
- =?us-ascii?Q?xXIsfErYiBHEqJCu+FpNdr17IJQSdfng9r4mYz56Zb6tXN06fPMI2ej7oncb?=
- =?us-ascii?Q?pyqvh3Zr7ra8EiN1TPbTFlFPhX3QgkUepIlr1rwjmxSu3ekq9YVaqZvdtD0b?=
- =?us-ascii?Q?AEHuIsc4k0lMJMZPyzSldUxV7v+TbfZlEEIgC9ZniCMP7Y+aDlV7ynt1pPKS?=
- =?us-ascii?Q?uCBot9yQCphTERygkUGGmUdXKKe3Vb0uupi81S7zFnZmNemh6EDXTySHtynv?=
- =?us-ascii?Q?EzKAV7k=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR08MB7429.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <C7E1633D5B07E74BA8B1F87CF0F643E8@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-04 header.b=caIpHETN;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-03 header.b=a2ZeHc6O;
+ spf=pass (domain: yadro.com, ip: 89.207.88.248, mailfrom: d.mukhametgaleev@yadro.com)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-04.yadro.com 3D014C0004
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
+	t=1721828259; bh=ESbO1ZYW6BbNhG1am4s0QCkSqHiy/NKSArXyGHMQrRg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=caIpHETNkPK4Mvs0ZjSOf+B5tGRGWO8d8UJ72kBixxxmd68CY0KWZ7k8ibtnuF09z
+	 tVLmYiWpqYdy5xg34mZWAd2zppRpLaGsoqanRrhqoOG51ClqXQLplXzaR4+Ixqffzu
+	 D+kAlwfvd6zV3DBru5y/MYXeDTiXRE0ajNFPpBXvxyJ59xh9qzkWlYpYRru2yOHqu+
+	 IKkrHMpzJYodwFjDyy7WiDOhyYWIVRfXbZHJwvFRTNEeSvN7Mj5T46vF1ruWa2rD9w
+	 gUKjGc65nj/W4+IA+qRXXHahtPP0icRnJv5m8/8lo1Kv4Q3PFSWcY7Ooxv4e+cBjsm
+	 4LEllOrsZrV6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
+	t=1721828259; bh=ESbO1ZYW6BbNhG1am4s0QCkSqHiy/NKSArXyGHMQrRg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=a2ZeHc6OO4FL9MyI6yakT6anCTNcfSFw+urF0oNXyo//juxnxoco2HMtT0Kp8EOth
+	 g4QZO9JZ32/KgFSj14UzByTODL9ccJmOpY+0yEdhZECau/4RS/7dAaXmksXYh/oKvs
+	 UcO1Muo9t9HenRRK2aN3IndNjFwu3DDlz8RWV0PMaZL4N+Ycl70im/GUtGHQ5yzQEJ
+	 AyQoQU0OL7UXVX9YLjKi+pL8Q+r2NYo3x9eTYBF84AL5thiUW6LtHP07TTFfQ6XgqN
+	 kH44ZHT/11/QBEu7Qok2Weg1yLBn1hwGTcCFqlGf2d+LhqFSMSCPi2Xpv4RpfV9GBU
+	 ACecZ+62rGNYA==
+From: Daniil Mukhametgaleev <d.mukhametgaleev@yadro.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Daniil Mukhametgaleev <d.mukhametgaleev@yadro.com>
+Subject: [PATCH 2/2] poky: avoid using host Python by inheriting python3native in appropriate recipes
+Date: Wed, 24 Jul 2024 16:36:24 +0300
+Message-ID: <20240724133624.3450439-1-d.mukhametgaleev@yadro.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8208
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender: 
- ip=[2603:10a6:20b:4e1::9];domain=AS4PR08MB7429.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF000001AD.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	b8b8d56f-4021-4d65-edbc-08dcabd04a1b
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|34020700016|1800799024|82310400026|376014|35042699022|36860700013;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?sQOhCMT9KDdx6PA1bQFa9yiPhIgahwFa/IczhhRWcvMd2X3+tPq4M+dMU2ef?=
- =?us-ascii?Q?SkBdp++rZWYofH39ZrySfDdUdEiyDG+jJwa4x2/8YPg0VPnikQyNgKA+pTBg?=
- =?us-ascii?Q?W7f53IRk+hbGxQyhrIYIWF8cWAXhdswTXaH10i05c+ZU/Uzv/A+gcIdeYUNp?=
- =?us-ascii?Q?1Pl5q+fonfZNdYMu2G9dvw2ruAp6BZZzDdMs98nnUGiEUOskpUMuty6WEXcV?=
- =?us-ascii?Q?2GdeTQNugvVhUhHUM7BR4YU9TfGns+nlE5mz2sQW3ckB9FbfB/5cAfcXZCjy?=
- =?us-ascii?Q?MAy8P/+ZejuoepiduJ2CAbY39clJA1q2bu9g1SDfJ5BikMoGIKpCxnxsrwBl?=
- =?us-ascii?Q?ndw1xdsuLUi/Dgdf5EmRhpS3bDqzOMR9gnnAVOsK829lP/cWUmEbgVD1FtaU?=
- =?us-ascii?Q?PiCrWurwTC5wFJbuHAiwX2SIU9nSaUl99P+ARRE+cybw04cOoBsJIVR5uChd?=
- =?us-ascii?Q?Wfz8wtRYjH7J4hKbaINqSvr1D5k6fnI1KLeFOzyzI/Bh8ymx7DanAoHtNafS?=
- =?us-ascii?Q?VjEU2WMmVwoNvTcU5KJ8wGNBUXLic5bfQb+l06aUgNSWkZPthzRliXDo9IMJ?=
- =?us-ascii?Q?9Mq88bj9ElYpiPtu7hqV/UKIJj0IUknkj4VoACLQxLvdhKJTS9vQCJX8NYyL?=
- =?us-ascii?Q?k4OQayxJxd6C5Djf4PscxKRCD5sKIH3PsU/J5DO/q4W+Y7lQ1E54DIbe+iN7?=
- =?us-ascii?Q?fHIJOplZL6huAtf5ZVGpcLoCQL1sZE9DATzVTuJfhxS59ZYcseNzvCYvqV93?=
- =?us-ascii?Q?kph7wmjzj9PnO1Iq2WtM249j0IR60yJOQ/Y+K3SuCAgW2D2fPDRUs3zyMdcy?=
- =?us-ascii?Q?XFuJsSUYm1cl/QLh4mAXr/8RUYawQPLiXnaGvw/dSn1GUU6CNM0djpS2JNDb?=
- =?us-ascii?Q?BTnb5iys1t+CAE2N8+iLHbWzcsrVc0puzpvVGUiFTE8qJKbePCw0/J18j7U6?=
- =?us-ascii?Q?rtxi59FOM0kwazcc7djYJ52sOcjQZ2vPc5/wJ2KgFRTLW40kXmfqqCEGfALP?=
- =?us-ascii?Q?c4OTJCwst9TQlI7s4nKp3bM+6V37xwWVTGXo/Xs+ofL0igfIrr/5ri7L6V8y?=
- =?us-ascii?Q?n1h8NoLp09e8VVO2Td2ifXRYmgUItHzeol8GIc98FK3IeRmv9NWAZcJxeqXE?=
- =?us-ascii?Q?AdVRF9YgcOMVYgBn4/wzdNiEoeHxu3rfjNhqbWDg766+U29nW4kjvV9oWoQn?=
- =?us-ascii?Q?zyeP2tF54LWCAGX60z7FnFj3rCAVB7N4MQRPqAiu6TsVfRmmvyVs2yry+C4l?=
- =?us-ascii?Q?cGj4AcZ7U+ya9j3JocPv8zNUkCzw1omnjuR35+DuwaRoZNgsoPZsFRhi+Sim?=
- =?us-ascii?Q?20i91zu5LOEL8/4ecT3oAjih0qu1skufAPjDfDIEAt/eiiAEK9ZTezf53nEf?=
- =?us-ascii?Q?baIcy4OOtT9wb3/sSP8Rj8xTdpYS?=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(34020700016)(1800799024)(82310400026)(376014)(35042699022)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2024 11:03:56.0965
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0557ce9-6398-4cd9-98f8-08dcabd04fe0
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001AD.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10220
+Content-Type: text/plain
+X-ClientProxiedBy: T-Exch-05.corp.yadro.com (172.17.10.109) To
+ T-EXCH-12.corp.yadro.com (172.17.11.143)
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 11:04:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202442
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 13:37:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202443
 
+Signed-off-by: Daniil Mukhametgaleev <d.mukhametgaleev@yadro.com>
+---
+ meta/recipes-bsp/grub/grub-efi_2.12.bb                         | 2 ++
+ meta/recipes-bsp/grub/grub_2.12.bb                             | 2 ++
+ meta/recipes-core/coreutils/coreutils_9.4.bb                   | 2 ++
+ meta/recipes-core/gettext/gettext_0.22.5.bb                    | 2 ++
+ meta/recipes-core/glibc/glibc_2.39.bb                          | 2 ++
+ meta/recipes-devtools/binutils/binutils-cross_2.42.bb          | 2 ++
+ meta/recipes-devtools/bison/bison_3.8.2.bb                     | 2 ++
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb            | 2 ++
+ meta/recipes-devtools/flex/flex_2.6.4.bb                       | 3 +++
+ meta/recipes-devtools/gcc/gcc-cross_13.2.bb                    | 1 +
+ meta/recipes-devtools/gcc/gcc-runtime_13.2.bb                  | 2 ++
+ meta/recipes-devtools/mtools/mtools_4.0.43.bb                  | 3 +++
+ meta/recipes-devtools/pseudo/pseudo_git.bb                     | 2 ++
+ meta/recipes-devtools/rsync/rsync_3.2.7.bb                     | 2 ++
+ meta/recipes-extended/bash/bash_5.2.21.bb                      | 2 ++
+ meta/recipes-extended/bc/bc_1.07.1.bb                          | 3 +++
+ meta/recipes-extended/cpio/cpio_2.15.bb                        | 2 ++
+ meta/recipes-extended/diffutils/diffutils_3.10.bb              | 2 ++
+ meta/recipes-extended/ed/ed_1.20.1.bb                          | 2 ++
+ meta/recipes-extended/findutils/findutils_4.9.0.bb             | 2 ++
+ meta/recipes-extended/gawk/gawk_5.3.0.bb                       | 2 ++
+ meta/recipes-extended/grep/grep_3.11.bb                        | 2 ++
+ meta/recipes-extended/groff/groff_1.23.0.bb                    | 2 ++
+ meta/recipes-extended/gzip/gzip_1.13.bb                        | 2 ++
+ meta/recipes-extended/lzip/lzip_1.24.bb                        | 2 ++
+ meta/recipes-extended/lzip/lzlib_1.14.bb                       | 3 +++
+ meta/recipes-extended/parted/parted_3.6.bb                     | 2 ++
+ meta/recipes-extended/screen/screen_4.9.1.bb                   | 2 ++
+ meta/recipes-extended/sed/sed_4.9.bb                           | 2 ++
+ meta/recipes-extended/tar/tar_1.35.bb                          | 2 ++
+ meta/recipes-extended/time/time_1.9.bb                         | 2 ++
+ meta/recipes-extended/wget/wget_1.21.4.bb                      | 2 ++
+ meta/recipes-extended/which/which_2.21.bb                      | 2 ++
+ .../ca-certificates/ca-certificates_20211016.bb                | 2 ++
+ meta/recipes-support/gmp/gmp_6.3.0.bb                          | 2 ++
+ meta/recipes-support/libassuan/libassuan_2.5.6.bb              | 2 ++
+ meta/recipes-support/libcheck/libcheck_0.15.2.bb               | 2 ++
+ meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb             | 2 ++
+ meta/recipes-support/libgpg-error/libgpg-error_1.48.bb         | 2 ++
+ meta/recipes-support/libmpc/libmpc_1.3.1.bb                    | 1 +
+ meta/recipes-support/libunistring/libunistring_1.2.bb          | 3 +++
+ meta/recipes-support/mpfr/mpfr_4.2.1.bb                        | 2 ++
+ meta/recipes-support/nettle/nettle_3.9.1.bb                    | 2 ++
+ 43 files changed, 89 insertions(+)
 
-
-> On 24 Jul 2024, at 10:11, Joao Marcos Costa <joaomarcos.costa@bootlin.com=
-> wrote:
-> There are a few errors potentially related to tomllib removal in the auto=
-builder:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6836/st=
-eps/13/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6659/st=
-eps/13/logs/stdio
-> Could you please take a look at them? Thanks!
-
-Yes, v3 sent for the pytest recipe.
-
-The cleanup was removing toml and tomli libraries from dependencies and I o=
-bviously got confused with tomllib (which is a core library) which is why t=
-his broke.
-
-Ross
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.12.bb b/meta/recipes-bsp/gr=
+ub/grub-efi_2.12.bb
+index 9857e8e0..f6e8b74a 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.12.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.12.bb
+@@ -7,6 +7,8 @@ GRUBPLATFORM =3D "efi"
+ DEPENDS:append =3D " grub-native"
+ RDEPENDS:${PN} =3D "grub-common virtual-grub-bootconf"
+=20
++inherit python3native
++
+ SRC_URI +=3D " \
+            file://cfg \
+           "
+diff --git a/meta/recipes-bsp/grub/grub_2.12.bb b/meta/recipes-bsp/grub/g=
+rub_2.12.bb
+index 05d46278..10217230 100644
+--- a/meta/recipes-bsp/grub/grub_2.12.bb
++++ b/meta/recipes-bsp/grub/grub_2.12.bb
+@@ -1,5 +1,7 @@
+ require grub2.inc
+=20
++inherit python3native
++
+ RDEPENDS:${PN}-common +=3D "${PN}-editenv"
+ RDEPENDS:${PN} +=3D "${PN}-common"
+ RDEPENDS:${PN}:class-native =3D ""
+diff --git a/meta/recipes-core/coreutils/coreutils_9.4.bb b/meta/recipes-=
+core/coreutils/coreutils_9.4.bb
+index 62ecdea6..386f2ea7 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.4.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.4.bb
+@@ -13,6 +13,8 @@ DEPENDS:class-native =3D ""
+=20
+ inherit autotools gettext texinfo
+=20
++inherit python3native
++
+ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
+diff --git a/meta/recipes-core/gettext/gettext_0.22.5.bb b/meta/recipes-c=
+ore/gettext/gettext_0.22.5.bb
+index 1a66d379..c7e143c3 100644
+--- a/meta/recipes-core/gettext/gettext_0.22.5.bb
++++ b/meta/recipes-core/gettext/gettext_0.22.5.bb
+@@ -20,6 +20,8 @@ PROVIDES =3D "virtual/libintl virtual/gettext"
+ PROVIDES:class-native =3D "virtual/gettext-native"
+ RCONFLICTS:${PN} =3D "proxy-libintl"
+=20
++inherit python3native
++
+ require gettext-sources.inc
+ SRC_URI +=3D " \
+            file://parallel.patch \
+diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/gl=
+ibc/glibc_2.39.bb
+index 91224726..3e962f34 100644
+--- a/meta/recipes-core/glibc/glibc_2.39.bb
++++ b/meta/recipes-core/glibc/glibc_2.39.bb
+@@ -18,6 +18,8 @@ easier access for another. 'ASLR bypass itself is not a=
+ vulnerability.'"
+=20
+ DEPENDS +=3D "gperf-native bison-native"
+=20
++inherit python3native
++
+ NATIVESDKFIXES ?=3D ""
+ NATIVESDKFIXES:class-nativesdk =3D "\
+            file://0003-nativesdk-glibc-Look-for-host-system-ld.so.cache-=
+as-.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-cross_2.42.bb b/meta=
+/recipes-devtools/binutils/binutils-cross_2.42.bb
+index fbd1f7d2..28db0a15 100644
+--- a/meta/recipes-devtools/binutils/binutils-cross_2.42.bb
++++ b/meta/recipes-devtools/binutils/binutils-cross_2.42.bb
+@@ -1,3 +1,5 @@
+ require binutils.inc
+ require binutils-${PV}.inc
+ require binutils-cross.inc
++
++inherit python3native
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/bison/bison_3.8.2.bb b/meta/recipes-de=
+vtools/bison/bison_3.8.2.bb
+index da138e35..58dc1ef6 100644
+--- a/meta/recipes-devtools/bison/bison_3.8.2.bb
++++ b/meta/recipes-devtools/bison/bison_3.8.2.bb
+@@ -9,6 +9,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af=
+26da5dc08a4e440464"
+ SECTION =3D "devel"
+ DEPENDS =3D "bison-native flex-native"
+=20
++inherit python3native
++
+ SRC_URI =3D "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://autoconf-2.73.patch \
+            file://add-with-bisonlocaledir.patch \
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+index 940b47c1..8c9d83b6 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+@@ -1,5 +1,7 @@
+ require e2fsprogs.inc
+=20
++inherit python3native
++
+ SRC_URI +=3D "file://remove.ldconfig.call.patch \
+            file://run-ptest \
+            file://ptest.patch \
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devt=
+ools/flex/flex_2.6.4.bb
+index f7d4ef1f..9245184c 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -7,6 +7,9 @@ LICENSE =3D "BSD-3-Clause & LGPL-2.0-or-later"
+ LICENSE:${PN}-libfl =3D "BSD-3-Clause"
+=20
+ DEPENDS =3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native fl=
+ex-native', '', d)}"
++
++inherit python3native
++
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De4742cf92e89040b39486a6219b68=
+067 \
+diff --git a/meta/recipes-devtools/gcc/gcc-cross_13.2.bb b/meta/recipes-d=
+evtools/gcc/gcc-cross_13.2.bb
+index b43cca0c..b7a8cf43 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross_13.2.bb
++++ b/meta/recipes-devtools/gcc/gcc-cross_13.2.bb
+@@ -1,3 +1,4 @@
+ require recipes-devtools/gcc/gcc-${PV}.inc
+ require gcc-cross.inc
+=20
++inherit python3native
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb b/meta/recipes=
+-devtools/gcc/gcc-runtime_13.2.bb
+index dd430b57..f8585b0a 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb
++++ b/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb
+@@ -1,2 +1,4 @@
+ require recipes-devtools/gcc/gcc-${PV}.inc
+ require gcc-runtime.inc
++
++inherit python3native
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.43.bb b/meta/recipes=
+-devtools/mtools/mtools_4.0.43.bb
+index 85910397..793d2964 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.43.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.43.bb
+@@ -5,6 +5,9 @@ SECTION =3D "optional"
+ LICENSE =3D "GPL-3.0-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504"
+=20
++inherit python3native
++
++
+ DEPENDS +=3D "virtual/libiconv"
+=20
+ RDEPENDS:${PN}:libc-glibc =3D "glibc-gconv-ibm850"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-de=
+vtools/pseudo/pseudo_git.bb
+index c70b5092..dd3fd64e 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,5 +1,7 @@
+ require pseudo.inc
+=20
++inherit python3native
++
+ SRC_URI =3D "git://git.yoctoproject.org/pseudo;branch=3Dmaster;protocol=3D=
+https \
+            file://0001-configure-Prune-PIE-flags.patch \
+            file://glibc238.patch \
+diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-de=
+vtools/rsync/rsync_3.2.7.bb
+index 130581a7..efb3579a 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+@@ -10,6 +10,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D24423708fe15=
+9c9d12be1ea29fcb18c7"
+=20
+ DEPENDS =3D "popt"
+=20
++inherit python3native
++
+ SRC_URI =3D "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://rsyncd.conf \
+            file://makefile-no-rebuild.patch \
+diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-ext=
+ended/bash/bash_5.2.21.bb
+index 46d921bb..6831e3f4 100644
+--- a/meta/recipes-extended/bash/bash_5.2.21.bb
++++ b/meta/recipes-extended/bash/bash_5.2.21.bb
+@@ -1,5 +1,7 @@
+ require bash.inc
+=20
++inherit python3native
++
+ # GPL-2.0-or-later (< 4.0), GPL-3.0-or-later (>=3D 4.0)
+ LICENSE =3D "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504"
+diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extende=
+d/bc/bc_1.07.1.bb
+index 819da6cd..5882b341 100644
+--- a/meta/recipes-extended/bc/bc_1.07.1.bb
++++ b/meta/recipes-extended/bc/bc_1.07.1.bb
+@@ -2,6 +2,9 @@ SUMMARY =3D "Arbitrary precision calculator language"
+ HOMEPAGE =3D "http://www.gnu.org/software/bc/bc.html"
+ DESCRIPTION =3D "bc is an arbitrary precision numeric processing languag=
+e. Syntax is similar to C, but differs in many substantial areas. It supp=
+orts interactive execution of statements."
+=20
++
++inherit python3native
++
+ LICENSE =3D "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504 \
+                     file://COPYING.LIB;md5=3D6a6a8e020838b23406c81b19c1d=
+46df6 \
+diff --git a/meta/recipes-extended/cpio/cpio_2.15.bb b/meta/recipes-exten=
+ded/cpio/cpio_2.15.bb
+index 52070f59..a20745ef 100644
+--- a/meta/recipes-extended/cpio/cpio_2.15.bb
++++ b/meta/recipes-extended/cpio/cpio_2.15.bb
+@@ -15,6 +15,8 @@ SRC_URI[sha256sum] =3D "efa50ef983137eefc0a02fdb51509d6=
+24b5e3295c980aa127ceee41834
+=20
+ inherit autotools gettext texinfo ptest
+=20
++inherit python3native
++
+ CVE_STATUS[CVE-2010-4226] =3D "not-applicable-platform: Issue applies to=
+ use of cpio in SUSE/OBS"
+=20
+ EXTRA_OECONF +=3D "DEFAULT_RMT_DIR=3D${sbindir}"
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.10.bb b/meta/rec=
+ipes-extended/diffutils/diffutils_3.10.bb
+index 08e83056..1cd4052b 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.10.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.10.bb
+@@ -23,6 +23,8 @@ inherit ptest
+=20
+ RDEPENDS:${PN}-ptest +=3D "make perl"
+=20
++inherit python3native
++
+ do_install_ptest() {
+ 	t=3D${D}${PTEST_PATH}
+ 	install -D ${S}/build-aux/test-driver $t/build-aux/test-driver
+diff --git a/meta/recipes-extended/ed/ed_1.20.1.bb b/meta/recipes-extende=
+d/ed/ed_1.20.1.bb
+index 9ae53002..3d8844b2 100644
+--- a/meta/recipes-extended/ed/ed_1.20.1.bb
++++ b/meta/recipes-extended/ed/ed_1.20.1.bb
+@@ -25,6 +25,8 @@ EXTRA_OEMAKE =3D "-e MAKEFLAGS=3D"
+=20
+ inherit texinfo
+=20
++inherit python3native
++
+ do_configure() {
+ 	${S}/configure
+ }
+diff --git a/meta/recipes-extended/findutils/findutils_4.9.0.bb b/meta/re=
+cipes-extended/findutils/findutils_4.9.0.bb
+index 074817df..91f0112e 100644
+--- a/meta/recipes-extended/findutils/findutils_4.9.0.bb
++++ b/meta/recipes-extended/findutils/findutils_4.9.0.bb
+@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af=
+26da5dc08a4e440464"
+=20
+ DEPENDS =3D "bison-native"
+=20
++inherit python3native
++
+ SRC_URI[sha256sum] =3D "a2bfb8c09d436770edc59f50fa483e785b161a3b7b9d5475=
+73cb08065fd462fe"
+=20
+ PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux"
+diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-exte=
+nded/gawk/gawk_5.3.0.bb
+index d7a0fc61..d85c2771 100644
+--- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
++++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+@@ -6,6 +6,8 @@ HOMEPAGE =3D "https://www.gnu.org/software/gawk/"
+ BUGTRACKER  =3D "bug-gawk@gnu.org"
+ SECTION =3D "console/utils"
+=20
++inherit python3native
++
+ # gawk <=3D 3.1.5: GPL-2.0-only
+ # gawk >=3D 3.1.6: GPL-3.0-only
+ LICENSE =3D "GPL-3.0-only"
+diff --git a/meta/recipes-extended/grep/grep_3.11.bb b/meta/recipes-exten=
+ded/grep/grep_3.11.bb
+index cb3105de..0ea329da 100644
+--- a/meta/recipes-extended/grep/grep_3.11.bb
++++ b/meta/recipes-extended/grep/grep_3.11.bb
+@@ -12,6 +12,8 @@ SRC_URI[sha256sum] =3D "1db2aedde89d0dea42b16d9528f894c=
+8d15dae4e190b59aecc78f5a951
+=20
+ inherit autotools gettext texinfo pkgconfig
+=20
++inherit python3native
++
+ # Fix "Argument list too long" error when len(TMPDIR) =3D 410
+ acpaths =3D "-I ./m4"
+=20
+diff --git a/meta/recipes-extended/groff/groff_1.23.0.bb b/meta/recipes-e=
+xtended/groff/groff_1.23.0.bb
+index 0fc4f831..e70fcd62 100644
+--- a/meta/recipes-extended/groff/groff_1.23.0.bb
++++ b/meta/recipes-extended/groff/groff_1.23.0.bb
+@@ -5,6 +5,8 @@ SECTION =3D "base"
+ HOMEPAGE =3D "http://www.gnu.org/software/groff/"
+ LICENSE =3D "GPL-3.0-only"
+=20
++inherit python3native
++
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504"
+=20
+ SRC_URI =3D "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
+diff --git a/meta/recipes-extended/gzip/gzip_1.13.bb b/meta/recipes-exten=
+ded/gzip/gzip_1.13.bb
+index fd846b30..095ee896 100644
+--- a/meta/recipes-extended/gzip/gzip_1.13.bb
++++ b/meta/recipes-extended/gzip/gzip_1.13.bb
+@@ -20,6 +20,8 @@ BBCLASSEXTEND =3D "native nativesdk"
+=20
+ inherit ptest
+=20
++inherit python3native
++
+ do_install_ptest() {
+ 	mkdir -p ${D}${PTEST_PATH}/src/build-aux
+ 	cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/src/build-aux/
+diff --git a/meta/recipes-extended/lzip/lzip_1.24.bb b/meta/recipes-exten=
+ded/lzip/lzip_1.24.bb
+index 73040a6f..df4c338e 100644
+--- a/meta/recipes-extended/lzip/lzip_1.24.bb
++++ b/meta/recipes-extended/lzip/lzip_1.24.bb
+@@ -13,6 +13,8 @@ SRC_URI[sha256sum] =3D "d42659229b10e066eeb6e81eb673cdd=
+893b672e512d26719c2d9597555
+ B =3D "${WORKDIR}/build"
+ do_configure[cleandirs] =3D "${B}"
+=20
++inherit python3native
++
+ CONFIGUREOPTS =3D "\
+     '--srcdir=3D${S}' \
+     '--prefix=3D${prefix}' \
+diff --git a/meta/recipes-extended/lzip/lzlib_1.14.bb b/meta/recipes-exte=
+nded/lzip/lzlib_1.14.bb
+index a6010bbf..0ab0b4f4 100644
+--- a/meta/recipes-extended/lzip/lzlib_1.14.bb
++++ b/meta/recipes-extended/lzip/lzlib_1.14.bb
+@@ -11,6 +11,9 @@ SRC_URI[sha256sum] =3D "5acac8714ed4f306020bae660dddce7=
+06e5f8a795863679037da9fe6bf
+ B =3D "${WORKDIR}/build"
+ do_configure[cleandirs] =3D "${B}"
+=20
++inherit python3native
++
++
+ CONFIGUREOPTS =3D "\
+     '--srcdir=3D${S}' \
+     '--prefix=3D${prefix}' \
+diff --git a/meta/recipes-extended/parted/parted_3.6.bb b/meta/recipes-ex=
+tended/parted/parted_3.6.bb
+index a537ef74..3d98c97f 100644
+--- a/meta/recipes-extended/parted/parted_3.6.bb
++++ b/meta/recipes-extended/parted/parted_3.6.bb
+@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D2f31b266d3440d=
+d7ee50f92cf67d8e6c"
+ SECTION =3D "console/tools"
+ DEPENDS =3D "ncurses util-linux virtual/libiconv"
+=20
++inherit python3native
++
+ SRC_URI =3D "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://fix-doc-mandir.patch \
+            file://0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-r=
+esi.patch \
+diff --git a/meta/recipes-extended/screen/screen_4.9.1.bb b/meta/recipes-=
+extended/screen/screen_4.9.1.bb
+index 7b040e6b..53f43770 100644
+--- a/meta/recipes-extended/screen/screen_4.9.1.bb
++++ b/meta/recipes-extended/screen/screen_4.9.1.bb
+@@ -7,6 +7,8 @@ BUGTRACKER =3D "https://savannah.gnu.org/bugs/?func=3Dadd=
+item&group=3Dscreen"
+=20
+ SECTION =3D "console/utils"
+=20
++inherit python3native
++
+ LICENSE =3D "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504 \
+                     file://screen.h;endline=3D26;md5=3Db8dc717c9a3dba842=
+ae6c44ca0f73f52 \
+diff --git a/meta/recipes-extended/sed/sed_4.9.bb b/meta/recipes-extended=
+/sed/sed_4.9.bb
+index c4d89c34..2332b81d 100644
+--- a/meta/recipes-extended/sed/sed_4.9.bb
++++ b/meta/recipes-extended/sed/sed_4.9.bb
+@@ -20,6 +20,8 @@ PACKAGECONFIG[selinux] =3D "--with-selinux,--without-se=
+linux,libselinux"
+ RDEPENDS:${PN}-ptest +=3D "make gawk perl perl-module-filehandle perl-mo=
+dule-file-compare perl-module-file-find perl-module-file-temp perl-module=
+-file-stat"
+ RRECOMMENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-ru-ru locale=
+-base-en-us locale-base-el-gr.iso-8859-7"
+=20
++inherit python3native
++
+ EXTRA_OECONF =3D "--disable-acl \
+                "
+=20
+diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extende=
+d/tar/tar_1.35.bb
+index c7bd1d19..cf22c26b 100644
+--- a/meta/recipes-extended/tar/tar_1.35.bb
++++ b/meta/recipes-extended/tar/tar_1.35.bb
+@@ -12,6 +12,8 @@ SRC_URI[sha256sum] =3D "7edb8886a3dc69420a1446e1e2d0619=
+22b642f1cf632d2cd0f9ee7e690
+=20
+ inherit autotools gettext texinfo
+=20
++inherit python3native
++
+ PACKAGECONFIG ??=3D ""
+ PACKAGECONFIG:append:class-target =3D " ${@bb.utils.filter('DISTRO_FEATU=
+RES', 'acl', d)}"
+=20
+diff --git a/meta/recipes-extended/time/time_1.9.bb b/meta/recipes-extend=
+ed/time/time_1.9.bb
+index 8364210e..77faf6fa 100644
+--- a/meta/recipes-extended/time/time_1.9.bb
++++ b/meta/recipes-extended/time/time_1.9.bb
+@@ -21,3 +21,5 @@ SRC_URI[md5sum] =3D "d2356e0fe1c0b85285d83c6b2ad51b5f"
+ SRC_URI[sha256sum] =3D "fbacf0c81e62429df3e33bda4cee38756604f18e01d97733=
+8e23306a3e3b521e"
+=20
+ inherit autotools
++
++inherit python3native
+\ No newline at end of file
+diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-ext=
+ended/wget/wget_1.21.4.bb
+index 1d31b011..d7829916 100644
+--- a/meta/recipes-extended/wget/wget_1.21.4.bb
++++ b/meta/recipes-extended/wget/wget_1.21.4.bb
+@@ -1,3 +1,5 @@
++inherit python3native
++
+ SRC_URI =3D "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
+           "
+diff --git a/meta/recipes-extended/which/which_2.21.bb b/meta/recipes-ext=
+ended/which/which_2.21.bb
+index 77861370..d311b576 100644
+--- a/meta/recipes-extended/which/which_2.21.bb
++++ b/meta/recipes-extended/which/which_2.21.bb
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673=
+463ab874e80d47fae504\
+                     file://which.c;beginline=3D1;endline=3D17;md5=3Da996=
+3693af2272e7a8df6f231164e7a2"
+ DEPENDS     =3D "cwautomacros-native"
+=20
++inherit python3native
++
+ inherit autotools texinfo update-alternatives
+=20
+=20
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_2021101=
+6.bb b/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb
+index 99abe606..35ddd6dc 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb
+@@ -14,6 +14,8 @@ DEPENDS:class-nativesdk =3D "openssl-native"
+ # Need rehash from openssl and run-parts from debianutils
+ PACKAGE_WRITE_DEPS +=3D "openssl-native debianutils-native"
+=20
++inherit python3native
++
+ SRCREV =3D "07de54fdcc5806bde549e1edf60738c6bccf50e8"
+=20
+ SRC_URI =3D "git://salsa.debian.org/debian/ca-certificates.git;protocol=3D=
+https;branch=3Dmaster \
+diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support=
+/gmp/gmp_6.3.0.bb
+index fd4aec92..2356483d 100644
+--- a/meta/recipes-support/gmp/gmp_6.3.0.bb
++++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
+@@ -25,6 +25,8 @@ EXTRA_OECONF:append:mipsarchr6 =3D " --disable-assembly=
+"
+ PACKAGES =3D+ "libgmpxx"
+ FILES:libgmpxx =3D "${libdir}/libgmpxx${SOLIBS}"
+=20
++inherit python3native
++
+ do_install:append() {
+ 	oe_multilib_header gmp.h
+ }
+diff --git a/meta/recipes-support/libassuan/libassuan_2.5.6.bb b/meta/rec=
+ipes-support/libassuan/libassuan_2.5.6.bb
+index 7e899e73..22773a32 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.5.6.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.5.6.bb
+@@ -15,6 +15,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c=
+2e1ecd4e0c9be8967949 \
+=20
+ DEPENDS =3D "libgpg-error"
+=20
++inherit python3native
++
+ UPSTREAM_CHECK_URI =3D "https://gnupg.org/download/index.html"
+ SRC_URI =3D "${GNUPG_MIRROR}/libassuan/libassuan-${PV}.tar.bz2 \
+            file://libassuan-add-pkgconfig-support.patch \
+diff --git a/meta/recipes-support/libcheck/libcheck_0.15.2.bb b/meta/reci=
+pes-support/libcheck/libcheck_0.15.2.bb
+index 5ab67b87..00bf9e2f 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.15.2.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
+@@ -20,6 +20,8 @@ S =3D "${WORKDIR}/check-${PV}"
+=20
+ inherit autotools pkgconfig texinfo github-releases
+=20
++inherit python3native
++
+ CACHED_CONFIGUREVARS +=3D "ac_cv_path_AWK_PATH=3D${bindir}/gawk"
+=20
+ RREPLACES:${PN} =3D "check (<=3D 0.9.5)"
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb b/meta/re=
+cipes-support/libgcrypt/libgcrypt_1.10.3.bb
+index 5a76201a..79b33fea 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+@@ -6,6 +6,8 @@ HOMEPAGE =3D "http://directory.fsf.org/project/libgcrypt/=
+"
+ BUGTRACKER =3D "https://bugs.g10code.com/gnupg/index"
+ SECTION =3D "libs"
+=20
++inherit python3native
++
+ # helper program gcryptrnd and getrandom are under GPL, rest LGPL
+ LICENSE =3D "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LICENSE:${PN} =3D "LGPL-2.1-or-later"
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb b/met=
+a/recipes-support/libgpg-error/libgpg-error_1.48.bb
+index 9f2b4920..b42ccb07 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
+@@ -32,6 +32,8 @@ MULTILIB_SCRIPTS =3D "${PN}-dev:${bindir}/gpgrt-config"
+=20
+ CPPFLAGS +=3D "-P"
+=20
++inherit python3native
++
+ do_install:append() {
+ 	# we don't have common lisp in OE
+ 	rm -rf "${D}${datadir}/common-lisp/"
+diff --git a/meta/recipes-support/libmpc/libmpc_1.3.1.bb b/meta/recipes-s=
+upport/libmpc/libmpc_1.3.1.bb
+index ed57396c..3c6e8958 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.3.1.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.3.1.bb
+@@ -2,6 +2,7 @@ require libmpc.inc
+=20
+ DEPENDS =3D "gmp mpfr"
+=20
++inherit python3native
+ LIC_FILES_CHKSUM =3D "file://COPYING.LESSER;md5=3De6a600fd5e1d9cbde2d983=
+680233ad02"
+ SRC_URI =3D "${GNU_MIRROR}/mpc/mpc-${PV}.tar.gz"
+=20
+diff --git a/meta/recipes-support/libunistring/libunistring_1.2.bb b/meta=
+/recipes-support/libunistring/libunistring_1.2.bb
+index 3018dbfd..d23d7b15 100644
+--- a/meta/recipes-support/libunistring/libunistring_1.2.bb
++++ b/meta/recipes-support/libunistring/libunistring_1.2.bb
+@@ -24,4 +24,7 @@ SRC_URI =3D "${GNU_MIRROR}/libunistring/libunistring-${=
+PV}.tar.gz"
+ SRC_URI[sha256sum] =3D "fd6d5662fa706487c48349a758b57bc149ce94ec6c30624e=
+c9fdc473ceabbc8e"
+=20
+ inherit autotools texinfo
++
++inherit python3native
++
+ BBCLASSEXTEND =3D "native nativesdk"
+diff --git a/meta/recipes-support/mpfr/mpfr_4.2.1.bb b/meta/recipes-suppo=
+rt/mpfr/mpfr_4.2.1.bb
+index a2067e10..8d21db7f 100644
+--- a/meta/recipes-support/mpfr/mpfr_4.2.1.bb
++++ b/meta/recipes-support/mpfr/mpfr_4.2.1.bb
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237=
+af26da5dc08a4e440464 \
+                     "
+ DEPENDS =3D "gmp autoconf-archive-native"
+=20
++inherit python3native
++
+ SRC_URI =3D "https://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz"
+ SRC_URI[sha256sum] =3D "277807353a6726978996945af13e52829e3abd7a9a5b7fb2=
+793894e18f1fcbb2"
+=20
+diff --git a/meta/recipes-support/nettle/nettle_3.9.1.bb b/meta/recipes-s=
+upport/nettle/nettle_3.9.1.bb
+index 396708cf..99766dbf 100644
+--- a/meta/recipes-support/nettle/nettle_3.9.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.9.1.bb
+@@ -14,6 +14,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING.LESSERv3;md5=3D6a6=
+a8e020838b23406c81b19c1d46df6
+=20
+ DEPENDS +=3D "gmp"
+=20
++inherit python3native
++
+ SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+            file://Add-target-to-only-build-tests-not-run-them.patch \
+            file://run-ptest \
+--=20
+2.30.2
 
 
