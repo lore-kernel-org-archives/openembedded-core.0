@@ -1,128 +1,89 @@
-Return-Path: <john.ripple@keysight.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE2EC3DA61
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 18:28:11 +0000 (UTC)
-Subject: [Bug] virtual/kernel menuconfig disabled with multiple uboot configs
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0250C3DA61
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 19:02:01 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.18909.1721847714425864715
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 24 Jul 2024 12:01:54 -0700
+Authentication-Results: mx.groups.io;
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58D61FEC
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 12:02:19 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 760F43F766
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 12:01:53 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-From: "John Ripple" <john.ripple@keysight.com>
-X-Originating-Location: Colorado Springs, Colorado, US (192.25.7.195)
-X-Originating-Platform: Windows Chrome 126
-User-Agent: GROUPS.IO Web Poster
+Subject: [PATCH] python3-jsonpointer: upgrade 2.4 -> 3.0.0
+Date: Wed, 24 Jul 2024 20:01:36 +0100
+Message-Id: <20240724190136.3819101-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Wed, 24 Jul 2024 11:28:09 -0700
-Message-ID: <skoU.1721845689752134562.U1br@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="vnWeNzKmdug1tXcADgkJ"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 18:28:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202477
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 19:02:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202478
 
---vnWeNzKmdug1tXcADgkJ
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Also re-arrange the recipe to match conventional order.
 
-Hi, I've found a bug in the kernel-fitimage.bbclass when it uses the uboot-=
-config.bbclass. The Yocto bugzilla wouldn't let me create an account to rep=
-ort it so I thought I would at least post it here.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ ...ter_2.4.bb =3D> python3-jsonpointer_3.0.0.bb} | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/python/{python3-jsonpointer_2.4.bb =3D> pyt=
+hon3-jsonpointer_3.0.0.bb} (85%)
 
-On the Scarthgap 5.0.0 Yocto release, the kernel-fitimage.bbclass inherits =
-the uboot-config.bbclass (both in openembedded-core/meta/classes-recipes). =
-This is normally fine but if you are building multiple uboot configs then t=
-he uboot-config.bbclass disables the menuconfig for the recipe. This is a g=
-ood idea when you're building uboot since you don't know what menuconfig to=
- use, but since the kernel inherits this class too, the kernel menuconfig t=
-ask gets disabled as well.
+diff --git a/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb b/me=
+ta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-jsonpointer_2.4.bb
+rename to meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
+index 062fa5243f9..0a23dc31002 100644
+--- a/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb
++++ b/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
+@@ -5,16 +5,18 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D32b15c84=
+3b7a329130f4e266a281ebb3"
+=20
+ inherit pypi ptest setuptools3
+=20
+-SRC_URI[sha256sum] =3D "585cee82b70211fa9e6043b7bb89db6e1aa49524340dde8a=
+d6b63206ea689d88"
++SRC_URI[sha256sum] =3D "2b2d729f2091522d61c3b31f82e11870f60b68f43fbc705c=
+b76bf4b832af59ef"
+=20
+-RDEPENDS:${PN} +=3D " \
+-    python3-json \
++SRC_URI +=3D " \
++	file://run-ptest \
+ "
+=20
+-BBCLASSEXTEND =3D "native nativesdk"
++do_install_ptest() {
++	cp -f ${S}/tests.py ${D}${PTEST_PATH}/
++}
+=20
+-SRC_URI +=3D " \
+-	file://run-ptest \
++RDEPENDS:${PN} +=3D " \
++    python3-json \
+ "
+=20
+ RDEPENDS:${PN}-ptest +=3D " \
+@@ -23,6 +25,4 @@ RDEPENDS:${PN}-ptest +=3D " \
+ 	python3-unittest-automake-output \
+ "
+=20
+-do_install_ptest() {
+-	cp -f ${S}/tests.py ${D}${PTEST_PATH}/
+-}
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.1
 
-Steps to reproduce:
-1. Set UBOOT_CONFIG to have multiple configs (I did this in my machine file=
-).
-UBOOT_CONFIG ??=3D "uboot-a uboot-b"
-2. bitbake virtual/kernel -c menuconfig
-ERROR: linux-fslc-imx-6.6.28+git-r0 do_menuconfig: do_menuconfig is disable=
-d, please check KCONFIG_CONFIG_ENABLE_MENUCONFIG variable.
-ERROR: Logfile of failure stored in: /extra/temp/tlo-p700-seval-build/build=
-/tmp/work/p700_quad-keysight-linux/linux-fslc-imx/6.6.28+git/temp/log.do_me=
-nuconfig.995135
-ERROR: Task (/extra/temp/tlo-p700-seval-build/build/../layers/meta-freescal=
-e/recipes-kernel/linux/linux-fslc-imx_6.6.bb:do_menuconfig) failed with exi=
-t code '1'
-
-openembedded-core/meta-classes-recipes/uboot-config.bbclass lines 143 to 14=
-7.
-if len(ubootconfig) =3D=3D 1 :
-d.setVar( 'KCONFIG_CONFIG_ROOTDIR' , os.path.join(d.getVar( "B" ), d.getVar=
-( "UBOOT_MACHINE" ).strip()))
-else :
-# Disable menuconfig for multiple configs
-d.setVar( 'KCONFIG_CONFIG_ENABLE_MENUCONFIG' , "false" )
-
-openembedded-core/meta-classes-recipes/kernel-fitimage.bbclass line 7
-inherit kernel-uboot kernel-artifact-names uboot-config
-
---vnWeNzKmdug1tXcADgkJ
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi, I've found a bug in the kernel-fitimage.bbclass when it uses the u=
-boot-config.bbclass. The Yocto bugzilla wouldn't let me create an account t=
-o report it so I thought I would at least post it here.<br /><br />On the S=
-carthgap 5.0.0 Yocto release, the kernel-fitimage.bbclass inherits the uboo=
-t-config.bbclass (both in openembedded-core/meta/classes-recipes). This is =
-normally fine but if you are building multiple uboot configs then the uboot=
--config.bbclass disables the menuconfig for the recipe. This is a good idea=
- when you're building uboot since you don't know what menuconfig to use, bu=
-t since the kernel inherits this class too, the kernel menuconfig task gets=
- disabled as well.&nbsp;<br /><br />Steps to reproduce:<br />1. Set UBOOT_C=
-ONFIG to have multiple configs (I did this in my machine file).<br />&nbsp;=
- &nbsp; &nbsp;<span style=3D"color: #d4d4d4;">UBOOT_CONFIG ??=3D </span><sp=
-an style=3D"color: #ce9178;">"uboot-a uboot-b"</span><br />2. bitbake virtu=
-al/kernel -c menuconfig<br />&nbsp; &nbsp; ERROR: linux-fslc-imx-6.6.28+git=
--r0 do_menuconfig: do_menuconfig is disabled, please check KCONFIG_CONFIG_E=
-NABLE_MENUCONFIG variable.<br />&nbsp; &nbsp; ERROR: Logfile of failure sto=
-red in: /extra/temp/tlo-p700-seval-build/build/tmp/work/p700_quad-keysight-=
-linux/linux-fslc-imx/6.6.28+git/temp/log.do_menuconfig.995135<br />&nbsp; &=
-nbsp; ERROR: Task (/extra/temp/tlo-p700-seval-build/build/../layers/meta-fr=
-eescale/recipes-kernel/linux/linux-fslc-imx_6.6.bb:do_menuconfig) failed wi=
-th exit code '1'</div>
-<div><br />openembedded-core/meta-classes-recipes/uboot-config.bbclass line=
-s 143 to 147.</div>
-<div style=3D"color: #d4d4d4; background-color: #1e1e1e; font-family: Conso=
-las, 'Courier New', monospace; font-weight: normal; font-size: 16px; line-h=
-eight: 22px; white-space: pre;">
-<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; </span><span style=3D"color: #569cd6;">if</span><span style=3D"color: #=
-d4d4d4;"> len(ubootconfig) =3D=3D </span><span style=3D"color: #b5cea8;">1<=
-/span><span style=3D"color: #d4d4d4;">:</span></div>
-<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; d.setVar(</span><span style=3D"color: #ce9178;">'KCONFIG_=
-CONFIG_ROOTDIR'</span><span style=3D"color: #d4d4d4;">, os.path.join(d.getV=
-ar(</span><span style=3D"color: #ce9178;">"B"</span><span style=3D"color: #=
-d4d4d4;">), d.getVar(</span><span style=3D"color: #ce9178;">"UBOOT_MACHINE"=
-</span><span style=3D"color: #d4d4d4;">).strip()))</span></div>
-<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; </span><span style=3D"color: #569cd6;">else</span><span style=3D"color:=
- #d4d4d4;">:</span></div>
-<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; </span><span style=3D"color: #6a9955;"># Disable menuconf=
-ig for multiple configs</span></div>
-<div><span style=3D"color: #d4d4d4;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; d.setVar(</span><span style=3D"color: #ce9178;">'KCONFIG_=
-CONFIG_ENABLE_MENUCONFIG'</span><span style=3D"color: #d4d4d4;">, </span><s=
-pan style=3D"color: #ce9178;">"false"</span><span style=3D"color: #d4d4d4;"=
->)</span></div>
-</div>
-<div><br />openembedded-core/meta-classes-recipes/kernel-fitimage.bbclass l=
-ine 7</div>
-<div style=3D"color: #d4d4d4; background-color: #1e1e1e; font-family: Conso=
-las, 'Courier New', monospace; font-weight: normal; font-size: 16px; line-h=
-eight: 22px; white-space: pre;">
-<div><span style=3D"color: #569cd6;">inherit</span><span style=3D"color: #d=
-4d4d4;"> kernel-uboot kernel-artifact-names uboot-config</span></div>
-</div>
-<div>&nbsp;</div>
-
---vnWeNzKmdug1tXcADgkJ--
 
