@@ -1,180 +1,135 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E67C3DA61
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 09:43:08 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.6912.1721814186271223550
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A40CC3DA61
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 09:56:49 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.7236.1721815008504786660
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 02:43:06 -0700
+ Wed, 24 Jul 2024 02:56:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MuluuG0a;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BADCDE000D;
-	Wed, 24 Jul 2024 09:43:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1721814184;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/G+YV1PDLnYto7kRzoy6oLpdleEfoH9UCg21EjHpPZ8=;
-	b=MuluuG0aewY63YyQtaaIIyCtF/8j1kNQQUiBRcoBjH78iT2ShBfDkm5SBTHPM7v0UBg9pQ
-	bhhYCqlASZFpCWkcki1SofHNWoPJu5PmcHak2/HC0LdWBHLAX2iQXLiS0SLLO8Lhk7YCM+
-	ubHtDquC0tPXprqYdzAwWbvI9qXTszOi6m3l3Ya5ZCAQis+OPdd5BwIl7evbXQp2cRfqDi
-	Z2g2S0V6M94ZK05XjCyzBiNYU6gDU/jNYeBcfZAqMjUZhhw9aOkgwJWpHh8awE2Ux89c1h
-	3FoWrDaMkvKqJlUBrX6c4QnI5lfF8/CjiCWbm/VZmqSlJKgmk5PUY+7MVfBEyA==
-Date: Wed, 24 Jul 2024 11:43:03 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: patchtest@automation.yoctoproject.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Patchtest results for [OE-core][PATCH v2 1/5] cve-check:
- annotate CVEs during analysis
-Message-ID: <2024072409430324ee87b2@mail.local>
-References: <20240723115315.207013-1-marta.rybczynska@syslinbit.com>
- <01010190df81d582-311d068f-ddf1-407e-b094-e21c54daa85f-000000@us-west-2.amazonses.com>
- <CAApg2=St6hdjiyQuZvdR7FFEgL0DSoYFRkkPjEBoT9jA43MZ9Q@mail.gmail.com>
- <2024072323280372fb9082@mail.local>
- <CAApg2=RjJPh4hsWN68Fs1j6e+HGOvJnmKYWZ6rRbi3Dwnce+=w@mail.gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=79355a251e=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46O3kuE9008539
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 02:56:48 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40he0vtcef-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 02:56:47 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 24 Jul 2024 02:56:46 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][scarthgap][PATCH 3/3] ffmpeg: fix CVE-2024-31578
+Date: Wed, 24 Jul 2024 09:56:25 +0000
+Message-ID: <20240724095625.3846889-3-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20240724095625.3846889-1-archana.polampalli@windriver.com>
+References: <20240724095625.3846889-1-archana.polampalli@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAApg2=RjJPh4hsWN68Fs1j6e+HGOvJnmKYWZ6rRbi3Dwnce+=w@mail.gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: CEkDPU4pzc9RaowaUb5HmQcH--UD1HHS
+X-Proofpoint-ORIG-GUID: CEkDPU4pzc9RaowaUb5HmQcH--UD1HHS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-24_07,2024-07-23_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 suspectscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=903 impostorscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2407240073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 09:43:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202434
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 09:56:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202437
 
-On 24/07/2024 06:31:47+0200, Marta Rybczynska wrote:
-> Ah.. it requires my SoB when the patch is from someone else? That could
-> explain the situation.
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
+FFmpeg version n6.1.1 was discovered to contain a heap use-after-free via the av_hwframe_ctx_init function.
 
-Patches you submit on behalf of someone else need you SoB , see (c) of
-the DCO:
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ .../ffmpeg/ffmpeg/CVE-2024-31578.patch        | 49 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
 
-https://developercertificate.org/
-
-> 
-> Still, it reported an error to patch 1/5 while the issue is in 2/5. Will
-> check what we can improve in the tool...
-> 
-> Kind regards,
-> Marta
-> 
-> On Wed, Jul 24, 2024 at 1:28 AM Alexandre Belloni <
-> alexandre.belloni@bootlin.com> wrote:
-> 
-> > On 23/07/2024 17:41:40+0200, Marta Rybczynska wrote:
-> > > This seems to be a false positive. Possibly the path 2/5 has an issue.
-> > I'm
-> > > looking into the source code of patchtest to verify.
-> >
-> > It is not, 2/5 is missing your SoB
-> >
-> > >
-> > > Regards,
-> > > Marta
-> > >
-> > > On Tue, Jul 23, 2024 at 2:12 PM <patchtest@automation.yoctoproject.org>
-> > > wrote:
-> > >
-> > > > Thank you for your submission. Patchtest identified one
-> > > > or more issues with the patch. Please see the log below for
-> > > > more information:
-> > > >
-> > > > ---
-> > > > Testing patch
-> > > >
-> > /home/patchtest/share/mboxes/v2-1-5-cve-check-annotate-CVEs-during-analysis.patch
-> > > >
-> > > > FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add
-> > it
-> > > > manually or with "git commit --amend -s"
-> > > > (test_mbox.TestMbox.test_signed_off_by_presence)
-> > > >
-> > > > PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-> > > > PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> > > > PASS: test commit message presence
-> > > > (test_mbox.TestMbox.test_commit_message_presence)
-> > > > PASS: test max line length
-> > > > (test_metadata.TestMetadata.test_max_line_length)
-> > > > PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> > > > PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> > > > PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-> > > > PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-> > > > PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-> > > >
-> > > > SKIP: pretest src uri left files: No modified recipes, skipping pretest
-> > > > (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> > > > SKIP: test CVE check ignore: No modified recipes or older target
-> > branch,
-> > > > skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-> > > > SKIP: test CVE tag format: No new CVE patches introduced
-> > > > (test_patch.TestPatch.test_cve_tag_format)
-> > > > SKIP: test Signed-off-by presence: No new CVE patches introduced
-> > > > (test_patch.TestPatch.test_signed_off_by_presence)
-> > > > SKIP: test Upstream-Status presence: No new CVE patches introduced
-> > > > (test_patch.TestPatch.test_upstream_status_presence_format)
-> > > > SKIP: test bugzilla entry format: No bug ID found
-> > > > (test_mbox.TestMbox.test_bugzilla_entry_format)
-> > > > SKIP: test lic files chksum modified not mentioned: No modified
-> > recipes,
-> > > > skipping test
-> > > >
-> > (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> > > > SKIP: test lic files chksum presence: No added recipes, skipping test
-> > > > (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> > > > SKIP: test license presence: No added recipes, skipping test
-> > > > (test_metadata.TestMetadata.test_license_presence)
-> > > > SKIP: test series merge on head: Merge test is disabled for now
-> > > > (test_mbox.TestMbox.test_series_merge_on_head)
-> > > > SKIP: test src uri left files: No modified recipes, skipping pretest
-> > > > (test_metadata.TestMetadata.test_src_uri_left_files)
-> > > > SKIP: test summary presence: No added recipes, skipping test
-> > > > (test_metadata.TestMetadata.test_summary_presence)
-> > > > SKIP: test target mailing list: Series merged, no reason to check other
-> > > > mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-> > > >
-> > > > ---
-> > > >
-> > > > Please address the issues identified and
-> > > > submit a new revision of the patch, or alternatively, reply to this
-> > > > email with an explanation of why the patch should be accepted. If you
-> > > > believe these results are due to an error in patchtest, please submit a
-> > > > bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest'
-> > category
-> > > > under 'Yocto Project Subprojects'). For more information on specific
-> > > > failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> > > > you!
-> > > >
-> >
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#202408):
-> > https://lists.openembedded.org/g/openembedded-core/message/202408
-> > > Mute This Topic: https://lists.openembedded.org/mt/107503127/3617179
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> > alexandre.belloni@bootlin.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
-> >
-> >
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
-> >
-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
+new file mode 100644
+index 0000000000..f8e7e1283b
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
+@@ -0,0 +1,49 @@
++From edeeb35cecb5bc0d433b14dd0e544ae826b7ece5 Mon Sep 17 00:00:00 2001
++From: Zhao Zhili <zhilizhao@tencent.com>
++Date: Tue, 20 Feb 2024 20:08:55 +0800
++Subject: [PATCH] avutil/hwcontext: Don't assume frames_uninit is reentrant
++
++Fix heap use after free when vulkan_frames_init failed.
++
++Signed-off-by: Zhao Zhili <zhilizhao@tencent.com>
++
++CVE: CVE-2024-31578
++
++Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/3bb00c0a420c3ce83]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ libavutil/hwcontext.c | 8 ++------
++ 1 file changed, 2 insertions(+), 6 deletions(-)
++
++diff --git a/libavutil/hwcontext.c b/libavutil/hwcontext.c
++index 3650d46..0ef3479 100644
++--- a/libavutil/hwcontext.c
+++++ b/libavutil/hwcontext.c
++@@ -363,7 +363,7 @@ int av_hwframe_ctx_init(AVBufferRef *ref)
++     if (ctx->internal->hw_type->frames_init) {
++         ret = ctx->internal->hw_type->frames_init(ctx);
++         if (ret < 0)
++-            goto fail;
+++            return ret;
++     }
++
++     if (ctx->internal->pool_internal && !ctx->pool)
++@@ -373,14 +373,10 @@ int av_hwframe_ctx_init(AVBufferRef *ref)
++     if (ctx->initial_pool_size > 0) {
++         ret = hwframe_pool_prealloc(ref);
++         if (ret < 0)
++-            goto fail;
+++            return ret;
++     }
++
++     return 0;
++-fail:
++-    if (ctx->internal->hw_type->frames_uninit)
++-        ctx->internal->hw_type->frames_uninit(ctx);
++-    return ret;
++ }
++
++ int av_hwframe_transfer_get_formats(AVBufferRef *hwframe_ref,
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+index 90c15782d1..06bd36e2e2 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+@@ -28,6 +28,7 @@ SRC_URI = " \
+     file://vulkan_av1_stable_API.patch \
+     file://vulkan_fix_gcc14.patch \
+     file://CVE-2023-49502.patch \
++    file://CVE-2024-31578.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.40.0
+
 
