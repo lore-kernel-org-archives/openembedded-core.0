@@ -1,102 +1,180 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBAAC3DA63
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 09:34:59 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.6821.1721813690954450596
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E67C3DA61
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 09:43:08 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.6912.1721814186271223550
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 02:34:51 -0700
+ Wed, 24 Jul 2024 02:43:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O3CS3AcB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-427b4c621b9so44024335e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 02:34:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721813689; x=1722418489; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZhN8GrBUE7sDCleAOjBtDvmBb5vHCxHIQDXRSp73rYU=;
-        b=O3CS3AcBR6yohnV3oSnT2LW1ArHyj3BYD0hFe+F7HT8jz5wI31K/Hz8JTVLUS96bms
-         r0ZKtAje8wZJffJXnE9UXJsYNjvU7Nn/ZEFbV132N77weUrqf/oQfblv2EarTL6mwixm
-         FBN0iNUNjj9McODdzMHJDDwu3N8PRLStiWRnE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721813689; x=1722418489;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZhN8GrBUE7sDCleAOjBtDvmBb5vHCxHIQDXRSp73rYU=;
-        b=c5vAR3ZhNuGjg9re9w/42Y2AU9vJJMcGyfzANubuQlwzhq+6LwNRmvatg53lPte+IF
-         jKguJyEl2M17tDkepV2bmVGh3KOjW4vKe8PqkNzOZVMxseaxbkzsIOYUWHEVOFE02z3p
-         /B8Pwxk5KOBoWuXmXlqL0F/xRSB83w1sDODOpvOifm8igoSd9UzQPBAAHm8AVExsZhjR
-         JtQDLf+nsfqVdTA5Tn3aPbroehsMuWU1ptLm0ME1qXRO9A3UYdt9tf01oFaUz0/Qvnse
-         4P/jsOMF5KVmf24nIZmDSFtogDs/QLEwUf0Z3GP850XtJpHbVxMPT2j0/9koFY3IKvZ7
-         IdQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHq2ghySvWc/BwdtPRVWIQawxl6NxdlrLt47ouyeM+emLItvZuhLNxKbSlh6A7yU5SPdh81+vt6vACowztEJoC9NMJX4r1nGXgfhIZdnFQ0nBJCK5/qNMN
-X-Gm-Message-State: AOJu0Yx77id0Vda5F/rdbdzA+2Qu7DxmQAWbmIZgRX/VuPRI+wUttVs5
-	zadhh0/ELu0DG+u+Pdmgi96lUMHuyUHfhDYVsUwN5R+UxmWSyc7TxT2kJrkP+zo=
-X-Google-Smtp-Source: AGHT+IEiNUtF2A0TIKYiKBWpTqkiDxu7NZV61kqVF4nxEU4J78wtC/o5p/FlVctdPulBUTrUF5Wkag==
-X-Received: by 2002:a05:600c:35c5:b0:426:61ef:ec36 with SMTP id 5b1f17b1804b1-427f9372b80mr10795105e9.0.1721813689272;
-        Wed, 24 Jul 2024 02:34:49 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a74c:d12c:aa87:d7af? ([2001:8b0:aba:5f3c:a74c:d12c:aa87:d7af])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427f9399b13sm20693395e9.27.2024.07.24.02.34.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 02:34:48 -0700 (PDT)
-Message-ID: <20ded181ae210a6bdfe14124e5696c925d6f6a95.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 15/37] python3-setuptools-rust: remove
- obsolete python3-toml dependency
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2024 10:34:48 +0100
-In-Reply-To: <20240723145137.74198-15-ross.burton@arm.com>
-References: <20240723145137.74198-1-ross.burton@arm.com>
-	 <20240723145137.74198-15-ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MuluuG0a;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BADCDE000D;
+	Wed, 24 Jul 2024 09:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1721814184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/G+YV1PDLnYto7kRzoy6oLpdleEfoH9UCg21EjHpPZ8=;
+	b=MuluuG0aewY63YyQtaaIIyCtF/8j1kNQQUiBRcoBjH78iT2ShBfDkm5SBTHPM7v0UBg9pQ
+	bhhYCqlASZFpCWkcki1SofHNWoPJu5PmcHak2/HC0LdWBHLAX2iQXLiS0SLLO8Lhk7YCM+
+	ubHtDquC0tPXprqYdzAwWbvI9qXTszOi6m3l3Ya5ZCAQis+OPdd5BwIl7evbXQp2cRfqDi
+	Z2g2S0V6M94ZK05XjCyzBiNYU6gDU/jNYeBcfZAqMjUZhhw9aOkgwJWpHh8awE2Ux89c1h
+	3FoWrDaMkvKqJlUBrX6c4QnI5lfF8/CjiCWbm/VZmqSlJKgmk5PUY+7MVfBEyA==
+Date: Wed, 24 Jul 2024 11:43:03 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: patchtest@automation.yoctoproject.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Patchtest results for [OE-core][PATCH v2 1/5] cve-check:
+ annotate CVEs during analysis
+Message-ID: <2024072409430324ee87b2@mail.local>
+References: <20240723115315.207013-1-marta.rybczynska@syslinbit.com>
+ <01010190df81d582-311d068f-ddf1-407e-b094-e21c54daa85f-000000@us-west-2.amazonses.com>
+ <CAApg2=St6hdjiyQuZvdR7FFEgL0DSoYFRkkPjEBoT9jA43MZ9Q@mail.gmail.com>
+ <2024072323280372fb9082@mail.local>
+ <CAApg2=RjJPh4hsWN68Fs1j6e+HGOvJnmKYWZ6rRbi3Dwnce+=w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAApg2=RjJPh4hsWN68Fs1j6e+HGOvJnmKYWZ6rRbi3Dwnce+=w@mail.gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 09:34:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202433
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 09:43:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202434
 
-On Tue, 2024-07-23 at 15:51 +0100, Ross Burton via
-lists.openembedded.org wrote:
-> As we have Python 3.11+, tomllib will be used.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
-> =C2=A0meta/recipes-devtools/python/python3-setuptools-rust_1.9.0.bb | 1 -
-> =C2=A01 file changed, 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/python/python3-setuptools-
-> rust_1.9.0.bb b/meta/recipes-devtools/python/python3-setuptools-
-> rust_1.9.0.bb
-> index 8eb2513d694..62ac4764038 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools-rust_1.9.0.bb
-> +++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.9.0.bb
-> @@ -27,7 +27,6 @@ RDEPENDS:${PN} +=3D " \
-> =C2=A0=C2=A0=C2=A0=C2=A0 python3-setuptools \
-> =C2=A0=C2=A0=C2=A0=C2=A0 python3-setuptools-scm \
-> =C2=A0=C2=A0=C2=A0=C2=A0 python3-shell \
-> -=C2=A0=C2=A0=C2=A0 python3-toml \
-> =C2=A0=C2=A0=C2=A0=C2=A0 python3-typing-extensions \
-> =C2=A0=C2=A0=C2=A0=C2=A0 python3-wheel \
-> =C2=A0"
+On 24/07/2024 06:31:47+0200, Marta Rybczynska wrote:
+> Ah.. it requires my SoB when the patch is from someone else? That could
+> explain the situation.
 
-Does this need replacing with the tomllib dependency? Is this why
-python3-cryptography had ptest failures unable to import tomllib?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6659
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6836
+Patches you submit on behalf of someone else need you SoB , see (c) of
+the DCO:
 
-https://autobuilder.yocto.io/pub/non-release/20240723-67/testresults/qemux8=
-6-64-ptest/python3-cryptography.log
+https://developercertificate.org/
 
-Cheers,
+> 
+> Still, it reported an error to patch 1/5 while the issue is in 2/5. Will
+> check what we can improve in the tool...
+> 
+> Kind regards,
+> Marta
+> 
+> On Wed, Jul 24, 2024 at 1:28 AM Alexandre Belloni <
+> alexandre.belloni@bootlin.com> wrote:
+> 
+> > On 23/07/2024 17:41:40+0200, Marta Rybczynska wrote:
+> > > This seems to be a false positive. Possibly the path 2/5 has an issue.
+> > I'm
+> > > looking into the source code of patchtest to verify.
+> >
+> > It is not, 2/5 is missing your SoB
+> >
+> > >
+> > > Regards,
+> > > Marta
+> > >
+> > > On Tue, Jul 23, 2024 at 2:12 PM <patchtest@automation.yoctoproject.org>
+> > > wrote:
+> > >
+> > > > Thank you for your submission. Patchtest identified one
+> > > > or more issues with the patch. Please see the log below for
+> > > > more information:
+> > > >
+> > > > ---
+> > > > Testing patch
+> > > >
+> > /home/patchtest/share/mboxes/v2-1-5-cve-check-annotate-CVEs-during-analysis.patch
+> > > >
+> > > > FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add
+> > it
+> > > > manually or with "git commit --amend -s"
+> > > > (test_mbox.TestMbox.test_signed_off_by_presence)
+> > > >
+> > > > PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+> > > > PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+> > > > PASS: test commit message presence
+> > > > (test_mbox.TestMbox.test_commit_message_presence)
+> > > > PASS: test max line length
+> > > > (test_metadata.TestMetadata.test_max_line_length)
+> > > > PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+> > > > PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+> > > > PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+> > > > PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+> > > > PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+> > > >
+> > > > SKIP: pretest src uri left files: No modified recipes, skipping pretest
+> > > > (test_metadata.TestMetadata.pretest_src_uri_left_files)
+> > > > SKIP: test CVE check ignore: No modified recipes or older target
+> > branch,
+> > > > skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+> > > > SKIP: test CVE tag format: No new CVE patches introduced
+> > > > (test_patch.TestPatch.test_cve_tag_format)
+> > > > SKIP: test Signed-off-by presence: No new CVE patches introduced
+> > > > (test_patch.TestPatch.test_signed_off_by_presence)
+> > > > SKIP: test Upstream-Status presence: No new CVE patches introduced
+> > > > (test_patch.TestPatch.test_upstream_status_presence_format)
+> > > > SKIP: test bugzilla entry format: No bug ID found
+> > > > (test_mbox.TestMbox.test_bugzilla_entry_format)
+> > > > SKIP: test lic files chksum modified not mentioned: No modified
+> > recipes,
+> > > > skipping test
+> > > >
+> > (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+> > > > SKIP: test lic files chksum presence: No added recipes, skipping test
+> > > > (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+> > > > SKIP: test license presence: No added recipes, skipping test
+> > > > (test_metadata.TestMetadata.test_license_presence)
+> > > > SKIP: test series merge on head: Merge test is disabled for now
+> > > > (test_mbox.TestMbox.test_series_merge_on_head)
+> > > > SKIP: test src uri left files: No modified recipes, skipping pretest
+> > > > (test_metadata.TestMetadata.test_src_uri_left_files)
+> > > > SKIP: test summary presence: No added recipes, skipping test
+> > > > (test_metadata.TestMetadata.test_summary_presence)
+> > > > SKIP: test target mailing list: Series merged, no reason to check other
+> > > > mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+> > > >
+> > > > ---
+> > > >
+> > > > Please address the issues identified and
+> > > > submit a new revision of the patch, or alternatively, reply to this
+> > > > email with an explanation of why the patch should be accepted. If you
+> > > > believe these results are due to an error in patchtest, please submit a
+> > > > bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest'
+> > category
+> > > > under 'Yocto Project Subprojects'). For more information on specific
+> > > > failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> > > > you!
+> > > >
+> >
+> > >
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#202408):
+> > https://lists.openembedded.org/g/openembedded-core/message/202408
+> > > Mute This Topic: https://lists.openembedded.org/mt/107503127/3617179
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> > alexandre.belloni@bootlin.com]
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > >
+> >
+> >
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+> >
 
-Richard
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
