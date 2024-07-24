@@ -1,89 +1,123 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0250C3DA61
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 19:02:01 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.18909.1721847714425864715
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EEBC3DA61
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 19:13:51 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.18959.1721848424455813109
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 12:01:54 -0700
+ Wed, 24 Jul 2024 12:13:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58D61FEC
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 12:02:19 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 760F43F766
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 12:01:53 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=YEzz0wAu;
+ spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: asharma@mvista.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fb3b7d0d3aso661235ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 12:13:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1721848423; x=1722453223; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fsC+J7biHznpiIJFpSnbCyKGF9B1Dufk+50A/r8piTM=;
+        b=YEzz0wAumTAi8tRW91RUcHw7ZjQIf5iAA+zf1KdziDIDIoQ88mfpUnoSDXy2/OxDoh
+         VNOlhE1uRoqcduEWcN51hkOhElfAFEKLzk6jCrfSdvUO7jFBzF8al0YNWqAxawRXMBza
+         eTzGYfD/U/xm1tmKLL4L52BhB1PJxwpws7TJU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721848423; x=1722453223;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fsC+J7biHznpiIJFpSnbCyKGF9B1Dufk+50A/r8piTM=;
+        b=pTVdMk4doXWXqXczuhyvK9aYDydxmdbI4HSGShoLu9wY5L+OXkzp1NEv4aqXrRzHd6
+         pptpp+/1JtqnmhvVpAYUJFqc0K8zpB218UpaySq8AuvBkwUvH6pMun9nqJlJUUYKncME
+         p87S/w34YWGjj0z9f/hXrZvPAIhNurSarjl5h0QsKjPyfWmSnQ3cbLJHeOiY9MuxjnJe
+         byka/nWexIHWlDXO6TyMxsFG6uGPCembMa8zd5c/O4h09L2EugHEMrIrUJV106+L37Lf
+         6Zk3dXi6eBEjrEa+ks6LkE88x8tMwbnbqpq9iDaNBR+Wc83e+ub5dQv0QDJFZrXrYSqt
+         onkA==
+X-Gm-Message-State: AOJu0Yyj5DQTFH+gTfsDWiHheCicjLJ0Gbh0jmrCinPyyzx7Lzgim4F7
+	vjfBp+Ygd5pytl43+GPeBjAkDdxcLCg3E7ax/XoPP/b2ACS7ib0ei7LlBp93nMMi7/s/qQ49D5m
+	5
+X-Google-Smtp-Source: AGHT+IHKNC/RrnJyoicb7krRRuZkys37voJBT26jdtrVTgtXKA6WyiAnq5vT13qNDtVYMalV39W2Vg==
+X-Received: by 2002:a17:902:e88a:b0:1fc:3daa:52 with SMTP id d9443c01a7336-1fed38386ddmr6146895ad.11.1721848423563;
+        Wed, 24 Jul 2024 12:13:43 -0700 (PDT)
+Received: from asharma-Latitude-3400 ([223.190.86.232])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f436c6asm100015465ad.206.2024.07.24.12.13.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 24 Jul 2024 12:13:43 -0700 (PDT)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Thu, 25 Jul 2024 00:41:28 +0530
+From: Ashish Sharma <asharma@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-jsonpointer: upgrade 2.4 -> 3.0.0
-Date: Wed, 24 Jul 2024 20:01:36 +0100
-Message-Id: <20240724190136.3819101-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] libarchive: backport fix for CVE-2024-26256
+Date: Thu, 25 Jul 2024 00:41:26 +0530
+Message-ID: <20240724191126.29999-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 19:02:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202478
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 19:13:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202479
 
-Also re-arrange the recipe to match conventional order.
+This patch fixes an out-of-bound error in rar e8 filter.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/eb7939b24a681a04648a59cdebd386b1e9dc9237]
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
 ---
- ...ter_2.4.bb =3D> python3-jsonpointer_3.0.0.bb} | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-devtools/python/{python3-jsonpointer_2.4.bb =3D> pyt=
-hon3-jsonpointer_3.0.0.bb} (85%)
+ .../libarchive/CVE-2024-26256.patch           | 27 +++++++++++++++++++
+ .../libarchive/libarchive_3.7.4.bb            |  4 ++-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
 
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb b/me=
-ta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-jsonpointer_2.4.bb
-rename to meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-index 062fa5243f9..0a23dc31002 100644
---- a/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb
-+++ b/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-@@ -5,16 +5,18 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D32b15c84=
-3b7a329130f4e266a281ebb3"
-=20
- inherit pypi ptest setuptools3
-=20
--SRC_URI[sha256sum] =3D "585cee82b70211fa9e6043b7bb89db6e1aa49524340dde8a=
-d6b63206ea689d88"
-+SRC_URI[sha256sum] =3D "2b2d729f2091522d61c3b31f82e11870f60b68f43fbc705c=
-b76bf4b832af59ef"
-=20
--RDEPENDS:${PN} +=3D " \
--    python3-json \
-+SRC_URI +=3D " \
-+	file://run-ptest \
- "
-=20
--BBCLASSEXTEND =3D "native nativesdk"
-+do_install_ptest() {
-+	cp -f ${S}/tests.py ${D}${PTEST_PATH}/
-+}
-=20
--SRC_URI +=3D " \
--	file://run-ptest \
-+RDEPENDS:${PN} +=3D " \
-+    python3-json \
- "
-=20
- RDEPENDS:${PN}-ptest +=3D " \
-@@ -23,6 +25,4 @@ RDEPENDS:${PN}-ptest +=3D " \
- 	python3-unittest-automake-output \
- "
-=20
--do_install_ptest() {
--	cp -f ${S}/tests.py ${D}${PTEST_PATH}/
--}
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.34.1
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
+new file mode 100644
+index 00000000000..f9be4fe255d
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2024-26256.patch
+@@ -0,0 +1,27 @@
++From eb7939b24a681a04648a59cdebd386b1e9dc9237 Mon Sep 17 00:00:00 2001
++From: Wei-Cheng Pan <legnaleurc@gmail.com>
++Date: Mon, 22 Apr 2024 01:55:41 +0900
++Subject: [PATCH] fix: OOB in rar e8 filter (#2135)
++
++This patch fixes an out-of-bound error in rar e8 filter.
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/eb7939b24a681a04648a59cdebd386b1e9dc9237]
++CVE: CVE-2024-26256
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ libarchive/archive_read_support_format_rar.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 99a11d1700..266d0ee995 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -3615,7 +3615,7 @@ execute_filter_e8(struct rar_filter *filter, struct rar_virtual_machine *vm, siz
++   uint32_t filesize = 0x1000000;
++   uint32_t i;
++ 
++-  if (length > PROGRAM_WORK_SIZE || length < 4)
+++  if (length > PROGRAM_WORK_SIZE || length <= 4)
++     return 0;
++ 
++   for (i = 0; i <= length - 5; i++)
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+index da857641168..22e398f5989 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+@@ -30,7 +30,9 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+-SRC_URI += "file://configurehack.patch"
++SRC_URI += "file://configurehack.patch \
++            file://CVE-2024-26256.patch \
++"
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+ SRC_URI[sha256sum] = "7875d49596286055b52439ed42f044bd8ad426aa4cc5aabd96bfe7abb971d5e8"
+-- 
+2.44.0
 
 
