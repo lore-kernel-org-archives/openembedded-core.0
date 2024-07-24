@@ -2,46 +2,47 @@ Return-Path: <tom.hochstein@oss.nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48204C3DA63
-	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 19:31:42 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.83])
- by mx.groups.io with SMTP id smtpd.web11.19336.1721849494164384810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 196B9C3DA63
+	for <webhook@archiver.kernel.org>; Wed, 24 Jul 2024 19:33:52 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.57])
+ by mx.groups.io with SMTP id smtpd.web11.19378.1721849622981127669
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jul 2024 12:31:34 -0700
+ Wed, 24 Jul 2024 12:33:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=rXCQM6Xb;
- spf=pass (domain: oss.nxp.com, ip: 40.107.241.83, mailfrom: tom.hochstein@oss.nxp.com)
+ dkim=pass header.i=@NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=EW9UwLaJ;
+ spf=pass (domain: oss.nxp.com, ip: 40.107.21.57, mailfrom: tom.hochstein@oss.nxp.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xCUP/mHru1YYuY0XY1dEjpoZiEQ19ktLFPEfhzh6bN0V0aTCvt9x8mojxhimuz5LbV/qUaW9lZREiPorJB7fvcXV4H5IYE//26ZSrWMVtMTTcQ6+vDtQ+lTt93qbdJSw5RxtFFy9sQbgMZM4k9nTn3eYb1uVUj2y7Xvfy18vvj/O3oON7I9iSIrP9Bz9e4ZNz1i/v/iC2FRUGlylT2Sh5iZhDFDMXVh30h1fHj7VBpMPHZ+2brS3Q5kqrmhSjudCsNXq7SnkjzUERRXYzFAnT6obTD1q0PslTgyCNtdpuZvxvIxVOII68d4nxb2y34WezWbOMcGMnhuKE0Xw9cBOlw==
+ b=jibakX9fhFfAD+WQFKjTvMm07yHoBZqmTmpeQKlW+kx9a3TLI6i9IPNTVIhUbLePL9dVgQYhfYTvzUBYrT0C3o3bQPNI1UovZnnVpQ+v2tRDyvMFWTo/GFc2JC32v0zmuG41vXPDEyANfzOwjTpL45te/7hFUVRw2qqL626FDNbqOISjwT26F/KctdXdSUG92dT3Vj1nk9Zhc2q8VQdXXknRPVidCUHoi/PWgFbWDFupdLeTQCmkNUi9mCs6kNILhu1ou+xIdEOMz6NNQ6htnJoQQJEN+4obBRpgbzHQOX8EkDVuq1D+o+5pt30afIlGldt/wg4/9mSi00QjhV48Kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iMZ7JG27z5NWU7X3QKlv+J3TWZCLKb7dvxYBkcgGkh0=;
- b=g4NBhy7U8pYoCs2Lh5SMec+oq03yK2dfK0DT+01F0tpJjctFGnMt/4/FOdVJjWZTyqtiE9/afBJBJkBMa4+nfrU/jqGqsQrk6XB9JzBfKd8myvl+Mk06YOPN/rRpVY8Uw51VBp+sJXqX+RZEYaOt8HHB7qanxlW82S5fAVE6Vx6XLsaIYOYAeHl8QpKnos3HvOfJl10uUjQxZrMhPsgRL/9fjAACfCcxKDxi7IodZJwQb95JcK5S90rRF5v48peF75D23iTMV/mANy7wpyiAfiaWfDHmLaTTFcE6njuUnW5ttpYSlUfviEgap8KE3Nya07HT7qZwK+oWLuE9TebMng==
+ bh=L5fZOyMsE2p4osZ8E2crIYfHvOzWR+sXu5tX4Vlbr44=;
+ b=Vllt36U5Qxbpbjc3iXTRzJ8xi4Flzf1YOTiX6tKrEI1HghSjcUu0fKdynihJfxVRQ0tdz1HLNUsMRgMCiKUWUytVdsQz1l2FQRrx6ZLUAZDX2kS0JRmR/ZW1uo+0tskoeG7ylGn9jLhEUwjpuCGnZevUbLGoTZ7+GXzkZA205k5WNNkoMiO7Q1TXj/Dr0rot1OQSmLyPB9imLJW9AAvXPiNutfdfwMffupwtvI22dKJtqrfXYgEgODEiVowObP0MR+PGRMW1IqFVsxo+xuVaWbClnT3+hD4KLddr8c1GekhUch1mkrzfgHB0DD3YYKaG+tVmyGDlSO2/S0xpw2AJRw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iMZ7JG27z5NWU7X3QKlv+J3TWZCLKb7dvxYBkcgGkh0=;
- b=rXCQM6XbKjjd0PCHdFZ+zLrod8ws+eXK5kLOxv5coSg53zmnaVW/7jdsEPwo+/Cs7wftqD1tWGp5JkW0rpe8dH0bjyRXjC9QcW0v8VE630ghWWUjK/0f7fP9E2092VVr28G7y8x2d1Fop5xdKhdkCw6QwZonQAbVN868FKTfnTfGrrgJ9A6udlLWwQF2kWDh2nbRThfHw5UsthQ3TK4kgyZqiaScMu2bKa/OcW6MbHGgIGcYU4X3H+TfDLwF9E/N1QJEiufHISAYxRi/wKI7yNVq4YOyiBZl1YGuflMG51RwyBIZWN9KtoKasCeoXCoetfbtja9sOo8ObkwACxnDGg==
+ bh=L5fZOyMsE2p4osZ8E2crIYfHvOzWR+sXu5tX4Vlbr44=;
+ b=EW9UwLaJy6cx0sKXn3FTdII3Nj6TuXVSC+d57hC5148GAhyLE3Rw3brFXJR8EOLZ/VE+uW/aFgEz0J1osfBLbAo+22qFf7Sb77KaoVZEZPQLWGjwH49RbI2e+TEGyTpX0QYV3evc/zE+Mrpxa9shRmEfjSUynBsqy/jQi6qC2IhGK6lXeljoVYnl46LxlxLiRqt2oNe9HmndAlKEc1IPVdC4hq6mKJolzYqKKQnMc/GSp427N8iXi8Cnm+ay5kwm5Nyu45EFdiRRMY1wnT0NocYcg7eXXRD7VumzB/7Y2tFW2yFqJcVIqNxuZx+fZbpaAc851PzlUSxs1OmBaIWuQA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
  by GVXPR04MB10150.eurprd04.prod.outlook.com (2603:10a6:150:1c1::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.14; Wed, 24 Jul
- 2024 19:31:25 +0000
+ 2024 19:33:39 +0000
 Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::51ae:5f12:9744:1abc]) by PAXPR04MB9448.eurprd04.prod.outlook.com
  ([fe80::51ae:5f12:9744:1abc%3]) with mapi id 15.20.7784.017; Wed, 24 Jul 2024
- 19:31:25 +0000
+ 19:33:39 +0000
 Content-Type: multipart/alternative;
- boundary="------------NJG0K6oxkqVlXalwLIJnn19g"
-Message-ID: <2d2bb482-7264-42f1-b475-a255dd9468f2@oss.nxp.com>
-Date: Wed, 24 Jul 2024 14:31:21 -0500
+ boundary="------------BIjpIGY9vPKlCNp9CesLlerg"
+Message-ID: <fae511ee-87e4-45be-ae8a-88b11d20badf@oss.nxp.com>
+Date: Wed, 24 Jul 2024 14:33:35 -0500
 User-Agent: Mozilla Thunderbird
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
 Subject: Re: [OE-core] [PATCH] time64.inc: Simplify GLIBC_64BIT_TIME_FLAGS
  usage
 To: Alexander Kanavin <alex.kanavin@gmail.com>
@@ -49,111 +50,109 @@ Cc: openembedded-core@lists.openembedded.org
 References: <20240724170829.3456577-1-tom.hochstein@oss.nxp.com>
  <CANNYZj_GkEBefDmtp_ANbdZEv2r+i_RfTAYd0TpEbYD1kUZ+3g@mail.gmail.com>
 Content-Language: en-US
-From: Tom Hochstein <tom.hochstein@oss.nxp.com>
 In-Reply-To: <CANNYZj_GkEBefDmtp_ANbdZEv2r+i_RfTAYd0TpEbYD1kUZ+3g@mail.gmail.com>
-X-ClientProxiedBy: AS4P195CA0001.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:5e2::8) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
+X-ClientProxiedBy: AM4PR05CA0031.eurprd05.prod.outlook.com (2603:10a6:205::44)
+ To PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|GVXPR04MB10150:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbe92926-24bb-414e-75e3-08dcac173506
+X-MS-Office365-Filtering-Correlation-Id: c5c7a3c6-e2bd-4f57-9207-08dcac178495
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?WlpvamhRSGh0dnJYRjRnZEVMNGRraDAvcllDWGZ0TW5SU2g2N1JWSlA2Sy9v?=
- =?utf-8?B?ZGNKbTErZXdiYWdLc09MbHQ3OTMxL1dNWENSNFNyQ2U1QmVObHBidDM3LzBM?=
- =?utf-8?B?d3MxOWJjOXJ6cHJMTjloeDhxOTZoZHFyTzlHUkdLQUYzWk92M1I3TjFzRUY3?=
- =?utf-8?B?YjM5aW1RbEd5dE9qZ0pYdFZaTk9NZitKdkpaQk9jU2ZHc0xVaHhNWnNtVEdz?=
- =?utf-8?B?T0lWR1YvK05wbXk4TG42SnhncTJmckZlMjZIaS84OUx2UGx0ZHgzTDlvR3dD?=
- =?utf-8?B?c01sR0NoczRjSlE3QTl6NmlLc3d5TGcwRDZCMDFhdWJhMjhBYlhwS3BMRjla?=
- =?utf-8?B?RElLS0dqa0l5cE53bUF5b3Z3WEE2anpaRWFWZjVueUd0VUd4N3J1ZUJFRHo5?=
- =?utf-8?B?WmpDSE80NllmZC9jbno4cG9sTTFPaXVKbmhTMXlicU1IUXVWRWxZbTJUaXVD?=
- =?utf-8?B?NkJ4WTJ2Y0ZYeER5WitRUWE3QUZFYzBIeFFlZmwrd1NDRU14WmxXZEYrTVlm?=
- =?utf-8?B?U0Q5eHZyZTJ5ZGw3WGRwZzNVaW1LbzNJdURmTHQxa0hZTWVWSUY5QklZcE9K?=
- =?utf-8?B?ZERJVmw4Q2JXc2Njb3ByVzVCVDNYM2pNZUIySUR5WHhlb3hoVHFNMlh1WDJX?=
- =?utf-8?B?UjhiSmxHdTRQd2NkS3BaYm00ZjRBeDNUdEh2Z3VHLzFjRXFRTUpWbytnYWNw?=
- =?utf-8?B?NzBtRWxxRVFkbkp3aVM0WGZkZUtNQ1B5WEUxemFQcUF0Y1ZMekNwcUNXZ2VB?=
- =?utf-8?B?MFpDMDA2UE9FaVBUNHo2T2IyODFhU0Y1UGtaRFVIOGY2WFFzQUlZcnZQUjVm?=
- =?utf-8?B?QzVkNlVNbm82VmhYSUZ5d0VGOVJpS014SVBYT1c4OHd6QmNtZEZQdlJ5TzZl?=
- =?utf-8?B?ZS8yWWJxUTFhdFgyTW52K2NwKzN0MHZHZk9LelVQQy9sV21PcHZSenZJenND?=
- =?utf-8?B?WTR2Rmd5OWZFbCtzd3pMeGFyWjNSWEwyNzFDNmtMdUplWDErQkNpRlBlbkM2?=
- =?utf-8?B?MjJZRFVubE5VMkhnTGZ0ZFZxcTBuMGYxc3VwOGgrNVQ0SmZVcjRwckJUTzND?=
- =?utf-8?B?bW9xM3doVkhIOEIrVktqbURQdFlFNldiYlNJM2kvNVFXaUtySXVBSmZqSXMy?=
- =?utf-8?B?Ri9mOGF0Q0R3YXV2ZmpaRDhjV0FQOE9Mblc0c2ZvaURCSVRwUkNRWnU1OS9r?=
- =?utf-8?B?UEdzOVVMd0N5cVJxUzlpWjlEZ0ZIM2tTcXZTR0o4dWRUYklnMFJ3N1NzYlUr?=
- =?utf-8?B?dkxOTHFvQUV3VW54RS91a2RvZkZVZnVYS29nOTdJWHVFTlNIU0REYVpVK0VI?=
- =?utf-8?B?enBaUFZPR0x3R0drdGNiRWVhcUJIREZrell5N0dwUEZwQVVUMnNYOERlM3J0?=
- =?utf-8?B?VGh3cFpKcjJnWStqa0RCVjgyU2I2QmFqeTIyRVNrWSttVUZCUW5adjZTWnAz?=
- =?utf-8?B?UzVUaHlzZmlKb2FDckJYeEhpaGJjekgrZXk4UDlhS2d0MXcyZm9ROWloVFFR?=
- =?utf-8?B?N3lzOEFYbVh3VGNHT3lUdGdVd3dSZXhqNVd2RTVhcTBBYk5la0pjSUI3REpV?=
- =?utf-8?B?dUN6ZTAydmNrSnFINU1xUUpZNzFpMzUvTHRMZVNWTDVzQzFPUEdFb2NLVkZQ?=
- =?utf-8?B?Vk5uRE5FUXJNbWEwdG9DN01rbFlBclpmZlI4RDVsUFMwZEtlV1YrNWI1aHMw?=
- =?utf-8?B?QmdBS2lmNXNScU9Rb3U4dHVNUEswdmVjVSt2djMrU3Vrc1pKSnlHNk5kd2Nx?=
- =?utf-8?B?eUF5NjJHTi9oUS9JMFlLd3kxdVcxWXRmNVVySnl4NDZBdVNlSS9WYUJlWXBz?=
- =?utf-8?B?K2dTeGplU1JyMlB5QnB2dz09?=
+	=?utf-8?B?U2dDWFdSTTkzaHc3WS92MWxoelpmcU1GYVRnNG1seVNzRHRSQ0ZFZUNnNUZB?=
+ =?utf-8?B?VmwzUGdLTlM4REtSQkp5dUc5TUY0SnphOHR5dzBmeFlkeEswaTNGZENhcFhy?=
+ =?utf-8?B?ak1kdi82SklBeTdGNTZLaW14eVpDMU1tVncza2VwR3JOVUdWb2JwL0J6ZjBE?=
+ =?utf-8?B?Vko0bmFwYXBmTGgzdGVHY1BSamZrcGpKbm1Yd0U2RkhNTDVjS2J5VmczdHEw?=
+ =?utf-8?B?UU5neDBKakw1UnpiOVBOUmQ4VVlSbmtLRS9zVytlQlZXQ1A0UlBzY0FDaFZF?=
+ =?utf-8?B?VnVwekhvVmFoeFZmRU80cDlKM0RNWnM4QVRocE45M3c5SVpIQVVpNHUwMGNq?=
+ =?utf-8?B?aE5ZcGovVFdaMkdQSU40dFR5RjZJY2tjWngxdXMwZEFBY0h2WFdVUXhkdGg4?=
+ =?utf-8?B?V05leS8wa3hnMXh4dW1ldHhQb3JEWWJOMnA2Y1MzN0dRSmhPdmhYUFVIU3U1?=
+ =?utf-8?B?WkJ2czNvVzBqbkZTdnJKZWZnTUpvanJSVlBOZS9ZeHRyUmd1b29DNFlWNHlv?=
+ =?utf-8?B?cURnZjdBdWg2VkJnQnc2akgvWG5GeUxkUjFuYlA5M3pjWTNkaWNSTVlra0Zx?=
+ =?utf-8?B?dVdSeWNETmVQM012aXJ4R3NpNnp6MFpiODYySHpZdjFYMk4rQ0N3c3FHd3B4?=
+ =?utf-8?B?eUQxbk42ekhyaFE5MG9RNDhXK0pOZnVwK3RkeVM3SHF5VytNcCtYb0ZsNjVy?=
+ =?utf-8?B?ZEFVdk1DSHdpQ20wN2JNbzZsY2gvblZxeGVIbG1GZlBIdllRNFdXTXowRm5D?=
+ =?utf-8?B?eXU0c3BWRkJ1TVFsRjVFWXc4NTBrTnNzeHg2cmZIOGh6QlJKdVVsWUhBQ04y?=
+ =?utf-8?B?ZGliZXA1eDNJd3REdXlSeWE5REl4dkI0eVZRY1d4ZHordWhCRkMyK2lpcWFl?=
+ =?utf-8?B?Nmxsdk8rMnl1VkxVZStrV0RoMzl5N1FHdTBGYksxQlNjeTlHK2NSbzJ0OFV5?=
+ =?utf-8?B?YnRQSkxCSHZYdmRERUlPMUNtODE0bnU3L0lkb1NFR3JuLzIyb3ZiUGJSNTZm?=
+ =?utf-8?B?Z3NsTytBYmdGMDBRQXVUZ0ZLMVVrQWQ4WmlWcDAzMm9WT1Y4SXdlcnJJbXVT?=
+ =?utf-8?B?eDZPTUR3dVhDaWtHd20yRVRxYjN6UUJvb2d4MXR2UzJBRHFkdHhIdkVNaHZR?=
+ =?utf-8?B?a1dwblNPNzNVTU5oM1NxamR6a0Rxa1d1ZEJna0NJZjVwQkQ5bTRnOURZVElx?=
+ =?utf-8?B?YnRWejFibEJMeVRzQ3FMYVlMbmZQTER6R2RzSGJXeFMyL2xvNmhQeTliY3Jr?=
+ =?utf-8?B?bmlYSytGemhoZElOeWNxd0VyS2pYY3JVb056ZmgxcWJTT2NSYTJwU1g2b1Iy?=
+ =?utf-8?B?REhQUlNqVlFodXZuZnVTNlREZjlLRUtCbnhRTGc0T3lPYW05eHlEaTRpZVNm?=
+ =?utf-8?B?SHZYVDNZaWRaNXpOTXVRNDJMZE16Mzgrd01OZVJXVDVRMWptTWtRU25PYktF?=
+ =?utf-8?B?U2RJb2N2WFRCRUZRVTA1cWVYRVFOSWpJWjRxaHIwaEJ5WkdjaUx1YWVyVWYv?=
+ =?utf-8?B?a2M1V3Z1M24yTGlCcklnRDdlWTBuTG9vS25QWTUzVndHSDNQNmV2aVpBWmV0?=
+ =?utf-8?B?MjJ5WmRZdC95eHVTV1hlRDdFMng5dUN3U0ZjZWxIMzhYMTY1bG0xRFByUWll?=
+ =?utf-8?B?LzFxUjA1R2pScUUySkdtKzVFbVNwL0ExVjFRcWZCNWRqWFRwdWdHSzlYQ0hB?=
+ =?utf-8?B?OHYxR1gxRE1VWVZiLzJWWkxZWjRQTk1tbVl0Qnd4S1oxNElCSVhEa2pheE53?=
+ =?utf-8?B?S3ArMkF4enNGMHEwNWZhU2hlb1ZVTDBoNnRpaDNKdjhzOHBLdkJGdEphaURD?=
+ =?utf-8?B?OFJnYlA5bkpIRFpCVTEvUT09?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9448.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?TEY3VEFkOEFKaUR2NTVEQUljaU14ZVN6WkhhUHhiL2NBUG12SUlUNy9iMDNm?=
- =?utf-8?B?QWRickowMzUxQnhRdE1nRWhIaXEyWDFJelh5aWpjbHdpLzRNblBLdFUxcmE4?=
- =?utf-8?B?aGw2VmhmODd4ZXhTTThIUVRjd0FHM2VwaTRZaGJtWTQyU2JpY2k3WFQ1VkFT?=
- =?utf-8?B?SVhmYjZRVDRrT3JHYzJkT0tOd3RZQ24yTmNvUDVHalZxOXJaTXd0cVRyajN5?=
- =?utf-8?B?dWM0RVRsem5naCs1WGcrZVZIS1FSMU1qSEVjTkNadWw1aTJPbDBtNFNvek0r?=
- =?utf-8?B?aFZNd3BkN1haYUZWWFRiVncxUkNLKytZRytJY01XVTVWVGI3cnQ4Mjh4cUpP?=
- =?utf-8?B?c3Bkdm5CZmkwRHZuMHVGbGJmUitQTFBqcUdnN0VUZS94M3E2MHQwMExzNFhi?=
- =?utf-8?B?bGN0SDRpbW5LK20xZVJvM1FHSnJHTUt5ZnB1ay9DaXRUbnlPN2JEMG5SbEYx?=
- =?utf-8?B?Q01xR1krU2Q3WGd5VEFLUEtYazJFNDh4UjZOR1NhSk5HT0ZmUllOUXpza0FP?=
- =?utf-8?B?aGJWMmd6QzdVVUlEbUQybnhlSjRORUd5OHpCNUV1a3BIQjBqd3VFdjhVMXc3?=
- =?utf-8?B?Z0RRVTZ6YjNpd3FZamlhdmFRbkFLbUIrNUYyQXlRWU85MWFRWkdsQlNSTHhk?=
- =?utf-8?B?VWNHTlo3K2tQWGNxZ3lkYkJCTEF6b0xLc0pkeStuRkV6Q0MyLzZRN2hFY0RN?=
- =?utf-8?B?THpKUnh1RXFxUW1vYXIyR3dEeTF4V1VHTER0Wk13QjRNWFR3Mk0vSHlTa2Rt?=
- =?utf-8?B?MFpHaERtM2hNYm5VOEpsRThhaEdsQWQ1ZkY1MitlT2c5Vi9SMEVKM00rakhu?=
- =?utf-8?B?NUZWYkx2bERsY3hlcDRrWnNkR0FOYmJtLzdYT2dxYUJzdFZIcnlYM2ZneEFV?=
- =?utf-8?B?ODBIMnNkNlphUzRLckZEbkZ4NXFnTUIvUnFCbmY2d2pjMFo2UUNNMjg0L1Qx?=
- =?utf-8?B?cldhUFoxS05NTUVQN0hmT0JoUzRpalZQTXF0VUpteFdleDhlR2pZaHdvaFFC?=
- =?utf-8?B?VmJaYjRndjFxT0FUd3BGdWUyYXdWczBZNjg1SEVVVERsZkt6aDEwbWtKbHZa?=
- =?utf-8?B?VTN3R2kwUmVDNW94KzlRKyt0ZS9mSDl1NVZOU3phN1VyZVJ6eGVzKzh6eWdO?=
- =?utf-8?B?UFFLOTJzd2Zod1BHbkEwYWVpQUhqQzMreHFXd3dBL1JnODEvK3l2UldnU3Rh?=
- =?utf-8?B?Z1A2ZEpNQkNZUi9JRXFBLys4aVVlMlh5bmdTa0VRb0p4d3RQaDI2cVlVNFpQ?=
- =?utf-8?B?Ty9BZmVQcmdxUVVubnErd1NiNDJqdTA5anZwWVZQSEttKzFHc2dodDRMTzhD?=
- =?utf-8?B?MzBnbU5CTmpTdEZiWWgvS0cwTU1DaVBsNlRVNngrQ0ViREk4eWY0SXNVSjNl?=
- =?utf-8?B?UVc1R2ZqWVVzU24zSGprQUVDWThMbHRySS9TTU5wT1A3TDZ1VmVHenJWTVdo?=
- =?utf-8?B?bWYvNWlaR0RVait3MmFZajRMZHd2M2lEWGk0WDlhREZnbVVGcGMrZkFyTWIv?=
- =?utf-8?B?NTlOY3QxNnE4aHlNOGZ5RklmblRYWE1uUkNXOWduSmxHd1AySDB5QTMzSE5X?=
- =?utf-8?B?KzFFRnhBYnI2UFhQL3ZCa05aeUlkOFRMaEhEaEhGaDdFdFlZQVpQOHZINTZI?=
- =?utf-8?B?Mlp0cC9IS2I5a0VHSENMaCtNcDVKOTVhb2xuaE84U1pvREo1cEhLeVFIeVFa?=
- =?utf-8?B?ZXdZbUhVKzd1L21vblFGZHVweUJZWHh6aGFEWWdPVUgvNFQ0TGp2VjFZdmV4?=
- =?utf-8?B?Q1BqVFJBV0ZFRmpVaHVYQ09sRXFZRlV4Q21tbTVqRUlXTmRDendFN1BEcUVk?=
- =?utf-8?B?NXRCNDhLU1h0dHdmLzhMVlNTcHRBOUppQ3pZcUwwQ2JXT3dEUy94ZHJsVTBC?=
- =?utf-8?B?bjRSWGhsem0rU2kxckZwV0lOWFJGOGczTVpVMHRSbld5anhrMG51ajdSSzlP?=
- =?utf-8?B?Q1U1eU9NMVlGb0FpbTN4ZUI0YUNEVitSMFVvQTFEemI4VVpiN3RHTmhISi9l?=
- =?utf-8?B?Wm8yaWFrSEE0WWFSQkVwVGN5bVNrTFQvNnpydjZqblFoTnhLMlh0bHhwVFpk?=
- =?utf-8?B?OVk5YmZ6N0JhMzVQQzFjSWhEM3VYOTRBSGgxZkF3YUNVa2hNay90SGxpNGtu?=
- =?utf-8?B?QTkzME5hcjdhOWM1SVJORVEvOVNieHZZblNiUXI1ZFpMcm52YXhHdC9sdnYx?=
- =?utf-8?B?Zmc9PQ==?=
+	=?utf-8?B?Rk9HMDlHQmVNb1BRVlo2cnRzUVltYUszVkdBZmlZV1l0TGFKbnBHVHIwcGY0?=
+ =?utf-8?B?SDA5SHpIcWFKa0tZOXY3b0ZKSDk0ZVgrbHFzTTVxUURRa1l2R1FMTjFoc2hE?=
+ =?utf-8?B?Q1NOSUxuN0s5bkNmazErUUNONG1IeW5xQWp2VVBLR0xuZXlGcFE1b05Bd1dK?=
+ =?utf-8?B?K2NTdUFIR3NFemxJQUZTbDQzaHFWMkJET2hYd0R2T092S3lnVHZITzl5OEk2?=
+ =?utf-8?B?WWZqRERWNy9md1M4NmpFTlEva3QvQ0xYQ2xBMUNLY1BuUEtKZXRYY2RyTmY1?=
+ =?utf-8?B?ck84ZkZ6QVJzOWRYaitNRTBweVkzb1ovZFNYKzI5d1JyTEhqWnFEN2s2WnU0?=
+ =?utf-8?B?bWE0VVVSNjdBK1JDWlZPSnpydk5iVTdoSjNLMTRtbjlHVVpoOWhENDczOWJY?=
+ =?utf-8?B?cW85RVJSWkVDMVJQVThBQWZQbVZZTG43c0tXZGw4dmMvTGJ0b0xMVU5la0o2?=
+ =?utf-8?B?Y2N2ekx0OVVWVVUwUm41QStNZ2R6dDRQUEE0NHlyY0x3eWZWbUdkRm96VmJQ?=
+ =?utf-8?B?eVBlTU92bG9tUHBLMGpVWEVkRzRQZDZJcENBSDhyY0hKY0NJSG1nUlQ0SW5V?=
+ =?utf-8?B?V3BCNjJKMGZCSlRTbHlXRUFvRjNka042KzJwQ1l5YzNXUnlLZUZhR2lRZzAr?=
+ =?utf-8?B?dHNVbEZwdU14Zm5OcTk1T0RrWm4vdXVIS1licGllRWJzZEE0dWlHK0pDd3By?=
+ =?utf-8?B?bzA4WFpneU1YbjdZdHNCS3FKNDQrUlkzMGtuczdScmx1V3orbVdvRnc2MUwy?=
+ =?utf-8?B?dkd2QnowSFBWWGhla3JUYkYybEJGcFZGWEtlZkhOaVk2cnowZmU4ZEZ5SWs2?=
+ =?utf-8?B?VG1tNVFRVnBVYS9mSmZMU3JEUjBrMUxUbjV4MmVCbUtldCtYaDFLTlNpMjI1?=
+ =?utf-8?B?TWVHbUZwcHhMUTFBcGg0RWprYnJ3VHgySEl6QzZhTFNtL1o0LytDMHY4aXR1?=
+ =?utf-8?B?T2Z1UkdCdHVLVHhaUEl5MHZFZGg5ZG1TWnRkRGZieVBIckZrRHRMMjNZR1NW?=
+ =?utf-8?B?d0wwaEVOU1FZUHdOa2xyRzJDNkhvNmJjelFOYldKOCtPV0taZTd4V3J4dGxT?=
+ =?utf-8?B?RmdPa3hhUC9yOGJrcmhTK21PYjM0aDVZNlhKVkZHY0J0THlLempNTnBXd0Ix?=
+ =?utf-8?B?a0JLSE83Y3dsbHJqbUZ0c1lNUjRrNS8yMnEvbHYvcnFucFF0NjRFWE5VOEtG?=
+ =?utf-8?B?aGdWTFQ1eTdDZEJtMjJ4N25hbzF0Z2ovWjQ3ZkN1dGJDRTM1UC91NkZCOU4z?=
+ =?utf-8?B?ZFZGMDhmUE40V1BwYXM5UlNFa2MwTVJGSC9XWEozOUlFQzRscHlMcVh3Y2Va?=
+ =?utf-8?B?eXlSaGdZcTJkTWxwUVA0RkN0THlLTmJ5ZHp3M3UvaUtZZ3RhZVY1b00ybitY?=
+ =?utf-8?B?NElKK2JIMXRTT0F4N2pKNjM3NE9KTmlrTnpOY1VsTW5DdDF1QzlSSytIREls?=
+ =?utf-8?B?bHdQemFZemlqK0RZL3NsbFE1eDFTb1ZscEFmcU5Kai9namt0eEpTMU1jMFN6?=
+ =?utf-8?B?OFhVM1Q1bWV4Vk5FdVgwU2hRdlh4WjQyc3EzdTFsZTB4TEQ4MWw2VC8vTE9v?=
+ =?utf-8?B?TXdRek1DTjZvcUhBRWJlVSs4Y0s2Z2FsM2cxdTVGQjlQbWNEWFpXbXFwNzlH?=
+ =?utf-8?B?cUFFM1NidzY3bG5YRnYxdHdkdm14TXdISk43bExoQlBKM3BsL3VaTjczNytI?=
+ =?utf-8?B?bjJRWk5aQkVaYWhBcnBFK1ZOcjJTWnMxWXRqUTlXYXR5TGo2Q2ZBYVVwYWhV?=
+ =?utf-8?B?OWsvY0JyclowK2NvUEdrMDJJbUp3ZWl1L1JwTlFTbFQzRUhtMmhtQlNSbTMz?=
+ =?utf-8?B?L3l5TG5ibnZRZjNHQXprTzNRRUR4NlNXK1JWaloybnVmQlR0Z0lOTVROYkp3?=
+ =?utf-8?B?cTNzSis1RE9KbVQxVzhLSXA5dGFtN0ljdWhRR1UyT25NNGpXd1E1SmNvU3RI?=
+ =?utf-8?B?SG9aUDVLT3J6UDBZc3Z3cWJiOU9Sait2YUp2SFNTTUYwdFNYelhKd3I3dlp4?=
+ =?utf-8?B?WFJoNElWMFNvbWwzbjJTOHoveHFzRmtRU1k0U1R4dFpOUzNzZ3Z6ZjREVm5W?=
+ =?utf-8?B?ZGkyK0ZVNUQrM0tRU0JUTkMwV3BSbm5pK29NbDk2b0QyVFhVZjA0eUp0Wkxj?=
+ =?utf-8?B?T2JLYU1taytLanc1c0RITXp3NG1JZm1kTWVKT3oxVUJjOVJGSURSYUdkYkxG?=
+ =?utf-8?B?TEE9PQ==?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbe92926-24bb-414e-75e3-08dcac173506
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5c7a3c6-e2bd-4f57-9207-08dcac178495
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2024 19:31:25.6807
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2024 19:33:38.9341
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MTgsne5fsrJPa+8rUbvBMw2UCXJBRB5FqU0Cn4D3dJbizNxtI3E+f6g/J8u+6CgSPR15Fd3jwlEHy1aEVrKteA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: RywQiKgIclD4bN+ayac/1JlamV5C+HRsx7vSrQbigu76afm282gunyn+YN0qi+YbMsQIOfcBBDBA1bp0aiqaAA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10150
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 19:31:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202481
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jul 2024 19:33:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202482
 
---------------NJG0K6oxkqVlXalwLIJnn19g
+--------------BIjpIGY9vPKlCNp9CesLlerg
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -188,18 +187,18 @@ On 7/24/2024 12:20 PM, Alexander Kanavin wrote:
 > should really be avoided.
 >
 > What prompted this patch specifically?
+
 Thanks, Alex.
 
 We are working to configure the builds of certain recipes so the 
 non-Y2038-compliant code is avoided, e.g, by disabling oss-output in 
 pulseaudio. That leads to needing to restore GLIBC_64BIT_TIME_FLAGS, 
-which for pulseaudio is cleared here in time64.inc (on scarthgap, not on 
-master):
+which for pulseaudio is cleared in this file (on scarthgap, not on master):
 
 GLIBC_64BIT_TIME_FLAGS:pn-pulseaudio = ""
 
-When you do that override from another layer as one would normally 
-expect, i.e., without the leading space, you get the error:
+When you do that override as one would normally expect, i.e., without 
+the leading space, you get the error:
 
 cc1: error: '-Werror=format-security-D_TIME_BITS=64': no option 
 '-Wformat-security-D_TIME_BITS=64'
@@ -211,8 +210,7 @@ the usage of the variable by external users.
 
 Tom
 
-
---------------NJG0K6oxkqVlXalwLIJnn19g
+--------------BIjpIGY9vPKlCNp9CesLlerg
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -250,42 +248,27 @@ Content-Transfer-Encoding: 7bit
 +    <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('TUNE_FEATURES','m32','-D_TIME_BITS=64-D_FILE_OFFSET_BITS=64','',d)}">&quot;${@bb.utils.contains('TUNE_FEATURES', 'm32', '-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64', '', d)}&quot;</a>
 </pre>
       </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Apologies, but this is not simpler or better or more readable.
+      <pre class="moz-quote-pre" wrap="">Apologies, but this is not simpler or better or more readable.
 Repeating &quot;-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64&quot; multiple times
 should really be avoided.
 
 What prompted this patch specifically?</pre>
     </blockquote>
-    Thanks, Alex.<br>
-    <br>
-    We are working to configure the builds of certain recipes so the
-    non-Y2038-compliant code is avoided, e.g, by disabling oss-output in
-    pulseaudio. That leads to needing to restore GLIBC_64BIT_TIME_FLAGS,
-    which for pulseaudio is cleared here in time64.inc (on scarthgap,
-    not on master):<br>
-    <br>
-    GLIBC_64BIT_TIME_FLAGS:pn-pulseaudio = &quot;&quot;<br>
-    <br>
-    When you do that override from another layer as one would normally
-    expect, i.e., without the leading space, you get the error:<br>
-    <br>
-    cc1: error: '-Werror=format-security-D_TIME_BITS=64': no option
-    '-Wformat-security-D_TIME_BITS=64'<br>
-    <br>
-    The problem is the design in time64.inc does impose an extra
-    requirement for an external assignment to include a leading space.
-    The redesign is meant to remove that requirement on the leading
-    space, i.e., to simplify the usage of the variable by external
-    users.<br>
-    <br>
-    Tom<br>
-    <br>
-    <br>
-    <span style="white-space: pre-wrap">
-</span>
+    <p>Thanks, Alex.</p>
+    <p>We are working to configure the builds of certain recipes so the
+      non-Y2038-compliant code is avoided, e.g, by disabling oss-output
+      in pulseaudio. That leads to needing to restore <span style="white-space: pre-wrap">GLIBC_64BIT_TIME_FLAGS, which for pulseaudio is cleared in this file (on scarthgap, not on master):</span></p>
+    <p><span style="white-space: pre-wrap">GLIBC_64BIT_TIME_FLAGS:pn-pulseaudio = &quot;&quot;
+</span></p>
+    <p><span style="white-space: pre-wrap">When you do that override as one would normally expect, i.e., without the leading space, you get the error:</span></p>
+    <p><span style="white-space: pre-wrap">cc1: error: '-Werror=format-security-D_TIME_BITS=64': no option '-Wformat-security-D_TIME_BITS=64'
+</span></p>
+    <p><span style="white-space: pre-wrap">The problem is the design in time64.inc does impose an extra requirement for an external assignment to include a leading space. The redesign is meant to remove that requirement on the leading space, i.e., to simplify the usage of the variable by external users.</span></p>
+    <p><span style="white-space: pre-wrap">Tom</span></p>
+    <p><span style="white-space: pre-wrap">
+</span></p>
   </body>
 </html>
 
---------------NJG0K6oxkqVlXalwLIJnn19g--
+--------------BIjpIGY9vPKlCNp9CesLlerg--
 
