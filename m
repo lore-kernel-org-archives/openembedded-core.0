@@ -2,8 +2,8 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C94BC3DA5D
-	for <webhook@archiver.kernel.org>; Thu, 25 Jul 2024 14:23:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC88C3DA5D
+	for <webhook@archiver.kernel.org>; Thu, 25 Jul 2024 14:24:17 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
  by mx.groups.io with SMTP id smtpd.web10.37362.1721917331074800152
  for <openembedded-core@lists.openembedded.org>;
@@ -57,7 +57,7 @@ Subject: [RFC] core-image-sato:do_testsdk breaks for cargo build with rust v1.78
 Thread-Topic: [RFC] core-image-sato:do_testsdk breaks for cargo build with
  rust v1.78 upgrade
 Thread-Index: AQHa3p2WIzEk/HvqzEWOssACQm1aGA==
-Date: Thu, 25 Jul 2024 07:23:16 -0700
+Date: Thu, 25 Jul 2024 07:24:09 -0700
 Message-ID: <PH7PR11MB7593871C9D198D9BF9B01A0DEBAB2@PH7PR11MB7593.namprd11.prod.outlook.com>
 Accept-Language: en-US
 X-MS-Has-Attach: yes
@@ -148,7 +148,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspect
  adultscore=0 lowpriorityscore=0 clxscore=1011 malwarescore=0
  mlxlogscore=861 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.21.0-2407110000 definitions=main-2407250098
-X-Old-Date: Thu, 25 Jul 2024 14:22:05 +0000
+X-Old-Date: Thu, 25 Jul 2024 07:23:16 -0700
 Content-Language: en-US
 Content-Type: multipart/related;
 	boundary="_005_PH7PR11MB7593871C9D198D9BF9B01A0DEBAB2PH7PR11MB7593namp_";
@@ -156,9 +156,9 @@ Content-Type: multipart/related;
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jul 2024 14:23:17 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jul 2024 14:24:17 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202504
-Message-ID: <20240725142316.CSVEuuYghbk3UX83F5QmF8Cc2hXIdEdvLfpWIkzAYbY@z>
+Message-ID: <20240725142409.KB9Sy8cFOra7kSmaMBewGuqEkMi3M6TUmxGLk_QW68M@z>
 
 --_005_PH7PR11MB7593871C9D198D9BF9B01A0DEBAB2PH7PR11MB7593namp_
 Content-Type: multipart/alternative;
@@ -205,8 +205,9 @@ error: rustc interrupted by SIGSEGV, printing backtrace
 
 All the failures are similar and fail for rust sdktest with cmd : 'bitbake =
 core-image-sato -c do_testsdk'.
-It's understood that the "cargo build" cmd fails with a segmentation fault =
-when the cargo binary generated from sdk environment is used.
+It's understood that the " *cargo build* " cmd fails with a segmentation fa=
+ult when the cargo binary generated from sdk environment is used.
+
 Manually reproducing the issue in verbose mode after invoking the sdk env s=
 cript:
 $ /home/pokybuild/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/=
@@ -334,8 +335,9 @@ ailures are similar and fail for rust sdktest with cmd : 'bitbake core-imag=
 e-sato -c do_testsdk'.</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 12pt; color: #000000;">It's unde=
-rstood that the "cargo build" cmd fails with a segmentation fault when the =
-cargo binary generated from sdk environment is used.</div>
+rstood that the "<strong>cargo build</strong>" cmd fails with a segmentatio=
+n fault when the cargo binary generated from sdk environment is used.<br />=
+<br /></div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 12pt; color: #000000;">Manually =
 reproducing the issue in verbose mode after invoking the sdk env script:</d=
