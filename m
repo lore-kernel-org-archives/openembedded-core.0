@@ -2,57 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82BAFC3DA49
-	for <webhook@archiver.kernel.org>; Thu, 25 Jul 2024 14:29:47 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.37551.1721917782695312831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BCDC3DA5D
+	for <webhook@archiver.kernel.org>; Thu, 25 Jul 2024 15:27:07 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.39363.1721921225199486365
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jul 2024 07:29:43 -0700
+ Thu, 25 Jul 2024 08:27:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Kx+5Okpc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-426717a2d12so6008085e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jul 2024 07:29:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SziqC1zi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4266ea6a412so7839895e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jul 2024 08:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721917781; x=1722522581; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1721921223; x=1722526023; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=RMXQzEpbvETmuheWsaitSdqfG2WAUeEW4f3W+z5oUHs=;
-        b=Kx+5OkpcmES+2xqSrhfPhVy9n6Mj5Yq5x3uZo9S272SAC53E0a1m1NtZRPPlcjYzq2
-         XkKAjsS79CbPW4FjA8TG+iuj6uD9mxuCj004dgwli6X7R4g+vxDtoBlV9z3uobFMJm0X
-         8tOXZ24GBCSeYpY4Pck+qf3YpDrPSREoNOz4s=
+        bh=MXVFxW4cFuoYJdWBZgh0nyDm7zn4+dq30hOiO3Jy0ZA=;
+        b=SziqC1zijxKYxeqDwOMqMf30KeBZE6aOmPXL8j1Rh1eHngcmNSyEBdIVnC9l4Zb1Pz
+         CYs3ckU2+ITGSIYPRIwZQqRimkTRM9kaIHwbBXCKY1vJBTfljcdx50cpvwSVUvE4Z7e+
+         nVpIodZWZ7HvmcxUUfKsQoi/9tvixyEO673Q4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721917781; x=1722522581;
+        d=1e100.net; s=20230601; t=1721921223; x=1722526023;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=RMXQzEpbvETmuheWsaitSdqfG2WAUeEW4f3W+z5oUHs=;
-        b=jB7oPZ/ASD29UkRjJt3EL2Fz7qrD+0K3ZRSELyTYXG83gd0S+/Ht5nt5Lp5MW7Vhn1
-         gpOxrrwA/guQlA4mEoyyuzYcq8swSH+6wMOMSYfZXWjTwJ6h49KHGlupH6Hvwoh2hD6n
-         dexadXoywMjUmsu1C3UDndCGAiWOJ0rlnEQwPMCNf9mW00dRclH4wQQD39/zKtc4wzJF
-         WDig/smOcVEy7iEzmvh55il6G5e3701AqcBuJoAj06YpQLguAI/YZB4fOT1Do6Xe9UVT
-         y6ZcB+wLi7h6niSZQ+xPHF3JBHmW9tRRjU+7PTxrcJ7hl2krP9nmfKEhuTnarCl9JYJJ
-         EONQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMosUUg0weccT3ZPIDtN0eAKTf1LpaF6eDeDS+Ya7PfrYWGVTheXhYbK4KGFCtMCJWCK8p406FqtGenVrod4U2StpDeeaSN0dhKMnj3S3Axqi7QszqCo9o
-X-Gm-Message-State: AOJu0Yzew3bgm6ILyDMSajikOc0k4Gp35+QuZdA5GbtJM53X7Fmca+eh
-	U0ZGXY4KnFdCVFqnSjfRD8cPchCEJnVQm0kqJBqbU1ks+43asdOxfL5PXk8YGfA=
-X-Google-Smtp-Source: AGHT+IE/oFtNaemFCw4NsVcNvOprdsvAtHmpTDWylRKJDG2Pi15B0edF+6DUSWkNb7VsdhkxvwzUzA==
-X-Received: by 2002:a05:600c:4ecf:b0:424:8743:86b4 with SMTP id 5b1f17b1804b1-427f99f9a2bmr41124795e9.6.1721917780903;
-        Thu, 25 Jul 2024 07:29:40 -0700 (PDT)
+        bh=MXVFxW4cFuoYJdWBZgh0nyDm7zn4+dq30hOiO3Jy0ZA=;
+        b=fyr7BsXKZ1818My2Eho4L4MlO2yvX2RD/tmlVUitN8d/TrVgNtiod/9JzOIpA3tNdT
+         EwBID8fXjmGvMxsmFczZY/cJYJg50Scu+mrzPV2dRuqbkIJylosCwlaZFlWJU5UOUZaR
+         ewZRrcHXw3NjHxFRXQl7hmRqutIB8++kJFhVhvunF+D2COIke4H8pdsIgtZNoZ6z3SrA
+         JaOPwCmDHbEDHhwICEBkJqMMQUm4jSkxe6hHmh/K9A+6A73J+sOkOBhC7oLisevl/akN
+         W7MQwnRjV5wGTz3X0WQmFSOjT1zQrldz9bJVKDeLOO1WDa724WkDzYu/N4U71jE4Q8Th
+         AeyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9pnxHPFyT6XHB/AIEGtjnUnxo0Pr7uK+CB4IvtakUaD7USbXq87Ji1reuKOTh2xRX+JvJ89QH8p77+WWQ7aSL+nQC7nk9e1VPm7cjA3JiEJuhpVYwrpwX
+X-Gm-Message-State: AOJu0YwAy75CrxfRr3CxCLajCHfi7hIQ9Qig8VfRgrUdTqYeTQ35X7lJ
+	6GudiEovd00xXQdcKZ/FSLowRrbszk6gzad8CwvV3RjHp6I9UFnVjiX6n5v9R/s=
+X-Google-Smtp-Source: AGHT+IGrLARHkUGJq9Q2W6bxU89hKvCHrWcDSrPfTkKyT5dvnMwRtvWfnQoMGyRh3CTYLPmJmLivXA==
+X-Received: by 2002:adf:ce09:0:b0:368:4b61:7197 with SMTP id ffacd0b85a97d-36b36442d82mr1673313f8f.24.1721921223537;
+        Thu, 25 Jul 2024 08:27:03 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:267:c2d:5abd:7ee6? ([2001:8b0:aba:5f3c:267:c2d:5abd:7ee6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42805730d5bsm40383915e9.8.2024.07.25.07.29.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427f94111c1sm84061705e9.40.2024.07.25.08.27.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 07:29:40 -0700 (PDT)
-Message-ID: <6cf212c600dc109e86e16cf3cf73adc9864deebf.camel@linuxfoundation.org>
+        Thu, 25 Jul 2024 08:27:03 -0700 (PDT)
+Message-ID: <297305874abd246270ce7084d22beee7486b3e70.camel@linuxfoundation.org>
 Subject: Re: [OE-core][PATCH v3 1/5] cve-check: annotate CVEs during analysis
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rybczynska@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>, Samantha Jalabert
-	 <samantha.jalabert@syslinbit.com>
-Date: Thu, 25 Jul 2024 15:29:39 +0100
-In-Reply-To: <20240724152530.25856-1-marta.rybczynska@syslinbit.com>
+To: mrybczynska@syslinbit.com
+Cc: rybczynska@gmail.com, openembedded-core@lists.openembedded.org, Marta
+ Rybczynska <marta.rybczynska@syslinbit.com>, Samantha Jalabert
+ <samantha.jalabert@syslinbit.com>
+Date: Thu, 25 Jul 2024 16:27:02 +0100
+In-Reply-To: <399979010dfd02323f49cbd25b95f606@syslinbit.com>
 References: <20240724152530.25856-1-marta.rybczynska@syslinbit.com>
+	 <6cf212c600dc109e86e16cf3cf73adc9864deebf.camel@linuxfoundation.org>
+	 <399979010dfd02323f49cbd25b95f606@syslinbit.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.0-1build2 
@@ -60,54 +63,27 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jul 2024 14:29:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202505
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jul 2024 15:27:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202506
 
-Hi Marta,
+On Thu, 2024-07-25 at 16:48 +0200, mrybczynska@syslinbit.com wrote:
+> On 25.07.2024 16:29, Richard Purdie wrote:
+> > Hi Marta,
+> >=20
+> >=20
+> > With the v3 series applied we did just see this on the autobuilder
+> > unfortunately so I'm not sure that problem is addressed:
+> >=20
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/7004/=
+steps/14/logs/stdio
+> >=20
+>=20
+> Hello Richard,
+> Thanks, this is unfortunate. Is it possible to have a copy of the=20
+> corrupted database somewhere?
 
-
-With the v3 series applied we did just see this on the autobuilder
-unfortunately so I'm not sure that problem is addressed:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/7004/step=
-s/14/logs/stdio
-
-
-ERROR: m4-native-1.4.19-r0 do_cve_check: Error executing a python function =
-in exec_func_python() autogenerated:
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_cve_check(d)
-     0003:
-File: '/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/classes/c=
-ve-check.bbclass', lineno: 191, function: do_cve_check
-     0187:            try:
-     0188:                patched_cves =3D get_patched_cves(d)
-     0189:            except FileNotFoundError:
-     0190:                bb.fatal("Failure in searching patches")
- *** 0191:            cve_data, status =3D check_cves(d, patched_cves)
-     0192:            if len(cve_data) or (d.getVar("CVE_CHECK_COVERAGE") =
-=3D=3D "1" and status):
-     0193:                get_cve_info(d, cve_data)
-     0194:                cve_write_data(d, cve_data, status)
-     0195:        else:
-File: '/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/classes/c=
-ve-check.bbclass', lineno: 379, function: check_cves
-     0375:            vendor =3D "%"
-     0376:
-     0377:        # Find all relevant CVE IDs.
-     0378:        cve_cursor =3D conn.execute("SELECT DISTINCT ID FROM PROD=
-UCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor))
- *** 0379:        for cverow in cve_cursor:
-     0380:            cve =3D cverow[0]
-     0381:
-     0382:            if cve_is_ignored(d, cve_data, cve):
-     0383:                bb.note("%s-%s ignores %s" % (product, pv, cve))
-Exception: sqlite3.DatabaseError: database disk image is malformed
-
-
+I think it is transient as we never clean it up and not all tasks fail.
+That seems to imply it is a race of some kind.
 
 Cheers,
 
