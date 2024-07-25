@@ -2,49 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F717C3DA64
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8D8C3DA49
 	for <webhook@archiver.kernel.org>; Thu, 25 Jul 2024 13:36:57 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.36514.1721914608051454555
+ by mx.groups.io with SMTP id smtpd.web11.36513.1721914607845511791
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jul 2024 06:36:48 -0700
+ Thu, 25 Jul 2024 06:36:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MvU7NCz2;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2DYLAd7l;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190ea1bc6ef-b38eb5c5-aa2d-4818-a641-fef0ad0a4305-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YNPNKQRU;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DayJUpJv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010190ea1bc542-d0e21631-c494-4fb6-b07a-cd935eb65dd9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1721914607; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=HpYxFHmLOCodP2WUw03v3uGxt5nvvf3ugVVaf3lgw8M=;
-	b=MvU7NCz2d6NF25ubRW3GTjsSg5xq1x6lFc7yHSaha0KDVHifqMbMOgQdbq53z8n8
-	tV5QkYqbXhXWOlaNA93kHDjdAYyKLUQcKZB6uE1qsH1LZzvS+8pBrYLPe1A6K0lNUOc
-	Ee4mmpfSUi1e9FLD1yTaEWorDf/ZmVP4/a3qH0r0=
+	bh=i/j9m36rlMXR0g5eJjfA1DbFIZHSOHQI9rIaRb4oicY=;
+	b=YNPNKQRUdYWVEeY26/2d12EfU5f0U42XJ2P/ec+PuSKZirbPtsS6LLpPIphGHqO5
+	SzoMmryy7F0qpFaYJ46tGBCrNk0DKtN+UOsuCvsOne3g2h345uzW9e6myLzYWaLGCS0
+	lxpUIS9tQDC4iaATLbAGUFXcW7Wu5qAWjGDt95LE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721914607;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=HpYxFHmLOCodP2WUw03v3uGxt5nvvf3ugVVaf3lgw8M=;
-	b=2DYLAd7leP63jPq2f/CrqQF7JUgRebUxl1goR8Oa69UsRJX3P1hpacW83t+iiyTB
-	ijVdNEYEmWVro1BTwoVxB44SbvLtq/ERt3FPH9P3aMIE1jAwLyf6XvTy0mXMqPauP39
-	td6xpSQqYXtXUWTl2ekLe8QZ/dNYfXJqMlRxAdRk=
+	bh=i/j9m36rlMXR0g5eJjfA1DbFIZHSOHQI9rIaRb4oicY=;
+	b=DayJUpJvrIfOFFuQDHJcGtpFdAceoCgBEnJbu39ihyU6vdvo+L3EP5IkNwDVL1A2
+	bEcltzAbrci5ZYFN7qaf+E3fVWi7sKEkN8QanXu8NrxmsWe+2di2xYbZoWuFFyFbPPy
+	xjFy4gDTyqIeR1JPutOWNA1v5/9e/OlSyuW3Xe6A=
 From: patchtest@automation.yoctoproject.org
 To: Jose Quaresma <quaresma.jose@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH v8 3/3] libssh2: fix ptest regression with openssh
- 9.8p1
-In-Reply-To: <20240725132313.2179033-3-jose.quaresma@foundries.io>
-References: <20240725132313.2179033-3-jose.quaresma@foundries.io>
+Subject: Patchtest results for [OE-core][PATCH v8 2/3] openssh: upgrade 9.7p1 -> 9.8p1
+In-Reply-To: <20240725132313.2179033-2-jose.quaresma@foundries.io>
+References: <20240725132313.2179033-2-jose.quaresma@foundries.io>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190ea1bc6ef-b38eb5c5-aa2d-4818-a641-fef0ad0a4305-000000@us-west-2.amazonses.com>
-Date: Thu, 25 Jul 2024 13:36:47 +0000
+Message-ID: <01010190ea1bc542-d0e21631-c494-4fb6-b07a-cd935eb65dd9-000000@us-west-2.amazonses.com>
+Date: Thu, 25 Jul 2024 13:36:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.07.25-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 25 Jul 2024 13:36:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202502
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202501
 
 --NextPart
 Content-Type: text/plain
@@ -54,33 +53,33 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/v8-3-3-libssh2-fix-ptest-regression-with-openssh-9.8p1.patch
+Testing patch /home/patchtest/share/mboxes/v8-2-3-openssh-upgrade-9.7p1---9.8p1.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
 PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
 PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
 SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
 SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
 ---
 
