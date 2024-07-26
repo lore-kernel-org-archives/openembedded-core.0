@@ -2,59 +2,59 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF189C3DA7E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED494C3DA4A
 	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 15:59:29 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.64870.1722009568027530294
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.64185.1722009566921392054
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jul 2024 08:59:28 -0700
+ Fri, 26 Jul 2024 08:59:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JPSa+tiQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-367ab76d5e1so1061255f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 08:59:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UpOOF8IG;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-367990aaef3so1484529f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 08:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722009566; x=1722614366; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1722009565; x=1722614365; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pw3ORyn9L4lB/5Cj4QABCSGww/mtfwxWXp9HgjyxvZA=;
-        b=JPSa+tiQ/Pfdoc+18ljcvm4ORgo5aoBbjURRpz1fv3Y/IiWCTSyk17QzaYuuutguP8
-         Ak8lLJxOMRV6iwh+IAp5GdYdPed+WbjmDdjFShulVp05azyaLDp55Yt8k286H9zquJfE
-         QkoVb/P9k9PLVYt5o8zaQV+D+76vhA/UiUzT7BOjMkhOuVCIWYEPiXxyRPqeOjJ2Qkiq
-         BANLPSQopxEPVboodUoys/cI73w+pkb24o0kGwPc3sGgk234Z7zwtRbdEP0WJuBozfCm
-         EFDJb7To/HZlykiMyAHzR76p3DxLJ6iRGY4xfYgGY9uwesGFJv/wQlMVlQ1CZ2zbVJ/J
-         DM1A==
+        bh=D2OzvVaqoK7+c093/bycTe7vNFMNL/hi+ezAIRVF0Uc=;
+        b=UpOOF8IG1mcOyTxg0BP1Xq4F2Z5wzanO4eSYcQeqbDANJIlMVFlFK+/5/6m3wo1LBC
+         ATXxtqWfNdpwjhUNQf8jn0dOn7lmTXD8g0Vg1YPAnFmZAkIEl53o2YaH8dEtGBmi/R3a
+         wbeIDQc0otfVG8M4h3dHCXD+hZygoxVFrp81ALpYTpF2u+XDxB1sCesFH84HXMvzZxC7
+         rLneiI9UeiDul6VGW1m1WJ1B1XINOqJIyfhxQG721TMoZ8GYJpOW7F/mAhAladi3lllw
+         j7wwnGAMSOzLsGa3xEU1cwnobN2TD3BD1QNuJGFNkzw1UPBbdrppii9Q8hAd2LAsGRV+
+         D50w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722009566; x=1722614366;
+        d=1e100.net; s=20230601; t=1722009565; x=1722614365;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Pw3ORyn9L4lB/5Cj4QABCSGww/mtfwxWXp9HgjyxvZA=;
-        b=hmpulfzsg6IRsDF6Vffzodqh0p49YCq1fOcz3Z6xwOvcisJcu1yYV/vCO3jdgEeIyz
-         YVk3pgt9/lMkktYbumoiR/Nja/nJdBoDNXGMyrS3wlohYFUgP1uxQcpK6Y7ae989rKfD
-         IgxUftZmtPVtidzLOO71nWvqJh+npQNWF6/UAuglJkT+tCmk28LAl9vyEE18As3pZgU6
-         tfrIN+MnCGjcWTUOWfjtuCYl8KX8eB4eYnBOxR3ToCecHvXraZ1FdygXysoUK9n1jAD8
-         ZJHyQrwqJvXNifaZFfCJY+zbmPmBcO+j7QQDgaDcc6IfdJCKaQMFHC7rBR4ayQ2UtDBH
-         LUCA==
-X-Gm-Message-State: AOJu0YzsKSWfcm0zArPCrBgwZWIz4Z473Vi+XbuxeBQAFRM8y24XOPyN
-	R8ErMiTzVf/mz2hyDNf10h2i9i2/V2UelKYpRMTBd3TMvzBzzw1VRdvCYg==
-X-Google-Smtp-Source: AGHT+IGwVV+b9upo6ZuiD4Lt7zK6t0zmijLGOZCy0TJhBi0QBe7Rush/Vd4AW+yfuxV5L9RtjaD/Eg==
-X-Received: by 2002:a05:6000:100e:b0:360:7971:7e2c with SMTP id ffacd0b85a97d-36b5d0af196mr67460f8f.54.1722009566003;
-        Fri, 26 Jul 2024 08:59:26 -0700 (PDT)
+        bh=D2OzvVaqoK7+c093/bycTe7vNFMNL/hi+ezAIRVF0Uc=;
+        b=Ce510E7P6nlKZBE/09KLxmQeYxt4PjMPKoD+1+UU8xJvVrlwndcx+ecSU7KppU3C9k
+         D5Jm/ZXib12Z1DZASrVBiOT3jefcohhe2C8y2jj7wuRQDsykEgESBrPBT10K9Ubek+10
+         7UcJlkOozjcot0pHpMoAel39C6h9YJdTg8ttXUdQ8D15zXqwuoPKWNbOCRolAdE2LIOD
+         vhSE3Fz1V9Ygo4VxVx1nCaoGHWObWtPtgxqDYHoJwZ/pCOm+gSktjnVRESjxTjlRldb6
+         65mgfYakvgFE1XOfLVAfGAj2kLMZOSTccJA8TiEVEdJiBP2thuDarPIVjYvyAJxLGy0K
+         yYEg==
+X-Gm-Message-State: AOJu0YycnP3qHjcKk4iqiHNQiXiDU6/757WQ8Fv44+SaE26GNOePXlz2
+	Heyrq9M+X34mobt+X1vhUgzNzXQyVTNKUsDQhixW6ieARlRwhQYXWKRTKA==
+X-Google-Smtp-Source: AGHT+IHcLP1tF3/Dopm29xFXWomWCOMqH4cU3POiIidzmT/NgBaz/o1gn1bLrV/XMMW6sS+tu1vcqg==
+X-Received: by 2002:a05:6000:18a4:b0:369:be6e:1596 with SMTP id ffacd0b85a97d-36b5d03cb1dmr116470f8f.33.1722009564950;
+        Fri, 26 Jul 2024 08:59:24 -0700 (PDT)
 Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e49bdsm5535308f8f.44.2024.07.26.08.59.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e49bdsm5535308f8f.44.2024.07.26.08.59.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 08:59:25 -0700 (PDT)
+        Fri, 26 Jul 2024 08:59:24 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>,
 	Jose Quaresma <jose.quaresma@foundries.io>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][scarthgap][PATCH 3/4] openssh: systemd sd-notify patch was rejected upstream
-Date: Fri, 26 Jul 2024 16:48:37 +0100
-Message-ID: <20240726154838.1731195-3-jose.quaresma@foundries.io>
+Subject: [OE-core][scarthgap][PATCH 2/4] openssh: drop rejected patch fixed in 8.6p1 release
+Date: Fri, 26 Jul 2024 16:48:36 +0100
+Message-ID: <20240726154838.1731195-2-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240726154838.1731195-1-jose.quaresma@foundries.io>
 References: <20240726154838.1731195-1-jose.quaresma@foundries.io>
@@ -64,41 +64,164 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 15:59:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202547
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202546
 
 From: Jose Quaresma <quaresma.jose@gmail.com>
 
-Still side effects of the XZ backdoor.
+The rationale [1] is that C11 6.5.6.9 says:
+"""
+When two pointers are subtracted, both shall point to elements of the
+same array object, or one past the last element of the array object; the
+result is the difference of the subscripts of the two array elements.
+"""
 
-Racional [1]:
+In these cases the objects are arrays of char so the result is defined,
+and we believe that the compiler incorrectly trapping on defined behaviour.
 
-License incompatibility and library bloatedness were the reasons.
-Given recent events we're never going to take a dependency on libsystemd,
-though we might implement the notification protocol ourselves if it isn't too much work.
+I also found https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63303
+("Pointer subtraction is broken when using -fsanitize=undefined") which seems to support this position.
 
-[1] https://github.com/openssh/openssh-portable/pull/375#issuecomment-2027749729
+[1] https://bugzilla.mindrot.org/show_bug.cgi?id=2608
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c3403bb6254d027356b25ce3f00786e2c4545207)
+(cherry picked from commit cf193ea67ca852e76b19a7997b62f043b1bca8a1)
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- ...001-systemd-Add-optional-support-for-systemd-sd_notify.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...igned-overflow-in-pointer-arithmatic.patch | 111 ------------------
+ .../openssh/openssh_9.6p1.bb                  |   1 -
+ 2 files changed, 112 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-index acda8f1ce9..f7a1d12e8d 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
- This is a rebase of Dennis Lamm's <expeditioneer@gentoo.org>
- patch based on Jakub Jelen's <jjelen@redhat.com> original patch
- 
--Upstream-Status: Submitted [https://github.com/openssh/openssh-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
-+Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
- 
- Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
- ---
+diff --git a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
+deleted file mode 100644
+index 20036da931..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
++++ /dev/null
+@@ -1,111 +0,0 @@
+-From 3328e98bcbf2930cd7eea3e6c92ad5dcbdf4794f Mon Sep 17 00:00:00 2001
+-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+-Date: Wed, 24 Aug 2016 03:15:43 +0000
+-Subject: [PATCH] Fix potential signed overflow in pointer arithmatic
+-
+-Pointer arithmatic results in implementation defined signed integer
+-type, so that 's - src' in strlcpy and others may trigger signed overflow.
+-In case of compilation by gcc or clang with -ftrapv option, the overflow
+-would lead to program abort.
+-
+-Upstream-Status: Submitted [http://bugzilla.mindrot.org/show_bug.cgi?id=2608]
+-
+-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+-
+-Complete the fix
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- openbsd-compat/strlcat.c | 10 +++++++---
+- openbsd-compat/strlcpy.c |  8 ++++++--
+- openbsd-compat/strnlen.c |  8 ++++++--
+- 3 files changed, 19 insertions(+), 7 deletions(-)
+-
+-diff --git a/openbsd-compat/strlcat.c b/openbsd-compat/strlcat.c
+-index bcc1b61..124e1e3 100644
+---- a/openbsd-compat/strlcat.c
+-+++ b/openbsd-compat/strlcat.c
+-@@ -23,6 +23,7 @@
+- 
+- #include <sys/types.h>
+- #include <string.h>
+-+#include <stdint.h>
+- 
+- /*
+-  * Appends src to string dst of size siz (unlike strncat, siz is the
+-@@ -42,7 +43,7 @@ strlcat(char *dst, const char *src, size_t siz)
+- 	/* Find the end of dst and adjust bytes left but don't go past end */
+- 	while (n-- != 0 && *d != '\0')
+- 		d++;
+--	dlen = d - dst;
+-+	dlen = (uintptr_t)d - (uintptr_t)dst;
+- 	n = siz - dlen;
+- 
+- 	if (n == 0)
+-@@ -55,8 +56,11 @@ strlcat(char *dst, const char *src, size_t siz)
+- 		s++;
+- 	}
+- 	*d = '\0';
+--
+--	return(dlen + (s - src));	/* count does not include NUL */
+-+        /*
+-+	 * Cast pointers to unsigned type before calculation, to avoid signed
+-+	 * overflow when the string ends where the MSB has changed.
+-+	 */
+-+	return (dlen + ((uintptr_t)s - (uintptr_t)src));	/* count does not include NUL */
+- }
+- 
+- #endif /* !HAVE_STRLCAT */
+-diff --git a/openbsd-compat/strlcpy.c b/openbsd-compat/strlcpy.c
+-index b4b1b60..b06f374 100644
+---- a/openbsd-compat/strlcpy.c
+-+++ b/openbsd-compat/strlcpy.c
+-@@ -23,6 +23,7 @@
+- 
+- #include <sys/types.h>
+- #include <string.h>
+-+#include <stdint.h>
+- 
+- /*
+-  * Copy src to string dst of size siz.  At most siz-1 characters
+-@@ -51,8 +52,11 @@ strlcpy(char *dst, const char *src, size_t siz)
+- 		while (*s++)
+- 			;
+- 	}
+--
+--	return(s - src - 1);	/* count does not include NUL */
+-+        /*
+-+	 * Cast pointers to unsigned type before calculation, to avoid signed
+-+	 * overflow when the string ends where the MSB has changed.
+-+	 */
+-+	return ((uintptr_t)s - (uintptr_t)src - 1);	/* count does not include NUL */
+- }
+- 
+- #endif /* !HAVE_STRLCPY */
+-diff --git a/openbsd-compat/strnlen.c b/openbsd-compat/strnlen.c
+-index 7ad3573..7040f1f 100644
+---- a/openbsd-compat/strnlen.c
+-+++ b/openbsd-compat/strnlen.c
+-@@ -23,6 +23,7 @@
+- #include <sys/types.h>
+- 
+- #include <string.h>
+-+#include <stdint.h>
+- 
+- size_t
+- strnlen(const char *str, size_t maxlen)
+-@@ -31,7 +32,10 @@ strnlen(const char *str, size_t maxlen)
+- 
+- 	for (cp = str; maxlen != 0 && *cp != '\0'; cp++, maxlen--)
+- 		;
+--
+--	return (size_t)(cp - str);
+-+        /*
+-+	 * Cast pointers to unsigned type before calculation, to avoid signed
+-+	 * overflow when the string ends where the MSB has changed.
+-+	 */
+-+	return (size_t)((uintptr_t)cp - (uintptr_t)str);
+- }
+- #endif
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index 8bc4f4269a..c71245b6c0 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -22,7 +22,6 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://sshdgenkeys.service \
+            file://volatiles.99_sshd \
+            file://run-ptest \
+-           file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
 -- 
 2.45.2
 
