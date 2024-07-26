@@ -1,264 +1,235 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <sundeep.kokkonda@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56045C3DA70
-	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 13:24:29 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.61346.1722000261299406189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 492EEC3DA70
+	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 13:36:29 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.60905.1722000985715824579
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jul 2024 06:24:21 -0700
+ Fri, 26 Jul 2024 06:36:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BHt+dDeG;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: rybczynska@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2cd2f89825fso718277a91.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 06:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722000261; x=1722605061; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BL/Gshc2G6QGSjLFqBbe6MZaDwB0B17Ctmu9djkCAqg=;
-        b=BHt+dDeG0xy/sNk+aaS5hjuWyXWkuMm9gC4QIWjzncSGI4+b+KAb/JaxcOfiznNJ2y
-         /HxsvmKLhnU1+p6HGPQANJ6sU30ox7J0/VtVRBVDCBqTOSga2aWqqmp5kS50J5jy/qq2
-         xhebRcGvzmne8oIMMcihe29lGCNa4tFVKPl1zcK5MZhnhvya2eub3FZ8txxjPLq2YKId
-         xc50wAu3KK5lkd5x/0u/5XtWMLZ2OgD7BKkjU2dIvn6TW2N4XAR6GA2ctfThhzk01yC8
-         8dCWC7xU7lUB33oe/TtAkcTDe5UNK1Ym+sKsZ4Qnhg1jz64f2VqbxMFv/+ZUWF38okZH
-         BlVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722000261; x=1722605061;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BL/Gshc2G6QGSjLFqBbe6MZaDwB0B17Ctmu9djkCAqg=;
-        b=IB7tgyLAdv2zthXDxJqYmc866NwsvnNcZEB1qxZL4ANzX48caJrYOomKjcnOQ4Mjxo
-         hes4X1NmGgedZTcitux93pi4y/2B1TbE9cUgpVMpCgx/wLlvjLvq7NrlULbQVTeGpzuA
-         DqXbW7tSZhmrDlVREIKwPfbJhHwm86uSIAsNnqOhJFbvim0WwbHRHT5sBub5BmDwF4oH
-         O7b2ptrnDXoL3Dz5yD7fqbU1PtZ+bTlJN3h0VfimnjSJkFvHaG31kEoAQpoSP6y8pDCi
-         wcZlbM/VM6YmjymS5XCOMkQGIRydr/LKf+aML7IJTr0JFRND32Oxc6mxvT/hRmYJJ3Kw
-         eJKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVwmMEV/are/moOCOtZkkU0Pyt6LpBhwTD+y4qzp7VhPvfNXd7puzePRLHrPncBKaOghjV43S0KH//oX+xC2qFTt9NU1C5hLIC7LCFVZGxdoqVURuzO2hDC
-X-Gm-Message-State: AOJu0YwfNnyE0d9jTH27O5l4RrM5lbE5uoKX3M4XKTmX3jBoSmwwuoow
-	EEBUi+ghbQGihhlhi8/08HycDVL8hzkHrEmntbuTyWUcTQWCzPnuXkbiofa/FB/iMYurbvYM43M
-	Ns26dnI1vFtsFpzykoIZvFj5+FtA=
-X-Google-Smtp-Source: AGHT+IEqZOQDWHb4atCYxAy6QGUBa6gYAbpuK9aYksJzVAwgGreMavKxGtw/+L2gRPYqlyjRDdWXpkuPSg+7pYZCqUU=
-X-Received: by 2002:a17:90b:3009:b0:2c4:dcf6:2130 with SMTP id
- 98e67ed59e1d1-2cf2eb21043mr5514547a91.32.1722000260601; Fri, 26 Jul 2024
- 06:24:20 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7937a08148=sundeep.kokkonda@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46QBDdvR002715
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 06:36:25 -0700
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2045.outbound.protection.outlook.com [104.47.55.45])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40kcbthn0g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 06:36:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iCSywTEi2r6OSDPWbQsthzCom5E7w+gtYrLax2R29JvMrkhRykXBH1bYCFpAAOzZWTXFeJLepdhatr39lEjBIdEITvP8MGj4YA4YupuQUZwRN7iAEmGSFvUROUoqYNh6qFO2sLtnELKGIZLWJFSg9EHlZFPaNDkLUs2yELqVojnyIU5ZMb7+nYBPOcR3zmZx4ZEqNCwW4VX6iFNc4H4D+p9Zzx5I3C8ceEhs6Bb90Xx7qxcfSwnwW1+rOvIh6Im1Yd0AupAMOhFrRKJTpq5Q+Y8Rzw6Cm5fg/fcdS5WVYHpV2oWG3SJM14SnGIamkQGaAmSQT9VRtnygdrbKS9HcCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wE4SNxOb3JFNWmioFNEAw+n5FOVLWEyNrY35tVqH8ZI=;
+ b=aPqoeP+nVwcZDP1EU7G8pxAyQ/NBsstmv5KW4Lz6fxiys6cuJlltEMIw1RoY3xahnBtwy9bB+Ns/Kut1ONNcYIVJ69dFfGF8Z6jzrs2PijQGF17izxZ48Hbeuj0uDvz330Acemu1+pbWnVi5e7CYBE+aeac6OrEFoRkXdgQg9rdDDZ4RAuKZ3tSVaN8RL8cVVBr9OOPJ9M652US37A2n7b3S6VQyVk+OqCsA3vDsqxKGCuJyCBPZWlKZRZ9mrBNInoBp6AKjSQRTIen90pwlrOvzX4Mm5yGGToTjFpwSTuvLFrTeaLJQoxR2N+gkKEEXx4QIGQ+52+MARv3tD1umvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM3PR11MB8683.namprd11.prod.outlook.com (2603:10b6:8:1ac::21)
+ by CO1PR11MB4833.namprd11.prod.outlook.com (2603:10b6:303:99::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.29; Fri, 26 Jul
+ 2024 13:36:23 +0000
+Received: from DM3PR11MB8683.namprd11.prod.outlook.com
+ ([fe80::5769:9201:88f6:35fa]) by DM3PR11MB8683.namprd11.prod.outlook.com
+ ([fe80::5769:9201:88f6:35fa%6]) with mapi id 15.20.7784.017; Fri, 26 Jul 2024
+ 13:36:22 +0000
+From: sundeep.kokkonda@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com, naveen.gowda@windriver.com,
+        shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com,
+        deepthi.hemraj@windriver.com, harish.sadineni@windriver.com
+Subject: [PATCH] rust: rustdoc reproducibility issue fix
+Date: Fri, 26 Jul 2024 06:35:59 -0700
+Message-ID: <20240726133559.1124668-1-sundeep.kokkonda@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0146.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::31) To DM3PR11MB8683.namprd11.prod.outlook.com
+ (2603:10b6:8:1ac::21)
 MIME-Version: 1.0
-References: <20240724044505.3345411-1-dnagodra@cisco.com> <AS1PR10MB56974EC49B3D514BA1AB549CFDAA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <SN7PR11MB6971246F61B1A502B2D20391D4AA2@SN7PR11MB6971.namprd11.prod.outlook.com>
- <f54a3d6f471e2e612e693e79d0ef351d6274357d.camel@linuxfoundation.org>
- <CAApg2=Q2pLxPL0EXH1URPBACknO9Gz0R1Ux_mK8Lp3p5H5zvpA@mail.gmail.com>
- <078214f14849ba7ca8f5017ebdeed1dc66cf91c8.camel@linuxfoundation.org> <SN7PR11MB69711F1E679AA519A862338AD4AB2@SN7PR11MB6971.namprd11.prod.outlook.com>
-In-Reply-To: <SN7PR11MB69711F1E679AA519A862338AD4AB2@SN7PR11MB6971.namprd11.prod.outlook.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Fri, 26 Jul 2024 15:24:08 +0200
-Message-ID: <CAApg2=RRt6T6JN4=eomMx4s1cvL8S6r+-asr7D5qFRPR+j4erw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cve-check-map: Move 'upstream-wontfix' to
- "Unpatched" status
-To: "Dhairya Nagodra -X (dnagodra - E-INFO CHIPS INC at Cisco)" <dnagodra@cisco.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"Marko, Peter" <Peter.Marko@siemens.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>
-Content-Type: multipart/alternative; boundary="000000000000d6216a061e266d76"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR11MB8683:EE_|CO1PR11MB4833:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0d9843d-5aa9-45ec-3348-08dcad77f06f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|1800799024|366016|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?4ZR8rfSzx1ZK/xTOChjF9ObozQfaVQEjgUcqqg2aU7mxCmrkLmlHvLM5ttHw?=
+ =?us-ascii?Q?hgQ7TrrRX+UX8O61zysq0tURYpRUPUhvH5HErL5oqgxvR/XvL3bTyH8/n+f8?=
+ =?us-ascii?Q?gHyg86mG6O2brJJ76kyHYj38974Zbj/oU/vfz5u2gJ3lK7N7Jpev2KaahYhE?=
+ =?us-ascii?Q?afmBfa/U0tJ314GdPj72YMkjwNclvIkSToxyd0muoJYt+Qt+A20Mb8OZ62EQ?=
+ =?us-ascii?Q?7yAiNMBaeIjvEYnlrB4/6dxyOYAyoJNzusdS87W6+bCF7LOLbGC3b6hYZOo6?=
+ =?us-ascii?Q?oCMKbf3oahpiLXsZbAUdMaiW3RCe4m7yFPdkr7YyLXB90uIMSKI2fuL5r8AP?=
+ =?us-ascii?Q?11iZzqhPv0/Qm/zsN/Ro1jIDkvygM9TtlUojKYNmWrV9uj8O4KxoMf/eUw2j?=
+ =?us-ascii?Q?g+Z4/w7/V5raUINGDVjVt1OBPcy/e0k/UjT1YFkhjItDdRJNtF3duklEQyis?=
+ =?us-ascii?Q?h5ralfLg6uzYACrvO4TNh33YN0V/Mh6jnuDOz7id2hoC8LtfJzGzCyDOk2HG?=
+ =?us-ascii?Q?EuEXZKK3EzSepL4FLjKr/ps8DIEd7gRsj91jWF7xP7d8FGlNTSKRDy2Jot2A?=
+ =?us-ascii?Q?hfAbKwRvg1/4hEUjZnhf8oeh98zHYzanz2N4poNexlwpUvAQLUvj9ZQXThJg?=
+ =?us-ascii?Q?YPbFeY+xUrwzBoRUTcKLihQmGFjmfFBfFkzsXD126BJXZFmR9OtcsjTu2evy?=
+ =?us-ascii?Q?PpHT7IFYGmRQTkxFY+5aeVZBvF2ayIvqXeWICY2kruhRg8cwrFWyOppc3tIC?=
+ =?us-ascii?Q?DgTvRHd/k8nW8AChOMRyvYacTCKWLLEqZ6EzPt8wZsJKOMfrSERuTjv83tTU?=
+ =?us-ascii?Q?Deqb2V8m/zs8lupRsDEgpcuh4neHZxXRcoLld7I2eVcu8803P2vlQYCbph7y?=
+ =?us-ascii?Q?1P90RRzoeGfP4oUtoAPoJGsYHXGwfjoBMHID92p/cQBcHLYSJtvxx9y0zXQ+?=
+ =?us-ascii?Q?5VJVyokZn0ARzL0qSy+PyXarZSAHhLvF8f+3fZ3/VLn0igB/7fsJ4EojDQrP?=
+ =?us-ascii?Q?pyCxw7n2lmdF0gx2wlGWL/YjFcaAiEStnOPpTIIb9jdF0Mx5esb71RJxvKQr?=
+ =?us-ascii?Q?guQaDDT21HpZqjCbS4cYMt7g08f2zVc3WP7kye3OyPx5v7Qt4Bn8YoIhTXyc?=
+ =?us-ascii?Q?lB8wJSyUsc2RG3zKCiemIHrJcFNNswm+4nPCb8qgfKkyE/BbMMporCvx9xyf?=
+ =?us-ascii?Q?koV6lG6NRMBr6QrBNccVmFPBEkEL97pYVI6PtIiORb82Mqf3+bQrKwo+wOey?=
+ =?us-ascii?Q?7w7gXrnMu80y8CJ9MhIIx4bIn2ok/ecy+Lz3y9HZnL69QOTLIu0QaXA+Fp0J?=
+ =?us-ascii?Q?ctmCiTVUUalVxVPiCpeqmj8BXBu3nbcIM+bhUlvOql1yFUjl+4TrWGyX1kjk?=
+ =?us-ascii?Q?e1OsklA=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR11MB8683.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(366016)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?/mNKmXTfOYrKQbJ8JbqpbZ8iUSX3Cn1MVOLs/uNCbz+sRm2hHjryYftCk+Fq?=
+ =?us-ascii?Q?8EHhweMwzIvq8H82G83hZRg6fQrEkOqHzlKKnVg612o8IRx+ci8MWwL+VxkU?=
+ =?us-ascii?Q?0Qf6+r4G0ldx+3Z/U6nUVGb7WcZz+sWyuYubyVPTpCqh1uACKmH4v1BtvYRe?=
+ =?us-ascii?Q?/fMOgbUQqKeAO1+1aJvUzDE+dqz6+a1ZDEIb0t2wZLZr/oVxTEmzkU7AzHmF?=
+ =?us-ascii?Q?XIv5jjvRBql3TSrG5FUGxGqCV57I+sl7ltKfRnBqh+aSMoemplP9Bcr9dFpp?=
+ =?us-ascii?Q?2sOFQQB3sqFNswVbIDiUpH6MP9wq0lZ4p2hfcXY/kuXc3qK6iq3jxk93WJ8f?=
+ =?us-ascii?Q?ceKFPwG5Sh4F0hYw5f5L9EOXGQvTokwsFVNexji9mmso9o29+i/6/x57+obu?=
+ =?us-ascii?Q?Goz7dt6Lnje89bWeN4qChxftaZIk2yqhTw5Yj68+yBcYfly1rH85mbM4zQwP?=
+ =?us-ascii?Q?117oa/RSDSajXVwS+89S3Cp8RsScvMcoNeC5/qe4por9/NZFt+/ks+fOK6s4?=
+ =?us-ascii?Q?8oYFAvA6Pes8IrKqCqRSi7nCu7atqTVhIvT6o0DpJB2gx3kv68mJ9ARp+gu0?=
+ =?us-ascii?Q?LhTHKfGKOV88/p8ep86ar629m8mRvO5gsULRIoMcfWWTjCwAWTE6BTd5qEP0?=
+ =?us-ascii?Q?fmD7lZvh7kXklY/cuwe37Y4mbFOt8ayT3KQA61GqPj4XYpHjYM2AxjDe+F1z?=
+ =?us-ascii?Q?0PU6SuEOEbzKdKy/Tqjn1DuBsyGRnQgQLwGcrUx0bUbuR45jiJqoW5mV7Pem?=
+ =?us-ascii?Q?jk6uEDIUtIRG4BZfezYEBedkge1pZZNFUGF0sfRX1+tITRLnDK4C/ty4wrfl?=
+ =?us-ascii?Q?tMQY/o+VCgWAKDr6C0/wSQFiCnakq9sNNyvIeXBx45/lZfl76aLSySEOA63C?=
+ =?us-ascii?Q?YzrMwGeJOo79YRxyqmSASiGqw1ITxlBFxRM1ehY++TnKKOZ/yvehxw9tbf9k?=
+ =?us-ascii?Q?XdY3UK91J3aa/Vdr7dTFjYu6XrqGMq8OXwWSz3NMPNula1+OOvvQ3owa4jxq?=
+ =?us-ascii?Q?r808EiIIy+ym7ALdauLfkI9QwDNlRON4HiLDEEWBr46CLyfEHHe7XuBz4ExM?=
+ =?us-ascii?Q?pgYCtPsK6Jf+ef7FVSzrzZ9onCzcBgzE5zXx3Lyib6w1veDak9QIbaIOiiEe?=
+ =?us-ascii?Q?oSh3oUSUqH2YqWrJkO8Tdpypsm6KGiBDd7uwbsglGlL/qZPd2gfATFg0ssRs?=
+ =?us-ascii?Q?Wg5gWaPWL5rFgO0dzJTJLJxHOIW7YSr1+oefOBfc/hCYZMTiKeEciV93XFbQ?=
+ =?us-ascii?Q?/En93S5q9kYDqeJVt7Ndizdcin5epQYq2lV6gTUGRAG8dokfddjh5xWHqEUR?=
+ =?us-ascii?Q?jRn9neGshbHzjh6FV7OCLDu4EmzI6wdjBZQ3Trjx3dcUqscnICbb5sRZ5f30?=
+ =?us-ascii?Q?cW5XkegxIyEnoh8vBgzvCfM0iAVq1tx6UTa/3vj7UfNDPXt6b/qQGddIKKuy?=
+ =?us-ascii?Q?AjfAOj0uUFTDvC8oRg6h/QCjtiPfrWm1FwwRpxC2z8kCH022VlfYqtqtbEAB?=
+ =?us-ascii?Q?9iYlaaz5wmQZBWEUrwPCkSzGuD4vyqxflwQ985a8jw8mvzFUQYj7Q+Cj5eFG?=
+ =?us-ascii?Q?vHqvJcaR+Q1EGdlo3vb6M9jLKOldrVgIzHPN+Tg9lVISLy4UXu9cU4zLBANB?=
+ =?us-ascii?Q?vJylBploaSZm9GLvf476Wxc=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0d9843d-5aa9-45ec-3348-08dcad77f06f
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR11MB8683.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2024 13:36:22.7736
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IVlImInjLw74EwtZM8tt8iZ9HTBBvKFwAcUWZnasVM/Agb4aZZSYgFi3irmuzG0xjELjWB/A7yRZgHbwxs4mkG1SYCH/TKyRGGIQHo/sf3s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4833
+X-Proofpoint-ORIG-GUID: HCAq_1W2jFc2hlnasKIdfCPXB0V3Ifkc
+X-Proofpoint-GUID: HCAq_1W2jFc2hlnasKIdfCPXB0V3Ifkc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-26_11,2024-07-26_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ impostorscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=653 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2407110000 definitions=main-2407260092
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 13:24:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202539
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 13:36:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202540
 
---000000000000d6216a061e266d76
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
 
-On Thu, Jul 25, 2024 at 7:50=E2=80=AFAM Dhairya Nagodra -X (dnagodra - E-IN=
-FO CHIPS
-INC at Cisco) <dnagodra@cisco.com> wrote:
+The 'codegen-units' option split the crate into multiple compilation units for parallel compilation. Currently, this split is causing the rustdoc to generate differnt binary between the builds.
+To fix this the codegen-units & the lto options are disabled.
 
->
->
-> >-----Original Message-----
-> >From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >Sent: Thursday, July 25, 2024 3:44 AM
-> >To: Marta Rybczynska <rybczynska@gmail.com>
-> >Cc: Dhairya Nagodra -X (dnagodra - E-INFO CHIPS INC at Cisco)
-> ><dnagodra@cisco.com>; Marko, Peter <Peter.Marko@siemens.com>;
-> >openembedded-core@lists.openembedded.org; xe-linux-external(mailer list)
-> ><xe-linux-external@cisco.com>
-> >Subject: Re: [OE-core] [PATCH] cve-check-map: Move 'upstream-wontfix' to
-> >"Unpatched" status
-> >
-> >On Wed, 2024-07-24 at 18:10 +0200, Marta Rybczynska wrote:
-> >> On Wed, Jul 24, 2024 at 10:46=E2=80=AFAM Richard Purdie via
-> lists.openembedded.org
-> ><richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> >> >
-> >> > This is far from straightforward unfortunately.
-> >> >
-> >>
-> >>
-> >> I agree and also agree with Dhairya. We are facing the same issue
-> within the
-> >VEX work.
-> >> And this is going to come back in the context of the CRA.
-> >>
-> >> >
-> >> > Some people are using these lists as "are there any issues we need
-> >> > to worry about?".
-> >> >
-> >> > In that context, if an upstream has assessed a CVE and decided
-> >> > nothing need be done about it, our decision to "ignore" it is
-> >> > correct as there is nothing to be done.
-> >> >
-> >>
-> >>
-> >> The project might have decided not to fix for multiple reasons. Some
-> >> of them may be good, some not.
-> >>
-> >> I do not completely agree that there is nothing to be done. We might
-> >> decide to use a configuration option that disables the vulnerable
-> >> feature. In this case there is an appropriate status to put. We can do
-> >> an in-depth analysis and figure out if the vulnerable code can be
-> >> reached in our configuration. If not, there is an appropriate status t=
-o
-> put.
-> >
-> >I'm working on the assumption that if either of those two things were th=
-e
-> case,
-> >we'd have done them in preference to the wontfix status. The wontfix
-> status is
-> >the last resort where upstream disagrees there is an issue or that the
-> issue is
-> >an actual problem.
->
-> As per my understanding, we have 'disputed' status for the above mentione=
-d
-> scenarios.
-> (Where upstream disagrees, or they don't consider issue a problem)
->
-> Below is the snippet from the current cve-check-map.conf
-> # use when upstream does not accept the report as a vulnerability (e.g.
-> works as designed)
-> CVE_CHECK_STATUSMAP[disputed] =3D "Ignored"
-> # use when upstream *acknowledged* the vulnerability but does not plan to
-> fix it
-> CVE_CHECK_STATUSMAP[upstream-wontfix] =3D "Ignored"
->
+More info about options:
+https://doc.rust-lang.org/cargo/reference/profiles.html#codegen-units
+https://doc.rust-lang.org/rustc/codegen-options/index.html#lto
 
-upstream-wontfix and disputed is far from the same thing at the CVE
-Programme level.
-"disputed" is a flag of the CVE entry (at least for the most recent ones)
-and it will be
-possible to attach it automatically. However, it still means a vendor
-analysis is needed
-to decide which side of the dispute you agree with...
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+---
+ meta/lib/oeqa/selftest/cases/reproducible.py  |  2 --
+ ...ue-fix-cargo-config-for-codegenunits.patch | 26 +++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |  1 +
+ meta/recipes-devtools/rust/rust_1.75.0.bb     |  1 +
+ 4 files changed, 28 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/rust/files/rustdoc-repro-issue-fix-cargo-config-for-codegenunits.patch
 
-Kind regards,
-Marta
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 5460f158e5..3d3f30eebc 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -16,8 +16,6 @@ import os
+ import datetime
+ 
+ exclude_packages = [
+-       'rust-rustdoc',
+-       'rust-dbg'
+ 	]
+ 
+ def is_excluded(package):
+diff --git a/meta/recipes-devtools/rust/files/rustdoc-repro-issue-fix-cargo-config-for-codegenunits.patch b/meta/recipes-devtools/rust/files/rustdoc-repro-issue-fix-cargo-config-for-codegenunits.patch
+new file mode 100644
+index 0000000000..0aab8772eb
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/rustdoc-repro-issue-fix-cargo-config-for-codegenunits.patch
+@@ -0,0 +1,26 @@
++rust: rustdoc reproducibility issue fix
++
++rust: rustdoc reproducibility issue fix
++
++The 'codegen-units' option split the crate into multiple compilation units for parallel compilation. Currently, this split is causing the rustdoc to generate differnt binary between the builds.
++To fix this the codegen-units & the lto options are disabled.
++
++More info about options:
++https://doc.rust-lang.org/cargo/reference/profiles.html#codegen-units
++https://doc.rust-lang.org/rustc/codegen-options/index.html#lto
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
++---
++--- a/.cargo/config.toml
+++++ b/.cargo/config.toml
++@@ -3,3 +3,7 @@
++
++ [source.vendored-sources]
++ directory = "vendor"
+++
+++[profile.release]
+++codegen-units = 1
+++
++
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index 20ef5e82bc..facf6eb346 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -13,6 +13,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://0001-Handle-vendored-sources-when-remapping-paths.patch;patchdir=${RUSTSRC} \
+             file://repro-issue-fix-with-v175.patch;patchdir=${RUSTSRC} \
+             file://0001-cargo-do-not-write-host-information-into-compilation.patch;patchdir=${RUSTSRC} \
++            file://rustdoc-repro-issue-fix-cargo-config-for-codegenunits.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "4526f786d673e4859ff2afa0bab2ba13c918b796519a25c1acce06dba9542340"
+ 
+diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
+index bb10c852b4..eae1f28bb8 100644
+--- a/meta/recipes-devtools/rust/rust_1.75.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
+@@ -136,6 +136,7 @@ python do_configure() {
+     config.add_section("rust")
+     config.set("rust", "rpath", e(True))
+     config.set("rust", "remap-debuginfo", e(True))
++    config.set("rust", "lto", "\"off\"")
+     config.set("rust", "channel", e(d.expand("${RUST_CHANNEL}")))
+ 
+     # Whether or not to optimize the compiler and standard library
+-- 
+2.43.0
 
---000000000000d6216a061e266d76
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 25, 2024 at 7:50=E2=80=AF=
-AM Dhairya Nagodra -X (dnagodra - E-INFO CHIPS INC at Cisco) &lt;<a href=3D=
-"mailto:dnagodra@cisco.com">dnagodra@cisco.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-&gt;-----Original Message-----<br>
-&gt;From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundati=
-on.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<br>
-&gt;Sent: Thursday, July 25, 2024 3:44 AM<br>
-&gt;To: Marta Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail.com" target=
-=3D"_blank">rybczynska@gmail.com</a>&gt;<br>
-&gt;Cc: Dhairya Nagodra -X (dnagodra - E-INFO CHIPS INC at Cisco)<br>
-&gt;&lt;<a href=3D"mailto:dnagodra@cisco.com" target=3D"_blank">dnagodra@ci=
-sco.com</a>&gt;; Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@siemens.com=
-" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;;<br>
-&gt;<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_=
-blank">openembedded-core@lists.openembedded.org</a>; xe-linux-external(mail=
-er list)<br>
-&gt;&lt;<a href=3D"mailto:xe-linux-external@cisco.com" target=3D"_blank">xe=
--linux-external@cisco.com</a>&gt;<br>
-&gt;Subject: Re: [OE-core] [PATCH] cve-check-map: Move &#39;upstream-wontfi=
-x&#39; to<br>
-&gt;&quot;Unpatched&quot; status<br>
-&gt;<br>
-&gt;On Wed, 2024-07-24 at 18:10 +0200, Marta Rybczynska wrote:<br>
-&gt;&gt; On Wed, Jul 24, 2024 at 10:46=E2=80=AFAM Richard Purdie via <a hre=
-f=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">li=
-sts.openembedded.org</a><br>
-&gt;&lt;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.openem=
-bedded.org" target=3D"_blank">linuxfoundation.org@lists.openembedded.org</a=
->&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; This is far from straightforward unfortunately.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; I agree and also agree with Dhairya. We are facing the same issue =
-within the<br>
-&gt;VEX work.<br>
-&gt;&gt; And this is going to come back in the context of the CRA.<br>
-&gt;&gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Some people are using these lists as &quot;are there any issu=
-es we need<br>
-&gt;&gt; &gt; to worry about?&quot;.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; In that context, if an upstream has assessed a CVE and decide=
-d<br>
-&gt;&gt; &gt; nothing need be done about it, our decision to &quot;ignore&q=
-uot; it is<br>
-&gt;&gt; &gt; correct as there is nothing to be done.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; The project might have decided not to fix for multiple reasons. So=
-me<br>
-&gt;&gt; of them may be good, some not.<br>
-&gt;&gt;<br>
-&gt;&gt; I do not completely agree that there is nothing to be done. We mig=
-ht<br>
-&gt;&gt; decide to use a configuration option that disables the vulnerable<=
-br>
-&gt;&gt; feature. In this case there is an appropriate status to put. We ca=
-n do<br>
-&gt;&gt; an in-depth analysis and figure out if the vulnerable code can be<=
-br>
-&gt;&gt; reached in our configuration. If not, there is an appropriate stat=
-us to put.<br>
-&gt;<br>
-&gt;I&#39;m working on the assumption that if either of those two things we=
-re the case,<br>
-&gt;we&#39;d have done them in preference to the wontfix status. The wontfi=
-x status is<br>
-&gt;the last resort where upstream disagrees there is an issue or that the =
-issue is<br>
-&gt;an actual problem.<br>
-<br>
-As per my understanding, we have &#39;disputed&#39; status for the above me=
-ntioned scenarios.<br>
-(Where upstream disagrees, or they don&#39;t consider issue a problem)<br>
-<br>
-Below is the snippet from the current cve-check-map.conf<br>
-# use when upstream does not accept the report as a vulnerability (e.g. wor=
-ks as designed)<br>
-CVE_CHECK_STATUSMAP[disputed] =3D &quot;Ignored&quot;<br>
-# use when upstream *acknowledged* the vulnerability but does not plan to f=
-ix it<br>
-CVE_CHECK_STATUSMAP[upstream-wontfix] =3D &quot;Ignored&quot;<br></blockquo=
-te><div><br></div><div>upstream-wontfix and disputed is far from the same t=
-hing at the CVE Programme level.</div><div>&quot;disputed&quot; is a flag o=
-f the CVE entry (at least for the most recent ones) and it will be</div><di=
-v>possible to attach it automatically. However, it still means a vendor ana=
-lysis is needed</div><div>to decide which side of the dispute you agree wit=
-h...</div><div><br></div><div>Kind regards,</div><div>Marta <br></div></div=
-></div>
-
---000000000000d6216a061e266d76--
 
