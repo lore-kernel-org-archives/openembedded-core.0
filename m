@@ -1,99 +1,202 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A68C3DA49
-	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 11:04:08 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.59031.1721991842375223124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2BF7C3DA49
+	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 11:24:48 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.58658.1721993079379844469
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jul 2024 04:04:02 -0700
+ Fri, 26 Jul 2024 04:24:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=etH4K/JY;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CkZ+RwtV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190eeb6470e-63c4d040-7bf4-482a-b67b-7cfcc5e382ea-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721991841; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=2HZMoosLAwy7IoCLHKidHA0UjPA8zQ1ymqbs2vjFB6I=;
-	b=etH4K/JYRVCJUTVi+9EmjnP0SprL0dqUlk2gLkKMIZzhsIljr9qb9LQXKcGHOTtB
-	BshQgfRmoSj1UctLtGvz0Gyy54Ixzcb3OYE2so8GbUnW58aCcqQ7KiXIZcoEERoQm1a
-	yJKvq+SCLXl/nDr8kyUQaXxE4WThwDlBlX7s15wM=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721991841;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=2HZMoosLAwy7IoCLHKidHA0UjPA8zQ1ymqbs2vjFB6I=;
-	b=CkZ+RwtVf0VrYod0/dM6rRwzX+i0qyz6KG4arD3TfmQ1cRgb2qS42Eh3lrqBH2XB
-	QB6da9I39VdsjtjNVGcPflDYlHxjcmvguV3MvKlj+X5efv45PZUfSyDfJkRzEJrEAga
-	rrT+arwTbOkZHOjVnj5jfsaSsEkuE1sGZqDfboy8=
-From: patchtest@automation.yoctoproject.org
-To: Li Wang <li.wang@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [openembedded-core][master][PATCH] use monotonic time
-In-Reply-To: <20240726104843.1009770-1-li.wang@windriver.com>
-References: <20240726104843.1009770-1-li.wang@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190eeb6470e-63c4d040-7bf4-482a-b67b-7cfcc5e382ea-000000@us-west-2.amazonses.com>
-Date: Fri, 26 Jul 2024 11:04:01 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.26-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KOe//Uq0;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4280854e236so10865275e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 04:24:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721993077; x=1722597877; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P/a53LalKR+A9P+RQAJxTJRQkI9hvIeCXoUY3r5QXVs=;
+        b=KOe//Uq0Fm89KNEks9LnZlYTL6bah1T2FLZwuiwcK4dCBlyY6oxJ0B4eDxWOeNsImZ
+         wjeCO23wYRo/ebjnohAINe8OAA5wExtfOQD9o+ODddIT9L2Gthbrg/+4utAV7b12rkZz
+         TWyEXqPkeeFCGDuASmbVsUh0DDeq/oRpxTbD1yxiPaPJKF9RhuAEJcZpOrveOw0eAxx5
+         yCWP4ihdHN7LUhJlO/QKI+MAAV1c2nxkdRQXP5p0+eoe2eaLYMG7kkI3rVHqyCnjNh3t
+         CrMQxahfuHunnNVh6rguCZs9RizSv+s/C8+PLfh6QiCmh/arUTJxdhSMHSjTddzzHJAK
+         jJWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721993077; x=1722597877;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P/a53LalKR+A9P+RQAJxTJRQkI9hvIeCXoUY3r5QXVs=;
+        b=cseZ6c1uE4o+SNGZx4AzR4im/rzORDFACmH4AId/be9BCqnm0eEdX/0AyM5cioke2V
+         fY9glychSOryEvOQ42kzq4T22yhu4jxSA+hqa5cuIMBaQ1FuL/wD69i5p91dyBwUOkuW
+         pHuL0wXxhGjIVgqWfMlKXxYL0Jp1YTvTV+T+1IFDcNJyj+FppPBvxZwhF700Kww0xWqG
+         lYvZ9eERUwkqJf/yP7sjDm6ocllw1OEubciV4ceBigT+HkYCJeooCb1QP5DY9/YKoikc
+         xhZkQDx4fIafWEugdw65jJkBz0wH1X/BIBrCreiDn4a+e4D1+JIl+giesyRYe62q02Eg
+         V35Q==
+X-Gm-Message-State: AOJu0Yw1O0mEb9NIgdDVdLyUXdW1B/rdglUM/0iWoZRUAWoOC5Z65xGj
+	DgIFbunRoI4q9l0kRQ4ivhvAt8Akmrccw2CUbtiAJuhUn5N/r7Xxu1n27Q==
+X-Google-Smtp-Source: AGHT+IH1QAVDers4kTqpAOgmQ9/jxKpDt67dFPKu8AHWBe9eMi90aN7aNJvla4EEtdN+0lPPF+bfZg==
+X-Received: by 2002:a05:6000:1faf:b0:367:95d2:4ec0 with SMTP id ffacd0b85a97d-36b31a7bebemr4778334f8f.62.1721993076509;
+        Fri, 26 Jul 2024 04:24:36 -0700 (PDT)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e515fsm4886403f8f.45.2024.07.26.04.24.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 04:24:36 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Steve Sakoman <steve@sakoman.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] rpcbind: Fix boot time start failure
+Date: Fri, 26 Jul 2024 13:24:31 +0200
+Message-ID: <20240726112431.698884-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 11:04:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202523
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 11:24:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202524
 
---NextPart
-Content-Type: text/plain
+With commits 90bc1810 ("bitbake.conf: Add runtimedir") and
+561e853e ("rpcbind: Specify state directory under /run") rpcbind
+still can fail during startup.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+It has two problems:
+* The lockfile is still hardcoded as "/var/run/rpcbind.lock".
+  It needs to use the same internal define for RPCBIND_STATEDIR
+  as the paths for rpcbind.xdr and portmap.xdr.
+* Using --with-statedir=/run/rpcbind doesn't guarantee that this
+  directory exists when rpcbind.service starts. Add this guarantee
+  by running rpcbind.service with After=systemd-tmpfiles-setup.service
+  and add the tmpfiles.d entry for /run/rpcbind.
 
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/openembedded-core-master-use-monotonic-time.patch
+ ...ke-the-lockfile-follow-with-statedir.patch | 31 ++++++++++++++++++
+ ...ice-after-etc-tmpfiles.d-is-processe.patch | 32 +++++++++++++++++++
+ .../rpcbind/rpcbind/rpcbind.tmpfiles          |  1 +
+ .../recipes-extended/rpcbind/rpcbind_1.2.6.bb |  6 ++++
+ 4 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-Make-the-lockfile-follow-with-statedir.patch
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0002-Run-rpcbind.service-after-etc-tmpfiles.d-is-processe.patch
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-Make-the-lockfile-follow-with-statedir.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-Make-the-lockfile-follow-with-statedir.patch
+new file mode 100644
+index 0000000000..d487312d22
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/0001-Make-the-lockfile-follow-with-statedir.patch
+@@ -0,0 +1,31 @@
++From f10db88174e73c78c028561715f16ed38148ebde Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
++ <zboszor@gmail.com>
++Date: Fri, 26 Jul 2024 12:36:06 +0200
++Subject: [PATCH 1/2] Make the lockfile follow --with-statedir=
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Inactive-Upstream [lastrelease: 2021-05-10]
++Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
++---
++ src/rpcbind.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/rpcbind.c b/src/rpcbind.c
++index 36a95b9..948a284 100644
++--- a/src/rpcbind.c
+++++ b/src/rpcbind.c
++@@ -105,7 +105,7 @@ char *nss_modules = "files";
++ /* who to suid to if -s is given */
++ #define RUN_AS  "daemon"
++ 
++-#define RPCBINDDLOCK "/var/run/rpcbind.lock"
+++#define RPCBINDDLOCK RPCBIND_STATEDIR "/rpcbind.lock"
++ 
++ int runasdaemon = 0;
++ int insecure = 0;
++-- 
++2.45.2
++
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0002-Run-rpcbind.service-after-etc-tmpfiles.d-is-processe.patch b/meta/recipes-extended/rpcbind/rpcbind/0002-Run-rpcbind.service-after-etc-tmpfiles.d-is-processe.patch
+new file mode 100644
+index 0000000000..f454fdbb3b
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/0002-Run-rpcbind.service-after-etc-tmpfiles.d-is-processe.patch
+@@ -0,0 +1,32 @@
++From 408b18c77c254baaa9111b3e7031ebf12149db38 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
++ <zboszor@gmail.com>
++Date: Fri, 26 Jul 2024 12:54:38 +0200
++Subject: [PATCH 2/2] Run rpcbind.service after /etc/tmpfiles.d is processed
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Inactive-Upstream [lastrelease: 2021-05-10]
++Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
++---
++ systemd/rpcbind.service.in | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/systemd/rpcbind.service.in b/systemd/rpcbind.service.in
++index f45ee1e..e9d94ce 100644
++--- a/systemd/rpcbind.service.in
+++++ b/systemd/rpcbind.service.in
++@@ -9,6 +9,9 @@ RequiresMountsFor=@statedir@
++ Requires=rpcbind.socket
++ Wants=rpcbind.target
++ 
+++# Make sure the runtime directory exists
+++After=systemd-tmpfiles-setup.service
+++
++ [Service]
++ Type=notify
++ EnvironmentFile=-@_sysconfdir@/rpcbind.conf
++-- 
++2.45.2
++
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles
+new file mode 100644
+index 0000000000..fecee72c09
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles
+@@ -0,0 +1 @@
++d /run/rpcbind 0755 root root -
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+index e751eb631c..477092b37d 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+@@ -13,8 +13,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
+ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://init.d \
+            file://rpcbind.conf \
++           file://rpcbind.tmpfiles \
+            file://rpcbind_add_option_to_fix_port_number.patch \
+            file://0001-systemd-use-EnvironmentFile.patch \
++           file://0001-Make-the-lockfile-follow-with-statedir.patch \
++           file://0002-Run-rpcbind.service-after-etc-tmpfiles.d-is-processe.patch \
+           "
+ SRC_URI[sha256sum] = "5613746489cae5ae23a443bb85c05a11741a5f12c8f55d2bb5e83b9defeee8de"
+ 
+@@ -49,6 +52,9 @@ do_install:append () {
+ 		${UNPACKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
+ 	chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
+ 	install -m 0644 ${UNPACKDIR}/rpcbind.conf ${D}${sysconfdir}/rpcbind.conf
++
++	install -d ${D}${sysconfdir}/tmpfiles.d
++	install -m 0644 ${UNPACKDIR}/rpcbind.tmpfiles ${D}${sysconfdir}/tmpfiles.d/rpcbind.conf
+ }
+ 
+ ALTERNATIVE:${PN} = "rpcinfo"
+-- 
+2.45.2
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
