@@ -2,101 +2,470 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE364C3DA70
-	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 15:59:29 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.64184.1722009566299694724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F848C52CDA
+	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 15:59:30 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.64872.1722009569388743044
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jul 2024 08:59:26 -0700
+ Fri, 26 Jul 2024 08:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hAREXpc3;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4280bca3960so7193765e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 08:59:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TP7ieddi;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-368313809a4so2047321f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 08:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722009564; x=1722614364; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QpPbTGRI6KlGK10IB3dOXf+MK+S21ogmvz5EU0odNfg=;
-        b=hAREXpc31rOejSZ1L57RPmDX3UICYpJd4WlT5IUT/NsU/vmYyYDfjUo3g53tz7Tux5
-         s3k+uq4AArkrhtkMWQbljWODJ73t4L102g9iXFC+HXiwAO/z3VhFs8wPocgS558zJEl8
-         roBYSTxhazaky7pjtqv97JpsOCAZerHnnJQtKlnatQPGjUXAwgEpAvi8njLig08AJNsT
-         +pwjHIYDjzh0JFYlRk8ve3onxgEp7ED18d/fSs6su7ZajVw7s61LIAYpHVk2CvlsHzhU
-         5XVhQ8pDTvjChWafC174cK72ChXyM7vKFRHkVyhDjDM3bSdr+/MerTEouTBgKgRMzR8A
-         0FyA==
+        d=gmail.com; s=20230601; t=1722009567; x=1722614367; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6rFLI/K+ONWYzSr5kg8liHfFFJUbVJ1o+Qiz9LVeUv4=;
+        b=TP7ieddiYqXkA1o2olKmFjc5s5gM5MjYVRuo7lHH4wfvcaOkLHf7DgT001goqU4SD2
+         cBqGzijka9soi9H2XLxmlZqRJyYg4VK4uJzOMeSdgKuDDLboUwc/CX56+BsBxgWD/eSz
+         fmVFZr3MGHKoxU6B/Lu1LpGKg0ssSJgWBB8SCoSCWRXx0or1NzW5erDKMMNx7elF8p6D
+         ROUMclCO/pvsPEmjxh4Y/7todv4tM2sJXKVKgwZ7bhOdeDVNE8hp/xhf5BDxH37PZpju
+         UvFDX4tcOADtC7kzOw1xsWUUx0oK+4Z3Av0p69iceDvuuY47KE5oF1WuMM1XfFS3ouq8
+         Qfrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722009564; x=1722614364;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QpPbTGRI6KlGK10IB3dOXf+MK+S21ogmvz5EU0odNfg=;
-        b=brEDv/eHqi9kieYvVezlSG/ueKl7qLolD6izzt4nrzEgUqppBAAkVlrWnqxp1zkYP3
-         LuxBvcyFPpOlVgkCwUceQl25asHSZNUk0COFl/jcz8Log4LBfJVMxyLWIC7fD2coJU17
-         kONXtaeBV5dbI5wc1lexaSfztjWqaxGRPPhESR0f8GJ6RlHWS+GObPFhKUaPzFYFo7ut
-         eFVxrmoUyijN7nnFPZ7KpZ2IMmldO8RJe0AX+k0dJwFU85zFPhcGSyn4iVIa8edhx7UM
-         KcH/VFdmmNEbxO9odEM2IsNCPAq153gXqW+qii47wXE4U+msrh1d9V0SkecSJ4Cw9uJJ
-         tmHA==
-X-Gm-Message-State: AOJu0Yy/loRJoCw2Q3vQO0gIBsV+B4/ipnI32RUcNkG8FF8oNqd2sjtu
-	NraQXky8+FxGg0ylJea52uL6dSWot/TgXemSEkkt6bjN1LPU8AJDW9Zdcw==
-X-Google-Smtp-Source: AGHT+IGCOLyLmQujqJ5abuI6FdVUvE+YMNprvpNCAqGnTeFnXo40M521CbAajQnuQA4p2+CCdHajkw==
-X-Received: by 2002:adf:f4c4:0:b0:367:8926:812e with SMTP id ffacd0b85a97d-36b5d0bb098mr64678f8f.62.1722009564150;
-        Fri, 26 Jul 2024 08:59:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722009567; x=1722614367;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6rFLI/K+ONWYzSr5kg8liHfFFJUbVJ1o+Qiz9LVeUv4=;
+        b=gK9+UVYXsrMEbZaE9tut7F/UFBcqFruaObdCE5vBJ6YyjsfJewX6KWD0GeCle2gDOF
+         1WhHizSmIKwlgNaGn1781aK/Aa28I1HO0qUvY+jTEgtDhw5tTeF6KNLUBns8kYzqTgV8
+         EejqBNMA6p3ucDSiPa+WqzD2oer9TQgjThJR7kj90VBWzQa429MUY040T827xX9iBb1m
+         EU4tOOHed2wqovuA1s4MI+o4iYq02Gzx7AJs6jcP6xrJglmejmmiNoW1hAlZG1z4XF1i
+         qh56q/8lM8NIM2Z3rE1LMEMFilIw/o1KjFa6WA5iKMlcEqNgd0RunQpdloy+qOx/uFcv
+         cK2g==
+X-Gm-Message-State: AOJu0YxzA+o4OimDRCF5kB7KthoGaYxmvxVEbR/jn9WfwNKpMf3IrfXX
+	1gxRQecsM7tRX0uBbaSIx7dGRpvfJ1NI/OY1Uzezw14Kagr7DR6TCn4alA==
+X-Google-Smtp-Source: AGHT+IFdYtlG40A4KrzG29dM41vUgasWVU647A8Ug5q5u8zVn8ExjyfueJBu1uGbVJ5WnsI6Dqoc2Q==
+X-Received: by 2002:a5d:69c2:0:b0:361:94d9:1e9f with SMTP id ffacd0b85a97d-36b5d7c4a34mr11177f8f.7.1722009567110;
+        Fri, 26 Jul 2024 08:59:27 -0700 (PDT)
 Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e49bdsm5535308f8f.44.2024.07.26.08.59.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e49bdsm5535308f8f.44.2024.07.26.08.59.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 08:59:23 -0700 (PDT)
+        Fri, 26 Jul 2024 08:59:26 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>,
 	Jose Quaresma <jose.quaresma@foundries.io>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-core][scarthgap][PATCH 1/4] oeqa/runtime/scp: requires openssh-sftp-server
-Date: Fri, 26 Jul 2024 16:48:35 +0100
-Message-ID: <20240726154838.1731195-1-jose.quaresma@foundries.io>
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][scarthgap][PATCH 4/4] openssh: systemd notification was implemented upstream
+Date: Fri, 26 Jul 2024 16:48:38 +0100
+Message-ID: <20240726154838.1731195-4-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240726154838.1731195-1-jose.quaresma@foundries.io>
+References: <20240726154838.1731195-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 15:59:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202545
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 15:59:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202548
 
 From: Jose Quaresma <quaresma.jose@gmail.com>
 
-The SCP protocol was deprecated in favor of the SFTP.
-For the legacy SCP protocol scp should be run with "-O".
-Instead of adding "-O" on the scp_options ssh oeqa we can
-require the openssh-sftp-server to be instaled on the target.
-
-This way the test will work more deterministic regardless of
-the host machine client used.
-For the old fashion clients still using legacy SCP protocol
-the openssh-sshd server will be used, for the new ones using
-the SFTP the openssh-sftp-server will be picked.
+Drop our sd-notify patch and switch to the upstream standalone
+implementation that does not depend on libsystemd.
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 2f43da91ba20d18bc419bca7651bb383a51f20af)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 07522f85a987b673b0a3c98690c3c17ab0c4b608)
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- meta/lib/oeqa/runtime/cases/scp.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...-notify-systemd-on-listen-and-reload.patch | 225 ++++++++++++++++++
+ ...tional-support-for-systemd-sd_notify.patch |  99 --------
+ .../openssh/openssh/sshd.service              |   2 +-
+ .../openssh/openssh_9.6p1.bb                  |   4 +-
+ 4 files changed, 227 insertions(+), 103 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/scp.py b/meta/lib/oeqa/runtime/cases/scp.py
-index ee97b8ef66..364264369a 100644
---- a/meta/lib/oeqa/runtime/cases/scp.py
-+++ b/meta/lib/oeqa/runtime/cases/scp.py
-@@ -25,7 +25,7 @@ class ScpTest(OERuntimeTestCase):
-         os.remove(cls.tmp_path)
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch b/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
+new file mode 100644
+index 0000000000..4925c969fe
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
+@@ -0,0 +1,225 @@
++From fc73e2405a8ca928465580b74a4d76112919367b Mon Sep 17 00:00:00 2001
++From: Damien Miller <djm@mindrot.org>
++Date: Wed, 3 Apr 2024 14:40:32 +1100
++Subject: [PATCH] notify systemd on listen and reload
++
++Standalone implementation that does not depend on libsystemd.
++With assistance from Luca Boccassi, and feedback/testing from Colin
++Watson. bz2641
++
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/08f579231cd38a1c657aaa6ddeb8ab57a1fd4f5c]
++
++Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
++---
++ configure.ac                |  1 +
++ openbsd-compat/port-linux.c | 97 ++++++++++++++++++++++++++++++++++++-
++ openbsd-compat/port-linux.h |  5 ++
++ platform.c                  | 11 +++++
++ platform.h                  |  1 +
++ sshd.c                      |  2 +
++ 6 files changed, 115 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 82e8bb7c1..854f92b5b 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -915,6 +915,7 @@ int main(void) { if (NSVersionOfRunTimeLibrary("System") >= (60 << 16))
++ 	AC_DEFINE([_PATH_BTMP], ["/var/log/btmp"], [log for bad login attempts])
++ 	AC_DEFINE([USE_BTMP])
++ 	AC_DEFINE([LINUX_OOM_ADJUST], [1], [Adjust Linux out-of-memory killer])
+++	AC_DEFINE([SYSTEMD_NOTIFY], [1], [Have sshd notify systemd on start/reload])
++ 	inet6_default_4in6=yes
++ 	case `uname -r` in
++ 	1.*|2.0.*)
++diff --git a/openbsd-compat/port-linux.c b/openbsd-compat/port-linux.c
++index 0457e28d0..df7290246 100644
++--- a/openbsd-compat/port-linux.c
+++++ b/openbsd-compat/port-linux.c
++@@ -21,16 +21,23 @@
++ 
++ #include "includes.h"
++ 
++-#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST)
+++#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST) || \
+++    defined(SYSTEMD_NOTIFY)
+++#include <sys/socket.h>
+++#include <sys/un.h>
+++
++ #include <errno.h>
+++#include <inttypes.h>
++ #include <stdarg.h>
++ #include <string.h>
++ #include <stdio.h>
++ #include <stdlib.h>
+++#include <time.h>
++ 
++ #include "log.h"
++ #include "xmalloc.h"
++ #include "port-linux.h"
+++#include "misc.h"
++ 
++ #ifdef WITH_SELINUX
++ #include <selinux/selinux.h>
++@@ -310,4 +317,90 @@ oom_adjust_restore(void)
++ 	return;
++ }
++ #endif /* LINUX_OOM_ADJUST */
++-#endif /* WITH_SELINUX || LINUX_OOM_ADJUST */
+++
+++#ifdef SYSTEMD_NOTIFY
+++
+++static void ssh_systemd_notify(const char *, ...)
+++    __attribute__((__format__ (printf, 1, 2))) __attribute__((__nonnull__ (1)));
+++
+++static void
+++ssh_systemd_notify(const char *fmt, ...)
+++{
+++	char *s = NULL;
+++	const char *path;
+++	struct stat sb;
+++	struct sockaddr_un addr;
+++	int fd = -1;
+++	va_list ap;
+++
+++	if ((path = getenv("NOTIFY_SOCKET")) == NULL || strlen(path) == 0)
+++		return;
+++
+++	va_start(ap, fmt);
+++	xvasprintf(&s, fmt, ap);
+++	va_end(ap);
+++
+++	/* Only AF_UNIX is supported, with path or abstract sockets */
+++	if (path[0] != '/' && path[0] != '@') {
+++		error_f("socket \"%s\" is not compatible with AF_UNIX", path);
+++		goto out;
+++	}
+++
+++	if (path[0] == '/' && stat(path, &sb) != 0) {
+++		error_f("socket \"%s\" stat: %s", path, strerror(errno));
+++		goto out;
+++	}
+++
+++	memset(&addr, 0, sizeof(addr));
+++	addr.sun_family = AF_UNIX;
+++	if (strlcpy(addr.sun_path, path,
+++	    sizeof(addr.sun_path)) >= sizeof(addr.sun_path)) {
+++		error_f("socket path \"%s\" too long", path);
+++		goto out;
+++	}
+++	/* Support for abstract socket */
+++	if (addr.sun_path[0] == '@')
+++		addr.sun_path[0] = 0;
+++	if ((fd = socket(PF_UNIX, SOCK_DGRAM, 0)) == -1) {
+++		error_f("socket \"%s\": %s", path, strerror(errno));
+++		goto out;
+++	}
+++	if (connect(fd, &addr, sizeof(addr)) != 0) {
+++		error_f("socket \"%s\" connect: %s", path, strerror(errno));
+++		goto out;
+++	}
+++	if (write(fd, s, strlen(s)) != (ssize_t)strlen(s)) {
+++		error_f("socket \"%s\" write: %s", path, strerror(errno));
+++		goto out;
+++	}
+++	debug_f("socket \"%s\" notified %s", path, s);
+++ out:
+++	if (fd != -1)
+++		close(fd);
+++	free(s);
+++}
+++
+++void
+++ssh_systemd_notify_ready(void)
+++{
+++	ssh_systemd_notify("READY=1");
+++}
+++
+++void
+++ssh_systemd_notify_reload(void)
+++{
+++	struct timespec now;
+++
+++	monotime_ts(&now);
+++	if (now.tv_sec < 0 || now.tv_nsec < 0) {
+++		error_f("monotime returned negative value");
+++		ssh_systemd_notify("RELOADING=1");
+++	} else {
+++		ssh_systemd_notify("RELOADING=1\nMONOTONIC_USEC=%llu",
+++		    ((uint64_t)now.tv_sec * 1000000ULL) +
+++		    ((uint64_t)now.tv_nsec / 1000ULL));
+++	}
+++}
+++#endif /* SYSTEMD_NOTIFY */
+++
+++#endif /* WITH_SELINUX || LINUX_OOM_ADJUST || SYSTEMD_NOTIFY */
++diff --git a/openbsd-compat/port-linux.h b/openbsd-compat/port-linux.h
++index 3c22a854d..14064f87d 100644
++--- a/openbsd-compat/port-linux.h
+++++ b/openbsd-compat/port-linux.h
++@@ -30,4 +30,9 @@ void oom_adjust_restore(void);
++ void oom_adjust_setup(void);
++ #endif
++ 
+++#ifdef SYSTEMD_NOTIFY
+++void ssh_systemd_notify_ready(void);
+++void ssh_systemd_notify_reload(void);
+++#endif
+++
++ #endif /* ! _PORT_LINUX_H */
++diff --git a/platform.c b/platform.c
++index 4fe8744ee..9cf818153 100644
++--- a/platform.c
+++++ b/platform.c
++@@ -44,6 +44,14 @@ platform_pre_listen(void)
++ #endif
++ }
++ 
+++void
+++platform_post_listen(void)
+++{
+++#ifdef SYSTEMD_NOTIFY
+++	ssh_systemd_notify_ready();
+++#endif
+++}
+++
++ void
++ platform_pre_fork(void)
++ {
++@@ -55,6 +63,9 @@ platform_pre_fork(void)
++ void
++ platform_pre_restart(void)
++ {
+++#ifdef SYSTEMD_NOTIFY
+++	ssh_systemd_notify_reload();
+++#endif
++ #ifdef LINUX_OOM_ADJUST
++ 	oom_adjust_restore();
++ #endif
++diff --git a/platform.h b/platform.h
++index 7fef8c983..5dec23276 100644
++--- a/platform.h
+++++ b/platform.h
++@@ -21,6 +21,7 @@
++ void platform_pre_listen(void);
++ void platform_pre_fork(void);
++ void platform_pre_restart(void);
+++void platform_post_listen(void);
++ void platform_post_fork_parent(pid_t child_pid);
++ void platform_post_fork_child(void);
++ int  platform_privileged_uidswap(void);
++diff --git a/sshd.c b/sshd.c
++index b4f2b9742..865331b46 100644
++--- a/sshd.c
+++++ b/sshd.c
++@@ -2077,6 +2077,8 @@ main(int ac, char **av)
++ 		ssh_signal(SIGTERM, sigterm_handler);
++ 		ssh_signal(SIGQUIT, sigterm_handler);
++ 
+++		platform_post_listen();
+++
++ 		/*
++ 		 * Write out the pid file after the sigterm handler
++ 		 * is setup and the listen sockets are bound
++-- 
++2.45.2
++
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
+deleted file mode 100644
+index f7a1d12e8d..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
++++ /dev/null
+@@ -1,99 +0,0 @@
+-From be187435911cde6cc3cef6982a508261074f1e56 Mon Sep 17 00:00:00 2001
+-From: Matt Jolly <Matt.Jolly@footclan.ninja>
+-Date: Thu, 2 Feb 2023 21:05:40 +1100
+-Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
+-
+-This is a rebase of Dennis Lamm's <expeditioneer@gentoo.org>
+-patch based on Jakub Jelen's <jjelen@redhat.com> original patch
+-
+-Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
+-
+-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+----
+- configure.ac | 24 ++++++++++++++++++++++++
+- sshd.c       | 13 +++++++++++++
+- 2 files changed, 37 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 22fee70f..486c189f 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -4835,6 +4835,29 @@ AC_SUBST([GSSLIBS])
+- AC_SUBST([K5LIBS])
+- AC_SUBST([CHANNELLIBS])
+- 
+-+# Check whether user wants systemd support
+-+SYSTEMD_MSG="no"
+-+AC_ARG_WITH(systemd,
+-+	[  --with-systemd          Enable systemd support],
+-+	[ if test "x$withval" != "xno" ; then
+-+		AC_PATH_TOOL([PKGCONFIG], [pkg-config], [no])
+-+		if test "$PKGCONFIG" != "no"; then
+-+			AC_MSG_CHECKING([for libsystemd])
+-+			if $PKGCONFIG --exists libsystemd; then
+-+				SYSTEMD_CFLAGS=`$PKGCONFIG --cflags libsystemd`
+-+				SYSTEMD_LIBS=`$PKGCONFIG --libs libsystemd`
+-+				CPPFLAGS="$CPPFLAGS $SYSTEMD_CFLAGS"
+-+				SSHDLIBS="$SSHDLIBS $SYSTEMD_LIBS"
+-+				AC_MSG_RESULT([yes])
+-+				AC_DEFINE(HAVE_SYSTEMD, 1, [Define if you want systemd support.])
+-+				SYSTEMD_MSG="yes"
+-+			else
+-+				AC_MSG_RESULT([no])
+-+			fi
+-+		fi
+-+	fi ]
+-+)
+-+
+- # Looking for programs, paths and files
+- 
+- PRIVSEP_PATH=/var/empty
+-@@ -5634,6 +5657,7 @@ echo "                   libldns support: $LDNS_MSG"
+- echo "  Solaris process contract support: $SPC_MSG"
+- echo "           Solaris project support: $SP_MSG"
+- echo "         Solaris privilege support: $SPP_MSG"
+-+echo "                   systemd support: $SYSTEMD_MSG"
+- echo "       IP address in \$DISPLAY hack: $DISPLAY_HACK_MSG"
+- echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
+- echo "                  BSD Auth support: $BSD_AUTH_MSG"
+-diff --git a/sshd.c b/sshd.c
+-index 6321936c..859d6a0b 100644
+---- a/sshd.c
+-+++ b/sshd.c
+-@@ -88,6 +88,10 @@
+- #include <prot.h>
+- #endif
+- 
+-+#ifdef HAVE_SYSTEMD
+-+#include <systemd/sd-daemon.h>
+-+#endif
+-+
+- #include "xmalloc.h"
+- #include "ssh.h"
+- #include "ssh2.h"
+-@@ -310,6 +314,10 @@ static void
+- sighup_restart(void)
+- {
+- 	logit("Received SIGHUP; restarting.");
+-+#ifdef HAVE_SYSTEMD
+-+	/* Signal systemd that we are reloading */
+-+	sd_notify(0, "RELOADING=1");
+-+#endif
+- 	if (options.pid_file != NULL)
+- 		unlink(options.pid_file);
+- 	platform_pre_restart();
+-@@ -2086,6 +2094,11 @@ main(int ac, char **av)
+- 			}
+- 		}
+- 
+-+#ifdef HAVE_SYSTEMD
+-+		/* Signal systemd that we are ready to accept connections */
+-+		sd_notify(0, "READY=1");
+-+#endif
+-+
+- 		/* Accept a connection and return in a forked child */
+- 		server_accept_loop(&sock_in, &sock_out,
+- 		    &newsock, config_s);
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.service b/meta/recipes-connectivity/openssh/openssh/sshd.service
+index 2a997b656a..24062a6817 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd.service
++++ b/meta/recipes-connectivity/openssh/openssh/sshd.service
+@@ -4,11 +4,11 @@ Wants=sshdgenkeys.service
+ After=sshdgenkeys.service
  
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(['openssh-scp'])
-+    @OEHasPackage({'openssh-scp', 'openssh-sftp-server'})
-     def test_scp_file(self):
-         dst = '/tmp/test_scp_file'
+ [Service]
++Type=notify-reload
+ Environment="SSHD_OPTS="
+ EnvironmentFile=-/etc/default/ssh
+ ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
+ ExecStart=-@SBINDIR@/sshd -D $SSHD_OPTS
+-ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
+ KillMode=process
+ Restart=on-failure
+ RestartSec=42s
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index c71245b6c0..042acffe6a 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+-           file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
++           file://0001-notify-systemd-on-listen-and-reload.patch \
+            file://CVE-2024-6387.patch \
+            file://CVE-2024-39894.patch \
+            "
+@@ -54,7 +54,6 @@ SYSTEMD_PACKAGES = "${PN}-sshd"
+ SYSTEMD_SERVICE:${PN}-sshd = "${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
  
+ inherit autotools-brokensep ptest pkgconfig
+-DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+ 
+ # systemd-sshd-socket-mode means installing sshd.socket
+ # and systemd-sshd-service-mode corresponding to sshd.service
+@@ -77,7 +76,6 @@ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
+                 --sysconfdir=${sysconfdir}/ssh \
+                 --with-xauth=${bindir}/xauth \
+                 --disable-strip \
+-                ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '--without-systemd', d)} \
+                 "
+ 
+ # musl doesn't implement wtmp/utmp and logwtmp
 -- 
 2.45.2
 
