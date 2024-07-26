@@ -1,100 +1,134 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A12DC3DA63
-	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 06:35:07 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.55907.1721975703248571121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82825C3DA63
+	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 07:48:57 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.56101.1721980136348108465
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jul 2024 23:35:03 -0700
+ Fri, 26 Jul 2024 00:48:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Tj/FN4dE;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=SM80wsxy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010190edc002ed-035561a2-a2b6-4015-b869-03dc3f53333d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1721975702; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tJBT+QQ+aTfp5FWIwYv5K9uN6E451qnZDXnBU9RbTRY=;
-	b=Tj/FN4dEzfY5hONeeI3e3Vcj5YcHb/WIkQhDQulWm9+1ZRdrSMSyoQqSVPJL3xgO
-	Ogzr+G1Z2HE7rJHbgoLJAwqApEw6PCemEpktPVVsiWREKhyrSrbcHq9ME9KP5S7zEMi
-	XGz4hknA1fM7YlhEvAwtE4zrze5Sfp4mwdL6A8rE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1721975702;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tJBT+QQ+aTfp5FWIwYv5K9uN6E451qnZDXnBU9RbTRY=;
-	b=SM80wsxyXXJq6h/5hbNS5VF2o7Eb7QFvlZBeHrDUPbSobhqsEdSj0u53LmACTiit
-	9PnytElpvruPoay04elL7ikcQa3hAk+BMN3dornjcgOaKgcTzRJ1nz0+LgjK7nZ3/vl
-	5VsFnDbFAsgmvBE4hPwoPCBRznpxIHfM9i5WVzPU=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] create-spdx-3.0/populate_sdk_base: Add SDK_CLASSES inherit
- mechanism to fix tarball SPDX manifests
-In-Reply-To: <20240726062431.2646434-1-richard.purdie@linuxfoundation.org>
-References: <20240726062431.2646434-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010190edc002ed-035561a2-a2b6-4015-b869-03dc3f53333d-000000@us-west-2.amazonses.com>
-Date: Fri, 26 Jul 2024 06:35:02 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.26-54.240.27.192
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BDtOKvJm;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: joaomarcos.costa@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1AE36C0003;
+	Fri, 26 Jul 2024 07:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1721980134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ts7VyN+QJXXiYxUYfgIHeX30G/iok0IsKqnyvjIUZoQ=;
+	b=BDtOKvJmqvUw79iPLI9PlpA1IDEMtsC4u/n0MQVELte4fFoQbpeoEe9cjYe+F+ovvH883+
+	/Fkza2ckuCkYXRaaDxD6TAySeVqTwPfVtesxnniZBBDWOOx4yRkTC/jXgm79GPdoNiP/4f
+	H5zJAVlauF8llB+GWME6HuYjOwmSYSrIsomSqSPriNSWZQl2XhHBH2+u2a5jVgSz1dvr6b
+	7xlJBYpRGEnQpm1At04Op7TrCQQ/0AmasPHw1RTeLgwP7/94ERFhSYSBKAgpGre2ubJV9W
+	uOSuCLVbXvQr568yd4HoUEwIzAinaWFPBzWaWay+nxbAnQzrg1x/DTtKMCJnuA==
+Content-Type: multipart/alternative;
+ boundary="------------RyilpM1o2zjMN3WxuYhr9Fru"
+Message-ID: <561ea044-054b-4e27-82bc-452ee2f17df3@bootlin.com>
+Date: Fri, 26 Jul 2024 09:48:53 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 23/37] python3-beartype: use
+ python_setuptools_build_meta build class
+Content-Language: en-US, fr
+To: Ross Burton <ross.burton@arm.com>,
+ openembedded-core@lists.openembedded.org
+References: <20240723145137.74198-1-ross.burton@arm.com>
+ <20240723145137.74198-23-ross.burton@arm.com>
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20240723145137.74198-23-ross.burton@arm.com>
+X-GND-Sasl: joaomarcos.costa@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 06:35:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202516
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 07:48:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202517
 
---NextPart
-Content-Type: text/plain
+This is a multi-part message in MIME format.
+--------------RyilpM1o2zjMN3WxuYhr9Fru
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello, Ross
 
+On 7/23/24 16:51, Ross Burton wrote:
+> This package can be built using pep517 classes now.
+>
+> Signed-off-by: Ross Burton<ross.burton@arm.com>
+> ---
+>   meta/recipes-devtools/python/python3-beartype_0.18.5.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb b/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
+> index 00554dd60c5..95d947c90ee 100644
+> --- a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
+> +++ b/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM ="file://LICENSE;md5=e71f94261c1b39896cacacfeaf60560e"
+>   
+>   SRC_URI[sha256sum] = "264ddc2f1da9ec94ff639141fbe33d22e12a9f75aa863b83b7046ffff1381927"
+>   
+> -inherit setuptools3 pypi
+> +inherit pypi python_setuptools_build_meta
+>   
+>   RDEPENDS:${PN} += "python3-numbers python3-io"
+
+Could this patch be causing such an error in the autobuilder?
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6663/steps/11/logs/stdio
+
+-- 
+Best regards,
+João Marcos Costa
+
+--------------RyilpM1o2zjMN3WxuYhr9Fru
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font face="monospace">Hello, Ross<br>
+      </font></p>
+    <div class="moz-cite-prefix">On 7/23/24 16:51, Ross Burton wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20240723145137.74198-23-ross.burton@arm.com">
+      <pre class="moz-quote-pre" wrap="">This package can be built using pep517 classes now.
+
+Signed-off-by: Ross Burton <a class="moz-txt-link-rfc2396E" href="mailto:ross.burton@arm.com">&lt;ross.burton@arm.com&gt;</a>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-create-spdx-3.0-populate_sdk_base-Add-SDK_CLASSES-inherit-mechanism-to-fix-tarball-SPDX-manifests.patch
+ meta/recipes-devtools/python/python3-beartype_0.18.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 98 characters) (test_mbox.TestMbox.test_shortlog_length)
+diff --git a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb b/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
+index 00554dd60c5..95d947c90ee 100644
+--- a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
++++ b/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=e71f94261c1b39896cacacfeaf60560e">"file://LICENSE;md5=e71f94261c1b39896cacacfeaf60560e"</a>
+ 
+ SRC_URI[sha256sum] = "264ddc2f1da9ec94ff639141fbe33d22e12a9f75aa863b83b7046ffff1381927"
+ 
+-inherit setuptools3 pypi
++inherit pypi python_setuptools_build_meta
+ 
+ RDEPENDS:${PN} += "python3-numbers python3-io"
+</pre>
+    </blockquote>
+    <p><font face="monospace">Could this patch be causing such an error
+        in the autobuilder?</font></p>
+    <p><font face="monospace"><a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6663/steps/11/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6663/steps/11/logs/stdio</a><br>
+      </font></p>
+    <pre class="moz-signature" cols="72">-- 
+Best regards,
+João Marcos Costa</pre>
+  </body>
+</html>
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--------------RyilpM1o2zjMN3WxuYhr9Fru--
 
