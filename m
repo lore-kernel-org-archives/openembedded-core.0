@@ -2,471 +2,392 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F848C52CDA
-	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 15:59:30 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.64872.1722009569388743044
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A58FC3DA49
+	for <webhook@archiver.kernel.org>; Fri, 26 Jul 2024 16:04:40 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web11.65003.1722009870972972158
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jul 2024 08:59:29 -0700
+ Fri, 26 Jul 2024 09:04:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TP7ieddi;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-368313809a4so2047321f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 08:59:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eRKu3djd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3db23a608eeso29967b6e.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 09:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722009567; x=1722614367; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6rFLI/K+ONWYzSr5kg8liHfFFJUbVJ1o+Qiz9LVeUv4=;
-        b=TP7ieddiYqXkA1o2olKmFjc5s5gM5MjYVRuo7lHH4wfvcaOkLHf7DgT001goqU4SD2
-         cBqGzijka9soi9H2XLxmlZqRJyYg4VK4uJzOMeSdgKuDDLboUwc/CX56+BsBxgWD/eSz
-         fmVFZr3MGHKoxU6B/Lu1LpGKg0ssSJgWBB8SCoSCWRXx0or1NzW5erDKMMNx7elF8p6D
-         ROUMclCO/pvsPEmjxh4Y/7todv4tM2sJXKVKgwZ7bhOdeDVNE8hp/xhf5BDxH37PZpju
-         UvFDX4tcOADtC7kzOw1xsWUUx0oK+4Z3Av0p69iceDvuuY47KE5oF1WuMM1XfFS3ouq8
-         Qfrg==
+        d=gmail.com; s=20230601; t=1722009870; x=1722614670; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nOkkWzwbmca2025+9qGfqYNZO1YkpIUc4TQ7792joz4=;
+        b=eRKu3djdq0hjtZIpWfYncsaQUfBfQFgnyiWKAc6bHl8S1gdPdhM/PzvD3DrxM/riBT
+         jZjH8m6j7kL+cMAkEt2K69yY4hRZ5XTHPL7VB0gCuNC7lkWmQ5w/xZVLn2iqn79tv2Js
+         fcBYbXgaMFdF9OlhE10QEQWrQhidR/Lz4q54I1o1m7o99r7PIGizVaXnPSSptY+JTZAJ
+         Ok7rSSShlqO2k6LhuWfDIBPmFTmCu5sp6RSFeduWr2klQDFsCtanyEg0NskqJSvByVss
+         DzEHy9Pf/zD3Z930YVNRo+bXy6yDKHImn68POc1QH02ejHzFXQfbK8N4lmHBanB6lmIt
+         b5Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722009567; x=1722614367;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6rFLI/K+ONWYzSr5kg8liHfFFJUbVJ1o+Qiz9LVeUv4=;
-        b=gK9+UVYXsrMEbZaE9tut7F/UFBcqFruaObdCE5vBJ6YyjsfJewX6KWD0GeCle2gDOF
-         1WhHizSmIKwlgNaGn1781aK/Aa28I1HO0qUvY+jTEgtDhw5tTeF6KNLUBns8kYzqTgV8
-         EejqBNMA6p3ucDSiPa+WqzD2oer9TQgjThJR7kj90VBWzQa429MUY040T827xX9iBb1m
-         EU4tOOHed2wqovuA1s4MI+o4iYq02Gzx7AJs6jcP6xrJglmejmmiNoW1hAlZG1z4XF1i
-         qh56q/8lM8NIM2Z3rE1LMEMFilIw/o1KjFa6WA5iKMlcEqNgd0RunQpdloy+qOx/uFcv
-         cK2g==
-X-Gm-Message-State: AOJu0YxzA+o4OimDRCF5kB7KthoGaYxmvxVEbR/jn9WfwNKpMf3IrfXX
-	1gxRQecsM7tRX0uBbaSIx7dGRpvfJ1NI/OY1Uzezw14Kagr7DR6TCn4alA==
-X-Google-Smtp-Source: AGHT+IFdYtlG40A4KrzG29dM41vUgasWVU647A8Ug5q5u8zVn8ExjyfueJBu1uGbVJ5WnsI6Dqoc2Q==
-X-Received: by 2002:a5d:69c2:0:b0:361:94d9:1e9f with SMTP id ffacd0b85a97d-36b5d7c4a34mr11177f8f.7.1722009567110;
-        Fri, 26 Jul 2024 08:59:27 -0700 (PDT)
-Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e49bdsm5535308f8f.44.2024.07.26.08.59.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 08:59:26 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>,
-	Jose Quaresma <jose.quaresma@foundries.io>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][scarthgap][PATCH 4/4] openssh: systemd notification was implemented upstream
-Date: Fri, 26 Jul 2024 16:48:38 +0100
-Message-ID: <20240726154838.1731195-4-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240726154838.1731195-1-jose.quaresma@foundries.io>
-References: <20240726154838.1731195-1-jose.quaresma@foundries.io>
+        d=1e100.net; s=20230601; t=1722009870; x=1722614670;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nOkkWzwbmca2025+9qGfqYNZO1YkpIUc4TQ7792joz4=;
+        b=RgV8Y1pAQYua5n7XK2DHTiFFvsZ3Dt4qdfEVe1r4ghgX5iRh4ehRXbdCJ+6D7IpqIi
+         AXuYIiqaALyaC67Mp7ditbfLjSYsnBRi+j3fyvttKYRI3d8IpDv0ncTudqKm8CdEwWIr
+         0FDtOX7YuhX6flZogfuRFZd/xPmyaGp7odO9Tu5pnX/FxRO23WQ1PSdhiMeiGdGJelB8
+         LA8v+pxNDi7EXr0V+e7if8DsxxkRJ40AeGFaXG1R6UNMUj8NKuv+wRB4tQ6hevuJVQJz
+         F12MYHlqnkviCcu+jOkWSi+lxQd3m6nW55gcoHPuDsCJ2EWMLvKbcAGM4LCh5HL+jp1L
+         97Ug==
+X-Gm-Message-State: AOJu0YxwYuZbvEVNg8EFUC1pS7sJx1NDZK/OZqNhWdGDcxUo2XY0K6Rm
+	HBfx7C/Z9LsgGXG6KoAHF96KmdDx0gbx153lmL9PUWeNkIg9sLNqd6w9HP9OB3H2SiciMiXRfTZ
+	5gmo1xd1H0e48ehal7TUFgeXHq3oKwCji
+X-Google-Smtp-Source: AGHT+IGDeSmppQFp45+m2/8YfoqnEw+Yc3rjhIpJIm4QHcugLUm3BNwoErdVYTu8gttUGeLGrtnQHIbpBuTHx3bXBrY=
+X-Received: by 2002:a05:6808:1993:b0:3d9:1f05:845 with SMTP id
+ 5614622812f47-3db23a69219mr145690b6e.19.1722009869872; Fri, 26 Jul 2024
+ 09:04:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <17E51ABD1A5159E6.10920@lists.openembedded.org> <2bebf809-c400-4517-bcae-b4f14e1c1d7d@weidmueller.com>
+In-Reply-To: <2bebf809-c400-4517-bcae-b4f14e1c1d7d@weidmueller.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Fri, 26 Jul 2024 17:04:18 +0100
+Message-ID: <CANPvuRn1M6m3jgP2fGFPmXTzgew=d_udqFFtQ=iLXS8pZyjSmQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] iptables: fix memory corruption when parsing nft rules
+To: christian.taedcke-oss@weidmueller.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000097fcad061e28aa39"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 15:59:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202548
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jul 2024 16:04:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202549
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+--00000000000097fcad061e28aa39
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Drop our sd-notify patch and switch to the upstream standalone
-implementation that does not depend on libsystemd.
+Hi Christian,
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 07522f85a987b673b0a3c98690c3c17ab0c4b608)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- ...-notify-systemd-on-listen-and-reload.patch | 225 ++++++++++++++++++
- ...tional-support-for-systemd-sd_notify.patch |  99 --------
- .../openssh/openssh/sshd.service              |   2 +-
- .../openssh/openssh_9.6p1.bb                  |   4 +-
- 4 files changed, 227 insertions(+), 103 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
- delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
+Taedcke, Christian via lists.openembedded.org <christian.taedcke-oss=3D
+weidmueller.com@lists.openembedded.org> escreveu (sexta, 26/07/2024 =C3=A0(=
+s)
+13:45):
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch b/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
-new file mode 100644
-index 0000000000..4925c969fe
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-notify-systemd-on-listen-and-reload.patch
-@@ -0,0 +1,225 @@
-+From fc73e2405a8ca928465580b74a4d76112919367b Mon Sep 17 00:00:00 2001
-+From: Damien Miller <djm@mindrot.org>
-+Date: Wed, 3 Apr 2024 14:40:32 +1100
-+Subject: [PATCH] notify systemd on listen and reload
-+
-+Standalone implementation that does not depend on libsystemd.
-+With assistance from Luca Boccassi, and feedback/testing from Colin
-+Watson. bz2641
-+
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/08f579231cd38a1c657aaa6ddeb8ab57a1fd4f5c]
-+
-+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-+---
-+ configure.ac                |  1 +
-+ openbsd-compat/port-linux.c | 97 ++++++++++++++++++++++++++++++++++++-
-+ openbsd-compat/port-linux.h |  5 ++
-+ platform.c                  | 11 +++++
-+ platform.h                  |  1 +
-+ sshd.c                      |  2 +
-+ 6 files changed, 115 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 82e8bb7c1..854f92b5b 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -915,6 +915,7 @@ int main(void) { if (NSVersionOfRunTimeLibrary("System") >= (60 << 16))
-+ 	AC_DEFINE([_PATH_BTMP], ["/var/log/btmp"], [log for bad login attempts])
-+ 	AC_DEFINE([USE_BTMP])
-+ 	AC_DEFINE([LINUX_OOM_ADJUST], [1], [Adjust Linux out-of-memory killer])
-++	AC_DEFINE([SYSTEMD_NOTIFY], [1], [Have sshd notify systemd on start/reload])
-+ 	inet6_default_4in6=yes
-+ 	case `uname -r` in
-+ 	1.*|2.0.*)
-+diff --git a/openbsd-compat/port-linux.c b/openbsd-compat/port-linux.c
-+index 0457e28d0..df7290246 100644
-+--- a/openbsd-compat/port-linux.c
-++++ b/openbsd-compat/port-linux.c
-+@@ -21,16 +21,23 @@
-+ 
-+ #include "includes.h"
-+ 
-+-#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST)
-++#if defined(WITH_SELINUX) || defined(LINUX_OOM_ADJUST) || \
-++    defined(SYSTEMD_NOTIFY)
-++#include <sys/socket.h>
-++#include <sys/un.h>
-++
-+ #include <errno.h>
-++#include <inttypes.h>
-+ #include <stdarg.h>
-+ #include <string.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-++#include <time.h>
-+ 
-+ #include "log.h"
-+ #include "xmalloc.h"
-+ #include "port-linux.h"
-++#include "misc.h"
-+ 
-+ #ifdef WITH_SELINUX
-+ #include <selinux/selinux.h>
-+@@ -310,4 +317,90 @@ oom_adjust_restore(void)
-+ 	return;
-+ }
-+ #endif /* LINUX_OOM_ADJUST */
-+-#endif /* WITH_SELINUX || LINUX_OOM_ADJUST */
-++
-++#ifdef SYSTEMD_NOTIFY
-++
-++static void ssh_systemd_notify(const char *, ...)
-++    __attribute__((__format__ (printf, 1, 2))) __attribute__((__nonnull__ (1)));
-++
-++static void
-++ssh_systemd_notify(const char *fmt, ...)
-++{
-++	char *s = NULL;
-++	const char *path;
-++	struct stat sb;
-++	struct sockaddr_un addr;
-++	int fd = -1;
-++	va_list ap;
-++
-++	if ((path = getenv("NOTIFY_SOCKET")) == NULL || strlen(path) == 0)
-++		return;
-++
-++	va_start(ap, fmt);
-++	xvasprintf(&s, fmt, ap);
-++	va_end(ap);
-++
-++	/* Only AF_UNIX is supported, with path or abstract sockets */
-++	if (path[0] != '/' && path[0] != '@') {
-++		error_f("socket \"%s\" is not compatible with AF_UNIX", path);
-++		goto out;
-++	}
-++
-++	if (path[0] == '/' && stat(path, &sb) != 0) {
-++		error_f("socket \"%s\" stat: %s", path, strerror(errno));
-++		goto out;
-++	}
-++
-++	memset(&addr, 0, sizeof(addr));
-++	addr.sun_family = AF_UNIX;
-++	if (strlcpy(addr.sun_path, path,
-++	    sizeof(addr.sun_path)) >= sizeof(addr.sun_path)) {
-++		error_f("socket path \"%s\" too long", path);
-++		goto out;
-++	}
-++	/* Support for abstract socket */
-++	if (addr.sun_path[0] == '@')
-++		addr.sun_path[0] = 0;
-++	if ((fd = socket(PF_UNIX, SOCK_DGRAM, 0)) == -1) {
-++		error_f("socket \"%s\": %s", path, strerror(errno));
-++		goto out;
-++	}
-++	if (connect(fd, &addr, sizeof(addr)) != 0) {
-++		error_f("socket \"%s\" connect: %s", path, strerror(errno));
-++		goto out;
-++	}
-++	if (write(fd, s, strlen(s)) != (ssize_t)strlen(s)) {
-++		error_f("socket \"%s\" write: %s", path, strerror(errno));
-++		goto out;
-++	}
-++	debug_f("socket \"%s\" notified %s", path, s);
-++ out:
-++	if (fd != -1)
-++		close(fd);
-++	free(s);
-++}
-++
-++void
-++ssh_systemd_notify_ready(void)
-++{
-++	ssh_systemd_notify("READY=1");
-++}
-++
-++void
-++ssh_systemd_notify_reload(void)
-++{
-++	struct timespec now;
-++
-++	monotime_ts(&now);
-++	if (now.tv_sec < 0 || now.tv_nsec < 0) {
-++		error_f("monotime returned negative value");
-++		ssh_systemd_notify("RELOADING=1");
-++	} else {
-++		ssh_systemd_notify("RELOADING=1\nMONOTONIC_USEC=%llu",
-++		    ((uint64_t)now.tv_sec * 1000000ULL) +
-++		    ((uint64_t)now.tv_nsec / 1000ULL));
-++	}
-++}
-++#endif /* SYSTEMD_NOTIFY */
-++
-++#endif /* WITH_SELINUX || LINUX_OOM_ADJUST || SYSTEMD_NOTIFY */
-+diff --git a/openbsd-compat/port-linux.h b/openbsd-compat/port-linux.h
-+index 3c22a854d..14064f87d 100644
-+--- a/openbsd-compat/port-linux.h
-++++ b/openbsd-compat/port-linux.h
-+@@ -30,4 +30,9 @@ void oom_adjust_restore(void);
-+ void oom_adjust_setup(void);
-+ #endif
-+ 
-++#ifdef SYSTEMD_NOTIFY
-++void ssh_systemd_notify_ready(void);
-++void ssh_systemd_notify_reload(void);
-++#endif
-++
-+ #endif /* ! _PORT_LINUX_H */
-+diff --git a/platform.c b/platform.c
-+index 4fe8744ee..9cf818153 100644
-+--- a/platform.c
-++++ b/platform.c
-+@@ -44,6 +44,14 @@ platform_pre_listen(void)
-+ #endif
-+ }
-+ 
-++void
-++platform_post_listen(void)
-++{
-++#ifdef SYSTEMD_NOTIFY
-++	ssh_systemd_notify_ready();
-++#endif
-++}
-++
-+ void
-+ platform_pre_fork(void)
-+ {
-+@@ -55,6 +63,9 @@ platform_pre_fork(void)
-+ void
-+ platform_pre_restart(void)
-+ {
-++#ifdef SYSTEMD_NOTIFY
-++	ssh_systemd_notify_reload();
-++#endif
-+ #ifdef LINUX_OOM_ADJUST
-+ 	oom_adjust_restore();
-+ #endif
-+diff --git a/platform.h b/platform.h
-+index 7fef8c983..5dec23276 100644
-+--- a/platform.h
-++++ b/platform.h
-+@@ -21,6 +21,7 @@
-+ void platform_pre_listen(void);
-+ void platform_pre_fork(void);
-+ void platform_pre_restart(void);
-++void platform_post_listen(void);
-+ void platform_post_fork_parent(pid_t child_pid);
-+ void platform_post_fork_child(void);
-+ int  platform_privileged_uidswap(void);
-+diff --git a/sshd.c b/sshd.c
-+index b4f2b9742..865331b46 100644
-+--- a/sshd.c
-++++ b/sshd.c
-+@@ -2077,6 +2077,8 @@ main(int ac, char **av)
-+ 		ssh_signal(SIGTERM, sigterm_handler);
-+ 		ssh_signal(SIGQUIT, sigterm_handler);
-+ 
-++		platform_post_listen();
-++
-+ 		/*
-+ 		 * Write out the pid file after the sigterm handler
-+ 		 * is setup and the listen sockets are bound
-+-- 
-+2.45.2
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-deleted file mode 100644
-index f7a1d12e8d..0000000000
---- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--From be187435911cde6cc3cef6982a508261074f1e56 Mon Sep 17 00:00:00 2001
--From: Matt Jolly <Matt.Jolly@footclan.ninja>
--Date: Thu, 2 Feb 2023 21:05:40 +1100
--Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
--
--This is a rebase of Dennis Lamm's <expeditioneer@gentoo.org>
--patch based on Jakub Jelen's <jjelen@redhat.com> original patch
--
--Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
--
--Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-----
-- configure.ac | 24 ++++++++++++++++++++++++
-- sshd.c       | 13 +++++++++++++
-- 2 files changed, 37 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 22fee70f..486c189f 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -4835,6 +4835,29 @@ AC_SUBST([GSSLIBS])
-- AC_SUBST([K5LIBS])
-- AC_SUBST([CHANNELLIBS])
-- 
--+# Check whether user wants systemd support
--+SYSTEMD_MSG="no"
--+AC_ARG_WITH(systemd,
--+	[  --with-systemd          Enable systemd support],
--+	[ if test "x$withval" != "xno" ; then
--+		AC_PATH_TOOL([PKGCONFIG], [pkg-config], [no])
--+		if test "$PKGCONFIG" != "no"; then
--+			AC_MSG_CHECKING([for libsystemd])
--+			if $PKGCONFIG --exists libsystemd; then
--+				SYSTEMD_CFLAGS=`$PKGCONFIG --cflags libsystemd`
--+				SYSTEMD_LIBS=`$PKGCONFIG --libs libsystemd`
--+				CPPFLAGS="$CPPFLAGS $SYSTEMD_CFLAGS"
--+				SSHDLIBS="$SSHDLIBS $SYSTEMD_LIBS"
--+				AC_MSG_RESULT([yes])
--+				AC_DEFINE(HAVE_SYSTEMD, 1, [Define if you want systemd support.])
--+				SYSTEMD_MSG="yes"
--+			else
--+				AC_MSG_RESULT([no])
--+			fi
--+		fi
--+	fi ]
--+)
--+
-- # Looking for programs, paths and files
-- 
-- PRIVSEP_PATH=/var/empty
--@@ -5634,6 +5657,7 @@ echo "                   libldns support: $LDNS_MSG"
-- echo "  Solaris process contract support: $SPC_MSG"
-- echo "           Solaris project support: $SP_MSG"
-- echo "         Solaris privilege support: $SPP_MSG"
--+echo "                   systemd support: $SYSTEMD_MSG"
-- echo "       IP address in \$DISPLAY hack: $DISPLAY_HACK_MSG"
-- echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
-- echo "                  BSD Auth support: $BSD_AUTH_MSG"
--diff --git a/sshd.c b/sshd.c
--index 6321936c..859d6a0b 100644
----- a/sshd.c
--+++ b/sshd.c
--@@ -88,6 +88,10 @@
-- #include <prot.h>
-- #endif
-- 
--+#ifdef HAVE_SYSTEMD
--+#include <systemd/sd-daemon.h>
--+#endif
--+
-- #include "xmalloc.h"
-- #include "ssh.h"
-- #include "ssh2.h"
--@@ -310,6 +314,10 @@ static void
-- sighup_restart(void)
-- {
-- 	logit("Received SIGHUP; restarting.");
--+#ifdef HAVE_SYSTEMD
--+	/* Signal systemd that we are reloading */
--+	sd_notify(0, "RELOADING=1");
--+#endif
-- 	if (options.pid_file != NULL)
-- 		unlink(options.pid_file);
-- 	platform_pre_restart();
--@@ -2086,6 +2094,11 @@ main(int ac, char **av)
-- 			}
-- 		}
-- 
--+#ifdef HAVE_SYSTEMD
--+		/* Signal systemd that we are ready to accept connections */
--+		sd_notify(0, "READY=1");
--+#endif
--+
-- 		/* Accept a connection and return in a forked child */
-- 		server_accept_loop(&sock_in, &sock_out,
-- 		    &newsock, config_s);
---- 
--2.25.1
--
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.service b/meta/recipes-connectivity/openssh/openssh/sshd.service
-index 2a997b656a..24062a6817 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd.service
-@@ -4,11 +4,11 @@ Wants=sshdgenkeys.service
- After=sshdgenkeys.service
- 
- [Service]
-+Type=notify-reload
- Environment="SSHD_OPTS="
- EnvironmentFile=-/etc/default/ssh
- ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
- ExecStart=-@SBINDIR@/sshd -D $SSHD_OPTS
--ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
- KillMode=process
- Restart=on-failure
- RestartSec=42s
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index c71245b6c0..042acffe6a 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -25,7 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
--           file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
-+           file://0001-notify-systemd-on-listen-and-reload.patch \
-            file://CVE-2024-6387.patch \
-            file://CVE-2024-39894.patch \
-            "
-@@ -54,7 +54,6 @@ SYSTEMD_PACKAGES = "${PN}-sshd"
- SYSTEMD_SERVICE:${PN}-sshd = "${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
- 
- inherit autotools-brokensep ptest pkgconfig
--DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
- 
- # systemd-sshd-socket-mode means installing sshd.socket
- # and systemd-sshd-service-mode corresponding to sshd.service
-@@ -77,7 +76,6 @@ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
-                 --sysconfdir=${sysconfdir}/ssh \
-                 --with-xauth=${bindir}/xauth \
-                 --disable-strip \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '--without-systemd', d)} \
-                 "
- 
- # musl doesn't implement wtmp/utmp and logwtmp
--- 
-2.45.2
+> Thanks for applying this fix to master.
+>
+> Should i send another patch for scarthgap or is this automatically
+> ported to scarthgap?
+>
 
+You can always send the patch with:
+
+git cherry-pick -x -s ...
+git send-email --subject-prefix=3D"OE-core][BRANCH][PATCH" ...
+
+This makes the maintainer's life a little easier.
+
+Jose
+
+
+> Regards,
+> Christian
+>
+> On 24.07.2024 11:03, Taedcke, Christian via lists.openembedded.org wrote:
+> > From: Christian Taedcke <christian.taedcke@weidmueller.com>
+> >
+> > This commit fixes a memory corruption issue when iptables (with
+> > enabled PACKAGECONFIG libnftnl) is used to access rules created by
+> > nft.
+> >
+> > To reproduce the issue:
+> > nft add chain ip filter TESTCHAIN { meta mark set 123 \;}
+> > iptables -t filter -n -L TESTCHAIN
+> >
+> > This produced the following output:
+> > Chain TESTCHAIN (0 references)
+> > target prot opt source     destination
+> > MARK   0    --  0.0.0.0/0  0.0.0.0/0     MARK set 0x7b
+> > malloc(): corrupted top size
+> > Aborted (core dumped)
+> >
+> > This commit fixes this issue.
+> >
+> > Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+> > ---
+> >   ...se-Add-missing-braces-around-ternary.patch | 37 ++++++++++++++++++=
++
+> >   .../iptables/iptables_1.8.10.bb               |  1 +
+> >   2 files changed, 38 insertions(+)
+> >   create mode 100644
+> meta/recipes-extended/iptables/iptables/0002-nft-ruleparse-Add-missing-br=
+aces-around-ternary.patch
+> >
+> > diff --git
+> a/meta/recipes-extended/iptables/iptables/0002-nft-ruleparse-Add-missing-=
+braces-around-ternary.patch
+> b/meta/recipes-extended/iptables/iptables/0002-nft-ruleparse-Add-missing-=
+braces-around-ternary.patch
+> > new file mode 100644
+> > index 0000000000..4cbc8bdaf4
+> > --- /dev/null
+> > +++
+> b/meta/recipes-extended/iptables/iptables/0002-nft-ruleparse-Add-missing-=
+braces-around-ternary.patch
+> > @@ -0,0 +1,37 @@
+> > +From 2026b08bce7fe87b5964f7912e1eef30f04922c1 Mon Sep 17 00:00:00 2001
+> > +From: Phil Sutter <phil@nwl.cc>
+> > +Date: Fri, 26 Jan 2024 18:43:10 +0100
+> > +Subject: [PATCH] nft: ruleparse: Add missing braces around ternary
+> > +
+> > +The expression evaluated the sum before the ternay, consequently not
+> > +adding target->size if tgsize was zero.
+> > +
+> > +Identified by ASAN for a simple rule using standard target:
+> > +| # ebtables -A INPUT -s de:ad:be:ef:0:00 -j RETURN
+> > +| # ebtables -D INPUT -s de:ad:be:ef:0:00 -j RETURN
+> > +| =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +| =3D=3D18925=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on ad=
+dress
+> 0x603000000120 at pc 0x7f627a4c75c5 bp 0x7ffe882b5180 sp 0x7ffe882b4928
+> > +| READ of size 8 at 0x603000000120 thread T0
+> > +| [...]
+> > +
+> > +Upstream-Status: Backport [2026b08bce7fe87b5964f7912e1eef30f04922c1]
+> > +
+> > +Fixes: 2a6eee89083c8 ("nft-ruleparse: Introduce nft_create_target()")
+> > +Signed-off-by: Phil Sutter <phil@nwl.cc>
+> > +---
+> > + iptables/nft-ruleparse.c | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/iptables/nft-ruleparse.c b/iptables/nft-ruleparse.c
+> > +index 0bbdf44faf..3b1cbe4fa1 100644
+> > +--- a/iptables/nft-ruleparse.c
+> > ++++ b/iptables/nft-ruleparse.c
+> > +@@ -94,7 +94,7 @@ __nft_create_target(struct nft_xt_ctx *ctx, const
+> char *name, size_t tgsize)
+> > +     if (!target)
+> > +             return NULL;
+> > +
+> > +-    size =3D XT_ALIGN(sizeof(*target->t)) + tgsize ?: target->size;
+> > ++    size =3D XT_ALIGN(sizeof(*target->t)) + (tgsize ?: target->size);
+> > +
+> > +     target->t =3D xtables_calloc(1, size);
+> > +     target->t->u.target_size =3D size;
+> > diff --git a/meta/recipes-extended/iptables/iptables_1.8.10.bb
+> b/meta/recipes-extended/iptables/iptables_1.8.10.bb
+> > index 81eba6c967..a94e4749ae 100644
+> > --- a/meta/recipes-extended/iptables/iptables_1.8.10.bb
+> > +++ b/meta/recipes-extended/iptables/iptables_1.8.10.bb
+> > @@ -14,6 +14,7 @@ SRC_URI =3D "
+> http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.xz \
+> >              file://ip6tables.service \
+> >              file://ip6tables.rules \
+> >
+> file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+> > +
+>  file://0002-nft-ruleparse-Add-missing-braces-around-ternary.patch \
+> >              "
+> >   SRC_URI[sha256sum] =3D
+> "5cc255c189356e317d070755ce9371eb63a1b783c34498fb8c30264f3cc59c9c"
+> >
+> >
+> >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202536):
+> https://lists.openembedded.org/g/openembedded-core/message/202536
+> Mute This Topic: https://lists.openembedded.org/mt/107520169/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--00000000000097fcad061e28aa39
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Christian,</div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">Taedcke, Christian via <a href=3D"http:/=
+/lists.openembedded.org">lists.openembedded.org</a> &lt;christian.taedcke-o=
+ss=3D<a href=3D"mailto:weidmueller.com@lists.openembedded.org">weidmueller.=
+com@lists.openembedded.org</a>&gt; escreveu (sexta, 26/07/2024 =C3=A0(s) 13=
+:45):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Thanks for=
+ applying this fix to master.<br>
+<br>
+Should i send another patch for scarthgap or is this automatically <br>
+ported to scarthgap?<br></blockquote><div><br></div><div>You can always sen=
+d the patch=C2=A0with: <br><br>git cherry-pick -x -s ...<br>git send-email =
+--subject-prefix=3D&quot;OE-core][BRANCH][PATCH&quot;=C2=A0...</div><div><b=
+r>This makes the maintainer&#39;s life a little easier.<br></div><div><br>J=
+ose</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Regards,<br>
+Christian<br>
+<br>
+On 24.07.2024 11:03, Taedcke, Christian via <a href=3D"http://lists.openemb=
+edded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> =
+wrote:<br>
+&gt; From: Christian Taedcke &lt;<a href=3D"mailto:christian.taedcke@weidmu=
+eller.com" target=3D"_blank">christian.taedcke@weidmueller.com</a>&gt;<br>
+&gt; <br>
+&gt; This commit fixes a memory corruption issue when iptables (with<br>
+&gt; enabled PACKAGECONFIG libnftnl) is used to access rules created by<br>
+&gt; nft.<br>
+&gt; <br>
+&gt; To reproduce the issue:<br>
+&gt; nft add chain ip filter TESTCHAIN { meta mark set 123 \;}<br>
+&gt; iptables -t filter -n -L TESTCHAIN<br>
+&gt; <br>
+&gt; This produced the following output:<br>
+&gt; Chain TESTCHAIN (0 references)<br>
+&gt; target prot opt source=C2=A0 =C2=A0 =C2=A0destination<br>
+&gt; MARK=C2=A0 =C2=A00=C2=A0 =C2=A0 --=C2=A0 <a href=3D"http://0.0.0.0/0" =
+rel=3D"noreferrer" target=3D"_blank">0.0.0.0/0</a>=C2=A0 <a href=3D"http://=
+0.0.0.0/0" rel=3D"noreferrer" target=3D"_blank">0.0.0.0/0</a>=C2=A0 =C2=A0 =
+=C2=A0MARK set 0x7b<br>
+&gt; malloc(): corrupted top size<br>
+&gt; Aborted (core dumped)<br>
+&gt; <br>
+&gt; This commit fixes this issue.<br>
+&gt; <br>
+&gt; Signed-off-by: Christian Taedcke &lt;<a href=3D"mailto:christian.taedc=
+ke@weidmueller.com" target=3D"_blank">christian.taedcke@weidmueller.com</a>=
+&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0...se-Add-missing-braces-around-ternary.patch | 37 +++++++=
+++++++++++++<br>
+&gt;=C2=A0 =C2=A0.../iptables/<a href=3D"http://iptables_1.8.10.bb" rel=3D"=
+noreferrer" target=3D"_blank">iptables_1.8.10.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A02 files changed, 38 insertions(+)<br>
+&gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-extended/iptables/iptables=
+/0002-nft-ruleparse-Add-missing-braces-around-ternary.patch<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-extended/iptables/iptables/0002-nft-rulepars=
+e-Add-missing-braces-around-ternary.patch b/meta/recipes-extended/iptables/=
+iptables/0002-nft-ruleparse-Add-missing-braces-around-ternary.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..4cbc8bdaf4<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-extended/iptables/iptables/0002-nft-ruleparse-Add-m=
+issing-braces-around-ternary.patch<br>
+&gt; @@ -0,0 +1,37 @@<br>
+&gt; +From 2026b08bce7fe87b5964f7912e1eef30f04922c1 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Phil Sutter &lt;<a href=3D"mailto:phil@nwl.cc" target=3D"_blank=
+">phil@nwl.cc</a>&gt;<br>
+&gt; +Date: Fri, 26 Jan 2024 18:43:10 +0100<br>
+&gt; +Subject: [PATCH] nft: ruleparse: Add missing braces around ternary<br=
+>
+&gt; +<br>
+&gt; +The expression evaluated the sum before the ternay, consequently not<=
+br>
+&gt; +adding target-&gt;size if tgsize was zero.<br>
+&gt; +<br>
+&gt; +Identified by ASAN for a simple rule using standard target:<br>
+&gt; +| # ebtables -A INPUT -s de:ad:be:ef:0:00 -j RETURN<br>
+&gt; +| # ebtables -D INPUT -s de:ad:be:ef:0:00 -j RETURN<br>
+&gt; +| =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+&gt; +| =3D=3D18925=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on a=
+ddress 0x603000000120 at pc 0x7f627a4c75c5 bp 0x7ffe882b5180 sp 0x7ffe882b4=
+928<br>
+&gt; +| READ of size 8 at 0x603000000120 thread T0<br>
+&gt; +| [...]<br>
+&gt; +<br>
+&gt; +Upstream-Status: Backport [2026b08bce7fe87b5964f7912e1eef30f04922c1]<=
+br>
+&gt; +<br>
+&gt; +Fixes: 2a6eee89083c8 (&quot;nft-ruleparse: Introduce nft_create_targe=
+t()&quot;)<br>
+&gt; +Signed-off-by: Phil Sutter &lt;<a href=3D"mailto:phil@nwl.cc" target=
+=3D"_blank">phil@nwl.cc</a>&gt;<br>
+&gt; +---<br>
+&gt; + iptables/nft-ruleparse.c | 2 +-<br>
+&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; +<br>
+&gt; +diff --git a/iptables/nft-ruleparse.c b/iptables/nft-ruleparse.c<br>
+&gt; +index 0bbdf44faf..3b1cbe4fa1 100644<br>
+&gt; +--- a/iptables/nft-ruleparse.c<br>
+&gt; ++++ b/iptables/nft-ruleparse.c<br>
+&gt; +@@ -94,7 +94,7 @@ __nft_create_target(struct nft_xt_ctx *ctx, const c=
+har *name, size_t tgsize)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (!target)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 size =3D XT_ALIGN(sizeof(*target-&gt;t)) + tgsize ?: t=
+arget-&gt;size;<br>
+&gt; ++=C2=A0 =C2=A0 size =3D XT_ALIGN(sizeof(*target-&gt;t)) + (tgsize ?: =
+target-&gt;size);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0target-&gt;t =3D xtables_calloc(1, size);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0target-&gt;t-&gt;u.target_size =3D size;<br>
+&gt; diff --git a/meta/recipes-extended/iptables/<a href=3D"http://iptables=
+_1.8.10.bb" rel=3D"noreferrer" target=3D"_blank">iptables_1.8.10.bb</a> b/m=
+eta/recipes-extended/iptables/<a href=3D"http://iptables_1.8.10.bb" rel=3D"=
+noreferrer" target=3D"_blank">iptables_1.8.10.bb</a><br>
+&gt; index 81eba6c967..a94e4749ae 100644<br>
+&gt; --- a/meta/recipes-extended/iptables/<a href=3D"http://iptables_1.8.10=
+.bb" rel=3D"noreferrer" target=3D"_blank">iptables_1.8.10.bb</a><br>
+&gt; +++ b/meta/recipes-extended/iptables/<a href=3D"http://iptables_1.8.10=
+.bb" rel=3D"noreferrer" target=3D"_blank">iptables_1.8.10.bb</a><br>
+&gt; @@ -14,6 +14,7 @@ SRC_URI =3D &quot;<a href=3D"http://netfilter.org/pr=
+ojects/iptables/files/iptables-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=
+=3D"_blank">http://netfilter.org/projects/iptables/files/iptables-${PV}.tar=
+.xz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://ip6tables.servi=
+ce \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://ip6tables.rules=
+ \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure-=
+Add-option-to-enable-disable-libnfnetlink.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-nft-ruleparse-Ad=
+d-missing-braces-around-ternary.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt;=C2=A0 =C2=A0SRC_URI[sha256sum] =3D &quot;5cc255c189356e317d070755ce937=
+1eb63a1b783c34498fb8c30264f3cc59c9c&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#202536): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/202536" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/202536</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/107520169/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/107520169/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--00000000000097fcad061e28aa39--
 
