@@ -1,145 +1,81 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55266C3DA64
-	for <webhook@archiver.kernel.org>; Sun, 28 Jul 2024 14:29:17 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.35413.1722176952452562892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F3DC3DA49
+	for <webhook@archiver.kernel.org>; Sun, 28 Jul 2024 14:49:17 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.35729.1722178148879085059
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jul 2024 07:29:12 -0700
+ Sun, 28 Jul 2024 07:49:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LT/MPh8A;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3687f8fcab5so716858f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jul 2024 07:29:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SJSva0iS;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fd70ba6a15so13633075ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jul 2024 07:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722176950; x=1722781750; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1722178148; x=1722782948; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5IwnLKiAxhU8CLbasyWMCdwThcZogec8JA7tNlU3uI4=;
-        b=LT/MPh8ADYyNoIdzYYgG6IBzbI5E9CbxPtt5znJM3bg/jRXUCOybLAUR2w5eApva6q
-         rOkN4SgGsY5hvqzpNmdYV2pc/4ygYhE3dwFbOS+4t6nk3CwsLqd59Ms4UNAszTlffixO
-         OIO2t05rQinmgkXvmDH213B33msi1cmeshW41Ao1mH28ghb7aVDQn04Fc7MNNOIFSsNC
-         GCoWgId19TiqnXTNOHz5Uyje8lbYwmUWxKkEichdMxNEfgOy5lImWzpUKwWB0juK1Khn
-         zVA8Z3pFIKoolRL6uvH533xR3s5yalGjlTTItTlZ7GhcZWpPFAtToCsn4UX2BaPGzZ6X
-         Uagg==
+        bh=5poF4iobFItKXfxtm4jWQs5vUtY2dkgyWiJamYfXCKg=;
+        b=SJSva0iSQmxgIWFHINh5PYiXjVubqUsOtuyQo8XM75/fQBo5WUgImt4uhfRzJuJ2qG
+         3WOzIm6OGLVR8kGwXdVft0BRk+qzelbOBdBwTX7QAfMHSoiPjosABiBm+Z5iZkSMNkTZ
+         W861eXo/SLmV3QnTtz0QoVOwa3wreLpP11d8gTxZrozlTYIBifAvWej/fHVBjRV1/dt/
+         AGKPM7BDctnGEIvbGPbV40vq0r5shZ194K2NxGQxqU7zIGww/vHZ57/TVfnJNlNsfNFR
+         f7MnHvZ+NAxf3dlPiq4eEnNWudg0IA6bWiR/A2UIQe5AUhGHyS8DSI0Sl3ekOk3a9Phl
+         54uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722176950; x=1722781750;
+        d=1e100.net; s=20230601; t=1722178148; x=1722782948;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5IwnLKiAxhU8CLbasyWMCdwThcZogec8JA7tNlU3uI4=;
-        b=al8GZoz1jy9tOdwXd3VLXMSJ8DNrHhRyA7e55RUoxrftoinexOIY3iVqk8yMJs3yib
-         rK9IkfI/6BxWYFDUFm5A4y9quh8Cc+/NecKZT5DmlaBdjsxAoVihCeidgDrhnrQG7+PU
-         8TJCng+4JYhytnxTJEmzLfapqXUBtoiJZTP7Z3mxNS6osmxzIfBX4ToQJ+nmkSmo0uNb
-         mgMnRO8MSXeZZEhnxwSRUB8VzJsS28B4dTI1bPhT/CgDowMKxiQTabsKhaYFcOqAop8w
-         QtMuzroUjHyWxikbE+cGI1RXKgeDTMjQsr5okvLwu6TFgILW/3dBLrV81xCHk7XeT2uz
-         GWgw==
-X-Gm-Message-State: AOJu0Yz2cQhvgLCKXfAIqD1GhJufR2HcV7rEOgy8+bsywc20WN7ofLLP
-	Aa/Ip5sHgY1OA0wiNEqX/vyZQLYLJE/6tcqF3EuIRJLWEI+z6CoT5wqkYQ==
-X-Google-Smtp-Source: AGHT+IGUUMVEMoEMUw/8IM1AaH0adbNZZTfmI/kP1hbqw2ALBWdxbQIEQ6VrDvjTE0IqOWfCwRiLww==
-X-Received: by 2002:a5d:5f51:0:b0:35f:1f8a:e69a with SMTP id ffacd0b85a97d-36b5d073f43mr5422599f8f.49.1722176949856;
-        Sun, 28 Jul 2024 07:29:09 -0700 (PDT)
-Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b36861b54sm9865670f8f.95.2024.07.28.07.29.08
+        bh=5poF4iobFItKXfxtm4jWQs5vUtY2dkgyWiJamYfXCKg=;
+        b=OE6aYmJpvhoTTCXTMgStmF2om2AV4o0bVTo6yS6Um6KRvZb8yn6bVVe8WfytdQ7ztu
+         EAZuMZiyJRcOyWpeCNwzyNjhsPlUg7W5OrJLyvZ/XELBksQTybXgubBvwFjHJs7VMQgO
+         HwcDhX4g5UgJtN+ZvIxeIs0YHdyD0iIc+KTRvhYQbXOL/dmTkMJM4wmVxHYr5sKeIdbA
+         4ioE7nTjYL4w5osZ7j1JNv8lPHGYFpgjr2aDIKAihSnkH4kiqcqaFYLyD0EkRkoDt6Ny
+         I+xsErx11oc6VD7z3MWgI2b2A8K9BwhiXmuCLbxq31sZTcNbeSmPViU6Bxl5aRttrPDX
+         2pUQ==
+X-Gm-Message-State: AOJu0YwyB/Gh+bFzK2c8NWWthGOsEClbD3AsKlCGnTH3VEXRKy3i1niK
+	GNhivN9NNbQR9wvp4bKsUPDA2LLRCaKrzLmIsRNBaF/oWlaZN85wRuWhq1Nc
+X-Google-Smtp-Source: AGHT+IGjJD8NyaUMxFwH1Ah0Wf4euKi3foOvHLtBSZgZhaC/66kpTTFLI5SLDbM6b87UOUUw1beZYA==
+X-Received: by 2002:a17:903:234b:b0:1f6:fcd9:5b86 with SMTP id d9443c01a7336-1ff047eaca9mr39010085ad.12.1722178147828;
+        Sun, 28 Jul 2024 07:49:07 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4c22])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7ee1263sm65957515ad.122.2024.07.28.07.49.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jul 2024 07:29:09 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+        Sun, 28 Jul 2024 07:49:07 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Steve Sakoman <steve@sakoman.com>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH v3] rpcbind: Fix boot time start failure
-Date: Sun, 28 Jul 2024 16:29:06 +0200
-Message-ID: <20240728142906.1297662-1-zboszor@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libyaml: Update status of CVE-2024-35328
+Date: Sun, 28 Jul 2024 07:49:05 -0700
+Message-ID: <20240728144905.554155-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Jul 2024 14:29:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202568
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Jul 2024 14:49:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202569
 
-With commits 90bc1810 ("bitbake.conf: Add runtimedir") and
-561e853e ("rpcbind: Specify state directory under /run") rpcbind
-still can fail during startup with:
+This is open yet but seems to be disputed
 
-  rpcbind: /var/run/rpcbind.lock: Read-only file system
-
-The lockfile is hardcoded as "/var/run/rpcbind.lock".
-While it should use the same internal define "RPCBIND_STATEDIR"
-as the paths for rpcbind.xdr and portmap.xdr, it's not necessary
-to be patched because of the default value of ${runtimedir} and
-the presence of the /var/run -> /run symlink.
-
-Using --with-statedir=/run/rpcbind adds the line
-
-  RequiresMountsFor=/run/rpcbind
-
-to the service but it doesn't guarantee that /run is writable yet
-when rpcbind.service starts. Add this guarantee by running
-rpcbind.service with systemd-tmpfiles-setup.service and add the
-tmpfiles.d entry for /run/rpcbind.
-
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/rpcbind/rpcbind/rpcbind.systemd  |  3 +++
- meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles |  1 +
- meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb         | 10 ++++++++++
- 3 files changed, 14 insertions(+)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind.systemd
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles
+ meta/recipes-support/libyaml/libyaml_0.2.5.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.systemd b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.systemd
-new file mode 100644
-index 0000000000..5765751326
---- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.systemd
-@@ -0,0 +1,3 @@
-+[Unit]
-+# Make sure the runtime directory exists
-+After=systemd-tmpfiles-setup.service
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles
-new file mode 100644
-index 0000000000..fecee72c09
---- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.tmpfiles
-@@ -0,0 +1 @@
-+d /run/rpcbind 0755 root root -
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-index e751eb631c..aeca86e564 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
- SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://init.d \
-            file://rpcbind.conf \
-+           file://rpcbind.tmpfiles \
-+           file://rpcbind.systemd \
-            file://rpcbind_add_option_to_fix_port_number.patch \
-            file://0001-systemd-use-EnvironmentFile.patch \
-           "
-@@ -49,7 +51,15 @@ do_install:append () {
- 		${UNPACKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
- 	chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
- 	install -m 0644 ${UNPACKDIR}/rpcbind.conf ${D}${sysconfdir}/rpcbind.conf
-+
-+	install -d ${D}${sysconfdir}/tmpfiles.d
-+	install -m 0644 ${UNPACKDIR}/rpcbind.tmpfiles ${D}${sysconfdir}/tmpfiles.d/rpcbind.conf
-+
-+	install -d ${D}${systemd_system_unitdir}/rpcbind.service.d
-+	install -m 0644 ${UNPACKDIR}/rpcbind.systemd ${D}${systemd_system_unitdir}/rpcbind.service.d/rpcbind.conf
- }
+diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+index 4cb5717ece8..2d6f27af1fc 100644
+--- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
++++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+@@ -18,4 +18,6 @@ inherit autotools
+ DISABLE_STATIC:class-nativesdk = ""
+ DISABLE_STATIC:class-native = ""
  
-+FILES:${PN} += "${systemd_system_unitdir}/rpcbind.service.d/rpcbind.conf"
++CVE_STATUS[CVE-2024-35328] = "disputed: Upstream thinks there is no working code that is exploitable - https://github.com/yaml/libyaml/issues/302"
 +
- ALTERNATIVE:${PN} = "rpcinfo"
- ALTERNATIVE_LINK_NAME[rpcinfo] = "${bindir}/rpcinfo"
--- 
-2.45.2
-
+ BBCLASSEXTEND = "native nativesdk"
 
