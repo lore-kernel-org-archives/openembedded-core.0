@@ -1,336 +1,103 @@
-Return-Path: <li.wang@windriver.com>
+Return-Path: <troth@openavr.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E60C3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 14:48:48 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.57793.1722264528177901199
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29FA4C3DA61
+	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 15:08:09 +0000 (UTC)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web11.58613.1722265684365063689
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 07:48:48 -0700
+ Mon, 29 Jul 2024 08:08:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8940a96e84=li.wang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46T7nYax005350
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 14:48:47 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40mp3x9vyt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 14:48:46 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 29 Jul 2024 07:48:45 -0700
-Received: from pek-lwang1-d1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Mon, 29 Jul 2024 07:48:44 -0700
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <li.wang@windriver.com>
-Subject: [openembedded-core V2][master][PATCH]xinetd: use monotonic time
-Date: Mon, 29 Jul 2024 22:44:34 +0800
-Message-ID: <20240729144434.153005-1-li.wang@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=yf4FtpdC;
+ spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.210.47, mailfrom: troth@openavr.org)
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-709340bd54dso1579200a34.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 08:08:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1722265683; x=1722870483; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d5R4ws0t6yLI61wc12myjnfoDF5vdj+02mafrdlLXx8=;
+        b=yf4FtpdCQ/UhL9cTA39F9fLygvOK6ZrBJeTGQYotoDLYzHrm/FCsjrS92d42fLQJVI
+         AgjpexfVxqLljjLBG6a8HI5WiyYPsDnMmZydKaIMS9uX2rsSSACeYBIj4aUyo7g4KkQV
+         A+7SVSH+MIzmGhWx6wSx13X6Xm6gDigYOB1cpIbqGMyhOq4a5aBfUENE+SLdbjLZ3mUK
+         Gl1mHX7mR22TGI2DydvJ4HF1DTR/VFaqHw1tJ1A/zj54JQRz4YqP+WmPDzDfcfMSdZK2
+         gdlRrRqFg5nQdUrO7L+rDhguxAdU7eh/UQZvlg3NNI4pbD4YnL12JQFl0CBVVXsvfU3O
+         DNZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722265683; x=1722870483;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d5R4ws0t6yLI61wc12myjnfoDF5vdj+02mafrdlLXx8=;
+        b=TZc08zwZLOL9QL+vG4MWct9sbxN5LtTIXRB/JpKaeH/6KehsCvyZ42BAszmPjhpzKz
+         pVGxvHYr9dT+vr3wwma6iYMt+0/jvTN+IFRUcgaCg3KdwnOFls9H50BMze9pzUmUZChH
+         M0Np8gCnvRdbOVGU38ddLgNEKNMnNOaIzXM4P9eiR2SBjfIKzjNA3gkoFKCRFvMw/i1l
+         y7wbqeNKTxV9iVgMe1KTDQUy6/0x81Th2yuyTNfl1OHC+R+jpRKp9sRU6SqOHTSmTdXM
+         7qoVbx29nbfm9PALI/Fm2wvfnhj/cSjw+JFuQrGR9fLJINYyrG+3mkJQeSu/8s9ltQCy
+         vs8w==
+X-Gm-Message-State: AOJu0YwUwTV4BQlcHoB+xf324nox1Bp7+4BrkuTi6A3J0s+m1He1yjj1
+	iLHfbvACxxjVRiibHXWo1M+iOE5K0zkONB626jVneYMIdRyihNAjEju15bQJ8veF59uMhH6sMmd
+	Kda4=
+X-Google-Smtp-Source: AGHT+IHMiQqIGKhXBhY3eEM3dURIWlgluphDGcLPDH6N+/qaMOJ8ItABNNCANFF3APGnc+LkCMkHSA==
+X-Received: by 2002:a05:6830:19d5:b0:706:6b2e:2cc2 with SMTP id 46e09a7af769-70940c615damr3699408a34.11.1722265682828;
+        Mon, 29 Jul 2024 08:08:02 -0700 (PDT)
+Received: from tas-troth.am.trimblecorp.net ([155.63.136.49])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5d5b346d3f1sm1189758eaf.9.2024.07.29.08.08.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 08:08:02 -0700 (PDT)
+From: "Theodore A. Roth" <troth@openavr.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Theodore A. Roth via lists.openembedded.org" <troth=openavr.org@lists.openembedded.org>,
+	"Theodore A . Roth" <troth@openavr.org>,
+	"Theodore A . Roth" <theodore_roth@trimble.com>
+Subject: [PATCH v2] ca-certificates: Add comment for provenance of SRCREV
+Date: Mon, 29 Jul 2024 09:07:50 -0600
+Message-Id: <20240729150750.12365-1-troth@openavr.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: X92L4kFd36-nA2NWcgUAm_TUTX2rQxWP
-X-Proofpoint-ORIG-GUID: X92L4kFd36-nA2NWcgUAm_TUTX2rQxWP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-29_12,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=667
- impostorscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2407290100
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 14:48:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202654
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 15:08:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202655
 
-when using xinet.d to limit rsync connections and time is set back,
-the connection limit is reached very quickly and rsync gets deactivated,
-if time is changed again, rsync is never reactivated.
+From: "Theodore A. Roth via lists.openembedded.org" <troth=openavr.org@lists.openembedded.org>
 
-date -s "xxx"
-xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
+Provide references for how the SRCREV was arrived at for the 20240203
+release.
 
-the timer of xinet.d is based on time() function, and it is affected by system time.
-
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Theodore A. Roth <troth@openavr.org>
+Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
 ---
- .../xinetd/xinetd/use-monotonic-time.patch    | 246 ++++++++++++++++++
- .../xinetd/xinetd_2.3.15.4.bb                 |   1 +
- 2 files changed, 247 insertions(+)
- create mode 100644 meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
 
-diff --git a/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
-new file mode 100644
-index 0000000000..2144c3cba2
---- /dev/null
-+++ b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
-@@ -0,0 +1,246 @@
-+use monotonic time
-+
-+when using xinet.d to limit rsync connections and time is set back,
-+the connection limit is reached very quickly and rsync gets deactivated,
-+if time is changed again, rsync is never reactivated.
-+
-+date -s "xxx"
-+xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
-+
-+the timer of xinet.d is based on time() function, and it is affected by system time.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ src/access.c       |    6 +++---
-+ src/builtins.c     |    4 ++--
-+ src/internals.c    |    2 +-
-+ src/log.c          |    2 +-
-+ src/sensor.c       |    6 +++---
-+ src/server.c       |    2 +-
-+ src/service.c      |    4 ++--
-+ src/signals.c      |    2 +-
-+ src/time.c         |    2 +-
-+ src/xlog/filelog.c |    2 +-
-+ src/xtimer.c       |   15 ++++++++++++---
-+ src/xtimer.h       |    1 +
-+ 12 files changed, 29 insertions(+), 19 deletions(-)
-+
-+--- a/src/access.c
-++++ b/src/access.c
-+@@ -70,7 +70,7 @@ static void cps_service_restart(void)
-+    time_t nowtime;
-+    const char *func = "cps_service_restart";
-+ 
-+-   nowtime = time(NULL);
-++   nowtime = _time(NULL);
-+    for( i=0; i < pset_count( SERVICES(ps) ); i++ ) {
-+       struct service *sp;
-+       struct service_config *scp;
-+@@ -104,7 +104,7 @@ void cps_service_stop(struct service *sp
-+    msg(LOG_ERR, "service_stop", 
-+ 	"Deactivating service %s due to %s.  Restarting in %d seconds.", 
-+ 	SC_NAME(scp), reason, (int)SC_TIME_WAIT(scp));
-+-   nowtime = time(NULL);
-++   nowtime = _time(NULL);
-+    SC_TIME_REENABLE(scp) = nowtime + SC_TIME_WAIT(scp);
-+    xtimer_add(cps_service_restart, SC_TIME_WAIT(scp));
-+ }
-+@@ -284,7 +284,7 @@ access_e parent_access_control( struct s
-+    /* CPS handler */
-+    if( SC_TIME_CONN_MAX(scp) != 0 ) {
-+       int time_diff;
-+-      nowtime = time(NULL);
-++      nowtime = _time(NULL);
-+       time_diff = nowtime - SC_TIME_LIMIT(scp) ;
-+ 
-+       if( SC_TIME_CONN(scp) == 0 ) {
-+--- a/src/builtins.c
-++++ b/src/builtins.c
-+@@ -237,7 +237,7 @@ static void daytime_protocol( char *buf,
-+    int         size = *buflen ;
-+    int      cc ;
-+ 
-+-   (void) time( &now ) ;
-++   (void) _time( &now ) ;
-+    tmp = localtime( &now ) ;
-+    cc = strx_nprint( buf, size,
-+       "%02d %s %d %02d:%02d:%02d",
-+@@ -308,7 +308,7 @@ static void time_protocol( unsigned char
-+    time_t now ;
-+    unsigned long base1900;
-+ 
-+-   (void) time( &now ) ;
-++   (void) _time( &now ) ;
-+    base1900 = (unsigned long)now + TIME_OFFSET ;
-+    timep[0] = base1900 >> 24;
-+    timep[1] = base1900 >> 16;
-+--- a/src/internals.c
-++++ b/src/internals.c
-+@@ -85,7 +85,7 @@ void dump_internal_state(void)
-+     * Print the program name, version, and timestamp.
-+     * Note that the program_version variable contains the program name.
-+     */
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+    Sprint( dump_fd, "INTERNAL STATE DUMP: %s\n", program_version ) ;
-+    Sprint( dump_fd, "Current time: %s\n", ctime( &current_time ) ) ;
-+ 
-+--- a/src/log.c
-++++ b/src/log.c
-+@@ -202,7 +202,7 @@ void svc_log_exit( struct service *sp, c
-+    {
-+       time_t current_time ;
-+ 
-+-      (void) time( &current_time ) ;
-++      (void) _time( &current_time ) ;
-+       cc = strx_nprint( &buf[ len ], bufsize, " duration=%ld(sec)",
-+          (long)(current_time - SERVER_STARTTIME( serp )) ) ;
-+       len += cc ;
-+--- a/src/sensor.c
-++++ b/src/sensor.c
-+@@ -68,7 +68,7 @@ void process_sensor( const struct servic
-+                time_t nowtime;
-+                char time_buf[40], *tmp;
-+ 
-+-	       nowtime = time(NULL);
-++	       nowtime = _time(NULL);
-+ 	       msg(LOG_CRIT, func,
-+ 	           "Adding %s to the global_no_access list for %d minutes",
-+ 	            dup_addr, SC_DENY_TIME(SVC_CONF(sp)));
-+@@ -113,7 +113,7 @@ void process_sensor( const struct servic
-+                {
-+                   time_t nowtime, new_time;
-+ 
-+-                  nowtime = time(NULL);
-++                  nowtime = _time(NULL);
-+                   new_time = (time_t)nowtime+(60*SC_DENY_TIME(SVC_CONF(sp)));                     if (difftime(new_time, (time_t)stored_time) > 0.0)
-+ 	          {   /* new_time is longer save it   */
-+ 		     char time_buf[40], *new_exp_time;
-+@@ -163,7 +163,7 @@ static void scrub_global_access_list( vo
-+    {
-+       int found_one = 0;
-+       unsigned u;
-+-      time_t nowtime = time(NULL);
-++      time_t nowtime = _time(NULL);
-+ 
-+       for (u=0; u < count; u++)
-+       {
-+--- a/src/server.c
-++++ b/src/server.c
-+@@ -228,7 +228,7 @@ status_e server_start( struct server *se
-+          return( FAILED ) ;
-+ 
-+       default:
-+-         (void) time( &SERVER_STARTTIME(serp) ) ;
-++         (void) _time( &SERVER_STARTTIME(serp) ) ;
-+          SVC_INC_RUNNING_SERVERS( sp ) ;
-+ 
-+          /*
-+--- a/src/service.c
-++++ b/src/service.c
-+@@ -840,7 +840,7 @@ static status_e failed_service(struct se
-+ 	       SVC_LAST_DGRAM_ADDR(sp) = (union xsockaddr *)last;
-+             }
-+ 
-+-            (void) time( &current_time ) ;
-++            (void) _time( &current_time ) ;
-+             if ( sinp->sin_addr.s_addr == last->sin_addr.s_addr &&
-+                                           sinp->sin_port == last->sin_port )
-+             {
-+@@ -867,7 +867,7 @@ static status_e failed_service(struct se
-+ 	       SVC_LAST_DGRAM_ADDR( sp ) = (union xsockaddr *)last;
-+             }
-+ 
-+-            (void) time( &current_time ) ;
-++            (void) _time( &current_time ) ;
-+             if ( IN6_ARE_ADDR_EQUAL(&(sinp->sin6_addr), &(last->sin6_addr)) && 
-+                  sinp->sin6_port == last->sin6_port )
-+             {
-+--- a/src/signals.c
-++++ b/src/signals.c
-+@@ -301,7 +301,7 @@ static void bad_signal(void)
-+    else if ( total_signal_count > MAX_SIGNAL_COUNT )
-+       _exit( 1 ) ;      /* in case of a problem in exit(3) */
-+    
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+ 
-+    if ( interval_signal_count > 0 &&
-+             current_time - interval_start <= SIGNAL_INTERVAL )
-+--- a/src/time.c
-++++ b/src/time.c
-+@@ -41,7 +41,7 @@ bool_int ti_current_time_check( const ps
-+    int16_t     min_current ;
-+    struct tm   *tmp ;
-+ 
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+    tmp = localtime( &current_time ) ;
-+    min_current = tmp->tm_hour * 60 + tmp->tm_min ;
-+ 
-+--- a/src/xlog/filelog.c
-++++ b/src/xlog/filelog.c
-+@@ -190,7 +190,7 @@ static int filelog_write( xlog_s *xp, co
-+ 	if ( flp->fl_state != FL_OPEN )
-+ 		return( flp->fl_error ) ;
-+ 
-+-	(void) time( &current_time ) ;
-++	(void) _time( &current_time ) ;
-+ 	tmp = localtime( &current_time ) ;
-+ 	cc = Sprint( flp->fl_fd, "%02d/%d/%d@%02d:%02d:%02d",
-+ 		tmp->tm_year%100, tmp->tm_mon+1, tmp->tm_mday,
-+--- a/src/xtimer.c
-++++ b/src/xtimer.c
-+@@ -11,6 +11,15 @@
-+ #include "pset.h"
-+ #include "msg.h"
-+ 
-++time_t _time(time_t *t)
-++{
-++	struct timespec ts;
-++	clock_gettime(CLOCK_MONOTONIC, &ts);
-++	if(t)
-++		*t = ts.tv_sec;
-++	return ts.tv_sec;
-++}
-++
-+ /* A note on the usage of timers in these functions:
-+  * The timers are composed of 3 elements, a pointer to a callback function,
-+  * the expire time of the timer, and a unique (pseudo-monotomically increasing)
-+@@ -68,7 +77,7 @@ int xtimer_add( void (*func)(void), time
-+ 		return -1;
-+ 	}
-+ 
-+-	tmptime = time(NULL);
-++	tmptime = _time(NULL);
-+ 	if( tmptime == -1 ) {
-+ 		free( new_xtimer );
-+ 		return -1;
-+@@ -107,7 +116,7 @@ int xtimer_poll(void)
-+ 
-+ 	for( i = 0; i < pset_count( xtimer_list ); i++ ) {
-+ 		xtime_h *cur_timer = pset_pointer( xtimer_list, i );
-+-		time_t cur_time    = time(NULL);
-++		time_t cur_time    = _time(NULL);
-+ 
-+ 		/* The list is sorted, low to high.  If there's no
-+ 		 * timers left, return.
-+@@ -163,7 +172,7 @@ time_t xtimer_nexttime(void)
-+ 	if( pset_count(xtimer_list) == 0 )
-+ 		return -1;
-+ 
-+-	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - time(NULL) ;
-++	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - _time(NULL) ;
-+ 	if( ret < 0 )
-+ 		ret = 0;
-+ 	return( ret );
-+--- a/src/xtimer.h
-++++ b/src/xtimer.h
-+@@ -22,4 +22,5 @@ int xtimer_poll(void);
-+ int xtimer_remove(int);
-+ time_t xtimer_nexttime(void);
-+ 
-++time_t _time(time_t *t);
-+ #endif /* _X_TIMER_H */
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-index c6d356d227..94fc28ff6e 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/openSUSE/xinetd.git;protocol=https;branch=master \
-            file://xinetd.init \
-            file://xinetd.default \
-            file://xinetd.service \
-+           file://use-monotonic-time.patch \
-            "
+V2: Add git commit message body
+
+ .../ca-certificates/ca-certificates_20240203.bb            | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb b/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb
+index b198ea77a9..ac0756471c 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb
+@@ -14,6 +14,13 @@ DEPENDS:class-nativesdk = "openssl-native"
+ # Need rehash from openssl and run-parts from debianutils
+ PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
  
- SRCREV = "6a4af7786630ce48747d9687e2f18f45ea6684c4"
++# Since there is no TAG in the git repository, the SRCREV was determined
++# through comparison of the git repository and the data on the following
++# package informatin pages:
++#
++# * https://packages.debian.org/trixie/ca-certificates
++# * https://packages.ubuntu.com/noble/ca-certificates
++#
+ SRCREV = "ee6e0484031314090a11c04ee82689acb73d7ad8"
+ 
+ SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https;branch=master \
 -- 
-2.25.1
+2.34.1
 
 
