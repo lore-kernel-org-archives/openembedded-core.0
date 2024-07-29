@@ -2,164 +2,207 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE85DC3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C673BC52CDC
 	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 13:13:06 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web10.55645.1722258782144275226
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.55639.1722258779556031440
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 06:13:02 -0700
+ Mon, 29 Jul 2024 06:12:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Mlt29/9x;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7a0e8b76813so2254635a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:13:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=c7tmr6ZU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1fed72d23a7so19695425ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258781; x=1722863581; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258779; x=1722863579; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XXFNuR0DVCax0aTE0wD9rymRHg4C8ByN88XnyK62fsE=;
-        b=Mlt29/9xZ6kOrjBSMFRnUcDYlw6OXi1lNjsHM4QwvcISqOQPy4BTwyhoq8+xosfg5p
-         SC4X9+LuFoq7bwL4HYAKj8JX89+wxF496cd6UFdy5O8KWswQnID/Ipk+XUW5KcLSodDZ
-         PSyTUpkPalHg6O5r2GUN4csbti+a4BcZc3bJAwdd3MHw4VhVuVB2jmdzNvQWPM2xIX0N
-         qKaVrXFd36+z5Wzw9pTKDhp929jX5KEkKEWzsf0H+y8Ncr0GRRUSDz+2TZbi4HoBp2Gu
-         0oZxjS+uH8kUbnG9BPRD/Izkwo7MCn1NLzhG4+2745LqILz6PuZYj1HBqdlRFssaEN1I
-         rrMg==
+        bh=QYHRH7F9Mk9pIVxGt8QXeyNyD48BSHF8D6r1HEHLk5s=;
+        b=c7tmr6ZU/RdC/RdmXimABEre6mF8wF6E9lFTPI0uGcrYNIPm4ktCu3gFnRsoz9LH/u
+         QIA9td47WxKDCkxCmEh/bc7lLGpdaV7xZlg8fkyCXt2mt6P80OZ5hpeZ1eSjSCcSN4AY
+         tUegFUvwrju01W/1yv2SSoJG+XeFYGUwp9PprVwzb6kH/iIfvQg8gVwWZ/H62JiDaJxo
+         jJOSWaO689B3vvOZ+s+qMST1SAUcd26PJZheLMHvHQK5eZG6IaDMK09SgzOz9s76/BKk
+         3tnZlpkyDJeKiZCBMcoKpK9cHzJUHG4EUNiLm1gc0Wm6imTNht5ha6Dcb1jC164FcPKY
+         G2mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722258781; x=1722863581;
+        d=1e100.net; s=20230601; t=1722258779; x=1722863579;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XXFNuR0DVCax0aTE0wD9rymRHg4C8ByN88XnyK62fsE=;
-        b=jt17WgEwctVX858r0lWubilboeR8SuXuwk6FDladUNzc3JiS6Al99LBmhMgQXapt5R
-         ZnY23R2zPDpp2YxcXav5FgqEBwgXFerbiM0bdZSEETb/jjbhbibyMfZzkVBmm69ViXvW
-         gQci0nRAnXHlOMt9aYelL7zHGMpW9cnP160F4F7qKuEzHwzg/Kgp9XRih/4jx5QoGup6
-         t6kC2HHc7LPegvhD6Kyu6tUoZZaRbjTDgFpU6XbMyee9CDCU2syuNKE1dF6JwPmUQ/hu
-         1sq3o3ciW3A5sxAOwPHlX5lIGbXHQtRxL6ruKHrLmofj3/8SiQe0WT8I8PwORax8gC0q
-         BH0Q==
-X-Gm-Message-State: AOJu0YwAHCAm7rVYZ3t42YeCML5N61jrFXuxxQs4vsAR9p5CQHqSpVMD
-	ncXCLPN4bK6pBDMbVvVufrhOlMPIo7VptiQsZ/BsSR2ppdkCEpfUJSfQ5xSwlq/kg5e+O+krqKe
-	kutmGrg==
-X-Google-Smtp-Source: AGHT+IG2Kf9HAlFBgMcG2IZOXarxEAuVXZEGdtOxUHBsYKSHjdN5UiQPORPAODMYuJXw+Tujr/GJ7g==
-X-Received: by 2002:a17:90b:350d:b0:2c8:db8b:7247 with SMTP id 98e67ed59e1d1-2cf7e19e202mr8405451a91.9.1722258781286;
-        Mon, 29 Jul 2024 06:13:01 -0700 (PDT)
+        bh=QYHRH7F9Mk9pIVxGt8QXeyNyD48BSHF8D6r1HEHLk5s=;
+        b=kkGzYiBbTTvvJ3bQ2N/cn3gqTmmu49ELuKtFjxDID726diFnRrCdprJGZvLW54Wuyz
+         oBXTQiMu3Tu7XLZTCzTmmLlP8RdRfA6vyPnGygf6tiD/xQNaIVPGNtu7Xi9NoKnYRv/K
+         r39AtJc+8kUYw+N3JI6+t03LBHHF+dZTuAhkvujPJb/M5pbo6eL9WWUTBmMaVpWzoMvW
+         gAStIKOFCFPUQ5/5xk4ylR6pjcA2mLqAcuJJ3urJu/On1Qa8/vWwZ3ViArsiqiOIzoBk
+         7tAhea1TM6VnzUfJnLuEKdnAQSdPs9k4TY20Dkvwnt4Rx3G+L45I/ipgtnP48GS2CUAv
+         x82w==
+X-Gm-Message-State: AOJu0YxC7XgFwqmYoZzJBGO6NUmrr9fSRasOxC6X7lsjDdxzDhSmXVJJ
+	A5whzg8FVQrjWtSnXD/mzhQPSAe8srBy5ta2L3YIw/OT0y5GFxZYCWCqdDjPIgsoBt6docmb6bl
+	YfVOoDg==
+X-Google-Smtp-Source: AGHT+IGN5tLBrjH6u8Zq5VUGToEwzwWTgqAYRyWEz7570+gp1kjg1znhRHRKTxDWSpdjby2vbB+I+A==
+X-Received: by 2002:a17:90b:3793:b0:2c9:5c7c:815d with SMTP id 98e67ed59e1d1-2cf7e2275d2mr5566638a91.22.1722258778370;
+        Mon, 29 Jul 2024 06:12:58 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.13.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.12.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 06:13:00 -0700 (PDT)
+        Mon, 29 Jul 2024 06:12:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/37] pam: Fix for CVE-2024-22365
-Date: Mon, 29 Jul 2024 06:12:14 -0700
-Message-Id: <6d4c14e1053089a67a38a8de95625e4ba3fbc32a.1722258106.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/37] ffmpeg: fix CVE-2023-49502
+Date: Mon, 29 Jul 2024 06:12:12 -0700
+Message-Id: <814a688d1dc3f22cf7d1b88bde6842b032c13d12.1722258106.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722258106.git.steve@sakoman.com>
 References: <cover.1722258106.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 13:13:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202618
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202616
 
-From: Guðni Már Gilbert <gudni.m.g@gmail.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Upstream-Status: Backport from https://github.com/linux-pam/linux-pam/commit/031bb5a5d0d950253b68138b498dc93be69a64cb
+Buffer Overflow vulnerability in Ffmpeg v.n6.1-3-g466799d4f5 allows a local attacker
+to execute arbitrary code via the ff_bwdif_filter_intra_c function in the
+libavfilter/bwdifdsp.c:125:5 component.
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pam/libpam/CVE-2024-22365.patch           | 65 +++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.5.3.bb     |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2024-22365.patch
+ .../ffmpeg/ffmpeg/CVE-2023-49502.patch        | 107 ++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |   1 +
+ 2 files changed, 108 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch
 
-diff --git a/meta/recipes-extended/pam/libpam/CVE-2024-22365.patch b/meta/recipes-extended/pam/libpam/CVE-2024-22365.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch
 new file mode 100644
-index 0000000000..e4ec862dc5
+index 0000000000..bc78a46d03
 --- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/CVE-2024-22365.patch
-@@ -0,0 +1,65 @@
-+From 84f378d3b8573828e7ccc54b54b5e128aa993748 Mon Sep 17 00:00:00 2001
-+From: Matthias Gerstner <matthias.gerstner@suse.de>
-+Date: Wed, 27 Dec 2023 14:01:59 +0100
-+Subject: [PATCH] pam_namespace: protect_dir(): use O_DIRECTORY to prevent
-+ local DoS situations
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch
+@@ -0,0 +1,107 @@
++From 737ede405b11a37fdd61d19cf25df296a0cb0b75 Mon Sep 17 00:00:00 2001
++From: Cosmin Stejerean <cosmin@cosmin.at>
++Date: Wed, 6 Dec 2023 18:39:32 +0800
++Subject: [PATCH] avfilter/bwdif: account for chroma sub-sampling in min size
++ calculation
 +
-+Without O_DIRECTORY the path crawling logic is subject to e.g. FIFOs
-+being placed in user controlled directories, causing the PAM module to
-+block indefinitely during `openat()`.
++The current logic for detecting frames that are too small for the
++algorithm does not account for chroma sub-sampling, and so a sample
++where the luma plane is large enough, but the chroma planes are not
++will not be rejected. In that event, a heap overflow will occur.
 +
-+Pass O_DIRECTORY to cause the `openat()` to fail if the path does not
-+refer to a directory.
++This change adjusts the logic to consider the chroma planes and makes
++the change to all three bwdif implementations.
 +
-+With this the check whether the final path element is a directory
-+becomes unnecessary, drop it.
++Fixes #10688
 +
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/031bb5a5d0d950253b68138b498dc93be69a64cb]
-+CVE: CVE-2024-22365
-+Signed-off-by: Guðni Már Gilbert  <gudni.m.g@gmail.com>
++Signed-off-by: Cosmin Stejerean <cosmin@cosmin.at>
++Reviewed-by: Thomas Mundt <tmundt75@gmail.com>
++Signed-off-by: Philip Langdale <philipl@overt.org>
++
++CVE: CVE-2023-49502
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/737ede405b11a37f]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ modules/pam_namespace/pam_namespace.c | 18 +-----------------
-+ 1 file changed, 1 insertion(+), 17 deletions(-)
++ libavfilter/vf_bwdif.c        |  9 +++++----
++ libavfilter/vf_bwdif_cuda.c   | 11 ++++++-----
++ libavfilter/vf_bwdif_vulkan.c | 11 +++++------
++ 3 files changed, 16 insertions(+), 15 deletions(-)
 +
-+diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
-+index f34ce934..ef856443 100644
-+--- a/modules/pam_namespace/pam_namespace.c
-++++ b/modules/pam_namespace/pam_namespace.c
-+@@ -1194,7 +1194,7 @@ static int protect_dir(const char *path, mode_t mode, int do_mkdir,
-+ 	int dfd = AT_FDCWD;
-+ 	int dfd_next;
-+ 	int save_errno;
-+-	int flags = O_RDONLY;
-++	int flags = O_RDONLY | O_DIRECTORY;
-+ 	int rv = -1;
-+ 	struct stat st;
-+ 
-+@@ -1248,22 +1248,6 @@ static int protect_dir(const char *path, mode_t mode, int do_mkdir,
-+ 		rv = openat(dfd, dir, flags);
-+ 	}
-+ 
-+-	if (rv != -1) {
-+-		if (fstat(rv, &st) != 0) {
-+-			save_errno = errno;
-+-			close(rv);
-+-			rv = -1;
-+-			errno = save_errno;
-+-			goto error;
-+-		}
-+-		if (!S_ISDIR(st.st_mode)) {
-+-			close(rv);
-+-			errno = ENOTDIR;
-+-			rv = -1;
-+-			goto error;
-+-		}
-+-	}
++diff --git a/libavfilter/vf_bwdif.c b/libavfilter/vf_bwdif.c
++index 137cd5e..353cd0b 100644
++--- a/libavfilter/vf_bwdif.c
+++++ b/libavfilter/vf_bwdif.c
++@@ -191,13 +191,14 @@ static int config_props(AVFilterLink *link)
++         return ret;
++     }
++
++-    if (link->w < 3 || link->h < 4) {
++-        av_log(ctx, AV_LOG_ERROR, "Video of less than 3 columns or 4 lines is not supported\n");
+++    yadif->csp = av_pix_fmt_desc_get(link->format);
+++    yadif->filter = filter;
+++
+++    if (AV_CEIL_RSHIFT(link->w, yadif->csp->log2_chroma_w) < 3 || AV_CEIL_RSHIFT(link->h, yadif->csp->log2_chroma_h) < 4) {
+++        av_log(ctx, AV_LOG_ERROR, "Video with planes less than 3 columns or 4 lines is not supported\n");
++         return AVERROR(EINVAL);
++     }
++
++-    yadif->csp = av_pix_fmt_desc_get(link->format);
++-    yadif->filter = filter;
++     ff_bwdif_init_filter_line(&s->dsp, yadif->csp->comp[0].depth);
++
++     return 0;
++diff --git a/libavfilter/vf_bwdif_cuda.c b/libavfilter/vf_bwdif_cuda.c
++index a5ecfba..418f15f 100644
++--- a/libavfilter/vf_bwdif_cuda.c
+++++ b/libavfilter/vf_bwdif_cuda.c
++@@ -296,15 +296,16 @@ static int config_output(AVFilterLink *link)
++         link->frame_rate = av_mul_q(ctx->inputs[0]->frame_rate,
++                                     (AVRational){2, 1});
++
++-    if (link->w < 3 || link->h < 3) {
++-        av_log(ctx, AV_LOG_ERROR, "Video of less than 3 columns or lines is not supported\n");
++-        ret = AVERROR(EINVAL);
++-        goto exit;
++-    }
++
++     y->csp = av_pix_fmt_desc_get(output_frames->sw_format);
++     y->filter = filter;
++
+++    if (AV_CEIL_RSHIFT(link->w, y->csp->log2_chroma_w) < 3 || AV_CEIL_RSHIFT(link->h, y->csp->log2_chroma_h) < 3) {
+++        av_log(ctx, AV_LOG_ERROR, "Video with planes less than 3 columns or lines is not supported\n");
+++        ret = AVERROR(EINVAL);
+++        goto exit;
+++    }
+++
++     ret = CHECK_CU(cu->cuCtxPushCurrent(s->hwctx->cuda_ctx));
++     if (ret < 0)
++         goto exit;
++diff --git a/libavfilter/vf_bwdif_vulkan.c b/libavfilter/vf_bwdif_vulkan.c
++index 690a89c..c51df9a 100644
++--- a/libavfilter/vf_bwdif_vulkan.c
+++++ b/libavfilter/vf_bwdif_vulkan.c
++@@ -362,15 +362,14 @@ static int bwdif_vulkan_config_output(AVFilterLink *outlink)
++         outlink->frame_rate = av_mul_q(avctx->inputs[0]->frame_rate,
++                                        (AVRational){2, 1});
++
++-    if (outlink->w < 4 || outlink->h < 4) {
++-        av_log(avctx, AV_LOG_ERROR, "Video of less than 4 columns or lines is not "
++-               "supported\n");
++-        return AVERROR(EINVAL);
++-    }
 +-
-+ 	if (flags & O_NOFOLLOW) {
-+ 		/* we are inside user-owned dir - protect */
-+ 		if (protect_mount(rv, p, idata) == -1) {
-+-- 
-+2.43.0
++     y->csp = av_pix_fmt_desc_get(vkctx->frames->sw_format);
++     y->filter = bwdif_vulkan_filter_frame;
 +
-diff --git a/meta/recipes-extended/pam/libpam_1.5.3.bb b/meta/recipes-extended/pam/libpam_1.5.3.bb
-index ef32d19f3d..bcaa84c9a5 100644
---- a/meta/recipes-extended/pam/libpam_1.5.3.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.3.bb
-@@ -26,6 +26,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
-            file://pam-volatiles.conf \
-            file://0001-pam_namespace-include-stdint-h.patch \
-            file://0001-pam_pwhistory-fix-passing-NULL-filename-argument-to-.patch \
-+           file://CVE-2024-22365.patch \
-            "
+++    if (AV_CEIL_RSHIFT(outlink->w, y->csp->log2_chroma_w) < 4 || AV_CEIL_RSHIFT(outlink->h, y->csp->log2_chroma_h) < 4) {
+++        av_log(avctx, AV_LOG_ERROR, "Video with planes less than 4 columns or lines is not supported\n");
+++        return AVERROR(EINVAL);
+++    }
+++
++     return init_filter(avctx);
++ }
++
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+index dea1f54580..90c15782d1 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+@@ -27,6 +27,7 @@ SRC_URI = " \
+     file://av1_ordering_info.patch \
+     file://vulkan_av1_stable_API.patch \
+     file://vulkan_fix_gcc14.patch \
++    file://CVE-2023-49502.patch \
+ "
  
- SRC_URI[sha256sum] = "7ac4b50feee004a9fa88f1dfd2d2fa738a82896763050cd773b3c54b0a818283"
+ SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
 -- 
 2.34.1
 
