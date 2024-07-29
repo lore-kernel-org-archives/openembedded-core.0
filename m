@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F935C3DA7E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1FCC49EA1
 	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 13:13:27 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.55657.1722258797948129493
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.55660.1722258800800574523
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 06:13:18 -0700
+ Mon, 29 Jul 2024 06:13:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MT5HC+Xq;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2cdadce1a57so1978693a91.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:13:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2KjMG12n;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2cd2f89825fso1976845a91.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258797; x=1722863597; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258800; x=1722863600; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aRZtwkyDIkhz7XO6oZ2KwGt6AqFQEtxhzoqKcJerz3I=;
-        b=MT5HC+XqgFuFAtXN/t8utESXCesv5X+TJtEOeFZr+d/e09YG/gFds7pY/ZpI4mjb31
-         YoSHmAL++UewTD/OZRVExCUNkHDnem7xXaX5q80UqzggcxIazeejgkBHUriw96XQEthN
-         /f1cw8SjztjSnab7+ldWV1qkxIbVRiQ/0k6m9SDmQ9wO6/5w3izMgId1rTqt49eYaArf
-         78fFOr25rr+5QsUItfQWmHo5UQ6kY0F22vU96k0PeqxvRUtnOLhEZ5QVft1NLNEwBuai
-         9K8qFtXUaOadiI4BzTG+CdgKy/2suJYDHMlnc4dREAzXV5FqXQIGKWzzzbkoKgQNaWnR
-         QV1g==
+        bh=83dROXBrUVHqQtlAVa5WTQg2NFGnEdT3+q8XinPWK2M=;
+        b=2KjMG12nUkP1nRUZCLx1ar05TUX4jQfAGI2QifAmNUBwLVSpCNeqvGc6KJPRdjVts7
+         FZqWQ0qHKXuf+SXPaLQ1Ok+4hR+SBqEslJUoc4MeXjISEpa+FgoTL9PV77JG0pSGt7al
+         GmsDn14BBR+H9l8c8C52fwFqCHM9Es62CvLAoqGqq5gtTvwiBMOfM5MYfRpoknW9eMEA
+         xdKhj0JU9AK3+9XRSMPAf3C/M2u9S8LPIjxkHEvS/0KpUDkCzfO5xKgDk3uyyQi3u76U
+         6fIqC8uOGfWrIqSbmxjJOhlZzwwGDahLY4rW/Phe52HEXSkpWTtotLGHaZmvOjGgOqr5
+         npxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722258797; x=1722863597;
+        d=1e100.net; s=20230601; t=1722258800; x=1722863600;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aRZtwkyDIkhz7XO6oZ2KwGt6AqFQEtxhzoqKcJerz3I=;
-        b=gTfU5FqPwtzluu0TLsYSFpsL4nO6JcI6MOinmGUTZ1PnitYC6FEEru1u4XdwYi/c35
-         8tfFP4PZGLWS3LKkFfRsEdR2ZONYGWNVW2wVg/N3eXYBeEP1JTM8NVXW2hiWFCx+bi4T
-         ulQBCGC6aWcJx7B1KByLDbwU5XZYcnOOVGgZkrF6uCt2rzgwW4K1WW7qWjAKC497mOrq
-         hkZedeeKz6fa4C5VTqFcn8Ba9hfKth3XIdx8e2vGABEnxZYUJhU2UPHTEdsPKR0j2Mdz
-         Hb3lyd4ZjgBf1ulXehHU+KLvl4YJiO4LWeCVQimlw8pjZ2FxRdYHWZblsHfjE3wF3TQh
-         Ws8Q==
-X-Gm-Message-State: AOJu0YwTrhCuHXw1GctZWtyKmpq4vOf+YfOttKyn06UfRpUlOwjGblFJ
-	t4yTFFxedD8oCcj6kKQSqOl3qPzKpoM6+3FAqlLL8d7G3xWnaDdVfVNNYZYFo9KenFrDk3prebI
-	50BRugA==
-X-Google-Smtp-Source: AGHT+IE5Du8TkY0T2sPoUt639haoKwkSU0aZdyfInCzB2FseVdSERpuRt5s9zV+p7KV3Caa6vnHhQA==
-X-Received: by 2002:a17:90a:4b04:b0:2c8:538d:95b7 with SMTP id 98e67ed59e1d1-2cf7e606ca1mr5447214a91.32.1722258797121;
-        Mon, 29 Jul 2024 06:13:17 -0700 (PDT)
+        bh=83dROXBrUVHqQtlAVa5WTQg2NFGnEdT3+q8XinPWK2M=;
+        b=azRY02xqMMfnuMowsuO2nZ86dId2LMDpA93u7ywpSnCiAFAn4oVrxjVfh+lLqQM28u
+         A8exKM9+eZWzada9ED8muvtJYX4UM9bM4q6t4x1b+c6dH9LQyokv77BQLstqWY9FbCem
+         7iioYSu6cxIpl85OXQaUrdVDV7+ClP7m7aKaIHluN6oEYxlm/QNI9InlQRxnbbL0qOO2
+         xsiO6QKk6UEPzh2i8lkYZBdIQSKbsLGlD2ktWzvlAduZr16I2K1e3TzpDZVOdnJgbQfx
+         toq+yxdhFy5m+E7Mx9fPfRBtpzAXS4NaDcVX1xJrBMfOshVXiA0QZnIWh/rlq/n/9kTK
+         HSVA==
+X-Gm-Message-State: AOJu0YypbXhfr1hgzm1png1RSGoW1+zJN+fB729fTlm9tMOz+EWehe3K
+	Vg/nb+WbJ+8teL+4vIGO5J86aHEX+6ZNOflMg+nS5jM3a4xICpnseAcw9BK/ok8tklm+FvOL9U0
+	mHUo/oA==
+X-Google-Smtp-Source: AGHT+IG0QWr6xoQEZEpR/wzpU5k6X+2InQl0pbtYgeX6M4H5QtG22i8qdmaobO0VlPB62GiaQGZYOw==
+X-Received: by 2002:a17:90a:558d:b0:2c7:1370:f12f with SMTP id 98e67ed59e1d1-2cf7e86eabcmr4574597a91.40.1722258800023;
+        Mon, 29 Jul 2024 06:13:20 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.13.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.13.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 06:13:16 -0700 (PDT)
+        Mon, 29 Jul 2024 06:13:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/37] selftest: add Upstream-Status to .patch files
-Date: Mon, 29 Jul 2024 06:12:25 -0700
-Message-Id: <34185c9d70920bf42323826f1ef31feab71c44e3.1722258106.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 17/37] python3: Treat UID/GID overflow as failure
+Date: Mon, 29 Jul 2024 06:12:27 -0700
+Message-Id: <371124fa4bf1a255a4fc646b028398db8c9f3681.1722258106.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722258106.git.steve@sakoman.com>
 References: <cover.1722258106.git.steve@sakoman.com>
@@ -62,166 +62,92 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 13:13:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202629
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202631
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+This fixes ptest failures on 32bit architectures
+
+AssertionError:
+Failed ptests:
+{'python3': ['test_extractall_none_gid',
+             'test_extractall_none_gname',
+             'test_extractall_none_mode',
+             'test_extractall_none_mtime',
+             'test_extractall_none_uid',
+             'test_extractall_none_uname',
+             'setUpClass',
+             'python3']}
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e5e5561c178a565b3aa7cb540fe1c8f71917c882)
+(cherry picked from commit 43104b547cb79693c83df0882773ae8dd74b1d35)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch | 2 +-
- .../devtool/devtool-patch-overrides/qemuarm/arm.patch           | 2 ++
- .../devtool/devtool-patch-overrides/qemux86/x86.patch           | 2 ++
- .../devtool/devtool-test-ignored/devtool-test-ignored.patch     | 2 ++
- .../devtool-test-ignored/devtool-test-ignored.patch.expected    | 1 +
- ...1-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch | 2 ++
- ...tch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected | 1 +
- .../0001-Add-a-note-line-to-the-quick-reference.patch           | 2 ++
- .../devtool/devtool-upgrade-test1-1.5.3/backported.patch        | 2 ++
- .../recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch   | 2 ++
- .../recipes-test/man-db/files/0001-Test-patch-here.patch        | 2 ++
- meta-selftest/recipes-test/recipetool/files/add-file.patch      | 2 ++
- 12 files changed, 21 insertions(+), 1 deletion(-)
+ ...e-treat-overflow-in-UID-GID-as-failu.patch | 40 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.12.4.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
 
-diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch b/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
-index 7569ccef7b..96be6f4a61 100644
---- a/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
-+++ b/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
-@@ -4,7 +4,7 @@ Date: Wed, 27 Dec 2023 09:55:48 +0000
- Subject: [PATCH] Greet "OE-Core"
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+new file mode 100644
+index 0000000000..88b84c6024
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+@@ -0,0 +1,40 @@
++From 999d4e74d34afa233ad8ad0c70b989d77a21957f Mon Sep 17 00:00:00 2001
++From: Petr Viktorin <encukou@gmail.com>
++Date: Wed, 23 Aug 2023 20:00:07 +0200
++Subject: [PATCH] gh-107811: tarfile: treat overflow in UID/GID as failure to
++ set it (#108369)
++
++Upstream-Status: Backport [https://github.com/python/cpython/pull/108369]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Lib/tarfile.py                                                 | 3 ++-
++ .../Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst     | 3 +++
++ 2 files changed, 5 insertions(+), 1 deletion(-)
++ create mode 100644 Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst
++
++diff --git a/Lib/tarfile.py b/Lib/tarfile.py
++index 3bbbcaa..473167d 100755
++--- a/Lib/tarfile.py
+++++ b/Lib/tarfile.py
++@@ -2557,7 +2557,8 @@ class TarFile(object):
++                     os.lchown(targetpath, u, g)
++                 else:
++                     os.chown(targetpath, u, g)
++-            except OSError as e:
+++            except (OSError, OverflowError) as e:
+++                # OverflowError can be raised if an ID doesn't fit in `id_t`
++                 raise ExtractError("could not change owner") from e
++ 
++     def chmod(self, tarinfo, targetpath):
++diff --git a/Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst b/Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst
++new file mode 100644
++index 0000000..ffca413
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2023-08-23-17-34-39.gh-issue-107811.3Fng72.rst
++@@ -0,0 +1,3 @@
+++:mod:`tarfile`: extraction of members with overly large UID or GID (e.g. on
+++an OS with 32-bit :c:type:`!id_t`) now fails in the same way as failing to
+++set the ID.
++-- 
++2.45.0
++
+diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb b/meta/recipes-devtools/python/python3_3.12.4.bb
+index 0cb84b91b4..c5ba009e7f 100644
+--- a/meta/recipes-devtools/python/python3_3.12.4.bb
++++ b/meta/recipes-devtools/python/python3_3.12.4.bb
+@@ -31,6 +31,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
+            file://0001-test_shutdown-skip-problematic-test.patch \
++           file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
+            "
  
- Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
--Upstream-Status: Inappropriate
-+Upstream-Status: Inappropriate [Test artefact]
- ---
-  src/main.rs | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemuarm/arm.patch b/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemuarm/arm.patch
-index e33a2753f9..17ed5a54f1 100644
---- a/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemuarm/arm.patch
-+++ b/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemuarm/arm.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [Test artefact]
-+
- --- source.orig	2020-10-06 13:26:10.792688630 +0100
- +++ source	2020-10-06 13:26:18.853424694 +0100
- @@ -1 +1 @@
-diff --git a/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemux86/x86.patch b/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemux86/x86.patch
-index 1a0a175fa8..0af5ebbfaf 100644
---- a/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemux86/x86.patch
-+++ b/meta-selftest/recipes-test/devtool/devtool-patch-overrides/qemux86/x86.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [Test artefact]
-+
- --- source.orig	2020-10-06 13:26:10.792688630 +0100
- +++ source	2020-10-06 13:26:18.853424694 +0100
- @@ -1 +1 @@
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch b/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch
-index 96ea0eb4e3..bc1ca4bc4a 100644
---- a/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [Test artefact]
-+
- diff --git a/ignored b/ignored
- index a579759..e3d7b43 100644
- --- a/ignored
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch.expected b/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch.expected
-index 68ec6d9875..8ead9ee1ce 100644
---- a/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch.expected
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-ignored/devtool-test-ignored.patch.expected
-@@ -3,6 +3,7 @@ From: Martin Jansa <Martin.Jansa@gmail.com>
- Date: Thu, 28 May 2020 01:32:31 +0200
- Subject: [PATCH] meta-selftest: add test of .gitignore in tarball
- 
-+Upstream-Status: Inappropriate [Test artefact]
- ---
-  ignored | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch
-index 6aaf409ebc..2b7088e367 100644
---- a/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [Test artefact]
-+
- diff --git a/patch-me b/patch-me
- index a20b29a..5e35d1b 100644
- --- a/patch-me
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected
-index 1bf25a61d0..52b0df74ce 100644
---- a/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected
-@@ -3,6 +3,7 @@ From: Martin Jansa <Martin.Jansa@gmail.com>
- Date: Thu, 28 May 2020 02:03:39 +0200
- Subject: [PATCH] meta-selftest: add test for .patch file with long filename
- 
-+Upstream-Status: Inappropriate [Test artefact]
- ---
-  patch-me | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/0001-Add-a-note-line-to-the-quick-reference.patch b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/0001-Add-a-note-line-to-the-quick-reference.patch
-index 4ea3d74f0f..db66a284b7 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/0001-Add-a-note-line-to-the-quick-reference.patch
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/0001-Add-a-note-line-to-the-quick-reference.patch
-@@ -4,6 +4,8 @@ Date: Wed, 24 Feb 2016 17:43:03 +1300
- Subject: [PATCH] Add a note line to the quick reference
- 
- A test patch so we have a file to move around.
-+
-+Upstream-Status: Inappropriate [Test artefact]
- ---
-  doc/quickref.1.in | 1 +
-  1 file changed, 1 insertion(+)
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/backported.patch b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/backported.patch
-index c4f3f12666..5159652f69 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/backported.patch
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1-1.5.3/backported.patch
-@@ -4,6 +4,8 @@ Date:   Mon Nov 18 18:43:15 2019 +0100
- 
-     Backport of the NEWS file from version 1.6.0
- 
-+Upstream-Status: Inappropriate [Test artefact]
-+
- diff --git a/doc/NEWS b/doc/NEWS
- index 69793fc..fd49b1c 100644
- --- a/doc/NEWS
-diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-index bccda17ee9..4f8b745995 100644
---- a/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-+++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [Test artefact]
-+
- diff --git a/Makefile.am b/Makefile.am
- index 432a9b4..bbf7c74 100644
- --- a/Makefile.am
-diff --git a/meta-selftest/recipes-test/man-db/files/0001-Test-patch-here.patch b/meta-selftest/recipes-test/man-db/files/0001-Test-patch-here.patch
-index b1d5eab2b8..7df224e5c8 100644
---- a/meta-selftest/recipes-test/man-db/files/0001-Test-patch-here.patch
-+++ b/meta-selftest/recipes-test/man-db/files/0001-Test-patch-here.patch
-@@ -4,6 +4,8 @@ Date: Fri, 9 Feb 2018 17:37:48 +0200
- Subject: [PATCH] Test patch here!
- 
- This is an invalid patch used by oe-selftest
-+
-+Upstream-Status: Inappropriate [Test artefact]
- ---
-  README | 1 +
-  1 file changed, 1 insertion(+)
-diff --git a/meta-selftest/recipes-test/recipetool/files/add-file.patch b/meta-selftest/recipes-test/recipetool/files/add-file.patch
-index bdc99c94f0..cb43cc629d 100644
---- a/meta-selftest/recipes-test/recipetool/files/add-file.patch
-+++ b/meta-selftest/recipes-test/recipetool/files/add-file.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [Test artefact]
-+
- diff --git a/file2 b/file2
- new file mode 100644
- index 0000000..049b42e
+ SRC_URI:append:class-native = " \
 -- 
 2.34.1
 
