@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B18E4C3DA7E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2013C3DA4A
 	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 13:13:47 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.55967.1722258824433546856
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.55674.1722258817669041841
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 06:13:44 -0700
+ Mon, 29 Jul 2024 06:13:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DUsGVWrl;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70d2b921c48so2362796b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:13:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vDwv7jQj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7a2123e9ad5so1938079a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258824; x=1722863624; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258817; x=1722863617; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pAXDgbUqsvLbvKjqtUSB4yl1qnk+flIBAVyqDqXbqms=;
-        b=DUsGVWrlbB15HHRUdl3mWJ59al27j13wSVSmyhmzuTX3MRdg0tzeAQPCcA0v2MHh4+
-         FmRCE5+p9L+mNi/uzUVNLMrco3NweOJdwRgg597MyAqe+P+9ZVnjAKGP3pkm9h6s9Xxw
-         qk4BV16adLWtYonrphcZ+9RQvg47A4MFryuNNSgkO/OLV2lgicxRvGhxlxG8ixzrU2D/
-         bAJbIE2PAniRlWQiv1mkCk7+FlvYQp9Empwl5J04W6l7Pfm+20GyvqM1LmUnPLLJP07C
-         E36ESV946EO6J25TVdCLM61ZQuKAZkMebCaurLRbDrs+51RQ+X+Tjn84EJNp9pmUrdad
-         62wA==
+        bh=Sfka7jcnveQyP7J0llF7Gg+UbDGTk72GmseDGdv0EaI=;
+        b=vDwv7jQj3bAVMwUNovgwTBK0lnmm3ZDYyRDKJtAAB73e5TnVP/EFfEprI/GI7n2VOv
+         1v4zOxrPzpg0i8zQVfr037B/+lw3S7DPW/O4IZAVsGAH1pMRM0M/WGOE/xrU56G60gcT
+         eJFeoJLvHXe5Kgh6j5b6Ibk7JMQP1h4SFBrXJW0/z9KmEjvqOzSMWn88CCjpxf+Bz7P3
+         8sNGVKClDcVrQcXBh8U4vRUFPzMw8iBzmDia4cg/Jd+uVVScsQeJNo+7remYphC+ROUe
+         NYG8TzK1KirsV6uJNtPoQ2Xnw5MaZ/BCQ/yOHg1Bxtq9bEuSNe2zD7E/ZbDhR8UW+QuL
+         C/yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722258824; x=1722863624;
+        d=1e100.net; s=20230601; t=1722258817; x=1722863617;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pAXDgbUqsvLbvKjqtUSB4yl1qnk+flIBAVyqDqXbqms=;
-        b=BH9xW8dH0ZduuXlPEfWkZxLvvtDiGU/g/RMiqtvYtp/IorIG2tmEXypBmsllxAGHxq
-         0Czg3yMUaw1s1IaAXzEU/ztTBabwJTbVG2vbWOzi9i+VZkdkfMzm/bzmHsYyE7lTCxxt
-         IrnsBOkKIRzdcVkTUpiqiD78QQAP6c5hkpPY3HVUxHaR0rl1Km1Xlflc847mZPcyrMFH
-         hT9Moz+HTUmBBNsnTzHmnseXG97chKUUfyZMiE0aGDmF6FVJT2Kq4fgGu8WwtKxOHhAI
-         Dhpx1EhCXt3g5lpQiHpUaapfxsDABdIs0LZ0SkLeVza+mMu7u8VpuBUX1ce3OK0WmSvS
-         g1wA==
-X-Gm-Message-State: AOJu0Yw7nfFUfXME4QdgcwPjWJFb8OKrbXXTrv+OHn5xgqZyAnV7zFww
-	pyTV4n4yUWZlFhEvkIEySLYM/wiXwl3QEQ9U19bO03P/WS7qoiJzVUjLVwNAXXqZGsSQl9Tx/F3
-	1bgjI9A==
-X-Google-Smtp-Source: AGHT+IFoBSNZNUU/ZCCrIv6HPjjDzp2wxegY3R8/xQ8hkkMjzMgnJzt23ShI0WXutX5aCGqaC2W0qQ==
-X-Received: by 2002:a05:6a21:3483:b0:1c3:b1e3:eb42 with SMTP id adf61e73a8af0-1c4a129d69amr5519692637.15.1722258823686;
-        Mon, 29 Jul 2024 06:13:43 -0700 (PDT)
+        bh=Sfka7jcnveQyP7J0llF7Gg+UbDGTk72GmseDGdv0EaI=;
+        b=kKdryZKxjJI2dgtScve5v23p8oe3qFV0A+bbwosh195//sq6GJj9VofXd7pGJv6tmN
+         nWsFApE6dG5hM9jcbCos6PO4EoUbLSBBR8FCBJHpKG+ksw8YYgDRlLmPM8UFDG2speHl
+         CWlNSKzxbUXK00+Pv3vPcSTLmfizzylORpP81G/vJRew/tnho2i6RBTjsu1W4/D6RBk1
+         PjoE17qvPhTiM6tw2FL9ETRU0KdW8SSGhjz6n2D6TxDN8ImTkApgU/wB8ldUQXRP7mmC
+         xljihCLTaha3Gcqp8doa7u39wXaRWBEtHvhhT1Kvk5CV6CIrJw0W7DRfe/Nc7GVw/khp
+         hryg==
+X-Gm-Message-State: AOJu0YwsxQb928n6aiBY3GOTJb3BApQkS1SxWamfNJRbw7m0JpgXJR2A
+	os006D2+kUOpxtahZbtJUpB5DIFpDh3SePx1bXCQk14JdEwqCQW6hbpi2/K5leAbt+B3wupuF6S
+	JEMNQMg==
+X-Google-Smtp-Source: AGHT+IGbmdSg2EKOwCCsP8jEcSCbWF33uwfv4nzq7cCkma41cW76BL+P/hOVgFmYZZtBOOqrh8NABg==
+X-Received: by 2002:a17:90a:7c4c:b0:2c9:36bf:ba6f with SMTP id 98e67ed59e1d1-2cf7ce854a1mr12490454a91.3.1722258816849;
+        Mon, 29 Jul 2024 06:13:36 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.13.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.13.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 06:13:43 -0700 (PDT)
+        Mon, 29 Jul 2024 06:13:36 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 34/37] oeqa/runtime/scp: requires openssh-sftp-server
-Date: Mon, 29 Jul 2024 06:12:44 -0700
-Message-Id: <7629a47d6cac36c78184788010f754175853bb03.1722258106.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 29/37] automake: mark new_rt_path_for_test-driver.patch as Inappropriate
+Date: Mon, 29 Jul 2024 06:12:39 -0700
+Message-Id: <c7a8632469913638070878022bffac5588201006.1722258106.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722258106.git.steve@sakoman.com>
 References: <cover.1722258106.git.steve@sakoman.com>
@@ -62,43 +62,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 13:13:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202648
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202643
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-The SCP protocol was deprecated in favor of the SFTP.
-For the legacy SCP protocol scp should be run with "-O".
-Instead of adding "-O" on the scp_options ssh oeqa we can
-require the openssh-sftp-server to be instaled on the target.
+The patch is specific to how oe-core runs autotools-generated tests:
+by cherry-picking needed bits from builddir and srcdir, then hacking
+Makefile with sed until it runs.
 
-This way the test will work more deterministic regardless of
-the host machine client used.
-For the old fashion clients still using legacy SCP protocol
-the openssh-sshd server will be used, for the new ones using
-the SFTP the openssh-sftp-server will be picked.
+As GNU is not interested in installable tests, they wouldn't be
+interested in this patch either; and if they become interested,
+it's probably going to be done in a whole different way.
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 2f43da91ba20d18bc419bca7651bb383a51f20af)
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit dd13c29bee330d381e1e574351348e526500e396)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/scp.py | 2 +-
+ .../automake/automake/new_rt_path_for_test-driver.patch         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/scp.py b/meta/lib/oeqa/runtime/cases/scp.py
-index ee97b8ef66..364264369a 100644
---- a/meta/lib/oeqa/runtime/cases/scp.py
-+++ b/meta/lib/oeqa/runtime/cases/scp.py
-@@ -25,7 +25,7 @@ class ScpTest(OERuntimeTestCase):
-         os.remove(cls.tmp_path)
+diff --git a/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+index 1f71722334..f92ec6b548 100644
+--- a/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
++++ b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+@@ -5,7 +5,7 @@ Subject: [PATCH] Set relative to top_builddir path in Makefile to access
+  test-driver
  
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(['openssh-scp'])
-+    @OEHasPackage({'openssh-scp', 'openssh-sftp-server'})
-     def test_scp_file(self):
-         dst = '/tmp/test_scp_file'
+ Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [specific to oe-core target ptest installation]
+ Bug-Report: http://debbugs.gnu.org/cgi/bugreport.cgi?bug=19042
  
+ ---
 -- 
 2.34.1
 
