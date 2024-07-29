@@ -1,233 +1,212 @@
-Return-Path: <christian.taedcke-oss@weidmueller.com>
+Return-Path: <Deepthi.Hemraj@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB6CC3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 07:54:35 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.91])
- by mx.groups.io with SMTP id smtpd.web10.51340.1722239665399712991
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD942C3DA61
+	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 10:11:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.52878.1722247866168171672
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 00:54:26 -0700
+ Mon, 29 Jul 2024 03:11:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.com header.s=selector2 header.b=fGdp4sOp;
- spf=pass (domain: weidmueller.com, ip: 40.107.20.91, mailfrom: christian.taedcke-oss@weidmueller.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=89407ab778=deepthi.hemraj@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46T7mSQ2004127
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:11:05 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2172.outbound.protection.outlook.com [104.47.73.172])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40mp3x9n51-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:11:05 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H5GyhzCwSQmL6utqAakmNlaSgyHBTdzayL7EXlayWSNs4aGqcwj5cWYbeMIjF7cHdiRFlcxWRP2OYj5ewcd1BMxeZ5xcgK3yTrhm052aDtL5ey78pw0gkbvaCNvRec//8F+kXH77VAFKyVu+aH2sIhAF+s9jrNoz1dlDyUCfG0oD4ozOdkITkrMX/7VA5rqC0OPXGBjJ23qwUk4cY6Smjk2fAoQDrISj/iRj/cKdqZwaPJ2dCMKDWfgXCFvrl5muNy670WFr9gdRsx9rAyyeITWX8Kye+ajHF2ARETCIRKEVSQduwYiYuQgNVgartpCGJX9k+iuFovQMtKJ+wdltMA==
+ b=l0DphcV3Ka3vFMsprkubbez1pBMGxGNPDtk9pkGI1A7RrOaKJfjgtQT0rnbgHIc5H8dEiAf0Q9ibaXuGM2npAuI8lgDFsA4vlgvDdk+UCMijL6bF0VCLxH+wuDe1lhbFUy3bEVyRp3wpiMFX628CStZV0pWs+g+YUVt/HUJ7kQk0UnU7O63r0TENKmLeo2pMYJog+G71b076OjpYthC1LLhAlTGGUIU5hB4W9rqrR4t/9d6dRbrBbeKk26ehwE1BnKn7n/WOEGSsm5rebgw+NINxTdQBuEYgkYPNf6snLHXMAK8q+E4VGN2BXEasofRjwZxVa0FBZEjxweYJ8s+DUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PnUxUUunkf/WQUJATTX2TbhHhJ6fUyMkSEA7zksQrqg=;
- b=x5MVpb6IlNy8c0dSc7e61NnPcqRpuA8P/b1vZsRlffIO3UeyaVg/JWr2B/689ffuJL18mVgyBOlQj/dJqLgG7BNdatrVuomeI4HviHvxxUg3UMR+TQmSipHf5vyUMoCJWID6s9x1hD6l7DZUuNqi636tdpwPEZUxrax3zk6nkgGKKjdFL6bOiKFxE0J7aBL2kQ5pTbvXuZwH9sMiET+WkC8kkzr/Ix941QSHED1tOYYa+HLtYSAEe9FJ1n+JiyWrrhHEKs67cUnQV5p/O18dCd15YsPtUzYnSQpDpXlvPFagmygyVCf+e3EISyTpHArawabCkzM3guLO9iTTTmdxxg==
+ bh=OvZfLuJwO1pqwvCSLsvz8LClORQs+WCeB5FMmg5b91Q=;
+ b=Wvk7ZyDqw4SMdSwEm1DsRTCuVYK6ToCgyC1T/KRxOybrixcBjMb7F/ViWgGJrGKYxnDIC6Clzuob/lBGyZqUarrf+cMp1qvyuiDzB2D/ZiZP2bKpBXrvRCqrTgaCAxV1eoA+Xh0bri6KyihhK5cB/8wC8vKr53ujHvbCl+hRnotrs+pIdqXLpklHatGyrO7nnxAt6FVslkXQ5JIbk5CbhzHmFLK2rNbo+FXjWINoGXFrJotxWU6jaecysgQGM5yGKIpUyk+fJp8HCc906AtaLN/+sn8ml0XBn1eBFGRHNwz8EUV8MMC3FSRf1aXM0UewcF4ii05i3FKeJNlKx0Wsww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PnUxUUunkf/WQUJATTX2TbhHhJ6fUyMkSEA7zksQrqg=;
- b=fGdp4sOpVuT6KSfB8EIl416im0OX0NS/fEe0lgdJNWRhM4/tPm22HKMJrWpcQ27myWBl27FCHqw6CeWjtohMGwheB3ITrozRX+FDjOTGBqibiekTIdoPRfiBsfwp9vBVmGke+U03dk4lWxFTmCKUbuQYEODnhFhdCyWd9rjtsKvfjtaHAgZrelPPaYGFwgjiDdHPVYDF56FkSitQaxJ+Y4SZBEM6PTgie0oL6adGwk/kqk5kWhvsj867+A+l46Qoyz/s6riWIbbKIoN2c6LOT6nM/2Ue8g3cT2HUQaEJ5QU9FOYJJ1ElqDuQbVLSrJal8QNniz+/LHpHxOl9LxpaYA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from AS2PR08MB9199.eurprd08.prod.outlook.com (2603:10a6:20b:578::22)
- by GV1PR08MB11091.eurprd08.prod.outlook.com (2603:10a6:150:1f4::11) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from LV3PR11MB8602.namprd11.prod.outlook.com (2603:10b6:408:1b3::11)
+ by CH3PR11MB8238.namprd11.prod.outlook.com (2603:10b6:610:155::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.23; Mon, 29 Jul
- 2024 07:54:19 +0000
-Received: from AS2PR08MB9199.eurprd08.prod.outlook.com
- ([fe80::7254:707b:b5d3:ef15]) by AS2PR08MB9199.eurprd08.prod.outlook.com
- ([fe80::7254:707b:b5d3:ef15%4]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
- 07:54:19 +0000
-From: christian.taedcke-oss@weidmueller.com
+ 2024 10:11:02 +0000
+Received: from LV3PR11MB8602.namprd11.prod.outlook.com
+ ([fe80::5e20:4508:a523:df39]) by LV3PR11MB8602.namprd11.prod.outlook.com
+ ([fe80::5e20:4508:a523:df39%5]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
+ 10:11:01 +0000
+From: Deepthi.Hemraj@windriver.com
 To: openembedded-core@lists.openembedded.org
-CC: Christian Taedcke <christian.taedcke@weidmueller.com>
-Subject: [OE-core][scarthgap][PATCH] iptables: fix memory corruption when parsing nft rules
-Date: Mon, 29 Jul 2024 09:54:03 +0200
-Message-ID: <20240729075403.15533-1-christian.taedcke-oss@weidmueller.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: quoted-printable
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
+Subject: [kirkstone][PATCH] llvm: Fix CVE-2023-46049
+Date: Mon, 29 Jul 2024 03:10:42 -0700
+Message-ID: <20240729101042.2984779-1-Deepthi.Hemraj@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: FR3P281CA0189.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::12) To AS2PR08MB9199.eurprd08.prod.outlook.com
- (2603:10a6:20b:578::22)
+X-ClientProxiedBy: BYAPR05CA0038.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::15) To LV3PR11MB8602.namprd11.prod.outlook.com
+ (2603:10b6:408:1b3::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS2PR08MB9199:EE_|GV1PR08MB11091:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf664bed-82e9-4594-97eb-08dcafa3a70a
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8602:EE_|CH3PR11MB8238:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff33d49f-626c-49ad-de6a-08dcafb6bfe6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
+	BCL:0;ARA:13230040|52116014|366016|376014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?hFN/EAYl3R2ziEDAxjjLu5pe3XzgoF4/q986kWU8xL0Fq1IshjvlLfxrqN46?=
- =?us-ascii?Q?STrmKEFe854ODSQWmmW5TP5TufrzU+bJtTJW9Zh3xr148QLuE537R71qzTZv?=
- =?us-ascii?Q?MsazIi89ZB3mKsoL45CZ0xHNI4IHbMVknDJYzuCtEvnac7rbODTK4rlT/lJR?=
- =?us-ascii?Q?bPNN3wN8irRGI/Tyf6t3nY6hkFSY4fBIe2Oz225Zn9EgoCkXTGKcmBlPz+Xl?=
- =?us-ascii?Q?qMd3Oiqo1lnA5ld/PqCPhI+xtznczAp2GS9mqn8kfpFo5Bpel23Wcs74SHV1?=
- =?us-ascii?Q?fOKK2py98WHtXb5yELyA1eq7+I+g6RZSw7pWQOCUS4maIJULQcfDVbFwicKU?=
- =?us-ascii?Q?dtjJJEvQvg8vhAX7mI+DDWMcDxM5h7rpk417/zMbTBqvDSX/uxIZrxnmXddH?=
- =?us-ascii?Q?YFSShBjiqBTuEl5HcNS7nI4iud9u72/JaXb9jrfQR5u+inpagDEtttG91qi+?=
- =?us-ascii?Q?v3BWCWHOjDFzIqotZj1C0N/F28AjboBBL6dK9KblhxnyvLnSxrFW+2tccp3x?=
- =?us-ascii?Q?NlNbZm4YWxH7BHr6z/fgIGmtAjC8qFJAZuM5WGY+6PAI5JR64JfWA0dqMMt+?=
- =?us-ascii?Q?s8ZVEG+9z3DElTg6tipfRKB/uCORYQR1kNL5A3eF1e66PLyYp2mbwrK7TM7S?=
- =?us-ascii?Q?947Wo8hcyTkUeRCAEUOEVse9Vr9lTX04g16mRIZ8bJDxu229838wqOrZaAtN?=
- =?us-ascii?Q?ki/DXiJlLlkIHNW30zSbbKmQCKG1Z0BsOBT9LC2IzrNZ+Kzpqkg72v8AMb2H?=
- =?us-ascii?Q?wqFNMPuTWQZ6s90t5YPuxFQLDNCdwhDaBg0V2B2wgSe8pgF2nXspUdJEnOXd?=
- =?us-ascii?Q?ZpUfYoTtqFxiIUBlQ6/4F12g+KD8+g6dZ0bnECu+OHbGPgByuHPRWfGGiRNN?=
- =?us-ascii?Q?hUDDlylg69nBpu7v8BDquiYk5Xu0wiCjYucvrLqDZxNcd5NzMGcM0gIkLleW?=
- =?us-ascii?Q?mdR5FvNflE6o/FFYIwWugqc4JD9sHA1PiFaeKBjGbbfmFGeRe/DdbRxyVndD?=
- =?us-ascii?Q?y/9gPc1IHP37elTITctOlNb7He4+PGJeD2VNlcfiizqLh20I4ROp3FUNL7CX?=
- =?us-ascii?Q?XKJ6Wlv1LeG+A9ZPJ9PInXkEG0w3k6F0u+8WwBcw8u+u9ph+f/ZcOnI+sImO?=
- =?us-ascii?Q?GYhTfGxePCXldPugINwwQeJPCzKY85caJVP7MPdLV0UdTs84KDrh0eZEKX18?=
- =?us-ascii?Q?KMuTD/fiFrld+tj7UHgD96QOq6whLlNRBIk1pmVeRi0+69WkEcqRN9gF5mV4?=
- =?us-ascii?Q?NBINJHyAgegy2//0uadaxZBBOLqdqeGz3e4etmqWA1lMmygtpBqdM37o8RhW?=
- =?us-ascii?Q?YS5XFqdrFmy8S86GqyY3eN53A3wWvy9lDkleQSHyH9OyArGd0qs2rd7aQa9U?=
- =?us-ascii?Q?1IeXXqY=3D?=
+	=?us-ascii?Q?zPPHT4ozH1XMaYO7gN0WmGKElLKjl/t1OAce8hQ0Q9yBEVsZmIJqZGhTnUFN?=
+ =?us-ascii?Q?/6UouumRYKuIfhcIyEqIODFCgjYpt598kzPv9j4DLeFmgig0wmcrefEVmqMd?=
+ =?us-ascii?Q?qa9iZHcpCcE/xnghDuISTp2taHRXro3ZdptueEp7nwUwhmy8E6ReAUjM4z3E?=
+ =?us-ascii?Q?GT8sqJTDnxABLaYzHQMV6oezJd0nwvbxoThA+vVw3NGr7yVi/oMoiGG5MM/f?=
+ =?us-ascii?Q?/PGWQIMHCoIBQZWCuhDOpP4UmfgGDiHK9KIG3QjLelM2KVbeeSe6xeDj+PrR?=
+ =?us-ascii?Q?ComzXuulQl0ropeTf5DvWihjvmG9mCIM9wVFGKlqO8+w/W0RucBQsCwKnR/c?=
+ =?us-ascii?Q?zdLbr5fe5Vmqoq/hZxP4IZJBenRfSXerYiZ6IgxSUcOZfETBpL1ySl90AxKe?=
+ =?us-ascii?Q?tIG5cvXx+uXs+fs8TsuxpIksmPWlYsE3mLV5XaLm6zxWslVJdMh/wvwAag0w?=
+ =?us-ascii?Q?xJdKuV+AS7/yw+cANuxwS1D2ea0Eg4qW/BxclCoDCXceREchsgFwqa4F83cG?=
+ =?us-ascii?Q?twsfdWaYBzFP5WvovJFIBnmt+7vQtPb+qT3oH806lRqKOStMLotZFlXV++YY?=
+ =?us-ascii?Q?MGYPnRKNxzOt5TR6Ixa45awa4H8AK/u9llHj1oqpaU7Qb0BWcaVGyqOOkr2c?=
+ =?us-ascii?Q?WoChqkOQ2bh3fhzd5k7KzRWY5lsrRQ9iz7MlJwGVotPdTYNjREYD+OOZ3ouR?=
+ =?us-ascii?Q?3lVo70Lnx1laKr6ymdNjMnAZHAwuf8JWzRj0aBy9SPdN3nX660nJQF5K+Abg?=
+ =?us-ascii?Q?2Cs2IZHPh8me+Sdoz7AhK6OnWeRNS65qejMOFRDWBdi4rIXNkiztaHhkzigz?=
+ =?us-ascii?Q?Yuw43yDkyyj1P1Iqh/B4diJv7KERtyX3nspAty+YUYUOg/OteGraTN+zf91m?=
+ =?us-ascii?Q?Hl46lvT1hYIRSciL7yR2eQex2BGq1E95G6BI9U+qGVOTi3IVx3fnnVLhvFza?=
+ =?us-ascii?Q?C5vmdk/YSTFJCR8he+FCkgZ1EGAq1hR+HG3APblKjp5MMIVgjZNXVqFPsIst?=
+ =?us-ascii?Q?GQphS6aEQp841i6ljlEAfo6GOzH+JaRTTNcDJAS8vA1Tp4cvIM+IhLYtqiX5?=
+ =?us-ascii?Q?OCxNb9UNNQoypDjOKp8NrjLOJDZQaWSUQJszkRQw+VCtSAlWXU1YTjA/tqcV?=
+ =?us-ascii?Q?7lZont0WUqlVjantD6rgqb3GpsoTnUlz4r9l4AxggLlG5g/fbwa2Mik38Zfe?=
+ =?us-ascii?Q?81Ii8lqEQZbQrI99FQfq3JPoVxZx4ldljOp1jSY4K3aHkpRpuO7kWEur3Poy?=
+ =?us-ascii?Q?LVAy0gWrBGxydJZ4H37XiRrqzsK1v8cC1CB60bx5t0Q9WPkJd2BiQa2U55mi?=
+ =?us-ascii?Q?5JxaJdXu0rizKSaTec76g3t5QfiBGq52AnWF2KwXy7cnjz7UqB8UJ4swiDLT?=
+ =?us-ascii?Q?c0MOOyI=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB9199.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?lDNKmQzptHVIFeEPt5xjew5zE73DFisRsQAdkggUAdcOwkBcpYFN2PFuSpLJ?=
- =?us-ascii?Q?2nuxaLIrrt1soZcW86ZPbzsI2nhs4M3+T0WI7q8nL5QLg/gclqejW96J5sUZ?=
- =?us-ascii?Q?3qtDhIHJmm0DCZY7G5oGo2YU+faDDzkPr+Z58d/vTiRhVgg+s9egNVzr/yyW?=
- =?us-ascii?Q?wpkcjm1WwaCqTkZwvfbwc7VSNU1j/1WvJSWZ/AodvnFSkMdBe6GbYgZOwDZM?=
- =?us-ascii?Q?LrnkbPa2CeQyRYPIcZBVSygwjvE6p2Qv+BZWBduXZwu6DR756Z55WLwnK+IH?=
- =?us-ascii?Q?RO/LQH3iEpLb5CPGzNuWDlQpCmjhNCZvZKsZFS3UDsE2tnXFFMvXBcxjc5uL?=
- =?us-ascii?Q?1iM8ezX2D2PKrTAib3r9st2Az8IHBQo1FCAZAKZsMyXS7hXwggbhKxYE7sAe?=
- =?us-ascii?Q?WlhFsBnUUgwwUMjwYMbrAOaWqBRGkomamR4lC8zm2SXE7GScE74N1O78AjgC?=
- =?us-ascii?Q?uCJPmkO4XrzhnKfS84ttDfjVedQGJA8RD1j0LaR0qNQwzWwfwSeTsJ8RIBS0?=
- =?us-ascii?Q?Ww8wUk809fqIKeNJKFe2qxuZhTPE5QiXMJDElhWhFfO2s8wgnBP9+BxS9IZX?=
- =?us-ascii?Q?JPuupCiaPlJZ5uJ2IeAruhjZLXJ72Srj1qD9mvASgXH+zMxZrkMQynzJ3nlg?=
- =?us-ascii?Q?7Zm+3C//O910gqqFzaeq/oyTwsiuAWavX8eEQoOcXG1JrNmMUOeOBw8zKHRS?=
- =?us-ascii?Q?3Z9gLNamOyDQKiHaRXZcYrl9cRmaYJ2UCZV/1yHqLhTuILjalQ8lqOVHDHcH?=
- =?us-ascii?Q?Ndu7VxRpxWoj+S//kjKNF4A3TpzK2wVZbzfcx0JLrkBJndgi4opjumfBwPgK?=
- =?us-ascii?Q?/ujwPCs/jfLdMpMIXRWl1jNBnvdQf4BoxR0XYgnC01Dp2NXAFKl+LBDIEnF8?=
- =?us-ascii?Q?ztJ0pIByT7LzqEkK8kyytv6uH/yDnLeb3K5tZLYjadBCokDefmBOGFrGxpBL?=
- =?us-ascii?Q?+mNA0Vn9qEyR3/EZjEf7FqFhBUaTRU3ZVFb8l8OdDp4t2om1dLl7kcAcTnOl?=
- =?us-ascii?Q?fZ6MltuFxUPRIvRSvnCp4FovX/dxaktgJUDLK0PnhvfUNeHg6gaUHYr7LS1W?=
- =?us-ascii?Q?WXwIdAtOiztiBKS11R6wOUVkSAQqcNhPc+Sf3wQ9ie5j/xUWsy1bMS99qyUo?=
- =?us-ascii?Q?YVsZ/JcOAQOKFNhCh7c2YEKuAEW207Z9FUY9g+7GkzonZ1j+eDoF7v7HgC8l?=
- =?us-ascii?Q?wI3HYMdRFxH1BzBo2DmKdQJMY6Ob9Ewb9ekCEQ9haMu5oOfvN3P474JVztJ2?=
- =?us-ascii?Q?mEsq0CEBcGPqffliClLuCKQ2K2D5CW0MHzl85aSkYCGzcmNye/j6iydmSjab?=
- =?us-ascii?Q?Rrn46Ya86ZxaQc8vS8WEThgf6Wcy8uXTbjgHXTaLR9RZ5zcvmBMvjacYmMqN?=
- =?us-ascii?Q?0fSGjmlr4mOpoYg3KfmOCpi3ReihiyG5G0KWLOdA/1/U/RByblplY6xheiiT?=
- =?us-ascii?Q?yXrmJb1LpWfH8paAivv+KOJ7ANl4+Kqwc9oqDzJxiDusrST8vhndj2xd5Z1I?=
- =?us-ascii?Q?P556ivAuM5qYkVFyZmwI7Udeuu9EMqB7RVGUxhDa75s0O42O7JG6vu3WJK+n?=
- =?us-ascii?Q?I6/fshw9kdrcPraTvq1+iJGxCQZqv/5JkfkPhPGRIUoxfBFkxSMYGgra0hhf?=
- =?us-ascii?Q?Ut4urskDD2ptt9qfyK7mxNC67aHy4V8qtDEU040g+aqE?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf664bed-82e9-4594-97eb-08dcafa3a70a
-X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB9199.eurprd08.prod.outlook.com
+	=?us-ascii?Q?ToI0jIct1Bu/Q7IVR1JVvF23+XtMLb5pn0L4+/98c8XrbmVYKfVUJRoGrjDd?=
+ =?us-ascii?Q?NerJwrL3UOD1dpucSUJfzcNZQe8xBRq42zMMPUUBdrHvZAH1vx2BiymHKfZF?=
+ =?us-ascii?Q?zbFg2Mc+1EZhsLIFRy0SKxgkgC4u+0RQTT6V0MzPc0ZKful2zL5L3qKd/Nkc?=
+ =?us-ascii?Q?/RvevIutG7xo6uy5QU8rLsS3aRKKjdK5YWsLU5buchj4BC7JfoJrSBp8DfWG?=
+ =?us-ascii?Q?JAOuoWEJqCcwANVEdoZw7gfyj9oY5vA92qwDcEdL3a/NZzWjx8tDeBzyl5vZ?=
+ =?us-ascii?Q?hAaiesv6C22N5rqbiqGPrUchrDmxCEjspgWTwJqvCtSKCWYlGbYb4PRtmtBC?=
+ =?us-ascii?Q?9i8UPx0bC9bMDiciLJQ6LZ/CoNRtwlGOviVxtfayHAsCLQ4bFQqVcGCKxqCd?=
+ =?us-ascii?Q?ajfAL9Ke0QV7kBZaDF682vxlrVnRA6TLOQzJBwBPosqb64Sq4Msz9Ahwf2iK?=
+ =?us-ascii?Q?ApTx6L4ZbjeE0FZVAWE3g68kpDHv4AyCYJAWcij4KD6Fn9DZxu/1mo213HE0?=
+ =?us-ascii?Q?1aYTxg3mWWK3yFjdScmODc9g09eVP0m0uLTEg/rUlqvGQ3It6YE3YA+wnrs0?=
+ =?us-ascii?Q?BrZKjUTXiiFT9J6RzsoPObqTc4g+DZxGtLK8BHZoVbpsPIVhaKuJCpARTps0?=
+ =?us-ascii?Q?GoCC1buy5RwqywHF0goz4PbK6N3SlIot0LZ+nl+LkBdo3I/2wjFfpvilXV5X?=
+ =?us-ascii?Q?7enAFouDtwDNc44CRqVH6lV6H0VZ1BK4Jk/jgOT2JMuAg9OoUod7meo6/9ta?=
+ =?us-ascii?Q?Ycu4wrjUGK89mpscvpY6NrRwxIGmiLjaVHMBhllOeLLYtTl1qbYf1wXgwHkY?=
+ =?us-ascii?Q?0bOG23bbCX6xWjwEpKJmqwPFSsVB6AwULOQ7a26Q63tIo+KVzOGem7cthwcO?=
+ =?us-ascii?Q?FPUCc11DtC7+oA3mLQJ1d+Gk5k4oEt4Us//2pA6wME5q/ZHnYtCifWm2PhFB?=
+ =?us-ascii?Q?idbTjG84Antc2IRGA3zrshCz/OpPDOQplwXU1rj2cYl27HQulEKX15qqRvvf?=
+ =?us-ascii?Q?Oe3jvk2iDVSOvPnnYlQjr569p+osEiGNXEpAfN8fnkJuImsk3qBKczkj1Y6l?=
+ =?us-ascii?Q?vqaRa+6BviAeFMlKjMAcWYS92Itn680NXpTXqyUEbk+mnr3i+dSEuBoNIdff?=
+ =?us-ascii?Q?zCR1632khD1hZEOfiNGlMZnmjwmNm29rYdRPuvMCQRfZbRVmFfYr/XWWjsVR?=
+ =?us-ascii?Q?nqhq75C09JCEhA4BT4QL8XeznaapPWL3Y7hYaiwLfsnsplqsA2ZftXTHMadJ?=
+ =?us-ascii?Q?onAXY7Nd5ujE0tVT8yRMVoPaLb+x1ph0ORKgVK4tQ/qtAZCNR8qtkHgY9j6D?=
+ =?us-ascii?Q?Qg0oXl2kquxNaeadZxkAFumG4ujRMYysgzVDuVoWTaD6qgqEfIBRs2DmsaLp?=
+ =?us-ascii?Q?25hbwTFfkBAk0B170VLN7s4ByMwCVcPhDtjdbqGkvc8co5BpSkaI8ACgI5tM?=
+ =?us-ascii?Q?sr0cKvxUxErrV1egSa+7pRaULCzFtbU8A5KgVgwP65f2GDVmxSQfQgKFuNbP?=
+ =?us-ascii?Q?KNOnHSutNaWuk9BXnhzBic+ECHRUNO2q9Ne3Kh2iK0ohMIC4Pb1whLvIptVd?=
+ =?us-ascii?Q?lpag5hWsKnHi2NSkdQZ/gijqfhCQPlOfq0Yeo+ECxaBxyCrXaGnstYRDHL8G?=
+ =?us-ascii?Q?XQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff33d49f-626c-49ad-de6a-08dcafb6bfe6
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 07:54:19.7757
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 10:11:01.9190
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VDcrvDjdxzi1STCm0vvjf0aMkt/uqNtxRxHtl+sLkxrUKqzwEyPrVNMGoeox0EzVRlSEoXPWoi+A7lODMSf2WptMP3zpFeGx6voBNAU7pv140sF1vPuKi1j6Ynb1pDst
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB11091
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5JwaCY+4m+cZQ6yKxH7okri6qsSQNgJ8cZ+jE7B8bFCdXwxDBpwbaXO6rLm/QljYryFXeoTqMXlTuci7y1JjCVPJO7mnQXWicz9EyvISLns=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8238
+X-Proofpoint-GUID: bLZYdE2fZ4WyNfK6o7mUeG3hy8WdDAd_
+X-Proofpoint-ORIG-GUID: bLZYdE2fZ4WyNfK6o7mUeG3hy8WdDAd_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-29_08,2024-07-26_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ impostorscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
+ suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2407290068
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 07:54:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202608
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:11:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202609
 
-From: Christian Taedcke <christian.taedcke@weidmueller.com>
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-This commit fixes a memory corruption issue when iptables (with
-enabled PACKAGECONFIG libnftnl) is used to access rules created by
-nft.
+[Bitcode] Add some missing GetTypeByID failure checks
 
-To reproduce the issue:
-nft add chain ip filter TESTCHAIN { meta mark set 123 \;}
-iptables -t filter -n -L TESTCHAIN
+Print an error instead of crashing.
 
-This produced the following output:
-Chain TESTCHAIN (0 references)
-target prot opt source     destination
-MARK   0    --  0.0.0.0/0  0.0.0.0/0     MARK set 0x7b
-malloc(): corrupted top size
-Aborted (core dumped)
-
-This commit fixes this issue.
-
-Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 ---
- ...se-Add-missing-braces-around-ternary.patch | 37 +++++++++++++++++++
- .../iptables/iptables_1.8.10.bb               |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-extended/iptables/iptables/0005-nft-rulepa=
-rse-Add-missing-braces-around-ternary.patch
+ .../llvm/llvm/0008-CVE-2023-46049.patch       | 34 +++++++++++++++++++
+ meta/recipes-devtools/llvm/llvm_git.bb        |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0008-CVE-2023-46049.patch
 
-diff --git a/meta/recipes-extended/iptables/iptables/0005-nft-ruleparse-Add=
--missing-braces-around-ternary.patch b/meta/recipes-extended/iptables/iptab=
-les/0005-nft-ruleparse-Add-missing-braces-around-ternary.patch
+diff --git a/meta/recipes-devtools/llvm/llvm/0008-CVE-2023-46049.patch b/meta/recipes-devtools/llvm/llvm/0008-CVE-2023-46049.patch
 new file mode 100644
-index 0000000000..4cbc8bdaf4
+index 0000000000..c34e9ae69c
 --- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/0005-nft-ruleparse-Add-missin=
-g-braces-around-ternary.patch
-@@ -0,0 +1,37 @@
-+From 2026b08bce7fe87b5964f7912e1eef30f04922c1 Mon Sep 17 00:00:00 2001
-+From: Phil Sutter <phil@nwl.cc>
-+Date: Fri, 26 Jan 2024 18:43:10 +0100
-+Subject: [PATCH] nft: ruleparse: Add missing braces around ternary
++++ b/meta/recipes-devtools/llvm/llvm/0008-CVE-2023-46049.patch
+@@ -0,0 +1,34 @@
++commit c2515a8f2be5dd23354c9891f41ad104000f88c4
++Author: Nikita Popov <npopov@redhat.com>
++Date:   Tue Sep 26 16:51:40 2023 +0200
 +
-+The expression evaluated the sum before the ternay, consequently not
-+adding target->size if tgsize was zero.
++    [Bitcode] Add some missing GetTypeByID failure checks
 +
-+Identified by ASAN for a simple rule using standard target:
-+| # ebtables -A INPUT -s de:ad:be:ef:0:00 -j RETURN
-+| # ebtables -D INPUT -s de:ad:be:ef:0:00 -j RETURN
-+| =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+| =3D=3D18925=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
-s 0x603000000120 at pc 0x7f627a4c75c5 bp 0x7ffe882b5180 sp 0x7ffe882b4928
-+| READ of size 8 at 0x603000000120 thread T0
-+| [...]
++    Print an error instead of crashing.
 +
-+Upstream-Status: Backport [2026b08bce7fe87b5964f7912e1eef30f04922c1]
++    Fixes https://github.com/llvm/llvm-project/issues/67388.
 +
-+Fixes: 2a6eee89083c8 ("nft-ruleparse: Introduce nft_create_target()")
-+Signed-off-by: Phil Sutter <phil@nwl.cc>
-+---
-+ iptables/nft-ruleparse.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/c2515a8f2be5dd23354c9891f41ad104000f88c4]
++CVE: CVE-2023-46049
++Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 +
-+diff --git a/iptables/nft-ruleparse.c b/iptables/nft-ruleparse.c
-+index 0bbdf44faf..3b1cbe4fa1 100644
-+--- a/iptables/nft-ruleparse.c
-++++ b/iptables/nft-ruleparse.c
-+@@ -94,7 +94,7 @@ __nft_create_target(struct nft_xt_ctx *ctx, const char *=
-name, size_t tgsize)
-+ 	if (!target)
-+ 		return NULL;
-+=20
-+-	size =3D XT_ALIGN(sizeof(*target->t)) + tgsize ?: target->size;
-++	size =3D XT_ALIGN(sizeof(*target->t)) + (tgsize ?: target->size);
-+=20
-+ 	target->t =3D xtables_calloc(1, size);
-+ 	target->t->u.target_size =3D size;
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.10.bb b/meta/recip=
-es-extended/iptables/iptables_1.8.10.bb
-index cd2f3bce0b..4d116d2f14 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.10.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.10.bb
-@@ -16,6 +16,7 @@ SRC_URI =3D "http://netfilter.org/projects/iptables/files=
-/iptables-${PV}.tar.xz \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink=
-.patch \
-            file://0002-iptables-xshared.h-add-missing-sys.types.h-include.=
-patch \
-            file://0004-configure.ac-only-check-conntrack-when-libnfnetlink=
--.patch \
-+           file://0005-nft-ruleparse-Add-missing-braces-around-ternary.pat=
-ch \
++--- a/llvm/lib/Bitcode/Reader/MetadataLoader.cpp	2022-01-20 13:31:59.000000000 -0800
+++++ b/llvm/lib/Bitcode/Reader/MetadataLoader.cpp	2024-07-28 21:35:31.062992219 -0700
++@@ -1235,7 +1235,7 @@
++     }
++ 
++     Type *Ty = getTypeByID(Record[0]);
++-    if (Ty->isMetadataTy() || Ty->isVoidTy()) {
+++    if (!Ty || Ty->isMetadataTy() || Ty->isVoidTy()) {
++       dropRecord();
++       break;
++     }
++@@ -1277,7 +1277,7 @@
++       return error("Invalid record");
++ 
++     Type *Ty = getTypeByID(Record[0]);
++-    if (Ty->isMetadataTy() || Ty->isVoidTy())
+++    if (!Ty || Ty->isMetadataTy() || Ty->isVoidTy())
++       return error("Invalid record");
++ 
++     MetadataList.assignValue(
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index cedbfb138e..c48650c296 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -33,6 +33,7 @@ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=http
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
+            file://0001-Support-Add-missing-cstdint-header-to-Signals.h.patch;striplevel=2 \
++           file://0008-CVE-2023-46049.patch;striplevel=2 \
             "
- SRC_URI[sha256sum] =3D "5cc255c189356e317d070755ce9371eb63a1b783c34498fb8c=
-30264f3cc59c9c"
-=20
---=20
-2.34.1
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
+-- 
+2.43.0
 
 
