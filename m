@@ -2,79 +2,106 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D50BC3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 18:42:20 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.362.1722278531190751762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B51C3DA4A
+	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 18:51:08 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.67.1722279058729227477
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 11:42:11 -0700
+ Mon, 29 Jul 2024 11:50:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TTSNdISC;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52fcc56c882so2831298e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 11:42:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ic9CXaQl;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52f01613acbso4358040e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 11:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722278529; x=1722883329; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CowhWXzvo8950fH/DTUImUbfcML7XVhbdjEBkbkoTUs=;
-        b=TTSNdISCy4VPFTo35fGdFJ4iBD5PJe7xHjzWTf/3O0izOwGEMmZnArPjNabtgxc6Pr
-         98eduGksJFj/6uaeAKLJqwjjhzmd5lRKhcHr2Ie2CSzRQK15Rj6JbCqL47B94NXWsBcL
-         IYVtXod0SG4mIwSDI77IYWrlLwArvq1o+WtdHewol35B8A96zxDHjepEXzWmcn6tKJtR
-         tefGblOLQiJEZkR8QDY9+p15UEluBSWFnxRkDTGuGCjNXcdeFt2cHD014DhRTX/J50Um
-         0WatB4GzTmIKKOVBA6qcVf/TCGEM3vqbCTDRc+qwltsowAYXUzF9Z4Z/juadwk7AxqAT
-         kIFA==
+        d=gmail.com; s=20230601; t=1722279057; x=1722883857; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMQ6QkJhsOqwFh4PSam1fGvoWWpaqxVOBJAcRBLLg/8=;
+        b=Ic9CXaQlN44TQPZZkoPq4Ie7f8aJ5GY9DRfmdLXqlw8Yj5fJ5U8ghaZLJ6cRHEuJUf
+         iH+BrKEF0LzhaE2x4v55Ug3m9hpIkvQl2ennUc0G4tmf+MJ2RCvhzW0ir8IpPoIZuEDB
+         TP4oKgSerDlxqZcyRu54vrvzunstaZSSWNCdoviW/k4OXQM/n4bQvaurGEGA2/GNV7tT
+         1ByqLeQxarQ2cUCbKyDBN4ZaF7oG+I3B0mvJ6vT8QSqurAzS4xirc2jarSz2QY4HRHGO
+         W4AapmOgoRD0I13WFN7r9OILsS3c+mbrb/4w6E9hB9gSLubJEPABHIzg3c3L4QLNVF6m
+         5JVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722278529; x=1722883329;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CowhWXzvo8950fH/DTUImUbfcML7XVhbdjEBkbkoTUs=;
-        b=Rf7IUMQDzRwvlGPK50Erw+eRQZOXZ4BySTAMoMRyemY9XBDsG/YM0EKcBGjluKe8Qg
-         YHoe5ZK8U0hFIgXDtkCFGEdUt/JArnBhY9+kDUtWibuapZarPwxj7f8mwTEapBE/xzeR
-         Bu1HqXCMGCBopJkm9o2vKrBjBPFGG22ow/30uu3p9G7dBG3Lxe+FpzP/91s7S4CurZKC
-         EFAWzRPcAO3Hu9lZQcqrxCqqYm4Jg9q3AXQQY6ksvE7qU1MMzYF8mT1qQ3Iuq96cdRuk
-         dc3iholBFX5uHgLtRV62S6dkFWFuq7XhOKH/j0U4I9TsV8ZRwV7AtF6gsJC7WYW/FqOe
-         oDsg==
-X-Gm-Message-State: AOJu0YynU1ZhaxaZDE9zrEAyBR0GydG1VJXRj7lkFiTuLlQguyXikaIF
-	f5fRFFJAvmLEiEIS1loYhxvfF0/QBNWdYVU0Al6vcjeTk+Lqp8VyHpI1PXAm2mTJJd0mU1JZiiG
-	aIb8EC3jerB7vW1886zB6qQneR6k=
-X-Google-Smtp-Source: AGHT+IGypGy2nTzANsNlJJwD2L2woosY+XYnivTIJt8rA+zjpkwdlHF83ZACRsZskUambcy8sgIwuptSu7dk94163V0=
-X-Received: by 2002:a05:6512:1393:b0:52c:8a6b:6071 with SMTP id
- 2adb3069b0e04-5309b7231fdmr2131684e87.30.1722278529220; Mon, 29 Jul 2024
- 11:42:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722279057; x=1722883857;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KMQ6QkJhsOqwFh4PSam1fGvoWWpaqxVOBJAcRBLLg/8=;
+        b=JnhfTyosv5VQALXzIdal35raJkuSOqKGAIUMCR0Eo/zMLvZXdNDi4s30as1VKD9I+D
+         NraaXqFdsnsxwWYupnffF+3EL00W7eWPFXMxOKFTj1nthgIGm/S1bFi+DGw9Hl98Wm6g
+         MyvZ51iG+wEbk6/2Hn/oQdWPa5wDvseCzL3aaa1s3Gi2n0MXf1VXu8le5vwmvSNwBene
+         HVzgQR8tOHg2GRqA3G2QtKjf6sWIeHrXkTunoVvtO9+Dr1Th8383HUvjwI+yl0/30oze
+         7MjUNOM0CLoi+g6Y3KogRPsb/dQUQen59c4RS5ZQngaVEUOM+tpYIW8sHED6vrO5TUXG
+         iVUA==
+X-Gm-Message-State: AOJu0YzfsXrGKn4J8x12nuTuExgWq0cCPhDxLLGgvEhqOz7HQjpnK6nv
+	v0yJaKAqE3fhohekiCpkPECPKKZYspx1aRr+XHULY60ZsVcKt91rBnBjMAUCKkJjZw/JRQN1HQI
+	jlzWY6SrrlS+bDNuBAQl3SzkdIDjooOwWQhk=
+X-Google-Smtp-Source: AGHT+IHFxmscEw7rUsW7w4+N1ILcCGOmmYShKMtzybHLlfS7iG5QJMV5HSnjajQ1DmUvCXENIkRAmumGYz90qsCQz2k=
+X-Received: by 2002:a05:6512:3504:b0:52c:ccf3:f20a with SMTP id
+ 2adb3069b0e04-5309b718bc4mr2645072e87.23.1722279056447; Mon, 29 Jul 2024
+ 11:50:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <29dc1c80950b25530d55427c1cd97e5be4c0c6e0.camel@linuxfoundation.org>
- <974.1722185188147819674@lists.openembedded.org>
-In-Reply-To: <974.1722185188147819674@lists.openembedded.org>
+References: <20240729144434.153005-1-li.wang@windriver.com>
+In-Reply-To: <20240729144434.153005-1-li.wang@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 29 Jul 2024 20:41:58 +0200
-Message-ID: <CANNYZj-DiZRQVPK=_96_8=qw5TQYoHZTVTfi9X7GKUfPno1Dtw@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][master] license archiving is failed to tmp/deploy/licenses
-To: egyszeregy@freemail.hu
+Date: Mon, 29 Jul 2024 20:50:44 +0200
+Message-ID: <CANNYZj9boK0816ap5hN8LqmpeyThanWjoYjjT=FtfpEjp-9R4w@mail.gmail.com>
+Subject: Re: [OE-core] [openembedded-core V2][master][PATCH]xinetd: use
+ monotonic time
+To: li.wang@windriver.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 18:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202659
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 18:51:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202660
 
-On Sun, 28 Jul 2024 at 18:46, Livius via lists.openembedded.org
-<egyszeregy=3Dfreemail.hu@lists.openembedded.org> wrote:
+On Mon, 29 Jul 2024 at 16:48, Li Wang via lists.openembedded.org
+<li.wang=windriver.com@lists.openembedded.org> wrote:
 >
-> it's been half a year since it is reported in bugzilla issue ticket:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15394
+> when using xinet.d to limit rsync connections and time is set back,
+> the connection limit is reached very quickly and rsync gets deactivated,
+> if time is changed again, rsync is never reactivated.
 >
-> When it will be fixed? At the moment Scarthgap LTS is not able to use for=
- any "production" because it has this bug and we can not generate the full =
-manifest and licenses in our SD/eMMC card image build process of end-user p=
-roducts FOSS docs in our company.
+> date -s "xxx"
+> xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
 >
+> the timer of xinet.d is based on time() function, and it is affected by system time.
+>
+> Signed-off-by: Li Wang <li.wang@windriver.com>
+> ---
+>  .../xinetd/xinetd/use-monotonic-time.patch    | 246 ++++++++++++++++++
+>  .../xinetd/xinetd_2.3.15.4.bb                 |   1 +
+>  2 files changed, 247 insertions(+)
+>  create mode 100644 meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
+>
+> diff --git a/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
+> new file mode 100644
+> index 0000000000..2144c3cba2
+> --- /dev/null
+> +++ b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
+> @@ -0,0 +1,246 @@
+> +use monotonic time
+> +
+> +when using xinet.d to limit rsync connections and time is set back,
+> +the connection limit is reached very quickly and rsync gets deactivated,
+> +if time is changed again, rsync is never reactivated.
+> +
+> +date -s "xxx"
+> +xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
+> +
+> +the timer of xinet.d is based on time() function, and it is affected by system time.
+> +
+> +Upstream-Status: Pending
 
-Can you propose a patch?
+Is this patch taken from here?
+https://github.com/openSUSE/xinetd/pull/45
+
+If so, it has an incorrect upstream-status. Please fix that.
 
 Alex
 
