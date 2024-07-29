@@ -1,94 +1,99 @@
-Return-Path: <troth@openavr.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5CCC3DA61
-	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 12:22:46 +0000 (UTC)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web10.54716.1722255756849760977
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C6EC3DA4A
+	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 12:34:16 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.55152.1722256448796829800
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 05:22:37 -0700
+ Mon, 29 Jul 2024 05:34:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=HH21dVSF;
- spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.166.43, mailfrom: troth@openavr.org)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-81f96eaa02aso95765239f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 05:22:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1722255755; x=1722860555; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lPVxDh+tzP5forpz3q3pp70I+KVY4TfR3cB1EZOaI68=;
-        b=HH21dVSFXDmcNo1PPqbIYDynVBrZU4Ou6dX7rrFNKo2G/S6OcSHcdebcb5sfVWt4VU
-         fc6SmrxRbP8zF+BtZ6/jC8wZM+H8ONRUkJpQJ9IHnOCBe4YuJxmeLV1uU95CEofzE/MR
-         p7/56hanqimkWVhZpL48qSItC5ffw8R59WG8snGZOY0AICtToVRwuiwAV6RCrQpYSZ3j
-         AeCNlxrbjMtTtaPmheiPJ3y9ducwWAGyDZiUJ4WMRKvPLx+iSGG+TPhJGXrMHmj/i2aj
-         YxaBv6MbrzbcuTwyYGsINlosYZTNfjQwo6iy+AmqyQH65Tx8YKfAV3LekpWqXFUye/pB
-         CuYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722255755; x=1722860555;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lPVxDh+tzP5forpz3q3pp70I+KVY4TfR3cB1EZOaI68=;
-        b=v6Gt80K6JhebJUjj6EdSxwpapt3+vms3/wnK7VGlsoxCysnFkxBTtm2yO48Gg7taMw
-         38M0edIlnZhPHEl7e0G59XnuPVR30S9RS/Y3tLMwOH6x2L5is1tp4yiGOVc/+0tCSVsz
-         ePqEENKE6PTnOcC1pwN1XPiN4Mux9YDJ8Adt8UjPjoUkS0GSQx7tN7XJ38sTSU8+SsSh
-         URL7HSg5lAwCWDqqgfUE+mxaXzXzvAsAWSUQQmRyfj+Q7lx4c9pt+q78uiu+K6kalmgm
-         LQnJnMbUCF1ffz4oWyhJV+eo4pztuQfwCfz9BeUAZkpzn7ep05MNUXGPqoTTlOkiqX8h
-         BnkA==
-X-Gm-Message-State: AOJu0YyvcJqMM1XrkiGSBGcvWsn3EKHYUv1nceF0xfKG+nlxQwgnd8Gw
-	jYyRXQjUiZiYh6/H6pDoiabH6KJYV/298kDu7jZAZ5yHfHw/Lio3UJiboodD5Vv9CSB6Cpdnsr3
-	MCJg=
-X-Google-Smtp-Source: AGHT+IHOxU5J2g1nKSLIr0U++WJ0eeub1Uh5pXlIJylRhbEKgf2BiicuoQJu/wRs4/fjNPexr4ZGjA==
-X-Received: by 2002:a05:6602:6405:b0:81f:9215:80da with SMTP id ca18e2360f4ac-81f95a515fdmr727333839f.4.1722255755249;
-        Mon, 29 Jul 2024 05:22:35 -0700 (PDT)
-Received: from beast.bozoland.org (71-211-135-194.hlrn.qwest.net. [71.211.135.194])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-81f7d7febfcsm291665639f.35.2024.07.29.05.22.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 05:22:34 -0700 (PDT)
-From: "Theodore A. Roth" <troth@openavr.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Theodore A. Roth" <troth@openavr.org>,
-	"Theodore A . Roth" <theodore_roth@trimble.com>
-Subject: [PATCH] ca-certificates: Add comment for provenance of SRCREV
-Date: Mon, 29 Jul 2024 06:22:06 -0600
-Message-Id: <20240729122206.8396-1-troth@openavr.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=j32kKSH4;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RmzkfIiE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010190fe7bda19-f7756246-0b33-49a4-85c7-ac5b9e5e3806-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1722256448; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=x53PuK5sRo7kq5vVkWNHiSEA0yad1P15cgdh7OYNYDI=;
+	b=j32kKSH4ZZ3EgEC6iB73xgcS9L3etxvZ5nCRutTeI/SYNQH1JCbBlkdr75VHN2kr
+	f6Z+JhFY8NH68dCCFOusw9sCpXihPSOmiVF91QF7WiOZcpG8mLFSielyAFowxiXjZCJ
+	h1WYp8XyGBMYvH2r9fb8RYArXEiXiyAgv2rT0GBA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722256448;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=x53PuK5sRo7kq5vVkWNHiSEA0yad1P15cgdh7OYNYDI=;
+	b=RmzkfIiExrIuI+lFgaDL2Igf5e+7VHuG0Ne9KXuQTy55T07sOfGxi0wo0qz9oVZT
+	5fiK/WqWfzgH4zWqy96ikF+pcoH8bdV8er1gD6SQelAseli9izI4DcAIdoc5+Jj+w95
+	qA9kmpCvcv21LUg1Izt3Y2Cdt66avpRV0jkhMJsI=
+From: patchtest@automation.yoctoproject.org
+To: "Theodore A. Roth" <troth@openavr.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] ca-certificates: Add comment for provenance of SRCREV
+In-Reply-To: <20240729122206.8396-1-troth@openavr.org>
+References: <20240729122206.8396-1-troth@openavr.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010190fe7bda19-f7756246-0b33-49a4-85c7-ac5b9e5e3806-000000@us-west-2.amazonses.com>
+Date: Mon, 29 Jul 2024 12:34:08 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.29-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 12:22:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202612
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 12:34:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202613
 
-Signed-off-by: Theodore A. Roth <troth@openavr.org>
-Signed-off-by: Theodore A. Roth <theodore_roth@trimble.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../ca-certificates/ca-certificates_20240203.bb            | 7 +++++++
- 1 file changed, 7 insertions(+)
+Testing patch /home/patchtest/share/mboxes/ca-certificates-Add-comment-for-provenance-of-SRCREV.patch
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb b/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb
-index b198ea77a9..ac0756471c 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20240203.bb
-@@ -14,6 +14,13 @@ DEPENDS:class-nativesdk = "openssl-native"
- # Need rehash from openssl and run-parts from debianutils
- PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
- 
-+# Since there is no TAG in the git repository, the SRCREV was determined
-+# through comparison of the git repository and the data on the following
-+# package informatin pages:
-+#
-+# * https://packages.debian.org/trixie/ca-certificates
-+# * https://packages.ubuntu.com/noble/ca-certificates
-+#
- SRCREV = "ee6e0484031314090a11c04ee82689acb73d7ad8"
- 
- SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https;branch=master \
--- 
-2.34.1
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
