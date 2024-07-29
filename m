@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1703C3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 13:13:16 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.55940.1722258788094761938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A42C52CDA
+	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 13:13:17 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.55654.1722258792327892698
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jul 2024 06:13:08 -0700
+ Mon, 29 Jul 2024 06:13:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zE3+rVWV;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7ab09739287so1796539a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:13:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=q6QqMdYU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2cd48ad7f0dso2564811a91.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 06:13:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258787; x=1722863587; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722258791; x=1722863591; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=y1jHiC5bwv/7pXHOo9OqSqNFazkgeukLXVpM1668dKQ=;
-        b=zE3+rVWV4rY/twGE+3MJp5+BBfPP4VzT4yuF7repWtvqkjLOR8KmQa5eJORNgJkyIS
-         xh7gr339QTnvzy3Lp/150eiOvuzEbK19IIUyo79CyK5ApakBYOXrtKPTqbpD+yHGL4Go
-         R/ODYxwhDWdvh6Zk9b/S3b9JqMIZ9ZvrB2wzElHzpP+ag6HfW89UVaqs2zinHwBKis+i
-         /JwbP7FJB5/48ude6lUTeuf7mqhmPtWOROgZZXHJiEaOyecAmb7156ToMcq9LAp5Mm+X
-         Xz3rQDet2hvIk+H4axtHES8Yg9m+iE82CbSWS+TeGRa/cxB/rtZnrPsHDBGm6+iTkg5X
-         rY+g==
+        bh=nxCvmq91ys0sy+E1dDGFdkwlkikIWRPLF3wky7JG3iE=;
+        b=q6QqMdYUo2amA7iJfPOB6+hrRl+xYJE2so22Ari8FBk5KE5m/rqlG272XZt7WcnH6j
+         4KyCcea5yAkGbJpd2B7M3TG3hg3QJEEdmKGBA8gadddxb5gYhLJRkp1TXosfwccfIlsh
+         tYMfHDy3KgjYXSJSsmT2z6CofI2DZ0XK3Wnc2My+tTJhBdJqTT2e3MWpqej9V8mB6+pd
+         2qarizQFreSXOIKP1Q5khuyzQTi2NozWyqqvaxYE+js/1fx8bjYqm61cbT4MG7464Khw
+         7IrRRNdQBb+3vcxoUf+7XoGxpuwdnGcJx6bgH3EBdejccTPKeY/8SHaLL/i5K/pjyiQy
+         VMaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722258787; x=1722863587;
+        d=1e100.net; s=20230601; t=1722258791; x=1722863591;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=y1jHiC5bwv/7pXHOo9OqSqNFazkgeukLXVpM1668dKQ=;
-        b=SI9Q44RPcqH2FCQw7gHRNejwJvpng4gm/akBrS2kw3Lc3XtKQlT7/2W093MNnrQ3yy
-         VVFWrCrOF+GYTpxXkv8H9F/v2ZDY+6J6JDbZNNlNTCGLCpAhzKiJbdnV4o8JPqp+scnh
-         ixJCNzNAE8fY+H0KjCVnfAP+waApUmCWJCMPYJIMWzRqwRXg/7/xUJKkXliioL8mqprm
-         iDnLLiu8GENZvQ98v0aXOTktsugYqjqY7Ci2kDIOMAyhxrK+lsq6aWwEAhRSjpcK7N+G
-         fpiFGvqJ6eu37a3Vs2PatOh3uKI8aHxGTopaBXzGbUn2q0j1K2ekajvY5IVKEBx7rGRy
-         CFJA==
-X-Gm-Message-State: AOJu0YzeiKc3IpjP0Yq9IfTz6xRLfEUsvI4k7OLpTCC50gOQVYl9n7ZK
-	qwHCQ3PH2uKcLVZn8zpTm830yMlAIIP2xfiRmhP4zDoBOwnLiuETLrdg6NeErfaBWciBznQG9gZ
-	6ML1gWQ==
-X-Google-Smtp-Source: AGHT+IE6KPC59nPvXI9NrvoRIQPwrRc5lXsZ+e/7aBgL8xKEDWNP0bRBYGcSo4WHRU81KrLrwDrOWw==
-X-Received: by 2002:a17:90a:f998:b0:2cb:4c5b:2d8a with SMTP id 98e67ed59e1d1-2cf7e1c651dmr5372193a91.12.1722258787263;
-        Mon, 29 Jul 2024 06:13:07 -0700 (PDT)
+        bh=nxCvmq91ys0sy+E1dDGFdkwlkikIWRPLF3wky7JG3iE=;
+        b=laIaqcpmi2PHHSUb76iASO6xi/neNBTvGcgMFGba5qybinMTbeD9BmC1wM9LkuP23I
+         yaekpz6ilNonHc9uvXVNpsDOYZ9x8PeNnsZ7NG2p/PU7AJ+hwLEvyYrAne7uy0zD1b/C
+         YrLqyM3mUBAIj+gOJm80aBhJ+RFpEJdp7UO+3s+GF8ETfCZluCnaOtGRC/PVfXkLYh9G
+         m1p56AJXdySHPfE6kArkhzSgfSiEpA6HXy8kXbGZYUy+xit7Cq3/0B2QDZKfaHNFNrkw
+         HSg+xuKeN8lvAUCaT30qdXqFNkPzQP5cTuUUG99vCvkIC9fb4PQ0i1wGD1Q+av6Wl8DJ
+         VveA==
+X-Gm-Message-State: AOJu0YzfF6Ks3VsGmMBxE7PaKh6vXT8YM4rzfkRg1Ox5rfVHPQJSVjMO
+	G98nN73JzYN32Ize6TYeM+MGZSmuyiqhPBjnGowVUN4WgBy3TaDoe7ntNIz71EcmyqS/QMTSYfq
+	O+P+lyw==
+X-Google-Smtp-Source: AGHT+IFQfqleU1yEzOiG7x9EujEdjIsRyEwFLzxooPU6cjREdUBFW2R/rqjWH+lb8LMYApgL9MGsng==
+X-Received: by 2002:a17:90a:e64f:b0:2c9:7611:e15d with SMTP id 98e67ed59e1d1-2cf7e20a113mr8613383a91.20.1722258791523;
+        Mon, 29 Jul 2024 06:13:11 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.13.06
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73b32cbsm10493788a91.17.2024.07.29.06.13.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 06:13:07 -0700 (PDT)
+        Mon, 29 Jul 2024 06:13:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/37] oeqa/runtime: make minidebuginfo test work with coreutils
-Date: Mon, 29 Jul 2024 06:12:18 -0700
-Message-Id: <2b71641b9c1b8f7e67527d2242a6a65b1e849ded.1722258106.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/37] gawk: update patch status
+Date: Mon, 29 Jul 2024 06:12:21 -0700
+Message-Id: <dbf22d49c4b4c5e26a7aa05b2368c44bad562318.1722258106.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722258106.git.steve@sakoman.com>
 References: <cover.1722258106.git.steve@sakoman.com>
@@ -61,35 +61,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 13:13:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202622
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 13:13:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202625
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+From: Ross Burton <ross.burton@arm.com>
 
-The test was failing with core-image-full-cmdline which uses sleep from coreutils instead of sleep from busybox.
-
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8497edf0c56da34ea7b7509b8fcd46fcba2fd0e3)
+(cherry picked from commit 6d9052884f6eefdf65acbca76e1c39556d77a1af)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/systemd.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../gawk/gawk/0001-m4-readline-add-missing-includes.patch       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
-index 8bf571663b..80fdae240a 100644
---- a/meta/lib/oeqa/runtime/cases/systemd.py
-+++ b/meta/lib/oeqa/runtime/cases/systemd.py
-@@ -157,7 +157,8 @@ class SystemdServiceTests(SystemdTest):
+diff --git a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+index 5be2fd97ee..6fffd1f373 100644
+--- a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
++++ b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+@@ -14,7 +14,7 @@ conftest.c:146:14: error: implicit declaration of function 'open'; did you mean
+ Add the missing includes so that the check doesn't always fail due to
+ these errors.
  
-         (status, output) = self.target.run('coredumpctl info')
-         self.assertEqual(status, 0, msg='MiniDebugInfo Test failed: %s' % output)
--        self.assertEqual('sleep_for_duration (busybox.nosuid' in output, True, msg='Call stack is missing minidebuginfo symbols (functions shown as "n/a"): %s' % output)
-+        self.assertEqual('sleep_for_duration (busybox.nosuid' in output or 'xnanosleep (sleep.coreutils' in output,
-+                         True, msg='Call stack is missing minidebuginfo symbols (functions shown as "n/a"): %s' % output)
- 
- class SystemdJournalTests(SystemdTest):
- 
+-Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-gawk/2024-05/msg00000.html]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gawk.git/commit/?id=c1613c310d71b87f509458e0259ecd10eda2b140]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ ---
+  m4/readline.m4 | 2 ++
 -- 
 2.34.1
 
