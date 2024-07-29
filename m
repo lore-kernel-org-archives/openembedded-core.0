@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D68C52D6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C527EC52D7B
 	for <webhook@archiver.kernel.org>; Mon, 29 Jul 2024 01:10:31 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web10.46590.1722215425506508167
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web10.46595.1722215430643849191
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jul 2024 18:10:25 -0700
+ Sun, 28 Jul 2024 18:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=iaL8VFFJ;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=rj++tSJl;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1722215426; x=1753751426;
+  t=1722215431; x=1753751431;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=EO09qOCEDTC/v3jLa+i8mUyAOOQl7ksRZei5HogFrh8=;
-  b=iaL8VFFJWLkxWr+1hcJpkUu/MlKpFmlxcPlWclOaQBWDe9R07MaiP2xE
-   w8J2e3FKBycEou/Fsl9tyhYoDCE/LCLRL/stXFflBCUdH16FnNn8TD+AG
-   ulcXDtmN6dN2fAPBf/xAMeU0Ju5+hBlSUHIV1+1x0sM/b2SkOTOAKDg2d
-   NbBZL0lCfGM7GdA3jbACKRy2f9EMvWxtuNOHYaaU3wbKvIwVUfXUkiNvc
-   HLURfatuxVMwdyfQzkvLzUy+dYTQUlvRjJ/mU+3Y6tEMCPBw2WRmb0Xbl
-   hrZpmFG3nXRDg5Ce+h99sxsifWYX/k5y+GOSXa9aq/R8yKlShSxk3lM6q
-   A==;
-X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="170816514"
+  bh=T45N42VPxnk5tL5bBf2xX1Y8t2zaL/QU6JkwfWgUWT8=;
+  b=rj++tSJlXyhLd1cXWb7URwjLBZuAkLgp8KfRtdWAf4F+HiK2PHDaCqhQ
+   Y3YN7WLID9n8qAkaQpb5BiJVO2WZkiSPG9OmG6fM7i5CPgcUbyFG5Ph+3
+   iN2wVcg6s9h/kRO5Xr53L28EfM1cN2gKt3ojd/WKuEev0ZoMbQKWZ3uhP
+   aAfxkx0H7EH76RljKPtPZdJyG00sKrkJS3419GoqQtdQcrjwwut6IkRo2
+   DmV1ZaLkv+rFP4aI6ogfFJTpJRNcgxypYRI6+xpz+Z8QhQe0HVUsxtb9Z
+   O/i3hjYBFTg0XivLf544Swl2yQOAhq+6qyBgbAVGTCA0rLZrJpIcm9bkE
+   g==;
+X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="168911526"
 X-IronPort-AV: E=Sophos;i="6.09,245,1716217200"; 
-   d="scan'208";a="170816514"
+   d="scan'208";a="168911526"
 Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 10:10:23 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id D5E60D5A47
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:10:20 +0900 (JST)
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 10:10:28 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 92190DB3C6
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:10:26 +0900 (JST)
 Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 1BEF9D5084
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:10:20 +0900 (JST)
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id C4B8FCFB6D
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:10:25 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id A7420E2060
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:10:19 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 5DC6F82D52
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 10:10:25 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.161.161])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5D0A41A0002;
-	Mon, 29 Jul 2024 09:10:19 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 295671A0002;
+	Mon, 29 Jul 2024 09:10:25 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 06/33] libnl: upgrade 3.9.0 -> 3.10.0
-Date: Mon, 29 Jul 2024 09:09:41 +0800
-Message-Id: <1722215408-27541-6-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 21/33] python3-sphinxcontrib-htmlhelp: upgrade 2.0.5 -> 2.0.6
+Date: Mon, 29 Jul 2024 09:09:56 +0800
+Message-Id: <1722215408-27541-21-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1722215408-27541-1-git-send-email-wangmy@fujitsu.com>
 References: <1722215408-27541-1-git-send-email-wangmy@fujitsu.com>
@@ -54,43 +54,47 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28560.003
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28560.003
-X-TMASE-Result: 10--4.038200-10.000000
-X-TMASE-MatchedRID: 4E21WKQgrFSjz0nOeth/yfx0ykrbAxjCchr4pBLGIvAH8UzOewTxw78F
-	Hrw7frluf146W0iUu2tLC42PB7KOrbNdVHptfHl6EzEoOqAAVLP4qCLIu0mtILkSP9NNISXxjaf
-	cJWbTILni8zVgXoAltr8hWd4lAsFlC24oEZ6SpSmcfuxsiY4QFAj9+202DngAo/UE///6C5iyww
-	qVSQ82LWD/H4C3K+DmQN76rdKXcm5R+M7ba6oDCh3W1gShU0U/DeXGZDlEglZKhQbLdqA5c+x9n
-	1XpDqsJmC9SiJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
+X-TMASE-Result: 10-1.468700-10.000000
+X-TMASE-MatchedRID: S9L8qTrmXfGjz0nOeth/yUIIxwDaU5mrTfK5j0EZbytQZ//SkC0u0r6p
+	xbTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74D4qCLIu0mtIEukIs3g1Hje1vZ
+	7s3YIVDLYgCp6bjAgaoAy6p60ZV62yA7duzCw6dLdB/CxWTRRu+rAZ8KTspSzL8YrO/BqUNIuSv
+	QslLKTJyn/rxcRzKL0ZwArgDxgakG1fDxbK7v8AeIBBIZQeikRv3TBr1SfkOVHFdrU5Bg53e8Yz
+	f+kwxXHiB6mlDKe1V7S/yytHeCN9GXv4CQeNUk7G6qTOwq/n71+3BndfXUhXQ==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Jul 2024 01:10:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202580
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202593
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+Changelog:
+============
+* Fix tests for Sphinx 7.4 and later.
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-support/libnl/{libnl_3.9.0.bb => libnl_3.10.0.bb} | 2 +-
+ ...tmlhelp_2.0.5.bb => python3-sphinxcontrib-htmlhelp_2.0.6.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libnl/{libnl_3.9.0.bb => libnl_3.10.0.bb} (96%)
+ rename meta/recipes-devtools/python/{python3-sphinxcontrib-htmlhelp_2.0.5.bb => python3-sphinxcontrib-htmlhelp_2.0.6.bb} (79%)
 
-diff --git a/meta/recipes-support/libnl/libnl_3.9.0.bb b/meta/recipes-support/libnl/libnl_3.10.0.bb
-similarity index 96%
-rename from meta/recipes-support/libnl/libnl_3.9.0.bb
-rename to meta/recipes-support/libnl/libnl_3.10.0.bb
-index b2825374cf..4691c6554f 100644
---- a/meta/recipes-support/libnl/libnl_3.9.0.bb
-+++ b/meta/recipes-support/libnl/libnl_3.10.0.bb
-@@ -18,7 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${BPN}${@d.getVar('PV').replace('.','_')}
-            file://run-ptest \
-            "
+diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.0.5.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.0.6.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.0.5.bb
+rename to meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.0.6.bb
+index e30c61c398..95b5981c06 100644
+--- a/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.0.5.bb
++++ b/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.0.6.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://www.sphinx-doc.org"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=24dce5ef6a13563241c24bc366f48886"
  
--SRC_URI[sha256sum] = "aed507004d728a5cf11eab48ca4bf9e6e1874444e33939b9d3dfed25018ee9bb"
-+SRC_URI[sha256sum] = "49b3e2235fdb58f5910bbb3ed0de8143b71ffc220571540502eb6c2471f204f5"
+-SRC_URI[sha256sum] = "0dc87637d5de53dd5eec3a6a01753b1ccf99494bd756aafecd74b4fa9e729015"
++SRC_URI[sha256sum] = "c6597da06185f0e3b4dc952777a04200611ef563882e0c244d27a15ee22afa73"
  
- GITHUB_BASE_URI = "https://github.com/thom311/${BPN}/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/libnl(?P<pver>.+)"
+ PYPI_PACKAGE = "sphinxcontrib_htmlhelp"
+ 
 -- 
 2.34.1
 
