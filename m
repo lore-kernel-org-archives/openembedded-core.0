@@ -1,160 +1,380 @@
-Return-Path: <kubiznak@2n.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E19C3DA7E
-	for <webhook@archiver.kernel.org>; Tue, 30 Jul 2024 13:00:00 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.6])
- by mx.groups.io with SMTP id smtpd.web10.16782.1722344394214250292
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6481C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 30 Jul 2024 13:39:00 +0000 (UTC)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+ by mx.groups.io with SMTP id smtpd.web11.17714.1722346734130603617
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jul 2024 05:59:54 -0700
+ Tue, 30 Jul 2024 06:38:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@2n.com header.s=selector1 header.b=Ku/4HHhe;
- spf=pass (domain: 2n.com, ip: 52.101.69.6, mailfrom: kubiznak@2n.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Cf0GO4QfsnbM/Xryb8N4hNfv/AynBBZ+f47eKwWeNURsHYpoAta9ZgQJjHp/EEJx1U1pqVLwLWue9SFZaGvw2EmEocUKHdJqnBfcmrSHsqou1Gvg2KzHGaiEuppOZTXJHdbVkehBW3kZcF68+wcyw8zttq5Gerenk0ovlP4WgyeMs20oifgvDuj5GlxqHMcwIrOHH6eqYXj7EVJsVzj9UR+k3T/nlQ3rjTiADkypGoJ8jyKklH/YaaG0dnmQ+KF5HSYPbQbSWFpr4jipv8V+RSjcyGYVN0lMCczDsuQc1H4olI2UCYkfOUd6kABFzK07giTfQfZxxEG7Hy0ypXjwbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DO+oacyX2uAM/oTrVOGcPmO40/cmRi5YfwJBAzMMCNY=;
- b=A8+v0MY9iZNiwedI0G9hMxAT/XriI5ykQJDnlZ0U/dKTN3RwKQfihHvIe0RfqfT2gI1rdBZ49sKm0t6CCqQkgodv7E+6QFGwGe6dwTBf6dbpDJnL+5lUJyPq7D4dLfikzNpQlEZsCzw5nuJgHRsxFxt/gVTraWOD88fMnQaEPpJoG/FPaHxJA0XXWNSjVzQX6/dKMCGBWaG3LMSSMOavUaRUK+tH5BArc3f6yofF5pHslwfasGU6jOF9XgiMcOZzj/eG7OEABJtAwVhKg8KJRgH+NVZOuuX2yviZFMULcPbeN7DU/3RrZCE7dHiMi0JlV34jIjQM42XaKLGU/cOf0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=2n.com; dmarc=pass action=none header.from=2n.com; dkim=pass
- header.d=2n.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=2n.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DO+oacyX2uAM/oTrVOGcPmO40/cmRi5YfwJBAzMMCNY=;
- b=Ku/4HHheL//iOZUKIFa17g8JDttqRiwxq4lH6RozjpZIZ5I5Hmg1ctsp4QmpszzeUCWutBc8n4T5ZDLSgBAAIxZ3U63/c67oURV2KulTITiHe12Ye92Fy+volqxMkxNtNwWtJrMi7Z9+Vf4fFNsB6U+oe2FvewC09mT1s7gVq+gFhaQMjCyazbyYwQNRrC1q744yGfy7WCxkPmVZyHC5oA1afzjEHzJCplgTkBNIcLnRpaurzLUy10/XZF0AgPKQuAL8wA+n4BDLs+DLI9F0wRuVNYl5VhGof7gMIdZYLQyXW8/5qVwsu/7QEQ5WRszVBfYOLoCkGPLezBuOUS8u3w==
-Received: from DB4PR02MB10030.eurprd02.prod.outlook.com (2603:10a6:10:3f2::14)
- by AS8PR02MB6901.eurprd02.prod.outlook.com (2603:10a6:20b:2e1::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Tue, 30 Jul
- 2024 12:59:47 +0000
-Received: from DB4PR02MB10030.eurprd02.prod.outlook.com
- ([fe80::d1ef:323a:23c3:fbfa]) by DB4PR02MB10030.eurprd02.prod.outlook.com
- ([fe80::d1ef:323a:23c3:fbfa%4]) with mapi id 15.20.7807.026; Tue, 30 Jul 2024
- 12:59:46 +0000
-From: =?iso-8859-2?Q?Petr_Kubiz=F2=E1k_-_2N?= <Kubiznak@2n.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: meson: buildtype flags get overriden by CFLAGS
-Thread-Topic: meson: buildtype flags get overriden by CFLAGS
-Thread-Index: AQHa4m/9JzNFVvh/OEuCmgZQM2GfeQ==
-Date: Tue, 30 Jul 2024 12:59:46 +0000
-Message-ID: 
- <DB4PR02MB10030DB96660867379C9C45C0E2B02@DB4PR02MB10030.eurprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=2n.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB4PR02MB10030:EE_|AS8PR02MB6901:EE_
-x-ms-office365-filtering-correlation-id: e41b7fe8-9e16-4b33-1f3d-08dcb0977cdd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?iso-8859-2?Q?wjAFP88pJJRcLAYD+9gXoof2jv2XTLpdy59bBioMyRx07781Iap8N02jZ8?=
- =?iso-8859-2?Q?CYkoxA8PX257MOd/9wvhf8L1qxMPxOBtaJbdQM8xCEeD2rvRbGtefdZLFV?=
- =?iso-8859-2?Q?X3bTmJzXJcrAtIwTe7Bmoc1LykogiNRX7ZnJt3r8gyyMigIMiObM9QN+48?=
- =?iso-8859-2?Q?oi0XZZ/7ufdTk1Oyanf7AWmHQkokKv7tjzA+Zvui3Jober5bqLuza4j217?=
- =?iso-8859-2?Q?LuJ3hcgukbCMVjvbM4APfVfDIdQ0bn6QDd972GcIWGbJ3KcD08m3hMLE/I?=
- =?iso-8859-2?Q?DkOmK9HslocUD8VNYAKqWy2zN5qLAZ+h83+3U6sJuJ8Sz+dY5kYvDlRRqQ?=
- =?iso-8859-2?Q?W1TwEyUebyyR5d4TvI/uXvFeuXG+YnR1OR4YWj+We1LAl+/ive24rPIwlH?=
- =?iso-8859-2?Q?JitSvEwZ9b9CXhpB5M8SplttO0Lz3zl/4nxywaMUbW49DK5HRrrfyB0Uiu?=
- =?iso-8859-2?Q?dXk5zIVtbTPfkdoT+gZhn2epd27tlKbPrW+kybp0yHUeqnZlEvfRjehxgx?=
- =?iso-8859-2?Q?6zhW+ZSsmoIzJxpELepVaM+4dEznadxiXfxLszpwTW6D1UE2BeHP6BwBc/?=
- =?iso-8859-2?Q?B58vLdY5i7jvFihEaVyhMW8NkmoTTc4dnb4HVO2bp/zNjj4XnQg2u9vOrp?=
- =?iso-8859-2?Q?YPAE6103cPrffv3ALWx72qw46BRs7SEqhz2IPkU2nvvwyaN8sriFZelqe+?=
- =?iso-8859-2?Q?2ePvQk4M5Cg6Pjo//gGdaiRc/2BilAhMJL/SAlINNrZ18TN8QClwhtvEeL?=
- =?iso-8859-2?Q?lBXam/odDv1SsndjoW1pgpJekJpmnDFU/g56BGsjhGwmpxzpKNBfYr0diA?=
- =?iso-8859-2?Q?abmwAUm9QIm3nlANtG/3UvaBTvUVeEwuIEjQt9drKdfkxdGEVsDl5ralgx?=
- =?iso-8859-2?Q?8tJnSsF0fKhJb9EHF37Ra6QES6utfu1UM8uIBVTQwaSm4c77uThaBswL7a?=
- =?iso-8859-2?Q?FYc63MrJ225zaRGmI+JHtqTyUCG+j+cxtHvHddyxF4PWhsIDziNw+j+grT?=
- =?iso-8859-2?Q?kZpF/iYSFvWCg0Z8a3QqxIXTSKvQjHS50IaRh1b8RpYVyDOCOSawIbzYkD?=
- =?iso-8859-2?Q?4007TUm283Vi/MkYSiBAJGqYLYQ2fDp2x8TyfZAMdJ97MUYtX+FsPbBTo5?=
- =?iso-8859-2?Q?qqHgcSrbcj9bqX4y+m+4QHGkaY6yT0Hm7tBoD7EAt4KLvOgKs7gqxF8gCi?=
- =?iso-8859-2?Q?Ol5gVg/B80TkJwrUCq3BQd+Zvz2OxtQlNnFrS1qO1GvjYLBif9kQXpUm/W?=
- =?iso-8859-2?Q?9f9hwFddz65CercStDvW33aXyA3EOlG4GWR4q75xIYRVdKFHX545Xs7pPy?=
- =?iso-8859-2?Q?0iuMwi3xg4R3YKNM7sqEV0HbTI2WcS7evbiTi4DRHG3ML3Sa7ePySqc9zm?=
- =?iso-8859-2?Q?WzXmB6dLIBfeyeYzXLdQTZmgm37GzJeA=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB4PR02MB10030.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-2?Q?UB0Uh1A5PkpGLZt45yyQTq05fXH+883iA97xXR8a9HuNxl8+5vZKE3rGWW?=
- =?iso-8859-2?Q?FXvkDHd01Rg8zGVrt1/St5leLTP0MX3F22ZLpXY7YT4zqUZ+jvjZ4dZs5/?=
- =?iso-8859-2?Q?5zOE4iDWK/ScnQqD+ZghoTZOJj3bpEfOsO4nTr2WfM6wA2D22ZoZxQ+v5s?=
- =?iso-8859-2?Q?zI9dkPQDY9vVp/2BxaBqtMshzWrhNqaOj7xh7Jbh6HSkU3QLTcJNljFuDO?=
- =?iso-8859-2?Q?fkW3HtDRFLlpazJ4xAvcOQySC300hfvpPkuZp79lzdJdcmYjbARPBPPx6c?=
- =?iso-8859-2?Q?SpkxYL68pEkKfQf8tJMxD86mbrg57zENReo1Ry3UKqHf8vT17sCVWSjQGg?=
- =?iso-8859-2?Q?pdWy+JqVos47Nyj3x+oBXKoqFjBgrxaBqOWDJqcbeCk30/ZY1n1nrjQVQv?=
- =?iso-8859-2?Q?5VgcdUSOaYcdruHJtpX6ezHD3ag57RuFjaIu3jHD2ZjmBSbDpsWyr6ZCb/?=
- =?iso-8859-2?Q?oNvZkLDq1ClGiJgS6y7JK30ZXkIy+cDinAUh4KcLJUCx1YTyehOSJ0OKY5?=
- =?iso-8859-2?Q?N77hJGmvfLNylCNfP5zeqN+tTWbX9nYyHmf7KmiJxNNRBy9KCAIosZn3FT?=
- =?iso-8859-2?Q?sObKQxOGrUGP7z6jyLhVVnw1ovulQmvloA24SXgH057nG8wZ9EwT1Wc3+a?=
- =?iso-8859-2?Q?z/3KqcWvHhd3j1GVNvYgJ6tUDrdj9ZsC/HNy/9dX9VtE8mg84Ux45gJmG5?=
- =?iso-8859-2?Q?ks7w9Acq2j2V3Yb/xfMmAok5vIa3dn4sec6f60ZAenN7Yw7WNqiVYLzKa6?=
- =?iso-8859-2?Q?BnDXUTDwi3xD4zO8rvPH3Jbeq1yk5fkcCGX1tVNpbsu4n3wq+8Z8iUXm+L?=
- =?iso-8859-2?Q?ESNwtX9s88DjdrU8ZFq0YE/xCCLjHSNYCBXflFhwWpcRJKySbqDUP13G9Q?=
- =?iso-8859-2?Q?mNKqJ0Nritdyn8T70rUvJ70Ay4r5D7Do9qZoxa2Z4kamVOEX4hpeEYy2VD?=
- =?iso-8859-2?Q?DxLWRVIiQLx9jrX2S/TAmmlc/9eWHNGzO1/FwH4Q9nw9ENoeZ8yGfaDJN+?=
- =?iso-8859-2?Q?NXhv7IFT++ujwYUUxt97CfKPHhQBS1A+grkTb3HL9ED6/mVmNRyW9oolis?=
- =?iso-8859-2?Q?4ZH6Rf4aMscn6mh+uizx/82qsogCAQ7/6+Zw7g6B/e8ha2tqm7AjJR3rlI?=
- =?iso-8859-2?Q?WC6QdQwBjbA735rtePqlbsc3cyXULBL0eT6Fpel0Dq2PIWs4I3Ujw5S/33?=
- =?iso-8859-2?Q?qrYoFMjHs+dFzyCKQfeEPlcBdi7OSSu5EPvVH/Md+ZTPxBw8oxu/7vwSuJ?=
- =?iso-8859-2?Q?nUGPYG1qV+AMkulaAc3oxSE42BQIXg/4e2c9mEfUa0CFM1g8HVQ51iC/3m?=
- =?iso-8859-2?Q?MCnU4HEdvL6qqav3tfx6uRPncI01L7gq2WF2NvmXVmQglMI65xPmo3dDgW?=
- =?iso-8859-2?Q?LVTPTrmblxSsPOhfmQ4A6Mj7FIcgpNSES8+VObtWRHGpqOu+eT4RmqSt32?=
- =?iso-8859-2?Q?lk39wv1dtvuuxGirNiIG0gI09HjDXA8EKu28kTiV3UW73RD2Jofjex8wMB?=
- =?iso-8859-2?Q?UcL+uK+kGVSBeLYjX1h2wxp5WsDTvxhbuf05cX4exsA/I8aV7wZyjM9PlJ?=
- =?iso-8859-2?Q?buL8tnyhBPQ+o8bun8lnTez6R/BsxA9wjdnK+JudpfT5DL2axqXOpvDL6h?=
- =?iso-8859-2?Q?NIEpZSTzyc+1Y=3D?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wsYVsfkz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.170, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e087c7ef68bso2822157276.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 06:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722346733; x=1722951533; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PgAWWke4VpRRhnTwTzYLWnLVrU96SWPkjXqQTxGLlDk=;
+        b=wsYVsfkz3TK4hAXJ73thDai8q7QYvyj2p8AHpC2VOsc2DXCSThlnRdPcKJ4tQVJWF5
+         uQg9OfPLRnWwwa0C5kBrIx52kPm/jBlOAEeZmJJVVrsx6aBSfqbDgoyE7pJ7cp/bDhMw
+         JiWNQFXXaByx8UrK2ApZxCCBGxQN17OFCHW8ITJgrw35lxZO3ZaGmghltpwIeuThVOX4
+         knfi3RU8b2BtwcJPvkLvG1TsZnt+BoGrHT/+lz0UHZ67uQ4qww/SgRzEz5pDpwqyLBZY
+         oS86WKJkwYVzhAC3v3QPCpHMy/t5DpCPbKDK9kUmlMV16SV1g96egcVWIUoOd6ynNHi+
+         o+Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722346733; x=1722951533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PgAWWke4VpRRhnTwTzYLWnLVrU96SWPkjXqQTxGLlDk=;
+        b=Il9pRQWnPyC0st+WUB2fWqGzydhmP36eQ/dKkLyRdrdlpEeFnT2vExcQR/xPX6iqQO
+         X/b5pcptic+WZDnMTf37zSLJYugfAuAVvt4kXPQQHBRFg4vfW0uevHnQPSheXncBafSc
+         E1E5qIeVnlyh9bpcrzP+u9fBlMe9vYy42lQRf4SRt5D6DeW+0bc/zAoFuHSRmSRzv05A
+         WTvC21AsVLwMJ0uTSXOHawJ2BnTFxQ93nSbrUoDeS/Px8mjnEKqeJhlJ/M61/9YuWBQt
+         ay8ToGKvsrxhhuE/q0Y2VO2N2/M8TmsyLsiai908xdJaUz+E1FHweCQX2ZXj3gcw9bhz
+         0Atg==
+X-Gm-Message-State: AOJu0YwMYmgs7BL+edt9l/EbYOCzN9Jwu+fevHRiLTxWNxVwH8NpJ1lh
+	DnsvyDDRLvXAJvxNnn2QpavHSm9RyiTDD615to7vj9aljGlHfY+4FD1jxY+/x3yO7Y02uW5c0OP
+	wJUkNaYgpKJi4+d7/mJ1/pF4dAhKjxJmKY7eULuwfOyTRu3LGX74cmw==
+X-Google-Smtp-Source: AGHT+IHOgn7tYTp3W9w+ePQHH7KNhLK8OAKQDyShukKrxaBBpa0Pqy26Kn8c1Fy2bgi+1yZvtRQ5UjQqLDTl5t0Hrsg=
+X-Received: by 2002:a05:6902:70a:b0:e08:726a:5a93 with SMTP id
+ 3f1490d57ef6-e0b5459b903mr14152795276.44.1722346733068; Tue, 30 Jul 2024
+ 06:38:53 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: 2n.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB4PR02MB10030.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e41b7fe8-9e16-4b33-1f3d-08dcb0977cdd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2024 12:59:46.0588
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: o2YgkckB/gZVa6l7RSzzz7/HZE61H5O5iHhTuNAZI1wIPN5+xmh2velt+xo2xtfK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB6901
+References: <20240730121513.1801546-1-Deepthi.Hemraj@windriver.com>
+In-Reply-To: <20240730121513.1801546-1-Deepthi.Hemraj@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 30 Jul 2024 06:38:41 -0700
+Message-ID: <CAOSpxdYKm08kRUCKhf=AEEQkL4CZQMV=j7CPbw71CFQiOqLD4Q@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] llvm: Fix CVE-2024-31852
+To: Deepthi.Hemraj@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Naveen.Gowda@windriver.com, Shivaprasad.Moodalappa@windriver.com, 
+	Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 13:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202675
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 13:39:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202676
 
-I have issues with setting optimization flags in meson-built project.=0A=
-=0A=
-1. In do_write_config task, meson.cross is generated with `c =3D ${CC}` and=
- `c_args =3D ${CFLAGS}`.=0A=
-2. In do_configure, meson setup is called with recipe-defined buildtype and=
- generated meson.cross file.=0A=
-3. In do_compile, compile commands are composed roughly as `$c <meson_flags=
-> $c_args`, i.e. `${CC} <meson_flags> ${CFLAGS}`. Recipe-defined buildtype =
-propagates as optimization flags into <meson_flags> (based on https://meson=
-build.com/Builtin-options.html#details-for-buildtype mapping).=0A=
-=0A=
-CFLAGS is composed of TARGET_CFLAGS, which is in turn composed of SELECTED_=
-OPTIMIZATION, which equals either DEBUG_OPTIMIZATION ("-Og ${DEBUG_FLAGS} -=
-pipe") or FULL_OPTIMIZATION ("-O2 -pipe ${DEBUG_FLAGS}"), based on value of=
- DEBUG_BUILD. In any case, CFLAGS features optimization flags including -Ox=
-.=0A=
-=0A=
-As a result, the -Oy flag in <meson_flags> does not have any effect because=
- it is always overriden by ${CFLAGS}.=0A=
-=0A=
-Is it intentional that meson buildtype has in fact no effect? Or am I missi=
-ng something?=0A=
-=0A=
-/Petr=
+On Tue, Jul 30, 2024 at 5:15=E2=80=AFAM Hemraj, Deepthi via
+lists.openembedded.org
+<Deepthi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+>
+> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> ---
+>  .../llvm/0008-llvm-Fix-CVE-2024-31852-1.patch |  85 +++++++++++++
+>  .../llvm/0009-llvm-Fix-CVE-2024-31852-2.patch | 117 ++++++++++++++++++
+>  meta/recipes-devtools/llvm/llvm_git.bb        |   2 +
+>  3 files changed, 204 insertions(+)
+>  create mode 100644 meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-202=
+4-31852-1.patch
+>  create mode 100644 meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-202=
+4-31852-2.patch
+
+Preferred filenames would be just CVE-2024-31852-1.patch and
+CVE-2024-31852-2.patch
+
+No need to send a V2 as I've fixed this on my end.
+
+Thanks!
+
+Steve
+
+>
+> diff --git a/meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-2024-31852=
+-1.patch b/meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-2024-31852-1.p=
+atch
+> new file mode 100644
+> index 0000000000..7cf4a52715
+> --- /dev/null
+> +++ b/meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-2024-31852-1.patc=
+h
+> @@ -0,0 +1,85 @@
+> +commit b1a5ee1febd8a903cec3dfdad61d57900dc3823e
+> +Author: Florian Hahn <flo@fhahn.com>
+> +Date:   Wed Dec 20 16:56:15 2023 +0100
+> +
+> +    [ARM] Check all terms in emitPopInst when clearing Restored for LR. =
+(#75527)
+> +
+> +    emitPopInst checks a single function exit MBB. If other paths also e=
+xit
+> +    the function and any of there terminators uses LR implicitly, it is =
+not
+> +    save to clear the Restored bit.
+> +
+> +    Check all terminators for the function before clearing Restored.
+> +
+> +    This fixes a mis-compile in outlined-fn-may-clobber-lr-in-caller.ll
+> +    where the machine-outliner previously introduced BLs that clobbered =
+LR
+> +    which in turn is used by the tail call return.
+> +
+> +    Alternative to #73553
+> +
+> +Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/b=
+1a5ee1febd8a903cec3dfdad61d57900dc3823e]
+> +CVE: CVE-2024-31852
+> +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> +---
+> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.cpp b/llvm/lib/Target/=
+ARM/ARMFrameLowering.cpp
+> +index 025e43444f9c..a9acf338ebf5 100644
+> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.cpp
+> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.cpp
+> +@@ -1236,9 +1236,6 @@ void ARMFrameLowering::emitPopInst(MachineBasicBlo=
+ck &MBB,
+> +         // Fold the return instruction into the LDM.
+> +         DeleteRet =3D true;
+> +         LdmOpc =3D AFI->isThumbFunction() ? ARM::t2LDMIA_RET : ARM::LDM=
+IA_RET;
+> +-        // We 'restore' LR into PC so it is not live out of the return =
+block:
+> +-        // Clear Restored bit.
+> +-        Info.setRestored(false);
+> +       }
+> +
+> +       // If NoGap is true, pop consecutive registers and then leave the=
+ rest
+> +@@ -2292,6 +2289,33 @@ void ARMFrameLowering::determineCalleeSaves(Machi=
+neFunction &MF,
+> +   AFI->setLRIsSpilled(SavedRegs.test(ARM::LR));
+> + }
+> +
+> ++void ARMFrameLowering::processFunctionBeforeFrameFinalized(
+> ++    MachineFunction &MF, RegScavenger *RS) const {
+> ++  TargetFrameLowering::processFunctionBeforeFrameFinalized(MF, RS);
+> ++
+> ++  MachineFrameInfo &MFI =3D MF.getFrameInfo();
+> ++  if (!MFI.isCalleeSavedInfoValid())
+> ++    return;
+> ++
+> ++  // Check if all terminators do not implicitly use LR. Then we can 're=
+store' LR
+> ++  // into PC so it is not live out of the return block: Clear the Resto=
+red bit
+> ++  // in that case.
+> ++  for (CalleeSavedInfo &Info : MFI.getCalleeSavedInfo()) {
+> ++    if (Info.getReg() !=3D ARM::LR)
+> ++      continue;
+> ++    if (all_of(MF, [](const MachineBasicBlock &MBB) {
+> ++          return all_of(MBB.terminators(), [](const MachineInstr &Term)=
+ {
+> ++            return !Term.isReturn() || Term.getOpcode() =3D=3D ARM::LDM=
+IA_RET ||
+> ++                   Term.getOpcode() =3D=3D ARM::t2LDMIA_RET ||
+> ++                   Term.getOpcode() =3D=3D ARM::tPOP_RET;
+> ++          });
+> ++        })) {
+> ++      Info.setRestored(false);
+> ++      break;
+> ++    }
+> ++  }
+> ++}
+> ++
+> + void ARMFrameLowering::getCalleeSaves(const MachineFunction &MF,
+> +                                       BitVector &SavedRegs) const {
+> +   TargetFrameLowering::getCalleeSaves(MF, SavedRegs);
+> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.h b/llvm/lib/Target/AR=
+M/ARMFrameLowering.h
+> +index 9822e2321bb4..266d642bb97b 100644
+> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.h
+> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.h
+> +@@ -58,6 +58,9 @@ public:
+> +   void determineCalleeSaves(MachineFunction &MF, BitVector &SavedRegs,
+> +                             RegScavenger *RS) const override;
+> +
+> ++  void processFunctionBeforeFrameFinalized(
+> ++                 MachineFunction &MF, RegScavenger *RS =3D nullptr) con=
+st override;
+> ++
+> +   void adjustForSegmentedStacks(MachineFunction &MF,
+> +                                 MachineBasicBlock &MBB) const override;
+> +
+> +
+> diff --git a/meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-2024-31852=
+-2.patch b/meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-2024-31852-2.p=
+atch
+> new file mode 100644
+> index 0000000000..b6082b0ef3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-2024-31852-2.patc=
+h
+> @@ -0,0 +1,117 @@
+> +commit 0e16af8e4cf3a66ad5d078d52744ae2776f9c4b2
+> +Author: ostannard <oliver.stannard@arm.com>
+> +Date:   Mon Feb 26 12:23:25 2024 +0000
+> +
+> +    [ARM] Update IsRestored for LR based on all returns (#82745)
+> +
+> +    PR #75527 fixed ARMFrameLowering to set the IsRestored flag for LR b=
+ased
+> +    on all of the return instructions in the function, not just one.
+> +    However, there is also code in ARMLoadStoreOptimizer which changes
+> +    return instructions, but it set IsRestored based on the one instruct=
+ion
+> +    it changed, not the whole function.
+> +
+> +    The fix is to factor out the code added in #75527, and also call it =
+from
+> +    ARMLoadStoreOptimizer if it made a change to return instructions.
+> +
+> +    Fixes #80287.
+> +
+> +    (cherry picked from commit 749384c08e042739342c88b521c8ba5dac1b9276)
+> +
+> +Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/0=
+e16af8e4cf3a66ad5d078d52744ae2776f9c4b2]
+> +CVE: CVE-2024-31852
+> +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> +---
+> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.cpp b/llvm/lib/Target/=
+ARM/ARMFrameLowering.cpp
+> +index a9acf338ebf5..13d3cbf650ed 100644
+> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.cpp
+> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.cpp
+> +@@ -2289,10 +2289,7 @@ void ARMFrameLowering::determineCalleeSaves(Machi=
+neFunction &MF,
+> +   AFI->setLRIsSpilled(SavedRegs.test(ARM::LR));
+> + }
+> +
+> +-void ARMFrameLowering::processFunctionBeforeFrameFinalized(
+> +-    MachineFunction &MF, RegScavenger *RS) const {
+> +-  TargetFrameLowering::processFunctionBeforeFrameFinalized(MF, RS);
+> +-
+> ++void ARMFrameLowering::updateLRRestored(MachineFunction &MF) {
+> +   MachineFrameInfo &MFI =3D MF.getFrameInfo();
+> +   if (!MFI.isCalleeSavedInfoValid())
+> +     return;
+> +@@ -2316,6 +2313,12 @@ void ARMFrameLowering::processFunctionBeforeFrame=
+Finalized(
+> +   }
+> + }
+> +
+> ++void ARMFrameLowering::processFunctionBeforeFrameFinalized(
+> ++    MachineFunction &MF, RegScavenger *RS) const {
+> ++  TargetFrameLowering::processFunctionBeforeFrameFinalized(MF, RS);
+> ++  updateLRRestored(MF);
+> ++}
+> ++
+> + void ARMFrameLowering::getCalleeSaves(const MachineFunction &MF,
+> +                                       BitVector &SavedRegs) const {
+> +   TargetFrameLowering::getCalleeSaves(MF, SavedRegs);
+> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.h b/llvm/lib/Target/AR=
+M/ARMFrameLowering.h
+> +index 67505b61a5e1..b13b76d7086c 100644
+> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.h
+> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.h
+> +@@ -58,6 +58,10 @@ public:
+> +   void determineCalleeSaves(MachineFunction &MF, BitVector &SavedRegs,
+> +                             RegScavenger *RS) const override;
+> +
+> ++  /// Update the IsRestored flag on LR if it is spilled, based on the r=
+eturn
+> ++  /// instructions.
+> ++  static void updateLRRestored(MachineFunction &MF);
+> ++
+> +   void processFunctionBeforeFrameFinalized(
+> +                  MachineFunction &MF, RegScavenger *RS =3D nullptr) con=
+st override;
+> +
+> +diff --git a/llvm/lib/Target/ARM/ARMLoadStoreOptimizer.cpp b/llvm/lib/Ta=
+rget/ARM/ARMLoadStoreOptimizer.cpp
+> +index fd06bfdf352c..561c1396190d 100644
+> +--- a/llvm/lib/Target/ARM/ARMLoadStoreOptimizer.cpp
+> ++++ b/llvm/lib/Target/ARM/ARMLoadStoreOptimizer.cpp
+> +@@ -2060,17 +2060,6 @@ bool ARMLoadStoreOpt::MergeReturnIntoLDM(MachineB=
+asicBlock &MBB) {
+> +       MO.setReg(ARM::PC);
+> +       PrevMI.copyImplicitOps(*MBB.getParent(), *MBBI);
+> +       MBB.erase(MBBI);
+> +-      // We now restore LR into PC so it is not live-out of the return =
+block
+> +-      // anymore: Clear the CSI Restored bit.
+> +-      MachineFrameInfo &MFI =3D MBB.getParent()->getFrameInfo();
+> +-      // CSI should be fixed after PrologEpilog Insertion
+> +-      assert(MFI.isCalleeSavedInfoValid() && "CSI should be valid");
+> +-      for (CalleeSavedInfo &Info : MFI.getCalleeSavedInfo()) {
+> +-        if (Info.getReg() =3D=3D ARM::LR) {
+> +-          Info.setRestored(false);
+> +-          break;
+> +-        }
+> +-      }
+> +       return true;
+> +     }
+> +   }
+> +@@ -2118,16 +2107,24 @@ bool ARMLoadStoreOpt::runOnMachineFunction(Machi=
+neFunction &Fn) {
+> +   isThumb2 =3D AFI->isThumb2Function();
+> +   isThumb1 =3D AFI->isThumbFunction() && !isThumb2;
+> +
+> +-  bool Modified =3D false;
+> ++  bool Modified =3D false, ModifiedLDMReturn =3D false;
+> +   for (MachineFunction::iterator MFI =3D Fn.begin(), E =3D Fn.end(); MF=
+I !=3D E;
+> +        ++MFI) {
+> +     MachineBasicBlock &MBB =3D *MFI;
+> +     Modified |=3D LoadStoreMultipleOpti(MBB);
+> +     if (STI->hasV5TOps())
+> +-      Modified |=3D MergeReturnIntoLDM(MBB);
+> ++      ModifiedLDMReturn |=3D MergeReturnIntoLDM(MBB);
+> +     if (isThumb1)
+> +       Modified |=3D CombineMovBx(MBB);
+> +   }
+> ++  Modified |=3D ModifiedLDMReturn;
+> ++
+> ++  // If we merged a BX instruction into an LDM, we need to re-calculate=
+ whether
+> ++  // LR is restored. This check needs to consider the whole function, n=
+ot just
+> ++  // the instruction(s) we changed, because there may be other BX retur=
+ns which
+> ++  // still need LR to be restored.
+> ++  if (ModifiedLDMReturn)
+> ++    ARMFrameLowering::updateLRRestored(Fn);
+> +
+> +   Allocator.DestroyAll();
+> +   return Modified;
+> +
+> diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtoo=
+ls/llvm/llvm_git.bb
+> index cedbfb138e..d342da649a 100644
+> --- a/meta/recipes-devtools/llvm/llvm_git.bb
+> +++ b/meta/recipes-devtools/llvm/llvm_git.bb
+> @@ -33,6 +33,8 @@ SRC_URI =3D "git://github.com/llvm/llvm-project.git;bra=
+nch=3D${BRANCH};protocol=3Dhttp
+>             file://0007-llvm-allow-env-override-of-exe-path.patch;striple=
+vel=3D2 \
+>             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as=
+-we.patch;striplevel=3D2 \
+>             file://0001-Support-Add-missing-cstdint-header-to-Signals.h.p=
+atch;striplevel=3D2 \
+> +           file://0008-llvm-Fix-CVE-2024-31852-1.patch;striplevel=3D2 \
+> +           file://0009-llvm-Fix-CVE-2024-31852-2.patch;striplevel=3D2 \
+>             "
+>
+>  UPSTREAM_CHECK_GITTAGREGEX =3D "llvmorg-(?P<pver>\d+(\.\d+)+)"
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202674): https://lists.openembedded.org/g/openembedde=
+d-core/message/202674
+> Mute This Topic: https://lists.openembedded.org/mt/107626200/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
