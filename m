@@ -2,142 +2,124 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A396C3DA70
-	for <webhook@archiver.kernel.org>; Tue, 30 Jul 2024 14:18:01 +0000 (UTC)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web11.18552.1722349074169746568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13F06C3DA49
+	for <webhook@archiver.kernel.org>; Tue, 30 Jul 2024 14:24:41 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web11.18705.1722349477409004218
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jul 2024 07:17:54 -0700
+ Tue, 30 Jul 2024 07:24:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ySsFtsRa;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.176, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dfef5980a69so3555964276.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 07:17:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=X41ckq4w;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6510c0c8e29so31699347b3.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 07:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722349073; x=1722953873; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722349476; x=1722954276; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GrFQv9Lj4eAqwvonqluR0cKP2N+06VWFkXo7TeZ/+2g=;
-        b=ySsFtsRaDilA3QsE4o0YXOe5ddEpTDYTYE0Vz82N6iaxcvPsiRKTka6XFU+pTI+g9j
-         84Qgwwbuxv61tuxVwLyRLI19L2o1iVs5wN5vNYTZg743Uz3is05KVndmy5Rr/7g1+8yD
-         NPnA1XRn0imaIy6qycb8l/ILGbX1JAY/nyclX9uO5OdlpBpnmeGe3EXTiWiJ0+oetFSB
-         iN6ejCy74cJyBBUfIq6GZHXAzZO1szwHVw6JnmX5z69cWAZz03tOtmgd/rqspoB8el4F
-         sEwJJiHzdND4qqLPAgYREB040JHFlW/zHOUaT7e9Eim4y3BVY9h0lxzziBlCOmZbaz/U
-         dCJg==
+        bh=DpxxFGDxhcw4JfQ3sSOGJAxmS6hmY7DOAuQFMpQ07Mw=;
+        b=X41ckq4wCADQ2FD6X2dUOTq0Rnh41+vGMvJe+AYT1D5eSf6WcMNJTWRwi7GS/lhhRp
+         fLXugJR6v8eFLJx3cQHgrp+SXphGo3fkdOBX3nDt4tLc9U1op8za498CCCoU75JDfSfz
+         B+yZm5KXbSWpptCF5eIhIR0opsafwpfbU6DI0mNv2rIAbHXAcMSdURN8iWRWS/OSl3Xg
+         GooKhREQBuAIt/vIDaIbg1ToyQjT9uAKbo6GLUoSH3CfJ9IA/sRuYTJ8B7Ec0TuleEZ2
+         Hb1Apal/dQNnM/ZZrAu8IYwj5OK0FaGQUxCZU18t7XEGLIjJ4j+aeV28b8a/7HEYsVuE
+         vjPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722349073; x=1722953873;
+        d=1e100.net; s=20230601; t=1722349476; x=1722954276;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GrFQv9Lj4eAqwvonqluR0cKP2N+06VWFkXo7TeZ/+2g=;
-        b=XppZt0HHaEgIAvHfAOTVX+WU6NWZI6Dm9IjeD1XbE5ucKJ0AW18Wbsz40LN+ce3VFg
-         BneGzSBfID0cHiHyTPj4cbYACzZfN5T+veN7pn/TFHYugjIod/C8bzeAqHJMTt3wIDuk
-         6Py+j3aGJzb7W8Lwe5gf5qMxRhPLYPGSuGQas7WWDdeYAXqXnUiK2oe7a9xx9ywagYdd
-         f3/4fCapecOUrf8rfjaktU64aCi/6CDRGjXdT0uK4s+GJrqAcD9mQ7z1MeIz2eUFs2p9
-         C97cfRqPlZ2VFfc87v5Kx9289AQJpxwFmhUdlCeYWNPwB5LjWZeQvfNbIya5SzbL9c7T
-         MYhA==
-X-Gm-Message-State: AOJu0YxSwt00tYzuScV26o3jT49T1VNBP9hBCQbZJgeNfxNCECNe4zWn
-	YDC2EQaok5YDx9A0cALT05nDFuj5x+pXdjNbsVzXWRf5tqCg/IPA/jnwG+DOefmzJqV7zvYufTI
-	p9TC1y+b6LI1TBYaK2h2I+ByEm4hjN7jNDGngmA==
-X-Google-Smtp-Source: AGHT+IEdbG9iJsi5qbogzCF74C/b4BJoo7oZFeQ/oN+oXZdkqnm5nDJyPHNcdJB82PCWw8kt/Pmje9940EiWRWHf0xU=
-X-Received: by 2002:a05:6902:1029:b0:e0b:4aa4:1704 with SMTP id
- 3f1490d57ef6-e0b5446cb77mr14443965276.18.1722349073277; Tue, 30 Jul 2024
- 07:17:53 -0700 (PDT)
+        bh=DpxxFGDxhcw4JfQ3sSOGJAxmS6hmY7DOAuQFMpQ07Mw=;
+        b=SVUNtnMUG/Ov4Vlyn5rcKYIdHqOYeNKgGEQmnsawKfYNjrduJbWVaHBM5YV6n2cH7Q
+         /HcADq0A+aqxfhZaMaNnX9VaC+zDyYSh34cM4961MDRUmUmeZ6mJ9zrl2yPM/G1cAoJk
+         5F/acMGToeCCATKTNnj7aluQ9DrtUgqkWYQv6pyt3uqwCAe8a/DUELykym1ZiqSx8qWQ
+         2IEbrqkvyw31h8wAVZbVkUHdWqjc2K5gCUpwasOE3ZN3okAwEcE3JTl1LzwOEaDu9InK
+         8Xjcmq1RivOPk/h18rwkqrrqgQJ3O8UZyMKIaD+qWj0cJ4pP4fS9qzLNvh2KR6h0oh6w
+         TAnw==
+X-Gm-Message-State: AOJu0YykYWsQVXRFcv3TVr5lm/lUzgDza0TYZhQqW8u9IhRBUoV1TCTS
+	o4H1ce90o5zZVHxhOzGv17psF6dhYNsV+5/mvYEn2kNUCD6ZkOFhKMkhNV2aVj7pJI+0mKS/VaK
+	2bkeLaf/swe/pEor9Um0+tKcR0NW7wvOaGCYSspJT7PC8KZ3j7hs=
+X-Google-Smtp-Source: AGHT+IEDXHgV+FZxfyzLZpRb4ciqU3e+Soh5UpopCStS4Y/zL5En08QhThOS6+FiKkZKss/EQs28IwvmHE61CrztkOo=
+X-Received: by 2002:a25:8505:0:b0:e0b:3e54:fc4b with SMTP id
+ 3f1490d57ef6-e0b545afcd2mr11102269276.43.1722349476531; Tue, 30 Jul 2024
+ 07:24:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240730101039.1757198-1-vanusuri@mvista.com>
-In-Reply-To: <20240730101039.1757198-1-vanusuri@mvista.com>
+References: <20240730104038.5894-1-asharma@mvista.com>
+In-Reply-To: <20240730104038.5894-1-asharma@mvista.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 30 Jul 2024 07:17:42 -0700
-Message-ID: <CAOSpxdY3A+q1sPGWDyDiNQ5kf74yjQ=8fFs=YBubYVyA+ZfycA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH] orc: upgrade 0.4.38 -> 0.4.39
-To: vanusuri@mvista.com
+Date: Tue, 30 Jul 2024 07:24:25 -0700
+Message-ID: <CAOSpxda6qZs5118X+3RT=tyBSVDwkuXKeQ_wg+R+P-rn_vfArw@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] bind: Upgrade 9.18.25 -> 9.18.28
+To: asharma@mvista.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 14:18:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202677
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 14:24:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202678
 
- I won't be able to take this patch until it hits master first.
+I can't take a version bump to 9.18.28 until master is also updated.
+
+Could you submit a master patch?  I can then update scarthgap and kirkstone=
+.
+
+Thanks!
 
 Steve
 
-On Tue, Jul 30, 2024 at 3:10=E2=80=AFAM Vijay Anusuri via
-lists.openembedded.org <vanusuri=3Dmvista.com@lists.openembedded.org>
+On Tue, Jul 30, 2024 at 3:40=E2=80=AFAM Ashish Sharma via
+lists.openembedded.org <asharma=3Dmvista.com@lists.openembedded.org>
 wrote:
 >
-> From: Vijay Anusuri <vanusuri@mvista.com>
+> Includes security fixes for:
+>                         CVE-2024-1975
+>                         CVE-2024-1737
+>                         CVE-2024-0760
+>                         CVE-2024-4076
 >
 > Changelog:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+> https://gitlab.isc.org/isc-projects/bind9/-/blob/v9.18.28/CHANGES
 >
-> - Security: Fix error message printing buffer overflow leading to possibl=
-e
->   code executation in orcc with specific input files (CVE-2024-40897). Th=
-is
->   only affects developers and CI environments using orcc, not users of li=
-borc
->   (Sebastian Dr=C3=B6ge, L. E. Segovia)
-> - div255w: fix off-by-one error in the implementations (L. E. Segovia)
-> - x86: only run AVX detection if xgetbv is available (L. E. Segovia)
-> - x86: fix AVX detection by implementing the check recommended by Intel (=
-L. E. Segovia)
-> - Only enable JIT compilation on Apple arm64 if running on macOS, fixes c=
-rashes on iOS (Piotr Brzezi=C5=84ski)
-> - Fix potential crash in emulation mode if logging is enabled (L. E. Sego=
-via)
-> - Handle undefined TARGET_OS_OSX correctly (Joshua Root)
-> - orconce: Fix typo in GCC __sync-based implementation (Jakub Van=C4=9Bk)
-> - orconce: Fix usage of __STDC_NO_ATOMICS__ (Alexander Slobodeniuk)
-> - Fix build with MSVC 17.10 + C11 (L. E. Segovia)
-> - Support stack unwinding on Windows (L. E. Segovia)
-> - Major opcode and instruction set code clean-ups and refactoring (Jorge =
-Zapata)
-> - Refactor allocation and chunk initialization of code regions (L. E. Seg=
-ovia)
-> - Fall back to emulation on Linux if JIT support is not available,
->   e.g. because of SELinux sandboxing or noexec mounting) (L. E. Segovia)
->
-> Ref: https://github.com/GStreamer/orc/blob/0.4.39/RELEASE
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> Signed-off-by: Ashish Sharma <asharma@mvista.com>
 > ---
->  meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb} | 2 +-
+>  .../bind/{bind_9.18.25.bb =3D> bind_9.18.28.bb}                   | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb} (92%=
-)
+>  rename meta/recipes-connectivity/bind/{bind_9.18.25.bb =3D> bind_9.18.28=
+.bb} (97%)
 >
-> diff --git a/meta/recipes-devtools/orc/orc_0.4.38.bb b/meta/recipes-devto=
-ols/orc/orc_0.4.39.bb
-> similarity index 92%
-> rename from meta/recipes-devtools/orc/orc_0.4.38.bb
-> rename to meta/recipes-devtools/orc/orc_0.4.39.bb
-> index 5d2296694a..320abf536a 100644
-> --- a/meta/recipes-devtools/orc/orc_0.4.38.bb
-> +++ b/meta/recipes-devtools/orc/orc_0.4.39.bb
-> @@ -5,7 +5,7 @@ LICENSE =3D "BSD-2-Clause & BSD-3-Clause"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1400bd9d09e8af56b9ec982b3d857=
-97e"
+> diff --git a/meta/recipes-connectivity/bind/bind_9.18.25.bb b/meta/recipe=
+s-connectivity/bind/bind_9.18.28.bb
+> similarity index 97%
+> rename from meta/recipes-connectivity/bind/bind_9.18.25.bb
+> rename to meta/recipes-connectivity/bind/bind_9.18.28.bb
+> index cc35604aba4..ca2aef233b4 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.18.25.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.18.28.bb
+> @@ -20,7 +20,7 @@ SRC_URI =3D "https://ftp.isc.org/isc/bind9/${PV}/${BPN}=
+-${PV}.tar.xz \
+>             file://0001-avoid-start-failure-with-bind-user.patch \
+>             "
 >
->  SRC_URI =3D "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
-> -SRC_URI[sha256sum] =3D "a55a98d4772567aa3faed8fb84d540c3db77eaba16d3e2e1=
-0b044fbc9228668d"
-> +SRC_URI[sha256sum] =3D "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad08=
-5ae51143d3040cc0"
+> -SRC_URI[sha256sum] =3D "5a4a70432a33d009f0e6e9dbb328aae7a5e27507e98e28bf=
+3c0c6b250ccb2ab3"
+> +SRC_URI[sha256sum] =3D "e7cce9a165f7b619eefc4832f0a8dc16b005d29e3890aed6=
+008c506ea286a5e7"
 >
->  inherit meson pkgconfig gtk-doc
->
+>  UPSTREAM_CHECK_URI =3D "https://ftp.isc.org/isc/bind9/"
+>  # follow the ESV versions divisible by 2
 > --
-> 2.25.1
+> 2.44.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#202669): https://lists.openembedded.org/g/openembedde=
-d-core/message/202669
-> Mute This Topic: https://lists.openembedded.org/mt/107625073/3620601
+> View/Reply Online (#202671): https://lists.openembedded.org/g/openembedde=
+d-core/message/202671
+> Mute This Topic: https://lists.openembedded.org/mt/107625279/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
 eve@sakoman.com]
