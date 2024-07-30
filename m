@@ -2,376 +2,142 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6481C3DA49
-	for <webhook@archiver.kernel.org>; Tue, 30 Jul 2024 13:39:00 +0000 (UTC)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
- by mx.groups.io with SMTP id smtpd.web11.17714.1722346734130603617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A396C3DA70
+	for <webhook@archiver.kernel.org>; Tue, 30 Jul 2024 14:18:01 +0000 (UTC)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web11.18552.1722349074169746568
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jul 2024 06:38:54 -0700
+ Tue, 30 Jul 2024 07:17:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wsYVsfkz;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.170, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e087c7ef68bso2822157276.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 06:38:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ySsFtsRa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.176, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dfef5980a69so3555964276.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 07:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722346733; x=1722951533; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722349073; x=1722953873; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PgAWWke4VpRRhnTwTzYLWnLVrU96SWPkjXqQTxGLlDk=;
-        b=wsYVsfkz3TK4hAXJ73thDai8q7QYvyj2p8AHpC2VOsc2DXCSThlnRdPcKJ4tQVJWF5
-         uQg9OfPLRnWwwa0C5kBrIx52kPm/jBlOAEeZmJJVVrsx6aBSfqbDgoyE7pJ7cp/bDhMw
-         JiWNQFXXaByx8UrK2ApZxCCBGxQN17OFCHW8ITJgrw35lxZO3ZaGmghltpwIeuThVOX4
-         knfi3RU8b2BtwcJPvkLvG1TsZnt+BoGrHT/+lz0UHZ67uQ4qww/SgRzEz5pDpwqyLBZY
-         oS86WKJkwYVzhAC3v3QPCpHMy/t5DpCPbKDK9kUmlMV16SV1g96egcVWIUoOd6ynNHi+
-         o+Uw==
+        bh=GrFQv9Lj4eAqwvonqluR0cKP2N+06VWFkXo7TeZ/+2g=;
+        b=ySsFtsRaDilA3QsE4o0YXOe5ddEpTDYTYE0Vz82N6iaxcvPsiRKTka6XFU+pTI+g9j
+         84Qgwwbuxv61tuxVwLyRLI19L2o1iVs5wN5vNYTZg743Uz3is05KVndmy5Rr/7g1+8yD
+         NPnA1XRn0imaIy6qycb8l/ILGbX1JAY/nyclX9uO5OdlpBpnmeGe3EXTiWiJ0+oetFSB
+         iN6ejCy74cJyBBUfIq6GZHXAzZO1szwHVw6JnmX5z69cWAZz03tOtmgd/rqspoB8el4F
+         sEwJJiHzdND4qqLPAgYREB040JHFlW/zHOUaT7e9Eim4y3BVY9h0lxzziBlCOmZbaz/U
+         dCJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722346733; x=1722951533;
+        d=1e100.net; s=20230601; t=1722349073; x=1722953873;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PgAWWke4VpRRhnTwTzYLWnLVrU96SWPkjXqQTxGLlDk=;
-        b=Il9pRQWnPyC0st+WUB2fWqGzydhmP36eQ/dKkLyRdrdlpEeFnT2vExcQR/xPX6iqQO
-         X/b5pcptic+WZDnMTf37zSLJYugfAuAVvt4kXPQQHBRFg4vfW0uevHnQPSheXncBafSc
-         E1E5qIeVnlyh9bpcrzP+u9fBlMe9vYy42lQRf4SRt5D6DeW+0bc/zAoFuHSRmSRzv05A
-         WTvC21AsVLwMJ0uTSXOHawJ2BnTFxQ93nSbrUoDeS/Px8mjnEKqeJhlJ/M61/9YuWBQt
-         ay8ToGKvsrxhhuE/q0Y2VO2N2/M8TmsyLsiai908xdJaUz+E1FHweCQX2ZXj3gcw9bhz
-         0Atg==
-X-Gm-Message-State: AOJu0YwMYmgs7BL+edt9l/EbYOCzN9Jwu+fevHRiLTxWNxVwH8NpJ1lh
-	DnsvyDDRLvXAJvxNnn2QpavHSm9RyiTDD615to7vj9aljGlHfY+4FD1jxY+/x3yO7Y02uW5c0OP
-	wJUkNaYgpKJi4+d7/mJ1/pF4dAhKjxJmKY7eULuwfOyTRu3LGX74cmw==
-X-Google-Smtp-Source: AGHT+IHOgn7tYTp3W9w+ePQHH7KNhLK8OAKQDyShukKrxaBBpa0Pqy26Kn8c1Fy2bgi+1yZvtRQ5UjQqLDTl5t0Hrsg=
-X-Received: by 2002:a05:6902:70a:b0:e08:726a:5a93 with SMTP id
- 3f1490d57ef6-e0b5459b903mr14152795276.44.1722346733068; Tue, 30 Jul 2024
- 06:38:53 -0700 (PDT)
+        bh=GrFQv9Lj4eAqwvonqluR0cKP2N+06VWFkXo7TeZ/+2g=;
+        b=XppZt0HHaEgIAvHfAOTVX+WU6NWZI6Dm9IjeD1XbE5ucKJ0AW18Wbsz40LN+ce3VFg
+         BneGzSBfID0cHiHyTPj4cbYACzZfN5T+veN7pn/TFHYugjIod/C8bzeAqHJMTt3wIDuk
+         6Py+j3aGJzb7W8Lwe5gf5qMxRhPLYPGSuGQas7WWDdeYAXqXnUiK2oe7a9xx9ywagYdd
+         f3/4fCapecOUrf8rfjaktU64aCi/6CDRGjXdT0uK4s+GJrqAcD9mQ7z1MeIz2eUFs2p9
+         C97cfRqPlZ2VFfc87v5Kx9289AQJpxwFmhUdlCeYWNPwB5LjWZeQvfNbIya5SzbL9c7T
+         MYhA==
+X-Gm-Message-State: AOJu0YxSwt00tYzuScV26o3jT49T1VNBP9hBCQbZJgeNfxNCECNe4zWn
+	YDC2EQaok5YDx9A0cALT05nDFuj5x+pXdjNbsVzXWRf5tqCg/IPA/jnwG+DOefmzJqV7zvYufTI
+	p9TC1y+b6LI1TBYaK2h2I+ByEm4hjN7jNDGngmA==
+X-Google-Smtp-Source: AGHT+IEdbG9iJsi5qbogzCF74C/b4BJoo7oZFeQ/oN+oXZdkqnm5nDJyPHNcdJB82PCWw8kt/Pmje9940EiWRWHf0xU=
+X-Received: by 2002:a05:6902:1029:b0:e0b:4aa4:1704 with SMTP id
+ 3f1490d57ef6-e0b5446cb77mr14443965276.18.1722349073277; Tue, 30 Jul 2024
+ 07:17:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240730121513.1801546-1-Deepthi.Hemraj@windriver.com>
-In-Reply-To: <20240730121513.1801546-1-Deepthi.Hemraj@windriver.com>
+References: <20240730101039.1757198-1-vanusuri@mvista.com>
+In-Reply-To: <20240730101039.1757198-1-vanusuri@mvista.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 30 Jul 2024 06:38:41 -0700
-Message-ID: <CAOSpxdYKm08kRUCKhf=AEEQkL4CZQMV=j7CPbw71CFQiOqLD4Q@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] llvm: Fix CVE-2024-31852
-To: Deepthi.Hemraj@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
-	Naveen.Gowda@windriver.com, Shivaprasad.Moodalappa@windriver.com, 
-	Sundeep.Kokkonda@windriver.com
+Date: Tue, 30 Jul 2024 07:17:42 -0700
+Message-ID: <CAOSpxdY3A+q1sPGWDyDiNQ5kf74yjQ=8fFs=YBubYVyA+ZfycA@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] orc: upgrade 0.4.38 -> 0.4.39
+To: vanusuri@mvista.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 13:39:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202676
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 14:18:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202677
 
-On Tue, Jul 30, 2024 at 5:15=E2=80=AFAM Hemraj, Deepthi via
-lists.openembedded.org
-<Deepthi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
->
-> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-> ---
->  .../llvm/0008-llvm-Fix-CVE-2024-31852-1.patch |  85 +++++++++++++
->  .../llvm/0009-llvm-Fix-CVE-2024-31852-2.patch | 117 ++++++++++++++++++
->  meta/recipes-devtools/llvm/llvm_git.bb        |   2 +
->  3 files changed, 204 insertions(+)
->  create mode 100644 meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-202=
-4-31852-1.patch
->  create mode 100644 meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-202=
-4-31852-2.patch
-
-Preferred filenames would be just CVE-2024-31852-1.patch and
-CVE-2024-31852-2.patch
-
-No need to send a V2 as I've fixed this on my end.
-
-Thanks!
+ I won't be able to take this patch until it hits master first.
 
 Steve
 
+On Tue, Jul 30, 2024 at 3:10=E2=80=AFAM Vijay Anusuri via
+lists.openembedded.org <vanusuri=3Dmvista.com@lists.openembedded.org>
+wrote:
 >
-> diff --git a/meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-2024-31852=
--1.patch b/meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-2024-31852-1.p=
-atch
-> new file mode 100644
-> index 0000000000..7cf4a52715
-> --- /dev/null
-> +++ b/meta/recipes-devtools/llvm/llvm/0008-llvm-Fix-CVE-2024-31852-1.patc=
-h
-> @@ -0,0 +1,85 @@
-> +commit b1a5ee1febd8a903cec3dfdad61d57900dc3823e
-> +Author: Florian Hahn <flo@fhahn.com>
-> +Date:   Wed Dec 20 16:56:15 2023 +0100
-> +
-> +    [ARM] Check all terms in emitPopInst when clearing Restored for LR. =
-(#75527)
-> +
-> +    emitPopInst checks a single function exit MBB. If other paths also e=
-xit
-> +    the function and any of there terminators uses LR implicitly, it is =
-not
-> +    save to clear the Restored bit.
-> +
-> +    Check all terminators for the function before clearing Restored.
-> +
-> +    This fixes a mis-compile in outlined-fn-may-clobber-lr-in-caller.ll
-> +    where the machine-outliner previously introduced BLs that clobbered =
-LR
-> +    which in turn is used by the tail call return.
-> +
-> +    Alternative to #73553
-> +
-> +Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/b=
-1a5ee1febd8a903cec3dfdad61d57900dc3823e]
-> +CVE: CVE-2024-31852
-> +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-> +---
-> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.cpp b/llvm/lib/Target/=
-ARM/ARMFrameLowering.cpp
-> +index 025e43444f9c..a9acf338ebf5 100644
-> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.cpp
-> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.cpp
-> +@@ -1236,9 +1236,6 @@ void ARMFrameLowering::emitPopInst(MachineBasicBlo=
-ck &MBB,
-> +         // Fold the return instruction into the LDM.
-> +         DeleteRet =3D true;
-> +         LdmOpc =3D AFI->isThumbFunction() ? ARM::t2LDMIA_RET : ARM::LDM=
-IA_RET;
-> +-        // We 'restore' LR into PC so it is not live out of the return =
-block:
-> +-        // Clear Restored bit.
-> +-        Info.setRestored(false);
-> +       }
-> +
-> +       // If NoGap is true, pop consecutive registers and then leave the=
- rest
-> +@@ -2292,6 +2289,33 @@ void ARMFrameLowering::determineCalleeSaves(Machi=
-neFunction &MF,
-> +   AFI->setLRIsSpilled(SavedRegs.test(ARM::LR));
-> + }
-> +
-> ++void ARMFrameLowering::processFunctionBeforeFrameFinalized(
-> ++    MachineFunction &MF, RegScavenger *RS) const {
-> ++  TargetFrameLowering::processFunctionBeforeFrameFinalized(MF, RS);
-> ++
-> ++  MachineFrameInfo &MFI =3D MF.getFrameInfo();
-> ++  if (!MFI.isCalleeSavedInfoValid())
-> ++    return;
-> ++
-> ++  // Check if all terminators do not implicitly use LR. Then we can 're=
-store' LR
-> ++  // into PC so it is not live out of the return block: Clear the Resto=
-red bit
-> ++  // in that case.
-> ++  for (CalleeSavedInfo &Info : MFI.getCalleeSavedInfo()) {
-> ++    if (Info.getReg() !=3D ARM::LR)
-> ++      continue;
-> ++    if (all_of(MF, [](const MachineBasicBlock &MBB) {
-> ++          return all_of(MBB.terminators(), [](const MachineInstr &Term)=
- {
-> ++            return !Term.isReturn() || Term.getOpcode() =3D=3D ARM::LDM=
-IA_RET ||
-> ++                   Term.getOpcode() =3D=3D ARM::t2LDMIA_RET ||
-> ++                   Term.getOpcode() =3D=3D ARM::tPOP_RET;
-> ++          });
-> ++        })) {
-> ++      Info.setRestored(false);
-> ++      break;
-> ++    }
-> ++  }
-> ++}
-> ++
-> + void ARMFrameLowering::getCalleeSaves(const MachineFunction &MF,
-> +                                       BitVector &SavedRegs) const {
-> +   TargetFrameLowering::getCalleeSaves(MF, SavedRegs);
-> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.h b/llvm/lib/Target/AR=
-M/ARMFrameLowering.h
-> +index 9822e2321bb4..266d642bb97b 100644
-> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.h
-> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.h
-> +@@ -58,6 +58,9 @@ public:
-> +   void determineCalleeSaves(MachineFunction &MF, BitVector &SavedRegs,
-> +                             RegScavenger *RS) const override;
-> +
-> ++  void processFunctionBeforeFrameFinalized(
-> ++                 MachineFunction &MF, RegScavenger *RS =3D nullptr) con=
-st override;
-> ++
-> +   void adjustForSegmentedStacks(MachineFunction &MF,
-> +                                 MachineBasicBlock &MBB) const override;
-> +
-> +
-> diff --git a/meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-2024-31852=
--2.patch b/meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-2024-31852-2.p=
-atch
-> new file mode 100644
-> index 0000000000..b6082b0ef3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/llvm/llvm/0009-llvm-Fix-CVE-2024-31852-2.patc=
-h
-> @@ -0,0 +1,117 @@
-> +commit 0e16af8e4cf3a66ad5d078d52744ae2776f9c4b2
-> +Author: ostannard <oliver.stannard@arm.com>
-> +Date:   Mon Feb 26 12:23:25 2024 +0000
-> +
-> +    [ARM] Update IsRestored for LR based on all returns (#82745)
-> +
-> +    PR #75527 fixed ARMFrameLowering to set the IsRestored flag for LR b=
-ased
-> +    on all of the return instructions in the function, not just one.
-> +    However, there is also code in ARMLoadStoreOptimizer which changes
-> +    return instructions, but it set IsRestored based on the one instruct=
-ion
-> +    it changed, not the whole function.
-> +
-> +    The fix is to factor out the code added in #75527, and also call it =
-from
-> +    ARMLoadStoreOptimizer if it made a change to return instructions.
-> +
-> +    Fixes #80287.
-> +
-> +    (cherry picked from commit 749384c08e042739342c88b521c8ba5dac1b9276)
-> +
-> +Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/0=
-e16af8e4cf3a66ad5d078d52744ae2776f9c4b2]
-> +CVE: CVE-2024-31852
-> +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-> +---
-> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.cpp b/llvm/lib/Target/=
-ARM/ARMFrameLowering.cpp
-> +index a9acf338ebf5..13d3cbf650ed 100644
-> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.cpp
-> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.cpp
-> +@@ -2289,10 +2289,7 @@ void ARMFrameLowering::determineCalleeSaves(Machi=
-neFunction &MF,
-> +   AFI->setLRIsSpilled(SavedRegs.test(ARM::LR));
-> + }
-> +
-> +-void ARMFrameLowering::processFunctionBeforeFrameFinalized(
-> +-    MachineFunction &MF, RegScavenger *RS) const {
-> +-  TargetFrameLowering::processFunctionBeforeFrameFinalized(MF, RS);
-> +-
-> ++void ARMFrameLowering::updateLRRestored(MachineFunction &MF) {
-> +   MachineFrameInfo &MFI =3D MF.getFrameInfo();
-> +   if (!MFI.isCalleeSavedInfoValid())
-> +     return;
-> +@@ -2316,6 +2313,12 @@ void ARMFrameLowering::processFunctionBeforeFrame=
-Finalized(
-> +   }
-> + }
-> +
-> ++void ARMFrameLowering::processFunctionBeforeFrameFinalized(
-> ++    MachineFunction &MF, RegScavenger *RS) const {
-> ++  TargetFrameLowering::processFunctionBeforeFrameFinalized(MF, RS);
-> ++  updateLRRestored(MF);
-> ++}
-> ++
-> + void ARMFrameLowering::getCalleeSaves(const MachineFunction &MF,
-> +                                       BitVector &SavedRegs) const {
-> +   TargetFrameLowering::getCalleeSaves(MF, SavedRegs);
-> +diff --git a/llvm/lib/Target/ARM/ARMFrameLowering.h b/llvm/lib/Target/AR=
-M/ARMFrameLowering.h
-> +index 67505b61a5e1..b13b76d7086c 100644
-> +--- a/llvm/lib/Target/ARM/ARMFrameLowering.h
-> ++++ b/llvm/lib/Target/ARM/ARMFrameLowering.h
-> +@@ -58,6 +58,10 @@ public:
-> +   void determineCalleeSaves(MachineFunction &MF, BitVector &SavedRegs,
-> +                             RegScavenger *RS) const override;
-> +
-> ++  /// Update the IsRestored flag on LR if it is spilled, based on the r=
-eturn
-> ++  /// instructions.
-> ++  static void updateLRRestored(MachineFunction &MF);
-> ++
-> +   void processFunctionBeforeFrameFinalized(
-> +                  MachineFunction &MF, RegScavenger *RS =3D nullptr) con=
-st override;
-> +
-> +diff --git a/llvm/lib/Target/ARM/ARMLoadStoreOptimizer.cpp b/llvm/lib/Ta=
-rget/ARM/ARMLoadStoreOptimizer.cpp
-> +index fd06bfdf352c..561c1396190d 100644
-> +--- a/llvm/lib/Target/ARM/ARMLoadStoreOptimizer.cpp
-> ++++ b/llvm/lib/Target/ARM/ARMLoadStoreOptimizer.cpp
-> +@@ -2060,17 +2060,6 @@ bool ARMLoadStoreOpt::MergeReturnIntoLDM(MachineB=
-asicBlock &MBB) {
-> +       MO.setReg(ARM::PC);
-> +       PrevMI.copyImplicitOps(*MBB.getParent(), *MBBI);
-> +       MBB.erase(MBBI);
-> +-      // We now restore LR into PC so it is not live-out of the return =
-block
-> +-      // anymore: Clear the CSI Restored bit.
-> +-      MachineFrameInfo &MFI =3D MBB.getParent()->getFrameInfo();
-> +-      // CSI should be fixed after PrologEpilog Insertion
-> +-      assert(MFI.isCalleeSavedInfoValid() && "CSI should be valid");
-> +-      for (CalleeSavedInfo &Info : MFI.getCalleeSavedInfo()) {
-> +-        if (Info.getReg() =3D=3D ARM::LR) {
-> +-          Info.setRestored(false);
-> +-          break;
-> +-        }
-> +-      }
-> +       return true;
-> +     }
-> +   }
-> +@@ -2118,16 +2107,24 @@ bool ARMLoadStoreOpt::runOnMachineFunction(Machi=
-neFunction &Fn) {
-> +   isThumb2 =3D AFI->isThumb2Function();
-> +   isThumb1 =3D AFI->isThumbFunction() && !isThumb2;
-> +
-> +-  bool Modified =3D false;
-> ++  bool Modified =3D false, ModifiedLDMReturn =3D false;
-> +   for (MachineFunction::iterator MFI =3D Fn.begin(), E =3D Fn.end(); MF=
-I !=3D E;
-> +        ++MFI) {
-> +     MachineBasicBlock &MBB =3D *MFI;
-> +     Modified |=3D LoadStoreMultipleOpti(MBB);
-> +     if (STI->hasV5TOps())
-> +-      Modified |=3D MergeReturnIntoLDM(MBB);
-> ++      ModifiedLDMReturn |=3D MergeReturnIntoLDM(MBB);
-> +     if (isThumb1)
-> +       Modified |=3D CombineMovBx(MBB);
-> +   }
-> ++  Modified |=3D ModifiedLDMReturn;
-> ++
-> ++  // If we merged a BX instruction into an LDM, we need to re-calculate=
- whether
-> ++  // LR is restored. This check needs to consider the whole function, n=
-ot just
-> ++  // the instruction(s) we changed, because there may be other BX retur=
-ns which
-> ++  // still need LR to be restored.
-> ++  if (ModifiedLDMReturn)
-> ++    ARMFrameLowering::updateLRRestored(Fn);
-> +
-> +   Allocator.DestroyAll();
-> +   return Modified;
-> +
-> diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtoo=
-ls/llvm/llvm_git.bb
-> index cedbfb138e..d342da649a 100644
-> --- a/meta/recipes-devtools/llvm/llvm_git.bb
-> +++ b/meta/recipes-devtools/llvm/llvm_git.bb
-> @@ -33,6 +33,8 @@ SRC_URI =3D "git://github.com/llvm/llvm-project.git;bra=
-nch=3D${BRANCH};protocol=3Dhttp
->             file://0007-llvm-allow-env-override-of-exe-path.patch;striple=
-vel=3D2 \
->             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as=
--we.patch;striplevel=3D2 \
->             file://0001-Support-Add-missing-cstdint-header-to-Signals.h.p=
-atch;striplevel=3D2 \
-> +           file://0008-llvm-Fix-CVE-2024-31852-1.patch;striplevel=3D2 \
-> +           file://0009-llvm-Fix-CVE-2024-31852-2.patch;striplevel=3D2 \
->             "
+> From: Vijay Anusuri <vanusuri@mvista.com>
 >
->  UPSTREAM_CHECK_GITTAGREGEX =3D "llvmorg-(?P<pver>\d+(\.\d+)+)"
+> Changelog:
+>
+> - Security: Fix error message printing buffer overflow leading to possibl=
+e
+>   code executation in orcc with specific input files (CVE-2024-40897). Th=
+is
+>   only affects developers and CI environments using orcc, not users of li=
+borc
+>   (Sebastian Dr=C3=B6ge, L. E. Segovia)
+> - div255w: fix off-by-one error in the implementations (L. E. Segovia)
+> - x86: only run AVX detection if xgetbv is available (L. E. Segovia)
+> - x86: fix AVX detection by implementing the check recommended by Intel (=
+L. E. Segovia)
+> - Only enable JIT compilation on Apple arm64 if running on macOS, fixes c=
+rashes on iOS (Piotr Brzezi=C5=84ski)
+> - Fix potential crash in emulation mode if logging is enabled (L. E. Sego=
+via)
+> - Handle undefined TARGET_OS_OSX correctly (Joshua Root)
+> - orconce: Fix typo in GCC __sync-based implementation (Jakub Van=C4=9Bk)
+> - orconce: Fix usage of __STDC_NO_ATOMICS__ (Alexander Slobodeniuk)
+> - Fix build with MSVC 17.10 + C11 (L. E. Segovia)
+> - Support stack unwinding on Windows (L. E. Segovia)
+> - Major opcode and instruction set code clean-ups and refactoring (Jorge =
+Zapata)
+> - Refactor allocation and chunk initialization of code regions (L. E. Seg=
+ovia)
+> - Fall back to emulation on Linux if JIT support is not available,
+>   e.g. because of SELinux sandboxing or noexec mounting) (L. E. Segovia)
+>
+> Ref: https://github.com/GStreamer/orc/blob/0.4.39/RELEASE
+>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> ---
+>  meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb} (92%=
+)
+>
+> diff --git a/meta/recipes-devtools/orc/orc_0.4.38.bb b/meta/recipes-devto=
+ols/orc/orc_0.4.39.bb
+> similarity index 92%
+> rename from meta/recipes-devtools/orc/orc_0.4.38.bb
+> rename to meta/recipes-devtools/orc/orc_0.4.39.bb
+> index 5d2296694a..320abf536a 100644
+> --- a/meta/recipes-devtools/orc/orc_0.4.38.bb
+> +++ b/meta/recipes-devtools/orc/orc_0.4.39.bb
+> @@ -5,7 +5,7 @@ LICENSE =3D "BSD-2-Clause & BSD-3-Clause"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1400bd9d09e8af56b9ec982b3d857=
+97e"
+>
+>  SRC_URI =3D "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+> -SRC_URI[sha256sum] =3D "a55a98d4772567aa3faed8fb84d540c3db77eaba16d3e2e1=
+0b044fbc9228668d"
+> +SRC_URI[sha256sum] =3D "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad08=
+5ae51143d3040cc0"
+>
+>  inherit meson pkgconfig gtk-doc
+>
 > --
-> 2.43.0
+> 2.25.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#202674): https://lists.openembedded.org/g/openembedde=
-d-core/message/202674
-> Mute This Topic: https://lists.openembedded.org/mt/107626200/3620601
+> View/Reply Online (#202669): https://lists.openembedded.org/g/openembedde=
+d-core/message/202669
+> Mute This Topic: https://lists.openembedded.org/mt/107625073/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
 eve@sakoman.com]
