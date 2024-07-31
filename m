@@ -1,336 +1,294 @@
-Return-Path: <li.wang@windriver.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0284BC3DA49
-	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 02:33:55 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.34288.1722393230319268428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D538C3DA7F
+	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 04:35:35 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web11.35776.1722400528686002093
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jul 2024 19:33:50 -0700
+ Tue, 30 Jul 2024 21:35:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=894255a681=li.wang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46V2OKwr018890
-	for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 02:33:49 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40mp3xbnmu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 02:33:48 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 30 Jul 2024 19:33:47 -0700
-Received: from pek-lwang1-d1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Tue, 30 Jul 2024 19:33:46 -0700
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <li.wang@windriver.com>
-Subject: [openembedded-core V3][master][PATCH]xinetd: use monotonic time
-Date: Wed, 31 Jul 2024 10:29:35 +0800
-Message-ID: <20240731022935.1745228-1-li.wang@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@mvista.com header.s=google header.b=CcCRdK2T;
+ spf=pass (domain: mvista.com, ip: 209.85.208.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ef32fea28dso62792001fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 21:35:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1722400526; x=1723005326; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VL62baI3GaWqrXws2fsmHQj8qvABXczxyjUaWl8ejGo=;
+        b=CcCRdK2Thiv/ttyRmMj48tK3aAItKvoJSkAT6c+6aimZaOWCFYiXOGhH8HnO3D6qkB
+         AJsyeYVRkVPzns7S8BKbcGSaD0F4hgIDlwOaeXeoccHN2phBr+2zJkRXlZ/YF0ZTJ/66
+         m6TyyqLLAKYx8VRXiDxOtWG8pkBEqUGWLtP+o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722400526; x=1723005326;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VL62baI3GaWqrXws2fsmHQj8qvABXczxyjUaWl8ejGo=;
+        b=dOrtYACtP6eQ2lnz075IxcazF8h9Em0WmT/1JzeF8GCVU20brbJ8LiqF9HynKLkSmQ
+         mrRFHtPbXV1sMW2ZCp7b0z3W23TfUCXiSTusiUEIx2E866qbKxzjKc5jDNjjNQAYeGtP
+         mZqP1RFBN9F4HM/zPi7zTUhwExd1wucxOLcrb31b3ookjZNt+/hVOUv/K5rLcXeOY7Ak
+         jw8zWhgYjSetHu474nl5Tl6MN08znbzqm5CG3Q8taaSmDt/un/4ITozFsrCya+YFkjhi
+         AChxuZeHqQIy3TrPmPUKuA+xpCEee3XProEDO/QiaL8CkbJnDlvsWd84VjcQCPOMnn0n
+         yGwg==
+X-Gm-Message-State: AOJu0YzkoFGQZW6GaK42YADsdIcyva/0YU69Mllh/XJk4z7SJHbwUKqO
+	tYXRnAX0lQv2M5PlamtmBKgvJIdQ4eGoufP8FLp1/sZ5CTQQLS8Y7VfHpUXRW6rWYnrxNlzqm/5
+	XdAeU8Hj1hlAXWQ/69n11sUVnyLL2ZYE5nackMQ==
+X-Google-Smtp-Source: AGHT+IFpk3yfLhyqDvr7IOu51X9T84x+snr+1c8MKtTA5+vi4Dh1Q+I7PVp8YqQ3pje64svz2Gt36sck8pqwCUQHclQ=
+X-Received: by 2002:a2e:b601:0:b0:2ef:22e5:b96b with SMTP id
+ 38308e7fff4ca-2f12ecd2840mr80008931fa.19.1722400525962; Tue, 30 Jul 2024
+ 21:35:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: j4EcH4hIqXz-yqCHNUSO7MUXQDLOpieo
-X-Proofpoint-ORIG-GUID: j4EcH4hIqXz-yqCHNUSO7MUXQDLOpieo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-30_21,2024-07-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=844
- impostorscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2407310017
+References: <20240730101039.1757198-1-vanusuri@mvista.com> <CAOSpxdY3A+q1sPGWDyDiNQ5kf74yjQ=8fFs=YBubYVyA+ZfycA@mail.gmail.com>
+In-Reply-To: <CAOSpxdY3A+q1sPGWDyDiNQ5kf74yjQ=8fFs=YBubYVyA+ZfycA@mail.gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Wed, 31 Jul 2024 10:05:13 +0530
+Message-ID: <CANQUz1908j2hSP=RA=rEOB8PzvCZkUdoeMuJ4wQV8TsYZv+4sA@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] orc: upgrade 0.4.38 -> 0.4.39
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000082ebcc061e839f8b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 02:33:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202688
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 04:35:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202689
 
-when using xinet.d to limit rsync connections and time is set back,
-the connection limit is reached very quickly and rsync gets deactivated,
-if time is changed again, rsync is never reactivated.
+--00000000000082ebcc061e839f8b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-date -s "xxx"
-xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
+Ok Steve.
 
-the timer of xinet.d is based on time() function, and it is affected by system time.
+Patch for master has already been submitted.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
----
- .../xinetd/xinetd/use-monotonic-time.patch    | 246 ++++++++++++++++++
- .../xinetd/xinetd_2.3.15.4.bb                 |   1 +
- 2 files changed, 247 insertions(+)
- create mode 100644 meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
+https://lists.openembedded.org/g/openembedded-core/message/202585
 
-diff --git a/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
-new file mode 100644
-index 0000000000..2144c3cba2
---- /dev/null
-+++ b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
-@@ -0,0 +1,246 @@
-+use monotonic time
-+
-+when using xinet.d to limit rsync connections and time is set back,
-+the connection limit is reached very quickly and rsync gets deactivated,
-+if time is changed again, rsync is never reactivated.
-+
-+date -s "xxx"
-+xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
-+
-+the timer of xinet.d is based on time() function, and it is affected by system time.
-+
-+Upstream-Status: Submitted [https://github.com/openSUSE/xinetd/pull/45]
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ src/access.c       |    6 +++---
-+ src/builtins.c     |    4 ++--
-+ src/internals.c    |    2 +-
-+ src/log.c          |    2 +-
-+ src/sensor.c       |    6 +++---
-+ src/server.c       |    2 +-
-+ src/service.c      |    4 ++--
-+ src/signals.c      |    2 +-
-+ src/time.c         |    2 +-
-+ src/xlog/filelog.c |    2 +-
-+ src/xtimer.c       |   15 ++++++++++++---
-+ src/xtimer.h       |    1 +
-+ 12 files changed, 29 insertions(+), 19 deletions(-)
-+
-+--- a/src/access.c
-++++ b/src/access.c
-+@@ -70,7 +70,7 @@ static void cps_service_restart(void)
-+    time_t nowtime;
-+    const char *func = "cps_service_restart";
-+ 
-+-   nowtime = time(NULL);
-++   nowtime = _time(NULL);
-+    for( i=0; i < pset_count( SERVICES(ps) ); i++ ) {
-+       struct service *sp;
-+       struct service_config *scp;
-+@@ -104,7 +104,7 @@ void cps_service_stop(struct service *sp
-+    msg(LOG_ERR, "service_stop", 
-+ 	"Deactivating service %s due to %s.  Restarting in %d seconds.", 
-+ 	SC_NAME(scp), reason, (int)SC_TIME_WAIT(scp));
-+-   nowtime = time(NULL);
-++   nowtime = _time(NULL);
-+    SC_TIME_REENABLE(scp) = nowtime + SC_TIME_WAIT(scp);
-+    xtimer_add(cps_service_restart, SC_TIME_WAIT(scp));
-+ }
-+@@ -284,7 +284,7 @@ access_e parent_access_control( struct s
-+    /* CPS handler */
-+    if( SC_TIME_CONN_MAX(scp) != 0 ) {
-+       int time_diff;
-+-      nowtime = time(NULL);
-++      nowtime = _time(NULL);
-+       time_diff = nowtime - SC_TIME_LIMIT(scp) ;
-+ 
-+       if( SC_TIME_CONN(scp) == 0 ) {
-+--- a/src/builtins.c
-++++ b/src/builtins.c
-+@@ -237,7 +237,7 @@ static void daytime_protocol( char *buf,
-+    int         size = *buflen ;
-+    int      cc ;
-+ 
-+-   (void) time( &now ) ;
-++   (void) _time( &now ) ;
-+    tmp = localtime( &now ) ;
-+    cc = strx_nprint( buf, size,
-+       "%02d %s %d %02d:%02d:%02d",
-+@@ -308,7 +308,7 @@ static void time_protocol( unsigned char
-+    time_t now ;
-+    unsigned long base1900;
-+ 
-+-   (void) time( &now ) ;
-++   (void) _time( &now ) ;
-+    base1900 = (unsigned long)now + TIME_OFFSET ;
-+    timep[0] = base1900 >> 24;
-+    timep[1] = base1900 >> 16;
-+--- a/src/internals.c
-++++ b/src/internals.c
-+@@ -85,7 +85,7 @@ void dump_internal_state(void)
-+     * Print the program name, version, and timestamp.
-+     * Note that the program_version variable contains the program name.
-+     */
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+    Sprint( dump_fd, "INTERNAL STATE DUMP: %s\n", program_version ) ;
-+    Sprint( dump_fd, "Current time: %s\n", ctime( &current_time ) ) ;
-+ 
-+--- a/src/log.c
-++++ b/src/log.c
-+@@ -202,7 +202,7 @@ void svc_log_exit( struct service *sp, c
-+    {
-+       time_t current_time ;
-+ 
-+-      (void) time( &current_time ) ;
-++      (void) _time( &current_time ) ;
-+       cc = strx_nprint( &buf[ len ], bufsize, " duration=%ld(sec)",
-+          (long)(current_time - SERVER_STARTTIME( serp )) ) ;
-+       len += cc ;
-+--- a/src/sensor.c
-++++ b/src/sensor.c
-+@@ -68,7 +68,7 @@ void process_sensor( const struct servic
-+                time_t nowtime;
-+                char time_buf[40], *tmp;
-+ 
-+-	       nowtime = time(NULL);
-++	       nowtime = _time(NULL);
-+ 	       msg(LOG_CRIT, func,
-+ 	           "Adding %s to the global_no_access list for %d minutes",
-+ 	            dup_addr, SC_DENY_TIME(SVC_CONF(sp)));
-+@@ -113,7 +113,7 @@ void process_sensor( const struct servic
-+                {
-+                   time_t nowtime, new_time;
-+ 
-+-                  nowtime = time(NULL);
-++                  nowtime = _time(NULL);
-+                   new_time = (time_t)nowtime+(60*SC_DENY_TIME(SVC_CONF(sp)));                     if (difftime(new_time, (time_t)stored_time) > 0.0)
-+ 	          {   /* new_time is longer save it   */
-+ 		     char time_buf[40], *new_exp_time;
-+@@ -163,7 +163,7 @@ static void scrub_global_access_list( vo
-+    {
-+       int found_one = 0;
-+       unsigned u;
-+-      time_t nowtime = time(NULL);
-++      time_t nowtime = _time(NULL);
-+ 
-+       for (u=0; u < count; u++)
-+       {
-+--- a/src/server.c
-++++ b/src/server.c
-+@@ -228,7 +228,7 @@ status_e server_start( struct server *se
-+          return( FAILED ) ;
-+ 
-+       default:
-+-         (void) time( &SERVER_STARTTIME(serp) ) ;
-++         (void) _time( &SERVER_STARTTIME(serp) ) ;
-+          SVC_INC_RUNNING_SERVERS( sp ) ;
-+ 
-+          /*
-+--- a/src/service.c
-++++ b/src/service.c
-+@@ -840,7 +840,7 @@ static status_e failed_service(struct se
-+ 	       SVC_LAST_DGRAM_ADDR(sp) = (union xsockaddr *)last;
-+             }
-+ 
-+-            (void) time( &current_time ) ;
-++            (void) _time( &current_time ) ;
-+             if ( sinp->sin_addr.s_addr == last->sin_addr.s_addr &&
-+                                           sinp->sin_port == last->sin_port )
-+             {
-+@@ -867,7 +867,7 @@ static status_e failed_service(struct se
-+ 	       SVC_LAST_DGRAM_ADDR( sp ) = (union xsockaddr *)last;
-+             }
-+ 
-+-            (void) time( &current_time ) ;
-++            (void) _time( &current_time ) ;
-+             if ( IN6_ARE_ADDR_EQUAL(&(sinp->sin6_addr), &(last->sin6_addr)) && 
-+                  sinp->sin6_port == last->sin6_port )
-+             {
-+--- a/src/signals.c
-++++ b/src/signals.c
-+@@ -301,7 +301,7 @@ static void bad_signal(void)
-+    else if ( total_signal_count > MAX_SIGNAL_COUNT )
-+       _exit( 1 ) ;      /* in case of a problem in exit(3) */
-+    
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+ 
-+    if ( interval_signal_count > 0 &&
-+             current_time - interval_start <= SIGNAL_INTERVAL )
-+--- a/src/time.c
-++++ b/src/time.c
-+@@ -41,7 +41,7 @@ bool_int ti_current_time_check( const ps
-+    int16_t     min_current ;
-+    struct tm   *tmp ;
-+ 
-+-   (void) time( &current_time ) ;
-++   (void) _time( &current_time ) ;
-+    tmp = localtime( &current_time ) ;
-+    min_current = tmp->tm_hour * 60 + tmp->tm_min ;
-+ 
-+--- a/src/xlog/filelog.c
-++++ b/src/xlog/filelog.c
-+@@ -190,7 +190,7 @@ static int filelog_write( xlog_s *xp, co
-+ 	if ( flp->fl_state != FL_OPEN )
-+ 		return( flp->fl_error ) ;
-+ 
-+-	(void) time( &current_time ) ;
-++	(void) _time( &current_time ) ;
-+ 	tmp = localtime( &current_time ) ;
-+ 	cc = Sprint( flp->fl_fd, "%02d/%d/%d@%02d:%02d:%02d",
-+ 		tmp->tm_year%100, tmp->tm_mon+1, tmp->tm_mday,
-+--- a/src/xtimer.c
-++++ b/src/xtimer.c
-+@@ -11,6 +11,15 @@
-+ #include "pset.h"
-+ #include "msg.h"
-+ 
-++time_t _time(time_t *t)
-++{
-++	struct timespec ts;
-++	clock_gettime(CLOCK_MONOTONIC, &ts);
-++	if(t)
-++		*t = ts.tv_sec;
-++	return ts.tv_sec;
-++}
-++
-+ /* A note on the usage of timers in these functions:
-+  * The timers are composed of 3 elements, a pointer to a callback function,
-+  * the expire time of the timer, and a unique (pseudo-monotomically increasing)
-+@@ -68,7 +77,7 @@ int xtimer_add( void (*func)(void), time
-+ 		return -1;
-+ 	}
-+ 
-+-	tmptime = time(NULL);
-++	tmptime = _time(NULL);
-+ 	if( tmptime == -1 ) {
-+ 		free( new_xtimer );
-+ 		return -1;
-+@@ -107,7 +116,7 @@ int xtimer_poll(void)
-+ 
-+ 	for( i = 0; i < pset_count( xtimer_list ); i++ ) {
-+ 		xtime_h *cur_timer = pset_pointer( xtimer_list, i );
-+-		time_t cur_time    = time(NULL);
-++		time_t cur_time    = _time(NULL);
-+ 
-+ 		/* The list is sorted, low to high.  If there's no
-+ 		 * timers left, return.
-+@@ -163,7 +172,7 @@ time_t xtimer_nexttime(void)
-+ 	if( pset_count(xtimer_list) == 0 )
-+ 		return -1;
-+ 
-+-	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - time(NULL) ;
-++	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - _time(NULL) ;
-+ 	if( ret < 0 )
-+ 		ret = 0;
-+ 	return( ret );
-+--- a/src/xtimer.h
-++++ b/src/xtimer.h
-+@@ -22,4 +22,5 @@ int xtimer_poll(void);
-+ int xtimer_remove(int);
-+ time_t xtimer_nexttime(void);
-+ 
-++time_t _time(time_t *t);
-+ #endif /* _X_TIMER_H */
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-index c6d356d227..94fc28ff6e 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/openSUSE/xinetd.git;protocol=https;branch=master \
-            file://xinetd.init \
-            file://xinetd.default \
-            file://xinetd.service \
-+           file://use-monotonic-time.patch \
-            "
- 
- SRCREV = "6a4af7786630ce48747d9687e2f18f45ea6684c4"
--- 
-2.25.1
+Thanks & Regards,
+Vijay
 
+On Tue, Jul 30, 2024 at 7:47=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
+rote:
+
+>  I won't be able to take this patch until it hits master first.
+>
+> Steve
+>
+> On Tue, Jul 30, 2024 at 3:10=E2=80=AFAM Vijay Anusuri via
+> lists.openembedded.org <vanusuri=3Dmvista.com@lists.openembedded.org>
+> wrote:
+> >
+> > From: Vijay Anusuri <vanusuri@mvista.com>
+> >
+> > Changelog:
+> >
+> > - Security: Fix error message printing buffer overflow leading to
+> possible
+> >   code executation in orcc with specific input files (CVE-2024-40897).
+> This
+> >   only affects developers and CI environments using orcc, not users of
+> liborc
+> >   (Sebastian Dr=C3=B6ge, L. E. Segovia)
+> > - div255w: fix off-by-one error in the implementations (L. E. Segovia)
+> > - x86: only run AVX detection if xgetbv is available (L. E. Segovia)
+> > - x86: fix AVX detection by implementing the check recommended by Intel
+> (L. E. Segovia)
+> > - Only enable JIT compilation on Apple arm64 if running on macOS, fixes
+> crashes on iOS (Piotr Brzezi=C5=84ski)
+> > - Fix potential crash in emulation mode if logging is enabled (L. E.
+> Segovia)
+> > - Handle undefined TARGET_OS_OSX correctly (Joshua Root)
+> > - orconce: Fix typo in GCC __sync-based implementation (Jakub Van=C4=9B=
+k)
+> > - orconce: Fix usage of __STDC_NO_ATOMICS__ (Alexander Slobodeniuk)
+> > - Fix build with MSVC 17.10 + C11 (L. E. Segovia)
+> > - Support stack unwinding on Windows (L. E. Segovia)
+> > - Major opcode and instruction set code clean-ups and refactoring (Jorg=
+e
+> Zapata)
+> > - Refactor allocation and chunk initialization of code regions (L. E.
+> Segovia)
+> > - Fall back to emulation on Linux if JIT support is not available,
+> >   e.g. because of SELinux sandboxing or noexec mounting) (L. E. Segovia=
+)
+> >
+> > Ref: https://github.com/GStreamer/orc/blob/0.4.39/RELEASE
+> >
+> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> > ---
+> >  meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb} | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb} (9=
+2%)
+> >
+> > diff --git a/meta/recipes-devtools/orc/orc_0.4.38.bb
+> b/meta/recipes-devtools/orc/orc_0.4.39.bb
+> > similarity index 92%
+> > rename from meta/recipes-devtools/orc/orc_0.4.38.bb
+> > rename to meta/recipes-devtools/orc/orc_0.4.39.bb
+> > index 5d2296694a..320abf536a 100644
+> > --- a/meta/recipes-devtools/orc/orc_0.4.38.bb
+> > +++ b/meta/recipes-devtools/orc/orc_0.4.39.bb
+> > @@ -5,7 +5,7 @@ LICENSE =3D "BSD-2-Clause & BSD-3-Clause"
+> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1400bd9d09e8af56b9ec982b3d8=
+5797e"
+> >
+> >  SRC_URI =3D "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz=
+"
+> > -SRC_URI[sha256sum] =3D
+> "a55a98d4772567aa3faed8fb84d540c3db77eaba16d3e2e10b044fbc9228668d"
+> > +SRC_URI[sha256sum] =3D
+> "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad085ae51143d3040cc0"
+> >
+> >  inherit meson pkgconfig gtk-doc
+> >
+> > --
+> > 2.25.1
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#202669):
+> https://lists.openembedded.org/g/openembedded-core/message/202669
+> > Mute This Topic: https://lists.openembedded.org/mt/107625073/3620601
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> steve@sakoman.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+
+--00000000000082ebcc061e839f8b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div>Ok Steve.<br><br></div>Patch for master has alre=
+ady been submitted.<br><br><a href=3D"https://lists.openembedded.org/g/open=
+embedded-core/message/202585">https://lists.openembedded.org/g/openembedded=
+-core/message/202585</a><br><br></div><div>Thanks &amp; Regards,</div><div>=
+Vijay<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Jul 30, 2024 at 7:47=E2=80=AFPM Steve Sakoman &lt;<=
+a href=3D"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0I won&#39;t be a=
+ble to take this patch until it hits master first.<br>
+<br>
+Steve<br>
+<br>
+On Tue, Jul 30, 2024 at 3:10=E2=80=AFAM Vijay Anusuri via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;vanusuri=3D<a href=3D"mailto:mvista.com@=
+lists.openembedded.org" target=3D"_blank">mvista.com@lists.openembedded.org=
+</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
+=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;<br>
+&gt; Changelog:<br>
+&gt;<br>
+&gt; - Security: Fix error message printing buffer overflow leading to poss=
+ible<br>
+&gt;=C2=A0 =C2=A0code executation in orcc with specific input files (CVE-20=
+24-40897). This<br>
+&gt;=C2=A0 =C2=A0only affects developers and CI environments using orcc, no=
+t users of liborc<br>
+&gt;=C2=A0 =C2=A0(Sebastian Dr=C3=B6ge, L. E. Segovia)<br>
+&gt; - div255w: fix off-by-one error in the implementations (L. E. Segovia)=
+<br>
+&gt; - x86: only run AVX detection if xgetbv is available (L. E. Segovia)<b=
+r>
+&gt; - x86: fix AVX detection by implementing the check recommended by Inte=
+l (L. E. Segovia)<br>
+&gt; - Only enable JIT compilation on Apple arm64 if running on macOS, fixe=
+s crashes on iOS (Piotr Brzezi=C5=84ski)<br>
+&gt; - Fix potential crash in emulation mode if logging is enabled (L. E. S=
+egovia)<br>
+&gt; - Handle undefined TARGET_OS_OSX correctly (Joshua Root)<br>
+&gt; - orconce: Fix typo in GCC __sync-based implementation (Jakub Van=C4=
+=9Bk)<br>
+&gt; - orconce: Fix usage of __STDC_NO_ATOMICS__ (Alexander Slobodeniuk)<br=
+>
+&gt; - Fix build with MSVC 17.10 + C11 (L. E. Segovia)<br>
+&gt; - Support stack unwinding on Windows (L. E. Segovia)<br>
+&gt; - Major opcode and instruction set code clean-ups and refactoring (Jor=
+ge Zapata)<br>
+&gt; - Refactor allocation and chunk initialization of code regions (L. E. =
+Segovia)<br>
+&gt; - Fall back to emulation on Linux if JIT support is not available,<br>
+&gt;=C2=A0 =C2=A0e.g. because of SELinux sandboxing or noexec mounting) (L.=
+ E. Segovia)<br>
+&gt;<br>
+&gt; Ref: <a href=3D"https://github.com/GStreamer/orc/blob/0.4.39/RELEASE" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/GStreamer/orc/blob/=
+0.4.39/RELEASE</a><br>
+&gt;<br>
+&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
+" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-devtools/orc/{<a href=3D"http://orc_0.4.38.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a> =3D&gt; <a href=3D"http=
+://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a>} |=
+ 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/orc/{<a href=3D"http://orc_0.4.38.b=
+b" rel=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a> =3D&gt; <a href=
+=3D"http://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_blank">orc_0.4.39.b=
+b</a>} (92%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.38.bb=
+" rel=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a> b/meta/recipes-dev=
+tools/orc/<a href=3D"http://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">orc_0.4.39.bb</a><br>
+&gt; similarity index 92%<br>
+&gt; rename from meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.38.bb"=
+ rel=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a><br>
+&gt; rename to meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.39.bb" r=
+el=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a><br>
+&gt; index 5d2296694a..320abf536a 100644<br>
+&gt; --- a/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.38.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.39.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a><br>
+&gt; @@ -5,7 +5,7 @@ LICENSE =3D &quot;BSD-2-Clause &amp; BSD-3-Clause&quot=
+;<br>
+&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1400bd9d09e8af56=
+b9ec982b3d85797e&quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"http://gstreamer.freedesktop.org/sr=
+c/orc/orc-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://gst=
+reamer.freedesktop.org/src/orc/orc-${PV}.tar.xz</a>&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;a55a98d4772567aa3faed8fb84d540c3db77eaba=
+16d3e2e10b044fbc9228668d&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;33ed2387f49b825fa1b9c3b0072e05f259141b89=
+5474ad085ae51143d3040cc0&quot;<br>
+&gt;<br>
+&gt;=C2=A0 inherit meson pkgconfig gtk-doc<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#202669): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/202669" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/202669</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10762507=
+3/3620601" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/107625073/3620601</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:steve@sakoman.com" ta=
+rget=3D"_blank">steve@sakoman.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</blockquote></div>
+
+--00000000000082ebcc061e839f8b--
 
