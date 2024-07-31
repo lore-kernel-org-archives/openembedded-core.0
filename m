@@ -1,145 +1,100 @@
-Return-Path: <clopez@igalia.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F9B4C3DA7F
-	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 01:15:34 +0000 (UTC)
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [178.60.130.6])
- by mx.groups.io with SMTP id smtpd.web11.33083.1722388529749353836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D6DC3DA49
+	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 01:34:04 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.33049.1722389641257829527
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jul 2024 18:15:30 -0700
+ Tue, 30 Jul 2024 18:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@igalia.com header.s=20170329 header.b=Wygbh1y3;
- spf=pass (domain: igalia.com, ip: 178.60.130.6, mailfrom: clopez@igalia.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=vjCj7uVTL5iZ0O8CYNXpDrVPOp8N26QmazTiBYgyvwE=; b=Wygbh1y3/HM1zkJjuPD056cntY
-	VuiKaQLTPzY1VRpZc4eZJt1Z4xWYAtYDZkQBFXy3gPCTyRN5D+VLRGn4W58KEuXnrJE5oDX5HWJBM
-	e9nkdkuC8ANhLocU+yhAX/jJ2wOswJVlqP5os9TdzAah67lyDXXjQOnYWXcHD2O32Ca8cV5maqZpM
-	Z+igs1aJTKQUjZpsZ802F3NiRn/ij16WUPRwTDWyU5vmRYtDW1p5ZCLM6CDaJDW14zoIQMhBr4UrQ
-	eqg6V8CULs/Je/z9mli0JhRsIvETKIXCKb3vuEwzz4UrP2h5ME2GiRTyw79L7i+fDjWtgq+fJl3W7
-	oSR4Lq0g==;
-Received: from 141.90.219.87.dynamic.jazztel.es ([87.219.90.141] helo=trinity.bot.igalia.com)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1sYxw5-005oKy-TX
-	for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 03:15:25 +0200
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] icu: Backport patch to fix build issues with long paths (>512 chars)
-Date: Wed, 31 Jul 2024 03:15:25 +0200
-Message-Id: <20240731011525.1214519-1-clopez@igalia.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KkPnvTRc;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LqpQ3f0+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010191066c34e2-24cec5ca-60b4-44e7-9e60-62bc71322e5b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1722389640; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=RSTZxLRLBw8alCrHOkkqtdhVkIJRDEuCjA6B47+RhLY=;
+	b=KkPnvTRcIB1647caS/Z40Q5r4RvTx4JyItNlg3nG7SOa24zHpsnhX+y0JwD3iuH5
+	5OXgxm8m3pwApR/TnwEZgsRcDKalFaG0IkHWXwDzErOU05emX9LTjQlT1v3vpQE+m1Q
+	MhrT6rQSjeZ9d939lHS3KFRtb+j3ti/LUCV2MMNQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722389640;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=RSTZxLRLBw8alCrHOkkqtdhVkIJRDEuCjA6B47+RhLY=;
+	b=LqpQ3f0+OnYRV5sAzXRtj2sNlbaZ1K6Qt/lTxRp6dTDWrvmpsiUfzElxCaBdaXcz
+	A0i/mZthAbI7S/IbUZB6k0MWJiJBZvNSCFBWck6HaivbKrkjxrjKG4UGxV0nOhy5PFJ
+	0J0nqkjvt7n+t5mYPNgpW4XngF9i3I+3i7DkHNlY=
+From: patchtest@automation.yoctoproject.org
+To: Carlos Alberto Lopez Perez <clopez@igalia.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] icu: Backport patch to fix build issues with long paths
+ (>512 chars)
+In-Reply-To: <20240731011525.1214519-1-clopez@igalia.com>
+References: <20240731011525.1214519-1-clopez@igalia.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010191066c34e2-24cec5ca-60b4-44e7-9e60-62bc71322e5b-000000@us-west-2.amazonses.com>
+Date: Wed, 31 Jul 2024 01:34:00 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.07.31-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 01:15:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202686
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 01:34:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202687
 
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...813_rise_buffer_sizes_pkgdata_PR3058.patch | 72 +++++++++++++++++++
- meta/recipes-support/icu/icu_75-1.bb          |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_pkgdata_PR3058.patch
+Testing patch /home/patchtest/share/mboxes/v2-icu-Backport-patch-to-fix-build-issues-with-long-paths-512-chars.patch
 
-diff --git a/meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_pkgdata_PR3058.patch b/meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_pkgdata_PR3058.patch
-new file mode 100644
-index 0000000000..5b97350e6f
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_pkgdata_PR3058.patch
-@@ -0,0 +1,72 @@
-+From db70adaddcfa8050db6a69cdfef080a7f1423ad7 Mon Sep 17 00:00:00 2001
-+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-+Date: Mon, 1 Jul 2024 22:15:18 +0100
-+Subject: [PATCH] ICU-22813 Rise the size of the buffers used for the command
-+ strings at pkgdata
-+
-+The tool pkgdata uses snprintf() to build the strings of the commands that
-+will execute later during the install process. But the maximum size of this
-+buffers is not enough when there is a long path.
-+
-+This has caused issues on some CI systems that use very long paths, causing
-+the install process to produce a wrong result.
-+
-+The maximum path on Linux is 4096 (defined as PATH_MAX at <linux/limits.h>)
-+So the size of SMALL_BUFFER_MAX_SIZE should be 4096 to avoid errors related
-+to truncated paths.
-+
-+Upstream-Status: Backport [https://github.com/unicode-org/icu/pull/3058]
-+
-+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
-+---
-+ tools/pkgdata/pkgdata.cpp | 6 +++---
-+ tools/toolutil/pkg_genc.h | 5 ++---
-+ 2 files changed, 5 insertions(+), 6 deletions(-)
-+
-+diff --git a/tools/pkgdata/pkgdata.cpp b/tools/pkgdata/pkgdata.cpp
-+index c2ac112..8d08c85 100644
-+--- a/tools/pkgdata/pkgdata.cpp
-++++ b/tools/pkgdata/pkgdata.cpp
-+@@ -1134,7 +1134,7 @@ static int32_t pkg_createSymLinks(const char *targetDir, UBool specialHandling)
-+ 
-+ static int32_t pkg_installLibrary(const char *installDir, const char *targetDir, UBool noVersion) {
-+     int32_t result = 0;
-+-    char cmd[SMALL_BUFFER_MAX_SIZE];
-++    char cmd[LARGE_BUFFER_MAX_SIZE];
-+ 
-+     auto ret = snprintf(cmd,
-+             sizeof(cmd),
-+@@ -1205,7 +1205,7 @@ static int32_t pkg_installLibrary(const char *installDir, const char *targetDir,
-+ 
-+ static int32_t pkg_installCommonMode(const char *installDir, const char *fileName) {
-+     int32_t result = 0;
-+-    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
-++    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
-+ 
-+     if (!T_FileStream_file_exists(installDir)) {
-+         UErrorCode status = U_ZERO_ERROR;
-+@@ -1237,7 +1237,7 @@ static int32_t pkg_installCommonMode(const char *installDir, const char *fileNam
-+ #endif
-+ static int32_t pkg_installFileMode(const char *installDir, const char *srcDir, const char *fileListName) {
-+     int32_t result = 0;
-+-    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
-++    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
-+ 
-+     if (!T_FileStream_file_exists(installDir)) {
-+         UErrorCode status = U_ZERO_ERROR;
-+diff --git a/tools/toolutil/pkg_genc.h b/tools/toolutil/pkg_genc.h
-+index 2dd1b45..f811fe5 100644
-+--- a/tools/toolutil/pkg_genc.h
-++++ b/tools/toolutil/pkg_genc.h
-+@@ -59,9 +59,8 @@
-+ #define PKGDATA_FILE_SEP_STRING U_FILE_SEP_STRING
-+ #endif
-+ 
-+-#define LARGE_BUFFER_MAX_SIZE 2048
-+-#define SMALL_BUFFER_MAX_SIZE 512
-+-#define SMALL_BUFFER_FLAG_NAMES 32
-++#define LARGE_BUFFER_MAX_SIZE 16384
-++#define SMALL_BUFFER_MAX_SIZE 4096
-+ #define BUFFER_PADDING_SIZE 20
-+ 
-+ /** End platform defines **/
-diff --git a/meta/recipes-support/icu/icu_75-1.bb b/meta/recipes-support/icu/icu_75-1.bb
-index 88103e4eca..8f7f5e6cc7 100644
---- a/meta/recipes-support/icu/icu_75-1.bb
-+++ b/meta/recipes-support/icu/icu_75-1.bb
-@@ -120,6 +120,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
-            file://filter.json \
-            file://fix-install-manx.patch \
-            file://0001-icu-Added-armeb-support.patch \
-+           file://ICU-22813_rise_buffer_sizes_pkgdata_PR3058.patch \
-            "
- 
- SRC_URI:append:class-target = "\
--- 
-2.39.2
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
