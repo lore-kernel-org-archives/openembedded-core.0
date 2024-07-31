@@ -1,98 +1,100 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39209C3DA64
-	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 12:02:28 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.41070.1722427338570013952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CACFDC3DA7F
+	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 13:16:28 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.42501.1722431782515846557
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Jul 2024 05:02:18 -0700
+ Wed, 31 Jul 2024 06:16:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aFFueCBF;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1fd66cddd07so39814695ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 05:02:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=icFcP6yW;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1fdd6d81812so46849525ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 06:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722427338; x=1723032138; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2EBt4YytGAz51W/PSo+eDIJkl9S6pEC76+M7l1jyK48=;
-        b=aFFueCBFby/FIP1PKz2po3sMF9TK9cmRiwDDeyXc/+pgXfUYFQfyno4RqA5vGAM+f0
-         HFd2lWiJ2vurORAydmOwIhXFZMd02/tByXmYSNSa5giM1d18eMw2tCO/5ynSIk6/6bpX
-         u/peqf/Ewt9BRZGbOUlWjZI5wPvSs+GMRl9H4kkZ8g2auzo/2eGwYT1b5hV+ihgRNk2u
-         /u3DJvjrwc7lMCRZuPOE1wZIDB/dCkMSDjDnTEPDlJ+53+mxATeL8PHLTza1XqURIU50
-         EZDVX5sJdud2uMw24jL4+5wLHTE5RQSZ2wpJwJ2SE3SAejWT6Co/rTA1TeTzrjl+SdKw
-         fJfw==
+        d=gmail.com; s=20230601; t=1722431782; x=1723036582; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=M8imnAhDgyye0HsDmUFCHY4EBHr9smEojQalLCBGB04=;
+        b=icFcP6yWBKTVdEWh3OYdjGtwLrYsKWEEGODT53vRoP5v0POwSdDyY4lXFwOTHuz9QS
+         p+jy0NaGjfq+t+AyrB8NhbLSq2TjKzohB+TcZHkObn6tjzKbahsmI3r6vk76bQUHTniW
+         1RjJi0joCaVEc3AX+CEBFwxY6y0CEYJjZoHnOBTUryHZ5vz/I7r7QOt/TMpvD9zzlmLf
+         i45od4wHuvsih6thiaJTS2UYayaWaxck5Bh9/w3VfUcFw8qQIizQwM2e2uGOBReV2PzR
+         wIAJ6KY/ingjZYtWz7ti3NV9+qew0bqwfm/Iga423hS5+g8WP2CVVCxc4JtI2yenfcYI
+         AnXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722427338; x=1723032138;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2EBt4YytGAz51W/PSo+eDIJkl9S6pEC76+M7l1jyK48=;
-        b=voGsCojn3BW1MR94m+bBuJSXD3wVRtVyCsnFCTG4BlxSskZeNwq7EEhN5FTrrjvlkL
-         8O8+TkfLO74Z4Tzkl14Ctjx5b3lcxUKVqpIGDtb3iGgHNaimOCB4vzKu7Q9qh+KxwGG1
-         Z0bb2V7GABGMLQEvRuL3vbzYb2W6svEcQW7MGDTIroXLBOM8rxB2qR2wGNmx7yjgi75W
-         vXFrYtcHzeUIwtlC9Gnlv3DSasUhcySx8pttXS2pvqDUaeU7/EvIIdgr0bXEJ7p8bokv
-         AxwCkG4qowLVommJ2kroQZD/7d0IWuAPOjOait8T7DTPfS3m7oBEPEkN1BVNSBd/U1dr
-         Tw6g==
-X-Gm-Message-State: AOJu0YwIcbIdZxo+4+ybWeicTnAGL6Gci4rOtNLAkpeJIGmnlUTme7U7
-	Y4gXY7b3P0oJ+rZZFBjlSdUmFKF2b3L6fqfp+PFz/GobkTNFMiWvu0kgJaftZwkxr0wvbC7akEW
-	sOeA=
-X-Google-Smtp-Source: AGHT+IFxb5MoNRZE8p+vcBJcw+mYbM7TWvCVJPFekMokQ+bgFgVSTU8RSDvrbqt+7XRx1CA7/16Fkw==
-X-Received: by 2002:a17:902:e552:b0:1fd:93d2:fb9b with SMTP id d9443c01a7336-1ff0493165cmr152499935ad.58.1722427337740;
-        Wed, 31 Jul 2024 05:02:17 -0700 (PDT)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7d4129asm119048315ad.118.2024.07.31.05.02.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 05:02:17 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/5] wireless-regdb: upgrade 2024.01.23 -> 2024.05.08
-Date: Wed, 31 Jul 2024 05:02:04 -0700
-Message-Id: <0f9dae1adabb4fc22e8c4849eb2d52aecf21c19f.1722427225.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1722427225.git.steve@sakoman.com>
-References: <cover.1722427225.git.steve@sakoman.com>
+        d=1e100.net; s=20230601; t=1722431782; x=1723036582;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M8imnAhDgyye0HsDmUFCHY4EBHr9smEojQalLCBGB04=;
+        b=oWwmZoC5M1SsPkDdX8gDTgKOHVONjtcCb6ifM0KAB4V4V7ByJJ4zJQ9JFlD20P+9nJ
+         Hksk4r8ViRoTaXRb/V4/o4E2rDP2hWrpKUi1jZ+1iiUaSqU4Co/6HcNBNlNKG8z/5tv8
+         buIJ4k3830qJARlk2w+bFrgAxym7xeMLyVxms1V9DwLkWaVFLOdyda3R/QjUzvkj5Q7w
+         0WUT8Neyn90st2GlpFGPb9w+VIvuyIW8ybXYVc6qUwCvITK+kMbZsJapFuZ6RgYtd9Jl
+         Phdi5g39GsSPCD55VNBSnbcpc7kI2DPuCwgAah1taY4SX1djVR2dsZ4/G1QuSh/l0Egd
+         7Eag==
+X-Forwarded-Encrypted: i=1; AJvYcCXL2eH47d8zy2G0EH1d3Dwlrzy1Ww1FZYZ4yXZNB3H8f5Cv5xqhihQGlh31/4FlUBBxumVGueJYYIeUubSB6H+eyn0VKMZMYai1tSGdukoUtxaiuOjLSZJ9
+X-Gm-Message-State: AOJu0YxQoBycXaHBiv7bEi8hNlAyVCpZGt8kXiUU68hAqoBc4AP6PSp6
+	bncz45DJms/OWvaWu2SQDjWn2a42Qwn7bmN119KYvTEUwGkA+sowhtr75HoYqJPhyw+MZZ9ASFd
+	3GDHbGEsS6lTd0vCw5ryT88gjvH8=
+X-Google-Smtp-Source: AGHT+IGOvyFe7WvHAFxSWhMHMDasmsZMgRZUa9N4RWpAiLe/Bf3mYW5CNRlLqCugwxDdjoUrmFYEeptyBkXiUPoZMa8=
+X-Received: by 2002:a17:902:f988:b0:1fd:6d4c:24e9 with SMTP id
+ d9443c01a7336-1ff047fe776mr135793065ad.10.1722431781748; Wed, 31 Jul 2024
+ 06:16:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 31 Jul 2024 15:16:10 +0200
+Message-ID: <CAApg2=TO9RPyaxnZ_5sqhTwjyWik1LgJiVucnqvDJ_PL54Ftgw@mail.gmail.com>
+Subject: OE CVE improvement work status (July 31st, 2024)
+To: yocto-security@lists.yoctoproject.org, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="0000000000008046fa061e8ae6c0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 12:02:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202707
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 13:16:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202709
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+--0000000000008046fa061e8ae6c0
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0823e8ea83ac907b37bc9eb0ec7dc32862997eff)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...ireless-regdb_2024.01.23.bb => wireless-regdb_2024.05.08.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2024.01.23.bb => wireless-regdb_2024.05.08.bb} (94%)
+Hello,
+An update of the CVE check improvement work:
+- the OE patchset: a v3 of the OE patchset has been submitted last week
+- there are CVE database corruptions in the autobuilder, but I wasn't able
+to reproduce it for now (not necessarily related)
+- the tool: ADP (extension) support has been merged today, we've got some
+bugfixes pending too (also expected today). The results improve with ADP,
+but we have also found a first bug in the ADP data :)  For the code go to
+https://gitlab.com/syslinbit/public/yocto-vex-check branch "main"
+- the data conversion to ADP is in progress
+- tomorrow will send results of the night's run (locally I can see that the
+CVE update has captured fresh BIND cves et al)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.01.23.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.01.23.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb
-index 8fde236ab4..95e33d9fb1 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.01.23.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.05.08.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
- 
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "c8a61c9acf76fa7eb4239e89f640dee3e87098d9f69b4d3518c9c60fc6d20c55"
-+SRC_URI[sha256sum] = "9aee1d86ebebb363b714bec941b2820f31e3b7f1a485ddc9fcbd9985c7d3e7c4"
- 
- inherit bin_package allarch
- 
--- 
-2.34.1
+Kind regards,
+Marta
 
+--0000000000008046fa061e8ae6c0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,</div><div>An update of the CVE check improveme=
+nt work:</div><div>- the OE patchset: a v3 of the OE patchset has been subm=
+itted last week</div><div>- there are CVE database corruptions in the autob=
+uilder, but I wasn&#39;t able to reproduce it for now (not necessarily rela=
+ted)</div><div>- the tool: ADP (extension) support has been merged today, w=
+e&#39;ve got some bugfixes pending too (also expected today). The results i=
+mprove with ADP, but we have also found a first bug in the ADP data :)=C2=
+=A0 For the code go to <a href=3D"https://gitlab.com/syslinbit/public/yocto=
+-vex-check">https://gitlab.com/syslinbit/public/yocto-vex-check</a> branch =
+&quot;main&quot;<br></div><div>- the data conversion to ADP is in progress<=
+/div><div>- tomorrow will send results of the night&#39;s run (locally I ca=
+n see that the CVE update has captured fresh BIND cves et al)</div><div><br=
+></div><div>Kind regards,</div><div>Marta<br></div></div>
+
+--0000000000008046fa061e8ae6c0--
 
