@@ -1,80 +1,136 @@
-Return-Path: <maxin.john@gehealthcare.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E3A5C52D71
-	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 09:53:27 +0000 (UTC)
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com [67.231.149.52])
- by mx.groups.io with SMTP id smtpd.web11.39370.1722419601974583455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F833C49EA1
+	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 12:02:18 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.41068.1722427335113634600
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Jul 2024 02:53:21 -0700
+ Wed, 31 Jul 2024 05:02:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gehealthcare.com header.s=outbound header.b=BhFOUBqX;
- spf=pass (domain: gehealthcare.com, ip: 67.231.149.52, mailfrom: maxin.john@gehealthcare.com)
-Received: from pps.filterd (m0048274.ppops.net [127.0.0.1])
-	by m0048274.ppops.net-00176a03. (8.18.1.2/8.18.1.2) with ESMTP id 46V9N8ZT023385
-	for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 05:53:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	gehealthcare.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	outbound; bh=oWztl8nNfVBgocyNwSogs5ecH++fsCRQGevVhDByNeo=; b=BhF
-	OUBqXEzDjaLglF+C9wOpdyRIbYUmadFULxcAJpDYFwBWK6FCtvI5M1oq3/BSvOLb
-	rbupCfXZgUzvwGxPloUMEWqWI/Osc6XmBLnx7RJEjkaYIsAifoxQGNK9MwRzTWC0
-	xI3aYwY2SYGaMOksNBGH8uFPGCqqZybJ2jsxswcpSEjpAHLVRW+9t7fyZ6oaTG3W
-	9sQOg7xUE0skbf3W5qBe2BgaMoyvExsyoDNXqwAJ07SPajPbdgOvwzXZS9hOutsu
-	Xt6jj0/fWOmUZTSWPbcuLACufPBGEP12juLvy4sBNAGL8K1WbeA9krRhkfIJdOct
-	G3EygFcsGaQu1iSvkcg==
-From: Maxin John <maxin.john@gehealthcare.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KUtok+va;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fc60c3ead4so39003365ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 05:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722427334; x=1723032134; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u8ljnfNmnNsTIjhFiO9ymirbCU7aBE+9zj4lUiocmhc=;
+        b=KUtok+vajatzOrkf7bhSXF72mRJXR8lblUxJqy85ueX0xm4Y8LGm2PRmGLUeNs3mjm
+         FgtYnSBEYE/q5o1DLVE4qTT1Hb8W2H0xHxQVJsFNrC7sNHfzhsK0R2QHaM9/rEcau7J+
+         In0PLaLdeQmtVqcwZDA8ELM4M9Kph3t7DzBW8jbtBuNXMp+1vLpjufscSjTNR96AUflw
+         +32i/91rLUo1EGd3nQClZy61+9NO70yOONdo19rL6erTISgjhYF6ai5zyXNYtNp1Jrxr
+         8iQe/2kpSCLWuaGHg0j16KMeMAHIh/7/GG93jjB92JeQplrbIoBLmOpv3FcEgev2Op3g
+         EpRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722427334; x=1723032134;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u8ljnfNmnNsTIjhFiO9ymirbCU7aBE+9zj4lUiocmhc=;
+        b=t2QLX9Zh4ZmUuGn824SsCiMu9nl9br/ESdih3qNn+n140ZCVfpNRn88NmMQtRkxOzi
+         U/xCwP8wW+ElaeOSbXzsIwcZM9r9ANfKPqglSBJ6g8f5DvIA8wqgl4aY3/70BaE7uNav
+         u5282+swYUNKHzbjEVGijT14wduqo/AJdhVpfgks/Lg3cKU7KuAfQ9tCWkMwWkmA3v24
+         2r03sODPLkUZO11SUu5jDCHsnhsR4lvAb9k8Ex+U/KazeCY5zIQp52TsF/v2VCugwvwT
+         MTvNQ8AkWeZWpHly+l+XsUyQQTaRMbsForTI//5Pbns0WfAnUEpfVHJOF+byLKApSFYP
+         4vIw==
+X-Gm-Message-State: AOJu0YwuQ5D9eb9uLmy+1gqyyldi3EbPAJcE0ss2BmLU9Lg6ne1aPSda
+	IEA3Qrd3YwjFZfk0WCGWm9hYtSpmg6vBGblfdQv+ItMahLe6J7mao+wJt/YjbegD9IB8xbNBHPG
+	Dty0=
+X-Google-Smtp-Source: AGHT+IHm35t+j6rdaEN+CAkKZQ0cpoAaMNT8a6luMd2ni8TXhrg3rbLVFK3tduVneEGYsivS1ChS7w==
+X-Received: by 2002:a17:903:1111:b0:1fd:6529:744c with SMTP id d9443c01a7336-1ff048075b5mr126705075ad.1.1722427334235;
+        Wed, 31 Jul 2024 05:02:14 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7d4129asm119048315ad.118.2024.07.31.05.02.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 05:02:13 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Intaek Hwang <intaek.hwang@gehealthcare.com>
-Subject: [PATCH 3/7] libatomic-ops: set CVE_PRODUCT
-Date: Wed, 31 Jul 2024 12:53:05 +0300
-Message-Id: <20240731095309.95-4-maxin.john@gehealthcare.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240731095309.95-1-maxin.john@gehealthcare.com>
-References: <20240731095309.95-1-maxin.john@gehealthcare.com>
+Subject: [OE-core][kirkstone 2/5] llvm: Fix CVE-2023-46049
+Date: Wed, 31 Jul 2024 05:02:02 -0700
+Message-Id: <9cc4518226488693942ad325d6264e52006bd061.1722427225.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1722427225.git.steve@sakoman.com>
+References: <cover.1722427225.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: XPORl_T74CBkGsVp-aockjrI1eZ2ixqH
-X-Proofpoint-ORIG-GUID: XPORl_T74CBkGsVp-aockjrI1eZ2ixqH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-31_07,2024-07-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=774
- spamscore=0 phishscore=0 malwarescore=0 suspectscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407310073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 09:53:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202696
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 12:02:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202705
 
-From: Intaek Hwang <intaek.hwang@gehealthcare.com>
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-Set CVE_PRODUCT of libatomic-ops to match NVD entries.
+[Bitcode] Add some missing GetTypeByID failure checks
 
-Signed-off-by: Intaek Hwang <intaek.hwang@gehealthcare.com>
-Signed-off-by: Maxin John <maxin.john@gehealthcare.com>
+Print an error instead of crashing.
+
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../llvm/llvm/CVE-2023-46049.patch            | 34 +++++++++++++++++++
+ meta/recipes-devtools/llvm/llvm_git.bb        |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/CVE-2023-46049.patch
 
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
-index 824400e743..39d761abdd 100644
---- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
-+++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
-@@ -13,6 +13,8 @@ GITHUB_BASE_URI = "https://github.com/ivmai/libatomic_ops/releases"
- 
- SRC_URI[sha256sum] = "d305207fe207f2b3fb5cb4c019da12b44ce3fcbc593dfd5080d867b1a2419b51"
- 
-+CVE_PRODUCT = "libatomic_ops"
+diff --git a/meta/recipes-devtools/llvm/llvm/CVE-2023-46049.patch b/meta/recipes-devtools/llvm/llvm/CVE-2023-46049.patch
+new file mode 100644
+index 0000000000..c34e9ae69c
+--- /dev/null
++++ b/meta/recipes-devtools/llvm/llvm/CVE-2023-46049.patch
+@@ -0,0 +1,34 @@
++commit c2515a8f2be5dd23354c9891f41ad104000f88c4
++Author: Nikita Popov <npopov@redhat.com>
++Date:   Tue Sep 26 16:51:40 2023 +0200
 +
- S = "${WORKDIR}/libatomic_ops-${PV}"
++    [Bitcode] Add some missing GetTypeByID failure checks
++
++    Print an error instead of crashing.
++
++    Fixes https://github.com/llvm/llvm-project/issues/67388.
++
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/c2515a8f2be5dd23354c9891f41ad104000f88c4]
++CVE: CVE-2023-46049
++Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
++
++--- a/llvm/lib/Bitcode/Reader/MetadataLoader.cpp	2022-01-20 13:31:59.000000000 -0800
+++++ b/llvm/lib/Bitcode/Reader/MetadataLoader.cpp	2024-07-28 21:35:31.062992219 -0700
++@@ -1235,7 +1235,7 @@
++     }
++ 
++     Type *Ty = getTypeByID(Record[0]);
++-    if (Ty->isMetadataTy() || Ty->isVoidTy()) {
+++    if (!Ty || Ty->isMetadataTy() || Ty->isVoidTy()) {
++       dropRecord();
++       break;
++     }
++@@ -1277,7 +1277,7 @@
++       return error("Invalid record");
++ 
++     Type *Ty = getTypeByID(Record[0]);
++-    if (Ty->isMetadataTy() || Ty->isVoidTy())
+++    if (!Ty || Ty->isMetadataTy() || Ty->isVoidTy())
++       return error("Invalid record");
++ 
++     MetadataList.assignValue(
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index cedbfb138e..dbf1ff45d4 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -33,6 +33,7 @@ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=http
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
+            file://0001-Support-Add-missing-cstdint-header-to-Signals.h.patch;striplevel=2 \
++           file://CVE-2023-46049.patch;striplevel=2 \
+            "
  
- ALLOW_EMPTY:${PN} = "1"
+ UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
 -- 
-2.39.2
+2.34.1
 
 
