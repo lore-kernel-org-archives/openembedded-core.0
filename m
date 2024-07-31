@@ -1,554 +1,231 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC078C3DA64
-	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 05:07:25 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.36151.1722402442538353792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AFD7C3DA64
+	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 06:33:46 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.81])
+ by mx.groups.io with SMTP id smtpd.web11.37301.1722407617714455889
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jul 2024 22:07:22 -0700
+ Tue, 30 Jul 2024 23:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8942b62a52=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46V4ESMc002990
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 22:07:22 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40n0dfudmu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Jul 2024 22:07:21 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 30 Jul 2024 22:07:19 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] qemu: upgrade 8.2.2 -> 8.2.3
-Date: Wed, 31 Jul 2024 05:07:00 +0000
-Message-ID: <20240731050700.1594038-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: Cb64Ft_R5ffAc-qoykyMTr0Iz6_t8w84
-X-Proofpoint-ORIG-GUID: Cb64Ft_R5ffAc-qoykyMTr0Iz6_t8w84
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-31_02,2024-07-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 mlxscore=0 malwarescore=0 bulkscore=0
- impostorscore=0 priorityscore=1501 suspectscore=0 adultscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2407310036
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=ZK76ySUe;
+ spf=pass (domain: siemens.com, ip: 40.107.20.81, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eQkekTOmBm72S3x2fikBegUobiY/vvx70VHNbclrOJJicgx0JbVAQOs/F/fEAX96hQdgsv0vRB9NOhSITjwpvSKD0VWNTfVpt/pfqZqAaRkAi5Q+cNLM9nXThmEAVLNRRM0cU9KRwKO1lQb1Zwa9HcUgHDZY49L2v8wg4K0TBLcwk+/IbO0+oGNQRtgw3TzBunxNnzMELRo17hA/tei6tgIQfCn7LhkZn2s1pc49K6tQSpKEJmhjIw+9d2UleHHvXoOVxI0wTJPHDWNcC2OR+Qy48e1jGyahd7hdUKs6ODADQHmPCF8IAYhzk8nK4zswkEYomo7KMdJG+vh1zTXivw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cphm7nt2IKutfTPUoWkMuAsN5TXoOBxukGqRFzOhbNw=;
+ b=ICM/6AJ/OUN6BnfJJDn95Ups28JCx8o9AbIrN221TCO7lml997I3NIUpY1efZzuVx2e46SVwOcGt4bO32TmSDwCUPvK4VyC8Bw779Bfg1bEHhrlJhNos6xq/mRyPsXcJzcCwa25zUAiSbCccVMEAQlwGZrT3d8qCOhX+P9LgpCaLnP0SbeFB0Vl2sYFEDvZni2XhnZbLYby14gAJJAKkZYzkpx9Tn6k+5Jbwx+9uSHq2/Rl0+MiS8SRCfTeSvosIf8KmVENdfMb15IwGGajwQoue2uOuDOVoStjeflavvXWx4NbxWHyMJtDbxVpOSkqmz4tkgKrS8P4Mx2hTz2zldQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cphm7nt2IKutfTPUoWkMuAsN5TXoOBxukGqRFzOhbNw=;
+ b=ZK76ySUejZ9h+Ph1nSMZFc9EPbUEz9BHxyanu2QFH875oDdXGPPE9uihIVJ5u/CuNP1lqJ0r6SUquN1GT0cA3KUf4rLGKkTtKibd6ne6FC0ctiNyY97mBOB7Q3ymzhlOJKceQZxpLI3QnoQldU11miq1J+LUrJRVVXRQHbBt8ArOtfcc0nVdwv5a4nBSRZvmAX2wyNM5QTTCgDWVbLexstTWLmoEvNZZ0cn04JHF+Uv0p9ZKBFBN61x+8Kzi37+MsT05g1h6l5wvAtGStqPAmj08pWfk7qxFLJ9GsvYWy4Q+BeEuuVhGNRAiKSnFfxVAL0Dqm0CFVYX0nE60uzc49Q==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by PRAPR10MB5225.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:29f::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Wed, 31 Jul
+ 2024 06:33:34 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7807.023; Wed, 31 Jul 2024
+ 06:33:34 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Steve Sakoman <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][master][scarthgap][PATCH]
+ libstd-rs,rust-cross-canadian: set CVE_PRODUCT to rust
+Thread-Topic: [OE-core][master][scarthgap][PATCH]
+ libstd-rs,rust-cross-canadian: set CVE_PRODUCT to rust
+Thread-Index: AQHa1dFzYso5SooLK0uDLIm0UjCTbrIQez0Q
+Date: Wed, 31 Jul 2024 06:33:34 +0000
+Message-ID: 
+ <AS1PR10MB56979365103EE4D9D7A1761AFDB12@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240714093628.10082-1-peter.marko@siemens.com>
+In-Reply-To: <20240714093628.10082-1-peter.marko@siemens.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=b911ca8a-a477-4d62-bae1-a21e27c6dc45;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-07-31T06:32:38Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PRAPR10MB5225:EE_
+x-ms-office365-filtering-correlation-id: 1b483c15-dec0-4329-b9be-08dcb12ab3fd
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?YIKRMIYFLul80dfntFw1DV6mqqBW2qP7ItrTLTQN9nWgMXhwfqjnFckUU7CB?=
+ =?us-ascii?Q?CmucjLvJKsBY7oTckx9CzhnUQB+0fdaSlj9cc4g28RmQiOhL7ghi15ORm4L2?=
+ =?us-ascii?Q?i+50Hx9v+HK0akxb+0f1tBC03fr9BSv9mb0T5qv0wvOgFWhZsALBH14a+f02?=
+ =?us-ascii?Q?kuQV+Twz2RBxLIgLrG80o1580AkkqUzwXvHZxZqGjZIR5CzS5aw/rFl3slK7?=
+ =?us-ascii?Q?TikA+bPEDIGpXTaAT18dSPUfeoC8DnkPz8XdM4j5ofWFaDY8xX3nowh/2CrA?=
+ =?us-ascii?Q?qpAyDWO3nJj22qh7KQKg9CqYPD5spnEwpPugy3mW+niUQHQwUmnXoyvQ4zSG?=
+ =?us-ascii?Q?Rk4GMq+BNCHnkX7/G+mdLaCPGVidFxrd1eIeHj1hVJyLyXYBamjYe2zKmVQc?=
+ =?us-ascii?Q?UQCifZzF9ZyEPFriYtHzYgenlkZWjE58gsBREhoA6v0NmfRbtZmZo7O3FEok?=
+ =?us-ascii?Q?jhyjez6F6q8++BOMfv1RtT/0NwGhgr56awY8M0H/QJCReQFBIt72jlosF2cD?=
+ =?us-ascii?Q?Z8STJh5h4QjgoFZskyp91XxifR05mg2jvMkMbw4nF/uf9eBtQV2RpLNPQz2L?=
+ =?us-ascii?Q?SjU/p2uLNhwQB1VxZB3h1rCcE78RBq7adgFGePxRtLbRiJRNlYd2u8CjiBR5?=
+ =?us-ascii?Q?s4k//WMbvQO+CSJHxFcLUSI55+KBrRmtUjQfClXQ9gRIDch9C4BDKhPnsmQR?=
+ =?us-ascii?Q?RKSy3NlGRPSOXgYgmTqodcTXe188c1AFrD5+yCxMFWiH4ijdk0xecY7elh5T?=
+ =?us-ascii?Q?K6hBkCszkqFb67ucKyrBBkfTET84ICzjCDDECBNioguPeSLwsB4sawLTL+nm?=
+ =?us-ascii?Q?S8q9pU2vr3pksTnqXB2mfy/KMVXa22Efi2SLq95x2neNM5z1RD/wEmqDH3xS?=
+ =?us-ascii?Q?7f1+TRQpqWehHATtxPRV/toCccuYQJNQACtuKnfOztxDOXetpFbVViudpqMz?=
+ =?us-ascii?Q?ZlrPe+5bgb39VsH77FJuQCqvsyHo9tULNZ0ikzuwfR0yuH+S4unCJ/TzacQl?=
+ =?us-ascii?Q?kPAGfHklQmKHnfbw3L0BDzEFUqqjVXUeXtNfWJKEmjLWgbHa/iG1BT832MBM?=
+ =?us-ascii?Q?fgCDpIgoRhtgjcdGjI9xUK/1YRJULogFqhaezHPX6enptIMzHvwnd7GkTJq2?=
+ =?us-ascii?Q?yyS0du2D4EcOtZRqn5p9oQQ/UzF3heb8+i+GWQ+NbBwfbKpTc6E2kpysfW8Z?=
+ =?us-ascii?Q?edu2lOnb4903a5B3b3OYVf6YjvHX3gME4eDx1njdBL8mfJUuHTesmDZGe/Ev?=
+ =?us-ascii?Q?yez7+wnsAxx9J5KSPNa7OhDlO0iIE1AqeBAo8OOOANzx9FbPpuhC5IGJ8ogq?=
+ =?us-ascii?Q?nMx+Z992QkL/D5YCKogZzkaQWtO1PpauNQufNM21pJtiaO0zNk1L781A6FUE?=
+ =?us-ascii?Q?3N1Z3Po1BrBQ/NrEny8V2L7uqnT3EtG5VGM8yia9mY7Hh+5dhA=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?epCskxqx84LIQy+ha1QNnlT/QA82+YxdTzfdgoGE5xzjlgW1EIG1M4dCK9VZ?=
+ =?us-ascii?Q?IRWYEtM56VTtfN59dP8bEYMyX6VZqyRJ47ZK6f8Odpal97Q6q6T0zkOPOB2c?=
+ =?us-ascii?Q?vwGPJHuBIsXxcrzh546poSlxADmejBC2LQOIKf/r/Xu13y44nwf6/FMi5B4d?=
+ =?us-ascii?Q?vYaLP9t2igGahSqwsVRlXhwv37XomsWxRxTejCD5IpChW0bI6YH2fRTA6l0T?=
+ =?us-ascii?Q?2RhLgVuoHLhv2OAEByjcTYvM+Mk1SJ9BlHEXpUe1QFjvGZOFriZ9HcoF+jgL?=
+ =?us-ascii?Q?S1SuuuvcMEq5IJFPMyi0OGnJDuxz3TzVr8czKDGc6qXUBnePLSy6PalL+aE/?=
+ =?us-ascii?Q?if23AFAJuju7RCF7Uvfvd5b2yvBNGK8lskfEv10DT5WljZBu4FsWt+GOCAqg?=
+ =?us-ascii?Q?JjgxMgDX8VGkJfEceQqywZ0S/mXCsI44ew9jKCVrUjojuDvuwe6BXTmY7yOM?=
+ =?us-ascii?Q?WA7ywW6TXwypkV4zK//DWdYCfEP3LWenVOe1Digcrlhyq126I6FQTGbwg/3B?=
+ =?us-ascii?Q?1PJ7XdYp467w6BTEdXC03TApBRDYuWyzAKV2JAffaL4IKTtJQ2ayb/EDCkvU?=
+ =?us-ascii?Q?qAgZfmq78cIVVGlgYbBgWikhF7o7kPZcMTC7sVDCjTRrvFJ/NT88MUcl3vN8?=
+ =?us-ascii?Q?3VErX4m24r6mn6coLJK2R0I3ScsUp4xBtkmWOOakthF6vIgYlWDYf2HTq7jp?=
+ =?us-ascii?Q?Dbm1MOAFNfugi29rXyJ/smgsJz9VId0aHVkna1DGptXWBv3VFS3bKPh6H635?=
+ =?us-ascii?Q?2jwSjc2/TtTJM8KO9U1IWVX4KymdcKivv3UQQycwN/mpAIb01D8Vy+OPFfMz?=
+ =?us-ascii?Q?LfAhrMHXlAi3FMDT4SoBU2fzhN/zM2zISGtPvEzezAwScBOfK02EOtftQNIo?=
+ =?us-ascii?Q?6cgF2urlex6mmzItjfkUFVd9LFQshGFAoA6dsXTCMk3q7me3PIGzndOVxacm?=
+ =?us-ascii?Q?f1/8L6CCKNWnLB2Z3AcCEX0QiGBOONYZMwIWdwEMT7QBWDLuTVUcy3VUwwcD?=
+ =?us-ascii?Q?3bPhGgmNMtX+dSJHaVwjinkTi1K4GZJw94Un9SBrXk5AxxXhBTT6RohhCBqM?=
+ =?us-ascii?Q?IAI8Ciy6hBPdKtl6hPM3Q7rRTdy4aOpo2xAcIj3w+7q1QiHu5XQSoPsWgMRn?=
+ =?us-ascii?Q?DNiGD6my2ZgTIAo6Vm3k5GGK9VODBRqBQg2K3NhFeEp+0ZIjbSLrI02KIwbj?=
+ =?us-ascii?Q?1IzoNy30GdigFJbeUXxAQVydHpYXOwMswGd3T58xzgcJ4ka3bisrTWwmkv9o?=
+ =?us-ascii?Q?EesezsrpLoFz9iVFrRXtguPkVc6pj7T6d5cc3IDT/nomQi/Zaa02bIRKaVdX?=
+ =?us-ascii?Q?8QZyohOTKETi5DgWeT3d16MhaQ0TljeTqiODBlabEJLLGL6LbJtGSFpx3s90?=
+ =?us-ascii?Q?uzPAhgMIlwjGZLtdrxCpyz9jEU0F0r01/CDQSaREnPsQaqh/KjgFa3xz1HiV?=
+ =?us-ascii?Q?AM1fuAaYzk5cTam/1ON8IxatUbuD5ERxgCGvpqkFKmEliaZc07gv2hkeQl/M?=
+ =?us-ascii?Q?uYrzNyZSWURNFHhLMLXKnAOOLbUidItntli124MFDueR2V1nyFvY8Up2Zf9K?=
+ =?us-ascii?Q?MSEz5fvyD9wI3v60oBBYyhQItw/WyLjWIZdD5ayZ?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 46V4ESMc002990
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b483c15-dec0-4329-b9be-08dcb12ab3fd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2024 06:33:34.6062
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DRAvhzgmXEmikvBROgnr2RTp6fKg1KN/w/Yn+vAnJhwr4IpbNE26ta1eGPsMj426w9We4OLE1x92t1nkAyQ0kA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5225
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 05:07:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202691
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 06:33:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202692
 
-From: Yogita Urade <yogita.urade@windriver.com>
+Gentle ping for scrathgap
 
-This includes fix for: CVE-2024-26327, CVE-2024-26328 and CVE-2024-3447
-
-General changelog for 8.2: https://wiki.qemu.org/ChangeLog/8.2
-
-Droped 0001-linux-user-x86_64-Handle-the-vsyscall-page-in-open_s.patch,
-CVE-2024-3446 and CVE-2024-3567 since already contained the fix.
-
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- ...u-native_8.2.2.bb =3D> qemu-native_8.2.3.bb} |  0
- ...e_8.2.2.bb =3D> qemu-system-native_8.2.3.bb} |  0
- meta/recipes-devtools/qemu/qemu.inc           |  8 +-
- ...4-Handle-the-vsyscall-page-in-open_s.patch | 56 --------------
- .../qemu/qemu/CVE-2024-3446-01.patch          | 73 -------------------
- .../qemu/qemu/CVE-2024-3446-02.patch          | 48 ------------
- .../qemu/qemu/CVE-2024-3446-03.patch          | 47 ------------
- .../qemu/qemu/CVE-2024-3446-04.patch          | 52 -------------
- .../qemu/qemu/CVE-2024-3567.patch             | 48 ------------
- .../qemu/{qemu_8.2.2.bb =3D> qemu_8.2.3.bb}     |  0
- 10 files changed, 1 insertion(+), 331 deletions(-)
- rename meta/recipes-devtools/qemu/{qemu-native_8.2.2.bb =3D> qemu-native=
-_8.2.3.bb} (100%)
- rename meta/recipes-devtools/qemu/{qemu-system-native_8.2.2.bb =3D> qemu=
--system-native_8.2.3.bb} (100%)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-x86_6=
-4-Handle-the-vsyscall-page-in-open_s.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patc=
-h
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patc=
-h
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patc=
-h
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patc=
-h
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
- rename meta/recipes-devtools/qemu/{qemu_8.2.2.bb =3D> qemu_8.2.3.bb} (10=
-0%)
-
-diff --git a/meta/recipes-devtools/qemu/qemu-native_8.2.2.bb b/meta/recip=
-es-devtools/qemu/qemu-native_8.2.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu-native_8.2.2.bb
-rename to meta/recipes-devtools/qemu/qemu-native_8.2.3.bb
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_8.2.2.bb b/met=
-a/recipes-devtools/qemu/qemu-system-native_8.2.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu-system-native_8.2.2.bb
-rename to meta/recipes-devtools/qemu/qemu-system-native_8.2.3.bb
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-index e121ae70cc..41af9ca045 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -34,18 +34,12 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.t=
-ar.xz \
-            file://fixedmeson.patch \
-            file://no-pip.patch \
-            file://4a8579ad8629b57a43daa62e46cc7af6e1078116.patch \
--           file://0001-linux-user-x86_64-Handle-the-vsyscall-page-in-ope=
-n_s.patch \
-            file://0002-linux-user-loongarch64-Remove-TARGET_FORCE_SHMLBA=
-.patch \
-            file://0003-linux-user-Add-strace-for-shmat.patch \
-            file://0004-linux-user-Rewrite-target_shmat.patch \
-            file://0005-tests-tcg-Check-that-shmat-does-not-break-proc-se=
-lf-.patch \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
--           file://CVE-2024-3446-01.patch \
--           file://CVE-2024-3446-02.patch \
--           file://CVE-2024-3446-03.patch \
--           file://CVE-2024-3446-04.patch \
--           file://CVE-2024-3567.patch \
-            "
- UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
-=20
-@@ -62,7 +56,7 @@ SRC_URI:append:class-native =3D " \
- 	file://0012-linux-user-workaround-for-missing-MAP_SHARED_VALIDAT.patch =
-\
-         "
-=20
--SRC_URI[sha256sum] =3D "847346c1b82c1a54b2c38f6edbd85549edeb17430b7d4d3d=
-a12620e2962bc4f3"
-+SRC_URI[sha256sum] =3D "dc747fb366809455317601c4876bd1f6829a32a23e83fb76=
-e45ab12c2a569964"
-=20
- CVE_STATUS[CVE-2007-0998] =3D "not-applicable-config: The VNC server can=
- expose host files uder some circumstances. We don't enable it by default=
-."
-=20
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-x86_64-Handl=
-e-the-vsyscall-page-in-open_s.patch b/meta/recipes-devtools/qemu/qemu/000=
-1-linux-user-x86_64-Handle-the-vsyscall-page-in-open_s.patch
-deleted file mode 100644
-index 2eaebe883c..0000000000
---- a/meta/recipes-devtools/qemu/qemu/0001-linux-user-x86_64-Handle-the-v=
-syscall-page-in-open_s.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From 4517e2046610722879761bcdb60edbb2b929c848 Mon Sep 17 00:00:00 2001
--From: Richard Henderson <richard.henderson@linaro.org>
--Date: Wed, 28 Feb 2024 10:25:14 -1000
--Subject: [PATCH 1/5] linux-user/x86_64: Handle the vsyscall page in
-- open_self_maps_{2,4}
--
--This is the only case in which we expect to have no host memory backing
--for a guest memory page, because in general linux user processes cannot
--map any pages in the top half of the 64-bit address space.
--
--Upstream-Status: Submitted [https://www.mail-archive.com/qemu-devel@nong=
-nu.org/msg1026793.html]
--
--Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2170
--Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-----
-- linux-user/syscall.c | 16 ++++++++++++++++
-- 1 file changed, 16 insertions(+)
--
--diff --git a/linux-user/syscall.c b/linux-user/syscall.c
--index a114f29a8..8307a8a61 100644
----- a/linux-user/syscall.c
--+++ b/linux-user/syscall.c
--@@ -7922,6 +7922,10 @@ static void open_self_maps_4(const struct open_se=
-lf_maps_data *d,
--         path =3D "[heap]";
--     } else if (start =3D=3D info->vdso) {
--         path =3D "[vdso]";
--+#ifdef TARGET_X86_64
--+    } else if (start =3D=3D TARGET_VSYSCALL_PAGE) {
--+        path =3D "[vsyscall]";
--+#endif
--     }
--=20
--     /* Except null device (MAP_ANON), adjust offset for this fragment. =
-*/
--@@ -8010,6 +8014,18 @@ static int open_self_maps_2(void *opaque, target_=
-ulong guest_start,
--     uintptr_t host_start =3D (uintptr_t)g2h_untagged(guest_start);
--     uintptr_t host_last =3D (uintptr_t)g2h_untagged(guest_end - 1);
--=20
--+#ifdef TARGET_X86_64
--+    /*
--+     * Because of the extremely high position of the page within the gu=
-est
--+     * virtual address space, this is not backed by host memory at all.
--+     * Therefore the loop below would fail.  This is the only instance
--+     * of not having host backing memory.
--+     */
--+    if (guest_start =3D=3D TARGET_VSYSCALL_PAGE) {
--+        return open_self_maps_3(opaque, guest_start, guest_end, flags);
--+    }
--+#endif
--+
--     while (1) {
--         IntervalTreeNode *n =3D
--             interval_tree_iter_first(d->host_maps, host_start, host_sta=
-rt);
----=20
--2.34.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch b/met=
-a/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
-deleted file mode 100644
-index 15dbca92cd..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-01.patch
-+++ /dev/null
-@@ -1,73 +0,0 @@
--rom eb546a3f49f45e6870ec91d792cd09f8a662c16e Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
--Date: Thu, 4 Apr 2024 20:56:11 +0200
--Subject: [PATCH] hw/virtio: Introduce virtio_bh_new_guarded() helper
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--Introduce virtio_bh_new_guarded(), similar to qemu_bh_new_guarded()
--but using the transport memory guard, instead of the device one
--(there can only be one virtio device per virtio bus).
--
--Inspired-by: Gerd Hoffmann <kraxel@redhat.com>
--Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
--Acked-by: Michael S. Tsirkin <mst@redhat.com>
--Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
--Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
--Message-Id: <20240409105537.18308-2-philmd@linaro.org>
--(cherry picked from commit ec0504b989ca61e03636384d3602b7bf07ffe4da)
--Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
--
--Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/eb546a3f49f45e6870ec91d792cd09f8a662c16e]
--CVE: CVE-2024-3446
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- hw/virtio/virtio.c         | 10 ++++++++++
-- include/hw/virtio/virtio.h |  7 +++++++
-- 2 files changed, 17 insertions(+)
--
--diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
--index 3a160f86e..8590b8971 100644
----- a/hw/virtio/virtio.c
--+++ b/hw/virtio/virtio.c
--@@ -4095,3 +4095,13 @@ static void virtio_register_types(void)
-- }
--=20
-- type_init(virtio_register_types)
--+
--+QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
--+                                   QEMUBHFunc *cb, void *opaque,
--+                                   const char *name)
--+{
--+    DeviceState *transport =3D qdev_get_parent_bus(dev)->parent;
--+
--+    return qemu_bh_new_full(cb, opaque, name,
--+                            &transport->mem_reentrancy_guard);
--+}
--diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
--index c8f72850b..7d5ffdc14 100644
----- a/include/hw/virtio/virtio.h
--+++ b/include/hw/virtio/virtio.h
--@@ -22,6 +22,7 @@
-- #include "standard-headers/linux/virtio_config.h"
-- #include "standard-headers/linux/virtio_ring.h"
-- #include "qom/object.h"
--+#include "block/aio.h"
--=20
-- /*
--  * A guest should never accept this. It implies negotiation is broken
--@@ -508,4 +509,10 @@ static inline bool virtio_device_disabled(VirtIODev=
-ice *vdev)
-- bool virtio_legacy_allowed(VirtIODevice *vdev);
-- bool virtio_legacy_check_disabled(VirtIODevice *vdev);
--=20
--+QEMUBH *virtio_bh_new_guarded_full(DeviceState *dev,
--+                                   QEMUBHFunc *cb, void *opaque,
--+                                   const char *name);
--+#define virtio_bh_new_guarded(dev, cb, opaque) \
--+    virtio_bh_new_guarded_full((dev), (cb), (opaque), (stringify(cb)))
--+
-- #endif
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch b/met=
-a/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
-deleted file mode 100644
-index 843ed43ba8..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-02.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 4f01537ced3e787bd985b8f8de5869b92657160a Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
--Date: Thu, 4 Apr 2024 20:56:41 +0200
--Subject: [PATCH] hw/virtio/virtio-crypto: Protect from DMA re-entrancy b=
-ugs
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
--so the bus and device use the same guard. Otherwise the
--DMA-reentrancy protection can be bypassed.
--
--Fixes: CVE-2024-3446
--Cc: qemu-stable@nongnu.org
--Suggested-by: Alexander Bulekov <alxndr@bu.edu>
--Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
--Acked-by: Michael S. Tsirkin <mst@redhat.com>
--Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
--Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
--Message-Id: <20240409105537.18308-5-philmd@linaro.org>
--(cherry picked from commit f4729ec39ad97a42ceaa7b5697f84f440ea6e5dc)
--Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
--
--Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/4f01537ced3e787bd985b8f8de5869b92657160a]
--CVE: CVE-2024-3446
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- hw/virtio/virtio-crypto.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
--index 0e2cc8d5a..4aaced74b 100644
----- a/hw/virtio/virtio-crypto.c
--+++ b/hw/virtio/virtio-crypto.c
--@@ -1080,8 +1080,8 @@ static void virtio_crypto_device_realize(DeviceSta=
-te *dev, Error **errp)
--         vcrypto->vqs[i].dataq =3D
--                  virtio_add_queue(vdev, 1024, virtio_crypto_handle_data=
-q_bh);
--         vcrypto->vqs[i].dataq_bh =3D
---                 qemu_bh_new_guarded(virtio_crypto_dataq_bh, &vcrypto->=
-vqs[i],
---                                     &dev->mem_reentrancy_guard);
--+                 virtio_bh_new_guarded(dev, virtio_crypto_dataq_bh,
--+                                       &vcrypto->vqs[i]);
--         vcrypto->vqs[i].vcrypto =3D vcrypto;
--     }
--=20
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch b/met=
-a/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
-deleted file mode 100644
-index a24652dea3..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-03.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From fbeb0a160cbcc067c0e1f0d380cea4a31de213e3 Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
--Date: Thu, 4 Apr 2024 20:56:35 +0200
--Subject: [PATCH] hw/char/virtio-serial-bus: Protect from DMA re-entrancy=
- bugs
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--Replace qemu_bh_new_guarded() by virtio_bh_new_guarded()
--so the bus and device use the same guard. Otherwise the
--DMA-reentrancy protection can be bypassed.
--
--Fixes: CVE-2024-3446
--Cc: qemu-stable@nongnu.org
--Suggested-by: Alexander Bulekov <alxndr@bu.edu>
--Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
--Acked-by: Michael S. Tsirkin <mst@redhat.com>
--Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
--Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
--Message-Id: <20240409105537.18308-4-philmd@linaro.org>
--(cherry picked from commit b4295bff25f7b50de1d9cc94a9c6effd40056bca)
--Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
--
--Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/fbeb0a160cbcc067c0e1f0d380cea4a31de213e3]
--CVE: CVE-2024-3446
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- hw/char/virtio-serial-bus.c | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
--index dd619f073..1221fb7f1 100644
----- a/hw/char/virtio-serial-bus.c
--+++ b/hw/char/virtio-serial-bus.c
--@@ -985,8 +985,7 @@ static void virtser_port_device_realize(DeviceState =
-*dev, Error **errp)
--         return;
--     }
--=20
---    port->bh =3D qemu_bh_new_guarded(flush_queued_data_bh, port,
---                                   &dev->mem_reentrancy_guard);
--+    port->bh =3D virtio_bh_new_guarded(dev, flush_queued_data_bh, port)=
-;
--     port->elem =3D NULL;
-- }
--=20
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch b/met=
-a/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
-deleted file mode 100644
-index 7f0293242d..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2024-3446-04.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 1b2a52712b249e14d246cd9c7db126088e6e64db Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
--Date: Thu, 4 Apr 2024 20:56:27 +0200
--Subject: [PATCH] hw/display/virtio-gpu: Protect from DMA re-entrancy bug=
-s
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--qemu-system-i386: warning: Blocked re-entrant IO on MemoryRegion: virtio=
--pci-common-virtio-gpu at addr: 0x6
--
--Fixes: CVE-2024-3446
--Cc: qemu-stable@nongnu.org
--Reported-by: Alexander Bulekov <alxndr@bu.edu>
--Reported-by: Yongkang Jia <kangel@zju.edu.cn>
--Reported-by: Xiao Lei <nop.leixiao@gmail.com>
--Reported-by: Yiming Tao <taoym@zju.edu.cn>
--Buglink: https://bugs.launchpad.net/qemu/+bug/1888606
--Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
--Acked-by: Michael S. Tsirkin <mst@redhat.com>
--Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
--Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
--Message-Id: <20240409105537.18308-3-philmd@linaro.org>
--(cherry picked from commit ba28e0ff4d95b56dc334aac2730ab3651ffc3132)
--Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
--
--Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/1b2a52712b249e14d246cd9c7db126088e6e64db]
--CVE: CVE-2024-3446
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- hw/display/virtio-gpu.c | 6 ++----
-- 1 file changed, 2 insertions(+), 4 deletions(-)
--
--diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
--index b016d3bac..a7b16ba07 100644
----- a/hw/display/virtio-gpu.c
--+++ b/hw/display/virtio-gpu.c
--@@ -1463,10 +1463,8 @@ void virtio_gpu_device_realize(DeviceState *qdev,=
- Error **errp)
--=20
--     g->ctrl_vq =3D virtio_get_queue(vdev, 0);
--     g->cursor_vq =3D virtio_get_queue(vdev, 1);
---    g->ctrl_bh =3D qemu_bh_new_guarded(virtio_gpu_ctrl_bh, g,
---                                     &qdev->mem_reentrancy_guard);
---    g->cursor_bh =3D qemu_bh_new_guarded(virtio_gpu_cursor_bh, g,
---                                       &qdev->mem_reentrancy_guard);
--+    g->ctrl_bh =3D virtio_bh_new_guarded(qdev, virtio_gpu_ctrl_bh, g);
--+    g->cursor_bh =3D virtio_bh_new_guarded(qdev, virtio_gpu_cursor_bh, =
-g);
--     g->reset_bh =3D qemu_bh_new(virtio_gpu_reset_bh, g);
--     qemu_cond_init(&g->reset_cond);
--     QTAILQ_INIT(&g->reslist);
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch b/meta/r=
-ecipes-devtools/qemu/qemu/CVE-2024-3567.patch
-deleted file mode 100644
-index f14178f881..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2024-3567.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 1cfe45956e03070f894e91b304e233b4d5b99719 Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
--Date: Tue, 9 Apr 2024 19:54:05 +0200
--Subject: [PATCH] hw/net/net_tx_pkt: Fix overrun in update_sctp_checksum(=
-)
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--If a fragmented packet size is too short, do not try to
--calculate its checksum.
--
--Fixes: CVE-2024-3567
--Cc: qemu-stable@nongnu.org
--Reported-by: Zheyu Ma <zheyuma97@gmail.com>
--Fixes: f199b13bc1 ("igb: Implement Tx SCTP CSO")
--Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2273
--Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
--Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
--Acked-by: Jason Wang <jasowang@redhat.com>
--Message-Id: <20240410070459.49112-1-philmd@linaro.org>
--(cherry picked from commit 83ddb3dbba2ee0f1767442ae6ee665058aeb1093)
--Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
--
--Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/1cfe45956e03070f894e91b304e233b4d5b99719]
--CVE: CVE-2024-3567
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- hw/net/net_tx_pkt.c | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
--index 2e5f58b3c..d40d508a1 100644
----- a/hw/net/net_tx_pkt.c
--+++ b/hw/net/net_tx_pkt.c
--@@ -141,6 +141,10 @@ bool net_tx_pkt_update_sctp_checksum(struct NetTxPk=
-t *pkt)
--     uint32_t csum =3D 0;
--     struct iovec *pl_start_frag =3D pkt->vec + NET_TX_PKT_PL_START_FRAG=
-;
--=20
--+    if (iov_size(pl_start_frag, pkt->payload_frags) < 8 + sizeof(csum))=
- {
--+        return false;
--+    }
--+
--     if (iov_from_buf(pl_start_frag, pkt->payload_frags, 8, &csum, sizeo=
-f(csum)) < sizeof(csum)) {
--         return false;
--     }
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu_8.2.2.bb b/meta/recipes-devt=
-ools/qemu/qemu_8.2.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu_8.2.2.bb
-rename to meta/recipes-devtools/qemu/qemu_8.2.3.bb
---=20
-2.40.0
+> -----Original Message-----
+> From: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>
+> Sent: Sunday, July 14, 2024 11:36
+> To: openembedded-core@lists.openembedded.org
+> Cc: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>
+> Subject: [OE-core][master][scarthgap][PATCH] libstd-rs,rust-cross-canadia=
+n:
+> set CVE_PRODUCT to rust
+>=20
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> These recipes come from rust sources and CVEs are reported for them under
+> rust-lang:rust vendor:product touple.
+> Especially libstd-rs needs correct CVE_PRODUCT as is it installed on targ=
+et
+> devices (being statically linked to rust compiled binaries).
+>=20
+> before:
+> cargo: CVE_PRODUCT=3D"cargo"
+> cargo-c-native: CVE_PRODUCT=3D"cargo-c"
+> libstd-rs: CVE_PRODUCT=3D"libstd-rs"
+> rust: CVE_PRODUCT=3D"rust"
+> rust-cross-canadian: CVE_PRODUCT=3D"rust-cross-canadian-<arch>"
+> rust-llvm: CVE_PRODUCT=3D"rust-llvm"
+>=20
+> after:
+> cargo: CVE_PRODUCT=3D"cargo"
+> cargo-c-native: CVE_PRODUCT=3D"cargo-c"
+> libstd-rs: CVE_PRODUCT=3D"rust"
+> rust: CVE_PRODUCT=3D"rust"
+> rust-cross-canadian-x86-64: CVE_PRODUCT=3D"rust"
+> rust-llvm: CVE_PRODUCT=3D"rust-llvm"
+>=20
+> Product for rust-llvm is uncertain and, should be handled in another comm=
+it if
+> it is desired to align it, too.
+>=20
+> sqlite> select vendor, product, count(product) from products where
+> sqlite> vendor=3D"rust-lang" group by product;
+> rust-lang|async-h1|2
+> rust-lang|cargo|5
+> rust-lang|future-utils|2
+> rust-lang|futures-task|2
+> rust-lang|mdbook|1
+> rust-lang|regex|2
+> rust-lang|rsa|2
+> rust-lang|rust|45
+> rust-lang|socket2|1
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  meta/recipes-devtools/rust/libstd-rs_1.75.0.bb     | 2 ++
+>  meta/recipes-devtools/rust/rust-cross-canadian.inc | 1 +
+>  2 files changed, 3 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb b/meta/recipe=
+s-
+> devtools/rust/libstd-rs_1.75.0.bb
+> index 5fc6fb97bb..14161714f2 100644
+> --- a/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb
+> +++ b/meta/recipes-devtools/rust/libstd-rs_1.75.0.bb
+> @@ -15,6 +15,8 @@ S =3D "${RUSTSRC}/library/sysroot"
+>  RUSTLIB_DEP =3D ""
+>  inherit cargo
+>=20
+> +CVE_PRODUCT =3D "rust"
+> +
+>  DEPENDS:append:libc-musl =3D " libunwind"
+>  # rv32 does not have libunwind ported yet
+>  DEPENDS:remove:riscv32 =3D "libunwind"
+> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc
+> b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+> index f962437d6b..c34b839d15 100644
+> --- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
+> +++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+> @@ -1,5 +1,6 @@
+>  SUMMARY =3D "Rust compiler and runtime libaries (cross-canadian for
+> ${TARGET_ARCH} target)"
+>  PN =3D "rust-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+> +CVE_PRODUCT =3D "rust"
+>=20
+>  inherit rust-target-config
+>  inherit rust-common
+> --
+> 2.30.2
 
 
