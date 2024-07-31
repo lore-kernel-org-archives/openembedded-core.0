@@ -1,100 +1,336 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <li.wang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D6DC3DA49
-	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 01:34:04 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.33049.1722389641257829527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0284BC3DA49
+	for <webhook@archiver.kernel.org>; Wed, 31 Jul 2024 02:33:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.34288.1722393230319268428
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jul 2024 18:34:01 -0700
+ Tue, 30 Jul 2024 19:33:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KkPnvTRc;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=LqpQ3f0+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010191066c34e2-24cec5ca-60b4-44e7-9e60-62bc71322e5b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1722389640; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=RSTZxLRLBw8alCrHOkkqtdhVkIJRDEuCjA6B47+RhLY=;
-	b=KkPnvTRcIB1647caS/Z40Q5r4RvTx4JyItNlg3nG7SOa24zHpsnhX+y0JwD3iuH5
-	5OXgxm8m3pwApR/TnwEZgsRcDKalFaG0IkHWXwDzErOU05emX9LTjQlT1v3vpQE+m1Q
-	MhrT6rQSjeZ9d939lHS3KFRtb+j3ti/LUCV2MMNQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722389640;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=RSTZxLRLBw8alCrHOkkqtdhVkIJRDEuCjA6B47+RhLY=;
-	b=LqpQ3f0+OnYRV5sAzXRtj2sNlbaZ1K6Qt/lTxRp6dTDWrvmpsiUfzElxCaBdaXcz
-	A0i/mZthAbI7S/IbUZB6k0MWJiJBZvNSCFBWck6HaivbKrkjxrjKG4UGxV0nOhy5PFJ
-	0J0nqkjvt7n+t5mYPNgpW4XngF9i3I+3i7DkHNlY=
-From: patchtest@automation.yoctoproject.org
-To: Carlos Alberto Lopez Perez <clopez@igalia.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] icu: Backport patch to fix build issues with long paths
- (>512 chars)
-In-Reply-To: <20240731011525.1214519-1-clopez@igalia.com>
-References: <20240731011525.1214519-1-clopez@igalia.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010191066c34e2-24cec5ca-60b4-44e7-9e60-62bc71322e5b-000000@us-west-2.amazonses.com>
-Date: Wed, 31 Jul 2024 01:34:00 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.07.31-54.240.27.45
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=894255a681=li.wang@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46V2OKwr018890
+	for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 02:33:49 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40mp3xbnmu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 02:33:48 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 30 Jul 2024 19:33:47 -0700
+Received: from pek-lwang1-d1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Tue, 30 Jul 2024 19:33:46 -0700
+From: Li Wang <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <li.wang@windriver.com>
+Subject: [openembedded-core V3][master][PATCH]xinetd: use monotonic time
+Date: Wed, 31 Jul 2024 10:29:35 +0800
+Message-ID: <20240731022935.1745228-1-li.wang@windriver.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: j4EcH4hIqXz-yqCHNUSO7MUXQDLOpieo
+X-Proofpoint-ORIG-GUID: j4EcH4hIqXz-yqCHNUSO7MUXQDLOpieo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-30_21,2024-07-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=844
+ impostorscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
+ suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2407310017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 01:34:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202687
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jul 2024 02:33:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202688
 
---NextPart
-Content-Type: text/plain
+when using xinet.d to limit rsync connections and time is set back,
+the connection limit is reached very quickly and rsync gets deactivated,
+if time is changed again, rsync is never reactivated.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+date -s "xxx"
+xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
 
+the timer of xinet.d is based on time() function, and it is affected by system time.
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-icu-Backport-patch-to-fix-build-issues-with-long-paths-512-chars.patch
+ .../xinetd/xinetd/use-monotonic-time.patch    | 246 ++++++++++++++++++
+ .../xinetd/xinetd_2.3.15.4.bb                 |   1 +
+ 2 files changed, 247 insertions(+)
+ create mode 100644 meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
+new file mode 100644
+index 0000000000..2144c3cba2
+--- /dev/null
++++ b/meta/recipes-extended/xinetd/xinetd/use-monotonic-time.patch
+@@ -0,0 +1,246 @@
++use monotonic time
++
++when using xinet.d to limit rsync connections and time is set back,
++the connection limit is reached very quickly and rsync gets deactivated,
++if time is changed again, rsync is never reactivated.
++
++date -s "xxx"
++xinetd[xxx]: Deactivating service rsync due to excessive incoming connections. Restarting in 10 seconds.
++
++the timer of xinet.d is based on time() function, and it is affected by system time.
++
++Upstream-Status: Submitted [https://github.com/openSUSE/xinetd/pull/45]
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ src/access.c       |    6 +++---
++ src/builtins.c     |    4 ++--
++ src/internals.c    |    2 +-
++ src/log.c          |    2 +-
++ src/sensor.c       |    6 +++---
++ src/server.c       |    2 +-
++ src/service.c      |    4 ++--
++ src/signals.c      |    2 +-
++ src/time.c         |    2 +-
++ src/xlog/filelog.c |    2 +-
++ src/xtimer.c       |   15 ++++++++++++---
++ src/xtimer.h       |    1 +
++ 12 files changed, 29 insertions(+), 19 deletions(-)
++
++--- a/src/access.c
+++++ b/src/access.c
++@@ -70,7 +70,7 @@ static void cps_service_restart(void)
++    time_t nowtime;
++    const char *func = "cps_service_restart";
++ 
++-   nowtime = time(NULL);
+++   nowtime = _time(NULL);
++    for( i=0; i < pset_count( SERVICES(ps) ); i++ ) {
++       struct service *sp;
++       struct service_config *scp;
++@@ -104,7 +104,7 @@ void cps_service_stop(struct service *sp
++    msg(LOG_ERR, "service_stop", 
++ 	"Deactivating service %s due to %s.  Restarting in %d seconds.", 
++ 	SC_NAME(scp), reason, (int)SC_TIME_WAIT(scp));
++-   nowtime = time(NULL);
+++   nowtime = _time(NULL);
++    SC_TIME_REENABLE(scp) = nowtime + SC_TIME_WAIT(scp);
++    xtimer_add(cps_service_restart, SC_TIME_WAIT(scp));
++ }
++@@ -284,7 +284,7 @@ access_e parent_access_control( struct s
++    /* CPS handler */
++    if( SC_TIME_CONN_MAX(scp) != 0 ) {
++       int time_diff;
++-      nowtime = time(NULL);
+++      nowtime = _time(NULL);
++       time_diff = nowtime - SC_TIME_LIMIT(scp) ;
++ 
++       if( SC_TIME_CONN(scp) == 0 ) {
++--- a/src/builtins.c
+++++ b/src/builtins.c
++@@ -237,7 +237,7 @@ static void daytime_protocol( char *buf,
++    int         size = *buflen ;
++    int      cc ;
++ 
++-   (void) time( &now ) ;
+++   (void) _time( &now ) ;
++    tmp = localtime( &now ) ;
++    cc = strx_nprint( buf, size,
++       "%02d %s %d %02d:%02d:%02d",
++@@ -308,7 +308,7 @@ static void time_protocol( unsigned char
++    time_t now ;
++    unsigned long base1900;
++ 
++-   (void) time( &now ) ;
+++   (void) _time( &now ) ;
++    base1900 = (unsigned long)now + TIME_OFFSET ;
++    timep[0] = base1900 >> 24;
++    timep[1] = base1900 >> 16;
++--- a/src/internals.c
+++++ b/src/internals.c
++@@ -85,7 +85,7 @@ void dump_internal_state(void)
++     * Print the program name, version, and timestamp.
++     * Note that the program_version variable contains the program name.
++     */
++-   (void) time( &current_time ) ;
+++   (void) _time( &current_time ) ;
++    Sprint( dump_fd, "INTERNAL STATE DUMP: %s\n", program_version ) ;
++    Sprint( dump_fd, "Current time: %s\n", ctime( &current_time ) ) ;
++ 
++--- a/src/log.c
+++++ b/src/log.c
++@@ -202,7 +202,7 @@ void svc_log_exit( struct service *sp, c
++    {
++       time_t current_time ;
++ 
++-      (void) time( &current_time ) ;
+++      (void) _time( &current_time ) ;
++       cc = strx_nprint( &buf[ len ], bufsize, " duration=%ld(sec)",
++          (long)(current_time - SERVER_STARTTIME( serp )) ) ;
++       len += cc ;
++--- a/src/sensor.c
+++++ b/src/sensor.c
++@@ -68,7 +68,7 @@ void process_sensor( const struct servic
++                time_t nowtime;
++                char time_buf[40], *tmp;
++ 
++-	       nowtime = time(NULL);
+++	       nowtime = _time(NULL);
++ 	       msg(LOG_CRIT, func,
++ 	           "Adding %s to the global_no_access list for %d minutes",
++ 	            dup_addr, SC_DENY_TIME(SVC_CONF(sp)));
++@@ -113,7 +113,7 @@ void process_sensor( const struct servic
++                {
++                   time_t nowtime, new_time;
++ 
++-                  nowtime = time(NULL);
+++                  nowtime = _time(NULL);
++                   new_time = (time_t)nowtime+(60*SC_DENY_TIME(SVC_CONF(sp)));                     if (difftime(new_time, (time_t)stored_time) > 0.0)
++ 	          {   /* new_time is longer save it   */
++ 		     char time_buf[40], *new_exp_time;
++@@ -163,7 +163,7 @@ static void scrub_global_access_list( vo
++    {
++       int found_one = 0;
++       unsigned u;
++-      time_t nowtime = time(NULL);
+++      time_t nowtime = _time(NULL);
++ 
++       for (u=0; u < count; u++)
++       {
++--- a/src/server.c
+++++ b/src/server.c
++@@ -228,7 +228,7 @@ status_e server_start( struct server *se
++          return( FAILED ) ;
++ 
++       default:
++-         (void) time( &SERVER_STARTTIME(serp) ) ;
+++         (void) _time( &SERVER_STARTTIME(serp) ) ;
++          SVC_INC_RUNNING_SERVERS( sp ) ;
++ 
++          /*
++--- a/src/service.c
+++++ b/src/service.c
++@@ -840,7 +840,7 @@ static status_e failed_service(struct se
++ 	       SVC_LAST_DGRAM_ADDR(sp) = (union xsockaddr *)last;
++             }
++ 
++-            (void) time( &current_time ) ;
+++            (void) _time( &current_time ) ;
++             if ( sinp->sin_addr.s_addr == last->sin_addr.s_addr &&
++                                           sinp->sin_port == last->sin_port )
++             {
++@@ -867,7 +867,7 @@ static status_e failed_service(struct se
++ 	       SVC_LAST_DGRAM_ADDR( sp ) = (union xsockaddr *)last;
++             }
++ 
++-            (void) time( &current_time ) ;
+++            (void) _time( &current_time ) ;
++             if ( IN6_ARE_ADDR_EQUAL(&(sinp->sin6_addr), &(last->sin6_addr)) && 
++                  sinp->sin6_port == last->sin6_port )
++             {
++--- a/src/signals.c
+++++ b/src/signals.c
++@@ -301,7 +301,7 @@ static void bad_signal(void)
++    else if ( total_signal_count > MAX_SIGNAL_COUNT )
++       _exit( 1 ) ;      /* in case of a problem in exit(3) */
++    
++-   (void) time( &current_time ) ;
+++   (void) _time( &current_time ) ;
++ 
++    if ( interval_signal_count > 0 &&
++             current_time - interval_start <= SIGNAL_INTERVAL )
++--- a/src/time.c
+++++ b/src/time.c
++@@ -41,7 +41,7 @@ bool_int ti_current_time_check( const ps
++    int16_t     min_current ;
++    struct tm   *tmp ;
++ 
++-   (void) time( &current_time ) ;
+++   (void) _time( &current_time ) ;
++    tmp = localtime( &current_time ) ;
++    min_current = tmp->tm_hour * 60 + tmp->tm_min ;
++ 
++--- a/src/xlog/filelog.c
+++++ b/src/xlog/filelog.c
++@@ -190,7 +190,7 @@ static int filelog_write( xlog_s *xp, co
++ 	if ( flp->fl_state != FL_OPEN )
++ 		return( flp->fl_error ) ;
++ 
++-	(void) time( &current_time ) ;
+++	(void) _time( &current_time ) ;
++ 	tmp = localtime( &current_time ) ;
++ 	cc = Sprint( flp->fl_fd, "%02d/%d/%d@%02d:%02d:%02d",
++ 		tmp->tm_year%100, tmp->tm_mon+1, tmp->tm_mday,
++--- a/src/xtimer.c
+++++ b/src/xtimer.c
++@@ -11,6 +11,15 @@
++ #include "pset.h"
++ #include "msg.h"
++ 
+++time_t _time(time_t *t)
+++{
+++	struct timespec ts;
+++	clock_gettime(CLOCK_MONOTONIC, &ts);
+++	if(t)
+++		*t = ts.tv_sec;
+++	return ts.tv_sec;
+++}
+++
++ /* A note on the usage of timers in these functions:
++  * The timers are composed of 3 elements, a pointer to a callback function,
++  * the expire time of the timer, and a unique (pseudo-monotomically increasing)
++@@ -68,7 +77,7 @@ int xtimer_add( void (*func)(void), time
++ 		return -1;
++ 	}
++ 
++-	tmptime = time(NULL);
+++	tmptime = _time(NULL);
++ 	if( tmptime == -1 ) {
++ 		free( new_xtimer );
++ 		return -1;
++@@ -107,7 +116,7 @@ int xtimer_poll(void)
++ 
++ 	for( i = 0; i < pset_count( xtimer_list ); i++ ) {
++ 		xtime_h *cur_timer = pset_pointer( xtimer_list, i );
++-		time_t cur_time    = time(NULL);
+++		time_t cur_time    = _time(NULL);
++ 
++ 		/* The list is sorted, low to high.  If there's no
++ 		 * timers left, return.
++@@ -163,7 +172,7 @@ time_t xtimer_nexttime(void)
++ 	if( pset_count(xtimer_list) == 0 )
++ 		return -1;
++ 
++-	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - time(NULL) ;
+++	ret = ((xtime_h *)pset_pointer(xtimer_list, 0))->when - _time(NULL) ;
++ 	if( ret < 0 )
++ 		ret = 0;
++ 	return( ret );
++--- a/src/xtimer.h
+++++ b/src/xtimer.h
++@@ -22,4 +22,5 @@ int xtimer_poll(void);
++ int xtimer_remove(int);
++ time_t xtimer_nexttime(void);
++ 
+++time_t _time(time_t *t);
++ #endif /* _X_TIMER_H */
+diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
+index c6d356d227..94fc28ff6e 100644
+--- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
++++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
+@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/openSUSE/xinetd.git;protocol=https;branch=master \
+            file://xinetd.init \
+            file://xinetd.default \
+            file://xinetd.service \
++           file://use-monotonic-time.patch \
+            "
+ 
+ SRCREV = "6a4af7786630ce48747d9687e2f18f45ea6684c4"
+-- 
+2.25.1
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
