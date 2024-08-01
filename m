@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96EA1C5472E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C71B5C54735
 	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:11 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.75481.1722536822847967021
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.75486.1722536823636237147
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 11:27:03 -0700
+ Thu, 01 Aug 2024 11:27:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JgM8WiKC;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=c0ffO4GM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101910f320a37-526a3929-216e-4e13-ab83-9b91acfac55c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gjxZBNQj;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=qc0BR83B;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101910f321059-c89751a8-0270-40a3-8f49-83f0f937fe1c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1722536823;
+	t=1722536825;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qrnPbLEKeyZDmvb4oS/4U/Smicbl86E40DF+jl72hJs=;
-	b=JgM8WiKCUThRZ2HOryhWkYskL7NyyKa+ukQcqTxDQYCdm7OkrrZ6SXizTKeMId/R
-	5xg6xfa4YprGWX6d6tnJFU5ca6rZq73xIS9+JzDyLRL1MgoGT5oLqaAe9K7ZO92zrfb
-	MURNaeCRaWdoQQcqueBLZaMNfmo4S3oFsOY+NBi0=
+	bh=KYqn6d9dEW3LoZA5EOzezbnVAC5lpzYj8/htZyIkCXc=;
+	b=gjxZBNQj1v+Lm9NDJ+3Vn9OiaxnWcd224SUyhO/657XRvTLkqfw5pWYRGjoc1RWG
+	862PJl0ExdfVEQOaCVhcXCgJ2n3zh09C/sVOPKE/T89f+BchDyGosMbEhgoFtJpYHf8
+	IJytDxjjfwmV5oTPOcHgvL3hoya2J7P/GK/bkx5g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536823;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536825;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qrnPbLEKeyZDmvb4oS/4U/Smicbl86E40DF+jl72hJs=;
-	b=c0ffO4GMqZaPD3dSMBbPbgj1Z5W0uurCuhNDeDUEBdsUZCxDHCr+0Y2boKcZSAxA
-	q8nuDQpHnPylN+V2LAhGe/fgvKT6MPNevtiKP2LZrRbwPzARDvf2HnWTzuBH9LsSPNC
-	yjwk/Qm5MroaDnCdF11IcWh5rrBxGrw9JPLwnGvU=
-Content-Type: multipart/mixed; boundary="===============3970702145921545151=="
+	bh=KYqn6d9dEW3LoZA5EOzezbnVAC5lpzYj8/htZyIkCXc=;
+	b=qc0BR83B7ueP4DjJCg2DkjFoN/cBJla4dpa2i45qRy0fEJS7j4INCVIV5QWi8VqZ
+	iDWbceEEgkepSrD0AROqbmv+h3hZWNZAKCl+wDuuhz8kkGslMPtv/OQMu+N8bIevQB5
+	RLJ5n85sp+HK4iyg06gZ8yVciP6L4tkLpZYcOISI=
+Content-Type: multipart/mixed; boundary="===============0866726991373926477=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] btrfs-tools: upgrading to 6.10 SUCCEEDED
-Message-ID: <010101910f320a37-526a3929-216e-4e13-ab83-9b91acfac55c-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Aug 2024 18:27:03 +0000
+Subject: [AUH] mtools: upgrading to 4.0.44 SUCCEEDED
+Message-ID: <010101910f321059-c89751a8-0270-40a3-8f49-83f0f937fe1c-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Aug 2024 18:27:04 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.01-54.240.27.45
+X-SES-Outgoing: 2024.08.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202781
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202793
 
---===============3970702145921545151==
+--===============0866726991373926477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *6.10* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *mtools* to *4.0.44* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-btrfs-tools-upgrade-6.9.2-6.10.patch
+    - apply the patch: git am 0001-mtools-upgrade-4.0.43-4.0.44.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,182 +72,272 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7b80abce56e19c7c5eeff9a27d007c7e81c79ed8 Mon Sep 17 00:00:00 2001
+From 83e8014445c9677f6cfb7d56f291586fe4617f81 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Aug 2024 09:09:27 +0000
-Subject: [PATCH] btrfs-tools: upgrade 6.9.2 -> 6.10
+Date: Thu, 1 Aug 2024 10:10:04 +0000
+Subject: [PATCH] mtools: upgrade 4.0.43 -> 4.0.44
 
 ---
- ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
- .../{btrfs-tools_6.9.2.bb => btrfs-tools_6.10.bb}           | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.9.2.bb => btrfs-tools_6.10.bb} (98%)
+ .../mtools/mtools/clang_UNUSED.patch          | 19 +++++++++++++------
+ .../mtools/disable-hardcoded-configs.patch    |  7 +++----
+ .../mtools/mtools/mtools-makeinfo.patch       | 11 +++++------
+ .../{mtools_4.0.43.bb => mtools_4.0.44.bb}    |  2 +-
+ 4 files changed, 22 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.43.bb => mtools_4.0.44.bb} (93%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
-index ef431cd69a..d5d53fbb86 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+index 6bb9d6a3da..0322bed974 100644
+--- a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
++++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+@@ -1,12 +1,19 @@
+-Undefine UNUSED macros with clang
++From 191013a1463b841c801b25df27c5e60b7e9737fc Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 19 Sep 2018 11:55:41 -0700
++Subject: [PATCH] Undefine UNUSED macros with clang
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Index: mtools-4.0.18/sysincludes.h
+-===================================================================
+---- mtools-4.0.18.orig/sysincludes.h
+-+++ mtools-4.0.18/sysincludes.h
+-@@ -101,7 +101,7 @@ typedef void *caddr_t;
++---
++ sysincludes.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sysincludes.h b/sysincludes.h
++index e16ab45..8d285d4 100644
++--- a/sysincludes.h
+++++ b/sysincludes.h
++@@ -98,7 +98,7 @@ typedef void *caddr_t;
+  #if defined __GNUC__ && defined __STDC__
+  /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
+  # define PACKED __attribute__ ((packed))
+diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+index 57be935487..cf8454aad3 100644
+--- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
++++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
 @@ -1,4 +1,4 @@
--From 3b9b9b6ac033b44b3864abb1296fce1e19a2b622 Mon Sep 17 00:00:00 2001
-+From daccbfbdd3609d7c110f634e222f59f7ff07742c Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 23 May 2018 21:20:35 +0300
- Subject: [PATCH] Add a possibility to specify where python modules are
-@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 2ef9b371a5cc44e730143e694d71665831fac216 Mon Sep 17 00:00:00 2001
++From 8590f838a8dd1d37fe52e23ce8c27622aebf61af Mon Sep 17 00:00:00 2001
+ From: Ed Bartosh <ed.bartosh@linux.intel.com>
+ Date: Tue, 13 Jun 2017 14:55:52 +0300
+ Subject: [PATCH] Disabled reading host configs.
+@@ -6,16 +6,15 @@ Subject: [PATCH] Disabled reading host configs.
+ Upstream-Status: Inappropriate [native]
  
- diff --git a/Makefile b/Makefile
--index 82dfb1b4..4968989a 100644
-+index c0428c57..1d06ae12 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -984,7 +984,7 @@ endif
-+@@ -985,7 +985,7 @@ endif
-  ifeq ($(PYTHON_BINDINGS),1)
-  install_python: libbtrfsutil_python
-  	$(Q)cd libbtrfsutil/python; \
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.bb
-similarity index 98%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.bb
-index 9f5586490d..67c669ecd0 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.bb
-@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-            "
--SRCREV = "b0e5ef4cf7c8b473119e0d487a26b96058e8f80d"
-+SRCREV = "0cac9acfc617bd96cc6c296cc680223fe74973a5"
- S = "${WORKDIR}/git"
+ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+-
+ ---
+  config.c | 8 --------
+  1 file changed, 8 deletions(-)
  
- PACKAGECONFIG ??= " \
+ diff --git a/config.c b/config.c
+-index 2f6a297..3181ed7 100644
++index 358282b..8ebafb4 100644
+ --- a/config.c
+ +++ b/config.c
+-@@ -844,14 +844,6 @@ void read_config(void)
++@@ -868,14 +868,6 @@ void read_config(void)
+  	memcpy(devices, const_devices,
+  	       nr_const_devices*sizeof(struct device));
+  
+diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+index 6ae91d6cb9..a07e7d80b3 100644
+--- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
++++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+@@ -1,17 +1,16 @@
+-From 3cf56b36db78679273f61ba78fbbf7f3fab52f68 Mon Sep 17 00:00:00 2001
++From c477d1744cb81a7b89ff24181ec980ed1d0650e9 Mon Sep 17 00:00:00 2001
+ From: Marcin Juszkiewicz <hrw@openedhand.com>
+ Date: Fri, 8 Jun 2007 08:35:12 +0000
+ Subject: [PATCH] mtools: imported from OE
+ 
+ Upstream-Status: Inappropriate [licensing]
+-
+ ---
+  Makefile.in  | 11 ++++++-----
+  configure.in | 27 +++++++++++++++++++++++++++
+  2 files changed, 33 insertions(+), 5 deletions(-)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index 616d59f..85b5b1d 100644
++index 5db50d7..92ad461 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -26,10 +26,11 @@ USERCFLAGS =
+@@ -30,7 +29,7 @@ index 616d59f..85b5b1d 100644
+  
+  
+  # do not edit below this line
+-@@ -199,7 +200,7 @@ dvi: mtools.dvi
++@@ -185,7 +186,7 @@ dvi: mtools.dvi
+  
+  ps: mtools.ps
+  %.ps: %.dvi
+@@ -40,10 +39,10 @@ index 616d59f..85b5b1d 100644
+  pdf: mtools.pdf
+  %.pdf: %.texi sysconfdir.texi
+ diff --git a/configure.in b/configure.in
+-index 5ff75c1..c0f7440 100644
++index 1de916e..fd6cb08 100644
+ --- a/configure.in
+ +++ b/configure.in
+-@@ -35,6 +35,33 @@ AC_CANONICAL_SYSTEM
++@@ -32,6 +32,33 @@ AC_CANONICAL_TARGET
+  AC_C_CONST
+  AC_C_INLINE
+  
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.43.bb b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.43.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.44.bb
+index 859103979e..d8dd671be2 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.43.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "541e179665dc4e272b9602f2074243591a157da89cc47064da8c5829dbd2b339"
++SRC_URI[sha256sum] = "37dc4df022533c3d4b2ec1c78973c27c7e8b585374c2d46ab64c6a3db31eddb8"
+ 
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
 -- 
 2.44.0
 
 
---===============3970702145921545151==
+--===============0866726991373926477==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-btrfs-tools-upgrade-6.9.2-6.10.patch"
+ filename="0001-mtools-upgrade-4.0.43-4.0.44.patch"
 
-RnJvbSA3YjgwYWJjZTU2ZTE5YzdjNWVlZmY5YTI3ZDAwN2M3ZTgxYzc5ZWQ4IE1vbiBTZXAgMTcg
+RnJvbSA4M2U4MDE0NDQ1Yzk2NzdmNmNmYjdkNTZmMjkxNTg2ZmU0NjE3ZjgxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAwOTowOToyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJ0
-cmZzLXRvb2xzOiB1cGdyYWRlIDYuOS4yIC0+IDYuMTAKCi0tLQogLi4uZC1hLXBvc3NpYmlsaXR5
-LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
-L3tidHJmcy10b29sc182LjkuMi5iYiA9PiBidHJmcy10b29sc182LjEwLmJifSAgICAgICAgICAg
-fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMve2J0cmZzLXRvb2xzXzYu
-OS4yLmJiID0+IGJ0cmZzLXRvb2xzXzYuMTAuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2li
-aWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmls
-aXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKaW5kZXggZWY0MzFj
-ZDY5YS4uZDVkNTNmYmI4NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZz
-LXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lmeS13aGVy
-ZS1weXRob24tbW9kdWxlcy1hci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRy
-ZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVjaWZ5LXdo
-ZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAzYjliOWI2
-YWMwMzNiNDRiMzg2NGFiYjEyOTZmY2UxZTE5YTJiNjIyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSBkYWNjYmZiZGQzNjA5ZDdjMTEwZjYzNGUyMjJmNTlmN2ZmMDc3NDJjIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiBEYXRlOiBXZWQsIDIzIE1heSAyMDE4IDIxOjIwOjM1ICswMzAwCiBTdWJqZWN0
-OiBbUEFUQ0hdIEFkZCBhIHBvc3NpYmlsaXR5IHRvIHNwZWNpZnkgd2hlcmUgcHl0aG9uIG1vZHVs
-ZXMgYXJlCkBAIC0xMSwxMCArMTEsMTAgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2
-aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlCi1p
-bmRleCA4MmRmYjFiNC4uNDk2ODk4OWEgMTAwNjQ0CitpbmRleCBjMDQyOGM1Ny4uMWQwNmFlMTIg
-MTAwNjQ0CiAtLS0gYS9NYWtlZmlsZQogKysrIGIvTWFrZWZpbGUKLUBAIC05ODQsNyArOTg0LDcg
-QEAgZW5kaWYKK0BAIC05ODUsNyArOTg1LDcgQEAgZW5kaWYKICBpZmVxICgkKFBZVEhPTl9CSU5E
-SU5HUyksMSkKICBpbnN0YWxsX3B5dGhvbjogbGliYnRyZnN1dGlsX3B5dGhvbgogIAkkKFEpY2Qg
-bGliYnRyZnN1dGlsL3B5dGhvbjsgXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuOS4yLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYu
-OS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMt
-dG9vbHNfNi4xMC5iYgppbmRleCA5ZjU1ODY0OTBkLi42N2M2NjllY2QwIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi45LjIuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMTAuYmIK
-QEAgLTE4LDcgKzE4LDcgQEAgREVQRU5EUyA9ICJ1dGlsLWxpbnV4IHpsaWIiCiBTUkNfVVJJID0g
-ImdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9rZGF2ZS9idHJm
-cy1wcm9ncy5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZp
-bGU6Ly8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVs
-ZXMtYXIucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiYjBlNWVmNGNmN2M4YjQ3MzEx
-OWUwZDQ4N2EyNmI5NjA1OGU4ZjgwZCIKK1NSQ1JFViA9ICIwY2FjOWFjZmM2MTdiZDk2Y2M2YzI5
-NmNjNjgwMjIzZmU3NDk3M2E1IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogUEFDS0FHRUNPTkZJ
-RyA/Pz0gIiBcCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMDoxMDowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG10
+b29sczogdXBncmFkZSA0LjAuNDMgLT4gNC4wLjQ0CgotLS0KIC4uLi9tdG9vbHMvbXRvb2xzL2Ns
+YW5nX1VOVVNFRC5wYXRjaCAgICAgICAgICB8IDE5ICsrKysrKysrKysrKystLS0tLS0KIC4uLi9t
+dG9vbHMvZGlzYWJsZS1oYXJkY29kZWQtY29uZmlncy5wYXRjaCAgICB8ICA3ICsrKy0tLS0KIC4u
+Li9tdG9vbHMvbXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaCAgICAgICB8IDExICsrKysrLS0t
+LS0tCiAuLi4ve210b29sc180LjAuNDMuYmIgPT4gbXRvb2xzXzQuMC40NC5iYn0gICAgfCAgMiAr
+LQogNCBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL3ttdG9vbHNfNC4wLjQzLmJiID0+IG10
+b29sc180LjAuNDQuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L210b29scy9tdG9vbHMvY2xhbmdfVU5VU0VELnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L210b29scy9tdG9vbHMvY2xhbmdfVU5VU0VELnBhdGNoCmluZGV4IDZiYjlkNmEzZGEuLjAzMjJi
+ZWQ5NzQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Ns
+YW5nX1VOVVNFRC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29s
+cy9jbGFuZ19VTlVTRUQucGF0Y2gKQEAgLTEsMTIgKzEsMTkgQEAKLVVuZGVmaW5lIFVOVVNFRCBt
+YWNyb3Mgd2l0aCBjbGFuZworRnJvbSAxOTEwMTNhMTQ2M2I4NDFjODAxYjI1ZGYyN2M1ZTYwYjdl
+OTczN2ZjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogS2hlbSBSYWogPHJhai5raGVt
+QGdtYWlsLmNvbT4KK0RhdGU6IFdlZCwgMTkgU2VwIDIwMTggMTE6NTU6NDEgLTA3MDAKK1N1Ympl
+Y3Q6IFtQQVRDSF0gVW5kZWZpbmUgVU5VU0VEIG1hY3JvcyB3aXRoIGNsYW5nCiAKIFVwc3RyZWFt
+LVN0YXR1czogUGVuZGluZwogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWls
+LmNvbT4KLUluZGV4OiBtdG9vbHMtNC4wLjE4L3N5c2luY2x1ZGVzLmgKLT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0t
+LSBtdG9vbHMtNC4wLjE4Lm9yaWcvc3lzaW5jbHVkZXMuaAotKysrIG10b29scy00LjAuMTgvc3lz
+aW5jbHVkZXMuaAotQEAgLTEwMSw3ICsxMDEsNyBAQCB0eXBlZGVmIHZvaWQgKmNhZGRyX3Q7Cist
+LS0KKyBzeXNpbmNsdWRlcy5oIHwgMiArLQorIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMSBkZWxldGlvbigtKQorCitkaWZmIC0tZ2l0IGEvc3lzaW5jbHVkZXMuaCBiL3N5c2luY2x1
+ZGVzLmgKK2luZGV4IGUxNmFiNDUuLjhkMjg1ZDQgMTAwNjQ0CistLS0gYS9zeXNpbmNsdWRlcy5o
+CisrKysgYi9zeXNpbmNsdWRlcy5oCitAQCAtOTgsNyArOTgsNyBAQCB0eXBlZGVmIHZvaWQgKmNh
+ZGRyX3Q7CiAgI2lmIGRlZmluZWQgX19HTlVDX18gJiYgZGVmaW5lZCBfX1NURENfXwogIC8qIGdj
+YyAtdHJhZGl0aW9uYWwgZG9lc24ndCBoYXZlIFBBQ0tFRCwgVU5VU0VEIGFuZCBOT1JFVFVSTiAq
+LwogICMgZGVmaW5lIFBBQ0tFRCBfX2F0dHJpYnV0ZV9fICgocGFja2VkKSkKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Rpc2FibGUtaGFyZGNvZGVkLWNv
+bmZpZ3MucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9kaXNhYmxl
+LWhhcmRjb2RlZC1jb25maWdzLnBhdGNoCmluZGV4IDU3YmU5MzU0ODcuLmNmODQ1NGFhZDMgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Rpc2FibGUtaGFy
+ZGNvZGVkLWNvbmZpZ3MucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9t
+dG9vbHMvZGlzYWJsZS1oYXJkY29kZWQtY29uZmlncy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gMmVmOWIzNzFhNWNjNDRlNzMwMTQzZTY5NGQ3MTY2NTgzMWZhYzIxNiBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gODU5MGY4MzhhOGRkMWQzN2ZlNTJlMjNjZThjMjc2MjJhZWJmNjFh
+ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEVkIEJhcnRvc2ggPGVkLmJhcnRvc2hA
+bGludXguaW50ZWwuY29tPgogRGF0ZTogVHVlLCAxMyBKdW4gMjAxNyAxNDo1NTo1MiArMDMwMAog
+U3ViamVjdDogW1BBVENIXSBEaXNhYmxlZCByZWFkaW5nIGhvc3QgY29uZmlncy4KQEAgLTYsMTYg
+KzYsMTUgQEAgU3ViamVjdDogW1BBVENIXSBEaXNhYmxlZCByZWFkaW5nIGhvc3QgY29uZmlncy4K
+IFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbbmF0aXZlXQogCiBTaWduZWQtb2ZmLWJ5
+OiBFZCBCYXJ0b3NoIDxlZC5iYXJ0b3NoQGxpbnV4LmludGVsLmNvbT4KLQogLS0tCiAgY29uZmln
+LmMgfCA4IC0tLS0tLS0tCiAgMSBmaWxlIGNoYW5nZWQsIDggZGVsZXRpb25zKC0pCiAKIGRpZmYg
+LS1naXQgYS9jb25maWcuYyBiL2NvbmZpZy5jCi1pbmRleCAyZjZhMjk3Li4zMTgxZWQ3IDEwMDY0
+NAoraW5kZXggMzU4MjgyYi4uOGViYWZiNCAxMDA2NDQKIC0tLSBhL2NvbmZpZy5jCiArKysgYi9j
+b25maWcuYwotQEAgLTg0NCwxNCArODQ0LDYgQEAgdm9pZCByZWFkX2NvbmZpZyh2b2lkKQorQEAg
+LTg2OCwxNCArODY4LDYgQEAgdm9pZCByZWFkX2NvbmZpZyh2b2lkKQogIAltZW1jcHkoZGV2aWNl
+cywgY29uc3RfZGV2aWNlcywKICAJICAgICAgIG5yX2NvbnN0X2RldmljZXMqc2l6ZW9mKHN0cnVj
+dCBkZXZpY2UpKTsKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMv
+bXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9v
+bHMvbXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaAppbmRleCA2YWU5MWQ2Y2I5Li5hMDdlN2Q4
+MGIzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9tdG9v
+bHMtbWFrZWluZm8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9v
+bHMvbXRvb2xzLW1ha2VpbmZvLnBhdGNoCkBAIC0xLDE3ICsxLDE2IEBACi1Gcm9tIDNjZjU2YjM2
+ZGI3ODY3OTI3M2Y2MWJhNzhmYmJmN2YzZmFiNTJmNjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tIGM0NzdkMTc0NGNiODFhN2I4OWZmMjQxODFlYzk4MGVkMWQwNjUwZTkgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCiBGcm9tOiBNYXJjaW4gSnVzemtpZXdpY3ogPGhyd0BvcGVuZWRoYW5k
+LmNvbT4KIERhdGU6IEZyaSwgOCBKdW4gMjAwNyAwODozNToxMiArMDAwMAogU3ViamVjdDogW1BB
+VENIXSBtdG9vbHM6IGltcG9ydGVkIGZyb20gT0UKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
+cHJpYXRlIFtsaWNlbnNpbmddCi0KIC0tLQogIE1ha2VmaWxlLmluICB8IDExICsrKysrKy0tLS0t
+CiAgY29uZmlndXJlLmluIHwgMjcgKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAgMiBmaWxl
+cyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0
+IGEvTWFrZWZpbGUuaW4gYi9NYWtlZmlsZS5pbgotaW5kZXggNjE2ZDU5Zi4uODViNWIxZCAxMDA2
+NDQKK2luZGV4IDVkYjUwZDcuLjkyYWQ0NjEgMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZS5pbgogKysr
+IGIvTWFrZWZpbGUuaW4KIEBAIC0yNiwxMCArMjYsMTEgQEAgVVNFUkNGTEFHUyA9CkBAIC0zMCw3
+ICsyOSw3IEBAIGluZGV4IDYxNmQ1OWYuLjg1YjViMWQgMTAwNjQ0CiAgCiAgCiAgIyBkbyBub3Qg
+ZWRpdCBiZWxvdyB0aGlzIGxpbmUKLUBAIC0xOTksNyArMjAwLDcgQEAgZHZpOiBtdG9vbHMuZHZp
+CitAQCAtMTg1LDcgKzE4Niw3IEBAIGR2aTogbXRvb2xzLmR2aQogIAogIHBzOiBtdG9vbHMucHMK
+ICAlLnBzOiAlLmR2aQpAQCAtNDAsMTAgKzM5LDEwIEBAIGluZGV4IDYxNmQ1OWYuLjg1YjViMWQg
+MTAwNjQ0CiAgcGRmOiBtdG9vbHMucGRmCiAgJS5wZGY6ICUudGV4aSBzeXNjb25mZGlyLnRleGkK
+IGRpZmYgLS1naXQgYS9jb25maWd1cmUuaW4gYi9jb25maWd1cmUuaW4KLWluZGV4IDVmZjc1YzEu
+LmMwZjc0NDAgMTAwNjQ0CitpbmRleCAxZGU5MTZlLi5mZDZjYjA4IDEwMDY0NAogLS0tIGEvY29u
+ZmlndXJlLmluCiArKysgYi9jb25maWd1cmUuaW4KLUBAIC0zNSw2ICszNSwzMyBAQCBBQ19DQU5P
+TklDQUxfU1lTVEVNCitAQCAtMzIsNiArMzIsMzMgQEAgQUNfQ0FOT05JQ0FMX1RBUkdFVAogIEFD
+X0NfQ09OU1QKICBBQ19DX0lOTElORQogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL210b29scy9tdG9vbHNfNC4wLjQzLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29s
+cy9tdG9vbHNfNC4wLjQ0LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzXzQuMC40My5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9vbHNfNC4wLjQ0LmJiCmluZGV4IDg1OTEwMzk3OWUu
+LmQ4ZGQ2NzFiZTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRv
+b2xzXzQuMC40My5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29sc180
+LjAuNDQuYmIKQEAgLTI0LDcgKzI0LDcgQEAgUlJFQ09NTUVORFM6JHtQTn06bGliYy1nbGliYyA9
+ICJcCiAJZ2xpYmMtZ2NvbnYtaWJtODY2IFwKIAlnbGliYy1nY29udi1pYm04NjkgXAogCSIKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICI1NDFlMTc5NjY1ZGM0ZTI3MmI5NjAyZjIwNzQyNDM1OTFhMTU3
+ZGE4OWNjNDcwNjRkYThjNTgyOWRiZDJiMzM5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3ZGM0
+ZGYwMjI1MzNjM2Q0YjJlYzFjNzg5NzNjMjdjN2U4YjU4NTM3NGMyZDQ2YWI2NGM2YTNkYjMxZWRk
+YjgiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9tdG9vbHMvbXRvb2xzLSR7UFZ9LnRhci5i
+ejIgXAogICAgICAgICAgICBmaWxlOi8vbXRvb2xzLW1ha2VpbmZvLnBhdGNoIFwKLS0gCjIuNDQu
+MAoK
 
---===============3970702145921545151==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/dependency_links.txt was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/PKG-INFO was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/SOURCES.txt was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/dependency_links.txt was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/PKG-INFO was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/SOURCES.txt was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/top_level.txt was removed
-
---===============3970702145921545151==
+--===============0866726991373926477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 25107992 to 25402560 (+1%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.9.2 [default] to 6.10 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 219002 to 219000 (-0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.9.2 [default] to 6.10 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.9.2 [default] to 6.10 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.9.2 [default] to 6.10 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4192255 to 4208775 (+0%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/6.9.2/cmds -> /usr/src/debug/btrfs-tools/6.10/cmds, directory renamed /usr/src/debug/btrfs-tools/6.9.2/libbtrfsutil -> /usr/src/debug/btrfs-tools/6.10/libbtrfsutil, directory renamed /usr/src/debug/btrfs-tools/6.9.2/image -> /usr/src/debug/btrfs-tools/6.10/image, directory renamed /usr/src/debug/btrfs-tools/6.9.2/libbtrfsutil/python -> /usr/src/debug/btrfs-tools/6.10/libbtrfsutil/python, directory renamed /usr/src/debug/btrfs-tools/6.9.2/mkfs -> /usr/src/debug/btrfs-tools/6.10/mkfs, directory renamed /usr/src/debug/btrfs-tools/6.9.2/convert -> /usr/src/debug/btrfs-tools/6.10/convert, directory renamed /usr/src/debug/btrfs-tools/6.9.2/kernel-lib -> /usr/src/debug/btrfs-tools/6.10/kernel-lib, directory renamed /usr/src/debug/btrfs-tools/6.9.2/libbtrfs -> /usr/src/debug/btrfs-tools/6.10/libbtrfs, directory renamed /usr/src/debug/btrfs-tools/6.9.2/check -> /usr/src/debug/btrfs
- -tools/6.10/check, directory renamed /usr/src/debug/btrfs-tools/6.9.2/tune -> /usr/src/debug/btrfs-tools/6.10/tune, directory renamed /usr/src/debug/btrfs-tools/6.9.2/include -> /usr/src/debug/btrfs-tools/6.10/include, directory renamed /usr/src/debug/btrfs-tools/6.9.2/crypto -> /usr/src/debug/btrfs-tools/6.10/crypto, directory renamed /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/uapi -> /usr/src/debug/btrfs-tools/6.10/kernel-shared/uapi, directory renamed /usr/src/debug/btrfs-tools/6.9.2 -> /usr/src/debug/btrfs-tools/6.10, removed "/usr/src/debug/btrfs-tools/6.9.2/kernel-shared/tree-checker.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/tree-checker.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/inode.c /usr/src/debug/btrfs-tools/6.9.2/common/parse-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/parse-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/string-table.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/file-item.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/file-ite
- m.c /usr/src/debug/btrfs-tools/6.9.2/common/string-table.h /usr/src/debug/btrfs-tools/6.9.2/common/device-scan.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent_io.c /usr/src/debug/btrfs-tools/6.9.2/common/extent-tree-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/device-scan.h /usr/src/debug/btrfs-tools/6.9.2/common/extent-tree-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent_io.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/disk-io.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/print-tree.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/disk-io.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/print-tree.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/accessors.c /usr/src/debug/btrfs-tools/6.9.2/common/messages.h /usr/src/debug/btrfs-tools/6.9.2/common/clear-cache.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/accessors.h /usr/src/debug/btrfs-tools/6.9.2/common/clear-cache.c /usr/src/debug/btrfs-tools/6.9.2/common/messages.c /usr/src/debug/btrfs-tools/6.9
- .2/kernel-shared/locking.h /usr/src/debug/btrfs-tools/6.9.2/common/task-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/locking.c /usr/src/debug/btrfs-tools/6.9.2/common/task-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/open-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent-io-tree.h /usr/src/debug/btrfs-tools/6.9.2/common/open-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent-io-tree.c /usr/src/debug/btrfs-tools/6.9.2/common/string-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/format-output.c /usr/src/debug/btrfs-tools/6.9.2/common/format-output.h /usr/src/debug/btrfs-tools/6.9.2/common/string-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/fsfeatures.h /usr/src/debug/btrfs-tools/6.9.2/common/units.c /usr/src/debug/btrfs-tools/6.9.2/common/sysfs-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/fsfeatures.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/inode-item.c /usr/src/debug/btrfs-tools/6.9.2/common/sysfs-utils.c /usr/src/debug/btrfs-tools/6.
- 9.2/common/units.h /usr/src/debug/btrfs-tools/6.9.2/common/filesystem-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/misc.h /usr/src/debug/btrfs-tools/6.9.2/common/array.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/uuid-tree.c /usr/src/debug/btrfs-tools/6.9.2/common/array.c /usr/src/debug/btrfs-tools/6.9.2/common/filesystem-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/backref.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/backref.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/root-tree.c /usr/src/debug/btrfs-tools/6.9.2/common/path-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/path-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/extent-cache.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/dir-item.c /usr/src/debug/btrfs-tools/6.9.2/common/extent-cache.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/transaction.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/transaction.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/volumes.c /usr/src/debug/btrfs-tool
- s/6.9.2/kernel-shared/async-thread.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/messages.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ulist.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent-tree.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/zoned.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/messages.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/async-thread.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ulist.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/volumes.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/compression.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/zoned.h /usr/src/debug/btrfs-tools/6.9.2/common/cpu-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/delayed-ref.c /usr/src/debug/btrfs-tools/6.9.2/common/cpu-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/delayed-ref.h /usr/src/debug/btrfs-tools/6.9.2/common/send-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/sort-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/send-utils.
- h /usr/src/debug/btrfs-tools/6.9.2/common/sort-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/rbtree-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/file.c /usr/src/debug/btrfs-tools/6.9.2/common/send-stream.h /usr/src/debug/btrfs-tools/6.9.2/common/rbtree-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/send-stream.c /usr/src/debug/btrfs-tools/6.9.2/common/tree-search.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-tree.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-tree.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ctree.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ctree.c /usr/src/debug/btrfs-tools/6.9.2/common/utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-cache.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/send.h /usr/src/debug/btrfs-tools/6.9.2/common/device-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/help.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-cache.h /usr/src/debug/btrfs-tools/6.9.2/common/
- utils.h /usr/src/debug/btrfs-tools/6.9.2/common/help.c /usr/src/debug/btrfs-tools/6.9.2/common/device-utils.h", added "/usr/src/debug/btrfs-tools/6.10/kernel-shared/disk-io.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/send.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/disk-io.c /usr/src/debug/btrfs-tools/6.10/common/parse-utils.h /usr/src/debug/btrfs-tools/6.10/common/parse-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/delayed-ref.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/ulist.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/misc.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/delayed-ref.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/ulist.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-tree.h /usr/src/debug/btrfs-tools/6.10/common/send-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-tree.c /usr/src/debug/btrfs-tools/6.10/common/send-utils.h /usr/src/debug/btrfs-tools/6.10/common/tree-search.h /usr/src/debug/btrfs-tools/6.10/common/un
- its.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/inode-item.c /usr/src/debug/btrfs-tools/6.10/common/units.c /usr/src/debug/btrfs-tools/6.10/common/cpu-utils.h /usr/src/debug/btrfs-tools/6.10/common/cpu-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent-tree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/messages.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/messages.c /usr/src/debug/btrfs-tools/6.10/common/extent-tree-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/print-tree.c /usr/src/debug/btrfs-tools/6.10/common/extent-tree-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/print-tree.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/ctree.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-cache.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/ctree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-cache.h /usr/src/debug/btrfs-tools/6.10/common/array.h /usr/src/debug/btrfs-tools/6.10/common/array.c /usr/src/debug/btrfs-tools/6.10/kernel-sh
- ared/volumes.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/volumes.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/file.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/backref.c /usr/src/debug/btrfs-tools/6.10/common/task-utils.h /usr/src/debug/btrfs-tools/6.10/common/task-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/backref.h /usr/src/debug/btrfs-tools/6.10/common/format-output.h /usr/src/debug/btrfs-tools/6.10/common/format-output.c /usr/src/debug/btrfs-tools/6.10/common/rbtree-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/transaction.c /usr/src/debug/btrfs-tools/6.10/common/rbtree-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/transaction.h /usr/src/debug/btrfs-tools/6.10/common/send-stream.h /usr/src/debug/btrfs-tools/6.10/common/send-stream.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent-io-tree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/tree-checker.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/tree-checker.h /usr/src/debug/btrfs-tools/6
- .10/kernel-shared/extent-io-tree.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/uuid-tree.h /usr/src/debug/btrfs-tools/6.10/common/string-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/uuid-tree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/inode.c /usr/src/debug/btrfs-tools/6.10/common/string-utils.h /usr/src/debug/btrfs-tools/6.10/common/utils.h /usr/src/debug/btrfs-tools/6.10/common/utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/dir-item.c /usr/src/debug/btrfs-tools/6.10/common/fsfeatures.h /usr/src/debug/btrfs-tools/6.10/common/fsfeatures.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/zoned.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/compression.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/zoned.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent_io.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent_io.h /usr/src/debug/btrfs-tools/6.10/common/clear-cache.h /usr/src/debug/btrfs-tools/6.10/common/help.h /usr/src/debug/btrfs-tools/6.10/common/help.c 
- /usr/src/debug/btrfs-tools/6.10/common/clear-cache.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/file-item.h /usr/src/debug/btrfs-tools/6.10/common/device-utils.h /usr/src/debug/btrfs-tools/6.10/common/filesystem-utils.h /usr/src/debug/btrfs-tools/6.10/common/string-table.h /usr/src/debug/btrfs-tools/6.10/common/filesystem-utils.c /usr/src/debug/btrfs-tools/6.10/common/device-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/file-item.c /usr/src/debug/btrfs-tools/6.10/common/string-table.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/locking.h /usr/src/debug/btrfs-tools/6.10/common/extent-cache.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/root-tree.c /usr/src/debug/btrfs-tools/6.10/common/extent-cache.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/locking.c /usr/src/debug/btrfs-tools/6.10/common/messages.c /usr/src/debug/btrfs-tools/6.10/common/sort-utils.c /usr/src/debug/btrfs-tools/6.10/common/device-scan.c /usr/src/debug/btrfs-tools/6.10/common/root-tree-utils.c /usr/s
- rc/debug/btrfs-tools/6.10/common/sort-utils.h /usr/src/debug/btrfs-tools/6.10/common/messages.h /usr/src/debug/btrfs-tools/6.10/common/root-tree-utils.h /usr/src/debug/btrfs-tools/6.10/common/device-scan.h /usr/src/debug/btrfs-tools/6.10/common/sysfs-utils.c /usr/src/debug/btrfs-tools/6.10/common/open-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/async-thread.h /usr/src/debug/btrfs-tools/6.10/common/sysfs-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/async-thread.c /usr/src/debug/btrfs-tools/6.10/common/open-utils.h /usr/src/debug/btrfs-tools/6.10/common/path-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/accessors.c /usr/src/debug/btrfs-tools/6.10/common/path-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/accessors.h"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.9.2 [default] to 6.10 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.9.2 [default] to 6.10 [default]
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 5829244 to 5894747 (+1%)
-packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.9.2 [default] to 6.10 [default]
-packages/core2-64-poky-linux/btrfs-tools: PV changed from "6.9.2" to "6.10"
-packages/core2-64-poky-linux/btrfs-tools: PKGV changed from 6.9.2 [default] to 6.10 [default]
-Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/dependency_links.txt was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/PKG-INFO was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/SOURCES.txt was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/dependency_links.txt was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/PKG-INFO was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/SOURCES.txt was removed
-  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/top_level.txt was removed
+packages/core2-64-poky-linux/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.43.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.44.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch"
+packages/core2-64-poky-linux/mtools: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 818880 to 819040 (+0%)
+packages/core2-64-poky-linux/mtools/mtools-dbg: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-dev: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-doc: PKGSIZE changed from 242854 to 244453 (+1%)
+packages/core2-64-poky-linux/mtools/mtools-doc: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-locale: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-src: PKGSIZE changed from 597781 to 598938 (+0%)
+packages/core2-64-poky-linux/mtools/mtools-src: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-src: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/mtools/mtools: PKGSIZE changed from 227346 to 223250 (-2%)
+packages/core2-64-poky-linux/mtools/mtools: PV changed from "4.0.43" to "4.0.44"
+packages/core2-64-poky-linux/mtools/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
 
---===============3970702145921545151==--
+--===============0866726991373926477==--
 
