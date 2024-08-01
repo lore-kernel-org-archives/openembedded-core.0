@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 472EFC54F32
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEA3C54FAA
 	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:26 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.75748.1722536827204193488
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.75736.1722536822878673328
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Aug 2024 11:27:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VCqa1txe;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=EFFjxgwU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101910f323ad1-7331e451-cabd-4f41-b681-0f8aa94b7476-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LPjP+dw0;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=t7UPhXtH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101910f323d43-061f5e1a-408e-4e3d-8e24-55b45f1cf31c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1722536836;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=g1Jm51n7sisMJRYE1TQKEkTtvlFyfX0DEEAETr8Yf2M=;
-	b=VCqa1txe1BuPb2AD/XzM309X4s7sD1uz/SEsO8KntCumRsjhaQPtiBm2x6B7E3GU
-	MLKmDKd6YborijvAva8XTxwMB1ZTUW9YbHxGTQVDV+VTdZqIYTkzI2ONFuBZrqAD6sJ
-	S1ZpVpoxPDxzhjmRi9aj663tcEY91OUDzDXFeGd4=
+	bh=XgsyAszJe8/QsYwExZgLpuuphmGdeEr+2IS3K3WtJKs=;
+	b=LPjP+dw04MgeCPGYnT2cOfMZdq2R2j7OsFPTGAwzbxllfvI+vsZQMeHSmTEG2diQ
+	PjgnIEytlhMCVSSshgS+2F/vo4gEcC6qlCemYvGR6ugIcPvNlTsEhsrrAt11hejpK6a
+	IzK5hhEE3OFQFfY8p0M4CQv2FPwJDWTlSmrlMa0o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536836;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=g1Jm51n7sisMJRYE1TQKEkTtvlFyfX0DEEAETr8Yf2M=;
-	b=EFFjxgwUII7w+ATUyKIShcQ9XypKHcCHCvsba/wPiA3LUmRrL6YQWNlrW9JqJncZ
-	I+it6rQaoP1T/f4eJv7GxfBkuQY5tnZRxF04ZAX45vYUrOP1IL9Mqssuh9Zvvqu4VXj
-	jUwnKSoJXeEt59HnnmkOzpRfCYTaye/Jr81NKTjo=
-Content-Type: multipart/mixed; boundary="===============0522994551126501921=="
+	bh=XgsyAszJe8/QsYwExZgLpuuphmGdeEr+2IS3K3WtJKs=;
+	b=t7UPhXtHzHIfRaNN/T+iPT6PrR18nEIJPpxP2aRrvIyDa02VRcNuNa6dHErr3KnP
+	g8p09Va2WPMKQCthD1gC2nD9JSERCrsJMGSGebe5W/tMUORteYdGAYg/T7T7KYjKZBM
+	almU4D6OCHmG3fxpnR8q6eJnkVoHoaSRllGE003g=
+Content-Type: multipart/mixed; boundary="===============1233845654516216881=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.6 SUCCEEDED
-Message-ID: <010101910f323ad1-7331e451-cabd-4f41-b681-0f8aa94b7476-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Aug 2024 18:27:15 +0000
+Subject: [AUH] puzzles: upgrading to 62c0e0dcc9e7e250f1936b107e5b76e881b69496
+ SUCCEEDED
+Message-ID: <010101910f323d43-061f5e1a-408e-4e3d-8e24-55b45f1cf31c-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Aug 2024 18:27:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.01-54.240.27.192
+X-SES-Outgoing: 2024.08.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202866
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202868
 
---===============0522994551126501921==
+--===============1233845654516216881==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.24.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *puzzles* to *62c0e0dcc9e7e250f1936b107e5b76e881b69496* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.24.5-1.24.6.patch
+    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,94 +73,189 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4dc57b0b656feaa4fdfab2923ae0c8370c7cf7d3 Mon Sep 17 00:00:00 2001
+From a234f4cf08ff86a5c7400d55f0c416e040243ecc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Aug 2024 15:26:15 +0000
-Subject: [PATCH] gstreamer1.0-python: upgrade 1.24.5 -> 1.24.6
+Date: Thu, 1 Aug 2024 15:38:17 +0000
+Subject: [PATCH] puzzles: upgrade to latest revision
 
 ---
- ...reamer1.0-python_1.24.5.bb => gstreamer1.0-python_1.24.6.bb} | 2 +-
+ meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.5.bb => gstreamer1.0-python_1.24.6.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-index a4574f1262..cf38c2b876 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index e9403ee130..9707119057 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "c23570c144e6276efd9e82de2ac0cea46b168a57fb2e436bed96cb285d641bf6"
-+SRC_URI[sha256sum] = "692e88820e097b30e5f92d37d0955c709a0a17b27f874a1907405244825bd700"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "80aac3104096aee4057b675c53ece8e60793aa90"
++SRCREV = "62c0e0dcc9e7e250f1936b107e5b76e881b69496"
+ PE = "2"
+ PV = "0.0+git"
  
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.44.0
 
 
---===============0522994551126501921==
+--===============1233845654516216881==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-python-upgrade-1.24.5-1.24.6.patch"
+ filename="0001-puzzles-upgrade-to-latest-revision.patch"
 
-RnJvbSA0ZGM1N2IwYjY1NmZlYWE0ZmRmYWIyOTIzYWUwYzgzNzBjN2NmN2QzIE1vbiBTZXAgMTcg
+RnJvbSBhMjM0ZjRjZjA4ZmY4NmE1Yzc0MDBkNTVmMGM0MTZlMDQwMjQzZWNjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxNToyNjoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1weXRob246IHVwZ3JhZGUgMS4yNC41IC0+IDEuMjQuNgoKLS0tCiAuLi5yZWFt
-ZXIxLjAtcHl0aG9uXzEuMjQuNS5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuNi5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1weXRo
-b25fMS4yNC41LmJiID0+IGdzdHJlYW1lcjEuMC1weXRob25fMS4yNC42LmJifSAoOTElKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
-cHl0aG9uXzEuMjQuNS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
-ZWFtZXIxLjAtcHl0aG9uXzEuMjQuNi5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8x
-LjI0LjUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
-ZWFtZXIxLjAtcHl0aG9uXzEuMjQuNi5iYgppbmRleCBhNDU3NGYxMjYyLi5jZjM4YzJiODc2IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
-LXB5dGhvbl8xLjI0LjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdHJlYW1lcjEuMC1weXRob25fMS4yNC42LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNFID0g
-IkxHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
-ZDU9YzM0ZGVhZTRlMzk1Y2EwN2U3MjVhYjAwNzZhNWY3NDAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6
-Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8ke1BOUkVBTH0vJHtQTlJFQUx9LSR7UFZ9
-LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjMjM1NzBjMTQ0ZTYyNzZlZmQ5ZTgyZGUy
-YWMwY2VhNDZiMTY4YTU3ZmIyZTQzNmJlZDk2Y2IyODVkNjQxYmY2IgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjY5MmU4ODgyMGUwOTdiMzBlNWY5MmQzN2QwOTU1YzcwOWEwYTE3YjI3Zjg3NGExOTA3
-NDA1MjQ0ODI1YmQ3MDAiCiAKIERFUEVORFMgPSAiZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1w
-bHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QiCiBSREVQRU5EUzoke1BOfSArPSAiZ3N0cmVh
-bWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QiCi0tIAoy
-LjQ0LjAKCg==
+CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxNTozODoxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB1
+enpsZXM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1zYXRv
+L3B1enpsZXMvcHV6emxlc19naXQuYmIgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc2F0by9wdXp6
+bGVzL3B1enpsZXNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dp
+dC5iYgppbmRleCBlOTQwM2VlMTMwLi45NzA3MTE5MDU3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtc2F0by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zYXRvL3B1
+enpsZXMvcHV6emxlc19naXQuYmIKQEAgLTEwLDcgKzEwLDcgQEAgUkVRVUlSRURfRElTVFJPX0ZF
+QVRVUkVTID0gIngxMSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnRhcnRhcnVzLm9yZy9zaW1vbi9w
+dXp6bGVzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIAogVVBTVFJFQU1fQ0hFQ0tf
+Q09NTUlUUyA9ICIxIgotU1JDUkVWID0gIjgwYWFjMzEwNDA5NmFlZTQwNTdiNjc1YzUzZWNlOGU2
+MDc5M2FhOTAiCitTUkNSRVYgPSAiNjJjMGUwZGNjOWU3ZTI1MGYxOTM2YjEwN2U1Yjc2ZTg4MWI2
+OTQ5NiIKIFBFID0gIjIiCiBQViA9ICIwLjArZ2l0IgogCi0tIAoyLjQ0LjAKCg==
 
---===============0522994551126501921==
+--===============1233845654516216881==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+80aac31040-r0'])", added "puzzles (['= 2:0.0+git0+62c0e0dcc9-r0'])"
+packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+80aac31040-r0'])", added "puzzles-dev (['= 2:0.0+git0+62c0e0dcc9-r0'])"
+packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+
+--===============1233845654516216881==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1883 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 920 .bb files complete (919 cached, 1 parsed). 1883 targets, 37 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-e54311c078ee73d0b3152f054db60bdc82b2b98e"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:e54311c078ee73d0b3152f054db60bdc82b2b98e"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 407 Local 395 Mirrors 0 Missed 12 Current 642 (97% match, 98% complete)
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 10 stale sstate objects for arch core2-64...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2538 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Succeeded
+NOTE: Running task 2872 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: Running task 2873 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Succeeded
+NOTE: Running task 2874 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: Running task 2875 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Succeeded
+NOTE: Running task 2876 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2877 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2878 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic unihash changed to 9991d701a25b7759133c514924fccdd2e98d1ea8d7489973f115654eb9660643
+NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2879 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Succeeded
+NOTE: Running task 2880 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Succeeded
+NOTE: Running task 2881 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Succeeded
+NOTE: Running task 2882 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 2883 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot unihash changed to f82bdad126f6fd953d3363cf8fdc06cb11ee0c2aeef250a1677c10e0f67a04fa
+NOTE: Setscene tasks completed
+NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Succeeded
+NOTE: Running task 2884 of 2891 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2884 tasks of which 2870 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240801153622.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240801153622.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-src went backwards which would break package feeds (from 2:0.0+git0+80aac31040-r0 to 2:0.0+git0+62c0e0dcc9-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-dbg went backwards which would break package feeds (from 2:0.0+git0+80aac31040-r0 to 2:0.0+git0+62c0e0dcc9-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-staticdev went backwards which would break package feeds (from 2:0.0+git0+80aac31040-r0 to 2:0.0+git0+62c0e0dcc9-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-dev went backwards which would break package feeds (from 2:0.0+git0+80aac31040-r0 to 2:0.0+git0+62c0e0dcc9-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-doc went backwards which would break package feeds (from 2:0.0+git0+80aac31040-r0 to 2:0.0+git0+62c0e0dcc9-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-locale went backwards which would break package feeds (from 2:0.0+git0+80aac31040-r0 to 2:0.0+git0+62c0e0dcc9-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles went backwards which would break package feeds (from 2:0.0+git0+80aac31040-r0 to 2:0.0+git0+62c0e0dcc9-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/puzzles/0.0+git/temp/log.do_packagedata.4192277
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata) failed with exit code '1'
+
+--===============1233845654516216881==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.5.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.6.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-python: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 19616224 to 19608456 (-0%)
+packages/core2-64-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+80aac31040-r0'])", added "puzzles (['= 2:0.0+git0+62c0e0dcc9-r0'])"
+packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3838603 to 3853044 (+0%)
+packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
+packages/core2-64-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+80aac31040-r0'])", added "puzzles-dev (['= 2:0.0+git0+62c0e0dcc9-r0'])"
+packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+80aac31040 to 0.0+git0+62c0e0dcc9
 
---===============0522994551126501921==--
+--===============1233845654516216881==--
 
