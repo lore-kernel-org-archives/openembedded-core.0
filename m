@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4CCCC5320E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA1BC531DF
 	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:10 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.75477.1722536821621086683
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.75487.1722536824370817382
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 11:27:05 -0700
+ Thu, 01 Aug 2024 11:27:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=F3e2jeQh;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=X0vOzg8m;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101910f3210e7-a78e4070-6998-497b-91e2-7875398cb0b6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TFWlnbdU;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hyWis7+Y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101910f321665-ed439323-6064-42aa-bccf-c6f3d926969a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1722536825;
+	t=1722536826;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PavyP05D4H7ysJY2ztlCR1jPs9WfF+hIxhG9jhMvx7c=;
-	b=F3e2jeQh/oXn51wdxYyoTdQXP/MJkHektiEgOoFrTWuXdHkGOcjqO6HzsHV0LDth
-	uInE6gbHuYbRdEg5CUwKvq4KgPvnfQI4jlrf+dDTkYPCe544PW7thofx9YQuRXfjDmh
-	Ojgr+spyw54aPptL2EhN6sQRCc1WuByJumGQUPD8=
+	bh=DxyfvWTtf1zlP69u5Gy661Deig/8ypLPx0BYa60Oy1w=;
+	b=TFWlnbdUC2x/lE1wX+1X9r2wwMEGw6uIEA3YR0EeFewsI4D+uL0Pi6fcTIjPEp1J
+	VA35fTsG6LvGOsT5xuEWxSx1oFW7IRmCGja8bvZNPCH5d2JBWLnNRmmrBIr1yxDAnSJ
+	XdVtQIXnZwkJ/CTTbPaM6SG6FC4Z4zmvaTID+7Dk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536825;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536826;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PavyP05D4H7ysJY2ztlCR1jPs9WfF+hIxhG9jhMvx7c=;
-	b=X0vOzg8mXi4j1gmBOioEJiZVrn064nDyGbYzN8b603mFL4GIRngWcp5CEcgKBhlC
-	lqTZiD8K50vyfFNZaQ538epyP84xWeezJd/Pohavth0NFKzQpFK9nCtXGOwW7TyMuFA
-	goD31EmtTAnKjMO4VSthcDmG0ERXn3t7DtRVhmfo=
-Content-Type: multipart/mixed; boundary="===============8908245961551017183=="
+	bh=DxyfvWTtf1zlP69u5Gy661Deig/8ypLPx0BYa60Oy1w=;
+	b=hyWis7+YP8gRSw0xqfPu/UI5cbsDt936Hd8Edp9MFQBeQUE7xnEF042RPvEI1pNO
+	GnhXORJhasWyVpjarK4q9fJaFcKlvntTnhMGFRxMGg0/VKWX0BOLyMf51LCzhteWhgb
+	lcu4LuTJrhHkYdBvjhrvUogduSilSenTbwWWnJCA=
+Content-Type: multipart/mixed; boundary="===============5406041542884492328=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] orc: upgrading to 0.4.39 SUCCEEDED
-Message-ID: <010101910f3210e7-a78e4070-6998-497b-91e2-7875398cb0b6-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Aug 2024 18:27:05 +0000
+Subject: [AUH] python3-hypothesis: upgrading to 6.108.5 SUCCEEDED
+Message-ID: <010101910f321665-ed439323-6064-42aa-bccf-c6f3d926969a-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Aug 2024 18:27:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.01-54.240.27.23
+X-SES-Outgoing: 2024.08.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202796
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202801
 
---===============8908245961551017183==
+--===============5406041542884492328==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *orc* to *0.4.39* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.108.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-orc-upgrade-0.4.38-0.4.39.patch
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.105.1-6.108.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,51 +72,44 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4709691af03d35f71ff8e9fc1e1c3957d37815af Mon Sep 17 00:00:00 2001
+From 5e7f26ef6df105c3b8c441866b7045546c9695a7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Aug 2024 10:12:47 +0000
-Subject: [PATCH] orc: upgrade 0.4.38 -> 0.4.39
+Date: Thu, 1 Aug 2024 10:35:26 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.105.1 -> 6.108.5
 
 ---
- meta/recipes-devtools/orc/{orc_0.4.38.bb => orc_0.4.39.bb} | 2 +-
+ ...hon3-hypothesis_6.105.1.bb => python3-hypothesis_6.108.5.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/orc/{orc_0.4.38.bb => orc_0.4.39.bb} (92%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.105.1.bb => python3-hypothesis_6.108.5.bb} (91%)
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.38.bb b/meta/recipes-devtools/orc/orc_0.4.39.bb
-similarity index 92%
-rename from meta/recipes-devtools/orc/orc_0.4.38.bb
-rename to meta/recipes-devtools/orc/orc_0.4.39.bb
-index 5d2296694a..320abf536a 100644
---- a/meta/recipes-devtools/orc/orc_0.4.38.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.39.bb
-@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.105.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.108.5.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.105.1.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.108.5.bb
+index e582289062..4062214895 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.105.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.108.5.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
--SRC_URI[sha256sum] = "a55a98d4772567aa3faed8fb84d540c3db77eaba16d3e2e10b044fbc9228668d"
-+SRC_URI[sha256sum] = "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad085ae51143d3040cc0"
+-SRC_URI[sha256sum] = "d4eedb42193da9507623f4fe27fd38f715ec19ad30ad7c30e3b25594c0b491dc"
++SRC_URI[sha256sum] = "a009d777542d64691a3d27c87e4b94b2256c0bfb47791100d9e45499c304e1b9"
  
- inherit meson pkgconfig gtk-doc
- 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.44.0
 
 
---===============8908245961551017183==
+--===============5406041542884492328==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.38.0", added "/usr/lib/liborc-0.4.so.0.39.0"
-packages/core2-64-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.38.0", added "/usr/lib/liborc-test-0.4.so.0.39.0"
-packages/core2-64-poky-linux/orc/orc-dev: FILELIST: removed "/usr/include/orc-0.4/orc/orccpuinsn.h"
-Changes to packages/core2-64-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.38.0 to liborc-0.4.so.0.39.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.38.0 to liborc-test-0.4.so.0.39.0
-  /usr/lib/liborc-0.4.so.0.38.0 moved to /usr/lib/liborc-0.4.so.0.39.0
-  /usr/lib/liborc-test-0.4.so.0.38.0 moved to /usr/lib/liborc-test-0.4.so.0.39.0
-  /usr/include/orc-0.4/orc/orccpuinsn.h was removed
+Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.12/site-packages/hypothesis-6.105.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.108.5.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1882,87 +1875,64 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============8908245961551017183==
+--===============5406041542884492328==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-orc-upgrade-0.4.38-0.4.39.patch"
+ filename="0001-python3-hypothesis-upgrade-6.105.1-6.108.5.patch"
 
-RnJvbSA0NzA5NjkxYWYwM2QzNWY3MWZmOGU5ZmMxZTFjMzk1N2QzNzgxNWFmIE1vbiBTZXAgMTcg
+RnJvbSA1ZTdmMjZlZjZkZjEwNWMzYjhjNDQxODY2YjcwNDU1NDZjOTY5NWE3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMDoxMjo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9y
-YzogdXBncmFkZSAwLjQuMzggLT4gMC40LjM5CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9v
-cmMve29yY18wLjQuMzguYmIgPT4gb3JjXzAuNC4zOS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvb3JjL3tvcmNfMC40LjM4LmJiID0+IG9yY18wLjQuMzkuYmJ9ICg5MiUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM4LmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM5LmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zOC5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM5LmJiCmluZGV4IDVkMjI5NjY5NGEu
-LjMyMGFiZjUzNmEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAu
-NC4zOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuMzkuYmIKQEAg
-LTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiQlNELTItQ2xhdXNlICYgQlNELTMtQ2xhdXNlIgogTElD
-X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTQwMGJkOWQwOWU4YWY1NmI5ZWM5
-ODJiM2Q4NTc5N2UiCiAKIFNSQ19VUkkgPSAiaHR0cDovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5v
-cmcvc3JjL29yYy9vcmMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE1NWE5
-OGQ0NzcyNTY3YWEzZmFlZDhmYjg0ZDU0MGMzZGI3N2VhYmExNmQzZTJlMTBiMDQ0ZmJjOTIyODY2
-OGQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzNlZDIzODdmNDliODI1ZmExYjljM2IwMDcyZTA1
-ZjI1OTE0MWI4OTU0NzRhZDA4NWFlNTExNDNkMzA0MGNjMCIKIAogaW5oZXJpdCBtZXNvbiBwa2dj
-b25maWcgZ3RrLWRvYwogCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMDozNToyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtaHlwb3RoZXNpczogdXBncmFkZSA2LjEwNS4xIC0+IDYuMTA4LjUKCi0tLQogLi4uaG9u
+My1oeXBvdGhlc2lzXzYuMTA1LjEuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTA4LjUuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oeXBvdGhlc2lzXzYu
+MTA1LjEuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTA4LjUuYmJ9ICg5MSUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4x
+MDUuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lz
+XzYuMTA4LjUuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMDUuMS5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMDguNS5i
+YgppbmRleCBlNTgyMjg5MDYyLi40MDYyMjE0ODk1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjEwNS4xLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTA4LjUuYmIKQEAg
+LTEzLDcgKzEzLDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUucHkgXAog
+ICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ0ZWVkYjQyMTkzZGE5NTA3NjIzZjRmZTI3
+ZmQzOGY3MTVlYzE5YWQzMGFkN2MzMGUzYjI1NTk0YzBiNDkxZGMiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiYTAwOWQ3Nzc1NDJkNjQ2OTFhM2QyN2M4N2U0Yjk0YjIyNTZjMGJmYjQ3NzkxMTAwZDll
+NDU0OTljMzA0ZTFiOSIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9uMy1hdHRy
+cyBcCi0tIAoyLjQ0LjAKCg==
 
---===============8908245961551017183==
+--===============5406041542884492328==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/orc: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.38.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.39.tar.xz"
-packages/core2-64-poky-linux/orc/liborc-0.4: PKGSIZE changed from 734452 to 721588 (-2%)
-packages/core2-64-poky-linux/orc/liborc-0.4: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.38.0", added "/usr/lib/liborc-0.4.so.0.39.0"
-packages/core2-64-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.38.0", added "/usr/lib/liborc-0.4.so.0.39.0"
-packages/core2-64-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.38.0", added "/usr/lib/liborc-test-0.4.so.0.39.0"
-packages/core2-64-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.38.0", added "/usr/lib/liborc-test-0.4.so.0.39.0"
-packages/core2-64-poky-linux/orc/orc-dbg: PKGSIZE changed from 2064840 to 2060704 (-0%)
-packages/core2-64-poky-linux/orc/orc-dbg: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc-dbg: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-test-0.4.so.0.38.0 /usr/lib/.debug/liborc-0.4.so.0.38.0", added "/usr/lib/.debug/liborc-test-0.4.so.0.39.0 /usr/lib/.debug/liborc-0.4.so.0.39.0"
-packages/core2-64-poky-linux/orc/orc-dev: PKGSIZE changed from 237116 to 239572 (+1%)
-packages/core2-64-poky-linux/orc/orc-dev: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc-dev: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/orc-dev: FILELIST: removed "/usr/include/orc-0.4/orc/orccpuinsn.h"
-packages/core2-64-poky-linux/orc/orc-doc: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc-doc: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/orc-examples: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc-examples: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/orc-locale: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc-locale: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/orc-src: PKGSIZE changed from 1737982 to 1709242 (-2%)
-packages/core2-64-poky-linux/orc/orc-src: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc-src: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/orc-src: FILELIST: directory renamed /usr/src/debug/orc/0.4.38/orc-test -> /usr/src/debug/orc/0.4.39/orc-test, directory renamed /usr/src/debug/orc/0.4.38/tools -> /usr/src/debug/orc/0.4.39/tools, removed "/usr/src/debug/orc/0.4.38/orc/orcutils-private.h /usr/src/debug/orc/0.4.38/orc/orcrules-mips.c /usr/src/debug/orc/0.4.38/orc/orcpowerpc.c /usr/src/debug/orc/0.4.38/orc/orcmmx.c /usr/src/debug/orc/0.4.38/orc/orcx86.h /usr/src/debug/orc/0.4.38/orc/orcprogram-c64x-c.c /usr/src/debug/orc/0.4.38/orc/orcx86.c /usr/src/debug/orc/0.4.38/orc/orcmmx.h /usr/src/debug/orc/0.4.38/orc/orcparse.c /usr/src/debug/orc/0.4.38/orc/orcarm.h /usr/src/debug/orc/0.4.38/orc/orcavx.c /usr/src/debug/orc/0.4.38/orc/orcmips.h /usr/src/debug/orc/0.4.38/orc/orcutils.c /usr/src/debug/orc/0.4.38/orc/orcarm.c /usr/src/debug/orc/0.4.38/orc/orcparse.h /usr/src/debug/orc/0.4.38/orc/orcutils.h /usr/src/debug/orc/0.4.38/orc/orcmips.c /usr/src/debug/orc/0.4.38/orc/orcavx.h /usr/src/debug/
- orc/0.4.38/orc/orcavx-internal.h /usr/src/debug/orc/0.4.38/orc/orcprogram-c.c /usr/src/debug/orc/0.4.38/orc/orcrules-sse.c /usr/src/debug/orc/0.4.38/orc/orcbytecodes.h /usr/src/debug/orc/0.4.38/orc/orccode.h /usr/src/debug/orc/0.4.38/orc/orcpowerpc.h /usr/src/debug/orc/0.4.38/orc/orccompiler.h /usr/src/debug/orc/0.4.38/orc/orccode.c /usr/src/debug/orc/0.4.38/orc/orcrules-mmx.c /usr/src/debug/orc/0.4.38/orc/opcodes.h /usr/src/debug/orc/0.4.38/orc/orcdebug.c /usr/src/debug/orc/0.4.38/orc/orcprogram-avx.c /usr/src/debug/orc/0.4.38/orc/orcemulateopcodes.h /usr/src/debug/orc/0.4.38/orc/orcrule.c /usr/src/debug/orc/0.4.38/orc/orcrules-avx.c /usr/src/debug/orc/0.4.38/orc/orcfunctions.c /usr/src/debug/orc/0.4.38/orc/orcprogram-mmx.c /usr/src/debug/orc/0.4.38/orc/orcemulateopcodes.c /usr/src/debug/orc/0.4.38/orc/orccpu.h /usr/src/debug/orc/0.4.38/orc/orcdebug.h /usr/src/debug/orc/0.4.38/orc/orcprogram-mips.c /usr/src/debug/orc/0.4.38/orc/orcrule.h /usr/src/debug/orc/0.4.38/orc/orccompiler.c 
- /usr/src/debug/orc/0.4.38/orc/orcprogram.c /usr/src/debug/orc/0.4.38/orc/orcrules-altivec.c /usr/src/debug/orc/0.4.38/orc/orcx86insn.c /usr/src/debug/orc/0.4.38/orc/orccodemem.c /usr/src/debug/orc/0.4.38/orc/orccpu-x86.c /usr/src/debug/orc/0.4.38/orc/orcbytecode.c /usr/src/debug/orc/0.4.38/orc/orc.h /usr/src/debug/orc/0.4.38/orc/orcvariable.h /usr/src/debug/orc/0.4.38/orc/orconce.c /usr/src/debug/orc/0.4.38/orc/orcprogram.h /usr/src/debug/orc/0.4.38/orc/orcbytecode.h /usr/src/debug/orc/0.4.38/orc/orc.c /usr/src/debug/orc/0.4.38/orc/orctarget.h /usr/src/debug/orc/0.4.38/orc/orccpuinsn.h /usr/src/debug/orc/0.4.38/orc/orcneon.h /usr/src/debug/orc/0.4.38/orc/orcexecutor.c /usr/src/debug/orc/0.4.38/orc/orcconstant.h /usr/src/debug/orc/0.4.38/orc/orclimits.h /usr/src/debug/orc/0.4.38/orc/orconce.h /usr/src/debug/orc/0.4.38/orc/orcinstruction.h /usr/src/debug/orc/0.4.38/orc/orcopcode.h /usr/src/debug/orc/0.4.38/orc/orcprogram-altivec.c /usr/src/debug/orc/0.4.38/orc/orcprogram-sse.c /usr/sr
- c/debug/orc/0.4.38/orc/orcinternal.h /usr/src/debug/orc/0.4.38/orc/orcrules-neon.c /usr/src/debug/orc/0.4.38/orc/orcsse.c /usr/src/debug/orc/0.4.38/orc/orcsse.h /usr/src/debug/orc/0.4.38/orc/orcx86insn.h /usr/src/debug/orc/0.4.38/orc/orcexecutor.h /usr/src/debug/orc/0.4.38/orc/orcopcodes.c /usr/src/debug/orc/0.4.38/orc/orcprogram-neon.c", added "/usr/src/debug/orc/0.4.39/orc/orcprogram-c.c /usr/src/debug/orc/0.4.39/orc/orcdebug.c /usr/src/debug/orc/0.4.39/orc/orcavx-internal.h /usr/src/debug/orc/0.4.39/orc/orcexecutor.h /usr/src/debug/orc/0.4.39/orc/orccompiler.h /usr/src/debug/orc/0.4.39/orc/orcprogram-c64x-c.c /usr/src/debug/orc/0.4.39/orc/orccode.h /usr/src/debug/orc/0.4.39/orc/orccompiler.c /usr/src/debug/orc/0.4.39/orc/orcdebug.h /usr/src/debug/orc/0.4.39/orc/orcexecutor.c /usr/src/debug/orc/0.4.39/orc/orccode.c /usr/src/debug/orc/0.4.39/orc/orccpu.c /usr/src/debug/orc/0.4.39/orc/orcprogram-neon.c /usr/src/debug/orc/0.4.39/orc/orcmmx.h /usr/src/debug/orc/0.4.39/orc/orcrules-sse
- .c /usr/src/debug/orc/0.4.39/orc/orcrules-mmx.c /usr/src/debug/orc/0.4.39/orc/orccpu.h /usr/src/debug/orc/0.4.39/orc/orcmmx.c /usr/src/debug/orc/0.4.39/orc/orcx86.h /usr/src/debug/orc/0.4.39/orc/orcinstruction.h /usr/src/debug/orc/0.4.39/orc/orc.h /usr/src/debug/orc/0.4.39/orc/opcodes.h /usr/src/debug/orc/0.4.39/orc/orccodemem.c /usr/src/debug/orc/0.4.39/orc/orccpu-x86.c /usr/src/debug/orc/0.4.39/orc/orcopcodes-sys.c /usr/src/debug/orc/0.4.39/orc/orcpowerpc.c /usr/src/debug/orc/0.4.39/orc/orcprogram.c /usr/src/debug/orc/0.4.39/orc/orcx86.c /usr/src/debug/orc/0.4.39/orc/orcneon.h /usr/src/debug/orc/0.4.39/orc/orcpowerpc.h /usr/src/debug/orc/0.4.39/orc/orcprogram.h /usr/src/debug/orc/0.4.39/orc/orc.c /usr/src/debug/orc/0.4.39/orc/orcprogram-mmx.c /usr/src/debug/orc/0.4.39/orc/orcx86insn.c /usr/src/debug/orc/0.4.39/orc/orcrule.h /usr/src/debug/orc/0.4.39/orc/orcx86insn.h /usr/src/debug/orc/0.4.39/orc/orcemulateopcodes.h /usr/src/debug/orc/0.4.39/orc/orcfunctions.c /usr/src/debug/orc/0.
- 4.39/orc/orcsse.c /usr/src/debug/orc/0.4.39/orc/orcrule.c /usr/src/debug/orc/0.4.39/orc/orcconstant.h /usr/src/debug/orc/0.4.39/orc/orcemulateopcodes.c /usr/src/debug/orc/0.4.39/orc/orcsse.h /usr/src/debug/orc/0.4.39/orc/orcarm.c /usr/src/debug/orc/0.4.39/orc/orcbytecode.h /usr/src/debug/orc/0.4.39/orc/orcparse.h /usr/src/debug/orc/0.4.39/orc/orcvariable.h /usr/src/debug/orc/0.4.39/orc/orcparse.c /usr/src/debug/orc/0.4.39/orc/orcbytecode.c /usr/src/debug/orc/0.4.39/orc/orcarm.h /usr/src/debug/orc/0.4.39/orc/orcprogram-altivec.c /usr/src/debug/orc/0.4.39/orc/orcprogram-sse.c /usr/src/debug/orc/0.4.39/orc/orcx86-private.h /usr/src/debug/orc/0.4.39/orc/orclimits.h /usr/src/debug/orc/0.4.39/orc/orcopcode.h /usr/src/debug/orc/0.4.39/orc/orctarget.h /usr/src/debug/orc/0.4.39/orc/orcprogram-x86.c /usr/src/debug/orc/0.4.39/orc/orcutils.h /usr/src/debug/orc/0.4.39/orc/orcmips.h /usr/src/debug/orc/0.4.39/orc/orcrules-neon.c /usr/src/debug/orc/0.4.39/orc/orcprogram-avx.c /usr/src/debug/orc/0.4
- .39/orc/orcopcode.c /usr/src/debug/orc/0.4.39/orc/orcrules-avx.c /usr/src/debug/orc/0.4.39/orc/orctarget.c /usr/src/debug/orc/0.4.39/orc/orcmips.c /usr/src/debug/orc/0.4.39/orc/orcprogram-mips.c /usr/src/debug/orc/0.4.39/orc/orcutils.c /usr/src/debug/orc/0.4.39/orc/orcutils-private.h /usr/src/debug/orc/0.4.39/orc/orcinternal.h /usr/src/debug/orc/0.4.39/orc/orcavx.c /usr/src/debug/orc/0.4.39/orc/orconce.c /usr/src/debug/orc/0.4.39/orc/orcrules-altivec.c /usr/src/debug/orc/0.4.39/orc/orcavx.h /usr/src/debug/orc/0.4.39/orc/orconce.h /usr/src/debug/orc/0.4.39/orc/orcbytecodes.h /usr/src/debug/orc/0.4.39/orc/orcrules-mips.c"
-packages/core2-64-poky-linux/orc/orc-staticdev: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-packages/core2-64-poky-linux/orc/orc: PV changed from "0.4.38" to "0.4.39"
-packages/core2-64-poky-linux/orc/orc: PKGV changed from 0.4.38 [default] to 0.4.39 [default]
-Changes to packages/core2-64-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.38.0 to liborc-0.4.so.0.39.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.38.0 to liborc-test-0.4.so.0.39.0
-  /usr/lib/liborc-0.4.so.0.38.0 moved to /usr/lib/liborc-0.4.so.0.39.0
-  /usr/lib/liborc-test-0.4.so.0.38.0 moved to /usr/lib/liborc-test-0.4.so.0.39.0
-  /usr/include/orc-0.4/orc/orccpuinsn.h was removed
+packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.105.1.tar.gz;downloadfilename=hypothesis-6.105.1.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.108.5.tar.gz;downloadfilename=hypothesis-6.108.5.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.105.1 [default] to 6.108.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.105.1" to "6.108.5"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3081967 to 3100147 (+1%)
+Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.12/site-packages/hypothesis-6.105.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.108.5.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3728,5 +3698,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.1.0/plugin/include/xcoff.h was removed
 
---===============8908245961551017183==--
+--===============5406041542884492328==--
 
