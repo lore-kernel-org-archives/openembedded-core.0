@@ -2,52 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D01D9C54734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96EA1C5472E
 	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:11 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.75735.1722536822483793946
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.75481.1722536822847967021
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 11:27:02 -0700
+ Thu, 01 Aug 2024 11:27:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bsiAobth;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=kTKDXQIH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101910f32034b-b30ee729-c8b2-435a-b8ae-57d621fe1ecc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JgM8WiKC;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=c0ffO4GM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101910f320a37-526a3929-216e-4e13-ab83-9b91acfac55c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1722536821;
+	t=1722536823;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mR6nUwTTugRJEoISpUZ5dN6F+Jjyla1tU8nUbYVBEsA=;
-	b=bsiAobthFw9PoIAXek1lAC7Dc/DLv52xIS51eNijzNY8jTUB7s0pP3FlFbV+Kdgr
-	tci5G3vurgkIp2HPIyLM8iZEdBqbRrRKWSpjOMNbq9lY+9Gt/Nms+crwi993bRC78Dg
-	nSkxVlRItSpy/SGcM1GOBw7MuH7DgOFYdmGjmuAQ=
+	bh=qrnPbLEKeyZDmvb4oS/4U/Smicbl86E40DF+jl72hJs=;
+	b=JgM8WiKCUThRZ2HOryhWkYskL7NyyKa+ukQcqTxDQYCdm7OkrrZ6SXizTKeMId/R
+	5xg6xfa4YprGWX6d6tnJFU5ca6rZq73xIS9+JzDyLRL1MgoGT5oLqaAe9K7ZO92zrfb
+	MURNaeCRaWdoQQcqueBLZaMNfmo4S3oFsOY+NBi0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536821;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536823;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mR6nUwTTugRJEoISpUZ5dN6F+Jjyla1tU8nUbYVBEsA=;
-	b=kTKDXQIHxATEwh4bf/aaZ2Dg0H7vXQuBfguwqbZQrLrj1F6pZooJuxwBXKcEsyaP
-	7mNwyviJPnR9XOtc1wHupQ5wZtrMM6i+EdnZnj5/bDiRjU+KlUYvW/FUlt5HNqXuq3g
-	a/M7QT6WXtIZjANX6Q3Kyo1whkk1UvfTe0vG6wdM=
-Content-Type: multipart/mixed; boundary="===============4460148073758989712=="
+	bh=qrnPbLEKeyZDmvb4oS/4U/Smicbl86E40DF+jl72hJs=;
+	b=c0ffO4GMqZaPD3dSMBbPbgj1Z5W0uurCuhNDeDUEBdsUZCxDHCr+0Y2boKcZSAxA
+	q8nuDQpHnPylN+V2LAhGe/fgvKT6MPNevtiKP2LZrRbwPzARDvf2HnWTzuBH9LsSPNC
+	yjwk/Qm5MroaDnCdF11IcWh5rrBxGrw9JPLwnGvU=
+Content-Type: multipart/mixed; boundary="===============3970702145921545151=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>, 
-	Randy MacLeod <Randy.MacLeod@windriver.com>, 
-	Randy MacLeod <Randy.MacLeod@windriver.com>, 
-	Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo,libstd-rs,rust-llvm,rust: upgrading to
- 1.80.0,1.80.0,1.80.0,1.80.0 FAILED
-Message-ID: <010101910f32034b-b30ee729-c8b2-435a-b8ae-57d621fe1ecc-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Aug 2024 18:27:01 +0000
+Subject: [AUH] btrfs-tools: upgrading to 6.10 SUCCEEDED
+Message-ID: <010101910f320a37-526a3929-216e-4e13-ab83-9b91acfac55c-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Aug 2024 18:27:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.01-54.240.27.192
+X-SES-Outgoing: 2024.08.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202768
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202781
 
---===============4460148073758989712==
+--===============3970702145921545151==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,277 +51,203 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cargo,libstd-rs,rust-llvm,rust* to *1.80.0,1.80.0,1.80.0,1.80.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *6.10* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-btrfs-tools-upgrade-6.9.2-6.10.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade cargo -V 1.80.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1883 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-f1e85e33bac48f52062b5f26c31cb71f5bcaa2f9"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f1e85e33bac48f52062b5f26c31cb71f5bcaa2f9"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 1883 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 921 .bb files complete (919 cached, 2 parsed). 1884 targets, 37 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-f1e85e33bac48f52062b5f26c31cb71f5bcaa2f9"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f1e85e33bac48f52062b5f26c31cb71f5bcaa2f9"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-9y9kid00: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kur_gvoz/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kur_gvoz/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:20:57
-Adding changed files:   0% |                                    | ETA:  0:15:56
-Adding changed files:   0% |                                    | ETA:  0:14:14
-Adding changed files:   0% |                                    | ETA:  0:13:25
-Adding changed files:   0% |                                    | ETA:  0:12:52
-Adding changed files:   0% |                                    | ETA:  0:12:28
-Adding changed files:   0% |                                    | ETA:  0:11:55
-Adding changed files:   0% |                                    | ETA:  0:11:33
-Adding changed files:   0% |                                    | ETA:  0:11:23
-Adding changed files:   0% |                                    | ETA:  0:11:06
-Adding changed files:   0% |                                    | ETA:  0:10:54
-Adding changed files:   0% |                                    | ETA:  0:10:46
-Adding changed files:   0% |                                    | ETA:  0:10:40
-Adding changed files:   0% |                                    | ETA:  0:10:30
-Adding changed files:   0% |                                    | ETA:  0:10:26
-Adding changed files:   0% |                                    | ETA:  0:10:19
-Adding changed files:   1% |                                    | ETA:  0:10:17
-Adding changed files:   1% |                                    | ETA:  0:10:14
-Adding changed files:   1% |                                    | ETA:  0:10:10
-Adding changed files:   1% |                                    | ETA:  0:10:08
-Adding changed files:   1% |                                    | ETA:  0:10:06
-Adding changed files:   1% |                                    | ETA:  0:10:03
-Adding changed files:   1% |                                    | ETA:  0:09:59
-Adding changed files:   1% |                                    | ETA:  0:09:56
-Adding changed files:   1% |                                    | ETA:  0:09:55
-Adding changed files:   1% |                                    | ETA:  0:09:53
-Adding changed files:   1% |                                    | ETA:  0:09:52
-Adding changed files:   1% |                                    | ETA:  0:09:50
-Adding changed files:   1% |                                    | ETA:  0:09:46
-Adding changed files:   1% |                                    | ETA:  0:09:43
-Adding changed files:   1% |                                    | ETA:  0:09:41
-Adding changed files:   1% |                                    | ETA:  0:09:42
-Adding changed files:   1% |                                    | ETA:  0:09:43
-Adding changed files:   2% |                                    | ETA:  0:09:41
-Adding changed files:   2% |                                    | ETA:  0:09:40
-Adding changed files:   2% |                                    | ETA:  0:09:39
-Adding changed files:   2% |                                    | ETA:  0:09:41
-Adding changed files:   2% |                                    | ETA:  0:09:39
-Adding changed files:   2% |                                    | ETA:  0:09:36
-Adding changed files:   2% |                                    | ETA:  0:09:34
-Adding changed files:   2% |                                    | ETA:  0:09:32
-Adding changed files:   2% |                                    | ETA:  0:09:32
-Adding changed files:   2% |                                    | ETA:  0:09:31
-Adding changed files:   2% |                                    | ETA:  0:09:31
-Adding changed files:   2% |                                    | ETA:  0:09:31
-Adding changed files:   2% |#                                   | ETA:  0:09:29
-Adding changed files:   2% |#                                   | ETA:  0:09:29
-Adding changed files:   2% |#                                   | ETA:  0:09:29
-Adding changed files:   2% |#                                   | ETA:  0:09:27
-Adding changed files:   3% |#                                   | ETA:  0:09:27
-Adding changed files:   3% |#                                   | ETA:  0:09:26
-Adding changed files:   3% |#                                   | ETA:  0:09:24
-Adding changed files:   3% |#                                   | ETA:  0:09:22
-Adding changed files:   3% |#                                   | ETA:  0:09:21
-Adding changed files:   3% |#                                   | ETA:  0:09:21
-Adding changed files:   3% |#                                   | ETA:  0:09:20
-Adding changed files:   3% |#                                   | ETA:  0:09:19
-Adding changed files:   3% |#                                   | ETA:  0:09:19
-Adding changed files:   3% |#                                   | ETA:  0:09:19
-Adding changed files:   3% |#                                   | ETA:  0:09:18
-Adding changed files:   3% |#                                   | ETA:  0:09:16
-Adding changed files:   3% |#                                   | ETA:  0:09:16
-Adding changed files:   3% |#                                   | ETA:  0:09:14
-Adding changed files:   3% |#                                   | ETA:  0:09:13
-Adding changed files:   3% |#                                   | ETA:  0:09:11
-Adding changed files:   3% |#                                   | ETA:  0:09:10
-Adding changed files:   4% |#                                   | ETA:  0:09:09
-Adding changed files:   4% |#                                   | ETA:  0:09:08
-Adding changed files:   4% |#                                   | ETA:  0:09:08
-Adding changed files:   4% |#                                   | ETA:  0:09:07
-Adding changed files:   4% |#                                   | ETA:  0:09:06
-Adding changed files:   4% |#                                   | ETA:  0:09:06
-Adding changed files:   4% |#                                   | ETA:  0:09:05
-Adding changed files:   4% |#                                   | ETA:  0:09:04
-Adding changed files:   4% |#                                   | ETA:  0:09:04
-Adding changed files:   4% |#                                   | ETA:  0:09:04
-Adding changed files:   4% |#                                   | ETA:  0:09:03
-Adding changed files:   4% |#                                   | ETA:  0:09:02
-Adding changed files:   4% |#                                   | ETA:  0:09:02
-Adding changed files:   4% |#                                   | ETA:  0:09:02
-Adding changed files:   4% |#                                   | ETA:  0:09:01
-Adding changed files:   4% |#                                   | ETA:  0:09:00
-Adding changed files:   5% |#                                   | ETA:  0:08:59
-Adding changed files:   5% |#                                   | ETA:  0:08:58
-Adding changed files:   5% |#                                   | ETA:  0:08:57
-Adding changed files:   5% |#                                   | ETA:  0:08:56
-Adding changed files:   5% |#                                   | ETA:  0:08:55
-Adding changed files:   5% |#                                   | ETA:  0:08:54
-Adding changed files:   5% |#                                   | ETA:  0:08:53
-Adding changed files:   5% |#                                   | ETA:  0:08:52
-Adding changed files:   5% |#                                   | ETA:  0:08:51
-Adding changed files:   5% |##                                  | ETA:  0:08:50
-Adding changed files:   5% |##                                  | ETA:  0:08:49
-Adding changed files:   5% |##                                  | ETA:  0:08:48
-Adding changed files:   5% |##                                  | ETA:  0:08:47
-Adding changed files:   5% |##                                  | ETA:  0:08:46
-Adding changed files:   5% |##                                  | ETA:  0:08:46
-Adding changed files:   5% |##                                  | ETA:  0:08:45
-Adding changed files:   5% |##                                  | ETA:  0:08:44
-Adding changed files:   6% |##                                  | ETA:  0:08:43
-Adding changed files:   6% |##                                  | ETA:  0:08:42
-Adding changed files:   6% |##                                  | ETA:  0:08:41
-Adding changed files:   6% |##                                  | ETA:  0:08:41
-Adding changed files:   6% |##                                  | ETA:  0:08:40
-Adding changed files:   6% |##                                  | ETA:  0:08:39
-Adding changed files:   6% |##                                  | ETA:  0:08:38
-Adding changed files:   6% |##                                  | ETA:  0:08:38
-Adding changed files:   6% |##                                  | ETA:  0:08:37
-Adding changed files:   6% |##                                  | ETA:  0:08:36
-Adding changed files:   6% |##                                  | ETA:  0:08:36
-Adding changed files:   6% |##                                  | ETA:  0:08:35
-Adding changed files:   6% |##                                  | ETA:  0:08:34
-Adding changed files:   6% |##                                  | ETA:  0:08:34
-Adding changed files:   6% |##                                  | ETA:  0:08:33
-Adding changed files:   6% |##                                  | ETA:  0:08:32
-Adding changed files:   7% |##                                  | ETA:  0:08:32
-Adding changed files:   7% |##                                  | ETA:  0:08:31
-Adding changed files:   7% |##                                  | ETA:  0:08:30
-Adding changed files:   7% |##                                  | ETA:  0:08:30
-Adding changed files:   7% |##                                  | ETA:  0:08:29
-Adding changed files:   7% |##                                  | ETA:  0:08:29
-Adding changed files:   7% |##                                  | ETA:  0:08:28
-Adding changed files:   7% |##                                  | ETA:  0:08:27
-Adding changed files:   7% |##                                  | ETA:  0:08:27
-Adding changed files:   7% |##                                  | ETA:  0:08:26
-Adding changed files:   7% |##                                  | ETA:  0:08:26
-Adding changed files:   7% |##                                  | ETA:  0:08:25
-Adding changed files:   7% |##                                  | ETA:  0:08:24
-Adding changed files:   7% |##                                  | ETA:  0:08:24
-Adding changed files:   7% |##                                  | ETA:  0:08:23
-Adding changed files:   7% |##                                  | ETA:  0:08:23
-Adding changed files:   7% |##                                  | ETA:  0:08:23
-Adding changed files:   8% |##                                  | ETA:  0:08:22
-Adding changed files:   8% |##                                  | ETA:  0:08:21
-Adding changed files:   8% |##                                  | ETA:  0:08:21
-Adding changed files:   8% |##                                  | ETA:  0:08:21
-Adding changed files:   8% |##                                  | ETA:  0:08:20
-Adding changed files:   8% |###                                 | ETA:  0:08:20
-Adding changed files:   8% |###                                 | ETA:  0:08:19
-Adding changed files:   8% |###                                 | ETA:  0:08:19
-Adding changed files:   8% |###                                 | ETA:  0:08:18
-Adding changed files:   8% |###                                 | ETA:  0:08:18
-Adding changed files:   8% |###                                 | ETA:  0:08:17
-Adding changed files:   8% |###                                 | ETA:  0:08:17
-Adding changed files:   8% |###                                 | ETA:  0:08:16
-Adding changed files:   8% |###                                 | ETA:  0:08:16
-Adding changed files:   8% |###                                 | ETA:  0:08:16
-Adding changed files:   8% |###                                 | ETA:  0:08:16
-Adding changed files:   9% |###                                 | ETA:  0:08:15
-Adding changed files:   9% |###                                 | ETA:  0:08:15
-Adding changed files:   9% |###                                 | ETA:  0:08:15
-Adding changed files:   9% |###                                 | ETA:  0:08:14
-Adding changed files:   9% |###                                 | ETA:  0:08:14
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:12
-Adding changed files:   9% |###                                 | ETA:  0:08:12
-Adding changed files:   9% |###                                 | ETA:  0:08:12
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:13
-Adding changed files:   9% |###                                 | ETA:  0:08:12
-Adding changed files:  10% |###                                 | ETA:  0:08:12
-Adding changed files:  10% |###                                 | ETA:  0:08:11
-Adding changed files:  10% |###                                 | ETA:  0:08:11
-Adding changed files:  10% |###                                 | ETA:  0:08:10
-Adding changed files:  10% |###                                 | ETA:  0:08:10
-Adding changed files:  10% |###                                 | ETA:  0:08:10
-Adding changed files:  10% |###                                 | ETA:  0:08:10
-Adding changed files:  10% |###                                 | ETA:  0:08:09
-Adding changed files:  10% |###                                 | ETA:  0:08:09
-Adding changed files:  10% |###                                 | ETA:  0:08:12
-Adding changed files:  10% |###                                 | ETA:  0:08:12
-Adding changed files:  10% |###                                 | ETA:  0:08:12
-Adding changed files:  10% |###                                 | ETA:  0:08:13
-Adding changed files:  10% |###                                 | ETA:  0:08:13
-Adding changed files:  10% |###                                 | ETA:  0:08:13
-Adding changed files:  10% |###                                 | ETA:  0:08:13
-Adding changed files:  11% |###                                 | ETA:  0:08:14
-Adding changed files:  11% |###                                 | ETA:  0:08:14
-Adding changed files:  11% |####                                | ETA:  0:08:14
-Adding changed files:  11% |####                                | ETA:  0:08:14
-Adding changed files:  11% |####                                | ETA:  0:08:14
-Adding changed files:  11% |####                                | ETA:  0:08:14
-Adding changed files:  11% |####                                | ETA:  0:08:14
-Adding changed files:  11% |####                                | ETA:  0:08:14
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://static.rust-lang.org/dist/rustc-1.80.0-src.tar.xz;name=rust...
-ERROR: Execution of 'git add -f -A "tests/rustdoc/doctest/doctest-crate-attributes-38129.rs" "tests/rustdoc/doctest/doctest-escape-boring-41783.codeblock.html" "tests/rustdoc/doctest/doctest-escape-boring-41783.rs" "tests/rustdoc/doctest/doctest-hide-empty-line-23106.rs" "tests/rustdoc/doctest/doctest-ignore-32556.rs" "tests/rustdoc/doctest/doctest-include-43153.rs" "tests/rustdoc/doctest/doctest-macro-38219.rs" "tests/rustdoc/doctest/doctest-manual-crate-name.rs" "tests/rustdoc/doctest/doctest-markdown-inline-parse-23744.rs" "tests/rustdoc/doctest/doctest-markdown-trailing-docblock-48377.rs" "tests/rustdoc/doctest/doctest-multi-line-string-literal-25944.rs" "tests/rustdoc/duplicated-glob-reexport-60522.rs" "tests/rustdoc/enum-variant-doc-hidden-field-88600.rs" "tests/rustdoc/enum-variant-fields-heading.rs" "tests/rustdoc/enum-variant-fields-heading.variants.html" "tests/rustdoc/enum-variant-private-46767.rs" "tests/rustdoc/enum-variant-reexport-35488.rs" "tests/rustdoc/footnote-defi
- nition-without-blank-line-100638.rs" "tests/rustdoc/foreign-implementors-js-43701.rs" "tests/rustdoc/glob-reexport-attribute-merge-120487.rs" "tests/rustdoc/glob-reexport-attribute-merge-doc-auto-cfg.rs" "tests/rustdoc/heading-levels-89309.rs" "tests/rustdoc/hide-mut-methods-if-no-derefmut-impl-74083.rs" "tests/rustdoc/impl-blanket-53689.rs" "tests/rustdoc/impl-on-ty-alias-issue-119015.rs" "tests/rustdoc/impl-trait-43869.rs" "tests/rustdoc/implementors-unstable-75588.rs" "tests/rustdoc/inline-rename-34473.rs" "tests/rustdoc/inline_cross/auxiliary/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/auxiliary/issue-46727.rs" "tests/rustdoc/inline_cross/auxiliary/issue-57180.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-1.rs" "tests/rustdoc/inline_cross/auxiliary/issue-76736-2.rs" "tests/rustdoc/inline_cross/auxiliary/issue-85454.rs" "tests/rustdoc/inline_cross/auxiliary/reexport-with-anonymous-lifetime-98697.rs" "tests/rustdoc/inline_cross/auxiliary/u_default_gene
- ric_args.rs" "tests/rustdoc/inline_cross/const-eval-46727.rs" "tests/rustdoc/inline_cross/early-late-bound-lifetime-params.rs" "tests/rustdoc/inline_cross/ice-import-crate-57180.rs" "tests/rustdoc/inline_cross/issue-76736-1.rs" "tests/rustdoc/inline_cross/issue-76736-2.rs" "tests/rustdoc/inline_cross/issue-76736-3.rs" "tests/rustdoc/inline_cross/issue-76736-4.rs" "tests/rustdoc/inline_cross/qpath-self-85454.rs" "tests/rustdoc/inline_cross/reexport-with-anonymous-lifetime-98697.rs" "tests/rustdoc/inline_local/blanket-impl-reexported-trait-94183.rs" "tests/rustdoc/inline_local/enum-variant-reexport-46766.rs" "tests/rustdoc/inline_local/private-reexport-in-public-api-81141-2.rs" "tests/rustdoc/inline_local/private-reexport-in-public-api-81141.rs" "tests/rustdoc/inline_local/private-reexport-in-public-api-generics-81141.rs" "tests/rustdoc/inline_local/private-reexport-in-public-api-hidden-81141.rs" "tests/rustdoc/inline_local/private-reexport-in-public-api-private-81141.rs" "tests/rustd
- oc/inline_local/reexported-macro-and-macro-export-sidebar-89852.rs" "tests/rustdoc/intra-doc-link-method-trait-impl-72340.rs" "tests/rustdoc/intra-doc/module-scope-name-resolution-55364.rs" "tests/rustdoc/invalid$crate$name.rs" "tests/rustdoc/issue-106421-not-internal.rs" "tests/rustdoc/issue-106421.rs" "tests/rustdoc/issue-118180-empty-tuple-struct.rs" "tests/rustdoc/jump-to-def-doc-links-calls.rs" "tests/rustdoc/jump-to-def-macro.rs" "tests/rustdoc/jump-to-non-local-method.rs" "tests/rustdoc/links-in-headings.rs" "tests/rustdoc/markdown-60482.rs" "tests/rustdoc/method-anchor-in-blanket-impl-86620.rs" "tests/rustdoc/multiple-macro-rules-w-same-name-submodule-99221.rs" "tests/rustdoc/multiple-mods-w-same-name-doc-inline-83375.rs" "tests/rustdoc/multiple-mods-w-same-name-doc-inline-last-item-83375.rs" "tests/rustdoc/notable-trait/doc-notable_trait-negative.negative.html" "tests/rustdoc/notable-trait/doc-notable_trait-negative.positive.html" "tests/rustdoc/notable-trait/doc-notable_tr
- ait-negative.rs" "tests/rustdoc/private-non-local-fields-2.rs" "tests/rustdoc/private-non-local-fields.rs" "tests/rustdoc/private-use-decl-macro-47038.rs" "tests/rustdoc/pub-reexport-of-pub-reexport-46506.rs" "tests/rustdoc/pub-use-root-path-95873.rs" "tests/rustdoc/public-impl-mention-private-generic-46380-2.rs" "tests/rustdoc/reexport-cfg.rs" "tests/rustdoc/resolve-ice-124363.rs" "tests/rustdoc/sidebar-trait-impl-disambiguate-78701.rs" "tests/rustdoc/sort-53812.rs" "tests/rustdoc/source-code-highlight.rs" "tests/rustdoc/src-links-implementor-43893.rs" "tests/rustdoc/summary-header-46377.rs" "tests/rustdoc/synthetic_auto/auto-trait-lifetimes-56822.rs" "tests/rustdoc/synthetic_auto/bounds.rs" "tests/rustdoc/synthetic_auto/normalize-auto-trait-80233.rs" "tests/rustdoc/synthetic_auto/send-impl-conditional-60726.rs" "tests/rustdoc/synthetic_auto/supertrait-bounds.rs" "tests/rustdoc/trait-implementations-duplicate-self-45584.rs" "tests/rustdoc/trait-item-info.rs" "tests/rustdoc/tuple-st
- ruct-where-clause-34928.rs" "tests/rustdoc/type-alias/primitive-local-link-121106.rs" "tests/rustdoc/underscore-import-61592.rs" "tests/rustdoc/underscore-type-in-trait-impl-96381.rs" "tests/ui-fulldeps/auxiliary/obtain-borrowck-input.rs" "tests/ui-fulldeps/obtain-borrowck.rs" "tests/ui-fulldeps/obtain-borrowck.run.stdout" "tests/ui-fulldeps/run-compiler-twice.rs" "tests/ui-fulldeps/stable-mir/check_abi.rs"' failed with exit code 128:
-fatal: pathspec 'tests/rustdoc/invalid.rs' did not match any files
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4460148073758989712==--
+
+-- >8 --
+From 7b80abce56e19c7c5eeff9a27d007c7e81c79ed8 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 1 Aug 2024 09:09:27 +0000
+Subject: [PATCH] btrfs-tools: upgrade 6.9.2 -> 6.10
+
+---
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../{btrfs-tools_6.9.2.bb => btrfs-tools_6.10.bb}           | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.9.2.bb => btrfs-tools_6.10.bb} (98%)
+
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index ef431cd69a..d5d53fbb86 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From 3b9b9b6ac033b44b3864abb1296fce1e19a2b622 Mon Sep 17 00:00:00 2001
++From daccbfbdd3609d7c110f634e222f59f7ff07742c Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index 82dfb1b4..4968989a 100644
++index c0428c57..1d06ae12 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -984,7 +984,7 @@ endif
++@@ -985,7 +985,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.bb
+index 9f5586490d..67c669ecd0 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "b0e5ef4cf7c8b473119e0d487a26b96058e8f80d"
++SRCREV = "0cac9acfc617bd96cc6c296cc680223fe74973a5"
+ S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= " \
+-- 
+2.44.0
+
+
+--===============3970702145921545151==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-btrfs-tools-upgrade-6.9.2-6.10.patch"
+
+RnJvbSA3YjgwYWJjZTU2ZTE5YzdjNWVlZmY5YTI3ZDAwN2M3ZTgxYzc5ZWQ4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAwOTowOToyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJ0
+cmZzLXRvb2xzOiB1cGdyYWRlIDYuOS4yIC0+IDYuMTAKCi0tLQogLi4uZC1hLXBvc3NpYmlsaXR5
+LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
+L3tidHJmcy10b29sc182LjkuMi5iYiA9PiBidHJmcy10b29sc182LjEwLmJifSAgICAgICAgICAg
+fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMve2J0cmZzLXRvb2xzXzYu
+OS4yLmJiID0+IGJ0cmZzLXRvb2xzXzYuMTAuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2li
+aWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmls
+aXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKaW5kZXggZWY0MzFj
+ZDY5YS4uZDVkNTNmYmI4NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZz
+LXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lmeS13aGVy
+ZS1weXRob24tbW9kdWxlcy1hci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRy
+ZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVjaWZ5LXdo
+ZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAzYjliOWI2
+YWMwMzNiNDRiMzg2NGFiYjEyOTZmY2UxZTE5YTJiNjIyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSBkYWNjYmZiZGQzNjA5ZDdjMTEwZjYzNGUyMjJmNTlmN2ZmMDc3NDJjIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
+bWFpbC5jb20+CiBEYXRlOiBXZWQsIDIzIE1heSAyMDE4IDIxOjIwOjM1ICswMzAwCiBTdWJqZWN0
+OiBbUEFUQ0hdIEFkZCBhIHBvc3NpYmlsaXR5IHRvIHNwZWNpZnkgd2hlcmUgcHl0aG9uIG1vZHVs
+ZXMgYXJlCkBAIC0xMSwxMCArMTEsMTAgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2
+aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlCi1p
+bmRleCA4MmRmYjFiNC4uNDk2ODk4OWEgMTAwNjQ0CitpbmRleCBjMDQyOGM1Ny4uMWQwNmFlMTIg
+MTAwNjQ0CiAtLS0gYS9NYWtlZmlsZQogKysrIGIvTWFrZWZpbGUKLUBAIC05ODQsNyArOTg0LDcg
+QEAgZW5kaWYKK0BAIC05ODUsNyArOTg1LDcgQEAgZW5kaWYKICBpZmVxICgkKFBZVEhPTl9CSU5E
+SU5HUyksMSkKICBpbnN0YWxsX3B5dGhvbjogbGliYnRyZnN1dGlsX3B5dGhvbgogIAkkKFEpY2Qg
+bGliYnRyZnN1dGlsL3B5dGhvbjsgXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuOS4yLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYu
+OS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMt
+dG9vbHNfNi4xMC5iYgppbmRleCA5ZjU1ODY0OTBkLi42N2M2NjllY2QwIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi45LjIuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMTAuYmIK
+QEAgLTE4LDcgKzE4LDcgQEAgREVQRU5EUyA9ICJ1dGlsLWxpbnV4IHpsaWIiCiBTUkNfVVJJID0g
+ImdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9rZGF2ZS9idHJm
+cy1wcm9ncy5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZp
+bGU6Ly8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVs
+ZXMtYXIucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiYjBlNWVmNGNmN2M4YjQ3MzEx
+OWUwZDQ4N2EyNmI5NjA1OGU4ZjgwZCIKK1NSQ1JFViA9ICIwY2FjOWFjZmM2MTdiZDk2Y2M2YzI5
+NmNjNjgwMjIzZmU3NDk3M2E1IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogUEFDS0FHRUNPTkZJ
+RyA/Pz0gIiBcCi0tIAoyLjQ0LjAKCg==
+
+--===============3970702145921545151==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/dependency_links.txt was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/PKG-INFO was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/SOURCES.txt was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/top_level.txt was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/PKG-INFO was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/top_level.txt was removed
+
+--===============3970702145921545151==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 25107992 to 25402560 (+1%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.9.2 [default] to 6.10 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 219002 to 219000 (-0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.9.2 [default] to 6.10 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.9.2 [default] to 6.10 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.9.2 [default] to 6.10 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4192255 to 4208775 (+0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/6.9.2/cmds -> /usr/src/debug/btrfs-tools/6.10/cmds, directory renamed /usr/src/debug/btrfs-tools/6.9.2/libbtrfsutil -> /usr/src/debug/btrfs-tools/6.10/libbtrfsutil, directory renamed /usr/src/debug/btrfs-tools/6.9.2/image -> /usr/src/debug/btrfs-tools/6.10/image, directory renamed /usr/src/debug/btrfs-tools/6.9.2/libbtrfsutil/python -> /usr/src/debug/btrfs-tools/6.10/libbtrfsutil/python, directory renamed /usr/src/debug/btrfs-tools/6.9.2/mkfs -> /usr/src/debug/btrfs-tools/6.10/mkfs, directory renamed /usr/src/debug/btrfs-tools/6.9.2/convert -> /usr/src/debug/btrfs-tools/6.10/convert, directory renamed /usr/src/debug/btrfs-tools/6.9.2/kernel-lib -> /usr/src/debug/btrfs-tools/6.10/kernel-lib, directory renamed /usr/src/debug/btrfs-tools/6.9.2/libbtrfs -> /usr/src/debug/btrfs-tools/6.10/libbtrfs, directory renamed /usr/src/debug/btrfs-tools/6.9.2/check -> /usr/src/debug/btrfs
+ -tools/6.10/check, directory renamed /usr/src/debug/btrfs-tools/6.9.2/tune -> /usr/src/debug/btrfs-tools/6.10/tune, directory renamed /usr/src/debug/btrfs-tools/6.9.2/include -> /usr/src/debug/btrfs-tools/6.10/include, directory renamed /usr/src/debug/btrfs-tools/6.9.2/crypto -> /usr/src/debug/btrfs-tools/6.10/crypto, directory renamed /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/uapi -> /usr/src/debug/btrfs-tools/6.10/kernel-shared/uapi, directory renamed /usr/src/debug/btrfs-tools/6.9.2 -> /usr/src/debug/btrfs-tools/6.10, removed "/usr/src/debug/btrfs-tools/6.9.2/kernel-shared/tree-checker.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/tree-checker.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/inode.c /usr/src/debug/btrfs-tools/6.9.2/common/parse-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/parse-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/string-table.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/file-item.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/file-ite
+ m.c /usr/src/debug/btrfs-tools/6.9.2/common/string-table.h /usr/src/debug/btrfs-tools/6.9.2/common/device-scan.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent_io.c /usr/src/debug/btrfs-tools/6.9.2/common/extent-tree-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/device-scan.h /usr/src/debug/btrfs-tools/6.9.2/common/extent-tree-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent_io.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/disk-io.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/print-tree.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/disk-io.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/print-tree.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/accessors.c /usr/src/debug/btrfs-tools/6.9.2/common/messages.h /usr/src/debug/btrfs-tools/6.9.2/common/clear-cache.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/accessors.h /usr/src/debug/btrfs-tools/6.9.2/common/clear-cache.c /usr/src/debug/btrfs-tools/6.9.2/common/messages.c /usr/src/debug/btrfs-tools/6.9
+ .2/kernel-shared/locking.h /usr/src/debug/btrfs-tools/6.9.2/common/task-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/locking.c /usr/src/debug/btrfs-tools/6.9.2/common/task-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/open-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent-io-tree.h /usr/src/debug/btrfs-tools/6.9.2/common/open-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent-io-tree.c /usr/src/debug/btrfs-tools/6.9.2/common/string-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/format-output.c /usr/src/debug/btrfs-tools/6.9.2/common/format-output.h /usr/src/debug/btrfs-tools/6.9.2/common/string-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/fsfeatures.h /usr/src/debug/btrfs-tools/6.9.2/common/units.c /usr/src/debug/btrfs-tools/6.9.2/common/sysfs-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/fsfeatures.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/inode-item.c /usr/src/debug/btrfs-tools/6.9.2/common/sysfs-utils.c /usr/src/debug/btrfs-tools/6.
+ 9.2/common/units.h /usr/src/debug/btrfs-tools/6.9.2/common/filesystem-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/misc.h /usr/src/debug/btrfs-tools/6.9.2/common/array.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/uuid-tree.c /usr/src/debug/btrfs-tools/6.9.2/common/array.c /usr/src/debug/btrfs-tools/6.9.2/common/filesystem-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/backref.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/backref.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/root-tree.c /usr/src/debug/btrfs-tools/6.9.2/common/path-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/path-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/extent-cache.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/dir-item.c /usr/src/debug/btrfs-tools/6.9.2/common/extent-cache.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/transaction.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/transaction.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/volumes.c /usr/src/debug/btrfs-tool
+ s/6.9.2/kernel-shared/async-thread.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/messages.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ulist.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/extent-tree.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/zoned.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/messages.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/async-thread.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ulist.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/volumes.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/compression.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/zoned.h /usr/src/debug/btrfs-tools/6.9.2/common/cpu-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/delayed-ref.c /usr/src/debug/btrfs-tools/6.9.2/common/cpu-utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/delayed-ref.h /usr/src/debug/btrfs-tools/6.9.2/common/send-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/sort-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/send-utils.
+ h /usr/src/debug/btrfs-tools/6.9.2/common/sort-utils.h /usr/src/debug/btrfs-tools/6.9.2/common/rbtree-utils.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/file.c /usr/src/debug/btrfs-tools/6.9.2/common/send-stream.h /usr/src/debug/btrfs-tools/6.9.2/common/rbtree-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/send-stream.c /usr/src/debug/btrfs-tools/6.9.2/common/tree-search.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-tree.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-tree.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ctree.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/ctree.c /usr/src/debug/btrfs-tools/6.9.2/common/utils.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-cache.c /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/send.h /usr/src/debug/btrfs-tools/6.9.2/common/device-utils.c /usr/src/debug/btrfs-tools/6.9.2/common/help.h /usr/src/debug/btrfs-tools/6.9.2/kernel-shared/free-space-cache.h /usr/src/debug/btrfs-tools/6.9.2/common/
+ utils.h /usr/src/debug/btrfs-tools/6.9.2/common/help.c /usr/src/debug/btrfs-tools/6.9.2/common/device-utils.h", added "/usr/src/debug/btrfs-tools/6.10/kernel-shared/disk-io.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/send.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/disk-io.c /usr/src/debug/btrfs-tools/6.10/common/parse-utils.h /usr/src/debug/btrfs-tools/6.10/common/parse-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/delayed-ref.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/ulist.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/misc.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/delayed-ref.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/ulist.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-tree.h /usr/src/debug/btrfs-tools/6.10/common/send-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-tree.c /usr/src/debug/btrfs-tools/6.10/common/send-utils.h /usr/src/debug/btrfs-tools/6.10/common/tree-search.h /usr/src/debug/btrfs-tools/6.10/common/un
+ its.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/inode-item.c /usr/src/debug/btrfs-tools/6.10/common/units.c /usr/src/debug/btrfs-tools/6.10/common/cpu-utils.h /usr/src/debug/btrfs-tools/6.10/common/cpu-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent-tree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/messages.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/messages.c /usr/src/debug/btrfs-tools/6.10/common/extent-tree-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/print-tree.c /usr/src/debug/btrfs-tools/6.10/common/extent-tree-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/print-tree.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/ctree.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-cache.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/ctree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/free-space-cache.h /usr/src/debug/btrfs-tools/6.10/common/array.h /usr/src/debug/btrfs-tools/6.10/common/array.c /usr/src/debug/btrfs-tools/6.10/kernel-sh
+ ared/volumes.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/volumes.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/file.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/backref.c /usr/src/debug/btrfs-tools/6.10/common/task-utils.h /usr/src/debug/btrfs-tools/6.10/common/task-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/backref.h /usr/src/debug/btrfs-tools/6.10/common/format-output.h /usr/src/debug/btrfs-tools/6.10/common/format-output.c /usr/src/debug/btrfs-tools/6.10/common/rbtree-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/transaction.c /usr/src/debug/btrfs-tools/6.10/common/rbtree-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/transaction.h /usr/src/debug/btrfs-tools/6.10/common/send-stream.h /usr/src/debug/btrfs-tools/6.10/common/send-stream.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent-io-tree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/tree-checker.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/tree-checker.h /usr/src/debug/btrfs-tools/6
+ .10/kernel-shared/extent-io-tree.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/uuid-tree.h /usr/src/debug/btrfs-tools/6.10/common/string-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/uuid-tree.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/inode.c /usr/src/debug/btrfs-tools/6.10/common/string-utils.h /usr/src/debug/btrfs-tools/6.10/common/utils.h /usr/src/debug/btrfs-tools/6.10/common/utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/dir-item.c /usr/src/debug/btrfs-tools/6.10/common/fsfeatures.h /usr/src/debug/btrfs-tools/6.10/common/fsfeatures.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/zoned.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/compression.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/zoned.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent_io.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/extent_io.h /usr/src/debug/btrfs-tools/6.10/common/clear-cache.h /usr/src/debug/btrfs-tools/6.10/common/help.h /usr/src/debug/btrfs-tools/6.10/common/help.c 
+ /usr/src/debug/btrfs-tools/6.10/common/clear-cache.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/file-item.h /usr/src/debug/btrfs-tools/6.10/common/device-utils.h /usr/src/debug/btrfs-tools/6.10/common/filesystem-utils.h /usr/src/debug/btrfs-tools/6.10/common/string-table.h /usr/src/debug/btrfs-tools/6.10/common/filesystem-utils.c /usr/src/debug/btrfs-tools/6.10/common/device-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/file-item.c /usr/src/debug/btrfs-tools/6.10/common/string-table.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/locking.h /usr/src/debug/btrfs-tools/6.10/common/extent-cache.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/root-tree.c /usr/src/debug/btrfs-tools/6.10/common/extent-cache.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/locking.c /usr/src/debug/btrfs-tools/6.10/common/messages.c /usr/src/debug/btrfs-tools/6.10/common/sort-utils.c /usr/src/debug/btrfs-tools/6.10/common/device-scan.c /usr/src/debug/btrfs-tools/6.10/common/root-tree-utils.c /usr/s
+ rc/debug/btrfs-tools/6.10/common/sort-utils.h /usr/src/debug/btrfs-tools/6.10/common/messages.h /usr/src/debug/btrfs-tools/6.10/common/root-tree-utils.h /usr/src/debug/btrfs-tools/6.10/common/device-scan.h /usr/src/debug/btrfs-tools/6.10/common/sysfs-utils.c /usr/src/debug/btrfs-tools/6.10/common/open-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/async-thread.h /usr/src/debug/btrfs-tools/6.10/common/sysfs-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/async-thread.c /usr/src/debug/btrfs-tools/6.10/common/open-utils.h /usr/src/debug/btrfs-tools/6.10/common/path-utils.h /usr/src/debug/btrfs-tools/6.10/kernel-shared/accessors.c /usr/src/debug/btrfs-tools/6.10/common/path-utils.c /usr/src/debug/btrfs-tools/6.10/kernel-shared/accessors.h"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.9.2 [default] to 6.10 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.9.2 [default] to 6.10 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 5829244 to 5894747 (+1%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.9.2 [default] to 6.10 [default]
+packages/core2-64-poky-linux/btrfs-tools: PV changed from "6.9.2" to "6.10"
+packages/core2-64-poky-linux/btrfs-tools: PKGV changed from 6.9.2 [default] to 6.10 [default]
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/dependency_links.txt was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/PKG-INFO was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/SOURCES.txt was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.10-py3.12.egg-info/top_level.txt was added
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/PKG-INFO was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.12/site-packages/btrfsutil-6.9.2-py3.12.egg-info/top_level.txt was removed
+
+--===============3970702145921545151==--
 
