@@ -2,63 +2,63 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D3CC3DA64
-	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 17:09:09 +0000 (UTC)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
- by mx.groups.io with SMTP id smtpd.web10.73984.1722532142844716803
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5099BC3DA4A
+	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 17:18:59 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web10.74203.1722532731006337562
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 10:09:02 -0700
+ Thu, 01 Aug 2024 10:18:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=QjBPfnB1;
- spf=pass (domain: baylibre.com, ip: 209.85.166.172, mailfrom: tgamblin@baylibre.com)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-39aeccc6377so21503445ab.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 10:09:02 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=HZT7aWbJ;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.46, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6b7a0ef0e75so41675336d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 10:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722532142; x=1723136942; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722532730; x=1723137530; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rH1QlIhLv5I5tl7ol0J9DaWz+USU9Uz/wh3YTMOFiLE=;
-        b=QjBPfnB1ntmDOLlpykZB+D0XS1tLNuddUtp4ulQ1MEf6RkHok6QAPnZ+AIUEz+HTnG
-         fb0ejzpudTgOhLJ7wReKHNeJskbgr/as10mc554IF70n8X7w19284ZDCD5w/h5eqDgAA
-         5EA/94YckN9ktoZ6c81GKUbbc2FTNLUjNnXc/Ev2O1ypNEsNEeSD1fyVN7x8OM8mNWSV
-         C8zuIoXpalA0Ay6OmBhlWu6p+Bc5Kn0DXTNyDtFOUXOPqZEFeVNd++kfuMISWMOO0SEW
-         yBpDYzynKMp/psaASB7cP+VkMxtPoD/KJ+2ec6B+ODOa5F0uj27eJgHK1T+925V3JZXs
-         8ptA==
+        bh=wgTVz37fxtpJWgNIVx13pZZiQLC6QegmqyRPVZdHF6s=;
+        b=HZT7aWbJfB3vIJelZWv1pyah2KvLVcT9jVdtSKti+fggMOO7bk6jjK1dAwTvvHPwrh
+         hChtp0fCSG4E8T6gnq05Qh//9UPO2c/jmk2Fv+rJgug1frWxxTKydJJsOKTUv/wDaZ9Q
+         V+mCJlN9+duqv7LU6mT+4MxsAkIr1kevIIUUxQ9vbDUwISd94DhzkVD4vLbFpg+mB62U
+         pBMZnSym4T6UaS+wrezHU6EjS/IR6/DRUSO06HSaHQTlXAOtdmdiHlUMQ2B5EihXkyS3
+         NhU1bRCVjNwqw/Z5FwqPodWV5ZShPnnDjCIqRWwPXarC1sSGEHbp12ubDgzWstHxZ80b
+         c6bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722532142; x=1723136942;
+        d=1e100.net; s=20230601; t=1722532730; x=1723137530;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rH1QlIhLv5I5tl7ol0J9DaWz+USU9Uz/wh3YTMOFiLE=;
-        b=qQmoSUQUX10RO8TYqAzaAPwpnIVgtrkN11kYdQaE2gSRiDlEBEkiu42XT9NqqTxZpa
-         s4CStbtSE1U+m58G2aH11p44vlXIqbHX+cy7SdpBhEDTk5q6Q/Qk+ehVgZ2lglDUrTH1
-         MM1wtUogsQ/yJHgXnFID+TQswdwziR3X20ZABc0EvXEeX+nj0SgWH/hQcDqgOz9WxBDE
-         P3qUGHlslpiF/IX748z5Q64Qt8wtynPuS3RykH0nx9XKcm7OjBeYmVCpxvXVC7wd3ouA
-         mbg5kZKFoguK4qlOB+O/TpJlmmJo/aP6lOYT2i8xKzvr9Cdo18Y6WagYXU+/TRrOWz9w
-         ft0A==
-X-Gm-Message-State: AOJu0YwqbzXq4MjmC9OMZtNN2uXL0wQa81iKkgUPhwVVOc2u4ZjwfIVS
-	+Dg2IYkcEfBc2qhyUXy+MjHIpouetobD5emztkUISTuedcu0fwQDULs5v4aP4F7ubbvO8P+sCBZ
-	2
-X-Google-Smtp-Source: AGHT+IGKXwzarx4KTsin8VefbvVHcMrGO4C7+OfJ4ebIxFfneovAYRGZXudVWhBsSPmwHR/SpBTECw==
-X-Received: by 2002:a92:dac9:0:b0:397:70e7:143b with SMTP id e9e14a558f8ab-39b1fb87a37mr9493115ab.14.1722532141419;
-        Thu, 01 Aug 2024 10:09:01 -0700 (PDT)
+        bh=wgTVz37fxtpJWgNIVx13pZZiQLC6QegmqyRPVZdHF6s=;
+        b=NzFAHvGztnXnY2VpoqpA6v3hBPUgu5ZDWhzx1s5gICM4Dfu3bB/sgHhIY8bPm8afci
+         JWMLjYILyEy0YpRMwDT/Zj2fGvG33qDdbSQ2E3RTp1aZ+1phPfw0oRrFKmR1A2SjCSQl
+         afBtfAOjRgbWnWB2dkbmO+jEh6DBNhit13oWurjVYeeSmsBxG+w1hWonAr+sq44iLATl
+         iflxKbJcxSLS2Oie0QPiuya+LqXn4UL3IXTA2n5QfoLDRA5qyxR49kpLeTSvNRUDKHG3
+         vWkhbbZ2oSxczHly/qYu4ncK14lWymjckFhpC2u3JxF3eWp6kivMy1D8G9Q5Z+KvuefS
+         fyKQ==
+X-Gm-Message-State: AOJu0Yy7lgqZUJ0QnbWPU7PEBqxfwoWutP6iQyIXC/v9sWTo0xc64yF4
+	KSN62Mt8CzGOfkzZyMi+jUs9Zp/2pMpzgkIQHVC6wRwjIGguuCYxMiMJGy7762X/JMNtj4bDYCa
+	i
+X-Google-Smtp-Source: AGHT+IEkS0JbbCyfzU6qY2QAcRnohOvkepxK9fqCPJhnpVJBBkU6Gi4p7JtpnBGS4SGIPJtLaCOi7A==
+X-Received: by 2002:a05:6214:3bc7:b0:6b9:5bee:243 with SMTP id 6a1803df08f44-6bb984301c4mr8849726d6.55.1722532729789;
+        Thu, 01 Aug 2024 10:18:49 -0700 (PDT)
 Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-39b20ab5732sm433805ab.37.2024.08.01.10.09.00
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb99a3efd2sm630176d6.73.2024.08.01.10.18.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 10:09:01 -0700 (PDT)
+        Thu, 01 Aug 2024 10:18:49 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] kea: upgrade 2.4.1 -> 2.6.1
-Date: Thu,  1 Aug 2024 13:08:59 -0400
-Message-Id: <20240801170859.3085947-1-tgamblin@baylibre.com>
+Subject: [PATCH v2] kea: upgrade 2.4.1 -> 2.6.1
+Date: Thu,  1 Aug 2024 13:18:48 -0400
+Message-Id: <20240801171848.3102197-1-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 17:09:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202761
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 17:18:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202762
 
 Refresh patch 'fix_pid_keactrl.patch' to apply on new version.
 
@@ -69,6 +69,10 @@ License-Update: Update copyright year
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
+v2 fixes the sed call so that it adds the right
+'@abs_top_builddir_placeholder@' prefix into the resulting string,
+matching the other variables found in that part of kea-admin.
+
  .../kea/files/fix_pid_keactrl.patch                  | 12 +++++++++---
  .../kea/{kea_2.4.1.bb => kea_2.6.1.bb}               |  5 +++--
  2 files changed, 12 insertions(+), 5 deletions(-)
@@ -116,7 +120,7 @@ diff --git a/meta/recipes-connectivity/kea/kea_2.4.1.bb b/meta/recipes-connectiv
 similarity index 92%
 rename from meta/recipes-connectivity/kea/kea_2.4.1.bb
 rename to meta/recipes-connectivity/kea/kea_2.6.1.bb
-index 19309ce314..62791a7074 100644
+index 19309ce314..882df3883c 100644
 --- a/meta/recipes-connectivity/kea/kea_2.4.1.bb
 +++ b/meta/recipes-connectivity/kea/kea_2.6.1.bb
 @@ -3,7 +3,7 @@ DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It
@@ -141,7 +145,7 @@ index 19309ce314..62791a7074 100644
      sed -i -e 's,@SBINDIR@,${sbindir},g' -e 's,@BASE_BINDIR@,${base_bindir},g' \
             -e 's,@LOCALSTATEDIR@,${localstatedir},g' -e 's,@SYSCONFDIR@,${sysconfdir},g' \
             ${D}${systemd_system_unitdir}/kea-dhcp*service ${D}${sbindir}/keactrl
-+    sed -i "s:${B}/../${PN}-${PV}::g" ${D}/usr/sbin/kea-admin
++    sed -i "s:${B}/../${PN}-${PV}:@abs_top_builddir_placeholder@:g" ${D}/usr/sbin/kea-admin
  }
  
  do_install:append() {
