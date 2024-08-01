@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD202C5320D
-	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:10 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.75736.1722536822878673328
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B37DC53218
+	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:11 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.75745.1722536825246102002
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Aug 2024 11:27:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=P3hh2LHZ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hw0jaNOR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101910f321279-0ac6a78f-435d-4b45-9423-b42f5befa024-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dILbU0PD;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pl5MovWg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101910f320f6c-8ff04c30-4e39-4cb0-99c7-7ccc5fea6051-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1722536825;
+	t=1722536824;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=R+JXO52R1Y/YA5dDG1fvX9pJo8aZkGVEOT4mO9Fvpqg=;
-	b=P3hh2LHZvmxeJfXpEtBb0/hBCwIpztxPtGP29S8reo56P6hR2k3D+h+/pot6rAh4
-	zx+L1oTVMyiq2swsOgFJTfN2BV2Wyjtmi3JFLKhAQofwu7k8gGR+aOiId3jRVEowZ9u
-	CkmsHeSXD+Qe56T0/UVS5tezJfbLinldjZI7H9wY=
+	bh=XVgsiIHwhXiFGb7Tw+N6gGvSYT2ON8qT2aCtviqwcjw=;
+	b=dILbU0PDiNXsOTKTy9jZizQ2jV75Mx8oMkhuvYvJV7qhE7dDS4CnY5QMukUZ9fcy
+	KR9ARKKz6CPavwGXuUcWyjzwFMMPSliVtAmX/BvFEtblqyWdaE6IxvK+VQaKu97AG+O
+	6jJtYB0LU6qcwxDocoVCoLme2JsdxV7PjpfIQAF0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536825;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536824;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=R+JXO52R1Y/YA5dDG1fvX9pJo8aZkGVEOT4mO9Fvpqg=;
-	b=hw0jaNORcMwPgwRpfhj2L06HuZ+a6mFLGA/zxamOMZCpBtgwkutJ6I7iQGbxlG5w
-	HewiLsFM0JljqXpI4AN4xFlOl9SwXoQUBMUtrs0KpVZyBjNf7+Bb3YChZlYMwC1oJid
-	Yncr/AH6RLrT2wRLyDee93omPTh+eE/O74RwrWmw=
-Content-Type: multipart/mixed; boundary="===============6365916778213421317=="
+	bh=XVgsiIHwhXiFGb7Tw+N6gGvSYT2ON8qT2aCtviqwcjw=;
+	b=pl5MovWgOTKvokWmDUbeeGsz6w4oHQsOnBDc0goZl3R7nDaqenglltwCkkVWiysW
+	31OAY/p8VpbReQctWF07PuNAbi4opI3V+WbbhHkPvtWLI+oqr1bU/oTdc43v41QCmQV
+	3HrHvVePQQo/eQ71oY4XQAiOwIk1rZ0vtgdeXWK8=
+Content-Type: multipart/mixed; boundary="===============8350081784544262796=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-alabaster: upgrading to 1.0.0 SUCCEEDED
-Message-ID: <010101910f321279-0ac6a78f-435d-4b45-9423-b42f5befa024-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Aug 2024 18:27:05 +0000
+Subject: [AUH] mmc-utils: upgrading to
+ f884bfe684f2c31e1f5b7c9247b364178fa20ea3 FAILED
+Message-ID: <010101910f320f6c-8ff04c30-4e39-4cb0-99c7-7ccc5fea6051-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Aug 2024 18:27:04 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.01-54.240.27.193
+X-SES-Outgoing: 2024.08.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202797
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202792
 
---===============6365916778213421317==
+--===============8350081784544262796==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-alabaster* to *1.0.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *mmc-utils* to *f884bfe684f2c31e1f5b7c9247b364178fa20ea3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-alabaster-upgrade-0.7.16-1.0.0.patch
+    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,128 +79,164 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4f655a04e0e5f80951777d069b03ea1f4cacfb14 Mon Sep 17 00:00:00 2001
+From 2b5847c4b73791c0c1a815619aba0d4515509371 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Aug 2024 10:18:20 +0000
-Subject: [PATCH] python3-alabaster: upgrade 0.7.16 -> 1.0.0
+Date: Thu, 1 Aug 2024 10:06:47 +0000
+Subject: [PATCH] mmc-utils: upgrade to latest revision
 
 ---
- .../{python3-alabaster_0.7.16.bb => python3-alabaster_1.0.0.bb} | 2 +-
+ meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-alabaster_0.7.16.bb => python3-alabaster_1.0.0.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb b/meta/recipes-devtools/python/python3-alabaster_1.0.0.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
-rename to meta/recipes-devtools/python/python3-alabaster_1.0.0.bb
-index c61fce454f..40be6039eb 100644
---- a/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
-+++ b/meta/recipes-devtools/python/python3-alabaster_1.0.0.bb
-@@ -5,7 +5,7 @@ SECTION = "devel/python"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=21860fdb805bf4e0bfaf94b566b747fa"
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index 0bfd5c1cc8..30def96018 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
  
--SRC_URI[sha256sum] = "75a8b99c28a5dad50dd7f8ccdd447a121ddb3892da9e53d1ca5cca3106d58d65"
-+SRC_URI[sha256sum] = "c00dca57bca26fa62a6d7d0a9fcce65f3e026e9bfe33e9c538fd3fbb2144fd9e"
+ SRCBRANCH ?= "master"
+-SRCREV = "f757f413dea4a143ad7c3b48b8264176f0499a82"
++SRCREV = "f884bfe684f2c31e1f5b7c9247b364178fa20ea3"
  
- inherit python_flit_core pypi
+ PV = "0.1+git"
  
 -- 
 2.44.0
 
 
---===============6365916778213421317==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster: FILELIST: directory renamed /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info -> /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info, added "/usr/lib/python3.12/site-packages/alabaster/static/github-banner.svg"
-Changes to packages/core2-64-poky-linux/python3-alabaster (sysroot):
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/LICENSE.rst was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/alabaster/static/github-banner.svg was added
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/entry_points.txt was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/LICENSE.rst was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/WHEEL was removed
-
---===============6365916778213421317==
+--===============8350081784544262796==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-alabaster-upgrade-0.7.16-1.0.0.patch"
+ filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
 
-RnJvbSA0ZjY1NWEwNGUwZTVmODA5NTE3NzdkMDY5YjAzZWExZjRjYWNmYjE0IE1vbiBTZXAgMTcg
+RnJvbSAyYjU4NDdjNGI3Mzc5MWMwYzFhODE1NjE5YWJhMGQ0NTE1NTA5MzcxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMDoxODoyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtYWxhYmFzdGVyOiB1cGdyYWRlIDAuNy4xNiAtPiAxLjAuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtYWxhYmFzdGVyXzAuNy4xNi5iYiA9PiBweXRob24zLWFsYWJhc3Rlcl8xLjAuMC5iYn0gfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWFsYWJhc3Rlcl8wLjcuMTYu
-YmIgPT4gcHl0aG9uMy1hbGFiYXN0ZXJfMS4wLjAuYmJ9ICg4MiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTYuYmIgYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYWxhYmFzdGVyXzEuMC4wLmJiCnNp
-bWlsYXJpdHkgaW5kZXggODIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1hbGFiYXN0ZXJfMC43LjE2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtYWxhYmFzdGVyXzEuMC4wLmJiCmluZGV4IGM2MWZjZTQ1NGYu
-LjQwYmU2MDM5ZWIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy1hbGFiYXN0ZXJfMC43LjE2LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1hbGFiYXN0ZXJfMS4wLjAuYmIKQEAgLTUsNyArNSw3IEBAIFNFQ1RJT04gPSAi
-ZGV2ZWwvcHl0aG9uIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFLnJzdDttZDU9MjE4NjBmZGI4MDViZjRlMGJmYWY5NGI1NjZiNzQ3
-ZmEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3NWE4Yjk5YzI4YTVkYWQ1MGRkN2Y4Y2NkZDQ0
-N2ExMjFkZGIzODkyZGE5ZTUzZDFjYTVjY2EzMTA2ZDU4ZDY1IgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gImMwMGRjYTU3YmNhMjZmYTYyYTZkN2QwYTlmY2NlNjVmM2UwMjZlOWJmZTMzZTljNTM4ZmQz
-ZmJiMjE0NGZkOWUiCiAKIGluaGVyaXQgcHl0aG9uX2ZsaXRfY29yZSBweXBpCiAKLS0gCjIuNDQu
-MAoK
+CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMDowNjo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1t
+Yy11dGlsczogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21tYy9tbWMt
+dXRpbHNfZ2l0LmJiCmluZGV4IDBiZmQ1YzFjYzguLjMwZGVmOTYwMTggMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0Ug
+PSAiR1BMLTIuMC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vbW1jLmM7YmVnaW5s
+aW5lPTE7ZW5kbGluZT0yMDttZDU9ZmFlMzI3OTJlMjBmNGQyN2FkZTFjNWE3NjJkMTZiN2QiCiAK
+IFNSQ0JSQU5DSCA/PSAibWFzdGVyIgotU1JDUkVWID0gImY3NTdmNDEzZGVhNGExNDNhZDdjM2I0
+OGI4MjY0MTc2ZjA0OTlhODIiCitTUkNSRVYgPSAiZjg4NGJmZTY4NGYyYzMxZTFmNWI3YzkyNDdi
+MzY0MTc4ZmEyMGVhMyIKIAogUFYgPSAiMC4xK2dpdCIKIAotLSAKMi40NC4wCgo=
 
---===============6365916778213421317==
+--===============8350081784544262796==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/python3-alabaster: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster: SRC_URI changed from "https://files.pythonhosted.org/packages/source/a/alabaster/alabaster-0.7.16.tar.gz;downloadfilename=alabaster-0.7.16.tar.gz" to "https://files.pythonhosted.org/packages/source/a/alabaster/alabaster-1.0.0.tar.gz;downloadfilename=alabaster-1.0.0.tar.gz"
-packages/core2-64-poky-linux/python3-alabaster: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-dbg: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-dbg: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-dev: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-dev: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-doc: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-doc: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-locale: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-locale: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-src: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-src: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-staticdev: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster-staticdev: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster: PKGV changed from 0.7.16 [default] to 1.0.0 [default]
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster: PV changed from "0.7.16" to "1.0.0"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster: FILELIST: directory renamed /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info -> /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info, added "/usr/lib/python3.12/site-packages/alabaster/static/github-banner.svg"
-packages/core2-64-poky-linux/python3-alabaster/python3-alabaster: PKGSIZE changed from 42751 to 43118 (+1%)
-Changes to packages/core2-64-poky-linux/python3-alabaster (sysroot):
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/LICENSE.rst was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/alabaster-1.0.0.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/alabaster/static/github-banner.svg was added
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/entry_points.txt was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/LICENSE.rst was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/alabaster-0.7.16.dist-info/WHEEL was removed
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1883 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 920 .bb files complete (919 cached, 1 parsed). 1883 targets, 37 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
---===============6365916778213421317==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-6eb51ebef01b3e276b58f5373fd7e6c3d9a9e9ab"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:6eb51ebef01b3e276b58f5373fd7e6c3d9a9e9ab"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 93 Local 82 Mirrors 0 Missed 11 Current 198 (88% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 230 of 291 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_recipe_qa_setscene)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 866 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_fetch)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_fetch: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_fetch: Succeeded
+NOTE: Running task 867 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_unpack)
+NOTE: Running task 868 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_unpack: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mmc-utils-0.1+git-r0: task do_unpack: Succeeded
+NOTE: Running task 869 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_patch)
+NOTE: Running task 870 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_collect_spdx_deps)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_patch: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_patch: Succeeded
+NOTE: Running task 871 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 872 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe mmc-utils-0.1+git-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_lic: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic unihash changed to 48090a693fe1c2a03cd05353eca6050e9be14327d36a6b889718db2414ed3a3f
+NOTE: recipe mmc-utils-0.1+git-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_deploy_source_date_epoch unihash changed to 7652bf84be6dd1e5a2124ddfb27595cdc246414e9d655513812641a9aecc7e49
+NOTE: Setscene tasks completed
+NOTE: Running task 873 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_configure)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_configure: Started
+NOTE: recipe mmc-utils-0.1+git-r0: task do_configure: Succeeded
+NOTE: Running task 874 of 885 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile)
+NOTE: recipe mmc-utils-0.1+git-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" mmc.c
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" mmc_cmds.c
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" lsmmc.c
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" 3rdparty/hmac_sha/hmac_sha2.c
+| /bin/sh: sparse: command not found
+| sparse -Wall -Werror -Wuninitialized -Wundef -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -DVERSION=\""f884bf"\" 3rdparty/hmac_sha/sha2.c
+| /bin/sh: sparse: command not found
+| make: *** [Makefile:38: mmc.o] Error 127
+| make: *** Waiting for unfinished jobs....
+| make: *** [Makefile:38: mmc_cmds.o] Error 127
+| /bin/sh: sparse: command not found
+| make: *** [Makefile:38: lsmmc.o] Error 127
+| /bin/sh: sparse: command not found
+| make: *** [Makefile:38: 3rdparty/hmac_sha/hmac_sha2.o] Error 127
+| /bin/sh: sparse: command not found
+| make: *** [Makefile:38: 3rdparty/hmac_sha/sha2.o] Error 127
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161:179 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161, line 179
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161, line 164
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161, line 169
+| 	#4: base_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161, line 147
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161, line 141
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161, line 189
+NOTE: recipe mmc-utils-0.1+git-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 874 tasks of which 865 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240801100630.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240801100630.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: mmc-utils-0.1+git-r0 do_compile: oe_runmake failed
+ERROR: mmc-utils-0.1+git-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/run.do_compile.3571161', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/log.do_compile.3571161
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile) failed with exit code '1'
+
+--===============8350081784544262796==--
 
