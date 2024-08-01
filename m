@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C71B5C54735
-	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09617C5473B
+	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:12 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.75486.1722536823636237147
+ by mx.groups.io with SMTP id smtpd.web11.75487.1722536824370817382
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 11:27:05 -0700
+ Thu, 01 Aug 2024 11:27:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gjxZBNQj;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=qc0BR83B;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101910f321059-c89751a8-0270-40a3-8f49-83f0f937fe1c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=B6B0fOlp;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pf3yircR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101910f320af2-ab718dbf-b1d4-4e5c-a5f1-cffd2c74320d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1722536825;
+	t=1722536823;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=KYqn6d9dEW3LoZA5EOzezbnVAC5lpzYj8/htZyIkCXc=;
-	b=gjxZBNQj1v+Lm9NDJ+3Vn9OiaxnWcd224SUyhO/657XRvTLkqfw5pWYRGjoc1RWG
-	862PJl0ExdfVEQOaCVhcXCgJ2n3zh09C/sVOPKE/T89f+BchDyGosMbEhgoFtJpYHf8
-	IJytDxjjfwmV5oTPOcHgvL3hoya2J7P/GK/bkx5g=
+	bh=pi2Oumt3N7hk0CFfSkzIC36DjqkJ3IgUyO/IoL4PUQY=;
+	b=B6B0fOlpyo7T3o3VDWeDIWq/E+CLqAvpjjO0v0KV7G+eI3mbq1z4By3qTs3SH611
+	QpsXtob4D4eR/UqeAxO7/wroBwvRbHaSbfD58lfVK7c9P2TJrNGuwfAqkY5b7LuNk4/
+	QkuL0NRz0fv2hDG9bYKreHbndBRg0o1+N+001A3Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536825;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536823;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=KYqn6d9dEW3LoZA5EOzezbnVAC5lpzYj8/htZyIkCXc=;
-	b=qc0BR83B7ueP4DjJCg2DkjFoN/cBJla4dpa2i45qRy0fEJS7j4INCVIV5QWi8VqZ
-	iDWbceEEgkepSrD0AROqbmv+h3hZWNZAKCl+wDuuhz8kkGslMPtv/OQMu+N8bIevQB5
-	RLJ5n85sp+HK4iyg06gZ8yVciP6L4tkLpZYcOISI=
-Content-Type: multipart/mixed; boundary="===============0866726991373926477=="
+	bh=pi2Oumt3N7hk0CFfSkzIC36DjqkJ3IgUyO/IoL4PUQY=;
+	b=pf3yircRurxw7h7FBe1eapWk+/I5d5hXh84oAfI5cbQoRTTNQUd/AncsXANz37mI
+	kdAJJTsytxp0a93znwGm0A5xIq+hN5R+jE4/nvi1pNK7EWM2J74utGzV+T0TYk1kDF5
+	UxEkShzjOc4P3y/fkw7H/FDULVoLGCE/cCECfw/k=
+Content-Type: multipart/mixed; boundary="===============8088751522148384130=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mtools: upgrading to 4.0.44 SUCCEEDED
-Message-ID: <010101910f321059-c89751a8-0270-40a3-8f49-83f0f937fe1c-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Aug 2024 18:27:04 +0000
+Subject: [AUH] ccache: upgrading to 4.10.2 SUCCEEDED
+Message-ID: <010101910f320af2-ab718dbf-b1d4-4e5c-a5f1-cffd2c74320d-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Aug 2024 18:27:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.08.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202793
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202785
 
---===============0866726991373926477==
+--===============8088751522148384130==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mtools* to *4.0.44* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ccache* to *4.10.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mtools-upgrade-4.0.43-4.0.44.patch
+    - apply the patch: git am 0001-ccache-upgrade-4.10.1-4.10.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,272 +72,87 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 83e8014445c9677f6cfb7d56f291586fe4617f81 Mon Sep 17 00:00:00 2001
+From 4b9451a0fd9a0a3da41545509ec433f5ee9e2d81 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Aug 2024 10:10:04 +0000
-Subject: [PATCH] mtools: upgrade 4.0.43 -> 4.0.44
+Date: Thu, 1 Aug 2024 09:15:01 +0000
+Subject: [PATCH] ccache: upgrade 4.10.1 -> 4.10.2
 
 ---
- .../mtools/mtools/clang_UNUSED.patch          | 19 +++++++++++++------
- .../mtools/disable-hardcoded-configs.patch    |  7 +++----
- .../mtools/mtools/mtools-makeinfo.patch       | 11 +++++------
- .../{mtools_4.0.43.bb => mtools_4.0.44.bb}    |  2 +-
- 4 files changed, 22 insertions(+), 17 deletions(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.43.bb => mtools_4.0.44.bb} (93%)
+ .../ccache/{ccache_4.10.1.bb => ccache_4.10.2.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/ccache/{ccache_4.10.1.bb => ccache_4.10.2.bb} (93%)
 
-diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-index 6bb9d6a3da..0322bed974 100644
---- a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-+++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-@@ -1,12 +1,19 @@
--Undefine UNUSED macros with clang
-+From 191013a1463b841c801b25df27c5e60b7e9737fc Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 19 Sep 2018 11:55:41 -0700
-+Subject: [PATCH] Undefine UNUSED macros with clang
- 
- Upstream-Status: Pending
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Index: mtools-4.0.18/sysincludes.h
--===================================================================
----- mtools-4.0.18.orig/sysincludes.h
--+++ mtools-4.0.18/sysincludes.h
--@@ -101,7 +101,7 @@ typedef void *caddr_t;
-+---
-+ sysincludes.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sysincludes.h b/sysincludes.h
-+index e16ab45..8d285d4 100644
-+--- a/sysincludes.h
-++++ b/sysincludes.h
-+@@ -98,7 +98,7 @@ typedef void *caddr_t;
-  #if defined __GNUC__ && defined __STDC__
-  /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
-  # define PACKED __attribute__ ((packed))
-diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-index 57be935487..cf8454aad3 100644
---- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-+++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-@@ -1,4 +1,4 @@
--From 2ef9b371a5cc44e730143e694d71665831fac216 Mon Sep 17 00:00:00 2001
-+From 8590f838a8dd1d37fe52e23ce8c27622aebf61af Mon Sep 17 00:00:00 2001
- From: Ed Bartosh <ed.bartosh@linux.intel.com>
- Date: Tue, 13 Jun 2017 14:55:52 +0300
- Subject: [PATCH] Disabled reading host configs.
-@@ -6,16 +6,15 @@ Subject: [PATCH] Disabled reading host configs.
- Upstream-Status: Inappropriate [native]
- 
- Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
--
- ---
-  config.c | 8 --------
-  1 file changed, 8 deletions(-)
- 
- diff --git a/config.c b/config.c
--index 2f6a297..3181ed7 100644
-+index 358282b..8ebafb4 100644
- --- a/config.c
- +++ b/config.c
--@@ -844,14 +844,6 @@ void read_config(void)
-+@@ -868,14 +868,6 @@ void read_config(void)
-  	memcpy(devices, const_devices,
-  	       nr_const_devices*sizeof(struct device));
-  
-diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-index 6ae91d6cb9..a07e7d80b3 100644
---- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-+++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-@@ -1,17 +1,16 @@
--From 3cf56b36db78679273f61ba78fbbf7f3fab52f68 Mon Sep 17 00:00:00 2001
-+From c477d1744cb81a7b89ff24181ec980ed1d0650e9 Mon Sep 17 00:00:00 2001
- From: Marcin Juszkiewicz <hrw@openedhand.com>
- Date: Fri, 8 Jun 2007 08:35:12 +0000
- Subject: [PATCH] mtools: imported from OE
- 
- Upstream-Status: Inappropriate [licensing]
--
- ---
-  Makefile.in  | 11 ++++++-----
-  configure.in | 27 +++++++++++++++++++++++++++
-  2 files changed, 33 insertions(+), 5 deletions(-)
- 
- diff --git a/Makefile.in b/Makefile.in
--index 616d59f..85b5b1d 100644
-+index 5db50d7..92ad461 100644
- --- a/Makefile.in
- +++ b/Makefile.in
- @@ -26,10 +26,11 @@ USERCFLAGS =
-@@ -30,7 +29,7 @@ index 616d59f..85b5b1d 100644
-  
-  
-  # do not edit below this line
--@@ -199,7 +200,7 @@ dvi: mtools.dvi
-+@@ -185,7 +186,7 @@ dvi: mtools.dvi
-  
-  ps: mtools.ps
-  %.ps: %.dvi
-@@ -40,10 +39,10 @@ index 616d59f..85b5b1d 100644
-  pdf: mtools.pdf
-  %.pdf: %.texi sysconfdir.texi
- diff --git a/configure.in b/configure.in
--index 5ff75c1..c0f7440 100644
-+index 1de916e..fd6cb08 100644
- --- a/configure.in
- +++ b/configure.in
--@@ -35,6 +35,33 @@ AC_CANONICAL_SYSTEM
-+@@ -32,6 +32,33 @@ AC_CANONICAL_TARGET
-  AC_C_CONST
-  AC_C_INLINE
-  
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.43.bb b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
+diff --git a/meta/recipes-devtools/ccache/ccache_4.10.1.bb b/meta/recipes-devtools/ccache/ccache_4.10.2.bb
 similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.43.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.44.bb
-index 859103979e..d8dd671be2 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.43.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "541e179665dc4e272b9602f2074243591a157da89cc47064da8c5829dbd2b339"
-+SRC_URI[sha256sum] = "37dc4df022533c3d4b2ec1c78973c27c7e8b585374c2d46ab64c6a3db31eddb8"
+rename from meta/recipes-devtools/ccache/ccache_4.10.1.bb
+rename to meta/recipes-devtools/ccache/ccache_4.10.2.bb
+index 6ae85af4f5..361c1643f9 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.10.1.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.10.2.bb
+@@ -17,7 +17,7 @@ DEPENDS = "zstd fmt xxhash"
  
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "8f8ad60d9363857812aa8af3fa7fb72be5ea5cf193f824d16d237a8a79256be4"
++SRC_URI[sha256sum] = "108100960bb7e64573ea925af2ee7611701241abb36ce0aae3354528403a7d87"
+ 
+ inherit cmake github-releases
+ 
 -- 
 2.44.0
 
 
---===============0866726991373926477==
+--===============8088751522148384130==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mtools-upgrade-4.0.43-4.0.44.patch"
+ filename="0001-ccache-upgrade-4.10.1-4.10.2.patch"
 
-RnJvbSA4M2U4MDE0NDQ1Yzk2NzdmNmNmYjdkNTZmMjkxNTg2ZmU0NjE3ZjgxIE1vbiBTZXAgMTcg
+RnJvbSA0Yjk0NTFhMGZkOWEwYTNkYTQxNTQ1NTA5ZWM0MzNmNWVlOWUyZDgxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMDoxMDowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG10
-b29sczogdXBncmFkZSA0LjAuNDMgLT4gNC4wLjQ0CgotLS0KIC4uLi9tdG9vbHMvbXRvb2xzL2Ns
-YW5nX1VOVVNFRC5wYXRjaCAgICAgICAgICB8IDE5ICsrKysrKysrKysrKystLS0tLS0KIC4uLi9t
-dG9vbHMvZGlzYWJsZS1oYXJkY29kZWQtY29uZmlncy5wYXRjaCAgICB8ICA3ICsrKy0tLS0KIC4u
-Li9tdG9vbHMvbXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaCAgICAgICB8IDExICsrKysrLS0t
-LS0tCiAuLi4ve210b29sc180LjAuNDMuYmIgPT4gbXRvb2xzXzQuMC40NC5iYn0gICAgfCAgMiAr
-LQogNCBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL3ttdG9vbHNfNC4wLjQzLmJiID0+IG10
-b29sc180LjAuNDQuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L210b29scy9tdG9vbHMvY2xhbmdfVU5VU0VELnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L210b29scy9tdG9vbHMvY2xhbmdfVU5VU0VELnBhdGNoCmluZGV4IDZiYjlkNmEzZGEuLjAzMjJi
-ZWQ5NzQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Ns
-YW5nX1VOVVNFRC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29s
-cy9jbGFuZ19VTlVTRUQucGF0Y2gKQEAgLTEsMTIgKzEsMTkgQEAKLVVuZGVmaW5lIFVOVVNFRCBt
-YWNyb3Mgd2l0aCBjbGFuZworRnJvbSAxOTEwMTNhMTQ2M2I4NDFjODAxYjI1ZGYyN2M1ZTYwYjdl
-OTczN2ZjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogS2hlbSBSYWogPHJhai5raGVt
-QGdtYWlsLmNvbT4KK0RhdGU6IFdlZCwgMTkgU2VwIDIwMTggMTE6NTU6NDEgLTA3MDAKK1N1Ympl
-Y3Q6IFtQQVRDSF0gVW5kZWZpbmUgVU5VU0VEIG1hY3JvcyB3aXRoIGNsYW5nCiAKIFVwc3RyZWFt
-LVN0YXR1czogUGVuZGluZwogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWls
-LmNvbT4KLUluZGV4OiBtdG9vbHMtNC4wLjE4L3N5c2luY2x1ZGVzLmgKLT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0t
-LSBtdG9vbHMtNC4wLjE4Lm9yaWcvc3lzaW5jbHVkZXMuaAotKysrIG10b29scy00LjAuMTgvc3lz
-aW5jbHVkZXMuaAotQEAgLTEwMSw3ICsxMDEsNyBAQCB0eXBlZGVmIHZvaWQgKmNhZGRyX3Q7Cist
-LS0KKyBzeXNpbmNsdWRlcy5oIHwgMiArLQorIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQorCitkaWZmIC0tZ2l0IGEvc3lzaW5jbHVkZXMuaCBiL3N5c2luY2x1
-ZGVzLmgKK2luZGV4IGUxNmFiNDUuLjhkMjg1ZDQgMTAwNjQ0CistLS0gYS9zeXNpbmNsdWRlcy5o
-CisrKysgYi9zeXNpbmNsdWRlcy5oCitAQCAtOTgsNyArOTgsNyBAQCB0eXBlZGVmIHZvaWQgKmNh
-ZGRyX3Q7CiAgI2lmIGRlZmluZWQgX19HTlVDX18gJiYgZGVmaW5lZCBfX1NURENfXwogIC8qIGdj
-YyAtdHJhZGl0aW9uYWwgZG9lc24ndCBoYXZlIFBBQ0tFRCwgVU5VU0VEIGFuZCBOT1JFVFVSTiAq
-LwogICMgZGVmaW5lIFBBQ0tFRCBfX2F0dHJpYnV0ZV9fICgocGFja2VkKSkKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Rpc2FibGUtaGFyZGNvZGVkLWNv
-bmZpZ3MucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9kaXNhYmxl
-LWhhcmRjb2RlZC1jb25maWdzLnBhdGNoCmluZGV4IDU3YmU5MzU0ODcuLmNmODQ1NGFhZDMgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzL2Rpc2FibGUtaGFy
-ZGNvZGVkLWNvbmZpZ3MucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9t
-dG9vbHMvZGlzYWJsZS1oYXJkY29kZWQtY29uZmlncy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gMmVmOWIzNzFhNWNjNDRlNzMwMTQzZTY5NGQ3MTY2NTgzMWZhYzIxNiBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gODU5MGY4MzhhOGRkMWQzN2ZlNTJlMjNjZThjMjc2MjJhZWJmNjFh
-ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEVkIEJhcnRvc2ggPGVkLmJhcnRvc2hA
-bGludXguaW50ZWwuY29tPgogRGF0ZTogVHVlLCAxMyBKdW4gMjAxNyAxNDo1NTo1MiArMDMwMAog
-U3ViamVjdDogW1BBVENIXSBEaXNhYmxlZCByZWFkaW5nIGhvc3QgY29uZmlncy4KQEAgLTYsMTYg
-KzYsMTUgQEAgU3ViamVjdDogW1BBVENIXSBEaXNhYmxlZCByZWFkaW5nIGhvc3QgY29uZmlncy4K
-IFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbbmF0aXZlXQogCiBTaWduZWQtb2ZmLWJ5
-OiBFZCBCYXJ0b3NoIDxlZC5iYXJ0b3NoQGxpbnV4LmludGVsLmNvbT4KLQogLS0tCiAgY29uZmln
-LmMgfCA4IC0tLS0tLS0tCiAgMSBmaWxlIGNoYW5nZWQsIDggZGVsZXRpb25zKC0pCiAKIGRpZmYg
-LS1naXQgYS9jb25maWcuYyBiL2NvbmZpZy5jCi1pbmRleCAyZjZhMjk3Li4zMTgxZWQ3IDEwMDY0
-NAoraW5kZXggMzU4MjgyYi4uOGViYWZiNCAxMDA2NDQKIC0tLSBhL2NvbmZpZy5jCiArKysgYi9j
-b25maWcuYwotQEAgLTg0NCwxNCArODQ0LDYgQEAgdm9pZCByZWFkX2NvbmZpZyh2b2lkKQorQEAg
-LTg2OCwxNCArODY4LDYgQEAgdm9pZCByZWFkX2NvbmZpZyh2b2lkKQogIAltZW1jcHkoZGV2aWNl
-cywgY29uc3RfZGV2aWNlcywKICAJICAgICAgIG5yX2NvbnN0X2RldmljZXMqc2l6ZW9mKHN0cnVj
-dCBkZXZpY2UpKTsKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMv
-bXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9v
-bHMvbXRvb2xzL210b29scy1tYWtlaW5mby5wYXRjaAppbmRleCA2YWU5MWQ2Y2I5Li5hMDdlN2Q4
-MGIzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29scy9tdG9v
-bHMtbWFrZWluZm8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9v
-bHMvbXRvb2xzLW1ha2VpbmZvLnBhdGNoCkBAIC0xLDE3ICsxLDE2IEBACi1Gcm9tIDNjZjU2YjM2
-ZGI3ODY3OTI3M2Y2MWJhNzhmYmJmN2YzZmFiNTJmNjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CitGcm9tIGM0NzdkMTc0NGNiODFhN2I4OWZmMjQxODFlYzk4MGVkMWQwNjUwZTkgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCiBGcm9tOiBNYXJjaW4gSnVzemtpZXdpY3ogPGhyd0BvcGVuZWRoYW5k
-LmNvbT4KIERhdGU6IEZyaSwgOCBKdW4gMjAwNyAwODozNToxMiArMDAwMAogU3ViamVjdDogW1BB
-VENIXSBtdG9vbHM6IGltcG9ydGVkIGZyb20gT0UKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
-cHJpYXRlIFtsaWNlbnNpbmddCi0KIC0tLQogIE1ha2VmaWxlLmluICB8IDExICsrKysrKy0tLS0t
-CiAgY29uZmlndXJlLmluIHwgMjcgKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAgMiBmaWxl
-cyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0
-IGEvTWFrZWZpbGUuaW4gYi9NYWtlZmlsZS5pbgotaW5kZXggNjE2ZDU5Zi4uODViNWIxZCAxMDA2
-NDQKK2luZGV4IDVkYjUwZDcuLjkyYWQ0NjEgMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZS5pbgogKysr
-IGIvTWFrZWZpbGUuaW4KIEBAIC0yNiwxMCArMjYsMTEgQEAgVVNFUkNGTEFHUyA9CkBAIC0zMCw3
-ICsyOSw3IEBAIGluZGV4IDYxNmQ1OWYuLjg1YjViMWQgMTAwNjQ0CiAgCiAgCiAgIyBkbyBub3Qg
-ZWRpdCBiZWxvdyB0aGlzIGxpbmUKLUBAIC0xOTksNyArMjAwLDcgQEAgZHZpOiBtdG9vbHMuZHZp
-CitAQCAtMTg1LDcgKzE4Niw3IEBAIGR2aTogbXRvb2xzLmR2aQogIAogIHBzOiBtdG9vbHMucHMK
-ICAlLnBzOiAlLmR2aQpAQCAtNDAsMTAgKzM5LDEwIEBAIGluZGV4IDYxNmQ1OWYuLjg1YjViMWQg
-MTAwNjQ0CiAgcGRmOiBtdG9vbHMucGRmCiAgJS5wZGY6ICUudGV4aSBzeXNjb25mZGlyLnRleGkK
-IGRpZmYgLS1naXQgYS9jb25maWd1cmUuaW4gYi9jb25maWd1cmUuaW4KLWluZGV4IDVmZjc1YzEu
-LmMwZjc0NDAgMTAwNjQ0CitpbmRleCAxZGU5MTZlLi5mZDZjYjA4IDEwMDY0NAogLS0tIGEvY29u
-ZmlndXJlLmluCiArKysgYi9jb25maWd1cmUuaW4KLUBAIC0zNSw2ICszNSwzMyBAQCBBQ19DQU5P
-TklDQUxfU1lTVEVNCitAQCAtMzIsNiArMzIsMzMgQEAgQUNfQ0FOT05JQ0FMX1RBUkdFVAogIEFD
-X0NfQ09OU1QKICBBQ19DX0lOTElORQogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL210b29scy9tdG9vbHNfNC4wLjQzLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210b29s
-cy9tdG9vbHNfNC4wLjQ0LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRvb2xzXzQuMC40My5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL210b29scy9tdG9vbHNfNC4wLjQ0LmJiCmluZGV4IDg1OTEwMzk3OWUu
-LmQ4ZGQ2NzFiZTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdG9vbHMvbXRv
-b2xzXzQuMC40My5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRvb2xzL210b29sc180
-LjAuNDQuYmIKQEAgLTI0LDcgKzI0LDcgQEAgUlJFQ09NTUVORFM6JHtQTn06bGliYy1nbGliYyA9
-ICJcCiAJZ2xpYmMtZ2NvbnYtaWJtODY2IFwKIAlnbGliYy1nY29udi1pYm04NjkgXAogCSIKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICI1NDFlMTc5NjY1ZGM0ZTI3MmI5NjAyZjIwNzQyNDM1OTFhMTU3
-ZGE4OWNjNDcwNjRkYThjNTgyOWRiZDJiMzM5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3ZGM0
-ZGYwMjI1MzNjM2Q0YjJlYzFjNzg5NzNjMjdjN2U4YjU4NTM3NGMyZDQ2YWI2NGM2YTNkYjMxZWRk
-YjgiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9tdG9vbHMvbXRvb2xzLSR7UFZ9LnRhci5i
-ejIgXAogICAgICAgICAgICBmaWxlOi8vbXRvb2xzLW1ha2VpbmZvLnBhdGNoIFwKLS0gCjIuNDQu
-MAoK
+CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAwOToxNTowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNj
+YWNoZTogdXBncmFkZSA0LjEwLjEgLT4gNC4xMC4yCgotLS0KIC4uLi9jY2FjaGUve2NjYWNoZV80
+LjEwLjEuYmIgPT4gY2NhY2hlXzQuMTAuMi5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9jY2FjaGUve2NjYWNoZV80LjEwLjEuYmIgPT4gY2NhY2hlXzQuMTAuMi5i
+Yn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNo
+ZV80LjEwLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjEwLjIu
+YmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2NjYWNoZS9jY2FjaGVfNC4xMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Y2NhY2hlL2NjYWNoZV80LjEwLjIuYmIKaW5kZXggNmFlODVhZjRmNS4uMzYxYzE2NDNmOSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xMC4xLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTAuMi5iYgpAQCAtMTcs
+NyArMTcsNyBAQCBERVBFTkRTID0gInpzdGQgZm10IHh4aGFzaCIKIAogU1JDX1VSSSA9ICIke0dJ
+VEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiIKIAotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjhmOGFkNjBkOTM2Mzg1NzgxMmFhOGFmM2ZhN2ZiNzJiZTVlYTVjZjE5M2Y4
+MjRkMTZkMjM3YThhNzkyNTZiZTQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTA4MTAwOTYwYmI3
+ZTY0NTczZWE5MjVhZjJlZTc2MTE3MDEyNDFhYmIzNmNlMGFhZTMzNTQ1Mjg0MDNhN2Q4NyIKIAog
+aW5oZXJpdCBjbWFrZSBnaXRodWItcmVsZWFzZXMKIAotLSAKMi40NC4wCgo=
 
---===============0866726991373926477==
+--===============8088751522148384130==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.43.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.44.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch"
-packages/core2-64-poky-linux/mtools: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 818880 to 819040 (+0%)
-packages/core2-64-poky-linux/mtools/mtools-dbg: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-dev: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-doc: PKGSIZE changed from 242854 to 244453 (+1%)
-packages/core2-64-poky-linux/mtools/mtools-doc: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-locale: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-src: PKGSIZE changed from 597781 to 598938 (+0%)
-packages/core2-64-poky-linux/mtools/mtools-src: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-src: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
-packages/core2-64-poky-linux/mtools/mtools: PKGSIZE changed from 227346 to 223250 (-2%)
-packages/core2-64-poky-linux/mtools/mtools: PV changed from "4.0.43" to "4.0.44"
-packages/core2-64-poky-linux/mtools/mtools: PKGV changed from 4.0.43 [default] to 4.0.44 [default]
+packages/core2-64-poky-linux/ccache/ccache-dbg: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache/ccache-dbg: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
+packages/core2-64-poky-linux/ccache/ccache-dev: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache/ccache-dev: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
+packages/core2-64-poky-linux/ccache/ccache-doc: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache/ccache-doc: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
+packages/core2-64-poky-linux/ccache/ccache-locale: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache/ccache-locale: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
+packages/core2-64-poky-linux/ccache/ccache-src: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache/ccache-src: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
+packages/core2-64-poky-linux/ccache/ccache-staticdev: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
+packages/core2-64-poky-linux/ccache/ccache: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache/ccache: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
+packages/core2-64-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.10.1/ccache-4.10.1.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.10.2/ccache-4.10.2.tar.gz"
+packages/core2-64-poky-linux/ccache: PV changed from "4.10.1" to "4.10.2"
+packages/core2-64-poky-linux/ccache: PKGV changed from 4.10.1 [default] to 4.10.2 [default]
 
---===============0866726991373926477==--
+--===============8088751522148384130==--
 
