@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A071C5474D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32623C5474F
 	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 18:27:13 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.75500.1722536830652338405
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.75737.1722536823011266854
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 11:27:10 -0700
+ Thu, 01 Aug 2024 11:27:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=j1K9sMzx;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CwA6hiVI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101910f322484-c9708cf4-65fc-416a-b5dc-207394b18d56-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WYDTNJze;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=X33qltvj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101910f32281d-e052cd47-a1fc-4caa-a104-b7989400a2aa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1722536830;
+	t=1722536831;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LXJq6vp5gIUvchAVA885/8twFHeu1/KiG+kHDxYWrvM=;
-	b=j1K9sMzxRw0TT4XdEPDenamrUfrDJ2BRj+hjmu0mLlXhPRUpLBWgbecW4y0euW/a
-	8QDoB+HEQDYY1T28ob0dNE2qi8k/pSh3/kX8XiwoZrA2upkaVjhL5UKn27zpvgtihuq
-	E6BlV11h4xx+h0Jyh/F1PjHd0O5M+IVHDW1m32sM=
+	bh=7EDT0BfBCRhaxKQJnjT9OdvFFlkMBMewtEtfTglr0Z0=;
+	b=WYDTNJzecP8YLplLIGp/60J2sAVIgFqtacojt4uX4Rmh2Cp4WzNWi9v8CpBlSfOr
+	A8CNHniUUR8lB438J+zBKl1Bf7Z9BCjVgeMyS597fDtXSplk3QYtHQkcmG13MfwPU4F
+	VAngDiA8jeYnVaw/IYx/9KdWMZZKGm8wSdBEKeg8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536830;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1722536831;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LXJq6vp5gIUvchAVA885/8twFHeu1/KiG+kHDxYWrvM=;
-	b=CwA6hiVITU7NMCKAzZbjoq6sNevS5iKtm+dS5FD7TuVNklnZkcaxLjJMkSD0GFIi
-	Uy1uCBwjOmsV03maTMGPViln/p/qehNxeXsOSGDznS5c4h6H9Kd8YPKoT7kh58pgo/j
-	g0/dP+w+Qp8InB4VOaKkxYtX8PoQNXHV4ZBlWd40=
-Content-Type: multipart/mixed; boundary="===============4294749600670006518=="
+	bh=7EDT0BfBCRhaxKQJnjT9OdvFFlkMBMewtEtfTglr0Z0=;
+	b=X33qltvj2GadpPtEywGsj/iOxnaG8Br6zFyo/3Uz3+R+YxtyJFwVskQ2B3oLBWvv
+	gXh6jHN04Eg466gAYCxQOa4VNggpOFfjuS18RCygBLDliVXlKxCg9hxQQ+RIUf0YxLJ
+	dj7tigi4B1cHGptFwSvVlCIA7NVuds78CS86ZtCo=
+Content-Type: multipart/mixed; boundary="===============5967569579553741521=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] asciidoc: upgrading to 10.2.1 SUCCEEDED
-Message-ID: <010101910f322484-c9708cf4-65fc-416a-b5dc-207394b18d56-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Aug 2024 18:27:10 +0000
+Subject: [AUH] sysklogd: upgrading to 2.6.1 SUCCEEDED
+Message-ID: <010101910f32281d-e052cd47-a1fc-4caa-a104-b7989400a2aa-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Aug 2024 18:27:11 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.01-54.240.27.29
+X-SES-Outgoing: 2024.08.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 18:27:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202824
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202833
 
---===============4294749600670006518==
+--===============5967569579553741521==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *asciidoc* to *10.2.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *sysklogd* to *2.6.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-asciidoc-upgrade-10.2.0-10.2.1.patch
+    - apply the patch: git am 0001-sysklogd-upgrade-2.5.2-2.6.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,100 +72,90 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 56d4976aef3250e7d559aa334e9c1e4c73f7d0d8 Mon Sep 17 00:00:00 2001
+From 74475f3c2d52c9f523e28e62931a14b1a858ab5a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Aug 2024 11:36:34 +0000
-Subject: [PATCH] asciidoc: upgrade 10.2.0 -> 10.2.1
+Date: Thu, 1 Aug 2024 12:10:36 +0000
+Subject: [PATCH] sysklogd: upgrade 2.5.2 -> 2.6.1
 
 ---
- .../asciidoc/{asciidoc_10.2.0.bb => asciidoc_10.2.1.bb}         | 2 +-
+ .../sysklogd/{sysklogd_2.5.2.bb => sysklogd_2.6.1.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/asciidoc/{asciidoc_10.2.0.bb => asciidoc_10.2.1.bb} (94%)
+ rename meta/recipes-extended/sysklogd/{sysklogd_2.5.2.bb => sysklogd_2.6.1.bb} (97%)
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_10.2.0.bb b/meta/recipes-extended/asciidoc/asciidoc_10.2.1.bb
-similarity index 94%
-rename from meta/recipes-extended/asciidoc/asciidoc_10.2.0.bb
-rename to meta/recipes-extended/asciidoc/asciidoc_10.2.1.bb
-index e112eb513d..1065acdb8e 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_10.2.0.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_10.2.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=aaee33adce0fc7cc40fee23f82f7f101 \
-                     "
+diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.5.2.bb b/meta/recipes-extended/sysklogd/sysklogd_2.6.1.bb
+similarity index 97%
+rename from meta/recipes-extended/sysklogd/sysklogd_2.5.2.bb
+rename to meta/recipes-extended/sysklogd/sysklogd_2.6.1.bb
+index e488603086..99454b8230 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd_2.5.2.bb
++++ b/meta/recipes-extended/sysklogd/sysklogd_2.6.1.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/troglobit/sysklogd.git;branch=master;protocol=https
+            file://sysklogd \
+            "
  
- SRC_URI = "git://github.com/asciidoc/asciidoc-py;protocol=https;branch=main"
--SRCREV = "545b79b8d7dae70d12bf0657359bdd36de0c5c26"
-+SRCREV = "21e33efe96ba9a51d99d1150691dae750afd6ed1"
+-SRCREV = "3332c550f1a68393daec5d64cd81f3b7674c0af5"
++SRCREV = "c2bc519697aaa94f7b5e658a31ff55b9d54e7c8d"
  
- DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ S = "${WORKDIR}/git"
  
 -- 
 2.44.0
 
 
---===============4294749600670006518==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/asciidoc (sysroot):
-  /usr/lib/python3.12/site-packages/asciidoc-10.2.0.dist-info moved to /usr/lib/python3.12/site-packages/asciidoc-10.2.1.dist-info
-
---===============4294749600670006518==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-asciidoc-upgrade-10.2.0-10.2.1.patch"
-
-RnJvbSA1NmQ0OTc2YWVmMzI1MGU3ZDU1OWFhMzM0ZTljMWU0YzczZjdkMGQ4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMTozNjozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFz
-Y2lpZG9jOiB1cGdyYWRlIDEwLjIuMCAtPiAxMC4yLjEKCi0tLQogLi4uL2FzY2lpZG9jL3thc2Np
-aWRvY18xMC4yLjAuYmIgPT4gYXNjaWlkb2NfMTAuMi4xLmJifSAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2FzY2lpZG9jL3thc2NpaWRvY18xMC4yLjAuYmIgPT4gYXNjaWlkb2Nf
-MTAuMi4xLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hc2Np
-aWRvYy9hc2NpaWRvY18xMC4yLjAuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYXNjaWlkb2Mv
-YXNjaWlkb2NfMTAuMi4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1leHRlbmRlZC9hc2NpaWRvYy9hc2NpaWRvY18xMC4yLjAuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9hc2NpaWRvYy9hc2NpaWRvY18xMC4yLjEuYmIKaW5kZXggZTEx
-MmViNTEzZC4uMTA2NWFjZGI4ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Fz
-Y2lpZG9jL2FzY2lpZG9jXzEwLjIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYXNj
-aWlkb2MvYXNjaWlkb2NfMTAuMi4xLmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtT
-VU0gPSAiZmlsZTovL0NPUFlSSUdIVDttZDU9YWFlZTMzYWRjZTBmYzdjYzQwZmVlMjNmODJmN2Yx
-MDEgXAogICAgICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNv
-bS9hc2NpaWRvYy9hc2NpaWRvYy1weTtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiIKLVNSQ1JF
-ViA9ICI1NDViNzliOGQ3ZGFlNzBkMTJiZjA2NTczNTliZGQzNmRlMGM1YzI2IgorU1JDUkVWID0g
-IjIxZTMzZWZlOTZiYTlhNTFkOTlkMTE1MDY5MWRhZTc1MGFmZDZlZDEiCiAKIERFUEVORFMgPSAi
-bGlieG1sMi1uYXRpdmUgbGlieHNsdC1uYXRpdmUgZG9jYm9vay14bWwtZHRkNC1uYXRpdmUgZG9j
-Ym9vay14c2wtc3R5bGVzaGVldHMtbmF0aXZlIgogCi0tIAoyLjQ0LjAKCg==
-
---===============4294749600670006518==
+--===============5967569579553741521==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/asciidoc/asciidoc-dbg: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc/asciidoc-dbg: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-packages/core2-64-poky-linux/asciidoc/asciidoc-dev: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc/asciidoc-dev: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-packages/core2-64-poky-linux/asciidoc/asciidoc-doc: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc/asciidoc-doc: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-packages/core2-64-poky-linux/asciidoc/asciidoc-locale: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc/asciidoc-locale: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-packages/core2-64-poky-linux/asciidoc/asciidoc-src: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc/asciidoc-src: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-packages/core2-64-poky-linux/asciidoc/asciidoc-staticdev: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc/asciidoc-staticdev: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-packages/core2-64-poky-linux/asciidoc/asciidoc: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc/asciidoc: PKGSIZE changed from 1271883 to 1271886 (+0%)
-packages/core2-64-poky-linux/asciidoc/asciidoc: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-packages/core2-64-poky-linux/asciidoc: PV changed from "10.2.0" to "10.2.1"
-packages/core2-64-poky-linux/asciidoc: PKGV changed from 10.2.0 [default] to 10.2.1 [default]
-Changes to packages/core2-64-poky-linux/asciidoc (sysroot):
-  /usr/lib/python3.12/site-packages/asciidoc-10.2.0.dist-info moved to /usr/lib/python3.12/site-packages/asciidoc-10.2.1.dist-info
+packages/core2-64-poky-linux/sysklogd: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
+packages/core2-64-poky-linux/sysklogd/sysklogd-dbg: PKGSIZE changed from 201128 to 207352 (+3%)
+packages/core2-64-poky-linux/sysklogd/sysklogd-dbg: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd/sysklogd-dbg: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
+packages/core2-64-poky-linux/sysklogd/sysklogd-dev: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd/sysklogd-dev: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
+packages/core2-64-poky-linux/sysklogd/sysklogd-doc: PKGSIZE changed from 93833 to 97164 (+4%)
+packages/core2-64-poky-linux/sysklogd/sysklogd-doc: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd/sysklogd-doc: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
+packages/core2-64-poky-linux/sysklogd/sysklogd-locale: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd/sysklogd-locale: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
+packages/core2-64-poky-linux/sysklogd/sysklogd-src: PKGSIZE changed from 145808 to 149954 (+3%)
+packages/core2-64-poky-linux/sysklogd/sysklogd-src: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd/sysklogd-src: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
+packages/core2-64-poky-linux/sysklogd/sysklogd-staticdev: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd/sysklogd-staticdev: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
+packages/core2-64-poky-linux/sysklogd/sysklogd: PKGSIZE changed from 94126 to 98476 (+5%)
+packages/core2-64-poky-linux/sysklogd/sysklogd: PV changed from "2.5.2" to "2.6.1"
+packages/core2-64-poky-linux/sysklogd/sysklogd: PKGV changed from 2.5.2 [default] to 2.6.1 [default]
 
---===============4294749600670006518==--
+--===============5967569579553741521==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-sysklogd-upgrade-2.5.2-2.6.1.patch"
+
+RnJvbSA3NDQ3NWYzYzJkNTJjOWY1MjNlMjhlNjI5MzFhMTRiMWE4NThhYjVhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBBdWcgMjAyNCAxMjoxMDozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN5
+c2tsb2dkOiB1cGdyYWRlIDIuNS4yIC0+IDIuNi4xCgotLS0KIC4uLi9zeXNrbG9nZC97c3lza2xv
+Z2RfMi41LjIuYmIgPT4gc3lza2xvZ2RfMi42LjEuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9zeXNrbG9nZC97c3lza2xvZ2RfMi41LjIuYmIgPT4gc3lza2xvZ2RfMi42
+LjEuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N5c2tsb2dk
+L3N5c2tsb2dkXzIuNS4yLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N5c2tsb2dkL3N5c2ts
+b2dkXzIuNi4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1leHRlbmRlZC9zeXNrbG9nZC9zeXNrbG9nZF8yLjUuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL3N5c2tsb2dkL3N5c2tsb2dkXzIuNi4xLmJiCmluZGV4IGU0ODg2MDMwODYu
+Ljk5NDU0YjgyMzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNrbG9nZC9z
+eXNrbG9nZF8yLjUuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3lza2xvZ2Qvc3lz
+a2xvZ2RfMi42LjEuYmIKQEAgLTE0LDcgKzE0LDcgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIu
+Y29tL3Ryb2dsb2JpdC9zeXNrbG9nZC5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcwog
+ICAgICAgICAgICBmaWxlOi8vc3lza2xvZ2QgXAogICAgICAgICAgICAiCiAKLVNSQ1JFViA9ICIz
+MzMyYzU1MGYxYTY4MzkzZGFlYzVkNjRjZDgxZjNiNzY3NGMwYWY1IgorU1JDUkVWID0gImMyYmM1
+MTk2OTdhYWE5NGY3YjVlNjU4YTMxZmY1NWI5ZDU0ZTdjOGQiCiAKIFMgPSAiJHtXT1JLRElSfS9n
+aXQiCiAKLS0gCjIuNDQuMAoK
+
+--===============5967569579553741521==--
 
