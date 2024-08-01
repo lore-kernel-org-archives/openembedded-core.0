@@ -1,102 +1,122 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC44C3DA4A
-	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 13:30:57 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.68239.1722519053992989734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C714C3DA64
+	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 13:44:57 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.68545.1722519886724968340
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 06:30:54 -0700
+ Thu, 01 Aug 2024 06:44:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=gB74AEOD;
- spf=pass (domain: baylibre.com, ip: 209.85.219.46, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6b7b349a98aso46347176d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 06:30:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Kjr/JM7f;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52f025bc147so9814299e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 06:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722519053; x=1723123853; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ylH95QzL8XN9KiBr7LHm0LjqarKMjRus+Y1WOs79IIE=;
-        b=gB74AEODjVKWakFNoCZRxB4Q1zHFvo7nseZNFUgYK3SuoHPfQOprDWMQOr4IuMhvnv
-         raSeF68FTt1KxUOUnt5lqQ8sH9esVyAcIhCDC6jHQb8kohzM85RB4ckVWjAvg4+r4nQT
-         e6nbre6yOUiqbkdzmPGjBTK0R9DPcD//H88XLOZ7Rrkza8envVIO5/HM4jXg4PZ6UInK
-         +K8+InG3VVajXURmVnDvehzN7Qt6j/N6yaBiFI25JWJ4dv4ZzYmnQPkeWvB7CzrCSluu
-         jwKMYCDDtS+9op/LqQZyavUtftCTayqEUNcsysnraG/ZHvSrA6dEiQmuZItFbYHV6YXj
-         Wdow==
+        d=linuxfoundation.org; s=google; t=1722519885; x=1723124685; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2gldc+MRfjGJfFmn2YBQkSr59v72OFMzXkQKCrIKYK4=;
+        b=Kjr/JM7fDsz1LixPXtVi1iQy2cezI8dPazUViekHW2BWYDqz1Qettc7+KADKtFftOx
+         IjYW0LgMgJ4FWOMb6B86KiMdga7TbxfAb3lXCn8T+cyexjb0Djr6tJNgkMd28J0cuIvZ
+         aqQHaGwrxsFfcbSE0D1K6n8uexcoh7MvIIIdw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722519053; x=1723123853;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ylH95QzL8XN9KiBr7LHm0LjqarKMjRus+Y1WOs79IIE=;
-        b=RmQmG0zI2cOYOthqvGJWkp6RlNXKo2Ok4aAlM8YHOlmeMDhifpxMLrc6aV1xz8a96o
-         kVNBQfwD5p+O5qdal0F4Rq7F9MWFpEXMQuwwmk81GKgaUrdCfHVjbG00/rMGFtIf2E0Q
-         1nSGR8PFb1yWa8mMwlnEylX1e24pIrO3OBnaF8MlyONDOIAniOvz9cUSpJF0Eh57VxKU
-         XByxPMhXpWqADsfKXn/9EOXOdZRg3eNdhqJ2nzYCCUog6+0z5QtAzmZ3V6nzVffRahKp
-         EdPX/iQRj/ABa1KWyf5zIMbSdedjo2xj0KX141Coq/deuxEdSR5m27onuwthF6agXPhf
-         kVhg==
-X-Gm-Message-State: AOJu0Yz2T8944GJoa8MCThBv3aR7kW6G49oq+IYC5ro6bCmqP3VE0EjW
-	1x48YaYAMRKe1dgq9vqpDcWBgFLzf9vFlNUMH7PbdGpyYg8fp+JwQNfemTNhWB5PWZ61bOyaVUg
-	G
-X-Google-Smtp-Source: AGHT+IE5fDmxqo6A9SmxcOISihyjEuctvU8xEwgHToBrbqdt4p81F4/jmzvsTyqqERt7gyVs1sWtnQ==
-X-Received: by 2002:a05:6214:3b83:b0:6b7:9ebc:308a with SMTP id 6a1803df08f44-6bb98476815mr660956d6.43.1722519052566;
-        Thu, 01 Aug 2024 06:30:52 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb3f8f83d4sm85163256d6.35.2024.08.01.06.30.52
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1722519885; x=1723124685;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2gldc+MRfjGJfFmn2YBQkSr59v72OFMzXkQKCrIKYK4=;
+        b=nXdLCAQoWDB9hctgTRYo/pTEz2OQw2+dfyfEYq71Zah9bzboypQfJHygC5y2bPapmN
+         sdc7ph8r1SzBEeWivJR0KFPQnJDE0BY62t3+AHmQSOwfVetCtDO7i5j737F4mXRkpPST
+         /y5d3GP0OKYmCrDrTb16NikzwZq7sIS1FZBZzfvxcaR9P08wTfsHsjyivyL0+Bzhv+fS
+         FoDNRt4TF1RTGiSSI7m8irRJ2VyA3pcvYAz4HaPpwIKTwWFGSOTnBZ0n1mHMFQHovtMF
+         5EztzjBWgkQlg/Ls+VJdBXDu4NiZN1p7xsLNuDJUYrrYNemGlleTSkRt2Ey3lQaPkcnf
+         56zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAYv5ZvN9Nwqvg5eaTdiRdbWmpfZkefLHEio+i9MnDwins4MBPx5dNpASpsDD3RmvMFQGbNU5bMoXjB8g8bPIyZQHy+117izFldlip02Y9LPNzKCQgHLJt
+X-Gm-Message-State: AOJu0YwA4yChJX0D8WKosK5qf1x1yxXJw8sSJsJs7Jgky4PC78CnC1QR
+	5i2AkN/QIVp8esjwXaOwO/kQqeVWec16Qw8Jle/fl7GVFkBMDAoorl/qWM8jvNY=
+X-Google-Smtp-Source: AGHT+IG7z4rvoMSmsLSbM7jDQqnxjyF+/0cRrFmYMZPlskW+9aDUn4MMOg3Ar20u4YXdbO0PdP4M2A==
+X-Received: by 2002:a05:6512:3408:b0:52c:c9ce:be8d with SMTP id 2adb3069b0e04-530b61f7823mr1833803e87.57.1722519884534;
+        Thu, 01 Aug 2024 06:44:44 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6f1c:86e8:7d42:8e2f? ([2001:8b0:aba:5f3c:6f1c:86e8:7d42:8e2f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367c0320sm19503908f8f.19.2024.08.01.06.44.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 06:30:52 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] bind: upgrade 9.18.27 -> 9.20.0
-Date: Thu,  1 Aug 2024 09:30:50 -0400
-Message-Id: <20240801133050.2647977-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.2
+        Thu, 01 Aug 2024 06:44:44 -0700 (PDT)
+Message-ID: <63e1661173a1ee8e65538cd330f614a91719b2bf.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v3 1/5] cve-check: annotate CVEs during analysis
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: rybczynska@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>, Samantha Jalabert
+	 <samantha.jalabert@syslinbit.com>
+Date: Thu, 01 Aug 2024 14:44:43 +0100
+In-Reply-To: <20240724152530.25856-1-marta.rybczynska@syslinbit.com>
+References: <20240724152530.25856-1-marta.rybczynska@syslinbit.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 13:30:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202733
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 13:44:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202734
 
-bind now depends on liburcu, so add it to DEPENDS (this was why the AUH
-runs were failing at do_compile).
+On Wed, 2024-07-24 at 17:25 +0200, Marta Rybczynska via lists.openembedded.=
+org wrote:
+> Add status information for each CVE under analysis.
+>=20
+> Previously the information passed between different function of the
+> cve-check class included only tables of patched, unpatched, ignored
+> vulnerabilities and the general status of the recipe.
+>=20
+> The VEX work requires more information, and we need to pass them
+> between different functions, so that it can be enriched as the
+> analysis progresses. Instead of multiple tables, use a single one
+> with annotations for each CVE encountered. For example, a patched
+> CVE will have:
+>=20
+> {"abbrev-status": "Patched", "status": "version-not-in-range"}
+>=20
+> abbrev-status contains the general status (Patched, Unpatched,
+> Ignored and Unknown that will be added in the VEX code)
+> status contains more detailed information that can come from
+> CVE_STATUS and the analysis.
+>=20
+> Additional fields of the annotation include for example the name
+> of the patch file fixing a given CVE.
+>=20
+> The side-effect of this change is that all entries from CVE_STATUS
+> are available in the result file. That includes entries from
+> the optional file cve-extra-exclusions.inc even if they might have
+> no link with the recipe (apply to a different package). This will
+> be fixed by moving all entries from that file to appropriate recipes.
+>=20
+> From now on, CVE_STATUS should be added directly in the recipe file
+> or in include files added only to affected recipes.
 
-Changelog: https://gitlab.isc.org/isc-projects/bind9/-/blob/main/doc/arm/changelog.rst
+Sorry about the delay in getting to this. Initially I thought things
+were ok but now I understand what is happening here, I'm afraid I have
+concerns.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- .../bind/{bind_9.18.27.bb => bind_9.20.0.bb}                  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.18.27.bb => bind_9.20.0.bb} (96%)
+A fundamental property of what we're offering that we can use a common
+include file to inject CVE_STATUS entries for recipes. Whilst I can
+understand some of the concerns about the existing .inc file, we are
+never going to be in a position where all users agree on exactly what
+we should do with all CVEs.
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.27.bb b/meta/recipes-connectivity/bind/bind_9.20.0.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.18.27.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.0.bb
-index 0d22bace6f..07dd38f04e 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.27.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.0.bb
-@@ -6,7 +6,7 @@ SECTION = "console/network"
- LICENSE = "MPL-2.0"
- LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c7a0b6d9a1b692a5da9af9d503671f43"
- 
--DEPENDS = "openssl libcap zlib libuv"
-+DEPENDS = "openssl libcap zlib libuv liburcu"
- 
- SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://conf.patch \
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
- 
--SRC_URI[sha256sum] = "ea3f3d8cfa2f6ae78c8722751d008f54bc17a3aed2be3f7399eb7bf5f4cda8f1"
-+SRC_URI[sha256sum] = "cc580998017b51f273964058e8cb3aa5482bc785243dea71e5556ec565a13347"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
--- 
-2.39.2
+The alternative is requiring a bbappend per recipe every time some
+distro/company wants to add an entry and this is clearly not a good
+solution.
+
+I'm afraid I'm therefore very much against mandating that CVE_STATUS
+entries should be against individual recipes. We need to find a
+different solution rather than requiring that. We can likely sort the
+file in core but not in other people's layers.
+
+Cheers,
+
+Richard
 
 
