@@ -1,191 +1,177 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3931C3DA4A
-	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 13:00:43 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.92303.1722603633441254031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0419C52D6D
+	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 13:17:43 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.92381.1722604661326521196
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Aug 2024 06:00:33 -0700
+ Fri, 02 Aug 2024 06:17:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hGlS1q3t;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3683329f787so4381732f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 06:00:32 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=iPv6EJWH;
+ spf=pass (domain: mvista.com, ip: 209.85.210.173, mailfrom: sdoshi@mvista.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70d2d7e692eso6653979b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 06:17:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722603631; x=1723208431; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ehyTWU9tP5l6xNAdtYmkq0T2AZDlBE+4ViOXVdC7R1M=;
-        b=hGlS1q3tNoUwQC2BKRzJjy5P7uWqmCsT4uqfhiFanG6JDGtU/iw2cXzf7KhwRklM62
-         cjN+XtCQIxCHEgvgTvuAPleskGXx6vyMlXvzmLxmYBKbpD6LSc12FVQN4di0ZmAtRaaf
-         3lgT0Xq0u+kpfmgAF938Fku55L7n8g0V5/jWk=
+        d=mvista.com; s=google; t=1722604660; x=1723209460; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IGYfVjorbh0vqlmCEqlVwnQCuCvWjFA5JuTfodtQJRs=;
+        b=iPv6EJWHUYaCsnyia4JuLBz2E/xVEqyPUJB0idc8tAila1ABb/UUvr2Izse1WvqRHe
+         XAFxCfLsSiS1DhEzv/2EqAlpl1i0MytYaacl6FXu/GEGPQPmbrl1fI88pB9quX1k7wdV
+         W1/dGt1Ls2/NZWlTa518KzBsE6fEUt+SKHeW4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722603631; x=1723208431;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ehyTWU9tP5l6xNAdtYmkq0T2AZDlBE+4ViOXVdC7R1M=;
-        b=Q7+/NTDy1nT21iPsyuw/OjLKPhGg+vUYSKZcwCVNalAas3NrBZEpSVhbIuwVXAku32
-         cQkAENCM5rZoKyCCDllwWFYJYVfoNJsa3CyzoZwu5DpZ4xLIYH0D38IrZfe9bFZHF/rL
-         2QvDQxN78YabthAOCjhuzEw/lwqPI20DXZ3tUhOyOwtrfjAvfTOaKkQmB1RkdiGjNANm
-         Jwpyr+xUVvnOHjU5SHBYeivkDs9tXQlSL3e2ji/i8Fk4gNOuzEPlKcDFBfADem4yUf4H
-         UK3WAwpl/8GKsA9FL6bIYcUjbXjjswbKChM5qGIiXzjvDpCwooK2nCM6dH66G+BYW7ZK
-         hr6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXEQJUXsF4llNGoMo3uSyXrFOfThfaLFUMDWerifiYfLDWhZGrZ51H6vg4FaHcAUHUzB4ajlaaY6/uu0SjKwRuSN/vjRNmkv/ZBWXEtkntg8fiUOrq1owbt
-X-Gm-Message-State: AOJu0Ywi1R8DVpq6K5UXVlUyUllW7kZE1Ia0wTT9n2bpm/x9dkMiVWdI
-	OY+5/4G2WCDdncJXQzY/J6J7mBbsmrbfWPLVdAHcg3qN9GpvKFUMtn0aGdhI8Q8=
-X-Google-Smtp-Source: AGHT+IFu0saF3uE3wXBKp+2zwKnL8kacIbmCzWcSwVlriPKSjrwmTLq0lmYQ0YsFrK462ETTea1grg==
-X-Received: by 2002:a5d:5244:0:b0:364:348:9170 with SMTP id ffacd0b85a97d-36bbc1d30d8mr1991843f8f.54.1722603631282;
-        Fri, 02 Aug 2024 06:00:31 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e1c0:4ec6:2f32:2a4? ([2001:8b0:aba:5f3c:e1c0:4ec6:2f32:2a4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd26f908sm1912371f8f.115.2024.08.02.06.00.30
+        d=1e100.net; s=20230601; t=1722604660; x=1723209460;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IGYfVjorbh0vqlmCEqlVwnQCuCvWjFA5JuTfodtQJRs=;
+        b=KNUijFye/fg+MTE60T6L6B6kX3gFH1t46nNiAOzHHQ0AX1WuU8pARhvbj6o8TpRcB8
+         MPkerbzFR+PolYl8e92e3rGazck4Uf2/52rLPHRJE8gqiX7Ph23rjXRp4hQJ2+/lUYv6
+         kE14C8AXkOJ7ld0+wzBCgQ77A6vO7LgYIZzxHWxksgYPX+9rW7eugxso0/kyLuqBaNOS
+         2s/mvDSRo819lxB4jPVodaPjZrU0fPoNdU0ifqxLxvclyF9GTjr8tSh7q+y2HO6Yzx3H
+         4j6MhpR//S09AgGoE0WDQIK3mPtR1vR1aqwcl8OwBA4xdd7zUUnKhGJ8ir5bhD8Xo6s1
+         nOYA==
+X-Gm-Message-State: AOJu0Yyd6HG1XgqAKy/JFiftBsVQ5h1yKS15bQ6L4iLziHbOt4AIlo5I
+	4ebMv8zkbQf3cac2aXU7obI8DqWap9Ja8jmpXljMhF27bUM2m2ANf6Fc2tXdILu8H6GsJE42oLt
+	J
+X-Google-Smtp-Source: AGHT+IHt6CKEPON0wACTczRFP9UPIUQtViA9N+Xef3JH6nyvUcrCRaKt6ubt3kJtswhBcDvorIA2MA==
+X-Received: by 2002:a05:6a20:4391:b0:1c6:91e1:f0f9 with SMTP id adf61e73a8af0-1c699624f3dmr5302966637.34.1722604660319;
+        Fri, 02 Aug 2024 06:17:40 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([157.32.86.51])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4064d9sm5239230a91.8.2024.08.02.06.17.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 06:00:30 -0700 (PDT)
-Message-ID: <44cf64be9b222545d86163afc0c6671ace33fa42.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v3 1/5] cve-check: annotate CVEs during analysis
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: mrybczynska@syslinbit.com, openembedded-core@lists.openembedded.org, 
- Marta Rybczynska <marta.rybczynska@syslinbit.com>, Samantha Jalabert
- <samantha.jalabert@syslinbit.com>
-Date: Fri, 02 Aug 2024 14:00:29 +0100
-In-Reply-To: <CAApg2=RRLDsj7jnQh=JJTZOzF2KsMvhqy9UKvxs5igX_TYAmwg@mail.gmail.com>
-References: <20240724152530.25856-1-marta.rybczynska@syslinbit.com>
-	 <6cf212c600dc109e86e16cf3cf73adc9864deebf.camel@linuxfoundation.org>
-	 <399979010dfd02323f49cbd25b95f606@syslinbit.com>
-	 <297305874abd246270ce7084d22beee7486b3e70.camel@linuxfoundation.org>
-	 <CAApg2=T-6ajkTYjG4c0XHK8qPWkB=1bccU_tgSHUY8yK645PhQ@mail.gmail.com>
-	 <9141dd53105bb878e3dc98252110bc9c9d2f0684.camel@linuxfoundation.org>
-	 <CAApg2=RRLDsj7jnQh=JJTZOzF2KsMvhqy9UKvxs5igX_TYAmwg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        Fri, 02 Aug 2024 06:17:39 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>,
+	Armin Kuster <akuster@mvista.com>
+Subject: [OE-core][kirkstone][PATCHv3] lttng-modules: Upgrade 2.13.9 -> 2.13.14
+Date: Fri,  2 Aug 2024 18:47:30 +0530
+Message-Id: <20240802131730.178144-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 13:00:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202908
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 13:17:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202909
 
-On Fri, 2024-08-02 at 14:50 +0200, Marta Rybczynska wrote:
-> On Thu, Aug 1, 2024 at 4:25=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2024-07-26 at 15:02 +0200, Marta Rybczynska wrote:
-> > > On Thu, Jul 25, 2024 at 5:27=E2=80=AFPM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > On Thu, 2024-07-25 at 16:48 +0200, mrybczynska@syslinbit.com
-> > > > wrote:
-> > > > > On 25.07.2024 16:29, Richard Purdie wrote:
-> > > > > > Hi Marta,
-> > > > > >=20
-> > > > > >=20
-> > > > > > With the v3 series applied we did just see this on the
-> > > > > > autobuilder
-> > > > > > unfortunately so I'm not sure that problem is addressed:
-> > > > > >=20
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/buil=
-ds/7004/steps/14/logs/stdio
-> > > > > >=20
-> > > > >=20
-> > > > > Hello Richard,
-> > > > > Thanks, this is unfortunate. Is it possible to have a copy of
-> > > > > the
-> > > > > corrupted database somewhere?
-> > > >=20
-> > > > I think it is transient as we never clean it up and not all
-> > > > tasks fail.
-> > > > That seems to imply it is a race of some kind.
-> > >=20
-> > > I have a few ideas of what it might be, but I do not have a
-> > > reproducer right now. With the
-> > > vex changes, the duration of the cve_check operation changed
-> > > slightly. On the other hand,
-> > > the database download is slower these days (I have had standalone
-> > > runs that lasted for 5+ hours).
-> > > Also, I noticed that there were cancellations of some of the
-> > > build, so the cancellation of the download
-> > > may be in play too.
-> > >=20
-> > > A question: autobuilder configuration does share DL_DIR among
-> > > multiple builds?
-> >=20
-> > DL_DIR is shared between all the workers over NFS.
-> >=20
-> > > My possibility list right now:
-> > > - the "download" job timeout too short
-> > > - download failure/timeout
-> > > - job cancellation during the download
-> >=20
-> > While a download is in progress, the exclusive lock should be held.
-> > If the database were damaged, I'd then expect all subsequent
-> > cve_check tasks to fail the same way.
-> >=20
-> > In the failures, 2 or 3 tasks fail, the rest all continue to work.
-> > So ti doesn't really fit.
-> >=20
->=20
->=20
-> I would suspect there's a fetch job running in addition somewhere and
-> it manages to do the download. From that point, subsequent checks
-> will work. But where does that corruption come from - no idea.
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-We only ever update the database through the recipe though, right? That
-recipe does have the correct lockfile specified for do_fetch? That
-should mean it always has an exclusive lock when updating.
+License-Update: Upstream cleaned stale file paths in License file and updated LICENSES/LGPL-2.1 and LICENSES/GPL-2.0 -> LICENSES/LGPL-2.1-only.txt and LICENSES/GPL-2.0-only.txt causing md5 to change.
+(ref commit ->
+https://github.com/lttng/lttng-modules/commit/b972ef5708a00718a081f0eb40205e25677e5e93
+and
+https://github.com/lttng/lttng-modules/commit/61baff6e8de2462f45006662bc34bcbf5f645ba0#diff-c693279643b8cd5d248172d9c22cb7cf4ed163a3c98c8a3f69c2717edd3eacb7)
 
-> I've noticed that tests *could* cause a database update and that the
-> temporary download path will be the same for all instances
-> (CVE_DB_TEMP_FILE). This could cause corruption if the lock doesn't
-> work as we expect it to.
+Note: Upgrade lttng-modules to 2.13.14 to fix fcheck error which occurs
+with commit 782202de6478f68caaed4567017095ad906c4eef in kernel "file: Rename fcheck
+lookup_fd_rcu" which does replaces fcheck with lookup_fd_rcu.
 
-I did some tests and the lock does work between different autobuilder
-nodes. We've noticed that the issue only seems to happen on ubuntu
-22.04 which makes me wonder if there is a bug somewhere there such as
-in the host sqlite3?
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ .../0009-Rename-genhd-wrapper-to-blkdev.patch | 19 +++++++++++--------
+ ...les_2.13.9.bb => lttng-modules_2.13.14.bb} |  4 ++--
+ 2 files changed, 13 insertions(+), 10 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.13.9.bb => lttng-modules_2.13.14.bb} (89%)
 
-> Now, between kirkstone and master there should be no corruption, as
-> this is not the same database - files have different names as changed
-> in 048ff0ad927f4d37cc5547ebeba9e0c221687ea6.
-
-Steve has observed the same issue in kirkstone, only on ubuntu 22.04.
-
->=20
-> We could do tweaks to make sure tests do not download the database
-> (CVE_DB_UPDATE_INTERVAL =3D "-1"). We could even do a run or two with
-> that set for the whole build for all configurations, to make sure the
-> corruption
-> does not happen at runtime.
->=20
-> We also have a standalone script to download the database (no change
-> in the format from the master branch), so we can use it and then
-> point builds to the copy, while disabling updates.
->=20
-> The source is here:
-> https://gitlab.com/syslinbit/public/yocto-vex-check/-/blob/main/cve-updat=
-e-nvd2-native.py?ref_type=3Dheads
->=20
-> We can also change the location of the database and always keep it in
-> TMPDIR
-> or such. This could mean a long wait for the download.
->=20
-> Which solution would you prefer to test?
-
-I'm not convinced the issue is a parallel fetch, I think sqlite is
-breaking somehow and it is host specific.
-
-I think we should add a do_unpack to the recipe and work from a local
-copy in TMPDIR, not one over NFS. It can copy from DL_DIR so we
-shouldn't lose much speed. I'm willing to give that patch a go if that
-helps and lets you focus on the other patches?
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
+index 90fec9dc58..874e076675 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
++++ b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
+@@ -8,9 +8,12 @@ to follow upstream.
+ 
+ Upstream-Status: Backport
+ 
++Note: Updated patch to cleanly apply to 2.13.14
++
+ Change-Id: I4ec94fb94d11712dd20f0680aea1de77fbfa9d17
+ Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
+ Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+ ---
+  include/wrapper/{genhd.h => blkdev.h} | 10 +++++-----
+  src/lttng-statedump-impl.c            |  2 +-
+@@ -21,7 +24,7 @@ diff --git a/include/wrapper/genhd.h b/include/wrapper/blkdev.h
+ similarity index 93%
+ rename from include/wrapper/genhd.h
+ rename to include/wrapper/blkdev.h
+-index 4a59b68e..0d5ad90f 100644
++index e32c7b6..76397f6 100644
+ --- a/include/wrapper/genhd.h
+ +++ b/include/wrapper/blkdev.h
+ @@ -1,6 +1,6 @@
+@@ -41,9 +44,9 @@ index 4a59b68e..0d5ad90f 100644
+ +#ifndef _LTTNG_WRAPPER_BLKDEV_H
+ +#define _LTTNG_WRAPPER_BLKDEV_H
+  
+- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
+- #include <linux/blkdev.h>
+-@@ -45,7 +45,7 @@ struct class *wrapper_get_block_class(void)
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0) \
++	|| LTTNG_RHEL_KERNEL_RANGE(5,14,0,162,0,0, 5,15,0,0,0,0))
++@@ -47,7 +47,7 @@ struct class *wrapper_get_block_class(void)
+  /*
+   * Canary function to check for 'block_class' at compile time.
+   *
+@@ -52,17 +55,17 @@ index 4a59b68e..0d5ad90f 100644
+   *
+   *   extern struct class block_class;
+   */
+-@@ -104,4 +104,4 @@ struct device_type *wrapper_get_disk_type(void)
++@@ -106,4 +106,4 @@ struct device_type *wrapper_get_disk_type(void)
+  
+  #endif
+  
+ -#endif /* _LTTNG_WRAPPER_GENHD_H */
+ +#endif /* _LTTNG_WRAPPER_BLKDEV_H */
+ diff --git a/src/lttng-statedump-impl.c b/src/lttng-statedump-impl.c
+-index 4d7b2921..0e753090 100644
++index 9d197ce..229517e 100644
+ --- a/src/lttng-statedump-impl.c
+ +++ b/src/lttng-statedump-impl.c
+-@@ -41,7 +41,7 @@
++@@ -42,7 +42,7 @@
+  #include <wrapper/namespace.h>
+  #include <wrapper/irq.h>
+  #include <wrapper/tracepoint.h>
+@@ -72,5 +75,5 @@ index 4d7b2921..0e753090 100644
+  #include <wrapper/fdtable.h>
+  #include <wrapper/sched.h>
+ -- 
+-2.19.1
++2.35.7
+ 
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+similarity index 89%
+rename from meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+index a08386b053..a3e29ab7b7 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+@@ -3,7 +3,7 @@ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+ DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
+ HOMEPAGE = "https://lttng.org/"
+ LICENSE = "LGPL-2.1-only & GPL-2.0-only & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=0464cff101a009c403cd2ed65d01d4c4"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=8d0d9f08888046474772a5d745d89d6a"
+ 
+ inherit module
+ 
+@@ -16,7 +16,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+ # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
+ 
+-SRC_URI[sha256sum] = "bf808b113544287cfe837a6382887fa66354ef5cc8216460cebbef3d27dc3581"
++SRC_URI[sha256sum] = "c6449f7ff12ab644a630692a556304e51525ca37d98aebf826796918be0f5da6"
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
+ 
+-- 
+2.34.1
 
 
