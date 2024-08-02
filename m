@@ -1,177 +1,141 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0419C52D6D
-	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 13:17:43 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.92381.1722604661326521196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D33E3C3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 13:25:33 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web10.92845.1722605124262796930
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Aug 2024 06:17:41 -0700
+ Fri, 02 Aug 2024 06:25:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=iPv6EJWH;
- spf=pass (domain: mvista.com, ip: 209.85.210.173, mailfrom: sdoshi@mvista.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70d2d7e692eso6653979b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 06:17:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RKeh13X9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.179, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dff1ccdc17bso6680623276.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 06:25:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1722604660; x=1723209460; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IGYfVjorbh0vqlmCEqlVwnQCuCvWjFA5JuTfodtQJRs=;
-        b=iPv6EJWHUYaCsnyia4JuLBz2E/xVEqyPUJB0idc8tAila1ABb/UUvr2Izse1WvqRHe
-         XAFxCfLsSiS1DhEzv/2EqAlpl1i0MytYaacl6FXu/GEGPQPmbrl1fI88pB9quX1k7wdV
-         W1/dGt1Ls2/NZWlTa518KzBsE6fEUt+SKHeW4=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722605123; x=1723209923; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ugLPxdudvdt8Uz5xcIwbnM+fLfP36byrMkd3nT5h9T8=;
+        b=RKeh13X9zqaLNq4vET5apkXT6Wngm2Lho0tcfIlDTrekvY2SvmeJTR3I0Y1vqMnjhb
+         9jOUU1i7bsiRa8rmuD/tT4OuDFxrrA8t263IB0cRNvT/sxiovwbBnfAXwdi2a02TYMi4
+         rfTMkyJ+B+SOGGlPKKjdDzMA+YWD4FQ8D94cpRuAAxBc+LQgnaAQuhtov1PZ2hafVhVi
+         902S8UJp41a4gcm4e0za8tS0lodnfNZGk6uTcM901zQM30153h+74YOzCa1F+wCNEZy+
+         yDtK5Wbs3B8hkiWnNJb8FlQjIBxzthQutvNmMIpAo7BdQ+uudKy3TgDEU9I7kvKPj4/i
+         wkww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722604660; x=1723209460;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IGYfVjorbh0vqlmCEqlVwnQCuCvWjFA5JuTfodtQJRs=;
-        b=KNUijFye/fg+MTE60T6L6B6kX3gFH1t46nNiAOzHHQ0AX1WuU8pARhvbj6o8TpRcB8
-         MPkerbzFR+PolYl8e92e3rGazck4Uf2/52rLPHRJE8gqiX7Ph23rjXRp4hQJ2+/lUYv6
-         kE14C8AXkOJ7ld0+wzBCgQ77A6vO7LgYIZzxHWxksgYPX+9rW7eugxso0/kyLuqBaNOS
-         2s/mvDSRo819lxB4jPVodaPjZrU0fPoNdU0ifqxLxvclyF9GTjr8tSh7q+y2HO6Yzx3H
-         4j6MhpR//S09AgGoE0WDQIK3mPtR1vR1aqwcl8OwBA4xdd7zUUnKhGJ8ir5bhD8Xo6s1
-         nOYA==
-X-Gm-Message-State: AOJu0Yyd6HG1XgqAKy/JFiftBsVQ5h1yKS15bQ6L4iLziHbOt4AIlo5I
-	4ebMv8zkbQf3cac2aXU7obI8DqWap9Ja8jmpXljMhF27bUM2m2ANf6Fc2tXdILu8H6GsJE42oLt
-	J
-X-Google-Smtp-Source: AGHT+IHt6CKEPON0wACTczRFP9UPIUQtViA9N+Xef3JH6nyvUcrCRaKt6ubt3kJtswhBcDvorIA2MA==
-X-Received: by 2002:a05:6a20:4391:b0:1c6:91e1:f0f9 with SMTP id adf61e73a8af0-1c699624f3dmr5302966637.34.1722604660319;
-        Fri, 02 Aug 2024 06:17:40 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([157.32.86.51])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4064d9sm5239230a91.8.2024.08.02.06.17.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 06:17:39 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>,
-	Armin Kuster <akuster@mvista.com>
-Subject: [OE-core][kirkstone][PATCHv3] lttng-modules: Upgrade 2.13.9 -> 2.13.14
-Date: Fri,  2 Aug 2024 18:47:30 +0530
-Message-Id: <20240802131730.178144-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1722605123; x=1723209923;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ugLPxdudvdt8Uz5xcIwbnM+fLfP36byrMkd3nT5h9T8=;
+        b=wcK5JkNClTEg4R9LGFm0LzMc8JuIn4rt9EHaUTLllDxDDB05whxDImvHJoIPkW6ZmI
+         IpKhi+A+fU25+MXYK0g/ty6D9Zi1q9guySZRK7GDjzRK7FCs0WxdgKj9NOb+06NKycCg
+         EG3kxjSIhkjnU00Dd1USoqbIt3qcNJ7fv2TUKf+4N+p0wE4GTeNcY1k2dgDNhKU2ldsO
+         kR16GvnnaEWUy1yN88JceUcMTv44Xzzl455mtN2Rk+H3tUAFXuPLMCRDI+12XHu0aSNv
+         ++XNHkBfUi6NFKYstyZjyKjlPp99R2iQPUzfZnaaUViyHRDAcBlrZjdHvnxZ6c8VAsef
+         zorg==
+X-Gm-Message-State: AOJu0YxbwW+qBNGDa8FCBzyPtSvjjSL31ADWS6qceWxBJmHYU61TNrgU
+	8EufeG0mqt/O4rRSytIbjwEEfHi21CWfTAHO8gqpXB5d/SCChrI/WVuLSoyf4UAfB9LnBvicJXj
+	S25WF5l7gS+/5N2z5Yqky9qprerxekrkxRmXSZty40eOsUzoz5kU=
+X-Google-Smtp-Source: AGHT+IFnooBEsK3lvuJoHGCsIteCnT4GbjfqKyrOwMMCNNM4UWzOTrxJZQ2xaUK+lpRQc5kXnJiO2bvtvIPxi3W/SsA=
+X-Received: by 2002:a05:6902:72f:b0:e03:577d:a354 with SMTP id
+ 3f1490d57ef6-e0bde51dc88mr4181267276.49.1722605123316; Fri, 02 Aug 2024
+ 06:25:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOSpxda3332UEOtH2ypoeJnpt4ehZpjFbaq4er_25PdT_caV7w@mail.gmail.com>
+ <31107.1721628558851428697@lists.openembedded.org> <CAOSpxdanafDpHWHb4n8MZzoW9kojmXqM6coNGjh4G6_PzpMnLw@mail.gmail.com>
+ <af058e4a-7464-4308-97d0-26f9fcd24539@phytec.de>
+In-Reply-To: <af058e4a-7464-4308-97d0-26f9fcd24539@phytec.de>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 2 Aug 2024 06:25:12 -0700
+Message-ID: <CAOSpxdaknG-FMZPvUWrQ9P7AL9XGkYCDqaq0ZgqYaaXjn7KEgg@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap+][PATCH] watchdog: Set watchdog_module in
+ default config
+To: Wadim Egorov <w.egorov@phytec.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 13:17:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202909
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 13:25:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202910
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+On Fri, Aug 2, 2024 at 12:01=E2=80=AFAM Wadim Egorov <w.egorov@phytec.de> w=
+rote:
+>
+>
+>
+> Am 22.07.24 um 17:25 schrieb Steve Sakoman:
+> > On Sun, Jul 21, 2024 at 11:09=E2=80=AFPM Wadim Egorov via
+> > lists.openembedded.org <w.egorov=3Dphytec.de@lists.openembedded.org>
+> > wrote:
+> >>
+> >> On Fri, Jul 19, 2024 at 06:00 AM, Steve Sakoman wrote:
+> >>
+> >> Is this also an issue in master? If so, then this will need to be
+> >> submitted first for master and then I can backport.
+> >>
+> >> Yes, do you want me to resend without the scarthgap tag?
+> >> This patch also applies to master.
+> >
+> > I see you sent it for master, thanks!  I'll backport when it hits maste=
+r.
+>
+> FYI: Just made it into master,
+>
+> 7a824eded561 ("watchdog: Set watchdog_module in default config")
 
-License-Update: Upstream cleaned stale file paths in License file and updated LICENSES/LGPL-2.1 and LICENSES/GPL-2.0 -> LICENSES/LGPL-2.1-only.txt and LICENSES/GPL-2.0-only.txt causing md5 to change.
-(ref commit ->
-https://github.com/lttng/lttng-modules/commit/b972ef5708a00718a081f0eb40205e25677e5e93
-and
-https://github.com/lttng/lttng-modules/commit/61baff6e8de2462f45006662bc34bcbf5f645ba0#diff-c693279643b8cd5d248172d9c22cb7cf4ed163a3c98c8a3f69c2717edd3eacb7)
+I saw that!  I have it in my scarthgap test queue now.
 
-Note: Upgrade lttng-modules to 2.13.14 to fix fcheck error which occurs
-with commit 782202de6478f68caaed4567017095ad906c4eef in kernel "file: Rename fcheck
-lookup_fd_rcu" which does replaces fcheck with lookup_fd_rcu.
+Steve
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- .../0009-Rename-genhd-wrapper-to-blkdev.patch | 19 +++++++++++--------
- ...les_2.13.9.bb => lttng-modules_2.13.14.bb} |  4 ++--
- 2 files changed, 13 insertions(+), 10 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.9.bb => lttng-modules_2.13.14.bb} (89%)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-index 90fec9dc58..874e076675 100644
---- a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-@@ -8,9 +8,12 @@ to follow upstream.
- 
- Upstream-Status: Backport
- 
-+Note: Updated patch to cleanly apply to 2.13.14
-+
- Change-Id: I4ec94fb94d11712dd20f0680aea1de77fbfa9d17
- Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
- Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
- ---
-  include/wrapper/{genhd.h => blkdev.h} | 10 +++++-----
-  src/lttng-statedump-impl.c            |  2 +-
-@@ -21,7 +24,7 @@ diff --git a/include/wrapper/genhd.h b/include/wrapper/blkdev.h
- similarity index 93%
- rename from include/wrapper/genhd.h
- rename to include/wrapper/blkdev.h
--index 4a59b68e..0d5ad90f 100644
-+index e32c7b6..76397f6 100644
- --- a/include/wrapper/genhd.h
- +++ b/include/wrapper/blkdev.h
- @@ -1,6 +1,6 @@
-@@ -41,9 +44,9 @@ index 4a59b68e..0d5ad90f 100644
- +#ifndef _LTTNG_WRAPPER_BLKDEV_H
- +#define _LTTNG_WRAPPER_BLKDEV_H
-  
-- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
-- #include <linux/blkdev.h>
--@@ -45,7 +45,7 @@ struct class *wrapper_get_block_class(void)
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0) \
-+	|| LTTNG_RHEL_KERNEL_RANGE(5,14,0,162,0,0, 5,15,0,0,0,0))
-+@@ -47,7 +47,7 @@ struct class *wrapper_get_block_class(void)
-  /*
-   * Canary function to check for 'block_class' at compile time.
-   *
-@@ -52,17 +55,17 @@ index 4a59b68e..0d5ad90f 100644
-   *
-   *   extern struct class block_class;
-   */
--@@ -104,4 +104,4 @@ struct device_type *wrapper_get_disk_type(void)
-+@@ -106,4 +106,4 @@ struct device_type *wrapper_get_disk_type(void)
-  
-  #endif
-  
- -#endif /* _LTTNG_WRAPPER_GENHD_H */
- +#endif /* _LTTNG_WRAPPER_BLKDEV_H */
- diff --git a/src/lttng-statedump-impl.c b/src/lttng-statedump-impl.c
--index 4d7b2921..0e753090 100644
-+index 9d197ce..229517e 100644
- --- a/src/lttng-statedump-impl.c
- +++ b/src/lttng-statedump-impl.c
--@@ -41,7 +41,7 @@
-+@@ -42,7 +42,7 @@
-  #include <wrapper/namespace.h>
-  #include <wrapper/irq.h>
-  #include <wrapper/tracepoint.h>
-@@ -72,5 +75,5 @@ index 4d7b2921..0e753090 100644
-  #include <wrapper/fdtable.h>
-  #include <wrapper/sched.h>
- -- 
--2.19.1
-+2.35.7
- 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-similarity index 89%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-index a08386b053..a3e29ab7b7 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-@@ -3,7 +3,7 @@ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
- DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
- HOMEPAGE = "https://lttng.org/"
- LICENSE = "LGPL-2.1-only & GPL-2.0-only & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0464cff101a009c403cd2ed65d01d4c4"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8d0d9f08888046474772a5d745d89d6a"
- 
- inherit module
- 
-@@ -16,7 +16,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
- 
--SRC_URI[sha256sum] = "bf808b113544287cfe837a6382887fa66354ef5cc8216460cebbef3d27dc3581"
-+SRC_URI[sha256sum] = "c6449f7ff12ab644a630692a556304e51525ca37d98aebf826796918be0f5da6"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
--- 
-2.34.1
-
+>
+> >
+> > Steve
+> >
+> >> On Thu, Jul 18, 2024 at 11:21=E2=80=AFPM Wadim Egorov via
+> >> lists.openembedded.org <w.egorov=3Dphytec.de@lists.openembedded.org>
+> >> wrote:
+> >>
+> >> systemd started to warn about used but unset environment variables.
+> >> Let us set watchdog_module=3Dnone which is used by the watchdog.servic=
+e to get
+> >> rid of the following warning:
+> >>
+> >> watchdog.service: Referenced but unset environment variable evaluates =
+to an empty string: watchdog_module
+> >>
+> >> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+> >> ---
+> >> meta/recipes-extended/watchdog/watchdog-config/watchdog.default | 1 +
+> >> 1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/meta/recipes-extended/watchdog/watchdog-config/watchdog.d=
+efault b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+> >> index 647d5abca5bd..cee5fdc2b6f7 100644
+> >> --- a/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+> >> +++ b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+> >> @@ -1,2 +1,3 @@
+> >> # Start watchdog at boot time? 0 or 1
+> >> run_watchdog=3D1
+> >> +watchdog_module=3Dnone
+> >> --
+> >> 2.25.1
+> >>
+> >>
+> >>
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#202305): https://lists.openembedded.org/g/openembe=
+dded-core/message/202305
+> >> Mute This Topic: https://lists.openembedded.org/mt/107430686/3620601
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[steve@sakoman.com]
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>
 
