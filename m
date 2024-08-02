@@ -1,152 +1,119 @@
-Return-Path: <corentin.levy@smile.fr>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D434C52D6F
-	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 15:10:44 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.95167.1722611439846638950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 696AFC3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 15:15:24 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.95274.1722611713840768113
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Aug 2024 08:10:40 -0700
+ Fri, 02 Aug 2024 08:15:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=34fuyxtY;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: corentin.levy@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3685a5e7d3cso4818780f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 08:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1722611438; x=1723216238; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2iHSIQKzvF3Bdrl4aO2m5B10nS3mhOcEeHOOY+no6b4=;
-        b=34fuyxtY0XH9kS+XUS17drjKCdM4S+kFUoOXz/MrGAjlXzjDSCp/a5nkJl/y/WaCLA
-         IEW/uNg3YvGDzhoVWh7kcVqqFLviethBeMHo6o0HnXtAOCzCuYKt62voIqeLKSwisRB9
-         qHuzHnYrmJF/8GMa2basNWBWWJWIlAki3fHI4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722611438; x=1723216238;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2iHSIQKzvF3Bdrl4aO2m5B10nS3mhOcEeHOOY+no6b4=;
-        b=uhN0vqTF/ZzxTZIqfxjA+6ssGxNPoOgZUaUO2vVcNzAeGIxZ5J4andW5viNxgFmYgT
-         AvixOTv0kcFNNzY2SNjuKl86Q1pdF91IvkV/S5WmLubUTm9T7ayRBpAf+U0a4hm5RO/6
-         wQIInoVWoM/bu4Z2R6O9sYzUCtgOYTkTpOznsCNkQ6VXN9JNZLh5p7M0FRgSJ0HQ1fL7
-         ogHTzuL4VLwlZ+4e985DZ1Xt60UcbLB/RExj0jpL1sFCQ//oagSGqK1adM9J3sUXQCy7
-         B3gwW9bhpknqaigOMRzmh4lf1NGaL9C0tk8txKCBtnb+YTeGruzLYD7EqIeyChV92Fs4
-         fXnw==
-X-Gm-Message-State: AOJu0Yzq5kbUsh3/1OGMsaeACLYN64KpBydxF4DxXRdMXFapB+NrJ9wu
-	R1wWCXYIlhJiNr+HxMJKzgwFES9n4gzsjuwP3qyuO4d/hBws4ALllz469WWzBRYGGnrNFybnxza
-	2
-X-Google-Smtp-Source: AGHT+IG+ocK8E0hw7w4LE90oFrOxkoTxCLSbkFVYL5jXtAJxEiU5QAE4F+4fEvM2s34P1vigwQTWlA==
-X-Received: by 2002:adf:e412:0:b0:366:e9f3:c242 with SMTP id ffacd0b85a97d-36bbc0f81afmr2693456f8f.12.1722611437420;
-        Fri, 02 Aug 2024 08:10:37 -0700 (PDT)
-Received: from PT-ASN-SOULO.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd013f09sm2193521f8f.27.2024.08.02.08.10.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 08:10:37 -0700 (PDT)
-From: corentin.levy@smile.fr
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Corentin=20L=C3=A9vy?= <corentin.levy@smile.fr>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] python3-libarchive-c: add ptest
-Date: Fri,  2 Aug 2024 17:10:21 +0200
-Message-Id: <20240802151021.2495138-1-corentin.levy@smile.fr>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Vmllz301;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: thomas.perrot@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BBAD6FF802;
+	Fri,  2 Aug 2024 15:15:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1722611712;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=zaKsu/1bgzJjaKbnQbPc/Q9zxk/qNiZv7tEJ+0g+2Qk=;
+	b=Vmllz301j0iWWgKzQhuxx/3jH68p+QEKGEi/68Ln1I19zjxKrbaBIdY8v1V8SoOGBW5cPd
+	9xTdUD/QSnpBhzB/rS5USvWAtNMoDQ77coqjq/HjLEbZdV+cfiQUt2eKZfkUhE47TCeg7j
+	f/o7rqonXwbBu9y+sQNfzKNT2xwD4Y/QHHLSmi+e49LTelWnAt5embw0tbi6/5PQAUoNpe
+	uZXpBpdpxbBU+6mOb131UyqKa88XZxqfOCfbR4FCraHiC34QmoFfobW/M/I4iBxf/PWDQC
+	4IIiK+J7wFqmxlC/mFGJYKvFQRfWw91yW3MGFGm5woxfCVVEVzqv03lk5lbKKw==
+Message-ID: <a7bda5c361d6f73d7a84bb9c8591ddadc143ed92.camel@bootlin.com>
+Subject: Re: [OE-core][PATCH] opensbi: bump to 1.5.1
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 02 Aug 2024 17:15:11 +0200
+In-Reply-To: <CANNYZj_6erc-5cRHnTYtc3yucs73DaTuJ3Hcaxdx_urcQEH=2Q@mail.gmail.com>
+References: <20240802121336.1642376-1-thomas.perrot@bootlin.com>
+	 <CANNYZj8XmjudNK_=O0ftKAw9pUHD2Ybc=ZoW_wLHjROiZQ7giA@mail.gmail.com>
+	 <4c6579a7ae6988005f628bbdbd686a4294bb8e99.camel@bootlin.com>
+	 <CANNYZj_6erc-5cRHnTYtc3yucs73DaTuJ3Hcaxdx_urcQEH=2Q@mail.gmail.com>
+Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-66KzUPZUjwpqI7fhn6ZB"
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-GND-Sasl: thomas.perrot@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 15:10:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202919
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 15:15:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202920
 
-From: Corentin Lévy <corentin.levy@smile.fr>
 
-test added to the fast-list
-result of ptest-runner:
-Testsuite summary
-TOTAL: 36
-PASS: 36
-SKIP: 0
-XFAIL: 0
-FAIL: 0
-XPASS: 0
-ERROR: 0
-DURATION: 11
-END: /usr/lib/python3-libarchive-c/ptest
-2024-08-01T11:44
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
+--=-66KzUPZUjwpqI7fhn6ZB
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Corentin Lévy <corentin.levy@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../python/python3-libarchive-c/run-ptest     |  6 ++++++
- .../python/python3-libarchive-c_5.1.bb        | 20 ++++++++++++++++++-
- 3 files changed, 26 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-libarchive-c/run-ptest
+Hello Alex,
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index e3ab7e8629..7b8418654a 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -63,6 +63,7 @@ PTESTS_FAST = "\
-     python3-idna \
-     python3-jinja2 \
-     python3-jsonpointer \
-+    python3-libarchive-c \
-     python3-license-expression \
-     python3-mako \
-     python3-markupsafe \
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c/run-ptest b/meta/recipes-devtools/python/python3-libarchive-c/run-ptest
-new file mode 100644
-index 0000000000..ddfbba7f94
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-libarchive-c/run-ptest
-@@ -0,0 +1,6 @@
-+#!/bin/sh
-+
-+# export needed to set the locale to support accentuated and non-latin chars in tests
-+export LC_ALL=en_US.UTF-8
-+
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb b/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-index 4e318e52f4..c8aff3defe 100644
---- a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-+++ b/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-@@ -5,9 +5,13 @@ HOMEPAGE = "https://github.com/Changaco/python-libarchive-c"
- LICENSE = "CC0-1.0"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=bcab380227a83bc147350b40a81e6ffc"
- 
-+SRC_URI += " \
-+        file://run-ptest \
-+"
-+
- PYPI_PACKAGE = "libarchive-c"
- 
--inherit pypi setuptools3
-+inherit pypi setuptools3 ptest
- 
- SRC_URI[sha256sum] = "7bcce24ea6c0fa3bc62468476c6d2f6264156db2f04878a372027c10615a2721"
- 
-@@ -18,4 +22,18 @@ RDEPENDS:${PN} += "\
-   python3-logging \
- "
- 
-+RDEPENDS:${PN}-ptest += " \
-+        locale-base-en-us \
-+        python3-pytest \
-+        python3-unittest-automake-output \
-+"
-+
- BBCLASSEXTEND = "native"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    install -d ${D}${PTEST_PATH}/libarchive
-+    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+    cp ${S}/libarchive/* ${D}${PTEST_PATH}/libarchive/
-+    cp ${S}/README.rst ${D}${PTEST_PATH}/README.rst
-+}
+On Fri, 2024-08-02 at 17:03 +0200, Alexander Kanavin wrote:
+> On Fri, 2 Aug 2024 at 16:57, Thomas Perrot
+> <thomas.perrot@bootlin.com> wrote:
+> > As for some recipes, like the kernel recipes, I only used the first
+> > two
+> > numbers of the release version.
+> > I can rename it to use all numbers if you prefer.
+>=20
+> PV (set via file name) needs to exactly match the version tag in git
+> repo that matches the git revision in the recipe, it's not a
+> preference, but standard practice. Otherwise the recipe would be
+> packaging a random revision and not the actual PV.
+>=20
+
+Thx, I'm submitting a v2 that renames the recipe.
+
+Kind regards,
+Thomas Perrot
+
+> Alex
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202918):
+> https://lists.openembedded.org/g/openembedded-core/message/202918
+> Mute This Topic: https://lists.openembedded.org/mt/107683486/5443093
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> thomas.perrot@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+
+--=-66KzUPZUjwpqI7fhn6ZB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmas9/8ACgkQn8ALBXH+
+Cu05HQv/dt80hc47/7sxxpEj/4/dOiyVe56VTm+vIPaEcSXXklCNjYzHCHXtRI+9
+cgxdEU0hhII/H474UDBnjQmZv+ZaAQhqkg1ZZ0WiV2tA67Igx2BI+NogoLpjUxXj
+epBEQ+UfL6b62ll44zmMmChwIBC9GxsesfDKKD4FZIYO5/Q9xKsp+Ymh31/ED6YP
+Rs7EQD8dBwEjz0OCOgnE6UIyCYIzR3WpUeojVIlh4IchovOhbIospIj+R8uVn6Pv
+X9DgCmZxFbW6a9yNDLgTqteASG2sVQq01SWkS2RplXUJIkGJkZhh8j9uPl2U/wbA
+cyzUwv0ddo0e597lGH0/SnsSP4wwFgnUj+nWXohfNBAQDSg79vgQZ10uyrPjjCfj
+gbFyLBw0Kd3XS5EVuH/mv+i6ofCcEZcAi9ZjW+gIg7nkBPx1y8vkGVYHBm9wjbnr
+mjw2WvTX7hdFxinthFU4DhdOh8J69TMJTDbfK+5eKkDL0JEbEvWeLNtuFkgJ8+0Y
+VBvj09Oh
+=DXca
+-----END PGP SIGNATURE-----
+
+--=-66KzUPZUjwpqI7fhn6ZB--
 
