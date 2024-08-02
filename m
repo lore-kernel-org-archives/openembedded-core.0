@@ -2,58 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3CDC3DA4A
-	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 12:51:53 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web10.92125.1722603111496066725
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3931C3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 13:00:43 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.92303.1722603633441254031
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Aug 2024 05:51:51 -0700
+ Fri, 02 Aug 2024 06:00:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IyXwG1wn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.173, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f15e48f35bso7700371fa.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 05:51:50 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hGlS1q3t;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3683329f787so4381732f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 06:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722603109; x=1723207909; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1722603631; x=1723208431; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=tD5d+gih9u7PXKCvPu83gbCnktJBg8OkydljPKLgyXI=;
-        b=IyXwG1wnqbN9Uq44kRKbyBrrb5Od8gMHcNZiDINkFrJYRTxWk2ChKyKQZZWgD5g8Sn
-         VtgJsKIuFbTJWckYysKHpeGwlp4hJG1oa3t6tkbeks5CYZCMzYrWrLQ+FJX1UjSdO+tV
-         jMRYZAVcNfrbuHoe/uC7/mFETrv/5cFivWWGM=
+        bh=ehyTWU9tP5l6xNAdtYmkq0T2AZDlBE+4ViOXVdC7R1M=;
+        b=hGlS1q3tNoUwQC2BKRzJjy5P7uWqmCsT4uqfhiFanG6JDGtU/iw2cXzf7KhwRklM62
+         cjN+XtCQIxCHEgvgTvuAPleskGXx6vyMlXvzmLxmYBKbpD6LSc12FVQN4di0ZmAtRaaf
+         3lgT0Xq0u+kpfmgAF938Fku55L7n8g0V5/jWk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722603109; x=1723207909;
+        d=1e100.net; s=20230601; t=1722603631; x=1723208431;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=tD5d+gih9u7PXKCvPu83gbCnktJBg8OkydljPKLgyXI=;
-        b=M3ctbONCy35m6MP+Yu05hci73aMjOtETsFJe6B9cL95ZrzPvYuUJ3lNImGWyWu+0Jh
-         lqf5cYGCYsv/ikqMDcW+VsapCTyVRGsdesi5tomHne7oD3E1zB09c2cLJLJIUuRX3mQb
-         L1TYSI9X/vbbNmPDkRGAOpQocVaMxJm5wW1z+2MSN+mOGMjBip/L07C202MoJrYppK0m
-         od60MhAZViGAZUDxRD/tvcCisy3gzYc2+wXgEq+EhbRm0OMZA2Z6Hd68vDU0EiRiJqJX
-         xb8pFmAUuzb74MiTTzTywtG82vdc3TS6xk6fSv68Pe4s6ISGQy+bwSqRC+jDlo33b/4k
-         Uc2A==
-X-Gm-Message-State: AOJu0YzzD+tJuwQh37PdpFDZr9tF/BYlBtnIWHIz1UGs7ai6D98+RBok
-	FNRPUZV/czxQSEJphqaiT3vZ7ZUGqrwmj4/J+QWCNclxoJhWZTakMr4qzj384NM=
-X-Google-Smtp-Source: AGHT+IHFUiGq5vrIKgAdez3scaOEo5ZcyMcQREuvSSZjjl0dvv2y0INm2sN6MJ1wxK0bf10cuM1W1w==
-X-Received: by 2002:a2e:320e:0:b0:2f1:597b:9aa4 with SMTP id 38308e7fff4ca-2f15ab0c27amr24080861fa.35.1722603109046;
-        Fri, 02 Aug 2024 05:51:49 -0700 (PDT)
+        bh=ehyTWU9tP5l6xNAdtYmkq0T2AZDlBE+4ViOXVdC7R1M=;
+        b=Q7+/NTDy1nT21iPsyuw/OjLKPhGg+vUYSKZcwCVNalAas3NrBZEpSVhbIuwVXAku32
+         cQkAENCM5rZoKyCCDllwWFYJYVfoNJsa3CyzoZwu5DpZ4xLIYH0D38IrZfe9bFZHF/rL
+         2QvDQxN78YabthAOCjhuzEw/lwqPI20DXZ3tUhOyOwtrfjAvfTOaKkQmB1RkdiGjNANm
+         Jwpyr+xUVvnOHjU5SHBYeivkDs9tXQlSL3e2ji/i8Fk4gNOuzEPlKcDFBfADem4yUf4H
+         UK3WAwpl/8GKsA9FL6bIYcUjbXjjswbKChM5qGIiXzjvDpCwooK2nCM6dH66G+BYW7ZK
+         hr6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXEQJUXsF4llNGoMo3uSyXrFOfThfaLFUMDWerifiYfLDWhZGrZ51H6vg4FaHcAUHUzB4ajlaaY6/uu0SjKwRuSN/vjRNmkv/ZBWXEtkntg8fiUOrq1owbt
+X-Gm-Message-State: AOJu0Ywi1R8DVpq6K5UXVlUyUllW7kZE1Ia0wTT9n2bpm/x9dkMiVWdI
+	OY+5/4G2WCDdncJXQzY/J6J7mBbsmrbfWPLVdAHcg3qN9GpvKFUMtn0aGdhI8Q8=
+X-Google-Smtp-Source: AGHT+IFu0saF3uE3wXBKp+2zwKnL8kacIbmCzWcSwVlriPKSjrwmTLq0lmYQ0YsFrK462ETTea1grg==
+X-Received: by 2002:a5d:5244:0:b0:364:348:9170 with SMTP id ffacd0b85a97d-36bbc1d30d8mr1991843f8f.54.1722603631282;
+        Fri, 02 Aug 2024 06:00:31 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:e1c0:4ec6:2f32:2a4? ([2001:8b0:aba:5f3c:e1c0:4ec6:2f32:2a4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6e9cd14sm31885205e9.45.2024.08.02.05.51.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd26f908sm1912371f8f.115.2024.08.02.06.00.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 05:51:48 -0700 (PDT)
-Message-ID: <b1828490c77c3546ce1b263cf4968bd25f52a573.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/2] ell: add ptests
+        Fri, 02 Aug 2024 06:00:30 -0700 (PDT)
+Message-ID: <44cf64be9b222545d86163afc0c6671ace33fa42.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v3 1/5] cve-check: annotate CVEs during analysis
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, Martin =?ISO-8859-1?Q?Hundeb=F8ll?=
- <martin@geanix.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Aug 2024 13:51:45 +0100
-In-Reply-To: <AE35C2E5-DFDE-4817-8068-95D30C567870@arm.com>
-References: <20240801082253.974486-1-martin@geanix.com>
-	 <AE35C2E5-DFDE-4817-8068-95D30C567870@arm.com>
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: mrybczynska@syslinbit.com, openembedded-core@lists.openembedded.org, 
+ Marta Rybczynska <marta.rybczynska@syslinbit.com>, Samantha Jalabert
+ <samantha.jalabert@syslinbit.com>
+Date: Fri, 02 Aug 2024 14:00:29 +0100
+In-Reply-To: <CAApg2=RRLDsj7jnQh=JJTZOzF2KsMvhqy9UKvxs5igX_TYAmwg@mail.gmail.com>
+References: <20240724152530.25856-1-marta.rybczynska@syslinbit.com>
+	 <6cf212c600dc109e86e16cf3cf73adc9864deebf.camel@linuxfoundation.org>
+	 <399979010dfd02323f49cbd25b95f606@syslinbit.com>
+	 <297305874abd246270ce7084d22beee7486b3e70.camel@linuxfoundation.org>
+	 <CAApg2=T-6ajkTYjG4c0XHK8qPWkB=1bccU_tgSHUY8yK645PhQ@mail.gmail.com>
+	 <9141dd53105bb878e3dc98252110bc9c9d2f0684.camel@linuxfoundation.org>
+	 <CAApg2=RRLDsj7jnQh=JJTZOzF2KsMvhqy9UKvxs5igX_TYAmwg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.0-1build2 
@@ -61,64 +67,125 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 12:51:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202907
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 13:00:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202908
 
-On Fri, 2024-08-02 at 12:36 +0000, Ross Burton via
-lists.openembedded.org wrote:
-> On 1 Aug 2024, at 09:22, Martin Hundeb?ll via lists.openembedded.org
-> <martin=3Dgeanix.com@lists.openembedded.org> wrote:
-> > diff --git a/meta/recipes-core/ell/ell_0.67.bb b/meta/recipes-
-> > core/ell/ell_0.67.bb
-> > index 6b0ebbe62113..ee9aa73d2908 100644
-> > --- a/meta/recipes-core/ell/ell_0.67.bb
-> > +++ b/meta/recipes-core/ell/ell_0.67.bb
-> > @@ -10,9 +10,27 @@ SECTION =3D "libs"
-> > LICENSE=C2=A0 =3D "LGPL-2.1-only"
-> > LIC_FILES_CHKSUM =3D
-> > "file://COPYING;md5=3Dfb504b67c50331fc78734fed90fb0e09"
+On Fri, 2024-08-02 at 14:50 +0200, Marta Rybczynska wrote:
+> On Thu, Aug 1, 2024 at 4:25=E2=80=AFPM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Fri, 2024-07-26 at 15:02 +0200, Marta Rybczynska wrote:
+> > > On Thu, Jul 25, 2024 at 5:27=E2=80=AFPM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > On Thu, 2024-07-25 at 16:48 +0200, mrybczynska@syslinbit.com
+> > > > wrote:
+> > > > > On 25.07.2024 16:29, Richard Purdie wrote:
+> > > > > > Hi Marta,
+> > > > > >=20
+> > > > > >=20
+> > > > > > With the v3 series applied we did just see this on the
+> > > > > > autobuilder
+> > > > > > unfortunately so I'm not sure that problem is addressed:
+> > > > > >=20
+> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/buil=
+ds/7004/steps/14/logs/stdio
+> > > > > >=20
+> > > > >=20
+> > > > > Hello Richard,
+> > > > > Thanks, this is unfortunate. Is it possible to have a copy of
+> > > > > the
+> > > > > corrupted database somewhere?
+> > > >=20
+> > > > I think it is transient as we never clean it up and not all
+> > > > tasks fail.
+> > > > That seems to imply it is a race of some kind.
+> > >=20
+> > > I have a few ideas of what it might be, but I do not have a
+> > > reproducer right now. With the
+> > > vex changes, the duration of the cve_check operation changed
+> > > slightly. On the other hand,
+> > > the database download is slower these days (I have had standalone
+> > > runs that lasted for 5+ hours).
+> > > Also, I noticed that there were cancellations of some of the
+> > > build, so the cancellation of the download
+> > > may be in play too.
+> > >=20
+> > > A question: autobuilder configuration does share DL_DIR among
+> > > multiple builds?
 > >=20
-> > -DEPENDS =3D "dbus"
-> > +DEPENDS =3D "dbus openssl-native xxd-native"
+> > DL_DIR is shared between all the workers over NFS.
+> >=20
+> > > My possibility list right now:
+> > > - the "download" job timeout too short
+> > > - download failure/timeout
+> > > - job cancellation during the download
+> >=20
+> > While a download is in progress, the exclusive lock should be held.
+> > If the database were damaged, I'd then expect all subsequent
+> > cve_check tasks to fail the same way.
+> >=20
+> > In the failures, 2 or 3 tasks fail, the rest all continue to work.
+> > So ti doesn't really fit.
+> >=20
 >=20
-> This should be conditional on ptest, right?
 >=20
-> > +EXTRA_OECONF +=3D "--enable-tests --enable-maintainer-mode"
->=20
-> Make this conditional on ptest too?
->=20
-> > +do_compile:prepend() {
-> > +=C2=A0=C2=A0=C2=A0 mkdir -p ${B}/unit
-> > +}
->=20
-> This sounds like a broken Makefile.am that has a bad assumption in.
->=20
-> > +do_install_ptest() {
-> > +=C2=A0=C2=A0=C2=A0 install -m755 -Dt ${D}${PTEST_PATH} $(find ${B}/uni=
-t -
-> > executable -type f)
-> > +=C2=A0=C2=A0=C2=A0 install -Dt ${D}${PTEST_PATH}/unit \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${S}/unit/dbus.conf \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${S}/unit/settings.test \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(find ${B}/unit -name \*.p=
-em -type f)
-> > +}
->=20
-> As the test scripts are built with libtool, it=E2=80=99s best to use libt=
-ool
-> =E2=80=94mode=3Dinstall to install them.
+> I would suspect there's a fetch job running in addition somewhere and
+> it manages to do the download. From that point, subsequent checks
+> will work. But where does that corruption come from - no idea.
 
-Thanks for the review Ross. There was also a failure in automated
-testing on the autobuilder:
+We only ever update the database through the recipe though, right? That
+recipe does have the correct lockfile specified for do_fetch? That
+should mean it always has an exclusive lock when updating.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6864/step=
-s/12/logs/stdio
+> I've noticed that tests *could* cause a database update and that the
+> temporary download path will be the same for all instances
+> (CVE_DB_TEMP_FILE). This could cause corruption if the lock doesn't
+> work as we expect it to.
 
-The arm tests haven't run yet in that build.
+I did some tests and the lock does work between different autobuilder
+nodes. We've noticed that the issue only seems to happen on ubuntu
+22.04 which makes me wonder if there is a bug somewhere there such as
+in the host sqlite3?
+
+> Now, between kirkstone and master there should be no corruption, as
+> this is not the same database - files have different names as changed
+> in 048ff0ad927f4d37cc5547ebeba9e0c221687ea6.
+
+Steve has observed the same issue in kirkstone, only on ubuntu 22.04.
+
+>=20
+> We could do tweaks to make sure tests do not download the database
+> (CVE_DB_UPDATE_INTERVAL =3D "-1"). We could even do a run or two with
+> that set for the whole build for all configurations, to make sure the
+> corruption
+> does not happen at runtime.
+>=20
+> We also have a standalone script to download the database (no change
+> in the format from the master branch), so we can use it and then
+> point builds to the copy, while disabling updates.
+>=20
+> The source is here:
+> https://gitlab.com/syslinbit/public/yocto-vex-check/-/blob/main/cve-updat=
+e-nvd2-native.py?ref_type=3Dheads
+>=20
+> We can also change the location of the database and always keep it in
+> TMPDIR
+> or such. This could mean a long wait for the download.
+>=20
+> Which solution would you prefer to test?
+
+I'm not convinced the issue is a parallel fetch, I think sqlite is
+breaking somehow and it is host specific.
+
+I think we should add a do_unpack to the recipe and work from a local
+copy in TMPDIR, not one over NFS. It can copy from DL_DIR so we
+shouldn't lose much speed. I'm willing to give that patch a go if that
+helps and lets you focus on the other patches?
 
 Cheers,
 
 Richard
+
+
 
 
 
