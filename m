@@ -1,94 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3772DC3DA4A
-	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 14:32:44 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.94287.1722609159596696458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DBEC3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 14:57:24 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.94825.1722610635174073614
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Aug 2024 07:32:40 -0700
+ Fri, 02 Aug 2024 07:57:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g50lJVZB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3686b285969so4174873f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 07:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722609158; x=1723213958; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KuYJtG9z4RpwK7EuJmZD2XwC0IiUsHQsk+mNAN5x+i0=;
-        b=g50lJVZBqx6Vvj8pZimVv/6RL99ajX44ad0eBQ5G6ynjL12TxLTwTLfdiZY8SfVqeR
-         Xi58rG5RcSH1DPBMG9/h2dlFEZYY+M3ql/63cSXocB2/n7a1TlwqtpBQ6SlDZ3+kGmTU
-         6NKZo5RZIc2suQBixQjA+bAcRL7b8aCJpM+Jc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722609158; x=1723213958;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KuYJtG9z4RpwK7EuJmZD2XwC0IiUsHQsk+mNAN5x+i0=;
-        b=EdaYxz/sqaIoLsqAvU8hoTtgY2HshoNAqxRD2Yye1odMC1sNUNZzzzD/v+zp8q3Y9V
-         gTsH/AhkSzi8+AuRs9L7Z2XiT2tWMSVQKiyhl7V14Z0NUMbbL18X0BQGZBjWJAzFF4Xg
-         vIGIYy2M2Wdquxb4XxlsIWpmqBeDFWe7nvSUPJH0c/6Ua8wJEbbqWytgpwM/1cVjeycO
-         arMKTBMBNnLA82BYWz7v1AYX1/ccD9i6NpiXwb5Rr4bUS1TEQoQNmINea9pdaUqCbP/1
-         ZKBAhJgNM3ePq3o8XHQ5Ycc1SnHZFToqBL+V8fzHsGaH9hgIrNUHxk0CPkk5bcamdJ7s
-         uFSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUO1tX2Do/5GAJfUT/HgFKobKKE4099T4bFvPXuueJNV9kETDZbBfjkrmjM2IUKhCYnEZMucWaEhnwS72Hk5qLM5dJ5yUDJwed5EU9S2y1jSYdCmyXLsBN4
-X-Gm-Message-State: AOJu0YzaE8NiC2nEQmnnVM5OlJcxADJytebKOgda4yuXDXWW/RmD6SBd
-	uxXw14cxP+ItJ5ikEcEkCeWwkJ2Ew7r/gjK9RPTYVIRsbxGpBgNLseBrwwxFovs=
-X-Google-Smtp-Source: AGHT+IGs+3iX/8/8au7n4jW+pwNEUqUkH5jzQa+88L0qikbchpgm2zRCdjgrmpCeDbF2lpfbNsm3Lw==
-X-Received: by 2002:adf:e648:0:b0:360:7887:31ae with SMTP id ffacd0b85a97d-36bbc16f293mr2414126f8f.54.1722609157705;
-        Fri, 02 Aug 2024 07:32:37 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e1c0:4ec6:2f32:2a4? ([2001:8b0:aba:5f3c:e1c0:4ec6:2f32:2a4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbcf1db9csm2121689f8f.26.2024.08.02.07.32.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 07:32:37 -0700 (PDT)
-Message-ID: <6185d36c7da8c96430a9a1c51d83ed9afedeee1e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] buildhistory: fix package output folder
- creation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: pedro.silva.ferreira@criticaltechworks.com, 
-	openembedded-core@lists.openembedded.org
-Cc: Pedro Ferreira <pmi183@gmail.com>
-Date: Fri, 02 Aug 2024 15:32:36 +0100
-In-Reply-To: <20240802140008.497492-1-pedro.silva.ferreira@criticaltechworks.com>
-References: 
-	<20240802140008.497492-1-pedro.silva.ferreira@criticaltechworks.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=TElzq581;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: thomas.perrot@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 01A3A2000F;
+	Fri,  2 Aug 2024 14:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1722610633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=YWleSPEf7ATgtFN8ON4urZPldyNr/ECSx9QuBWRWq/Y=;
+	b=TElzq581hgvxQoLnPHdLVjiQDeCLifydDAqF7MDQ5TXOOFM4ya3cnLK/t570LJZ7t8tJ2v
+	YPhCl2AJhGzUPhqy02pBZtLWwa1f9n3OnKRfUwTXpuCooAvPrM0dCcuchJ9gHPUAwRA9Fz
+	B4spAiF/IPTl6xPbHHkWLQ6hrfmXSr4nJG96a09E1ShYOPqF3eePecKuS6TxCK3r6QNCom
+	TDfZ77ffo7tAtJ2DxYdxgRdxLl2d0QM5Emm5pmcW+kNhoLfEU+XUHiavD51lbFu1Bq9z6f
+	JObFI1HaeS92CzEH9lhLCYyE/GPE+3OmlIcFO3KlRxqHeA7Fx1ftgAgtFMUuUA==
+Message-ID: <4c6579a7ae6988005f628bbdbd686a4294bb8e99.camel@bootlin.com>
+Subject: Re: [OE-core][PATCH] opensbi: bump to 1.5.1
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 02 Aug 2024 16:57:11 +0200
+In-Reply-To: <CANNYZj8XmjudNK_=O0ftKAw9pUHD2Ybc=ZoW_wLHjROiZQ7giA@mail.gmail.com>
+References: <20240802121336.1642376-1-thomas.perrot@bootlin.com>
+	 <CANNYZj8XmjudNK_=O0ftKAw9pUHD2Ybc=ZoW_wLHjROiZQ7giA@mail.gmail.com>
+Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-peXrSkwyG4j1qQGYSS2f"
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 MIME-Version: 1.0
+X-GND-Sasl: thomas.perrot@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 14:32:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202916
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 14:57:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202917
 
-On Fri, 2024-08-02 at 15:00 +0100, Pedro Ferreira via lists.openembedded.or=
-g wrote:
-> This fix garantees that output package folder exists on
-> buildhistory folder to avoid missing files-in-package.txt
-> creation during task `package` execution.
->=20
-> This issue happens because the output folder is being
-> created on task `packagedata` before generating `latest` file.
->=20
-> Also it ensures that in case of `find` fails we leave with
-> a hard error instead of hidding the error on the for loop.
->=20
-> Signed-off-by: Pedro Ferreira <pmi183@gmail.com>
-> ---
-> =C2=A0meta/classes/buildhistory.bbclass | 8 +++-----
-> =C2=A01 file changed, 3 insertions(+), 5 deletions(-)
 
-How would someone reproduce the bug being fixed here?=C2=A0
+--=-peXrSkwyG4j1qQGYSS2f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm a little worried that this might really be a build race or a
-dependency problem. If that is the case, creating the directory doesn't
-seem the right thing to do and is just working around the problem?
+Hello Alexander,
 
-Cheers,
+On Fri, 2024-08-02 at 16:00 +0200, Alexander Kanavin wrote:
+> You need to rename the recipe as well?
 
-Richard
+As for some recipes, like the kernel recipes, I only used the first two
+numbers of the release version.
+I can rename it to use all numbers if you prefer.
+
+Kind regards,
+Thomas Perrot
+
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+
+--=-peXrSkwyG4j1qQGYSS2f
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmas88gACgkQn8ALBXH+
+Cu1r1Qv9Hu59sGwu+EIQ/8zEtND3EMQYKy651dQdZuIXnATRpbwnx3Otlm7fVnTr
+4HLNurqBS08rE64+CxGazJX/ssO866nE6xw9zLvIGUdcQR9uU0lz7+NIJ1VIrQbJ
+LvA0dOaENeumJPpFyKK4pkyQRu2Zch8JAjfQoCpSbiIFRA7kWtFJpLn9S6ZoVDQ7
+CxUdvgjtLuQ9P8oMyNmTs/J5GEl8cE8PUlIBwKv6N06wLz11KnY8muFVwE+teG+J
+ge5SYoNHwj46uECdYFJlPBDAdLYbLH2P3cdsiXPcRj2qZsCDcBN6ULDmRE+DtC5S
+FXP9wk5k1hZzCROwknw9GOqAprAcN1DUFHVV2CPLBBWy97jMtNMgSdTW4WJwNGM+
+M1WME/cpCFk+3akquyZf/+6ySt5VQt78DB8ClZvlggqf+OS5l6Mv87baacV3PnMa
+CXZvF26eeUst3NtZThDvnt5+fqt3I46wm8jyYuaihUiusBsoHEg6XqulpGFaitGi
+CTJIkPaQ
+=FgNu
+-----END PGP SIGNATURE-----
+
+--=-peXrSkwyG4j1qQGYSS2f--
 
