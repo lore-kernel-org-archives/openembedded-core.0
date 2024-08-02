@@ -1,173 +1,129 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <w.egorov@phytec.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F05DFC3DA4A
-	for <webhook@archiver.kernel.org>; Thu,  1 Aug 2024 19:42:27 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.77501.1722541343238047975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B8EC52D71
+	for <webhook@archiver.kernel.org>; Fri,  2 Aug 2024 07:02:01 +0000 (UTC)
+Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
+ by mx.groups.io with SMTP id smtpd.web10.87647.1722582113523377152
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Aug 2024 12:42:23 -0700
+ Fri, 02 Aug 2024 00:01:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=BeJhMstU;
- spf=pass (domain: mvista.com, ip: 209.85.215.171, mailfrom: sdoshi@mvista.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-70b2421471aso4707958a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 12:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1722541342; x=1723146142; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vxK4dig5qcoLgi3OKJT5zbMbrxU6mIkreeMHiE1bNhU=;
-        b=BeJhMstUFR5TLVeh0E0fCBCDwyJOfgI2WmCmPDAB0SwCXbpMdSoG0+cPqQBMuK4Y7D
-         9KiFUX9o2GYw+JfPTDNrbtUcbg8HCwpXKSFeCcoE+TafHrDbHF4vzMO6gDsLrG/mZiKn
-         O3dipM7Hr53bxSHDz97wBRo8fzI2tLjYtvCSs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722541342; x=1723146142;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vxK4dig5qcoLgi3OKJT5zbMbrxU6mIkreeMHiE1bNhU=;
-        b=DXZiNG2Cs+NCNdBcTuC27I4hGbyitpO2EDWYlG60GozBxg5gFC/eU5XXVtBGx4UFG3
-         XL/G7K4/qMs7Mm608nP+b7fbuKkH2+InT9Uoha29fbel4tiKBBEiV++63jPp6Kb3j6BC
-         bed7+N1sVeFe46LNcs2Xnx2gx2T7u/trCHX9yHyuM0z+KwxghBFFtWqttf3jcqwFwfZ7
-         kC+5j5eT2dsqSQRcHwbIVMRaIV5QGcEOA3g1tUKqcSYxw2Mi2sEHRHQvK2WfQjsLBVZO
-         DtvNJLVkofbgeUrpIsRZFoW9xhaOhqXDcVsjvyEF8VErSjEmvjL6Z3wu9XSlYHvprGcp
-         jFIQ==
-X-Gm-Message-State: AOJu0YwoMdZFG2CWDQNx3C9FclIbPsow/oF5tdj70Lr3h+TdcGS2TzqU
-	jCezolAVY5qmKhVuEwhKIEGxlShqOU+Yp2uiXAjOvd/breVg4rt/UP17Xr8wfKs7r/p5fYXWzHY
-	+
-X-Google-Smtp-Source: AGHT+IFaxphwyg3tuJAo7SHqRHnDNOJ8emCF+tumHHNIpnzzRZVfwAPpO5LcdOY32UHVBcb94uVW0w==
-X-Received: by 2002:a05:6a20:6a27:b0:1c4:cf0a:ee9d with SMTP id adf61e73a8af0-1c699570066mr2072043637.19.1722541342102;
-        Thu, 01 Aug 2024 12:42:22 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([157.32.47.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59058d03sm2602095ad.179.2024.08.01.12.42.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 12:42:21 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>,
-	Armin Kuster <akuster@mvista.com>
-Subject: [OE-core][kirkstone][PATCHv2] lttng-modules: Upgrade 2.13.9 -> 2.13.14
-Date: Fri,  2 Aug 2024 01:12:09 +0530
-Message-Id: <20240801194209.261057-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@phytec.de header.s=a4 header.b=PTmFlMVL;
+ spf=pass (domain: phytec.de, ip: 91.26.50.163, mailfrom: w.egorov@phytec.de)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+	q=dns/txt; i=@phytec.de; t=1722582111; x=1725174111;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=vN3KmQNCruqst0Xlfc4SOJ8r810yYbPKBA/fuunSD6E=;
+	b=PTmFlMVLErB/ihzsDBXoSm44yild8TCQVzrETD+21PAz3wJu+g5yREMm8dGBUQZ7
+	I59K1kTQDB8ZjFWsvXWxLEZJ7oOA7CUY5dey4JyDoZ72Ut44AuSXQ/RxNH1dcfZ+
+	+AefbpWUdIzGBmkTfEaqwmSaIHTwYXGxBOMJXeHuDqE=;
+X-AuditID: ac14000a-03e52700000021bc-1b-66ac845fc467
+Received: from berlix.phytec.de (Unknown_Domain [172.25.0.12])
+	(using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(Client did not present a certificate)
+	by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 17.70.08636.F548CA66; Fri,  2 Aug 2024 09:01:51 +0200 (CEST)
+Received: from [172.25.39.28] (172.25.0.11) by Berlix.phytec.de (172.25.0.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Fri, 2 Aug 2024
+ 09:01:50 +0200
+Message-ID: <af058e4a-7464-4308-97d0-26f9fcd24539@phytec.de>
+Date: Fri, 2 Aug 2024 09:01:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [scarthgap+][PATCH] watchdog: Set watchdog_module in
+ default config
+To: Steve Sakoman <steve@sakoman.com>
+CC: <openembedded-core@lists.openembedded.org>
+References: <CAOSpxda3332UEOtH2ypoeJnpt4ehZpjFbaq4er_25PdT_caV7w@mail.gmail.com>
+ <31107.1721628558851428697@lists.openembedded.org>
+ <CAOSpxdanafDpHWHb4n8MZzoW9kojmXqM6coNGjh4G6_PzpMnLw@mail.gmail.com>
+Content-Language: en-US
+From: Wadim Egorov <w.egorov@phytec.de>
+In-Reply-To: <CAOSpxdanafDpHWHb4n8MZzoW9kojmXqM6coNGjh4G6_PzpMnLw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [172.25.0.11]
+X-ClientProxiedBy: Florix.phytec.de (172.25.0.13) To Berlix.phytec.de
+ (172.25.0.12)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMLMWRmVeSWpSXmKPExsWyRpKBRze+ZU2awea3fBZ3fr5jtzi9TcaB
+	yePcxhWMHlsev2YLYIrisklJzcksSy3St0vgyvi23a9gnWDFhMkX2RoY7/F1MXJySAiYSDz+
+	douti5GLQ0hgCZPEiQu7mSCcO4wSb/fdZASp4hWwkZjef5kdxGYRUJH40LuLHSIuKHFy5hMW
+	EFtUQF7i/q0ZYHFhgRiJcz+7wXpFBFQlni86CxZnFtCTeL9sPQvEgjOMEsf/zWaDSIhL3Hoy
+	nwnEZhNQl7iz4RsriM0pECgxa+tiJogaC4nFbw5CDZKXaN46mxnEFgKyX1xazgLxjrzEtHOv
+	mSHsUIkjm1YzTWAUnoXk1llI1s1CMnYWkrELGFlWMQrlZiZnpxZlZusVZFSWpCbrpaRuYgQF
+	vAgD1w7GvjkehxiZOBgPMUpwMCuJ8AqdXJkmxJuSWFmVWpQfX1Sak1p8iFGag0VJnHd1R3Cq
+	kEB6YklqdmpqQWoRTJaJg1OqgXH7HDVvYaZy06svnlY/XcZ0ouDhtUcVey6v+fyGQ/8Nd5ky
+	y/dy+5bd+Uaa+wJfMjE+jjbXmSfzSm/BzpnrxOxfH3tz/i3Djo9vVB8ej37+Jn1dRuqCBwGR
+	30w3L5RKTLobFPK8pewCy/9vb7ldDHvbgv+cm6uww6KvvbM+75XwxHUiTvecv95VYinOSDTU
+	Yi4qTgQAKKWE4GYCAAA=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Aug 2024 19:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202887
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Aug 2024 07:02:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202888
 
-From: Siddharth Doshi <sdoshi@mvista.com>
 
-License-Update: Updated LIC_FILES_CHKSUM due to License file modification
 
-Note: Upgrade lttng-modules to 2.13.14 to fix fcheck error which occurs
-with commit 782202de6478f68caaed4567017095ad906c4eef in kernel "file: Rename fcheck
-lookup_fd_rcu" which does replaces fcheck with lookup_fd_rcu.
+Am 22.07.24 um 17:25 schrieb Steve Sakoman:
+> On Sun, Jul 21, 2024 at 11:09=E2=80=AFPM Wadim Egorov via
+> lists.openembedded.org <w.egorov=3Dphytec.de@lists.openembedded.org>
+> wrote:
+>>
+>> On Fri, Jul 19, 2024 at 06:00 AM, Steve Sakoman wrote:
+>>
+>> Is this also an issue in master=3F If so, then this will need to be
+>> submitted first for master and then I can backport.
+>>
+>> Yes, do you want me to resend without the scarthgap tag=3F
+>> This patch also applies to master.
+> 
+> I see you sent it for master, thanks!  I'll backport when it hits master.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- .../0009-Rename-genhd-wrapper-to-blkdev.patch | 19 +++++++++++--------
- ...les_2.13.9.bb => lttng-modules_2.13.14.bb} |  4 ++--
- 2 files changed, 13 insertions(+), 10 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.9.bb => lttng-modules_2.13.14.bb} (89%)
+FYI: Just made it into master,
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-index 90fec9dc58..874e076675 100644
---- a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-@@ -8,9 +8,12 @@ to follow upstream.
- 
- Upstream-Status: Backport
- 
-+Note: Updated patch to cleanly apply to 2.13.14
-+
- Change-Id: I4ec94fb94d11712dd20f0680aea1de77fbfa9d17
- Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
- Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
- ---
-  include/wrapper/{genhd.h => blkdev.h} | 10 +++++-----
-  src/lttng-statedump-impl.c            |  2 +-
-@@ -21,7 +24,7 @@ diff --git a/include/wrapper/genhd.h b/include/wrapper/blkdev.h
- similarity index 93%
- rename from include/wrapper/genhd.h
- rename to include/wrapper/blkdev.h
--index 4a59b68e..0d5ad90f 100644
-+index e32c7b6..76397f6 100644
- --- a/include/wrapper/genhd.h
- +++ b/include/wrapper/blkdev.h
- @@ -1,6 +1,6 @@
-@@ -41,9 +44,9 @@ index 4a59b68e..0d5ad90f 100644
- +#ifndef _LTTNG_WRAPPER_BLKDEV_H
- +#define _LTTNG_WRAPPER_BLKDEV_H
-  
-- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
-- #include <linux/blkdev.h>
--@@ -45,7 +45,7 @@ struct class *wrapper_get_block_class(void)
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0) \
-+	|| LTTNG_RHEL_KERNEL_RANGE(5,14,0,162,0,0, 5,15,0,0,0,0))
-+@@ -47,7 +47,7 @@ struct class *wrapper_get_block_class(void)
-  /*
-   * Canary function to check for 'block_class' at compile time.
-   *
-@@ -52,17 +55,17 @@ index 4a59b68e..0d5ad90f 100644
-   *
-   *   extern struct class block_class;
-   */
--@@ -104,4 +104,4 @@ struct device_type *wrapper_get_disk_type(void)
-+@@ -106,4 +106,4 @@ struct device_type *wrapper_get_disk_type(void)
-  
-  #endif
-  
- -#endif /* _LTTNG_WRAPPER_GENHD_H */
- +#endif /* _LTTNG_WRAPPER_BLKDEV_H */
- diff --git a/src/lttng-statedump-impl.c b/src/lttng-statedump-impl.c
--index 4d7b2921..0e753090 100644
-+index 9d197ce..229517e 100644
- --- a/src/lttng-statedump-impl.c
- +++ b/src/lttng-statedump-impl.c
--@@ -41,7 +41,7 @@
-+@@ -42,7 +42,7 @@
-  #include <wrapper/namespace.h>
-  #include <wrapper/irq.h>
-  #include <wrapper/tracepoint.h>
-@@ -72,5 +75,5 @@ index 4d7b2921..0e753090 100644
-  #include <wrapper/fdtable.h>
-  #include <wrapper/sched.h>
- -- 
--2.19.1
-+2.35.7
- 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-similarity index 89%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-index a08386b053..a3e29ab7b7 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
-@@ -3,7 +3,7 @@ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
- DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
- HOMEPAGE = "https://lttng.org/"
- LICENSE = "LGPL-2.1-only & GPL-2.0-only & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0464cff101a009c403cd2ed65d01d4c4"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8d0d9f08888046474772a5d745d89d6a"
- 
- inherit module
- 
-@@ -16,7 +16,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
- 
--SRC_URI[sha256sum] = "bf808b113544287cfe837a6382887fa66354ef5cc8216460cebbef3d27dc3581"
-+SRC_URI[sha256sum] = "c6449f7ff12ab644a630692a556304e51525ca37d98aebf826796918be0f5da6"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
--- 
-2.34.1
+7a824eded561 ("watchdog: Set watchdog_module in default config")
 
+> 
+> Steve
+> 
+>> On Thu, Jul 18, 2024 at 11:21=E2=80=AFPM Wadim Egorov via
+>> lists.openembedded.org <w.egorov=3Dphytec.de@lists.openembedded.org>
+>> wrote:
+>>
+>> systemd started to warn about used but unset environment variables.
+>> Let us set watchdog_module=3Dnone which is used by the watchdog.service to get
+>> rid of the following warning:
+>>
+>> watchdog.service: Referenced but unset environment variable evaluates to an empty string: watchdog_module
+>>
+>> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
+>> ---
+>> meta/recipes-extended/watchdog/watchdog-config/watchdog.default | 1 +
+>> 1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-extended/watchdog/watchdog-config/watchdog.default b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+>> index 647d5abca5bd..cee5fdc2b6f7 100644
+>> --- a/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+>> +++ b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+>> @@ -1,2 +1,3 @@
+>> # Start watchdog at boot time=3F 0 or 1
+>> run_watchdog=3D1
+>> +watchdog_module=3Dnone
+>> --
+>> 2.25.1
+>>
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#202305): https://lists.openembedded.org/g/openembedded-core/message/202305
+>> Mute This Topic: https://lists.openembedded.org/mt/107430686/3620601
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
