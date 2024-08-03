@@ -1,75 +1,72 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <niko.mauno@iki.fi>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 201B5C52D6D
-	for <webhook@archiver.kernel.org>; Sat,  3 Aug 2024 10:36:12 +0000 (UTC)
-Received: from sypressi2.dnainternet.net (sypressi2.dnainternet.net [83.102.40.154])
- by mx.groups.io with SMTP id smtpd.web11.6300.1722681361864423777
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 223A7C52D6D
+	for <webhook@archiver.kernel.org>; Sat,  3 Aug 2024 10:56:12 +0000 (UTC)
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
+ by mx.groups.io with SMTP id smtpd.web10.6445.1722682562609221334
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Aug 2024 03:36:02 -0700
+ Sat, 03 Aug 2024 03:56:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 83.102.40.154, mailfrom: niko.mauno@vaisala.com)
-Received: from localhost (localhost [127.0.0.1])
-	by sypressi2.dnainternet.net (Postfix) with ESMTP id 197F913D92;
-	Sat,  3 Aug 2024 13:35:59 +0300 (EEST)
-X-Virus-Scanned: DNA Internet at dnainternet.net
-Received: from sypressi2.dnainternet.net ([83.102.40.154])
-	by localhost (sypressi2.dnainternet.net [127.0.0.1]) (DNA Internet, port 10041)
-	with ESMTP id 3PRaxkt5rvIY; Sat,  3 Aug 2024 13:35:58 +0300 (EEST)
-Received: from omenapuu2.dnainternet.net (omenapuu2.dnainternet.net [83.102.40.54])
-	by sypressi2.dnainternet.net (Postfix) with ESMTP id D1D1E12A0D;
-	Sat,  3 Aug 2024 13:35:58 +0300 (EEST)
-Received: from localhost.localdomain (82-181-238-66.bb.dnainternet.fi [82.181.238.66])
-	by omenapuu2.dnainternet.net (Postfix) with ESMTP id 969CD226;
-	Sat,  3 Aug 2024 13:35:56 +0300 (EEST)
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [scarthgap][PATCH] libyaml: Fix warning regarding unpatched CVE
-Date: Sat,  3 Aug 2024 13:35:54 +0300
-Message-Id: <20240803103554.100029-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@runbox.com header.s=selector1 header.b=26J8uqAh;
+ spf=pass (domain: runbox.com, ip: 185.226.149.38, mailfrom: realint@runbox.com)
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <realint@runbox.com>)
+	id 1saCQa-005THn-2U
+	for openembedded-core@lists.openembedded.org; Sat, 03 Aug 2024 12:56:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+	 s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:To:Subject:Reply-To:MIME-Version:Date:Message-ID;
+	bh=7E2mvWqvRcIUdOFeP3CLMN85b4jgd0eI7iSLWGnFMik=; b=26J8uqAh43lSMyRtoCD6h4PBKE
+	fF139ETGY1AKe7Brrr8DKEJFCdeogvPQHNYtRJXPq+ax8idhpzHWNs0kFE4lLTAWa13y1PwkLKsAG
+	3pSdbjlYhSq5oM9wEiaVHArNrGqOdtlDVrlcJtgPiW//o0IRKFn7TlmpiyuGZw0/tRqAum0xyV1VI
+	KgXe8uGAxiwAUn0fo5kEQ8gMH4VhNwSfV9LAE0czv2BpKYanHHC/gdZt5V1Nl3NTg10NCT2Wye8yE
+	PiJ7Dfkn+vt+t26EFCyKVjMk+cNpnzfagez8Qupq95MHBLygGf+1UrRwFZTc4zby/ZgvDPVM41nJ0
+	T982MUSw==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <realint@runbox.com>)
+	id 1saCQZ-0002op-GO
+	for openembedded-core@lists.openembedded.org; Sat, 03 Aug 2024 12:55:59 +0200
+Received: by submission02.runbox with esmtpsa  [Authenticated ID (1051538)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	id 1saCQO-007nsF-Uv
+	for openembedded-core@lists.openembedded.org; Sat, 03 Aug 2024 12:55:49 +0200
+Message-ID: <1cb7a46f-a8b1-4063-b690-bef78b94da66@runbox.com>
+Date: Sat, 3 Aug 2024 13:55:48 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Reply-To: niko.mauno@iki.fi
+Subject: Re: [OE-core] [PATCH] libyaml: Amend CVE status as 'upstream-wontfix'
+To: openembedded-core@lists.openembedded.org
+References: <20240801101719.89910-1-niko.mauno@vaisala.com>
+ <2427.1722608746946415660@lists.openembedded.org>
+Content-Language: en-US
+From: Niko Mauno <realint@runbox.com>
+In-Reply-To: <2427.1722608746946415660@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Aug 2024 10:36:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202933
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Aug 2024 10:56:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202934
 
-This commit incorporates changes in following master branch commits:
+On 8/2/24 17:25, Guðni Már Gilbert wrote:
+> I wonder if it would be good to backport this to Scarthgap. I'm getting 
+> the following warning for unpatched CVE on latest scarthgap:
+> WARNING: libyaml-0.2.5-r0 do_cve_check: Found unpatched CVE 
+> (CVE-2024-35328), for more information check 
+> /home/builder/yocto/build/tmp/work/cortexa9t2hf-neon-tdx-linux-gnueabi/libyaml/0.2.5/temp/cve.log
+> Would this patch silence it?
+> 
 
-  f3479f74c9 libyaml: Amend CVE status as 'upstream-wontfix'
-  3ebb2ca832 libyaml: Change CVE status to wontfix
-  56b6b35626 libyaml: Update status of CVE-2024-35328
-
-which mitigate the following warning with cve-check.bbclass:
-
-   WARNING: libyaml-native-0.2.5-r0 do_cve_check: Found unpatched CVE (CV=
-E-2024-35328), for more information check .../tmp/work/x86_64-linux/libya=
-ml-native/0.2.5/temp/cve.log
-
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/recipes-support/libyaml/libyaml_0.2.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes=
--support/libyaml/libyaml_0.2.5.bb
-index 4cb5717ece..1c6a5fcb45 100644
---- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-+++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-@@ -18,4 +18,6 @@ inherit autotools
- DISABLE_STATIC:class-nativesdk =3D ""
- DISABLE_STATIC:class-native =3D ""
-=20
-+CVE_STATUS[CVE-2024-35328] =3D "upstream-wontfix: Upstream thinks there =
-is no working code that is exploitable - https://github.com/yaml/libyaml/=
-issues/302"
-+
- BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.39.2
+Thanks, I've submitted 
+https://lists.openembedded.org/g/openembedded-core/message/202933 which 
+should fix the issue if it gets incorporated.
+-Niko
 
 
