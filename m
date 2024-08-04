@@ -1,108 +1,98 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47A9AC3DA64
-	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:10:02 +0000 (UTC)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
- by mx.groups.io with SMTP id smtpd.web11.30107.1722791392186569072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B2FC3DA7F
+	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:47:52 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.30779.1722793665479154366
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 10:09:52 -0700
+ Sun, 04 Aug 2024 10:47:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Y0l1SajM;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.172, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-39b3a4d2577so2616525ab.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791391; x=1723396191; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+ahvXqy0HNoH15xtbQANgs4iLdUYMcGyqYTHI4AvRVQ=;
-        b=Y0l1SajMM4KukBeTeDAWfJqKDxf+bTBLsOZwDjbqFGuVMhUlZgwJYkWJP+uCO3hbRT
-         OpgCFu6R7S2GzQi7tpQgWQuUYoK1gei7mXO3db9Ic8BXQQCDebKckxgW4HARjWLaHoSm
-         suQsGCjv837Tzhz92K+eYeLYyarRUIL6YCCUVKA8LAUbmgPfVY+YJvM1lHotv5ZVLHRq
-         kwvwQh+CZL/WCtFvLdW4GrBYY96ZKw3Yfyq2Ns5xqioc10kSFmskDkg8PJSnzCy87KOQ
-         nAG6xlifTCw+Ukfyts3kU1gbIETL5FJZV21gW8gCYp4GLTs3aVNXnEaCOgvFCFPFCuWG
-         QkNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722791391; x=1723396191;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+ahvXqy0HNoH15xtbQANgs4iLdUYMcGyqYTHI4AvRVQ=;
-        b=YMIRbk5a0soUEmS1q28YLodZDObviyBCQmTzMb89bF9MCeZ5k1r8zzYhK7AkZYde8b
-         VJSJz31lFKu6L8EqJyXCZCjxlcRHylihQv7QbTPUAwAF42Ksiqac6ltNmuBQLZgY3qiM
-         Xp03WysGmX1+gnyQBNnV8LaZrJhgVE0DyAyvjg43YrQ7C+x6pmfbfSyAT8POh0ocd3P6
-         zGGcJFSQR1Y0L/hNVoXdTPYBX2FmNLtW/pgbDteyvhO/O8Ed7FEWtV8tSD0sSTGLFLxt
-         3V55g7GyoAG1KPtm8qd5o80mx0kju5vCpNCAsMFMfu7ev96drKdzwPchSExyaA8TTS5U
-         nW7A==
-X-Gm-Message-State: AOJu0Yy7CP3w07ndZrAl2VgKly4Hyb6HL7gbwnRLZR2Q7iV+yxdzUc3u
-	vEdlVH8mO4aH4IDUeqF57MT3auy6fXJpAmLot6cLSKnHm44daDBxaBs8Y01ULQHuPCJ+UFsWykT
-	wb058fQ==
-X-Google-Smtp-Source: AGHT+IEStN4cbpS+kt71rp5ZcMvegx80gh9759kW0ZTwn1WmWiKRPcuyrjkLAO7DVItOwkyuwbUvzQ==
-X-Received: by 2002:a92:d5cb:0:b0:39a:ea86:d615 with SMTP id e9e14a558f8ab-39b1fb6ab14mr111870365ab.6.1722791391191;
-        Sun, 04 Aug 2024 10:09:51 -0700 (PDT)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 10:09:50 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=TEMdMmpp;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202408041747422475ae70fb234b7ae0-ylddsw@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202408041747422475ae70fb234b7ae0
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 04 Aug 2024 19:47:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=MQPbcwWNMmEMgPnVdZRfxWPs//JwLhxRgCIuwuQ//cU=;
+ b=TEMdMmppxFhVANDAD8vpImvk0/n1ug30XxbcxiTCgjpij6ecKvYXM1Aostk1zxDK7yc0Cz
+ oJSL7SD3X/IWKLpAIPnSjAcRZRY9bbeO80+fUgWxv2mutE7wX3ehHHEy2VeTMh8vDsnl+NRq
+ d6rSKj9c+G+c/bS4mxTjSg12Nu6rPq8m+qBM0uewHQZnKqEzKY+yOu3gu1D0aiy2B5fp4GGr
+ ERFDlkej6jQM9ZIYURk156uyqIuqwbG5kAZNMGdRYBCa08Q6R0GUkO+U0zd77Abue/krNZsQ
+ y/UEzbhE/AtwiLyIyykD+ibIBVyP1eWOiGN4dZFJfaJfV3yTqEb12D0g==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/18] rust: Add new varaible RUST_ENABLE_EXTRA_TOOLS
-Date: Sun,  4 Aug 2024 10:09:21 -0700
-Message-Id: <136a25567499191b23a4d000a06bf83a473224ca.1722790925.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1722790925.git.steve@sakoman.com>
-References: <cover.1722790925.git.steve@sakoman.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] curl: Patch CVE-2024-6197
+Date: Sun,  4 Aug 2024 19:46:54 +0200
+Message-Id: <20240804174654.2101764-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:10:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202977
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:47:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202978
 
-From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-There is a need to enable some extra tools from the rust for the build
-and so this new variable will help for that
+Picked commit per https://curl.se/docs/CVE-2024-6197.html
 
-This varaible then we can use during do_configure task to add overall
-values as per json format in build -> tools
-
-Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/rust/rust_1.75.0.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../curl/curl/CVE-2024-6197.patch             | 24 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-6197.patch
 
-diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
-index 76e1fe2d84..c33f31d261 100644
---- a/meta/recipes-devtools/rust/rust_1.75.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
-@@ -70,6 +70,10 @@ addtask do_test_compile after do_configure do_rust_gen_targets
- do_rust_setup_snapshot[dirs] += "${WORKDIR}/rust-snapshot"
- do_rust_setup_snapshot[vardepsexclude] += "UNINATIVE_LOADER"
- 
-+# there is a need to enable some more rust tools for the project
-+# We can extend a list of more tools via this variable
-+RUST_ENABLE_EXTRA_TOOLS ?= "rust-demangler"
+diff --git a/meta/recipes-support/curl/curl/CVE-2024-6197.patch b/meta/recipes-support/curl/curl/CVE-2024-6197.patch
+new file mode 100644
+index 0000000000..0622e70dc8
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2024-6197.patch
+@@ -0,0 +1,24 @@
++From 3a537a4db9e65e545ec45b1b5d5575ee09a2569d Mon Sep 17 00:00:00 2001
++From: z2_ <88509734+z2-2z@users.noreply.github.com>
++Date: Fri, 28 Jun 2024 14:45:47 +0200
++Subject: [PATCH] x509asn1: remove superfluous free()
 +
- python do_configure() {
-     import json
-     import configparser
-@@ -141,7 +145,7 @@ python do_configure() {
-     config.add_section("build")
-     config.set("build", "submodules", e(False))
-     config.set("build", "docs", e(False))
--    config.set("build", "tools", ["rust-demangler",])
-+    config.set("build", "tools", e(d.getVar("RUST_ENABLE_EXTRA_TOOLS").split()))
++CVE: CVE-2024-6197
++Upstream-Status: Backport [https://github.com/curl/curl/commit/3a537a4db9e65e545ec45b1b5d5575ee09a2569d.patch]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/vtls/x509asn1.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/lib/vtls/x509asn1.c b/lib/vtls/x509asn1.c
++index f71ab0b90a5931..1bc4243ddae343 100644
++--- a/lib/vtls/x509asn1.c
+++++ b/lib/vtls/x509asn1.c
++@@ -393,7 +393,6 @@ utf8asn1str(struct dynbuf *to, int type, const char *from, const char *end)
++         if(wc >= 0x00000800) {
++           if(wc >= 0x00010000) {
++             if(wc >= 0x00200000) {
++-              free(buf);
++               /* Invalid char. size for target encoding. */
++               return CURLE_WEIRD_SERVER_REPLY;
++             }
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 3fdad6a4cf..136782ffec 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -15,6 +15,7 @@ SRC_URI = " \
+     file://run-ptest \
+     file://disable-tests \
+     file://no-test-timeout.patch \
++    file://CVE-2024-6197.patch \
+ "
+ SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd"
  
-     rustc = d.expand("${WORKDIR}/rust-snapshot/bin/rustc")
-     config.set("build", "rustc", e(rustc))
 -- 
-2.34.1
+2.30.2
 
 
