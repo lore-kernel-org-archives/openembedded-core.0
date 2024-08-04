@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E18FC52D72
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EACC52D71
 	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:09:52 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.30101.1722791386465211093
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.30104.1722791387722638965
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 10:09:46 -0700
+ Sun, 04 Aug 2024 10:09:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xVBN/3iV;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70eb73a9f14so7354205b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u4gLyv2e;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70f5ef740b7so5375953b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791386; x=1723396186; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791387; x=1723396187; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PNUjt54xMXglhu8Z4gxmLK10xc3H5JLwhcBiTbt0/4o=;
-        b=xVBN/3iVLxaLuo+8oR8wN7U5NMHx0uA2Ra9NrVvqnmiY6GZ80QqAcgpX0/GPDQ+NPc
-         inxw2GARha/2hJF5VbrYatHIfJH8NVCLdgI9uCKi3wzMLUuU+luw6de6ftiqIV0+tvPt
-         1CMWzTDgV/I3JBL5cgC8cdRwSqqAmPYzJRjt2TgWoUcF9XQUFnZLymUEfiZLvNQ4VRip
-         6/hPEjJc4NHcIHS9YoCcQwuUSmJ8EKF8Y4O+Y0xj4YUKnrULFeeAyC/YLmVuTyxQsxDq
-         /sefrJ0eueO9DBiRxQ4vUzjdEgJZWcGn1hbKoxrazzlPRGIv8r0c1R8HeWOizG5MlZLg
-         NAAQ==
+        bh=o3rxRmSt7FAFexg+FxWx4LzHIlLTt0s+jJBjPeCt24Q=;
+        b=u4gLyv2eGhj3302VVRD9TSE5Cb/0tXgRluJBAoxHUmmuIjlhe5MCo2FUu79ZVQA4JJ
+         v7lC4srJa6tgOBYBPiIiTNsULEbazxruEWMuCDtDOODMj7XMFf3oz08QqRnnktZnzgQP
+         WNIKNfFviacg7Fn4vzn5QnEhm0EnlQiMgXzFd9l0P9m33jOvweVdoeNANL6kDkOo5fQO
+         pVsmxSf8m8/yDroVrGPoLnk/8dnGKPKaczInj2va7YxPSWQk7lISRpfLswEtLAztbe2m
+         JUo36pnngjyzlWcrZlrd+J6ZrAie2JX1nSMTcFXqMdg4gHz3Qg57zYTzsWitcuFqS0fg
+         0JFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722791386; x=1723396186;
+        d=1e100.net; s=20230601; t=1722791387; x=1723396187;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PNUjt54xMXglhu8Z4gxmLK10xc3H5JLwhcBiTbt0/4o=;
-        b=Hn1Ejm9KzhgUDKWRFgNOHYNSRTt2YFM/lwPu5snTcHb6pm7gKqpn6pAeSKXLnLQ7ZL
-         RmP6gYJjwAqxh27coSzA6Hfe6rW27n6SaRAq2D7ZmgyIIvwzMDnsgmuZFJ/R+GCIEm8N
-         tyrhOLWz9AE5sHi14kvUfv+As8/AaulWGvDfX3S/6osu+9TgwHms/C7aiwhNsOsQWDic
-         flNqLacoYhU/dASjB2DW92AUn92dYiJ0LgO9BXiUG+kz/fyz8VWOS+qytS12wO1fPX68
-         LH/DtJBtJe3a6gDi6D4Qtswfyd4Tfb8O9+187RTKhUKgYYDqxZvzuO2uGclLdJu9c2t+
-         LtCw==
-X-Gm-Message-State: AOJu0Yx44mrQI5u3d41IGp7xPFXyRzMGhJZHmFlChUga89KnuwlfNYBA
-	Q+WENVZkCLNhq6puOeVlhTEqgDtElTt6z027tkUh7zDAodCiZ2CcL6J3avNMdzzCCEx4V1zzYOA
-	NJ/jPsA==
-X-Google-Smtp-Source: AGHT+IHyFbvcjcIqVWMKOPO7afcovqirpk4RnhIfkHX/GzQ86eRh4f3HD9ZZy3LMBpqOo1qM+uee+g==
-X-Received: by 2002:a05:6a00:2e9e:b0:706:6af8:e08a with SMTP id d2e1a72fcca58-7106cf93002mr12931359b3a.2.1722791385755;
-        Sun, 04 Aug 2024 10:09:45 -0700 (PDT)
+        bh=o3rxRmSt7FAFexg+FxWx4LzHIlLTt0s+jJBjPeCt24Q=;
+        b=UW5yhA3uAilgQCchbWOUw/oMW2ICPVi8ssKKPvoQta+HHxWSqbtyfgg+lt8BoaNIkx
+         iTQaew0RCTWIE8xwukfrZt3BKREGGztEwp7SgqV02omdP3ZnLhdY4c/R+pxw32GedCwW
+         zxu6va7FCxQva2dJdIsM0lgg9ZnFLhJQ2U9LGmreI3mYv2V520V+XKKbUVcUuihSD+aU
+         ygkPS3hPVrZLvm0G5KP8AeLFnN8POxHECNEqoqZfeMmNNp+lPoq+tFptL1Y93wdQsQmP
+         iwLENM2VY9pZzaG8QyH+d86sASTezO/PUl7q8CfIWxWvSA00r6o3NwJdicyitiX6gIfj
+         3JEg==
+X-Gm-Message-State: AOJu0YxI5MbEhsSqEZx3++I/vmkQYBLQCRPmzefdVuqIw6LL5IGEKNFz
+	VP08LZYcTo+0ArZnqTfoAj971NmXy3DuQTYZZOhGCMHsez8dOStIm61E7tZEzmzTt749UBYQA49
+	q5FMqvA==
+X-Google-Smtp-Source: AGHT+IE/2Orawekv/OLclMxR1xQeg2pDmCGkQaT62E9syzgs40fgcedWytqnEpEvQa0A6SRlXquPlQ==
+X-Received: by 2002:a05:6a21:7896:b0:1c4:818c:299d with SMTP id adf61e73a8af0-1c699554699mr14458207637.11.1722791386965;
+        Sun, 04 Aug 2024 10:09:46 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.45
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 10:09:45 -0700 (PDT)
+        Sun, 04 Aug 2024 10:09:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/18] iptables: fix memory corruption when parsing nft rules
-Date: Sun,  4 Aug 2024 10:09:17 -0700
-Message-Id: <fa3873cfcda862d8aad564966070af216e4903c6.1722790925.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 15/18] gpgme: move gpgme-tool to own sub-package
+Date: Sun,  4 Aug 2024 10:09:18 -0700
+Message-Id: <09fe1a471c570c09e8219c6cc57eb5252a5caa54.1722790925.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722790925.git.steve@sakoman.com>
 References: <cover.1722790925.git.steve@sakoman.com>
@@ -62,89 +62,67 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:09:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202973
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202974
 
-From: Christian Taedcke <christian.taedcke@weidmueller.com>
+From: Patrick Wicki <patrick.wicki@siemens.com>
 
-This commit fixes a memory corruption issue when iptables (with
-enabled PACKAGECONFIG libnftnl) is used to access rules created by
-nft.
+The gpgme-tool binary is licensed GPL-3.0-or-later. Split it out into
+its own package that can be opted out of.
 
-To reproduce the issue:
-nft add chain ip filter TESTCHAIN { meta mark set 123 \;}
-iptables -t filter -n -L TESTCHAIN
-
-This produced the following output:
-Chain TESTCHAIN (0 references)
-target prot opt source     destination
-MARK   0    --  0.0.0.0/0  0.0.0.0/0     MARK set 0x7b
-malloc(): corrupted top size
-Aborted (core dumped)
-
-This commit fixes this issue.
-
-Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bbcd56bace90f4a148960a7108dc8d0e6c364903)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...se-Add-missing-braces-around-ternary.patch | 37 +++++++++++++++++++
- .../iptables/iptables_1.8.10.bb               |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-extended/iptables/iptables/0005-nft-ruleparse-Add-missing-braces-around-ternary.patch
+ meta/recipes-support/gpgme/gpgme_1.23.2.bb | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/iptables/iptables/0005-nft-ruleparse-Add-missing-braces-around-ternary.patch b/meta/recipes-extended/iptables/iptables/0005-nft-ruleparse-Add-missing-braces-around-ternary.patch
-new file mode 100644
-index 0000000000..4cbc8bdaf4
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/0005-nft-ruleparse-Add-missing-braces-around-ternary.patch
-@@ -0,0 +1,37 @@
-+From 2026b08bce7fe87b5964f7912e1eef30f04922c1 Mon Sep 17 00:00:00 2001
-+From: Phil Sutter <phil@nwl.cc>
-+Date: Fri, 26 Jan 2024 18:43:10 +0100
-+Subject: [PATCH] nft: ruleparse: Add missing braces around ternary
+diff --git a/meta/recipes-support/gpgme/gpgme_1.23.2.bb b/meta/recipes-support/gpgme/gpgme_1.23.2.bb
+index d8807b3af2..55f164e4a9 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.23.2.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.23.2.bb
+@@ -3,11 +3,18 @@ DESCRIPTION = "GnuPG Made Easy (GPGME) is a library designed to make access to G
+ HOMEPAGE = "http://www.gnupg.org/gpgme.html"
+ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & GPL-3.0-or-later"
++LICENSE:${PN} = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE:${PN}-cpp = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE:${PN}-tool = "GPL-3.0-or-later"
++LICENSE:python3-gpg = "GPL-2.0-or-later & LGPL-2.1-or-later"
 +
-+The expression evaluated the sum before the ternay, consequently not
-+adding target->size if tgsize was zero.
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LESSER;md5=bbb461211a33b134d42ed5ee802b37ff \
+                     file://src/gpgme.h.in;endline=23;md5=2f0bf06d1c7dcb28532a9d0f94a7ca1d \
+-                    file://src/engine.h;endline=22;md5=4b6d8ba313d9b564cc4d4cfb1640af9d"
++                    file://src/engine.h;endline=22;md5=4b6d8ba313d9b564cc4d4cfb1640af9d \
++                    file://src/gpgme-tool.c;endline=21;md5=66c5381e0e05475792e24982d15e7ce8 \
++                    "
+ 
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+@@ -33,6 +40,8 @@ RDEPENDS:${PN}-cpp += "libstdc++"
+ 
+ RDEPENDS:python3-gpg += "python3-unixadmin"
+ 
++RRECOMMENDS:${PN} += "${PN}-tool"
 +
-+Identified by ASAN for a simple rule using standard target:
-+| # ebtables -A INPUT -s de:ad:be:ef:0:00 -j RETURN
-+| # ebtables -D INPUT -s de:ad:be:ef:0:00 -j RETURN
-+| =================================================================
-+| ==18925==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x603000000120 at pc 0x7f627a4c75c5 bp 0x7ffe882b5180 sp 0x7ffe882b4928
-+| READ of size 8 at 0x603000000120 thread T0
-+| [...]
-+
-+Upstream-Status: Backport [2026b08bce7fe87b5964f7912e1eef30f04922c1]
-+
-+Fixes: 2a6eee89083c8 ("nft-ruleparse: Introduce nft_create_target()")
-+Signed-off-by: Phil Sutter <phil@nwl.cc>
-+---
-+ iptables/nft-ruleparse.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/iptables/nft-ruleparse.c b/iptables/nft-ruleparse.c
-+index 0bbdf44faf..3b1cbe4fa1 100644
-+--- a/iptables/nft-ruleparse.c
-++++ b/iptables/nft-ruleparse.c
-+@@ -94,7 +94,7 @@ __nft_create_target(struct nft_xt_ctx *ctx, const char *name, size_t tgsize)
-+ 	if (!target)
-+ 		return NULL;
-+ 
-+-	size = XT_ALIGN(sizeof(*target->t)) + tgsize ?: target->size;
-++	size = XT_ALIGN(sizeof(*target->t)) + (tgsize ?: target->size);
-+ 
-+ 	target->t = xtables_calloc(1, size);
-+ 	target->t->u.target_size = size;
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.10.bb b/meta/recipes-extended/iptables/iptables_1.8.10.bb
-index 0070264844..f1ee1efe28 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.10.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.10.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.xz \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-iptables-xshared.h-add-missing-sys.types.h-include.patch \
-            file://0004-configure.ac-only-check-conntrack-when-libnfnetlink-.patch \
-+           file://0005-nft-ruleparse-Add-missing-braces-around-ternary.patch \
-            "
- SRC_URI[sha256sum] = "5cc255c189356e317d070755ce9371eb63a1b783c34498fb8c30264f3cc59c9c"
+ BINCONFIG = "${bindir}/gpgme-config"
+ 
+ # Default in configure.ac: "cl cpp python qt"
+@@ -61,9 +70,10 @@ export PKG_CONFIG='pkg-config'
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-PACKAGES =+ "${PN}-cpp python3-gpg"
++PACKAGES =+ "${PN}-cpp ${PN}-tool python3-gpg"
+ 
+ FILES:${PN}-cpp = "${libdir}/libgpgmepp.so.*"
++FILES:${PN}-tool = "${bindir}/gpgme-tool"
+ FILES:python3-gpg = "${PYTHON_SITEPACKAGES_DIR}/*"
+ FILES:${PN}-dev += "${datadir}/common-lisp/source/gpgme/*"
  
 -- 
 2.34.1
