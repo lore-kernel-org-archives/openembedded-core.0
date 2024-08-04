@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 023CAC52D71
-	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:09:42 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.30091.1722791377197813709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8799C3DA7F
+	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:09:41 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.30092.1722791378394105205
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 10:09:37 -0700
+ Sun, 04 Aug 2024 10:09:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kOcbj7z8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-70d150e8153so3199988b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EhWwhvvf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-70d333d5890so9020132b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791376; x=1723396176; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791378; x=1723396178; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QSidrCShGbJuugfeH/ISorc0o/1RW4R5HZ7EpB813og=;
-        b=kOcbj7z8u61liP0DnLZTtKhsETTPXoMTchNoHjpPrDxtZ9d0v4gR5af7L8/r+No3Za
-         0opA9mdzqJV3LhpTKgGxvrjsY/8IAWM6+nmKodUgAU3+NJaKmqwnIplhxV3EWeoUtXgL
-         1mBHu4eVTXT4tk+Qo6769KzRQStRwSVz/M2gwI8FVONkscPIqDCLnScTROgzgYb+liKV
-         9qYvKO+16VoWSlHtyccF8/HHeseEl+GD74RiAybIKwp4tlKmLEJAqTpHf0YLh/Gts0i8
-         JMLQI02eGwWHesGCLsjNy0YP9tJ1FIRhK9WiOdQiJ3ThJ8nfFJ07iL4XdqlKsDfy3/+P
-         RBpw==
+        bh=b4fUdSdjQVVWPEo5y2852mTW0CPQ1vm95QXac7TyLGo=;
+        b=EhWwhvvfO6w7u/c9ok3464yOCGP9aw5jikYftW82lDBhvFVlMiGS4mJGEP9VEfq1Ax
+         QiPYra9M1HemM607FskH/yctM8JxurI0rCF5f++KvyW1Fnuf6iFKvJZEsg7/CFcbw0eQ
+         l5xHYfA/NOicbvyJ5i6RoAG6daAmWz4usZ/SkN5odju4rRJuP6JNunZpnUvppPWDASci
+         xccQKl4LtNRhBDsI7oOn6w1e/HNbmREJJP67DW1drTSFbXYLwc5dl+yjkOYGTlSJcp1e
+         z3ZPlKDhCQYSZoTg5SkbhAKwpsnRfsGdDRNrIx2XhmtOjitY8GC96MtOIOs23Yoju1O+
+         RLeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722791376; x=1723396176;
+        d=1e100.net; s=20230601; t=1722791378; x=1723396178;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QSidrCShGbJuugfeH/ISorc0o/1RW4R5HZ7EpB813og=;
-        b=XEnPOvSZd1Aj9tYPnnRTI5r1JSZjoF2pYvfLIwVahlX9AMBZn81J6B/TWcDa13H0lT
-         cEEX7ZXz9EBfkEO3hoJ36DsHh0ovnq8PYKCp9ZHiLrKkoZ+pHU+W8VADGqTjQsQlqQpm
-         FkD5taBMEGkorGuvGXf/oPA6uX7wlsfnc14LWKxTVMZIE9YW5wl+3zLv7ShY3cL2UFSK
-         vduYYG3VNHmPDH2pD6cn4FrSSmES6cvPJCgMQPDHLMi6DiUtzBjOQcpcnziLvBqOVFG6
-         ear2VZq5Z5/OX4hoZH+PRptsCwLmfla+0qKwEu0xm1CF/WV9P8gagtasuw/q6JIi3b6i
-         iWbA==
-X-Gm-Message-State: AOJu0YxFw/eC7R+tOpX6Oa1sPEsy+BpgJed6RvauaFs0pcoRecC0GCJy
-	xC9yd/wk5x/FamcxtflJQ53RYjMC1zCJbDouf0Ow7uRBajymP5dG/14K+3oAwivqZTbghKj/yZU
-	P95Ki7Q==
-X-Google-Smtp-Source: AGHT+IFvFOz9Dy9I4OocCVniSIUsnwXpKBtwwIEJjQ3GHhwDB+DACNZW+ROhAnaUQE2b/NBY6s2eBg==
-X-Received: by 2002:a05:6a00:85a3:b0:70d:2a1b:422c with SMTP id d2e1a72fcca58-7106da29926mr14565827b3a.7.1722791376352;
-        Sun, 04 Aug 2024 10:09:36 -0700 (PDT)
+        bh=b4fUdSdjQVVWPEo5y2852mTW0CPQ1vm95QXac7TyLGo=;
+        b=uHfNazvtooPPcHifHbhSmJBQ0RQk5HbMJev3pKFHHusaTmw5wUHcTnPSS/iOghsWvK
+         2leyesMiNK5mF3XJVQ4bgCzJQIVE+8nMdAP7xHGZfjjBNTH4oEplNcTsorYvAUgcuDhl
+         RxPnU4QAlNkyMUSY5Bg6QsxHSa5VnOJgAzIOyicBZI+kzqzHi4Dnpag5j/y4VAxBCw4Q
+         aCtLfSCKUyQRsyrDr65US8iP6ybKpEiTfyjTdTKFqAaqpzzGAZm1lMUluqiRT/LbEach
+         AT5DFgcKASHtexsQLeoHnHfxgUTxuNkZ1rHXsme2jRTaepHW3eNFa/vqczRxdSwf38Xh
+         o0ww==
+X-Gm-Message-State: AOJu0YxR95h5qum4aOk5j26s4kvSS49b07dat6z9RyjVwITMLoLP/u4w
+	D0nAWQrJpE/2hPhTpqcliiLqANvLLHW2MpYJq0TtIFvFVXmTsakYoB0PYcsZB9ViyxC28cFFbpx
+	CVMI37g==
+X-Google-Smtp-Source: AGHT+IFTJxknjyDWmEACNTjdurTZ0dkXMXjhdjoeAsWYth6dM2UqgbppTuFWpY+rVEK4J8XlripCsA==
+X-Received: by 2002:a05:6a00:182a:b0:710:5a64:30d5 with SMTP id d2e1a72fcca58-7106cf9362emr12912433b3a.6.1722791377654;
+        Sun, 04 Aug 2024 10:09:37 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.35
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 10:09:36 -0700 (PDT)
+        Sun, 04 Aug 2024 10:09:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/18] package.py: Fix static library processing
-Date: Sun,  4 Aug 2024 10:09:10 -0700
-Message-Id: <c2809691992dab48a360c9516d205ec031378cda.1722790925.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 08/18] selftest-hardlink: Add additional test cases
+Date: Sun,  4 Aug 2024 10:09:11 -0700
+Message-Id: <39823d3211411e661320e1164ba4c50370804425.1722790925.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722790925.git.steve@sakoman.com>
 References: <cover.1722790925.git.steve@sakoman.com>
@@ -61,132 +61,104 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:09:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202966
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:09:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202967
 
 From: Mark Hatle <mark.hatle@amd.com>
 
-When PACKAGE_STRIP_STATIC is enabled the system did not pay attention to
-hardlinks.  This could trigger a race condition during stripping of static
-libraries where multiple strips (through hardlinks) could run at the same
-time triggering a truncated or modified file error.
+Additional test cases for debug symlink generation both binaries
+and static libraries.
 
-The hardlink breaking code is based on the existing code for elf files, but
-due to the nature of the symlinks needed to be done in a separate block of
-code.
-
-Add support for static-library debugfs hardlinking through the existing
-inode processing code.
-
-Print a note to the logs if the link target can't be found.  This isn't
-strictly an error, but may be useful for debugging an issue where a file
-isn't present.
+This also has the side effect of testing for race conditions in the
+hardlink debug generation and stripping.
 
 Signed-off-by: Mark Hatle <mark.hatle@amd.com>
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ff371d69f60a1529ed456acb7d8e9305242e74bd)
+(cherry picked from commit 7171f41c07a39a7543bb64f075d38b8e74563089)
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/package.py | 56 +++++++++++++++++++++++++++++++++++-------
- 1 file changed, 47 insertions(+), 9 deletions(-)
+ .../selftest-hardlink/selftest-hardlink.bb    | 13 ++++++++++
+ meta/lib/oeqa/selftest/cases/package.py       | 26 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index ffe5a2157b..af0923a63f 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1065,6 +1065,7 @@ def process_split_and_strip_files(d):
-             d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
-         checkelf = {}
-         checkelflinks = {}
-+        checkstatic = {}
-         for root, dirs, files in cpath.walk(dvar):
-             for f in files:
-                 file = os.path.join(root, f)
-@@ -1078,10 +1079,6 @@ def process_split_and_strip_files(d):
-                 if file in skipfiles:
-                     continue
+diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
+index be346b8a0e..052bf0c92a 100644
+--- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
++++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
+@@ -10,6 +10,9 @@ S = "${WORKDIR}"
  
--                if oe.package.is_static_lib(file):
--                    staticlibs.append(file)
--                    continue
--
-                 try:
-                     ltarget = cpath.realpath(file, dvar, False)
-                     s = cpath.lstat(ltarget)
-@@ -1093,6 +1090,13 @@ def process_split_and_strip_files(d):
-                     continue
-                 if not s:
-                     continue
+ do_compile () {
+ 	${CC} hello.c -o hello1 ${CFLAGS} ${LDFLAGS}
 +
-+                if oe.package.is_static_lib(file):
-+                    # Use a reference of device ID and inode number to identify files
-+                    file_reference = "%d_%d" % (s.st_dev, s.st_ino)
-+                    checkstatic[file] = (file, file_reference)
-+                    continue
-+
-                 # Check its an executable
-                 if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) \
-                         or (s[stat.ST_MODE] & stat.S_IXOTH) \
-@@ -1157,6 +1161,27 @@ def process_split_and_strip_files(d):
-                 # Modified the file so clear the cache
-                 cpath.updatecache(file)
++	${CC} hello.c -c -o hello.o ${CFLAGS}
++	${AR} rcs libhello.a hello.o
+ }
  
-+        # Do the same hardlink processing as above, but for static libraries
-+        results = list(checkstatic.keys())
-+
-+        # As above, sort the results.
-+        results.sort(key=lambda x: x[0])
-+
-+        for file in results:
-+            # Use a reference of device ID and inode number to identify files
-+            file_reference = checkstatic[file][1]
-+            if file_reference in inodes:
-+                os.unlink(file)
-+                os.link(inodes[file_reference][0], file)
-+                inodes[file_reference].append(file)
-+            else:
-+                inodes[file_reference] = [file]
-+                # break hardlink
-+                bb.utils.break_hardlinks(file)
-+                staticlibs.append(file)
-+            # Modified the file so clear the cache
-+            cpath.updatecache(file)
-+
-     def strip_pkgd_prefix(f):
-         nonlocal dvar
+ do_install () {
+@@ -22,9 +25,19 @@ do_install () {
+ 	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello3
+ 	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello4
  
-@@ -1195,11 +1220,24 @@ def process_split_and_strip_files(d):
-                 dest = dv["libdir"] + os.path.dirname(src) + dv["dir"] + "/" + os.path.basename(target) + dv["append"]
-                 fpath = dvar + dest
-                 ftarget = dvar + dv["libdir"] + os.path.dirname(target) + dv["dir"] + "/" + os.path.basename(target) + dv["append"]
--                bb.utils.mkdirhier(os.path.dirname(fpath))
--                # Only one hardlink of separated debug info file in each directory
--                if not os.access(fpath, os.R_OK):
--                    #bb.note("Link %s -> %s" % (fpath, ftarget))
--                    os.link(ftarget, fpath)
-+                if os.access(ftarget, os.R_OK):
-+                    bb.utils.mkdirhier(os.path.dirname(fpath))
-+                    # Only one hardlink of separated debug info file in each directory
-+                    if not os.access(fpath, os.R_OK):
-+                        #bb.note("Link %s -> %s" % (fpath, ftarget))
-+                        os.link(ftarget, fpath)
-+                elif (d.getVar('PACKAGE_DEBUG_STATIC_SPLIT') == '1'):
-+                    deststatic = dv["staticlibdir"] + os.path.dirname(src) + dv["staticdir"] + "/" + os.path.basename(file) + dv["staticappend"]
-+                    fpath = dvar + deststatic
-+                    ftarget = dvar + dv["staticlibdir"] + os.path.dirname(target) + dv["staticdir"] + "/" + os.path.basename(target) + dv["staticappend"]
-+                    if os.access(ftarget, os.R_OK):
-+                        bb.utils.mkdirhier(os.path.dirname(fpath))
-+                        # Only one hardlink of separated debug info file in each directory
-+                        if not os.access(fpath, os.R_OK):
-+                            #bb.note("Link %s -> %s" % (fpath, ftarget))
-+                            os.link(ftarget, fpath)
-+                else:
-+                    bb.note("Unable to find inode link target %s" % (target))
++	# We need so many hardlink copies to look for specific race conditions
++	install -d ${D}${libdir}
++	install -m 0644 libhello.a ${D}${libdir}
++	for num in `seq 1 100` ; do
++		ln ${D}${libdir}/libhello.a ${D}${libdir}/libhello-${num}.a
++	done
++
+ 	dd if=/dev/zero of=${D}${bindir}/sparsetest bs=1 count=0 seek=1M
+ }
  
-         # Create symlinks for all cases we were able to split symbols
-         for file in symlinks:
+ RDEPENDS:${PN}-gdb += "gdb"
+ PACKAGES =+ "${PN}-gdb"
+ FILES:${PN}-gdb = "${bindir}/gdb.sh"
++
++PACKAGE_STRIP_STATIC = "1"
++PACKAGE_DEBUG_STATIC_SPLIT = "1"
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index 1aa6c03f8a..38ed7173fe 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -103,11 +103,37 @@ class PackageTests(OESelftestTestCase):
+ 
+         dest = get_bb_var('PKGDEST', 'selftest-hardlink')
+         bindir = get_bb_var('bindir', 'selftest-hardlink')
++        libdir = get_bb_var('libdir', 'selftest-hardlink')
++        libexecdir = get_bb_var('libexecdir', 'selftest-hardlink')
+ 
+         def checkfiles():
+             # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
+             # so expect 8 in total.
+             self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello1").st_nlink, 8)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink" + libexecdir + "/hello3").st_nlink, 8)
++
++            # Check dbg version
++            # 2 items, a copy in both package/packages-split so 4
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + bindir + "/.debug/hello1").st_nlink, 4)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello1").st_nlink, 4)
++
++            # Even though the libexecdir name is 'hello3' or 'hello4', that isn't the debug target name
++            self.assertEqual(os.path.exists(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello3"), False)
++            self.assertEqual(os.path.exists(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello4"), False)
++
++            # Check the staticdev libraries
++            # 101 items, a copy in both package/packages-split so 202
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello.a").st_nlink, 202)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-25.a").st_nlink, 202)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-50.a").st_nlink, 202)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-75.a").st_nlink, 202)
++
++            # Check static dbg
++            # 101 items, a copy in both package/packages-split so 202
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello.a").st_nlink, 202)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-25.a").st_nlink, 202)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-50.a").st_nlink, 202)
++            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-75.a").st_nlink, 202)
+ 
+             # Test a sparse file remains sparse
+             sparsestat = os.stat(dest + "/selftest-hardlink" + bindir + "/sparsetest")
 -- 
 2.34.1
 
