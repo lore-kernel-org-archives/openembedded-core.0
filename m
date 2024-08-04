@@ -1,85 +1,73 @@
-Return-Path: <robert.joslyn@redrectangle.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C388CC3DA4A
-	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 01:45:26 +0000 (UTC)
-Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
- by mx.groups.io with SMTP id smtpd.web11.20010.1722735920994445402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0956EC3DA7F
+	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 08:54:59 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.23730.1722761692396812913
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Aug 2024 18:45:21 -0700
+ Sun, 04 Aug 2024 01:54:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=i/nSTuBg;
- spf=pass (domain: redrectangle.org, ip: 212.3.242.68, mailfrom: robert.joslyn@redrectangle.org)
-Received: from smtpauth2.co-bxl (smtpauth2.co-bxl [10.2.0.24])
-	by wilbur.contactoffice.com (Postfix) with ESMTP id F1A33139E;
-	Sun,  4 Aug 2024 03:45:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1722735918;
-	s=20230812-3u04; d=redrectangle.org;
-	i=robert.joslyn@redrectangle.org;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
-	bh=w7zbEmHrSLRqZOkQzlQ7Yvy8G6WSp5/ixMcNZiKDImY=;
-	b=i/nSTuBgX6GpNuqqSUqN0Fvb4HooLtIiFLgG0RmYCTQBdukSMXqCZphRSAnjZW6o
-	57WtBRX8vyys6g5PtMK52RSTeYHAAVm0Iea9zSSS5QMNzMXEL4mbeYfUk/F2I2m5aEb
-	Q6eSGJSjGrcSsKobOhKUeQf2OGzQwEVVY0ZHauC6sTv7XCXEMH7U/3NtkdAUjh/DrO8
-	naMITIsOEva0pXEnPUCOBvb36EpgOzdcVZ7CKmEz+xVShrgQBUfQOpZ+cyUquTXodUG
-	gYQUolxFnP0ny/j7sL4ZE+BfA2c1xUKM4F7TdHn3DYJTYIVX/NaQ9xTDfAqweplElPh
-	aBHCyGvBvg==
-Received: by smtp.mailfence.com with ESMTPSA ; Sun, 4 Aug 2024 03:45:15 +0200 (CEST)
-From: robert.joslyn@redrectangle.org
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZhGDOQ0L;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20240804085449f76ff5bdaa8cd44d2a-n8zalj@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20240804085449f76ff5bdaa8cd44d2a
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 04 Aug 2024 10:54:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=oyLHqjLM/9r1TcJh3KexVU1V0gr0bCN4j1AwooK+ADI=;
+ b=ZhGDOQ0LxePuolUo+Ub85F7Ga181AxWj0sY4yjBx1+acQYulWee/qK4Wf2lgr3b3eyezN4
+ mE2tcDkrng+jtP6Hyo5CWsECbNuSgHevI21vJOi08HIwykv8vCLExquJ/jpHKjAdcMQEnDR+
+ YzrUcetHVdn+QVuGwDR6MWRPnXFZtc59Y2hUo+VzMv3YMHjAq+BeIAcVrBZ15p6yH5goUBHI
+ sGAyoSpQ5VVS8JpUgYsnpz8Jhr7c3cYHn1oxXKcr+dtW+3mZO4QMYlTNKH/HvETdcPMJRyKu
+ VOqX8vWu+X4cXzK+1G0yV8C45Vrdf6F0RjpPHMsVqk67V5pI9nmC5ukw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
-Subject: [PATCH] curl: Update to 8.9.1
-Date: Sat,  3 Aug 2024 18:44:47 -0700
-Message-ID: <20240804014447.2463258-1-robert.joslyn@redrectangle.org>
-X-Mailer: git-send-email 2.44.2
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] libyaml: Update status of CVE-2024-35328
+Date: Sun,  4 Aug 2024 10:53:58 +0200
+Message-Id: <20240804085358.3375423-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-ContactOffice-Account: com:454140407
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 01:45:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202940
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 08:54:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202941
 
-From: Robert Joslyn <robert.joslyn@redrectangle.org>
+From: Peter Marko <peter.marko@siemens.com>
 
-This update contains minor features, bugfixes, and addresses several CVEs=
-:
-* https://curl.se/docs/CVE-2024-6197.html
-* https://curl.se/docs/CVE-2024-6874.html
-* https://curl.se/docs/CVE-2024-7264.html
+This is open yet but seems to be disputed
+This has not yet been disputed officially
 
-Full relese notes available at https://curl.se/ch/8.9.1.html
+Based on:
+OE-Core rev: 4cba8ad405b1728afda3873f99ac88711ab85644
+OE-Core rev: 7ec7384837f3e3fb68b25a6108ed7ec0f261a4aa
+OE-Core rev: c66d9a2a0d197498fa21ee8ca51a4afb59f75473
+Squashed and converted to CVE_CHECK_IGNORE syntax
 
-Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-support/curl/{curl_8.8.0.bb =3D> curl_8.9.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/curl/{curl_8.8.0.bb =3D> curl_8.9.1.bb} (98%=
-)
+ meta/recipes-support/libyaml/libyaml_0.2.5.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/curl/curl_8.8.0.bb b/meta/recipes-suppo=
-rt/curl/curl_8.9.1.bb
-similarity index 98%
-rename from meta/recipes-support/curl/curl_8.8.0.bb
-rename to meta/recipes-support/curl/curl_8.9.1.bb
-index 2b058e4e82..3abe1596a0 100644
---- a/meta/recipes-support/curl/curl_8.8.0.bb
-+++ b/meta/recipes-support/curl/curl_8.9.1.bb
-@@ -15,7 +15,7 @@ SRC_URI =3D " \
-     file://disable-tests \
-     file://no-test-timeout.patch \
- "
--SRC_URI[sha256sum] =3D "0f58bb95fc330c8a46eeb3df5701b0d90c9d9bfcc42bd1cd=
-08791d12551d4400"
-+SRC_URI[sha256sum] =3D "f292f6cc051d5bbabf725ef85d432dfeacc8711dd717ea97=
-612ae590643801e5"
-=20
- # Curl has used many names over the years...
- CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:l=
-ibcurl daniel_stenberg:curl"
---=20
-2.44.2
+diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+index 4cb5717ece..f7c29e7e0f 100644
+--- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
++++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+@@ -18,4 +18,7 @@ inherit autotools
+ DISABLE_STATIC:class-nativesdk = ""
+ DISABLE_STATIC:class-native = ""
+ 
++# upstream-wontfix: Upstream thinks there is no working code that is exploitable - https://github.com/yaml/libyaml/issues/302
++CVE_CHECK_IGNORE += "CVE-2024-35328"
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.30.2
 
 
