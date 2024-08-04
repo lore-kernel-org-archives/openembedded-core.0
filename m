@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E73C52D72
-	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:08:31 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.30058.1722791303795636317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA9A1C52D6D
+	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:08:41 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.30065.1722791314896461577
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 10:08:23 -0700
+ Sun, 04 Aug 2024 10:08:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HuYHr+40;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2cfdc4deeecso3538078a91.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:08:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PmpfPIOh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70eaf5874ddso7407638b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791303; x=1723396103; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791314; x=1723396114; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dehuSI75RWOoZewEcPqUb4OhmEPs1xT7Uo9eC1gg0t0=;
-        b=HuYHr+401dnjEARb8CkC3l/kmR6IQadAwaPzTOc69JsnIxAX+8doBL73ZdDjeMUxHY
-         LzlklwdyILinFGvDvhyTEX5kzGHcGlzBC/kOUh7qeGAc4jPyT/HYsa5BE3Blh+WYXOKY
-         05dhott+kutNrmlhtjnkw6Mz0DEfhFkxH76ZP3vF3aXS18kZ+Zjvh9NuvUECAFMcD1/j
-         Fqre9LDD5d5guu7NDOf+xSYCV3zICxewW4wYwiow87lF07LhjxHcnflbKQFxBD6Z07Sp
-         VTI/OVX7qQh+moMNruPgaNSf1Sqa/c5GYS2f74ETVCxszlrBJ1TFqHAa6uU1C5awRqJp
-         WlKQ==
+        bh=O84P8HG2VeJnt5KVid+qXnAX2y4ZW944IHOCF50AOv4=;
+        b=PmpfPIOhstNv4qEsWdIRg7aVq+wi+B9LaosqNRc1p5JOhLj9riWrjh/BcH/vvZw9B6
+         VAIGND0xlNwy08rnWcx11HenYKerFXznBqqEh8aToPJH1qbibpW8gWKCtYeIWC+QXurR
+         9cRn2ZjiO7re7hJNPz2SqqoOP3wI3JqHJMtqeMp3VoA7sdNAyYHMAFQJE6pV8IthVbUM
+         bkwbT2nw3lNBu0ZeJBlI6/O31KJ72kqCaCg/uafmhOXEjfNbH6cjopO3tGVaMAW9tL9r
+         5D8iTIi9p2kzuu/I7Q/4+Yi43new28wukcSQXN47bfrXHxCsSJ538O9Vbg7Z1ORaOVUf
+         7Juw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722791303; x=1723396103;
+        d=1e100.net; s=20230601; t=1722791314; x=1723396114;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dehuSI75RWOoZewEcPqUb4OhmEPs1xT7Uo9eC1gg0t0=;
-        b=lyD5zuNyIn8S0eWy53F4Lbgb8EJwJ+1D2E0DgB9b6kUmtdhotJs3qewzuV1+rLking
-         kruSpzLIpSCPDWbx1kkDnietz3F/r8xDgYr8o6v65RA9J1TAu4rcmGr+j5TqtwEgPBzm
-         MuXMg+CSIzNU9ALUfX4EU5qWQXG2VSGfDfB3Jsrfg2ROhF6Eg5XrRZr0Znqt932Jt5xj
-         J/JOi0qYIkAeLAc0LbGZrqouI/1IeBiu8qCzT2++YjhEDzr9h2Bt4F0WrS1AFdHMXY0G
-         lLpDXf2YzyZTYZrAAizpeNpGX9wpeJisBt61yPSm3OksliwV+vj1+A8i9+5cH7begnnZ
-         ep+g==
-X-Gm-Message-State: AOJu0Yzwdu5uz24vYYHpPi71Y7+h0/lEveeUWTyZSBoeMQ+ncIrGj6Zy
-	n0t6xW6PF9uIQgfKgRZ4m1WSgvpe4W2MLiVargg7xQcGJMikJkFPKlOU2CSiPKcQhgrQzWSAknm
-	jOH11lQ==
-X-Google-Smtp-Source: AGHT+IEFbSMqsmcKNgb7b3/DepUZwxsSCkpTClNIy3EbRndocSxidipbBRbPr7NXDeocXtoDlVeqtQ==
-X-Received: by 2002:a17:90a:f02:b0:2cd:ba3e:38a5 with SMTP id 98e67ed59e1d1-2cff9469006mr10956923a91.21.1722791303003;
-        Sun, 04 Aug 2024 10:08:23 -0700 (PDT)
+        bh=O84P8HG2VeJnt5KVid+qXnAX2y4ZW944IHOCF50AOv4=;
+        b=AeYuw+QteGfJ+O39kkehnACvib63RzVaQGtvHglAo8uLhNZMpx2x59Jd2ap2GlM3gf
+         +F1ykDhl955Xd0q2Ui9n43zW6eqM9dq978md2+P4rynqbY+mYnRkHrJCQ9LfeCJbL507
+         oWcwspMO8yx3BhRRhIO7pmIcwrsKVdxCfq/WZDlBF90mqpqmKlgAolqXAD3cwD71mXVL
+         cO58JwURaZYE0qmT6tJGmiiY/UkyGmn/qxn9uhNCekmP7YV54KG69if4ouDjV6kCm7oX
+         SCtYjapr7lNMI7kwHreHvSsV6HgJ7KJjR+03bIYxJw19SAldwtuc+z3jyGqC7DaYg7Pa
+         IKmQ==
+X-Gm-Message-State: AOJu0YziVcuPzdUAi4B0rUs1H0+OYelvN+gOCnE15Xhg7hM01AJo9uri
+	SJpmPWCAv4QRXxLeJeRHrZyv1fRE/7fE4jnFf05K/Dk7Tt6QohFSIKhzr2LkQzjUqJwPrP570Ew
+	hR7wgNg==
+X-Google-Smtp-Source: AGHT+IEXV6uTECjL6csF/lvytvhsR2mp5fBC1g5J8VyahpMc52biGjCRdDItzNfAnc8kMy2mmmintA==
+X-Received: by 2002:a05:6a20:918c:b0:1c0:bd9c:adf with SMTP id adf61e73a8af0-1c699616e6cmr10392394637.50.1722791314104;
+        Sun, 04 Aug 2024 10:08:34 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4e3c41sm8714415a91.48.2024.08.04.10.08.22
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4e3c41sm8714415a91.48.2024.08.04.10.08.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 10:08:22 -0700 (PDT)
+        Sun, 04 Aug 2024 10:08:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 1/8] gtk+3 : backport fix for CVE-2024-6655
-Date: Sun,  4 Aug 2024 10:08:07 -0700
-Message-Id: <37b9eb01dc6342bc0308c9c970e3c379c83b706f.1722791084.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 8/8] lttng-modules: Upgrade 2.13.9 -> 2.13.14
+Date: Sun,  4 Aug 2024 10:08:14 -0700
+Message-Id: <2721f84ba755ceea5780e44feb0713ad8c4d0217.1722791084.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722791084.git.steve@sakoman.com>
 References: <cover.1722791084.git.steve@sakoman.com>
@@ -61,79 +61,121 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:08:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202951
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:08:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202958
 
-From: Ashish Sharma <asharma@mvista.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-stop looking for modules in cwd in gtk/gtkmodules.c.
+License-Update: Upstream cleaned stale file paths in License file and updated LICENSES/LGPL-2.1 and LICENSES/GPL-2.0 -> LICENSES/LGPL-2.1-only.txt and LICENSES/GPL-2.0-only.txt causing md5 to change.
+(ref commit ->
+https://github.com/lttng/lttng-modules/commit/b972ef5708a00718a081f0eb40205e25677e5e93
+and
+https://github.com/lttng/lttng-modules/commit/61baff6e8de2462f45006662bc34bcbf5f645ba0#diff-c693279643b8cd5d248172d9c22cb7cf4ed163a3c98c8a3f69c2717edd3eacb7)
 
-Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/gtk+3.0/3.24.33-1ubuntu2.2]
+Note: Upgrade lttng-modules to 2.13.14 to fix fcheck error which occurs
+with commit 782202de6478f68caaed4567017095ad906c4eef in kernel "file: Rename fcheck
+lookup_fd_rcu" which does replaces fcheck with lookup_fd_rcu.
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gtk+/gtk+3/CVE-2024-6655.patch            | 39 +++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb      |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/CVE-2024-6655.patch
+ .../0009-Rename-genhd-wrapper-to-blkdev.patch | 19 +++++++++++--------
+ ...les_2.13.9.bb => lttng-modules_2.13.14.bb} |  4 ++--
+ 2 files changed, 13 insertions(+), 10 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.13.9.bb => lttng-modules_2.13.14.bb} (89%)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/CVE-2024-6655.patch b/meta/recipes-gnome/gtk+/gtk+3/CVE-2024-6655.patch
-new file mode 100644
-index 0000000000..2460b97b6b
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+3/CVE-2024-6655.patch
-@@ -0,0 +1,39 @@
-+From 3bbf0b6176d42836d23c36a6ac410e807ec0a7a7 Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Sat, 15 Jun 2024 14:18:01 -0400
-+Subject: [PATCH] Stop looking for modules in cwd
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
+index 90fec9dc58..874e076675 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
++++ b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
+@@ -8,9 +8,12 @@ to follow upstream.
+ 
+ Upstream-Status: Backport
+ 
++Note: Updated patch to cleanly apply to 2.13.14
 +
-+This is just not a good idea. It is surprising, and can be misused.
-+
-+Fixes: #6786
-+
-+CVE: CVE-2024-6655
-+Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/gtk+3.0/3.24.33-1ubuntu2.2]
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ gtk/gtkmodules.c | 9 ++-------
-+ 1 file changed, 2 insertions(+), 7 deletions(-)
-+
-+diff --git a/gtk/gtkmodules.c b/gtk/gtkmodules.c
-+index 704e412aeb5..f93101c272e 100644
-+--- a/gtk/gtkmodules.c
-++++ b/gtk/gtkmodules.c
-+@@ -214,13 +214,8 @@ find_module (const gchar *name)
-+   gchar *module_name;
-+ 
-+   module_name = _gtk_find_module (name, "modules");
-+-  if (!module_name)
-+-    {
-+-      /* As last resort, try loading without an absolute path (using system
-+-       * library path)
-+-       */
-+-      module_name = g_module_build_path (NULL, name);
-+-    }
-++  if (module_name == NULL)
-++    return NULL;
-+ 
-+   module = g_module_open (module_name, G_MODULE_BIND_LOCAL | G_MODULE_BIND_LAZY);
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-index f862e143d4..3e974c91e5 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-@@ -6,6 +6,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://link_fribidi.patch \
-+           file://CVE-2024-6655.patch \
-            "
- SRC_URI[sha256sum] = "dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec"
+ Change-Id: I4ec94fb94d11712dd20f0680aea1de77fbfa9d17
+ Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
+ Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+ ---
+  include/wrapper/{genhd.h => blkdev.h} | 10 +++++-----
+  src/lttng-statedump-impl.c            |  2 +-
+@@ -21,7 +24,7 @@ diff --git a/include/wrapper/genhd.h b/include/wrapper/blkdev.h
+ similarity index 93%
+ rename from include/wrapper/genhd.h
+ rename to include/wrapper/blkdev.h
+-index 4a59b68e..0d5ad90f 100644
++index e32c7b6..76397f6 100644
+ --- a/include/wrapper/genhd.h
+ +++ b/include/wrapper/blkdev.h
+ @@ -1,6 +1,6 @@
+@@ -41,9 +44,9 @@ index 4a59b68e..0d5ad90f 100644
+ +#ifndef _LTTNG_WRAPPER_BLKDEV_H
+ +#define _LTTNG_WRAPPER_BLKDEV_H
+  
+- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
+- #include <linux/blkdev.h>
+-@@ -45,7 +45,7 @@ struct class *wrapper_get_block_class(void)
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0) \
++	|| LTTNG_RHEL_KERNEL_RANGE(5,14,0,162,0,0, 5,15,0,0,0,0))
++@@ -47,7 +47,7 @@ struct class *wrapper_get_block_class(void)
+  /*
+   * Canary function to check for 'block_class' at compile time.
+   *
+@@ -52,17 +55,17 @@ index 4a59b68e..0d5ad90f 100644
+   *
+   *   extern struct class block_class;
+   */
+-@@ -104,4 +104,4 @@ struct device_type *wrapper_get_disk_type(void)
++@@ -106,4 +106,4 @@ struct device_type *wrapper_get_disk_type(void)
+  
+  #endif
+  
+ -#endif /* _LTTNG_WRAPPER_GENHD_H */
+ +#endif /* _LTTNG_WRAPPER_BLKDEV_H */
+ diff --git a/src/lttng-statedump-impl.c b/src/lttng-statedump-impl.c
+-index 4d7b2921..0e753090 100644
++index 9d197ce..229517e 100644
+ --- a/src/lttng-statedump-impl.c
+ +++ b/src/lttng-statedump-impl.c
+-@@ -41,7 +41,7 @@
++@@ -42,7 +42,7 @@
+  #include <wrapper/namespace.h>
+  #include <wrapper/irq.h>
+  #include <wrapper/tracepoint.h>
+@@ -72,5 +75,5 @@ index 4d7b2921..0e753090 100644
+  #include <wrapper/fdtable.h>
+  #include <wrapper/sched.h>
+ -- 
+-2.19.1
++2.35.7
+ 
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+similarity index 89%
+rename from meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+index a08386b053..a3e29ab7b7 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+@@ -3,7 +3,7 @@ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+ DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
+ HOMEPAGE = "https://lttng.org/"
+ LICENSE = "LGPL-2.1-only & GPL-2.0-only & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=0464cff101a009c403cd2ed65d01d4c4"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=8d0d9f08888046474772a5d745d89d6a"
+ 
+ inherit module
+ 
+@@ -16,7 +16,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+ # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
+ 
+-SRC_URI[sha256sum] = "bf808b113544287cfe837a6382887fa66354ef5cc8216460cebbef3d27dc3581"
++SRC_URI[sha256sum] = "c6449f7ff12ab644a630692a556304e51525ca37d98aebf826796918be0f5da6"
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
  
 -- 
 2.34.1
