@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8799C3DA7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8AF3C52D72
 	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:09:41 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.30092.1722791378394105205
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.30097.1722791379925534040
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 10:09:38 -0700
+ Sun, 04 Aug 2024 10:09:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EhWwhvvf;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-70d333d5890so9020132b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:38 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nKCo2FtI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-70d23caf8ddso8443749b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791378; x=1723396178; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791379; x=1723396179; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b4fUdSdjQVVWPEo5y2852mTW0CPQ1vm95QXac7TyLGo=;
-        b=EhWwhvvfO6w7u/c9ok3464yOCGP9aw5jikYftW82lDBhvFVlMiGS4mJGEP9VEfq1Ax
-         QiPYra9M1HemM607FskH/yctM8JxurI0rCF5f++KvyW1Fnuf6iFKvJZEsg7/CFcbw0eQ
-         l5xHYfA/NOicbvyJ5i6RoAG6daAmWz4usZ/SkN5odju4rRJuP6JNunZpnUvppPWDASci
-         xccQKl4LtNRhBDsI7oOn6w1e/HNbmREJJP67DW1drTSFbXYLwc5dl+yjkOYGTlSJcp1e
-         z3ZPlKDhCQYSZoTg5SkbhAKwpsnRfsGdDRNrIx2XhmtOjitY8GC96MtOIOs23Yoju1O+
-         RLeQ==
+        bh=WtRvxK9eHW1trUtssjiTrCYI6K5Fv4uXzUC64P1M0cw=;
+        b=nKCo2FtIwZwQslsE85k2J0PhglOxoDqrrj+kc/EZLQr59nRsMESb6SyMJH5vs9/MUT
+         QdEufLHecfvpCzM6IyoL0crBh46rThOznu7fShxZs8LtrtM+qBB2qH7hrIQXo6Ecui6x
+         znct1AUDemCaEehW5kxefy80V3rIb4sdDUx2o7q+abqJPF0Cuc8Gx9vz3YiPeYgr/rZc
+         oCI3sJX3Ic9IcUaGfOZWOykWMQs5AU7CN9Vdm51fiTFL8uzCYXZA9HdtjHLpbhC8MxBU
+         RZQ2msjONcT8U6X307MLKSaW/D74IHg8grIUJAH0bRSYekT5mCFgCXGCDtYkClymHNXH
+         xxyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722791378; x=1723396178;
+        d=1e100.net; s=20230601; t=1722791379; x=1723396179;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b4fUdSdjQVVWPEo5y2852mTW0CPQ1vm95QXac7TyLGo=;
-        b=uHfNazvtooPPcHifHbhSmJBQ0RQk5HbMJev3pKFHHusaTmw5wUHcTnPSS/iOghsWvK
-         2leyesMiNK5mF3XJVQ4bgCzJQIVE+8nMdAP7xHGZfjjBNTH4oEplNcTsorYvAUgcuDhl
-         RxPnU4QAlNkyMUSY5Bg6QsxHSa5VnOJgAzIOyicBZI+kzqzHi4Dnpag5j/y4VAxBCw4Q
-         aCtLfSCKUyQRsyrDr65US8iP6ybKpEiTfyjTdTKFqAaqpzzGAZm1lMUluqiRT/LbEach
-         AT5DFgcKASHtexsQLeoHnHfxgUTxuNkZ1rHXsme2jRTaepHW3eNFa/vqczRxdSwf38Xh
-         o0ww==
-X-Gm-Message-State: AOJu0YxR95h5qum4aOk5j26s4kvSS49b07dat6z9RyjVwITMLoLP/u4w
-	D0nAWQrJpE/2hPhTpqcliiLqANvLLHW2MpYJq0TtIFvFVXmTsakYoB0PYcsZB9ViyxC28cFFbpx
-	CVMI37g==
-X-Google-Smtp-Source: AGHT+IFTJxknjyDWmEACNTjdurTZ0dkXMXjhdjoeAsWYth6dM2UqgbppTuFWpY+rVEK4J8XlripCsA==
-X-Received: by 2002:a05:6a00:182a:b0:710:5a64:30d5 with SMTP id d2e1a72fcca58-7106cf9362emr12912433b3a.6.1722791377654;
-        Sun, 04 Aug 2024 10:09:37 -0700 (PDT)
+        bh=WtRvxK9eHW1trUtssjiTrCYI6K5Fv4uXzUC64P1M0cw=;
+        b=oigNi8VF/L0C0M6KAb0TRHyHGbd7ROGYVRRjJ6ZI+TuM3TxruS+AUQ5W13d1BAhji3
+         O1kLsiYwarZixcSozpSknXjCBafAuQ+QnxgCT1jDVk008sI+JZjM1Vzc2y2osFaEqZob
+         YB1YtmT4RQrisrojxbDm5x0Erng/nGf7NQlpUOUfP8PIrH5PLTZ4sGYhZyvh6grhecpb
+         A0D+U/sDY61pfc8fmHtGKNdMHhB7HFaMqU2ZnFtlqOQaZ1d50TgToVq+hxHLK61qNGQx
+         pL4f1V4hiNZP7yyLu2sH/qSgJCAVVudJTkoHH3s9XLl06uoRVOqGNnv2jn/6PQeRpZKn
+         hy1g==
+X-Gm-Message-State: AOJu0Yxc24nr/vrxGg4LHOqVGd357UhK+kvFolzIoi4nsY9/VTzRgSyp
+	xmdYxwh1UGpjgCXGhWLROVYwlMFKAm97m5/REw4yVByzDB2InVGiA2tTCo3e990Kv+/4/VeVkmo
+	racfp/A==
+X-Google-Smtp-Source: AGHT+IFuD/C3JaRheQ9IBqCdqyL29uz0mmFic+rEj7xsp9LyrdPArBJuhqhfj5tL7sdeu/7Pf8ZB9Q==
+X-Received: by 2002:a05:6a00:858f:b0:70d:14d1:1bb7 with SMTP id d2e1a72fcca58-7106d0466b0mr11507005b3a.28.1722791378958;
+        Sun, 04 Aug 2024 10:09:38 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 10:09:37 -0700 (PDT)
+        Sun, 04 Aug 2024 10:09:38 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/18] selftest-hardlink: Add additional test cases
-Date: Sun,  4 Aug 2024 10:09:11 -0700
-Message-Id: <39823d3211411e661320e1164ba4c50370804425.1722790925.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/18] create-spdx-*: Support multilibs via SPDX_MULTILIB_SSTATE_ARCHS
+Date: Sun,  4 Aug 2024 10:09:12 -0700
+Message-Id: <5c1ce317fff6df6818f72d93197e5ec59ad4c462.1722790925.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722790925.git.steve@sakoman.com>
 References: <cover.1722790925.git.steve@sakoman.com>
@@ -62,103 +62,126 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:09:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202967
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202968
 
 From: Mark Hatle <mark.hatle@amd.com>
 
-Additional test cases for debug symlink generation both binaries
-and static libraries.
+When a create-spdx-* classes is processing documents, it needs to
+find the document in a path that is related to the SSTATE_ARCH
+when a packge is generated.  The SSTATE_ARCH can be affected by
+multilib configurations, resulting is something like armv8a-mlib.
 
-This also has the side effect of testing for race conditions in the
-hardlink debug generation and stripping.
+When the image (or SDK) is being generated and the components are
+collected, the system has no knowledge of the multilib arch and
+will fail to find it, such as:
+
+  ERROR: meta-toolchain-1.0-r0 do_populate_sdk: No SPDX file found
+   for package libilp32-libgcc-dbg,
+   False sstate:libilp32-libgcc:armv8a-ilp32-mllibilp32-elf:14.1.0:r0:armv8a-ilp32:12:
+   sstate:libilp32-libgcc::14.1.0:r0::12:
+
+Adding in the new SPDX_MULTILIB_SSTATE_ARCHS will provide a full
+set of SSTATE_ARCHS including ones that contain the multilib
+extension which will allow create-spdx-* to correctly find the
+document it is looking for.  This would also be valuable to any
+other function doing a similar search through SSTATE_ARCH that may
+have been extended with multilib configurations.
 
 Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7171f41c07a39a7543bb64f075d38b8e74563089)
+
+(cherry picked from commit f1499c36c1054fc90f7b7268cc95285f2eca72f7)
+
+spdx-3.0 items are not application and were removed.
+
+spdx-common.bbclass item was moved into create-sdpx-2.2.bbclass.
+
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../selftest-hardlink/selftest-hardlink.bb    | 13 ++++++++++
- meta/lib/oeqa/selftest/cases/package.py       | 26 +++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ meta/classes-recipe/populate_sdk_base.bbclass |  4 ++++
+ meta/classes/create-spdx-2.2.bbclass          | 14 ++++++++------
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-index be346b8a0e..052bf0c92a 100644
---- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-@@ -10,6 +10,9 @@ S = "${WORKDIR}"
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index 81896d808f..6cb43ade30 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -6,6 +6,10 @@
  
- do_compile () {
- 	${CC} hello.c -o hello1 ${CFLAGS} ${LDFLAGS}
+ PACKAGES = ""
+ 
++# This exists as an optimization for SPDX processing to only run in image and
++# SDK processing context.  This class happens to be common to these usages.
++SPDX_MULTILIB_SSTATE_ARCHS = "${@all_multilib_tune_values(d, 'SSTATE_ARCHS')}"
 +
-+	${CC} hello.c -c -o hello.o ${CFLAGS}
-+	${AR} rcs libhello.a hello.o
+ inherit image-postinst-intercepts image-artifact-names
+ 
+ # Wildcards specifying complementary packages to install for every package that has been explicitly
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 4ea91f6499..d104668ffd 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -35,6 +35,8 @@ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
+ 
+ SPDX_CUSTOM_ANNOTATION_VARS ??= ""
+ 
++SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
++
+ SPDX_ORG ??= "OpenEmbedded ()"
+ SPDX_SUPPLIER ??= "Organization: ${SPDX_ORG}"
+ SPDX_SUPPLIER[doc] = "The SPDX PackageSupplier field for SPDX packages created from \
+@@ -349,7 +351,7 @@ def collect_dep_recipes(d, doc, spdx_recipe):
+ 
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     spdx_deps_file = Path(d.getVar("SPDXDEPS"))
+-    package_archs = d.getVar("SSTATE_ARCHS").split()
++    package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+     package_archs.reverse()
+ 
+     dep_recipes = []
+@@ -389,7 +391,7 @@ def collect_dep_recipes(d, doc, spdx_recipe):
+ 
+     return dep_recipes
+ 
+-collect_dep_recipes[vardepsexclude] = "SSTATE_ARCHS"
++collect_dep_recipes[vardepsexclude] = "SPDX_MULTILIB_SSTATE_ARCHS"
+ 
+ def collect_dep_sources(d, dep_recipes):
+     import oe.sbom
+@@ -763,7 +765,7 @@ python do_create_runtime_spdx() {
+ 
+     providers = collect_package_providers(d)
+     pkg_arch = d.getVar("SSTATE_PKGARCH")
+-    package_archs = d.getVar("SSTATE_ARCHS").split()
++    package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+     package_archs.reverse()
+ 
+     if not is_native:
+@@ -869,7 +871,7 @@ python do_create_runtime_spdx() {
+             oe.sbom.write_doc(d, runtime_doc, pkg_arch, "runtime", spdx_deploy, indent=get_json_indent(d))
  }
  
- do_install () {
-@@ -22,9 +25,19 @@ do_install () {
- 	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello3
- 	ln ${D}${bindir}/hello1 ${D}${libexecdir}/hello4
+-do_create_runtime_spdx[vardepsexclude] += "OVERRIDES SSTATE_ARCHS"
++do_create_runtime_spdx[vardepsexclude] += "OVERRIDES SPDX_MULTILIB_SSTATE_ARCHS"
  
-+	# We need so many hardlink copies to look for specific race conditions
-+	install -d ${D}${libdir}
-+	install -m 0644 libhello.a ${D}${libdir}
-+	for num in `seq 1 100` ; do
-+		ln ${D}${libdir}/libhello.a ${D}${libdir}/libhello-${num}.a
-+	done
-+
- 	dd if=/dev/zero of=${D}${bindir}/sparsetest bs=1 count=0 seek=1M
- }
+ addtask do_create_runtime_spdx after do_create_spdx before do_build do_rm_work
+ SSTATETASKS += "do_create_runtime_spdx"
+@@ -1004,7 +1006,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+     import bb.compress.zstd
  
- RDEPENDS:${PN}-gdb += "gdb"
- PACKAGES =+ "${PN}-gdb"
- FILES:${PN}-gdb = "${bindir}/gdb.sh"
-+
-+PACKAGE_STRIP_STATIC = "1"
-+PACKAGE_DEBUG_STATIC_SPLIT = "1"
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 1aa6c03f8a..38ed7173fe 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -103,11 +103,37 @@ class PackageTests(OESelftestTestCase):
+     providers = collect_package_providers(d)
+-    package_archs = d.getVar("SSTATE_ARCHS").split()
++    package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+     package_archs.reverse()
  
-         dest = get_bb_var('PKGDEST', 'selftest-hardlink')
-         bindir = get_bb_var('bindir', 'selftest-hardlink')
-+        libdir = get_bb_var('libdir', 'selftest-hardlink')
-+        libexecdir = get_bb_var('libexecdir', 'selftest-hardlink')
+     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+@@ -1155,4 +1157,4 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
  
-         def checkfiles():
-             # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
-             # so expect 8 in total.
-             self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello1").st_nlink, 8)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink" + libexecdir + "/hello3").st_nlink, 8)
-+
-+            # Check dbg version
-+            # 2 items, a copy in both package/packages-split so 4
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + bindir + "/.debug/hello1").st_nlink, 4)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello1").st_nlink, 4)
-+
-+            # Even though the libexecdir name is 'hello3' or 'hello4', that isn't the debug target name
-+            self.assertEqual(os.path.exists(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello3"), False)
-+            self.assertEqual(os.path.exists(dest + "/selftest-hardlink-dbg" + libexecdir + "/.debug/hello4"), False)
-+
-+            # Check the staticdev libraries
-+            # 101 items, a copy in both package/packages-split so 202
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-25.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-50.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-staticdev" + libdir + "/libhello-75.a").st_nlink, 202)
-+
-+            # Check static dbg
-+            # 101 items, a copy in both package/packages-split so 202
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-25.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-50.a").st_nlink, 202)
-+            self.assertEqual(os.stat(dest + "/selftest-hardlink-dbg" + libdir + "/.debug-static/libhello-75.a").st_nlink, 202)
+             tar.addfile(info, fileobj=index_str)
  
-             # Test a sparse file remains sparse
-             sparsestat = os.stat(dest + "/selftest-hardlink" + bindir + "/sparsetest")
+-combine_spdx[vardepsexclude] += "BB_NUMBER_THREADS SSTATE_ARCHS"
++combine_spdx[vardepsexclude] += "BB_NUMBER_THREADS SPDX_MULTILIB_SSTATE_ARCHS"
 -- 
 2.34.1
 
