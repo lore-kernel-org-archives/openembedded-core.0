@@ -2,154 +2,306 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C255C3DA7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADF8CC3DA64
 	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 13:09:50 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.26197.1722776980433993110
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.26198.1722776980894545275
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 06:09:40 -0700
+ Sun, 04 Aug 2024 06:09:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FgBEr/Z+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3683329f787so5329310f8f.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bfaqF1Az;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3687ea0521cso6498972f8f.1
         for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 06:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722776978; x=1723381778; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3vzealu24fMton5aGziyny70Sm1ErzTN8pk0ex9NwgM=;
-        b=FgBEr/Z+dLayLDXE78rNv4WZY+JvPgmAlUzOkuoyoiDHQdFC/+kkLmk7B99a1MytWz
-         U/qnZ/R0BH3K6AGtsZ5kvBInWD7XP9o3D1xJ3JYuocPN739lWdPFCWHEaJ/PzhSWnqwv
-         p7YaCtieysri8eoZGGvRNh5Vzc+6fo8x1qV6A=
+        d=linuxfoundation.org; s=google; t=1722776979; x=1723381779; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4xsLAGwb2+BR3zcOhUxzqJZHB7Riwg5Q4Y9XwwY16xY=;
+        b=bfaqF1AzP5dUK8MajgwM24WiwogPyt8fZOAcTr9fgs8h/IYQkj5sSv3az7TQyqG0MZ
+         WVlWKLKBx1b6Rv+GM30d4qpEGAU6Gnu57cxELuqNiM2br8bfjAOOEHD8lQRqbVgF1yUo
+         XRG5dMnw5qopp1mNJt+5S0aWeVKmzYvQitCek=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722776978; x=1723381778;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3vzealu24fMton5aGziyny70Sm1ErzTN8pk0ex9NwgM=;
-        b=lqMp6ymx2rUgAi0vd8+6mZXlASjqB83r88Ktqgz7k2to+df+DfZciBMiLHCOepPf63
-         X8plJJalXzKBRLBtMbyr/AussHCVOj6ljQ1iFLb69UeB/RK9etWeIYMYVnW2+J8pVwq6
-         bj1+LnJ/HYfESbuZ1MXRNXJAHCWC+sEoYz0HckL5kYUMOR91fDJqIQU2WLVxaodd1Utj
-         ku4QCAqPYT4HsGqIywGlNNLUqiXHsEcwTr6WW+KPTdZIIzs02mUHXOjuOBG+reJW9PiP
-         ljRzyi6SrC5gGlgd89CF6XDl/m3W1kaqIyDio3KK77FTF89AAwitjMtW6UmJQn0iYVeV
-         O8EA==
-X-Gm-Message-State: AOJu0YzBxjgcX34KZo/DXG5WUlRhQe6DsF+z5ODAm7GTcYD59310NcEr
-	BZflYN5qS4DZF1UEETI3OeZ2O9V3PYZN7SOyBvc0AdWPAb3hIlvluX/U/lenffz4hBPg/xunMd/
-	svy4=
-X-Google-Smtp-Source: AGHT+IE56NFtHObiQAvrfXZb9RvG6Pw6sOBWqXtKxjZKegk8R7XeMfVBL+MHaPZx/O60Bo4uHNzAlA==
-X-Received: by 2002:adf:dd8d:0:b0:368:8015:8a96 with SMTP id ffacd0b85a97d-36bbc0e34d9mr4564478f8f.16.1722776978189;
+        d=1e100.net; s=20230601; t=1722776979; x=1723381779;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4xsLAGwb2+BR3zcOhUxzqJZHB7Riwg5Q4Y9XwwY16xY=;
+        b=l57Jc3SITQ8MqKWm14BxeLJDYNJSsJvbIhF00SHqdtJEvYx/YIP7F4Lll0cx0SxQTc
+         L+odIlwr01XkO0CT7u3+yKbHtOJzJsP6szy+flARPrEGFIKNlK6YHqljBnW+jS+15VNv
+         MW6nIhTXzFf6IYRSArf7rwIofrjsYdHT9tjSAkzm3SqUfppIUL3q4XHYDaphfVthikNg
+         zakOyTEZgJ7dpPVvUNBOtAuAVf7h9khu3o5HNRmF9ebceXQJFw9Lz5lRPUwdbQKK5wlf
+         JsHh1PyLNfwedmhiiaB6sITvvZiAH55lGZ9lodSDOBpa5ROFlYO4q2LCNbLSBMrSW2YJ
+         sObQ==
+X-Gm-Message-State: AOJu0YzoSgkWN6L4wapD5mRJyl2YZJdCtduAssf1vxznEIO1wgUVsL6c
+	bUDCFqnx1QGifZhP1GfDRSkERTDYsdT4LeQ57ooby5FpFsGRHtZuBujHwBVTholX3TZ8fqgFmAt
+	kiPo=
+X-Google-Smtp-Source: AGHT+IF1ndXnEOlOUpBejbrnzO945t2MX6ra7vPgrC2iEMGkFF+Exw7bdRRTkIvH6YP7xPJ6EZ6Org==
+X-Received: by 2002:a5d:4003:0:b0:368:31c7:19da with SMTP id ffacd0b85a97d-36bbc0dd4d3mr7882640f8f.13.1722776978872;
         Sun, 04 Aug 2024 06:09:38 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c970:9bdb:c2fc:595d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd26fad7sm6792449f8f.114.2024.08.04.06.09.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd26fad7sm6792449f8f.114.2024.08.04.06.09.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 06:09:37 -0700 (PDT)
+        Sun, 04 Aug 2024 06:09:38 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] cve_check: Use a local copy of the database during builds
-Date: Sun,  4 Aug 2024 14:09:35 +0100
-Message-ID: <20240804130936.1339847-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] sdpx: Avoid loading of SPDX_LICENSE_DATA into global config
+Date: Sun,  4 Aug 2024 14:09:36 +0100
+Message-ID: <20240804130936.1339847-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240804130936.1339847-1-richard.purdie@linuxfoundation.org>
+References: <20240804130936.1339847-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 13:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202946
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202947
 
-Rtaher than trying to use a sqlite database over NFS from DL_DIR, work from
-a local copy in STAGING DIR after fetching.
+Loading a load of json files into a memory structure and stashing in a bitbake
+variable is relatively anti-social making bitbake -e output hard to read for
+example as well as other potential performance issues.
+
+Defer loading of that data until it is actually needed/used in a funciton
+where it is now passed as a parameter.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/cve-check.bbclass                 |  7 ++++---
- .../meta/cve-update-nvd2-native.bb             | 18 +++++++++++++-----
- 2 files changed, 17 insertions(+), 8 deletions(-)
+ meta/classes/create-spdx-2.2.bbclass | 15 ++++++++-------
+ meta/classes/spdx-common.bbclass     |  6 ------
+ meta/lib/oe/sbom30.py                |  8 ++++----
+ meta/lib/oe/spdx30_tasks.py          | 17 +++++++++++------
+ meta/lib/oe/spdx_common.py           |  5 ++---
+ 5 files changed, 25 insertions(+), 26 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 504310514e4..0d7c8a58354 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -31,8 +31,9 @@
- CVE_PRODUCT ??= "${BPN}"
- CVE_VERSION ??= "${PV}"
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 509d3b58b6f..ff0cc14d0ac 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -44,11 +44,10 @@ def get_json_indent(d):
+     return None
  
--CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
--CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2-1.db"
-+CVE_CHECK_DB_FILENAME ?= "nvdcve_2-1.db"
-+CVE_CHECK_DB_DIR ?= "${STAGING_DIR}/CVE_CHECK"
-+CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
- CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
  
- CVE_CHECK_LOG ?= "${T}/cve.log"
-@@ -198,7 +199,7 @@ python do_cve_check () {
- }
+-def convert_license_to_spdx(lic, document, d, existing={}):
++def convert_license_to_spdx(lic, license_data, document, d, existing={}):
+     from pathlib import Path
+     import oe.spdx
  
- addtask cve_check before do_build
--do_cve_check[depends] = "cve-update-nvd2-native:do_fetch"
-+do_cve_check[depends] = "cve-update-nvd2-native:do_unpack"
- do_cve_check[nostamp] = "1"
+-    license_data = d.getVar("SPDX_LICENSE_DATA")
+     extracted = {}
  
- python cve_check_cleanup () {
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 1901641965a..5063f1fc3fd 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -8,7 +8,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+     def add_extracted_license(ident, name):
+@@ -385,10 +384,10 @@ def add_download_packages(d, doc, recipe):
+             # but this should be sufficient for now
+             doc.add_relationship(package, "BUILD_DEPENDENCY_OF", recipe)
  
- inherit native
+-def get_license_list_version(d):
++def get_license_list_version(license_data, d):
+     # Newer versions of the SPDX license list are SemVer ("MAJOR.MINOR.MICRO"),
+     # but SPDX 2 only uses "MAJOR.MINOR".
+-    return ".".join(d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"].split(".")[:2])
++    return ".".join(license_data["licenseListVersion"].split(".")[:2])
  
--deltask do_unpack
- deltask do_patch
- deltask do_configure
- deltask do_compile
-@@ -35,7 +34,9 @@ CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
- # Number of attempts for each http query to nvd server before giving up
- CVE_DB_UPDATE_ATTEMPTS ?= "5"
  
--CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
-+CVE_CHECK_DB_DLDIR_FILE ?= "${DL_DIR}/CVE_CHECK/${CVE_CHECK_DB_FILENAME}"
-+CVE_CHECK_DB_DLDIR_LOCK ?= "${CVE_CHECK_DB_DLDIR_FILE}.lock"
-+CVE_CHECK_DB_TEMP_FILE ?= "${CVE_CHECK_DB_FILE}.tmp"
+ python do_create_spdx() {
+@@ -401,6 +400,8 @@ python do_create_spdx() {
+     from contextlib import contextmanager
+     import oe.cve_check
  
- python () {
-     if not bb.data.inherits_class("cve-check", d):
-@@ -52,9 +53,9 @@ python do_fetch() {
- 
-     bb.utils.export_proxies(d)
- 
--    db_file = d.getVar("CVE_CHECK_DB_FILE")
-+    db_file = d.getVar("CVE_CHECK_DB_DLDIR_FILE")
-     db_dir = os.path.dirname(db_file)
--    db_tmp_file = d.getVar("CVE_DB_TEMP_FILE")
-+    db_tmp_file = d.getVar("CVE_CHECK_DB_TEMP_FILE")
- 
-     cleanup_db_download(db_file, db_tmp_file)
-     # By default let's update the whole database (since time 0)
-@@ -77,6 +78,7 @@ python do_fetch() {
-         pass
- 
-     bb.utils.mkdirhier(db_dir)
-+    bb.utils.mkdirhier(os.path.dirname(db_tmp_file))
-     if os.path.exists(db_file):
-         shutil.copy2(db_file, db_tmp_file)
- 
-@@ -89,10 +91,16 @@ python do_fetch() {
-         os.remove(db_tmp_file)
- }
- 
--do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
-+do_fetch[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK}"
- do_fetch[file-checksums] = ""
- do_fetch[vardeps] = ""
- 
-+python do_unpack() {
-+    import shutil
-+    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"), d.getVar("CVE_CHECK_DB_FILE"))
-+}
-+do_unpack[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
++    license_data = oe.spdx_common.load_spdx_license_data(d)
 +
- def cleanup_db_download(db_file, db_tmp_file):
-     """
-     Cleanup the download space from possible failed downloads
+     @contextmanager
+     def optional_tarfile(name, guard, mode="w"):
+         import tarfile
+@@ -432,7 +433,7 @@ python do_create_spdx() {
+     doc.documentNamespace = get_namespace(d, doc.name)
+     doc.creationInfo.created = creation_time
+     doc.creationInfo.comment = "This document was created by analyzing recipe files during the build."
+-    doc.creationInfo.licenseListVersion = get_license_list_version(d)
++    doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+     doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+     doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+     doc.creationInfo.creators.append("Person: N/A ()")
+@@ -451,7 +452,7 @@ python do_create_spdx() {
+ 
+     license = d.getVar("LICENSE")
+     if license:
+-        recipe.licenseDeclared = convert_license_to_spdx(license, doc, d)
++        recipe.licenseDeclared = convert_license_to_spdx(license, license_data, doc, d)
+ 
+     summary = d.getVar("SUMMARY")
+     if summary:
+@@ -549,7 +550,7 @@ python do_create_spdx() {
+             spdx_package.SPDXID = oe.sbom.get_package_spdxid(pkg_name)
+             spdx_package.name = pkg_name
+             spdx_package.versionInfo = d.getVar("PV")
+-            spdx_package.licenseDeclared = convert_license_to_spdx(package_license, package_doc, d, found_licenses)
++            spdx_package.licenseDeclared = convert_license_to_spdx(package_license, license_data, package_doc, d, found_licenses)
+             spdx_package.supplier = d.getVar("SPDX_SUPPLIER")
+ 
+             package_doc.packages.append(spdx_package)
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index e1528b6d0b5..cd9cc0db987 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -39,12 +39,6 @@ SPDX_CUSTOM_ANNOTATION_VARS ??= ""
+ 
+ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
+ 
+-python() {
+-    import oe.spdx_common
+-    oe.spdx_common.load_spdx_license_data(d)
+-}
+-
+-
+ python do_collect_spdx_deps() {
+     # This task calculates the build time dependencies of the recipe, and is
+     # required because while a task can deptask on itself, those dependencies
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 27ed74f810f..2cea56ac3e6 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -558,8 +558,8 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+             scope=scope,
+         )
+ 
+-    def new_license_expression(self, license_expression, license_text_map={}):
+-        license_list_version = self.d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
++    def new_license_expression(self, license_expression, license_data, license_text_map={}):
++        license_list_version = license_data["licenseListVersion"]
+         # SPDX 3 requires that the license list version be a semver
+         # MAJOR.MINOR.MICRO, but the actual license version might be
+         # MAJOR.MINOR on some older versions. As such, manually append a .0
+@@ -607,14 +607,14 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+ 
+         return lic
+ 
+-    def scan_declared_licenses(self, spdx_file, filepath):
++    def scan_declared_licenses(self, spdx_file, filepath, license_data):
+         for e in spdx_file.extension:
+             if isinstance(e, OELicenseScannedExtension):
+                 return
+ 
+         file_licenses = set()
+         for extracted_lic in oe.spdx_common.extract_licenses(filepath):
+-            file_licenses.add(self.new_license_expression(extracted_lic))
++            file_licenses.add(self.new_license_expression(extracted_lic, license_data))
+ 
+         self.new_relationship(
+             [spdx_file],
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 9d5bbadc0f4..03dc47db029 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -28,8 +28,7 @@ def set_timestamp_now(d, o, prop):
+         delattr(o, prop)
+ 
+ 
+-def add_license_expression(d, objset, license_expression):
+-    license_data = d.getVar("SPDX_LICENSE_DATA")
++def add_license_expression(d, objset, license_expression, license_data):
+     simple_license_text = {}
+     license_text_map = {}
+     license_ref_idx = 0
+@@ -120,7 +119,7 @@ def add_license_expression(d, objset, license_expression):
+     )
+     spdx_license_expression = " ".join(convert(l) for l in lic_split)
+ 
+-    return objset.new_license_expression(spdx_license_expression, license_text_map)
++    return objset.new_license_expression(spdx_license_expression, license_data, license_text_map)
+ 
+ 
+ def add_package_files(
+@@ -129,6 +128,7 @@ def add_package_files(
+     topdir,
+     get_spdxid,
+     get_purposes,
++    license_data,
+     *,
+     archive=None,
+     ignore_dirs=[],
+@@ -165,7 +165,7 @@ def add_package_files(
+             spdx_files.add(spdx_file)
+ 
+             if oe.spdx30.software_SoftwarePurpose.source in file_purposes:
+-                objset.scan_declared_licenses(spdx_file, filepath)
++                objset.scan_declared_licenses(spdx_file, filepath, license_data)
+ 
+             if archive is not None:
+                 with filepath.open("rb") as f:
+@@ -452,6 +452,8 @@ def create_spdx(d):
+         if val:
+             setattr(obj, name, val)
+ 
++    license_data = oe.spdx_common.load_spdx_license_data(d)
++
+     deploydir = Path(d.getVar("SPDXDEPLOY"))
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     spdx_workdir = Path(d.getVar("SPDXWORK"))
+@@ -508,7 +510,7 @@ def create_spdx(d):
+     source_files = add_download_files(d, build_objset)
+     build_inputs |= source_files
+ 
+-    recipe_spdx_license = add_license_expression(d, build_objset, d.getVar("LICENSE"))
++    recipe_spdx_license = add_license_expression(d, build_objset, d.getVar("LICENSE"), license_data)
+     build_objset.new_relationship(
+         source_files,
+         oe.spdx30.RelationshipType.hasConcludedLicense,
+@@ -527,6 +529,7 @@ def create_spdx(d):
+                 "sourcefile", str(file_counter)
+             ),
+             lambda filepath: [oe.spdx30.software_SoftwarePurpose.source],
++            license_data,
+             ignore_dirs=[".git"],
+             ignore_top_level_dirs=["temp"],
+             archive=None,
+@@ -636,7 +639,7 @@ def create_spdx(d):
+             package_license = d.getVar("LICENSE:%s" % package)
+             if package_license and package_license != d.getVar("LICENSE"):
+                 package_spdx_license = add_license_expression(
+-                    d, build_objset, package_license
++                    d, build_objset, package_license, license_data
+                 )
+             else:
+                 package_spdx_license = recipe_spdx_license
+@@ -708,6 +711,7 @@ def create_spdx(d):
+                 ),
+                 # TODO: Can we know the purpose here?
+                 lambda filepath: [],
++                license_data,
+                 ignore_top_level_dirs=["CONTROL", "DEBIAN"],
+                 archive=None,
+             )
+@@ -739,6 +743,7 @@ def create_spdx(d):
+             d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
+             lambda file_counter: build_objset.new_spdxid("sysroot", str(file_counter)),
+             lambda filepath: [],
++            license_data,
+             archive=None,
+         )
+ 
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index f23100fe03d..dfe90f96cf9 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -42,14 +42,13 @@ def is_work_shared_spdx(d):
+ 
+ 
+ def load_spdx_license_data(d):
+-    if d.getVar("SPDX_LICENSE_DATA"):
+-        return
+ 
+     with open(d.getVar("SPDX_LICENSES"), "r") as f:
+         data = json.load(f)
+         # Transform the license array to a dictionary
+         data["licenses"] = {l["licenseId"]: l for l in data["licenses"]}
+-        d.setVar("SPDX_LICENSE_DATA", data)
++
++    return data
+ 
+ 
+ def process_sources(d):
 
