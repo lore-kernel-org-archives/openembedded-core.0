@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A31C52D6D
-	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:09:41 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.30122.1722791381334239523
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 023CAC52D71
+	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 17:09:42 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.30091.1722791377197813709
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 10:09:41 -0700
+ Sun, 04 Aug 2024 10:09:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WmaQIpaN;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70d23caf8ddso8443760b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kOcbj7z8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-70d150e8153so3199988b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 10:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791381; x=1723396181; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1722791376; x=1723396176; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m8ICrTyxiE2481vRHDZNTf/mi/gap5kC+FNnvaW6+38=;
-        b=WmaQIpaNPp78/5CgcKK4GpmuyVPE4y+7AjQ+asVe8fiIv3x8kX04K6BtxRHbsBvKVd
-         3BPGA2pAfsLp03xPZljF9/KQIL/v5out2r0yuB05OFXkSdei8CzYadIEN8e0xsBdzAVx
-         xA7SFAWelMdlpG2wn0AKB+nNI8o8vWBbUBbL1CHNFa4YeVcWA41JYAOz0VIqMoYhIJeN
-         2RbWdZTCqI+ypSruwTRbfnkt0ADjBxYvMJPlWmjSNG6s/L8JQdcxQhs9meQ2HtkRLuS9
-         SWudjb1dpzbS1PBCUDXxBVy4WHbT/9slrmDV2FiamgodDyNOoMLRWNxj+NdzTi4ZMOxr
-         gCoA==
+        bh=QSidrCShGbJuugfeH/ISorc0o/1RW4R5HZ7EpB813og=;
+        b=kOcbj7z8u61liP0DnLZTtKhsETTPXoMTchNoHjpPrDxtZ9d0v4gR5af7L8/r+No3Za
+         0opA9mdzqJV3LhpTKgGxvrjsY/8IAWM6+nmKodUgAU3+NJaKmqwnIplhxV3EWeoUtXgL
+         1mBHu4eVTXT4tk+Qo6769KzRQStRwSVz/M2gwI8FVONkscPIqDCLnScTROgzgYb+liKV
+         9qYvKO+16VoWSlHtyccF8/HHeseEl+GD74RiAybIKwp4tlKmLEJAqTpHf0YLh/Gts0i8
+         JMLQI02eGwWHesGCLsjNy0YP9tJ1FIRhK9WiOdQiJ3ThJ8nfFJ07iL4XdqlKsDfy3/+P
+         RBpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722791381; x=1723396181;
+        d=1e100.net; s=20230601; t=1722791376; x=1723396176;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m8ICrTyxiE2481vRHDZNTf/mi/gap5kC+FNnvaW6+38=;
-        b=YG8KpfekqvaOfKTn1rtcf2e+IKU3hMUR+NPrrKpn8I2BR+QM58AHHnJrwzEhdkePAN
-         q3V+ClcecZT2+LXBpbPcx16/cv16zoE0o2e1WZJyTofuEehQzRLtp+MmOPySf0jg9Ycl
-         GPKi96eS3DhGRjwJxW8sWDFJ7pVSQkpW/eLghDAC76XXgr/qPSb68W2+erxpEGxKwaJI
-         p1lqdk0RBfjROkK17KDkTj4IySswv6tt76EkAKj/w9Q6LKhXpvGjOr+Ie3TQPdYMtD/P
-         Mvge9HXKhueNdezFYrDTiL96GAwghghrIQCrfTeJffbmUWMOMkNmP0z6JeBLrQHowWPP
-         JFXg==
-X-Gm-Message-State: AOJu0YynOb0XsP8w6ZxmTB8YWUoQrryEL7568H2A5+myvkJ7Gd8OozsF
-	QDnf3Ps4Jx1UYkycz1qEO+KZx4GKlTcWXMOZVEEXtVjeGEsqHXCq608HCSdBA0mZ5YTPZHaIPyU
-	F/elyog==
-X-Google-Smtp-Source: AGHT+IGw0LtShtsmJ2BDPhmKo1ftFziIK5YaoVPCRPLVcV4bDVnOPHUYdKSWZLd8qaxv0y+n6bpnXA==
-X-Received: by 2002:a05:6a21:329e:b0:1c4:2132:e205 with SMTP id adf61e73a8af0-1c69966ba57mr14677865637.48.1722791380497;
-        Sun, 04 Aug 2024 10:09:40 -0700 (PDT)
+        bh=QSidrCShGbJuugfeH/ISorc0o/1RW4R5HZ7EpB813og=;
+        b=XEnPOvSZd1Aj9tYPnnRTI5r1JSZjoF2pYvfLIwVahlX9AMBZn81J6B/TWcDa13H0lT
+         cEEX7ZXz9EBfkEO3hoJ36DsHh0ovnq8PYKCp9ZHiLrKkoZ+pHU+W8VADGqTjQsQlqQpm
+         FkD5taBMEGkorGuvGXf/oPA6uX7wlsfnc14LWKxTVMZIE9YW5wl+3zLv7ShY3cL2UFSK
+         vduYYG3VNHmPDH2pD6cn4FrSSmES6cvPJCgMQPDHLMi6DiUtzBjOQcpcnziLvBqOVFG6
+         ear2VZq5Z5/OX4hoZH+PRptsCwLmfla+0qKwEu0xm1CF/WV9P8gagtasuw/q6JIi3b6i
+         iWbA==
+X-Gm-Message-State: AOJu0YxFw/eC7R+tOpX6Oa1sPEsy+BpgJed6RvauaFs0pcoRecC0GCJy
+	xC9yd/wk5x/FamcxtflJQ53RYjMC1zCJbDouf0Ow7uRBajymP5dG/14K+3oAwivqZTbghKj/yZU
+	P95Ki7Q==
+X-Google-Smtp-Source: AGHT+IFvFOz9Dy9I4OocCVniSIUsnwXpKBtwwIEJjQ3GHhwDB+DACNZW+ROhAnaUQE2b/NBY6s2eBg==
+X-Received: by 2002:a05:6a00:85a3:b0:70d:2a1b:422c with SMTP id d2e1a72fcca58-7106da29926mr14565827b3a.7.1722791376352;
+        Sun, 04 Aug 2024 10:09:36 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.39
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec269d2sm4293225b3a.17.2024.08.04.10.09.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 10:09:40 -0700 (PDT)
+        Sun, 04 Aug 2024 10:09:36 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/18] create-spdx-3.0/populate_sdk_base: Add SDK_CLASSES inherit mechanism to fix tarball SPDX manifests
-Date: Sun,  4 Aug 2024 10:09:13 -0700
-Message-Id: <95660951a09e2a3fe63eb1017ad8f1d7fc9cd503.1722790925.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/18] package.py: Fix static library processing
+Date: Sun,  4 Aug 2024 10:09:10 -0700
+Message-Id: <c2809691992dab48a360c9516d205ec031378cda.1722790925.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1722790925.git.steve@sakoman.com>
 References: <cover.1722790925.git.steve@sakoman.com>
@@ -61,78 +61,132 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:09:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202969
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 17:09:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202966
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Mark Hatle <mark.hatle@amd.com>
 
-Currently, "tarball" sdk based recipes don't generate SPDX manifests as they
-don't include the rootfs generation classes. Split the SPDX 3.0 image class into
-two so the SDK components can be included where needed.
+When PACKAGE_STRIP_STATIC is enabled the system did not pay attention to
+hardlinks.  This could trigger a race condition during stripping of static
+libraries where multiple strips (through hardlinks) could run at the same
+time triggering a truncated or modified file error.
 
-To do this, introduce an SDK_CLASSES variable similar to IMAGE_CLASSES which
-the SDK code can use.
+The hardlink breaking code is based on the existing code for elf files, but
+due to the nature of the symlinks needed to be done in a separate block of
+code.
 
-Migrate testsdk usage to this.
+Add support for static-library debugfs hardlinking through the existing
+inode processing code.
 
-Also move the image/sdk spdx classes to classes-recipe rather than the general classes
-directory since they'd never be included on a global level.
+Print a note to the logs if the link target can't be found.  This isn't
+strictly an error, but may be useful for debugging an issue where a file
+isn't present.
 
-For buildtools-tarball, it has its own testsdk functions so disable the class there as
-a deferred inherit would overwrite it.
-
+Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-(cherry picked from commit 662396533177b72cc1d83e95841b27f7e42dcb20)
-
-Eliminate spdx-3.0 items, not applicable to Scarthgap.
-
+(cherry picked from commit ff371d69f60a1529ed456acb7d8e9305242e74bd)
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/populate_sdk_base.bbclass | 3 +++
- meta/classes-recipe/testimage.bbclass         | 2 --
- meta/recipes-core/meta/buildtools-tarball.bb  | 3 +++
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ meta/lib/oe/package.py | 56 +++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 47 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 6cb43ade30..a103e7b738 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -4,6 +4,9 @@
- # SPDX-License-Identifier: MIT
- #
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index ffe5a2157b..af0923a63f 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1065,6 +1065,7 @@ def process_split_and_strip_files(d):
+             d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
+         checkelf = {}
+         checkelflinks = {}
++        checkstatic = {}
+         for root, dirs, files in cpath.walk(dvar):
+             for f in files:
+                 file = os.path.join(root, f)
+@@ -1078,10 +1079,6 @@ def process_split_and_strip_files(d):
+                 if file in skipfiles:
+                     continue
  
-+SDK_CLASSES += "${@bb.utils.contains("IMAGE_CLASSES", "testimage", "testsdk", "", d)}"
-+inherit_defer ${SDK_CLASSES}
-+
- PACKAGES = ""
- 
- # This exists as an optimization for SPDX processing to only run in image and
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index ed0d87b7a7..2f68f83dfd 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -483,5 +483,3 @@ python () {
-     if oe.types.boolean(d.getVar("TESTIMAGE_AUTO") or "False"):
-         bb.build.addtask("testimage", "do_build", "do_image_complete", d)
- }
+-                if oe.package.is_static_lib(file):
+-                    staticlibs.append(file)
+-                    continue
 -
--inherit testsdk
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 92fbda335d..e2ce5b3ecf 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -112,6 +112,9 @@ INHIBIT_DEFAULT_DEPS = "1"
- # Directory in testsdk that contains testcases
- TESTSDK_CASES = "buildtools-cases"
- 
-+# We have our own code, avoid deferred inherit
-+SDK_CLASSES:remove = "testsdk"
+                 try:
+                     ltarget = cpath.realpath(file, dvar, False)
+                     s = cpath.lstat(ltarget)
+@@ -1093,6 +1090,13 @@ def process_split_and_strip_files(d):
+                     continue
+                 if not s:
+                     continue
 +
- python do_testsdk() {
-     import oeqa.sdk.testsdk
-     testsdk = oeqa.sdk.testsdk.TestSDK()
++                if oe.package.is_static_lib(file):
++                    # Use a reference of device ID and inode number to identify files
++                    file_reference = "%d_%d" % (s.st_dev, s.st_ino)
++                    checkstatic[file] = (file, file_reference)
++                    continue
++
+                 # Check its an executable
+                 if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) \
+                         or (s[stat.ST_MODE] & stat.S_IXOTH) \
+@@ -1157,6 +1161,27 @@ def process_split_and_strip_files(d):
+                 # Modified the file so clear the cache
+                 cpath.updatecache(file)
+ 
++        # Do the same hardlink processing as above, but for static libraries
++        results = list(checkstatic.keys())
++
++        # As above, sort the results.
++        results.sort(key=lambda x: x[0])
++
++        for file in results:
++            # Use a reference of device ID and inode number to identify files
++            file_reference = checkstatic[file][1]
++            if file_reference in inodes:
++                os.unlink(file)
++                os.link(inodes[file_reference][0], file)
++                inodes[file_reference].append(file)
++            else:
++                inodes[file_reference] = [file]
++                # break hardlink
++                bb.utils.break_hardlinks(file)
++                staticlibs.append(file)
++            # Modified the file so clear the cache
++            cpath.updatecache(file)
++
+     def strip_pkgd_prefix(f):
+         nonlocal dvar
+ 
+@@ -1195,11 +1220,24 @@ def process_split_and_strip_files(d):
+                 dest = dv["libdir"] + os.path.dirname(src) + dv["dir"] + "/" + os.path.basename(target) + dv["append"]
+                 fpath = dvar + dest
+                 ftarget = dvar + dv["libdir"] + os.path.dirname(target) + dv["dir"] + "/" + os.path.basename(target) + dv["append"]
+-                bb.utils.mkdirhier(os.path.dirname(fpath))
+-                # Only one hardlink of separated debug info file in each directory
+-                if not os.access(fpath, os.R_OK):
+-                    #bb.note("Link %s -> %s" % (fpath, ftarget))
+-                    os.link(ftarget, fpath)
++                if os.access(ftarget, os.R_OK):
++                    bb.utils.mkdirhier(os.path.dirname(fpath))
++                    # Only one hardlink of separated debug info file in each directory
++                    if not os.access(fpath, os.R_OK):
++                        #bb.note("Link %s -> %s" % (fpath, ftarget))
++                        os.link(ftarget, fpath)
++                elif (d.getVar('PACKAGE_DEBUG_STATIC_SPLIT') == '1'):
++                    deststatic = dv["staticlibdir"] + os.path.dirname(src) + dv["staticdir"] + "/" + os.path.basename(file) + dv["staticappend"]
++                    fpath = dvar + deststatic
++                    ftarget = dvar + dv["staticlibdir"] + os.path.dirname(target) + dv["staticdir"] + "/" + os.path.basename(target) + dv["staticappend"]
++                    if os.access(ftarget, os.R_OK):
++                        bb.utils.mkdirhier(os.path.dirname(fpath))
++                        # Only one hardlink of separated debug info file in each directory
++                        if not os.access(fpath, os.R_OK):
++                            #bb.note("Link %s -> %s" % (fpath, ftarget))
++                            os.link(ftarget, fpath)
++                else:
++                    bb.note("Unable to find inode link target %s" % (target))
+ 
+         # Create symlinks for all cases we were able to split symbols
+         for file in symlinks:
 -- 
 2.34.1
 
