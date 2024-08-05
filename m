@@ -1,72 +1,87 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0957FC3DA4A
-	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 15:24:08 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.10682.1722871442152866228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D360C3DA4A
+	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 15:27:48 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.10835.1722871666346371127
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Aug 2024 08:24:03 -0700
+ Mon, 05 Aug 2024 08:27:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ibEcQWvS;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20240805152359e1c879d371abdcceb6-rajiph@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20240805152359e1c879d371abdcceb6
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 05 Aug 2024 17:24:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=1FGF9QQt4b4E72+Uh+2DXeicYK7y8PhOlQ4sB0+t2T4=;
- b=ibEcQWvS+xYDz7ivb5GZzg0ttEbA5o1dXWehI/HvyULZsAXoWjFfZmCaPrwVrMaZpysNJx
- Ws9vDU2mymd4W3qzavJQ8lchZ9z+UNAYx1G0LFFKKNbC4QECcQjCZTWzd2cBkXeT9iVcn/XW
- f4EO0oPgbpHYCwEqNWcMIJAabIs+6SzKcLl/wfjag1qO2c6Np2S000rXv82qGe2UHVPK7g0n
- z+tEhIs99Ql3XHgzRG2CGZpCltSIF0wfnqgc6Nx8Q1f75vBsV1SCUDPluVoIf7sB93uCwTci
- EiSsyWvCRTuzwb5i4kMdfD7tRAIJBFOZVrB1u0T5ySXG054Km3dkPjGQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][scarthgap][PATCH] libmnl: explicitly disable doxygen
-Date: Mon,  5 Aug 2024 17:23:09 +0200
-Message-Id: <20240805152309.8766-1-peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eVaMuL51;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.171, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ef27bfd15bso131296371fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 08:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1722871664; x=1723476464; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NOW9CvqTfwdTFHjz9p5aU96BRKSyhjGiT5r8/Wx4THM=;
+        b=eVaMuL51oX8J7NoCKUkdX7nkUqR13nDLXphAZ0lIoOUw0mC8JXEy0jktDXNdn5BuYe
+         QkunazbnNAkDf5PPdstdMFqfUzXdb1vfNigbh6UPK/gVVarx2nwvMw36TYc8xtRBZ9D1
+         B8e1XtDuxao4VqwzA3oyw7vjJrlrDOzkD/NG4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722871664; x=1723476464;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NOW9CvqTfwdTFHjz9p5aU96BRKSyhjGiT5r8/Wx4THM=;
+        b=wVZKMq0aPyQqNIEF1TeOZD8V2dHRTQMG2ngbozC5QtXsCpslhHC5dMsEIf0BJa2eFj
+         8r1NrYVQdYQtvYsWahkt1IEl9yV2RXgdscGSi/2b+4uxBv/xVwB4sT9764gWujD6BKbp
+         j0FDGzQidenqpHdPeGQSQbv9Gee+61EDNfz+vKUbtlqqfxbasagz6loBxKIzJHVfDaoJ
+         NEySjuNzb/1qjnOG3ip3b3geKO0rW4hNM4ThaLj/Hh0h6m/UDD4kEa5eSaDr/mW+6GV5
+         X8msFOze2yrAU7nCPfPPqRQ8p01v/64E4fxSApAq7xU1AL6bVFjKbYVf1dcJzdutH1Jx
+         I74w==
+X-Forwarded-Encrypted: i=1; AJvYcCWy0GF0Py5IIgyaoQwkWSgh3JUtljJmY4/CrgcczI7508dOhi3IpzTinNAnSurDcDOh3+j6JfezwIveHYvKKkMoODczURuJLGZh9DO81jaYkSQ3WVZ/4GEy
+X-Gm-Message-State: AOJu0Yx/hwabfbWAMZTPuH5V3VJz1RQaLo3rHoWjDUduVLJLODMDo/Rm
+	2PcnWBmSdfUIeHmESIa+Lh6sFDzQbfwS7x0ZZMSjgC+ldZlvOl8VTr+c9Rqbc2Y=
+X-Google-Smtp-Source: AGHT+IHtxBu35sHqvrCl8E6hmv5MMyt3sn9B8YTYpMsSDUgSxwdSqAJBOfZKxsFvZjkbBERrD6xnxg==
+X-Received: by 2002:a2e:9dc8:0:b0:2ef:3347:ee93 with SMTP id 38308e7fff4ca-2f15ab39668mr87383791fa.44.1722871664241;
+        Mon, 05 Aug 2024 08:27:44 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7? ([2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6e7dd9esm142558195e9.30.2024.08.05.08.27.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Aug 2024 08:27:43 -0700 (PDT)
+Message-ID: <9fe86c0b0106479e2247153f2be035547239d892.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Expired certificate https://git.openembedded.org/
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: reatmon@ti.com, peter.marko@siemens.com, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Mon, 05 Aug 2024 16:27:43 +0100
+In-Reply-To: <b2e11089-48f4-4f8e-878d-303f295af0ac@ti.com>
+References: 
+	<AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+	 <b2e11089-48f4-4f8e-878d-303f295af0ac@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 15:24:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202999
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 15:27:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203000
 
-From: Peter Marko <peter.marko@siemens.com>
+On Mon, 2024-08-05 at 09:57 -0500, Ryan Eatmon via
+lists.openembedded.org wrote:
+>=20
+> I've noticed it.=C2=A0 I can no longer do a git clone from=20
+> git.openembedded.org over https.=C2=A0 Can we get this fixed ASAP?
+>=20
+>=20
+> On 8/5/2024 8:15 AM, Peter Marko via lists.openembedded.org wrote:
+> > In case no one noticed yet, the certificate expired an hour ago, so
+> > the=20
+> > repositories can=E2=80=99t be viewed in a browser=E2=80=A6
 
-libmnl autoconf autodetects doxygen to generate manpages.
-If doxygen is provided via hosttools, the build fails.
-Also until now manpages were not needed.
-So explicitly disable doxygen in configure step.
+This has now been resolved as has the underlying issue with stopped it
+being updated automatically. Thanks Michael!
 
-(From OE-Core rev: 8d7bbf4d6936d831e341e9443a6b3711be09c7ab)
+Cheers,
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-extended/libmnl/libmnl_1.0.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-extended/libmnl/libmnl_1.0.5.bb b/meta/recipes-extended/libmnl/libmnl_1.0.5.bb
-index 748326c0a0..66b30d7f60 100644
---- a/meta/recipes-extended/libmnl/libmnl_1.0.5.bb
-+++ b/meta/recipes-extended/libmnl/libmnl_1.0.5.bb
-@@ -11,4 +11,6 @@ SRC_URI[sha256sum] = "274b9b919ef3152bfb3da3a13c950dd60d6e2bcd54230ffeca298d03b4
- 
- inherit autotools pkgconfig
- 
-+EXTRA_OECONF += "--with-doxygen=no"
-+
- BBCLASSEXTEND = "native"
--- 
-2.30.2
-
+Richard
 
