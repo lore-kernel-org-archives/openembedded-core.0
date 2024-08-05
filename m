@@ -1,68 +1,335 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463EEC3DA64
-	for <webhook@archiver.kernel.org>; Sun,  4 Aug 2024 21:43:14 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.35081.1722807789871466002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0B9C3DA64
+	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 01:49:55 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.38593.1722822585872017621
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Aug 2024 14:43:10 -0700
+ Sun, 04 Aug 2024 18:49:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=fENB5hh/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20240804214306a42f2b99ed64c9f301-iz4pge@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20240804214306a42f2b99ed64c9f301
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 04 Aug 2024 23:43:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=f9jksnbRfnCNN98dJkUl0Hi5URpwIbIXYrEYfjKKwJA=;
- b=fENB5hh/IIKpqb8j5PjSJrtfWelPuVsE3nHnju7xcsS7PrJx3W7xyZHXOZk6BPMnLtXvwT
- QSTzeriFEC5K2gF39DsUFB4z5BDVZO5MyPp6eNX8lbaLSNUtxrttajwOv7bKCHWMt1Umo38G
- 3Ginra9sArfEi2P/cxBPXA/y91NKiR0tyEgIW4xIxO7pEV9qYPXCZ1EjB9vhU+C9SVhAVnWG
- /VDGZKFfrFeR8/0v0d5c3iUYmp23ozMBKL/GY3Ojgo1f3UiYD+rqf/PQhGykbuAJdM+GZoj+
- jkWu4a+P4NWsWppmHsnBeOmFRM+rC34KurUXL7VKKf5aEVOeI9SNwcFg==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] libmnl: explicitly disable doxygen
-Date: Sun,  4 Aug 2024 23:42:18 +0200
-Message-Id: <20240804214218.1666876-1-peter.marko@siemens.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=NbEERKrZ;
+ spf=pass (domain: mvista.com, ip: 209.85.208.170, mailfrom: vanusuri@mvista.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ef2fccca2cso113447781fa.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 18:49:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1722822584; x=1723427384; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=V4dWO2piwmyd8ZG4/BQ07A1Xi6BubLcq7EDwp12u9XI=;
+        b=NbEERKrZQ42Ojj1gHEXJ+4wgQ/8+so8gpcXhMbeOSID8MlomTkqJnbIo5BZZT5z1CA
+         vyLZzWCZStMlLSoJsCbcvr+fHpUiI5GtrJ09c+dGByJIYrj5PT7HW23aI8HcZaAjVqjj
+         APbTy75NbMnnHfHB9Sf/V2YKhAfnQO59lIL40=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722822584; x=1723427384;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V4dWO2piwmyd8ZG4/BQ07A1Xi6BubLcq7EDwp12u9XI=;
+        b=aEss4bV5h91YpD/mX5LB6nJ5mM8Tob/d73PNDnosL3m6QWW34srk2rgWkw72HZ4dqv
+         +evLsDOyF2oH6cYgwlHfCriAAylo+LiZyieSiWu3Tg+9QhtoqmNwHahVKsNcs/Et1ldG
+         wufkFSQ3slamZt1UmZSW61LBM7AmpCJMfyP7floyM/87NmG9Mf1n01uP3Mae8c7rfLLB
+         qpFwxSI0Fo083qUnIMeqn1jbJ9mdUWMTSaeswCNLP7sW6OOxQuVuB7KrHvwJZ7ESBhir
+         jTv245WyXI7p5AJSVLvAWcwzKsq7KrP/sw35IRUTdhdhTADkkZ+GnC8Xx3UR9xOn+d4H
+         1Omw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdX4c8QACstBpGW1bjflAfEdpbZkoHRnOHCbBFa+bABvmtPwcIhHMP/dalWLnxz/MjjF8Ka44jG5MKjde7j+Fjioc9M4lfhyjySyUZz5/UYL6SafborAFK
+X-Gm-Message-State: AOJu0YxbYTY4/di/aqLtgsV0q5sJLZ46Ql38B75dzE9r64Mpx1wVPuvo
+	Qrp8MrWFx9nsEd1sxhjs1HSVdDMjXfZpEL4E68QfVeYb/WsFYEEaUyjD1XF1hMEZ9JxACfjM7BH
+	gjTOXiB+NS4Ns1XaVf6agYM6tZwCO0qM0It0UQQ==
+X-Google-Smtp-Source: AGHT+IFin4PHc4Lkz3lmqp3MJEirpugEyKop+P8EArgxc1ceWRLJr70jBKLjxR+s9BTbQtMd1N0PEj8qU5PevPVCb1k=
+X-Received: by 2002:a2e:9d8a:0:b0:2ec:5c94:3d99 with SMTP id
+ 38308e7fff4ca-2f15aa8340cmr69003941fa.2.1722822583529; Sun, 04 Aug 2024
+ 18:49:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20240730101039.1757198-1-vanusuri@mvista.com> <CAOSpxdY3A+q1sPGWDyDiNQ5kf74yjQ=8fFs=YBubYVyA+ZfycA@mail.gmail.com>
+ <17E73227D576A615.20637@lists.openembedded.org>
+In-Reply-To: <17E73227D576A615.20637@lists.openembedded.org>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Mon, 5 Aug 2024 07:19:31 +0530
+Message-ID: <CANQUz1-366gK8ew+pagEEoy9eReKtUH6Kv-=jXThAiVKffG+Eg@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] orc: upgrade 0.4.38 -> 0.4.39
+To: vanusuri@mvista.com
+Cc: Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000001a4e70061ee5e4d1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Aug 2024 21:43:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202980
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 01:49:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202981
 
-From: Peter Marko <peter.marko@siemens.com>
+--0000000000001a4e70061ee5e4d1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-libmnl autoconf autodetects doxygen to generate manpages.
-If doxygen is provided via hosttools, the build fails.
-Also until now manpages were not needed.
-So explicitly disable doxygen in configure step.
+Hi Steve,
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-extended/libmnl/libmnl_1.0.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+As patch hits the master, could you please sync / merge this patch to
+scarthgap.
 
-diff --git a/meta/recipes-extended/libmnl/libmnl_1.0.5.bb b/meta/recipes-extended/libmnl/libmnl_1.0.5.bb
-index 748326c0a0..66b30d7f60 100644
---- a/meta/recipes-extended/libmnl/libmnl_1.0.5.bb
-+++ b/meta/recipes-extended/libmnl/libmnl_1.0.5.bb
-@@ -11,4 +11,6 @@ SRC_URI[sha256sum] = "274b9b919ef3152bfb3da3a13c950dd60d6e2bcd54230ffeca298d03b4
- 
- inherit autotools pkgconfig
- 
-+EXTRA_OECONF += "--with-doxygen=no"
-+
- BBCLASSEXTEND = "native"
--- 
-2.30.2
+https://git.openembedded.org/openembedded-core/commit/?id=3Dbcbaaa9f7d88686=
+915c354fb66682cbe9b1d0536
 
+Thanks & Regards,
+Vijay
+
+
+
+On Wed, Jul 31, 2024 at 10:05=E2=80=AFAM Vijay Anusuri via lists.openembedd=
+ed.org
+<vanusuri=3Dmvista.com@lists.openembedded.org> wrote:
+
+> Ok Steve.
+>
+> Patch for master has already been submitted.
+>
+> https://lists.openembedded.org/g/openembedded-core/message/202585
+>
+> Thanks & Regards,
+> Vijay
+>
+> On Tue, Jul 30, 2024 at 7:47=E2=80=AFPM Steve Sakoman <steve@sakoman.com>=
+ wrote:
+>
+>>  I won't be able to take this patch until it hits master first.
+>>
+>> Steve
+>>
+>> On Tue, Jul 30, 2024 at 3:10=E2=80=AFAM Vijay Anusuri via
+>> lists.openembedded.org <vanusuri=3Dmvista.com@lists.openembedded.org>
+>> wrote:
+>> >
+>> > From: Vijay Anusuri <vanusuri@mvista.com>
+>> >
+>> > Changelog:
+>> >
+>> > - Security: Fix error message printing buffer overflow leading to
+>> possible
+>> >   code executation in orcc with specific input files (CVE-2024-40897).
+>> This
+>> >   only affects developers and CI environments using orcc, not users of
+>> liborc
+>> >   (Sebastian Dr=C3=B6ge, L. E. Segovia)
+>> > - div255w: fix off-by-one error in the implementations (L. E. Segovia)
+>> > - x86: only run AVX detection if xgetbv is available (L. E. Segovia)
+>> > - x86: fix AVX detection by implementing the check recommended by Inte=
+l
+>> (L. E. Segovia)
+>> > - Only enable JIT compilation on Apple arm64 if running on macOS, fixe=
+s
+>> crashes on iOS (Piotr Brzezi=C5=84ski)
+>> > - Fix potential crash in emulation mode if logging is enabled (L. E.
+>> Segovia)
+>> > - Handle undefined TARGET_OS_OSX correctly (Joshua Root)
+>> > - orconce: Fix typo in GCC __sync-based implementation (Jakub Van=C4=
+=9Bk)
+>> > - orconce: Fix usage of __STDC_NO_ATOMICS__ (Alexander Slobodeniuk)
+>> > - Fix build with MSVC 17.10 + C11 (L. E. Segovia)
+>> > - Support stack unwinding on Windows (L. E. Segovia)
+>> > - Major opcode and instruction set code clean-ups and refactoring
+>> (Jorge Zapata)
+>> > - Refactor allocation and chunk initialization of code regions (L. E.
+>> Segovia)
+>> > - Fall back to emulation on Linux if JIT support is not available,
+>> >   e.g. because of SELinux sandboxing or noexec mounting) (L. E. Segovi=
+a)
+>> >
+>> > Ref: https://github.com/GStreamer/orc/blob/0.4.39/RELEASE
+>> >
+>> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+>> > ---
+>> >  meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb} | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >  rename meta/recipes-devtools/orc/{orc_0.4.38.bb =3D> orc_0.4.39.bb}
+>> (92%)
+>> >
+>> > diff --git a/meta/recipes-devtools/orc/orc_0.4.38.bb
+>> b/meta/recipes-devtools/orc/orc_0.4.39.bb
+>> > similarity index 92%
+>> > rename from meta/recipes-devtools/orc/orc_0.4.38.bb
+>> > rename to meta/recipes-devtools/orc/orc_0.4.39.bb
+>> > index 5d2296694a..320abf536a 100644
+>> > --- a/meta/recipes-devtools/orc/orc_0.4.38.bb
+>> > +++ b/meta/recipes-devtools/orc/orc_0.4.39.bb
+>> > @@ -5,7 +5,7 @@ LICENSE =3D "BSD-2-Clause & BSD-3-Clause"
+>> >  LIC_FILES_CHKSUM =3D
+>> "file://COPYING;md5=3D1400bd9d09e8af56b9ec982b3d85797e"
+>> >
+>> >  SRC_URI =3D "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.x=
+z"
+>> > -SRC_URI[sha256sum] =3D
+>> "a55a98d4772567aa3faed8fb84d540c3db77eaba16d3e2e10b044fbc9228668d"
+>> > +SRC_URI[sha256sum] =3D
+>> "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad085ae51143d3040cc0"
+>> >
+>> >  inherit meson pkgconfig gtk-doc
+>> >
+>> > --
+>> > 2.25.1
+>> >
+>> >
+>> >
+>> >
+>>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202689):
+> https://lists.openembedded.org/g/openembedded-core/message/202689
+> Mute This Topic: https://lists.openembedded.org/mt/107625073/7301997
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> vanusuri@mvista.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000001a4e70061ee5e4d1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div>Hi Steve,<br><br></div>As patch hits the master,=
+ could you please sync / merge this patch to scarthgap.<br><br><a href=3D"h=
+ttps://git.openembedded.org/openembedded-core/commit/?id=3Dbcbaaa9f7d886869=
+15c354fb66682cbe9b1d0536">https://git.openembedded.org/openembedded-core/co=
+mmit/?id=3Dbcbaaa9f7d88686915c354fb66682cbe9b1d0536</a><br><br></div><div>T=
+hanks &amp; Regards,</div><div>Vijay<br></div><div><br><br></div></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Ju=
+l 31, 2024 at 10:05=E2=80=AFAM Vijay Anusuri via <a href=3D"http://lists.op=
+enembedded.org">lists.openembedded.org</a> &lt;vanusuri=3D<a href=3D"mailto=
+:mvista.com@lists.openembedded.org">mvista.com@lists.openembedded.org</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"ltr"><div><div>Ok Steve.<br><br></div>Patch for master has already be=
+en submitted.<br><br><a href=3D"https://lists.openembedded.org/g/openembedd=
+ed-core/message/202585" target=3D"_blank">https://lists.openembedded.org/g/=
+openembedded-core/message/202585</a><br><br></div><div>Thanks &amp; Regards=
+,</div><div>Vijay<br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Tue, Jul 30, 2024 at 7:47=E2=80=AFPM Steve Sa=
+koman &lt;<a href=3D"mailto:steve@sakoman.com" target=3D"_blank">steve@sako=
+man.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">=C2=A0I won&#39;t be able to take this patch until it hits master fi=
+rst.<br>
+<br>
+Steve<br>
+<br>
+On Tue, Jul 30, 2024 at 3:10=E2=80=AFAM Vijay Anusuri via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;vanusuri=3D<a href=3D"mailto:mvista.com@=
+lists.openembedded.org" target=3D"_blank">mvista.com@lists.openembedded.org=
+</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
+=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;<br>
+&gt; Changelog:<br>
+&gt;<br>
+&gt; - Security: Fix error message printing buffer overflow leading to poss=
+ible<br>
+&gt;=C2=A0 =C2=A0code executation in orcc with specific input files (CVE-20=
+24-40897). This<br>
+&gt;=C2=A0 =C2=A0only affects developers and CI environments using orcc, no=
+t users of liborc<br>
+&gt;=C2=A0 =C2=A0(Sebastian Dr=C3=B6ge, L. E. Segovia)<br>
+&gt; - div255w: fix off-by-one error in the implementations (L. E. Segovia)=
+<br>
+&gt; - x86: only run AVX detection if xgetbv is available (L. E. Segovia)<b=
+r>
+&gt; - x86: fix AVX detection by implementing the check recommended by Inte=
+l (L. E. Segovia)<br>
+&gt; - Only enable JIT compilation on Apple arm64 if running on macOS, fixe=
+s crashes on iOS (Piotr Brzezi=C5=84ski)<br>
+&gt; - Fix potential crash in emulation mode if logging is enabled (L. E. S=
+egovia)<br>
+&gt; - Handle undefined TARGET_OS_OSX correctly (Joshua Root)<br>
+&gt; - orconce: Fix typo in GCC __sync-based implementation (Jakub Van=C4=
+=9Bk)<br>
+&gt; - orconce: Fix usage of __STDC_NO_ATOMICS__ (Alexander Slobodeniuk)<br=
+>
+&gt; - Fix build with MSVC 17.10 + C11 (L. E. Segovia)<br>
+&gt; - Support stack unwinding on Windows (L. E. Segovia)<br>
+&gt; - Major opcode and instruction set code clean-ups and refactoring (Jor=
+ge Zapata)<br>
+&gt; - Refactor allocation and chunk initialization of code regions (L. E. =
+Segovia)<br>
+&gt; - Fall back to emulation on Linux if JIT support is not available,<br>
+&gt;=C2=A0 =C2=A0e.g. because of SELinux sandboxing or noexec mounting) (L.=
+ E. Segovia)<br>
+&gt;<br>
+&gt; Ref: <a href=3D"https://github.com/GStreamer/orc/blob/0.4.39/RELEASE" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/GStreamer/orc/blob/=
+0.4.39/RELEASE</a><br>
+&gt;<br>
+&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
+" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-devtools/orc/{<a href=3D"http://orc_0.4.38.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a> =3D&gt; <a href=3D"http=
+://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a>} |=
+ 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/orc/{<a href=3D"http://orc_0.4.38.b=
+b" rel=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a> =3D&gt; <a href=
+=3D"http://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_blank">orc_0.4.39.b=
+b</a>} (92%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.38.bb=
+" rel=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a> b/meta/recipes-dev=
+tools/orc/<a href=3D"http://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">orc_0.4.39.bb</a><br>
+&gt; similarity index 92%<br>
+&gt; rename from meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.38.bb"=
+ rel=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a><br>
+&gt; rename to meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.39.bb" r=
+el=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a><br>
+&gt; index 5d2296694a..320abf536a 100644<br>
+&gt; --- a/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.38.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.38.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.39.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a><br>
+&gt; @@ -5,7 +5,7 @@ LICENSE =3D &quot;BSD-2-Clause &amp; BSD-3-Clause&quot=
+;<br>
+&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1400bd9d09e8af56=
+b9ec982b3d85797e&quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"http://gstreamer.freedesktop.org/sr=
+c/orc/orc-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://gst=
+reamer.freedesktop.org/src/orc/orc-${PV}.tar.xz</a>&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;a55a98d4772567aa3faed8fb84d540c3db77eaba=
+16d3e2e10b044fbc9228668d&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;33ed2387f49b825fa1b9c3b0072e05f259141b89=
+5474ad085ae51143d3040cc0&quot;<br>
+&gt;<br>
+&gt;=C2=A0 inherit meson pkgconfig gtk-doc<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+</blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#202689): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/202689" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/202689</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/107625073/730=
+1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/107625073/7301997</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
+t=3D"_blank">vanusuri@mvista.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000001a4e70061ee5e4d1--
 
