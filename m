@@ -1,104 +1,69 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB7EC3DA7F
-	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 15:50:48 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.11357.1722873040276168478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24483C52D6F
+	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 16:07:18 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.11887.1722874035041413955
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Aug 2024 08:50:40 -0700
+ Mon, 05 Aug 2024 09:07:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IzWpybEA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-369c609d0c7so7499578f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 08:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722873039; x=1723477839; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BRABvSnQVK/b9+8aOx5mNBJEKRnggyxJLoprk8f1W4s=;
-        b=IzWpybEAMPVT/Rh6uwDrJyDojc7mcg6zNPgEAEFMEb7k6rMv6upIw6HLgDPm2Y1V0Y
-         N0RHn24YGTx/hqGgzEDCNW1iAFjMheI+Yki9uu9S38t0qs0+IdM+PYuOG1G4SJwe5ZHc
-         CUIDlgxMKGE6thsDibw/CQpuZFZVFpbfAq7rY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722873039; x=1723477839;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BRABvSnQVK/b9+8aOx5mNBJEKRnggyxJLoprk8f1W4s=;
-        b=K0VrzgDfHxvZbmZ0hEyyJxrSYIqH/Jfs1xH5oOja+ExIdD19/qqyfECVBH9JDvDtEP
-         jRZ4pM+8+44XFonmHdEzXkKH7dzNk045JOA3bbAYumG/cgKnyAMEvoUMr6EbUDFivXRl
-         gp9go5G9QQmwY9wjZON/gQsO0jJLPFBRM6/sCC70EkNJV7uy2uEGkm2/DfxXC1QzAxJK
-         PZD0q5rY05amg7N0sx04CIpMdKNKqqAgz0+O/bT1QPWAGV+VWd57VxOnR0RMDt+fRVbw
-         Z0Ls1C7UnGQTsExa0wK9I8S+w4VNseJU8AyVKlFXm/Vl1ShGCJ3qHGxYxfVcGzBhP4kK
-         H8Vg==
-X-Gm-Message-State: AOJu0Yxkj/Lgg+ZLBBigYKbcVslLBvBpSbmB2benDyiBF4CA8H4bbZl3
-	d7OLYalgxgZXJp5uL2AsvDqlZ9ZTxyhPN4sX1C33RZ0BcaTMjBkk3ks1KZ55Lmw=
-X-Google-Smtp-Source: AGHT+IG2IAWk3UtJWbduPp9QSoXL2WPmgzlJJS78LuOBtijncQoZ9vGQ2WmEwN4T1nh1oXIfhKY6Mw==
-X-Received: by 2002:a5d:6448:0:b0:368:420c:74ab with SMTP id ffacd0b85a97d-36bbc117aa7mr9998641f8f.28.1722873038527;
-        Mon, 05 Aug 2024 08:50:38 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7? ([2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbcf0dc9asm10152510f8f.15.2024.08.05.08.50.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 08:50:38 -0700 (PDT)
-Message-ID: <0162f8e09fb05ba123eab2987ecdf52b9340dd65.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] cve_check: Use a local copy of the
- database during builds
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 05 Aug 2024 16:50:37 +0100
-In-Reply-To: <CAApg2=TWFeTC5SML6mGhwo3dXBA_PyoJykxGfjqa=1b=JwFNfA@mail.gmail.com>
-References: <20240804130936.1339847-1-richard.purdie@linuxfoundation.org>
-	 <CAApg2=TWFeTC5SML6mGhwo3dXBA_PyoJykxGfjqa=1b=JwFNfA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Qva0hcSU;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2024080516071107335686d34e1cec4b-7odsud@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2024080516071107335686d34e1cec4b
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 05 Aug 2024 18:07:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=togI3Xgb4vGhzg8sCAmqGWrUNC6J37r6Y90zBho/Rpo=;
+ b=Qva0hcSU6hnXqUL+fPmaNpW9KQTNCHvglRWn+MiCEpuyxTbOQfL2A+bb1okE0MqjfJ6f8x
+ 4BtaFcPZG1YyOKLo9s6afbwC6jYWWBrVOD1qt9rM3UYhn/VBLtKCs9mI0I/uwqt7WPF751Ff
+ +fQWxaY1m834HgmvxawTOLRE5jYOgUAvbw4ucvOYF8eWrj0nFqxBQdQ0yPmABSuh2ZQqory2
+ 4Jzf/VI3/ZaO1/YV69nI6keCP6MCSFq5Yc7uZmKtNPWAdhLg9x5zhXWJyrCYxHzFzB4mKhJX
+ DmB7xXd4jPf5CKfD9XqpmOpVUP67vOSXd6IaRaJ8zE1Sx6IzZCtARclg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] qemu: set cve status for CVE-2023-6683
+Date: Mon,  5 Aug 2024 18:06:03 +0200
+Message-Id: <20240805160603.572306-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 15:50:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203003
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 16:07:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203004
 
-On Mon, 2024-08-05 at 17:41 +0200, Marta Rybczynska wrote:
-> On Sun, Aug 4, 2024 at 3:09=E2=80=AFPM Richard Purdie via lists.openembed=
-ded.org <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote=
-:
-> > Rtaher than trying to use a sqlite database over NFS from DL_DIR,
-> > work from
-> > a local copy in STAGING DIR after fetching.
->=20
-> I saw this patch this morning when I was nearly done with my version
-> and waiting for the fresh build to finish...
+From: Peter Marko <peter.marko@siemens.com>
 
-Sorry, I never saw an email saying you were writing the patch or a
-reply to my mail asking about it, I only wanted to try and help :(
+This CVE is fixed in v8.2.2 with v8.2.1-55-g480a6adc83
 
-> Do you plan to keep it for longer or is it for testing only? If for
-> longer, I would likely keep old variable names for cve-update-nvd2-
-> native.bb
->=20
-> Did it help with the corruption issue?
+https://github.com/qemu/qemu/commit/480a6adc83a7bbc84bfe67229e084603dc061824
 
-It is really hard to say as it is an intermittent issue. I ended up
-merging it earlier on today, partly as I wanted to get it wider
-exposure for testing to see whether it really does help or not. It will
-take time to see whether it recurs.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Regardless, operating on a local copy of the database rather than a
-shared copy in DL_DIR should help performance and avoid some sets of
-potential NFS issues.
-
-Which variable names did you want to keep? I kept the wider
-class/public names the same and only changed things within the recipe
-to try and ensure fewer compatibility issues. Happy to look at a
-different version of the patch/approach on top of mine.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e121ae70cc..b203054dc4 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -80,6 +80,8 @@ CVE_STATUS[CVE-2023-3019] = "cpe-incorrect: Applies only against versions before
+ 
+ CVE_STATUS[CVE-2023-5088] = "cpe-incorrect: Applies only against version 8.2.0 and earlier"
+ 
++CVE_STATUS[CVE-2023-6683] = "cpe-incorrect: Applies only against version 8.2.1 and earlier"
++
+ CVE_STATUS[CVE-2023-6693] = "cpe-incorrect: Applies only against version 8.2.0 and earlier"
+ 
+ COMPATIBLE_HOST:mipsarchn32 = "null"
+-- 
+2.30.2
 
 
