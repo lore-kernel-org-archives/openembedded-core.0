@@ -1,87 +1,109 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D360C3DA4A
-	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 15:27:48 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.10835.1722871666346371127
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3294CC3DA4A
+	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 15:41:58 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.11204.1722872515297629961
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Aug 2024 08:27:46 -0700
+ Mon, 05 Aug 2024 08:41:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eVaMuL51;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.171, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ef27bfd15bso131296371fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 08:27:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RjdU0qXx;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: rybczynska@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7b93883666dso874303a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 08:41:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722871664; x=1723476464; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=NOW9CvqTfwdTFHjz9p5aU96BRKSyhjGiT5r8/Wx4THM=;
-        b=eVaMuL51oX8J7NoCKUkdX7nkUqR13nDLXphAZ0lIoOUw0mC8JXEy0jktDXNdn5BuYe
-         QkunazbnNAkDf5PPdstdMFqfUzXdb1vfNigbh6UPK/gVVarx2nwvMw36TYc8xtRBZ9D1
-         B8e1XtDuxao4VqwzA3oyw7vjJrlrDOzkD/NG4=
+        d=gmail.com; s=20230601; t=1722872515; x=1723477315; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=x1WL88voNPR/GphNy7j+unYiIqod2tN+tdGppr1+r0g=;
+        b=RjdU0qXxyTzudtUuHBEYHBeB/rP9ujzu1go6TsXlsKQ0QXNJhz+GhqNhpQaG17+Q97
+         PieCoE6sxe1WtJhY4k0tgxiCSXu7iXXMMozbDqT0tetS3HeZoitZElrjfQMjPnDsIo+0
+         G9Qw07m1YjMZrmhSWr4QEmhb9g2wQDlrRWdxdOyepMMLDiMmiIbGUIfSJFFcljUSwm0j
+         L9PeIjOzElSYTKQ8+/jJ+P1HhjVuT1xxvNKonVuNVWl1KKTc6NwdarKydZDiBfPuR0zs
+         LN5m4dwLo2bU0/OZbZjBQ7vGH+3e2ZsuI3RqqhEkLMJe/pUOGbxmPDeWDzgu4E0QcrNl
+         xS6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722871664; x=1723476464;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NOW9CvqTfwdTFHjz9p5aU96BRKSyhjGiT5r8/Wx4THM=;
-        b=wVZKMq0aPyQqNIEF1TeOZD8V2dHRTQMG2ngbozC5QtXsCpslhHC5dMsEIf0BJa2eFj
-         8r1NrYVQdYQtvYsWahkt1IEl9yV2RXgdscGSi/2b+4uxBv/xVwB4sT9764gWujD6BKbp
-         j0FDGzQidenqpHdPeGQSQbv9Gee+61EDNfz+vKUbtlqqfxbasagz6loBxKIzJHVfDaoJ
-         NEySjuNzb/1qjnOG3ip3b3geKO0rW4hNM4ThaLj/Hh0h6m/UDD4kEa5eSaDr/mW+6GV5
-         X8msFOze2yrAU7nCPfPPqRQ8p01v/64E4fxSApAq7xU1AL6bVFjKbYVf1dcJzdutH1Jx
-         I74w==
-X-Forwarded-Encrypted: i=1; AJvYcCWy0GF0Py5IIgyaoQwkWSgh3JUtljJmY4/CrgcczI7508dOhi3IpzTinNAnSurDcDOh3+j6JfezwIveHYvKKkMoODczURuJLGZh9DO81jaYkSQ3WVZ/4GEy
-X-Gm-Message-State: AOJu0Yx/hwabfbWAMZTPuH5V3VJz1RQaLo3rHoWjDUduVLJLODMDo/Rm
-	2PcnWBmSdfUIeHmESIa+Lh6sFDzQbfwS7x0ZZMSjgC+ldZlvOl8VTr+c9Rqbc2Y=
-X-Google-Smtp-Source: AGHT+IHtxBu35sHqvrCl8E6hmv5MMyt3sn9B8YTYpMsSDUgSxwdSqAJBOfZKxsFvZjkbBERrD6xnxg==
-X-Received: by 2002:a2e:9dc8:0:b0:2ef:3347:ee93 with SMTP id 38308e7fff4ca-2f15ab39668mr87383791fa.44.1722871664241;
-        Mon, 05 Aug 2024 08:27:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7? ([2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6e7dd9esm142558195e9.30.2024.08.05.08.27.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 08:27:43 -0700 (PDT)
-Message-ID: <9fe86c0b0106479e2247153f2be035547239d892.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Expired certificate https://git.openembedded.org/
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: reatmon@ti.com, peter.marko@siemens.com, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Mon, 05 Aug 2024 16:27:43 +0100
-In-Reply-To: <b2e11089-48f4-4f8e-878d-303f295af0ac@ti.com>
-References: 
-	<AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-	 <b2e11089-48f4-4f8e-878d-303f295af0ac@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
+        d=1e100.net; s=20230601; t=1722872515; x=1723477315;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x1WL88voNPR/GphNy7j+unYiIqod2tN+tdGppr1+r0g=;
+        b=PzZVfUzm81EByL+ZMi2lItGnzXTpHzNxXXIq19yFeNvyUEs5BcvNGTCckWcMxrSObB
+         EE9DOK51qEzUzE+JV9MVMY0MVQwxrXNpo5oY5mlkNpCQiUImHxEHKgz4vpxNw/ftolV5
+         EGEa3GH9WQ+FeF4vlv09E35fFXrlRIFUkH6Ram2NBeywjyYJCI4JTYrhBj2qaNk5ojw5
+         LUd0Dx1/V9AN7UhVLmRsVEKhL/L6ZdHBqspH8yafxlm8bAudQMUs/GiXFvaw4cC1BKxk
+         /DIwiO9n/qRZm1Gncgz9Ubjzkh5HYs1DxXOpdFDCWRWBY8//oDQPlIEUxfBi4o7X5PvI
+         vYcA==
+X-Gm-Message-State: AOJu0YzhUl3yrXkTKT/v8ar9THkGLGWsn82p6dMprH6xcxgm5mY1Lzuu
+	whTGFTVz8iTrnep9BPDCS61RzMmEPjCuCrw9S2A2y7Gtj0iup6t8vU98lKVWGO3wIkOa6aujRQL
+	ppxzhDic7wlKug6fmq5pXhBb2l5s=
+X-Google-Smtp-Source: AGHT+IFm6HmfMaugmNnUG03UMZR1e2Sk6zZXxMugqMWh2eDBoZfn3DkS8C1diV+ckRbRoWSFx3ZMRzjrQt7jsa2HHow=
+X-Received: by 2002:a17:903:230b:b0:1fc:253b:5951 with SMTP id
+ d9443c01a7336-1ff523eef14mr216929035ad.4.1722872514481; Mon, 05 Aug 2024
+ 08:41:54 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240804130936.1339847-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20240804130936.1339847-1-richard.purdie@linuxfoundation.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Mon, 5 Aug 2024 17:41:43 +0200
+Message-ID: <CAApg2=TWFeTC5SML6mGhwo3dXBA_PyoJykxGfjqa=1b=JwFNfA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] cve_check: Use a local copy of the database
+ during builds
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000003819d0061ef18434"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 15:27:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203000
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 15:41:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203001
 
-On Mon, 2024-08-05 at 09:57 -0500, Ryan Eatmon via
-lists.openembedded.org wrote:
->=20
-> I've noticed it.=C2=A0 I can no longer do a git clone from=20
-> git.openembedded.org over https.=C2=A0 Can we get this fixed ASAP?
->=20
->=20
-> On 8/5/2024 8:15 AM, Peter Marko via lists.openembedded.org wrote:
-> > In case no one noticed yet, the certificate expired an hour ago, so
-> > the=20
-> > repositories can=E2=80=99t be viewed in a browser=E2=80=A6
+--0000000000003819d0061ef18434
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This has now been resolved as has the underlying issue with stopped it
-being updated automatically. Thanks Michael!
+On Sun, Aug 4, 2024 at 3:09=E2=80=AFPM Richard Purdie via lists.openembedde=
+d.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
 
-Cheers,
+> Rtaher than trying to use a sqlite database over NFS from DL_DIR, work fr=
+om
+> a local copy in STAGING DIR after fetching.
+>
 
-Richard
+I saw this patch this morning when I was nearly done with my version and
+waiting for the fresh build to finish...
+
+Do you plan to keep it for longer or is it for testing only? If for longer,
+I would likely keep old variable names for cve-update-nvd2-native.bb
+
+Did it help with the corruption issue?
+
+Kind regards,
+Marta
+
+--0000000000003819d0061ef18434
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Aug 4, 2024 at 3:09=E2=80=AFP=
+M Richard Purdie via <a href=3D"http://lists.openembedded.org">lists.openem=
+bedded.org</a> &lt;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@l=
+ists.openembedded.org">linuxfoundation.org@lists.openembedded.org</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Rtaher tha=
+n trying to use a sqlite database over NFS from DL_DIR, work from<br>
+a local copy in STAGING DIR after fetching.<br></blockquote><div><br></div>=
+<div>I saw this patch this morning when I was nearly done with my version a=
+nd waiting for the fresh build to finish...</div><div><br></div><div>Do you=
+ plan to keep it for longer or is it for testing only? If for longer, I wou=
+ld likely keep old variable names for <a href=3D"http://cve-update-nvd2-nat=
+ive.bb" rel=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a><=
+/div><div><br></div><div>Did it help with the corruption issue?<br></div><d=
+iv><br></div><div>Kind regards,</div><div>Marta<br></div></div></div>
+
+--0000000000003819d0061ef18434--
 
