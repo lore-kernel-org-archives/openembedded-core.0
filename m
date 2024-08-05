@@ -1,87 +1,90 @@
-Return-Path: <spencercw@gmail.com>
+Return-Path: <reatmon@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E39DBC3DA7F
-	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 14:57:17 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.9998.1722869827763775992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD4FC3DA7F
+	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 14:57:47 +0000 (UTC)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by mx.groups.io with SMTP id smtpd.web11.9996.1722869866529137275
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Aug 2024 07:57:08 -0700
+ Mon, 05 Aug 2024 07:57:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=abUoZg6/;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: spencercw@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4266f3e0df8so69552765e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 07:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722869826; x=1723474626; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h2ptfwJOWJXgw4HYwjLGbGQhIq9aIzcluWZmcUC9Y38=;
-        b=abUoZg6/7ZU5C3gDdaZY1uKZjU8M2tZ8SBPIDYsyW3qOJSVJI3L3ntVQbPp42art8B
-         9nxuLq1mEPxrOMgOXMN9bOHjFUh/z2/EzlweJrkwHQU5EA5UibRZxMejdT3DH6vzHJ2n
-         qbn4y0W4Ercwti0a4WBcaJ44J7fibpnGdaID15uJMflDFBWMk+4IcbV3yztvV42RqqI1
-         AnZJQYaA8A2PGC6+IWyUEY7l8629R4E8XRezZ20xnpWdelIOV5jcBM8hc5rQlep3B05F
-         BMXJiPbFRhsZIIaJARhdxx+t/mxna5/COAv0YNuI7PpdLuTJyjQ8D9JnYO9vIzU4bdCQ
-         TY0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722869826; x=1723474626;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h2ptfwJOWJXgw4HYwjLGbGQhIq9aIzcluWZmcUC9Y38=;
-        b=XfuZVSG1QcR2bMKZ6c4/CLDvivw6mGWgdoCNDL9UeMD6V9b2ErC03gemrfoHC3FPSO
-         kytgTycXVQcmLPAvuLxJ+KYuZbAWfzn+rpfUrbvgeczbPyJBhCZgMD5duS37oSn/Ym85
-         ET/aIsNw4uhtrzPvEXD9M3prJouh1J8eMLVhXkHgnfC6Hms8x4mRW/bt75z1oHbVU1nb
-         KGWh05v/mjpdEdmQcwGN/fCLe65ucizor2lRktZYcYi3dzWvKe+dWgTQ1qBEWEruec5b
-         8O9frfldmWsaESX+hgH5ONk2TCbx/+NRbeZq8D9cIUXaXb+VjewqPDrJFuSkKQDDhAE5
-         Dm4w==
-X-Gm-Message-State: AOJu0YzNEZp8RuPree296AR4UR6T1vbXRBNF8PaBDU9hygMmmKBirzhV
-	xHCiN2qhWNA1lPZcHBRrvrjRZBCkBWQ3MOsLEcE1tdt4OdLs3hvEKfz7zzSr
-X-Google-Smtp-Source: AGHT+IHLGYny68e4Cf3TzrKwDVHSD1vnOwBWFkCFoUOUNY0x47eI65P+uj5+mn+D05gUOqWVk46Qvg==
-X-Received: by 2002:a05:600c:3585:b0:426:6945:75b8 with SMTP id 5b1f17b1804b1-428e6b93fcbmr79241205e9.31.1722869825910;
-        Mon, 05 Aug 2024 07:57:05 -0700 (PDT)
-Received: from chrispc.tailb45b3.ts.net ([87.74.75.151])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbcf0dc9asm10013386f8f.15.2024.08.05.07.57.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 07:57:05 -0700 (PDT)
-From: Chris Spencer <spencercw@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Chris Spencer <spencercw@gmail.com>
-Subject: [PATCH] cargo_common.bbclass: Support git repos with submodules
-Date: Mon,  5 Aug 2024 15:56:39 +0100
-Message-ID: <20240805145639.764677-1-spencercw@gmail.com>
-X-Mailer: git-send-email 2.45.2
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=hwpjuwfI;
+ spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: reatmon@ti.com)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 475EvjMq072335;
+	Mon, 5 Aug 2024 09:57:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1722869865;
+	bh=aKz1dJIZI3JrC99ViHNQk2snB7t5ndSqJvEGDyT1QIE=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=hwpjuwfIsb818jCpEIrHVXVef1VYHTZpLj/td7ls4hv3o1SGADqci2MMsanFeZzLC
+	 WBHS1UNNk9noE9+ccOmW2HSUNNFcV50rn+1l6o+vQSRquMWBjK9vSPEiqzG6EQc87+
+	 ZHk35y2rpLUny4VPwBU878zqhV72vcWA9y5wsyqI=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 475EvjYT102607
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 5 Aug 2024 09:57:45 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 5
+ Aug 2024 09:57:39 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 5 Aug 2024 09:57:39 -0500
+Received: from [10.249.36.103] ([10.249.36.103])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 475EvdYK007454;
+	Mon, 5 Aug 2024 09:57:39 -0500
+Message-ID: <b2e11089-48f4-4f8e-878d-303f295af0ac@ti.com>
+Date: Mon, 5 Aug 2024 09:57:39 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] Expired certificate https://git.openembedded.org/
+To: <peter.marko@siemens.com>,
+        "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Ryan Eatmon <reatmon@ti.com>
+In-Reply-To: <AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by fllv0016.ext.ti.com id 475EvjMq072335
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 14:57:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202994
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 14:57:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/202995
 
-This is useful for cargo dependencies specified as git repositories, where
-those repositories themselves have submodules that need to be checked out.
 
-Signed-off-by: Chris Spencer <spencercw@gmail.com>
----
- meta/classes-recipe/cargo_common.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've noticed it.  I can no longer do a git clone from=20
+git.openembedded.org over https.  Can we get this fixed ASAP?
 
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index 2386cc3d77..c528ae7f39 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -142,7 +142,7 @@ python cargo_common_do_patch_paths() {
-     fetcher = bb.fetch2.Fetch(src_uri, d)
-     for url in fetcher.urls:
-         ud = fetcher.ud[url]
--        if ud.type == 'git':
-+        if ud.type == 'git' or ud.type == 'gitsm':
-             name = ud.parm.get('name')
-             destsuffix = ud.parm.get('destsuffix')
-             if name is not None and destsuffix is not None:
--- 
-2.45.2
 
+On 8/5/2024 8:15 AM, Peter Marko via lists.openembedded.org wrote:
+> In case no one noticed yet, the certificate expired an hour ago, so the=
+=20
+> repositories can=E2=80=99t be viewed in a browser=E2=80=A6
+>=20
+> Peter
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202992): https://lists.openembedded.org/g/openembed=
+ded-core/message/202992
+> Mute This Topic: https://lists.openembedded.org/mt/107731343/6551054
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+reatmon@ti.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
+--=20
+Ryan Eatmon                reatmon@ti.com
+-----------------------------------------
+Texas Instruments, Inc.  -  LCPD  -  MGTS
 
