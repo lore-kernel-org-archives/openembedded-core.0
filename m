@@ -1,119 +1,115 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <jaeyoon.jung@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA4F1C52D6F
-	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 11:06:59 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.4839.1722942413182452365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D93C52D6F
+	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 12:06:00 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by mx.groups.io with SMTP id smtpd.web10.5668.1722945954901323017
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Aug 2024 04:06:53 -0700
+ Tue, 06 Aug 2024 05:05:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ElgNXm39;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 225CAE0004;
-	Tue,  6 Aug 2024 11:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1722942411;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J4eQuCpLxK5t7bByipaYKPTtMEapYg+pH3Yx/pCQFec=;
-	b=ElgNXm39OAoyu40Ec2IjYoBy5xiTOu6xZaygEROArpkGEmoCyD6fwLSgvEKpRuo7buyXA9
-	W6OSqurmI/S2e9wif8emvAoCWdJgatY/J0LG0vd5HRlcWjvtPZ+eHt7t1lBkHyhi+NApDr
-	SN4jQ2ep0f8wWN3yiTLC6+FoAPUnczywE2VWWBl+CmoTYbRhXnIZ4Fwc91nkEeTigXqY7O
-	7x9v8n94DUH4AHzX3y51v0sjvhJ76M12rXQdsArxCrpCtZi6lAE5CDocnbuK6cAvG/Q10O
-	YYEflRHrnavKbIFs5K5UKPx3hB9ZRL+8SkobDbNW20gHmRsrSUo4386ua1ZIAw==
-Date: Tue, 6 Aug 2024 13:06:50 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: pedro.silva.ferreira@criticaltechworks.com
-Cc: openembedded-core@lists.openembedded.org,
-	Pedro Ferreira <pmi183@gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] buildhistory: fix package output folder
- creation
-Message-ID: <202408061106506616febb@mail.local>
-References: <20240802140008.497492-1-pedro.silva.ferreira@criticaltechworks.com>
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: jaeyoon.jung@lge.com)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+	by 156.147.23.51 with ESMTP; 6 Aug 2024 21:05:52 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: jaeyoon.jung@lge.com
+Received: from unknown (HELO magneto.lge.net) (10.177.227.48)
+	by 156.147.1.121 with ESMTP; 6 Aug 2024 21:05:52 +0900
+X-Original-SENDERIP: 10.177.227.48
+X-Original-MAILFROM: jaeyoon.jung@lge.com
+From: jaeyoon.jung@lge.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jaeyoon Jung <jaeyoon.jung@lge.com>
+Subject: [PATCH] makedevs: Fix issue when rootdir of / is given
+Date: Tue,  6 Aug 2024 21:06:51 +0900
+Message-ID: <20240806120651.1884611-1-jaeyoon.jung@lge.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240802140008.497492-1-pedro.silva.ferreira@criticaltechworks.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 11:06:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203015
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 12:06:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203016
 
-Hello,
+From: Jaeyoon Jung <jaeyoon.jung@lge.com>
 
-This patch is missing your From:
+Treating rootdir "/" as "" leads an error in parse_devtable(). Preserve
+it as it is given and use a separate variable for path name prepending.
+Another minor fix is to add a return statement at the end of
+convert2guid() to avoid an error with -Werror=return-type.
 
-https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#fixing-your-from-identity
+Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
+---
+ .../makedevs/makedevs/makedevs.c              | 21 +++++++++++--------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-
-On 02/08/2024 15:00:07+0100, Pedro Ferreira via lists.openembedded.org wrote:
-> This fix garantees that output package folder exists on
-> buildhistory folder to avoid missing files-in-package.txt
-> creation during task `package` execution.
-> 
-> This issue happens because the output folder is being
-> created on task `packagedata` before generating `latest` file.
-> 
-> Also it ensures that in case of `find` fails we leave with
-> a hard error instead of hidding the error on the for loop.
-> 
-> Signed-off-by: Pedro Ferreira <pmi183@gmail.com>
-> ---
->  meta/classes/buildhistory.bbclass | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index c3d049aea3..ad151092c9 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -599,15 +599,13 @@ buildhistory_list_files_no_owners() {
-> 
->  buildhistory_list_pkg_files() {
->         # Create individual files-in-package for each recipe's package
-> -       for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
-> +       pkgdirlist=$(find ${PKGDEST}/* -maxdepth 0 -type d)
-> +       for pkgdir in $pkgdirlist; do
-
-Also, the patch doesn't apply because tabs have been changed to spaces
-here.
-
->                 pkgname=$(basename $pkgdir)
->                 outfolder="${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
->                 outfile="$outfolder/files-in-package.txt"
->                 # Make sure the output folder exists so we can create the file
-> -               if [ ! -d $outfolder ] ; then
-> -                       bbdebug 2 "Folder $outfolder does not exist, file $outfile not created"
-> -                       continue
-> -               fi
-> +               mkdir -p $outfolder
->                 buildhistory_list_files $pkgdir $outfile fakeroot
->         done
->  }
-> --
-> 2.34.1
-> 
-> The information in this communication may contain confidential or legally privileged information. It is intended solely for the use of the individual or entity it addresses and others authorized to receive it. If you are not an intended recipient, you are hereby notified that any disclosure, copying, distribution or action in reliance on the contents of this information is strictly prohibited and may be unlawful. If you have received this communication by error, please notify us immediately by responding to this e-mail and then delete it from your system. Critical TechWorks is not liable for the proper and complete transmission of the information in this communication nor for any delay in its receipt
-> 
-> This e-mail is environmentally friendly, just like Critical TechWorks, which lives in a paper-free atmosphere. Therefore, please consider the environment before printing it!
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#202911): https://lists.openembedded.org/g/openembedded-core/message/202911
-> Mute This Topic: https://lists.openembedded.org/mt/107685168/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-devtools/makedevs/makedevs/makedevs.c b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+index df2e3cfad5..5c29bcf2f2 100644
+--- a/meta/recipes-devtools/makedevs/makedevs/makedevs.c
++++ b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+@@ -36,6 +36,7 @@ static const char *const app_name = "makedevs";
+ static const char *const memory_exhausted = "memory exhausted";
+ static char default_rootdir[]=".";
+ static char *rootdir = default_rootdir;
++static char *rootdir_prepend = default_rootdir;
+ static int trace = 0;
+ 
+ struct name_id {
+@@ -217,6 +218,9 @@ static unsigned long convert2guid(char *id_buf, struct name_id *search_list)
+ 		}
+ 		error_msg_and_die("No entry for %s in search list", id_buf);
+ 	}
++
++    // Unreachable, but avoid an error with -Werror=return-type
++    return 0;
+ }
+ 
+ static void free_list(struct name_id *list)
+@@ -379,8 +383,8 @@ static int interpret_table_entry(char *line)
+ 		error_msg_and_die("Device table entries require absolute paths");
+ 	}
+ 	name = xstrdup(path + 1);
+-	/* prefix path with rootdir */
+-	sprintf(path, "%s/%s", rootdir, name);
++	/* prefix path with rootdir_prepend */
++	sprintf(path, "%s/%s", rootdir_prepend, name);
+ 
+ 	/* XXX Why is name passed into all of the add_new_*() routines? */
+ 	switch (type) {
+@@ -406,11 +410,11 @@ static int interpret_table_entry(char *line)
+ 
+ 			for (i = start; i < start + count; i++) {
+ 				sprintf(buf, "%s%d", name, i);
+-				sprintf(path, "%s/%s%d", rootdir, name, i);
++				sprintf(path, "%s/%s%d", rootdir_prepend, name, i);
+ 				/* FIXME:  MKDEV uses illicit insider knowledge of kernel
+ 				 * major/minor representation...  */
+ 				rdev = MKDEV(major, minor + (i - start) * increment);
+-				sprintf(path, "%s/%s\0", rootdir, buf);
++				sprintf(path, "%s/%s\0", rootdir_prepend, buf);
+ 				add_new_device(buf, path, uid, gid, mode, rdev);
+ 			}
+ 		} else {
+@@ -541,12 +545,11 @@ int main(int argc, char **argv)
+ 			} else {
+ 				closedir(dir);
+ 			}
+-			/* If "/" is specified, use "" because rootdir is always prepended to a
+-			 * string that starts with "/" */
+-			if (0 == strcmp(optarg, "/"))
+-				rootdir = xstrdup("");
++			rootdir = xstrdup(optarg);
++			if (0 == strcmp(rootdir, "/"))
++				rootdir_prepend = xstrdup("");
+ 			else
+-				rootdir = xstrdup(optarg);
++				rootdir_prepend = xstrdup(rootdir);
+ 			break;
+ 
+ 		case 't':
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
+
 
