@@ -1,93 +1,119 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9048EC52D6F
-	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 09:46:29 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.3649.1722937586857358390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA4F1C52D6F
+	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 11:06:59 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.4839.1722942413182452365
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Aug 2024 02:46:27 -0700
+ Tue, 06 Aug 2024 04:06:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Kq3ifUPp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4281d812d3eso3903195e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 02:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722937585; x=1723542385; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zNc8cBCfd+8P/j7o1KQPKefaQrPXAsqINr2fjUCCYU8=;
-        b=Kq3ifUPplXF9MgisRgk2Bm00WR1FgIp68hWwVbN3bq7N8dOmuxH+x2sVuLvoyTRMrY
-         zMTiE2fb7yuu/snnGnjeb1D3C9/rENyPDAjd0IW/L+/euXJf6KioyyxirwGgR2FdCJRA
-         zZF+DTMi/x3A8ZPWQvpeHUmwzTNAfmJDrZPBs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722937585; x=1723542385;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zNc8cBCfd+8P/j7o1KQPKefaQrPXAsqINr2fjUCCYU8=;
-        b=ESrXARHVknb1rlgzfPyXdT+Q+4tZz+73RwMerVP6Zjc7S7U7Pjzrbh4RRFDZgHXGG/
-         sQe24/4mnFzuiOUbVyfiNntJ6obU+G9JONbEf8qDbhaV+HyG22q/wtsgGIB4DjO4fdgO
-         WPyskMpaJKQmr8ZMhsKyRGyuzQ7iGAdp8hkvsXg5VZqsd+k4QFja3J8uaRqx8UZ0FGEc
-         wBS6YExmhkOvLWcXhY772jq5Ms8KEINthmVr03CUH5EW5y/qLZdWTF97GM7VLJGCwSi/
-         MpmZNGAZEGmrAU+jGMVsx0jJNnZ5cSPSCySy9kHcFc7XHexqUlWj2wHA7OHZWnwipPig
-         WcHg==
-X-Gm-Message-State: AOJu0YwrXAWTClwhBcx7CEA95yP3uLY7bLPiLlgDecsl0aIFPtLkxr5i
-	LHTWhqGPxWFwivfCBmoxrwd/qz1rs/6/cm0Dv/W4GFvFGmqlX7OrLghRebGHQpXefh9WoHJRY6d
-	C+Iw=
-X-Google-Smtp-Source: AGHT+IGj7dey9HUnvjc1h8MlG41xLBFnSFCyhga7Pha1iM6nkYXnD+qNMx8NmbRX2lay9lFwq8ddig==
-X-Received: by 2002:a5d:568f:0:b0:368:6b56:641b with SMTP id ffacd0b85a97d-36bbc1a6754mr12999841f8f.47.1722937584601;
-        Tue, 06 Aug 2024 02:46:24 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:aeae:cd04:92c6:bd93])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd01f04dsm12383034f8f.45.2024.08.06.02.46.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 02:46:24 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	"Richard Purdie via lists.openembedded.org" <richard.purdie=linuxfoundation.org@lists.openembedded.org>
-Subject: [PATCH] musl: Show error when used with multilibs
-Date: Tue,  6 Aug 2024 10:46:23 +0100
-Message-ID: <20240806094623.38564-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ElgNXm39;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 225CAE0004;
+	Tue,  6 Aug 2024 11:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1722942411;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J4eQuCpLxK5t7bByipaYKPTtMEapYg+pH3Yx/pCQFec=;
+	b=ElgNXm39OAoyu40Ec2IjYoBy5xiTOu6xZaygEROArpkGEmoCyD6fwLSgvEKpRuo7buyXA9
+	W6OSqurmI/S2e9wif8emvAoCWdJgatY/J0LG0vd5HRlcWjvtPZ+eHt7t1lBkHyhi+NApDr
+	SN4jQ2ep0f8wWN3yiTLC6+FoAPUnczywE2VWWBl+CmoTYbRhXnIZ4Fwc91nkEeTigXqY7O
+	7x9v8n94DUH4AHzX3y51v0sjvhJ76M12rXQdsArxCrpCtZi6lAE5CDocnbuK6cAvG/Q10O
+	YYEflRHrnavKbIFs5K5UKPx3hB9ZRL+8SkobDbNW20gHmRsrSUo4386ua1ZIAw==
+Date: Tue, 6 Aug 2024 13:06:50 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: pedro.silva.ferreira@criticaltechworks.com
+Cc: openembedded-core@lists.openembedded.org,
+	Pedro Ferreira <pmi183@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] buildhistory: fix package output folder
+ creation
+Message-ID: <202408061106506616febb@mail.local>
+References: <20240802140008.497492-1-pedro.silva.ferreira@criticaltechworks.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240802140008.497492-1-pedro.silva.ferreira@criticaltechworks.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 09:46:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203014
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 11:06:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203015
 
-From: "Richard Purdie via lists.openembedded.org" <richard.purdie=linuxfoundation.org@lists.openembedded.org>
+Hello,
 
-As discussed in the bugzilla entry, musl doesn't work with multilibs.
+This patch is missing your From:
 
-I originally sent this patch in 2020 but was told that support was being
-added. I recently revisited the bug and retested a basic config which still
-fails the way it did in 2019. Since clearly nobody is using this, make it clear
-we don't support it. If anyone does add support, we can remove this error very
-easily.
+https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#fixing-your-from-identity
 
-[YOCTO #13122]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/musl/musl.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+On 02/08/2024 15:00:07+0100, Pedro Ferreira via lists.openembedded.org wrote:
+> This fix garantees that output package folder exists on
+> buildhistory folder to avoid missing files-in-package.txt
+> creation during task `package` execution.
+> 
+> This issue happens because the output folder is being
+> created on task `packagedata` before generating `latest` file.
+> 
+> Also it ensures that in case of `find` fails we leave with
+> a hard error instead of hidding the error on the for loop.
+> 
+> Signed-off-by: Pedro Ferreira <pmi183@gmail.com>
+> ---
+>  meta/classes/buildhistory.bbclass | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index c3d049aea3..ad151092c9 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -599,15 +599,13 @@ buildhistory_list_files_no_owners() {
+> 
+>  buildhistory_list_pkg_files() {
+>         # Create individual files-in-package for each recipe's package
+> -       for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
+> +       pkgdirlist=$(find ${PKGDEST}/* -maxdepth 0 -type d)
+> +       for pkgdir in $pkgdirlist; do
 
-diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
-index 6ca52b186a5..9999b4d2d64 100644
---- a/meta/recipes-core/musl/musl.inc
-+++ b/meta/recipes-core/musl/musl.inc
-@@ -32,3 +32,9 @@ COMPATIBLE_HOST:riscv32 = "null"
- B = "${WORKDIR}/build"
- 
- do_configure[cleandirs] = "${B}"
-+
-+python () {
-+    multilibs = d.getVar("MULTILIBS")
-+    if multilibs:
-+        raise bb.parse.SkipRecipe("musl is not compatible with multilibs")
-+}
+Also, the patch doesn't apply because tabs have been changed to spaces
+here.
+
+>                 pkgname=$(basename $pkgdir)
+>                 outfolder="${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
+>                 outfile="$outfolder/files-in-package.txt"
+>                 # Make sure the output folder exists so we can create the file
+> -               if [ ! -d $outfolder ] ; then
+> -                       bbdebug 2 "Folder $outfolder does not exist, file $outfile not created"
+> -                       continue
+> -               fi
+> +               mkdir -p $outfolder
+>                 buildhistory_list_files $pkgdir $outfile fakeroot
+>         done
+>  }
+> --
+> 2.34.1
+> 
+> The information in this communication may contain confidential or legally privileged information. It is intended solely for the use of the individual or entity it addresses and others authorized to receive it. If you are not an intended recipient, you are hereby notified that any disclosure, copying, distribution or action in reliance on the contents of this information is strictly prohibited and may be unlawful. If you have received this communication by error, please notify us immediately by responding to this e-mail and then delete it from your system. Critical TechWorks is not liable for the proper and complete transmission of the information in this communication nor for any delay in its receipt
+> 
+> This e-mail is environmentally friendly, just like Critical TechWorks, which lives in a paper-free atmosphere. Therefore, please consider the environment before printing it!
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202911): https://lists.openembedded.org/g/openembedded-core/message/202911
+> Mute This Topic: https://lists.openembedded.org/mt/107685168/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
