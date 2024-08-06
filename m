@@ -1,97 +1,117 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <jaeyoon.jung@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79C8C52D73
-	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 16:37:41 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.11878.1722962252543548665
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0621FC52D70
+	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 18:43:53 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
+ by mx.groups.io with SMTP id smtpd.web10.14782.1722969822672144208
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Aug 2024 09:37:32 -0700
+ Tue, 06 Aug 2024 11:43:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02801FEC
-	for <openembedded-core@lists.openembedded.org>; Tue,  6 Aug 2024 09:37:58 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E5C0B3F766
-	for <openembedded-core@lists.openembedded.org>; Tue,  6 Aug 2024 09:37:31 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: jaeyoon.jung@lge.com)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.52 with ESMTP; 7 Aug 2024 03:43:40 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: jaeyoon.jung@lge.com
+Received: from unknown (HELO magneto.lge.net) (10.177.227.48)
+	by 156.147.1.126 with ESMTP; 7 Aug 2024 03:43:40 +0900
+X-Original-SENDERIP: 10.177.227.48
+X-Original-MAILFROM: jaeyoon.jung@lge.com
+From: jaeyoon.jung@lge.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] python3-tomli: remove recipe (moved to meta-python)
-Date: Tue,  6 Aug 2024 17:37:23 +0100
-Message-Id: <20240806163723.2186196-7-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240806163723.2186196-1-ross.burton@arm.com>
-References: <20240806163723.2186196-1-ross.burton@arm.com>
+Cc: Jaeyoon Jung <jaeyoon.jung@lge.com>
+Subject: [PATCH v2] makedevs: Fix issue when rootdir of / is given
+Date: Wed,  7 Aug 2024 03:44:37 +0900
+Message-ID: <20240806184437.1914180-1-jaeyoon.jung@lge.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 16:37:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203037
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 18:43:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203038
 
-Most packages use tomllib and fall back to tomli. The last user in core
-was python3-setuptools-scm, removed in 5c8a0a2.
+From: Jaeyoon Jung <jaeyoon.jung@lge.com>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Treating rootdir "/" as "" leads an error in parse_devtable(). Preserve
+it as it is given and use a separate variable for path name prepending.
+Another minor fix is to add a return statement at the end of
+convert2guid() to avoid an error with -Werror=return-type.
+
+Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
 ---
- meta/conf/distro/include/maintainers.inc       |  1 -
- .../python/python3-tomli_2.0.1.bb              | 18 ------------------
- 2 files changed, 19 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-tomli_2.0.1.bb
+v2: fixed tab indentation
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 33ce99e4e2f..0875b2cbd31 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -711,7 +711,6 @@ RECIPE_MAINTAINER:pn-python3-sphinxcontrib-serializin=
-ghtml =3D "Tim Orling <tim.or
- RECIPE_MAINTAINER:pn-python3-sphinx-rtd-theme =3D "Tim Orling <tim.orlin=
-g@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-subunit =3D "Trevor Gamblin <tgamblin@bayli=
-bre.com>"
- RECIPE_MAINTAINER:pn-python3-testtools =3D "Trevor Gamblin <tgamblin@bay=
-libre.com>"
--RECIPE_MAINTAINER:pn-python3-tomli =3D "Tim Orling <tim.orling@konsulko.=
-com>"
- RECIPE_MAINTAINER:pn-python3-trove-classifiers =3D "Trevor Gamblin <tgam=
-blin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-typing-extensions =3D "Tim Orling <tim.orli=
-ng@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-typogrify =3D "Alexander Kanavin <alex.kana=
-vin@gmail.com>"
-diff --git a/meta/recipes-devtools/python/python3-tomli_2.0.1.bb b/meta/r=
-ecipes-devtools/python/python3-tomli_2.0.1.bb
-deleted file mode 100644
-index 9401ed897fb..00000000000
---- a/meta/recipes-devtools/python/python3-tomli_2.0.1.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--SUMMARY =3D "A lil' TOML parser"
--DESCRIPTION =3D "Tomli is a Python library for parsing TOML. Tomli is fu=
-lly \
--compatible with TOML v1.0.0."
--HOMEPAGE =3D "https://github.com/hukkin/tomli"
--BUGTRACKER =3D "https://github.com/hukkin/tomli/issues"
--LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Daaaaf0879d17df0110d1aa8c8c9f4=
-6f5"
--
--inherit pypi python_flit_core
--
--SRC_URI[sha256sum] =3D "de526c12914f0c550d15924c62d72abc48d6fe7364aa8732=
-8337a31007fe8a4f"
--
--BBCLASSEXTEND =3D "native nativesdk"
--
--RDEPENDS:${PN} +=3D " \
--    python3-datetime \
--    python3-stringold \
--"
---=20
-2.34.1
+ .../makedevs/makedevs/makedevs.c              | 21 +++++++++++--------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/meta/recipes-devtools/makedevs/makedevs/makedevs.c b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+index df2e3cfad5..2254b54891 100644
+--- a/meta/recipes-devtools/makedevs/makedevs/makedevs.c
++++ b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+@@ -36,6 +36,7 @@ static const char *const app_name = "makedevs";
+ static const char *const memory_exhausted = "memory exhausted";
+ static char default_rootdir[]=".";
+ static char *rootdir = default_rootdir;
++static char *rootdir_prepend = default_rootdir;
+ static int trace = 0;
+ 
+ struct name_id {
+@@ -217,6 +218,9 @@ static unsigned long convert2guid(char *id_buf, struct name_id *search_list)
+ 		}
+ 		error_msg_and_die("No entry for %s in search list", id_buf);
+ 	}
++
++	// Unreachable, but avoid an error with -Werror=return-type
++	return 0;
+ }
+ 
+ static void free_list(struct name_id *list)
+@@ -379,8 +383,8 @@ static int interpret_table_entry(char *line)
+ 		error_msg_and_die("Device table entries require absolute paths");
+ 	}
+ 	name = xstrdup(path + 1);
+-	/* prefix path with rootdir */
+-	sprintf(path, "%s/%s", rootdir, name);
++	/* prefix path with rootdir_prepend */
++	sprintf(path, "%s/%s", rootdir_prepend, name);
+ 
+ 	/* XXX Why is name passed into all of the add_new_*() routines? */
+ 	switch (type) {
+@@ -406,11 +410,11 @@ static int interpret_table_entry(char *line)
+ 
+ 			for (i = start; i < start + count; i++) {
+ 				sprintf(buf, "%s%d", name, i);
+-				sprintf(path, "%s/%s%d", rootdir, name, i);
++				sprintf(path, "%s/%s%d", rootdir_prepend, name, i);
+ 				/* FIXME:  MKDEV uses illicit insider knowledge of kernel
+ 				 * major/minor representation...  */
+ 				rdev = MKDEV(major, minor + (i - start) * increment);
+-				sprintf(path, "%s/%s\0", rootdir, buf);
++				sprintf(path, "%s/%s\0", rootdir_prepend, buf);
+ 				add_new_device(buf, path, uid, gid, mode, rdev);
+ 			}
+ 		} else {
+@@ -541,12 +545,11 @@ int main(int argc, char **argv)
+ 			} else {
+ 				closedir(dir);
+ 			}
+-			/* If "/" is specified, use "" because rootdir is always prepended to a
+-			 * string that starts with "/" */
+-			if (0 == strcmp(optarg, "/"))
+-				rootdir = xstrdup("");
++			rootdir = xstrdup(optarg);
++			if (0 == strcmp(rootdir, "/"))
++				rootdir_prepend = xstrdup("");
+ 			else
+-				rootdir = xstrdup(optarg);
++				rootdir_prepend = xstrdup(rootdir);
+ 			break;
+ 
+ 		case 't':
+-- 
+2.43.0
 
 
