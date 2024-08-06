@@ -1,108 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <marc.ferland@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F1ECC3DA7F
-	for <webhook@archiver.kernel.org>; Mon,  5 Aug 2024 16:40:28 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.12644.1722876027049037564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72126C3DA7F
+	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 01:54:08 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.7816.1722909243673829316
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Aug 2024 09:40:27 -0700
+ Mon, 05 Aug 2024 18:54:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LPnvfm0B;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3687f91af40so6376434f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 09:40:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=INasZ3/B;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: marc.ferland@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7aa4ca9d72so2609966b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 18:54:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1722876025; x=1723480825; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QwZl0boAzUR/Ovi60X3GLPINVwlSmCRH8RsCQAj8haA=;
-        b=LPnvfm0BEN8Rtom1pYl6WCRhZiHIRpIvY7D60YzQbeRXKfsLXpFLf+CY2jyiIFr/W9
-         gG8ixgJ3TvRndpnO6FrFu8KkPyqMLplhQX20gCzE9KHo7BTmMv/P9SS3VYKhB4XfBcDe
-         hdaucoEWhYQxzA7EJj923yacsTHzA8FwQMgbQ=
+        d=gmail.com; s=20230601; t=1722909242; x=1723514042; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DVEVWdRYL5jfQNUOSRJua2Kh0y/r7MESp2pTrGgXDbg=;
+        b=INasZ3/BtCDzNUdsOP7tGFyluNFNwo5c7z1ggEMgiJBEDOOWfrlFAw1KfLmU2TP0aA
+         clYjafJY5Aqhyo4T6e2W78hbtXMM35ALy9CuITncpLy+/wbKraq5w8IlU75S7NYae9h6
+         fyivATZ4tf56gHWhni+usP/lVcTFRrS86pHPWnQHuEG0LH6NqsbOkx6h6czxr1SdFqh2
+         sqM3xgK3ocXstVWv9r3a5u/3R6Y7ZqFQeDhLeAJ3UJHoDanNZ2pCExmyl4Uw8uzCtfy0
+         4AVxGUoVXfaq11OsSnmqA4D5+pihLJtpzn5s1G1bG80MVnulttNVQKY+BuS9s5KF3uYv
+         0eag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722876025; x=1723480825;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QwZl0boAzUR/Ovi60X3GLPINVwlSmCRH8RsCQAj8haA=;
-        b=qwtJlDqQx/Ljm5owK2NLS7l2y+ngUAMQnObc8tXhO/ciZrZyUR/0zLtT7mJQgeCNN6
-         uXPxavI1XNzTwJR9hRbI+ROkBEvsRuOUJ12tjCMWAkt41zSX0Q49tCvT8KVpG5rKGE3M
-         CI76J+HrO5EC74bCOR0KeuwJ9gvEZ1J7idzqDQwGaX29nUxqMoxs8+QC8z7ekUDsyYTY
-         pekt0ZFAP4qTk+mI/TgxK7lYWyaS1ztCBXz+BOZGG6sC5b/tHs7nxSKxAtmwgqrxalYJ
-         LxOSnVgNlld2wc6xJEaL54kResf6A1/Og7D3SpJT2uMp3hoTF6/VYhjIvpw2SZUZU1gm
-         rsGw==
-X-Gm-Message-State: AOJu0Yz80FN+mTXIHRMfJlNEUT8vRGP/9StOKozfSYnfrtRuQGvHFxWB
-	b1a4hUq/6VH4+4CJzK0OxxlGSwBFsfNikMAiIixu7hiG4In0C6XFtDstHvNXd6M=
-X-Google-Smtp-Source: AGHT+IHX9PJsj8cQIoZRGbLbNO8CX3D6ybISHoAGQfxWwgS2GJZHuW77QuMDRb+lY1DENv1Ikynrzg==
-X-Received: by 2002:adf:a782:0:b0:362:5816:f134 with SMTP id ffacd0b85a97d-36bbc0cdac7mr8820711f8f.13.1722876025286;
-        Mon, 05 Aug 2024 09:40:25 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7? ([2001:8b0:aba:5f3c:e8f5:87f4:f4e7:7ee7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd26f913sm10356809f8f.111.2024.08.05.09.40.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 09:40:24 -0700 (PDT)
-Message-ID: <153f71725fc8d9fafe9da91d0af0262cb8af878f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] cve_check: Use a local copy of the
- database during builds
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 05 Aug 2024 17:40:24 +0100
-In-Reply-To: <CAApg2=RLDhjfF31BOdE-hFAKqJswWi5X2YM-J_b6YHSGEoo3_g@mail.gmail.com>
-References: <20240804130936.1339847-1-richard.purdie@linuxfoundation.org>
-	 <CAApg2=TWFeTC5SML6mGhwo3dXBA_PyoJykxGfjqa=1b=JwFNfA@mail.gmail.com>
-	 <0162f8e09fb05ba123eab2987ecdf52b9340dd65.camel@linuxfoundation.org>
-	 <CAApg2=RLDhjfF31BOdE-hFAKqJswWi5X2YM-J_b6YHSGEoo3_g@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1722909242; x=1723514042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DVEVWdRYL5jfQNUOSRJua2Kh0y/r7MESp2pTrGgXDbg=;
+        b=rXT+w1gyiPXgQmxs24vRRwGEYue7KTJu8AMn8MfnjFc7RB154MEi4F5nBIKqIv2XoG
+         ZPyk/mihqRHfxhak7h5XyQhbFu/qFNGUprl+NswsA7KTUl6A8Zhoe7G1UCYHQZymzNcU
+         64dAuRsP7ZtDU9zFZOS+h6YLGvA23OX/0KCtStT1qj52dsjaMoQQLHZCnbcyyQo+ZEo+
+         /jZx190n+iBTbtPcAqqwwLX7sREu+d/0IVOTnPU5ORGrpmA3hzJ6V8AkldTKxn4x9384
+         ZTLY/gVgzwXkRqaaeP22PTMQod5MMG2t4OhE62iOpvphmC6BAE/5Uqa4/j6M5xhH7b5M
+         Qz4g==
+X-Gm-Message-State: AOJu0Yw13/fDzHS5gO1oxlCOVWIspj6VrTXyyWQxOGH1Pl/sRLYdoC3A
+	HsV/3VMdh7yuEn17dkBe+IfjaVtc+DRYp8TDY5w5BmOuHVvPgAo34VHy3YboLB312GRYVAwJQHA
+	7T9Ogkx+XMEn3WGaicAT0F6qX9eY=
+X-Google-Smtp-Source: AGHT+IF+1gw0wdJxb3a/ThyT9RgovF6451jgN2+X8KelKNrd3k5Jfup8nz42zd5HQJqTZ/VXrryfzo+Uzit76AYN/RQ=
+X-Received: by 2002:a17:907:3f9a:b0:a7a:bbbb:6243 with SMTP id
+ a640c23a62f3a-a7dc506f12amr1036802366b.51.1722909241077; Mon, 05 Aug 2024
+ 18:54:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240731152858.3340807-1-marc.ferland@sonatest.com>
+ <20240731152858.3340807-2-marc.ferland@sonatest.com> <67D06A02-501A-4362-9D7C-BC9C869E543B@arm.com>
+In-Reply-To: <67D06A02-501A-4362-9D7C-BC9C869E543B@arm.com>
+From: Marc Ferland <marc.ferland@gmail.com>
+Date: Mon, 5 Aug 2024 21:53:49 -0400
+Message-ID: <CAMRMzCBuKctnQfQD8ZXfhRYZAJrev54N2TO513V2GCk9F_i7Yg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/2] appstream: add qt6 PACKAGECONFIG option
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Marc Ferland <marc.ferland@sonatest.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.0-1build2 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Aug 2024 16:40:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203006
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 01:54:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203007
 
-On Mon, 2024-08-05 at 18:16 +0200, Marta Rybczynska wrote:
-> On Mon, Aug 5, 2024 at 5:50=E2=80=AFPM Richard Purdie <richard.purdie@lin=
-uxfoundation.org> wrote:
-> > On Mon, 2024-08-05 at 17:41 +0200, Marta Rybczynska wrote:
-> > > On Sun, Aug 4, 2024 at 3:09=E2=80=AFPM Richard Purdie via lists.opene=
-mbedded.org <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> w=
-rote:
-> > > >=20
-> >=20
-> > > Do you plan to keep it for longer or is it for testing only? If for
-> > > longer, I would likely keep old variable names for cve-update-nvd2-
-> > > native.bb
-> > >=20
-> > > Did it help with the corruption issue?
-> >=20
-> > It is really hard to say as it is an intermittent issue. I ended up
-> > merging it earlier on today, partly as I wanted to get it wider
-> > exposure for testing to see whether it really does help or not. It will
-> > take time to see whether it recurs.
-> >=20
-> > Regardless, operating on a local copy of the database rather than a
-> > shared copy in DL_DIR should help performance and avoid some sets of
-> > potential NFS issues.
-> >=20
-> > Which variable names did you want to keep? I kept the wider
-> > class/public names the same and only changed things within the recipe
-> > to try and ensure fewer compatibility issues. Happy to look at a
-> > different version of the patch/approach on top of mine.
-> >=20
->=20
->=20
-> My approach was basically the same, but I kept the DL_DIR for the initial
-> download for compatibility reasons. If it actually helps, I will send an
-> update of variable names. Let's wait a day, what do you think?
+On Mon, Aug 5, 2024 at 7:40=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
+ote:
+>
+> On 31 Jul 2024, at 16:28, Marc Ferland via lists.openembedded.org <marc.f=
+erland=3Dgmail.com@lists.openembedded.org> wrote:
+> > +Fixes the following build failure:
+> > +
+> > +| In file included from /home/marc/mnt/yocto-kde/build/tmp/work/x86_64=
+-linux/appstream-native/1.0.3/recipe-sysroot-native/usr/include/QtTest/QtTe=
+st:11,
+> > +|                  from ../AppStream-1.0.3/qt/tests/asqt-pool-test.cpp=
+:21:
+> > +| ../AppStream-1.0.3/qt/tests/asqt-pool-test.cpp: In function =E2=80=
+=98int main(int, char**)=E2=80=99:
+> > +| ../AppStream-1.0.3/qt/tests/asqt-pool-test.cpp:117:1: error: expecte=
+d primary-expression before =E2=80=98)=E2=80=99 token
+> > +|   117 | QTEST_MAIN(PoolReadTest)
+> > +|       | ^~~~~~~~~~
+> > +
+> > +Upstream-Status: Inappropriate [oe-specific]
+>
+> Is this actually OE-specific, and if so how? It smells like this is a gen=
+uine problem in the test code.
+>
+To be honest, I thought that since this was test code, disabling it
+would be the easiest thing to do... but it does bring in one more
+patch to the layer.
 
-My version keeps the initial download in DL_DIR?
+I just opened a ticket upstream: https://github.com/ximion/appstream/issues=
+/644
 
-Cheers,
+I'll update my patch accordingly.
 
-Richard
+Marc
 
