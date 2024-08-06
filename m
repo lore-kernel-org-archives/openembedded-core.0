@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5051EC52D76
-	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 18:56:13 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web10.15072.1722970564570554821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D815C52D7B
+	for <webhook@archiver.kernel.org>; Tue,  6 Aug 2024 18:56:03 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web10.15068.1722970560753824808
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Aug 2024 11:56:04 -0700
+ Tue, 06 Aug 2024 11:56:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MygT1Jee;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7093ba310b0so426568a34.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 11:56:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZxvKlFoS;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7a1df0a9281so56135485a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 11:56:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722970564; x=1723575364; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1722970560; x=1723575360; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JXt0tApQpdLqfYQu/5wuzlqDCk1BTpTLMXEVp6fG3cM=;
-        b=MygT1Jee6/pRCxdrvyRPPV8nGljWh6n7DvkjRP19yJNAc0ABpAJVd+KoHJUuZL6BKF
-         PmExhe3RgAHQqls0uj45hzNM0IEtUrWRsh9cS4Ldc9BI5kHHG3xczfybopknjPXD9Lft
-         WUaQr5GHXKyEeXtkvRoQGj/FnjDsXAsgo5zT5ruvWS/CKJBzypWM/Ph3IZYkhlVDwUyy
-         PB6be0RQPgt9+AEUlMeBvU8hlrJVIayQo5wDtHeE/5sW46KmNXdCJtmlYa9h3KS0TFMU
-         sndDQxjTvrc6ZayJsMTYOekHsMMKBpciPYeGC+ZigLaUCYRFHwIptHnVZG58w2pnm2Yp
-         IbAA==
+        bh=mplchMf03WiQjD6wsbSeACoXq+p4j2pdLI6mgG79nHw=;
+        b=ZxvKlFoSGubRy2U33pldi70lR25gPwDZj8AEp0WmhIxyw245oXJO6J49LzoLOYTM7p
+         fIUM8LOqg3r4KfImMGJYuJBvApV47OH0X2HIerg92tdYqgcsZIPit02ZTKpZlv2V74pd
+         ukB1cTVJHiKpSgMMtk4jz7y2AsQ31lmwAHJvHgbl4U/DPGPvW2oJW/kyyL2WSK+IOID9
+         4uFWCJfB03Qa8eL1CaxqiVluETPzaoHtEcXasPJfXKQvFTD6vhcg118ko5mAZYmZzw4u
+         u/jGGPrb+DFmGIhx+PaccOfiU0HKrwSLOiUYAq/38z6XDc+xPf28Fq15fOKAfbLqY6MQ
+         Ua+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722970564; x=1723575364;
+        d=1e100.net; s=20230601; t=1722970560; x=1723575360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JXt0tApQpdLqfYQu/5wuzlqDCk1BTpTLMXEVp6fG3cM=;
-        b=WdO0QCRv8c5iNJKukvm6cnG7M8Mw7chCWygQYJ8U92tvy/SudEY4vEArbTqMwWsuY3
-         kgwWtR1jftvCgW6Ih1C9t3xd9qejmNPVAxu3D6KwfuhXcRCrd9prF4bTqIJLtK9UV9fi
-         VFWXcHaqaVveoKitlbIYrK2/FwYLXGUxU/HEWTLFKbwZlth1HMC2EYyhnUjNZAUQ8efP
-         4XBbzCAt2dQ5OrpLbvPzTBxWbPSW2F5r9DGWAwkeRjTmWPekERQySgimzXJkveUAD/Ji
-         y6Cjw2qXvFFDjPNtdeHSDq9hZl+FJIbRwlkMnI6+dhnNRYAxGKW29QTNA8DAkTdY8c3c
-         XVuA==
-X-Gm-Message-State: AOJu0Yx3McV2Ex/sdQ43+V4/85LedpIWyOLvpHKbVN93PNUWBMHNLTyf
-	PxfqcL4i/6vTeR3JI6/MUMcVzuiX844IWDd2vqN1ZYrlkXWFFtizr26kxSpL
-X-Google-Smtp-Source: AGHT+IF7uJ5N1k7b1Egfp4vZ5wqSlTzAcneAuuRPTaKuAL7ugEYfSnWlTL8ZVlzZaXn0zRYml+w8/A==
-X-Received: by 2002:a05:6830:6a98:b0:708:29dc:d2fc with SMTP id 46e09a7af769-709b3244ac6mr18363076a34.19.1722970563149;
-        Tue, 06 Aug 2024 11:56:03 -0700 (PDT)
+        bh=mplchMf03WiQjD6wsbSeACoXq+p4j2pdLI6mgG79nHw=;
+        b=dWzcIRm3fvmIJ8ZLcSCrSTo5SriEwT3F/UBfxPF3Spe7Tjx/LlBVGpquf46HKmzBYq
+         /Y3EHclgjHO5+/lYZ49UO+Lmq5n1vwYJ6spKKeZsx1c4kPfKjQOoJhu5EiQWNRRuXiGJ
+         D0ZOkNADvD15037i6+JlEfUZcuyRpNc6TyJrbL0KK/I1RGn17niu02337fxN/Yyy5lS0
+         Vsdt43yOffg4DKwxKjVHeJa9yQBPjI4an70xZ+J3AgKaEg0rdhGnlxumHd6MvqTPFCDu
+         JfmBHdSXRmCkgLTtp1QL5Z9/tcwUhlUvf+GO8p7+df8tKm2yC+8BkdaiMUS/joja5hlb
+         T5QA==
+X-Gm-Message-State: AOJu0YwjZi5vCmR+llFXfgukMshCPQkA7gtXlVZnregdvfqON77Tjv4V
+	zvBOEyEdTAU75q7o4pv2a05THFJKfjf0RwPTSOsuygYsbjeqS22rMcqqTLFW
+X-Google-Smtp-Source: AGHT+IFsBruOoEam79JwNeSMMHXok0KFQO4DdVOWGP5XoXLB9xdxXgtWXzbnp29dM0FUN6D0sQo6vg==
+X-Received: by 2002:a05:620a:4142:b0:7a1:d306:4ba7 with SMTP id af79cd13be357-7a34ef42ee3mr1962138385a.31.1722970558734;
+        Tue, 06 Aug 2024 11:55:58 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a34f6ebcd3sm481988185a.42.2024.08.06.11.56.00
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a34f6ebcd3sm481988185a.42.2024.08.06.11.55.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 11:56:02 -0700 (PDT)
+        Tue, 06 Aug 2024 11:55:57 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/8] linux-yocto/6.10: update to v6.10.3
-Date: Tue,  6 Aug 2024 14:55:50 -0400
-Message-Id: <d83ce1ec7d8930b1704c1cb7296e00b7e7386d54.1722970092.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 1/8] linux-yocto: introduce 6.10 reference kernel
+Date: Tue,  6 Aug 2024 14:55:47 -0400
+Message-Id: <c1e28d60e75fce21ff3fef80db6a2f500521055e.1722970092.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1722970092.git.bruce.ashfield@gmail.com>
 References: <cover.1722970092.git.bruce.ashfield@gmail.com>
@@ -60,1022 +60,6865 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 18:56:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203043
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Aug 2024 18:56:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203041
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/6.10 to the latest korg -stable release that comprises
-the following commits:
-
-    d29de02effd4e Linux 6.10.3
-    979185d6ddfea selftests/bpf: DENYLIST.aarch64: Skip fexit_sleep again
-    bc8ccc1f1e079 selinux,smack: remove the capability checks in the removexattr hooks
-    bb6841f96eb6f powerpc/configs: Update defconfig with now user-visible CONFIG_FSL_IFC
-    1861a571928cc perf dso: Fix build when libunwind is enabled
-    6a424ef14fbcb wifi: ath12k: fix mbssid max interface advertisement
-    767d55c3f571c fs: don't allow non-init s_user_ns for filesystems without FS_USERNS_MOUNT
-    70a449b162c4f i3c: mipi-i3c-hci: Fix number of DAT/DCT entries for HCI versions < 1.1
-    70100fe721840 nvme-pci: add missing condition check for existence of mapped data
-    7b2384f7ebbf6 apparmor: unpack transition table if dfa is not present
-    ac2d19b9ba6c8 ublk: fix UBLK_CMD_DEL_DEV_ASYNC handling
-    697d7ca75d581 io_uring: fix io_match_task must_hold
-    58b067d997c61 thermal: core: Back off when polling thermal zones on errors
-    4530d81ef57aa thermal: trip: Split thermal_zone_device_set_mode()
-    d5fe884ce28c5 iommu: sprd: Avoid NULL deref in sprd_iommu_hw_en
-    0ac864075fc8b s390/cpum_cf: Fix endless loop in CF_DIAG event stop
-    6a54c9737a843 s390/setup: Fix __pa/__va for modules under non-GPL licenses
-    7368a86b8a3be s390/pci: Allow allocation of more than 1 MSI interrupt
-    943270570f637 s390/pci: Refactor arch_setup_msi_irqs()
-    dd296402e6816 ceph: fix incorrect kmalloc size of pagevec mempool
-    00a60bdabefe0 timers/migration: Do not rely always on group->parent
-    51be301d29d67 ASoC: TAS2781: Fix tasdev_load_calibrated_data()
-    1978d917827fa ASoC: Intel: use soc_intel_is_byt_cr() only when IOSF_MBI is reachable
-    70500f4fce354 drm/xe/pf: Limit fair VF LMEM provisioning
-    fa1c57d10700d drm/xe/exec: Fix minor bug related to xe_sync_entry_cleanup
-    eade3b0867db8 spi: spidev: add correct compatible for Rohm BH2228FV
-    16f6a58b99763 ASoC: sof: amd: fix for firmware reload failure in Vangogh platform
-    7988f28990117 ASoC: Intel: Fix RT5650 SSP lookup
-    e68262dcf45c3 ASOC: SOF: Intel: hda-loader: only wait for HDaudio IOC for IPC4 devices
-    4c61ee99eb972 nvme-pci: Fix the instructions for disabling power management
-    45e03d35229b6 spi: microchip-core: ensure TX and RX FIFOs are empty at start of a transfer
-    65850e52a7e3b spi: microchip-core: fix init function not setting the master and motorola modes
-    263b6c23e1ffd spi: microchip-core: only disable SPI controller when register value change requires it
-    0fe4960783942 spi: microchip-core: defer asserting chip select until just before write to TX FIFO
-    1504fb528742d spi: microchip-core: fix the issues in the isr
-    aa650d0a0b535 ASoC: SOF: imx8m: Fix DSP control regmap retrieval
-    5c19062372bb6 auxdisplay: ht16k33: Drop reference after LED registration
-    47ff960f0e460 lirc: rc_dev_get_from_fd(): fix file leak
-    c8f1f53d13c44 powerpc: fix a file leak in kvm_vcpu_ioctl_enable_cap()
-    46c17ead5b738 apparmor: Fix null pointer deref when receiving skb during sock creation
-    7e4a539bca7d8 mISDN: Fix a use after free in hfcmulti_tx()
-    35dd37536e2e0 xsk: Require XDP_UMEM_TX_METADATA_LEN to actuate tx_metadata_len
-    ec4eea14d75f7 bpf: Fix a segment issue when downgrading gso_size
-    af6bd5c9901b1 net: mediatek: Fix potential NULL pointer dereference in dummy net_device handling
-    a13d3864b76ac net: nexthop: Initialize all fields in dumped nexthops
-    fa938b04359f0 net: stmmac: Correct byte order of perfect_match
-    dd66c60645ff0 selftests: forwarding: skip if kernel not support setting bridge fdb learning limit
-    2abe350db1aa5 tipc: Return non-zero value from tipc_udp_addr2str() on error
-    a939f3f9975b3 netfs: Fix writeback that needs to go to both server and cache
-    c8f36af07025c netfilter: nft_set_pipapo_avx2: disable softinterrupts
-    0c69f4777924f ice: Fix recipe read procedure
-    b3892898d0ea8 net: bonding: correctly annotate RCU in bond_should_notify_peers()
-    7cdbc23424d7b ipv4: Fix incorrect source address in Record Route option
-    44f83b7e45ae8 MIPS: SMP-CPS: Fix address for GCR_ACCESS register for CM3 and later
-    ba61d9ecc604b tools/resolve_btfids: Fix comparison of distinct pointer types warning in resolve_btfids
-    2188279e6b2a3 bpf, events: Use prog to emit ksymbol event for main program
-    22094f5f52e7b dma: fix call order in dmam_free_coherent
-    1c939f94571b9 af_unix: Disable MSG_OOB handling for sockets in sockmap/sockhash
-    8fa2d3427f98c libbpf: Fix no-args func prototype BTF dumping syntax
-    db35552a6ffee selftests/bpf: fexit_sleep: Fix stack allocation for arm64
-    fce48882dfbc8 kbuild: avoid build error when single DTB is turned into composite DTB
-    1cb5934cc0962 f2fs: fix to update user block counts in block_operations()
-    381cbe85592c7 f2fs: fix null reference error when checking end of zone
-    e0671f99ae6ef watchdog: rzg2l_wdt: Check return status of pm_runtime_put()
-    a70c141e8fefb watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()
-    59b0fd36ec285 f2fs: fix start segno of large section
-    42b15c72db065 um: time-travel: fix signal blocking race/hang
-    336370d5bfbd3 arch: um: rust: Use the generated target.json again
-    a79c2099928e2 um: time-travel: fix time-travel-start option
-    2025dce49a06f phy: zynqmp: Enable reference clock correctly
-    57a05c3a891cb phy: cadence-torrent: Check return value on register read
-    a1e10962e8dfc phy: phy-rockchip-samsung-hdptx: Select CONFIG_MFD_SYSCON
-    2f32c3f818537 dmaengine: ti: k3-udma: Fix BCHAN count with UHC and HC channels
-    6aa6892a90a5a jfs: Fix array-index-out-of-bounds in diFree
-    7b27de0d27e41 kdb: Use the passed prompt in kdb_position_cursor()
-    9711067017a23 kdb: address -Wformat-security warnings
-    cda36155fc458 phy: qcom: qmp-pcie: restore compatibility with existing DTs
-    3ba0ae885215b f2fs: fix to truncate preallocated blocks in f2fs_file_open()
-    7b4219d0212ad minmax: scsi: fix mis-use of 'clamp()' in sr.c
-    356270ed4de41 Bluetooth: btusb: Add Realtek RTL8852BE support ID 0x13d3:0x3591
-    692cca98456d5 Bluetooth: btusb: Add RTL8852BE device 0489:e125 to device tables
-    dd2353f158999 rbd: don't assume RBD_LOCK_STATE_LOCKED for exclusive mappings
-    a049f7a09d440 rbd: rename RBD_LOCK_STATE_RELEASING and releasing_wait
-    c600e6de0cd09 drm/panfrost: Mark simple_ondemand governor as softdep
-    916dbd422213c drm/etnaviv: don't block scheduler when GPU is still active
-    541dbf8735338 MIPS: Loongson64: Test register availability before use
-    8131b5046e703 MIPS: Loongson64: reset: Prioritise firmware service
-    82016fa2f209a MIPS: Loongson64: Remove memory node for builtin-dtb
-    519a900ad3e0b MIPS: Loongson64: env: Hook up Loongsson-2K
-    840db5d790035 MIPS: dts: loongson: Fix GMAC phy node
-    b721ae74eb7f9 MIPS: ip30: ip30-console: Add missing include
-    ed987a5ca7792 MIPS: dts: loongson: Add ISA node
-    e63a9e5475ab2 remoteproc: imx_rproc: Fix refcount mistake in imx_rproc_addr_init
-    c877a5f5268d4 remoteproc: imx_rproc: Skip over memory region when node value is NULL
-    3a18cb4c711f9 remoteproc: stm32_rproc: Fix mailbox interrupts queuing
-    ebdee076e6e08 rbd: don't assume rbd_is_lock_owner() for exclusive mappings
-    a59633f6a6aa9 dm-verity: fix dm_is_verity_target() when dm-verity is builtin
-    9d8d95b10e614 selftests/sigaltstack: Fix ppc64 GCC build
-    bbf2c94503f6a crypto: ccp - Fix null pointer dereference in __sev_snp_shutdown_locked
-    ee39384ee787e RDMA/iwcm: Fix a use-after-free related to destroying CM IDs
-    378a9d51afc17 platform: mips: cpu_hwmon: Disable driver on unsupported hardware
-    774ffcb28cd96 ASoC: SOF: ipc4-topology: Use correct queue_id for requesting input pin format
-    60609323f1328 ASoC: codecs: wcd939x: Fix typec mux and switch leak during device removal
-    9aa5b0f19cc88 bus: mhi: ep: Do not allocate memory for MHI objects from DMA zone
-    1bbbaddb25cd7 watchdog/perf: properly initialize the turbo mode timestamp and rearm counter
-    5570209a6551b rtc: abx80x: Fix return value of nvmem callback on read
-    c30b42b558880 rtc: isl1208: Fix return value of nvmem callbacks
-    10a93cc4ec9a9 drm/i915/dp: Don't switch the LTTPR mode on an active link
-    7d6971bfe1df3 drm/i915/dp: Reset intel_dp->link_trained before retraining the link
-    9f33d44ab5ef5 drm/amd/amdgpu: Fix uninitialized variable warnings
-    9bf1a4e3d4be4 drm/amdgpu: add missed harvest check for VCN IP v4/v5
-    fa717750ecf18 drm/amdgpu: reset vm state machine after gpu reset(vram lost)
-    972dd51f1857b drm/dp_mst: Fix all mstb marked as not probed after suspend/resume
-    60887a89986f0 drm/udl: Remove DRM_CONNECTOR_POLL_HPD
-    09a67694edd1f drm/amdgpu/sdma5.2: Update wptr registers as well as doorbell
-    1a802eaa152b8 drm/i915/gt: Do not consider preemption during execlists_dequeue for gen8
-    a9e7274166a70 perf/x86/intel/pt: Fix a topa_entry base address calculation
-    9e00108f122c0 perf/x86/intel/pt: Fix topa_entry base length
-    97ad12b9b6e69 perf/x86/intel/ds: Fix non 0 retire latency on Raptorlake
-    cfb00bcd61533 perf/x86/intel/uncore: Fix the bits of the CHA extended umask for SPR
-    3293f2dd0921b perf stat: Fix the hard-coded metrics calculation on the hybrid
-    f34d8307a73a1 perf: Fix event leak upon exec and file release
-    3d7a63352a93b perf: Fix event leak upon exit
-    3eac973eb5cb2 scsi: qla2xxx: validate nvme_local_port correctly
-    36fdc5319c4d0 scsi: qla2xxx: Complete command early within lock
-    1e6aca8f07f1e scsi: qla2xxx: Fix flash read failure
-    5b1ed6e6f2df1 scsi: qla2xxx: Reduce fabric scan duplicate code
-    1e39d28440095 scsi: qla2xxx: Use QP lock to search for bsg
-    8192c533e89d9 scsi: qla2xxx: Fix for possible memory corruption
-    50ed642a860ff scsi: qla2xxx: Unable to act on RSCN for port online
-    b35d6d5a2f386 scsi: qla2xxx: During vport delete send async logout explicitly
-    81079920f1163 scsi: lpfc: Allow DEVICE_RECOVERY mode after RSCN receipt if in PRLI_ISSUE state
-    7816a528add16 rtc: cmos: Fix return value of nvmem callbacks
-    5fdb0de5465b7 mm/numa_balancing: teach mpol_to_str about the balancing mode
-    f8ae38f1dfe65 irqchip/imx-irqsteer: Handle runtime power management correctly
-    0a1230db5d67e md/raid1: set max_sectors during early return from choose_slow_rdev()
-    3a7f23e1d81ce irqdomain: Fixed unbalanced fwnode get and put
-    95065edb8ebb2 devres: Fix memory leakage caused by driver API devm_free_percpu()
-    c885ca965a4cf devres: Fix devm_krealloc() wasting memory
-    205dfd57a8ee5 dt-bindings: phy: qcom,qmp-usb: fix spelling error
-    292081c4e7f57 ice: Add a per-VF limit on number of FDIR filters
-    edd21c8a929f9 gve: Fix an edge case for TSO skb validity check
-    d4663536754de kobject_uevent: Fix OOB access within zap_modalias_env()
-    78672d49d3eeb arm64: mm: Fix lockless walks with static and dynamic page-table folding
-    00a2ac6c89ebe ASoC: amd: yc: Support mic on Lenovo Thinkpad E16 Gen 2
-    834188d88a806 ASoC: SOF: ipc4-topology: Preserve the DMA Link ID for ChainDMA on unprepare
-    5eca92031ffe2 ASoC: SOF: ipc4-topology: Only handle dai_config with HW_PARAMS for ChainDMA
-    4a9a52b70cce1 alloc_tag: outline and export free_reserved_page()
-    a1e78bf940c4c kbuild: Fix '-S -c' in x86 stack protector scripts
-    8a83f0e5dda0e decompress_bunzip2: fix rare decompression failure
-    96b74765425c5 mm: fix old/young bit handling in the faulting path
-    f5418f48a93b6 block: fix deadlock between sd_remove & sd_release
-    b7c51fb4c16ba clk: samsung: fix getting Exynos4 fin_pll rate from external clocks
-    154d33dc8de81 ubi: eba: properly rollback inside self_check_eba
-    f6386c256b79b clk: davinci: da8xx-cfgchip: Initialize clk_init_data before use
-    366c3f688dd02 nilfs2: handle inconsistent state in nilfs_btnode_create_block()
-    9e5f087b81a71 dmaengine: fsl-edma: change the memory access from local into remote mode in i.MX 8QM
-    bd9b941078bc4 f2fs: use meta inode for GC of COW file
-    0ecfe3974b216 f2fs: use meta inode for GC of atomic file
-    1e7725814361c f2fs: fix return value of f2fs_convert_inline_inode()
-    2434344559f67 f2fs: fix to don't dirty inode for readonly filesystem
-    2ea700595158b f2fs: fix to force buffered IO on inline_data inode
-    af466037fa2b2 ASoC: fsl: fsl_qmc_audio: Check devm_kasprintf() returned value
-    a28fe9105fee4 scsi: qla2xxx: Return ENOBUFS if sg_cnt is more than one for ELS cmds
-    0a4ae2644e2a3 fs/ntfs3: Update log->page_{mask,bits} if log->page_size changed
-    830dc86a29312 mm/page_alloc: fix pcp->count race between drain_pages_zone() vs __rmqueue_pcplist()
-    49b22e06a9477 erofs: fix race in z_erofs_get_gbuf()
-    242cda6c45a09 efi/libstub: Zero initialize heap allocated struct screen_info
-    5a9a5f39376ff hostfs: fix dev_t handling
-    7789a1d6792af dev/parport: fix the array out-of-bounds risk
-    d9954d47c73bf xhci: Apply XHCI_RESET_TO_DEFAULT quirk to TGL
-    4130526f7a8d8 binder: fix hang of unregistered readers
-    23c57a7c88b05 PCI: loongson: Enable MSI in LS7A Root Complex
-    b27d26d07b187 PCI: rockchip: Use GPIOD_OUT_LOW flag while requesting ep_gpio
-    bf50d38243989 PCI: dw-rockchip: Fix initial PERST# GPIO value
-    bfb58cc86e49d PCI: hv: Return zero, not garbage, when reading PCI_INTERRUPT_PIN
-    b16f3ea1db47a PCI/DPC: Fix use-after-free on concurrent DPC and hot-removal
-    43c6b8d369d8f parisc: Fix warning at drivers/pci/msi/msi.h:121
-    985d3c869aa6c hwrng: amd - Convert PCIBIOS_* return codes to errnos
-    96852136af638 drm/fbdev-dma: Fix framebuffer mode for big endian devices
-    d0facbb37293a fbdev: vesafb: Detect VGA compatibility from screen info's VESA attributes
-    4b89bfaefb5fe tools/memory-model: Fix bug in lock.cat
-    11f4a6d2740bc ALSA: usb-audio: Add a quirk for Sonix HD USB Camera
-    590c9a623ab39 ALSA: usb-audio: Move HD Webcam quirk to the right place
-    67f2807608604 ALSA: usb-audio: Fix microphone sound on HD webcam.
-    fcb2fa8f500f5 ALSA: ump: Force 1 Group for MIDI1 FBs
-    d40ff156254f4 ALSA: ump: Don't update FB name for static blocks
-    2afaf0b52fb12 ALSA: firewire-lib: fix wrong value as length of header for CIP_NO_HEADER case
-    2da6a98422a81 ALSA: hda/realtek: cs35l41: Fixup remaining asus strix models
-    be7486f6e0d02 KVM: nVMX: Fold requested virtual interrupt check into has_nested_events()
-    65d5d97e753a5 KVM: nVMX: Check for pending posted interrupts when looking for nested events
-    b75e89946e9c5 KVM: nVMX: Request immediate exit iff pending nested event needs injection
-    0c6c9421b0afd KVM: nVMX: Add a helper to get highest pending from Posted Interrupt vector
-    a8ab69cf6f432 KVM: VMX: Split out the non-virtualization part of vmx_interrupt_blocked()
-    a849f058f1be1 KVM: PPC: Book3S HV nestedv2: Add DPDES support in helper library for Guest state buffer
-    86abaf9d6c984 KVM: PPC: Book3S HV nestedv2: Fix doorbell emulation
-    a70fcc748d41e remoteproc: mediatek: Increase MT8188/MT8195 SCP core0 DRAM size
-    da24c4dc87d1d media: ivsc: csi: don't count privacy on as error
-    f083de7ff8f6b media: uvcvideo: Fix integer overflow calculating timestamp
-    54f56ba4829a8 jbd2: avoid infinite transaction commit loop
-    ceee029e76dad jbd2: precompute number of transaction descriptor blocks
-    428f8371d09c3 jbd2: make jbd2_journal_get_max_txn_bufs() internal
-    5ab6ac4e9e165 media: imx-pxp: Fix ERR_PTR dereference in pxp_probe()
-    7b17fbfe4fd6b media: i2c: alvium: Move V4L2_CID_GAIN to V4L2_CID_ANALOG_GAIN
-    08e5adac54e89 media: ivsc: csi: add separate lock for v4l2 control handler
-    ea916691a4b00 leds: mt6360: Fix memory leak in mt6360_init_isnk_properties()
-    8f4acacd20671 leds: triggers: Flush pending brightness before activating trigger
-    5600d6013c634 md/md-bitmap: fix writing non bitmap pages
-    e9ad5a675cba2 leds: ss4200: Convert PCIBIOS_* return codes to errnos
-    fdcadf496f09e drivers: soc: xilinx: check return status of get_api_version()
-    86d03934a5d61 cpufreq: qcom-nvmem: fix memory leaks in probe error paths
-    02253054b4f96 wifi: rtw88: usb: Further limit the TX aggregation
-    77911a765209d wifi: rtw88: usb: Fix disconnection after beacon loss
-    2d3673643a62d wifi: rtw89: fix HW scan not aborting properly
-    c2b75b4e483a1 wifi: mwifiex: Fix interface type change
-    a2fa4c058a7c1 genirq: Set IRQF_COND_ONESHOT in request_irq()
-    cf4a37d14ccd6 trace/pid_list: Change gfp flags in pid_list_fill_irq()
-    c2ed4dd5e341d io_uring: don't allow netpolling with SETUP_IOPOLL
-    4d909285f6d28 io_uring: tighten task exit cancellations
-    2a03e99ff9421 io_uring: fix lost getsockopt completions
-    299bc6ffa57e0 ext4: make sure the first directory block is not a hole
-    cdd3453216990 ext4: check dot and dotdot of dx_root before making dir indexed
-    68afb02d219e6 block: check bio alignment in blk_mq_submit_bio
-    550cc6a4dc25e m68k: amiga: Turn off Warp1260 interrupts during boot
-    8ca170c39eca7 udf: Avoid using corrupted block bitmap buffer
-    ed88f19eba215 task_work: Introduce task_work_cancel() again
-    012e110c7dc70 task_work: s/task_work_cancel()/task_work_cancel_func()/
-    f8533c194141b cifs: mount with "unix" mount option for SMB1 incorrectly handled
-    08e863bd57908 cifs: fix reconnect with SMB1 UNIX Extensions
-    3739d711246d8 cifs: fix potential null pointer use in destroy_workqueue in init_cifs error path
-    fde89bb85457a apparmor: use kvfree_sensitive to free data->data
-    185616085b12e drm/amd/display: Check for NULL pointer
-    79bc42a9f5866 scsi: qla2xxx: Fix optrom version displayed in FDMI
-    5afbbe7a5535f drm/amd/display: fix corruption with high refresh rates on DCN 3.0
-    475a5b3b7c8ed drm/gma500: fix null pointer dereference in psb_intel_lvds_get_modes
-    977ee4fe895e1 drm/gma500: fix null pointer dereference in cdv_intel_lvds_get_modes
-    fc7c4b8ec9d64 io_uring/io-wq: limit retrying worker initialisation
-    e71327a647a58 lsm: fixup the inode xattr capability handling
-    40d7f363196c1 media: i2c: Kconfig: Fix missing firmware upload config select
-    f1834feb25770 ext2: Verify bitmap and itable block numbers before using them
-    d3493d6f0dfb1 hfs: fix to initialize fields of hfs_inode_info after hfs_alloc_inode()
-    c7e2f43d182f5 sysctl: always initialize i_uid/i_gid
-    1005f8300593e ata: libata-scsi: Honor the D_SENSE bit for CK_COND=1 and no error
-    67d9d0b6ae4aa ata: libata-scsi: Do not overwrite valid sense data when CK_COND=1
-    6a96041659e83 media: venus: fix use after free in vdec_close
-    9e0ad66cc78dd char: tpm: Fix possible memory leak in tpm_bios_measurements_open()
-    d7f3e486b8f03 tpm_tis_spi: add missing attpm20p SPI device ID entry
-    9291f9de77e10 selftests/nolibc: fix printf format mismatch in expect_str_buf_eq()
-    1477bafd7df4f ata: libata-scsi: Fix offsets for the fixed format sense data
-    4a534f9550215 null_blk: Fix description of the fua parameter
-    d2abd36ce8b7d media: stm32: dcmipp: correct error handling in dcmipp_create_subdevs
-    e20f9e50dced0 md/raid5: fix spares errors about rcu usage
-    794964ac11ffe fuse: verify {g,u}id mount options correctly
-    054dc05f57694 sched/fair: set_load_weight() must also call reweight_task() for SCHED_IDLE tasks
-    f035d08e8ce2d wifi: mac80211: chanctx emulation set CHANGE_CHANNEL when in_reconfig
-    2dd958fa9f31f NFSD: Support write delegations in LAYOUTGET
-    8bb69cbc32d69 drm/xe: Use write-back caching mode for system memory on DGFX
-    e1523d1372339 ipv6: take care of scope when choosing the src addr
-    a9e9686a84fac ipv4: fix source address selection with route leak
-    ce1268b5adbe2 ipv6: fix source address selection with route leak
-    ebb124228eb57 kernel: rerun task_work while freezing in get_signal()
-    b7859ff398b6b btrfs: fix extent map use-after-free when adding pages to compressed bio
-    bf55c43fcf436 workqueue: Always queue work items to the newest PWQ for order workqueues
-    66f23a7b5174b af_packet: Handle outgoing VLAN packets without hardware offloading
-    c18191ae468fc net: netconsole: Disable target before netpoll cleanup
-    2cdab4b4bf773 tick/broadcast: Make takeover of broadcast hrtimer reliable
-    4eb577144b6f6 dt-bindings: thermal: correct thermal zone node name limit
-    1535254fa4b38 thermal/drivers/broadcom: Fix race between removal and clock disable
-    1d1970493c289 exfat: fix potential deadlock on __exfat_get_dentry_set
-    4615095f17abb Revert "firewire: Annotate struct fw_iso_packet with __counted_by()"
-    0099736d7effc x86/efistub: Revert to heap allocated boot_params for PE entrypoint
-    436d1595fa8de x86/efistub: Avoid returning EFI_SUCCESS on error
-    891d90ab1fe59 mm/mglru: fix ineffective protection calculation
-    e7767066d5d76 mm/mglru: fix overshooting shrinker memory
-    9f72d8703dd6a mm: mmap_lock: replace get_memcg_path_buf() with on-stack buffer
-    a39e38be632f0 mm/mglru: fix div-by-zero in vmpressure_calc_level()
-    8e157c8421daa mm/hugetlb: fix possible recursive locking detected warning
-    eebc67ae0b224 hugetlb: force allocating surplus hugepages on mempolicy allowed nodes
-    e60f62f75c997 mm/huge_memory: avoid PMD-size page cache if needed
-    7e1f4efb8d614 mm: huge_memory: use !CONFIG_64BIT to relax huge page alignment on 32 bit machines
-    b14cc2cf313bd landlock: Don't lose track of restrictions on cred_transfer
-    f7b9c501b548b selftests/landlock: Add cred_transfer test
-    11fa625b45faf mailbox: mtk-cmdq: Move devm_mbox_controller_register() after devm_pm_runtime_enable()
-    131c294b77576 mailbox: imx: fix TXDB_V2 channel race condition
-    fbe0fa41d8da7 mailbox: omap: Fix mailbox interrupt sharing
-    b6273c184d09e remoteproc: k3-r5: Fix IPC-only mode detection
-    8fea24a25cd93 remoteproc: mediatek: Don't attempt to remap l1tcm memory if missing
-    f3af305fd8c59 power: supply: ingenic: Fix some error handling paths in ingenic_battery_get_property()
-    ce8bf8b992192 power: supply: ab8500: Fix error handling when calling iio_read_channel_processed()
-    773e7fd311ed1 LoongArch: Check TIF_LOAD_WATCH to enable user space watchpoint
-    420837d08cc2c sbitmap: fix io hung due to race on sbitmap_word::cleared
-    215553c3c3db1 alloc_tag: fix page_ext_get/page_ext_put sequence during page splitting
-    24b39c0ca836e lib: reuse page_ext_data() to obtain codetag_ref
-    fba302603cea3 lib: add missing newline character in the warning message
-    68d4c3722290a s390/dasd: fix error checks in dasd_copy_pair_store()
-    06219163d24fb powerpc/8xx: fix size given to set_huge_pte_at()
-    973850dd83b62 md-cluster: fix hanging issue while a new disk adding
-    ff9400d32183b fs/ntfs3: Keep runs for $MFT::$ATTR_DATA and $MFT::$ATTR_BITMAP
-    73e38cb683679 fs/ntfs3: Missed error return
-    2e83375fd95b8 fs/ntfs3: Fix the format of the "nocase" mount option
-    6af0ce7182e92 rtc: interface: Add RTC offset to alarm after fix-up
-    31be02ef4e54a nilfs2: avoid undefined behavior in nilfs_cnt32_ge macro
-    45475cbe0cc7d selftests/damon/access_memory: use user-defined region size
-    16a767c96902e fs/proc/task_mmu: properly detect PM_MMAP_EXCLUSIVE per page of PMD-mapped THPs
-    65c52a91e3998 fs/proc/task_mmu: don't indicate PM_MMAP_EXCLUSIVE without PM_PRESENT
-    680f6ceee867d fs/proc/task_mmu: indicate PM_FILE for PMD-mapped file THP
-    ce8c54d360df7 pinctrl: renesas: r8a779g0: Fix TPU suffixes
-    d6452ef3a6e31 pinctrl: renesas: r8a779g0: Fix TCLK suffixes
-    488f0a526df05 pinctrl: renesas: r8a779g0: FIX PWM suffixes
-    91bbe8e304092 pinctrl: renesas: r8a779g0: Fix IRQ suffixes
-    42c06e713fcad pinctrl: renesas: r8a779g0: Fix (H)SCIF3 suffixes
-    f634a01daf92a pinctrl: renesas: r8a779g0: Fix (H)SCIF1 suffixes
-    f20026c237746 pinctrl: renesas: r8a779g0: Fix FXR_TXEN[AB] suffixes
-    6474ac2f334b4 pinctrl: renesas: r8a779g0: Fix CANFD5 suffix
-    500295cdc5247 rtc: tps6594: Fix memleak in probe
-    c41eadba18049 fs/ntfs3: Fix field-spanning write in INDEX_HDR
-    d7d3cbb23136a fs/ntfs3: Drop stray '\' (backslash) in formatting string
-    8e0f398c6f5c3 fs/ntfs3: Correct undo if ntfs_create_inode failed
-    d5ad80aabd5a7 fs/ntfs3: Replace inode_trylock with inode_lock
-    33d8dfc0bdaf9 pinctrl: freescale: mxs: Fix refcount of child
-    b3c0850f871c4 pinctrl: ti: ti-iodelay: fix possible memory leak when pinctrl_enable() fails
-    d90085d566a9b pinctrl: single: fix possible memory leak when pinctrl_enable() fails
-    272b9b8e9b7af pinctrl: core: fix possible memory leak when pinctrl_enable() fails
-    065d1ee1a0c8d pinctrl: rockchip: update rk3308 iomux routes
-    edfef987bc5c8 fs/ntfs3: Add missing .dirty_folio in address_space_operations
-    0bbd61e1ac77f fs/ntfs3: Fix getting file type
-    2f7236ba9f7c5 fs/ntfs3: Missed NI_FLAG_UPDATE_PARENT setting
-    539bd10ab6539 fs/ntfs3: Deny getting attr data block in compressed frame
-    ff73b9187376d fs/ntfs3: Fix transform resident to nonresident for compressed files
-    a62241fb49ac1 fs/ntfs3: Merge synonym COMPRESSION_UNIT and NTFS_LZNT_CUNIT
-    1fd2bf31aa542 net: dsa: b53: Limit chip-wide jumbo frame config to CPU ports
-    ea59437fe8aa4 net: dsa: mv88e6xxx: Limit chip-wide frame size config to CPU ports
-    bc410a24a99c2 ipv4: Fix incorrect TOS in fibmatch route get reply
-    3ff2e0a82532b ipv4: Fix incorrect TOS in route get reply
-    c5d21aabf1b31 net: flow_dissector: use DEBUG_NET_WARN_ON_ONCE
-    c62bf09262c5e gve: Fix XDP TX completion handling when counters overflow
-    c420cd5d5bc67 ipvs: properly dereference pe in ip_vs_add_service
-    8058c88ac0df2 netfilter: nf_set_pipapo: fix initial map fill
-    74de442b8e12a netfilter: ctnetlink: use helper function to calculate expect ID
-    487ded1dbb0c4 MIPS: Fix fallback march for SB1
-    d2aea330f4de1 RDMA/mana_ib: Set correct device into ib
-    03ab92bb185c6 RDMA/mana_ib: set node_guid
-    79dc0c2200cf4 bnxt_re: Fix imm_data endianness
-    abd9c8843cbc1 RDMA: Fix netdev tracker in ib_device_set_netdev
-    e1640fed0377b crypto: mxs-dcp - Ensure payload is zero when using key slot
-    133a2823a9ba2 iommu/vt-d: Fix identity map bounds in si_domain_init()
-    97204e45721f3 RDMA/hns: Fix mbx timing out before CMD execution is completed
-    16c003fa616d2 RDMA/hns: Fix insufficient extend DB for VFs.
-    d0aa92bd8111b RDMA/hns: Fix undifined behavior caused by invalid max_sge
-    f169b6243032e RDMA/hns: Fix shift-out-bounds when max_inline_data is 0
-    ecdf900a5a337 RDMA/hns: Fix missing pagesize and alignment check in FRMR
-    6dbec7322f620 RDMA/hns: Fix unmatch exception handling when init eq table fails
-    06580b33c183c RDMA/hns: Fix soft lockup under heavy CEQE load
-    9b812436f03e3 RDMA/hns: Check atomic wr length
-    9210853b0c529 macintosh/therm_windtunnel: fix module unload.
-    dd479933722ec powerpc/xmon: Fix disassembly CPU feature checks
-    7e686c35fad0c iommu/vt-d: Fix aligned pages in calculate_psi_aligned_address()
-    497a8fdd1e5c1 iommu/vt-d: Limit max address mask to MAX_AGAW_PFN_WIDTH
-    a08b8b144cc79 PCI: dwc: Fix index 0 incorrectly being interpreted as a free ATU slot
-    66363bc6ff3eb PCI: qcom-ep: Disable resources unconditionally during PERST# assert
-    aceabb0c074a2 MIPS: Octeron: remove source file executable bit
-    f6f2e9c208a65 clk: en7523: fix rate divider for slic and spi clocks
-    b5bdb36e7ccf9 clk: qcom: Park shared RCGs upon registration
-    3717b094aa727 clk: qcom: gcc-x1e80100: Set parent rate for USB3 sec and tert PHY pipe clks
-    a3889e012f7df clk: qcom: kpss-xcc: Return of_clk_add_hw_provider to transfer the error
-    8a2694a0cad71 crypto: qat - extend scope of lock in adf_cfg_add_key_value_param()
-    728ca88a7e982 nvmem: rockchip-otp: set add_legacy_fixed_of_cells config option
-    9fd003f344d50 scsi: lpfc: Revise lpfc_prep_embed_io routine with proper endian macro usages
-    e9164903b8b30 net: missing check virtio
-    eab96e8716cbf vhost/vsock: always initialize seqpacket_allow
-    55237ec25ed59 PCI: endpoint: Fix error handling in epf_ntb_epc_cleanup()
-    b9e8695246bcf PCI: endpoint: Clean up error handling in vpci_scan_bus()
-    4275b46b75731 iommu/arm-smmu-qcom: Register the TBU driver in qcom_smmu_impl_init
-    b1173d64edd27 ASoC: amd: Adjust error handling in case of absent codec device
-    1f2ff6935b6de eeprom: ee1004: Call i2c_new_scanned_device to instantiate thermal sensor
-    49c9945c054df kvm: s390: Reject memory region operations for ucontrol VMs
-    a5c15a78c0e16 dm-raid: Fix WARN_ON_ONCE check for sync_thread in raid_resume
-    298feddffbfc3 clk: qcom: gcc-x1e80100: Fix halt_check for all pipe clocks
-    899bb519f2a9e Input: elan_i2c - do not leave interrupt disabled on suspend failure
-    4adabd438382d RDMA/device: Return error earlier if port in not valid
-    e4e11a6ed2a8a mtd: make mtd_test.c a separate module
-    0036f27f2a7b4 iommufd/iova_bitmap: Check iova_bitmap_done() after set ahead
-    1d779d0e4e8fe iommufd/selftest: Fix tests to use MOCK_PAGE_SIZE based buffer sizes
-    b06d34eb8fcd9 iommufd/selftest: Add tests for <= u8 bitmap sizes
-    73dc9fb2b38de iommufd/selftest: Fix iommufd_test_dirty() to handle <u8 bitmaps
-    2355c5321732f iommufd/selftest: Fix dirty bitmap tests with u8 bitmaps
-    57a6e7619ceac ASoC: max98088: Check for clk_prepare_enable() error
-    cc3c0d2784be5 powerpc/prom: Add CPU info to hardware description string later
-    c2fa93051fdcd hwrng: core - Fix wrong quality calculation at hw rng registration
-    45b2a23e00d44 scsi: lpfc: Fix a possible null pointer dereference
-    577eac91b2a2b ASoC: qcom: Adjust issues in case of DT error in asoc_qcom_lpass_cpu_platform_probe()
-    498766fc3e51f RDMA/rxe: Don't set BTH_ACK_MASK for UC or UD QPs
-    c2ac6edfc9199 RDMA/mlx5: Use sq timestamp as QP timestamp when RoCE is disabled
-    a6366755586de RDMA/mlx4: Fix truncated output warning in alias_GUID.c
-    40ef9b895119f RDMA/mlx4: Fix truncated output warning in mad.c
-    9569c97b3c7ea Input: qt1050 - handle CHIP_ID reading error
-    fa2eb7920e590 interconnect: qcom: qcm2290: Fix mas_snoc_bimc RPM master ID
-    c916004860b65 clk: qcom: gpucc-sa8775p: Update wait_val fields for GPU GDSC's
-    6c0a1938183a4 clk: qcom: gpucc-sa8775p: Park RCG's clk source at XO during disable
-    f6896514c5edd clk: qcom: gpucc-sa8775p: Remove the CLK_IS_CRITICAL and ALWAYS_ON flags
-    0e3c462b1472b clk: qcom: gcc-sa8775p: Update the GDSC wait_val fields and flags
-    6b8a9b71629ef clk: qcom: gpucc-sm8350: Park RCG's clk source at XO during disable
-    0fcc48494a1e3 mtd: spi-nor: winbond: fix w25q128 regression
-    313231de3e76a RDMA/cache: Release GID table even if leak is detected
-    fa6f16eff7320 ASoc: PCM6240: Return directly after a failed devm_kzalloc() in pcmdevice_i2c_probe()
-    e158d5ecd0c06 usb: typec-mux: nb7vpq904m: unregister typec switch on probe error and remove
-    7c04f4334a915 usb: typec-mux: ptn36502: unregister typec switch on probe error and remove
-    90cda6c657f96 ASoC: cs35l56: Accept values greater than 0 as IRQ numbers
-    0c9dcb01325ac ASoc: tas2781: Enable RCA-based playback without DSP firmware download
-    f7275af580b13 powerpc/kexec_file: fix cpus node update to FDT
-    a1861bdd9f7da RDMA/mlx5: Set mkeys for dmabuf at PAGE_SIZE
-    ed67aa7da9173 coresight: Fix ref leak when of_coresight_parse_endpoint() fails
-    7aa2a86bc9b53 KVM: PPC: Book3S HV: Fix the get_one_reg of SDAR
-    d18ff82c2da9d KVM: PPC: Book3S HV: Fix the set_one_reg for MMCR3
-    b956989690048 iommu/arm-smmu-v3: Avoid uninitialized asid in case of error
-    9d9029157d49f iio: adc: adi-axi-adc: don't allow concurrent enable/disable calls
-    532248d0f0365 iio: frequency: adrf6780: rm clk provider include
-    1ff0fc4949e22 iio: adc: ad9467: use DMA safe buffer for spi
-    0019bd1e6c348 clk: meson: s4: fix pwm_j_div parent clock
-    b156f8f482580 clk: meson: s4: fix fixed_pll_dco clock
-    69b5557d750ae clk: qcom: camcc-sc7280: Add parent dependency to all camera GDSCs
-    5f25486c4ee72 clk: qcom: gcc-sc7280: Update force mem core bit for UFS ICE clock
-    f94068f2343ee crypto: atmel-sha204a - fix negated return value
-    1041f82849289 crypto: tegra - Remove an incorrect iommu_fwspec_free() call in tegra_se_remove()
-    e42cc7d832b43 scsi: ufs: mcq: Fix missing argument 'hba' in MCQ_OPR_OFFSET_n
-    1911fd52a37a2 riscv: smp: fail booting up smp if inconsistent vlen is detected
-    b2808d2370cc2 PCI: tegra194: Set EP alignment restriction for inbound ATU
-    3ff3bdde950f1 PCI: rcar: Demote WARN() to dev_warn_ratelimited() in rcar_pcie_wakeup()
-    dbcdd1863ba2e PCI: keystone: Fix NULL pointer dereference in case of DT error in ks_pcie_setup_rc_app_regs()
-    36aaa68b1a991 PCI: keystone: Don't enable BAR 0 for AM654x
-    09904aba0cf8e PCI: keystone: Relocate ks_pcie_set/clear_dbi_mode()
-    ffffd95e46be0 PCI: Fix resource double counting on remove & rescan
-    af4ad016abb16 PCI: endpoint: pci-epf-test: Make use of cached 'epc_features' in pci_epf_test_core_init()
-    b5046de32fd15 iio: Fix the sorting functionality in iio_gts_build_avail_time_table
-    5532e0c563659 SUNRPC: Fixup gss_status tracepoint error output
-    387e6e9d11025 nfs: pass explicit offset/count to trace events
-    b69c02dea9bfd platform/x86: asus-wmi: fix TUF laptop RGB variant
-    8725399367426 perf dso: Fix address sanitizer build
-    54765806773ef sparc64: Fix incorrect function signature and add prototype for prom_cif_init
-    2c370dda0ee71 leds: flash: leds-qcom-flash: Test the correct variable in init
-    c9c1d9be6f22f drm/qxl: Pin buffer objects for internal mappings
-    024d8556f37fc ext4: avoid writing unitialized memory to disk in EA inodes
-    149a0691bf95e ext4: don't track ranges in fast_commit if inode has inlined data
-    4ebf5bfd34001 NFSv4.1 another fix for EXCHGID4_FLAG_USE_PNFS_DS for DS server
-    030fdc351225c SUNRPC: avoid soft lockup when transmitting UDP to reachable server.
-    fb778472ba466 xprtrdma: Fix rpcrdma_reqs_reset()
-    fecdddd8524d6 mfd: omap-usb-tll: Use struct_size to allocate tll
-    abf9d5c35453a mfd: rsmu: Split core code into separate module
-    35f45d148d041 drm/panthor: Record devfreq busy as soon as a job is started
-    8b833796fa231 perf intel-pt: Fix exclude_guest setting
-    f44c448bfb2a7 perf intel-pt: Fix aux_watermark calculation for 64-bit size
-    b7182f73d7568 media: venus: flush all buffers in output plane streamoff
-    5b9eb7e0ab828 perf stat: Fix a segfault with --per-cluster --metric-only
-    c5d98f78ef3ae drm/mediatek/dp: Fix spurious kfree()
-    7d44a63b4860a drm/mediatek: dpi/dsi: Fix possible_crtcs calculation
-    081ff4c0ef188 drm/amd/display: Add null check before access structs
-    81f819c537d29 ext4: fix infinite loop when replaying fast_commit
-    b8e7d26610fff drm/mediatek: Remove less-than-zero comparison of an unsigned value
-    c0fd0eba42528 drm/panic: Do not select DRM_KMS_HELPER
-    d6f36acfc4588 drm/panic: depends on !VT_CONSOLE
-    c53e98ef03722 Revert "leds: led-core: Fix refcount leak in of_led_get()"
-    2862ec16f5085 leds: rgb: leds-qcom-lpg: Add PPG check for setting/clearing PBS triggers
-    d4c57354a06cb drm/qxl: Add check for drm_cvt_mode
-    7b232168841a3 drm/etnaviv: fix DMA direction handling for cached RW buffers
-    01723f9a60b4e perf report: Fix condition in sort__sym_cmp()
-    da17ee4015c64 perf pmus: Fixes always false when compare duplicates aliases
-    ee0a02229380f tools/perf: Fix the string match for "/tmp/perf-$PID.map" files in dso__load
-    46a62b1cbca95 perf test: Make test_arm_callgraph_fp.sh more robust
-    eb049d63ba11f platform/arm64: build drivers even on non-ARM64 platforms
-    31b6cd5545f13 drm/panic: Fix off-by-one logo size checks
-    1d5d55b29999a drm/panic: only draw the foreground color in drm_panic_blit()
-    b9080795fe80e drm/ttm/tests: Fix a warning in ttm_bo_unreserve_bulk
-    aa6e78f2c87d9 drm/msm/dpu: drop validity checks for clear_pending_flush() ctl op
-    0bdec11134cc9 drm/msm/dsi: set VIDEO_COMPRESSION_MODE_CTRL_WC
-    2afd0e9059d5b drm/msm/dsi: set video mode widebus enable bit when widebus is enabled
-    0788a6f3523d3 leds: trigger: Unregister sysfs attributes before calling deactivate()
-    e6daf3bf851b4 media: imx-jpeg: Drop initial source change event if capture has been setup
-    d371e4eed3117 drm/msm/a6xx: Fix A702 UBWC mode
-    faedf1281d28f drm/msm/a6xx: use __unused__ to fix compiler warnings for gen7_* includes
-    8a4ce184dcc6e drm/mediatek: Set DRM mode configs accordingly
-    0d4c45d401980 drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation property
-    19ef723f6edd6 drm/mediatek: Add OVL compatible name for MT8195
-    a063acc5d33d6 drm/mediatek: Turn off the layers with zero width or height
-    5e28b7aa8be14 drm/mediatek: Fix destination alpha error in OVL
-    8c3411d859f16 drm/mediatek: Fix XRGB setting error in Mixer
-    91ef5af76f7ec drm/mediatek: Fix XRGB setting error in OVL
-    a2541f21713f7 drm/mediatek: Use 8-bit alpha in ETHDR
-    0e2b6d89ae144 drm/mediatek: Add missing plane settings when async update
-    41b97b3d61a0b drm/ttm/tests: Let ttm_bo_test consider different ww_mutex implementation.
-    0f2a77c69b193 media: renesas: vsp1: Store RPF partition configuration per RPF instance
-    f1fd968260da5 media: renesas: vsp1: Fix _irqsave and _irq mix
-    c88ffbc568cbd media: rcar-csi2: Cleanup subdevice in remove()
-    484f18269e799 media: rcar-csi2: Disable runtime_pm in probe error
-    7dd4dba5dc103 media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
-    a749415d2058a drm/i915/psr: Set SU area width as pipe src width
-    475c678426b15 drm: zynqmp_kms: Fix AUX bus not getting unregistered
-    8c07f6b2abda3 drm: zynqmp_dpsub: Fix an error handling path in zynqmp_dpsub_probe()
-    0f12d2b6e6118 media: uvcvideo: Override default flags
-    35a00891b0c22 media: uvcvideo: Add quirk for invalid dev_sof in Logitech C920
-    27e991a926212 media: uvcvideo: Quirk for invalid dev_sof in Logitech C922
-    0fe5ae08c1321 media: i2c: imx219: fix msr access command sequence
-    29649f3c5697e media: c8sectpfe: Add missing parameter names
-    97a80ca3dce37 saa7134: Unchecked i2c_transfer function result fixed
-    23f5e185134cf drm/amd/display: use pre-allocated temp structure for bounding box
-    898d200148d03 ipmi: ssif_bmc: prevent integer overflow on 32bit systems
-    5f8c27d3985ed x86/shstk: Make return uprobe work with shadow stack
-    504f9ce3bcfe9 drm/i915/psr: Print Panel Replay status instead of frame lock status
-    63b0fcbbaaf0c drm/i915/display: Skip Panel Replay on pipe comparison if no active planes
-    63d71da2b875a drm/bridge: samsung-dsim: Set P divider based on min/max of fin pll
-    309fdbb585186 media: mediatek: vcodec: Fix unreasonable data conversion
-    cdf05ae76198c media: mediatek: vcodec: Handle invalid decoder vsi
-    a59088577033a perf maps: Fix use after free in __maps__fixup_overlap_and_insert
-    e1d86efd46986 drm/msm/dp: fix runtime_pm handling in dp_wait_hpd_asserted
-    7deaf31e79bb8 drm/msm/dpu: drop duplicate drm formats from wb2_formats arrays
-    ca168c0d8faf1 Revert "drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set"
-    956bb63a227f4 drm/msm/dpu: fix encoder irq wait skip
-    b21aba72aadd9 s390/uv: Don't call folio_wait_writeback() without a folio reference
-    bd7e3335a8b9c drm/amdgpu: Fix type mismatch in amdgpu_gfx_kiq_init_ring
-    b87e28050d9b0 media: v4l: async: Fix NULL pointer dereference in adding ancillary links
-    04be7591f3107 media: i2c: hi846: Fix V4L2_SUBDEV_FORMAT_TRY get_selection()
-    f843053eca59c media: i2c: Fix imx412 exposure control
-    3d4e5b75e9903 drm/i915/psr: Use enable boolean from intel_crtc_state for Early Transport
-    6f611b000d623 media: imon: Fix race getting ictx->lock
-    ad24b56e0d987 media: dvb-usb: Fix unexpected infinite loop in dvb_usb_read_remote_control()
-    c766065e82720 media: pci: ivtv: Add check for DMA map result
-    0afb3c7020844 drm/amd/display: Move 'struct scaler_data' off stack
-    a9b68a2f325e4 drm/amd/display: fix graphics_object_id size
-    814d1469dd35c drm/amd/display: dynamically allocate dml2_configuration_options structures
-    79161e9cc12a7 drm/amdgpu: Fix snprintf usage in amdgpu_gfx_kiq_init_ring
-    8607894112f1d drm/bridge: it6505: fix hibernate to resume no display issue
-    c47583f3cb066 drm/panel: ilitek-ili9882t: Check for errors on the NOP in prepare()
-    30c229ef8d2c8 drm/panel: ilitek-ili9882t: If prepare fails, disable GPIO before regulators
-    505c099de10c6 drm/panel: boe-tv101wum-nl6: Check for errors on the NOP in prepare()
-    4c34113e9d08c drm/panel: boe-tv101wum-nl6: If prepare fails, disable GPIO before regulators
-    5e42e925ce8d9 drm/panel: himax-hx8394: Handle errors from mipi_dsi_dcs_set_display_on() better
-    889f0cb5a83d9 drm/amdgpu: Remove GC HW IP 9.3.0 from noretry=1
-    9084114e33859 drm/amdgpu: Check if NBIO funcs are NULL in amdgpu_device_baco_exit
-    422b081874bbc drm/amdgpu: Fix memory range calculation
-    6369ac0eb0c3b drm/amd/pm: Fix aldebaran pcie speed reporting
-    ca503105cbe57 drm/panel: lg-sw43408: add missing error handling
-    6f793d85289fd drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_generic_write_seq()
-    810066677eb8c drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
-    1f45e83312b59 drm/i915/display: Do not print "psr: enabled" for on Panel Replay
-    f2df0e9cf1c3c drm/i915/psr: Rename has_psr2 as has_sel_update
-    e86f34eba0a9a drm/amdkfd: Fix CU Masking for GFX 9.4.3
-    23c8257eee944 drm/arm/komeda: Fix komeda probe failing if there are no links in the secondary pipeline
-    a97c08513bc33 drm/rockchip: vop2: Fix the port mux of VP2
-    e85e7f0936d87 tcp: Don't access uninit tcp_rsk(req)->ao_keyid in tcp_create_openreq_child().
-    70d665b83e2ea Bluetooth: Fix usage of __hci_cmd_sync_status
-    f7fb60b5380a8 net: bridge: mst: Check vlan state for egress decision
-    12144069209ee xdp: fix invalid wait context of page_pool_destroy()
-    468a729b78895 virtio_net: Fix napi_skb_cache_put warning
-    4a0d2efbb773b Bluetooth: hci_core, hci_sync: cleanup struct discovery_state
-    8424783412074 Bluetooth: hci_event: Set QoS encryption from BIGInfo report
-    dc14469e43da1 Bluetooth: btnxpuart: Add handling for boot-signature timeout errors
-    be2ac1f45f39f Bluetooth: btintel_pcie: Fix irq leak
-    ea4a294c6feae Bluetooth: btintel: Refactor btintel_set_ppag()
-    cfd70400a3115 Bluetooth: hci_bcm4377: Use correct unit for timeouts
-    cad797ceeeb19 selftests: forwarding: devlink_lib: Wait for udev events after reloading
-    e187690b125a2 net: ethtool: pse-pd: Fix possible null-deref
-    dd5a33e0af6fd net: pse-pd: Do not return EOPNOSUPP if config is null
-    b29a880bb145e bpf: Fix null pointer dereference in resolve_prog_type() for BPF_PROG_TYPE_EXT
-    4799e4e51fe4f nfsd: nfsd_file_lease_notifier_call gets a file_lease as an argument
-    345652866a886 bpf: fix overflow check in adjust_jmp_off()
-    fbb84b1b05c97 bpf: Eliminate remaining "make W=1" warnings in kernel/bpf/btf.o
-    e0f48f51d55fb bna: adjust 'name' buf size of bna_tcb and bna_ccb structures
-    888d1d38bd1f1 bpf: annotate BTF show functions with __printf
-    a8d0ea2607132 selftests/resctrl: Fix closing IMC fds on error and open-code R+W instead of loops
-    6d218fcc707d6 bpf, arm64: Fix trampoline for BPF_TRAMP_F_CALL_ORIG
-    5b08892910296 selftests/bpf: Close obj in error path in xdp_adjust_tail
-    8262bca056784 selftests/bpf: Null checks for links in bpf_tcp_ca
-    72607d8ad89b4 selftests/bpf: Close fd in error path in drop_on_reuseport
-    29ca547e87501 locking/rwsem: Add __always_inline annotation to __down_write_common() and inlined callers
-    85a28462f87e6 wifi: virt_wifi: don't use strlen() in const context
-    c1cb824e66236 net: page_pool: fix warning code
-    378003612bc9c gss_krb5: Fix the error handling path for crypto_sync_skcipher_setkey
-    65b97d6f328f9 NFSD: Fix nfsdcld warning
-    0faaa5f29e513 bpf: helpers: fix bpf_wq_set_callback_impl signature
-    416d3c1538df0 wifi: virt_wifi: avoid reporting connection success with wrong SSID
-    574c740486169 xfrm: call xfrm_dev_policy_delete when kill policy
-    31d0172a091dc xfrm: fix netdev reference count imbalance
-    96ae4de5bc4c8 wifi: rtw89: Fix array index mistake in rtw89_sta_info_get_iter()
-    3fd761e3cefdc perf/x86/amd/uncore: Fix DF and UMC domain identification
-    381b21a1cf2ad perf/x86/amd/uncore: Avoid PMU registration if counters are unavailable
-    501b077aefc1a perf/x86/intel/cstate: Fix Alderlake/Raptorlake/Meteorlake
-    9bed6852d3f56 perf: Fix default aux_watermark calculation
-    e8bf18de94550 perf: Prevent passing zero nr_pages to rb_alloc_aux()
-    f86f70e332258 perf: Fix perf_aux_size() for greater-than 32-bit size
-    d483e01df5cb1 perf/x86/intel/pt: Fix pt_topa_entry_for_page() address calculation
-    0561e6743c6b5 bpf: Fix atomic probe zero-extension
-    c3be81545328a bpftool: Mount bpffs when pinmaps path not under the bpffs
-    3e6a1b1b179ab riscv, bpf: Fix out-of-bounds issue when preparing trampoline image
-    7276b1d7b1e79 xfrm: Export symbol xfrm_dev_state_delete.
-    48ec0d5910248 wifi: rtl8xxxu: 8188f: Limit TX power index
-    74e17a9237196 wifi: rtw89: 8852b: fix definition of KIP register number
-    ef0d9d2f0dc11 wifi: rtw89: wow: fix GTK offload H2C skbuff issue
-    0767f5fe9f48e wifi: ath12k: fix peer metadata parsing
-    23a9aab65585c wifi: ath12k: advertise driver capabilities for MBSSID and EMA
-    b33855de5c62d wifi: iwlwifi: mvm: always unblock EMLSR on ROC end
-    9d5593e6b1639 wifi: iwlwifi: fix iwl_mvm_get_valid_rx_ant()
-    2f4182ef6adef wifi: mac80211: correcty limit wider BW TDLS STAs
-    306d783dd1cf1 wifi: mac80211: add ieee80211_tdls_sta_link_id()
-    28353278ee8c4 netfilter: nf_tables: rise cap on SELinux secmark context
-    bb65059d251a3 ipvs: Avoid unnecessary calls to skb_is_gso_sctp
-    8ecee44464a49 xfrm: Fix unregister netdevice hang on hardware offload.
-    2845db7bedd84 libbpf: Skip base btf sanity checks
-    aeb79296c65cb libbpf: Checking the btf_type kind when fixing variable offsets
-    fe60c691835ed bpf: Change bpf_session_cookie return value to __u64 *
-    00e09f86c6fa5 net: dsa: ksz_common: Allow only up to two HSR HW offloaded ports for KSZ9477
-    3bde02b27aacd net: fec: Fix FEC_ECR_EN1588 being cleared on link-down
-    40d7b3ed52449 udf: Fix bogus checksum computation in udf_rename()
-    73c19830cd723 xfrm: Log input direction mismatch error in one place
-    a4c10813bc394 xfrm: Fix input error path memory access
-    8ca4ec5a59d34 bpf: Make bpf_session_cookie() kfunc return long *
-    ddbd23de1d2dd wifi: iwlwifi: mvm: separate non-BSS/ROC EMLSR blocking
-    94d2e5b7866da wifi: iwlwifi: mvm: fix re-enabling EMLSR
-    07117ccf53731 wifi: nl80211: expose can-monitor channel property
-    19eaf4f2f5a98 wifi: cfg80211: handle 2x996 RU allocation in cfg80211_calculate_bitrate_he()
-    c70efd8546e65 wifi: cfg80211: fix typo in cfg80211_calculate_bitrate_he()
-    7a00a36b656de wifi: ath12k: fix per pdev debugfs registration
-    1d291225c40b8 wifi: ath11k: fix wrong handling of CCMP256 and GCMP ciphers
-    630c62b468357 wifi: ath12k: fix ACPI warning when resume
-    53c7c8ed563da jump_label: Fix concurrency issues in static_key_slow_dec()
-    7e4a0c17a81d3 perf/x86: Serialize set_attr_rdpmc()
-    431342f4ba521 mlxsw: spectrum_acl: Fix ACL scale regression and firmware errors
-    fb5d4fc578e65 mlxsw: spectrum_acl_erp: Fix object nesting warning
-    499f742fed42e lib: objagg: Fix general protection fault
-    a1cf0f193db57 sched/core: Drop spinlocks on contention iff kernel is preemptible
-    b20578a3a2e67 sched/core: Move preempt_model_*() helpers from sched.h to preempt.h
-    50b556a1ce2cb udf: Fix lock ordering in udf_evict_inode()
-    bd334e2f45a81 selftests/bpf: Check length of recv in test_sockmap
-    befa479331099 net/smc: set rmb's SG_MAX_SINGLE_ALLOC limitation only when CONFIG_ARCH_NO_SG_CHAIN is defined
-    f6f67fff74f1b libbpf: keep FD_CLOEXEC flag when dup()'ing FD
-    1a07de1959cae hns3: avoid linking objects into multiple modules
-    5e8a0b94c58f9 tcp: fix races in tcp_v[46]_err()
-    0c6034cae002b tcp: fix races in tcp_abort()
-    c366435a152b8 tcp: fix race in tcp_write_err()
-    ea734f7724ebb tcp: add tcp_done_with_error() helper
-    13829bfb38bcf net: ethernet: cortina: Restore TSO support
-    04d8b7a21c006 wifi: ath12k: fix wrong definition of CE ring's base address
-    5c7db8b09fbaa wifi: ath11k: fix wrong definition of CE ring's base address
-    bdfbf56652d5c wifi: rtw89: 8852c: correct logic and restore PCI PHY EQ after device resume
-    95d4e829e50e2 wifi: ath12k: fix firmware crash during reo reinject
-    36fc66a7d9ca3 wifi: ath12k: fix invalid memory access while processing fragmented packets
-    6925320fcd40d wifi: ath12k: change DMA direction while mapping reinjected packets
-    59423af36b253 wifi: ath11k: restore country code during resume
-    bee1f0e97cea5 wifi: ath11k: refactor setting country code logic
-    12e0c7822a5a4 wifi: mac80211: reset negotiated TTLM on disconnect
-    d28e8958fc080 wifi: mac80211: cancel TTLM teardown work earlier
-    a82d97b9979bf wifi: mac80211: cancel multi-link reconf work on disconnect
-    9750899410c84 wifi: mac80211: fix TTLM teardown work
-    0b336e37e77cb wifi: iwlwifi: mvm: don't skip link selection
-    b17b8b492764a net: esp: cleanup esp_output_tail_tcp() in case of unsupported ESPINTCP
-    9a340fe1b0b4e wifi: rtw89: 8852b: restore setting for RFE type 5 after device resume
-    eab9ecfa8ed3d selftests/bpf: Fix prog numbers in test_sockmap
-    b04566066c0ac bpftool: Un-const bpf_func_info to fix it for llvm 17 and newer
-    9abf615e1572d wifi: ath12k: fix Smatch warnings on ath12k_core_suspend()
-    a9ac7d444de51 wifi: ath12k: Fix tx completion ring (WBM2SW) setup failure
-    7f41e6f884cc9 wifi: ath12k: Correct 6 GHz frequency value in rx status
-    c33154cd0e162 wifi: brcmsmac: LCN PHY code is used for BCM4313 2G-only device
-    c9a04fc459677 wifi: ath12k: avoid duplicated vdev stop
-    e0f67630ee8f6 wifi: ath12k: drop failed transmitted frames from metric calculation.
-    059ef22f55ee0 wifi: ath12k: Don't drop tx_status in failure case
-    2af312f4a6d03 firmware: turris-mox-rwtm: Initialize completion before mailbox
-    4f3811ecac84a firmware: turris-mox-rwtm: Fix checking return value of wait_for_completion_timeout()
-    c83d61d3cab0a firmware: turris-mox-rwtm: Do not complete if there are no waiters
-    1081b3f819610 vmlinux.lds.h: catch .bss..L* sections into BSS")
-    3dc633cb63305 x86/sev: Do RMP memory coverage check after max_pfn has been set
-    8057117dafb49 ARM: Remove address checking for MMUless devices
-    38908feafa26a ARM: spitz: fix GPIO assignment for backlight
-    50162623cb8da m68k: cmpxchg: Fix return value for default case in __arch_xchg()
-    57a818bfa03b1 cpufreq/amd-pstate: Fix the scaling_max_freq setting on shared memory CPPC systems
-    aff58cd5ddc1a cpufreq/amd-pstate-ut: Convert nominal_freq to khz during comparisons
-    d7a8cf3fafc44 arm64: dts: qcom: sm6350: Add missing qcom,non-secure-domain property
-    9633f16563c25 arm64: dts: rockchip: fixes PHY reset for Lunzn Fastrhino R68S
-    9a19c4a67e5e8 arm64: dts: rockchip: disable display subsystem for Lunzn Fastrhino R6xS
-    4f19bf7f6d6d7 arm64: dts: rockchip: remove unused usb2 nodes for Lunzn Fastrhino R6xS
-    e22a93c8070d9 arm64: dts: rockchip: fix pmu_io supply for Lunzn Fastrhino R6xS
-    65de64c52ce03 arm64: dts: rockchip: fix usb regulator for Lunzn Fastrhino R6xS
-    36f12ac15e6cb arm64: dts: rockchip: fix regulator name for Lunzn Fastrhino R6xS
-    66dbed6840265 arm64: dts: rockchip: Add missing power-domains for rk356x vop_mmu
-    1709d8fc48e19 arm64: dts: qcom: qrb4210-rb2: Correct max current draw for VBUS
-    eaf36e6600fa4 x86/xen: Convert comma to semicolon
-    cba20cbcf31b3 arm64: dts: qcom: x1e80100: Fix USB HS PHY 0.8V supply
-    d437ba496d2c4 arm64: dts: imx8mp: Fix pgc vpu locations
-    4bf10cc8b5210 arm64: dts: imx8mp: Fix pgc_mlmix location
-    92df560733f7d m68k: atari: Fix TT bootup freeze / unexpected (SCU) interrupt messages
-    4bc7267967cda arm64: dts: renesas: r9a08g045: Add missing hypervisor virtual timer IRQ
-    2eee24dbb952f arm64: dts: renesas: r9a07g054: Add missing hypervisor virtual timer IRQ
-    e88370be243cd arm64: dts: renesas: r9a07g044: Add missing hypervisor virtual timer IRQ
-    c34ac879e17ff arm64: dts: renesas: r9a07g043u: Add missing hypervisor virtual timer IRQ
-    94f19d09e81ea arm64: dts: renesas: r8a779g0: Add missing hypervisor virtual timer IRQ
-    d5c33c9ed99cd arm64: dts: renesas: r8a779f0: Add missing hypervisor virtual timer IRQ
-    703eedeebe139 arm64: dts: renesas: r8a779a0: Add missing hypervisor virtual timer IRQ
-    68e39a9a7f717 arm64: dts: renesas: r8a779h0: Drop "opp-shared" from opp-table-0
-    30c59704ab60f arm64: dts: rockchip: Fix mic-in-differential usage on rk3568-evb1-v10
-    d65388253c1aa arm64: dts: rockchip: Fix mic-in-differential usage on rk3566-roc-pc
-    c9d4cbc72a469 arm64: dts: rockchip: Drop invalid mic-in-differential on rk3568-rock-3a
-    f146001e49922 arm64: dts: amlogic: setup hdmi system clock
-    5d1e9ca9f76ee arm64: dts: amlogic: add power domain to hdmitx
-    70bc57ac4f73b arm64: dts: amlogic: gx: correct hdmi clocks
-    e5ed533f690f3 soc: mediatek: mtk-mutex: Add MDP_TCC0 mod to MT8188 mutex table
-    a6a7ed42ac93d arm64: dts: mediatek: mt8183-kukui-jacuzzi: Add ports node for anx7625
-    c0d6ac595e152 arm64: dts: mediatek: mt8183-pico6: Fix wake-on-X event node names
-    8bd5cc9b7bfd3 arm64: dts: mediatek: mt8183-kukui: Fix the value of `dlg,jack-det-rate` mismatch
-    33456268a54e1 arm64: dts: mediatek: mt7622: fix "emmc" pinctrl mux
-    a3c80f9326aea arm64: dts: mediatek: mt7981: fix code alignment for PWM clocks
-    a07456e3c3d0c arm64: dts: mediatek: mt8192-asurada: Add off-on-delay-us for pp3300_mipibrdg
-    c42e03a08ba9a arm64: dts: mediatek: mt8183-kukui: Drop bogus output-enable property
-    573fb73db52f2 arm64: dts: medaitek: mt8395-nio-12l: Set i2c6 pins to bias-disable
-    e8f068a23a18b arm64: dts: mediatek: mt8192: Fix GPU thermal zone name for SVS
-    509a9dc5cf665 arm64: dts: mediatek: mt8195: Fix GPU thermal zone name for SVS
-    70aa2d9b89d31 ARM: dts: imx6qdl-kontron-samx6i: fix PCIe reset polarity
-    7f62fe7e0e85d ARM: dts: imx6qdl-kontron-samx6i: fix SPI0 chip selects
-    b2490fc162b45 ARM: dts: imx6qdl-kontron-samx6i: fix board reset
-    3326d475ddd7d ARM: dts: imx6qdl-kontron-samx6i: fix PHY reset
-    873aaa24d0398 ARM: dts: imx6qdl-kontron-samx6i: fix phy-mode
-    4025ecca3c790 arm64: dts: amlogic: sm1: fix spdif compatibles
-    9a9f8515c449d arm64: dts: rockchip: Increase VOP clk rate on RK3328
-    ba9fa7529a149 soc: qcom: pdr: fix parsing of domains lists
-    8543269567e2f soc: qcom: pdr: protect locator_addr with the main mutex
-    4100d4d019f8e soc: qcom: icc-bwmon: Fix refcount imbalance seen during bwmon_remove
-    9eacfd2ab4c61 arm64: dts: qcom: qdu1000: Add secure qfprom node
-    a0f985672d68a arm64: dts: qcom: sc7180-trogdor: Disable pwmleds node where unused
-    9d998dcfff80a arm64: dts: ti: k3-am62p5-sk: Fix pinmux for McASP1 TX
-    3b2ce19ac2f7e arm64: dts: ti: k3-am625-phyboard-lyra-rdk: Drop McASP AFIFOs
-    1322529b0c782 arm64: dts: ti: k3-am62-verdin: Drop McASP AFIFOs
-    a4a03e2f485bf arm64: dts: ti: k3-am625-beagleplay: Drop McASP AFIFOs
-    4efa40f9dfe58 arm64: dts: ti: k3-am62p5: Drop McASP AFIFOs
-    a8c6c5e13aba9 arm64: dts: ti: k3-am62a7: Drop McASP AFIFOs
-    2a3e7f475866c arm64: dts: ti: k3-am62x: Drop McASP AFIFOs
-    9e6590af6999e arm64: dts: ti: k3-j722s: Fix main domain GPIO count
-    2ea4abb96f206 arm64: dts: ti: k3-am642-hummingboard-t: correct rs485 rts polarity
-    98e86ab64873e arm64: dts: ti: k3-am62p-main: Fix the reg-range for main_pktdma
-    909ad4f81cc82 arm64: dts: ti: k3-am62a-main: Fix the reg-range for main_pktdma
-    f007e23ebd9a1 arm64: dts: ti: k3-am62-main: Fix the reg-range for main_pktdma
-    ee56e86c3f211 memory: fsl_ifc: Make FSL_IFC config visible and selectable
-    f666c421e1d78 OPP: ti: Fix ti_opp_supply_probe wrong return values
-    c9fdb8980b781 arm64: dts: qcom: sc8280xp: Throttle the GPU when overheating
-    a291feafde81e arm64: dts: qcom: sc8280xp-*: Remove thermal zone polling delays
-    233c60cdcf99e cpufreq: ti-cpufreq: Handle deferred probe with dev_err_probe()
-    057850ed81c4f arm64: dts: qcom: qrb4210-rb2: make L9A always-on
-    0c269c1f58d74 ARM: dts: stm32: Add arm,no-tick-in-suspend to STM32MP15xx STGEN timer
-    8938217a8d672 ARM: dts: sunxi: remove duplicated entries in makefile
-    f762acdaff9e5 soc: xilinx: rename cpu_number1 to dummy_cpu_number
-    312396939bf5b arm64: dts: qcom: sa8775p: mark ethernet devices as DMA-coherent
-    611d4a8313423 arm64: dts: qcom: msm8996: specify UFS core_clk frequencies
-    504652b2eed84 OPP: Fix missing cleanup on error in _opp_attach_genpd()
-    232c1085fcd9f cpufreq: sun50i: fix memory leak in dt_has_supported_hw()
-    1390b9f652283 arm64: dts: rockchip: Update WIFi/BT related nodes on rk3308-rock-pi-s
-    68dea92d678af arm64: dts: rockchip: Add mdio and ethernet-phy nodes to rk3308-rock-pi-s
-    bcbed5fee3e5f arm64: dts: rockchip: Add pinctrl for UART0 to rk3308-rock-pi-s
-    90e63ee2879ef arm64: dts: rockchip: Add sdmmc related properties on rk3308-rock-pi-s
-    f7b9e814ab8d4 soc: qcom: rpmh-rsc: Ensure irqs aren't disabled by rpmh_rsc_send_data() callers
-    2dcefd6d1e711 soc: qcom: pmic_glink: Handle the return value of pmic_glink_init
-    501db89e28fea arm64: dts: qcom: msm8998: enable adreno_smmu by default
-    fbf852d429e44 arm64: dts: qcom: sdm850-lenovo-yoga-c630: fix IPA firmware path
-    94afdaa14344d arm64: dts: qcom: msm8996-xiaomi-common: drop excton from the USB PHY
-    e93112293d20a arm64: dts: qcom: sm8450: add power-domain to UFS PHY
-    8533f637f6620 arm64: dts: qcom: sm8350: add power-domain to UFS PHY
-    b042cf07c9aaf arm64: dts: qcom: sm8250: add power-domain to UFS PHY
-    8c93c87cfa899 arm64: dts: qcom: sm6350: add power-domain to UFS PHY
-    b5357d8fc93f6 arm64: dts: qcom: sm6115: add power-domain to UFS PHY
-    080bcc8cce96a arm64: dts: qcom: sdm845: add power-domain to UFS PHY
-    bec81d919cfac arm64: dts: qcom: sc8180x: add power-domain to UFS PHY
-    138abbabf63b9 arm64: dts: qcom: sc7180: drop extra UFS PHY compat
-    a8d494762c4ff ARM: dts: qcom: msm8226-microsoft-common: Enable smbb explicitly
-    85610b00af752 arm64: dts: qcom: sc7280: Remove CTS/RTS configuration
-    6dbc8239be9c0 arm64: dts: qcom: sc8180x: Correct PCIe slave ports
-    c1ae2a706e776 soc: qcom: socinfo: Update X1E PMICs
-    bc29bc14c2169 hwmon: (max6697) Fix swapped temp{1,8} critical alarms
-    7c7cf939b3b21 hwmon: (max6697) Fix underflow when writing limit attributes
-    9fab017e2ea4b drm/xe/display/xe_hdcp_gsc: Free arbiter on driver removal
-    1e6805b6ecf79 pwm: atmel-tcb: Fix race condition and convert to guards
-    8afada330c16c drm/meson: fix canvas release in bind function
-    a0d1545830305 nvmet-auth: fix nvmet_auth hash error handling
-    069f34f991cd6 arm64: smp: Fix missing IPI statistics
-    ee6669355fa43 drm/bridge: adv7511: Fix Intermittent EDID failures
-    b1c83176c1d77 pwm: stm32: Always do lazy disabling
-    c180311c0a520 hwmon: (ltc2991) re-order conditions to fix off by one bug
-    0c7429256de1d md/raid5: recheck if reshape has finished with device_lock held
-    dc72af89c94bd md: Don't wait for MD_RECOVERY_NEEDED for HOT_REMOVE_DISK ioctl
-    90ebddded5367 perf: arm_pmuv3: Avoid assigning fixed cycle counter with threshold
-    269535618c161 xen-blkfront: fix sector_size propagation to the block layer
-    28f7a3403100b block/mq-deadline: Fix the tag reservation code
-    136598536aaa8 block: Call .limit_depth() after .hctx has been set
-    515278065c702 hwmon: (adt7475) Fix default duty on fan is disabled
-    29ac1d238b3bf cgroup/cpuset: Prevent UAF in proc_cpuset_show()
-    f38d2e9214996 x86/syscall: Mark exit[_group] syscall handlers __noreturn
-    70035fdfa8354 x86/platform/iosf_mbi: Convert PCIBIOS_* return codes to errnos
-    590c9a8348f97 x86/pci/xen: Fix PCIBIOS_* return code handling
-    32adc6914bb18 x86/pci/intel_mid_pci: Fix PCIBIOS_* return code handling
-    0cee39aa04eec x86/of: Return consistent error type from x86_of_pci_irq_enable()
-    312d272dc47ae hfsplus: fix to avoid false alarm of circular locking
-    72b7a3b3268e6 x86/kconfig: Add as-instr64 macro to properly evaluate AS_WRUSS
-    c324141645280 cgroup/cpuset: Fix remote root partition creation problem
-    b17f8733d5118 cgroup/cpuset: Optimize isolated partition only generate_sched_domains() calls
-    7703ee4c86c92 io_uring: Fix probe of disabled operations
-    47149c165a6fa dm: Call dm_revalidate_zones() after setting the queue limits
-    ebc0e91ba76dc block: initialize integrity buffer to zero before writing it to media
-    5535adc933fb2 ubd: untagle discard vs write zeroes not support handling
-    49d7da56f1d95 ubd: refactor the interrupt handler
-    e2172a1397630 platform/chrome: cros_ec_debugfs: fix wrong EC message version
-    6bb2fccb2cb7e md/raid1: don't free conf on raid0_run failure
-    7526c725d5120 md/raid0: don't free conf on raid0_run failure
-    ca963eefbc333 md: fix deadlock between mddev_suspend and flush bio
-    af594a0bb5c80 rcu/tasks: Fix stale task snaphot for Tasks Trace
-    32700ecf8007e EDAC, i10nm: make skx_common.o a separate module
-    24468dbfec053 spi: atmel-quadspi: Add missing check for clk_prepare
-    949676eb8a4d9 spi: spi-microchip-core: Fix the number of chip selects supported
-    c4386c5293aa8 drivers: gpu: drm: msm: registers: improve reproducibility
-    915a386c7cffd qemux86: add configuration symbol to select values
-    62df91b21626f sched/isolation: really align nohz_full with rcu_nocbs
-    afe643f5802b8 clear_warn_once: add a clear_warn_once= boot parameter
-    7b016793edbff clear_warn_once: bind a timer to written reset value
-    89a5c70f20001 clear_warn_once: expand debugfs to include read support
-    8014704c527d7 tools: Remove some options from CLANG_CROSS_FLAGS
-    e9ca44556936c libbpf: Fix build warning on ref_ctr_off
-    32fe8c972c362 perf: perf can not parser the backtrace of app in the 32bit system and 64bit kernel.
-    a372ac2b798dc perf: x86-32: explicitly include <errno.h>
-    a5cb41682777e perf: mips64: Convert __u64 to unsigned long long
-    ed8ee9f3d1ae2 perf: fix bench numa compilation
-    6dbb2915e8a7c perf: add SLANG_INC for slang.h
-    57f78dddfd930 perf: add sgidefs.h to for mips builds
-    130f0306cfbac perf: change --root to --prefix for python install
-    2520efe953414 perf: add 'libperl not found' warning
-    45731b6ae676f perf: force include of <stdbool.h>
-    ace10f8dec53e fat: Replace prandom_u32() with get_random_u32()
-    64797bdca14e2 fat: don't use obsolete random32 call in namei_vfat
-    2442bae1a6451 FAT: Added FAT_NO_83NAME
-    7561126bce00c FAT: Add CONFIG_VFAT_NO_CREATE_WITH_LONGNAMES option
-    5c51ab9598763 FAT: Add CONFIG_VFAT_FS_NO_DUALNAMES option
-    5869720658c99 aufs6: match exports to functions
-    e125467cf228f aufs: adjust for v6.9+
-    eebcdc6635bfa aufs6: correct do_splice_from prototype
-    4c5829036c457 aufs: update remove_page to remove_folio
-    e8d889d0f4341 aufs: i_op: Add handling for au_pin_hdir_set_owner with RT kernel
-    3ecd9203de174 aufs: fix v6.7 kernel build compilation
-    5e8ee028dbe24 aufs6: adapt to v6.6 i_op->ctime changes
-    1132c330feed3 aufs6: adapt to v6.6
-    d3e4ede696034 aufs6: core
-    49ec9271f41d3 aufs6: standalone
-    dcc0978da2dd9 aufs6: mmap
-    80e1609b37e77 aufs6: base
-    0dbb3f0624208 aufs6: kbuild
-    ad51078c5ebfc yaffs: fix mtime/itime field access
-    e5f1d35d6188c yaffs2: update VFS ctime operations to 6.6+
-    dd374461adc7c yaffs2: v6.5 fixups
-    f5908785d88d7 yaffs2: Fix miscalculation of devname buffer length
-    d1403f0acfdff yaffs2: convert user_namespace to mnt_idmap
-    7dae5463b54fa yaffs2: replace bdevname call with sprintf
-    92d30df4eb56c yaffs2: convert read_page -> readfolio
-    6c895bffdf725 yaffs: replace IS_ERR with IS_ERR_OR_NULL to check both ERR and NULL
-    6801e7d90255b yaffs: fix -Wstringop-overread compile warning in yaffs_fix_null_name
-    aff012190046f yaffs2: v5.12+ build fixups (not runtime tested)
-    fb474842c16ee yaffs: include blkdev.h
-    fe7d745aac947 yaffs: fix misplaced variable declaration
-    bee147b2e5336 yaffs2: v5.6 build fixups
-    22998f589ec26 yaffs2: fix memory leak when /proc/yaffs is read
-    ce7d8084a9764 yaffs: add strict check when call yaffs_internal_read_super
-    adb7202fda953 yaffs: repair yaffs_get_mtd_device
-    2852e5c15d4dc yaffs: Fix build failure by handling inode i_version with proper atomic API
-    1526802a81470 yaffs2: fix memory leak in mount/umount
-    6c7827a16aaaa yaffs: Avoid setting any ACL releated xattr
-    fa34828155425 Yaffs:check oob size before auto selecting Yaffs1
-    aaa4843b73ce7 fs: yaffs2: replace CURRENT_TIME by other appropriate apis
-    48e992af6531c yaffs2: adjust to proper location of MS_RDONLY
-    f3af7160d8a0c yaffs2: import git revision b4ce1bb (jan, 2020)
-    4add698ed6e8b initramfs: allow an optional wrapper script around initramfs generation
-    b619a8d543360 vt/conmakehash: improve reproducibility
-    c786186aeef39 tools: use basename to identify file in gen-mach-types
-    aa3a8e7ceb6e7 iwlwifi: select MAC80211_LEDS conditionally
-    325db54c4be9f net/dccp: make it depend on CONFIG_BROKEN (CVE-2020-16119)
-    23a87c6e13aad defconfigs: drop obselete options
-    946e5b78ab94d linux-yocto: Handle /bin/awk issues
-    9daee1dba5852 uvesafb: provide option to specify timeout for task completion
-    f68b8683441a0 uvesafb: print error message when task timeout occurs
-    a1595c6b60173 compiler.h: Undef before redefining __attribute_const__
-    8086839613c68 vmware: include jiffies.h
-    32e79eb3c169c Resolve jiffies wrapping about arp
-    f6fabf91b6f24 nfs: Allow default io size to be configured.
-    ad2b29f801e9e check console device file on fs when booting
-    5194785d545b8 mount_root: clarify error messages for when no rootfs found
-    78b3498cb59a7 mconf: fix output of cflags and libraries
-    9cc6870708d54 menuconfig,mconf-cfg: Allow specification of ncurses location
-    f34088ed9c938 modpost: mask trivial warnings
-    4784584582f50 kbuild: exclude meta directory from distclean processing
-    73072b5fe25a9 powerpc: serialize image targets
-    a120eb2003200 arm: serialize build targets
-    51d5719ac05b4 mtd_blkdevs: add mtd_table_mutex lock back to blktrans_{open, release} to avoid race condition
-    5155f0bb36f0c cpu/amd: inhibit SMP check for qemux86
-    e5a5996ee586f x86_64_defconfig: Fix warnings
-    1359db75df0c9 mips: make current_cpu_data preempt safe
-    385edf6090c30 mips: vdso: fix 'jalr $t9' crash in vdso code
-    968266397319f mips: Kconfig: add QEMUMIPS64 option
-    389ce854fde30 4kc cache tlb hazard: tlbp cache coherency
-    9cab61199fa85 malta uhci quirks: make allowance for slow 4k(e)c
-    80cae3bd9eea0 arm64: defconfig: remove CONFIG_IPQ_APSS_5018
-    41c82709900f7 drm/fb-helper: move zeroing code to drm_fb_helper_fill_var
-    59ef4f151a5e5 arm64: defconfig: cleanup config options
-    c5fb425762ed8 vexpress: Pass LOADADDR to Makefile
-    07a8b544d4e96 arm: ARM EABI socketcall
-    574f3ae3d2ca7 ARM: LPAE: Invalidate the TLB for module addresses during translation fault
+6.10 will be one of the reference kernels for the fall
+release. We add it along side the 6.6 reference kernel
+which will remain in the release.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_6.10.bb              |  6 ++--
- .../linux/linux-yocto-tiny_6.10.bb            |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.10.bb | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ .../linux/cve-exclusion_6.10.inc              | 6660 +++++++++++++++++
+ .../linux/linux-yocto-rt_6.10.bb              |   48 +
+ .../linux/linux-yocto-tiny_6.10.bb            |   33 +
+ meta/recipes-kernel/linux/linux-yocto_6.10.bb |   73 +
+ 4 files changed, 6814 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.10.inc
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_6.10.bb
 
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.10.inc b/meta/recipes-kernel/linux/cve-exclusion_6.10.inc
+new file mode 100644
+index 0000000000..32a0701edf
+--- /dev/null
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.10.inc
+@@ -0,0 +1,6660 @@
++
++# Auto-generated CVE metadata, DO NOT EDIT BY HAND.
++# Generated at 2024-06-06 20:41:33.044442+00:00 for version 6.6.32
++
++#python check_kernel_cve_status_version() {
++#    this_version = "6.6.29"
++#    kernel_version = d.getVar("LINUX_VERSION")
++#    if kernel_version != this_version:
++#        bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
++#}
++#do_cve_check[prefuncs] += "check_kernel_cve_status_version"
++
++CVE_STATUS[CVE-2003-1604] = "fixed-version: Fixed from version 2.6.12rc2"
++
++CVE_STATUS[CVE-2004-0230] = "fixed-version: Fixed from version 3.6rc1"
++
++# CVE-2005-3660 has no known resolution
++
++CVE_STATUS[CVE-2006-3635] = "fixed-version: Fixed from version 2.6.26rc5"
++
++CVE_STATUS[CVE-2006-5331] = "fixed-version: Fixed from version 2.6.19rc3"
++
++CVE_STATUS[CVE-2006-6128] = "fixed-version: Fixed from version 2.6.19rc2"
++
++# CVE-2007-3719 has no known resolution
++
++CVE_STATUS[CVE-2007-4774] = "fixed-version: Fixed from version 2.6.12rc2"
++
++CVE_STATUS[CVE-2007-6761] = "fixed-version: Fixed from version 2.6.24rc6"
++
++CVE_STATUS[CVE-2007-6762] = "fixed-version: Fixed from version 2.6.20rc5"
++
++# CVE-2008-2544 has no known resolution
++
++# CVE-2008-4609 has no known resolution
++
++CVE_STATUS[CVE-2008-7316] = "fixed-version: Fixed from version 2.6.25rc1"
++
++CVE_STATUS[CVE-2009-2692] = "fixed-version: Fixed from version 2.6.31rc6"
++
++CVE_STATUS[CVE-2010-0008] = "fixed-version: Fixed from version 2.6.23rc9"
++
++CVE_STATUS[CVE-2010-3432] = "fixed-version: Fixed from version 2.6.36rc5"
++
++# CVE-2010-4563 has no known resolution
++
++CVE_STATUS[CVE-2010-4648] = "fixed-version: Fixed from version 2.6.37rc6"
++
++CVE_STATUS[CVE-2010-5313] = "fixed-version: Fixed from version 2.6.38rc1"
++
++# CVE-2010-5321 has no known resolution
++
++CVE_STATUS[CVE-2010-5328] = "fixed-version: Fixed from version 2.6.35rc1"
++
++CVE_STATUS[CVE-2010-5329] = "fixed-version: Fixed from version 2.6.39rc1"
++
++CVE_STATUS[CVE-2010-5331] = "fixed-version: Fixed from version 2.6.34rc7"
++
++CVE_STATUS[CVE-2010-5332] = "fixed-version: Fixed from version 2.6.37rc1"
++
++CVE_STATUS[CVE-2011-4098] = "fixed-version: Fixed from version 3.2rc1"
++
++CVE_STATUS[CVE-2011-4131] = "fixed-version: Fixed from version 3.3rc1"
++
++CVE_STATUS[CVE-2011-4915] = "fixed-version: Fixed from version 3.2rc1"
++
++# CVE-2011-4916 has no known resolution
++
++# CVE-2011-4917 has no known resolution
++
++CVE_STATUS[CVE-2011-5321] = "fixed-version: Fixed from version 3.2rc1"
++
++CVE_STATUS[CVE-2011-5327] = "fixed-version: Fixed from version 3.1rc1"
++
++CVE_STATUS[CVE-2012-0957] = "fixed-version: Fixed from version 3.7rc2"
++
++CVE_STATUS[CVE-2012-2119] = "fixed-version: Fixed from version 3.5rc1"
++
++CVE_STATUS[CVE-2012-2136] = "fixed-version: Fixed from version 3.5rc1"
++
++CVE_STATUS[CVE-2012-2137] = "fixed-version: Fixed from version 3.5rc2"
++
++CVE_STATUS[CVE-2012-2313] = "fixed-version: Fixed from version 3.4rc6"
++
++CVE_STATUS[CVE-2012-2319] = "fixed-version: Fixed from version 3.4rc6"
++
++CVE_STATUS[CVE-2012-2372] = "fixed-version: Fixed from version 3.13rc4"
++
++CVE_STATUS[CVE-2012-2375] = "fixed-version: Fixed from version 3.4rc1"
++
++CVE_STATUS[CVE-2012-2390] = "fixed-version: Fixed from version 3.5rc1"
++
++CVE_STATUS[CVE-2012-2669] = "fixed-version: Fixed from version 3.5rc4"
++
++CVE_STATUS[CVE-2012-2744] = "fixed-version: Fixed from version 2.6.34rc1"
++
++CVE_STATUS[CVE-2012-2745] = "fixed-version: Fixed from version 3.4rc3"
++
++CVE_STATUS[CVE-2012-3364] = "fixed-version: Fixed from version 3.5rc6"
++
++CVE_STATUS[CVE-2012-3375] = "fixed-version: Fixed from version 3.4rc5"
++
++CVE_STATUS[CVE-2012-3400] = "fixed-version: Fixed from version 3.5rc5"
++
++CVE_STATUS[CVE-2012-3412] = "fixed-version: Fixed from version 3.6rc2"
++
++CVE_STATUS[CVE-2012-3430] = "fixed-version: Fixed from version 3.6rc1"
++
++CVE_STATUS[CVE-2012-3510] = "fixed-version: Fixed from version 2.6.19rc4"
++
++CVE_STATUS[CVE-2012-3511] = "fixed-version: Fixed from version 3.5rc6"
++
++CVE_STATUS[CVE-2012-3520] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-3552] = "fixed-version: Fixed from version 3.0rc1"
++
++# Skipping CVE-2012-4220, no affected_versions
++
++# Skipping CVE-2012-4221, no affected_versions
++
++# Skipping CVE-2012-4222, no affected_versions
++
++CVE_STATUS[CVE-2012-4398] = "fixed-version: Fixed from version 3.4rc1"
++
++CVE_STATUS[CVE-2012-4444] = "fixed-version: Fixed from version 2.6.36rc4"
++
++CVE_STATUS[CVE-2012-4461] = "fixed-version: Fixed from version 3.7rc6"
++
++CVE_STATUS[CVE-2012-4467] = "fixed-version: Fixed from version 3.6rc5"
++
++CVE_STATUS[CVE-2012-4508] = "fixed-version: Fixed from version 3.7rc3"
++
++CVE_STATUS[CVE-2012-4530] = "fixed-version: Fixed from version 3.8rc1"
++
++# CVE-2012-4542 has no known resolution
++
++CVE_STATUS[CVE-2012-4565] = "fixed-version: Fixed from version 3.7rc4"
++
++CVE_STATUS[CVE-2012-5374] = "fixed-version: Fixed from version 3.8rc1"
++
++CVE_STATUS[CVE-2012-5375] = "fixed-version: Fixed from version 3.8rc1"
++
++CVE_STATUS[CVE-2012-5517] = "fixed-version: Fixed from version 3.6rc1"
++
++CVE_STATUS[CVE-2012-6536] = "fixed-version: Fixed from version 3.6rc7"
++
++CVE_STATUS[CVE-2012-6537] = "fixed-version: Fixed from version 3.6rc7"
++
++CVE_STATUS[CVE-2012-6538] = "fixed-version: Fixed from version 3.6rc7"
++
++CVE_STATUS[CVE-2012-6539] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6540] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6541] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6542] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6543] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6544] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6545] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6546] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2012-6547] = "fixed-version: Fixed from version 3.6rc1"
++
++CVE_STATUS[CVE-2012-6548] = "fixed-version: Fixed from version 3.6rc1"
++
++CVE_STATUS[CVE-2012-6549] = "fixed-version: Fixed from version 3.6rc1"
++
++CVE_STATUS[CVE-2012-6638] = "fixed-version: Fixed from version 3.3rc1"
++
++CVE_STATUS[CVE-2012-6647] = "fixed-version: Fixed from version 3.6rc2"
++
++CVE_STATUS[CVE-2012-6657] = "fixed-version: Fixed from version 3.6"
++
++CVE_STATUS[CVE-2012-6689] = "fixed-version: Fixed from version 3.6rc5"
++
++CVE_STATUS[CVE-2012-6701] = "fixed-version: Fixed from version 3.5rc1"
++
++CVE_STATUS[CVE-2012-6703] = "fixed-version: Fixed from version 3.7rc1"
++
++CVE_STATUS[CVE-2012-6704] = "fixed-version: Fixed from version 3.5rc1"
++
++CVE_STATUS[CVE-2012-6712] = "fixed-version: Fixed from version 3.4rc1"
++
++CVE_STATUS[CVE-2013-0160] = "fixed-version: Fixed from version 3.9rc1"
++
++CVE_STATUS[CVE-2013-0190] = "fixed-version: Fixed from version 3.8rc5"
++
++CVE_STATUS[CVE-2013-0216] = "fixed-version: Fixed from version 3.8rc7"
++
++CVE_STATUS[CVE-2013-0217] = "fixed-version: Fixed from version 3.8rc7"
++
++CVE_STATUS[CVE-2013-0228] = "fixed-version: Fixed from version 3.8"
++
++CVE_STATUS[CVE-2013-0231] = "fixed-version: Fixed from version 3.8rc7"
++
++CVE_STATUS[CVE-2013-0268] = "fixed-version: Fixed from version 3.8rc6"
++
++CVE_STATUS[CVE-2013-0290] = "fixed-version: Fixed from version 3.8"
++
++CVE_STATUS[CVE-2013-0309] = "fixed-version: Fixed from version 3.7rc1"
++
++CVE_STATUS[CVE-2013-0310] = "fixed-version: Fixed from version 3.5"
++
++CVE_STATUS[CVE-2013-0311] = "fixed-version: Fixed from version 3.7rc8"
++
++CVE_STATUS[CVE-2013-0313] = "fixed-version: Fixed from version 3.8rc5"
++
++CVE_STATUS[CVE-2013-0343] = "fixed-version: Fixed from version 3.11rc7"
++
++CVE_STATUS[CVE-2013-0349] = "fixed-version: Fixed from version 3.8rc6"
++
++CVE_STATUS[CVE-2013-0871] = "fixed-version: Fixed from version 3.8rc5"
++
++CVE_STATUS[CVE-2013-0913] = "fixed-version: Fixed from version 3.9rc4"
++
++CVE_STATUS[CVE-2013-0914] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-1059] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-1763] = "fixed-version: Fixed from version 3.9rc1"
++
++CVE_STATUS[CVE-2013-1767] = "fixed-version: Fixed from version 3.9rc1"
++
++CVE_STATUS[CVE-2013-1772] = "fixed-version: Fixed from version 3.5rc1"
++
++CVE_STATUS[CVE-2013-1773] = "fixed-version: Fixed from version 3.3rc1"
++
++CVE_STATUS[CVE-2013-1774] = "fixed-version: Fixed from version 3.8rc5"
++
++CVE_STATUS[CVE-2013-1792] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-1796] = "fixed-version: Fixed from version 3.9rc4"
++
++CVE_STATUS[CVE-2013-1797] = "fixed-version: Fixed from version 3.9rc4"
++
++CVE_STATUS[CVE-2013-1798] = "fixed-version: Fixed from version 3.9rc4"
++
++CVE_STATUS[CVE-2013-1819] = "fixed-version: Fixed from version 3.8rc6"
++
++CVE_STATUS[CVE-2013-1826] = "fixed-version: Fixed from version 3.6rc7"
++
++CVE_STATUS[CVE-2013-1827] = "fixed-version: Fixed from version 3.6rc3"
++
++CVE_STATUS[CVE-2013-1828] = "fixed-version: Fixed from version 3.9rc2"
++
++CVE_STATUS[CVE-2013-1848] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-1858] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-1860] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-1928] = "fixed-version: Fixed from version 3.7rc3"
++
++CVE_STATUS[CVE-2013-1929] = "fixed-version: Fixed from version 3.9rc6"
++
++# Skipping CVE-2013-1935, no affected_versions
++
++CVE_STATUS[CVE-2013-1943] = "fixed-version: Fixed from version 3.0rc1"
++
++CVE_STATUS[CVE-2013-1956] = "fixed-version: Fixed from version 3.9rc5"
++
++CVE_STATUS[CVE-2013-1957] = "fixed-version: Fixed from version 3.9rc5"
++
++CVE_STATUS[CVE-2013-1958] = "fixed-version: Fixed from version 3.9rc5"
++
++CVE_STATUS[CVE-2013-1959] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-1979] = "fixed-version: Fixed from version 3.9rc8"
++
++CVE_STATUS[CVE-2013-2015] = "fixed-version: Fixed from version 3.8rc2"
++
++CVE_STATUS[CVE-2013-2017] = "fixed-version: Fixed from version 2.6.34"
++
++CVE_STATUS[CVE-2013-2058] = "fixed-version: Fixed from version 3.8rc4"
++
++CVE_STATUS[CVE-2013-2094] = "fixed-version: Fixed from version 3.9rc8"
++
++CVE_STATUS[CVE-2013-2128] = "fixed-version: Fixed from version 2.6.34rc4"
++
++CVE_STATUS[CVE-2013-2140] = "fixed-version: Fixed from version 3.11rc3"
++
++CVE_STATUS[CVE-2013-2141] = "fixed-version: Fixed from version 3.9rc8"
++
++CVE_STATUS[CVE-2013-2146] = "fixed-version: Fixed from version 3.9rc8"
++
++CVE_STATUS[CVE-2013-2147] = "fixed-version: Fixed from version 3.12rc3"
++
++CVE_STATUS[CVE-2013-2148] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-2164] = "fixed-version: Fixed from version 3.11rc1"
++
++# Skipping CVE-2013-2188, no affected_versions
++
++CVE_STATUS[CVE-2013-2206] = "fixed-version: Fixed from version 3.9rc4"
++
++# Skipping CVE-2013-2224, no affected_versions
++
++CVE_STATUS[CVE-2013-2232] = "fixed-version: Fixed from version 3.10"
++
++CVE_STATUS[CVE-2013-2234] = "fixed-version: Fixed from version 3.10"
++
++CVE_STATUS[CVE-2013-2237] = "fixed-version: Fixed from version 3.9rc6"
++
++# Skipping CVE-2013-2239, no affected_versions
++
++CVE_STATUS[CVE-2013-2546] = "fixed-version: Fixed from version 3.9rc1"
++
++CVE_STATUS[CVE-2013-2547] = "fixed-version: Fixed from version 3.9rc1"
++
++CVE_STATUS[CVE-2013-2548] = "fixed-version: Fixed from version 3.9rc1"
++
++CVE_STATUS[CVE-2013-2596] = "fixed-version: Fixed from version 3.9rc8"
++
++CVE_STATUS[CVE-2013-2634] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-2635] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-2636] = "fixed-version: Fixed from version 3.9rc3"
++
++CVE_STATUS[CVE-2013-2850] = "fixed-version: Fixed from version 3.10rc4"
++
++CVE_STATUS[CVE-2013-2851] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-2852] = "fixed-version: Fixed from version 3.10rc6"
++
++CVE_STATUS[CVE-2013-2888] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2013-2889] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-2890] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-2891] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-2892] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2013-2893] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-2894] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-2895] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-2896] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2013-2897] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-2898] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2013-2899] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2013-2929] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-2930] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-3076] = "fixed-version: Fixed from version 3.9"
++
++CVE_STATUS[CVE-2013-3222] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3223] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3224] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3225] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3226] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3227] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3228] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3229] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3230] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3231] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3232] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3233] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3234] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3235] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3236] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3237] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3301] = "fixed-version: Fixed from version 3.9rc7"
++
++CVE_STATUS[CVE-2013-3302] = "fixed-version: Fixed from version 3.8rc3"
++
++CVE_STATUS[CVE-2013-4125] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-4127] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-4129] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-4162] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-4163] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2013-4205] = "fixed-version: Fixed from version 3.11rc5"
++
++CVE_STATUS[CVE-2013-4220] = "fixed-version: Fixed from version 3.10rc4"
++
++CVE_STATUS[CVE-2013-4247] = "fixed-version: Fixed from version 3.10rc5"
++
++CVE_STATUS[CVE-2013-4254] = "fixed-version: Fixed from version 3.11rc6"
++
++CVE_STATUS[CVE-2013-4270] = "fixed-version: Fixed from version 3.12rc4"
++
++CVE_STATUS[CVE-2013-4299] = "fixed-version: Fixed from version 3.12rc6"
++
++CVE_STATUS[CVE-2013-4300] = "fixed-version: Fixed from version 3.11"
++
++CVE_STATUS[CVE-2013-4312] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2013-4343] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-4345] = "fixed-version: Fixed from version 3.13rc2"
++
++CVE_STATUS[CVE-2013-4348] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-4350] = "fixed-version: Fixed from version 3.12rc2"
++
++CVE_STATUS[CVE-2013-4387] = "fixed-version: Fixed from version 3.12rc4"
++
++CVE_STATUS[CVE-2013-4470] = "fixed-version: Fixed from version 3.12rc7"
++
++CVE_STATUS[CVE-2013-4483] = "fixed-version: Fixed from version 3.10rc1"
++
++CVE_STATUS[CVE-2013-4511] = "fixed-version: Fixed from version 3.12"
++
++CVE_STATUS[CVE-2013-4512] = "fixed-version: Fixed from version 3.12"
++
++CVE_STATUS[CVE-2013-4513] = "fixed-version: Fixed from version 3.12"
++
++CVE_STATUS[CVE-2013-4514] = "fixed-version: Fixed from version 3.12"
++
++CVE_STATUS[CVE-2013-4515] = "fixed-version: Fixed from version 3.12"
++
++CVE_STATUS[CVE-2013-4516] = "fixed-version: Fixed from version 3.12"
++
++CVE_STATUS[CVE-2013-4563] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-4579] = "fixed-version: Fixed from version 3.13rc7"
++
++CVE_STATUS[CVE-2013-4587] = "fixed-version: Fixed from version 3.13rc4"
++
++CVE_STATUS[CVE-2013-4588] = "fixed-version: Fixed from version 2.6.33rc4"
++
++CVE_STATUS[CVE-2013-4591] = "fixed-version: Fixed from version 3.8rc1"
++
++CVE_STATUS[CVE-2013-4592] = "fixed-version: Fixed from version 3.7rc1"
++
++# Skipping CVE-2013-4737, no affected_versions
++
++# Skipping CVE-2013-4738, no affected_versions
++
++# Skipping CVE-2013-4739, no affected_versions
++
++CVE_STATUS[CVE-2013-5634] = "fixed-version: Fixed from version 3.10rc5"
++
++CVE_STATUS[CVE-2013-6282] = "fixed-version: Fixed from version 3.6rc6"
++
++CVE_STATUS[CVE-2013-6367] = "fixed-version: Fixed from version 3.13rc4"
++
++CVE_STATUS[CVE-2013-6368] = "fixed-version: Fixed from version 3.13rc4"
++
++CVE_STATUS[CVE-2013-6376] = "fixed-version: Fixed from version 3.13rc4"
++
++CVE_STATUS[CVE-2013-6378] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-6380] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-6381] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-6382] = "fixed-version: Fixed from version 3.13rc4"
++
++CVE_STATUS[CVE-2013-6383] = "fixed-version: Fixed from version 3.12"
++
++# Skipping CVE-2013-6392, no affected_versions
++
++CVE_STATUS[CVE-2013-6431] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2013-6432] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-6885] = "fixed-version: Fixed from version 3.14rc1"
++
++CVE_STATUS[CVE-2013-7026] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7027] = "fixed-version: Fixed from version 3.12rc7"
++
++CVE_STATUS[CVE-2013-7263] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7264] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7265] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7266] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7267] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7268] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7269] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7270] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7271] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7281] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7339] = "fixed-version: Fixed from version 3.13rc7"
++
++CVE_STATUS[CVE-2013-7348] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2013-7421] = "fixed-version: Fixed from version 3.19rc1"
++
++# CVE-2013-7445 has no known resolution
++
++CVE_STATUS[CVE-2013-7446] = "fixed-version: Fixed from version 4.4rc4"
++
++CVE_STATUS[CVE-2013-7470] = "fixed-version: Fixed from version 3.12rc7"
++
++CVE_STATUS[CVE-2014-0038] = "fixed-version: Fixed from version 3.14rc1"
++
++CVE_STATUS[CVE-2014-0049] = "fixed-version: Fixed from version 3.14rc5"
++
++CVE_STATUS[CVE-2014-0055] = "fixed-version: Fixed from version 3.14"
++
++CVE_STATUS[CVE-2014-0069] = "fixed-version: Fixed from version 3.14rc4"
++
++CVE_STATUS[CVE-2014-0077] = "fixed-version: Fixed from version 3.14"
++
++CVE_STATUS[CVE-2014-0100] = "fixed-version: Fixed from version 3.14rc7"
++
++CVE_STATUS[CVE-2014-0101] = "fixed-version: Fixed from version 3.14rc6"
++
++CVE_STATUS[CVE-2014-0102] = "fixed-version: Fixed from version 3.14rc6"
++
++CVE_STATUS[CVE-2014-0131] = "fixed-version: Fixed from version 3.14rc7"
++
++CVE_STATUS[CVE-2014-0155] = "fixed-version: Fixed from version 3.15rc2"
++
++CVE_STATUS[CVE-2014-0181] = "fixed-version: Fixed from version 3.15rc5"
++
++CVE_STATUS[CVE-2014-0196] = "fixed-version: Fixed from version 3.15rc5"
++
++CVE_STATUS[CVE-2014-0203] = "fixed-version: Fixed from version 2.6.33rc5"
++
++CVE_STATUS[CVE-2014-0205] = "fixed-version: Fixed from version 2.6.37rc1"
++
++CVE_STATUS[CVE-2014-0206] = "fixed-version: Fixed from version 3.16rc3"
++
++# Skipping CVE-2014-0972, no affected_versions
++
++CVE_STATUS[CVE-2014-1438] = "fixed-version: Fixed from version 3.13"
++
++CVE_STATUS[CVE-2014-1444] = "fixed-version: Fixed from version 3.12rc7"
++
++CVE_STATUS[CVE-2014-1445] = "fixed-version: Fixed from version 3.12rc7"
++
++CVE_STATUS[CVE-2014-1446] = "fixed-version: Fixed from version 3.13rc7"
++
++CVE_STATUS[CVE-2014-1690] = "fixed-version: Fixed from version 3.13rc8"
++
++CVE_STATUS[CVE-2014-1737] = "fixed-version: Fixed from version 3.15rc5"
++
++CVE_STATUS[CVE-2014-1738] = "fixed-version: Fixed from version 3.15rc5"
++
++CVE_STATUS[CVE-2014-1739] = "fixed-version: Fixed from version 3.15rc6"
++
++CVE_STATUS[CVE-2014-1874] = "fixed-version: Fixed from version 3.14rc2"
++
++CVE_STATUS[CVE-2014-2038] = "fixed-version: Fixed from version 3.14rc1"
++
++CVE_STATUS[CVE-2014-2039] = "fixed-version: Fixed from version 3.14rc3"
++
++CVE_STATUS[CVE-2014-2309] = "fixed-version: Fixed from version 3.14rc7"
++
++CVE_STATUS[CVE-2014-2523] = "fixed-version: Fixed from version 3.14rc1"
++
++CVE_STATUS[CVE-2014-2568] = "fixed-version: Fixed from version 3.14"
++
++CVE_STATUS[CVE-2014-2580] = "fixed-version: Fixed from version 3.15rc1"
++
++CVE_STATUS[CVE-2014-2672] = "fixed-version: Fixed from version 3.14rc6"
++
++CVE_STATUS[CVE-2014-2673] = "fixed-version: Fixed from version 3.14rc6"
++
++CVE_STATUS[CVE-2014-2678] = "fixed-version: Fixed from version 3.15rc1"
++
++CVE_STATUS[CVE-2014-2706] = "fixed-version: Fixed from version 3.14rc6"
++
++CVE_STATUS[CVE-2014-2739] = "fixed-version: Fixed from version 3.15rc1"
++
++CVE_STATUS[CVE-2014-2851] = "fixed-version: Fixed from version 3.15rc2"
++
++CVE_STATUS[CVE-2014-2889] = "fixed-version: Fixed from version 3.2rc7"
++
++CVE_STATUS[CVE-2014-3122] = "fixed-version: Fixed from version 3.15rc1"
++
++CVE_STATUS[CVE-2014-3144] = "fixed-version: Fixed from version 3.15rc2"
++
++CVE_STATUS[CVE-2014-3145] = "fixed-version: Fixed from version 3.15rc2"
++
++CVE_STATUS[CVE-2014-3153] = "fixed-version: Fixed from version 3.15"
++
++CVE_STATUS[CVE-2014-3180] = "fixed-version: Fixed from version 3.17rc4"
++
++CVE_STATUS[CVE-2014-3181] = "fixed-version: Fixed from version 3.17rc3"
++
++CVE_STATUS[CVE-2014-3182] = "fixed-version: Fixed from version 3.17rc2"
++
++CVE_STATUS[CVE-2014-3183] = "fixed-version: Fixed from version 3.17rc2"
++
++CVE_STATUS[CVE-2014-3184] = "fixed-version: Fixed from version 3.17rc2"
++
++CVE_STATUS[CVE-2014-3185] = "fixed-version: Fixed from version 3.17rc3"
++
++CVE_STATUS[CVE-2014-3186] = "fixed-version: Fixed from version 3.17rc3"
++
++# Skipping CVE-2014-3519, no affected_versions
++
++CVE_STATUS[CVE-2014-3534] = "fixed-version: Fixed from version 3.16rc7"
++
++CVE_STATUS[CVE-2014-3535] = "fixed-version: Fixed from version 2.6.36rc1"
++
++CVE_STATUS[CVE-2014-3601] = "fixed-version: Fixed from version 3.17rc2"
++
++CVE_STATUS[CVE-2014-3610] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-3611] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-3631] = "fixed-version: Fixed from version 3.17rc5"
++
++CVE_STATUS[CVE-2014-3645] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2014-3646] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-3647] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-3673] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-3687] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-3688] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-3690] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-3917] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2014-3940] = "fixed-version: Fixed from version 3.15"
++
++CVE_STATUS[CVE-2014-4014] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2014-4027] = "fixed-version: Fixed from version 3.14rc1"
++
++CVE_STATUS[CVE-2014-4157] = "fixed-version: Fixed from version 3.15rc1"
++
++CVE_STATUS[CVE-2014-4171] = "fixed-version: Fixed from version 3.16rc3"
++
++# Skipping CVE-2014-4322, no affected_versions
++
++# Skipping CVE-2014-4323, no affected_versions
++
++CVE_STATUS[CVE-2014-4508] = "fixed-version: Fixed from version 3.16rc3"
++
++CVE_STATUS[CVE-2014-4608] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-4611] = "fixed-version: Fixed from version 3.16rc3"
++
++CVE_STATUS[CVE-2014-4652] = "fixed-version: Fixed from version 3.16rc2"
++
++CVE_STATUS[CVE-2014-4653] = "fixed-version: Fixed from version 3.16rc2"
++
++CVE_STATUS[CVE-2014-4654] = "fixed-version: Fixed from version 3.16rc2"
++
++CVE_STATUS[CVE-2014-4655] = "fixed-version: Fixed from version 3.16rc2"
++
++CVE_STATUS[CVE-2014-4656] = "fixed-version: Fixed from version 3.16rc2"
++
++CVE_STATUS[CVE-2014-4667] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2014-4699] = "fixed-version: Fixed from version 3.16rc4"
++
++CVE_STATUS[CVE-2014-4943] = "fixed-version: Fixed from version 3.16rc6"
++
++CVE_STATUS[CVE-2014-5045] = "fixed-version: Fixed from version 3.16rc7"
++
++CVE_STATUS[CVE-2014-5077] = "fixed-version: Fixed from version 3.16"
++
++CVE_STATUS[CVE-2014-5206] = "fixed-version: Fixed from version 3.17rc1"
++
++CVE_STATUS[CVE-2014-5207] = "fixed-version: Fixed from version 3.17rc1"
++
++# Skipping CVE-2014-5332, no affected_versions
++
++CVE_STATUS[CVE-2014-5471] = "fixed-version: Fixed from version 3.17rc2"
++
++CVE_STATUS[CVE-2014-5472] = "fixed-version: Fixed from version 3.17rc2"
++
++CVE_STATUS[CVE-2014-6410] = "fixed-version: Fixed from version 3.17rc5"
++
++CVE_STATUS[CVE-2014-6416] = "fixed-version: Fixed from version 3.17rc5"
++
++CVE_STATUS[CVE-2014-6417] = "fixed-version: Fixed from version 3.17rc5"
++
++CVE_STATUS[CVE-2014-6418] = "fixed-version: Fixed from version 3.17rc5"
++
++CVE_STATUS[CVE-2014-7145] = "fixed-version: Fixed from version 3.17rc2"
++
++# Skipping CVE-2014-7207, no affected_versions
++
++CVE_STATUS[CVE-2014-7283] = "fixed-version: Fixed from version 3.15rc1"
++
++CVE_STATUS[CVE-2014-7284] = "fixed-version: Fixed from version 3.15rc7"
++
++CVE_STATUS[CVE-2014-7822] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2014-7825] = "fixed-version: Fixed from version 3.18rc3"
++
++CVE_STATUS[CVE-2014-7826] = "fixed-version: Fixed from version 3.18rc3"
++
++CVE_STATUS[CVE-2014-7841] = "fixed-version: Fixed from version 3.18rc5"
++
++CVE_STATUS[CVE-2014-7842] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-7843] = "fixed-version: Fixed from version 3.18rc5"
++
++CVE_STATUS[CVE-2014-7970] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-7975] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-8086] = "fixed-version: Fixed from version 3.18rc3"
++
++CVE_STATUS[CVE-2014-8133] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-8134] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-8159] = "fixed-version: Fixed from version 4.0rc7"
++
++CVE_STATUS[CVE-2014-8160] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-8171] = "fixed-version: Fixed from version 3.12rc1"
++
++CVE_STATUS[CVE-2014-8172] = "fixed-version: Fixed from version 3.13rc1"
++
++CVE_STATUS[CVE-2014-8173] = "fixed-version: Fixed from version 3.13rc5"
++
++# Skipping CVE-2014-8181, no affected_versions
++
++CVE_STATUS[CVE-2014-8369] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-8480] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-8481] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-8559] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-8709] = "fixed-version: Fixed from version 3.14rc3"
++
++CVE_STATUS[CVE-2014-8884] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2014-8989] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-9090] = "fixed-version: Fixed from version 3.18rc6"
++
++CVE_STATUS[CVE-2014-9322] = "fixed-version: Fixed from version 3.18rc6"
++
++CVE_STATUS[CVE-2014-9419] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-9420] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-9428] = "fixed-version: Fixed from version 3.19rc3"
++
++CVE_STATUS[CVE-2014-9529] = "fixed-version: Fixed from version 3.19rc4"
++
++CVE_STATUS[CVE-2014-9584] = "fixed-version: Fixed from version 3.19rc3"
++
++CVE_STATUS[CVE-2014-9585] = "fixed-version: Fixed from version 3.19rc4"
++
++CVE_STATUS[CVE-2014-9644] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-9683] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-9710] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2014-9715] = "fixed-version: Fixed from version 3.15rc1"
++
++CVE_STATUS[CVE-2014-9717] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2014-9728] = "fixed-version: Fixed from version 3.19rc3"
++
++CVE_STATUS[CVE-2014-9729] = "fixed-version: Fixed from version 3.19rc3"
++
++CVE_STATUS[CVE-2014-9730] = "fixed-version: Fixed from version 3.19rc3"
++
++CVE_STATUS[CVE-2014-9731] = "fixed-version: Fixed from version 3.19rc3"
++
++# Skipping CVE-2014-9777, no affected_versions
++
++# Skipping CVE-2014-9778, no affected_versions
++
++# Skipping CVE-2014-9779, no affected_versions
++
++# Skipping CVE-2014-9780, no affected_versions
++
++# Skipping CVE-2014-9781, no affected_versions
++
++# Skipping CVE-2014-9782, no affected_versions
++
++# Skipping CVE-2014-9783, no affected_versions
++
++# Skipping CVE-2014-9784, no affected_versions
++
++# Skipping CVE-2014-9785, no affected_versions
++
++# Skipping CVE-2014-9786, no affected_versions
++
++# Skipping CVE-2014-9787, no affected_versions
++
++# Skipping CVE-2014-9788, no affected_versions
++
++# Skipping CVE-2014-9789, no affected_versions
++
++CVE_STATUS[CVE-2014-9803] = "fixed-version: Fixed from version 3.16rc1"
++
++# Skipping CVE-2014-9863, no affected_versions
++
++# Skipping CVE-2014-9864, no affected_versions
++
++# Skipping CVE-2014-9865, no affected_versions
++
++# Skipping CVE-2014-9866, no affected_versions
++
++# Skipping CVE-2014-9867, no affected_versions
++
++# Skipping CVE-2014-9868, no affected_versions
++
++# Skipping CVE-2014-9869, no affected_versions
++
++CVE_STATUS[CVE-2014-9870] = "fixed-version: Fixed from version 3.11rc1"
++
++# Skipping CVE-2014-9871, no affected_versions
++
++# Skipping CVE-2014-9872, no affected_versions
++
++# Skipping CVE-2014-9873, no affected_versions
++
++# Skipping CVE-2014-9874, no affected_versions
++
++# Skipping CVE-2014-9875, no affected_versions
++
++# Skipping CVE-2014-9876, no affected_versions
++
++# Skipping CVE-2014-9877, no affected_versions
++
++# Skipping CVE-2014-9878, no affected_versions
++
++# Skipping CVE-2014-9879, no affected_versions
++
++# Skipping CVE-2014-9880, no affected_versions
++
++# Skipping CVE-2014-9881, no affected_versions
++
++# Skipping CVE-2014-9882, no affected_versions
++
++# Skipping CVE-2014-9883, no affected_versions
++
++# Skipping CVE-2014-9884, no affected_versions
++
++# Skipping CVE-2014-9885, no affected_versions
++
++# Skipping CVE-2014-9886, no affected_versions
++
++# Skipping CVE-2014-9887, no affected_versions
++
++CVE_STATUS[CVE-2014-9888] = "fixed-version: Fixed from version 3.13rc1"
++
++# Skipping CVE-2014-9889, no affected_versions
++
++# Skipping CVE-2014-9890, no affected_versions
++
++# Skipping CVE-2014-9891, no affected_versions
++
++# Skipping CVE-2014-9892, no affected_versions
++
++# Skipping CVE-2014-9893, no affected_versions
++
++# Skipping CVE-2014-9894, no affected_versions
++
++CVE_STATUS[CVE-2014-9895] = "fixed-version: Fixed from version 3.11rc1"
++
++# Skipping CVE-2014-9896, no affected_versions
++
++# Skipping CVE-2014-9897, no affected_versions
++
++# Skipping CVE-2014-9898, no affected_versions
++
++# Skipping CVE-2014-9899, no affected_versions
++
++# Skipping CVE-2014-9900, no affected_versions
++
++CVE_STATUS[CVE-2014-9903] = "fixed-version: Fixed from version 3.14rc4"
++
++CVE_STATUS[CVE-2014-9904] = "fixed-version: Fixed from version 3.17rc1"
++
++CVE_STATUS[CVE-2014-9914] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2014-9922] = "fixed-version: Fixed from version 3.18rc2"
++
++CVE_STATUS[CVE-2014-9940] = "fixed-version: Fixed from version 3.19rc1"
++
++CVE_STATUS[CVE-2015-0239] = "fixed-version: Fixed from version 3.19rc6"
++
++CVE_STATUS[CVE-2015-0274] = "fixed-version: Fixed from version 3.15rc5"
++
++CVE_STATUS[CVE-2015-0275] = "fixed-version: Fixed from version 4.1rc1"
++
++# Skipping CVE-2015-0777, no affected_versions
++
++# Skipping CVE-2015-1328, no affected_versions
++
++CVE_STATUS[CVE-2015-1333] = "fixed-version: Fixed from version 4.2rc5"
++
++CVE_STATUS[CVE-2015-1339] = "fixed-version: Fixed from version 4.4rc5"
++
++CVE_STATUS[CVE-2015-1350] = "fixed-version: Fixed from version 4.9rc1"
++
++CVE_STATUS[CVE-2015-1420] = "fixed-version: Fixed from version 4.1rc7"
++
++CVE_STATUS[CVE-2015-1421] = "fixed-version: Fixed from version 3.19rc7"
++
++CVE_STATUS[CVE-2015-1465] = "fixed-version: Fixed from version 3.19rc7"
++
++CVE_STATUS[CVE-2015-1573] = "fixed-version: Fixed from version 3.19rc5"
++
++CVE_STATUS[CVE-2015-1593] = "fixed-version: Fixed from version 4.0rc1"
++
++CVE_STATUS[CVE-2015-1805] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2015-2041] = "fixed-version: Fixed from version 3.19rc7"
++
++CVE_STATUS[CVE-2015-2042] = "fixed-version: Fixed from version 3.19"
++
++CVE_STATUS[CVE-2015-2150] = "fixed-version: Fixed from version 4.0rc4"
++
++CVE_STATUS[CVE-2015-2666] = "fixed-version: Fixed from version 4.0rc1"
++
++CVE_STATUS[CVE-2015-2672] = "fixed-version: Fixed from version 4.0rc3"
++
++CVE_STATUS[CVE-2015-2686] = "fixed-version: Fixed from version 4.0rc6"
++
++CVE_STATUS[CVE-2015-2830] = "fixed-version: Fixed from version 4.0rc3"
++
++# CVE-2015-2877 has no known resolution
++
++CVE_STATUS[CVE-2015-2922] = "fixed-version: Fixed from version 4.0rc7"
++
++CVE_STATUS[CVE-2015-2925] = "fixed-version: Fixed from version 4.3rc1"
++
++CVE_STATUS[CVE-2015-3212] = "fixed-version: Fixed from version 4.2rc1"
++
++CVE_STATUS[CVE-2015-3214] = "fixed-version: Fixed from version 2.6.33rc8"
++
++CVE_STATUS[CVE-2015-3288] = "fixed-version: Fixed from version 4.2rc2"
++
++CVE_STATUS[CVE-2015-3290] = "fixed-version: Fixed from version 4.2rc3"
++
++CVE_STATUS[CVE-2015-3291] = "fixed-version: Fixed from version 4.2rc3"
++
++CVE_STATUS[CVE-2015-3331] = "fixed-version: Fixed from version 4.0rc5"
++
++# Skipping CVE-2015-3332, no affected_versions
++
++CVE_STATUS[CVE-2015-3339] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2015-3636] = "fixed-version: Fixed from version 4.1rc2"
++
++CVE_STATUS[CVE-2015-4001] = "fixed-version: Fixed from version 4.1rc7"
++
++CVE_STATUS[CVE-2015-4002] = "fixed-version: Fixed from version 4.1rc7"
++
++CVE_STATUS[CVE-2015-4003] = "fixed-version: Fixed from version 4.1rc7"
++
++CVE_STATUS[CVE-2015-4004] = "fixed-version: Fixed from version 4.3rc1"
++
++CVE_STATUS[CVE-2015-4036] = "fixed-version: Fixed from version 4.0rc1"
++
++CVE_STATUS[CVE-2015-4167] = "fixed-version: Fixed from version 4.0rc1"
++
++CVE_STATUS[CVE-2015-4170] = "fixed-version: Fixed from version 3.13rc5"
++
++CVE_STATUS[CVE-2015-4176] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2015-4177] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2015-4178] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2015-4692] = "fixed-version: Fixed from version 4.2rc1"
++
++CVE_STATUS[CVE-2015-4700] = "fixed-version: Fixed from version 4.1rc6"
++
++CVE_STATUS[CVE-2015-5156] = "fixed-version: Fixed from version 4.2rc7"
++
++CVE_STATUS[CVE-2015-5157] = "fixed-version: Fixed from version 4.2rc3"
++
++CVE_STATUS[CVE-2015-5257] = "fixed-version: Fixed from version 4.3rc3"
++
++CVE_STATUS[CVE-2015-5283] = "fixed-version: Fixed from version 4.3rc3"
++
++CVE_STATUS[CVE-2015-5307] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-5327] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-5364] = "fixed-version: Fixed from version 4.1rc7"
++
++CVE_STATUS[CVE-2015-5366] = "fixed-version: Fixed from version 4.1rc7"
++
++CVE_STATUS[CVE-2015-5697] = "fixed-version: Fixed from version 4.2rc6"
++
++CVE_STATUS[CVE-2015-5706] = "fixed-version: Fixed from version 4.1rc3"
++
++CVE_STATUS[CVE-2015-5707] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2015-6252] = "fixed-version: Fixed from version 4.2rc5"
++
++CVE_STATUS[CVE-2015-6526] = "fixed-version: Fixed from version 4.1rc1"
++
++# CVE-2015-6619 has no known resolution
++
++# CVE-2015-6646 has no known resolution
++
++CVE_STATUS[CVE-2015-6937] = "fixed-version: Fixed from version 4.3rc1"
++
++# Skipping CVE-2015-7312, no affected_versions
++
++CVE_STATUS[CVE-2015-7509] = "fixed-version: Fixed from version 3.7rc1"
++
++CVE_STATUS[CVE-2015-7513] = "fixed-version: Fixed from version 4.4rc7"
++
++CVE_STATUS[CVE-2015-7515] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-7550] = "fixed-version: Fixed from version 4.4rc8"
++
++# Skipping CVE-2015-7553, no affected_versions
++
++CVE_STATUS[CVE-2015-7566] = "fixed-version: Fixed from version 4.5rc2"
++
++CVE_STATUS[CVE-2015-7613] = "fixed-version: Fixed from version 4.3rc4"
++
++CVE_STATUS[CVE-2015-7799] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-7833] = "fixed-version: Fixed from version 4.6rc6"
++
++# Skipping CVE-2015-7837, no affected_versions
++
++CVE_STATUS[CVE-2015-7872] = "fixed-version: Fixed from version 4.3rc7"
++
++CVE_STATUS[CVE-2015-7884] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-7885] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-7990] = "fixed-version: Fixed from version 4.4rc4"
++
++# Skipping CVE-2015-8019, no affected_versions
++
++CVE_STATUS[CVE-2015-8104] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-8215] = "fixed-version: Fixed from version 4.0rc3"
++
++CVE_STATUS[CVE-2015-8324] = "fixed-version: Fixed from version 2.6.34rc1"
++
++CVE_STATUS[CVE-2015-8374] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-8539] = "fixed-version: Fixed from version 4.4rc3"
++
++CVE_STATUS[CVE-2015-8543] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8550] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8551] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8552] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8553] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8569] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8575] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8660] = "fixed-version: Fixed from version 4.4rc4"
++
++CVE_STATUS[CVE-2015-8709] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2015-8746] = "fixed-version: Fixed from version 4.3rc1"
++
++CVE_STATUS[CVE-2015-8767] = "fixed-version: Fixed from version 4.3rc4"
++
++CVE_STATUS[CVE-2015-8785] = "fixed-version: Fixed from version 4.4rc5"
++
++CVE_STATUS[CVE-2015-8787] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-8812] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2015-8816] = "fixed-version: Fixed from version 4.4rc6"
++
++CVE_STATUS[CVE-2015-8830] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2015-8839] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2015-8844] = "fixed-version: Fixed from version 4.4rc3"
++
++CVE_STATUS[CVE-2015-8845] = "fixed-version: Fixed from version 4.4rc3"
++
++# Skipping CVE-2015-8937, no affected_versions
++
++# Skipping CVE-2015-8938, no affected_versions
++
++# Skipping CVE-2015-8939, no affected_versions
++
++# Skipping CVE-2015-8940, no affected_versions
++
++# Skipping CVE-2015-8941, no affected_versions
++
++# Skipping CVE-2015-8942, no affected_versions
++
++# Skipping CVE-2015-8943, no affected_versions
++
++# Skipping CVE-2015-8944, no affected_versions
++
++CVE_STATUS[CVE-2015-8950] = "fixed-version: Fixed from version 4.1rc2"
++
++CVE_STATUS[CVE-2015-8952] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2015-8953] = "fixed-version: Fixed from version 4.3"
++
++CVE_STATUS[CVE-2015-8955] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2015-8956] = "fixed-version: Fixed from version 4.2rc1"
++
++CVE_STATUS[CVE-2015-8961] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-8962] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2015-8963] = "fixed-version: Fixed from version 4.4"
++
++CVE_STATUS[CVE-2015-8964] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2015-8966] = "fixed-version: Fixed from version 4.4rc8"
++
++CVE_STATUS[CVE-2015-8967] = "fixed-version: Fixed from version 4.0rc1"
++
++CVE_STATUS[CVE-2015-8970] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2015-9004] = "fixed-version: Fixed from version 3.19rc7"
++
++CVE_STATUS[CVE-2015-9016] = "fixed-version: Fixed from version 4.3rc1"
++
++CVE_STATUS[CVE-2015-9289] = "fixed-version: Fixed from version 4.2rc1"
++
++CVE_STATUS[CVE-2016-0617] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-0723] = "fixed-version: Fixed from version 4.5rc2"
++
++CVE_STATUS[CVE-2016-0728] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-0758] = "fixed-version: Fixed from version 4.6"
++
++# Skipping CVE-2016-0774, no affected_versions
++
++CVE_STATUS[CVE-2016-0821] = "fixed-version: Fixed from version 4.3rc1"
++
++CVE_STATUS[CVE-2016-0823] = "fixed-version: Fixed from version 4.0rc5"
++
++CVE_STATUS[CVE-2016-10044] = "fixed-version: Fixed from version 4.8rc7"
++
++CVE_STATUS[CVE-2016-10088] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2016-10147] = "fixed-version: Fixed from version 4.9"
++
++CVE_STATUS[CVE-2016-10150] = "fixed-version: Fixed from version 4.9rc8"
++
++CVE_STATUS[CVE-2016-10153] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2016-10154] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2016-10200] = "fixed-version: Fixed from version 4.9rc7"
++
++CVE_STATUS[CVE-2016-10208] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2016-10229] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-10318] = "fixed-version: Fixed from version 4.8rc6"
++
++CVE_STATUS[CVE-2016-10723] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2016-10741] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2016-10764] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2016-10905] = "fixed-version: Fixed from version 4.8rc1"
++
++CVE_STATUS[CVE-2016-10906] = "fixed-version: Fixed from version 4.5rc6"
++
++CVE_STATUS[CVE-2016-10907] = "fixed-version: Fixed from version 4.9rc1"
++
++CVE_STATUS[CVE-2016-1237] = "fixed-version: Fixed from version 4.7rc5"
++
++CVE_STATUS[CVE-2016-1575] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-1576] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-1583] = "fixed-version: Fixed from version 4.7rc3"
++
++CVE_STATUS[CVE-2016-2053] = "fixed-version: Fixed from version 4.3rc1"
++
++CVE_STATUS[CVE-2016-2069] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2070] = "fixed-version: Fixed from version 4.4"
++
++CVE_STATUS[CVE-2016-2085] = "fixed-version: Fixed from version 4.5rc4"
++
++CVE_STATUS[CVE-2016-2117] = "fixed-version: Fixed from version 4.6rc5"
++
++CVE_STATUS[CVE-2016-2143] = "fixed-version: Fixed from version 4.5"
++
++CVE_STATUS[CVE-2016-2184] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-2185] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-2186] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-2187] = "fixed-version: Fixed from version 4.6rc5"
++
++CVE_STATUS[CVE-2016-2188] = "fixed-version: Fixed from version 4.11rc2"
++
++CVE_STATUS[CVE-2016-2383] = "fixed-version: Fixed from version 4.5rc4"
++
++CVE_STATUS[CVE-2016-2384] = "fixed-version: Fixed from version 4.5rc4"
++
++CVE_STATUS[CVE-2016-2543] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2544] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2545] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2546] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2547] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2548] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2549] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2016-2550] = "fixed-version: Fixed from version 4.5rc4"
++
++CVE_STATUS[CVE-2016-2782] = "fixed-version: Fixed from version 4.5rc2"
++
++CVE_STATUS[CVE-2016-2847] = "fixed-version: Fixed from version 4.5rc1"
++
++# Skipping CVE-2016-2853, no affected_versions
++
++# Skipping CVE-2016-2854, no affected_versions
++
++CVE_STATUS[CVE-2016-3044] = "fixed-version: Fixed from version 4.5"
++
++CVE_STATUS[CVE-2016-3070] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2016-3134] = "fixed-version: Fixed from version 4.6rc2"
++
++CVE_STATUS[CVE-2016-3135] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-3136] = "fixed-version: Fixed from version 4.6rc3"
++
++CVE_STATUS[CVE-2016-3137] = "fixed-version: Fixed from version 4.6rc3"
++
++CVE_STATUS[CVE-2016-3138] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-3139] = "fixed-version: Fixed from version 3.17rc1"
++
++CVE_STATUS[CVE-2016-3140] = "fixed-version: Fixed from version 4.6rc3"
++
++CVE_STATUS[CVE-2016-3156] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-3157] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-3672] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-3689] = "fixed-version: Fixed from version 4.6rc1"
++
++# Skipping CVE-2016-3695, no affected_versions
++
++# Skipping CVE-2016-3699, no affected_versions
++
++# Skipping CVE-2016-3707, no affected_versions
++
++CVE_STATUS[CVE-2016-3713] = "fixed-version: Fixed from version 4.7rc1"
++
++# CVE-2016-3775 has no known resolution
++
++# CVE-2016-3802 has no known resolution
++
++# CVE-2016-3803 has no known resolution
++
++CVE_STATUS[CVE-2016-3841] = "fixed-version: Fixed from version 4.4rc4"
++
++CVE_STATUS[CVE-2016-3857] = "fixed-version: Fixed from version 4.8rc2"
++
++CVE_STATUS[CVE-2016-3951] = "fixed-version: Fixed from version 4.5"
++
++CVE_STATUS[CVE-2016-3955] = "fixed-version: Fixed from version 4.6rc3"
++
++CVE_STATUS[CVE-2016-3961] = "fixed-version: Fixed from version 4.6rc5"
++
++CVE_STATUS[CVE-2016-4440] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-4470] = "fixed-version: Fixed from version 4.7rc4"
++
++CVE_STATUS[CVE-2016-4482] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-4485] = "fixed-version: Fixed from version 4.6"
++
++CVE_STATUS[CVE-2016-4486] = "fixed-version: Fixed from version 4.6"
++
++CVE_STATUS[CVE-2016-4557] = "fixed-version: Fixed from version 4.6rc6"
++
++CVE_STATUS[CVE-2016-4558] = "fixed-version: Fixed from version 4.6rc7"
++
++CVE_STATUS[CVE-2016-4565] = "fixed-version: Fixed from version 4.6rc6"
++
++CVE_STATUS[CVE-2016-4568] = "fixed-version: Fixed from version 4.6rc6"
++
++CVE_STATUS[CVE-2016-4569] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-4578] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-4580] = "fixed-version: Fixed from version 4.6"
++
++CVE_STATUS[CVE-2016-4581] = "fixed-version: Fixed from version 4.6rc7"
++
++CVE_STATUS[CVE-2016-4794] = "fixed-version: Fixed from version 4.7rc4"
++
++CVE_STATUS[CVE-2016-4805] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-4913] = "fixed-version: Fixed from version 4.6"
++
++CVE_STATUS[CVE-2016-4951] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-4997] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-4998] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-5195] = "fixed-version: Fixed from version 4.9rc2"
++
++CVE_STATUS[CVE-2016-5243] = "fixed-version: Fixed from version 4.7rc3"
++
++CVE_STATUS[CVE-2016-5244] = "fixed-version: Fixed from version 4.7rc3"
++
++# Skipping CVE-2016-5340, no affected_versions
++
++# Skipping CVE-2016-5342, no affected_versions
++
++# Skipping CVE-2016-5343, no affected_versions
++
++# Skipping CVE-2016-5344, no affected_versions
++
++CVE_STATUS[CVE-2016-5400] = "fixed-version: Fixed from version 4.7"
++
++CVE_STATUS[CVE-2016-5412] = "fixed-version: Fixed from version 4.8rc1"
++
++CVE_STATUS[CVE-2016-5696] = "fixed-version: Fixed from version 4.7"
++
++CVE_STATUS[CVE-2016-5728] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-5828] = "fixed-version: Fixed from version 4.7rc6"
++
++CVE_STATUS[CVE-2016-5829] = "fixed-version: Fixed from version 4.7rc5"
++
++# CVE-2016-5870 has no known resolution
++
++CVE_STATUS[CVE-2016-6130] = "fixed-version: Fixed from version 4.6rc6"
++
++CVE_STATUS[CVE-2016-6136] = "fixed-version: Fixed from version 4.8rc1"
++
++CVE_STATUS[CVE-2016-6156] = "fixed-version: Fixed from version 4.7rc7"
++
++CVE_STATUS[CVE-2016-6162] = "fixed-version: Fixed from version 4.7"
++
++CVE_STATUS[CVE-2016-6187] = "fixed-version: Fixed from version 4.7rc7"
++
++CVE_STATUS[CVE-2016-6197] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-6198] = "fixed-version: Fixed from version 4.6"
++
++CVE_STATUS[CVE-2016-6213] = "fixed-version: Fixed from version 4.9rc1"
++
++CVE_STATUS[CVE-2016-6327] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-6480] = "fixed-version: Fixed from version 4.8rc3"
++
++CVE_STATUS[CVE-2016-6516] = "fixed-version: Fixed from version 4.8rc1"
++
++# Skipping CVE-2016-6753, no affected_versions
++
++CVE_STATUS[CVE-2016-6786] = "fixed-version: Fixed from version 4.0rc1"
++
++CVE_STATUS[CVE-2016-6787] = "fixed-version: Fixed from version 4.0rc1"
++
++CVE_STATUS[CVE-2016-6828] = "fixed-version: Fixed from version 4.8rc5"
++
++CVE_STATUS[CVE-2016-7039] = "fixed-version: Fixed from version 4.9rc4"
++
++CVE_STATUS[CVE-2016-7042] = "fixed-version: Fixed from version 4.9rc3"
++
++CVE_STATUS[CVE-2016-7097] = "fixed-version: Fixed from version 4.9rc1"
++
++CVE_STATUS[CVE-2016-7117] = "fixed-version: Fixed from version 4.6rc1"
++
++# Skipping CVE-2016-7118, no affected_versions
++
++CVE_STATUS[CVE-2016-7425] = "fixed-version: Fixed from version 4.9rc1"
++
++CVE_STATUS[CVE-2016-7910] = "fixed-version: Fixed from version 4.8rc1"
++
++CVE_STATUS[CVE-2016-7911] = "fixed-version: Fixed from version 4.7rc7"
++
++CVE_STATUS[CVE-2016-7912] = "fixed-version: Fixed from version 4.6rc5"
++
++CVE_STATUS[CVE-2016-7913] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-7914] = "fixed-version: Fixed from version 4.6rc4"
++
++CVE_STATUS[CVE-2016-7915] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-7916] = "fixed-version: Fixed from version 4.6rc7"
++
++CVE_STATUS[CVE-2016-7917] = "fixed-version: Fixed from version 4.5rc6"
++
++CVE_STATUS[CVE-2016-8399] = "fixed-version: Fixed from version 4.9"
++
++# Skipping CVE-2016-8401, no affected_versions
++
++# Skipping CVE-2016-8402, no affected_versions
++
++# Skipping CVE-2016-8403, no affected_versions
++
++# Skipping CVE-2016-8404, no affected_versions
++
++CVE_STATUS[CVE-2016-8405] = "fixed-version: Fixed from version 4.10rc6"
++
++# Skipping CVE-2016-8406, no affected_versions
++
++# Skipping CVE-2016-8407, no affected_versions
++
++CVE_STATUS[CVE-2016-8630] = "fixed-version: Fixed from version 4.9rc4"
++
++CVE_STATUS[CVE-2016-8632] = "fixed-version: Fixed from version 4.9rc8"
++
++CVE_STATUS[CVE-2016-8633] = "fixed-version: Fixed from version 4.9rc4"
++
++CVE_STATUS[CVE-2016-8636] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2016-8645] = "fixed-version: Fixed from version 4.9rc6"
++
++CVE_STATUS[CVE-2016-8646] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2016-8650] = "fixed-version: Fixed from version 4.9rc7"
++
++CVE_STATUS[CVE-2016-8655] = "fixed-version: Fixed from version 4.9rc8"
++
++CVE_STATUS[CVE-2016-8658] = "fixed-version: Fixed from version 4.8rc7"
++
++# CVE-2016-8660 has no known resolution
++
++CVE_STATUS[CVE-2016-8666] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-9083] = "fixed-version: Fixed from version 4.9rc4"
++
++CVE_STATUS[CVE-2016-9084] = "fixed-version: Fixed from version 4.9rc4"
++
++CVE_STATUS[CVE-2016-9120] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-9178] = "fixed-version: Fixed from version 4.8rc7"
++
++CVE_STATUS[CVE-2016-9191] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2016-9313] = "fixed-version: Fixed from version 4.9rc3"
++
++CVE_STATUS[CVE-2016-9555] = "fixed-version: Fixed from version 4.9rc4"
++
++CVE_STATUS[CVE-2016-9576] = "fixed-version: Fixed from version 4.9"
++
++CVE_STATUS[CVE-2016-9588] = "fixed-version: Fixed from version 4.10rc1"
++
++CVE_STATUS[CVE-2016-9604] = "fixed-version: Fixed from version 4.11rc8"
++
++# Skipping CVE-2016-9644, no affected_versions
++
++CVE_STATUS[CVE-2016-9685] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2016-9754] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-9755] = "fixed-version: Fixed from version 4.9rc8"
++
++CVE_STATUS[CVE-2016-9756] = "fixed-version: Fixed from version 4.9rc7"
++
++CVE_STATUS[CVE-2016-9777] = "fixed-version: Fixed from version 4.9rc7"
++
++CVE_STATUS[CVE-2016-9793] = "fixed-version: Fixed from version 4.9rc8"
++
++CVE_STATUS[CVE-2016-9794] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-9806] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2016-9919] = "fixed-version: Fixed from version 4.9rc8"
++
++# Skipping CVE-2017-0403, no affected_versions
++
++# Skipping CVE-2017-0404, no affected_versions
++
++# Skipping CVE-2017-0426, no affected_versions
++
++# Skipping CVE-2017-0427, no affected_versions
++
++# CVE-2017-0507 has no known resolution
++
++# CVE-2017-0508 has no known resolution
++
++# Skipping CVE-2017-0510, no affected_versions
++
++# Skipping CVE-2017-0528, no affected_versions
++
++# Skipping CVE-2017-0537, no affected_versions
++
++# CVE-2017-0564 has no known resolution
++
++CVE_STATUS[CVE-2017-0605] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-0627] = "fixed-version: Fixed from version 4.14rc1"
++
++# CVE-2017-0630 has no known resolution
++
++# CVE-2017-0749 has no known resolution
++
++CVE_STATUS[CVE-2017-0750] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2017-0786] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-0861] = "fixed-version: Fixed from version 4.15rc3"
++
++CVE_STATUS[CVE-2017-1000] = "fixed-version: Fixed from version 4.13rc5"
++
++CVE_STATUS[CVE-2017-1000111] = "fixed-version: Fixed from version 4.13rc5"
++
++CVE_STATUS[CVE-2017-1000112] = "fixed-version: Fixed from version 4.13rc5"
++
++CVE_STATUS[CVE-2017-1000251] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2017-1000252] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2017-1000253] = "fixed-version: Fixed from version 4.1rc1"
++
++CVE_STATUS[CVE-2017-1000255] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-1000363] = "fixed-version: Fixed from version 4.12rc2"
++
++CVE_STATUS[CVE-2017-1000364] = "fixed-version: Fixed from version 4.12rc6"
++
++CVE_STATUS[CVE-2017-1000365] = "fixed-version: Fixed from version 4.12rc7"
++
++CVE_STATUS[CVE-2017-1000370] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-1000371] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-1000379] = "fixed-version: Fixed from version 4.12rc6"
++
++CVE_STATUS[CVE-2017-1000380] = "fixed-version: Fixed from version 4.12rc5"
++
++CVE_STATUS[CVE-2017-1000405] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2017-1000407] = "fixed-version: Fixed from version 4.15rc3"
++
++CVE_STATUS[CVE-2017-1000410] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2017-10661] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-10662] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-10663] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-10810] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-10911] = "fixed-version: Fixed from version 4.12rc7"
++
++CVE_STATUS[CVE-2017-11089] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-11176] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-11472] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-11473] = "fixed-version: Fixed from version 4.13rc2"
++
++CVE_STATUS[CVE-2017-11600] = "fixed-version: Fixed from version 4.13"
++
++CVE_STATUS[CVE-2017-12134] = "fixed-version: Fixed from version 4.13rc6"
++
++CVE_STATUS[CVE-2017-12146] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-12153] = "fixed-version: Fixed from version 4.14rc2"
++
++CVE_STATUS[CVE-2017-12154] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2017-12168] = "fixed-version: Fixed from version 4.9rc6"
++
++CVE_STATUS[CVE-2017-12188] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-12190] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-12192] = "fixed-version: Fixed from version 4.14rc3"
++
++CVE_STATUS[CVE-2017-12193] = "fixed-version: Fixed from version 4.14rc7"
++
++CVE_STATUS[CVE-2017-12762] = "fixed-version: Fixed from version 4.13rc4"
++
++CVE_STATUS[CVE-2017-13080] = "fixed-version: Fixed from version 4.14rc6"
++
++CVE_STATUS[CVE-2017-13166] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2017-13167] = "fixed-version: Fixed from version 4.5rc4"
++
++CVE_STATUS[CVE-2017-13168] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2017-13215] = "fixed-version: Fixed from version 4.5rc1"
++
++CVE_STATUS[CVE-2017-13216] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2017-13220] = "fixed-version: Fixed from version 3.19rc3"
++
++# CVE-2017-13221 has no known resolution
++
++# CVE-2017-13222 has no known resolution
++
++CVE_STATUS[CVE-2017-13305] = "fixed-version: Fixed from version 4.12rc5"
++
++CVE_STATUS[CVE-2017-13686] = "fixed-version: Fixed from version 4.13rc7"
++
++# CVE-2017-13693 has no known resolution
++
++# CVE-2017-13694 has no known resolution
++
++CVE_STATUS[CVE-2017-13695] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2017-13715] = "fixed-version: Fixed from version 4.3rc1"
++
++CVE_STATUS[CVE-2017-14051] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2017-14106] = "fixed-version: Fixed from version 4.12rc3"
++
++CVE_STATUS[CVE-2017-14140] = "fixed-version: Fixed from version 4.13rc6"
++
++CVE_STATUS[CVE-2017-14156] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2017-14340] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2017-14489] = "fixed-version: Fixed from version 4.14rc3"
++
++CVE_STATUS[CVE-2017-14497] = "fixed-version: Fixed from version 4.13"
++
++CVE_STATUS[CVE-2017-14954] = "fixed-version: Fixed from version 4.14rc3"
++
++CVE_STATUS[CVE-2017-14991] = "fixed-version: Fixed from version 4.14rc2"
++
++CVE_STATUS[CVE-2017-15102] = "fixed-version: Fixed from version 4.9rc1"
++
++CVE_STATUS[CVE-2017-15115] = "fixed-version: Fixed from version 4.14rc6"
++
++CVE_STATUS[CVE-2017-15116] = "fixed-version: Fixed from version 4.2rc1"
++
++CVE_STATUS[CVE-2017-15121] = "fixed-version: Fixed from version 3.11rc1"
++
++CVE_STATUS[CVE-2017-15126] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-15127] = "fixed-version: Fixed from version 4.13rc5"
++
++CVE_STATUS[CVE-2017-15128] = "fixed-version: Fixed from version 4.14rc8"
++
++CVE_STATUS[CVE-2017-15129] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-15265] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-15274] = "fixed-version: Fixed from version 4.12rc5"
++
++CVE_STATUS[CVE-2017-15299] = "fixed-version: Fixed from version 4.14rc6"
++
++CVE_STATUS[CVE-2017-15306] = "fixed-version: Fixed from version 4.14rc7"
++
++CVE_STATUS[CVE-2017-15537] = "fixed-version: Fixed from version 4.14rc3"
++
++CVE_STATUS[CVE-2017-15649] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-15868] = "fixed-version: Fixed from version 3.19rc3"
++
++CVE_STATUS[CVE-2017-15951] = "fixed-version: Fixed from version 4.14rc6"
++
++CVE_STATUS[CVE-2017-16525] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-16526] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-16527] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-16528] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2017-16529] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-16530] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-16531] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-16532] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-16533] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-16534] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2017-16535] = "fixed-version: Fixed from version 4.14rc6"
++
++CVE_STATUS[CVE-2017-16536] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-16537] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-16538] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2017-16643] = "fixed-version: Fixed from version 4.14rc7"
++
++CVE_STATUS[CVE-2017-16644] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2017-16645] = "fixed-version: Fixed from version 4.14rc6"
++
++CVE_STATUS[CVE-2017-16646] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-16647] = "fixed-version: Fixed from version 4.14"
++
++CVE_STATUS[CVE-2017-16648] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-16649] = "fixed-version: Fixed from version 4.14"
++
++CVE_STATUS[CVE-2017-16650] = "fixed-version: Fixed from version 4.14"
++
++CVE_STATUS[CVE-2017-16911] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-16912] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-16913] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-16914] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-16939] = "fixed-version: Fixed from version 4.14rc7"
++
++CVE_STATUS[CVE-2017-16994] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-16995] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-16996] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17052] = "fixed-version: Fixed from version 4.13rc7"
++
++CVE_STATUS[CVE-2017-17053] = "fixed-version: Fixed from version 4.13rc7"
++
++CVE_STATUS[CVE-2017-17448] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-17449] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-17450] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-17558] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-17712] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-17741] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17805] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-17806] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-17807] = "fixed-version: Fixed from version 4.15rc3"
++
++CVE_STATUS[CVE-2017-17852] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17853] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17854] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17855] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17856] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17857] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17862] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-17863] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17864] = "fixed-version: Fixed from version 4.15rc5"
++
++CVE_STATUS[CVE-2017-17975] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2017-18017] = "fixed-version: Fixed from version 4.11rc7"
++
++CVE_STATUS[CVE-2017-18075] = "fixed-version: Fixed from version 4.15rc7"
++
++CVE_STATUS[CVE-2017-18079] = "fixed-version: Fixed from version 4.13rc1"
++
++# CVE-2017-18169 has no known resolution
++
++CVE_STATUS[CVE-2017-18174] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2017-18193] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-18200] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-18202] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2017-18203] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-18204] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-18208] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2017-18216] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-18218] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-18221] = "fixed-version: Fixed from version 4.12rc4"
++
++CVE_STATUS[CVE-2017-18222] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-18224] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2017-18232] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2017-18241] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-18249] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-18255] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-18257] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-18261] = "fixed-version: Fixed from version 4.13rc6"
++
++CVE_STATUS[CVE-2017-18270] = "fixed-version: Fixed from version 4.14rc3"
++
++CVE_STATUS[CVE-2017-18344] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2017-18360] = "fixed-version: Fixed from version 4.12rc2"
++
++CVE_STATUS[CVE-2017-18379] = "fixed-version: Fixed from version 4.14rc3"
++
++CVE_STATUS[CVE-2017-18509] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-18549] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-18550] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-18551] = "fixed-version: Fixed from version 4.15rc9"
++
++CVE_STATUS[CVE-2017-18552] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-18595] = "fixed-version: Fixed from version 4.15rc6"
++
++CVE_STATUS[CVE-2017-2583] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-2584] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-2596] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-2618] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-2634] = "fixed-version: Fixed from version 2.6.25rc1"
++
++CVE_STATUS[CVE-2017-2636] = "fixed-version: Fixed from version 4.11rc2"
++
++CVE_STATUS[CVE-2017-2647] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2017-2671] = "fixed-version: Fixed from version 4.11rc6"
++
++CVE_STATUS[CVE-2017-5123] = "fixed-version: Fixed from version 4.14rc5"
++
++CVE_STATUS[CVE-2017-5546] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-5547] = "fixed-version: Fixed from version 4.10rc5"
++
++CVE_STATUS[CVE-2017-5548] = "fixed-version: Fixed from version 4.10rc5"
++
++CVE_STATUS[CVE-2017-5549] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-5550] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-5551] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-5576] = "fixed-version: Fixed from version 4.10rc6"
++
++CVE_STATUS[CVE-2017-5577] = "fixed-version: Fixed from version 4.10rc6"
++
++CVE_STATUS[CVE-2017-5669] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-5715] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2017-5753] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2017-5754] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2017-5897] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-5967] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-5970] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-5972] = "fixed-version: Fixed from version 4.4rc1"
++
++CVE_STATUS[CVE-2017-5986] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-6001] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-6074] = "fixed-version: Fixed from version 4.10"
++
++CVE_STATUS[CVE-2017-6214] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-6345] = "fixed-version: Fixed from version 4.10"
++
++CVE_STATUS[CVE-2017-6346] = "fixed-version: Fixed from version 4.10"
++
++CVE_STATUS[CVE-2017-6347] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-6348] = "fixed-version: Fixed from version 4.10"
++
++CVE_STATUS[CVE-2017-6353] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-6874] = "fixed-version: Fixed from version 4.11rc2"
++
++CVE_STATUS[CVE-2017-6951] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2017-7184] = "fixed-version: Fixed from version 4.11rc5"
++
++CVE_STATUS[CVE-2017-7187] = "fixed-version: Fixed from version 4.11rc5"
++
++CVE_STATUS[CVE-2017-7261] = "fixed-version: Fixed from version 4.11rc6"
++
++CVE_STATUS[CVE-2017-7273] = "fixed-version: Fixed from version 4.10rc4"
++
++CVE_STATUS[CVE-2017-7277] = "fixed-version: Fixed from version 4.11rc4"
++
++CVE_STATUS[CVE-2017-7294] = "fixed-version: Fixed from version 4.11rc6"
++
++CVE_STATUS[CVE-2017-7308] = "fixed-version: Fixed from version 4.11rc6"
++
++CVE_STATUS[CVE-2017-7346] = "fixed-version: Fixed from version 4.12rc5"
++
++# CVE-2017-7369 has no known resolution
++
++CVE_STATUS[CVE-2017-7374] = "fixed-version: Fixed from version 4.11rc4"
++
++CVE_STATUS[CVE-2017-7472] = "fixed-version: Fixed from version 4.11rc8"
++
++CVE_STATUS[CVE-2017-7477] = "fixed-version: Fixed from version 4.11"
++
++CVE_STATUS[CVE-2017-7482] = "fixed-version: Fixed from version 4.12rc7"
++
++CVE_STATUS[CVE-2017-7487] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-7495] = "fixed-version: Fixed from version 4.7rc1"
++
++CVE_STATUS[CVE-2017-7518] = "fixed-version: Fixed from version 4.12rc7"
++
++CVE_STATUS[CVE-2017-7533] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-7541] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-7542] = "fixed-version: Fixed from version 4.13rc2"
++
++CVE_STATUS[CVE-2017-7558] = "fixed-version: Fixed from version 4.13"
++
++CVE_STATUS[CVE-2017-7616] = "fixed-version: Fixed from version 4.11rc6"
++
++CVE_STATUS[CVE-2017-7618] = "fixed-version: Fixed from version 4.11rc8"
++
++CVE_STATUS[CVE-2017-7645] = "fixed-version: Fixed from version 4.11"
++
++CVE_STATUS[CVE-2017-7889] = "fixed-version: Fixed from version 4.11rc7"
++
++CVE_STATUS[CVE-2017-7895] = "fixed-version: Fixed from version 4.11"
++
++CVE_STATUS[CVE-2017-7979] = "fixed-version: Fixed from version 4.11rc8"
++
++CVE_STATUS[CVE-2017-8061] = "fixed-version: Fixed from version 4.11rc4"
++
++CVE_STATUS[CVE-2017-8062] = "fixed-version: Fixed from version 4.11rc2"
++
++CVE_STATUS[CVE-2017-8063] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-8064] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-8065] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-8066] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-8067] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2017-8068] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-8069] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-8070] = "fixed-version: Fixed from version 4.10rc8"
++
++CVE_STATUS[CVE-2017-8071] = "fixed-version: Fixed from version 4.10rc7"
++
++CVE_STATUS[CVE-2017-8072] = "fixed-version: Fixed from version 4.10rc7"
++
++CVE_STATUS[CVE-2017-8106] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2017-8240] = "fixed-version: Fixed from version 3.19rc6"
++
++# CVE-2017-8242 has no known resolution
++
++# CVE-2017-8244 has no known resolution
++
++# CVE-2017-8245 has no known resolution
++
++# CVE-2017-8246 has no known resolution
++
++CVE_STATUS[CVE-2017-8797] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-8824] = "fixed-version: Fixed from version 4.15rc3"
++
++CVE_STATUS[CVE-2017-8831] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-8890] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-8924] = "fixed-version: Fixed from version 4.11rc2"
++
++CVE_STATUS[CVE-2017-8925] = "fixed-version: Fixed from version 4.11rc2"
++
++CVE_STATUS[CVE-2017-9059] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-9074] = "fixed-version: Fixed from version 4.12rc2"
++
++CVE_STATUS[CVE-2017-9075] = "fixed-version: Fixed from version 4.12rc2"
++
++CVE_STATUS[CVE-2017-9076] = "fixed-version: Fixed from version 4.12rc2"
++
++CVE_STATUS[CVE-2017-9077] = "fixed-version: Fixed from version 4.12rc2"
++
++CVE_STATUS[CVE-2017-9150] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2017-9211] = "fixed-version: Fixed from version 4.12rc3"
++
++CVE_STATUS[CVE-2017-9242] = "fixed-version: Fixed from version 4.12rc3"
++
++CVE_STATUS[CVE-2017-9605] = "fixed-version: Fixed from version 4.12rc5"
++
++CVE_STATUS[CVE-2017-9725] = "fixed-version: Fixed from version 4.3rc7"
++
++CVE_STATUS[CVE-2017-9984] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-9985] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2017-9986] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2018-1000004] = "fixed-version: Fixed from version 4.15rc9"
++
++CVE_STATUS[CVE-2018-1000026] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2018-1000028] = "fixed-version: Fixed from version 4.15"
++
++CVE_STATUS[CVE-2018-1000199] = "fixed-version: Fixed from version 4.16"
++
++CVE_STATUS[CVE-2018-1000200] = "fixed-version: Fixed from version 4.17rc5"
++
++CVE_STATUS[CVE-2018-1000204] = "fixed-version: Fixed from version 4.17rc7"
++
++CVE_STATUS[CVE-2018-10021] = "fixed-version: Fixed from version 4.16rc7"
++
++CVE_STATUS[CVE-2018-10074] = "fixed-version: Fixed from version 4.16rc7"
++
++CVE_STATUS[CVE-2018-10087] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2018-10124] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2018-10322] = "fixed-version: Fixed from version 4.17rc4"
++
++CVE_STATUS[CVE-2018-10323] = "fixed-version: Fixed from version 4.17rc4"
++
++CVE_STATUS[CVE-2018-1065] = "fixed-version: Fixed from version 4.16rc3"
++
++CVE_STATUS[CVE-2018-1066] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2018-10675] = "fixed-version: Fixed from version 4.13rc6"
++
++CVE_STATUS[CVE-2018-1068] = "fixed-version: Fixed from version 4.16rc5"
++
++CVE_STATUS[CVE-2018-10840] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-10853] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-1087] = "fixed-version: Fixed from version 4.16rc7"
++
++# CVE-2018-10872 has no known resolution
++
++CVE_STATUS[CVE-2018-10876] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10877] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10878] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10879] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10880] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10881] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10882] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10883] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-10901] = "fixed-version: Fixed from version 2.6.36rc1"
++
++CVE_STATUS[CVE-2018-10902] = "fixed-version: Fixed from version 4.18rc6"
++
++CVE_STATUS[CVE-2018-1091] = "fixed-version: Fixed from version 4.14rc2"
++
++CVE_STATUS[CVE-2018-1092] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2018-1093] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2018-10938] = "fixed-version: Fixed from version 4.13rc5"
++
++CVE_STATUS[CVE-2018-1094] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2018-10940] = "fixed-version: Fixed from version 4.17rc3"
++
++CVE_STATUS[CVE-2018-1095] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2018-1108] = "fixed-version: Fixed from version 4.17rc2"
++
++CVE_STATUS[CVE-2018-1118] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-1120] = "fixed-version: Fixed from version 4.17rc6"
++
++# CVE-2018-1121 has no known resolution
++
++CVE_STATUS[CVE-2018-11232] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2018-1128] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-1129] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-1130] = "fixed-version: Fixed from version 4.16rc7"
++
++CVE_STATUS[CVE-2018-11412] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-11506] = "fixed-version: Fixed from version 4.17rc7"
++
++CVE_STATUS[CVE-2018-11508] = "fixed-version: Fixed from version 4.17rc5"
++
++# CVE-2018-11987 has no known resolution
++
++CVE_STATUS[CVE-2018-12126] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2018-12127] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2018-12130] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2018-12207] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2018-12232] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-12233] = "fixed-version: Fixed from version 4.18rc2"
++
++CVE_STATUS[CVE-2018-12633] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-12714] = "fixed-version: Fixed from version 4.18rc2"
++
++CVE_STATUS[CVE-2018-12896] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-12904] = "fixed-version: Fixed from version 4.18rc1"
++
++# CVE-2018-12928 has no known resolution
++
++# CVE-2018-12929 has no known resolution
++
++# CVE-2018-12930 has no known resolution
++
++# CVE-2018-12931 has no known resolution
++
++CVE_STATUS[CVE-2018-13053] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-13093] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-13094] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-13095] = "fixed-version: Fixed from version 4.18rc3"
++
++CVE_STATUS[CVE-2018-13096] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-13097] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-13098] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-13099] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-13100] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-13405] = "fixed-version: Fixed from version 4.18rc4"
++
++CVE_STATUS[CVE-2018-13406] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-14609] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14610] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14611] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14612] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14613] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14614] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14615] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14616] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14617] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-14619] = "fixed-version: Fixed from version 4.15rc4"
++
++CVE_STATUS[CVE-2018-14625] = "fixed-version: Fixed from version 4.20rc6"
++
++CVE_STATUS[CVE-2018-14633] = "fixed-version: Fixed from version 4.19rc6"
++
++CVE_STATUS[CVE-2018-14634] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2018-14641] = "fixed-version: Fixed from version 4.19rc4"
++
++CVE_STATUS[CVE-2018-14646] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2018-14656] = "fixed-version: Fixed from version 4.19rc2"
++
++CVE_STATUS[CVE-2018-14678] = "fixed-version: Fixed from version 4.18rc8"
++
++CVE_STATUS[CVE-2018-14734] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-15471] = "fixed-version: Fixed from version 4.19rc7"
++
++CVE_STATUS[CVE-2018-15572] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-15594] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-16276] = "fixed-version: Fixed from version 4.18rc5"
++
++CVE_STATUS[CVE-2018-16597] = "fixed-version: Fixed from version 4.8rc1"
++
++CVE_STATUS[CVE-2018-16658] = "fixed-version: Fixed from version 4.19rc2"
++
++CVE_STATUS[CVE-2018-16862] = "fixed-version: Fixed from version 4.20rc5"
++
++CVE_STATUS[CVE-2018-16871] = "fixed-version: Fixed from version 4.20rc3"
++
++CVE_STATUS[CVE-2018-16880] = "fixed-version: Fixed from version 5.0rc5"
++
++CVE_STATUS[CVE-2018-16882] = "fixed-version: Fixed from version 4.20"
++
++CVE_STATUS[CVE-2018-16884] = "fixed-version: Fixed from version 5.0rc1"
++
++# CVE-2018-16885 has no known resolution
++
++CVE_STATUS[CVE-2018-17182] = "fixed-version: Fixed from version 4.19rc4"
++
++CVE_STATUS[CVE-2018-17972] = "fixed-version: Fixed from version 4.19rc7"
++
++# CVE-2018-17977 has no known resolution
++
++CVE_STATUS[CVE-2018-18021] = "fixed-version: Fixed from version 4.19rc7"
++
++CVE_STATUS[CVE-2018-18281] = "fixed-version: Fixed from version 4.19"
++
++CVE_STATUS[CVE-2018-18386] = "fixed-version: Fixed from version 4.15rc6"
++
++CVE_STATUS[CVE-2018-18397] = "fixed-version: Fixed from version 4.20rc5"
++
++CVE_STATUS[CVE-2018-18445] = "fixed-version: Fixed from version 4.19rc7"
++
++CVE_STATUS[CVE-2018-18559] = "fixed-version: Fixed from version 4.15rc2"
++
++# CVE-2018-18653 has no known resolution
++
++CVE_STATUS[CVE-2018-18690] = "fixed-version: Fixed from version 4.17rc4"
++
++CVE_STATUS[CVE-2018-18710] = "fixed-version: Fixed from version 4.20rc1"
++
++CVE_STATUS[CVE-2018-18955] = "fixed-version: Fixed from version 4.20rc2"
++
++CVE_STATUS[CVE-2018-19406] = "fixed-version: Fixed from version 4.20rc5"
++
++CVE_STATUS[CVE-2018-19407] = "fixed-version: Fixed from version 4.20rc5"
++
++CVE_STATUS[CVE-2018-19824] = "fixed-version: Fixed from version 4.20rc6"
++
++CVE_STATUS[CVE-2018-19854] = "fixed-version: Fixed from version 4.20rc3"
++
++CVE_STATUS[CVE-2018-19985] = "fixed-version: Fixed from version 4.20"
++
++CVE_STATUS[CVE-2018-20169] = "fixed-version: Fixed from version 4.20rc6"
++
++CVE_STATUS[CVE-2018-20449] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2018-20509] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2018-20510] = "fixed-version: Fixed from version 4.16rc3"
++
++CVE_STATUS[CVE-2018-20511] = "fixed-version: Fixed from version 4.19rc5"
++
++CVE_STATUS[CVE-2018-20669] = "fixed-version: Fixed from version 5.0rc1"
++
++CVE_STATUS[CVE-2018-20784] = "fixed-version: Fixed from version 5.0rc1"
++
++CVE_STATUS[CVE-2018-20836] = "fixed-version: Fixed from version 4.20rc1"
++
++CVE_STATUS[CVE-2018-20854] = "fixed-version: Fixed from version 4.20rc1"
++
++CVE_STATUS[CVE-2018-20855] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-20856] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-20961] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2018-20976] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-21008] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2018-25015] = "fixed-version: Fixed from version 4.15rc9"
++
++CVE_STATUS[CVE-2018-25020] = "fixed-version: Fixed from version 4.17rc7"
++
++# CVE-2018-3574 has no known resolution
++
++CVE_STATUS[CVE-2018-3620] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-3639] = "fixed-version: Fixed from version 4.17rc7"
++
++CVE_STATUS[CVE-2018-3646] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-3665] = "fixed-version: Fixed from version 3.7rc1"
++
++CVE_STATUS[CVE-2018-3693] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-5332] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2018-5333] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2018-5344] = "fixed-version: Fixed from version 4.15rc8"
++
++CVE_STATUS[CVE-2018-5390] = "fixed-version: Fixed from version 4.18rc7"
++
++CVE_STATUS[CVE-2018-5391] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-5703] = "fixed-version: Fixed from version 4.16rc5"
++
++CVE_STATUS[CVE-2018-5750] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2018-5803] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2018-5814] = "fixed-version: Fixed from version 4.17rc6"
++
++CVE_STATUS[CVE-2018-5848] = "fixed-version: Fixed from version 4.16rc1"
++
++# Skipping CVE-2018-5856, no affected_versions
++
++CVE_STATUS[CVE-2018-5873] = "fixed-version: Fixed from version 4.11rc8"
++
++CVE_STATUS[CVE-2018-5953] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2018-5995] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2018-6412] = "fixed-version: Fixed from version 4.16rc5"
++
++CVE_STATUS[CVE-2018-6554] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2018-6555] = "fixed-version: Fixed from version 4.17rc1"
++
++# CVE-2018-6559 has no known resolution
++
++CVE_STATUS[CVE-2018-6927] = "fixed-version: Fixed from version 4.15rc9"
++
++CVE_STATUS[CVE-2018-7191] = "fixed-version: Fixed from version 4.14rc6"
++
++CVE_STATUS[CVE-2018-7273] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2018-7480] = "fixed-version: Fixed from version 4.11rc1"
++
++CVE_STATUS[CVE-2018-7492] = "fixed-version: Fixed from version 4.15rc3"
++
++CVE_STATUS[CVE-2018-7566] = "fixed-version: Fixed from version 4.16rc2"
++
++CVE_STATUS[CVE-2018-7740] = "fixed-version: Fixed from version 4.16rc7"
++
++CVE_STATUS[CVE-2018-7754] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2018-7755] = "fixed-version: Fixed from version 4.19rc5"
++
++CVE_STATUS[CVE-2018-7757] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2018-7995] = "fixed-version: Fixed from version 4.16rc5"
++
++CVE_STATUS[CVE-2018-8043] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2018-8087] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2018-8781] = "fixed-version: Fixed from version 4.16rc7"
++
++CVE_STATUS[CVE-2018-8822] = "fixed-version: Fixed from version 4.16rc7"
++
++CVE_STATUS[CVE-2018-8897] = "fixed-version: Fixed from version 4.16rc7"
++
++CVE_STATUS[CVE-2018-9363] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2018-9385] = "fixed-version: Fixed from version 4.17rc3"
++
++CVE_STATUS[CVE-2018-9415] = "fixed-version: Fixed from version 4.17rc3"
++
++CVE_STATUS[CVE-2018-9422] = "fixed-version: Fixed from version 4.6rc1"
++
++CVE_STATUS[CVE-2018-9465] = "fixed-version: Fixed from version 4.15rc6"
++
++CVE_STATUS[CVE-2018-9516] = "fixed-version: Fixed from version 4.18rc5"
++
++CVE_STATUS[CVE-2018-9517] = "fixed-version: Fixed from version 4.14rc1"
++
++CVE_STATUS[CVE-2018-9518] = "fixed-version: Fixed from version 4.16rc3"
++
++CVE_STATUS[CVE-2018-9568] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2019-0136] = "fixed-version: Fixed from version 5.2rc6"
++
++CVE_STATUS[CVE-2019-0145] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-0146] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-0147] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-0148] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-0149] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-0154] = "fixed-version: Fixed from version 5.4rc8"
++
++CVE_STATUS[CVE-2019-0155] = "fixed-version: Fixed from version 5.4rc8"
++
++CVE_STATUS[CVE-2019-10124] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-10125] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-10126] = "fixed-version: Fixed from version 5.2rc6"
++
++# CVE-2019-10140 has no known resolution
++
++CVE_STATUS[CVE-2019-10142] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-10207] = "fixed-version: Fixed from version 5.3rc3"
++
++CVE_STATUS[CVE-2019-10220] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-10638] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-10639] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-11085] = "fixed-version: Fixed from version 5.0rc3"
++
++CVE_STATUS[CVE-2019-11091] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-11135] = "fixed-version: Fixed from version 5.4rc8"
++
++CVE_STATUS[CVE-2019-11190] = "fixed-version: Fixed from version 4.8rc5"
++
++CVE_STATUS[CVE-2019-11191] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-1125] = "fixed-version: Fixed from version 5.3rc4"
++
++CVE_STATUS[CVE-2019-11477] = "fixed-version: Fixed from version 5.2rc6"
++
++CVE_STATUS[CVE-2019-11478] = "fixed-version: Fixed from version 5.2rc6"
++
++CVE_STATUS[CVE-2019-11479] = "fixed-version: Fixed from version 5.2rc6"
++
++CVE_STATUS[CVE-2019-11486] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-11487] = "fixed-version: Fixed from version 5.1rc5"
++
++CVE_STATUS[CVE-2019-11599] = "fixed-version: Fixed from version 5.1rc6"
++
++CVE_STATUS[CVE-2019-11683] = "fixed-version: Fixed from version 5.1"
++
++CVE_STATUS[CVE-2019-11810] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-11811] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-11815] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-11833] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-11884] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-12378] = "fixed-version: Fixed from version 5.2rc3"
++
++CVE_STATUS[CVE-2019-12379] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-12380] = "fixed-version: Fixed from version 5.2rc3"
++
++CVE_STATUS[CVE-2019-12381] = "fixed-version: Fixed from version 5.2rc3"
++
++CVE_STATUS[CVE-2019-12382] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-12454] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-12455] = "fixed-version: Fixed from version 5.3rc1"
++
++# CVE-2019-12456 has no known resolution
++
++CVE_STATUS[CVE-2019-12614] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-12615] = "fixed-version: Fixed from version 5.2rc4"
++
++CVE_STATUS[CVE-2019-12817] = "fixed-version: Fixed from version 5.2rc7"
++
++CVE_STATUS[CVE-2019-12818] = "fixed-version: Fixed from version 5.0"
++
++CVE_STATUS[CVE-2019-12819] = "fixed-version: Fixed from version 5.0rc8"
++
++CVE_STATUS[CVE-2019-12881] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2019-12984] = "fixed-version: Fixed from version 5.2rc6"
++
++CVE_STATUS[CVE-2019-13233] = "fixed-version: Fixed from version 5.2rc4"
++
++CVE_STATUS[CVE-2019-13272] = "fixed-version: Fixed from version 5.2"
++
++CVE_STATUS[CVE-2019-13631] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-13648] = "fixed-version: Fixed from version 5.3rc2"
++
++CVE_STATUS[CVE-2019-14283] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-14284] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-14615] = "fixed-version: Fixed from version 5.5rc7"
++
++CVE_STATUS[CVE-2019-14763] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2019-14814] = "fixed-version: Fixed from version 5.3"
++
++CVE_STATUS[CVE-2019-14815] = "fixed-version: Fixed from version 5.3"
++
++CVE_STATUS[CVE-2019-14816] = "fixed-version: Fixed from version 5.3"
++
++CVE_STATUS[CVE-2019-14821] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-14835] = "fixed-version: Fixed from version 5.3"
++
++CVE_STATUS[CVE-2019-14895] = "fixed-version: Fixed from version 5.5rc3"
++
++CVE_STATUS[CVE-2019-14896] = "fixed-version: Fixed from version 5.5"
++
++CVE_STATUS[CVE-2019-14897] = "fixed-version: Fixed from version 5.5"
++
++# CVE-2019-14898 has no known resolution
++
++CVE_STATUS[CVE-2019-14901] = "fixed-version: Fixed from version 5.5rc3"
++
++CVE_STATUS[CVE-2019-15030] = "fixed-version: Fixed from version 5.3rc8"
++
++CVE_STATUS[CVE-2019-15031] = "fixed-version: Fixed from version 5.3rc8"
++
++CVE_STATUS[CVE-2019-15090] = "fixed-version: Fixed from version 5.2rc2"
++
++CVE_STATUS[CVE-2019-15098] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-15099] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-15117] = "fixed-version: Fixed from version 5.3rc5"
++
++CVE_STATUS[CVE-2019-15118] = "fixed-version: Fixed from version 5.3rc5"
++
++CVE_STATUS[CVE-2019-15211] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-15212] = "fixed-version: Fixed from version 5.2rc3"
++
++CVE_STATUS[CVE-2019-15213] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-15214] = "fixed-version: Fixed from version 5.1rc6"
++
++CVE_STATUS[CVE-2019-15215] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-15216] = "fixed-version: Fixed from version 5.1"
++
++CVE_STATUS[CVE-2019-15217] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-15218] = "fixed-version: Fixed from version 5.2rc3"
++
++CVE_STATUS[CVE-2019-15219] = "fixed-version: Fixed from version 5.2rc3"
++
++CVE_STATUS[CVE-2019-15220] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-15221] = "fixed-version: Fixed from version 5.2"
++
++CVE_STATUS[CVE-2019-15222] = "fixed-version: Fixed from version 5.3rc3"
++
++CVE_STATUS[CVE-2019-15223] = "fixed-version: Fixed from version 5.2rc3"
++
++# CVE-2019-15239 has no known resolution
++
++# CVE-2019-15290 has no known resolution
++
++CVE_STATUS[CVE-2019-15291] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-15292] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-15504] = "fixed-version: Fixed from version 5.3"
++
++CVE_STATUS[CVE-2019-15505] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-15538] = "fixed-version: Fixed from version 5.3rc6"
++
++CVE_STATUS[CVE-2019-15666] = "fixed-version: Fixed from version 5.1"
++
++# CVE-2019-15791 has no known resolution
++
++# CVE-2019-15792 has no known resolution
++
++# CVE-2019-15793 has no known resolution
++
++CVE_STATUS[CVE-2019-15794] = "fixed-version: Fixed from version 5.12"
++
++CVE_STATUS[CVE-2019-15807] = "fixed-version: Fixed from version 5.2rc3"
++
++# CVE-2019-15902 has no known resolution
++
++CVE_STATUS[CVE-2019-15916] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-15917] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-15918] = "fixed-version: Fixed from version 5.1rc6"
++
++CVE_STATUS[CVE-2019-15919] = "fixed-version: Fixed from version 5.1rc6"
++
++CVE_STATUS[CVE-2019-15920] = "fixed-version: Fixed from version 5.1rc6"
++
++CVE_STATUS[CVE-2019-15921] = "fixed-version: Fixed from version 5.1rc3"
++
++CVE_STATUS[CVE-2019-15922] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-15923] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-15924] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-15925] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-15926] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-15927] = "fixed-version: Fixed from version 5.0rc2"
++
++# CVE-2019-16089 has no known resolution
++
++CVE_STATUS[CVE-2019-16229] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-16230] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-16231] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-16232] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-16233] = "fixed-version: Fixed from version 5.4rc5"
++
++CVE_STATUS[CVE-2019-16234] = "fixed-version: Fixed from version 5.4rc4"
++
++CVE_STATUS[CVE-2019-16413] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-16714] = "fixed-version: Fixed from version 5.3rc7"
++
++CVE_STATUS[CVE-2019-16746] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-16921] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2019-16994] = "fixed-version: Fixed from version 5.0"
++
++CVE_STATUS[CVE-2019-16995] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-17052] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-17053] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-17054] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-17055] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-17056] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-17075] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-17133] = "fixed-version: Fixed from version 5.4rc4"
++
++CVE_STATUS[CVE-2019-17351] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-17666] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-18198] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-18282] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-18660] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-18675] = "fixed-version: Fixed from version 4.17rc5"
++
++# CVE-2019-18680 has no known resolution
++
++CVE_STATUS[CVE-2019-18683] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-18786] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-18805] = "fixed-version: Fixed from version 5.1rc7"
++
++CVE_STATUS[CVE-2019-18806] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-18807] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-18808] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-18809] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-18810] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-18811] = "fixed-version: Fixed from version 5.4rc7"
++
++CVE_STATUS[CVE-2019-18812] = "fixed-version: Fixed from version 5.4rc7"
++
++CVE_STATUS[CVE-2019-18813] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-18814] = "fixed-version: Fixed from version 5.7rc7"
++
++CVE_STATUS[CVE-2019-18885] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-19036] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19037] = "fixed-version: Fixed from version 5.5rc3"
++
++CVE_STATUS[CVE-2019-19039] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2019-19043] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19044] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-19045] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-19046] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19047] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-19048] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-19049] = "fixed-version: Fixed from version 5.4rc5"
++
++CVE_STATUS[CVE-2019-19050] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19051] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-19052] = "fixed-version: Fixed from version 5.4rc7"
++
++CVE_STATUS[CVE-2019-19053] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19054] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19055] = "fixed-version: Fixed from version 5.4rc4"
++
++CVE_STATUS[CVE-2019-19056] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19057] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19058] = "fixed-version: Fixed from version 5.4rc4"
++
++CVE_STATUS[CVE-2019-19059] = "fixed-version: Fixed from version 5.4rc4"
++
++CVE_STATUS[CVE-2019-19060] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-19061] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-19062] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19063] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19064] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19065] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-19066] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19067] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-19068] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19069] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-19070] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19071] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19072] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19073] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19074] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19075] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-19076] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19077] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19078] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19079] = "fixed-version: Fixed from version 5.3"
++
++CVE_STATUS[CVE-2019-19080] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19081] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19082] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19083] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-19227] = "fixed-version: Fixed from version 5.1rc3"
++
++CVE_STATUS[CVE-2019-19241] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19252] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19318] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19319] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-19332] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19338] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19377] = "fixed-version: Fixed from version 5.7rc1"
++
++# CVE-2019-19378 has no known resolution
++
++CVE_STATUS[CVE-2019-19447] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19448] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2019-19449] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2019-19462] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2019-19523] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-19524] = "fixed-version: Fixed from version 5.4rc8"
++
++CVE_STATUS[CVE-2019-19525] = "fixed-version: Fixed from version 5.4rc2"
++
++CVE_STATUS[CVE-2019-19526] = "fixed-version: Fixed from version 5.4rc4"
++
++CVE_STATUS[CVE-2019-19527] = "fixed-version: Fixed from version 5.3rc4"
++
++CVE_STATUS[CVE-2019-19528] = "fixed-version: Fixed from version 5.4rc3"
++
++CVE_STATUS[CVE-2019-19529] = "fixed-version: Fixed from version 5.4rc7"
++
++CVE_STATUS[CVE-2019-19530] = "fixed-version: Fixed from version 5.3rc5"
++
++CVE_STATUS[CVE-2019-19531] = "fixed-version: Fixed from version 5.3rc4"
++
++CVE_STATUS[CVE-2019-19532] = "fixed-version: Fixed from version 5.4rc6"
++
++CVE_STATUS[CVE-2019-19533] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19534] = "fixed-version: Fixed from version 5.4rc7"
++
++CVE_STATUS[CVE-2019-19535] = "fixed-version: Fixed from version 5.3rc4"
++
++CVE_STATUS[CVE-2019-19536] = "fixed-version: Fixed from version 5.3rc4"
++
++CVE_STATUS[CVE-2019-19537] = "fixed-version: Fixed from version 5.3rc5"
++
++CVE_STATUS[CVE-2019-19543] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-19602] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19767] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2019-19768] = "fixed-version: Fixed from version 5.6rc4"
++
++CVE_STATUS[CVE-2019-19769] = "fixed-version: Fixed from version 5.6rc5"
++
++CVE_STATUS[CVE-2019-19770] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2019-19807] = "fixed-version: Fixed from version 5.4rc7"
++
++CVE_STATUS[CVE-2019-19813] = "fixed-version: Fixed from version 5.2rc1"
++
++# CVE-2019-19814 has no known resolution
++
++CVE_STATUS[CVE-2019-19815] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2019-19816] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-19922] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-19927] = "fixed-version: Fixed from version 5.1rc6"
++
++CVE_STATUS[CVE-2019-19947] = "fixed-version: Fixed from version 5.5rc3"
++
++CVE_STATUS[CVE-2019-19965] = "fixed-version: Fixed from version 5.5rc2"
++
++CVE_STATUS[CVE-2019-19966] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-1999] = "fixed-version: Fixed from version 5.1rc3"
++
++CVE_STATUS[CVE-2019-20054] = "fixed-version: Fixed from version 5.1rc3"
++
++CVE_STATUS[CVE-2019-20095] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-20096] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-2024] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2019-2025] = "fixed-version: Fixed from version 4.20rc5"
++
++CVE_STATUS[CVE-2019-20422] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-2054] = "fixed-version: Fixed from version 4.8rc1"
++
++CVE_STATUS[CVE-2019-20636] = "fixed-version: Fixed from version 5.5rc6"
++
++# CVE-2019-20794 has no known resolution
++
++CVE_STATUS[CVE-2019-20806] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-20810] = "fixed-version: Fixed from version 5.6rc1"
++
++CVE_STATUS[CVE-2019-20811] = "fixed-version: Fixed from version 5.1rc3"
++
++CVE_STATUS[CVE-2019-20812] = "fixed-version: Fixed from version 5.5rc3"
++
++CVE_STATUS[CVE-2019-20908] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2019-20934] = "fixed-version: Fixed from version 5.3rc2"
++
++CVE_STATUS[CVE-2019-2101] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-2181] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-2182] = "fixed-version: Fixed from version 4.16rc3"
++
++CVE_STATUS[CVE-2019-2213] = "fixed-version: Fixed from version 5.2rc6"
++
++CVE_STATUS[CVE-2019-2214] = "fixed-version: Fixed from version 5.3rc2"
++
++CVE_STATUS[CVE-2019-2215] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2019-25044] = "fixed-version: Fixed from version 5.2rc4"
++
++CVE_STATUS[CVE-2019-25045] = "fixed-version: Fixed from version 5.1"
++
++CVE_STATUS[CVE-2019-25160] = "fixed-version: Fixed from version 5.0"
++
++CVE_STATUS[CVE-2019-25162] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2019-3016] = "fixed-version: Fixed from version 5.6rc1"
++
++CVE_STATUS[CVE-2019-3459] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-3460] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-3701] = "fixed-version: Fixed from version 5.0rc3"
++
++CVE_STATUS[CVE-2019-3819] = "fixed-version: Fixed from version 5.0rc6"
++
++CVE_STATUS[CVE-2019-3837] = "fixed-version: Fixed from version 3.18rc1"
++
++CVE_STATUS[CVE-2019-3846] = "fixed-version: Fixed from version 5.2rc6"
++
++CVE_STATUS[CVE-2019-3874] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-3882] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-3887] = "fixed-version: Fixed from version 5.1rc4"
++
++CVE_STATUS[CVE-2019-3892] = "fixed-version: Fixed from version 5.1rc6"
++
++CVE_STATUS[CVE-2019-3896] = "fixed-version: Fixed from version 2.6.35rc1"
++
++CVE_STATUS[CVE-2019-3900] = "fixed-version: Fixed from version 5.2rc4"
++
++CVE_STATUS[CVE-2019-3901] = "fixed-version: Fixed from version 4.6rc6"
++
++CVE_STATUS[CVE-2019-5108] = "fixed-version: Fixed from version 5.3"
++
++# Skipping CVE-2019-5489, no affected_versions
++
++CVE_STATUS[CVE-2019-6133] = "fixed-version: Fixed from version 5.0rc2"
++
++CVE_STATUS[CVE-2019-6974] = "fixed-version: Fixed from version 5.0rc6"
++
++CVE_STATUS[CVE-2019-7221] = "fixed-version: Fixed from version 5.0rc6"
++
++CVE_STATUS[CVE-2019-7222] = "fixed-version: Fixed from version 5.0rc6"
++
++CVE_STATUS[CVE-2019-7308] = "fixed-version: Fixed from version 5.0rc3"
++
++CVE_STATUS[CVE-2019-8912] = "fixed-version: Fixed from version 5.0rc8"
++
++CVE_STATUS[CVE-2019-8956] = "fixed-version: Fixed from version 5.0rc6"
++
++CVE_STATUS[CVE-2019-8980] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-9003] = "fixed-version: Fixed from version 5.0rc4"
++
++CVE_STATUS[CVE-2019-9162] = "fixed-version: Fixed from version 5.0rc7"
++
++CVE_STATUS[CVE-2019-9213] = "fixed-version: Fixed from version 5.0"
++
++CVE_STATUS[CVE-2019-9245] = "fixed-version: Fixed from version 5.0rc1"
++
++CVE_STATUS[CVE-2019-9444] = "fixed-version: Fixed from version 4.15rc2"
++
++CVE_STATUS[CVE-2019-9445] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-9453] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2019-9454] = "fixed-version: Fixed from version 4.15rc9"
++
++CVE_STATUS[CVE-2019-9455] = "fixed-version: Fixed from version 5.0rc1"
++
++CVE_STATUS[CVE-2019-9456] = "fixed-version: Fixed from version 4.16rc6"
++
++CVE_STATUS[CVE-2019-9457] = "fixed-version: Fixed from version 4.13rc1"
++
++CVE_STATUS[CVE-2019-9458] = "fixed-version: Fixed from version 4.19rc7"
++
++CVE_STATUS[CVE-2019-9466] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-9500] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-9503] = "fixed-version: Fixed from version 5.1rc1"
++
++CVE_STATUS[CVE-2019-9506] = "fixed-version: Fixed from version 5.2"
++
++CVE_STATUS[CVE-2019-9857] = "fixed-version: Fixed from version 5.1rc2"
++
++CVE_STATUS[CVE-2020-0009] = "fixed-version: Fixed from version 5.6rc3"
++
++CVE_STATUS[CVE-2020-0030] = "fixed-version: Fixed from version 4.16rc3"
++
++CVE_STATUS[CVE-2020-0041] = "fixed-version: Fixed from version 5.5rc2"
++
++CVE_STATUS[CVE-2020-0066] = "fixed-version: Fixed from version 4.3rc7"
++
++CVE_STATUS[CVE-2020-0067] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2020-0110] = "fixed-version: Fixed from version 5.6rc2"
++
++CVE_STATUS[CVE-2020-0255] = "fixed-version: Fixed from version 5.7rc4"
++
++CVE_STATUS[CVE-2020-0305] = "fixed-version: Fixed from version 5.5rc6"
++
++# CVE-2020-0347 has no known resolution
++
++CVE_STATUS[CVE-2020-0404] = "fixed-version: Fixed from version 5.6rc1"
++
++CVE_STATUS[CVE-2020-0423] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-0427] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2020-0429] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2020-0430] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2020-0431] = "fixed-version: Fixed from version 5.5rc6"
++
++CVE_STATUS[CVE-2020-0432] = "fixed-version: Fixed from version 5.6rc1"
++
++CVE_STATUS[CVE-2020-0433] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2020-0435] = "fixed-version: Fixed from version 4.19rc1"
++
++CVE_STATUS[CVE-2020-0444] = "fixed-version: Fixed from version 5.6rc4"
++
++CVE_STATUS[CVE-2020-0465] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2020-0466] = "fixed-version: Fixed from version 5.9rc2"
++
++CVE_STATUS[CVE-2020-0543] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-10135] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-10690] = "fixed-version: Fixed from version 5.5rc5"
++
++# CVE-2020-10708 has no known resolution
++
++CVE_STATUS[CVE-2020-10711] = "fixed-version: Fixed from version 5.7rc6"
++
++CVE_STATUS[CVE-2020-10720] = "fixed-version: Fixed from version 5.2rc3"
++
++CVE_STATUS[CVE-2020-10732] = "fixed-version: Fixed from version 5.7"
++
++CVE_STATUS[CVE-2020-10742] = "fixed-version: Fixed from version 3.16rc1"
++
++CVE_STATUS[CVE-2020-10751] = "fixed-version: Fixed from version 5.7rc4"
++
++CVE_STATUS[CVE-2020-10757] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-10766] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-10767] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-10768] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-10769] = "fixed-version: Fixed from version 5.0rc3"
++
++CVE_STATUS[CVE-2020-10773] = "fixed-version: Fixed from version 5.4rc6"
++
++# CVE-2020-10774 has no known resolution
++
++CVE_STATUS[CVE-2020-10781] = "fixed-version: Fixed from version 5.8rc6"
++
++CVE_STATUS[CVE-2020-10942] = "fixed-version: Fixed from version 5.6rc4"
++
++CVE_STATUS[CVE-2020-11494] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-11565] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-11608] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-11609] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-11668] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-11669] = "fixed-version: Fixed from version 5.2rc1"
++
++# CVE-2020-11725 has no known resolution
++
++CVE_STATUS[CVE-2020-11884] = "fixed-version: Fixed from version 5.7rc4"
++
++# CVE-2020-11935 has no known resolution
++
++CVE_STATUS[CVE-2020-12114] = "fixed-version: Fixed from version 5.3rc1"
++
++CVE_STATUS[CVE-2020-12351] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-12352] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-12362] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-12363] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-12364] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-12464] = "fixed-version: Fixed from version 5.7rc3"
++
++CVE_STATUS[CVE-2020-12465] = "fixed-version: Fixed from version 5.6rc6"
++
++CVE_STATUS[CVE-2020-12652] = "fixed-version: Fixed from version 5.5rc7"
++
++CVE_STATUS[CVE-2020-12653] = "fixed-version: Fixed from version 5.6rc1"
++
++CVE_STATUS[CVE-2020-12654] = "fixed-version: Fixed from version 5.6rc1"
++
++CVE_STATUS[CVE-2020-12655] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-12656] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-12657] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-12659] = "fixed-version: Fixed from version 5.7rc2"
++
++CVE_STATUS[CVE-2020-12768] = "fixed-version: Fixed from version 5.6rc4"
++
++CVE_STATUS[CVE-2020-12769] = "fixed-version: Fixed from version 5.5rc6"
++
++CVE_STATUS[CVE-2020-12770] = "fixed-version: Fixed from version 5.7rc3"
++
++CVE_STATUS[CVE-2020-12771] = "fixed-version: Fixed from version 5.8rc2"
++
++CVE_STATUS[CVE-2020-12826] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-12888] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-12912] = "fixed-version: Fixed from version 5.10rc4"
++
++CVE_STATUS[CVE-2020-13143] = "fixed-version: Fixed from version 5.7rc6"
++
++CVE_STATUS[CVE-2020-13974] = "fixed-version: Fixed from version 5.8rc1"
++
++# CVE-2020-14304 has no known resolution
++
++CVE_STATUS[CVE-2020-14305] = "fixed-version: Fixed from version 4.12rc1"
++
++CVE_STATUS[CVE-2020-14314] = "fixed-version: Fixed from version 5.9rc2"
++
++CVE_STATUS[CVE-2020-14331] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2020-14351] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-14353] = "fixed-version: Fixed from version 4.14rc3"
++
++CVE_STATUS[CVE-2020-14356] = "fixed-version: Fixed from version 5.8rc5"
++
++CVE_STATUS[CVE-2020-14381] = "fixed-version: Fixed from version 5.6rc6"
++
++CVE_STATUS[CVE-2020-14385] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2020-14386] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2020-14390] = "fixed-version: Fixed from version 5.9rc6"
++
++CVE_STATUS[CVE-2020-14416] = "fixed-version: Fixed from version 5.5"
++
++CVE_STATUS[CVE-2020-15393] = "fixed-version: Fixed from version 5.8rc3"
++
++CVE_STATUS[CVE-2020-15436] = "fixed-version: Fixed from version 5.8rc2"
++
++CVE_STATUS[CVE-2020-15437] = "fixed-version: Fixed from version 5.8rc7"
++
++CVE_STATUS[CVE-2020-15780] = "fixed-version: Fixed from version 5.8rc3"
++
++# CVE-2020-15802 has no known resolution
++
++CVE_STATUS[CVE-2020-15852] = "fixed-version: Fixed from version 5.8rc6"
++
++CVE_STATUS[CVE-2020-16119] = "fixed-version: Fixed from version 5.15rc2"
++
++CVE_STATUS[CVE-2020-16120] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-16166] = "fixed-version: Fixed from version 5.8"
++
++CVE_STATUS[CVE-2020-1749] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2020-24394] = "fixed-version: Fixed from version 5.8rc4"
++
++CVE_STATUS[CVE-2020-24490] = "fixed-version: Fixed from version 5.8"
++
++# CVE-2020-24502 has no known resolution
++
++# CVE-2020-24503 has no known resolution
++
++CVE_STATUS[CVE-2020-24504] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2020-24586] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2020-24587] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2020-24588] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2020-25211] = "fixed-version: Fixed from version 5.9rc7"
++
++CVE_STATUS[CVE-2020-25212] = "fixed-version: Fixed from version 5.9rc1"
++
++# CVE-2020-25220 has no known resolution
++
++CVE_STATUS[CVE-2020-25221] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2020-25284] = "fixed-version: Fixed from version 5.9rc5"
++
++CVE_STATUS[CVE-2020-25285] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2020-25639] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2020-25641] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2020-25643] = "fixed-version: Fixed from version 5.9rc7"
++
++CVE_STATUS[CVE-2020-25645] = "fixed-version: Fixed from version 5.9rc7"
++
++CVE_STATUS[CVE-2020-25656] = "fixed-version: Fixed from version 5.10rc2"
++
++# CVE-2020-25661 has no known resolution
++
++# CVE-2020-25662 has no known resolution
++
++CVE_STATUS[CVE-2020-25668] = "fixed-version: Fixed from version 5.10rc3"
++
++CVE_STATUS[CVE-2020-25669] = "fixed-version: Fixed from version 5.10rc5"
++
++CVE_STATUS[CVE-2020-25670] = "fixed-version: Fixed from version 5.12rc7"
++
++CVE_STATUS[CVE-2020-25671] = "fixed-version: Fixed from version 5.12rc7"
++
++CVE_STATUS[CVE-2020-25672] = "fixed-version: Fixed from version 5.12rc7"
++
++CVE_STATUS[CVE-2020-25673] = "fixed-version: Fixed from version 5.12rc7"
++
++CVE_STATUS[CVE-2020-25704] = "fixed-version: Fixed from version 5.10rc3"
++
++CVE_STATUS[CVE-2020-25705] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-26088] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2020-26139] = "fixed-version: Fixed from version 5.13rc4"
++
++# CVE-2020-26140 has no known resolution
++
++CVE_STATUS[CVE-2020-26141] = "fixed-version: Fixed from version 5.13rc4"
++
++# CVE-2020-26142 has no known resolution
++
++# CVE-2020-26143 has no known resolution
++
++CVE_STATUS[CVE-2020-26145] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2020-26147] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2020-26541] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-26555] = "fixed-version: Fixed from version 5.13rc1"
++
++# CVE-2020-26556 has no known resolution
++
++# CVE-2020-26557 has no known resolution
++
++CVE_STATUS[CVE-2020-26558] = "fixed-version: Fixed from version 5.13rc1"
++
++# CVE-2020-26559 has no known resolution
++
++# CVE-2020-26560 has no known resolution
++
++CVE_STATUS[CVE-2020-27066] = "fixed-version: Fixed from version 5.6"
++
++CVE_STATUS[CVE-2020-27067] = "fixed-version: Fixed from version 4.14rc4"
++
++CVE_STATUS[CVE-2020-27068] = "fixed-version: Fixed from version 5.6rc2"
++
++CVE_STATUS[CVE-2020-27152] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-27170] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2020-27171] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2020-27194] = "fixed-version: Fixed from version 5.9"
++
++CVE_STATUS[CVE-2020-2732] = "fixed-version: Fixed from version 5.6rc4"
++
++CVE_STATUS[CVE-2020-27418] = "fixed-version: Fixed from version 5.6rc5"
++
++CVE_STATUS[CVE-2020-27673] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-27675] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-27777] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-27784] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-27786] = "fixed-version: Fixed from version 5.7rc6"
++
++CVE_STATUS[CVE-2020-27815] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-27820] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2020-27825] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-27830] = "fixed-version: Fixed from version 5.10rc7"
++
++CVE_STATUS[CVE-2020-27835] = "fixed-version: Fixed from version 5.10rc6"
++
++CVE_STATUS[CVE-2020-28097] = "fixed-version: Fixed from version 5.9rc6"
++
++CVE_STATUS[CVE-2020-28374] = "fixed-version: Fixed from version 5.11rc4"
++
++CVE_STATUS[CVE-2020-28588] = "fixed-version: Fixed from version 5.10rc7"
++
++CVE_STATUS[CVE-2020-28915] = "fixed-version: Fixed from version 5.9"
++
++CVE_STATUS[CVE-2020-28941] = "fixed-version: Fixed from version 5.10rc5"
++
++CVE_STATUS[CVE-2020-28974] = "fixed-version: Fixed from version 5.10rc3"
++
++CVE_STATUS[CVE-2020-29368] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-29369] = "fixed-version: Fixed from version 5.8rc7"
++
++CVE_STATUS[CVE-2020-29370] = "fixed-version: Fixed from version 5.6rc7"
++
++CVE_STATUS[CVE-2020-29371] = "fixed-version: Fixed from version 5.9rc2"
++
++CVE_STATUS[CVE-2020-29372] = "fixed-version: Fixed from version 5.7rc3"
++
++CVE_STATUS[CVE-2020-29373] = "fixed-version: Fixed from version 5.6rc2"
++
++CVE_STATUS[CVE-2020-29374] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-29534] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-29568] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-29569] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-29660] = "fixed-version: Fixed from version 5.10rc7"
++
++CVE_STATUS[CVE-2020-29661] = "fixed-version: Fixed from version 5.10rc7"
++
++CVE_STATUS[CVE-2020-35499] = "fixed-version: Fixed from version 5.11rc1"
++
++# CVE-2020-35501 has no known resolution
++
++CVE_STATUS[CVE-2020-35508] = "fixed-version: Fixed from version 5.10rc3"
++
++CVE_STATUS[CVE-2020-35513] = "fixed-version: Fixed from version 4.17rc1"
++
++CVE_STATUS[CVE-2020-35519] = "fixed-version: Fixed from version 5.10rc7"
++
++CVE_STATUS[CVE-2020-36158] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-36310] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-36311] = "fixed-version: Fixed from version 5.9rc5"
++
++CVE_STATUS[CVE-2020-36312] = "fixed-version: Fixed from version 5.9rc5"
++
++CVE_STATUS[CVE-2020-36313] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-36322] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2020-36385] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2020-36386] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2020-36387] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2020-36516] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2020-36557] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-36558] = "fixed-version: Fixed from version 5.6rc3"
++
++CVE_STATUS[CVE-2020-36691] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2020-36694] = "fixed-version: Fixed from version 5.10"
++
++CVE_STATUS[CVE-2020-36766] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2020-36775] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-36776] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36777] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36778] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36779] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36780] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36781] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36782] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36783] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36784] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36785] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36786] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-36787] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2020-3702] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2020-4788] = "fixed-version: Fixed from version 5.10rc5"
++
++CVE_STATUS[CVE-2020-7053] = "fixed-version: Fixed from version 5.2rc1"
++
++CVE_STATUS[CVE-2020-8428] = "fixed-version: Fixed from version 5.5"
++
++CVE_STATUS[CVE-2020-8647] = "fixed-version: Fixed from version 5.6rc5"
++
++CVE_STATUS[CVE-2020-8648] = "fixed-version: Fixed from version 5.6rc3"
++
++CVE_STATUS[CVE-2020-8649] = "fixed-version: Fixed from version 5.6rc5"
++
++CVE_STATUS[CVE-2020-8694] = "fixed-version: Fixed from version 5.10rc4"
++
++# CVE-2020-8832 has no known resolution
++
++CVE_STATUS[CVE-2020-8834] = "fixed-version: Fixed from version 4.18rc1"
++
++CVE_STATUS[CVE-2020-8835] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2020-8992] = "fixed-version: Fixed from version 5.6rc2"
++
++CVE_STATUS[CVE-2020-9383] = "fixed-version: Fixed from version 5.6rc4"
++
++CVE_STATUS[CVE-2020-9391] = "fixed-version: Fixed from version 5.6rc3"
++
++CVE_STATUS[CVE-2021-0129] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-0342] = "fixed-version: Fixed from version 5.8rc1"
++
++# CVE-2021-0399 has no known resolution
++
++CVE_STATUS[CVE-2021-0447] = "fixed-version: Fixed from version 4.15rc1"
++
++CVE_STATUS[CVE-2021-0448] = "fixed-version: Fixed from version 5.9rc7"
++
++CVE_STATUS[CVE-2021-0512] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-0605] = "fixed-version: Fixed from version 5.8"
++
++# CVE-2021-0606 has no known resolution
++
++# CVE-2021-0695 has no known resolution
++
++CVE_STATUS[CVE-2021-0707] = "fixed-version: Fixed from version 5.11rc3"
++
++CVE_STATUS[CVE-2021-0920] = "fixed-version: Fixed from version 5.14rc4"
++
++# CVE-2021-0924 has no known resolution
++
++CVE_STATUS[CVE-2021-0929] = "fixed-version: Fixed from version 5.6rc1"
++
++CVE_STATUS[CVE-2021-0935] = "fixed-version: Fixed from version 4.16rc7"
++
++# CVE-2021-0936 has no known resolution
++
++CVE_STATUS[CVE-2021-0937] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-0938] = "fixed-version: Fixed from version 5.10rc4"
++
++CVE_STATUS[CVE-2021-0941] = "fixed-version: Fixed from version 5.12rc1"
++
++# CVE-2021-0961 has no known resolution
++
++CVE_STATUS[CVE-2021-1048] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2021-20177] = "fixed-version: Fixed from version 5.5rc1"
++
++CVE_STATUS[CVE-2021-20194] = "fixed-version: Fixed from version 5.10rc1"
++
++# CVE-2021-20219 has no known resolution
++
++CVE_STATUS[CVE-2021-20226] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2021-20239] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2021-20261] = "fixed-version: Fixed from version 4.5rc5"
++
++CVE_STATUS[CVE-2021-20265] = "fixed-version: Fixed from version 4.5rc3"
++
++CVE_STATUS[CVE-2021-20268] = "fixed-version: Fixed from version 5.11rc5"
++
++CVE_STATUS[CVE-2021-20292] = "fixed-version: Fixed from version 5.9rc1"
++
++CVE_STATUS[CVE-2021-20317] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2021-20320] = "fixed-version: Fixed from version 5.15rc3"
++
++CVE_STATUS[CVE-2021-20321] = "fixed-version: Fixed from version 5.15rc5"
++
++CVE_STATUS[CVE-2021-20322] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-21781] = "fixed-version: Fixed from version 5.11rc7"
++
++CVE_STATUS[CVE-2021-22543] = "fixed-version: Fixed from version 5.13"
++
++CVE_STATUS[CVE-2021-22555] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-22600] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2021-23133] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-23134] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-26401] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2021-26708] = "fixed-version: Fixed from version 5.11rc7"
++
++CVE_STATUS[CVE-2021-26930] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-26931] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-26932] = "fixed-version: Fixed from version 5.12rc1"
++
++# CVE-2021-26934 has no known resolution
++
++CVE_STATUS[CVE-2021-27363] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2021-27364] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2021-27365] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2021-28038] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2021-28039] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2021-28375] = "fixed-version: Fixed from version 5.12rc3"
++
++CVE_STATUS[CVE-2021-28660] = "fixed-version: Fixed from version 5.12rc3"
++
++CVE_STATUS[CVE-2021-28688] = "fixed-version: Fixed from version 5.12rc6"
++
++CVE_STATUS[CVE-2021-28691] = "fixed-version: Fixed from version 5.13rc6"
++
++CVE_STATUS[CVE-2021-28711] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-28712] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-28713] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-28714] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-28715] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-28950] = "fixed-version: Fixed from version 5.12rc4"
++
++CVE_STATUS[CVE-2021-28951] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2021-28952] = "fixed-version: Fixed from version 5.12rc4"
++
++CVE_STATUS[CVE-2021-28964] = "fixed-version: Fixed from version 5.12rc4"
++
++CVE_STATUS[CVE-2021-28971] = "fixed-version: Fixed from version 5.12rc4"
++
++CVE_STATUS[CVE-2021-28972] = "fixed-version: Fixed from version 5.12rc4"
++
++CVE_STATUS[CVE-2021-29154] = "fixed-version: Fixed from version 5.12rc7"
++
++CVE_STATUS[CVE-2021-29155] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-29264] = "fixed-version: Fixed from version 5.12rc3"
++
++CVE_STATUS[CVE-2021-29265] = "fixed-version: Fixed from version 5.12rc3"
++
++CVE_STATUS[CVE-2021-29266] = "fixed-version: Fixed from version 5.12rc4"
++
++CVE_STATUS[CVE-2021-29646] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2021-29647] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2021-29648] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2021-29649] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2021-29650] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2021-29657] = "fixed-version: Fixed from version 5.12rc6"
++
++CVE_STATUS[CVE-2021-30002] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-30178] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2021-31440] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-3178] = "fixed-version: Fixed from version 5.11rc5"
++
++CVE_STATUS[CVE-2021-31829] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-31916] = "fixed-version: Fixed from version 5.12rc5"
++
++CVE_STATUS[CVE-2021-32078] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-32399] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-32606] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-33033] = "fixed-version: Fixed from version 5.12rc3"
++
++CVE_STATUS[CVE-2021-33034] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-33061] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2021-33098] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-33135] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2021-33200] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-3347] = "fixed-version: Fixed from version 5.11rc6"
++
++CVE_STATUS[CVE-2021-3348] = "fixed-version: Fixed from version 5.11rc6"
++
++CVE_STATUS[CVE-2021-33624] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-33630] = "fixed-version: Fixed from version 5.4rc1"
++
++CVE_STATUS[CVE-2021-33631] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2021-33655] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2021-33656] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-33909] = "fixed-version: Fixed from version 5.14rc3"
++
++CVE_STATUS[CVE-2021-3411] = "fixed-version: Fixed from version 5.10"
++
++CVE_STATUS[CVE-2021-3428] = "fixed-version: Fixed from version 5.9rc2"
++
++CVE_STATUS[CVE-2021-3444] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-34556] = "fixed-version: Fixed from version 5.14rc4"
++
++CVE_STATUS[CVE-2021-34693] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-3483] = "fixed-version: Fixed from version 5.12rc6"
++
++CVE_STATUS[CVE-2021-34866] = "fixed-version: Fixed from version 5.14"
++
++CVE_STATUS[CVE-2021-3489] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-3490] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-3491] = "fixed-version: Fixed from version 5.13rc1"
++
++# CVE-2021-3492 has no known resolution
++
++CVE_STATUS[CVE-2021-3493] = "fixed-version: Fixed from version 5.11rc1"
++
++CVE_STATUS[CVE-2021-34981] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-3501] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-35039] = "fixed-version: Fixed from version 5.13"
++
++CVE_STATUS[CVE-2021-3506] = "fixed-version: Fixed from version 5.13rc1"
++
++# CVE-2021-3542 has no known resolution
++
++CVE_STATUS[CVE-2021-3543] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-35477] = "fixed-version: Fixed from version 5.14rc4"
++
++CVE_STATUS[CVE-2021-3564] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-3573] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-3587] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-3600] = "fixed-version: Fixed from version 5.11"
++
++CVE_STATUS[CVE-2021-3609] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-3612] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-3635] = "fixed-version: Fixed from version 5.5rc7"
++
++CVE_STATUS[CVE-2021-3640] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2021-3653] = "fixed-version: Fixed from version 5.14rc7"
++
++CVE_STATUS[CVE-2021-3655] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-3656] = "fixed-version: Fixed from version 5.14rc7"
++
++CVE_STATUS[CVE-2021-3659] = "fixed-version: Fixed from version 5.12rc7"
++
++CVE_STATUS[CVE-2021-3669] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-3679] = "fixed-version: Fixed from version 5.14rc3"
++
++# CVE-2021-3714 has no known resolution
++
++CVE_STATUS[CVE-2021-3715] = "fixed-version: Fixed from version 5.6"
++
++CVE_STATUS[CVE-2021-37159] = "fixed-version: Fixed from version 5.14rc3"
++
++CVE_STATUS[CVE-2021-3732] = "fixed-version: Fixed from version 5.14rc6"
++
++CVE_STATUS[CVE-2021-3736] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-3739] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-3743] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-3744] = "fixed-version: Fixed from version 5.15rc4"
++
++CVE_STATUS[CVE-2021-3752] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2021-3753] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-37576] = "fixed-version: Fixed from version 5.14rc3"
++
++CVE_STATUS[CVE-2021-3759] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-3760] = "fixed-version: Fixed from version 5.15rc6"
++
++CVE_STATUS[CVE-2021-3764] = "fixed-version: Fixed from version 5.15rc4"
++
++CVE_STATUS[CVE-2021-3772] = "fixed-version: Fixed from version 5.15"
++
++CVE_STATUS[CVE-2021-38160] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-38166] = "fixed-version: Fixed from version 5.14rc6"
++
++CVE_STATUS[CVE-2021-38198] = "fixed-version: Fixed from version 5.13rc6"
++
++CVE_STATUS[CVE-2021-38199] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-38200] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-38201] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-38202] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-38203] = "fixed-version: Fixed from version 5.14rc2"
++
++CVE_STATUS[CVE-2021-38204] = "fixed-version: Fixed from version 5.14rc3"
++
++CVE_STATUS[CVE-2021-38205] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-38206] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-38207] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-38208] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-38209] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-38300] = "fixed-version: Fixed from version 5.15rc4"
++
++# CVE-2021-3847 has no known resolution
++
++# CVE-2021-3864 has no known resolution
++
++# CVE-2021-3892 has no known resolution
++
++CVE_STATUS[CVE-2021-3894] = "fixed-version: Fixed from version 5.15rc6"
++
++CVE_STATUS[CVE-2021-3896] = "fixed-version: Fixed from version 5.15rc6"
++
++CVE_STATUS[CVE-2021-3923] = "fixed-version: Fixed from version 5.16"
++
++CVE_STATUS[CVE-2021-39633] = "fixed-version: Fixed from version 5.14"
++
++CVE_STATUS[CVE-2021-39634] = "fixed-version: Fixed from version 5.9rc8"
++
++CVE_STATUS[CVE-2021-39636] = "fixed-version: Fixed from version 4.16rc1"
++
++CVE_STATUS[CVE-2021-39648] = "fixed-version: Fixed from version 5.11rc3"
++
++CVE_STATUS[CVE-2021-39656] = "fixed-version: Fixed from version 5.12rc3"
++
++CVE_STATUS[CVE-2021-39657] = "fixed-version: Fixed from version 5.11rc4"
++
++CVE_STATUS[CVE-2021-39685] = "fixed-version: Fixed from version 5.16rc5"
++
++CVE_STATUS[CVE-2021-39686] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2021-39698] = "fixed-version: Fixed from version 5.16rc5"
++
++CVE_STATUS[CVE-2021-39711] = "fixed-version: Fixed from version 4.18rc6"
++
++CVE_STATUS[CVE-2021-39713] = "fixed-version: Fixed from version 4.20rc1"
++
++CVE_STATUS[CVE-2021-39714] = "fixed-version: Fixed from version 4.12rc1"
++
++# CVE-2021-39800 has no known resolution
++
++# CVE-2021-39801 has no known resolution
++
++# CVE-2021-39802 has no known resolution
++
++CVE_STATUS[CVE-2021-4001] = "fixed-version: Fixed from version 5.16rc2"
++
++CVE_STATUS[CVE-2021-4002] = "fixed-version: Fixed from version 5.16rc3"
++
++CVE_STATUS[CVE-2021-4023] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-4028] = "fixed-version: Fixed from version 5.15rc4"
++
++CVE_STATUS[CVE-2021-4032] = "fixed-version: Fixed from version 5.15rc7"
++
++CVE_STATUS[CVE-2021-4037] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2021-40490] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-4083] = "fixed-version: Fixed from version 5.16rc4"
++
++CVE_STATUS[CVE-2021-4090] = "fixed-version: Fixed from version 5.16rc2"
++
++CVE_STATUS[CVE-2021-4093] = "fixed-version: Fixed from version 5.15rc7"
++
++CVE_STATUS[CVE-2021-4095] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2021-41073] = "fixed-version: Fixed from version 5.15rc2"
++
++CVE_STATUS[CVE-2021-4135] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2021-4148] = "fixed-version: Fixed from version 5.15"
++
++CVE_STATUS[CVE-2021-4149] = "fixed-version: Fixed from version 5.15rc6"
++
++CVE_STATUS[CVE-2021-4150] = "fixed-version: Fixed from version 5.15rc7"
++
++CVE_STATUS[CVE-2021-4154] = "fixed-version: Fixed from version 5.14rc2"
++
++CVE_STATUS[CVE-2021-4155] = "fixed-version: Fixed from version 5.16"
++
++CVE_STATUS[CVE-2021-4157] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-4159] = "fixed-version: Fixed from version 5.7rc1"
++
++CVE_STATUS[CVE-2021-41864] = "fixed-version: Fixed from version 5.15rc5"
++
++CVE_STATUS[CVE-2021-4197] = "fixed-version: Fixed from version 5.16"
++
++CVE_STATUS[CVE-2021-42008] = "fixed-version: Fixed from version 5.14rc7"
++
++CVE_STATUS[CVE-2021-4202] = "fixed-version: Fixed from version 5.16rc2"
++
++CVE_STATUS[CVE-2021-4203] = "fixed-version: Fixed from version 5.15rc4"
++
++CVE_STATUS[CVE-2021-4204] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2021-4218] = "fixed-version: Fixed from version 5.8rc1"
++
++CVE_STATUS[CVE-2021-42252] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2021-42327] = "fixed-version: Fixed from version 5.15"
++
++CVE_STATUS[CVE-2021-42739] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2021-43056] = "fixed-version: Fixed from version 5.15rc6"
++
++CVE_STATUS[CVE-2021-43057] = "fixed-version: Fixed from version 5.15rc3"
++
++CVE_STATUS[CVE-2021-43267] = "fixed-version: Fixed from version 5.15"
++
++CVE_STATUS[CVE-2021-43389] = "fixed-version: Fixed from version 5.15rc6"
++
++CVE_STATUS[CVE-2021-43975] = "fixed-version: Fixed from version 5.16rc2"
++
++CVE_STATUS[CVE-2021-43976] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2021-44733] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-44879] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2021-45095] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2021-45100] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-45402] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2021-45469] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2021-45480] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2021-45485] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2021-45486] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-45868] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2021-46283] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-46904] = "fixed-version: Fixed from version 5.12rc7"
++
++CVE_STATUS[CVE-2021-46905] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46906] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-46908] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46909] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46910] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46911] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46912] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46913] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46914] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46915] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46916] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46917] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46918] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46919] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46920] = "fixed-version: Fixed from version 5.12rc8"
++
++CVE_STATUS[CVE-2021-46921] = "fixed-version: Fixed from version 5.12"
++
++CVE_STATUS[CVE-2021-46922] = "fixed-version: Fixed from version 5.12"
++
++CVE_STATUS[CVE-2021-46923] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46924] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46925] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46926] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-46927] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46928] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-46929] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46930] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46931] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46932] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46933] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46934] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46935] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46936] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46937] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2021-46938] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46939] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46940] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46941] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46942] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46943] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46944] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46945] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46947] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46948] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46949] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46950] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46951] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46952] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46953] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46954] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46955] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46956] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46957] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46958] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46959] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46960] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46961] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46962] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46963] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46964] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46965] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46966] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46967] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46968] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46969] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46970] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46971] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46972] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46973] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46974] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46976] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46977] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46978] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46979] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46980] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46981] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46982] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46983] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46984] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46985] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46986] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46987] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46988] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46989] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46990] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-46991] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46992] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46993] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46994] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46995] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46996] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46997] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46998] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-46999] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47000] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47001] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47002] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47003] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47004] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47005] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47006] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47007] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47008] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47009] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-47010] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47011] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47012] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47013] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47014] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47015] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47016] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47017] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47018] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47019] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47020] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47021] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47022] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47023] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47024] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47025] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47026] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47027] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47028] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47029] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47030] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47031] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47032] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47033] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47034] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47035] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47036] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47037] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47038] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47039] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47040] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47041] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47042] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47043] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47044] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47045] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47046] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47047] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47048] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47049] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47050] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47051] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47052] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47053] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47054] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47055] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47056] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47057] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47058] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47059] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47060] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47061] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47062] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47063] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47064] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47065] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47066] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47067] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47068] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2021-47069] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47070] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47071] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47072] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47073] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47074] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47075] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47076] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47077] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47078] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47079] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47080] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47081] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47082] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47083] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47086] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47087] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47088] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47089] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47090] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47091] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47092] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47093] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47094] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47095] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47096] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47097] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47098] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47099] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47100] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47101] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47102] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47103] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47104] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47105] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47106] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47107] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47108] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2021-47109] = "fixed-version: Fixed from version 5.13rc7"
++
++CVE_STATUS[CVE-2021-47110] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-47111] = "fixed-version: Fixed from version 5.13rc6"
++
++CVE_STATUS[CVE-2021-47112] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-47113] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47114] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47116] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47117] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47118] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47119] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47120] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47121] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47122] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47123] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-47124] = "fixed-version: Fixed from version 5.13rc2"
++
++CVE_STATUS[CVE-2021-47125] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47126] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47127] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47128] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47129] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47130] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47131] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47132] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47133] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47134] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47135] = "fixed-version: Fixed from version 5.13rc5"
++
++CVE_STATUS[CVE-2021-47136] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47137] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47138] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47139] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47140] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47141] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47142] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47143] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47144] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47145] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47146] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47147] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47148] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47149] = "fixed-version: Fixed from version 5.13rc3"
++
++CVE_STATUS[CVE-2021-47150] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47151] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47152] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47153] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47158] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47159] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47160] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47161] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47162] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47163] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47164] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47165] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47166] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47167] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47168] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47169] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47170] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47171] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47172] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47173] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47174] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47175] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47176] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47177] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47178] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47179] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2021-47180] = "fixed-version: Fixed from version 5.13rc4"
++
++CVE_STATUS[CVE-2022-0001] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-0002] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-0168] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-0171] = "fixed-version: Fixed from version 5.18rc4"
++
++CVE_STATUS[CVE-2022-0185] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-0264] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2022-0286] = "fixed-version: Fixed from version 5.14rc2"
++
++CVE_STATUS[CVE-2022-0322] = "fixed-version: Fixed from version 5.15rc6"
++
++CVE_STATUS[CVE-2022-0330] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2022-0382] = "fixed-version: Fixed from version 5.16"
++
++# CVE-2022-0400 has no known resolution
++
++CVE_STATUS[CVE-2022-0433] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-0435] = "fixed-version: Fixed from version 5.17rc4"
++
++CVE_STATUS[CVE-2022-0480] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2022-0487] = "fixed-version: Fixed from version 5.17rc4"
++
++CVE_STATUS[CVE-2022-0492] = "fixed-version: Fixed from version 5.17rc3"
++
++CVE_STATUS[CVE-2022-0494] = "fixed-version: Fixed from version 5.17rc5"
++
++CVE_STATUS[CVE-2022-0500] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-0516] = "fixed-version: Fixed from version 5.17rc4"
++
++CVE_STATUS[CVE-2022-0617] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2022-0644] = "fixed-version: Fixed from version 5.15rc7"
++
++CVE_STATUS[CVE-2022-0646] = "fixed-version: Fixed from version 5.17rc5"
++
++CVE_STATUS[CVE-2022-0742] = "fixed-version: Fixed from version 5.17rc7"
++
++CVE_STATUS[CVE-2022-0812] = "fixed-version: Fixed from version 5.8rc6"
++
++CVE_STATUS[CVE-2022-0847] = "fixed-version: Fixed from version 5.17rc6"
++
++CVE_STATUS[CVE-2022-0850] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2022-0854] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-0995] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-0998] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-1011] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-1012] = "fixed-version: Fixed from version 5.18rc6"
++
++CVE_STATUS[CVE-2022-1015] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1016] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1043] = "fixed-version: Fixed from version 5.14rc7"
++
++CVE_STATUS[CVE-2022-1048] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1055] = "fixed-version: Fixed from version 5.17rc3"
++
++# CVE-2022-1116 has no known resolution
++
++CVE_STATUS[CVE-2022-1158] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1184] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-1195] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2022-1198] = "fixed-version: Fixed from version 5.17rc6"
++
++CVE_STATUS[CVE-2022-1199] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-1204] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1205] = "fixed-version: Fixed from version 5.18rc1"
++
++# CVE-2022-1247 has no known resolution
++
++CVE_STATUS[CVE-2022-1263] = "fixed-version: Fixed from version 5.18rc3"
++
++CVE_STATUS[CVE-2022-1280] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2022-1353] = "fixed-version: Fixed from version 5.17"
++
++CVE_STATUS[CVE-2022-1419] = "fixed-version: Fixed from version 5.6rc2"
++
++CVE_STATUS[CVE-2022-1462] = "fixed-version: Fixed from version 5.19rc7"
++
++CVE_STATUS[CVE-2022-1508] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2022-1516] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1651] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1652] = "fixed-version: Fixed from version 5.18rc6"
++
++CVE_STATUS[CVE-2022-1671] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-1678] = "fixed-version: Fixed from version 4.20rc1"
++
++CVE_STATUS[CVE-2022-1679] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-1729] = "fixed-version: Fixed from version 5.18"
++
++CVE_STATUS[CVE-2022-1734] = "fixed-version: Fixed from version 5.18rc6"
++
++CVE_STATUS[CVE-2022-1786] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2022-1789] = "fixed-version: Fixed from version 5.18"
++
++CVE_STATUS[CVE-2022-1836] = "fixed-version: Fixed from version 5.18rc5"
++
++CVE_STATUS[CVE-2022-1852] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-1882] = "fixed-version: Fixed from version 5.19rc8"
++
++CVE_STATUS[CVE-2022-1943] = "fixed-version: Fixed from version 5.18rc7"
++
++CVE_STATUS[CVE-2022-1966] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-1972] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-1973] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-1974] = "fixed-version: Fixed from version 5.18rc6"
++
++CVE_STATUS[CVE-2022-1975] = "fixed-version: Fixed from version 5.18rc6"
++
++CVE_STATUS[CVE-2022-1976] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-1998] = "fixed-version: Fixed from version 5.17rc3"
++
++CVE_STATUS[CVE-2022-20008] = "fixed-version: Fixed from version 5.17rc5"
++
++CVE_STATUS[CVE-2022-20132] = "fixed-version: Fixed from version 5.16rc5"
++
++CVE_STATUS[CVE-2022-20141] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2022-20148] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2022-20153] = "fixed-version: Fixed from version 5.13rc1"
++
++CVE_STATUS[CVE-2022-20154] = "fixed-version: Fixed from version 5.16rc8"
++
++CVE_STATUS[CVE-2022-20158] = "fixed-version: Fixed from version 5.17"
++
++CVE_STATUS[CVE-2022-20166] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2022-20368] = "fixed-version: Fixed from version 5.17"
++
++CVE_STATUS[CVE-2022-20369] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-20409] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2022-20421] = "fixed-version: Fixed from version 6.0rc4"
++
++CVE_STATUS[CVE-2022-20422] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-20423] = "fixed-version: Fixed from version 5.17"
++
++CVE_STATUS[CVE-2022-20424] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2022-20565] = "fixed-version: Fixed from version 5.9rc4"
++
++CVE_STATUS[CVE-2022-20566] = "fixed-version: Fixed from version 5.19"
++
++CVE_STATUS[CVE-2022-20567] = "fixed-version: Fixed from version 4.16rc5"
++
++CVE_STATUS[CVE-2022-20568] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2022-20572] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-2078] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-21123] = "fixed-version: Fixed from version 5.19rc3"
++
++CVE_STATUS[CVE-2022-21125] = "fixed-version: Fixed from version 5.19rc3"
++
++CVE_STATUS[CVE-2022-21166] = "fixed-version: Fixed from version 5.19rc3"
++
++CVE_STATUS[CVE-2022-21385] = "fixed-version: Fixed from version 4.20"
++
++CVE_STATUS[CVE-2022-21499] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-21505] = "fixed-version: Fixed from version 5.19rc8"
++
++CVE_STATUS[CVE-2022-2153] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-2196] = "fixed-version: Fixed from version 6.2rc1"
++
++# CVE-2022-2209 has no known resolution
++
++CVE_STATUS[CVE-2022-22942] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2022-23036] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-23037] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-23038] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-23039] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-23040] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-23041] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-23042] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-2308] = "fixed-version: Fixed from version 6.0"
++
++CVE_STATUS[CVE-2022-2318] = "fixed-version: Fixed from version 5.19rc5"
++
++CVE_STATUS[CVE-2022-23222] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-2327] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2022-2380] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-23816] = "fixed-version: Fixed from version 5.19rc7"
++
++# CVE-2022-23825 has no known resolution
++
++CVE_STATUS[CVE-2022-23960] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-24122] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2022-24448] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2022-24958] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-24959] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2022-2503] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-25258] = "fixed-version: Fixed from version 5.17rc4"
++
++# CVE-2022-25265 has no known resolution
++
++CVE_STATUS[CVE-2022-25375] = "fixed-version: Fixed from version 5.17rc4"
++
++CVE_STATUS[CVE-2022-25636] = "fixed-version: Fixed from version 5.17rc6"
++
++CVE_STATUS[CVE-2022-2585] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-2586] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-2588] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-2590] = "fixed-version: Fixed from version 6.0rc3"
++
++CVE_STATUS[CVE-2022-2602] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-26365] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-26373] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-2639] = "fixed-version: Fixed from version 5.18rc4"
++
++CVE_STATUS[CVE-2022-26490] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-2663] = "fixed-version: Fixed from version 6.0rc5"
++
++# CVE-2022-26878 has no known resolution
++
++CVE_STATUS[CVE-2022-26966] = "fixed-version: Fixed from version 5.17rc6"
++
++CVE_STATUS[CVE-2022-27223] = "fixed-version: Fixed from version 5.17rc6"
++
++CVE_STATUS[CVE-2022-27666] = "fixed-version: Fixed from version 5.17rc8"
++
++CVE_STATUS[CVE-2022-27672] = "fixed-version: Fixed from version 6.2"
++
++CVE_STATUS[CVE-2022-2785] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-27950] = "fixed-version: Fixed from version 5.17rc5"
++
++CVE_STATUS[CVE-2022-28356] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-28388] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-28389] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-28390] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-2873] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-28796] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-28893] = "fixed-version: Fixed from version 5.18rc2"
++
++CVE_STATUS[CVE-2022-2905] = "fixed-version: Fixed from version 6.0rc4"
++
++CVE_STATUS[CVE-2022-29156] = "fixed-version: Fixed from version 5.17rc6"
++
++CVE_STATUS[CVE-2022-2938] = "fixed-version: Fixed from version 5.17rc2"
++
++CVE_STATUS[CVE-2022-29581] = "fixed-version: Fixed from version 5.18rc4"
++
++CVE_STATUS[CVE-2022-29582] = "fixed-version: Fixed from version 5.18rc2"
++
++CVE_STATUS[CVE-2022-2959] = "fixed-version: Fixed from version 5.19rc1"
++
++# CVE-2022-2961 has no known resolution
++
++CVE_STATUS[CVE-2022-2964] = "fixed-version: Fixed from version 5.17rc4"
++
++CVE_STATUS[CVE-2022-2977] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-2978] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-29900] = "fixed-version: Fixed from version 5.19rc7"
++
++CVE_STATUS[CVE-2022-29901] = "fixed-version: Fixed from version 5.19rc7"
++
++CVE_STATUS[CVE-2022-2991] = "fixed-version: Fixed from version 5.15rc1"
++
++CVE_STATUS[CVE-2022-29968] = "fixed-version: Fixed from version 5.18rc5"
++
++CVE_STATUS[CVE-2022-3028] = "fixed-version: Fixed from version 6.0rc3"
++
++CVE_STATUS[CVE-2022-30594] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-3061] = "fixed-version: Fixed from version 5.18rc5"
++
++CVE_STATUS[CVE-2022-3077] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-3078] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-3103] = "fixed-version: Fixed from version 6.0rc3"
++
++CVE_STATUS[CVE-2022-3104] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-3105] = "fixed-version: Fixed from version 5.16"
++
++CVE_STATUS[CVE-2022-3106] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2022-3107] = "fixed-version: Fixed from version 5.17"
++
++CVE_STATUS[CVE-2022-3108] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-3110] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-3111] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-3112] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-3113] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-3114] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-3115] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-3169] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3170] = "fixed-version: Fixed from version 6.0rc4"
++
++CVE_STATUS[CVE-2022-3176] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2022-3202] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-32250] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-32296] = "fixed-version: Fixed from version 5.18rc6"
++
++# CVE-2022-3238 has no known resolution
++
++CVE_STATUS[CVE-2022-3239] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-32981] = "fixed-version: Fixed from version 5.19rc2"
++
++CVE_STATUS[CVE-2022-3303] = "fixed-version: Fixed from version 6.0rc5"
++
++CVE_STATUS[CVE-2022-3344] = "fixed-version: Fixed from version 6.1rc7"
++
++CVE_STATUS[CVE-2022-33740] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-33741] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-33742] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-33743] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-33744] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-33981] = "fixed-version: Fixed from version 5.18rc5"
++
++CVE_STATUS[CVE-2022-3424] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-3435] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-34494] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-34495] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-34918] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-3521] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3522] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3523] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3524] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3526] = "fixed-version: Fixed from version 5.18rc3"
++
++CVE_STATUS[CVE-2022-3531] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-3532] = "fixed-version: Fixed from version 6.2rc1"
++
++# CVE-2022-3533 has no known resolution
++
++CVE_STATUS[CVE-2022-3534] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-3535] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3541] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3542] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3543] = "fixed-version: Fixed from version 6.1rc1"
++
++# CVE-2022-3544 has no known resolution
++
++CVE_STATUS[CVE-2022-3545] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-3564] = "fixed-version: Fixed from version 6.1rc4"
++
++CVE_STATUS[CVE-2022-3565] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3566] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3567] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3577] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-3586] = "fixed-version: Fixed from version 6.0rc5"
++
++CVE_STATUS[CVE-2022-3594] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3595] = "fixed-version: Fixed from version 6.1rc1"
++
++# CVE-2022-3606 has no known resolution
++
++CVE_STATUS[CVE-2022-36123] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-3619] = "fixed-version: Fixed from version 6.1rc4"
++
++CVE_STATUS[CVE-2022-3621] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3623] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3624] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-3625] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-3628] = "fixed-version: Fixed from version 6.1rc5"
++
++CVE_STATUS[CVE-2022-36280] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-3629] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-3630] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-3633] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-3635] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-3636] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-3640] = "fixed-version: Fixed from version 6.1rc4"
++
++CVE_STATUS[CVE-2022-36402] = "fixed-version: Fixed from version 6.5"
++
++# CVE-2022-3642 has no known resolution
++
++CVE_STATUS[CVE-2022-3643] = "fixed-version: Fixed from version 6.1"
++
++CVE_STATUS[CVE-2022-3646] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-3649] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-36879] = "fixed-version: Fixed from version 5.19rc8"
++
++CVE_STATUS[CVE-2022-36946] = "fixed-version: Fixed from version 5.19"
++
++CVE_STATUS[CVE-2022-3707] = "fixed-version: Fixed from version 6.2rc3"
++
++# CVE-2022-38096 has no known resolution
++
++CVE_STATUS[CVE-2022-38457] = "fixed-version: Fixed from version 6.2rc4"
++
++CVE_STATUS[CVE-2022-3903] = "fixed-version: Fixed from version 6.1rc2"
++
++CVE_STATUS[CVE-2022-3910] = "fixed-version: Fixed from version 6.0rc6"
++
++CVE_STATUS[CVE-2022-39188] = "fixed-version: Fixed from version 5.19rc8"
++
++CVE_STATUS[CVE-2022-39189] = "fixed-version: Fixed from version 5.19rc2"
++
++CVE_STATUS[CVE-2022-39190] = "fixed-version: Fixed from version 6.0rc3"
++
++CVE_STATUS[CVE-2022-3977] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-39842] = "fixed-version: Fixed from version 5.19rc4"
++
++CVE_STATUS[CVE-2022-40133] = "fixed-version: Fixed from version 6.2rc4"
++
++CVE_STATUS[CVE-2022-40307] = "fixed-version: Fixed from version 6.0rc5"
++
++CVE_STATUS[CVE-2022-40476] = "fixed-version: Fixed from version 5.19rc4"
++
++CVE_STATUS[CVE-2022-40768] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-4095] = "fixed-version: Fixed from version 6.0rc4"
++
++CVE_STATUS[CVE-2022-40982] = "fixed-version: Fixed from version 6.5rc6"
++
++CVE_STATUS[CVE-2022-41218] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-41222] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2022-4127] = "fixed-version: Fixed from version 5.19rc6"
++
++CVE_STATUS[CVE-2022-4128] = "fixed-version: Fixed from version 5.19rc7"
++
++CVE_STATUS[CVE-2022-4129] = "fixed-version: Fixed from version 6.1rc6"
++
++CVE_STATUS[CVE-2022-4139] = "fixed-version: Fixed from version 6.1rc8"
++
++CVE_STATUS[CVE-2022-41674] = "fixed-version: Fixed from version 6.1rc1"
++
++# CVE-2022-41848 has no known resolution
++
++CVE_STATUS[CVE-2022-41849] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-41850] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-41858] = "fixed-version: Fixed from version 5.18rc2"
++
++CVE_STATUS[CVE-2022-42328] = "fixed-version: Fixed from version 6.1"
++
++CVE_STATUS[CVE-2022-42329] = "fixed-version: Fixed from version 6.1"
++
++CVE_STATUS[CVE-2022-42432] = "fixed-version: Fixed from version 6.0rc7"
++
++CVE_STATUS[CVE-2022-4269] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2022-42703] = "fixed-version: Fixed from version 6.0rc4"
++
++CVE_STATUS[CVE-2022-42719] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-42720] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-42721] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-42722] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-42895] = "fixed-version: Fixed from version 6.1rc4"
++
++CVE_STATUS[CVE-2022-42896] = "fixed-version: Fixed from version 6.1rc4"
++
++CVE_STATUS[CVE-2022-43750] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-4378] = "fixed-version: Fixed from version 6.1"
++
++CVE_STATUS[CVE-2022-4379] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-4382] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2022-43945] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2022-44032] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2022-44033] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2022-44034] = "fixed-version: Fixed from version 6.4rc1"
++
++# CVE-2022-4543 has no known resolution
++
++CVE_STATUS[CVE-2022-45869] = "fixed-version: Fixed from version 6.1rc7"
++
++# CVE-2022-45884 has no known resolution
++
++# CVE-2022-45885 has no known resolution
++
++CVE_STATUS[CVE-2022-45886] = "fixed-version: Fixed from version 6.4rc3"
++
++CVE_STATUS[CVE-2022-45887] = "fixed-version: Fixed from version 6.4rc3"
++
++CVE_STATUS[CVE-2022-45888] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-45919] = "fixed-version: Fixed from version 6.4rc3"
++
++CVE_STATUS[CVE-2022-45934] = "fixed-version: Fixed from version 6.1"
++
++CVE_STATUS[CVE-2022-4662] = "fixed-version: Fixed from version 6.0rc4"
++
++CVE_STATUS[CVE-2022-4696] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2022-4744] = "fixed-version: Fixed from version 5.16rc7"
++
++CVE_STATUS[CVE-2022-47518] = "fixed-version: Fixed from version 6.1rc8"
++
++CVE_STATUS[CVE-2022-47519] = "fixed-version: Fixed from version 6.1rc8"
++
++CVE_STATUS[CVE-2022-47520] = "fixed-version: Fixed from version 6.1rc8"
++
++CVE_STATUS[CVE-2022-47521] = "fixed-version: Fixed from version 6.1rc8"
++
++CVE_STATUS[CVE-2022-47929] = "fixed-version: Fixed from version 6.2rc4"
++
++CVE_STATUS[CVE-2022-47938] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-47939] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-47940] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2022-47941] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-47942] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-47943] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2022-47946] = "fixed-version: Fixed from version 5.12rc2"
++
++CVE_STATUS[CVE-2022-4842] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-48423] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-48424] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-48425] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2022-48502] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2022-48619] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2022-48626] = "fixed-version: Fixed from version 5.17rc4"
++
++CVE_STATUS[CVE-2022-48627] = "fixed-version: Fixed from version 5.19rc7"
++
++CVE_STATUS[CVE-2022-48628] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2022-48629] = "fixed-version: Fixed from version 5.17"
++
++CVE_STATUS[CVE-2022-48630] = "fixed-version: Fixed from version 5.18"
++
++CVE_STATUS[CVE-2023-0030] = "fixed-version: Fixed from version 5.0rc1"
++
++CVE_STATUS[CVE-2023-0045] = "fixed-version: Fixed from version 6.2rc3"
++
++CVE_STATUS[CVE-2023-0047] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2023-0122] = "fixed-version: Fixed from version 6.0rc4"
++
++CVE_STATUS[CVE-2023-0160] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-0179] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-0210] = "fixed-version: Fixed from version 6.2rc4"
++
++CVE_STATUS[CVE-2023-0240] = "fixed-version: Fixed from version 5.10rc1"
++
++CVE_STATUS[CVE-2023-0266] = "fixed-version: Fixed from version 6.2rc4"
++
++CVE_STATUS[CVE-2023-0386] = "fixed-version: Fixed from version 6.2rc6"
++
++CVE_STATUS[CVE-2023-0394] = "fixed-version: Fixed from version 6.2rc4"
++
++CVE_STATUS[CVE-2023-0458] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-0459] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-0461] = "fixed-version: Fixed from version 6.2rc3"
++
++CVE_STATUS[CVE-2023-0468] = "fixed-version: Fixed from version 6.1rc7"
++
++CVE_STATUS[CVE-2023-0469] = "fixed-version: Fixed from version 6.1rc7"
++
++CVE_STATUS[CVE-2023-0590] = "fixed-version: Fixed from version 6.1rc2"
++
++CVE_STATUS[CVE-2023-0597] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2023-0615] = "fixed-version: Fixed from version 6.1rc3"
++
++CVE_STATUS[CVE-2023-1032] = "fixed-version: Fixed from version 6.3rc2"
++
++CVE_STATUS[CVE-2023-1073] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-1074] = "fixed-version: Fixed from version 6.2rc6"
++
++CVE_STATUS[CVE-2023-1075] = "fixed-version: Fixed from version 6.2rc7"
++
++CVE_STATUS[CVE-2023-1076] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-1077] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-1078] = "fixed-version: Fixed from version 6.2rc8"
++
++CVE_STATUS[CVE-2023-1079] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-1095] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2023-1118] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-1192] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-1193] = "fixed-version: Fixed from version 6.3rc6"
++
++CVE_STATUS[CVE-2023-1194] = "fixed-version: Fixed from version 6.4rc6"
++
++CVE_STATUS[CVE-2023-1195] = "fixed-version: Fixed from version 6.1rc3"
++
++CVE_STATUS[CVE-2023-1206] = "fixed-version: Fixed from version 6.5rc4"
++
++CVE_STATUS[CVE-2023-1249] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2023-1252] = "fixed-version: Fixed from version 5.16rc1"
++
++CVE_STATUS[CVE-2023-1281] = "fixed-version: Fixed from version 6.2"
++
++CVE_STATUS[CVE-2023-1295] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2023-1380] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-1382] = "fixed-version: Fixed from version 6.1rc7"
++
++CVE_STATUS[CVE-2023-1390] = "fixed-version: Fixed from version 5.11rc4"
++
++# CVE-2023-1476 has no known resolution
++
++CVE_STATUS[CVE-2023-1513] = "fixed-version: Fixed from version 6.2"
++
++CVE_STATUS[CVE-2023-1582] = "fixed-version: Fixed from version 5.17rc4"
++
++CVE_STATUS[CVE-2023-1583] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-1611] = "fixed-version: Fixed from version 6.3rc5"
++
++CVE_STATUS[CVE-2023-1637] = "fixed-version: Fixed from version 5.18rc2"
++
++CVE_STATUS[CVE-2023-1652] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-1670] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-1829] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-1838] = "fixed-version: Fixed from version 5.18"
++
++CVE_STATUS[CVE-2023-1855] = "fixed-version: Fixed from version 6.3rc3"
++
++CVE_STATUS[CVE-2023-1859] = "fixed-version: Fixed from version 6.3rc7"
++
++CVE_STATUS[CVE-2023-1872] = "fixed-version: Fixed from version 5.18rc2"
++
++CVE_STATUS[CVE-2023-1989] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-1990] = "fixed-version: Fixed from version 6.3rc3"
++
++CVE_STATUS[CVE-2023-1998] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-2002] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-2006] = "fixed-version: Fixed from version 6.1rc7"
++
++CVE_STATUS[CVE-2023-2007] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2023-2008] = "fixed-version: Fixed from version 5.19rc4"
++
++CVE_STATUS[CVE-2023-2019] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2023-20569] = "fixed-version: Fixed from version 6.5rc6"
++
++CVE_STATUS[CVE-2023-20588] = "fixed-version: Fixed from version 6.5rc6"
++
++CVE_STATUS[CVE-2023-20593] = "fixed-version: Fixed from version 6.5rc4"
++
++CVE_STATUS[CVE-2023-20928] = "fixed-version: Fixed from version 6.0rc1"
++
++# CVE-2023-20937 has no known resolution
++
++CVE_STATUS[CVE-2023-20938] = "fixed-version: Fixed from version 5.18rc5"
++
++# CVE-2023-20941 has no known resolution
++
++CVE_STATUS[CVE-2023-21102] = "fixed-version: Fixed from version 6.2rc4"
++
++CVE_STATUS[CVE-2023-21106] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-2124] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-21255] = "fixed-version: Fixed from version 6.4rc4"
++
++CVE_STATUS[CVE-2023-21264] = "fixed-version: Fixed from version 6.4rc5"
++
++# CVE-2023-21400 has no known resolution
++
++CVE_STATUS[CVE-2023-2156] = "fixed-version: Fixed from version 6.3"
++
++CVE_STATUS[CVE-2023-2162] = "fixed-version: Fixed from version 6.2rc6"
++
++CVE_STATUS[CVE-2023-2163] = "fixed-version: Fixed from version 6.3"
++
++CVE_STATUS[CVE-2023-2166] = "fixed-version: Fixed from version 6.1"
++
++CVE_STATUS[CVE-2023-2176] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-2177] = "fixed-version: Fixed from version 5.19"
++
++CVE_STATUS[CVE-2023-2194] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-2235] = "fixed-version: Fixed from version 6.3rc3"
++
++CVE_STATUS[CVE-2023-2236] = "fixed-version: Fixed from version 6.1rc7"
++
++CVE_STATUS[CVE-2023-2248] = "fixed-version: Fixed from version 6.3"
++
++CVE_STATUS[CVE-2023-2269] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-22995] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2023-22996] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2023-22997] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2023-22998] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2023-22999] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2023-23000] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2023-23001] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2023-23002] = "fixed-version: Fixed from version 5.17rc1"
++
++CVE_STATUS[CVE-2023-23003] = "fixed-version: Fixed from version 5.16rc6"
++
++CVE_STATUS[CVE-2023-23004] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2023-23005] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2023-23006] = "fixed-version: Fixed from version 5.16rc8"
++
++# CVE-2023-23039 has no known resolution
++
++CVE_STATUS[CVE-2023-23454] = "fixed-version: Fixed from version 6.2rc3"
++
++CVE_STATUS[CVE-2023-23455] = "fixed-version: Fixed from version 6.2rc3"
++
++CVE_STATUS[CVE-2023-23559] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-23586] = "fixed-version: Fixed from version 5.12rc1"
++
++CVE_STATUS[CVE-2023-2430] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-2483] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-25012] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-2513] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2023-25775] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-2598] = "fixed-version: Fixed from version 6.4rc1"
++
++# CVE-2023-26242 has no known resolution
++
++# CVE-2023-2640 has no known resolution
++
++CVE_STATUS[CVE-2023-26544] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2023-26545] = "fixed-version: Fixed from version 6.2"
++
++CVE_STATUS[CVE-2023-26605] = "fixed-version: Fixed from version 6.1rc7"
++
++CVE_STATUS[CVE-2023-26606] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2023-26607] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2023-28327] = "fixed-version: Fixed from version 6.1"
++
++CVE_STATUS[CVE-2023-28328] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2023-28410] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2023-28464] = "fixed-version: Fixed from version 6.3rc7"
++
++CVE_STATUS[CVE-2023-28466] = "fixed-version: Fixed from version 6.3rc2"
++
++CVE_STATUS[CVE-2023-2860] = "fixed-version: Fixed from version 6.0rc5"
++
++CVE_STATUS[CVE-2023-28746] = "cpe-stable-backport: Backported in 6.6.22"
++
++CVE_STATUS[CVE-2023-28772] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2023-28866] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-2898] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-2985] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-3006] = "fixed-version: Fixed from version 6.1rc1"
++
++# Skipping CVE-2023-3022, no affected_versions
++
++CVE_STATUS[CVE-2023-30456] = "fixed-version: Fixed from version 6.3rc3"
++
++CVE_STATUS[CVE-2023-30772] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-3090] = "fixed-version: Fixed from version 6.4rc2"
++
++CVE_STATUS[CVE-2023-3106] = "fixed-version: Fixed from version 4.8rc7"
++
++# Skipping CVE-2023-3108, no affected_versions
++
++# CVE-2023-31081 has no known resolution
++
++# CVE-2023-31082 has no known resolution
++
++CVE_STATUS[CVE-2023-31083] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-31084] = "fixed-version: Fixed from version 6.4rc3"
++
++CVE_STATUS[CVE-2023-31085] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-3111] = "fixed-version: Fixed from version 6.0rc2"
++
++CVE_STATUS[CVE-2023-3117] = "fixed-version: Fixed from version 6.4rc7"
++
++CVE_STATUS[CVE-2023-31248] = "fixed-version: Fixed from version 6.5rc2"
++
++CVE_STATUS[CVE-2023-3141] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-31436] = "fixed-version: Fixed from version 6.3"
++
++CVE_STATUS[CVE-2023-3159] = "fixed-version: Fixed from version 5.18rc6"
++
++CVE_STATUS[CVE-2023-3161] = "fixed-version: Fixed from version 6.2rc7"
++
++CVE_STATUS[CVE-2023-3212] = "fixed-version: Fixed from version 6.4rc2"
++
++CVE_STATUS[CVE-2023-3220] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-32233] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32247] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32248] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32250] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32252] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32254] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32257] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32258] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-32269] = "fixed-version: Fixed from version 6.2rc7"
++
++# CVE-2023-32629 has no known resolution
++
++CVE_STATUS[CVE-2023-3268] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-3269] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-3312] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-3317] = "fixed-version: Fixed from version 6.3rc6"
++
++CVE_STATUS[CVE-2023-33203] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-33250] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-33288] = "fixed-version: Fixed from version 6.3rc4"
++
++CVE_STATUS[CVE-2023-3338] = "fixed-version: Fixed from version 6.1rc1"
++
++CVE_STATUS[CVE-2023-3355] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-3357] = "fixed-version: Fixed from version 6.2rc1"
++
++CVE_STATUS[CVE-2023-3358] = "fixed-version: Fixed from version 6.2rc5"
++
++CVE_STATUS[CVE-2023-3359] = "fixed-version: Fixed from version 6.2rc7"
++
++CVE_STATUS[CVE-2023-3389] = "fixed-version: Fixed from version 6.0rc1"
++
++CVE_STATUS[CVE-2023-3390] = "fixed-version: Fixed from version 6.4rc7"
++
++CVE_STATUS[CVE-2023-33951] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-33952] = "fixed-version: Fixed from version 6.4rc1"
++
++# CVE-2023-3397 has no known resolution
++
++CVE_STATUS[CVE-2023-34255] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-34256] = "fixed-version: Fixed from version 6.4rc2"
++
++CVE_STATUS[CVE-2023-34319] = "fixed-version: Fixed from version 6.5rc6"
++
++CVE_STATUS[CVE-2023-34324] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-3439] = "fixed-version: Fixed from version 5.18rc5"
++
++CVE_STATUS[CVE-2023-35001] = "fixed-version: Fixed from version 6.5rc2"
++
++CVE_STATUS[CVE-2023-3567] = "fixed-version: Fixed from version 6.2rc7"
++
++# CVE-2023-35693 has no known resolution
++
++CVE_STATUS[CVE-2023-35788] = "fixed-version: Fixed from version 6.4rc5"
++
++CVE_STATUS[CVE-2023-35823] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-35824] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-35826] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-35827] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-35828] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-35829] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-3609] = "fixed-version: Fixed from version 6.4rc7"
++
++CVE_STATUS[CVE-2023-3610] = "fixed-version: Fixed from version 6.4"
++
++CVE_STATUS[CVE-2023-3611] = "fixed-version: Fixed from version 6.5rc2"
++
++# CVE-2023-3640 has no known resolution
++
++CVE_STATUS[CVE-2023-37453] = "fixed-version: Fixed from version 6.6rc1"
++
++# CVE-2023-37454 has no known resolution
++
++CVE_STATUS[CVE-2023-3772] = "fixed-version: Fixed from version 6.5rc7"
++
++CVE_STATUS[CVE-2023-3773] = "fixed-version: Fixed from version 6.5rc7"
++
++CVE_STATUS[CVE-2023-3776] = "fixed-version: Fixed from version 6.5rc2"
++
++CVE_STATUS[CVE-2023-3777] = "fixed-version: Fixed from version 6.5rc3"
++
++CVE_STATUS[CVE-2023-3812] = "fixed-version: Fixed from version 6.1rc4"
++
++CVE_STATUS[CVE-2023-38409] = "fixed-version: Fixed from version 6.3rc7"
++
++CVE_STATUS[CVE-2023-38426] = "fixed-version: Fixed from version 6.4rc3"
++
++CVE_STATUS[CVE-2023-38427] = "fixed-version: Fixed from version 6.4rc6"
++
++CVE_STATUS[CVE-2023-38428] = "fixed-version: Fixed from version 6.4rc3"
++
++CVE_STATUS[CVE-2023-38429] = "fixed-version: Fixed from version 6.4rc3"
++
++CVE_STATUS[CVE-2023-38430] = "fixed-version: Fixed from version 6.4rc6"
++
++CVE_STATUS[CVE-2023-38431] = "fixed-version: Fixed from version 6.4rc6"
++
++CVE_STATUS[CVE-2023-38432] = "fixed-version: Fixed from version 6.4"
++
++CVE_STATUS[CVE-2023-3863] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-3865] = "fixed-version: Fixed from version 6.4"
++
++CVE_STATUS[CVE-2023-3866] = "fixed-version: Fixed from version 6.4"
++
++CVE_STATUS[CVE-2023-3867] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-39189] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-39191] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-39192] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-39193] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-39194] = "fixed-version: Fixed from version 6.5rc7"
++
++CVE_STATUS[CVE-2023-39197] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-39198] = "fixed-version: Fixed from version 6.5rc7"
++
++CVE_STATUS[CVE-2023-4004] = "fixed-version: Fixed from version 6.5rc3"
++
++# CVE-2023-4010 has no known resolution
++
++CVE_STATUS[CVE-2023-4015] = "fixed-version: Fixed from version 6.5rc4"
++
++CVE_STATUS[CVE-2023-40283] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-40791] = "fixed-version: Fixed from version 6.5rc6"
++
++CVE_STATUS[CVE-2023-4128] = "fixed-version: Fixed from version 6.5rc5"
++
++CVE_STATUS[CVE-2023-4132] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-4133] = "fixed-version: Fixed from version 6.3"
++
++CVE_STATUS[CVE-2023-4134] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-4147] = "fixed-version: Fixed from version 6.5rc4"
++
++CVE_STATUS[CVE-2023-4155] = "fixed-version: Fixed from version 6.5rc6"
++
++CVE_STATUS[CVE-2023-4194] = "fixed-version: Fixed from version 6.5rc5"
++
++CVE_STATUS[CVE-2023-4206] = "fixed-version: Fixed from version 6.5rc5"
++
++CVE_STATUS[CVE-2023-4207] = "fixed-version: Fixed from version 6.5rc5"
++
++CVE_STATUS[CVE-2023-4208] = "fixed-version: Fixed from version 6.5rc5"
++
++CVE_STATUS[CVE-2023-4244] = "fixed-version: Fixed from version 6.5rc7"
++
++CVE_STATUS[CVE-2023-4273] = "fixed-version: Fixed from version 6.5rc5"
++
++CVE_STATUS[CVE-2023-42752] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-42753] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-42754] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-42755] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-42756] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-4385] = "fixed-version: Fixed from version 5.19rc1"
++
++CVE_STATUS[CVE-2023-4387] = "fixed-version: Fixed from version 5.18"
++
++CVE_STATUS[CVE-2023-4389] = "fixed-version: Fixed from version 5.18rc3"
++
++CVE_STATUS[CVE-2023-4394] = "fixed-version: Fixed from version 6.0rc3"
++
++CVE_STATUS[CVE-2023-44466] = "fixed-version: Fixed from version 6.5rc2"
++
++CVE_STATUS[CVE-2023-4459] = "fixed-version: Fixed from version 5.18"
++
++CVE_STATUS[CVE-2023-4563] = "fixed-version: Fixed from version 6.5rc6"
++
++CVE_STATUS[CVE-2023-4569] = "fixed-version: Fixed from version 6.5rc7"
++
++CVE_STATUS[CVE-2023-45862] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-45863] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-45871] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-45898] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-4610] = "fixed-version: Fixed from version 6.4"
++
++CVE_STATUS[CVE-2023-4611] = "fixed-version: Fixed from version 6.5rc4"
++
++CVE_STATUS[CVE-2023-4622] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-4623] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-46343] = "fixed-version: Fixed from version 6.6rc7"
++
++CVE_STATUS[CVE-2023-46813] = "fixed-version: Fixed from version 6.6rc7"
++
++CVE_STATUS[CVE-2023-46838] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-46862] = "fixed-version: Fixed from version 6.6"
++
++CVE_STATUS[CVE-2023-47233] = "cpe-stable-backport: Backported in 6.6.24"
++
++CVE_STATUS[CVE-2023-4732] = "fixed-version: Fixed from version 5.14rc1"
++
++CVE_STATUS[CVE-2023-4881] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-4921] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-50431] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-5090] = "fixed-version: Fixed from version 6.6rc7"
++
++CVE_STATUS[CVE-2023-51042] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2023-51043] = "fixed-version: Fixed from version 6.5rc3"
++
++CVE_STATUS[CVE-2023-5158] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-51779] = "cpe-stable-backport: Backported in 6.6.9"
++
++CVE_STATUS[CVE-2023-5178] = "fixed-version: Fixed from version 6.6rc7"
++
++CVE_STATUS[CVE-2023-51780] = "cpe-stable-backport: Backported in 6.6.8"
++
++CVE_STATUS[CVE-2023-51781] = "cpe-stable-backport: Backported in 6.6.8"
++
++CVE_STATUS[CVE-2023-51782] = "cpe-stable-backport: Backported in 6.6.8"
++
++CVE_STATUS[CVE-2023-5197] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52340] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2023-52429] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2023-52433] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52434] = "cpe-stable-backport: Backported in 6.6.8"
++
++CVE_STATUS[CVE-2023-52435] = "cpe-stable-backport: Backported in 6.6.11"
++
++CVE_STATUS[CVE-2023-52436] = "cpe-stable-backport: Backported in 6.6.13"
++
++CVE_STATUS[CVE-2023-52438] = "cpe-stable-backport: Backported in 6.6.13"
++
++CVE_STATUS[CVE-2023-52439] = "cpe-stable-backport: Backported in 6.6.13"
++
++CVE_STATUS[CVE-2023-52440] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52441] = "fixed-version: Fixed from version 6.5rc4"
++
++CVE_STATUS[CVE-2023-52442] = "fixed-version: Fixed from version 6.5rc4"
++
++CVE_STATUS[CVE-2023-52443] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52444] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52445] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52446] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52447] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52448] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52449] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52450] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52451] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52452] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52453] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52454] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52455] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52456] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52457] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52458] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52459] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52460] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2023-52461] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2023-52462] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52463] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52464] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52465] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52467] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52468] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52469] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52470] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52471] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2023-52472] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52473] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52474] = "fixed-version: Fixed from version 6.4rc1"
++
++CVE_STATUS[CVE-2023-52475] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52476] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52477] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52478] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52479] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52480] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52481] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52482] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52483] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52484] = "fixed-version: Fixed from version 6.6rc5"
++
++# CVE-2023-52485 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2023-52486] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52487] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52488] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52489] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52490] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52491] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52492] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52493] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52494] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52495] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52497] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52498] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52499] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52500] = "fixed-version: Fixed from version 6.6rc2"
++
++CVE_STATUS[CVE-2023-52501] = "fixed-version: Fixed from version 6.6rc2"
++
++CVE_STATUS[CVE-2023-52502] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52503] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52504] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52505] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52506] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52507] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52508] = "fixed-version: Fixed from version 6.6rc2"
++
++CVE_STATUS[CVE-2023-52509] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52510] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52511] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52512] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-52513] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52515] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52516] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52517] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52518] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52519] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52520] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52522] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52523] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52524] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52525] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52526] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52527] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52528] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52529] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52530] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52531] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52532] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52559] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2023-52560] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52561] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52562] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52563] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52564] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52565] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52566] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52567] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52568] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52569] = "fixed-version: Fixed from version 6.6rc2"
++
++CVE_STATUS[CVE-2023-52570] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52571] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-52572] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52573] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52574] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52575] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52576] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52577] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52578] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52580] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52581] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52582] = "fixed-version: Fixed from version 6.6rc3"
++
++CVE_STATUS[CVE-2023-52583] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52584] = "cpe-stable-backport: Backported in 6.6.16"
++
++# CVE-2023-52585 needs backporting (fixed from 6.8rc1)
++
++# CVE-2023-52586 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2023-52587] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52588] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52589] = "cpe-stable-backport: Backported in 6.6.16"
++
++# CVE-2023-52590 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2023-52591] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52593] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52594] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52595] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52596] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52597] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52598] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52599] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52600] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52601] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52602] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52603] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52604] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52606] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52607] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52608] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52609] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52610] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52611] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52612] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52613] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-52614] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52615] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52616] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52617] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52618] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52619] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52620] = "fixed-version: Fixed from version 6.4"
++
++CVE_STATUS[CVE-2023-52621] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52622] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52623] = "cpe-stable-backport: Backported in 6.6.16"
++
++# CVE-2023-52624 needs backporting (fixed from 6.8rc1)
++
++# CVE-2023-52625 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2023-52626] = "fixed-version: only affects 6.7rc2 onwards"
++
++CVE_STATUS[CVE-2023-52627] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2023-52628] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52629] = "fixed-version: Fixed from version 6.6rc1"
++
++CVE_STATUS[CVE-2023-52630] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2023-52631] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2023-52632] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52633] = "cpe-stable-backport: Backported in 6.6.16"
++
++# CVE-2023-52634 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2023-52635] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2023-52636] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2023-52637] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2023-52638] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2023-52639] = "cpe-stable-backport: Backported in 6.6.22"
++
++CVE_STATUS[CVE-2023-52640] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2023-52641] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2023-5345] = "fixed-version: Fixed from version 6.6rc4"
++
++CVE_STATUS[CVE-2023-5633] = "fixed-version: Fixed from version 6.6rc6"
++
++CVE_STATUS[CVE-2023-5717] = "fixed-version: Fixed from version 6.6rc7"
++
++CVE_STATUS[CVE-2023-5972] = "fixed-version: Fixed from version 6.6rc7"
++
++CVE_STATUS[CVE-2023-6039] = "fixed-version: Fixed from version 6.5rc5"
++
++CVE_STATUS[CVE-2023-6040] = "fixed-version: Fixed from version 5.18rc1"
++
++CVE_STATUS[CVE-2023-6111] = "cpe-stable-backport: Backported in 6.6.3"
++
++CVE_STATUS[CVE-2023-6121] = "cpe-stable-backport: Backported in 6.6.4"
++
++CVE_STATUS[CVE-2023-6176] = "fixed-version: Fixed from version 6.6rc2"
++
++CVE_STATUS[CVE-2023-6200] = "cpe-stable-backport: Backported in 6.6.9"
++
++# CVE-2023-6238 has no known resolution
++
++# CVE-2023-6240 has no known resolution
++
++CVE_STATUS[CVE-2023-6270] = "cpe-stable-backport: Backported in 6.6.23"
++
++CVE_STATUS[CVE-2023-6356] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-6531] = "cpe-stable-backport: Backported in 6.6.7"
++
++# CVE-2023-6535 has no known resolution
++
++CVE_STATUS[CVE-2023-6536] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2023-6546] = "fixed-version: Fixed from version 6.5rc7"
++
++CVE_STATUS[CVE-2023-6560] = "cpe-stable-backport: Backported in 6.6.5"
++
++CVE_STATUS[CVE-2023-6606] = "cpe-stable-backport: Backported in 6.6.9"
++
++CVE_STATUS[CVE-2023-6610] = "cpe-stable-backport: Backported in 6.6.13"
++
++CVE_STATUS[CVE-2023-6622] = "cpe-stable-backport: Backported in 6.6.7"
++
++CVE_STATUS[CVE-2023-6679] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2023-6817] = "cpe-stable-backport: Backported in 6.6.7"
++
++CVE_STATUS[CVE-2023-6915] = "cpe-stable-backport: Backported in 6.6.13"
++
++CVE_STATUS[CVE-2023-6931] = "cpe-stable-backport: Backported in 6.6.7"
++
++CVE_STATUS[CVE-2023-6932] = "cpe-stable-backport: Backported in 6.6.5"
++
++CVE_STATUS[CVE-2023-7042] = "cpe-stable-backport: Backported in 6.6.23"
++
++CVE_STATUS[CVE-2023-7192] = "fixed-version: Fixed from version 6.3rc1"
++
++CVE_STATUS[CVE-2024-0193] = "cpe-stable-backport: Backported in 6.6.10"
++
++CVE_STATUS[CVE-2024-0340] = "fixed-version: Fixed from version 6.4rc6"
++
++CVE_STATUS[CVE-2024-0443] = "fixed-version: Fixed from version 6.4rc7"
++
++CVE_STATUS[CVE-2024-0562] = "fixed-version: Fixed from version 6.0rc3"
++
++# CVE-2024-0564 has no known resolution
++
++CVE_STATUS[CVE-2024-0565] = "cpe-stable-backport: Backported in 6.6.8"
++
++CVE_STATUS[CVE-2024-0582] = "cpe-stable-backport: Backported in 6.6.5"
++
++CVE_STATUS[CVE-2024-0584] = "cpe-stable-backport: Backported in 6.6.5"
++
++CVE_STATUS[CVE-2024-0607] = "cpe-stable-backport: Backported in 6.6.3"
++
++CVE_STATUS[CVE-2024-0639] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2024-0641] = "fixed-version: Fixed from version 6.6rc5"
++
++CVE_STATUS[CVE-2024-0646] = "cpe-stable-backport: Backported in 6.6.7"
++
++CVE_STATUS[CVE-2024-0775] = "fixed-version: Fixed from version 6.4rc2"
++
++CVE_STATUS[CVE-2024-0841] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-1085] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-1086] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-1151] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-1312] = "fixed-version: Fixed from version 6.5rc4"
++
++# CVE-2024-21803 has no known resolution
++
++# CVE-2024-2193 has no known resolution
++
++CVE_STATUS[CVE-2024-22099] = "cpe-stable-backport: Backported in 6.6.23"
++
++# CVE-2024-22386 has no known resolution
++
++CVE_STATUS[CVE-2024-22705] = "cpe-stable-backport: Backported in 6.6.10"
++
++CVE_STATUS[CVE-2024-23196] = "fixed-version: Fixed from version 6.5rc1"
++
++CVE_STATUS[CVE-2024-23307] = "cpe-stable-backport: Backported in 6.6.24"
++
++# CVE-2024-23848 has no known resolution
++
++CVE_STATUS[CVE-2024-23849] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-23850] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-23851] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-24855] = "fixed-version: Fixed from version 6.5rc2"
++
++# CVE-2024-24857 has no known resolution
++
++# CVE-2024-24858 has no known resolution
++
++# CVE-2024-24859 has no known resolution
++
++CVE_STATUS[CVE-2024-24860] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-24861] = "cpe-stable-backport: Backported in 6.6.24"
++
++# CVE-2024-24864 has no known resolution
++
++# CVE-2024-25739 has no known resolution
++
++# CVE-2024-25740 has no known resolution
++
++# CVE-2024-25741 has no known resolution
++
++CVE_STATUS[CVE-2024-25744] = "cpe-stable-backport: Backported in 6.6.7"
++
++CVE_STATUS[CVE-2024-26581] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26582] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26583] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26584] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26585] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26586] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26587] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26588] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26589] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26590] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26591] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26592] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26593] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26594] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26595] = "cpe-stable-backport: Backported in 6.6.14"
++
++# CVE-2024-26596 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2024-26597] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26598] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26599] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26600] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26601] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26602] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26603] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26604] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26605] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2024-26606] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26607] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26608] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26610] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26611] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26612] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26614] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26615] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26616] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26617] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26618] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26619] = "fixed-version: only affects 6.7rc5 onwards"
++
++CVE_STATUS[CVE-2024-26620] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26621] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2024-26622] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26623] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2024-26625] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2024-26626] = "fixed-version: only affects 6.8rc1 onwards"
++
++CVE_STATUS[CVE-2024-26627] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2024-26629] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26630] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26631] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26632] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26633] = "cpe-stable-backport: Backported in 6.6.14"
++
++CVE_STATUS[CVE-2024-26634] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26635] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26636] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26637] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2024-26638] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26639] = "fixed-version: only affects 6.8rc1 onwards"
++
++CVE_STATUS[CVE-2024-26640] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2024-26641] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2024-26642] = "cpe-stable-backport: Backported in 6.6.24"
++
++CVE_STATUS[CVE-2024-26643] = "cpe-stable-backport: Backported in 6.6.24"
++
++CVE_STATUS[CVE-2024-26644] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26645] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26646] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26647] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26648] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26649] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26650] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26651] = "cpe-stable-backport: Backported in 6.6.23"
++
++CVE_STATUS[CVE-2024-26652] = "cpe-stable-backport: Backported in 6.6.22"
++
++CVE_STATUS[CVE-2024-26653] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26654] = "cpe-stable-backport: Backported in 6.6.24"
++
++# CVE-2024-26655 needs backporting (fixed from 6.9rc2)
++
++CVE_STATUS[CVE-2024-26656] = "cpe-stable-backport: Backported in 6.6.24"
++
++CVE_STATUS[CVE-2024-26657] = "fixed-version: only affects 6.7rc1 onwards"
++
++# CVE-2024-26658 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2024-26659] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26660] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26661] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26662] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26663] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26664] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26665] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26666] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26667] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26668] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26669] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26670] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26671] = "cpe-stable-backport: Backported in 6.6.16"
++
++# CVE-2024-26672 needs backporting (fixed from 6.8rc1)
++
++CVE_STATUS[CVE-2024-26673] = "cpe-stable-backport: Backported in 6.6.16"
++
++CVE_STATUS[CVE-2024-26674] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26675] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26676] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26677] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26678] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26679] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26680] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26681] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26682] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26683] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26684] = "cpe-stable-backport: Backported in 6.6.17"
++
++CVE_STATUS[CVE-2024-26685] = "cpe-stable-backport: Backported in 6.6.18"
++
++# CVE-2024-26686 needs backporting (fixed from 6.8rc4)
++
++CVE_STATUS[CVE-2024-26687] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26688] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26689] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26690] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26691] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26692] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26693] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26694] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26695] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26696] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26697] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26698] = "cpe-stable-backport: Backported in 6.6.18"
++
++# CVE-2024-26699 needs backporting (fixed from 6.8rc5)
++
++CVE_STATUS[CVE-2024-26700] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26702] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26703] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26704] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26705] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26706] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26707] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26708] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26709] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26710] = "fixed-version: only affects 6.8rc1 onwards"
++
++CVE_STATUS[CVE-2024-26711] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26712] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26713] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26714] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26715] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26716] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26717] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26718] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26719] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26720] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26721] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26722] = "fixed-version: only affects 6.7rc5 onwards"
++
++CVE_STATUS[CVE-2024-26723] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26724] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26725] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26726] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26727] = "cpe-stable-backport: Backported in 6.6.18"
++
++CVE_STATUS[CVE-2024-26728] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26729] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26730] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26731] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26732] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26733] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26734] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26735] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26736] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26737] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26738] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26739] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26740] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26741] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26742] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26743] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26744] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26745] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26746] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26747] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26748] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26749] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26750] = "fixed-version: only affects 6.8rc5 onwards"
++
++CVE_STATUS[CVE-2024-26751] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26752] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26753] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26754] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26755] = "fixed-version: only affects 6.7rc1 onwards"
++
++# CVE-2024-26756 needs backporting (fixed from 6.8rc6)
++
++# CVE-2024-26757 needs backporting (fixed from 6.8rc6)
++
++# CVE-2024-26758 needs backporting (fixed from 6.8rc6)
++
++CVE_STATUS[CVE-2024-26759] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26760] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26761] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26762] = "fixed-version: only affects 6.7rc1 onwards"
++
++CVE_STATUS[CVE-2024-26763] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26764] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26765] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26766] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26767] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26768] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26769] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26770] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26771] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26772] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26773] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26774] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26775] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26776] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26777] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26778] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26779] = "cpe-stable-backport: Backported in 6.6.19"
++
++CVE_STATUS[CVE-2024-26780] = "fixed-version: only affects 6.8rc4 onwards"
++
++CVE_STATUS[CVE-2024-26781] = "fixed-version: only affects 6.8rc6 onwards"
++
++CVE_STATUS[CVE-2024-26782] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26783] = "cpe-stable-backport: Backported in 6.6.22"
++
++# CVE-2024-26784 needs backporting (fixed from 6.8rc7)
++
++# CVE-2024-26785 needs backporting (fixed from 6.8rc7)
++
++CVE_STATUS[CVE-2024-26786] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26787] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26788] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26789] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26790] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26791] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26792] = "fixed-version: only affects 6.8rc4 onwards"
++
++CVE_STATUS[CVE-2024-26793] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26794] = "fixed-version: only affects 6.8rc6 onwards"
++
++CVE_STATUS[CVE-2024-26795] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26796] = "cpe-stable-backport: Backported in 6.6.21"
++
++# CVE-2024-26797 needs backporting (fixed from 6.8rc7)
++
++CVE_STATUS[CVE-2024-26798] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26799] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26800] = "fixed-version: only affects 6.8rc5 onwards"
++
++CVE_STATUS[CVE-2024-26801] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26802] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26803] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26804] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26805] = "cpe-stable-backport: Backported in 6.6.21"
++
++# CVE-2024-26806 needs backporting (fixed from 6.8rc7)
++
++CVE_STATUS[CVE-2024-26807] = "cpe-stable-backport: Backported in 6.6.21"
++
++CVE_STATUS[CVE-2024-26808] = "cpe-stable-backport: Backported in 6.6.15"
++
++CVE_STATUS[CVE-2024-26809] = "cpe-stable-backport: Backported in 6.6.23"
++
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb
-index 3bdf089cfb..a060100761 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb
+new file mode 100644
+index 0000000000..725d9c936e
+--- /dev/null
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "5bdc0b099619bc8b5ba78c959341fbdec94bbcb0"
--SRCREV_meta ?= "f916cd32718f329bbad3fb54fdae2b5014360a59"
-+SRCREV_machine ?= "887c7d0294726a161396812dcf2088f29b522b48"
-+SRCREV_meta ?= "9e63c08171dc88ed8a5ed8ecc4b508465ea75352"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.10;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.10.2"
-+LINUX_VERSION ?= "6.10.3"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
+@@ -0,0 +1,48 @@
++KBRANCH ?= "v6.10/standard/preempt-rt/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# CVE exclusions
++include recipes-kernel/linux/cve-exclusion_6.10.inc
++
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
++# to build multiple virtual/kernel providers, e.g. as dependency of
++# core-image-rt-sdk, core-image-rt.
++python () {
++    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
++}
++
++SRCREV_machine ?= "aeaffbcd6ee7f15e32f70f792bc0174ffc0cea5b"
++SRCREV_meta ?= "077bff9eca6a824ca5c8d17a20013b03cda39c31"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.10;destsuffix=${KMETA};protocol=https"
++
++LINUX_VERSION ?= "6.10"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "1"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)$"
++
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
++KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
++KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb
-index 8d95064732..2416382020 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb
+new file mode 100644
+index 0000000000..7c69b722ac
+--- /dev/null
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.10.inc
- 
--LINUX_VERSION ?= "6.10.2"
-+LINUX_VERSION ?= "6.10.3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_meta ?= "f916cd32718f329bbad3fb54fdae2b5014360a59"
-+SRCREV_machine ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_meta ?= "9e63c08171dc88ed8a5ed8ecc4b508465ea75352"
- 
- PV = "${LINUX_VERSION}+git"
- 
+@@ -0,0 +1,33 @@
++KBRANCH ?= "v6.10/standard/tiny/base"
++
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# CVE exclusions
++include recipes-kernel/linux/cve-exclusion_6.10.inc
++
++LINUX_VERSION ?= "6.10"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++SRCREV_machine ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_meta ?= "077bff9eca6a824ca5c8d17a20013b03cda39c31"
++
++PV = "${LINUX_VERSION}+git"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.10;destsuffix=${KMETA};protocol=https"
++
++COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5)$"
++
++# Functionality flags
++KERNEL_FEATURES = ""
++
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
 diff --git a/meta/recipes-kernel/linux/linux-yocto_6.10.bb b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
-index 7b27d84ba8..876f504e14 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.10.bb
+new file mode 100644
+index 0000000000..2bd31a7608
+--- /dev/null
 +++ b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86.104 ?= "v6.10/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.10/standard/base"
- KBRANCH:qemumips64 ?= "v6.10/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "6705d5dee8c10b540b87b02bc0f154739c73c7e8"
--SRCREV_machine:qemuarm64 ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_machine:qemuloongarch64 ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_machine:qemumips ?= "80b11e534e03a10fb309eccb5128e83d42b0266c"
--SRCREV_machine:qemuppc ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_machine:qemuriscv64 ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_machine:qemuriscv32 ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_machine:qemux86 ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_machine:qemux86-64 ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_machine:qemumips64 ?= "09b08cd8880a997a591cae3d306c12a60193742b"
--SRCREV_machine ?= "f3e7c54da960b173702dafe96d5419a90fd29698"
--SRCREV_meta ?= "f916cd32718f329bbad3fb54fdae2b5014360a59"
-+SRCREV_machine:qemuarm ?= "4562f66c12f660d40de2c8dc2b53f851ba1d7847"
-+SRCREV_machine:qemuarm64 ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_machine:qemuloongarch64 ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_machine:qemumips ?= "8ef41c4428d1eb040edbae58b685bcba6472ab9b"
-+SRCREV_machine:qemuppc ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_machine:qemuriscv64 ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_machine:qemuriscv32 ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_machine:qemux86 ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_machine:qemux86-64 ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_machine:qemumips64 ?= "c1f8e21e4999d233df12ee60c7a47cad144e7344"
-+SRCREV_machine ?= "92466d9d49ed65d9a13f2ab648a92becc027a257"
-+SRCREV_meta ?= "9e63c08171dc88ed8a5ed8ecc4b508465ea75352"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "2d002356c3bb628937e0fb5d72a91dc493a984fe"
-+SRCREV_machine:class-devupstream ?= "d29de02effd4e8816333582ed8230d41e14a73dc"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.10/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.10;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.10.2"
-+LINUX_VERSION ?= "6.10.3"
- 
- PV = "${LINUX_VERSION}+git"
- 
+@@ -0,0 +1,73 @@
++KBRANCH ?= "v6.10/standard/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# CVE exclusions
++include recipes-kernel/linux/cve-exclusion.inc
++include recipes-kernel/linux/cve-exclusion_6.10.inc
++
++# board specific branches
++KBRANCH:qemuarm  ?= "v6.10/standard/arm-versatile-926ejs"
++KBRANCH:qemuarm64 ?= "v6.10/standard/qemuarm64"
++KBRANCH:qemumips ?= "v6.10/standard/mti-malta32"
++KBRANCH:qemuppc  ?= "v6.10/standard/qemuppc"
++KBRANCH:qemuriscv64  ?= "v6.10/standard/base"
++KBRANCH:qemuriscv32  ?= "v6.10/standard/base"
++KBRANCH:qemux86  ?= "v6.10/standard/base"
++KBRANCH:qemux86.104 ?= "v6.10/standard/base"
++KBRANCH:qemuloongarch64  ?= "v6.10/standard/base"
++KBRANCH:qemumips64 ?= "v6.10/standard/mti-malta64"
++
++SRCREV_machine:qemuarm ?= "afec7a55b83d65ccabc38ce1105a29be2f8fe52f"
++SRCREV_machine:qemuarm64 ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_machine:qemuloongarch64 ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_machine:qemumips ?= "0bd7d4b7d9e0e027425fd68bd0d36151091b5a77"
++SRCREV_machine:qemuppc ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_machine:qemuriscv64 ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_machine:qemuriscv32 ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_machine:qemux86 ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_machine:qemux86-64 ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_machine:qemumips64 ?= "3350b87ceb51087570d4f20f903d3a88f8c0f337"
++SRCREV_machine ?= "915a386c7cffd746e2edfee03cfe8402571dd8fa"
++SRCREV_meta ?= "077bff9eca6a824ca5c8d17a20013b03cda39c31"
++
++# set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
++# get the <version>/base branch, which is pure upstream -stable, and the same
++# meta SRCREV as the linux-yocto-standard builds. Select your version using the
++# normal PREFERRED_VERSION settings.
++BBCLASSEXTEND = "devupstream:target"
++SRCREV_machine:class-devupstream ?= "0c3836482481200ead7b416ca80c68a29cfdaabd"
++PN:class-devupstream = "linux-yocto-upstream"
++KBRANCH:class-devupstream = "v6.10/base"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH};protocol=https \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.10;destsuffix=${KMETA};protocol=https"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
++LINUX_VERSION ?= "6.10"
++
++PV = "${LINUX_VERSION}+git"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "1"
++
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
++
++COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32|qemuloongarch64)$"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc cfg/net/mdio.scc"
++KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc features/nf_tables/nft_test.scc", "", d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
++# libteam ptests from meta-oe needs it
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/net/team/team.scc", "", d)}"
++KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
++KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
++KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
++
++INSANE_SKIP:kernel-vmlinux:qemuppc64 = "textrel"
 -- 
 2.39.2
 
