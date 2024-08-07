@@ -1,535 +1,100 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2214C52D71
-	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 14:44:59 +0000 (UTC)
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by mx.groups.io with SMTP id smtpd.web11.35363.1723041897051929693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DE0C3DA7F
+	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 14:48:20 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.35377.1723042090872064799
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Aug 2024 07:44:57 -0700
+ Wed, 07 Aug 2024 07:48:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=UzIAgGwM;
- spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: reatmon@ti.com)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 477Eiue2024268
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Aug 2024 09:44:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1723041896;
-	bh=aGfQhXDhIjqCAZ+k8gEHTh73a2nWuIxNU0mdO5QPS10=;
-	h=From:To:Subject:Date;
-	b=UzIAgGwMY7ke+7XZOHmroxd/C4apzSp5eQbsCFN//kFZqDK1asjExhqQwvy3j77Vb
-	 01yhdzzBQ+EQSlYipGCbwSVDb0J8Sf3PIm3F42xH8Tm4M5+Ctp/m8zqPINYxi960nx
-	 6WwcjVIEfkpGxkHs69xxeeEFjqZKD5qVfszjzVvE=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 477EiuaL031832
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Aug 2024 09:44:56 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 7
- Aug 2024 09:44:55 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 7 Aug 2024 09:44:55 -0500
-Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 477EitKC004333
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Aug 2024 09:44:55 -0500
-Received: from reatmon by uda0214219 with local (Exim 4.90_1)
-	(envelope-from <reatmon@ti.com>)
-	id 1sbhuJ-0000Vy-KV
-	for openembedded-core@lists.openembedded.org; Wed, 07 Aug 2024 09:44:55 -0500
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][master/scarthgap][PATCH] u-boot.inc: Refactor do_* steps into functions that can be overridden
-Date: Wed, 7 Aug 2024 09:44:55 -0500
-Message-ID: <20240807144455.1937-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=eaFzj6su;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mbZ1mNT+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101912d4fcba8-f99f4af5-4afd-492f-abc4-d45cd77b1fbd-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1723042090; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=zWh3tu1/q7v5kAoAQJepaG5UjaIHsOeR8IuIXcVus/Q=;
+	b=eaFzj6suUgtoE2d9cCQsfBU5BTEtjSHg493f0JZmyTK0CzZXXv0mMEjtmJc7Eqna
+	uVjmwWu6hiVhAYT7SJuOt/RP6ywUw+W/nx7O4fZGfPcTVK3A9At0NH/xg6GgwV/qU30
+	BPDmQHuWYBicOrhotgDqXNJekLDGYQkPGK+J912o=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723042090;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=zWh3tu1/q7v5kAoAQJepaG5UjaIHsOeR8IuIXcVus/Q=;
+	b=mbZ1mNT+wWvlXsvJoLghfZPhxapsAyr0rjdpoOUpcA8vrJpQMIn5HHrhUB1kypgc
+	cz5l+a0v52NLTp9PnSjRLMGRml09l0p7rKrOhEi7zn3EYY80Q4NX7LPLLneo9cT0JaQ
+	0PdIdDKGOxWe3cmUo0G8YFSdGgmvSF4ojjYve2AQ=
+From: patchtest@automation.yoctoproject.org
+To: Ryan Eatmon <reatmon@ti.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][master/scarthgap][PATCH] u-boot.inc: Refactor do_* steps
+ into functions that can be overridden
+In-Reply-To: <20240807144455.1937-1-reatmon@ti.com>
+References: <20240807144455.1937-1-reatmon@ti.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101912d4fcba8-f99f4af5-4afd-492f-abc4-d45cd77b1fbd-000000@us-west-2.amazonses.com>
+Date: Wed, 7 Aug 2024 14:48:09 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.08.07-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 14:44:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203076
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 14:48:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203077
 
-The looping logic for handling (and not handling) UBOOT_CONFIG has led
-to the various do_* functions to be large and unwieldy.  In order to
-modify one of the functional blocks inside of a loop (or in the else
-condition) means you either have to replace the function entirely, or
-append the function and undo something it did and then do what you need
-for your change.
+--NextPart
+Content-Type: text/plain
 
-This refactor breaks out all of the inner loops and else clauses into
-new functions that themselves can be overridden without needing to
-worry about the bulk of the looping logic.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-It should not break any existing recipes doing prepends, appends, or
-overrides.  None of the functional blocks were changed, just refactored
-out into new functions.
-
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-configure.inc |  36 ++-
- meta/recipes-bsp/u-boot/u-boot.inc           | 281 ++++++++++++-------
- 2 files changed, 208 insertions(+), 109 deletions(-)
+Testing patch /home/patchtest/share/mboxes/master-scarthgap-u-boot.inc-Refactor-do_-steps-into-functions-that-can-be-overridden.patch
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-configure.inc b/meta/recipes-bsp/u-boot/u-boot-configure.inc
-index 378d675364..a15511f8b2 100644
---- a/meta/recipes-bsp/u-boot/u-boot-configure.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-configure.inc
-@@ -18,23 +18,35 @@ do_configure () {
-             for type in ${UBOOT_CONFIG}; do
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]; then
--                    oe_runmake -C ${S} O=${B}/${config} ${config}
--                    if [ -n "${@' '.join(find_cfgs(d))}" ]; then
--                        merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
--                        oe_runmake -C ${S} O=${B}/${config} oldconfig
--                    fi
-+                    uboot_configure_config $config $type
-                 fi
-             done
-             unset j
-         done
-         unset i
-     else
--        if [ -n "${UBOOT_MACHINE}" ]; then
--            oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
--        else
--            oe_runmake -C ${S} O=${B} oldconfig
--        fi
--        merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
--        cml1_do_configure
-+        uboot_configure
-     fi
- }
-+
-+uboot_configure_config () {
-+    config=$1
-+    type=$2
-+
-+    oe_runmake -C ${S} O=${B}/${config} ${config}
-+    if [ -n "${@' '.join(find_cfgs(d))}" ]; then
-+        merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
-+        oe_runmake -C ${S} O=${B}/${config} oldconfig
-+    fi
-+}
-+
-+uboot_configure () {
-+    if [ -n "${UBOOT_MACHINE}" ]; then
-+        oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
-+    else
-+        oe_runmake -C ${S} O=${B} oldconfig
-+    fi
-+    merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
-+    cml1_do_configure
-+}
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index f5b43f6e36..3c01720192 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -54,40 +54,21 @@ do_compile () {
- 
-     if [ -n "${UBOOT_CONFIG}" -o -n "${UBOOT_DELTA_CONFIG}" ]
-     then
--        unset i j k
-+        unset i j
-         for config in ${UBOOT_MACHINE}; do
-             i=$(expr $i + 1);
-             for type in ${UBOOT_CONFIG}; do
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]
-                 then
--                    oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
--                    for binary in ${UBOOT_BINARIES}; do
--                        k=$(expr $k + 1);
--                        if [ $k -eq $i ]; then
--                            cp ${B}/${config}/${binary} ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
--                        fi
--                    done
--
--                    # Generate the uboot-initial-env
--                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--                        oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
--                        cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
--                    fi
--
--                    unset k
-+                    uboot_compile_config $i $config $type
-                 fi
-             done
-             unset j
-         done
-         unset i
-     else
--        oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
--
--        # Generate the uboot-initial-env
--        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--            oe_runmake -C ${S} O=${B} u-boot-initial-env
--        fi
-+        uboot_compile
-     fi
- 
-     if [ -n "${UBOOT_ENV}" ] && [ "${UBOOT_ENV_SUFFIX}" = "scr" ]
-@@ -96,6 +77,46 @@ do_compile () {
-     fi
- }
- 
-+uboot_compile_config () {
-+    i=$1
-+    config=$2
-+    type=$3
-+
-+    oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
-+
-+    unset k
-+    for binary in ${UBOOT_BINARIES}; do
-+        k=$(expr $k + 1);
-+        if [ $k -eq $i ]; then
-+            uboot_compile_config_copy_binary $config $type $binary
-+        fi
-+    done
-+    unset k
-+
-+    # Generate the uboot-initial-env
-+    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-+        oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
-+        cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
-+    fi
-+}
-+
-+uboot_compile_config_copy_binary () {
-+    config=$1
-+    type=$2
-+    binary=$3
-+
-+    cp ${B}/${config}/${binary} ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
-+}
-+
-+uboot_compile () {
-+    oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
-+
-+    # Generate the uboot-initial-env
-+    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-+        oe_runmake -C ${S} O=${B} u-boot-initial-env
-+    fi
-+}
-+
- do_install () {
-     if [ -n "${UBOOT_CONFIG}" ]
-     then
-@@ -105,32 +126,14 @@ do_install () {
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]
-                 then
--                    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
--                    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
--                    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
--
--                    # Install the uboot-initial-env
--                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
--                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
--                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
--                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
--                    fi
-+                    uboot_install_config $config $type
-                 fi
-             done
-             unset j
-         done
-         unset i
-     else
--        install -D -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
--        ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
--
--        # Install the uboot-initial-env
--        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--            install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
--            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
--            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
--        fi
-+        uboot_install
-     fi
- 
-     if [ -n "${UBOOT_ELF}" ]
-@@ -143,17 +146,14 @@ do_install () {
-                     j=$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                        install -m 644 ${B}/${config}/${UBOOT_ELF} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
--                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
--                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+                        uboot_install_elf_config $config $type
-                     fi
-                 done
-                 unset j
-             done
-             unset i
-         else
--            install -m 644 ${B}/${UBOOT_ELF} ${D}/boot/${UBOOT_ELF_IMAGE}
--            ln -sf ${UBOOT_ELF_IMAGE} ${D}/boot/${UBOOT_ELF_BINARY}
-+            uboot_install_elf
-         fi
-     fi
- 
-@@ -172,17 +172,14 @@ do_install () {
-                     j=$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                         install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/boot/${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}
--                         ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}-${type}
--                         ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}
-+                        uboot_install_spl_config $config $type
-                     fi
-                 done
-                 unset j
-             done
-             unset i
-         else
--            install -m 644 ${B}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
--            ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARYFILE}
-+            uboot_install_spl
-         fi
-     fi
- 
-@@ -198,6 +195,63 @@ do_install () {
-     fi
- }
- 
-+uboot_install_config () {
-+    config=$1
-+    type=$2
-+
-+    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+
-+    # Install the uboot-initial-env
-+    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-+        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
-+    fi
-+}
-+
-+uboot_install () {
-+    install -D -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-+    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+
-+    # Install the uboot-initial-env
-+    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-+        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
-+    fi
-+}
-+
-+uboot_install_elf_config () {
-+    config=$1
-+    type=$2
-+
-+    install -m 644 ${B}/${config}/${UBOOT_ELF} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
-+    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-+    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+}
-+
-+uboot_install_elf () {
-+    install -m 644 ${B}/${UBOOT_ELF} ${D}/boot/${UBOOT_ELF_IMAGE}
-+    ln -sf ${UBOOT_ELF_IMAGE} ${D}/boot/${UBOOT_ELF_BINARY}
-+}
-+
-+uboot_install_spl_config () {
-+    config=$1
-+    type=$2
-+
-+    install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/boot/${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}-${type}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}
-+}
-+
-+uboot_install_spl () {
-+    install -m 644 ${B}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-+    ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARYFILE}
-+}
-+
- PACKAGE_BEFORE_PN += "${PN}-env ${PN}-extlinux"
- 
- RPROVIDES:${PN}-env += "u-boot-default-env"
-@@ -223,40 +277,14 @@ do_deploy () {
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]
-                 then
--                    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
--                    cd ${DEPLOYDIR}
--                    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
--                    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
--                    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
--                    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
--
--                    # Deploy the uboot-initial-env
--                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
--                        cd ${DEPLOYDIR}
--                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
--                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${type}
--                    fi
-+                    uboot_deploy_config $config $type
-                 fi
-             done
-             unset j
-         done
-         unset i
-     else
--        install -D -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
--
--        cd ${DEPLOYDIR}
--        rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
--        ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
--        ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
--
--        # Deploy the uboot-initial-env
--        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--            install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
--            cd ${DEPLOYDIR}
--            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}
--            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}
--        fi
-+        uboot_deploy
-     fi
- 
-     if [ -e ${WORKDIR}/fw_env.config ] ; then
-@@ -276,20 +304,14 @@ do_deploy () {
-                     j=$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                        install -m 644 ${B}/${config}/${UBOOT_ELF} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
--                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}-${type}
--                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
--                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}-${type}
--                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
-+                        uboot_deploy_elf_config $config $type
-                     fi
-                 done
-                 unset j
-             done
-             unset i
-         else
--            install -m 644 ${B}/${UBOOT_ELF} ${DEPLOYDIR}/${UBOOT_ELF_IMAGE}
--            ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
--            ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
-+            uboot_deploy_elf
-         fi
-     fi
- 
-@@ -304,21 +326,14 @@ do_deploy () {
-                     j=$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                        install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}
--                        rm -f ${DEPLOYDIR}/${SPL_BINARYFILE} ${DEPLOYDIR}/${SPL_SYMLINK}
--                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}-${type}
--                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}
--                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
--                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}
-+                        uboot_deploy_spl_config $config $type
-                     fi
-                 done
-                 unset j
-             done
-             unset i
-         else
--            install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
--            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}
--            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-+            uboot_deploy_spl
-         fi
-     fi
- 
-@@ -342,4 +357,76 @@ do_deploy () {
-     fi
- }
- 
-+uboot_deploy_config () {
-+    config=$1
-+    type=$2
-+
-+    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-+    cd ${DEPLOYDIR}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-+
-+    # Deploy the uboot-initial-env
-+    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-+        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
-+        cd ${DEPLOYDIR}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${type}
-+    fi
-+}
-+
-+uboot_deploy () {
-+    install -D -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+
-+    cd ${DEPLOYDIR}
-+    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
-+
-+    # Deploy the uboot-initial-env
-+    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-+        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
-+        cd ${DEPLOYDIR}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}
-+    fi
-+}
-+
-+uboot_deploy_elf_config () {
-+    config=$1
-+    type=$2
-+
-+    install -m 644 ${B}/${config}/${UBOOT_ELF} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
-+    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}-${type}
-+    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
-+    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}-${type}
-+    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
-+}
-+
-+uboot_deploy_elf () {
-+    install -m 644 ${B}/${UBOOT_ELF} ${DEPLOYDIR}/${UBOOT_ELF_IMAGE}
-+    ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
-+    ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
-+}
-+
-+uboot_deploy_spl_config () {
-+    config=$1
-+    type=$2
-+
-+    install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}
-+    rm -f ${DEPLOYDIR}/${SPL_BINARYFILE} ${DEPLOYDIR}/${SPL_SYMLINK}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}-${type}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}
-+}
-+
-+uboot_deploy_spl () {
-+    install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-+    ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}
-+    ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-+}
-+
- addtask deploy before do_build after do_compile
--- 
-2.17.1
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 95 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
