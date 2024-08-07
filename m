@@ -1,254 +1,349 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52238C3DA7F
-	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 10:33:48 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.58])
- by mx.groups.io with SMTP id smtpd.web11.30454.1723026815090403237
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96276C3DA7F
+	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 11:25:08 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.31163.1723029903304504579
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Aug 2024 03:33:38 -0700
+ Wed, 07 Aug 2024 04:25:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=OlsedkZj;
- spf=pass (domain: siemens.com, ip: 40.107.104.58, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cXT3QIJflCPaxBI3arfHCkKgQCW5bd9VSclLwxU3L8t6rIzH9WUwBhDhzBg2J2zXteshcAXL1TNli9amUpq9u/MEUtaUrIK7tv1b2kfSFygqg3gXBJEJLSrHaTJMW9sj9EVOnf/IFt1XG8Jj1SsXVqFhubhYbxOO6k52pUCQNcCAR0b6yMLhQH6MmmIiDxlPQeNPN/Gd8STA+5ARL6BtgwmsLXK6nGbsqYQSLNMUfUTCxYpUaSUQXrNEFa3GkmyDQ9wnpXA4zHQW6zT7YXAOVC18BCDqRWUzSnxVU11LTjRrl7Y4uRPLChP3sXK3/gw1rgnXQlkYKG9DstFjnhSkTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pfXJ/VKc2j8xSaWwnIgoP7DXt2AO3/VvmIdBYbXPfBQ=;
- b=Fc5KbcAn8y0wjdxI1PO4Pf4K4mwsM8RW3aHpavuCvxjqHpJDBm6waHtWKVRkScvibTIynzPEenOj0eXUhpviRXmJYo7+gwQizHSYnk8pDwnbdWEycXRW9Mv+JndDRj63NQW0wAyAkm/2Y9HO3qrzD7T4hIPpqolWjw1m5sz9z/xse/PrCZ4Dy/I81HsU/koQO15h9Mc8EHIVhTM9I1mUnEEJGUI63SzvbhQRrSBILVE554ezJBOaJK/izsoyG2IkGZSkV3fvW4TRck/6XbF1Orztxzl0JkcQ5dpnoKr9a64ke2ZZH63q6+UJCgU166NoTBYiiqiihVIWVrBFKtXO3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pfXJ/VKc2j8xSaWwnIgoP7DXt2AO3/VvmIdBYbXPfBQ=;
- b=OlsedkZjy7hvESp5j4Y+sNT4f4sO3LgI5gxI+VFNsv/l613nZ7UiMlzImWUYmq+sS9XHy65+k0IJXSdmIgsBZuLxE6pY0MJwpFDlqdmLq1P+dQqiEdxjR1yNWn0mtUnvvxbj3oLbOZ2beqepSLDMbHC5KwHZBGQpINF4m2tuFr+NVWxJ0Kk+p70MqRWqSx+ZtWBFgDuYKAnU/euyngN+rXvOCURERq7oAbFxcXh7w12GR3H+lESLFPyUscUckCrD7QHOjfd2f0bYIQuZ9aqWzvDE8akzM21ApwG0GwEnp2WhweAnUDIL/QoPq1cHsRekKbqmRDS6mwbZKlVb68GWww==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by AM0PR10MB3300.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:187::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.29; Wed, 7 Aug
- 2024 10:33:31 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7849.008; Wed, 7 Aug 2024
- 10:33:31 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "Dhairya Nagodra -X (dnagodra - E INFOCHIPS LIMITED at Cisco)"
-	<dnagodra@cisco.com>, Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Marta Rybczynska <rybczynska@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "xe-linux-external(mailer list)" <xe-linux-external@cisco.com>
-Subject: RE: [OE-core] [PATCH] cve-check-map: Move 'upstream-wontfix' to
- "Unpatched" status
-Thread-Topic: [OE-core] [PATCH] cve-check-map: Move 'upstream-wontfix' to
- "Unpatched" status
-Thread-Index: AQHa3YRKcSNFFBFi5kio91Rj31uJT7IFaWbggBZBjwCAAAOb4A==
-Date: Wed, 7 Aug 2024 10:33:31 +0000
-Message-ID: 
- <AS1PR10MB5697AE3874C9EECA6BF35D8BFDB82@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20240724044505.3345411-1-dnagodra@cisco.com>
- <AS1PR10MB56974EC49B3D514BA1AB549CFDAA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <SN7PR11MB69717099C98AD23A85C9E66DD4B82@SN7PR11MB6971.namprd11.prod.outlook.com>
-In-Reply-To: 
- <SN7PR11MB69717099C98AD23A85C9E66DD4B82@SN7PR11MB6971.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=7752e62c-f1d5-4219-bb5f-b6b6692dea0c;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-07-24T06:25:03Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AM0PR10MB3300:EE_
-x-ms-office365-filtering-correlation-id: f034fbca-547b-4140-ed9c-08dcb6cc61ee
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?rAMqNECbRWVWv8MfyoJ1JwCQT5xRxXrUjeaZnxHJOFLsVIyFtyM8xkPyHx87?=
- =?us-ascii?Q?ZGhA20hUvVTIgJLOYFU8puzZlo7a+VpLGeFLldcPWNlO8iJIcq0xCyZSMn3Q?=
- =?us-ascii?Q?pTS5QkomGE6BvqlEGw7ywum1F9B61nKh2XRJ65tEV0f3v5q7YFMDMG5zpC5h?=
- =?us-ascii?Q?AJAhcANtZjReGe/YvidPkOOcH7Hp5WgWCvpv7my+6UgQAtGhmMqsoCOekNPz?=
- =?us-ascii?Q?AsAgpwcjaJ9cbf7EKDtj/iABsSKCT+Re8c0w7chinTWXKAPTLrKjXb8EmPAx?=
- =?us-ascii?Q?GCAUxDuvgzqAp0zUSe2QmIBT5e5h/+IidqOvz4PG9VZZmraBAgNdVrxgZGrP?=
- =?us-ascii?Q?1t3M7N4XnLfcGb0ryA1/QfiKFicst84rfXAi7RM7AJs5C9csocgmwko18h22?=
- =?us-ascii?Q?BtX/kPlmJBRVdz8QWhpB5LfahTy90bRASxlgbc819Yt1PQiqjUUgr86fdoaF?=
- =?us-ascii?Q?EN7a5Kay1SsjTGpgjfIx8XFxG6iQtEHS9QE/xH8Kh8AEuGA/SiWvVu6tl8Lh?=
- =?us-ascii?Q?56ZTyRF1Yp0KQzdcQ0dWq5/CgHg6ummuHem5KYSkAG6gkehX7+49X3h89QhG?=
- =?us-ascii?Q?gUwvhP0xRNFDFYeeJGaqcWdW1jPZhyzRSBY6JxpLMfIYqTiPk3Kmm90pUGlg?=
- =?us-ascii?Q?ew28jcCgCuPj+ODtQMBf5t299uEyzG7Le5VKEgRZ6EqKeziuVM6iz1LCAjj9?=
- =?us-ascii?Q?lZuNq7xvNuSRl9VVLggq3UTAWliqRpdwgB9E11K6qMZQ7KGDe3f/2f3UVcR7?=
- =?us-ascii?Q?dFBl5PmmQlKBnsomnQsfQSyBiAb5hEixMZJUBbQoQ0eethzRESRHI2x70gx5?=
- =?us-ascii?Q?ZPQ9L0afwTEn3E63uffKGdF+JaDqUWKU7jjysG7cKFt4qa2rA/NDYhbmgUdm?=
- =?us-ascii?Q?W1cfTxH89xFvqVsjghdrbV9VaXklNeukqE9hGUId2TXEdwEGeSAbihw6HXD7?=
- =?us-ascii?Q?n5xGMrpmuM6QO9cWyLNk1ddjQTa0bG8/XEFo0V3XMa8l08b5rtinVnqoQ5ps?=
- =?us-ascii?Q?rpJWWnN9S0sq9KjV73B4xtLJUf3T0COAGhBRb/IAweJtDBj00wFuowKtZdqV?=
- =?us-ascii?Q?Iv9xG+bN2EG3aXzmYwdpJTfpgviB0PcLhuwM5A2efoE54j5KSDrtzfg7dY9t?=
- =?us-ascii?Q?p/kIhJF+0uEwKYUw1lOpGku2gno7QVbUdLpVVYT/Op93Hzf959xKwFzlAeZh?=
- =?us-ascii?Q?feqwRF94b4juZ8Nv8eqNa1Us90RRMtL+TSsViWniFqYiuS4dn24PXRKxaCih?=
- =?us-ascii?Q?c+F0dhCq2mdnSc6EsQk2G3A+IokCHhiatXwHREHzvrnA/id7JXSykg7GdlBo?=
- =?us-ascii?Q?j+it7fwS3svjxrGg52KEvfk7StLI/4OpuuqJ0u3My0EXMtjMG2rSPBppurbG?=
- =?us-ascii?Q?+KpzpBpIOMKJzVzvhKlmtqYb9rCYwhVY1Pp3bdUTtSDQkhJXFg=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?VjiXjIhCWESAqwrhHGpDd92WdYuHlURSVDXlKpyMNxZWYNS1qhNOXammIgKv?=
- =?us-ascii?Q?wZD37wHz/UkWQFSzxUjS2r5ofKkWSZYs/dm4uC98zB4+5Z70FAzk/4xiBCdz?=
- =?us-ascii?Q?KSxLTPoJwWVr+43stdXLgDhv+ecKJpp3EmKhfoyZf+/phD45LL9smVuKCdHW?=
- =?us-ascii?Q?X+yL3jPYmQqoqwIrVsqT2X2ZD9S7w7haNv7BmSL32jYKszRJY5ENpfy27RJ+?=
- =?us-ascii?Q?R834pwaqCzvSwgoOe4MZs+98qkfywXroWsJLt1Jy/H/eZJ7fiesB1CBh8bIr?=
- =?us-ascii?Q?23J5HsNmbg7JF1tBIjao5+HvTYvGY42OZ4K8t01mfpkLQMwpL6XRk/Edr4YW?=
- =?us-ascii?Q?KzEgNUfuclwAkpZh35pIbRhDid54eIeW5dqewmSlAT9eIGMZCc7tUdnqAXVm?=
- =?us-ascii?Q?teAOPT7RwPqExh6txjQnsc0jykGNtXTE6tHm/T+y97K3rdrbhXVCD+ZkHRo3?=
- =?us-ascii?Q?eIBojn0i3NYLJhlWz/u+WBOGI1kQovS+c5FUYAzCLQ6pQCjiAdB4HjGaDSmQ?=
- =?us-ascii?Q?bteZpXuxri93K+JgNWRlkVLUzzRi+AcS4LgYlc6gplqR/HzzI/wO/2hLfUSd?=
- =?us-ascii?Q?bpTdiRaAm944BuSFODQIXscZe63FfFJdLeMBCWp5BQyHdh7rcnHqhpiUWuPT?=
- =?us-ascii?Q?viDYQv+PJbwohiddiDKC7AD6sTdFk8YNbZ4KGzsdgnAPFT5/m41oGhcgFQEl?=
- =?us-ascii?Q?kxJFc0NcaV233g8o6YHKNgbZKjt5dRrjJy6Vqxd63hPTx1AruQ7g5iBr29s6?=
- =?us-ascii?Q?9k8z668kkoE9y08QHcOsymlczxVfbtnZQIr/CbiTGOuZg9SW2hdLPs37gqjU?=
- =?us-ascii?Q?KVCAnHgDIm+eKXm+sp66DkmPHj4O1ZsisEWqMCbeznkw6js5saIkIoynu9WW?=
- =?us-ascii?Q?vJ+km21HU6PqTd9pvf9Dlo3rhkecCjbVGrQkUooHRovU/jnjMQc/G2omzQx6?=
- =?us-ascii?Q?rAm30TxfLRBcUbbEyIi+ggrU6/VB0EBwOcIF6uWpTAdhojOkG0qUAknzJ9Vc?=
- =?us-ascii?Q?0vADnSiT+VRW0Lquq6cmzfvhyKN7qV9NLAoIhOKzqRFWCFiNn3u/klZ7UHYq?=
- =?us-ascii?Q?Wzzzp+cjBrelfgiLax6y+ULeS06oNNS1xh9DQqUOPli2E7CuqkpknKiad/ie?=
- =?us-ascii?Q?OWYINVnKVkvv3K70xv3t/LhXi+iucJLkmTIfk1vUXeuLdOnQBi4qGgzy61Al?=
- =?us-ascii?Q?0+6/mZHsUV6dwYGe2ANeaYHh0giGonDK+CoqGUa6NnKnMn9ZnNQ+zpf1OLp3?=
- =?us-ascii?Q?f1MkHzBALI03FhFr4ETfzDQ19nTkXVhr7VbTSR1LUCqFwLi722ZeY1IAGWPM?=
- =?us-ascii?Q?Hx5pmdZnu44aHz/In8fMTUvhmfNymLflxHh/m1u2nLVmqQwuqXjkNA0EjNDT?=
- =?us-ascii?Q?i7eSPtzIdXE3VMQUBE9Pi6HNbjR3VuNCvt322Y7QJYqZPKLuFRDk5Z5pgy1r?=
- =?us-ascii?Q?izrfAqVIj1HfTcZX6qZDJxiSdAyqpraQwWrs0LUQqkvEQd9YnNCnbAZlvVDa?=
- =?us-ascii?Q?GRmBdNdzcr6VR1zYwcf9+7vFk31KkaabKP0eRTe37R5aN+mnhMdE0flisH/e?=
- =?us-ascii?Q?aHRKHpmMhA8Be6YCuEXyHgD+amJGRUypWtjrJ3id?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cUn8QLNQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.182, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f16d2f2b68so27009951fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 04:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1723029901; x=1723634701; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jl51Tbdgplg6h6aYFJEEajVugPdelXJ5vRX5AfzQbQ4=;
+        b=cUn8QLNQHTnz/oz5svFbx7Yp26iOxuBw/IAfcVDPYqW0qxO36wnMOPtdyEZtzWb8dh
+         guGnDip4oJQJR2Apx5eUWL2oy5qX0vVWMGXfOHg+5RZv5Xo/LaNf1xiFQVIJOJGUdlgy
+         iGBdBs9/UQrFJsri2gkoIgDL67pbvE/WZIodc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723029901; x=1723634701;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jl51Tbdgplg6h6aYFJEEajVugPdelXJ5vRX5AfzQbQ4=;
+        b=f9WqUW8gtOJCZAf2g0NC6XVEvPAobZoU1W9UnYKhCWxikP5fItC6CVbkbAk3ltdE79
+         INzBv76hVagihECMUX+uz5n2Ok58FZ/Nvp5RThUeyuoyls9DbUllQiLKVYNvKJDStaoO
+         /EWB+uoaNy6fi238M1kb+l+SscOhOQagEVUgHSdljRkxyxPzuvsUvrxLPI+WftimmnzJ
+         RxAMbeAnzQC0TFhR8k/TXhJBNdgf0fLiqB5KIEN/QZxd6sv7N6xtSQt4nJOEHiA7+j8W
+         Mp/nN6U7Beu6PcB5d/Gu754S7nAUX7lzHBMe5qtxazmewENWzNlH/S1ULf5OqNIPfxxQ
+         Ry7Q==
+X-Gm-Message-State: AOJu0Yxi4Y3rhhZHZdhB1dAuy5A/SYGBK8MI6au52VXbIW15LY2IP9IY
+	oAdjqt7DsRxKqJOOhQzePUveJa+JjqXfA4MJgitY+GHDh+lSAt3Hz67kZp1qTUVqwibvNvacdVQ
+	TsjI=
+X-Google-Smtp-Source: AGHT+IEp5lyEkbH5OdXmMrcixX/l3Brx5WVAsRj7KucHPrem2D6QGM/UcfA604kfevvPG0mNgDzKLg==
+X-Received: by 2002:a2e:b8c7:0:b0:2f1:5d61:937e with SMTP id 38308e7fff4ca-2f15d61943dmr156995801fa.29.1723029900788;
+        Wed, 07 Aug 2024 04:25:00 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1ff8:c4ec:1a07:92b6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429059cf83dsm22857735e9.47.2024.08.07.04.25.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Aug 2024 04:25:00 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [PATCH v2] sdpx: Avoid loading of SPDX_LICENSE_DATA into global config
+Date: Wed,  7 Aug 2024 12:24:59 +0100
+Message-ID: <20240807112459.180083-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f034fbca-547b-4140-ed9c-08dcb6cc61ee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2024 10:33:31.2013
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MMF1YITtcrLnRXA4HfiMXnAvOP76QPQMaw4P7zMhimlcMVkk9HQH837AytxL4DS20oVN5vKs8Mo2ZH/0xnACKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3300
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 10:33:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203064
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 11:25:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203065
 
+Loading a load of json files into a memory structure and stashing in a bitbake
+variable is relatively anti-social making bitbake -e output hard to read for
+example as well as other potential performance issues.
 
+Defer loading of that data until it is actually needed/used in a funciton
+where it is now passed as a parameter.
 
-> -----Original Message-----
-> From: Dhairya Nagodra -X (dnagodra - E INFOCHIPS LIMITED at Cisco)
-> <dnagodra@cisco.com>
-> Sent: Wednesday, August 7, 2024 12:17
-> To: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>; Richard
-> Purdie <richard.purdie@linuxfoundation.org>; Marta Rybczynska
-> <rybczynska@gmail.com>; openembedded-core@lists.openembedded.org
-> Cc: xe-linux-external(mailer list) <xe-linux-external@cisco.com>
-> Subject: RE: [OE-core] [PATCH] cve-check-map: Move 'upstream-wontfix' to
-> "Unpatched" status
->=20
->=20
->=20
-> >-----Original Message-----
-> >From: Marko, Peter <Peter.Marko@siemens.com>
-> >Sent: Wednesday, July 24, 2024 12:04 PM
-> >To: Dhairya Nagodra -X (dnagodra - E-INFO CHIPS INC at Cisco)
-> ><dnagodra@cisco.com>; openembedded-core@lists.openembedded.org
-> >Cc: xe-linux-external(mailer list) <xe-linux-external@cisco.com>
-> >Subject: RE: [OE-core] [PATCH] cve-check-map: Move 'upstream-wontfix' to
-> >"Unpatched" status
-> >
-> >-----Original Message-----
-> >From: openembedded-core@lists.openembedded.org <openembedded-
-> >core@lists.openembedded.org> On Behalf Of Dhairya Nagodra via
-> >lists.openembedded.org
-> >Sent: Wednesday, July 24, 2024 6:45
-> >To: openembedded-core@lists.openembedded.org
-> >Cc: xe-linux-external@cisco.com; Dhairya Nagodra <dnagodra@cisco.com>
-> >Subject: [OE-core] [PATCH] cve-check-map: Move 'upstream-wontfix' to
-> >"Unpatched" status
-> >
-> >> - The 'upstream-wontfix' is to be used when the CVE is accepted by the
-> >>   upstream, but they are not planning to fix it.
-> >> - If the version used in Yocto is vulnerable, it should not have
-> >>   "Ignored" status. The package is still exploitable by the CVE.
-> >> - Also, when the status is exported out of the SDK, it would be
-> >>   incorrect to put it under Ignored catgory.
-> >
-> >The purpose of this entry is to remove meaningless CVEs from reports so =
-that
-> >users don't spend countless hours over and over again on analyzing "open=
-"
-> >CVEs if they were already closed upstream.
-> >If you look at comments of entries using this category (7 in oe-core
-> scarthgap)
-> >these CVEs are more or less irrelevant.
-> >
-> >So this patch is from my point of view step in the wrong direction.
-> >If you really need to show these due to your CVE handling process, you c=
-an
-> >easily override this variable assignment in your own layer.
-> >
->=20
->=20
-> I tried this in my layer, created a .conf and included in my distro.conf =
-file.
-> The issue is, it gets overwritten by cve-check-map.conf (as it is include=
-d later).
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/create-spdx-2.2.bbclass | 25 +++++++++++++++----------
+ meta/classes/spdx-common.bbclass     |  6 ------
+ meta/lib/oe/sbom30.py                |  8 ++++----
+ meta/lib/oe/spdx30_tasks.py          | 17 +++++++++++------
+ meta/lib/oe/spdx_common.py           |  5 ++---
+ 5 files changed, 32 insertions(+), 29 deletions(-)
 
-If you create meta-<your-layer>/conf/cve-check-map.conf it will be included=
- instead of the one from oe-core/poky.
-
->=20
-> Would it be okay to make assignments soft in the cve-check-map.conf file?
-> This would be similar to CVE_PRODUCT and CVE_VERSION.
-> If everyone agrees, I can share the patch for it.
-> Is there a better way to do this?
-
-This is also an option; I'm not opinionated on this one...
-
->=20
-> Best Regards,
-> Dhairya
->=20
->=20
-> >>
-> >> Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
-> >> ---
-> >>  meta/conf/cve-check-map.conf | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta/conf/cve-check-map.conf
-> >> b/meta/conf/cve-check-map.conf index b9df41a6f3..7ff53f5601 100644
-> >> --- a/meta/conf/cve-check-map.conf
-> >> +++ b/meta/conf/cve-check-map.conf
-> >> @@ -15,6 +15,8 @@ CVE_CHECK_STATUSMAP[unpatched] =3D "Unpatched"
-> >>  CVE_CHECK_STATUSMAP[vulnerable-investigating] =3D "Unpatched"
-> >>  # use when CVE fix is not compatible to the current version and canno=
-t be
-> >backported.
-> >>  CVE_CHECK_STATUSMAP[cannot-backport] =3D "Unpatched"
-> >> +# use when upstream acknowledged the vulnerability but does not plan
-> >> +to fix it CVE_CHECK_STATUSMAP[upstream-wontfix] =3D "Unpatched"
-> >>
-> >>  # used for migration from old concept, do not use for new
-> >> vulnerabilities  CVE_CHECK_STATUSMAP[ignored] =3D "Ignored"
-> >> @@ -26,5 +28,3 @@ CVE_CHECK_STATUSMAP[disputed] =3D "Ignored"
-> >>  CVE_CHECK_STATUSMAP[not-applicable-config] =3D "Ignored"
-> >>  # use when vulnerability affects other platform (e.g. Windows or
-> >> Debian)  CVE_CHECK_STATUSMAP[not-applicable-platform] =3D "Ignored"
-> >> -# use when upstream acknowledged the vulnerability but does not plan
-> >> to fix it -CVE_CHECK_STATUSMAP[upstream-wontfix] =3D "Ignored"
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 509d3b58b6f..795ba1a8826 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -44,11 +44,10 @@ def get_json_indent(d):
+     return None
+ 
+ 
+-def convert_license_to_spdx(lic, document, d, existing={}):
++def convert_license_to_spdx(lic, license_data, document, d, existing={}):
+     from pathlib import Path
+     import oe.spdx
+ 
+-    license_data = d.getVar("SPDX_LICENSE_DATA")
+     extracted = {}
+ 
+     def add_extracted_license(ident, name):
+@@ -385,10 +384,10 @@ def add_download_packages(d, doc, recipe):
+             # but this should be sufficient for now
+             doc.add_relationship(package, "BUILD_DEPENDENCY_OF", recipe)
+ 
+-def get_license_list_version(d):
++def get_license_list_version(license_data, d):
+     # Newer versions of the SPDX license list are SemVer ("MAJOR.MINOR.MICRO"),
+     # but SPDX 2 only uses "MAJOR.MINOR".
+-    return ".".join(d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"].split(".")[:2])
++    return ".".join(license_data["licenseListVersion"].split(".")[:2])
+ 
+ 
+ python do_create_spdx() {
+@@ -401,6 +400,8 @@ python do_create_spdx() {
+     from contextlib import contextmanager
+     import oe.cve_check
+ 
++    license_data = oe.spdx_common.load_spdx_license_data(d)
++
+     @contextmanager
+     def optional_tarfile(name, guard, mode="w"):
+         import tarfile
+@@ -432,7 +433,7 @@ python do_create_spdx() {
+     doc.documentNamespace = get_namespace(d, doc.name)
+     doc.creationInfo.created = creation_time
+     doc.creationInfo.comment = "This document was created by analyzing recipe files during the build."
+-    doc.creationInfo.licenseListVersion = get_license_list_version(d)
++    doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+     doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+     doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+     doc.creationInfo.creators.append("Person: N/A ()")
+@@ -451,7 +452,7 @@ python do_create_spdx() {
+ 
+     license = d.getVar("LICENSE")
+     if license:
+-        recipe.licenseDeclared = convert_license_to_spdx(license, doc, d)
++        recipe.licenseDeclared = convert_license_to_spdx(license, license_data, doc, d)
+ 
+     summary = d.getVar("SUMMARY")
+     if summary:
+@@ -536,7 +537,7 @@ python do_create_spdx() {
+             package_doc.documentNamespace = get_namespace(d, package_doc.name)
+             package_doc.creationInfo.created = creation_time
+             package_doc.creationInfo.comment = "This document was created by analyzing packages created during the build."
+-            package_doc.creationInfo.licenseListVersion = get_license_list_version(d)
++            package_doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+             package_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+             package_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+             package_doc.creationInfo.creators.append("Person: N/A ()")
+@@ -549,7 +550,7 @@ python do_create_spdx() {
+             spdx_package.SPDXID = oe.sbom.get_package_spdxid(pkg_name)
+             spdx_package.name = pkg_name
+             spdx_package.versionInfo = d.getVar("PV")
+-            spdx_package.licenseDeclared = convert_license_to_spdx(package_license, package_doc, d, found_licenses)
++            spdx_package.licenseDeclared = convert_license_to_spdx(package_license, license_data, package_doc, d, found_licenses)
+             spdx_package.supplier = d.getVar("SPDX_SUPPLIER")
+ 
+             package_doc.packages.append(spdx_package)
+@@ -608,6 +609,8 @@ python do_create_runtime_spdx() {
+ 
+     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+ 
++    license_data = oe.spdx_common.load_spdx_license_data(d)
++
+     providers = oe.spdx_common.collect_package_providers(d)
+     pkg_arch = d.getVar("SSTATE_PKGARCH")
+     package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+@@ -644,7 +647,7 @@ python do_create_runtime_spdx() {
+             runtime_doc.documentNamespace = get_namespace(localdata, runtime_doc.name)
+             runtime_doc.creationInfo.created = creation_time
+             runtime_doc.creationInfo.comment = "This document was created by analyzing package runtime dependencies."
+-            runtime_doc.creationInfo.licenseListVersion = get_license_list_version(d)
++            runtime_doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+             runtime_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+             runtime_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+             runtime_doc.creationInfo.creators.append("Person: N/A ()")
+@@ -797,6 +800,8 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+     import tarfile
+     import bb.compress.zstd
+ 
++    license_data = oe.spdx_common.load_spdx_license_data(d)
++
+     providers = oe.spdx_common.collect_package_providers(d)
+     package_archs = d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+     package_archs.reverse()
+@@ -810,7 +815,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+     doc.documentNamespace = get_namespace(d, doc.name)
+     doc.creationInfo.created = creation_time
+     doc.creationInfo.comment = "This document was created by analyzing the source of the Yocto recipe during the build."
+-    doc.creationInfo.licenseListVersion = get_license_list_version(d)
++    doc.creationInfo.licenseListVersion = get_license_list_version(license_data, d)
+     doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+     doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+     doc.creationInfo.creators.append("Person: N/A ()")
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index e1528b6d0b5..cd9cc0db987 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -39,12 +39,6 @@ SPDX_CUSTOM_ANNOTATION_VARS ??= ""
+ 
+ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
+ 
+-python() {
+-    import oe.spdx_common
+-    oe.spdx_common.load_spdx_license_data(d)
+-}
+-
+-
+ python do_collect_spdx_deps() {
+     # This task calculates the build time dependencies of the recipe, and is
+     # required because while a task can deptask on itself, those dependencies
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 27ed74f810f..2cea56ac3e6 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -558,8 +558,8 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+             scope=scope,
+         )
+ 
+-    def new_license_expression(self, license_expression, license_text_map={}):
+-        license_list_version = self.d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
++    def new_license_expression(self, license_expression, license_data, license_text_map={}):
++        license_list_version = license_data["licenseListVersion"]
+         # SPDX 3 requires that the license list version be a semver
+         # MAJOR.MINOR.MICRO, but the actual license version might be
+         # MAJOR.MINOR on some older versions. As such, manually append a .0
+@@ -607,14 +607,14 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+ 
+         return lic
+ 
+-    def scan_declared_licenses(self, spdx_file, filepath):
++    def scan_declared_licenses(self, spdx_file, filepath, license_data):
+         for e in spdx_file.extension:
+             if isinstance(e, OELicenseScannedExtension):
+                 return
+ 
+         file_licenses = set()
+         for extracted_lic in oe.spdx_common.extract_licenses(filepath):
+-            file_licenses.add(self.new_license_expression(extracted_lic))
++            file_licenses.add(self.new_license_expression(extracted_lic, license_data))
+ 
+         self.new_relationship(
+             [spdx_file],
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 9d5bbadc0f4..03dc47db029 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -28,8 +28,7 @@ def set_timestamp_now(d, o, prop):
+         delattr(o, prop)
+ 
+ 
+-def add_license_expression(d, objset, license_expression):
+-    license_data = d.getVar("SPDX_LICENSE_DATA")
++def add_license_expression(d, objset, license_expression, license_data):
+     simple_license_text = {}
+     license_text_map = {}
+     license_ref_idx = 0
+@@ -120,7 +119,7 @@ def add_license_expression(d, objset, license_expression):
+     )
+     spdx_license_expression = " ".join(convert(l) for l in lic_split)
+ 
+-    return objset.new_license_expression(spdx_license_expression, license_text_map)
++    return objset.new_license_expression(spdx_license_expression, license_data, license_text_map)
+ 
+ 
+ def add_package_files(
+@@ -129,6 +128,7 @@ def add_package_files(
+     topdir,
+     get_spdxid,
+     get_purposes,
++    license_data,
+     *,
+     archive=None,
+     ignore_dirs=[],
+@@ -165,7 +165,7 @@ def add_package_files(
+             spdx_files.add(spdx_file)
+ 
+             if oe.spdx30.software_SoftwarePurpose.source in file_purposes:
+-                objset.scan_declared_licenses(spdx_file, filepath)
++                objset.scan_declared_licenses(spdx_file, filepath, license_data)
+ 
+             if archive is not None:
+                 with filepath.open("rb") as f:
+@@ -452,6 +452,8 @@ def create_spdx(d):
+         if val:
+             setattr(obj, name, val)
+ 
++    license_data = oe.spdx_common.load_spdx_license_data(d)
++
+     deploydir = Path(d.getVar("SPDXDEPLOY"))
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     spdx_workdir = Path(d.getVar("SPDXWORK"))
+@@ -508,7 +510,7 @@ def create_spdx(d):
+     source_files = add_download_files(d, build_objset)
+     build_inputs |= source_files
+ 
+-    recipe_spdx_license = add_license_expression(d, build_objset, d.getVar("LICENSE"))
++    recipe_spdx_license = add_license_expression(d, build_objset, d.getVar("LICENSE"), license_data)
+     build_objset.new_relationship(
+         source_files,
+         oe.spdx30.RelationshipType.hasConcludedLicense,
+@@ -527,6 +529,7 @@ def create_spdx(d):
+                 "sourcefile", str(file_counter)
+             ),
+             lambda filepath: [oe.spdx30.software_SoftwarePurpose.source],
++            license_data,
+             ignore_dirs=[".git"],
+             ignore_top_level_dirs=["temp"],
+             archive=None,
+@@ -636,7 +639,7 @@ def create_spdx(d):
+             package_license = d.getVar("LICENSE:%s" % package)
+             if package_license and package_license != d.getVar("LICENSE"):
+                 package_spdx_license = add_license_expression(
+-                    d, build_objset, package_license
++                    d, build_objset, package_license, license_data
+                 )
+             else:
+                 package_spdx_license = recipe_spdx_license
+@@ -708,6 +711,7 @@ def create_spdx(d):
+                 ),
+                 # TODO: Can we know the purpose here?
+                 lambda filepath: [],
++                license_data,
+                 ignore_top_level_dirs=["CONTROL", "DEBIAN"],
+                 archive=None,
+             )
+@@ -739,6 +743,7 @@ def create_spdx(d):
+             d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
+             lambda file_counter: build_objset.new_spdxid("sysroot", str(file_counter)),
+             lambda filepath: [],
++            license_data,
+             archive=None,
+         )
+ 
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index f23100fe03d..dfe90f96cf9 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -42,14 +42,13 @@ def is_work_shared_spdx(d):
+ 
+ 
+ def load_spdx_license_data(d):
+-    if d.getVar("SPDX_LICENSE_DATA"):
+-        return
+ 
+     with open(d.getVar("SPDX_LICENSES"), "r") as f:
+         data = json.load(f)
+         # Transform the license array to a dictionary
+         data["licenses"] = {l["licenseId"]: l for l in data["licenses"]}
+-        d.setVar("SPDX_LICENSE_DATA", data)
++
++    return data
+ 
+ 
+ def process_sources(d):
 
