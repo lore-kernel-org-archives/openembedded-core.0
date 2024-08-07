@@ -1,223 +1,440 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5882C52D6F
-	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 05:27:36 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.26757.1723008447446453140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDC1C52D6F
+	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 07:21:17 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.27931.1723015268734838529
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Aug 2024 22:27:27 -0700
+ Wed, 07 Aug 2024 00:21:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8949aa9b73=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4775Dpea009796
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Aug 2024 05:27:26 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v0bsg30p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 05:27:26 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p8y7DpBgD8ofkPuU+zjXb/tMdh/xsIBvkP6M8Nj/k1w9Q6pbzNV+yDUWGPawmY5W7RyM3lKYYDXQeyTQhbsUsz69bX7L0xtS3Q9sNmaHLyWFz0i8hS8O0ZaHl2CfpRRr0pRYcq15VsHe8oAzLK8lKBMoJCaEDCLQG0CaIdkPbfKvVE0RgzQrn27GOpfxbhTOKs1gR2kLSuYx/JfslX6G5bCdULANjU2ZTO/WJ0N5UyhDn9pS0QOkAOKprSwY1EZgILSJGil0vf3xDSvr4WaluRaplsn8z6ixmGoQrW1EDL7EHlKxFMYIzd+SwnhNWi+/spGwKGHH5ckxpESIIFTPFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RAPfahbzqPyMeL5JeDIQQ28fRoyliyTc6isPMTgGVUA=;
- b=AkHQDKe+1Z39GGRioXkt6lPpLIUrKKlBbg1gyA05AM8T1TnGa3nBV/8uMtfxV5CaIuiN5O6u58NE1f6MQD8Yr/4tWatu/OGAIroVGT+nMcfXPR71ez5PK0wyf1veNsC1fQFstlQWKMT5vlmTQk8p/OLg3r3+x1MUU6LPbYDMKTEJ30N8In/U9Ded6afbie+KxdQexMoWnm2e1iwxgOBEIs+SQV0v4auj23/C52jHtXq8OJrtMkpcwIG6Prjw6PQBqZUKQKoNTfGdm9PciMks+PVW2+F+uwXsiwhcZDJFxhFhZB2Cqa8FZ+imrrpPpgTbCf7lC4VaPzhYKorxEWuQag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by CY5PR11MB6283.namprd11.prod.outlook.com (2603:10b6:930:21::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Wed, 7 Aug
- 2024 05:27:23 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.7828.023; Wed, 7 Aug 2024
- 05:27:22 +0000
-From: Qi.Chen@windriver.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=girDaYm7;
+ spf=pass (domain: mvista.com, ip: 209.85.215.179, mailfrom: hprajapati@mvista.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7b396521ff6so988378a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 00:21:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1723015268; x=1723620068; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nBixwGH7zM6C6uccz+aG7yx0nxxAkR1vWt2ZSiPviIM=;
+        b=girDaYm7xor5VZkw1Ih17OJAb/xkI1Yb5ybb4jsXTUFzUrgHGCnClg0tJ74fiIb5BJ
+         T+IrVlNdHipUGCE9ykSkDy7HBSBzxXbWbmmev/ykTCSvGGaBb1rUfpUihub3CwQITxWP
+         RNEOLfrhtr2XYBrEjqP0C8ZC7BtQP9ZJew7aU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723015268; x=1723620068;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nBixwGH7zM6C6uccz+aG7yx0nxxAkR1vWt2ZSiPviIM=;
+        b=l5lvSHLAJajaAUtvAscYu/QgEKl/pdCQu9rr6EiCrDft8WRUngW2lApQX5rvprjWjN
+         46yNtLUyel34J3A/6uFszqweRLBuTNLYjRy+Iu3TSgrkviRjtzUJBOBzHhgiRNhOeKOb
+         6p0b0fo4DyMFSDDXcWRIs+9U4PsP0SvrauxiGp1x6nUYyYK59b/mD9Uih1a1fd1XS3NH
+         iTaLpGxbLctpfzQTL/to1TRv8BZ+1pmUwMtK5ZN6/uEp5Etx2X2A/jtsmQokwlvgidqa
+         5Kz53Z9yDDc4a4j0Z4X9i0Eh5wLAdHN+SvhnwZILWtxoc5gBfplmQWQhDs9BNSomKLLc
+         gMsQ==
+X-Gm-Message-State: AOJu0YwB0Dgrqwmm1UOq0v3QzRv04i0xqihaJH3zaJgTq4P5eWtByDy/
+	rBOx+vTsJ3dlpjz6bXZ7mXOjpn6MtEvT105s+s4shgPggWyJGl4nNJ2scXop1z2Wc8WeANBADU9
+	u
+X-Google-Smtp-Source: AGHT+IH9TxTpxuRGXMq1et5Y2vhcSXueyhiCkV+lzLt3aFX1/TaFDPoGMaTAYMEsCLI9oLM2YpEpBg==
+X-Received: by 2002:a05:6a20:7490:b0:1c4:88ce:c996 with SMTP id adf61e73a8af0-1c6996b933amr26486302637.46.1723015267623;
+        Wed, 07 Aug 2024 00:21:07 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([103.250.136.203])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ecdff05sm8136416b3a.140.2024.08.07.00.21.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Aug 2024 00:21:06 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH V2] kexec-tools: avoid kernel warning
-Date: Tue,  6 Aug 2024 22:27:13 -0700
-Message-Id: <20240807052713.2535834-1-Qi.Chen@windriver.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] busybox: CVE-2023-42364, CVE-2023-42365 & CVE-2023-42366 fixes
+Date: Wed,  7 Aug 2024 12:50:49 +0530
+Message-Id: <20240807072049.229288-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0035.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::10) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CY5PR11MB6283:EE_
-X-MS-Office365-Filtering-Correlation-Id: 979faecf-6e7d-4482-6d05-08dcb6a19d76
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?zK7bKSWKA0Ct8waWg5ITdhnFddChYplgD0zcR3sx3xJsFYOpnQ8YbBGAHAq2?=
- =?us-ascii?Q?4zEVnOPRq26Tvke/gMVrX+4Ls3feKCOENpJMYYatESTpUj8fjuNC0N7CuUIr?=
- =?us-ascii?Q?sJOQilPgmTOyiLVlog2fnPmGRg64pvG6sQCMW353KKXA1tVFj0D3cqwhJ0Ox?=
- =?us-ascii?Q?Pfqo4bVXOuWM80eyUb0XOnbrLNXp5u+rKDaA3NBoFD0iKxw4Sq2YaLMJ5JkF?=
- =?us-ascii?Q?QLHzlPQ/RHq2awVZtr3ArlkQbLC0oDqhzkUy/IdjKzmIYJz3i/sJH6jw86AD?=
- =?us-ascii?Q?o3vX/hHnOR+SqGp4qpeHYpOUO9BwC5s8ORh6JJHAGsXXkFX62xoBf2IP8RU4?=
- =?us-ascii?Q?+Iflb6eQUfHlHMJGFk/xGMe33gjRF23NgnvBSqfy1D+mW0QYgZ8Ld3DxwZh+?=
- =?us-ascii?Q?M0LWKMd5RM7M05s6+P2kkiOXA47LfkUia5oM3hCgupZcFLmMbF6nAZnIvcii?=
- =?us-ascii?Q?r49vUK2JZ6bPQAhGTiy8Av11JRu5QXnHMjlWb1yZVTVg25m2RxTyJxiI688n?=
- =?us-ascii?Q?Cg2HH+h5EmyBQK0mqgbJDASWvy5pWMdd59z7cpU7ZR4n4ArqamCzZH5g47gm?=
- =?us-ascii?Q?Yb9Kf9oWPFJzs3OFo3h43pyIbNcq3WBA3qCJI38r9RqMBZ0fkNu/hi6MhLlw?=
- =?us-ascii?Q?Gc9EeL2ooDLsp0qRKMzndEWCcbnOhfHSr5QOyGO8/uycgEsIumpLRQ9zApFZ?=
- =?us-ascii?Q?xL9aJLc42RBggdBjaiyGh2a1LCVntNbk5zU0AHpTSmVsm5k/NqCHcIPVRT5r?=
- =?us-ascii?Q?sOwIEalr6PRHOSbojMvh9UN7gezhpdZwmQYkWXOVsW3K3iZBVGycXG+40Ln3?=
- =?us-ascii?Q?/KEcRfdMBl1yoeVZFgPHy/HRJFVD5kM2+FwuYfETePSo4baqZmpN5Gx56Blg?=
- =?us-ascii?Q?0AS59auI/h6g+k11X5FHVeuD7qhpEIPpp41uBMWoNaEw8LY/3Je1fDblb8z5?=
- =?us-ascii?Q?9tLbb8NU7PemW/QePgecmGkp75CXeqMV+z+HG5ogU7raSguk/gcPEQdQdFux?=
- =?us-ascii?Q?zvy5+IsaLZwqnA29Dz2VR1Cbj3W/JA9XEAYwwnfpuG43vuhBDOinmtWzYpBr?=
- =?us-ascii?Q?OjxULox5pODPzUzuryipNjnFT1eSQHBULeg5S5tcB5NKNOcSKcdvdUhkg/TZ?=
- =?us-ascii?Q?BpiBBclt2eHqGnrtuq2y9eknKjMeTxhvtBSHpGdziAHXivRgvxOLBSnonXc5?=
- =?us-ascii?Q?eviTb6pypFTZq+crjcRjBXLjtHHwBcUtaFQ2WhAZxn9CLWI6QFyKD0Q/p5Md?=
- =?us-ascii?Q?ZoMzClDOa0Zi21q35ydINKRmmVmm7yOf7lK2s2IyqmrDHm9mbJ5xc6dseSS5?=
- =?us-ascii?Q?jn64ybOICqK2aanYe7/c9Fym1ylA8CVW1EXtVHtMy55d6/e74GK7UB9OhGpy?=
- =?us-ascii?Q?cgJKXgo=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Zr0GMie3tVMZR9T9B1FQSZrbpioYJal2dMxhAxcRSGeeuFhVDW7/QdI2Ah07?=
- =?us-ascii?Q?Ewr8ElIleGRTeH0E6l7sBCIg7Qy/zdJewyQbntOPCh9qm/MiW+OWEHlf88z6?=
- =?us-ascii?Q?OkSX1nmNSBHcfHd7fQgH5FTT3X7SlJNCLnInM8CmhY9nnEkHNa4ZuFqWuInM?=
- =?us-ascii?Q?TQOUUekKONHKLUKW3aguBktBNFUkT+5Qj0kPTTVl6+umPpp9Jo/uIeoYwR3K?=
- =?us-ascii?Q?pZj9Ohxhqih6DVdYtrH4Rpwcz+r0L2svsoMxEEbsIhP0dNMM6COy/zpS7nxm?=
- =?us-ascii?Q?DyE+jxjdSlOm4VnzKvWJYqPmyQqbENjYLjOOBfSINS5Mha2Od9NuSBAV6kh8?=
- =?us-ascii?Q?ZrGxy7dwfHHQ+Y7R1pQtboBjSL+3FXyxygrNVIHLdnRbcOsu5kgz/kOffiIJ?=
- =?us-ascii?Q?WSAoxVsarZV7pdvURQLZAfuOaTw9V5CBLD8w2fuwLWXfUcWS8dJizM2VhOig?=
- =?us-ascii?Q?NG5Uymdjrr+h1aeE+9bJSnGH+O/YpoAVGnfkny8GWUAuGRibIcXqD4uJ2Riy?=
- =?us-ascii?Q?rLkhNDkR2BHJxRZsxza9HuRjltajNIYPLqWW2pVIFW5hscIzj5cro2ORLvhS?=
- =?us-ascii?Q?KrA9LBn3KncDXbrV+f4M3lbD/TgvYHptmmiiEPodN2DcivFBZWSAUdcII3d7?=
- =?us-ascii?Q?7qy6VVwlg3t9CUQrQJ/Sbs8CK5krRDjfgkf7OtgFiBiftkZ6FZdssyG8jQjT?=
- =?us-ascii?Q?anKDPw4DpwdWIJ+ldUMeiNpmSgoHCu+oNT5C/g29oh59cig7TomvsV4n3mN6?=
- =?us-ascii?Q?hSyRfHMgOOWTnUMXEDyF4/yIgjBylkFjYhyegoL2iZI3KBetV2vEOc+HG7nX?=
- =?us-ascii?Q?SSjS2GAUVdgUwYhfurzK1GwyVtw6JYdfs6qFuuX9ehPxpztfhJKpzSskxGpU?=
- =?us-ascii?Q?r5Kt8qA4L0tFYoV7J8PihkkHCc/OuooXQJS0WKBDvtrs0dHOG0V7AQs0UVxO?=
- =?us-ascii?Q?F5JCuewP9bx95w+SWSwEvRdHLzTgtJ45eBV/ECcN86TkKti+cPF6/dVEJPbr?=
- =?us-ascii?Q?dLTRiOTnR4RKE65mCOw/1qFoAtEIEkbccSS3p/f9Tfdc0Op3MMgs/qxc1pz6?=
- =?us-ascii?Q?dvZQUK2R83wIRtZkE+GodR+ruJ43i+F5XhDk1N7YsywJwxVvOV09glQnBuQM?=
- =?us-ascii?Q?TxGNdVotSoMg8/5B4aYdO4dP/kTWyW80ayMjnqMPpstDwKwam3fycBDU1cOL?=
- =?us-ascii?Q?rbj8KGhKBqfSIK/onQyaFhIjvAXllyho85iBkpEUE8k+C0zf3KgoBfR0fZsi?=
- =?us-ascii?Q?Sjvngkfut6XdJNMbwPk6XXB2drEiacUk5GF4zzPNdAQ/t46Y97W7aQw1cWi0?=
- =?us-ascii?Q?gJJu3g65KtaCvKij1qWYjv2+0L+9TliuFaPj8oV5LM3WGKOAtxBBlKxsU7qA?=
- =?us-ascii?Q?GDTOZuBSLcSKKqj1wFKgNkH32jss9rQI2zgESOBXX/yXAO6hzu8P8Nz6JfJF?=
- =?us-ascii?Q?k3wOI6vj9RUZJpVZ5HXiEUB88majwcdltowDuRJXXmmh5Hc/567E/jczw2/b?=
- =?us-ascii?Q?9mY8DP4as6Ex4Y/471aHWr1muOexsFpJ/pfmua05owbwpvQcDLjQdJzZgF2C?=
- =?us-ascii?Q?f3iE5ki86xtrOkeYkMEFteqpAn4VhjRR1V9jrDDv?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 979faecf-6e7d-4482-6d05-08dcb6a19d76
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2024 05:27:22.8395
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bAM6XHaAsUS19uQX4RdoHySAEE69k03aP4R37pu4aE0EN3HEIj/6cQKE7XZ9b+PCuOz/D9jX3dvz+ciUK54eIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6283
-X-Proofpoint-ORIG-GUID: Y3Y_y8bCG8eTcjWsDAQ5pl2z7f5wvGx1
-X-Proofpoint-GUID: Y3Y_y8bCG8eTcjWsDAQ5pl2z7f5wvGx1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-07_02,2024-08-06_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2408070034
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 05:27:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203059
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 07:21:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203060
 
-From: Chen Qi <Qi.Chen@windriver.com>
+backport upstream fix for CVEs and fix the regression that introduced [1]
 
-Running command 'kexec -p /path/to/crash-kernel --reuse-cmdline' will
-give out the following warning:
+[1] http://lists.busybox.net/pipermail/busybox/2024-May/090766.html
 
-  kexec[970]: memfd_create() called without MFD_EXEC or MFD_NOEXEC_SEAL set
-
-Add MFD_NOEXEC_SEAL explicitly to avoid such warning.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- ...-add-MFD_NOEXEC_SEAL-flag-explicitly.patch | 46 +++++++++++++++++++
- .../kexec/kexec-tools_2.0.29.bb               |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
+ ...01-awk-fix-precedence-of-relative-to.patch | 197 ++++++++++++++++++
+ ...1-awk.c-fix-CVE-2023-42366-bug-15874.patch |  36 ++++
+ ...x-ternary-operator-and-precedence-of.patch |  96 +++++++++
+ meta/recipes-core/busybox/busybox_1.35.0.bb   |   3 +
+ 4 files changed, 332 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
+diff --git a/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch b/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
 new file mode 100644
-index 0000000000..dc52981025
+index 0000000000..e3d623498c
 --- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
-@@ -0,0 +1,46 @@
-+From a6a9e17dfeb5627f3e6f569b66f243f50f8a3645 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Tue, 6 Aug 2024 21:42:43 -0700
-+Subject: [PATCH] kexec.c: add MFD_NOEXEC_SEAL flag explicitly
++++ b/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
+@@ -0,0 +1,197 @@
++From dedc9380c76834ba64c8b526aef6f461ea4e7f2e Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Tue, 30 May 2023 16:42:18 +0200
++Subject: [PATCH 1/2] awk: fix precedence of = relative to ==
 +
-+Add MFD_NOEXEC_SEAL to avoid kernel warning like below:
++Discovered while adding code to disallow assignments to non-lvalues
 +
-+  kexec[970]: memfd_create() called without MFD_EXEC or MFD_NOEXEC_SEAL set
++function                                             old     new   delta
++parse_expr                                           936     991     +55
++.rodata                                           105243  105247      +4
++------------------------------------------------------------------------------
++(add/remove: 0/0 grow/shrink: 2/0 up/down: 59/0)               Total: 59 bytes
 +
-+For old kernels, there will be no MFD_NOEXEC_SEAL definition, so fallback
-+to define it to 0.
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=0256e00a9d077588bd3a39f5a1ef7e2eaa2911e4]
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++(cherry picked from commit 0256e00a9d077588bd3a39f5a1ef7e2eaa2911e4)
 +
-+Upstream-Status: Submitted [https://github.com/horms/kexec-tools/pull/7]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++CVE: CVE-2023-42364 & CVE-2023-42365
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ kexec/kexec.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++ editors/awk.c       | 66 ++++++++++++++++++++++++++++++---------------
++ testsuite/awk.tests |  5 ++++
++ 2 files changed, 50 insertions(+), 21 deletions(-)
 +
-+diff --git a/kexec/kexec.c b/kexec/kexec.c
-+index 7c614b0..41d285d 100644
-+--- a/kexec/kexec.c
-++++ b/kexec/kexec.c
-+@@ -60,6 +60,10 @@
-+ #define KEXEC_LOADED_PATH "/sys/kernel/kexec_loaded"
-+ #define KEXEC_CRASH_LOADED_PATH "/sys/kernel/kexec_crash_loaded"
++diff --git a/editors/awk.c b/editors/awk.c
++index ec9301e..aff86fe 100644
++--- a/editors/awk.c
+++++ b/editors/awk.c
++@@ -337,7 +337,9 @@ static void debug_parse_print_tc(uint32_t n)
++ #undef P
++ #undef PRIMASK
++ #undef PRIMASK2
++-#define P(x)      (x << 24)
+++/* Smaller 'x' means _higher_ operator precedence */
+++#define PRECEDENCE(x) (x << 24)
+++#define P(x)      PRECEDENCE(x)
++ #define PRIMASK   0x7F000000
++ #define PRIMASK2  0x7E000000
 + 
-++#ifndef MFD_NOEXEC_SEAL
-++#define MFD_NOEXEC_SEAL 0
-++#endif
-++
-+ unsigned long long mem_min = 0;
-+ unsigned long long mem_max = ULONG_MAX;
-+ unsigned long elfcorehdrsz = 0;
-+@@ -655,7 +659,7 @@ static int copybuf_memfd(const char *kernel_buf, size_t size)
++@@ -360,7 +362,7 @@ enum {
++ 	OC_MOVE = 0x1f00,       OC_PGETLINE = 0x2000,   OC_REGEXP = 0x2100,
++ 	OC_REPLACE = 0x2200,    OC_RETURN = 0x2300,     OC_SPRINTF = 0x2400,
++ 	OC_TERNARY = 0x2500,    OC_UNARY = 0x2600,      OC_VAR = 0x2700,
++-	OC_DONE = 0x2800,
+++	OC_CONST = 0x2800,      OC_DONE = 0x2900,
++ 
++ 	ST_IF = 0x3000,         ST_DO = 0x3100,         ST_FOR = 0x3200,
++ 	ST_WHILE = 0x3300
++@@ -440,9 +442,9 @@ static const uint32_t tokeninfo[] ALIGN4 = {
++ #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
++ #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
++ 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
++-	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(74),        OC_REPLACE|NV|P(74)|'+', OC_REPLACE|NV|P(74)|'-',
++-	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%', OC_REPLACE|NV|P(74)|'&',
++-	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&', OC_BINARY|NV|P(15)|'&',
+++	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+', OC_REPLACE|NV|P(38)|'-',
+++	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%', OC_REPLACE|NV|P(38)|'&',
+++	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&', OC_BINARY|NV|P(15)|'&',
++ 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&',  OC_BINARY|NV|P(25)|'*',
++ 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,   OC_COMPARE|VV|P(39)|1,
++ #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
++@@ -1290,7 +1292,7 @@ static uint32_t next_token(uint32_t expected)
++ 			save_tclass = tc;
++ 			save_info = t_info;
++ 			tc = TC_BINOPX;
++-			t_info = OC_CONCAT | SS | P(35);
+++			t_info = OC_CONCAT | SS | PRECEDENCE(35);
++ 		}
++ 
++ 		t_tclass = tc;
++@@ -1350,9 +1352,8 @@ static node *parse_expr(uint32_t term_tc)
 + {
-+ 	int fd, count;
++ 	node sn;
++ 	node *cn = &sn;
++-	node *vn, *glptr;
+++	node *glptr;
++ 	uint32_t tc, expected_tc;
++-	var *v;
 + 
-+-	fd = memfd_create("kernel", MFD_ALLOW_SEALING);
-++	fd = memfd_create("kernel", MFD_ALLOW_SEALING | MFD_NOEXEC_SEAL);
-+ 	if (fd == -1)
-+ 		return fd;
++ 	debug_printf_parse("%s() term_tc(%x):", __func__, term_tc);
++ 	debug_parse_print_tc(term_tc);
++@@ -1363,11 +1364,12 @@ static node *parse_expr(uint32_t term_tc)
++ 	expected_tc = TS_OPERAND | TS_UOPPRE | TC_REGEXP | term_tc;
 + 
-+-- 
-+2.25.1
++ 	while (!((tc = next_token(expected_tc)) & term_tc)) {
+++		node *vn;
++ 
++ 		if (glptr && (t_info == TI_LESS)) {
++ 			/* input redirection (<) attached to glptr node */
++ 			debug_printf_parse("%s: input redir\n", __func__);
++-			cn = glptr->l.n = new_node(OC_CONCAT | SS | P(37));
+++			cn = glptr->l.n = new_node(OC_CONCAT | SS | PRECEDENCE(37));
++ 			cn->a.n = glptr;
++ 			expected_tc = TS_OPERAND | TS_UOPPRE;
++ 			glptr = NULL;
++@@ -1379,24 +1381,42 @@ static node *parse_expr(uint32_t term_tc)
++ 			 * previous operators with higher priority */
++ 			vn = cn;
++ 			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
++-			    || ((t_info == vn->info) && t_info == TI_COLON)
+++			    || (t_info == vn->info && t_info == TI_COLON)
++ 			) {
++ 				vn = vn->a.n;
++ 				if (!vn->a.n) syntax_error(EMSG_UNEXP_TOKEN);
++ 			}
++ 			if (t_info == TI_TERNARY)
++ //TODO: why?
++-				t_info += P(6);
+++				t_info += PRECEDENCE(6);
++ 			cn = vn->a.n->r.n = new_node(t_info);
++ 			cn->a.n = vn->a.n;
++ 			if (tc & TS_BINOP) {
++ 				cn->l.n = vn;
++-//FIXME: this is the place to detect and reject assignments to non-lvalues.
++-//Currently we allow "assignments" to consts and temporaries, nonsense like this:
++-// awk 'BEGIN { "qwe" = 1 }'
++-// awk 'BEGIN { 7 *= 7 }'
++-// awk 'BEGIN { length("qwe") = 1 }'
++-// awk 'BEGIN { (1+1) += 3 }'
+++
+++				/* Prevent:
+++				 * awk 'BEGIN { "qwe" = 1 }'
+++				 * awk 'BEGIN { 7 *= 7 }'
+++				 * awk 'BEGIN { length("qwe") = 1 }'
+++				 * awk 'BEGIN { (1+1) += 3 }'
+++				 */
+++				/* Assignment? (including *= and friends) */
+++				if (((t_info & OPCLSMASK) == OC_MOVE)
+++				 || ((t_info & OPCLSMASK) == OC_REPLACE)
+++				) {
+++					debug_printf_parse("%s: MOVE/REPLACE vn->info:%08x\n", __func__, vn->info);
+++					/* Left side is a (variable or array element)
+++					 * or function argument
+++					 * or $FIELD ?
+++					 */
+++					if ((vn->info & OPCLSMASK) != OC_VAR
+++					 && (vn->info & OPCLSMASK) != OC_FNARG
+++					 && (vn->info & OPCLSMASK) != OC_FIELD
+++					) {
+++						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
+++					}
+++				}
+++
++ 				expected_tc = TS_OPERAND | TS_UOPPRE | TC_REGEXP;
++ 				if (t_info == TI_PGETLINE) {
++ 					/* it's a pipe */
++@@ -1432,6 +1452,8 @@ static node *parse_expr(uint32_t term_tc)
++ 		/* one should be very careful with switch on tclass -
++ 		 * only simple tclasses should be used (TC_xyz, not TS_xyz) */
++ 		switch (tc) {
+++			var *v;
+++
++ 		case TC_VARIABLE:
++ 		case TC_ARRAY:
++ 			debug_printf_parse("%s: TC_VARIABLE | TC_ARRAY\n", __func__);
++@@ -1452,14 +1474,14 @@ static node *parse_expr(uint32_t term_tc)
++ 		case TC_NUMBER:
++ 		case TC_STRING:
++ 			debug_printf_parse("%s: TC_NUMBER | TC_STRING\n", __func__);
++-			cn->info = OC_VAR;
+++			cn->info = OC_CONST;
++ 			v = cn->l.v = xzalloc(sizeof(var));
++-			if (tc & TC_NUMBER)
+++			if (tc & TC_NUMBER) {
++ 				setvar_i(v, t_double);
++-			else {
+++			 } else {
++ 				setvar_s(v, t_string);
++-				expected_tc &= ~TC_UOPPOST; /* "str"++ is not allowed */
++ 			}
+++			expected_tc &= ~TC_UOPPOST; /* NUM++, "str"++ not allowed */
++ 			break;
++ 
++ 		case TC_REGEXP:
++@@ -3107,6 +3129,8 @@ static var *evaluate(node *op, var *res)
++ 
++ 		/* -- recursive node type -- */
++ 
+++		case XC( OC_CONST ):
+++			debug_printf_eval("CONST ");
++ 		case XC( OC_VAR ):
++ 			debug_printf_eval("VAR\n");
++ 			L.v = op->l.v;
++diff --git a/testsuite/awk.tests b/testsuite/awk.tests
++index ddc5104..a78fdcd 100755
++--- a/testsuite/awk.tests
+++++ b/testsuite/awk.tests
++@@ -540,4 +540,9 @@ testing 'awk assign while assign' \
++ │    trim/eff : 57.02%/26, 0.00%                     │          [cpu000:100%]
++ └────────────────────────────────────────────────────┘^C"
++ 
+++testing "awk = has higher precedence than == (despite what gawk manpage claims)" \
+++	"awk 'BEGIN { v=1; print 2==v; print 2==v=2; print v; print v=3==3; print v}'" \
+++	'0\n1\n2\n1\n3\n' \
+++	'' ''
+++
++ exit $FAILCOUNT
+diff --git a/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch b/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
+new file mode 100644
+index 0000000000..d660768e2f
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
+@@ -0,0 +1,36 @@
++From 8542236894a8d5f7393327117bc7f64787444efc Mon Sep 17 00:00:00 2001
++From: Valery Ushakov <uwe@stderr.spb.ru>
++Date: Wed, 24 Jan 2024 22:24:41 +0300
++Subject: [PATCH] awk.c: fix CVE-2023-42366 (bug #15874)
 +
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
-index b88db60ee8..2c2901f19e 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
-            file://0002-purgatory-Pass-r-directly-to-linker.patch \
-            file://0005-Disable-PIE-during-link.patch \
-            file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch \
-+           file://0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch \
++Make sure we don't read past the end of the string in next_token()
++when backslash is the last character in an (invalid) regexp.
++a fix and issue reported in bugzilla
++
++https://bugs.busybox.net/show_bug.cgi?id=15874
++
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2024-May/090766.html]
++CVE: CVE-2023-42366
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ editors/awk.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/editors/awk.c b/editors/awk.c
++index f320d8c..a53b193 100644
++--- a/editors/awk.c
+++++ b/editors/awk.c
++@@ -1168,9 +1168,11 @@ static uint32_t next_token(uint32_t expected)
++ 					s[-1] = bb_process_escape_sequence((const char **)&pp);
++ 					if (*p == '\\')
++ 						*s++ = '\\';
++-					if (pp == p)
+++					if (pp == p) {
+++						if (*p == '\0')
+++							syntax_error(EMSG_UNEXP_EOS);
++ 						*s++ = *p++;
++-					else
+++					} else
++ 						p = pp;
++ 				}
++ 			}
+diff --git a/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch b/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
+new file mode 100644
+index 0000000000..2d11efb1cf
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
+@@ -0,0 +1,96 @@
++From c3bfdac8e0e9a21d524ad72036953f68d2193e52 Mon Sep 17 00:00:00 2001
++From: Natanael Copa <ncopa@alpinelinux.org>
++Date: Tue, 21 May 2024 14:46:08 +0200
++Subject: [PATCH 2/2] awk: fix ternary operator and precedence of =
++
++Adjust the = precedence test to match behavior of gawk, mawk and
++FreeBSD.  awk 'BEGIN {print v=3==3; print v}' should print two '1'.
++
++To fix this, and to unbreak the ternary conditional operator, we restore
++the precedence of = in the token list, but override this with a lower
++priority when the assignment is on the right side of a compare.
++
++This fixes commit 0256e00a9d07 (awk: fix precedence of = relative to ==) [1]
++
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2024-May/090766.html]
++
++[1] https://bugs.busybox.net/show_bug.cgi?id=15871#c6
++
++Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
++(cherry picked from commit 1714301c405ef03b39605c85c23f22a190cddd95)
++
++CVE: CVE-2023-42364 & CVE-2023-42365
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ editors/awk.c       | 18 ++++++++++++++----
++ testsuite/awk.tests |  9 +++++++--
++ 2 files changed, 21 insertions(+), 6 deletions(-)
++
++diff --git a/editors/awk.c b/editors/awk.c
++index aff86fe..f320d8c 100644
++--- a/editors/awk.c
+++++ b/editors/awk.c
++@@ -442,9 +442,10 @@ static const uint32_t tokeninfo[] ALIGN4 = {
++ #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
++ #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
++ 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
++-	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+', OC_REPLACE|NV|P(38)|'-',
++-	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%', OC_REPLACE|NV|P(38)|'&',
++-	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&', OC_BINARY|NV|P(15)|'&',
+++#define TI_ASSIGN (OC_MOVE|VV|P(74))
+++	OC_COMPARE|VV|P(39)|5,   TI_ASSIGN,               OC_REPLACE|NV|P(74)|'+', OC_REPLACE|NV|P(74)|'-',
+++	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%', OC_REPLACE|NV|P(74)|'&',
+++	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&', OC_BINARY|NV|P(15)|'&',
++ 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&',  OC_BINARY|NV|P(25)|'*',
++ 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,   OC_COMPARE|VV|P(39)|1,
++ #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
++@@ -1376,11 +1377,19 @@ static node *parse_expr(uint32_t term_tc)
++ 			continue;
++ 		}
++ 		if (tc & (TS_BINOP | TC_UOPPOST)) {
+++			int prio;
++ 			debug_printf_parse("%s: TS_BINOP | TC_UOPPOST tc:%x\n", __func__, tc);
++ 			/* for binary and postfix-unary operators, jump back over
++ 			 * previous operators with higher priority */
++ 			vn = cn;
++-			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
+++			/* Let assignment get higher priority when used on right
+++			 * side in compare. i.e: 2==v=3 */
+++			if (t_info == TI_ASSIGN && (vn->a.n->info & OPCLSMASK) == OC_COMPARE) {
+++				prio = PRECEDENCE(38);
+++			} else {
+++				prio = (t_info & PRIMASK);
+++			}
+++			while ((prio > (vn->a.n->info & PRIMASK2))
++ 			    || (t_info == vn->info && t_info == TI_COLON)
++ 			) {
++ 				vn = vn->a.n;
++@@ -1412,6 +1421,7 @@ static node *parse_expr(uint32_t term_tc)
++ 					if ((vn->info & OPCLSMASK) != OC_VAR
++ 					 && (vn->info & OPCLSMASK) != OC_FNARG
++ 					 && (vn->info & OPCLSMASK) != OC_FIELD
+++					 && (vn->info & OPCLSMASK) != OC_COMPARE
++ 					) {
++ 						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
++ 					}
++diff --git a/testsuite/awk.tests b/testsuite/awk.tests
++index a78fdcd..d2706de 100755
++--- a/testsuite/awk.tests
+++++ b/testsuite/awk.tests
++@@ -540,9 +540,14 @@ testing 'awk assign while assign' \
++ │    trim/eff : 57.02%/26, 0.00%                     │          [cpu000:100%]
++ └────────────────────────────────────────────────────┘^C"
++ 
++-testing "awk = has higher precedence than == (despite what gawk manpage claims)" \
+++testing "awk = has higher precedence than == on right side" \
++ 	"awk 'BEGIN { v=1; print 2==v; print 2==v=2; print v; print v=3==3; print v}'" \
++-	'0\n1\n2\n1\n3\n' \
+++	'0\n1\n2\n1\n1\n' \
+++	'' ''
+++
+++testing 'awk ternary precedence' \
+++	"awk 'BEGIN { a = 0 ? \"yes\": \"no\"; print a }'" \
+++	'no\n' \
++ 	'' ''
++ 
++ exit $FAILCOUNT
+diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
+index 1c7fe2f43e..ead931bc41 100644
+--- a/meta/recipes-core/busybox/busybox_1.35.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+@@ -54,6 +54,9 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+ 	   file://CVE-2022-48174.patch \
+            file://CVE-2021-42380.patch \
+            file://CVE-2023-42363.patch \
++           file://0001-awk-fix-precedence-of-relative-to.patch \
++           file://0002-awk-fix-ternary-operator-and-precedence-of.patch \
++           file://0001-awk.c-fix-CVE-2023-42366-bug-15874.patch \
             "
+ SRC_URI:append:libc-musl = " file://musl.cfg "
  
- SRC_URI[sha256sum] = "0756dd54dab2f2a437e5d4df64b9760c3e6cf6a7d29fb296bdeeeb749f6ea28e"
 -- 
 2.25.1
 
