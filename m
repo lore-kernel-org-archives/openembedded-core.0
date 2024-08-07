@@ -1,441 +1,198 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDC1C52D6F
-	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 07:21:17 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web10.27931.1723015268734838529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA90CC3DA7F
+	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 08:59:07 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.29047.1723021137997190696
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Aug 2024 00:21:08 -0700
+ Wed, 07 Aug 2024 01:58:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=girDaYm7;
- spf=pass (domain: mvista.com, ip: 209.85.215.179, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7b396521ff6so988378a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 00:21:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I/n1ebXn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-367940c57ddso841064f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 01:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1723015268; x=1723620068; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nBixwGH7zM6C6uccz+aG7yx0nxxAkR1vWt2ZSiPviIM=;
-        b=girDaYm7xor5VZkw1Ih17OJAb/xkI1Yb5ybb4jsXTUFzUrgHGCnClg0tJ74fiIb5BJ
-         T+IrVlNdHipUGCE9ykSkDy7HBSBzxXbWbmmev/ykTCSvGGaBb1rUfpUihub3CwQITxWP
-         RNEOLfrhtr2XYBrEjqP0C8ZC7BtQP9ZJew7aU=
+        d=linuxfoundation.org; s=google; t=1723021136; x=1723625936; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XxFELJo4ErxPYdK9n3lFzud58ExYu0f6kCkNAyfjlJs=;
+        b=I/n1ebXnLqAE4GSpy/roB4UmjJD8rG+bBjybN5QElLFLBThiwsu/8xKyL/x3CUlAG8
+         O84pNIbit0QYoDK5yZgh+XZoD9ASze6qNECjHL5eB+XC6SkcJ2VahnhOb+YE5FgEePtJ
+         6sSrtnJMyJpgo+WeeCWeQ9We8PRiniCw/DVPQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723015268; x=1723620068;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nBixwGH7zM6C6uccz+aG7yx0nxxAkR1vWt2ZSiPviIM=;
-        b=l5lvSHLAJajaAUtvAscYu/QgEKl/pdCQu9rr6EiCrDft8WRUngW2lApQX5rvprjWjN
-         46yNtLUyel34J3A/6uFszqweRLBuTNLYjRy+Iu3TSgrkviRjtzUJBOBzHhgiRNhOeKOb
-         6p0b0fo4DyMFSDDXcWRIs+9U4PsP0SvrauxiGp1x6nUYyYK59b/mD9Uih1a1fd1XS3NH
-         iTaLpGxbLctpfzQTL/to1TRv8BZ+1pmUwMtK5ZN6/uEp5Etx2X2A/jtsmQokwlvgidqa
-         5Kz53Z9yDDc4a4j0Z4X9i0Eh5wLAdHN+SvhnwZILWtxoc5gBfplmQWQhDs9BNSomKLLc
-         gMsQ==
-X-Gm-Message-State: AOJu0YwB0Dgrqwmm1UOq0v3QzRv04i0xqihaJH3zaJgTq4P5eWtByDy/
-	rBOx+vTsJ3dlpjz6bXZ7mXOjpn6MtEvT105s+s4shgPggWyJGl4nNJ2scXop1z2Wc8WeANBADU9
-	u
-X-Google-Smtp-Source: AGHT+IH9TxTpxuRGXMq1et5Y2vhcSXueyhiCkV+lzLt3aFX1/TaFDPoGMaTAYMEsCLI9oLM2YpEpBg==
-X-Received: by 2002:a05:6a20:7490:b0:1c4:88ce:c996 with SMTP id adf61e73a8af0-1c6996b933amr26486302637.46.1723015267623;
-        Wed, 07 Aug 2024 00:21:07 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([103.250.136.203])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ecdff05sm8136416b3a.140.2024.08.07.00.21.05
+        d=1e100.net; s=20230601; t=1723021136; x=1723625936;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XxFELJo4ErxPYdK9n3lFzud58ExYu0f6kCkNAyfjlJs=;
+        b=RnRKIb5mYzC0ad+MxxxYpx9DNJ7mtqwgBO6olVfNqo6Ht4wKFby0l3BkVVRDM9O0Dg
+         ZGiRKXkf/XExCuWFJ+jeH1G7KDeABCDtF2ma/FVI6Gch/lDWiVkiMBpv3vRB8EatfCRU
+         9QQn8xLLuiy0Z8rNBU1rZlkt8V4rlzZ/lIsiow8AQ/cARw6RVbVBiaY4k2Mb+zxQp/EY
+         LuWMp1Lw+yMtlu/HSv6cRie/bGjQv9UN4A1tJBjj4lSlKMD/LaPJMTasFyCdvRzAvCm5
+         aKOdFz2iz1Z0Ewz2hjmE4jdiGaUNX9nOYTzpe9kwBNfKP8aC27I4m31wDY4iHskgCv40
+         ntRg==
+X-Gm-Message-State: AOJu0YzL6CI85WepwTxv1eiTnF1EH7OUNcfCDznWt+tBsR4fQmJgMlxd
+	5mTZ8n9sK/43M6FVv6qIPb51FlmzzuHP6ooUOqss4YLVb9nPVlHS7tFddC8gWPc=
+X-Google-Smtp-Source: AGHT+IFt35pGetKb9AqCslB3AXWtwvti5mrvtptyssEaftX8QwQ8rPph8HZbW62kIh+DBcBm2/rbzg==
+X-Received: by 2002:a5d:634a:0:b0:367:9851:4f22 with SMTP id ffacd0b85a97d-36bbc1d2ee9mr12277683f8f.58.1723021136004;
+        Wed, 07 Aug 2024 01:58:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9764:5d75:6e2a:fa63? ([2001:8b0:aba:5f3c:9764:5d75:6e2a:fa63])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd05b4c0sm15495294f8f.71.2024.08.07.01.58.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 00:21:06 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] busybox: CVE-2023-42364, CVE-2023-42365 & CVE-2023-42366 fixes
-Date: Wed,  7 Aug 2024 12:50:49 +0530
-Message-Id: <20240807072049.229288-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 07 Aug 2024 01:58:55 -0700 (PDT)
+Message-ID: <23faefd973c63f9b0ec8a735acb1ff1409776163.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/8][v2] linux-yocto: introduce v6.10
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 07 Aug 2024 09:58:54 +0100
+In-Reply-To: <cover.1722970092.git.bruce.ashfield@gmail.com>
+References: <cover.1722970092.git.bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 07:21:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203060
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 08:59:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203061
 
-backport upstream fix for CVEs and fix the regression that introduced [1]
+On Tue, 2024-08-06 at 14:55 -0400, bruce.ashfield@gmail.com wrote:
+> Here's v2 of the patch series.
+>=20
+> In a similar manner to v1, I've got yocto/yocto-bsp patches along
+> side the
+> oe-core ones .. just to save us both some synchronization and
+> juggling.
+>=20
+> =C2=A0- the 6.10.3 update contains kconfig changes to fixup some of the
+> =C2=A0=C2=A0 warnings seen in v1
+> =C2=A0- I've updated the parselogs exceptions to fix the issues with
+> =C2=A0=C2=A0 qemumips*. I didn't run in directly on the AB, so there's a =
+chance
+> =C2=A0=C2=A0 these will need a tweak.
+> =C2=A0- As discussed I've pinned genericarm64 to 6.6 until it is updated
+> =C2=A0=C2=A0 to 6.10
+> =C2=A0- meta-virt has been updated, so xen should be fine now
+>=20
+> =C2=A0- meta-arm/meta-agl will still need updates from their maintainers.
 
-[1] http://lists.busybox.net/pipermail/busybox/2024-May/090766.html
+Thanks Bruce!
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- ...01-awk-fix-precedence-of-relative-to.patch | 197 ++++++++++++++++++
- ...1-awk.c-fix-CVE-2023-42366-bug-15874.patch |  36 ++++
- ...x-ternary-operator-and-precedence-of.patch |  96 +++++++++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |   3 +
- 4 files changed, 332 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
+This did look better but there is a new issue that has appeared:
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch b/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
-new file mode 100644
-index 0000000000..e3d623498c
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
-@@ -0,0 +1,197 @@
-+From dedc9380c76834ba64c8b526aef6f461ea4e7f2e Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Tue, 30 May 2023 16:42:18 +0200
-+Subject: [PATCH 1/2] awk: fix precedence of = relative to ==
-+
-+Discovered while adding code to disallow assignments to non-lvalues
-+
-+function                                             old     new   delta
-+parse_expr                                           936     991     +55
-+.rodata                                           105243  105247      +4
-+------------------------------------------------------------------------------
-+(add/remove: 0/0 grow/shrink: 2/0 up/down: 59/0)               Total: 59 bytes
-+
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=0256e00a9d077588bd3a39f5a1ef7e2eaa2911e4]
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+(cherry picked from commit 0256e00a9d077588bd3a39f5a1ef7e2eaa2911e4)
-+
-+CVE: CVE-2023-42364 & CVE-2023-42365
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ editors/awk.c       | 66 ++++++++++++++++++++++++++++++---------------
-+ testsuite/awk.tests |  5 ++++
-+ 2 files changed, 50 insertions(+), 21 deletions(-)
-+
-+diff --git a/editors/awk.c b/editors/awk.c
-+index ec9301e..aff86fe 100644
-+--- a/editors/awk.c
-++++ b/editors/awk.c
-+@@ -337,7 +337,9 @@ static void debug_parse_print_tc(uint32_t n)
-+ #undef P
-+ #undef PRIMASK
-+ #undef PRIMASK2
-+-#define P(x)      (x << 24)
-++/* Smaller 'x' means _higher_ operator precedence */
-++#define PRECEDENCE(x) (x << 24)
-++#define P(x)      PRECEDENCE(x)
-+ #define PRIMASK   0x7F000000
-+ #define PRIMASK2  0x7E000000
-+ 
-+@@ -360,7 +362,7 @@ enum {
-+ 	OC_MOVE = 0x1f00,       OC_PGETLINE = 0x2000,   OC_REGEXP = 0x2100,
-+ 	OC_REPLACE = 0x2200,    OC_RETURN = 0x2300,     OC_SPRINTF = 0x2400,
-+ 	OC_TERNARY = 0x2500,    OC_UNARY = 0x2600,      OC_VAR = 0x2700,
-+-	OC_DONE = 0x2800,
-++	OC_CONST = 0x2800,      OC_DONE = 0x2900,
-+ 
-+ 	ST_IF = 0x3000,         ST_DO = 0x3100,         ST_FOR = 0x3200,
-+ 	ST_WHILE = 0x3300
-+@@ -440,9 +442,9 @@ static const uint32_t tokeninfo[] ALIGN4 = {
-+ #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
-+ #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
-+ 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
-+-	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(74),        OC_REPLACE|NV|P(74)|'+', OC_REPLACE|NV|P(74)|'-',
-+-	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%', OC_REPLACE|NV|P(74)|'&',
-+-	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&', OC_BINARY|NV|P(15)|'&',
-++	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+', OC_REPLACE|NV|P(38)|'-',
-++	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%', OC_REPLACE|NV|P(38)|'&',
-++	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&', OC_BINARY|NV|P(15)|'&',
-+ 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&',  OC_BINARY|NV|P(25)|'*',
-+ 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,   OC_COMPARE|VV|P(39)|1,
-+ #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
-+@@ -1290,7 +1292,7 @@ static uint32_t next_token(uint32_t expected)
-+ 			save_tclass = tc;
-+ 			save_info = t_info;
-+ 			tc = TC_BINOPX;
-+-			t_info = OC_CONCAT | SS | P(35);
-++			t_info = OC_CONCAT | SS | PRECEDENCE(35);
-+ 		}
-+ 
-+ 		t_tclass = tc;
-+@@ -1350,9 +1352,8 @@ static node *parse_expr(uint32_t term_tc)
-+ {
-+ 	node sn;
-+ 	node *cn = &sn;
-+-	node *vn, *glptr;
-++	node *glptr;
-+ 	uint32_t tc, expected_tc;
-+-	var *v;
-+ 
-+ 	debug_printf_parse("%s() term_tc(%x):", __func__, term_tc);
-+ 	debug_parse_print_tc(term_tc);
-+@@ -1363,11 +1364,12 @@ static node *parse_expr(uint32_t term_tc)
-+ 	expected_tc = TS_OPERAND | TS_UOPPRE | TC_REGEXP | term_tc;
-+ 
-+ 	while (!((tc = next_token(expected_tc)) & term_tc)) {
-++		node *vn;
-+ 
-+ 		if (glptr && (t_info == TI_LESS)) {
-+ 			/* input redirection (<) attached to glptr node */
-+ 			debug_printf_parse("%s: input redir\n", __func__);
-+-			cn = glptr->l.n = new_node(OC_CONCAT | SS | P(37));
-++			cn = glptr->l.n = new_node(OC_CONCAT | SS | PRECEDENCE(37));
-+ 			cn->a.n = glptr;
-+ 			expected_tc = TS_OPERAND | TS_UOPPRE;
-+ 			glptr = NULL;
-+@@ -1379,24 +1381,42 @@ static node *parse_expr(uint32_t term_tc)
-+ 			 * previous operators with higher priority */
-+ 			vn = cn;
-+ 			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
-+-			    || ((t_info == vn->info) && t_info == TI_COLON)
-++			    || (t_info == vn->info && t_info == TI_COLON)
-+ 			) {
-+ 				vn = vn->a.n;
-+ 				if (!vn->a.n) syntax_error(EMSG_UNEXP_TOKEN);
-+ 			}
-+ 			if (t_info == TI_TERNARY)
-+ //TODO: why?
-+-				t_info += P(6);
-++				t_info += PRECEDENCE(6);
-+ 			cn = vn->a.n->r.n = new_node(t_info);
-+ 			cn->a.n = vn->a.n;
-+ 			if (tc & TS_BINOP) {
-+ 				cn->l.n = vn;
-+-//FIXME: this is the place to detect and reject assignments to non-lvalues.
-+-//Currently we allow "assignments" to consts and temporaries, nonsense like this:
-+-// awk 'BEGIN { "qwe" = 1 }'
-+-// awk 'BEGIN { 7 *= 7 }'
-+-// awk 'BEGIN { length("qwe") = 1 }'
-+-// awk 'BEGIN { (1+1) += 3 }'
-++
-++				/* Prevent:
-++				 * awk 'BEGIN { "qwe" = 1 }'
-++				 * awk 'BEGIN { 7 *= 7 }'
-++				 * awk 'BEGIN { length("qwe") = 1 }'
-++				 * awk 'BEGIN { (1+1) += 3 }'
-++				 */
-++				/* Assignment? (including *= and friends) */
-++				if (((t_info & OPCLSMASK) == OC_MOVE)
-++				 || ((t_info & OPCLSMASK) == OC_REPLACE)
-++				) {
-++					debug_printf_parse("%s: MOVE/REPLACE vn->info:%08x\n", __func__, vn->info);
-++					/* Left side is a (variable or array element)
-++					 * or function argument
-++					 * or $FIELD ?
-++					 */
-++					if ((vn->info & OPCLSMASK) != OC_VAR
-++					 && (vn->info & OPCLSMASK) != OC_FNARG
-++					 && (vn->info & OPCLSMASK) != OC_FIELD
-++					) {
-++						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
-++					}
-++				}
-++
-+ 				expected_tc = TS_OPERAND | TS_UOPPRE | TC_REGEXP;
-+ 				if (t_info == TI_PGETLINE) {
-+ 					/* it's a pipe */
-+@@ -1432,6 +1452,8 @@ static node *parse_expr(uint32_t term_tc)
-+ 		/* one should be very careful with switch on tclass -
-+ 		 * only simple tclasses should be used (TC_xyz, not TS_xyz) */
-+ 		switch (tc) {
-++			var *v;
-++
-+ 		case TC_VARIABLE:
-+ 		case TC_ARRAY:
-+ 			debug_printf_parse("%s: TC_VARIABLE | TC_ARRAY\n", __func__);
-+@@ -1452,14 +1474,14 @@ static node *parse_expr(uint32_t term_tc)
-+ 		case TC_NUMBER:
-+ 		case TC_STRING:
-+ 			debug_printf_parse("%s: TC_NUMBER | TC_STRING\n", __func__);
-+-			cn->info = OC_VAR;
-++			cn->info = OC_CONST;
-+ 			v = cn->l.v = xzalloc(sizeof(var));
-+-			if (tc & TC_NUMBER)
-++			if (tc & TC_NUMBER) {
-+ 				setvar_i(v, t_double);
-+-			else {
-++			 } else {
-+ 				setvar_s(v, t_string);
-+-				expected_tc &= ~TC_UOPPOST; /* "str"++ is not allowed */
-+ 			}
-++			expected_tc &= ~TC_UOPPOST; /* NUM++, "str"++ not allowed */
-+ 			break;
-+ 
-+ 		case TC_REGEXP:
-+@@ -3107,6 +3129,8 @@ static var *evaluate(node *op, var *res)
-+ 
-+ 		/* -- recursive node type -- */
-+ 
-++		case XC( OC_CONST ):
-++			debug_printf_eval("CONST ");
-+ 		case XC( OC_VAR ):
-+ 			debug_printf_eval("VAR\n");
-+ 			L.v = op->l.v;
-+diff --git a/testsuite/awk.tests b/testsuite/awk.tests
-+index ddc5104..a78fdcd 100755
-+--- a/testsuite/awk.tests
-++++ b/testsuite/awk.tests
-+@@ -540,4 +540,9 @@ testing 'awk assign while assign' \
-+ │    trim/eff : 57.02%/26, 0.00%                     │          [cpu000:100%]
-+ └────────────────────────────────────────────────────┘^C"
-+ 
-++testing "awk = has higher precedence than == (despite what gawk manpage claims)" \
-++	"awk 'BEGIN { v=1; print 2==v; print 2==v=2; print v; print v=3==3; print v}'" \
-++	'0\n1\n2\n1\n3\n' \
-++	'' ''
-++
-+ exit $FAILCOUNT
-diff --git a/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch b/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
-new file mode 100644
-index 0000000000..d660768e2f
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
-@@ -0,0 +1,36 @@
-+From 8542236894a8d5f7393327117bc7f64787444efc Mon Sep 17 00:00:00 2001
-+From: Valery Ushakov <uwe@stderr.spb.ru>
-+Date: Wed, 24 Jan 2024 22:24:41 +0300
-+Subject: [PATCH] awk.c: fix CVE-2023-42366 (bug #15874)
-+
-+Make sure we don't read past the end of the string in next_token()
-+when backslash is the last character in an (invalid) regexp.
-+a fix and issue reported in bugzilla
-+
-+https://bugs.busybox.net/show_bug.cgi?id=15874
-+
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2024-May/090766.html]
-+CVE: CVE-2023-42366
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ editors/awk.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/editors/awk.c b/editors/awk.c
-+index f320d8c..a53b193 100644
-+--- a/editors/awk.c
-++++ b/editors/awk.c
-+@@ -1168,9 +1168,11 @@ static uint32_t next_token(uint32_t expected)
-+ 					s[-1] = bb_process_escape_sequence((const char **)&pp);
-+ 					if (*p == '\\')
-+ 						*s++ = '\\';
-+-					if (pp == p)
-++					if (pp == p) {
-++						if (*p == '\0')
-++							syntax_error(EMSG_UNEXP_EOS);
-+ 						*s++ = *p++;
-+-					else
-++					} else
-+ 						p = pp;
-+ 				}
-+ 			}
-diff --git a/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch b/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
-new file mode 100644
-index 0000000000..2d11efb1cf
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
-@@ -0,0 +1,96 @@
-+From c3bfdac8e0e9a21d524ad72036953f68d2193e52 Mon Sep 17 00:00:00 2001
-+From: Natanael Copa <ncopa@alpinelinux.org>
-+Date: Tue, 21 May 2024 14:46:08 +0200
-+Subject: [PATCH 2/2] awk: fix ternary operator and precedence of =
-+
-+Adjust the = precedence test to match behavior of gawk, mawk and
-+FreeBSD.  awk 'BEGIN {print v=3==3; print v}' should print two '1'.
-+
-+To fix this, and to unbreak the ternary conditional operator, we restore
-+the precedence of = in the token list, but override this with a lower
-+priority when the assignment is on the right side of a compare.
-+
-+This fixes commit 0256e00a9d07 (awk: fix precedence of = relative to ==) [1]
-+
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2024-May/090766.html]
-+
-+[1] https://bugs.busybox.net/show_bug.cgi?id=15871#c6
-+
-+Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
-+(cherry picked from commit 1714301c405ef03b39605c85c23f22a190cddd95)
-+
-+CVE: CVE-2023-42364 & CVE-2023-42365
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ editors/awk.c       | 18 ++++++++++++++----
-+ testsuite/awk.tests |  9 +++++++--
-+ 2 files changed, 21 insertions(+), 6 deletions(-)
-+
-+diff --git a/editors/awk.c b/editors/awk.c
-+index aff86fe..f320d8c 100644
-+--- a/editors/awk.c
-++++ b/editors/awk.c
-+@@ -442,9 +442,10 @@ static const uint32_t tokeninfo[] ALIGN4 = {
-+ #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
-+ #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
-+ 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
-+-	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+', OC_REPLACE|NV|P(38)|'-',
-+-	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%', OC_REPLACE|NV|P(38)|'&',
-+-	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&', OC_BINARY|NV|P(15)|'&',
-++#define TI_ASSIGN (OC_MOVE|VV|P(74))
-++	OC_COMPARE|VV|P(39)|5,   TI_ASSIGN,               OC_REPLACE|NV|P(74)|'+', OC_REPLACE|NV|P(74)|'-',
-++	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%', OC_REPLACE|NV|P(74)|'&',
-++	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&', OC_BINARY|NV|P(15)|'&',
-+ 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&',  OC_BINARY|NV|P(25)|'*',
-+ 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,   OC_COMPARE|VV|P(39)|1,
-+ #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
-+@@ -1376,11 +1377,19 @@ static node *parse_expr(uint32_t term_tc)
-+ 			continue;
-+ 		}
-+ 		if (tc & (TS_BINOP | TC_UOPPOST)) {
-++			int prio;
-+ 			debug_printf_parse("%s: TS_BINOP | TC_UOPPOST tc:%x\n", __func__, tc);
-+ 			/* for binary and postfix-unary operators, jump back over
-+ 			 * previous operators with higher priority */
-+ 			vn = cn;
-+-			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
-++			/* Let assignment get higher priority when used on right
-++			 * side in compare. i.e: 2==v=3 */
-++			if (t_info == TI_ASSIGN && (vn->a.n->info & OPCLSMASK) == OC_COMPARE) {
-++				prio = PRECEDENCE(38);
-++			} else {
-++				prio = (t_info & PRIMASK);
-++			}
-++			while ((prio > (vn->a.n->info & PRIMASK2))
-+ 			    || (t_info == vn->info && t_info == TI_COLON)
-+ 			) {
-+ 				vn = vn->a.n;
-+@@ -1412,6 +1421,7 @@ static node *parse_expr(uint32_t term_tc)
-+ 					if ((vn->info & OPCLSMASK) != OC_VAR
-+ 					 && (vn->info & OPCLSMASK) != OC_FNARG
-+ 					 && (vn->info & OPCLSMASK) != OC_FIELD
-++					 && (vn->info & OPCLSMASK) != OC_COMPARE
-+ 					) {
-+ 						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
-+ 					}
-+diff --git a/testsuite/awk.tests b/testsuite/awk.tests
-+index a78fdcd..d2706de 100755
-+--- a/testsuite/awk.tests
-++++ b/testsuite/awk.tests
-+@@ -540,9 +540,14 @@ testing 'awk assign while assign' \
-+ │    trim/eff : 57.02%/26, 0.00%                     │          [cpu000:100%]
-+ └────────────────────────────────────────────────────┘^C"
-+ 
-+-testing "awk = has higher precedence than == (despite what gawk manpage claims)" \
-++testing "awk = has higher precedence than == on right side" \
-+ 	"awk 'BEGIN { v=1; print 2==v; print 2==v=2; print v; print v=3==3; print v}'" \
-+-	'0\n1\n2\n1\n3\n' \
-++	'0\n1\n2\n1\n1\n' \
-++	'' ''
-++
-++testing 'awk ternary precedence' \
-++	"awk 'BEGIN { a = 0 ? \"yes\": \"no\"; print a }'" \
-++	'no\n' \
-+ 	'' ''
-+ 
-+ exit $FAILCOUNT
-diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
-index 1c7fe2f43e..ead931bc41 100644
---- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
-@@ -54,6 +54,9 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
- 	   file://CVE-2022-48174.patch \
-            file://CVE-2021-42380.patch \
-            file://CVE-2023-42363.patch \
-+           file://0001-awk-fix-precedence-of-relative-to.patch \
-+           file://0002-awk-fix-ternary-operator-and-precedence-of.patch \
-+           file://0001-awk.c-fix-CVE-2023-42366-bug-15874.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- 
--- 
-2.25.1
+musl core-image-full-cmdline qemux86:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/9349
+
+musl core-image-full-cmdline qemux86-64:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/9361/step=
+s/12/logs/stdio
+
+sysvinit weston build:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9334/step=
+s/13/logs/stdio
+
+and also arm and x86-64 selftests in weston:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/3695
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6988
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/3695
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/7045
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/7053
+
+all showing a traceback:
+
+ 8.163704] NFSD: Using /var/lib/nfs/v4recovery as the NFSv4 state recovery =
+directory
+[    8.166639] NFSD: Using legacy client tracking operations.
+[    8.168227] NFSD: Using /var/lib/nfs/v4recovery as the NFSv4 state recov=
+ery directory
+[    8.170571] ------------[ cut here ]------------
+[    8.171987] kernel BUG at /fs/nfsd/nfs4recover.c:534!
+[    8.172757] Oops: invalid opcode: 0000 [#1] PREEMPT SMP PTI
+[    8.173575] CPU: 1 PID: 386 Comm: rpc.nfsd Not tainted 6.10.3-yocto-stan=
+dard #1
+[    8.174587] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel=
+-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+[    8.177362] RIP: 0010:nfsd4_legacy_tracking_init+0x17e/0x1b0 [nfsd]
+[    8.186979] Code: 89 de 48 c7 c7 f0 8e 51 c0 e8 3e fb ff ff 85 c0 41 89 =
+c4 0f 85 2d 2d 00 00 48 c7 c7 90 bd 56 c0 45 31 e4 e8 d4 b7 08 c6 eb 08 <0f=
+> 0b 41 bc f4 ff ff ff 48 8b 45 d8 65 48 2b 04 25 28 00 00 00 75
+[    8.192013] RSP: 0018:ffffae1d40653ca0 EFLAGS: 00010286
+[    8.193466] RAX: 0000000000000049 RBX: ffff9c2a82d94000 RCX: 00000000000=
+00000
+[    8.195370] RDX: 0000000000000000 RSI: 00000000ffffefff RDI: 00000000000=
+00001
+[    8.202191] RBP: ffffae1d40653cd0 R08: ffffffff870a7fa8 R09: 00000000fff=
+ff000
+[    8.210819]  ? do_error_trap+0x6c/0x90
+[    8.204171] R13: ffffffff87663e80 R14: ffff9c2a82d94000 R15: ffff9c2a826=
+c09c0
+[    8.205187] FS:  00007f11b564a740(0000) GS:ffff9c2a8f880000(0000) knlGS:=
+0000000000000000
+[    8.206335] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    8.207169] CR2: 000055b21bf12048 CR3: 0000000004c86000 CR4: 00000000001=
+506f0
+[    8.208173] Call Trace:
+[    8.208547]  <TASK>
+[    8.208860]  ? __die_body.cold+0x19/0x1f
+[    8.209437]  ? __die+0x2e/0x40
+[    8.209885]  ? die+0x33/0x60
+[    8.210317]  ? do_trap+0xbc/0x100
+[    8.210819]  ? do_error_trap+0x6c/0x90
+[    8.211364]  ? nfsd4_legacy_tracking_init+0x17e/0x1b0 [nfsd]
+[    8.212404]  ? exc_invalid_op+0x56/0x70
+[    8.213448]  ? nfsd4_legacy_tracking_init+0x17e/0x1b0 [nfsd]
+[    8.221589]  ? asm_exc_invalid_op+0x1f/0x30
+[    8.227504]  ? nfsd4_legacy_tracking_init+0x17e/0x1b0 [nfsd]
+[    8.234183]  nfsd4_client_tracking_init+0x5b/0x1b0 [nfsd]
+[    8.235550]  nfs4_state_start_net+0x2bf/0x360 [nfsd]
+[    8.236281]  nfsd_svc+0x162/0x340 [nfsd]
+[    8.237309]  write_threads+0xdb/0x1a0 [nfsd]
+[    8.238547]  ? __pfx_write_threads+0x10/0x10 [nfsd]
+
+
+
+Also, a preempt-rt build failure:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/9340/step=
+s/34/logs/stdio
+
+| /home/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work-shared/qemux=
+86-64/kernel-source/kernel/events/core.c: In function 'event_sched_out':
+| /home/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work-shared/qemux=
+86-64/kernel-source/kernel/events/core.c:2286:20: error: 'struct perf_event=
+' has no member named 'pending_sigtrap'; did you mean 'pending_irq'?
+|  2286 |         if (event->pending_sigtrap) {
+|       |                    ^~~~~~~~~~~~~~~
+|       |                    pending_irq
+| /home/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work-shared/qemux=
+86-64/kernel-source/kernel/events/core.c:2287:24: error: 'struct perf_event=
+' has no member named 'pending_sigtrap'; did you mean 'pending_irq'?
+|  2287 |                 event->pending_sigtrap =3D 0;
+|       |                        ^~~~~~~~~~~~~~~
+|       |                        pending_irq
+
+meta-virt was showing config warnings:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/3471/ste=
+ps/12/logs/stdio
+
+And for completeness, as are meta-agl:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/3471/ste=
+ps/12/logs/stdio
+
+and meta-arm:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/5827
+
+Cheers,
+
+Richard
+
 
 
