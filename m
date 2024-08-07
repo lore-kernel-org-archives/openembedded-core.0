@@ -1,94 +1,81 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1A5C52D73
-	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 12:40:49 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.32309.1723034444138084546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B345EC3DA7F
+	for <webhook@archiver.kernel.org>; Wed,  7 Aug 2024 13:21:29 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web10.33241.1723036887568684456
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Aug 2024 05:40:44 -0700
+ Wed, 07 Aug 2024 06:21:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XEvdk1Dq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-428e3129851so11960825e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 05:40:43 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=tAigf4pO;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.54, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b78c3670d0so10074416d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 06:21:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1723034442; x=1723639242; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WEcbiTXZU6aSgXlPDeGT2r804gKUArjOF+xuHQb0ifE=;
-        b=XEvdk1Dqup0tYkiiID25PmLRkHEDaM4fztqVZsrXiiGA8hPBm+OlfP47F5V7/fYf/W
-         1ZDoTzryTnfSpO1EpJQY18UnBgNI9ggYVLyTKIeFov8kDCfkBwZWihPgVbGLRQodPDGp
-         3H2YvUjhvxWGGF6wfdcT8ONvXVUsnNN4lK2bU=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723036886; x=1723641686; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7klKX1hAKDV4rAAKkXIndlZBZHf6ALnjNsioJyW+p3k=;
+        b=tAigf4pOOV9d/3WvSj8TVMBA/HX7YaN5kTX7eTrgc2N37M/OZWd70+MorKB+Ryb2tX
+         wUzuZ6JqUlhhNtYxz2h/bf/PVi7T4SnAj6IyJbRNJOsDzEgyhwPFQsazfY+WxtKG842W
+         As+VFb+hh7C/RsZPvHiykuDHEYKZcZo2EpGD4wRBiaifyvLsLUNYeKDmATpuqC/3QQoY
+         eSdqFQ9XU4AtdrEgrls/DPMkOZPmCaLlrmUNWK3uhFGXW8xeBq27CHlFIxecUKoNre2v
+         xO4Oc08eyhl70SkySPhuEehgptl4odRaiZTG1i1RY1JK7oTtjIJdnDtJEoZSejLFHwhB
+         HrNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723034442; x=1723639242;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WEcbiTXZU6aSgXlPDeGT2r804gKUArjOF+xuHQb0ifE=;
-        b=d1sK1VI2NfOC4+wdkcQghbHVjsKO0WPyJzaYvZgMpJ+kW104WHPx5RPIJPHkSsSiwC
-         T1aco2bRmia4WD2NBAdPUdVyRhls0wNT/YTgnwP3De8/rrKWYzAJN8DS9DBuG0m7ROzT
-         zYREPbst2ySgor6d6cevOPXby+NtfuYj3trOWHbeVbAKLkrAULXGwXiLuvVPdgMnFbz4
-         capUNZ3me+/EQuc0+eHQ2eKJkLCxF+5NK2QH7CtZMA57BcCMefX/6vt/jTsufw193iqO
-         JwIgGhoAmmKCoFXyCK+EZLgrvBU6wxuv/zpqUL3EljGWB+QoKYbG+EgGx1lOVs8oOfbY
-         +7rA==
-X-Gm-Message-State: AOJu0YxdBW6KwK3oOWZaYg44dh31KWHzjoq2i+gi03g418Qkot0gpYzd
-	PxOEkNs6Fn0YeSQCWQlUd7eB8Drs6t9zAj47fBVs4WBvkziiZIFQFO2zpj3hhFXSzG77WTheOvO
-	zlMo=
-X-Google-Smtp-Source: AGHT+IFMM/n51uCHRg3nsIx5N57rMy/VXrvtopGnN2psl+JT7B+E0nJxUAO5jeZukt7TzNc+Two3vA==
-X-Received: by 2002:a05:600c:35d2:b0:427:ff7a:79e with SMTP id 5b1f17b1804b1-428e6b08baemr120319855e9.16.1723034442101;
-        Wed, 07 Aug 2024 05:40:42 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1ff8:c4ec:1a07:92b6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429059cf83dsm26061425e9.47.2024.08.07.05.40.41
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 05:40:41 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] glibc-y2038-tests: Fix debug split and drop INSANE_SKIPs
-Date: Wed,  7 Aug 2024 13:40:39 +0100
-Message-ID: <20240807124040.187526-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1723036886; x=1723641686;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7klKX1hAKDV4rAAKkXIndlZBZHf6ALnjNsioJyW+p3k=;
+        b=o0D8lxtwQNNwHVG5IAJSo4egTshpIBSp9hFzY19m3ZXnV5e/K7vblzt9IWQyhDTgVt
+         yxN0d80a6brLXF7aURgFS9FWXLSH5/Cd1SkQNQV85Z6MIiQ36bkkOy45Rb7hkxAD4WMg
+         ONBV1KlrirliJx1ZS/IONHZd7XwzGU92DguZlyXaG6iNnbS5vJ6SBy6pJBmIHby9VgPN
+         34DHg9PxtDnsXBv0295KHbfKVgerGny5TLZm7huQEHDyqLaJrLR5CR+Ab00cZyVU5aBq
+         CmaLZdheCOxu7s+dpBn0JOx+f0VkoUctmrmmYMWuChYkH9sY0osXPgR9ZESq8qe61Het
+         z6lQ==
+X-Gm-Message-State: AOJu0YwRiWotSuVa8UwZBpTsiFP2zKdSQrq3phThJyZwAhKV9sYAIzd+
+	nJ204jMcs7cL4oRLO5Y51l035INkxfpCvetU30WIrltXC95sCiepJ/PqW9SlztZb2xapt9kU1Nq
+	w
+X-Google-Smtp-Source: AGHT+IHT9hu9JDPMZTzbbCam3sTV35ZFfPotANvKxm6iuoUQkPm7s/XL29quQ5k/4n2HUwidC/VOAQ==
+X-Received: by 2002:a05:6214:4385:b0:6bb:52ee:71bd with SMTP id 6a1803df08f44-6bb9845c7f6mr187441506d6.57.1723036886269;
+        Wed, 07 Aug 2024 06:21:26 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c83cd74sm56501616d6.79.2024.08.07.06.21.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Aug 2024 06:21:26 -0700 (PDT)
+Message-ID: <0731d554-4ef0-478e-9413-b0e27f13716f@baylibre.com>
+Date: Wed, 7 Aug 2024 09:21:25 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH v2] kea: upgrade 2.4.1 -> 2.6.1
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20240806191220.323104-1-tgamblin@baylibre.com>
+ <BC38EC4B-C25C-44B5-9C72-48095ACCB740@arm.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <BC38EC4B-C25C-44B5-9C72-48095ACCB740@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 12:40:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203070
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 13:21:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203072
 
-Create the separate dbg package and then drop and the INSANE_SKIP values
-as none of them appear to be needed once debug splitting is fixed.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/glibc/glibc-y2038-tests_2.40.bb | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-y2038-tests_2.40.bb b/meta/recipes-core/glibc/glibc-y2038-tests_2.40.bb
-index b760230aeca..5a799196346 100644
---- a/meta/recipes-core/glibc/glibc-y2038-tests_2.40.bb
-+++ b/meta/recipes-core/glibc/glibc-y2038-tests_2.40.bb
-@@ -13,7 +13,7 @@ SUMMARY = "glibc tests using time32/time64 interfaces to be run with ptest for t
- # Erase some variables already set by glibc_${PV}
- python __anonymous() {
-        # Remove packages provided by glibc build, we only need a subset of them
--       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
-+       d.setVar("PACKAGES", "${PN} ${PN}-dbg ${PN}-ptest")
- 
-        d.setVar("PROVIDES", "${PN} ${PN}-ptest")
- 
-@@ -108,12 +108,6 @@ EXCLUDE_FROM_SHLIBS = "1"
- # debugging.
- PACKAGE_DEBUG_SPLIT_STYLE = ".debug"
- 
--# glibc test cases violate by default some Yocto/OE checks (staticdev,
--# textrel)
--# 'debug-files' - add everything (including debug) into one package
--#                 (no need to install/build *-src package)
--INSANE_SKIP:${PN} += "staticdev textrel debug-files rpaths"
--
- deltask do_stash_locale
- do_install[noexec] = "1"
- do_populate_sysroot[noexec] = "1"
+On 2024-08-07 8:06 a.m., Ross Burton wrote:
+>
+>> On 6 Aug 2024, at 20:12, Trevor Gamblin via lists.openembedded.org <tgamblin=baylibre.com@lists.openembedded.org> wrote:
+>> +    sed -i "s:${B}/../${BPN}-${PV}:@abs_top_builddir_placeholder@:g" ${D}/usr/sbin/kea-admin
+> Is /usr/sbin hardcoded into the makefiles, or should that be ${D}${sbindir}?
+It should be, thanks for catching that. v4 incoming.
+>
+> Ross
+>
 
