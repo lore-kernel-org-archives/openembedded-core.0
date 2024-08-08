@@ -1,79 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EADA5C3DA4A
-	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 18:11:39 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.66831.1723140697649194505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC39CC52D71
+	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 18:18:49 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.66891.1723141123471139434
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Aug 2024 11:11:38 -0700
+ Thu, 08 Aug 2024 11:18:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PrlRtPDR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3683178b226so494607f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 11:11:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1723140696; x=1723745496; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=POjlAQ913E8SWUx8qxB4A89kVbXOqGosv3+T+QuVjK4=;
-        b=PrlRtPDRzSojmFC/rMk0oXOAwaVT6prdgHstW/qoCYBCbCHgGsgZ14K9SjrAQ6GY5h
-         zQ0coHfKJRrnyY+TDbCWL6/jVCE5xBPKLKw+V0RAJqJQM2Z0fXZX2YnCa1aEyp+RDrYu
-         k6dd6B81rHw8l/vAxC3PZWfUh4vlSX6JzGhOQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723140696; x=1723745496;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=POjlAQ913E8SWUx8qxB4A89kVbXOqGosv3+T+QuVjK4=;
-        b=L3ThDqToHJQ3Cz6hR5YK6PMMy95v3tRgEw2vgiqcWi+Fchb6MGQrc8t0mQ4mqIcvyH
-         teiG8B6mQ0ZLOnIxtK2an/V74sqqqB440s1kk0Uqbetpn0lhiXmxjaijf5VgrlihYEFF
-         VX7hhnalaEJD1Rj9vcsQfYHqnQM8U3ER7sGCqh0gYiItHjM8zY6YhI2SWb+lBefNNNNu
-         dsMGr5NpQstpNuDTza89nLbpSwaD26s2ZKpk5+axbvu4RmL5iA7GoEAlRodw94c5zS4n
-         mRD/X5+cJcqhT/QAUlmysWftrgTG66uBM0QOOt9P/RZyeG8oNvJAlgiVZAy3GsS3VySr
-         c5zw==
-X-Gm-Message-State: AOJu0YwUFjA7yy620SNASyGC2JmMZtowGTEERABUyustvDySbewxrQQw
-	eZNlewpWvkbfbZ0PFAQOLVW38pzqaTCdwG/yCeYijbrfegWJYluAnplI3eQb9tWdtKfDTuh3zqR
-	dOa8=
-X-Google-Smtp-Source: AGHT+IGglc/ntJmqFHoeJR1PxzVdfDpLP8MLSwk+betEyApdH844Cdujaxbw2TfdnZgKcy/EBSGkTw==
-X-Received: by 2002:adf:f3ca:0:b0:368:460d:d942 with SMTP id ffacd0b85a97d-36d274dc26cmr1819864f8f.24.1723140695367;
-        Thu, 08 Aug 2024 11:11:35 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:43bd:e590:a93b:4c51])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36d2724d1besm2792671f8f.117.2024.08.08.11.11.34
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 11:11:35 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] coreutils: Update merged patch to backport status
-Date: Thu,  8 Aug 2024 19:11:34 +0100
-Message-ID: <20240808181134.401214-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Mz3iXFRc;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pNVSpU9+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101913336ea52-ed1f1cde-6c1b-4ecc-b7c5-9cecce79771a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1723141122; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=KxnKKDByWiTRP7ayU5qkZYNgZE3YJwve9aXcyXZjaxc=;
+	b=Mz3iXFRcOpUh1qDczUgdmMMgg21xh5eMUDgjuLAEpeeukCrfDtN47Rqr0h1623V6
+	mIY1OcITBc0GVuOFCt+C4S1HILYaNqi7cwDExGSHRdDDpXHiVfdsXUzP2rf0/GBjIbV
+	qEq+KEdzqGzqxaHoTEZZOwCh5Ox769THAvgMj+gs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723141122;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=KxnKKDByWiTRP7ayU5qkZYNgZE3YJwve9aXcyXZjaxc=;
+	b=pNVSpU9+S8Mq4kGHY+1Td2Unlv/cVmTBv9BRf7LkdlvEEfDTUWAY8WKSXw0dCtrN
+	QNVE/+cTwO/f3D3eNrQKClIBYComRn8H2AD/DQbifPUProml+mpNy42OSypIB1BsdJc
+	+p92ROgnG9m9VjJalWAdS6kvYJkhyzhSUmbPBW94=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] coreutils: Update merged patch to backport status
+In-Reply-To: <20240808181134.401214-1-richard.purdie@linuxfoundation.org>
+References: <20240808181134.401214-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101913336ea52-ed1f1cde-6c1b-4ecc-b7c5-9cecce79771a-000000@us-west-2.amazonses.com>
+Date: Thu, 8 Aug 2024 18:18:42 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.08.08-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 18:11:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203145
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 18:18:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203146
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../coreutils/coreutils/intermittent-testfailure.patch         | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/coreutils-Update-merged-patch-to-backport-status.patch
 
-diff --git a/meta/recipes-core/coreutils/coreutils/intermittent-testfailure.patch b/meta/recipes-core/coreutils/coreutils/intermittent-testfailure.patch
-index dc1e1592e12..0794532bdff 100644
---- a/meta/recipes-core/coreutils/coreutils/intermittent-testfailure.patch
-+++ b/meta/recipes-core/coreutils/coreutils/intermittent-testfailure.patch
-@@ -9,7 +9,8 @@ crosses a number boundary, the heading spacing can change:
- The test is to make sure the 1024 blocks element remains the same and
- the spacing doesn't matter. Therefore strip any duplicate spaces using tr.
- 
--Upstream-Status: Submitted [https://github.com/coreutils/coreutils/pull/88]
-+Submitted: https://github.com/coreutils/coreutils/pull/88
-+Upstream-Status: Backport [https://github.com/coreutils/coreutils/commit/c5725c8c4bb21903490a48035286d0f94463642e]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
- Index: coreutils-9.5/tests/df/df-P.sh
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
