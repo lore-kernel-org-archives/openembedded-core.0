@@ -2,28 +2,28 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E41EC52D73
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE2DC3DA4A
 	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 10:01:06 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.56316.1723111263607244901
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.56313.1723111258843308316
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Aug 2024 03:01:03 -0700
+ Thu, 08 Aug 2024 03:00:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=89508821c1=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4789ENR5005042
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Aug 2024 03:01:03 -0700
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v0c91est-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=89508821c1=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4789g7CH002979
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Aug 2024 10:00:58 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2173.outbound.protection.outlook.com [104.47.58.173])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v0bshet8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 03:01:02 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 10:00:57 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hJgIR7Pfuvs/UXXC0LywRfpO19arLpFV71KwudbuDG0PQWf4Ph+ZSiVGf/2y4WxoVKAKZFXH38N+xzA0aywEKTGiRV1NvLJ++KPCvAqzrjiKRAIYsLG7yN84pXd8MYfjNWxnuzRNNDGSRRuUGz9WneUmqIO7GuMauEMYk8hvWxN8PxdNkIL8YTayryoxOORPn2msOpiex2Hcmz8ai60UGxVYIBA+MBc4Fuk+p3Bv71cNr1ar8l3PmMI07crIAJ9SD38KS/0Iurn8okDNi4Kyox1LmZGIdPvYXNqfnooS5qFEi+WYWpn7L1QcD0QLqJNzf5KdHhSdjXaEuMg2smClkw==
+ b=GG1oy4njvb0IZb2JiPGc9tl8cxY/WkN3LWwCpceg2HqAsNEif+NGzq5SRTWP1FJeI7cLyN8Ds3KTWmf+fCUiljUNNTInXiJa7VIn691gbFBOG9n8gACKwqhfpt0Nd2cxvcjnK+vrU4L1+zkF0AFwwJO83LUUlKCuXBPEQC4nS0zz+vLd2wTz3cJkXFMGDNwlChxpZOLNKQJcQtPa0DkYWCTOSnLjuuTcYrPfQCugdmx/solUWo6F6opRY6fyVbZpcZ+YqAVZbyRRvT3fH5G+FYhCzELFJwJlT2CRc4RD/f3yMgMoNyfKqcTvWrJ17VDKCQkanNmu0Sk/A5g1IzWHFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i1paiuvCAj7eJ1SFhWRAWXpybU2jABojrGaLJyfWgsY=;
- b=UbgnAftU48IQI2Xorqq5N4HVdY1052lwQhLio/0Q7Zu9c3/ZueZO+pspsFRer3qSCdnJ8KVn5LiDhbRoDXRizS81Y07RNzBHbm/KM6l9Ks2X0KJwI72EQtNxGVyN9BN5WyBLHPg7n9uOCCKPhPHjxyXpJ6g5EeshbVJqaPLkjdBrfQUyUYJAacCGugyBymLb01cgq5C5J5fQIRUalvIqTHeKqNeYnRqQCQhRYUG2/0nXgSCXGoKXWQQYQW0G1i0i0WirjIpupo7mW+02dpDlbQjPKngZmGRyour/60a1B5ZnHJ/hrzmnA3J7m4VAdFk7oUJew32zlSFVYd6w35bWWQ==
+ bh=WQ4iQ2J6wHrfCl8slKZpVg172uEtjJi62PdJMMtrfak=;
+ b=ZLb/YlPIgAUhnK3sJsws9A0N7cWIMqSHJI+u3qcerjCxfKnewvejS/waaYMIlStcVEAtT2eo5epxO2Hd78nuYt4aNJ5bc7WFQE4TptYeNYbNufdUu6lxvV+zIPRdtf2K/cQcvMvlH29Cpbbc52A40ufBsfQKE7JkLV6nvYQEC/qQmewniqQs1f0nc6qPLHzU2P01Az0UjJcRmIRc5avGAAZdvGSzrD6NyAPxeYIt12AXTOqAMntEDMx3fM3dcToMYdYq188uwglockfsu8SeChmDSkAB7mP3gihVVtQ5LFzYQWQV0ERcVQEbY1s/yzcfFZYJzlj7mN0F+JsS9i0Fsg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,22 +31,20 @@ Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
  by SA1PR11MB8374.namprd11.prod.outlook.com (2603:10b6:806:385::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.31; Thu, 8 Aug
- 2024 10:01:01 +0000
+ 2024 10:00:55 +0000
 Received: from PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc%4]) with mapi id 15.20.7828.023; Thu, 8 Aug 2024
- 10:01:00 +0000
+ 10:00:55 +0000
 From: Yash.Shinde@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
         Sundeep.Kokkonda@windriver.com, Yash.Shinde@windriver.com
-Subject: [PATCH 3/7] rust: reproducibility issue fix with v1.76
-Date: Thu,  8 Aug 2024 03:00:35 -0700
-Message-ID: <20240808100039.2455895-3-Yash.Shinde@windriver.com>
+Subject: [PATCH 1/7] rust: Oe-selftest fixes for rust v1.76
+Date: Thu,  8 Aug 2024 03:00:33 -0700
+Message-ID: <20240808100039.2455895-1-Yash.Shinde@windriver.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240808100039.2455895-1-Yash.Shinde@windriver.com>
-References: <20240808100039.2455895-1-Yash.Shinde@windriver.com>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SJ0PR03CA0042.namprd03.prod.outlook.com
  (2603:10b6:a03:33e::17) To PH7PR11MB7593.namprd11.prod.outlook.com
@@ -54,247 +52,502 @@ X-ClientProxiedBy: SJ0PR03CA0042.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|SA1PR11MB8374:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c0f72c9-2c2d-4879-7169-08dcb79101d4
+X-MS-Office365-Filtering-Correlation-Id: 30a5d827-d196-4134-b8dd-08dcb790fe48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?TFl9qLWjrVqwaa5MqjQxJDoqmNEJ5qX0hDeMQqtm1QYZlsYcwuFOE8KB4WXS?=
- =?us-ascii?Q?HmDtcrMAD1agFdFfbwOWoSVaLcoTwGGRpNPO/9T6SVjMzfSjlN8DK3NApD1C?=
- =?us-ascii?Q?Jra3Zc21uC/TugnoNp8Ue5ZqJUw37mI+6ee/yEJcKIyYs6SoE/98SC5XulBM?=
- =?us-ascii?Q?wBsUPWm1wSPBB41O05X9iX8FnQK+0BEkWnBC9CX48FC4KZrRAK+yThj7TVX5?=
- =?us-ascii?Q?k7bGvZVVHnuyUn5sWAZmben41zxQTu5C/Axa0YkS4ntguNt8eJt10CfwvVeI?=
- =?us-ascii?Q?i9o5pZPl+cEyAxatyenDZMTwEqKf7/toTGuhnop0VOmGydHyzD+bPfhThHbB?=
- =?us-ascii?Q?w8VfUpYlnKVBVeAIobaonT76LEAg4ROGkXoGYjJ76BcFu3GjPvPKz8pgj8vW?=
- =?us-ascii?Q?nhgk6fT9bVIZgO/dzanBRnIZiBVgZ3l/DFnskXKa57J8b5fb2l76IBXX+SRE?=
- =?us-ascii?Q?NEpd8nUY41DTYA1WEHZiOOypXc3iVMj7xNt+xXZIYuxHrVDJ6CVo8KPJ6ItN?=
- =?us-ascii?Q?e6rMbQM+aRfrJSuLEh5skgKi30XK/LTZ9rk7dCkA7kgaNOXVTD7if7QQNMbY?=
- =?us-ascii?Q?sYqk3IH61o+X5RR5kkkwB34a7n1iPVDSMSbhYhsVVC1Hag0jMgb18wckXiYZ?=
- =?us-ascii?Q?m+42oilBgHWUwAPoSEr/uofGwQyllUz7VVFAWkspZerhwqFVd+6Q+Arg9iqE?=
- =?us-ascii?Q?xg31U80TGnfYhWF5/XodkeFNoTGnl1WaKMR311XW1YgV5Zj3iXsG8bCuLs5G?=
- =?us-ascii?Q?p6DmtBAnK7YHWXhhpuLDEvyK5dxEEcJGo1rviS+An/k+DqSDL5wBc2lsJAF1?=
- =?us-ascii?Q?8vBDjAr/v5mk0hcaF88Tj55eC8NvLp7gJ50pTXbzmEOUWMwmK6ycxAgCw92g?=
- =?us-ascii?Q?zXqL2UTIyiBCPizZQi3vpW6d9w9SwjSKOi78yuKUylioWC8HkgxngeW5Rs9l?=
- =?us-ascii?Q?7K7/bvn7cB9J+t8Q9JHwUNqr4RXvSk5EydStbp5U1fSAOUSnvKYu/+Tr3pE3?=
- =?us-ascii?Q?hKDrAxYw73l/uQbeSas+CqZvyIripMmHswc8ftYJkh7J9i6/DoqsXImwPfR8?=
- =?us-ascii?Q?KmWdqaAaPKFFJ3rkkZMF6fZDvyAl/Dq6kVH3Tsa6j9/1CwId1rdfMR7JsY4/?=
- =?us-ascii?Q?iiiXgiLL93FX62lysuKQQD3CIqRnC7IbxPVKDyKaTl0s1xPIUAJD4HvyWQ2E?=
- =?us-ascii?Q?g1mtafx5ItPvpGodOMoQtqs3PSTJbnEMaERFlzc6csK0+Z00UODrhFvs3wph?=
- =?us-ascii?Q?v0PSX4V65lnjhtgbQAn89JLG+NM5nXFyrzL3k4aGYNTaUDKaeYVGq9fbRaZW?=
- =?us-ascii?Q?r1iY7mlxUtBqX2MObQ3Ss9MjfdoHDmhhKkcPHYPBpQeGNI3nlSOjW/z7k6B0?=
- =?us-ascii?Q?/cVjKyo=3D?=
+	=?us-ascii?Q?B1obFz4Sr4Opg6NcRl0lG7bhm0Jh7tn5VbBZJy5v4ODWm23ykCPlV6RjYZSH?=
+ =?us-ascii?Q?9xgvvVBqBY3Owo4GhxuoJmRYjoDXisUhVcDwPQfdL41H1h2PReauyyxEZKXy?=
+ =?us-ascii?Q?1sC2qkzPt5M248q4fLW+pK7iRabL6J7NSxk5jK9RKDL7vF+1oQt8vpGps6E0?=
+ =?us-ascii?Q?qal2CkrDhuPC1GZ3y8EkNSN2m0Jbq6mHSHh2VEb+wzPaV0OWO2LUmwKY5hvP?=
+ =?us-ascii?Q?gQ4tcOavTFaJRNk3vyfVYYwF0DEg8RoKdSFlgxHDM63vnmhxG9tT8LiEZb4T?=
+ =?us-ascii?Q?i32crSyDbrgWM/dxyqe6dHTtAU8/ddN/4YvpXkkYPxAuKqEw4XLDFr1n5Avp?=
+ =?us-ascii?Q?RQc8wjQb8TK3wQmlBAjmeUvbt8C9qqzYwm8H5pzdKK3hnm80J14C85kH/zjx?=
+ =?us-ascii?Q?PqHCJnVYs1+ddWeo32j4dr7W816okZYOqTXMk2w6pTu5hXFJKeaDGlKUYBku?=
+ =?us-ascii?Q?qSRzJ9dLXYDPRdhmJL9+L276iYdgEMKXxDQP5c+3AtfijnSlkhUYk1046jZh?=
+ =?us-ascii?Q?8wf/KIzjSPYRmxNyj2BO2uXGQ6zaONWIhT7FtueJBFmRGR8vGxW0diHQCvoa?=
+ =?us-ascii?Q?hmXxB79jQGrhoONZFjNrG4J0xY4PyekaB6YxvbdScrKEU6ZYCrUNr4woexzL?=
+ =?us-ascii?Q?g7OqdsDcktoguDIwYwY8YpHq0HDpsfPF5i2XHyWACHHKXJ7RpihjldDxbuIE?=
+ =?us-ascii?Q?fpnjn9whvbJMRFL1St4IJ97F5pMl3iPfiKKc9DqAwd3zLujPYal7aPS6NFdX?=
+ =?us-ascii?Q?dG6rnqkGzdekpiwpAthOEYcT4+8jhIDMugMUTV5gqXcPkTBQQOVg74Ys9lMb?=
+ =?us-ascii?Q?uaksVfPH5WwdMf/QKh5tJxJS1Ws1jP86sCmwkpRkdLQ92HH7QUYM7xIVovqS?=
+ =?us-ascii?Q?vlzbc+SCmlVwpjVEcO+TJSnG8tU8sXyfgp0srrcNIBEN9YVhT0yqeCFRYHwV?=
+ =?us-ascii?Q?izN0TNdmdFyA8IypiLzQyrd3OR7zkn1X3QrFDEtSU0tVp8zDN4558XxfxubV?=
+ =?us-ascii?Q?UWKZToX/70ut4tq3/eTPy7vOv8FQLt9FGEN9foPboY5cGDBvPFFRoaGE9lEu?=
+ =?us-ascii?Q?RqacsuMLwApl+p/wA1INOfRu9yjscAMQPwN+Ki3x5ji6+AgHVV8sb61iYN4U?=
+ =?us-ascii?Q?zCbkZfmKSy8/5s1GDozIkwC/HSeS4jTkZt3uHl7SiaNfQL5SX0Y/l7KLvFMt?=
+ =?us-ascii?Q?4SCkkDa0mnZqDFlWe23XZhocSf9ibSicMrOqwthJR1AvKiVe/zSN1Fc0jW9M?=
+ =?us-ascii?Q?+Y8+3NZIHiShR4+oJR4hgp9tLVW0jCPh09BIpIqRT9f8ZCD3rCB7BZ4VRsu/?=
+ =?us-ascii?Q?zOyZN3lELSyrplh9g8h0aClNGbWQ+IZ5DQ0ZSq9lLQT7Yy6ubanVSz5L/Koh?=
+ =?us-ascii?Q?hLHhteU=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?JAeHP8Kg/wbGQMWIBokjCcr73GQPF+hX1k1sBxLBCBSUskSvYqBwaJPowCSN?=
- =?us-ascii?Q?auBg+qklP8uTzej0GotDEgIK/GhvmTfW/OuMKOfR0JUkIUNJHSFGOAqQEfHI?=
- =?us-ascii?Q?tCh1KoxVFIZHkvSDIyTxyZkmJ3wJBxY/M3aVlb9cYoMJuvlt6Mll6f/hgdEl?=
- =?us-ascii?Q?4yZCHRmG15qABG7LDypdI0B2MvbzgRd0UUvJ4pcSdKXf70GUjjWFHlXVukTF?=
- =?us-ascii?Q?rgMplWcUzJPFP6yOoz8QIsm8WMI6ntIyEWLIbXSZr4yn9aUDRj3GcCEbiHUp?=
- =?us-ascii?Q?Tx0oGqe5ts95kZKHSB2P2zVxh4mjTm3y+LcZPfvBR7n6DaK4FvBa2sGd50FK?=
- =?us-ascii?Q?4ud+Vw7x00wLCw7qry2JqPtOJ5WYAUN0Drsndk1Zi680Jb3z+vK3sh1IbEBf?=
- =?us-ascii?Q?MbF6W9kBEDfa/MewibhAtH8bQuM6D52d09TtjIOPLnfnTl36XVkNXgTCGZM0?=
- =?us-ascii?Q?fubS2OwHyoV/v5e7abRD4PvZM9fswCnudAqmzss+cGr+jXL2CuFq216P1o4A?=
- =?us-ascii?Q?15LudOeHwQZD7YGwwz1Yk0IXgrgcJ4gLPykGRIAAlEBbNix953LDg9+lNGan?=
- =?us-ascii?Q?bfhTFrYh1eZyoNkoZuCqo63GQgOhS53QbrJJPOty493sZ1tSwWl9Iz2tIIaJ?=
- =?us-ascii?Q?lvNh0Bhu2IQ75uwcNy6+fn+wCD88L7aPoadZ5Qs+T1uw2mdQWaqmAPHbCsxt?=
- =?us-ascii?Q?rdZ7eztBn0iJHda1eMjJQEl3L1U5Qi1olHNeEZQ1gn/S3b/dWbc2bVYw4HuF?=
- =?us-ascii?Q?Y69A8iIHj2jK+EqlqFmHbNMrMibYAmVId4u3rv3i9T4mNqJ+V7FEyocGjCwK?=
- =?us-ascii?Q?L1HtVMvm04fbmaytdwBMexu8Whjl5A4hog9HO1IU/NrrxXLamgL3LsoRoLUv?=
- =?us-ascii?Q?6QiIwRD6vf9JTVxz7ASYiMGAuoMoM9iygTqew0g8tMnPOJKHek38JjH0Sva6?=
- =?us-ascii?Q?Kh2+VfowZ3t81Pve+0ulBCD+WIwkZQ5Z95YVgtREuCHfNHb3xXnDcbNQ6zVF?=
- =?us-ascii?Q?DyvrXEk+PWLiQq/sB6tAxGgGwXYQs46Q5xMLC4ZkvXUXt3rGEfZ8RQSjtV0+?=
- =?us-ascii?Q?EMwGzhWKQcZsUtGcCYf4rLwinzYZpiTbJ2CweaQGmwSc4wRdzFP3o6SRvyJ/?=
- =?us-ascii?Q?LKhRsn2qaY6mu0qnzELPFWfOki8DTUX/T33NXeBl0KLs/bdt3CXHZQx+6pOI?=
- =?us-ascii?Q?DFG2n16xVdMYlfPa+HJcqCA2Hy+vb1Uu7lYBAIBYxTJGUi5v7Nl5S1udWbYM?=
- =?us-ascii?Q?DrwRIkbS1G+0UPngQUejAVIWf6O+g8m9W+IWt2UzhU8AUT5IX8xR8OCR0G69?=
- =?us-ascii?Q?gCpJRzq8tcDgOdghZAlJhAMZOWP2vEoRToKI0dP/safyOPdVn5o++8LtMshE?=
- =?us-ascii?Q?exLnG//k1+xzfmyvpgFTqiLh6r967f/C05n7xh2eQf1b58GvCWXH8Bjik9lJ?=
- =?us-ascii?Q?t8VrQaUT/qbjlXakiNyXsGcyD34GwNEayR5QdKnvyfIxFhxagWDWXkyyLK/H?=
- =?us-ascii?Q?aYTWXheR7EZDl+uQWlQAORlLHEZOYKI5fae7u4FKi9hPMPrV9Hejfly/Hdln?=
- =?us-ascii?Q?chxcejHcqJIssSKMS72oe/UgrUbcCn9H3U8dUaPBsadtTLDvh1a5DdquhWei?=
- =?us-ascii?Q?MA=3D=3D?=
+	=?us-ascii?Q?iRooGmU0Vc8c8dzAcu/+jiktCEuJTFhk+7jxbjJ/iEKfbKFeddI7TS8lte21?=
+ =?us-ascii?Q?A7zw4Vl8LUoH5Pw76IG3clZ0YlS49TAKqdujuDpcWNZM9AwKTyv2582cmlhZ?=
+ =?us-ascii?Q?+h1MYypzKaKYSuTDsnADSOvmKbprZ4h+virwxFLkCYuS3BrxLtfK1WiST3ic?=
+ =?us-ascii?Q?QnR6dCfPFMJR+dMcoA/foM01fFOnl52y+Of9Fnl51io9RPTW+TxR/6ViDZKV?=
+ =?us-ascii?Q?cSapVB2mxZUVmbZGl/zek7qN4cwxB5Gzdvp9U6M69I/tLbN2/ho3Og9AY5Wr?=
+ =?us-ascii?Q?pVyAqtMDxfBfpdZ53TlMOud4M47dYwDZNf9sIZz00vW7CtLqwr0dFG2zLej4?=
+ =?us-ascii?Q?3wj7YoZgl6heqKnav8MOKpEHdQt2dcmZvQuHsgET3idhPPFnKJuxpsKvaoMW?=
+ =?us-ascii?Q?z/BYPZ+jG7CjkcViL1LSXWeAnPbECaFY6gKn8ybV/llkWCMBpHB7hxcLjw2y?=
+ =?us-ascii?Q?pdRH72I/KPxNQbEukvfHp/o6vvJqpTOFsVSnHIXoOxblSdn/muauvZ+LKwNw?=
+ =?us-ascii?Q?TBKdojoQ46Kd94D4EYvzefwtLuQ0Tv5RqF4hcJ9JjG0yzbXWU/0sLiL3qhYy?=
+ =?us-ascii?Q?s83pKSzZ0uWSK1jFGCpqX4kVJzEHKhnECS9e9PiL0gFt4HmrR2TyPAbCpthg?=
+ =?us-ascii?Q?U/pnZZKRi8kHsmng0GX5FIhTKcw6kmbc6fGTUp6v/SrSyc1OJNb0FqphWq32?=
+ =?us-ascii?Q?qFbD5sSJCHlUEQc/WQRuH9R539gPC4GXAWqhwpiFG422D4scU3TPRrGCKP6F?=
+ =?us-ascii?Q?yY2etc0DyVdfJAgeRHKb6yFk2Pdt9+sIFzhhg3ZV1Fg/NYC5b2suCs7SlmD0?=
+ =?us-ascii?Q?7Wia6gkfj9mdQuu5yuCYPzEqGlhHCU+r4z/iDX14FYEJMMQRNok9D/xp5Gd+?=
+ =?us-ascii?Q?ItrjKUr9zUSOerkpJurbE+R3H7Xu8VGYXwtb1oj36ky27liGBjg8autw3xdj?=
+ =?us-ascii?Q?gsgyi81/yLFRt6GoTb+6ySy3OeYb82vK5XWQq7nKRJdjE5odGM9l+j6XebgF?=
+ =?us-ascii?Q?nouFdeNeepP4FrACsEzmCeREHu7Wfz0he7B9n7jQEoxPc7svTOKueRfJxlbj?=
+ =?us-ascii?Q?JuQcjX56dvgUwNiM3m/nEvbbR3kgMz+EBFUtWmR+3sO/L8GVBx91cCo4CMcA?=
+ =?us-ascii?Q?cXOj8cxDaif0nNX0SOE7waRQToMw97b4l9uVV75h3PCSifkQoMIcJ8NtcZUE?=
+ =?us-ascii?Q?adSXUR5lE/YEj0juxaH3gGvOmCLr0pLfD6H3cURF6eT4rb39ChuOy2+WJMoK?=
+ =?us-ascii?Q?jXeNiNZ3os/kuyyolu9J1+KyjF1uzPi9dGeu6vrK9Xhbj3DyGqCRyJFekE4h?=
+ =?us-ascii?Q?d0z1s2XDt7ckR1/EosyYLtd1WdOPAHLbAmplofv4II12RNGSyrOtUpUqsGIx?=
+ =?us-ascii?Q?t3JBV2jbTU+hHRaZKmRufA3TboPQ8VD8n3jkfeEgvSy3PH9FCtDuUXLgP49f?=
+ =?us-ascii?Q?o64ZVDP5WnfN5wn9jRFXOkm76eu35RkY9BrNCQHSvXplB4B8XRq0OGzELSNf?=
+ =?us-ascii?Q?YaiIYXQiEpDLzaNzNcm9yskmI+XygYOsprGhuNyAgPQSFPAKS5XOjDEhzgVd?=
+ =?us-ascii?Q?n0CCK49OHmdQpwrRRZr/Ke/xw4GC++nWMGIPNTCZObjXushX8YJb3D2efmzL?=
+ =?us-ascii?Q?hw=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c0f72c9-2c2d-4879-7169-08dcb79101d4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30a5d827-d196-4134-b8dd-08dcb790fe48
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 10:01:00.9334
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 10:00:55.0021
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bCj6LcqgmREw8ecSg2YIhKK72OOz+hfPnEleF3jsI44F6AAqy5ldLpzNEkxs9lQtI6jqBQIczv4EAy+srNrKaXEPe5sUMJPgFeTguxLdPv0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6OaFGcV/wj7d2RWMtYR3R2iABml0A2wM7dXEchFIpxCOOMVV7K+yh1jpIXMiDH+m6/w9ZaVfWbn7CUvqnDPHF9iIy1xTOvID9ZpqP6AxL+c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8374
-X-Proofpoint-ORIG-GUID: Vl_9TYDuYkKDHVf5gm-IffVqJmJ3mUrU
-X-Proofpoint-GUID: Vl_9TYDuYkKDHVf5gm-IffVqJmJ3mUrU
+X-Proofpoint-ORIG-GUID: rd6NXmf_v16V8r4zomJB9XoZ5zyuLEJc
+X-Proofpoint-GUID: rd6NXmf_v16V8r4zomJB9XoZ5zyuLEJc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-08_10,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 priorityscore=1501 lowpriorityscore=0
- bulkscore=0 adultscore=0 clxscore=1015 spamscore=0 phishscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.21.0-2407110000 definitions=main-2408080072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 10:01:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203123
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203122
 
 From: Yash Shinde <Yash.Shinde@windriver.com>
 
-A few crates are using the updated version of the 'cc' crate and
-this is causing the generated object file names containing a unique hashmap=
- id.
-The hashmap addition to generated files is reverted here.
+Add the failing tests in rust v1.76 to the exclude list
+and add "ignore" tags to ignore failing unit test cases.
 
-Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
 Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- ...epro-issue-fix-with-cc-crate-hashmap.patch | 59 +++++++++++++++++++
- meta/recipes-devtools/rust/rust-source.inc    |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/files/repro-issue-fix-with-c=
-c-crate-hashmap.patch
+ meta/lib/oeqa/selftest/cases/rust.py          |  19 +
+ .../rust/files/rust-oe-selftest.patch         | 345 ++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |   1 +
+ 3 files changed, 365 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/rust-oe-selftest.patch
 
-diff --git a/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-crate=
--hashmap.patch b/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-c=
-rate-hashmap.patch
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+index 4ccbe9867b..6181c10ea9 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -187,6 +187,25 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+                             'tests/rustdoc-ui/no-run-flag.rs',
+                             'tests/ui-fulldeps/',
+                             'tests/ui/numbers-arithmetic/u128.rs'
++                            'tests/run-pass-valgrind',
++                            'tests/ui/codegen/mismatched-data-layouts.rs',
++                            'tests/codegen/i128-x86-align.rs',
++                            'src/tools/suggest-tests',
++                            'src/tools/rust-installer',
++                            'src/bootstrap',
++                            'src/tools/tidy/src/',
++                            'library/std/src/thread/tests.rs',
++                            'compiler/rustc_errors/src/markdown/tests/term.rs',
++                            'compiler/rustc_interface/src/tests.rs',
++                            'library/std/src/io/buffered/tests.rs',
++                            'library/std/src/io/stdio/tests.rs',
++                            'library/std/src/sync/mpsc/sync_tests.rs',
++                            'library/std/src/sync/mpsc/tests.rs',
++                            'library/std/src/sync/mutex/tests.rs',
++                            'library/std/src/sync/rwlock/tests.rs',
++                            'library/std/src/thread/tests.rs',
++                            'library/test/src/stats/tests.rs',
++                            'tidyselftest'
+                         ]
+ 
+         exclude_fail_tests = " ".join([" --exclude " + item for item in exclude_list])
+diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
 new file mode 100644
-index 0000000000..26775ef38a
+index 0000000000..0280b1ef8c
 --- /dev/null
-+++ b/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-crate-hashma=
-p.patch
-@@ -0,0 +1,59 @@
-+rust: reproducibility issue fix with v1.76
++++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+@@ -0,0 +1,345 @@
++Backport the patch for "ensure std for cross-targets".
 +
-+A few crates are using the updated version of the 'cc' crate and this is c=
-ausing the generated object file names containing a unique hashmap id.
-+The hashmap addition to generated files is reverted here.
++Previously, doing `x test compiler/*` would fail the build due to missing std.
++This change ensures that it is prepared.
 +
++Also, add "[ignore]" tags to the failing unit tests to
++ignore them during rust oe-selftest.
 +
-+Upstream-Status: Inappropriate [https://github.com/rust-lang/cc-rs/issues/=
-1117]
-+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
++Upstream-Status: Backport [https://github.com/rust-lang/rust/pull/122205/commits/5aece7fad06baaa745784d118db862b3e3ccf7f8]
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 +---
-+--- a/vendor/cc-1.0.79/src/lib.rs
-++++ b/vendor/cc-1.0.79/src/lib.rs
-+@@ -56,12 +56,11 @@
-+ #![allow(deprecated)]
-+ #![deny(missing_docs)]
-+=20
-+-use std::collections::{hash_map, HashMap};
-++use std::collections::HashMap;
-+ use std::env;
-+ use std::ffi::{OsStr, OsString};
-+ use std::fmt::{self, Display, Formatter};
-+ use std::fs;
-+-use std::hash::Hasher;
-+ use std::io::{self, BufRead, BufReader, Read, Write};
-+ use std::path::{Component, Path, PathBuf};
-+ use std::process::{Child, Command, Stdio};
-+@@ -1037,24 +1036,7 @@
-+=20
-+         let mut objects =3D Vec::new();
-+         for file in self.files.iter() {
-+-            let obj =3D if file.has_root() {
-+-                // If `file` is an absolute path, prefix the `basename`
-+-                // with the `dirname`'s hash to ensure name uniqueness.
-+-                let basename =3D file
-+-                    .file_name()
-+-                    .ok_or_else(|| Error::new(ErrorKind::InvalidArgument,=
- "file_name() failure"))?
-+-                    .to_string_lossy();
-+-                let dirname =3D file
-+-                    .parent()
-+-                    .ok_or_else(|| Error::new(ErrorKind::InvalidArgument,=
- "parent() failure"))?
-+-                    .to_string_lossy();
-+-                let mut hasher =3D hash_map::DefaultHasher::new();
-+-                hasher.write(dirname.to_string().as_bytes());
-+-                dst.join(format!("{:016x}-{}", hasher.finish(), basename))
-+-                    .with_extension("o")
-+-            } else {
-+-                dst.join(file).with_extension("o")
-+-            };
-++            let obj =3D dst.join(file).with_extension("o");
-+             let obj =3D if !obj.starts_with(&dst) {
-+                 dst.join(obj.file_name().ok_or_else(|| {
-+                     Error::new(ErrorKind::IOError, "Getting object file d=
-etails failed.")
-+Index: rustc-1.77.0-src/vendor/cc-1.0.79/.cargo-checksum.json
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- a/vendor/cc-1.0.79/.cargo-checksum.json
-++++ b/vendor/cc-1.0.79/.cargo-checksum.json
-+@@ -1 +1 @@
-+-{"files":{"Cargo.lock":"dddb9c49058d411a098e98dc1c06e3bc89f859a2080d96c11=
-b11aec67394bb8c","Cargo.toml":"1953a8bc4b98e351fe75917c151b1e08a46531d562ae=
-bba25a90add4aadecac2","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe1=
-4d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7=
-b2ba96f1c7917dd6be0713f88305dbda397","README.md":"58af5106352aafa62175a90f8=
-a5f25fa114028bf909220dc0735d79745999ec1","src/bin/gcc-shim.rs":"36dc4e44742=
-8e73c548cc7106ca1e8f282c098463b014e13a729a44445de4880","src/com.rs":"29d0de=
-e08a656ab1a4cc3e5fe24542e0fab5c1373cbc9b05059f7572cf9b8313","src/lib.rs":"1=
-7a4659710aa290c4ed9c23063c7b202c5bcf2a84de33aa1f01fc6fded69a1f8","src/regis=
-try.rs":"98ae2b71781acc49297e5544fa0cf059f735636f8f1338edef8dbf7232443945",=
-"src/setup_config.rs":"72deaf1927c0b713fd5c2b2d5b8f0ea3a303a00fda1579427895=
-cac26a94122d","src/vs_instances.rs":"2d3f8278a803b0e7052f4eeb1979b29f963dd0=
-143f4458e2cb5f33c4e5f0963b","src/winapi.rs":"e128e95b2d39ae7a02f54a7e25d33c=
-488c14759b9f1a50a449e10545856950c3","src/windows_registry.rs":"1f973f804b4b=
-451e48ff6d98ce660355772f164dfdf79a6ae514645c7c764005","tests/cc_env.rs":"e0=
-2b3b0824ad039b47e4462c5ef6dbe6c824c28e7953af94a0f28f7b5158042e","tests/cfla=
-gs.rs":"57f06eb5ce1557e5b4a032d0c4673e18fbe6f8d26c1deb153126e368b96b41b3","=
-tests/cxxflags.rs":"c2c6c6d8a0d7146616fa1caed26876ee7bc9fcfffd525eb4743593c=
-ade5f3371","tests/support/mod.rs":"a3c8d116973bb16066bf6ec4de5143183f97de7a=
-ad085d85f8118a2eaac3e1e0","tests/test.rs":"61fb35ae6dd5cf506ada000bdd82c92e=
-9f8eac9cc053b63e83d3f897436fbf8f"},"package":"50d30906286121d95be3d479533b4=
-58f87493b30a4b5f79a607db8f5d11aa91f"}
-+\ No newline at end of file
-++{"files":{"Cargo.lock":"dddb9c49058d411a098e98dc1c06e3bc89f859a2080d96c11=
-b11aec67394bb8c","Cargo.toml":"1953a8bc4b98e351fe75917c151b1e08a46531d562ae=
-bba25a90add4aadecac2","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe1=
-4d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7=
-b2ba96f1c7917dd6be0713f88305dbda397","README.md":"58af5106352aafa62175a90f8=
-a5f25fa114028bf909220dc0735d79745999ec1","src/bin/gcc-shim.rs":"36dc4e44742=
-8e73c548cc7106ca1e8f282c098463b014e13a729a44445de4880","src/com.rs":"29d0de=
-e08a656ab1a4cc3e5fe24542e0fab5c1373cbc9b05059f7572cf9b8313","src/lib.rs":"d=
-fb36b17362e9a5b266cb19a229d982e8c0bba784b1e99769f690692b0cd5c4e","src/regis=
-try.rs":"98ae2b71781acc49297e5544fa0cf059f735636f8f1338edef8dbf7232443945",=
-"src/setup_config.rs":"72deaf1927c0b713fd5c2b2d5b8f0ea3a303a00fda1579427895=
-cac26a94122d","src/vs_instances.rs":"2d3f8278a803b0e7052f4eeb1979b29f963dd0=
-143f4458e2cb5f33c4e5f0963b","src/winapi.rs":"e128e95b2d39ae7a02f54a7e25d33c=
-488c14759b9f1a50a449e10545856950c3","src/windows_registry.rs":"1f973f804b4b=
-451e48ff6d98ce660355772f164dfdf79a6ae514645c7c764005","tests/cc_env.rs":"e0=
-2b3b0824ad039b47e4462c5ef6dbe6c824c28e7953af94a0f28f7b5158042e","tests/cfla=
-gs.rs":"57f06eb5ce1557e5b4a032d0c4673e18fbe6f8d26c1deb153126e368b96b41b3","=
-tests/cxxflags.rs":"c2c6c6d8a0d7146616fa1caed26876ee7bc9fcfffd525eb4743593c=
-ade5f3371","tests/support/mod.rs":"a3c8d116973bb16066bf6ec4de5143183f97de7a=
-ad085d85f8118a2eaac3e1e0","tests/test.rs":"61fb35ae6dd5cf506ada000bdd82c92e=
-9f8eac9cc053b63e83d3f897436fbf8f"},"package":"50d30906286121d95be3d479533b4=
-58f87493b30a4b5f79a607db8f5d11aa91f"}
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devt=
-ools/rust/rust-source.inc
-index ebe85a8ab1..6fe32db880 100644
++diff --git a/src/bootstrap/src/core/build_steps/test.rs b/src/bootstrap/src/core/build_steps/test.rs
++index 4a4497e57db..da8c88dcd41 100644
++--- a/src/bootstrap/src/core/build_steps/test.rs
+++++ b/src/bootstrap/src/core/build_steps/test.rs
++@@ -2505,8 +2505,12 @@
++         let mode = self.mode;
++
++         // See [field@compile::Std::force_recompile].
++-        builder.ensure(compile::Std::force_recompile(compiler, target));
++-        builder.ensure(RemoteCopyLibs { compiler, target });
+++        builder.ensure(compile::Std::force_recompile(compiler, compiler.host));
+++
+++        if builder.config.build != target {
+++            builder.ensure(compile::Std::force_recompile(compiler, target));
+++            builder.ensure(RemoteCopyLibs { compiler, target });
+++        }
++
++         // If we're not doing a full bootstrap but we're testing a stage2
++         // version of libstd, then what we're actually testing is the libstd
++diff --git a/compiler/rustc_errors/src/markdown/tests/term.rs b/compiler/rustc_errors/src/markdown/tests/term.rs
++--- a/compiler/rustc_errors/src/markdown/tests/term.rs
+++++ b/compiler/rustc_errors/src/markdown/tests/term.rs
++@@ -60,6 +60,7 @@
++ }
++
++ #[test]
+++#[ignore]
++ fn test_output() {
++     // Capture `--bless` when run via ./x
++     let bless = std::env::var_os("RUSTC_BLESS").is_some_and(|v| v != "0");
++diff --git a/compiler/rustc_interface/src/tests.rs b/compiler/rustc_interface/src/tests.rs
++--- a/compiler/rustc_interface/src/tests.rs
+++++ b/compiler/rustc_interface/src/tests.rs
++@@ -116,6 +116,7 @@
++
++ // When the user supplies --test we should implicitly supply --cfg test
++ #[test]
+++#[ignore]
++ fn test_switch_implies_cfg_test() {
++     rustc_span::create_default_session_globals_then(|| {
++         let matches = optgroups().parse(&["--test".to_string()]).unwrap();
++@@ -127,6 +128,7 @@
++
++ // When the user supplies --test and --cfg test, don't implicitly add another --cfg test
++ #[test]
+++#[ignore]
++ fn test_switch_implies_cfg_test_unless_cfg_test() {
++     rustc_span::create_default_session_globals_then(|| {
++         let matches = optgroups().parse(&["--test".to_string(), "--cfg=test".to_string()]).unwrap();
++@@ -139,6 +141,7 @@
++ }
++
++ #[test]
+++#[ignore]
++ fn test_can_print_warnings() {
++     rustc_span::create_default_session_globals_then(|| {
++         let matches = optgroups().parse(&["-Awarnings".to_string()]).unwrap();
++
++diff --git a/library/test/src/stats/tests.rs b/library/test/src/stats/tests.rs
++--- a/library/test/src/stats/tests.rs
+++++ b/library/test/src/stats/tests.rs
++@@ -40,6 +40,7 @@
++ }
++
++ #[test]
+++#[ignore]
++ fn test_min_max_nan() {
++     let xs = &[1.0, 2.0, f64::NAN, 3.0, 4.0];
++     let summary = Summary::new(xs);
++diff --git a/library/std/src/io/buffered/tests.rs b/library/std/src/io/buffered/tests.rs
++index 35a5291a347..5f2858d2505 100644
++--- a/library/std/src/io/buffered/tests.rs
+++++ b/library/std/src/io/buffered/tests.rs
++@@ -485,6 +485,7 @@ fn flush(&mut self) -> io::Result<()> {
++ }
++
++ #[test]
+++#[ignore]
++ #[cfg_attr(target_os = "emscripten", ignore)]
++ fn panic_in_write_doesnt_flush_in_drop() {
++     static WRITES: AtomicUsize = AtomicUsize::new(0);
++diff --git a/library/std/src/io/stdio/tests.rs b/library/std/src/io/stdio/tests.rs
++index f89fd27ce6c..79737f5b127 100644
++--- a/library/std/src/io/stdio/tests.rs
+++++ b/library/std/src/io/stdio/tests.rs
++@@ -25,6 +25,7 @@ fn stderrlock_unwind_safe() {
++ fn assert_unwind_safe<T: UnwindSafe + RefUnwindSafe>() {}
++
++ #[test]
+++#[ignore]
++ #[cfg_attr(target_os = "emscripten", ignore)]
++ fn panic_doesnt_poison() {
++     thread::spawn(|| {
++diff --git a/library/std/src/sync/mpsc/sync_tests.rs b/library/std/src/sync/mpsc/sync_tests.rs
++index 945de280f40..1ac7eeabc5c 100644
++--- a/library/std/src/sync/mpsc/sync_tests.rs
+++++ b/library/std/src/sync/mpsc/sync_tests.rs
++@@ -252,6 +252,7 @@ fn oneshot_single_thread_send_port_close() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_single_thread_recv_chan_close() {
++     // Receiving on a closed chan will panic
++     let res = thread::spawn(move || {
++@@ -347,6 +348,7 @@ fn oneshot_multi_task_recv_then_send() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_multi_task_recv_then_close() {
++     let (tx, rx) = sync_channel::<Box<i32>>(0);
++     let _t = thread::spawn(move || {
++@@ -371,6 +373,7 @@ fn oneshot_multi_thread_close_stress() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_multi_thread_send_close_stress() {
++     for _ in 0..stress_factor() {
++         let (tx, rx) = sync_channel::<i32>(0);
++@@ -385,6 +388,7 @@ fn oneshot_multi_thread_send_close_stress() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_multi_thread_recv_close_stress() {
++     for _ in 0..stress_factor() {
++         let (tx, rx) = sync_channel::<i32>(0);
++diff --git a/library/std/src/sync/mpsc/tests.rs b/library/std/src/sync/mpsc/tests.rs
++index ac1a804cf9c..7c687982324 100644
++--- a/library/std/src/sync/mpsc/tests.rs
+++++ b/library/std/src/sync/mpsc/tests.rs
++@@ -233,6 +233,7 @@ fn oneshot_single_thread_send_port_close() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_single_thread_recv_chan_close() {
++     // Receiving on a closed chan will panic
++     let res = thread::spawn(move || {
++@@ -313,6 +314,7 @@ fn oneshot_multi_task_recv_then_send() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_multi_task_recv_then_close() {
++     let (tx, rx) = channel::<Box<i32>>();
++     let _t = thread::spawn(move || {
++@@ -337,6 +339,7 @@ fn oneshot_multi_thread_close_stress() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_multi_thread_send_close_stress() {
++     for _ in 0..stress_factor() {
++         let (tx, rx) = channel::<i32>();
++@@ -351,6 +354,7 @@ fn oneshot_multi_thread_send_close_stress() {
++ }
++
++ #[test]
+++#[ignore]
++ fn oneshot_multi_thread_recv_close_stress() {
++     for _ in 0..stress_factor() {
++         let (tx, rx) = channel::<i32>();
++diff --git a/library/std/src/sync/mutex/tests.rs b/library/std/src/sync/mutex/tests.rs
++index 1786a3c09ff..9dcead7092b 100644
++--- a/library/std/src/sync/mutex/tests.rs
+++++ b/library/std/src/sync/mutex/tests.rs
++@@ -82,6 +82,7 @@ fn drop(&mut self) {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_into_inner_poison() {
++     let m = Arc::new(Mutex::new(NonCopy(10)));
++     let m2 = m.clone();
++@@ -106,6 +107,7 @@ fn test_get_mut() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_get_mut_poison() {
++     let m = Arc::new(Mutex::new(NonCopy(10)));
++     let m2 = m.clone();
++@@ -146,6 +148,7 @@ fn test_mutex_arc_condvar() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_arc_condvar_poison() {
++     let packet = Packet(Arc::new((Mutex::new(1), Condvar::new())));
++     let packet2 = Packet(packet.0.clone());
++@@ -175,6 +178,7 @@ fn test_arc_condvar_poison() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_mutex_arc_poison() {
++     let arc = Arc::new(Mutex::new(1));
++     assert!(!arc.is_poisoned());
++@@ -205,6 +209,7 @@ fn test_mutex_arc_nested() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_mutex_arc_access_in_unwind() {
++     let arc = Arc::new(Mutex::new(1));
++     let arc2 = arc.clone();
++diff --git a/library/std/src/sync/rwlock/tests.rs b/library/std/src/sync/rwlock/tests.rs
++index 1a9d3d3f12f..0a9cfc48806 100644
++--- a/library/std/src/sync/rwlock/tests.rs
+++++ b/library/std/src/sync/rwlock/tests.rs
++@@ -44,6 +44,7 @@ fn frob() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_rw_arc_poison_wr() {
++     let arc = Arc::new(RwLock::new(1));
++     let arc2 = arc.clone();
++@@ -56,6 +57,7 @@ fn test_rw_arc_poison_wr() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_rw_arc_poison_ww() {
++     let arc = Arc::new(RwLock::new(1));
++     assert!(!arc.is_poisoned());
++@@ -70,6 +72,7 @@ fn test_rw_arc_poison_ww() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_rw_arc_no_poison_rr() {
++     let arc = Arc::new(RwLock::new(1));
++     let arc2 = arc.clone();
++@@ -82,6 +85,7 @@ fn test_rw_arc_no_poison_rr() {
++     assert_eq!(*lock, 1);
++ }
++ #[test]
+++#[ignore]
++ fn test_rw_arc_no_poison_rw() {
++     let arc = Arc::new(RwLock::new(1));
++     let arc2 = arc.clone();
++@@ -133,6 +137,7 @@ fn test_rw_arc() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_rw_arc_access_in_unwind() {
++     let arc = Arc::new(RwLock::new(1));
++     let arc2 = arc.clone();
++@@ -206,6 +211,7 @@ fn drop(&mut self) {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_into_inner_poison() {
++     let m = Arc::new(RwLock::new(NonCopy(10)));
++     let m2 = m.clone();
++@@ -230,6 +236,7 @@ fn test_get_mut() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_get_mut_poison() {
++     let m = Arc::new(RwLock::new(NonCopy(10)));
++     let m2 = m.clone();
++diff --git a/library/std/src/sys/unix/process/process_unix/tests.rs b/library/std/src/sys/unix/process/process_unix/tests.rs
++index 0a6c6ec19fc..bec257bc630 100644
++--- a/library/std/src/sys/unix/process/process_unix/tests.rs
+++++ b/library/std/src/sys/unix/process/process_unix/tests.rs
++@@ -6,6 +6,7 @@
++ // safety etc., are tested in tests/ui/process/process-panic-after-fork.rs
++
++ #[test]
+++#[ignore]
++ fn exitstatus_display_tests() {
++     // In practice this is the same on every Unix.
++     // If some weird platform turns out to be different, and this test fails, use #[cfg].
++@@ -37,6 +38,7 @@
++ }
++
++ #[test]
+++#[ignore]
++ #[cfg_attr(target_os = "emscripten", ignore)]
++ fn test_command_fork_no_unwind() {
++     let got = catch_unwind(|| {
++diff --git a/library/std/src/thread/tests.rs b/library/std/src/thread/tests.rs
++index 5d6b9e94ee9..a5aacb2eb87 100644
++--- a/library/std/src/thread/tests.rs
+++++ b/library/std/src/thread/tests.rs
++@@ -115,6 +115,7 @@ fn test_is_finished() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_join_panic() {
++     match thread::spawn(move || panic!()).join() {
++         result::Result::Err(_) => (),
++@@ -217,6 +218,7 @@ fn test_simple_newsched_spawn() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_try_panic_message_string_literal() {
++     match thread::spawn(move || {
++         panic!("static string");
++@@ -233,6 +235,7 @@ fn test_try_panic_message_string_literal() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_try_panic_any_message_owned_str() {
++     match thread::spawn(move || {
++         panic_any("owned string".to_string());
++@@ -249,6 +252,7 @@ fn test_try_panic_any_message_owned_str() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_try_panic_any_message_any() {
++     match thread::spawn(move || {
++         panic_any(Box::new(413u16) as Box<dyn Any + Send>);
++@@ -267,6 +271,7 @@ fn test_try_panic_any_message_any() {
++ }
++
++ #[test]
+++#[ignore]
++ fn test_try_panic_any_message_unit_struct() {
++     struct Juju;
++
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index facf6eb346..f09e05a09f 100644
 --- a/meta/recipes-devtools/rust/rust-source.inc
 +++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -11,6 +11,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${R=
-UST_VERSION}-src.tar.xz;n
-             file://0001-cargo-do-not-write-host-information-into-compilati=
-on.patch;patchdir=3D${RUSTSRC} \
-             file://rustdoc-repro-issue-fix-cargo-config-for-codegenunits.p=
-atch;patchdir=3D${RUSTSRC} \
-             file://rust-oe-selftest.patch;patchdir=3D${RUSTSRC} \
-+            file://repro-issue-fix-with-cc-crate-hashmap.patch;patchdir=3D=
-${RUSTSRC} \
+@@ -14,6 +14,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://repro-issue-fix-with-v175.patch;patchdir=${RUSTSRC} \
+             file://0001-cargo-do-not-write-host-information-into-compilation.patch;patchdir=${RUSTSRC} \
+             file://rustdoc-repro-issue-fix-cargo-config-for-codegenunits.patch;patchdir=${RUSTSRC} \
++            file://rust-oe-selftest.patch;patchdir=${RUSTSRC} \
  "
- SRC_URI[rust.sha256sum] =3D "805482b436442a6786d270cacbab8f00529e06141b27b=
-7fb01909b97ce4f3464"
-=20
---=20
+ SRC_URI[rust.sha256sum] = "4526f786d673e4859ff2afa0bab2ba13c918b796519a25c1acce06dba9542340"
+ 
+-- 
 2.43.0
 
 
