@@ -1,102 +1,72 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCB5C3DA4A
-	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 06:05:15 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.53426.1723097108414917019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EC75C52D73
+	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 06:23:55 +0000 (UTC)
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+ by mx.groups.io with SMTP id smtpd.web11.53686.1723098228783679354
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Aug 2024 23:05:08 -0700
+ Wed, 07 Aug 2024 23:23:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8950edd648=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4785aCWc007042;
-	Thu, 8 Aug 2024 06:05:06 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v09rsa1y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 08 Aug 2024 06:05:06 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 7 Aug 2024 23:05:05 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Wed, 7 Aug 2024 23:05:04 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <alex@linutronix.de>
-Subject: [scarthgap][PATCH] libcap-ng: update SRC_URI
-Date: Thu, 8 Aug 2024 14:05:03 +0800
-Message-ID: <20240808060503.61223-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=NkJeil7q;
+ spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: hetpat@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=657; q=dns/txt; s=iport;
+  t=1723098228; x=1724307828;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RAZCdiu5Bo3loALvgXV+d+h2+myft1JK6JYAV7JvHCk=;
+  b=NkJeil7qnDyCoOSZSJcVcTv31DVQ5oHUz1/z5wpptRxJkHWdgoex38vB
+   RyI5/wskWT3QfTHWdjxPtI4Vh7r1emo/xyOGtLDt3YkcNpqyNv2CxQW/9
+   3J9jKoryfptTwP5b+pfa44kWi0/Q2+SEHkfqAXCyolGS3Dxa+s1roMx/1
+   8=;
+X-CSE-ConnectionGUID: 57ko5JHrSyiEQ67rDnyDSg==
+X-CSE-MsgGUID: L1rhK9myS/OXz8xRz+iCsg==
+X-IronPort-AV: E=Sophos;i="6.09,272,1716249600"; 
+   d="scan'208";a="334858822"
+Received: from rcdn-core-11.cisco.com ([173.37.93.147])
+  by alln-iport-1.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 06:23:48 +0000
+Received: from sjc-ads-10099.cisco.com (sjc-ads-10099.cisco.com [10.30.210.103])
+	by rcdn-core-11.cisco.com (8.15.2/8.15.2) with ESMTPS id 4786NlSE026155
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 8 Aug 2024 06:23:47 GMT
+Received: by sjc-ads-10099.cisco.com (Postfix, from userid 1847788)
+	id 66AE4CC1282; Wed,  7 Aug 2024 23:23:47 -0700 (PDT)
+From: Het Patel <hetpat@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Het Patel <hetpat@cisco.com>
+Subject: [PATCH] zlib: add vendor to CVE_PRODUCT to exclude false positives
+Date: Wed,  7 Aug 2024 23:23:40 -0700
+Message-Id: <20240808062340.1511175-1-hetpat@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 7ySkSfpY6v69HJdH6PRPRj4OQI0txdih
-X-Proofpoint-ORIG-GUID: 7ySkSfpY6v69HJdH6PRPRj4OQI0txdih
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-08_06,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- mlxlogscore=999 clxscore=1015 bulkscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2408080042
+X-Outbound-SMTP-Client: 10.30.210.103, sjc-ads-10099.cisco.com
+X-Outbound-Node: rcdn-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 06:05:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203116
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 06:23:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203117
 
-From: Changqing Li <changqing.li@windriver.com>
+To avoid false positives (such as CVE-2023-6992, cloudflare:zlib), add a
+CVE_PRODUCT to identify the vendor that has been used.
 
-Refer [1], people.redhat.com has certificate issue, so update SRC_URI
-to github tag archives to fix do_fetch warning
-
-[1] https://github.com/stevegrubb/libcap-ng/issues/56
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- meta/recipes-support/libcap-ng/libcap-ng.inc      | 6 +++---
- meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb | 4 ++++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-core/zlib/zlib_1.2.13.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index 12b4002d11..b03341768a 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -7,11 +7,11 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
- 
--SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
-+SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master \
-            file://0001-Fix-python-path-when-invoking-py-compile-54.patch \
-            "
--
--SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
-+SRCREV = "f5d39702622208b3ada064d7b2eaeaf1454c9bd3"
-+S = "${WORKDIR}/git"
- 
- EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-index 3dbe3e2ffd..f7defee6b5 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-+++ b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-@@ -6,6 +6,10 @@ EXTRA_OECONF += "--without-python3"
+diff --git a/meta/recipes-core/zlib/zlib_1.2.13.bb b/meta/recipes-core/zlib/zlib_1.2.13.bb
+index ec977a3035..8f3814068a 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.13.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.13.bb
+@@ -45,3 +45,6 @@ do_install_ptest() {
+ }
  
  BBCLASSEXTEND = "native nativesdk"
- 
-+do_configure:prepend() {
-+    touch ${S}/NEWS
-+}
 +
- do_install:append() {
- 	# Moving libcap-ng to base_libdir
- 	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
--- 
-2.44.1
-
++# adding 'CVE_PRODUCT' to avoid false detection of CVEs
++CVE_PRODUCT = "zlib:zlib"
 
