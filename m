@@ -1,94 +1,142 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A765C52D7D
-	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 02:29:14 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.50969.1723084149547702069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFEEFC3DA4A
+	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 04:11:24 +0000 (UTC)
+Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
+ by mx.groups.io with SMTP id smtpd.web11.52302.1723090275099328088
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Aug 2024 19:29:09 -0700
+ Wed, 07 Aug 2024 21:11:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=y8TXB6bI;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2cb4b6ecb3dso410041a91.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Aug 2024 19:29:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1723084149; x=1723688949; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pu9JWkl/RmHM2trwfSwdaCooBhlMhCZfS/8XhD4MsuU=;
-        b=y8TXB6bIK+GZh6XPwtGMqZAi8CskaPRDr//RXbEgsKDy2TMZyw1PSNeR8BRcDCjY5p
-         lyrGk+eS3ca+BVtlxDyXdirrljIy/7BM05gd4e4IoSXw/W7qOmz7ecZ7F6OonCgiVGu8
-         883GV+TxMMaVZUF7fpgaDroWhwV1rEJlfYBDpwfTXPkW2FyjoYAdEwkqtuOy9Y5WEy6s
-         dDApx6t59fv9Yw13n/4lNPHiqAybvrERUIALNDWqQohebKMIPoNk4blYWaHtbMQBFEuK
-         suy8PP1bSpuh9gOWt1d6WgZCwI7CjNbP0YmnBBFDN8ws005oEGGc51n8cfQT7kkXv3BZ
-         Y3zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723084149; x=1723688949;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pu9JWkl/RmHM2trwfSwdaCooBhlMhCZfS/8XhD4MsuU=;
-        b=YAAMwMJYbW2dsF90O6fjW0f2zpQAvFc6sKYRlyYbITXS/1S+L+tAGecz0WPj5xnrBA
-         Ee+irh3AIgZDm5+2c0iP9QeBcF//ItcqzjO7THMgtXGUf2Pp3LLmglwyqmXLNTPWSWj7
-         uWEdcsBG00rnF4xQWcaApx79Gckzoh5tP4Zq85GQ/HULtkpjBThe2lsEJBhCG2yp2Kp8
-         Y3RtsBEhyZCvJDYS6fccQVfmi7ULCnxneyZE1Jyr64ZTqUzIUp33mioGEPOqlNC0QPGw
-         S0eITeV3jFcBEmLu4vmWkA7C7CCP25rYVASsDmAIWs2umK1JiObnXdSBI24lpa37MF2A
-         +/bg==
-X-Gm-Message-State: AOJu0Yz81anu5vFKRbvDazoETyGU/rlj7RZCdTxPsDoWFciyKlDF+00R
-	JveUyBZJI85KKA9D2ujM+j4GUrQaAp1cIWrgPu4qpJ0fSPIdRsmvJ6NZ/Hy7ucIYLAXP/wXS8fC
-	gbMo=
-X-Google-Smtp-Source: AGHT+IGzGtAXMyTTKfJ+lbVFCASeG0ciMlEjVCEfIQ+7tzHleiSvkNzSTxDMeXGKFlVPrZFIfpsz3Q==
-X-Received: by 2002:a17:90a:f186:b0:2c9:999d:a22d with SMTP id 98e67ed59e1d1-2d1c345ae00mr513368a91.30.1723084148832;
-        Wed, 07 Aug 2024 19:29:08 -0700 (PDT)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1b3b0c796sm2269198a91.33.2024.08.07.19.29.08
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 19:29:08 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=Z+gKVfug;
+ spf=pass (domain: redrectangle.org, ip: 212.3.242.68, mailfrom: robert.joslyn@redrectangle.org)
+Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
+	by wilbur.contactoffice.com (Postfix) with ESMTP id 200AA4C64;
+	Thu,  8 Aug 2024 06:11:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723090273;
+	s=20230812-3u04; d=redrectangle.org;
+	i=robert.joslyn@redrectangle.org;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
+	bh=X5a92YyiVdY588QW+lHGsrQYglSm8bsNY+qf0/OPu1Q=;
+	b=Z+gKVfug0pAfCH7IbuVFuS1LblDcMp9oSfBSM1y/Q3Rrx2V+0J/LRvAK3CDD4SEY
+	AOqes8wO6vYcMpUJBbOqNTGFWHJ9Hw7pjQKaWg4zj/abas/Bh3G7h/KeGInvO0dMtAZ
+	rkys2sC743aWloxnV6//zJvVpFUUQ+WbdZKuzVz6gkzyvClRA4RO0h4+bIdAQJX9bNG
+	E3dUzyuOrMQErrbtNbGN4MX7wqJvWKbrv1BHnBza3nG1t3mvG+0DagtB3b8vl0hL06u
+	ZSYrJYf+spLi/EACrW56uK24GpB1+I7S6HD9koqSaEbWwJ/dpGXl2gkQNBJl1uFVjx1
+	1yG+ut7Qvw==
+Received: by smtp.mailfence.com with ESMTPSA ; Thu, 8 Aug 2024 06:11:10 +0200 (CEST)
+From: robert.joslyn@redrectangle.org
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/10] libpng: update SRC_URI
-Date: Wed,  7 Aug 2024 19:28:46 -0700
-Message-Id: <aa23e392e379ab7f8cdfc48e1d2d96812f330c74.1723083840.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1723083840.git.steve@sakoman.com>
-References: <cover.1723083840.git.steve@sakoman.com>
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [PATCH v2] curl: Update to 8.9.1
+Date: Wed,  7 Aug 2024 21:07:26 -0700
+Message-ID: <20240808040726.1461912-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.44.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ContactOffice-Account: com:454140407
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 02:29:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203110
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 04:11:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203111
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 
-update SRC_URI to fix do_fetch warning:
-WARNING: libpng-1.6.42-r0 do_fetch: Failed to fetch URL https://downloads.sourceforge.net/project/libpng/libpng16/libpng-1.6.42.tar.xz, attempting MIRRORS if available
+This update contains minor features, bugfixes, and addresses several CVEs=
+:
+* https://curl.se/docs/CVE-2024-6197.html
+* https://curl.se/docs/CVE-2024-6874.html
+* https://curl.se/docs/CVE-2024-7264.html
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Full relese notes available at https://curl.se/ch/8.9.1.html
+
+Backport a patch to fix a SIGPIPE issue found shortly after release:
+https://curl.se/mail/distros-2024-08/0002.html
+
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
- meta/recipes-multimedia/libpng/libpng_1.6.42.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...e-struct-so-that-first-apply-ignores.patch | 38 +++++++++++++++++++
+ .../curl/{curl_8.8.0.bb =3D> curl_8.9.1.bb}     |  3 +-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/curl/curl/0001-sigpipe-init-the-=
+struct-so-that-first-apply-ignores.patch
+ rename meta/recipes-support/curl/{curl_8.8.0.bb =3D> curl_8.9.1.bb} (97%=
+)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-index cadbe957db..673133bb4a 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-@@ -10,7 +10,7 @@ DEPENDS = "zlib"
- 
- LIBV = "16"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz"
- SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
- 
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
--- 
-2.34.1
+diff --git a/meta/recipes-support/curl/curl/0001-sigpipe-init-the-struct-=
+so-that-first-apply-ignores.patch b/meta/recipes-support/curl/curl/0001-s=
+igpipe-init-the-struct-so-that-first-apply-ignores.patch
+new file mode 100644
+index 0000000000..15c69e1430
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/0001-sigpipe-init-the-struct-so-that=
+-first-apply-ignores.patch
+@@ -0,0 +1,38 @@
++From 3eec5afbd0b6377eca893c392569b2faf094d970 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 5 Aug 2024 00:17:17 +0200
++Subject: [PATCH] sigpipe: init the struct so that first apply ignores
++
++Initializes 'no_signal' to TRUE, so that a call to sigpipe_apply() after
++init ignores the signal (unless CURLOPT_NOSIGNAL) is set.
++
++I have read the existing code multiple times now and I think it gets the
++initial state reversed this missing to ignore.
++
++Regression from 17e6f06ea37136c36d27
++
++Reported-by: Rasmus Thomsen
++Fixes #14344
++Closes #14390
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/3eec5afbd=
+0b6377eca893c392569b2faf094d970]
++Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
++---
++ lib/sigpipe.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/lib/sigpipe.h b/lib/sigpipe.h
++index b91a2f513..d78afd905 100644
++--- a/lib/sigpipe.h
+++++ b/lib/sigpipe.h
++@@ -39,6 +39,7 @@ struct sigpipe_ignore {
++ static void sigpipe_init(struct sigpipe_ignore *ig)
++ {
++   memset(ig, 0, sizeof(*ig));
+++  ig->no_signal =3D TRUE;
++ }
++=20
++ /*
++--=20
++2.44.2
++
+diff --git a/meta/recipes-support/curl/curl_8.8.0.bb b/meta/recipes-suppo=
+rt/curl/curl_8.9.1.bb
+similarity index 97%
+rename from meta/recipes-support/curl/curl_8.8.0.bb
+rename to meta/recipes-support/curl/curl_8.9.1.bb
+index 2b058e4e82..72ef4fab62 100644
+--- a/meta/recipes-support/curl/curl_8.8.0.bb
++++ b/meta/recipes-support/curl/curl_8.9.1.bb
+@@ -14,8 +14,9 @@ SRC_URI =3D " \
+     file://run-ptest \
+     file://disable-tests \
+     file://no-test-timeout.patch \
++    file://0001-sigpipe-init-the-struct-so-that-first-apply-ignores.patc=
+h \
+ "
+-SRC_URI[sha256sum] =3D "0f58bb95fc330c8a46eeb3df5701b0d90c9d9bfcc42bd1cd=
+08791d12551d4400"
++SRC_URI[sha256sum] =3D "f292f6cc051d5bbabf725ef85d432dfeacc8711dd717ea97=
+612ae590643801e5"
+=20
+ # Curl has used many names over the years...
+ CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:l=
+ibcurl daniel_stenberg:curl"
+--=20
+2.44.2
 
 
