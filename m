@@ -2,28 +2,28 @@ Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89269C52D7B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9067BC52D7C
 	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 14:51:28 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.61950.1723128681924221717
+ by mx.groups.io with SMTP id smtpd.web10.61887.1723128683231289145
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Aug 2024 07:51:22 -0700
+ Thu, 08 Aug 2024 07:51:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=895026df3f=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 478Bf7qx008456
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Aug 2024 14:51:21 GMT
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4786hYlp002267
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Aug 2024 14:51:22 GMT
 Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v0bshpgy-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v09rsqat-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 14:51:21 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 14:51:22 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TQzwLMu+nHbNvUVKPOpStlhIX/5z86FiLx43luu2YRtT4xezAGCImrukm8BwRSNF/cKj1XRRP/ZjxGi9skrQtsq8kChTuB9MAeUg8ysW4S7jJ9xMQpFmjXX+DEths3f7VhdcEySMTJPRLcCXBAc1KFs3BNexiEi9p0ObD1SXFREnBZgmVelQBg4/8vUF5fJf5kKEzIA9OAVgusx5XJMy2q7+2YZiRgC55OLztg8aw9hLeE/gAssb1rJEzGUMwU3/9mu7M7u/fvvSYHjiZGsMWgtcVp4JiRqH8xsYPdtCxCmFQSI8uImpzA4LXOiBWkGZ+J2CSsw65hb2j5XnPgwRUA==
+ b=WEHrsuqAiN7m5gF3Xj2X8hyHI3a2sQrvUfr2b0bG1sMvBHLOfWgFl8JqXXyCeAlq/N98qputotELt6eZGieww9JUZqXOa+uNA6ChUWmSUd1/TyCqMJWr501CUfkPFRBuCEU2Y+JlKgcJCNYFrFy2j2UqID4HaSq/Y7xZBdjuZuEMLzhnuG0m7LIvrOsRIpCq3P22Y8bqPo063/O5NqwhQyc8XQ3O55slTVoOceZswMCRjs//CRqPnDEgCqLgHnjX9Qt0uMcIclgU1a9KSc5toqoxAWX322MZQ96ubQotqC49YGC11Q3udMyDqvp4928EBgeMMcLLeetndwQ4VFyfDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nxqRG5uUtl2zG1MyRt8SRBurT/znuhRh3nloL8UZCpU=;
- b=C8o7QmGQ6Z2m95s/eynRl3vK/ahfK/7N9AcEdNuq7bDiddDbA5ZAwG7c6MfOcm4Ref3gfzz+7RVBWwYHvvpBEuD1H42NEfru9kWHHXSMxjgqk8f44k8O/Cz/9KFUc8Zard4NwLdjWSTlsOsPTM6s0xkmoIHCHb82tD1ZXW2gZpOhHepTtxkDW5kLoWVTPMSknl0NtFJLsGQX1A0TO1jc1Bd7hd8NhAuQSSYLdkXJEhFC5YWUX0d+9xCLtmFgAa1IqwugeF0l+FmB/jKnrChbHfroXxaCKkFSNsCznDpcX56IY6xwaCT+GLH2WUPXXlDXuPGLQ21v2aBiJIHMhYG6KA==
+ bh=jf96/ToxApkcjaPEhAmhtRW83fgKKliHgaU3DeyDJtY=;
+ b=UJVUHBuItt5E/hvNAQj83tkzM8AtQMHhFV9Vy+EdRouzTd9v9BkgQgV6urdJbqXzDCtH7iCAjmUUj/5dg9skFmKMJtCFxyvCvVNSN1b+Q0t66ADOxEGuR0TlGnNkCIe3QAgPKIqDmqczEQpzldrGJYoR+SQuq1BBP04QUKUQcss4Oq+nEBFGzqlCGIUg7PFTGXGrJunSLM8RvoP+3e6G8PMENLIBdxOrMZd9VhbyCSjGIVYuoylrtMZt8c/7dJdzJ8nuEX3NC25wSzpoMC5nIso/vN4KfoDFR66WjF/i7I8/HW1UM945IuTs0b4CFQkvK303y6oHz772zHOR6HuTZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,18 +31,18 @@ Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
  by MN6PR11MB8147.namprd11.prod.outlook.com (2603:10b6:208:46f::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.27; Thu, 8 Aug
- 2024 14:51:13 +0000
+ 2024 14:51:15 +0000
 Received: from PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::f440:269f:9645:29c0]) by PH0PR11MB5658.namprd11.prod.outlook.com
  ([fe80::f440:269f:9645:29c0%7]) with mapi id 15.20.7828.023; Thu, 8 Aug 2024
- 14:51:13 +0000
+ 14:51:15 +0000
 From: Harish.Sadineni@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
         Sundeep.Kokkonda@windriver.com
-Subject: [PATCH 3/4] openssh: Increase MaxStartups and MaxSessions
-Date: Thu,  8 Aug 2024 07:50:41 -0700
-Message-ID: <20240808145042.3914762-3-Harish.Sadineni@windriver.com>
+Subject: [PATCH 4/4] oeqa/selftest/gcc: allowing multiple ssh sessions
+Date: Thu,  8 Aug 2024 07:50:42 -0700
+Message-ID: <20240808145042.3914762-4-Harish.Sadineni@windriver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240808145042.3914762-1-Harish.Sadineni@windriver.com>
 References: <20240808145042.3914762-1-Harish.Sadineni@windriver.com>
@@ -54,142 +54,169 @@ X-ClientProxiedBy: BYAPR05CA0054.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|MN6PR11MB8147:EE_
-X-MS-Office365-Filtering-Correlation-Id: ddf3b4c5-23d6-4b73-1828-08dcb7b98c6d
+X-MS-Office365-Filtering-Correlation-Id: 628649cd-6fe9-4370-441e-08dcb7b98d6f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?JjDcHnWtRYF33WjCi6eBUoP1SP5ImkeHjJbWxueet2bI5mukWX/vipYy87dv?=
- =?us-ascii?Q?wth0uGChqb0VH8pvq3ZbucLU+cXXTwM35jGzXmslT2hn+0wuzlQb14nmVBkJ?=
- =?us-ascii?Q?HdA9BaIj/JkJxdRqMcFjY7jmS65BQDFJKCS5N0/eHP6oD1k3B4VbEWqXnDuM?=
- =?us-ascii?Q?NP7KtCpJZMvtfQwVXLxVQklyvr4r00wCqGD8/FAYVJ5YFmQh0IQZB/6fjhmC?=
- =?us-ascii?Q?bzWbWE6Ghxz7y3tVPW9/VnSoAiYebQaVqdpucBj22y2Y1AZBtKcc1Voe0/ud?=
- =?us-ascii?Q?pXwUw4SFWinYeG24Hl2X7QoQcfg8wqNH4tHJ6xxGGvMDDXnDrupwUW8rwk14?=
- =?us-ascii?Q?7vJ9tSvLhlmgQMMt0fTPjRDyKmdC2uE/Cj2hmsEYPtHj4yy+PZG36H7eMZp7?=
- =?us-ascii?Q?HeVz7vMb8mCvl9aIkbXQDK6icZvCajPzMezeHwXTx96xkp1CO3X9M4NpiLWc?=
- =?us-ascii?Q?KFm/4+OII26SXbYDoAXa7G6ft6FHlAo0bO/jN9YojMQwjDSgqW7RfFVJAYSY?=
- =?us-ascii?Q?jvXB/WTWuAbafn24Z+Kiqc/ctgcEjDApIfm0GCPPLyl7AWdiJjMzYvJMP2fr?=
- =?us-ascii?Q?XOICpeJtgs9ICtjKhLeEzrnKtnFIiR+E1nCG8F+HoVeXyjPEcIn0SCtrteon?=
- =?us-ascii?Q?Or2YA9I5F90DkVDtEtqrpjtllAveIlyGDNi3MRvXyyIbrYUHmRo0I1ZeJWza?=
- =?us-ascii?Q?/pShucNJuA1YCt6UlLcVbTLDwtNRRwpUXt/8dXWh1VG0qxg7uAUljaq9IEhe?=
- =?us-ascii?Q?mqf+oe2J+oa0ZNNfweZ+/JnBnWQg9yeOpZj/8xB/owap+v+gYVCM7jmQ6ZGF?=
- =?us-ascii?Q?/zFC1q3S+L8X6TfCOuJDxmQmv/tTVkc5+uUQk37liwkaqcuKAKlbgpNSubtB?=
- =?us-ascii?Q?U4GMwdr0zrWwOmxbULQg9POyS38Ya9AEAXpH3/baq69XAsKGD0hsUYUX8rYL?=
- =?us-ascii?Q?FufguZ9Qx+25BfUnci43WLkIVBZbi/xDr6A8A50yFQoPm2vFNKFRihImYx4v?=
- =?us-ascii?Q?nw6Zhs/ra2DMe4nvh50/Lkfk1ZF+K4mEN5leWPh6PCOLQIJ82M3/uY1Bq04P?=
- =?us-ascii?Q?v33K7C8DkxHi0i27rXiJ/a4DzYRCQpP+oHWE7moHbNLlzF/WwPJf/CarmvYC?=
- =?us-ascii?Q?Ct9iSCTMfPsNcc67w7ilyGh6sJFSPn0prLpYsJPes3tt/8FFST7pS30uH8gv?=
- =?us-ascii?Q?5Fv0F6dcGzC8gfmC5oboYnXtcjXn61G1+TwCbvuIYlmNP4063BatoZfCm09A?=
- =?us-ascii?Q?vQcK97NDJWSNtUZwtdjrfPHHztiEjm3JNCLeyW0rRYzzd5OkWF6e5xID/FDb?=
- =?us-ascii?Q?FuB1hFLs6qQ8IxphCRznkDB327a2JAhOaOMlgQCZovvVOsm4gTDoHPbm3D8Y?=
- =?us-ascii?Q?TIdrnHBXFaBU0FvI5bYf9y2u+RrMK5J9pEjaSv9VMSxBExiJFw=3D=3D?=
+	=?us-ascii?Q?0PHPHa4Z9nuhYEqQlsxqSgf6XZnMBRWsTCF3kF4q2Ij85We0Bp0cP0XwVbap?=
+ =?us-ascii?Q?M+Mjh8hADhDQTzUtRoI0sy3nICNr9LSbAtUgydOs8Hcjqp+VjhBYn/2Uq6DL?=
+ =?us-ascii?Q?rFeOCJRNwMxdQgZbnOCvE8eRFu3VGYtF3DzeqEpub9i2sUaX0ZsAqoEJI8g7?=
+ =?us-ascii?Q?tVOi1FMT9O7efZYKsLlsX3Ain7L41SXyysfofl4tozFleafieIqMySePG9Bq?=
+ =?us-ascii?Q?fXM3xfs20doy6INIZtpAcBCb3rVWvT3i1NMvj5BwIDuVsY0NISXS98hv1mI1?=
+ =?us-ascii?Q?Y3J0jy/JYJWO6CtaqgqmqjOjsaURYSBH9w3+czmMto9h5FlaC5MWQeA7IUZa?=
+ =?us-ascii?Q?tPeuJoyB5qJHb7SJb4+Y1JDPcisbfECa3cpb4RBCSOe1ecVUiE51Z1X8Yx29?=
+ =?us-ascii?Q?GLXI8BYmjuZ+SjD1sowoXts2FNceRUaR5Lum3k8V/jsz4hl4xAwsg4P7yVLG?=
+ =?us-ascii?Q?BpGLjAjEXfZZ/qIC1k8o916zfkuvnT/jLxoJNh36ADW7FIX0EsoMEwmB7TZl?=
+ =?us-ascii?Q?ukYt7CRxC/mFRkuDc92q9AHcU99HYBwjnzbi+SslkCEVXkRLkSD+4WD1gSJ4?=
+ =?us-ascii?Q?9QLriy9FXrCuTzkWOJXjwqWkscDNb5XEmSG2qHFYRphOQtIVdbRS77fmMQ9B?=
+ =?us-ascii?Q?oK0XTpEE/kYZaJnJT+HIKKlTPqPmrJperdh6Zm0F+RGuG82jEL/DuyWlHWA6?=
+ =?us-ascii?Q?0CRXZ/dmoYNxY6MLHr0hEZH/nHZF4SckGqXe8NZmYARap+x2T+mESPG44akP?=
+ =?us-ascii?Q?oKesL9sbez84pGi+6FRGf3iDnoWfBdRytVQir5q+2kLMJM6/DD6UfynKH3Ys?=
+ =?us-ascii?Q?i7hkwEtVh2X6i3zYcTWDx6Hcd7LVpu9PadDpVvvhNGcU6YvHkp5azlLytouk?=
+ =?us-ascii?Q?B7ljEGxJHP7FAE/KBZowmhDWrzmkQ7X31ytatR1Sh03YKa6yUU9uwCWZc2mS?=
+ =?us-ascii?Q?f7BnGKB09v8mzyWb522HVtx+UxJvW65IyUcM8w+P0TrgwyWYCXOqzlhH4Aoz?=
+ =?us-ascii?Q?PPA4Q2k5z/sNVERGvMHsSvGMSFrLq2is9ktIHv83ITBa4yZUcGvIpD9sghDc?=
+ =?us-ascii?Q?ZazwqZW6VhCT9VqkRUxvpM3PMgZpGtddFWsfuJoyh3O4ETi/CnZcfQyeYRZA?=
+ =?us-ascii?Q?WbObpCPsEf+CQ+ToUe3vXjTquZfSt7Ej2NJFbrvmw/vTn09V0UJfxhnTSGDF?=
+ =?us-ascii?Q?nqrOT144fbX+FY7SFQNSUvRTZqoKua89EKGMwtUe3mhzo9zlOnxzGcs6m810?=
+ =?us-ascii?Q?9MRz09fO59zuPSzs2Cl2U+eiUg80IQAqDhd2tIIA101bNPFw6dRRBhah6LsL?=
+ =?us-ascii?Q?DnRVw2TVDNBPqoQDmf3GwnDPW2mzgZDCngomYFN6+v043YpEKMz8O+T0sqgY?=
+ =?us-ascii?Q?LKmmipWBcOJNMy/s49/LaU7npLtob87ypK2b+9wWeh3bVWrZEA=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?pQT2HOKM4paD/77jGbQfE0Yj8QybzE3Uhs1Ot48hoLdAKKjT5hzLjCSAbVwz?=
- =?us-ascii?Q?wTNjhejQGxuXJHTk0cfNnSOeIn10LSS0MYoDe03UgaBRb0i0O0HWjDsxUIn6?=
- =?us-ascii?Q?XvVgk9oqZbJgOMh5m0zFvO091Vfhdw92vkHVQS2ah27PIRDxOUGSPNzd0vB2?=
- =?us-ascii?Q?avUJ753Voicw533DUn8pyX4edwDTAyIpZVU5Z6DA5k3yZVW71qzWFBoxy6B+?=
- =?us-ascii?Q?+RXyhstrwoulkvUvh3J3gHGJa02UlcZmXRoWIFEAzOBbNhefB8DRnX5J2YHI?=
- =?us-ascii?Q?G5YNNCs4P5SY5PkcsJCvuz6vinoCifLnZDxfFWdCLu97STv+jzNAtpcx4r85?=
- =?us-ascii?Q?VTYmNvc6tXxvMzuEG7Tb4vomJHgfhoqBROtTyOvupRyH3bbMRaQHOouKI+hB?=
- =?us-ascii?Q?wt9xquJarqsJRdWLQF9fq9d80TWVWekp94rY4yznGaJhwgp4KdPi24x0VfSI?=
- =?us-ascii?Q?oe8TgHsuUGEVifNxPSL2flbvwPCdNHbDhq/FACnddvM7OcoWzoKG3IBxJzZm?=
- =?us-ascii?Q?FUwOJz1lXQBPVVGhsUB/JtkTcfEw95ph3TFg1mu73LDpYbQDZMXC0fFScKkZ?=
- =?us-ascii?Q?h8FPep29Cj8jwBdoMi39wFuMvMhEv7SLphQqnzCJJrYzLRF2NWXQHKtJskMt?=
- =?us-ascii?Q?xLHPznGrNXwZKS07iPE5GpNu3c3mgLb3tY5fXD/8WzMHaF/MDfgEXdohod1v?=
- =?us-ascii?Q?Gf0Wfb1r033lZPEVAlOM/LyjOBp+OA93vIJmXjFsKVDnRBc7U0X4vuTq+6+6?=
- =?us-ascii?Q?WDF2vMIgGdbAsOipHY1be8MT+v29RuHpFCILqe9cdLxsAShMt2Wc1BQGxkK8?=
- =?us-ascii?Q?anYam04NIErxxJdRMdGsVHE5M7aGcJ133uvLlloFRRcs6AZ0/PL2ZfzRXWGx?=
- =?us-ascii?Q?jEPnKs2Zfd2C/mIeuC87ePsJdofZmtB26ZaUvkyBFUYlpHP6/LZO2pKEfAle?=
- =?us-ascii?Q?g9jiyb99W5wb/ujXH5uDuTgo6tyNZBo3C3XnYG4g0i28xBULg4dFDN8imY07?=
- =?us-ascii?Q?KoBO34/mw0T0tkGrxACkP94eZvNeuJdn7oddFUhse89MiZ0+MeM0KN9aBBDc?=
- =?us-ascii?Q?Zn9msaRHdI0gpcOb9h34BXa6JicBwHpSXvE0UYzQzOcoo7eVMYCjiDCPCFt4?=
- =?us-ascii?Q?kNFaL7FI7Kkeha8JiiKynNrYXM9BlPRYgxAIFiHYgux4iIndr0FhqrvGUtZi?=
- =?us-ascii?Q?QJfHqVTINNDMjNTwQh0ic/WVYvKSsNFPruUK3b0a27HsECZqlQkPsazEQrgb?=
- =?us-ascii?Q?KZbkVRwcKWles8iPl+ddiAQOxthMFF221Pgvd/KDVIfD/tmGJIB5gnbN/EWe?=
- =?us-ascii?Q?qwtvL85vn7+TOhMf5cNMX3NTa0d70RWPcpN2CpPdDzs6/B5Fv7bVr9AqgF1j?=
- =?us-ascii?Q?XQYv8ZN4aOzfCMVcP5YpKP3ldHfuVzyjdcnxIwRDyozgT1neX1IFMdzwzX4G?=
- =?us-ascii?Q?CvYVA96Xd/NgN0mEydjgF/NlRTE6l2CsNQl2j1oruExgSxUE5cRFnH2pgS+I?=
- =?us-ascii?Q?ZAkjxbpRD65ln07OitoH04VobFaNH8HOQE+Sg7twc1rJMl2mj+iQI5v/Z/nm?=
- =?us-ascii?Q?n+D0pBlVkU2jctaa4xFAaILkZioSs5BlmLWavoH6XJv/z1QcdYizNlL9YC0u?=
- =?us-ascii?Q?iA=3D=3D?=
+	=?us-ascii?Q?wUYtYba/HBQqd3kp4FO1PHx0Shu8HeaNg7eZEQZ4F9yrysv2Jie+ywTMz5jS?=
+ =?us-ascii?Q?TK4fFo9VHpPuk3KQZd3aiAX7cCLen1IJaNOa/JUPL4FknajkNGALFkWN9dY7?=
+ =?us-ascii?Q?XUD235OgPryuQ3blUNB3/5FKlagxpCUw+J13na9ln5P8pGOcjDt93110OX8B?=
+ =?us-ascii?Q?Ikt/C1mGHlOY6ImaIgTaZE5R19JW8I/Hw/Bzvk4Xm4wMVD8rdu1WAI271gOp?=
+ =?us-ascii?Q?YFa+AZJVK7H2ifnsr+G0cyyzPqknNvpPJRUwzdWq8p+KGtKxX/dZO4r7GGZ6?=
+ =?us-ascii?Q?cjMJlD9ZUkAzQ/vVd+zDoER92UyRXI6DMfVl/yreuNipmnIBxisqzdH2z31X?=
+ =?us-ascii?Q?NIm+bl04iC8uEbUfJHVY1Qio54athA+kpmRMWcYrb/jy2bUm6iAJBbYf2JuJ?=
+ =?us-ascii?Q?cJjPWrC7CZ6Rd0ewJosc86DtwZDSEvPgxYIirYO3GI9pVQlKO9Nsy8ehdzsj?=
+ =?us-ascii?Q?L0lfBFSZJrkyFntQEDQCxzE8tFKCNJNBUWxXJuvPqFNjQzz7VuwPWxyZ9+b/?=
+ =?us-ascii?Q?8nZ2FMx7u3m6p0uHDSFgAZthQPeBh6VjcVnZOSqS1JNat/mS8U87ze6/n2b9?=
+ =?us-ascii?Q?siZnVvFqJehfFbJXRM4TZd7WKcD7SgU287VDmqoSGrsBGglUffkCPslmQ9/p?=
+ =?us-ascii?Q?o+5ZHOLewS+zr6vdt7QtNKTQz8CB8y8+ouHyviL7sKungb26Lt7RF6GkIMhg?=
+ =?us-ascii?Q?Ma0AvVeW81WladbdR9N3PNFRQj12owI4nZFWbN9zk8G+qHDWlhcvpINER+4u?=
+ =?us-ascii?Q?H8fCK81glkbVuxXjFD6j9Ma5x61o+ync3oZqw9W+4Hl/5v5qp8ctmC8SWxmP?=
+ =?us-ascii?Q?F8zHUkC5h/rqUWwbIrqQHaU2PlCQi56crXrEs1UduBtJEqtTbMFSbJuIVOx5?=
+ =?us-ascii?Q?hTaUvwqLysfAb2bQ6TuOiom7IhkIRa+FRDfuh5uHP89h2cKZwhQZ4VZFwMNJ?=
+ =?us-ascii?Q?Y+vmalNufqfzM51zPe37K0TPE5Lx+EOnzgUdt6E2bOpcjD8HYSeTzIL65kdL?=
+ =?us-ascii?Q?M6PPMZCP9HD+r6fSFE84CZ+llEnt0zB89TbaNLVU1FVGvDhuWyfyv4BTfDeH?=
+ =?us-ascii?Q?C8PxlyFaQWFKTCd9J7N5EWFExLbJvzeyyxiACFWkfRSBJLF9lTlIKuQi+rlS?=
+ =?us-ascii?Q?6SiwQHNg7DiTCevuFH+1BMiFZIAmp2cpUvBwns/wFmX/d66N12VqVj0AhKo9?=
+ =?us-ascii?Q?9tBbuItoABX2bUyXFwECG8pUmmwEPh//DNsBphq6oPBBUqIJghQq3OpGqtaZ?=
+ =?us-ascii?Q?KRE3Luv9miJ19DmQLBq9jSW3nAM2Oz1WqHI+EMLpqp8RjMPVmGQTsZt9+3Gm?=
+ =?us-ascii?Q?HgqarPklQeFabVflI7pNPL4rJSER+4/3v6XKlVjA1nzhZuIu7oqZnpGv1qVK?=
+ =?us-ascii?Q?4+xKVKLj6txk42pM/XPHDHXtScZ1bABGoPo8PI2ederFyM3Zgz5U+PO0YUEQ?=
+ =?us-ascii?Q?yI/SfM59rtymTDp8bxWe8bUSVgOwaSwFKn+3VPL1FzB1rCi4pBroUsaf/nxy?=
+ =?us-ascii?Q?RErIgETiG6PpL8Q9nAfhOEoCTW4xfaq1DC7NmPWUBpDe4akFBIXNXpTboTWr?=
+ =?us-ascii?Q?SAmd/NZBBBKnxyCQ+1rHYj2I6ZJ0G5Jffg8sGHe1pjmevzYtA+Q6l1fuD4Zi?=
+ =?us-ascii?Q?bg=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddf3b4c5-23d6-4b73-1828-08dcb7b98c6d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 628649cd-6fe9-4370-441e-08dcb7b98d6f
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 14:51:13.3405
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 14:51:15.0338
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QTnnqP9gmM1pw9gaJbvpvk4htM2KMic+HqaP7UuUwzFVhd7ZUXZtvdmmHxm6ZutnGonKlj6zIpgpT1Q80xgQG47oh9bXW6U0qiKtuoDHuzs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: dktYRRZbx0C8KJDIYgFdPYUHq/OjDt+H0oNBWlkYD5dlmNoZNuKim8YzT94mI63imSq0HB+36DFiSmqd9Rf3eUyKRGPUoiYKs4Md9+wFnT4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8147
-X-Proofpoint-ORIG-GUID: ZZl0tKOl715W1QK2HWUAEEzis5oVnajB
-X-Proofpoint-GUID: ZZl0tKOl715W1QK2HWUAEEzis5oVnajB
+X-Proofpoint-GUID: NOWUsRAlUKsJKQfJBsebqteXaVWV0iR9
+X-Proofpoint-ORIG-GUID: NOWUsRAlUKsJKQfJBsebqteXaVWV0iR9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-08_15,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 adultscore=0 mlxscore=0 mlxlogscore=890 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ mlxlogscore=802 clxscore=1015 bulkscore=0 suspectscore=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.21.0-2407110000 definitions=main-2408080104
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 14:51:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203141
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203142
 
 From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-Fixes the following failures:
-
-while runnig oe-selftest for gcc, testcases that need to be run on qemu
-are not running due to below failures:
-- kex_exchange_identification: read: Connection reset by peer^M
-   Connection reset by 192.168.7.2 port 22^M
-   ERROR: Couldn't create remote directory /tmp/runtest.3549814 on ssh
-To resolve kex exchange identification error increased the MaxStartups.
-
-while running oe-selftest for gcc, with allowing multiple ssh sessions
-some testcases are failing due to below failures:
--mux_client_request_session: session request failed: Session open refused by peer
- Host key verification failed.
- ERROR: Couldn't create remote directory /tmp/runtest.3658735 on linux-ssh
-
-To resolve mux_client_request_session request failures increased
-MaxSessions.
+Reusing SSH Connection to speed up remote login process
+using multiplexing to reduce time taken while running
+oe-selftest for gcc.
 
 Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- meta/recipes-connectivity/openssh/openssh/sshd_config | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/gcc.py         | 23 +++++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-testsuite.inc |  3 ++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
-index e9eaf93157..37ffe28142 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd_config
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
-@@ -34,7 +34,7 @@ Include /etc/ssh/sshd_config.d/*.conf
- #PermitRootLogin prohibit-password
- #StrictModes yes
- #MaxAuthTries 6
--#MaxSessions 10
-+MaxSessions 1000
+diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
+index 4cc0894d42..036c69335b 100644
+--- a/meta/lib/oeqa/selftest/cases/gcc.py
++++ b/meta/lib/oeqa/selftest/cases/gcc.py
+@@ -5,6 +5,7 @@
+ #
+ import os
+ import time
++import subprocess
+ from oeqa.core.decorator import OETestTag
+ from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+@@ -69,6 +70,19 @@ class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+                 for test, result in parse_values(f):
+                     self.ptest_result(ptestsuite, test, result)
  
- #PubkeyAuthentication yes
++        if ssh is not None:
++            # Define the control path used for the SSH connection
++            control_path = os.path.expanduser("~/.ssh/control-{}@{}:22".format("root", ssh))
++
++            # Check if the control socket exists
++            if os.path.exists(control_path):
++                # Close the master SSH connection
++                close_command = [
++                    "ssh", "-o", "ControlPath={}".format(control_path),
++                    "-O", "exit", "root@{}".format(ssh)
++                ]
++                subprocess.run(close_command, check=True)
++
+     def run_check_emulated(self, *args, **kwargs):
+         # build core-image-minimal with required packages
+         default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
+@@ -83,6 +97,15 @@ class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             # validate that SSH is working
+             status, _ = qemu.run("uname")
+             self.assertEqual(status, 0)
++            qemu_ip = qemu.ip
++            ssh_command = [
++            "ssh", "-o", "StrictHostKeyChecking=no",
++            "-o", "UserKnownHostsFile=/dev/null",
++            "-o", "ControlMaster=auto",
++            "-o", "ControlPath=~/.ssh/control-%r@%h:%p",
++            "-o", "Controlpersist=yes", "root@{}".format(qemu_ip),
++            "exit" ]
++            subprocess.run(ssh_command, check=True)
  
-@@ -100,7 +100,7 @@ ClientAliveInterval 15
- ClientAliveCountMax 4
- #UseDNS no
- #PidFile /var/run/sshd.pid
--#MaxStartups 10:30:100
-+MaxStartups 75:30:100
- #PermitTunnel no
- #ChrootDirectory none
- #VersionAddendum none
+             return self.run_check(*args, ssh=qemu.ip, **kwargs)
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-testsuite.inc b/meta/recipes-devtools/gcc/gcc-testsuite.inc
+index 0a950b6c9e..dbb11c8d78 100644
+--- a/meta/recipes-devtools/gcc/gcc-testsuite.inc
++++ b/meta/recipes-devtools/gcc/gcc-testsuite.inc
+@@ -87,7 +87,8 @@ python check_prepare() {
+         content.append("set_board_info username {0}".format(d.getVar("TOOLCHAIN_TEST_HOST_USER")))
+ 
+         port = d.getVar("TOOLCHAIN_TEST_HOST_PORT")
+-        content.append("set_board_info rsh_prog \"/usr/bin/ssh -p {0} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\"".format(port))
++        qemuip_address = d.getVar("TOOLCHAIN_TEST_HOST")
++        content.append("set_board_info rsh_prog \"/usr/bin/ssh -S ~/.ssh/control-root@{0}:{1}   \"".format( qemuip_address, port))
+         content.append("set_board_info rcp_prog \"/usr/bin/scp -P {0} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\"".format(port))
+ 
+         return "\n".join(content)
 -- 
 2.43.0
 
