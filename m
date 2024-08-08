@@ -1,136 +1,174 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E925AC3DA4A
-	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 13:27:47 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.59973.1723123663667853985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AEA7C52D6F
+	for <webhook@archiver.kernel.org>; Thu,  8 Aug 2024 14:51:18 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.61944.1723128672982660482
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Aug 2024 06:27:44 -0700
+ Thu, 08 Aug 2024 07:51:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QpRRco30;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3687f91af40so588602f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 06:27:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1723123662; x=1723728462; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4OzZ+HnS43e7aPZd5uWU2kIR8Z8SGWOj4GiEObrJ3VU=;
-        b=QpRRco30z8EmG2IrVf4sO29BrX1a7Z6t1A93z3s0y+UvxHSUSu7nOFkRkkX4AGcB0/
-         e8uuNn9kaimWRZWdOdc4DazX2QrR4Z8tVuJcC7R2VGIAWURzZsCwuo+oQgQs8W7NlIvN
-         ufFFbuPVh8DhmtZ3kGB0JlmmOh134+ZuuJ+u8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723123662; x=1723728462;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4OzZ+HnS43e7aPZd5uWU2kIR8Z8SGWOj4GiEObrJ3VU=;
-        b=VtwQftJH5LDnC/Rxq7k9Cnm1bzTdx0EUSnzBGTDqyzNQZJhCJ7v7tJyVXuN3vQ0ZCD
-         7IVdJiAve/p8ugEhyy0MnQbrI20+NoVFz/DQ1qIxKcWUlvGWtSNOJCDj721rzqbCR8cD
-         fcGfCMUeoAuUePxy/VT+fCOkenDV+2wSWYPHr4BFm76nFa8OrWfh7eZRl8Fs+X8eTtNv
-         5/o3QLuLeJwE30/mZWDmtcKx7JBY1vy+wLNY8YSQsmXxTAJJmCIUgNUc7AICutlOxf7h
-         OzQiTUaylAzQYoIMObQHawWmDRjfG0/BUbTLinEvdj1EgvpYI6OMVY2AxwcRiXObpgRQ
-         hSWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUxhwOdjUfN5xVwGcbM5nqPAA4CPpX4np6tzNVU3tPmzyav3DmbXwa8WAkp58hs6VARJgUw1pmen6LWb/RTb3ZFjQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwNBK4gF0ISLyl6Lv2potVsgRquiHa75SG7rRlXDjh1+kRN4wg1
-	IDfRmenMbd8gh3Vx4HUJm3KvMmKqWRWVdqeQdfgZH0t9NbfrOknkEJCDoYYkazI=
-X-Google-Smtp-Source: AGHT+IEeuwDz70TYkf+W3cFNTU42TfLJxE/2jrpLt0N6/mnw4JX6Cu87EGOKc/mC8t6BOWJ6nw00Dw==
-X-Received: by 2002:adf:e8c1:0:b0:368:3f5b:2ae4 with SMTP id ffacd0b85a97d-36d274ee3c7mr1314384f8f.36.1723123661944;
-        Thu, 08 Aug 2024 06:27:41 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:43bd:e590:a93b:4c51? ([2001:8b0:aba:5f3c:43bd:e590:a93b:4c51])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36d2716bf49sm1956041f8f.25.2024.08.08.06.27.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 06:27:41 -0700 (PDT)
-Message-ID: <f5369479504970df6863b80f3e808b69bbd09f47.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [V2][master][PATCH] libcap-ng: update SRC_URI
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org, 
-	alex@linutronix.de
-Date: Thu, 08 Aug 2024 14:27:40 +0100
-In-Reply-To: <20240808081754.809770-1-changqing.li@windriver.com>
-References: <20240808081754.809770-1-changqing.li@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=895026df3f=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 478CrS9s019869
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Aug 2024 07:51:12 -0700
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v0c91px4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 07:51:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wlm6ariOOj/HdSEG4kgkssYj7iUgXSTC2x8XcRwyUxEls14SwC0e0NUhzI+8SqSrXj89EZnq+KQaJT1tJLuSeyyzSPmNWR8Sq6Sih3Ma0CHEri7H4LrQ0OB48AFNnJvheYv6CXhinb7RlohmptkgUuPR1Tk+YgCC4A9AVKc5NO19kY0A8/rsW7/xciqnTK39lv2XlOGoMFv6KiCABUu0WGE/mLGvf55WwNN4pf8Z4bskwpOGz3QCqdmEYk/8o56j6t61bJueRUIG4E12SrBn6RxGM76sqe/qDR3w8MSII0pR8yispq3Zrqj9uqXEfbRfTjgg0/vUplYCcuw/MS6nMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/2uPjOmuevUR5hTb6xsiTP3/BySF1BiM9qD8ARrw5RQ=;
+ b=qVMY/kA4o7//4wT+F4KQwbR9K0b6Da122IYY9/Mk4sk9dnBGnd6NBbRMY1eyREXhDarOgz7sK+v4fA9fxrjT3ET7hiq9B3SKzSaN4D6LhSblPMQ9P23U23IrnsRvX3HSa+b/Cvo3OEI4lEV1YUD4XczuQ1hIBnRgj+REKE+lI6eIgKBt4U229K+0Ardu0nHjCppxhBzM4B65vHv6jBXxL5liR08GaDYFx7kfhBRE70kTzF2tS9yosNb0FEqpQdFYSswzdT8zjW9UTU47hv4WIJ+WeOCJZmEFev7CVWzU/ZpOjd7D6cHlo01ylMe8xV39zteqTwYyAsbQ7Z9rlJHZfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by MN0PR11MB5962.namprd11.prod.outlook.com (2603:10b6:208:371::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.27; Thu, 8 Aug
+ 2024 14:51:09 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::f440:269f:9645:29c0]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::f440:269f:9645:29c0%7]) with mapi id 15.20.7828.023; Thu, 8 Aug 2024
+ 14:51:09 +0000
+From: Harish.Sadineni@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Sundeep.Kokkonda@windriver.com
+Subject: [PATCH 1/4] gcc-runtime: enabling "network" task specific flag
+Date: Thu,  8 Aug 2024 07:50:39 -0700
+Message-ID: <20240808145042.3914762-1-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR05CA0054.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::31) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|MN0PR11MB5962:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69faa5b0-8a74-4765-0e4e-08dcb7b98a17
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|366016|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?pnIp45bCA0ABDd+6XBHHwdlTBK3izBFXUrOioYp3ZzurmiIqk0Yl82O0kw4A?=
+ =?us-ascii?Q?WXJ+eJmlhHUXArSN8xm8TtH6s13YUIv/GrtelbTmqmhUh1NrJQA9fiEqI3sT?=
+ =?us-ascii?Q?szRbxMHxS/sDsDx1ZL05Y2b3w6VIaHaJP2CauFP0ZvHBf9iWUeaeqzVFFtiT?=
+ =?us-ascii?Q?s1TGPXXrZH//b/nAw3+XogahGqdJtnyxhTNVbAxTYg7czVt5rlPHC5LKnwDV?=
+ =?us-ascii?Q?cpHQBn/HoDyB3P5eeQO/72ipRN1hm5eX6yt9FAV8UXsvIJuINqGrf+vLyVNf?=
+ =?us-ascii?Q?2FzOe0CGgYx/zuK9REzagrD7ZvuVdG1V3M2ZvJNQ7K9mt7yftIPPTCZ6llqN?=
+ =?us-ascii?Q?2jFJ4Rca3Q2IBrDURX3K6d4haffguhG+KBX0Z/3w5mPoz360kq0/WiNBAvTK?=
+ =?us-ascii?Q?n61fuehPM8w87jS+jyvVsWoWlrCQvEYEhE5/oKMXD16Zq2vXDblyQacCBu7+?=
+ =?us-ascii?Q?U4D0ixaez2qst5fowR6nIg9Y3os5b2X9wc2h9n8HTyszWZQ5rcu03BQRCL1R?=
+ =?us-ascii?Q?OZJvhVH5MCAZb0t+Ga/Hga9x/iJh1xqs0IyaPV0311zFfPv5qIVDPLr7o7Z1?=
+ =?us-ascii?Q?KySX/zKKZ+VvubKYed2cz96cjLLwc4DZxOplVnMS6tcKVWf+usrn+jb9vD+Z?=
+ =?us-ascii?Q?Fxr8p/3ONTfTzuzoPQ5iq1lATguEyl4O2oMeZhFO4KAQsJHl6hnOV0HJ9oQx?=
+ =?us-ascii?Q?MnTJOEJ50q1CX7uvDnHPlgcc5Nt9qE0nYzxBytXOyUDrZ0vmOeM8Foq9r7mM?=
+ =?us-ascii?Q?StkX8Y3Pz+S1KTg9UOSFsxXKF0Y3bA2zirhUCtnpj8qhnV6hfesXKof7xzEj?=
+ =?us-ascii?Q?qePQc3nPxwpux9QSEyP0nxGNWH/wE59DbP3syWUZLdSkyMh/KRbX+sHYNFgc?=
+ =?us-ascii?Q?5aYlrk/wHvgWt21ium1iCpemFFaeTo3BcLlguLB6w8kPRjkI6wbkjpySuaWD?=
+ =?us-ascii?Q?SMyPSHV8hebC/LCuGneWYosKFcx6WKGGGUFHhBrcQFq+dKge1Q4UX6e+vJSe?=
+ =?us-ascii?Q?Zc5x2K6cmPgykgpIiW7aHr+EABkLaYPQfCkfELmAJPMr7dqGJ10CmPR5YI1Y?=
+ =?us-ascii?Q?raCjcbD90vn7/Iya2fPrEASzmnObq/huPTg9QCqMh7FThJ7HrttQi31rYyeV?=
+ =?us-ascii?Q?DVMg3GRrHawRfxyrgHWpR79FZPqqSnGatIx7zcXw02tJP7MEZd4LqsmTWgL+?=
+ =?us-ascii?Q?3kh0AHFJogBFkqA8ifHXPWw8yDQ/yOgqxh147KNAsvsNGcXVyugOlXo8ovHE?=
+ =?us-ascii?Q?kcgjnnu6eyOiFKy0wYEdcEtFdJUSreYC/+N9BS+nfgl9MVMCw0+q9YDSh076?=
+ =?us-ascii?Q?c1W0TLJ6PvbmAn3PvCMaL+iBu1yOFp5wxUYTitMP2mN4JYhpnVnVFSAyB1xc?=
+ =?us-ascii?Q?Zb8oq9qm2JN2JGSCc4JCf9WW/i4Aeok+ZScNzLgVqoN2N2G/kw=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?xbkt8Z1fk38qF8nu2rMrWZR44vRvSc9b/bxKwVPUaiT6TqkT14yoTpCB/mOO?=
+ =?us-ascii?Q?zRNCcikhrp27U3n/FR9czgF4NrS+DVPpuEjOCXGowPWycpUSrEIxakYuQGkp?=
+ =?us-ascii?Q?z56uMo5sCnoAcr1HsXzRuWy0rlqe127AmKyxxrFtbPuUWsjylaFwoZKVDQ8A?=
+ =?us-ascii?Q?LT/r3BICjUHsqvpnAkpA8ZvPpjwhr0q4kFh4ju+gFc7cwreto7/4lBlPkcXG?=
+ =?us-ascii?Q?VhkHnM4DzIa3LWQkRwyh+EXf280XjGc0cLTX+AT/JESyxOrBg3O0xJdVESIS?=
+ =?us-ascii?Q?KPfauc/5/JF4GGJuCeO42ryjdaTrhi1iSYqt7/HUpYmUnVe0iZQqQFky04FA?=
+ =?us-ascii?Q?l1CX6131YIYa5yQU0S0cQzJSHNAP4fPl5JLnf3UWOibbIDIsbNHMT8MwA0NX?=
+ =?us-ascii?Q?Ic35zoiYhmwP90jAhCHgbTnN1yXjA4sn2oEXutsK1yYZSAANisBy8scKyE7S?=
+ =?us-ascii?Q?zjDg35RSYa7DFbMyqLMXMb0p39pc6mXZDrRdQ+EptS5olixy4hoh7lngEQKd?=
+ =?us-ascii?Q?9J1maF4hQk7BjAARiCrRd4RxhqcTBcxznif91SOlF8jxr30e77t7xIvquHdd?=
+ =?us-ascii?Q?4/QGb8KN8ORswKkEw6R/2OcSWk8ivt7KEVO9rBq5PFIwGsK4b1xza8xzvs/e?=
+ =?us-ascii?Q?MOKwO99Dn5jF1XcQ/9BgDSXskoK1svrMz/BAaI8IyoqnRONJ95lXSDw13OJ1?=
+ =?us-ascii?Q?freJOwx6FcNjOyoY2SpBtFUzWmk6fCUrRzW0OoeYWnoqeCjGzutETnpp5lgm?=
+ =?us-ascii?Q?mziePTt4jCdYtAQAXb7QTtwORvB3KlKIz/nxLy0Bb00K5LPTO+O7QKyflnTp?=
+ =?us-ascii?Q?akKoAmOlGpm27TZVxEjA1oZCkIb4onZyXLoA9cRx6658/7fEVeJIMYiiltUm?=
+ =?us-ascii?Q?E5AcLbewAOCvIttTayP+zEyFoTvWcEiUEu/0wGrpVRermAn+CAqa55P1cduK?=
+ =?us-ascii?Q?5H8jbUFj+RLICLRk7wgPXTjUxqXotQ9WPeJ5MDpa67DHkFIOrNWQwEqYm76b?=
+ =?us-ascii?Q?pyWCWlKKKS+L1v64Dt+WPzMqWduuAQ95DGEhJ7lobR0Q2s3A1SgoOvRDisP/?=
+ =?us-ascii?Q?k8j56eGcAs6FMXl4l3L/UXl7JxatCi0yQEhwQ2Gch6St9vkmG0Z2BbJyxOIv?=
+ =?us-ascii?Q?Qo0+elso6wAwyzQQwwE36Jo9mYsRDWvHqyNPelDoPD6EBUnPSb2Ymb5MAsDf?=
+ =?us-ascii?Q?6Ou/qhAKPMohvcXXjmeYevvBPWkssqvFsFGL3dIWvLXB4uWDp4oHF/O3Uy8f?=
+ =?us-ascii?Q?h5WO0cZbAy9JMbS8QmS47cKQcbyhcjQsgQiXEFp+wN+A23DzZlMbCbo6tcX8?=
+ =?us-ascii?Q?l+gEmFCRJulQlahnReJgi8LgMtOwe1J8rQfHO/2Z6XiKAR+uu4isP+EU+/LX?=
+ =?us-ascii?Q?3n3m7NDA+mv1EjDXO5eTgk3OVNprNrHd1WURHjr1KSFbPQfwVCCEPZKI2rB/?=
+ =?us-ascii?Q?pLF32J7D90gou3s6Uk+xyqN1dth/JFCc3+qI7fKfEdbMZCCsgS5L8imMmKP1?=
+ =?us-ascii?Q?BSgOGg+I5vktoHjRYX//JE9Q6safEtOaX4D2k3lvr9VBATfM0dvidZf+dQCM?=
+ =?us-ascii?Q?ri8KWISTnU0v+/M+fZkrue+zDw425ODY++jwpCDqCB2X/LFUSexrLfzpXS/m?=
+ =?us-ascii?Q?Bg=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69faa5b0-8a74-4765-0e4e-08dcb7b98a17
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 14:51:09.5178
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SN9bOpAHsytp/Ni2nNZicsugUN5yIBthoaOFwLP6R3gdHbEOztxqiD/uaowM37OYz7FKVuQypLhG42/TGPhYcDtJ312GUH/qHjOSJPfSmDE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB5962
+X-Proofpoint-ORIG-GUID: QWWgdadm48HhKfi4JPXr-w-7R5mGexWX
+X-Proofpoint-GUID: QWWgdadm48HhKfi4JPXr-w-7R5mGexWX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-08_15,2024-08-07_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 mlxlogscore=999 priorityscore=1501 lowpriorityscore=0
+ bulkscore=0 adultscore=0 clxscore=1011 spamscore=0 phishscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2408080104
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 13:27:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203138
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Aug 2024 14:51:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203139
 
-On Thu, 2024-08-08 at 16:17 +0800, Changqing Li via lists.openembedded.org =
-wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->=20
-> Refer [1], people.redhat.com has certificate issue, so update SRC_URI
-> to fix do_fetch warning
->=20
-> [1] https://github.com/stevegrubb/libcap-ng/issues/56
->=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
-> =C2=A0meta/recipes-support/libcap-ng/libcap-ng.inc=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 6 +++---
-> =C2=A0meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb | 4 ++++
-> =C2=A02 files changed, 7 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-=
-support/libcap-ng/libcap-ng.inc
-> index 85b51c4dc6..6549bce006 100644
-> --- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-> +++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-> @@ -7,11 +7,11 @@ LICENSE =3D "GPL-2.0-or-later & LGPL-2.1-or-later"
-> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df0=
-79bae19f=C2=A0\
-> =C2=A0		=C2=A0=C2=A0=C2=A0 file://COPYING.LIB;md5=3De3eda01d9815f8d24aae2=
-dbd89b68b06"
-> =C2=A0
-> -SRC_URI =3D "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.=
-tar.gz=C2=A0\
-> +SRC_URI =3D "git://github.com/stevegrubb/libcap-ng.git;protocol=3Dhttps;=
-branch=3Dmaster \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/0001-Fix-python-path-when-invoking-py-compile-54.patch=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
-> -
-> -SRC_URI[sha256sum] =3D "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185=
-dfd844cc8c7ac6ff"
-> +SRCREV =3D "f5d39702622208b3ada064d7b2eaeaf1454c9bd3"
-> +S =3D "${WORKDIR}/git"
-> =C2=A0
-> =C2=A0inherit lib_package autotools
-> =C2=A0
-> diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb b/meta/rec=
-ipes-support/libcap-ng/libcap-ng_0.8.5.bb
-> index b482368a41..26899296e3 100644
-> --- a/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-> +++ b/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb
-> @@ -4,6 +4,10 @@ EXTRA_OECONF +=3D "--without-python3"
-> =C2=A0
-> =C2=A0BBCLASSEXTEND =3D "native nativesdk"
-> =C2=A0
-> +do_configure:prepend() {
-> +=C2=A0=C2=A0=C2=A0 touch ${S}/NEWS
-> +}
-> +
-> =C2=A0do_install:append() {
-> =C2=A0	# Moving libcap-ng to base_libdir
-> =C2=A0	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
->=20
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-This breaks libcap-ng-python:
+Adding a "network" task specific flag which then triggers networking to
+be enabled for this task, it is otherwise disabled which will cause
+failures while running oe-selftest.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/9370/step=
-s/11/logs/stdio
+Fixes the following issues while running oe-selftest for gcc:
+1)ssh: connect to host X.X.X.X port 22: Network is unreachable.
+2)Bad owner or permissions on /etc/ssh/ssh_config.d/50-redhat.conf.
 
-Cheers,
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+---
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Richard
-
-
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 8e0d1a6889..7afe34ebed 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -292,6 +292,7 @@ do_check[prefuncs] += "extend_recipe_sysroot"
+ do_check[prefuncs] += "check_prepare"
+ do_check[dirs] = "${WORKDIR}/dejagnu ${B}"
+ do_check[nostamp] = "1"
++do_check[network] = "1"
+ do_check() {
+     export DEJAGNU="${WORKDIR}/dejagnu/site.exp"
+ 
+-- 
+2.43.0
 
 
