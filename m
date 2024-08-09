@@ -1,100 +1,83 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3A4DC3DA4A
-	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 06:36:43 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.78563.1723185396483308080
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A34F3C3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 06:41:23 +0000 (UTC)
+Received: from h1.cmg1.smtp.forpsi.com (h1.cmg1.smtp.forpsi.com [81.2.195.162])
+ by mx.groups.io with SMTP id smtpd.web11.78560.1723185674005446982
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Aug 2024 23:36:36 -0700
+ Thu, 08 Aug 2024 23:41:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cL1/rkjh;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=BHq8OMTY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019135da77a8-e00e8b93-b72f-41d0-a882-0a5e28b9fa45-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1723185395; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=GOppdfwqpAy+wVzROPI6PjWT8IzyNAHqKQnXTKo6f4c=;
-	b=cL1/rkjhtUcCoE66TH95R/3wBJjTxM8We4Re0M3gSMuv+3bDWL3UcvmUyfD/+mUL
-	hDD0kInRUaZcu2W+gvyUMi0um2P50BSZ+3yHBH1GNjEeaUwqDq/xy10f3UlCbk4mtav
-	lZm2nu/npNpHns/TBXGowFqI8tg/KPM8tp0U24WE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723185395;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=GOppdfwqpAy+wVzROPI6PjWT8IzyNAHqKQnXTKo6f4c=;
-	b=BHq8OMTYpqHTqjIcHX6oHQ3TDfZqITFctbMSiOGz3XSf81F2jA29BnUGLY5MSBY/
-	0EsrIJdl5hGpdUJbB032ommR7q6FXCtjX65oHpUwL92xzw7ml8fUxfilyaGATGksbRw
-	e8g/MUpmv4V58fIjnQ8Y2f5yooFlPzHxOFmHiflY=
-From: patchtest@automation.yoctoproject.org
-To: Marta Rybczynska <rybczynska@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [RFC][PATCH 2/2] cve-extra-inclusions: encode CPEs of affected
- packages
-In-Reply-To: <20240809062339.15465-2-marta.rybczynska@syslinbit.com>
-References: <20240809062339.15465-2-marta.rybczynska@syslinbit.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019135da77a8-e00e8b93-b72f-41d0-a882-0a5e28b9fa45-000000@us-west-2.amazonses.com>
-Date: Fri, 9 Aug 2024 06:36:35 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.09-54.240.27.33
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=R8RX5Qiu;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 81.2.195.162, mailfrom: andrej.v@skyrain.eu)
+Received: from [192.168.10.89] ([62.197.243.174])
+	by cmgsmtp with ESMTPSA
+	id cJJHsz2Ji4k5vcJJHsmigr; Fri, 09 Aug 2024 08:41:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1723185671; bh=heOOMzXbLS09WYWn77Ne4QgOKg2D4yOOBXfSPvuKC+w=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type;
+	b=R8RX5QiuTYp6N6FYOpFvOL0L7RmQk8Hn87AtdgvlL2QoCGx8SvzPYShHvQAxqhuGc
+	 Dc3MwWbqN3XnBqk/QDWUYpP6a1937SWvXf+zxDLV/4IS7jCxecyBnvT68vvvwBYJIZ
+	 UCjcOwCSL8ZQuuoIGUXtJHhYQFnr1bK19bLXuGhGBJugsITSziyU0Tq1/IYewVN2Tv
+	 4lHv91Ovba20tVp984wb9mV4hPN2FyIqt9hIh0lVw/yMp4+B8bxG76ujNDAb29bqq9
+	 ulS3OM0EurCY/Lewp5lJBmKDKq+S0N3ZDspawkCt5ultooepauXkJXAKz6LpHrK6JI
+	 NmhgGhhcTtA9w==
+Message-ID: <9d12e616-a06c-4182-95bc-a6bba7f9e422@skyrain.eu>
+Date: Fri, 9 Aug 2024 08:41:11 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+From: Andrej Valek <andrej.v@skyrain.eu>
+Subject: [oe]printhello
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfE+NDa0GL0CZopvXr/FJmxM+2/zVEivs9HsWRABVvhlmEobgMihJZbFGAPJY7tOs2G96sWmvYv3UI3jOvY7w71tlbiNcLuclnuuqzJCmvzpoIl2OLCcR
+ Y3omIbleyuTItpUSbrO6UV7mrWmw4BZ6dxr5wNFxalhqfTqw60lR+z/jgMtIxAsgIM5smvCyt5qfvCF0SuAt8sXCYgP3cEbwf5JRnT5RltOk4emuP84+oWT5
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 06:36:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203155
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 06:41:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203156
 
---NextPart
-Content-Type: text/plain
+Dear community!
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I know this could be a funny question, but I wanted to use the 
+"printhello" recipe as a basic example. But looks like, that is little 
+bit "out-of-date".
 
----
-Testing patch /home/patchtest/share/mboxes/RFC-2-2-cve-extra-inclusions-encode-CPEs-of-affected-packages.patch
+I know, that I can crate a custom recipe, but I wanted to use something 
+"standard", so I took 
+poky/bitbake/doc/bitbake-user-manual/bitbake-user-manual-hello.rst and 
+created an "printhello.bb" out of it. I made some modifications to try 
+to make it working.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+  DESCRIPTION = "Prints Hello World"
++LICENSE = "CLOSED"
+  PN = 'printhello'
+  PV = '1'
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
++ inherit allarch
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+  python do_build() {
+-   bb.plain("********************");
+-   bb.plain("*                  *");
+-   bb.plain("*  Hello, World!   *");
+-   bb.plain("*                  *");
+-   bb.plain("********************");
++   bb.warn("********************");
++   bb.warn("*                  *");
++   bb.warn("*  Hello, World!   *");
++   bb.warn("*                  *");
++   bb.warn("********************");
+  }
 
----
++SSTATE_SKIP_CREATION = "1"
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Even if I made these modifications nothing has been printed in terminal.
+So the question is how good is the example?
 
---NextPart
-
-
---NextPart--
+Thank you,
+Andy
 
