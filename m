@@ -1,110 +1,76 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hetpat@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63560C52D71
-	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 05:45:23 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.78055.1723182315453663759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 795DEC3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 06:02:13 +0000 (UTC)
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.web10.78216.1723183323640950676
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Aug 2024 22:45:15 -0700
+ Thu, 08 Aug 2024 23:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8951ecdeaa=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 479502UR018791;
-	Fri, 9 Aug 2024 05:45:12 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40v09rtc4f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 09 Aug 2024 05:45:12 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 8 Aug 2024 22:45:11 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Thu, 8 Aug 2024 22:45:10 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex@linutronix.de>
-Subject: [V3][master][PATCH] libcap-ng: update SRC_URI
-Date: Fri, 9 Aug 2024 13:45:09 +0800
-Message-ID: <20240809054509.127080-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <f5369479504970df6863b80f3e808b69bbd09f47.camel@linuxfoundation.org>
-References: <f5369479504970df6863b80f3e808b69bbd09f47.camel@linuxfoundation.org>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=geVtqfzV;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: hetpat@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=896; q=dns/txt; s=iport;
+  t=1723183323; x=1724392923;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nvvyUgV7qMNuLRDyCOFexsyByhHaoqS7ZdiVp7UuIMk=;
+  b=geVtqfzV3bshSqvBb2XZYjqY1GN6gQMjNW/Btf9SS/i4DNKkBzTKi1nA
+   Y/vl2KrqaynKh5evY9EusJ7cV5kROcVT6Clmye+SAtQJapdOnGvW9owjn
+   ZFzTjIkbdN64qw2mbBDBqAZrrwMBnplNSvqM+E9uV5JVS1ONlopRJDA3U
+   A=;
+X-CSE-ConnectionGUID: e4r/0zu+R9yn017At9TWdA==
+X-CSE-MsgGUID: Chwd+vq1SVWPj7TNJQiOAQ==
+X-IronPort-AV: E=Sophos;i="6.09,275,1716249600"; 
+   d="scan'208";a="231449663"
+Received: from rcdn-core-2.cisco.com ([173.37.93.153])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 06:02:03 +0000
+Received: from sjc-ads-10099.cisco.com (sjc-ads-10099.cisco.com [10.30.210.103])
+	by rcdn-core-2.cisco.com (8.15.2/8.15.2) with ESMTPS id 479622bf005489
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 9 Aug 2024 06:02:02 GMT
+Received: by sjc-ads-10099.cisco.com (Postfix, from userid 1847788)
+	id 0BF17CC1282; Thu,  8 Aug 2024 23:02:02 -0700 (PDT)
+From: Het Patel <hetpat@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com, Het Patel <hetpat@cisco.com>
+Subject: [master] [PATCH v2] zlib: Add CVE_PRODUCT to exclude false positives
+Date: Thu,  8 Aug 2024 22:57:00 -0700
+Message-Id: <20240809055700.3231161-1-hetpat@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: PZOBhBuq_7RZsO-gZBa3V1Bk_yvYG-yK
-X-Proofpoint-ORIG-GUID: PZOBhBuq_7RZsO-gZBa3V1Bk_yvYG-yK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-09_02,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- mlxlogscore=999 clxscore=1015 bulkscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2408090042
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.30.210.103, sjc-ads-10099.cisco.com
+X-Outbound-Node: rcdn-core-2.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 05:45:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203149
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 06:02:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203150
 
-From: Changqing Li <changqing.li@windriver.com>
+To avoid false positives (such as CVE-2023-6992, cloudflare:zlib), add a
+CVE_PRODUCT to identify the vendors that have been used.
 
-Refer [1], people.redhat.com has certificate issue, so update SRC_URI
-to fix do_fetch warning
+Removing the present existing CVE_STATUS for CVE-2023-6992.
 
-[1] https://github.com/stevegrubb/libcap-ng/issues/56
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Het Patel <hetpat@cisco.com>
 ---
- .../libcap-ng/libcap-ng-python_0.8.5.bb                |  2 --
- meta/recipes-support/libcap-ng/libcap-ng.inc           | 10 +++++++---
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ meta/recipes-core/zlib/zlib_1.3.1.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-index f8a6b2c317..f702056f02 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-+++ b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-@@ -8,8 +8,6 @@ inherit python3targetconfig
+diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zlib/zlib_1.3.1.bb
+index e6a81ef789..486431dfff 100644
+--- a/meta/recipes-core/zlib/zlib_1.3.1.bb
++++ b/meta/recipes-core/zlib/zlib_1.3.1.bb
+@@ -47,4 +47,6 @@ do_install_ptest() {
+ BBCLASSEXTEND = "native nativesdk"
  
- DEPENDS += "libcap-ng python3 swig-native"
- 
--S = "${WORKDIR}/libcap-ng-${PV}"
--
- EXTRA_OECONF += "--with-python3"
- 
- do_install() {
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index 85b51c4dc6..4c8ffd41c2 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -7,14 +7,18 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
- 
--SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
-+SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master \
-            file://0001-Fix-python-path-when-invoking-py-compile-54.patch \
-            "
--
--SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
-+SRCREV = "f5d39702622208b3ada064d7b2eaeaf1454c9bd3"
-+S = "${WORKDIR}/git"
- 
- inherit lib_package autotools
- 
-+do_configure:prepend() {
-+    touch ${S}/NEWS
-+}
+ CVE_STATUS[CVE-2023-45853] = "not-applicable-config: we don't build minizip"
+-CVE_STATUS[CVE-2023-6992] = "cpe-incorrect: this CVE is for cloudflare zlib"
 +
- EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- 
--- 
-2.25.1
-
++# Adding 'CVE_PRODUCT' to avoid false detection of CVEs
++CVE_PRODUCT = "zlib:zlib gnu:zlib"
 
