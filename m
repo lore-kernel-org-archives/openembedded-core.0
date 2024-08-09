@@ -1,123 +1,116 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AFAC3DA4A
-	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 07:16:03 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.78872.1723187757573997966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48703C3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 08:38:24 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.79674.1723192695376593953
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Aug 2024 00:15:58 -0700
+ Fri, 09 Aug 2024 01:38:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=k0neZ0gf;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4E659240004;
-	Fri,  9 Aug 2024 07:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1723187755;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kXUBM3moPKxAKNzZPWKc0xjxH9vyejAfp62qN1s0laA=;
-	b=k0neZ0gf5mbnkyGgmveE4sH4cu47SqqLlBMwO1p2ntYr4mkyLHPFmXCNcxbC7GCz5sBWKA
-	sJ9R2gvh/jpMB0aeP6yUnfk4DSvYS2PUGjSdMmj8GUIuTGHBl1f+mnQWUDMBzIyUGo0td+
-	cmn5+2qsy+74+5odgigyauBZ5a9t1SK8AgRVk0QiNjGb9y6DaZgf7VxahudCy5eRO4bktv
-	w6m5PfSFe4zBCRb0p0XX3qj73paNuVbPFquejgybZZlnkGJeJBFmu1XdanSik3oHxD3LRM
-	AsZsYa7XQLJMNuQyIAZjZlKoR8a9wzU4ARLFPMDWE+FLvxVwOjLzTe2fsWYxVA==
-Date: Fri, 9 Aug 2024 09:15:54 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: changqing.li@windriver.com
-Cc: openembedded-core@lists.openembedded.org, alex@linutronix.de
-Subject: Re: [OE-core] [V3][master][PATCH] libcap-ng: update SRC_URI
-Message-ID: <20240809071554ec7f422f@mail.local>
-References: <f5369479504970df6863b80f3e808b69bbd09f47.camel@linuxfoundation.org>
- <20240809054509.127080-1-changqing.li@windriver.com>
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1scL8X-0007zK-Di; Fri, 09 Aug 2024 10:38:13 +0200
+Message-ID: <df46d05a2a3f117b0f2d2b863946012dfecf8e3d.camel@pengutronix.de>
+Subject: Re: [OE-core] [PATCH] archiver.bbclass: fix
+ BB_GENERATE_MIRROR_TARBALLS checking
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "yocto@pengutronix.de" <yocto@pengutronix.de>
+Date: Fri, 09 Aug 2024 10:38:10 +0200
+In-Reply-To: <DB5PR02MB102134D57C3C7A57E7D625679EFB92@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20240808110409.4077831-1-ejo@pengutronix.de>
+	 <DB5PR02MB102134D57C3C7A57E7D625679EFB92@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240809054509.127080-1-changqing.li@windriver.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 07:16:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203158
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 08:38:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203159
 
-Please do not send new version as replies to previous versions, this bury
-them under a pile of patches.
+Am Donnerstag, dem 08.08.2024 um 12:16 +0000 schrieb Peter Kjellerstedt:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org=C2=A0<openembedded-core@=
+lists.openembedded.org> On
+> > Behalf Of Enrico J=C3=B6rns
+> > Sent: den 8 augusti 2024 13:04
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: yocto@pengutronix.de
+> > Subject: [OE-core] [PATCH] archiver.bbclass: fix BB_GENERATE_MIRROR_TAR=
+BALLS checking
+> >=20
+> > The variable 'have_mirror_tarballs' is used as a boolean while it is
+> > actually the result of 'd.getVar('BB_GENERATE_MIRROR_TARBALLS')' and
+> > thus a string.
+> >=20
+> > Fix this by converting it into a boolean before using it.
+> >=20
+> > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
+> > ---
+> > =C2=A0meta/classes/archiver.bbclass | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbcl=
+ass
+> > index 9d286224d6..9c8b0daf31 100644
+> > --- a/meta/classes/archiver.bbclass
+> > +++ b/meta/classes/archiver.bbclass
+> > @@ -339,7 +339,7 @@ python do_ar_mirror() {
+> > =C2=A0=C2=A0=C2=A0=C2=A0 dl_dir =3D d.getVar('DL_DIR')
+> > =C2=A0=C2=A0=C2=A0=C2=A0 mirror_exclusions =3D (d.getVar('ARCHIVER_MIRR=
+OR_EXCLUDE') or '').split()
+> > =C2=A0=C2=A0=C2=A0=C2=A0 mirror_mode =3D d.getVarFlag('ARCHIVER_MODE', =
+'mirror')
+> > -=C2=A0=C2=A0=C2=A0 have_mirror_tarballs =3D d.getVar('BB_GENERATE_MIRR=
+OR_TARBALLS')
+> > +=C2=A0=C2=A0=C2=A0 have_mirror_tarballs =3D d.getVar('BB_GENERATE_MIRR=
+OR_TARBALLS') =3D=3D "1"
+>=20
+> May I suggest:
+>=20
+> =C2=A0=C2=A0=C2=A0 have_mirror_tarballs =3D oe.types.boolean(d.getVar('BB=
+_GENERATE_MIRROR_TARBALLS'))
+>=20
+> instead?
 
-Also, it would be great to have a changelog.
+Oh, did not know this helper exists. Thank you for the hint!
+Will send a v2.
 
-On 09/08/2024 13:45:09+0800, Changqing Li via lists.openembedded.org wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> Refer [1], people.redhat.com has certificate issue, so update SRC_URI
-> to fix do_fetch warning
-> 
-> [1] https://github.com/stevegrubb/libcap-ng/issues/56
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  .../libcap-ng/libcap-ng-python_0.8.5.bb                |  2 --
->  meta/recipes-support/libcap-ng/libcap-ng.inc           | 10 +++++++---
->  2 files changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-> index f8a6b2c317..f702056f02 100644
-> --- a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-> +++ b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-> @@ -8,8 +8,6 @@ inherit python3targetconfig
->  
->  DEPENDS += "libcap-ng python3 swig-native"
->  
-> -S = "${WORKDIR}/libcap-ng-${PV}"
-> -
->  EXTRA_OECONF += "--with-python3"
->  
->  do_install() {
-> diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-> index 85b51c4dc6..4c8ffd41c2 100644
-> --- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-> +++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-> @@ -7,14 +7,18 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
->  		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
->  
-> -SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
-> +SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master \
->             file://0001-Fix-python-path-when-invoking-py-compile-54.patch \
->             "
-> -
-> -SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
-> +SRCREV = "f5d39702622208b3ada064d7b2eaeaf1454c9bd3"
-> +S = "${WORKDIR}/git"
->  
->  inherit lib_package autotools
->  
-> +do_configure:prepend() {
-> +    touch ${S}/NEWS
-> +}
-> +
->  EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
->  EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
->  
-> -- 
-> 2.25.1
-> 
+Regards, Enrico
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203149): https://lists.openembedded.org/g/openembedded-core/message/203149
-> Mute This Topic: https://lists.openembedded.org/mt/107803611/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0 if mirror_mode =3D=3D 'combined':
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 destdir =3D d.getVar('=
+ARCHIVER_COMBINED_MIRRORDIR')
+> > --
+> > 2.39.2
+>=20
+> //Peter
+>=20
 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
