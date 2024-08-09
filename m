@@ -1,211 +1,814 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <nikhil.r@kpit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 189F2C3DA4A
-	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 11:04:55 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.82])
- by mx.groups.io with SMTP id smtpd.web10.81641.1723201484609480933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA47C3DA4A
+	for <webhook@archiver.kernel.org>; Fri,  9 Aug 2024 11:13:35 +0000 (UTC)
+Received: from MA0PR01CU012.outbound.protection.outlook.com (MA0PR01CU012.outbound.protection.outlook.com [40.107.57.138])
+ by mx.groups.io with SMTP id smtpd.web10.81777.1723202007331354469
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Aug 2024 04:04:45 -0700
+ Fri, 09 Aug 2024 04:13:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=H+2/ADwM;
- spf=pass (domain: siemens.com, ip: 40.107.104.82, mailfrom: peter.marko@siemens.com)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=gFYvPei8;
+ spf=pass (domain: kpit.com, ip: 40.107.57.138, mailfrom: nikhil.r@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YnZXATLHpJzj4EmM6277HZpSRn9brFj9iDro5pX/ZnJBWbZjG03slFHAufEpv/zze1q1YIt/uq7e2fL3zsh8yKu4/fXP905c+bXqhwQkqt4wwVftBoqsCbzxSMk2N6FddzCaVCNJElWVXTu0WDEPR3C8xA6EwAKZnH7RUHwN+thDbF3iC1Y6OE6ygHLIPxCdqV7jj89O090KVpaxhFYOf75E3E/5rjzHx6KoY/TOvpldJ9oNK/GCk84vY1ys1cymPn2Ej7pGoepxIYLL+A846o3Mm1J6XzhyGqxqErP2UfrJRc7GSWwraeyx512vLmifafoZoZRyZ+Nbyf8gBsqhEA==
+ b=tADbVW/74rDisvT7zQw7N+WT6g9Vx/szLTOnHNO/r6hkLFOg5a4kei7ldz9oKxhYV78Hgrf05VwyCg+gulIVCsN8uJpdxV7eJ6yD4XIcAROFsnlOCoZjIbNSBUu6TfnL3YXJLO7JmPH+Nkg7gt5atFatio1k0Y3p6XkSiQvLn9UvgjiR9fVWyfoW/mINNNgl8vjse0B78DoJS0k6Uu9kabXNAbRVILNdRhrZpxRxd0XB3wefAeF32yLGhfKAsy/aYeX6u5ekWaI/h5o5VD2FVVlsHH+P/kzG4b9wqwXcu2lqgUqsi7Wjz4EeJj/DcaGlRzSQM/9QD9Y7dUzjQ/2nJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E0T7Xe6Mc6lFgQIvX532VkYwd3vR/Vo+uptELyxzU2s=;
- b=WGUNa+gzFrQfnd2gA2xqGgKuhplQKPTsrzhlBGNii2tJof2ez/5jNl0fTs4Tu2vh6L04KCZjmAzF736Yak8IkTEvhXFCTeEYmqg8Rv+WbMAXriaF2PpgM23ij4vF5j67k7h9imUEDPeI5VuCTWj97ONt0UdZknHsNGTKZSBy74KiYjYUambduGW7z4b7Lx7/lUoXobPIJpkVyRHwsEcvkM5+8dtyiSKCv+w2+wNHUpJGfyYzY7If6PRuh9FONX2/KsQCYPDxBCyv1n/1Bfm+SRbC8Osu1oa7p6iIo383shDFIySDc+1btXuUE0ZdWXfkkWhRft5delgBsSZLn0K2AQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
+ bh=bMrv+AGslIDLRaPOudcw4Ojcwd9WC+rx5LS+QbwaAWk=;
+ b=mzcuMR/bZ57Am9Av1rZsXEbg8V0ufWO2h3I+8c5ckLhsuxoeQ48+g7EVw/nipHLI8v6ZkRDW1MMaxZJDAYzRDX6a61lU+tGOAtmvgAuzmH3MSMZW4Nm+jygpRVgDMxunwfZP/e5/kKi3d3xSwqLMgGhsmjKV+xxarTNUKvwHyktr5/JJYM+dwdvkmemKSiM9GUmrbZUk41s+CDR3tJ2jcoAR/7KN1h2I7L7mBaK+l7PIgF4U4SDi+7MTsOpBW+oxy1kmSpFg0BvztciuBK2keerpEioyjSQ2yJnF772MCCEedwMCCqty6upOawOCmqzyDIaymbcfF8voVFe7dDQfEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 103.243.227.16) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=kpit.com; dmarc=fail (p=reject sp=none pct=100) action=oreject
+ header.from=kpit.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E0T7Xe6Mc6lFgQIvX532VkYwd3vR/Vo+uptELyxzU2s=;
- b=H+2/ADwMGUwOPzTBvWUHBr4QeR3uF7s6+98zWHRZzQMZDhQryUoAL89Oter+t1cX4DR1fDwuSMzjQzzfxvSxvG2jezZZ7jC0Y7OAjOpm10TKPxYwGC3vBGASWiSjZ9ebi3XIzRYQFdT38nn2IQ6r4RnGgNpK+frT2QA0IoqldiW+Kru+Yc9P3NVTn107AKUAUdrkMXOlHmCb5ZfppcwwhC2AHvFGHiCURYD2LAaG2XCc5EVlAkbbghOiJiyvl9qmDNMumz8Agf7CBJcAzNKF91lxq7m8BrKXIwb3wNEAIUr+G3lB142XrnwzYR/kXlvvnSRut9zKHTk4xDV8yeTQCw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by AM9PR10MB4071.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1f0::14) with
+ bh=bMrv+AGslIDLRaPOudcw4Ojcwd9WC+rx5LS+QbwaAWk=;
+ b=gFYvPei8f7PpCVny2WSuqJYshiOLf551H4qkOwNANeSlFdG6CBzS1c9w4U+lUIf2ZdzGKsKBgUw2l628K31+Lg6ywenG6H0mTwPe54LYriqDbHtgRh9WwH6O+0jADISoek0u+ZDxm91W3o1Vz3suh6gSCfziGoiBIHPBKImsBmg=
+Received: from SI1PR02CA0001.apcprd02.prod.outlook.com (2603:1096:4:1f7::15)
+ by PN3PR01MB7758.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:9d::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.15; Fri, 9 Aug
- 2024 11:04:41 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7849.008; Fri, 9 Aug 2024
- 11:04:41 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Marta Rybczynska <rybczynska@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Marta Rybczynska
-	<marta.rybczynska@syslinbit.com>
-Subject: RE: [OE-core] [RFC][PATCH 1/2] cve-check: encode affected
- product/vendor in CVE_STATUS
-Thread-Topic: [OE-core] [RFC][PATCH 1/2] cve-check: encode affected
- product/vendor in CVE_STATUS
-Thread-Index: AQHa6iS5WMvAXQQOR0OfKkS2qc7kdbIeevFQgABDEYCAAARocA==
-Date: Fri, 9 Aug 2024 11:04:41 +0000
-Message-ID: 
- <AS1PR10MB5697B88DE0702D3F25A399BBFDBA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20240809062339.15465-1-marta.rybczynska@syslinbit.com>
- <AS1PR10MB5697F5AC1D5981DC3523D59BFDBA2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CAApg2=RkZYdrycdS0_JMYJOHhb=7OpjZXH7wjQj0oBZYrQiBkQ@mail.gmail.com>
-In-Reply-To: 
- <CAApg2=RkZYdrycdS0_JMYJOHhb=7OpjZXH7wjQj0oBZYrQiBkQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=c2b9320f-3a89-44e3-a990-36f9e18c5eec;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-08-09T11:00:31Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AM9PR10MB4071:EE_
-x-ms-office365-filtering-correlation-id: d19b9825-c1f1-4660-e4d1-08dcb8631184
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?ZFZuVU1Ccmc3SWJzRXlqVDdaRUNkb2NHTjJ2THdSOHMyK0lkUlV6VTl5VXhv?=
- =?utf-8?B?TWgrVnMzOU95Q3lwdzhHMU03aEErWTcrQ1FGRXhNMnI5U0E3blhyWU8yUWQ5?=
- =?utf-8?B?UkoxS0lLekR6MXpFb1VpSkh5OGhJTjhKdE81WEJYd0g2SStqUDYvR2dTZUs2?=
- =?utf-8?B?ZEJBRWdTaStaUWxwL3Rsa0VhSGhsNHZPZUx5a2ljSlVGOWYyY21jclRpS2RO?=
- =?utf-8?B?ckovSFBPY1N3RjQ3amw3cUZPaHdub0JlUC96T2szSnFyTHVhaUJTekxWeGhH?=
- =?utf-8?B?bFlMNmYwTWc0SFdqaGYrYmVFKzJBK21neTRpQkR1b1BEeExLalB2ODhUQVZx?=
- =?utf-8?B?QTZmNlR3N2poYXVYcFVNbzg2dmxtVHpUdHRiMUFzTmJwL0pSTStHTi9hcHF4?=
- =?utf-8?B?VndUOVp0aDlUWVpKNjZxQlE5ZjAxT0ppYWVQYVhCazhTMXhabGxidmtSVyt1?=
- =?utf-8?B?TzVvTUlJd1N2SldxK1l0cS9IZExCSm5aSmZzWkUvREZFLzFtREZOSjlIV3ZD?=
- =?utf-8?B?c1k4RTRGcHREN0lRb1RKUjhnVUJVNk9qcm5ta0p0OTdrUEZVWVRjTWdycWlV?=
- =?utf-8?B?bzc2SUNNUEFqOC96U2lLZEFrdHJ6UUxnQ3VBSkZsc3NKOCtVWnRuUmhtQkxC?=
- =?utf-8?B?a0VqVEg4OCtxbkVSaDNPT21JZzlZRlJUMXFYcnAybjhJVmtPOXhOVGtORG9K?=
- =?utf-8?B?aVdraC8vTnFzbGJvVjBlaUF3YkhOUlhkc2NTMHlsQzQxZ3pLejRvWVVsWVR4?=
- =?utf-8?B?TEhTM1NITHFqcGoyajI4QkE4dFRqeWNtVFFOKzdhT3c4SlRrNWFBcWRaV3VG?=
- =?utf-8?B?eGZvdUlBdmVuRGRVVE95c04xb2xWYnN2ZGhiaEQ1UzcxTEkvdEJOcTlhMEZK?=
- =?utf-8?B?OXBxUDJRMFc4NGRGUjB4bGxBQjl1ZXU2bFBEWk1aSkwwY0g4V1dMam9SSEJ3?=
- =?utf-8?B?aWsyamdmT2hqam4wN2NxOEN4KzcwNEM1YzlTMzlkUGF1S09ZMHhaalhvOW5R?=
- =?utf-8?B?Q00rc2M4NFVBV2JIUWw2M0dDbHMySC8yVjdLQ0o0aGNRVm5tZzN5Z0lKNVFm?=
- =?utf-8?B?b3V5eEdYTnM0WEZBdmJ3R3BTL1FZZ25vQ2p3RWFSd0dtdXNOeVZRZkgxK0pB?=
- =?utf-8?B?cXFkTGdLbERlVzJJZGRhcUNZT3NFOU40NlNkazdqYVo1N0ZGa1dzODZNVmx6?=
- =?utf-8?B?UjlkRHhKWjRQcExsVm4vcjl5ZDhLNlV2bHlpUEJKVW5XclI1NVpnM01UMUhY?=
- =?utf-8?B?MVlBejJZd1VaL1pJZmlRZVlUeitkL0pweG9BcmpTRmxxV05Ja1RCUkdWeWhx?=
- =?utf-8?B?Tjd2VThYSlVLWE9zVTEzZUx6ZmNJUEtxOWRXRUVHdVZVVkZjaDBYMVl6ZXJX?=
- =?utf-8?B?ZlZxVjVITldhNDR4bHdrVjNCNEFodDR6WEtOYWtyeG9kQWRIczJtMXBWR3N6?=
- =?utf-8?B?b2UzTVRyVjVzUXovcEVmRE11ZnZ5ZjkzM2hLREJOb2dqWEVtVzhuVHRDSjM4?=
- =?utf-8?B?bFBNQjhBYjZWQUdOYmI3RTVNdklkRGVmR3JhM3RZYkZuWHlmR09SYTdmamI3?=
- =?utf-8?B?Q1VIQmdtWG9ISWRoWUVIL3oyZEQ4bUpyck1hMjllMHRvVVgwS0tZZkU0ZWlC?=
- =?utf-8?B?djQyQ2hNMEZNbWpaWjhrdFVKUWI1Z1haaXdYbU1NMzhzMEh5SWxGOWNVZWRX?=
- =?utf-8?B?SXlFOUFkcW9tK0Q1azBOVFpJMGt3THlYR21zZHd5RFNBTVJueFpmYVl4RVVZ?=
- =?utf-8?B?eGZtbDlaTzUrcVlldjRvWXVLQlJGYjVCU0hmNGF2b0FWNkJiUm1YS01yM1BN?=
- =?utf-8?B?VEVkdkxkcGRsSUhoYzMyUT09?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?U2Y1dEZkQk1jRE5TaERyM2RETGhNOTdubEFPY3BYSnJGYUVnZS9hZldYSDJB?=
- =?utf-8?B?WE9SWHJzZ2hBWDRidW9IL0NrU1hENDRIM05hZjlOMnFkdlBHc05qUWlrdkEy?=
- =?utf-8?B?M0hZZWtXL0hweUovUFh1MHVxUEpjUFdNbHMzYkNoMDlDNHp5bXloSkFGbmZF?=
- =?utf-8?B?VDRTWmp1aGVmOHNkU2RzMW5TUWNoc0NMaHBCc2NHYXd3SjRkNGJiSnNuQnc0?=
- =?utf-8?B?ZlRKTHZaK3ZCMFFFQitMS1RBL2YrL0JXbkZ3bU9sY21nbXh2VnRUcUI5MnE3?=
- =?utf-8?B?MWZsQW04VUh5dGpCaU9jUUE0OVQ3eVhYc245UGRGUzU3R1hSSUxaelpRYTN3?=
- =?utf-8?B?ZkZPWGxNY3N6dm12eXNYNTkxdTVVam1paHRvSDh2dkl5S3p6VVVIdElBcUhW?=
- =?utf-8?B?bmo5TVdzRE54L0MvNllYNVg4bTdSVEsyQjlEYW1EU291ZGtnM3QxbWcrbVVU?=
- =?utf-8?B?dzU2L2s2YkVlL0xUY0U2ZklrR2ZxM21mSENxNjhzOEEwYnI2ZmNaREJnNzZL?=
- =?utf-8?B?V1VVZXZxdVVsTlpRaGlISDhIWjFoeWdBMUI1R2I4a1p1THdGL0ZQR3VuWDFo?=
- =?utf-8?B?aVdHSUVWdVpFS1hFOVh4NWpqdHZhUWx0M0ZuY2tremF6NzYwdTBwMDB6cnd0?=
- =?utf-8?B?Mko1ZytLWGFXeGtrczJ2M2JtS1FacXlCWW11ajhwSXZTZWljaldPSUNDMTZy?=
- =?utf-8?B?L0xkaGNXYjVXQ1RMQnQ0aE1yeHhYL2IxK3h2M0xNc1Q3QksrZUttREgwajNp?=
- =?utf-8?B?OTl6QUN5a3pqVWNBdER5RUFNYURBTHU1WStITy9vZWNrbmhkZnBoSlhFWDNB?=
- =?utf-8?B?Q01xQWl6cVJ0dVVnTzZubE81TVpjN0ltcHFvL2pZVHoxM3FXNW1tcDJQZ3VG?=
- =?utf-8?B?ejdZcGFYbWVDa2JTYm5iS0QvZ3JYNDQvc21RMXRxMlNXczVpYTc3YjhLbEJO?=
- =?utf-8?B?ZkU2U1hSYUhaalJaN1VTSGdERkk2TXNzbkhsem5MNFBhWE5IRFZLUThMR1Iv?=
- =?utf-8?B?TkZ1bllOU2JCM3VEUHRxaEtBR2Z1akpmY3FtMWJPeFV4bXBMWW9RWlpkeVV0?=
- =?utf-8?B?OHg4a0pxRmk5UjF6RjVvdUozRlFtd1FZb29rbXlXdXhoeTdKOVJCM0I5YVZK?=
- =?utf-8?B?Rno3ZFlUZVZIeVpVRGF6Q2hNQ1NLd2VDSFVFZnJ0SVcrUWY3dytJR01EM1dG?=
- =?utf-8?B?bllDdUJWd2pJTVNsM2xkb0I4cFI2UWt2akNneEpjM1F6T002SGdwTTNOUUxK?=
- =?utf-8?B?NkxIak51cnBJN0dSc3BQOTJhVVFiRzhyZGRBbk5lemNhMEZBb2pMM0VuRVRu?=
- =?utf-8?B?OHFzRnVRdWlFTlNURmIrd0EzOGo0U3pkNEVZSkYrM3NBb0Y4OGlqTHF0ZDJW?=
- =?utf-8?B?WVBFeHJIYmczdlNxeFczbG1zWkdwRmRybTBDVmE0RVlJaC95RThFS1ZwYnB1?=
- =?utf-8?B?amJPbUwxdmpFYkxoNU0rTjNNZXJSUGhKRVNRdm5kWFhhK1JYNXhzNkRSTGpT?=
- =?utf-8?B?cEdwZEI2RzdqNFI3blg5U212dDVBb1RjNWxodTY1VzNpc3NqaGRkQnZvMVB6?=
- =?utf-8?B?ZlRMeWQ4ZUxwSFVtWFJnZ2wyRWp0enBPU2pOV3AxanR0NVVEVG9QSExta2Ew?=
- =?utf-8?B?UldZNXNQSDE5Ym1FRmFJU200d2oyMmJxcWt0elg3TW1WR1ErVXdDd1RuNng0?=
- =?utf-8?B?SlFlZVZaS2JSUDhYWDZjbDQwSFFMcGJwZGJHWTBPNDM4Z2IxZEFYeEtTSGxX?=
- =?utf-8?B?ckVva0dseVhCRzBDRU1veVFQSm5oSEtGM3ZxRjhSQ3QrMFNyR2NObm04RlU1?=
- =?utf-8?B?WlFrMjd4N0VlWm9mMnBSc2pPYWJVZDUrdlhxUi9JNldjLzIvMUQ0QXpSaHB2?=
- =?utf-8?B?cnpMcXFmNDZWaUUzY2V2UWhxbjMwKzdKL3kraWp5L0xWa0lvb29EdXJyYVRI?=
- =?utf-8?B?Q29pSG9PV1Z5dTdJYUpxTmdzN2J2OWlqRlplTW1Td0tMOTV5SkNDVFUyaXRS?=
- =?utf-8?B?SmF2K3lrV2hYYXVITzFQSWdtM2g3WS9nRUVjVlN3Zm9lNDlKOGVnMFE5VTk2?=
- =?utf-8?B?WGxqMUVpYkplTFgzU3laNDJmYTJWQmJGUXZCa0g4dkIzZGNrTW5TLzR6Nm5z?=
- =?utf-8?Q?Dp9MipKSlt1N+PIHSynDnWJBW?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.9; Fri, 9 Aug
+ 2024 11:13:15 +0000
+Received: from HK3PEPF0000021F.apcprd03.prod.outlook.com
+ (2603:1096:4:1f7:cafe::a7) by SI1PR02CA0001.outlook.office365.com
+ (2603:1096:4:1f7::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.17 via Frontend
+ Transport; Fri, 9 Aug 2024 11:13:15 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 103.243.227.16)
+ smtp.mailfrom=kpit.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=kpit.com;
+Received-SPF: Fail (protection.outlook.com: domain of kpit.com does not
+ designate 103.243.227.16 as permitted sender)
+ receiver=protection.outlook.com; client-ip=103.243.227.16;
+ helo=mail.kpit.com;
+Received: from mail.kpit.com (103.243.227.16) by
+ HK3PEPF0000021F.mail.protection.outlook.com (10.167.8.41) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7849.8 via Frontend Transport; Fri, 9 Aug 2024 11:13:14 +0000
+Received: from L-17494.kpit.com (10.30.140.23) by PH3EXCH01.kpit.com
+ (10.52.16.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 9 Aug
+ 2024 16:43:12 +0530
+From: Nikhil R <nikhilr5@kpit.com>
+To: <openembedded-core@lists.openembedded.org>, <bindu.bhabu@kpit.com>
+CC: Bindu Bhabu <bhabu.bindu@kpit.com>
+Subject: [OE-core][kirkstone][PATCH] expat: fix CVE-2023-52425
+Date: Fri, 9 Aug 2024 16:42:55 +0530
+Message-ID: <20240809111255.26619-1-nikhilr5@kpit.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d19b9825-c1f1-4660-e4d1-08dcb8631184
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2024 11:04:41.4885
+Content-Type: text/plain; charset="yes"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.30.140.23]
+X-ClientProxiedBy: PH3ExchFE01.kpit.com (10.52.16.111) To PH3EXCH01.kpit.com
+ (10.52.16.25)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021F:EE_|PN3PR01MB7758:EE_
+X-MS-Office365-Filtering-Correlation-Id: c46107d7-59ce-4fbc-c81c-08dcb864437d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?6Mm6vHFz52Bw3CJCKgWtKs+rPMo9I/SbBvTnBB6qfZCQWZhcF1A0UOffZ2fy?=
+ =?us-ascii?Q?YzV2QsmQl9SpHmu9LEmxXkVB655hMkL35FSvCjSWbOpSPSELMWMzqQnvsXpe?=
+ =?us-ascii?Q?sGjLuvbf4+p/wej8Can+oOkzayon559EkymDAu75VGCxGEGUJ+8s1+2ImkfT?=
+ =?us-ascii?Q?NtMPkacskY7YAriisPiyJ74174awyleM7BVgYTAByM+ztniBdOKUUFNU3uL6?=
+ =?us-ascii?Q?Go1t1Uws5PG0ej1ohGH/8J+seW2d/lpCSxUkg7sw7Ib53thXWoAGDRSeVYWG?=
+ =?us-ascii?Q?aMOe74Arogo+R8rO6rwLIpTj8dmtsQzfZa2hoYzC3exNiov7Daj9Bm9gK2gu?=
+ =?us-ascii?Q?NUQ63qpc6OOv8000RK/vo5M9T6MOJgGbAyX+Ty4dfjc8/aV5Gk+fRVLY68D2?=
+ =?us-ascii?Q?wJJF42KwEy3BvqA06wJBTfDmrQ523ZkNGnxD7AycoIozM4OLe587GeQyBuEJ?=
+ =?us-ascii?Q?9TjXlq2bhe7RyRZ1LdkHchQj7hCBF1qoQkEQWJMk/ZQxOedXYYXIhjgSEqgn?=
+ =?us-ascii?Q?/DEi1Zar0rE8OXUjt3tb03CAb4CBDxuAC7iD1kSnBxuIp8Z+30epHtPglXmT?=
+ =?us-ascii?Q?2p3jZJK3+gYktZ1IlmLMB8A3/4fITjhUBdVVWHgVGRPbNK+Ur9FZ3+tuKL93?=
+ =?us-ascii?Q?OCZACimVERi89LuqRF/RgyvFtz9BViYme4JRlC9h62SYlPTneqi9ny/fLy/v?=
+ =?us-ascii?Q?Dd8E/PNtXbL24TRs/K/os4qIPZ6ThxN06gCWs2IztTHcnT/wpfLjmFvSkW+t?=
+ =?us-ascii?Q?M+eUB0UQCgvLp3N5fuKquYf63RlGE3KSsGY9mdgkQsaK6FLyQlBbIX5y2RZH?=
+ =?us-ascii?Q?nD6fRE8njPsoMYBnSJvB4ByASFnSv/Pji4TzOTJ6kD0vfv0W+aeJi7vySUoW?=
+ =?us-ascii?Q?4WHEo0MhIED4e67Eu7kf3tM2h6im8VXpQIsnuDc1zU42XSlGJwB0Y+CZCJZh?=
+ =?us-ascii?Q?W1eDgSIBCrXzeF+yG9eU9LjK5aSoM6WyNrsP3dx6nVeSCtMNmeeeqYqjSDj7?=
+ =?us-ascii?Q?0J2o61lBJF/8UwLYao30VLcaa1zLn2zVGiQtL5NyMCPvWoXyXsRy06nskzSU?=
+ =?us-ascii?Q?5CaA/V0RXtGKqTlHpd4v3HwS8ZnGCQhewxG36oeCLdYpBw/F2dJ6Z54IgFdM?=
+ =?us-ascii?Q?tF/R8TCBbvuTbvMATEkDHHfELiM/q5GHL3uZrbWkFd0Pmtl1zVTJ36iPFNho?=
+ =?us-ascii?Q?lXzyTTjB2ykjo4WOYEDM585Gjv79vFFY2A0ZuZhUcviFB2v7iBMz3fL73NfF?=
+ =?us-ascii?Q?gITPKS9s48cC5Zu82ZJfA7vz1iniFCO237aN5qbE9Vvx8LPMTvYODsHD2wz2?=
+ =?us-ascii?Q?BmfM+RDqquevK8tI4XcNBCahaPCzgYx/QZvvOez+VvdTYUrrBpKm4t4Fx6+X?=
+ =?us-ascii?Q?e8+nxbDApon8YVPwgPvi1uYijn5UBevcjo3EvW6dzPuVsQO5rA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:103.243.227.16;CTRY:IN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.kpit.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1102;
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2024 11:13:14.6449
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1o8l5Lzdq3Dp6GrNxcnP9llsfra3LxN2HMeLJaiUgQj4LspYfYlfZ6DRvaXCe1RuPd0ru60MuTSkRTsHN7HLmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR10MB4071
+X-MS-Exchange-CrossTenant-Network-Message-Id: c46107d7-59ce-4fbc-c81c-08dcb864437d
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3539451e-b46e-4a26-a242-ff61502855c7;Ip=[103.243.227.16];Helo=[mail.kpit.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	HK3PEPF0000021F.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB7758
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 11:04:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203164
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Aug 2024 11:13:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203165
 
-PiBGcm9tOiBNYXJ0YSBSeWJjenluc2thIDxyeWJjenluc2thQGdtYWlsLmNvbT4gDQo+IFNlbnQ6
-IEZyaWRheSwgQXVndXN0IDksIDIwMjQgMTI6NDUNCj4gVG86IE1hcmtvLCBQZXRlciAoQURWIEQg
-RVUgU0sgQkZTMSkgPFBldGVyLk1hcmtvQHNpZW1lbnMuY29tPg0KPiBDYzogb3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgTWFydGEgUnliY3p5bnNrYSA8bWFydGEucnli
-Y3p5bnNrYUBzeXNsaW5iaXQuY29tPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtSRkNdW1BB
-VENIIDEvMl0gY3ZlLWNoZWNrOiBlbmNvZGUgYWZmZWN0ZWQgcHJvZHVjdC92ZW5kb3IgaW4gQ1ZF
-X1NUQVRVUw0KPg0KPiA+IE9uIEZyaSwgQXVnIDksIDIwMjQgYXQgOTowN+KAr0FNIE1hcmtvLCBQ
-ZXRlciA8bWFpbHRvOlBldGVyLk1hcmtvQHNpZW1lbnMuY29tPiB3cm90ZToNCj4gPiA+IC0tLS0t
-T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBtYWlsdG86b3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiA+ID4gbWFpbHRvOmNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIE1hcnRhIFJ5YmN6eW5za2Eg
-dmlhDQo+ID4gPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gU2VudDogRnJp
-ZGF5LCBBdWd1c3QgOSwgMjAyNCA4OjI0DQo+ID4gPiBUbzogbWFpbHRvOm9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IENjOiBNYXJ0YSBSeWJjenluc2thIDxt
-YWlsdG86bWFydGEucnliY3p5bnNrYUBzeXNsaW5iaXQuY29tPg0KPiA+ID4gU3ViamVjdDogW09F
-LWNvcmVdIFtSRkNdW1BBVENIIDEvMl0gY3ZlLWNoZWNrOiBlbmNvZGUgYWZmZWN0ZWQNCj4gPiA+
-IHByb2R1Y3QvdmVuZG9yIGluIENWRV9TVEFUVVMNCj4gPiA+IDxzbmlwPg0KPiA+ID4gLcKgIMKg
-IHN0YXR1c19zcGxpdCA9IHN0YXR1cy5zcGxpdCgnOicsIDEpDQo+ID4gPiAtwqAgwqAgZGV0YWls
-ID0gc3RhdHVzX3NwbGl0WzBdDQo+ID4gPiAtwqAgwqAgZGVzY3JpcHRpb24gPSBzdGF0dXNfc3Bs
-aXRbMV0uc3RyaXAoKSBpZiAobGVuKHN0YXR1c19zcGxpdCkgPiAxKSBlbHNlICIiDQo+ID4gPiAr
-wqAgwqAgc3RhdHVzX3NwbGl0ID0gc3RhdHVzLnNwbGl0KCc6JywgMykNCj4gPg0KPiA+IFRoaXMg
-ZWZmZWN0aXZlbHkgZm9yYmlkcyB1c2FnZSBvZiAiOiIgaW4gQ1ZFX1NUQVRVUy4NCj4gPiBTaW5j
-ZSAiZ3JlcCAtUkkgJ0NWRV9TVEFUVVMuKjouKjonIiBhbHJlYWR5IHlpZWFsZHMgOCByZXN1bHRz
-IGZvciBvZS1jb3JlICsgbWV0YS1vZSwgdGhpcyBpcyBub3QgYSBnb29kIGlkZWEuDQo+ID4gSSdk
-IHByb3Bvc2UgdG8ga2VlcCB0aGUgb3JpZ2luYWwgc3BsaXQgYW5kIGNoZWNrIHRoZSBmaXJzdCB3
-b3JkIG9mIHRoZSBzZWNvbmQgcGFydDsgc29tZXRoaW5nIGxpa2U6DQo+ID4NCj4gPiBpZiBzdGF0
-dXNfc3BsaXRbMV0uc3RyaXAoKS5zdGFydHN3aXRoKCdjcGU6Jyk6DQo+ID7CoCDCoCBleHRyYWN0
-ZWRfY3BlLCBzdGF0dXNfc3BsaXRbMV0gPSBzdGF0dXNfc3BsaXRbMV0uc3RyaXAoKS5zcGxpdCgn
-ICcsIDEpDQo+ID7CoCDCoCAjIGZvdXJ0aCBwYXJ0IGlzIGltcG9ydGFudCBoZXJlIHRvIG5vdCBr
-ZWVwIHBvc3NpYmxlIHRyYWlsaW5nICI6IiBpbiBwcm9kdWN0DQo+ID7CoCDCoCBleHRyYWN0ZWRf
-Y3BlX3NwbGl0ID0gZXh0cmFjdGVkX2NwZS5zcGxpdCgnOicsIDQpDQo+ID7CoCDCoCBzdGF0dXNf
-b3V0Wyd2ZW5kb3InXSA9ICIqIiBpZiBsZW4oZXh0cmFjdGVkX2NwZV9zcGxpdCkgPT0gMiBvciBs
-ZW4oZXh0cmFjdGVkX2NwZV9zcGxpdFsyXSA9PSAwKSBlbHNlIGV4dHJhY3RlZF9jcGVfc3BsaXRb
-MV0NCj4gPsKgIMKgIHN0YXR1c19vdXRbJ3Byb2R1Y3QnXSA9IGV4dHJhY3RlZF9jcGVfc3BsaXRb
-Ml0gaWYgbGVuKGV4dHJhY3RlZF9jcGVfc3BsaXQpID49IDMgYW5kIGxlbihleHRyYWN0ZWRfY3Bl
-X3NwbGl0WzJdID4gMCkgZWxzZSBleHRyYWN0ZWRfY3BlX3NwbGl0WzFdDQo+ID4gZWxzZToNCj4g
-PsKgIMKgIHN0YXR1c19vdXRbJ3ZlbmRvciddID0gIioiDQo+ID7CoCDCoCBzdGF0dXNfb3V0Wydw
-cm9kdWN0J10gPSAiKiINCj4NCj4gQSB2YWxpZCBwb2ludCBpbmRlZWQuIFRoZSAiY3BlOiIgcHJl
-Zml4IGlzIGEgZ29vZCBpZGVhLiBIb3dldmVyLCBJIHRoaW5rIHRoYXQgc3BsaXR0aW5nIG9uICcg
-JyBpc24ndCBhIHZlcnkgZ29vZCBpZGVhIGVpdGhlci4NCj4gV2hhdCBhYm91dCBhc3N1bWluZyB0
-aGF0OiBpZiB5b3UgZ2l2ZSB0aGUgImNwZToiIHBhcnQsIHRoZW4geW91IGFsd2F5cyBnaXZlIGJv
-dGggdmVuZG9yIGFuZCBwcm9kdWN0LiBXaGF0IHdpbGwgYmUgdmFsYWJsZQ0KPiBpZ25vcmVkOmNw
-ZToqOio6c29tZSBkZXNjcmlwdGlvbg0KPiBpZ25vcmVkOmNwZToqOio6c29tZSBkZXNjcmlwdGlv
-bjo6DQo+IGlnbm9yZWQ6Y3BlOnZlbmRvcjpwcm9kdWN0OnNvbWUgZGVzY3JpcHRpb246Og0KPg0K
-PiBidXQgbm90DQo+IGlnbm9yZWQ6Y3BlOnByb2R1Y3Q6c29tZSBkZXNjcmlwdGlvbjo6DQo+DQo+
-IEtpbmQgcmVnYXJkcywNCj4gTWFydGEgDQoNClN1cmUsIHdoeSBub3QsIGl0J3MgeW91ciBwYXRj
-aC4NCkkganVzdCB3YW50ZWQgdG8gcG9pbnQgb3V0IGEgcHJvYmxlbS4NCg0KS2luZCBSZWdhcmRz
-LA0KICBQZXRlcg0K
+libexpat through 2.5.0 allows a denial of service
+(resource consumption) because many full reparsings
+are required in the case of a large token for which
+multiple buffer fills are needed.
+
+References:
+https://security-tracker.debian.org/tracker/CVE-2023-52425
+https://ubuntu.com/security/CVE-2023-52425
+https://packages.ubuntu.com/mantic/expat
+https://github.com/libexpat/libexpat/pull/789
+
+Signed-off-by: Bindu Bhabu <bhabu.bindu@kpit.com>
+---
+ .../expat/expat/CVE-2023-52425.patch          | 581 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.5.0.bb        |   1 +
+ 2 files changed, 582 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425.patch
+
+diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425.patch b/meta/reci=
+pes-core/expat/expat/CVE-2023-52425.patch
+new file mode 100644
+index 0000000000..77e24fd163
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2023-52425.patch
+@@ -0,0 +1,581 @@
++Backport of https://github.com/libexpat/libexpat/pull/789
++
++From 9cdf9b8d77d5c2c2a27d15fb68dd3f83cafb45a1 Mon Sep 17 00:00:00 2001
++From: Snild Dolkow <snild@sony.com>
++Date: Thu, 17 Aug 2023 16:25:26 +0200
++Subject: [PATCH] Skip parsing after repeated partials on the same token
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++When the parse buffer contains the starting bytes of a token but not
++all of them, we cannot parse the token to completion. We call this a
++partial token.  When this happens, the parse position is reset to the
++start of the token, and the parse() call returns. The client is then
++expected to provide more data and call parse() again.
++
++In extreme cases, this means that the bytes of a token may be parsed
++many times: once for every buffer refill required before the full token
++is present in the buffer.
++
++Math:
++  Assume there's a token of T bytes
++  Assume the client fills the buffer in chunks of X bytes
++  We'll try to parse X, 2X, 3X, 4X ... until mX =3D=3D T (technically >=3D=
+)
++  That's (m=C2=B2+m)X/2 =3D (T=C2=B2/X+T)/2 bytes parsed (arithmetic progr=
+ession)
++  While it is alleviated by larger refills, this amounts to O(T=C2=B2)
++
++Expat grows its internal buffer by doubling it when necessary, but has
++no way to inform the client about how much space is available. Instead,
++we add a heuristic that skips parsing when we've repeatedly stopped on
++an incomplete token. Specifically:
++
++ * Only try to parse if we have a certain amount of data buffered
++ * Every time we stop on an incomplete token, double the threshold
++ * As soon as any token completes, the threshold is reset
++
++This means that when we get stuck on an incomplete token, the threshold
++grows exponentially, effectively making the client perform larger buffer
++fills, limiting how many times we can end up re-parsing the same bytes.
++
++Math:
++  Assume there's a token of T bytes
++  Assume the client fills the buffer in chunks of X bytes
++  We'll try to parse X, 2X, 4X, 8X ... until (2^k)X =3D=3D T (or larger)
++  That's (2^(k+1)-1)X bytes parsed -- e.g. 15X if T =3D 8X
++  This is equal to 2T-X, which amounts to O(T)
++
++We could've chosen a faster growth rate, e.g. 4 or 8. Those seem to
++increase performance further, at the cost of further increasing the
++risk of growing the buffer more than necessary. This can easily be
++adjusted in the future, if desired.
++
++This is all completely transparent to the client, except for:
++1. possible delay of some callbacks (when our heuristic overshoots)
++2. apps that never do isFinal=3DXML_TRUE could miss data at the end
++
++For the affected testdata, this change shows a 100-400x speedup.
++The recset.xml benchmark shows no clear change either way.
++
++Before:
++benchmark -n ../testdata/largefiles/recset.xml 65535 3
++  3 loops, with buffer size 65535. Average time per loop: 0.270223
++benchmark -n ../testdata/largefiles/aaaaaa_attr.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 15.033048
++benchmark -n ../testdata/largefiles/aaaaaa_cdata.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 0.018027
++benchmark -n ../testdata/largefiles/aaaaaa_comment.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 11.775362
++benchmark -n ../testdata/largefiles/aaaaaa_tag.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 11.711414
++benchmark -n ../testdata/largefiles/aaaaaa_text.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 0.019362
++
++After:
++./run.sh benchmark -n ../testdata/largefiles/recset.xml 65535 3
++  3 loops, with buffer size 65535. Average time per loop: 0.269030
++./run.sh benchmark -n ../testdata/largefiles/aaaaaa_attr.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 0.044794
++./run.sh benchmark -n ../testdata/largefiles/aaaaaa_cdata.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 0.016377
++./run.sh benchmark -n ../testdata/largefiles/aaaaaa_comment.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 0.027022
++./run.sh benchmark -n ../testdata/largefiles/aaaaaa_tag.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 0.099360
++./run.sh benchmark -n ../testdata/largefiles/aaaaaa_text.xml 4096 3
++  3 loops, with buffer size 4096. Average time per loop: 0.017956
++
++CVE: CVE-2023-52425
++Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/e/ex=
+pat/expat_2.5.0-2ubuntu0.1.debian.tar.xz]
++Comments: Hunks refreshed.
++          Patch difference/summary has also been modified.
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
++
++---
++ lib/expat.h            | 5   +++++
++ lib/libexpat.def.cmake | 2   ++
++ lib/xmlparse.c         | 228 ++++++++++++++++++++++++++++++++++++++++++--=
+--------------------------------
++ xmlwf/xmlwf.c          | 20  ++++++++++++++++++++
++ xmlwf/xmlwf_helpgen.py | 4   ++++
++ 5 files changed, 156 insertions(+), 103 deletions(-)
++
++--- a/lib/expat.h
+++++ b/lib/expat.h
++@@ -16,6 +16,7 @@
++    Copyright (c) 2016      Thomas Beutlich <tc@tbeu.de>
++    Copyright (c) 2017      Rhodri James <rhodri@wildebeest.org.uk>
++    Copyright (c) 2022      Thijs Schreijer <thijs@thijsschreijer.nl>
+++   Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.co=
+m>
++    Licensed under the MIT license:
++
++    Permission is  hereby granted,  free of charge,  to any  person obtain=
+ing
++@@ -1050,6 +1051,10 @@ XML_SetBillionLaughsAttackProtectionActi
++     XML_Parser parser, unsigned long long activationThresholdBytes);
++ #endif
++
+++/* Added in Expat 2.6.0. */
+++XMLPARSEAPI(XML_Bool)
+++XML_SetReparseDeferralEnabled(XML_Parser parser, XML_Bool enabled);
+++
++ /* Expat follows the semantic versioning convention.
++    See http://semver.org.
++ */
++--- a/lib/libexpat.def.cmake
+++++ b/lib/libexpat.def.cmake
++@@ -77,3 +77,5 @@ EXPORTS
++ ; added with version 2.4.0
++ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionActivation=
+Threshold @69
++ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionMaximumAmp=
+lification @70
+++; added with version 2.6.0
+++  XML_SetReparseDeferralEnabled @71
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -36,6 +36,7 @@
++    Copyright (c) 2022      Samanta Navarro <ferivoz@riseup.net>
++    Copyright (c) 2022      Jeffrey Walton <noloader@gmail.com>
++    Copyright (c) 2022      Jann Horn <jannh@google.com>
+++   Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.co=
+m>
++    Licensed under the MIT license:
++
++    Permission is  hereby granted,  free of charge,  to any  person obtain=
+ing
++@@ -73,6 +74,7 @@
++ #  endif
++ #endif
++
+++#include <stdbool.h>
++ #include <stddef.h>
++ #include <string.h> /* memset(), memcpy() */
++ #include <assert.h>
++@@ -196,6 +198,8 @@ typedef char ICHAR;
++ /* Do safe (NULL-aware) pointer arithmetic */
++ #define EXPAT_SAFE_PTR_DIFF(p, q) (((p) && (q)) ? ((p) - (q)) : 0)
++
+++#define EXPAT_MIN(a, b) (((a) < (b)) ? (a) : (b))
+++
++ #include "internal.h"
++ #include "xmltok.h"
++ #include "xmlrole.h"
++@@ -617,6 +621,9 @@ struct XML_ParserStruct {
++   const char *m_bufferLim;
++   XML_Index m_parseEndByteIndex;
++   const char *m_parseEndPtr;
+++  size_t m_partialTokenBytesBefore; /* used in heuristic to avoid O(n^2) =
+*/
+++  XML_Bool m_reparseDeferralEnabled;
+++  int m_lastBufferRequestSize;
++   XML_Char *m_dataBuf;
++   XML_Char *m_dataBufEnd;
++   XML_StartElementHandler m_startElementHandler;
++@@ -948,6 +955,46 @@ get_hash_secret_salt(XML_Parser parser)
++   return parser->m_hash_secret_salt;
++ }
++
+++static enum XML_Error
+++callProcessor(XML_Parser parser, const char *start, const char *end,
+++              const char **endPtr) {
+++  const size_t have_now =3D EXPAT_SAFE_PTR_DIFF(end, start);
+++
+++  if (parser->m_reparseDeferralEnabled
+++      && ! parser->m_parsingStatus.finalBuffer) {
+++    // Heuristic: don't try to parse a partial token again until the amou=
+nt of
+++    // available data has increased significantly.
+++    const size_t had_before =3D parser->m_partialTokenBytesBefore;
+++    // ...but *do* try anyway if we're close to causing a reallocation.
+++    size_t available_buffer
+++        =3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_buffer);
+++#if XML_CONTEXT_BYTES > 0
+++    available_buffer -=3D EXPAT_MIN(available_buffer, XML_CONTEXT_BYTES);
+++#endif
+++    available_buffer
+++        +=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEnd=
+);
+++    // m_lastBufferRequestSize is never assigned a value < 0, so the cast=
+ is ok
+++    const bool enough
+++        =3D (have_now >=3D 2 * had_before)
+++          || ((size_t)parser->m_lastBufferRequestSize > available_buffer)=
+;
+++
+++    if (! enough) {
+++      *endPtr =3D start; // callers may expect this to be set
+++      return XML_ERROR_NONE;
+++    }
+++  }
+++  const enum XML_Error ret =3D parser->m_processor(parser, start, end, en=
+dPtr);
+++  if (ret =3D=3D XML_ERROR_NONE) {
+++    // if we consumed nothing, remember what we had on this parse attempt=
+.
+++    if (*endPtr =3D=3D start) {
+++      parser->m_partialTokenBytesBefore =3D have_now;
+++    } else {
+++      parser->m_partialTokenBytesBefore =3D 0;
+++    }
+++  }
+++  return ret;
+++}
+++
++ static XML_Bool /* only valid for root parser */
++ startParsing(XML_Parser parser) {
++   /* hash functions must be initialized before setContext() is called */
++@@ -1129,6 +1176,9 @@ parserInit(XML_Parser parser, const XML_
++   parser->m_bufferEnd =3D parser->m_buffer;
++   parser->m_parseEndByteIndex =3D 0;
++   parser->m_parseEndPtr =3D NULL;
+++  parser->m_partialTokenBytesBefore =3D 0;
+++  parser->m_reparseDeferralEnabled =3D XML_TRUE;
+++  parser->m_lastBufferRequestSize =3D 0;
++   parser->m_declElementType =3D NULL;
++   parser->m_declAttributeId =3D NULL;
++   parser->m_declEntity =3D NULL;
++@@ -1298,6 +1348,7 @@ XML_ExternalEntityParserCreate(XML_Parse
++      to worry which hash secrets each table has.
++   */
++   unsigned long oldhash_secret_salt;
+++  XML_Bool oldReparseDeferralEnabled;
++
++   /* Validate the oldParser parameter before we pull everything out of it=
+ */
++   if (oldParser =3D=3D NULL)
++@@ -1342,6 +1393,7 @@ XML_ExternalEntityParserCreate(XML_Parse
++      to worry which hash secrets each table has.
++   */
++   oldhash_secret_salt =3D parser->m_hash_secret_salt;
+++  oldReparseDeferralEnabled =3D parser->m_reparseDeferralEnabled;
++
++ #ifdef XML_DTD
++   if (! context)
++@@ -1394,6 +1446,7 @@ XML_ExternalEntityParserCreate(XML_Parse
++   parser->m_defaultExpandInternalEntities =3D oldDefaultExpandInternalEnt=
+ities;
++   parser->m_ns_triplets =3D oldns_triplets;
++   parser->m_hash_secret_salt =3D oldhash_secret_salt;
+++  parser->m_reparseDeferralEnabled =3D oldReparseDeferralEnabled;
++   parser->m_parentParser =3D oldParser;
++ #ifdef XML_DTD
++   parser->m_paramEntityParsing =3D oldParamEntityParsing;
++@@ -1848,55 +1901,8 @@ XML_Parse(XML_Parser parser, const char
++     parser->m_parsingStatus.parsing =3D XML_PARSING;
++   }
++
++-  if (len =3D=3D 0) {
++-    parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
++-    if (! isFinal)
++-      return XML_STATUS_OK;
++-    parser->m_positionPtr =3D parser->m_bufferPtr;
++-    parser->m_parseEndPtr =3D parser->m_bufferEnd;
++-
++-    /* If data are left over from last buffer, and we now know that these
++-       data are the final chunk of input, then we have to check them agai=
+n
++-       to detect errors based on that fact.
++-    */
++-    parser->m_errorCode
++-        =3D parser->m_processor(parser, parser->m_bufferPtr,
++-                              parser->m_parseEndPtr, &parser->m_bufferPtr=
+);
++-
++-    if (parser->m_errorCode =3D=3D XML_ERROR_NONE) {
++-      switch (parser->m_parsingStatus.parsing) {
++-      case XML_SUSPENDED:
++-        /* It is hard to be certain, but it seems that this case
++-         * cannot occur.  This code is cleaning up a previous parse
++-         * with no new data (since len =3D=3D 0).  Changing the parsing
++-         * state requires getting to execute a handler function, and
++-         * there doesn't seem to be an opportunity for that while in
++-         * this circumstance.
++-         *
++-         * Given the uncertainty, we retain the code but exclude it
++-         * from coverage tests.
++-         *
++-         * LCOV_EXCL_START
++-         */
++-        XmlUpdatePosition(parser->m_encoding, parser->m_positionPtr,
++-                          parser->m_bufferPtr, &parser->m_position);
++-        parser->m_positionPtr =3D parser->m_bufferPtr;
++-        return XML_STATUS_SUSPENDED;
++-        /* LCOV_EXCL_STOP */
++-      case XML_INITIALIZED:
++-      case XML_PARSING:
++-        parser->m_parsingStatus.parsing =3D XML_FINISHED;
++-        /* fall through */
++-      default:
++-        return XML_STATUS_OK;
++-      }
++-    }
++-    parser->m_eventEndPtr =3D parser->m_eventPtr;
++-    parser->m_processor =3D errorProcessor;
++-    return XML_STATUS_ERROR;
++-  }
++-#ifndef XML_CONTEXT_BYTES
++-  else if (parser->m_bufferPtr =3D=3D parser->m_bufferEnd) {
+++#if XML_CONTEXT_BYTES =3D=3D 0
+++  if (parser->m_bufferPtr =3D=3D parser->m_bufferEnd) {
++     const char *end;
++     int nLeftOver;
++     enum XML_Status result;
++@@ -1907,12 +1913,15 @@ XML_Parse(XML_Parser parser, const char
++       parser->m_processor =3D errorProcessor;
++       return XML_STATUS_ERROR;
++     }
+++    // though this isn't a buffer request, we assume that `len` is the ap=
+p's
+++    // preferred buffer fill size, and therefore save it here.
+++    parser->m_lastBufferRequestSize =3D len;
++     parser->m_parseEndByteIndex +=3D len;
++     parser->m_positionPtr =3D s;
++     parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
++
++     parser->m_errorCode
++-        =3D parser->m_processor(parser, s, parser->m_parseEndPtr =3D s + =
+len, &end);
+++        =3D callProcessor(parser, s, parser->m_parseEndPtr =3D s + len, &=
+end);
++
++     if (parser->m_errorCode !=3D XML_ERROR_NONE) {
++       parser->m_eventEndPtr =3D parser->m_eventPtr;
++@@ -1939,23 +1948,25 @@ XML_Parse(XML_Parser parser, const char
++                       &parser->m_position);
++     nLeftOver =3D s + len - end;
++     if (nLeftOver) {
++-      if (parser->m_buffer =3D=3D NULL
++-          || nLeftOver > parser->m_bufferLim - parser->m_buffer) {
++-        /* avoid _signed_ integer overflow */
++-        char *temp =3D NULL;
++-        const int bytesToAllocate =3D (int)((unsigned)len * 2U);
++-        if (bytesToAllocate > 0) {
++-          temp =3D (char *)REALLOC(parser, parser->m_buffer, bytesToAlloc=
+ate);
++-        }
++-        if (temp =3D=3D NULL) {
++-          parser->m_errorCode =3D XML_ERROR_NO_MEMORY;
++-          parser->m_eventPtr =3D parser->m_eventEndPtr =3D NULL;
++-          parser->m_processor =3D errorProcessor;
++-          return XML_STATUS_ERROR;
++-        }
++-        parser->m_buffer =3D temp;
++-        parser->m_bufferLim =3D parser->m_buffer + bytesToAllocate;
+++      // Back up and restore the parsing status to avoid XML_ERROR_SUSPEN=
+DED
+++      // (and XML_ERROR_FINISHED) from XML_GetBuffer.
+++      const enum XML_Parsing originalStatus =3D parser->m_parsingStatus.p=
+arsing;
+++      parser->m_parsingStatus.parsing =3D XML_PARSING;
+++      void *const temp =3D XML_GetBuffer(parser, nLeftOver);
+++      parser->m_parsingStatus.parsing =3D originalStatus;
+++      // GetBuffer may have overwritten this, but we want to remember wha=
+t the
+++      // app requested, not how many bytes were left over after parsing.
+++      parser->m_lastBufferRequestSize =3D len;
+++      if (temp =3D=3D NULL) {
+++        // NOTE: parser->m_errorCode has already been set by XML_GetBuffe=
+r().
+++        parser->m_eventPtr =3D parser->m_eventEndPtr =3D NULL;
+++        parser->m_processor =3D errorProcessor;
+++        return XML_STATUS_ERROR;
++       }
+++      // Since we know that the buffer was empty and XML_CONTEXT_BYTES is=
+ 0, we
+++      // don't have any data to preserve, and can copy straight into the =
+start
+++      // of the buffer rather than the GetBuffer return pointer (which ma=
+y be
+++      // pointing further into the allocated buffer).
++       memcpy(parser->m_buffer, end, nLeftOver);
++     }
++     parser->m_bufferPtr =3D parser->m_buffer;
++@@ -1966,16 +1977,15 @@ XML_Parse(XML_Parser parser, const char
++     parser->m_eventEndPtr =3D parser->m_bufferPtr;
++     return result;
++   }
++-#endif /* not defined XML_CONTEXT_BYTES */
++-  else {
++-    void *buff =3D XML_GetBuffer(parser, len);
++-    if (buff =3D=3D NULL)
++-      return XML_STATUS_ERROR;
++-    else {
++-      memcpy(buff, s, len);
++-      return XML_ParseBuffer(parser, len, isFinal);
++-    }
+++#endif /* XML_CONTEXT_BYTES =3D=3D 0 */
+++  void *buff =3D XML_GetBuffer(parser, len);
+++  if (buff =3D=3D NULL)
+++    return XML_STATUS_ERROR;
+++  if (len > 0) {
+++    assert(s !=3D NULL); // make sure s=3D=3DNULL && len!=3D0 was rejecte=
+d above
+++    memcpy(buff, s, len);
++   }
+++  return XML_ParseBuffer(parser, len, isFinal);
++ }
++
++ enum XML_Status XMLCALL
++@@ -2015,8 +2025,8 @@ XML_ParseBuffer(XML_Parser parser, int l
++   parser->m_parseEndByteIndex +=3D len;
++   parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
++
++-  parser->m_errorCode =3D parser->m_processor(
++-      parser, start, parser->m_parseEndPtr, &parser->m_bufferPtr);
+++  parser->m_errorCode =3D callProcessor(parser, start, parser->m_parseEnd=
+Ptr,
+++                                      &parser->m_bufferPtr);
++
++   if (parser->m_errorCode !=3D XML_ERROR_NONE) {
++     parser->m_eventEndPtr =3D parser->m_eventPtr;
++@@ -2061,8 +2071,12 @@ XML_GetBuffer(XML_Parser parser, int len
++   default:;
++   }
++
++-  if (len > EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEnd)=
+) {
++-#ifdef XML_CONTEXT_BYTES
+++  // whether or not the request succeeds, `len` seems to be the app's pre=
+ferred
+++  // buffer fill size; remember it.
+++  parser->m_lastBufferRequestSize =3D len;
+++  if (len > EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEnd)
+++      || parser->m_buffer =3D=3D NULL) {
+++#if XML_CONTEXT_BYTES > 0
++     int keep;
++ #endif /* defined XML_CONTEXT_BYTES */
++     /* Do not invoke signed arithmetic overflow: */
++@@ -2083,10 +2097,11 @@ XML_GetBuffer(XML_Parser parser, int len
++       return NULL;
++     }
++     neededSize +=3D keep;
++-#endif /* defined XML_CONTEXT_BYTES */
++-    if (neededSize
++-        <=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_buffer)) =
+{
++-#ifdef XML_CONTEXT_BYTES
+++#endif /* XML_CONTEXT_BYTES > 0 */
+++    if (parser->m_buffer && parser->m_bufferPtr
+++        && neededSize
+++               <=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bu=
+ffer)) {
+++#if XML_CONTEXT_BYTES > 0
++       if (keep < EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_buffe=
+r)) {
++         int offset
++             =3D (int)EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_b=
+uffer)
++@@ -2099,19 +2114,17 @@ XML_GetBuffer(XML_Parser parser, int len
++         parser->m_bufferPtr -=3D offset;
++       }
++ #else
++-      if (parser->m_buffer && parser->m_bufferPtr) {
++-        memmove(parser->m_buffer, parser->m_bufferPtr,
++-                EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buffer=
+Ptr));
++-        parser->m_bufferEnd
++-            =3D parser->m_buffer
++-              + EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buffer=
+Ptr);
++-        parser->m_bufferPtr =3D parser->m_buffer;
++-      }
++-#endif /* not defined XML_CONTEXT_BYTES */
+++      memmove(parser->m_buffer, parser->m_bufferPtr,
+++              EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_bufferPt=
+r));
+++      parser->m_bufferEnd
+++          =3D parser->m_buffer
+++            + EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_bufferPt=
+r);
+++      parser->m_bufferPtr =3D parser->m_buffer;
+++#endif /* XML_CONTEXT_BYTES > 0 */
++     } else {
++       char *newBuf;
++       int bufferSize
++-          =3D (int)EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_buf=
+ferPtr);
+++          =3D (int)EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_buf=
+fer);
++       if (bufferSize =3D=3D 0)
++         bufferSize =3D INIT_BUFFER_SIZE;
++       do {
++@@ -2208,7 +2221,7 @@ XML_ResumeParser(XML_Parser parser) {
++   }
++   parser->m_parsingStatus.parsing =3D XML_PARSING;
++
++-  parser->m_errorCode =3D parser->m_processor(
+++  parser->m_errorCode =3D callProcessor(
++       parser, parser->m_bufferPtr, parser->m_parseEndPtr, &parser->m_buff=
+erPtr);
++
++   if (parser->m_errorCode !=3D XML_ERROR_NONE) {
++@@ -2576,6 +2576,15 @@ XML_SetBillionLaughsAttackProtectionActi
++ }
++ #endif /* XML_GE =3D=3D 1 */
++
+++XML_Bool XMLCALL
+++XML_SetReparseDeferralEnabled(XML_Parser parser, XML_Bool enabled) {
+++  if (parser !=3D NULL && (enabled =3D=3D XML_TRUE || enabled =3D=3D XML_=
+FALSE)) {
+++    parser->m_reparseDeferralEnabled =3D enabled;
+++    return XML_TRUE;
+++  }
+++  return XML_FALSE;
+++}
+++
++ /* Initially tag->rawName always points into the parse buffer;
++    for those TAG instances opened while the current parse buffer was
++    processed, and not yet closed, we need to store tag->rawName in a more
++@@ -4497,15 +4506,15 @@ entityValueInitProcessor(XML_Parser pars
++       parser->m_processor =3D entityValueProcessor;
++       return entityValueProcessor(parser, next, end, nextPtr);
++     }
++-    /* If we are at the end of the buffer, this would cause XmlPrologTok =
+to
++-       return XML_TOK_NONE on the next call, which would then cause the
++-       function to exit with *nextPtr set to s - that is what we want for=
+ other
++-       tokens, but not for the BOM - we would rather like to skip it;
++-       then, when this routine is entered the next time, XmlPrologTok wil=
+l
++-       return XML_TOK_INVALID, since the BOM is still in the buffer
+++    /* XmlPrologTok has now set the encoding based on the BOM it found, a=
+nd we
+++       must move s and nextPtr forward to consume the BOM.
+++
+++       If we didn't, and got XML_TOK_NONE from the next XmlPrologTok call=
+, we
+++       would leave the BOM in the buffer and return. On the next call to =
+this
+++       function, our XmlPrologTok call would return XML_TOK_INVALID, sinc=
+e it
+++       is not valid to have multiple BOMs.
++     */
++-    else if (tok =3D=3D XML_TOK_BOM && next =3D=3D end
++-             && ! parser->m_parsingStatus.finalBuffer) {
+++    else if (tok =3D=3D XML_TOK_BOM) {
++ #  if XML_GE =3D=3D 1
++       if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
++                                     XML_ACCOUNT_DIRECT)) {
++@@ -4500,7 +4522,7 @@ entityValueInitProcessor(XML_Parser pars
++ #  endif
++
++       *nextPtr =3D next;
++-      return XML_ERROR_NONE;
+++      s =3D next;
++     }
++     /* If we get this token, we have the start of what might be a
++        normal tag, but not a declaration (i.e. it doesn't begin with
++--- a/xmlwf/xmlwf.c
+++++ b/xmlwf/xmlwf.c
++@@ -914,6 +914,9 @@ usage(const XML_Char *prog, int rc) {
++       T("  -a FACTOR     set maximum tolerated [a]mplification factor (de=
+fault: 100.0)\n")
++       T("  -b BYTES      set number of output [b]ytes needed to activate =
+(default: 8 MiB)\n")
++       T("\n")
+++      T("reparse deferral:\n")
+++      T("  -q             disable reparse deferral, and allow [q]uadratic=
+ parse runtime with large tokens\n")
+++      T("\n")
++       T("info arguments:\n")
++       T("  -h            show this [h]elp message and exit\n")
++       T("  -v            show program's [v]ersion number and exit\n")
++@@ -967,6 +970,8 @@ tmain(int argc, XML_Char **argv) {
++   unsigned long long attackThresholdBytes;
++   XML_Bool attackThresholdGiven =3D XML_FALSE;
++
+++  XML_Bool disableDeferral =3D XML_FALSE;
+++
++   int exitCode =3D XMLWF_EXIT_SUCCESS;
++   enum XML_ParamEntityParsing paramEntityParsing
++       =3D XML_PARAM_ENTITY_PARSING_NEVER;
++@@ -1089,6 +1094,11 @@ tmain(int argc, XML_Char **argv) {
++ #endif
++       break;
++     }
+++    case T('q'): {
+++      disableDeferral =3D XML_TRUE;
+++      j++;
+++      break;
+++    }
++     case T('\0'):
++       if (j > 1) {
++         i++;
++@@ -1134,6 +1144,16 @@ tmain(int argc, XML_Char **argv) {
++ #endif
++     }
++
+++    if (disableDeferral) {
+++      const XML_Bool success =3D XML_SetReparseDeferralEnabled(parser, XM=
+L_FALSE);
+++      if (! success) {
+++        // This prevents tperror(..) from reporting misleading "[..]: Suc=
+cess"
+++        errno =3D EINVAL;
+++        tperror(T("Failed to disable reparse deferral"));
+++        exit(XMLWF_EXIT_INTERNAL_ERROR);
+++      }
+++    }
+++
++     if (requireStandalone)
++       XML_SetNotStandaloneHandler(parser, notStandalone);
++     XML_SetParamEntityParsing(parser, paramEntityParsing);
++--- a/xmlwf/xmlwf_helpgen.py
+++++ b/xmlwf/xmlwf_helpgen.py
++@@ -81,6 +81,10 @@ billion_laughs.add_argument('-a', metava
++                             help=3D'set maximum tolerated [a]mplification=
+ factor (default: 100.0)')
++ billion_laughs.add_argument('-b', metavar=3D'BYTES', help=3D'set number o=
+f output [b]ytes needed to activate (default: 8 MiB)')
++
+++reparse_deferral =3D parser.add_argument_group('reparse deferral')
+++reparse_deferral.add_argument('-q', metavar=3D'FACTOR',
+++                            help=3D'disable reparse deferral, and allow [=
+q]uadratic parse runtime with large tokens')
+++
++ parser.add_argument('files', metavar=3D'FILE', nargs=3D'*', help=3D'file =
+to process (default: STDIN)')
++
++ info =3D parser.add_argument_group('info arguments')
+diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/exp=
+at/expat_2.5.0.bb
+index 31e989cfe2..09bc7a0a0b 100644
+--- a/meta/recipes-core/expat/expat_2.5.0.bb
++++ b/meta/recipes-core/expat/expat_2.5.0.bb
+@@ -22,6 +22,7 @@ SRC_URI =3D "https://github.com/libexpat/libexpat/release=
+s/download/R_${VERSION_TA
+           file://CVE-2023-52426-009.patch \
+           file://CVE-2023-52426-010.patch \
+           file://CVE-2023-52426-011.patch \
++           file://CVE-2023-52425.patch \
+            "
+
+ UPSTREAM_CHECK_URI =3D "https://github.com/libexpat/libexpat/releases/"
+--
+2.25.1
+
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
 
