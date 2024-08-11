@@ -1,77 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF149C52D7B
-	for <webhook@archiver.kernel.org>; Sun, 11 Aug 2024 15:55:27 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.26714.1723391719314348372
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB8BC3DA4A
+	for <webhook@archiver.kernel.org>; Sun, 11 Aug 2024 16:04:07 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.26873.1723392240618891505
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Aug 2024 08:55:19 -0700
+ Sun, 11 Aug 2024 09:04:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DGdoBzQ4;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7106e2d0ec1so2588140b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Aug 2024 08:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723391718; x=1723996518; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7d4/4HTikA/nl3uNci2BTQ9deV0mOugO3YGera0skE4=;
-        b=DGdoBzQ41liiqe3IGTGVrRJejVsFOtgADdsF8rHliAjMACV3/1HCkwofQrkzUP9oIF
-         MzyPJ7F5AvMsFLEcX10bNIl/EH/JS0IXNkG5PG7lgrAbE0X10iYrJGcgKSoSc3Tmxpj5
-         Vef1kTBnz6IFJfWtT5fkdYBoYzdqFEBENMD049N0ExJGoQLiRWgV8E0/TvzKWBt2kjSb
-         qRWPRvRul9jMbzRtUD4m4q9T1NYWaj0i9CdxYwsj7EqKdRxOXXXwvkxwYEyFB6qR0N+U
-         RHxHxljaUvH/PYeznyj8E6KANz7mMrp2MyaJO+lVN1hZAudzrTghjDHmzzPMlPd5Hkfa
-         np+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723391718; x=1723996518;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7d4/4HTikA/nl3uNci2BTQ9deV0mOugO3YGera0skE4=;
-        b=HjzGKZod0/zWSNvL/UShKGwI1N0ZXBr6zpBBs+6JJP6dAH1JJHBnFtULoMTwwPmsJZ
-         bdPvKqyuMz/Skazr5ngwN8cMT4Kh3EjcsIUy/QK9bvjbN2WuyZJIVZwXYcQgRSuAoMpO
-         6cAxRjiMZzgRG50OMyN86gF8uCHOWBGo4YFBRt52zbrkBY0PvTnrasUBUDh9jCA3C4Wn
-         PAnSEWyHLPKCJDxWPTXavzSCzS2OnQesF6FjqkBdufN6xQT/gvZhPuJUNlEzVI3K+Fhb
-         XCC/tmK2gGaKcqZytf638iKhKM6+c3Gore0fAM3gnV4s0UrkctVy6FNcYDtH/4rhRzrA
-         KU4w==
-X-Gm-Message-State: AOJu0Yx7fLumGjSK9TsTkjUpdNpBEgqfr0Q+yH5ewOt+wpkkmJ/QzkTJ
-	4zJWbdtc5GQHO0lgBL23AufQuRBX6BphJsOsdSEKg7/2xkjkz5kChM8FcQ==
-X-Google-Smtp-Source: AGHT+IHFSQG5H+JKGqBYGfXpB4pqjT57udTZOjjC99XusIdj5BLHF5XC0fMt0YMy1fcrihX/odoM3g==
-X-Received: by 2002:a05:6a00:21c9:b0:706:6bf8:bd2 with SMTP id d2e1a72fcca58-710dc899ea3mr6531312b3a.21.1723391718434;
-        Sun, 11 Aug 2024 08:55:18 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4c22])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5873906sm2634383b3a.19.2024.08.11.08.55.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Aug 2024 08:55:17 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gnupg: Document CVE-2022-3219 and mark wontfix
-Date: Sun, 11 Aug 2024 08:55:15 -0700
-Message-ID: <20240811155515.3184406-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.46.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cTj1t+Bx;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uE5FAmwO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010191422ea872-7d35cc3f-1111-4dbc-8178-eada86adfd63-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1723392239; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=vmiA7dYCpmIIWRPMBdJLeBJPDwmwOf75QBYL/xtpIbs=;
+	b=cTj1t+BxDooXxG9FVOF+oMxSQgAvJF9ABXi3v8P8GhjY3Hx60td/gcPAzWtuPxrU
+	lxHdOjnssD6r1Sak7Dx43mhvKM5cm1X3iGiQ+M5sCXD4PBpaB28vnomXHwG/xLRfIsO
+	s24svjxeFFS42SoCQv96fgHr0MMrinCoxZvrKhhk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723392239;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=vmiA7dYCpmIIWRPMBdJLeBJPDwmwOf75QBYL/xtpIbs=;
+	b=uE5FAmwO7Hzq8JHGNz7L19o1E4+nGZ1s0MpQnlNetcX+uRj83C5+JnntDUy5FLUB
+	ARh4pb5g/Rd/aZSTEo7Fy6kv5UGyjdX67kjIyySdsFYJTE4K3JMR5Bre0wIM06tvMwz
+	JAHUaeJGeagxu1izCF8n7ZcSzywmt509n96ASlZ0=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] gnupg: Document CVE-2022-3219 and mark wontfix
+In-Reply-To: <20240811155515.3184406-1-raj.khem@gmail.com>
+References: <20240811155515.3184406-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010191422ea872-7d35cc3f-1111-4dbc-8178-eada86adfd63-000000@us-west-2.amazonses.com>
+Date: Sun, 11 Aug 2024 16:03:59 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.08.11-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Aug 2024 15:55:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203184
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Aug 2024 16:04:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203185
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-support/gnupg/gnupg_2.4.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+Testing patch /home/patchtest/share/mboxes/gnupg-Document-CVE-2022-3219-and-mark-wontfix.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.5.bb b/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-index 99996968b1a..97b5d8856c0 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-@@ -88,3 +88,4 @@ BBCLASSEXTEND = "native nativesdk"
- 
- lcl_maybe_fortify:mipsarch = ""
- 
-+CVE_STATUS[CVE-2022-3219] = "upstream-wontfix: Upstream doesn't seem to be keen on merging the proposed commit - https://dev.gnupg.org/T5993"
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
