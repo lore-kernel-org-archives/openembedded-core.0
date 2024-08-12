@@ -2,202 +2,277 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D67DFC3DA7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7DE0C531DC
 	for <webhook@archiver.kernel.org>; Mon, 12 Aug 2024 18:20:16 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web10.53504.1723486812698017485
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web11.53485.1723486813285428169
  for <openembedded-core@lists.openembedded.org>;
  Mon, 12 Aug 2024 11:20:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=M/8kizIR;
- spf=pass (domain: baylibre.com, ip: 209.85.160.173, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-44fff73f223so22916221cf.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 11:20:12 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=RPOw1bhv;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.181, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-44fdde0c8dcso26664641cf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 11:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723486811; x=1724091611; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ezy3TtV+UGcEgcfisHQuOzMjwZLYXUnqzwJeWS4vMmg=;
-        b=M/8kizIRMt2w5lohyS5Mn5qb7XASv8+WvJPtrs0NG3RdwqV3nrmhmO7YuyGPXI6nB7
-         PMWwypXbXSrWN5d0fK/gC4QGgtvdvuk/w2Hq+UjEHjcucVFbNS0oUOp2tYjwce5ru4UR
-         nYYUwwFcUDX6K0rcY7AcyAdDjjsx5fwNML7Wdv1oNUGfLc75YyQEfHCN9MMOlYYsZWE7
-         uAmsF8trty8OsbbdT8PLC4Q07SCa9LCtt3JGPpZ/w0edlHq/72qvKHrKMYJnWgq+Nclw
-         JjnO6MZzHVR5WuIcAxUzNWvooeJ79tCOdsKZ4ESw/PQ4+u4Gg1sBn2Gz1I9/WoKYG4Eo
-         72OA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723486812; x=1724091612; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jnqK9KCpKCn3PMzMwc37RvAaDb8zu9KoTbRfMQg5Gyg=;
+        b=RPOw1bhvWgk7sbiqKEv++J7N8esPUX7WFWFVPZeXoZ+brkNj/u6qn0d26NxpRrLyDT
+         iME0ZnFHu37+OGrumUWxMVqQAdRgHsh3Wb2svEOflEsfZK2y+1v5YecH4HsfhipBSLVR
+         zMqlAf35HDWOXjSqVxV96vKCe7LqkuUgyeiUtY+aBhqUXGyEKMbLo8hXaeoK/QGOCV2f
+         zD16zP/kTfU8+CqIEq1SIwCLXqeexE728QDOum/widPuRr9d1/ICPNzkVDmRAPntxF2U
+         ybkSh7/pWB8zYycnAiH5+JCPIzDeET4BkYGWrrLzqR1tFV/e+rvyaSiXegkgD0u2A0tO
+         G9sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723486811; x=1724091611;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ezy3TtV+UGcEgcfisHQuOzMjwZLYXUnqzwJeWS4vMmg=;
-        b=hwszjkh4uGRYLyYJYrwsR9iIKudjf8yPHi6+HzafHeTeNsQX7MWrhe2f2VXsd7jeAC
-         pxAAaX67nn6EDh80Fcdh9SMz3g1tv02I7NjNCtG+JLtn4dyX9MmzMsmLE4R11Dj+bwGZ
-         LD4r7nLthZ4ZIMLvh3txonOyDA2nKyeBi62uy0Qt4I1FxVDBN6s5SL7OAlzUiM0+7zLR
-         aO7nJFDLsT1Vqf0yq91ZxsbOT0V1BnlY5GZ12t73Ceqjpt8qF0RCwohh+++zcJd0+Oh0
-         0mhXjV3+uAL8dQjT+E3613qbJoWp8V0eiUpYtEwhXcEMFA0elHnxpyG9WxwwhfQC60qT
-         rnMw==
-X-Gm-Message-State: AOJu0YxzN0W6Y2hF72nC/WvjtBirKgYrEQ+KP5lyiFxOaiUMaHoP6G6t
-	jY96AoLkfHv9XEico2J/pi2DZkxlImW2CigsPCHIOP2JSge3SOs6XqPx0zrN+CmnIyjaW2aNVzh
-	w
-X-Google-Smtp-Source: AGHT+IE589NdrfcIVhbxB+Q4o4CRlBZ5V3mYY7BCKZchOVNl5hxFlGKT1Ht+vbnFF9ar0H/GZG1MuA==
-X-Received: by 2002:a05:622a:6097:b0:44f:e2fb:b289 with SMTP id d75a77b69052e-45349b68a25mr8922681cf.61.1723486811162;
+        d=1e100.net; s=20230601; t=1723486812; x=1724091612;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jnqK9KCpKCn3PMzMwc37RvAaDb8zu9KoTbRfMQg5Gyg=;
+        b=qBniXNF2BfXpm/Al8RWfybTt1C5W9OT5To1j4HhrDXTt99Mz4XoeT3V6PUa9lt5NqO
+         rh7vTC5QcnTFujy0H4CCa7EVsBIPYFe6fTZDMTQ4J0PTkHc0byjrAkrKAyrVyzDxa9j9
+         Wbw4eXFKUeMmPeCNlNlgJ0HFfD65dEU4edbeQer3CCFIARz6Xg+Vu9FiwwnRm2jqKXK6
+         kpDeazYa0wM2m5fTwBcf7Mq8T1s40AC7+YB9EiEKUpxhugn96TEEk8kV6C5lSzmGVLk1
+         dUdUsP56YXfIF7WalTDbn7PhLf/52HzsJRGTLIGxlqXfv9thwdaWY2nNPLlE6A9KQ7ra
+         +LsA==
+X-Gm-Message-State: AOJu0YyviKDN+VFB6aobg58ZMZzDPOqmW85V/hykVLxOuqStnPlaaqSw
+	EVN0Yk7p0E+RlTLKrScidU+4JvEXH3JE8YLP5MlPbI8R14dAbEtjXER+K8OxAmxy1ERj9ZOyoat
+	n
+X-Google-Smtp-Source: AGHT+IHxVCD6V4bK8M7113fXTPhaevgyrCNoWjs/HYfDFnsFgVQPmCjXNpCSfwwMByvT9XLIaER2KQ==
+X-Received: by 2002:a05:622a:608c:b0:44f:f8b8:bcab with SMTP id d75a77b69052e-45349b5f5d2mr12115491cf.52.1723486811940;
         Mon, 12 Aug 2024 11:20:11 -0700 (PDT)
 Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4531c1a7f1dsm25499781cf.3.2024.08.12.11.20.10
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4531c1a7f1dsm25499781cf.3.2024.08.12.11.20.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 11:20:10 -0700 (PDT)
+        Mon, 12 Aug 2024 11:20:11 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/2] python3-numpy: upgrade 1.26.4 -> 2.0.1
-Date: Mon, 12 Aug 2024 14:20:08 -0400
-Message-Id: <20240812182009.1132616-1-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/2] piglit: upgrade 22eaf6a91c -> c11c9374c1
+Date: Mon, 12 Aug 2024 14:20:09 -0400
+Message-Id: <20240812182009.1132616-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240812182009.1132616-1-tgamblin@baylibre.com>
+References: <20240812182009.1132616-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 18:20:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203231
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203232
 
-- This release contains numerous API changes and bug fixes.
-  Changelog: https://github.com/numpy/numpy/releases/tag/v2.0.1
+Commit 766669895d fixes builds with numpy 2.x.
 
-- Notably, the build backend has switched to mesonpy.
+Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
+because it is now upstream in commit 9c941dfc36.
 
-- Patch 0001-numpy-core-Define-RISCV-32-support.patch had to be updated to
-  change the paths for the target files. It's still waiting to be merged
-  upstream and will need a rebase, so I've added a comment on the PR:
+Changelog:
 
-  https://github.com/numpy/numpy/pull/17780
-
-  Note that the riscv32 test build didn't complete because openssl failed
-  on do_compile, but the patch applies cleanly now.
-
-- For numpy, add 'pkgconfig' to inherit to avoid the following error at
-  do_compile:
-
-  | Found Pkg-config: NO
-  | Run-time dependency python found: YES 3.12
-  | Has header "Python.h" with dependency python: NO
-  |
-  | ../numpy-2.0.0/meson.build:44:2: ERROR: Problem encountered: Cannot compile `Python.h`. Perhaps you need to install python-dev|python-devel
-  |
-  | A full log can be found at /home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/2.0.0/build/meson-logs/meson-log.txt
-
-- Also modify the FILES:${PN}-staticdev line to fix a QA issue at the end.
-
-License-Update: Change copyright year to 2024
+c11c9374c (HEAD -> main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
+f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
+045343687 arb_gpu_shader5: add linker version of function overloads test
+4b1116f3a arb_bindless_texture: add another function param bindless test
+4a62c2672 glsl: test function linking with implicit param conversions
+9f280db77 arb_bindless_texture: add basic function param bindless tests
+766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
+5214915dc generated_tests: print mako exceptions
+41bd119f2 arb_texture_buffer_object: don't leak src strings
+582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
+647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
+dee2a233f perf: port glsl-compile-time perf-test from mesa demos
+18333c568 perf: port vertexrate perf-test from mesa demos
+e932fa2f5 perf: port vbo perf-test from mesa demos
+f9cf4788a perf: port teximage perf-test from mesa demos
+20ccc1c10 perf: port readpixels perf-test from mesa demos
+556a9c96d perf: port genmipmap perf-test from mesa demos
+225b6bfb6 perf: port fill perf-test from mesa demos
+dae4a13f9 perf: port fbobind perf-test from mesa demos
+cd0f812b3 perf: port copytex perf-test from mesa demos
+fdf3fc09d cl: add missing errors
+01b64dd06 glsl-1.10: test a complex partial unroll scenario
+cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
+30d34daf7 glsl-bug-110796: distinguish which context creation failed
+3ea14414a Sync .mailmap from Mesa
+7accec34a glsl-bug-110796: check for GL ES 3.2 support
+12ebd71c7 egl-terminate-then-unbind-context: simplify
+69bc38a77 egl_khr_create_context: improve skip reporting
+209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
+800abe232 arb_blend_func_extended: gles: follow the specification requirements
+1cad6ee20 arb_texture_multisample: require geometry shaders
+59bdc8c4e egl: missing EGLconfig isn't stderr material
+cee2190b5 ext_external_objects: avoid stderr when we skip the test
+8cbefab52 util: remove handwritten defines and drop FIXME
+11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
+e180f9623 Use GBM_LDFLAGS to get all options
+3bddb36e8 fix vk_vert_buf_reuse cleanup
+8f6e71975 arb_texture_view: test for NaN in more cases
+446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
+8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
+8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
+7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
+3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
+759cc6454 clear-stencil: new test to check for problems clearing stencils
+2c64a91bb read_depth_offset: new test to check depth offset calculation
+869a1b6e8 replayer: create bin/ everytime
+9be2db198 Reduce precision in depth clear precision check
+7f40f35a3 Add float from half function
+f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
+fd4a6c521 wayland: Add Wayland dmabuf driver-name test
+df0d0ae79 conversion-explicit: use a different value for normalized +/- min
+a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
+67b89b3e3 README: recommend Ninja by default and switch to cmake --build
+efd111853 cmake: build is compatible up to 3.28
+e84aca9b5 cmake: add workaround for CMP0148
+2e70ca91e README: ccmake is not that common, regular cmake is enough to build
+e39ba99e5 README: update requirements
+d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
+938a9dc9f cmake: remove this 12 years old workaround taking too many lines
+7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
+cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
+4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
+a222d50bb cmake: implement GBM and Wayland controls
+4230c7e9f cmake: fix unusually formated statement
+d958b70d1 cmake: implement X11 option (required for GLX)
+4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
+44e1c29bf cmake: move first batch of option() at the beggining of the file
+96241ea22 cmake: rename default values with prefix DEFAULT_
+21374d8d3 cmake: move defaults into the per-platform section
+86d3f1132 cmake: predefine defaults depending on the system
+381221a81 cmake: drop unused CMP0042 policy
+99eade7cd cmake: respect indentation
+dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
+025e462ae util: fix multisample_texture_fs_template
+f9e26b98b tests: add a test for GL_APPLE_sync
+b24c834d9 ci: codespell ignore list is lowercase
+0a842edd0 more spelling fixes accross the whole codebase
+2c473ea73 ci: bump distribution tag
+7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
+19e58247e ext_texture_storage: Fix memory leak on error path
+d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
+74064b1d4 arb_clear_texture: only test float depth textures when supported
+9c941dfc3 properly check for libgen.h
+c55e22a5c arb_copy_image-formats: avoid undefined behavior
+537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
+b32186ee5 README: add Vulkan into the generic description
+1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
+62938a9bc tests: Fix cl test program@execute@builtin@builtin-float-degrees-1.0.generated issue about tolerance.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- ...1-numpy-core-Define-RISCV-32-support.patch | 28 +++++++++++--------
- ...numpy_1.26.4.bb => python3-numpy_2.0.1.bb} | 10 ++++---
- 2 files changed, 22 insertions(+), 16 deletions(-)
- rename meta/recipes-devtools/python/{python3-numpy_1.26.4.bb => python3-numpy_2.0.1.bb} (84%)
+ ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
+ meta/recipes-graphics/piglit/piglit_git.bb    |  3 +-
+ 2 files changed, 1 insertion(+), 85 deletions(-)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-index 676bdbb3af..8dfb20edbb 100644
---- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-@@ -1,4 +1,4 @@
--From eb6d6579150bf4684603ce377c51e90ad3bb8109 Mon Sep 17 00:00:00 2001
-+From df38843aaa7184115d262f14eae23ff38a20372a Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 15 Nov 2020 15:32:39 -0800
- Subject: [PATCH] numpy/core: Define RISCV-32 support
-@@ -7,15 +7,19 @@ Helps compile on riscv32
- 
- Upstream-Status: Submitted [https://github.com/numpy/numpy/pull/17780]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Update the patch with the new paths for numpy release 2.0.0.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
- ---
-- numpy/core/include/numpy/npy_cpu.h    | 3 +++
-- numpy/core/include/numpy/npy_endian.h | 1 +
-+ numpy/_core/include/numpy/npy_cpu.h    | 3 +++
-+ numpy/_core/include/numpy/npy_endian.h | 1 +
-  2 files changed, 4 insertions(+)
- 
--diff --git a/numpy/core/include/numpy/npy_cpu.h b/numpy/core/include/numpy/npy_cpu.h
--index 78d229e..04be511 100644
----- a/numpy/core/include/numpy/npy_cpu.h
--+++ b/numpy/core/include/numpy/npy_cpu.h
-+diff --git a/numpy/_core/include/numpy/npy_cpu.h b/numpy/_core/include/numpy/npy_cpu.h
-+index a19f8e6bbd..d824d4efb6 100644
-+--- a/numpy/_core/include/numpy/npy_cpu.h
-++++ b/numpy/_core/include/numpy/npy_cpu.h
- @@ -19,6 +19,7 @@
-   *              NPY_CPU_ARCEB
-   *              NPY_CPU_RISCV64
-@@ -33,10 +37,10 @@ index 78d229e..04be511 100644
-  #elif defined(__loongarch__)
-      #define NPY_CPU_LOONGARCH
-  #elif defined(__EMSCRIPTEN__)
--diff --git a/numpy/core/include/numpy/npy_endian.h b/numpy/core/include/numpy/npy_endian.h
--index 5e58a7f..0926212 100644
----- a/numpy/core/include/numpy/npy_endian.h
--+++ b/numpy/core/include/numpy/npy_endian.h
-+diff --git a/numpy/_core/include/numpy/npy_endian.h b/numpy/_core/include/numpy/npy_endian.h
-+index 5e58a7f52c..09262120bf 100644
-+--- a/numpy/_core/include/numpy/npy_endian.h
-++++ b/numpy/_core/include/numpy/npy_endian.h
- @@ -49,6 +49,7 @@
-              || defined(NPY_CPU_PPC64LE)       \
-              || defined(NPY_CPU_ARCEL)         \
-@@ -46,5 +50,5 @@ index 5e58a7f..0926212 100644
-              || defined(NPY_CPU_WASM)
-          #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
- -- 
--2.20.1
-+2.45.2
- 
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb b/meta/recipes-devtools/python/python3-numpy_2.0.1.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-rename to meta/recipes-devtools/python/python3-numpy_2.0.1.bb
-index 914245507c..aa1ceed2ba 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.0.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://numpy.org/"
- DESCRIPTION = "NumPy is the fundamental package needed for scientific computing with Python."
- SECTION = "devel/python"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF-2.0 & Apache-2.0 & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=a752eb20459cf74a9d84ee4825e8317c"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1de863c37a83e71b1e97b64d036ea78b"
- 
- SRCNAME = "numpy"
- 
-@@ -13,14 +13,14 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://fix_reproducibility.patch \
-            file://run-ptest \
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
+deleted file mode 100644
+index 2875dd52ec..0000000000
+--- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
+-From: Erik Faye-Lund <erik.faye-lund@collabora.com>
+-Date: Tue, 19 Mar 2024 16:34:02 +0100
+-Subject: [PATCH] properly check for libgen.h
+-
+-Some users are reporting that basename is not available when building on
+-Linux with musl libc. And since the POSIX spec[1] says that basename is
+-defined in libgen.h, we should include that when available.
+-
+-So let's properly detect the header, and include it if it exists. This
+-should hopefully make things a bit more robust.
+-
+-Since we're also including this from the CL program-tester, let's
+-rearrange the includes a bit so we know that config.h has been included.
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
+-Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- CMakeLists.txt                    | 1 +
+- tests/cl/program/program-tester.c | 5 ++++-
+- tests/util/config.h.in            | 1 +
+- tests/util/piglit-util.h          | 4 ++--
+- 4 files changed, 8 insertions(+), 3 deletions(-)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index dd2bf67125..5563fe0e20 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
+- check_include_file(fcntl.h     HAVE_FCNTL_H)
+- check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
+- check_include_file(endian.h    HAVE_ENDIAN_H)
+-+check_include_file(libgen.h    HAVE_LIBGEN_H)
+- 
+- if(DEFINED PIGLIT_INSTALL_VERSION)
+- 	set(PIGLIT_INSTALL_VERSION_SUFFIX
+-diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
+-index 97fe64906d..e47fb5aacc 100644
+---- a/tests/cl/program/program-tester.c
+-+++ b/tests/cl/program/program-tester.c
+-@@ -31,10 +31,13 @@
+- #include <inttypes.h>
+- #include <math.h>
+- #include <regex.h>
+--#include <libgen.h>
+- 
+- #include "piglit-framework-cl-program.h"
+- 
+-+#ifdef HAVE_LIBGEN_H
+-+#include <libgen.h>
+-+#endif
+-+
+- /* Regexes */
+- 
+- /*
+-diff --git a/tests/util/config.h.in b/tests/util/config.h.in
+-index 8ed5af1709..437eb91418 100644
+---- a/tests/util/config.h.in
+-+++ b/tests/util/config.h.in
+-@@ -16,3 +16,4 @@
+- #cmakedefine HAVE_SYS_RESOURCE_H 1
+- #cmakedefine HAVE_UNISTD_H 1
+- #cmakedefine HAVE_ENDIAN_H 1
+-+#cmakedefine HAVE_LIBGEN_H 1
+-diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
+-index 4d3606c708..de999980b6 100644
+---- a/tests/util/piglit-util.h
+-+++ b/tests/util/piglit-util.h
+-@@ -52,8 +52,8 @@ extern "C" {
+- #include <math.h>
+- #include <float.h>
+- 
+--#if defined(__APPLE__) || defined(__MINGW32__)
+--#  include "libgen.h" // for basename
+-+#ifdef HAVE_LIBGEN_H
+-+#  include <libgen.h> // for basename
+- #elif defined(_MSC_VER)
+- 
+- static inline char *
+--- 
+-GitLab
+-
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 99d75e64f8..98cad94368 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
+            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
+            file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
+-           file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch \
             "
--SRC_URI[sha256sum] = "2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010"
-+SRC_URI[sha256sum] = "485b87235796410c3519a699cfe1faab097e509e90ebb05dcd098db2ae87e7b3"
+ UPSTREAM_CHECK_COMMITS = "1"
  
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+-SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
++SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr"
  
- DEPENDS += "python3-cython-native"
- 
--inherit ptest setuptools3 github-releases
-+inherit ptest python_mesonpy pkgconfig github-releases
- 
- S = "${WORKDIR}/numpy-${PV}"
- 
-@@ -30,7 +30,9 @@ do_compile:prepend() {
-     export NPY_DISABLE_SVML=1
- }
- 
--FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
-+FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/_core/lib/*.a \
-+                          ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a \
-+"
- 
- # install what is needed for numpy.test()
- RDEPENDS:${PN} = "python3-unittest \
 -- 
 2.39.2
 
