@@ -1,279 +1,198 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7DE0C531DC
-	for <webhook@archiver.kernel.org>; Mon, 12 Aug 2024 18:20:16 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web11.53485.1723486813285428169
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9F2C3DA7F
+	for <webhook@archiver.kernel.org>; Mon, 12 Aug 2024 20:15:57 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.60])
+ by mx.groups.io with SMTP id smtpd.web11.56303.1723493750511219919
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Aug 2024 11:20:13 -0700
+ Mon, 12 Aug 2024 13:15:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=RPOw1bhv;
- spf=pass (domain: baylibre.com, ip: 209.85.160.181, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-44fdde0c8dcso26664641cf.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 11:20:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723486812; x=1724091612; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jnqK9KCpKCn3PMzMwc37RvAaDb8zu9KoTbRfMQg5Gyg=;
-        b=RPOw1bhvWgk7sbiqKEv++J7N8esPUX7WFWFVPZeXoZ+brkNj/u6qn0d26NxpRrLyDT
-         iME0ZnFHu37+OGrumUWxMVqQAdRgHsh3Wb2svEOflEsfZK2y+1v5YecH4HsfhipBSLVR
-         zMqlAf35HDWOXjSqVxV96vKCe7LqkuUgyeiUtY+aBhqUXGyEKMbLo8hXaeoK/QGOCV2f
-         zD16zP/kTfU8+CqIEq1SIwCLXqeexE728QDOum/widPuRr9d1/ICPNzkVDmRAPntxF2U
-         ybkSh7/pWB8zYycnAiH5+JCPIzDeET4BkYGWrrLzqR1tFV/e+rvyaSiXegkgD0u2A0tO
-         G9sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723486812; x=1724091612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jnqK9KCpKCn3PMzMwc37RvAaDb8zu9KoTbRfMQg5Gyg=;
-        b=qBniXNF2BfXpm/Al8RWfybTt1C5W9OT5To1j4HhrDXTt99Mz4XoeT3V6PUa9lt5NqO
-         rh7vTC5QcnTFujy0H4CCa7EVsBIPYFe6fTZDMTQ4J0PTkHc0byjrAkrKAyrVyzDxa9j9
-         Wbw4eXFKUeMmPeCNlNlgJ0HFfD65dEU4edbeQer3CCFIARz6Xg+Vu9FiwwnRm2jqKXK6
-         kpDeazYa0wM2m5fTwBcf7Mq8T1s40AC7+YB9EiEKUpxhugn96TEEk8kV6C5lSzmGVLk1
-         dUdUsP56YXfIF7WalTDbn7PhLf/52HzsJRGTLIGxlqXfv9thwdaWY2nNPLlE6A9KQ7ra
-         +LsA==
-X-Gm-Message-State: AOJu0YyviKDN+VFB6aobg58ZMZzDPOqmW85V/hykVLxOuqStnPlaaqSw
-	EVN0Yk7p0E+RlTLKrScidU+4JvEXH3JE8YLP5MlPbI8R14dAbEtjXER+K8OxAmxy1ERj9ZOyoat
-	n
-X-Google-Smtp-Source: AGHT+IHxVCD6V4bK8M7113fXTPhaevgyrCNoWjs/HYfDFnsFgVQPmCjXNpCSfwwMByvT9XLIaER2KQ==
-X-Received: by 2002:a05:622a:608c:b0:44f:f8b8:bcab with SMTP id d75a77b69052e-45349b5f5d2mr12115491cf.52.1723486811940;
-        Mon, 12 Aug 2024 11:20:11 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4531c1a7f1dsm25499781cf.3.2024.08.12.11.20.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 11:20:11 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/2] piglit: upgrade 22eaf6a91c -> c11c9374c1
-Date: Mon, 12 Aug 2024 14:20:09 -0400
-Message-Id: <20240812182009.1132616-2-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240812182009.1132616-1-tgamblin@baylibre.com>
-References: <20240812182009.1132616-1-tgamblin@baylibre.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=PkszKJzV;
+ spf=pass (domain: axis.com, ip: 52.101.69.60, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LIML/OVcLiBhSdzkuV0MiUxYu2jzVOuKMkOYctoVTTE5IQx3NZyYNR5Cejo3WzYixVurzodHUNdiB7OTEO4kgnun0N0k0RJlD8uTrJBOi7XOGtkpL5QeJ2xxfmRWmevBpYFNk1OW8H9dRXYsWFWJJg5YDDl46Oc07swdYFUQ/AmzEaruV+8siINEijKPAqfx/gL+bGdWfuKSY4+ib1nFR25ugEqt2cCa25LkdYMTR1enPpfNih99pAtidp2heQ3X2M3BeuNs5gsEGmT6yL+po90mbckP//aLnKtn/1+Hz3fY8rEjVV5/QIJNrni9ZX6r8s1IjLju3HeD+U8eBefGTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sxiKh7wlQ3nZyzpE2L9p5FPthHLjXB9JAMGaU0BjxEM=;
+ b=Pz4O0icHSU7cWx+/Q3fh5mIbhFcnPRCCI3USKAE+qzTD6PwS16K4rUzsz2OPD7yrSh+zBCjh2Rsej4o1Wlg2rEKFekQ39Cj05IZWdl02hDu/1ogfu5f4qk4jFm+pdlMk0UHwg/qyFau3hwsa6UbsCwyNr5cDol2wJLu94uEu5r7yu/jeIeSIQy3VM9yCF8EjhW31Z5zk/ArEea3G1h0DFHMceWj/74zseRMzsxaX58+8NXgNtJVSaSuQiSGV48eXfI2ykEEZK6H6fGIXXI6ptoup5mMQndFOBMNrorgqVTrwVcWVGDWAEFwMWnfIWF/kp1cRCya16BY8peAihtOd+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sxiKh7wlQ3nZyzpE2L9p5FPthHLjXB9JAMGaU0BjxEM=;
+ b=PkszKJzVlb38BwwSSap1ysYbHFgGo1nu6HOfLGyZpnkBVtsxS8b0QqblBxGeaYjUIgKgZKdlfYpPB1nmXnZqfdfVcY8mlRe/En30b6B5to4bobsBeOQnkEAgJmyWFgFYyIfv7aK9bGm7cuv3n4DBpZ9J8vvCBm+cYS9kN8ErmtM=
+Received: from DB9PR01CA0008.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:1d8::13) by PAWPR02MB10067.eurprd02.prod.outlook.com
+ (2603:10a6:102:35b::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
+ 2024 20:15:45 +0000
+Received: from DB1PEPF000509FE.eurprd03.prod.outlook.com
+ (2603:10a6:10:1d8:cafe::e0) by DB9PR01CA0008.outlook.office365.com
+ (2603:10a6:10:1d8::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20 via Frontend
+ Transport; Mon, 12 Aug 2024 20:15:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB1PEPF000509FE.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7849.8 via Frontend Transport; Mon, 12 Aug 2024 20:15:44 +0000
+Received: from se-mail02w.axis.com (10.20.40.8) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 12 Aug
+ 2024 22:15:44 +0200
+Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 12 Aug 2024 22:15:44 +0200
+Received: from saur (saur.se.axis.com [10.92.3.10])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 02A14188
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 22:15:44 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur (8.17.1/8.15.2) with ESMTPS id 47CKFhPl3080841
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 22:15:43 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 47CKFhlw3080840
+	for openembedded-core@lists.openembedded.org; Mon, 12 Aug 2024 22:15:43 +0200
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] license_image.bbclass: Rename license-incompatible to license-exception
+Date: Mon, 12 Aug 2024 22:15:39 +0200
+Message-ID: <20240812201539.3080819-1-pkj@axis.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FE:EE_|PAWPR02MB10067:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8589cf9f-85e9-46f8-3e71-08dcbb0b8be9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?9t+r0pOEE44nrAlbtCP6EdhfX8U9wpMP8T8/MiFjgG0eL4SFSqfmR6hZPKxe?=
+ =?us-ascii?Q?t6Hvhc8OO7prK1jF2PJb8pauCbW8EdRPbZS9nwwscTnStfikQUIO7Bwa5BuO?=
+ =?us-ascii?Q?Ft9qivyUhuKwEyXQ+QhzDqS0SIzxHL0PwxRGoJItfvapiTIMWi15pM7KZ63K?=
+ =?us-ascii?Q?Y2DbA/qVMgUbImVFMHSgUExPMecbum2u8QPi539u0QxwPXsAoNg4L4tMUmJG?=
+ =?us-ascii?Q?r0H3xMqE1oJDY3IvwWR5q0/94fTOeLHHkvg0Rs3r2KAxUp0iHiQoH8t++U3j?=
+ =?us-ascii?Q?yYFEGCCXxBZTQMnVV4He8YgIq4r7IMgxqtsed6PHsa6DYOVbxxkb5ogRPQAI?=
+ =?us-ascii?Q?nwiAVd9LxNdPnf9gCf8ShL9NE1IRCqYjqUi1mUDuxlYdOtiKTUeKiZs41aT+?=
+ =?us-ascii?Q?hGoA1uM6kbvWA2VgKPygYg+wosRnMzLymr1+N2tYw+lAqBPNnH3wAkAT37ZF?=
+ =?us-ascii?Q?Wabzv6UR+Yv71usSbai40cCZW1+CDcuWlgqQlxn7WU0q2ZYI6vZu9IsqZJ4Q?=
+ =?us-ascii?Q?BATLQIJqZ5OCECfiBhw2TT7EUVt9kGBZRv713BwEDrC118qV710DqYnrS+Wm?=
+ =?us-ascii?Q?orHbcPY1a0lNx2vtZH9hgWNuvNQoEyNZCDRvGNUgMOHG5M7kkQF3ZJnOcBkZ?=
+ =?us-ascii?Q?BhBuu7ngMSA9a6gleoSNyZr2JpoDHqzeD2JrxhN5A3DGoC1NljLUpICaBT2I?=
+ =?us-ascii?Q?wPHyHPxb0ipRPY/EoFBFl9XxAV44sAVBCh8vM3rNdgYbIsz481+tIGSNtXIS?=
+ =?us-ascii?Q?RjM1rd2PGynHI1iBodFQsicPuFNNlgnmsrrriUU77vb1CQMVsrPhzp8I3fnL?=
+ =?us-ascii?Q?54/+5gzh2b2fBkfv28dz/JIx/kKNCGiIsKRQO9XsG66yTJEi2m6aR5X+wMgX?=
+ =?us-ascii?Q?ZlilqmRBErIMcVBbqsOwgqorv8+mG3B3lM0dpnTWm48FmBgAFNw6AV7tqHia?=
+ =?us-ascii?Q?SoA+8drZu0hCHFD9NZXQS0x0Z2cBq5pvqbHqQoNgm4pfC9iSzcVrzygxW1V3?=
+ =?us-ascii?Q?kQbUUAxa63qSS6244NwAlN0p+IUBdCpH5edn3IoXIIwF09iejpLdmovaoJOj?=
+ =?us-ascii?Q?OtP0wbqxq2z4HmnNI7fISGldtirJQorEbmJ6uZ8vivuZ62mCfwlxGt4AUj3K?=
+ =?us-ascii?Q?bzpSV/+USqHEb8QxhVJSnQKerc5p4rbEprutnO51ukPRb+wD+HiOQ3+6TE4F?=
+ =?us-ascii?Q?DIjsMtishemXuqWwcIEtdL3h8kP/NRwkEi3OPbpwNY64TbbxECn4d0Cpkg0i?=
+ =?us-ascii?Q?b10uwL3Lxp1Mbe3Tr6h+1EtMDphFNrSBYboKlZWdpLbFgYeOxMxRM/642K1+?=
+ =?us-ascii?Q?QQEvl1nK3HYNPvnmMZaIaH5wsdqpkd8DpvH45jIoQZd/b9Zbqy9JuELLQi61?=
+ =?us-ascii?Q?t+Ta4oD0ye0ChfbAX+EarxbdC0NjPbp+GqrJNenyIOz42HEPqai3wXnKehtG?=
+ =?us-ascii?Q?tGukFMbMO8E0KSaiEJTeref5uz2aG+s1?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 20:15:44.5339
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8589cf9f-85e9-46f8-3e71-08dcbb0b8be9
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509FE.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR02MB10067
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 18:20:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203232
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 20:15:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203233
 
-Commit 766669895d fixes builds with numpy 2.x.
+There is currently both an incompatible-license and a
+license-incompatible QA message. This is very confusing.
+However, license-incompatible is only used to output a message when a
+package is included in an image despite it having a license that is
+normally incompatible (by using the INCOMPATIBLE_LICENSE_EXCEPTIONS
+variable). To better match how it is used and to distinguish it from
+incompatible-license, rename it to license-exception.
 
-Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
-because it is now upstream in commit 9c941dfc36.
-
-Changelog:
-
-c11c9374c (HEAD -> main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
-f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
-045343687 arb_gpu_shader5: add linker version of function overloads test
-4b1116f3a arb_bindless_texture: add another function param bindless test
-4a62c2672 glsl: test function linking with implicit param conversions
-9f280db77 arb_bindless_texture: add basic function param bindless tests
-766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
-5214915dc generated_tests: print mako exceptions
-41bd119f2 arb_texture_buffer_object: don't leak src strings
-582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
-647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
-dee2a233f perf: port glsl-compile-time perf-test from mesa demos
-18333c568 perf: port vertexrate perf-test from mesa demos
-e932fa2f5 perf: port vbo perf-test from mesa demos
-f9cf4788a perf: port teximage perf-test from mesa demos
-20ccc1c10 perf: port readpixels perf-test from mesa demos
-556a9c96d perf: port genmipmap perf-test from mesa demos
-225b6bfb6 perf: port fill perf-test from mesa demos
-dae4a13f9 perf: port fbobind perf-test from mesa demos
-cd0f812b3 perf: port copytex perf-test from mesa demos
-fdf3fc09d cl: add missing errors
-01b64dd06 glsl-1.10: test a complex partial unroll scenario
-cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
-30d34daf7 glsl-bug-110796: distinguish which context creation failed
-3ea14414a Sync .mailmap from Mesa
-7accec34a glsl-bug-110796: check for GL ES 3.2 support
-12ebd71c7 egl-terminate-then-unbind-context: simplify
-69bc38a77 egl_khr_create_context: improve skip reporting
-209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
-800abe232 arb_blend_func_extended: gles: follow the specification requirements
-1cad6ee20 arb_texture_multisample: require geometry shaders
-59bdc8c4e egl: missing EGLconfig isn't stderr material
-cee2190b5 ext_external_objects: avoid stderr when we skip the test
-8cbefab52 util: remove handwritten defines and drop FIXME
-11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
-e180f9623 Use GBM_LDFLAGS to get all options
-3bddb36e8 fix vk_vert_buf_reuse cleanup
-8f6e71975 arb_texture_view: test for NaN in more cases
-446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
-8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
-8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
-7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
-3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
-759cc6454 clear-stencil: new test to check for problems clearing stencils
-2c64a91bb read_depth_offset: new test to check depth offset calculation
-869a1b6e8 replayer: create bin/ everytime
-9be2db198 Reduce precision in depth clear precision check
-7f40f35a3 Add float from half function
-f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
-fd4a6c521 wayland: Add Wayland dmabuf driver-name test
-df0d0ae79 conversion-explicit: use a different value for normalized +/- min
-a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
-67b89b3e3 README: recommend Ninja by default and switch to cmake --build
-efd111853 cmake: build is compatible up to 3.28
-e84aca9b5 cmake: add workaround for CMP0148
-2e70ca91e README: ccmake is not that common, regular cmake is enough to build
-e39ba99e5 README: update requirements
-d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
-938a9dc9f cmake: remove this 12 years old workaround taking too many lines
-7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
-cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
-4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
-a222d50bb cmake: implement GBM and Wayland controls
-4230c7e9f cmake: fix unusually formated statement
-d958b70d1 cmake: implement X11 option (required for GLX)
-4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
-44e1c29bf cmake: move first batch of option() at the beggining of the file
-96241ea22 cmake: rename default values with prefix DEFAULT_
-21374d8d3 cmake: move defaults into the per-platform section
-86d3f1132 cmake: predefine defaults depending on the system
-381221a81 cmake: drop unused CMP0042 policy
-99eade7cd cmake: respect indentation
-dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
-025e462ae util: fix multisample_texture_fs_template
-f9e26b98b tests: add a test for GL_APPLE_sync
-b24c834d9 ci: codespell ignore list is lowercase
-0a842edd0 more spelling fixes accross the whole codebase
-2c473ea73 ci: bump distribution tag
-7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
-19e58247e ext_texture_storage: Fix memory leak on error path
-d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
-74064b1d4 arb_clear_texture: only test float depth textures when supported
-9c941dfc3 properly check for libgen.h
-c55e22a5c arb_copy_image-formats: avoid undefined behavior
-537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
-b32186ee5 README: add Vulkan into the generic description
-1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
-62938a9bc tests: Fix cl test program@execute@builtin@builtin-float-degrees-1.0.generated issue about tolerance.
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
- meta/recipes-graphics/piglit/piglit_git.bb    |  3 +-
- 2 files changed, 1 insertion(+), 85 deletions(-)
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
+ meta/classes-global/insane.bbclass               | 2 +-
+ meta/classes-recipe/license_image.bbclass        | 2 +-
+ meta/lib/oeqa/selftest/cases/incompatible_lic.py | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-deleted file mode 100644
-index 2875dd52ec..0000000000
---- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-+++ /dev/null
-@@ -1,83 +0,0 @@
--From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
--From: Erik Faye-Lund <erik.faye-lund@collabora.com>
--Date: Tue, 19 Mar 2024 16:34:02 +0100
--Subject: [PATCH] properly check for libgen.h
--
--Some users are reporting that basename is not available when building on
--Linux with musl libc. And since the POSIX spec[1] says that basename is
--defined in libgen.h, we should include that when available.
--
--So let's properly detect the header, and include it if it exists. This
--should hopefully make things a bit more robust.
--
--Since we're also including this from the CL program-tester, let's
--rearrange the includes a bit so we know that config.h has been included.
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
--Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- CMakeLists.txt                    | 1 +
-- tests/cl/program/program-tester.c | 5 ++++-
-- tests/util/config.h.in            | 1 +
-- tests/util/piglit-util.h          | 4 ++--
-- 4 files changed, 8 insertions(+), 3 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index dd2bf67125..5563fe0e20 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
-- check_include_file(fcntl.h     HAVE_FCNTL_H)
-- check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
-- check_include_file(endian.h    HAVE_ENDIAN_H)
--+check_include_file(libgen.h    HAVE_LIBGEN_H)
-- 
-- if(DEFINED PIGLIT_INSTALL_VERSION)
-- 	set(PIGLIT_INSTALL_VERSION_SUFFIX
--diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
--index 97fe64906d..e47fb5aacc 100644
----- a/tests/cl/program/program-tester.c
--+++ b/tests/cl/program/program-tester.c
--@@ -31,10 +31,13 @@
-- #include <inttypes.h>
-- #include <math.h>
-- #include <regex.h>
---#include <libgen.h>
-- 
-- #include "piglit-framework-cl-program.h"
-- 
--+#ifdef HAVE_LIBGEN_H
--+#include <libgen.h>
--+#endif
--+
-- /* Regexes */
-- 
-- /*
--diff --git a/tests/util/config.h.in b/tests/util/config.h.in
--index 8ed5af1709..437eb91418 100644
----- a/tests/util/config.h.in
--+++ b/tests/util/config.h.in
--@@ -16,3 +16,4 @@
-- #cmakedefine HAVE_SYS_RESOURCE_H 1
-- #cmakedefine HAVE_UNISTD_H 1
-- #cmakedefine HAVE_ENDIAN_H 1
--+#cmakedefine HAVE_LIBGEN_H 1
--diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
--index 4d3606c708..de999980b6 100644
----- a/tests/util/piglit-util.h
--+++ b/tests/util/piglit-util.h
--@@ -52,8 +52,8 @@ extern "C" {
-- #include <math.h>
-- #include <float.h>
-- 
---#if defined(__APPLE__) || defined(__MINGW32__)
---#  include "libgen.h" // for basename
--+#ifdef HAVE_LIBGEN_H
--+#  include <libgen.h> // for basename
-- #elif defined(_MSC_VER)
-- 
-- static inline char *
---- 
--GitLab
--
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 99d75e64f8..98cad94368 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
-            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
-            file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
--           file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
-+SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr"
- 
--- 
-2.39.2
-
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insan=
+e.bbclass
+index 04eb88364e5..6a84c4aa74d 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -34,7 +34,7 @@ ERROR_QA ?=3D "dev-so debug-deps dev-deps debug-files arc=
+h pkgconfig la \
+             mime mime-xdg unlisted-pkg-lics unhandled-features-check \
+             missing-update-alternatives missing-ptest \
+             license-exists license-no-generic license-syntax license-forma=
+t \
+-            license-incompatible license-file-missing obsolete-license \
++            license-exception license-file-missing obsolete-license \
+             libdir xorg-driver-abi buildpaths \
+             dep-cmp pkgvarcheck perm-config perm-line perm-link \
+             packages-list pkgv-undefined var-undefined \
+diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-recip=
+e/license_image.bbclass
+index 19b3dc55ba2..0e953856a63 100644
+--- a/meta/classes-recipe/license_image.bbclass
++++ b/meta/classes-recipe/license_image.bbclass
+@@ -72,7 +72,7 @@ def write_license_files(d, license_manifest, pkg_dic, roo=
+tfs=3DTrue):
+             else:
+                 incompatible_licenses =3D incompatible_pkg_license(d, bad_=
+licenses, pkg_dic[pkg]["LICENSE"])
+                 if incompatible_licenses:
+-                    oe.qa.handle_error('license-incompatible', "Including =
+%s with incompatible license(s) %s into the image, because it has been allo=
+wed by exception list." %(pkg, ' '.join(incompatible_licenses)), d)
++                    oe.qa.handle_error('license-exception', "Including %s =
+with incompatible license(s) %s into the image, because it has been allowed=
+ by exception list." %(pkg, ' '.join(incompatible_licenses)), d)
+             try:
+                 (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) =3D \
+                     oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oe=
+qa/selftest/cases/incompatible_lic.py
+index 4c228de6a33..439c1b9f0ec 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -128,7 +128,7 @@ INCOMPATIBLE_LICENSE:pn-core-image-minimal =3D "GPL-3.0=
+* LGPL-3.0*"
+         bitbake('core-image-minimal')
+=20
+     def test_bash_license_exceptions(self):
+-        self.write_config(self.default_config() + '\nINCOMPATIBLE_LICENSE_=
+EXCEPTIONS:pn-core-image-minimal =3D "bash:GPL-3.0-or-later"\nERROR_QA:remo=
+ve =3D "license-incompatible"')
++        self.write_config(self.default_config() + '\nINCOMPATIBLE_LICENSE_=
+EXCEPTIONS:pn-core-image-minimal =3D "bash:GPL-3.0-or-later"\nERROR_QA:remo=
+ve =3D "license-exception"')
+=20
+         bitbake('core-image-minimal')
+=20
 
