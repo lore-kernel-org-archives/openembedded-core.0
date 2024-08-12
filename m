@@ -1,563 +1,244 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A1EC3DA4A
-	for <webhook@archiver.kernel.org>; Sun, 11 Aug 2024 20:01:49 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.31011.1723406503210051573
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CDFC52D7C
+	for <webhook@archiver.kernel.org>; Mon, 12 Aug 2024 02:04:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by mx.groups.io with SMTP id smtpd.web11.37238.1723428267418706258
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Aug 2024 13:01:43 -0700
+ Sun, 11 Aug 2024 19:04:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NsTIpXyI;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 164A460003;
-	Sun, 11 Aug 2024 20:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1723406501;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3MGQhZF9EJreRcldTV1Z0lQZ4NzM21tV23SmRK+WGt4=;
-	b=NsTIpXyIIgTnslTpQE6n8wubmcB8DE88iOiVSnqQ8adZrnR+6VuVyNgIG6yXVDZSBGcgou
-	MH8RU5NgGhKp9LM22huYKBHPl1l8Ht9o/Tq9KZLdkbmByYTZ9t87rmEOvq8zy7Xd/iOYyv
-	Gr+rpqx9rAOO3+nnNC/UAOD3r//xLxocZMs0N8SGGbRjMSV9uQhZyMJE3LgXt4wHfdNayE
-	FM+1SXwFqvtjMeCCVdRXlsUXWnQdAa3GI+tf4KE7pxdU/qk+iEvmtEHkEBxLuciXRfMw5I
-	R2/J942roNC4Ev8HvqKmJx6xqdJm7FALURrCYQjlbL7aTe07D3as0rRXLSU3oQ==
-Date: Sun, 11 Aug 2024 22:01:40 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: andrew.j.oppelt@boeing.com
-Cc: openembedded-core@lists.openembedded.org,
-	Matthew Weber <matthew.l.weber3@boeing.com>,
-	Chuck Wolber <chuck.wolber@boeing.com>
-Subject: Re: [OE-core] [PATCH] testexport: support for executing tests over
- serial
-Message-ID: <20240811200140b8b24e3a@mail.local>
-References: <1723154604-18773-1-git-send-email-andrew.j.oppelt@boeing.com>
+ dkim=pass header.i=@intel.com header.s=Intel header.b=jbTWxpWl;
+ spf=pass (domain: intel.com, ip: 198.175.65.15, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723428267; x=1754964267;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=gaQTJRxkfLdDoFnYhlkuQAeiTXxieT9ZHrUIkuuPhRo=;
+  b=jbTWxpWlTH/e9WiHHJc6MEfD77qg0WReRl972ywvfdxcfp4VK1N68VyD
+   mxyuNpWZQD+uHY3ygvG3wKz9NGGElzckA5jJM+f6uP/WtIIyuySqL/u07
+   D4wAO5yNw4gvPAHHjbj9C5WzLM8jxFYgTgqz9XDJTVNIXy/A322N5B8b/
+   Ngi5X7q/MIO9PODA5x0Aai09BJhvs9feB7LwFf3N1LxLvJuVg61CPWieA
+   DE+MwA5Tlt84MkOblnxG4XkeUambFGcF7bJR1EGmnikKLEHXFUSL/kzDy
+   PPvrYSdhwD7I2e8bvJNoF7uWvIF40edQROmKOkfd46LQVTfBI9vvsSaFk
+   w==;
+X-CSE-ConnectionGUID: +jzD0OwpTa+q+lpGYoMvUA==
+X-CSE-MsgGUID: ewI4ZIpPTZu3mm3p5LaEvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="25289647"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="25289647"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 19:04:26 -0700
+X-CSE-ConnectionGUID: +NMs4wkNR9OFH2IHiRmDBg==
+X-CSE-MsgGUID: L2uYzlxSTc2GfpAaZoA6+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="58014647"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Aug 2024 19:04:27 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sun, 11 Aug 2024 19:04:26 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sun, 11 Aug 2024 19:04:25 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Sun, 11 Aug 2024 19:04:25 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Sun, 11 Aug 2024 19:04:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Hr3ish//D2r5rUgNjhlK+v5AL4SVx5ZjItLnU+JLFRYrPNR5TOgVZrZ9c81A9oYHoeHUCVBNaKwKcNonqKh5lG62PUuzbJOWW+vJSiuYxxYQDj/U2O1uU0up0z7ZC6cpfOTWso6cmZvSRERVEsyXukiImKsZLQ7u/eOKCrAWM9eeLGUipt7kzxak5CP+Qpie0Jx7VACspZdIo40WxuO9xYkhPAhuWHMW9OxvTHCv4q1G3Oe8ZAJF0/YvvOuF53AQqmOZ4ML74qNYxBQIJhlf/tSTGevEIrAJlTJqIp1WGShRf+ZAsKQqUxZOCoErNE9wXkjflHqBQG7G2zguPj2g+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4hiHq+1sfKaOIPKKc/Efx8T0ndCFHAoyrR+qYXoWLW0=;
+ b=APkE/UmeympWaAG5o/HSia+AwZlHtIg+Az2fMwaTme65bzEboCo4al/QDYlesFUBx3zIdp5Tde+Qw//fFCAVS/Jxs/hcxSlRRFRa+BaX+3C5RWd4SF+2t66DEoKGzl+gewF72VKBdiTk2CSBapOEt7CRoeh+lU07fkHZuuKyvo/mYObJX1z3IqMkfbsNah7JkXEwFWUa7WpRi8R4BlxMITzv4z68RXlpcTTXOZ3/Sya/4NjwIcMwRGDwMBsOHdwJa+5SbH07PWPrNhChzfIwN7fBwBEOM2qKRmQp0/CjPWrC992e1DqfrpDuHRXcOV3XNOH+ouMmQP9QSoM3Lbm+hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
+ by SJ0PR11MB4973.namprd11.prod.outlook.com (2603:10b6:a03:2de::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Mon, 12 Aug
+ 2024 02:04:23 +0000
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a%7]) with mapi id 15.20.7828.031; Mon, 12 Aug 2024
+ 02:04:23 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"pokybuild@yoctoproject.org" <pokybuild@yoctoproject.org>,
+	"qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [yocto] QA notification for completed autobuilder build
+ (yocto-5.0.3.rc1)
+Thread-Topic: [yocto] QA notification for completed autobuilder build
+ (yocto-5.0.3.rc1)
+Thread-Index: AQHa62M9WTkfVU5VZUuI09QzcRCJo7Ii4Jxg
+Date: Mon, 12 Aug 2024 02:04:23 +0000
+Message-ID: <DM4PR11MB776088492B358F78AC5A2565A1852@DM4PR11MB7760.namprd11.prod.outlook.com>
+References: <010101913df63521-cd4206a2-d62e-4e3d-b569-433d8de9d111-000000@us-west-2.amazonses.com>
+In-Reply-To: <010101913df63521-cd4206a2-d62e-4e3d-b569-433d8de9d111-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|SJ0PR11MB4973:EE_
+x-ms-office365-filtering-correlation-id: 8d8c9b37-0331-4bc1-6c14-08dcba731605
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?F+0Cuva/F1wq4qIG0p/Wpk2HqHf2FSQwj+4gzROpgFSp5LtYxJebjNIOeeVA?=
+ =?us-ascii?Q?N/ZTtoqPxAikeu5wFg/gxjqPB//3mz/6jPBMGW8SET9gdWdf80xYezhBNY4d?=
+ =?us-ascii?Q?flnD3shQG/C4YZGhit+UadZ/DztvGXNNyi19xkL1MRd1MFmBc18hhqxuYpow?=
+ =?us-ascii?Q?/kK5w+hKUsvmYHrTnAKPZ7oJEcAQ90fuq3dVo3g/1heX/sJmh7eUBb/ZvSxD?=
+ =?us-ascii?Q?UogjbIonX6MCBeCslP/UoSXGigtNxs7rLvPjofB4gQhfh4LQhWLlNVHSqFxM?=
+ =?us-ascii?Q?posGgNXUQpBocsiTFjhayjW2a7dvVnc5BK2ZNErBP2BUWiDEHAo7gvJxQydy?=
+ =?us-ascii?Q?T0gqrJ/lhDGF0moVWMA3mHg+nTIC4+2gB0HcjulH5QsxuMamlbgc2o2gGrMr?=
+ =?us-ascii?Q?FSZhHKkBrLyxtnH4wTBy5SmXucNRNpMbWrqpO/1uB1IQS6Q2Z1aXDU79Mvsc?=
+ =?us-ascii?Q?AiiAcy8zfheqjC+3paADg93ieugyVHWeT7OARqehVA18XEY8bgITUUCiJ/h3?=
+ =?us-ascii?Q?dXAzawBLt99VxSxUaScDUFoOC/5OQ/ma0vHXPpa4KYpMd97M6W4SdkolKdgm?=
+ =?us-ascii?Q?RgPdcu41HVb9C3CasCPZn9ll1saMA+mYKjDUiZehaadd+1/sC8kUIc9G9DXt?=
+ =?us-ascii?Q?GSsRKzqhG6X95mmPlT0nrpxhshoG3WjUed0TUVtRKxXKtXlkiSQWPOETiKFx?=
+ =?us-ascii?Q?++xu7NCocp2bdd6gsb6UiM9rBYLTopiKhzVAzoAACpMkIQ4upInnMxG/k5n7?=
+ =?us-ascii?Q?/XINoDiDOTIHU0CVz8lmafafgyDfyTaEBeamUjNi2oNI1oeKHzTnKWiolNd3?=
+ =?us-ascii?Q?kKEwVPVbG8mTkYt3Y9vIjHW8BkrI6rNeiS2KH9HMfu+5cj+OR/pj3f4Zm7A2?=
+ =?us-ascii?Q?GI+BA6oQsYBFw5g5Cb2nIshLoK6pSLytslBM0bYjNRkEOjKCl0OmPQx/4e/M?=
+ =?us-ascii?Q?rC9VAqhqGZDGVFYOEl1HyvYhPFi7yvtPSOrdtPhjvpPHhSW5Tm5rOlO4f3wp?=
+ =?us-ascii?Q?eFqsZ1p2ALuoixSdmjHkIknI6N+jKvsatqiZrWvFzuBdOHpgE7e4jvHX8QBD?=
+ =?us-ascii?Q?bnrO/RnMjLGROhycbw8iWQuDDjeq1Nr8Hi37GNq+HSkfnfmuCKK8gUcPpBh/?=
+ =?us-ascii?Q?E4aPZUswtvIquot4vR6yQWhlmRa4WrKHWhXcptdW6JGrSyn946OrSwKUHz6m?=
+ =?us-ascii?Q?8wdCCHSh67NRztcTc0mvG9YRHTht+Mm9KKkeoaDg28qiu2NW/x56XQcvpDEY?=
+ =?us-ascii?Q?TDDCXPQiUxSSfNunXOlQfK9bRyo6Tt7xkbZKcb5R2rB2eH87PItYlZZZjzVq?=
+ =?us-ascii?Q?x1vYnkwM8U8tNrZ7jd9/YWzG3YVbF4s3w3p/O0dQfMjYGcdLX6H9Ulj/6HnI?=
+ =?us-ascii?Q?cI7siZc=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?iieyQ+YXgXEJMgs3nsCdQ9ZXiY54J0PfROYwO68eGajjOs+m1xx9X9Wsec0d?=
+ =?us-ascii?Q?gDTrWuP1ux0xgaAAa/x1GXjwWH11zwVznR0QlcG8VI5tY6t1np6I7yONndki?=
+ =?us-ascii?Q?MlRDZiH6VJDK6wsVjJHSzz747xxciLRJkhWTk3dKJRWJPn9N2GU5wQPXQR4B?=
+ =?us-ascii?Q?BPB3keW1TpyiIqaL97P4E4uKBftLIyVWZuv/5vpxNGivI+A9bjZmluimSmBJ?=
+ =?us-ascii?Q?3MAzq7XYKMIadoRQlJnpy2tJ2uyFu5CaciQOFD3ypKgnjTVAKlq98hVxEt8J?=
+ =?us-ascii?Q?xlJ7+O+nRiJKhUra0ROQZegKygnSqaGl5ZDr/mcUF8P5CvRj7AKmOzPZzCKg?=
+ =?us-ascii?Q?jLpFAoaskTyoZaQ+3M8Gdf9xBz4YVyEPTL9y9ZcK7krLuxKKYzX8O+R6R9nI?=
+ =?us-ascii?Q?nIADyaBZdqY/Nv9lxFXSwh0F9i5SqgtyuhMw1MlFnzewJD2mDpsc1jagelsm?=
+ =?us-ascii?Q?Ks+lnNPsID5U5WfIcsAGs1SYak8jitX4G+L4qfXJrNaSD4ylqWgVh0WTl/B5?=
+ =?us-ascii?Q?ocFkKXNLJcG978AJh1akRr0/xSj4w7fFy/EIXz3UxelY7SBBcp/D3lmiAbeF?=
+ =?us-ascii?Q?9u4sbz/RkNlhNAEmcWxCDIycAJv6dTnW7FjsgIEB7TpgvyXLgkdST1QoHn6x?=
+ =?us-ascii?Q?IdXyiZHG9DqoQ8oc7+UrNkXJYkoMtZVHvlOKc4ZaLI/BZHf8DaY8WmZcfBel?=
+ =?us-ascii?Q?OOGXLqo9siQ88iT4fVHTZbrAkPyyTuCGvhZnoVeCZ/VVE5AHW2/3I4aHtBXw?=
+ =?us-ascii?Q?giUt04WR1J2am//caP/HG5K7A8ioHY0DPBEWdcyMbTv36ENTEP1sthUPtnPY?=
+ =?us-ascii?Q?q/ID+gJJ+B9gLCBKgLlJE2YgZeObK+ctbXmp4xAuByS7EH/7iLmfDCwWypvL?=
+ =?us-ascii?Q?ze6G8Fw0UFYkzeZaG15J+K7sqBQiDYR+m6UqyJCP1Xis5zmsaj8zkMcwSjj4?=
+ =?us-ascii?Q?E4P6E7qD2hSNcYkEz138+xYkVJyh5sGqG1cP0j57G6iuYR1ybtfb5cmIOlGx?=
+ =?us-ascii?Q?ENa5m+IeJS+ZiwpLY+cGHlPloGJITcJ6xwaj2/HSzC7SY429yop2m5Vvqift?=
+ =?us-ascii?Q?AbQtZNI33VXPMx+L7Ay/kSLoHmgmKB5G/dV6SrFKk7x8ESgNCxZxyzNJl8z9?=
+ =?us-ascii?Q?i5e3HvaD5NjxDXpBrt1bKKGEfERlebCKSlaiAPXCTbDPPs7nq0UOnudEhy4M?=
+ =?us-ascii?Q?aMnDqf16bN1Aj5uYFrlmPiteLT7vyEA2GZ8CR4ReFO/A7LMZ0JJQel9Eg0bF?=
+ =?us-ascii?Q?QQ+dqULUptkL+3JcmlQ/gzyJAPnA2QuNHR4dKyOtGeZNWm9PXQNXu0o543BT?=
+ =?us-ascii?Q?rY3v/9u4Y6LzTCqS8RsJMRCaH8JZH6hjb8O7YRgUoueGRCQJ5p/3AsMldTFM?=
+ =?us-ascii?Q?MQSPOxITRiLNsgrNfLHTrNuJWhmR/V7b+L6fnFvRt4drh6RAu9T3OovlvB9a?=
+ =?us-ascii?Q?hnSV0BmeRjypOoXrcR5c6OuuWP18y+Bkl9+GAddEam+glzDVdbQr3KT405wC?=
+ =?us-ascii?Q?JEe1kopcqNYopjTTMUemiRuWaoqpbqTK2muYAkCFkVseho1MgoRGt9bYWGN0?=
+ =?us-ascii?Q?RGtmAmurSBWTxqCq+kaxXcxROFPn/l87xBnJw6cy?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1723154604-18773-1-git-send-email-andrew.j.oppelt@boeing.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d8c9b37-0331-4bc1-6c14-08dcba731605
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2024 02:04:23.3108
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JVMs8WhrvrLoEQAAN8qfXyX87ulBkuXHUSUCMDcsTKiqJY2op9KjBZC5KFGlH/dpWHLEOjqfDb2/OW2JqEiE9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4973
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Aug 2024 20:01:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203192
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 02:04:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203193
 
-Hello,
-
-On 08/08/2024 15:03:24-0700, Andrew Oppelt via lists.openembedded.org wrote:
-> Uses TEST_SERIALCONTROL_CMD to open a serial connection to the target
-> and execute commands. This is a drop in replacement for the ssh target,
-> fully supporting the same API. Supported with testexport.
-> 
-> To use, set the following in local.conf:
-> - TEST_TARGET to "serial"
-> - TEST_SERIALCONTROL_CMD to a shell command or script which connects to
->   the serial console of the target and forwards that connection to
->   standard input/output.
-> - TEST_SERIALCONTROL_EXTRA_ARGS (optional) any parameters that must be
->   passed to the serial control command.
-> - TEST_SERIALCONTROL_PS1 (optional) A regex string representing an empty
->   prompt on the target terminal. Example: "root@target:.*# ". This is
->   used to find an empty shell after each command is run. This field is
->   optional and will default to "root@{MACHINE}:.*# " if no other value is
->   given.
-> - TEST_SERIALCONTROL_CONNECT_TIMEOUT (optional) Specifies the timeout in
->   seconds for the initial connection to the target. Defaults to 10 if no
->   other value is given.
-> 
-> The serial target does have some additional limitations over the ssh
-> target.
-> 1. Only supports one "run" command at a time. If two threads attempt to
->    call "run", one will block until it finishes. This is a limitation of
->    the serial link, since two connections cannot be opened at once.
-> 2. For file transfer, the target needs a shell and the base32 program.
->    The file transfer implementation was chosen to be as generic as
->    possible, so it could support as many targets as possible.
-> 3. Transferring files is significantly slower. On a 115200 baud serial
->    connection, the fastest observed speed was 30kbps. This is due to
->    overhead in the implementation due to decisions documented in #2
->    above.
-> 
-> Signed-off-by: Andrew Oppelt <andrew.j.oppelt@boeing.com>
-> Signed-off-by: Matthew Weber <matthew.l.weber3@boeing.com>
-> Signed-off-by: Chuck Wolber <chuck.wolber@boeing.com>
-> 
-> --
-> 
-> Tested with core-image-sato on real hardware. TEST_SERIALCONTROL_CMD
-> was set to a bash script which connected with telnet to the target.
-> 
-> Additionally tested with QEMU by setting TEST_SERIALCONTROL_CMD to
-> "ssh -o StrictHostKeyChecking=no root@192.168.7.2". This imitates
-> a serial connection to the QEMU instance.
-> 
-> Steps:
-> 1) Set the following in local.conf:
->   - IMAGE_CLASSES += "testexport"
->   - TEST_TARGET = "serial"
->   - TEST_SERIALCONTROL_CMD="ssh -o StrictHostKeyChecking=no root@192.168.7.2"
-> 2) Build an image
->   - bitbake core-image-sato
-> 3) Run the test export
->   - bitbake -c testexport core-image-sato
-> 4) Run the image in qemu
->   - runqemu nographic core-image-sato
-> 5) Navigate to the test export directory
-> 6) Run the exported tests with target-type set to serial
->  - ./oe-test runtime --test-data-file ./data/testdata.json --packages-manifest ./data/manifest --debug --target-type serial
-> ---
->  meta/classes-recipe/testexport.bbclass |   9 +-
->  meta/classes-recipe/testimage.bbclass  |   2 +
->  meta/conf/documentation.conf           |   2 +
->  meta/lib/oeqa/core/target/serial.py    | 313 +++++++++++++++++++++++++
->  meta/lib/oeqa/runtime/context.py       |  12 +-
->  5 files changed, 336 insertions(+), 2 deletions(-)
->  create mode 100644 meta/lib/oeqa/core/target/serial.py
-> 
-> diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
-> index 57f7f15885..76db4c625f 100644
-> --- a/meta/classes-recipe/testexport.bbclass
-> +++ b/meta/classes-recipe/testexport.bbclass
-> @@ -57,9 +57,16 @@ def testexport_main(d):
->  
->      logger = logging.getLogger("BitBake")
->  
-> +    target_kwargs = { }
-> +    target_kwargs['machine'] = d.getVar("MACHINE") or None
-> +    target_kwargs['serialcontrol_cmd'] = d.getVar("TEST_SERIALCONTROL_CMD") or None
-> +    target_kwargs['serialcontrol_extra_args'] = d.getVar("TEST_SERIALCONTROL_EXTRA_ARGS") or ""
-> +    target_kwargs['serialcontrol_ps1'] = d.getVar("TEST_SERIALCONTROL_PS1") or None
-> +    target_kwargs['serialcontrol_connect_timeout'] = d.getVar("TEST_SERIALCONTROL_CONNECT_TIMEOUT") or None
-> +
->      target = OERuntimeTestContextExecutor.getTarget(
->          d.getVar("TEST_TARGET"), None, d.getVar("TEST_TARGET_IP"),
-> -        d.getVar("TEST_SERVER_IP"))
-> +        d.getVar("TEST_SERVER_IP"), **target_kwargs)
->  
->      image_manifest = "%s.manifest" % image_name
->      image_packages = OERuntimeTestContextExecutor.readPackagesManifest(image_manifest)
-> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-> index 6d1e1a107a..19075ce1f3 100644
-> --- a/meta/classes-recipe/testimage.bbclass
-> +++ b/meta/classes-recipe/testimage.bbclass
-> @@ -239,6 +239,8 @@ def testimage_main(d):
->              bb.fatal('Unsupported image type built. Add a compatible image to '
->                       'IMAGE_FSTYPES. Supported types: %s' %
->                       ', '.join(supported_fstypes))
-> +    elif d.getVar("TEST_TARGET") == "serial":
-> +        bb.fatal('Serial target is currently only supported in testexport.')
->      qfstype = fstypes[0]
->      qdeffstype = d.getVar("QB_DEFAULT_FSTYPE")
->      if qdeffstype:
-> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> index e912e91265..3f130120c0 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -429,7 +429,9 @@ TEST_SUITES[doc] = "An ordered list of tests (modules) to run against an image w
->  TEST_POWERCONTROL_CMD[doc] = "For automated hardware testing, specifies the command to use to control the power of the target machine under test"
->  TEST_POWERCONTROL_EXTRA_ARGS[doc] = "For automated hardware testing, specifies additional arguments to pass through to the command specified in TEST_POWERCONTROL_CMD"
->  TEST_SERIALCONTROL_CMD[doc] = "For automated hardware testing, specifies the command to use to connect to the serial console of the target machine under test"
-> +TEST_SERIALCONTROL_CONNECT_TIMEOUT[doc] = "For automated hardware testing, specifies the timeout in seconds for the initial connection to the target. Defaults to '10'."
->  TEST_SERIALCONTROL_EXTRA_ARGS[doc] = "For automated hardware testing, specifies additional arguments to pass through to the command specified in TEST_SERIALCONTROL_CMD"
-> +TEST_SERIALCONTROL_PS1[doc] = "For automated hardware testing, specifies a regex string representing an empty prompt on the target terminal. Example: 'root@target:.*#'. Defaults to 'root@${MACHINE}:.*#'."
->  TEST_TARGET[doc] = "For automated runtime testing, specifies the method of deploying the image and running tests on the target machine"
->  THISDIR[doc] = "The directory in which the file BitBake is currently parsing is located."
->  TIME[doc] = "The time the build was started using HMS format."
-> diff --git a/meta/lib/oeqa/core/target/serial.py b/meta/lib/oeqa/core/target/serial.py
-> new file mode 100644
-> index 0000000000..7396f1d2cd
-> --- /dev/null
-> +++ b/meta/lib/oeqa/core/target/serial.py
-> @@ -0,0 +1,313 @@
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +import base64
-> +import logging
-> +import pexpect
-
-This fails in testing because of missing pexpect on the opensuse and stream workers:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7227/steps/25/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/5177/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/9390/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/9314/steps/13/logs/stdio
-
-> +import os
-> +from threading import Lock
-> +from . import OETarget
-> +
-> +class OESerialTarget(OETarget):
-> +
-> +    def __init__(self, logger, target_ip, server_ip, server_port=0,
-> +                 timeout=300, serialcontrol_cmd=None, serialcontrol_extra_args=None,
-> +                 serialcontrol_ps1=None, serialcontrol_connect_timeout=None, 
-> +                 machine=None, **kwargs):
-> +        if not logger:
-> +            logger = logging.getLogger('target')
-> +            logger.setLevel(logging.INFO)
-> +            filePath = os.path.join(os.getcwd(), 'remoteTarget.log')
-> +            fileHandler = logging.FileHandler(filePath, 'w', 'utf-8')
-> +            formatter = logging.Formatter(
-> +                        '%(asctime)s.%(msecs)03d %(levelname)s: %(message)s',
-> +                        '%H:%M:%S')
-> +            fileHandler.setFormatter(formatter)
-> +            logger.addHandler(fileHandler)
-> +
-> +        super(OESerialTarget, self).__init__(logger)
-> +
-> +        if serialcontrol_ps1:
-> +            self.target_ps1 = serialcontrol_ps1
-> +        elif machine:
-> +            # fallback to a default value which assumes root@machine
-> +            self.target_ps1 = f'root@{machine}:.*# '
-> +        else:
-> +            raise ValueError("Unable to determine shell command prompt (PS1) format.")
-> +
-> +        if not serialcontrol_cmd:
-> +            raise ValueError("Unable to determine serial control command.")
-> +
-> +        if serialcontrol_extra_args:
-> +            self.connection_script = f'{serialcontrol_cmd} {serialcontrol_extra_args}'
-> +        else:
-> +            self.connection_script = serialcontrol_cmd
-> +
-> +        if serialcontrol_connect_timeout:
-> +            self.connect_timeout = serialcontrol_connect_timeout
-> +        else:
-> +            self.connect_timeout = 10 # default to 10s connection timeout
-> +
-> +        self.default_command_timeout = timeout
-> +        self.ip = target_ip
-> +        self.server_ip = server_ip
-> +        self.server_port = server_port 
-> +        self.conn = None
-> +        self.mutex = Lock()
-> +
-> +    def start(self, **kwargs):
-> +        pass
-> +
-> +    def stop(self, **kwargs):
-> +        pass
-> +
-> +    def get_connection(self):
-> +        if self.conn is None:
-> +            self.conn = SerialConnection(self.connection_script,
-> +                                         self.target_ps1,
-> +                                         self.connect_timeout,
-> +                                         self.default_command_timeout)
-> +
-> +        return self.conn
-> +
-> +    def run(self, cmd, timeout=None):
-> +        """
-> +            Runs command on target over the provided serial connection.
-> +            The first call will open the connection, and subsequent
-> +            calls will re-use the same connection to send new commands.
-> +
-> +            command:    Command to run on target.
-> +            timeout:    <value>:    Kill command after <val> seconds.
-> +                        None:       Kill command default value seconds.
-> +                        0:          No timeout, runs until return.
-> +        """
-> +        # Lock needed to avoid multiple threads running commands concurrently
-> +        # A serial connection can only be used by one caller at a time
-> +        with self.mutex:
-> +            conn = self.get_connection()
-> +
-> +            self.logger.debug(f"[Running]$ {cmd}")
-> +            # Run the command, then echo $? to get the command's return code
-> +            try:
-> +                output = conn.run_command(cmd, timeout)
-> +                status = conn.run_command("echo $?")
-> +                self.logger.debug(f"   [stdout]: {output}")
-> +                self.logger.debug(f"   [ret code]: {status}\n\n")
-> +            except SerialTimeoutException as e:
-> +                self.logger.debug(e)
-> +                output = ""
-> +                status = 255
-> +
-> +            # Return to $HOME after each command to simulate a stateless SSH connection
-> +            conn.run_command('cd "$HOME"')
-> +
-> +        return (int(status), output)
-> +
-> +    def copyTo(self, localSrc, remoteDst):
-> +        """
-> +            Copies files by converting them to base 32, then transferring
-> +            the ASCII text to the target, and decoding it in place on the
-> +            target.
-> +
-> +            On a 115k baud serial connection, this method transfers at
-> +            roughly 30kbps.
-> +        """
-> +        with open(localSrc, 'rb') as file:
-> +            data = file.read()
-> +
-> +        b32 = base64.b32encode(data).decode('utf-8')
-> +
-> +        # To avoid shell line limits, send 1k at a time
-> +        SPLIT_LEN = 1024
-> +        lines = [b32[i:i+SPLIT_LEN] for i in range(0, len(b32), SPLIT_LEN)]
-> +
-> +        with self.mutex:
-> +            conn = self.get_connection()
-> +
-> +            filename = os.path.basename(localSrc)
-> +            TEMP = f'/tmp/{filename}.b32'
-> +
-> +            # Create or empty out the temp file
-> +            conn.run_command(f'echo -n "" > {TEMP}')
-> +
-> +            for line in lines:
-> +                conn.run_command(f'echo -n {line} >> {TEMP}')
-> +
-> +            # Check to see whether the remoteDst is a directory
-> +            is_directory = conn.run_command(f'[[ -d {remoteDst} ]]; echo $?')
-> +            if int(is_directory) == 0:
-> +                # append the localSrc filename to the end of remoteDst
-> +                remoteDst = os.path.join(remoteDst, filename)
-> +
-> +            conn.run_command(f'base32 -d {TEMP} > {remoteDst}')
-> +            conn.run_command(f'rm {TEMP}')
-> +
-> +        return 0, 'Success'
-> +
-> +    def copyFrom(self, remoteSrc, localDst):
-> +        """
-> +            Copies files by converting them to base 32 on the target, then
-> +            transferring the ASCII text to the host. That text is then
-> +            decoded here and written out to the destination.
-> +
-> +            On a 115k baud serial connection, this method transfers at
-> +            roughly 30kbps.
-> +        """
-> +        with self.mutex:
-> +            b32 = self.get_connection().run_command(f'base32 {remoteSrc}')
-> +
-> +            data = base64.b32decode(b32.replace('\r\n', ''))
-> +
-> +            # If the local path is a directory, get the filename from
-> +            # the remoteSrc path and append it to localDst
-> +            if os.path.isdir(localDst):
-> +                filename = os.path.basename(remoteSrc)
-> +                localDst = os.path.join(localDst, filename)
-> +
-> +            with open(localDst, 'wb') as file:
-> +                file.write(data)
-> +
-> +        return 0, 'Success'
-> +
-> +    def copyDirTo(self, localSrc, remoteDst):
-> +        """
-> +            Copy recursively localSrc directory to remoteDst in target.
-> +        """
-> +
-> +        for root, dirs, files in os.walk(localSrc):
-> +            # Create directories in the target as needed
-> +            for d in dirs:
-> +                tmpDir = os.path.join(root, d).replace(localSrc, "")
-> +                newDir = os.path.join(remoteDst, tmpDir.lstrip("/"))
-> +                cmd = "mkdir -p %s" % newDir
-> +                self.run(cmd)
-> +
-> +            # Copy files into the target
-> +            for f in files:
-> +                tmpFile = os.path.join(root, f).replace(localSrc, "")
-> +                dstFile = os.path.join(remoteDst, tmpFile.lstrip("/"))
-> +                srcFile = os.path.join(root, f)
-> +                self.copyTo(srcFile, dstFile)
-> +
-> +    def deleteFiles(self, remotePath, files):
-> +        """
-> +            Deletes files in target's remotePath.
-> +        """
-> +
-> +        cmd = "rm"
-> +        if not isinstance(files, list):
-> +            files = [files]
-> +
-> +        for f in files:
-> +            cmd = "%s %s" % (cmd, os.path.join(remotePath, f))
-> +
-> +        self.run(cmd)
-> +
-> +    def deleteDir(self, remotePath):
-> +        """
-> +            Deletes target's remotePath directory.
-> +        """
-> +
-> +        cmd = "rmdir %s" % remotePath
-> +        self.run(cmd)
-> +
-> +    def deleteDirStructure(self, localPath, remotePath):
-> +        """
-> +        Delete recursively localPath structure directory in target's remotePath.
-> +
-> +        This function is useful to delete a package that is installed in the
-> +        device under test (DUT) and the host running the test has such package
-> +        extracted in tmp directory.
-> +
-> +        Example:
-> +            pwd: /home/user/tmp
-> +            tree:   .
-> +                    └── work
-> +                        ├── dir1
-> +                        │   └── file1
-> +                        └── dir2
-> +
-> +            localpath = "/home/user/tmp" and remotepath = "/home/user"
-> +
-> +            With the above variables this function will try to delete the
-> +            directory in the DUT in this order:
-> +                /home/user/work/dir1/file1
-> +                /home/user/work/dir1        (if dir is empty)
-> +                /home/user/work/dir2        (if dir is empty)
-> +                /home/user/work             (if dir is empty)
-> +        """
-> +
-> +        for root, dirs, files in os.walk(localPath, topdown=False):
-> +            # Delete files first
-> +            tmpDir = os.path.join(root).replace(localPath, "")
-> +            remoteDir = os.path.join(remotePath, tmpDir.lstrip("/"))
-> +            self.deleteFiles(remoteDir, files)
-> +
-> +            # Remove dirs if empty
-> +            for d in dirs:
-> +                tmpDir = os.path.join(root, d).replace(localPath, "")
-> +                remoteDir = os.path.join(remotePath, tmpDir.lstrip("/"))
-> +                self.deleteDir(remoteDir)
-> +
-> +class SerialTimeoutException(Exception):
-> +    def __init__(self, msg):
-> +        self.msg = msg
-> +    def __str__(self):
-> +        return self.msg
-> +
-> +class SerialConnection:
-> +
-> +    def __init__(self, script, target_prompt, connect_timeout, default_command_timeout):
-> +        self.prompt = target_prompt
-> +        self.connect_timeout = connect_timeout
-> +        self.default_command_timeout = default_command_timeout
-> +        self.conn = pexpect.spawn('/bin/bash', ['-c', script], encoding='utf8')
-> +        self._seek_to_clean_shell()
-> +        # Disable echo to avoid the need to parse the outgoing command
-> +        self.run_command('stty -echo')
-> +
-> +    def _seek_to_clean_shell(self):
-> +        """
-> +            Attempts to find a clean shell, meaning it is clear and
-> +            ready to accept a new command. This is necessary to ensure
-> +            the correct output is captured from each command.
-> +        """
-> +        # Look for a clean shell
-> +        # Wait a short amount of time for the connection to finish
-> +        pexpect_code = self.conn.expect([self.prompt, pexpect.TIMEOUT],
-> +                                        timeout=self.connect_timeout)
-> +
-> +        # if a timeout occurred, send an empty line and wait for a clean shell
-> +        if pexpect_code == 1:
-> +            # send a newline to clear and present the shell
-> +            self.conn.sendline("")
-> +            pexpect_code = self.conn.expect(self.prompt)
-> +
-> +    def run_command(self, cmd, timeout=None):
-> +        """
-> +            Runs command on target over the provided serial connection.
-> +            Returns any output on the shell while the command was run.
-> +
-> +            command:    Command to run on target.
-> +            timeout:    <value>:    Kill command after <val> seconds.
-> +                        None:       Kill command default value seconds.
-> +                        0:          No timeout, runs until return.
-> +        """
-> +        # Convert from the OETarget defaults to pexpect timeout values
-> +        if timeout is None:
-> +            timeout = self.default_command_timeout
-> +        elif timeout == 0:
-> +            timeout = None # passing None to pexpect is infinite timeout
-> +
-> +        self.conn.sendline(cmd)
-> +        pexpect_code = self.conn.expect([self.prompt, pexpect.TIMEOUT], timeout=timeout)
-> +
-> +        # check for timeout
-> +        if pexpect_code == 1:
-> +            self.conn.send('\003') # send Ctrl+C
-> +            self._seek_to_clean_shell()
-> +            raise SerialTimeoutException(f'Timeout executing: {cmd} after {timeout}s')
-> +
-> +        return self.conn.before.removesuffix('\r\n')
-> +
-> diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-> index cb7227a8df..daabc44910 100644
-> --- a/meta/lib/oeqa/runtime/context.py
-> +++ b/meta/lib/oeqa/runtime/context.py
-> @@ -8,6 +8,7 @@ import os
->  import sys
->  
->  from oeqa.core.context import OETestContext, OETestContextExecutor
-> +from oeqa.core.target.serial import OESerialTarget
->  from oeqa.core.target.ssh import OESSHTarget
->  from oeqa.core.target.qemu import OEQemuTarget
->  
-> @@ -60,7 +61,7 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
->          runtime_group = self.parser.add_argument_group('runtime options')
->  
->          runtime_group.add_argument('--target-type', action='store',
-> -                default=self.default_target_type, choices=['simpleremote', 'qemu'],
-> +                default=self.default_target_type, choices=['simpleremote', 'qemu', 'serial'],
->                  help="Target type of device under test, default: %s" \
->                  % self.default_target_type)
->          runtime_group.add_argument('--target-ip', action='store',
-> @@ -108,6 +109,8 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
->              target = OESSHTarget(logger, target_ip, server_ip, **kwargs)
->          elif target_type == 'qemu':
->              target = OEQemuTarget(logger, server_ip, **kwargs)
-> +        elif target_type == 'serial':
-> +            target = OESerialTarget(logger, target_ip, server_ip, **kwargs)
->          else:
->              # XXX: This code uses the old naming convention for controllers and
->              # targets, the idea it is to leave just targets as the controller
-> @@ -203,8 +206,15 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
->  
->          super(OERuntimeTestContextExecutor, self)._process_args(logger, args)
->  
-> +        td = self.tc_kwargs['init']['td']
-> +
->          target_kwargs = {}
-> +        target_kwargs['machine'] = td.get("MACHINE") or None
->          target_kwargs['qemuboot'] = args.qemu_boot
-> +        target_kwargs['serialcontrol_cmd'] = td.get("TEST_SERIALCONTROL_CMD") or None
-> +        target_kwargs['serialcontrol_extra_args'] = td.get("TEST_SERIALCONTROL_EXTRA_ARGS") or ""
-> +        target_kwargs['serialcontrol_ps1'] = td.get("TEST_SERIALCONTROL_PS1") or None
-> +        target_kwargs['serialcontrol_connect_timeout'] = td.get("TEST_SERIALCONTROL_CONNECT_TIMEOUT") or None
->  
->          self.tc_kwargs['init']['target'] = \
->                  OERuntimeTestContextExecutor.getTarget(args.target_type,
-> -- 
-> 2.43.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203148): https://lists.openembedded.org/g/openembedded-core/message/203148
-> Mute This Topic: https://lists.openembedded.org/mt/107798635/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Hi all,
+=20
+Intel and WR YP QA is planning for QA execution for YP build yocto-5.0.3.rc=
+1. We are planning to execute following tests for this cycle:
+=20
+OEQA-manual tests for following module:
+1. OE-Core
+2. BSP-hw
+=20
+Runtime auto test for following platforms:
+	1. MinnowBoard Turbot - 32bit
+	2. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
+	3. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
+	4. Meteor Lake-P (14th Generation Intel(r) Core(tm) Processors)
+	5. Beaglebone
+=20
+=20
+ETA for completion Thursday, 15 Aug 2024.
+=20
+Best regards,
+Jing Hui
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> -----Original Message-----
+> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
+lf
+> Of Pokybuild User
+> Sent: Sunday, August 11, 2024 4:24 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [yocto] QA notification for completed autobuilder build (yocto-
+> 5.0.3.rc1)
+>=20
+>=20
+>     A build flagged for QA (yocto-5.0.3.rc1) was completed on the autobui=
+lder
+> and is available at:
+>=20
+>=20
+>         https://autobuilder.yocto.io/pub/releases/yocto-5.0.3.rc1
+>=20
+>=20
+>     Build URL:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7230
+>=20
+>     Build hash information:
+>=20
+>     bitbake: 11d83170922a2c6b9db1f6e8c23e533526984b2c
+> meta-agl: 2505bfc2876271663216a95e87cf01cab6585019
+> meta-arm: 38bce82e42ea093333a53c4a10e51d1b26cbc989
+> meta-aws: b5eedbddb3f75f04d49ca7851d9569f5147e5e3e
+> meta-clang: fe561f41aef0cff9e6f96730ab59f28dca2eb682
+> meta-intel: d172a00f487a8ea4391b96e0f6cef5279c5a07d7
+> meta-mingw: acbba477893ef87388effc4679b7f40ee49fc852
+> meta-openembedded: 2338409efc51cf2022ff5610a9fb689251706e2b
+> meta-virtualization: 54b806b1985f3989722ee308e1073530fe3328c1
+> oecore: 236ac1b43308df722a78d3aa20aef065dfae5b2b
+> poky: 0b37512fb4b231cc106768e2a7328431009b3b70
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
 
