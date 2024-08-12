@@ -1,168 +1,377 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D165C3DA7F
-	for <webhook@archiver.kernel.org>; Mon, 12 Aug 2024 07:01:12 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.40547.1723446071399101701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 042CEC52D7C
+	for <webhook@archiver.kernel.org>; Mon, 12 Aug 2024 07:27:43 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.62])
+ by mx.groups.io with SMTP id smtpd.web10.40801.1723447653450854578
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Aug 2024 00:01:11 -0700
+ Mon, 12 Aug 2024 00:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=895429e4d8=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47C4p3eZ005180
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 07:01:10 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 40wxcuhh44-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 07:01:10 +0000 (GMT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=JAdnjyUc;
+ spf=pass (domain: siemens.com, ip: 40.107.20.62, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Akw97YLaKkY2NhQ7J+9I15LxhDCOyyPJWrizcmjs8uQ02XcIDnBvLkhF4ic1/fQGXuQVI1zzBqc7y8y5o680YT+a0EprF0UjR4LRRN4yYpeIWLbx5BTSl0OR9lgBWx9dsmddIkzzXLf1n7IeJZqLNAaz5JFXzHDo3eB8LO+zHNkKmjSRbm7IinpGQAjCDmt64P93LmGXOw5pLFUMWmFM3RTbo8cjte5jWVfU2bYY+2B82EM+wz24QjIxCvcMlJlOysyTdPEvTyBLkz4B3EqH0vxOuh6yc/L46eeNl3IC8X+lDap/Biwqw8N/Ys8xAjHG3pM4kreBvNtDkVuLOcmiRA==
+ b=IQ0aaBD2gE+mzs/VfkQMAhax2WfuqlPaYNr/AqNyrVT/wBTnycdo1DsQpPlJplRUsAZgJYc+XSTPEEXc9NllUrlvaO85kUetJn4f41YYCGXNDWkIQjOnno6gKk7+HUugPpnLt0rD16UBEXwLw+K0s6aizHiai8R6Lviyw3C5vA1A081yZ7TP15/jIiVvex+ZNLbAfgUAK9oE/gaavsWt8ot/OP7//PwThMjDmVVRW2F/cJaxlEffVZzMtc4dwF1Eg7EKYUJlJG75PAx+UmFz/yWHZaNzXFwOubg2NRbhpTOzh267KlarKYs1QRXmgvH1K828MucTDD8JbztsudUcjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sRhTnQChaaq9WOninTqxJQB7jYLc7Lo00kRR8DGafAI=;
- b=PWIHDHNcg66ATG7jrx10vCuZgvcsU4zw1WxwRY7wCPhsTWsKzyR03DI2Ii1AbUGNLqR3mK7fziGKro2RCgWXYQZ7h6Qh08PTHouNBSxmAxAv5B4UoRQlkx99BaxzVBamEDJbdSt3E1pzMqjSaPQwMYnJzftwVy5boOgxMULs1BcsD9qjrmo4D9K06KZNMJjdU8cRh4iEibBLTP+n1omUu5ddqqUvV640pqXedkRChct+z+AoTq/DT9DpVzqrA4eGHu2MlZK1DpXf+xhg6RbrNR2YJ69b2Hwn65fcgWU+jqN3JQajbMQIFjHn9xRpnvMyT9m/LhmkJUdYoTUYFGlRfA==
+ bh=PFQqfTbZiKqp0LUQ11+vnbW3MgNX1MhS/qDtrjfwzzo=;
+ b=LUiIg6dGfoy1CjOG09KBs1f7p4dzBTVg6eGotFL+ErSRcd9T/DAuS10+gihQu1+hUeWLEV6gR60FfeWbWDX1h9YTwOWwW9YsC+FEnGEpWIYM6tilhEsdT0+YBSgZW54P1ejRCILn9Yca4hfyepP67LyZtP2h3qI5vAzVgf5aQJKBxQvVKqVckv5P1m2BNIZnyjajDQFGi7XwxdQJ95AVXFMZ6XzxCQCcel2HlUEZBIXMs3dVybjdl7H/1/xTuZHRgV79giMuGjM6GgN6tD/bkLcShpGsoWgcs7v7HPh42GNcgOfO2MpOo5W1MZBnPZdhkI5zeoZMwDuWtWeosIpSKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH7PR11MB5862.namprd11.prod.outlook.com (2603:10b6:510:134::6) with
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PFQqfTbZiKqp0LUQ11+vnbW3MgNX1MhS/qDtrjfwzzo=;
+ b=JAdnjyUcmnwJ/gf2ZuNc1/8hnqaDXOT2YWoEOXDfXG6qjbzrowk032WfU9VekLaTQhh0vxN7v4xLhZv24vNkAJKvBjDyBfD2v/rhwlUE/ZOuHg0taSoFbPOnVOgo/N2AqYNpe1cl6moeF5VbPyww5S1jf3rqAQhb4p2D+mx5IdeCx7wwaK6ZL8nLDznoLuL4MJGWIEajESwQ3t/T1kpW+6BLHdMb/ULXSlMhdLspt1xIu/h7zBlvSM+JzylMsvUPWIgUp429yYSUPgO+rK8brDmsFv8WjiLvgImw70uSDVeKbseJ7OXSKAguZpLG47jvkXyx0fAZRtWWHKBewcX3Pw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by AS4PR10MB6183.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:58a::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.31; Mon, 12 Aug
- 2024 07:01:06 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.7828.023; Mon, 12 Aug 2024
- 07:01:05 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] json-c: change SUMMARY and DESCRIPTION
-Date: Mon, 12 Aug 2024 00:00:54 -0700
-Message-Id: <20240812070054.93602-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0227.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::22) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
+ 2024 07:27:30 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.7849.018; Mon, 12 Aug 2024
+ 07:27:30 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "rybczynska@gmail.com" <rybczynska@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+Subject: RE: [OE-core] [PATCH v4][OE-core 1/6] cve-check: encode affected
+ product/vendor in CVE_STATUS
+Thread-Topic: [OE-core] [PATCH v4][OE-core 1/6] cve-check: encode affected
+ product/vendor in CVE_STATUS
+Thread-Index: AQHa7G1xUV6x2HWln0mGBbUe6kjEGLIjNoMQ
+Date: Mon, 12 Aug 2024 07:27:30 +0000
+Message-ID: 
+ <AS1PR10MB569726A08F833A7851C785EEFD852@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240812040911.13096-1-marta.rybczynska@syslinbit.com>
+In-Reply-To: <20240812040911.13096-1-marta.rybczynska@syslinbit.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d10487ee-9e71-4eb9-b4bc-6dff33c5b036;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-08-12T07:17:26Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS4PR10MB6183:EE_
+x-ms-office365-filtering-correlation-id: e630ce74-cb19-41ac-6e5b-08dcbaa0397c
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?KQ9XyAE2gSLniW3xu5pjWs4aO5TJxOFpsE4NufJN9bcpByAIvurpXAu2Iiip?=
+ =?us-ascii?Q?lrzAw8GO7aIETZbfF7szvqdOMInvbyLdqcc8SnUMG5sAd0Tht3AXaJWjzk8l?=
+ =?us-ascii?Q?m48ZusE9lE/NmFOxPqyGJ8g+PyMn9pZlhavLacyRvVg7DY3PD258GQYcyVYo?=
+ =?us-ascii?Q?5RWhK9VJfMnlQTMe+b1z4q090luJJ5mXFejk1v6BqlhuAGLY4UhfoWVmbgol?=
+ =?us-ascii?Q?tBgiy5sV696l3kGX9delN+wDYuEthZiJ5FZR1fKg4CRgXleye7+cxxLUiPlJ?=
+ =?us-ascii?Q?caLiIN7kxZV3ILumQPQARoRG+hL93rEFvCxr/+k3E3kt+s5MNJlra+N46iiK?=
+ =?us-ascii?Q?ttIJGGBsOIUy0Qs64BZwGpfibWq948i16fBioCpYDZQ3pLfu0TwOD1yUmjWP?=
+ =?us-ascii?Q?U2G0DBkVrapsGJfm7RzuHeFerTLEOgpp92eFh06b0PTkVxffnHeuxEOSY7Ts?=
+ =?us-ascii?Q?5wgxk6jKzC1fja+O5ty5twZ+VfOWiJfDmUiLpzhzAXzZn0ey5khYg3ySD4rF?=
+ =?us-ascii?Q?yTiokmTopXVuv5yZFVceZHtr7pYIbO0SjQcDJIkq+VZFfM5/FI2GxM4aFO7n?=
+ =?us-ascii?Q?QVn9VEO+t/tDzMwlWZc/0vI4VoKBqTn+nvhcd7XG60mXzWntFVFA4wfRKCJl?=
+ =?us-ascii?Q?7jFKD6JL/NS98Q7X2Wa3mH02D14wLGXR8t3jDYltikJYCFW9EmekzYKBvIDE?=
+ =?us-ascii?Q?qiFMqKGEKT9MeFHjl8fxUKzhT8Nkbvg1Lme7+hSUIrty0kgKXaEjaiKBLQyr?=
+ =?us-ascii?Q?vgv7W6fzXrxZHOAYVDIqWYcZhPpn4UDHw6cVdyBM+KidFazW4ADgNqYBb4tJ?=
+ =?us-ascii?Q?X7xfM9GRXYCiicFCGj97se7tuwEZf/pFhhLhe1erOG9a5vzI6H96VW10t7y8?=
+ =?us-ascii?Q?iP+MiV4QF71YT8CYzocQtwlEvrPjq8CfWSG686n/pWhP3d29YHjDajBzAiw1?=
+ =?us-ascii?Q?MVzN7PSWIsgn2KmgsHzNNEbbdLX9EDDLZHQqzq2eCZA8Z3EY4gM7JKGRdDqq?=
+ =?us-ascii?Q?rDxJbKDG+efeCkl+UBUIFFO3PjIbGt+t64CTN9DAj5nPuM3JgLjFCTgP4Sgw?=
+ =?us-ascii?Q?r5ymIHcJJdr3FlB2VplRt2nuO7VRlAHoAUfqNZVwvEiWHBkp0qeUWcEsHSWl?=
+ =?us-ascii?Q?eJvwcdyASQ1EuR0cxpFVM+fsZ83UupGoPjFTc4qu4s+yvKc10IRa8n6i4lkF?=
+ =?us-ascii?Q?Hhnrs0O7XDdUZwBaYuvk+2exj5IjsVf3KYQNbp9bmvsWUaQqkMnpKYLSChE2?=
+ =?us-ascii?Q?c20HbXZR8PhTDDDncVJpfUgflF/4GCyetf8YBr2oI2YPeBitnRSGJC/8DqOL?=
+ =?us-ascii?Q?W9bOAFuZja8MaoZflmEOYIodeHSduNp9E9uPfQZJ5q3buSm0KbLrPFfnn/S9?=
+ =?us-ascii?Q?JFgzEn0=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?5mNyfRVKKJSBINTqq3HVbB1zsbs88L5TsAbzh3GmPZslRAqLwiJs4zUycZp5?=
+ =?us-ascii?Q?xK8NqZXP4+h9gqw0PHSI73FIBkDYAYkyRIk3jgNj0oFnNlN3dtMx5aeaZFyt?=
+ =?us-ascii?Q?YVejis0qkukptUkWNbdPAm7tOjSij0qTlulNsCWgMtKqTUSlNnK1WOaR2FSJ?=
+ =?us-ascii?Q?G1Evi5PQD7+XcqaeP3p86F5K7CRBj+i1ZcDm2c0Rd+ibjBN9TNoOoBaT7sBX?=
+ =?us-ascii?Q?jgiurNnjHm41qkrEkx8lR1X2iBOB745xfzVhzzFLyUkuFDxkf0CfDCGrxiye?=
+ =?us-ascii?Q?nPRa/k8hFJRScIHdn8vKD0ObmkBQugxPDgruL57IXFVGEFozpZiD3islMW0U?=
+ =?us-ascii?Q?BrLVZLyCxVKPlOCu302PcFhwz5vetUM/bSOgtW3I9Dgk20KbfBaKTxYlWif0?=
+ =?us-ascii?Q?mfigF76XjuHCwTwnyaoz0Fk4GaYu/+Y/YCpgxsuEZwzVkc6AiPSuARm4t2tj?=
+ =?us-ascii?Q?jqx/Oyxt38sIgpNtYOo3nND0Qb5A8sv/YVp2OqfGeUqSgaDGYYkIYqc+t8ki?=
+ =?us-ascii?Q?mCip56Qg4FQ7Cm8js6irP26tt40ZpOIwhP9eQ0UWgnNFcSlFnwX1VHWaWbwf?=
+ =?us-ascii?Q?qIyS8Z7RBcI5UvD5eHnfPFOD3WSBRpnN8Q/IV4BBkniF1HWRt7Tgn66HHZao?=
+ =?us-ascii?Q?8vgRvEcfh4dyVi3ZWHKMjuBmvtxfspzcahKOBvBPd0428k/X2MHnNUJGuvcc?=
+ =?us-ascii?Q?lZ+wxZ0sDhjVjenb1fhCGo+cBPZ+mAOK19HhGBVTgXkQIFXY1jZQcp3MC10V?=
+ =?us-ascii?Q?mbymZQOX9UNQCWmrZChG1vt27gp/73pxxvwKU46rq0fVMM2nil+tSJvXraYN?=
+ =?us-ascii?Q?AXo8OC5XOChnjXF/+lOcpmkBVVYmpxgUktKTwvxcCsgFl6ObSvOZ8saUpCzr?=
+ =?us-ascii?Q?Yr5p9/yPFkxl93Ydd7+xhyc0bXQw5aY2Z/Kg9KfGPB8ORrZwPN572k5eFIFa?=
+ =?us-ascii?Q?0kJULOR0n3X15vnZQ3lcGr1zQIbGF9lupVMUhuOvLBB8ggCQvLOsrUyqt7xZ?=
+ =?us-ascii?Q?bEhmtE65Qq32dNQiwzgDOyBrQ/+Q2TsPUGAolo6OqkU9pK3cCfv2LFGIDxzX?=
+ =?us-ascii?Q?bR2dZ+Dv71XQybQ4MFg1wKZSIu4gnrsxQTQhjWNQix3gJnBoseXJuCjF8oOK?=
+ =?us-ascii?Q?ckJ3BurssDGyu0NVwOagw198zaChJSWL8UHOWby20KNNNngKw+jFeHMrdg6n?=
+ =?us-ascii?Q?pOmdPCbweoBlrJAo8icbDAaJVhUFTxGnX85gVyvqdBfasqONi34SGO+yCkvg?=
+ =?us-ascii?Q?CkRJsotKK2xy29OUaFBsJMkSygwL7ihC3K1b7XRVJMX7cnMUEjFMdg3lZOVM?=
+ =?us-ascii?Q?vVl7IkmXEppHuUQ2Ivnb5MJZmaJ1Dgi5n571FJoowoNtHq9ZyMZuqXXlFwOE?=
+ =?us-ascii?Q?mD+ij06CyRIQVYtz39XAZSo1wkxZeHUDlTQs2kNBwYZebEzBFvfz1fum+l3K?=
+ =?us-ascii?Q?Ndn9C51PG1fR5EqnHVPaHCkQCYbITRulcuHkYhPg0CObuu+tJBdzeHbAPnmL?=
+ =?us-ascii?Q?Xny6kPF7pjuIV0ub5AxTMIGgZ3r6blX6q9dE4oNS1vJfcnbmUSURsBH4C3oi?=
+ =?us-ascii?Q?4fxsauUTJYb2n28sL3B3c18s+BcNC/SLBalpHxQ/?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH7PR11MB5862:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b7d2bb8-993f-4c4a-0f1e-08dcba9c8913
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?oMjg8f/KL9q0ITv/kPUq8/E7osoAu0jl7xUQA7Sb+lIG4rP28UGSrsddSX4L?=
- =?us-ascii?Q?Xq5P6z9CKoppbN62xsV9Z74njkUVA7Cxnt3alPCOyEC0nGuC4asUBB5KLLqH?=
- =?us-ascii?Q?Gq7soJkpZ8JvD/jy7A47l8i4spamJTfUgmMmmAK2NRvZJRIRPwbPsgLtSpUB?=
- =?us-ascii?Q?2oWz83bj5xVG6h12cDOJZ8S7l3m5daag+gvuvdW6s4WYiozfq59xEQAWJktf?=
- =?us-ascii?Q?1pZn+l9MOakV9LwuzKhl1vhprGUF28Y4NMPh4ziPka+Rd93To4Vx3CjAxPxt?=
- =?us-ascii?Q?JrHi8mLFwJShaWIaVY78S3bAcDeVYxsg/fXxXWqgr1+0hF4r87g6DZg90dlI?=
- =?us-ascii?Q?Emd9fRq+KcuGcOl/B8lrOPoAHOT8R+xctykVHUsV46N6RTrZHQyLrwTnAtTC?=
- =?us-ascii?Q?h7yjtcZO2HFndD79ZP/FM5SRlI7qrtAN7yekYmgBd41frX4XGYS8M401jsvO?=
- =?us-ascii?Q?pUiw7PkDF6s7tTzgT7G5CcoZKU5XmhJqYlloxPcXcxsUMecCBgAO/L9B2LFO?=
- =?us-ascii?Q?qg0fV9uHSXvRYp/ytePDNL2b0Tt17hQXQUOZgTQfKYGRshnpVVDNs2wEhqTl?=
- =?us-ascii?Q?VPeOFhEt3km9MQwxKLg6a5Hmvvndz90BMWeQLJzPirhNq+HqxKATO9IvAZNH?=
- =?us-ascii?Q?M578PlhZNsHghHiynFIcIxeJrJzjwafvlmCsUh9/TkwGQ3HzBpJLK4UFhKKS?=
- =?us-ascii?Q?GGmjuBWu7FYsXGdXAyWI3sbyaWmdfKEFin0THJI6X9s5up0tNbKQOZ0QJCtO?=
- =?us-ascii?Q?uYuqXpPvANmJ99gDyH3uGFrMrnG81A0XkB4u2B9kyLKkhih/e7rCGZuHugU5?=
- =?us-ascii?Q?A1A6uKYR1rFffEmhJkMVmQSiSLENOOrY/ed5v1VvW3WhBPOTY3wMMApMhb5p?=
- =?us-ascii?Q?b4z3bJBCtzAeabmIOfnsOLYFaSy2HDucgdBQHDva2rnt555GcefyvEYG7VBH?=
- =?us-ascii?Q?PlPq7w9sVt8JZDtiEKCC5Rt6pgzPvv4lVQRjMoW87t2EFts8U8B4iwNwU/3f?=
- =?us-ascii?Q?QVUzGvJzh3zxLRu3VpDD3b2/7I1/NTifDBnTAwP2fOCWhdUT/ptWUBiedf2U?=
- =?us-ascii?Q?Loli6Iica60JKp+Tr/sguO56PZaBJ2Ca2ZBWBi40/HmYCDqCj+K6eZDqRnMa?=
- =?us-ascii?Q?pku0fghPOWEjepfmDWiL6Qg4BQ3Nlc2weqcA9K1Wusph1gvNmmpts1PXJomU?=
- =?us-ascii?Q?4EU4eKFfsjNgDZqVAuduZFRHlzvA6Kn3kpPWBQrZnRZ3y/JJ7d+OcY3f+jv/?=
- =?us-ascii?Q?YEXexpMM1Z1DviH4/pqNEbVrrktLT+fMB3gtYst03gt1tvxv/E0VYiM78EKz?=
- =?us-ascii?Q?Z0yKXOMFVnsdRNC4eIltZ85oPeg0ChI/MX1rtpgoCn2o0W83yMnue/yG+KFS?=
- =?us-ascii?Q?QPLDtDE=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?rYFzw/psKDyZ/07a2rcewfRef+S3bBUvxBLJ5zVKkVj8GqVDalkrD0y++x1b?=
- =?us-ascii?Q?NEcVC1TQvh/U+rAxVX1wN8JIDvX7ADUQqnQs+ZHYLZEy+XV5suZeba84CJBE?=
- =?us-ascii?Q?cpZhNISQkfCQRwTuMzwCjs8Z6Jbni55K5MUeZMoJTmDDxxqoJKhyAggA0GEP?=
- =?us-ascii?Q?MCKbToxFnhYVoAheUpZgI+MunBUp22BpMdn1cBexXYBs+lWN5Wlsydz7WvS9?=
- =?us-ascii?Q?CI2ZGHV6czCAf252/5q6w8T0YbErXWZtcKFXrLC2RxW+fePogSYu7y7ocfwY?=
- =?us-ascii?Q?tOphKdbmw/TDZeZ4Mas42LMptvIiyueoEXKyU635naL244Jhs6Z8IRqndnLe?=
- =?us-ascii?Q?SYsrgXl669VsLoSY5AEc2bv4V64z9jKAUIpYmFOgYFEOx0zCLv/ZHARU0+t3?=
- =?us-ascii?Q?oBGETMI0vCDHrZ1/bI5Em0WAYZk/UoSO5GpMoso36tQHAV0NYbLzKDhKkJla?=
- =?us-ascii?Q?ffXGYS1/T8vAmkSE9hs06vh8V2VwJcH98ogL6CbmNHiCeG0LhuZ+rvhbk7ru?=
- =?us-ascii?Q?6ZDsyWjFuQzeYmw40mGHCFOkWnMFWwZ+PX2EwNoPLxRJnK5yp3yKzJ+rZXUJ?=
- =?us-ascii?Q?KUHe9nmGP422gAIx0MNcXo3iD+ZQ4EBmELyvDaLXygMXjYkwIwxtO4DPij2N?=
- =?us-ascii?Q?VVhePOvb/mAhdVkMiKQS+5PnIGz2Hve5rv2TcgCvGYBkz3hFBSwfsvYJH0xZ?=
- =?us-ascii?Q?X80iaYbpCmCNnrqbak66RwOhc/wSqPAiir3/6nWP/sL1vyjBdbMHRKHmFBFq?=
- =?us-ascii?Q?G2pg3mG0ykhuQzX3QRpSaZInod5TxhnttypSDNfMOdya9kl6KFVxsmOpRR3W?=
- =?us-ascii?Q?5wZvtfTM5+zdgk16jennQvhTdZBmI4+7RSAR2SzxnK/QSRliSnw3C+RpBPdS?=
- =?us-ascii?Q?tjadU2MUV/qoLetgUjgFWMYg7iAOC32xe+gqXkSUCLp+8e4Z0Fz20Oaj/hqR?=
- =?us-ascii?Q?MS4TUARt11k42v3FUgVJsdoS+9p3EDdlglHmOvP5AvOdjcBV+PZDfAn2zmBl?=
- =?us-ascii?Q?ftCJo5bRfEZzCeFKkz6Joj145ZbGj62tjhE0l+zLpH5P6yKY5XjJ75cy9D5N?=
- =?us-ascii?Q?wS6wOqpGg60QoGxbUVNSjhQ+Nsmz3lakFAjAITFH3ogeF0jOH5th3QTMMdY1?=
- =?us-ascii?Q?96GTWN97V92SLFWtUy/X4E4+Mr64XaRtBKpsWHVowLIiamqQnHPqDGqmlwg8?=
- =?us-ascii?Q?WYDeA5SozbSZlIgMsSNsjJrb9SkMXQh9YDY5wWMbmzbFvq6OYQmwgjYyl1BG?=
- =?us-ascii?Q?0e9HDcA3f51UqmPI0lsw1Jn8fyPQd/X96eXA1bPGtHdLrSjZKIoh2uGUQ0c5?=
- =?us-ascii?Q?qR1CFUWeB2b1oUdTQozifFZ15M42SgglJSPC2JJ76/RpNTfkYe3ExxoVURGK?=
- =?us-ascii?Q?rQ9qBDeQi686pDLNbujYgm0RQP5DOckMKWJ993ZuQSSg3VG+zqFcK6bzXe8A?=
- =?us-ascii?Q?10wdg9KBXkMv7u6XlfcjcHeuhkE8Dc7SnhjrWyAt/JPIXmcU2XWPxZ19A2vj?=
- =?us-ascii?Q?qkKCX2WYecBzxY6QSWyfUfxuxrTYq7gyXP1+aZtyXDC2mvyH9K2yQaXp0vKl?=
- =?us-ascii?Q?vHlRqKyzbuNYsHLyBWmRrjVq02txlZlo7fnJRElI?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b7d2bb8-993f-4c4a-0f1e-08dcba9c8913
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 07:01:05.8756
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: e630ce74-cb19-41ac-6e5b-08dcbaa0397c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2024 07:27:30.1152
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gbUSPNERRhDy1/UTiGeIETWbWQ7MU++OzR3Am/6QSL8ABR5SPhulzFWi4Kmn02le6Ax//nUlp+SAgcbARCs/7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5862
-X-Proofpoint-GUID: V2JsE0n2cbfwRtgI3D1OotIbnPRV-u91
-X-Proofpoint-ORIG-GUID: V2JsE0n2cbfwRtgI3D1OotIbnPRV-u91
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-11_25,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0 malwarescore=0
- impostorscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2408120052
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LddhMiWdWAa3EtcxqEJVFb1Xles8BvIfYugSiCO2SFbQ4VHb1zg9OA46q8TMS3X8G4AWCqgMzn+o08qQKpWfcg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB6183
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 07:01:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203201
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 07:27:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203202
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Hi Marta,
+I have some comments also to this respin.
+Peter
 
-Change SUMMARY and DESCRIPTION according to json-c's homepage
-https://github.com/json-c/json-c/wiki.
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Marta Rybczynska via
+> lists.openembedded.org
+> Sent: Monday, August 12, 2024 6:09
+> To: openembedded-core@lists.openembedded.org
+> Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+> Subject: [OE-core] [PATCH v4][OE-core 1/6] cve-check: encode affected
+> product/vendor in CVE_STATUS
+>=20
+> CVE_STATUS contains assesment of a given CVE, but until now it didn't hav=
+e
+> include the affected vendor/product. In the case of a global system inclu=
+de,
+> that CVE_STATUS was visible in all recipes.
+>=20
+> This patch allows encoding of affected product/vendor to each CVE_STATUS
+> assessment, also for groups. We can then filter them later and use only
+> CVEs that correspond to the recipe.
+>=20
+> This is going to be used in meta/conf/distro/include/cve-extra-exclusions=
+.inc
+> and similar places.
+>=20
+> Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+> ---
+>  meta/classes/cve-check.bbclass | 24 ++++++++++++------------
+>  meta/lib/oe/cve_check.py       | 34 ++++++++++++++++++++++++----------
+>  meta/lib/oe/spdx30_tasks.py    | 11 ++++++-----
+>  3 files changed, 42 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbcl=
+ass
+> index c946de29a4..bc35a1c53c 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -324,8 +324,8 @@ def check_cves(d, patched_cves):
+>      # Convert CVE_STATUS into ignored CVEs and check validity
+>      cve_ignore =3D []
+>      for cve in (d.getVarFlags("CVE_STATUS") or {}):
+> -        decoded_status, _, _ =3D decode_cve_status(d, cve)
+> -        if decoded_status =3D=3D "Ignored":
+> +        decoded_status =3D decode_cve_status(d, cve)
+> +        if 'mapping' in decoded_status and decoded_status['mapping'] =3D=
+=3D
+> "Ignored":
+>              cve_ignore.append(cve)
+>=20
+>      import sqlite3
+> @@ -507,11 +507,11 @@ def cve_write_data_text(d, patched, unpatched,
+> ignored, cve_data):
+>          write_string +=3D "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDP=
+E"),
+> d.getVar("PV"))
+>          write_string +=3D "CVE: %s\n" % cve
+>          write_string +=3D "CVE STATUS: %s\n" % status
+> -        _, detail, description =3D decode_cve_status(d, cve)
+> -        if detail:
+> -            write_string +=3D "CVE DETAIL: %s\n" % detail
+> -        if description:
+> -            write_string +=3D "CVE DESCRIPTION: %s\n" % description
+> +        status_details =3D decode_cve_status(d, cve)
+> +        if 'detail' in status_details:
+> +            write_string +=3D "CVE DETAIL: %s\n" % status_details['detai=
+l']
+> +        if 'description' in status_details:
+> +            write_string +=3D "CVE DESCRIPTION: %s\n" %
+> status_details['description']
+>          write_string +=3D "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
+>          write_string +=3D "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["sc=
+orev2"]
+>          write_string +=3D "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["sc=
+orev3"]
+> @@ -637,11 +637,11 @@ def cve_write_data_json(d, patched, unpatched,
+> ignored, cve_data, cve_status):
+>              "status" : status,
+>              "link": issue_link
+>          }
+> -        _, detail, description =3D decode_cve_status(d, cve)
+> -        if detail:
+> -            cve_item["detail"] =3D detail
+> -        if description:
+> -            cve_item["description"] =3D description
+> +        status_details =3D decode_cve_status(d, cve)
+> +        if 'detail' in status_details:
+> +            cve_item["detail"] =3D status_details['detail']
+> +        if 'description' in status_details:
+> +            cve_item["description"] =3D status_details['description']
+>          cve_list.append(cve_item)
+>=20
+>      package_data["issue"] =3D cve_list
+> diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+> index ed5c714cb8..26dfdc1a54 100644
+> --- a/meta/lib/oe/cve_check.py
+> +++ b/meta/lib/oe/cve_check.py
+> @@ -132,8 +132,8 @@ def get_patched_cves(d):
+>=20
+>      # Search for additional patched CVEs
+>      for cve in (d.getVarFlags("CVE_STATUS") or {}):
+> -        decoded_status, _, _ =3D decode_cve_status(d, cve)
+> -        if decoded_status =3D=3D "Patched":
+> +        decoded_status =3D decode_cve_status(d, cve)
+> +        if 'mapping' in decoded_status and decoded_status['mapping'] =3D=
+=3D
+> "Patched":
+>              bb.debug(2, "CVE %s is additionally patched" % cve)
+>              patched_cves.add(cve)
+>=20
+> @@ -227,19 +227,33 @@ def convert_cve_version(version):
+>=20
+>  def decode_cve_status(d, cve):
+>      """
+> -    Convert CVE_STATUS into status, detail and description.
+> +    Convert CVE_STATUS into status, vendor, product, detail and descript=
+ion.
+>      """
+>      status =3D d.getVarFlag("CVE_STATUS", cve)
+>      if not status:
+> -        return ("", "", "")
+> -
+> -    status_split =3D status.split(':', 1)
+> -    detail =3D status_split[0]
+> -    description =3D status_split[1].strip() if (len(status_split) > 1) e=
+lse ""
+> +        return {}
+> +
+> +    status_split =3D status.split(':', 5)
+> +    status_out =3D {}
+> +    status_out['detail'] =3D status_split[0]
+> +    if len(status_split) >=3D 4 and status_split[1].strip().startswith('=
+cpe'):
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/json-c/json-c_0.17.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Better is to do exact comparison with '=3D=3D"cpe"', otherwise you still de=
+cide wrong in case of:
+ignore: cpe is wrong: other text: more text: even more text
 
-diff --git a/meta/recipes-devtools/json-c/json-c_0.17.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
-index 20bcece768..92ab612175 100644
---- a/meta/recipes-devtools/json-c/json-c_0.17.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
-@@ -1,5 +1,7 @@
--SUMMARY = "C bindings for apps which will manipulate JSON data"
--DESCRIPTION = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C."
-+SUMMARY = "A JSON implementation in C"
-+DESCRIPTION = "JSON-C implements a reference counting object model that allows \
-+you to easily construct JSON objects in C, output them as JSON formatted strings \
-+and parse JSON formatted strings back into the C representation of JSON objects."
- HOMEPAGE = "https://github.com/json-c/json-c/wiki"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
--- 
-2.25.1
+> +        # Both vendor and product are mandatory if cpe: present, the syn=
+tax is
+> then:
+> +        # detail: cpe:vendor:product:description
+> +        status_out['vendor'] =3D status_split[2].strip() if (len(status_=
+split) > 3) else
+> "*"
+> +        status_out['product'] =3D status_split[3].strip() if (len(status=
+_split) > 2) else
+> "*"
+
+The two clauses about have checks for len which always evaluates to true be=
+cause here the lengths is already >=3D4.
+So please drop it, just do single assignment
+
+> +    elif len(status_split) >=3D 2 and status_split[1].strip().startswith=
+('cpe'):
+
+Same exact comparison as above should be also here, if we want to keep this=
+ warning.
+
+> +        bb.warn('Invalid CPE information for CVE_STATUS[%s] =3D "%s", no=
+t setting
+> CPE' % (detail, cve, status))
+> +        status_out['vendor'] =3D "*"
+> +        status_out['product'] =3D "*"
+> +    else:
+> +        status_out['vendor'] =3D "*"
+> +        status_out['product'] =3D "*"
+> +    status_out['description'] =3D status_split[len(status_split)-1].stri=
+p() if
+> (len(status_split) > 1) else ""
+
+The description can be crippled here in case of
+ignore: cpe is wrong: other text: more text: even more text
+(only "even more text" is chosen over the correct "cpe is wrong: other text=
+: more text: even more text")
+So the status_out['description'] assignment should go to the if/else clause=
+s with hardcoded index of "4" of with new split to only two parts.
+
+>=20
+> -    status_mapping =3D d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
+> +    status_mapping =3D d.getVarFlag("CVE_CHECK_STATUSMAP",
+> status_out['detail'])
+>      if status_mapping is None:
+>          bb.warn('Invalid detail "%s" for CVE_STATUS[%s] =3D "%s", fallba=
+ck to
+> Unpatched' % (detail, cve, status))
+>          status_mapping =3D "Unpatched"
+> +    status_out['mapping'] =3D status_mapping
+>=20
+> -    return (status_mapping, detail, description)
+> +    return status_out
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 03dc47db02..4864d6252a 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -488,21 +488,22 @@ def create_spdx(d):
+>      cve_by_status =3D {}
+>      if include_vex !=3D "none":
+>          for cve in d.getVarFlags("CVE_STATUS") or {}:
+> -            status, detail, description =3D oe.cve_check.decode_cve_stat=
+us(d, cve)
+> +            decoded_status =3D oe.cve_check.decode_cve_status(d, cve)
+>=20
+>              # If this CVE is fixed upstream, skip it unless all CVEs are
+>              # specified.
+> -            if include_vex !=3D "all" and detail in (
+> +            if include_vex !=3D "all" and 'detail' in decoded_status and=
+ \
+> +                decoded_status['detail'] in (
+>                  "fixed-version",
+>                  "cpe-stable-backport",
+>              ):
+>                  bb.debug(1, "Skipping %s since it is already fixed upstr=
+eam" % cve)
+>                  continue
+>=20
+> -            cve_by_status.setdefault(status, {})[cve] =3D (
+> +            cve_by_status.setdefault(decoded_status['mapping'], {})[cve]=
+ =3D (
+>                  build_objset.new_cve_vuln(cve),
+> -                detail,
+> -                description,
+> +                decoded_status['detail'],
+> +                decoded_status['description'],
+>              )
+>=20
+>      cpe_ids =3D oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"),
+> d.getVar("CVE_VERSION"))
+> --
+> 2.43.0
 
 
