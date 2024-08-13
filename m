@@ -2,110 +2,92 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50ED6C52D7C
-	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 04:33:50 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.65095.1723523625997961753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 639DBC52D7B
+	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 04:50:20 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.65262.1723524610843817132
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Aug 2024 21:33:46 -0700
+ Mon, 12 Aug 2024 21:50:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=ZRvuf9qs;
- spf=pass (domain: konsulko.com, ip: 209.85.215.172, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7a1be7b7bb5so3635196a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 21:33:45 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=QRBvoy1D;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.174, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fec34f94abso42748425ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 21:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1723523624; x=1724128424; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1723524609; x=1724129409; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uLew3JhJjZ7/+Tn/ydM5FkszYGj9xKAxsLY1ukq7qBs=;
-        b=ZRvuf9qsLizrNFNEx7pSl+Qwv4nR4uhITKnm9bApUxFS0EGPVkr689cHsxsGxi4nki
-         O083E4Q7gMa2vluO8800HerrZM0WSdPlUj011/4LEIObQJPt5KBAzue5xCJ1glKUhyI3
-         1S519P8Aals1V1dqp2fGsqdiNW8QV+oGfNP5I=
+        bh=xWh74RwhVikSzq24wgAq8hmasHTDrhlDEz336ketq4M=;
+        b=QRBvoy1D+xhgqNNhuTW9l8KWTW8Af/jEfIJTy+eB0cR7GnQPZLZCpeZXbI/nsyDYTP
+         S9K+J28boGMTG4HWvDhWJdJPNwBcRvJXGlk+DFiN9rQ+PeP/4Avk0tmYvRctZQkbD6hg
+         ydjEutaYyEBpDwK6FNQ4NeUa9Yr51h4ykLwGY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723523624; x=1724128424;
+        d=1e100.net; s=20230601; t=1723524609; x=1724129409;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uLew3JhJjZ7/+Tn/ydM5FkszYGj9xKAxsLY1ukq7qBs=;
-        b=DRm2yf1W2bara0rf+Xg4J975dvqs4Rs714CAMWrRqRHGqK45nETKnftD1rg96NoS3H
-         7leDIhMigosEenOSUNpxqI1cOD/OVXoedq/clmftxh7K94rurLt++t6VJnWsv8e1qn4b
-         ChGy8RoKXdErqFIKcyYuBUYBvHzgv3JY8q5gN2CHudPlue9m8hz/o5M7zYMhL+neOkrx
-         FIciAish+qaAwkix134rx/O5k91DUoaBQxbROkb21K0dwHiOn+SIpoWIfOI81nEHkOMw
-         r7mgQF3ElgTFTHb7zKdDqigAX7w4Tk2x0bgrrZYK4OM/ahKzD+MkiKlUeOBC5sdATXhe
-         LgAw==
-X-Gm-Message-State: AOJu0YzXKhUd72LgPr+OW1lDPsxX8IZ4uRTXf9OFLtWusg+7vrNfO4I2
-	9dSoLpfk+Bve2RV+F6tebi0lJQS7lLh9jvZlN1RuLpkV+B8J4INN2b7WgIGobLrBR6HlHsF3sHJ
-	Imr8=
-X-Google-Smtp-Source: AGHT+IFeMekrVafYWld2HN3sAsUe34vP5ud51WBkYbaFfrLa3AgJrpet71kCieQUhibYuXics4shlQ==
-X-Received: by 2002:a17:902:f545:b0:1fb:8785:d1fa with SMTP id d9443c01a7336-201ca1b1e18mr27565505ad.30.1723523624469;
-        Mon, 12 Aug 2024 21:33:44 -0700 (PDT)
+        bh=xWh74RwhVikSzq24wgAq8hmasHTDrhlDEz336ketq4M=;
+        b=ZY+a8Xk4nuGERTBBrz8BxLVaFyaB7P03HC4DuZndBs7D67Ry9At0EQlUqrrdAlkzAT
+         eXANBv4GtPbnIYYFZ1RtarhUKyZ6FZbkS71DGUNyydNlpImgpnZQf+Bj/qjCHRa6uEQT
+         VyIu7lngwyGUiZR7iYw8USs8o+1pKEFyU6qVSqEEGhprnMfDDdMou41jGR+virKwGYjK
+         ZcGGUKX14xuastg7eVQzBZYTEI4QG1GykmnuKWSLsgeVzxoGvE0lt93PNk0sNmr0L/kA
+         VxEFCi5DEEXgLzbbzbSGhdTNqVprevu1MsyebDZHy7sSFb8QHJGF5dWiF6jaQS5zBEi8
+         lSKg==
+X-Gm-Message-State: AOJu0Yx3Ztp0NRUuaNfgDrEUFhboWyGW4/3ILm9PCGwzoqxB+ANUIQ39
+	BZU2tR3NV0od5YR/k7E1vRpDmZOnc0lKTwyp7lo+5koWEzqHvUt4z0RXbjNH6URTLocd6UChJKK
+	C3KM=
+X-Google-Smtp-Source: AGHT+IE2K+a1xQy5R8+pMhrR3u/F2wd8LZJk60Cl94TMxePUN7nfwY0FbS9t6qUv/2nWNvRk9vGypA==
+X-Received: by 2002:a17:90a:1189:b0:2c4:b0f0:8013 with SMTP id 98e67ed59e1d1-2d3925112b2mr2425466a91.11.1723524609577;
+        Mon, 12 Aug 2024 21:50:09 -0700 (PDT)
 Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201cd132895sm4621045ad.9.2024.08.12.21.33.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1fd021b91sm6104283a91.56.2024.08.12.21.50.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 21:33:43 -0700 (PDT)
+        Mon, 12 Aug 2024 21:50:09 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-more-itertools: upgrade 10.3.0 -> 10.4.0
-Date: Mon, 12 Aug 2024 21:33:33 -0700
-Message-ID: <20240813043332.1170848-2-tim.orling@konsulko.com>
+Subject: [PATCH] python3-wheel: upgrade 0.43.0 -> 0.44.0
+Date: Mon, 12 Aug 2024 21:50:06 -0700
+Message-ID: <20240813045006.1177438-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 04:33:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203245
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 04:50:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203246
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-v10.4.0
-  * What's Changed
-    - Issue 854: sample improvements by @bbayles in #855
-    - Issue 858: Use chain and starmap in run_length.decode by @bbayles
-	  in #861
-    - Issue 859: Update totient recipe by @bbayles in #860
-    - Distinct permutations of incomparable items by @JamesParrott in #834
-    - Clarify seekable.relative_seek behavior by @bbayles in #863
-    - Issue 864: Improve _sample_unweighted by @bbayles in #865
-    - Use log1p for _sample_unweighted by @bbayles in #868
-    - Issue 862: change relative_seek() behaviour by @dkrikun in #866
-    - Issue 876: is_sorted clarifications by @bbayles in #877
-    - Issue 870: counts parameter for sample by @bbayles in #875
-    - Issue 869: Add a steps argument to circular_shifts by @bbayles in #874
-    - Issue 871: Add a fast path for sliding_window by @bbayles in #873
-    - type annotation of windowed_complete corrected by @m472 in #881
-    - [Docs] Fix strictly_n missing the n parameter by @fakuivan in #886
-    - Standardize type hints for isinstance's second argument by @jbosboom
-	  in #887
-    - Issue 883: change type hint by @akisatoon1 in #884
-    - Add type overloads for zip_broadcast by @Pandede in #888
-    - Issue 889: Optimize triplewise by @bbayles in #891
-    - Add option strict to sort_together by @Pandede in #892
-    - Updates for version 10.4.0 by @bbayles in #893
+https://wheel.readthedocs.io/en/stable/news.html
+
+0.44.0 (2024-08-04)
+* Canonicalized requirements in METADATA file (PR by Wim Jeantine-Glenn)
+* Deprecated the bdist_wheel module, as the code was migrated to setuptools
+  itself
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...ore-itertools_10.3.0.bb => python3-more-itertools_10.4.0.bb} | 2 +-
+ .../python/{python3-wheel_0.43.0.bb => python3-wheel_0.44.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-more-itertools_10.3.0.bb => python3-more-itertools_10.4.0.bb} (87%)
+ rename meta/recipes-devtools/python/{python3-wheel_0.43.0.bb => python3-wheel_0.44.0.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_10.3.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.4.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-more-itertools_10.3.0.bb
-rename to meta/recipes-devtools/python/python3-more-itertools_10.4.0.bb
-index c2c9e89a649..6451e3e23c0 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_10.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_10.4.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.43.0.bb b/meta/recipes-devtools/python/python3-wheel_0.44.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-wheel_0.43.0.bb
+rename to meta/recipes-devtools/python/python3-wheel_0.44.0.bb
+index ba309ae5fca..1e7e0f27c6d 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.43.0.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.44.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7ffb0db04527cfe380e4f2726bd05ebf"
  
--SRC_URI[sha256sum] = "e5d93ef411224fbcef366a6e8ddc4c5781bc6359d43412a65dd5964e46111463"
-+SRC_URI[sha256sum] = "fe0e63c4ab068eac62410ab05cccca2dc71ec44ba8ef29916a0090df061cf923"
+-SRC_URI[sha256sum] = "465ef92c69fa5c5da2d1cf8ac40559a8c940886afcef87dcf14b9470862f1d85"
++SRC_URI[sha256sum] = "a29c3f2817e95ab89aa4660681ad547c0e9547f20e75b0562fe7723c9a2a9d49"
  
- inherit pypi python_flit_core ptest
+ inherit python_flit_core pypi
  
 -- 
 2.46.0
