@@ -1,149 +1,165 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7218BC52D7B
-	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 16:41:04 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web10.77115.1723567264035719966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEF4C52D7D
+	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 19:58:05 +0000 (UTC)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+ by mx.groups.io with SMTP id smtpd.web10.81607.1723579077276982354
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Aug 2024 09:41:04 -0700
+ Tue, 13 Aug 2024 12:57:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Sr9/ildp;
- spf=pass (domain: baylibre.com, ip: 209.85.167.175, mailfrom: tgamblin@baylibre.com)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3dd16257b87so1283009b6e.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 09:41:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QX3dzqNX;
+ spf=pass (domain: gmail.com, ip: 209.85.219.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dfe43dca3bfso5166462276.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 12:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723567263; x=1724172063; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jRyZ9WC1VdDpE+7pZVur0YsAgzqWRZkwZiSKgQywE4c=;
-        b=Sr9/ildpzisfHsOZV8RJd7tnaF0ofQvlmSGR9+AeWAP6DmuhjLfphN0y7n3ac63wD8
-         yFpVPiw+PJUpdjkkiUqM6qH/tdJNazsixGNeX6VhB+S5/tmkOkbFx0vovqxShYBO489D
-         pey3sjNtQZNgoASFZ2Hb9tetX1Esw585v+mDvOcwQU3AB9xCZ3mefG863srWWWShuGt4
-         tvd2isTjOfpvwE/PEHpzwCojyVFAl7aZuYB65aDq72Yg67BM3HUN1BecyTgJzJk3UKze
-         yhx2VmcC7FlE0eGNBSvl2J8xxw/sRpvkW20gsEe8bwvC/lztb+PKq1Mf04ctJGaZMlxe
-         0MAg==
+        d=gmail.com; s=20230601; t=1723579076; x=1724183876; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AW3FK5wa6Eg7TKbu+olY1+yfreu1kFudtAhRKQCvY3M=;
+        b=QX3dzqNX333bmcn3yZu6wInYv9clKfrwuEaSkK15wXPVE2fen6XwUzQ3xn5+8/02Zm
+         tgDqe1/z0C95vkRbp6FoHURaf+Q+1BieYGiHTMT110p8G+hYHBmo0YbleCA+2eCxW1gx
+         mZmVwbhtI8CGreYXMR/6/147gAU615hhX0U+z/8TvI9J2GaWpm2s8Ax/XUBicqwWdTkZ
+         Tc0QNSXLlwW6H3YzcKJde9X53SIBOISk3FcFGee5zJlyTOomV9sZyFtJIod+xheYkxtq
+         6Gz0Gbtp1XZRZxFwT+bo+Ka8gpHCtjN74Tg0VN5Ci+hGC0ItbfktRxpkldgNr67Ptd+r
+         F+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723567263; x=1724172063;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jRyZ9WC1VdDpE+7pZVur0YsAgzqWRZkwZiSKgQywE4c=;
-        b=vg8CCHT4AYACuDufuSsbHOYhmwyt/55vGC345cOieYS4qOrxNgLMd4giKsPreIOEU/
-         tVZv0Ngpg+gq5vOB0O2kqphom65hrY7Qz3gMYNPj4TDfVNvWYAnkfLP9XPMmIekKr/KS
-         AeBbrqfheB5Q63FEKUI7rXXGMhE5neKQocGFZYBRoFcizlhWBtsu5mfcXhSH5smwYKWv
-         L7BxYwjnaEJM/yZyMy5H5mweB1eVKFCSqsn2t2v2Bp0KBLffqmYG+1cyGF2K9bQ0e0TW
-         Vw5gUXeN/uTqqsy9z+T8U7ksZw/JT93BnrjgjnXaGTz44s7/WQJLTNjnXNVLLwu4U8C9
-         gksg==
-X-Gm-Message-State: AOJu0YyM7D25hnTeAaRzUVenKmGhS5857DSVLaKO04Pvb0ulf2qL36nQ
-	gdq39uogNp2HaTB4aHlIFSELTKM3Gl8jU+IT9WLu4TP6UMUJ/BuwtFWLayqKqmF7h4JDzQo9O0I
-	e
-X-Google-Smtp-Source: AGHT+IHWr3B+M0cOLaGlTQJgaOjkvDLTLSmWZgSeduCCTKWBCJv9zJtFJRRNsF4qz0Wvn5f+YrND/g==
-X-Received: by 2002:a05:6808:189e:b0:3d9:2c5a:c81a with SMTP id 5614622812f47-3dd1effdbeemr3830014b6e.50.1723567263131;
-        Tue, 13 Aug 2024 09:41:03 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4531c291c11sm33489721cf.97.2024.08.13.09.41.02
+        d=1e100.net; s=20230601; t=1723579076; x=1724183876;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AW3FK5wa6Eg7TKbu+olY1+yfreu1kFudtAhRKQCvY3M=;
+        b=w4bbHmXJy2yiIAuo6HcgUvxIo5g6KPZU/nSHKHGpl5CW2xyo8/26ifmn0JAtQG2Dmv
+         k0xkP2l3k3ftgRbqBCoHSSuBRkkQyrIWP/L8s33yg8jkcHlOs2OOiXLw0o1p70Z/035L
+         uDQ1kIoGCh08646Ii0MqPx8wE4EeFBytTTML3EHRUWyA0KVjYpAhzLJl//YxUbnZWGfs
+         bx6Ri4LGuiRAuuqgMXrV1WVNudD+aopsICdqmkqrixt4HzmYNdjytLLvkQXvS50PHTuK
+         OWoafZuTjog+bSUWXBsqSPfjIBRMOUh6lQQWyBHe0mhOa3irV56PUTqz4wJjcf/pngBJ
+         ZVug==
+X-Forwarded-Encrypted: i=1; AJvYcCVvjUYuDX1lKgiWzIySh0c3UNd2/eWKuoFZi14AtZ3ijYD5zxCSEANdD/nsWUY1hwaIEFbYsc4f8TCQLIQhaq8oUFluhm1CaqfZUM4XaIWcBSr4+UHzXN/p
+X-Gm-Message-State: AOJu0Yxlx38WngJkXxcCwRsQMIl7OtBjueW9dm1vP25JIz7uW8tOpEbB
+	I310K+iLYvI2ZbrlRpGF2gQkAC0z5/ysPxyNee0WZWMaLnFZOp0n
+X-Google-Smtp-Source: AGHT+IE15OXKYEIEFXnwVvQjHkS0zoXMWSDxtCpMnH3vV8XfL+kFwVF7bMkOiDS6IigETVMQSw8FhQ==
+X-Received: by 2002:a05:6902:908:b0:e03:63c7:7b46 with SMTP id 3f1490d57ef6-e1155ab3375mr659295276.20.1723579076121;
+        Tue, 13 Aug 2024 12:57:56 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bd82ca1453sm36652796d6.63.2024.08.13.12.57.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 09:41:02 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	alexandre.belloni@bootlin.com
-Subject: [OE-core][PATCH v2] python3: skip readline limited history tests
-Date: Tue, 13 Aug 2024 12:41:01 -0400
-Message-Id: <20240813164101.3425564-1-tgamblin@baylibre.com>
+        Tue, 13 Aug 2024 12:57:55 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: Jon.Mason@arm.com,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] linux-yocto/6.6: fix genericarm64 config warning
+Date: Tue, 13 Aug 2024 15:57:52 -0400
+Message-Id: <20240813195753.576442-2-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240813195753.576442-1-bruce.ashfield@gmail.com>
+References: <20240813195753.576442-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 16:41:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203289
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 19:58:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203291
 
-Python 3.12.5 is failing a newer ptest for reading/writing limited
-history. Skip it for now until a proper fix (if any) is determined.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The new test was added in
-https://github.com/python/cpython/commit/263c7e611bb24715e513d457a3477a61fff15162
+Integrating the following commit(s) to linux-yocto/.:
 
-The GitHub issue is here: https://github.com/python/cpython/issues/121160
+1/1 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: genericarm64: drop CONFIG_MTD_NAND_FSL_IFC
+    Date: Tue, 13 Aug 2024 15:17:10 -0400
 
-The aforementioned bug report suggests that OSErrors like that show up
-when using the GNU readline-based readline module if a workaround isn't
-also incorporated. It also mentions a new readline backend will be
-available in 3.13 that might help, but that won't be available for a year.
+    We are getting the following warning in recent 6.6+ kernels:
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+        WARNING: linux-yocto-6.6.45+git-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
+
+        [NOTE]: 'CONFIG_MTD_NAND_FSL_IFC' last val (y) and .config val (n) do not match
+        [INFO]: CONFIG_MTD_NAND_FSL_IFC : n
+        [INFO]: raw config text:
+
+            config MTD_NAND_FSL_IFC
+                    tristate "Freescale IFC NAND controller"
+                    depends on (FSL_SOC || ARCH_LAYERSCAPE || SOC_LS1021A || COMPILE_TEST) && HAS_IOMEM && FSL_IFC && MTD_RAW_NAND && MTD
+                    help
+                      Various Freescale chips e.g P1010, include a NAND Flash machine
+                      with built-in hardware ECC capabilities.
+                      Enabling this option will enable you to use this to control
+                      external NAND devices.
+
+            Config 'MTD_NAND_FSL_IFC' has the following Direct dependencies (MTD_NAND_FSL_IFC=n):
+                    FSL_SOC(undefined/n) || ARCH_LAYERSCAPE(=y) || SOC_LS1021A(undefined/n) || COMPILE_TEST(=n) (=y) && HAS_IOMEM(=y) && FSL_IFC(=n) && MTD_RAW_NAND(=y) && MTD(=y)
+            Parent dependencies are:
+                 SOC_LS1021A [SOC_LS1021A] MTD [y] ARCH_LAYERSCAPE [y] HAS_IOMEM [y] FSL_SOC [FSL_SOC] COMPILE_TEST [n] MTD_RAW_NAND [y] FSL_IFC [n]
+        [INFO]: config 'CONFIG_MTD_NAND_FSL_IFC' was set, but it wasn't assignable, check (parent) dependencies
+
+    The most significant missing option that is disabling this config value
+    is FSL_SOC, which is only defined in arch/powerpc.
+
+    As such, there's no sense keeping this option in the genericarm64 config
+    as it is only enabled via arch/powerpc.
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
-v2 adds extra info in the commit message and carried patch about the
-source of the test failure.
 
- ...t_readline-skip-limited-history-test.patch | 40 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.12.5.bb |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+Jon,
 
-diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-new file mode 100644
-index 0000000000..851ddd571a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-@@ -0,0 +1,40 @@
-+From d9d916d5ea946c945323679d1709de1b87029b96 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 13 Aug 2024 11:07:05 -0400
-+Subject: [PATCH] test_readline: skip limited history test
-+
-+This test was added recently and is failing on the ptest image. Disable
-+it until the proper fix is determined.
-+
-+See also: https://github.com/python/cpython/issues/121160
-+
-+Upstream-Status: Inappropriate [OE-specific]
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ Lib/test/test_readline.py | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
-+index 91fd7dd13f9..d81f9bf8eed 100644
-+--- a/Lib/test/test_readline.py
-++++ b/Lib/test/test_readline.py
-+@@ -132,6 +132,7 @@ def test_nonascii_history(self):
-+         self.assertEqual(readline.get_history_item(1), "entrée 1")
-+         self.assertEqual(readline.get_history_item(2), "entrée 22")
-+ 
-++    @unittest.skip("Skipping problematic test")
-+     def test_write_read_limited_history(self):
-+         previous_length = readline.get_history_length()
-+         self.addCleanup(readline.set_history_length, previous_length)
-+@@ -349,6 +350,7 @@ def test_history_size(self):
-+             self.assertEqual(len(lines), history_size)
-+             self.assertEqual(lines[-1].strip(), b"last input")
-+ 
-++    @unittest.skip("Skipping problematic test")
-+     def test_write_read_limited_history(self):
-+         previous_length = readline.get_history_length()
-+         self.addCleanup(readline.set_history_length, previous_length)
-+-- 
-+2.39.2
-+
-diff --git a/meta/recipes-devtools/python/python3_3.12.5.bb b/meta/recipes-devtools/python/python3_3.12.5.bb
-index 5665c90fa9..cc2e14baf0 100644
---- a/meta/recipes-devtools/python/python3_3.12.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.5.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
- 	   file://0001-test_deadlock-skip-problematic-test.patch \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-+           file://0001-test_readline-skip-limited-history-test.patch \
-            "
+Let me know if these seems ok to you.
+
+Bruce
+
+ meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index ae56e8a129..c3b4fc1e9b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -15,7 +15,7 @@ python () {
+ }
  
- SRC_URI:append:class-native = " \
+ SRCREV_machine ?= "9a1d7ebfd75c70dcec660e18124a37de469e68b4"
+-SRCREV_meta ?= "e55e4407942bae43ef8ba463b38e48995b023187"
++SRCREV_meta ?= "9901a21dd1f99c833d8e1a58b3fc057e57bda598"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index b0e4ab71ae..1c8cfd7d74 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "e402da9835bfae267f409a48c3a2cb6e231f9d94"
+-SRCREV_meta ?= "e55e4407942bae43ef8ba463b38e48995b023187"
++SRCREV_meta ?= "9901a21dd1f99c833d8e1a58b3fc057e57bda598"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 5688a4b109..948f46621b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -32,7 +32,7 @@ SRCREV_machine:qemux86 ?= "e402da9835bfae267f409a48c3a2cb6e231f9d94"
+ SRCREV_machine:qemux86-64 ?= "e402da9835bfae267f409a48c3a2cb6e231f9d94"
+ SRCREV_machine:qemumips64 ?= "97d2336ea9ce4eac6b30a75b26f33b83827d38aa"
+ SRCREV_machine ?= "e402da9835bfae267f409a48c3a2cb6e231f9d94"
+-SRCREV_meta ?= "e55e4407942bae43ef8ba463b38e48995b023187"
++SRCREV_meta ?= "9901a21dd1f99c833d8e1a58b3fc057e57bda598"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.39.2
 
