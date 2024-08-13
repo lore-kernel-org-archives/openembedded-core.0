@@ -2,134 +2,165 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A118C52D7C
-	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 15:30:44 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web11.75062.1723563043458374422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F75EC52D7B
+	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 15:31:14 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web11.75081.1723563072945452382
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Aug 2024 08:30:43 -0700
+ Tue, 13 Aug 2024 08:31:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=zANFmbhN;
- spf=pass (domain: baylibre.com, ip: 209.85.222.179, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7a1d6f47112so336048385a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 08:30:43 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=rZTSaZJD;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.169, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4519383592aso34901381cf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 08:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723563042; x=1724167842; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tu/AF9vO+2KFIBzMoVzIXVX2WTdpH4PRpyCmBS/NAms=;
-        b=zANFmbhNrDcPpxjnIdb/vjY+BjZNE9Kt0TyN7TNx4s6PXEljz6+1MvpYxBEDQZplQM
-         EtVcrYDRDUWyrWSbZEGY255vBBylOfoEV4XTE/5dj3Rr2Y/NxLApFCn1qF+8PlGAlAbh
-         /GFvZcSb2cR1pnUd2iwxkMi9lc52zNomsz1XeuZGzo5P4OsGxIeGuyyCP51mRMkz/Nsx
-         nvpDL6sayO4vwLxkBitb4ATzxq1y53NGp8NBohevubbTfTKu8xRNICCluO3Vtg0r+krn
-         z0AL0kiBCH64MYdSHY6ThTX3ylUUXVESJq5OCmdcBmXub3ptY3p6kMvDIlygJydZhj53
-         XkaA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723563072; x=1724167872; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ueyP18UgXbarLZ6sCzUSJXgwHHaU8e1v4cmoo+0MIPg=;
+        b=rZTSaZJDs+9D9Gg+JHQ0KlOsoM/0ceH6fLYyslcj4P7+HKyu9iZpVCNbiINKm2P066
+         MdkGpmcCaHoGCBSphIV/CR5e9DTm2WD2uqjq57a7KomtqKbwbbPA2Gs+bn7qg1oRCfFr
+         7B3BiTDXp4sqQezUtX5FEoGi5tk9YspfZdfbT1dC6YE+Ke/Y1JCZ/BTAh5WIC3+iSAyP
+         4wYdwK4abPLqYEVQ+0rIQ/UYS0OC9ItghEFCHOgIcdFHZtZWF8pUNxySe3yJGBH8yxGy
+         NADEWbw2BWBhs+y8jxfJKeINfsVvdrP1qE68pKPSJhAtMP5g4brtXNBjL0yYCv5iWSly
+         +Kqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723563042; x=1724167842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tu/AF9vO+2KFIBzMoVzIXVX2WTdpH4PRpyCmBS/NAms=;
-        b=FOycyIOBHcsEVj6yrwYfByJ7TWfG34LI+pjO5v+lyOwvWyhQAN3SpVr6vr8/mxylXn
-         rP7F0FcPv2ycUa8LegaPCSrQAYvPn/Kk9+I974uBQIEeMddrYbNhTdwDRugjWs2qzrDN
-         NzEt43BSDk0V+MlJSadYM/IENkd4XWTl3GnfOLX4tw3DKMwiHBDEcnhekgwxMEqGlurz
-         E035Ws+YT2+mkJ6gyZ6PWmwMViEQns05dL4e4cee2wD16yWQKvl5ns9k+We0vfJavylk
-         t5lB3YmOXpiN7Ohzjv83rp9/wJRfLxae+LIEUhuYRchyFfx32bhlgywzyGmknKIzoKQq
-         GZFQ==
-X-Gm-Message-State: AOJu0YyqtCN+gDfkKM5uPDjbL/IQqCVY33QIjwizFb8Gz68TDuUwhsY3
-	inV4r4zYVWeKYtPh9Os5HK+fkvSsChNU6MrDfBr4qxygktq3wYr3YBA3bWEVOLWkHLDHMERH/0R
-	m
-X-Google-Smtp-Source: AGHT+IHkYF3JBplc8ZdgjcOqfPahVE+7RLxfIgQIX9uRgB0A5qevV7qp0Ub2cHa53ml65MQ5z+DQ6Q==
-X-Received: by 2002:a05:620a:4408:b0:79f:148:d834 with SMTP id af79cd13be357-7a4e15cfb7emr512630385a.59.1723563042275;
-        Tue, 13 Aug 2024 08:30:42 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7df5429sm351062885a.93.2024.08.13.08.30.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 08:30:42 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com,
-	Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [OE-core][PATCH] python3: skip readline limited history tests
-Date: Tue, 13 Aug 2024 11:30:39 -0400
-Message-Id: <20240813153039.3395682-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1723563072; x=1724167872;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ueyP18UgXbarLZ6sCzUSJXgwHHaU8e1v4cmoo+0MIPg=;
+        b=nRufMCg6xUjyNFIKRo8QY/GV+NYpofpK3gOevYcr3ahE7mEeL+ImfrdAVj+ZKf6UAZ
+         m57PQEvX0SCn56X4h+9CRdyY9vYya1Zea6mDgRNp4kto2XIWwiRwmg586PYCxz5lYG27
+         nRskrC4ZN1OAl9lJj7XE+qTl39DOsCEBLK0kjkO4yLjfEI72F/rXYlBwdHkWh6cKz2m4
+         VTPHt6MxVukZRvKVW4ntcxc9ogc+Id9Qq11L5bWx901cE4XXKYWgd5XBsvQcky0GPD6A
+         q7UbMxHWblmf2pgcBBXJJnJ18eOiRUSbtfnqpHx5SVylrw25QgQdmfj3PmI+fXPVyuI4
+         bG7g==
+X-Gm-Message-State: AOJu0YyAL3b4+TvbTUO+tzW/XKBZvQO/6WyU53sMVSmooOc4y+nPwkXb
+	+T2+4hCquPj/W01pjl6p0JmyCMbQ/OFqEw49e/iOsceBFB5VlIxtzqGN52V/h7Y=
+X-Google-Smtp-Source: AGHT+IEtAWlcNXFLUwqEsGVK9eh6+MVzzNw+hbOOQOYt2BAGQ/WvEU4RU3q6U1npeRTBOO1+cEEU4Q==
+X-Received: by 2002:a05:622a:1f05:b0:447:e890:b1a0 with SMTP id d75a77b69052e-453498cd307mr44706271cf.14.1723563071779;
+        Tue, 13 Aug 2024 08:31:11 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4531c1c7d53sm33067801cf.37.2024.08.13.08.31.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Aug 2024 08:31:11 -0700 (PDT)
+Message-ID: <76525127-94de-4ba6-abaa-c1f2c6d13830@baylibre.com>
+Date: Tue, 13 Aug 2024 11:31:10 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 1/3] python3: upgrade 3.12.4 -> 3.12.5
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20240809122217.3825274-1-tgamblin@baylibre.com>
+ <20240813095629734b9d87@mail.local>
+ <17EB4FFEDB5B735B.10903@lists.openembedded.org>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <17EB4FFEDB5B735B.10903@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 15:30:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203282
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 15:31:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203283
 
-Python 3.12.5 is failing a newer ptest for reading/writing limited
-history. Skip it for now until a proper fix (if any) is determined.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...t_readline-skip-limited-history-test.patch | 38 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.12.5.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-
-diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-new file mode 100644
-index 0000000000..d8ec33e162
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-@@ -0,0 +1,38 @@
-+From d9d916d5ea946c945323679d1709de1b87029b96 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 13 Aug 2024 11:07:05 -0400
-+Subject: [PATCH] test_readline: skip limited history test
-+
-+This test was added recently and is failing on the ptest image. Disable
-+it until the proper fix is determined.
-+
-+Upstream-Status: Inappropriate [OE-specific]
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ Lib/test/test_readline.py | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
-+index 91fd7dd13f9..d81f9bf8eed 100644
-+--- a/Lib/test/test_readline.py
-++++ b/Lib/test/test_readline.py
-+@@ -132,6 +132,7 @@ def test_nonascii_history(self):
-+         self.assertEqual(readline.get_history_item(1), "entrée 1")
-+         self.assertEqual(readline.get_history_item(2), "entrée 22")
-+ 
-++    @unittest.skip("Skipping problematic test")
-+     def test_write_read_limited_history(self):
-+         previous_length = readline.get_history_length()
-+         self.addCleanup(readline.set_history_length, previous_length)
-+@@ -349,6 +350,7 @@ def test_history_size(self):
-+             self.assertEqual(len(lines), history_size)
-+             self.assertEqual(lines[-1].strip(), b"last input")
-+ 
-++    @unittest.skip("Skipping problematic test")
-+     def test_write_read_limited_history(self):
-+         previous_length = readline.get_history_length()
-+         self.addCleanup(readline.set_history_length, previous_length)
-+-- 
-+2.39.2
-+
-diff --git a/meta/recipes-devtools/python/python3_3.12.5.bb b/meta/recipes-devtools/python/python3_3.12.5.bb
-index 5665c90fa9..cc2e14baf0 100644
---- a/meta/recipes-devtools/python/python3_3.12.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.5.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
- 	   file://0001-test_deadlock-skip-problematic-test.patch \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-+           file://0001-test_readline-skip-limited-history-test.patch \
-            "
- 
- SRC_URI:append:class-native = " \
--- 
-2.39.2
-
+On 2024-08-13 10:27 a.m., Trevor Gamblin via lists.openembedded.org wrote:
+>
+> On 2024-08-13 5:56 a.m., Alexandre Belloni wrote:
+>> Hello Trevor,
+>>
+>> This causes a new ptest failure:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6894/steps/12/logs/stdio 
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6898/steps/12/logs/stdio 
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6725/steps/13/logs/stdio 
+>>
+>>
+>> https://autobuilder.yocto.io/pub/non-release/20240812-77/testresults/qemux86-64-ptest/python3.log 
+>>
+>>
+>> FAIL: test_write_read_limited_history 
+>> (test.test_readline.TestReadline.test_write_read_limited_history)
+> Looking into it. The test code seems a little strange to me. Might 
+> submit a patch to disable the test case shortly...
+Sent a patch to skip it in ptests for now.
+>>
+>> ======================================================================
+>> ERROR: test_write_read_limited_history 
+>> (test.test_readline.TestHistoryManipulation.test_write_read_limited_history)
+>> ----------------------------------------------------------------------
+>> Traceback (most recent call last):
+>>    File "/usr/lib/python3.12/test/test_readline.py", line 153, in 
+>> test_write_read_limited_history
+>>      readline.read_history_file(TESTFN)
+>> OSError: [Errno 22] Invalid argument
+>>
+>> ======================================================================
+>> ERROR: test_write_read_limited_history 
+>> (test.test_readline.TestReadline.test_write_read_limited_history)
+>> ----------------------------------------------------------------------
+>> Traceback (most recent call last):
+>>    File "/usr/lib/python3.12/test/test_readline.py", line 362, in 
+>> test_write_read_limited_history
+>>      readline.read_history_file(TESTFN)
+>> OSError: [Errno 22] Invalid argument
+>>
+>> ----------------------------------------------------------------------
+>> Ran 11 tests in 0.266s
+>>
+>> FAILED (errors=2, skipped=3)
+>> test test_readline failed
+>>
+>>
+>> On 09/08/2024 08:22:15-0400, Trevor Gamblin wrote:
+>>> Changelog: 
+>>> https://docs.python.org/release/3.12.5/whatsnew/changelog.html
+>>>
+>>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>>> ---
+>>>   .../python/{python3_3.12.4.bb => python3_3.12.5.bb}             | 
+>>> 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>   rename meta/recipes-devtools/python/{python3_3.12.4.bb => 
+>>> python3_3.12.5.bb} (99%)
+>>>
+>>> diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb 
+>>> b/meta/recipes-devtools/python/python3_3.12.5.bb
+>>> similarity index 99%
+>>> rename from meta/recipes-devtools/python/python3_3.12.4.bb
+>>> rename to meta/recipes-devtools/python/python3_3.12.5.bb
+>>> index 119fe10ca9..5665c90fa9 100644
+>>> --- a/meta/recipes-devtools/python/python3_3.12.4.bb
+>>> +++ b/meta/recipes-devtools/python/python3_3.12.5.bb
+>>> @@ -39,7 +39,7 @@ SRC_URI:append:class-native = " \
+>>> file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch 
+>>> \
+>>>              "
+>>>   -SRC_URI[sha256sum] = 
+>>> "f6d419a6d8743ab26700801b4908d26d97e8b986e14f95de31b32de2b0e79554"
+>>> +SRC_URI[sha256sum] = 
+>>> "fa8a2e12c5e620b09f53e65bcd87550d2e5a1e2e04bf8ba991dcc55113876397"
+>>>     # exclude pre-releases for both python 2.x and 3.x
+>>>   UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+>>> -- 
+>>> 2.39.2
+>>>
+>>>
+>>>
+>>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#203280): https://lists.openembedded.org/g/openembedded-core/message/203280
+> Mute This Topic: https://lists.openembedded.org/mt/107806767/7611679
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
