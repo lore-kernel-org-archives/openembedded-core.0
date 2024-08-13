@@ -2,53 +2,53 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BFDC3DA7F
-	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 03:30:40 +0000 (UTC)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
- by mx.groups.io with SMTP id smtpd.web10.64358.1723519830058364850
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 413ECC52D7C
+	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 04:19:10 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.64897.1723522738850582663
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Aug 2024 20:30:30 -0700
+ Mon, 12 Aug 2024 21:18:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=eyOW9SzN;
- spf=pass (domain: konsulko.com, ip: 209.85.210.48, mailfrom: tim.orling@konsulko.com)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7093705c708so4917183a34.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 20:30:29 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=kUINWVhF;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.177, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-710dc3015bfso2341908b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Aug 2024 21:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1723519828; x=1724124628; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1723522738; x=1724127538; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xl5DSmYLe9WH/7uvl5n5L/n3uEHZJrnoL4KNkSk+LmM=;
-        b=eyOW9SzNyMaAb4qmBQzne7De6GlNBu1FD3w7oT7AGErwZv/Al15A1jfICmNSA7xuop
-         aSMyXzwgKNNtPBUkE8DsF6Yy642GRRF0fIMLE8hGTrfQ/D9Dob0jyryx+UZl8+TiB9DE
-         Rbit+ghgkiiMxwB9SZlHBmOiIvLqpeHDsJMlc=
+        bh=eFGsC0nD6K9IL3PTpOixQGQ46oYnEaMBBZ1zhfqtzbo=;
+        b=kUINWVhFFu+BUG5pQwMfJ34lYYtXbielwPsdOxBZVSWPavtf4+GORrYBBEamMf1ugh
+         pAcJWtw0Ei04CAG0TVU4dmzR0xpYuP2ZmoaHmJLcUfJtdmrpeAV7YbzJzuO76K+sqtef
+         A5rPhwkEXwY5+OxRuteddiH0A0VUR21Kv0eRo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723519828; x=1724124628;
+        d=1e100.net; s=20230601; t=1723522738; x=1724127538;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xl5DSmYLe9WH/7uvl5n5L/n3uEHZJrnoL4KNkSk+LmM=;
-        b=nJPjsPMJP9Is/UbWGtJuUQlHF7sntrGiarQhm/S+29JVld8JC4aHvId0jhH/StyNEr
-         +mLnSPf5AXYuwa/XhCXoMrQQ684gb3KBjKnOSSM0rFkUayDzhvSeafxtOUzF3GmPYRcu
-         xt6sLV9P6dsdfv/nCIJ53bxvV51y6f2iwY3hD1xtDswQi10XYdVeEyxWa0IxWwpTx3l5
-         3+DIQJKWgz4s5oKagb4k8i3YdTjCSM3DtuN/DOp0iGp4X0dTVRkadFAc7cmahytZQwZV
-         xwnPIgP8zAmaNhks8B5B4PEf8y0JK17BHcHc85byHY+inYm/r3T0fALSLNVFkEN0W5k1
-         Yk/A==
-X-Gm-Message-State: AOJu0Yz63tGx75GgniURw6VUjRCLTX/tSaSEmnnSzKm2OVhHaWfR7/V7
-	bxpJKfpdObYMdGijBAmpnUHcejQjbd/AHvrdFDwNDgT8pVfVZ/WKoJ9+CY2nvVKMMM5g+GfL8pA
-	VKgw=
-X-Google-Smtp-Source: AGHT+IHrxMpjVYWpJdP8khZarBkDiVoycZqtka/bsDFarkVhTNAE6HywWgyQQq1jEACTdXdwHnIPaA==
-X-Received: by 2002:a05:6358:42a3:b0:1aa:d3b7:765c with SMTP id e5c5f4694b2df-1b19d2d1576mr270519955d.14.1723519828267;
-        Mon, 12 Aug 2024 20:30:28 -0700 (PDT)
+        bh=eFGsC0nD6K9IL3PTpOixQGQ46oYnEaMBBZ1zhfqtzbo=;
+        b=eR8onqJCzI2ucrdx1nD2JDIWGL8/fSvFLsXAATdRYfCJteMG+tem6R+dEPy5dIJx0m
+         szCItugVSOpyzurt/WcTJzVNqiFywW5XgAaoA03NOMCvKDxc/kXUs3a/EageG+BPZKFD
+         n7cWhbC8onwGhJfw97C9NwgZMBl7AH1uKkmTBA3AF8n7A1oh3Rl/Y+kft8m5M/mMPtTm
+         ERtCX69DyRbrSp/dayuj4twDD9EA1uyDmmDZCVx6qX7PLyE/J6NNIE3CbGdYjbOpyvBs
+         JXwie9WN30ghzzncrn69YFgsrMez+NkK4bbMseD9VIVB56ZHOmyE+ueoTxTWTb+vVM4E
+         A6Sw==
+X-Gm-Message-State: AOJu0YxYdtY33Lic6TeLrPecKTUXRh2Qf004lxjpTCg8KHcYcH1B2k7r
+	3frKv+t9kGpdjzWFE9YTvI74C0T5tCpqXyLIQHvV0wDwWDvlJRCm/yeVGDDF6hGH/KKtjyYug2B
+	WCPs=
+X-Google-Smtp-Source: AGHT+IEOfaZEvSVy+XFI2zUQhMS341dgCWOW6yv/5jvOR0YgeLcDUFEme+8fBI6pRrtla4068UwRPA==
+X-Received: by 2002:a05:6a00:3e07:b0:707:fa61:1c6a with SMTP id d2e1a72fcca58-71256fbff2bmr2454036b3a.10.1723522737705;
+        Mon, 12 Aug 2024 21:18:57 -0700 (PDT)
 Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e58bd3bfsm4694385b3a.89.2024.08.12.20.30.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5ac46edsm4761513b3a.220.2024.08.12.21.18.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 20:30:27 -0700 (PDT)
+        Mon, 12 Aug 2024 21:18:56 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-alabaster: upgrade 0.7.16 -> 1.0.0
-Date: Mon, 12 Aug 2024 20:30:07 -0700
-Message-ID: <20240813033006.1128742-2-tim.orling@konsulko.com>
+Subject: [PATCH] python3-cffi: upgrade 1.16.0 -> 1.17.0
+Date: Mon, 12 Aug 2024 21:18:52 -0700
+Message-ID: <20240813041852.1156097-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -56,45 +56,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 03:30:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203243
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 04:19:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203244
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-https://alabaster.readthedocs.io/en/latest/changelog.html
+https://github.com/python-cffi/cffi/compare/v1.17.0...v1.16.0
 
-1.0.0 – 2024-07-26
-  * Dropped support for Python 3.9 and earlier.
-  * Dropped support for Sphinx 6.1 and earlier.
-  * Use a new SVG image for the GitHub banner.
-  * #217 Use the new searchfield component for the search box. Patch by Tim Hoffmann.
-  * #104 Allow translating strings in relations.html.
-  * #125 Do not underline linked images.
-    Patch by Joshua Bronson.
-  * #169 Do not ignore the Pygments background colour. Patch by Matthias Geier.
-  * #174 Fix clipping caused by incorrect CSS breakpoints.
+https://cffi.readthedocs.io/en/latest/whatsnew.html#v1-17
+
+v1.17
+  * In API mode, when you get a function from a C library by writing
+  fn = lib.myfunc, you get an object of a special type for performance
+  reasons, instead of a <cdata ‘C-function-type’>. Before version 1.17 you
+  could only call such objects. You could write ffi.addressof(lib, “myfunc”)
+  in order to get a real <cdata> object, based on the idea that in these cases
+  in C you’d usually write &myfunc instead of myfunc. In version 1.17, the
+  special object lib.myfunc can now be passed in many places where CFFI expects
+  a regular <cdata> object. For example, you can now pass it as a callback to a
+  C function call, or write it inside a C structure field of the correct
+  pointer-to-function type, or use ffi.cast() or ffi.typeof() on it.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../{python3-alabaster_0.7.16.bb => python3-alabaster_1.0.0.bb} | 2 +-
+ .../python/{python3-cffi_1.16.0.bb => python3-cffi_1.17.0.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-alabaster_0.7.16.bb => python3-alabaster_1.0.0.bb} (82%)
+ rename meta/recipes-devtools/python/{python3-cffi_1.16.0.bb => python3-cffi_1.17.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb b/meta/recipes-devtools/python/python3-alabaster_1.0.0.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
-rename to meta/recipes-devtools/python/python3-alabaster_1.0.0.bb
-index c61fce454f0..40be6039eb5 100644
---- a/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
-+++ b/meta/recipes-devtools/python/python3-alabaster_1.0.0.bb
-@@ -5,7 +5,7 @@ SECTION = "devel/python"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=21860fdb805bf4e0bfaf94b566b747fa"
+diff --git a/meta/recipes-devtools/python/python3-cffi_1.16.0.bb b/meta/recipes-devtools/python/python3-cffi_1.17.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-cffi_1.16.0.bb
+rename to meta/recipes-devtools/python/python3-cffi_1.17.0.bb
+index e740ef45be6..28200f9b431 100644
+--- a/meta/recipes-devtools/python/python3-cffi_1.16.0.bb
++++ b/meta/recipes-devtools/python/python3-cffi_1.17.0.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5677e2fdbf7cdda61d6dd2b57df547bf"
+ DEPENDS += "libffi python3-pycparser"
  
--SRC_URI[sha256sum] = "75a8b99c28a5dad50dd7f8ccdd447a121ddb3892da9e53d1ca5cca3106d58d65"
-+SRC_URI[sha256sum] = "c00dca57bca26fa62a6d7d0a9fcce65f3e026e9bfe33e9c538fd3fbb2144fd9e"
+-SRC_URI[sha256sum] = "bcb3ef43e58665bbda2fb198698fcae6776483e0c4a631aa5647806c25e02cc0"
++SRC_URI[sha256sum] = "f3157624b7558b914cb039fd1af735e5e8049a87c817cc215109ad1c8779df76"
  
- inherit python_flit_core pypi
+ SRC_URI += "file://run-ptest"
  
 -- 
 2.46.0
