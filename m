@@ -1,113 +1,127 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5D1C52D7B
-	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 13:05:43 +0000 (UTC)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web11.71532.1723554336798155821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED01C52D7B
+	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 13:15:43 +0000 (UTC)
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (EUR03-VI1-obe.outbound.protection.outlook.com [40.92.57.23])
+ by mx.groups.io with SMTP id smtpd.web11.71770.1723554938922928006
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Aug 2024 06:05:36 -0700
+ Tue, 13 Aug 2024 06:15:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eg7IF8ue;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.49, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-70940c9657dso2785158a34.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 06:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1723554336; x=1724159136; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OXBGdM9PbPBpJ8WvXvUkYI9/7IuMvKspS97FuokW6qM=;
-        b=eg7IF8ueVc3DH7lpgHD5qXE6Vwe3Huv/iL5uhuTt3VMclHT6c5XZmPbhkmcuYIim4e
-         wP57UqFFep2lWOawMdSq2L/s/goGISTNbc4GKEzdHJplb80uGHwc6qNYZ/5Bwc+msal7
-         qpeN1QY2uEEcn8z4nIFwBBJoZOzHFNaf2ojw3AQRvowSsFMKEFgIatv4nnGJG3DYc/Xo
-         D/4d9/uPy7rF24Te/c8d6PmdrXMMvf/sU9GwfocN1BLdnqjjE/p/dpUNMBNwazF5UsK+
-         4ntH7PBJtPfzgPPugdp/bf9sh2fRHbBjLhZcix283iICgLKId9gYWqJgt+dbQAVQNKwO
-         vkHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723554336; x=1724159136;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OXBGdM9PbPBpJ8WvXvUkYI9/7IuMvKspS97FuokW6qM=;
-        b=vRSweI4xWR/8A9R9fpo/4lOX77ljOALE5B32/UiMFeJvSkfxAnFRA26ausxziCUonL
-         PG9E/FUiQj52AmzWdQtt9yIKciPBeYC6wgiASUjeaIhyNbYqvBf0J+H4to9UsbKkMVQY
-         OWLUH1NxGUAg2jhx+7oaG65G2ULWWHOMKvbHDE2jReDx+VFKgxYwbuMK8U67Tup8B61V
-         0Aob1ePrkjuttgfAbBx34H99rGuSenwx6KpZEWp9Ll5Z/hCJv3E+dl1s+pUWmBl+BXy3
-         ENUHxMQ2QN2gE+Nfi0XAdDTIF6pGD9Gz5JOEz7QVib4GgAG0QG1QRHoStTiI15NF28nR
-         W22w==
-X-Gm-Message-State: AOJu0YzSyyf74HbZIhrgHsu+B7fzDsH5v5xNWY5VUtzzadGL4YEWaJqg
-	IBeauSVrcMKBkl+Xv+O8sXEHFwIE8DgsCKNj8IFM0kFnB41W2wQpq3sIkp3OwzouhSt6Md9hvsO
-	PCLIkfN1R7ORcitdmh3q2hsPN/DCo5KF38gAn7L/cZCGll9kQQLw=
-X-Google-Smtp-Source: AGHT+IECjpEtIM8FL7fOqQ78Qh2WSetZlDJJ4Z/rsMMHubBak01owXpCp3KqgD60ZVLXdB1/ZshT3y0VxfXWFSTGxX4=
-X-Received: by 2002:a05:6830:4197:b0:703:6989:5b04 with SMTP id
- 46e09a7af769-70c939a6e77mr4270648a34.31.1723554335964; Tue, 13 Aug 2024
- 06:05:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240807215441.11715-1-peter.marko@siemens.com> <AS1PR10MB5697AEF7EB765B0AE980CD5DFD862@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697AEF7EB765B0AE980CD5DFD862@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 13 Aug 2024 06:05:24 -0700
-Message-ID: <CAOSpxdYNXuipjF2kB0nsZ7Bc7um-h9L=TqGS=rcVFgSG0a0txg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] libyaml: ignore CVE-2024-35326
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=LX0lQkU3;
+ spf=pass (domain: outlook.com, ip: 40.92.57.23, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a2IgQ2TXpIg9H85yFyQTMVS+QI1mR3OoNEKS6NfuXHy/tpKzIEBM56+APQ0237tE7JWhaTR2TtDZOTBh1eZF4jjSezgC/j5sOSiCsre8aw7qzFVJmOPSeX1r2+aV9pi9knFrC3HXtE+t7gBcqoySp+w8nbvX43MapbEy983PAhtMCFKVjj7xx+ChWajnANFegHGYdoQ3srVnLC0t82t9owQqsX3/+9jAiopvuomBuXMj+iefwkj1pQboASC77/dWW7spaTL1sQuBpoExCh2XzBJjIT0qjl7zKCIkeKnPymTUloqYOKRmdE/8kGf4v3ot/K2uivRWTdJlpfMDnAkauQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wBrRUcnEc35NlnzRZxLKRpZ4kcGKvF/1NZMa9Hwx5MI=;
+ b=kvOyFlTmmJi0VauOjcbH5T4EpKbW6ZyJsbIFdZgz9aLRebqrD7Qi9kVBNFuaFhzQe0jedKrK28ZzzxNfOdmX9Tv3usCrlemdJktZu4I8PKKTUH4+KKwxUC1hDo7YBoiPrN36/tR+gEkI5Vmdm/GDZ1ooZWW0bgkR9uLd7RzGi/rpC5chMjhRLbIjOcGhHNzEvfgaBH1kRQNr8JBqeAJPOIRU13H2RFK4+TIX5GVCylN3lQWqZuAbwHEyKkZ2cNKSCQT9HamZK1+7Iz+eUkiXXMtmT1eqSauokhGaagd7CN/1FVED25+GkHkfBkq5NPnXsiLQmBJUo967gPFMAjmyNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wBrRUcnEc35NlnzRZxLKRpZ4kcGKvF/1NZMa9Hwx5MI=;
+ b=LX0lQkU3JYn1WCuFn+VgEDUNU7BgYJ/R+Un0VtCcMY1WGyLT6guSyAYuaR6ZMGvmAEQFWdTFOiNCEo5fK0Q1FGhYdlNKIYz1KyeLvg8ZiL7nshioPJp5s8tVlRLOjLArEemxX/DOzkqAklG24i9apxfogAQ/o/gdYNBtPSPdVekS9/ZphCD8zZ7AtkkKXrfUilDpAst4fqUFVpujqBCdcYfGtFwPUOCQ7w67FzdF6/2MPImfipnTVd/x0u0beFE+CzmbDTHfKBicGF3v1iCLCmQwWRnK+lQBGZtcSnuUSG9XZZVyhiTkNsaK9vX5/Y6Ccl6uT13L8tQeoFfegWdi1g==
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com (2603:10a6:150:80::7)
+ by DU0PR07MB8970.eurprd07.prod.outlook.com (2603:10a6:10:40e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Tue, 13 Aug
+ 2024 13:15:31 +0000
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a]) by GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a%4]) with mapi id 15.20.7849.018; Tue, 13 Aug 2024
+ 13:15:31 +0000
+From: Konrad Weihmann <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] python3-cython: fix upstream check
+Date: Tue, 13 Aug 2024 13:15:17 +0000
+Message-ID: <GV1PR07MB9120960AEA6C4316918EFA6BA8862@GV1PR07MB9120.eurprd07.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TMN: [9Des6SYIK7L7Cgl0/EQK28fVd5A7eLNLfN61RHRjWcteC+oDipjeHy0Cgfw+w0Pf]
+X-ClientProxiedBy: FR5P281CA0026.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f1::11) To GV1PR07MB9120.eurprd07.prod.outlook.com
+ (2603:10a6:150:80::7)
+X-Microsoft-Original-Message-ID: <20240813131517.4085298-1-kweihmann@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR07MB9120:EE_|DU0PR07MB8970:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1acad7eb-1e10-46d0-36a3-08dcbb9a0207
+X-Microsoft-Antispam: 
+	BCL:0;ARA:14566002|8060799006|461199028|15080799003|5072599009|19110799003|3412199025|440099028|1710799026;
+X-Microsoft-Antispam-Message-Info: 
+	KS3XefqMyzjTFu+J99V8dY8ttCNhLG6nDetUHrgK8AUJNPMO0Q4jvyurI53vlq3kylfMR4aLcnTQMu7V7vHGjfbE9voG0nUNoTZytkaZgE0LJlCgqiebOSvGpDnFPWkFwKHFILAu6SQmFtaJeRYPG+FypX7QnYt6/uz2Y58gBCd8ASdLvA5FFww630Yh978ByLE4y+Kzq7wiTq1nADaz5R07oHxcFoQE9O0phJgUHkUs3h8gnskO1od/7DZ/qF1JY2Y6GYUXru8hs1OCfjGnGTeel8Ca0sCiCxrTvjkrYwpE49e/F8W6EonV5Sdkkse1YY5NYh4IyORMdfVzgrzwysN7zPrlgJuSj5omSFmGK3gfhSNfsABJIKXNDujvzs7eFm3ZNeVwNan0rZE91P2v+NUf+GnseS04uHO19o6gkuYq05jfIpmB6o/jOOIpSTy7tT9dBaAz22I84uGNaymDnTLNpsyedL1m7imXe7Q5WE/MDuFUJUtYJVq3DBh9+lLp+23pmBe5x4AIZSaah9kqwXsrvixh+KDfY1lMcgPqBbUarKgkE1LxxozG/afOOJ9AoLdkpucU5sUhr0PPB5XkSXYaSZ7s17VTh9qsBapC9emgvykmT4FKc+TYcBiVg0JG/ak2vzeWKRrTOTjORaBYXt4DSpveKiyxxPksQeWmZX0SPH5kz5wqAyiTEny6wtcJG2wPQvunVxPfPX+8l7THwzSegmpTeFAIVVyIiK47Aus=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?qiQ+3SmympZsW2SI1rOs0RaYo/5V3GEHQVpaQ9Ny2veQbWajtVDy/nEcJCtS?=
+ =?us-ascii?Q?4+WKFsHbRVX34JChPsZZGbhNRNmZXm1dsEpAf7PGlOPrGfHGc7NXWnww8XtQ?=
+ =?us-ascii?Q?JSAjBrcbs9Fdf7P8JYXER4yFQmkW/QAVAUJmxgYmmmj3czzzJ5Bg9K2wWE96?=
+ =?us-ascii?Q?iSQ/wCUqvoyBKzU28DwqWEH3Dx8rQm+57v1gWb/Ugt1DasZ8WBXuY4+jbmAx?=
+ =?us-ascii?Q?Zsxhl7lEEiYF0f6UnXuIHvKSvUFN6zE4PjsS8TPx4OPN1xtBjSEAK3UFGdxr?=
+ =?us-ascii?Q?xkF9o+Vbi2C0U+pp8ma/JWR45lQx5M1zJ6sbMoXUD2oxECY/N0A8JPCMgjz4?=
+ =?us-ascii?Q?okW9ySCnyJVY1tsqpxI7b7iHVhALhHtWSGudGHAHPR970zeuiic/lrDrP5HB?=
+ =?us-ascii?Q?/C041aDwK6CmzWFeoYE13shio86mGqOFLTnWVILyB1vfokhYGT7MRry5mmfW?=
+ =?us-ascii?Q?TuIIRXbjNWMPjFUtDtajPzAHuG+dTkCALj//I1oSW+8WZ/2B2P4SWCNzqksU?=
+ =?us-ascii?Q?6dTaAT5IAv5ywxwvDCgIpyOJ/y8jEH1q1+3rc+PNYmWVuHvS1tA+ZvaB4Lit?=
+ =?us-ascii?Q?l/qqqSWMKRCOSomUKayNngdO0XQhdqmnXpZOLawI9bvdLbJMh/upb5D9ZgUt?=
+ =?us-ascii?Q?z4dm5SSBOHbOuI9QbcDC+krng8ZSe4qYei8AqphgkJnnf2rWFkYvPTWpnTl/?=
+ =?us-ascii?Q?9UdZtDpirzrnlHJGLXbYwbOzHbdIwjl1+2hCsuJVb0rMwv6nsi3sApIa1tz6?=
+ =?us-ascii?Q?L4Z8vokSoaTgGQIXIUAKl4bfT545xHy7T/aLo9NE2hFwAmuK1MvY67pbqWJL?=
+ =?us-ascii?Q?GglODf56GNb3dHxAI9MC7cW6jQeOiZqNYxb5+StSxz114d/XlHiPnQ6NwCnm?=
+ =?us-ascii?Q?DeujS9Ms9ZNTa8WG7lcwtFp0NGzr2YcAgn8NCPChosaHGUHgntVn5pofBxtq?=
+ =?us-ascii?Q?OWqup8o+UWXRguFnodx+3X1OtbltTWwg7DdM5woeTVTf+ja1meD4dwgDBvn4?=
+ =?us-ascii?Q?OG30nYaKbvRF+zXkjyoIvs5TxGlQwCNB+wdx+OoA6iM5r0gScYeFHax3ECcN?=
+ =?us-ascii?Q?X8e6uUJm7+wTTtTPwFVQ2FmVNRfWlYM63FPJpJxeo4vMaHTrQE9d/Ef88qoC?=
+ =?us-ascii?Q?bpyvBxi+1/PSY+Jo/z8aE3fteeeU1rQrh6Q7TFjznicdPZmOkldeX3dMSFBm?=
+ =?us-ascii?Q?709pkO0Mk+IgwTgexI/U6Qx2VDSA71cjKPPPY8EmwrHbb5N/fM0AtrvMSAHz?=
+ =?us-ascii?Q?T9d00cx4pAtJDXHg+Qx1gpBGldKUbWhNVI560DJwR1Zn9NLSTBjSXPojf5Ma?=
+ =?us-ascii?Q?AUY=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1acad7eb-1e10-46d0-36a3-08dcbb9a0207
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR07MB9120.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2024 13:15:31.5146
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR07MB8970
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 13:05:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203277
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 13:15:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203278
 
-On Tue, Aug 13, 2024 at 5:45=E2=80=AFAM Marko, Peter <Peter.Marko@siemens.c=
-om> wrote:
->
-> Gentle ping
-> maybe this was missed because of title similarity with the CVE-2024-35328=
-?
+as package name contains uppercase chars
 
-Sorry!  I've got it in my test queue now.
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/recipes-devtools/python/python3-cython_3.0.11.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Steve
+diff --git a/meta/recipes-devtools/python/python3-cython_3.0.11.bb b/meta/r=
+ecipes-devtools/python/python3-cython_3.0.11.bb
+index 2923664641..436dd5b000 100644
+--- a/meta/recipes-devtools/python/python3-cython_3.0.11.bb
++++ b/meta/recipes-devtools/python/python3-cython_3.0.11.bb
+@@ -11,6 +11,8 @@ SRC_URI[sha256sum] =3D "7146dd2af8682b4ca61331851e6aebce9=
+fe5158e75300343f80c07ca80
+=20
+ inherit pypi setuptools3
+=20
++UPSTREAM_CHECK_PYPI_PACKAGE =3D "Cython"
++
+ # running build_ext a second time during install fails, because Python
+ # would then attempt to import cythonized modules built for the target
+ # architecture.
+--=20
+2.34.1
 
-> Peter
->
-> > -----Original Message-----
-> > From: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Sent: Wednesday, August 7, 2024 23:55
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Subject: [OE-core][kirkstone][PATCH] libyaml: ignore CVE-2024-35326
-> >
-> > From: Peter Marko <peter.marko@siemens.com>
-> >
-> > This is the same problem as already ignored CVE-2024-35328.
-> > See laso this comment in addition:
-> > https://github.com/yaml/libyaml/issues/298#issuecomment-2167684233
-> >
-> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > ---
-> >  meta/recipes-support/libyaml/libyaml_0.2.5.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recip=
-es-
-> > support/libyaml/libyaml_0.2.5.bb
-> > index f7c29e7e0f..e30dc5a43f 100644
-> > --- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-> > +++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-> > @@ -19,6 +19,6 @@ DISABLE_STATIC:class-nativesdk =3D ""
-> >  DISABLE_STATIC:class-native =3D ""
-> >
-> >  # upstream-wontfix: Upstream thinks there is no working code that is
-> > exploitable - https://github.com/yaml/libyaml/issues/302
-> > -CVE_CHECK_IGNORE +=3D "CVE-2024-35328"
-> > +CVE_CHECK_IGNORE +=3D "CVE-2024-35326 CVE-2024-35328"
-> >
-> >  BBCLASSEXTEND =3D "native nativesdk"
-> > --
-> > 2.30.2
->
 
