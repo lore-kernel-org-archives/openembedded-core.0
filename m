@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D67C531DC
-	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 12:17:12 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.70868.1723551429182650496
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07EC2C5320D
+	for <webhook@archiver.kernel.org>; Tue, 13 Aug 2024 12:17:13 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.70865.1723551425715681775
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Aug 2024 05:17:09 -0700
+ Tue, 13 Aug 2024 05:17:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u9G9RG87;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2cd34c8c588so3605979a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 05:17:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bxzplCYE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2cd48ad7f0dso4202292a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 05:17:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1723551428; x=1724156228; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1723551425; x=1724156225; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hqt2u1tR0JQl9UfAN0hlrAlxYxk+OkIpB6yGQ9hBVcw=;
-        b=u9G9RG87uth0iB1Pt23pqZtokcD9iwiRngkIdJ+V9CVVowo3OeHDqggw12UGtL6SZ7
-         toJPyvghdKZ4LFb6CUc7Avo+Rmp2VOYoPcTFwhZWB1YBDa8ONfdxRZTObJAPNEBmNWNm
-         5OfuZFYZuXrSeFqnPTIJNpCA9I5MHnacYqU7OkcowTgEW0RlOX9JUZiTxvI4SZ5zGbqn
-         FLqgDU+08131VxveBk6NXq5z7WoHNrg42tBrESDG0Vs5UWISy36soAzWww0++AZBYfSY
-         MHJFrppOqda6h6JS5mzG2Y5wPcpFS6tRCral2MdJx+N3weVOyIHQWVdgET7xULV7xuHt
-         xgNg==
+        bh=M8xqe5IKBAbLnrGT0fdRiTTuYeU8u90yXFvEKdENOBY=;
+        b=bxzplCYEvV2dVNi8YuDqbEw6By9k8Y+z535U6o0SreQdx11jTnwCoPh8F0zF8KBSo/
+         rSOi9ri40PPSjvUfGFd1WN76/qQL2yOFYnH4mJWMHq5rYu1+btI3F6aBmugWVIP+G4fi
+         iCWGF/vqKoC9j4qqHqj2UIpJDL7TCic1hfRdZ/8QAcBHMkcP+9hmbYT7yIj/piSeqfX/
+         xrtDXGRdqWI9vDKCtE6JOuglQEgcOpwf4tV0R1fY60NZcFfXl9g/+XGgNnLY1f8R8A7p
+         kx6wU+xUCxQKGzKLgRecMEqqdSMwjnG6ZJgXeyalE/uDgVQVSW8mq0OgylEox43KDrDq
+         wTdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723551428; x=1724156228;
+        d=1e100.net; s=20230601; t=1723551425; x=1724156225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hqt2u1tR0JQl9UfAN0hlrAlxYxk+OkIpB6yGQ9hBVcw=;
-        b=j9yHfyJYy6QgcjJwfEkORWvdeHU7Pi7V7RICPML3iz5fpxI9FVO46oqa1/jTbIhvgP
-         0UKrjqARVKV9bqmuZT5Z7gIEWufN3HT2aExg41oiIZ44hU0/wT+z0GExWYh06Y4jrCYb
-         +WWzNBlq77xRMLP3qFnQQKW15gMoSmjYBKrNrS3Ic2hhD8EQHLLIaZAPipwca4irc8G9
-         9PynqHQfsQP7Gldgnj2NUwvSzt8UQkgSxpOcc2/fqctV1Wg7yzPKjGRQndfb6e7LYoR0
-         VT8rOVMPeDm3XpMkESt4l2G2enrwSI8dU46XQ1ag3+zl67CRjXW8avyPyuUKzRAMtbBh
-         umWA==
-X-Gm-Message-State: AOJu0YzctCsarYpHhV2L840Qkns0NqgMPT0gr59aFRs0HOpJT4fiRaPM
-	sdYymO+kuD5k9rfvvRnJCTNufL4f6EqpteTfF0brnJ1xr+0E4YMmiQLOC8dSfB2FNIDDlXxlUOr
-	TzlA=
-X-Google-Smtp-Source: AGHT+IGa2VZlXlWbrAPYZRY2AVqdMKLz/cBeegegWLlPmNrtpnQHj3I+wYjWCXxfpqHLi1Q4otlRpA==
-X-Received: by 2002:a17:90b:3504:b0:2c9:57a4:a8c4 with SMTP id 98e67ed59e1d1-2d3926ac0c1mr3383782a91.42.1723551428282;
-        Tue, 13 Aug 2024 05:17:08 -0700 (PDT)
+        bh=M8xqe5IKBAbLnrGT0fdRiTTuYeU8u90yXFvEKdENOBY=;
+        b=XtlcDez1VM2S0mYImnw3E5rpSSBm6Mh3BC+FJhHn9VC6GzgTZiSL9jYPcB94TyxIzx
+         ibNBaZEMCAXbzMzJ+lwXHzfwklCQ6mzzq3HzM+Cc8klG9sn4P9J07UChKIFLHmZDSYaS
+         wkO/Nb6pxGB5qdhrOH94SpD9W68NJznwevjz7SosQLubGEqdeoJPWzVt0C11E/zfa/aP
+         xoRTnlE0HK6R5HxnQIdkxJe76hbR9UdQoAJMfqFlDt8v8a5SGyQmTCPo8+G2eyL/TDQa
+         3cmH52+UmfLY2pBwy0HWVqCNgRgBj5E87luYYmzf4TPHCTPzI8xA8UylrL4jbhpD6VzL
+         Yy9w==
+X-Gm-Message-State: AOJu0YxeWQirCpUSU1QgGErkUo1n+23XqCl7EU5rndGKwQPt+Mvh7r+1
+	dpcMDWC3ul3pWqCyb+mebLu79kyh13NRa6jHQg/+2Fz5+HMzV8ELydCOVEfhS1qPpburXmbaFYj
+	7Fpw=
+X-Google-Smtp-Source: AGHT+IEAaZqDw6jyaKFVKL9VFHp4orE4t+1Gj5ZQTwz8do8cUCEvzWNfbx3/WXY9lE8dw1dWILsrsw==
+X-Received: by 2002:a17:90a:cf95:b0:2c1:c648:1c50 with SMTP id 98e67ed59e1d1-2d3925048a1mr3772048a91.17.1723551424665;
+        Tue, 13 Aug 2024 05:17:04 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1fced1838sm7148998a91.23.2024.08.13.05.17.07
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1fced1838sm7148998a91.23.2024.08.13.05.17.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 05:17:08 -0700 (PDT)
+        Tue, 13 Aug 2024 05:17:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/11] python3-certifi: Fix CVE-2024-39689
-Date: Tue, 13 Aug 2024 05:16:46 -0700
-Message-Id: <d16143fc8481b68b1253eddbd7c565c490e55a9c.1723551231.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/11] go: fix CVE-2024-24791
+Date: Tue, 13 Aug 2024 05:16:44 -0700
+Message-Id: <4f7ef33e4b22bae288a11ce4f0b6e913f142d2be.1723551231.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1723551231.git.steve@sakoman.com>
 References: <cover.1723551231.git.steve@sakoman.com>
@@ -61,129 +61,396 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 12:17:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203273
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 12:17:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203271
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Certifi is a curated collection of Root Certificates for validating the
-trustworthiness of SSL certificates while verifying the identity of TLS
-hosts. Certifi starting in 2021.05.30 and prior to 2024.07.4 recognized
-root certificates from `GLOBALTRUST`. Certifi 2024.07.04 removes root
-certificates from `GLOBALTRUST` from the root store. These are in the
-process of being removed from Mozilla's trust store. `GLOBALTRUST`'s root
-certificates are being removed pursuant to an investigation which
-identified "long-running and unresolved compliance issues."Certifi is a
-curated collection of Root Certificates for validating the trustworthiness
-of SSL certificates while verifying the identity of TLS hosts. Certifi
-starting in 2021.05.30 and prior to 2024.07.4 recognized root certificates
-from `GLOBALTRUST`. Certifi 2024.07.04 removes root certificates from
-`GLOBALTRUST` from the root store. These are in the process of being removed
-from Mozilla's trust store. `GLOBALTRUST`'s root certificates are being
-removed pursuant to an investigation which identified "long-running and
-unresolved compliance issues."
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2024-39689
-
-Upstream-patch:
-https://github.com/certifi/python-certifi/commit/bd8153872e9c6fc98f4023df9c2deaffea2fa463
-
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python3-certifi/CVE-2024-39689.patch      | 69 +++++++++++++++++++
- .../python/python3-certifi_2021.10.8.bb       |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-certifi/CVE-2024-39689.patch
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.21/CVE-2024-24791.patch           | 359 ++++++++++++++++++
+ 2 files changed, 360 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2024-24791.patch
 
-diff --git a/meta/recipes-devtools/python/python3-certifi/CVE-2024-39689.patch b/meta/recipes-devtools/python/python3-certifi/CVE-2024-39689.patch
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index e83c4dfa80..349b0be6be 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -57,6 +57,7 @@ SRC_URI += "\
+     file://CVE-2024-24785.patch \
+     file://CVE-2023-45288.patch \
+     file://CVE-2024-24789.patch \
++    file://CVE-2024-24791.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2024-24791.patch b/meta/recipes-devtools/go/go-1.21/CVE-2024-24791.patch
 new file mode 100644
-index 0000000000..a2ecc15d2c
+index 0000000000..9f6a969cf6
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-certifi/CVE-2024-39689.patch
-@@ -0,0 +1,69 @@
-+From bd8153872e9c6fc98f4023df9c2deaffea2fa463 Mon Sep 17 00:00:00 2001
-+From: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-+Date: Wed, 3 Jul 2024 21:34:29 -0400
-+Subject: [PATCH] 2024.07.04 (#295)
++++ b/meta/recipes-devtools/go/go-1.21/CVE-2024-24791.patch
+@@ -0,0 +1,359 @@
++From c9be6ae748b7679b644a38182d456cb5a6ac06ee Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Thu, 6 Jun 2024 12:50:46 -0700
++Subject: [PATCH] [release-branch.go1.21] net/http: send body or close
++ connection on expect-100-continue requests
 +
-+Co-authored-by: alex <772+alex@users.noreply.github.com>
++When sending a request with an "Expect: 100-continue" header,
++we must send the request body before sending any further requests
++on the connection.
 +
-+CVE: CVE-2024-39689
++When receiving a non-1xx response to an "Expect: 100-continue" request,
++send the request body if the connection isn't being closed after
++processing the response. In other words, if either the request
++or response contains a "Connection: close" header, then skip sending
++the request body (because the connection will not be used for
++further requests), but otherwise send it.
 +
-+Upstream-Status: Backport [https://github.com/certifi/python-certifi/commit/bd8153872e9c6fc98f4023df9c2deaffea2fa463]
++Correct a comment on the server-side Expect: 100-continue handling
++that implied sending the request body is optional. It isn't.
 +
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++For #67555
++Fixes #68199
++
++Change-Id: Ia2f12091bee697771087f32ac347509ec5922d54
++Reviewed-on: https://go-review.googlesource.com/c/go/+/591255
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Reviewed-by: Jonathan Amsterdam <jba@google.com>
++(cherry picked from commit cf501e05e138e6911f759a5db786e90b295499b9)
++Reviewed-on: https://go-review.googlesource.com/c/go/+/595096
++Reviewed-by: Joedian Reid <joedian@google.com>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++
++CVE: CVE-2024-24791
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/c9be6ae748b7679b644a38182d456cb5a6ac06ee ]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ certifi/cacert.pem | 40 ----------------------------------------
-+ 1 file changed, 40 deletions(-)
++ src/net/http/server.go         |  25 ++--
++ src/net/http/transport.go      |  34 ++++--
++ src/net/http/transport_test.go | 203 ++++++++++++++++++++-------------
++ 3 files changed, 164 insertions(+), 98 deletions(-)
 +
-+diff --git a/certifi/cacert.pem b/certifi/cacert.pem
-+index 1bec256..6bb8cf8 100644
-+--- a/certifi/cacert.pem
-++++ b/certifi/cacert.pem
-+@@ -3857,46 +3857,6 @@ DgQWBBQxCpCPtsad0kRLgLWi5h+xEk8blTAKBggqhkjOPQQDAwNoADBlAjEA31SQ
-+ +RHUjE7AwWHCFUyqqx0LMV87HOIAl0Qx5v5zli/altP+CAezNIm8BZ/3Hobui3A=
-+ -----END CERTIFICATE-----
++diff --git a/src/net/http/server.go b/src/net/http/server.go
++index 4fc8fed..1648f1c 100644
++--- a/src/net/http/server.go
+++++ b/src/net/http/server.go
++@@ -1297,16 +1297,21 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 +
-+-# Issuer: CN=GLOBALTRUST 2020 O=e-commerce monitoring GmbH
-+-# Subject: CN=GLOBALTRUST 2020 O=e-commerce monitoring GmbH
-+-# Label: "GLOBALTRUST 2020"
-+-# Serial: 109160994242082918454945253
-+-# MD5 Fingerprint: 8a:c7:6f:cb:6d:e3:cc:a2:f1:7c:83:fa:0e:78:d7:e8
-+-# SHA1 Fingerprint: d0:67:c1:13:51:01:0c:aa:d0:c7:6a:65:37:31:16:26:4f:53:71:a2
-+-# SHA256 Fingerprint: 9a:29:6a:51:82:d1:d4:51:a2:e3:7f:43:9b:74:da:af:a2:67:52:33:29:f9:0f:9a:0d:20:07:c3:34:e2:3c:9a
-+------BEGIN CERTIFICATE-----
-+-MIIFgjCCA2qgAwIBAgILWku9WvtPilv6ZeUwDQYJKoZIhvcNAQELBQAwTTELMAkG
-+-A1UEBhMCQVQxIzAhBgNVBAoTGmUtY29tbWVyY2UgbW9uaXRvcmluZyBHbWJIMRkw
-+-FwYDVQQDExBHTE9CQUxUUlVTVCAyMDIwMB4XDTIwMDIxMDAwMDAwMFoXDTQwMDYx
-+-MDAwMDAwMFowTTELMAkGA1UEBhMCQVQxIzAhBgNVBAoTGmUtY29tbWVyY2UgbW9u
-+-aXRvcmluZyBHbWJIMRkwFwYDVQQDExBHTE9CQUxUUlVTVCAyMDIwMIICIjANBgkq
-+-hkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAri5WrRsc7/aVj6B3GyvTY4+ETUWiD59b
-+-RatZe1E0+eyLinjF3WuvvcTfk0Uev5E4C64OFudBc/jbu9G4UeDLgztzOG53ig9Z
-+-YybNpyrOVPu44sB8R85gfD+yc/LAGbaKkoc1DZAoouQVBGM+uq/ufF7MpotQsjj3
-+-QWPKzv9pj2gOlTblzLmMCcpL3TGQlsjMH/1WljTbjhzqLL6FLmPdqqmV0/0plRPw
-+-yJiT2S0WR5ARg6I6IqIoV6Lr/sCMKKCmfecqQjuCgGOlYx8ZzHyyZqjC0203b+J+
-+-BlHZRYQfEs4kUmSFC0iAToexIiIwquuuvuAC4EDosEKAA1GqtH6qRNdDYfOiaxaJ
-+-SaSjpCuKAsR49GiKweR6NrFvG5Ybd0mN1MkGco/PU+PcF4UgStyYJ9ORJitHHmkH
-+-r96i5OTUawuzXnzUJIBHKWk7buis/UDr2O1xcSvy6Fgd60GXIsUf1DnQJ4+H4xj0
-+-4KlGDfV0OoIu0G4skaMxXDtG6nsEEFZegB31pWXogvziB4xiRfUg3kZwhqG8k9Me
-+-dKZssCz3AwyIDMvUclOGvGBG85hqwvG/Q/lwIHfKN0F5VVJjjVsSn8VoxIidrPIw
-+-q7ejMZdnrY8XD2zHc+0klGvIg5rQmjdJBKuxFshsSUktq6HQjJLyQUp5ISXbY9e2
-+-nKd+Qmn7OmMCAwEAAaNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC
-+-AQYwHQYDVR0OBBYEFNwuH9FhN3nkq9XVsxJxaD1qaJwiMB8GA1UdIwQYMBaAFNwu
-+-H9FhN3nkq9XVsxJxaD1qaJwiMA0GCSqGSIb3DQEBCwUAA4ICAQCR8EICaEDuw2jA
-+-VC/f7GLDw56KoDEoqoOOpFaWEhCGVrqXctJUMHytGdUdaG/7FELYjQ7ztdGl4wJC
-+-XtzoRlgHNQIw4Lx0SsFDKv/bGtCwr2zD/cuz9X9tAy5ZVp0tLTWMstZDFyySCstd
-+-6IwPS3BD0IL/qMy/pJTAvoe9iuOTe8aPmxadJ2W8esVCgmxcB9CpwYhgROmYhRZf
-+-+I/KARDOJcP5YBugxZfD0yyIMaK9MOzQ0MAS8cE54+X1+NZK3TTN+2/BT+MAi1bi
-+-kvcoskJ3ciNnxz8RFbLEAwW+uxF7Cr+obuf/WEPPm2eggAe2HcqtbepBEX4tdJP7
-+-wry+UUTF72glJ4DjyKDUEuzZpTcdN3y0kcra1LGWge9oXHYQSa9+pTeAsRxSvTOB
-+-TI/53WXZFM2KJVj04sWDpQmQ1GwUY7VA3+vA/MRYfg0UFodUJ25W5HCEuGwyEn6C
-+-MUO+1918oa2u1qsgEu8KwxCMSZY13At1XrFP1U80DhEgB3VDRemjEdqso5nCtnkn
-+-4rnvyOL2NSl6dPrFf4IFYqYK6miyeUcGbvJXqBUzxvd4Sj1Ce2t+/vdG6tHrju+I
-+-aFvowdlxfv1k7/9nR4hYJS8+hge9+6jlgqispdNpQ80xiEmEU5LAsTkbOYMBMMTy
-+-qfrQA71yN2BWHzZ8vTmR9W0Nv3vXkg==
-+------END CERTIFICATE-----
-+-
-+ # Issuer: CN=ANF Secure Server Root CA O=ANF Autoridad de Certificacion OU=ANF CA Raiz
-+ # Subject: CN=ANF Secure Server Root CA O=ANF Autoridad de Certificacion OU=ANF CA Raiz
-+ # Label: "ANF Secure Server Root CA"
++	// If the client wanted a 100-continue but we never sent it to
++	// them (or, more strictly: we never finished reading their
++-	// request body), don't reuse this connection because it's now
++-	// in an unknown state: we might be sending this response at
++-	// the same time the client is now sending its request body
++-	// after a timeout.  (Some HTTP clients send Expect:
++-	// 100-continue but knowing that some servers don't support
++-	// it, the clients set a timer and send the body later anyway)
++-	// If we haven't seen EOF, we can't skip over the unread body
++-	// because we don't know if the next bytes on the wire will be
++-	// the body-following-the-timer or the subsequent request.
++-	// See Issue 11549.
+++	// request body), don't reuse this connection.
+++	//
+++	// This behavior was first added on the theory that we don't know
+++	// if the next bytes on the wire are going to be the remainder of
+++	// the request body or the subsequent request (see issue 11549),
+++	// but that's not correct: If we keep using the connection,
+++	// the client is required to send the request body whether we
+++	// asked for it or not.
+++	//
+++	// We probably do want to skip reusing the connection in most cases,
+++	// however. If the client is offering a large request body that we
+++	// don't intend to use, then it's better to close the connection
+++	// than to read the body. For now, assume that if we're sending
+++	// headers, the handler is done reading the body and we should
+++	// drop the connection if we haven't seen EOF.
++	if ecr, ok := w.req.Body.(*expectContinueReader); ok && !ecr.sawEOF.isSet() {
++		w.closeAfterReply = true
++	}
++diff --git a/src/net/http/transport.go b/src/net/http/transport.go
++index 309194e..e46ddef 100644
++--- a/src/net/http/transport.go
+++++ b/src/net/http/transport.go
++@@ -2282,17 +2282,12 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
++			return
++		}
++		resCode := resp.StatusCode
++-		if continueCh != nil {
++-			if resCode == 100 {
++-				if trace != nil && trace.Got100Continue != nil {
++-					trace.Got100Continue()
++-				}
++-				continueCh <- struct{}{}
++-				continueCh = nil
++-			} else if resCode >= 200 {
++-				close(continueCh)
++-				continueCh = nil
+++		if continueCh != nil && resCode == StatusContinue {
+++			if trace != nil && trace.Got100Continue != nil {
+++				trace.Got100Continue()
++			}
+++			continueCh <- struct{}{}
+++			continueCh = nil
++		}
++		is1xx := 100 <= resCode && resCode <= 199
++		// treat 101 as a terminal status, see issue 26161
++@@ -2315,6 +2310,25 @@ func (pc *persistConn) readResponse(rc requestAndChan, trace *httptrace.ClientTr
++	if resp.isProtocolSwitch() {
++		resp.Body = newReadWriteCloserBody(pc.br, pc.conn)
++	}
+++	if continueCh != nil {
+++		// We send an "Expect: 100-continue" header, but the server
+++		// responded with a terminal status and no 100 Continue.
+++		//
+++		// If we're going to keep using the connection, we need to send the request body.
+++		// Tell writeLoop to skip sending the body if we're going to close the connection,
+++		// or to send it otherwise.
+++		//
+++		// The case where we receive a 101 Switching Protocols response is a bit
+++		// ambiguous, since we don't know what protocol we're switching to.
+++		// Conceivably, it's one that doesn't need us to send the body.
+++		// Given that we'll send the body if ExpectContinueTimeout expires,
+++		// be consistent and always send it if we aren't closing the connection.
+++		if resp.Close || rc.req.Close {
+++			close(continueCh) // don't send the body; the connection will close
+++		} else {
+++			continueCh <- struct{}{} // send the body
+++		}
+++	}
++
++	resp.TLS = pc.tlsState
++	return
++diff --git a/src/net/http/transport_test.go b/src/net/http/transport_test.go
++index 58f12af..8000ecc 100644
++--- a/src/net/http/transport_test.go
+++++ b/src/net/http/transport_test.go
++@@ -1130,95 +1130,142 @@ func TestTransportGzip(t *testing.T) {
++	}
++ }
++
++-// If a request has Expect:100-continue header, the request blocks sending body until the first response.
++-// Premature consumption of the request body should not be occurred.
++-func TestTransportExpect100Continue(t *testing.T) {
++-	setParallel(t)
++-	defer afterTest(t)
+++// A transport100Continue test exercises Transport behaviors when sending a
+++// request with an Expect: 100-continue header.
+++type transport100ContinueTest struct {
+++	t *testing.T
++
++-	ts := httptest.NewServer(HandlerFunc(func(rw ResponseWriter, req *Request) {
++-		switch req.URL.Path {
++-		case "/100":
++-			// This endpoint implicitly responds 100 Continue and reads body.
++-			if _, err := io.Copy(io.Discard, req.Body); err != nil {
++-				t.Error("Failed to read Body", err)
++-			}
++-			rw.WriteHeader(StatusOK)
++-		case "/200":
++-			// Go 1.5 adds Connection: close header if the client expect
++-			// continue but not entire request body is consumed.
++-			rw.WriteHeader(StatusOK)
++-		case "/500":
++-			rw.WriteHeader(StatusInternalServerError)
++-		case "/keepalive":
++-			// This hijacked endpoint responds error without Connection:close.
++-			_, bufrw, err := rw.(Hijacker).Hijack()
++-			if err != nil {
++-				log.Fatal(err)
++-			}
++-			bufrw.WriteString("HTTP/1.1 500 Internal Server Error\r\n")
++-			bufrw.WriteString("Content-Length: 0\r\n\r\n")
++-			bufrw.Flush()
++-		case "/timeout":
++-			// This endpoint tries to read body without 100 (Continue) response.
++-			// After ExpectContinueTimeout, the reading will be started.
++-			conn, bufrw, err := rw.(Hijacker).Hijack()
++-			if err != nil {
++-				log.Fatal(err)
++-			}
++-			if _, err := io.CopyN(io.Discard, bufrw, req.ContentLength); err != nil {
++-				t.Error("Failed to read Body", err)
++-			}
++-			bufrw.WriteString("HTTP/1.1 200 OK\r\n\r\n")
++-			bufrw.Flush()
++-			conn.Close()
++-		}
+++	reqdone chan struct{}
+++	resp    *Response
+++	respErr error
++
++-	}))
++-	defer ts.Close()
+++	conn   net.Conn
+++	reader *bufio.Reader
+++}
++
++-	tests := []struct {
++-		path   string
++-		body   []byte
++-		sent   int
++-		status int
++-	}{
++-		{path: "/100", body: []byte("hello"), sent: 5, status: 200},       // Got 100 followed by 200, entire body is sent.
++-		{path: "/200", body: []byte("hello"), sent: 0, status: 200},       // Got 200 without 100. body isn't sent.
++-		{path: "/500", body: []byte("hello"), sent: 0, status: 500},       // Got 500 without 100. body isn't sent.
++-		{path: "/keepalive", body: []byte("hello"), sent: 0, status: 500}, // Although without Connection:close, body isn't sent.
++-		{path: "/timeout", body: []byte("hello"), sent: 5, status: 200},   // Timeout exceeded and entire body is sent.
+++const transport100ContinueTestBody = "request body"
+++
+++// newTransport100ContinueTest creates a Transport and sends an Expect: 100-continue
+++// request on it.
+++func newTransport100ContinueTest(t *testing.T, timeout time.Duration) *transport100ContinueTest {
+++	ln := newLocalListener(t)
+++	defer ln.Close()
+++
+++	test := &transport100ContinueTest{
+++		t:       t,
+++		reqdone: make(chan struct{}),
++	}
++
++-	c := ts.Client()
++-	for i, v := range tests {
++-		tr := &Transport{
++-			ExpectContinueTimeout: 2 * time.Second,
++-		}
++-		defer tr.CloseIdleConnections()
++-		c.Transport = tr
++-		body := bytes.NewReader(v.body)
++-		req, err := NewRequest("PUT", ts.URL+v.path, body)
++-		if err != nil {
++-			t.Fatal(err)
++-		}
+++	tr := &Transport{
+++		ExpectContinueTimeout: timeout,
+++	}
+++	go func() {
+++		defer close(test.reqdone)
+++		body := strings.NewReader(transport100ContinueTestBody)
+++		req, _ := NewRequest("PUT", "http://"+ln.Addr().String(), body)
++		req.Header.Set("Expect", "100-continue")
++-		req.ContentLength = int64(len(v.body))
+++		req.ContentLength = int64(len(transport100ContinueTestBody))
+++		test.resp, test.respErr = tr.RoundTrip(req)
+++		test.resp.Body.Close()
+++	}()
++
++-		resp, err := c.Do(req)
++-		if err != nil {
++-			t.Fatal(err)
+++	c, err := ln.Accept()
+++	if err != nil {
+++		t.Fatalf("Accept: %v", err)
+++	}
+++	t.Cleanup(func() {
+++		c.Close()
+++	})
+++	br := bufio.NewReader(c)
+++	_, err = ReadRequest(br)
+++	if err != nil {
+++		t.Fatalf("ReadRequest: %v", err)
+++	}
+++	test.conn = c
+++	test.reader = br
+++	t.Cleanup(func() {
+++		<-test.reqdone
+++		tr.CloseIdleConnections()
+++		got, _ := io.ReadAll(test.reader)
+++		if len(got) > 0 {
+++			t.Fatalf("Transport sent unexpected bytes: %q", got)
++		}
++-		resp.Body.Close()
+++	})
++
++-		sent := len(v.body) - body.Len()
++-		if v.status != resp.StatusCode {
++-			t.Errorf("test %d: status code should be %d but got %d. (%s)", i, v.status, resp.StatusCode, v.path)
++-		}
++-		if v.sent != sent {
++-			t.Errorf("test %d: sent body should be %d but sent %d. (%s)", i, v.sent, sent, v.path)
+++	return test
+++}
+++
+++// respond sends response lines from the server to the transport.
+++func (test *transport100ContinueTest) respond(lines ...string) {
+++	for _, line := range lines {
+++		if _, err := test.conn.Write([]byte(line + "\r\n")); err != nil {
+++			test.t.Fatalf("Write: %v", err)
++		}
++	}
+++	if _, err := test.conn.Write([]byte("\r\n")); err != nil {
+++		test.t.Fatalf("Write: %v", err)
+++	}
+++}
+++
+++// wantBodySent ensures the transport has sent the request body to the server.
+++func (test *transport100ContinueTest) wantBodySent() {
+++	got, err := io.ReadAll(io.LimitReader(test.reader, int64(len(transport100ContinueTestBody))))
+++	if err != nil {
+++		test.t.Fatalf("unexpected error reading body: %v", err)
+++	}
+++	if got, want := string(got), transport100ContinueTestBody; got != want {
+++		test.t.Fatalf("unexpected body: got %q, want %q", got, want)
+++	}
+++}
+++
+++// wantRequestDone ensures the Transport.RoundTrip has completed with the expected status.
+++func (test *transport100ContinueTest) wantRequestDone(want int) {
+++	<-test.reqdone
+++	if test.respErr != nil {
+++		test.t.Fatalf("unexpected RoundTrip error: %v", test.respErr)
+++	}
+++	if got := test.resp.StatusCode; got != want {
+++		test.t.Fatalf("unexpected response code: got %v, want %v", got, want)
+++	}
+++}
+++
+++func TestTransportExpect100ContinueSent(t *testing.T) {
+++	test := newTransport100ContinueTest(t, 1*time.Hour)
+++	// Server sends a 100 Continue response, and the client sends the request body.
+++	test.respond("HTTP/1.1 100 Continue")
+++	test.wantBodySent()
+++	test.respond("HTTP/1.1 200", "Content-Length: 0")
+++	test.wantRequestDone(200)
+++}
+++
+++func TestTransportExpect100Continue200ResponseNoConnClose(t *testing.T) {
+++	test := newTransport100ContinueTest(t, 1*time.Hour)
+++	// No 100 Continue response, no Connection: close header.
+++	test.respond("HTTP/1.1 200", "Content-Length: 0")
+++	test.wantBodySent()
+++	test.wantRequestDone(200)
+++}
+++
+++func TestTransportExpect100Continue200ResponseWithConnClose(t *testing.T) {
+++	test := newTransport100ContinueTest(t, 1*time.Hour)
+++	// No 100 Continue response, Connection: close header set.
+++	test.respond("HTTP/1.1 200", "Connection: close", "Content-Length: 0")
+++	test.wantRequestDone(200)
+++}
+++
+++func TestTransportExpect100Continue500ResponseNoConnClose(t *testing.T) {
+++	test := newTransport100ContinueTest(t, 1*time.Hour)
+++	// No 100 Continue response, no Connection: close header.
+++	test.respond("HTTP/1.1 500", "Content-Length: 0")
+++	test.wantBodySent()
+++	test.wantRequestDone(500)
+++}
+++
+++func TestTransportExpect100Continue500ResponseTimeout(t *testing.T) {
+++	test := newTransport100ContinueTest(t, 5*time.Millisecond) // short timeout
+++	test.wantBodySent()                                        // after timeout
+++	test.respond("HTTP/1.1 200", "Content-Length: 0")
+++	test.wantRequestDone(200)
++ }
++
++ func TestSOCKS5Proxy(t *testing.T) {
 +--
 +2.40.0
-diff --git a/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
-index eb1574adf6..0d45041184 100644
---- a/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
-+++ b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=67da0714c3f9471067b729eca6c9fbe8"
- 
- SRC_URI += "file://CVE-2022-23491.patch \
-             file://CVE-2023-37920.patch \
-+            file://CVE-2024-39689.patch \
-            "
- 
- SRC_URI[sha256sum] = "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
 -- 
 2.34.1
 
