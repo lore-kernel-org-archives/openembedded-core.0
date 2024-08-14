@@ -1,136 +1,98 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 793B0C3DA4A
-	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 05:31:28 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.91198.1723613478890733466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8642BC3DA4A
+	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 08:28:09 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web11.93303.1723624083547390042
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Aug 2024 22:31:19 -0700
+ Wed, 14 Aug 2024 01:28:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LQo80/xX;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-427fc97a88cso47753935e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 22:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723613477; x=1724218277; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mV8V9GpN1Xk8jp5yOEE5dnOpWXhvIng7mNImWdmsJRc=;
-        b=LQo80/xXmvVMLNDy0DGUX/WwMs1XuWZXnPxofioEtS7RJtUgg5Qg2lPofo7Lu01bhQ
-         GsCCUuKxskKg0rQGyNx6D9HZ94axieCHHgPjhg7ORd6GTZet4HQHxv9wLddUUREIn7FP
-         OqFgJa5vrv1fIv5ZcxC1M1uIH+l7nFtEWdAEQgxIWYdMHj/yMqUV2irdN3W2Hpo43ktJ
-         NdyNrl56nWTNzmQ6WFjuA9iIV2faUPQLPSIZiNMXrJKK29qfzcrSHVGLdk74QnMT2wVF
-         XL3neccr5ukF3bqMka8OtcTO118sI1/Bb58tqhBh9rlyw8WEXUqRy/1H4gI0tRfQhGIF
-         ubQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723613477; x=1724218277;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mV8V9GpN1Xk8jp5yOEE5dnOpWXhvIng7mNImWdmsJRc=;
-        b=A4NOnPJ1mwFFFEUFMS76OX3DNHi/3gcvT9QbS+E1V23chZDM08XepYCI5qqp0X7cg+
-         5aIREED/5dg5txcMB/8k/m96p7EUxGbCQF4dNM0IhlwX7bPlzW2FoYr98TBej6x/X/Pu
-         wLrgFl4+7F67IGQu+VAB6A/bpnDBaiO9NpkfC7NtckGG277lnCbPuZSyORdAdy/Bz0ll
-         2cu1FE/g8r0suTv8IURWblUnkP03PBae75LdV2BWJT6DVpqfiipFvafsmmCj1JtQ/GBV
-         wRgmJwCrZxQi7T7oocHxLMrHBv0aU2GlqWJbplj0D0wEnmkZCtSyDC1J3EbvOcaBYqPs
-         1zFg==
-X-Gm-Message-State: AOJu0Yxh0vwhu3XPfdP7h0sTRnbFUFzhmxiMN+2sb1lzwW3dXENiczYj
-	onBi2uMmQVU6k314K6gVPigt9U9RO82CNJmhSUgOgZkdIB7KjeAy7vH4Vg==
-X-Google-Smtp-Source: AGHT+IHjRYtCzDaPcDZt5nfiIvgSHmPz79Gi1cTl/ivGEB2ChBLfiLimuxEWjdS1AhAEGr3upE28+w==
-X-Received: by 2002:a05:600c:4e93:b0:426:6ee7:c05a with SMTP id 5b1f17b1804b1-429dd236620mr9996975e9.15.1723613476746;
-        Tue, 13 Aug 2024 22:31:16 -0700 (PDT)
-Received: from voyage.lan ([2a0d:3344:2311:d410:8c63:2ebf:4fe1:9568])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded4db0bsm8885525e9.32.2024.08.13.22.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 22:31:16 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-X-Google-Original-From: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout04.t-online.de (Postfix) with SMTP id 82B057169
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 10:28:01 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.175.216]) by fwd79.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1se9MO-1SGzSb0; Wed, 14 Aug 2024 10:28:00 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Subject: [PATCH v5][OE-core 7/7] selftest: add test_product_match
-Date: Wed, 14 Aug 2024 07:30:41 +0200
-Message-ID: <20240814053041.4991-7-marta.rybczynska@syslinbit.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240814053041.4991-1-marta.rybczynska@syslinbit.com>
-References: <20240814053041.4991-1-marta.rybczynska@syslinbit.com>
+Subject: [oe-core][PATCH] systemd: dont set polkit permissions manually
+Date: Wed, 14 Aug 2024 10:29:25 +0200
+Message-ID: <20240814082925.2666125-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1723624080-C6FFA802-526CAD56/0/0 CLEAN NORMAL
+X-TOI-MSGID: c3123ef5-e62c-498d-84e3-7a5374911259
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 05:31:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203308
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 08:28:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203309
 
-CVECheck.test_product_match tests has_cve_product_match()
+According to this commit polkit rules should go to ${datadir} instead of =
+${sysconfdir}:
+https://git.openembedded.org/meta-openembedded/commit/?h=3Dmaster-next&id=
+=3Dd5e90541f8e35916abc930b2da6de037b23d51a1
+Theres no need to adjust the permissions for ${datadir} anymore:
+https://git.openembedded.org/meta-openembedded/commit/?h=3Dmaster-next&id=
+=3D6da0fd21c900e32a0693a6b27d38182f19c8c76c
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+Dont set polkit permissions manually. This allows to drop the manually
+set polkit permissions for all files in meta-openembedded and also for
+libvirt in meta-virtualization.
+
+In addition, manually setting the permissions would not be needed for
+new recipes anymore.
 ---
- meta/lib/oeqa/selftest/cases/cve_check.py | 48 +++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ meta/recipes-core/systemd/systemd_256.bb | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
-index a40272c919..3dd3e89d3e 100644
---- a/meta/lib/oeqa/selftest/cases/cve_check.py
-+++ b/meta/lib/oeqa/selftest/cases/cve_check.py
-@@ -72,6 +72,54 @@ class CVECheck(OESelftestTestCase):
-         self.assertEqual(convert_cve_version("6.2_rc8"), "6.2-rc8")
-         self.assertEqual(convert_cve_version("6.2_rc31"), "6.2-rc31")
- 
-+    def test_product_match(self):
-+        from oe.cve_check import has_cve_product_match
-+
-+        status = {}
-+        status["detail"] = "ignored"
-+        status["vendor"] = "*"
-+        status["product"] = "*"
-+        status["description"] = ""
-+        status["mapping"] = ""
-+
-+        self.assertEqual(has_cve_product_match(status, "some_vendor:some_product"), True)
-+        self.assertEqual(has_cve_product_match(status, "*:*"), True)
-+        self.assertEqual(has_cve_product_match(status, "some_product"), True)
-+        self.assertEqual(has_cve_product_match(status, "glibc"), True)
-+        self.assertEqual(has_cve_product_match(status, "glibca"), True)
-+        self.assertEqual(has_cve_product_match(status, "aglibc"), True)
-+        self.assertEqual(has_cve_product_match(status, "*"), True)
-+        self.assertEqual(has_cve_product_match(status, "aglibc glibc test:test"), True)
-+
-+        status["product"] = "glibc"
-+        self.assertEqual(has_cve_product_match(status, "some_vendor:some_product"), False)
-+        # The CPE in the recipe must be defined, no * accepted
-+        self.assertEqual(has_cve_product_match(status, "*:*"), False)
-+        self.assertEqual(has_cve_product_match(status, "*"), False)
-+        self.assertEqual(has_cve_product_match(status, "some_product"), False)
-+        self.assertEqual(has_cve_product_match(status, "glibc"), True)
-+        self.assertEqual(has_cve_product_match(status, "glibca"), False)
-+        self.assertEqual(has_cve_product_match(status, "aglibc"), False)
-+        self.assertEqual(has_cve_product_match(status, "some_vendor:glibc"), True)
-+        self.assertEqual(has_cve_product_match(status, "some_vendor:glibc test"), True)
-+        self.assertEqual(has_cve_product_match(status, "test some_vendor:glibc"), True)
-+
-+        status["vendor"] = "glibca"
-+        status["product"] = "glibc"
-+        self.assertEqual(has_cve_product_match(status, "some_vendor:some_product"), False)
-+        # The CPE in the recipe must be defined, no * accepted
-+        self.assertEqual(has_cve_product_match(status, "*:*"), False)
-+        self.assertEqual(has_cve_product_match(status, "*"), False)
-+        self.assertEqual(has_cve_product_match(status, "some_product"), False)
-+        self.assertEqual(has_cve_product_match(status, "glibc"), False)
-+        self.assertEqual(has_cve_product_match(status, "glibca"), False)
-+        self.assertEqual(has_cve_product_match(status, "aglibc"), False)
-+        self.assertEqual(has_cve_product_match(status, "some_vendor:glibc"), False)
-+        self.assertEqual(has_cve_product_match(status, "glibca:glibc"), True)
-+        self.assertEqual(has_cve_product_match(status, "test:test glibca:glibc"), True)
-+        self.assertEqual(has_cve_product_match(status, "test glibca:glibc"), True)
-+        self.assertEqual(has_cve_product_match(status, "glibca:glibc test"), True)
-+
- 
-     def test_recipe_report_json(self):
-         config = """
--- 
-2.43.0
+diff --git a/meta/recipes-core/systemd/systemd_256.bb b/meta/recipes-core=
+/systemd/systemd_256.bb
+index 6e3985b94f..d9982eb3a4 100644
+--- a/meta/recipes-core/systemd/systemd_256.bb
++++ b/meta/recipes-core/systemd/systemd_256.bb
+@@ -370,14 +370,6 @@ do_install() {
+ 		rm -r ${D}${sysconfdir}/X11
+ 	fi
+=20
+-	# If polkit is setup fixup permissions and ownership
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true', 'false', d)}=
+; then
+-		if [ -d ${D}${datadir}/polkit-1/rules.d ]; then
+-			chmod 700 ${D}${datadir}/polkit-1/rules.d
+-			chown polkitd:root ${D}${datadir}/polkit-1/rules.d
+-		fi
+-	fi
+-
+ 	# If polkit is not available and a fallback was requested, install a dr=
+op-in that allows networkd to
+ 	# request hostname changes via DBUS without elevating its privileges
+ 	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '=
+true', 'false', d)}; then
+@@ -473,7 +465,7 @@ GROUPADD_PARAM:udev =3D "-r render"
+ GROUPADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'polkit=
+_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
+ USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'coredum=
+p', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
+ USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'network=
+d', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
+-USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'polkit'=
+, '--system --no-create-home --user-group --home-dir ${sysconfdir}/polkit=
+-1 polkitd;', '', d)}"
++USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'polkit'=
+, '--system --no-create-home --user-group --home-dir ${datadir}/polkit-1 =
+polkitd;', '', d)}"
+ USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'resolve=
+d', '--system -d / -M --shell /sbin/nologin systemd-resolve;', '', d)}"
+ USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'timesyn=
+cd', '--system -d / -M --shell /sbin/nologin systemd-timesync;', '', d)}"
+ USERADD_PARAM:${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'oomd', =
+'--system -d / -M --shell /sbin/nologin systemd-oom;', '', d)}"
+--=20
+2.45.2
 
 
