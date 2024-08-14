@@ -1,200 +1,120 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45FE5C3DA4A
-	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 13:04:31 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.97421.1723640668947607328
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0D12C52D7B
+	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 14:25:41 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.99415.1723645534354828588
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Aug 2024 06:04:29 -0700
+ Wed, 14 Aug 2024 07:25:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=dwSJzVOl;
- spf=pass (domain: baylibre.com, ip: 209.85.222.175, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7a1da036d35so414267485a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 06:04:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kg//QNw0;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1ff67158052so44020685ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 07:25:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723640668; x=1724245468; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ALYF8LsIL9Ka0yK/1XEmI9VrifG2enmwS2qNReNFPII=;
-        b=dwSJzVOlsen9auIB4TcibcPNvRx/TluhNe6QORvgUCBPQqYgN9CwcgnaoFCosXtl24
-         k+8BBqeGBnzX+CT1nH5339W5c9d711v1x7zpsRMOj0nQzA4YXCLZs2NsYuGa4oBWgjCF
-         eSnoxH1ntkodkdi+JoBCeJ8WfMRTygaMyelYclALWu+5hmaA9DPsGT3qSJwBVV0iYnPh
-         1aFDwgIRWP7NpL6nXsEbBrpbGCY05TLgGIKyAu/RfAJKbQF41hIAPCALDvGyd1MdPEeZ
-         7KIJDAOEql8w2D3fGISIDlVFfm16qcKlz3wOS8bBLpSZKrhZYWJEMP7NAU4hDdEUC3MD
-         tBdg==
+        d=gmail.com; s=20230601; t=1723645534; x=1724250334; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bxeTdBtOC6N4f6Ri82VEl+3gwa4ngiZC02DDkcoZhtI=;
+        b=Kg//QNw07M8DU876dLB7sYNNYGCjW7LS6q5iWmGXsoxjZe2thEoT5b5YwYFPKCjvge
+         W4i5fpa6D/rqd7XkyJ9ieb5p11cFvfDgXf9zN/rHVKINqQFtLP8iIDCz8IaxRUsOwqdl
+         QhT7sj9bNoj1blaWJtv0YDeRvYEEbVi/g7XaHMJBa4UO7T2NWiyw0oPNr1A0iA4hNYQW
+         7Up5dY+hbYNRAYniDObsijpPpgewrYAnhDSq9k8rBgI1MOpt01Sd4mZ+05Fy4y8Tt7af
+         N1M7TUy68+oOK9CHz9j6BcncB/H+wTb8tmFXRnOathCP07UBqgsTCT3UQvJgOocoAATV
+         mi4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723640668; x=1724245468;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ALYF8LsIL9Ka0yK/1XEmI9VrifG2enmwS2qNReNFPII=;
-        b=qt5ozE7JD7qjzt96OQhtyQpTt+mUPtJRgtjzsNJ69hM81tLOO+eLaKFs/HTDp+QoyN
-         ++HM6OUOy02mZPjweutWwzipSf1zhZG/otUuSQXO1HXD+cwYXzPgXlARZ+ecIb7goO+r
-         C88QCQIJTXAM/ZO1VEM7un2iTk/iGaHRZMET7k0N8tLsAtXA8NLY4ECTErwEC7FH3W9Z
-         KEo9QjU7X27Yb/f++pvr6dQfEZXixKbpqMBS5isnXR2SGgksOXFC0CIatuB83qlQUhKM
-         Q/dNDpuoGM7ea9nmTssDc5l41T8rTJWdi8X2mGBxAWQlWvBLpZxqdpzVOgl82xjfPyl9
-         Bv1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXTDtZiO+UG6YgqWmY7U9J4BPbzVHFvFocmBW0pNjHTO70Jr04j9vnKVpcgka5Nm9vFXd5Bc1ddRJuQPQxyaVCm6zhgs3+YRXFCprMNIMOlsJAnaGp/nH6v
-X-Gm-Message-State: AOJu0Yw8gKpj5wjdk0bE5Oq4rBuR5anBtl5hKnd01dSKEhcEUPPY3Fer
-	FbJoJyac+lGSTVy0PRMB9KtTYblBk5PGcc0tav2SNbZ845QR4BRGgjz2oY4XmQI=
-X-Google-Smtp-Source: AGHT+IFYBuYaXhgeIf1Pp+Da0NRwS6BfA83R+OFiD9jpqsDerhrSYDIQluw60GOKmGMU6VMo1zTibA==
-X-Received: by 2002:a05:620a:254f:b0:7a1:d303:ed3d with SMTP id af79cd13be357-7a4ee407b3fmr214469185a.70.1723640667714;
-        Wed, 14 Aug 2024 06:04:27 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7e053b4sm431320385a.104.2024.08.14.06.04.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 06:04:27 -0700 (PDT)
-Message-ID: <00acffd5-d23e-4d6b-a653-d926f2eb417b@baylibre.com>
-Date: Wed, 14 Aug 2024 09:04:26 -0400
+        d=1e100.net; s=20230601; t=1723645534; x=1724250334;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bxeTdBtOC6N4f6Ri82VEl+3gwa4ngiZC02DDkcoZhtI=;
+        b=WPcfwkKNW/g/mhSNVsO7S+4Ckv6ae699hgYa+bbxz6nIbbbJAiflVv3NyKfbjpQyvL
+         PmNt1P0xN+dE/iiYBMVzF8SE+hNiuVt0m9+Vy0+T1DiPC/vxumnPbo7khAxiEmtT6hz3
+         hlUUgxNjwbfckgrj+U5v/WUteNsp7WDj37G6dWHjkKL97YmSAKthI/GG4/X6efPGDK/o
+         PDMnOVS+uJSs5EXP61K+HoCMKO0YIjRnqtzy3WQA0klbvsKjC3EZj6AGteZAgMXXT7gk
+         hC6HFtqW2qWS1xqwquFOYouiZeY//aOcQfl+jZCR2v6IlCDQFLBTsZiOst5xB9cifpn+
+         //3A==
+X-Gm-Message-State: AOJu0YyNILL87w0WzY5iR3N0g1uPvpb+pUvYJ+lZubb6h2oI3dMobElG
+	g9FvsrWSeqylqEY5BKaoDfH1n8GoKF+BzPc/pFPQX/ctwDAXddoc3vbZ96KpgljqbePzygTx/OZ
+	40PoBAWyD4MT5UlxipZHDDgigdNw=
+X-Google-Smtp-Source: AGHT+IHN8D1lkT+Lo9RXY82gKbDYqQXSxKR03NaK18UR1vEIHYRA88X+63njvHWGp6WmpsvUH0v1q9qhYBfp0O1slmU=
+X-Received: by 2002:a17:902:dac5:b0:1fc:568d:5f05 with SMTP id
+ d9443c01a7336-201d63c5063mr38064545ad.8.1723645533431; Wed, 14 Aug 2024
+ 07:25:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v2] python3: skip readline limited history tests
-To: ChenQi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com, alexandre.belloni@bootlin.com
-References: <20240813164101.3425564-1-tgamblin@baylibre.com>
- <7f6a3ca8-1eff-0288-d667-2824dbcfefc9@windriver.com>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <7f6a3ca8-1eff-0288-d667-2824dbcfefc9@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1723636705.git.steve@sakoman.com> <468a9077d9b3466d60ee8c5b6144529ea5e5c849.1723636705.git.steve@sakoman.com>
+In-Reply-To: <468a9077d9b3466d60ee8c5b6144529ea5e5c849.1723636705.git.steve@sakoman.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 14 Aug 2024 16:25:21 +0200
+Message-ID: <CAApg2=Q13Q7mHWMOuC4=oL2AJVMBJpHAOPV_3xCphiotCrVuMg@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap 1/9] cve_check: Use a local copy of the
+ database during builds
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000bd30ef061fa57fca"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 13:04:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203321
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 14:25:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203322
+
+--000000000000bd30ef061fa57fca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 14, 2024 at 2:02=E2=80=AFPM Steve Sakoman via lists.openembedde=
+d.org
+<steve=3Dsakoman.com@lists.openembedded.org> wrote:
+
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> Rtaher than trying to use a sqlite database over NFS from DL_DIR, work fr=
+om
+> a local copy in STAGING DIR after fetching.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 03596904392d257572a905a182b92c780d636744)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+>
 
 
-On 2024-08-13 10:56 p.m., ChenQi wrote:
-> The github issue you referenced here is not an issue that tracks this 
-> test failure. It's an issue that introduced the original commit, and 
-> has been closed. If a problem is 100% reproducible, at least some open 
-> issue should be there for tracking to validate an explicit skip. As 
-> far as I can see, tests that were skipped are rarely revisited.
->
-> Also, looking at the issue you referenced, it seems that the problem 
-> is that we're using editline instead of readline as the default 
-> PACKAGECONFIG. It looks like that this new test case correctly reveals 
-> our specific configuration problem.
-> PACKAGECONFIG ??= "editline gdbm ${@bb.utils.filter('DISTRO_FEATURES', 
-> 'lto', d)}"
-> PACKAGECONFIG[readline] = "--with-readline=readline,,readline,,,editline"
-> PACKAGECONFIG[editline] = "--with-readline=editline,,libedit,,,readline"
->
-> Can you try using readline as the default PACKAGECONFIG and see if 
-> things work?
-Yes, the test passes with readline. I didn't make this change for the 
-test because I had assumed we want to use editline in the PACKAGECONFIG 
-instead of readline, based on commit ce6add6f8aca0. Is this not the 
-case? Do we want to switch back to using readline by default?
->
-> Regards,
-> Qi
->
-> On 8/14/24 00:41, Trevor Gamblin wrote:
->> Python 3.12.5 is failing a newer ptest for reading/writing limited
->> history. Skip it for now until a proper fix (if any) is determined.
->>
->> The new test was added in
->> https://github.com/python/cpython/commit/263c7e611bb24715e513d457a3477a61fff15162 
->>
->>
->> The GitHub issue is here: 
->> https://github.com/python/cpython/issues/121160
->>
->> The aforementioned bug report suggests that OSErrors like that show up
->> when using the GNU readline-based readline module if a workaround isn't
->> also incorporated. It also mentions a new readline backend will be
->> available in 3.13 that might help, but that won't be available for a 
->> year.
->>
->> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
->> ---
->> v2 adds extra info in the commit message and carried patch about the
->> source of the test failure.
->>
->>   ...t_readline-skip-limited-history-test.patch | 40 +++++++++++++++++++
->>   .../recipes-devtools/python/python3_3.12.5.bb |  1 +
->>   2 files changed, 41 insertions(+)
->>   create mode 100644 
->> meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
->>
->> diff --git 
->> a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch 
->> b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch 
->>
->> new file mode 100644
->> index 0000000000..851ddd571a
->> --- /dev/null
->> +++ 
->> b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
->> @@ -0,0 +1,40 @@
->> +From d9d916d5ea946c945323679d1709de1b87029b96 Mon Sep 17 00:00:00 2001
->> +From: Trevor Gamblin <tgamblin@baylibre.com>
->> +Date: Tue, 13 Aug 2024 11:07:05 -0400
->> +Subject: [PATCH] test_readline: skip limited history test
->> +
->> +This test was added recently and is failing on the ptest image. Disable
->> +it until the proper fix is determined.
->> +
->> +See also: https://github.com/python/cpython/issues/121160
->> +
->> +Upstream-Status: Inappropriate [OE-specific]
->> +
->> +Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
->> +---
->> + Lib/test/test_readline.py | 2 ++
->> + 1 file changed, 2 insertions(+)
->> +
->> +diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
->> +index 91fd7dd13f9..d81f9bf8eed 100644
->> +--- a/Lib/test/test_readline.py
->> ++++ b/Lib/test/test_readline.py
->> +@@ -132,6 +132,7 @@ def test_nonascii_history(self):
->> +         self.assertEqual(readline.get_history_item(1), "entrée 1")
->> +         self.assertEqual(readline.get_history_item(2), "entrée 22")
->> +
->> ++    @unittest.skip("Skipping problematic test")
->> +     def test_write_read_limited_history(self):
->> +         previous_length = readline.get_history_length()
->> +         self.addCleanup(readline.set_history_length, previous_length)
->> +@@ -349,6 +350,7 @@ def test_history_size(self):
->> +             self.assertEqual(len(lines), history_size)
->> +             self.assertEqual(lines[-1].strip(), b"last input")
->> +
->> ++    @unittest.skip("Skipping problematic test")
->> +     def test_write_read_limited_history(self):
->> +         previous_length = readline.get_history_length()
->> +         self.addCleanup(readline.set_history_length, previous_length)
->> +--
->> +2.39.2
->> +
->> diff --git a/meta/recipes-devtools/python/python3_3.12.5.bb 
->> b/meta/recipes-devtools/python/python3_3.12.5.bb
->> index 5665c90fa9..cc2e14baf0 100644
->> --- a/meta/recipes-devtools/python/python3_3.12.5.bb
->> +++ b/meta/recipes-devtools/python/python3_3.12.5.bb
->> @@ -33,6 +33,7 @@ SRC_URI = 
->> "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
->> file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
->>          file://0001-test_deadlock-skip-problematic-test.patch \
->> file://0001-test_active_children-skip-problematic-test.patch \
->> + file://0001-test_readline-skip-limited-history-test.patch \
->>              "
->>     SRC_URI:append:class-native = " \
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#203289): 
->> https://lists.openembedded.org/g/openembedded-core/message/203289
->> Mute This Topic: https://lists.openembedded.org/mt/107879487/7304865
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub 
->> [Qi.Chen@eng.windriver.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
->
+This patch is changing the ABI (well... variables). I think we should come
+back to the old naming
+for the downloaded copy before backporting.
+
+Regards,
+Marta
+
+--000000000000bd30ef061fa57fca
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 14, 2024 at 2:02=E2=80=AF=
+PM Steve Sakoman via <a href=3D"http://lists.openembedded.org">lists.openem=
+bedded.org</a> &lt;steve=3D<a href=3D"mailto:sakoman.com@lists.openembedded=
+.org">sakoman.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">From: Richard Purdie &lt;<a href=3D=
+"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdi=
+e@linuxfoundation.org</a>&gt;<br>
+<br>
+Rtaher than trying to use a sqlite database over NFS from DL_DIR, work from=
+<br>
+a local copy in STAGING DIR after fetching.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+(cherry picked from commit 03596904392d257572a905a182b92c780d636744)<br>
+Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" targe=
+t=3D"_blank">steve@sakoman.com</a>&gt;<br></blockquote><div><br></div><div>=
+<br></div><div>This patch is changing the ABI (well... variables). I think =
+we should come back to the old naming</div><div>for the downloaded copy bef=
+ore backporting.</div><div><br></div><div>Regards,</div><div>Marta <br></di=
+v></div></div>
+
+--000000000000bd30ef061fa57fca--
 
