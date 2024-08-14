@@ -1,161 +1,148 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 074B4C3DA4A
-	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 18:19:43 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.105220.1723659579086856775
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A0B2C3DA4A
+	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 18:27:33 +0000 (UTC)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+ by mx.groups.io with SMTP id smtpd.web11.105419.1723660043558638452
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Aug 2024 11:19:39 -0700
+ Wed, 14 Aug 2024 11:27:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=jB/hlerM;
- spf=pass (domain: mvista.com, ip: 209.85.210.180, mailfrom: sdoshi@mvista.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-71275436546so78521b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 11:19:39 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Ff8GmnZ9;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.51, mailfrom: tgamblin@baylibre.com)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-825896b2058so38370241.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 11:27:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1723659578; x=1724264378; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723660042; x=1724264842; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3qeDA9pngf76U+je6zKviBbGiVaKPKbDsiIcZl7h3NQ=;
-        b=jB/hlerMaS35cwjJbtv6JesEM+RWQAacjg9AGyrwQg/nqpyq4evBl/wYef4DUUibvc
-         FQybq0o5HMFN0aKTNePiyIcL5aakCfQR3w61VhrhUMaEVniYxr9dxHMPoI1ldET2rbxr
-         2v6kuTHLN4HkisNMWBvV2haLVc3fYu4CpdfNg=
+        bh=9WpNO7Eymx0/KUr3G9F9I/oGHY/EUMtEOtiik/QMNQ4=;
+        b=Ff8GmnZ9DqYRIpVBGIF9Qj37YPZgFiPCMS2iiA7E4TG7FRYIflP+VehA/UHfDjLIb9
+         yBrzN7r+f1/zZG2UYvcNLIEDwNUYAyJzGhZAz7471ksWpzlY6odks4uqWnqAvYTILJOT
+         tzQ4MER3yugLS1eEP72YDAu2GmDRzOISP8j5bW+Ry0MFVfQA8/kyOERU/UQA1Oh8AwSH
+         KFzAP2tXlR/1vfDRSs8vsd72CDy7BTun6VnR7po3Cp2z3Sfb77Lxl8zWwt1UwgaTDL56
+         ZyEMnoPI1sfSMhjdZF3Uj/iIxM7+0iCU5MQmCfx9wtBnioI9DF6P2NjcVI4mh55X5Dtl
+         3NqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723659578; x=1724264378;
+        d=1e100.net; s=20230601; t=1723660042; x=1724264842;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3qeDA9pngf76U+je6zKviBbGiVaKPKbDsiIcZl7h3NQ=;
-        b=DOGo3IbbR/k7y9xOWCMr+JfK2+t9L2soksFmMLpoSrj0yXLMbW7FiOTU51pz1xshOo
-         KJu14/Gw6JlKl8luhGVRnaBDsBMQKsjDTvWURhv3nchCU+79aTC3Rp2xVQKWKZpOqTmS
-         /RKqjBqrWZM2WFtH5eGlRE4ecXJRIuNV/1vO7/WD27sOOlcCWQ87qclKs1wQw3QP0V/A
-         u5O4O5OmhR86Gn46zp3wmgV3o/uRRoP4nM98r/RHjOwWNcM6vaYBqBho2q0Iz8o13Mju
-         9estOs7dqYEHhuOC2t80lafXC1F4jakpImLtS4NxVUSJ9Dw9sJhPu/AleWOLA/9gtlvr
-         3WlQ==
-X-Gm-Message-State: AOJu0YwLuI/j4kE0Xd6aK7ZmPe8nakiy44KEo0HFJHuFI/9g35mfnqvG
-	vVpWebhXFgItzXWBLwRXrdDune/pFtHwiK8y47X/xa430lwx1sy2xkQqVAgh6yNFYQfk1QUjp8b
-	O
-X-Google-Smtp-Source: AGHT+IGRR9RB8BNMEXkWIA1UQ+3VskJnfvMQPUbghkHXm1rsdg0Zy31yshbSZovSsuvWjJ4VTk6n6w==
-X-Received: by 2002:a05:6a20:9e4e:b0:1c8:b145:29cd with SMTP id adf61e73a8af0-1c8eaeb1d64mr4793657637.24.1723659578053;
-        Wed, 14 Aug 2024 11:19:38 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([157.32.46.131])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e58aa3ecsm7656682b3a.49.2024.08.14.11.19.35
+        bh=9WpNO7Eymx0/KUr3G9F9I/oGHY/EUMtEOtiik/QMNQ4=;
+        b=wQyD3wGa7a7JwpUcILiMpqa7cfYVym84pT8anIqS3h7fYW928BuBfkUKlsR952pa7U
+         EglhTBLTKAAqMfIRYrlI2sPDHArqgORVtgjA5J4KYHnYsaGUJZaDOY3nWAM6yLps22Bx
+         uolDLfhStpLh6BMAm5jnqQKXV9RXVlIRcBK7uKWeVi+cBD8j5f1ftomJiTxzzn/wQSYH
+         x0gYdkCcgz6S1lJlZWM1i9ULGhbcjTODV4lvr0WIAVVn9OcZvONF3a0NGvqbN067GXT4
+         ZGa6YTYnUSRFDMLiPMU1l0ymWF+97lFSJnrPUxPfta5G+M6GpBeUxqUk3002kZ75R6i6
+         Lv8g==
+X-Gm-Message-State: AOJu0YyhA5bWoeMm9T33skICM9g4Qh8M+Y/i0lwxX3nXT0fr93LSnM5A
+	Wf0YcSve1mMpel4ijjfcR7l+0fpb44S/+lnSf9Y67W3uQu5ud2dYHfzMHIgEYKzn5+K1bnpaRSB
+	JJKY=
+X-Google-Smtp-Source: AGHT+IGGYHVA/32UQO7H2PscxGXJwuk5Kv+tGVwQMOYV9Rsdt8twdsmDCH0LyVyDZNQC1iu9ojrk0Q==
+X-Received: by 2002:a67:eacf:0:b0:492:aa19:dcf9 with SMTP id ada2fe7eead31-497598ac639mr3937910137.6.1723660042317;
+        Wed, 14 Aug 2024 11:27:22 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bd82c60fdcsm46787546d6.12.2024.08.14.11.27.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 11:19:37 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
+        Wed, 14 Aug 2024 11:27:22 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][master][scarthgap][PATCH] Tiff: Security fix for CVE-2024-7006
-Date: Wed, 14 Aug 2024 23:49:23 +0530
-Message-Id: <20240814181923.40483-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
+Cc: alex.kanavin@gmail.com,
+	alexandre.belloni@bootlin.com,
+	Qi.Chen@windriver.com
+Subject: [OE-core][PATCH v3] python3: skip readline limited history tests
+Date: Wed, 14 Aug 2024 14:27:20 -0400
+Message-Id: <20240814182720.995846-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 18:19:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203327
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 18:27:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203328
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+Python 3.12.5 is failing a newer ptest for reading/writing limited
+history when editline (default) is set in PACKAGECONFIG. Skip it for now
+until a proper fix (if any) is determined.
 
-Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/818fb8ce881cf839fbc710f6690aadb992aa0f9e]
+A bug has been opened upstream: https://github.com/python/cpython/issues/123018
 
-CVE's Fixed:
-CVE-2024-7006 libtiff: NULL pointer dereference in tif_dirinfo.c
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../libtiff/tiff/CVE-2024-7006.patch          | 65 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
+v3 adds some more context after discussions on the mailing list,
+including a link to a bug opened upstream for CPython.
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
+v2 added extra info in the commit message and carried patch about the
+source of the test failure.
+
+ ...t_readline-skip-limited-history-test.patch | 41 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.12.5.bb |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+
+diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
 new file mode 100644
-index 0000000000..785244bdea
+index 00000000000..50a4609f7aa
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
-@@ -0,0 +1,65 @@
-+From 8ee0e7d2bdcc1a5a5a3241904b243964ab947b7b Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 1 Dec 2023 20:12:25 +0100
-+Subject: [PATCH] Check return value of _TIFFCreateAnonField().
++++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+@@ -0,0 +1,41 @@
++From d9d916d5ea946c945323679d1709de1b87029b96 Mon Sep 17 00:00:00 2001
++From: Trevor Gamblin <tgamblin@baylibre.com>
++Date: Tue, 13 Aug 2024 11:07:05 -0400
++Subject: [PATCH] test_readline: skip limited history test
 +
-+Fixes #624
++This test was added recently and is failing on the ptest image when
++using the default PACKAGECONFIG settings (i.e. with editline instead of
++readline).. Disable it until the proper fix is determined.
 +
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/818fb8ce881cf839fbc710f6690aadb992aa0f9e]
-+CVE: CVE-2024-7006
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++A bug has been opened upstream: https://github.com/python/cpython/issues/123018
++
++Upstream-Status: Inappropriate [OE-specific]
++
++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 +---
-+ libtiff/tif_dirinfo.c |  2 +-
-+ libtiff/tif_dirread.c | 16 ++++++----------
-+ 2 files changed, 7 insertions(+), 11 deletions(-)
++ Lib/test/test_readline.py | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
-+index 0e705e8..4cfdaad 100644
-+--- a/libtiff/tif_dirinfo.c
-++++ b/libtiff/tif_dirinfo.c
-+@@ -887,7 +887,7 @@ const TIFFField *_TIFFFindOrRegisterField(TIFF *tif, uint32_t tag,
-+     if (fld == NULL)
-+     {
-+         fld = _TIFFCreateAnonField(tif, tag, dt);
-+-        if (!_TIFFMergeFields(tif, fld, 1))
-++        if (fld == NULL || !_TIFFMergeFields(tif, fld, 1))
-+             return NULL;
-+     }
++diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
++index 91fd7dd13f9..d81f9bf8eed 100644
++--- a/Lib/test/test_readline.py
+++++ b/Lib/test/test_readline.py
++@@ -132,6 +132,7 @@ def test_nonascii_history(self):
++         self.assertEqual(readline.get_history_item(1), "entrée 1")
++         self.assertEqual(readline.get_history_item(2), "entrée 22")
 + 
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index 58a4276..738df9f 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -4275,11 +4275,9 @@ int TIFFReadDirectory(TIFF *tif)
-+                                 dp->tdir_tag, dp->tdir_tag);
-+                 /* the following knowingly leaks the
-+                    anonymous field structure */
-+-                if (!_TIFFMergeFields(
-+-                        tif,
-+-                        _TIFFCreateAnonField(tif, dp->tdir_tag,
-+-                                             (TIFFDataType)dp->tdir_type),
-+-                        1))
-++                const TIFFField *fld = _TIFFCreateAnonField(
-++                    tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
-++                if (fld == NULL || !_TIFFMergeFields(tif, fld, 1))
-+                 {
-+                     TIFFWarningExtR(
-+                         tif, module,
-+@@ -5153,11 +5151,9 @@ int TIFFReadCustomDirectory(TIFF *tif, toff_t diroff,
-+                             "Unknown field with tag %" PRIu16 " (0x%" PRIx16
-+                             ") encountered",
-+                             dp->tdir_tag, dp->tdir_tag);
-+-            if (!_TIFFMergeFields(
-+-                    tif,
-+-                    _TIFFCreateAnonField(tif, dp->tdir_tag,
-+-                                         (TIFFDataType)dp->tdir_type),
-+-                    1))
-++            const TIFFField *fld = _TIFFCreateAnonField(
-++                tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
-++            if (fld == NULL || !_TIFFMergeFields(tif, fld, 1))
-+             {
-+                 TIFFWarningExtR(tif, module,
-+                                 "Registering anonymous field with tag %" PRIu16
+++    @unittest.skip("Skipping problematic test")
++     def test_write_read_limited_history(self):
++         previous_length = readline.get_history_length()
++         self.addCleanup(readline.set_history_length, previous_length)
++@@ -349,6 +350,7 @@ def test_history_size(self):
++             self.assertEqual(len(lines), history_size)
++             self.assertEqual(lines[-1].strip(), b"last input")
++ 
+++    @unittest.skip("Skipping problematic test")
++     def test_write_read_limited_history(self):
++         previous_length = readline.get_history_length()
++         self.addCleanup(readline.set_history_length, previous_length)
 +-- 
-+2.44.1
++2.39.2
 +
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-index d42ea6a6e5..89681be634 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-52355-0001.patch \
-            file://CVE-2023-52355-0002.patch \
-            file://CVE-2023-52356.patch \
-+           file://CVE-2024-7006.patch \
+diff --git a/meta/recipes-devtools/python/python3_3.12.5.bb b/meta/recipes-devtools/python/python3_3.12.5.bb
+index 5665c90fa96..cc2e14baf09 100644
+--- a/meta/recipes-devtools/python/python3_3.12.5.bb
++++ b/meta/recipes-devtools/python/python3_3.12.5.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
++           file://0001-test_readline-skip-limited-history-test.patch \
             "
  
- SRC_URI[sha256sum] = "88b3979e6d5c7e32b50d7ec72fb15af724f6ab2cbf7e10880c360a77e4b5d99a"
+ SRC_URI:append:class-native = " \
 -- 
-2.34.1
+2.39.2
 
 
