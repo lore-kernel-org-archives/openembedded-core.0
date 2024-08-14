@@ -2,227 +2,155 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 957DFC3DA4A
-	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 05:30:58 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.91314.1723613454004368184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 766C2C531DC
+	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 05:31:08 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.91186.1723613458684079802
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Aug 2024 22:30:54 -0700
+ Tue, 13 Aug 2024 22:30:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XuiHO3tH;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso45689615e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 22:30:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EeaFizMs;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: rybczynska@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-426526d30aaso42935475e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Aug 2024 22:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723613452; x=1724218252; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KFhfJ14UFDZvHCsUjlN1yHS763nC7iRZetfFfaKxCa0=;
-        b=XuiHO3tHDVrAlmTvkLl7IztTwkEoGoBimJKwyjtDIi/S7Oqd8gKt66h+XZ1ZsfKLDt
-         UFukuDGWxXxaMxD7bnrv7isEASf2T5Q3rSMe+QN+hOO65xml2JOauk3yZJsUDW00tPAc
-         rofTKDFF78BLBhboEi+UTDygTS7YLhzXPaNJKTtgyeIAJKw/dXIxwK3XpGkiwhKuEDvl
-         RQBHsxQszNv27/IeZNGYEMPq04fVDTzyqks0jtkHkcDue6YB/hxNFmWPrgD/sLW4Uvyw
-         e1UQZInEMm5QySbnRMIdcnxj9IlR2MjyAtCPqi2XriQt5FhlboebSWlu59cH14UhDMZK
-         sJvg==
+        d=gmail.com; s=20230601; t=1723613456; x=1724218256; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OkTa/98hIRKPFlwAaDSDreK1dxQgWRupIXuqrodBqtI=;
+        b=EeaFizMscKIeqCgZkgfejXRAvpkpLoazpZwmzsH85kaSEJ2x60XJX+XGg5ofYsBye+
+         DC3Vp8lCsWnH787XuuMSZBp+xF8LvPV3qHvdpxvVFFJn8dh9K5Wy4QU6WTo9Lbawtghy
+         lSvtw0p15eC0lyr3NZEHSQ5rJrkZ75BWtGO6H9riCf82UlzWqsfdofVPhcnqiWYhSI1K
+         I6PAXU9Y2bSIFOjUTGAWRZFCto0YwGlmMSbsfHH20cgN4ZTb9kgIOF04xVAO4afYdxbk
+         YBVx3C/bBt5WtI73y6ibfKt0ejQklCjmnfbnvu3KQ7m0YifpJ+gwdNV8fQSFgNjxz8jG
+         HQxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723613452; x=1724218252;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KFhfJ14UFDZvHCsUjlN1yHS763nC7iRZetfFfaKxCa0=;
-        b=MLz9KNXPM1/OTGuunSznuyyxxbMtP71HPECuUbM2Smk+f4mBweKbhAz5jaZBE5KoIE
-         2iKAZ2xXz1XnRS73kkydXKTUuzv559PYaqJjznKcTa3A+y8A4fdRVCGsA8yRnHMFOamn
-         aZnBhqDAMK1lPFrM09+nEdwv/KBBQJhcMa2Oe55TJDQP713rjl64ID4dlpcN3Y25CaKm
-         K/6sUFGYGAR+RpuwXwEpFlUFjmvJDK+QScQb5Ks+aBAv0ZN/BCa0MHR8q7BZCRCliKUL
-         YtFwipOIpaLlqslFFYs5brMBUm2UmwFwBiD4tDC9/m4hEnHhcsJucP/1/ZnKbvh+e5XO
-         IAnA==
-X-Gm-Message-State: AOJu0YypKvWO769JSQacU6bEqkCTrB7VxALQfpP2sbeiJzw+JJ5IRNU7
-	7Nt7LNZUFZtvyCy7Iqc5Knnq4pDKu0Fw3TG/oiJnMdP9D6r3TM4mGl2NoQ==
-X-Google-Smtp-Source: AGHT+IGFyNbEepvdoLnrzo6lNSwT8sEgmugxa4ORHiJu06UrgwnU2LEk6jaFR1Jwftce0Uf3i1r28Q==
-X-Received: by 2002:a05:600c:3501:b0:426:6388:d59f with SMTP id 5b1f17b1804b1-429dd232bedmr10002425e9.1.1723613451243;
-        Tue, 13 Aug 2024 22:30:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723613456; x=1724218256;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OkTa/98hIRKPFlwAaDSDreK1dxQgWRupIXuqrodBqtI=;
+        b=Y85paAKJm1ez8ZJr0r0gA+cJ4i6TMp3LcKb1WzFGzVTKQ7B/QrAX47bOIFDrphl2aq
+         ryovys32ZBKb/SuhZbJm3w3HJY1FdHki06+Bq/XqH44YQBtXMpbyulK2+wCxyjgauWeL
+         XAXHc8YV8El53Se5P+2yxQMEr4zJB0bUsTrEucgHLjObXHvptaD0oPWV1B2bdyQn2jK3
+         T7vyL/ZWKNJ8sS7CZAY29xKMnXKbZN9mLRND0MOFUjgEaMqHXp6tr8Xm1ItCXaihcjX9
+         FAUo3gtRia5mBXEqWwJ0fTbAyJsMLytOTLA0OQRgJ9Nwof3ZZyYhU8g0Usv2OkU4Cqy/
+         lyhg==
+X-Gm-Message-State: AOJu0YwoXGFUHExPo28ueVsM87wJgvOT6iw2/zOM6cRIcAluYIcDom6Y
+	f/857XaWTCyojS0MfO2J6kDH8dDN0BwDYEGUAXAPg2dktYe0/0rJWMeyJw==
+X-Google-Smtp-Source: AGHT+IH1ScGQCxN5OTQbBXFns4fo/dfVfThu3L+XlhPNFLonghVZ9edCgChxEwL7yM2bj71DpJ+/JA==
+X-Received: by 2002:a05:600c:1c0a:b0:426:5d0d:a2c9 with SMTP id 5b1f17b1804b1-429dd23ba73mr11295505e9.10.1723613456017;
+        Tue, 13 Aug 2024 22:30:56 -0700 (PDT)
 Received: from voyage.lan ([2a0d:3344:2311:d410:8c63:2ebf:4fe1:9568])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded4db0bsm8885525e9.32.2024.08.13.22.30.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded4db0bsm8885525e9.32.2024.08.13.22.30.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 22:30:50 -0700 (PDT)
+        Tue, 13 Aug 2024 22:30:55 -0700 (PDT)
 From: Marta Rybczynska <rybczynska@gmail.com>
 X-Google-Original-From: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Subject: [PATCH v5][OE-core 1/7] cve-check: encode affected product/vendor in CVE_STATUS
-Date: Wed, 14 Aug 2024 07:30:35 +0200
-Message-ID: <20240814053041.4991-1-marta.rybczynska@syslinbit.com>
+Subject: [PATCH v5][OE-core 2/7] cve-extra-inclusions: encode CPEs of affected packages
+Date: Wed, 14 Aug 2024 07:30:36 +0200
+Message-ID: <20240814053041.4991-2-marta.rybczynska@syslinbit.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240814053041.4991-1-marta.rybczynska@syslinbit.com>
+References: <20240814053041.4991-1-marta.rybczynska@syslinbit.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 05:30:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203302
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 05:31:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203303
 
-CVE_STATUS contains assesment of a given CVE, but until now it didn't have
-include the affected vendor/product. In the case of a global system include,
-that CVE_STATUS was visible in all recipes.
-
-This patch allows encoding of affected product/vendor to each CVE_STATUS
-assessment, also for groups. We can then filter them later and use only
-CVEs that correspond to the recipe.
-
-This is going to be used in meta/conf/distro/include/cve-extra-exclusions.inc
-and similar places.
+Add the new cpe:vendor:product tagging to entries in cve-extra-inclusions, using
+product/vendor combinations that are already present in OE-core (usually there
+is no specific vendor).
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 ---
- meta/classes/cve-check.bbclass | 24 ++++++++++-----------
- meta/lib/oe/cve_check.py       | 39 ++++++++++++++++++++++++++--------
- meta/lib/oe/spdx30_tasks.py    | 11 +++++-----
- 3 files changed, 48 insertions(+), 26 deletions(-)
+ .../distro/include/cve-extra-exclusions.inc   | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index c946de29a4..bc35a1c53c 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -324,8 +324,8 @@ def check_cves(d, patched_cves):
-     # Convert CVE_STATUS into ignored CVEs and check validity
-     cve_ignore = []
-     for cve in (d.getVarFlags("CVE_STATUS") or {}):
--        decoded_status, _, _ = decode_cve_status(d, cve)
--        if decoded_status == "Ignored":
-+        decoded_status = decode_cve_status(d, cve)
-+        if 'mapping' in decoded_status and decoded_status['mapping'] == "Ignored":
-             cve_ignore.append(cve)
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
+index fcef6a14fb..ffbbb7bef1 100644
+--- a/meta/conf/distro/include/cve-extra-exclusions.inc
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+@@ -16,11 +16,11 @@
+ #
  
-     import sqlite3
-@@ -507,11 +507,11 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-         write_string += "CVE: %s\n" % cve
-         write_string += "CVE STATUS: %s\n" % status
--        _, detail, description = decode_cve_status(d, cve)
--        if detail:
--            write_string += "CVE DETAIL: %s\n" % detail
--        if description:
--            write_string += "CVE DESCRIPTION: %s\n" % description
-+        status_details = decode_cve_status(d, cve)
-+        if 'detail' in status_details:
-+            write_string += "CVE DETAIL: %s\n" % status_details['detail']
-+        if 'description' in status_details:
-+            write_string += "CVE DESCRIPTION: %s\n" % status_details['description']
-         write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
-         write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
-         write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
-@@ -637,11 +637,11 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-             "status" : status,
-             "link": issue_link
-         }
--        _, detail, description = decode_cve_status(d, cve)
--        if detail:
--            cve_item["detail"] = detail
--        if description:
--            cve_item["description"] = description
-+        status_details = decode_cve_status(d, cve)
-+        if 'detail' in status_details:
-+            cve_item["detail"] = status_details['detail']
-+        if 'description' in status_details:
-+            cve_item["description"] = status_details['description']
-         cve_list.append(cve_item)
+ # strace https://nvd.nist.gov/vuln/detail/CVE-2000-0006
+-CVE_STATUS[CVE-2000-0006] = "upstream-wontfix: CVE is more than 20 years old \
++CVE_STATUS[CVE-2000-0006] = "upstream-wontfix: cpe:*:strace: CVE is more than 20 years old \
+ with no resolution evident. Broken links in CVE database references make resolution impractical."
  
-     package_data["issue"] = cve_list
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index ed5c714cb8..5edd34a2d9 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -132,8 +132,8 @@ def get_patched_cves(d):
+ # epiphany https://nvd.nist.gov/vuln/detail/CVE-2005-0238
+-CVE_STATUS[CVE-2005-0238] = "upstream-wontfix: \
++CVE_STATUS[CVE-2005-0238] = "upstream-wontfix: cpe:*:epiphany: \
+ The issue here is spoofing of domain names using characters from other character sets. \
+ There has been much discussion amongst the epiphany and webkit developers and \
+ whilst there are improvements about how domains are handled and displayed to the user \
+@@ -28,7 +28,7 @@ there is unlikely ever to be a single fix to webkit or epiphany which addresses
+ problem. There isn't any mitigation or fix or way to progress this further."
  
-     # Search for additional patched CVEs
-     for cve in (d.getVarFlags("CVE_STATUS") or {}):
--        decoded_status, _, _ = decode_cve_status(d, cve)
--        if decoded_status == "Patched":
-+        decoded_status = decode_cve_status(d, cve)
-+        if 'mapping' in decoded_status and decoded_status['mapping'] == "Patched":
-             bb.debug(2, "CVE %s is additionally patched" % cve)
-             patched_cves.add(cve)
+ # glibc https://nvd.nist.gov/vuln/detail/CVE-2010-4756
+-CVE_STATUS[CVE-2010-4756] = "upstream-wontfix: \
++CVE_STATUS[CVE-2010-4756] = "upstream-wontfix: cpe:*:glibc: \
+ Issue is memory exhaustion via glob() calls, e.g. from within an ftp server \
+ Best discussion in https://bugzilla.redhat.com/show_bug.cgi?id=681681 \
+ Upstream don't see it as a security issue, ftp servers shouldn't be passing \
+@@ -38,7 +38,7 @@ this to libc glob. Upstream have no plans to add BSD's GLOB_LIMIT or similar."
+ # go https://nvd.nist.gov/vuln/detail/CVE-2020-29511
+ CVE_STATUS_GROUPS += "CVE_STATUS_GO"
+ CVE_STATUS_GO = "CVE-2020-29509 CVE-2020-29511"
+-CVE_STATUS_GO[status] = "not-applicable-config: \
++CVE_STATUS_GO[status] = "not-applicable-config: cpe:golang:go: \
+ The encoding/xml package in go can potentially be used for security exploits if not used correctly \
+ CVE applies to a netapp product as well as flagging a general issue. We don't ship anything \
+ exposing this interface in an exploitable way"
+@@ -50,7 +50,7 @@ CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775 CVE-2015-4
+ CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782 CVE-2015-4783 CVE-2015-4784 \
+ CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789 CVE-2015-4790 CVE-2016-0682 \
+ CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-3418 CVE-2020-2981"
+-CVE_STATUS_DB[status] = "upstream-wontfix: Since Oracle relicensed bdb, the open source community is slowly but surely \
++CVE_STATUS_DB[status] = "upstream-wontfix: cpe:*:berkeley_db: Since Oracle relicensed bdb, the open source community is slowly but surely \
+ replacing bdb with supported and open source friendly alternatives. As a result this CVE is unlikely to ever be fixed."
  
-@@ -227,19 +227,40 @@ def convert_cve_version(version):
+ # Kernel CVEs that are generic but can't be added to the kernel's hand-maintained cve-exclusion.inc
+@@ -60,25 +60,25 @@ replacing bdb with supported and open source friendly alternatives. As a result
+ # For OE-Core our policy is to stay as close to the kernel stable releases as we can. This should
+ # ensure the bulk of the major kernel CVEs are fixed and we don't dive into each individual issue
+ # as the stable maintainers are much more able to do that.
+-CVE_STATUS[CVE-1999-0524] = "ignored: issue is that ICMP exists, can be filewalled if required"
+-CVE_STATUS[CVE-2008-4609] = "ignored: describes design flaws in TCP"
+-CVE_STATUS[CVE-2010-4563] = "ignored: low impact, only enables detection of hosts which are sniffing network traffic"
+-CVE_STATUS[CVE-2011-0640] = "ignored: requires physical access and any mitigation would mean USB is impractical to use"
++CVE_STATUS[CVE-1999-0524] = "ignored: cpe:*:linux_kernel:issue is that ICMP exists, can be filewalled if required"
++CVE_STATUS[CVE-2008-4609] = "ignored: cpe:*:linux_kernel:describes design flaws in TCP"
++CVE_STATUS[CVE-2010-4563] = "ignored: cpe:*:linux_kernel:low impact, only enables detection of hosts which are sniffing network traffic"
++CVE_STATUS[CVE-2011-0640] = "ignored: cpe:*:linux_kernel:requires physical access and any mitigation would mean USB is impractical to use"
  
- def decode_cve_status(d, cve):
-     """
--    Convert CVE_STATUS into status, detail and description.
-+    Convert CVE_STATUS into status, vendor, product, detail and description.
-     """
-     status = d.getVarFlag("CVE_STATUS", cve)
-     if not status:
--        return ("", "", "")
-+        return {}
-+
-+    status_split = status.split(':', 5)
-+    status_out = {}
-+    status_out["detail"] = status_split[0]
-+    product = "*"
-+    vendor = "*"
-+    description = ""
-+    if len(status_split) >= 4 and status_split[1].strip() == "cpe":
-+        # Both vendor and product are mandatory if cpe: present, the syntax is then:
-+        # detail: cpe:vendor:product:description
-+        vendor = status_split[2].strip()
-+        product = status_split[3].strip()
-+        description = status_split[4].strip()
-+    elif len(status_split) >= 2 and status_split[1].strip() == "cpe":
-+        # Malformed CPE
-+        bb.warn('Invalid CPE information for CVE_STATUS[%s] = "%s", not setting CPE' % (detail, cve, status))
-+    else:
-+        # Other case: no CPE, the syntax is then:
-+        # detail: description
-+        description = status_split[len(status_split)-1].strip() if (len(status_split) > 1) else ""
+ # qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2021-20255
+-CVE_STATUS[CVE-2021-20255] = "upstream-wontfix: \
++CVE_STATUS[CVE-2021-20255] = "upstream-wontfix: cpe:*:qemu: \
+ There was a proposed patch https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06098.html \
+ qemu maintainers say the patch is incorrect and should not be applied \
+ The issue is of low impact, at worst sitting in an infinite loop rather than exploitable."
  
--    status_split = status.split(':', 1)
--    detail = status_split[0]
--    description = status_split[1].strip() if (len(status_split) > 1) else ""
-+    status_out["vendor"] = vendor
-+    status_out["product"] = product
-+    status_out["description"] = description
+ # qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2019-12067
+-CVE_STATUS[CVE-2019-12067] = "upstream-wontfix: \
++CVE_STATUS[CVE-2019-12067] = "upstream-wontfix: cpe:*:qemu: \
+ There was a proposed patch but rejected by upstream qemu. It is unclear if the issue can \
+ still be reproduced or where exactly any bug is. \
+ We'll pick up any fix when upstream accepts one."
  
--    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
-+    status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", status_out['detail'])
-     if status_mapping is None:
-         bb.warn('Invalid detail "%s" for CVE_STATUS[%s] = "%s", fallback to Unpatched' % (detail, cve, status))
-         status_mapping = "Unpatched"
-+    status_out["mapping"] = status_mapping
- 
--    return (status_mapping, detail, description)
-+    return status_out
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 03dc47db02..4864d6252a 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -488,21 +488,22 @@ def create_spdx(d):
-     cve_by_status = {}
-     if include_vex != "none":
-         for cve in d.getVarFlags("CVE_STATUS") or {}:
--            status, detail, description = oe.cve_check.decode_cve_status(d, cve)
-+            decoded_status = oe.cve_check.decode_cve_status(d, cve)
- 
-             # If this CVE is fixed upstream, skip it unless all CVEs are
-             # specified.
--            if include_vex != "all" and detail in (
-+            if include_vex != "all" and 'detail' in decoded_status and \
-+                decoded_status['detail'] in (
-                 "fixed-version",
-                 "cpe-stable-backport",
-             ):
-                 bb.debug(1, "Skipping %s since it is already fixed upstream" % cve)
-                 continue
- 
--            cve_by_status.setdefault(status, {})[cve] = (
-+            cve_by_status.setdefault(decoded_status['mapping'], {})[cve] = (
-                 build_objset.new_cve_vuln(cve),
--                detail,
--                description,
-+                decoded_status['detail'],
-+                decoded_status['description'],
-             )
- 
-     cpe_ids = oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION"))
+ # nasm:nasm-native https://nvd.nist.gov/vuln/detail/CVE-2020-18974
+-CVE_STATUS[CVE-2020-18974] = "upstream-wontfix: \
++CVE_STATUS[CVE-2020-18974] = "upstream-wontfix: cpe:*:netwide_assembler: \
+ It is a fuzzing related buffer overflow. It is of low impact since most devices \
+ wouldn't expose an assembler. The upstream is inactive and there is little to be \
+ done about the bug, ignore from an OE perspective."
 -- 
 2.43.0
 
