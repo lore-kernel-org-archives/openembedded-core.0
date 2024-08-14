@@ -1,99 +1,123 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE0F6C52D7F
-	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 08:33:59 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.93377.1723624431191728165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC80FC3DA4A
+	for <webhook@archiver.kernel.org>; Wed, 14 Aug 2024 12:02:20 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.96181.1723636938767154587
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Aug 2024 01:33:51 -0700
+ Wed, 14 Aug 2024 05:02:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RHYlI+BX;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=jKUIZdZO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019150059a49-3f7c97d8-9f4f-401f-9362-22002e6fc387-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1723624430; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=hjxaV4motxlfSwL3Zav8ueA62BlyTStfcvigYhVo3yM=;
-	b=RHYlI+BXZIiNvD9+oPsjMauUFkSII8lDbouFoQq+QzE4DWm/sE7NUc16fAgvYYdj
-	PkUSIRkHdaqBtuNl+n4rH/XxpzCFSjWZ2UelvyrbxGJjs69ZSgZT4OyVZ/LOydpyFGM
-	P0Xcjcts97mqrtoz2UHnEZ5/lJsm3ehDymt/7Knc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723624430;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=hjxaV4motxlfSwL3Zav8ueA62BlyTStfcvigYhVo3yM=;
-	b=jKUIZdZOVAV9/gS5aUqOUPhK01lClmzXvRL8XlvPz/+6//Z1ndFsBddbkYM5UrYS
-	n/V53u4pi6Bdt1FNydUxqeENQOGguaKLo5pu2z6WytYlHqfTL540eE37ePrDy6Yyntb
-	Lzq5ZUZEF9/tHn2xuReOjW2ydA2dhemQ0qUaifDQ=
-From: patchtest@automation.yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][PATCH] systemd: dont set polkit permissions manually
-In-Reply-To: <20240814082925.2666125-1-f_l_k@t-online.de>
-References: <20240814082925.2666125-1-f_l_k@t-online.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019150059a49-3f7c97d8-9f4f-401f-9362-22002e6fc387-000000@us-west-2.amazonses.com>
-Date: Wed, 14 Aug 2024 08:33:50 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.14-54.240.27.193
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sF49WeW7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7126d62667bso244430b3a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 05:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1723636938; x=1724241738; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XddlatY53gWTkNzxq3G8FGYPvpsw3LvppxUylCBs5Z8=;
+        b=sF49WeW7bW6Kgh04nNtKwg41jw/ARCk048c9KfXFc6eOrOjx1DB+WVMr/DduoZhmpi
+         RDptd1e4ELHMXs2irJUaCyAjWy9mYTof7NlqixmJFjOVFK2X4UvVm3sHFup9IQJ98SZY
+         FK2/ThzGj6yBQ99/0b6Ncl8eUYRqSdfMgSJ7F0Bpyf845cx/gPlILQIPK6NSkEW30zHd
+         /xrXAd8ZXyQxLlRYr5JIRMrM5bpvTWVDjlwwXLAGV1b5dM7rxiW/OUazUPNQnfzWjcAu
+         MTdZxNDUALqT6E+ZvVlHfFnLlJXUzUDxzrCFjFF6lhX8noPtsN+jja1QQFh15lSMZakD
+         4NXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723636938; x=1724241738;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XddlatY53gWTkNzxq3G8FGYPvpsw3LvppxUylCBs5Z8=;
+        b=PzmIU1dp4P2ip0bOh/ZuwHvUwz6SS7RtgrmDCmXytorTohY1BkWAA/qcjWdtLs0lxX
+         mf9pibbiw7FzWNCeJWuHrVYnnlKfKJA4v2znx2oq0NKboQAYiO+Zd/VlFXRR0AaYoO8Q
+         UVZMMJzlVzT7XgWaJq2FK4JzXyVD9fXYEXsEHT9+WoCHu4jLmJsOzhkcIQ9VjHbTjYnw
+         AvSXRCThYX6vKeDC5ucc8s6Rgqun3t2BLV9v37TNQds25VHtVlZd1gePF9VuWOoKcKZs
+         ZbttXzocMWJ+5vfWi5RAsi2RSZo0Ezj1VwsNkovjcZtyfBZakqfDOdnqLB/0/IhaiF9h
+         odmQ==
+X-Gm-Message-State: AOJu0YwKoYXlapUi4rgNFgHsI3zlRNxKZQ1V1KNt7Ab/BV/3g5UfJUsv
+	H3A86dxWl02xJKEnB13A/tNXm7W2gmVKwLjWSjcrtXRR8enz/IFuJnptBAqep9DBy3E4AD0Vd0u
+	Jgao=
+X-Google-Smtp-Source: AGHT+IF/RUr0nKeTk6sKtWCcddVeuh09OZ9aiXHfqdCuoXdgHJPye0RSeTClD6ii4Q72udnnqO4G+g==
+X-Received: by 2002:a17:90a:f98c:b0:2d3:bb9b:ce64 with SMTP id 98e67ed59e1d1-2d3bb9bf30bmr295077a91.30.1723636933420;
+        Wed, 14 Aug 2024 05:02:13 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d3ac80e0d1sm1512214a91.43.2024.08.14.05.02.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2024 05:02:13 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 0/9] Patch review
+Date: Wed, 14 Aug 2024 05:02:00 -0700
+Message-Id: <cover.1723636705.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 08:33:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203310
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Aug 2024 12:02:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203311
 
---NextPart
-Content-Type: text/plain
+Please review this set of changes for scarthgap and have comments back by
+end of day Friday, August 16
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Passed a-full on autobuilder:
 
----
-Testing patch /home/patchtest/share/mboxes/systemd-dont-set-polkit-permissions-manually.patch
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7241
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+The following changes since commit 236ac1b43308df722a78d3aa20aef065dfae5b2b:
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+  build-appliance-image: Update to scarthgap head revision (2024-08-10 06:35:20 -0700)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+are available in the Git repository at:
 
----
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Archana Polampalli (1):
+  ffmpeg: fix CVE-2023-50008
 
---NextPart
+Niko Mauno (3):
+  systemd: Mitigate /var/log type mismatch issue
+  systemd: Mitigate /var/tmp type mismatch issue
+  image_types.bbclass: Use --force also with lz4,lzop
 
+Peter Marko (1):
+  libyaml: ignore CVE-2024-35326
 
---NextPart--
+Richard Purdie (1):
+  cve_check: Use a local copy of the database during builds
+
+Ross Burton (1):
+  python3-pycryptodome(x): use python_setuptools_build_meta build class
+
+Ryan Eatmon (1):
+  u-boot.inc: Refactor do_* steps into functions that can be overridden
+
+Soumya Sambu (1):
+  python3-certifi: Fix CVE-2024-39689
+
+ meta/classes-recipe/image_types.bbclass       |   4 +-
+ meta/classes/cve-check.bbclass                |   7 +-
+ meta/recipes-bsp/u-boot/u-boot-configure.inc  |  36 ++-
+ meta/recipes-bsp/u-boot/u-boot.inc            | 281 ++++++++++++------
+ .../meta/cve-update-nvd2-native.bb            |  18 +-
+ .../systemd/systemd/00-create-volatile.conf   |   1 +
+ meta/recipes-core/systemd/systemd_255.4.bb    |   5 +-
+ .../python3-certifi/CVE-2024-39689.patch      |  69 +++++
+ .../python/python3-certifi_2024.2.2.bb        |   3 +
+ .../python/python3-pycryptodome_3.20.0.bb     |   2 +-
+ .../python/python3-pycryptodomex_3.20.0.bb    |   2 +-
+ .../ffmpeg/ffmpeg/CVE-2023-50008.patch        |  29 ++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |   1 +
+ meta/recipes-support/libyaml/libyaml_0.2.5.bb |   1 +
+ 14 files changed, 336 insertions(+), 123 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-certifi/CVE-2024-39689.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50008.patch
+
+-- 
+2.34.1
+
 
