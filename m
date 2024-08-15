@@ -1,291 +1,259 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15041C52D7C
-	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 14:07:50 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web11.124120.1723730859513446742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3F0C52D7F
+	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:01 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.131089.1723748333419773361
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 07:07:39 -0700
+ Thu, 15 Aug 2024 11:58:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=bT0zMfN/;
- spf=pass (domain: baylibre.com, ip: 209.85.219.44, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6bf6dedbfe1so5138296d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 07:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723730858; x=1724335658; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tptMWQxXjYSYj37TVNEHVUSzbQ0L9BxMZmG0Vz+SfqY=;
-        b=bT0zMfN/QuuO8loZS2Kqb1IrWPezC8UeffQdP5wKJ0KGuOg0FxMv0MLFEXRnt/m5BM
-         b2lNsRdIGKc4KzeSb2ffUm0lUXdsV9ydLuU9NHBuL+XuL4NOyLVUEU5KJ305s7Q0pR0U
-         57WChiL6AqCD5FV+Va3iunXw1NtwSB7uJtuJB1ujISa3IKi9njG5c1Ifeo4a1PTIAauL
-         nTJ7hJTo2rEyRjOxiL5jzMxJaMMQ9aNQ8wFSWE0PbaWSHfidCG5GlEOBlLF/hnaW4cvS
-         l7LAUfUzHCH5Hm8Eurete7gruMP0k81+6vCIqZbDX/PCmHeKeZytBYaVIBe8qGpTnrEs
-         NxRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723730858; x=1724335658;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tptMWQxXjYSYj37TVNEHVUSzbQ0L9BxMZmG0Vz+SfqY=;
-        b=GIsKGOVHvXZFOrDta0kOE6P6KGTs6JFb1tcanc+fILPu1/m9v7Rlib3OCr7ywxzCkW
-         zulJyZyNyzDg/Ckak4FbMVPgxk4fI4eDMx+zwOCn1zQGthibA3aISiuHBxSiRFlquhQM
-         Im/IgNqZuAS3nMutA7CT403X1Aq2GvG5ChVinTYUdxhQ4rZ153aZW/dJR7HSVtAtRApe
-         IDzN83ss3acoe45PXluq9gm3gY1g7vy4CyvUgSfRq0YQ0qVlxjB6cNcAZPHF0bGLIHRU
-         +VLQZFYcATJd1gIBFj9dsCOMz+tZdau7aGrMyHWcJcBo+CwLe/FRK2E5ECwwhq09OqRz
-         +L9g==
-X-Gm-Message-State: AOJu0YziHx0jfQWHBFuc1oe2TyYS5YSejGo1kIDeKFrVLuTjWfQXCZXN
-	EYj5r1Ga/ib2icAq0S+exVw1XbFt28Q1D1ozK/ninSPdnZt7/oTKOQoHZt9AeCj6/fktcSz361/
-	ZyoY=
-X-Google-Smtp-Source: AGHT+IFYDbM6iYK2A5fdPg9/lOpRw5rEOPWtPSfQHZ5jtMtRw3fWuQDdUP4V7jP2IywIYqeVT5e4HA==
-X-Received: by 2002:a05:6214:4518:b0:6b5:9439:f048 with SMTP id 6a1803df08f44-6bf5d175a3amr70567966d6.19.1723730857850;
-        Thu, 15 Aug 2024 07:07:37 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fe2748csm6573246d6.63.2024.08.15.07.07.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2024 07:07:37 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com
-Subject: [OE-core][PATCH v2] piglit: upgrade 22eaf6a91c -> c11c9374c1
-Date: Thu, 15 Aug 2024 10:07:36 -0400
-Message-Id: <20240815140736.3189704-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PR2UoiJ/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xN4ECsr9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010191576833ab-64066788-6e9c-4406-a233-129bf79cb452-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1723748332;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=I99zkn/NYU9u+YlILK59oeZIEDN7qfrrqYKCkFH3Qas=;
+	b=PR2UoiJ/y4YxhFOft6VjCWSoX3FOQ3wErYSlGuTSmOHlV+F8M+ukeXKbi/8c/qUg
+	GKG8suyFsDAYgi5RvejplU8NIFtxHNQkY7aHXCr4HPhHOPskGWwM93jSgJ4dI82WGO/
+	mCJzi/i3/yK+HySas72s5MqAezFV0z9IMLorOPcw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748332;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=I99zkn/NYU9u+YlILK59oeZIEDN7qfrrqYKCkFH3Qas=;
+	b=xN4ECsr9lK47eYOU1xA4KQJ1o81Poiv9GvGnY078WCyuA8lw6ODl+eP6GiIlpWBP
+	Z0rXcnx70WnsYzEMy4xT1JmAcrv2zzNWAwss1M+YgEYhKQKmY/Rr2z/O9+dY/bhfBsu
+	ZpmewkRo0g5DV7E2hZu3ygOvjDU6Kcl7gf7le0Ic=
+Content-Type: multipart/mixed; boundary="===============8832500694646403100=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] cmake-native,cmake: upgrading to 3.30.2,3.30.2 SUCCEEDED
+Message-ID: <01010191576833ab-64066788-6e9c-4406-a233-129bf79cb452-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Aug 2024 18:58:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.08.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 14:07:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203340
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203341
 
-Commit 766669895d fixes builds with numpy 2.x.
+--===============8832500694646403100==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
-because it is now upstream in commit 9c941dfc36.
+Hello,
 
-Add wayland and wayland-protocols to DEPENDS to avoid errors during
-build.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *cmake-native,cmake* to *3.30.2,3.30.2* has Succeeded.
 
-Changelog:
+Next steps:
+    - apply the patch: git am 0001-cmake-native-cmake-upgrade-3.30.1-3.30.2-3.30.1-3.30.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-c11c9374c (HEAD -> main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
-f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
-045343687 arb_gpu_shader5: add linker version of function overloads test
-4b1116f3a arb_bindless_texture: add another function param bindless test
-4a62c2672 glsl: test function linking with implicit param conversions
-9f280db77 arb_bindless_texture: add basic function param bindless tests
-766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
-5214915dc generated_tests: print mako exceptions
-41bd119f2 arb_texture_buffer_object: don't leak src strings
-582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
-647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
-dee2a233f perf: port glsl-compile-time perf-test from mesa demos
-18333c568 perf: port vertexrate perf-test from mesa demos
-e932fa2f5 perf: port vbo perf-test from mesa demos
-f9cf4788a perf: port teximage perf-test from mesa demos
-20ccc1c10 perf: port readpixels perf-test from mesa demos
-556a9c96d perf: port genmipmap perf-test from mesa demos
-225b6bfb6 perf: port fill perf-test from mesa demos
-dae4a13f9 perf: port fbobind perf-test from mesa demos
-cd0f812b3 perf: port copytex perf-test from mesa demos
-fdf3fc09d cl: add missing errors
-01b64dd06 glsl-1.10: test a complex partial unroll scenario
-cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
-30d34daf7 glsl-bug-110796: distinguish which context creation failed
-3ea14414a Sync .mailmap from Mesa
-7accec34a glsl-bug-110796: check for GL ES 3.2 support
-12ebd71c7 egl-terminate-then-unbind-context: simplify
-69bc38a77 egl_khr_create_context: improve skip reporting
-209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
-800abe232 arb_blend_func_extended: gles: follow the specification requirements
-1cad6ee20 arb_texture_multisample: require geometry shaders
-59bdc8c4e egl: missing EGLconfig isn't stderr material
-cee2190b5 ext_external_objects: avoid stderr when we skip the test
-8cbefab52 util: remove handwritten defines and drop FIXME
-11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
-e180f9623 Use GBM_LDFLAGS to get all options
-3bddb36e8 fix vk_vert_buf_reuse cleanup
-8f6e71975 arb_texture_view: test for NaN in more cases
-446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
-8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
-8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
-7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
-3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
-759cc6454 clear-stencil: new test to check for problems clearing stencils
-2c64a91bb read_depth_offset: new test to check depth offset calculation
-869a1b6e8 replayer: create bin/ everytime
-9be2db198 Reduce precision in depth clear precision check
-7f40f35a3 Add float from half function
-f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
-fd4a6c521 wayland: Add Wayland dmabuf driver-name test
-df0d0ae79 conversion-explicit: use a different value for normalized +/- min
-a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
-67b89b3e3 README: recommend Ninja by default and switch to cmake --build
-efd111853 cmake: build is compatible up to 3.28
-e84aca9b5 cmake: add workaround for CMP0148
-2e70ca91e README: ccmake is not that common, regular cmake is enough to build
-e39ba99e5 README: update requirements
-d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
-938a9dc9f cmake: remove this 12 years old workaround taking too many lines
-7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
-cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
-4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
-a222d50bb cmake: implement GBM and Wayland controls
-4230c7e9f cmake: fix unusually formated statement
-d958b70d1 cmake: implement X11 option (required for GLX)
-4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
-44e1c29bf cmake: move first batch of option() at the beggining of the file
-96241ea22 cmake: rename default values with prefix DEFAULT_
-21374d8d3 cmake: move defaults into the per-platform section
-86d3f1132 cmake: predefine defaults depending on the system
-381221a81 cmake: drop unused CMP0042 policy
-99eade7cd cmake: respect indentation
-dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
-025e462ae util: fix multisample_texture_fs_template
-f9e26b98b tests: add a test for GL_APPLE_sync
-b24c834d9 ci: codespell ignore list is lowercase
-0a842edd0 more spelling fixes accross the whole codebase
-2c473ea73 ci: bump distribution tag
-7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
-19e58247e ext_texture_storage: Fix memory leak on error path
-d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
-74064b1d4 arb_clear_texture: only test float depth textures when supported
-9c941dfc3 properly check for libgen.h
-c55e22a5c arb_copy_image-formats: avoid undefined behavior
-537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
-b32186ee5 README: add Vulkan into the generic description
-1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
-62938a9bc tests: Fix cl test program@execute@builtin@builtin-float-degrees-1.0.generated issue about tolerance.
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 51505e963348277122d586c9dbd9100987bda1b2 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 Aug 2024 06:17:18 +0000
+Subject: [PATCH] cmake-native,cmake: upgrade 3.30.1 -> 3.30.2,3.30.1 -> 3.30.2
+
 ---
-v2 adds wayland and wayland-protocols to DEPENDS to solve build errors
-seen on the AB.
+ .../{cmake-native_3.30.1.bb => cmake-native_3.30.2.bb}     | 0
+ meta/recipes-devtools/cmake/cmake.inc                      | 2 +-
+ .../cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch    | 7 ++-----
+ ...able-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch | 2 +-
+ .../cmake/{cmake_3.30.1.bb => cmake_3.30.2.bb}             | 0
+ 5 files changed, 4 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.30.1.bb => cmake-native_3.30.2.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.30.1.bb => cmake_3.30.2.bb} (100%)
 
- ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
- meta/recipes-graphics/piglit/piglit_git.bb    |  5 +-
- 2 files changed, 2 insertions(+), 86 deletions(-)
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-deleted file mode 100644
-index 2875dd52ec..0000000000
---- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-+++ /dev/null
-@@ -1,83 +0,0 @@
--From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
--From: Erik Faye-Lund <erik.faye-lund@collabora.com>
--Date: Tue, 19 Mar 2024 16:34:02 +0100
--Subject: [PATCH] properly check for libgen.h
--
--Some users are reporting that basename is not available when building on
--Linux with musl libc. And since the POSIX spec[1] says that basename is
--defined in libgen.h, we should include that when available.
--
--So let's properly detect the header, and include it if it exists. This
--should hopefully make things a bit more robust.
--
--Since we're also including this from the CL program-tester, let's
--rearrange the includes a bit so we know that config.h has been included.
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
--Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- CMakeLists.txt                    | 1 +
-- tests/cl/program/program-tester.c | 5 ++++-
-- tests/util/config.h.in            | 1 +
-- tests/util/piglit-util.h          | 4 ++--
-- 4 files changed, 8 insertions(+), 3 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index dd2bf67125..5563fe0e20 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
-- check_include_file(fcntl.h     HAVE_FCNTL_H)
-- check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
-- check_include_file(endian.h    HAVE_ENDIAN_H)
--+check_include_file(libgen.h    HAVE_LIBGEN_H)
-- 
-- if(DEFINED PIGLIT_INSTALL_VERSION)
-- 	set(PIGLIT_INSTALL_VERSION_SUFFIX
--diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
--index 97fe64906d..e47fb5aacc 100644
----- a/tests/cl/program/program-tester.c
--+++ b/tests/cl/program/program-tester.c
--@@ -31,10 +31,13 @@
-- #include <inttypes.h>
-- #include <math.h>
-- #include <regex.h>
---#include <libgen.h>
-- 
-- #include "piglit-framework-cl-program.h"
-- 
--+#ifdef HAVE_LIBGEN_H
--+#include <libgen.h>
--+#endif
--+
-- /* Regexes */
-- 
-- /*
--diff --git a/tests/util/config.h.in b/tests/util/config.h.in
--index 8ed5af1709..437eb91418 100644
----- a/tests/util/config.h.in
--+++ b/tests/util/config.h.in
--@@ -16,3 +16,4 @@
-- #cmakedefine HAVE_SYS_RESOURCE_H 1
-- #cmakedefine HAVE_UNISTD_H 1
-- #cmakedefine HAVE_ENDIAN_H 1
--+#cmakedefine HAVE_LIBGEN_H 1
--diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
--index 4d3606c708..de999980b6 100644
----- a/tests/util/piglit-util.h
--+++ b/tests/util/piglit-util.h
--@@ -52,8 +52,8 @@ extern "C" {
-- #include <math.h>
-- #include <float.h>
-- 
---#if defined(__APPLE__) || defined(__MINGW32__)
---#  include "libgen.h" // for basename
--+#ifdef HAVE_LIBGEN_H
--+#  include <libgen.h> // for basename
-- #elif defined(_MSC_VER)
-- 
-- static inline char *
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.30.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.30.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.30.1.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.30.2.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 604a22a2f0..b88a4e4bc6 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+ "
+ 
+-SRC_URI[sha256sum] = "df9b3c53e3ce84c3c1b7c253e5ceff7d8d1f084ff0673d048f260e04ccb346e1"
++SRC_URI[sha256sum] = "46074c781eccebc433e98f0bbfa265ca3fd4381f245ca3b140e7711531d60db2"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+index 090f441f0f..7dc07582da 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+@@ -1,4 +1,4 @@
+-From a2cd906c36a04c8ce5a0095ae53892902b30d728 Mon Sep 17 00:00:00 2001
++From 5e624d82c2838fec2f41ebec124f74aacff9e61f Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Wed, 28 Dec 2022 17:51:27 +0800
+ Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
+@@ -22,7 +22,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Utilities/cmcurl/CMakeLists.txt b/Utilities/cmcurl/CMakeLists.txt
+-index b766aee425..34ae7d2a39 100644
++index b766aee4..34ae7d2a 100644
+ --- a/Utilities/cmcurl/CMakeLists.txt
+ +++ b/Utilities/cmcurl/CMakeLists.txt
+ @@ -94,7 +94,7 @@ set(USE_ECH OFF)
+@@ -34,6 +34,3 @@ index b766aee425..34ae7d2a39 100644
+  set(USE_NGTCP2 OFF)
+  set(USE_OPENSSL_QUIC OFF)
+  set(USE_QUICHE OFF)
 --- 
--GitLab
+-2.39.2
 -
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 99d75e64f8..8bfd0a9b63 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
-            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
-            file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
--           file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
-+SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr"
- 
-@@ -23,7 +22,7 @@ S = "${WORKDIR}/git"
- X11_DEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"
- X11_RDEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"
- 
--DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl"
-+DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl wayland wayland-protocols"
- 
- inherit cmake pkgconfig python3native features_check bash-completion
- 
+diff --git a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+index af164084d0..8788cc7964 100644
+--- a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
++++ b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+@@ -1,4 +1,4 @@
+-From 2d3f6933f78d393514a48f8222ac8c3c39cb5fc7 Mon Sep 17 00:00:00 2001
++From b97f7dbb2637c6da772833c93bedc8be77520fb9 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:28:04 -0300
+ Subject: [PATCH] Disable use of ext2fs/ext2_fs.h by cmake's internal
+diff --git a/meta/recipes-devtools/cmake/cmake_3.30.1.bb b/meta/recipes-devtools/cmake/cmake_3.30.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.30.1.bb
+rename to meta/recipes-devtools/cmake/cmake_3.30.2.bb
 -- 
-2.39.2
+2.44.0
 
+
+--===============8832500694646403100==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1051464672 to 1051459208 (-0%)
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake-dbg: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake/cmake-dev: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake-dev: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake/cmake-doc: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake-doc: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake/cmake-locale: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake-locale: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake/cmake-src: PKGSIZE changed from 10022920 to 10022979 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-src: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake-src: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake/cmake: PKGSIZE changed from 41422116 to 41423617 (+0%)
+packages/core2-64-poky-linux/cmake/cmake: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake/cmake: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v3.30/cmake-3.30.1.tar.gz" to "https://cmake.org/files/v3.30/cmake-3.30.2.tar.gz"
+packages/core2-64-poky-linux/cmake: PKGV changed from 3.30.1 [default] to 3.30.2 [default]
+packages/core2-64-poky-linux/cmake: PV changed from "3.30.1" to "3.30.2"
+packages/core2-64-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9422342 to 9620507 (+2%)
+
+--===============8832500694646403100==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cmake-native-cmake-upgrade-3.30.1-3.30.2-3.30.1-3.30.patch"
+
+RnJvbSA1MTUwNWU5NjMzNDgyNzcxMjJkNTg2YzlkYmQ5MTAwOTg3YmRhMWIyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMDY6MTc6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+bWFrZS1uYXRpdmUsY21ha2U6IHVwZ3JhZGUgMy4zMC4xIC0+IDMuMzAuMiwzLjMwLjEgLT4gMy4z
+MC4yCgotLS0KIC4uLi97Y21ha2UtbmF0aXZlXzMuMzAuMS5iYiA9PiBjbWFrZS1uYXRpdmVfMy4z
+MC4yLmJifSAgICAgfCAwCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jICAg
+ICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL2NtYWtlLzAwMDEtQ01ha2VMaXN0cy50eHQt
+ZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRjaCAgICB8IDcgKystLS0tLQogLi4uYWJsZS11c2Utb2Yt
+ZXh0MmZzLWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFsLS5wYXRjaCB8IDIgKy0KIC4uLi9j
+bWFrZS97Y21ha2VfMy4zMC4xLmJiID0+IGNtYWtlXzMuMzAuMi5iYn0gICAgICAgICAgICAgfCAw
+CiA1IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtlLW5hdGl2ZV8zLjMwLjEuYmIgPT4g
+Y21ha2UtbmF0aXZlXzMuMzAuMi5iYn0gKDEwMCUpCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2NtYWtlL3tjbWFrZV8zLjMwLjEuYmIgPT4gY21ha2VfMy4zMC4yLmJifSAoMTAwJSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UtbmF0aXZlXzMuMzAu
+MS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfMy4zMC4yLmJi
+CnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Y21ha2UvY21ha2UtbmF0aXZlXzMuMzAuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2NtYWtlL2NtYWtlLW5hdGl2ZV8zLjMwLjIuYmIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uv
+Y21ha2UuaW5jCmluZGV4IDYwNGEyMmEyZjAuLmI4OGE0ZTRiYzYgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2NtYWtlL2NtYWtlLmluYwpAQCAtMTksNyArMTksNyBAQCBDTUFLRV9NQUpPUl9WRVJTSU9O
+ID0gIiR7QCcuJy5qb2luKGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcuJylbMDoyXSl9IgogU1JDX1VS
+SSA9ICJodHRwczovL2NtYWtlLm9yZy9maWxlcy92JHtDTUFLRV9NQUpPUl9WRVJTSU9OfS9jbWFr
+ZS0ke1BWfS50YXIuZ3ogXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGY5YjNjNTNlM2Nl
+ODRjM2MxYjdjMjUzZTVjZWZmN2Q4ZDFmMDg0ZmYwNjczZDA0OGYyNjBlMDRjY2IzNDZlMSIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICI0NjA3NGM3ODFlY2NlYmM0MzNlOThmMGJiZmEyNjVjYTNmZDQz
+ODFmMjQ1Y2EzYjE0MGU3NzExNTMxZDYwZGIyIgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJj
+bWFrZS0oP1A8cHZlcj5cZCsoXC5cZCspKylcLnRhciIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VMaXN0cy50eHQtZGlzYWJsZS1VU0Vf
+TkdIVFRQMi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNN
+YWtlTGlzdHMudHh0LWRpc2FibGUtVVNFX05HSFRUUDIucGF0Y2gKaW5kZXggMDkwZjQ0MWYwZi4u
+N2RjMDc1ODJkYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtl
+LzAwMDEtQ01ha2VMaXN0cy50eHQtZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwMS1DTWFrZUxpc3RzLnR4dC1kaXNhYmxl
+LVVTRV9OR0hUVFAyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhMmNkOTA2YzM2YTA0Yzhj
+ZTVhMDA5NWFlNTM4OTI5MDJiMzBkNzI4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1
+ZTYyNGQ4MmMyODM4ZmVjMmY0MWViZWMxMjRmNzRhYWNmZjllNjFmIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogQ2hhbmdxaW5nIExpIDxjaGFuZ3FpbmcubGlAd2luZHJpdmVyLmNvbT4K
+IERhdGU6IFdlZCwgMjggRGVjIDIwMjIgMTc6NTE6MjcgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0g
+Q01ha2VMaXN0cy50eHQ6IGRpc2FibGUgVVNFX05HSFRUUDIKQEAgLTIyLDcgKzIyLDcgQEAgU2ln
+bmVkLW9mZi1ieTogVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4KICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBh
+L1V0aWxpdGllcy9jbWN1cmwvQ01ha2VMaXN0cy50eHQgYi9VdGlsaXRpZXMvY21jdXJsL0NNYWtl
+TGlzdHMudHh0Ci1pbmRleCBiNzY2YWVlNDI1Li4zNGFlN2QyYTM5IDEwMDY0NAoraW5kZXggYjc2
+NmFlZTQuLjM0YWU3ZDJhIDEwMDY0NAogLS0tIGEvVXRpbGl0aWVzL2NtY3VybC9DTWFrZUxpc3Rz
+LnR4dAogKysrIGIvVXRpbGl0aWVzL2NtY3VybC9DTWFrZUxpc3RzLnR4dAogQEAgLTk0LDcgKzk0
+LDcgQEAgc2V0KFVTRV9FQ0ggT0ZGKQpAQCAtMzQsNiArMzQsMyBAQCBpbmRleCBiNzY2YWVlNDI1
+Li4zNGFlN2QyYTM5IDEwMDY0NAogIHNldChVU0VfTkdUQ1AyIE9GRikKICBzZXQoVVNFX09QRU5T
+U0xfUVVJQyBPRkYpCiAgc2V0KFVTRV9RVUlDSEUgT0ZGKQotLS0gCi0yLjM5LjIKLQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDUtRGlzYWJsZS11c2Ut
+b2YtZXh0MmZzLWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFsLS5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDA1LURpc2FibGUtdXNlLW9mLWV4dDJmcy1leHQy
+X2ZzLmgtYnktY21ha2Utcy1pbnRlcm5hbC0ucGF0Y2gKaW5kZXggYWYxNjQwODRkMC4uODc4OGNj
+Nzk2NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDUt
+RGlzYWJsZS11c2Utb2YtZXh0MmZzLWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFsLS5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwNS1EaXNhYmxlLXVz
+ZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwtLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSAyZDNmNjkzM2Y3OGQzOTM1MTRhNDhmODIyMmFjOGMzYzM5Y2I1ZmM3IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiOTdmN2RiYjI2MzdjNmRhNzcyODMzYzkzYmVk
+YzhiZTc3NTIwZmI5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogT3RhdmlvIFNhbHZh
+ZG9yIDxvdGF2aW9Ab3NzeXN0ZW1zLmNvbS5icj4KIERhdGU6IFRodSwgNSBKdWwgMjAxOCAxMDoy
+ODowNCAtMDMwMAogU3ViamVjdDogW1BBVENIXSBEaXNhYmxlIHVzZSBvZiBleHQyZnMvZXh0Ml9m
+cy5oIGJ5IGNtYWtlJ3MgaW50ZXJuYWwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9jbWFrZS9jbWFrZV8zLjMwLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21h
+a2VfMy4zMC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4zMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvY21ha2UvY21ha2VfMy4zMC4yLmJiCi0tIAoyLjQ0LjAKCg==
+
+--===============8832500694646403100==--
 
