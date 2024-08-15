@@ -2,48 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE80C5B55A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC45C5B55B
 	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:08 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.131415.1723748333645538745
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.131416.1723748333739600321
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Aug 2024 11:58:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S48Qi2c6;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tn1mBHnp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010191576835b2-87ae2bd5-3c03-480d-b93f-bad648a30d5e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BHlHgXgD;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=KtF2mH/v;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019157683510-bc9d991d-0b42-4fcf-8db8-18ac652ef409-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1723748333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NiDzTTG6aDXAYRJZv9Urvoo1HTByU/DoFM+wQgRf6C0=;
-	b=S48Qi2c6ZDKl22UyXTAPPd4AzBo5+TigbBErfhVMtvCBZRX1IGekGIEBsOiGp3EY
-	U22X2e39WQIpxMfMMm6+A2k19CCsYxEtcAd20MnYJJboVouJGnVIntyuzZRREmKgN65
-	ZM7aLh0Z+LF4j2ZAbW6DhAOwptoDzuLWGmYwmQu8=
+	bh=rKzVYEVBLvKaGZo2J820RmVBLmi/vgHPR43pqyGl898=;
+	b=BHlHgXgDZhNI397/nsUl2L70KMfFEgo0V6rVnhp04jCgEKEhhiVt7YDy8yuY6YXD
+	Hw11DW9wRS41mB/oXLYCfW7tBQrWAfUOGie2+qJVmM9w0Mrir2dsfP92/PjPsFeehEm
+	XYDCP99yfT9SBb49Qu1tZbTkuDAu7Nzv2evORTKs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NiDzTTG6aDXAYRJZv9Urvoo1HTByU/DoFM+wQgRf6C0=;
-	b=tn1mBHnp68f3a2gopB3y+X5nxnqqA2XWGgDQsoYr5qQbsMpB3n1BstZQj5/miPYh
-	ugxt/XJKOS2EVcS4yUfjKigiOshEwvbQwCqsz4NnUPjXl05xB7qJyzH/kIsSxZkeiaw
-	TlsOe7nyoWTOBjzvbFXoWlRYDAZCo/yOxemTvYB0=
-Content-Type: multipart/mixed; boundary="===============8674893815536407711=="
+	bh=rKzVYEVBLvKaGZo2J820RmVBLmi/vgHPR43pqyGl898=;
+	b=KtF2mH/v/UGrIM1Qe0/1J74PVyOyo1+oeMOHWVD+4Ziiqy5VfNQ8sU3f17kLeNHq
+	Z6ly+V/4S7f5dX685vTuLxdlyC8bQywdq2zOsGP4spQv0ZNwLc9IVw7nr5LJnDQzHFF
+	0ne/GU0+eVU38F+brGrXiGv7xf4OR38ZpHfUkdOc=
+Content-Type: multipart/mixed; boundary="===============1197107043056246353=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
+	Khem Raj <raj.khem@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
+	Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] weston: upgrading to 13.0.3 SUCCEEDED
-Message-ID: <01010191576835b2-87ae2bd5-3c03-480d-b93f-bad648a30d5e-000000@us-west-2.amazonses.com>
+Subject: [AUH]
+ go-crosssdk-x86_64-pokysdk-linux,go-cross-canadian-x86-64,go-runtime,go,go-cross-core2-64:
+ upgrading to 1.23.0,1.23.0,1.23.0,1.23.0,1.23.0 FAILED
+Message-ID: <0101019157683510-bc9d991d-0b42-4fcf-8db8-18ac652ef409-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Aug 2024 18:58:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.15-54.240.27.23
+X-SES-Outgoing: 2024.08.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203343
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203345
 
---===============8674893815536407711==
+--===============1197107043056246353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,159 +55,163 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *weston* to *13.0.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *go-crosssdk-x86_64-pokysdk-linux,go-cross-canadian-x86-64,go-runtime,go,go-cross-core2-64* to *1.23.0,1.23.0,1.23.0,1.23.0,1.23.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-weston-upgrade-13.0.1-13.0.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade go-crosssdk-x86_64-pokysdk-linux -V 1.23.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1867 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-77b938f89d6a9bfdd692a4b4aa9d967948f420ad"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:77b938f89d6a9bfdd692a4b4aa9d967948f420ad"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (0 cached, 917 parsed). 1868 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-77b938f89d6a9bfdd692a4b4aa9d967948f420ad"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:77b938f89d6a9bfdd692a4b4aa9d967948f420ad"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-b2wzxzl4: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-tn9ckb_u/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-tn9ckb_u/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   3% |#                                   | ETA:  0:00:04
+Adding changed files:   7% |##                                  | ETA:  0:00:03
+Adding changed files:  10% |###                                 | ETA:  0:00:02
+Adding changed files:  14% |#####                               | ETA:  0:00:02
+Adding changed files:  17% |######                              | ETA:  0:00:02
+Adding changed files:  21% |#######                             | ETA:  0:00:02
+Adding changed files:  24% |########                            | ETA:  0:00:02
+Adding changed files:  28% |##########                          | ETA:  0:00:02
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  35% |############                        | ETA:  0:00:01
+Adding changed files:  39% |##############                      | ETA:  0:00:01
+Adding changed files:  42% |###############                     | ETA:  0:00:01
+Adding changed files:  46% |################                    | ETA:  0:00:01
+Adding changed files:  49% |#################                   | ETA:  0:00:01
+Adding changed files:  53% |###################                 | ETA:  0:00:01
+Adding changed files:  57% |####################                | ETA:  0:00:01
+Adding changed files:  60% |#####################               | ETA:  0:00:01
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files:  71% |#########################           | ETA:  0:00:00
+Adding changed files:  74% |##########################          | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://golang.org/dl/go1.23.0.src.tar.gz;name=main...
+INFO: Rebasing devtool onto df68d4e2b912f645bc1fb579a9333b8d7f59b624
+WARNING: Command 'git rebase df68d4e2b912f645bc1fb579a9333b8d7f59b624' failed:
+Auto-merging src/make.bash
+CONFLICT (content): Merge conflict in src/make.bash
+
+You will need to resolve conflicts in order to complete the upgrade.
+ERROR: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 91, in include_single_file
+    bb.parse.handle(fn, data, True)
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 136, in handle
+    abs_fn = resolve_file(fn, d)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 139, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found in %s" % (fn, bbpath))
+FileNotFoundError: [Errno 2] file go-64-pokysdk-linux.inc not found in /home/pokybuild/yocto-worker/auh/build/build/workspace:/home/pokybuild/yocto-worker/auh/build/meta-poky:/home/pokybuild/yocto-worker/auh/build/build:/home/pokybuild/yocto-worker/auh/build/meta:/home/pokybuild/yocto-worker/auh/build/meta-yocto-bsp
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/command.py", line 90, in runCommand
+    result = command_method(self, commandline)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/command.py", line 580, in parseRecipeFile
+    envdata = command.cooker.databuilder.parseRecipe(virtualfn, appendfiles, layername)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 550, in parseRecipe
+    datastores = self.parseRecipeVariants(virtualfn, appends, virtonly=True, layername=layername)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 524, in parseRecipeVariants
+    return self._parse_recipe(bb_data, bbfile, appends, mc, layername)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 512, in _parse_recipe
+    return bb.parse.handle(bbfile, bb_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 146, in handle
+    statements.eval(d)
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/ast.py", line 20, in eval
+    statement.eval(data)
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/ast.py", line 42, in eval
+    bb.parse.ConfHandler.include(self.filename, s, self.lineno, data, "include required")
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 68, in include
+    include_single_file(parentfn, fn, lineno, data, error_out)
+  File "/home/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 95, in include_single_file
+    raise ParseError("Could not %s file %s" % (error_out, fn), parentfn, lineno)
+bb.parse.ParseError: ParseError at /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/go-crosssdk-x86_64-pokysdk-linux/go-crosssdk-x86_64-pokysdk-linux_1.23.0.bb:2: Could not include required file go-64-pokysdk-linux.inc
+
+ERROR: Parsing of upgraded recipe failed
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From e8ec90ad78d0c0909e849c24e0291b9badbc122c Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Aug 2024 08:09:45 +0000
-Subject: [PATCH] weston: upgrade 13.0.1 -> 13.0.3
-
----
- ...1-libweston-tools-Include-libgen.h-for-basename-signat.patch | 2 +-
- .../wayland/{weston_13.0.1.bb => weston_13.0.3.bb}              | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{weston_13.0.1.bb => weston_13.0.3.bb} (98%)
-
-diff --git a/meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch b/meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
-index fbec9f9d4e..2a833ee973 100644
---- a/meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
-+++ b/meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
-@@ -1,4 +1,4 @@
--From e050830898ea37d30ef1c5339cb1665bdb92dcdc Mon Sep 17 00:00:00 2001
-+From 1a2a87013eb6af8e5267ecaf61e17b65a31dc662 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 14 Dec 2023 09:13:54 -0800
- Subject: [PATCH] libweston,tools: Include libgen.h for basename signature
-diff --git a/meta/recipes-graphics/wayland/weston_13.0.1.bb b/meta/recipes-graphics/wayland/weston_13.0.3.bb
-similarity index 98%
-rename from meta/recipes-graphics/wayland/weston_13.0.1.bb
-rename to meta/recipes-graphics/wayland/weston_13.0.3.bb
-index eae13e1c21..e4843d38f7 100644
---- a/meta/recipes-graphics/wayland/weston_13.0.1.bb
-+++ b/meta/recipes-graphics/wayland/weston_13.0.3.bb
-@@ -14,7 +14,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
-            file://systemd-notify.weston-start \
-            "
- 
--SRC_URI[sha256sum] = "ea1566ab4f5ffce7e9fd4f7a1fca5b30caae4d50023bf459213994094e02b29a"
-+SRC_URI[sha256sum] = "27f68d96e3b97d98daadef13a202356524924fa381418fa6716b9136ef099093"
- 
- UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/weston/-/tags"
- UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
--- 
-2.44.0
-
-
---===============8674893815536407711==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/weston/libweston-13: FILELIST: removed "/usr/lib/libweston-13.so.0.0.1", added "/usr/lib/libweston-13.so.0.0.3"
-Changes to packages/core2-64-poky-linux/weston (sysroot):
-  /usr/lib/libweston-13.so.0 changed symlink target from libweston-13.so.0.0.1 to libweston-13.so.0.0.3
-  /usr/lib/libweston-13.so.0.0.1 moved to /usr/lib/libweston-13.so.0.0.3
-
---===============8674893815536407711==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/weston: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/weston/-/releases/13.0.1/downloads/weston-13.0.1.tar.xz file://0001-libweston-tools-Include-libgen.h-for-basename-signat.patch file://weston.png file://weston.desktop file://xwayland.weston-start file://systemd-notify.weston-start" to "https://gitlab.freedesktop.org/wayland/weston/-/releases/13.0.3/downloads/weston-13.0.3.tar.xz file://0001-libweston-tools-Include-libgen.h-for-basename-signat.patch file://weston.png file://weston.desktop file://xwayland.weston-start file://systemd-notify.weston-start"
-packages/core2-64-poky-linux/weston: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/libweston-13: FILELIST: removed "/usr/lib/libweston-13.so.0.0.1", added "/usr/lib/libweston-13.so.0.0.3"
-packages/core2-64-poky-linux/weston/libweston-13: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/libweston-13: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-Changes to packages/core2-64-poky-linux/weston (sysroot):
-  /usr/lib/libweston-13.so.0 changed symlink target from libweston-13.so.0.0.1 to libweston-13.so.0.0.3
-  /usr/lib/libweston-13.so.0.0.1 moved to /usr/lib/libweston-13.so.0.0.3
-packages/core2-64-poky-linux/weston/weston-dbg: FILELIST: removed "/usr/lib/.debug/libweston-13.so.0.0.1", added "/usr/lib/.debug/libweston-13.so.0.0.3"
-packages/core2-64-poky-linux/weston/weston-dbg: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-dbg: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston-dev: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-dev: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston-doc: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-doc: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston-examples: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-examples: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston-locale: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-locale: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston-src: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-src: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston-staticdev: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-staticdev: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston-xwayland: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston-xwayland: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-packages/core2-64-poky-linux/weston/weston: PV changed from "13.0.1" to "13.0.3"
-packages/core2-64-poky-linux/weston/weston: PKGV changed from 13.0.1 [default] to 13.0.3 [default]
-
---===============8674893815536407711==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-weston-upgrade-13.0.1-13.0.3.patch"
-
-RnJvbSBlOGVjOTBhZDc4ZDBjMDkwOWU4NDljMjRlMDI5MWI5YmFkYmMxMjJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMDg6MDk6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-ZXN0b246IHVwZ3JhZGUgMTMuMC4xIC0+IDEzLjAuMwoKLS0tCiAuLi4xLWxpYndlc3Rvbi10b29s
-cy1JbmNsdWRlLWxpYmdlbi5oLWZvci1iYXNlbmFtZS1zaWduYXQucGF0Y2ggfCAyICstCiAuLi4v
-d2F5bGFuZC97d2VzdG9uXzEzLjAuMS5iYiA9PiB3ZXN0b25fMTMuMC4zLmJifSAgICAgICAgICAg
-ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC97d2VzdG9uXzEzLjAuMS5i
-YiA9PiB3ZXN0b25fMTMuMC4zLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy93YXlsYW5kL3dlc3Rvbi8wMDAxLWxpYndlc3Rvbi10b29scy1JbmNsdWRlLWxpYmdl
-bi5oLWZvci1iYXNlbmFtZS1zaWduYXQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5
-bGFuZC93ZXN0b24vMDAwMS1saWJ3ZXN0b24tdG9vbHMtSW5jbHVkZS1saWJnZW4uaC1mb3ItYmFz
-ZW5hbWUtc2lnbmF0LnBhdGNoCmluZGV4IGZiZWM5ZjlkNGUuLjJhODMzZWU5NzMgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dlc3Rvbi8wMDAxLWxpYndlc3Rvbi10
-b29scy1JbmNsdWRlLWxpYmdlbi5oLWZvci1iYXNlbmFtZS1zaWduYXQucGF0Y2gKKysrIGIvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uLzAwMDEtbGlid2VzdG9uLXRvb2xzLUlu
-Y2x1ZGUtbGliZ2VuLmgtZm9yLWJhc2VuYW1lLXNpZ25hdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
-LUZyb20gZTA1MDgzMDg5OGVhMzdkMzBlZjFjNTMzOWNiMTY2NWJkYjkyZGNkYyBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKK0Zyb20gMWEyYTg3MDEzZWI2YWY4ZTUyNjdlY2FmNjFlMTdiNjVhMzFk
-YzY2MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBn
-bWFpbC5jb20+CiBEYXRlOiBUaHUsIDE0IERlYyAyMDIzIDA5OjEzOjU0IC0wODAwCiBTdWJqZWN0
-OiBbUEFUQ0hdIGxpYndlc3Rvbix0b29sczogSW5jbHVkZSBsaWJnZW4uaCBmb3IgYmFzZW5hbWUg
-c2lnbmF0dXJlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93ZXN0
-b25fMTMuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uXzEzLjAu
-My5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3Mvd2F5bGFuZC93ZXN0b25fMTMuMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3Mvd2F5bGFuZC93ZXN0b25fMTMuMC4zLmJiCmluZGV4IGVhZTEzZTFjMjEuLmU0ODQzZDM4Zjcg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dlc3Rvbl8xMy4wLjEu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uXzEzLjAuMy5iYgpA
-QCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9y
-Zy93YXlsYW5kL3dlc3Rvbi8tL3JlbGVhc2VzLyR7UFZ9L2Rvd25sbwogICAgICAgICAgICBmaWxl
-Oi8vc3lzdGVtZC1ub3RpZnkud2VzdG9uLXN0YXJ0IFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiZWExNTY2YWI0ZjVmZmNlN2U5ZmQ0ZjdhMWZjYTViMzBjYWFlNGQ1MDAy
-M2JmNDU5MjEzOTk0MDk0ZTAyYjI5YSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyN2Y2OGQ5NmUz
-Yjk3ZDk4ZGFhZGVmMTNhMjAyMzU2NTI0OTI0ZmEzODE0MThmYTY3MTZiOTEzNmVmMDk5MDkzIgog
-CiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dh
-eWxhbmQvd2VzdG9uLy0vdGFncyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzLyg/
-UDxwdmVyPlxkK1wuXGQrXC4oPyE5XGQrKVxkKykiCi0tIAoyLjQ0LjAKCg==
-
---===============8674893815536407711==--
+--===============1197107043056246353==--
 
