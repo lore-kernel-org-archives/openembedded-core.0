@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CD1BC54752
-	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:04 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.131426.1723748334327819305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C95C5473A
+	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:03 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.131095.1723748334008170013
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Aug 2024 11:58:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QuH0HNZL;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=UiUPYqPz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019157683b84-03760a6c-4137-47ac-be6e-2fb8c740def9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JQ1TRkXN;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=C4G07p+2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019157683dcc-3c427985-529c-4823-9331-296c80178f42-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1723748334;
+	t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=snLtAJDFiYQvwCXfVE3VFAvnwt+9SjlQc0kxnpto3uQ=;
-	b=QuH0HNZL9tYagZENcMEdNLjubqecGBNtmqFJ6WqtcUZMb5XD5YBli9+JYiiYYocy
-	woK7sTcfB9P/x1gop76tlHEp0i0UPcczs/Dq05GAbs9WSIRAhOnYwIRKgXpvlsUtv05
-	200lnuPfe8VKvtImUJDLDasbFeglxRQdirmPamb0=
+	bh=3uTWnuizN9uGn82B7VOWLXQbRZ7oadigUdfJTdF3jfU=;
+	b=JQ1TRkXNenDmGxtnL7DH9uRjWjAvadkxNCMiupCjB8cdpvD6l0FwVmh0S1MH1/5t
+	RgKmfauWfI7P+TSiq2psJfmsIHhGtHyRYsulba3fkP5fPdWB3/TBlRy6YPhA1ngOIb0
+	Vv3pigH6xr8Sji5m865mTLKpZDTXanCkXFFbZw9E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748334;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=snLtAJDFiYQvwCXfVE3VFAvnwt+9SjlQc0kxnpto3uQ=;
-	b=UiUPYqPzh1w2HWiP3SsBXRUvqNJ8N9iQhlLX0wO19sdIXobkz98dWLPFrF2Z6/QE
-	gsrPUUIqNG4HFrrc48kDY1x9GNPzhC5s1toYZ7FtUdLotiHEMNC8/Q3dF4ikVpcmfM4
-	pu09kkeh3Oy2lvBPsXMO0D49xqdAlZTzuCGthN/k=
-Content-Type: multipart/mixed; boundary="===============8026149333076831505=="
+	bh=3uTWnuizN9uGn82B7VOWLXQbRZ7oadigUdfJTdF3jfU=;
+	b=C4G07p+2mt1qd4oewcIBCNF14916ocRqtQFVifiNHsHe+HAEIy0NoU4FFQ71v/Ac
+	IXDFI9HGnHFgmDukXSCjxf71v9DIUBZW5Qhl/LIIzRDV0ykXOxiN0KY4lyjlYHdR3jT
+	sOpnr1q9eFawKagWObD8IPyIVSspMP2msqj1YZrs=
+Content-Type: multipart/mixed; boundary="===============2339903627621752726=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wheel: upgrading to 0.44.0 SUCCEEDED
-Message-ID: <0101019157683b84-03760a6c-4137-47ac-be6e-2fb8c740def9-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Aug 2024 18:58:54 +0000
+Subject: [AUH] piglit: upgrading to 1d8fab9b49cc487ebcc949119eeb166fb3fa7591
+ FAILED
+Message-ID: <0101019157683dcc-3c427985-529c-4823-9331-296c80178f42-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Aug 2024 18:58:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.15-54.240.27.191
+X-SES-Outgoing: 2024.08.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203400
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203427
 
---===============8026149333076831505==
+--===============2339903627621752726==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-wheel* to *0.44.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *piglit* to *1d8fab9b49cc487ebcc949119eeb166fb3fa7591* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-wheel-upgrade-0.43.0-0.44.0.patch
+    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,3787 +79,1005 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7c1056f6dea4083196b677f5aa55942722a6693b Mon Sep 17 00:00:00 2001
+From 3e026d318ec1c586cf58163284be2283adbf679f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Aug 2024 12:24:45 +0000
-Subject: [PATCH] python3-wheel: upgrade 0.43.0 -> 0.44.0
+Date: Thu, 15 Aug 2024 15:30:52 +0000
+Subject: [PATCH] piglit: upgrade to latest revision
 
 ---
- .../python/{python3-wheel_0.43.0.bb => python3-wheel_0.44.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-wheel_0.43.0.bb => python3-wheel_0.44.0.bb} (85%)
+ ...Fix-narrowing-errors-seen-with-clang.patch |  2 +-
+ ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
+ ...proper-WAYLAND_INCLUDE_DIRS-variable.patch |  2 +-
+ ...t-shader.c-do-not-hardcode-build-pat.patch |  2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb    |  3 +-
+ 5 files changed, 4 insertions(+), 88 deletions(-)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
 
-diff --git a/meta/recipes-devtools/python/python3-wheel_0.43.0.bb b/meta/recipes-devtools/python/python3-wheel_0.44.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-wheel_0.43.0.bb
-rename to meta/recipes-devtools/python/python3-wheel_0.44.0.bb
-index ba309ae5fc..1e7e0f27c6 100644
---- a/meta/recipes-devtools/python/python3-wheel_0.43.0.bb
-+++ b/meta/recipes-devtools/python/python3-wheel_0.44.0.bb
-@@ -4,7 +4,7 @@ SECTION = "devel/python"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7ffb0db04527cfe380e4f2726bd05ebf"
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
+index 08e709b1d0..b6050648a3 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
+@@ -1,4 +1,4 @@
+-From 77f327909e4a99c64261290cd76e234e10cc64d2 Mon Sep 17 00:00:00 2001
++From 0ba7946db1feb1ebeac467b270cb391079113216 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 3 May 2023 21:59:43 -0700
+ Subject: [PATCH] tests: Fix narrowing errors seen with clang
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
+deleted file mode 100644
+index 2875dd52ec..0000000000
+--- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
+-From: Erik Faye-Lund <erik.faye-lund@collabora.com>
+-Date: Tue, 19 Mar 2024 16:34:02 +0100
+-Subject: [PATCH] properly check for libgen.h
+-
+-Some users are reporting that basename is not available when building on
+-Linux with musl libc. And since the POSIX spec[1] says that basename is
+-defined in libgen.h, we should include that when available.
+-
+-So let's properly detect the header, and include it if it exists. This
+-should hopefully make things a bit more robust.
+-
+-Since we're also including this from the CL program-tester, let's
+-rearrange the includes a bit so we know that config.h has been included.
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
+-Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- CMakeLists.txt                    | 1 +
+- tests/cl/program/program-tester.c | 5 ++++-
+- tests/util/config.h.in            | 1 +
+- tests/util/piglit-util.h          | 4 ++--
+- 4 files changed, 8 insertions(+), 3 deletions(-)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index dd2bf67125..5563fe0e20 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
+- check_include_file(fcntl.h     HAVE_FCNTL_H)
+- check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
+- check_include_file(endian.h    HAVE_ENDIAN_H)
+-+check_include_file(libgen.h    HAVE_LIBGEN_H)
+- 
+- if(DEFINED PIGLIT_INSTALL_VERSION)
+- 	set(PIGLIT_INSTALL_VERSION_SUFFIX
+-diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
+-index 97fe64906d..e47fb5aacc 100644
+---- a/tests/cl/program/program-tester.c
+-+++ b/tests/cl/program/program-tester.c
+-@@ -31,10 +31,13 @@
+- #include <inttypes.h>
+- #include <math.h>
+- #include <regex.h>
+--#include <libgen.h>
+- 
+- #include "piglit-framework-cl-program.h"
+- 
+-+#ifdef HAVE_LIBGEN_H
+-+#include <libgen.h>
+-+#endif
+-+
+- /* Regexes */
+- 
+- /*
+-diff --git a/tests/util/config.h.in b/tests/util/config.h.in
+-index 8ed5af1709..437eb91418 100644
+---- a/tests/util/config.h.in
+-+++ b/tests/util/config.h.in
+-@@ -16,3 +16,4 @@
+- #cmakedefine HAVE_SYS_RESOURCE_H 1
+- #cmakedefine HAVE_UNISTD_H 1
+- #cmakedefine HAVE_ENDIAN_H 1
+-+#cmakedefine HAVE_LIBGEN_H 1
+-diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
+-index 4d3606c708..de999980b6 100644
+---- a/tests/util/piglit-util.h
+-+++ b/tests/util/piglit-util.h
+-@@ -52,8 +52,8 @@ extern "C" {
+- #include <math.h>
+- #include <float.h>
+- 
+--#if defined(__APPLE__) || defined(__MINGW32__)
+--#  include "libgen.h" // for basename
+-+#ifdef HAVE_LIBGEN_H
+-+#  include <libgen.h> // for basename
+- #elif defined(_MSC_VER)
+- 
+- static inline char *
+--- 
+-GitLab
+-
+diff --git a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+index 70bb55053d..192acf85a7 100644
+--- a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
++++ b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+@@ -1,4 +1,4 @@
+-From cb8e4b99fcfe81399e3e6d922156db4a48a39a8e Mon Sep 17 00:00:00 2001
++From 94ab3457830ee8430f5a08e466b58f8e90454e12 Mon Sep 17 00:00:00 2001
+ From: Pascal Bach <pascal.bach@siemens.com>
+ Date: Thu, 4 Oct 2018 14:43:17 +0200
+ Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
+diff --git a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+index ce5cbd3ea9..712cf33c34 100644
+--- a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
++++ b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+@@ -1,4 +1,4 @@
+-From 7d2d23125f1946a7b74f9a427388d469500fcd8d Mon Sep 17 00:00:00 2001
++From 1c1378e0c93ff3a37f0e4fa35c8e989346c63fa1 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 10 Nov 2020 17:13:50 +0000
+ Subject: [PATCH] tests/util/piglit-shader.c: do not hardcode build path into
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 99d75e64f8..1bd0e52d18 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
+            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
+            file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
+-           file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
--SRC_URI[sha256sum] = "465ef92c69fa5c5da2d1cf8ac40559a8c940886afcef87dcf14b9470862f1d85"
-+SRC_URI[sha256sum] = "a29c3f2817e95ab89aa4660681ad547c0e9547f20e75b0562fe7723c9a2a9d49"
- 
- inherit python_flit_core pypi
+-SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
++SRCREV = "1d8fab9b49cc487ebcc949119eeb166fb3fa7591"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr"
  
 -- 
 2.44.0
 
 
---===============8026149333076831505==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/python3-wheel/python3-wheel: FILELIST: directory renamed /usr/lib/python3.12/site-packages/wheel-0.43.0.dist-info -> /usr/lib/python3.12/site-packages/wheel-0.44.0.dist-info, added "/usr/lib/python3.12/site-packages/wheel/__pycache__/_bdist_wheel.cpython-312.pyc /usr/lib/python3.12/site-packages/wheel/_bdist_wheel.py"
-Changes to packages/core2-64-poky-linux/python3-wheel (sysroot):
-  /usr/lib/python3.12/site-packages/wheel-0.43.0.dist-info moved to /usr/lib/python3.12/site-packages/wheel-0.44.0.dist-info
-  /usr/lib/python3.12/site-packages/wheel/_bdist_wheel.py was added
-  /usr/lib/python3.12/site-packages/wheel/__pycache__/_bdist_wheel.cpython-312.pyc was added
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
-Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
-  /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-14.2.0 was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
-  /usr/libexec/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1plus was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/collect2 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/g++-mapper-server was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixincl was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/liblto_plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto-wrapper was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gengtype was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/strip was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/x86_64-poky-linux/gcc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/adxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ammintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxbf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxcomplexintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxfp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxtileintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512cdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512dqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512erintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512pfintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxneconvertintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cet.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cldemoteintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clflushoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clwbintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clzerointrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cmpccxaddintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cpuid.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cross-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/emmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/enqcmdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/f16cintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/float.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fma4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fxsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/gfniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/hresetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ia32intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/immintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/iso646.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/keylockerintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lwpintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lzcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm3dnow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm_malloc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/movdirintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/nmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pconfigintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pkuintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/popcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath_weak.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/raointintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rdseedintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rtmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/serializeintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sgxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sha512intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/shaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm3intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/smmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdalign.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdatomic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdbool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdckdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stddef.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdfix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint-gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdnoreturn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/syslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tbmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/uintrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/unwind.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/usermsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vaesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/varargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/waitpkgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86gprintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xopintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavecintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xtestintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/macro_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gtype.state was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/addresses.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/align.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/all-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/access-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analysis-plan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-language.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-logging.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-selftests.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/bar-chart.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-details.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-info.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-event.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/complexity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/constraint-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/diagnostic-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/engine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/exploded-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/feasible-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/function-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/inlining-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/known-function-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/pending-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-point.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-state.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/ranges.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/record-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/sm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/state-purge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/store.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/supergraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/svalue.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/symbol.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/trimmed-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/array-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/asan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attribs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-host.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/backend.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/basic-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/b-header-vars was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/calls.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ccmp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c/c-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfganal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cgraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cif-code.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/color-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/conditions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/configargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/biarch64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-isa.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/convert.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coretypes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coverage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/contracts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-trait.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cpplib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cselib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ctfc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ddg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/debug.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/defaults.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/df.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dfp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-client-data-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-format-sarif.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-spec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/digraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dojump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dominance.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/domwalk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/double-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dump-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2ctf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/edit-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/errors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/et-forest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/except.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/explow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expmed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-find.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/filenames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flag-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function-abi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/generic-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gengtype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/genrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gensupport.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-lower-bitint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predicate-analysis.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-infer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-phi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-trace.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-access.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/glimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphite.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphviz.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyms.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hashtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-table.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hwint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/inchash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/incpath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/input.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-opinit.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/intl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-cp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-strub.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/is-a.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lcm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libiberty.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limitx.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/line-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2/m2-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/make-unique.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/md5.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memmodel.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memory-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-general.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-selectors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/options.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-jobserver.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/output.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/passes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pointer-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/prefix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile-count.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op-mixed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-md.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/real.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/recog.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regcprop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regrename.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/resource.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sched-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sese.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/signop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sparseset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sreal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/statistics.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stmt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stringpool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/system.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-globals.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-insns.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/targhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm_p.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/toplev.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tracer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-check.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/treestruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tristate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsystem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typeclass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ubsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/valtrack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-pointer-equiv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-prof.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-storage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-relation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/varasm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vr-values.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/xcoff.h was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-14.2.0 was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
-  /usr/libexec/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1plus was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/collect2 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/g++-mapper-server was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixincl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/liblto_plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto-wrapper was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gengtype was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/strip was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/adxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ammintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxcomplexintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxfp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxtileintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512erintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxneconvertintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cet.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clwbintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clzerointrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cmpccxaddintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cpuid.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cross-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/emmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/f16cintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/float.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fma4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fxsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/gfniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/hresetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ia32intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/immintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/iso646.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/keylockerintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lwpintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lzcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm3dnow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm_malloc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/movdirintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/nmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pconfigintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pkuintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/popcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath_weak.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/raointintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rdseedintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rtmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/serializeintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sgxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sha512intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/shaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm3intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/smmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdalign.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdatomic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdbool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdckdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stddef.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdfix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint-gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdnoreturn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/syslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tbmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/uintrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/unwind.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/usermsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vaesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/varargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86gprintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xopintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavecintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xtestintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/macro_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gtype.state was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/addresses.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/align.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/access-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analysis-plan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-language.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-logging.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/bar-chart.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-details.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-info.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-event.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/complexity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/constraint-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/engine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/exploded-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/feasible-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/function-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/inlining-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/known-function-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-point.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-state.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/ranges.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/record-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/sm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/state-purge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/store.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/supergraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/svalue.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/symbol.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/trimmed-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/asan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attribs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/backend.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/calls.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c/c-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/conditions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/configargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/biarch64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-isa.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/convert.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coverage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/contracts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-trait.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cselib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ctfc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ddg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/debug.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/defaults.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/df.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dfp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-format-sarif.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-spec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/digraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dojump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dominance.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/double-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2ctf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/errors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/except.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/explow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expmed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-find.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/filenames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-lower-bitint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predicate-analysis.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-infer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-phi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-trace.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-access.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/glimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphite.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hwint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/inchash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/incpath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/input.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-opinit.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/intl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-cp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-strub.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/is-a.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lcm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limitx.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/line-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2/m2-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/make-unique.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/md5.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-selectors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/options.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-jobserver.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/output.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/passes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pointer-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/prefix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op-mixed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-md.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/real.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/recog.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regrename.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/resource.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sese.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/signop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sreal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/statistics.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stmt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/system.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/toplev.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tracer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tristate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-pointer-equiv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-storage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-relation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/varasm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-
---===============8026149333076831505==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-wheel: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-packages/core2-64-poky-linux/python3-wheel: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.43.0.tar.gz;downloadfilename=wheel-0.43.0.tar.gz" to "https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.44.0.tar.gz;downloadfilename=wheel-0.44.0.tar.gz"
-packages/core2-64-poky-linux/python3-wheel: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-dbg: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-dbg: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-dev: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-dev: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-doc: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-doc: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-locale: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-locale: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-src: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-src: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-staticdev: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel-staticdev: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-packages/core2-64-poky-linux/python3-wheel/python3-wheel: FILELIST: directory renamed /usr/lib/python3.12/site-packages/wheel-0.43.0.dist-info -> /usr/lib/python3.12/site-packages/wheel-0.44.0.dist-info, added "/usr/lib/python3.12/site-packages/wheel/__pycache__/_bdist_wheel.cpython-312.pyc /usr/lib/python3.12/site-packages/wheel/_bdist_wheel.py"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel: PKGSIZE changed from 447007 to 453557 (+1%)
-packages/core2-64-poky-linux/python3-wheel/python3-wheel: PV changed from "0.43.0" to "0.44.0"
-packages/core2-64-poky-linux/python3-wheel/python3-wheel: PKGV changed from 0.43.0 [default] to 0.44.0 [default]
-Changes to packages/core2-64-poky-linux/python3-wheel (sysroot):
-  /usr/lib/python3.12/site-packages/wheel-0.43.0.dist-info moved to /usr/lib/python3.12/site-packages/wheel-0.44.0.dist-info
-  /usr/lib/python3.12/site-packages/wheel/_bdist_wheel.py was added
-  /usr/lib/python3.12/site-packages/wheel/__pycache__/_bdist_wheel.cpython-312.pyc was added
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
-Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
-  /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-14.2.0 was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
-  /usr/libexec/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1plus was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/collect2 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/g++-mapper-server was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixincl was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/liblto_plugin.so was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto1 was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto-wrapper was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gengtype was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/strip was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ar was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-as was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-cpp was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-gcc was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.bfd was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.gold was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-nm was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objcopy was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objdump was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ranlib was added
-  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/x86_64-poky-linux/gcc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/adxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ammintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxbf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxcomplexintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxfp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxtileintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512cdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512dqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512erintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512pfintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxifmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxneconvertintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint16intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint8intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmi2intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cet.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cldemoteintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clflushoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clwbintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clzerointrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cmpccxaddintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cpuid.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cross-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/emmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/enqcmdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/f16cintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/float.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fma4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fmaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fxsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/gfniintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/hresetintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ia32intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/immintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/iso646.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/keylockerintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lwpintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lzcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm3dnow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm_malloc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/movdirintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/nmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pconfigintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pkuintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/popcntintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchiintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchwintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath_weak.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/raointintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rdseedintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rtmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/serializeintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sgxintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sha512intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/shaintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm3intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm4intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/smmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdalign.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdatomic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdbool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdckdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stddef.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdfix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint-gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdnoreturn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/syslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tbmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/uintrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/unwind.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/usermsrintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vaesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/varargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/waitpkgintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86gprintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86intrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xmmintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xopintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavecintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavesintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xtestintrin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/limits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/README was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/macro_list was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gtype.state was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/addresses.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/align.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/all-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/access-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analysis-plan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-language.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-logging.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-selftests.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/bar-chart.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-details.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-info.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-event.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/complexity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/constraint-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/diagnostic-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/engine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/exploded-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/feasible-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/function-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/inlining-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/known-function-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/pending-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-point.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-state.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/ranges.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/record-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-reachability.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/sm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/state-purge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/store.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/supergraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/svalue.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/symbol.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/trimmed-graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/array-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/asan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attribs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-host.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/backend.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/basic-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/b-header-vars was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/calls.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ccmp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c/c-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfganal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cgraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cif-code.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/color-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/conditions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/configargs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/biarch64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-isa.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/convert.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coretypes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coverage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/contracts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-trait.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cpplib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cselib.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ctfc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ddg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/debug.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/defaults.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/df.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dfp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-client-data-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-diagram.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-format-sarif.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-spec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/digraph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dojump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dominance.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/domwalk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/double-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dump-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2ctf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/edit-context.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/errors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/et-forest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/except.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/explow.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expmed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-find.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/filenames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flag-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function-abi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/generic-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gengtype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/genrtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gensupport.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-lower-bitint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predicate-analysis.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-fold.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-infer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-path.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-phi.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-trace.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-access.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/glimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graph.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphite.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphviz.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyms.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-set.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hashtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-table.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hwint.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/inchash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/incpath.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/input.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-config.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-opinit.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/intl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-cp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-strub.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/is-a.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lcm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libiberty.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limitx.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limity.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/line-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/linux.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2 was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2/m2-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/make-unique.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/md5.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memmodel.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memory-block.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-general.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-low.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-selectors.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/options.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-jobserver.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/output.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/passes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pointer-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/prefix.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print-urlifier.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile-count.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op-mixed.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-md.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/real.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/recog.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regcprop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regrename.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regs.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reload.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/resource.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rich-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sched-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sese.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/signop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sparseset.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sreal.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/statistics.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stmt.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stringpool.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/system.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-def.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-globals.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-insns.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/targhooks.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm_p.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/toplev.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tracer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-check.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-core.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-logical-location.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/treestruct.def was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tristate.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsystem.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typeclass.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ubsan.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/valtrack.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-pointer-equiv.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-prof.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-query.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-pretty-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-storage.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-relation.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/varasm.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/version.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vr-values.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/xcoff.h was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-14.2.0 was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
-  /usr/libexec/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1plus was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/collect2 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/g++-mapper-server was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixincl was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/liblto_plugin.so was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto1 was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto-wrapper was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gengtype was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/strip was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ar was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-as was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-cpp was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-gcc was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-nm was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objcopy was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objdump was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ranlib was removed
-  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/adxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ammintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxcomplexintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxfp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxtileintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512erintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxifmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxneconvertintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint16intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint8intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmi2intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cet.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clwbintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clzerointrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cmpccxaddintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cpuid.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cross-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/emmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/f16cintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/float.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fma4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fmaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fxsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/gfniintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/hresetintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ia32intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/immintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/iso646.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/keylockerintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lwpintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lzcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm3dnow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm_malloc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/movdirintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/nmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pconfigintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pkuintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/popcntintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchiintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchwintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath_weak.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/raointintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rdseedintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rtmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/serializeintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sgxintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sha512intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/shaintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm3intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm4intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/smmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdalign.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdatomic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdbool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdckdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stddef.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdfix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint-gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdnoreturn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/syslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tbmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/uintrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/unwind.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/usermsrintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vaesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/varargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86gprintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86intrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xmmintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xopintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavecintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavesintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xtestintrin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/limits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/README was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/macro_list was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gtype.state was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/addresses.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/align.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/access-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analysis-plan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-language.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-logging.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/bar-chart.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-details.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-info.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-event.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/complexity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/constraint-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/engine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/exploded-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/feasible-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/function-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/inlining-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/known-function-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-point.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-state.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/ranges.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/record-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-reachability.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/sm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/state-purge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/store.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/supergraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/svalue.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/symbol.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/trimmed-graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/asan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attribs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/backend.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/calls.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c/c-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/conditions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/configargs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/biarch64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-isa.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/convert.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coverage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/contracts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-trait.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cselib.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ctfc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ddg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/debug.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/defaults.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/df.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dfp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-diagram.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-format-sarif.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-spec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/digraph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dojump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dominance.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/double-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2ctf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/errors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/except.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/explow.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expmed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-find.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/filenames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-lower-bitint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predicate-analysis.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-fold.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-infer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-path.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-phi.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-trace.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-access.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/glimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graph.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphite.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hwint.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/inchash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/incpath.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/input.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-opinit.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/intl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-cp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-strub.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/is-a.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lcm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limitx.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limity.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/line-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/linux.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2 was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2/m2-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/make-unique.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/md5.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-selectors.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/options.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-jobserver.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/output.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/passes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pointer-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/prefix.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print-urlifier.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op-mixed.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-md.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/real.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/recog.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regrename.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regs.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reload.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/resource.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rich-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sese.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/signop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sreal.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/statistics.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stmt.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/system.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-def.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/toplev.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tracer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-logical-location.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tristate.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-pointer-equiv.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-query.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-pretty-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-storage.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-relation.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/varasm.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/version.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-
---===============8026149333076831505==
+--===============2339903627621752726==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-wheel-upgrade-0.43.0-0.44.0.patch"
+ filename="0001-piglit-upgrade-to-latest-revision.patch"
 
-RnJvbSA3YzEwNTZmNmRlYTQwODMxOTZiNjc3ZjVhYTU1OTQyNzIyYTY2OTNiIE1vbiBTZXAgMTcg
+RnJvbSAzZTAyNmQzMThlYzFjNTg2Y2Y1ODE2MzI4NGJlMjI4M2FkYmY2NzlmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTI6MjQ6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdoZWVsOiB1cGdyYWRlIDAuNDMuMCAtPiAwLjQ0LjAKCi0tLQogLi4uL3B5dGhvbi97
-cHl0aG9uMy13aGVlbF8wLjQzLjAuYmIgPT4gcHl0aG9uMy13aGVlbF8wLjQ0LjAuYmJ9IHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy13aGVlbF8wLjQzLjAuYmIgPT4g
-cHl0aG9uMy13aGVlbF8wLjQ0LjAuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdoZWVsXzAuNDMuMC5iYiBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy13aGVlbF8wLjQ0LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4
-NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdoZWVs
-XzAuNDMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXdoZWVsXzAuNDQuMC5iYgppbmRleCBiYTMwOWFlNWZjLi4xZTdlMGYyN2M2IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2hlZWxfMC40My4wLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13aGVlbF8wLjQ0LjAuYmIK
-QEAgLTQsNyArNCw3IEBAIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgogTElDRU5TRSA9ICJNSVQi
-CiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9N2ZmYjBkYjA0NTI3
-Y2ZlMzgwZTRmMjcyNmJkMDVlYmYiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0NjVlZjkyYzY5
-ZmE1YzVkYTJkMWNmOGFjNDA1NTlhOGM5NDA4ODZhZmNlZjg3ZGNmMTRiOTQ3MDg2MmYxZDg1Igor
-U1JDX1VSSVtzaGEyNTZzdW1dID0gImEyOWMzZjI4MTdlOTVhYjg5YWE0NjYwNjgxYWQ1NDdjMGU5
-NTQ3ZjIwZTc1YjA1NjJmZTc3MjNjOWEyYTlkNDkiCiAKIGluaGVyaXQgcHl0aG9uX2ZsaXRfY29y
-ZSBweXBpCiAKLS0gCjIuNDQuMAoK
+CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTU6MzA6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+aWdsaXQ6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIC4uLkZpeC1uYXJyb3dpbmct
+ZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRjaCB8ICAyICstCiAuLi5jbHVkZS1saWJnZW4uaC1v
+bi1tdXNsLWxpbnV4LXN5c3RlbXMucGF0Y2ggfCA4MyAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi5w
+cm9wZXItV0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUucGF0Y2ggfCAgMiArLQogLi4udC1z
+aGFkZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoIHwgIDIgKy0KIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYiAgICB8ICAzICstCiA1IGZpbGVzIGNo
+YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgODggZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2
+NDQgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS11dGlscy1JbmNsdWRl
+LWxpYmdlbi5oLW9uLW11c2wtbGludXgtc3lzdGVtcy5wYXRjaAoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtdGVzdHMtRml4LW5hcnJvd2luZy1l
+cnJvcnMtc2Vlbi13aXRoLWNsYW5nLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xp
+dC9waWdsaXQvMDAwMS10ZXN0cy1GaXgtbmFycm93aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcu
+cGF0Y2gKaW5kZXggMDhlNzA5YjFkMC4uYjYwNTA2NDhhMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1GaXgtbmFycm93aW5nLWVycm9y
+cy1zZWVuLXdpdGgtY2xhbmcucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xp
+dC9waWdsaXQvMDAwMS10ZXN0cy1GaXgtbmFycm93aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDc3ZjMyNzkwOWU0YTk5YzY0MjYxMjkwY2Q3NmUy
+MzRlMTBjYzY0ZDIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDBiYTc5NDZkYjFmZWIx
+ZWJlYWM0NjdiMjcwY2IzOTEwNzkxMTMyMTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogV2VkLCAzIE1heSAyMDIzIDIx
+OjU5OjQzIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiBGaXggbmFycm93aW5nIGVycm9y
+cyBzZWVuIHdpdGggY2xhbmcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWds
+aXQvcGlnbGl0LzAwMDEtdXRpbHMtSW5jbHVkZS1saWJnZW4uaC1vbi1tdXNsLWxpbnV4LXN5c3Rl
+bXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLXV0aWxz
+LUluY2x1ZGUtbGliZ2VuLmgtb24tbXVzbC1saW51eC1zeXN0ZW1zLnBhdGNoCmRlbGV0ZWQgZmls
+ZSBtb2RlIDEwMDY0NAppbmRleCAyODc1ZGQ1MmVjLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtdXRpbHMtSW5jbHVkZS1saWJnZW4uaC1v
+bi1tdXNsLWxpbnV4LXN5c3RlbXMucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw4MyArMCwwIEBA
+Ci1Gcm9tIDZjODUyZTZhYzI5MjAwODEzN2E2ZjNhOGFhOTA4MDkwYmI1YjRiMTEgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCi1Gcm9tOiBFcmlrIEZheWUtTHVuZCA8ZXJpay5mYXllLWx1bmRAY29s
+bGFib3JhLmNvbT4KLURhdGU6IFR1ZSwgMTkgTWFyIDIwMjQgMTY6MzQ6MDIgKzAxMDAKLVN1Ympl
+Y3Q6IFtQQVRDSF0gcHJvcGVybHkgY2hlY2sgZm9yIGxpYmdlbi5oCi0KLVNvbWUgdXNlcnMgYXJl
+IHJlcG9ydGluZyB0aGF0IGJhc2VuYW1lIGlzIG5vdCBhdmFpbGFibGUgd2hlbiBidWlsZGluZyBv
+bgotTGludXggd2l0aCBtdXNsIGxpYmMuIEFuZCBzaW5jZSB0aGUgUE9TSVggc3BlY1sxXSBzYXlz
+IHRoYXQgYmFzZW5hbWUgaXMKLWRlZmluZWQgaW4gbGliZ2VuLmgsIHdlIHNob3VsZCBpbmNsdWRl
+IHRoYXQgd2hlbiBhdmFpbGFibGUuCi0KLVNvIGxldCdzIHByb3Blcmx5IGRldGVjdCB0aGUgaGVh
+ZGVyLCBhbmQgaW5jbHVkZSBpdCBpZiBpdCBleGlzdHMuIFRoaXMKLXNob3VsZCBob3BlZnVsbHkg
+bWFrZSB0aGluZ3MgYSBiaXQgbW9yZSByb2J1c3QuCi0KLVNpbmNlIHdlJ3JlIGFsc28gaW5jbHVk
+aW5nIHRoaXMgZnJvbSB0aGUgQ0wgcHJvZ3JhbS10ZXN0ZXIsIGxldCdzCi1yZWFycmFuZ2UgdGhl
+IGluY2x1ZGVzIGEgYml0IHNvIHdlIGtub3cgdGhhdCBjb25maWcuaCBoYXMgYmVlbiBpbmNsdWRl
+ZC4KLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vZ2l0bGFiLmZyZWVkZXNr
+dG9wLm9yZy9tZXNhL3BpZ2xpdC8tL21lcmdlX3JlcXVlc3RzLzg4OF0KLVJldmlld2VkLWJ5OiBE
+YXZpZCBIZWlkZWxiZXJnIDxkYXZpZC5oZWlkZWxiZXJnQGNvbGxhYm9yYS5jb20+Ci1TaWduZWQt
+b2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gQ01ha2VMaXN0cy50
+eHQgICAgICAgICAgICAgICAgICAgIHwgMSArCi0gdGVzdHMvY2wvcHJvZ3JhbS9wcm9ncmFtLXRl
+c3Rlci5jIHwgNSArKysrLQotIHRlc3RzL3V0aWwvY29uZmlnLmguaW4gICAgICAgICAgICB8IDEg
+KwotIHRlc3RzL3V0aWwvcGlnbGl0LXV0aWwuaCAgICAgICAgICB8IDQgKystLQotIDQgZmlsZXMg
+Y2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEv
+Q01ha2VMaXN0cy50eHQgYi9DTWFrZUxpc3RzLnR4dAotaW5kZXggZGQyYmY2NzEyNS4uNTU2M2Zl
+MGUyMCAxMDA2NDQKLS0tLSBhL0NNYWtlTGlzdHMudHh0Ci0rKysgYi9DTWFrZUxpc3RzLnR4dAot
+QEAgLTQ5Miw2ICs0OTIsNyBAQCBjaGVja19pbmNsdWRlX2ZpbGUodW5pc3RkLmggICAgSEFWRV9V
+TklTVERfSCkKLSBjaGVja19pbmNsdWRlX2ZpbGUoZmNudGwuaCAgICAgSEFWRV9GQ05UTF9IKQot
+IGNoZWNrX2luY2x1ZGVfZmlsZShsaW51eC9zeW5jX2ZpbGUuaCBIQVZFX0xJTlVYX1NZTkNfRklM
+RV9IKQotIGNoZWNrX2luY2x1ZGVfZmlsZShlbmRpYW4uaCAgICBIQVZFX0VORElBTl9IKQotK2No
+ZWNrX2luY2x1ZGVfZmlsZShsaWJnZW4uaCAgICBIQVZFX0xJQkdFTl9IKQotIAotIGlmKERFRklO
+RUQgUElHTElUX0lOU1RBTExfVkVSU0lPTikKLSAJc2V0KFBJR0xJVF9JTlNUQUxMX1ZFUlNJT05f
+U1VGRklYCi1kaWZmIC0tZ2l0IGEvdGVzdHMvY2wvcHJvZ3JhbS9wcm9ncmFtLXRlc3Rlci5jIGIv
+dGVzdHMvY2wvcHJvZ3JhbS9wcm9ncmFtLXRlc3Rlci5jCi1pbmRleCA5N2ZlNjQ5MDZkLi5lNDdm
+YjVhYWNjIDEwMDY0NAotLS0tIGEvdGVzdHMvY2wvcHJvZ3JhbS9wcm9ncmFtLXRlc3Rlci5jCi0r
+KysgYi90ZXN0cy9jbC9wcm9ncmFtL3Byb2dyYW0tdGVzdGVyLmMKLUBAIC0zMSwxMCArMzEsMTMg
+QEAKLSAjaW5jbHVkZSA8aW50dHlwZXMuaD4KLSAjaW5jbHVkZSA8bWF0aC5oPgotICNpbmNsdWRl
+IDxyZWdleC5oPgotLSNpbmNsdWRlIDxsaWJnZW4uaD4KLSAKLSAjaW5jbHVkZSAicGlnbGl0LWZy
+YW1ld29yay1jbC1wcm9ncmFtLmgiCi0gCi0rI2lmZGVmIEhBVkVfTElCR0VOX0gKLSsjaW5jbHVk
+ZSA8bGliZ2VuLmg+Ci0rI2VuZGlmCi0rCi0gLyogUmVnZXhlcyAqLwotIAotIC8qCi1kaWZmIC0t
+Z2l0IGEvdGVzdHMvdXRpbC9jb25maWcuaC5pbiBiL3Rlc3RzL3V0aWwvY29uZmlnLmguaW4KLWlu
+ZGV4IDhlZDVhZjE3MDkuLjQzN2ViOTE0MTggMTAwNjQ0Ci0tLS0gYS90ZXN0cy91dGlsL2NvbmZp
+Zy5oLmluCi0rKysgYi90ZXN0cy91dGlsL2NvbmZpZy5oLmluCi1AQCAtMTYsMyArMTYsNCBAQAot
+ICNjbWFrZWRlZmluZSBIQVZFX1NZU19SRVNPVVJDRV9IIDEKLSAjY21ha2VkZWZpbmUgSEFWRV9V
+TklTVERfSCAxCi0gI2NtYWtlZGVmaW5lIEhBVkVfRU5ESUFOX0ggMQotKyNjbWFrZWRlZmluZSBI
+QVZFX0xJQkdFTl9IIDEKLWRpZmYgLS1naXQgYS90ZXN0cy91dGlsL3BpZ2xpdC11dGlsLmggYi90
+ZXN0cy91dGlsL3BpZ2xpdC11dGlsLmgKLWluZGV4IDRkMzYwNmM3MDguLmRlOTk5OTgwYjYgMTAw
+NjQ0Ci0tLS0gYS90ZXN0cy91dGlsL3BpZ2xpdC11dGlsLmgKLSsrKyBiL3Rlc3RzL3V0aWwvcGln
+bGl0LXV0aWwuaAotQEAgLTUyLDggKzUyLDggQEAgZXh0ZXJuICJDIiB7Ci0gI2luY2x1ZGUgPG1h
+dGguaD4KLSAjaW5jbHVkZSA8ZmxvYXQuaD4KLSAKLS0jaWYgZGVmaW5lZChfX0FQUExFX18pIHx8
+IGRlZmluZWQoX19NSU5HVzMyX18pCi0tIyAgaW5jbHVkZSAibGliZ2VuLmgiIC8vIGZvciBiYXNl
+bmFtZQotKyNpZmRlZiBIQVZFX0xJQkdFTl9ICi0rIyAgaW5jbHVkZSA8bGliZ2VuLmg+IC8vIGZv
+ciBiYXNlbmFtZQotICNlbGlmIGRlZmluZWQoX01TQ19WRVIpCi0gCi0gc3RhdGljIGlubGluZSBj
+aGFyICoKLS0tIAotR2l0TGFiCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9w
+aWdsaXQvcGlnbGl0LzAwMDItY21ha2UtdXNlLXByb3Blci1XQVlMQU5EX0lOQ0xVREVfRElSUy12
+YXJpYWJsZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDIt
+Y21ha2UtdXNlLXByb3Blci1XQVlMQU5EX0lOQ0xVREVfRElSUy12YXJpYWJsZS5wYXRjaAppbmRl
+eCA3MGJiNTUwNTNkLi4xOTJhY2Y4NWE3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvcGlnbGl0L3BpZ2xpdC8wMDAyLWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURFX0RJ
+UlMtdmFyaWFibGUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWds
+aXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZhcmlhYmxlLnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjYjhlNGI5OWZjZmU4MTM5OWUzZTZkOTIyMTU2ZGI0
+YTQ4YTM5YThlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5NGFiMzQ1NzgzMGVlODQz
+MGY1YTA4ZTQ2NmI1OGY4ZTkwNDU0ZTEyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+UGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29tPgogRGF0ZTogVGh1LCA0IE9jdCAy
+MDE4IDE0OjQzOjE3ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNtYWtlOiB1c2UgcHJvcGVyIFdB
+WUxBTkRfSU5DTFVERV9ESVJTIHZhcmlhYmxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAzLXRlc3RzLXV0aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5v
+dC1oYXJkY29kZS1idWlsZC1wYXQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0
+L3BpZ2xpdC8wMDAzLXRlc3RzLXV0aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5vdC1oYXJkY29kZS1i
+dWlsZC1wYXQucGF0Y2gKaW5kZXggY2U1Y2JkM2VhOS4uNzEyY2YzM2MzNCAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMy10ZXN0cy11dGlsLXBpZ2xp
+dC1zaGFkZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVy
+LmMtZG8tbm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
+N2QyZDIzMTI1ZjE5NDZhN2I3NGY5YTQyNzM4OGQ0Njk1MDBmY2Q4ZCBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKK0Zyb20gMWMxMzc4ZTBjOTNmZjNhMzdmMGU0ZmEzNWM4ZTk4OTM0NmM2M2ZhMSBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
+bmF2aW5AZ21haWwuY29tPgogRGF0ZTogVHVlLCAxMCBOb3YgMjAyMCAxNzoxMzo1MCArMDAwMAog
+U3ViamVjdDogW1BBVENIXSB0ZXN0cy91dGlsL3BpZ2xpdC1zaGFkZXIuYzogZG8gbm90IGhhcmRj
+b2RlIGJ1aWxkIHBhdGggaW50bwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Bp
+Z2xpdC9waWdsaXRfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXRf
+Z2l0LmJiCmluZGV4IDk5ZDc1ZTY0ZjguLjFiZDBlNTJkMTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvcGlnbGl0L3BpZ2xpdF9naXQuYmIKQEAgLTEwLDExICsxMCwxMCBAQCBTUkNfVVJJID0g
+ImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9waWdsaXQuZ2l0O3Byb3RvY29sPWh0
+dHBzO2JyYW5jaD1tYQogICAgICAgICAgICBmaWxlOi8vMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdB
+WUxBTkRfSU5DTFVERV9ESVJTLXZhcmlhYmxlLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAw
+MDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8tbm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5w
+YXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3Jz
+LXNlZW4td2l0aC1jbGFuZy5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLXV0aWxzLUlu
+Y2x1ZGUtbGliZ2VuLmgtb24tbXVzbC1saW51eC1zeXN0ZW1zLnBhdGNoIFwKICAgICAgICAgICAg
+IgogVVBTVFJFQU1fQ0hFQ0tfQ09NTUlUUyA9ICIxIgogCi1TUkNSRVYgPSAiMjJlYWY2YTkxY2Zk
+NTdmN2JiM2RmNGU1MDY4YzJhYzE0NzJkNGVjMSIKK1NSQ1JFViA9ICIxZDhmYWI5YjQ5Y2M0ODdl
+YmNjOTQ5MTE5ZWViMTY2ZmIzZmE3NTkxIgogIyAod2hlbiBQViBnb2VzIGFib3ZlIDEuMCByZW1v
+dmUgdGhlIHRyYWlsaW5nIHIpCiBQViA9ICIxLjArZ2l0ciIKIAotLSAKMi40NC4wCgo=
 
---===============8026149333076831505==--
+--===============2339903627621752726==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1867 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 916 .bb files complete (915 cached, 1 parsed). 1867 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-bff16692f7ff08567d796c931c50b9f69a83da41"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:bff16692f7ff08567d796c931c50b9f69a83da41"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 412 Local 400 Mirrors 0 Missed 12 Current 582 (97% match, 98% complete)
+Removing 1 stale sstate objects for arch qemux86_64...done.
+Removing 10 stale sstate objects for arch core2-64...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2094 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
+NOTE: recipe piglit-1.0+gitr-r0: task do_fetch: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_fetch: Succeeded
+NOTE: Running task 2730 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
+NOTE: Running task 2731 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitr-r0: task do_unpack: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitr-r0: task do_unpack: Succeeded
+NOTE: Running task 2732 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
+NOTE: Running task 2733 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_collect_spdx_deps)
+NOTE: recipe piglit-1.0+gitr-r0: task do_patch: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_collect_spdx_deps: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_patch: Succeeded
+NOTE: Running task 2734 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2735 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2736 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
+NOTE: recipe piglit-1.0+gitr-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe piglit-1.0+gitr-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_generate_toolchain_file: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_populate_lic: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe piglit-1.0+gitr-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to fa0f91542b4e1860533b87893da569a6d6cc5abf4af9db2052902541e943c6cb
+NOTE: recipe piglit-1.0+gitr-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2737 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
+NOTE: recipe piglit-1.0+gitr-r0: task do_configure: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_configure: Succeeded
+NOTE: Running task 2738 of 2749 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
+NOTE: recipe piglit-1.0+gitr-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build --target all --
+| Change Dir: '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build'
+| 
+| Run Build Command(s): ninja -v -j 16 all
+| [1/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests asmparser /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/asmparser.list
+| [2/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests vkrunner /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/vkrunner.list
+| [3/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests shader /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/shader.list
+| [4/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/find_static_tests.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests glslparser /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/glslparser.list
+| [5/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_const_builtin_equal_tests.py > const_builtin_equal_tests.list
+| [6/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_inout_fp64.py > inout_fp64.list
+| [7/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_interface_block_tests.py > interface_block_tests.list
+| [8/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/interpolation-qualifier-built-in-variable.py > interpolation-qualifier-built-in-variable.list
+| [9/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_extensions_defined.py > gen_extensions_defined.list
+| [10/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_gpu_shader4_tests.py > gpu_shader4_tests.list
+| [11/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_interpolation_tests.py > interpolation_tests.list
+| [12/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_non-lvalue_tests.py > non-lvalue_tests.list
+| [13/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_flat_interpolation_qualifier.py > flat_interpolation_qualifier.list
+| [14/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_outerproduct_invalid_params.py > outerproduct_invalid_params.list
+| [15/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_outerproduct_tests.py > outerproduct_tests.list
+| [16/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_builtin_packing_tests.py > builtin_packing_tests.list
+| [17/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_shader_bit_encoding_tests.py > shader_bit_encoding_tests.list
+| [18/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_tcs_input_tests.py > tcs_input_tests.list
+| [19/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_tes_input_tests.py > tes_input_tests.list
+| [20/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_shader_intel_conservative_rasterization.py > shader_intel_conservative_rasterization.list
+| [21/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_shader_framebuffer_fetch_tests.py > shader_framebuffer_fetch_tests.list
+| [22/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_shader_image_nv_image_formats_tests.py > shader_image_nv_image_formats_tests.list
+| [23/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_conversion.py > conversion.list
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_conversion.py:384: RuntimeWarning: overflow encountered in cast
+|   float_double = np.float32(TestTuple.hex_to_double(hstr))
+| [24/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_shader_image_load_store_tests.py > shader_image_load_store_tests.list
+| [25/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_texture_lod_tests.py > texture_lod_tests.list
+| [26/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_texture_query_lod_tests.py > texture_query_lod_tests.list
+| [27/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_uniform_initializer_tests.py > uniform-initializer_tests.list
+| [28/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_vp_tex.py > vp-tex.list
+| [29/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_variable_index_write_tests.py > variable_index_write_tests.list
+| [30/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/replayer && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/cmake -E copy /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/replayer/replayer.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/bin
+| [31/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_variable_index_read_tests.py > variable_index_read_tests.list
+| [32/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/cmake -E env PIGLIT_BUILD_TREE=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/serializer.py vulkan /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/vulkan.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/vulkan.xml.gz
+| [33/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_intel_shader_integer_functions2_tests.py > intel_shader_integer_functions2_tests.list
+| [34/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_builtin_uniform_tests_fp64.py > builtin_uniform_tests_fp64.list
+| [35/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/cmake -E env PIGLIT_BUILD_TREE=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/serializer.py opengl /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/opengl.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/opengl.xml.gz
+| [36/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/cmake -E env PIGLIT_BUILD_TREE=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/serializer.py quick_gl /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/quick_gl.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/quick_gl.xml.gz
+| [37/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/cmake -E env PIGLIT_BUILD_TREE=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/serializer.py llvmpipe_gl /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/llvmpipe_gl.py /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/llvmpipe_gl.xml.gz
+| [38/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/gen_dispatch.py --out-dir /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util
+| [39/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/fdo-bitmap.c.o -MF target_api/gl/tests/util/CMakeFiles/piglitut
+ il_gl.dir/fdo-bitmap.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/fdo-bitmap.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/fdo-bitmap.c
+| [40/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/src -I/home/pokyb
+ uild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/util -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64
+ -poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-log.c.o -MF target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-log.c.o.d -o target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-log.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2
+ -64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-log.c
+| [41/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/src -I/home/pokyb
+ uild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/util -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64
+ -poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util-egl.c.o -MF target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util-egl.c.o.d -o target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util-egl.c.o -c /home/pokybuild/yocto-worker/auh/build/build
+ /tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-egl.c
+| [42/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/src -I/home/pokyb
+ uild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/util -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64
+ -poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-subprocess.c.o -MF target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-subprocess.c.o.d -o target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-subprocess.c.o -c /home/pokybuild/yocto-worker/auh/build
+ /build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-subprocess.c
+| [43/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-dispatch-init.c.o -MF target_api/gl/tests/util/CMakeFile
+ s/piglitutil_gl.dir/piglit-dispatch-init.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-dispatch-init.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch-init.c
+| [44/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-matrix.c.o -MF target_api/gl/tests/util/CMakeFiles/pigli
+ tutil_gl.dir/piglit-matrix.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-matrix.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-matrix.c
+| [45/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_constant_array_size_tests_fp64.py > constant_array_size_tests_fp64.list
+| [46/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/minmax-test.c.o -MF target_api/gl/tests/util/CMakeFiles/piglitu
+ til_gl.dir/minmax-test.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/minmax-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/minmax-test.c
+| [47/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-util-png.c.o -MF target_api/gl/tests/util/CMakeFiles/pig
+ litutil_gl.dir/piglit-util-png.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-util-png.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-png.c
+| [48/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/src -I/home/pokyb
+ uild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/util -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64
+ -poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util.c.o -MF target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util.c.o.d -o target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/co
+ re2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util.c
+| [49/4351] : && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -fPIC -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build
+ =/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr
+ /src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -Wl,-z,relro,-z,now -shared -Wl,-soname,libpiglitutil.so.0 -o lib/libpiglitutil.so.0 target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-log.c.o target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util.c.o target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-su
+ bprocess.c.o target_api/no_api/tests/util/CMakeFiles/piglitutil.dir/piglit-util-egl.c.o  -Wl,-rpath,:::::::::::::::::::  -lrt  -ldl  -lxkbcommon  /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/lib/libpng.so  /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/lib/libz.so  -lm  -L/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/lib  -lEGL && :
+| [50/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/cmake -E cmake_symlink_library lib/libpiglitutil.so.0 lib/libpiglitutil.so.0 lib/libpiglitutil.so && :
+| [51/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_gl_framework.c.o -MF target_api/gl/t
+ ests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_gl_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_gl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gl_framework.c
+| [52/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-fbo.cpp.o -MF target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-fbo.cpp
+ .o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-fbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-fbo.cpp
+| [53/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl.c.o -MF target_api/gl/tests/util/CMakeFiles
+ /piglitutil_gl.dir/piglit-framework-gl.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl.c
+| [54/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/rgb9e5.c.o -MF target_api/gl/tests/util/CMakeFiles/piglitutil_g
+ l.dir/rgb9e5.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/rgb9e5.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/rgb9e5.c
+| [55/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-shader-test.c.o -MF target_api/gl/tests/util/CMakeFiles/
+ piglitutil_gl.dir/piglit-shader-test.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-shader-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader-test.c
+| [56/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_shader_precision_tests.py > shader_precision_tests.list
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1479: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-neg', 1, 110, lambda x: -x, None,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1527: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitand-neg', 2, 130, lambda x, y: x & (-y), match_simple_binop,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1533: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitor-neg', 2, 130, lambda x, y: x | (-y), match_simple_binop,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1539: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitxor-neg', 2, 130, lambda x, y: x ^ (-y), match_simple_binop,
+| [57/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-shader.c.o -MF target_api/gl/tests/util/CMakeFiles/pigli
+ tutil_gl.dir/piglit-shader.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-shader.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader.c
+| [58/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/r11g11b10f.c.o -MF target_api/gl/tests/util/CMakeFiles/piglitut
+ il_gl.dir/r11g11b10f.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/r11g11b10f.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/r11g11b10f.c
+| [59/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/sized-internalformats.c.o -MF target_api/gl/tests/util/CMakeFil
+ es/piglitutil_gl.dir/sized-internalformats.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/sized-internalformats.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/sized-internalformats.c
+| [60/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_fbo_framework.c.o -MF target_api/gl/
+ tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_fbo_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_fbo_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_fbo_framework.c
+| [61/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit_ktx.c.o -MF target_api/gl/tests/util/CMakeFiles/piglitut
+ il_gl.dir/piglit_ktx.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit_ktx.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit_ktx.c
+| [62/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_wfl_framework.c.o -MF target_api/gl/
+ tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_wfl_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_wfl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wfl_framework.c
+| [63/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_winsys_framework.c.o -MF target_api/
+ gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_winsys_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_winsys_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_winsys_framework.c
+| [64/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-util-waffle.c.o -MF target_api/gl/tests/util/CMakeFiles/
+ piglitutil_gl.dir/piglit-util-waffle.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-util-waffle.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-waffle.c
+| [65/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_gbm_framework.c.o -MF target_api/gl/
+ tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_gbm_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_gbm_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gbm_framework.c
+| [66/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-test-pattern.cpp.o -MF target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/pigli
+ t-test-pattern.cpp.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-test-pattern.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-test-pattern.cpp
+| [67/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_wl_framework.c.o -MF target_api/gl/t
+ ests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_wl_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_wl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wl_framework.c
+| [68/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_x11_framework.c.o -MF target_api/gl/
+ tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_x11_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_x11_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_x11_framework.c
+| [69/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_sl_framework.c.o -MF target_api/gl/t
+ ests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_sl_framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_sl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_sl_framework.c
+| [70/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitglxutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-glx-framework.c.o -MF target_api/gl/tests/util/CMakeFile
+ s/piglitglxutil.dir/piglit-glx-framework.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-glx-framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-glx-framework.c
+| [71/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-glx-util.c.o -MF target_api/gl/tests/util/CMakeFiles/pig
+ litutil_gl.dir/piglit-glx-util.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-glx-util.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-glx-util.c
+| [72/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -MF target_api/gl/te
+ sts/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_drm_dma_buf.c
+| [73/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitglxutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-shader.c.o -MF target_api/gl/tests/util/CMakeFiles/pigli
+ tglxutil.dir/piglit-shader.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-shader.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader.c
+| [74/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/fdo-bitmap.c.o -MF target_api/gles1/tests/util/CMakeFiles/piglit
+ util_gles1.dir/fdo-bitmap.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/fdo-bitmap.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/fdo-bitmap.c
+| [75/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitglxutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-dispatch-init.c.o -MF target_api/gl/tests/util/CMakeFile
+ s/piglitglxutil.dir/piglit-dispatch-init.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-dispatch-init.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch-init.c
+| [76/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitglxutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-glx-util.c.o -MF target_api/gl/tests/util/CMakeFiles/pig
+ litglxutil.dir/piglit-glx-util.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-glx-util.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-glx-util.c
+| [77/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-vbo.cpp.o -MF target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-vbo.cpp
+ .o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-vbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-vbo.cpp
+| [78/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/minmax-test.c.o -MF target_api/gles1/tests/util/CMakeFiles/pigli
+ tutil_gles1.dir/minmax-test.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/minmax-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/minmax-test.c
+| [79/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-dispatch-init.c.o -MF target_api/gles1/tests/util/CMakeFi
+ les/piglitutil_gles1.dir/piglit-dispatch-init.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-dispatch-init.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch-init.c
+| [80/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dhiz_util_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/poky
+ build/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp
+ /work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/hiz/CMakeFiles/hiz-util.dir/hiz-util.c.o -MF target_api/gl/tests/hiz/CMakeFiles/hiz-util.dir/hiz-util.c.o.d -o target_api/gl/tests/hiz/CMakeFiles/hiz-util.dir/hiz-util.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/hiz/hiz-util.c
+| [81/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-util-gl.c.o -MF target_api/gl/tests/util/CMakeFiles/pigl
+ itutil_gl.dir/piglit-util-gl.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-util-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c
+| [82/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-matrix.c.o -MF target_api/gles1/tests/util/CMakeFiles/pig
+ litutil_gles1.dir/piglit-matrix.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-matrix.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-matrix.c
+| [83/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-util-png.c.o -MF target_api/gles1/tests/util/CMakeFiles/p
+ iglitutil_gles1.dir/piglit-util-png.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-util-png.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-png.c
+| [84/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-fbo.cpp.o -MF target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-fb
+ o.cpp.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-fbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-fbo.cpp
+| [85/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl.c.o -MF target_api/gles1/tests/util/CMakeFil
+ es/piglitutil_gles1.dir/piglit-framework-gl.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl.c
+| [86/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_gl_framework.c.o -MF target_api/gles1
+ /tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_gl_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_gl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gl_framework.c
+| [87/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-shader-test.c.o -MF target_api/gles1/tests/util/CMakeFile
+ s/piglitutil_gles1.dir/piglit-shader-test.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-shader-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader-test.c
+| [88/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-test-pattern.cpp.o -MF target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/
+ piglit-test-pattern.cpp.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-test-pattern.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-test-pattern.cpp
+| [89/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-shader.c.o -MF target_api/gles1/tests/util/CMakeFiles/pig
+ litutil_gles1.dir/piglit-shader.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-shader.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader.c
+| [90/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/rgb9e5.c.o -MF target_api/gles1/tests/util/CMakeFiles/piglitutil
+ _gles1.dir/rgb9e5.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/rgb9e5.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/rgb9e5.c
+| [91/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitglxutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-util-gl.c.o -MF target_api/gl/tests/util/CMakeFiles/pigl
+ itglxutil.dir/piglit-util-gl.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-util-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c
+| [92/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-lin
+ ux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/buil
+ d/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -MF target_a
+ pi/gl/tests/util/CMakeFiles/piglitutil_gl.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util/piglit-util-gl-enum-gen.c
+| [93/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/r11g11b10f.c.o -MF target_api/gles1/tests/util/CMakeFiles/piglit
+ util_gles1.dir/r11g11b10f.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/r11g11b10f.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/r11g11b10f.c
+| [94/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/sized-internalformats.c.o -MF target_api/gles1/tests/util/CMakeF
+ iles/piglitutil_gles1.dir/sized-internalformats.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/sized-internalformats.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/sized-internalformats.c
+| [95/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit_ktx.c.o -MF target_api/gles1/tests/util/CMakeFiles/piglit
+ util_gles1.dir/piglit_ktx.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit_ktx.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit_ktx.c
+| [96/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_fbo_framework.c.o -MF target_api/gles
+ 1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_fbo_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_fbo_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_fbo_framework.c
+| [97/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_wfl_framework.c.o -MF target_api/gles
+ 1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_wfl_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_wfl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wfl_framework.c
+| [98/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-util-waffle.c.o -MF target_api/gles1/tests/util/CMakeFile
+ s/piglitutil_gles1.dir/piglit-util-waffle.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-util-waffle.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-waffle.c
+| [99/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/
+ 1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/w
+ ork/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_winsys_framework.c.o -MF target_api/g
+ les1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_winsys_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_winsys_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_winsys_framework.c
+| [100/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_gbm_framework.c.o -MF target_api/gle
+ s1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_gbm_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_gbm_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gbm_framework.c
+| [101/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitglxutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-li
+ nux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/bui
+ ld/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -MF target_
+ api/gl/tests/util/CMakeFiles/piglitglxutil.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util/piglit-util-gl-enum-gen.c
+| [102/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_sl_framework.c.o -MF target_api/gles
+ 1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_sl_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_sl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_sl_framework.c
+| [103/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/fdo-bitmap.c.o -MF target_api/gles2/tests/util/CMakeFiles/pigli
+ tutil_gles2.dir/fdo-bitmap.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/fdo-bitmap.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/fdo-bitmap.c
+| [104/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_x11_framework.c.o -MF target_api/gle
+ s1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_x11_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_x11_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_x11_framework.c
+| [105/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_wl_framework.c.o -MF target_api/gles
+ 1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_wl_framework.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_wl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wl_framework.c
+| [106/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-vbo.cpp.o -MF target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-v
+ bo.cpp.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-vbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-vbo.cpp
+| [107/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-util-gl.c.o -MF target_api/gles1/tests/util/CMakeFiles/p
+ iglitutil_gles1.dir/piglit-util-gl.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-util-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c: In function 'piglit_probe_texel_rect_rgba':
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2136:31: warning: 'buffer' may be used uninitialized [-Wmaybe-uninitialized]
+|  2136 |                         probe = &buffer[(j * width + i) * 4];
+|       |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2109:18: note: 'buffer' was declared here
+|  2109 |         GLfloat *buffer;
+|       |                  ^~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c: In function 'piglit_probe_texel_volume_rgba':
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2211:39: warning: 'buffer' may be used uninitialized [-Wmaybe-uninitialized]
+|  2211 |                                 probe = &buffer[(k * width * height + j * width + i) * 4];
+|       |                                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2179:18: note: 'buffer' was declared here
+|  2179 |         GLfloat *buffer;
+|       |                  ^~~~~~
+| [108/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -MF target_api/gles1
+ /tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_drm_dma_buf.c
+| [109/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-dispatch-init.c.o -MF target_api/gles2/tests/util/CMakeF
+ iles/piglitutil_gles2.dir/piglit-dispatch-init.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-dispatch-init.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch-init.c
+| [110/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/minmax-test.c.o -MF target_api/gles2/tests/util/CMakeFiles/pigl
+ itutil_gles2.dir/minmax-test.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/minmax-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/minmax-test.c
+| [111/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-matrix.c.o -MF target_api/gles2/tests/util/CMakeFiles/pi
+ glitutil_gles2.dir/piglit-matrix.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-matrix.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-matrix.c
+| [112/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-util-png.c.o -MF target_api/gles2/tests/util/CMakeFiles/
+ piglitutil_gles2.dir/piglit-util-png.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-util-png.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-png.c
+| [113/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-fbo.cpp.o -MF target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-f
+ bo.cpp.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-fbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-fbo.cpp
+| [114/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl.c.o -MF target_api/gles2/tests/util/CMakeFi
+ les/piglitutil_gles2.dir/piglit-framework-gl.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl.c
+| [115/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_gl_framework.c.o -MF target_api/gles
+ 2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_gl_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_gl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gl_framework.c
+| [116/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-shader-test.c.o -MF target_api/gles2/tests/util/CMakeFil
+ es/piglitutil_gles2.dir/piglit-shader-test.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-shader-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader-test.c
+| [117/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-shader.c.o -MF target_api/gles2/tests/util/CMakeFiles/pi
+ glitutil_gles2.dir/piglit-shader.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-shader.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader.c
+| [118/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/rgb9e5.c.o -MF target_api/gles2/tests/util/CMakeFiles/piglituti
+ l_gles2.dir/rgb9e5.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/rgb9e5.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/rgb9e5.c
+| [119/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-test-pattern.cpp.o -MF target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir
+ /piglit-test-pattern.cpp.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-test-pattern.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-test-pattern.cpp
+| [120/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit_ktx.c.o -MF target_api/gles2/tests/util/CMakeFiles/pigli
+ tutil_gles2.dir/piglit_ktx.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit_ktx.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit_ktx.c
+| [121/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/r11g11b10f.c.o -MF target_api/gles2/tests/util/CMakeFiles/pigli
+ tutil_gles2.dir/r11g11b10f.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/r11g11b10f.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/r11g11b10f.c
+| [122/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/random_ubo-arb_uniform_buffer_object.py > ubo_tests.list
+| [123/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/sized-internalformats.c.o -MF target_api/gles2/tests/util/CMake
+ Files/piglitutil_gles2.dir/sized-internalformats.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/sized-internalformats.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/sized-internalformats.c
+| [124/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_fbo_framework.c.o -MF target_api/gle
+ s2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_fbo_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_fbo_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_fbo_framework.c
+| [125/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -MF target_a
+ pi/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util/piglit-util-gl-enum-gen.c
+| [126/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-util-waffle.c.o -MF target_api/gles2/tests/util/CMakeFil
+ es/piglitutil_gles2.dir/piglit-util-waffle.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-util-waffle.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-waffle.c
+| [127/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_constant_array_size_tests.py > constant_array_size_tests.list
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1479: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-neg', 1, 110, lambda x: -x, None,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1527: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitand-neg', 2, 130, lambda x, y: x & (-y), match_simple_binop,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1533: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitor-neg', 2, 130, lambda x, y: x | (-y), match_simple_binop,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1539: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitxor-neg', 2, 130, lambda x, y: x ^ (-y), match_simple_binop,
+| [128/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_wfl_framework.c.o -MF target_api/gle
+ s2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_wfl_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_wfl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wfl_framework.c
+| [129/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_winsys_framework.c.o -MF target_api/
+ gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_winsys_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_winsys_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_winsys_framework.c
+| [130/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/fdo-bitmap.c.o -MF target_api/gles3/tests/util/CMakeFiles/pigli
+ tutil_gles3.dir/fdo-bitmap.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/fdo-bitmap.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/fdo-bitmap.c
+| [131/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_gbm_framework.c.o -MF target_api/gle
+ s2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_gbm_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_gbm_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gbm_framework.c
+| [132/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_sl_framework.c.o -MF target_api/gles
+ 2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_sl_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_sl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_sl_framework.c
+| [133/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_wl_framework.c.o -MF target_api/gles
+ 2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_wl_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_wl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wl_framework.c
+| [134/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_x11_framework.c.o -MF target_api/gle
+ s2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_x11_framework.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_x11_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_x11_framework.c
+| [135/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-vbo.cpp.o -MF target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-v
+ bo.cpp.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-vbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-vbo.cpp
+| [136/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/minmax-test.c.o -MF target_api/gles3/tests/util/CMakeFiles/pigl
+ itutil_gles3.dir/minmax-test.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/minmax-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/minmax-test.c
+| [137/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -MF target_api/gles2
+ /tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_drm_dma_buf.c
+| [138/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-dispatch-init.c.o -MF target_api/gles3/tests/util/CMakeF
+ iles/piglitutil_gles3.dir/piglit-dispatch-init.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-dispatch-init.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch-init.c
+| [139/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_builtin_uniform_tests.py > builtin_uniform_tests.list
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1479: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-neg', 1, 110, lambda x: -x, None,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1527: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitand-neg', 2, 130, lambda x, y: x & (-y), match_simple_binop,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1533: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitor-neg', 2, 130, lambda x, y: x | (-y), match_simple_binop,
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/builtin_function.py:1539: RuntimeWarning: overflow encountered in scalar negative
+|   f('op-bitxor-neg', 2, 130, lambda x, y: x ^ (-y), match_simple_binop,
+| [140/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-matrix.c.o -MF target_api/gles3/tests/util/CMakeFiles/pi
+ glitutil_gles3.dir/piglit-matrix.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-matrix.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-matrix.c
+| [141/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-util-png.c.o -MF target_api/gles3/tests/util/CMakeFiles/
+ piglitutil_gles3.dir/piglit-util-png.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-util-png.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-png.c
+| [142/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-util-gl.c.o -MF target_api/gles2/tests/util/CMakeFiles/p
+ iglitutil_gles2.dir/piglit-util-gl.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-util-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c: In function 'piglit_probe_texel_rect_rgba':
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2136:31: warning: 'buffer' may be used uninitialized [-Wmaybe-uninitialized]
+|  2136 |                         probe = &buffer[(j * width + i) * 4];
+|       |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2109:18: note: 'buffer' was declared here
+|  2109 |         GLfloat *buffer;
+|       |                  ^~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c: In function 'piglit_probe_texel_volume_rgba':
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2211:39: warning: 'buffer' may be used uninitialized [-Wmaybe-uninitialized]
+|  2211 |                                 probe = &buffer[(k * width * height + j * width + i) * 4];
+|       |                                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2179:18: note: 'buffer' was declared here
+|  2179 |         GLfloat *buffer;
+|       |                  ^~~~~~
+| [143/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_gl_framework.c.o -MF target_api/gles
+ 3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_gl_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_gl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gl_framework.c
+| [144/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl.c.o -MF target_api/gles3/tests/util/CMakeFi
+ les/piglitutil_gles3.dir/piglit-framework-gl.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl.c
+| [145/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-fbo.cpp.o -MF target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-f
+ bo.cpp.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-fbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-fbo.cpp
+| [146/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-shader-test.c.o -MF target_api/gles3/tests/util/CMakeFil
+ es/piglitutil_gles3.dir/piglit-shader-test.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-shader-test.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader-test.c
+| [147/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/rgb9e5.c.o -MF target_api/gles3/tests/util/CMakeFiles/piglituti
+ l_gles3.dir/rgb9e5.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/rgb9e5.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/rgb9e5.c
+| [148/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-shader.c.o -MF target_api/gles3/tests/util/CMakeFiles/pi
+ glitutil_gles3.dir/piglit-shader.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-shader.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-shader.c
+| [149/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/r11g11b10f.c.o -MF target_api/gles3/tests/util/CMakeFiles/pigli
+ tutil_gles3.dir/r11g11b10f.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/r11g11b10f.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/r11g11b10f.c
+| [150/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/sized-internalformats.c.o -MF target_api/gles3/tests/util/CMake
+ Files/piglitutil_gles3.dir/sized-internalformats.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/sized-internalformats.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/sized-internalformats.c
+| [151/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit_ktx.c.o -MF target_api/gles3/tests/util/CMakeFiles/pigli
+ tutil_gles3.dir/piglit_ktx.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit_ktx.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit_ktx.c
+| [152/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-test-pattern.cpp.o -MF target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir
+ /piglit-test-pattern.cpp.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-test-pattern.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-test-pattern.cpp
+| [153/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_fbo_framework.c.o -MF target_api/gle
+ s3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_fbo_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_fbo_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_fbo_framework.c
+| [154/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-util-waffle.c.o -MF target_api/gles3/tests/util/CMakeFil
+ es/piglitutil_gles3.dir/piglit-util-waffle.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-util-waffle.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-waffle.c
+| [155/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_wfl_framework.c.o -MF target_api/gle
+ s3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_wfl_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_wfl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wfl_framework.c
+| [156/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_winsys_framework.c.o -MF target_api/
+ gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_winsys_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_winsys_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_winsys_framework.c
+| [157/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_gbm_framework.c.o -MF target_api/gle
+ s3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_gbm_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_gbm_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_gbm_framework.c
+| [158/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/wayland && /usr/bin/wayland-scanner private-code /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/share/wayland-protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml linux-dmabuf-unstable-v1-protocol.c
+| FAILED: target_api/no_api/tests/wayland/linux-dmabuf-unstable-v1-protocol.c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/wayland/linux-dmabuf-unstable-v1-protocol.c
+| cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/no_api/tests/wayland && /usr/bin/wayland-scanner private-code /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/share/wayland-protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml linux-dmabuf-unstable-v1-protocol.c
+| /bin/sh: /usr/bin/wayland-scanner: No such file or directory
+| [159/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_wl_framework.c.o -MF target_api/gles
+ 3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_wl_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_wl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_wl_framework.c
+| [160/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_sl_framework.c.o -MF target_api/gles
+ 3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_sl_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_sl_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_sl_framework.c
+| [161/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_x11_framework.c.o -MF target_api/gle
+ s3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_x11_framework.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_x11_framework.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_x11_framework.c
+| [162/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -MF target_a
+ pi/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util/piglit-util-gl-enum-gen.c
+| [163/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -MF target_api/gles3
+ /tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-framework-gl/piglit_drm_dma_buf.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-framework-gl/piglit_drm_dma_buf.c
+| [164/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -msse2 -mfpmath=sse -Wall -Wno-narrowing -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-vbo.cpp.o -MF target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-v
+ bo.cpp.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-vbo.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-vbo.cpp
+| [165/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-util-gl.c.o -MF target_api/gles3/tests/util/CMakeFiles/p
+ iglitutil_gles3.dir/piglit-util-gl.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-util-gl.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c: In function 'piglit_probe_texel_rect_rgba':
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2136:31: warning: 'buffer' may be used uninitialized [-Wmaybe-uninitialized]
+|  2136 |                         probe = &buffer[(j * width + i) * 4];
+|       |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2109:18: note: 'buffer' was declared here
+|  2109 |         GLfloat *buffer;
+|       |                  ^~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c: In function 'piglit_probe_texel_volume_rgba':
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2211:39: warning: 'buffer' may be used uninitialized [-Wmaybe-uninitialized]
+|  2211 |                                 probe = &buffer[(k * width * height + j * width + i) * 4];
+|       |                                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-util-gl.c:2179:18: note: 'buffer' was declared here
+|  2179 |         GLfloat *buffer;
+|       |                  ^~~~~~
+| [166/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_inout_64bit_tests.py > inout_64bit.list
+| [167/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -MF target_a
+ pi/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/__/__/__/__/tests/util/piglit-util-gl-enum-gen.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util/piglit-util-gl-enum-gen.c
+| [168/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gl_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-li
+ nux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/bui
+ ld/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-dispatch.c.o -MF target_api/gl/tests/util/CMakeFiles/pi
+ glitutil_gl.dir/piglit-dispatch.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitutil_gl.dir/piglit-dispatch.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch.c
+| [169/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_GLX -DPIGLIT_USE_OPENGL -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitglxutil_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-li
+ nux/piglit/1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gl/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/bui
+ ld/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-dispatch.c.o -MF target_api/gl/tests/util/CMakeFiles/pi
+ glitglxutil.dir/piglit-dispatch.c.o.d -o target_api/gl/tests/util/CMakeFiles/piglitglxutil.dir/piglit-dispatch.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch.c
+| [170/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES1 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles1_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles1/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-dispatch.c.o -MF target_api/gles1/tests/util/CMakeFiles/
+ piglitutil_gles1.dir/piglit-dispatch.c.o.d -o target_api/gles1/tests/util/CMakeFiles/piglitutil_gles1.dir/piglit-dispatch.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch.c
+| [171/4351] cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/generated_tests && /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/generated_tests/gen_vs_in_fp64.py > vs_in_fp64.list
+| [172/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES2 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles2_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles2/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-dispatch.c.o -MF target_api/gles2/tests/util/CMakeFiles/
+ piglitutil_gles2.dir/piglit-dispatch.c.o.d -o target_api/gles2/tests/util/CMakeFiles/piglitutil_gles2.dir/piglit-dispatch.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch.c
+| [173/4351] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot -DHAVE_LIBDRM -DPIGLIT_HAS_EGL -DPIGLIT_HAS_GBM -DPIGLIT_HAS_GBM_BO_GET_FD_FOR_PLANE -DPIGLIT_HAS_GBM_BO_MAP -DPIGLIT_HAS_GLX -DPIGLIT_HAS_PNG -DPIGLIT_HAS_POSIX_CLOCK_MONOTONIC -DPIGLIT_HAS_POSIX_TIMER_NOTIFY_THREAD -DPIGLIT_HAS_PTHREADS -DPIGLIT_HAS_WAYLAND -DPIGLIT_HAS_X11 -DPIGLIT_USE_OPENGL_ES3 -DPIGLIT_USE_WAFFLE -DSOURCE_DIR=\"/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/\" -DWAFFLE_API_VERSION=0x0103 -D_GNU_SOURCE -Dpiglitutil_gles3_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/libdrm -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit
+ /1.0+gitr/git/src -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build/target_api/gles3/tests/util -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot/usr/include/waffle-1 -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/
+ work/core2-64-poky-linux/piglit/1.0+gitr/git=/usr/src/debug/piglit/1.0+gitr  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build=/usr/src/debug/piglit/1.0+gitr  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/recipe-sysroot-native=  -pipe -msse2 -mfpmath=sse -Wall -std=gnu99 -Werror=vla -Werror=pointer-arith -Werror=variadic-macros -g -fPIC -MD -MT target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-dispatch.c.o -MF target_api/gles3/tests/util/CMakeFiles/
+ piglitutil_gles3.dir/piglit-dispatch.c.o.d -o target_api/gles3/tests/util/CMakeFiles/piglitutil_gles3.dir/piglit-dispatch.c.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/git/tests/util/piglit-dispatch.c
+| ninja: build stopped: subcommand failed.
+| 
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/run.do_compile.2775016:161 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/run.do_compile.2775016, line 161
+| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/run.do_compile.2775016, line 155
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/run.do_compile.2775016, line 150
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/run.do_compile.2775016, line 174
+NOTE: recipe piglit-1.0+gitr-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 2738 tasks of which 2728 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240815152942.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240815152942.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_compile
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: piglit-1.0+gitr-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/run.do_compile.2775016', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/log.do_compile.2775016
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_compile) failed with exit code '1'
+
+--===============2339903627621752726==--
 
