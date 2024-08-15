@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 645A3C54E65
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646E7C54E75
 	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:05 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.131094.1723748333948332047
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.131100.1723748334484870942
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 11:58:56 -0700
+ Thu, 15 Aug 2024 11:58:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Us276XS1;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=R6W19x01;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019157683f18-8925fc2a-b24a-43b5-ba17-a85c1815a073-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Zqqdr4dU;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tt9swRWD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101915768385f-fc324ebf-875b-4b68-b98f-b6e1539f866b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1723748335;
+	t=1723748333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=m4S5S0zqmJI/sj5Ifx8t/XyUsnXB2dIrtqDC4unGec4=;
-	b=Us276XS1r2mfYApG1aKXhrX/wOkzMwHOPqX7N1pwYOXCTevi7Jhm8eOEVd7Yf7MQ
-	uQTnfoiT1jaiuP/apGsHmSAjAv4Dc8DfuZFJXRWs6Y4tycCkyRCNimQNhTfKGCwnPPP
-	JVvueBQfFpKNTxGAOBFdyR7RKI0MbjuziLgPaptE=
+	bh=EbMVYc3jkdp1JeyPaXslTjefQ/j188aCHOfkQE+5uuo=;
+	b=Zqqdr4dUmx8jIzC6YBFlWWiQ36FjNBW2fNZ0sXOdbFF82vRqfjDfBSltLmbMwM1q
+	S15EVfALJNpsSLDJzfMlXOkZgrt/c8vRavfU9W2ZN87TKQ78wwKT7x2T0l9x+Bu2rpZ
+	cn7nl6/Vwfud2wZu1rlehCdjbsCPtjJqzmmDXqlc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748335;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=m4S5S0zqmJI/sj5Ifx8t/XyUsnXB2dIrtqDC4unGec4=;
-	b=R6W19x01TFhij2V5ZUEd3jhwrLq9E/7tB+7qSI2J/onB5zWCGt4kcnsyMqypVu2I
-	TpL7ilXoA3NMxx/TdEnczCRvrG4cxOW8gQ26e99LssJYbRTXQAG/qLSvwPjBQy9q190
-	krF3Z6rL7y65BDEK4N4qDY1eMz7ndSVy/BftIOsA=
-Content-Type: multipart/mixed; boundary="===============2202127677738892856=="
+	bh=EbMVYc3jkdp1JeyPaXslTjefQ/j188aCHOfkQE+5uuo=;
+	b=tt9swRWD0FYFNyllEmx63AaqKceqw8USKB7RUMN+8uh0DIZpCW1os0wh4seS0hTU
+	bcTvI8PBTZgCMuXSn5ubHFe5zl106OcJeciylI2cRpPg2NPeYTfh2MMD6fqqP8Qhsd5
+	o0vzHudnDx8kBI4KxOC/i47+wxR161fi/3h947YQ=
+Content-Type: multipart/mixed; boundary="===============8195714612507447353=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] kmod: upgrading to 33 SUCCEEDED
-Message-ID: <0101019157683f18-8925fc2a-b24a-43b5-ba17-a85c1815a073-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Aug 2024 18:58:55 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] dpkg: upgrading to 1.22.11 SUCCEEDED
+Message-ID: <010101915768385f-fc324ebf-875b-4b68-b98f-b6e1539f866b-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Aug 2024 18:58:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.15-54.240.27.45
+X-SES-Outgoing: 2024.08.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203442
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203385
 
---===============2202127677738892856==
+--===============8195714612507447353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *kmod* to *33* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *dpkg* to *1.22.11* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-kmod-upgrade-32-33.patch
+    - apply the patch: git am 0001-dpkg-upgrade-1.22.10-1.22.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,410 +72,508 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ce59b8e334fecd100555ccc7e3b3b4a75684bc67 Mon Sep 17 00:00:00 2001
+From 22b08ec69f57cbc7d43acddc58185b901b76b151 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Aug 2024 15:54:10 +0000
-Subject: [PATCH] kmod: upgrade 32 -> 33
+Date: Thu, 15 Aug 2024 09:44:14 +0000
+Subject: [PATCH] dpkg: upgrade 1.22.10 -> 1.22.11
 
 ---
- ...able-implementation-for-basename-API.patch | 50 +++++++------------
- .../kmod/kmod/avoid_parallel_tests.patch      | 10 ++--
- meta/recipes-kernel/kmod/kmod/gtkdocdir.patch |  9 ++--
- .../kmod/{kmod_32.bb => kmod_33.bb}           |  2 +-
- 4 files changed, 26 insertions(+), 45 deletions(-)
- rename meta/recipes-kernel/kmod/{kmod_32.bb => kmod_33.bb} (98%)
+ .../dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch        | 6 +++---
+ .../dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch  | 4 ++--
+ .../dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch         | 2 +-
+ .../dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch       | 5 +----
+ ...apt-to-linux-wrs-kernel-version-which-has-characte.patch | 6 +++---
+ ...e-lutimes-function-doesn-t-work-properly-for-all-s.patch | 6 +++---
+ .../dpkg/0006-add-musleabi-to-known-target-tripets.patch    | 2 +-
+ ...pkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch | 4 ++--
+ .../dpkg/dpkg/add_armeb_triplet_entry.patch                 | 6 ++----
+ meta/recipes-devtools/dpkg/dpkg/arch_pm.patch               | 2 +-
+ meta/recipes-devtools/dpkg/dpkg/noman.patch                 | 4 ++--
+ .../dpkg/dpkg/remove-tar-no-timestamp.patch                 | 4 ++--
+ .../dpkg/{dpkg_1.22.10.bb => dpkg_1.22.11.bb}               | 2 +-
+ 13 files changed, 24 insertions(+), 29 deletions(-)
+ rename meta/recipes-devtools/dpkg/{dpkg_1.22.10.bb => dpkg_1.22.11.bb} (94%)
 
-diff --git a/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch b/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch
-index 6a7f9ded4f..d4fc88c338 100644
---- a/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch
-+++ b/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch b/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch
+index 99044fbb1a..8943f6c2f0 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-Add-support-for-riscv32-CPU.patch
 @@ -1,4 +1,4 @@
--From 721ed6040c7aa47070faf6378c433089e178bd43 Mon Sep 17 00:00:00 2001
-+From c3a9d346c6541aa20723bfcd6306c22ca1d32055 Mon Sep 17 00:00:00 2001
+-From 21459bb8d9a997e6a92885a4ef337ede9cc5aba7 Mon Sep 17 00:00:00 2001
++From 5c332c2a4625519a2b6065b9d9fc724e84c9b6d6 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 9 Dec 2023 17:35:59 -0800
- Subject: [PATCH] Use portable implementation for basename API
-@@ -22,18 +22,18 @@ Suggested-by: Rich Felker
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-  libkmod/libkmod-config.c | 2 +-
-- shared/util.c            | 4 ++--
-- shared/util.h            | 7 +++++++
-+ shared/util.c            | 2 +-
-+ shared/util.h            | 6 ++++++
-  testsuite/testsuite.c    | 2 +-
-  tools/depmod.c           | 2 +-
-  tools/kmod.c             | 4 ++--
-- 6 files changed, 14 insertions(+), 7 deletions(-)
-+ 6 files changed, 12 insertions(+), 6 deletions(-)
- 
- diff --git a/libkmod/libkmod-config.c b/libkmod/libkmod-config.c
--index e83621b..8aa555a 100644
-+index 919f4ed..02aca03 100644
- --- a/libkmod/libkmod-config.c
- +++ b/libkmod/libkmod-config.c
--@@ -794,7 +794,7 @@ static int conf_files_insert_sorted(struct kmod_ctx *ctx,
-+@@ -957,7 +957,7 @@ static int conf_files_insert_sorted(struct kmod_ctx *ctx,
-  	bool is_single = false;
-  
-  	if (name == NULL) {
-@@ -43,15 +43,12 @@ index e83621b..8aa555a 100644
-  	}
-  
- diff --git a/shared/util.c b/shared/util.c
--index e2bab83..0e16670 100644
-+index 66a7622..c46af99 100644
- --- a/shared/util.c
- +++ b/shared/util.c
--@@ -172,9 +172,9 @@ char *modname_normalize(const char *modname, char buf[static PATH_MAX], size_t *
-- 
-- char *path_to_modname(const char *path, char buf[static PATH_MAX], size_t *len)
-+@@ -160,7 +160,7 @@ char *path_to_modname(const char *path, char buf[static PATH_MAX], size_t *len)
-  {
---	char *modname;
--+	const char *modname;
-+ 	const char *modname;
-  
- -	modname = basename(path);
- +	modname = gnu_basename(path);
-@@ -59,18 +56,10 @@ index e2bab83..0e16670 100644
-  		return NULL;
-  
- diff --git a/shared/util.h b/shared/util.h
--index c4a3916..073dc5a 100644
-+index 2a377dd..073dc5a 100644
- --- a/shared/util.h
- +++ b/shared/util.h
--@@ -5,6 +5,7 @@
-- #include <stdbool.h>
-- #include <stdlib.h>
-- #include <stdio.h>
--+#include <string.h>
-- #include <sys/types.h>
-- #include <sys/stat.h>
-- #include <time.h>
--@@ -76,6 +77,12 @@ do {						\
-+@@ -77,6 +77,12 @@ do {						\
-  	__p->__v = (val);			\
-  } while(0)
-  
-@@ -84,10 +73,10 @@ index c4a3916..073dc5a 100644
-  {
-  	return 1 << ((sizeof(u) * 8) - __builtin_clz(u - 1));
- diff --git a/testsuite/testsuite.c b/testsuite/testsuite.c
--index 318343a..aafc987 100644
-+index a567839..1af8702 100644
- --- a/testsuite/testsuite.c
- +++ b/testsuite/testsuite.c
--@@ -70,7 +70,7 @@ static void help(void)
-+@@ -59,7 +59,7 @@ static void help(void)
-  
-  	printf("Usage:\n"
-  	       "\t%s [options] <test>\n"
-@@ -97,10 +86,10 @@ index 318343a..aafc987 100644
-  	for (itr = options, itr_short = options_short;
-  				itr->name != NULL; itr++, itr_short++)
- diff --git a/tools/depmod.c b/tools/depmod.c
--index 43fc354..cfb15b1 100644
-+index 8b0a428..e8e3869 100644
- --- a/tools/depmod.c
- +++ b/tools/depmod.c
--@@ -762,7 +762,7 @@ static int cfg_files_insert_sorted(struct cfg_file ***p_files, size_t *p_n_files
-+@@ -724,7 +724,7 @@ static int cfg_files_insert_sorted(struct cfg_file ***p_files, size_t *p_n_files
-  	if (name != NULL)
-  		namelen = strlen(name);
-  	else {
-@@ -110,10 +99,10 @@ index 43fc354..cfb15b1 100644
-  		dirlen -= namelen + 1;
-  	}
- diff --git a/tools/kmod.c b/tools/kmod.c
--index 55689c0..df91e5c 100644
-+index d28ec7b..4e5c422 100644
- --- a/tools/kmod.c
- +++ b/tools/kmod.c
--@@ -68,7 +68,7 @@ static int kmod_help(int argc, char *argv[])
-+@@ -50,7 +50,7 @@ static int kmod_help(int argc, char *argv[])
-  			"Options:\n"
-  			"\t-V, --version     show version\n"
-  			"\t-h, --help        show this help\n\n"
-@@ -122,7 +111,7 @@ index 55689c0..df91e5c 100644
-  
-  	for (i = 0; i < ARRAY_SIZE(kmod_cmds); i++) {
-  		if (kmod_cmds[i]->help != NULL) {
--@@ -156,7 +156,7 @@ static int handle_kmod_compat_commands(int argc, char *argv[])
-+@@ -138,7 +138,7 @@ static int handle_kmod_compat_commands(int argc, char *argv[])
-  	const char *cmd;
-  	size_t i;
-  
-@@ -131,6 +120,3 @@ index 55689c0..df91e5c 100644
-  
-  	for (i = 0; i < ARRAY_SIZE(kmod_compat_cmds); i++) {
-  		if (streq(kmod_compat_cmds[i]->name, cmd))
---- 
--2.43.0
--
-diff --git a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-index 04a8204815..6db4fa7e97 100644
---- a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-+++ b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
+ Date: Wed, 29 Apr 2020 22:02:23 -0700
+ Subject: [PATCH] Add support for riscv32 CPU
+@@ -23,10 +23,10 @@ index 575c008e3..7a801a03a 100644
+  s390		s390		s390			32	big
+  s390x		s390x		s390x			64	big
+ diff --git a/scripts/Dpkg/Vendor/Debian.pm b/scripts/Dpkg/Vendor/Debian.pm
+-index fcf5b1e2a..175c9f436 100644
++index edf94bc19..d76f97494 100644
+ --- a/scripts/Dpkg/Vendor/Debian.pm
+ +++ b/scripts/Dpkg/Vendor/Debian.pm
+-@@ -202,6 +202,7 @@ sub set_build_features {
++@@ -216,6 +216,7 @@ sub set_build_features {
+          powerpc
+          ppc64
+          ppc64el
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
+index 95a49053e8..185bbb90f1 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
 @@ -1,4 +1,4 @@
--From be6f82c54f694617c646ca1f8b5bcf93694e20ad Mon Sep 17 00:00:00 2001
-+From 7a22abf188e5b688080bb1321a77588474114339 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Fri, 6 Sep 2013 21:11:57 +0000
- Subject: [PATCH] kmod: avoid parallel-tests
-@@ -11,16 +11,15 @@ serial-tests is now required
+-From 4c5e6c280a2ab4d2009d3264e94286f5fe244d0b Mon Sep 17 00:00:00 2001
++From 067992f2d0b0ff6ca114031636eb0e1eac791892 Mon Sep 17 00:00:00 2001
+ From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
+ Date: Tue, 16 Jun 2020 03:57:25 +0000
+ Subject: [PATCH] build.c: ignore return of 1 from tar -cf
+@@ -28,7 +28,7 @@ Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+  1 file changed, 4 insertions(+), 1 deletion(-)
  
- Signed-off-by: Tudor Florea <tudor.florea@enea.com>
- Upstream-Status: Inappropriate (disable feature incompatible with ptest)
+ diff --git a/src/deb/build.c b/src/deb/build.c
+-index 92aba9553..6436b33da 100644
++index 87bd4142e..e85fd7d0f 100644
+ --- a/src/deb/build.c
+ +++ b/src/deb/build.c
+ @@ -481,6 +481,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch b/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
+index 602a0b22c5..67fce89d80 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
+@@ -1,4 +1,4 @@
+-From 1d192b60fc43e24e1c2d6ff452dabeee7a227cc0 Mon Sep 17 00:00:00 2001
++From df6c641e3fc248d0c864e4e752c4609412067df7 Mon Sep 17 00:00:00 2001
+ From: sweeaun <swee.aun.khor@intel.com>
+ Date: Sun, 10 Sep 2017 00:14:15 -0700
+ Subject: [PATCH] dpkg: Support muslx32 build
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch b/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch
+index 7d4dc97e94..d0459cd017 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-script.c-avoid-use-of-chroot.patch
+@@ -1,4 +1,4 @@
+-From cf135f2b3395e54dc1adfe51c1a25922e01c167e Mon Sep 17 00:00:00 2001
++From 5e5f06d396fe631990474ba6df83428987855365 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 26 Aug 2015 16:25:45 +0300
+ Subject: [PATCH] script.c: avoid use of chroot
+@@ -86,6 +86,3 @@ index e9aee0bf9..181e7c710 100644
+  }
+  
+  /**
+--- 
+-2.39.2
 -
- ---
-  configure.ac | 2 +-
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch b/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
+index fc097e5a66..a5c80773a5 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
+@@ -1,4 +1,4 @@
+-From 0cac67ce5920d6d0c9df4278bfa77da878a8a37a Mon Sep 17 00:00:00 2001
++From 6e88e8b7b6924751112966f329525956735de9b4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 26 Aug 2015 16:16:16 +0300
+ Subject: [PATCH] Adapt to linux-wrs kernel version, which has character '_'
+@@ -13,10 +13,10 @@ Upstream-Status: Inappropriate [embedded specific]
+  1 file changed, 2 insertions(+), 4 deletions(-)
+ 
+ diff --git a/lib/dpkg/parsehelp.c b/lib/dpkg/parsehelp.c
+-index 63a36f55c..81901bd5a 100644
++index a999b5e78..7be0378ab 100644
+ --- a/lib/dpkg/parsehelp.c
+ +++ b/lib/dpkg/parsehelp.c
+-@@ -275,14 +275,12 @@ parseversion(struct dpkg_version *rversion, const char *string,
++@@ -291,14 +291,12 @@ parseversion(struct dpkg_version *rversion, const char *string,
+    ptr = rversion->version;
+    if (!*ptr)
+      return dpkg_put_error(err, _("version number is empty"));
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch b/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
+index 35c0c246f6..e49d54152c 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
+@@ -1,4 +1,4 @@
+-From 80ad29d22f8ca4033a6a79a726580fee17bdade9 Mon Sep 17 00:00:00 2001
++From 0fc90a3ed01a7fce34de925979460638b8a57402 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 26 Aug 2015 16:27:45 +0300
+ Subject: [PATCH] The lutimes function doesn't work properly for all systems.
+@@ -11,10 +11,10 @@ Upstream-Status: Inappropriate [embedded specific]
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/src/main/archives.c b/src/main/archives.c
+-index 7e399f922..ec3b6878f 100644
++index d7279e1f5..f9c6facc9 100644
+ --- a/src/main/archives.c
+ +++ b/src/main/archives.c
+-@@ -491,8 +491,9 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
++@@ -490,8 +490,9 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
+  
+    if (te->type == TAR_FILETYPE_SYMLINK) {
+  #ifdef HAVE_LUTIMES
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
+index 2573afb8e4..4f60a89a56 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
+@@ -1,4 +1,4 @@
+-From 1c9e78dda91ba66fbd8fe02b66b6c603d08d3343 Mon Sep 17 00:00:00 2001
++From e3dc69aa987b379e247dde3fce479e43be6c81aa Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 30 Dec 2015 23:05:41 +0000
+ Subject: [PATCH] add musleabi to known target tripets
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
+index 3d3a4f0bb9..ded1707dfd 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
+@@ -1,4 +1,4 @@
+-From 6dd80236a91a505b5753bb74e5f1b47330d8b16b Mon Sep 17 00:00:00 2001
++From 20ba7fd8939e97bec3d70a67c0aac76ddc67898d Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+ Date: Tue, 21 Feb 2017 11:23:27 -0600
+ Subject: [PATCH] dpkg-deb/build.c: Remove usage of --clamp-mtime in tar
+@@ -27,7 +27,7 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/configure.ac b/configure.ac
--index ee72283..60980c0 100644
-+index 2f1c525..7056aae 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -14,8 +14,8 @@ AC_USE_SYSTEM_EXTENSIONS
-+@@ -14,7 +14,7 @@ AC_USE_SYSTEM_EXTENSIONS
-  AC_SYS_LARGEFILE
-  AC_PREFIX_DEFAULT([/usr])
-  AM_MAINTAINER_MODE([enable])
-@@ -28,5 +27,4 @@ index ee72283..60980c0 100644
- +AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules tar-pax no-dist-gzip dist-xz subdir-objects color-tests serial-tests])
-  AM_SILENT_RULES([yes])
-  LT_INIT([disable-static pic-only])
+ diff --git a/src/deb/build.c b/src/deb/build.c
+-index 1f0c050ee..92aba9553 100644
++index a418dd122..87bd4142e 100644
+ --- a/src/deb/build.c
+ +++ b/src/deb/build.c
+ @@ -504,7 +504,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+diff --git a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
+index b5eaa50172..d1fac2168a 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
+@@ -1,14 +1,12 @@
+-From 1c3a109df54b6092fa85a1fe2b7771e3b959655f Mon Sep 17 00:00:00 2001
++From 8ded32a35287a840de7e505c66e76cccd9edbac6 Mon Sep 17 00:00:00 2001
+ From: "Krishnanjanappa, Jagadeesh"
+  <jagadeesh.krishnanjanappa@caviumnetworks.com>
+ Date: Wed, 8 Apr 2015 18:08:14 +0530
+-Subject: [PATCH] dpkg: add triplet entry to fix build error for armeb
++Subject: [PATCH] add armeb triplet entry into triplettable.
+ MIME-Version: 1.0
+ Content-Type: text/plain; charset=UTF-8
+ Content-Transfer-Encoding: 8bit
+ 
+-[PATCH] add armeb triplet entry into triplettable.
 -
-- AS_IF([test "x$enable_static" = "xyes"], [AC_MSG_ERROR([--enable-static is not supported by kmod])])
-+ 
-diff --git a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch b/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
-index a34ea466e8..91d622b8c7 100644
---- a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
-+++ b/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
+ Cross-compling dpkg application for armeb fails with below error
+ during configure task,
+ 
+diff --git a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
+index ec5d503488..b5a29231dd 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
 @@ -1,4 +1,4 @@
--From dd59095f70f774f6d1e767010e25b35ef6db4c4b Mon Sep 17 00:00:00 2001
-+From 90fb7bb85002cde39de3b3d2e2481933390832af Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 8 Dec 2023 22:35:45 +0000
- Subject: [PATCH] configure: set docdir in GTK_DOC_CHECK
-@@ -16,10 +16,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From bdf60ebbeb433a80e6cfcbde9d83d89564e79e20 Mon Sep 17 00:00:00 2001
++From 812dbb64f2805a3257ef9c9a61abbd10e0b3a08c Mon Sep 17 00:00:00 2001
+ From: Joe Slater <jslater@windriver.com>
+ Date: Mon, 26 Aug 2013 23:38:45 +0000
+ Subject: [PATCH] dpkg: fix configuration issue for mips64
+diff --git a/meta/recipes-devtools/dpkg/dpkg/noman.patch b/meta/recipes-devtools/dpkg/dpkg/noman.patch
+index e80549d740..3f3e08351c 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/noman.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/noman.patch
+@@ -1,4 +1,4 @@
+-From 008ec5150dd086ffa3940cb520f1ca91939f138d Mon Sep 17 00:00:00 2001
++From e671b43a52bf5785fe4aad84712dbabc6c86b39e Mon Sep 17 00:00:00 2001
+ From: Chris Larson <kergoth@openedhand.com>
+ Date: Tue, 5 Sep 2006 07:24:58 +0000
+ Subject: [PATCH] Add dpkg, modified from upstream oe.
+@@ -9,7 +9,7 @@ Upstream-Status: Inappropriate [disable feature]
+  1 file changed, 1 deletion(-)
  
- diff --git a/configure.ac b/configure.ac
--index de01e08..67696c4 100644
-+index 7056aae..d53a20c 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -255,7 +255,7 @@ AS_IF([test "x$enable_coverage" = "xyes"], [
-+@@ -236,7 +236,7 @@ AS_IF([test "x$enable_coverage" = "xyes"], [
-  AM_CONDITIONAL([ENABLE_COVERAGE], [test "x$enable_coverage" = "xyes"])
-  
-  m4_ifdef([GTK_DOC_CHECK], [
-@@ -28,6 +28,3 @@ index de01e08..67696c4 100644
-  ], [
-  AM_CONDITIONAL([ENABLE_GTK_DOC], false)])
-  
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/kmod/kmod_32.bb b/meta/recipes-kernel/kmod/kmod_33.bb
-similarity index 98%
-rename from meta/recipes-kernel/kmod/kmod_32.bb
-rename to meta/recipes-kernel/kmod/kmod_33.bb
-index 1c4e5a94db..8ee9618982 100644
---- a/meta/recipes-kernel/kmod/kmod_32.bb
-+++ b/meta/recipes-kernel/kmod/kmod_33.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                    "
- inherit autotools bash-completion gtk-doc pkgconfig manpages update-alternatives
+ diff --git a/Makefile.am b/Makefile.am
+-index 7186045d4..daca9faf2 100644
++index 74f8df197..35e5eee39 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+ @@ -11,7 +11,6 @@ SUBDIRS = \
+diff --git a/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch b/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
+index 9307725e8b..d3a1a13098 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
+@@ -1,4 +1,4 @@
+-From add92699ca1397205e1d7b46c3ab43de06b9a6c7 Mon Sep 17 00:00:00 2001
++From 7d69de114aa696cfb5e31b491a657ca6b6cbbbd5 Mon Sep 17 00:00:00 2001
+ From: Constantin Musca <constantinx.musca@intel.com>
+ Date: Tue, 28 Aug 2012 17:02:40 +0300
+ Subject: [PATCH] busybox-1.19.4 tar utility doesn't support
+@@ -12,7 +12,7 @@ Upstream-Status: Inappropriate [configuration]
+  1 file changed, 1 deletion(-)
  
--SRCREV = "41faa59711742c1476d59985011ee0f27ed91d30"
-+SRCREV = "e193aeb99a04fb4b63ce47eb2c7f119db59446a0"
+ diff --git a/src/deb/extract.c b/src/deb/extract.c
+-index 8b78a7eab..fd7595808 100644
++index 08b281564..c35a182ee 100644
+ --- a/src/deb/extract.c
+ +++ b/src/deb/extract.c
+ @@ -338,7 +338,6 @@ extracthalf(const char *debar, const char *dir,
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.10.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.11.bb
+similarity index 94%
+rename from meta/recipes-devtools/dpkg/dpkg_1.22.10.bb
+rename to meta/recipes-devtools/dpkg/dpkg_1.22.11.bb
+index b247404855..47a8d5d5ea 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.22.10.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.22.11.bb
+@@ -17,6 +17,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
  
- SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=master;protocol=https \
-            file://depmod-search.conf \
+ SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ 
+-SRCREV = "ef5536cfe24e4c41c6fdc56e4530161fade3887c"
++SRCREV = "ee7e9118d0a9581cb00c5ce02dccd561b3096387"
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.44.0
 
 
---===============2202127677738892856==
+--===============8195714612507447353==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-kmod-upgrade-32-33.patch"
+Content-Disposition: attachment;
+ filename="0001-dpkg-upgrade-1.22.10-1.22.11.patch"
 
-RnJvbSBjZTU5YjhlMzM0ZmVjZDEwMDU1NWNjYzdlM2IzYjRhNzU2ODRiYzY3IE1vbiBTZXAgMTcg
+RnJvbSAyMmIwOGVjNjlmNTdjYmM3ZDQzYWNkZGM1ODE4NWI5MDFiNzZiMTUxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTU6NTQ6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-bW9kOiB1cGdyYWRlIDMyIC0+IDMzCgotLS0KIC4uLmFibGUtaW1wbGVtZW50YXRpb24tZm9yLWJh
-c2VuYW1lLUFQSS5wYXRjaCB8IDUwICsrKysrKystLS0tLS0tLS0tLS0KIC4uLi9rbW9kL2ttb2Qv
-YXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2ggICAgICB8IDEwICsrLS0KIG1ldGEvcmVjaXBlcy1r
-ZXJuZWwva21vZC9rbW9kL2d0a2RvY2Rpci5wYXRjaCB8ICA5ICsrLS0KIC4uLi9rbW9kL3trbW9k
-XzMyLmJiID0+IGttb2RfMzMuYmJ9ICAgICAgICAgICB8ICAyICstCiA0IGZpbGVzIGNoYW5nZWQs
-IDI2IGluc2VydGlvbnMoKyksIDQ1IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1r
-ZXJuZWwva21vZC97a21vZF8zMi5iYiA9PiBrbW9kXzMzLmJifSAoOTglKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kLzAwMDEtVXNlLXBvcnRhYmxlLWltcGxlbWVu
-dGF0aW9uLWZvci1iYXNlbmFtZS1BUEkucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qv
-a21vZC8wMDAxLVVzZS1wb3J0YWJsZS1pbXBsZW1lbnRhdGlvbi1mb3ItYmFzZW5hbWUtQVBJLnBh
-dGNoCmluZGV4IDZhN2Y5ZGVkNGYuLmQ0ZmM4OGMzMzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1rZXJuZWwva21vZC9rbW9kLzAwMDEtVXNlLXBvcnRhYmxlLWltcGxlbWVudGF0aW9uLWZvci1i
-YXNlbmFtZS1BUEkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL2ttb2QvMDAw
-MS1Vc2UtcG9ydGFibGUtaW1wbGVtZW50YXRpb24tZm9yLWJhc2VuYW1lLUFQSS5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gNzIxZWQ2MDQwYzdhYTQ3MDcwZmFmNjM3OGM0MzMwODllMTc4YmQ0
-MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzNhOWQzNDZjNjU0MWFhMjA3MjNiZmNk
-NjMwNmMyMmNhMWQzMjA1NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFq
-IDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDkgRGVjIDIwMjMgMTc6MzU6NTkgLTA4
-MDAKIFN1YmplY3Q6IFtQQVRDSF0gVXNlIHBvcnRhYmxlIGltcGxlbWVudGF0aW9uIGZvciBiYXNl
-bmFtZSBBUEkKQEAgLTIyLDE4ICsyMiwxOCBAQCBTdWdnZXN0ZWQtYnk6IFJpY2ggRmVsa2VyCiBT
-aWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogLS0tCiAgbGlia21v
-ZC9saWJrbW9kLWNvbmZpZy5jIHwgMiArLQotIHNoYXJlZC91dGlsLmMgICAgICAgICAgICB8IDQg
-KystLQotIHNoYXJlZC91dGlsLmggICAgICAgICAgICB8IDcgKysrKysrKworIHNoYXJlZC91dGls
-LmMgICAgICAgICAgICB8IDIgKy0KKyBzaGFyZWQvdXRpbC5oICAgICAgICAgICAgfCA2ICsrKysr
-KwogIHRlc3RzdWl0ZS90ZXN0c3VpdGUuYyAgICB8IDIgKy0KICB0b29scy9kZXBtb2QuYyAgICAg
-ICAgICAgfCAyICstCiAgdG9vbHMva21vZC5jICAgICAgICAgICAgIHwgNCArKy0tCi0gNiBmaWxl
-cyBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQorIDYgZmlsZXMgY2hh
-bmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL2xp
-Ymttb2QvbGlia21vZC1jb25maWcuYyBiL2xpYmttb2QvbGlia21vZC1jb25maWcuYwotaW5kZXgg
-ZTgzNjIxYi4uOGFhNTU1YSAxMDA2NDQKK2luZGV4IDkxOWY0ZWQuLjAyYWNhMDMgMTAwNjQ0CiAt
-LS0gYS9saWJrbW9kL2xpYmttb2QtY29uZmlnLmMKICsrKyBiL2xpYmttb2QvbGlia21vZC1jb25m
-aWcuYwotQEAgLTc5NCw3ICs3OTQsNyBAQCBzdGF0aWMgaW50IGNvbmZfZmlsZXNfaW5zZXJ0X3Nv
-cnRlZChzdHJ1Y3Qga21vZF9jdHggKmN0eCwKK0BAIC05NTcsNyArOTU3LDcgQEAgc3RhdGljIGlu
-dCBjb25mX2ZpbGVzX2luc2VydF9zb3J0ZWQoc3RydWN0IGttb2RfY3R4ICpjdHgsCiAgCWJvb2wg
-aXNfc2luZ2xlID0gZmFsc2U7CiAgCiAgCWlmIChuYW1lID09IE5VTEwpIHsKQEAgLTQzLDE1ICs0
-MywxMiBAQCBpbmRleCBlODM2MjFiLi44YWE1NTVhIDEwMDY0NAogIAl9CiAgCiBkaWZmIC0tZ2l0
-IGEvc2hhcmVkL3V0aWwuYyBiL3NoYXJlZC91dGlsLmMKLWluZGV4IGUyYmFiODMuLjBlMTY2NzAg
-MTAwNjQ0CitpbmRleCA2NmE3NjIyLi5jNDZhZjk5IDEwMDY0NAogLS0tIGEvc2hhcmVkL3V0aWwu
-YwogKysrIGIvc2hhcmVkL3V0aWwuYwotQEAgLTE3Miw5ICsxNzIsOSBAQCBjaGFyICptb2RuYW1l
-X25vcm1hbGl6ZShjb25zdCBjaGFyICptb2RuYW1lLCBjaGFyIGJ1ZltzdGF0aWMgUEFUSF9NQVhd
-LCBzaXplX3QgKgotIAotIGNoYXIgKnBhdGhfdG9fbW9kbmFtZShjb25zdCBjaGFyICpwYXRoLCBj
-aGFyIGJ1ZltzdGF0aWMgUEFUSF9NQVhdLCBzaXplX3QgKmxlbikKK0BAIC0xNjAsNyArMTYwLDcg
-QEAgY2hhciAqcGF0aF90b19tb2RuYW1lKGNvbnN0IGNoYXIgKnBhdGgsIGNoYXIgYnVmW3N0YXRp
-YyBQQVRIX01BWF0sIHNpemVfdCAqbGVuKQogIHsKLS0JY2hhciAqbW9kbmFtZTsKLSsJY29uc3Qg
-Y2hhciAqbW9kbmFtZTsKKyAJY29uc3QgY2hhciAqbW9kbmFtZTsKICAKIC0JbW9kbmFtZSA9IGJh
-c2VuYW1lKHBhdGgpOwogKwltb2RuYW1lID0gZ251X2Jhc2VuYW1lKHBhdGgpOwpAQCAtNTksMTgg
-KzU2LDEwIEBAIGluZGV4IGUyYmFiODMuLjBlMTY2NzAgMTAwNjQ0CiAgCQlyZXR1cm4gTlVMTDsK
-ICAKIGRpZmYgLS1naXQgYS9zaGFyZWQvdXRpbC5oIGIvc2hhcmVkL3V0aWwuaAotaW5kZXggYzRh
-MzkxNi4uMDczZGM1YSAxMDA2NDQKK2luZGV4IDJhMzc3ZGQuLjA3M2RjNWEgMTAwNjQ0CiAtLS0g
-YS9zaGFyZWQvdXRpbC5oCiArKysgYi9zaGFyZWQvdXRpbC5oCi1AQCAtNSw2ICs1LDcgQEAKLSAj
-aW5jbHVkZSA8c3RkYm9vbC5oPgotICNpbmNsdWRlIDxzdGRsaWIuaD4KLSAjaW5jbHVkZSA8c3Rk
-aW8uaD4KLSsjaW5jbHVkZSA8c3RyaW5nLmg+Ci0gI2luY2x1ZGUgPHN5cy90eXBlcy5oPgotICNp
-bmNsdWRlIDxzeXMvc3RhdC5oPgotICNpbmNsdWRlIDx0aW1lLmg+Ci1AQCAtNzYsNiArNzcsMTIg
-QEAgZG8gewkJCQkJCVwKK0BAIC03Nyw2ICs3NywxMiBAQCBkbyB7CQkJCQkJXAogIAlfX3AtPl9f
-diA9ICh2YWwpOwkJCVwKICB9IHdoaWxlKDApCiAgCkBAIC04NCwxMCArNzMsMTAgQEAgaW5kZXgg
-YzRhMzkxNi4uMDczZGM1YSAxMDA2NDQKICB7CiAgCXJldHVybiAxIDw8ICgoc2l6ZW9mKHUpICog
-OCkgLSBfX2J1aWx0aW5fY2x6KHUgLSAxKSk7CiBkaWZmIC0tZ2l0IGEvdGVzdHN1aXRlL3Rlc3Rz
-dWl0ZS5jIGIvdGVzdHN1aXRlL3Rlc3RzdWl0ZS5jCi1pbmRleCAzMTgzNDNhLi5hYWZjOTg3IDEw
-MDY0NAoraW5kZXggYTU2NzgzOS4uMWFmODcwMiAxMDA2NDQKIC0tLSBhL3Rlc3RzdWl0ZS90ZXN0
-c3VpdGUuYwogKysrIGIvdGVzdHN1aXRlL3Rlc3RzdWl0ZS5jCi1AQCAtNzAsNyArNzAsNyBAQCBz
-dGF0aWMgdm9pZCBoZWxwKHZvaWQpCitAQCAtNTksNyArNTksNyBAQCBzdGF0aWMgdm9pZCBoZWxw
-KHZvaWQpCiAgCiAgCXByaW50ZigiVXNhZ2U6XG4iCiAgCSAgICAgICAiXHQlcyBbb3B0aW9uc10g
-PHRlc3Q+XG4iCkBAIC05NywxMCArODYsMTAgQEAgaW5kZXggMzE4MzQzYS4uYWFmYzk4NyAxMDA2
-NDQKICAJZm9yIChpdHIgPSBvcHRpb25zLCBpdHJfc2hvcnQgPSBvcHRpb25zX3Nob3J0OwogIAkJ
-CQlpdHItPm5hbWUgIT0gTlVMTDsgaXRyKyssIGl0cl9zaG9ydCsrKQogZGlmZiAtLWdpdCBhL3Rv
-b2xzL2RlcG1vZC5jIGIvdG9vbHMvZGVwbW9kLmMKLWluZGV4IDQzZmMzNTQuLmNmYjE1YjEgMTAw
-NjQ0CitpbmRleCA4YjBhNDI4Li5lOGUzODY5IDEwMDY0NAogLS0tIGEvdG9vbHMvZGVwbW9kLmMK
-ICsrKyBiL3Rvb2xzL2RlcG1vZC5jCi1AQCAtNzYyLDcgKzc2Miw3IEBAIHN0YXRpYyBpbnQgY2Zn
-X2ZpbGVzX2luc2VydF9zb3J0ZWQoc3RydWN0IGNmZ19maWxlICoqKnBfZmlsZXMsIHNpemVfdCAq
-cF9uX2ZpbGVzCitAQCAtNzI0LDcgKzcyNCw3IEBAIHN0YXRpYyBpbnQgY2ZnX2ZpbGVzX2luc2Vy
-dF9zb3J0ZWQoc3RydWN0IGNmZ19maWxlICoqKnBfZmlsZXMsIHNpemVfdCAqcF9uX2ZpbGVzCiAg
-CWlmIChuYW1lICE9IE5VTEwpCiAgCQluYW1lbGVuID0gc3RybGVuKG5hbWUpOwogIAllbHNlIHsK
-QEAgLTExMCwxMCArOTksMTAgQEAgaW5kZXggNDNmYzM1NC4uY2ZiMTViMSAxMDA2NDQKICAJCWRp
-cmxlbiAtPSBuYW1lbGVuICsgMTsKICAJfQogZGlmZiAtLWdpdCBhL3Rvb2xzL2ttb2QuYyBiL3Rv
-b2xzL2ttb2QuYwotaW5kZXggNTU2ODljMC4uZGY5MWU1YyAxMDA2NDQKK2luZGV4IGQyOGVjN2Iu
-LjRlNWM0MjIgMTAwNjQ0CiAtLS0gYS90b29scy9rbW9kLmMKICsrKyBiL3Rvb2xzL2ttb2QuYwot
-QEAgLTY4LDcgKzY4LDcgQEAgc3RhdGljIGludCBrbW9kX2hlbHAoaW50IGFyZ2MsIGNoYXIgKmFy
-Z3ZbXSkKK0BAIC01MCw3ICs1MCw3IEBAIHN0YXRpYyBpbnQga21vZF9oZWxwKGludCBhcmdjLCBj
-aGFyICphcmd2W10pCiAgCQkJIk9wdGlvbnM6XG4iCiAgCQkJIlx0LVYsIC0tdmVyc2lvbiAgICAg
-c2hvdyB2ZXJzaW9uXG4iCiAgCQkJIlx0LWgsIC0taGVscCAgICAgICAgc2hvdyB0aGlzIGhlbHBc
-blxuIgpAQCAtMTIyLDcgKzExMSw3IEBAIGluZGV4IDU1Njg5YzAuLmRmOTFlNWMgMTAwNjQ0CiAg
-CiAgCWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGttb2RfY21kcyk7IGkrKykgewogIAkJaWYg
-KGttb2RfY21kc1tpXS0+aGVscCAhPSBOVUxMKSB7Ci1AQCAtMTU2LDcgKzE1Niw3IEBAIHN0YXRp
-YyBpbnQgaGFuZGxlX2ttb2RfY29tcGF0X2NvbW1hbmRzKGludCBhcmdjLCBjaGFyICphcmd2W10p
-CitAQCAtMTM4LDcgKzEzOCw3IEBAIHN0YXRpYyBpbnQgaGFuZGxlX2ttb2RfY29tcGF0X2NvbW1h
-bmRzKGludCBhcmdjLCBjaGFyICphcmd2W10pCiAgCWNvbnN0IGNoYXIgKmNtZDsKICAJc2l6ZV90
-IGk7CiAgCkBAIC0xMzEsNiArMTIwLDMgQEAgaW5kZXggNTU2ODljMC4uZGY5MWU1YyAxMDA2NDQK
-ICAKICAJZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoa21vZF9jb21wYXRfY21kcyk7IGkrKykg
-ewogIAkJaWYgKHN0cmVxKGttb2RfY29tcGF0X2NtZHNbaV0tPm5hbWUsIGNtZCkpCi0tLSAKLTIu
-NDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZC9hdm9pZF9w
-YXJhbGxlbF90ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kL2F2b2lk
-X3BhcmFsbGVsX3Rlc3RzLnBhdGNoCmluZGV4IDA0YTgyMDQ4MTUuLjZkYjRmYTdlOTcgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kL2F2b2lkX3BhcmFsbGVsX3Rlc3Rz
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kL2F2b2lkX3BhcmFsbGVs
-X3Rlc3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZTZmODJjNTRmNjk0NjE3YzY0NmNh
-MWY4YjViY2Y5MzY5NGUyMGFkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3YTIyYWJm
-MTg4ZTViNjg4MDgwYmIxMzIxYTc3NTg4NDc0MTE0MzM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogVHVkb3IgRmxvcmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+CiBEYXRlOiBGcmks
-IDYgU2VwIDIwMTMgMjE6MTE6NTcgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0ga21vZDogYXZvaWQg
-cGFyYWxsZWwtdGVzdHMKQEAgLTExLDE2ICsxMSwxNSBAQCBzZXJpYWwtdGVzdHMgaXMgbm93IHJl
-cXVpcmVkCiAKIFNpZ25lZC1vZmYtYnk6IFR1ZG9yIEZsb3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEu
-Y29tPgogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIChkaXNhYmxlIGZlYXR1cmUgaW5j
-b21wYXRpYmxlIHdpdGggcHRlc3QpCi0KIC0tLQogIGNvbmZpZ3VyZS5hYyB8IDIgKy0KICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBh
-L2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5hYwotaW5kZXggZWU3MjI4My4uNjA5ODBjMCAxMDA2
-NDQKK2luZGV4IDJmMWM1MjUuLjcwNTZhYWUgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsr
-KyBiL2NvbmZpZ3VyZS5hYwotQEAgLTE0LDggKzE0LDggQEAgQUNfVVNFX1NZU1RFTV9FWFRFTlNJ
-T05TCitAQCAtMTQsNyArMTQsNyBAQCBBQ19VU0VfU1lTVEVNX0VYVEVOU0lPTlMKICBBQ19TWVNf
-TEFSR0VGSUxFCiAgQUNfUFJFRklYX0RFRkFVTFQoWy91c3JdKQogIEFNX01BSU5UQUlORVJfTU9E
-RShbZW5hYmxlXSkKQEAgLTI4LDUgKzI3LDQgQEAgaW5kZXggZWU3MjI4My4uNjA5ODBjMCAxMDA2
-NDQKICtBTV9JTklUX0FVVE9NQUtFKFtjaGVjay1uZXdzIGZvcmVpZ24gMS4xMSBzaWxlbnQtcnVs
-ZXMgdGFyLXBheCBuby1kaXN0LWd6aXAgZGlzdC14eiBzdWJkaXItb2JqZWN0cyBjb2xvci10ZXN0
-cyBzZXJpYWwtdGVzdHNdKQogIEFNX1NJTEVOVF9SVUxFUyhbeWVzXSkKICBMVF9JTklUKFtkaXNh
-YmxlLXN0YXRpYyBwaWMtb25seV0pCi0KLSBBU19JRihbdGVzdCAieCRlbmFibGVfc3RhdGljIiA9
-ICJ4eWVzIl0sIFtBQ19NU0dfRVJST1IoWy0tZW5hYmxlLXN0YXRpYyBpcyBub3Qgc3VwcG9ydGVk
-IGJ5IGttb2RdKV0pCisgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21v
-ZC9ndGtkb2NkaXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZC9ndGtkb2Nk
-aXIucGF0Y2gKaW5kZXggYTM0ZWE0NjZlOC4uOTFkNjIyYjhjNyAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9rbW9kL2ttb2QvZ3RrZG9jZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1rZXJuZWwva21vZC9rbW9kL2d0a2RvY2Rpci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-ZGQ1OTA5NWY3MGY3NzRmNmQxZTc2NzAxMGUyNWIzNWVmNmRiNGM0YiBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gOTBmYjdiYjg1MDAyY2RlMzlkZTNiM2QyZTI0ODE5MzMzOTA4MzJhZiBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBh
-cm0uY29tPgogRGF0ZTogRnJpLCA4IERlYyAyMDIzIDIyOjM1OjQ1ICswMDAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIGNvbmZpZ3VyZTogc2V0IGRvY2RpciBpbiBHVEtfRE9DX0NIRUNLCkBAIC0xNiwxMCAr
-MTYsMTAgQEAgU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+
-CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYg
-LS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IGRlMDFlMDguLjY3Njk2
-YzQgMTAwNjQ0CitpbmRleCA3MDU2YWFlLi5kNTNhMjBjIDEwMDY0NAogLS0tIGEvY29uZmlndXJl
-LmFjCiArKysgYi9jb25maWd1cmUuYWMKLUBAIC0yNTUsNyArMjU1LDcgQEAgQVNfSUYoW3Rlc3Qg
-IngkZW5hYmxlX2NvdmVyYWdlIiA9ICJ4eWVzIl0sIFsKK0BAIC0yMzYsNyArMjM2LDcgQEAgQVNf
-SUYoW3Rlc3QgIngkZW5hYmxlX2NvdmVyYWdlIiA9ICJ4eWVzIl0sIFsKICBBTV9DT05ESVRJT05B
-TChbRU5BQkxFX0NPVkVSQUdFXSwgW3Rlc3QgIngkZW5hYmxlX2NvdmVyYWdlIiA9ICJ4eWVzIl0p
-CiAgCiAgbTRfaWZkZWYoW0dUS19ET0NfQ0hFQ0tdLCBbCkBAIC0yOCw2ICsyOCwzIEBAIGluZGV4
-IGRlMDFlMDguLjY3Njk2YzQgMTAwNjQ0CiAgXSwgWwogIEFNX0NPTkRJVElPTkFMKFtFTkFCTEVf
-R1RLX0RPQ10sIGZhbHNlKV0pCiAgCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMta2VybmVsL2ttb2Qva21vZF8zMi5iYiBiL21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9r
-bW9kXzMzLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1r
-ZXJuZWwva21vZC9rbW9kXzMyLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qv
-a21vZF8zMy5iYgppbmRleCAxYzRlNWE5NGRiLi44ZWU5NjE4OTgyIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMta2VybmVsL2ttb2Qva21vZF8zMi5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVs
-L2ttb2Qva21vZF8zMy5iYgpAQCAtMTUsNyArMTUsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZp
-bGU6Ly9DT1BZSU5HO21kNT1hNmY4OWUyMTAwZDliNmNkZmZjZWE0ZjM5OGUzNzM0MyBcCiAgICAg
-ICAgICAgICAgICAgICAgIgogaW5oZXJpdCBhdXRvdG9vbHMgYmFzaC1jb21wbGV0aW9uIGd0ay1k
-b2MgcGtnY29uZmlnIG1hbnBhZ2VzIHVwZGF0ZS1hbHRlcm5hdGl2ZXMKIAotU1JDUkVWID0gIjQx
-ZmFhNTk3MTE3NDJjMTQ3NmQ1OTk4NTAxMWVlMGYyN2VkOTFkMzAiCitTUkNSRVYgPSAiZTE5M2Fl
-Yjk5YTA0ZmI0YjYzY2U0N2ViMmM3ZjExOWRiNTk0NDZhMCIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9n
-aXQua2VybmVsLm9yZy9wdWIvc2NtL3V0aWxzL2tlcm5lbC9rbW9kL2ttb2QuZ2l0O2JyYW5jaD1t
-YXN0ZXI7cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICBmaWxlOi8vZGVwbW9kLXNlYXJjaC5j
-b25mIFwKLS0gCjIuNDQuMAoK
+CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMDk6NDQ6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+cGtnOiB1cGdyYWRlIDEuMjIuMTAgLT4gMS4yMi4xMQoKLS0tCiAuLi4vZHBrZy9kcGtnLzAwMDEt
+QWRkLXN1cHBvcnQtZm9yLXJpc2N2MzItQ1BVLnBhdGNoICAgICAgICB8IDYgKysrLS0tCiAuLi4v
+ZHBrZy8wMDAxLWJ1aWxkLmMtaWdub3JlLXJldHVybi1vZi0xLWZyb20tdGFyLWNmLnBhdGNoICB8
+IDQgKystLQogLi4uL2Rwa2cvZHBrZy8wMDAxLWRwa2ctU3VwcG9ydC1tdXNseDMyLWJ1aWxkLnBh
+dGNoICAgICAgICAgfCAyICstCiAuLi4vZHBrZy9kcGtnLzAwMDEtc2NyaXB0LmMtYXZvaWQtdXNl
+LW9mLWNocm9vdC5wYXRjaCAgICAgICB8IDUgKy0tLS0KIC4uLmFwdC10by1saW51eC13cnMta2Vy
+bmVsLXZlcnNpb24td2hpY2gtaGFzLWNoYXJhY3RlLnBhdGNoIHwgNiArKystLS0KIC4uLmUtbHV0
+aW1lcy1mdW5jdGlvbi1kb2Vzbi10LXdvcmstcHJvcGVybHktZm9yLWFsbC1zLnBhdGNoIHwgNiAr
+KystLS0KIC4uLi9kcGtnLzAwMDYtYWRkLW11c2xlYWJpLXRvLWtub3duLXRhcmdldC10cmlwZXRz
+LnBhdGNoICAgIHwgMiArLQogLi4ucGtnLWRlYi1idWlsZC5jLVJlbW92ZS11c2FnZS1vZi1jbGFt
+cC1tdGltZS1pbi10YXIucGF0Y2ggfCA0ICsrLS0KIC4uLi9kcGtnL2Rwa2cvYWRkX2FybWViX3Ry
+aXBsZXRfZW50cnkucGF0Y2ggICAgICAgICAgICAgICAgIHwgNiArKy0tLS0KIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9kcGtnL2Rwa2cvYXJjaF9wbS5wYXRjaCAgICAgICAgICAgICAgIHwgMiArLQog
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy9ub21hbi5wYXRjaCAgICAgICAgICAgICAg
+ICAgfCA0ICsrLS0KIC4uLi9kcGtnL2Rwa2cvcmVtb3ZlLXRhci1uby10aW1lc3RhbXAucGF0Y2gg
+ICAgICAgICAgICAgICAgIHwgNCArKy0tCiAuLi4vZHBrZy97ZHBrZ18xLjIyLjEwLmJiID0+IGRw
+a2dfMS4yMi4xMS5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEzIGZpbGVzIGNoYW5nZWQsIDI0
+IGluc2VydGlvbnMoKyksIDI5IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9kcGtnL3tkcGtnXzEuMjIuMTAuYmIgPT4gZHBrZ18xLjIyLjExLmJifSAoOTQlKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1BZGQtc3VwcG9y
+dC1mb3ItcmlzY3YzMi1DUFUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtn
+LzAwMDEtQWRkLXN1cHBvcnQtZm9yLXJpc2N2MzItQ1BVLnBhdGNoCmluZGV4IDk5MDQ0ZmJiMWEu
+Ljg5NDNmNmMyZjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cv
+MDAwMS1BZGQtc3VwcG9ydC1mb3ItcmlzY3YzMi1DUFUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2Rwa2cvZHBrZy8wMDAxLUFkZC1zdXBwb3J0LWZvci1yaXNjdjMyLUNQVS5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjE0NTliYjhkOWE5OTdlNmE5Mjg4NWE0ZWYzMzdlZGU5
+Y2M1YWJhNyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWMzMzJjMmE0NjI1NTE5YTJi
+NjA2NWI5ZDlmYzcyNGU4NGM5YjZkNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEto
+ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDI5IEFwciAyMDIwIDIyOjAy
+OjIzIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBzdXBwb3J0IGZvciByaXNjdjMyIENQVQpA
+QCAtMjMsMTAgKzIzLDEwIEBAIGluZGV4IDU3NWMwMDhlMy4uN2E4MDFhMDNhIDEwMDY0NAogIHMz
+OTAJCXMzOTAJCXMzOTAJCQkzMgliaWcKICBzMzkweAkJczM5MHgJCXMzOTB4CQkJNjQJYmlnCiBk
+aWZmIC0tZ2l0IGEvc2NyaXB0cy9EcGtnL1ZlbmRvci9EZWJpYW4ucG0gYi9zY3JpcHRzL0Rwa2cv
+VmVuZG9yL0RlYmlhbi5wbQotaW5kZXggZmNmNWIxZTJhLi4xNzVjOWY0MzYgMTAwNjQ0CitpbmRl
+eCBlZGY5NGJjMTkuLmQ3NmY5NzQ5NCAxMDA2NDQKIC0tLSBhL3NjcmlwdHMvRHBrZy9WZW5kb3Iv
+RGViaWFuLnBtCiArKysgYi9zY3JpcHRzL0Rwa2cvVmVuZG9yL0RlYmlhbi5wbQotQEAgLTIwMiw2
+ICsyMDIsNyBAQCBzdWIgc2V0X2J1aWxkX2ZlYXR1cmVzIHsKK0BAIC0yMTYsNiArMjE2LDcgQEAg
+c3ViIHNldF9idWlsZF9mZWF0dXJlcyB7CiAgICAgICAgICBwb3dlcnBjCiAgICAgICAgICBwcGM2
+NAogICAgICAgICAgcHBjNjRlbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rw
+a2cvZHBrZy8wMDAxLWJ1aWxkLmMtaWdub3JlLXJldHVybi1vZi0xLWZyb20tdGFyLWNmLnBhdGNo
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDAxLWJ1aWxkLmMtaWdub3JlLXJl
+dHVybi1vZi0xLWZyb20tdGFyLWNmLnBhdGNoCmluZGV4IDk1YTQ5MDUzZTguLjE4NWJiYjkwZjEg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1idWlsZC5j
+LWlnbm9yZS1yZXR1cm4tb2YtMS1mcm9tLXRhci1jZi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtYnVpbGQuYy1pZ25vcmUtcmV0dXJuLW9mLTEtZnJvbS10
+YXItY2YucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDRjNWU2YzI4MGEyYWI0ZDIwMDlkMzI2
+NGU5NDI4NmY1ZmUyNDRkMGIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDA2Nzk5MmYy
+ZDBiMGZmNmNhMTE0MDMxNjM2ZWIwZTFlYWM3OTE4OTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uQGxpbnV4Lm1pY3Jvc29mdC5jb20+
+CiBEYXRlOiBUdWUsIDE2IEp1biAyMDIwIDAzOjU3OjI1ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IGJ1aWxkLmM6IGlnbm9yZSByZXR1cm4gb2YgMSBmcm9tIHRhciAtY2YKQEAgLTI4LDcgKzI4LDcg
+QEAgU2lnbmVkLW9mZi1ieTogUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBtaWNyb3NvZnQu
+Y29tPgogIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIAog
+ZGlmZiAtLWdpdCBhL3NyYy9kZWIvYnVpbGQuYyBiL3NyYy9kZWIvYnVpbGQuYwotaW5kZXggOTJh
+YmE5NTUzLi42NDM2YjMzZGEgMTAwNjQ0CitpbmRleCA4N2JkNDE0MmUuLmU4NWZkN2QwZiAxMDA2
+NDQKIC0tLSBhL3NyYy9kZWIvYnVpbGQuYwogKysrIGIvc3JjL2RlYi9idWlsZC5jCiBAQCAtNDgx
+LDYgKzQ4MSw3IEBAIHRhcmJhbGxfcGFjayhjb25zdCBjaGFyICpkaXIsIGZpbGVuYW1lc19mZWVk
+X2Z1bmMgKnRhcl9maWxlbmFtZXNfZmVlZGVyLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2Rwa2cvZHBrZy8wMDAxLWRwa2ctU3VwcG9ydC1tdXNseDMyLWJ1aWxkLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDAxLWRwa2ctU3VwcG9ydC1tdXNseDMy
+LWJ1aWxkLnBhdGNoCmluZGV4IDYwMmEwYjIyYzUuLjY3ZmNlODlkODAgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1kcGtnLVN1cHBvcnQtbXVzbHgzMi1i
+dWlsZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtZHBr
+Zy1TdXBwb3J0LW11c2x4MzItYnVpbGQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDFkMTky
+YjYwZmM0M2UyNGUxYzJkNmZmNDUyZGFiZWVlN2EyMjdjYzAgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCitGcm9tIGRmNmM2NDFlM2ZjMjQ4ZDBjODY0ZTRlNzUyYzQ2MDk0MTIwNjdkZjcgTW9uIFNl
+cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBzd2VlYXVuIDxzd2VlLmF1bi5raG9yQGludGVsLmNv
+bT4KIERhdGU6IFN1biwgMTAgU2VwIDIwMTcgMDA6MTQ6MTUgLTA3MDAKIFN1YmplY3Q6IFtQQVRD
+SF0gZHBrZzogU3VwcG9ydCBtdXNseDMyIGJ1aWxkCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtc2NyaXB0LmMtYXZvaWQtdXNlLW9mLWNocm9vdC5wYXRj
+aCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1zY3JpcHQuYy1hdm9pZC11
+c2Utb2YtY2hyb290LnBhdGNoCmluZGV4IDdkNGRjOTdlOTQuLmQwNDU5Y2QwMTcgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1zY3JpcHQuYy1hdm9pZC11
+c2Utb2YtY2hyb290LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cv
+MDAwMS1zY3JpcHQuYy1hdm9pZC11c2Utb2YtY2hyb290LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
+RnJvbSBjZjEzNWYyYjMzOTVlNTRkYzFhZGZlNTFjMWEyNTkyMmUwMWMxNjdlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQorRnJvbSA1ZTVmMDZkMzk2ZmU2MzE5OTA0NzRiYTZkZjgzNDI4OTg3ODU1
+MzY1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFs
+ZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDI2IEF1ZyAyMDE1IDE2OjI1OjQ1ICsw
+MzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHNjcmlwdC5jOiBhdm9pZCB1c2Ugb2YgY2hyb290CkBAIC04
+Niw2ICs4NiwzIEBAIGluZGV4IGU5YWVlMGJmOS4uMTgxZTdjNzEwIDEwMDY0NAogIH0KICAKICAv
+KioKLS0tIAotMi4zOS4yCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtn
+L2Rwa2cvMDAwMi1BZGFwdC10by1saW51eC13cnMta2VybmVsLXZlcnNpb24td2hpY2gtaGFzLWNo
+YXJhY3RlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDAyLUFkYXB0
+LXRvLWxpbnV4LXdycy1rZXJuZWwtdmVyc2lvbi13aGljaC1oYXMtY2hhcmFjdGUucGF0Y2gKaW5k
+ZXggZmMwOTdlNWE2Ni4uYTVjODA3NzNhNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2Rwa2cvZHBrZy8wMDAyLUFkYXB0LXRvLWxpbnV4LXdycy1rZXJuZWwtdmVyc2lvbi13aGlj
+aC1oYXMtY2hhcmFjdGUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBr
+Zy8wMDAyLUFkYXB0LXRvLWxpbnV4LXdycy1rZXJuZWwtdmVyc2lvbi13aGljaC1oYXMtY2hhcmFj
+dGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDBjYWM2N2NlNTkyMGQ2ZDBjOWRmNDI3OGJm
+YTc3ZGE4NzhhOGEzN2EgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDZlODhlOGI3YjY5
+MjQ3NTExMTI5NjZmMzI5NTI1OTU2NzM1ZGU5YjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFdl
+ZCwgMjYgQXVnIDIwMTUgMTY6MTY6MTYgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRhcHQgdG8g
+bGludXgtd3JzIGtlcm5lbCB2ZXJzaW9uLCB3aGljaCBoYXMgY2hhcmFjdGVyICdfJwpAQCAtMTMs
+MTAgKzEzLDEwIEBAIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbZW1iZWRkZWQgc3Bl
+Y2lmaWNdCiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
+IAogZGlmZiAtLWdpdCBhL2xpYi9kcGtnL3BhcnNlaGVscC5jIGIvbGliL2Rwa2cvcGFyc2VoZWxw
+LmMKLWluZGV4IDYzYTM2ZjU1Yy4uODE5MDFiZDVhIDEwMDY0NAoraW5kZXggYTk5OWI1ZTc4Li43
+YmUwMzc4YWIgMTAwNjQ0CiAtLS0gYS9saWIvZHBrZy9wYXJzZWhlbHAuYwogKysrIGIvbGliL2Rw
+a2cvcGFyc2VoZWxwLmMKLUBAIC0yNzUsMTQgKzI3NSwxMiBAQCBwYXJzZXZlcnNpb24oc3RydWN0
+IGRwa2dfdmVyc2lvbiAqcnZlcnNpb24sIGNvbnN0IGNoYXIgKnN0cmluZywKK0BAIC0yOTEsMTQg
+KzI5MSwxMiBAQCBwYXJzZXZlcnNpb24oc3RydWN0IGRwa2dfdmVyc2lvbiAqcnZlcnNpb24sIGNv
+bnN0IGNoYXIgKnN0cmluZywKICAgIHB0ciA9IHJ2ZXJzaW9uLT52ZXJzaW9uOwogICAgaWYgKCEq
+cHRyKQogICAgICByZXR1cm4gZHBrZ19wdXRfZXJyb3IoZXJyLCBfKCJ2ZXJzaW9uIG51bWJlciBp
+cyBlbXB0eSIpKTsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cv
+MDAwNC1UaGUtbHV0aW1lcy1mdW5jdGlvbi1kb2Vzbi10LXdvcmstcHJvcGVybHktZm9yLWFsbC1z
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDA0LVRoZS1sdXRpbWVz
+LWZ1bmN0aW9uLWRvZXNuLXQtd29yay1wcm9wZXJseS1mb3ItYWxsLXMucGF0Y2gKaW5kZXggMzVj
+MGMyNDZmNi4uZTQ5ZDU0MTUyYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rw
+a2cvZHBrZy8wMDA0LVRoZS1sdXRpbWVzLWZ1bmN0aW9uLWRvZXNuLXQtd29yay1wcm9wZXJseS1m
+b3ItYWxsLXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDA0
+LVRoZS1sdXRpbWVzLWZ1bmN0aW9uLWRvZXNuLXQtd29yay1wcm9wZXJseS1mb3ItYWxsLXMucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDgwYWQyOWQyMmY4Y2E0MDMzYTZhNzlhNzI2NTgwZmVl
+MTdiZGFkZTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDBmYzkwYTNlZDAxYTdmY2Uz
+NGRlOTI1OTc5NDYwNjM4YjhhNTc0MDIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBB
+bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFdlZCwgMjYg
+QXVnIDIwMTUgMTY6Mjc6NDUgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gVGhlIGx1dGltZXMgZnVu
+Y3Rpb24gZG9lc24ndCB3b3JrIHByb3Blcmx5IGZvciBhbGwgc3lzdGVtcy4KQEAgLTExLDEwICsx
+MSwxMCBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW2VtYmVkZGVkIHNwZWNpZmlj
+XQogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIAogZGlm
+ZiAtLWdpdCBhL3NyYy9tYWluL2FyY2hpdmVzLmMgYi9zcmMvbWFpbi9hcmNoaXZlcy5jCi1pbmRl
+eCA3ZTM5OWY5MjIuLmVjM2I2ODc4ZiAxMDA2NDQKK2luZGV4IGQ3Mjc5ZTFmNS4uZjljNmZhY2M5
+IDEwMDY0NAogLS0tIGEvc3JjL21haW4vYXJjaGl2ZXMuYwogKysrIGIvc3JjL21haW4vYXJjaGl2
+ZXMuYwotQEAgLTQ5MSw4ICs0OTEsOSBAQCB0YXJvYmplY3Rfc2V0X210aW1lKHN0cnVjdCB0YXJf
+ZW50cnkgKnRlLCBjb25zdCBjaGFyICpwYXRoKQorQEAgLTQ5MCw4ICs0OTAsOSBAQCB0YXJvYmpl
+Y3Rfc2V0X210aW1lKHN0cnVjdCB0YXJfZW50cnkgKnRlLCBjb25zdCBjaGFyICpwYXRoKQogIAog
+ICAgaWYgKHRlLT50eXBlID09IFRBUl9GSUxFVFlQRV9TWU1MSU5LKSB7CiAgI2lmZGVmIEhBVkVf
+TFVUSU1FUwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDA2
+LWFkZC1tdXNsZWFiaS10by1rbm93bi10YXJnZXQtdHJpcGV0cy5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwNi1hZGQtbXVzbGVhYmktdG8ta25vd24tdGFyZ2V0LXRy
+aXBldHMucGF0Y2gKaW5kZXggMjU3M2FmYjhlNC4uNGY2MGE4OWE1NiAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDA2LWFkZC1tdXNsZWFiaS10by1rbm93bi10
+YXJnZXQtdHJpcGV0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtn
+LzAwMDYtYWRkLW11c2xlYWJpLXRvLWtub3duLXRhcmdldC10cmlwZXRzLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSAxYzllNzhkZGE5MWJhNjZmYmQ4ZmUwMmI2NmI2YzYwM2QwOGQzMzQzIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlM2RjNjlhYTk4N2IzNzllMjQ3ZGRlM2ZjZTQ3
+OWU0M2JlNmM4MWFhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJh
+ai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFdlZCwgMzAgRGVjIDIwMTUgMjM6MDU6NDEgKzAwMDAK
+IFN1YmplY3Q6IFtQQVRDSF0gYWRkIG11c2xlYWJpIHRvIGtub3duIHRhcmdldCB0cmlwZXRzCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDctZHBrZy1kZWIt
+YnVpbGQuYy1SZW1vdmUtdXNhZ2Utb2YtY2xhbXAtbXRpbWUtaW4tdGFyLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy8wMDA3LWRwa2ctZGViLWJ1aWxkLmMtUmVtb3ZlLXVz
+YWdlLW9mLWNsYW1wLW10aW1lLWluLXRhci5wYXRjaAppbmRleCAzZDNhNGYwYmI5Li5kZWQxNzA3
+ZGZkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDctZHBr
+Zy1kZWItYnVpbGQuYy1SZW1vdmUtdXNhZ2Utb2YtY2xhbXAtbXRpbWUtaW4tdGFyLnBhdGNoCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwNy1kcGtnLWRlYi1idWlsZC5j
+LVJlbW92ZS11c2FnZS1vZi1jbGFtcC1tdGltZS1pbi10YXIucGF0Y2gKQEAgLTEsNCArMSw0IEBA
+Ci1Gcm9tIDZkZDgwMjM2YTkxYTUwNWI1NzUzYmI3NGU1ZjFiNDczMzBkOGIxNmIgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIDIwYmE3ZmQ4OTM5ZTk3YmVjM2Q3MGE2N2MwYWFjNzZkZGM2
+Nzg5OGQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04P3E/QW49QzM9QURi
+YWw9MjBMaW09QzM9QjNuPz0gPGFuaWJhbC5saW1vbkBsaW51eC5pbnRlbC5jb20+CiBEYXRlOiBU
+dWUsIDIxIEZlYiAyMDE3IDExOjIzOjI3IC0wNjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGRwa2ctZGVi
+L2J1aWxkLmM6IFJlbW92ZSB1c2FnZSBvZiAtLWNsYW1wLW10aW1lIGluIHRhcgpAQCAtMjcsNyAr
+MjcsNyBAQCBTaWduZWQtb2ZmLWJ5OiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4K
+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAt
+LWdpdCBhL3NyYy9kZWIvYnVpbGQuYyBiL3NyYy9kZWIvYnVpbGQuYwotaW5kZXggMWYwYzA1MGVl
+Li45MmFiYTk1NTMgMTAwNjQ0CitpbmRleCBhNDE4ZGQxMjIuLjg3YmQ0MTQyZSAxMDA2NDQKIC0t
+LSBhL3NyYy9kZWIvYnVpbGQuYwogKysrIGIvc3JjL2RlYi9idWlsZC5jCiBAQCAtNTA0LDcgKzUw
+NCw3IEBAIHRhcmJhbGxfcGFjayhjb25zdCBjaGFyICpkaXIsIGZpbGVuYW1lc19mZWVkX2Z1bmMg
+KnRhcl9maWxlbmFtZXNfZmVlZGVyLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2Rwa2cvZHBrZy9hZGRfYXJtZWJfdHJpcGxldF9lbnRyeS5wYXRjaCBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9kcGtnL2Rwa2cvYWRkX2FybWViX3RyaXBsZXRfZW50cnkucGF0Y2gKaW5kZXggYjVl
+YWE1MDE3Mi4uZDFmYWMyMTY4YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rw
+a2cvZHBrZy9hZGRfYXJtZWJfdHJpcGxldF9lbnRyeS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZHBrZy9kcGtnL2FkZF9hcm1lYl90cmlwbGV0X2VudHJ5LnBhdGNoCkBAIC0xLDE0
+ICsxLDEyIEBACi1Gcm9tIDFjM2ExMDlkZjU0YjYwOTJmYTg1YTFmZTJiNzc3MWUzYjk1OTY1NWYg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDhkZWQzMmEzNTI4N2E4NDBkZTdlNTA1YzY2
+ZTc2Y2NjZDllZGJhYzYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiAiS3Jpc2huYW5q
+YW5hcHBhLCBKYWdhZGVlc2giCiAgPGphZ2FkZWVzaC5rcmlzaG5hbmphbmFwcGFAY2F2aXVtbmV0
+d29ya3MuY29tPgogRGF0ZTogV2VkLCA4IEFwciAyMDE1IDE4OjA4OjE0ICswNTMwCi1TdWJqZWN0
+OiBbUEFUQ0hdIGRwa2c6IGFkZCB0cmlwbGV0IGVudHJ5IHRvIGZpeCBidWlsZCBlcnJvciBmb3Ig
+YXJtZWIKK1N1YmplY3Q6IFtQQVRDSF0gYWRkIGFybWViIHRyaXBsZXQgZW50cnkgaW50byB0cmlw
+bGV0dGFibGUuCiBNSU1FLVZlcnNpb246IDEuMAogQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBj
+aGFyc2V0PVVURi04CiBDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0CiAKLVtQQVRDSF0g
+YWRkIGFybWViIHRyaXBsZXQgZW50cnkgaW50byB0cmlwbGV0dGFibGUuCi0KIENyb3NzLWNvbXBs
+aW5nIGRwa2cgYXBwbGljYXRpb24gZm9yIGFybWViIGZhaWxzIHdpdGggYmVsb3cgZXJyb3IKIGR1
+cmluZyBjb25maWd1cmUgdGFzaywKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2Rwa2cvZHBrZy9hcmNoX3BtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBr
+Zy9hcmNoX3BtLnBhdGNoCmluZGV4IGVjNWQ1MDM0ODguLmI1YTI5MjMxZGQgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvYXJjaF9wbS5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnL2FyY2hfcG0ucGF0Y2gKQEAgLTEsNCArMSw0IEBA
+Ci1Gcm9tIGJkZjYwZWJiZWI0MzNhODBlNmNmY2JkZTlkODNkODk1NjRlNzllMjAgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIDgxMmRiYjY0ZjI4MDVhMzI1N2VmOWM5YTYxYWJiZDEwZTBi
+M2EwOGMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb2UgU2xhdGVyIDxqc2xhdGVy
+QHdpbmRyaXZlci5jb20+CiBEYXRlOiBNb24sIDI2IEF1ZyAyMDEzIDIzOjM4OjQ1ICswMDAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIGRwa2c6IGZpeCBjb25maWd1cmF0aW9uIGlzc3VlIGZvciBtaXBzNjQK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvbm9tYW4ucGF0Y2gg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnL25vbWFuLnBhdGNoCmluZGV4IGU4MDU0
+OWQ3NDAuLjNmM2UwODM1MWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtn
+L2Rwa2cvbm9tYW4ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZy9u
+b21hbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDA4ZWM1MTUwZGQwODZmZmEzOTQwY2I1
+MjBmMWNhOTE5MzlmMTM4ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTY3MWI0M2E1
+MmJmNTc4NWZlNGFhZDg0NzEyZGJhYmM2Yzg2YjM5ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IENocmlzIExhcnNvbiA8a2VyZ290aEBvcGVuZWRoYW5kLmNvbT4KIERhdGU6IFR1ZSwg
+NSBTZXAgMjAwNiAwNzoyNDo1OCArMDAwMAogU3ViamVjdDogW1BBVENIXSBBZGQgZHBrZywgbW9k
+aWZpZWQgZnJvbSB1cHN0cmVhbSBvZS4KQEAgLTksNyArOSw3IEBAIFVwc3RyZWFtLVN0YXR1czog
+SW5hcHByb3ByaWF0ZSBbZGlzYWJsZSBmZWF0dXJlXQogIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0
+aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1pbmRleCA3
+MTg2MDQ1ZDQuLmRhY2E5ZmFmMiAxMDA2NDQKK2luZGV4IDc0ZjhkZjE5Ny4uMzVlNWVlZTM5IDEw
+MDY0NAogLS0tIGEvTWFrZWZpbGUuYW0KICsrKyBiL01ha2VmaWxlLmFtCiBAQCAtMTEsNyArMTEs
+NiBAQCBTVUJESVJTID0gXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cv
+ZHBrZy9yZW1vdmUtdGFyLW5vLXRpbWVzdGFtcC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9kcGtnL2Rwa2cvcmVtb3ZlLXRhci1uby10aW1lc3RhbXAucGF0Y2gKaW5kZXggOTMwNzcyNWU4
+Yi4uZDNhMWExMzA5OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBr
+Zy9yZW1vdmUtdGFyLW5vLXRpbWVzdGFtcC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvZHBrZy9kcGtnL3JlbW92ZS10YXItbm8tdGltZXN0YW1wLnBhdGNoCkBAIC0xLDQgKzEsNCBA
+QAotRnJvbSBhZGQ5MjY5OWNhMTM5NzIwNWUxZDdiNDZjM2FiNDNkZTA2YjlhNmM3IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3ZDY5ZGUxMTRhYTY5NmNmYjVlMzFiNDkxYTY1N2NhNmI2
+Y2JiYmQ1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ29uc3RhbnRpbiBNdXNjYSA8
+Y29uc3RhbnRpbngubXVzY2FAaW50ZWwuY29tPgogRGF0ZTogVHVlLCAyOCBBdWcgMjAxMiAxNzow
+Mjo0MCArMDMwMAogU3ViamVjdDogW1BBVENIXSBidXN5Ym94LTEuMTkuNCB0YXIgdXRpbGl0eSBk
+b2Vzbid0IHN1cHBvcnQKQEAgLTEyLDcgKzEyLDcgQEAgVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
+cHJpYXRlIFtjb25maWd1cmF0aW9uXQogIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCiAK
+IGRpZmYgLS1naXQgYS9zcmMvZGViL2V4dHJhY3QuYyBiL3NyYy9kZWIvZXh0cmFjdC5jCi1pbmRl
+eCA4Yjc4YTdlYWIuLmZkNzU5NTgwOCAxMDA2NDQKK2luZGV4IDA4YjI4MTU2NC4uYzM1YTE4MmVl
+IDEwMDY0NAogLS0tIGEvc3JjL2RlYi9leHRyYWN0LmMKICsrKyBiL3NyYy9kZWIvZXh0cmFjdC5j
+CiBAQCAtMzM4LDcgKzMzOCw2IEBAIGV4dHJhY3RoYWxmKGNvbnN0IGNoYXIgKmRlYmFyLCBjb25z
+dCBjaGFyICpkaXIsCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtn
+XzEuMjIuMTAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnXzEuMjIuMTEuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rw
+a2cvZHBrZ18xLjIyLjEwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9k
+cGtnXzEuMjIuMTEuYmIKaW5kZXggYjI0NzQwNDg1NS4uNDdhOGQ1ZDVlYSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBrZ18xLjIyLjEwLmJiCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9kcGtnL2Rwa2dfMS4yMi4xMS5iYgpAQCAtMTcsNiArMTcsNiBAQCBTUkNf
+VVJJID0gImdpdDovL3NhbHNhLmRlYmlhbi5vcmcvZHBrZy10ZWFtL2Rwa2cuZ2l0O3Byb3RvY29s
+PWh0dHBzO2JyYW5jaD1tYWluCiAKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmls
+ZTovLzAwMDEtYnVpbGQuYy1pZ25vcmUtcmV0dXJuLW9mLTEtZnJvbS10YXItY2YucGF0Y2giCiAK
+LVNSQ1JFViA9ICJlZjU1MzZjZmUyNGU0YzQxYzZmZGM1NmU0NTMwMTYxZmFkZTM4ODdjIgorU1JD
+UkVWID0gImVlN2U5MTE4ZDBhOTU4MWNiMDBjNWNlMDJkY2NkNTYxYjMwOTYzODciCiAKIFMgPSAi
+JHtXT1JLRElSfS9naXQiCi0tIAoyLjQ0LjAKCg==
 
---===============2202127677738892856==
+--===============8195714612507447353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/kmod/kmod-bash-completion: PKGSIZE changed from 3235 to 2599 (-20%)
-packages/core2-64-poky-linux/kmod/kmod-dev: FILELIST: removed "/usr/lib/pkgconfig/kmod.pc", added "/usr/share/pkgconfig/kmod.pc"
-packages/core2-64-poky-linux/kmod/libkmod: FILELIST: removed "/usr/lib/libkmod.so.2.4.2", added "/usr/lib/libkmod.so.2.5.0"
-Changes to packages/core2-64-poky-linux/kmod (sysroot):
-  /usr/lib/libkmod.so.2 changed symlink target from libkmod.so.2.4.2 to libkmod.so.2.5.0
-  /usr/lib/libkmod.so changed symlink target from libkmod.so.2.4.2 to libkmod.so.2.5.0
-  /usr/lib/libkmod.so.2.4.2 moved to /usr/lib/libkmod.so.2.5.0
-  /usr/share/pkgconfig was added
-  /usr/share/pkgconfig/kmod.pc was added
-  /usr/lib/pkgconfig/kmod.pc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -2317,49 +2415,121 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============2202127677738892856==
+--===============8195714612507447353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/kmod/kmod-bash-completion: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod-bash-completion: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/kmod-bash-completion: PKGSIZE changed from 3235 to 2599 (-20%)
-packages/core2-64-poky-linux/kmod/kmod-dbg: FILELIST: removed "/usr/lib/.debug/libkmod.so.2.4.2", added "/usr/lib/.debug/libkmod.so.2.5.0"
-packages/core2-64-poky-linux/kmod/kmod-dbg: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod-dbg: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/kmod-dbg: PKGSIZE changed from 929960 to 949560 (+2%)
-packages/core2-64-poky-linux/kmod/kmod-dev: FILELIST: removed "/usr/lib/pkgconfig/kmod.pc", added "/usr/share/pkgconfig/kmod.pc"
-packages/core2-64-poky-linux/kmod/kmod-dev: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod-dev: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/kmod-dev: PKGSIZE changed from 10118 to 9611 (-5%)
-packages/core2-64-poky-linux/kmod/kmod-doc: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod-doc: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/kmod-locale: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod-locale: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/kmod-src: FILELIST: directory renamed /usr/src/debug/kmod/32/shared -> /usr/src/debug/kmod/33/shared, directory renamed /usr/src/debug/kmod/32/tools -> /usr/src/debug/kmod/33/tools, removed "/usr/src/debug/kmod/32/libkmod/libkmod.h /usr/src/debug/kmod/32/libkmod/libkmod-module.c /usr/src/debug/kmod/32/libkmod/libkmod-elf.c /usr/src/debug/kmod/32/libkmod/libkmod-file.c /usr/src/debug/kmod/32/libkmod/libkmod.c /usr/src/debug/kmod/32/libkmod/libkmod-index.h /usr/src/debug/kmod/32/libkmod/libkmod-config.c /usr/src/debug/kmod/32/libkmod/libkmod-index.c /usr/src/debug/kmod/32/libkmod/libkmod-internal.h /usr/src/debug/kmod/32/libkmod/libkmod-builtin.c /usr/src/debug/kmod/32/libkmod/libkmod-signature.c /usr/src/debug/kmod/32/libkmod/libkmod-list.c", added "/usr/src/debug/kmod/33/libkmod/libkmod-builtin.c /usr/src/debug/kmod/33/libkmod/libkmod.h /usr/src/debug/kmod/33/libkmod/libkmod-module.c /usr/src/debug/kmod/33/libkmod/libkmod-elf.c /usr/src/debug/kmod/33
- /libkmod/libkmod-file.c /usr/src/debug/kmod/33/libkmod/libkmod.c /usr/src/debug/kmod/33/libkmod/libkmod-index.h /usr/src/debug/kmod/33/libkmod/libkmod-file-zlib.c /usr/src/debug/kmod/33/libkmod/libkmod-file-xz.c /usr/src/debug/kmod/33/libkmod/libkmod-config.c /usr/src/debug/kmod/33/libkmod/libkmod-internal-file.h /usr/src/debug/kmod/33/libkmod/libkmod-internal.h /usr/src/debug/kmod/33/libkmod/libkmod-index.c /usr/src/debug/kmod/33/libkmod/libkmod-signature.c /usr/src/debug/kmod/33/libkmod/libkmod-list.c"
-packages/core2-64-poky-linux/kmod/kmod-src: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod-src: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/kmod-src: PKGSIZE changed from 404686 to 390679 (-3%)
-packages/core2-64-poky-linux/kmod/kmod-staticdev: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod-staticdev: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/kmod: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/kmod: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/libkmod: FILELIST: removed "/usr/lib/libkmod.so.2.4.2", added "/usr/lib/libkmod.so.2.5.0"
-packages/core2-64-poky-linux/kmod/libkmod: PV changed from "32" to "33"
-packages/core2-64-poky-linux/kmod/libkmod: PKGV changed from 32 [default] to 33 [default]
-packages/core2-64-poky-linux/kmod/libkmod: PKGSIZE changed from 92224 to 100416 (+9%)
-Changes to packages/core2-64-poky-linux/kmod (sysroot):
-  /usr/lib/libkmod.so.2 changed symlink target from libkmod.so.2.4.2 to libkmod.so.2.5.0
-  /usr/lib/libkmod.so changed symlink target from libkmod.so.2.4.2 to libkmod.so.2.5.0
-  /usr/lib/libkmod.so.2.4.2 moved to /usr/lib/libkmod.so.2.5.0
-  /usr/share/pkgconfig was added
-  /usr/share/pkgconfig/kmod.pc was added
-  /usr/lib/pkgconfig/kmod.pc was removed
+packages/core2-64-poky-linux/dpkg/dpkg-bash-completion: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-bash-completion: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-dbg: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-dbg: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-dev: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-dev: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-doc: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-doc: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ast: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ast: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-bs: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-bs: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ca: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ca: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-cs: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-cs: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-da: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-da: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-de: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-de: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-de: PKGSIZE changed from 295264 to 301711 (+2%)
+packages/core2-64-poky-linux/dpkg/dpkg-locale-dz: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-dz: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-el: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-el: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-eo: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-eo: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-es: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-es: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-et: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-et: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-eu: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-eu: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-fr: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-fr: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-gl: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-gl: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-hu: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-hu: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-id: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-id: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-it: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-it: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ja: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ja: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-km: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-km: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ko: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ko: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ku: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ku: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-lt: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-lt: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-mr: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-mr: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-nb: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-nb: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ne: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ne: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-nl: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-nl: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-nn: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-nn: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-oc: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-oc: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pa: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pa: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pl: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pl: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pt-br: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pt-br: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pt: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-pt: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ro: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ro: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ru: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-ru: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-sk: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-sk: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-sv: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-sv: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-th: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-th: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-tl: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-tl: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-tr: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-tr: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-vi: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-vi: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-cn: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-cn: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-tw: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-tw: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-perl: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-perl: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-perl: PKGSIZE changed from 711562 to 711577 (+0%)
+packages/core2-64-poky-linux/dpkg/dpkg-src: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-src: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-start-stop: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-start-stop: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-staticdev: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg-staticdev: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/dpkg-staticdev: PKGSIZE changed from 1555654 to 1555630 (-0%)
+packages/core2-64-poky-linux/dpkg/dpkg: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/dpkg: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg: PV changed from "1.22.10" to "1.22.11"
+packages/core2-64-poky-linux/dpkg/update-alternatives-dpkg: PKGV changed from 1.22.10 [default] to 1.22.11 [default]
+packages/core2-64-poky-linux/dpkg/update-alternatives-dpkg: PV changed from "1.22.10" to "1.22.11"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -4201,5 +4371,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============2202127677738892856==--
+--===============8195714612507447353==--
 
