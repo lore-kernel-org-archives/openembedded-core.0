@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F24C5472E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E140C53218
 	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:02 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.131114.1723748335728249280
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.131449.1723748335993756923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 11:58:55 -0700
+ Thu, 15 Aug 2024 11:58:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IkIcGMqX;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rJYm6vbC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019157683e63-0d8247e9-2555-49e7-b98f-9f05a309c8f9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=J3TeqgRm;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=16AXBXpa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019157683f64-dce64837-5cbe-4c4b-9b9d-ca89b5e10a08-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PXD4WvtRL8GSdaYYLxm3xCc78WRzoW7NVs0Cg0GnXPE=;
-	b=IkIcGMqX2gEVXfhkUuum9RTXuDYhw9yUKpgvgDQgoGYZuqQHEUxkDPGjCtkoIk+5
-	LWKENZyafh+teqCf6dTYyyhNUDQrJZFYXugpEvFGxmFTsMBp8zslhrOmP9IIJRQC/wr
-	lyo3BFLFR5oE5+EXeHgwKZTp8TuClXXlmqIFCkY8=
+	bh=7xED/APX6kI8Zd6YkOQkKbmdmzN0Z8E3ziCviEBTN9Y=;
+	b=J3TeqgRmf1S7BOa+FlCqesLLLjlcEyr5UyiSFhJHIahhbVi0YDJ2QAo8Z88twMyi
+	Pwlnd/QU7NpdlBLJQyOWBM18QCxNJfprZeJFAPzI/WHyaMhVEt49vY4kPgngVACX0Or
+	rZgVaSPiVZikcXXpIJbU1mO4BYLDxfz/NUD4kMiY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PXD4WvtRL8GSdaYYLxm3xCc78WRzoW7NVs0Cg0GnXPE=;
-	b=rJYm6vbC5I34fJfKvUJgXDLILhJO7TXbM/WMQlHsV8aKRxxtSi8FvRVL6I32fNEI
-	dQw6wMKousEW91OVesr82RaV740jtU+UwXz3XByJeZzJJZF+WzMwtyekT/j5cS3RLRf
-	lWvcwBBFvIuXmMYB7d2AtFYhP2iVSUhvgWts3rd0=
-Content-Type: multipart/mixed; boundary="===============3014072308855369409=="
+	bh=7xED/APX6kI8Zd6YkOQkKbmdmzN0Z8E3ziCviEBTN9Y=;
+	b=16AXBXpabpNwkU8y/l/cnAfvFM89U8p+F9HkB7W1EkrRR8t+navJFfDlBC27PEd1
+	tl/fX1p67gN4DziAUl13hgxKnxbgsxRJodncv+P45dZ3YJOSYGl3KBsOlp96ruh0ujc
+	Zifpcqt97kxPjE/xGxFAlr8aDnCVqGnKmNVAVQms=
+Content-Type: multipart/mixed; boundary="===============0662665849737364168=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gst-devtools: upgrading to 1.24.6 SUCCEEDED
-Message-ID: <0101019157683e63-0d8247e9-2555-49e7-b98f-9f05a309c8f9-000000@us-west-2.amazonses.com>
+Subject: [AUH] boost-build-native: upgrading to 1.86.0 SUCCEEDED
+Message-ID: <0101019157683f64-dce64837-5cbe-4c4b-9b9d-ca89b5e10a08-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Aug 2024 18:58:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.15-54.240.27.45
+X-SES-Outgoing: 2024.08.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203438
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203444
 
---===============3014072308855369409==
+--===============0662665849737364168==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gst-devtools* to *1.24.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *boost-build-native* to *1.86.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gst-devtools-upgrade-1.24.5-1.24.6.patch
+    - apply the patch: git am 0001-boost-build-native-upgrade-1.85.0-1.86.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,139 +72,556 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ccfd1a1161c5d9a31b877608712b5017706f7475 Mon Sep 17 00:00:00 2001
+From 07acfbd6d79fd7c9436dbfa0491f612457e1d9b4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Aug 2024 16:16:46 +0000
-Subject: [PATCH] gst-devtools: upgrade 1.24.5 -> 1.24.6
+Date: Thu, 15 Aug 2024 17:59:22 +0000
+Subject: [PATCH] boost-build-native: upgrade 1.85.0 -> 1.86.0
 
 ---
- .../0001-connect-has-a-different-signature-on-musl.patch        | 2 +-
- .../{gst-devtools_1.24.5.bb => gst-devtools_1.24.6.bb}          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.5.bb => gst-devtools_1.24.6.bb} (95%)
+ ...oost-build-native_1.85.0.bb => boost-build-native_1.86.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/boost/{boost-build-native_1.85.0.bb => boost-build-native_1.86.0.bb} (92%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-index 8520567f17..f2bb664140 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-@@ -1,4 +1,4 @@
--From c20894a5e6f52aa9fe3437e733a228b1a0eb6428 Mon Sep 17 00:00:00 2001
-+From d0e3b04007d60755cf1c092c1cac29e832290b86 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 9 Sep 2018 17:38:10 -0700
- Subject: [PATCH] connect has a different signature on musl
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-index d4a81b69a1..1b448f7c55 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-support/boost/boost-build-native_1.85.0.bb b/meta/recipes-support/boost/boost-build-native_1.86.0.bb
+similarity index 92%
+rename from meta/recipes-support/boost/boost-build-native_1.85.0.bb
+rename to meta/recipes-support/boost/boost-build-native_1.86.0.bb
+index b333c7c81a..8819b43390 100644
+--- a/meta/recipes-support/boost/boost-build-native_1.85.0.bb
++++ b/meta/recipes-support/boost/boost-build-native_1.86.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "BSL-1.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
  
--SRC_URI[sha256sum] = "a96675898129a480d05bbf91071ec4e40154dcad6d62f3944154a6cb326045a4"
-+SRC_URI[sha256sum] = "8beb9e98ed136c29f4ec10396dd6c8708a5645cdacda90af1b7196057de17672"
+ SRC_URI = "git://github.com/boostorg/build;protocol=https;branch=master"
+-SRCREV = "b0311a0d4f3bb0f93d06d3c6faca510c7f5a2012"
++SRCREV = "4a52d8c06635435b64e31a56eaf7ca5dc912a71d"
+ PE = "1"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
+ UPSTREAM_CHECK_GITTAGREGEX = "boost-(?P<pver>(\d+(\.\d+)+))"
 -- 
 2.44.0
 
 
---===============3014072308855369409==
+--===============0662665849737364168==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0 /usr/lib/libgstvalidate-1.0.so.0.2405.0", added "/usr/lib/libgstvalidate-1.0.so.0.2406.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0"
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2405.0 to libgstvalidate-1.0.so.0.2406.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2405.0 to libgstvalidate-default-overrides-1.0.so.0.2406.0
-  /usr/lib/libgstvalidate-1.0.so.0.2405.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2406.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0
+Changes to packages/x86_64-linux/boost-build-native (sysroot):
+  /usr was removed
+  /usr/bin was removed
+  /usr/bin/b2 was removed
+  /usr/share was removed
+  /usr/share/b2 was removed
+  /usr/share/b2/src was removed
+  /usr/share/b2/src/build was removed
+  /usr/share/b2/src/build/ac.jam was removed
+  /usr/share/b2/src/build/alias.jam was removed
+  /usr/share/b2/src/build/build-request.jam was removed
+  /usr/share/b2/src/build/config-cache.jam was removed
+  /usr/share/b2/src/build/configure.jam was removed
+  /usr/share/b2/src/build/feature.jam was removed
+  /usr/share/b2/src/build/generators.jam was removed
+  /usr/share/b2/src/build/project.jam was removed
+  /usr/share/b2/src/build/property.jam was removed
+  /usr/share/b2/src/build/property-set.jam was removed
+  /usr/share/b2/src/build/scanner.jam was removed
+  /usr/share/b2/src/build-system.jam was removed
+  /usr/share/b2/src/build/targets.jam was removed
+  /usr/share/b2/src/build/toolset.jam was removed
+  /usr/share/b2/src/build/type.jam was removed
+  /usr/share/b2/src/build/version.jam was removed
+  /usr/share/b2/src/build/virtual-target.jam was removed
+  /usr/share/b2/src/contrib was removed
+  /usr/share/b2/src/contrib/boost.jam was removed
+  /usr/share/b2/src/contrib/modular.jam was removed
+  /usr/share/b2/src/contrib/tntnet.jam was removed
+  /usr/share/b2/src/contrib/wxFormBuilder.jam was removed
+  /usr/share/b2/src/options was removed
+  /usr/share/b2/src/options/help.jam was removed
+  /usr/share/b2/src/tools was removed
+  /usr/share/b2/src/tools/acc.jam was removed
+  /usr/share/b2/src/tools/asciidoctor.jam was removed
+  /usr/share/b2/src/tools/auto-index.jam was removed
+  /usr/share/b2/src/tools/bison.jam was removed
+  /usr/share/b2/src/tools/boostbook.jam was removed
+  /usr/share/b2/src/tools/borland.jam was removed
+  /usr/share/b2/src/tools/builtin.jam was removed
+  /usr/share/b2/src/tools/bzip2.jam was removed
+  /usr/share/b2/src/tools/cast.jam was removed
+  /usr/share/b2/src/tools/clang-darwin.jam was removed
+  /usr/share/b2/src/tools/clang.jam was removed
+  /usr/share/b2/src/tools/clang-linux.jam was removed
+  /usr/share/b2/src/tools/clang-vxworks.jam was removed
+  /usr/share/b2/src/tools/clang-win.jam was removed
+  /usr/share/b2/src/tools/common.jam was removed
+  /usr/share/b2/src/tools/como.jam was removed
+  /usr/share/b2/src/tools/como-linux.jam was removed
+  /usr/share/b2/src/tools/como-win.jam was removed
+  /usr/share/b2/src/tools/convert.jam was removed
+  /usr/share/b2/src/tools/cray.jam was removed
+  /usr/share/b2/src/tools/cw-config.jam was removed
+  /usr/share/b2/src/tools/cw.jam was removed
+  /usr/share/b2/src/tools/cygwin.jam was removed
+  /usr/share/b2/src/tools/darwin.jam was removed
+  /usr/share/b2/src/tools/diab.jam was removed
+  /usr/share/b2/src/tools/dmc.jam was removed
+  /usr/share/b2/src/tools/docutils.jam was removed
+  /usr/share/b2/src/tools/doxproc.py was removed
+  /usr/share/b2/src/tools/doxygen was removed
+  /usr/share/b2/src/tools/doxygen.jam was removed
+  /usr/share/b2/src/tools/doxygen/windows-paths-check.doxyfile was removed
+  /usr/share/b2/src/tools/doxygen/windows-paths-check.hpp was removed
+  /usr/share/b2/src/tools/embarcadero.jam was removed
+  /usr/share/b2/src/tools/emscripten.jam was removed
+  /usr/share/b2/src/tools/features was removed
+  /usr/share/b2/src/tools/features/address-model-feature.jam was removed
+  /usr/share/b2/src/tools/features/allow-feature.jam was removed
+  /usr/share/b2/src/tools/features/architecture-feature.jam was removed
+  /usr/share/b2/src/tools/features/archiveflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/asmflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/build-feature.jam was removed
+  /usr/share/b2/src/tools/features/cflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/compileflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/conditional-feature.jam was removed
+  /usr/share/b2/src/tools/features/coverage-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxxabi-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxxflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxxstd-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxx-template-depth-feature.jam was removed
+  /usr/share/b2/src/tools/features/debug-feature.jam was removed
+  /usr/share/b2/src/tools/features/define-feature.jam was removed
+  /usr/share/b2/src/tools/features/dependency-feature.jam was removed
+  /usr/share/b2/src/tools/features/dll-feature.jam was removed
+  /usr/share/b2/src/tools/features/exception-feature.jam was removed
+  /usr/share/b2/src/tools/features/fflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/file-feature.jam was removed
+  /usr/share/b2/src/tools/features/find-lib-feature.jam was removed
+  /usr/share/b2/src/tools/features/flags-feature.jam was removed
+  /usr/share/b2/src/tools/features/force-include-feature.jam was removed
+  /usr/share/b2/src/tools/features/include-feature.jam was removed
+  /usr/share/b2/src/tools/features/__init_features__.jam was removed
+  /usr/share/b2/src/tools/features/instruction-set-feature.jam was removed
+  /usr/share/b2/src/tools/features/internal-feature.jam was removed
+  /usr/share/b2/src/tools/features/library-feature.jam was removed
+  /usr/share/b2/src/tools/features/linemarkers-feature.jam was removed
+  /usr/share/b2/src/tools/features/link-feature.jam was removed
+  /usr/share/b2/src/tools/features/linkflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/local-visibility-feature.jam was removed
+  /usr/share/b2/src/tools/features/location-feature.jam was removed
+  /usr/share/b2/src/tools/features/location-prefix-feature.jam was removed
+  /usr/share/b2/src/tools/features/lto-feature.jam was removed
+  /usr/share/b2/src/tools/features/name-feature.jam was removed
+  /usr/share/b2/src/tools/features/objcflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/optimization-feature.jam was removed
+  /usr/share/b2/src/tools/features/os-feature.jam was removed
+  /usr/share/b2/src/tools/features/relevant-feature.jam was removed
+  /usr/share/b2/src/tools/features/response-file-feature.jam was removed
+  /usr/share/b2/src/tools/features/rtti-feature.jam was removed
+  /usr/share/b2/src/tools/features/runtime-feature.jam was removed
+  /usr/share/b2/src/tools/features/sanitizers-feature.jam was removed
+  /usr/share/b2/src/tools/features/search-feature.jam was removed
+  /usr/share/b2/src/tools/features/source-feature.jam was removed
+  /usr/share/b2/src/tools/features/stdlib-feature.jam was removed
+  /usr/share/b2/src/tools/features/strip-feature.jam was removed
+  /usr/share/b2/src/tools/features/tag-feature.jam was removed
+  /usr/share/b2/src/tools/features/threadapi-feature.jam was removed
+  /usr/share/b2/src/tools/features/threading-feature.jam was removed
+  /usr/share/b2/src/tools/features/toolset-feature.jam was removed
+  /usr/share/b2/src/tools/features/translate-path-feature.jam was removed
+  /usr/share/b2/src/tools/features/user-interface-feature.jam was removed
+  /usr/share/b2/src/tools/features/variant-feature.jam was removed
+  /usr/share/b2/src/tools/features/version-feature.jam was removed
+  /usr/share/b2/src/tools/features/visibility-feature.jam was removed
+  /usr/share/b2/src/tools/features/warnings-feature.jam was removed
+  /usr/share/b2/src/tools/flags.jam was removed
+  /usr/share/b2/src/tools/fop.jam was removed
+  /usr/share/b2/src/tools/fortran.jam was removed
+  /usr/share/b2/src/tools/gcc.jam was removed
+  /usr/share/b2/src/tools/generate.jam was removed
+  /usr/share/b2/src/tools/generators was removed
+  /usr/share/b2/src/tools/generators/archive-generator.jam was removed
+  /usr/share/b2/src/tools/generators/c-compiling-generator.jam was removed
+  /usr/share/b2/src/tools/generators/c-preprocessing-generator.jam was removed
+  /usr/share/b2/src/tools/generators/dummy-generator.jam was removed
+  /usr/share/b2/src/tools/generators/__init_generators__.jam was removed
+  /usr/share/b2/src/tools/generators/lib-generator.jam was removed
+  /usr/share/b2/src/tools/generators/linking-generator.jam was removed
+  /usr/share/b2/src/tools/generators/prebuilt-lib-generator.jam was removed
+  /usr/share/b2/src/tools/generators/searched-lib-generator.jam was removed
+  /usr/share/b2/src/tools/gettext.jam was removed
+  /usr/share/b2/src/tools/gfortran.jam was removed
+  /usr/share/b2/src/tools/hp_cxx.jam was removed
+  /usr/share/b2/src/tools/hpfortran.jam was removed
+  /usr/share/b2/src/tools/ifort.jam was removed
+  /usr/share/b2/src/tools/intel-darwin.jam was removed
+  /usr/share/b2/src/tools/intel.jam was removed
+  /usr/share/b2/src/tools/intel-linux.jam was removed
+  /usr/share/b2/src/tools/intel-vxworks.jam was removed
+  /usr/share/b2/src/tools/intel-win.jam was removed
+  /usr/share/b2/src/tools/lex.jam was removed
+  /usr/share/b2/src/tools/libjpeg.jam was removed
+  /usr/share/b2/src/tools/libpng.jam was removed
+  /usr/share/b2/src/tools/libtiff.jam was removed
+  /usr/share/b2/src/tools/link.jam was removed
+  /usr/share/b2/src/tools/lzma.jam was removed
+  /usr/share/b2/src/tools/make.jam was removed
+  /usr/share/b2/src/tools/mc.jam was removed
+  /usr/share/b2/src/tools/message.jam was removed
+  /usr/share/b2/src/tools/midl.jam was removed
+  /usr/share/b2/src/tools/mipspro.jam was removed
+  /usr/share/b2/src/tools/mpi.jam was removed
+  /usr/share/b2/src/tools/msvc.jam was removed
+  /usr/share/b2/src/tools/notfile.jam was removed
+  /usr/share/b2/src/tools/openssl.jam was removed
+  /usr/share/b2/src/tools/package.jam was removed
+  /usr/share/b2/src/tools/pathscale.jam was removed
+  /usr/share/b2/src/tools/pch.jam was removed
+  /usr/share/b2/src/tools/pgi.jam was removed
+  /usr/share/b2/src/tools/pkg-config.jam was removed
+  /usr/share/b2/src/tools/python-config.jam was removed
+  /usr/share/b2/src/tools/python.jam was removed
+  /usr/share/b2/src/tools/qcc.jam was removed
+  /usr/share/b2/src/tools/qt3.jam was removed
+  /usr/share/b2/src/tools/qt4.jam was removed
+  /usr/share/b2/src/tools/qt5.jam was removed
+  /usr/share/b2/src/tools/qt.jam was removed
+  /usr/share/b2/src/tools/quickbook-config.jam was removed
+  /usr/share/b2/src/tools/quickbook.jam was removed
+  /usr/share/b2/src/tools/rc.jam was removed
+  /usr/share/b2/src/tools/sass.jam was removed
+  /usr/share/b2/src/tools/saxonhe.jam was removed
+  /usr/share/b2/src/tools/stage.jam was removed
+  /usr/share/b2/src/tools/stlport.jam was removed
+  /usr/share/b2/src/tools/sun.jam was removed
+  /usr/share/b2/src/tools/symlink.jam was removed
+  /usr/share/b2/src/tools/testing-aux.jam was removed
+  /usr/share/b2/src/tools/testing.jam was removed
+  /usr/share/b2/src/tools/types was removed
+  /usr/share/b2/src/tools/types/adoc.jam was removed
+  /usr/share/b2/src/tools/types/asm.jam was removed
+  /usr/share/b2/src/tools/types/cpp.jam was removed
+  /usr/share/b2/src/tools/types/css.jam was removed
+  /usr/share/b2/src/tools/types/docbook.jam was removed
+  /usr/share/b2/src/tools/types/exe.jam was removed
+  /usr/share/b2/src/tools/types/html.jam was removed
+  /usr/share/b2/src/tools/types/lib.jam was removed
+  /usr/share/b2/src/tools/types/man.jam was removed
+  /usr/share/b2/src/tools/types/markdown.jam was removed
+  /usr/share/b2/src/tools/types/objc.jam was removed
+  /usr/share/b2/src/tools/types/obj.jam was removed
+  /usr/share/b2/src/tools/types/pdf.jam was removed
+  /usr/share/b2/src/tools/types/preprocessed.jam was removed
+  /usr/share/b2/src/tools/types/qt.jam was removed
+  /usr/share/b2/src/tools/types/register.jam was removed
+  /usr/share/b2/src/tools/types/rsp.jam was removed
+  /usr/share/b2/src/tools/types/sass-type.jam was removed
+  /usr/share/b2/src/tools/types/xml.jam was removed
+  /usr/share/b2/src/tools/unix.jam was removed
+  /usr/share/b2/src/tools/vacpp.jam was removed
+  /usr/share/b2/src/tools/vmsdecc.jam was removed
+  /usr/share/b2/src/tools/whale.jam was removed
+  /usr/share/b2/src/tools/xlcpp.jam was removed
+  /usr/share/b2/src/tools/xlf.jam was removed
+  /usr/share/b2/src/tools/xsltproc was removed
+  /usr/share/b2/src/tools/xsltproc-config.jam was removed
+  /usr/share/b2/src/tools/xsltproc/included.xsl was removed
+  /usr/share/b2/src/tools/xsltproc.jam was removed
+  /usr/share/b2/src/tools/xsltproc/test.xml was removed
+  /usr/share/b2/src/tools/xsltproc/test.xsl was removed
+  /usr/share/b2/src/tools/zlib.jam was removed
+  /usr/share/b2/src/tools/zstd.jam was removed
+  /usr/share/b2/src/util was removed
+  /usr/share/b2/src/util/assert.jam was removed
+  /usr/share/b2/src/util/container.jam was removed
+  /usr/share/b2/src/util/doc.jam was removed
+  /usr/share/b2/src/util/indirect.jam was removed
+  /usr/share/b2/src/util/numbers.jam was removed
+  /usr/share/b2/src/util/option.jam was removed
+  /usr/share/b2/src/util/order.jam was removed
+  /usr/share/b2/src/util/os.jam was removed
+  /usr/share/b2/src/util/param.jam was removed
+  /usr/share/b2/src/util/path.jam was removed
+  /usr/share/b2/src/util/print.jam was removed
+  /usr/share/b2/src/util/sequence.jam was removed
+  /usr/share/b2/src/util/utility.jam was removed
 
---===============3014072308855369409==
+--===============0662665849737364168==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-1.0.so.0.2405.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2405.0", added "/usr/lib/.debug/libgstvalidate-1.0.so.0.2406.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2406.0"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PKGSIZE changed from 2673632 to 2673648 (+0%)
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PKGSIZE changed from 966038 to 965990 (-0%)
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-1.0.so.0.2405.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0 /usr/lib/libgstvalidate-1.0.so.0.2406.0"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-packages/core2-64-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.5.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.6.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
-packages/core2-64-poky-linux/gst-devtools: PV changed from "1.24.5" to "1.24.6"
-packages/core2-64-poky-linux/gst-devtools: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2405.0 to libgstvalidate-1.0.so.0.2406.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2405.0 to libgstvalidate-default-overrides-1.0.so.0.2406.0
-  /usr/lib/libgstvalidate-1.0.so.0.2405.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2406.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2405.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0
+Changes to packages/x86_64-linux/boost-build-native (sysroot):
+  /usr was removed
+  /usr/bin was removed
+  /usr/bin/b2 was removed
+  /usr/share was removed
+  /usr/share/b2 was removed
+  /usr/share/b2/src was removed
+  /usr/share/b2/src/build was removed
+  /usr/share/b2/src/build/ac.jam was removed
+  /usr/share/b2/src/build/alias.jam was removed
+  /usr/share/b2/src/build/build-request.jam was removed
+  /usr/share/b2/src/build/config-cache.jam was removed
+  /usr/share/b2/src/build/configure.jam was removed
+  /usr/share/b2/src/build/feature.jam was removed
+  /usr/share/b2/src/build/generators.jam was removed
+  /usr/share/b2/src/build/project.jam was removed
+  /usr/share/b2/src/build/property.jam was removed
+  /usr/share/b2/src/build/property-set.jam was removed
+  /usr/share/b2/src/build/scanner.jam was removed
+  /usr/share/b2/src/build-system.jam was removed
+  /usr/share/b2/src/build/targets.jam was removed
+  /usr/share/b2/src/build/toolset.jam was removed
+  /usr/share/b2/src/build/type.jam was removed
+  /usr/share/b2/src/build/version.jam was removed
+  /usr/share/b2/src/build/virtual-target.jam was removed
+  /usr/share/b2/src/contrib was removed
+  /usr/share/b2/src/contrib/boost.jam was removed
+  /usr/share/b2/src/contrib/modular.jam was removed
+  /usr/share/b2/src/contrib/tntnet.jam was removed
+  /usr/share/b2/src/contrib/wxFormBuilder.jam was removed
+  /usr/share/b2/src/options was removed
+  /usr/share/b2/src/options/help.jam was removed
+  /usr/share/b2/src/tools was removed
+  /usr/share/b2/src/tools/acc.jam was removed
+  /usr/share/b2/src/tools/asciidoctor.jam was removed
+  /usr/share/b2/src/tools/auto-index.jam was removed
+  /usr/share/b2/src/tools/bison.jam was removed
+  /usr/share/b2/src/tools/boostbook.jam was removed
+  /usr/share/b2/src/tools/borland.jam was removed
+  /usr/share/b2/src/tools/builtin.jam was removed
+  /usr/share/b2/src/tools/bzip2.jam was removed
+  /usr/share/b2/src/tools/cast.jam was removed
+  /usr/share/b2/src/tools/clang-darwin.jam was removed
+  /usr/share/b2/src/tools/clang.jam was removed
+  /usr/share/b2/src/tools/clang-linux.jam was removed
+  /usr/share/b2/src/tools/clang-vxworks.jam was removed
+  /usr/share/b2/src/tools/clang-win.jam was removed
+  /usr/share/b2/src/tools/common.jam was removed
+  /usr/share/b2/src/tools/como.jam was removed
+  /usr/share/b2/src/tools/como-linux.jam was removed
+  /usr/share/b2/src/tools/como-win.jam was removed
+  /usr/share/b2/src/tools/convert.jam was removed
+  /usr/share/b2/src/tools/cray.jam was removed
+  /usr/share/b2/src/tools/cw-config.jam was removed
+  /usr/share/b2/src/tools/cw.jam was removed
+  /usr/share/b2/src/tools/cygwin.jam was removed
+  /usr/share/b2/src/tools/darwin.jam was removed
+  /usr/share/b2/src/tools/diab.jam was removed
+  /usr/share/b2/src/tools/dmc.jam was removed
+  /usr/share/b2/src/tools/docutils.jam was removed
+  /usr/share/b2/src/tools/doxproc.py was removed
+  /usr/share/b2/src/tools/doxygen was removed
+  /usr/share/b2/src/tools/doxygen.jam was removed
+  /usr/share/b2/src/tools/doxygen/windows-paths-check.doxyfile was removed
+  /usr/share/b2/src/tools/doxygen/windows-paths-check.hpp was removed
+  /usr/share/b2/src/tools/embarcadero.jam was removed
+  /usr/share/b2/src/tools/emscripten.jam was removed
+  /usr/share/b2/src/tools/features was removed
+  /usr/share/b2/src/tools/features/address-model-feature.jam was removed
+  /usr/share/b2/src/tools/features/allow-feature.jam was removed
+  /usr/share/b2/src/tools/features/architecture-feature.jam was removed
+  /usr/share/b2/src/tools/features/archiveflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/asmflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/build-feature.jam was removed
+  /usr/share/b2/src/tools/features/cflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/compileflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/conditional-feature.jam was removed
+  /usr/share/b2/src/tools/features/coverage-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxxabi-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxxflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxxstd-feature.jam was removed
+  /usr/share/b2/src/tools/features/cxx-template-depth-feature.jam was removed
+  /usr/share/b2/src/tools/features/debug-feature.jam was removed
+  /usr/share/b2/src/tools/features/define-feature.jam was removed
+  /usr/share/b2/src/tools/features/dependency-feature.jam was removed
+  /usr/share/b2/src/tools/features/dll-feature.jam was removed
+  /usr/share/b2/src/tools/features/exception-feature.jam was removed
+  /usr/share/b2/src/tools/features/fflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/file-feature.jam was removed
+  /usr/share/b2/src/tools/features/find-lib-feature.jam was removed
+  /usr/share/b2/src/tools/features/flags-feature.jam was removed
+  /usr/share/b2/src/tools/features/force-include-feature.jam was removed
+  /usr/share/b2/src/tools/features/include-feature.jam was removed
+  /usr/share/b2/src/tools/features/__init_features__.jam was removed
+  /usr/share/b2/src/tools/features/instruction-set-feature.jam was removed
+  /usr/share/b2/src/tools/features/internal-feature.jam was removed
+  /usr/share/b2/src/tools/features/library-feature.jam was removed
+  /usr/share/b2/src/tools/features/linemarkers-feature.jam was removed
+  /usr/share/b2/src/tools/features/link-feature.jam was removed
+  /usr/share/b2/src/tools/features/linkflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/local-visibility-feature.jam was removed
+  /usr/share/b2/src/tools/features/location-feature.jam was removed
+  /usr/share/b2/src/tools/features/location-prefix-feature.jam was removed
+  /usr/share/b2/src/tools/features/lto-feature.jam was removed
+  /usr/share/b2/src/tools/features/name-feature.jam was removed
+  /usr/share/b2/src/tools/features/objcflags-feature.jam was removed
+  /usr/share/b2/src/tools/features/optimization-feature.jam was removed
+  /usr/share/b2/src/tools/features/os-feature.jam was removed
+  /usr/share/b2/src/tools/features/relevant-feature.jam was removed
+  /usr/share/b2/src/tools/features/response-file-feature.jam was removed
+  /usr/share/b2/src/tools/features/rtti-feature.jam was removed
+  /usr/share/b2/src/tools/features/runtime-feature.jam was removed
+  /usr/share/b2/src/tools/features/sanitizers-feature.jam was removed
+  /usr/share/b2/src/tools/features/search-feature.jam was removed
+  /usr/share/b2/src/tools/features/source-feature.jam was removed
+  /usr/share/b2/src/tools/features/stdlib-feature.jam was removed
+  /usr/share/b2/src/tools/features/strip-feature.jam was removed
+  /usr/share/b2/src/tools/features/tag-feature.jam was removed
+  /usr/share/b2/src/tools/features/threadapi-feature.jam was removed
+  /usr/share/b2/src/tools/features/threading-feature.jam was removed
+  /usr/share/b2/src/tools/features/toolset-feature.jam was removed
+  /usr/share/b2/src/tools/features/translate-path-feature.jam was removed
+  /usr/share/b2/src/tools/features/user-interface-feature.jam was removed
+  /usr/share/b2/src/tools/features/variant-feature.jam was removed
+  /usr/share/b2/src/tools/features/version-feature.jam was removed
+  /usr/share/b2/src/tools/features/visibility-feature.jam was removed
+  /usr/share/b2/src/tools/features/warnings-feature.jam was removed
+  /usr/share/b2/src/tools/flags.jam was removed
+  /usr/share/b2/src/tools/fop.jam was removed
+  /usr/share/b2/src/tools/fortran.jam was removed
+  /usr/share/b2/src/tools/gcc.jam was removed
+  /usr/share/b2/src/tools/generate.jam was removed
+  /usr/share/b2/src/tools/generators was removed
+  /usr/share/b2/src/tools/generators/archive-generator.jam was removed
+  /usr/share/b2/src/tools/generators/c-compiling-generator.jam was removed
+  /usr/share/b2/src/tools/generators/c-preprocessing-generator.jam was removed
+  /usr/share/b2/src/tools/generators/dummy-generator.jam was removed
+  /usr/share/b2/src/tools/generators/__init_generators__.jam was removed
+  /usr/share/b2/src/tools/generators/lib-generator.jam was removed
+  /usr/share/b2/src/tools/generators/linking-generator.jam was removed
+  /usr/share/b2/src/tools/generators/prebuilt-lib-generator.jam was removed
+  /usr/share/b2/src/tools/generators/searched-lib-generator.jam was removed
+  /usr/share/b2/src/tools/gettext.jam was removed
+  /usr/share/b2/src/tools/gfortran.jam was removed
+  /usr/share/b2/src/tools/hp_cxx.jam was removed
+  /usr/share/b2/src/tools/hpfortran.jam was removed
+  /usr/share/b2/src/tools/ifort.jam was removed
+  /usr/share/b2/src/tools/intel-darwin.jam was removed
+  /usr/share/b2/src/tools/intel.jam was removed
+  /usr/share/b2/src/tools/intel-linux.jam was removed
+  /usr/share/b2/src/tools/intel-vxworks.jam was removed
+  /usr/share/b2/src/tools/intel-win.jam was removed
+  /usr/share/b2/src/tools/lex.jam was removed
+  /usr/share/b2/src/tools/libjpeg.jam was removed
+  /usr/share/b2/src/tools/libpng.jam was removed
+  /usr/share/b2/src/tools/libtiff.jam was removed
+  /usr/share/b2/src/tools/link.jam was removed
+  /usr/share/b2/src/tools/lzma.jam was removed
+  /usr/share/b2/src/tools/make.jam was removed
+  /usr/share/b2/src/tools/mc.jam was removed
+  /usr/share/b2/src/tools/message.jam was removed
+  /usr/share/b2/src/tools/midl.jam was removed
+  /usr/share/b2/src/tools/mipspro.jam was removed
+  /usr/share/b2/src/tools/mpi.jam was removed
+  /usr/share/b2/src/tools/msvc.jam was removed
+  /usr/share/b2/src/tools/notfile.jam was removed
+  /usr/share/b2/src/tools/openssl.jam was removed
+  /usr/share/b2/src/tools/package.jam was removed
+  /usr/share/b2/src/tools/pathscale.jam was removed
+  /usr/share/b2/src/tools/pch.jam was removed
+  /usr/share/b2/src/tools/pgi.jam was removed
+  /usr/share/b2/src/tools/pkg-config.jam was removed
+  /usr/share/b2/src/tools/python-config.jam was removed
+  /usr/share/b2/src/tools/python.jam was removed
+  /usr/share/b2/src/tools/qcc.jam was removed
+  /usr/share/b2/src/tools/qt3.jam was removed
+  /usr/share/b2/src/tools/qt4.jam was removed
+  /usr/share/b2/src/tools/qt5.jam was removed
+  /usr/share/b2/src/tools/qt.jam was removed
+  /usr/share/b2/src/tools/quickbook-config.jam was removed
+  /usr/share/b2/src/tools/quickbook.jam was removed
+  /usr/share/b2/src/tools/rc.jam was removed
+  /usr/share/b2/src/tools/sass.jam was removed
+  /usr/share/b2/src/tools/saxonhe.jam was removed
+  /usr/share/b2/src/tools/stage.jam was removed
+  /usr/share/b2/src/tools/stlport.jam was removed
+  /usr/share/b2/src/tools/sun.jam was removed
+  /usr/share/b2/src/tools/symlink.jam was removed
+  /usr/share/b2/src/tools/testing-aux.jam was removed
+  /usr/share/b2/src/tools/testing.jam was removed
+  /usr/share/b2/src/tools/types was removed
+  /usr/share/b2/src/tools/types/adoc.jam was removed
+  /usr/share/b2/src/tools/types/asm.jam was removed
+  /usr/share/b2/src/tools/types/cpp.jam was removed
+  /usr/share/b2/src/tools/types/css.jam was removed
+  /usr/share/b2/src/tools/types/docbook.jam was removed
+  /usr/share/b2/src/tools/types/exe.jam was removed
+  /usr/share/b2/src/tools/types/html.jam was removed
+  /usr/share/b2/src/tools/types/lib.jam was removed
+  /usr/share/b2/src/tools/types/man.jam was removed
+  /usr/share/b2/src/tools/types/markdown.jam was removed
+  /usr/share/b2/src/tools/types/objc.jam was removed
+  /usr/share/b2/src/tools/types/obj.jam was removed
+  /usr/share/b2/src/tools/types/pdf.jam was removed
+  /usr/share/b2/src/tools/types/preprocessed.jam was removed
+  /usr/share/b2/src/tools/types/qt.jam was removed
+  /usr/share/b2/src/tools/types/register.jam was removed
+  /usr/share/b2/src/tools/types/rsp.jam was removed
+  /usr/share/b2/src/tools/types/sass-type.jam was removed
+  /usr/share/b2/src/tools/types/xml.jam was removed
+  /usr/share/b2/src/tools/unix.jam was removed
+  /usr/share/b2/src/tools/vacpp.jam was removed
+  /usr/share/b2/src/tools/vmsdecc.jam was removed
+  /usr/share/b2/src/tools/whale.jam was removed
+  /usr/share/b2/src/tools/xlcpp.jam was removed
+  /usr/share/b2/src/tools/xlf.jam was removed
+  /usr/share/b2/src/tools/xsltproc was removed
+  /usr/share/b2/src/tools/xsltproc-config.jam was removed
+  /usr/share/b2/src/tools/xsltproc/included.xsl was removed
+  /usr/share/b2/src/tools/xsltproc.jam was removed
+  /usr/share/b2/src/tools/xsltproc/test.xml was removed
+  /usr/share/b2/src/tools/xsltproc/test.xsl was removed
+  /usr/share/b2/src/tools/zlib.jam was removed
+  /usr/share/b2/src/tools/zstd.jam was removed
+  /usr/share/b2/src/util was removed
+  /usr/share/b2/src/util/assert.jam was removed
+  /usr/share/b2/src/util/container.jam was removed
+  /usr/share/b2/src/util/doc.jam was removed
+  /usr/share/b2/src/util/indirect.jam was removed
+  /usr/share/b2/src/util/numbers.jam was removed
+  /usr/share/b2/src/util/option.jam was removed
+  /usr/share/b2/src/util/order.jam was removed
+  /usr/share/b2/src/util/os.jam was removed
+  /usr/share/b2/src/util/param.jam was removed
+  /usr/share/b2/src/util/path.jam was removed
+  /usr/share/b2/src/util/print.jam was removed
+  /usr/share/b2/src/util/sequence.jam was removed
+  /usr/share/b2/src/util/utility.jam was removed
 
---===============3014072308855369409==
+--===============0662665849737364168==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gst-devtools-upgrade-1.24.5-1.24.6.patch"
+ filename="0001-boost-build-native-upgrade-1.85.0-1.86.0.patch"
 
-RnJvbSBjY2ZkMWExMTYxYzVkOWEzMWI4Nzc2MDg3MTJiNTAxNzcwNmY3NDc1IE1vbiBTZXAgMTcg
+RnJvbSAwN2FjZmJkNmQ3OWZkN2M5NDM2ZGJmYTA0OTFmNjEyNDU3ZTFkOWI0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTY6MTY6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3QtZGV2dG9vbHM6IHVwZ3JhZGUgMS4yNC41IC0+IDEuMjQuNgoKLS0tCiAuLi4vMDAwMS1jb25u
-ZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRjaCAgICAgICAgfCAyICst
-CiAuLi4ve2dzdC1kZXZ0b29sc18xLjI0LjUuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuNi5iYn0g
-ICAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdC1k
-ZXZ0b29sc18xLjI0LjUuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuNi5iYn0gKDk1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAw
-MDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAwMDEtY29ubmVjdC1o
-YXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2gKaW5kZXggODUyMDU2N2YxNy4u
-ZjJiYjY2NDE0MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdC1kZXZ0b29scy8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1t
-dXNsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2
-dG9vbHMvMDAwMS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYzIwODk0YTVlNmY1MmFhOWZlMzQzN2U3MzNhMjI4YjFh
-MGViNjQyOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDBlM2IwNDAwN2Q2MDc1NWNm
-MWMwOTJjMWNhYzI5ZTgzMjI5MGI4NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEto
-ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDkgU2VwIDIwMTggMTc6Mzg6
-MTAgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gY29ubmVjdCBoYXMgYSBkaWZmZXJlbnQgc2lnbmF0
-dXJlIG9uIG11c2wKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3QtZGV2dG9vbHNfMS4yNC41LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdC1kZXZ0b29sc18xLjI0LjYuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjI0LjUu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9v
-bHNfMS4yNC42LmJiCmluZGV4IGQ0YTgxYjY5YTEuLjFiNDQ4ZjdjNTUgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yNC41LmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yNC42
-LmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRl
-c2t0b3Aub3JnL3NyYy9nc3QtZGV2dG9vbHMvZ3N0LWRldnRvb2xzLSR7UFZ9CiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBh
-dGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTk2Njc1ODk4MTI5
-YTQ4MGQwNWJiZjkxMDcxZWM0ZTQwMTU0ZGNhZDZkNjJmMzk0NDE1NGE2Y2IzMjYwNDVhNCIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICI4YmViOWU5OGVkMTM2YzI5ZjRlYzEwMzk2ZGQ2Yzg3MDhhNTY0
-NWNkYWNkYTkwYWYxYjcxOTYwNTdkZTE3NjcyIgogCiBERVBFTkRTID0gImpzb24tZ2xpYiBnbGli
-LTIuMCBnbGliLTIuMC1uYXRpdmUgZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJh
-c2UiCiBSUkVDT01NRU5EUzoke1BOfSA9ICJnaXQiCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTc6NTk6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+b29zdC1idWlsZC1uYXRpdmU6IHVwZ3JhZGUgMS44NS4wIC0+IDEuODYuMAoKLS0tCiAuLi5vb3N0
+LWJ1aWxkLW5hdGl2ZV8xLjg1LjAuYmIgPT4gYm9vc3QtYnVpbGQtbmF0aXZlXzEuODYuMC5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9ib29zdC97Ym9vc3QtYnVpbGQtbmF0aXZlXzEuODUu
+MC5iYiA9PiBib29zdC1idWlsZC1uYXRpdmVfMS44Ni4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2Jvb3N0L2Jvb3N0LWJ1aWxkLW5hdGl2ZV8xLjg1LjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ib29zdC9ib29zdC1idWlsZC1uYXRpdmVfMS44Ni4wLmJi
+CnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2Jv
+b3N0L2Jvb3N0LWJ1aWxkLW5hdGl2ZV8xLjg1LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2Jvb3N0L2Jvb3N0LWJ1aWxkLW5hdGl2ZV8xLjg2LjAuYmIKaW5kZXggYjMzM2M3Yzgx
+YS4uODgxOWI0MzM5MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYm9vc3QvYm9v
+c3QtYnVpbGQtbmF0aXZlXzEuODUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ib29z
+dC9ib29zdC1idWlsZC1uYXRpdmVfMS44Ni4wLmJiCkBAIC03LDcgKzcsNyBAQCBMSUNFTlNFID0g
+IkJTTC0xLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9ZTQy
+MjRjY2FlY2IxNGQ5NDJjNzFkMzFiZWYyMGQ3OGMiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHVi
+LmNvbS9ib29zdG9yZy9idWlsZDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyIgotU1JDUkVW
+ID0gImIwMzExYTBkNGYzYmIwZjkzZDA2ZDNjNmZhY2E1MTBjN2Y1YTIwMTIiCitTUkNSRVYgPSAi
+NGE1MmQ4YzA2NjM1NDM1YjY0ZTMxYTU2ZWFmN2NhNWRjOTEyYTcxZCIKIFBFID0gIjEiCiAKIFVQ
+U1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gImJvb3N0LSg/UDxwdmVyPihcZCsoXC5cZCspKykp
+IgotLSAKMi40NC4wCgo=
 
---===============3014072308855369409==--
+--===============0662665849737364168==--
 
