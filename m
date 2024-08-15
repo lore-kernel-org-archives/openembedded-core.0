@@ -2,178 +2,144 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 267B9C5B554
-	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6EEBC5B553
+	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:07 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
  by mx.groups.io with SMTP id smtpd.web10.131091.1723748333753610295
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 11:58:53 -0700
+ Thu, 15 Aug 2024 11:58:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WLnxJq0T;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=QKZ6/TtF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101915768356f-09555c04-046f-4fe5-b679-bfd1ef4d4d00-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IPvEM0do;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=wGvXVZt+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019157683a24-965ffdeb-908b-4d31-9dc8-dbc34184b868-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1723748333;
+	t=1723748334;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gJ8oZ9q9XHoICxKC7XRJj20r2QdxU5lBkwQ7Fkj5qmU=;
-	b=WLnxJq0TlqaWD3WFHIxOnn1Y2jQgH8L8+nAhhhEragE+9P6qwBrKXcX/VfNCw3Dq
-	/NVCbI6b1QjbPLi9e8dRpfDpHSmfhq5M1GESas1f8xEukEH9l7aqB210B7Na6YZ59/t
-	mEcofLtk2wvJxAT3J7yoZbARiy7HvQ6IPaxa3ST0=
+	bh=vbfAJRAV8flfSni7ZMeU4a0w3/xV5WvcpAMscaZ8KYk=;
+	b=IPvEM0doPDb2ctetHY4yjsciqaEkrghoS0fmDVzVtnltyRpNFTFdB0xJJ30+LeNN
+	i9FK9V8Gj0hkZSEWkHDkpE58FjwxOEonGrN/NRP4VdB7QOtS9QXifq6usCNyzi5GpSg
+	wd1LlV0MGsAWeNl2nhbCYXLYj13DordIq10GVaf0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748333;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748334;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gJ8oZ9q9XHoICxKC7XRJj20r2QdxU5lBkwQ7Fkj5qmU=;
-	b=QKZ6/TtFPCTe+teoOx2KlbxT+a3Wz3BXQ26arC95c5f2dBJbzpA3cC7uRFQ8gMM8
-	CLZiV95FxepPZ2OHKib1uC7aCKrT2sXsIackPQ6xZd/Zw1Fn+3bMWry27V4r5FFRCYT
-	LCY3GHww0D1lEd2witTngoCPTTBPi/yjQFoIwamY=
-Content-Type: multipart/mixed; boundary="===============0947722982309587026=="
+	bh=vbfAJRAV8flfSni7ZMeU4a0w3/xV5WvcpAMscaZ8KYk=;
+	b=wGvXVZt+qzltBz2m+P8BmHrD/shu4Q5hPzS/7ttHTblGzGloe5X/F0Shmwl2ijSp
+	DQMBF2+OaH+MWajqINVeEfeQInEExyRWjhJt9D9CwpT+dOLlsoRC31OCbajBS7UcC9C
+	O6DddhuUgM+7vW6pMmo3jARBhrqhm7ShSyaEvr14=
+Content-Type: multipart/mixed; boundary="===============1265985579368302675=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libxtst,libxfont2,libx11: upgrading to 1.2.5,2.0.7,1.8.10
- SUCCEEDED
-Message-ID: <010101915768356f-09555c04-046f-4fe5-b679-bfd1ef4d4d00-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Aug 2024 18:58:52 +0000
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-hypothesis: upgrading to 6.111.0 SUCCEEDED
+Message-ID: <0101019157683a24-965ffdeb-908b-4d31-9dc8-dbc34184b868-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Aug 2024 18:58:54 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.08.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203352
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203375
 
---===============0947722982309587026==
-Content-Type: text/plain; charset="utf-8"
+--===============1265985579368302675==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.111.0* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.110.1-6.111.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From ab76220d8849a4ac37ab2f34a90ffa10f5fd57c6 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 Aug 2024 11:30:12 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.110.1 -> 6.111.0
+
+---
+ ...hon3-hypothesis_6.110.1.bb => python3-hypothesis_6.111.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.110.1.bb => python3-hypothesis_6.111.0.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.110.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.111.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.110.1.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.111.0.bb
+index 29fe7e18a2..3ed5e7ee4e 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.110.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.111.0.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "a138bfaea11aba6daadf8effd9065251a6fec1549f25b7d72ac9881a413f76b0"
++SRC_URI[sha256sum] = "04d0703621d9fdd61c079a4dda07babbe7ebf6d34eee6ad9484a2af0ee721801"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.44.0
+
+
+--===============1265985579368302675==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-hypothesis-upgrade-6.110.1-6.111.0.patch"
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpsaWJ4dHN0LGxpYnhmb250MixsaWJ4MTEqIHRvICoxLjIuNSwyLjAuNywxLjguMTAqIGhh
-cyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBhcHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAw
-MDAxLWxpYnh0c3QtbGlieGZvbnQyLWxpYngxMS11cGdyYWRlLTEuMi40LTEuMi41LTIuMC42LTIu
-cGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQgc3Vt
-bWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGltYWdl
-IHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNhbml0
-eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29tbWl0
-IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9wcmlh
-dGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVjaXBl
-IHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVDSVBF
-X05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1dG9t
-YXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJldmll
-dyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxkL3Vw
-ZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6Ly9i
-dWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0ZWQl
-MjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44IC0t
-CkZyb20gY2E3NWY0MmIxNjljOGQ4OGYyZDk5MzI0YTJkNzhjMDc0OGU5NzA1OSBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qub3Jn
-PgpEYXRlOiBUaHUsIDE1IEF1ZyAyMDI0IDA4OjE5OjA0ICswMDAwClN1YmplY3Q6IFtQQVRDSF0g
-bGlieHRzdCxsaWJ4Zm9udDIsbGlieDExOiB1cGdyYWRlIDEuMi40IC0+IDEuMi41LDIuMC42IC0+
-CiAyLjAuNywxLjguOSAtPiAxLjguMTAKCi0tLQogLi4uL3hvcmctbGliL2xpYngxMS9kaXNhYmxl
-X3Rlc3RzLnBhdGNoICAgICAgIHwgMjQgKysrKysrKysrKysrKy0tLS0tLQogLi4uL3tsaWJ4MTFf
-MS44LjkuYmIgPT4gbGlieDExXzEuOC4xMC5iYn0gICAgIHwgIDIgKy0KIC4uLntsaWJ4Zm9udDJf
-Mi4wLjYuYmIgPT4gbGlieGZvbnQyXzIuMC43LmJifSB8IDI0ICsrKysrKysrKysrKysrKysrLS0K
-IC4uLi97bGlieHRzdF8xLjIuNC5iYiA9PiBsaWJ4dHN0XzEuMi41LmJifSAgICB8ICAyICstCiA0
-IGZpbGVzIGNoYW5nZWQsIDQxIGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97bGlieDExXzEuOC45LmJiID0+IGxpYngx
-MV8xLjguMTAuYmJ9ICg5MiUpCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGli
-L3tsaWJ4Zm9udDJfMi4wLjYuYmIgPT4gbGlieGZvbnQyXzIuMC43LmJifSAoMzglKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97bGlieHRzdF8xLjIuNC5iYiA9PiBsaWJ4
-dHN0XzEuMi41LmJifSAoODYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94
-b3JnLWxpYi9saWJ4MTEvZGlzYWJsZV90ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy94b3JnLWxpYi9saWJ4MTEvZGlzYWJsZV90ZXN0cy5wYXRjaAppbmRleCBjMWI2Y2RlNTM0Li43
-YmJhNTNjYWMwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGli
-eDExL2Rpc2FibGVfdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-bGliL2xpYngxMS9kaXNhYmxlX3Rlc3RzLnBhdGNoCkBAIC0xLDMgKzEsOCBAQAorRnJvbSBmMGQ2
-Yjg5ZDMzMzI2YTRkMDdmMTFkMmJlZjllNzg0YmIxMWEwNTg2IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbTogTWFya28gTGluZHF2aXN0IDxjYXpmaTc0QGdtYWlsLmNvbT4KK0RhdGU6IFR1
-ZSwgOCBKYW4gMjAxMyAwOToxNjozNyArMDIwMAorU3ViamVjdDogW1BBVENIXSBsaWJ4MTE6IGRp
-c2FibGUgdGVzdHMKKwogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtkaXNhYmxlIGZl
-YXR1cmVdCiAKIFNpZ25lZC1vZmYtYnk6IE1hcmtvIExpbmRxdmlzdCA8Y2F6Zmk3NEBnbWFpbC5j
-b20+CkBAIC01LDE4ICsxMCwyMyBAQCBTaWduZWQtb2ZmLWJ5OiBNYXJrbyBMaW5kcXZpc3QgPGNh
-emZpNzRAZ21haWwuY29tPgogVXBkYXRlIGZvciAxLjYuMQogCiBTaWduZWQtb2ZmLWJ5OiBLYWkg
-S2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4KKy0tLQorIG5scy9NYWtlZmlsZS5hbSB8IDUg
-LS0tLS0KKyAxIGZpbGUgY2hhbmdlZCwgNSBkZWxldGlvbnMoLSkKIAotZGlmZiAtTnVyZCBsaWJY
-MTEtMS41LjAvbmxzL01ha2VmaWxlLmFtIGxpYlgxMS0xLjUuMC9ubHMvTWFrZWZpbGUuYW0KLS0t
-LSBsaWJYMTEtMS41LjAvbmxzL01ha2VmaWxlLmFtCTIwMTItMDYtMDIgMDk6Mzc6MTguMDAwMDAw
-MDAwICswMzAwCi0rKysgbGliWDExLTEuNS4wL25scy9NYWtlZmlsZS5hbQkyMDEzLTAxLTAyIDE2
-OjEwOjI0Ljk2MDE1NjEzMSArMDIwMAotQEAgLTM2LDExICszNiw2IEBACitkaWZmIC0tZ2l0IGEv
-bmxzL01ha2VmaWxlLmFtIGIvbmxzL01ha2VmaWxlLmFtCitpbmRleCA3ZWRhNThlLi40ZDQwNTBi
-IDEwMDY0NAorLS0tIGEvbmxzL01ha2VmaWxlLmFtCisrKysgYi9ubHMvTWFrZWZpbGUuYW0KK0BA
-IC0zNiwxMSArMzYsNiBAQCBsb2NhbGUuZGlyOiBsb2NhbGUuZGlyLnByZQogICAgICAgICAgPCBs
-b2NhbGUuZGlyLmwxID4gbG9jYWxlLmRpci5sMgotCWNhdCBsb2NhbGUuZGlyLmwyIGxvY2FsZS5k
-aXIubDEgPiBsb2NhbGUuZGlyCi0KKyAJY2F0IGxvY2FsZS5kaXIubDIgbG9jYWxlLmRpci5sMSA+
-IGxvY2FsZS5kaXIKKyAKIC1pZiBIQVZFX1BFUkwKIC1MT0dfQ09NUElMRVIgPSAkKFBFUkwpCiAt
-VEVTVFMgPSBjb21wb3NlLWNoZWNrLnBsCiAtZW5kaWYgSEFWRV9QRVJMCiAtCi0KKyAKICAjIFBl
-ci1sb2NhbGUgZGF0YSBmaWxlcworIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3hvcmctbGliL2xpYngxMV8xLjguOS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
-Yi9saWJ4MTFfMS44LjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4MTFfMS44LjkuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4MTFfMS44LjEwLmJiCmluZGV4IDVkY2IwNjM0
-NzMuLmVkYTE4NGNiMzUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
-Yi9saWJ4MTFfMS44LjkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xp
-YngxMV8xLjguMTAuYmIKQEAgLTI0LDcgKzI0LDcgQEAgWE9SR19QTiA9ICJsaWJYMTEiCiAKIFNS
-Q19VUkkgKz0gImZpbGU6Ly9kaXNhYmxlX3Rlc3RzLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiNzc5ZDhmMTExZDE0NGVmOTNlMmRhYTVmMjNhNzYyY2U5NTU1YWZmYzk5NTkyODQ0ZTcx
-YzQyNDNkM2JkMzI2MiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyYjNiM2RhZDkzNDdkYjQxZGNh
-NTZiZWI3ZGI1ODc4ZjI4M2JkZTExNDJmMDRkOWY4ZTQ3OGFmNDM1ZGZkYzUzIgogCiBpbmhlcml0
-IGdldHRleHQKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xp
-Ynhmb250Ml8yLjAuNi5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4Zm9u
-dDJfMi4wLjcuYmIKc2ltaWxhcml0eSBpbmRleCAzOCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3hvcmctbGliL2xpYnhmb250Ml8yLjAuNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhmb250Ml8yLjAuNy5iYgppbmRleCA1MzVlN2Y2Mjll
-Li5kNjgyNDk4NzQzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIv
-bGlieGZvbnQyXzIuMC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9s
-aWJ4Zm9udDJfMi4wLjcuYmIKQEAgLTEsMyArMSwyMyBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxF
-U19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgor
-IyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhl
-IG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYg
-bmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2Fn
-ZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRl
-OiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0t
-IENPUFlJTkcKKyMgKysrIENPUFlJTkcKKyMgQEAgLTEsNSArMSw1IEBACisjICBDb3B5cmlnaHQg
-wqkgMjAwNyBSZWQgSGF0LCBJbmMKKyMgLUNvcHlyaWdodCAoYykgMjAwOCwgMjAwOSwgT3JhY2xl
-IGFuZC9vciBpdHMgYWZmaWxpYXRlcy4gQWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMgK0NvcHlyaWdo
-dCAoYykgMjAwOCwgMjAxOSwgT3JhY2xlIGFuZC9vciBpdHMgYWZmaWxpYXRlcy4KKyMgIAorIyAg
-UGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJz
-b24gb2J0YWluaW5nIGEKKyMgIGNvcHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBk
-b2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCisjIAorIworCiBTVU1NQVJZID0g
-IlhGb250MjogWCBGb250IHJhc3RlcmlzYXRpb24gbGlicmFyeSIKIAogREVTQ1JJUFRJT04gPSAi
-bGliWGZvbnQyIHByb3ZpZGVzIHZhcmlvdXMgc2VydmljZXMgZm9yIFggc2VydmVycywgbW9zdCBc
-CkBAIC03LDcgKzI3LDcgQEAgc3VjaCBhcyBmcmVldHlwZSkuIgogcmVxdWlyZSB4b3JnLWxpYi1j
-b21tb24uaW5jCiAKIExJQ0VOU0UgPSAiTUlUICYgTUlUICYgQlNELTQtQ2xhdXNlICYgQlNELTIt
-Q2xhdXNlIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YTQ2YzgwNDBm
-MmY3MzdiY2QwYzQzNWZlYjJhYjFjMmMiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZ
-SU5HO21kNT1hNWQxMzg4YzlkNDBiZTcwZGJhZDM1ZmE0NDA0NDNmNyIKIAogREVQRU5EUyArPSAi
-ZnJlZXR5cGUgeHRyYW5zIHhvcmdwcm90byBsaWJmb250ZW5jIHpsaWIiCiAKQEAgLTE1LDcgKzM1
-LDcgQEAgWE9SR19QTiA9ICJsaWJYZm9udDIiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIgog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzRjYTIwMDE3ZWIwZmIzZjU2ZDhkNWU2MDY4NWY1NjBm
-Yzg1ZTVmZjNkODRjNjFjNGNiODkxZTQwYzI3YWVmNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4
-YjdiODJmZGViYTQ4NzY5YjY5NDMzZThlM2ZiYjk4NGE1ZjZiZjM2OGIwZDVmNDdhYmVlYzQ5ZGUz
-ZTU4ZWZiIgogCiBQQUNLQUdFQ09ORklHID8/PSAiJHtAYmIudXRpbHMuZmlsdGVyKCdESVNUUk9f
-RkVBVFVSRVMnLCAnaXB2NicsIGQpfSIKIFBBQ0tBR0VDT05GSUdbaXB2Nl0gPSAiLS1lbmFibGUt
-aXB2NiwtLWRpc2FibGUtaXB2NiwiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-eG9yZy1saWIvbGlieHRzdF8xLjIuNC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
-Yi9saWJ4dHN0XzEuMi41LmJiCnNpbWlsYXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4dHN0XzEuMi40LmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieHRzdF8xLjIuNS5iYgppbmRleCBkYjA2MjFi
-YTJlLi5kZjM4MWI3ZDY1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1s
-aWIvbGlieHRzdF8xLjIuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIv
-bGlieHRzdF8xLjIuNS5iYgpAQCAtMTUsNiArMTUsNiBAQCBQUk9WSURFUyA9ICJ4dHN0IgogUEUg
-PSAiMSIKIAogWE9SR19QTiA9ICJsaWJYdHN0IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg0ZjVm
-MzBiOTI1NGI0ZmZlZTE0YjViMDk0MGUyNjIyMTUzYjBkM2FlZDgyODZhM2M1YjdlZWIzNDBjYTMz
-YzgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjUwZDRjMjViOTcwMDlhNzQ0NzA2YzEwMzljNTk4
-ZjRkOGU2NDkxMGM5ZmRlMzgxOTk0ZTFjYWUyMzVkOTI0MiIKIAogQkJDTEFTU0VYVEVORCA9ICJu
-YXRpdmUgbmF0aXZlc2RrIgotLSAKMi40NC4wCgo=
+RnJvbSBhYjc2MjIwZDg4NDlhNGFjMzdhYjJmMzRhOTBmZmExMGY1ZmQ1N2M2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTE6MzA6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xMTAuMSAtPiA2LjExMS4wCgotLS0KIC4uLmhv
+bjMtaHlwb3RoZXNpc182LjExMC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjExMS4wLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
+LjExMC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjExMS4wLmJifSAoOTElKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
+MTEwLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
+c182LjExMS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTEwLjEuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTExLjAu
+YmIKaW5kZXggMjlmZTdlMThhMi4uM2VkNWU3ZWU0ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMTAuMS5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjExMS4wLmJiCkBA
+IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
+ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhMTM4YmZhZWExMWFiYTZkYWFkZjhlZmZk
+OTA2NTI1MWE2ZmVjMTU0OWYyNWI3ZDcyYWM5ODgxYTQxM2Y3NmIwIgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjA0ZDA3MDM2MjFkOWZkZDYxYzA3OWE0ZGRhMDdiYWJiZTdlYmY2ZDM0ZWVlNmFkOTQ4
+NGEyYWYwZWU3MjE4MDEiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
+cnMgXAotLSAKMi40NC4wCgo=
 
---===============0947722982309587026==
+--===============1265985579368302675==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.12/site-packages/hypothesis-6.110.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.111.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -2015,75 +1981,34 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============0947722982309587026==
+--===============1265985579368302675==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libx11: SRC_URI changed from "https://www.x.org/releases//individual/lib/libX11-1.8.9.tar.xz file://disable_tests.patch" to "https://www.x.org/releases//individual/lib/libX11-1.8.10.tar.xz file://disable_tests.patch"
-packages/core2-64-poky-linux/libx11: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11-dbg: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11-dbg: PKGSIZE changed from 11403352 to 11411048 (+0%)
-packages/core2-64-poky-linux/libx11/libx11-dbg: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11-dev: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11-dev: PKGSIZE changed from 251687 to 251689 (+0%)
-packages/core2-64-poky-linux/libx11/libx11-dev: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11-doc: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11-doc: PKGSIZE changed from 1931250 to 1931623 (+0%)
-packages/core2-64-poky-linux/libx11/libx11-doc: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11-locale: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11-locale: PKGSIZE changed from 1105684 to 1107098 (+0%)
-packages/core2-64-poky-linux/libx11/libx11-locale: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11-src: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11-src: PKGSIZE changed from 5435316 to 5441828 (+0%)
-packages/core2-64-poky-linux/libx11/libx11-src: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11-staticdev: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11-staticdev: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11-xcb: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11-xcb: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libx11/libx11: PV changed from "1.8.9" to "1.8.10"
-packages/core2-64-poky-linux/libx11/libx11: PKGV changed from 1.8.9 [default] to 1.8.10 [default]
-packages/core2-64-poky-linux/libxfont2: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXfont2-2.0.6.tar.xz" to "https://www.x.org/releases//individual/lib/libXfont2-2.0.7.tar.xz"
-packages/core2-64-poky-linux/libxfont2: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxfont2/libxfont2-dbg: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2/libxfont2-dbg: PKGSIZE changed from 716720 to 717024 (+0%)
-packages/core2-64-poky-linux/libxfont2/libxfont2-dbg: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxfont2/libxfont2-dev: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2/libxfont2-dev: PKGSIZE changed from 5525 to 5578 (+1%)
-packages/core2-64-poky-linux/libxfont2/libxfont2-dev: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxfont2/libxfont2-doc: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2/libxfont2-doc: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxfont2/libxfont2-locale: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2/libxfont2-locale: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxfont2/libxfont2-src: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2/libxfont2-src: PKGSIZE changed from 795079 to 793559 (-0%)
-packages/core2-64-poky-linux/libxfont2/libxfont2-src: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxfont2/libxfont2-staticdev: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2/libxfont2-staticdev: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxfont2/libxfont2: PV changed from "2.0.6" to "2.0.7"
-packages/core2-64-poky-linux/libxfont2/libxfont2: PKGV changed from 2.0.6 [default] to 2.0.7 [default]
-packages/core2-64-poky-linux/libxtst: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXtst-1.2.4.tar.xz" to "https://www.x.org/releases//individual/lib/libXtst-1.2.5.tar.xz"
-packages/core2-64-poky-linux/libxtst: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/core2-64-poky-linux/libxtst/libxtst-dbg: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst/libxtst-dbg: PKGSIZE changed from 103328 to 103352 (+0%)
-packages/core2-64-poky-linux/libxtst/libxtst-dbg: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/core2-64-poky-linux/libxtst/libxtst-dev: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst/libxtst-dev: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/core2-64-poky-linux/libxtst/libxtst-doc: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst/libxtst-doc: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/core2-64-poky-linux/libxtst/libxtst-locale: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst/libxtst-locale: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/core2-64-poky-linux/libxtst/libxtst-src: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst/libxtst-src: PKGSIZE changed from 49690 to 49856 (+0%)
-packages/core2-64-poky-linux/libxtst/libxtst-src: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/core2-64-poky-linux/libxtst/libxtst-staticdev: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst/libxtst-staticdev: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/core2-64-poky-linux/libxtst/libxtst: PV changed from "1.2.4" to "1.2.5"
-packages/core2-64-poky-linux/libxtst/libxtst: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
+packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.110.1.tar.gz;downloadfilename=hypothesis-6.110.1.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.111.0.tar.gz;downloadfilename=hypothesis-6.111.0.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
+packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.110.1" to "6.111.0"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3117173 to 3123211 (+0%)
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.110.1 [default] to 6.111.0 [default]
+Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.12/site-packages/hypothesis-6.110.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.111.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3925,113 +3850,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============0947722982309587026==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxtst-libxfont2-libx11-upgrade-1.2.4-1.2.5-2.0.6-2.patch"
-
-RnJvbSBjYTc1ZjQyYjE2OWM4ZDg4ZjJkOTkzMjRhMmQ3OGMwNzQ4ZTk3MDU5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMDg6MTk6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4dHN0LGxpYnhmb250MixsaWJ4MTE6IHVwZ3JhZGUgMS4yLjQgLT4gMS4yLjUsMi4wLjYgLT4K
-IDIuMC43LDEuOC45IC0+IDEuOC4xMAoKLS0tCiAuLi4veG9yZy1saWIvbGlieDExL2Rpc2FibGVf
-dGVzdHMucGF0Y2ggICAgICAgfCAyNCArKysrKysrKysrKysrLS0tLS0tCiAuLi4ve2xpYngxMV8x
-LjguOS5iYiA9PiBsaWJ4MTFfMS44LjEwLmJifSAgICAgfCAgMiArLQogLi4ue2xpYnhmb250Ml8y
-LjAuNi5iYiA9PiBsaWJ4Zm9udDJfMi4wLjcuYmJ9IHwgMjQgKysrKysrKysrKysrKysrKystLQog
-Li4uL3tsaWJ4dHN0XzEuMi40LmJiID0+IGxpYnh0c3RfMS4yLjUuYmJ9ICAgIHwgIDIgKy0KIDQg
-ZmlsZXMgY2hhbmdlZCwgNDEgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3tsaWJ4MTFfMS44LjkuYmIgPT4gbGlieDEx
-XzEuOC4xMC5iYn0gKDkyJSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIv
-e2xpYnhmb250Ml8yLjAuNi5iYiA9PiBsaWJ4Zm9udDJfMi4wLjcuYmJ9ICgzOCUpCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3tsaWJ4dHN0XzEuMi40LmJiID0+IGxpYnh0
-c3RfMS4yLjUuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
-cmctbGliL2xpYngxMS9kaXNhYmxlX3Rlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3hvcmctbGliL2xpYngxMS9kaXNhYmxlX3Rlc3RzLnBhdGNoCmluZGV4IGMxYjZjZGU1MzQuLjdi
-YmE1M2NhYzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4
-MTEvZGlzYWJsZV90ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1s
-aWIvbGlieDExL2Rpc2FibGVfdGVzdHMucGF0Y2gKQEAgLTEsMyArMSw4IEBACitGcm9tIGYwZDZi
-ODlkMzMzMjZhNGQwN2YxMWQyYmVmOWU3ODRiYjExYTA1ODYgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tOiBNYXJrbyBMaW5kcXZpc3QgPGNhemZpNzRAZ21haWwuY29tPgorRGF0ZTogVHVl
-LCA4IEphbiAyMDEzIDA5OjE2OjM3ICswMjAwCitTdWJqZWN0OiBbUEFUQ0hdIGxpYngxMTogZGlz
-YWJsZSB0ZXN0cworCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW2Rpc2FibGUgZmVh
-dHVyZV0KIAogU2lnbmVkLW9mZi1ieTogTWFya28gTGluZHF2aXN0IDxjYXpmaTc0QGdtYWlsLmNv
-bT4KQEAgLTUsMTggKzEwLDIzIEBAIFNpZ25lZC1vZmYtYnk6IE1hcmtvIExpbmRxdmlzdCA8Y2F6
-Zmk3NEBnbWFpbC5jb20+CiBVcGRhdGUgZm9yIDEuNi4xCiAKIFNpZ25lZC1vZmYtYnk6IEthaSBL
-YW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPgorLS0tCisgbmxzL01ha2VmaWxlLmFtIHwgNSAt
-LS0tLQorIDEgZmlsZSBjaGFuZ2VkLCA1IGRlbGV0aW9ucygtKQogCi1kaWZmIC1OdXJkIGxpYlgx
-MS0xLjUuMC9ubHMvTWFrZWZpbGUuYW0gbGliWDExLTEuNS4wL25scy9NYWtlZmlsZS5hbQotLS0t
-IGxpYlgxMS0xLjUuMC9ubHMvTWFrZWZpbGUuYW0JMjAxMi0wNi0wMiAwOTozNzoxOC4wMDAwMDAw
-MDAgKzAzMDAKLSsrKyBsaWJYMTEtMS41LjAvbmxzL01ha2VmaWxlLmFtCTIwMTMtMDEtMDIgMTY6
-MTA6MjQuOTYwMTU2MTMxICswMjAwCi1AQCAtMzYsMTEgKzM2LDYgQEAKK2RpZmYgLS1naXQgYS9u
-bHMvTWFrZWZpbGUuYW0gYi9ubHMvTWFrZWZpbGUuYW0KK2luZGV4IDdlZGE1OGUuLjRkNDA1MGIg
-MTAwNjQ0CistLS0gYS9ubHMvTWFrZWZpbGUuYW0KKysrKyBiL25scy9NYWtlZmlsZS5hbQorQEAg
-LTM2LDExICszNiw2IEBAIGxvY2FsZS5kaXI6IGxvY2FsZS5kaXIucHJlCiAgICAgICAgICA8IGxv
-Y2FsZS5kaXIubDEgPiBsb2NhbGUuZGlyLmwyCi0JY2F0IGxvY2FsZS5kaXIubDIgbG9jYWxlLmRp
-ci5sMSA+IGxvY2FsZS5kaXIKLQorIAljYXQgbG9jYWxlLmRpci5sMiBsb2NhbGUuZGlyLmwxID4g
-bG9jYWxlLmRpcgorIAogLWlmIEhBVkVfUEVSTAogLUxPR19DT01QSUxFUiA9ICQoUEVSTCkKIC1U
-RVNUUyA9IGNvbXBvc2UtY2hlY2sucGwKIC1lbmRpZiBIQVZFX1BFUkwKIC0KLQorIAogICMgUGVy
-LWxvY2FsZSBkYXRhIGZpbGVzCisgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-eG9yZy1saWIvbGlieDExXzEuOC45LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGli
-L2xpYngxMV8xLjguMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngxMV8xLjguOS5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngxMV8xLjguMTAuYmIKaW5kZXggNWRjYjA2MzQ3
-My4uZWRhMTg0Y2IzNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGli
-L2xpYngxMV8xLjguOS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGli
-eDExXzEuOC4xMC5iYgpAQCAtMjQsNyArMjQsNyBAQCBYT1JHX1BOID0gImxpYlgxMSIKIAogU1JD
-X1VSSSArPSAiZmlsZTovL2Rpc2FibGVfdGVzdHMucGF0Y2giCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI3NzlkOGYxMTFkMTQ0ZWY5M2UyZGFhNWYyM2E3NjJjZTk1NTVhZmZjOTk1OTI4NDRlNzFj
-NDI0M2QzYmQzMjYyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjJiM2IzZGFkOTM0N2RiNDFkY2E1
-NmJlYjdkYjU4NzhmMjgzYmRlMTE0MmYwNGQ5ZjhlNDc4YWY0MzVkZmRjNTMiCiAKIGluaGVyaXQg
-Z2V0dGV4dAogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGli
-eGZvbnQyXzIuMC42LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhmb250
-Ml8yLjAuNy5iYgpzaW1pbGFyaXR5IGluZGV4IDM4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MveG9yZy1saWIvbGlieGZvbnQyXzIuMC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGZvbnQyXzIuMC43LmJiCmluZGV4IDUzNWU3ZjYyOWUu
-LmQ2ODI0OTg3NDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9s
-aWJ4Zm9udDJfMi4wLjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xp
-Ynhmb250Ml8yLjAuNy5iYgpAQCAtMSwzICsxLDIzIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVT
-X0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisj
-IFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUg
-bmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBu
-ZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdl
-IHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6
-IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0g
-Q09QWUlORworIyArKysgQ09QWUlORworIyBAQCAtMSw1ICsxLDUgQEAKKyMgIENvcHlyaWdodCDC
-qSAyMDA3IFJlZCBIYXQsIEluYworIyAtQ29weXJpZ2h0IChjKSAyMDA4LCAyMDA5LCBPcmFjbGUg
-YW5kL29yIGl0cyBhZmZpbGlhdGVzLiBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyArQ29weXJpZ2h0
-IChjKSAyMDA4LCAyMDE5LCBPcmFjbGUgYW5kL29yIGl0cyBhZmZpbGlhdGVzLgorIyAgCisjICBQ
-ZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNv
-biBvYnRhaW5pbmcgYQorIyAgY29weSBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRv
-Y3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwKKyMgCisjCisKIFNVTU1BUlkgPSAi
-WEZvbnQyOiBYIEZvbnQgcmFzdGVyaXNhdGlvbiBsaWJyYXJ5IgogCiBERVNDUklQVElPTiA9ICJs
-aWJYZm9udDIgcHJvdmlkZXMgdmFyaW91cyBzZXJ2aWNlcyBmb3IgWCBzZXJ2ZXJzLCBtb3N0IFwK
-QEAgLTcsNyArMjcsNyBAQCBzdWNoIGFzIGZyZWV0eXBlKS4iCiByZXF1aXJlIHhvcmctbGliLWNv
-bW1vbi5pbmMKIAogTElDRU5TRSA9ICJNSVQgJiBNSVQgJiBCU0QtNC1DbGF1c2UgJiBCU0QtMi1D
-bGF1c2UiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1hNDZjODA0MGYy
-ZjczN2JjZDBjNDM1ZmViMmFiMWMyYyIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJ
-Tkc7bWQ1PWE1ZDEzODhjOWQ0MGJlNzBkYmFkMzVmYTQ0MDQ0M2Y3IgogCiBERVBFTkRTICs9ICJm
-cmVldHlwZSB4dHJhbnMgeG9yZ3Byb3RvIGxpYmZvbnRlbmMgemxpYiIKIApAQCAtMTUsNyArMzUs
-NyBAQCBYT1JHX1BOID0gImxpYlhmb250MiIKIAogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUiCiAK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3NGNhMjAwMTdlYjBmYjNmNTZkOGQ1ZTYwNjg1ZjU2MGZj
-ODVlNWZmM2Q4NGM2MWM0Y2I4OTFlNDBjMjdhZWY0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjhi
-N2I4MmZkZWJhNDg3NjliNjk0MzNlOGUzZmJiOTg0YTVmNmJmMzY4YjBkNWY0N2FiZWVjNDlkZTNl
-NThlZmIiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIke0BiYi51dGlscy5maWx0ZXIoJ0RJU1RST19G
-RUFUVVJFUycsICdpcHY2JywgZCl9IgogUEFDS0FHRUNPTkZJR1tpcHY2XSA9ICItLWVuYWJsZS1p
-cHY2LC0tZGlzYWJsZS1pcHY2LCIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94
-b3JnLWxpYi9saWJ4dHN0XzEuMi40LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGli
-L2xpYnh0c3RfMS4yLjUuYmIKc2ltaWxhcml0eSBpbmRleCA4NiUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnh0c3RfMS4yLjQuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4dHN0XzEuMi41LmJiCmluZGV4IGRiMDYyMWJh
-MmUuLmRmMzgxYjdkNjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
-Yi9saWJ4dHN0XzEuMi40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9s
-aWJ4dHN0XzEuMi41LmJiCkBAIC0xNSw2ICsxNSw2IEBAIFBST1ZJREVTID0gInh0c3QiCiBQRSA9
-ICIxIgogCiBYT1JHX1BOID0gImxpYlh0c3QiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODRmNWYz
-MGI5MjU0YjRmZmVlMTRiNWIwOTQwZTI2MjIxNTNiMGQzYWVkODI4NmEzYzViN2VlYjM0MGNhMzNj
-OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiNTBkNGMyNWI5NzAwOWE3NDQ3MDZjMTAzOWM1OThm
-NGQ4ZTY0OTEwYzlmZGUzODE5OTRlMWNhZTIzNWQ5MjQyIgogCiBCQkNMQVNTRVhURU5EID0gIm5h
-dGl2ZSBuYXRpdmVzZGsiCi0tIAoyLjQ0LjAKCg==
-
---===============0947722982309587026==--
+--===============1265985579368302675==--
 
