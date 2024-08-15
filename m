@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76FEC5320D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8C59C5472C
 	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:02 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.131447.1723748335885411911
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.131115.1723748335961367949
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 11:58:55 -0700
+ Thu, 15 Aug 2024 11:58:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GKlRkhuN;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zQMT/D/t;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019157683e6a-db960f6b-bedf-4df5-bd0d-ea54bd30eb13-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PF2t4Nv1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=jeiPuN2H;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019157683f78-bad3df60-4132-4637-8fa7-35adf599dfb6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Xh9VpLQ9WpG+O7CahoxsHBcD4PS3tDKmy/d/pfiH0SY=;
-	b=GKlRkhuNy4hCQbynkUZoPouF8LZsB1HT7q73nZ52egOQhrhIeMrpai86ygM9Jlzb
-	euhxFBHYOpaJftkl6sIxfehfnzO+RWRetLpVAhzaorkeWy+cj9kF0KI3L+27yjojDjS
-	eeSbFBF12X3ZoUCHDhkj2GSmBPmCJ3qtjk5ZnFOo=
+	bh=d6Ch+KlWdMUv/6s9LfhRC7ejb7vMyMuqqXo/L6JTJJU=;
+	b=PF2t4Nv1/LsHqMEHfmPGBVlapNMH3bHkVcW3P15yPUINJGTBRYp54pOSrhBXAVWT
+	eeniKRPGlnNR71ivnJI3JfbnV8srMQrRgmfy3eQ1qdhWEaaDXbZtoW4pa6TJe+vX1M0
+	87JgDSSiPeoTsyRMXQqZ4R6dqHmjwTxAEagk3Mb0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Xh9VpLQ9WpG+O7CahoxsHBcD4PS3tDKmy/d/pfiH0SY=;
-	b=zQMT/D/tU9j3pD2jFhfdH6ufNW8PzqEBbfRgDp7qqrdYR7FdeyutK8505YFu/cjB
-	xQMmHlvhqylvA0BgWdpcgLVXys68eggAoFccdgT2Urob4XfUSifQaWlZroiE1dUiNKe
-	LkQF/ZHzKUwYgjluJNguvOc57KI99JQ7VkdDaWjU=
-Content-Type: multipart/mixed; boundary="===============6155033717448916496=="
+	bh=d6Ch+KlWdMUv/6s9LfhRC7ejb7vMyMuqqXo/L6JTJJU=;
+	b=jeiPuN2H5pbsgUKEiHKMDXPDEH+8MvkWBbA5C+phyvX/sQb1wHknWjSHBkxYK1PK
+	0YzDBkABo0OAEiNKjIf4g66JdKsl2UNcvtRHaZsK7NR0wgagaHMnmyvb7VqaE7FI622
+	w4VJg+YIx5ui0is41itY3C6mCGolzs8qSdruMnaA=
+Content-Type: multipart/mixed; boundary="===============4878939825875195222=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Michael Opdenacker <michael@opdenacker.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] alsa-utils: upgrading to 1.2.12 FAILED
-Message-ID: <0101019157683e6a-db960f6b-bedf-4df5-bd0d-ea54bd30eb13-000000@us-west-2.amazonses.com>
+Subject: [AUH] boost: upgrading to 1.86.0 FAILED
+Message-ID: <0101019157683f78-bad3df60-4132-4637-8fa7-35adf599dfb6-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Aug 2024 18:58:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.15-54.240.27.29
+X-SES-Outgoing: 2024.08.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203440
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203441
 
---===============6155033717448916496==
+--===============4878939825875195222==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,110 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *alsa-utils* to *1.2.12* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *boost* to *1.86.0* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-alsa-utils-upgrade-1.2.11-1.2.12.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 76e8f6761bf80f575d0dcea14f3dcceeb10f5e25 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Aug 2024 16:09:01 +0000
-Subject: [PATCH] alsa-utils: upgrade 1.2.11 -> 1.2.12
-
----
- .../alsa/{alsa-utils_1.2.11.bb => alsa-utils_1.2.12.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.11.bb => alsa-utils_1.2.12.bb} (98%)
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.11.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb
-similarity index 98%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.11.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb
-index e598fac9f8..35443ec7e7 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.11.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb
-@@ -26,7 +26,7 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
- # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
- SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            "
--SRC_URI[sha256sum] = "9ac6ca3a883f151e568dcf979b8d2e5cbecc51b819bb0e6bb8a2e9b34cc428a7"
-+SRC_URI[sha256sum] = "98bc6677d0c0074006679051822324a0ab0879aea558a8f68b511780d30cd924"
- 
- # On build machines with python-docutils (not python3-docutils !!) installed
- # rst2man (not rst2man.py) is detected and compile fails with
--- 
-2.44.0
-
-
---===============6155033717448916496==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-alsa-utils-upgrade-1.2.11-1.2.12.patch"
-
-RnJvbSA3NmU4ZjY3NjFiZjgwZjU3NWQwZGNlYTE0ZjNkY2NlZWIxMGY1ZTI1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTY6MDk6MDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
-bHNhLXV0aWxzOiB1cGdyYWRlIDEuMi4xMSAtPiAxLjIuMTIKCi0tLQogLi4uL2Fsc2Eve2Fsc2Et
-dXRpbHNfMS4yLjExLmJiID0+IGFsc2EtdXRpbHNfMS4yLjEyLmJifSAgICAgICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS97YWxzYS11dGlsc18xLjIuMTEuYmIgPT4gYWxzYS11
-dGlsc18xLjIuMTIuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
-aWEvYWxzYS9hbHNhLXV0aWxzXzEuMi4xMS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2Fs
-c2EvYWxzYS11dGlsc18xLjIuMTIuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20g
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLXV0aWxzXzEuMi4xMS5iYgpyZW5hbWUg
-dG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLXV0aWxzXzEuMi4xMi5iYgppbmRl
-eCBlNTk4ZmFjOWY4Li4zNTQ0M2VjN2U3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGlt
-ZWRpYS9hbHNhL2Fsc2EtdXRpbHNfMS4yLjExLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1l
-ZGlhL2Fsc2EvYWxzYS11dGlsc18xLjIuMTIuYmIKQEAgLTI2LDcgKzI2LDcgQEAgUEFDS0FHRUNP
-TkZJR1ttYW5wYWdlc10gPSAiLS1lbmFibGUteG1sdG8sIC0tZGlzYWJsZS14bWx0bywgeG1sdG8t
-bmF0aXZlIGRvY2Jvb2sKICMgYWxzYS11dGlscyBzcGVjaWZpZWQgaW4gU1JDX1VSSSBkdWUgdG8g
-YWxzYS11dGlscy1zY3JpcHRzIHJlY2lwZQogU1JDX1VSSSA9ICJodHRwczovL3d3dy5hbHNhLXBy
-b2plY3Qub3JnL2ZpbGVzL3B1Yi91dGlscy9hbHNhLXV0aWxzLSR7UFZ9LnRhci5iejIgXAogICAg
-ICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOWFjNmNhM2E4ODNmMTUxZTU2OGRjZjk3
-OWI4ZDJlNWNiZWNjNTFiODE5YmIwZTZiYjhhMmU5YjM0Y2M0MjhhNyIKK1NSQ19VUklbc2hhMjU2
-c3VtXSA9ICI5OGJjNjY3N2QwYzAwNzQwMDY2NzkwNTE4MjIzMjRhMGFiMDg3OWFlYTU1OGE4ZjY4
-YjUxMTc4MGQzMGNkOTI0IgogCiAjIE9uIGJ1aWxkIG1hY2hpbmVzIHdpdGggcHl0aG9uLWRvY3V0
-aWxzIChub3QgcHl0aG9uMy1kb2N1dGlscyAhISkgaW5zdGFsbGVkCiAjIHJzdDJtYW4gKG5vdCBy
-c3QybWFuLnB5KSBpcyBkZXRlY3RlZCBhbmQgY29tcGlsZSBmYWlscyB3aXRoCi0tIAoyLjQ0LjAK
-Cg==
-
---===============6155033717448916496==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
+Running 'devtool upgrade' for recipe boost failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1867 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 916 .bb files complete (915 cached, 1 parsed). 1867 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -164,76 +68,251 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-16123bd3bb562aa8f070ef1c2a99d1d2adb78a5d"
+DISTRO_VERSION       = "5.0+snapshot-00bd18cc4f12ad417cec9ef6eb28b2c0c2b10793"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:16123bd3bb562aa8f070ef1c2a99d1d2adb78a5d"
+workspace            = "tmp-auh-upgrades:00bd18cc4f12ad417cec9ef6eb28b2c0c2b10793"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 309 Local 296 Mirrors 0 Missed 13 Current 512 (95% match, 98% complete)
-Removing 3 stale sstate objects for arch core2-64...done.
+Sstate summary: Wanted 4 Local 4 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 625 of 821 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 627 of 821 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_populate_lic_setscene: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe alsa-utils-1.2.12-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 821 of 821 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_recipe_qa_setscene)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1840 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_fetch)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_fetch: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_fetch: Succeeded
-NOTE: Running task 2178 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_unpack)
-NOTE: Running task 2179 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_prepare_recipe_sysroot)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_unpack: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_unpack: Succeeded
-NOTE: Running task 2258 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_patch)
-NOTE: Running task 2259 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_collect_spdx_deps)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_patch: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_collect_spdx_deps: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe alsa-utils-1.2.12-r0: task do_patch: Succeeded
-NOTE: recipe alsa-utils-1.2.12-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2261 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_configure)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_configure: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_configure: Succeeded
-NOTE: Running task 2263 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_compile)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_compile: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_compile: Succeeded
-NOTE: Running task 2264 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_install)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_install: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_install: Succeeded
-NOTE: Running task 2265 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_package)
-NOTE: Running task 2266 of 2277 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_populate_sysroot)
-NOTE: recipe alsa-utils-1.2.12-r0: task do_package: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_populate_sysroot: Started
-NOTE: recipe alsa-utils-1.2.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe alsa-utils-1.2.12-r0: task do_package: Failed
-NOTE: Tasks Summary: Attempted 2266 tasks of which 2256 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240815160819.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240815160819.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (0 cached, 917 parsed). 1868 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_package
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: alsa-utils-1.2.12-r0 do_package: QA Issue: alsa-utils: Files/directories were installed but not shipped in any package:
-  /usr/bin/aseqsend
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-alsa-utils: 1 installed and not shipped files. [installed-vs-shipped]
-ERROR: alsa-utils-1.2.12-r0 do_package: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/alsa-utils/1.2.12/temp/log.do_package.3434794
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-utils_1.2.12.bb:do_package) failed with exit code '1'
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-00bd18cc4f12ad417cec9ef6eb28b2c0c2b10793"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:00bd18cc4f12ad417cec9ef6eb28b2c0c2b10793"
 
---===============6155033717448916496==--
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-b03tce9e: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5tpprleu/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5tpprleu/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:01:09
+Adding changed files:   1% |                                    | ETA:  0:00:50
+Adding changed files:   1% |                                    | ETA:  0:00:43
+Adding changed files:   2% |                                    | ETA:  0:00:40
+Adding changed files:   2% |#                                   | ETA:  0:00:38
+Adding changed files:   3% |#                                   | ETA:  0:00:36
+Adding changed files:   3% |#                                   | ETA:  0:00:35
+Adding changed files:   4% |#                                   | ETA:  0:00:35
+Adding changed files:   5% |#                                   | ETA:  0:00:34
+Adding changed files:   5% |##                                  | ETA:  0:00:33
+Adding changed files:   6% |##                                  | ETA:  0:00:32
+Adding changed files:   6% |##                                  | ETA:  0:00:32
+Adding changed files:   7% |##                                  | ETA:  0:00:31
+Adding changed files:   7% |##                                  | ETA:  0:00:31
+Adding changed files:   8% |###                                 | ETA:  0:00:31
+Adding changed files:   8% |###                                 | ETA:  0:00:30
+Adding changed files:   9% |###                                 | ETA:  0:00:30
+Adding changed files:  10% |###                                 | ETA:  0:00:29
+Adding changed files:  10% |###                                 | ETA:  0:00:29
+Adding changed files:  11% |####                                | ETA:  0:00:29
+Adding changed files:  11% |####                                | ETA:  0:00:28
+Adding changed files:  12% |####                                | ETA:  0:00:28
+Adding changed files:  12% |####                                | ETA:  0:00:28
+Adding changed files:  13% |####                                | ETA:  0:00:27
+Adding changed files:  13% |#####                               | ETA:  0:00:27
+Adding changed files:  14% |#####                               | ETA:  0:00:27
+Adding changed files:  15% |#####                               | ETA:  0:00:27
+Adding changed files:  15% |#####                               | ETA:  0:00:27
+Adding changed files:  16% |#####                               | ETA:  0:00:26
+Adding changed files:  16% |######                              | ETA:  0:00:26
+Adding changed files:  17% |######                              | ETA:  0:00:26
+Adding changed files:  17% |######                              | ETA:  0:00:26
+Adding changed files:  18% |######                              | ETA:  0:00:26
+Adding changed files:  18% |######                              | ETA:  0:00:26
+Adding changed files:  19% |#######                             | ETA:  0:00:25
+Adding changed files:  20% |#######                             | ETA:  0:00:25
+Adding changed files:  20% |#######                             | ETA:  0:00:25
+Adding changed files:  21% |#######                             | ETA:  0:00:25
+Adding changed files:  21% |#######                             | ETA:  0:00:25
+Adding changed files:  22% |########                            | ETA:  0:00:24
+Adding changed files:  22% |########                            | ETA:  0:00:24
+Adding changed files:  23% |########                            | ETA:  0:00:24
+Adding changed files:  23% |########                            | ETA:  0:00:24
+Adding changed files:  24% |########                            | ETA:  0:00:24
+Adding changed files:  25% |#########                           | ETA:  0:00:23
+Adding changed files:  25% |#########                           | ETA:  0:00:23
+Adding changed files:  26% |#########                           | ETA:  0:00:23
+Adding changed files:  26% |#########                           | ETA:  0:00:23
+Adding changed files:  27% |#########                           | ETA:  0:00:23
+Adding changed files:  27% |##########                          | ETA:  0:00:23
+Adding changed files:  28% |##########                          | ETA:  0:00:22
+Adding changed files:  28% |##########                          | ETA:  0:00:22
+Adding changed files:  29% |##########                          | ETA:  0:00:22
+Adding changed files:  30% |##########                          | ETA:  0:00:22
+Adding changed files:  30% |###########                         | ETA:  0:00:22
+Adding changed files:  31% |###########                         | ETA:  0:00:22
+Adding changed files:  31% |###########                         | ETA:  0:00:22
+Adding changed files:  32% |###########                         | ETA:  0:00:21
+Adding changed files:  32% |###########                         | ETA:  0:00:21
+Adding changed files:  33% |############                        | ETA:  0:00:21
+Adding changed files:  33% |############                        | ETA:  0:00:21
+Adding changed files:  34% |############                        | ETA:  0:00:21
+Adding changed files:  35% |############                        | ETA:  0:00:21
+Adding changed files:  35% |############                        | ETA:  0:00:21
+Adding changed files:  36% |#############                       | ETA:  0:00:21
+Adding changed files:  36% |#############                       | ETA:  0:00:21
+Adding changed files:  37% |#############                       | ETA:  0:00:21
+Adding changed files:  37% |#############                       | ETA:  0:00:20
+Adding changed files:  38% |#############                       | ETA:  0:00:20
+Adding changed files:  38% |##############                      | ETA:  0:00:20
+Adding changed files:  39% |##############                      | ETA:  0:00:20
+Adding changed files:  40% |##############                      | ETA:  0:00:20
+Adding changed files:  40% |##############                      | ETA:  0:00:20
+Adding changed files:  41% |##############                      | ETA:  0:00:19
+Adding changed files:  41% |###############                     | ETA:  0:00:19
+Adding changed files:  42% |###############                     | ETA:  0:00:19
+Adding changed files:  42% |###############                     | ETA:  0:00:19
+Adding changed files:  43% |###############                     | ETA:  0:00:19
+Adding changed files:  43% |###############                     | ETA:  0:00:19
+Adding changed files:  44% |################                    | ETA:  0:00:18
+Adding changed files:  45% |################                    | ETA:  0:00:18
+Adding changed files:  45% |################                    | ETA:  0:00:18
+Adding changed files:  46% |################                    | ETA:  0:00:18
+Adding changed files:  46% |################                    | ETA:  0:00:18
+Adding changed files:  47% |#################                   | ETA:  0:00:18
+Adding changed files:  47% |#################                   | ETA:  0:00:17
+Adding changed files:  48% |#################                   | ETA:  0:00:17
+Adding changed files:  48% |#################                   | ETA:  0:00:17
+Adding changed files:  49% |#################                   | ETA:  0:00:17
+Adding changed files:  50% |##################                  | ETA:  0:00:17
+Adding changed files:  50% |##################                  | ETA:  0:00:16
+Adding changed files:  51% |##################                  | ETA:  0:00:16
+Adding changed files:  51% |##################                  | ETA:  0:00:16
+Adding changed files:  52% |##################                  | ETA:  0:00:16
+Adding changed files:  52% |###################                 | ETA:  0:00:16
+Adding changed files:  53% |###################                 | ETA:  0:00:16
+Adding changed files:  53% |###################                 | ETA:  0:00:15
+Adding changed files:  54% |###################                 | ETA:  0:00:15
+Adding changed files:  55% |###################                 | ETA:  0:00:15
+Adding changed files:  55% |####################                | ETA:  0:00:15
+Adding changed files:  56% |####################                | ETA:  0:00:15
+Adding changed files:  56% |####################                | ETA:  0:00:15
+Adding changed files:  57% |####################                | ETA:  0:00:14
+Adding changed files:  57% |####################                | ETA:  0:00:14
+Adding changed files:  58% |#####################               | ETA:  0:00:14
+Adding changed files:  58% |#####################               | ETA:  0:00:14
+Adding changed files:  59% |#####################               | ETA:  0:00:14
+Adding changed files:  60% |#####################               | ETA:  0:00:14
+Adding changed files:  60% |#####################               | ETA:  0:00:13
+Adding changed files:  61% |######################              | ETA:  0:00:13
+Adding changed files:  61% |######################              | ETA:  0:00:13
+Adding changed files:  62% |######################              | ETA:  0:00:13
+Adding changed files:  62% |######################              | ETA:  0:00:13
+Adding changed files:  63% |######################              | ETA:  0:00:12
+Adding changed files:  63% |#######################             | ETA:  0:00:12
+Adding changed files:  64% |#######################             | ETA:  0:00:12
+Adding changed files:  65% |#######################             | ETA:  0:00:12
+Adding changed files:  65% |#######################             | ETA:  0:00:12
+Adding changed files:  66% |#######################             | ETA:  0:00:12
+Adding changed files:  66% |########################            | ETA:  0:00:11
+Adding changed files:  67% |########################            | ETA:  0:00:11
+Adding changed files:  67% |########################            | ETA:  0:00:11
+Adding changed files:  68% |########################            | ETA:  0:00:11
+Adding changed files:  69% |########################            | ETA:  0:00:11
+Adding changed files:  69% |#########################           | ETA:  0:00:10
+Adding changed files:  70% |#########################           | ETA:  0:00:10
+Adding changed files:  70% |#########################           | ETA:  0:00:10
+Adding changed files:  71% |#########################           | ETA:  0:00:10
+Adding changed files:  71% |#########################           | ETA:  0:00:10
+Adding changed files:  72% |##########################          | ETA:  0:00:09
+Adding changed files:  72% |##########################          | ETA:  0:00:09
+Adding changed files:  73% |##########################          | ETA:  0:00:09
+Adding changed files:  74% |##########################          | ETA:  0:00:09
+Adding changed files:  74% |##########################          | ETA:  0:00:09
+Adding changed files:  75% |###########################         | ETA:  0:00:08
+Adding changed files:  75% |###########################         | ETA:  0:00:08
+Adding changed files:  76% |###########################         | ETA:  0:00:08
+Adding changed files:  76% |###########################         | ETA:  0:00:08
+Adding changed files:  77% |###########################         | ETA:  0:00:08
+Adding changed files:  77% |############################        | ETA:  0:00:07
+Adding changed files:  78% |############################        | ETA:  0:00:07
+Adding changed files:  79% |############################        | ETA:  0:00:07
+Adding changed files:  79% |############################        | ETA:  0:00:07
+Adding changed files:  80% |############################        | ETA:  0:00:07
+Adding changed files:  80% |#############################       | ETA:  0:00:07
+Adding changed files:  81% |#############################       | ETA:  0:00:06
+Adding changed files:  81% |#############################       | ETA:  0:00:06
+Adding changed files:  82% |#############################       | ETA:  0:00:06
+Adding changed files:  82% |#############################       | ETA:  0:00:06
+Adding changed files:  83% |##############################      | ETA:  0:00:06
+Adding changed files:  84% |##############################      | ETA:  0:00:05
+Adding changed files:  84% |##############################      | ETA:  0:00:05
+Adding changed files:  85% |##############################      | ETA:  0:00:05
+Adding changed files:  85% |##############################      | ETA:  0:00:05
+Adding changed files:  86% |###############################     | ETA:  0:00:05
+Adding changed files:  86% |###############################     | ETA:  0:00:04
+Adding changed files:  87% |###############################     | ETA:  0:00:04
+Adding changed files:  87% |###############################     | ETA:  0:00:04
+Adding changed files:  88% |###############################     | ETA:  0:00:04
+Adding changed files:  89% |################################    | ETA:  0:00:04
+Adding changed files:  89% |################################    | ETA:  0:00:03
+Adding changed files:  90% |################################    | ETA:  0:00:03
+Adding changed files:  90% |################################    | ETA:  0:00:03
+Adding changed files:  91% |################################    | ETA:  0:00:03
+Adding changed files:  91% |#################################   | ETA:  0:00:03
+Adding changed files:  92% |#################################   | ETA:  0:00:02
+Adding changed files:  92% |#################################   | ETA:  0:00:02
+Adding changed files:  93% |#################################   | ETA:  0:00:02
+Adding changed files:  94% |#################################   | ETA:  0:00:02
+Adding changed files:  94% |##################################  | ETA:  0:00:01
+Adding changed files:  95% |##################################  | ETA:  0:00:01
+Adding changed files:  95% |##################################  | ETA:  0:00:01
+Adding changed files:  96% |##################################  | ETA:  0:00:01
+Adding changed files:  96% |##################################  | ETA:  0:00:01
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:36
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://boostorg.jfrog.io/artifactory/main/release/1.86.0/source/boost_1_86_0.tar.bz2...
+INFO: Rebasing devtool onto 033b43f3e2e8b512849d26c1fde166517dd2e580
+WARNING: Command 'git rebase 033b43f3e2e8b512849d26c1fde166517dd2e580' failed:
+Auto-merging tools/build/src/tools/gcc.jam
+CONFLICT (content): Merge conflict in tools/build/src/tools/gcc.jam
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/boost
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/boost/boost_1.86.0.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============4878939825875195222==--
 
