@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 347CDC5AD49
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37669C5AE5A
 	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:07 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.131420.1723748334035722244
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.131098.1723748334324080335
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Aug 2024 11:58:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DbK64b5z;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=z0A/jG6l;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019157683aab-47dd5629-49c4-47cd-9955-201954231e52-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NKl7abBR;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GdI/8Dro;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010191576837fe-05afe9e8-eab7-4297-b5d2-f1a2a32c7b02-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1723748334;
+	t=1723748333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YHMvO4YArOdsBvtQFMPgrV2ccSkeASoN6MB/LAxenJw=;
-	b=DbK64b5z43b3g/dCvzxTE+rILEsNoXK/C34XT+8QYLJpdgZIMUxT0HaTTs8PMZ6T
-	Q225NDDbwxWYMfPe9vYg0H/RSW2yHCH1fQtbTB36DxqBSxmrNFqYvAQ42TMlXc4hBs0
-	TI+NXppnyzJy0p019UP8CDsWtJiSdyC9CgjCpgOE=
+	bh=Zx0dVD1QJmdhjJp2plkSeAM/bOtj56oW09Tm2srSMmE=;
+	b=NKl7abBR3ZO0JAbDgD2qoQrVh4neLCN4qQNF7Mv9nR7GdOoryNbRrfmyupTgn9z7
+	PAXWHXqqP9VpEvhUa+hmXuQsX74J9fr0+CV0HYKoJtgfMIyfHBb03+7WVVpdWS3Pnci
+	gW+vJbj3IUuCvSxq2cThAg9n9sgTSP9K4Swu6fRI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748334;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YHMvO4YArOdsBvtQFMPgrV2ccSkeASoN6MB/LAxenJw=;
-	b=z0A/jG6lVXbzKfKRn9kkdSe1Ww5Mp/mdM6j/uS81yLjxhd+qpu1FvtPOnv5JCpCA
-	vzGW+tfKKKvDeys2k/ScN4UxCV0gi4uRunzrqXrUOXGRaI6fESfbr6e2tXu9sU08n8v
-	JM4EjsuKrQav/d5sOwe+sh7d38vs3JcIp8niQAyo=
-Content-Type: multipart/mixed; boundary="===============3698973927360608747=="
+	bh=Zx0dVD1QJmdhjJp2plkSeAM/bOtj56oW09Tm2srSMmE=;
+	b=GdI/8DroIF1XH+MUQT4ozkuEnmpEl5O2jsuRuLf0FQhYPWHbSS57aw6J/Fv0QttT
+	pI2vhunWr3PI+YgeB7EgO310WYnB3M4bcwysiRIk1usEGIX7HoDDhc/NGlREhOGHZwo
+	GT5ZBDSjroP054OCn5d4l3PJgWDi35+3B/lU7S4I=
+Content-Type: multipart/mixed; boundary="===============0657093278657137785=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-more-itertools: upgrading to 10.4.0 SUCCEEDED
-Message-ID: <0101019157683aab-47dd5629-49c4-47cd-9955-201954231e52-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Aug 2024 18:58:54 +0000
+Subject: [AUH] git: upgrading to 2.46.0 FAILED
+Message-ID: <01010191576837fe-05afe9e8-eab7-4297-b5d2-f1a2a32c7b02-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Aug 2024 18:58:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.15-54.240.27.192
+X-SES-Outgoing: 2024.08.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203370
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203371
 
---===============3698973927360608747==
+--===============0657093278657137785==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,127 +51,100 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-more-itertools* to *10.4.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *git* to *2.46.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-more-itertools-upgrade-10.3.0-10.4.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe git failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1867 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-87eefc81a82bbb3edf89e9e3051f136372062e00"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:87eefc81a82bbb3edf89e9e3051f136372062e00"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 23 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (0 cached, 917 parsed). 1868 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-87eefc81a82bbb3edf89e9e3051f136372062e00"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:87eefc81a82bbb3edf89e9e3051f136372062e00"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-t4levasa: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-8xhi8kvf/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-8xhi8kvf/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  10% |###                                 | ETA:  0:00:01
+Adding changed files:  21% |#######                             | ETA:  0:00:01
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  43% |###############                     | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  65% |#######################             | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/software/scm/git/git-2.46.0.tar.gz;name=tarball...
+INFO: Rebasing devtool onto 88eb087eb4a80d00e0d5c3e8abce369c2c34ebcd
+WARNING: Command 'git rebase 88eb087eb4a80d00e0d5c3e8abce369c2c34ebcd' failed:
+Auto-merging config.mak.uname
+CONFLICT (content): Merge conflict in config.mak.uname
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since recipe inherits autotools-brokensep
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/git
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/git/git_2.46.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 15a1c4b4e81556848d6d3f5b48d2bc008bad6e99 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Aug 2024 11:47:57 +0000
-Subject: [PATCH] python3-more-itertools: upgrade 10.3.0 -> 10.4.0
-
----
- ...ore-itertools_10.3.0.bb => python3-more-itertools_10.4.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-more-itertools_10.3.0.bb => python3-more-itertools_10.4.0.bb} (87%)
-
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_10.3.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.4.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-more-itertools_10.3.0.bb
-rename to meta/recipes-devtools/python/python3-more-itertools_10.4.0.bb
-index c2c9e89a64..6451e3e23c 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_10.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_10.4.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
- 
--SRC_URI[sha256sum] = "e5d93ef411224fbcef366a6e8ddc4c5781bc6359d43412a65dd5964e46111463"
-+SRC_URI[sha256sum] = "fe0e63c4ab068eac62410ab05cccca2dc71ec44ba8ef29916a0090df061cf923"
- 
- inherit pypi python_flit_core ptest
- 
--- 
-2.44.0
-
-
---===============3698973927360608747==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-more-itertools-upgrade-10.3.0-10.4.0.patch"
-
-RnJvbSAxNWExYzRiNGU4MTU1Njg0OGQ2ZDNmNWI0OGQyYmMwMDhiYWQ2ZTk5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTE6NDc6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLW1vcmUtaXRlcnRvb2xzOiB1cGdyYWRlIDEwLjMuMCAtPiAxMC40LjAKCi0tLQogLi4u
-b3JlLWl0ZXJ0b29sc18xMC4zLjAuYmIgPT4gcHl0aG9uMy1tb3JlLWl0ZXJ0b29sc18xMC40LjAu
-YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1tb3JlLWl0ZXJ0
-b29sc18xMC4zLjAuYmIgPT4gcHl0aG9uMy1tb3JlLWl0ZXJ0b29sc18xMC40LjAuYmJ9ICg4NyUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1vcmUt
-aXRlcnRvb2xzXzEwLjMuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1tb3JlLWl0ZXJ0b29sc18xMC40LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1vcmUtaXRlcnRvb2xzXzEw
-LjMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1v
-cmUtaXRlcnRvb2xzXzEwLjQuMC5iYgppbmRleCBjMmM5ZTg5YTY0Li42NDUxZTNlMjNjIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbW9yZS1pdGVydG9v
-bHNfMTAuMy4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1t
-b3JlLWl0ZXJ0b29sc18xMC40LjAuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBz
-Oi8vZ2l0aHViLmNvbS9lcmlrcm9zZS9tb3JlLWl0ZXJ0b29scyIKIExJQ0VOU0UgPSAiTUlUIgog
-TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MzM5NmVhMzBmOWQyMTM4OWQ3
-ODU3NzE5ODE2ZjgzYjUiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlNWQ5M2VmNDExMjI0ZmJj
-ZWYzNjZhNmU4ZGRjNGM1NzgxYmM2MzU5ZDQzNDEyYTY1ZGQ1OTY0ZTQ2MTExNDYzIgorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gImZlMGU2M2M0YWIwNjhlYWM2MjQxMGFiMDVjY2NjYTJkYzcxZWM0NGJh
-OGVmMjk5MTZhMDA5MGRmMDYxY2Y5MjMiCiAKIGluaGVyaXQgcHlwaSBweXRob25fZmxpdF9jb3Jl
-IHB0ZXN0CiAKLS0gCjIuNDQuMAoK
-
---===============3698973927360608747==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-more-itertools (sysroot):
-  /usr/lib/python3.12/site-packages/more_itertools-10.3.0.dist-info moved to /usr/lib/python3.12/site-packages/more_itertools-10.4.0.dist-info
-
---===============3698973927360608747==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-more-itertools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-10.3.0.tar.gz;downloadfilename=more-itertools-10.3.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-10.4.0.tar.gz;downloadfilename=more-itertools-10.4.0.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-more-itertools: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dev: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dev: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-doc: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-doc: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-locale: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-locale: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGSIZE changed from 237461 to 241172 (+2%)
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-src: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-src: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools: PV changed from "10.3.0" to "10.4.0"
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools: PKGV changed from 10.3.0 [default] to 10.4.0 [default]
-packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools: PKGSIZE changed from 452335 to 468825 (+4%)
-Changes to packages/core2-64-poky-linux/python3-more-itertools (sysroot):
-  /usr/lib/python3.12/site-packages/more_itertools-10.3.0.dist-info moved to /usr/lib/python3.12/site-packages/more_itertools-10.4.0.dist-info
-
---===============3698973927360608747==--
+--===============0657093278657137785==--
 
