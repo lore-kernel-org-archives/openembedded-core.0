@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A99F4C54E83
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C56FEC54E8F
 	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 18:59:05 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.131416.1723748333739600321
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.131412.1723748333004023832
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 11:58:54 -0700
+ Thu, 15 Aug 2024 11:58:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NPYNXWzY;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3vx48grR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019157683b22-043780a8-c4bf-4e43-858d-18388a293676-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dKyizSEi;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=eX4IaADc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019157683e8b-a06c9cda-9e25-49f2-a859-b329c1044522-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1723748334;
+	t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uc1V8KMEm2mfjixOQfm0NVV/Xh0f7ZTufA7Oa87AX4w=;
-	b=NPYNXWzYqA7qiGxVYdGXO+PMuNVvAIw65bqSKlwEHy3YqNC+biQyaMXIWVbrINXf
-	WrC6I7+EBcxtNm3i0yfThTYSPCAfSzIuZ0hGTDIQ9hE23A6EvkCbzynqzELQVGd/+MR
-	ynjUPUARFvABd7JysGKhHuQqxr5ipYMzeceIU4+A=
+	bh=Lwqz6MSpSVsWXeQkw/Ml5xEulfIMNzUjw47hAB17dZw=;
+	b=dKyizSEiWMKyR2u06RmwujMGOBvktRkpu2+KDNiE7SUT/msICHZgw2UWII+jTlMb
+	mamchthoiLpSFB+kKnHLAqwvi/WDPGqBqGFUx8lGQPLc6jAENDv+rknkq4neKDYyrcx
+	PUDZ+XLX6lQ2j6bTDRvLxgt0tyF9JEMvs7K+F81g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748334;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1723748335;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uc1V8KMEm2mfjixOQfm0NVV/Xh0f7ZTufA7Oa87AX4w=;
-	b=3vx48grRlHngnnHwN7ebcodXgS0AMAg1rAbNkehukul4rDmA/33Rq+M1NeDdxCFZ
-	Nk6m+FDMLIqFvbJTOhiOVhU1pfG4znJ4YKUQekMU5BmwO19QMNoEoxqYf6pu0upIz7o
-	FopdM6iGoWymWw5JDo8mAl1azBcBIT/QcP9pj12I=
-Content-Type: multipart/mixed; boundary="===============1047096142196313320=="
+	bh=Lwqz6MSpSVsWXeQkw/Ml5xEulfIMNzUjw47hAB17dZw=;
+	b=eX4IaADcf2O7Y8RKJ7Q4XGTlQcaJM+8jF2/BJLbuWF1sez0KyBMZFy7sAzbMQFrX
+	2p7flkiHZqWFunDhg7MEMUx+WE6xZw9eUTxivX2MxHmTUtfHvvDjrrj1k6sZKWn6nce
+	LOLzwAsjbic6C/2XQbsSYJ6MMpPHFzydt52DyEUA=
+Content-Type: multipart/mixed; boundary="===============0989053312486640407=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Marta Rybczynska <mrybczynska@syslinbit.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-uritools: upgrading to 4.0.3 SUCCEEDED
-Message-ID: <0101019157683b22-043780a8-c4bf-4e43-858d-18388a293676-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Aug 2024 18:58:54 +0000
+Subject: [AUH] gstreamer1.0-libav: upgrading to 1.24.6 SUCCEEDED
+Message-ID: <0101019157683e8b-a06c9cda-9e25-49f2-a859-b329c1044522-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Aug 2024 18:58:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.15-54.240.27.31
+X-SES-Outgoing: 2024.08.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 18:59:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203381
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203430
 
---===============1047096142196313320==
+--===============0989053312486640407==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *4.0.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-libav* to *1.24.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-uritools-upgrade-4.0.2-4.0.3.patch
+    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.24.5-1.24.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,143 +72,93 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ebb98af08cc807110504670264750be3906cecfd Mon Sep 17 00:00:00 2001
+From 51c337cf7d49726beb433c427a18c8ad5ff7f1ee Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Aug 2024 12:18:07 +0000
-Subject: [PATCH] python3-uritools: upgrade 4.0.2 -> 4.0.3
+Date: Thu, 15 Aug 2024 16:21:49 +0000
+Subject: [PATCH] gstreamer1.0-libav: upgrade 1.24.5 -> 1.24.6
 
 ---
- ...ols_4.0.2.bb => python3-uritools_4.0.3.bb} | 25 +++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-uritools_4.0.2.bb => python3-uritools_4.0.3.bb} (31%)
+ ...streamer1.0-libav_1.24.5.bb => gstreamer1.0-libav_1.24.6.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.24.5.bb => gstreamer1.0-libav_1.24.6.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-uritools_4.0.2.bb b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-similarity index 31%
-rename from meta/recipes-devtools/python/python3-uritools_4.0.2.bb
-rename to meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-index 693d1974be..19bce7beea 100644
---- a/meta/recipes-devtools/python/python3-uritools_4.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
-@@ -1,10 +1,31 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,6 +1,6 @@
-+#  The MIT License (MIT)
-+#  
-+# -Copyright (c) 2014-2022 Thomas Kemmer
-+# +Copyright (c) 2014-2024 Thomas Kemmer
-+#  
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy of
-+#  this software and associated documentation files (the "Software"), to deal in
-+# 
-+#
-+
- SUMMARY = "URI parsing, classification and composition"
- HOMEPAGE = "https://github.com/tkem/uritools/"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
+index 24c6c792c5..7a72f9120e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=1ec55353c80c662e4255f8889a0ca558"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=539275e657c6b7af026bb908356f7541"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "7fd16bdfa56ed51c40b474648fc35c4edde3e8ac934b12b82b49727b5d703521"
++SRC_URI[sha256sum] = "4bbd08481a390f907e342aa3f25ab885c80ec0a53f3b14244cf733cc8622f2bf"
  
--SRC_URI[sha256sum] = "04df2b787d0eb76200e8319382a03562fbfe4741fd66c15506b08d3b8211d573"
-+SRC_URI[sha256sum] = "ee06a182a9c849464ce9d5fa917539aacc8edd2a4924d1b7aabeeecabcae3bc2"
- 
- SRC_URI += "file://run-ptest"
+ S = "${WORKDIR}/gst-libav-${PV}"
  
 -- 
 2.44.0
 
 
---===============1047096142196313320==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
-  /usr/lib/python3.12/site-packages/uritools-4.0.2.dist-info moved to /usr/lib/python3.12/site-packages/uritools-4.0.3.dist-info
-
---===============1047096142196313320==
+--===============0989053312486640407==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.2.tar.gz;downloadfilename=uritools-4.0.2.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.3.tar.gz;downloadfilename=uritools-4.0.3.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-uritools: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-ptest: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 44520 to 46844 (+5%)
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-ptest: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-packages/core2-64-poky-linux/python3-uritools/python3-uritools: PV changed from "4.0.2" to "4.0.3"
-packages/core2-64-poky-linux/python3-uritools/python3-uritools: PKGV changed from 4.0.2 [default] to 4.0.3 [default]
-Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
-  /usr/lib/python3.12/site-packages/uritools-4.0.2.dist-info moved to /usr/lib/python3.12/site-packages/uritools-4.0.3.dist-info
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGSIZE changed from 913048 to 905824 (-1%)
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PV changed from "1.24.5" to "1.24.6"
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PV changed from "1.24.5" to "1.24.6"
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PV changed from "1.24.5" to "1.24.6"
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PV changed from "1.24.5" to "1.24.6"
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGSIZE changed from 537167 to 534443 (-1%)
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PV changed from "1.24.5" to "1.24.6"
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PV changed from "1.24.5" to "1.24.6"
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PV changed from "1.24.5" to "1.24.6"
+packages/core2-64-poky-linux/gstreamer1.0-libav: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.24.5.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.24.6.tar.xz"
+packages/core2-64-poky-linux/gstreamer1.0-libav: PKGV changed from 1.24.5 [default] to 1.24.6 [default]
+packages/core2-64-poky-linux/gstreamer1.0-libav: PV changed from "1.24.5" to "1.24.6"
 
---===============1047096142196313320==
+--===============0989053312486640407==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-uritools-upgrade-4.0.2-4.0.3.patch"
+ filename="0001-gstreamer1.0-libav-upgrade-1.24.5-1.24.6.patch"
 
-RnJvbSBlYmI5OGFmMDhjYzgwNzExMDUwNDY3MDI2NDc1MGJlMzkwNmNlY2ZkIE1vbiBTZXAgMTcg
+RnJvbSA1MWMzMzdjZjdkNDk3MjZiZWI0MzNjNDI3YTE4YzhhZDVmZjdmMWVlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTI6MTg6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXVyaXRvb2xzOiB1cGdyYWRlIDQuMC4yIC0+IDQuMC4zCgotLS0KIC4uLm9sc180LjAu
-Mi5iYiA9PiBweXRob24zLXVyaXRvb2xzXzQuMC4zLmJifSB8IDI1ICsrKysrKysrKysrKysrKysr
-LS0KIDEgZmlsZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdXJpdG9vbHNfNC4wLjIu
-YmIgPT4gcHl0aG9uMy11cml0b29sc180LjAuMy5iYn0gKDMxJSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNC4wLjIuYmIgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNC4wLjMuYmIKc2ltaWxh
-cml0eSBpbmRleCAzMSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXVyaXRvb2xzXzQuMC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNC4wLjMuYmIKaW5kZXggNjkzZDE5NzRiZS4uMTliY2U3
-YmVlYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVy
-aXRvb2xzXzQuMC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My11cml0b29sc180LjAuMy5iYgpAQCAtMSwxMCArMSwzMSBAQAorIyBGSVhNRTogdGhlIExJQ19G
-SUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUn
-LgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQg
-dGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUg
-aWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVz
-c2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBk
-YXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMg
-LS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAgLTEsNiArMSw2IEBACisjICBUaGUgTUlU
-IExpY2Vuc2UgKE1JVCkKKyMgIAorIyAtQ29weXJpZ2h0IChjKSAyMDE0LTIwMjIgVGhvbWFzIEtl
-bW1lcgorIyArQ29weXJpZ2h0IChjKSAyMDE0LTIwMjQgVGhvbWFzIEtlbW1lcgorIyAgCisjICBQ
-ZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNv
-biBvYnRhaW5pbmcgYSBjb3B5IG9mCisjICB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRv
-Y3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwgdG8gZGVhbCBpbgorIyAKKyMKKwog
-U1VNTUFSWSA9ICJVUkkgcGFyc2luZywgY2xhc3NpZmljYXRpb24gYW5kIGNvbXBvc2l0aW9uIgog
-SE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL3RrZW0vdXJpdG9vbHMvIgogCiBMSUNFTlNF
-ID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTFlYzU1MzUz
-YzgwYzY2MmU0MjU1Zjg4ODlhMGNhNTU4IgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElD
-RU5TRTttZDU9NTM5Mjc1ZTY1N2M2YjdhZjAyNmJiOTA4MzU2Zjc1NDEiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICIwNGRmMmI3ODdkMGViNzYyMDBlODMxOTM4MmEwMzU2MmZiZmU0NzQxZmQ2NmMx
-NTUwNmIwOGQzYjgyMTFkNTczIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImVlMDZhMTgyYTljODQ5
-NDY0Y2U5ZDVmYTkxNzUzOWFhY2M4ZWRkMmE0OTI0ZDFiN2FhYmVlZWNhYmNhZTNiYzIiCiAKIFNS
-Q19VUkkgKz0gImZpbGU6Ly9ydW4tcHRlc3QiCiAKLS0gCjIuNDQuMAoK
+CkRhdGU6IFRodSwgMTUgQXVnIDIwMjQgMTY6MjE6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtbGliYXY6IHVwZ3JhZGUgMS4yNC41IC0+IDEuMjQuNgoKLS0tCiAuLi5zdHJl
+YW1lcjEuMC1saWJhdl8xLjI0LjUuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjQuNi5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1saWJh
+dl8xLjI0LjUuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjQuNi5iYn0gKDkxJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxp
+YmF2XzEuMjQuNS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtbGliYXZfMS4yNC42LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZfMS4yNC41
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
+MS4wLWxpYmF2XzEuMjQuNi5iYgppbmRleCAyNGM2Yzc5MmM1Li43YTcyZjkxMjBlIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxpYmF2
+XzEuMjQuNS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
+bWVyMS4wLWxpYmF2XzEuMjQuNi5iYgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9DT1BZSU5HO21kNT02OTMzM2RhYTA0NGNiNzdlNDg2Y2MzNjEyOWY3YTc3MCBc
+CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5m
+cmVlZGVza3RvcC5vcmcvc3JjL2dzdC1saWJhdi9nc3QtbGliYXYtJHtQVn0udGFyLnh6IgotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjdmZDE2YmRmYTU2ZWQ1MWM0MGI0NzQ2NDhmYzM1YzRlZGRlM2U4
+YWM5MzRiMTJiODJiNDk3MjdiNWQ3MDM1MjEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNGJiZDA4
+NDgxYTM5MGY5MDdlMzQyYWEzZjI1YWI4ODVjODBlYzBhNTNmM2IxNDI0NGNmNzMzY2M4NjIyZjJi
+ZiIKIAogUyA9ICIke1dPUktESVJ9L2dzdC1saWJhdi0ke1BWfSIKIAotLSAKMi40NC4wCgo=
 
---===============1047096142196313320==--
+--===============0989053312486640407==--
 
