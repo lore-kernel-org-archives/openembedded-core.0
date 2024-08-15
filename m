@@ -1,314 +1,89 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1632C3DA7F
-	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 13:21:49 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
- by mx.groups.io with SMTP id smtpd.web11.123165.1723728108777059259
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61FDC52D7C
+	for <webhook@archiver.kernel.org>; Thu, 15 Aug 2024 13:36:59 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.123307.1723729013738315581
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 06:21:49 -0700
+ Thu, 15 Aug 2024 06:36:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=oxRsym2l;
- spf=pass (domain: baylibre.com, ip: 209.85.128.169, mailfrom: tgamblin@baylibre.com)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-690aabe2600so8975197b3.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 06:21:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EJfmVxr8;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a8374e6a6fbso128734066b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 06:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723728108; x=1724332908; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h1oXHqONX9VVNVqxr296mbOY+DKHbtugCARw8AiF9oQ=;
-        b=oxRsym2lKxm8lIwbhx9s3p43PcNgtH5m5zWdUh1gOk147JBXImoQfIHJgJb4FlHteA
-         CSZZsHRarrix9x9+0pRrxBe+S17+zR4MXz/nsdXCL142QLCvDv1miKgrCwmIcsFbVWz2
-         FU+kRIarCVvzgTakBLT5R7PHYpvmARyb2ozbKT3/Hl4fU4vp9XiRefLYxA97+Ba9c+DO
-         ySFHbHinUUFJ6DkaJm7O9JVuJFDB9+2n8wPSQkCfKJkH1kMk18Lgo4GVSv5uykLff3ME
-         n+8Sdtl51/SfnMUcSJUSKlUilOE313/Ni3UIXSAt9Np/HKDk9bBETLXvRjFq9i6ffCEo
-         9gxw==
+        d=gmail.com; s=20230601; t=1723729012; x=1724333812; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XARHJhsDrP7k+Xku+uYWdw8BZq2uy4oavaGFLp0vSlM=;
+        b=EJfmVxr8PF8Q4ti0DiredF53G9pby8XC3fLFVEKloEaW7AeF09wXFJlnO3qWV+x12v
+         Li/4Jfl9keZWSK+Ymogadf9ccyfHPu+xwaoFhT8H2i0hzjhZoWZVkbRqd6f3+8B8z+RR
+         wMhpDAmZWdYhlQLGodelD6vcLtJa2IhevhFnc1znbB2+Dk3pM6fVCaqejXzZPJnMHj9p
+         UrfGHu0X1+1xpX5WJSczt9joFJAvVOU/5APrM/4Sd/X250A4m75BvpRAQl5qLDbi/sd5
+         KfTdF5RmC5KZUpNBMVm2mLbMyVjGdEcR9JnjE+PZ9Uk+KaZtRvAB9DwdqYoD5XGkCwRY
+         Ssvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723728108; x=1724332908;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1oXHqONX9VVNVqxr296mbOY+DKHbtugCARw8AiF9oQ=;
-        b=pN5d9AbSws76DlT4wz1D1NBBmIm4tTLYx0MrRLhrRVRj5/Icyr7ImYRzJt4kZaTZnx
-         MwaUhBBaEdSg8TUGmAxPZa/OHnfxWmhZ2LarndF73sZOUZ/rR9m1kbSZSUnSgF0yLKns
-         20qkQpIXd1t7NiakZVwp2JmuqitAdn1nF4p3tRs6ozI1aC9PbiExME47N+zpKeGl2tir
-         scpXCNwRjRiuQpHYJJH9af65Hi07vXomVygzRk8I385LwAxY5lvG52iX3ACfEDwf0mhH
-         QYwS6jVF3TMKtGMdUwgXtJcN/m9kH/MQjKcMseYOIaB004M4VV0Jw5IOxvx5J0xgUPyq
-         acmw==
-X-Gm-Message-State: AOJu0YzowUYSYbNH8HVALb90oJECrCSsEH+d5425PvlC2DMQrrf7N5qQ
-	/5niQrasiu+umUqZ3jqAFtxZhDJ3k7AMfiRwjBJp67Ak6S6UT4BKzSnSbH16u2E=
-X-Google-Smtp-Source: AGHT+IHKVWOKkvmKhD8BqTZBhvllNm+ySzLyfO4bb9Jz+NbG6oSm18v5M5lqgs35/vof82MNuVn+/w==
-X-Received: by 2002:a05:690c:6bc4:b0:6ae:34f0:8837 with SMTP id 00721157ae682-6ae34f08d0bmr57720427b3.39.1723728107482;
-        Thu, 15 Aug 2024 06:21:47 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4ff055c00sm62694185a.53.2024.08.15.06.21.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Aug 2024 06:21:46 -0700 (PDT)
-Message-ID: <25a3a598-148f-42b4-bda8-5851a2f3bd39@baylibre.com>
-Date: Thu, 15 Aug 2024 09:21:45 -0400
+        d=1e100.net; s=20230601; t=1723729012; x=1724333812;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XARHJhsDrP7k+Xku+uYWdw8BZq2uy4oavaGFLp0vSlM=;
+        b=W23WmaeUWXEz8viQlPUF4FJSQdoXq5kYVXAq9WBpcdb/Bdr0kQHks1VUDgwwGHVAgP
+         z9LZkkBbmfsIY1PPbQMt9kh+0El/6Lg8qMJQImpKh5DgvTOOtilEsKSGmevtsbP//S07
+         C0GH4h2+3xxWYvfAWI1PUHKgz4crgeQLyfdG5AvJ7VOD9cbKANAJ0Qf4bRuEInS8cOI1
+         DVI2/OFngWUZ62YNYR0uWFXqIDgUK/HK6HB4kOR2GjpC8mSkeG3AOT3aKjsUW8b4rAdT
+         gtLuCTYoPZPrpO6LaxQNWlOqvBenUcmXCdZm6Uzq56tIeNDou+Q+4aTRMVsc1mnomQYK
+         NE2g==
+X-Gm-Message-State: AOJu0YwrCU+x8LqovP4yFovZYR089HlXeVGhXjr9Epu3rYdxtYfzHlKH
+	bXoJaD/tZDxWHjn3altR9RENBUkm3nA5Xjq23Td6QGqoFl94MrNMk0eqkg==
+X-Google-Smtp-Source: AGHT+IEzEx4QOCb1ibT3yL+MuWJjs8/EDjY+JEnUvAJ1gGpSbUN5hF2NogYi7uRmGbV9NLjN2BDm9w==
+X-Received: by 2002:a17:907:e204:b0:a7a:bad3:e5b9 with SMTP id a640c23a62f3a-a8366c11336mr407186866b.11.1723729011548;
+        Thu, 15 Aug 2024 06:36:51 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838c70afsm104856466b.15.2024.08.15.06.36.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Aug 2024 06:36:51 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] meta-world-pkgdata: Inherit nopackages
+Date: Thu, 15 Aug 2024 15:36:43 +0200
+Message-ID: <20240815133643.4077749-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH 2/2] piglit: upgrade 22eaf6a91c -> c11c9374c1
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20240812182009.1132616-1-tgamblin@baylibre.com>
- <20240812182009.1132616-2-tgamblin@baylibre.com>
- <20240814224842a81969dd@mail.local>
- <d5f57ea7-0599-4a68-ab40-e8ba05ef45bb@baylibre.com>
- <202408150622208148e989@mail.local>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <202408150622208148e989@mail.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 13:21:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203337
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 13:36:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203338
 
+Since this is a recipe with PACKAGES = "", inherit the nopackages
+class to skip the various packaging functions which wouldn't do anything anyway.
 
-On 2024-08-15 2:22 a.m., Alexandre Belloni wrote:
-> On 14/08/2024 21:22:11-0400, Trevor Gamblin wrote:
->> On 2024-08-14 6:48 p.m., Alexandre Belloni wrote:
->>> Hello,
->>>
->>> This fails to build:
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/5190/steps/12/logs/stdio
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/9375/steps/11/logs/stdio
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/9387/steps/11/logs/stdio
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/9207/steps/11/logs/stdio
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/6285/steps/11/logs/stdio
->>>
->>> and configure:
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9360/steps/11/logs/errors
->> Is that with the python3-numpy upgrade as well? I see it in your master-next
->> branch.
-> Yes, as the commit log said it was fixing issues with it.
-Haven't been able to reproduce it locally yet. Tried lib32 for 
-qemux86-64 and qemux86, along with musl. Still trying...
->
->>>
->>>
->>> On 12/08/2024 14:20:09-0400, Trevor Gamblin wrote:
->>>> Commit 766669895d fixes builds with numpy 2.x.
->>>>
->>>> Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
->>>> because it is now upstream in commit 9c941dfc36.
->>>>
->>>> Changelog:
->>>>
->>>> c11c9374c (HEAD -> main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
->>>> f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
->>>> 045343687 arb_gpu_shader5: add linker version of function overloads test
->>>> 4b1116f3a arb_bindless_texture: add another function param bindless test
->>>> 4a62c2672 glsl: test function linking with implicit param conversions
->>>> 9f280db77 arb_bindless_texture: add basic function param bindless tests
->>>> 766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
->>>> 5214915dc generated_tests: print mako exceptions
->>>> 41bd119f2 arb_texture_buffer_object: don't leak src strings
->>>> 582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
->>>> 647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
->>>> dee2a233f perf: port glsl-compile-time perf-test from mesa demos
->>>> 18333c568 perf: port vertexrate perf-test from mesa demos
->>>> e932fa2f5 perf: port vbo perf-test from mesa demos
->>>> f9cf4788a perf: port teximage perf-test from mesa demos
->>>> 20ccc1c10 perf: port readpixels perf-test from mesa demos
->>>> 556a9c96d perf: port genmipmap perf-test from mesa demos
->>>> 225b6bfb6 perf: port fill perf-test from mesa demos
->>>> dae4a13f9 perf: port fbobind perf-test from mesa demos
->>>> cd0f812b3 perf: port copytex perf-test from mesa demos
->>>> fdf3fc09d cl: add missing errors
->>>> 01b64dd06 glsl-1.10: test a complex partial unroll scenario
->>>> cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
->>>> 30d34daf7 glsl-bug-110796: distinguish which context creation failed
->>>> 3ea14414a Sync .mailmap from Mesa
->>>> 7accec34a glsl-bug-110796: check for GL ES 3.2 support
->>>> 12ebd71c7 egl-terminate-then-unbind-context: simplify
->>>> 69bc38a77 egl_khr_create_context: improve skip reporting
->>>> 209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
->>>> 800abe232 arb_blend_func_extended: gles: follow the specification requirements
->>>> 1cad6ee20 arb_texture_multisample: require geometry shaders
->>>> 59bdc8c4e egl: missing EGLconfig isn't stderr material
->>>> cee2190b5 ext_external_objects: avoid stderr when we skip the test
->>>> 8cbefab52 util: remove handwritten defines and drop FIXME
->>>> 11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
->>>> e180f9623 Use GBM_LDFLAGS to get all options
->>>> 3bddb36e8 fix vk_vert_buf_reuse cleanup
->>>> 8f6e71975 arb_texture_view: test for NaN in more cases
->>>> 446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
->>>> 8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
->>>> 8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
->>>> 7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
->>>> 3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
->>>> 759cc6454 clear-stencil: new test to check for problems clearing stencils
->>>> 2c64a91bb read_depth_offset: new test to check depth offset calculation
->>>> 869a1b6e8 replayer: create bin/ everytime
->>>> 9be2db198 Reduce precision in depth clear precision check
->>>> 7f40f35a3 Add float from half function
->>>> f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
->>>> fd4a6c521 wayland: Add Wayland dmabuf driver-name test
->>>> df0d0ae79 conversion-explicit: use a different value for normalized +/- min
->>>> a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
->>>> 67b89b3e3 README: recommend Ninja by default and switch to cmake --build
->>>> efd111853 cmake: build is compatible up to 3.28
->>>> e84aca9b5 cmake: add workaround for CMP0148
->>>> 2e70ca91e README: ccmake is not that common, regular cmake is enough to build
->>>> e39ba99e5 README: update requirements
->>>> d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
->>>> 938a9dc9f cmake: remove this 12 years old workaround taking too many lines
->>>> 7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
->>>> cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
->>>> 4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
->>>> a222d50bb cmake: implement GBM and Wayland controls
->>>> 4230c7e9f cmake: fix unusually formated statement
->>>> d958b70d1 cmake: implement X11 option (required for GLX)
->>>> 4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
->>>> 44e1c29bf cmake: move first batch of option() at the beggining of the file
->>>> 96241ea22 cmake: rename default values with prefix DEFAULT_
->>>> 21374d8d3 cmake: move defaults into the per-platform section
->>>> 86d3f1132 cmake: predefine defaults depending on the system
->>>> 381221a81 cmake: drop unused CMP0042 policy
->>>> 99eade7cd cmake: respect indentation
->>>> dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
->>>> 025e462ae util: fix multisample_texture_fs_template
->>>> f9e26b98b tests: add a test for GL_APPLE_sync
->>>> b24c834d9 ci: codespell ignore list is lowercase
->>>> 0a842edd0 more spelling fixes accross the whole codebase
->>>> 2c473ea73 ci: bump distribution tag
->>>> 7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
->>>> 19e58247e ext_texture_storage: Fix memory leak on error path
->>>> d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
->>>> 74064b1d4 arb_clear_texture: only test float depth textures when supported
->>>> 9c941dfc3 properly check for libgen.h
->>>> c55e22a5c arb_copy_image-formats: avoid undefined behavior
->>>> 537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
->>>> b32186ee5 README: add Vulkan into the generic description
->>>> 1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
->>>> 62938a9bc tests: Fix cl test program@execute@builtin@builtin-float-degrees-1.0.generated issue about tolerance.
->>>>
->>>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
->>>> ---
->>>>    ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
->>>>    meta/recipes-graphics/piglit/piglit_git.bb    |  3 +-
->>>>    2 files changed, 1 insertion(+), 85 deletions(-)
->>>>    delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
->>>>
->>>> diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
->>>> deleted file mode 100644
->>>> index 2875dd52ec..0000000000
->>>> --- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
->>>> +++ /dev/null
->>>> @@ -1,83 +0,0 @@
->>>> -From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
->>>> -From: Erik Faye-Lund <erik.faye-lund@collabora.com>
->>>> -Date: Tue, 19 Mar 2024 16:34:02 +0100
->>>> -Subject: [PATCH] properly check for libgen.h
->>>> -
->>>> -Some users are reporting that basename is not available when building on
->>>> -Linux with musl libc. And since the POSIX spec[1] says that basename is
->>>> -defined in libgen.h, we should include that when available.
->>>> -
->>>> -So let's properly detect the header, and include it if it exists. This
->>>> -should hopefully make things a bit more robust.
->>>> -
->>>> -Since we're also including this from the CL program-tester, let's
->>>> -rearrange the includes a bit so we know that config.h has been included.
->>>> -
->>>> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
->>>> -Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
->>>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ----
->>>> - CMakeLists.txt                    | 1 +
->>>> - tests/cl/program/program-tester.c | 5 ++++-
->>>> - tests/util/config.h.in            | 1 +
->>>> - tests/util/piglit-util.h          | 4 ++--
->>>> - 4 files changed, 8 insertions(+), 3 deletions(-)
->>>> -
->>>> -diff --git a/CMakeLists.txt b/CMakeLists.txt
->>>> -index dd2bf67125..5563fe0e20 100644
->>>> ---- a/CMakeLists.txt
->>>> -+++ b/CMakeLists.txt
->>>> -@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
->>>> - check_include_file(fcntl.h     HAVE_FCNTL_H)
->>>> - check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
->>>> - check_include_file(endian.h    HAVE_ENDIAN_H)
->>>> -+check_include_file(libgen.h    HAVE_LIBGEN_H)
->>>> -
->>>> - if(DEFINED PIGLIT_INSTALL_VERSION)
->>>> - 	set(PIGLIT_INSTALL_VERSION_SUFFIX
->>>> -diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
->>>> -index 97fe64906d..e47fb5aacc 100644
->>>> ---- a/tests/cl/program/program-tester.c
->>>> -+++ b/tests/cl/program/program-tester.c
->>>> -@@ -31,10 +31,13 @@
->>>> - #include <inttypes.h>
->>>> - #include <math.h>
->>>> - #include <regex.h>
->>>> --#include <libgen.h>
->>>> -
->>>> - #include "piglit-framework-cl-program.h"
->>>> -
->>>> -+#ifdef HAVE_LIBGEN_H
->>>> -+#include <libgen.h>
->>>> -+#endif
->>>> -+
->>>> - /* Regexes */
->>>> -
->>>> - /*
->>>> -diff --git a/tests/util/config.h.in b/tests/util/config.h.in
->>>> -index 8ed5af1709..437eb91418 100644
->>>> ---- a/tests/util/config.h.in
->>>> -+++ b/tests/util/config.h.in
->>>> -@@ -16,3 +16,4 @@
->>>> - #cmakedefine HAVE_SYS_RESOURCE_H 1
->>>> - #cmakedefine HAVE_UNISTD_H 1
->>>> - #cmakedefine HAVE_ENDIAN_H 1
->>>> -+#cmakedefine HAVE_LIBGEN_H 1
->>>> -diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
->>>> -index 4d3606c708..de999980b6 100644
->>>> ---- a/tests/util/piglit-util.h
->>>> -+++ b/tests/util/piglit-util.h
->>>> -@@ -52,8 +52,8 @@ extern "C" {
->>>> - #include <math.h>
->>>> - #include <float.h>
->>>> -
->>>> --#if defined(__APPLE__) || defined(__MINGW32__)
->>>> --#  include "libgen.h" // for basename
->>>> -+#ifdef HAVE_LIBGEN_H
->>>> -+#  include <libgen.h> // for basename
->>>> - #elif defined(_MSC_VER)
->>>> -
->>>> - static inline char *
->>>> ---
->>>> -GitLab
->>>> -
->>>> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
->>>> index 99d75e64f8..98cad94368 100644
->>>> --- a/meta/recipes-graphics/piglit/piglit_git.bb
->>>> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
->>>> @@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
->>>>               file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
->>>>               file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
->>>>               file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
->>>> -           file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch \
->>>>               "
->>>>    UPSTREAM_CHECK_COMMITS = "1"
->>>> -SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
->>>> +SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
->>>>    # (when PV goes above 1.0 remove the trailing r)
->>>>    PV = "1.0+gitr"
->>>> -- 
->>>> 2.39.2
->>>>
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>> Links: You receive all messages sent to this group.
->>>> View/Reply Online (#203232): https://lists.openembedded.org/g/openembedded-core/message/203232
->>>> Mute This Topic: https://lists.openembedded.org/mt/107862182/3617179
->>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>
+This fixes errors from buildhistory changes where packages-split would be empty.
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/recipes-core/meta/meta-world-pkgdata.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/meta/meta-world-pkgdata.bb b/meta/recipes-core/meta/meta-world-pkgdata.bb
+index 244175ddd4..1bfaf2c1e3 100644
+--- a/meta/recipes-core/meta/meta-world-pkgdata.bb
++++ b/meta/recipes-core/meta/meta-world-pkgdata.bb
+@@ -27,7 +27,7 @@ python do_collect_packagedata() {
+     oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
+ }
+ 
+-inherit nospdx
++inherit nospdx nopackages
+ deltask do_fetch
+ deltask do_unpack
+ deltask do_patch
+-- 
+2.46.0
+
 
