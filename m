@@ -1,96 +1,116 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C32C3DA4A
-	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 19:38:17 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.156370.1723837086207292705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C83F8C52D7D
+	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 21:47:47 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.159245.1723844865285185452
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Aug 2024 12:38:06 -0700
+ Fri, 16 Aug 2024 14:47:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Niv+zzWL;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7d2a9a23d9so282002066b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 12:38:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CcBFjpr9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-428243f928fso24714585e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 14:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723837084; x=1724441884; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vqY5/MGb6snRHqgfKq765CwHsdU9bv9Exabu+KdJ6BI=;
-        b=Niv+zzWL44+i2QWgYYOaBYn7bR/T0cOG80GwoIezc7K+l9bg9wJHEaRua8jm1/Zj+Q
-         uUay1b/wEUCXoHmNISGsALY9hGMGuq5VgvUiyvakxb1ftB1FiuvJi2q+fRM8lNjTs+Ca
-         nYUt6OZuVlZXP+Q099jRVFLQtEWu6p6+jXtSuVrye91//cXvJrdri6YTYodgPST6QEJO
-         5pR9/zdioHJDvzCZrBfE4o78G6rwwZjLb8l/gzDN9EEtFW8KbUagI9psrQckhPyWJ2wo
-         CWadZFrGzwxg148NFp/nnTdRKoMZrU7bM1hhf4v8oFM/jJ+H+jDY982plOoy4x3IoVxD
-         xDSQ==
+        d=linuxfoundation.org; s=google; t=1723844864; x=1724449664; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=44y5cpurkIC6cQ1IXUmttBJSfLIPtfiuLR4RsNtaHHs=;
+        b=CcBFjpr9X3iLtYpZlU+p4hFyEkr+QUL6qLneYXqc7tSOpu7k8cFaGzr2bBKriEvRa6
+         VCToCWsnijcTgqD8MVzpjitMjipJUPPE6c+cfloTJqCZy0w2Bv3oQMGQ2cFIJECrGgrC
+         aGtGkS9/fLjnwwzgUYnlUKKO8tmH5LFJds204=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723837084; x=1724441884;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vqY5/MGb6snRHqgfKq765CwHsdU9bv9Exabu+KdJ6BI=;
-        b=e5cziOADx2MO9w2fLJ+Sig9rfFGDoQ/vraMqzwMtbcceQ2y+8AEkg7NgrjrEzrPztW
-         gbm2Zv2E/BLPTijFu5B2eOtc6vkT56xipRjiYpI8+263y5nE05Ga9ffgyjnvXz/NqTKD
-         gLp4yAV1h4aDBq80Hf0pRvx+/IiKWJaAG8EZczHN1ZSqEvJ6Va6yQWRpEiFHjsbJZwkR
-         bu2CB1OzrKIDN7/YvPTMEJV3UxuvYdpyhVPDoX4nPxZCXcp/ynvQaISC9laXS6pc7/Ra
-         ASLevQy4ZXRWQBKxkVheU7AzPzGRifMeJ5JOWCb9+cpOMe39CGeTGLoHgEyF0NoSx6AP
-         iUBA==
-X-Gm-Message-State: AOJu0YyoInDZJt8ycIVSuwAfF09vMOEgJFZFWh0mq4bFishmsfiP1lwT
-	fkUInBRTvu5tePcnD0HrrjdYm6uSpIjw2c8IzSQed7XXQ+BVs+DI4oZdyQ==
-X-Google-Smtp-Source: AGHT+IGBasFPK7LgPsF4ojR0Q5+2mUSCDagoQTrI6stxnWnWTTtLUVcnDGYIgE4XxMLklVD/HVyyUA==
-X-Received: by 2002:a17:907:d3de:b0:a7a:a2e3:3734 with SMTP id a640c23a62f3a-a8392933639mr278914066b.28.1723837083790;
-        Fri, 16 Aug 2024 12:38:03 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8383935710sm294760766b.129.2024.08.16.12.38.03
+        d=1e100.net; s=20230601; t=1723844864; x=1724449664;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=44y5cpurkIC6cQ1IXUmttBJSfLIPtfiuLR4RsNtaHHs=;
+        b=JI8WQdh32mGgy4OVdKegR+o8/WX3R7HtkCF2JQFMCtMPDpbU4MOeOoKM4Uk1rG8O6K
+         ARfpYOpFfnJY9wNM4UE6uSifybdYyNh//l/M0QOJymS/a40Vev7MjwpKdr9UbpG8F/8U
+         Ip4el1K60aI0lqJLs+KSoOIsrzXGwp3zCr5r/tA97fc8sjhWwF1sGqlFNFv3FfBcPIEe
+         p+uGLcoTP3YQgDUjXISQUS7tYwck+cdZMhG9/2DD8M9E9441UsHQmF42QA4aOoIh2/iL
+         zC0he2nbHWdxUHynI+xy1rJIIrIDmCh5xcJOawg2vbf+Ui+SxtLcwpWI4Zb0gNtRnvgW
+         9t3g==
+X-Forwarded-Encrypted: i=1; AJvYcCVqp7woNmL6PkBxCMrT8/eDEziXenn7pz7BUE8CYOCO/jjkU4H16Vm/TpL9r9iNQHJ4bGHJSo5M0/PLZVOw2GWupNUsHS0FGD2aeVk90htvYg7OHrWPFWat
+X-Gm-Message-State: AOJu0Yxolyr7XCV7vxdtfRtUO335B20bcfj3WN9+3onL2b9v/3OPbmh4
+	ZrFceWzMh2laVltvLlCxtrpNPTFfi0dGV1tMeuLCMO8vx6sY00592QFJTNxQKETzweR+NeX6qyv
+	m3dE=
+X-Google-Smtp-Source: AGHT+IHk+dECQnQoSw8MY9VpH3buewYDSmYuo2jywlAJZIJT0d9SLaTIfvn/l0oJgi1qxvT3Zf4woA==
+X-Received: by 2002:a05:600c:1d05:b0:426:6ed5:fcb with SMTP id 5b1f17b1804b1-429ed78409bmr35168085e9.4.1723844863503;
+        Fri, 16 Aug 2024 14:47:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3e75:5a87:4426:a5fd? ([2001:8b0:aba:5f3c:3e75:5a87:4426:a5fd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed65079fsm32672715e9.16.2024.08.16.14.47.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 12:38:03 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] populate_sdk_base: inherit nopackages
-Date: Fri, 16 Aug 2024 21:37:52 +0200
-Message-ID: <20240816193752.995911-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        Fri, 16 Aug 2024 14:47:43 -0700 (PDT)
+Message-ID: <06f400db1cfee385b6f5b0ef384fe212e5c32c1d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] makedevs: Fix matching uid/gid
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: jaeyoon.jung@lge.com, openembedded-core@lists.openembedded.org
+Date: Fri, 16 Aug 2024 22:47:40 +0100
+In-Reply-To: <20240814025507.2284408-1-jaeyoon.jung@lge.com>
+References: <20240814025507.2284408-1-jaeyoon.jung@lge.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 19:38:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203474
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 21:47:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203475
 
-Since this bbclass sets PACKAGES = "", inherit the nopackages
-class to skip the various packaging functions which wouldn't
-do anything anyway.
+On Wed, 2024-08-14 at 11:55 +0900, Jaeyoon Jung (LGE) via lists.openembedde=
+d.org wrote:
+> From: Jaeyoon Jung <jaeyoon.jung@lge.com>
+>=20
+> Use strcmp over strncmp to exact-match uid or gids. Otherwise it may end
+> up with returning a wrong id that matches partially.
+>=20
+> Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
+> ---
+> =C2=A0meta/recipes-devtools/makedevs/makedevs/makedevs.c | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/makedevs/makedevs/makedevs.c b/meta/re=
+cipes-devtools/makedevs/makedevs/makedevs.c
+> index 2254b54891..84b38d2b74 100644
+> --- a/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+> +++ b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+> @@ -202,7 +202,7 @@ static unsigned long convert2guid(char *id_buf, struc=
+t name_id *search_list)
+> =C2=A0		// Check for bad user/group name
+> =C2=A0		node =3D search_list;
+> =C2=A0		while (node !=3D NULL) {
+> -			if (!strncmp(node->name, id_buf, strlen(id_buf))) {
+> +			if (!strcmp(node->name, id_buf)) {
+> =C2=A0				fprintf(stderr, "WARNING: Bad user/group name %s detected\n", i=
+d_buf);
+> =C2=A0				break;
+> =C2=A0			}
+> @@ -212,7 +212,7 @@ static unsigned long convert2guid(char *id_buf, struc=
+t name_id *search_list)
+> =C2=A0	} else {
+> =C2=A0		node =3D search_list;
+> =C2=A0		while (node !=3D NULL) {
+> -			if (!strncmp(node->name, id_buf, strlen(id_buf)))
+> +			if (!strcmp(node->name, id_buf))
+> =C2=A0				return node->id;
+> =C2=A0			node =3D node->next;
+> =C2=A0		}
 
-This fixes errors from buildhistory changes where packages-split would be empty.
+I'm afraid I don't understand the problem here. If partial matching is
+occurring, doesn't that mean MAX_ID_LEN is wrong?
 
-e.g. meta-toolchain build now fails with:
-| DEBUG: Executing shell function buildhistory_list_pkg_files
-| find: ".../meta-toolchain/1.0/packages-split/*": No such file or directory
-| WARNING: exit code 1 from a shell command.
-| DEBUG: Python function buildhistory_emit_pkghistory finished
+If we drop the strncmp() here, that appears to put us at risk of buffer
+overflow problems, particularly if MAX_ID_LEN is too short?
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- meta/classes-recipe/populate_sdk_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can you give an example of how this is failing and where the above
+change helps?
 
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 2f6e7b4076..16013d5872 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -13,7 +13,7 @@ PACKAGES = ""
- # SDK processing context.  This class happens to be common to these usages.
- SPDX_MULTILIB_SSTATE_ARCHS = "${@all_multilib_tune_values(d, 'SSTATE_ARCHS')}"
- 
--inherit image-postinst-intercepts image-artifact-names
-+inherit image-postinst-intercepts image-artifact-names nopackages
- 
- # Wildcards specifying complementary packages to install for every package that has been explicitly
- # installed into the rootfs
--- 
-2.46.0
+Thanks,
 
+Richard
 
