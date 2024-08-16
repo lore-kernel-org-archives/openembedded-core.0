@@ -1,160 +1,188 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F20F0C3DA4A
-	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 06:56:32 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.142597.1723791388510636007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA3EC3DA4A
+	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 12:20:44 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.146563.1723810843379026056
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Aug 2024 23:56:28 -0700
+ Fri, 16 Aug 2024 05:20:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=jV8xblfx;
- spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: sdoshi@mvista.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1ff67158052so12914495ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Aug 2024 23:56:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dk8NjBy8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: rybczynska@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-429c4a4c6a8so14096765e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 05:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1723791387; x=1724396187; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1723810841; x=1724415641; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b5D//lRMzVXzXF0+cspnhDTYmsMiaak1oTfzDQAyAxU=;
-        b=jV8xblfx3Y7/b+shCNjsQWePWF7WYPjS1Q6dkI8UtryEuzom1L4qya+Nb3YoL+AX4M
-         SxruU+mLKapuFjcgP/WhQWGzaZ2HF5POVTpVBNyM1ovVWl01b6Ifay4t4DMlNbJD/XaZ
-         s34MyS0UUe89YY9dQW7X2py72qi0F5hLnBqt4=
+        bh=UjrzkL3huK8Ylj66wmPDYlm9b74/pGqgz77rPYERzxg=;
+        b=dk8NjBy87xHDuSHi1J05bjGe6UEJwl1u+bFw4yL3tVsVmMYDp920ieHxnsY2B1B/Bf
+         XTq09T464yG8Er6QrKpkKjyXvix10TVR3vFw1lfjUIhatpmFtbQmxIBHepcTZN00Qerk
+         Nd1g14vH6bp3DPNL43fEleDJcyZOmmL5SfkTMSP41U7gA/tLnGnud2QFVdlhVAhMUdRY
+         oS6gjGfmQVIdlief0we6qCNubFNnV3d4O2F+Yukqy8WEDxzqsg/WKulOJKDxWkUNNrZJ
+         y8Nd91R7vSNy0LL+ucWPvYYSzbgmBBfCxVvQHZRGIS8n/6SN4j0cPSLJJxQ5RCTG9NZZ
+         Yx1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723791387; x=1724396187;
+        d=1e100.net; s=20230601; t=1723810841; x=1724415641;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b5D//lRMzVXzXF0+cspnhDTYmsMiaak1oTfzDQAyAxU=;
-        b=vqK2cy2WyEY1tEBW6oaVtRMA/4qPhREQ++Tpbt+JhicDLbked2B0tFgmZoEb000xeR
-         IKg128JMy+9/m4eF/7FTTDbZUup/htOKxl1PuTIyO64BbvDMMNPDvYdfWHnJTsXefGUY
-         uBj45XhIygUkkz8XWfMTDAXC+wPZ8HiFEuNJ1bgrVL3GxwHVz2/9ekm3GwkaQZBwp754
-         bmYO7soo9CNjqZFjrF3StSpkrHe7MzTwYVYgCQ2+X3whVW6BEnyUeRAa8KOAxjZW0ajo
-         HjAYj1qyANO/0l302g4GOOoyFmtjLxnhYnl2+NAEr6ijqnQIuqPU8iKindHlOneZUdu0
-         f5Vg==
-X-Gm-Message-State: AOJu0YzKpmQKa1/uVfhaiKBtMAsV+Z5+gbsKOH6/jrW6eRC2FoB6TZ4v
-	t/ss377E9EwRyD5EUhw9lEkAZoIMxrWdvo7hwqCf2YC2FP5LbguX8RIYjghUFiu/gjP+8xfsva7
-	O
-X-Google-Smtp-Source: AGHT+IF5Ue0oMUSZotNMX3LjPXRwWjnwh1VNoxx5+tJjiUnBv4TGwQLTDe7Ioxili8E5gqptigda4Q==
-X-Received: by 2002:a17:902:d4cd:b0:1fd:6b87:2147 with SMTP id d9443c01a7336-20203e49444mr22030865ad.6.1723791387336;
-        Thu, 15 Aug 2024 23:56:27 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([157.32.47.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f03797c0sm19733685ad.163.2024.08.15.23.56.25
+        bh=UjrzkL3huK8Ylj66wmPDYlm9b74/pGqgz77rPYERzxg=;
+        b=PJCE8+nQgPCLjkeOHSbv/b/6+INimyoKQeS7Y1jOze9NZoqxyGyIzWjo9XbLSLd5Sa
+         sr6ZUeMgr+iBm7TqrR5+KuHEQVeMOLNJNtU35KIYtNW+jRNWF5vSGWp/RxurZ0AAlRsk
+         KEQe89MPhqvYWS1+2t5bwUJ/0HdH5/6KeYV0v/1jQnU9daRb1sc1YQV6Zz3w4rALprE3
+         l/9ElkGXj/0DOj6Lv+6LNVINibeRPEGJJOkXpMdcvAodpeW9FujgENwVwTXrISpEMeO6
+         nRvpOUcw/nXCCw/hjJsJtUqZUMOM7ux+vLg+6rdU/Hy1K7fMBbMUKCyFSsM737Oi6h6q
+         1duA==
+X-Gm-Message-State: AOJu0YzSUX/uZGzlIk3mw/O4+Ef6ZCviR3aSSSjpPLdWI1ccgU61TlKR
+	OKVBDWzrGX1hRS0J1zq5AxIH8crQWp1hbJzwD9a5XStfYCm09PlID9/Nrg==
+X-Google-Smtp-Source: AGHT+IFndcJv1MFLVZIOE554+wIdn/6NpgbCeQJ+JNwoh6pkVyA42NeVLjbluNYt1OINFiHEQ2ayaw==
+X-Received: by 2002:a05:600c:444b:b0:426:6320:7ddf with SMTP id 5b1f17b1804b1-429ed7f944bmr15950295e9.35.1723810840536;
+        Fri, 16 Aug 2024 05:20:40 -0700 (PDT)
+Received: from voyage.lan ([2a0d:3344:2304:b910:f434:938e:c450:4361])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded19670sm75556755e9.9.2024.08.16.05.20.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2024 23:56:26 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
+        Fri, 16 Aug 2024 05:20:39 -0700 (PDT)
+From: Marta Rybczynska <rybczynska@gmail.com>
+X-Google-Original-From: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] Tiff: Security fix for CVE-2024-7006
-Date: Fri, 16 Aug 2024 12:26:19 +0530
-Message-Id: <20240816065619.7357-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+Subject: [PATCH] cve-check: nvd2 download database variables update
+Date: Fri, 16 Aug 2024 14:20:32 +0200
+Message-ID: <20240816122032.974613-1-marta.rybczynska@syslinbit.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 06:56:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203458
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 12:20:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203459
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+Update the recent code adding local/source database files. Add LOCAL and
+SOURCE part to variable names, as none of them needs to be in DL_DIR.
+Use old variable names for the source files, so that the change should be
+invisible to users after backporting.
 
-Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/818fb8ce881cf839fbc710f6690aadb992aa0f9e]
+At the same time fix a bug: handle a situation when both point to the
+same place (was: a deadlock).
 
-CVE's Fixed:
-CVE-2024-7006 libtiff: NULL pointer dereference in tif_dirinfo.c
+Fixes: 03596904392d257572a905a182b92c780d636744 (cve_check: Use a local copy of the database during builds)
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 ---
- .../libtiff/tiff/CVE-2024-7006.patch          | 64 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
+ meta/classes/cve-check.bbclass                | 14 ++++++------
+ .../meta/cve-update-nvd2-native.bb            | 22 +++++++++++++------
+ 2 files changed, 22 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
-new file mode 100644
-index 0000000000..217de0ea92
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
-@@ -0,0 +1,64 @@
-+From 818fb8ce881cf839fbc710f6690aadb992aa0f9e Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 1 Dec 2023 20:12:25 +0100
-+Subject: [PATCH] Check return value of _TIFFCreateAnonField().
-+
-+Fixes #624
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/818fb8ce881cf839fbc710f6690aadb992aa0f9e]
-+CVE: CVE-2024-7006
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ libtiff/tif_dirinfo.c |  2 +-
-+ libtiff/tif_dirread.c | 15 ++++++---------
-+ 2 files changed, 7 insertions(+), 10 deletions(-)
-+
-+diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
-+index a212d01..95226a8 100644
-+--- a/libtiff/tif_dirinfo.c
-++++ b/libtiff/tif_dirinfo.c
-+@@ -797,7 +797,7 @@ _TIFFFindOrRegisterField(TIFF *tif, uint32_t tag, TIFFDataType dt)
-+ 	fld = TIFFFindField(tif, tag, dt);
-+ 	if (fld == NULL) {
-+ 		fld = _TIFFCreateAnonField(tif, tag, dt);
-+-		if (!_TIFFMergeFields(tif, fld, 1))
-++		if (fld == NULL || !_TIFFMergeFields(tif, fld, 1))
-+ 			return NULL;
-+ 	}
-+ 
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index 0e283fc..1781166 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -3735,11 +3735,9 @@ TIFFReadDirectory(TIFF* tif)
-+ 				    dp->tdir_tag,dp->tdir_tag);
-+ 				/* the following knowingly leaks the 
-+ 				   anonymous field structure */
-+-				if (!_TIFFMergeFields(tif,
-+-					_TIFFCreateAnonField(tif,
-+-						dp->tdir_tag,
-+-						(TIFFDataType) dp->tdir_type),
-+-					1)) {
-++                const TIFFField *fld = _TIFFCreateAnonField(
-++                    tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
-++                if (fld == NULL || !_TIFFMergeFields(tif, fld, 1)) {
-+ 					TIFFWarningExt(tif->tif_clientdata,
-+ 					    module,
-+ 					    "Registering anonymous field with tag %"PRIu16" (0x%"PRIx16") failed",
-+@@ -4502,10 +4500,9 @@ TIFFReadCustomDirectory(TIFF* tif, toff_t diroff,
-+ 			TIFFWarningExt(tif->tif_clientdata, module,
-+ 			    "Unknown field with tag %"PRIu16" (0x%"PRIx16") encountered",
-+ 			    dp->tdir_tag, dp->tdir_tag);
-+-			if (!_TIFFMergeFields(tif, _TIFFCreateAnonField(tif,
-+-						dp->tdir_tag,
-+-						(TIFFDataType) dp->tdir_type),
-+-					     1)) {
-++            const TIFFField *fld = _TIFFCreateAnonField(
-++                tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
-++            if (fld == NULL || !_TIFFMergeFields(tif, fld, 1)) {
-+ 				TIFFWarningExt(tif->tif_clientdata, module,
-+ 				    "Registering anonymous field with tag %"PRIu16" (0x%"PRIx16") failed",
-+ 				    dp->tdir_tag, dp->tdir_tag);
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index b4af179e76..209b38b8f2 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -53,6 +53,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-6277-2.patch \
-            file://CVE-2023-6277-3.patch \
-            file://CVE-2023-6277-4.patch \
-+           file://CVE-2024-7006.patch \
-            "
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index c946de29a4..e66dc43788 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -32,9 +32,9 @@ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
  
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+ CVE_CHECK_DB_FILENAME ?= "nvdcve_2-1.db"
+-CVE_CHECK_DB_DIR ?= "${STAGING_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
+-CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
++CVE_CHECK_DB_LOCAL_DIR ?= "${STAGING_DIR}/CVE_CHECK"
++CVE_CHECK_DB_LOCAL_FILE ?= "${CVE_CHECK_DB_LOCAL_DIR}/${CVE_CHECK_DB_FILENAME}"
++CVE_CHECK_DB_LOCAL_FILE_LOCK ?= "${CVE_CHECK_DB_LOCAL_FILE}.lcl.lock"
+ 
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
+@@ -183,8 +183,8 @@ python do_cve_check () {
+     """
+     from oe.cve_check import get_patched_cves
+ 
+-    with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_FILE_LOCK")], shared=True):
+-        if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
++    with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_LOCAL_FILE_LOCK")], shared=True):
++        if os.path.exists(d.getVar("CVE_CHECK_DB_LOCAL_FILE")):
+             try:
+                 patched_cves = get_patched_cves(d)
+             except FileNotFoundError:
+@@ -329,7 +329,7 @@ def check_cves(d, patched_cves):
+             cve_ignore.append(cve)
+ 
+     import sqlite3
+-    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
++    db_file = d.expand("file:${CVE_CHECK_DB_LOCAL_FILE}?mode=ro")
+     conn = sqlite3.connect(db_file, uri=True)
+ 
+     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
+@@ -438,7 +438,7 @@ def get_cve_info(d, cves):
+     import sqlite3
+ 
+     cve_data = {}
+-    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
++    db_file = d.expand("file:${CVE_CHECK_DB_LOCAL_FILE}?mode=ro")
+     conn = sqlite3.connect(db_file, uri=True)
+ 
+     for cve in cves:
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 2d23d28c3e..74f2ca05c1 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -34,9 +34,12 @@ CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
+ # Number of attempts for each http query to nvd server before giving up
+ CVE_DB_UPDATE_ATTEMPTS ?= "5"
+ 
+-CVE_CHECK_DB_DLDIR_FILE ?= "${DL_DIR}/CVE_CHECK/${CVE_CHECK_DB_FILENAME}"
+-CVE_CHECK_DB_DLDIR_LOCK ?= "${CVE_CHECK_DB_DLDIR_FILE}.lock"
+-CVE_CHECK_DB_TEMP_FILE ?= "${CVE_CHECK_DB_FILE}.tmp"
++CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
++CVE_CHECK_DB_SOURCE_FILE ?= "${CVE_CHECK_DB_FILE}"
++CVE_CHECK_DB_SOURCE_LOCK ?= "${CVE_CHECK_DB_SOURCE_FILE}.src.lock"
++# Use a temporary file in the local directory, not next to the source DB
++CVE_CHECK_DB_TEMP_FILE ?= "${CVE_CHECK_DB_LOCAL_FILE}.tmp"
+ 
+ python () {
+     if not bb.data.inherits_class("cve-check", d):
+@@ -53,13 +56,14 @@ python do_fetch() {
+ 
+     bb.utils.export_proxies(d)
+ 
+-    db_file = d.getVar("CVE_CHECK_DB_DLDIR_FILE")
++    db_file = d.getVar("CVE_CHECK_DB_SOURCE_FILE")
+     db_dir = os.path.dirname(db_file)
+     db_tmp_file = d.getVar("CVE_CHECK_DB_TEMP_FILE")
+ 
+     cleanup_db_download(db_file, db_tmp_file)
+     # By default let's update the whole database (since time 0)
+     database_time = 0
++    bb.plain(db_dir)
+ 
+     # The NVD database changes once a day, so no need to update more frequently
+     # Allow the user to force-update
+@@ -91,15 +95,19 @@ python do_fetch() {
+         os.remove(db_tmp_file)
+ }
+ 
+-do_fetch[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK}"
++do_fetch[lockfiles] += "${CVE_CHECK_DB_SOURCE_LOCK}"
+ do_fetch[file-checksums] = ""
+ do_fetch[vardeps] = ""
+ 
+ python do_unpack() {
+     import shutil
+-    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"), d.getVar("CVE_CHECK_DB_FILE"))
++    try:
++        shutil.copyfile(d.getVar("CVE_CHECK_DB_SOURCE_FILE"), d.getVar("CVE_CHECK_DB_LOCAL_FILE"))
++    except shutil.SameFileError:
++        bb.warn("CVE database source and local file are the same")
++        pass
+ }
+-do_unpack[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK} ${CVE_CHECK_DB_FILE_LOCK}"
++do_unpack[lockfiles] += "${CVE_CHECK_DB_SOURCE_LOCK} ${CVE_CHECK_DB_LOCAL_FILE_LOCK}"
+ 
+ def cleanup_db_download(db_file, db_tmp_file):
+     """
 -- 
-2.34.1
+2.43.0
 
 
