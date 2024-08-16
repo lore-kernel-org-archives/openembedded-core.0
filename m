@@ -2,180 +2,119 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FAAC52D7D
-	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 12:23:54 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.146600.1723811031027242946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE63C52D7D
+	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 12:24:54 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web11.146613.1723811085508949960
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Aug 2024 05:23:51 -0700
+ Fri, 16 Aug 2024 05:24:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iXTw4S3v;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-367963ea053so1339278f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 05:23:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=b08Ydpv8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: rybczynska@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2d3b5f2f621so1439056a91.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 05:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723811029; x=1724415829; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/qHjw8Gi9OM6CeHN38poLPJgFOqKUH00ob5NeihJiw=;
-        b=iXTw4S3vP4mTMPt0A4dV1eJwUzwpR3UBfZvW13Wkl2x9Mj2OUFdAfC1A1LcHWGVVAY
-         siCco/d31YSqI1U6xjHqEc5T5xchhSSbhVkImPnJCcQy/jL8UNbg+czgHApeezAC+y8D
-         DqlheGw9HeA15iCt7HWnH45k0wImtngrWdXqPgD961ZkULrJlujCE/Q53AAUIQrYMOLk
-         vQrf2Sge8D0ZwMBZG/HjSYqhx9F3LRnDVgPtwmD9FLzVhdCg/rNyQYRaoQfQjw5tgVa5
-         lX/566S+hhiuF0c4awItSiiWL25G8fT10Sr5cRUKXkg/evxETPZDgkt7XYNYn6zLTlz3
-         vMlA==
+        d=gmail.com; s=20230601; t=1723811085; x=1724415885; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r+UFTxKBnnH8nwzqN0aNvUcaBn/U7sRrcfCIH2rcMWQ=;
+        b=b08Ydpv8wG1bF+0Pjcg3SXQvzPgQG3am5kr577YPzbEsmC+LcUtJ9/JTTOU6S1NGTo
+         ndAs/JgjRZdPe635iTA7Uqprmxn50/BUodFatr1CHFUrq+I8hsauD+rxg51+zrk68MM1
+         BVjIgnT3+PmrOIkkgAWGdS0Gwuz0eJAoMw8dhtrQ1rF5z5mKL6FmfoeCXHPIZd50tilh
+         vt8TfV0A3JCCvSCvJUWHfxDLWYk5J9QkcfL1gzCezN4CYjPaSXbffd8CDr2h0fQXe6jV
+         s27nytDeybDs2lCpDR8HqwrH+kNbjvspCtTI+W7GQP/NRTSsJxBXNVKm3ejvCz7oR95f
+         AObA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723811029; x=1724415829;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1723811085; x=1724415885;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O/qHjw8Gi9OM6CeHN38poLPJgFOqKUH00ob5NeihJiw=;
-        b=E9Y63SW7IYtp7UESOB2kEu4VvSOU6WMYDbbi+94pMrBTB/85kCe2zy/ILIzmSpZkGM
-         evaQjFVmJoiyP/PQI34BJwD3t/PtxNXwZIgmH9op+cIWrFCOJEmF+cPZXF3trRq4L/bd
-         Q7NUk0y6b4cPVnK4dvAfVnXY4c3JDvfXVJabenwVG7BW/l3wObZT6FcuQOXl1nRzwO+A
-         /jk8OZhcaAt503Hccoc3mPHF4WYxLn3aDPfX01wUcbZLkFbinBcE9sloQqNunh4a4b35
-         CzQlrm/7sOHuEvKe2a4n2oRsoK6RK/qjPE8QWIFzhknnrdkpTk9G4SMCJ0oWEyao+sET
-         l80A==
-X-Gm-Message-State: AOJu0YxN08aws1EcpftDvVH3+S2yTUY4oe6Sgc4xTtRPHUDajei4Mzx8
-	0V4FDvW6OdVc2ssZ5ZQlEwAeCQztj98jc9xvHakDszZEkI1aevTnyCt/GA==
-X-Google-Smtp-Source: AGHT+IHYDffHfaDWRSrvGm+qqJV6j7otw9p7yEvGoXRJbW0FudH5r4bBJQX+OKSfcceG2rWp4Znxiw==
-X-Received: by 2002:adf:a1db:0:b0:367:9903:a91 with SMTP id ffacd0b85a97d-37194315c0fmr2148766f8f.11.1723811028608;
-        Fri, 16 Aug 2024 05:23:48 -0700 (PDT)
-Received: from voyage.lan ([2a0d:3344:2304:b910:f434:938e:c450:4361])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded298e6sm74375585e9.19.2024.08.16.05.23.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 05:23:48 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-X-Google-Original-From: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Subject: [PATCH v2][OE-core] cve-check: nvd2 download database variables update
-Date: Fri, 16 Aug 2024 14:23:42 +0200
-Message-ID: <20240816122342.974794-1-marta.rybczynska@syslinbit.com>
-X-Mailer: git-send-email 2.43.0
+        bh=r+UFTxKBnnH8nwzqN0aNvUcaBn/U7sRrcfCIH2rcMWQ=;
+        b=p+orVnwIxQiQPueaKu7Y4ofWYed7wt8YozHLGDQBYA2MmmHNhWHEUJiCAHTJaB/6Hh
+         uzEmZO2P+ZSmzr9EdmiiBkx5IfPNnU31bfSXMAk4GNB8+0EwZpgROmpCGTbtYtkAPKW7
+         NWS2n7X3lIPeBeGRMB4Vgyr0+xlufS1mNNe+Y/hbTmdcsreufiSpfmLLZZr0CG3jHVtX
+         fx5ps/aO7hpABk/16c1pJKmM+TJ9tcj1D2+ufCQNmLIjPOXVpP48A9recbECbM6fsHDH
+         933aeRkfdj3p82iRT1mxSKKxsZvAANLYk+apkEJDckF/fIOcasCOboiS3bZbi9+OT0c5
+         2z1g==
+X-Gm-Message-State: AOJu0YzELAqMJ7nNZPKHzKe/fpXR/MMZHJA2P4J7Sy/3FdcZtwGXtPJB
+	U9h+TpRDmJlcKrFE9MmN0QW/LKM582Dlelf2RcOFW16ruNQfSx9jgB0mcjKUFjaqcgZoLWZ7nyL
+	hu+EMsfjVL0afO2/UOk6nQxhqm1c=
+X-Google-Smtp-Source: AGHT+IHtSSxKlQOtb2ODMn34JqdWoG0iVbVTgcScZI31a3VD4MaRBSvRym9HbhEvjp0n9XbR+QjPjKcKDiNTZ5O9wI0=
+X-Received: by 2002:a17:90b:234f:b0:2cf:28c1:4cc9 with SMTP id
+ 98e67ed59e1d1-2d3dfc2ae5bmr3056129a91.3.1723811084650; Fri, 16 Aug 2024
+ 05:24:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <17EC34D44A2F6C2A.10903@lists.openembedded.org>
+In-Reply-To: <17EC34D44A2F6C2A.10903@lists.openembedded.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 16 Aug 2024 14:24:32 +0200
+Message-ID: <CAApg2=TAzg0AdCCKaNvByG4C9+KyZt_rb8ok2Re=5RJRW8wveQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check: nvd2 download database variables update
+To: rybczynska@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Marta Rybczynska <marta.rybczynska@syslinbit.com>
+Content-Type: multipart/alternative; boundary="0000000000005c555e061fcc0bee"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 12:23:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203460
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 12:24:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203461
 
-Update the recent code adding local/source database files. Add LOCAL and
-SOURCE part to variable names, as none of them needs to be in DL_DIR.
-Use old variable names for the source files, so that the change should be
-invisible to users after backporting.
+--0000000000005c555e061fcc0bee
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-At the same time fix a bug: handle a situation when both point to the
-same place (was: a deadlock).
+On Fri, Aug 16, 2024 at 2:20=E2=80=AFPM Marta Rybczynska via lists.openembe=
+dded.org
+<rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
 
-Fixes: 03596904392d257572a905a182b92c780d636744 (cve_check: Use a local copy of the database during builds)
+> Update the recent code adding local/source database files. Add LOCAL and
+> SOURCE part to variable names, as none of them needs to be in DL_DIR.
+> Use old variable names for the source files, so that the change should be
+> invisible to users after backporting.
+>
+> At the same time fix a bug: handle a situation when both point to the
+> same place (was: a deadlock).
+>
+> Fixes: 03596904392d257572a905a182b92c780d636744 (cve_check: Use a local
+> copy of the database during builds)
+>
+> Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+>
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
----
- meta/classes/cve-check.bbclass                | 14 ++++++-------
- .../meta/cve-update-nvd2-native.bb            | 21 ++++++++++++-------
- 2 files changed, 21 insertions(+), 14 deletions(-)
+Please disregard this version, one bb.plain was left.
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index c946de29a4..e66dc43788 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -32,9 +32,9 @@ CVE_PRODUCT ??= "${BPN}"
- CVE_VERSION ??= "${PV}"
- 
- CVE_CHECK_DB_FILENAME ?= "nvdcve_2-1.db"
--CVE_CHECK_DB_DIR ?= "${STAGING_DIR}/CVE_CHECK"
--CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
--CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
-+CVE_CHECK_DB_LOCAL_DIR ?= "${STAGING_DIR}/CVE_CHECK"
-+CVE_CHECK_DB_LOCAL_FILE ?= "${CVE_CHECK_DB_LOCAL_DIR}/${CVE_CHECK_DB_FILENAME}"
-+CVE_CHECK_DB_LOCAL_FILE_LOCK ?= "${CVE_CHECK_DB_LOCAL_FILE}.lcl.lock"
- 
- CVE_CHECK_LOG ?= "${T}/cve.log"
- CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
-@@ -183,8 +183,8 @@ python do_cve_check () {
-     """
-     from oe.cve_check import get_patched_cves
- 
--    with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_FILE_LOCK")], shared=True):
--        if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
-+    with bb.utils.fileslocked([d.getVar("CVE_CHECK_DB_LOCAL_FILE_LOCK")], shared=True):
-+        if os.path.exists(d.getVar("CVE_CHECK_DB_LOCAL_FILE")):
-             try:
-                 patched_cves = get_patched_cves(d)
-             except FileNotFoundError:
-@@ -329,7 +329,7 @@ def check_cves(d, patched_cves):
-             cve_ignore.append(cve)
- 
-     import sqlite3
--    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
-+    db_file = d.expand("file:${CVE_CHECK_DB_LOCAL_FILE}?mode=ro")
-     conn = sqlite3.connect(db_file, uri=True)
- 
-     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
-@@ -438,7 +438,7 @@ def get_cve_info(d, cves):
-     import sqlite3
- 
-     cve_data = {}
--    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
-+    db_file = d.expand("file:${CVE_CHECK_DB_LOCAL_FILE}?mode=ro")
-     conn = sqlite3.connect(db_file, uri=True)
- 
-     for cve in cves:
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 2d23d28c3e..4ce2933304 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -34,9 +34,12 @@ CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
- # Number of attempts for each http query to nvd server before giving up
- CVE_DB_UPDATE_ATTEMPTS ?= "5"
- 
--CVE_CHECK_DB_DLDIR_FILE ?= "${DL_DIR}/CVE_CHECK/${CVE_CHECK_DB_FILENAME}"
--CVE_CHECK_DB_DLDIR_LOCK ?= "${CVE_CHECK_DB_DLDIR_FILE}.lock"
--CVE_CHECK_DB_TEMP_FILE ?= "${CVE_CHECK_DB_FILE}.tmp"
-+CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
-+CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
-+CVE_CHECK_DB_SOURCE_FILE ?= "${CVE_CHECK_DB_FILE}"
-+CVE_CHECK_DB_SOURCE_LOCK ?= "${CVE_CHECK_DB_SOURCE_FILE}.src.lock"
-+# Use a temporary file in the local directory, not next to the source DB
-+CVE_CHECK_DB_TEMP_FILE ?= "${CVE_CHECK_DB_LOCAL_FILE}.tmp"
- 
- python () {
-     if not bb.data.inherits_class("cve-check", d):
-@@ -53,7 +56,7 @@ python do_fetch() {
- 
-     bb.utils.export_proxies(d)
- 
--    db_file = d.getVar("CVE_CHECK_DB_DLDIR_FILE")
-+    db_file = d.getVar("CVE_CHECK_DB_SOURCE_FILE")
-     db_dir = os.path.dirname(db_file)
-     db_tmp_file = d.getVar("CVE_CHECK_DB_TEMP_FILE")
- 
-@@ -91,15 +94,19 @@ python do_fetch() {
-         os.remove(db_tmp_file)
- }
- 
--do_fetch[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK}"
-+do_fetch[lockfiles] += "${CVE_CHECK_DB_SOURCE_LOCK}"
- do_fetch[file-checksums] = ""
- do_fetch[vardeps] = ""
- 
- python do_unpack() {
-     import shutil
--    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"), d.getVar("CVE_CHECK_DB_FILE"))
-+    try:
-+        shutil.copyfile(d.getVar("CVE_CHECK_DB_SOURCE_FILE"), d.getVar("CVE_CHECK_DB_LOCAL_FILE"))
-+    except shutil.SameFileError:
-+        bb.warn("CVE database source and local file are the same")
-+        pass
- }
--do_unpack[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK} ${CVE_CHECK_DB_FILE_LOCK}"
-+do_unpack[lockfiles] += "${CVE_CHECK_DB_SOURCE_LOCK} ${CVE_CHECK_DB_LOCAL_FILE_LOCK}"
- 
- def cleanup_db_download(db_file, db_tmp_file):
-     """
--- 
-2.43.0
+Regards,
+Marta
 
+--0000000000005c555e061fcc0bee
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 16, 2024 at 2:20=E2=80=AF=
+PM Marta Rybczynska via <a href=3D"http://lists.openembedded.org">lists.ope=
+nembedded.org</a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.openem=
+bedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">Update the recent code adding l=
+ocal/source database files. Add LOCAL and<br>
+SOURCE part to variable names, as none of them needs to be in DL_DIR.<br>
+Use old variable names for the source files, so that the change should be<b=
+r>
+invisible to users after backporting.<br>
+<br>
+At the same time fix a bug: handle a situation when both point to the<br>
+same place (was: a deadlock).<br>
+<br>
+Fixes: 03596904392d257572a905a182b92c780d636744 (cve_check: Use a local cop=
+y of the database during builds)<br>
+<br>
+Signed-off-by: Marta Rybczynska &lt;<a href=3D"mailto:marta.rybczynska@sysl=
+inbit.com" target=3D"_blank">marta.rybczynska@syslinbit.com</a>&gt;<br></bl=
+ockquote><div><br></div><div>Please disregard this version, one bb.plain wa=
+s left.</div><div><br></div><div>Regards,</div><div>Marta <br></div></div><=
+/div>
+
+--0000000000005c555e061fcc0bee--
 
