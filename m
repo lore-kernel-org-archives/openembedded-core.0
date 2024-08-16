@@ -1,182 +1,151 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB78BC52D7D
-	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 13:18:54 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.147812.1723814333763839065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B50C52D7D
+	for <webhook@archiver.kernel.org>; Fri, 16 Aug 2024 13:30:25 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.147967.1723815017945822701
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Aug 2024 06:18:53 -0700
+ Fri, 16 Aug 2024 06:30:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YFgnAkpp;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: rybczynska@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2d3eda6603cso404778a91.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 06:18:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZASbNevk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-427fc97a88cso15091005e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 06:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723814333; x=1724419133; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=a7R/gyYl8ickHDctUd+LMt9dU7xnjeydlOSvHnf2vQU=;
-        b=YFgnAkpp7WPK7ws648Gkr5dPO5U3NfOxxrUGRy63z0KTFW3XN4M58Ex2vs+bA2hkS8
-         01n0XvjiCvfI7ii4RWOawwtP4cIJRD0Si6zffewwgDJZFpt7zrr7mc6/IPSPmIWOQ3W7
-         /NQljpiDeU8n0SwHDdTh2IueMY0hHXV7z2LIG38ubRETYVs3tOevNg95SBjV3jPamftX
-         7c24sOw3l2R9trdToWjbrOMteWY8SU3lOKzXy5tp4QZcntkA/E5tcg89E/ZVv2mbbBX2
-         LGrSRzgZn1Oi0LcF9/YRNX5Imu2tATbaUcZlyFeYK87mOlP2s2NpxIyb01/bpiOAA4lt
-         SgZg==
+        d=linuxfoundation.org; s=google; t=1723815016; x=1724419816; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wkP5PWNekol+VFZOHgmMPJ26DEn4xji04iOBUmyrnvs=;
+        b=ZASbNevkftECK9t3SQLBHdCjD6wDgJ4mmuZUy2mSS9xAjEryEFhmoihXpZgsaFaczd
+         AN3gh83Pw2f8k+K00myQkYqv+zoTnr/Rr8aAhQqf+PbfAmdlZz7CiXevASWBGbw7fBYw
+         idHgf48yo0Lr+OMLR2545LQUX7gc7E+s2bvww=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723814333; x=1724419133;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a7R/gyYl8ickHDctUd+LMt9dU7xnjeydlOSvHnf2vQU=;
-        b=iEvTWl4zjmt9nSu9n0CPoaJgz0g5WlHtFVKe1IBVNtIEYSlOYKis7lPIcwShkFVDya
-         FU04TrQEtzlYdax1aEszm4L010j6RNetu0bSglN+B9hqVfx4WWRhO2piEzgxXjUbwn1L
-         NAEb3n25cgZg396zQPh4kAfoAEivLxeut0LbVEgR2fT5YFhGu1NfGK3SIkHtDjV4ZfUA
-         sO9f7GZ4paceFhonjs0vGWepWMhBWCQsaDjPXHxWaRIDOez2rvkzUlS43exn8vy7AG1P
-         LyI068Q/N36Tv92L97ALS8bESKABDtDnh6dFH4PAgLokzjDjcKe4A6ceq4dRApNU8Feg
-         OWmg==
-X-Gm-Message-State: AOJu0YxiqbiTSrCp1OUsHwhRzaYBaA1RkqH+GciFFZqLfRQOm7bmqXNa
-	0mwoiJU3/xfSk/HOIjZf280J8wJlGpkyvcWS4U8SUsEMkiUqYn1jK0fBP9wSCRl9zWqoO1IgMjm
-	xOuHCbzWYZmh0YWciQYfQgp+6SIw=
-X-Google-Smtp-Source: AGHT+IFiGRymENFzUZ8rADWVEezPAAZRO6sqDUy0b2hK6ZY/SPaHLgPeodUKoHkPFoUzjQ5y7fEfb9O4qJOutblyQxk=
-X-Received: by 2002:a17:90a:b117:b0:2d3:c31f:c822 with SMTP id
- 98e67ed59e1d1-2d3dfc7a33dmr3297047a91.21.1723814332845; Fri, 16 Aug 2024
- 06:18:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723815016; x=1724419816;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wkP5PWNekol+VFZOHgmMPJ26DEn4xji04iOBUmyrnvs=;
+        b=MJCWwhPovQy+cOd5dW3UoIfCmeY+q6e0mbfuEuGv/KLuK2TSCbiH1Qmy+Rf5kfss7c
+         ku/jMDyl+K4vm/406QkN653AEjYer6/29iXOdiBdklE8yaZ8dDrL4jpB0++29Hnq4+Qt
+         RdizPbKS/QJJHend0dk4C5BaqQ4Q+eCrr7fTQCwDDL2axZqeAdmTBfZYAxGRGDl3t6XS
+         L1xDjW3nMZzKWJkizx2aK2jKmmoDaBH17u7HY6kRIePl9dxtEVRSZ4AWLhPXYl2ypdGV
+         PvGJNLXfxfvmXovxK+oKQ4ID6svwoGAzlELUTm7Wlcuvp8+ich6/KgWS+F8oxIX+RDEf
+         CqHQ==
+X-Gm-Message-State: AOJu0YysWROl/3ytjJRTZ9b3jjvAMVe2YshGC4iYfjD43PrCTC3rfYsW
+	IvLwszUqotifedJsIaf2LC2bYZF06Wur5QybvHKPL50pAbvIc85WOCz3g7numSc=
+X-Google-Smtp-Source: AGHT+IHT73vzTcO+PhXdxaEnX4brMH/b3f/ncFG61UvsdB31ehRMtyfOgm4B5owPxHufk31FnmGbZg==
+X-Received: by 2002:a5d:604f:0:b0:367:9854:791d with SMTP id ffacd0b85a97d-371946a5aa2mr1706465f8f.43.1723815015942;
+        Fri, 16 Aug 2024 06:30:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5ba6:8f16:1fbd:baab? ([2001:8b0:aba:5f3c:5ba6:8f16:1fbd:baab])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed79da99sm22634915e9.46.2024.08.16.06.30.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Aug 2024 06:30:14 -0700 (PDT)
+Message-ID: <32ba2ddc1eef1b88915907ba36d64ccc431b1bed.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2][OE-core] cve-check: nvd2 download database variables
+ update
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Marta Rybczynska
+	 <marta.rybczynska@syslinbit.com>
+Date: Fri, 16 Aug 2024 14:30:14 +0100
+In-Reply-To: <CAApg2=RJZwMd9ued9UHTGENnwO8uHqPMOz5K7BTv_Je2oa1sMA@mail.gmail.com>
+References: <20240816122342.974794-1-marta.rybczynska@syslinbit.com>
+	 <ca9c814c589839548a08544b8c6d403226852c9a.camel@linuxfoundation.org>
+	 <CAApg2=RJZwMd9ued9UHTGENnwO8uHqPMOz5K7BTv_Je2oa1sMA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-References: <20240816122342.974794-1-marta.rybczynska@syslinbit.com> <ca9c814c589839548a08544b8c6d403226852c9a.camel@linuxfoundation.org>
-In-Reply-To: <ca9c814c589839548a08544b8c6d403226852c9a.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Fri, 16 Aug 2024 15:18:40 +0200
-Message-ID: <CAApg2=RJZwMd9ued9UHTGENnwO8uHqPMOz5K7BTv_Je2oa1sMA@mail.gmail.com>
-Subject: Re: [PATCH v2][OE-core] cve-check: nvd2 download database variables update
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Content-Type: multipart/alternative; boundary="000000000000f7db68061fcccc46"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 13:18:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203464
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Aug 2024 13:30:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203465
 
---000000000000f7db68061fcccc46
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Aug 16, 2024 at 3:05=E2=80=AFPM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Fri, 2024-08-16 at 14:23 +0200, Marta Rybczynska via
-> lists.openembedded.org wrote:
-> > Update the recent code adding local/source database files. Add LOCAL an=
-d
-> > SOURCE part to variable names, as none of them needs to be in DL_DIR.
-> > Use old variable names for the source files, so that the change should =
-be
-> > invisible to users after backporting.
-> >
-> > At the same time fix a bug: handle a situation when both point to the
-> > same place (was: a deadlock).
-> >
-> > Fixes: 03596904392d257572a905a182b92c780d636744 (cve_check: Use a local
-> copy of the database during builds)
-> >
-> > Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-> > ---
-> >  meta/classes/cve-check.bbclass                | 14 ++++++-------
-> >  .../meta/cve-update-nvd2-native.bb            | 21 ++++++++++++-------
-> >  2 files changed, 21 insertions(+), 14 deletions(-)
->
-> I'm not convinced about this I'm afraid. I think do_fetch should put
-> data into DL_DIR and share it, "cve-update-nvd2" isn't special in that
-> regard. We do want to have our source artefacts stored in one place
-> consistently.
->
-> If we keep DL_DIR, the naming the makes sense?
->
->
-I'm not sure I understand. I haven't changed the fact that it gets stored i=
-n
-DL_DIR (after download, because you have moved the download itself to the
-local dir
-- maybe that wasn't your intent).
-
-More about my use-case, that can give context: I tell many of my customers
-to override
-the variable, download outside of DL_DIR and then move the database file
-manually while
-disabling the automatic download.
-
-This is the way I have found to have consistent scan results when running
-multiple image
-builds in different configurations (various hardware platforms) on machines
-that do not
-share a filesystem.
-
-Regards,
-Marta
-
---000000000000f7db68061fcccc46
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 16, 2024 at 3:05=E2=80=AF=
-PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">On Fri, 2024-08-16 at 14:23 +0200, Marta=
- Rybczynska via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer=
-" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; Update the recent code adding local/source database files. Add LOCAL a=
-nd<br>
-&gt; SOURCE part to variable names, as none of them needs to be in DL_DIR.<=
-br>
-&gt; Use old variable names for the source files, so that the change should=
- be<br>
-&gt; invisible to users after backporting.<br>
-&gt; <br>
-&gt; At the same time fix a bug: handle a situation when both point to the<=
-br>
-&gt; same place (was: a deadlock).<br>
-&gt; <br>
-&gt; Fixes: 03596904392d257572a905a182b92c780d636744 (cve_check: Use a loca=
-l copy of the database during builds)<br>
-&gt; <br>
-&gt; Signed-off-by: Marta Rybczynska &lt;<a href=3D"mailto:marta.rybczynska=
-@syslinbit.com" target=3D"_blank">marta.rybczynska@syslinbit.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt; =C2=A0meta/classes/cve-check.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+On Fri, 2024-08-16 at 15:18 +0200, Marta Rybczynska wrote:
+>=20
+>=20
+> On Fri, Aug 16, 2024 at 3:05=E2=80=AFPM Richard Purdie <richard.purdie@li=
+nuxfoundation.org> wrote:
+> > On Fri, 2024-08-16 at 14:23 +0200, Marta Rybczynska via lists.openembed=
+ded.org wrote:
+> > > Update the recent code adding local/source database files. Add LOCAL =
+and
+> > > SOURCE part to variable names, as none of them needs to be in DL_DIR.
+> > > Use old variable names for the source files, so that the change shoul=
+d be
+> > > invisible to users after backporting.
+> > >=20
+> > > At the same time fix a bug: handle a situation when both point to the
+> > > same place (was: a deadlock).
+> > >=20
+> > > Fixes: 03596904392d257572a905a182b92c780d636744 (cve_check: Use a loc=
+al copy of the database during builds)
+> > >=20
+> > > Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+> > > ---
+> > > =C2=A0meta/classes/cve-check.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 ++++++------=
--<br>
-&gt; =C2=A0.../meta/<a href=3D"http://cve-update-nvd2-native.bb" rel=3D"nor=
-eferrer" target=3D"_blank">cve-update-nvd2-native.bb</a>=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 ++++++++++++-------<b=
-r>
-&gt; =C2=A02 files changed, 21 insertions(+), 14 deletions(-)<br>
-<br>
-I&#39;m not convinced about this I&#39;m afraid. I think do_fetch should pu=
-t<br>
-data into DL_DIR and share it, &quot;cve-update-nvd2&quot; isn&#39;t specia=
-l in that<br>
-regard. We do want to have our source artefacts stored in one place<br>
-consistently.<br>
-<br>
-If we keep DL_DIR, the naming the makes sense?<br>
-<br></blockquote><div><br></div><div>I&#39;m not sure I understand. I haven=
-&#39;t changed the fact that it gets stored in</div><div>DL_DIR (after down=
-load, because you have moved the download itself to the local dir <br></div=
-><div>- maybe that wasn&#39;t your intent).<br></div><div><br></div><div>Mo=
-re about my use-case, that can give context: I tell many of my customers to=
- override</div><div>the variable, download outside of DL_DIR and then move =
-the database file manually while</div><div>disabling the automatic download=
-. <br></div><div><br></div><div>This is the way I have found to have consis=
-tent scan results when running multiple image</div><div>builds in different=
- configurations (various hardware platforms) on machines that do not</div><=
-div>share a filesystem.</div><div><br></div><div>Regards,</div><div>Marta<b=
-r></div></div></div>
+-
+> > > =C2=A0.../meta/cve-update-nvd2-native.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 ++++++++++++-------
+> > > =C2=A02 files changed, 21 insertions(+), 14 deletions(-)
+> >=20
+> > I'm not convinced about this I'm afraid. I think do_fetch should put
+> > data into DL_DIR and share it, "cve-update-nvd2" isn't special in that
+> > regard. We do want to have our source artefacts stored in one place
+> > consistently.
+> >=20
+> > If we keep DL_DIR, the naming the makes sense?
+>=20
+> I'm not sure I understand. I haven't changed the fact that it gets stored=
+ in
+> DL_DIR (after download, because you have moved the download itself to the=
+ local dir=20
+> - maybe that wasn't your intent).
 
---000000000000f7db68061fcccc46--
+I reached the wrong conclusion from reading the commit message, I
+thought you were saying that the file shouldn't be in DL_DIR. You're
+saying only that it might not be. We can tweak the commit message to
+better explain that, but I'm still not convinced about the naming.
+
+> More about my use-case, that can give context: I tell many of my customer=
+s to override
+> the variable, download outside of DL_DIR and then move the database file =
+manually while
+> disabling the automatic download.=20
+>=20
+> This is the way I have found to have consistent scan results when running=
+ multiple image
+> builds in different configurations (various hardware platforms) on machin=
+es that do not
+> share a filesystem.
+
+The use case helps thanks. I am worried that "local" doesn't really
+make it clear which variable does what. For example, if I want the
+build to use a local file, perhaps I need to set the one with "local"
+in it?
+
+The trouble with naming is that right now, it is really obvious to us
+but in a few months time, this probably won't be clear and new users to
+this code will face a similar issue. I therefore do want to get this
+naming right.
+
+With my previous patch, I tried to only change what I saw as "internal"
+variables which are recipe specific. I'm not a big fan of having to set
+global variables to influence a single recipe.
+
+Perhaps people wanting to use a specific database file should just
+place it in DL_DIR and configure the code not to update the database
+and just use it as is?
+
+Cheers,
+
+Richard
+
+
+
 
