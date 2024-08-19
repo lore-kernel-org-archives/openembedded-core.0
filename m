@@ -1,161 +1,154 @@
-Return-Path: <aoifepowerIris@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6953C3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 19 Aug 2024 14:55:17 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.212638.1724079311911658609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC36C3DA4A
+	for <webhook@archiver.kernel.org>; Mon, 19 Aug 2024 15:22:08 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.213177.1724080926873414703
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Aug 2024 07:55:12 -0700
+ Mon, 19 Aug 2024 08:22:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hSTMLmMM;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: aoifepoweriris@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a8384008482so460213966b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 07:55:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=N17I56YI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-429ec9f2155so29557255e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 08:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724079310; x=1724684110; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=k2dkraBbOER6mkxRfJhmNlZNRTTgt5Mj2t1lisZBNFU=;
-        b=hSTMLmMMzDegLh7Z1UGRpdqP2SCPHgLcl1BgBSNao3/ZCUk2gi5Ftf5NzGMZ1PRy3+
-         5xylzkeiNbb9DmUSf372C2cMOgt5/cCzDjI0gyX0mnOWQXzW4H9rUIcUl5gB8kgXdYhR
-         /lz7K6eE20FdBS7KHz5QyficxrOb0EdzTKvIHgj2b4JcUX6871TOdfK3EuVDt1ofuUey
-         m1qz8vmJPr0HlZcWELU4sNGz4vcKs5dPQC5HVdrydmk0dVS08BTS2XgtapQYGQtlDqQo
-         xNgmx8xtWq1aLxzbhAs7h96xlb2UgSNAOdLAX4XmeJeK2Fbz10TOdRUDYp8ltXF159ec
-         10Eg==
+        d=gmail.com; s=20230601; t=1724080925; x=1724685725; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNiOQbu4mVbF9IEwDnnp014V0PghCka+W+X7uLEOfx0=;
+        b=N17I56YIIFDdOkh/cZz4otOPHPcN+kmOWR091xsTnjo2rk41D6ejcU+H8UUB63fH8M
+         nmHfOHy3NiS7Iomo9BSu3ZWDYar1StlJEx+vjYiPiDEJrkJ+zPpIua06ihUHxxx3pygO
+         EWQcMrVPHys6sYWijFKecsS3V+CDYkeIZQ86Nkg8Dz/7p/rjooIJ5zJUNns2N1EvaNCR
+         +aBQ1MGNn6bXz37l1JuectdJQikurZ1k73zowv0vw99ikWHPA5schprKjQLk4zukT5Fr
+         7sNg1b0hySkynvOKAT9sJB9vam/NViyKP8ao8uF4hS0QFYchj+Sklj0PNBF5H6rQj9Qm
+         F5Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724079310; x=1724684110;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1724080925; x=1724685725;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k2dkraBbOER6mkxRfJhmNlZNRTTgt5Mj2t1lisZBNFU=;
-        b=j0+wBowrUCvLa1rmlyvD/j9Wd0DatqEO+QHJ7xKFoy6FPSy0SAsijRWIXTVMnyQRJZ
-         xPZ+jm+0dBD4UHvmHrU1Eyy8CB5m8yEia2YXZ1crSDHSpvkCw3e2y8CtUKVoUrp/AWRE
-         T3iPpKqM5WDLICbH9KDpmfbvj3e5GX7c+pLFoqtq+hTTY2LcaxTPz2CmO7biqQOIA0as
-         laMECeHdLkUOx6Z9VLpnXmCwLmceSpheu3kEaCgdu9YnADD4cwL2B3KRdPKhWoHJ5xvS
-         BPB7Mqt2Eyy+5JRYW8Y18C9Jbr9zOopRAHWgV6Bq3TwwVTTcXBu7h8iYbS97nj5u5Z/0
-         VQFA==
-X-Gm-Message-State: AOJu0YxAMq3yHVXBOr7mKAKLq3pMxy6GH0i1wqAJVpHlnXoBVPTnO9P0
-	0iDAM9Ql0TYu5aE1FPbv6zl7L/PBKinEZCLjpMDeXp8eaebWylM7MvwouTgtWe06c2dM/VYHL7D
-	k2qG4C/RX8/HeY9DkzvQmn0Hu2DEx+U2M0wU=
-X-Google-Smtp-Source: AGHT+IFHWYHV0gXmt8LOOftbh9rGmq6VEgqg8kkJ9LmmgdJeRgp5/22FWIa2foPDoxf53XmTsPvThtERjVQLtejkSuc=
-X-Received: by 2002:a17:907:2da3:b0:a7a:8cfb:655b with SMTP id
- a640c23a62f3a-a83aa0c0422mr521808766b.64.1724079310024; Mon, 19 Aug 2024
- 07:55:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240819145140.582935-1-aoifepowerIris@gmail.com>
-In-Reply-To: <20240819145140.582935-1-aoifepowerIris@gmail.com>
-From: Aoife Power <aoifepoweriris@gmail.com>
-Date: Mon, 19 Aug 2024 16:54:59 +0200
-Message-ID: <CAFpNyFw0xR-MqoVmQSjPYGbEwNZkPdPWSx2JP2rnOi=5K1g0cQ@mail.gmail.com>
-Subject: Re: [PATCH] Util-linux: Adding missing ptest dependencies
+        bh=dNiOQbu4mVbF9IEwDnnp014V0PghCka+W+X7uLEOfx0=;
+        b=T1YjrATw1es0xMIxcHb/c6Ao8LOwVgELelO1kAt3fuKZiE9xLMtKosnsRuqaJgBGvc
+         wJDNTxM0ZxAXoJP0GLYPlskHZX2bR7AkvJIdUr+s3ce6kOwlI6IqonrdCAw9nFuvVYmv
+         KHTawo5At8gP/4Yn2Hut6dA90NHRT/EmY4eUfJHf8Y7iwT2sga4aIzPQwt+MtwnIz84/
+         g2V3IQT9B8I3VNi21q58q7Za2vurQ5UEPm2Xxk0nBzh6BrkHLQOngm6FMQ77W9AUL6Bn
+         e428iO34E3KQXuNiYpe5WkaEdm0IRkQVDBMR97Si83sxZUs0gU5N65Ceo2G0Viq+DZ6t
+         TXyg==
+X-Gm-Message-State: AOJu0Yyes/6/R9vz1WsXsazaoHAW+WaHsoWmdWRQGiIkLb2yIDinZTdO
+	x3dyb0OBXfcSYeYl6H662T4fp0Uz3TwHpo1DQcQ7tbXuZNqE9JCdcA4LMg==
+X-Google-Smtp-Source: AGHT+IGFHI+4FAddWmZOVL/v9Vk5Hm27rlvv0Hm3jpJp80i+8XQ4fpeMcd0Fo9ZJNSNDQEf0M85m4A==
+X-Received: by 2002:a5d:4dce:0:b0:36b:555a:e966 with SMTP id ffacd0b85a97d-3719465fc3amr8368934f8f.35.1724080924657;
+        Mon, 19 Aug 2024 08:22:04 -0700 (PDT)
+Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3718985a286sm10782649f8f.54.2024.08.19.08.22.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 08:22:01 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: jasper@fancydomain.eu
-Content-Type: multipart/alternative; boundary="000000000000d6b58406200a7e17"
+Cc: Adrian Freihofer <adrian.freihofer@gmail.com>
+Subject: [PATCH v4 0/4] Use the kernel from sstate when building fitImages
+Date: Mon, 19 Aug 2024 17:17:04 +0200
+Message-ID: <20240819152136.1185744-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.46.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 14:55:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203509
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 15:22:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203510
 
---000000000000d6b58406200a7e17
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Compared to v3, only one space changes. Unfortunately it is an important
+white space. The diff between v3 and v4 is:
 
-Note: with ptests the adduser package is only avaliable in the
-meta-openembedded/meta-perl layer.
-Does this need to be included elsewhere for the ptest use case?  Should it
-be added to the core layer to allow the ptests to work correctly?
-Thanks,
-Aoife
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -65,7 +65,7 @@ python __anonymous () {
+                 fit_assemble_task = 'do_deploy_fitimage_unbundled'
+                 bb.build.addtask(fit_assemble_task, 'do_build', 'do_deploy', d)
+                 bb.build.addtask(fit_assemble_task + '_setscene', '', '', d)
+-                d.appendVar('SSTATETASKS', fit_assemble_task)
++                d.appendVar('SSTATETASKS', ' ' + fit_assemble_task)
 
-On Mon, Aug 19, 2024 at 4:52=E2=80=AFPM Aoife Power <aoifepoweriris@gmail.c=
-om>
-wrote:
+Summary:
+If the KERNEL_IMAGETYPES(S) contains fitImage, the kernel is always
+rebuilt when something changes in the initramfs, which happens
+frequently.
+This is even worse if the build runs from an empty TMPDIR. The kernel
+re-build starts by fetching the large kernel git repository and gets
+recompiled from scratch.
 
-> Missing adduser and eudev to RDEPENDS dependencies for ptest
->
-> Signed-off-by: Aoife Power <aoifepowerIris@gmail.com>
-> ---
->  meta/recipes-core/util-linux/util-linux_2.40.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-> b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-> index a1aab94055..f1c200c28b 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-> @@ -139,7 +139,7 @@ RDEPENDS:${PN}-dev +=3D " util-linux-libuuid-dev"
->  RPROVIDES:${PN}-dev =3D "${PN}-libblkid-dev ${PN}-libmount-dev"
->
->  RDEPENDS:${PN}-bash-completion +=3D "${PN}-lsblk"
-> -RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs
-> findutils grep iproute2 kmod procps sed socat which xz diffutils"
-> +RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs
-> findutils grep iproute2 kmod procps sed socat which xz diffutils adduser
-> eudev"
->  RRECOMMENDS:${PN}-ptest +=3D "kernel-module-scsi-debug kernel-module-sd-=
-mod
-> kernel-module-loop kernel-module-algif-hash"
->  RDEPENDS:${PN}-swaponoff =3D "${PN}-swapon ${PN}-swapoff"
->  ALLOW_EMPTY:${PN}-swaponoff =3D "1"
-> --
-> 2.46.0
->
->
+This cannot be improved if INITRAMFS_IMAGE_BUNDLE = "1". If the kernel
+Makefile is needed to generate the initramfs bundle the kernel build
+folder is required.
+But for a build configuration with INITRAMFS_IMAGE_BUNDLE = "" the
+build folder is not needed. Creating the initramfs bundle requires:
+linux.bin, DTBs and the initramfs which are available in the deploy
+directory. That means creating the fitImage can be done with artifacts
+which are already cached by the sstate.
 
---000000000000d6b58406200a7e17
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Testing:
+- oe-selftest -a --skip-tests distrodata.Distrodata.test_checkpkg \
+     reproducible -T yocto-mirrors -T machine -T toolchain-user \
+     -T toolchain-system
+- Build linux-yocto with empty TMPDIR and empty sstate, followed by a build
+  with populated sstate.
+  - Clean build config:
+    KERNEL_IMAGETYPE = "Image"
+    KERNEL_IMAGETYPES += " fitImage "
+    KERNEL_CLASSES = " kernel-fitimage "
+    IMAGE_FSTYPES += "cpio.gz"
+    INITRAMFS_IMAGE = "core-image-minimal"
+    IMAGE_NAME_SUFFIX:pn-core-image-minimal = ""
+    UBOOT_RD_LOADADDRESS = "0x88000000"
+    UBOOT_RD_ENTRYPOINT = "0x88000000"
+    UBOOT_LOADADDRESS = "0x80080000"
+    UBOOT_ENTRYPOINT = "0x80080000"
+    FIT_DESC = "A model description"
+    FOO_VAR = "1"
+    INHERIT += "image-buildinfo"
+    IMAGE_BUILDINFO_VARS:append = " FOO_VAR"
+  - bitbake linux-yocto
+  - Append the following and rebuild with sstate:
+    FOO_VAR = "2"
+    TMPDIR = "${TOPDIR}/tmp-2"
+  - bitbake linux-yocto
+  - Check the log files:
+    - tmp/log/cooker/qemux86-64 contains:
+      linux-yocto-6.6.43+git-r0: task do_deploy: Succeeded
+      linux-yocto-6.6.43+git-r0: task do_deploy_fitimage_unbundled: Succeeded
+    - tmp-2/log/cooker/qemux86-64 contains:
+      linux-yocto-6.6.43+git-r0: task do_deploy_setscene: Succeeded
+      linux-yocto-6.6.43+git-r0: task do_deploy_fitimage_unbundled: Succeeded
+- To re-view the changes in the task dependencies, the bash script which was sent as a
+  separate (html formated) e-mail with v3 has been used. It confirms:
+  - For builds with fitImage and unbundled initramfs:
+    - the do_deploy_fitimage_unbundled task runs after do_deploy
+    - do_assemble_fitimage_initramfs is not executed
+    - do_bundle_initramfs is not executed
+    - It works for fitImage in KERNEL_IMAGETYPE as well as for fitImage
+      in KERNEL_IMAGETYPES
+  - For builds with fitImage and bundled initramfs: No changes
+  - For builds with fitImage, without initramfs:
+    - do_assemble_fitimage_initramfs is not executed
+    - do_bundle_initramfs is not executed
 
-<div dir=3D"ltr"><div>Note: with ptests the adduser package is only avaliab=
-le in the meta-openembedded/meta-perl layer. <br></div><div>Does this need =
-to be included elsewhere for the ptest use case?=C2=A0 Should it be added t=
-o the core layer to allow the ptests to work correctly? <br></div><div>Than=
-ks, <br></div><div>Aoife <br></div></div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 19, 2024 at 4:52=E2=80=AFPM =
-Aoife Power &lt;<a href=3D"mailto:aoifepoweriris@gmail.com">aoifepoweriris@=
-gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Missing adduser and eudev to RDEPENDS dependencies for ptest<br>
-<br>
-Signed-off-by: Aoife Power &lt;<a href=3D"mailto:aoifepowerIris@gmail.com" =
-target=3D"_blank">aoifepowerIris@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/util-linux/<a href=3D"http://util-linux_2.40.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">util-linux_2.40.1.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/util-linux/<a href=3D"http://util-linux_2.40=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">util-linux_2.40.1.bb</a> b/meta=
-/recipes-core/util-linux/<a href=3D"http://util-linux_2.40.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">util-linux_2.40.1.bb</a><br>
-index a1aab94055..f1c200c28b 100644<br>
---- a/meta/recipes-core/util-linux/<a href=3D"http://util-linux_2.40.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">util-linux_2.40.1.bb</a><br>
-+++ b/meta/recipes-core/util-linux/<a href=3D"http://util-linux_2.40.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">util-linux_2.40.1.bb</a><br>
-@@ -139,7 +139,7 @@ RDEPENDS:${PN}-dev +=3D &quot; util-linux-libuuid-dev&q=
-uot;<br>
-=C2=A0RPROVIDES:${PN}-dev =3D &quot;${PN}-libblkid-dev ${PN}-libmount-dev&q=
-uot;<br>
-<br>
-=C2=A0RDEPENDS:${PN}-bash-completion +=3D &quot;${PN}-lsblk&quot;<br>
--RDEPENDS:${PN}-ptest +=3D &quot;bash bc btrfs-tools coreutils e2fsprogs fi=
-ndutils grep iproute2 kmod procps sed socat which xz diffutils&quot;<br>
-+RDEPENDS:${PN}-ptest +=3D &quot;bash bc btrfs-tools coreutils e2fsprogs fi=
-ndutils grep iproute2 kmod procps sed socat which xz diffutils adduser eude=
-v&quot;<br>
-=C2=A0RRECOMMENDS:${PN}-ptest +=3D &quot;kernel-module-scsi-debug kernel-mo=
-dule-sd-mod kernel-module-loop kernel-module-algif-hash&quot;<br>
-=C2=A0RDEPENDS:${PN}-swaponoff =3D &quot;${PN}-swapon ${PN}-swapoff&quot;<b=
-r>
-=C2=A0ALLOW_EMPTY:${PN}-swaponoff =3D &quot;1&quot;<br>
--- <br>
-2.46.0<br>
-<br>
-</blockquote></div>
 
---000000000000d6b58406200a7e17--
+Adrian Freihofer (4):
+  kernel: refactor linux compression
+  kernel-fitimage: refactor fitimage_assemble
+  kernel: refactor fitimage
+  kernel-fitimage: run unbundled fitimage after deploy
+
+ meta/classes-recipe/image.bbclass           |  12 +-
+ meta/classes-recipe/kernel-fitimage.bbclass | 152 +++++++++++++-------
+ meta/classes-recipe/kernel-uboot.bbclass    |   1 +
+ meta/classes-recipe/kernel.bbclass          |  32 +++--
+ 4 files changed, 130 insertions(+), 67 deletions(-)
+
+-- 
+2.46.0
+
 
