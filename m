@@ -1,251 +1,260 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21426C52D7C
-	for <webhook@archiver.kernel.org>; Mon, 19 Aug 2024 08:57:56 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.206386.1724057871674274897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34ACEC5320E
+	for <webhook@archiver.kernel.org>; Mon, 19 Aug 2024 09:28:06 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.110])
+ by mx.groups.io with SMTP id smtpd.web11.206716.1724059676345457667
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Aug 2024 01:57:52 -0700
+ Mon, 19 Aug 2024 02:27:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fmmUxwfW;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52efdf02d13so5335297e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 01:57:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724057870; x=1724662670; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SwswWssawzKEoFUCVHH+8BAaCmM3WO8yJoEU9tL4X6o=;
-        b=fmmUxwfWKrv05DxJHZhZxSnr6PitE6c9efakMAMylu3SrbFXrcfnhXgXolVw9SFZ6B
-         daKeb9EPAvdW4f/uMlAw5wy7kNqisFglSp1/g5d2JNCyvsWGK+8UMm7nILLnOJOKfstM
-         GlP7PF72MpSAJZYODksonx96kFV7+pyeum50wnK7JRVyFHR2K+VCIdP3Ca+w/Iy69nM2
-         KXKEyx8XrcXuvwGX2d5sSeRMnAO6uhVagMPlAmaq+XRhc3vyUwJoGP9rYGBtAox6NL75
-         3JzWrRCWeCtlJ6fQAq1eQWu13ydzBvkCgW3rQ0D/4/01MAyww2aqQ5WjItOUDIWEjMSx
-         IvkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724057870; x=1724662670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SwswWssawzKEoFUCVHH+8BAaCmM3WO8yJoEU9tL4X6o=;
-        b=dUwZjmWND0heX6YE3bOfGAcl5j9xfpn7rGT6LyWDEAHUf+jVjujNNfzosh/JOl7cvf
-         DP+w4SnKPDUAmPAzdx0LBpFYOBDGUYDqQIOn89rGklBCoruWZD0U13c3ySnezjEL0Vbo
-         xokTeL8aENhr9D0VDRpyvarfamziv8cc4C7ePxzGti7G8h3g0k52d+VQa+BqUccZt9LK
-         f9ZTLcBJQHR69CMs8mB7gZNfwu3UcHUZezQmIuyDBAB80mu8Yq8777jrJD+A2Wnub/2h
-         6EftJEoi1/zMdK8dV4I67NWWcg2amOsiaWJbMgPGqRWgJYNa815mAMon7XC/PEOYiMMH
-         zC+A==
-X-Gm-Message-State: AOJu0YynvzVunvPTp05y9UqJ2+vyxuQlNgZp0bcf9UBmB3zhRupY7Rih
-	pYlObbgRiEq02v30FfPWx5w3nypNgs511WGqbFROmrrR5kz7TauYx9r30ahA16F4MFoUzTfe0im
-	o7miKH64hQY8Dv7g7WNVKqvecqe0=
-X-Google-Smtp-Source: AGHT+IE+wGI8PSySsNnOgpa0+nPIhQH55u/196pMRD8SUeAPb3ZcJ2uTUu9TcruqgVCyXT+RS+AjjvXqX4jIUyby2/Q=
-X-Received: by 2002:a05:6512:3b8b:b0:52e:fa5f:b6a7 with SMTP id
- 2adb3069b0e04-5331c6a0569mr7402042e87.13.1724057869235; Mon, 19 Aug 2024
- 01:57:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240818164844.2738771-1-f_l_k@t-online.de>
-In-Reply-To: <20240818164844.2738771-1-f_l_k@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 19 Aug 2024 10:57:38 +0200
-Message-ID: <CANNYZj9x08BYKYpxpL-djuBg5C_rLqfJ-qmJ19_kp0+D-nKB6Q@mail.gmail.com>
-Subject: Re: [RFC][oe-core][PATCH 1/2] mesa: update 24.1.4 -> 24.2.0
-To: f_l_k@t-online.de
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=AQPJ44VJ;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.22.110, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ClNvADOof7wAg6XPLY1iVjdMa2t9eR7vU86KXDHN3Tw5yx9Dw+QdrlB3wAjfbSQBvnTm36bQU/V4w5Lf6K1fRmGwOPyi2ei5TeMi8IoX21C9a58iDWsN/wUX3ME9xOUUxPhmGV0Lq/utFrYkUfR49pZV0SIm8Du5/U37ICn/8ghGnWtxQXeOzd0KPhBQ8TuEpQOAm1DWzjbfB75QeRQ7cx5LmiwWs/qqalERvfPjIDITw0z60r4G0Xo1jFZVoQllGgTUT+s0G5rSqkjiBGRMw4V/ZlF5V7AJjVQ/3IEr7/TJQrAkpXCculrMN16HbS2Ds2L86u/Gvz/BMztXwsZznA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GTpMb1C1aniOIOcnaoiTpwSQb/x+QTWBpkGmdbICLzY=;
+ b=NmJ+lm8tTy+5CC+CqI8TEf1Vz1eAY1huS0SFx5R8PzadKb/J75KzanDfvhdcVLBoENcCVOSvdllqAX+zJMCXYT7PHuNZnfa/zcGsC2qyJbAUhquokF6a/Idw8Ma9MDPRLGmqufehtLq8A5VobbrXHFHTEeiOsbAXSPoY5NgG+i9aok+dzkpoJS7FQk3HcPvnoMLLos1Km38WCzYbo25xaiSA8PVX9NFcZW+jESzpFbVcjkJW3ry6ObsqSlQHVvffAyJuyI2deHwIOg2XzDmVmot0PPmgdkuCzvCx5BOwU9kzrJjrXe+0SaTs2MZkxw/+6EAM+iNi8oQVKBSI/asJeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GTpMb1C1aniOIOcnaoiTpwSQb/x+QTWBpkGmdbICLzY=;
+ b=AQPJ44VJUkMfzJQg2MvbP2LvTphhcq2kthfT9pQNHrLzljVZYVBjK+vPAxlBCgMv2gt0we62JJIv2sOU204PilfsReFKWl9nkbr2qAyYFVnK7xV97SjEbECoS/d8uc1Lq4nZJCr+KxZLxt8djr9yyev4DSnUhSZ0GUi4x+W2VbRj9nq6JFFDh/xX8cjaWL8TfVEq6tgofllnw/234sOBLWNq+RtHeXHS2EfSNaM0yi5pEw1rpAU4aTbdF88aTGA8R0z8Ok7NCcHn74I1IrxA0tcxj+gYj6to774oXzFHgrGZQQBSufnaN+GRpLW8UeeHzPqnr0gjA1bgEWYXradMyg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by PAXPR06MB7728.eurprd06.prod.outlook.com (2603:10a6:102:150::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Mon, 19 Aug
+ 2024 09:27:52 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
+ 09:27:52 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCH v3] util-linux: Add PACKAGECONFIG option to mitigate rootfs remount error
+Date: Mon, 19 Aug 2024 09:27:39 +0000
+Message-ID: <20240819092739.2063887-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.39.2
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0116.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:8::15) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PAXPR06MB7728:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2c5ed32-c024-4914-a927-08dcc0313324
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?2i3RyLx4eGeN8h46MNxqHufGOZVSBvacJ9bUPPdfir8ndWLWmyqRRM2lQk6F?=
+ =?us-ascii?Q?I276F5ymIVFKVGiEM1qKJR7D5sYZkz/18R+tWj0f3PgvgD0zRpTke9R0SKfL?=
+ =?us-ascii?Q?QMziQ0tQgj4DT3+sZQxdhZAk7Vx9gGnn9UZU/YgZlJlIVkEnoId8yMm9dYkE?=
+ =?us-ascii?Q?rskUEXDS+LiuFCC6dPjBghDKHsjeJHbK17kb4iCnE4MhvpK495Es70tEni04?=
+ =?us-ascii?Q?krzEeYKiGdA1MqvlQjcdMYYcRElrL2mZYO9FWb0LYEd4JF9wIU3XUGbLq38l?=
+ =?us-ascii?Q?d16JgEH7sfZKKEjyXciGU6BT+Y1rJqxEp8v3Rv4nEVhxjGJA6hSWenwq2VN1?=
+ =?us-ascii?Q?YJjKBzS+N+8mCMsTlk87vEA+MztW+6ZjgOiE3zTugVqBzK5J7/38yFOjpj30?=
+ =?us-ascii?Q?S9FlgidMbq6p9gYnx5ti2oaIgLhHbNat8nHul/Gd+rpY2iZMlAFLJ7uub9Jc?=
+ =?us-ascii?Q?JnvoA/94g8T7A0AJ791nTQTAXz49ZEuECIsZpmE66vmbHa9kJyNd+4J3GddE?=
+ =?us-ascii?Q?Bxg3BVd7Dsw3G+c8i6mrkU1UQDE0WFV98kUrBWtPN5qUs1KebTNU5rnHXUnv?=
+ =?us-ascii?Q?Y7NRNWMPVqIRmu/3far7pV7UM6V+rHtGISkrtHR96dCdtjkdi3VJxToy4T+Z?=
+ =?us-ascii?Q?0aMJLa98IM077yib2CCSAz2X2aaduSBWRzQhfX1ucC19UatwpQs43yCPt2Lr?=
+ =?us-ascii?Q?zmBJYX9f/GUnEgWzcPwa8mp2/7rVmI6EFlCyhafwIW+3wplpdX7eU0e7hU73?=
+ =?us-ascii?Q?rYY4cjhWkYo0jFBRNou75ZTPtPovAe04prTL/v3O3fZWcvxhza63KO+8iXCh?=
+ =?us-ascii?Q?tGrd7zp4SNfq+JW6I5CW06V4HMXE4qJMOxuv+KebuPfZx3JyKx7QbxDy51KG?=
+ =?us-ascii?Q?iOSwAtxIEVUgocdPM6KBSsAOxanp7cMoZHE8PAXVX2jcQJotqc6CW2K8QHWl?=
+ =?us-ascii?Q?Si8xr80TpjxYuDfIwzATTcJz/1pQb8EeXUFPdDRhp9c/3mKlNVnhI8sQEsEt?=
+ =?us-ascii?Q?8VijFVkuDmQP6Ppi6W1KssBMn3+MhRp7MGsjMXEX0WKE+Umv162nyJZtFzzQ?=
+ =?us-ascii?Q?PKbATROMyxdzWxIu8+VIb3jQ5X1fMNQaH4Wq3epVFxmq2fBcyJgT0jus4+39?=
+ =?us-ascii?Q?sXoXUpYEPzzRssfgUJGlr9WTIhuKCYkEseu7emY86/d+u6GExevd12p+SJ60?=
+ =?us-ascii?Q?FyG4trv1BcqFD2gzJNeA8N8IUnUgDVZwl9eZ9Orcty4R0D+fCbgNtJM2uN9x?=
+ =?us-ascii?Q?QgnHIr3ZU9HgEWTr4yO2XAvP0x5qS6DAPsUUim88X2UWESCEW2+3IjfqSGHp?=
+ =?us-ascii?Q?tknjSiiCWt3hPcDzSjRPoC6PKMyplKrO2P4xfwSik+/nGGOcF6e1SaWpSnfC?=
+ =?us-ascii?Q?UFrgrpo=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?UlgVRz+FOLxLlGoMuL9vpQTHbQG6Ght+UVpCK8WsPaiLQkyLmHAVwjK1XnpU?=
+ =?us-ascii?Q?xFIOL30hBchqKvbWDyNcimw/bavGQYz0XLRCJ22VQME3+a1OiOycfunEQl70?=
+ =?us-ascii?Q?QHumLic9am+d0u7pgxT/s+4zvolKL/zCrFlnbehkmBeE8bsiDvLAgsf+9fh2?=
+ =?us-ascii?Q?G+zeUKWVAMa3sYcRzeKbyPeVnmTmYPeAdJukFXbWNT+ahQXxIr0bPfwo9rby?=
+ =?us-ascii?Q?fIcgxQwsPRnIDg2nTCkQXVZZxzQy7u5AOwaivK9FB9pxCzFJh37B2Fn8NGhW?=
+ =?us-ascii?Q?e5h0I4R0tH2Nm0rrKg+xZHGicOhSNK9mT54oFB3nWx+Z3v2yLfHa0sjONhlQ?=
+ =?us-ascii?Q?0ZEoBcAJSAe1zSx2wXRBRASBY3+ebEtVIj6X/5ZPsHQAd3R1ggZii4gbQ3YA?=
+ =?us-ascii?Q?pofDZGOSiWYsfpufh9g+aS0sI+vLlK5prD2x/B8K4EDUVMhQSO2Hn3Q9CWoe?=
+ =?us-ascii?Q?OjjV95qFzZ9cGPWI4s879BqHzFE/MFKCC9bBtPhee/HdDX9E71+xfOsP45zJ?=
+ =?us-ascii?Q?99NydGuFVYNl3HXE9wYd1u+lFp542wh021J/pZNmP0z1nYMV7LTjzLH1GkxR?=
+ =?us-ascii?Q?rmrMK+E4e4kNjfn6X+sYN17hb7lsTSHGEVuZdn2QaxzOBiSasgJOZ4cHMThc?=
+ =?us-ascii?Q?qF/6x+VspEIk6uOKokX8tMEqSewanSwPXbNQq24yr6sRMbEcTGO2Dy5O1+E+?=
+ =?us-ascii?Q?uNBjigLeal6PU3WuD5fXfoilI9GX2BKvAkCK24Wr0FLeV6K6BmVbHNd/mcOD?=
+ =?us-ascii?Q?fAemANrSHQ1q6Ev2zOm7HOWbNhrHQsfxKXO6Snedajol8S3FGSIhZ0unChUD?=
+ =?us-ascii?Q?+DI2PfHevPWp0rcYKjBHrYU6j7K1WZ7R7sS12YLelGawBIoUyEERAoCaV0zc?=
+ =?us-ascii?Q?Hl09sRnTnMiEqdtUr9XybgTM4bS+rexF0nepTkPL9KrRVNcNLVKW+ZAPSHP0?=
+ =?us-ascii?Q?mE6aVW+DZ3TQXNwFDfeEB4SBzSG0UsHPB8C7a2lxRcU/FVZ+yDYuLOZfSPL1?=
+ =?us-ascii?Q?o5Hf51MQaoGX4cYn7NjLFenKnUZO/VE/8eWycs87VPGes2FDesOPsFXj0zpa?=
+ =?us-ascii?Q?Ai0CxQIWUpvPWvg4HKERcCyIwp0AAtGZ+ZYDCHYNh3wiS1yZbm0LLBCRbWrz?=
+ =?us-ascii?Q?SmkbJSPkf8/8ZPB+Su/eelX3wIIgYtvMUTIWm/PCuiLYmUfuT5zp9l+bmaGa?=
+ =?us-ascii?Q?SlTs8pY2dmpk4Wl8fjGObw9J/j6eR2uxujInUBGMWaq27V/XuOJPs92lZde+?=
+ =?us-ascii?Q?p60cUtnqd3aSNn3ecEE+g4pNwC2rI5FBr8mq2uBn/iNOFrBjNf8V83NCP2/7?=
+ =?us-ascii?Q?FxliU5NpnATQ4ne1Tk0jqY2hpE3+KQ/A/qjdW25DOTywOTkM6MDubyAU/6U8?=
+ =?us-ascii?Q?IRwmZU/BllTzelcl0sZulS5MRroPhRwRZSOFFo4Nk/0exdDNk1UJN9m1qytE?=
+ =?us-ascii?Q?CyN+InQthXBp5o9FiXuWd2LhXKr0orMtOQR8YD0/5/FDMMyvgzbbxYvna7dG?=
+ =?us-ascii?Q?kEgFLpjOd1S2SKg4kvZ6XyhcX3MrYYk1kyEpctptPSFsMKJFJY6MXW4eLMBi?=
+ =?us-ascii?Q?2USDxnEnuovAj9kuk/G0UTK2rLMwSSn3opc2SLxd7ZpYK6qG1qJRROEVKpKw?=
+ =?us-ascii?Q?7A=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2c5ed32-c024-4914-a927-08dcc0313324
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 09:27:52.4578
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7x7LKrINOOvgjkwoJGF3feHtKS9agfftua+tR54p1+3CU5qERla+BoFDOf1tpmlU+xJFZuBHCalqEIjzUkc1zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7728
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 08:57:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203493
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 09:28:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203494
 
-Has anything changes in this release w.r.t intel drivers? Do they
-still requiure bits of meta-clang?
+The 2.39 version of util-linux took new file descriptors based mount
+kernel API into use. In relation to this change, the upstream release
+notes in
+https://github.com/util-linux/util-linux/blob/v2.39/Documentation/releases/=
+v2.39-ReleaseNotes#L14-L21
+mention that
 
-Given that we're now two major releases behind, I just do not think
-that one vendor should be holding everyone else hostage to their
-'special requirements'. I still think it's better to disable Intel
-drivers, and move on. The vendor can re-enable them through their BSP
-layer, and allocate resources towards integrating clang into core if
-they so wish. Can this be raised privately with them or in a TSC
-meeting?
+  This change is very aggressive to libmount code, but hopefully, it does n=
+ot introduce regressions in traditional mount(8) behavior.
 
-Alex
+After observing following failure when booting a board using a bit
+older 6.1 series kernel together with initramfs rootfs based boot flow
 
-On Sun, 18 Aug 2024 at 18:47, Markus Volk via lists.openembedded.org
-<f_l_k=3Dt-online.de@lists.openembedded.org> wrote:
->
-> - Remove 0001-amd-Include-missing-llvm-IR-header-Module.h.patch -> merged
-> - INSANE_SKIP dev-so. All .so files that are installed in ${libdir}/dri
->   are now links to libdril_dri.so, but they should still not be part of
->   the dev package, I assume?
-> - add PACKAGE for mesa-gallium-drivers and install libgallium-24.2.0.so
-> - add python3-pyyaml-native-dependency
->
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  ...lude-missing-llvm-IR-header-Module.h.patch | 41 -------------------
->  .../{mesa-gl_24.1.4.bb =3D> mesa-gl_24.2.0.bb}  |  0
->  meta/recipes-graphics/mesa/mesa.inc           |  9 ++--
->  .../mesa/{mesa_24.1.4.bb =3D> mesa_24.2.0.bb}   |  0
->  4 files changed, 5 insertions(+), 45 deletions(-)
->  delete mode 100644 meta/recipes-graphics/mesa/files/0001-amd-Include-mis=
-sing-llvm-IR-header-Module.h.patch
->  rename meta/recipes-graphics/mesa/{mesa-gl_24.1.4.bb =3D> mesa-gl_24.2.0=
-.bb} (100%)
->  rename meta/recipes-graphics/mesa/{mesa_24.1.4.bb =3D> mesa_24.2.0.bb} (=
-100%)
->
-> diff --git a/meta/recipes-graphics/mesa/files/0001-amd-Include-missing-ll=
-vm-IR-header-Module.h.patch b/meta/recipes-graphics/mesa/files/0001-amd-Inc=
-lude-missing-llvm-IR-header-Module.h.patch
-> deleted file mode 100644
-> index 82ad88a079..0000000000
-> --- a/meta/recipes-graphics/mesa/files/0001-amd-Include-missing-llvm-IR-h=
-eader-Module.h.patch
-> +++ /dev/null
-> @@ -1,41 +0,0 @@
-> -From 777d69cf15b80ab1f109a4936d6e4801c4b0e0f3 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Mon, 1 Jul 2024 23:09:29 -0700
-> -Subject: [PATCH] amd: Include missing llvm IR header Module.h
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -With LLVM-19, Module.h header is not being pulled, which results in
-> -compile errors e.g.
-> -
-> -src/amd/llvm/ac_llvm_helper.cpp:102:10: error: no matching function for =
-call to =E2=80=98unwrap(LLVMOpaqueModule*&)=E2=80=99
-> -  102 |    unwrap(module)->setTargetTriple(TM->getTargetTriple().getTrip=
-le());
-> -      |    ~~~~~~^~~~~~~~
-> -In file included from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/IR/Type.h:18,
-> -                 from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/IR/DerivedTypes.h:23,
-> -                 from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/IR/InstrTypes.h:26,
-> -                 from /mnt/b/yoe/master/build/tmp/work/x86_64-linux/mesa=
--native/24.0.7/recipe-sysroot-native/usr/include/llvm/Analysis/TargetLibrar=
-yInfo.h:14,
-> -                 from ../mesa-24.0.7/src/amd/llvm/ac_llvm_helper.cpp:8:
-> -
-> -Its getting the definition from llvm/IR/Type.h instead of Module.h and c=
-aused
-> -confusion to compiler
-> -
-> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/29993]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - src/amd/llvm/ac_llvm_helper.cpp | 1 +
-> - 1 file changed, 1 insertion(+)
-> -
-> -diff --git a/src/amd/llvm/ac_llvm_helper.cpp b/src/amd/llvm/ac_llvm_help=
-er.cpp
-> -index 5d065279ad1..af4a50f8409 100644
-> ---- a/src/amd/llvm/ac_llvm_helper.cpp
-> -+++ b/src/amd/llvm/ac_llvm_helper.cpp
-> -@@ -8,6 +8,7 @@
-> - #include <llvm/Analysis/TargetLibraryInfo.h>
-> - #include <llvm/IR/IRBuilder.h>
-> - #include <llvm/IR/LegacyPassManager.h>
-> -+#include <llvm/IR/Module.h>
-> - #include <llvm/IR/Verifier.h>
-> - #include <llvm/Target/TargetMachine.h>
-> - #include <llvm/MC/MCSubtargetInfo.h>
-> diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.1.4.bb b/meta/recipes-=
-graphics/mesa/mesa-gl_24.2.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa-gl_24.1.4.bb
-> rename to meta/recipes-graphics/mesa/mesa-gl_24.2.0.bb
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index 499006655d..40e7bed648 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -16,11 +16,10 @@ PE =3D "2"
->
->  SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-> -           file://0001-amd-Include-missing-llvm-IR-header-Module.h.patch=
- \
->             file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch\
->  "
->
-> -SRC_URI[sha256sum] =3D "7cf7c6f665263ad0122889c1d4b076654c1eedea7a2f38c6=
-9c8c51579937ade1"
-> +SRC_URI[sha256sum] =3D "c02bb72cea290f78b11895a0c95c7c92394f180d7ff66d4a=
-762ec6950a58addf"
->
->  UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
->
-> @@ -34,7 +33,7 @@ do_install:append() {
->    fi
->  }
->
-> -DEPENDS =3D "expat makedepend-native flex-native bison-native libxml2-na=
-tive zlib chrpath-replacement-native python3-mako-native gettext-native"
-> +DEPENDS =3D "expat makedepend-native flex-native bison-native libxml2-na=
-tive zlib chrpath-replacement-native python3-mako-native gettext-native pyt=
-hon3-pyyaml-native"
->  DEPENDS:append:class-target =3D " ${@bb.utils.contains('PACKAGECONFIG', =
-'opencl', 'mesa-native', '', d)}"
->  EXTRANATIVEPATH +=3D "chrpath-native"
->  PROVIDES =3D " \
-> @@ -243,7 +242,7 @@ PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
->               libopencl-mesa libopencl-mesa-dev \
->               libxatracker libxatracker-dev \
->               mesa-megadriver mesa-vulkan-drivers \
-> -             mesa-vdpau-drivers mesa-tools \
-> +             mesa-vdpau-drivers mesa-gallium-drivers mesa-tools \
->              "
->
->  do_install:append () {
-> @@ -335,6 +334,7 @@ FILES:mesa-megadriver =3D "${libdir}/dri/* ${datadir}=
-/drirc.d"
->  FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so ${libdir}/libpow=
-ervr_rogue.so ${datadir}/vulkan"
->  FILES:${PN}-vdpau-drivers =3D "${libdir}/vdpau/*.so.*"
->  FILES:libegl-mesa =3D "${libdir}/libEGL*.so.* ${datadir}/glvnd/egl_vendo=
-r.d"
-> +FILES:mesa-gallium-drivers =3D "${libdir}/libgallium-*.so"
->  FILES:libgbm =3D "${libdir}/libgbm.so.*"
->  FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
->  FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
-> @@ -362,6 +362,7 @@ FILES:libxatracker-dev =3D "${libdir}/libxatracker.so=
- ${libdir}/libxatracker.la \
->  # catch all to get all the tools and data
->  FILES:${PN}-tools =3D "${bindir} ${datadir}"
->  ALLOW_EMPTY:${PN}-tools =3D "1"
-> +INSANE_SKIP:${PN}-megadriver =3D "dev-so"
->
->  # Fix upgrade path from mesa to mesa-megadriver
->  RREPLACES:mesa-megadriver =3D "mesa"
-> diff --git a/meta/recipes-graphics/mesa/mesa_24.1.4.bb b/meta/recipes-gra=
-phics/mesa/mesa_24.2.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa_24.1.4.bb
-> rename to meta/recipes-graphics/mesa/mesa_24.2.0.bb
-> --
-> 2.45.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203484): https://lists.openembedded.org/g/openembedde=
-d-core/message/203484
-> Mute This Topic: https://lists.openembedded.org/mt/107965743/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+  [FAILED] Failed to start Remount Root and Kernel File Systems.
+  See 'systemctl status systemd-remount-fs.service' for details.
+
+closer inspection revealed:
+
+  demoboard ~ # systemctl status -l systemd-remount-fs.service
+  x systemd-remount-fs.service - Remount Root and Kernel File Systems
+       Loaded: loaded (/usr/lib/systemd/system/systemd-remount-fs.service; =
+enabled-runtime; preset: disabled)
+       Active: failed (Result: exit-code) since Wed 2024-08-14 14:53:48 UTC=
+; 1min 22s ago
+         Docs: man:systemd-remount-fs.service(8)
+               https://www.freedesktop.org/wiki/Software/systemd/APIFileSys=
+tems
+      Process: 76 ExecStart=3D/usr/lib/systemd/systemd-remount-fs (code=3De=
+xited, status=3D1/FAILURE)
+     Main PID: 76 (code=3Dexited, status=3D1/FAILURE)
+
+  Aug 14 14:53:48 demoboard systemd-remount-fs[76]: /usr/bin/mount for / ex=
+ited with exit status 32.
+  Aug 14 14:53:48 demoboard systemd-remount-fs[81]: mount: /: mount point n=
+ot mounted or bad option.
+  Aug 14 14:53:48 demoboard systemd-remount-fs[81]:        dmesg(1) may hav=
+e more information after failed mount system call.
+  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Main pr=
+ocess exited, code=3Dexited, status=3D1/FAILURE
+  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Failed =
+with result 'exit-code'.
+  Aug 14 14:53:48 demoboard systemd[1]: Failed to start Remount Root and Ke=
+rnel File Systems.
+
+also consequentially, 'systemctl status' reported:
+
+  State: degraded
+
+When issuing 'strace -ff mount -o remount /' the failure occurred at
+
+  mount_setattr(3, "", AT_EMPTY_PATH, {attr_set=3DMOUNT_ATTR_RDONLY|MOUNT_A=
+TTR_NOATIME|MOUNT_ATTR_NODIRATIME, attr_clr=3DMOUNT_ATTR_NOSUID|MOUNT_ATTR_=
+NODEV|MOUNT_ATTR_NOEXEC|MOUNT_ATTR_NOATIME|MOUNT_ATTR_STRICTATIME|MOUNT_ATT=
+R_NOSYMFOLLOW|0x40, propagation=3D0 /* MS_??? */, userns_fd=3D0}, 32) =3D -=
+1 EINVAL (Invalid argument)
+
+After further investigation, The issue was pinpointed to lack of Linux
+kernel commit
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=
+=3D95de4ad173ca0e61034f3145d66917970961c210
+("fs: relax mount_setattr() permission checks") in the kernel version
+that was being used. Above mitigation was discussed in email related to
+then-rejected CVE-2024-26821:
+https://lore.kernel.org/linux-cve-announce/2024051606-imaging-entrench-b327=
+@gregkh/T/
+
+After testing with qemuarm64 machine different linux-yocto versions,
+it was observed that the issue impacts following versions of currently
+supported LTS kernels:
+ - 6.6.17 (fixed since 6.6.18 i.e. mount_setattr() returns 0)
+ - 6.1.78 (fixed since 6.1.79 i.e. mount_setattr() returns 0)
+ - 5.15.164 which is currently the newest of 5.15.y series (i.e. no
+   known working version)
+
+Taking the above findings into consideration, add a new PACKAGECONFIG
+option which allows to conveniently opt-out from prematurely using a
+feature which can cause issues with a bit older kernels.
+
+Versions 5.10.223, 5.4.279 and 4.10.317 were also tested but the issue
+was not reproduced with those versions - using strace showed that the
+mount_setattr call associated with the new mount API problem was not
+issued with these LTS kernel versions, which seemed to be confirmed
+also by following libmount debug message in these cases:
+
+  415: libmount:     HOOK: [0x7fa115e818]: failed to init new API
+
+Note: In addition to the aforementioned, this change was
+tested also briefly using the current latest kernel versions 6.1.104,
+6.6.45 and 6.10.3 that using the old mount API with newest kernels
+did not introduce any observable regression to the boot flow.
+
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+---
+ meta/recipes-core/util-linux/util-linux_2.40.1.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/recipes-core/util-linux/util-linux_2.40.1.bb b/meta/recip=
+es-core/util-linux/util-linux_2.40.1.bb
+index a1aab94055..e87657cc70 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.40.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
+@@ -107,6 +107,13 @@ PACKAGECONFIG[cryptsetup] =3D "--with-cryptsetup,--wit=
+hout-cryptsetup,cryptsetup"
+ PACKAGECONFIG[chfn-chsh] =3D "--enable-chfn-chsh,--disable-chfn-chsh,"
+ PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux"
+ PACKAGECONFIG[lastlog2] =3D "--enable-liblastlog2,--disable-liblastlog2,sq=
+lite3"
++# Using the new file descriptors based mount kernel API can cause rootfs r=
+emount failure with some older kernels.
++# Of currently supported LTS kernels, it seems safe to enable this option =
+with:
++# - version 6.6.18 and newer in the 6.6.y series.
++# - version 6.1.79 and newer in the 6.1.y series.
++# - with the 5.15.y series, versions till at least 5.15.164 can not use it=
+.
++# - with 5.10.y, 5.4.y and 4.19.y series kernels libmount seemed to use th=
+e old API regardless of this option.
++PACKAGECONFIG[no-new-mount-api] =3D "--disable-libmount-mountfd-support,--=
+enable-libmount-mountfd-support"
+=20
+ EXTRA_OEMAKE =3D "ARCH=3D${TARGET_ARCH} CPU=3D CPUOPT=3D 'OPT=3D${CFLAGS}'=
+"
+=20
+--=20
+2.39.2
+
 
