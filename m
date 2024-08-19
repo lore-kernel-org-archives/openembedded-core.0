@@ -1,209 +1,145 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E85DC3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 19 Aug 2024 09:29:36 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web11.206727.1724059770930429278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 382E9C5320E
+	for <webhook@archiver.kernel.org>; Mon, 19 Aug 2024 09:30:16 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.112])
+ by mx.groups.io with SMTP id smtpd.web10.206543.1724059813820436183
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Aug 2024 02:29:31 -0700
+ Mon, 19 Aug 2024 02:30:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mLrtA0IK;
- spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52f01613acbso512379e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 02:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724059769; x=1724664569; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Q/9BplvTjtXUevm+RAYwaPlzm+oOEuDEF+a1kEao/k=;
-        b=mLrtA0IKrdpai3dRLtv4lpQYToCwvfQggaYgJhZDXHooNoR6TIeKZRnfkbNZNPTXfe
-         sO1dQxLyRY7ntn8yBhptvvObwjUJ+lBq7+ea/IUzomvgO7s3Zpk0xNVDLm0jFIhpOoeP
-         cGTli/WdHakBh6KgJQeA5kXb+UHfjtu5FkvA7GC8Ogad4qM2t5WGr+icO3VzkEKUHC+5
-         jiV+t/nH/kvQvs0yz57ADewUVYLNheF++2p2moaL74Dn7inq8lTxgzBeAsO1VmW1+XWi
-         zquHQLm2pH0e3Qeq3xBmHfZciMvN3XPaY9fi8vuuWjWRahGfGj2qcQdZwyW4N94ZtNLB
-         MdZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724059769; x=1724664569;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0Q/9BplvTjtXUevm+RAYwaPlzm+oOEuDEF+a1kEao/k=;
-        b=SSnUdwoYq0IdtARAccmp+Q2PT8r+W2DvZuaAjt/35Jhf9jRDETS0IAzbFIw0eLTEOu
-         1iHD1N5eV7x6204iFAl84PrX+JyPD1UolGq4MX3y+KNqiaEqsu9LacA+rmlZVSpiOrnG
-         zR/R2kH1Qr2v4SUwqUNQYy+0nW6681OHuYnVg692nfbFBlTWaM977+g2h4+tVFQaKpQU
-         aAuIi2Mmj+EqlswTu92jmBL304vlQ2rXbe07vxyaNq10Qc6OALi+G/9JeXiIEZ5YcoUx
-         7rxHdGR86scCrmMVP9ZZWLI2h+z9KT+9RbbJqU2p8aLXjwbcvk5AjBwR8in1WVKXUPol
-         f7kQ==
-X-Gm-Message-State: AOJu0YwVDbMPTe8lblDY11u8gS0U4BWM9kV8BUnWSKjQhVhMpeivpHrp
-	5pMn7xrkXCpTlML2FzRmOZJBcBRY2zuGwnwsRG0Gnux892dHR9wfEmGNsWWi2BcUidt3DZ2JZRy
-	vckAavTzLE1h7ku05XQeMay8+zrU=
-X-Google-Smtp-Source: AGHT+IFl07lpdSl7gQdQSn/AfW9LK9oNZZL55YPlLKMLtIqWmNtSzL2JUcP3Hq6eixEeQ5Lfx5GtVlILgwU5TYEzgwk=
-X-Received: by 2002:a05:6512:114b:b0:52f:31a:4c08 with SMTP id
- 2adb3069b0e04-53307f88b72mr4185494e87.11.1724059768361; Mon, 19 Aug 2024
- 02:29:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240819092739.2063887-1-niko.mauno@vaisala.com>
-In-Reply-To: <20240819092739.2063887-1-niko.mauno@vaisala.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 19 Aug 2024 11:29:17 +0200
-Message-ID: <CANNYZj_nac30NVKGVkKJVh4p1nOE1dAbeW=4qj9TkGU9aasEKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] util-linux: Add PACKAGECONFIG option to
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=Wxjnv6n5;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.22.112, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DV3Dc1xFc9QEi4hHqNXYlao8/4ITJlEu1o1WbQmUkK8NmgxkNyqAQAXGkAaAGkLviCH8U4LzctGJ66ZYjqIa/FWcuAhqF2FxVLFqE4H6sqagHArZJP2RCg6YNWCeJUl0lRwTm3kpdEdiuZBvKcl9wMXF/wbPwwr1CayeYmMOXUgslbeDEvOOx1yWgjrMyERzSXqY18E5as9MUr2AtfgO0aOFiXZm3r9KBo2IzjUQsLLEVPyuNhNKAv+uX8C5TnHYAvFOqy4wVBxJV/rVljMyhvIBujEFEwpzHRubNuBnAJ6AKzrI5HhYeV65zv4xFsSqLMZfYladjQ0ATU7tv5ST2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EqicTLlpwYg6LXJ343gZeTzet5Ad5sdIUj9kYeJh/4A=;
+ b=TJc1Ve0fy68QTol/yy2xvh9fpx8Q3DE+rKmNkYwLMA8P14P7ty/x9YHrHf8RjadsPoUvH9CIK73SoWbeqK//aXa1XOT+b3bQ9UdI0yavWrZm6qW52cCDqDfEnffDnP0Ej4QFDTM3yGRNhVK2yRvmiX4wRGufJtPU7rBfnmDNVmSAaAJVNi4seBHaQhph5c6QMi6kvTLqooAvVosPJeMx5TE9RAQ00EFOurn4sIxe8ctq9cZDCE7emSoOjOSNhqW577Z2Zn0njkg/p9Gc0uR0murrEMzi/cyiFUy1K29Uoe1aJUgmNJ05lVI4J5j54vC9O2iTanpmP4On4Uh9F04irw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EqicTLlpwYg6LXJ343gZeTzet5Ad5sdIUj9kYeJh/4A=;
+ b=Wxjnv6n5uJoNYJ1wZzEZc3K/RYnJXoX0t853x1zQ2/VMlBkpwDyiv4NGpooLLqi5E7quvWXtIqAmxVeHdHNugqioQegdY/Xt07IaoDKHGULQGgjDIombFjHSt1kpUGGMJHrm5sc2+tfMZww8eHxFyanyIqWQ7SSnqxVD6tdWxbRYnjngy9lwvAOn5zpzPXDAI7P1zPfQ0iEXX18epygTFlZ/pkvv0fm7T6vMSHUjRP32Dg4iIWSTBjkaHGb1/9S2HlD/Iwd8vKIaznXPpZ7OpCa9vXKEOOsjErJbD9lBeIyAFlEbSR9Bn9tt66uuaSyFjwbbo6Gmx4DsSA5CdSr8Bw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by PAXPR06MB7728.eurprd06.prod.outlook.com (2603:10a6:102:150::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Mon, 19 Aug
+ 2024 09:30:11 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
+ 09:30:11 +0000
+Message-ID: <04335c41-624e-44e4-aa4e-491f54c228aa@vaisala.com>
+Date: Mon, 19 Aug 2024 12:30:09 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2] util-linux: Add PACKAGECONFIG option to
  mitigate rootfs remount error
-To: niko.mauno@vaisala.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+References: <20240819082215.1322013-1-niko.mauno@vaisala.com>
+ <CANNYZj-NDo7vRb3Qvngb3v3yCfxfF+hGpxC1mmGO=gpBX7UMjA@mail.gmail.com>
+Content-Language: en-US
+From: Niko Mauno <niko.mauno@vaisala.com>
+In-Reply-To: <CANNYZj-NDo7vRb3Qvngb3v3yCfxfF+hGpxC1mmGO=gpBX7UMjA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: GV2PEPF0000384E.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:144:1:0:9:0:11) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PAXPR06MB7728:EE_
+X-MS-Office365-Filtering-Correlation-Id: dbd6b5db-3b42-4102-f2b9-08dcc03185f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?JvQEBunpeDsVO2B0O65ekvjqY1BJubMnROLx3TI1BKmWkjuA62uCiS0SKTWK?=
+ =?us-ascii?Q?vkHs7GdjEKCWVWW/cvyidkBYx/wWcaX3/P+of6nOb21I8gWHOScKqRrPoxFE?=
+ =?us-ascii?Q?Es0Yps2v+U0nhMk0cIrOKDS1kDdA4+bxclEf04tU48uYiiqbFDbmsvIa4v8E?=
+ =?us-ascii?Q?01coIgJiEBHAWa89H6GuTyApYb4CGMzYjwiGXDp2GfC/J1ZasbPsbEs9z2wH?=
+ =?us-ascii?Q?F+HiedgLMzCC7MROM0d/Nt8KDkEzX6cduTPGqlBQrXZ39QdVX0g/0IZclhvG?=
+ =?us-ascii?Q?8ejx0Mu1I8R9dkjItOYwF2JkPGaPIfUdtVifBLwjPex4B9Zx2FmBe51IMl7J?=
+ =?us-ascii?Q?b3lK+ubDLAtNtEIX/wbTQAYbJkStVuqNGGAXF1jZZooaE7Hk77cn7bpJvaV8?=
+ =?us-ascii?Q?yG3ytdl2n3lQ7ctQgOhiozIT63K7ANJhfUq+fkg3uONmEGaZoKoIp6YF6o2W?=
+ =?us-ascii?Q?Sne0/9FKCqCu2APwP3Y1yr6r6pqLE/tlYrGARvkYXl0cyOsJ08nWKsBGpDhz?=
+ =?us-ascii?Q?wV/XdvRkoNYFF+IwjH65P0PQA4MkVCF81C/0c45NYDKPhBrieNYltVcc1wvN?=
+ =?us-ascii?Q?umRDIRW2orRSoitKsuP3LdxbCtopVR1XJRO/YV/digR9mEl7Ok+4R+9vfvZ9?=
+ =?us-ascii?Q?+hvj8Ph7FX8JbFMOfxuKUYDFiynsbrOq8qviUtnIVeJMdGjEsHuB1QwNIlJ0?=
+ =?us-ascii?Q?GBMJskzR7txPxaFD5tNQbBJmOyMYJ7Q198heCbPhCDAkC759Ga+ugnjjppeh?=
+ =?us-ascii?Q?qbF7pGnsVoyFoFU3iSwQz8g2UaEUITplad3G3nbW4qnfLTlHFWf/Tj5N9l6A?=
+ =?us-ascii?Q?hc70nIeSRuGPbhZvjDyh5NsiTGX+v4UGd3Uo+Fm/3F6Rmy6OQIqxfAB+nvKh?=
+ =?us-ascii?Q?pPKc/CceqjwOlRgyz9S1b9C4Vtmao/EMPOVtVGCzuPtd8SxwjY7OccczwWZo?=
+ =?us-ascii?Q?rrQD21Soh+FBdUxc/rdr5gwF0hX0VGwl7k0NfdBVXY3/k444zn5EmlROswta?=
+ =?us-ascii?Q?lTIUqno8ETmgXTYUmPqYg5ZZ3TfKtX+D/655BGwIV41Gkq5HJf+yl16FnqhM?=
+ =?us-ascii?Q?SUCeIlRbBRkdYH1+JezgFbuS6hP9v2WemM/YczU0BZpH1q3Hu7KO9zLnTHWR?=
+ =?us-ascii?Q?ft1edC0m/uOKku7KifYLLWRLpLbCU3xMHeniVIzEMDpD1TUAMySuCMLs3F/7?=
+ =?us-ascii?Q?ZfWHyiVZHxZ+X9Gb1onUHzB8fgY6pfD/JTL8e9DDBgwkGpzfDCiks4zEJduE?=
+ =?us-ascii?Q?cSX1F4cbIVS/qLMNoTft5M/arUTj1zL4rjNunawPhZI2mnPEyL65Q/a4q6mt?=
+ =?us-ascii?Q?1cSyVjUZxaDWe1ZAHbqEK1N8X3Rc1/3y6pITZ16yMmk09Q=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?I4ap9I4GQy4CCY7DuNSyBgp1v1p3Al/ukdHq3em4lR3P9rHkY2Lrq4KPl1tP?=
+ =?us-ascii?Q?QV2Sea9xHb/Qj+FyBp6eOTstqQIhyvrP3BgxOaWh82i506LTmqVhO7qseuos?=
+ =?us-ascii?Q?iA9gdvBfDqZpMwIAM3LusJdOI4abHO0ASlKEmfR1JlU8Pkglt5OxNB40HLZq?=
+ =?us-ascii?Q?U4H5IONv1Bc3OBfy6aAtJsV9gEwY7TDt66sqyFTOLSZQanrVrv5ijD7joH25?=
+ =?us-ascii?Q?MnxhXyAY0wncgrodouG1wZUXcDk8fUj62w1yVJaVSZty9MkoHO4CyEROCkUB?=
+ =?us-ascii?Q?FRaTCSAuC8SgMZmR61j5wi8KzVdN60QuDlcpdy+JxNOvwKduKPpD3+dmHsAa?=
+ =?us-ascii?Q?eRJaP3IPSvwTu5+eu6zyYtTw5K/zVQ6gtE8kfVo7EmC6ZRswoz4VkTIktMVi?=
+ =?us-ascii?Q?SP6ypg2AgZTaE9FXsp8uqacrifW+bmKP0HS5gNBaq9gNw4Jaq//7GBIwgRQU?=
+ =?us-ascii?Q?lQ75mkklz6RO8+0yBo0mwvLfvGY5Okkn5iGRYPDn6/U1w9Kjct5cWdmSaz0q?=
+ =?us-ascii?Q?NaOnOBjVP6iVa5U/Ns4TZ7/SGziM2qQ9taW+dUu2CFXXOa+RerlWNrCQEanw?=
+ =?us-ascii?Q?jkwsxondZoB8jnjMNK4M8+NchaVeVYPl8cjeIR9z9j8yLau4IYyS9q9Yh1rc?=
+ =?us-ascii?Q?gx0xXADFuUHtI2OOaBoSyKdQ6sifAOrJnJRxqm9J9FHEhKSBKZJmlsilAmuZ?=
+ =?us-ascii?Q?LtTs2fmgi/J9xKPM3S6ERvPTz4UA4c8VTnyciRFlKAsSXIwiGeIrB4V9UEql?=
+ =?us-ascii?Q?qK14vt86ZIezvQPV1dZHfc24uhbF99wvRWmkcurfRz9OCYhrQ81xvRLqzIsn?=
+ =?us-ascii?Q?24ZI2Y0Uqv2kzOZpfQuL8y1/rhH0iGjweHB5TbUeLJDpU9qawW/CjEManJQO?=
+ =?us-ascii?Q?pmLwXygLQ8fY2ZQQNndcq4/qBIEnQFcVBepf6IM4+Qmwia/I9wHN3e7zwzp7?=
+ =?us-ascii?Q?xdKdecF/9DjrC+ZbC1YbZDBbVaCcP2Slr9mP7cqTzG2zgNeqa6tRC7MGWIu3?=
+ =?us-ascii?Q?WcIOVxE8bLqIzbgRcM/K3NbnEZbyKd0mNsGD2Q3hKF3N/iE61cixdvBC2hVz?=
+ =?us-ascii?Q?P8U56IjrChs1FmrjemAXYUldzIMtQFtDP9JqXgWG3zfmZURLJaBWB0oGijmS?=
+ =?us-ascii?Q?nVsbX+ONn9h7J9vDiRf666D2W1MYEo058SuSQK7Z1tSs6+FILU6wvhEHDvzm?=
+ =?us-ascii?Q?hH2WSAQoX0JHFym/oL+9fX8XE+bxh+55pMpHey29qdXkcSdcrF0QGmru7p+7?=
+ =?us-ascii?Q?uomW/rS5zRLPYnWIeNs6hsYG6KrFqTE3D8EeNqWWsRlDCqRA+5eefiUa1nKe?=
+ =?us-ascii?Q?UYi8q/hGpqx/ybLIiq1Sux3yVxaTosZDlkRcKAhNtDSRwjyMOENAELfazzNO?=
+ =?us-ascii?Q?fETBzrJST49Nzc9Xisae8ZEC9yRAfedP9ylml2z50i0/qfcu4P1nn1mmdjt4?=
+ =?us-ascii?Q?9wlWT5/58PJqF67peHR9G/AbzKmQfr0yx03WwvWQL69sy5ZEXukjIsFwScGY?=
+ =?us-ascii?Q?QWbo7DZOoLTVzotYGcp8amRHLGuY5DOXSuvLjKw/1C3mbLWCRfu2snBp7Hk5?=
+ =?us-ascii?Q?pBJ/rxgcDyzqQ7x0HNCXy/9KNKVrqxkzOwKfraurnRTRTyu+CLh8D844mGXZ?=
+ =?us-ascii?Q?gg=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbd6b5db-3b42-4102-f2b9-08dcc03185f8
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 09:30:11.4790
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t6YQE3ubOQ8oS4baIE6vIJHhyfeIYixUwROGaz79g0oTl20gfpRWV1H1RgJWFr8COAOKDPQgC5uLA3Y263NtEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7728
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 09:29:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203495
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 09:30:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203496
 
-Thanks, this version lgtm.
+On 19.8.2024 11.27, Alexander Kanavin wrote:
+> I don=E2=80=99t think this should be disabled by default actually. If the=
+=20
+> default upstream behavior is to enable, and all current linux-yocto=20
+> kernels have the needed support, then we should follow that.
 
-Alex
-
-On Mon, 19 Aug 2024 at 11:27, Niko Mauno via lists.openembedded.org
-<niko.mauno=3Dvaisala.com@lists.openembedded.org> wrote:
->
-> The 2.39 version of util-linux took new file descriptors based mount
-> kernel API into use. In relation to this change, the upstream release
-> notes in
-> https://github.com/util-linux/util-linux/blob/v2.39/Documentation/release=
-s/v2.39-ReleaseNotes#L14-L21
-> mention that
->
->   This change is very aggressive to libmount code, but hopefully, it does=
- not introduce regressions in traditional mount(8) behavior.
->
-> After observing following failure when booting a board using a bit
-> older 6.1 series kernel together with initramfs rootfs based boot flow
->
->   [FAILED] Failed to start Remount Root and Kernel File Systems.
->   See 'systemctl status systemd-remount-fs.service' for details.
->
-> closer inspection revealed:
->
->   demoboard ~ # systemctl status -l systemd-remount-fs.service
->   x systemd-remount-fs.service - Remount Root and Kernel File Systems
->        Loaded: loaded (/usr/lib/systemd/system/systemd-remount-fs.service=
-; enabled-runtime; preset: disabled)
->        Active: failed (Result: exit-code) since Wed 2024-08-14 14:53:48 U=
-TC; 1min 22s ago
->          Docs: man:systemd-remount-fs.service(8)
->                https://www.freedesktop.org/wiki/Software/systemd/APIFileS=
-ystems
->       Process: 76 ExecStart=3D/usr/lib/systemd/systemd-remount-fs (code=
-=3Dexited, status=3D1/FAILURE)
->      Main PID: 76 (code=3Dexited, status=3D1/FAILURE)
->
->   Aug 14 14:53:48 demoboard systemd-remount-fs[76]: /usr/bin/mount for / =
-exited with exit status 32.
->   Aug 14 14:53:48 demoboard systemd-remount-fs[81]: mount: /: mount point=
- not mounted or bad option.
->   Aug 14 14:53:48 demoboard systemd-remount-fs[81]:        dmesg(1) may h=
-ave more information after failed mount system call.
->   Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Main =
-process exited, code=3Dexited, status=3D1/FAILURE
->   Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Faile=
-d with result 'exit-code'.
->   Aug 14 14:53:48 demoboard systemd[1]: Failed to start Remount Root and =
-Kernel File Systems.
->
-> also consequentially, 'systemctl status' reported:
->
->   State: degraded
->
-> When issuing 'strace -ff mount -o remount /' the failure occurred at
->
->   mount_setattr(3, "", AT_EMPTY_PATH, {attr_set=3DMOUNT_ATTR_RDONLY|MOUNT=
-_ATTR_NOATIME|MOUNT_ATTR_NODIRATIME, attr_clr=3DMOUNT_ATTR_NOSUID|MOUNT_ATT=
-R_NODEV|MOUNT_ATTR_NOEXEC|MOUNT_ATTR_NOATIME|MOUNT_ATTR_STRICTATIME|MOUNT_A=
-TTR_NOSYMFOLLOW|0x40, propagation=3D0 /* MS_??? */, userns_fd=3D0}, 32) =3D=
- -1 EINVAL (Invalid argument)
->
-> After further investigation, The issue was pinpointed to lack of Linux
-> kernel commit
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?=
-id=3D95de4ad173ca0e61034f3145d66917970961c210
-> ("fs: relax mount_setattr() permission checks") in the kernel version
-> that was being used. Above mitigation was discussed in email related to
-> then-rejected CVE-2024-26821:
-> https://lore.kernel.org/linux-cve-announce/2024051606-imaging-entrench-b3=
-27@gregkh/T/
->
-> After testing with qemuarm64 machine different linux-yocto versions,
-> it was observed that the issue impacts following versions of currently
-> supported LTS kernels:
->  - 6.6.17 (fixed since 6.6.18 i.e. mount_setattr() returns 0)
->  - 6.1.78 (fixed since 6.1.79 i.e. mount_setattr() returns 0)
->  - 5.15.164 which is currently the newest of 5.15.y series (i.e. no
->    known working version)
->
-> Taking the above findings into consideration, add a new PACKAGECONFIG
-> option which allows to conveniently opt-out from prematurely using a
-> feature which can cause issues with a bit older kernels.
->
-> Versions 5.10.223, 5.4.279 and 4.10.317 were also tested but the issue
-> was not reproduced with those versions - using strace showed that the
-> mount_setattr call associated with the new mount API problem was not
-> issued with these LTS kernel versions, which seemed to be confirmed
-> also by following libmount debug message in these cases:
->
->   415: libmount:     HOOK: [0x7fa115e818]: failed to init new API
->
-> Note: In addition to the aforementioned, this change was
-> tested also briefly using the current latest kernel versions 6.1.104,
-> 6.6.45 and 6.10.3 that using the old mount API with newest kernels
-> did not introduce any observable regression to the boot flow.
->
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> ---
->  meta/recipes-core/util-linux/util-linux_2.40.1.bb | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.40.1.bb b/meta/rec=
-ipes-core/util-linux/util-linux_2.40.1.bb
-> index a1aab94055..e87657cc70 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-> @@ -107,6 +107,13 @@ PACKAGECONFIG[cryptsetup] =3D "--with-cryptsetup,--w=
-ithout-cryptsetup,cryptsetup"
->  PACKAGECONFIG[chfn-chsh] =3D "--enable-chfn-chsh,--disable-chfn-chsh,"
->  PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux"
->  PACKAGECONFIG[lastlog2] =3D "--enable-liblastlog2,--disable-liblastlog2,=
-sqlite3"
-> +# Using the new file descriptors based mount kernel API can cause rootfs=
- remount failure with some older kernels.
-> +# Of currently supported LTS kernels, it seems safe to enable this optio=
-n with:
-> +# - version 6.6.18 and newer in the 6.6.y series.
-> +# - version 6.1.79 and newer in the 6.1.y series.
-> +# - with the 5.15.y series, versions till at least 5.15.164 can not use =
-it.
-> +# - with 5.10.y, 5.4.y and 4.19.y series kernels libmount seemed to use =
-the old API regardless of this option.
-> +PACKAGECONFIG[no-new-mount-api] =3D "--disable-libmount-mountfd-support,=
---enable-libmount-mountfd-support"
->
->  EXTRA_OEMAKE =3D "ARCH=3D${TARGET_ARCH} CPU=3D CPUOPT=3D 'OPT=3D${CFLAGS=
-}'"
->
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203494): https://lists.openembedded.org/g/openembedde=
-d-core/message/203494
-> Mute This Topic: https://lists.openembedded.org/mt/107977417/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Thanks, addressed in v3 which I just submitted.
+-Niko
 
