@@ -2,135 +2,140 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC47C5472C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E6DEC5321D
 	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 06:52:18 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web10.12714.1724136734165970101
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web11.12771.1724136730186083990
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Aug 2024 23:52:14 -0700
+ Mon, 19 Aug 2024 23:52:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=aMLjhzIj;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=AkF3+tjR;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1724136735; x=1755672735;
+  t=1724136730; x=1755672730;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=tF1RhYGfa4U8Jb5JMmm1cGGOTDqs2vIupcqNWnI1hV0=;
-  b=aMLjhzIjrfLsZRUDz7trk111tHcKUfdGZg3AcJxpug62G6RtaQSSs9tV
-   RYgLE9YrkbnzNRD+8snaucExI/c1bx5RXsE255qrX/ys9REJXUmrHFx/E
-   rNj0ICx+Rr5JriZQviIPAQ/Ake0bYJ6syLf4sd3fmHI0mtvjwqaBXN0c/
-   znRZB32XCla8/sq9lSxbV8pjeqTJOnelHmN99wIrmH+vwMz/NufD0vV0T
-   0bslBGmoArcWu5vYWruo+PU/2gJu57IzjdwTfb8hJH4fugDWkAhSHXkUD
-   onW/u0ImjIQkLjb1prhjwk0QqsRJoSwlSbrAGavNAbAG7KMA0D8vOeTdL
-   Q==;
-X-CSE-ConnectionGUID: pSlF6HJ0TXiSiVTnZJoP/w==
-X-CSE-MsgGUID: Aq/EScs8SRWmrhll4c2SvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="170301712"
+  bh=sDdq9VoWfq5B/P/yQ0W/EfCeW3XA8EdmvJ0hAsB64CY=;
+  b=AkF3+tjRDDdHd8vqXqewdJjV9tTgvVHbUcJBXXLtjPSbTYW+O3xj79P/
+   VmMQraGoEO0+p9bqb3FLAA9zK+9b8eA/MOTILOJGZ1FrFKrVGNHCZs/VF
+   YN1vc2BmkgksuPbBGxGL/vnnm0wRFgcSmcEPbpr0OGKNMXdN1EX6s9mqX
+   d180AF9/ZnPjcBo8XS1hp256D2uzRs9uGWxpyUflcwEAgS6Hfk/FvnK6/
+   9JWHxPCaB/T0QVLHknQek3pjXPKJoQk3YRFB3NCJLpe4YhEH9t16QnY2M
+   Jow+9BNhsG0SXKWKXTCippobU6mzTQkjFg7PuVlZrbar6VG3WFnjNdB+Z
+   w==;
+X-CSE-ConnectionGUID: F4qvU1igSHea5E1CSxCI/A==
+X-CSE-MsgGUID: kyI3sDVuQ52VO8LYOvUu2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="149964400"
 X-IronPort-AV: E=Sophos;i="6.10,161,1719846000"; 
-   d="scan'208";a="170301712"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 15:52:12 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 0D9E0C213F
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:09 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 439DAD4C39
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:08 +0900 (JST)
+   d="scan'208";a="149964400"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 15:52:07 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 98BC7DB3C7
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:05 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id CF3BDCFA5C
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:04 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id C1B5E20086115
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:07 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 55A33216F4F
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:04 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 6B09C1A0002;
-	Tue, 20 Aug 2024 14:52:07 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id F40771A0002;
+	Tue, 20 Aug 2024 14:52:03 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 05/24] dnf: upgrade 4.21.0 -> 4.21.1
-Date: Tue, 20 Aug 2024 14:51:24 +0800
-Message-Id: <1724136703-20023-5-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 02/24] btrfs-tools: upgrade 6.9.2 -> 6.10.1
+Date: Tue, 20 Aug 2024 14:51:21 +0800
+Message-Id: <1724136703-20023-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
 References: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
 X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28606.004
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28606.005
 X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28606.004
-X-TMASE-Result: 10-0.150100-10.000000
-X-TMASE-MatchedRID: KEcVumlYY7qjz0nOeth/yTo39wOA02LhpxAd6mi1Ga3LZWwGxK/FTrqQ
-	ldU8NEzp5vwbTr8Qw9EJSf4nh0R0pw407JLUrwByutvHF25zoU8Hw3hIDAYijjVjvc93O9dktZD
-	LKHqpwOTn+AbwJRh2K3nbv4FbkMngWkIi5GvRHEq5x7uAXGEprdXLiEcLf+DIwLkNMQzGl5AUfQ
-	gp6GFqhgMK9XdTA/p44yf6Jl3/aORYBLr7Rpo7C3zmmMD/HXF+ELbqrOgWzycsTMNBTJAZWVT4t
-	KeZleMYhElS9On82DvcFPFR1xoqQh8TzIzimOwPC24oEZ6SpSmcfuxsiY4QFGeatx4ho9LNr+wE
-	Ud/BeLThh5Nf7wSNPLIpF6dWsb4wpPmwesUw9BDj8zvYKSgWKgoYqrbQ8jVlraRVdW3SZrw/UyL
-	nM5tQlex9n1XpDqsJmC9SiJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28606.005
+X-TMASE-Result: 10--2.182400-10.000000
+X-TMASE-MatchedRID: xNkyGzs1zQGjz0nOeth/yaoXHZz/dXlxnJdsOLB4zv79wRnyxuPjhEVa
+	8miri4IoA/oe4NwFf2pR3GqIooUDOIA/V6M07Uuxl5lQMzKmF9KCMN25048Eejxr78aOiICq6mZ
+	4kLE9qrwNUccATRyd1L7WJXAROV+GjyK/VqbtGFywOmfjQ30zeUyQ5fRSh265YA3qL69rXq7TI4
+	8G/UH1dggvGgJhnjupVdNPsIcMVUMv+0FNnM7lDZVRzPxemJL0QAKUX1R86jQLORpVxeu9s6PFj
+	JEFr+olwXCBO/GKkVr3FLeZXNZS4PExmMzPfDZvjZHcjbWX1p3xzgiC8XF2BuF+FeZ73fWhp+6W
+	UtOKZDCMwnjouB50y8UvxJRkWL1dsipkQ5aeJqE1WeQwVEnNyb9bwmGBONx2S7+RMq/2CK6rA4c
+	7UV2fQpvi2PQO/FFQiz2ujrPVx9yEIU1NtMkm0Q==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 06:52:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203528
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203524
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-0005-Do-not-prepend-installroot-to-logdir.patch
-refreshed for 4.21.1
+0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+refreshed for 6.10.1
 
 Changelog:
 ==========
-- doc: minor formatting and consistency fixes
-- Allow local downloads to same downloaddir
-- Fix "console" width on non real terminals (pipe)
-- Adds checks for container and bootc hosts
-- Update bootc hosts message to point to bootc --help
-- tests: Use PGP keys without SHA-
+* mkfs: rework --rootdir traversal, skip hardlinks and create new
+  inodes instead, also warn about them, this did not work as expected and will be
+  fixed in the future
+* receive: search in older trees for UUIDs when detecting clone sources
+* libbtrfsutil: bindings available at https://pypi.org/project/btrfsutil
+* libbtrfs:
+  * patchlevel version update 0.1.4
+  * cleanup in headers, removed unused definitions, no functional changes
+  * don't ship list.h and rbtree.h
+* other:
+  * documentation updates
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch | 6 +++---
- meta/recipes-devtools/dnf/{dnf_4.21.0.bb => dnf_4.21.1.bb}  | 2 +-
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../{btrfs-tools_6.9.2.bb => btrfs-tools_6.10.1.bb}         | 2 +-
  2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/dnf/{dnf_4.21.0.bb => dnf_4.21.1.bb} (98%)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.9.2.bb => btrfs-tools_6.10.1.bb} (98%)
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-index 82f616a389..a85e6e3b03 100644
---- a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index ef431cd69a..fbd1b05a7f 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
 @@ -1,4 +1,4 @@
--From 4e0f83e931e059ba93604617c462adcc90e5baab Mon Sep 17 00:00:00 2001
-+From a8bf39b4ecdbdfd6e6934ca046239f683a9e08e1 Mon Sep 17 00:00:00 2001
+-From 3b9b9b6ac033b44b3864abb1296fce1e19a2b622 Mon Sep 17 00:00:00 2001
++From cb7f8a6c3538ee3086d15c4d2c9f2a2f4f38db3b Mon Sep 17 00:00:00 2001
  From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 11 Jan 2017 15:10:13 +0200
- Subject: [PATCH] Do not prepend installroot to logdir.
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
--index c14f8363..bfc07ab9 100644
-+index 0eda2c8c..488a0662 100644
- --- a/dnf/cli/cli.py
- +++ b/dnf/cli/cli.py
--@@ -953,7 +953,7 @@ class Cli(object):
-+@@ -952,7 +952,7 @@ class Cli(object):
-              logger.warning(_("Unable to detect release version (use '--releasever' to specify "
-                               "release version)"))
-  
-diff --git a/meta/recipes-devtools/dnf/dnf_4.21.0.bb b/meta/recipes-devtools/dnf/dnf_4.21.1.bb
+ diff --git a/Makefile b/Makefile
+-index 82dfb1b4..4968989a 100644
++index 2f8d2fa0..c760e5ae 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -984,7 +984,7 @@ endif
++@@ -985,7 +985,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.1.bb
 similarity index 98%
-rename from meta/recipes-devtools/dnf/dnf_4.21.0.bb
-rename to meta/recipes-devtools/dnf/dnf_4.21.1.bb
-index 6800b5c716..09bdbd88a8 100644
---- a/meta/recipes-devtools/dnf/dnf_4.21.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.21.1.bb
-@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
- 
- SRC_URI:append:class-native = " file://0001-dnf-write-the-log-lock-to-root.patch"
- 
--SRCREV = "d29dfa0634235d7ad957c4746a749eb1e4a85a88"
-+SRCREV = "9717c055b5ce94eba8c7144e6e4fea6ab6c97f6f"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.1.bb
+index 9f5586490d..f37272d7ab 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.9.2.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.1.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "b0e5ef4cf7c8b473119e0d487a26b96058e8f80d"
++SRCREV = "a00c2b25474b5306ef29a790adb5fd5afbaba9a2"
  S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= " \
 -- 
 2.34.1
 
