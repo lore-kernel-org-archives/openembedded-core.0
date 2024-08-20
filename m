@@ -1,99 +1,140 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B606FC3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 19 Aug 2024 22:03:55 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.5180.1724105034467536464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CEC8C3DA4A
+	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 06:45:18 +0000 (UTC)
+Received: from h3.cmg1.smtp.forpsi.com (h3.cmg1.smtp.forpsi.com [185.129.138.162])
+ by mx.groups.io with SMTP id smtpd.web11.12685.1724136314320041355
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Aug 2024 15:03:55 -0700
+ Mon, 19 Aug 2024 23:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G9UnIdEX;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=KDJ4+QOI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101916cab07cc-00f8924b-a5de-4329-b549-4ea4bf62d830-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1724105033; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=rt9d+Lh1F/ifSbKVnSQjaWfXnqMoz7xhSIWPTfz4nxQ=;
-	b=G9UnIdEXz412XOlgadoyNOWnmTrYIW6dO6kNdOrikE4UholUPhl+sORwhYiDjCVY
-	dAoLa14i3wZYUz4GEPNAFylpi0PcXm6jvJqFr/S37FSgYqb9d+zgwQMWb9r/+Q+iw9x
-	gfbNRi47gUjqXYC/aNIbn4CnTc3YmeXjYTgXZtRU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1724105033;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=rt9d+Lh1F/ifSbKVnSQjaWfXnqMoz7xhSIWPTfz4nxQ=;
-	b=KDJ4+QOIXCYzalQzE2AQ/3CqyFSZxP60j8EcFQKU6LoqMbr8aFrJZ4J1KYe8zQes
-	DELez/pWsD1QA9/MFt3fv7QFXArjhqiLdNg1JnwmhSL0uFIya09FRt6WIe0UdsUM/Dq
-	8RByugomrSBJOSIqasuE8rcf74pakxrP3s2gP/fI=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] openssh: Mark CVE-2023-51767 as wont-fix
-In-Reply-To: <20240819215454.110498-1-raj.khem@gmail.com>
-References: <20240819215454.110498-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101916cab07cc-00f8924b-a5de-4329-b549-4ea4bf62d830-000000@us-west-2.amazonses.com>
-Date: Mon, 19 Aug 2024 22:03:53 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.19-54.240.27.31
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=Zqt2zXBs;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 185.129.138.162, mailfrom: andrej.v@skyrain.eu)
+Received: from [172.25.231.43] ([85.248.43.180])
+	by cmgsmtp with ESMTPSA
+	id gIcBs5vGz4k5vgIcBsJdRs; Tue, 20 Aug 2024 08:45:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1724136312; bh=s5pjzJhKLOxRUb2auHtNjdWufIiLLTGFzuSOaMQErdA=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:From;
+	b=Zqt2zXBspGSZ01Khe9UsiXwekdZ/3U4mJDUx0lR/zuYrCUxyZscDjPyAdj7ssQFjt
+	 tIqKOtQc3Q4BNyF4dqdYrWfLdBcdtal7Ojhwl/A2iTZ8LflTicZarBeLuM5gOgi+eR
+	 xixFAnAl+7KHefzItZtcvZ8tvXYlvCSDZxEAQs/M/ll+0zCIeB8NbNr1uw0Hx/CL7U
+	 p+EDBfwEssaHgtzConuo9OY2j0erb00VQ2eT1i/xcWZd01WSxX5vwwrQlmKTxgUdKX
+	 tji2I8J1PJOLa3emdhSuhWqLSkKRN21HcCfD8DdRzewQJvSL7oGlgGxFE8VXlHDRfS
+	 g5uDeA5zHyaKg==
+Content-Type: multipart/alternative;
+ boundary="------------JGBdS5wAXeAHqHaBh0f2ew1h"
+Message-ID: <327ef345-67fa-4567-960b-0e3f44203683@skyrain.eu>
+Date: Tue, 20 Aug 2024 08:45:11 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] Expired certificate https://git.openembedded.org/
+To: peter.marko@siemens.com,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Andrej Valek <andrej.v@skyrain.eu>
+In-Reply-To: <AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+X-CMAE-Envelope: MS4xfGFpx5AGtQcOl2wHbJfQwTNtxMey6lTkuz2GKZcVctyIbApQ5nfeC8k3RA3MSB3KaGq0TnoghGlTX+hwu0s4+d3ocudg09nn3ntQ1WQzL4vV7ogqIpey
+ jYNFH9sxzRZTxfhXFIn34Pi4kiK7XUvc+0OlRU8E2ITXGhO5alN0k2rc3jS9/n66C1nDqXY94vtQSIZG+f/dqtCLCGrNn5ixJ6srZUB+0IFVmuEafEAfHKMI
+ J8byOIFejRlamApMxxbX+w==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Aug 2024 22:03:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203521
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 06:45:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203522
 
---NextPart
-Content-Type: text/plain
+This is a multi-part message in MIME format.
+--------------JGBdS5wAXeAHqHaBh0f2ew1h
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Now is even worst, server is completely down.
 
----
-Testing patch /home/patchtest/share/mboxes/openssh-Mark-CVE-2023-51767-as-wont-fix.patch
+Andy
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+On 05.08.2024 15:15, Peter Marko via lists.openembedded.org wrote:
+>
+> In case no one noticed yet, the certificate expired an hour ago, so 
+> the repositories can’t be viewed in a browser…
+>
+> Peter
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#202992):https://lists.openembedded.org/g/openembedded-core/message/202992
+> Mute This Topic:https://lists.openembedded.org/mt/107731343/3619876
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [andrej.v@skyrain.eu]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+--------------JGBdS5wAXeAHqHaBh0f2ew1h
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <font face="monospace">Now is even worst, server is completely down.<br>
+      <br>
+      Andy<br>
+    </font><br>
+    <div class="moz-cite-prefix">On 05.08.2024 15:15, Peter Marko via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="Generator"
+        content="Microsoft Word 15 (filtered medium)">
+      <style>@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}@font-face
+	{font-family:Aptos;}p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:11.0pt;}div.WordSection1
+	{page:WordSection1;}</style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext="edit" spidmax="1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext="edit">
+<o:idmap v:ext="edit" data="1" />
+</o:shapelayout></xml><![endif]-->
+      <div class="WordSection1">
+        <p class="MsoNormal">In case no one noticed yet, the certificate
+          expired an hour ago, so the repositories can’t be viewed in a
+          browser…<o:p></o:p></p>
+        <p class="MsoNormal">Peter<o:p></o:p></p>
+      </div>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#202992): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/202992">https://lists.openembedded.org/g/openembedded-core/message/202992</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/107731343/3619876">https://lists.openembedded.org/mt/107731343/3619876</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:andrej.v@skyrain.eu">andrej.v@skyrain.eu</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
 
----
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--------------JGBdS5wAXeAHqHaBh0f2ew1h--
 
