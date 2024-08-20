@@ -1,615 +1,92 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD6CC3DA4A
-	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 17:18:18 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web11.361.1724174292447172738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5AB4C531DC
+	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 17:22:47 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.445.1724174551247801565
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Aug 2024 10:18:12 -0700
+ Tue, 20 Aug 2024 10:22:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Fm9BHhNO;
- spf=pass (domain: baylibre.com, ip: 209.85.160.175, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-454b25f88ccso22540871cf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 10:18:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nb6ewq4a;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5332f488c6eso5361921e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 10:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724174291; x=1724779091; darn=lists.openembedded.org;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bawuPP77XptSUYc+FoVeqXoWMhVrKrv0w3KcXS4a+Pg=;
-        b=Fm9BHhNOSqeW4dETajgVTSlCREFBaXZPTuVtd4e8+2FtfACWrKHsdcKdGI17mVEoj+
-         zp5yYdR54/q/UY6u9TlzgOuEMYEwwZAp2TXJKLW2YqATSr3nT5F5AQqm0jrWY1krvrfj
-         4kOTIa5jz22XaL3b1IpgQP7dw7OkIRcn58MVes4es1+xU9gQJSs25bUsc3QUwIILX2Uq
-         j46WKoKj1564hZ+/1+sQQ9MZQI0MM4zJVfL5OOMn6Pz1Op9BIOI67KnYba08hrGHkUfX
-         PJHNomV8zAXidB9XHGMf9lye+3xbS6t27xWyZOmZlKjiAinpHCh/S64Clach7jGMbs5D
-         VOuw==
+        d=gmail.com; s=20230601; t=1724174549; x=1724779349; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=slPL75HOlXAtOk8q9GUlXm4FcF3ZcQ1LD7b5xIUr3kI=;
+        b=Nb6ewq4aDH8+8MTsOR3EVIEJz911MFsvUliCd4TjlE1SlPXjrM4wDfSxfQnw0RXMEP
+         zLA8X3PJq2G6CWZ5zGLJ4ysINHgM72qvJ2NcYMIaNmYKeqREaRhV9OvxjYuov8iVn4LW
+         4bbpCKIq/sAAFxjea+0csGBXB+SQBx/YmZu22SaKVhmN4yuI3vNKodbuk3obz1NgS1o/
+         FlT4EMQn/KVmpATkzP3rwtIRtX5e3mFm2MNaBIgweJR+JAGBp/lryfqyb7iBGh+zNGoS
+         6TXNdwgsUP452Co/K/EwUFjyGiSeThZestn0Xu9vJfx7nLz1r1+6obeCiqwNKmW6n+l9
+         wUfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724174291; x=1724779091;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bawuPP77XptSUYc+FoVeqXoWMhVrKrv0w3KcXS4a+Pg=;
-        b=a0YsinlmAGD4ZhvOhhtDji/+Ea0NdJTXdj0WMUBJsPUil63kB2lq7Dk5UZgFmHdeeg
-         PyVW1Q8qPwydlnOMUzEuAt2q0AGhl0C/PXKx6CkbO70Vfdo4Wbo7dbRw+T10b39+NL+7
-         L1+wrnPGI4bLHRRzuAetNICqABEJV2DjroKuSKmEznaQStOSdYHEiVMVpliz7TOQlXJB
-         6UN55Sy+D1Q7ykdxmfKsQfAp19QZ9NvGXdcBzxHT5hOySSAAKS1KhOor9X1TNZp0RQ+W
-         KN1H4AjLosfdrJfIgtzezThT2uUC8rDLiR1yHx5t0nT6skH+XhFKxmwaZc4u2OA+W8Wb
-         LqjQ==
-X-Gm-Message-State: AOJu0Yxq3CTX+51xUs0UuqeY5mu9Ne+9kaTSqfiU2RMPgm4GnTEpAdGJ
-	hU8JXVv+z0XSDdVK7v2PtRyKPOxenLvCPVI4Bs7hIkyFE+pZU9mwG0M46351RlCUQQKd9aUvrQn
-	exLE=
-X-Google-Smtp-Source: AGHT+IHlg04K0NvwPle4soKu14+h2Wgm65aKxZ4bCNwRJMMmbSnGA6Sh+ttCqRBKMDsDjK/HdAklhQ==
-X-Received: by 2002:a05:622a:907:b0:454:b115:f73 with SMTP id d75a77b69052e-454b1151275mr146392951cf.45.1724174290969;
-        Tue, 20 Aug 2024 10:18:10 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4536a07667fsm50639661cf.93.2024.08.20.10.18.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 10:18:10 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------PeHGy0oGBovh0Lg4Kdu0hTjb"
-Message-ID: <4a465e4d-9cb5-462c-929b-1107e5e227c0@baylibre.com>
-Date: Tue, 20 Aug 2024 13:18:09 -0400
+        d=1e100.net; s=20230601; t=1724174549; x=1724779349;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=slPL75HOlXAtOk8q9GUlXm4FcF3ZcQ1LD7b5xIUr3kI=;
+        b=BkEPYUVN6b73IQE71j3le2IUs1ruMcSKXtDpeVfbv6pfU05PjB9V5TFFveQlgS558Q
+         5OMoKvS8wiR1onLItbjHFEVUFXn5262kmpnJ+qVnNyrS+YrEm8J9bxHjTYl8IX2YELSz
+         C2c6/U7XCBLb/fWls/aWqeVNUjPQxvo1RKqefVDTZ7KLoD6krceCzhrZge3S9PjPMRWT
+         eoknB9ywSmwFlb8IV7n/w1fMy2Ai9xC98X18d2nuvKK2U0i5SF4tRe4fd3tDjqr3Gwvn
+         /86uIaD+pYxEeawbZ2nAiM/dW/biCcMY3FNMBqfPwt1XId+spfiKobM9O2BtQfJ6GwNR
+         C+XA==
+X-Forwarded-Encrypted: i=1; AJvYcCV452MIUJ8hC/JA0loXR89qeYQP54rutdPMhc1jothQmz4xqM15f/EdNaOLxNqSZotyktZH5Pf6we/7oQSIspHfow==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwXEU0TU48K7ZWdVxp3Ga7AB09D+JubZBuHpskB0S7aTu4nhp6m
+	1RKoYeKIVV/0ur9QYeyrE+tY9Nt8ilyOt4lMGpFEPxeS+02AmvgI40ohzQZPCLsWsBe67oXSLij
+	v0MgLWLdwhSfLh0AMffcfm4djvjecwwx0
+X-Google-Smtp-Source: AGHT+IEmpZveWYUFULY+hF0VtA9+ZtZQpMEZMOyYWnG+Dat/jzj8f6jFSU2I4ULJkJECGT4WO4QZ3i7PywkVizrP9us=
+X-Received: by 2002:a05:6512:1193:b0:533:4620:ebec with SMTP id
+ 2adb3069b0e04-5334620eda4mr1070917e87.3.1724174548730; Tue, 20 Aug 2024
+ 10:22:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v2] piglit: upgrade 22eaf6a91c -> c11c9374c1
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
 References: <20240815140736.3189704-1-tgamblin@baylibre.com>
- <2024082016241749789ab3@mail.local>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <2024082016241749789ab3@mail.local>
+ <2024082016241749789ab3@mail.local> <4a465e4d-9cb5-462c-929b-1107e5e227c0@baylibre.com>
+In-Reply-To: <4a465e4d-9cb5-462c-929b-1107e5e227c0@baylibre.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 20 Aug 2024 19:22:16 +0200
+Message-ID: <CANNYZj-dzwKF6--8nr8pTJvi2LF93jjBQUDfzDEMcd3kJbhuCw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2] piglit: upgrade 22eaf6a91c -> c11c9374c1
+To: tgamblin@baylibre.com
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 17:18:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203560
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 17:22:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203561
 
-This is a multi-part message in MIME format.
---------------PeHGy0oGBovh0Lg4Kdu0hTjb
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 2024-08-20 12:24 p.m., Alexandre Belloni wrote:
+On Tue, 20 Aug 2024 at 19:18, Trevor Gamblin via
+lists.openembedded.org <tgamblin=baylibre.com@lists.openembedded.org>
+wrote:
+>
+>
+> On 2024-08-20 12:24 p.m., Alexandre Belloni wrote:
+>
 > Unfortunately, this doesn't build on the AB:
 >
 > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9383/steps/11/logs/stdio
-
-Seems to be because of this line in the config:
-
-DISTRO_FEATURES:remove = 'x11'
-
-I see that consolekit has REQUIRED_DISTRO_FEATURES = "x11" in the 
-recipe. Is this the right approach then for piglit?
-
 >
+> Seems to be because of this line in the config:
 >
+> DISTRO_FEATURES:remove = 'x11'
 >
-> On 15/08/2024 10:07:36-0400, Trevor Gamblin wrote:
->> Commit 766669895d fixes builds with numpy 2.x.
->>
->> Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
->> because it is now upstream in commit 9c941dfc36.
->>
->> Add wayland and wayland-protocols to DEPENDS to avoid errors during
->> build.
->>
->> Changelog:
->>
->> c11c9374c (HEAD -> main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
->> f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
->> 045343687 arb_gpu_shader5: add linker version of function overloads test
->> 4b1116f3a arb_bindless_texture: add another function param bindless test
->> 4a62c2672 glsl: test function linking with implicit param conversions
->> 9f280db77 arb_bindless_texture: add basic function param bindless tests
->> 766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
->> 5214915dc generated_tests: print mako exceptions
->> 41bd119f2 arb_texture_buffer_object: don't leak src strings
->> 582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
->> 647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
->> dee2a233f perf: port glsl-compile-time perf-test from mesa demos
->> 18333c568 perf: port vertexrate perf-test from mesa demos
->> e932fa2f5 perf: port vbo perf-test from mesa demos
->> f9cf4788a perf: port teximage perf-test from mesa demos
->> 20ccc1c10 perf: port readpixels perf-test from mesa demos
->> 556a9c96d perf: port genmipmap perf-test from mesa demos
->> 225b6bfb6 perf: port fill perf-test from mesa demos
->> dae4a13f9 perf: port fbobind perf-test from mesa demos
->> cd0f812b3 perf: port copytex perf-test from mesa demos
->> fdf3fc09d cl: add missing errors
->> 01b64dd06 glsl-1.10: test a complex partial unroll scenario
->> cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
->> 30d34daf7 glsl-bug-110796: distinguish which context creation failed
->> 3ea14414a Sync .mailmap from Mesa
->> 7accec34a glsl-bug-110796: check for GL ES 3.2 support
->> 12ebd71c7 egl-terminate-then-unbind-context: simplify
->> 69bc38a77 egl_khr_create_context: improve skip reporting
->> 209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
->> 800abe232 arb_blend_func_extended: gles: follow the specification requirements
->> 1cad6ee20 arb_texture_multisample: require geometry shaders
->> 59bdc8c4e egl: missing EGLconfig isn't stderr material
->> cee2190b5 ext_external_objects: avoid stderr when we skip the test
->> 8cbefab52 util: remove handwritten defines and drop FIXME
->> 11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
->> e180f9623 Use GBM_LDFLAGS to get all options
->> 3bddb36e8 fix vk_vert_buf_reuse cleanup
->> 8f6e71975 arb_texture_view: test for NaN in more cases
->> 446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
->> 8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
->> 8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
->> 7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
->> 3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
->> 759cc6454 clear-stencil: new test to check for problems clearing stencils
->> 2c64a91bb read_depth_offset: new test to check depth offset calculation
->> 869a1b6e8 replayer: create bin/ everytime
->> 9be2db198 Reduce precision in depth clear precision check
->> 7f40f35a3 Add float from half function
->> f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
->> fd4a6c521 wayland: Add Wayland dmabuf driver-name test
->> df0d0ae79 conversion-explicit: use a different value for normalized +/- min
->> a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
->> 67b89b3e3 README: recommend Ninja by default and switch to cmake --build
->> efd111853 cmake: build is compatible up to 3.28
->> e84aca9b5 cmake: add workaround for CMP0148
->> 2e70ca91e README: ccmake is not that common, regular cmake is enough to build
->> e39ba99e5 README: update requirements
->> d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
->> 938a9dc9f cmake: remove this 12 years old workaround taking too many lines
->> 7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
->> cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
->> 4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
->> a222d50bb cmake: implement GBM and Wayland controls
->> 4230c7e9f cmake: fix unusually formated statement
->> d958b70d1 cmake: implement X11 option (required for GLX)
->> 4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
->> 44e1c29bf cmake: move first batch of option() at the beggining of the file
->> 96241ea22 cmake: rename default values with prefix DEFAULT_
->> 21374d8d3 cmake: move defaults into the per-platform section
->> 86d3f1132 cmake: predefine defaults depending on the system
->> 381221a81 cmake: drop unused CMP0042 policy
->> 99eade7cd cmake: respect indentation
->> dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
->> 025e462ae util: fix multisample_texture_fs_template
->> f9e26b98b tests: add a test for GL_APPLE_sync
->> b24c834d9 ci: codespell ignore list is lowercase
->> 0a842edd0 more spelling fixes accross the whole codebase
->> 2c473ea73 ci: bump distribution tag
->> 7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
->> 19e58247e ext_texture_storage: Fix memory leak on error path
->> d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
->> 74064b1d4 arb_clear_texture: only test float depth textures when supported
->> 9c941dfc3 properly check for libgen.h
->> c55e22a5c arb_copy_image-formats: avoid undefined behavior
->> 537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
->> b32186ee5 README: add Vulkan into the generic description
->> 1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
->> 62938a9bc tests: Fix cl testprogram@execute@builtin@builtin-float-degrees-1.0.generated  issue about tolerance.
->>
->> Signed-off-by: Trevor Gamblin<tgamblin@baylibre.com>
->> ---
->> v2 adds wayland and wayland-protocols to DEPENDS to solve build errors
->> seen on the AB.
->>
->>   ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
->>   meta/recipes-graphics/piglit/piglit_git.bb    |  5 +-
->>   2 files changed, 2 insertions(+), 86 deletions(-)
->>   delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
->>
->> diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
->> deleted file mode 100644
->> index 2875dd52ec..0000000000
->> --- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
->> +++ /dev/null
->> @@ -1,83 +0,0 @@
->> -From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
->> -From: Erik Faye-Lund<erik.faye-lund@collabora.com>
->> -Date: Tue, 19 Mar 2024 16:34:02 +0100
->> -Subject: [PATCH] properly check for libgen.h
->> -
->> -Some users are reporting that basename is not available when building on
->> -Linux with musl libc. And since the POSIX spec[1] says that basename is
->> -defined in libgen.h, we should include that when available.
->> -
->> -So let's properly detect the header, and include it if it exists. This
->> -should hopefully make things a bit more robust.
->> -
->> -Since we're also including this from the CL program-tester, let's
->> -rearrange the includes a bit so we know that config.h has been included.
->> -
->> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
->> -Reviewed-by: David Heidelberg<david.heidelberg@collabora.com>
->> -Signed-off-by: Khem Raj<raj.khem@gmail.com>
->> ----
->> - CMakeLists.txt                    | 1 +
->> - tests/cl/program/program-tester.c | 5 ++++-
->> - tests/util/config.h.in            | 1 +
->> - tests/util/piglit-util.h          | 4 ++--
->> - 4 files changed, 8 insertions(+), 3 deletions(-)
->> -
->> -diff --git a/CMakeLists.txt b/CMakeLists.txt
->> -index dd2bf67125..5563fe0e20 100644
->> ---- a/CMakeLists.txt
->> -+++ b/CMakeLists.txt
->> -@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
->> - check_include_file(fcntl.h     HAVE_FCNTL_H)
->> - check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
->> - check_include_file(endian.h    HAVE_ENDIAN_H)
->> -+check_include_file(libgen.h    HAVE_LIBGEN_H)
->> -
->> - if(DEFINED PIGLIT_INSTALL_VERSION)
->> - 	set(PIGLIT_INSTALL_VERSION_SUFFIX
->> -diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
->> -index 97fe64906d..e47fb5aacc 100644
->> ---- a/tests/cl/program/program-tester.c
->> -+++ b/tests/cl/program/program-tester.c
->> -@@ -31,10 +31,13 @@
->> - #include <inttypes.h>
->> - #include <math.h>
->> - #include <regex.h>
->> --#include <libgen.h>
->> -
->> - #include "piglit-framework-cl-program.h"
->> -
->> -+#ifdef HAVE_LIBGEN_H
->> -+#include <libgen.h>
->> -+#endif
->> -+
->> - /* Regexes */
->> -
->> - /*
->> -diff --git a/tests/util/config.h.in b/tests/util/config.h.in
->> -index 8ed5af1709..437eb91418 100644
->> ---- a/tests/util/config.h.in
->> -+++ b/tests/util/config.h.in
->> -@@ -16,3 +16,4 @@
->> - #cmakedefine HAVE_SYS_RESOURCE_H 1
->> - #cmakedefine HAVE_UNISTD_H 1
->> - #cmakedefine HAVE_ENDIAN_H 1
->> -+#cmakedefine HAVE_LIBGEN_H 1
->> -diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
->> -index 4d3606c708..de999980b6 100644
->> ---- a/tests/util/piglit-util.h
->> -+++ b/tests/util/piglit-util.h
->> -@@ -52,8 +52,8 @@ extern "C" {
->> - #include <math.h>
->> - #include <float.h>
->> -
->> --#if defined(__APPLE__) || defined(__MINGW32__)
->> --#  include "libgen.h" // for basename
->> -+#ifdef HAVE_LIBGEN_H
->> -+#  include <libgen.h> // for basename
->> - #elif defined(_MSC_VER)
->> -
->> - static inline char *
->> ---
->> -GitLab
->> -
->> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
->> index 99d75e64f8..8bfd0a9b63 100644
->> --- a/meta/recipes-graphics/piglit/piglit_git.bb
->> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
->> @@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
->>              file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch  \
->>              file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch  \
->>              file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch  \
->> -file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch  \
->>              "
->>   UPSTREAM_CHECK_COMMITS = "1"
->>   
->> -SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
->> +SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
->>   # (when PV goes above 1.0 remove the trailing r)
->>   PV = "1.0+gitr"
->>   
->> @@ -23,7 +22,7 @@ S = "${WORKDIR}/git"
->>   X11_DEPS ="${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 
->> libxrender libglu', '', d)}"
->>   X11_RDEPS ="${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"
->>   
->> -DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl"
->> +DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl wayland wayland-protocols"
->>   
->>   inherit cmake pkgconfig python3native features_check bash-completion
->>   
->> -- 
->> 2.39.2
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#203340):https://lists.openembedded.org/g/openembedded-core/message/203340
->> Mute This Topic:https://lists.openembedded.org/mt/107914101/3617179
->> Group Owner:openembedded-core+owner@lists.openembedded.org
->> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [alexandre.belloni@bootlin.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
->
---------------PeHGy0oGBovh0Lg4Kdu0hTjb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+> I see that consolekit has REQUIRED_DISTRO_FEATURES = "x11" in the recipe. Is this the right approach then for piglit?
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2024-08-20 12:24 p.m., Alexandre
-      Belloni wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:2024082016241749789ab3@mail.local">
-      <pre class="moz-quote-pre" wrap="">Unfortunately, this doesn't build on the AB:
+Only if the X11 support is unconditional. You first need to look at
+the failure log that says:
 
-<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9383/steps/11/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9383/steps/11/logs/stdio</a></pre>
-    </blockquote>
-    <p>Seems to be because of this line in the config:</p>
-    <pre class="select-content log"><span class="no-wrap log_o"
-    data-linenumber-content="100"><span class="">DISTRO_FEATURES:remove = 'x11'</span></span></pre>
-    <p></p>
-    <p>I see that consolekit has REQUIRED_DISTRO_FEATURES = "x11" in the
-      recipe. Is this the right approach then for piglit?<br>
-    </p>
-    <blockquote type="cite" cite="mid:2024082016241749789ab3@mail.local">
-      <pre class="moz-quote-pre" wrap="">
+|   Could NOT find X11 (missing: X11_X11_INCLUDE_PATH X11_X11_LIB)
 
+And then check piglit source code and its cmake configuration files to
+see where that particular check is performed and whether it's wrapped
+into a condition that we can tweak via cmake subject to x11 in
+DISTRO_FEATURES.
 
-
-On 15/08/2024 10:07:36-0400, Trevor Gamblin wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Commit 766669895d fixes builds with numpy 2.x.
-
-Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
-because it is now upstream in commit 9c941dfc36.
-
-Add wayland and wayland-protocols to DEPENDS to avoid errors during
-build.
-
-Changelog:
-
-c11c9374c (HEAD -&gt; main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
-f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
-045343687 arb_gpu_shader5: add linker version of function overloads test
-4b1116f3a arb_bindless_texture: add another function param bindless test
-4a62c2672 glsl: test function linking with implicit param conversions
-9f280db77 arb_bindless_texture: add basic function param bindless tests
-766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
-5214915dc generated_tests: print mako exceptions
-41bd119f2 arb_texture_buffer_object: don't leak src strings
-582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
-647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
-dee2a233f perf: port glsl-compile-time perf-test from mesa demos
-18333c568 perf: port vertexrate perf-test from mesa demos
-e932fa2f5 perf: port vbo perf-test from mesa demos
-f9cf4788a perf: port teximage perf-test from mesa demos
-20ccc1c10 perf: port readpixels perf-test from mesa demos
-556a9c96d perf: port genmipmap perf-test from mesa demos
-225b6bfb6 perf: port fill perf-test from mesa demos
-dae4a13f9 perf: port fbobind perf-test from mesa demos
-cd0f812b3 perf: port copytex perf-test from mesa demos
-fdf3fc09d cl: add missing errors
-01b64dd06 glsl-1.10: test a complex partial unroll scenario
-cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
-30d34daf7 glsl-bug-110796: distinguish which context creation failed
-3ea14414a Sync .mailmap from Mesa
-7accec34a glsl-bug-110796: check for GL ES 3.2 support
-12ebd71c7 egl-terminate-then-unbind-context: simplify
-69bc38a77 egl_khr_create_context: improve skip reporting
-209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
-800abe232 arb_blend_func_extended: gles: follow the specification requirements
-1cad6ee20 arb_texture_multisample: require geometry shaders
-59bdc8c4e egl: missing EGLconfig isn't stderr material
-cee2190b5 ext_external_objects: avoid stderr when we skip the test
-8cbefab52 util: remove handwritten defines and drop FIXME
-11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
-e180f9623 Use GBM_LDFLAGS to get all options
-3bddb36e8 fix vk_vert_buf_reuse cleanup
-8f6e71975 arb_texture_view: test for NaN in more cases
-446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
-8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
-8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
-7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
-3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
-759cc6454 clear-stencil: new test to check for problems clearing stencils
-2c64a91bb read_depth_offset: new test to check depth offset calculation
-869a1b6e8 replayer: create bin/ everytime
-9be2db198 Reduce precision in depth clear precision check
-7f40f35a3 Add float from half function
-f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
-fd4a6c521 wayland: Add Wayland dmabuf driver-name test
-df0d0ae79 conversion-explicit: use a different value for normalized +/- min
-a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
-67b89b3e3 README: recommend Ninja by default and switch to cmake --build
-efd111853 cmake: build is compatible up to 3.28
-e84aca9b5 cmake: add workaround for CMP0148
-2e70ca91e README: ccmake is not that common, regular cmake is enough to build
-e39ba99e5 README: update requirements
-d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
-938a9dc9f cmake: remove this 12 years old workaround taking too many lines
-7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
-cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
-4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
-a222d50bb cmake: implement GBM and Wayland controls
-4230c7e9f cmake: fix unusually formated statement
-d958b70d1 cmake: implement X11 option (required for GLX)
-4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
-44e1c29bf cmake: move first batch of option() at the beggining of the file
-96241ea22 cmake: rename default values with prefix DEFAULT_
-21374d8d3 cmake: move defaults into the per-platform section
-86d3f1132 cmake: predefine defaults depending on the system
-381221a81 cmake: drop unused CMP0042 policy
-99eade7cd cmake: respect indentation
-dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
-025e462ae util: fix multisample_texture_fs_template
-f9e26b98b tests: add a test for GL_APPLE_sync
-b24c834d9 ci: codespell ignore list is lowercase
-0a842edd0 more spelling fixes accross the whole codebase
-2c473ea73 ci: bump distribution tag
-7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
-19e58247e ext_texture_storage: Fix memory leak on error path
-d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
-74064b1d4 arb_clear_texture: only test float depth textures when supported
-9c941dfc3 properly check for libgen.h
-c55e22a5c arb_copy_image-formats: avoid undefined behavior
-537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
-b32186ee5 README: add Vulkan into the generic description
-1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
-62938a9bc tests: Fix cl test <a class="moz-txt-link-abbreviated" href="mailto:program@execute@builtin@builtin-float-degrees-1.0.generated">program@execute@builtin@builtin-float-degrees-1.0.generated</a> issue about tolerance.
-
-Signed-off-by: Trevor Gamblin <a class="moz-txt-link-rfc2396E" href="mailto:tgamblin@baylibre.com">&lt;tgamblin@baylibre.com&gt;</a>
----
-v2 adds wayland and wayland-protocols to DEPENDS to solve build errors
-seen on the AB.
-
- ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
- meta/recipes-graphics/piglit/piglit_git.bb    |  5 +-
- 2 files changed, 2 insertions(+), 86 deletions(-)
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-deleted file mode 100644
-index 2875dd52ec..0000000000
---- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-+++ /dev/null
-@@ -1,83 +0,0 @@
--From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
--From: Erik Faye-Lund <a class="moz-txt-link-rfc2396E" href="mailto:erik.faye-lund@collabora.com">&lt;erik.faye-lund@collabora.com&gt;</a>
--Date: Tue, 19 Mar 2024 16:34:02 +0100
--Subject: [PATCH] properly check for libgen.h
--
--Some users are reporting that basename is not available when building on
--Linux with musl libc. And since the POSIX spec[1] says that basename is
--defined in libgen.h, we should include that when available.
--
--So let's properly detect the header, and include it if it exists. This
--should hopefully make things a bit more robust.
--
--Since we're also including this from the CL program-tester, let's
--rearrange the includes a bit so we know that config.h has been included.
--
--Upstream-Status: Submitted [<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888">https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888</a>]
--Reviewed-by: David Heidelberg <a class="moz-txt-link-rfc2396E" href="mailto:david.heidelberg@collabora.com">&lt;david.heidelberg@collabora.com&gt;</a>
--Signed-off-by: Khem Raj <a class="moz-txt-link-rfc2396E" href="mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
-----
-- CMakeLists.txt                    | 1 +
-- tests/cl/program/program-tester.c | 5 ++++-
-- tests/util/config.h.in            | 1 +
-- tests/util/piglit-util.h          | 4 ++--
-- 4 files changed, 8 insertions(+), 3 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index dd2bf67125..5563fe0e20 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
-- check_include_file(fcntl.h     HAVE_FCNTL_H)
-- check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
-- check_include_file(endian.h    HAVE_ENDIAN_H)
--+check_include_file(libgen.h    HAVE_LIBGEN_H)
-- 
-- if(DEFINED PIGLIT_INSTALL_VERSION)
-- 	set(PIGLIT_INSTALL_VERSION_SUFFIX
--diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
--index 97fe64906d..e47fb5aacc 100644
----- a/tests/cl/program/program-tester.c
--+++ b/tests/cl/program/program-tester.c
--@@ -31,10 +31,13 @@
-- #include &lt;inttypes.h&gt;
-- #include &lt;math.h&gt;
-- #include &lt;regex.h&gt;
---#include &lt;libgen.h&gt;
-- 
-- #include "piglit-framework-cl-program.h"
-- 
--+#ifdef HAVE_LIBGEN_H
--+#include &lt;libgen.h&gt;
--+#endif
--+
-- /* Regexes */
-- 
-- /*
--diff --git a/tests/util/config.h.in b/tests/util/config.h.in
--index 8ed5af1709..437eb91418 100644
----- a/tests/util/config.h.in
--+++ b/tests/util/config.h.in
--@@ -16,3 +16,4 @@
-- #cmakedefine HAVE_SYS_RESOURCE_H 1
-- #cmakedefine HAVE_UNISTD_H 1
-- #cmakedefine HAVE_ENDIAN_H 1
--+#cmakedefine HAVE_LIBGEN_H 1
--diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
--index 4d3606c708..de999980b6 100644
----- a/tests/util/piglit-util.h
--+++ b/tests/util/piglit-util.h
--@@ -52,8 +52,8 @@ extern "C" {
-- #include &lt;math.h&gt;
-- #include &lt;float.h&gt;
-- 
---#if defined(__APPLE__) || defined(__MINGW32__)
---#  include "libgen.h" // for basename
--+#ifdef HAVE_LIBGEN_H
--+#  include &lt;libgen.h&gt; // for basename
-- #elif defined(_MSC_VER)
-- 
-- static inline char *
---- 
--GitLab
--
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 99d75e64f8..8bfd0a9b63 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            <a class="moz-txt-link-freetext" href="file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch">file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch">file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch">file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch</a> \
--           <a class="moz-txt-link-freetext" href="file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch">file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch</a> \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
-+SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr"
- 
-@@ -23,7 +22,7 @@ S = "${WORKDIR}/git"
- X11_DEPS = <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('DISTRO_FEATURES','x11','virtual/libx11libxrenderlibglu','',d)}">"${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"</a>
- X11_RDEPS = <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('DISTRO_FEATURES','x11','mesa-demos','',d)}">"${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"</a>
- 
--DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl"
-+DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl wayland wayland-protocols"
- 
- inherit cmake pkgconfig python3native features_check bash-completion
- 
--- 
-2.39.2
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#203340): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/203340">https://lists.openembedded.org/g/openembedded-core/message/203340</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/107914101/3617179">https://lists.openembedded.org/mt/107914101/3617179</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:alexandre.belloni@bootlin.com">alexandre.belloni@bootlin.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------PeHGy0oGBovh0Lg4Kdu0hTjb--
+Alex
 
