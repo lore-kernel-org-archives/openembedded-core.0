@@ -1,528 +1,310 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71613C3DA4A
-	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 21:25:09 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web10.5975.1724189101276839555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E790C5320E
+	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 22:31:49 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.66.57])
+ by mx.groups.io with SMTP id smtpd.web10.7245.1724193108010351671
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Aug 2024 14:25:01 -0700
+ Tue, 20 Aug 2024 15:31:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L6Pfu34M;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3db1eb76702so4220153b6e.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 14:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724189100; x=1724793900; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uQyZqQSSw3y6Z198LaOVXBJUdw58p0HD3BoZmPmhewk=;
-        b=L6Pfu34MEmroa8dVymyFdm/2Y5nBVnGmiQxod9zAxka6md5cgeGs2cQgZol4Ctj8mI
-         Cvx1GNp2Pme4uwyAyNG94jsTvieF3Uwn+bPoFinmfnY+op/nPiFovgsVU0tiDqr5Uhun
-         m7+f4762zIWzTRkYM4zqQ2Jf1fNCwVXuFDlWRHY6BBDKywtHnCwDSNRXT13AsD/sTeAr
-         0ZTPy3E1EYXdDwMvR1MmHR21I+Iwi8ipSect27fD8hP7Wbi7NOhvT36LyjTSAGI73lrQ
-         a02rquVnbX9zV38DHn+saIr9ofcTxMZbDgdlEmP71oUbTEqNcEPDUMXua6LFjj5QmCfr
-         m5AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724189100; x=1724793900;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uQyZqQSSw3y6Z198LaOVXBJUdw58p0HD3BoZmPmhewk=;
-        b=FrmN7kJerNF2j9+g4w5DRtQ9I8O5KbMZY4xA/7MKAObepF5w27TQQpz/KRkEZolLLQ
-         m7KCCTMU6s7WxuZd+QC60mtB5dLy+E7A+R10erfdP4gc0k+8pSuXzgULD98raKXxw3Su
-         u2hr6yDOakXouAftH3TqJIMlBVC9+x7x8eiMZ/ZTndHFSSs5EKveuOhRGXQD1R7PyFR9
-         Rf0RTyzm3tBLxVWkQnRlD2+kuNhz1tL1/h9R4oJ0VEgN8zg4twO5k1bwE3VvZSqANypD
-         hZQtQv1ymZNPogIxusWaE17eFfdnf4HAuTQDrCTahAtOQxSByWbuq4NcgrCS0z5oRJZL
-         xxug==
-X-Gm-Message-State: AOJu0YypDHn/rfstI50rIf56zL+diLqZaHyp70EZ+/Km8mfJz7IMAHly
-	HefW1cNf4vElBfQlURfIYgQcxfVQA51VfqSUq7PxvVCrE3ETJDL0zPJH+YhdKtG/am+6bM+tZkW
-	+PgasPPAXsMnswUObNdCVLC89x2Z0kA==
-X-Google-Smtp-Source: AGHT+IGjFcroJ6pqLUIgJW5llz9c4WD/z/4sKpWhaB7593Jvdm6zzdJYczR0y/P+lQNKVal4HcLQPGwhUIE9yg4wkRE=
-X-Received: by 2002:a05:6808:1507:b0:3da:b3b3:17f with SMTP id
- 5614622812f47-3de1950e2fcmr740841b6e.25.1724189100459; Tue, 20 Aug 2024
- 14:25:00 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=q1X0irPc;
+ spf=pass (domain: axis.com, ip: 52.101.66.57, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bS8eHHATAIhNNWMBEvqrJo0VkwfV0+wfwXlvHHtc48kBrSs4c//JC7x1iimPZnc5l6aDw4iFPWNHyZmlnk8FtJ4WJU2nGkhKwSsvHq7CclpRRWTtp0wwkh/X6zi1vVYHiHeHdmg4Np0haoRgC7i0AdVCJetYo8/AzgK9uDxvAudgL8dn5NyYl5CBhsgNxcQJHp165GrPeXFjruEcOFQMfGAsz28Gc+JmJPrDjaIrRRMmmlnw+JfzUjILoA0lC4hP/h03LyvZzExhaB8+DgIBu6v7ohvBrz8jvRSVYeGvBUFQRqrjQdDe6QM+PtYSjU92oHx12gkjkAQvmAKWIqCMkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/ZkOPqrB2RHdaow/+G5H3D71d716vKHnrO8+1wVBkUQ=;
+ b=D0GkgKM3PQvFOmTN5BpdiN0hKSI71sBA/yBLREjD945E4afr+TsHZP5ng/gr/yTolPth+5lSQ/i10d+YRqemmMY42qgF2/b0Om8ryW+qsEUhk5QEj8EtWbcuukuqdrs2zYHSFguHKBxCfgy9/SyVqtgp2+/6cG1SFogobSXwOfQiAQplIHVDr6Q7w/SREWWyrNrz1P6bxmSwTYpspLCpMeswtZfDuQxgxM6UPw/VifrAw8HvEsYucA7tnNOUt2j+WEDHD1LZdV6y2hUyv3YgZLFKYpXi289UWw3WX4GW8PqVe35moUNtntojAW51qOxqM+umY6uRlLILSeFtPjKo1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/ZkOPqrB2RHdaow/+G5H3D71d716vKHnrO8+1wVBkUQ=;
+ b=q1X0irPc3yVHvADrzne+/Y/xtcfFvc7w+OeojSzHWEgExgHB7apg+GK6l8FXLLT62tICVu1AdEb08v8eXwpsQORLngCqK89pKWPbqkMWQz5NaGjl2LMtaFikLssZVcVuDC4SAN2hBoDoEIV0GRnFy1+1tJpyrbNn9tiyWQYY4oo=
+Received: from AS8PR04CA0108.eurprd04.prod.outlook.com (2603:10a6:20b:31e::23)
+ by PA6PR02MB10756.eurprd02.prod.outlook.com (2603:10a6:102:3d7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Tue, 20 Aug
+ 2024 22:31:43 +0000
+Received: from AMS0EPF0000019B.eurprd05.prod.outlook.com
+ (2603:10a6:20b:31e:cafe::cd) by AS8PR04CA0108.outlook.office365.com
+ (2603:10a6:20b:31e::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.22 via Frontend
+ Transport; Tue, 20 Aug 2024 22:31:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ AMS0EPF0000019B.mail.protection.outlook.com (10.167.16.247) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7897.11 via Frontend Transport; Tue, 20 Aug 2024 22:31:43 +0000
+Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 21 Aug
+ 2024 00:31:42 +0200
+Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 21 Aug 2024 00:31:42 +0200
+Received: from saur (saur.se.axis.com [10.92.3.10])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 732FF1B3
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 00:31:42 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur (8.17.1/8.15.2) with ESMTPS id 47KMVgul770610
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 00:31:42 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 47KMVglL770609
+	for openembedded-core@lists.openembedded.org; Wed, 21 Aug 2024 00:31:42 +0200
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv2 2/2] oeqa/selftest/bbclasses: Add tests for systemd and update-rc.d interaction
+Date: Wed, 21 Aug 2024 00:31:40 +0200
+Message-ID: <20240820223140.770567-2-pkj@axis.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20240820223140.770567-1-pkj@axis.com>
+References: <20240820223140.770567-1-pkj@axis.com>
 MIME-Version: 1.0
-References: <20240820203533.4166641-1-pkj@axis.com> <20240820203533.4166641-2-pkj@axis.com>
-In-Reply-To: <20240820203533.4166641-2-pkj@axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 Aug 2024 14:24:48 -0700
-Message-ID: <CAMKF1sreJ4c=OoqGgc68VFdJsWOypgf+z9wDccfMF2XO7=HH6Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] oeqa/selftest/bbclasses: Add tests for
- systemd and update-rc.d interaction
-To: peter.kjellerstedt@axis.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000dbcf810620240e8d"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF0000019B:EE_|PA6PR02MB10756:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1defadf-842c-4cdf-5068-08dcc167de28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?fUAuRUqRIKXy+ePanOGnvrCPd6ZIrV3uHTDxqlS59vll+vRIqgp/V9PGIWOo?=
+ =?us-ascii?Q?J/ydA6wLjFWa6FrI8zswh8eeCrkQ7Ed97BqUEYmnNUbEBv9v6EEBlka/EQ00?=
+ =?us-ascii?Q?aXI0rUAc5TO/CfzQ/CJGjm5WDXE9DtZwZvjpdXqi+8zVlT+F91+eRgbngEYd?=
+ =?us-ascii?Q?I5TVsfCFgI5CgkC5A3ovA96xKFWcvbEA6G3YeNXB80zx2xAWi7jP5a50RfAC?=
+ =?us-ascii?Q?TgYDlneHh4sDaMEW6tz0y65C9namYDD3RpCoaOZZpYDDIgnvX4vQFP/ZzDG2?=
+ =?us-ascii?Q?m9UQhEP4R2BAkH6BvG+5jVrh5BLZnmE+WxNU2JnH1xwpBgQuQMx0uWrhzFag?=
+ =?us-ascii?Q?l14iz0q2cWfSV1GhN8UsIwIgbHtdqD4HpmoN1yDoc+auZ+fTNUGtuGhLDZy1?=
+ =?us-ascii?Q?uPsrDGAC2oWJy0xvU7HdKYt3yB9c6O09Q6TZsH1/3CtP8IZpqFazYyOXdyTA?=
+ =?us-ascii?Q?zqzeyafZrzkOnOGVL5N3+zsZpECP3pVS35ZZjc7Oo0j6roFakyHA3SWUn6em?=
+ =?us-ascii?Q?3jKZynckrjI1KjD6isSBhHaj2CqXh/W3RTPHT9TT9DCZGbDtFdAK1INsevnQ?=
+ =?us-ascii?Q?qSR1Vi9zrKrmhf6pT5iQEfw1kjyK/VmksjuHi6sPNHOUumo1scPw8gZrKWGz?=
+ =?us-ascii?Q?L9FR9/8GuD9U+IUHQm3acfSj4oE4LnF5XFnZBr1gPOLWr/xBsHGrY+WvlzQj?=
+ =?us-ascii?Q?LpcLebCgtuTE+XbbUKxB+tvwLjifZzHW9wXeWQoTxNChGWGXxIDm73BrlY0F?=
+ =?us-ascii?Q?eXfjoH8QD1APyn3/fjQwu4Irfy1GediQ4IRgNOvGO6R3bEiN97RjqLMudsSg?=
+ =?us-ascii?Q?FfzyYWg4/1S0SSF44Nts6Mtfq7EMS1Szqb5A0p6fMhckmfLsq6EUUYQYCMK6?=
+ =?us-ascii?Q?R1JHrOJyrdV4xWjzndZNy5maeNMwAHavJ3RsOVuEVGUsZ2vlxdbqEo5av1ac?=
+ =?us-ascii?Q?Ju21Q/i5WDsKvMqdLbsaW51NHiNHZ37G/e5G9OqIUVlYjjZgJInu9T3T+Ccw?=
+ =?us-ascii?Q?q8Q7LchF+ldEu4pQzUbtpSxU85ntAp2jCK48tjQ64mtjvHoOqO/worWhLZ8g?=
+ =?us-ascii?Q?EhykB39Ul8gPitGg59WDtfkJ2QUUUPY8dqzkAOv8sy4mguhCN1upvxepK0Vv?=
+ =?us-ascii?Q?h+Bbvs6hojKNKTtdpcT7/i8rOzQrIMFK2wKjKUUa8JhYJZkThA435R2qczJq?=
+ =?us-ascii?Q?IJPH9g7fygVWAlIoiogruqY+c9iytPiHRWxuibL4TjPO+RtQJI1rt6DIyN2l?=
+ =?us-ascii?Q?K3Tk2yzZPyoSrFnsau6r1pbB9ptGgkWPaURJ6Be6WzyY8vfzx48hJkTVPxvL?=
+ =?us-ascii?Q?ye00syq/YPMF4xrbaT+xY2luR6/cK4uGqFIT8Qw9DYAIzoUuyZG9q+6dlOe1?=
+ =?us-ascii?Q?U8i7MU2Ls2UdKe2qMwr1hqgHqH8XGeepVj26tSsdTAiuOnlE6bq69CA/xkYW?=
+ =?us-ascii?Q?/d6HAbvvz6vpOkGotFrf9KjRnIXGJhLg?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 22:31:43.2275
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1defadf-842c-4cdf-5068-08dcc167de28
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF0000019B.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR02MB10756
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 21:25:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203570
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 22:31:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203571
 
---000000000000dbcf810620240e8d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+These tests verify that the correct files are left behind when systemd
+is inherited and depending on whether the systemd and/or sysvinit distro
+features are enabled.
 
-On Tue, Aug 20, 2024 at 1:35=E2=80=AFPM Peter Kjellerstedt via
-lists.openembedded.org <peter.kjellerstedt=3Daxis.com@lists.openembedded.or=
-g>
-wrote:
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
 
-> These tests verify that the correct files are left behind when systemd
-> is inherited and depending on whether the systemd and/or sysvinit distro
-> features are enabled.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  .../bbclasses/systemd-and-sysvinit.bb         |  15 +++
->  .../recipes-test/bbclasses/systemd-only.bb    |  10 ++
->  meta/lib/oeqa/selftest/cases/bbclasses.py     | 106 ++++++++++++++++++
->  3 files changed, 131 insertions(+)
->  create mode 100644 meta-selftest/recipes-test/bbclasses/
-> systemd-and-sysvinit.bb
->  create mode 100644 meta-selftest/recipes-test/bbclasses/systemd-only.bb
->  create mode 100644 meta/lib/oeqa/selftest/cases/bbclasses.py
->
-> diff --git a/meta-selftest/recipes-test/bbclasses/systemd-and-sysvinit.bb
-> b/meta-selftest/recipes-test/bbclasses/systemd-and-sysvinit.bb
-> new file mode 100644
-> index 0000000000..b820a10528
-> --- /dev/null
-> +++ b/meta-selftest/recipes-test/bbclasses/systemd-and-sysvinit.bb
-> @@ -0,0 +1,15 @@
-> +LICENSE =3D "CLOSED"
-> +
-> +inherit allarch systemd update-rc.d
-> +
-> +do_install() {
-> +       install -d ${D}${systemd_system_unitdir}
-> +       touch ${D}${systemd_system_unitdir}/${BPN}.service
-> +
-> +       install -d ${D}${INIT_D_DIR}
-> +       touch ${D}${INIT_D_DIR}/${BPN}
-> +}
-> +
-> +INITSCRIPT_NAME =3D "${BPN}"
-> +
-> +SYSTEMD_SERVICE:${PN} =3D "${BPN}.service"
-> diff --git a/meta-selftest/recipes-test/bbclasses/systemd-only.bb
-> b/meta-selftest/recipes-test/bbclasses/systemd-only.bb
-> new file mode 100644
-> index 0000000000..3a28713cb5
-> --- /dev/null
-> +++ b/meta-selftest/recipes-test/bbclasses/systemd-only.bb
-> @@ -0,0 +1,10 @@
-> +LICENSE =3D "CLOSED"
-> +
+PATCHv2: Change LICENSE to MIT and add EXCLUDE_FROM_WORLD to the test
+         recipes
 
+ .../bbclasses/systemd-and-sysvinit.bb         |  17 +++
+ .../recipes-test/bbclasses/systemd-only.bb    |  12 ++
+ meta/lib/oeqa/selftest/cases/bbclasses.py     | 106 ++++++++++++++++++
+ 3 files changed, 135 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/bbclasses/systemd-and-sysvin=
+it.bb
+ create mode 100644 meta-selftest/recipes-test/bbclasses/systemd-only.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/bbclasses.py
 
-License is not conducive to project here so it has to change to something
-open
-
-
-> +inherit allarch systemd
-> +
-> +do_install() {
-> +       install -d ${D}${systemd_system_unitdir}
-> +       touch ${D}${systemd_system_unitdir}/${BPN}.service
-> +}
-> +
-> +SYSTEMD_SERVICE:${PN} =3D "${BPN}.service"
-> diff --git a/meta/lib/oeqa/selftest/cases/bbclasses.py
-> b/meta/lib/oeqa/selftest/cases/bbclasses.py
-> new file mode 100644
-> index 0000000000..10545ebe65
-> --- /dev/null
-> +++ b/meta/lib/oeqa/selftest/cases/bbclasses.py
-> @@ -0,0 +1,106 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +from oeqa.selftest.case import OESelftestTestCase
-> +from oeqa.utils.commands import get_bb_vars, bitbake
-> +
-> +class Systemd(OESelftestTestCase):
-> +    """
-> +    Tests related to the systemd bbclass.
-> +    """
-> +
-> +    def getVars(self, recipe):
-> +        self.bb_vars =3D get_bb_vars(
-> +            [
-> +                'BPN',
-> +                'D',
-> +                'INIT_D_DIR',
-> +                'prefix',
-> +                'systemd_system_unitdir',
-> +                'sysconfdir',
-> +            ],
-> +            recipe,
-> +        )
-> +
-> +    def fileExists(self, filename):
-> +        self.assertExists(filename.format(**self.bb_vars))
-> +
-> +    def fileNotExists(self, filename):
-> +        self.assertNotExists(filename.format(**self.bb_vars))
-> +
-> +    def test_systemd_in_distro(self):
-> +        """
-> +        Summary:    Verify that no sysvinit files are installed when the
-> +                    systemd distro feature is enabled, but sysvinit is
-> not.
-> +        Expected:   Systemd service file exists, but /etc does not.
-> +        Product:    OE-Core
-> +        Author:     Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> +        """
-> +
-> +        self.write_config("""
-> +DISTRO_FEATURES:append =3D " systemd usrmerge"
-> +DISTRO_FEATURES:remove =3D "sysvinit"
-> +VIRTUAL-RUNTIME_init_manager =3D "systemd"
-> +""")
-> +        bitbake("systemd-only systemd-and-sysvinit -c install")
-> +
-> +        self.getVars("systemd-only")
-> +        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
-> +
-> +        self.getVars("systemd-and-sysvinit")
-> +        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
-> +        self.fileNotExists("{D}{sysconfdir}")
-> +
-> +    def test_systemd_and_sysvinit_in_distro(self):
-> +        """
-> +        Summary:    Verify that both systemd and sysvinit files are
-> installed
-> +                    when both the systemd and sysvinit distro features a=
-re
-> +                    enabled.
-> +        Expected:   Systemd service file and sysvinit initscript exist.
-> +        Product:    OE-Core
-> +        Author:     Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> +        """
-> +
-> +        self.write_config("""
-> +DISTRO_FEATURES:append =3D " systemd sysvinit usrmerge"
-> +VIRTUAL-RUNTIME_init_manager =3D "systemd"
-> +""")
-> +        bitbake("systemd-only systemd-and-sysvinit -c install")
-> +
-> +        self.getVars("systemd-only")
-> +        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
-> +
-> +        self.getVars("systemd-and-sysvinit")
-> +        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
-> +        self.fileExists("{D}{INIT_D_DIR}/{BPN}")
-> +
-> +    def test_sysvinit_in_distro(self):
-> +        """
-> +        Summary:    Verify that no systemd service files are installed
-> when the
-> +                    sysvinit distro feature is enabled, but systemd is
-> not.
-> +        Expected:   The systemd  service file does not exist, nor does
-> /usr.
-> +                    The sysvinit initscript exists.
-> +        Product:    OE-Core
-> +        Author:     Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> +        """
-> +
-> +        self.write_config("""
-> +DISTRO_FEATURES:remove =3D "systemd"
-> +DISTRO_FEATURES:append =3D " sysvinit usrmerge"
-> +VIRTUAL-RUNTIME_init_manager =3D "sysvinit"
-> +""")
-> +        bitbake("systemd-only systemd-and-sysvinit -c install")
-> +
-> +        self.getVars("systemd-only")
-> +        self.fileNotExists("{D}{systemd_system_unitdir}/{BPN}.service")
-> +        self.fileNotExists("{D}{prefix}")
-> +        self.fileNotExists("{D}{sysconfdir}")
-> +        self.fileExists("{D}")
-> +
-> +        self.getVars("systemd-and-sysvinit")
-> +        self.fileNotExists("{D}{systemd_system_unitdir}/{BPN}.service")
-> +        self.fileNotExists("{D}{prefix}")
-> +        self.fileExists("{D}{INIT_D_DIR}/{BPN}")
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203568):
-> https://lists.openembedded.org/g/openembedded-core/message/203568
-> Mute This Topic: https://lists.openembedded.org/mt/108008174/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000dbcf810620240e8d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Aug 20, 2024 at 1:35=E2=80=AFPM Peter Kjellerstedt =
-via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &l=
-t;peter.kjellerstedt=3D<a href=3D"mailto:axis.com@lists.openembedded.org">a=
-xis.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex">These tests verify that the correct files are left behind when s=
-ystemd<br>
-is inherited and depending on whether the systemd and/or sysvinit distro<br=
->
-features are enabled.<br>
-<br>
-Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@=
-axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
----<br>
-=C2=A0.../bbclasses/<a href=3D"http://systemd-and-sysvinit.bb" rel=3D"noref=
-errer" target=3D"_blank">systemd-and-sysvinit.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 15 +++<br>
-=C2=A0.../recipes-test/bbclasses/<a href=3D"http://systemd-only.bb" rel=3D"=
-noreferrer" target=3D"_blank">systemd-only.bb</a>=C2=A0 =C2=A0 |=C2=A0 10 +=
-+<br>
-=C2=A0meta/lib/oeqa/selftest/cases/bbclasses.py=C2=A0 =C2=A0 =C2=A0| 106 ++=
-++++++++++++++++<br>
-=C2=A03 files changed, 131 insertions(+)<br>
-=C2=A0create mode 100644 meta-selftest/recipes-test/bbclasses/<a href=3D"ht=
-tp://systemd-and-sysvinit.bb" rel=3D"noreferrer" target=3D"_blank">systemd-=
-and-sysvinit.bb</a><br>
-=C2=A0create mode 100644 meta-selftest/recipes-test/bbclasses/<a href=3D"ht=
-tp://systemd-only.bb" rel=3D"noreferrer" target=3D"_blank">systemd-only.bb<=
-/a><br>
-=C2=A0create mode 100644 meta/lib/oeqa/selftest/cases/bbclasses.py<br>
-<br>
-diff --git a/meta-selftest/recipes-test/bbclasses/<a href=3D"http://systemd=
--and-sysvinit.bb" rel=3D"noreferrer" target=3D"_blank">systemd-and-sysvinit=
-.bb</a> b/meta-selftest/recipes-test/bbclasses/<a href=3D"http://systemd-an=
-d-sysvinit.bb" rel=3D"noreferrer" target=3D"_blank">systemd-and-sysvinit.bb=
-</a><br>
-new file mode 100644<br>
-index 0000000000..b820a10528<br>
---- /dev/null<br>
-+++ b/meta-selftest/recipes-test/bbclasses/<a href=3D"http://systemd-and-sy=
-svinit.bb" rel=3D"noreferrer" target=3D"_blank">systemd-and-sysvinit.bb</a>=
-<br>
-@@ -0,0 +1,15 @@<br>
-+LICENSE =3D &quot;CLOSED&quot;<br>
-+<br>
-+inherit allarch systemd update-rc.d<br>
-+<br>
-+do_install() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${systemd_system_unitdir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0touch ${D}${systemd_system_unitdir}/${BPN}.serv=
-ice<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${INIT_D_DIR}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0touch ${D}${INIT_D_DIR}/${BPN}<br>
-+}<br>
-+<br>
-+INITSCRIPT_NAME =3D &quot;${BPN}&quot;<br>
-+<br>
-+SYSTEMD_SERVICE:${PN} =3D &quot;${BPN}.service&quot;<br>
-diff --git a/meta-selftest/recipes-test/bbclasses/<a href=3D"http://systemd=
--only.bb" rel=3D"noreferrer" target=3D"_blank">systemd-only.bb</a> b/meta-s=
-elftest/recipes-test/bbclasses/<a href=3D"http://systemd-only.bb" rel=3D"no=
-referrer" target=3D"_blank">systemd-only.bb</a><br>
-new file mode 100644<br>
-index 0000000000..3a28713cb5<br>
---- /dev/null<br>
-+++ b/meta-selftest/recipes-test/bbclasses/<a href=3D"http://systemd-only.b=
-b" rel=3D"noreferrer" target=3D"_blank">systemd-only.bb</a><br>
-@@ -0,0 +1,10 @@<br>
-+LICENSE =3D &quot;CLOSED&quot;<br>
-+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">License is not =
-conducive to project here so it has to change to something open=C2=A0</div>=
-<div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br=
->
-+inherit allarch systemd<br>
-+<br>
-+do_install() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${systemd_system_unitdir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0touch ${D}${systemd_system_unitdir}/${BPN}.serv=
-ice<br>
-+}<br>
-+<br>
-+SYSTEMD_SERVICE:${PN} =3D &quot;${BPN}.service&quot;<br>
+diff --git a/meta-selftest/recipes-test/bbclasses/systemd-and-sysvinit.bb b=
+/meta-selftest/recipes-test/bbclasses/systemd-and-sysvinit.bb
+new file mode 100644
+index 0000000000..f9fc59a494
+--- /dev/null
++++ b/meta-selftest/recipes-test/bbclasses/systemd-and-sysvinit.bb
+@@ -0,0 +1,17 @@
++LICENSE =3D "MIT"
++
++inherit allarch systemd update-rc.d
++
++do_install() {
++	install -d ${D}${systemd_system_unitdir}
++	touch ${D}${systemd_system_unitdir}/${BPN}.service
++
++	install -d ${D}${INIT_D_DIR}
++	touch ${D}${INIT_D_DIR}/${BPN}
++}
++
++INITSCRIPT_NAME =3D "${BPN}"
++
++SYSTEMD_SERVICE:${PN} =3D "${BPN}.service"
++
++EXCLUDE_FROM_WORLD =3D "1"
+diff --git a/meta-selftest/recipes-test/bbclasses/systemd-only.bb b/meta-se=
+lftest/recipes-test/bbclasses/systemd-only.bb
+new file mode 100644
+index 0000000000..590a27b9cb
+--- /dev/null
++++ b/meta-selftest/recipes-test/bbclasses/systemd-only.bb
+@@ -0,0 +1,12 @@
++LICENSE =3D "MIT"
++
++inherit allarch systemd
++
++do_install() {
++	install -d ${D}${systemd_system_unitdir}
++	touch ${D}${systemd_system_unitdir}/${BPN}.service
++}
++
++SYSTEMD_SERVICE:${PN} =3D "${BPN}.service"
++
++EXCLUDE_FROM_WORLD =3D "1"
 diff --git a/meta/lib/oeqa/selftest/cases/bbclasses.py b/meta/lib/oeqa/self=
-test/cases/bbclasses.py<br>
-new file mode 100644<br>
-index 0000000000..10545ebe65<br>
---- /dev/null<br>
-+++ b/meta/lib/oeqa/selftest/cases/bbclasses.py<br>
-@@ -0,0 +1,106 @@<br>
-+#<br>
-+# Copyright OpenEmbedded Contributors<br>
-+#<br>
-+# SPDX-License-Identifier: MIT<br>
-+#<br>
-+<br>
-+from oeqa.selftest.case import OESelftestTestCase<br>
-+from oeqa.utils.commands import get_bb_vars, bitbake<br>
-+<br>
-+class Systemd(OESelftestTestCase):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Tests related to the systemd bbclass.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 def getVars(self, recipe):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.bb_vars =3D get_bb_vars(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;BPN&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;D&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;INIT_D_DIR&#3=
-9;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;prefix&#39;,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;systemd_syste=
-m_unitdir&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;sysconfdir&#3=
-9;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recipe,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-+<br>
-+=C2=A0 =C2=A0 def fileExists(self, filename):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertExists(filename.format(**self.bb_va=
-rs))<br>
-+<br>
-+=C2=A0 =C2=A0 def fileNotExists(self, filename):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertNotExists(filename.format(**self.bb=
-_vars))<br>
-+<br>
-+=C2=A0 =C2=A0 def test_systemd_in_distro(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Summary:=C2=A0 =C2=A0 Verify that no sysvinit =
-files are installed when the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 syst=
-emd distro feature is enabled, but sysvinit is not.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Expected:=C2=A0 =C2=A0Systemd service file exi=
-sts, but /etc does not.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Product:=C2=A0 =C2=A0 OE-Core<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Author:=C2=A0 =C2=A0 =C2=A0Peter Kjellerstedt =
-&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.=
-kjellerstedt@axis.com</a>&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(&quot;&quot;&quot;<br>
-+DISTRO_FEATURES:append =3D &quot; systemd usrmerge&quot;<br>
-+DISTRO_FEATURES:remove =3D &quot;sysvinit&quot;<br>
-+VIRTUAL-RUNTIME_init_manager =3D &quot;systemd&quot;<br>
-+&quot;&quot;&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&quot;systemd-only systemd-and-sysvini=
-t -c install&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.getVars(&quot;systemd-only&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileExists(&quot;{D}{systemd_system_unitd=
-ir}/{BPN}.service&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.getVars(&quot;systemd-and-sysvinit&quot;)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileExists(&quot;{D}{systemd_system_unitd=
-ir}/{BPN}.service&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileNotExists(&quot;{D}{sysconfdir}&quot;=
-)<br>
-+<br>
-+=C2=A0 =C2=A0 def test_systemd_and_sysvinit_in_distro(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Summary:=C2=A0 =C2=A0 Verify that both systemd=
- and sysvinit files are installed<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 when=
- both the systemd and sysvinit distro features are<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 enab=
-led.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Expected:=C2=A0 =C2=A0Systemd service file and=
- sysvinit initscript exist.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Product:=C2=A0 =C2=A0 OE-Core<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Author:=C2=A0 =C2=A0 =C2=A0Peter Kjellerstedt =
-&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.=
-kjellerstedt@axis.com</a>&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(&quot;&quot;&quot;<br>
-+DISTRO_FEATURES:append =3D &quot; systemd sysvinit usrmerge&quot;<br>
-+VIRTUAL-RUNTIME_init_manager =3D &quot;systemd&quot;<br>
-+&quot;&quot;&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&quot;systemd-only systemd-and-sysvini=
-t -c install&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.getVars(&quot;systemd-only&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileExists(&quot;{D}{systemd_system_unitd=
-ir}/{BPN}.service&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.getVars(&quot;systemd-and-sysvinit&quot;)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileExists(&quot;{D}{systemd_system_unitd=
-ir}/{BPN}.service&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileExists(&quot;{D}{INIT_D_DIR}/{BPN}&qu=
-ot;)<br>
-+<br>
-+=C2=A0 =C2=A0 def test_sysvinit_in_distro(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Summary:=C2=A0 =C2=A0 Verify that no systemd s=
-ervice files are installed when the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sysv=
-init distro feature is enabled, but systemd is not.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Expected:=C2=A0 =C2=A0The systemd=C2=A0 servic=
-e file does not exist, nor does /usr.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The =
-sysvinit initscript exists.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Product:=C2=A0 =C2=A0 OE-Core<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Author:=C2=A0 =C2=A0 =C2=A0Peter Kjellerstedt =
-&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.=
-kjellerstedt@axis.com</a>&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(&quot;&quot;&quot;<br>
-+DISTRO_FEATURES:remove =3D &quot;systemd&quot;<br>
-+DISTRO_FEATURES:append =3D &quot; sysvinit usrmerge&quot;<br>
-+VIRTUAL-RUNTIME_init_manager =3D &quot;sysvinit&quot;<br>
-+&quot;&quot;&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&quot;systemd-only systemd-and-sysvini=
-t -c install&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.getVars(&quot;systemd-only&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileNotExists(&quot;{D}{systemd_system_un=
-itdir}/{BPN}.service&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileNotExists(&quot;{D}{prefix}&quot;)<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileNotExists(&quot;{D}{sysconfdir}&quot;=
-)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileExists(&quot;{D}&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.getVars(&quot;systemd-and-sysvinit&quot;)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileNotExists(&quot;{D}{systemd_system_un=
-itdir}/{BPN}.service&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileNotExists(&quot;{D}{prefix}&quot;)<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fileExists(&quot;{D}{INIT_D_DIR}/{BPN}&qu=
-ot;)<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#203568): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/203568" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/203568</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/108008174/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/108008174/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000dbcf810620240e8d--
+test/cases/bbclasses.py
+new file mode 100644
+index 0000000000..10545ebe65
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/bbclasses.py
+@@ -0,0 +1,106 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import get_bb_vars, bitbake
++
++class Systemd(OESelftestTestCase):
++    """
++    Tests related to the systemd bbclass.
++    """
++
++    def getVars(self, recipe):
++        self.bb_vars =3D get_bb_vars(
++            [
++                'BPN',
++                'D',
++                'INIT_D_DIR',
++                'prefix',
++                'systemd_system_unitdir',
++                'sysconfdir',
++            ],
++            recipe,
++        )
++
++    def fileExists(self, filename):
++        self.assertExists(filename.format(**self.bb_vars))
++
++    def fileNotExists(self, filename):
++        self.assertNotExists(filename.format(**self.bb_vars))
++
++    def test_systemd_in_distro(self):
++        """
++        Summary:    Verify that no sysvinit files are installed when the
++                    systemd distro feature is enabled, but sysvinit is not=
+.
++        Expected:   Systemd service file exists, but /etc does not.
++        Product:    OE-Core
++        Author:     Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++        """
++
++        self.write_config("""
++DISTRO_FEATURES:append =3D " systemd usrmerge"
++DISTRO_FEATURES:remove =3D "sysvinit"
++VIRTUAL-RUNTIME_init_manager =3D "systemd"
++""")
++        bitbake("systemd-only systemd-and-sysvinit -c install")
++
++        self.getVars("systemd-only")
++        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
++
++        self.getVars("systemd-and-sysvinit")
++        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
++        self.fileNotExists("{D}{sysconfdir}")
++
++    def test_systemd_and_sysvinit_in_distro(self):
++        """
++        Summary:    Verify that both systemd and sysvinit files are instal=
+led
++                    when both the systemd and sysvinit distro features are
++                    enabled.
++        Expected:   Systemd service file and sysvinit initscript exist.
++        Product:    OE-Core
++        Author:     Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++        """
++
++        self.write_config("""
++DISTRO_FEATURES:append =3D " systemd sysvinit usrmerge"
++VIRTUAL-RUNTIME_init_manager =3D "systemd"
++""")
++        bitbake("systemd-only systemd-and-sysvinit -c install")
++
++        self.getVars("systemd-only")
++        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
++
++        self.getVars("systemd-and-sysvinit")
++        self.fileExists("{D}{systemd_system_unitdir}/{BPN}.service")
++        self.fileExists("{D}{INIT_D_DIR}/{BPN}")
++
++    def test_sysvinit_in_distro(self):
++        """
++        Summary:    Verify that no systemd service files are installed whe=
+n the
++                    sysvinit distro feature is enabled, but systemd is not=
+.
++        Expected:   The systemd  service file does not exist, nor does /us=
+r.
++                    The sysvinit initscript exists.
++        Product:    OE-Core
++        Author:     Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++        """
++
++        self.write_config("""
++DISTRO_FEATURES:remove =3D "systemd"
++DISTRO_FEATURES:append =3D " sysvinit usrmerge"
++VIRTUAL-RUNTIME_init_manager =3D "sysvinit"
++""")
++        bitbake("systemd-only systemd-and-sysvinit -c install")
++
++        self.getVars("systemd-only")
++        self.fileNotExists("{D}{systemd_system_unitdir}/{BPN}.service")
++        self.fileNotExists("{D}{prefix}")
++        self.fileNotExists("{D}{sysconfdir}")
++        self.fileExists("{D}")
++
++        self.getVars("systemd-and-sysvinit")
++        self.fileNotExists("{D}{systemd_system_unitdir}/{BPN}.service")
++        self.fileNotExists("{D}{prefix}")
++        self.fileExists("{D}{INIT_D_DIR}/{BPN}")
 
