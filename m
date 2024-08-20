@@ -1,492 +1,174 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <jasper@fancydomain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 350EBC5320E
-	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 09:23:30 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web11.14530.1724145804833449831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29EF9C3DA4A
+	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 12:39:41 +0000 (UTC)
+Received: from mx.walter.deinstapel.de (mx.walter.deinstapel.de [62.176.232.99])
+ by mx.groups.io with SMTP id smtpd.web10.18132.1724157572062841451
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Aug 2024 02:23:24 -0700
+ Tue, 20 Aug 2024 05:39:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=KzmMMT72;
- spf=pass (domain: mvista.com, ip: 209.85.215.176, mailfrom: sdoshi@mvista.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7a1be7b5d70so3327463a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 02:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1724145804; x=1724750604; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+vKBy8y+YfYe/VU1SkzA1IA9fQ/Gr5EH8s2+usWwyHA=;
-        b=KzmMMT729yybW35SeXTjt3DobyX2Rv9QhsLGikrZE/nUCp7EdlpqFuoPcJ2e4atDIT
-         ThD6IlRklufpFSAsRMKwb2a6Pv2jkDmsTaBIPcUFvNicdIcgXTD4GadHmpBNHPzr+gOI
-         UVEz6BN68x0bqjQgf+LML6/ttm6TQrgRRfHOU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724145804; x=1724750604;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+vKBy8y+YfYe/VU1SkzA1IA9fQ/Gr5EH8s2+usWwyHA=;
-        b=ginB8GRsLK94CvDVEXuWOwRdKYgk6gkMARhhb2PWHdylItdmCJ9BPmfrBok+4/GRhd
-         Yl/gXExSvkW7yXMTVq1rIn1msd3vOs4FZzQA4adCURUMTkrrFqKrZYlAW0lUZ5krnvTG
-         IuXbM5oLNH/RmSwPLnlBNUsEu0XSMjCj26WzTM0q5eo+mnz/Br1Xnnpt0qONiXJaVsrQ
-         kOpKpYw9ByHfQMOni2M7qsI/3VYnVyfERWvz/zB9PpLD+s3k8Vpc1gjfnKV+YToFKutO
-         WikfTCdKCyY4WuBsr1tQA24uA3oWn1z1BAr5nvbePmShaI9Y7FqBJRuWpqX6ijmoLbNn
-         tufA==
-X-Gm-Message-State: AOJu0Yzc27kziBLCGTnlYtux2WQccduPyLS6WwTUX/8zniZ+pkdaono7
-	6OLFVDacsHbKAxfFKYX4sqHFAFPw75KJW45ikXU8F6NZEImN7dKYpeqeHzklRJBn034BmeL6aE2
-	z
-X-Google-Smtp-Source: AGHT+IGv2Js90G6vBStxfPtYSHSifiWPpvUKTvKVCTVeZ61bpeH6XT1rFpfkGzazlav+K7/FWN5plw==
-X-Received: by 2002:a05:6a20:2d14:b0:1ca:ccfc:edc8 with SMTP id adf61e73a8af0-1caccfcee50mr1553655637.22.1724145803492;
-        Tue, 20 Aug 2024 02:23:23 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([157.32.46.164])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127ae0df3fsm7849371b3a.72.2024.08.20.02.23.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 02:23:23 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] curl: Security fix for CVE-2024-7264
-Date: Tue, 20 Aug 2024 14:53:14 +0530
-Message-Id: <20240820092314.200770-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@fancydomain.eu header.s=mail header.b=QseOqQi+;
+ spf=pass (domain: fancydomain.eu, ip: 62.176.232.99, mailfrom: jasper@fancydomain.eu)
+Date: Tue, 20 Aug 2024 14:39:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fancydomain.eu;
+	s=mail; t=1724157568;
+	bh=yg/Fc+EoXuzPz8gSTeuUQsLDnYnUyANpVv39ze8qQ/o=;
+	h=From:To:CC:Subject:In-Reply-To:References;
+	b=QseOqQi+my2Yi4Eh0TWjcvMDg9g10JgUZcodYQTXqk8ya02sq2Ac04+EQsyQXN3dP
+	 Ec/1F953QbDEZ7z0HmVjXpR/gACdvIifZx2l60HXWbiMwQiMn2X09mzi0In39DkatP
+	 Mtm/VJuWlxs3An50kPsPbrANCFQoojqPbgRtJFpyKDzl3hVoNYaoJsZQ2JIsv6V84t
+	 GTbgYNcdukeeskAC1pxQqKiUf+9KtCMgbO3Q6UvqmxfL7yHz4QECXfmovUAoWlCwd4
+	 2M/oXsvC+9OUu+JDD642YFgWg+g33Yhfa+nWASw/Lhai6XrhRPpy1R2K4ak1iNvTwp
+	 3d6jQRgUWZaTg==
+From: Jasper Orschulko <jasper@fancydomain.eu>
+To: aoifepowerIris@gmail.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] Util-linux: Adding missing ptest dependencies
+In-Reply-To: <CANNYZj_fHpg3Xi=qKYTBEHX0ueFahihcik-4XuB8prsAnvxp7A@mail.gmail.com>
+References: <20240819145140.582935-1-aoifepowerIris@gmail.com> <CAFpNyFw0xR-MqoVmQSjPYGbEwNZkPdPWSx2JP2rnOi=5K1g0cQ@mail.gmail.com> <CANNYZj_fHpg3Xi=qKYTBEHX0ueFahihcik-4XuB8prsAnvxp7A@mail.gmail.com>
+Message-ID: <8AF9EB90-F702-46E9-AFF6-DC6E493ED721@fancydomain.eu>
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary=----J4EJQGMANTLOUTTDL3ZSGTXZ9VA8UK
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 09:23:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203554
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 12:39:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203555
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+------J4EJQGMANTLOUTTDL3ZSGTXZ9VA8UK
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Upstream-Status: Backport from [https://github.com/curl/curl/commit/27959ecce75cdb2809c0bdb3286e60e08fadb519]
+Hi Alex,
 
-CVE's Fixed:
-============
-CVE-2024-7264 libcurl: ASN.1 date parser overread
+please ignore the previous patch=2E There is still stuff that we need to f=
+igure out internally, due to miscommunication=2E We will submit a v2 of the=
+ patch if required=2E Thanks and sorry for the inconvenience=2E :)
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- .../curl/curl/CVE-2024-7264_1.patch           |  66 ++++
- .../curl/curl/CVE-2024-7264_2.patch           | 320 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   2 +
- 3 files changed, 388 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-7264_1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-7264_2.patch
+Cheers,
+Jasper
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2024-7264_1.patch b/meta/recipes-support/curl/curl/CVE-2024-7264_1.patch
-new file mode 100644
-index 0000000000..2e1d8eeaaa
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2024-7264_1.patch
-@@ -0,0 +1,66 @@
-+From 3c914bc680155b32178f1f15ca8d47c7f4640afe Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 30 Jul 2024 10:05:17 +0200
-+Subject: [PATCH] x509asn1: clean up GTime2str
-+
-+Co-authored-by: Stefan Eissing
-+Reported-by: Dov Murik
-+
-+Closes #14307
-+
-+Note: This patch is needed by the main patch to be backported.
-+
-+Upstream-Status: Backport from [https://github.com/curl/curl/commit/3c914bc680155b32178f1f15ca8d47c7f4640afe]
-+CVE: CVE-2024-7264
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ lib/vtls/x509asn1.c | 23 ++++++++++++++---------
-+ 1 file changed, 14 insertions(+), 9 deletions(-)
-+
-+diff --git a/lib/vtls/x509asn1.c b/lib/vtls/x509asn1.c
-+index f64acb8..b538bd9 100644
-+--- a/lib/vtls/x509asn1.c
-++++ b/lib/vtls/x509asn1.c
-+@@ -539,7 +539,7 @@ static const char *GTime2str(const char *beg, const char *end)
-+   /* Convert an ASN.1 Generalized time to a printable string.
-+      Return the dynamically allocated string, or NULL if an error occurs. */
-+ 
-+-  for(fracp = beg; fracp < end && *fracp >= '0' && *fracp <= '9'; fracp++)
-++  for(fracp = beg; fracp < end && ISDIGIT(*fracp); fracp++)
-+     ;
-+ 
-+   /* Get seconds digits. */
-+@@ -558,17 +558,22 @@ static const char *GTime2str(const char *beg, const char *end)
-+     return NULL;
-+   }
-+ 
-+-  /* Scan for timezone, measure fractional seconds. */
-++  /* timezone follows optional fractional seconds. */
-+   tzp = fracp;
-+-  fracl = 0;
-++  fracl = 0; /* no fractional seconds detected so far */
-+   if(fracp < end && (*fracp == '.' || *fracp == ',')) {
-+-    fracp++;
-+-    do
-++    /* Have fractional seconds, e.g. "[.,]\d+". How many? */
-++    tzp = fracp++; /* should be a digit char or BAD ARGUMENT */
-++    while(tzp < end && ISDIGIT(*tzp))
-+       tzp++;
-+-    while(tzp < end && *tzp >= '0' && *tzp <= '9');
-+-    /* Strip leading zeroes in fractional seconds. */
-+-    for(fracl = tzp - fracp - 1; fracl && fracp[fracl - 1] == '0'; fracl--)
-+-      ;
-++    if(tzp == fracp) /* never looped, no digit after [.,] */
-++      return CURLE_BAD_FUNCTION_ARGUMENT;
-++    fracl = tzp - fracp - 1; /* number of fractional sec digits */
-++    DEBUGASSERT(fracl > 0);
-++    /* Strip trailing zeroes in fractional seconds.
-++     * May reduce fracl to 0 if only '0's are present. */
-++    while(fracl && fracp[fracl - 1] == '0')
-++      fracl--;
-+   }
-+ 
-+   /* Process timezone. */
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-support/curl/curl/CVE-2024-7264_2.patch b/meta/recipes-support/curl/curl/CVE-2024-7264_2.patch
-new file mode 100644
-index 0000000000..e8853c1e0c
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2024-7264_2.patch
-@@ -0,0 +1,320 @@
-+From 27959ecce75cdb2809c0bdb3286e60e08fadb519 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Tue, 30 Jul 2024 16:40:48 +0200
-+Subject: [PATCH] x509asn1: unittests and fixes for gtime2str
-+
-+Fix issues in GTime2str() and add unit test cases to verify correct
-+behaviour.
-+
-+Follow-up to 3c914bc6801
-+
-+Closes #14316
-+
-+Upstream-Status: Backport from [https://github.com/curl/curl/commit/27959ecce75cdb2809c0bdb3286e60e08fadb519]
-+CVE: CVE-2024-7264
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ lib/vtls/x509asn1.c     |  32 +++++++---
-+ lib/vtls/x509asn1.h     |  11 ++++
-+ tests/data/Makefile.inc |   2 +-
-+ tests/data/test1656     |  22 +++++++
-+ tests/unit/Makefile.inc |   4 +-
-+ tests/unit/unit1656.c   | 133 ++++++++++++++++++++++++++++++++++++++++
-+ 6 files changed, 194 insertions(+), 10 deletions(-)
-+ create mode 100644 tests/data/test1656
-+ create mode 100644 tests/unit/unit1656.c
-+
-+diff --git a/lib/vtls/x509asn1.c b/lib/vtls/x509asn1.c
-+index b538bd9..a25a6e6 100644
-+--- a/lib/vtls/x509asn1.c
-++++ b/lib/vtls/x509asn1.c
-+@@ -563,12 +563,13 @@ static const char *GTime2str(const char *beg, const char *end)
-+   fracl = 0; /* no fractional seconds detected so far */
-+   if(fracp < end && (*fracp == '.' || *fracp == ',')) {
-+     /* Have fractional seconds, e.g. "[.,]\d+". How many? */
-+-    tzp = fracp++; /* should be a digit char or BAD ARGUMENT */
-++    fracp++; /* should be a digit char or BAD ARGUMENT */
-++    tzp = fracp;
-+     while(tzp < end && ISDIGIT(*tzp))
-+       tzp++;
-+     if(tzp == fracp) /* never looped, no digit after [.,] */
-+       return CURLE_BAD_FUNCTION_ARGUMENT;
-+-    fracl = tzp - fracp - 1; /* number of fractional sec digits */
-++    fracl = tzp - fracp; /* number of fractional sec digits */
-+     DEBUGASSERT(fracl > 0);
-+     /* Strip trailing zeroes in fractional seconds.
-+      * May reduce fracl to 0 if only '0's are present. */
-+@@ -577,18 +578,24 @@ static const char *GTime2str(const char *beg, const char *end)
-+   }
-+ 
-+   /* Process timezone. */
-+-  if(tzp >= end)
-+-    ;           /* Nothing to do. */
-++  if(tzp >= end) {
-++    tzp = "";
-++    tzl = 0;
-++  }
-+   else if(*tzp == 'Z') {
-+-    tzp = " GMT";
-+-    end = tzp + 4;
-++    sep = " ";
-++    tzp = "GMT";
-++    tzl = 3;
-++  }
-++  else if((*tzp == '+') || (*tzp == '-')) {
-++    sep = " UTC";
-++    tzl = end - tzp;
-+   }
-+   else {
-+     sep = " ";
-+-    tzp++;
-++    tzl = end - tzp;
-+   }
-+ 
-+-  tzl = end - tzp;
-+   return curl_maprintf("%.4s-%.2s-%.2s %.2s:%.2s:%c%c%s%.*s%s%.*s",
-+                        beg, beg + 4, beg + 6,
-+                        beg + 8, beg + 10, sec1, sec2,
-+@@ -596,6 +603,15 @@ static const char *GTime2str(const char *beg, const char *end)
-+                        sep, (int)tzl, tzp);
-+ }
-+ 
-++#ifdef UNITTESTS
-++/* used by unit1656.c */
-++CURLcode Curl_x509_GTime2str(struct dynbuf *store,
-++                             const char *beg, const char *end)
-++{
-++  return GTime2str(store, beg, end);
-++}
-++#endif
-++
-+ /*
-+  *  Convert an ASN.1 UTC time to a printable string.
-+  * Return the dynamically allocated string, or NULL if an error occurs.
-+diff --git a/lib/vtls/x509asn1.h b/lib/vtls/x509asn1.h
-+index db7df0e..515cb7e 100644
-+--- a/lib/vtls/x509asn1.h
-++++ b/lib/vtls/x509asn1.h
-+@@ -73,6 +73,17 @@ CURLcode Curl_extract_certinfo(struct Curl_easy *data, int certnum,
-+                                const char *beg, const char *end);
-+ CURLcode Curl_verifyhost(struct Curl_easy *data, struct connectdata *conn,
-+                          const char *beg, const char *end);
-++
-++#ifdef UNITTESTS
-++#if defined(USE_GNUTLS) || defined(USE_SCHANNEL) || defined(USE_SECTRANSP) || \
-++  defined(USE_MBEDTLS)
-++
-++/* used by unit1656.c */
-++CURLcode Curl_x509_GTime2str(struct dynbuf *store,
-++                             const char *beg, const char *end);
-++#endif
-++#endif
-++
-+ #endif /* USE_GSKIT or USE_NSS or USE_GNUTLS or USE_WOLFSSL or USE_SCHANNEL
-+         * or USE_SECTRANSP */
-+ #endif /* HEADER_CURL_X509ASN1_H */
-+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index 47117b6..5415f37 100644
-+--- a/tests/data/Makefile.inc
-++++ b/tests/data/Makefile.inc
-+@@ -208,7 +208,7 @@ test1620 test1621 \
-+ \
-+ test1630 test1631 test1632 test1633 test1634 \
-+ \
-+-test1650 test1651 test1652 test1653 test1654 test1655 \
-++test1650 test1651 test1652 test1653 test1654 test1655 test1656 \
-+ test1660 test1661 \
-+ \
-+ test1700 test1701 test1702 test1703 \
-+diff --git a/tests/data/test1656 b/tests/data/test1656
-+new file mode 100644
-+index 0000000..2fab21b
-+--- /dev/null
-++++ b/tests/data/test1656
-+@@ -0,0 +1,22 @@
-++<testcase>
-++<info>
-++<keywords>
-++unittest
-++Curl_x509_GTime2str
-++</keywords>
-++</info>
-++
-++#
-++# Client-side
-++<client>
-++<server>
-++none
-++</server>
-++<features>
-++unittest
-++</features>
-++<name>
-++Curl_x509_GTime2str unit tests
-++</name>
-++</client>
-++</testcase>
-+diff --git a/tests/unit/Makefile.inc b/tests/unit/Makefile.inc
-+index 7e7844e..b5650b2 100644
-+--- a/tests/unit/Makefile.inc
-++++ b/tests/unit/Makefile.inc
-+@@ -34,7 +34,7 @@ UNITPROGS = unit1300 unit1301 unit1302 unit1303 unit1304 unit1305 unit1307 \
-+  unit1600 unit1601 unit1602 unit1603 unit1604 unit1605 unit1606 unit1607 \
-+  unit1608 unit1609 unit1610 unit1611 unit1612 \
-+  unit1620 unit1621 \
-+- unit1650 unit1651 unit1652 unit1653 unit1654 unit1655 \
-++ unit1650 unit1651 unit1652 unit1653 unit1654 unit1655 unit1656 \
-+  unit1660 unit1661
-+ 
-+ unit1300_SOURCES = unit1300.c $(UNITFILES)
-+@@ -155,6 +155,8 @@ unit1654_CPPFLAGS = $(AM_CPPFLAGS)
-+ unit1655_SOURCES = unit1655.c $(UNITFILES)
-+ unit1655_CPPFLAGS = $(AM_CPPFLAGS)
-+ 
-++unit1656_SOURCES = unit1656.c $(UNITFILES)
-++
-+ unit1660_SOURCES = unit1660.c $(UNITFILES)
-+ unit1660_CPPFLAGS = $(AM_CPPFLAGS)
-+ 
-+diff --git a/tests/unit/unit1656.c b/tests/unit/unit1656.c
-+new file mode 100644
-+index 0000000..644e72f
-+--- /dev/null
-++++ b/tests/unit/unit1656.c
-+@@ -0,0 +1,133 @@
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ ***************************************************************************/
-++#include "curlcheck.h"
-++
-++#include "vtls/x509asn1.h"
-++
-++static CURLcode unit_setup(void)
-++{
-++  return CURLE_OK;
-++}
-++
-++static void unit_stop(void)
-++{
-++
-++}
-++
-++#if defined(USE_GNUTLS) || defined(USE_SCHANNEL) || defined(USE_SECTRANSP) || \
-++  defined(USE_MBEDTLS)
-++
-++#ifndef ARRAYSIZE
-++#define ARRAYSIZE(A) (sizeof(A)/sizeof((A)[0]))
-++#endif
-++
-++struct test_spec {
-++  const char *input;
-++  const char *exp_output;
-++  CURLcode exp_result;
-++};
-++
-++static struct test_spec test_specs[] = {
-++  { "190321134340", "1903-21-13 43:40:00", CURLE_OK },
-++  { "", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "WTF", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "0WTF", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "19032113434", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "19032113434WTF", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "190321134340.", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "190321134340.1", "1903-21-13 43:40:00.1", CURLE_OK },
-++  { "19032113434017.0", "1903-21-13 43:40:17", CURLE_OK },
-++  { "19032113434017.01", "1903-21-13 43:40:17.01", CURLE_OK },
-++  { "19032113434003.001", "1903-21-13 43:40:03.001", CURLE_OK },
-++  { "19032113434003.090", "1903-21-13 43:40:03.09", CURLE_OK },
-++  { "190321134340Z", "1903-21-13 43:40:00 GMT", CURLE_OK },
-++  { "19032113434017.0Z", "1903-21-13 43:40:17 GMT", CURLE_OK },
-++  { "19032113434017.01Z", "1903-21-13 43:40:17.01 GMT", CURLE_OK },
-++  { "19032113434003.001Z", "1903-21-13 43:40:03.001 GMT", CURLE_OK },
-++  { "19032113434003.090Z", "1903-21-13 43:40:03.09 GMT", CURLE_OK },
-++  { "190321134340CET", "1903-21-13 43:40:00 CET", CURLE_OK },
-++  { "19032113434017.0CET", "1903-21-13 43:40:17 CET", CURLE_OK },
-++  { "19032113434017.01CET", "1903-21-13 43:40:17.01 CET", CURLE_OK },
-++  { "190321134340+02:30", "1903-21-13 43:40:00 UTC+02:30", CURLE_OK },
-++  { "19032113434017.0+02:30", "1903-21-13 43:40:17 UTC+02:30", CURLE_OK },
-++  { "19032113434017.01+02:30", "1903-21-13 43:40:17.01 UTC+02:30", CURLE_OK },
-++  { "190321134340-3", "1903-21-13 43:40:00 UTC-3", CURLE_OK },
-++  { "19032113434017.0-04", "1903-21-13 43:40:17 UTC-04", CURLE_OK },
-++  { "19032113434017.01-01:10", "1903-21-13 43:40:17.01 UTC-01:10", CURLE_OK },
-++};
-++
-++static bool do_test(struct test_spec *spec, size_t i, struct dynbuf *dbuf)
-++{
-++  CURLcode result;
-++  const char *in = spec->input;
-++
-++  Curl_dyn_reset(dbuf);
-++  result = Curl_x509_GTime2str(dbuf, in, in + strlen(in));
-++  if(result != spec->exp_result) {
-++    fprintf(stderr, "test %zu: expect result %d, got %d\n",
-++            i, spec->exp_result, result);
-++    return FALSE;
-++  }
-++  else if(!result && strcmp(spec->exp_output, Curl_dyn_ptr(dbuf))) {
-++    fprintf(stderr, "test %zu: input '%s', expected output '%s', got '%s'\n",
-++            i, in, spec->exp_output, Curl_dyn_ptr(dbuf));
-++    return FALSE;
-++  }
-++
-++  return TRUE;
-++}
-++
-++UNITTEST_START
-++{
-++  size_t i;
-++  struct dynbuf dbuf;
-++  bool all_ok = TRUE;
-++
-++  Curl_dyn_init(&dbuf, 32*1024);
-++
-++  if(curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
-++    fprintf(stderr, "curl_global_init() failed\n");
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  for(i = 0; i < ARRAYSIZE(test_specs); ++i) {
-++    if(!do_test(&test_specs[i], i, &dbuf))
-++      all_ok = FALSE;
-++  }
-++  fail_unless(all_ok, "some tests of Curl_x509_GTime2str() fails");
-++
-++  Curl_dyn_free(&dbuf);
-++  curl_global_cleanup();
-++}
-++UNITTEST_STOP
-++
-++#else
-++
-++UNITTEST_START
-++{
-++  puts("not tested since Curl_x509_GTime2str() is not built-in");
-++}
-++UNITTEST_STOP
-++
-++#endif
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 72d8544e08..81a653b583 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -58,6 +58,8 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-46219-0002.patch \
-            file://CVE-2023-46219-0003.patch \
-            file://CVE-2024-2398.patch \
-+           file://CVE-2024-7264_1.patch \
-+           file://CVE-2024-7264_2.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
- 
--- 
-2.34.1
+On 19 August 2024 17:34:00 CEST, Alexander Kanavin <alex=2Ekanavin@gmail=
+=2Ecom> wrote:
+>What the failures you are seeing actually are? We do run util-linux
+>ptest on the autobuilder, and it isn't failing=2E Is it different for
+>you?
+>
+>Alex
+>
+>On Mon, 19 Aug 2024 at 16:55, Aoife Power via lists=2Eopenembedded=2Eorg
+><aoifepowerIris=3Dgmail=2Ecom@lists=2Eopenembedded=2Eorg> wrote:
+>>
+>> Note: with ptests the adduser package is only avaliable in the meta-ope=
+nembedded/meta-perl layer=2E
+>> Does this need to be included elsewhere for the ptest use case?  Should=
+ it be added to the core layer to allow the ptests to work correctly?
+>> Thanks,
+>> Aoife
+>>
+>> On Mon, Aug 19, 2024 at 4:52=E2=80=AFPM Aoife Power <aoifepoweriris@gma=
+il=2Ecom> wrote:
+>>>
+>>> Missing adduser and eudev to RDEPENDS dependencies for ptest
+>>>
+>>> Signed-off-by: Aoife Power <aoifepowerIris@gmail=2Ecom>
+>>> ---
+>>>  meta/recipes-core/util-linux/util-linux_2=2E40=2E1=2Ebb | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-core/util-linux/util-linux_2=2E40=2E1=2Ebb b=
+/meta/recipes-core/util-linux/util-linux_2=2E40=2E1=2Ebb
+>>> index a1aab94055=2E=2Ef1c200c28b 100644
+>>> --- a/meta/recipes-core/util-linux/util-linux_2=2E40=2E1=2Ebb
+>>> +++ b/meta/recipes-core/util-linux/util-linux_2=2E40=2E1=2Ebb
+>>> @@ -139,7 +139,7 @@ RDEPENDS:${PN}-dev +=3D " util-linux-libuuid-dev"
+>>>  RPROVIDES:${PN}-dev =3D "${PN}-libblkid-dev ${PN}-libmount-dev"
+>>>
+>>>  RDEPENDS:${PN}-bash-completion +=3D "${PN}-lsblk"
+>>> -RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs fi=
+ndutils grep iproute2 kmod procps sed socat which xz diffutils"
+>>> +RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs fi=
+ndutils grep iproute2 kmod procps sed socat which xz diffutils adduser eude=
+v"
+>>>  RRECOMMENDS:${PN}-ptest +=3D "kernel-module-scsi-debug kernel-module-=
+sd-mod kernel-module-loop kernel-module-algif-hash"
+>>>  RDEPENDS:${PN}-swaponoff =3D "${PN}-swapon ${PN}-swapoff"
+>>>  ALLOW_EMPTY:${PN}-swaponoff =3D "1"
+>>> --
+>>> 2=2E46=2E0
+>>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group=2E
+>> View/Reply Online (#203509): https://lists=2Eopenembedded=2Eorg/g/opene=
+mbedded-core/message/203509
+>> Mute This Topic: https://lists=2Eopenembedded=2Eorg/mt/107982088/168648=
+9
+>> Group Owner: openembedded-core+owner@lists=2Eopenembedded=2Eorg
+>> Unsubscribe: https://lists=2Eopenembedded=2Eorg/g/openembedded-core/uns=
+ub [alex=2Ekanavin@gmail=2Ecom]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
+------J4EJQGMANTLOUTTDL3ZSGTXZ9VA8UK
+Content-Type: text/html;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div dir=3D"auto">Hi Alex,<br><br>please ignore th=
+e previous patch=2E There is still stuff that we need to figure out interna=
+lly, due to miscommunication=2E We will submit a v2 of the patch if require=
+d=2E Thanks and sorry for the inconvenience=2E :)<br><br>Cheers,<br>Jasper<=
+/div><br><br><div class=3D"gmail_quote"><div dir=3D"auto">On 19 August 2024=
+ 17:34:00 CEST, Alexander Kanavin &lt;alex=2Ekanavin@gmail=2Ecom&gt; wrote:=
+</div><blockquote class=3D"gmail_quote" style=3D"margin: 0pt 0pt 0pt 0=2E8e=
+x; border-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;">
+<pre class=3D"k9mail"><div dir=3D"auto">What the failures you are seeing a=
+ctually are? We do run util-linux<br>ptest on the autobuilder, and it isn't=
+ failing=2E Is it different for<br>you?<br><br>Alex<br><br>On Mon, 19 Aug 2=
+024 at 16:55, Aoife Power via lists=2Eopenembedded=2Eorg<br>&lt;aoifepowerI=
+ris=3Dgmail=2Ecom@lists=2Eopenembedded=2Eorg&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin: 0pt 0pt 1ex 0=2E8ex; border-left: =
+1px solid #729fcf; padding-left: 1ex;"><div dir=3D"auto"><br> Note: with pt=
+ests the adduser package is only avaliable in the meta-openembedded/meta-pe=
+rl layer=2E<br> Does this need to be included elsewhere for the ptest use c=
+ase?  Should it be added to the core layer to allow the ptests to work corr=
+ectly?<br> Thanks,<br> Aoife<br><br> On Mon, Aug 19, 2024 at 4:52=E2=80=AFP=
+M Aoife Power &lt;aoifepoweriris@gmail=2Ecom&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin: 0pt 0pt 1ex 0=2E8ex; border-left: =
+1px solid #ad7fa8; padding-left: 1ex;"><div dir=3D"auto"><br> Missing addus=
+er and eudev to RDEPENDS dependencies for ptest<br><br> Signed-off-by: Aoif=
+e Power &lt;aoifepowerIris@gmail=2Ecom&gt;<hr>  meta/recipes-core/util-linu=
+x/util-linux_2=2E40=2E1=2Ebb | 2 +-<br>  1 file changed, 1 insertion(+), 1 =
+deletion(-)<br><br> diff --git a/meta/recipes-core/util-linux/util-linux_2=
+=2E40=2E1=2Ebb b/meta/recipes-core/util-linux/util-linux_2=2E40=2E1=2Ebb<br=
+> index a1aab94055=2E=2Ef1c200c28b 100644<br> --- a/meta/recipes-core/util-=
+linux/util-linux_2=2E40=2E1=2Ebb<br> +++ b/meta/recipes-core/util-linux/uti=
+l-linux_2=2E40=2E1=2Ebb<br> @@ -139,7 +139,7 @@ RDEPENDS:${PN}-dev +=3D " u=
+til-linux-libuuid-dev"<br>  RPROVIDES:${PN}-dev =3D "${PN}-libblkid-dev ${P=
+N}-libmount-dev"<br><br>  RDEPENDS:${PN}-bash-completion +=3D "${PN}-lsblk"=
+<br> -RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs fi=
+ndutils grep iproute2 kmod procps sed socat which xz diffutils"<br> +RDEPEN=
+DS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs findutils grep=
+ iproute2 kmod procps sed socat which xz diffutils adduser eudev"<br>  RREC=
+OMMENDS:${PN}-ptest +=3D "kernel-module-scsi-debug kernel-module-sd-mod ker=
+nel-module-loop kernel-module-algif-hash"<br>  RDEPENDS:${PN}-swaponoff =3D=
+ "${PN}-swapon ${PN}-swapoff"<br>  ALLOW_EMPTY:${PN}-swaponoff =3D "1"<br> =
+--<br> 2=2E46=2E0<br><br></div></blockquote><div dir=3D"auto"><hr> Links: Y=
+ou receive all messages sent to this group=2E<br> View/Reply Online (#20350=
+9): <a href=3D"https://lists=2Eopenembedded=2Eorg/g/openembedded-core/messa=
+ge/203509">https://lists=2Eopenembedded=2Eorg/g/openembedded-core/message/2=
+03509</a><br> Mute This Topic: <a href=3D"https://lists=2Eopenembedded=2Eor=
+g/mt/107982088/1686489">https://lists=2Eopenembedded=2Eorg/mt/107982088/168=
+6489</a><br> Group Owner: openembedded-core+owner@lists=2Eopenembedded=2Eor=
+g<br> Unsubscribe: <a href=3D"https://lists=2Eopenembedded=2Eorg/g/openembe=
+dded-core/unsub">https://lists=2Eopenembedded=2Eorg/g/openembedded-core/uns=
+ub</a> [alex=2Ekanavin@gmail=2Ecom]<hr></div></blockquote></pre></blockquot=
+e></div></body></html>
+------J4EJQGMANTLOUTTDL3ZSGTXZ9VA8UK--
 
