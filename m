@@ -2,101 +2,104 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF51C5321D
-	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 06:52:28 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.web10.12718.1724136739084843790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AE36C5472C
+	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 06:52:29 +0000 (UTC)
+Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+ by mx.groups.io with SMTP id smtpd.web10.12719.1724136740218882517
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Aug 2024 23:52:19 -0700
+ Mon, 19 Aug 2024 23:52:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=jVs1yVql;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=CtbvsV8h;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1724136739; x=1755672739;
+  t=1724136741; x=1755672741;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=YQ2UJKJ8CT42bAf298hRTSVP41yuzW27yTLUF0IcMFY=;
-  b=jVs1yVqlAqG+t08bnLmub+YVsQKzeXLe+d1WfgLAIc5ace0YAk4bBpYB
-   EDUYbDskByG61vAppMuJFy2BMmf4f9k5PAiUw59t/n6e7s+J7bJ82Wi4l
-   am1OV/ZPj/yQ8b7TAG3kZlgEwttseBgXwRYJYtY2UsnKLrEqkNuR09/TI
-   qN3kkheNW/ma3vXoypWjUX8p+vTrh5aeHxtvmgtolQbbEpw9Y/nNdIVHq
-   tWQolZWDia1gU3lsaYfHhxeRa0D38+L2wA+ex9b0KZ8pwwDxG2UayULja
-   Q1P0UCLyByhyOdE8qkon4BSTPaISdak1ycyVyQjY2C8OakbOdSi/tVJ58
+  bh=kYPgDNlxNCGFHNvPYGMAfwEDTABwSJI7kXow9areGZ0=;
+  b=CtbvsV8hpjlAjDsrTi+1nrxnbYuTY27wF+gOGGGH+tUZ2hi+gkBEs+ly
+   lJEV/0PExKo7QJkeLM5sT5o93xcs1HRZ9IiEF5+no5JTE4sqA2wDGhQUH
+   GKH9Tbfzi+LvFUIk59POWbMkY9fQqbL2u0nIrD2d6HkytkfHMvdKJeAXk
+   NnY0dnCxtE9peGkDU5XFp/G6b1hG4JbEnc8sVx0NLyd2dsyIEetIXK3gX
+   dJmZCx/tBrMxcRnc+I/+7j3jHhWVS34+/rSvnAm1dYF7fc6WkZoP2MuaH
+   aMOqyCR3QVfrlykovhN8WQhHV3O43+ZzH7HwPObtsKdFAMmaXmRPTn5MJ
    A==;
-X-CSE-ConnectionGUID: EJK8EDJJR8O4hMKPW1BIwg==
-X-CSE-MsgGUID: fsYiaIH7R0O75ep8h6/w8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="171033297"
+X-CSE-ConnectionGUID: AxaK6fThQdy1RwvpfZ+EdA==
+X-CSE-MsgGUID: 3VNr3wimRO2AkN4wbVaCSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="158462961"
 X-IronPort-AV: E=Sophos;i="6.10,161,1719846000"; 
-   d="scan'208";a="171033297"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 15:52:17 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 20B71DB3C2
+   d="scan'208";a="158462961"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 15:52:18 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id E6DFEC9442
 	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:15 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 567D9CFA5E
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:14 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 309F1D50BC
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:15 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id CBE32E206E
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:08 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 9A82D20086115
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:52:14 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 739211A0002;
-	Tue, 20 Aug 2024 14:52:08 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 440951A0002;
+	Tue, 20 Aug 2024 14:52:14 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 06/24] enchant2: upgrade 2.8.1 -> 2.8.2
-Date: Tue, 20 Aug 2024 14:51:25 +0800
-Message-Id: <1724136703-20023-6-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 17/24] python3-hypothesis: upgrade 6.110.1 -> 6.111.1
+Date: Tue, 20 Aug 2024 14:51:36 +0800
+Message-Id: <1724136703-20023-17-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
 References: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
 X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28606.005
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28606.004
 X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28606.005
-X-TMASE-Result: 10-0.063400-10.000000
-X-TMASE-MatchedRID: wgzGQ0X+yFqjz0nOeth/yUIIxwDaU5mrG24YVeuZGmNOed0Eey3YObOE
-	dy34ZwwECeertVoXp2gNyr61Mu6ROm0Xr+fj3ww/8t4fUUGeErTBOVz0Jwcxl0fyM5VfgjG2f8F
-	SbzLvvf4/jpOn/YFJRcr5AVdin4a1Nyl1nd9CIt0URSScn+QSXmVV1G+Ck2l7+gtHj7OwNO2I3a
-	djBtsMrAqL0YifJhWrcfq5KESGD3ZU5yuQRXDqvxI5XGu9BqPc8C1Q2x8BFb6CSbeWL/YQq7yOb
-	F83/SxSqy8RzejXyiqzJWrJBy0t3fIMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uABDi47cA
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28606.004
+X-TMASE-Result: 10--3.953500-10.000000
+X-TMASE-MatchedRID: 4E21WKQgrFSjz0nOeth/yUIIxwDaU5mrJ4s+7EqUeXzsFLsYWQnWMoGu
+	uB5GbmmMW6fkgIbBYoINyr61Mu6ROm0Xr+fj3ww/8t4fUUGeErTBOVz0Jwcxl5GUF3NhJu3ihWu
+	Tnji2QNji8zVgXoAltuJ5hXsnxp7jC24oEZ6SpSmcfuxsiY4QFBJDHsxRZ7qNwd1yZast1FH0dI
+	vvqqyDyp9ay9ptmixa/h4sa0AXpaM5mpDR8dli+WePNU6zRjpniBBP7Xz4M9JX6ltsfN01J+x9n
+	1XpDqsJmC9SiJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 06:52:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203536
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 06:52:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203541
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-- fixes a crash when using Hspell to check Hebrew, when the
-  application passes characters that cannot be mapped to ISO-8859-8.
+==========
+-improves shrinking in cases involving 'slips' from one strategy to another.
+-reduces the range of :class:'python:datetime.datetime' generated by :
+ func:'~hypothesis.extra.django.from_model' in order to avoid
+ https://code.djangoproject.com/ticket/35683.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../enchant/{enchant2_2.8.1.bb => enchant2_2.8.2.bb}            | 2 +-
+ ...hon3-hypothesis_6.110.1.bb => python3-hypothesis_6.111.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/enchant/{enchant2_2.8.1.bb => enchant2_2.8.2.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.110.1.bb => python3-hypothesis_6.111.1.bb} (91%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.8.1.bb b/meta/recipes-support/enchant/enchant2_2.8.2.bb
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.110.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.111.1.bb
 similarity index 91%
-rename from meta/recipes-support/enchant/enchant2_2.8.1.bb
-rename to meta/recipes-support/enchant/enchant2_2.8.2.bb
-index 825cf2e388..f0da896e59 100644
---- a/meta/recipes-support/enchant/enchant2_2.8.1.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.8.2.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
- inherit autotools pkgconfig github-releases
+rename from meta/recipes-devtools/python/python3-hypothesis_6.110.1.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.111.1.bb
+index 29fe7e18a2..04c8d537fd 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.110.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.111.1.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "ff79de470b8eb16f53849dc49f2bce8ca4eb7decabfc1349716fe12616e52f4e"
-+SRC_URI[sha256sum] = "8f19535adb5577b83b00e02f330fe9b9eb40dd21f19e2899636fc4d3a7696375"
+-SRC_URI[sha256sum] = "a138bfaea11aba6daadf8effd9065251a6fec1549f25b7d72ac9881a413f76b0"
++SRC_URI[sha256sum] = "6ab6185a858fa692bf125c0d0a936134edc318bee01c05e407c71c9ead0b61c5"
  
- GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
- 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.34.1
 
