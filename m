@@ -1,174 +1,295 @@
-Return-Path: <mhalstead@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C1E3C531DC
-	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 15:18:42 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.21900.1724167117605793360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B66C3DA4A
+	for <webhook@archiver.kernel.org>; Tue, 20 Aug 2024 16:24:22 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.23633.1724171059833203418
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Aug 2024 08:18:38 -0700
+ Tue, 20 Aug 2024 09:24:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FDluaFde;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f1a7faa4d4so13771181fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 08:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1724167116; x=1724771916; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J6pAwl6hjcibLsnsTDka1r/AJM5CKChaXAlu61KD2Jg=;
-        b=FDluaFdeyDt6rVGJ2FqqFr8F3vmdNrdCWyHVrTf+a3MSJ8z//ldOHpWRZiJJBgsSd+
-         aURB9rP1EssCYWrILAypxRHckYsQbqaRwlF6bTePu+3nRu5Qn3VJMC01+Ev33S2kzyk0
-         E5CWsDEsEiz3zWkRgnJ9pngMiaFT/wUDbrnTc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724167116; x=1724771916;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J6pAwl6hjcibLsnsTDka1r/AJM5CKChaXAlu61KD2Jg=;
-        b=lnuKR1tY/qwx4Y5GxudKhAdK8ItlAzvVsGPUQsCQiU6fgceXv8+AJmViwIgXzRLhQY
-         cnXFB76c/W2gWY3t2hWmvDveXDRtEu8iQVVuKZvaNo6Vn7AUfFwL0QA1Bn//gvryzwUX
-         S4T7nY6oJB1vJDHi2/j7quqgVxDoPe94SDM/CYtWrxdfIWoDl1Iwv+RzJ4fn22bhjXvl
-         AA2sJXfu2+WyS1WqOHfXL/pOtxTmU12Ptc2z1xGnkike9AbsOh1+HtEbh/mXtaCnsnaW
-         UuvMjhM8wN7rkDspxqyUM4NGvfwHIMLrZNBSmCS/ikWkyFMb3H1wb8PotcNL0frCh3sX
-         teCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHyKawszze+wHPoYDtUhbPlJjHmkR4JuqJ/AvDFtpGEyg7JIH/8ecs2ZyXhGK5LzEfqxbIMSmQfRalplp73Ih/w6yFVaY8hviLVQztfCrmVnvzWIm84gWu
-X-Gm-Message-State: AOJu0YyOrvJUM+69K2UOeG4Wpoah3NoKYMks3BziwEsfpg2OtuZLCBO9
-	5ZFsdxT1i+LfmptDD6FfbZ/PFaXGLXFUF/SZbzPU+iIXlsdU91V2n6EJN+13rV01uQLb2BSjzmZ
-	47tw11FeuexmXx29wHlh7E6dp56uXS51CrJaPCQ==
-X-Google-Smtp-Source: AGHT+IHtLUvKzWSgJJUVnDW9lC8pJKWWzyjkINAe1gFaAPqt/0j6Vuy+ve65B80bwpQatdft128ipLkdIWkKkzdeI4A=
-X-Received: by 2002:a2e:a99f:0:b0:2ef:2bea:69a with SMTP id
- 38308e7fff4ca-2f3e5569e46mr13577101fa.2.1724167115500; Tue, 20 Aug 2024
- 08:18:35 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fnbOKY+T;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C79FE1BF208;
+	Tue, 20 Aug 2024 16:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1724171058;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zbqs9S1cLxkncib0AibCnVFJUpuLeRE5aL1R/QVLO98=;
+	b=fnbOKY+TNSCBwkafo8I6a8zGrz/BzOTzWltk14tnTx2WVVgQNSRvKMd2+oljMOg77wTDB0
+	hJSTFdbGR4gHtf0XEf2H87joGFxt/FlTa3AXAN+4SrGXte1S57ansm2LhBLiPKrGHY0ahW
+	qNhpN74EC8hVJOji/1/0wJkNTGKOQuyeh/OKwY3HSBYvQT/1Q2+9znIY4ayMFodXROBgsV
+	EqGUGOGF0L31UFGSfB5qgxZgoGtq0H35nRJfNrTwp9bwqqyxgHgevrznIfyjwIpyIzQy+a
+	7+lIJo4BGNebpAgjdvje9UN4sXp6xBwnfbCwFA5uwatJPDww5SUntV55yaOb9Q==
+Date: Tue, 20 Aug 2024 18:24:17 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH v2] piglit: upgrade 22eaf6a91c -> c11c9374c1
+Message-ID: <2024082016241749789ab3@mail.local>
+References: <20240815140736.3189704-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
-References: <AS1PR10MB569783A5910EC551F00C7170FDBE2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <327ef345-67fa-4567-960b-0e3f44203683@skyrain.eu>
-In-Reply-To: <327ef345-67fa-4567-960b-0e3f44203683@skyrain.eu>
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Tue, 20 Aug 2024 08:18:23 -0700
-Message-ID: <CADfgfoZSBQJF05Ow-css7HDyaibi52i+PbqBWEovPftki-y5OA@mail.gmail.com>
-Subject: Re: [OE-core] Expired certificate https://git.openembedded.org/
-To: andrej.v@skyrain.eu
-Cc: peter.marko@siemens.com, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000740b7506201ef01f"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240815140736.3189704-1-tgamblin@baylibre.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 15:18:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203558
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 16:24:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203559
 
---000000000000740b7506201ef01f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Unfortunately, this doesn't build on the AB:
 
-The server is available again. We transitioned from hosting DNS with AWS to
-DNSimple. The CNAME records related to git were corrupted during the move.
-I fixed them about 30 minutes after this email went out.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/9383/steps/11/logs/stdio
 
-On Mon, Aug 19, 2024 at 11:45=E2=80=AFPM Andrej Valek via lists.openembedde=
-d.org
-<andrej.v=3Dskyrain.eu@lists.openembedded.org> wrote:
 
-> Now is even worst, server is completely down.
->
-> Andy
->
-> On 05.08.2024 15:15, Peter Marko via lists.openembedded.org wrote:
->
-> In case no one noticed yet, the certificate expired an hour ago, so the
-> repositories can=E2=80=99t be viewed in a browser=E2=80=A6
->
-> Peter
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+On 15/08/2024 10:07:36-0400, Trevor Gamblin wrote:
+> Commit 766669895d fixes builds with numpy 2.x.
+> 
+> Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
+> because it is now upstream in commit 9c941dfc36.
+> 
+> Add wayland and wayland-protocols to DEPENDS to avoid errors during
+> build.
+> 
+> Changelog:
+> 
+> c11c9374c (HEAD -> main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
+> f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
+> 045343687 arb_gpu_shader5: add linker version of function overloads test
+> 4b1116f3a arb_bindless_texture: add another function param bindless test
+> 4a62c2672 glsl: test function linking with implicit param conversions
+> 9f280db77 arb_bindless_texture: add basic function param bindless tests
+> 766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
+> 5214915dc generated_tests: print mako exceptions
+> 41bd119f2 arb_texture_buffer_object: don't leak src strings
+> 582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
+> 647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
+> dee2a233f perf: port glsl-compile-time perf-test from mesa demos
+> 18333c568 perf: port vertexrate perf-test from mesa demos
+> e932fa2f5 perf: port vbo perf-test from mesa demos
+> f9cf4788a perf: port teximage perf-test from mesa demos
+> 20ccc1c10 perf: port readpixels perf-test from mesa demos
+> 556a9c96d perf: port genmipmap perf-test from mesa demos
+> 225b6bfb6 perf: port fill perf-test from mesa demos
+> dae4a13f9 perf: port fbobind perf-test from mesa demos
+> cd0f812b3 perf: port copytex perf-test from mesa demos
+> fdf3fc09d cl: add missing errors
+> 01b64dd06 glsl-1.10: test a complex partial unroll scenario
+> cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
+> 30d34daf7 glsl-bug-110796: distinguish which context creation failed
+> 3ea14414a Sync .mailmap from Mesa
+> 7accec34a glsl-bug-110796: check for GL ES 3.2 support
+> 12ebd71c7 egl-terminate-then-unbind-context: simplify
+> 69bc38a77 egl_khr_create_context: improve skip reporting
+> 209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
+> 800abe232 arb_blend_func_extended: gles: follow the specification requirements
+> 1cad6ee20 arb_texture_multisample: require geometry shaders
+> 59bdc8c4e egl: missing EGLconfig isn't stderr material
+> cee2190b5 ext_external_objects: avoid stderr when we skip the test
+> 8cbefab52 util: remove handwritten defines and drop FIXME
+> 11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
+> e180f9623 Use GBM_LDFLAGS to get all options
+> 3bddb36e8 fix vk_vert_buf_reuse cleanup
+> 8f6e71975 arb_texture_view: test for NaN in more cases
+> 446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
+> 8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
+> 8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
+> 7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
+> 3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
+> 759cc6454 clear-stencil: new test to check for problems clearing stencils
+> 2c64a91bb read_depth_offset: new test to check depth offset calculation
+> 869a1b6e8 replayer: create bin/ everytime
+> 9be2db198 Reduce precision in depth clear precision check
+> 7f40f35a3 Add float from half function
+> f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
+> fd4a6c521 wayland: Add Wayland dmabuf driver-name test
+> df0d0ae79 conversion-explicit: use a different value for normalized +/- min
+> a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
+> 67b89b3e3 README: recommend Ninja by default and switch to cmake --build
+> efd111853 cmake: build is compatible up to 3.28
+> e84aca9b5 cmake: add workaround for CMP0148
+> 2e70ca91e README: ccmake is not that common, regular cmake is enough to build
+> e39ba99e5 README: update requirements
+> d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
+> 938a9dc9f cmake: remove this 12 years old workaround taking too many lines
+> 7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
+> cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
+> 4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
+> a222d50bb cmake: implement GBM and Wayland controls
+> 4230c7e9f cmake: fix unusually formated statement
+> d958b70d1 cmake: implement X11 option (required for GLX)
+> 4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
+> 44e1c29bf cmake: move first batch of option() at the beggining of the file
+> 96241ea22 cmake: rename default values with prefix DEFAULT_
+> 21374d8d3 cmake: move defaults into the per-platform section
+> 86d3f1132 cmake: predefine defaults depending on the system
+> 381221a81 cmake: drop unused CMP0042 policy
+> 99eade7cd cmake: respect indentation
+> dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
+> 025e462ae util: fix multisample_texture_fs_template
+> f9e26b98b tests: add a test for GL_APPLE_sync
+> b24c834d9 ci: codespell ignore list is lowercase
+> 0a842edd0 more spelling fixes accross the whole codebase
+> 2c473ea73 ci: bump distribution tag
+> 7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
+> 19e58247e ext_texture_storage: Fix memory leak on error path
+> d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
+> 74064b1d4 arb_clear_texture: only test float depth textures when supported
+> 9c941dfc3 properly check for libgen.h
+> c55e22a5c arb_copy_image-formats: avoid undefined behavior
+> 537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
+> b32186ee5 README: add Vulkan into the generic description
+> 1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
+> 62938a9bc tests: Fix cl test program@execute@builtin@builtin-float-degrees-1.0.generated issue about tolerance.
+> 
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+> v2 adds wayland and wayland-protocols to DEPENDS to solve build errors
+> seen on the AB.
+> 
+>  ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
+>  meta/recipes-graphics/piglit/piglit_git.bb    |  5 +-
+>  2 files changed, 2 insertions(+), 86 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
+> 
+> diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
+> deleted file mode 100644
+> index 2875dd52ec..0000000000
+> --- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
+> +++ /dev/null
+> @@ -1,83 +0,0 @@
+> -From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
+> -From: Erik Faye-Lund <erik.faye-lund@collabora.com>
+> -Date: Tue, 19 Mar 2024 16:34:02 +0100
+> -Subject: [PATCH] properly check for libgen.h
+> -
+> -Some users are reporting that basename is not available when building on
+> -Linux with musl libc. And since the POSIX spec[1] says that basename is
+> -defined in libgen.h, we should include that when available.
+> -
+> -So let's properly detect the header, and include it if it exists. This
+> -should hopefully make things a bit more robust.
+> -
+> -Since we're also including this from the CL program-tester, let's
+> -rearrange the includes a bit so we know that config.h has been included.
+> -
+> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
+> -Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - CMakeLists.txt                    | 1 +
+> - tests/cl/program/program-tester.c | 5 ++++-
+> - tests/util/config.h.in            | 1 +
+> - tests/util/piglit-util.h          | 4 ++--
+> - 4 files changed, 8 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/CMakeLists.txt b/CMakeLists.txt
+> -index dd2bf67125..5563fe0e20 100644
+> ---- a/CMakeLists.txt
+> -+++ b/CMakeLists.txt
+> -@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
+> - check_include_file(fcntl.h     HAVE_FCNTL_H)
+> - check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
+> - check_include_file(endian.h    HAVE_ENDIAN_H)
+> -+check_include_file(libgen.h    HAVE_LIBGEN_H)
+> - 
+> - if(DEFINED PIGLIT_INSTALL_VERSION)
+> - 	set(PIGLIT_INSTALL_VERSION_SUFFIX
+> -diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
+> -index 97fe64906d..e47fb5aacc 100644
+> ---- a/tests/cl/program/program-tester.c
+> -+++ b/tests/cl/program/program-tester.c
+> -@@ -31,10 +31,13 @@
+> - #include <inttypes.h>
+> - #include <math.h>
+> - #include <regex.h>
+> --#include <libgen.h>
+> - 
+> - #include "piglit-framework-cl-program.h"
+> - 
+> -+#ifdef HAVE_LIBGEN_H
+> -+#include <libgen.h>
+> -+#endif
+> -+
+> - /* Regexes */
+> - 
+> - /*
+> -diff --git a/tests/util/config.h.in b/tests/util/config.h.in
+> -index 8ed5af1709..437eb91418 100644
+> ---- a/tests/util/config.h.in
+> -+++ b/tests/util/config.h.in
+> -@@ -16,3 +16,4 @@
+> - #cmakedefine HAVE_SYS_RESOURCE_H 1
+> - #cmakedefine HAVE_UNISTD_H 1
+> - #cmakedefine HAVE_ENDIAN_H 1
+> -+#cmakedefine HAVE_LIBGEN_H 1
+> -diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
+> -index 4d3606c708..de999980b6 100644
+> ---- a/tests/util/piglit-util.h
+> -+++ b/tests/util/piglit-util.h
+> -@@ -52,8 +52,8 @@ extern "C" {
+> - #include <math.h>
+> - #include <float.h>
+> - 
+> --#if defined(__APPLE__) || defined(__MINGW32__)
+> --#  include "libgen.h" // for basename
+> -+#ifdef HAVE_LIBGEN_H
+> -+#  include <libgen.h> // for basename
+> - #elif defined(_MSC_VER)
+> - 
+> - static inline char *
+> --- 
+> -GitLab
+> -
+> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+> index 99d75e64f8..8bfd0a9b63 100644
+> --- a/meta/recipes-graphics/piglit/piglit_git.bb
+> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
+> @@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+>             file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
+>             file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
+>             file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
+> -           file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch \
+>             "
+>  UPSTREAM_CHECK_COMMITS = "1"
+>  
+> -SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
+> +SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
+>  # (when PV goes above 1.0 remove the trailing r)
+>  PV = "1.0+gitr"
+>  
+> @@ -23,7 +22,7 @@ S = "${WORKDIR}/git"
+>  X11_DEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"
+>  X11_RDEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"
+>  
+> -DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl"
+> +DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl wayland wayland-protocols"
+>  
+>  inherit cmake pkgconfig python3native features_check bash-completion
+>  
+> -- 
+> 2.39.2
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#203522):
-> https://lists.openembedded.org/g/openembedded-core/message/203522
-> Mute This Topic: https://lists.openembedded.org/mt/107731343/1003190
+> View/Reply Online (#203340): https://lists.openembedded.org/g/openembedded-core/message/203340
+> Mute This Topic: https://lists.openembedded.org/mt/107914101/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> mhalstead@linuxfoundation.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---=20
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
 
---000000000000740b7506201ef01f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>The server is available again. We transitioned=C2=A0f=
-rom hosting DNS with AWS to DNSimple. The CNAME records related to git were=
- corrupted during the move. I fixed them about=C2=A030 minutes=C2=A0after t=
-his email went out.</div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Mon, Aug 19, 2024 at 11:45=E2=80=AFPM Andrej Va=
-lek via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a=
-> &lt;andrej.v=3D<a href=3D"mailto:skyrain.eu@lists.openembedded.org">skyra=
-in.eu@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex"><u></u>
-
- =20
-   =20
- =20
-  <div>
-    <font face=3D"monospace">Now is even worst, server is completely down.<=
-br>
-      <br>
-      Andy<br>
-    </font><br>
-    <div>On 05.08.2024 15:15, Peter Marko via
-      <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.ope=
-nembedded.org</a> wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-     =20
-     =20
-      <div>
-        <p class=3D"MsoNormal">In case no one noticed yet, the certificate
-          expired an hour ago, so the repositories can=E2=80=99t be viewed =
-in a
-          browser=E2=80=A6<u></u><u></u></p>
-        <p class=3D"MsoNormal">Peter<u></u><u></u></p>
-      </div>
-      <br>
-      <fieldset></fieldset>
-      <pre></pre>
-    </blockquote>
-    <br>
-  </div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#203522): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/203522" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/203522</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/107731343/100=
-3190" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/107731343/1003190</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:mhalstead@linuxfoundation.=
-org" target=3D"_blank">mhalstead@linuxfoundation.org</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Michael Halstead<div>Linux Foundation / Yocto Project</div><=
-div>Systems Operations Engineer</div></div></div>
-
---000000000000740b7506201ef01f--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
