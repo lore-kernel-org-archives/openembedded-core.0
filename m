@@ -2,8 +2,8 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D289C52D7C
-	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 10:43:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E82CC52D6F
+	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 10:48:33 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
  by mx.groups.io with SMTP id smtpd.web11.17016.1724236988789819307
  for <openembedded-core@lists.openembedded.org>;
@@ -36,7 +36,7 @@ Received: from PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc%4]) with mapi id 15.20.7897.014; Wed, 21 Aug 2024
  10:43:03 +0000
 Message-ID: <804c2316-a49a-41c9-9ca2-a805473e6d83@windriver.com>
-Date: Wed, 21 Aug 2024 16:12:57 +0530
+Date: Wed, 21 Aug 2024 03:48:24 -0700
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] rust: Oe-selftest changes for rust v1.78
 To: Randy MacLeod <randy.macleod@windriver.com>,
@@ -44,10 +44,8 @@ To: Randy MacLeod <randy.macleod@windriver.com>,
 Cc: Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
 References: <20240816155419.213703-1-Yash.Shinde@windriver.com>
  <2a331ae8-3773-4cb3-9dbe-07b2eea418ad@windriver.com>
-Content-Language: en-US
-From: Yash Shinde <Yash.Shinde@windriver.com>
+From: "Yash Shinde" <Yash.Shinde@windriver.com>
 In-Reply-To: <2a331ae8-3773-4cb3-9dbe-07b2eea418ad@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 X-ClientProxiedBy: FR4P281CA0138.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:d10:b8::12) To PH7PR11MB7593.namprd11.prod.outlook.com
  (2603:10b6:510:27f::9)
@@ -153,13 +151,17 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscor
  mlxlogscore=999 lowpriorityscore=0 bulkscore=0 priorityscore=1501
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.21.0-2407110000 definitions=main-2408210078
-Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 47L4OTSC001709
+X-Old-Date: Wed, 21 Aug 2024 16:12:57 +0530
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 10:43:13 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 10:48:33 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203583
+Message-ID: <20240821104824.6IeRC1JkTuOfDwpx5nEVavdq2owUYGzWNPYLLSDJ9mI@z>
 
 
 On 21-08-2024 07:13, Randy MacLeod wrote:
@@ -172,17 +174,16 @@ On 21-08-2024 07:13, Randy MacLeod wrote:
 >> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
 >> ---
 >>   meta/lib/oeqa/selftest/cases/rust.py          | 34 +++++++++-
->>   .../rust/files/rust-oe-selftest.patch         | 64 +++++++++++++++++=
-+-
+>>   .../rust/files/rust-oe-selftest.patch         | 64 ++++++++++++++++++-
 >>   2 files changed, 95 insertions(+), 3 deletions(-)
 >>
->> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/self=
-test/cases/rust.py
+>> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selfte=
+st/cases/rust.py
 >> index 62ca762cd0..aa5814eccf 100644
 >> --- a/meta/lib/oeqa/selftest/cases/rust.py
 >> +++ b/meta/lib/oeqa/selftest/cases/rust.py
->> @@ -205,7 +205,39 @@ class RustSelfTestSystemEmulated(OESelftestTestCa=
-se, OEPTestResultTestCase):
+>> @@ -205,7 +205,39 @@ class RustSelfTestSystemEmulated(OESelftestTestCase=
+, OEPTestResultTestCase):
 >>                               'library/std/src/sync/rwlock/tests.rs',
 >>                               'library/std/src/thread/tests.rs',
 >>                               'library/test/src/stats/tests.rs',
@@ -195,42 +196,40 @@ se, OEPTestResultTestCase):
 >> +                            'tests/ui/associated-types',
 >> +                            'tests/ui/allocator',
 >> +                            'tests/ui/abi/extern',
->> +                            'tests/codegen/non-terminate/infinite-loo=
-p-1.rs',
+>> +                            'tests/codegen/non-terminate/infinite-loop-=
+1.rs',
 >> +                            'tests/codegen/coercions.rs',
 >> +                            'tests/codegen/const_scalar_pair.rs',
->> +                            'tests/codegen/cold-call-declare-and-call=
-.rs',
+>> +                            'tests/codegen/cold-call-declare-and-call.r=
+s',
 >> +                            'tests/codegen/issues',
 >> +                            'tests/codegen/bool-cmp.rs',
 >> +                            'tests/codegen/ascii-char.rs',
 >> +                            'tests/codegen/frame-pointer.rs',
 >> +                            'tests/codegen/common_prim_int_ptr.rs',
->> +                            'tests/codegen/default-requires-uwtable.r=
-s',
->> +                            'tests/codegen/debug-accessibility/public=
--enum.rs',
->> +                            'tests/codegen/meta-filecheck/filecheck-f=
-lags.rs',
->> +                            'tests/codegen/float_math.rs',
->> +                            'tests/codegen/debug-accessibility/tuple-=
-fields.rs',
->> +                            'tests/codegen/consts.rs',
->> +                            'tests/codegen/enum/enum-bounds-check.rs'=
+>> +                            'tests/codegen/default-requires-uwtable.rs'=
 ,
+>> +                            'tests/codegen/debug-accessibility/public-e=
+num.rs',
+>> +                            'tests/codegen/meta-filecheck/filecheck-fla=
+gs.rs',
+>> +                            'tests/codegen/float_math.rs',
+>> +                            'tests/codegen/debug-accessibility/tuple-fi=
+elds.rs',
+>> +                            'tests/codegen/consts.rs',
+>> +                            'tests/codegen/enum/enum-bounds-check.rs',
 >> +                            'tests/codegen/debug-alignment.rs',
 >> +                            'tests/codegen/export-no-mangle.rs',
 >> +                            'tests/codegen/fastcall-inreg.rs',
->> +                            'tests/codegen/debuginfo-inline-callsite-=
-location.rs',
->> +                            'tests/codegen/enum/enum-debug-tagged.rs'=
-,
+>> +                            'tests/codegen/debuginfo-inline-callsite-lo=
+cation.rs',
+>> +                            'tests/codegen/enum/enum-debug-tagged.rs',
 >> +                            'tests/codegen/adjustments.rs',
->> +                            'tests/codegen/macos/x86_64-macosx-deploy=
-ment-target.rs',
+>> +                            'tests/codegen/macos/x86_64-macosx-deployme=
+nt-target.rs',
 >> +                            'tests/codegen/frame-pointer.rs',
->> +                            'tests/codegen/meta-filecheck/check-prefi=
-x.rs'
+>> +                            'tests/codegen/meta-filecheck/check-prefix.=
+rs'
 >>                           ]
 >
 > Hi Yash,
@@ -252,8 +251,7 @@ repro-issue-fix-with-cc-crate-hashmap.patch
 The patch was implemented to fix the rust reproducibility issue.
 I had successfully implemented and tested the patch to upgrade rust to=20
 v1.78 version.
-However, the issue was observed after integrating the rust repro issue fi=
-x.
+However, the issue was observed after integrating the rust repro issue fix.
 The issue seemed to be somehow related to the checksum and json related=20
 files.
 
@@ -302,8 +300,8 @@ the issue.
 > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 library/test/src/stats/tests.rs
 > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 tests/codegen/frame-pointer.rs
 > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 tests/rustdoc-json
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 tests/rustdoc-ui/doc-test-rustdoc-feat=
-ure.rs
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 tests/rustdoc-ui/doc-test-rustdoc-featur=
+e.rs
 > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 tests/rustdoc-ui/no-run-flag.rs
 >
 > so there are "only" 165 tests being skipped:
@@ -316,8 +314,8 @@ ure.rs
 >
 > Please take a look at say up to 5 tests, hopefully related, and work=20
 > on fixing them as a group,
-> rather than trying to fix the entire list in one work item and one comm=
-it.
+> rather than trying to fix the entire list in one work item and one commit=
+.
 >
 We have already started to work on clearing the exclude list based on=20
 rust v1.77.2.
@@ -345,8 +343,8 @@ more tests from the exclude list.
 >
 > ...
 >
-> =C2=A0=C2=A0=C2=A0 * The tests that are passed and skipped are as follo=
-ws-
+> =C2=A0=C2=A0=C2=A0 * The tests that are passed and skipped are as follows=
+-
 >
 > =C2=A0=C2=A0=C2=A0 Target=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PASS=C2=A0=C2=A0=C2=
@@ -354,9 +352,9 @@ ws-
 =C2=A0=C2=A0=C2=A0=C2=A0 SKIPPED
 >
 > =C2=A0=C2=A0=C2=A0 ARM=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 155=
-07=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 428
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 15507=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 428
 > =C2=A0=C2=A0=C2=A0 ARM64=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 15535=C2=A0=C2=
 =A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
@@ -366,9 +364,9 @@ ws-
 =A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0 456
 > =C2=A0=C2=A0=C2=A0 X86=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 155=
-28=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 407
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 15528=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 407
 > =C2=A0=C2=A0=C2=A0 X86-64=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 15643=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
@@ -378,7 +376,7 @@ ws-
 >
 > Do you know offhand if upstream Rust passes all tests for x86-64 and=20
 > arm64 ?
->
+Upstream Rust also has some test failures for x86-64 and arm64.
 >
 > I know that running these tests takes quite a long time so perhaps you=20
 > can run
