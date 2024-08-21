@@ -1,91 +1,109 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96783C52D6F
-	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 05:17:41 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.13076.1724217454212134124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0D8C52D7C
+	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 07:08:52 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.14444.1724224129601664102
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Aug 2024 22:17:34 -0700
+ Wed, 21 Aug 2024 00:08:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cEUC/4ot;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37196681d3bso3220786f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Aug 2024 22:17:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AsV6Wmyk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42816ca782dso53423935e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 00:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724217452; x=1724822252; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OttHMWIhy/DTNqP8gkHJPRbn/W2U0CuTcRvnUBPGyng=;
-        b=cEUC/4otYTMAKhC+Dyb5c0OkMCzP75LNR7kzat/qWS4CBbDnIilDUVxZzicaGXFXkl
-         T9fCJohpz1JvhSY4Bs+fQ3WfGHdffj9olcW+58xbrUCAzFPR7Cai0B0AWJnY/Xsyz2DD
-         IUtTL63/1svhhVq+oVI+MS/olMnmcfF8kuBJ6cdteH9pJ46k4cfXOsLK6r81eLnwcQfO
-         kiIfQracIrXbIpOXL25TMwTu3vbypzQn+8tO9kNHfZgxgmUTmNy6Yzp3pk5ZANhDSbL8
-         CEneYnm/DHpjVG39KvEyH7cklbrFfHHCLWTN5rTboAiXF5YfqhBxUDz8c+rmGJte5/KZ
-         zBEQ==
+        d=linuxfoundation.org; s=google; t=1724224128; x=1724828928; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4KVRatUifxTWXqMTcgKfy/KEzKGaO3dl9gfqtXTH8rc=;
+        b=AsV6WmykUsxU0PwqyKFacJZjXO8FzEYtYjsf+kNi3ada2bgjAQxkUUWJc5mCjHD1Ts
+         Px42DUoDXLR1Vs8xNgcHQVDxjw+XbjNtP8x78jD3JEvZYnOvIA/3ioG2OJ2I30VxF9XP
+         9X5v+0ypxUa2ma4TtnnforX8UK6DIOOd+etAY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724217452; x=1724822252;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OttHMWIhy/DTNqP8gkHJPRbn/W2U0CuTcRvnUBPGyng=;
-        b=b6gdynlvrvfvptpVNWtwErl1NJaZG0ZtcDvk49rNz3lFsWNOJ1Ec/kmrn/LP4jUdp0
-         PD5NbojdupeE/NEmWVcyn8isO4YqaUuMYcM6ex4F+8Rs+vGOwb3LdR09QGzUJJBiUlcq
-         9T6zZFyv3i0OBSLLR0T+96pRP+Fz7bYvGeVK7t/IMiVKccvOvdTCHaH8LgyQUacHobTI
-         xduGfn5x0hZ+6e3u55Teyq/UtAKK03M5uHYzkMQCUaiopZ16I0Sc8zpkPVDMXUlKePlt
-         nohtfnzNfkInWrh09XV41aSRbB+jqUAyE2wdr7AI74uSIhihCVBcZAvViOYjDdvPZPsY
-         uKhg==
-X-Gm-Message-State: AOJu0Yw8SgULeVq/oNUxGe88tYrqaRL8NBZusc0xVWN9yyPeWU3oauHU
-	V/YpyO2Hzm/EgjaYSb+D8nbBLmq9GZLvhnUAJWd6ARQcNyR9BRxl3WFA5g==
-X-Google-Smtp-Source: AGHT+IFjPWmmZQQrX0m7O4D6KAAn1GRdezxxxxzGNyUU7JnfU3EJzofNaeBn3UX2dFaOl8AfhDoc3A==
-X-Received: by 2002:a05:6000:246:b0:371:8cb7:5d6b with SMTP id ffacd0b85a97d-372fd728d5cmr616562f8f.53.1724217451961;
-        Tue, 20 Aug 2024 22:17:31 -0700 (PDT)
-Received: from voyage.lan ([2a0d:3344:236f:cc10:27cd:4b60:cc7c:f092])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abefc627asm11638155e9.34.2024.08.20.22.17.29
+        d=1e100.net; s=20230601; t=1724224128; x=1724828928;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4KVRatUifxTWXqMTcgKfy/KEzKGaO3dl9gfqtXTH8rc=;
+        b=f1+UmwgCBKbSf9YHWGPBXEeu7e7XUJwZFZjxZUzrC2ASCMTPxnJfJmnR3k3mV5hXXd
+         NOBNgS5OCjSZExUOi2rhTo0apDPPpfToQeGV0pVBmVq7Rz/bUu9T1HdMHSzSCttrsvZB
+         ugsSFYUpJfTrj5ofaxPlZcSFAERy9YYhhdnonmbWWwcpF+4LY7d1mJuF+ovXQ/bB9MnW
+         lB4lcN24dO6ZmF3VFqzaHzSncnV6JwNz8AIEye+T2a+92XPgd7yw2OYnJnoU1uoh5G8g
+         O/w+FkJRAtT+eaGwT039qDwIHBwIRVmr145XMdg6WiUSfg8qJaRvkqMxIWRh7HBHjv4g
+         CQ4g==
+X-Forwarded-Encrypted: i=1; AJvYcCUQE0Js56mMz5MXCeoVUOYeXY4IIgbOoHwK5iuvnkzS4JKdNd0hFTsV2M0RmdIC4/f3d4hdhSZpcedTWFqYhmpOIw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzwCIz7grOwqjzZkhrgjQlJ9Mz/JAcIwFCJxChKMqsC+j0hkWsD
+	CJTjFjx07eNnxhaNHMl7OrunXN4EzVIfHL8SKbI2A/BIJgk1UWNy0q9oyh+WBRU=
+X-Google-Smtp-Source: AGHT+IHj+vvX7bZ37zlNQnj+URU2uhyLrCSPXQ72BXPowjDFvg2nHKxeaqcrShZ3rSmYGJAEGCOyDw==
+X-Received: by 2002:a05:600c:1e1d:b0:426:6220:cb57 with SMTP id 5b1f17b1804b1-42abd25de1emr9428565e9.25.1724224127853;
+        Wed, 21 Aug 2024 00:08:47 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:91ef:3f82:9d0e:a987? ([2001:8b0:aba:5f3c:91ef:3f82:9d0e:a987])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3718989708esm15068428f8f.70.2024.08.21.00.08.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 22:17:31 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-X-Google-Original-From: Marta Rybczynska <marta.rybczynska@ygreky.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <marta.rybczynska@ygreky.com>
-Subject: [PATCH] cve-check: disable the text format by default
-Date: Wed, 21 Aug 2024 07:17:21 +0200
-Message-ID: <20240821051721.70558-1-marta.rybczynska@ygreky.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 21 Aug 2024 00:08:47 -0700 (PDT)
+Message-ID: <710ec238fc73efaedfbdb3a06c4c57214b6d926b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] kmod: upgrade 32 -> 33
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
+Date: Wed, 21 Aug 2024 08:08:46 +0100
+In-Reply-To: <1724142644-20746-1-git-send-email-wangmy@fujitsu.com>
+References: <1724142644-20746-1-git-send-email-wangmy@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:17:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203574
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 07:08:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203575
 
-The cve-check JSON format has been present for a long time now,
-and this is a moment to disable the TEXT output.
-
-The JSON format is easier to parse by automatic tools, so users
-should have migrated already.
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@ygreky.com>
+On Tue, 2024-08-20 at 16:30 +0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>=20
+> 0001-Use-portable-implementation-for-basename-API.patch
+> removed since it's included in 33
+>=20
+> avoid_parallel_tests.patch
+> gtkdocdir.patch
+> refreshed for 33
+>=20
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+> =C2=A0...able-implementation-for-basename-API.patch | 136 ---------------=
 ---
- meta/classes/cve-check.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> =C2=A0.../kmod/kmod/avoid_parallel_tests.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 10 +-
+> =C2=A0meta/recipes-kernel/kmod/kmod/gtkdocdir.patch |=C2=A0=C2=A0 9 +-
+> =C2=A0.../kmod/{kmod_32.bb =3D> kmod_33.bb}=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
+> =C2=A04 files changed, 8 insertions(+), 150 deletions(-)
+> =C2=A0delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-Use-portable-=
+implementation-for-basename-API.patch
+> =C2=A0rename meta/recipes-kernel/kmod/{kmod_32.bb =3D> kmod_33.bb} (96%)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 0d7c8a5835..41f2b8304f 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -61,7 +61,7 @@ CVE_CHECK_REPORT_PATCHED ??= "1"
- CVE_CHECK_SHOW_WARNINGS ??= "1"
- 
- # Provide text output
--CVE_CHECK_FORMAT_TEXT ??= "1"
-+CVE_CHECK_FORMAT_TEXT ??= "0"
- 
- # Provide JSON output
- CVE_CHECK_FORMAT_JSON ??= "1"
--- 
-2.43.0
+It looks like this has failures when manpages are enabled:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/7027/step=
+s/14/logs/stdio
+
+(selftest)
+
+| checking for scdoc... no
+| configure: error: *** scdoc needed for building manpages. Either install =
+it or pass --disable-manpages
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/6302/ste=
+ps/11/logs/stdio
+
+(docs world build)
+
+Cheers,
+
+Richard
+
 
 
