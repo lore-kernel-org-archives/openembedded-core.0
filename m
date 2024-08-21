@@ -2,279 +2,199 @@ Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E79AAC52D6F
-	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 14:08:34 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.99])
- by mx.groups.io with SMTP id smtpd.web11.20682.1724249311019800618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDFCEC52D7C
+	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 14:10:54 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.104])
+ by mx.groups.io with SMTP id smtpd.web11.20719.1724249452891863133
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Aug 2024 07:08:31 -0700
+ Wed, 21 Aug 2024 07:10:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=gWu34NFk;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.105.99, mailfrom: niko.mauno@vaisala.com)
+ dkim=pass header.i=@vaisala.com header.s=selector1 header.b=MgSHB9p1;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.21.104, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mxEw5uelQm9zLruuNmZ5/tQfJbRG0nvzMsCT0/OL6vJcHkV0T3Y1UI2bPrwvamglyTrTqJZJbgOaSTIFRFU+YAhehXm+aLPAfTnOZPKY96jwTUnQKe61BQb5SJPDCjGqMU2FjV13JfhaikK6zS08drxy7xA2lu0kEvr5L/btEUJc0pB/tSqMD8MqETDEf/JlXlPiXLqlcUn8obKlZpzm48IygVumArpG7L2AZUEvNs7eik5CH/ya/QHbZZaN1j1+GP5v2mtZ+1V215r7HDAaakECFFGjXhCqzU5ffNfdabHQ4CiAZ7sJbD5o3xpE3yIlsvsdWS0RkH2X6JMUkHe2Jg==
+ b=y8SoZiwPc8U3wHwNI4qjgtCKidYX92MidpwuKQ+pPjkc75FhDaJ3l7sQ4Dpw25dT79wnTTt685t4FjAzeTfuWGbXzmR+ktOWUfne4hF34nqnY0PpK2WE7oGpikFsPFMsMAvMvpXgnjmReQxx0EdspermpKk5gLg7oe7v7MZhpC+mRo2ekmdpRK742S927hIsNQYuAJNl9nBbVpooxWgVc2eCSuEleA1pdmiJVIrJnnYXx3uYQROC+XnBU/O5Bcma2r4geDgG/JHZNmmBV8vQT8t0Iv2mPTFZNazyKOFugBet0paMTwNrhPjirVekqJgo73X8spHTnzGooNFpJwjcbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HVdXF/AMcfwpeYHcV0oTUDU5Ut2zzJGvpjn8UCdG+sI=;
- b=B/x7Ym7eSRcNrn8FDPCztgDeREz6nw6rCPEofg6aK/iugHEGxaiWFPRkcNcUOeGnk6WVG2oDuoOyF21vvpZJY34cHhktoMyK2oU3mAmhFjOg967a4dwcOawtRd7u4rei0uDF3awdA+QqOchDceYctpkyMLaBorKo1aBGN9RpQxSFXgT0InqlEqWufAj6GpjNGtnxVBTWHtjs3fK0GTFgsxG+VbxXMTlvU2cwJYQkIcOM5fT/cr8i6+1qa62A/Wq6qlJQrVUJWjJT1tUxu4OAivxMK5kE/zeJM+B71N82iOmBKkHLBePnFwFFiK5JyRH7eDPewUYZwX9uhcDeClmasA==
+ bh=r8FFyZkX01fBTYrQ6omB00KZylaViOT3JQd6FOmQXic=;
+ b=XspPHw8xCh1nv1htR3QnJWzO6mBSh57/39ovj3NOALQt+Su1PyY1zF3o+3yhZ4uqcEQEHQ6GbOrlpygz4xapohp2MXlsOskvj+n3XPrcl4Wdv7Ep4grn7oDDZJZ2NdOsd86V/7Yt46V7a7RJ5arRb0nxNMbA5f8u09KuricnFmUmit1MATljC7p8OcauywNQM3Rc7eBio/S/eB6ER7kjAL2nu2ni0a/baFPPjtcE8hV7Q3aq8L1MDj9LGRP2ee5qBNTpQl+O/7krOGNz7VpQyVCIsGILbv9XMCQf9dwZhVlDj0wwdrw+UclewL897/3nGdKrpgXaGf+ysMZUs0Lsvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HVdXF/AMcfwpeYHcV0oTUDU5Ut2zzJGvpjn8UCdG+sI=;
- b=gWu34NFkVUJET0xTjZz3sNbo9yiQX7cZFJrMHI5+oTumkSGGopKBBAcPotRbGKoj4Gt5vT+mW0KXlaFvTiaU8YOnJJ1zVx+vqq6yssqiZ0YdkixGIpIK+xVPKwA8xFzcFLfIbjzZDhQETr+aihxUVYH2GBkYSgKgFHgEqtBdnmnmcdz6J8SvgT+iUnxyrFMbJyQG28JY06fShIki4iOy5Ev6rrpbBV4voq2WFlWJ+pBNLE/wtbh9wZRF+iK4umaNJcVPLSPidcTsMrUcHBgJnjWLGZW101BBg3X6Hsr1DGDEs2dbRcJFgleoAPqfEdHELKL+Xbq5FNwfln12OMy/MA==
+ bh=r8FFyZkX01fBTYrQ6omB00KZylaViOT3JQd6FOmQXic=;
+ b=MgSHB9p1dzUvifs82Sd18FwifsHA0u2ouFTr4mBYfdN0ugBBuT6UM2vPZ3NGTZqwQUo/nz4aKJcU8pSaFBF4DqFFeDou9xxUo3CsDHZk7mK2R4Uc9/po1vqRYbXiq4EUY+Z1vyQZsIsSg5KBhhTl51NjOHIfer0mnYA29yd18/FZC+NEunA6p3ljIdULkNgwhJfGyslBgNUE75m26RUCxNhsr0sniE8T0IIAh2RBpBKcrqFYUQfrXAlKwYH4h4EtTTEdSamJ+dFAF2MY+TQw+hTkoOX+CdzjHVRWMpd5tg4fBPXSk+oZmVoNzzXn4ZyPEQTdl7wbZ6u/TPPHtbwSiQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vaisala.com;
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by VI0PR06MB9673.eurprd06.prod.outlook.com (2603:10a6:800:215::15) with
+ by AM9PR06MB8164.eurprd06.prod.outlook.com (2603:10a6:20b:3a3::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Wed, 21 Aug
- 2024 14:08:26 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Wed, 21 Aug
+ 2024 14:10:50 +0000
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.7897.014; Wed, 21 Aug 2024
- 14:08:26 +0000
+ 14:10:50 +0000
+Message-ID: <0a2d4d60-8850-4e40-8638-29e948d16e8a@vaisala.com>
+Date: Wed, 21 Aug 2024 17:10:47 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v5] util-linux: Add PACKAGECONFIG option to
+ mitigate rootfs remount error
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20240819182649.128659-1-niko.mauno@vaisala.com>
+ <20240820191943c7d1348a@mail.local>
+ <f236db96-06ce-438f-843d-25530ac1d16d@vaisala.com>
+ <CANNYZj_X-TYO8vLoJBTqwmwrwD0Q2bEPi3TJL3N9hMzV-1JUhQ@mail.gmail.com>
+Content-Language: en-US
 From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH v6] util-linux: Add PACKAGECONFIG option to mitigate rootfs remount error
-Date: Wed, 21 Aug 2024 14:07:46 +0000
-Message-ID: <20240821140746.122156-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GVX0EPF0000FA8A.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1:0:4:0:21) To AS4PR06MB8447.eurprd06.prod.outlook.com
+In-Reply-To: <CANNYZj_X-TYO8vLoJBTqwmwrwD0Q2bEPi3TJL3N9hMzV-1JUhQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: GV3P280CA0020.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:b::32) To AS4PR06MB8447.eurprd06.prod.outlook.com
  (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|VI0PR06MB9673:EE_
-X-MS-Office365-Filtering-Correlation-Id: 852ade53-c2ee-4364-f3e5-08dcc1eaba04
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|AM9PR06MB8164:EE_
+X-MS-Office365-Filtering-Correlation-Id: d541213a-1953-4402-fcee-08dcc1eb0f04
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|52116014|38350700014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|4022899009|1800799024;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?V8kkLn4UASgJ94toLVk1Xr/7sZT68+RHXW/Q9qF8APEdA2tIDyKeC2KxW9JW?=
- =?us-ascii?Q?s/1srwaYAZcHCB/h65KGF6kfLKs+KCPqLNulKR+1OTeh4Dy5HKFteoGQHtRr?=
- =?us-ascii?Q?xOkWiiaCPo6ZsIttaGG+leaS5gyGI4MepQDDMC/DwpAmCG30/KJ1JyO7zIR1?=
- =?us-ascii?Q?cWYT4WafANHjgifX9F8xaLO8tBLESFA3mUojfcCXjTJsjOQ95m2JYnxevkj1?=
- =?us-ascii?Q?KHGesZgWTSYuEhozGdJmBgnqoD7I6+XB3Ounr8hGVpPZlTaOiv8ZpgpMrE7G?=
- =?us-ascii?Q?ftCxr0TJzoFeDaUJYgJq4PVjL8M8Glum82xtRcnt7ioM1Zc3dGvd0iw+yJA5?=
- =?us-ascii?Q?JWR68Mt0fDTOX9GYSs0FXDSLplKbcychSdj8JL7KaA6GT8pK5cbt/e5A82Z7?=
- =?us-ascii?Q?xR5drA6yrRLBjNh5dyCH5ZSPVkRRQCnyIbB/4SRCgOwkDYe7cRQLoniF+ott?=
- =?us-ascii?Q?0I4LCfbORLg1h3qM69cPgJ8XLieaHHC50yoUiTvpnLPiIrcoOTCbfFzrGiQk?=
- =?us-ascii?Q?omoIfps+Wx0gMQNQPkzcTs+yqWuRZJdxu5VjRJrq5ZaTzsNIwhFcXhVcgtax?=
- =?us-ascii?Q?XNry0EAxAwRL9NNr0avaCDpKeO9ZCtWN5TdL8lAYlWfc0xSvMeMOueRI4mP7?=
- =?us-ascii?Q?jmYjjAvYsAmHBu4YOxCCyLpS3bXZM3KR13BqGHzeFHM7m/Qi19D3G9PBnfqb?=
- =?us-ascii?Q?Wd523fjwtuj8ReqpRmB3YyiODtUP5McU8jkyco3ZuByE+zL8zY3EvD5ATmzf?=
- =?us-ascii?Q?bGahOYPYXto0ckdFFowpJXt7pPYOK7EALCfP2oOgCLZQaAL/7oxwxtt8q73k?=
- =?us-ascii?Q?+C6WXDEv1gjDqE1/WkWq7Eo2v46apjSt9EURxt7vzyzcLAD98v4thQvc8Dyj?=
- =?us-ascii?Q?0Rh5ShfMT6F9v9cuv2tuMnzptQCWueqtTh/fRVSIuy94hlZ6257WEETMKvJk?=
- =?us-ascii?Q?8LLfbDCkHV9kcPmIX5VN2ZB+bOSDvtNzn6Bl3O/GVQViIrjHASOX2TElzo6T?=
- =?us-ascii?Q?1i40onLA0D44lkTslYITE3aR918qRHWYNmJ07NdvW11OZWPE0zIFx9ia4r0L?=
- =?us-ascii?Q?KEFuPr+3zIGuOLqAlq9FnV1NkvCxxq1cU1psO/vkySvrenAR0zeWARYWAdoo?=
- =?us-ascii?Q?QfytbPFxbB/wdCV4QP0UiRzenKnbHDP06hHnyTCYzsxFF7lvdHiEa1tgnvpL?=
- =?us-ascii?Q?sRCkt1UkCCM4ditOuy8cxi3CPJW2kAkghLOMxv7NDUQpFMoGS6nJX8FgLTB5?=
- =?us-ascii?Q?t2ayjz/hhhzau2vCQprVgf/I42fokqKF2+LEn1nOVUc42DfV4yI+ywRmFlkL?=
- =?us-ascii?Q?fem6SrIF4rt8NxbBUSKyPo+GjyhAPkG93wMMEwdCctNUqtIn8A5YKbU1saCv?=
- =?us-ascii?Q?a4x5+G4=3D?=
+	=?utf-8?B?MXJrSVVOMnZxMllrc3lxTGYzem5TeDlWcVlvNXhqTGJJWEk5RUFWNGpnT0dr?=
+ =?utf-8?B?R1dtTVZjaW5kZzFGZlBSeTdFeHdoL0FqUzBnVm9NUnhjMDhqWTF3ZXVkWWRr?=
+ =?utf-8?B?MDN5VUpKdGNwcWd0K2d6UyszT1czQldScVhqOWNsWFAxeHcwQUxxNUI0MkxS?=
+ =?utf-8?B?N0xsdXpubDFWQlFydzl0YjR0SVdKcUhyeXZCNlJzR0dTQ3F2MGVLbzR5bUJX?=
+ =?utf-8?B?aTNTbUpaZTU0dFRnWFhxV3JCdjVieWtFVkJseTR4bUovQitzY2dqSnpxQ2VC?=
+ =?utf-8?B?b2pldktTaG5vV1Y4SE5TblE3Rmd5V3k2RS9BS1B6Ym56Zk5TeUF4S292WUNJ?=
+ =?utf-8?B?SW95a21kUVZJZlVYNU1hSUk4Ui9qZXFoZWdnSWFiZ3UyYWJQM2RnbmFyNmpq?=
+ =?utf-8?B?RXJ4NEFJZ3V5TUQ2MGpxZ0Vad0tScHZoTjk4czRubzV1bFlEVmp5TzNoYjEr?=
+ =?utf-8?B?dnhLNmYrOWV2Qnk5VUc2ZU9nMitwMFBGTDVaT3dWYXBWTitaSCsyWENZbFcz?=
+ =?utf-8?B?aUVmYS9QNUdNT1A5bENyYUFHZWtuaittYlNFV294UUs4d2RjOWpYVC85L0xm?=
+ =?utf-8?B?dXJaMmlhblBWa1VTaWIyaisvOENMT24xMlBsZFpweDU0WS9XMVpBeGJlVTZS?=
+ =?utf-8?B?MjRXY2FaNFQxVFVPNEdVOWZCaFhkVThSSTFaQXdGc1U5QUdSUjNjaFIxb0c5?=
+ =?utf-8?B?UEY4Z0YwdW9XTjZCUEs3eU9kUGdwNisrNUNSc0F3bDFzWTVVN21kSFB3UUF0?=
+ =?utf-8?B?Z1QxalZ0bHJRZ2g5WW04OWw0RUkyZFhXMFB0bTFtZHJVRElwQUFEL004bTR6?=
+ =?utf-8?B?V3JobWVaMlJZZjQ0RWNJSkM4RWU4V3JPRnZEQVVVYzNWZkt2U3RneUdJdGww?=
+ =?utf-8?B?c1BQQjUxK1YxSXloVTJKWlFxWVBMR2ZHeHlqWFhwUnRJUnlaSENUYkI1aDF5?=
+ =?utf-8?B?VS96alN3S25ZeXUzc0h4SWtIRUs0M2RuS29tQmhZdk15MkhPN2I2S0hVQjJn?=
+ =?utf-8?B?MXRPSDZtdERWOTVNaFNvNEhCbjJhRWkreTlNcHBjTDZtMTI5R3NDYzd6ME1F?=
+ =?utf-8?B?NEpjZXB5bVkxTDlZeHNsTHNQQ0NsSW85dGlKaU9oRUs2Q04zVmpmZ1VuOC9t?=
+ =?utf-8?B?b0dJcGI3YTZIVjBZQ2FZUVYyaXFZL1ArYlUybzVvbGtDNGNvZEVLUGxsQUZz?=
+ =?utf-8?B?S05LRkN5VDViK0kxWVFISEFMOVJCS0wzamlLTkFuNnhSVUovK3pKWFY3TnlU?=
+ =?utf-8?B?cSsyTmtZY3ZyTEs5SFlBaUIyWVYrL24rc2ZjKzRCa0tob213NWpuaUdYUEFL?=
+ =?utf-8?B?OXlKaHYvM0NjRDBNWThPR3k2cVA4OUxRZWZLZnptNHVwczNGN0xWZkVKT25X?=
+ =?utf-8?B?WitNd0xnaU9KbmViVGdxRjZydXpERWEvWFNiOEw4eFFlcHl4Zml0dDhESTVq?=
+ =?utf-8?B?UzNsM0x5ZFFpZDN0N2NJempJS3JFRUZka2cyVTFzZ3UyenJBYzdhR0cyYkNP?=
+ =?utf-8?B?bW9Xc3B4ZW1ZV0VPQUlZV2c2Yk1jc0NsWFhHVGV5dU5QdUJUTFI1VVR4b0VW?=
+ =?utf-8?B?L2hsZGJCYk1zdmdBREkwcitXSDRlWmFPbFg2enlrYUlOd3RiR1F4SHZhOTdz?=
+ =?utf-8?B?YVFoaU15UEhnb1pXL3d2MDIwc0c0dmhyRGI4SFVTdElzMTI5cHQvWW9QNk9O?=
+ =?utf-8?B?cE1QUXdINlhKWGpQaG1IS2R4MTEyb2xqdTVZdUpoZHZzSjlaZlV6ZnM1NXAy?=
+ =?utf-8?Q?bITDkshzAq5fpSLoa8=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(52116014)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(4022899009)(1800799024);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?t6D570/IMTqSwB+D1PhM1cZLD7JQ5IogpJoqMyl3x4058b3tiE71nnG3qF/1?=
- =?us-ascii?Q?FLf+5/YWrcNqC4J+DVTZyaWjntfkWB2YSnPWPOi8d6bomvPFX5QUAAL1CDtX?=
- =?us-ascii?Q?+pSw0n54GMioQ9sgied0sGhxPZXF836RroNMEuxjnw1Lc61t/ThWnO81Fsi2?=
- =?us-ascii?Q?0EZGxAlpB6fhOcosxokkXqqKG8R+WGAB/5mg0maLuf6K5B4GqF878E9CFZcS?=
- =?us-ascii?Q?wirTRpZa3tqz8+tIuhS4CohZhtAK3EKhrxFe0y4SlhCbzbCs41go/4DQfPRM?=
- =?us-ascii?Q?SFYUf/dhYLF2EJkG6cItoG8dN9+2Do86iGFUIFzPYZIXo8ygv8nIITyDfoM3?=
- =?us-ascii?Q?xP9tiFRiagFzDN29hNaspWfgQOLnEi3ww3Vmlf7UbTKPHlBT1DSiuqmk7/Nx?=
- =?us-ascii?Q?encHVtmqClgl4ifhdPOExehkeDvMVP00CMNNQC9V8a1Rj2D5LBe2WENOjmZx?=
- =?us-ascii?Q?pvqzkkmHv6lQnJnyvoE5LMfYfkfdysX77T950d9zcP/D6f4p/c1RLWcOfBec?=
- =?us-ascii?Q?H4U6/SHpJthP/uNZQquvAVrtnGo14k/s3pC2IKDwzxTzCg+GLydWloZqfGby?=
- =?us-ascii?Q?BK6rxgeGtJU/XrnQIQNVsPE3A83efRYNZBgEGU5jToKZn2DAtdxw/cKyYRtd?=
- =?us-ascii?Q?yW/5FYcBMtPh8uS/qOZnShkhzYk+qCctiWzBfj8AACX8YMWgOKDYe7sRLbLU?=
- =?us-ascii?Q?OlMi5N7QpmTVhpWu+Q4rohLdASyfGWz7KYpgH96OuU4Mu98ARmWn9ZuNlCwQ?=
- =?us-ascii?Q?khqTrvYTUOwJngh+jVZuHRgvLJpHBruTCRK6RYcUzpEucA800iHfujb9HDWf?=
- =?us-ascii?Q?i72Yg3xeyhRj5D19+rdk6CS/4sVg5iH3K/XQGf5LWCe4EimwyMfeK0NvFQrt?=
- =?us-ascii?Q?a4T7DHD1iOJE6QNeds7AqQS0bcdJjP9NhwHsb4wsvyDXhRE32MiBN7aSyE/Y?=
- =?us-ascii?Q?6fLfaUypf/7Y7v7eIZtWxvkfCQqtVy4l8Ee8AMjGR53xsFmnDt7H8SQ47QC+?=
- =?us-ascii?Q?QP9UMPmSeLTAyr5/uY+COZN/imlo36AmgeUqeheOi10Ch0qKbvoa+DD59lTi?=
- =?us-ascii?Q?tAPxEFsb3+lnVrQtAqxIz/Z8m7Rwe28H0f/mZG5+iM7jSTgxdT+J7oEZxdj/?=
- =?us-ascii?Q?670DKnQE0EzzWPBUF/1W6VsLu2m3s/3pWekUyL84lTs+LuPKSSryfcldJ+69?=
- =?us-ascii?Q?dei9oZWPU4zGJ+DtW47EFMycZITtPnv3Jq/mSC4M51klYxUojSiM/aRWnOb+?=
- =?us-ascii?Q?CNQd+rbj7t5j/hHttjHlchoOGov1Y3vn352eZ037wAhrVhAOgRBDN4raHR7T?=
- =?us-ascii?Q?9OcbnIBA9E/AZbXepMPHAYJOX40iHph81qnv+rk6DxnoOe6RfDM0Gyl2AXi8?=
- =?us-ascii?Q?Ns1zltwKrK1oSYdERd5TuVbYNh8EttEGCyQTLv6UdA22HaD0gIWrKYQQg0GG?=
- =?us-ascii?Q?yryygOyIHNEcqXkLayyeAjdHtZtSAukGDV0G8hvhIRegcthIbu/pjnGg0ihf?=
- =?us-ascii?Q?wbe/5LvPobuo2K6Qp6V8crNWQdp+Za8Nl8LfJ7UT/PJWVnZSjWVrsT+eAeLY?=
- =?us-ascii?Q?31s5ze5gmiJNlVQ+BC6vcfDre6oqbU/aUw2jh0OTivAjThqklmskEg9u8P2e?=
- =?us-ascii?Q?GQ=3D=3D?=
+	=?utf-8?B?VGV1OXpCckNSSTFJSkROVWJVQ0hXS1k3V0VDeExWMXhJSWRwWThQQ1ZJSEM1?=
+ =?utf-8?B?WGZSdmkza3lQalI1UmNYMjVRTDdPN09aSjdMVGM3UDRQcC9RVDhCY1pDSTBw?=
+ =?utf-8?B?UlFrL0J5TTdzbWM4QWp3MkJtVnRWOW5IRXFCeFM3OFR3WFNtaGxuNGJudnM0?=
+ =?utf-8?B?QmJJWVQxdDZ1VGxuZis3SXREbzFoWHdHWmlCMmxoUjlZRWxUb05KVm1USjBp?=
+ =?utf-8?B?OE8yZG5rdWQzbXBGWXVtUzdyNS9ZWlFJSGlJRVhSbExveWJMZ3grWkh1MVUz?=
+ =?utf-8?B?VFN4YWtzMS9kd2p5RjVPM29EQ1VwbkJWa3ByRXBCS2x0RXhIbVF2ZzBlcTBL?=
+ =?utf-8?B?dll1dVNFeU5GK2lCSnVCZ1ljSWh2a09kYWY1SFE3bUVBL0JHNEN5MUdhaDRP?=
+ =?utf-8?B?ZVo0TnFYd045SmN3YkFTRU5MUEdJbnVlMm9QcjNid1B6cG9VU3FUN0lvc1Rv?=
+ =?utf-8?B?Q2Q3bGx3Z3A3VThnbW5qeEkrUkQvcTNNYVBYbWVDNzNYdUh5RndPL0l6SVlR?=
+ =?utf-8?B?OEo5a3ZuaFdqY1haYmV2TG1vTC9iY09MWG1FazVmSUIzWXA4ODNDYjVlVUxF?=
+ =?utf-8?B?T0xmTGtpbk1uVVpLQUdHbWhvZEs4Z1E1TktmMUlBZ3ovSTFwT0dVYVZJQ1dp?=
+ =?utf-8?B?MmFXZU9xM2hqU3o4MGNpUEkvRUM1SktpcldqT3lNdEtrak5DMzFFZ21kM2d5?=
+ =?utf-8?B?b0tCalpKb29PQWlNazZNTXNwUWVSTVFra1MzZmJsd1ZhbGpHeEhSL0tod3dT?=
+ =?utf-8?B?WStjTEo2aEViY1VKU2QyVWxWUHdCamdtTnNkY3JtdThIWm84UklqVmVXNmVm?=
+ =?utf-8?B?emVTY2N6YlZvbG5vekRRREduVjdkaFRiM25BL1E1YUlRekZEUEhabXVlUlJU?=
+ =?utf-8?B?Nnhjd0pGVytBQm90VVJCdDFLKzZMRTVZZnpGaTJObTdsUVpXY1hiVTBDWmJV?=
+ =?utf-8?B?bWNYY1lRNkNkVERKMWpzUUFnWFlTTE5rRFRkVUlxcnpQSnNaaW8vRkJZM3Bz?=
+ =?utf-8?B?WW8vVzVTT0RjUk5VK0tsRWJCb1RuS1djUXNxSERkU20vWjF2SVd6SHBQZnJM?=
+ =?utf-8?B?RFRHcVBWay9BK25MVUM1Vkc2WXpodVorcGNKY3gwYkNjRUJTeXI5cld6bFE3?=
+ =?utf-8?B?UENoYXBtL2crdlZ4cFRjSXJuRFB6bDhYYXZwZTQzbk0wQVZoZ2J0UlR4VE9m?=
+ =?utf-8?B?OTgrZDlnS2ptbktHMVJFSzErQ3BpQ2YyV21ZMkkreGM5MmRQVHVSREVxL1FC?=
+ =?utf-8?B?MTBSeFg3VklQQ0Vzd20xbU1wMXJjcXAyazZrNHZ1WVdLb1ZTcStJZWZ4VXc0?=
+ =?utf-8?B?WE1KUklhTXdMbjJZem1SK0l3dk8xTmhibWFQRnd4aHNGT0M5Vnc4bmhacEh2?=
+ =?utf-8?B?QjEvNjRTRWpzVEZud2djcmdoMS94RzlTdjU0RnVmeTZaK1BYZXR4TTQ2c1dE?=
+ =?utf-8?B?YjlYa3VrRTd1TVg5OEFWY0gzMW9Ua2ZCdHVrVnpuZXdNL2NXajQyY3ZLL3BH?=
+ =?utf-8?B?NzBBU2VyT0UveklRWWpRSGdmdXJoZlA3TWNCdjhVM01DaEZZN3JJQTNKL0hX?=
+ =?utf-8?B?RVAyYVJUZmlYODRLOTJDdGg4OVljME9ya2pGWEJKcmlLZ3JtdTJNbDY4WDlV?=
+ =?utf-8?B?aVV0UXZURGg4L3ZhWFExcUQwOVdmcW5SaXZ6cnpXUng4TXNOQktFdDNYc1pq?=
+ =?utf-8?B?LzVXVGpNVkJaSDZKVHZFcU5oNXJhU0ZlYjhnMHk2R25veU1ZTjJRanE2VG9l?=
+ =?utf-8?B?Tk5tTytOM0MzRndINU9xc05wNC9JbnJ1ZUFMTTg3dGlwRnlsaVBPUkM4dm1z?=
+ =?utf-8?B?WkFlb2xXcSs3MHJyT3dSZGRBSWJJWk1jWlJhTjZGcG5NWU5pbmF4MHRmMkRX?=
+ =?utf-8?B?VUdBWGQ1SW5RUTZHT25WN2Z0QUU4aWJ5T2tyK3N0djhzcXp2cjV6L2xhZnpa?=
+ =?utf-8?B?YnpWeDY3RzU2L1I0Ni9vZWUrelNhdjgyaWdWL2dSS1ZlUW5YOTBDSHNFcUpJ?=
+ =?utf-8?B?VmUwZTdneC9TUTQ4ZjNBR3Q3dDlYNHNGcno1YkxpUWdXMVJwdTRMWXl3elBa?=
+ =?utf-8?B?MUNWaXJSM2prbGNKUnlWRllzc1h2Rm0xY2lDS3g4ZkJmN1l5bWh3L2k0WDh0?=
+ =?utf-8?B?cjZYdXBMRVBWdmZyd2xXSUlEd2tMUUMvUHpZbGZma0ZoSjZ4R0QrK0xheWhi?=
+ =?utf-8?B?dmc9PQ==?=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 852ade53-c2ee-4364-f3e5-08dcc1eaba04
+X-MS-Exchange-CrossTenant-Network-Message-Id: d541213a-1953-4402-fcee-08dcc1eb0f04
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 14:08:26.8158
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 14:10:49.4236
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BuEn4uvixtQrqFGalI+95ciR4vftgTrugKPMz5uVynf8K2qjHsyDAjSt00ua1aEyLVzd8WmtllftZRiTYXtqkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR06MB9673
+X-MS-Exchange-CrossTenant-UserPrincipalName: jnlUWLRtxSGl6D84DDgQo/1+lKK0wLYuwmoV1m7PFYlvXipYW9JDu5S6v0oa7W69PwqJSWuux0tSX0TTnDg1lw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR06MB8164
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 14:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203607
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 14:10:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203608
 
-The 2.39 version of util-linux took new file descriptors based mount
-kernel API into use. In relation to this change, the upstream release
-notes in
-https://github.com/util-linux/util-linux/blob/v2.39/Documentation/releases/=
-v2.39-ReleaseNotes#L14-L21
-mention that
+Thanks, submitted v6 which adds the new PACKAGECONFIG option for 
+class-target only.
+-Niko
 
-  This change is very aggressive to libmount code, but hopefully, it does n=
-ot introduce regressions in traditional mount(8) behavior.
-
-After observing following failure when booting a board using a bit
-older 6.1 series kernel together with initramfs rootfs based boot flow
-
-  [FAILED] Failed to start Remount Root and Kernel File Systems.
-  See 'systemctl status systemd-remount-fs.service' for details.
-
-closer inspection revealed:
-
-  demoboard ~ # systemctl status -l systemd-remount-fs.service
-  x systemd-remount-fs.service - Remount Root and Kernel File Systems
-       Loaded: loaded (/usr/lib/systemd/system/systemd-remount-fs.service; =
-enabled-runtime; preset: disabled)
-       Active: failed (Result: exit-code) since Wed 2024-08-14 14:53:48 UTC=
-; 1min 22s ago
-         Docs: man:systemd-remount-fs.service(8)
-               https://www.freedesktop.org/wiki/Software/systemd/APIFileSys=
-tems
-      Process: 76 ExecStart=3D/usr/lib/systemd/systemd-remount-fs (code=3De=
-xited, status=3D1/FAILURE)
-     Main PID: 76 (code=3Dexited, status=3D1/FAILURE)
-
-  Aug 14 14:53:48 demoboard systemd-remount-fs[76]: /usr/bin/mount for / ex=
-ited with exit status 32.
-  Aug 14 14:53:48 demoboard systemd-remount-fs[81]: mount: /: mount point n=
-ot mounted or bad option.
-  Aug 14 14:53:48 demoboard systemd-remount-fs[81]:        dmesg(1) may hav=
-e more information after failed mount system call.
-  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Main pr=
-ocess exited, code=3Dexited, status=3D1/FAILURE
-  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Failed =
-with result 'exit-code'.
-  Aug 14 14:53:48 demoboard systemd[1]: Failed to start Remount Root and Ke=
-rnel File Systems.
-
-also consequentially, 'systemctl status' reported:
-
-  State: degraded
-
-When issuing 'strace -ff mount -o remount /' the failure occurred at
-
-  mount_setattr(3, "", AT_EMPTY_PATH, {attr_set=3DMOUNT_ATTR_RDONLY|MOUNT_A=
-TTR_NOATIME|MOUNT_ATTR_NODIRATIME, attr_clr=3DMOUNT_ATTR_NOSUID|MOUNT_ATTR_=
-NODEV|MOUNT_ATTR_NOEXEC|MOUNT_ATTR_NOATIME|MOUNT_ATTR_STRICTATIME|MOUNT_ATT=
-R_NOSYMFOLLOW|0x40, propagation=3D0 /* MS_??? */, userns_fd=3D0}, 32) =3D -=
-1 EINVAL (Invalid argument)
-
-After further investigation, The issue was pinpointed to lack of Linux
-kernel commit
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=
-=3D95de4ad173ca0e61034f3145d66917970961c210
-("fs: relax mount_setattr() permission checks") in the kernel version
-that was being used. Above mitigation was discussed in email related to
-then-rejected CVE-2024-26821:
-https://lore.kernel.org/linux-cve-announce/2024051606-imaging-entrench-b327=
-@gregkh/T/
-
-After testing with qemuarm64 machine different linux-yocto versions,
-it was observed that the issue impacts following versions of currently
-supported LTS kernels:
- - 6.6.17 (fixed since 6.6.18 i.e. mount_setattr() returns 0)
- - 6.1.78 (fixed since 6.1.79 i.e. mount_setattr() returns 0)
- - 5.15.164 which is currently the newest of 5.15.y series (i.e. no
-   known working version)
-
-Taking the above findings into consideration, add a new PACKAGECONFIG
-option removing which enables users to opt-out from using the feature
-which can cause issues with a bit older kernels. The option is enabled
-only for class-target here, since it otherwise causes following error
-during util-linux-native's do_configure task on Debian 11 build host
-(mountfd_api requirement fails):
-
-   | configure: error: libmount_mountfd_support selected, but required moun=
-t FDs based API not available
-
-Versions 5.10.223, 5.4.279 and 4.10.317 were also tested with qemuarm64
-but the issue was not reproduced with those versions - using strace
-showed that the mount_setattr call associated with the new mount API
-problem was not issued with these LTS kernel versions, which seemed to
-be confirmed also by following libmount debug message in these cases:
-
-  415: libmount:     HOOK: [0x7fa115e818]: failed to init new API
-
-Note: In addition to the aforementioned, this change was tested also
-briefly using the current latest kernel versions 6.1.104, 6.6.45 and
-6.10.3 that using the old mount API with newest kernels did not
-introduce any observable regression to the boot flow.
-
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/recipes-core/util-linux/util-linux_2.40.1.bb | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/util-linux/util-linux_2.40.1.bb b/meta/recip=
-es-core/util-linux/util-linux_2.40.1.bb
-index a1aab94055..a8e346539a 100644
---- a/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.40.1.bb
-@@ -90,7 +90,10 @@ EXTRA_OECONF:append =3D " --disable-hwclock-gplv3"
- # build host versions during development
- #
- PACKAGECONFIG ?=3D "pcre2"
--PACKAGECONFIG:class-target ?=3D "${@bb.utils.contains('DISTRO_FEATURES', '=
-pam', 'chfn-chsh pam lastlog2', '', d)}"
-+PACKAGECONFIG:class-target ?=3D "\
-+    libmount-mountfd-support \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam lastlog2=
-', '', d)} \
-+"
- # inherit manpages requires this to be present, however util-linux does no=
-t have
- # configuration options, and installs manpages always
- PACKAGECONFIG[manpages] =3D ""
-@@ -107,6 +110,13 @@ PACKAGECONFIG[cryptsetup] =3D "--with-cryptsetup,--wit=
-hout-cryptsetup,cryptsetup"
- PACKAGECONFIG[chfn-chsh] =3D "--enable-chfn-chsh,--disable-chfn-chsh,"
- PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux"
- PACKAGECONFIG[lastlog2] =3D "--enable-liblastlog2,--disable-liblastlog2,sq=
-lite3"
-+# Using the new file descriptors based mount kernel API can cause rootfs r=
-emount failure with some older kernels.
-+# Of currently supported LTS kernels, the old mount API should be used wit=
-h:
-+# - versions prior to 6.6.18 in the 6.6.y series.
-+# - versions prior to 6.1.79 in the 6.1.y series.
-+# - versions till at least 5.15.164 in the 5.15.y series.
-+# - with 5.10.y, 5.4.y and 4.19.y series kernels, libmount seemed to use t=
-he old API regardless of this option.
-+PACKAGECONFIG[libmount-mountfd-support] =3D "--enable-libmount-mountfd-sup=
-port,--disable-libmount-mountfd-support"
-=20
- EXTRA_OEMAKE =3D "ARCH=3D${TARGET_ARCH} CPU=3D CPUOPT=3D 'OPT=3D${CFLAGS}'=
-"
-=20
---=20
-2.39.2
-
+On 21.8.2024 15.17, Alexander Kanavin wrote:
+> I guess this new API should not be enabled for -native variants?
+> 
+> Alex
+> 
+> On Wed, 21 Aug 2024 at 14:01, Niko Mauno via lists.openembedded.org
+> <niko.mauno=vaisala.com@lists.openembedded.org> wrote:
+>>
+>> On 20.8.2024 22.19, Alexandre Belloni wrote:
+>>> Hello,
+>>>
+>>> arm64 fails to build with this patch:
+>>>
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/9356/steps/13/logs/stdio
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/131/builds/4727/steps/13/logs/stdio
+>>
+>>
+>> Thanks, indeed it seems that on the older Debian build host, the
+>> mountfd_api requirement fails for util-linux-native recipe:
+>>     | configure: error: libmount_mountfd_support selected, but required
+>> mount FDs based API not available
+>>
+>> Ref.
+>> https://github.com/util-linux/util-linux/blob/v2.40.1/configure.ac#L1315
+>>
+>> I.e. failure stems from the added explicit
+>> --enable-libmount-mountfd-support option that extends also to -native scope
+>>
+>> I wonder if there are any proposals?
+>>
+>> -Niko
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#203585): https://lists.openembedded.org/g/openembedded-core/message/203585
+>> Mute This Topic: https://lists.openembedded.org/mt/107986659/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
