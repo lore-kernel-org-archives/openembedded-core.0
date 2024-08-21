@@ -1,104 +1,119 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD79EC52D6F
-	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 12:18:03 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.18319.1724242674500218342
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CF6C52D6F
+	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 12:50:43 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.18869.1724244642580727973
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Aug 2024 05:17:54 -0700
+ Wed, 21 Aug 2024 05:50:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=k3kzUWuh;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f3e2f5163dso31808341fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:17:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PPNHvJWl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7141feed424so955710b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:50:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724242672; x=1724847472; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xAc8HGJL3rflMMkTTXXgjG3sHc9/0Ip5kZoz442/avA=;
-        b=k3kzUWuhpwj0lsDxMYrAgULHRhs4eg63nP9z8hAGyNlsDdtxbwmbC0TYx2qtgY3z1c
-         G6LlRmJsKTgGUlfRI5d+2eTTVShjTxtHpHFvE9FNfpTWUvRZ4NDC7udkwMWjyOpK0U4n
-         oCj3bVXLbhWT7+bWSSGi0/0vfq5+0Ej+U9sMuzlwZCUL6QI/WMiJYDlMBBg+F2WQGgYE
-         DFaMlRJtuP+QctODrVDyCLTpFsFKIkCsAq2Xg3zWE3PuEwYL/pWVGNuTBMok2eG0mnWy
-         Fdlz+oRp/aZ9RcL6mO0gUTtCv0nhoS4fZJV20kd1Zd/IcMs2ccqRO7EkGa00KaDZ8YW1
-         8sPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724242672; x=1724847472;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724244642; x=1724849442; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xAc8HGJL3rflMMkTTXXgjG3sHc9/0Ip5kZoz442/avA=;
-        b=mMEblFUK6b1nWYKV0miJghJ7mC23aFZFo/MNhsXGrVNZtpEhYvwx7Rw6OTwJ9sHfMC
-         /zD48EAWNVwhAIcRTPhro5ltM/y4bMxhtBbPTf588n2dH484mQcnT4yXoDJrfIQm9yL7
-         /jV8R853altX2189M431aWf4j8uz8f6/k2rsnP+8ytij8L+yIXXr2dVa8ft4Qgm1mpdf
-         AVoQ2zSuwDYVyz+iXUEZi47TcOJDhbHS4TCPbcADuR9a9LfV1t8hsvzZ9UEvQqHfSP3i
-         DpQ63qfl2uLyiLRrChuzs9+LT+oSXL2kqmoZmhl2R/BhzBoeap2+Evbhx6aVMmTO3xoi
-         NxdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpEHowcFEDt72DAXptdzsPJ6n5jFbZ7cL0nqk54sku0A0Sa9n5JQschTsBUkocJSgi/3MQxzt09kMakzCewBcZWg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxWg4QRDZScSDb9zJYvyYRrSrCQOzDbAp4MaZnwqW4xJWf8OahB
-	5FROqdVoW2MSua71Z7QvKtohM09Pncb8F93bDRcJHCGIQt+Fa9d/j6sEYJCefs4jCH2EiOVycEZ
-	Xhlpg9JUm4UmuroIiKfbGZWyx2XM=
-X-Google-Smtp-Source: AGHT+IEKvoNAgrweFJuyABwSyIPe7TOppYWXQIfrrOZg0QNzwAdMCqzxJbUjrk/R0AMWKAOMyhMgSvIGR7mJxXzzAXA=
-X-Received: by 2002:a05:651c:2c1:b0:2ef:27ab:40e6 with SMTP id
- 38308e7fff4ca-2f3f8b53bccmr12316641fa.49.1724242671670; Wed, 21 Aug 2024
- 05:17:51 -0700 (PDT)
+        bh=9/2JNiVuIGTl9fpLg116p8QTpE/1PkUXuejp+yADdu4=;
+        b=PPNHvJWlivNUQDAJTE7rrJ/nU7jGFvWmqkz/T+Ekk1T2yKcJ3kZnvrgtbAwWxOjcaq
+         QGKsDy6epDMJPqfRC8/KMOjvMOb5vDq7FI0GYOtTRbc5InqnEC8i9e75OaBwI9ERdb5q
+         PqES9AtDZW95Nsq3dHbTU0YeTSqkGed8/L/6fF3vWlzL2SCYFW/boYh7+BkszRxFWNKo
+         Svi0/u9rokomjZjPvVNcHzL7dezZ+R0k2y6ev/NLg/jPy24gkvcXp+ihy/GOYB2VhWhJ
+         +gUU6YvOCsyLd0FJOFAi/spDIW6MMFl/h63V5+c+TfWHfjTIy1s9AYGdejx8BuzyrLbU
+         brVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724244642; x=1724849442;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9/2JNiVuIGTl9fpLg116p8QTpE/1PkUXuejp+yADdu4=;
+        b=JTSONg9N22fDR9IiHJNWb9skt8wS7C0ljZgSexOymSJbqWURV5IuNZE2PyE6nTWxlQ
+         DD71BYUvhiJasfhQBYTDOdO/ZmLLvJF64NOjiZvLJ5cw+f9ZwnLjZFBQHoYB3tcMtcAZ
+         CZBJ/ohWSbA/1SQdfeR9tqbubQ+vt1dlc63y6CXhfPNopT4z3uDWRZYTxOPZkk1k9yak
+         huqqoTrsJ4aTcOOPwvYlPQzq1lQL1Cmhf4Vp8Bt54ipSCvxOygW3hDx6iz9GfkzWtPxC
+         a6ruwJcdVCLASEXYjPiPNAsJAlBAgNJlMU9osr7sZwlNtroF7ttoRjBuMHGluz/1O2aY
+         kmfg==
+X-Gm-Message-State: AOJu0YzMcNRPS/cy29puX0OAbp15748TkIqPJgtr2kzpbGKGPmRqoHss
+	7h48qD9b+qe7zJlnfSNK3Pkms+rHlRZaXLd7PIQVEurw57VmfavKiI3HdTgCW8iucJ9wcqF86Jb
+	r3Rc=
+X-Google-Smtp-Source: AGHT+IGnKbd3MK7iV1Uw4akXHXnojdEgz4YC051dF4JV1hb7FSLXi3Xc3p96HobSh3F6GNBEnuZc9w==
+X-Received: by 2002:a05:6a00:23d4:b0:705:b0c0:d7d7 with SMTP id d2e1a72fcca58-7142346032dmr2566492b3a.7.1724244641753;
+        Wed, 21 Aug 2024 05:50:41 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7142a8a481dsm691789b3a.36.2024.08.21.05.50.41
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 05:50:41 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 05/18] maintainers.inc: add self for unassigned python recipes
+Date: Wed, 21 Aug 2024 05:50:16 -0700
+Message-Id: <97c2cf74e556511b3827362f6b3439daa26091e9.1724244509.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1724244509.git.steve@sakoman.com>
+References: <cover.1724244509.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20240819182649.128659-1-niko.mauno@vaisala.com>
- <20240820191943c7d1348a@mail.local> <f236db96-06ce-438f-843d-25530ac1d16d@vaisala.com>
-In-Reply-To: <f236db96-06ce-438f-843d-25530ac1d16d@vaisala.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 21 Aug 2024 14:17:40 +0200
-Message-ID: <CANNYZj_X-TYO8vLoJBTqwmwrwD0Q2bEPi3TJL3N9hMzV-1JUhQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v5] util-linux: Add PACKAGECONFIG option to
- mitigate rootfs remount error
-To: niko.mauno@vaisala.com
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 12:18:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203587
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 12:50:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203593
 
-I guess this new API should not be enabled for -native variants?
+From: Trevor Gamblin <tgamblin@baylibre.com>
 
-Alex
+Add myself as maintainer for the following:
 
-On Wed, 21 Aug 2024 at 14:01, Niko Mauno via lists.openembedded.org
-<niko.mauno=vaisala.com@lists.openembedded.org> wrote:
->
-> On 20.8.2024 22.19, Alexandre Belloni wrote:
-> > Hello,
-> >
-> > arm64 fails to build with this patch:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/9356/steps/13/logs/stdio
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/131/builds/4727/steps/13/logs/stdio
->
->
-> Thanks, indeed it seems that on the older Debian build host, the
-> mountfd_api requirement fails for util-linux-native recipe:
->    | configure: error: libmount_mountfd_support selected, but required
-> mount FDs based API not available
->
-> Ref.
-> https://github.com/util-linux/util-linux/blob/v2.40.1/configure.ac#L1315
->
-> I.e. failure stems from the added explicit
-> --enable-libmount-mountfd-support option that extends also to -native scope
->
-> I wonder if there are any proposals?
->
-> -Niko
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203585): https://lists.openembedded.org/g/openembedded-core/message/203585
-> Mute This Topic: https://lists.openembedded.org/mt/107986659/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+- python3-setuptools
+- python3-smmap
+- python3-subunit
+- python3-testtools
+
+With that, every Python recipe in oe-core has a maintainer assigned.
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit f7c4ab54d3ff1895d9fcb9aa20dece5e0661579d)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/conf/distro/include/maintainers.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 12dfab80a8..baaf971a9a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -697,12 +697,12 @@ RECIPE_MAINTAINER:pn-python3-rpds-py = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-ruamel-yaml = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-python3-scons = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-semantic-version = "Tim Orling <tim.orling@konsulko.com>"
+-RECIPE_MAINTAINER:pn-python3-setuptools = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-python3-setuptools = "Trevor Gamblin <tgamblin@baylibre.com>"
+ RECIPE_MAINTAINER:pn-python3-setuptools-rust = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-setuptools-scm = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-six = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-python3-smartypants = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER:pn-python3-smmap = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-python3-smmap = "Trevor Gamblin <tgamblin@baylibre.com>"
+ RECIPE_MAINTAINER:pn-python3-snowballstemmer = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-sortedcontainers = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-spdx-tools = "Marta Rybczynska <mrybczynska@syslinbit.com>"
+@@ -715,8 +715,8 @@ RECIPE_MAINTAINER:pn-python3-sphinxcontrib-jquery = "Tim Orling <tim.orling@kons
+ RECIPE_MAINTAINER:pn-python3-sphinxcontrib-qthelp = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-sphinxcontrib-serializinghtml = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-sphinx-rtd-theme = "Tim Orling <tim.orling@konsulko.com>"
+-RECIPE_MAINTAINER:pn-python3-subunit = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-python3-testtools = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-python3-subunit = "Trevor Gamblin <tgamblin@baylibre.com>"
++RECIPE_MAINTAINER:pn-python3-testtools = "Trevor Gamblin <tgamblin@baylibre.com>"
+ RECIPE_MAINTAINER:pn-python3-toml = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-tomli = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-trove-classifiers = "Trevor Gamblin <tgamblin@baylibre.com>"
+-- 
+2.34.1
+
 
