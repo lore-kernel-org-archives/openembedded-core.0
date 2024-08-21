@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C436C5472D
-	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 12:50:54 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.18791.1724244647956207693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 359F8C52D6F
+	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 12:51:04 +0000 (UTC)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web11.18881.1724244654229088744
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Aug 2024 05:50:48 -0700
+ Wed, 21 Aug 2024 05:50:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tcTMCBco;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70d28023accso4878517b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:50:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BwBSSoIu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.47, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-70c9cda7f1cso2934599a34.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724244647; x=1724849447; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724244653; x=1724849453; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o/JqamKBIcLrdMFyOO9inMD98NYlz5sTVswIWzvbXmU=;
-        b=tcTMCBcoCEiAqX/+8ISje5S6OEqjLvkRZzK2hpAcHtnCcsWrMNH2BHyff5h+1cV0qY
-         J1Fw5vDcDEAiwYwGn+yUV30JytztcIiNri+YA1knIMADIYrIWd4VPaZCM9nF6lzZvd3j
-         pO0G0MR1MV81AyheC14IrOP+4v8Qa7IQu5TKeh1FdCgJWgoWL9XzDoW8EPQ3E3+b2Esj
-         168ENFF/f4GazgHo6Nd5L/YpK0uJN2XQAIv4T/FAWeHjRAlwsJJV9GXBKH9rLcAYUiOc
-         VikNBIEm69iByDjLqUGlsIl8NwbfIiMNmBNROkhJ/WrE5+gTU1xCXRqFdULAVXqhQ6JD
-         k9iw==
+        bh=fQt7QtS553QQXBjWLgJAic+zhDha9IbVo201V8/My3g=;
+        b=BwBSSoIuE4nfAXPA8XMHEJsi3zQDMX9ay4TnELuBSejFxQQsVL60zI6595RC0fvTPD
+         dfJgMdu8rzqZP6rm/1x5jTO4aCGSTqz6RFmpQoaIJFS0KFbIeJ7HVF21qQ4FghR9FJcW
+         lRODQkKv4nhfsilKOlJXAXtbOZT9P9FaJtrjBlqXrmFCSDPOvhgYF7b/+IM2A6NExSZz
+         YINAW2ACgY6BNFD4YSxb56k/q5UGl8nF0HavGjGz41Ruy7MS1wOO2Ne2XPUVweatyZAG
+         PEdoTeCGXh6sVc8WxaN76fGLZWQDdRfPIOei/OSHuuayyPq9fPBlR08hp5h93mNGVDUv
+         IwdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724244647; x=1724849447;
+        d=1e100.net; s=20230601; t=1724244653; x=1724849453;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o/JqamKBIcLrdMFyOO9inMD98NYlz5sTVswIWzvbXmU=;
-        b=Bwjho8t0bFB16GJKjG29IY2PLQygDx4uCG9/TcQLO3KmkcEIZanZ/YoEBEpVAjyiAA
-         iD+svbOl6ysdgU6prb7MOyuag9EvHhwERXRBS/pPBYv6kC586S6UBavmw+d1Bhj/BI1t
-         TEmpUGcosskjSye/j4txYkycQ9H8FP1eHRCHIxxw8WoYEc85chbUTSar1SGtYZe7DeN8
-         YXdtqvEjCAo/HuTkZV9Kd7JYXfcIMxBx9y9RW0CbjGc/RYY0Vi7Tp2pcfwOrkAl3MKxw
-         /G19FNi+vUeLF2OCYzJtlTGv1KowOTOFtafSJ8bgR1XM6NWt3mbtp9AuNiwYULHAERzu
-         LgoQ==
-X-Gm-Message-State: AOJu0Yz8MUA9k9EELJaOsvc95UvQukKPkVSRq56CjQHX9S57abzgkSRr
-	yAXL2mAv3FsJbUHwAghDEUMgV5LRJsKOXqGYPd8FAc4vnqDKsHCHX+qExL9eC0vy/rxXwEUpeSW
-	YdvA=
-X-Google-Smtp-Source: AGHT+IFJ3tSAaNaNsVuYm0C93cmY/5+epVYzpwrZxVM48ESmSabjJC7eyRSm5Zq0na0zFE/2cRRKhg==
-X-Received: by 2002:a05:6a21:9614:b0:1c3:b0b5:cbd1 with SMTP id adf61e73a8af0-1cad816342amr2575261637.38.1724244647156;
-        Wed, 21 Aug 2024 05:50:47 -0700 (PDT)
+        bh=fQt7QtS553QQXBjWLgJAic+zhDha9IbVo201V8/My3g=;
+        b=mIjtMf9rNcJ190Asf0FHM4+U6q0/vk3vprbIlIfWp8S/C07h9fadyX3mXXKzv/ZTP6
+         7+QQmfDiEmskVdkARH8Rj8HiOf7J6V4oqPmsFi/sn6RbDxhdKdP/t7c63jo4sWfsmufn
+         OYrElykdA/K0d5RrotwRf0wv/Yei+kVBzXaYodnhD7w1+CS49zpdLrnsyzyNi6DaJkTt
+         tgWRUZimqKJeMFZlRq+l+CVD3WEzRJFU6xk9KNMBYuCroiq5WYDikGkn5pdWNGTSVJJY
+         zA06kGwggoWUkKafd3DqtVIu2D1LWFyYLQHtBevE/dTS4u7DfUzRy2mmJmHIx3bo5lug
+         KSrw==
+X-Gm-Message-State: AOJu0YzSYDwr+gemDB0G7DlJPVzuTJhrn0JGKWV7M+3NSPXQIBySSTb3
+	dHtUpkeJFtag3Rj8Tm/m/qXXqYEC0TKTd4jLbpkfe2ge3/6GRspk+7e1KfweHx1Hv1TLPVJomqC
+	ceBY=
+X-Google-Smtp-Source: AGHT+IElaEy5bGrzeQF8obxI54acosIeZCSyE6tGw3hSf5lH0Z9cOZZ8I5FH8kwBYAbXry+D4uLfyQ==
+X-Received: by 2002:a05:6870:b621:b0:268:9f88:18ef with SMTP id 586e51a60fabf-2737ef28a25mr2498926fac.13.1724244653297;
+        Wed, 21 Aug 2024 05:50:53 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7142a8a481dsm691789b3a.36.2024.08.21.05.50.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7142a8a481dsm691789b3a.36.2024.08.21.05.50.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 05:50:46 -0700 (PDT)
+        Wed, 21 Aug 2024 05:50:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/18] glibc: fix fortran header file conflict for arm
-Date: Wed, 21 Aug 2024 05:50:20 -0700
-Message-Id: <58a5ddeff446bf459a719f10b07abd731c6c5634.1724244509.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 13/18] qemuboot: Trigger write_qemuboot_conf task on changes of kernel image realpath
+Date: Wed, 21 Aug 2024 05:50:24 -0700
+Message-Id: <fd21b5fa159e4c612475152e998ae85526fd60d9.1724244509.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1724244509.git.steve@sakoman.com>
 References: <cover.1724244509.git.steve@sakoman.com>
@@ -61,54 +61,45 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 12:50:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203597
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 12:51:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203601
 
-From: Kai Kang <kai.kang@windriver.com>
+From: "Weisser, Pascal.ext" <Pascal.Weisser.ext@karlstorz.com>
 
-There is a file conflict for arm when multilib enabled:
+The qemuboot.conf file contains the realpath of the kernel image
+referenced by QB_DEFAULT_KERNEL. So, it must be recreated in case the
+realpath of the referenced kernel image changes.
 
-| Error: Transaction test error:
-|   file /usr/include/finclude/math-vector-fortran.h conflicts between attempted installs of
-    lib32-libc6-dev-2.39+git0+312e159626-r0.armv7at2hf_neon and libc6-dev-2.39+git0+312e159626-r0.cortexa72
+The variables KERNEL_IMAGE_NAME and KERNEL_IMAGE_BIN_EXT determine the
+realpath of the kernel image relative to DEPLOY_DIR_IMAGE. Adding both of
+them to the vardeps of the write_qemuboot_conf task triggers the
+write_qemuboot_conf task in case the realpath of the kernel image
+referenced by QB_DEFAULT_KERNEL changes.
 
-Install math-vector-fortran.h to the gfortran default search directory
-which is arch specific to avoid the conflict.
+Fixes: [YOCTO 15525]
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit d2165543e796d4558c632af24eb7b115bca45969)
+Signed-off-by: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f8b3975a9ce36ea7af5fd76243a823da2842415b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/classes-recipe/qemuboot.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 1ef987be0a..b90ff66612 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -39,7 +39,7 @@ FILES:sln = "${base_sbindir}/sln"
- FILES:${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
- FILES:libsotruss = "${libdir}/audit/sotruss-lib.so"
- FILES_SOLIBSDEV = "${libdir}/lib*${SOLIBSDEV}"
--FILES:${PN}-dev += "${libdir}/libpthread.a ${libdir}/libdl.a ${libdir}/libutil.a ${libdir}/libanl.a ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
-+FILES:${PN}-dev += "${libdir}/libpthread.a ${libdir}/libdl.a ${libdir}/libutil.a ${libdir}/libanl.a ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal ${libdir}/gcc/${TARGET_SYS}/*/finclude"
- RDEPENDS:${PN}-dev = "linux-libc-headers-dev"
- FILES:${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
- FILES:nscd = "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_system_unitdir}/nscd* ${nonarch_libdir}/tmpfiles.d/nscd.conf \
-@@ -169,6 +169,12 @@ do_install_armmultilib () {
- 	oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h sys/ucontext.h sys/user.h
- }
+diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
+index 895fd38d68..0f80c60ab5 100644
+--- a/meta/classes-recipe/qemuboot.bbclass
++++ b/meta/classes-recipe/qemuboot.bbclass
+@@ -129,7 +129,8 @@ addtask do_write_qemuboot_conf after do_rootfs before do_image
  
-+do_install_armmultilib:append:class-target() {
-+    gcc_version=$($CC -dumpversion)
-+    mkdir -p ${D}${libdir}/gcc/${TARGET_SYS}/${gcc_version}/finclude
-+    mv ${D}${includedir}/finclude/math-vector-fortran.h ${D}${libdir}/gcc/${TARGET_SYS}/${gcc_version}/finclude/
-+    rmdir --ignore-fail-on-non-empty ${D}${includedir}/finclude
-+}
- 
- LOCALESTASH = "${WORKDIR}/stashed-locale"
- bashscripts = "mtrace sotruss xtrace"
+ def qemuboot_vars(d):
+     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
+-                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
++                'KERNEL_IMAGETYPE', 'KERNEL_IMAGE_NAME',
++                'KERNEL_IMAGE_BIN_EXT', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
+                 'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
+                 'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
+     return build_vars + [k for k in d.keys() if k.startswith('QB_')]
 -- 
 2.34.1
 
