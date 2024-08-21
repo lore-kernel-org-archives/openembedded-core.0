@@ -2,134 +2,101 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49025C5321D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF2BC52D7C
 	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 12:51:04 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web11.18888.1724244661402204209
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.18795.1724244659859698060
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Aug 2024 05:51:01 -0700
+ Wed, 21 Aug 2024 05:50:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=h8VRAYlt;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.48, mailfrom: steve@sakoman.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-270263932d5so3104059fac.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:51:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QkyY+E8/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-71423273c62so646128b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724244660; x=1724849460; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724244659; x=1724849459; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=53UViDb+qAsZ0iYek70JCpBFOlMlA0pkNmFmYEtq+2c=;
-        b=h8VRAYltVTsHrCvjOpRu7iOXtrw5Ur4NLEptE/k3X/xWmQ1sk9GweKNrb9EQMexZDV
-         EnDPlnYsgZej0/kz0sFMlRq33lmBmgsgQljCPOvoSCbZ8yXTifwdBHx0IstN4L0Gr3gP
-         e8zs1nc9P7XOoQcq12NnEc84XCmiKRqNcEtma/LF2i01/g+ReV9OnTZuwe0bGFW2sR7Q
-         gO0GZjRIic+wqofAOLRm0wjfcASl/ASj5gz4IyzexAIjTYOgi4bE7J8OY07+hphEoJgA
-         evYOrjmwUv4TwLOKsnboBo3YThlY5k3OKcxyNkKBOWvUUSifUQgYoRZGrjS1yTMZOJmg
-         +dSA==
+        bh=GcuXV5pOtzaQK9d/7/FRojEFAcxKPsGuB9i19+WRUNU=;
+        b=QkyY+E8/WtdEmsaQr6SPco0xxQUoJFgBI1UCc5fw31AV2FqqWGtCkalHCoZG1O3fnB
+         /VFjg40RfGyi+ohKI1YFnEDeyCFyr7uXnhylV2DxR8LHnFPl/oUnNfQq7/9nGbfAO9z1
+         7plbFrMXQxpDJjfpd5xR/9XvYpwZJlmlaZedoKthbuurkR8fqjS7BQhSfUh4l6TkfPmZ
+         9n1aSdMW7ukkpRb/ukPzPjklnoeWaQ+FdxG00WQ18Sp6PkujtLAfiiRqh0HjzovyiNwi
+         UDoHvEZSIrebGpOnKhkOShAJkisQFI+lJO2TZTSC6ycGcDunwvcf3hv4LCuHAmowudkv
+         BK6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724244660; x=1724849460;
+        d=1e100.net; s=20230601; t=1724244659; x=1724849459;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=53UViDb+qAsZ0iYek70JCpBFOlMlA0pkNmFmYEtq+2c=;
-        b=fnlUa4YJBEZq7wczvAlZtgVtDtXcYOn9O7gAUr19vUNq+So800gNHAW8Ey72zVHpiG
-         pogv22U5XNXjFxKJ+6s5iKgaQOG1GozcOjJZimIajcS8J0VDvZQHyQtN8SeH67ZO7H1Q
-         y3+JDjn6ZX4QYWvR7UkRnu83FrQQEz+UTSjLN1rUqKGjCFgcuKRBB2zSYKiTvSbePnCr
-         P/5ED3Hn7KGIPikoGwqVapWfnRMN+uLtvNgQmAv+qackqcVLah970AqfTsIbjoULFuu2
-         ZovHOFFCb4sLRWFDqdCdQQh84fCs1rQ/6Sg5XbAPIEhaSY+1u57hFqEwPLbMa55MQ7qF
-         DnVg==
-X-Gm-Message-State: AOJu0YxPoEleyBXl+89IvH70WKa3QEa52UpPoWp5+DmJL8BCyvzNotu7
-	7uGX04spSoxlyFqRkIENZUwQ4ulEDca+g4PGFEoQRkHBCKxu0iE8vUpr8QL3IlUhfIyKALyHmht
-	RkCk=
-X-Google-Smtp-Source: AGHT+IGpS+xecuZFfC5qFR8rxFboSEKi2ZlLTq8bqwl9mRdUxI3xDYuiwn2pYHkQ0NOSd1a7IF3OPA==
-X-Received: by 2002:a05:6870:b52c:b0:260:fb11:3e49 with SMTP id 586e51a60fabf-2738becd823mr2016634fac.45.1724244660479;
-        Wed, 21 Aug 2024 05:51:00 -0700 (PDT)
+        bh=GcuXV5pOtzaQK9d/7/FRojEFAcxKPsGuB9i19+WRUNU=;
+        b=bHl/Sdz1l94DJjMB06kZHQJJDHeEaCUMyZIpZX1qWcDHSbVdvzVk2tf5d4zBYLN43C
+         byaPmmshOGAQ1zlMrTROHXvGJa+sgAnaFYfgtTZqLzGQrVWWJmYW8zd5b8YieluBwHjk
+         XdU/DytLyUiK6X5ycIFE4WM8cnCNV2qKtutb856bNaslAT12KeuP4Hn+zwLn5o4TVmPA
+         91UgYJsJ5Oy/3eKh+rAQkkFpgpqfloJXvN9DJqNXjbX5DHl0KZ/SIOHiz9Jnv+ShdPgX
+         VDQNXsGD8Jhpm6/v2HOOYLMg6696HHzBNI0q1l1ZDyO8E6Gzlf/tueor4WE/mg0kGMh8
+         vL0A==
+X-Gm-Message-State: AOJu0YyOXXjDRtV1H0aASnEwUTJufA95kw9CLb5F5yU0QLPramWtumXK
+	pCsMhgYwJ8XML17IzQD3s6g8kZiQSlRyfHZuOKRJLk2XfST3QLO8aAyy60PFDQ5xfxVQKQeAn3c
+	IgD4=
+X-Google-Smtp-Source: AGHT+IGawdH5K49yOEpVKnOKYGL012Z0TVL6lQo04cR4n4RLgb/RoTw5CheNdQB5RdQTs9qR3qzQPg==
+X-Received: by 2002:a05:6a21:6282:b0:1c8:bfa8:d552 with SMTP id adf61e73a8af0-1cad80f00bcmr3014037637.9.1724244659057;
+        Wed, 21 Aug 2024 05:50:59 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7142a8a481dsm691789b3a.36.2024.08.21.05.50.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7142a8a481dsm691789b3a.36.2024.08.21.05.50.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 05:51:00 -0700 (PDT)
+        Wed, 21 Aug 2024 05:50:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/18] oeqa/utils/postactions: transfer whole archive over ssh instead of doing individual copies
-Date: Wed, 21 Aug 2024 05:50:29 -0700
-Message-Id: <8b5c66c91d94f4c8521fe9443e65d86063dba5e5.1724244509.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 17/18] oeqa/selftest/reproducibile: Explicitly list virtual targets
+Date: Wed, 21 Aug 2024 05:50:28 -0700
+Message-Id: <9f0eba6aba5e9b37975f86556c1234b145a0859e.1724244509.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1724244509.git.steve@sakoman.com>
 References: <cover.1724244509.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 12:51:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203606
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203605
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Fixes [YOCTO 15536]
+We're seeing reproducibility failures where some packages don't appear
+in the "from sstate" builds. The common factor is these are all recipes
+with PROVIDES = "virtual/XXX".
 
-The postactions retrieval actions currently rely on scp executed
-individually on any file or directory expanded from
-TESTIMAGE_FAILED_QA_ARTIFACTS. Unfortunately, symlinks are not preserved
-with this mechanism, which lead to big storage space consumption. Things
-may go even worse if those symlinks create some circular chains. This
-mechanism then needs to be updated to preserve symlinks instead of
-following them during copy. There are multiple ways to do it:
-- create a local archive on the target and execute scp on this file
-- use rsync instead of scp for all files
-- create an archive and pipe it to ssh instead of storing it onto the
-  target
+In a full build from scratch, these are build but in a build from sstate,
+there are situations where they aren't. For now, to try and keep builds
+working, work around the problem until we can better look into the problem.
+It is likely recent taskhash imrovements have caused this to occur more
+regularly.
 
-The first solution may create pressure on targets storage space, while the
-second assumes that rsync is installed on the target, which may not be
-true. So the third one is a compromise: tar is very likely present, at
-least through busybox, and no disk space is used on the target.
-
-Replace the current per-file scp call by a single call to tar run on the
-target. Retrieve the generated compressed archive directly from SSH output,
-and feed it to another tar process but on host, to uncompress and extract
-it at the same place as before.
-
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4aeb10aa38efc6768928fbb74985e36e972b8e46)
+(cherry picked from commit 68086a333acc54390e4e589ef928dc90da3edb48)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/postactions.py | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/postactions.py b/meta/lib/oeqa/utils/postactions.py
-index ecdddd2d40..2a08129d6c 100644
---- a/meta/lib/oeqa/utils/postactions.py
-+++ b/meta/lib/oeqa/utils/postactions.py
-@@ -62,17 +62,16 @@ def get_artifacts_list(target, raw_list):
-     return result
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 80e830136f..021e894012 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -133,7 +133,8 @@ class ReproducibleTests(OESelftestTestCase):
+     max_report_size = 250 * 1024 * 1024
  
- def retrieve_test_artifacts(target, artifacts_list, target_dir):
-+    import io, subprocess
-     local_artifacts_dir = os.path.join(target_dir, "artifacts")
--    for artifact_path in artifacts_list:
--        if not os.path.isabs(artifact_path):
--            bb.warn(f"{artifact_path} is not an absolute path")
--            continue
--        try:
--            dest_dir = os.path.join(local_artifacts_dir, os.path.dirname(artifact_path[1:]))
--            os.makedirs(dest_dir, exist_ok=True)
--            target.copyFrom(artifact_path, dest_dir)
--        except Exception as e:
--            bb.warn(f"Can not retrieve {artifact_path} from test target: {e}")
-+    try:
-+        cmd = "tar zcf - " + " ".join(artifacts_list)
-+        (status, output) = target.run(cmd, raw = True)
-+        if status != 0 or not output:
-+            raise Exception("Error while fetching compressed artifacts")
-+        p = subprocess.run(["tar", "zxf", "-", "-C", local_artifacts_dir], input=output)
-+    except Exception as e:
-+        bb.warn(f"Can not retrieve {artifact_path} from test target: {e}")
+     # targets are the things we want to test the reproducibility of
+-    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world']
++    # Have to add the virtual targets manually for now as builds may or may not include them as they're exclude from world
++    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world', 'virtual/librpc', 'virtual/libsdl2', 'virtual/crypt']
  
- def list_and_fetch_failed_tests_artifacts(d, tc):
-     artifacts_list = get_artifacts_list(tc.target, d.getVar("TESTIMAGE_FAILED_QA_ARTIFACTS"))
+     # sstate targets are things to pull from sstate to potentially cut build/debugging time
+     sstate_targets = []
 -- 
 2.34.1
 
