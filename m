@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF2BC52D7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81DA4C54722
 	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 12:51:04 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.18795.1724244659859698060
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.18885.1724244658244950205
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Aug 2024 05:50:59 -0700
+ Wed, 21 Aug 2024 05:50:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QkyY+E8/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-71423273c62so646128b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:50:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YnDXdrXh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7cd8131c7f9so933087a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 05:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724244659; x=1724849459; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724244657; x=1724849457; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GcuXV5pOtzaQK9d/7/FRojEFAcxKPsGuB9i19+WRUNU=;
-        b=QkyY+E8/WtdEmsaQr6SPco0xxQUoJFgBI1UCc5fw31AV2FqqWGtCkalHCoZG1O3fnB
-         /VFjg40RfGyi+ohKI1YFnEDeyCFyr7uXnhylV2DxR8LHnFPl/oUnNfQq7/9nGbfAO9z1
-         7plbFrMXQxpDJjfpd5xR/9XvYpwZJlmlaZedoKthbuurkR8fqjS7BQhSfUh4l6TkfPmZ
-         9n1aSdMW7ukkpRb/ukPzPjklnoeWaQ+FdxG00WQ18Sp6PkujtLAfiiRqh0HjzovyiNwi
-         UDoHvEZSIrebGpOnKhkOShAJkisQFI+lJO2TZTSC6ycGcDunwvcf3hv4LCuHAmowudkv
-         BK6A==
+        bh=jRvEO6Ohaax2CHAdkoREjF7Q2aJAiV2c4RExO2URKIA=;
+        b=YnDXdrXhtjcpN11pzyarFWDys/dYh3FESbDHk3ch44EUNKFRT1QWSbq4ZWBE0pBqEm
+         dKq0o9hwCZIrxsMBotQOln+TNrKc2PzWxwWxJET0S2zl6V/tlUcVnZIQVFLHae+D4ut6
+         gLDsBGBPc6wqgtRzePlEHQN+qgO8Xa/n9Q6SMlQ6tHyqE+d3LHOuKYFhqstCz9Njuv2U
+         Sgdj8DuskbgKQHVPmmB+jPJ3QbbBYxzp06RWGxwye3JJ4A8VUsHsKzMeXWkHpfvUml0g
+         VXnl5lKe3Rtj1oflwaxltEqK+r+x2ltZidAGQ8xdgmypEE4a732DmTl7SUlUA9Zxaw7B
+         RayA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724244659; x=1724849459;
+        d=1e100.net; s=20230601; t=1724244657; x=1724849457;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GcuXV5pOtzaQK9d/7/FRojEFAcxKPsGuB9i19+WRUNU=;
-        b=bHl/Sdz1l94DJjMB06kZHQJJDHeEaCUMyZIpZX1qWcDHSbVdvzVk2tf5d4zBYLN43C
-         byaPmmshOGAQ1zlMrTROHXvGJa+sgAnaFYfgtTZqLzGQrVWWJmYW8zd5b8YieluBwHjk
-         XdU/DytLyUiK6X5ycIFE4WM8cnCNV2qKtutb856bNaslAT12KeuP4Hn+zwLn5o4TVmPA
-         91UgYJsJ5Oy/3eKh+rAQkkFpgpqfloJXvN9DJqNXjbX5DHl0KZ/SIOHiz9Jnv+ShdPgX
-         VDQNXsGD8Jhpm6/v2HOOYLMg6696HHzBNI0q1l1ZDyO8E6Gzlf/tueor4WE/mg0kGMh8
-         vL0A==
-X-Gm-Message-State: AOJu0YyOXXjDRtV1H0aASnEwUTJufA95kw9CLb5F5yU0QLPramWtumXK
-	pCsMhgYwJ8XML17IzQD3s6g8kZiQSlRyfHZuOKRJLk2XfST3QLO8aAyy60PFDQ5xfxVQKQeAn3c
-	IgD4=
-X-Google-Smtp-Source: AGHT+IGawdH5K49yOEpVKnOKYGL012Z0TVL6lQo04cR4n4RLgb/RoTw5CheNdQB5RdQTs9qR3qzQPg==
-X-Received: by 2002:a05:6a21:6282:b0:1c8:bfa8:d552 with SMTP id adf61e73a8af0-1cad80f00bcmr3014037637.9.1724244659057;
-        Wed, 21 Aug 2024 05:50:59 -0700 (PDT)
+        bh=jRvEO6Ohaax2CHAdkoREjF7Q2aJAiV2c4RExO2URKIA=;
+        b=WUy1BI7KjYvRN6isizHAt44z7auWZxoXD+3xdF02iYASYDllWgi1/jxc70yMaQojHu
+         +UW5Z3Lifk6uP07hGcb0fEX/n3HDi1Ab9iZA329Z7FYYHtuVAGIz7NM0U0C2+a7a9JuX
+         rNzdDRvUBobEkMN3pkqvkxo6gQbu8yxJ9jlQjgXyL2yb9kn8g61RA0nf2ynnHMx+06Wh
+         gmxx+B86WERyjtaIuQ5JFs/A8SmIZVzkt8ZGB5IHK02OMLM8cLwxZRnnapZK+logaHst
+         WtmrBHPJweMf09Dw6yRGJs63kbbJq5fG6y/HlW5lPce3pEI6hse8GAGn1FCozd0SOyQ+
+         rKQA==
+X-Gm-Message-State: AOJu0YwTOTw/mYYX6sGOLosl21nqh7A5f3P6RH9vgnweYwMK8pVhaI0w
+	ES1JhaswgVmGHUmK9CVGOvm0m6e9Vuv+b6eyOHaAvHP2hk7yZ5DyK7GMUo21/eAKYrJTUr/nrK4
+	aQGA=
+X-Google-Smtp-Source: AGHT+IGlUXGuxsltnFVXlalvhMiA+ghPg3DlQsoexcRIfAcfTR5rk0SaO7muBxZPEfB8w1PAImpGCg==
+X-Received: by 2002:a05:6a21:6282:b0:1c4:8293:76db with SMTP id adf61e73a8af0-1cad80f3f35mr2630569637.29.1724244657400;
+        Wed, 21 Aug 2024 05:50:57 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7142a8a481dsm691789b3a.36.2024.08.21.05.50.58
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7142a8a481dsm691789b3a.36.2024.08.21.05.50.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 05:50:58 -0700 (PDT)
+        Wed, 21 Aug 2024 05:50:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/18] oeqa/selftest/reproducibile: Explicitly list virtual targets
-Date: Wed, 21 Aug 2024 05:50:28 -0700
-Message-Id: <9f0eba6aba5e9b37975f86556c1234b145a0859e.1724244509.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 16/18] oeqa/runtime/ssh: check for all errors at the end
+Date: Wed, 21 Aug 2024 05:50:27 -0700
+Message-Id: <52a67132d4d7e656a39d87c03b1c6162018e8908.1724244509.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1724244509.git.steve@sakoman.com>
 References: <cover.1724244509.git.steve@sakoman.com>
@@ -62,41 +62,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 12:51:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203605
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203604
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Jon Mason <jdmason@kudzu.us>
 
-We're seeing reproducibility failures where some packages don't appear
-in the "from sstate" builds. The common factor is these are all recipes
-with PROVIDES = "virtual/XXX".
+With the retry for the -SIGTERM, it is possible to still see that error
+after the 5th attempt and mark the run a success.  Check for any
+non-zero status in the final check and error out to close the gap.
+While there, make the error print match the one above and be a little
+more verbose.  Also, I'm seeing it take roughly 6 attempts on my local
+(very slow) system to pass.  So, increasing the number of attempts to
+10.
 
-In a full build from scratch, these are build but in a build from sstate,
-there are situations where they aren't. For now, to try and keep builds
-working, work around the problem until we can better look into the problem.
-It is likely recent taskhash imrovements have caused this to occur more
-regularly.
-
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 68086a333acc54390e4e589ef928dc90da3edb48)
+(cherry picked from commit 3c3ebe591eef6e0479d623ec2237cfea16db5c80)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/ssh.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 80e830136f..021e894012 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -133,7 +133,8 @@ class ReproducibleTests(OESelftestTestCase):
-     max_report_size = 250 * 1024 * 1024
- 
-     # targets are the things we want to test the reproducibility of
--    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world']
-+    # Have to add the virtual targets manually for now as builds may or may not include them as they're exclude from world
-+    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world', 'virtual/librpc', 'virtual/libsdl2', 'virtual/crypt']
- 
-     # sstate targets are things to pull from sstate to potentially cut build/debugging time
-     sstate_targets = []
+diff --git a/meta/lib/oeqa/runtime/cases/ssh.py b/meta/lib/oeqa/runtime/cases/ssh.py
+index 9a8deb3f25..08430ae9db 100644
+--- a/meta/lib/oeqa/runtime/cases/ssh.py
++++ b/meta/lib/oeqa/runtime/cases/ssh.py
+@@ -16,7 +16,7 @@ class SSHTest(OERuntimeTestCase):
+     @OETestDepends(['ping.PingTest.test_ping'])
+     @OEHasPackage(['dropbear', 'openssh-sshd'])
+     def test_ssh(self):
+-        for i in range(5):
++        for i in range(10):
+           status, output = self.target.run("uname -a", timeout=5)
+           if status == 0:
+               break
+@@ -33,5 +33,5 @@ class SSHTest(OERuntimeTestCase):
+               continue
+           else:
+               self.fail("uname failed with \"%s\" (exit code %s)" % (output, status))
+-        if status == 255:
+-            self.fail("ssh error %s" %output)
++        if status != 0:
++            self.fail("ssh failed with \"%s\" (exit code %s)" % (output, status))
 -- 
 2.34.1
 
