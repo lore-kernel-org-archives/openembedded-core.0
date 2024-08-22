@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A45C54734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2706FC5472F
 	for <webhook@archiver.kernel.org>; Thu, 22 Aug 2024 09:35:41 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.9389.1724319333707516699
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.9504.1724319332980998257
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Aug 2024 02:35:34 -0700
+ Thu, 22 Aug 2024 02:35:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hYB/5GVF;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a83856c6f51so56741166b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 02:35:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QjLZKg/C;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2f040733086so4601151fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 02:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724319332; x=1724924132; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1724319331; x=1724924131; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VllB8xsfG/o3RFTjTIwOL3wjTRoIrciLdsNxPoy5a7w=;
-        b=hYB/5GVFNZefzENsxQcrbSo1ysYlKsIYTvig1BlTHczGjP+cPtMwGtXxLPBMt3ynQp
-         Ijoj5bZTMVaL8mpXKfsTiDljx53UKyGeMbWQKA6konN/0012CUOWdKYp8NFRk8OS/BPy
-         ZB7+O+y4tPk3o5BnVqEg+CYXdsOHt46OKwHE/m1I2JLe3MNWU1ykPECXutSMp/Z0pBwq
-         JqQ/oj03r81/sEz0kxci3oyim80ohxw76aFBbRRUPi7oAMcCMF6uKD7mDXuwM7Ht5yVL
-         E2MsIc9uFWsek2Re4/hepBgKmy0WjTKeCwPVAXqlozOge/dauBWAWReNMlRN9N0AajMp
-         MWNw==
+        bh=L+ZoOxuiaWK3cXyzMuR0mOFwedfhc797aOkhNLdIyVo=;
+        b=QjLZKg/CuTRYgKqCH+7okcf15ZCdmRdbpDBSttNWURO5juP4HKwZ/TZPqc4o4aAOZG
+         /f5/nQT9ykNCwNU/PsfODNvcrX0P/nzuijJ16jRuSp3Oinzc7dIHfdv/DysMDeufWpAS
+         7+Z9OCqnSoE/QXIAEH4BgC9EUabMxlDiU4k0K/gJDEyZYx3YaSkpCMLVlDUgPA9oa3HM
+         z+Jn0IeNYBVsgZcsWm3xExPgNF/2AJbOCNOHtOnR5NcyseFn3CW2Hz//4EryI6RRaByw
+         1cHBULEUJEgfM8rKik/TnC0DfkNIrJNjX4rciX73q+bn9bYR+mcRSyOb9YJujpeGIL7/
+         +zLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724319332; x=1724924132;
+        d=1e100.net; s=20230601; t=1724319331; x=1724924131;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VllB8xsfG/o3RFTjTIwOL3wjTRoIrciLdsNxPoy5a7w=;
-        b=tXgB/rCXGBN34ZX82ma7ojp9R3PMUuNHJGOGpE0E3bjUV65Qyfs2hLKf7S21F0JaRJ
-         JJLQ9ijui3zRfKygVWGiYzTC2EyNA1lgbZSE7DyCr+dIddSKOB7MEnZoTquFuk9jms7h
-         kRw2p8BZpBRu5yYLp37ir1Ecf9e6QTl6pAizTPyysde6y/6++zQ9lt2bgbTC+ZHX8dmR
-         drqqvleCYiVLxGTldoNxxGs4Ke1zsijtCG0jbq3ZGQpUu5706Wg6y6Vgcc3pQ0RRgUEg
-         zinReHrTBWuRL6ImJbRHPvaWtHIZiMfgL03e+MwuTuUibH2tZqSXoIbzY+tSkLZi7Efs
-         spPQ==
-X-Gm-Message-State: AOJu0Yz3A84cd6WkuIt5tRJGH9ynSVlv0dAovfRp1JOUmCnk+KMDrq/f
-	Aw93MkH8ve/v7k+EWylwqY3cQZ26Y9i4MS8OKz+chaBkFWwdRnol80h7BQ==
-X-Google-Smtp-Source: AGHT+IHzsjN0PK1SfU2e3pH7U9VVMI/LyNL4uvbO8dudeMhJ2oR3XswZQFa8AghQ00SSfZEGQvnDrg==
-X-Received: by 2002:a05:6402:1ecb:b0:5be:f0dd:d501 with SMTP id 4fb4d7f45d1cf-5c07929520dmr1524488a12.27.1724319331487;
-        Thu, 22 Aug 2024 02:35:31 -0700 (PDT)
+        bh=L+ZoOxuiaWK3cXyzMuR0mOFwedfhc797aOkhNLdIyVo=;
+        b=vc+4pkZWOpzoUtYLnWmsXtFRjhEqBpIjSbZcvETDbQOHbV0N1GekfzmrTzld+MQTlh
+         /fthwVF/wSsLZbVbqPIAm43MUsAp9uiCrLhbIxMWupXhBj0n+duDALvEaZ2Wtga9OzV2
+         ZKYOh+RXgpwV/hEG/wxH5kr56ZFHBSafPt7fN1ValbRlnKLcdfFOBqrSxcAQpeKvCxve
+         FWpPS6UJoMVkFuNgpartRKPlRbcsI+l1Od7hY7V4t7N4wmZGv7ZIs+dTApMvwY1U8I36
+         2GRRWI6TC4y6kNFcruQBykQk/W/gYfSXNhMBViMiHDdlzYRcXz/gzvvYOIysezmSuGI1
+         xExw==
+X-Gm-Message-State: AOJu0Ywdo8IvavjvSzpNi+vD7u54oDDV+3MtVDIvDw6DbgL92aTY52/4
+	8aTSAZKq2etSsZliEqPPqDApeaSLo6hz2FnMIi59K9RMIHW5tuxVTTiEjg==
+X-Google-Smtp-Source: AGHT+IEDlDWKcLkJrYc69x/eJYWL8E7Dm2BPrV/zbHe8Z0WHJudEIREPu9veaV8d2UIojFhfPo14dw==
+X-Received: by 2002:a05:651c:553:b0:2ef:2b05:2ab3 with SMTP id 38308e7fff4ca-2f405c7c243mr8305041fa.10.1724319330325;
+        Thu, 22 Aug 2024 02:35:30 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c044ddbce5sm698502a12.4.2024.08.22.02.35.31
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c044ddbce5sm698502a12.4.2024.08.22.02.35.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 02:35:31 -0700 (PDT)
+        Thu, 22 Aug 2024 02:35:29 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 10/32] gstreamer1.0: upgrade 1.24.5 -> 1.24.6
-Date: Thu, 22 Aug 2024 11:34:59 +0200
-Message-Id: <20240822093521.36790-10-alex.kanavin@gmail.com>
+Subject: [PATCH 08/32] e2fsprogs: upgrade 1.47.0 -> 1.47.1
+Date: Thu, 22 Aug 2024 11:34:57 +0200
+Message-Id: <20240822093521.36790-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240822093521.36790-1-alex.kanavin@gmail.com>
 References: <20240822093521.36790-1-alex.kanavin@gmail.com>
@@ -61,351 +61,1405 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 09:35:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203625
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203624
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-connect-has-a-different-signature-on-musl.patch      | 2 +-
- .../{gst-devtools_1.24.5.bb => gst-devtools_1.24.6.bb}        | 2 +-
- ...reamer1.0-libav_1.24.5.bb => gstreamer1.0-libav_1.24.6.bb} | 2 +-
- ...fix-maybe-uninitialized-warnings-when-compiling-with.patch | 2 +-
- .../0002-avoid-including-sys-poll.h-directly.patch            | 2 +-
- ...opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch | 2 +-
- ...ugins-bad_1.24.5.bb => gstreamer1.0-plugins-bad_1.24.6.bb} | 2 +-
- ...1-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 2 +-
- .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch        | 2 +-
- .../0003-viv-fb-Make-sure-config.h-is-included.patch          | 2 +-
- ...ins-base_1.24.5.bb => gstreamer1.0-plugins-base_1.24.6.bb} | 2 +-
- ...ins-good_1.24.5.bb => gstreamer1.0-plugins-good_1.24.6.bb} | 2 +-
- ...ins-ugly_1.24.5.bb => gstreamer1.0-plugins-ugly_1.24.6.bb} | 2 +-
- ...amer1.0-python_1.24.5.bb => gstreamer1.0-python_1.24.6.bb} | 2 +-
- ...sp-server_1.24.5.bb => gstreamer1.0-rtsp-server_1.24.6.bb} | 2 +-
- ...reamer1.0-vaapi_1.24.5.bb => gstreamer1.0-vaapi_1.24.6.bb} | 2 +-
- .../0001-tests-respect-the-idententaion-used-in-meson.patch   | 4 ++--
- .../0002-tests-add-support-for-install-the-tests.patch        | 4 ++--
- .../0003-tests-use-a-dictionaries-for-environment.patch       | 4 ++--
- ...4-tests-add-helper-script-to-run-the-installed_tests.patch | 4 ++--
- .../{gstreamer1.0_1.24.5.bb => gstreamer1.0_1.24.6.bb}        | 2 +-
- 21 files changed, 25 insertions(+), 25 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.5.bb => gst-devtools_1.24.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.24.5.bb => gstreamer1.0-libav_1.24.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.24.5.bb => gstreamer1.0-plugins-bad_1.24.6.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.24.5.bb => gstreamer1.0-plugins-base_1.24.6.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.24.5.bb => gstreamer1.0-plugins-good_1.24.6.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.24.5.bb => gstreamer1.0-plugins-ugly_1.24.6.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.5.bb => gstreamer1.0-python_1.24.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.24.5.bb => gstreamer1.0-rtsp-server_1.24.6.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.24.5.bb => gstreamer1.0-vaapi_1.24.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.24.5.bb => gstreamer1.0_1.24.6.bb} (97%)
+ ...-missing-check-for-permission-denied.patch |    3 +-
+ .../e2fsprogs/e2fsprogs/mkdir_p.patch         |    7 +-
+ .../e2fsprogs/e2fsprogs/ptest.patch           |    8 +-
+ .../e2fsprogs/e2fsprogs/quiet-debugfs.patch   |    7 +-
+ .../e2fsprogs/remove.ldconfig.call.patch      |   15 +-
+ ...2fsprogs_1.47.0.bb => e2fsprogs_1.47.1.bb} |    2 +-
+ ...2_fs.h-do-not-carry-an-outdated-copy.patch | 1197 +++++++++++++++++
+ .../syslinux/syslinux_6.04-pre2.bb            |    3 +-
+ 8 files changed, 1217 insertions(+), 25 deletions(-)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.0.bb => e2fsprogs_1.47.1.bb} (99%)
+ create mode 100644 meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-index 8520567f177..f2bb664140f 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
+index b038e61eb71..4cd10985976 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
 @@ -1,4 +1,4 @@
--From c20894a5e6f52aa9fe3437e733a228b1a0eb6428 Mon Sep 17 00:00:00 2001
-+From d0e3b04007d60755cf1c092c1cac29e832290b86 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 9 Sep 2018 17:38:10 -0700
- Subject: [PATCH] connect has a different signature on musl
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-index d4a81b69a17..1b448f7c558 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
+-From 5bc75654690a2d916190168b865770a7c93e65dd Mon Sep 17 00:00:00 2001
++From 1c7078fda6d23f1d80b0d95ac3e908364749e188 Mon Sep 17 00:00:00 2001
+ From: Jackie Huang <jackie.huang@windriver.com>
+ Date: Wed, 10 Aug 2016 11:19:44 +0800
+ Subject: [PATCH] Fix missing check for permission denied.
+@@ -13,7 +13,6 @@ Upstream-Status: Pending
+ Written-by: Henrik Wallin <henrik.b.wallin@ericsson.com>
+ 
+ Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+-
+ ---
+  lib/support/profile.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
+index f6916a11120..2dbeba1095f 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
+@@ -1,4 +1,4 @@
+-From e3a30baa5c1e2f0ac7e246539db1c7db5a2fe302 Mon Sep 17 00:00:00 2001
++From e143a900199c5bb10b28f3fc8f4d36bbb6ffdd5f Mon Sep 17 00:00:00 2001
+ From: Joe Slater <jslater@windriver.com>
+ Date: Tue, 7 Mar 2017 14:53:19 -0800
+ Subject: [PATCH] e2fsprogs: expand @mkdir_p@
+@@ -9,16 +9,15 @@ not expanded so no locale data is written into usr/share/locale.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Joe Slater <jslater@windriver.com>
+-
+ ---
+  configure.ac | 2 ++
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 4c4b5523..3475c707 100644
++index 131caef3..ca448d97 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -919,6 +919,8 @@ AC_SUBST(PACKAGE)
++@@ -938,6 +938,8 @@ AC_SUBST(PACKAGE)
+  AC_SUBST(VERSION)
+  
+  AM_GNU_GETTEXT([external])
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+index 20839b72863..f4e1057a364 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+@@ -1,4 +1,4 @@
+-From b8842065ad621a03a971dfd50db862c5bffdeb49 Mon Sep 17 00:00:00 2001
++From 25db5ac7469cedd043a04bcf49ce7553979fbb32 Mon Sep 17 00:00:00 2001
+ From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+ Date: Sat, 18 Apr 2015 17:58:17 +0300
+ Subject: [PATCH] e2fsprogs: add ptest
+@@ -14,10 +14,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  2 files changed, 18 insertions(+), 18 deletions(-)
+ 
+ diff --git a/tests/Makefile.in b/tests/Makefile.in
+-index 8c4d2048..e021af32 100644
++index ba06b3b6..5a3e48f4 100644
+ --- a/tests/Makefile.in
+ +++ b/tests/Makefile.in
+-@@ -19,7 +19,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
++@@ -20,7 +20,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf test_data.tmp
+  	@echo "#!/bin/sh" > test_one
+  	@echo "HTREE=y" >> test_one
+  	@echo "QUOTA=y" >> test_one
+@@ -26,7 +26,7 @@ index 8c4d2048..e021af32 100644
+  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
+  	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
+  	@echo "DD=@DD@" >>test_one
+-@@ -30,7 +30,7 @@ test_script: test_one test_script.in Makefile mke2fs.conf
++@@ -31,7 +31,7 @@ test_script: test_one test_script.in Makefile mke2fs.conf test_data.tmp
+  	@echo "Creating test_script..."
+  	@[ -f test_script ] && chmod u+w test_script || true
+  	@echo "#!/bin/sh" > test_script
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
+index 0a6904208d9..4ba150e27d7 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
+@@ -1,4 +1,4 @@
+-From 580ef6cae2d353f3aa5d5c52d6614bdc1df50f08 Mon Sep 17 00:00:00 2001
++From b66c973e004e0c458ef275b41ac2d8d9ff33d29f Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Mon, 23 Dec 2013 13:38:34 +0000
+ Subject: [PATCH] e2fsprogs: silence debugfs
+@@ -8,16 +8,15 @@ filesystems at rootfs time.
+ 
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+ ---
+  debugfs/debugfs.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
+-index 9b6321dc..8ebf3ddb 100644
++index 909c1df3..0842369e 100644
+ --- a/debugfs/debugfs.c
+ +++ b/debugfs/debugfs.c
+-@@ -2516,7 +2516,7 @@ static int source_file(const char *cmd_file, int ss_idx)
++@@ -2529,7 +2529,7 @@ static int source_file(const char *cmd_file, int ss_idx)
+  		cp = strchr(buf, '\r');
+  		if (cp)
+  			*cp = 0;
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
+index f3e6eb778ff..307088d42b4 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patch
+@@ -1,10 +1,10 @@
+-From b139e03ac2f72e644e547c7ee9b1514383af4d97 Mon Sep 17 00:00:00 2001
++From 972086935d6c7f6e603004fd7f94bd13a65f470c Mon Sep 17 00:00:00 2001
+ From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+ Date: Wed, 30 Jan 2013 15:22:04 +0200
+ Subject: [PATCH] When /etc/ld.so.cache is writeable by user running bitbake
+- then it creates invalid cache (in my case libstdc++.so
+- cannot be found after building zlib(-native) and I have to
+- call touch */libstdc++.so && /sbin/ldconfig to fix it.
++ then it creates invalid cache (in my case libstdc++.so cannot be found after
++ building zlib(-native) and I have to call touch */libstdc++.so &&
++ /sbin/ldconfig to fix it.
+ 
+ So remove ldconfig call from make install-libs
+ 
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate [disable feature]
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+ Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+ ---
+- lib/Makefile.elf-lib |    3 ---
++ lib/Makefile.elf-lib | 3 ---
+  1 file changed, 3 deletions(-)
+ 
+ diff --git a/lib/Makefile.elf-lib b/lib/Makefile.elf-lib
+-index 78479d3..4a4a5ac 100644
++index f850f3dd..cc1e6a70 100644
+ --- a/lib/Makefile.elf-lib
+ +++ b/lib/Makefile.elf-lib
+ @@ -50,8 +50,6 @@ install-shlibs install:: $(ELF_LIB) installdirs-elf-lib $(DEP_INSTALL_SYMLINK)
+@@ -39,6 +39,3 @@ index 78479d3..4a4a5ac 100644
+  
+  clean::
+  	$(RM) -rf elfshared
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+similarity index 99%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+index 940b47c155d..bd6ac92cb14 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+@@ -10,7 +10,7 @@ SRC_URI:append:class-native = " \
+            file://quiet-debugfs.patch \
             "
  
--SRC_URI[sha256sum] = "a96675898129a480d05bbf91071ec4e40154dcad6d62f3944154a6cb326045a4"
-+SRC_URI[sha256sum] = "8beb9e98ed136c29f4ec10396dd6c8708a5645cdacda90af1b7196057de17672"
+-SRCREV = "f4c9cc4bedacde8408edda3520a32d3842290112"
++SRCREV = "b571b9b4240739a982e8bca62cfc914a3b50190a"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-index 24c6c792c5f..7a72f9120e8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
+ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+diff --git a/meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch b/meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch
+new file mode 100644
+index 00000000000..299423b5a30
+--- /dev/null
++++ b/meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch
+@@ -0,0 +1,1197 @@
++From daf017bc98276fecce1893c7e4db70cbd8c8f7a0 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Fri, 16 Aug 2024 16:59:21 +0200
++Subject: [PATCH] ext2_fs.h: do not carry an outdated copy
++
++This copy is no longer compatible with latest e2fsprogs
++(which installs a correct version).
++
++Upstream-Status: Inactive-Upstream
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ core/fs/ext2/ext2_fs.h        | 312 -------------
++ libinstaller/ext2fs/ext2_fs.h | 856 ----------------------------------
++ 2 files changed, 1168 deletions(-)
++ delete mode 100644 core/fs/ext2/ext2_fs.h
++ delete mode 100644 libinstaller/ext2fs/ext2_fs.h
++
++diff --git a/core/fs/ext2/ext2_fs.h b/core/fs/ext2/ext2_fs.h
++deleted file mode 100644
++index d8d07eb..0000000
++--- a/core/fs/ext2/ext2_fs.h
+++++ /dev/null
++@@ -1,312 +0,0 @@
++-#ifndef __EXT2_FS_H
++-#define __EXT2_FS_H
++-
++-#include <stdint.h>
++-
++-#define	EXT2_SUPER_MAGIC	0xEF53
++-
++-#define EXT2_GOOD_OLD_REV       0       // The good old (original) format
++-#define EXT2_DYNAMIC_REV        1       // V2 format w/ dynamic inode sizes
++-#define EXT2_GOOD_OLD_INODE_SIZE 128
++-
++-// Special inode numbers
++-#define	EXT2_BAD_INO		 1	// Bad blocks inode
++-#define EXT2_ROOT_INO		 2	// Root inode
++-#define EXT2_BOOT_LOADER_INO	 5	// Boot loader inode
++-#define EXT2_UNDEL_DIR_INO	 6	// Undelete directory inode
++-#define EXT3_RESIZE_INO		 7	// Reserved group descriptors inode
++-#define EXT3_JOURNAL_INO	 8	// Journal inode
++-
++-// We're readonly, so we only care about incompat features.
++-#define EXT2_FEATURE_INCOMPAT_COMPRESSION	0x0001
++-#define EXT2_FEATURE_INCOMPAT_FILETYPE		0x0002
++-#define EXT3_FEATURE_INCOMPAT_RECOVER		0x0004
++-#define EXT3_FEATURE_INCOMPAT_JOURNAL_DEV	0x0008
++-#define EXT2_FEATURE_INCOMPAT_META_BG		0x0010
++-#define EXT2_FEATURE_INCOMPAT_ANY		0xffffffff
++-
++-#define EXT2_NDIR_BLOCKS	12
++-#define	EXT2_IND_BLOCK		EXT2_NDIR_BLOCKS
++-#define EXT2_DIND_BLOCK		(EXT2_IND_BLOCK+1)
++-#define	EXT2_TIND_BLOCK		(EXT2_DIND_BLOCK+1)
++-#define	EXT2_N_BLOCKS		(EXT2_TIND_BLOCK+1)
++-
++-
++-/* for EXT4 extent */
++-#define EXT4_EXT_MAGIC     0xf30a
++-#define EXT4_EXTENTS_FLAG  0x00080000
++-
++-/*
++- * File types and file modes
++- */
++-#define S_IFDIR		0040000	        // Directory
++-#define S_IFCHR		0020000	        // Character device
++-#define S_IFBLK		0060000		// Block device
++-#define S_IFREG		0100000	        // Regular file
++-#define S_IFIFO		0010000	        // FIFO
++-#define S_IFLNK		0120000		// Symbolic link
++-#define S_IFSOCK	0140000		// Socket
++-
++-#define S_IFSHIFT	12
++-
++-#define T_IFDIR		(S_IFDIR >> S_IFSHIFT)
++-#define T_IFCHR		(S_IFCHR >> S_IFSHIFT)
++-#define T_IFBLK		(S_IFBLK >> S_IFSHIFT)
++-#define T_IFREG		(S_IFREG >> S_IFSHIFT)
++-#define T_IFIFO		(S_IFIFO >> S_IFSHIFT)
++-#define T_IFLNK		(S_IFLNK >> S_IFSHIFT)
++-#define T_IFSOCK	(S_IFSOCK >> S_IFSHIFT)
++-
++-
++-#define ext2_group_desc_lg2size 5
++-
++-
++-
++-/*
++- * super block structure:
++- * include/linux/ext2_fs.h
++- */
++-struct ext2_super_block {
++-    uint32_t s_inodes_count;	        /* Inodes count */
++-    uint32_t s_blocks_count;	        /* Blocks count */
++-    uint32_t s_r_blocks_count;	        /* Reserved blocks count */
++-    uint32_t s_free_blocks_count;	/* Free blocks count */
++-    uint32_t s_free_inodes_count;	/* Free inodes count */
++-    uint32_t s_first_data_block;	/* First Data Block */
++-    uint32_t s_log_block_size;	        /* Block size */
++-    uint32_t s_log_frag_size;	        /* Fragment size */
++-    uint32_t s_blocks_per_group;	/* # Blocks per group */
++-    uint32_t s_frags_per_group;	        /* # Fragments per group */
++-    uint32_t s_inodes_per_group;	/* # Inodes per group */
++-    uint32_t s_mtime;		        /* Mount time */
++-    uint32_t s_wtime;		        /* Write time */
++-    uint16_t s_mnt_count;		/* Mount count */
++-    int16_t  s_max_mnt_count;	        /* Maximal mount count */
++-    uint16_t s_magic;		        /* Magic signature */
++-    uint16_t s_state;		        /* File system state */
++-    uint16_t s_errors;		        /* Behaviour when detecting errors */
++-    uint16_t s_minor_rev_level;
++-    uint32_t s_lastcheck;		/* time of last check */
++-    uint32_t s_checkinterval;	        /* max. time between checks */
++-    uint32_t s_creator_os;		/* OS */
++-    uint32_t s_rev_level;		/* Revision level */
++-    uint16_t s_def_resuid;		/* Default uid for reserved blocks */
++-    uint16_t s_def_resgid;		/* Default gid for reserved blocks */
++-
++-    uint32_t s_first_ino;		/* First non-reserved inode */
++-    uint16_t s_inode_size;		/* size of inode structure */
++-    uint16_t s_block_group_nr;	        /* block group # of this superblock */
++-    uint32_t s_feature_compat;	        /* compatible feature set */
++-    uint32_t s_feature_incompat;	/* incompatible feature set */
++-    uint32_t s_feature_ro_compat;	/* readonly-compatible feature set */
++-    uint8_t  s_uuid[16];		/* 128-bit uuid for volume */
++-    char  s_volume_name[16];	        /* volume name */
++-    char  s_last_mounted[64];	        /* directory where last mounted */
++-    uint32_t s_algorithm_usage_bitmap;  /* For compression */
++-    uint8_t  s_prealloc_blocks;	        /* Nr of blocks to try to preallocate*/
++-    uint8_t  s_prealloc_dir_blocks;
++-    uint16_t s_reserved_gdt_blocks;	/* Per group desc for online growth */
++-    /*
++-     * Journaling support valid if EXT4_FEATURE_COMPAT_HAS_JOURNAL set.
++-     */
++-    uint8_t  s_journal_uuid[16];	/* uuid of journal superblock */
++-    uint32_t s_journal_inum;	/* inode number of journal file */
++-    uint32_t s_journal_dev;		/* device number of journal file */
++-    uint32_t s_last_orphan;		/* start of list of inodes to delete */
++-    uint32_t s_hash_seed[4];	/* HTREE hash seed */
++-    uint8_t  s_def_hash_version;	/* Default hash version to use */
++-    uint8_t  s_reserved_char_pad;
++-    uint16_t s_desc_size;		/* size of group descriptor */
++-    uint32_t s_default_mount_opts;
++-    uint32_t s_first_meta_bg;	/* First metablock block group */
++-    uint32_t s_mkfs_time;		/* When the filesystem was created */
++-    uint32_t s_jnl_blocks[17];	/* Backup of the journal inode */
++-    /* 64bit support valid if EXT4_FEATURE_COMPAT_64BIT */
++-    uint32_t s_blocks_count_hi;	/* Blocks count */
++-    uint32_t s_r_blocks_count_hi;	/* Reserved blocks count */
++-    uint32_t s_free_blocks_count_hi;/* Free blocks count */
++-    uint16_t s_min_extra_isize;	/* All inodes have at least # bytes */
++-    uint16_t s_want_extra_isize;	/* New inodes should reserve # bytes */
++-    uint32_t s_flags;		/* Miscellaneous flags */
++-    uint16_t s_raid_stride;		/* RAID stride */
++-    uint16_t s_mmp_interval;        /* # seconds to wait in MMP checking */
++-    uint64_t s_mmp_block;           /* Block for multi-mount protection */
++-    uint32_t s_raid_stripe_width;   /* blocks on all data disks (N*stride)*/
++-    uint8_t  s_log_groups_per_flex; /* FLEX_BG group size */
++-    uint8_t  s_reserved_char_pad2;
++-    uint16_t s_reserved_pad;
++-    uint32_t s_reserved[162];        /* Padding to the end of the block */
++-};
++-
++-/*******************************************************************************
++-#ifndef DEPEND
++-#if ext2_super_block_size != 1024
++-#error ext2_super_block definition bogus
++-#endif
++-#endif
++-*******************************************************************************/
++-
++-/*
++- *  ext2 group desc structure:
++- */
++-struct ext2_group_desc {
++-    uint32_t bg_block_bitmap;	/* Blocks bitmap block */
++-    uint32_t bg_inode_bitmap;	/* Inodes bitmap block */
++-    uint32_t bg_inode_table;	/* Inodes table block */
++-    uint16_t bg_free_blocks_count;	/* Free blocks count */
++-    uint16_t bg_free_inodes_count;	/* Free inodes count */
++-    uint16_t bg_used_dirs_count;	/* Directories count */
++-    uint16_t bg_pad;
++-    uint32_t bg_reserved[3];
++-};
++-
++-/*******************************************************************************
++-#ifndef DEPEND
++-#if ext2_group_desc_size != 32
++-#error ext2_group_desc definition bogus
++-#endif
++-#endif
++-*******************************************************************************/
++-
++-
++-/*
++- * ext2 inode structure:
++- */
++-struct ext2_inode {
++-    uint16_t i_mode;		/* File mode */
++-    uint16_t i_uid;		/* Owner Uid */
++-    uint32_t i_size;		/* 4: Size in bytes */
++-    uint32_t i_atime;		/* Access time */
++-    uint32_t i_ctime;		/* 12: Creation time */
++-    uint32_t i_mtime;		/* Modification time */
++-    uint32_t i_dtime;		/* 20: Deletion Time */
++-    uint16_t i_gid;		/* Group Id */
++-    uint16_t i_links_count;	/* 24: Links count */
++-    uint32_t i_blocks;		/* Blocks count */
++-    uint32_t i_flags;		/* 32: File flags */
++-    uint32_t l_i_reserved1;
++-    uint32_t i_block[EXT2_N_BLOCKS];	/* 40: Pointers to blocks */
++-    uint32_t i_version;		/* File version (for NFS) */
++-    uint32_t i_file_acl;	/* File ACL */
++-    uint32_t i_dir_acl;		/* Directory ACL */
++-    uint32_t i_faddr;		/* Fragment address */
++-    uint8_t  l_i_frag;	        /* Fragment number */
++-    uint8_t  l_i_fsize;	        /* Fragment size */
++-    uint16_t i_pad1;
++-    uint32_t l_i_reserved2[2];
++-};
++-
++-/*******************************************************************************
++-#ifndef DEPEND
++-#if ext2_inode_size != 128
++-#error ext2_inode definition bogus
++-#endif
++-#endif
++-*******************************************************************************/
++-
++-
++-#define EXT2_NAME_LEN 255
++-struct ext2_dir_entry {
++-    unsigned int	d_inode;		/* Inode number */
++-    unsigned short	d_rec_len;		/* Directory entry length */
++-    unsigned char	d_name_len;		/* Name length */
++-    unsigned char	d_file_type;
++-    char	d_name[EXT2_NAME_LEN];	        /* File name */
++-};
++-
++-/*******************************************************************************
++-#define EXT2_DIR_PAD	 4
++-#define EXT2_DIR_ROUND	(EXT2_DIR_PAD - 1)
++-#define EXT2_DIR_REC_LEN(name_len)	(((name_len) + 8 + EXT2_DIR_ROUND) & \
++-					 ~EXT2_DIR_ROUND)
++-*******************************************************************************/
++-
++-
++-
++-
++-
++-
++-/*
++- * This is the extent on-disk structure.
++- * It's used at the bottom of the tree.
++- */
++-struct ext4_extent {
++-    uint32_t ee_block;	        /* first logical block extent covers */
++-    uint16_t ee_len;	        /* number of blocks covered by extent */
++-    uint16_t ee_start_hi;	/* high 16 bits of physical block */
++-    uint32_t ee_start_lo;	/* low 32 bits of physical block */
++-};
++-
++-/*
++- * This is index on-disk structure.
++- * It's used at all the levels except the bottom.
++- */
++-struct ext4_extent_idx {
++-    uint32_t ei_block;	        /* index covers logical blocks from 'block' */
++-    uint32_t ei_leaf_lo;	/* pointer to the physical block of the next *
++-				 * level. leaf or next index could be there */
++-    uint16_t ei_leaf_hi;	/* high 16 bits of physical block */
++-    uint16_t ei_unused;
++-};
++-
++-/*
++- * Each block (leaves and indexes), even inode-stored has header.
++- */
++-struct ext4_extent_header {
++-    uint16_t eh_magic;	        /* probably will support different formats */
++-    uint16_t eh_entries;	/* number of valid entries */
++-    uint16_t eh_max;	        /* capacity of store in entries */
++-    uint16_t eh_depth;	        /* has tree real underlying blocks? */
++-    uint32_t eh_generation;	/* generation of the tree */
++-};
++-
++-
++-
++-#define EXT4_FIRST_EXTENT(header) ( (struct ext4_extent *)(header + 1) )
++-#define EXT4_FIRST_INDEX(header)  ( (struct ext4_extent_idx *) (header + 1) )
++-
++-
++-/*
++- * The ext2 super block information in memory
++- */
++-struct ext2_sb_info {
++-    uint32_t s_inodes_per_block;/* Number of inodes per block */
++-    uint32_t s_inodes_per_group;/* Number of inodes in a group */
++-    uint32_t s_blocks_per_group;/* Number of blocks in a group */
++-    uint32_t s_desc_per_block;  /* Number of group descriptors per block */
++-    uint32_t s_groups_count;    /* Number of groups in the fs */
++-    uint32_t s_first_data_block;	/* First Data Block */
++-    int      s_inode_size;
++-    uint8_t  s_uuid[16];	/* 128-bit uuid for volume */
++-    int      s_desc_size;	/* size of group descriptor */
++-};
++-
++-static inline struct ext2_sb_info *EXT2_SB(struct fs_info *fs)
++-{
++-    return fs->fs_info;
++-}
++-
++-#define EXT2_BLOCKS_PER_GROUP(fs)      (EXT2_SB(fs)->s_blocks_per_group)
++-#define EXT2_INODES_PER_GROUP(fs)      (EXT2_SB(fs)->s_inodes_per_group)
++-#define EXT2_INODES_PER_BLOCK(fs)      (EXT2_SB(fs)->s_inodes_per_block)
++-#define EXT2_DESC_PER_BLOCK(fs)        (EXT2_SB(fs)->s_desc_per_block)
++-
++-/*
++- * ext2 private inode information
++- */
++-struct ext2_pvt_inode {
++-    union {
++-	uint32_t i_block[EXT2_N_BLOCKS];
++-	struct ext4_extent_header i_extent_hdr;
++-    };
++-};
++-
++-#define PVT(i) ((struct ext2_pvt_inode *)((i)->pvt))
++-
++-/*
++- * functions
++- */
++-block_t ext2_bmap(struct inode *, block_t, size_t *);
++-int ext2_next_extent(struct inode *, uint32_t);
++-
++-#endif /* ext2_fs.h */
++diff --git a/libinstaller/ext2fs/ext2_fs.h b/libinstaller/ext2fs/ext2_fs.h
++deleted file mode 100644
++index e52c9e1..0000000
++--- a/libinstaller/ext2fs/ext2_fs.h
+++++ /dev/null
++@@ -1,856 +0,0 @@
++-/*
++- *  linux/include/linux/ext2_fs.h
++- *
++- * Copyright (C) 1992, 1993, 1994, 1995
++- * Remy Card (card@masi.ibp.fr)
++- * Laboratoire MASI - Institut Blaise Pascal
++- * Universite Pierre et Marie Curie (Paris VI)
++- *
++- *  from
++- *
++- *  linux/include/linux/minix_fs.h
++- *
++- *  Copyright (C) 1991, 1992  Linus Torvalds
++- */
++-
++-#ifndef _EXT2FS_EXT2_FS_H
++-#define _EXT2FS_EXT2_FS_H
++-
++-#include <linux/types.h>
++-
++-/*
++- * The second extended filesystem constants/structures
++- */
++-
++-/*
++- * Define EXT2FS_DEBUG to produce debug messages
++- */
++-#undef EXT2FS_DEBUG
++-
++-/*
++- * Define EXT2_PREALLOCATE to preallocate data blocks for expanding files
++- */
++-#define EXT2_PREALLOCATE
++-#define EXT2_DEFAULT_PREALLOC_BLOCKS	8
++-
++-/*
++- * The second extended file system version
++- */
++-#define EXT2FS_DATE		"95/08/09"
++-#define EXT2FS_VERSION		"0.5b"
++-
++-/*
++- * Special inode numbers
++- */
++-#define EXT2_BAD_INO		 1	/* Bad blocks inode */
++-#define EXT2_ROOT_INO		 2	/* Root inode */
++-#define EXT4_USR_QUOTA_INO	 3	/* User quota inode */
++-#define EXT4_GRP_QUOTA_INO	 4	/* Group quota inode */
++-#define EXT2_BOOT_LOADER_INO	 5	/* Boot loader inode */
++-#define EXT2_UNDEL_DIR_INO	 6	/* Undelete directory inode */
++-#define EXT2_RESIZE_INO		 7	/* Reserved group descriptors inode */
++-#define EXT2_JOURNAL_INO	 8	/* Journal inode */
++-#define EXT2_EXCLUDE_INO	 9	/* The "exclude" inode, for snapshots */
++-#define EXT4_REPLICA_INO	10	/* Used by non-upstream feature */
++-
++-/* First non-reserved inode for old ext2 filesystems */
++-#define EXT2_GOOD_OLD_FIRST_INO	11
++-
++-/*
++- * The second extended file system magic number
++- */
++-#define EXT2_SUPER_MAGIC	0xEF53
++-
++-#ifdef __KERNEL__
++-#define EXT2_SB(sb)	(&((sb)->u.ext2_sb))
++-#else
++-/* Assume that user mode programs are passing in an ext2fs superblock, not
++- * a kernel struct super_block.  This will allow us to call the feature-test
++- * macros from user land. */
++-#define EXT2_SB(sb)	(sb)
++-#endif
++-
++-/*
++- * Maximal count of links to a file
++- */
++-#define EXT2_LINK_MAX		65000
++-
++-/*
++- * Macro-instructions used to manage several block sizes
++- */
++-#define EXT2_MIN_BLOCK_LOG_SIZE		10	/* 1024 */
++-#define EXT2_MAX_BLOCK_LOG_SIZE		16	/* 65536 */
++-#define EXT2_MIN_BLOCK_SIZE	(1 << EXT2_MIN_BLOCK_LOG_SIZE)
++-#define EXT2_MAX_BLOCK_SIZE	(1 << EXT2_MAX_BLOCK_LOG_SIZE)
++-#ifdef __KERNEL__
++-#define EXT2_BLOCK_SIZE(s)	((s)->s_blocksize)
++-#define EXT2_BLOCK_SIZE_BITS(s)	((s)->s_blocksize_bits)
++-#define EXT2_ADDR_PER_BLOCK_BITS(s)	(EXT2_SB(s)->addr_per_block_bits)
++-#define EXT2_INODE_SIZE(s)	(EXT2_SB(s)->s_inode_size)
++-#define EXT2_FIRST_INO(s)	(EXT2_SB(s)->s_first_ino)
++-#else
++-#define EXT2_BLOCK_SIZE(s)	(EXT2_MIN_BLOCK_SIZE << (s)->s_log_block_size)
++-#define EXT2_BLOCK_SIZE_BITS(s)	((s)->s_log_block_size + 10)
++-#define EXT2_INODE_SIZE(s)	(((s)->s_rev_level == EXT2_GOOD_OLD_REV) ? \
++-				 EXT2_GOOD_OLD_INODE_SIZE : (s)->s_inode_size)
++-#define EXT2_FIRST_INO(s)	(((s)->s_rev_level == EXT2_GOOD_OLD_REV) ? \
++-				 EXT2_GOOD_OLD_FIRST_INO : (s)->s_first_ino)
++-#endif
++-#define EXT2_ADDR_PER_BLOCK(s)	(EXT2_BLOCK_SIZE(s) / sizeof(__u32))
++-
++-/*
++- * Macro-instructions used to manage allocation clusters
++- */
++-#define EXT2_MIN_CLUSTER_LOG_SIZE	EXT2_MIN_BLOCK_LOG_SIZE
++-#define EXT2_MAX_CLUSTER_LOG_SIZE	29	/* 512MB  */
++-#define EXT2_MIN_CLUSTER_SIZE		EXT2_MIN_BLOCK_SIZE
++-#define EXT2_MAX_CLUSTER_SIZE		(1 << EXT2_MAX_CLUSTER_LOG_SIZE)
++-#define EXT2_CLUSTER_SIZE(s)		(EXT2_MIN_BLOCK_SIZE << \
++-						(s)->s_log_cluster_size)
++-#define EXT2_CLUSTER_SIZE_BITS(s)	((s)->s_log_cluster_size + 10)
++-
++-/*
++- * Macro-instructions used to manage fragments
++- *
++- * Note: for backwards compatibility only, for the dump program.
++- * Ext2/3/4 will never support fragments....
++- */
++-#define EXT2_MIN_FRAG_SIZE              EXT2_MIN_BLOCK_SIZE
++-#define EXT2_MAX_FRAG_SIZE              EXT2_MAX_BLOCK_SIZE
++-#define EXT2_MIN_FRAG_LOG_SIZE          EXT2_MIN_BLOCK_LOG_SIZE
++-#define EXT2_FRAG_SIZE(s)		EXT2_BLOCK_SIZE(s)
++-#define EXT2_FRAGS_PER_BLOCK(s)		1
++-
++-/*
++- * ACL structures
++- */
++-struct ext2_acl_header	/* Header of Access Control Lists */
++-{
++-	__u32	aclh_size;
++-	__u32	aclh_file_count;
++-	__u32	aclh_acle_count;
++-	__u32	aclh_first_acle;
++-};
++-
++-struct ext2_acl_entry	/* Access Control List Entry */
++-{
++-	__u32	acle_size;
++-	__u16	acle_perms;	/* Access permissions */
++-	__u16	acle_type;	/* Type of entry */
++-	__u16	acle_tag;	/* User or group identity */
++-	__u16	acle_pad1;
++-	__u32	acle_next;	/* Pointer on next entry for the */
++-					/* same inode or on next free entry */
++-};
++-
++-/*
++- * Structure of a blocks group descriptor
++- */
++-struct ext2_group_desc
++-{
++-	__u32	bg_block_bitmap;	/* Blocks bitmap block */
++-	__u32	bg_inode_bitmap;	/* Inodes bitmap block */
++-	__u32	bg_inode_table;		/* Inodes table block */
++-	__u16	bg_free_blocks_count;	/* Free blocks count */
++-	__u16	bg_free_inodes_count;	/* Free inodes count */
++-	__u16	bg_used_dirs_count;	/* Directories count */
++-	__u16	bg_flags;
++-	__u32	bg_exclude_bitmap_lo;	/* Exclude bitmap for snapshots */
++-	__u16	bg_block_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) LSB */
++-	__u16	bg_inode_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) LSB */
++-	__u16	bg_itable_unused;	/* Unused inodes count */
++-	__u16	bg_checksum;		/* crc16(s_uuid+grouo_num+group_desc)*/
++-};
++-
++-/*
++- * Structure of a blocks group descriptor
++- */
++-struct ext4_group_desc
++-{
++-	__u32	bg_block_bitmap;	/* Blocks bitmap block */
++-	__u32	bg_inode_bitmap;	/* Inodes bitmap block */
++-	__u32	bg_inode_table;		/* Inodes table block */
++-	__u16	bg_free_blocks_count;	/* Free blocks count */
++-	__u16	bg_free_inodes_count;	/* Free inodes count */
++-	__u16	bg_used_dirs_count;	/* Directories count */
++-	__u16	bg_flags;		/* EXT4_BG_flags (INODE_UNINIT, etc) */
++-	__u32	bg_exclude_bitmap_lo;	/* Exclude bitmap for snapshots */
++-	__u16	bg_block_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) LSB */
++-	__u16	bg_inode_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) LSB */
++-	__u16	bg_itable_unused;	/* Unused inodes count */
++-	__u16	bg_checksum;		/* crc16(sb_uuid+group+desc) */
++-	__u32	bg_block_bitmap_hi;	/* Blocks bitmap block MSB */
++-	__u32	bg_inode_bitmap_hi;	/* Inodes bitmap block MSB */
++-	__u32	bg_inode_table_hi;	/* Inodes table block MSB */
++-	__u16	bg_free_blocks_count_hi;/* Free blocks count MSB */
++-	__u16	bg_free_inodes_count_hi;/* Free inodes count MSB */
++-	__u16	bg_used_dirs_count_hi;	/* Directories count MSB */
++-	__u16	bg_itable_unused_hi;	/* Unused inodes count MSB */
++-	__u32	bg_exclude_bitmap_hi;	/* Exclude bitmap block MSB */
++-	__u16	bg_block_bitmap_csum_hi;/* crc32c(s_uuid+grp_num+bitmap) MSB */
++-	__u16	bg_inode_bitmap_csum_hi;/* crc32c(s_uuid+grp_num+bitmap) MSB */
++-	__u32	bg_reserved;
++-};
++-
++-#define EXT2_BG_INODE_UNINIT	0x0001 /* Inode table/bitmap not initialized */
++-#define EXT2_BG_BLOCK_UNINIT	0x0002 /* Block bitmap not initialized */
++-#define EXT2_BG_INODE_ZEROED	0x0004 /* On-disk itable initialized to zero */
++-
++-/*
++- * Data structures used by the directory indexing feature
++- *
++- * Note: all of the multibyte integer fields are little endian.
++- */
++-
++-/*
++- * Note: dx_root_info is laid out so that if it should somehow get
++- * overlaid by a dirent the two low bits of the hash version will be
++- * zero.  Therefore, the hash version mod 4 should never be 0.
++- * Sincerely, the paranoia department.
++- */
++-struct ext2_dx_root_info {
++-	__u32 reserved_zero;
++-	__u8 hash_version; /* 0 now, 1 at release */
++-	__u8 info_length; /* 8 */
++-	__u8 indirect_levels;
++-	__u8 unused_flags;
++-};
++-
++-#define EXT2_HASH_LEGACY		0
++-#define EXT2_HASH_HALF_MD4		1
++-#define EXT2_HASH_TEA			2
++-#define EXT2_HASH_LEGACY_UNSIGNED	3 /* reserved for userspace lib */
++-#define EXT2_HASH_HALF_MD4_UNSIGNED	4 /* reserved for userspace lib */
++-#define EXT2_HASH_TEA_UNSIGNED		5 /* reserved for userspace lib */
++-
++-#define EXT2_HASH_FLAG_INCOMPAT	0x1
++-
++-struct ext2_dx_entry {
++-	__u32 hash;
++-	__u32 block;
++-};
++-
++-struct ext2_dx_countlimit {
++-	__u16 limit;
++-	__u16 count;
++-};
++-
++-
++-/*
++- * Macro-instructions used to manage group descriptors
++- */
++-#define EXT2_MIN_DESC_SIZE             32
++-#define EXT2_MIN_DESC_SIZE_64BIT       64
++-#define EXT2_MAX_DESC_SIZE             EXT2_MIN_BLOCK_SIZE
++-#define EXT2_DESC_SIZE(s)                                                \
++-       ((EXT2_SB(s)->s_feature_incompat & EXT4_FEATURE_INCOMPAT_64BIT) ? \
++-	(s)->s_desc_size : EXT2_MIN_DESC_SIZE)
++-
++-#define EXT2_BLOCKS_PER_GROUP(s)	(EXT2_SB(s)->s_blocks_per_group)
++-#define EXT2_INODES_PER_GROUP(s)	(EXT2_SB(s)->s_inodes_per_group)
++-#define EXT2_CLUSTERS_PER_GROUP(s)	(EXT2_SB(s)->s_clusters_per_group)
++-#define EXT2_INODES_PER_BLOCK(s)	(EXT2_BLOCK_SIZE(s)/EXT2_INODE_SIZE(s))
++-/* limits imposed by 16-bit value gd_free_{blocks,inode}_count */
++-#define EXT2_MAX_BLOCKS_PER_GROUP(s)	((((unsigned) 1 << 16) - 8) *	\
++-					 (EXT2_CLUSTER_SIZE(s) / \
++-					  EXT2_BLOCK_SIZE(s)))
++-#define EXT2_MAX_CLUSTERS_PER_GROUP(s)	(((unsigned) 1 << 16) - 8)
++-#define EXT2_MAX_INODES_PER_GROUP(s)	(((unsigned) 1 << 16) - \
++-					 EXT2_INODES_PER_BLOCK(s))
++-#ifdef __KERNEL__
++-#define EXT2_DESC_PER_BLOCK(s)		(EXT2_SB(s)->s_desc_per_block)
++-#define EXT2_DESC_PER_BLOCK_BITS(s)	(EXT2_SB(s)->s_desc_per_block_bits)
++-#else
++-#define EXT2_DESC_PER_BLOCK(s)		(EXT2_BLOCK_SIZE(s) / EXT2_DESC_SIZE(s))
++-#endif
++-
++-/*
++- * Constants relative to the data blocks
++- */
++-#define EXT2_NDIR_BLOCKS		12
++-#define EXT2_IND_BLOCK			EXT2_NDIR_BLOCKS
++-#define EXT2_DIND_BLOCK			(EXT2_IND_BLOCK + 1)
++-#define EXT2_TIND_BLOCK			(EXT2_DIND_BLOCK + 1)
++-#define EXT2_N_BLOCKS			(EXT2_TIND_BLOCK + 1)
++-
++-/*
++- * Inode flags
++- */
++-#define EXT2_SECRM_FL			0x00000001 /* Secure deletion */
++-#define EXT2_UNRM_FL			0x00000002 /* Undelete */
++-#define EXT2_COMPR_FL			0x00000004 /* Compress file */
++-#define EXT2_SYNC_FL			0x00000008 /* Synchronous updates */
++-#define EXT2_IMMUTABLE_FL		0x00000010 /* Immutable file */
++-#define EXT2_APPEND_FL			0x00000020 /* writes to file may only append */
++-#define EXT2_NODUMP_FL			0x00000040 /* do not dump file */
++-#define EXT2_NOATIME_FL			0x00000080 /* do not update atime */
++-/* Reserved for compression usage... */
++-#define EXT2_DIRTY_FL			0x00000100
++-#define EXT2_COMPRBLK_FL		0x00000200 /* One or more compressed clusters */
++-#define EXT2_NOCOMPR_FL			0x00000400 /* Access raw compressed data */
++-#define EXT2_ECOMPR_FL			0x00000800 /* Compression error */
++-/* End compression flags --- maybe not all used */
++-#define EXT2_BTREE_FL			0x00001000 /* btree format dir */
++-#define EXT2_INDEX_FL			0x00001000 /* hash-indexed directory */
++-#define EXT2_IMAGIC_FL			0x00002000
++-#define EXT3_JOURNAL_DATA_FL		0x00004000 /* file data should be journaled */
++-#define EXT2_NOTAIL_FL			0x00008000 /* file tail should not be merged */
++-#define EXT2_DIRSYNC_FL 		0x00010000 /* Synchronous directory modifications */
++-#define EXT2_TOPDIR_FL			0x00020000 /* Top of directory hierarchies*/
++-#define EXT4_HUGE_FILE_FL               0x00040000 /* Set to each huge file */
++-#define EXT4_EXTENTS_FL 		0x00080000 /* Inode uses extents */
++-#define EXT4_EA_INODE_FL	        0x00200000 /* Inode used for large EA */
++-/* EXT4_EOFBLOCKS_FL 0x00400000 was here */
++-#define EXT4_SNAPFILE_FL		0x01000000  /* Inode is a snapshot */
++-#define EXT4_SNAPFILE_DELETED_FL	0x04000000  /* Snapshot is being deleted */
++-#define EXT4_SNAPFILE_SHRUNK_FL		0x08000000  /* Snapshot shrink has completed */
++-#define EXT2_RESERVED_FL		0x80000000 /* reserved for ext2 lib */
++-
++-#define EXT2_FL_USER_VISIBLE		0x004BDFFF /* User visible flags */
++-#define EXT2_FL_USER_MODIFIABLE		0x004B80FF /* User modifiable flags */
++-
++-/*
++- * ioctl commands
++- */
++-
++-/* Used for online resize */
++-struct ext2_new_group_input {
++-	__u32 group;		/* Group number for this data */
++-	__u32 block_bitmap;	/* Absolute block number of block bitmap */
++-	__u32 inode_bitmap;	/* Absolute block number of inode bitmap */
++-	__u32 inode_table;	/* Absolute block number of inode table start */
++-	__u32 blocks_count;	/* Total number of blocks in this group */
++-	__u16 reserved_blocks;	/* Number of reserved blocks in this group */
++-	__u16 unused;		/* Number of reserved GDT blocks in group */
++-};
++-
++-struct ext4_new_group_input {
++-	__u32 group;		/* Group number for this data */
++-	__u64 block_bitmap;	/* Absolute block number of block bitmap */
++-	__u64 inode_bitmap;	/* Absolute block number of inode bitmap */
++-	__u64 inode_table;	/* Absolute block number of inode table start */
++-	__u32 blocks_count;	/* Total number of blocks in this group */
++-	__u16 reserved_blocks;	/* Number of reserved blocks in this group */
++-	__u16 unused;
++-};
++-
++-#ifdef __GNU__			/* Needed for the Hurd */
++-#define _IOT_ext2_new_group_input _IOT (_IOTS(__u32), 5, _IOTS(__u16), 2, 0, 0)
++-#endif
++-
++-#define EXT2_IOC_GETFLAGS		_IOR('f', 1, long)
++-#define EXT2_IOC_SETFLAGS		_IOW('f', 2, long)
++-#define EXT2_IOC_GETVERSION		_IOR('v', 1, long)
++-#define EXT2_IOC_SETVERSION		_IOW('v', 2, long)
++-#define EXT2_IOC_GETVERSION_NEW		_IOR('f', 3, long)
++-#define EXT2_IOC_SETVERSION_NEW		_IOW('f', 4, long)
++-#define EXT2_IOC_GROUP_EXTEND		_IOW('f', 7, unsigned long)
++-#define EXT2_IOC_GROUP_ADD		_IOW('f', 8,struct ext2_new_group_input)
++-#define EXT4_IOC_GROUP_ADD		_IOW('f', 8,struct ext4_new_group_input)
++-#define EXT4_IOC_RESIZE_FS		_IOW('f', 16, __u64)
++-
++-/*
++- * Structure of an inode on the disk
++- */
++-struct ext2_inode {
++-	__u16	i_mode;		/* File mode */
++-	__u16	i_uid;		/* Low 16 bits of Owner Uid */
++-	__u32	i_size;		/* Size in bytes */
++-	__u32	i_atime;	/* Access time */
++-	__u32	i_ctime;	/* Inode change time */
++-	__u32	i_mtime;	/* Modification time */
++-	__u32	i_dtime;	/* Deletion Time */
++-	__u16	i_gid;		/* Low 16 bits of Group Id */
++-	__u16	i_links_count;	/* Links count */
++-	__u32	i_blocks;	/* Blocks count */
++-	__u32	i_flags;	/* File flags */
++-	union {
++-		struct {
++-			__u32	l_i_version; /* was l_i_reserved1 */
++-		} linux1;
++-		struct {
++-			__u32  h_i_translator;
++-		} hurd1;
++-	} osd1;				/* OS dependent 1 */
++-	__u32	i_block[EXT2_N_BLOCKS];/* Pointers to blocks */
++-	__u32	i_generation;	/* File version (for NFS) */
++-	__u32	i_file_acl;	/* File ACL */
++-	__u32	i_size_high;	/* Formerly i_dir_acl, directory ACL */
++-	__u32	i_faddr;	/* Fragment address */
++-	union {
++-		struct {
++-			__u16	l_i_blocks_hi;
++-			__u16	l_i_file_acl_high;
++-			__u16	l_i_uid_high;	/* these 2 fields    */
++-			__u16	l_i_gid_high;	/* were reserved2[0] */
++-			__u16	l_i_checksum_lo; /* crc32c(uuid+inum+inode) */
++-			__u16	l_i_reserved;
++-		} linux2;
++-		struct {
++-			__u8	h_i_frag;	/* Fragment number */
++-			__u8	h_i_fsize;	/* Fragment size */
++-			__u16	h_i_mode_high;
++-			__u16	h_i_uid_high;
++-			__u16	h_i_gid_high;
++-			__u32	h_i_author;
++-		} hurd2;
++-	} osd2;				/* OS dependent 2 */
++-};
++-
++-/*
++- * Permanent part of an large inode on the disk
++- */
++-struct ext2_inode_large {
++-	__u16	i_mode;		/* File mode */
++-	__u16	i_uid;		/* Low 16 bits of Owner Uid */
++-	__u32	i_size;		/* Size in bytes */
++-	__u32	i_atime;	/* Access time */
++-	__u32	i_ctime;	/* Inode Change time */
++-	__u32	i_mtime;	/* Modification time */
++-	__u32	i_dtime;	/* Deletion Time */
++-	__u16	i_gid;		/* Low 16 bits of Group Id */
++-	__u16	i_links_count;	/* Links count */
++-	__u32	i_blocks;	/* Blocks count */
++-	__u32	i_flags;	/* File flags */
++-	union {
++-		struct {
++-			__u32	l_i_version; /* was l_i_reserved1 */
++-		} linux1;
++-		struct {
++-			__u32  h_i_translator;
++-		} hurd1;
++-	} osd1;				/* OS dependent 1 */
++-	__u32	i_block[EXT2_N_BLOCKS];/* Pointers to blocks */
++-	__u32	i_generation;	/* File version (for NFS) */
++-	__u32	i_file_acl;	/* File ACL */
++-	__u32	i_size_high;	/* Formerly i_dir_acl, directory ACL */
++-	__u32	i_faddr;	/* Fragment address */
++-	union {
++-		struct {
++-			__u16	l_i_blocks_hi;
++-			__u16	l_i_file_acl_high;
++-			__u16	l_i_uid_high;	/* these 2 fields    */
++-			__u16	l_i_gid_high;	/* were reserved2[0] */
++-			__u16	l_i_checksum_lo; /* crc32c(uuid+inum+inode) */
++-			__u16	l_i_reserved;
++-		} linux2;
++-		struct {
++-			__u8	h_i_frag;	/* Fragment number */
++-			__u8	h_i_fsize;	/* Fragment size */
++-			__u16	h_i_mode_high;
++-			__u16	h_i_uid_high;
++-			__u16	h_i_gid_high;
++-			__u32	h_i_author;
++-		} hurd2;
++-	} osd2;				/* OS dependent 2 */
++-	__u16	i_extra_isize;
++-	__u16	i_checksum_hi;	/* crc32c(uuid+inum+inode) */
++-	__u32	i_ctime_extra;	/* extra Change time (nsec << 2 | epoch) */
++-	__u32	i_mtime_extra;	/* extra Modification time (nsec << 2 | epoch) */
++-	__u32	i_atime_extra;	/* extra Access time (nsec << 2 | epoch) */
++-	__u32	i_crtime;	/* File creation time */
++-	__u32	i_crtime_extra;	/* extra File creation time (nsec << 2 | epoch)*/
++-	__u32	i_version_hi;	/* high 32 bits for 64-bit version */
++-};
++-
++-#define i_dir_acl	i_size_high
++-
++-#if defined(__KERNEL__) || defined(__linux__)
++-#define i_reserved1	osd1.linux1.l_i_reserved1
++-#define i_frag		osd2.linux2.l_i_frag
++-#define i_fsize		osd2.linux2.l_i_fsize
++-#define i_uid_low	i_uid
++-#define i_gid_low	i_gid
++-#define i_uid_high	osd2.linux2.l_i_uid_high
++-#define i_gid_high	osd2.linux2.l_i_gid_high
++-#else
++-#if defined(__GNU__)
++-
++-#define i_translator	osd1.hurd1.h_i_translator
++-#define i_frag		osd2.hurd2.h_i_frag;
++-#define i_fsize		osd2.hurd2.h_i_fsize;
++-#define i_uid_high	osd2.hurd2.h_i_uid_high
++-#define i_gid_high	osd2.hurd2.h_i_gid_high
++-#define i_author	osd2.hurd2.h_i_author
++-
++-#endif  /* __GNU__ */
++-#endif	/* defined(__KERNEL__) || defined(__linux__) */
++-
++-#define inode_uid(inode)	((inode).i_uid | (inode).osd2.linux2.l_i_uid_high << 16)
++-#define inode_gid(inode)	((inode).i_gid | (inode).osd2.linux2.l_i_gid_high << 16)
++-#define ext2fs_set_i_uid_high(inode,x) ((inode).osd2.linux2.l_i_uid_high = (x))
++-#define ext2fs_set_i_gid_high(inode,x) ((inode).osd2.linux2.l_i_gid_high = (x))
++-
++-/*
++- * File system states
++- */
++-#define EXT2_VALID_FS			0x0001	/* Unmounted cleanly */
++-#define EXT2_ERROR_FS			0x0002	/* Errors detected */
++-#define EXT3_ORPHAN_FS			0x0004	/* Orphans being recovered */
++-
++-/*
++- * Misc. filesystem flags
++- */
++-#define EXT2_FLAGS_SIGNED_HASH		0x0001  /* Signed dirhash in use */
++-#define EXT2_FLAGS_UNSIGNED_HASH	0x0002  /* Unsigned dirhash in use */
++-#define EXT2_FLAGS_TEST_FILESYS		0x0004	/* OK for use on development code */
++-#define EXT2_FLAGS_IS_SNAPSHOT		0x0010	/* This is a snapshot image */
++-#define EXT2_FLAGS_FIX_SNAPSHOT		0x0020	/* Snapshot inodes corrupted */
++-#define EXT2_FLAGS_FIX_EXCLUDE		0x0040	/* Exclude bitmaps corrupted */
++-
++-/*
++- * Mount flags
++- */
++-#define EXT2_MOUNT_CHECK		0x0001	/* Do mount-time checks */
++-#define EXT2_MOUNT_GRPID		0x0004	/* Create files with directory's group */
++-#define EXT2_MOUNT_DEBUG		0x0008	/* Some debugging messages */
++-#define EXT2_MOUNT_ERRORS_CONT		0x0010	/* Continue on errors */
++-#define EXT2_MOUNT_ERRORS_RO		0x0020	/* Remount fs ro on errors */
++-#define EXT2_MOUNT_ERRORS_PANIC		0x0040	/* Panic on errors */
++-#define EXT2_MOUNT_MINIX_DF		0x0080	/* Mimics the Minix statfs */
++-#define EXT2_MOUNT_NO_UID32		0x0200  /* Disable 32-bit UIDs */
++-
++-#define clear_opt(o, opt)		o &= ~EXT2_MOUNT_##opt
++-#define set_opt(o, opt)			o |= EXT2_MOUNT_##opt
++-#define test_opt(sb, opt)		(EXT2_SB(sb)->s_mount_opt & \
++-					 EXT2_MOUNT_##opt)
++-/*
++- * Maximal mount counts between two filesystem checks
++- */
++-#define EXT2_DFL_MAX_MNT_COUNT		20	/* Allow 20 mounts */
++-#define EXT2_DFL_CHECKINTERVAL		0	/* Don't use interval check */
++-
++-/*
++- * Behaviour when detecting errors
++- */
++-#define EXT2_ERRORS_CONTINUE		1	/* Continue execution */
++-#define EXT2_ERRORS_RO			2	/* Remount fs read-only */
++-#define EXT2_ERRORS_PANIC		3	/* Panic */
++-#define EXT2_ERRORS_DEFAULT		EXT2_ERRORS_CONTINUE
++-
++-#if (__GNUC__ >= 4)
++-#define ext4_offsetof(TYPE,MEMBER) __builtin_offsetof(TYPE,MEMBER)
++-#else
++-#define ext4_offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
++-#endif
++-
++-/*
++- * Structure of the super block
++- */
++-struct ext2_super_block {
++-	__u32	s_inodes_count;		/* Inodes count */
++-	__u32	s_blocks_count;		/* Blocks count */
++-	__u32	s_r_blocks_count;	/* Reserved blocks count */
++-	__u32	s_free_blocks_count;	/* Free blocks count */
++-	__u32	s_free_inodes_count;	/* Free inodes count */
++-	__u32	s_first_data_block;	/* First Data Block */
++-	__u32	s_log_block_size;	/* Block size */
++-	__u32	s_log_cluster_size;	/* Allocation cluster size */
++-	__u32	s_blocks_per_group;	/* # Blocks per group */
++-	__u32	s_clusters_per_group;	/* # Fragments per group */
++-	__u32	s_inodes_per_group;	/* # Inodes per group */
++-	__u32	s_mtime;		/* Mount time */
++-	__u32	s_wtime;		/* Write time */
++-	__u16	s_mnt_count;		/* Mount count */
++-	__s16	s_max_mnt_count;	/* Maximal mount count */
++-	__u16	s_magic;		/* Magic signature */
++-	__u16	s_state;		/* File system state */
++-	__u16	s_errors;		/* Behaviour when detecting errors */
++-	__u16	s_minor_rev_level;	/* minor revision level */
++-	__u32	s_lastcheck;		/* time of last check */
++-	__u32	s_checkinterval;	/* max. time between checks */
++-	__u32	s_creator_os;		/* OS */
++-	__u32	s_rev_level;		/* Revision level */
++-	__u16	s_def_resuid;		/* Default uid for reserved blocks */
++-	__u16	s_def_resgid;		/* Default gid for reserved blocks */
++-	/*
++-	 * These fields are for EXT2_DYNAMIC_REV superblocks only.
++-	 *
++-	 * Note: the difference between the compatible feature set and
++-	 * the incompatible feature set is that if there is a bit set
++-	 * in the incompatible feature set that the kernel doesn't
++-	 * know about, it should refuse to mount the filesystem.
++-	 *
++-	 * e2fsck's requirements are more strict; if it doesn't know
++-	 * about a feature in either the compatible or incompatible
++-	 * feature set, it must abort and not try to meddle with
++-	 * things it doesn't understand...
++-	 */
++-	__u32	s_first_ino;		/* First non-reserved inode */
++-	__u16   s_inode_size;		/* size of inode structure */
++-	__u16	s_block_group_nr;	/* block group # of this superblock */
++-	__u32	s_feature_compat;	/* compatible feature set */
++-	__u32	s_feature_incompat;	/* incompatible feature set */
++-	__u32	s_feature_ro_compat;	/* readonly-compatible feature set */
++-	__u8	s_uuid[16];		/* 128-bit uuid for volume */
++-	char	s_volume_name[16];	/* volume name */
++-	char	s_last_mounted[64];	/* directory where last mounted */
++-	__u32	s_algorithm_usage_bitmap; /* For compression */
++-	/*
++-	 * Performance hints.  Directory preallocation should only
++-	 * happen if the EXT2_FEATURE_COMPAT_DIR_PREALLOC flag is on.
++-	 */
++-	__u8	s_prealloc_blocks;	/* Nr of blocks to try to preallocate*/
++-	__u8	s_prealloc_dir_blocks;	/* Nr to preallocate for dirs */
++-	__u16	s_reserved_gdt_blocks;	/* Per group table for online growth */
++-	/*
++-	 * Journaling support valid if EXT2_FEATURE_COMPAT_HAS_JOURNAL set.
++-	 */
++-	__u8	s_journal_uuid[16];	/* uuid of journal superblock */
++-	__u32	s_journal_inum;		/* inode number of journal file */
++-	__u32	s_journal_dev;		/* device number of journal file */
++-	__u32	s_last_orphan;		/* start of list of inodes to delete */
++-	__u32	s_hash_seed[4];		/* HTREE hash seed */
++-	__u8	s_def_hash_version;	/* Default hash version to use */
++-	__u8	s_jnl_backup_type; 	/* Default type of journal backup */
++-	__u16	s_desc_size;		/* Group desc. size: INCOMPAT_64BIT */
++-	__u32	s_default_mount_opts;
++-	__u32	s_first_meta_bg;	/* First metablock group */
++-	__u32	s_mkfs_time;		/* When the filesystem was created */
++-	__u32	s_jnl_blocks[17]; 	/* Backup of the journal inode */
++-	__u32	s_blocks_count_hi;	/* Blocks count high 32bits */
++-	__u32	s_r_blocks_count_hi;	/* Reserved blocks count high 32 bits*/
++-	__u32	s_free_blocks_hi; 	/* Free blocks count */
++-	__u16	s_min_extra_isize;	/* All inodes have at least # bytes */
++-	__u16	s_want_extra_isize; 	/* New inodes should reserve # bytes */
++-	__u32	s_flags;		/* Miscellaneous flags */
++-	__u16   s_raid_stride;		/* RAID stride */
++-	__u16   s_mmp_update_interval;  /* # seconds to wait in MMP checking */
++-	__u64   s_mmp_block;            /* Block for multi-mount protection */
++-	__u32   s_raid_stripe_width;    /* blocks on all data disks (N*stride)*/
++-	__u8	s_log_groups_per_flex;	/* FLEX_BG group size */
++-	__u8    s_reserved_char_pad;
++-	__u16	s_reserved_pad;		/* Padding to next 32bits */
++-	__u64	s_kbytes_written;	/* nr of lifetime kilobytes written */
++-	__u32	s_snapshot_inum;	/* Inode number of active snapshot */
++-	__u32	s_snapshot_id;		/* sequential ID of active snapshot */
++-	__u64	s_snapshot_r_blocks_count; /* reserved blocks for active
++-					      snapshot's future use */
++-	__u32	s_snapshot_list;	/* inode number of the head of the on-disk snapshot list */
++-#define EXT4_S_ERR_START ext4_offsetof(struct ext2_super_block, s_error_count)
++-	__u32	s_error_count;		/* number of fs errors */
++-	__u32	s_first_error_time;	/* first time an error happened */
++-	__u32	s_first_error_ino;	/* inode involved in first error */
++-	__u64	s_first_error_block;	/* block involved of first error */
++-	__u8	s_first_error_func[32];	/* function where the error happened */
++-	__u32	s_first_error_line;	/* line number where error happened */
++-	__u32	s_last_error_time;	/* most recent time of an error */
++-	__u32	s_last_error_ino;	/* inode involved in last error */
++-	__u32	s_last_error_line;	/* line number where error happened */
++-	__u64	s_last_error_block;	/* block involved of last error */
++-	__u8	s_last_error_func[32];	/* function where the error happened */
++-#define EXT4_S_ERR_END ext4_offsetof(struct ext2_super_block, s_mount_opts)
++-	__u8	s_mount_opts[64];
++-	__u32	s_usr_quota_inum;	/* inode number of user quota file */
++-	__u32	s_grp_quota_inum;	/* inode number of group quota file */
++-	__u32	s_overhead_blocks;	/* overhead blocks/clusters in fs */
++-	__u32   s_reserved[108];        /* Padding to the end of the block */
++-	__u32	s_checksum;		/* crc32c(superblock) */
++-};
++-
++-#define EXT4_S_ERR_LEN (EXT4_S_ERR_END - EXT4_S_ERR_START)
++-
++-/*
++- * Codes for operating systems
++- */
++-#define EXT2_OS_LINUX		0
++-#define EXT2_OS_HURD		1
++-#define EXT2_OBSO_OS_MASIX	2
++-#define EXT2_OS_FREEBSD		3
++-#define EXT2_OS_LITES		4
++-
++-/*
++- * Revision levels
++- */
++-#define EXT2_GOOD_OLD_REV	0	/* The good old (original) format */
++-#define EXT2_DYNAMIC_REV	1	/* V2 format w/ dynamic inode sizes */
++-
++-#define EXT2_CURRENT_REV	EXT2_GOOD_OLD_REV
++-#define EXT2_MAX_SUPP_REV	EXT2_DYNAMIC_REV
++-
++-#define EXT2_GOOD_OLD_INODE_SIZE 128
++-
++-/*
++- * Journal inode backup types
++- */
++-#define EXT3_JNL_BACKUP_BLOCKS	1
++-
++-/*
++- * Feature set definitions
++- */
++-
++-#define EXT2_HAS_COMPAT_FEATURE(sb,mask)			\
++-	( EXT2_SB(sb)->s_feature_compat & (mask) )
++-#define EXT2_HAS_RO_COMPAT_FEATURE(sb,mask)			\
++-	( EXT2_SB(sb)->s_feature_ro_compat & (mask) )
++-#define EXT2_HAS_INCOMPAT_FEATURE(sb,mask)			\
++-	( EXT2_SB(sb)->s_feature_incompat & (mask) )
++-
++-#define EXT2_FEATURE_COMPAT_DIR_PREALLOC	0x0001
++-#define EXT2_FEATURE_COMPAT_IMAGIC_INODES	0x0002
++-#define EXT3_FEATURE_COMPAT_HAS_JOURNAL		0x0004
++-#define EXT2_FEATURE_COMPAT_EXT_ATTR		0x0008
++-#define EXT2_FEATURE_COMPAT_RESIZE_INODE	0x0010
++-#define EXT2_FEATURE_COMPAT_DIR_INDEX		0x0020
++-#define EXT2_FEATURE_COMPAT_LAZY_BG		0x0040
++-/* #define EXT2_FEATURE_COMPAT_EXCLUDE_INODE	0x0080 not used, legacy */
++-#define EXT2_FEATURE_COMPAT_EXCLUDE_BITMAP	0x0100
++-
++-
++-#define EXT2_FEATURE_RO_COMPAT_SPARSE_SUPER	0x0001
++-#define EXT2_FEATURE_RO_COMPAT_LARGE_FILE	0x0002
++-/* #define EXT2_FEATURE_RO_COMPAT_BTREE_DIR	0x0004 not used */
++-#define EXT4_FEATURE_RO_COMPAT_HUGE_FILE	0x0008
++-#define EXT4_FEATURE_RO_COMPAT_GDT_CSUM		0x0010
++-#define EXT4_FEATURE_RO_COMPAT_DIR_NLINK	0x0020
++-#define EXT4_FEATURE_RO_COMPAT_EXTRA_ISIZE	0x0040
++-#define EXT4_FEATURE_RO_COMPAT_HAS_SNAPSHOT	0x0080
++-#define EXT4_FEATURE_RO_COMPAT_QUOTA		0x0100
++-#define EXT4_FEATURE_RO_COMPAT_BIGALLOC		0x0200
++-#define EXT4_FEATURE_RO_COMPAT_METADATA_CSUM	0x0400
++-#define EXT4_FEATURE_RO_COMPAT_REPLICA		0x0800
++-
++-#define EXT2_FEATURE_INCOMPAT_COMPRESSION	0x0001
++-#define EXT2_FEATURE_INCOMPAT_FILETYPE		0x0002
++-#define EXT3_FEATURE_INCOMPAT_RECOVER		0x0004 /* Needs recovery */
++-#define EXT3_FEATURE_INCOMPAT_JOURNAL_DEV	0x0008 /* Journal device */
++-#define EXT2_FEATURE_INCOMPAT_META_BG		0x0010
++-#define EXT3_FEATURE_INCOMPAT_EXTENTS		0x0040
++-#define EXT4_FEATURE_INCOMPAT_64BIT		0x0080
++-#define EXT4_FEATURE_INCOMPAT_MMP		0x0100
++-#define EXT4_FEATURE_INCOMPAT_FLEX_BG		0x0200
++-#define EXT4_FEATURE_INCOMPAT_EA_INODE		0x0400
++-#define EXT4_FEATURE_INCOMPAT_DIRDATA		0x1000
++-
++-#define EXT2_FEATURE_COMPAT_SUPP	0
++-#define EXT2_FEATURE_INCOMPAT_SUPP    (EXT2_FEATURE_INCOMPAT_FILETYPE| \
++-				       EXT4_FEATURE_INCOMPAT_MMP)
++-#define EXT2_FEATURE_RO_COMPAT_SUPP	(EXT2_FEATURE_RO_COMPAT_SPARSE_SUPER| \
++-					 EXT2_FEATURE_RO_COMPAT_LARGE_FILE| \
++-					 EXT4_FEATURE_RO_COMPAT_DIR_NLINK| \
++-					 EXT2_FEATURE_RO_COMPAT_BTREE_DIR)
++-
++-/*
++- * Default values for user and/or group using reserved blocks
++- */
++-#define EXT2_DEF_RESUID		0
++-#define EXT2_DEF_RESGID		0
++-
++-/*
++- * Default mount options
++- */
++-#define EXT2_DEFM_DEBUG		0x0001
++-#define EXT2_DEFM_BSDGROUPS	0x0002
++-#define EXT2_DEFM_XATTR_USER	0x0004
++-#define EXT2_DEFM_ACL		0x0008
++-#define EXT2_DEFM_UID16		0x0010
++-#define EXT3_DEFM_JMODE		0x0060
++-#define EXT3_DEFM_JMODE_DATA	0x0020
++-#define EXT3_DEFM_JMODE_ORDERED	0x0040
++-#define EXT3_DEFM_JMODE_WBACK	0x0060
++-#define EXT4_DEFM_NOBARRIER	0x0100
++-#define EXT4_DEFM_BLOCK_VALIDITY 0x0200
++-#define EXT4_DEFM_DISCARD	0x0400
++-#define EXT4_DEFM_NODELALLOC	0x0800
++-
++-/*
++- * Structure of a directory entry
++- */
++-#define EXT2_NAME_LEN 255
++-
++-struct ext2_dir_entry {
++-	__u32	inode;			/* Inode number */
++-	__u16	rec_len;		/* Directory entry length */
++-	__u16	name_len;		/* Name length */
++-	char	name[EXT2_NAME_LEN];	/* File name */
++-};
++-
++-/*
++- * The new version of the directory entry.  Since EXT2 structures are
++- * stored in intel byte order, and the name_len field could never be
++- * bigger than 255 chars, it's safe to reclaim the extra byte for the
++- * file_type field.
++- */
++-struct ext2_dir_entry_2 {
++-	__u32	inode;			/* Inode number */
++-	__u16	rec_len;		/* Directory entry length */
++-	__u8	name_len;		/* Name length */
++-	__u8	file_type;
++-	char	name[EXT2_NAME_LEN];	/* File name */
++-};
++-
++-/*
++- * Ext2 directory file types.  Only the low 3 bits are used.  The
++- * other bits are reserved for now.
++- */
++-#define EXT2_FT_UNKNOWN		0
++-#define EXT2_FT_REG_FILE	1
++-#define EXT2_FT_DIR		2
++-#define EXT2_FT_CHRDEV		3
++-#define EXT2_FT_BLKDEV		4
++-#define EXT2_FT_FIFO		5
++-#define EXT2_FT_SOCK		6
++-#define EXT2_FT_SYMLINK		7
++-
++-#define EXT2_FT_MAX		8
++-
++-/*
++- * EXT2_DIR_PAD defines the directory entries boundaries
++- *
++- * NOTE: It must be a multiple of 4
++- */
++-#define EXT2_DIR_PAD			4
++-#define EXT2_DIR_ROUND			(EXT2_DIR_PAD - 1)
++-#define EXT2_DIR_REC_LEN(name_len)	(((name_len) + 8 + EXT2_DIR_ROUND) & \
++-					 ~EXT2_DIR_ROUND)
++-
++-/*
++- * This structure is used for multiple mount protection. It is written
++- * into the block number saved in the s_mmp_block field in the superblock.
++- * Programs that check MMP should assume that if SEQ_FSCK (or any unknown
++- * code above SEQ_MAX) is present then it is NOT safe to use the filesystem,
++- * regardless of how old the timestamp is.
++- *
++- * The timestamp in the MMP structure will be updated by e2fsck at some
++- * arbitary intervals (start of passes, after every few groups of inodes
++- * in pass1 and pass1b).  There is no guarantee that e2fsck is updating
++- * the MMP block in a timely manner, and the updates it does are purely
++- * for the convenience of the sysadmin and not for automatic validation.
++- *
++- * Note: Only the mmp_seq value is used to determine whether the MMP block
++- *	is being updated.  The mmp_time, mmp_nodename, and mmp_bdevname
++- *	fields are only for informational purposes for the administrator,
++- *	due to clock skew between nodes and hostname HA service takeover.
++- */
++-#define EXT4_MMP_MAGIC     0x004D4D50U /* ASCII for MMP */
++-#define EXT4_MMP_SEQ_CLEAN 0xFF4D4D50U /* mmp_seq value for clean unmount */
++-#define EXT4_MMP_SEQ_FSCK  0xE24D4D50U /* mmp_seq value when being fscked */
++-#define EXT4_MMP_SEQ_MAX   0xE24D4D4FU /* maximum valid mmp_seq value */
++-
++-struct mmp_struct {
++-	__u32	mmp_magic;		/* Magic number for MMP */
++-	__u32	mmp_seq;		/* Sequence no. updated periodically */
++-	__u64	mmp_time;		/* Time last updated */
++-	char	mmp_nodename[64];	/* Node which last updated MMP block */
++-	char	mmp_bdevname[32];	/* Bdev which last updated MMP block */
++-	__u16	mmp_check_interval;	/* Changed mmp_check_interval */
++-	__u16	mmp_pad1;
++-	__u32	mmp_pad2[227];
++-};
++-
++-/*
++- * Default interval for MMP update in seconds.
++- */
++-#define EXT4_MMP_UPDATE_INTERVAL	5
++-
++-/*
++- * Maximum interval for MMP update in seconds.
++- */
++-#define EXT4_MMP_MAX_UPDATE_INTERVAL	300
++-
++-/*
++- * Minimum interval for MMP checking in seconds.
++- */
++-#define EXT4_MMP_MIN_CHECK_INTERVAL     5
++-
++-#endif	/* _EXT2FS_EXT2_FS_H */
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index d75aa95c1fd..fa7054bc54f 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -22,7 +22,8 @@ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz
+            file://0012-libinstaller-Fix-build-with-glibc-2.36.patch \
+            file://0013-remove-clean-script.patch \
+            file://0014-Fix-reproducibility-issues.patch \
+-"
++           file://0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch \
++           "
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "7fd16bdfa56ed51c40b474648fc35c4edde3e8ac934b12b82b49727b5d703521"
-+SRC_URI[sha256sum] = "4bbd08481a390f907e342aa3f25ab885c80ec0a53f3b14244cf733cc8622f2bf"
- 
- S = "${WORKDIR}/gst-libav-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-index 13a481485ae..da455c8b204 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-@@ -1,4 +1,4 @@
--From bb7f964d51de6b888b3b7a6d0c3d260fcad24008 Mon Sep 17 00:00:00 2001
-+From 653f194c2ce141bbb7a7440f65ea279cf4fe3f78 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Tue, 26 Jan 2016 15:16:01 -0800
- Subject: [PATCH] fix maybe-uninitialized warnings when compiling with -Os
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-index 298337cb0a0..9b77bfeb487 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-@@ -1,4 +1,4 @@
--From 25efc5b2d22aed4527470ef93970664b210bf8c5 Mon Sep 17 00:00:00 2001
-+From 441b90195aff1ececa9ea6dd228546fa3c16bf84 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Wed, 3 Feb 2016 18:05:41 -0800
- Subject: [PATCH] avoid including <sys/poll.h> directly
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-index 965053348fd..0214ce3eecf 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-@@ -1,4 +1,4 @@
--From 39fbcdfc5383bdae95293a3109c847f64d193b54 Mon Sep 17 00:00:00 2001
-+From d3121e8febdb5cb00511624983c24e50441b64e8 Mon Sep 17 00:00:00 2001
- From: Andrey Zhizhikin <andrey.z@gmail.com>
- Date: Mon, 27 Jan 2020 10:22:35 +0000
- Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-index 75efbad49cd..48e69550397 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "3029bfd7265314d609dc8eab503675a344ea46e8274fd73ab34566c8442dc847"
-+SRC_URI[sha256sum] = "8f4d965513e7827c1f547c1e749e4ef2812b371974fe64857fe5029a19c5b64c"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index 38d0fbf6bfb..0c2c34aa0db 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-@@ -1,4 +1,4 @@
--From 5a4d65e13a326103ac02f156c01b6fcbb0269902 Mon Sep 17 00:00:00 2001
-+From ffe65c3e4998042b030b91c09a706a03768a1e40 Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index 4090b77c8d4..abca62a4914 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 21b8339077f52ec9220e0d3d1f3872e23c7c2e88 Mon Sep 17 00:00:00 2001
-+From 1cd4da7d4739dcfa2b66899ef8a49e5ed88d41b8 Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index ab46ecee5df..40c91c9df69 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 246e6f5ed75696b2e9d9a9ee8cd59252724e1334 Mon Sep 17 00:00:00 2001
-+From 48652bcf057b74460eadf8cb943b6381fca4423f Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-index 9d19ea233da..7c3390d52df 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "0e33ec9b59eef5ef3a6a53bbd55c44340e681d0000910caca12541a73db38a7d"
-+SRC_URI[sha256sum] = "cf52b535a0ce7ec974756891818f34f06317c2e136abb24149e18c23ecc229b5"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-index 1c33ffde00e..9d93ca09677 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "badcfc5292b035bde99a77327d468b2f0b116b40420bc9f25fb8e3970824ba75"
-+SRC_URI[sha256sum] = "996b9c8d1d246ed43be304718b6086e5a17d4ae8114d1920aed9ea75b920ba2d"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-index 6cae61ed35e..7b7de75dacb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "333267b6e00770440a4a00402910dd59ed8fd619eaebf402815fbe111da7776d"
-+SRC_URI[sha256sum] = "5dfdbb2978ab282e637255cd875cf5b7b93fc83db62f8a0b1af02c85c84a75c4"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-index a4574f12623..cf38c2b8764 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "c23570c144e6276efd9e82de2ac0cea46b168a57fb2e436bed96cb285d641bf6"
-+SRC_URI[sha256sum] = "692e88820e097b30e5f92d37d0955c709a0a17b27f874a1907405244825bd700"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-index 9971eee48ec..cdb74afbfc4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "a3062665e41814d3dba3e02b7b06b77326d54d2b6f178ffcb196af9b91a1bfb9"
-+SRC_URI[sha256sum] = "b0bdda26173f13f5521c829367963824a74fd0ce8f52bcab674d7e727f74e93c"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb
-index c23794f4b60..015eb86316e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "fdb2da26b23895c56b20c6bad9edcf0faec3a3887765bc62c88f0955ed5b7c72"
-+SRC_URI[sha256sum] = "b5caa057e7efc51cd70504a59e5d9c7a5406d8268723c8283dd61be27fd8cacc"
- 
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-index a190370c161..80e6ca3f99c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-@@ -1,4 +1,4 @@
--From 381f50a27766c425af36a7203061716497e6603f Mon Sep 17 00:00:00 2001
-+From 9c932b1c17d62a3e54c2dc55b1f75dc48d73134c Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 11 Apr 2021 19:48:13 +0100
- Subject: [PATCH] tests: respect the idententaion used in meson
-@@ -11,7 +11,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  1 file changed, 5 insertions(+), 5 deletions(-)
- 
- diff --git a/tests/check/meson.build b/tests/check/meson.build
--index 6540279..e9501fe 100644
-+index 7d68212..bf0021f 100644
- --- a/tests/check/meson.build
- +++ b/tests/check/meson.build
- @@ -146,11 +146,11 @@ foreach t : core_tests
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-index 8a0d5bd51bc..4d88706a4aa 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-@@ -1,4 +1,4 @@
--From 19b1768acde5b30def36f0d1ac2725b265151d13 Mon Sep 17 00:00:00 2001
-+From 32707203ac17cd7130224445aa760f36d4cec579 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 11 Apr 2021 19:48:13 +0100
- Subject: [PATCH] tests: add support for install the tests
-@@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 tests/check/template.test.in
- 
- diff --git a/meson.build b/meson.build
--index 0809b4c..ffb61c4 100644
-+index 1d87075..6aaf23c 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -645,6 +645,10 @@ if bashcomp_dep.found()
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-index 27623bf96bd..8d0c6dbf34c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-@@ -1,4 +1,4 @@
--From 453865e8938c5f50f14409b67246bbbd801fa44d Mon Sep 17 00:00:00 2001
-+From fca19b2f5db1be4daef4ea00c60a64120fa08178 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 24 Apr 2021 10:34:47 +0100
- Subject: [PATCH] tests: use a dictionaries for environment
-@@ -14,7 +14,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  1 file changed, 13 insertions(+), 8 deletions(-)
- 
- diff --git a/tests/check/meson.build b/tests/check/meson.build
--index 08f8fd8..330abaa 100644
-+index 9a8c42c..6bb346a 100644
- --- a/tests/check/meson.build
- +++ b/tests/check/meson.build
- @@ -161,14 +161,19 @@ foreach t : core_tests
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-index 97b056072d6..629b0563f6b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-@@ -1,4 +1,4 @@
--From 506ff13a044439a170f770b6663a64c942ae0a05 Mon Sep 17 00:00:00 2001
-+From 5f80e65b73fee2d081ff4ffb442f71eb5b0ccfc4 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 2 May 2021 01:58:01 +0100
- Subject: [PATCH] tests: add helper script to run the installed_tests
-@@ -18,7 +18,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100755 tests/check/template.sh.in
- 
- diff --git a/tests/check/meson.build b/tests/check/meson.build
--index 330abaa..5d383b1 100644
-+index 6bb346a..fe57935 100644
- --- a/tests/check/meson.build
- +++ b/tests/check/meson.build
- @@ -185,6 +185,23 @@ foreach t : core_tests
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb
-index c2da99f7e48..71ff327675b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-            "
--SRC_URI[sha256sum] = "2bdef209252bf146351843134b797db6b6e7adb4c00d82e83bd5abe608253a7b"
-+SRC_URI[sha256sum] = "64342060d7c6f9e36a35e3be38a4f5ac3b41ed93b0853619be45141ef3cc1b9d"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
+ SRC_URI[md5sum] = "2b31c78f087f99179feb357da312d7ec"
+ SRC_URI[sha256sum] = "4441a5d593f85bb6e8d578cf6653fb4ec30f9e8f4a2315a3d8f2d0a8b3fadf94"
 -- 
 2.39.2
 
