@@ -1,324 +1,264 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <guocai.he.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3653C52D6F
-	for <webhook@archiver.kernel.org>; Wed, 21 Aug 2024 19:46:39 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web10.4647.1724269591516848894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F35E0C52D6F
+	for <webhook@archiver.kernel.org>; Thu, 22 Aug 2024 01:16:57 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.3626.1724289413798065246
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Aug 2024 12:46:31 -0700
+ Wed, 21 Aug 2024 18:16:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Az9OssU5;
- spf=pass (domain: baylibre.com, ip: 209.85.160.175, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-44fe9cf83c7so630691cf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 12:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724269590; x=1724874390; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gHWv8p+wL7uxkgs1ibJSSg0ky6UHTBZ/rIbgauZ3WpE=;
-        b=Az9OssU5oRfB5y4dPAU9KOfAaiFG/UkycpYyQD6RelN0xz1Im1e6IJYe4XHIRq1O5z
-         9EFo3yzzLJshEUJKgkCvZUjCMvjA8RaO3krwwWUTSsNZNyvJzWub3azUoVFNXSy/tYRt
-         aINwPk271kFo4zZ4ne51CnbSYtYOFH6jJmhZ/QsK7JElSr7RHO4BV2jzbLzq8kixneSn
-         FBrttAbuNIENWQSpFxOI+c8Gn+ZVtpy8Oo8NDzufV4VR2BvQGV0xhafBX3E0Su6B4ne1
-         wPqIqgRczR6yPJWKFhXdlKHHyzY9yXi6c4aZmDYesGCUpwTdjDMAL81ibGS4HZ5htBCO
-         dn0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724269590; x=1724874390;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gHWv8p+wL7uxkgs1ibJSSg0ky6UHTBZ/rIbgauZ3WpE=;
-        b=wZtu1yWqRZhpwK35LxWjFPiDOBnvBuLS2kAX29VmhBcmaTvTw/C1lG9PDJm4mlqbDH
-         30Opyv6JDRuGYATdG8dzIVhs4+fj1e9ywc3xnYatUNFvlrSN5kjsmdItqXDndogK5X4z
-         MJZ6SiNxJ5+0DhF8GnLz339s76etxAKvoYB8msFauk/qZSyGoRQPdhSmlcCFt6IMM9tI
-         DBuDTZtB62QDulsI0L3MzQEPcfQJxlU3mAoPBPjBY2D/TyJj2Z/zUCSWj/A7zU0XSKV8
-         csdYAjkAphBFTEgvkARm6UJj9sXUfKH9KD6FuxOAG6fcqwVF4hmawbqJs2vqeZMek76P
-         Gjgw==
-X-Gm-Message-State: AOJu0Yw2+MFik1kD+XVjqNByCM2zAoOjr2B416qDd3lZjILS5TKp+xjv
-	h7jLSrTxuoBURR4l8ICq+ofTthxajKSsmJnWWJ3XLn1TRlbZB9usWK/H6aeIyjIrz0ZQBRLdaak
-	lm9M=
-X-Google-Smtp-Source: AGHT+IFJqnzxGlsPvyHdLyMeZuHRGAwl2fxM8rAJzwG35NsNjeDiGVAJEqeX1/OdNhxWqV5SmT2UXQ==
-X-Received: by 2002:a05:622a:6181:b0:451:d5bf:7b03 with SMTP id d75a77b69052e-454f21c3d64mr28619471cf.7.1724269590140;
-        Wed, 21 Aug 2024 12:46:30 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45369fd7a4esm62414901cf.19.2024.08.21.12.46.29
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Aug 2024 12:46:29 -0700 (PDT)
-Message-ID: <3e53c001-7c60-427d-be5a-ae01bdc4a7ba@baylibre.com>
-Date: Wed, 21 Aug 2024 15:46:28 -0400
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=89645d55f0=guocai.he.cn@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47M1E27n011993
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 01:16:43 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6vub9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 01:16:43 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FPXSDUiSMSZUmOWvDtVUR/ErlNTE91R72UzRC/yoXUmjYPn6LJtKKS5yzsKGRZN11Xxc8/LDobcRFS2Ee20KXDBs4sWMeB/aBeJk+bhGaKJOR6WRAmnang2XTjkjkiHm45JJXtGHW3NdsOQ/UqEzWPaZtMhZL/fBQ0/THApWmV650T4eZZgMsEyw8zAJdw/9r92VkTeMh9SfP2/bnWoKlBVAe33+uJAVCpcNmaA1H7V2EQ9fw9bpETWs2lgXEf5h97XoBaQBjHzBNCnxLYXIQcnEfRPiNeIYK0fzXZhURvoXrxm9nbsV0IuHcTSe8JDPgHXWvapbZBAlqHvMaUAX7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=erBdQ1ZNvzptn3x6L/aocx95DaF9SerpuXfQ4jKLpOo=;
+ b=D3UA2lzIalnmC+CdtMEDmNUOmc6QZdzlifcECAOaVftEcqDNloY0VuvSNVqdh8BGAifrfn/RDZ6nXq5mAbQrMcZS0P1xC4m5Lqfca/oDD3LF/xkTB7DyKIwTRUoLNzxnSIRU6k5P3KfPUAu11CIYVziXrtvPKNSQOmITnhNZsURaYktCNGJ5WTbvy25kNXjFnOK/5dgDQoVG2nRcklSM9wEmShuxEgDHql47fLgnQOf2sK0HyMvjcKhLBmxu+Dg2p5/pJG8e4LVn47pn+Ob/+GlU9otti9ZiAAVq5R+Ch4RmIaKsl3llDZAOPzlTeLKkbPVJ6EsQYOyNSUsYedWuQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN6PR11MB2671.namprd11.prod.outlook.com (2603:10b6:805:60::18)
+ by SA2PR11MB4795.namprd11.prod.outlook.com (2603:10b6:806:118::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.17; Thu, 22 Aug
+ 2024 01:16:40 +0000
+Received: from SN6PR11MB2671.namprd11.prod.outlook.com
+ ([fe80::3e06:cc6f:58bb:3326]) by SN6PR11MB2671.namprd11.prod.outlook.com
+ ([fe80::3e06:cc6f:58bb:3326%4]) with mapi id 15.20.7875.019; Thu, 22 Aug 2024
+ 01:16:40 +0000
+From: guocai.he.cn@windriver.com
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [meta][kirkstone][PATCH] libsoup: fix compile error on centos7
+Date: Thu, 22 Aug 2024 09:16:21 +0800
+Message-Id: <20240822011621.2721757-1-guocai.he.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: TYCP286CA0112.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29c::7) To SN6PR11MB2671.namprd11.prod.outlook.com
+ (2603:10b6:805:60::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v3] piglit: upgrade 22eaf6a91c -> c11c9374c1
-To: openembedded-core@lists.openembedded.org
-References: <17EDD5FCB55B6698.29323@lists.openembedded.org>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <17EDD5FCB55B6698.29323@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2671:EE_|SA2PR11MB4795:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ed1d80b-f51c-492c-5862-08dcc24813a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Z1hlYmNFSE4xNzVleDIvaGZnQXQrelBzVjBDemEyUkJ1RWEvR0hZNWtvdVhj?=
+ =?utf-8?B?Vml0MWJCV2VtTE9xcGMyVDVyMU5kT29tUFI4b2VuRjczL3lKVzNkbS9XVFpR?=
+ =?utf-8?B?QVYyUHpCcDhVYWNjRUpsQzRFcTh1UEU3L0R3K0hqL3dpL1lNeHRkRGs5dzdF?=
+ =?utf-8?B?dVlHNjhmZDYwbU5PL0ZjSk43dXhZOFJsbG1HRXV6WE9aVTNua21ndnpVeFpy?=
+ =?utf-8?B?d1UzRllNaVpwS2ZUYU5zc3hkZWNSRmFXQVJwc1Z1eWpmS1RJOU9jZnhCc0M5?=
+ =?utf-8?B?ZzZCemg2ejQ5K0VIaWE3RHdSQjdTZzJiWUJ3R25LUk12emFOSmNzZjQwZFRB?=
+ =?utf-8?B?QVF4OTJ3dFRIUzZyVGFHdXR4VnhDOGEzTlpGUGpCaUoybk1iTFlKdGtmZGtF?=
+ =?utf-8?B?RFBwZWdtT3g2Wk9YVCsrSW9rVEorcjViU0hqTlhqbkVBcktXaFkwU3JLVGU5?=
+ =?utf-8?B?QUp0ODFUcXY2R2NSVmdackl5TnRyQ1JIV1NlWjFMYkRlTEhTVHdsUU1HUDc3?=
+ =?utf-8?B?ZlZkSWMxM2dYQ05YSWNLNE5SREZMODFKNHdLc0pvMjhYLzR3Q1pqZlVhYU0x?=
+ =?utf-8?B?bE9kZ2RSdVJBU0ZmOHNKckZOamRMU3lLVzY2UHg5THpiRWhoMUlGMkpiTlpI?=
+ =?utf-8?B?VnRXSEdJbFFuMUxubktWWVlRWDV2N2MrV1laR0xCalFsVExOZ05rVDIvczg4?=
+ =?utf-8?B?V28wTDVOK0FNZXcva0pYM1V0ck1LRWRJNXFlcTRQSmZrcS8wdEhHelJQV1c2?=
+ =?utf-8?B?K1hZb3JndTJxM0F5bVgwaFYxSDcxb0paOWc0dEhGeHB6d2ZlRXAyQmF2YjFp?=
+ =?utf-8?B?czNkNDBaUDRSeWxUdHJmQ1BQZVFPSW9PMmlQRDdSd3JuTkNFUUdqR290SlFH?=
+ =?utf-8?B?dGVuck5Hc0ZDUUhROFcrc2hBY0laRlJpYUFNSURxRDVJWngyRElraCt1ZzZ0?=
+ =?utf-8?B?TUNRbGRaU2xhSHZLMlJPMS9RdmpmRy82cVd2RnZDckFkWWdCZGVZSjZMZ2Nx?=
+ =?utf-8?B?NWErR1lWU3h0QlBUZTVjY2pPL0JSRkwzK2pZeW53YmZiay8ycE1reHpmMGJ4?=
+ =?utf-8?B?Q0dzUkZuWmtkN040blFYV0s5eWpETDJoOUpDM1hXNlpoUTFuS0VpTDZFZVFh?=
+ =?utf-8?B?ZlRRY25BSWN0MFRKSitLVlU0bTlVKzByMzBEdVM1cGYzMHlTbW11cGMxQzZ1?=
+ =?utf-8?B?My85WWJ5K3RsVklJMExtNDhSQ0ZMemN2STJqaEVqZDNzM1k4TWRkN3dQcmE3?=
+ =?utf-8?B?ZnNYTWlGekQvS1c2RFc1YXoxRmEybk4xU1c5aU4zY1NRYlBCQitjZG8wV3NT?=
+ =?utf-8?B?dmxEbTVYRDJNazJBS2NNZ3FNMVBzVlNibkQ1OFlScTl2SmduWm04WTZudUNa?=
+ =?utf-8?B?aXNyYlVSQUJEeDQ3dWFNR3I5OEs4dGs4b1RLelJIOW9XbmdWWGQyVEtWaW1o?=
+ =?utf-8?B?bDhibDFYdjI3Q0F2NFFLOHFNZXpLdTZITkpYWkRYTTlYVGdBUEtHVzM1ZXh2?=
+ =?utf-8?B?YkRyZ3pPUVhRc3N0VUZFYTFjdGNiQ1U3R3pHUTNrUENJTjhLZlptUXFSWWww?=
+ =?utf-8?B?SkNkSmJqOEFvM3IramhTeWovaXFJYzBzNDZic0dFQUF2bnptUWNGZnZFa3Rp?=
+ =?utf-8?B?SU8xaGN0cUhySkpwNlAwUzgvbUFtSUFJeU1sUmowWGtyNEJUWEJuZGtvRjU5?=
+ =?utf-8?B?NWhBN1ltb04wQk9BRUJCc0U1MHJTUDQ4bE1sdFNBRXNJbXRObm5YemNITXJO?=
+ =?utf-8?B?bmY3bTRGSm83MXdOdVNuWDMybTFyQWJjRkE0SGIzb1JRRTJLWkFGR3dOV2VO?=
+ =?utf-8?Q?soRv/HeWsxdSNqdc9ry7C5F0bFtx2jyEa6Glk=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2671.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RW1oL3Y3WDN1Z2ZjRnQyNFVHT2JURFhMUkF5aFNpOVRIRlh1MUJta3I2ZnA4?=
+ =?utf-8?B?b1F2OFBMM1RiNDVsdzdqVXludWtwQitTUVUwaWtxYTZDQTR5RXVtRndrZHha?=
+ =?utf-8?B?Y0FSWTIwb3N1OHIzeWlLSXo2T0w0YWpQdFVSN2hNVE9uelRCYWsvTU9wODMw?=
+ =?utf-8?B?NDZHV0RHclc2NnhxU1A3d2s5WVVIV0twcjdmZ3RsVFdSUytjUHZCS1RHayti?=
+ =?utf-8?B?SmxIK1o1Rk9MdHh2QzZpQkxQWkZoMmRWb2VIOWVjUDgxeDNsOG5OMXBtVUQx?=
+ =?utf-8?B?MmVrWXVPdGlZc2ZTL0JOazc1QmYwLzhIY1h1emFxZC8wK2hwei9KUytkbXNa?=
+ =?utf-8?B?OUhsaDA3YU12Q3ZycEpsKzFwSWczQklEY1VHbmxBbSs3bWgxTnlTMVZ0R09x?=
+ =?utf-8?B?a0s4ZWNUUjk4K3V4OWxEL0c5NDZETkpNREdjUG9hejd3WU1KZnd2cXc0dWRi?=
+ =?utf-8?B?MDUzaTd5TjIxRHlpakRXTWVMa0xocXpTR3RDRXVyRWQyVlVzY0lrNktqY2dH?=
+ =?utf-8?B?UUpzY2NqSEo3VlBxU0VhQXVyY3c5Z3gzd2E4ZEpFTjNtM1JvOHJKVlBremVI?=
+ =?utf-8?B?bVoxZG1KdEZ0d0FHTDFRdTFQQkdnSzhjZDdJQWpnVVE0VFVITkZFMXd1U1pu?=
+ =?utf-8?B?elg0bDJ0QUZkMjJnTk4rZWkvZkp5RTFOdnowVFlvNEJLWXNUazRpMmdha3VF?=
+ =?utf-8?B?YlpxRlE1VXBOeHp4TkpqdFVNdFBuaktvSmhQZkZJVlQzdUc5VmlYNUZOeXZO?=
+ =?utf-8?B?QitqVE1HdnUxTnFGOGUzbUlmWFVEWFVXeWplMzV4YndtaXJNZnhTY3Q1V3ZK?=
+ =?utf-8?B?QUlJUGJZcTdlTDRCWVV2ZDhyNi83VFNEbFVuQ25aNXV3NmcrMEVIWkoxUlho?=
+ =?utf-8?B?cDZ4NDkzZ0dpV2VaN3NVcWpieUo0ME1aQWtTZUNna3RvU2tNdFRwUklQeFND?=
+ =?utf-8?B?Vm9weUhzdjYrQmw0SmszYXN0Qnk4YmVxaWx5M25RZjhOVEhWbnd4dTFqMmZK?=
+ =?utf-8?B?bHFhVzNvblNDbEM2R0s5aGdhVGJVVWFOZ2N3MlREL3Y0d2lYbzdMaDFsdVBp?=
+ =?utf-8?B?bkcwSTg4c0IydnJlY2pQM3h3OG5SS2o4YlB2R2Q5S2tRa3ZFQ0JFZ1NHMWVD?=
+ =?utf-8?B?eTNrdzdLcjhWejM3TkNjcTE0d0ZkL0JmTEZYK2N1YzNNY3dMRWpkc2l4WHNJ?=
+ =?utf-8?B?ejZ0K0hUcWE1T2ZOVVRudWJVMnFOc2h5RWJiUzBNYWZpcVVBZXVyMHlqTlMv?=
+ =?utf-8?B?ZVlSN29NL0pJNEp6RHdTam1BSGtUTGlmMXZyanhZdFBtT3NTYzNEcSsrbXFO?=
+ =?utf-8?B?VUJmYWk2MndwaDA0N01GZ0REMDhzaGZBVm8wc0tXY01LZ21CTmNPQmFwN2JS?=
+ =?utf-8?B?ckJlNmNKK3lkZ2NUdVV4a3l5ZzFKRWM4b0ErRnJoS2gwWmVYUUxiRUh6NTZ0?=
+ =?utf-8?B?UzR6d0IwYXBoc2lVdXJIOHJvMzNJM0p5WnFDZXU3WXlNYUxwMlRJalp3ME1J?=
+ =?utf-8?B?WStsZzN6MEFtalVvVXBxQmM0OEdPUUhGNndybEhKL0dUclZRYWk2ZWp1cmtR?=
+ =?utf-8?B?dDNwNld3UDZqNWhGekpIbXdsd1Y4V3BTVURreVVKVnhUNDliTk9HWFo0RzJZ?=
+ =?utf-8?B?U24wRHF1SnZDc3hIS29YanRMRWZRWm5sY3c4bWQzb2hHL1pRcE8vbGpFTXhn?=
+ =?utf-8?B?QWdIa3lxNVBVNW4veER2Ym4zNnF6eC9qdmRJT2RmZmE2aWRlWjgxVGhuM0kv?=
+ =?utf-8?B?L2FURnlxWEprVXlCOXh6WG5zZU5ROE5ubllvbXVUVkVXQnZYVWtUUnZPeEh4?=
+ =?utf-8?B?aGgzWC9MUncvUCtoeWIwb1hObCtlMkpDU2JFb25YbTlXWXVIMy9HOG9UOXV2?=
+ =?utf-8?B?TGpnVkZSeFAvY2FaRnViOFY4RVc1U1RRa0tkMENDL2JEcDJXcU02Q0pvRnRi?=
+ =?utf-8?B?T2tDZFM1aGROUFk3WW5GM1R1dnorNmgrd3RxT3ZublpKd0labUtRVWJKZC9P?=
+ =?utf-8?B?ZHdDa012K2pvOHFiWjFaU2lMZWpzRlNDaXkxZVMzL3ZTQXJpSkZ0Uk16aEdl?=
+ =?utf-8?B?OE9KQ3J6L3NPajcrRkpINXZFVEtNMGpGYTArUWhrZE54WHdZc0RBV2t6YllP?=
+ =?utf-8?B?UzJJZldNM0FNNitwZXVsa1cyUDFiRU5kcUJBM1dhdFJQemFuYUNRNy81a1FT?=
+ =?utf-8?B?UUE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ed1d80b-f51c-492c-5862-08dcc24813a9
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2671.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 01:16:40.4537
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZgOitcgMYby4pSr7LFILJmM8Faxer/wE89OQdfIWhql9h6bvbhzrvtou0vz8zuXREu19rAHEr2seWQUOIpYROY3BQ0eHFql7kP53daXe/Eg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4795
+X-Proofpoint-ORIG-GUID: 3S2JpAerNt6EGbuYWfmKzFSDJ0pLhRt4
+X-Authority-Analysis: v=2.4 cv=VdWlP0p9 c=1 sm=1 tr=0 ts=66c6917b cx=c_pps a=AVVanhwSUc+LQPSikfBlbg==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=GHR8O2WEAAAA:20
+ a=pGLkceISAAAA:8 a=YRHvXXt1AAAA:8 a=aLquMYcZFZkjG6VAuXEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=9bw_jnHfPby8klRCszyn:22
+X-Proofpoint-GUID: 3S2JpAerNt6EGbuYWfmKzFSDJ0pLhRt4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-21_17,2024-08-19_03,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
+ spamscore=0 malwarescore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2408220008
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 47M1E27n011993
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Aug 2024 19:46:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203611
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 01:16:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203612
 
+From: Guocai He <guocai.he.cn@windriver.com>
 
-On 2024-08-21 3:45 p.m., Trevor Gamblin via lists.openembedded.org wrote:
-> Commit 766669895d fixes builds with numpy 2.x.
->
-> Patch '0001-utils-Include-libgen.h-on-musl-linux-systems.patch' dropped
-> because it is now upstream in commit 9c941dfc36.
->
-> Add wayland and wayland-protocols to DEPENDS to avoid errors during
-> build.
->
-> Adjust the x11 PACKAGECONFIG flags so that piglit builds without x11
-> available.
+Backport a patch [1] to fix the below build failure.
 
-FYI, I've tried the reproducible tests on piglit with and without 
-TCLIBC=musl, and also with and without the numpy 2.0.1 upgrade, and I 
-can't reproduce them. Hopefully this works on the AB now.
+FAILED: libsoup/libsoup-2.4.so.1.11.0.p/soup-address.c.o
+In file included from /usr/include/glib-2.0/gio/gnetworking.h:40,
+                 from ../libsoup-2.72.0/libsoup/soup-address.c:14:
+/usr/include/resolv.h:75:15: error: unknown type name =E2=80=98u_char=E2=80=
+=99
+         const u_char **__query,
+               ^~~~~~
 
-- Trevor
+[1] https://gitlab.gnome.org/GNOME/libsoup/-/commit/5c3d431bdb094c59997f2=
+a23e31e83f815ab667c
 
->
-> Changelog:
->
-> c11c9374c (HEAD -> main, origin/main, origin/HEAD) arb_bindless_texture: test image/sampler constructors
-> f11abb664 Revert "arb_bindless_texture: add another function param bindless test"
-> 045343687 arb_gpu_shader5: add linker version of function overloads test
-> 4b1116f3a arb_bindless_texture: add another function param bindless test
-> 4a62c2672 glsl: test function linking with implicit param conversions
-> 9f280db77 arb_bindless_texture: add basic function param bindless tests
-> 766669895 generated_tests: fix numpy overflow warnings that are errors in numpy 2.0
-> 5214915dc generated_tests: print mako exceptions
-> 41bd119f2 arb_texture_buffer_object: don't leak src strings
-> 582f5490a gl-1.0: Add a test for glPushAttrib/glPopAttrib
-> 647d07250 ext_texture_format_bgra8888: test GL_BGRA8_EXT as well
-> dee2a233f perf: port glsl-compile-time perf-test from mesa demos
-> 18333c568 perf: port vertexrate perf-test from mesa demos
-> e932fa2f5 perf: port vbo perf-test from mesa demos
-> f9cf4788a perf: port teximage perf-test from mesa demos
-> 20ccc1c10 perf: port readpixels perf-test from mesa demos
-> 556a9c96d perf: port genmipmap perf-test from mesa demos
-> 225b6bfb6 perf: port fill perf-test from mesa demos
-> dae4a13f9 perf: port fbobind perf-test from mesa demos
-> cd0f812b3 perf: port copytex perf-test from mesa demos
-> fdf3fc09d cl: add missing errors
-> 01b64dd06 glsl-1.10: test a complex partial unroll scenario
-> cf8daaf5b glsl-bug-110796: detect missing ES 3.2 support using EGL_BAD_MATCH
-> 30d34daf7 glsl-bug-110796: distinguish which context creation failed
-> 3ea14414a Sync .mailmap from Mesa
-> 7accec34a glsl-bug-110796: check for GL ES 3.2 support
-> 12ebd71c7 egl-terminate-then-unbind-context: simplify
-> 69bc38a77 egl_khr_create_context: improve skip reporting
-> 209becf6d arb_blend_func_extended: simplify MAX_DUAL_SOURCE_DRAW_BUFFERS detection
-> 800abe232 arb_blend_func_extended: gles: follow the specification requirements
-> 1cad6ee20 arb_texture_multisample: require geometry shaders
-> 59bdc8c4e egl: missing EGLconfig isn't stderr material
-> cee2190b5 ext_external_objects: avoid stderr when we skip the test
-> 8cbefab52 util: remove handwritten defines and drop FIXME
-> 11e7aa044 texsubimage: fix low bpp formats by expecting less than 8 bits of precision
-> e180f9623 Use GBM_LDFLAGS to get all options
-> 3bddb36e8 fix vk_vert_buf_reuse cleanup
-> 8f6e71975 arb_texture_view: test for NaN in more cases
-> 446c20f3e ext_direct_state_access: Fix deprecated-non-prototype warnings
-> 8a6ce9c6f arb_fragment_layer_viewport: don't test out-of-range gl_Layer values
-> 8d5af6c51 glsl-1.30: Test uint to float conversion of sign extended value
-> 7aa7bc1b0 arb_draw_buffers_blend: Fix deprecated-non-prototype warnings
-> 3d3a20a2b arb_sample_shading: do not actually run mask_in_one if it's not supported
-> 759cc6454 clear-stencil: new test to check for problems clearing stencils
-> 2c64a91bb read_depth_offset: new test to check depth offset calculation
-> 869a1b6e8 replayer: create bin/ everytime
-> 9be2db198 Reduce precision in depth clear precision check
-> 7f40f35a3 Add float from half function
-> f7ece74a1 tests/gbm: Add gbm_device_get_fd() test
-> fd4a6c521 wayland: Add Wayland dmabuf driver-name test
-> df0d0ae79 conversion-explicit: use a different value for normalized +/- min
-> a482803ac cmake: if we specify PIGLIT_BUILD_GL_TESTS OPENGL_FOUND is always true
-> 67b89b3e3 README: recommend Ninja by default and switch to cmake --build
-> efd111853 cmake: build is compatible up to 3.28
-> e84aca9b5 cmake: add workaround for CMP0148
-> 2e70ca91e README: ccmake is not that common, regular cmake is enough to build
-> e39ba99e5 README: update requirements
-> d945707b9 cmake: WGL doesn't need Waffle, pass the definition without it
-> 938a9dc9f cmake: remove this 12 years old workaround taking too many lines
-> 7e5ca052d cmake: implement switch for the EGL tests and simplify test conditions
-> cd9d15364 cmake: make PIGLIT_BUILD_DMA_BUF_TESTS aligned with GBM dependency
-> 4af47af27 cmake: depend on WGL_TESTS being enabled to build WGL
-> a222d50bb cmake: implement GBM and Wayland controls
-> 4230c7e9f cmake: fix unusually formated statement
-> d958b70d1 cmake: implement X11 option (required for GLX)
-> 4319b9fc8 cmake: move GLX and WGL option to the beggining of the file
-> 44e1c29bf cmake: move first batch of option() at the beggining of the file
-> 96241ea22 cmake: rename default values with prefix DEFAULT_
-> 21374d8d3 cmake: move defaults into the per-platform section
-> 86d3f1132 cmake: predefine defaults depending on the system
-> 381221a81 cmake: drop unused CMP0042 policy
-> 99eade7cd cmake: respect indentation
-> dd6f7eaf8 texturing: add a test for GPU/CPU sync when creating textures
-> 025e462ae util: fix multisample_texture_fs_template
-> f9e26b98b tests: add a test for GL_APPLE_sync
-> b24c834d9 ci: codespell ignore list is lowercase
-> 0a842edd0 more spelling fixes accross the whole codebase
-> 2c473ea73 ci: bump distribution tag
-> 7cd28b970 arb_multisample: Fix bitwise-instead-of-logical warning
-> 19e58247e ext_texture_storage: Fix memory leak on error path
-> d0b5d0c1f arb_internalformat_query2: fix internalformat selection for max_layers subtest
-> 74064b1d4 arb_clear_texture: only test float depth textures when supported
-> 9c941dfc3 properly check for libgen.h
-> c55e22a5c arb_copy_image-formats: avoid undefined behavior
-> 537831d48 intel/ppgtt: Use getpagesize fallback with MinGW
-> b32186ee5 README: add Vulkan into the generic description
-> 1e631479c fix arb_query_buffer_object-qbo to warn on invalid GS results instead of fail
-> 62938a9bc tests: Fix cl test program@execute@builtin@builtin-float-degrees-1.0.generated issue about tolerance.
->
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
-> v3 adjusts the PACKAGECONFIG for x11 to handle builds without it.
-> v2 added wayland and wayland-protocols to DEPENDS to solve build errors
-> seen on the AB.
->
->   ...clude-libgen.h-on-musl-linux-systems.patch | 83 -------------------
->   meta/recipes-graphics/piglit/piglit_git.bb    |  7 +-
->   2 files changed, 3 insertions(+), 87 deletions(-)
->   delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
->
-> diff --git a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch b/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-> deleted file mode 100644
-> index 2875dd52ec8..00000000000
-> --- a/meta/recipes-graphics/piglit/piglit/0001-utils-Include-libgen.h-on-musl-linux-systems.patch
-> +++ /dev/null
-> @@ -1,83 +0,0 @@
-> -From 6c852e6ac292008137a6f3a8aa908090bb5b4b11 Mon Sep 17 00:00:00 2001
-> -From: Erik Faye-Lund <erik.faye-lund@collabora.com>
-> -Date: Tue, 19 Mar 2024 16:34:02 +0100
-> -Subject: [PATCH] properly check for libgen.h
-> -
-> -Some users are reporting that basename is not available when building on
-> -Linux with musl libc. And since the POSIX spec[1] says that basename is
-> -defined in libgen.h, we should include that when available.
-> -
-> -So let's properly detect the header, and include it if it exists. This
-> -should hopefully make things a bit more robust.
-> -
-> -Since we're also including this from the CL program-tester, let's
-> -rearrange the includes a bit so we know that config.h has been included.
-> -
-> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/888]
-> -Reviewed-by: David Heidelberg <david.heidelberg@collabora.com>
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - CMakeLists.txt                    | 1 +
-> - tests/cl/program/program-tester.c | 5 ++++-
-> - tests/util/config.h.in            | 1 +
-> - tests/util/piglit-util.h          | 4 ++--
-> - 4 files changed, 8 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/CMakeLists.txt b/CMakeLists.txt
-> -index dd2bf67125..5563fe0e20 100644
-> ---- a/CMakeLists.txt
-> -+++ b/CMakeLists.txt
-> -@@ -492,6 +492,7 @@ check_include_file(unistd.h    HAVE_UNISTD_H)
-> - check_include_file(fcntl.h     HAVE_FCNTL_H)
-> - check_include_file(linux/sync_file.h HAVE_LINUX_SYNC_FILE_H)
-> - check_include_file(endian.h    HAVE_ENDIAN_H)
-> -+check_include_file(libgen.h    HAVE_LIBGEN_H)
-> -
-> - if(DEFINED PIGLIT_INSTALL_VERSION)
-> - 	set(PIGLIT_INSTALL_VERSION_SUFFIX
-> -diff --git a/tests/cl/program/program-tester.c b/tests/cl/program/program-tester.c
-> -index 97fe64906d..e47fb5aacc 100644
-> ---- a/tests/cl/program/program-tester.c
-> -+++ b/tests/cl/program/program-tester.c
-> -@@ -31,10 +31,13 @@
-> - #include <inttypes.h>
-> - #include <math.h>
-> - #include <regex.h>
-> --#include <libgen.h>
-> -
-> - #include "piglit-framework-cl-program.h"
-> -
-> -+#ifdef HAVE_LIBGEN_H
-> -+#include <libgen.h>
-> -+#endif
-> -+
-> - /* Regexes */
-> -
-> - /*
-> -diff --git a/tests/util/config.h.in b/tests/util/config.h.in
-> -index 8ed5af1709..437eb91418 100644
-> ---- a/tests/util/config.h.in
-> -+++ b/tests/util/config.h.in
-> -@@ -16,3 +16,4 @@
-> - #cmakedefine HAVE_SYS_RESOURCE_H 1
-> - #cmakedefine HAVE_UNISTD_H 1
-> - #cmakedefine HAVE_ENDIAN_H 1
-> -+#cmakedefine HAVE_LIBGEN_H 1
-> -diff --git a/tests/util/piglit-util.h b/tests/util/piglit-util.h
-> -index 4d3606c708..de999980b6 100644
-> ---- a/tests/util/piglit-util.h
-> -+++ b/tests/util/piglit-util.h
-> -@@ -52,8 +52,8 @@ extern "C" {
-> - #include <math.h>
-> - #include <float.h>
-> -
-> --#if defined(__APPLE__) || defined(__MINGW32__)
-> --#  include "libgen.h" // for basename
-> -+#ifdef HAVE_LIBGEN_H
-> -+#  include <libgen.h> // for basename
-> - #elif defined(_MSC_VER)
-> -
-> - static inline char *
-> ---
-> -GitLab
-> -
-> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-> index 99d75e64f86..c7f2e17f20a 100644
-> --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> @@ -10,11 +10,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
->              file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
->              file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
->              file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
-> -           file://0001-utils-Include-libgen.h-on-musl-linux-systems.patch \
->              "
->   UPSTREAM_CHECK_COMMITS = "1"
->   
-> -SRCREV = "22eaf6a91cfd57f7bb3df4e5068c2ac1472d4ec1"
-> +SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
->   # (when PV goes above 1.0 remove the trailing r)
->   PV = "1.0+gitr"
->   
-> @@ -23,7 +22,7 @@ S = "${WORKDIR}/git"
->   X11_DEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"
->   X11_RDEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"
->   
-> -DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl"
-> +DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl wayland wayland-protocols"
->   
->   inherit cmake pkgconfig python3native features_check bash-completion
->   
-> @@ -40,7 +39,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 glx', '',
->   PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
->   PACKAGECONFIG[glx] = "-DPIGLIT_BUILD_GLX_TESTS=ON,-DPIGLIT_BUILD_GLX_TESTS=OFF"
->   PACKAGECONFIG[opencl] = "-DPIGLIT_BUILD_CL_TESTS=ON,-DPIGLIT_BUILD_CL_TESTS=OFF,virtual/opencl-icd"
-> -PACKAGECONFIG[x11] = "-DPIGLIT_BUILD_GL_TESTS=ON,-DPIGLIT_BUILD_GL_TESTS=OFF,${X11_DEPS}, ${X11_RDEPS}"
-> +PACKAGECONFIG[x11] = "-DPIGLIT_USE_X11=1 -DPIGLIT_BUILD_GL_TESTS=ON -DPIGLIT_BUILD_DMA_BUF_TESTS=ON,-DPIGLIT_USE_X11=0 -DPIGLIT_BUILD_GL_TESTS=OFF -DPIGLIT_BUILD_DMA_BUF_TESTS=OFF,${X11_DEPS}, ${X11_RDEPS}"
->   PACKAGECONFIG[vulkan] = "-DPIGLIT_BUILD_VK_TESTS=ON,-DPIGLIT_BUILD_VK_TESTS=OFF,glslang-native vulkan-loader,glslang"
->   
->   export PIGLIT_BUILD_DIR = "../../../../git"
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203610): https://lists.openembedded.org/g/openembedded-core/message/203610
-> Mute This Topic: https://lists.openembedded.org/mt/108025942/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
+---
+ .../0001-meson.build-set-c_std-to-gnu99.patch | 44 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |  4 +-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/0001-meson.b=
+uild-set-c_std-to-gnu99.patch
+
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-meson.build-se=
+t-c_std-to-gnu99.patch b/meta/recipes-support/libsoup/libsoup-2.4/0001-me=
+son.build-set-c_std-to-gnu99.patch
+new file mode 100644
+index 0000000000..4a7d189515
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-meson.build-set-c_std=
+-to-gnu99.patch
+@@ -0,0 +1,44 @@
++From c41784deb1d4a923007ffe14cfa676f785808f45 Mon Sep 17 00:00:00 2001
++From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
++Date: Wed, 21 Aug 2024 06:48:32 +0000
++Subject: [PATCH] meson.build: set c_std to gnu99
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Set c_std to gnu99 to avoid the following build failure with gcc 4.8:
++
++In file included from /tmp/instance-0/output-1/host/arm-buildroot-linux-=
+gnueabi/sysroot/usr/include/resolv.h:65:0,
++                 from /tmp/instance-0/output-1/host/arm-buildroot-linux-=
+gnueabi/sysroot/usr/include/glib-2.0/gio/gnetworking.h:40,
++                 from ../libsoup/soup-address.c:14:
++/tmp/instance-0/output-1/host/arm-buildroot-linux-gnueabi/sysroot/usr/in=
+clude/arpa/nameser.h:115:2: error: unknown type name 'u_char'
++  const u_char *_msg, *_eom;
++  ^
++
++Fixes:
++ - http://autobuild.buildroot.org/results/56b9cb987e25b99d6fed16c537552f=
+47c3376f21
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/comm=
+it/5c3d431bdb094c59997f2a23e31e83f815ab667c]
++
++Signed-off-by: =EF=BF=BCFabrice Fontaine <fontaine.fabrice@gmail.com>
++Signed-off-by: guocai <guocai.he.cn@windriver.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 3cc56fb..506c5a4 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -2,7 +2,7 @@ project('libsoup', 'c',
++         version: '2.74.2',
++         meson_version : '>=3D0.50',
++         license : 'LGPL2',
++-        default_options : 'c_std=3Dc99')
+++        default_options : 'c_std=3Dgnu99')
++=20
++ gnome =3D import('gnome')
++=20
++--=20
++2.35.5
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/re=
+cipes-support/libsoup/libsoup-2.4_2.74.2.bb
+index 6ff393c9a3..be286e1849 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+@@ -11,7 +11,9 @@ DEPENDS =3D "glib-2.0 glib-2.0-native libxml2 sqlite3 l=
+ibpsl"
+=20
+ SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('=
+.')[1]}"
+=20
+-SRC_URI =3D "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
++SRC_URI =3D "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
++           file://0001-meson.build-set-c_std-to-gnu99.patch \
++          "
+ SRC_URI[sha256sum] =3D "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b78=
+23b6018b40d01159"
+=20
+ CVE_PRODUCT =3D "libsoup"
+--=20
+2.34.1
+
 
