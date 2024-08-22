@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A8B1C54732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 588D5C54731
 	for <webhook@archiver.kernel.org>; Thu, 22 Aug 2024 09:35:41 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.9507.1724319335283994176
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web10.9506.1724319334748146216
  for <openembedded-core@lists.openembedded.org>;
  Thu, 22 Aug 2024 02:35:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PKw45SCF;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3718706cf8aso259540f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 02:35:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IlczbVuv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5bef295a429so964257a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 02:35:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1724319333; x=1724924133; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YiMrJtcPbgvmw2N8ZhAu9Of29KmCkXTVXOZnh0GQct0=;
-        b=PKw45SCFf+HmmtR7oEwTX8MOeP/OeOK8bSgnkfk7OfC3p3eUbP2vMcG3odEZB48vZW
-         GZy93Wel/Sjj1oe5WAsX6eaFNynGJibNWDRD3TOGOr3zfJcEEA1E+JlXmjPT6jrCe8wb
-         kqNKucnyM9FmLYG1U0RFoZp9vMGmkPwN7MXDnWbbC/n2Ip7mgQA2NzvYir7Zav+rBjiQ
-         jzQ5SSyPMS2LrLekNY5IAOBoEptCxTgBnMvvz4RqoxuBkLTsvygkG9Na1XwPPcDN3tGE
-         yDQBVsi9M5fsfiVmQoiz1u1+nr2iS4MRsh9Y7lLWSfXSw0oji+023Xos3rPXgh0ow+A3
-         lGpA==
+        bh=0BbD9SkEuhE+i6UvkrDi9/wmgmjqZ1cHtYV4T2Zb7Ns=;
+        b=IlczbVuv2ejYEt5EGm14uQriHr328QmCBySwfw+BRUA02lWLDcm8lmXbo47KLQq5rz
+         wNr5tfHKUR+X55leBdKqY5td+kInVHqJEBQgkVRqKaK9y5Tn8iCoyjZTcW4LuTEFyWxv
+         wXZT8FlhZMc5jjUZs6t/jE0k3NdUCbt32X0PlztBvxTCSzIYxyO/v5chutoI2pdcUlr3
+         E4AF7Iiur8PPCNjjptmN1Naxj73orEeTtrsrbuUbBtWoLlXv6llhb0qc+n57NbwoJlmW
+         IM0gNLcGZgXdWHv9sDfApfteq5NU1fEzCSswrgVrISpo9GfBso1j1eb2z2yskGqDnmHu
+         chFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724319334; x=1724924134;
+        d=1e100.net; s=20230601; t=1724319333; x=1724924133;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YiMrJtcPbgvmw2N8ZhAu9Of29KmCkXTVXOZnh0GQct0=;
-        b=UD8UfgZ0ho6+RwIs5eHi3gylUgEcjKa9XCILisnxn7+QWtebJCxcXbeTbMCL1hZejJ
-         34JoFmeFIxANpW2dEzKkXOGv6e949AbwTAtlDvDBy6SnYP2UwLvdeXutaqwgdpV9GyBl
-         hNQGa88SkWNbTD7a2nOwB4KEMknE6U5tMWOv/KSQ0wEOHhwyhn4VEZ/yqDw9Dm4jBNon
-         9iXzwTPW608LDpCuYOw1Q0u+gTEWtOuBSaPBdO8l0Kmz7NzT6QbGcE8sj8kkr/eVO3OW
-         wvKy+RWQuJMk0Wo2B4hNlAE5WduS6jy7rO1YRvZHpJCZ8manQZTN2pcGqQOBz2BY/jH/
-         dHhA==
-X-Gm-Message-State: AOJu0YzH3JxkHR+vWLVVJYWTZZEczUYPPiuUDap2mWg1f5t7FBrSSJJ4
-	BaSbtH7CsIqFq+0P6vzVec7EXzgSF2tsQbVlehme24oKbG+DXczBzZzRdg==
-X-Google-Smtp-Source: AGHT+IE3HpSsmfbayVyRxXaVD7ObDX9XRl62PDxQnbHTn/b87UqaHu3VQmMx8DxVw1iUkjGGWuz5Ow==
-X-Received: by 2002:adf:eb47:0:b0:371:899b:5c5 with SMTP id ffacd0b85a97d-37308c3782bmr717179f8f.27.1724319333284;
-        Thu, 22 Aug 2024 02:35:33 -0700 (PDT)
+        bh=0BbD9SkEuhE+i6UvkrDi9/wmgmjqZ1cHtYV4T2Zb7Ns=;
+        b=omAgP7ysVaUmsMtCHtvqnAcP2X6zhmKRGrkMI/n668tDgMYsMpDIcV5kadyEpIsRuB
+         f+rLBewjW6YPQ/QuleejGa7EaDyNMhWagDIwoLD5D3xEOR8dduYlFN1uDDgqZU5oaDSs
+         2Bou3DEWSFLF9jU9pZy8uuO96u+ihtD04LdhIvd82JYH3LXRhLEHHszH77x4G78unBpz
+         pQCInx2DUHEp+wLQMe52LuFjpNLDA04OjIM8HROVpur2cbe05r1yVbTA56qzXln6hmHh
+         jIeVYJEjAFxE4LbKNdnt6AdETnQgrIti+DVvi103ptIf4IAiVehBbvqCctYVyXyQa4HT
+         Nwlw==
+X-Gm-Message-State: AOJu0YyvipvT5QXXpd+RsPl9EXbmSxHDmEUu9slK/wWvgJMn+HGJfJvU
+	CsSkE+NCY4sHBkBqEqap8/c62IfyAfcW6YQFjScar8gY06Zr+o4gaDhyZA==
+X-Google-Smtp-Source: AGHT+IGTodyDgrXfxZ0q64xdljtEYrl4giVgyNL7Wfa2S7utITT1SW059AHG9Vc0QyasfcQDuN2OsA==
+X-Received: by 2002:a05:6402:528f:b0:5a1:369b:bb61 with SMTP id 4fb4d7f45d1cf-5bf1f27a242mr2853603a12.36.1724319332740;
+        Thu, 22 Aug 2024 02:35:32 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c044ddbce5sm698502a12.4.2024.08.22.02.35.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 02:35:33 -0700 (PDT)
+        Thu, 22 Aug 2024 02:35:32 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 13/32] libadwaita: upgrade 1.5.2 -> 1.5.3
-Date: Thu, 22 Aug 2024 11:35:02 +0200
-Message-Id: <20240822093521.36790-13-alex.kanavin@gmail.com>
+Subject: [PATCH 12/32] kmscube: upgrade to latest revision
+Date: Thu, 22 Aug 2024 11:35:01 +0200
+Message-Id: <20240822093521.36790-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240822093521.36790-1-alex.kanavin@gmail.com>
 References: <20240822093521.36790-1-alex.kanavin@gmail.com>
@@ -61,32 +61,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 09:35:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203628
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203627
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libadwaita/{libadwaita_1.5.2.bb => libadwaita_1.5.3.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.5.2.bb => libadwaita_1.5.3.bb} (88%)
+ .../0001-cube-gears-Change-header-file-to-GLES3-gl3.h.patch     | 2 +-
+ meta/recipes-graphics/kmscube/kmscube_git.bb                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.5.2.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.5.3.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.5.2.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.5.3.bb
-index 078f81c677c..2e22211135a 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.5.2.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.5.3.bb
-@@ -10,7 +10,7 @@ DEPENDS = " \
+diff --git a/meta/recipes-graphics/kmscube/kmscube/0001-cube-gears-Change-header-file-to-GLES3-gl3.h.patch b/meta/recipes-graphics/kmscube/kmscube/0001-cube-gears-Change-header-file-to-GLES3-gl3.h.patch
+index f8608d46769..415515b908d 100644
+--- a/meta/recipes-graphics/kmscube/kmscube/0001-cube-gears-Change-header-file-to-GLES3-gl3.h.patch
++++ b/meta/recipes-graphics/kmscube/kmscube/0001-cube-gears-Change-header-file-to-GLES3-gl3.h.patch
+@@ -1,4 +1,4 @@
+-From 5f54f067da7ee24a61d6cb41e0636383729e2bad Mon Sep 17 00:00:00 2001
++From 38237aee63d671cc418902951b8945b59a41a4fd Mon Sep 17 00:00:00 2001
+ From: Fabio Estevam <festevam@gmail.com>
+ Date: Mon, 8 Jan 2024 15:00:01 -0300
+ Subject: [PATCH] cube-gears: Change header file to <GLES3/gl3.h>
+diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
+index 19bbcd195d2..34d5a7d71d7 100644
+--- a/meta/recipes-graphics/kmscube/kmscube_git.bb
++++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
+@@ -10,7 +10,7 @@ DEPENDS = "virtual/libgles3 virtual/libgles2 virtual/egl libdrm virtual/libgbm"
  
- inherit gnomebase gobject-introspection gi-docgen vala features_check
+ LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
  
--SRC_URI[archive.sha256sum] = "c9faee005cb4912bce34f69f1af26b01a364534e12ede5d9bac44d8226d72c16"
-+SRC_URI[archive.sha256sum] = "3b358635f7ea455d9fe75101373e34d2fba130d1590bd1a1c87ab1ccfba05f32"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES = "opengl"
+-SRCREV = "6ab022fdfcfedd28f4b5dbd8d3299414a367746f"
++SRCREV = "467e86c5cbeb2a2051b31ce2c240d6ddf5bc3112"
+ SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https \
+            file://0001-cube-gears-Change-header-file-to-GLES3-gl3.h.patch \
+            "
 -- 
 2.39.2
 
