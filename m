@@ -2,28 +2,28 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DDADC5472F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA73C5472E
 	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 01:48:29 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7355.1724377704380509537
+ by mx.groups.io with SMTP id smtpd.web10.7470.1724377705885583490
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Aug 2024 18:48:24 -0700
+ Thu, 22 Aug 2024 18:48:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=89658b1c4b=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47MBhYIr018581
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:23 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6x11n-5
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47N0fVSe026506
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:25 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6x11p-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:23 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:24 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lEwM6kCVwO5r55TFagkrMKyl2W5nakkj4mR+3N8/bl9EdUaLw4vS+uD9l+fcc6mEs4g4uHtoHz6cEop83af3IV+0OkOe6HFsQubi36LI69pX7RTAnTx1YgvRNSlto5fp4wEgCIH2TKEUMj4guWt++WuAoOXL9pzLdKgDqZonZ7HnBUv3DMFikZnhpfk6s3gcM/e+feelpX5b/bjK3RYkC2kd09Pue4vjfbT9hzfAWysCvpGekDQRCA6bDuefRJoZBsyRsn6iiX4hDyBrTH+aCvS2i+bqU8Iz0dEuVsOKjiR+aWQM+78SS6vh/DQ+kOivHtqNx9K6clpwLFvNTUzzGg==
+ b=U2ilQvfm2/O9toHugW+dytiayLlIJ7wSDM6xYpAp8K5Y1ut/KFz4sG3k42/mM/7dyc9OxZluwCBbAacfpRlpc/GeQxN/9X62I6ZvUrEP7jVrnTORBGQAB2ctMUIs3ZFBZNLAGaL/SiAM4YON53xdc0WVkasg55MNpn9E/Tz8TrsO8ZVOTbxbx3RvOO6B5SAJDxtKzQGorzosQIVtet/iNaVZcrE0YYe1pzkBf2oajBur1QKrKeXuWHpbmICIDq3DkXr0GaICkdWOM+a3SCjEQFf+UMIJMG1ZYk6DUNYCDF9K9MNGlxiOALm3M054G0jHV0Wy1XCND9yS1z4yT56LlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4gURhjWmb4UeVLCAvavzbi1X5fiW4IDq1/iGZeAUJdo=;
- b=PMJKe48p9qr0P8UgCbFjoBCNYHjRs8lSLtIiP5GhA4d6pUgYLCWTFuXS68vDCddCVzwDNffh0Yt+sJZG31UHJDbCZypV7wbiGJNUGOhG2wcjcb7/TG7X89OxrvbuE3mrRLNz2u6LXE2+7KqTnIsnqrN/b7/KjrW9XlLhtdszIf1Y3HL2WZI0o9HXk9tQ6yLoVvYNeZusxHbdIj4eo0WQ0ted7kWjrYkvFCEeBEB22QsOa0iYPd4go9M2TOKfETLcTPmhtvSwD4fUmvFrcziQx4psphID0jZIqn0GzoKmaGsGaZGkPP9E4n+amvkxvtOLeI51ICbT+3nwyFuhbq2gfg==
+ bh=gEU6lobC2KTMHpDt+piBUbJ1AdX0V2ZBPjwRWyFOrn8=;
+ b=PNLshNJwPyaNrgzHidIT99+Z71ZEyDWgwbIbvkK278gan3wCL4StJ+gi4bieXKlLzyyNn30erhMdT33gdWXVJRQjw9UDvrDE/DMpP//gF2Sv+O/CUoBolAmn8JkvmhDcG0vM2x3C42xEeir7Q9a7x67OPGQylpUPgfOJKzxlTyp7gYMNOKDcO6+YdA0NiJoKU1WAEviBiXNj/t/v5yvXdZn+R+VuyLFFitAlub6aHwYQC6q05pCCN9GNkn+UwQprpndADXJRnMUq1T0t+P6jNGdbJTTrqQoNWcuqXj/wRZgaXK2Q9AH0pp91hEqaqG3yCeHhmzenH1UkcVhDbJA3tg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,16 +31,16 @@ Received: from MW3PR11MB4633.namprd11.prod.outlook.com (2603:10b6:303:5b::9)
  by DS0PR11MB8114.namprd11.prod.outlook.com (2603:10b6:8:129::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 01:48:22 +0000
+ 2024 01:48:23 +0000
 Received: from MW3PR11MB4633.namprd11.prod.outlook.com
  ([fe80::db65:6dac:6f2b:a275]) by MW3PR11MB4633.namprd11.prod.outlook.com
  ([fe80::db65:6dac:6f2b:a275%6]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 01:48:22 +0000
+ 01:48:23 +0000
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [poky][PATCH 5/9] rpcbind: 1.2.6 -> 1.2.7
-Date: Fri, 23 Aug 2024 09:48:02 +0800
-Message-Id: <20240823014806.4154590-6-hongxu.jia@windriver.com>
+Subject: [poky][PATCH 6/9] bash: 5.2.21 -> 5.2.32
+Date: Fri, 23 Aug 2024 09:48:03 +0800
+Message-Id: <20240823014806.4154590-7-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20240823014806.4154590-1-hongxu.jia@windriver.com>
 References: <20240823014806.4154590-1-hongxu.jia@windriver.com>
@@ -52,83 +52,83 @@ X-ClientProxiedBy: TYCP286CA0285.JPNP286.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MW3PR11MB4633:EE_|DS0PR11MB8114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68e203c6-b02a-46c1-57a6-08dcc315ab7b
+X-MS-Office365-Filtering-Correlation-Id: 82fb8cbd-9cfd-460d-189e-08dcc315ac23
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?3hUEUidtZ0h/1uJdZxgwvsMnOWZ/lnOfQzqxAUOyfx9bQbol9i8gRQ4d9R2I?=
- =?us-ascii?Q?wVy24Y+1Bg4vmWH/zVZxxUs7hodRjnEBlBRyugSSkbQ9nB9sjyA/+3R2/h9L?=
- =?us-ascii?Q?A1SMVOWFlmSfwCiLjLM7wvHj+YfPIY4eFAuuG3C/yCk2B6lcQEcalYiKpeY+?=
- =?us-ascii?Q?kYdU8KhQCwueljboTU9sfM/uWC0LdHuQtgT2m8RjT3Qd9muyFblMAllvLqfd?=
- =?us-ascii?Q?c+May+4R8Av+G1pRfDn1pgauhA7ydNfLiL9Wwrk3GLF3NdHGp5mkOh9nACAF?=
- =?us-ascii?Q?/CQ1xxL2hVhEF+sRM9vboBIAAc1r31QLWjr/bylRQ2vvsBQ07FMq87IUKOPs?=
- =?us-ascii?Q?epIAOGG7HPi3DVxx2Y4sJQWLyk9pUfLlvRvCXvd9YTxayz4FFhMGBXRx2Rpe?=
- =?us-ascii?Q?J2MWorDvB8OM6tn8YXHT1XVhs08QvS1ThIG9ulLqb4oSYKL5L0aGn1YmO21W?=
- =?us-ascii?Q?+xHDVjIOx4lwrYLSQYbPSTJ6XyAeecQYrhFwaJXuDCb1fAeF6+4cSqi1nYn1?=
- =?us-ascii?Q?FcUhMaLvZZgRuMhnzn7aSAp1vML+MwuUHEmkIqLODWwruxrDmPB4KJv9yxa7?=
- =?us-ascii?Q?u90m+rZ/+py6yS0j6BY7CWv9i+XBHMWKuChC1saNqEVZQYNy8xqHnd/1aZIQ?=
- =?us-ascii?Q?hDwS8JAVNCxb0ZybF6B8dXym3JtF6sfUSfFgXibeBtAMrBPNJ7kSZVC7vCxn?=
- =?us-ascii?Q?NEuEqTz9/fvLpL9tsaYBybwalYum1IREBR6gXKI46yGEnfCn4Rn5DAB0Y07D?=
- =?us-ascii?Q?WzuHg+MlmVU5Em2QXj4uhqnVwOU9xoNKK5qWM5+7qpqJkaV4dPF/mUAi4Ojr?=
- =?us-ascii?Q?mzoAkLEfr0yjGyd9p4V4b10o7jJf3KeDVbI7R9lATureotIuv0W3e+bnvwxP?=
- =?us-ascii?Q?ArSNi3mBGOkm22qfty59Zg6ox5sgu8mWkKkCWP7OJYQeCZdkMIKEa4CfeUGW?=
- =?us-ascii?Q?2qHLRrGY9u4RpErs8e8vk5Vj37VM1SI5M15ncB4L5eotBfWVP11EMhYuLnc2?=
- =?us-ascii?Q?Xz52lyw7KkOL4NiLjG3UYHqxmz1HgnOdeyfguUqdj/5uy4BSQ/X0FYJVg9rs?=
- =?us-ascii?Q?gd43MgwnBYkVk6zH2kRRj0ZkM3eZ5FOwpyelpcYDgbVJuhU16xpT4+5JCpqS?=
- =?us-ascii?Q?XqcJLE610REEUWtoO4du5KjVLcQSFGLsMZNtP1wzauWqby0DcZ8yvA1Wq1pt?=
- =?us-ascii?Q?wzMLb2ndOY+FPcRJqzcvQivVo48nHB9gTheEZLBCwADaRqlD42K8q6p8WIny?=
- =?us-ascii?Q?AM/bhBBPutWndTJK+pbkqhgkeqmc2ngYjIAsMKZTIGBQGHJ1+F5+RhGDK3PI?=
- =?us-ascii?Q?ajAxAbhexPLWkqFVyevMfRk0UFcBrWbSzlIwKdYYjhDzHa1ZuRuXfqNcDHpf?=
- =?us-ascii?Q?cb7DSHGv9ji111fPdVgqctJfVHEFKnjooMEN7xaRbW8yXPbM6A=3D=3D?=
+	=?us-ascii?Q?W4lt2o4DAedt3lIbrzBklTk9ZzmNdGWOlB5d0bjqvGJW8yVdknWAAKJiJwc8?=
+ =?us-ascii?Q?eIuuchkQLRmqR4LB4QcJDdj691JFVaD8/90sSwvGUALD1W+T81/3y9u6QUEi?=
+ =?us-ascii?Q?Fs/9WdUKMt7sdYISFMzJMGY/9noEowqOq75tGgRjzPpYxA9qoMxuyVHfYx/X?=
+ =?us-ascii?Q?kV/X3CSeloOdMa/mwTlExbFWAE6w7ae2xZzIf/XB/sWctUjbFr8YvIkYetLx?=
+ =?us-ascii?Q?tLPz5VECTl2Mw1lz1AfgGKfKJQdezbj77Gz8XDh/fJZ5RKErnMW7Y+Lo9hZf?=
+ =?us-ascii?Q?UMmYCYvaHJXCpXGIkB8nOoXwUwLwNofEQjiPELNYsWNQINgT0elxuJ1lyyJO?=
+ =?us-ascii?Q?qi873cm44up0GE/Zw10CHJmApsbQwZu7ZhuZWKki16WxtDyiKKUOkYP6kfuH?=
+ =?us-ascii?Q?PyyPEtnGdpdLlM6zIdYb9CITXaez9A7nF+ouWFUNxXfhTqQmBQR0gtK4U0DQ?=
+ =?us-ascii?Q?Tkh5GVbeF2trQuFoGmu41NEr/lItO6S9+wQH2RoQKm5T7CzWEK7+Y4SIAlbV?=
+ =?us-ascii?Q?nW4CBfq2BqrXm/yjJ9Ss5cB27GyiBBhPR4s2FLTLqsnEi39azMgJ2U+cIDJw?=
+ =?us-ascii?Q?boeN5eDOaHGCUYb2CvCPUZmXkhvGTb+DlQqXea3M+RcTnexZZEM21WFAbVVD?=
+ =?us-ascii?Q?l7OEWvsN3nu0oi/EsEVfVtIJUBBGJ4HXTCVqYa6nUytgkhwpC09ivs7YfSx5?=
+ =?us-ascii?Q?zyn3F98M1s9Kx0tTAjArn76e87GsXISKWEwWA9SvXEr3W+ilrwtPTm5N2h8F?=
+ =?us-ascii?Q?q8M1kBr2Ec/lFNRrmKFQGdRcCrCAY/1vk4dWGDQVY2SkAa16jetHbUT6CZAC?=
+ =?us-ascii?Q?3cbKfKY5/iKI9LvTc+Da+53OmY0Dw2LHztAxoPi94kYChsluFPgDXAoKWzgB?=
+ =?us-ascii?Q?52cU2hfFRenSVUfpgxgDD/ocAHtuZTXaR4D8Y1BjK9WEYa49mT+AJzPXHUeE?=
+ =?us-ascii?Q?BmRfdMTfvgkI5XIjcknu8nqLC72lPDzakB1VeHLQn/nXwwONo/dEtWHuuTrp?=
+ =?us-ascii?Q?+3FiUGTvSudyi7rI5N/Ou4hNjvkCs8KwSEUUYNMSmPcQfhg5wpHTh8y66Hpl?=
+ =?us-ascii?Q?mqnXX7Hv1/I7vLJhsElgp5y0POULAawo5ryFZ5ko3TdPTIOg392hag0oFtK0?=
+ =?us-ascii?Q?ES3IT5QYFMg4V3Tzd3URxAxtjzOP6Wt1JbRJQAPZ2PLG4u1KWxqszIGeuQEq?=
+ =?us-ascii?Q?ljtisuP1BLR4g6XQDKqcNASzQv428HntfAW3vkQZ5i9+GqiSd5MMVJBN90FD?=
+ =?us-ascii?Q?t9F8LfLnK8Q+/G/o439BHKyZus9g9xj9Lg+zcMYj76IZzWz5FGJgl8CosePp?=
+ =?us-ascii?Q?gbUGRDe5iMi4urPtVIgSmlMbYsI88tdaxyse3m0aUve6GDj/HzWIhhhxxI59?=
+ =?us-ascii?Q?xMxLzm0=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR11MB4633.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Ozb9W13b2VVioSxnoUBcT22AAZgMXHshR5oI2Ya6EO5HzZjU1h2UbjMwBR2n?=
- =?us-ascii?Q?3hy4iwVZvv6x0LHiE0ynlizYNrhH9ghcn5j50SJtBqhIAToB1piBTVzd2jr/?=
- =?us-ascii?Q?xu8VdOrvIwHqjjOJ9r6UCsVg4TsOnwDH/iMWvBtpMNodb9EM6S7a74+BhlqL?=
- =?us-ascii?Q?2EBVtdBhu+fE/kymvm3n842k9cKjNh6XlPvJNnX8b8g9YLxfRZU43/zC6hcw?=
- =?us-ascii?Q?vbvziaU62sopBSKgG8kz7G+bp7OfP5mF56x2x4cheBz4BAEJWA+KQ93TK3TN?=
- =?us-ascii?Q?S5pulvl0gDMDpQz5xskNSDzbM0dD5h+c4vCoVE0faf0D76NG+iUxN4S7CNMz?=
- =?us-ascii?Q?Apw0WgcagQvUV2rbEzwmLrffqCOEM+LcwhWp03K7e4QWOQzpZlhOEGhdicrC?=
- =?us-ascii?Q?YgiRIcCQ4AfVOSVZH0DfXHlsk7xKYAMlvYiSQKjBgEb8iBpE5qVEJPf+Vpvb?=
- =?us-ascii?Q?YoSh6QIhNruR0q+elVd8dSKIfVjuDOGdGktx5wcDZen36aKHOjZ5EJH0DTAK?=
- =?us-ascii?Q?GZdlXhAxfsEzv5i37DzqaZta5KTAvg/X/Yjjf6kAl9wxsfvryxWAnn3yMdNH?=
- =?us-ascii?Q?dY0i+H2kJtm202BPclJRHUQoD2KJccmgaUz0bQxA7LGdJlb3w3TKrcovpk0T?=
- =?us-ascii?Q?xp7/94tT9J9I1FWx7r5lz5MP0EMW8eVrSfqvVixmlL2YRN79jCeQZz/VXCK1?=
- =?us-ascii?Q?oFGv2l+tLyrbHZ5kk7So6uvEA7wYYiGGCUYvQOdHpf9cCgJYLda84Kc0N1GC?=
- =?us-ascii?Q?mlRiiqIIHjvWJYPW9odK6eGTjK4FDAkPwr4/gLrhKztxfZlJCAP1aR/YQ6wK?=
- =?us-ascii?Q?L8gRXLpPOCIGXgsTajQKxHLA4iQfLY8PoDKPZ6FgyE+j6qV85zuMJkbXsA3K?=
- =?us-ascii?Q?zg0h2T2BRcA7oFkyAlHIIfQN5Fbw6sipP0pxHUKeJK9LZ1bAAKCGsm9lxhz2?=
- =?us-ascii?Q?cRe5Mq9f4fFdAS4UFu5PSfM6JSTudQiWhcJe4sw+R6zzFEaYEotiI74uUkoH?=
- =?us-ascii?Q?5dgbH18wMQ0ReqlLUQj4hmBSuYL1qRZep/rvXmNCKJ6xs4xSih456DU/X8aT?=
- =?us-ascii?Q?FR8HIGWPvBT6fJ0H5Maf5SCaFdJ+dY9cYKAphW/cjPBRhnPeSLQlpL+gCR8g?=
- =?us-ascii?Q?UdormjzWA4TZ+61/qBcOsCnblxiJvcdn96jtwM9u9NaC9G7cQqfQTC4WECaw?=
- =?us-ascii?Q?Ia1pH0D5p0+I5GdKsAiEhdbxnP3eJVzhkm82HAlQAyJVml7Q3KnRZdbhDXkT?=
- =?us-ascii?Q?BYTr6oZYtkrGf9+yyjSz4sPF2wd7BXA2PhC64LSppC7exazUBKjFNZIcza/5?=
- =?us-ascii?Q?WOVck3wc5vc45a6jPw+xKN2QA4CmrJQpMVB4atbwby1OeiOvzbi6HOhhslEd?=
- =?us-ascii?Q?3l3r3lp7o5t3NO50Ik68WQb8IXhVdwSaTfcS/AjslNvvUKQLK0rzujw6OjoM?=
- =?us-ascii?Q?fD8h4+zlFqqhXLsilWg1AAf937pbHSt1Eixls8vlGuGgRCqo7X3Q/lHO7ypZ?=
- =?us-ascii?Q?jyc4blTtNyQLoqmCmMcTWsydrpvCQe9mme18TLmDorA465NNxsbIav8MaaVS?=
- =?us-ascii?Q?KN5gLcHQYmSUNRMStDclE4Fy2pIftdgv0b99rh6CbQlPPQ0kV7sONsK1Yf+9?=
- =?us-ascii?Q?/Q=3D=3D?=
+	=?us-ascii?Q?PCUXjRSjnKGtA9w3eR3h8jkleLjajmGuRtK1JPcQ9NwBg1LBtvbetlrC9gx7?=
+ =?us-ascii?Q?BXdD20cQKhlDk6e+ddSsq3CHcko3b2MRH7r7evK9MU3BgJ8pUkoP8gVd411B?=
+ =?us-ascii?Q?Z5EDrCCaknUNdl7ZW/9V0ANMxma/Fi4kzS1SaEDToinorP5LatFw4WmHLVNQ?=
+ =?us-ascii?Q?pqBN4mNBtkozjKJtLw0s1iAWYhOcBQcZRoOwoKyZprwe7YNmz/yROq9yYq+r?=
+ =?us-ascii?Q?4YRSgZcuuwJ/QnsvKLCBGunwH6CTNdNZuC0HJBXvhPD7/BvSXyHCd3nFOAjK?=
+ =?us-ascii?Q?pqJ1BFzOh05sdn4iCp22mGlHBfxrJQ+wjXWbYL19uYMgAWSRLNSlPdupeiNK?=
+ =?us-ascii?Q?U5SujRpwQAWDjgaAy4sADH7wG+lH2PwMIoRQgxgSsddyqUw4gisqDqC3jOnO?=
+ =?us-ascii?Q?lPZ9HjnXx22O1DIxX6kmP0oDiEWUw+IGz6w0kHH0mGylTJh85zo9KEGdiqkj?=
+ =?us-ascii?Q?FsMzE4HO8UEb6J5BwChIDGEtAE6dJsrpD0YiQOl6r/ire0FiX+yzOkci7OFe?=
+ =?us-ascii?Q?JkPAdV0c6u8W6coD9NcCJuWc6a2JFOTEsnePZfSHCEYbyqe78/6jQ5WtpR2I?=
+ =?us-ascii?Q?TIr1Fo3iXmPMLULZyQGe+JVuKoQ/A+ePsMEpAOPzg0DYJzSKd0i9Pyb8GQ2L?=
+ =?us-ascii?Q?juaTEUxVbNEDHOWJtcbThU33LEbwnNG5fCY4V5dsV8Ffe3ftIBqEZP9IREO0?=
+ =?us-ascii?Q?0hVNREPEtgxTxjnWQqNyFhiELQsTJwm+ZHt7+vnqHkOwkSWBR4XuZtX4bo0F?=
+ =?us-ascii?Q?j110ySC3zewr0PMhNCcrrUwJX6gUX3a4p/8+G4yscvQ6n4DLs2ttEt59H349?=
+ =?us-ascii?Q?/PtY+FJ2FFva0uL56M4Go1RWnySlvvcWT+wZxrjp/dgnj3l5GvEdh15Pwd2O?=
+ =?us-ascii?Q?Zm1oRhNzIjFVMyZzY8Gh1VqZicAZwuFo4zUohgJh1RrJ01kv5L/iCIqYLmET?=
+ =?us-ascii?Q?RyRpi4tuejboXsBUrF47eaikfnbD9xNiHTJQ2BNe40AvkX/SKtjr2jNigwvP?=
+ =?us-ascii?Q?y/x8LwW9EHMKhiKhZAurB1NTqylCaR9PA7PtF6antFVLUydvXMrtkMELtwJt?=
+ =?us-ascii?Q?T8Ml0CTSihGiTUtOAIJxXDbKmiyAqPapsEmtQu5DK831GQk5Q21oud46D7WG?=
+ =?us-ascii?Q?v21zZ3taCQ1RU+BMf93RrnAUZfQtfENYFpUa/cdARM0qv1wtPB9M9QLYjcMy?=
+ =?us-ascii?Q?HFb+APe11KgHjAluMdsXT26SkLvEKoho0l4cbcdPBKnHUQQHF61lq/SbwpUB?=
+ =?us-ascii?Q?Im7oDUCd/8sFHieFwtX/2brUqbth1s/xu+f4TN30nJ59gOLx8LNAsmy9XhJF?=
+ =?us-ascii?Q?ZlqNyhVBFKWUPqoYeyRM8kLkI7BUs1MNV//z7b2UWhNSoYU3U4mzvZIM8qyP?=
+ =?us-ascii?Q?6k6AOSd3/6d7IsoVu7YqWe+FW2QViXQRmgxR8Lyr68/zma1ik2ArTJC3r2+l?=
+ =?us-ascii?Q?hg2w0zmbOeKciGT3fK08GWsaZEKWVQAHXJDKSVszvNAwnpvAqxZZ0DPh5v3P?=
+ =?us-ascii?Q?YsXgLflrflt2z4dBAYFXdWKCaXHlJkUHSquT8WQNUlVf2yXW72O799sE+DzF?=
+ =?us-ascii?Q?Av6hSyZBHJL2IBBahQkJg7mtpuUgx33GEbMfk89rZKImaqMX8DtL6Q6DK1O+?=
+ =?us-ascii?Q?cg=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68e203c6-b02a-46c1-57a6-08dcc315ab7b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82fb8cbd-9cfd-460d-189e-08dcc315ac23
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4633.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 01:48:22.0266
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 01:48:23.1572
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ng32K/Z1bOQzahOxHVUR7UZbVMnitAACz7iDL6f/CkQrIcT0VmZASoycnZFdwEj1YOKMOB+96aLofJRzhH9u045qo31TuCoTLtgu9UWQsI8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: uUn/ryST476bNaleS3jRZC2+mUQC4xvPQR4bJkbwHcoyai8JTKrd0+h5Kp+NOp8YoOQrJOEda9ih1eLvRjogdrTFRhZoD1oyIOy3ypCegEQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8114
-X-Proofpoint-ORIG-GUID: _0-S-ikNx8Buy_wyocuiWDQ7nXA9RHS8
-X-Authority-Analysis: v=2.4 cv=VdWlP0p9 c=1 sm=1 tr=0 ts=66c7ea67 cx=c_pps a=28bFCgguF5sZfysLuYgbMw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=m8ToADvmAAAA:8 a=PhIi-PsnD8SNSrD5HrwA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=kCrBFHLFDAq2jDEeoMj9:22
-X-Proofpoint-GUID: _0-S-ikNx8Buy_wyocuiWDQ7nXA9RHS8
+X-Proofpoint-ORIG-GUID: e5HlovAUtYmAMD9v9MX8v5UL9NeDvmEI
+X-Authority-Analysis: v=2.4 cv=VdWlP0p9 c=1 sm=1 tr=0 ts=66c7ea69 cx=c_pps a=JZW2CxG2E6UWpsn1SfDs7A==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8 a=Sv4y0yS6AAAA:8
+ a=fvaPMweRAAAA:8 a=9Wbp7B8dAAAA:8 a=pGLkceISAAAA:8 a=7k6cPk4qze5VMvZ0TOMA:9 a=vLJxBx9RkQav2PiS:21 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=I7ze7AG8jwQKfjVvUIqj:22 a=vJ2phfYHA-_bQipmD_nH:22 a=BESxJfN36ujmTJQqZ0Zq:22
+X-Proofpoint-GUID: e5HlovAUtYmAMD9v9MX8v5UL9NeDvmEI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-23_01,2024-08-22_01,2024-05-17_01
@@ -141,96 +141,306 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203672
-
-Rebase 0001-systemd-use-EnvironmentFile.patch to 1.2.7
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203673
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../0001-systemd-use-EnvironmentFile.patch    | 30 ++++++++++---------
- .../{rpcbind_1.2.6.bb => rpcbind_1.2.7.bb}    |  2 +-
- 2 files changed, 17 insertions(+), 15 deletions(-)
- rename meta/recipes-extended/rpcbind/{rpcbind_1.2.6.bb => rpcbind_1.2.7.bb} (96%)
+ ...T-handler-while-waiting-for-a-child-.patch | 21 ++++++++-----------
+ .../bash/bash/0001-fix-c99.patch              |  2 +-
+ .../bash/bash/build-tests.patch               |  7 +++----
+ .../bash/bash/fix-filesubst-errexit.patch     |  7 ++-----
+ .../bash/bash/fix-run-builtins.patch          |  9 +++-----
+ .../bash/bash/mkbuiltins_have_stringize.patch | 18 ++++++++++++----
+ .../bash/bash/test-output.patch               | 11 ++++------
+ .../bash/bash/use_aclocal.patch               |  3 +--
+ .../bash/{bash_5.2.21.bb => bash_5.2.32.bb}   |  2 +-
+ 9 files changed, 38 insertions(+), 42 deletions(-)
+ rename meta/recipes-extended/bash/{bash_5.2.21.bb => bash_5.2.32.bb} (90%)
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
-index 79dc96050e..87f6133879 100644
---- a/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
-+++ b/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
-@@ -1,42 +1,44 @@
--From da528d5d60137f13202102b53cf178aba45849a5 Mon Sep 17 00:00:00 2001
--From: Stefan Agner <stefan.agner@toradex.com>
--Date: Sun, 6 Oct 2019 00:05:54 +0200
-+From aca8799a29c2a94ab596b5629a4d16f4e6d5692c Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Thu, 22 Aug 2024 12:55:52 +0800
- Subject: [PATCH] systemd: use EnvironmentFile
+diff --git a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
+index 77d770b364..4e73edb9b3 100644
+--- a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
++++ b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
+@@ -1,4 +1,4 @@
+-From 721d5be99eb37d31e48bd66d61808a66a4c5ab84 Mon Sep 17 00:00:00 2001
++From e4b9493ae4923595ec3ca67f85322129fb3056cf Mon Sep 17 00:00:00 2001
+ From: Chet Ramey <chet.ramey@case.edu>
+ Date: Mon, 30 Oct 2023 12:16:07 -0400
+ Subject: [PATCH] changes to SIGINT handler while waiting for a child; skip
+@@ -20,10 +20,10 @@ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+  6 files changed, 43 insertions(+), 32 deletions(-)
  
- Use OE specific environment file.
+ diff --git a/general.c b/general.c
+-index 85c5a8b6..65e2ee06 100644
++index bda39f4..94a5339 100644
+ --- a/general.c
+ +++ b/general.c
+-@@ -262,8 +262,9 @@ legal_number (string, result)
++@@ -264,8 +264,9 @@ legal_number (string, result)
+    if (errno || ep == string)
+      return 0;	/* errno is set on overflow or underflow */
+  
+@@ -36,7 +36,7 @@ index 85c5a8b6..65e2ee06 100644
+  
+    /* If *string is not '\0' but *ep is '\0' on return, the entire string
+ diff --git a/jobs.c b/jobs.c
+-index 6b986ed7..262d78de 100644
++index d3e4ab0..903cf9c 100644
+ --- a/jobs.c
+ +++ b/jobs.c
+ @@ -2718,6 +2718,10 @@ wait_for_background_pids (ps)
+@@ -96,7 +96,7 @@ index 6b986ed7..262d78de 100644
+        waiting_for_child = 0;
+        if (old_sigint_handler == SIG_IGN)
+  	set_signal_handler (SIGINT, old_sigint_handler);
+-@@ -4136,7 +4144,7 @@ set_job_status_and_cleanup (job)
++@@ -4141,7 +4149,7 @@ set_job_status_and_cleanup (job)
+  		 SIGINT (if we reset the sighandler to the default).
+  		 In this case, we have to fix things up.  What a crock. */
+  	      if (temp_handler == trap_handler && signal_is_trapped (SIGINT) == 0)
+@@ -106,7 +106,7 @@ index 6b986ed7..262d78de 100644
+  	      if (temp_handler == SIG_DFL)
+  		termsig_handler (SIGINT);	/* XXX */
+ diff --git a/tests/redir.right b/tests/redir.right
+-index 8db10414..9e1403c8 100644
++index 8db1041..9e1403c 100644
+ --- a/tests/redir.right
+ +++ b/tests/redir.right
+ @@ -154,10 +154,10 @@ foo
+@@ -123,7 +123,7 @@ index 8db10414..9e1403c8 100644
+ +./redir11.sub: line 77: 42: No such file or directory
+  42
+ diff --git a/tests/redir11.sub b/tests/redir11.sub
+-index d417cdb6..ca9854cd 100644
++index d417cdb..ca9854c 100644
+ --- a/tests/redir11.sub
+ +++ b/tests/redir11.sub
+ @@ -34,6 +34,8 @@ a=4 b=7 ss=4 declare -i ss
+@@ -136,7 +136,7 @@ index d417cdb6..ca9854cd 100644
+  a=4 echo foo 2>&1 >&$(foo) | { grep -q 'Bad file' || echo 'redir11 bad 3'; }
+  a=1 echo foo 2>&1 >&$(foo) | { grep -q 'Bad file' || echo 'redir11 bad 4'; }
+ diff --git a/tests/type.right b/tests/type.right
+-index bbc228e8..e0a66745 100644
++index bbc228e..c0c1c8b 100644
+ --- a/tests/type.right
+ +++ b/tests/type.right
+ @@ -24,15 +24,15 @@ func ()
+@@ -164,7 +164,7 @@ index bbc228e8..e0a66745 100644
+  builtin is a shell builtin
+  /bin/sh
+ diff --git a/tests/type.tests b/tests/type.tests
+-index fd39c18a..ddc15407 100644
++index fd39c18..ddc1540 100644
+ --- a/tests/type.tests
+ +++ b/tests/type.tests
+ @@ -25,8 +25,6 @@ type -r ${THIS_SH}
+@@ -221,6 +221,3 @@ index fd39c18a..ddc15407 100644
+  type m
+  
+  hash -r
+--- 
+-2.35.5
+-
+diff --git a/meta/recipes-extended/bash/bash/0001-fix-c99.patch b/meta/recipes-extended/bash/bash/0001-fix-c99.patch
+index aa810f7d4e..abd83d09af 100644
+--- a/meta/recipes-extended/bash/bash/0001-fix-c99.patch
++++ b/meta/recipes-extended/bash/bash/0001-fix-c99.patch
+@@ -1,4 +1,4 @@
+-From e9ed388e760ec33dcf9e72c639946c0d0abeec26 Mon Sep 17 00:00:00 2001
++From e8ec2d75a52bdc93c83a679a71a68f4033033b8b Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Wed, 19 Jun 2024 12:57:39 +0000
+ Subject: [PATCH] Fix C99 problems
+diff --git a/meta/recipes-extended/bash/bash/build-tests.patch b/meta/recipes-extended/bash/bash/build-tests.patch
+index c1b9b8261f..4cce1ba993 100644
+--- a/meta/recipes-extended/bash/bash/build-tests.patch
++++ b/meta/recipes-extended/bash/bash/build-tests.patch
+@@ -1,4 +1,4 @@
+-From 318b762837c2ad25319caeaf0320eff613b64daf Mon Sep 17 00:00:00 2001
++From c3f58f8b4f7a359b9d9dd97a45bcaab50a89d224 Mon Sep 17 00:00:00 2001
+ From: Anders Roxell <anders.roxell@enea.com>
+ Date: Wed, 19 Dec 2012 17:18:31 +0100
+ Subject: [PATCH] Add 'ptest' target to Makefile, to run tests without checking
+@@ -9,16 +9,15 @@ Signed-off-by: Anders Roxell <anders.roxell@enea.com>
  
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-+
-+Rebase to 1.2.7
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ Rebase to 5.0
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
  ---
-  configure.ac               | 2 ++
-- systemd/rpcbind.service.in | 2 +-
-- 2 files changed, 3 insertions(+), 1 deletion(-)
-+ systemd/rpcbind.service.in | 1 +
-+ 2 files changed, 3 insertions(+)
+  Makefile.in | 24 +++++++++++++++++++-----
+  1 file changed, 19 insertions(+), 5 deletions(-)
  
- diff --git a/configure.ac b/configure.ac
--index 2dd9471..47a46c0 100644
-+index 8f4cef3..4705413 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -69,5 +69,7 @@ AC_CHECK_HEADERS([nss.h rpcsvc/mount.h])
-+@@ -86,5 +86,7 @@ AC_CHECK_HEADERS([nss.h])
-  # 2 "evals" needed to expand variable names
-  AC_SUBST([_sbindir])
-  AC_CONFIG_COMMANDS_PRE([eval eval _sbindir=$sbindir])
- +AC_SUBST([_sysconfdir])
- +AC_CONFIG_COMMANDS_PRE([eval eval _sysconfdir=$sysconfdir])
+ diff --git a/Makefile.in b/Makefile.in
+-index bc97049..937ce39 100644
++index 0b4df73..7e2a34e 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -943,20 +943,34 @@ maybe-clean:
++@@ -958,20 +958,34 @@ maybe-clean:
+  	fi
   
-- AC_OUTPUT([Makefile systemd/rpcbind.service])
-+ AC_OUTPUT([Makefile systemd/rpcbind.service systemd/rpcbind.socket])
- diff --git a/systemd/rpcbind.service.in b/systemd/rpcbind.service.in
--index 7b1c74b..f45ee1e 100644
-+index c892ca8..e0511bd 100644
- --- a/systemd/rpcbind.service.in
- +++ b/systemd/rpcbind.service.in
--@@ -11,7 +11,7 @@ Wants=rpcbind.target
-- 
-+@@ -12,6 +12,7 @@ Wants=rpcbind.target
-  [Service]
-  Type=notify
---# distro can provide a drop-in adding EnvironmentFile=-/??? if needed.
-+ # distro can provide a drop-in adding EnvironmentFile=-/??? if needed.
- +EnvironmentFile=-@_sysconfdir@/rpcbind.conf
-- ExecStart=@_sbindir@/rpcbind $RPCBIND_OPTIONS -w -f
-+ ExecStart=@_sbindir@/rpcbind $RPCBIND_OPTIONS @warmstarts_opt@ -f
+  recho$(EXEEXT):		$(SUPPORT_SRC)recho.c
+diff --git a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
+index 60f1852316..c5082ee355 100644
+--- a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
++++ b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
+@@ -1,4 +1,4 @@
+-From 59ddfda14e3c9aa6286bb4c4c0748f7c1324a65a Mon Sep 17 00:00:00 2001
++From 16951b74971c7fd38fd036dac1410a9e53cbe736 Mon Sep 17 00:00:00 2001
+ From: Chet Ramey <chet.ramey@case.edu>
+ Date: Fri, 7 Apr 2023 00:28:46 -0700
+ Subject: [PATCH] $(<nosuchfile) is no longer a fatal error with errexit
+@@ -17,7 +17,7 @@ Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/builtins/evalstring.c b/builtins/evalstring.c
+-index df3dd68e2a7e..6612081cd646 100644
++index 53a7c0b..c5075cc 100644
+ --- a/builtins/evalstring.c
+ +++ b/builtins/evalstring.c
+ @@ -753,7 +753,7 @@ open_redir_file (r, fnp)
+@@ -29,6 +29,3 @@ index df3dd68e2a7e..6612081cd646 100644
+        free (fn);
+        if (fnp)
+  	*fnp = 0;
+--- 
+-2.40.0
+-
+diff --git a/meta/recipes-extended/bash/bash/fix-run-builtins.patch b/meta/recipes-extended/bash/bash/fix-run-builtins.patch
+index 2fa388302e..05d0859821 100644
+--- a/meta/recipes-extended/bash/bash/fix-run-builtins.patch
++++ b/meta/recipes-extended/bash/bash/fix-run-builtins.patch
+@@ -1,4 +1,4 @@
+-From 0c4cab9594c96c2dc435a8d9724605824bcbf917 Mon Sep 17 00:00:00 2001
++From 15601c71b073a604ccda25c7f14f0bb12e9a3b28 Mon Sep 17 00:00:00 2001
+ From: Dengke Du <dengke.du@windriver.com>
+ Date: Tue, 19 Apr 2016 02:57:45 -0400
+ Subject: [PATCH] fix run-builtins failed
+@@ -16,10 +16,10 @@ Signed-off-by: Dengke Du <dengke.du@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/tests/builtins.tests b/tests/builtins.tests
+-index 9d77520..63f3af8 100644
++index 8eee43e..71c9eee 100644
+ --- a/tests/builtins.tests
+ +++ b/tests/builtins.tests
+-@@ -109,7 +109,7 @@ esac
++@@ -124,7 +124,7 @@ esac
   
-  [Install]
- -- 
--2.23.0
-+2.27.0
+  # test options to exec
+  (exec -a specialname ${THIS_SH} -c 'echo $0' )
+@@ -28,6 +28,3 @@ index 9d77520..63f3af8 100644
+  # test `clean' environment.  if /bin/sh is bash, and the script version of
+  # printenv is run, there will be variables in the environment that bash
+  # sets on startup.  Also test code that prefixes argv[0] with a dash.
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch b/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
+index a9391d6cac..eb29e7d836 100644
+--- a/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
++++ b/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
+@@ -1,3 +1,8 @@
++From d11685286144c2e5630545e435d11387b2908fd0 Mon Sep 17 00:00:00 2001
++From: Christopher Larson <chris_larson@mentor.com>
++Date: Wed, 14 Nov 2012 07:55:09 -0700
++Subject: [PATCH] bash: fix mkbuiltins build failure
++
+ On hosts with FORTIFY_SOURCES, stringize support is required, as it's used by
+ the macros to wrap functions (e.g. read and open in unistd.h). Those wrappers
+ use the STRING() macro from unistd.h. A header in the bash sources overrides
+@@ -13,14 +18,19 @@ stringize support, or to not define STRING() at all when FORTIFY_SOURCES is
+ defined, letting the unistd.h one be used, instead.
  
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.7.bb
-similarity index 96%
-rename from meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-rename to meta/recipes-extended/rpcbind/rpcbind_1.2.7.bb
-index aeca86e564..d308071d29 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.7.bb
-@@ -18,7 +18,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://rpcbind_add_option_to_fix_port_number.patch \
-            file://0001-systemd-use-EnvironmentFile.patch \
-           "
--SRC_URI[sha256sum] = "5613746489cae5ae23a443bb85c05a11741a5f12c8f55d2bb5e83b9defeee8de"
-+SRC_URI[sha256sum] = "f6edf8cdf562aedd5d53b8bf93962d61623292bfc4d47eedd3f427d84d06f37e"
+ Upstream-Status: Pending
++---
++ builtins/mkbuiltins.c | 1 +
++ 1 file changed, 1 insertion(+)
  
- inherit autotools update-rc.d systemd pkgconfig update-alternatives
+---- bash-4.2.orig/builtins/mkbuiltins.c
+-+++ bash-4.2/builtins/mkbuiltins.c
++diff --git a/builtins/mkbuiltins.c b/builtins/mkbuiltins.c
++index f505ebd..b5b2eed 100644
++--- a/builtins/mkbuiltins.c
+++++ b/builtins/mkbuiltins.c
+ @@ -28,6 +28,7 @@
+  #  define HAVE_STDLIB_H
+-
++ 
+  #  define HAVE_RENAME
+ +#  define HAVE_STRINGIZE
+  #endif /* CROSS_COMPILING */
+-
++ 
+  #if defined (HAVE_UNISTD_H)
+diff --git a/meta/recipes-extended/bash/bash/test-output.patch b/meta/recipes-extended/bash/bash/test-output.patch
+index 0ffcc24587..3225907b66 100644
+--- a/meta/recipes-extended/bash/bash/test-output.patch
++++ b/meta/recipes-extended/bash/bash/test-output.patch
+@@ -1,7 +1,7 @@
+-From 28eb06047ebd2deaa8c7cd2bf6655ef6a469dc14 Mon Sep 17 00:00:00 2001
++From f5cbd5a4954b89857c9e397cacceda552484f5d5 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 15 Aug 2017 10:01:56 +0800
+-Subject: [PATCH 1/2] Add FAIL/PASS output to test output.
++Subject: [PATCH] Add FAIL/PASS output to test output.
+ MIME-Version: 1.0
+ Content-Type: text/plain; charset=UTF-8
+ Content-Transfer-Encoding: 8bit
+@@ -16,10 +16,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 10 insertions(+), 1 deletion(-)
  
+ diff --git a/tests/run-all b/tests/run-all
+-index 2882fe0..e21d026 100644
++index 1f74923..ba36a1f 100644
+ --- a/tests/run-all
+ +++ b/tests/run-all
+-@@ -33,7 +33,16 @@ do
++@@ -57,7 +57,16 @@ do
+  	case $x in
+  	$0|run-minimal|run-gprof)	;;
+  	*.orig|*~) ;;
+@@ -37,6 +37,3 @@ index 2882fe0..e21d026 100644
+  	esac
+  done
+  
+--- 
+-1.8.3.1
+-
+diff --git a/meta/recipes-extended/bash/bash/use_aclocal.patch b/meta/recipes-extended/bash/bash/use_aclocal.patch
+index bd6870b386..e966b037a2 100644
+--- a/meta/recipes-extended/bash/bash/use_aclocal.patch
++++ b/meta/recipes-extended/bash/bash/use_aclocal.patch
+@@ -1,4 +1,4 @@
+-From d1bf23817afffd5917b74da6946e0c3b7e63e336 Mon Sep 17 00:00:00 2001
++From b3a64702fa1978463c01bd5d9fe711e4628aba1e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 28 Dec 2020 21:04:27 +0100
+ Subject: [PATCH] bash: update 5.0 -> 5.1
+@@ -9,7 +9,6 @@ as needed instead making it work like other autotools based projects.
+ 
+ Upstream-Status: Inappropriate [OE configuration specific]
+ RP 2021/1/20
+-
+ ---
+  configure.ac | 43 -------------------------------------------
+  1 file changed, 43 deletions(-)
+diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-extended/bash/bash_5.2.32.bb
+similarity index 90%
+rename from meta/recipes-extended/bash/bash_5.2.21.bb
+rename to meta/recipes-extended/bash/bash_5.2.32.bb
+index ccfe5c47a7..b159c0232f 100644
+--- a/meta/recipes-extended/bash/bash_5.2.21.bb
++++ b/meta/recipes-extended/bash/bash_5.2.32.bb
+@@ -17,7 +17,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://0001-fix-c99.patch \
+            "
+ 
+-SRC_URI[tarball.sha256sum] = "c8e31bdc59b69aaffc5b36509905ba3e5cbb12747091d27b4b977f078560d5b8"
++SRC_URI[tarball.sha256sum] = "d3ef80d2b67d8cbbe4d3265c63a72c46f9b278ead6e0e06d61801b58f23f50b5"
+ 
+ DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+ DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
 -- 
 2.27.0
 
