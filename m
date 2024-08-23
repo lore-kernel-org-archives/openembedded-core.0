@@ -2,28 +2,28 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA73C5472E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E2B5C54730
 	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 01:48:29 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7470.1724377705885583490
+ by mx.groups.io with SMTP id smtpd.web11.7353.1724377703833162924
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Aug 2024 18:48:26 -0700
+ Thu, 22 Aug 2024 18:48:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=89658b1c4b=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47N0fVSe026506
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:25 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6x11p-1
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47MBhYIq018581
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:23 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6x11n-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:24 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:22 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U2ilQvfm2/O9toHugW+dytiayLlIJ7wSDM6xYpAp8K5Y1ut/KFz4sG3k42/mM/7dyc9OxZluwCBbAacfpRlpc/GeQxN/9X62I6ZvUrEP7jVrnTORBGQAB2ctMUIs3ZFBZNLAGaL/SiAM4YON53xdc0WVkasg55MNpn9E/Tz8TrsO8ZVOTbxbx3RvOO6B5SAJDxtKzQGorzosQIVtet/iNaVZcrE0YYe1pzkBf2oajBur1QKrKeXuWHpbmICIDq3DkXr0GaICkdWOM+a3SCjEQFf+UMIJMG1ZYk6DUNYCDF9K9MNGlxiOALm3M054G0jHV0Wy1XCND9yS1z4yT56LlQ==
+ b=aRc7SscpiJH7nHm6mj9QvtxyWXjSXbFS2ervbneyhdbNtn9Ve/6meW+2zsbvGIZjXzpatyeNfplDMq/i3hdr4XqJHehQFaGY2Xr8RN2jUwiViOgmG4zm7TX0GT+3TDW1iBhS22WpCK2ZrNBXBQ3LqEE4r0mLedrXcfNwwAPCQhhJF18b+ZF7vQrdGrZWbr9EYRUJ0FLvwo9QitqU6elDeMIdcids3JUlHa9Kfrb+jlg7yBlLF8c+5H+rv+/o1tliLc5qQms1cQ2FKA7/m132Ze5nM9Y2tYuSgImaMARrQFjZ29dsRs8PI4Fo9HaS+VeUuQkolXk0slMNSzhfYymBYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gEU6lobC2KTMHpDt+piBUbJ1AdX0V2ZBPjwRWyFOrn8=;
- b=PNLshNJwPyaNrgzHidIT99+Z71ZEyDWgwbIbvkK278gan3wCL4StJ+gi4bieXKlLzyyNn30erhMdT33gdWXVJRQjw9UDvrDE/DMpP//gF2Sv+O/CUoBolAmn8JkvmhDcG0vM2x3C42xEeir7Q9a7x67OPGQylpUPgfOJKzxlTyp7gYMNOKDcO6+YdA0NiJoKU1WAEviBiXNj/t/v5yvXdZn+R+VuyLFFitAlub6aHwYQC6q05pCCN9GNkn+UwQprpndADXJRnMUq1T0t+P6jNGdbJTTrqQoNWcuqXj/wRZgaXK2Q9AH0pp91hEqaqG3yCeHhmzenH1UkcVhDbJA3tg==
+ bh=WluM8l4icEiTy02hYhat6TGgA4BeVOxh7i5zbywYlAw=;
+ b=xb5eU4KPLBAp8mnI+S6GGwmeIWmd7nqnUnSFRIcpApszDXTOt0KbBNFHfLyBtTWb08G+7B+n+3y4y3V/Ug+/EayvMwEfhus+Jfkgt54L1OqWDnBlLoQdAugTx5FuszECOf8rEC7ByepxGZwiW+BPRTNQpoFrE3AZQKHBszNvMdQsA7oUtxGD4+RpPXnpHxwZm/xtsCNq+EKdkbRR7HMST6KdElDZ7I8pblF2XE8cDXLI4VbNOWhDwTRuiyoqvnueFzQdatjz1mLXzJNftrpjU7Z6cyelrba03ZdrXD+PR94tmtdHNYYB/dVTRWlGEtkCMCQzEiQ72YGDYw9Y0R2oFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,16 +31,16 @@ Received: from MW3PR11MB4633.namprd11.prod.outlook.com (2603:10b6:303:5b::9)
  by DS0PR11MB8114.namprd11.prod.outlook.com (2603:10b6:8:129::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 01:48:23 +0000
+ 2024 01:48:20 +0000
 Received: from MW3PR11MB4633.namprd11.prod.outlook.com
  ([fe80::db65:6dac:6f2b:a275]) by MW3PR11MB4633.namprd11.prod.outlook.com
  ([fe80::db65:6dac:6f2b:a275%6]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 01:48:23 +0000
+ 01:48:20 +0000
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [poky][PATCH 6/9] bash: 5.2.21 -> 5.2.32
-Date: Fri, 23 Aug 2024 09:48:03 +0800
-Message-Id: <20240823014806.4154590-7-hongxu.jia@windriver.com>
+Subject: [poky][PATCH 4/9] readline: 8.2 -> 8.2.13
+Date: Fri, 23 Aug 2024 09:48:01 +0800
+Message-Id: <20240823014806.4154590-5-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20240823014806.4154590-1-hongxu.jia@windriver.com>
 References: <20240823014806.4154590-1-hongxu.jia@windriver.com>
@@ -52,83 +52,84 @@ X-ClientProxiedBy: TYCP286CA0285.JPNP286.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MW3PR11MB4633:EE_|DS0PR11MB8114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82fb8cbd-9cfd-460d-189e-08dcc315ac23
+X-MS-Office365-Filtering-Correlation-Id: ae7fef65-e803-4355-104c-08dcc315aaa9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?W4lt2o4DAedt3lIbrzBklTk9ZzmNdGWOlB5d0bjqvGJW8yVdknWAAKJiJwc8?=
- =?us-ascii?Q?eIuuchkQLRmqR4LB4QcJDdj691JFVaD8/90sSwvGUALD1W+T81/3y9u6QUEi?=
- =?us-ascii?Q?Fs/9WdUKMt7sdYISFMzJMGY/9noEowqOq75tGgRjzPpYxA9qoMxuyVHfYx/X?=
- =?us-ascii?Q?kV/X3CSeloOdMa/mwTlExbFWAE6w7ae2xZzIf/XB/sWctUjbFr8YvIkYetLx?=
- =?us-ascii?Q?tLPz5VECTl2Mw1lz1AfgGKfKJQdezbj77Gz8XDh/fJZ5RKErnMW7Y+Lo9hZf?=
- =?us-ascii?Q?UMmYCYvaHJXCpXGIkB8nOoXwUwLwNofEQjiPELNYsWNQINgT0elxuJ1lyyJO?=
- =?us-ascii?Q?qi873cm44up0GE/Zw10CHJmApsbQwZu7ZhuZWKki16WxtDyiKKUOkYP6kfuH?=
- =?us-ascii?Q?PyyPEtnGdpdLlM6zIdYb9CITXaez9A7nF+ouWFUNxXfhTqQmBQR0gtK4U0DQ?=
- =?us-ascii?Q?Tkh5GVbeF2trQuFoGmu41NEr/lItO6S9+wQH2RoQKm5T7CzWEK7+Y4SIAlbV?=
- =?us-ascii?Q?nW4CBfq2BqrXm/yjJ9Ss5cB27GyiBBhPR4s2FLTLqsnEi39azMgJ2U+cIDJw?=
- =?us-ascii?Q?boeN5eDOaHGCUYb2CvCPUZmXkhvGTb+DlQqXea3M+RcTnexZZEM21WFAbVVD?=
- =?us-ascii?Q?l7OEWvsN3nu0oi/EsEVfVtIJUBBGJ4HXTCVqYa6nUytgkhwpC09ivs7YfSx5?=
- =?us-ascii?Q?zyn3F98M1s9Kx0tTAjArn76e87GsXISKWEwWA9SvXEr3W+ilrwtPTm5N2h8F?=
- =?us-ascii?Q?q8M1kBr2Ec/lFNRrmKFQGdRcCrCAY/1vk4dWGDQVY2SkAa16jetHbUT6CZAC?=
- =?us-ascii?Q?3cbKfKY5/iKI9LvTc+Da+53OmY0Dw2LHztAxoPi94kYChsluFPgDXAoKWzgB?=
- =?us-ascii?Q?52cU2hfFRenSVUfpgxgDD/ocAHtuZTXaR4D8Y1BjK9WEYa49mT+AJzPXHUeE?=
- =?us-ascii?Q?BmRfdMTfvgkI5XIjcknu8nqLC72lPDzakB1VeHLQn/nXwwONo/dEtWHuuTrp?=
- =?us-ascii?Q?+3FiUGTvSudyi7rI5N/Ou4hNjvkCs8KwSEUUYNMSmPcQfhg5wpHTh8y66Hpl?=
- =?us-ascii?Q?mqnXX7Hv1/I7vLJhsElgp5y0POULAawo5ryFZ5ko3TdPTIOg392hag0oFtK0?=
- =?us-ascii?Q?ES3IT5QYFMg4V3Tzd3URxAxtjzOP6Wt1JbRJQAPZ2PLG4u1KWxqszIGeuQEq?=
- =?us-ascii?Q?ljtisuP1BLR4g6XQDKqcNASzQv428HntfAW3vkQZ5i9+GqiSd5MMVJBN90FD?=
- =?us-ascii?Q?t9F8LfLnK8Q+/G/o439BHKyZus9g9xj9Lg+zcMYj76IZzWz5FGJgl8CosePp?=
- =?us-ascii?Q?gbUGRDe5iMi4urPtVIgSmlMbYsI88tdaxyse3m0aUve6GDj/HzWIhhhxxI59?=
- =?us-ascii?Q?xMxLzm0=3D?=
+	=?us-ascii?Q?XeCKB+Pm1XuK4WzXVqLY/gTo5InDCO8ap3QS6AeVQjh0Tcx53fa/43ZGmYtu?=
+ =?us-ascii?Q?zhSBiosav4WxxCChhtCU+5hSatX73Ry0qka/3ve1aGL9m2ov5y3uU4aFmsTH?=
+ =?us-ascii?Q?95tsEN71bckPy0PDyxXCYVBSHoLcvG1mDSfKPxQm0uzSRyEjt13v1HTE34xU?=
+ =?us-ascii?Q?BnEZVzXisITR0SJMevpb4f5WqNEEntY/NvhMOdeQ94FF9U3aRoZwZoRx0LJy?=
+ =?us-ascii?Q?Ig8WD/j52DlYwcQjunIiUG5mtgUM4+aFpFPt4a3ifEpoPtdUlW0xGXumpFhb?=
+ =?us-ascii?Q?PObLp9xHwsIycejCiSEum8upiwi2bAlj8wiOjw+VPb0tR0dvavtQgWx7C7PR?=
+ =?us-ascii?Q?BoIX3wcLI8E7MLZ7JTNPginq2kIWy0xyZ0eevoDDRBqh6zMDa6WTh3dAwD0Z?=
+ =?us-ascii?Q?3Dh5KcOZmoK+oqusshnnv0EFliNZNqvyy8B7tBiEjTyZaAwmLLeFNfz94DmR?=
+ =?us-ascii?Q?rIERNtRzF9cC0l9X1zAb+pTI5b7FLLtjNCHRkT/Z38s/Prz5TUY0+nMkRuCR?=
+ =?us-ascii?Q?GrLdV/lGSR1Vo6tBkABvXreOclbSWuYYVJARD11qgbh0MbF1FgPZb8CxBU31?=
+ =?us-ascii?Q?9ktyul1kN7VCP7RIewqq+omFVxP+agmHp0MThP4hjyEPXeCpmlXHyutogohn?=
+ =?us-ascii?Q?BKeZSuOo7/M7TcLYW9ecnTXRqwIHw98CmYACsho0fzXcTWXZ5Rzt/e53gC/V?=
+ =?us-ascii?Q?06TIgxxFFLC9VuAnlNmcSUJIqwzxuWdp7v5wU80Tmh8O0jRgsyiOAXgBi7l6?=
+ =?us-ascii?Q?Gq7TMPAsEMUlZvgVVoSuBipSKQ6HX9fHbmsRPX0znYHy75E3HQ80iPtL+7bE?=
+ =?us-ascii?Q?gr5p6hiv6qEQpm4GtYvnYlyd8ZpT4cUIw0jZleLpVFBh+kvAoDjCOMuneyoR?=
+ =?us-ascii?Q?fiaV2sfIeKbNFxGF1MpScj4qqabTnw9nKBlUM8Lb3a1r8XR/LtxYF+t7c/NC?=
+ =?us-ascii?Q?POpo/aiHtNCzyx7rhsvXgE1PrkVKWXdpEh5luXJI0Ob7c4Vwb0gwLq1JQa6B?=
+ =?us-ascii?Q?ufPRlsWNEFENtopunxWT0YtpFlueNUlDXi9ir5m9uMuH/bnEjWBE8aPW0h2l?=
+ =?us-ascii?Q?qu/nGJ2tvtd/PJfKxjSPOOJ2BfX+z4plqutj/MuYp5qxGYT7dqoAaSIiK8Zi?=
+ =?us-ascii?Q?Ya+fvlh5GxJKj5UTFHDHSuDVhuhyDWKKeRWZiZJbp6TpYMITTwC4Me3hhsD1?=
+ =?us-ascii?Q?5wna6rhaPN1uY1vzM7SvOA3jQr5sDfCMNmjRpQ0qfZ0agNVFWBIDH5ue3FE6?=
+ =?us-ascii?Q?jebFG6Wj4nHj8GTu+SecjR9gqorJXwFnTklOwu+JizCrlURAXQLalqCHE7Yt?=
+ =?us-ascii?Q?rx65TGBK/KmoLAsz7LNy0vAvoksd+0KTtMF6x1Zi55dXyNb9hRyV3MyScuXY?=
+ =?us-ascii?Q?/6lCMCA=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR11MB4633.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?PCUXjRSjnKGtA9w3eR3h8jkleLjajmGuRtK1JPcQ9NwBg1LBtvbetlrC9gx7?=
- =?us-ascii?Q?BXdD20cQKhlDk6e+ddSsq3CHcko3b2MRH7r7evK9MU3BgJ8pUkoP8gVd411B?=
- =?us-ascii?Q?Z5EDrCCaknUNdl7ZW/9V0ANMxma/Fi4kzS1SaEDToinorP5LatFw4WmHLVNQ?=
- =?us-ascii?Q?pqBN4mNBtkozjKJtLw0s1iAWYhOcBQcZRoOwoKyZprwe7YNmz/yROq9yYq+r?=
- =?us-ascii?Q?4YRSgZcuuwJ/QnsvKLCBGunwH6CTNdNZuC0HJBXvhPD7/BvSXyHCd3nFOAjK?=
- =?us-ascii?Q?pqJ1BFzOh05sdn4iCp22mGlHBfxrJQ+wjXWbYL19uYMgAWSRLNSlPdupeiNK?=
- =?us-ascii?Q?U5SujRpwQAWDjgaAy4sADH7wG+lH2PwMIoRQgxgSsddyqUw4gisqDqC3jOnO?=
- =?us-ascii?Q?lPZ9HjnXx22O1DIxX6kmP0oDiEWUw+IGz6w0kHH0mGylTJh85zo9KEGdiqkj?=
- =?us-ascii?Q?FsMzE4HO8UEb6J5BwChIDGEtAE6dJsrpD0YiQOl6r/ire0FiX+yzOkci7OFe?=
- =?us-ascii?Q?JkPAdV0c6u8W6coD9NcCJuWc6a2JFOTEsnePZfSHCEYbyqe78/6jQ5WtpR2I?=
- =?us-ascii?Q?TIr1Fo3iXmPMLULZyQGe+JVuKoQ/A+ePsMEpAOPzg0DYJzSKd0i9Pyb8GQ2L?=
- =?us-ascii?Q?juaTEUxVbNEDHOWJtcbThU33LEbwnNG5fCY4V5dsV8Ffe3ftIBqEZP9IREO0?=
- =?us-ascii?Q?0hVNREPEtgxTxjnWQqNyFhiELQsTJwm+ZHt7+vnqHkOwkSWBR4XuZtX4bo0F?=
- =?us-ascii?Q?j110ySC3zewr0PMhNCcrrUwJX6gUX3a4p/8+G4yscvQ6n4DLs2ttEt59H349?=
- =?us-ascii?Q?/PtY+FJ2FFva0uL56M4Go1RWnySlvvcWT+wZxrjp/dgnj3l5GvEdh15Pwd2O?=
- =?us-ascii?Q?Zm1oRhNzIjFVMyZzY8Gh1VqZicAZwuFo4zUohgJh1RrJ01kv5L/iCIqYLmET?=
- =?us-ascii?Q?RyRpi4tuejboXsBUrF47eaikfnbD9xNiHTJQ2BNe40AvkX/SKtjr2jNigwvP?=
- =?us-ascii?Q?y/x8LwW9EHMKhiKhZAurB1NTqylCaR9PA7PtF6antFVLUydvXMrtkMELtwJt?=
- =?us-ascii?Q?T8Ml0CTSihGiTUtOAIJxXDbKmiyAqPapsEmtQu5DK831GQk5Q21oud46D7WG?=
- =?us-ascii?Q?v21zZ3taCQ1RU+BMf93RrnAUZfQtfENYFpUa/cdARM0qv1wtPB9M9QLYjcMy?=
- =?us-ascii?Q?HFb+APe11KgHjAluMdsXT26SkLvEKoho0l4cbcdPBKnHUQQHF61lq/SbwpUB?=
- =?us-ascii?Q?Im7oDUCd/8sFHieFwtX/2brUqbth1s/xu+f4TN30nJ59gOLx8LNAsmy9XhJF?=
- =?us-ascii?Q?ZlqNyhVBFKWUPqoYeyRM8kLkI7BUs1MNV//z7b2UWhNSoYU3U4mzvZIM8qyP?=
- =?us-ascii?Q?6k6AOSd3/6d7IsoVu7YqWe+FW2QViXQRmgxR8Lyr68/zma1ik2ArTJC3r2+l?=
- =?us-ascii?Q?hg2w0zmbOeKciGT3fK08GWsaZEKWVQAHXJDKSVszvNAwnpvAqxZZ0DPh5v3P?=
- =?us-ascii?Q?YsXgLflrflt2z4dBAYFXdWKCaXHlJkUHSquT8WQNUlVf2yXW72O799sE+DzF?=
- =?us-ascii?Q?Av6hSyZBHJL2IBBahQkJg7mtpuUgx33GEbMfk89rZKImaqMX8DtL6Q6DK1O+?=
- =?us-ascii?Q?cg=3D=3D?=
+	=?us-ascii?Q?vcl+cjFOxsDm18T7yWVe2GV3nsUSBgTykxxwbZ+mf9bFWRAzDiCIrqYL/wsO?=
+ =?us-ascii?Q?ibt76xVmUsRyA24Spw7eMQqKSAjWugZrp5LIngNfev83pRA2iYX8Oy9PuYQ6?=
+ =?us-ascii?Q?Eu802GDtNQjDXQxf7RTp80NZCUcJXi7utPT23YHObQx3gOvngqNEfwaAhWIU?=
+ =?us-ascii?Q?s0NBy2pxiffDRGbxDkvMT6PsKbc1YaNNXsOVoRim/jzbTzA/pOyosGgt7u+h?=
+ =?us-ascii?Q?jk/ptkIvWLtspsuR7Cfk4WokB4oGZoH8ZBpn+Jbn6OpfkLHSwBY4jnbbPSIC?=
+ =?us-ascii?Q?eXBsRAOEAR7XLBFx80JBmrO5h5HPK5AIvXWXken6YpLnkZ2FulLnkx3Kkj/5?=
+ =?us-ascii?Q?UVyRIJpsCuotgcBxjSWYf0H/7RP68PDjhG8t4fGHjThb7440JVciySZB/v63?=
+ =?us-ascii?Q?BAJr9GZP+55YzrjWcwZbdgPTzGY0bHRNlCtMSgEFGOV2D/8NV5OKcixP3uTD?=
+ =?us-ascii?Q?f4LO2vRhaX1Lt3T1XbDoGEgJRclPJv9GLTrqA91MfBzzJkDH+cBsT3Y9RyuM?=
+ =?us-ascii?Q?mGwUvCXke7GJnArE83VWjx3zPCllU/TlsUzb3nUQopilzITmXPz3d0vHpgxe?=
+ =?us-ascii?Q?yl5ZhEFL8dfETs/la7imznqklcz5RzGDC118egiNGPFoa9FhCfLwJw9UYgyk?=
+ =?us-ascii?Q?pVDuqfeyxXw53zWoH8m7sNnXqaumMsegvtihltp8jxz3FhUSve11CKfyCUAU?=
+ =?us-ascii?Q?5mNgyib5dlV4QD1d4xF5RS8HXnM+8NtG0dn+uZeVtM3iwHy400hXyvqVU3d5?=
+ =?us-ascii?Q?Tm4mg0KjiXiO4jx8yX1pQrN/45PW3mjU2voZ7URgGyUylFplh6LVKz4QHJM8?=
+ =?us-ascii?Q?sJEFgkJ7H+MRelRb6O3gu/DjY116H1cykF1+TV8ATS5CNFKU1k9Lp63O9W3V?=
+ =?us-ascii?Q?LjcpYZhrytT+JNTTvgpegeZdrOOwfKr+Ua/wPS597NovOQCE+T2qjbfpbPeQ?=
+ =?us-ascii?Q?Z7nyXdswBMbe7+W0fdBaKoca7gXL2RZie7YeaY+yyNToL7XVod2WkOtBuC/Y?=
+ =?us-ascii?Q?L4dVHzWcytikRheFDXsk5nsinuK+tUCGB9iRnY+FBrP9dw710QR4nxGRZn3+?=
+ =?us-ascii?Q?FqE0jk2iWzC3/LAa2IKoysjwWyqvL3rUqa6/8VsZN6Yh3J4d4zkYW9uf58MA?=
+ =?us-ascii?Q?eazJCPNLriBHenJ+IwuFSmlDCSwxPAWNqmeCQXCzxKKg/9oYpLcmhVMJz8ID?=
+ =?us-ascii?Q?fwX4vZpSHjb04GlG4Gcb0SSDFYnrYRzVd71gOp/hqXq0Wm0JyDTuA/dc7G1o?=
+ =?us-ascii?Q?f2YRk3e31kvOUmNsENLnALZ8yEz1nXJw6acO/Dd+6oNnNeUcSGPx5Ao3mKi6?=
+ =?us-ascii?Q?nQ3CWvGKidOmdLn8+yxeCC5FjBHiA96s9cHN6bSwr6f+4FQgLhI+w0JBCyGE?=
+ =?us-ascii?Q?a1vQWiKDyeodDcTaoyi8ZuqWwHgH65i0XjBXbSvPpNaqh1YVH59ns1lzpwpT?=
+ =?us-ascii?Q?XQc1bhxFyIR/pVPSbIOtylqlEYLquN2fvIZDkC8oliSMBhkMiQLiltG4UeT9?=
+ =?us-ascii?Q?1Ad0I0FaWGztLvYhB8MZRdhbZQj8C5cz8iePa4bm0z104XJFErFI7k4zdtPy?=
+ =?us-ascii?Q?EKGlrQA4zpKv9LnxJuECl8SDLmloDhRPo+SUrsJH6xzb12vBNYyYzaT72CSw?=
+ =?us-ascii?Q?2A=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82fb8cbd-9cfd-460d-189e-08dcc315ac23
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae7fef65-e803-4355-104c-08dcc315aaa9
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4633.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 01:48:23.1572
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 01:48:20.9068
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uUn/ryST476bNaleS3jRZC2+mUQC4xvPQR4bJkbwHcoyai8JTKrd0+h5Kp+NOp8YoOQrJOEda9ih1eLvRjogdrTFRhZoD1oyIOy3ypCegEQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9cH6/T2jY5npocoDgrwudtamIgbpSE2mAhETGBkO20LgQV65CQE4JjxlfF4SltITRSwLj6wTC8veco4Il5MrlJ2dg5SuoquKCLiB09JIZ90=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8114
-X-Proofpoint-ORIG-GUID: e5HlovAUtYmAMD9v9MX8v5UL9NeDvmEI
-X-Authority-Analysis: v=2.4 cv=VdWlP0p9 c=1 sm=1 tr=0 ts=66c7ea69 cx=c_pps a=JZW2CxG2E6UWpsn1SfDs7A==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8 a=Sv4y0yS6AAAA:8
- a=fvaPMweRAAAA:8 a=9Wbp7B8dAAAA:8 a=pGLkceISAAAA:8 a=7k6cPk4qze5VMvZ0TOMA:9 a=vLJxBx9RkQav2PiS:21 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=I7ze7AG8jwQKfjVvUIqj:22 a=vJ2phfYHA-_bQipmD_nH:22 a=BESxJfN36ujmTJQqZ0Zq:22
-X-Proofpoint-GUID: e5HlovAUtYmAMD9v9MX8v5UL9NeDvmEI
+X-Proofpoint-ORIG-GUID: LaCsGb9Id_3GF2WgpKhDDBEA8Ml7Eqe1
+X-Authority-Analysis: v=2.4 cv=VdWlP0p9 c=1 sm=1 tr=0 ts=66c7ea66 cx=c_pps a=28bFCgguF5sZfysLuYgbMw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=xNf9USuDAAAA:8 a=mDV3o1hIAAAA:8
+ a=pGLkceISAAAA:8 a=eHe_0jdtAAAA:8 a=Z3krQfD2AAAA:8 a=_ZhYKdCeAAAA:8 a=HanOaVHjAAAA:8 a=g6utzmWhN4npkcL4-b0A:9 a=ndlDZqTeIngEI4z2:21 a=Gp_M6zLOVyIA:10 a=cNh90wl4zzwA:10 a=9zgvW-0DGmgA:10 a=EaLYwRSLnYwA:10 a=BoqcdmVvSocA:10 a=kWClByX7cxkA:10
+ a=gfvt9UqS0JIA:10 a=tQmJzuk27bYA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=SEwjQc04WA-l_NiBhQ7s:22 a=_FVE-zBwftR9WsbkzFJk:22 a=FuewtF2gekjSoI1dp_sw:22 a=GLjUmipmX1P0AEK-g7Xr:22 a=uqOk3ZSnBfCTOznnrPA1:22 a=qDapSG_AXRM5HRunqNxx:22
+X-Proofpoint-GUID: LaCsGb9Id_3GF2WgpKhDDBEA8Ml7Eqe1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-23_01,2024-08-22_01,2024-05-17_01
@@ -141,306 +142,812 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203673
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203671
+
+Drop backport patches:
+- readline82-001.patch ~ readline82-010.patch
+
+Rebase norpath.patch to 8.2.13
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...T-handler-while-waiting-for-a-child-.patch | 21 ++++++++-----------
- .../bash/bash/0001-fix-c99.patch              |  2 +-
- .../bash/bash/build-tests.patch               |  7 +++----
- .../bash/bash/fix-filesubst-errexit.patch     |  7 ++-----
- .../bash/bash/fix-run-builtins.patch          |  9 +++-----
- .../bash/bash/mkbuiltins_have_stringize.patch | 18 ++++++++++++----
- .../bash/bash/test-output.patch               | 11 ++++------
- .../bash/bash/use_aclocal.patch               |  3 +--
- .../bash/{bash_5.2.21.bb => bash_5.2.32.bb}   |  2 +-
- 9 files changed, 38 insertions(+), 42 deletions(-)
- rename meta/recipes-extended/bash/{bash_5.2.21.bb => bash_5.2.32.bb} (90%)
+ .../readline/readline/norpath.patch           |  19 +++-
+ .../readline/readline/readline82-001.patch    |  45 --------
+ .../readline/readline/readline82-002.patch    |  51 ---------
+ .../readline/readline/readline82-003.patch    |  46 --------
+ .../readline/readline/readline82-004.patch    |  68 ------------
+ .../readline/readline/readline82-005.patch    |  53 ---------
+ .../readline/readline/readline82-006.patch    | 102 ------------------
+ .../readline/readline/readline82-007.patch    |  51 ---------
+ .../readline/readline/readline82-008.patch    |  80 --------------
+ .../readline/readline/readline82-009.patch    |  76 -------------
+ .../readline/readline/readline82-010.patch    |  70 ------------
+ meta/recipes-core/readline/readline_8.2.13.bb |   5 +
+ meta/recipes-core/readline/readline_8.2.bb    |  17 ---
+ 13 files changed, 19 insertions(+), 664 deletions(-)
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-001.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-002.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-003.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-004.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-005.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-006.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-007.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-008.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-009.patch
+ delete mode 100644 meta/recipes-core/readline/readline/readline82-010.patch
+ create mode 100644 meta/recipes-core/readline/readline_8.2.13.bb
+ delete mode 100644 meta/recipes-core/readline/readline_8.2.bb
 
-diff --git a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
-index 77d770b364..4e73edb9b3 100644
---- a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
-+++ b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
-@@ -1,4 +1,4 @@
--From 721d5be99eb37d31e48bd66d61808a66a4c5ab84 Mon Sep 17 00:00:00 2001
-+From e4b9493ae4923595ec3ca67f85322129fb3056cf Mon Sep 17 00:00:00 2001
- From: Chet Ramey <chet.ramey@case.edu>
- Date: Mon, 30 Oct 2023 12:16:07 -0400
- Subject: [PATCH] changes to SIGINT handler while waiting for a child; skip
-@@ -20,10 +20,10 @@ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-  6 files changed, 43 insertions(+), 32 deletions(-)
+diff --git a/meta/recipes-core/readline/readline/norpath.patch b/meta/recipes-core/readline/readline/norpath.patch
+index 5d71582b70..34534aff0a 100644
+--- a/meta/recipes-core/readline/readline/norpath.patch
++++ b/meta/recipes-core/readline/readline/norpath.patch
+@@ -6,11 +6,17 @@ Upstream-Status: Inappropriate
  
- diff --git a/general.c b/general.c
--index 85c5a8b6..65e2ee06 100644
-+index bda39f4..94a5339 100644
- --- a/general.c
- +++ b/general.c
--@@ -262,8 +262,9 @@ legal_number (string, result)
-+@@ -264,8 +264,9 @@ legal_number (string, result)
-    if (errno || ep == string)
-      return 0;	/* errno is set on overflow or underflow */
-  
-@@ -36,7 +36,7 @@ index 85c5a8b6..65e2ee06 100644
-  
-    /* If *string is not '\0' but *ep is '\0' on return, the entire string
- diff --git a/jobs.c b/jobs.c
--index 6b986ed7..262d78de 100644
-+index d3e4ab0..903cf9c 100644
- --- a/jobs.c
- +++ b/jobs.c
- @@ -2718,6 +2718,10 @@ wait_for_background_pids (ps)
-@@ -96,7 +96,7 @@ index 6b986ed7..262d78de 100644
-        waiting_for_child = 0;
-        if (old_sigint_handler == SIG_IGN)
-  	set_signal_handler (SIGINT, old_sigint_handler);
--@@ -4136,7 +4144,7 @@ set_job_status_and_cleanup (job)
-+@@ -4141,7 +4149,7 @@ set_job_status_and_cleanup (job)
-  		 SIGINT (if we reset the sighandler to the default).
-  		 In this case, we have to fix things up.  What a crock. */
-  	      if (temp_handler == trap_handler && signal_is_trapped (SIGINT) == 0)
-@@ -106,7 +106,7 @@ index 6b986ed7..262d78de 100644
-  	      if (temp_handler == SIG_DFL)
-  		termsig_handler (SIGINT);	/* XXX */
- diff --git a/tests/redir.right b/tests/redir.right
--index 8db10414..9e1403c8 100644
-+index 8db1041..9e1403c 100644
- --- a/tests/redir.right
- +++ b/tests/redir.right
- @@ -154,10 +154,10 @@ foo
-@@ -123,7 +123,7 @@ index 8db10414..9e1403c8 100644
- +./redir11.sub: line 77: 42: No such file or directory
-  42
- diff --git a/tests/redir11.sub b/tests/redir11.sub
--index d417cdb6..ca9854cd 100644
-+index d417cdb..ca9854c 100644
- --- a/tests/redir11.sub
- +++ b/tests/redir11.sub
- @@ -34,6 +34,8 @@ a=4 b=7 ss=4 declare -i ss
-@@ -136,7 +136,7 @@ index d417cdb6..ca9854cd 100644
-  a=4 echo foo 2>&1 >&$(foo) | { grep -q 'Bad file' || echo 'redir11 bad 3'; }
-  a=1 echo foo 2>&1 >&$(foo) | { grep -q 'Bad file' || echo 'redir11 bad 4'; }
- diff --git a/tests/type.right b/tests/type.right
--index bbc228e8..e0a66745 100644
-+index bbc228e..c0c1c8b 100644
- --- a/tests/type.right
- +++ b/tests/type.right
- @@ -24,15 +24,15 @@ func ()
-@@ -164,7 +164,7 @@ index bbc228e8..e0a66745 100644
-  builtin is a shell builtin
-  /bin/sh
- diff --git a/tests/type.tests b/tests/type.tests
--index fd39c18a..ddc15407 100644
-+index fd39c18..ddc1540 100644
- --- a/tests/type.tests
- +++ b/tests/type.tests
- @@ -25,8 +25,6 @@ type -r ${THIS_SH}
-@@ -221,6 +221,3 @@ index fd39c18a..ddc15407 100644
-  type m
-  
-  hash -r
---- 
--2.35.5
--
-diff --git a/meta/recipes-extended/bash/bash/0001-fix-c99.patch b/meta/recipes-extended/bash/bash/0001-fix-c99.patch
-index aa810f7d4e..abd83d09af 100644
---- a/meta/recipes-extended/bash/bash/0001-fix-c99.patch
-+++ b/meta/recipes-extended/bash/bash/0001-fix-c99.patch
-@@ -1,4 +1,4 @@
--From e9ed388e760ec33dcf9e72c639946c0d0abeec26 Mon Sep 17 00:00:00 2001
-+From e8ec2d75a52bdc93c83a679a71a68f4033033b8b Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Wed, 19 Jun 2024 12:57:39 +0000
- Subject: [PATCH] Fix C99 problems
-diff --git a/meta/recipes-extended/bash/bash/build-tests.patch b/meta/recipes-extended/bash/bash/build-tests.patch
-index c1b9b8261f..4cce1ba993 100644
---- a/meta/recipes-extended/bash/bash/build-tests.patch
-+++ b/meta/recipes-extended/bash/bash/build-tests.patch
-@@ -1,4 +1,4 @@
--From 318b762837c2ad25319caeaf0320eff613b64daf Mon Sep 17 00:00:00 2001
-+From c3f58f8b4f7a359b9d9dd97a45bcaab50a89d224 Mon Sep 17 00:00:00 2001
- From: Anders Roxell <anders.roxell@enea.com>
- Date: Wed, 19 Dec 2012 17:18:31 +0100
- Subject: [PATCH] Add 'ptest' target to Makefile, to run tests without checking
-@@ -9,16 +9,15 @@ Signed-off-by: Anders Roxell <anders.roxell@enea.com>
+ RP 2012/2/23
  
- Rebase to 5.0
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
- ---
-  Makefile.in | 24 +++++++++++++++++++-----
-  1 file changed, 19 insertions(+), 5 deletions(-)
- 
- diff --git a/Makefile.in b/Makefile.in
--index bc97049..937ce39 100644
-+index 0b4df73..7e2a34e 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -943,20 +943,34 @@ maybe-clean:
-+@@ -958,20 +958,34 @@ maybe-clean:
-  	fi
-  
-  recho$(EXEEXT):		$(SUPPORT_SRC)recho.c
-diff --git a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
-index 60f1852316..c5082ee355 100644
---- a/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
-+++ b/meta/recipes-extended/bash/bash/fix-filesubst-errexit.patch
-@@ -1,4 +1,4 @@
--From 59ddfda14e3c9aa6286bb4c4c0748f7c1324a65a Mon Sep 17 00:00:00 2001
-+From 16951b74971c7fd38fd036dac1410a9e53cbe736 Mon Sep 17 00:00:00 2001
- From: Chet Ramey <chet.ramey@case.edu>
- Date: Fri, 7 Apr 2023 00:28:46 -0700
- Subject: [PATCH] $(<nosuchfile) is no longer a fatal error with errexit
-@@ -17,7 +17,7 @@ Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/builtins/evalstring.c b/builtins/evalstring.c
--index df3dd68e2a7e..6612081cd646 100644
-+index 53a7c0b..c5075cc 100644
- --- a/builtins/evalstring.c
- +++ b/builtins/evalstring.c
- @@ -753,7 +753,7 @@ open_redir_file (r, fnp)
-@@ -29,6 +29,3 @@ index df3dd68e2a7e..6612081cd646 100644
-        free (fn);
-        if (fnp)
-  	*fnp = 0;
---- 
--2.40.0
--
-diff --git a/meta/recipes-extended/bash/bash/fix-run-builtins.patch b/meta/recipes-extended/bash/bash/fix-run-builtins.patch
-index 2fa388302e..05d0859821 100644
---- a/meta/recipes-extended/bash/bash/fix-run-builtins.patch
-+++ b/meta/recipes-extended/bash/bash/fix-run-builtins.patch
-@@ -1,4 +1,4 @@
--From 0c4cab9594c96c2dc435a8d9724605824bcbf917 Mon Sep 17 00:00:00 2001
-+From 15601c71b073a604ccda25c7f14f0bb12e9a3b28 Mon Sep 17 00:00:00 2001
- From: Dengke Du <dengke.du@windriver.com>
- Date: Tue, 19 Apr 2016 02:57:45 -0400
- Subject: [PATCH] fix run-builtins failed
-@@ -16,10 +16,10 @@ Signed-off-by: Dengke Du <dengke.du@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/tests/builtins.tests b/tests/builtins.tests
--index 9d77520..63f3af8 100644
-+index 8eee43e..71c9eee 100644
- --- a/tests/builtins.tests
- +++ b/tests/builtins.tests
--@@ -109,7 +109,7 @@ esac
-+@@ -124,7 +124,7 @@ esac
-  
-  # test options to exec
-  (exec -a specialname ${THIS_SH} -c 'echo $0' )
-@@ -28,6 +28,3 @@ index 9d77520..63f3af8 100644
-  # test `clean' environment.  if /bin/sh is bash, and the script version of
-  # printenv is run, there will be variables in the environment that bash
-  # sets on startup.  Also test code that prefixes argv[0] with a dash.
---- 
--2.8.1
--
-diff --git a/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch b/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
-index a9391d6cac..eb29e7d836 100644
---- a/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
-+++ b/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch
-@@ -1,3 +1,8 @@
-+From d11685286144c2e5630545e435d11387b2908fd0 Mon Sep 17 00:00:00 2001
-+From: Christopher Larson <chris_larson@mentor.com>
-+Date: Wed, 14 Nov 2012 07:55:09 -0700
-+Subject: [PATCH] bash: fix mkbuiltins build failure
-+
- On hosts with FORTIFY_SOURCES, stringize support is required, as it's used by
- the macros to wrap functions (e.g. read and open in unistd.h). Those wrappers
- use the STRING() macro from unistd.h. A header in the bash sources overrides
-@@ -13,14 +18,19 @@ stringize support, or to not define STRING() at all when FORTIFY_SOURCES is
- defined, letting the unistd.h one be used, instead.
- 
- Upstream-Status: Pending
+-Index: readline-6.2/support/shobj-conf
+-===================================================================
+---- readline-6.2.orig/support/shobj-conf	2012-02-23 11:06:37.193179379 +0000
+-+++ readline-6.2/support/shobj-conf	2012-02-23 11:06:50.049178918 +0000
+-@@ -114,7 +114,7 @@
++Rebase to 8.2.13
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ builtins/mkbuiltins.c | 1 +
-+ 1 file changed, 1 insertion(+)
- 
----- bash-4.2.orig/builtins/mkbuiltins.c
--+++ bash-4.2/builtins/mkbuiltins.c
-+diff --git a/builtins/mkbuiltins.c b/builtins/mkbuiltins.c
-+index f505ebd..b5b2eed 100644
-+--- a/builtins/mkbuiltins.c
-++++ b/builtins/mkbuiltins.c
- @@ -28,6 +28,7 @@
-  #  define HAVE_STDLIB_H
--
-+ 
-  #  define HAVE_RENAME
- +#  define HAVE_STRINGIZE
-  #endif /* CROSS_COMPILING */
--
-+ 
-  #if defined (HAVE_UNISTD_H)
-diff --git a/meta/recipes-extended/bash/bash/test-output.patch b/meta/recipes-extended/bash/bash/test-output.patch
-index 0ffcc24587..3225907b66 100644
---- a/meta/recipes-extended/bash/bash/test-output.patch
-+++ b/meta/recipes-extended/bash/bash/test-output.patch
-@@ -1,7 +1,7 @@
--From 28eb06047ebd2deaa8c7cd2bf6655ef6a469dc14 Mon Sep 17 00:00:00 2001
-+From f5cbd5a4954b89857c9e397cacceda552484f5d5 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 15 Aug 2017 10:01:56 +0800
--Subject: [PATCH 1/2] Add FAIL/PASS output to test output.
-+Subject: [PATCH] Add FAIL/PASS output to test output.
- MIME-Version: 1.0
- Content-Type: text/plain; charset=UTF-8
- Content-Transfer-Encoding: 8bit
-@@ -16,10 +16,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 10 insertions(+), 1 deletion(-)
- 
- diff --git a/tests/run-all b/tests/run-all
--index 2882fe0..e21d026 100644
-+index 1f74923..ba36a1f 100644
- --- a/tests/run-all
- +++ b/tests/run-all
--@@ -33,7 +33,16 @@ do
-+@@ -57,7 +57,16 @@ do
-  	case $x in
-  	$0|run-minimal|run-gprof)	;;
-  	*.orig|*~) ;;
-@@ -37,6 +37,3 @@ index 2882fe0..e21d026 100644
-  	esac
-  done
++ support/shobj-conf | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/support/shobj-conf b/support/shobj-conf
++index cd7634d..029123a 100644
++--- a/support/shobj-conf
+++++ b/support/shobj-conf
++@@ -128,7 +128,7 @@ linux*-*|gnu*-*|k*bsd*-gnu-*|midnightbsd*|freebsd*|dragonfly*)
+  	SHOBJ_LD='${CC}'
+  	SHOBJ_LDFLAGS='-shared -Wl,-soname,$@'
   
---- 
--1.8.3.1
+@@ -19,3 +25,6 @@ Index: readline-6.2/support/shobj-conf
+  	SHLIB_LIBVERSION='$(SHLIB_LIBSUFF).$(SHLIB_MAJOR)$(SHLIB_MINOR)'
+  	;;
+  
++-- 
++2.27.0
++
+diff --git a/meta/recipes-core/readline/readline/readline82-001.patch b/meta/recipes-core/readline/readline/readline82-001.patch
+deleted file mode 100644
+index 4e9839db9c..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-001.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
 -
-diff --git a/meta/recipes-extended/bash/bash/use_aclocal.patch b/meta/recipes-extended/bash/bash/use_aclocal.patch
-index bd6870b386..e966b037a2 100644
---- a/meta/recipes-extended/bash/bash/use_aclocal.patch
-+++ b/meta/recipes-extended/bash/bash/use_aclocal.patch
-@@ -1,4 +1,4 @@
--From d1bf23817afffd5917b74da6946e0c3b7e63e336 Mon Sep 17 00:00:00 2001
-+From b3a64702fa1978463c01bd5d9fe711e4628aba1e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 28 Dec 2020 21:04:27 +0100
- Subject: [PATCH] bash: update 5.0 -> 5.1
-@@ -9,7 +9,6 @@ as needed instead making it work like other autotools based projects.
- 
- Upstream-Status: Inappropriate [OE configuration specific]
- RP 2021/1/20
+-Readline-Release: 8.2
+-Patch-ID: readline82-001
 -
- ---
-  configure.ac | 43 -------------------------------------------
-  1 file changed, 43 deletions(-)
-diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-extended/bash/bash_5.2.32.bb
-similarity index 90%
-rename from meta/recipes-extended/bash/bash_5.2.21.bb
-rename to meta/recipes-extended/bash/bash_5.2.32.bb
-index ccfe5c47a7..b159c0232f 100644
---- a/meta/recipes-extended/bash/bash_5.2.21.bb
-+++ b/meta/recipes-extended/bash/bash_5.2.32.bb
-@@ -17,7 +17,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://0001-fix-c99.patch \
-            "
- 
--SRC_URI[tarball.sha256sum] = "c8e31bdc59b69aaffc5b36509905ba3e5cbb12747091d27b4b977f078560d5b8"
-+SRC_URI[tarball.sha256sum] = "d3ef80d2b67d8cbbe4d3265c63a72c46f9b278ead6e0e06d61801b58f23f50b5"
- 
- DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
- DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-Bug-Reported-by:	Kan-Ru Chen <koster@debian.org>
+-Bug-Reference-ID:
+-Bug-Reference-URL:	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1021109
+-
+-Bug-Description:
+-
+-Starting a readline application with an invalid locale specification for
+-LC_ALL/LANG/LC_CTYPE can cause it crash on the first call to readline.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/nls.c	2022-08-15 09:38:51.000000000 -0400
+---- nls.c	2022-10-05 09:23:22.000000000 -0400
+-***************
+-*** 142,145 ****
+---- 142,149 ----
+-      lspec = "";
+-    ret = setlocale (LC_CTYPE, lspec);	/* ok, since it does not change locale */
+-+   if (ret == 0 || *ret == 0)
+-+     ret = setlocale (LC_CTYPE, (char *)NULL);
+-+   if (ret == 0 || *ret == 0)
+-+     ret = RL_DEFAULT_LOCALE;
+-  #else
+-    ret = (lspec == 0 || *lspec == 0) ? RL_DEFAULT_LOCALE : lspec;
+-
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 0
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 1
+diff --git a/meta/recipes-core/readline/readline/readline82-002.patch b/meta/recipes-core/readline/readline/readline82-002.patch
+deleted file mode 100644
+index 5629685dc1..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-002.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-002
+-
+-Bug-Reported-by:	srobertson@peratonlabs.com
+-Bug-Reference-ID:
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-bash/2022-09/msg00049.html
+-
+-Bug-Description:
+-
+-It's possible for readline to try to zero out a line that's not null-
+-terminated, leading to a memory fault.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/display.c	2022-04-05 10:47:31.000000000 -0400
+---- display.c	2022-12-13 13:11:22.000000000 -0500
+-***************
+-*** 2684,2692 ****
+-  
+-    if (visible_line)
+-!     {
+-!       temp = visible_line;
+-!       while (*temp)
+-! 	*temp++ = '\0';
+-!     }
+-    rl_on_new_line ();
+-    forced_display++;
+---- 2735,2740 ----
+-  
+-    if (visible_line)
+-!     memset (visible_line, 0, line_size);
+-! 
+-    rl_on_new_line ();
+-    forced_display++;
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 1
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 2
+diff --git a/meta/recipes-core/readline/readline/readline82-003.patch b/meta/recipes-core/readline/readline/readline82-003.patch
+deleted file mode 100644
+index 61570bf4f4..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-003.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-003
+-
+-Bug-Reported-by:	Stefan Klinger <readline-gnu.org@stefan-klinger.de>
+-Bug-Reference-ID:
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2023-08/msg00018.html
+-
+-Bug-Description:
+-
+-Patch (apply with `patch -p0'):
+-
+-The custom color prefix that readline uses to color possible completions
+-must have a leading `.'.
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/colors.c	2021-12-08 11:38:25.000000000 -0500
+---- colors.c	2023-08-28 16:40:04.000000000 -0400
+-***************
+-*** 74,78 ****
+-  static void restore_default_color (void);
+-  
+-! #define RL_COLOR_PREFIX_EXTENSION	"readline-colored-completion-prefix"
+-  
+-  COLOR_EXT_TYPE *_rl_color_ext_list = 0;
+---- 74,78 ----
+-  static void restore_default_color (void);
+-  
+-! #define RL_COLOR_PREFIX_EXTENSION	".readline-colored-completion-prefix"
+-  
+-  COLOR_EXT_TYPE *_rl_color_ext_list = 0;
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 2
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 3
+diff --git a/meta/recipes-core/readline/readline/readline82-004.patch b/meta/recipes-core/readline/readline/readline82-004.patch
+deleted file mode 100644
+index cedc3d0fe4..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-004.patch
++++ /dev/null
+@@ -1,68 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-004
+-
+-Bug-Reported-by:	Henry Bent <henry.r.bent@gmail.com>
+-Bug-Reference-ID:
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-bash/2022-11/msg00044.html
+-
+-Bug-Description:
+-
+-Patch (apply with `patch -p0'):
+-
+-There are systems that supply one of select or pselect, but not both.
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/input.c	2022-04-08 15:43:24.000000000 -0400
+---- input.c	2022-11-28 09:41:08.000000000 -0500
+-***************
+-*** 152,156 ****
+---- 152,158 ----
+-  int _rl_timeout_init (void);
+-  int _rl_timeout_sigalrm_handler (void);
+-+ #if defined (RL_TIMEOUT_USE_SELECT)
+-  int _rl_timeout_select (int, fd_set *, fd_set *, fd_set *, const struct timeval *, const sigset_t *);
+-+ #endif
+-  
+-  static void _rl_timeout_handle (void);
+-***************
+-*** 249,253 ****
+-    int chars_avail, k;
+-    char input;
+-! #if defined(HAVE_SELECT)
+-    fd_set readfds, exceptfds;
+-    struct timeval timeout;
+---- 251,255 ----
+-    int chars_avail, k;
+-    char input;
+-! #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
+-    fd_set readfds, exceptfds;
+-    struct timeval timeout;
+-***************
+-*** 806,810 ****
+-    unsigned char c;
+-    int fd;
+-! #if defined (HAVE_PSELECT)
+-    sigset_t empty_set;
+-    fd_set readfds;
+---- 815,819 ----
+-    unsigned char c;
+-    int fd;
+-! #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
+-    sigset_t empty_set;
+-    fd_set readfds;
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 3
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 4
+diff --git a/meta/recipes-core/readline/readline/readline82-005.patch b/meta/recipes-core/readline/readline/readline82-005.patch
+deleted file mode 100644
+index 69c2e4f77a..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-005.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-005
+-
+-Bug-Reported-by:	Simon Marchi <simon.marchi@polymtl.ca>
+-Bug-Reference-ID:
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-09/msg00005.html
+-
+-Bug-Description:
+-
+-If an application is using readline in callback mode, and a signal arrives
+-after readline checks for it in rl_callback_read_char() but before it
+-restores the application's signal handlers, it won't get processed until the
+-next time the application calls rl_callback_read_char(). Readline needs to
+-check for and resend any pending signals after restoring the application's
+-signal handlers.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/callback.c	2022-04-29 12:02:56.000000000 -0400
+---- callback.c	2022-10-11 10:59:06.000000000 -0400
+-***************
+-*** 116,120 ****
+-    do { \
+-      if (rl_persistent_signal_handlers == 0) \
+-!       rl_clear_signals (); \
+-      return; \
+-    } while (0)
+---- 116,123 ----
+-    do { \
+-      if (rl_persistent_signal_handlers == 0) \
+-!       { \
+-!         rl_clear_signals (); \
+-!         if (_rl_caught_signal) _rl_signal_handler (_rl_caught_signal); \
+-!       } \
+-      return; \
+-    } while (0)
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 4
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 5
+diff --git a/meta/recipes-core/readline/readline/readline82-006.patch b/meta/recipes-core/readline/readline/readline82-006.patch
+deleted file mode 100644
+index d66afe82c9..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-006.patch
++++ /dev/null
+@@ -1,102 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-006
+-
+-Bug-Reported-by:	Tom de Vries <tdevries@suse.de>
+-Bug-Reference-ID:
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-09/msg00001.html
+-
+-Bug-Description:
+-
+-This is a variant of the same issue as the one fixed by patch 5. In this
+-case, the signal arrives and is pending before readline calls rl_getc().
+-When this happens, the pending signal will be handled by the loop, but may
+-alter or destroy some state that the callback uses. Readline needs to treat
+-this case the same way it would if a signal interrupts pselect/select, so
+-compound operations like searches and reading numeric arguments get cleaned
+-up properly.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/input.c	2022-12-22 16:15:48.000000000 -0500
+---- input.c	2023-01-10 11:53:45.000000000 -0500
+-***************
+-*** 812,816 ****
+-  rl_getc (FILE *stream)
+-  {
+-!   int result;
+-    unsigned char c;
+-    int fd;
+---- 812,816 ----
+-  rl_getc (FILE *stream)
+-  {
+-!   int result, ostate, osig;
+-    unsigned char c;
+-    int fd;
+-***************
+-*** 823,828 ****
+---- 823,842 ----
+-    while (1)
+-      {
+-+       osig = _rl_caught_signal;
+-+       ostate = rl_readline_state;
+-+ 
+-        RL_CHECK_SIGNALS ();
+-  
+-+ #if defined (READLINE_CALLBACKS)
+-+       /* Do signal handling post-processing here, but just in callback mode
+-+ 	 for right now because the signal cleanup can change some of the
+-+ 	 callback state, and we need to either let the application have a
+-+ 	 chance to react or abort some current operation that gets cleaned
+-+ 	 up by rl_callback_sigcleanup(). If not, we'll just run through the
+-+ 	 loop again. */
+-+       if (osig != 0 && (ostate & RL_STATE_CALLBACK))
+-+ 	goto postproc_signal;
+-+ #endif
+-+ 
+-        /* We know at this point that _rl_caught_signal == 0 */
+-  
+-***************
+-*** 888,891 ****
+---- 902,908 ----
+-  
+-  handle_error:
+-+       osig = _rl_caught_signal;
+-+       ostate = rl_readline_state;
+-+ 
+-        /* If the error that we received was EINTR, then try again,
+-  	 this is simply an interrupted system call to read ().  We allow
+-***************
+-*** 928,933 ****
+---- 945,959 ----
+-  #endif  /* SIGALRM */
+-  
+-+ postproc_signal:
+-+       /* POSIX says read(2)/pselect(2)/select(2) don't return EINTR for any
+-+ 	 reason other than being interrupted by a signal, so we can safely
+-+ 	 call the application's signal event hook. */
+-        if (rl_signal_event_hook)
+-  	(*rl_signal_event_hook) ();
+-+ #if defined (READLINE_CALLBACKS)
+-+       else if (osig == SIGINT && (ostate & RL_STATE_CALLBACK) && (ostate & (RL_STATE_ISEARCH|RL_STATE_NSEARCH|RL_STATE_NUMERICARG)))
+-+         /* just these cases for now */
+-+         _rl_abort_internal ();
+-+ #endif
+-      }
+-  }
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 5
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 6
+diff --git a/meta/recipes-core/readline/readline/readline82-007.patch b/meta/recipes-core/readline/readline/readline82-007.patch
+deleted file mode 100644
+index 9fa1ccb552..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-007.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-007
+-
+-Bug-Reported-by:	Kevin Pulo <kev@pulo.com.au>
+-Bug-Reference-ID:
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-11/msg00002.html
+-
+-Bug-Description:
+-
+-If readline is called with no prompt, it should display a newline if return
+-is typed on an empty line. It should still suppress the final newline if
+-return is typed on the last (empty) line of a multi-line command.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/display.c	2022-04-05 10:47:31.000000000 -0400
+---- display.c	2022-12-13 13:11:22.000000000 -0500
+-***************
+-*** 3342,3348 ****
+-  		 &last_face[_rl_screenwidth - 1 + woff], 1);
+-      }
+-!   _rl_vis_botlin = 0;
+-!   if (botline_length > 0 || _rl_last_c_pos > 0)
+-      rl_crlf ();
+-    fflush (rl_outstream);
+-    rl_display_fixed++;
+---- 3394,3400 ----
+-  		 &last_face[_rl_screenwidth - 1 + woff], 1);
+-      }
+-!   if ((_rl_vis_botlin == 0 && botline_length == 0) || botline_length > 0 || _rl_last_c_pos > 0)
+-      rl_crlf ();
+-+   _rl_vis_botlin = 0;
+-    fflush (rl_outstream);
+-    rl_display_fixed++;
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 6
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 7
+diff --git a/meta/recipes-core/readline/readline/readline82-008.patch b/meta/recipes-core/readline/readline/readline82-008.patch
+deleted file mode 100644
+index 660cb1e00b..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-008.patch
++++ /dev/null
+@@ -1,80 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-008
+-
+-Bug-Reported-by:
+-Bug-Reference-ID:
+-Bug-Reference-URL:
+-
+-Bug-Description:
+-
+-Add missing prototypes for several function declarations.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/text.c	Wed Oct 27 11:03:59 2021
+---- text.c	Thu Nov 16 16:24:58 2023
+-***************
+-*** 1765,1770 ****
+-  #if defined (READLINE_CALLBACKS)
+-  static int
+-! _rl_char_search_callback (data)
+-!      _rl_callback_generic_arg *data;
+-  {
+-    _rl_callback_func = 0;
+---- 1765,1769 ----
+-  #if defined (READLINE_CALLBACKS)
+-  static int
+-! _rl_char_search_callback (_rl_callback_generic_arg *data)
+-  {
+-    _rl_callback_func = 0;
+-*** ../readline-8.2-patched/bind.c	Wed Feb  9 11:02:22 2022
+---- bind.c	Thu Nov 16 16:25:17 2023
+-***************
+-*** 1168,1174 ****
+-  
+-  static int
+-! parse_comparison_op (s, indp)
+-!      const char *s;
+-!      int *indp;
+-  {
+-    int i, peekc, op;
+---- 1168,1172 ----
+-  
+-  static int
+-! parse_comparison_op (const char *s, int *indp)
+-  {
+-    int i, peekc, op;
+-*** ../readline-8.2-patched/rltty.c	Fri Feb 18 11:14:22 2022
+---- rltty.c	Thu Nov 16 16:25:36 2023
+-***************
+-*** 81,86 ****
+-     to get the tty settings. */
+-  static void
+-! set_winsize (tty)
+-!      int tty;
+-  {
+-  #if defined (TIOCGWINSZ)
+---- 81,85 ----
+-     to get the tty settings. */
+-  static void
+-! set_winsize (int tty)
+-  {
+-  #if defined (TIOCGWINSZ)
+-
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 7
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 8
+diff --git a/meta/recipes-core/readline/readline/readline82-009.patch b/meta/recipes-core/readline/readline/readline82-009.patch
+deleted file mode 100644
+index 1fcf7b3535..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-009.patch
++++ /dev/null
+@@ -1,76 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-009
+-
+-Bug-Reported-by:	Stefan H. Holek <stefan@epy.co.at>
+-Bug-Reference-ID:	<50F8DA45-B7F3-4DE1-AB94-19AE42649CDC@epy.co.at>
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2022-10/msg00021.html
+-
+-Bug-Description:
+-
+-Fix issue where the directory name portion of the word to be completed (the
+-part that is passed to opendir()) requires both tilde expansion and dequoting.
+-Readline only performed tilde expansion in this case, so filename completion
+-would fail.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/complete.c	2022-04-05 10:47:06.000000000 -0400
+---- complete.c	2022-10-26 15:08:51.000000000 -0400
+-***************
+-*** 2527,2531 ****
+-  	  xfree (dirname);
+-  	  dirname = temp;
+-! 	  tilde_dirname = 1;
+-  	}
+-  
+---- 2527,2532 ----
+-  	  xfree (dirname);
+-  	  dirname = temp;
+-! 	  if (*dirname != '~')
+-! 	    tilde_dirname = 1;	/* indicate successful tilde expansion */
+-  	}
+-  
+-***************
+-*** 2546,2554 ****
+-  	  users_dirname = savestring (dirname);
+-  	}
+-!       else if (tilde_dirname == 0 && rl_completion_found_quote && rl_filename_dequoting_function)
+-  	{
+-! 	  /* delete single and double quotes */
+-  	  xfree (dirname);
+-! 	  dirname = savestring (users_dirname);
+-  	}
+-        directory = opendir (dirname);
+---- 2547,2560 ----
+-  	  users_dirname = savestring (dirname);
+-  	}
+-!       else if (rl_completion_found_quote && rl_filename_dequoting_function)
+-  	{
+-! 	  /* We already ran users_dirname through the dequoting function.
+-! 	     If tilde_dirname == 1, we successfully performed tilde expansion
+-! 	     on dirname. Now we need to reconcile those results. We either
+-! 	     just copy the already-dequoted users_dirname or tilde expand it
+-! 	     if we tilde-expanded dirname. */
+-! 	  temp = tilde_dirname ? tilde_expand (users_dirname) : savestring (users_dirname);
+-  	  xfree (dirname);
+-! 	  dirname = temp;
+-  	}
+-        directory = opendir (dirname);
+-
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 8
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 9
+diff --git a/meta/recipes-core/readline/readline/readline82-010.patch b/meta/recipes-core/readline/readline/readline82-010.patch
+deleted file mode 100644
+index 6152953e91..0000000000
+--- a/meta/recipes-core/readline/readline/readline82-010.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-			   READLINE PATCH REPORT
+-			   =====================
+-
+-Readline-Release: 8.2
+-Patch-ID: readline82-010
+-
+-Bug-Reported-by:	Martin Castillo <castilma@uni-bremen.de>
+-Bug-Reference-ID:	<2d42153b-cf65-caba-dff1-cd3bc6268c7e@uni-bremen.de>
+-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2023-01/msg00000.html
+-
+-Bug-Description:
+-
+-Fix the case where text to be completed from the line buffer (quoted) is
+-compared to the common prefix of the possible matches (unquoted) and the
+-quoting makes the former appear to be longer than the latter. Readline
+-assumes the match doesn't add any characters to the word and doesn't display
+-multiple matches.
+-
+-Patch (apply with `patch -p0'):
+-
+-Upstream-Status: Submitted [https://ftp.gnu.org/gnu/readline/readline-8.2-patches/]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-*** ../readline-8.2-patched/complete.c	Tue Apr  5 10:47:06 2022
+---- complete.c	Sat Jan  7 14:19:45 2023
+-***************
+-*** 2032,2038 ****
+-    text = rl_copy_text (start, end);
+-    matches = gen_completion_matches (text, start, end, our_func, found_quote, quote_char);
+-    /* nontrivial_lcd is set if the common prefix adds something to the word
+-       being completed. */
+-!   nontrivial_lcd = matches && compare_match (text, matches[0]) != 0;
+-    if (what_to_do == '!' || what_to_do == '@')
+-      tlen = strlen (text);
+---- 2038,2060 ----
+-    text = rl_copy_text (start, end);
+-    matches = gen_completion_matches (text, start, end, our_func, found_quote, quote_char);
+-+   /* If TEXT contains quote characters, it will be dequoted as part of
+-+      generating the matches, and the matches will not contain any quote
+-+      characters. We need to dequote TEXT before performing the comparison.
+-+      Since compare_match performs the dequoting, and we only want to do it
+-+      once, we don't call compare_matches after dequoting TEXT; we call
+-+      strcmp directly. */
+-    /* nontrivial_lcd is set if the common prefix adds something to the word
+-       being completed. */
+-!   if (rl_filename_completion_desired && rl_filename_quoting_desired &&
+-!       rl_completion_found_quote && rl_filename_dequoting_function)
+-!     {
+-!       char *t;
+-!       t = (*rl_filename_dequoting_function) (text, rl_completion_quote_character);
+-!       xfree (text);
+-!       text = t;
+-!       nontrivial_lcd = matches && strcmp (text, matches[0]) != 0;
+-!     }
+-!   else
+-!     nontrivial_lcd = matches && strcmp (text, matches[0]) != 0;
+-    if (what_to_do == '!' || what_to_do == '@')
+-      tlen = strlen (text);
+-
+-*** ../readline-8.2/patchlevel	2013-11-15 08:11:11.000000000 -0500
+---- patchlevel	2014-03-21 08:28:40.000000000 -0400
+-***************
+-*** 1,3 ****
+-  # Do not edit -- exists only for use by patch
+-  
+-! 9
+---- 1,3 ----
+-  # Do not edit -- exists only for use by patch
+-  
+-! 10
+diff --git a/meta/recipes-core/readline/readline_8.2.13.bb b/meta/recipes-core/readline/readline_8.2.13.bb
+new file mode 100644
+index 0000000000..78b988365a
+--- /dev/null
++++ b/meta/recipes-core/readline/readline_8.2.13.bb
+@@ -0,0 +1,5 @@
++require readline.inc
++
++SRC_URI += "  file://norpath.patch"
++
++SRC_URI[archive.sha256sum] = "0e5be4d2937e8bd9b7cd60d46721ce79f88a33415dd68c2d738fb5924638f656"
+diff --git a/meta/recipes-core/readline/readline_8.2.bb b/meta/recipes-core/readline/readline_8.2.bb
+deleted file mode 100644
+index f0dba31251..0000000000
+--- a/meta/recipes-core/readline/readline_8.2.bb
++++ /dev/null
+@@ -1,17 +0,0 @@
+-require readline.inc
+-
+-SRC_URI += "  file://norpath.patch"
+-
+-SRC_URI += "file://readline82-001.patch;striplevel=0 \
+-            file://readline82-002.patch;striplevel=0 \
+-            file://readline82-003.patch;striplevel=0 \
+-            file://readline82-004.patch;striplevel=0 \
+-            file://readline82-005.patch;striplevel=0 \
+-            file://readline82-006.patch;striplevel=0 \
+-            file://readline82-007.patch;striplevel=0 \
+-            file://readline82-008.patch;striplevel=0 \
+-            file://readline82-009.patch;striplevel=0 \
+-            file://readline82-010.patch;striplevel=0 \
+-           "
+-
+-SRC_URI[archive.sha256sum] = "3feb7171f16a84ee82ca18a36d7b9be109a52c04f492a053331d7d1095007c35"
 -- 
 2.27.0
 
