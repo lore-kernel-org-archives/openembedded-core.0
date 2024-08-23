@@ -1,159 +1,176 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E17B5C52D7C
-	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 12:57:12 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.15354.1724417826912367241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6959C531DC
+	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 13:00:52 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.15450.1724418042573035801
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Aug 2024 05:57:07 -0700
+ Fri, 23 Aug 2024 06:00:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=m+ZO9XYv;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2f3e2f07f41so19968021fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 05:57:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UGiZkl2j;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3718c176ed7so990174f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 06:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724417825; x=1725022625; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xXTwqjnpwMRzDFfB1ibNwmtFu20CysWrFcqh7g5d7yA=;
-        b=m+ZO9XYv1iuZE9yxgJ0gO+cq7HFZGw+AQt5N+OQJVGJ0HO2+et3GdICq5Ye9lCdMTM
-         Jjjak1gOOpkwrmLfol60hFtfq5zfek0r4NVeurQysp5u3N+0Z/E+r5LGffrEhCObdlpb
-         7elibI3wgOts2ve058YW9oXIoXfaVDxAUNslqbDYbzkOrPY9ZabyBoT6vR/U0ADa0zSV
-         T7zTNwlUlT6Qngvyb3a2S7KYRnLfApHRV5jY9DTnAO2KmF89BinWIh+2IJBESUJcCzg7
-         U1eb4fG5ZbB1IjJnQP0z05brnep1jfA+qCNTJZUqPmuaqtY6ZV8+l5nqFDSFKtrWmYQf
-         kOaQ==
+        d=linuxfoundation.org; s=google; t=1724418041; x=1725022841; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CFs7CIXFnf8p1j0zuXLmahDpO82PJtMfUkya8fkEhM8=;
+        b=UGiZkl2jH254cBZSmEQWGtrTsgfJsYLbPCZEv61+1r3QB50uOI3JpiGCnsWlYoa8Wc
+         UeD8aWu6jyU7sBU5aLgdRx9Zr61ynlbyIiXSldXolWQitDpXHj3eF7kYJ2dqwa6hOhxn
+         2UIlTddkGtadTZNtUo+mUgUmPs8G9U60mmdac=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724417825; x=1725022625;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xXTwqjnpwMRzDFfB1ibNwmtFu20CysWrFcqh7g5d7yA=;
-        b=FSyE9FvHPzAgVL+5m0TdXs0jHS0z2HZX4PrnHgwqdzDkmGRm5TFVNDtfKdPGDi8Mqa
-         MnM0B8rRWb+kLEO1MfeWsOjeE45699PWXRvGmh2+rIn2P8jDtLApuz5em/B6tuhKyyIC
-         OchcZv+9Wm0G9e7P81DclAEkQeWPdsKwjCR1q5r92VlfgEN2J6b866YqJ62zNaWIv0VT
-         7g7jgDAtLj3zd7PQBSEWq29ot3fJn3VXsxcrCmmnV7c5QMnSHu1DsvtUOfMpotdDb8sq
-         f0ld8X+DK2mQSbcp/q4OXyCIm96adit3KLLDHSJpwKSckrYmcRX4bzyWMEn3kn0xwpQ/
-         hqlg==
-X-Gm-Message-State: AOJu0YxtP9nurXesJLaqZ5HTAVDs0ub3t/WrIdmvxkTxzUrRI2d6VoM0
-	7h49EKpd1/OM1ASCtRfR4OzXX1l54m1+vX13DPRUmLq6BSL+nWWMGy08cqsOeyYoigfyxKkPYak
-	V0+KPqRAPcNqqKcteF6iFurGksVQ=
-X-Google-Smtp-Source: AGHT+IGorvpn0IP8ApjC6Lnt4nboo7a2nnbSfkyCYxE3OnTN6Gy6Ok8s9XqBA9efk334q/RVSYmXWQPfdRTTZKViDIg=
-X-Received: by 2002:a05:651c:b2b:b0:2ef:29d4:3d97 with SMTP id
- 38308e7fff4ca-2f4f48ef795mr18127441fa.5.1724417824139; Fri, 23 Aug 2024
- 05:57:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <17EE204EC928FF26.29141@lists.openembedded.org>
-In-Reply-To: <17EE204EC928FF26.29141@lists.openembedded.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 23 Aug 2024 14:56:39 +0200
-Message-ID: <CA+chaQdHrV+LO7=Fc8B18cS5kr5nHen5gVG+HNM=JhasNFOwBg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-numpy: disable ccache
-To: martin.jansa@gmail.com
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1724418041; x=1725022841;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CFs7CIXFnf8p1j0zuXLmahDpO82PJtMfUkya8fkEhM8=;
+        b=LkUM9Y2VRXeSfB3XcOF23QVeV7x9O++XZVvrD9JSRiv7t/oiXxX0s7S/WfE0yeTdRN
+         AtY7poYxgShSmKQcQOe56eFq9l65DVV+kFe1FLeUSTlh6vIx7HDiup7Muej0cHgjuuIr
+         A0ETJw/EVZbrHVans2Tloe5LSmi1R+jVpzPqZ/vN+7FYiDSoOGyv4oedUKuojpDa5O+q
+         MvGMb1CvrfJ+M4PyYiL96Aig5OZXilYaXpwo3RZwRoc21zxcaOWa9RDIy0YVOizA3HAT
+         YZy+8PHqhRw2BEvhj4KjYY9ffA30IELQLj1C8VxHBm7hFarCWS3WNqhEKBtHFCvTJ8hX
+         3etA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWQVRmSLlZQs+zL1n2XHeBr7TjBzezg/kntLXArcJdi4Khz6NjgxEixfHdXnpm/4zdAGlkpHAVmrtT4QODB30Wtw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzcJJpmoCVabKZDt17idlLcfAM1KfCd/gUJ10NTmqHmqA32MopW
+	BWF5VuGpy2i3iaN64JDGEef8xBMSFe7+G4S9Ur4napI/4cQkKqRYefQ1mDpbMhU=
+X-Google-Smtp-Source: AGHT+IF67gVXRD4a6ovZAhaTU4gLz5Y+eG4uQI8Y6mFSbp2Kve/GYOPJ8VdiiCgcN2dluySNweTaYA==
+X-Received: by 2002:adf:efc2:0:b0:368:37ac:3f95 with SMTP id ffacd0b85a97d-373118649cfmr1210370f8f.31.1724418040513;
+        Fri, 23 Aug 2024 06:00:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f4f5:df28:3cf9:5842? ([2001:8b0:aba:5f3c:f4f5:df28:3cf9:5842])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308110420sm4145914f8f.6.2024.08.23.06.00.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 06:00:40 -0700 (PDT)
+Message-ID: <168ddcc1fa6f6a5e53ad96a5600dbbf0cc2d6a11.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/4] kernel-fitimage: run unbundled fitimage
+ after deploy
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: adrian.freihofer@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Date: Fri, 23 Aug 2024 14:00:39 +0100
+In-Reply-To: <20240819152136.1185744-5-adrian.freihofer@gmail.com>
+References: <20240819152136.1185744-1-adrian.freihofer@gmail.com>
+	 <20240819152136.1185744-5-adrian.freihofer@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 12:57:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203687
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 13:00:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203688
 
-It seems to be bigger issue in multiple python recipes (numpy was the
-only one shown in my image builds), in world build with ccache enabled
-I see:
+I have been struggling to find time to sit and think through the
+implications of this. I have finally done that, at least a little and I
+have some questions below. Sorry about the delay in getting to this, I
+keep hoping someone else will help with this kind of review but it is
+very time consuming and I suspect nobody has quite the right set of
+knowledge to make it easier.
 
-meta-oe/meta-python/recipes-devtools/python/python3-msgpack_1.0.8.bb:do_com=
-pile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-ujson_5.10.0.bb:do_comp=
-ile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-rapidjson_1.19.bb:do_co=
-mpile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-greenlet_3.0.3.bb:do_co=
-mpile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-matplotlib_3.7.2.bb:do_=
-compile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-fastnumbers_5.1.0.bb:do=
-_compile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-kiwisolver_1.4.5.bb:do_=
-compile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-fann2_1.1.2.bb:do_compi=
-le)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-snappy_0.6.1.bb:do_comp=
-ile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-icu_2.13.1.bb:do_compil=
-e)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-grpcio-tools_1.62.2.bb:=
-do_compile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-cchardet_2.1.7.bb:do_co=
-mpile)
-failed with exit code '1'
-meta-oe/meta-python/recipes-devtools/python/python3-pandas_2.0.3.bb:do_comp=
-ile)
-failed with exit code '1'
+On Mon, 2024-08-19 at 17:17 +0200, Adrian Freihofer via lists.openembedded.=
+org wrote:
+> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>=20
+> Without this change, the kernel is always rebuilt if something changes
+> in the initramfs. If the kernel is rebuilt with an empty TMPDIR, the
+> process starts by fetching the large kernel git repository and
+> recompiling it from scratch. This is very inefficient.
+>=20
+> This cannot be improved if INITRAMFS_IMAGE_BUNDLE =3D "1". If the kernel
+> Makefile is needed to generate the initramfs bundle the kernel build
+> folder is required. For this cases nothing changes.
 
-probably because of the same issue, so setuptools should probably be
-fixed instead.
+When you say "kernel Makefile", I'm assuming to rebuild the kernel
+image, you need much more than just the Makefile but a complete kernel
+build tree? The Makefile is a solvable problem, the tree isn't!
 
-On Thu, Aug 22, 2024 at 8:27=E2=80=AFPM Martin Jansa via
-lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> * fails to parse CXX correctly since the setuptools upgrade from 72.1.0 t=
-o 72.2.0
-> * it can be resolved by upgrading numpy as in:
->   https://lists.openembedded.org/g/openembedded-core/message/203231
->   which switches from setuptools3 to python_mesonpy, but before that
->   is merged, we can just disable ccache here
-> * more details in:
->   https://lists.openembedded.org/g/openembedded-core/message/203658
->
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ---
->  meta/recipes-devtools/python/python3-numpy_1.26.4.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb b/meta/=
-recipes-devtools/python/python3-numpy_1.26.4.bb
-> index 914245507c..7cd9d30d2d 100644
-> --- a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-> +++ b/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-> @@ -24,6 +24,9 @@ inherit ptest setuptools3 github-releases
->
->  S =3D "${WORKDIR}/numpy-${PV}"
->
-> +# fails to parse CXX correctly since the setuptools upgrade from 72.1.0 =
-to 72.2.0
-> +# https://lists.openembedded.org/g/openembedded-core/message/203658
-> +CCACHE_DISABLE =3D "1"
->  CLEANBROKEN =3D "1"
->
->  do_compile:prepend() {
-> --
-> 2.46.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203660): https://lists.openembedded.org/g/openembedde=
-d-core/message/203660
-> Mute This Topic: https://lists.openembedded.org/mt/108043577/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> But for a build configuration with INITRAMFS_IMAGE_BUNDLE =3D "" the
+> build folder is not needed. Creating the initramfs bundle requires:
+> linux.bin, DTBs and the initramfs. These artifacts are all available in
+> the deploy folder which is also sstate cached.
+>=20
+> Therefore do_assemble_fitimage_initramfs gets split into two tasks:
+> - do_assemble_fitimage_initramfs creates the bundled fitImage which runs
+> =C2=A0 before do_deploy. This is without sstate and therefore the do_depl=
+oy
+> =C2=A0 task still deploys the artifacts generated by this task.
+> - do_deploy_fitimage_unbundled creates the fitImage in unbundled mode.
+> =C2=A0 This task runs after do_deploy. It uses the linux.bin artifact fro=
+m
+> =C2=A0 do_deploy to create the fitImage with initramfs.
+
+I'm a bit worried about having a second do_deploy_xxx task after
+do_deploy. This creates a recipe with two deploy tasks and whilst I can
+understand why you're doing it, I worry this is going to create
+confusion down the road.
+
+The reason I say this is that there are rules for "deploy" tasks, e.g.
+in meta-classes/sstate.bbclass:setscene_depvalid() has:
+
+       # do_package/packagedata/package_qa/deploy don't need do_populate_sy=
+sroot
+        if taskdependees[task][1] =3D=3D "do_populate_sysroot" and taskdepe=
+ndees[dep][1] in ['do_package', 'do_packagedata', 'do_package_qa', 'do_depl=
+oy']:
+            continue
+
+do_deploy_fitimage_unbundled isn't listed in SSTATETASKS. Whilst that
+is simple to fix, I'm not sure what side effects that is then going to
+cause.
+
+Also, there is this to consider:
+
+meta/classes-global/base.bbclass:do_build[recrdeptask] +=3D "do_deploy"
+
+which is basically making sure "build" targets (the default) trigger
+all artefacts to be deployed. I think this new task will be missed by
+global code as it isn't covered there. The intent was to have one name
+which covered all cases, not having recipe specific entries in there.
+
+I'm starting to wonder if that unbundled case should be handled by a
+separate recipe, which can then have its own do_deploy task and depend
+on all the correct pieces.
+
+
+> =C2=A0 This task is done with SSTATE_SKIP_CREATION, because this also wor=
+ks
+> =C2=A0 with the eSDK installer (oe-selftest -r esdk is successful). It is
+> =C2=A0 also more effective to quickly create the fit image instead of
+> =C2=A0 handling it via sstate.
+
+Skipping sstate creation is a huge red warning sign in my mind. So far
+we've only had images and eSDKs using this option and I never wanted to
+add the option generically in the first place since it was going to
+lead to more exceptions like this.
+
+The implications of not creating the sstate can be problematic, for
+example the sstate tests then need to learn that some new subset of
+sstate artefacts will never be created. This also complicated the
+testing of eSDKs which do a similar verification which will also need
+exceptions. I can understand why you've done it but I am worried the
+side effects will be left for others (such as myself) to resolve as fit
+images get used in new codepaths :/.
+
+> Unfortunately, this change is not 100% backward compatible. Previously,
+> a dependency on do_deploy deployed all types of fit images. With this
+> change, deploying the unbundled fit image requires a dependency on
+> do_deploy_fitimage_unbundled. To address this the image.bbclass gets
+> improved to handle both cases with the KERNEL_DEPLOY_DEPEND variable.
+
+I think this proves my point about why adding a new deploy task is
+potentially problematic. Have you considered using an intermediate
+recipe for the unbundled case instead?
+
+I wish we could determine how much use the bundled and unbundled cases
+have. I'm also starting to wonder if the two cases should be separated
+apart into two clear workflows rather than the current entwined
+situation which is very hard to visualise and understand.
+
+Cheers,
+
+Richard
 
