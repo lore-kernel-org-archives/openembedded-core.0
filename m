@@ -1,1747 +1,340 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF266C52D7C
-	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 06:09:40 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web10.10398.1724393379202910392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58833C52D7C
+	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 07:38:51 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.11279.1724398728481162715
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Aug 2024 23:09:39 -0700
+ Fri, 23 Aug 2024 00:38:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TtQykjMJ;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7093c94435bso970527a34.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 23:09:39 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=CtzgR5YN;
+ spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-201fbd0d7c2so15641965ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 00:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724393378; x=1724998178; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z1T2GnUcSr64TapBWUUNwlLpUVMYvUf2DEs8uw8QpiY=;
-        b=TtQykjMJXXugHtcWvzCUcNN72Skz9W182OBkntSdtyomI7+kRU8KsNJ0Jv6HVMlKf6
-         g3DKFjY3l3FeB6DbZuF53MyyC7re04Esf6MUP7ii2jueB9oZq406NpGVbGbQLTvP3GKP
-         0PRCO1DCA6C0p8iDiC0mgvUNzdinZT9qcyaK4UXDwduCddFeFLeqgHxMlEAda5rTAkn2
-         r8LK234ne6/ZVtpXDJubHaYCa1JkvO5sEeYtKR0ggBvqoohZemWUIO40heGqN2qhbPxa
-         wKc6P6CDMCk054hjQy3PzUkYEin6jkhOOo46hgutOimmUsR1lZj/IeyIM+8kV0Ip9Ci7
-         Nosg==
+        d=mvista.com; s=google; t=1724398727; x=1725003527; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HxaaoGcU3NnHsWfLpQuca8uItFVw1ihe0pkLIkKRGx0=;
+        b=CtzgR5YN2S8I6ZmmjEHb7K7HH3Hcnj/2cgZJC6obH+R2VViWriZTGh5QfYOGjO1Cwf
+         Fu/BR5xe1GViO9LJb0PvB4X25DPMp+EgY3SYdlS7nwFN+8xhQjgdrGvxX070e9oQNcBC
+         ciM6W5IGsOU+QzaR9KW9Vb1nzTsS9OCpBU7T4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724393378; x=1724998178;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z1T2GnUcSr64TapBWUUNwlLpUVMYvUf2DEs8uw8QpiY=;
-        b=N4q3mH8ExZaROTQjxUu4iVp4CpUzd3B8xCKUI/tnEz/KPwIHw20nKXJzfSHjXEceKI
-         ajp90yOtOZ8gUjtNWoEBfKG/6WRmIMzLm0PHLi6rWjKO7GKbr6TKYbbKpHKV+F4nj2Zr
-         5pnLtqomywb66YIjTSSaNyNtI4t9+DGMzPv80W3ENSWJNp7FSyMYEVDpBmjUBh5wMR5J
-         ltMTmcOObrk8eEaNgQ0T2/lvN5uwdXDqMNrvkv1ennaDYnw69uBU7jgp7u1e0SJ/xj+i
-         U8WumFJh7mFTAGUx0eD1Layj4rwM1MTsK5uz5/FvRY+9ecbpBngXi76O7W/75rn1WrmJ
-         YoZQ==
-X-Gm-Message-State: AOJu0YwRqmq09E2ENw9ikPh50n9T+yaTw7/V4+I8qAcM+R+UKfuAbCLa
-	qFp/k2+M6rIw8k9/g6HTxoTBG4fnQ8IeFQi1O4itqXZXVGjILvpehYeh+0AiaFWN40DEVAbLTz3
-	sAf8BaEUg5VXIVISe+P7Vmw9Br3c=
-X-Google-Smtp-Source: AGHT+IGVboOM5NeD4AEVXML7gwMYgrpyJRLvLjCSBx4mKJp/i1QyINAJ64DkD7m9IjdglZMvTBGP2iTr4SP/QxXsAf4=
-X-Received: by 2002:a05:6808:6489:b0:3d5:5fbe:b2fa with SMTP id
- 5614622812f47-3de2a8d4697mr1095898b6e.35.1724393377593; Thu, 22 Aug 2024
- 23:09:37 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724398727; x=1725003527;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HxaaoGcU3NnHsWfLpQuca8uItFVw1ihe0pkLIkKRGx0=;
+        b=N53tjHgbhQlaornRGWWf3d1R+Y9a55beiMvXuseZrizY08q37l0diOGQ20ppWa4T8L
+         pgEBfMTVHAc5KQ/TwCMGcXw00E3hGTUQgwkdb9WF9bPOpbXVa1uEAClPp1BEpLAsBVbc
+         3SNQknSaQcs3yQily43uLgmWz85vglEusCEvMSqQmBGgCbFX1F9r4YtK80mfKNNUbtku
+         vZlB6+Px5voBgu68wG6mvbnL6hM6llLSUOKUL+UJFjFrWuC8tgVe8khUPn11EtlqkhC/
+         2hQY/WEeWlpg8Cuo/CvJiu5Gx6rAULlIfJpWI3dSv5nEqMEUvDbZZNQFU0KpwzOrqBTe
+         yKAw==
+X-Gm-Message-State: AOJu0YzpEaRx0tstNO8UsW+PoAuX1jbZfXMYPoHk0nEaxHmXDWOKX0Fl
+	pzx21D0+E/JNK9o8HP367mr2xoF+v9FyvDO1/lH/sxfXMHexUW/1OpJQEJV0f//hFGc1qtOn1mP
+	O
+X-Google-Smtp-Source: AGHT+IHLOrN3rJidShAtsVjuYcToL+m60cwCF6te30ILKgrvEdjKnZyHX6/1g2126+uAEsw77eUY9A==
+X-Received: by 2002:a17:903:2311:b0:202:232b:2dd8 with SMTP id d9443c01a7336-2039e67df5emr14021075ad.55.1724398727405;
+        Fri, 23 Aug 2024 00:38:47 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([157.32.45.139])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557eec1sm23201385ad.91.2024.08.23.00.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 00:38:46 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] wpa-supplicant: Upgrade 2.10 -> 2.11
+Date: Fri, 23 Aug 2024 13:08:25 +0530
+Message-Id: <20240823073825.135461-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240822093521.36790-1-alex.kanavin@gmail.com> <20240822093521.36790-8-alex.kanavin@gmail.com>
-In-Reply-To: <20240822093521.36790-8-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Aug 2024 23:09:11 -0700
-Message-ID: <CAMKF1sp6hugNAci8pPG229yedLraQEKGeuPXJ4cbmHAMaMCc5A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 08/32] e2fsprogs: upgrade 1.47.0 -> 1.47.1
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 06:09:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203679
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 07:38:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203680
 
-This is regressing libblockdev from meta-oe -
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/4065/step=
-s/14/logs/stdio
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-error snippet
+License-Update:
+===============
+- README: Change in copyright years as per https://w1.fi/cgit/hostap/commit/README?id=d945ddd368085f255e68328f2d3b020ceea359af
+- wpa_supplicant/wpa_supplicant.c: Change in copyright years as per https://w1.fi/cgit/hostap/commit/wpa_supplicant/wpa_supplicant.c?id=d945ddd368085f255e68328f2d3b020ceea359af
 
-| /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-poky-l=
-inux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:
-In function '__encode_extra_time':
-   | /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-pok=
-y-linux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:588:48=
-:
-error: unused parameter 'seconds' [-Werror=3Dunused-parameter]
-   |   588 | static inline __u32 __encode_extra_time(time_t seconds, __u32 =
-nsec)
-   |       |                                         ~~~~~~~^~~~~~~
-   | /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-pok=
-y-linux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:
-In function '__decode_extra_sec':
-   | /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-pok=
-y-linux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:598:63=
-:
-error: unused parameter 'extra' [-Werror=3Dunused-parameter]
-   |   598 | static inline time_t __decode_extra_sec(time_t seconds,
-__u32 extra)
-   |       |                                                         ~~~~~~=
-^~~~~
-   | cc1: all warnings being treated as errors
+CVE's Fixed:
+===========
+- CVE-2024-5290 wpa_supplicant: wpa_supplicant loading arbitrary shared objects allowing privilege escalation
+- CVE-2023-52160 wpa_supplicant: potential authorization bypass
 
-On Thu, Aug 22, 2024 at 2:35=E2=80=AFAM Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  ...-missing-check-for-permission-denied.patch |    3 +-
->  .../e2fsprogs/e2fsprogs/mkdir_p.patch         |    7 +-
->  .../e2fsprogs/e2fsprogs/ptest.patch           |    8 +-
->  .../e2fsprogs/e2fsprogs/quiet-debugfs.patch   |    7 +-
->  .../e2fsprogs/remove.ldconfig.call.patch      |   15 +-
->  ...2fsprogs_1.47.0.bb =3D> e2fsprogs_1.47.1.bb} |    2 +-
->  ...2_fs.h-do-not-carry-an-outdated-copy.patch | 1197 +++++++++++++++++
->  .../syslinux/syslinux_6.04-pre2.bb            |    3 +-
->  8 files changed, 1217 insertions(+), 25 deletions(-)
->  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.0.bb =3D> e2fspro=
-gs_1.47.1.bb} (99%)
->  create mode 100644 meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.=
-h-do-not-carry-an-outdated-copy.patch
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-miss=
-ing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2f=
-sprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-> index b038e61eb71..4cd10985976 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-che=
-ck-for-permission-denied.patch
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-che=
-ck-for-permission-denied.patch
-> @@ -1,4 +1,4 @@
-> -From 5bc75654690a2d916190168b865770a7c93e65dd Mon Sep 17 00:00:00 2001
-> +From 1c7078fda6d23f1d80b0d95ac3e908364749e188 Mon Sep 17 00:00:00 2001
->  From: Jackie Huang <jackie.huang@windriver.com>
->  Date: Wed, 10 Aug 2016 11:19:44 +0800
->  Subject: [PATCH] Fix missing check for permission denied.
-> @@ -13,7 +13,6 @@ Upstream-Status: Pending
->  Written-by: Henrik Wallin <henrik.b.wallin@ericsson.com>
->
->  Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> -
->  ---
->   lib/support/profile.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch b/me=
-ta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
-> index f6916a11120..2dbeba1095f 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
-> @@ -1,4 +1,4 @@
-> -From e3a30baa5c1e2f0ac7e246539db1c7db5a2fe302 Mon Sep 17 00:00:00 2001
-> +From e143a900199c5bb10b28f3fc8f4d36bbb6ffdd5f Mon Sep 17 00:00:00 2001
->  From: Joe Slater <jslater@windriver.com>
->  Date: Tue, 7 Mar 2017 14:53:19 -0800
->  Subject: [PATCH] e2fsprogs: expand @mkdir_p@
-> @@ -9,16 +9,15 @@ not expanded so no locale data is written into usr/shar=
-e/locale.
->  Upstream-Status: Pending
->
->  Signed-off-by: Joe Slater <jslater@windriver.com>
-> -
->  ---
->   configure.ac | 2 ++
->   1 file changed, 2 insertions(+)
->
->  diff --git a/configure.ac b/configure.ac
-> -index 4c4b5523..3475c707 100644
-> +index 131caef3..ca448d97 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -919,6 +919,8 @@ AC_SUBST(PACKAGE)
-> +@@ -938,6 +938,8 @@ AC_SUBST(PACKAGE)
->   AC_SUBST(VERSION)
->
->   AM_GNU_GETTEXT([external])
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta=
-/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-> index 20839b72863..f4e1057a364 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-> @@ -1,4 +1,4 @@
-> -From b8842065ad621a03a971dfd50db862c5bffdeb49 Mon Sep 17 00:00:00 2001
-> +From 25db5ac7469cedd043a04bcf49ce7553979fbb32 Mon Sep 17 00:00:00 2001
->  From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
->  Date: Sat, 18 Apr 2015 17:58:17 +0300
->  Subject: [PATCH] e2fsprogs: add ptest
-> @@ -14,10 +14,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
->   2 files changed, 18 insertions(+), 18 deletions(-)
->
->  diff --git a/tests/Makefile.in b/tests/Makefile.in
-> -index 8c4d2048..e021af32 100644
-> +index ba06b3b6..5a3e48f4 100644
->  --- a/tests/Makefile.in
->  +++ b/tests/Makefile.in
-> -@@ -19,7 +19,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
-> +@@ -20,7 +20,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf t=
-est_data.tmp
->         @echo "#!/bin/sh" > test_one
->         @echo "HTREE=3Dy" >> test_one
->         @echo "QUOTA=3Dy" >> test_one
-> @@ -26,7 +26,7 @@ index 8c4d2048..e021af32 100644
->         @echo "DIFF_OPTS=3D@UNI_DIFF_OPTS@" >> test_one
->         @echo "SIZEOF_TIME_T=3D@SIZEOF_TIME_T@" >> test_one
->         @echo "DD=3D@DD@" >>test_one
-> -@@ -30,7 +30,7 @@ test_script: test_one test_script.in Makefile mke2fs.c=
-onf
-> +@@ -31,7 +31,7 @@ test_script: test_one test_script.in Makefile mke2fs.c=
-onf test_data.tmp
->         @echo "Creating test_script..."
->         @[ -f test_script ] && chmod u+w test_script || true
->         @echo "#!/bin/sh" > test_script
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patc=
-h b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-> index 0a6904208d9..4ba150e27d7 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-> @@ -1,4 +1,4 @@
-> -From 580ef6cae2d353f3aa5d5c52d6614bdc1df50f08 Mon Sep 17 00:00:00 2001
-> +From b66c973e004e0c458ef275b41ac2d8d9ff33d29f Mon Sep 17 00:00:00 2001
->  From: Ross Burton <ross.burton@intel.com>
->  Date: Mon, 23 Dec 2013 13:38:34 +0000
->  Subject: [PATCH] e2fsprogs: silence debugfs
-> @@ -8,16 +8,15 @@ filesystems at rootfs time.
->
->  Upstream-Status: Inappropriate
->  Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
->  ---
->   debugfs/debugfs.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
-> -index 9b6321dc..8ebf3ddb 100644
-> +index 909c1df3..0842369e 100644
->  --- a/debugfs/debugfs.c
->  +++ b/debugfs/debugfs.c
-> -@@ -2516,7 +2516,7 @@ static int source_file(const char *cmd_file, int s=
-s_idx)
-> +@@ -2529,7 +2529,7 @@ static int source_file(const char *cmd_file, int s=
-s_idx)
->                 cp =3D strchr(buf, '\r');
->                 if (cp)
->                         *cp =3D 0;
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.ca=
-ll.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.p=
-atch
-> index f3e6eb778ff..307088d42b4 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patc=
-h
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patc=
-h
-> @@ -1,10 +1,10 @@
-> -From b139e03ac2f72e644e547c7ee9b1514383af4d97 Mon Sep 17 00:00:00 2001
-> +From 972086935d6c7f6e603004fd7f94bd13a65f470c Mon Sep 17 00:00:00 2001
->  From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
->  Date: Wed, 30 Jan 2013 15:22:04 +0200
->  Subject: [PATCH] When /etc/ld.so.cache is writeable by user running bitb=
-ake
-> - then it creates invalid cache (in my case libstdc++.so
-> - cannot be found after building zlib(-native) and I have to
-> - call touch */libstdc++.so && /sbin/ldconfig to fix it.
-> + then it creates invalid cache (in my case libstdc++.so cannot be found =
-after
-> + building zlib(-native) and I have to call touch */libstdc++.so &&
-> + /sbin/ldconfig to fix it.
->
->  So remove ldconfig call from make install-libs
->
-> @@ -15,11 +15,11 @@ Upstream-Status: Inappropriate [disable feature]
->  Signed-off-by: Scott Garman <scott.a.garman@intel.com>
->  Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
->  ---
-> - lib/Makefile.elf-lib |    3 ---
-> + lib/Makefile.elf-lib | 3 ---
->   1 file changed, 3 deletions(-)
->
->  diff --git a/lib/Makefile.elf-lib b/lib/Makefile.elf-lib
-> -index 78479d3..4a4a5ac 100644
-> +index f850f3dd..cc1e6a70 100644
->  --- a/lib/Makefile.elf-lib
->  +++ b/lib/Makefile.elf-lib
->  @@ -50,8 +50,6 @@ install-shlibs install:: $(ELF_LIB) installdirs-elf-li=
-b $(DEP_INSTALL_SYMLINK)
-> @@ -39,6 +39,3 @@ index 78479d3..4a4a5ac 100644
->
->   clean::
->         $(RM) -rf elfshared
-> ---
-> -1.7.9.5
-> -
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/r=
-ecipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-> similarity index 99%
-> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-> index 940b47c155d..bd6ac92cb14 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
-> @@ -10,7 +10,7 @@ SRC_URI:append:class-native =3D " \
->             file://quiet-debugfs.patch \
->             "
->
-> -SRCREV =3D "f4c9cc4bedacde8408edda3520a32d3842290112"
-> +SRCREV =3D "b571b9b4240739a982e8bca62cfc914a3b50190a"
->  UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+\.\d+(\.\d+)*)$"
->
->  EXTRA_OECONF +=3D "--libdir=3D${base_libdir} --sbindir=3D${base_sbindir}=
- \
-> diff --git a/meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-no=
-t-carry-an-outdated-copy.patch b/meta/recipes-devtools/syslinux/syslinux/00=
-01-ext2_fs.h-do-not-carry-an-outdated-copy.patch
-> new file mode 100644
-> index 00000000000..299423b5a30
-> --- /dev/null
-> +++ b/meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-not-carry=
--an-outdated-copy.patch
-> @@ -0,0 +1,1197 @@
-> +From daf017bc98276fecce1893c7e4db70cbd8c8f7a0 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex@linutronix.de>
-> +Date: Fri, 16 Aug 2024 16:59:21 +0200
-> +Subject: [PATCH] ext2_fs.h: do not carry an outdated copy
-> +
-> +This copy is no longer compatible with latest e2fsprogs
-> +(which installs a correct version).
-> +
-> +Upstream-Status: Inactive-Upstream
-> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> +---
-> + core/fs/ext2/ext2_fs.h        | 312 -------------
-> + libinstaller/ext2fs/ext2_fs.h | 856 ----------------------------------
-> + 2 files changed, 1168 deletions(-)
-> + delete mode 100644 core/fs/ext2/ext2_fs.h
-> + delete mode 100644 libinstaller/ext2fs/ext2_fs.h
-> +
-> +diff --git a/core/fs/ext2/ext2_fs.h b/core/fs/ext2/ext2_fs.h
-> +deleted file mode 100644
-> +index d8d07eb..0000000
-> +--- a/core/fs/ext2/ext2_fs.h
-> ++++ /dev/null
-> +@@ -1,312 +0,0 @@
-> +-#ifndef __EXT2_FS_H
-> +-#define __EXT2_FS_H
-> +-
-> +-#include <stdint.h>
-> +-
-> +-#define       EXT2_SUPER_MAGIC        0xEF53
-> +-
-> +-#define EXT2_GOOD_OLD_REV       0       // The good old (original) form=
-at
-> +-#define EXT2_DYNAMIC_REV        1       // V2 format w/ dynamic inode s=
-izes
-> +-#define EXT2_GOOD_OLD_INODE_SIZE 128
-> +-
-> +-// Special inode numbers
-> +-#define       EXT2_BAD_INO             1      // Bad blocks inode
-> +-#define EXT2_ROOT_INO          2      // Root inode
-> +-#define EXT2_BOOT_LOADER_INO   5      // Boot loader inode
-> +-#define EXT2_UNDEL_DIR_INO     6      // Undelete directory inode
-> +-#define EXT3_RESIZE_INO                7      // Reserved group descrip=
-tors inode
-> +-#define EXT3_JOURNAL_INO       8      // Journal inode
-> +-
-> +-// We're readonly, so we only care about incompat features.
-> +-#define EXT2_FEATURE_INCOMPAT_COMPRESSION     0x0001
-> +-#define EXT2_FEATURE_INCOMPAT_FILETYPE                0x0002
-> +-#define EXT3_FEATURE_INCOMPAT_RECOVER         0x0004
-> +-#define EXT3_FEATURE_INCOMPAT_JOURNAL_DEV     0x0008
-> +-#define EXT2_FEATURE_INCOMPAT_META_BG         0x0010
-> +-#define EXT2_FEATURE_INCOMPAT_ANY             0xffffffff
-> +-
-> +-#define EXT2_NDIR_BLOCKS      12
-> +-#define       EXT2_IND_BLOCK          EXT2_NDIR_BLOCKS
-> +-#define EXT2_DIND_BLOCK               (EXT2_IND_BLOCK+1)
-> +-#define       EXT2_TIND_BLOCK         (EXT2_DIND_BLOCK+1)
-> +-#define       EXT2_N_BLOCKS           (EXT2_TIND_BLOCK+1)
-> +-
-> +-
-> +-/* for EXT4 extent */
-> +-#define EXT4_EXT_MAGIC     0xf30a
-> +-#define EXT4_EXTENTS_FLAG  0x00080000
-> +-
-> +-/*
-> +- * File types and file modes
-> +- */
-> +-#define S_IFDIR               0040000         // Directory
-> +-#define S_IFCHR               0020000         // Character device
-> +-#define S_IFBLK               0060000         // Block device
-> +-#define S_IFREG               0100000         // Regular file
-> +-#define S_IFIFO               0010000         // FIFO
-> +-#define S_IFLNK               0120000         // Symbolic link
-> +-#define S_IFSOCK      0140000         // Socket
-> +-
-> +-#define S_IFSHIFT     12
-> +-
-> +-#define T_IFDIR               (S_IFDIR >> S_IFSHIFT)
-> +-#define T_IFCHR               (S_IFCHR >> S_IFSHIFT)
-> +-#define T_IFBLK               (S_IFBLK >> S_IFSHIFT)
-> +-#define T_IFREG               (S_IFREG >> S_IFSHIFT)
-> +-#define T_IFIFO               (S_IFIFO >> S_IFSHIFT)
-> +-#define T_IFLNK               (S_IFLNK >> S_IFSHIFT)
-> +-#define T_IFSOCK      (S_IFSOCK >> S_IFSHIFT)
-> +-
-> +-
-> +-#define ext2_group_desc_lg2size 5
-> +-
-> +-
-> +-
-> +-/*
-> +- * super block structure:
-> +- * include/linux/ext2_fs.h
-> +- */
-> +-struct ext2_super_block {
-> +-    uint32_t s_inodes_count;          /* Inodes count */
-> +-    uint32_t s_blocks_count;          /* Blocks count */
-> +-    uint32_t s_r_blocks_count;                /* Reserved blocks count =
-*/
-> +-    uint32_t s_free_blocks_count;     /* Free blocks count */
-> +-    uint32_t s_free_inodes_count;     /* Free inodes count */
-> +-    uint32_t s_first_data_block;      /* First Data Block */
-> +-    uint32_t s_log_block_size;                /* Block size */
-> +-    uint32_t s_log_frag_size;         /* Fragment size */
-> +-    uint32_t s_blocks_per_group;      /* # Blocks per group */
-> +-    uint32_t s_frags_per_group;               /* # Fragments per group =
-*/
-> +-    uint32_t s_inodes_per_group;      /* # Inodes per group */
-> +-    uint32_t s_mtime;                 /* Mount time */
-> +-    uint32_t s_wtime;                 /* Write time */
-> +-    uint16_t s_mnt_count;             /* Mount count */
-> +-    int16_t  s_max_mnt_count;         /* Maximal mount count */
-> +-    uint16_t s_magic;                 /* Magic signature */
-> +-    uint16_t s_state;                 /* File system state */
-> +-    uint16_t s_errors;                        /* Behaviour when detecti=
-ng errors */
-> +-    uint16_t s_minor_rev_level;
-> +-    uint32_t s_lastcheck;             /* time of last check */
-> +-    uint32_t s_checkinterval;         /* max. time between checks */
-> +-    uint32_t s_creator_os;            /* OS */
-> +-    uint32_t s_rev_level;             /* Revision level */
-> +-    uint16_t s_def_resuid;            /* Default uid for reserved block=
-s */
-> +-    uint16_t s_def_resgid;            /* Default gid for reserved block=
-s */
-> +-
-> +-    uint32_t s_first_ino;             /* First non-reserved inode */
-> +-    uint16_t s_inode_size;            /* size of inode structure */
-> +-    uint16_t s_block_group_nr;                /* block group # of this =
-superblock */
-> +-    uint32_t s_feature_compat;                /* compatible feature set=
- */
-> +-    uint32_t s_feature_incompat;      /* incompatible feature set */
-> +-    uint32_t s_feature_ro_compat;     /* readonly-compatible feature se=
-t */
-> +-    uint8_t  s_uuid[16];              /* 128-bit uuid for volume */
-> +-    char  s_volume_name[16];          /* volume name */
-> +-    char  s_last_mounted[64];         /* directory where last mounted *=
-/
-> +-    uint32_t s_algorithm_usage_bitmap;  /* For compression */
-> +-    uint8_t  s_prealloc_blocks;               /* Nr of blocks to try to=
- preallocate*/
-> +-    uint8_t  s_prealloc_dir_blocks;
-> +-    uint16_t s_reserved_gdt_blocks;   /* Per group desc for online grow=
-th */
-> +-    /*
-> +-     * Journaling support valid if EXT4_FEATURE_COMPAT_HAS_JOURNAL set.
-> +-     */
-> +-    uint8_t  s_journal_uuid[16];      /* uuid of journal superblock */
-> +-    uint32_t s_journal_inum;  /* inode number of journal file */
-> +-    uint32_t s_journal_dev;           /* device number of journal file =
-*/
-> +-    uint32_t s_last_orphan;           /* start of list of inodes to del=
-ete */
-> +-    uint32_t s_hash_seed[4];  /* HTREE hash seed */
-> +-    uint8_t  s_def_hash_version;      /* Default hash version to use */
-> +-    uint8_t  s_reserved_char_pad;
-> +-    uint16_t s_desc_size;             /* size of group descriptor */
-> +-    uint32_t s_default_mount_opts;
-> +-    uint32_t s_first_meta_bg; /* First metablock block group */
-> +-    uint32_t s_mkfs_time;             /* When the filesystem was create=
-d */
-> +-    uint32_t s_jnl_blocks[17];        /* Backup of the journal inode */
-> +-    /* 64bit support valid if EXT4_FEATURE_COMPAT_64BIT */
-> +-    uint32_t s_blocks_count_hi;       /* Blocks count */
-> +-    uint32_t s_r_blocks_count_hi;     /* Reserved blocks count */
-> +-    uint32_t s_free_blocks_count_hi;/* Free blocks count */
-> +-    uint16_t s_min_extra_isize;       /* All inodes have at least # byt=
-es */
-> +-    uint16_t s_want_extra_isize;      /* New inodes should reserve # by=
-tes */
-> +-    uint32_t s_flags;         /* Miscellaneous flags */
-> +-    uint16_t s_raid_stride;           /* RAID stride */
-> +-    uint16_t s_mmp_interval;        /* # seconds to wait in MMP checkin=
-g */
-> +-    uint64_t s_mmp_block;           /* Block for multi-mount protection=
- */
-> +-    uint32_t s_raid_stripe_width;   /* blocks on all data disks (N*stri=
-de)*/
-> +-    uint8_t  s_log_groups_per_flex; /* FLEX_BG group size */
-> +-    uint8_t  s_reserved_char_pad2;
-> +-    uint16_t s_reserved_pad;
-> +-    uint32_t s_reserved[162];        /* Padding to the end of the block=
- */
-> +-};
-> +-
-> +-/**********************************************************************=
-*********
-> +-#ifndef DEPEND
-> +-#if ext2_super_block_size !=3D 1024
-> +-#error ext2_super_block definition bogus
-> +-#endif
-> +-#endif
-> +-***********************************************************************=
-********/
-> +-
-> +-/*
-> +- *  ext2 group desc structure:
-> +- */
-> +-struct ext2_group_desc {
-> +-    uint32_t bg_block_bitmap; /* Blocks bitmap block */
-> +-    uint32_t bg_inode_bitmap; /* Inodes bitmap block */
-> +-    uint32_t bg_inode_table;  /* Inodes table block */
-> +-    uint16_t bg_free_blocks_count;    /* Free blocks count */
-> +-    uint16_t bg_free_inodes_count;    /* Free inodes count */
-> +-    uint16_t bg_used_dirs_count;      /* Directories count */
-> +-    uint16_t bg_pad;
-> +-    uint32_t bg_reserved[3];
-> +-};
-> +-
-> +-/**********************************************************************=
-*********
-> +-#ifndef DEPEND
-> +-#if ext2_group_desc_size !=3D 32
-> +-#error ext2_group_desc definition bogus
-> +-#endif
-> +-#endif
-> +-***********************************************************************=
-********/
-> +-
-> +-
-> +-/*
-> +- * ext2 inode structure:
-> +- */
-> +-struct ext2_inode {
-> +-    uint16_t i_mode;          /* File mode */
-> +-    uint16_t i_uid;           /* Owner Uid */
-> +-    uint32_t i_size;          /* 4: Size in bytes */
-> +-    uint32_t i_atime;         /* Access time */
-> +-    uint32_t i_ctime;         /* 12: Creation time */
-> +-    uint32_t i_mtime;         /* Modification time */
-> +-    uint32_t i_dtime;         /* 20: Deletion Time */
-> +-    uint16_t i_gid;           /* Group Id */
-> +-    uint16_t i_links_count;   /* 24: Links count */
-> +-    uint32_t i_blocks;                /* Blocks count */
-> +-    uint32_t i_flags;         /* 32: File flags */
-> +-    uint32_t l_i_reserved1;
-> +-    uint32_t i_block[EXT2_N_BLOCKS];  /* 40: Pointers to blocks */
-> +-    uint32_t i_version;               /* File version (for NFS) */
-> +-    uint32_t i_file_acl;      /* File ACL */
-> +-    uint32_t i_dir_acl;               /* Directory ACL */
-> +-    uint32_t i_faddr;         /* Fragment address */
-> +-    uint8_t  l_i_frag;                /* Fragment number */
-> +-    uint8_t  l_i_fsize;               /* Fragment size */
-> +-    uint16_t i_pad1;
-> +-    uint32_t l_i_reserved2[2];
-> +-};
-> +-
-> +-/**********************************************************************=
-*********
-> +-#ifndef DEPEND
-> +-#if ext2_inode_size !=3D 128
-> +-#error ext2_inode definition bogus
-> +-#endif
-> +-#endif
-> +-***********************************************************************=
-********/
-> +-
-> +-
-> +-#define EXT2_NAME_LEN 255
-> +-struct ext2_dir_entry {
-> +-    unsigned int      d_inode;                /* Inode number */
-> +-    unsigned short    d_rec_len;              /* Directory entry length=
- */
-> +-    unsigned char     d_name_len;             /* Name length */
-> +-    unsigned char     d_file_type;
-> +-    char      d_name[EXT2_NAME_LEN];          /* File name */
-> +-};
-> +-
-> +-/**********************************************************************=
-*********
-> +-#define EXT2_DIR_PAD   4
-> +-#define EXT2_DIR_ROUND        (EXT2_DIR_PAD - 1)
-> +-#define EXT2_DIR_REC_LEN(name_len)    (((name_len) + 8 + EXT2_DIR_ROUND=
-) & \
-> +-                                       ~EXT2_DIR_ROUND)
-> +-***********************************************************************=
-********/
-> +-
-> +-
-> +-
-> +-
-> +-
-> +-
-> +-/*
-> +- * This is the extent on-disk structure.
-> +- * It's used at the bottom of the tree.
-> +- */
-> +-struct ext4_extent {
-> +-    uint32_t ee_block;                /* first logical block extent cov=
-ers */
-> +-    uint16_t ee_len;          /* number of blocks covered by extent */
-> +-    uint16_t ee_start_hi;     /* high 16 bits of physical block */
-> +-    uint32_t ee_start_lo;     /* low 32 bits of physical block */
-> +-};
-> +-
-> +-/*
-> +- * This is index on-disk structure.
-> +- * It's used at all the levels except the bottom.
-> +- */
-> +-struct ext4_extent_idx {
-> +-    uint32_t ei_block;                /* index covers logical blocks fr=
-om 'block' */
-> +-    uint32_t ei_leaf_lo;      /* pointer to the physical block of the n=
-ext *
-> +-                               * level. leaf or next index could be the=
-re */
-> +-    uint16_t ei_leaf_hi;      /* high 16 bits of physical block */
-> +-    uint16_t ei_unused;
-> +-};
-> +-
-> +-/*
-> +- * Each block (leaves and indexes), even inode-stored has header.
-> +- */
-> +-struct ext4_extent_header {
-> +-    uint16_t eh_magic;                /* probably will support differen=
-t formats */
-> +-    uint16_t eh_entries;      /* number of valid entries */
-> +-    uint16_t eh_max;          /* capacity of store in entries */
-> +-    uint16_t eh_depth;                /* has tree real underlying block=
-s? */
-> +-    uint32_t eh_generation;   /* generation of the tree */
-> +-};
-> +-
-> +-
-> +-
-> +-#define EXT4_FIRST_EXTENT(header) ( (struct ext4_extent *)(header + 1) =
-)
-> +-#define EXT4_FIRST_INDEX(header)  ( (struct ext4_extent_idx *) (header =
-+ 1) )
-> +-
-> +-
-> +-/*
-> +- * The ext2 super block information in memory
-> +- */
-> +-struct ext2_sb_info {
-> +-    uint32_t s_inodes_per_block;/* Number of inodes per block */
-> +-    uint32_t s_inodes_per_group;/* Number of inodes in a group */
-> +-    uint32_t s_blocks_per_group;/* Number of blocks in a group */
-> +-    uint32_t s_desc_per_block;  /* Number of group descriptors per bloc=
-k */
-> +-    uint32_t s_groups_count;    /* Number of groups in the fs */
-> +-    uint32_t s_first_data_block;      /* First Data Block */
-> +-    int      s_inode_size;
-> +-    uint8_t  s_uuid[16];      /* 128-bit uuid for volume */
-> +-    int      s_desc_size;     /* size of group descriptor */
-> +-};
-> +-
-> +-static inline struct ext2_sb_info *EXT2_SB(struct fs_info *fs)
-> +-{
-> +-    return fs->fs_info;
-> +-}
-> +-
-> +-#define EXT2_BLOCKS_PER_GROUP(fs)      (EXT2_SB(fs)->s_blocks_per_group=
-)
-> +-#define EXT2_INODES_PER_GROUP(fs)      (EXT2_SB(fs)->s_inodes_per_group=
-)
-> +-#define EXT2_INODES_PER_BLOCK(fs)      (EXT2_SB(fs)->s_inodes_per_block=
-)
-> +-#define EXT2_DESC_PER_BLOCK(fs)        (EXT2_SB(fs)->s_desc_per_block)
-> +-
-> +-/*
-> +- * ext2 private inode information
-> +- */
-> +-struct ext2_pvt_inode {
-> +-    union {
-> +-      uint32_t i_block[EXT2_N_BLOCKS];
-> +-      struct ext4_extent_header i_extent_hdr;
-> +-    };
-> +-};
-> +-
-> +-#define PVT(i) ((struct ext2_pvt_inode *)((i)->pvt))
-> +-
-> +-/*
-> +- * functions
-> +- */
-> +-block_t ext2_bmap(struct inode *, block_t, size_t *);
-> +-int ext2_next_extent(struct inode *, uint32_t);
-> +-
-> +-#endif /* ext2_fs.h */
-> +diff --git a/libinstaller/ext2fs/ext2_fs.h b/libinstaller/ext2fs/ext2_fs=
-.h
-> +deleted file mode 100644
-> +index e52c9e1..0000000
-> +--- a/libinstaller/ext2fs/ext2_fs.h
-> ++++ /dev/null
-> +@@ -1,856 +0,0 @@
-> +-/*
-> +- *  linux/include/linux/ext2_fs.h
-> +- *
-> +- * Copyright (C) 1992, 1993, 1994, 1995
-> +- * Remy Card (card@masi.ibp.fr)
-> +- * Laboratoire MASI - Institut Blaise Pascal
-> +- * Universite Pierre et Marie Curie (Paris VI)
-> +- *
-> +- *  from
-> +- *
-> +- *  linux/include/linux/minix_fs.h
-> +- *
-> +- *  Copyright (C) 1991, 1992  Linus Torvalds
-> +- */
-> +-
-> +-#ifndef _EXT2FS_EXT2_FS_H
-> +-#define _EXT2FS_EXT2_FS_H
-> +-
-> +-#include <linux/types.h>
-> +-
-> +-/*
-> +- * The second extended filesystem constants/structures
-> +- */
-> +-
-> +-/*
-> +- * Define EXT2FS_DEBUG to produce debug messages
-> +- */
-> +-#undef EXT2FS_DEBUG
-> +-
-> +-/*
-> +- * Define EXT2_PREALLOCATE to preallocate data blocks for expanding fil=
-es
-> +- */
-> +-#define EXT2_PREALLOCATE
-> +-#define EXT2_DEFAULT_PREALLOC_BLOCKS  8
-> +-
-> +-/*
-> +- * The second extended file system version
-> +- */
-> +-#define EXT2FS_DATE           "95/08/09"
-> +-#define EXT2FS_VERSION                "0.5b"
-> +-
-> +-/*
-> +- * Special inode numbers
-> +- */
-> +-#define EXT2_BAD_INO           1      /* Bad blocks inode */
-> +-#define EXT2_ROOT_INO          2      /* Root inode */
-> +-#define EXT4_USR_QUOTA_INO     3      /* User quota inode */
-> +-#define EXT4_GRP_QUOTA_INO     4      /* Group quota inode */
-> +-#define EXT2_BOOT_LOADER_INO   5      /* Boot loader inode */
-> +-#define EXT2_UNDEL_DIR_INO     6      /* Undelete directory inode */
-> +-#define EXT2_RESIZE_INO                7      /* Reserved group descrip=
-tors inode */
-> +-#define EXT2_JOURNAL_INO       8      /* Journal inode */
-> +-#define EXT2_EXCLUDE_INO       9      /* The "exclude" inode, for snaps=
-hots */
-> +-#define EXT4_REPLICA_INO      10      /* Used by non-upstream feature *=
-/
-> +-
-> +-/* First non-reserved inode for old ext2 filesystems */
-> +-#define EXT2_GOOD_OLD_FIRST_INO       11
-> +-
-> +-/*
-> +- * The second extended file system magic number
-> +- */
-> +-#define EXT2_SUPER_MAGIC      0xEF53
-> +-
-> +-#ifdef __KERNEL__
-> +-#define EXT2_SB(sb)   (&((sb)->u.ext2_sb))
-> +-#else
-> +-/* Assume that user mode programs are passing in an ext2fs superblock, =
-not
-> +- * a kernel struct super_block.  This will allow us to call the feature=
--test
-> +- * macros from user land. */
-> +-#define EXT2_SB(sb)   (sb)
-> +-#endif
-> +-
-> +-/*
-> +- * Maximal count of links to a file
-> +- */
-> +-#define EXT2_LINK_MAX         65000
-> +-
-> +-/*
-> +- * Macro-instructions used to manage several block sizes
-> +- */
-> +-#define EXT2_MIN_BLOCK_LOG_SIZE               10      /* 1024 */
-> +-#define EXT2_MAX_BLOCK_LOG_SIZE               16      /* 65536 */
-> +-#define EXT2_MIN_BLOCK_SIZE   (1 << EXT2_MIN_BLOCK_LOG_SIZE)
-> +-#define EXT2_MAX_BLOCK_SIZE   (1 << EXT2_MAX_BLOCK_LOG_SIZE)
-> +-#ifdef __KERNEL__
-> +-#define EXT2_BLOCK_SIZE(s)    ((s)->s_blocksize)
-> +-#define EXT2_BLOCK_SIZE_BITS(s)       ((s)->s_blocksize_bits)
-> +-#define EXT2_ADDR_PER_BLOCK_BITS(s)   (EXT2_SB(s)->addr_per_block_bits)
-> +-#define EXT2_INODE_SIZE(s)    (EXT2_SB(s)->s_inode_size)
-> +-#define EXT2_FIRST_INO(s)     (EXT2_SB(s)->s_first_ino)
-> +-#else
-> +-#define EXT2_BLOCK_SIZE(s)    (EXT2_MIN_BLOCK_SIZE << (s)->s_log_block_=
-size)
-> +-#define EXT2_BLOCK_SIZE_BITS(s)       ((s)->s_log_block_size + 10)
-> +-#define EXT2_INODE_SIZE(s)    (((s)->s_rev_level =3D=3D EXT2_GOOD_OLD_R=
-EV) ? \
-> +-                               EXT2_GOOD_OLD_INODE_SIZE : (s)->s_inode_=
-size)
-> +-#define EXT2_FIRST_INO(s)     (((s)->s_rev_level =3D=3D EXT2_GOOD_OLD_R=
-EV) ? \
-> +-                               EXT2_GOOD_OLD_FIRST_INO : (s)->s_first_i=
-no)
-> +-#endif
-> +-#define EXT2_ADDR_PER_BLOCK(s)        (EXT2_BLOCK_SIZE(s) / sizeof(__u3=
-2))
-> +-
-> +-/*
-> +- * Macro-instructions used to manage allocation clusters
-> +- */
-> +-#define EXT2_MIN_CLUSTER_LOG_SIZE     EXT2_MIN_BLOCK_LOG_SIZE
-> +-#define EXT2_MAX_CLUSTER_LOG_SIZE     29      /* 512MB  */
-> +-#define EXT2_MIN_CLUSTER_SIZE         EXT2_MIN_BLOCK_SIZE
-> +-#define EXT2_MAX_CLUSTER_SIZE         (1 << EXT2_MAX_CLUSTER_LOG_SIZE)
-> +-#define EXT2_CLUSTER_SIZE(s)          (EXT2_MIN_BLOCK_SIZE << \
-> +-                                              (s)->s_log_cluster_size)
-> +-#define EXT2_CLUSTER_SIZE_BITS(s)     ((s)->s_log_cluster_size + 10)
-> +-
-> +-/*
-> +- * Macro-instructions used to manage fragments
-> +- *
-> +- * Note: for backwards compatibility only, for the dump program.
-> +- * Ext2/3/4 will never support fragments....
-> +- */
-> +-#define EXT2_MIN_FRAG_SIZE              EXT2_MIN_BLOCK_SIZE
-> +-#define EXT2_MAX_FRAG_SIZE              EXT2_MAX_BLOCK_SIZE
-> +-#define EXT2_MIN_FRAG_LOG_SIZE          EXT2_MIN_BLOCK_LOG_SIZE
-> +-#define EXT2_FRAG_SIZE(s)             EXT2_BLOCK_SIZE(s)
-> +-#define EXT2_FRAGS_PER_BLOCK(s)               1
-> +-
-> +-/*
-> +- * ACL structures
-> +- */
-> +-struct ext2_acl_header        /* Header of Access Control Lists */
-> +-{
-> +-      __u32   aclh_size;
-> +-      __u32   aclh_file_count;
-> +-      __u32   aclh_acle_count;
-> +-      __u32   aclh_first_acle;
-> +-};
-> +-
-> +-struct ext2_acl_entry /* Access Control List Entry */
-> +-{
-> +-      __u32   acle_size;
-> +-      __u16   acle_perms;     /* Access permissions */
-> +-      __u16   acle_type;      /* Type of entry */
-> +-      __u16   acle_tag;       /* User or group identity */
-> +-      __u16   acle_pad1;
-> +-      __u32   acle_next;      /* Pointer on next entry for the */
-> +-                                      /* same inode or on next free ent=
-ry */
-> +-};
-> +-
-> +-/*
-> +- * Structure of a blocks group descriptor
-> +- */
-> +-struct ext2_group_desc
-> +-{
-> +-      __u32   bg_block_bitmap;        /* Blocks bitmap block */
-> +-      __u32   bg_inode_bitmap;        /* Inodes bitmap block */
-> +-      __u32   bg_inode_table;         /* Inodes table block */
-> +-      __u16   bg_free_blocks_count;   /* Free blocks count */
-> +-      __u16   bg_free_inodes_count;   /* Free inodes count */
-> +-      __u16   bg_used_dirs_count;     /* Directories count */
-> +-      __u16   bg_flags;
-> +-      __u32   bg_exclude_bitmap_lo;   /* Exclude bitmap for snapshots *=
-/
-> +-      __u16   bg_block_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
-LSB */
-> +-      __u16   bg_inode_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
-LSB */
-> +-      __u16   bg_itable_unused;       /* Unused inodes count */
-> +-      __u16   bg_checksum;            /* crc16(s_uuid+grouo_num+group_d=
-esc)*/
-> +-};
-> +-
-> +-/*
-> +- * Structure of a blocks group descriptor
-> +- */
-> +-struct ext4_group_desc
-> +-{
-> +-      __u32   bg_block_bitmap;        /* Blocks bitmap block */
-> +-      __u32   bg_inode_bitmap;        /* Inodes bitmap block */
-> +-      __u32   bg_inode_table;         /* Inodes table block */
-> +-      __u16   bg_free_blocks_count;   /* Free blocks count */
-> +-      __u16   bg_free_inodes_count;   /* Free inodes count */
-> +-      __u16   bg_used_dirs_count;     /* Directories count */
-> +-      __u16   bg_flags;               /* EXT4_BG_flags (INODE_UNINIT, e=
-tc) */
-> +-      __u32   bg_exclude_bitmap_lo;   /* Exclude bitmap for snapshots *=
-/
-> +-      __u16   bg_block_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
-LSB */
-> +-      __u16   bg_inode_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
-LSB */
-> +-      __u16   bg_itable_unused;       /* Unused inodes count */
-> +-      __u16   bg_checksum;            /* crc16(sb_uuid+group+desc) */
-> +-      __u32   bg_block_bitmap_hi;     /* Blocks bitmap block MSB */
-> +-      __u32   bg_inode_bitmap_hi;     /* Inodes bitmap block MSB */
-> +-      __u32   bg_inode_table_hi;      /* Inodes table block MSB */
-> +-      __u16   bg_free_blocks_count_hi;/* Free blocks count MSB */
-> +-      __u16   bg_free_inodes_count_hi;/* Free inodes count MSB */
-> +-      __u16   bg_used_dirs_count_hi;  /* Directories count MSB */
-> +-      __u16   bg_itable_unused_hi;    /* Unused inodes count MSB */
-> +-      __u32   bg_exclude_bitmap_hi;   /* Exclude bitmap block MSB */
-> +-      __u16   bg_block_bitmap_csum_hi;/* crc32c(s_uuid+grp_num+bitmap) =
-MSB */
-> +-      __u16   bg_inode_bitmap_csum_hi;/* crc32c(s_uuid+grp_num+bitmap) =
-MSB */
-> +-      __u32   bg_reserved;
-> +-};
-> +-
-> +-#define EXT2_BG_INODE_UNINIT  0x0001 /* Inode table/bitmap not initiali=
-zed */
-> +-#define EXT2_BG_BLOCK_UNINIT  0x0002 /* Block bitmap not initialized */
-> +-#define EXT2_BG_INODE_ZEROED  0x0004 /* On-disk itable initialized to z=
-ero */
-> +-
-> +-/*
-> +- * Data structures used by the directory indexing feature
-> +- *
-> +- * Note: all of the multibyte integer fields are little endian.
-> +- */
-> +-
-> +-/*
-> +- * Note: dx_root_info is laid out so that if it should somehow get
-> +- * overlaid by a dirent the two low bits of the hash version will be
-> +- * zero.  Therefore, the hash version mod 4 should never be 0.
-> +- * Sincerely, the paranoia department.
-> +- */
-> +-struct ext2_dx_root_info {
-> +-      __u32 reserved_zero;
-> +-      __u8 hash_version; /* 0 now, 1 at release */
-> +-      __u8 info_length; /* 8 */
-> +-      __u8 indirect_levels;
-> +-      __u8 unused_flags;
-> +-};
-> +-
-> +-#define EXT2_HASH_LEGACY              0
-> +-#define EXT2_HASH_HALF_MD4            1
-> +-#define EXT2_HASH_TEA                 2
-> +-#define EXT2_HASH_LEGACY_UNSIGNED     3 /* reserved for userspace lib *=
-/
-> +-#define EXT2_HASH_HALF_MD4_UNSIGNED   4 /* reserved for userspace lib *=
-/
-> +-#define EXT2_HASH_TEA_UNSIGNED                5 /* reserved for userspa=
-ce lib */
-> +-
-> +-#define EXT2_HASH_FLAG_INCOMPAT       0x1
-> +-
-> +-struct ext2_dx_entry {
-> +-      __u32 hash;
-> +-      __u32 block;
-> +-};
-> +-
-> +-struct ext2_dx_countlimit {
-> +-      __u16 limit;
-> +-      __u16 count;
-> +-};
-> +-
-> +-
-> +-/*
-> +- * Macro-instructions used to manage group descriptors
-> +- */
-> +-#define EXT2_MIN_DESC_SIZE             32
-> +-#define EXT2_MIN_DESC_SIZE_64BIT       64
-> +-#define EXT2_MAX_DESC_SIZE             EXT2_MIN_BLOCK_SIZE
-> +-#define EXT2_DESC_SIZE(s)                                              =
-  \
-> +-       ((EXT2_SB(s)->s_feature_incompat & EXT4_FEATURE_INCOMPAT_64BIT) =
-? \
-> +-      (s)->s_desc_size : EXT2_MIN_DESC_SIZE)
-> +-
-> +-#define EXT2_BLOCKS_PER_GROUP(s)      (EXT2_SB(s)->s_blocks_per_group)
-> +-#define EXT2_INODES_PER_GROUP(s)      (EXT2_SB(s)->s_inodes_per_group)
-> +-#define EXT2_CLUSTERS_PER_GROUP(s)    (EXT2_SB(s)->s_clusters_per_group=
-)
-> +-#define EXT2_INODES_PER_BLOCK(s)      (EXT2_BLOCK_SIZE(s)/EXT2_INODE_SI=
-ZE(s))
-> +-/* limits imposed by 16-bit value gd_free_{blocks,inode}_count */
-> +-#define EXT2_MAX_BLOCKS_PER_GROUP(s)  ((((unsigned) 1 << 16) - 8) *   \
-> +-                                       (EXT2_CLUSTER_SIZE(s) / \
-> +-                                        EXT2_BLOCK_SIZE(s)))
-> +-#define EXT2_MAX_CLUSTERS_PER_GROUP(s)        (((unsigned) 1 << 16) - 8=
-)
-> +-#define EXT2_MAX_INODES_PER_GROUP(s)  (((unsigned) 1 << 16) - \
-> +-                                       EXT2_INODES_PER_BLOCK(s))
-> +-#ifdef __KERNEL__
-> +-#define EXT2_DESC_PER_BLOCK(s)                (EXT2_SB(s)->s_desc_per_b=
-lock)
-> +-#define EXT2_DESC_PER_BLOCK_BITS(s)   (EXT2_SB(s)->s_desc_per_block_bit=
-s)
-> +-#else
-> +-#define EXT2_DESC_PER_BLOCK(s)                (EXT2_BLOCK_SIZE(s) / EXT=
-2_DESC_SIZE(s))
-> +-#endif
-> +-
-> +-/*
-> +- * Constants relative to the data blocks
-> +- */
-> +-#define EXT2_NDIR_BLOCKS              12
-> +-#define EXT2_IND_BLOCK                        EXT2_NDIR_BLOCKS
-> +-#define EXT2_DIND_BLOCK                       (EXT2_IND_BLOCK + 1)
-> +-#define EXT2_TIND_BLOCK                       (EXT2_DIND_BLOCK + 1)
-> +-#define EXT2_N_BLOCKS                 (EXT2_TIND_BLOCK + 1)
-> +-
-> +-/*
-> +- * Inode flags
-> +- */
-> +-#define EXT2_SECRM_FL                 0x00000001 /* Secure deletion */
-> +-#define EXT2_UNRM_FL                  0x00000002 /* Undelete */
-> +-#define EXT2_COMPR_FL                 0x00000004 /* Compress file */
-> +-#define EXT2_SYNC_FL                  0x00000008 /* Synchronous updates=
- */
-> +-#define EXT2_IMMUTABLE_FL             0x00000010 /* Immutable file */
-> +-#define EXT2_APPEND_FL                        0x00000020 /* writes to f=
-ile may only append */
-> +-#define EXT2_NODUMP_FL                        0x00000040 /* do not dump=
- file */
-> +-#define EXT2_NOATIME_FL                       0x00000080 /* do not upda=
-te atime */
-> +-/* Reserved for compression usage... */
-> +-#define EXT2_DIRTY_FL                 0x00000100
-> +-#define EXT2_COMPRBLK_FL              0x00000200 /* One or more compres=
-sed clusters */
-> +-#define EXT2_NOCOMPR_FL                       0x00000400 /* Access raw =
-compressed data */
-> +-#define EXT2_ECOMPR_FL                        0x00000800 /* Compression=
- error */
-> +-/* End compression flags --- maybe not all used */
-> +-#define EXT2_BTREE_FL                 0x00001000 /* btree format dir */
-> +-#define EXT2_INDEX_FL                 0x00001000 /* hash-indexed direct=
-ory */
-> +-#define EXT2_IMAGIC_FL                        0x00002000
-> +-#define EXT3_JOURNAL_DATA_FL          0x00004000 /* file data should be=
- journaled */
-> +-#define EXT2_NOTAIL_FL                        0x00008000 /* file tail s=
-hould not be merged */
-> +-#define EXT2_DIRSYNC_FL               0x00010000 /* Synchronous directo=
-ry modifications */
-> +-#define EXT2_TOPDIR_FL                        0x00020000 /* Top of dire=
-ctory hierarchies*/
-> +-#define EXT4_HUGE_FILE_FL               0x00040000 /* Set to each huge =
-file */
-> +-#define EXT4_EXTENTS_FL               0x00080000 /* Inode uses extents =
-*/
-> +-#define EXT4_EA_INODE_FL              0x00200000 /* Inode used for larg=
-e EA */
-> +-/* EXT4_EOFBLOCKS_FL 0x00400000 was here */
-> +-#define EXT4_SNAPFILE_FL              0x01000000  /* Inode is a snapsho=
-t */
-> +-#define EXT4_SNAPFILE_DELETED_FL      0x04000000  /* Snapshot is being =
-deleted */
-> +-#define EXT4_SNAPFILE_SHRUNK_FL               0x08000000  /* Snapshot s=
-hrink has completed */
-> +-#define EXT2_RESERVED_FL              0x80000000 /* reserved for ext2 l=
-ib */
-> +-
-> +-#define EXT2_FL_USER_VISIBLE          0x004BDFFF /* User visible flags =
-*/
-> +-#define EXT2_FL_USER_MODIFIABLE               0x004B80FF /* User modifi=
-able flags */
-> +-
-> +-/*
-> +- * ioctl commands
-> +- */
-> +-
-> +-/* Used for online resize */
-> +-struct ext2_new_group_input {
-> +-      __u32 group;            /* Group number for this data */
-> +-      __u32 block_bitmap;     /* Absolute block number of block bitmap =
-*/
-> +-      __u32 inode_bitmap;     /* Absolute block number of inode bitmap =
-*/
-> +-      __u32 inode_table;      /* Absolute block number of inode table s=
-tart */
-> +-      __u32 blocks_count;     /* Total number of blocks in this group *=
-/
-> +-      __u16 reserved_blocks;  /* Number of reserved blocks in this grou=
-p */
-> +-      __u16 unused;           /* Number of reserved GDT blocks in group=
- */
-> +-};
-> +-
-> +-struct ext4_new_group_input {
-> +-      __u32 group;            /* Group number for this data */
-> +-      __u64 block_bitmap;     /* Absolute block number of block bitmap =
-*/
-> +-      __u64 inode_bitmap;     /* Absolute block number of inode bitmap =
-*/
-> +-      __u64 inode_table;      /* Absolute block number of inode table s=
-tart */
-> +-      __u32 blocks_count;     /* Total number of blocks in this group *=
-/
-> +-      __u16 reserved_blocks;  /* Number of reserved blocks in this grou=
-p */
-> +-      __u16 unused;
-> +-};
-> +-
-> +-#ifdef __GNU__                        /* Needed for the Hurd */
-> +-#define _IOT_ext2_new_group_input _IOT (_IOTS(__u32), 5, _IOTS(__u16), =
-2, 0, 0)
-> +-#endif
-> +-
-> +-#define EXT2_IOC_GETFLAGS             _IOR('f', 1, long)
-> +-#define EXT2_IOC_SETFLAGS             _IOW('f', 2, long)
-> +-#define EXT2_IOC_GETVERSION           _IOR('v', 1, long)
-> +-#define EXT2_IOC_SETVERSION           _IOW('v', 2, long)
-> +-#define EXT2_IOC_GETVERSION_NEW               _IOR('f', 3, long)
-> +-#define EXT2_IOC_SETVERSION_NEW               _IOW('f', 4, long)
-> +-#define EXT2_IOC_GROUP_EXTEND         _IOW('f', 7, unsigned long)
-> +-#define EXT2_IOC_GROUP_ADD            _IOW('f', 8,struct ext2_new_group=
-_input)
-> +-#define EXT4_IOC_GROUP_ADD            _IOW('f', 8,struct ext4_new_group=
-_input)
-> +-#define EXT4_IOC_RESIZE_FS            _IOW('f', 16, __u64)
-> +-
-> +-/*
-> +- * Structure of an inode on the disk
-> +- */
-> +-struct ext2_inode {
-> +-      __u16   i_mode;         /* File mode */
-> +-      __u16   i_uid;          /* Low 16 bits of Owner Uid */
-> +-      __u32   i_size;         /* Size in bytes */
-> +-      __u32   i_atime;        /* Access time */
-> +-      __u32   i_ctime;        /* Inode change time */
-> +-      __u32   i_mtime;        /* Modification time */
-> +-      __u32   i_dtime;        /* Deletion Time */
-> +-      __u16   i_gid;          /* Low 16 bits of Group Id */
-> +-      __u16   i_links_count;  /* Links count */
-> +-      __u32   i_blocks;       /* Blocks count */
-> +-      __u32   i_flags;        /* File flags */
-> +-      union {
-> +-              struct {
-> +-                      __u32   l_i_version; /* was l_i_reserved1 */
-> +-              } linux1;
-> +-              struct {
-> +-                      __u32  h_i_translator;
-> +-              } hurd1;
-> +-      } osd1;                         /* OS dependent 1 */
-> +-      __u32   i_block[EXT2_N_BLOCKS];/* Pointers to blocks */
-> +-      __u32   i_generation;   /* File version (for NFS) */
-> +-      __u32   i_file_acl;     /* File ACL */
-> +-      __u32   i_size_high;    /* Formerly i_dir_acl, directory ACL */
-> +-      __u32   i_faddr;        /* Fragment address */
-> +-      union {
-> +-              struct {
-> +-                      __u16   l_i_blocks_hi;
-> +-                      __u16   l_i_file_acl_high;
-> +-                      __u16   l_i_uid_high;   /* these 2 fields    */
-> +-                      __u16   l_i_gid_high;   /* were reserved2[0] */
-> +-                      __u16   l_i_checksum_lo; /* crc32c(uuid+inum+inod=
-e) */
-> +-                      __u16   l_i_reserved;
-> +-              } linux2;
-> +-              struct {
-> +-                      __u8    h_i_frag;       /* Fragment number */
-> +-                      __u8    h_i_fsize;      /* Fragment size */
-> +-                      __u16   h_i_mode_high;
-> +-                      __u16   h_i_uid_high;
-> +-                      __u16   h_i_gid_high;
-> +-                      __u32   h_i_author;
-> +-              } hurd2;
-> +-      } osd2;                         /* OS dependent 2 */
-> +-};
-> +-
-> +-/*
-> +- * Permanent part of an large inode on the disk
-> +- */
-> +-struct ext2_inode_large {
-> +-      __u16   i_mode;         /* File mode */
-> +-      __u16   i_uid;          /* Low 16 bits of Owner Uid */
-> +-      __u32   i_size;         /* Size in bytes */
-> +-      __u32   i_atime;        /* Access time */
-> +-      __u32   i_ctime;        /* Inode Change time */
-> +-      __u32   i_mtime;        /* Modification time */
-> +-      __u32   i_dtime;        /* Deletion Time */
-> +-      __u16   i_gid;          /* Low 16 bits of Group Id */
-> +-      __u16   i_links_count;  /* Links count */
-> +-      __u32   i_blocks;       /* Blocks count */
-> +-      __u32   i_flags;        /* File flags */
-> +-      union {
-> +-              struct {
-> +-                      __u32   l_i_version; /* was l_i_reserved1 */
-> +-              } linux1;
-> +-              struct {
-> +-                      __u32  h_i_translator;
-> +-              } hurd1;
-> +-      } osd1;                         /* OS dependent 1 */
-> +-      __u32   i_block[EXT2_N_BLOCKS];/* Pointers to blocks */
-> +-      __u32   i_generation;   /* File version (for NFS) */
-> +-      __u32   i_file_acl;     /* File ACL */
-> +-      __u32   i_size_high;    /* Formerly i_dir_acl, directory ACL */
-> +-      __u32   i_faddr;        /* Fragment address */
-> +-      union {
-> +-              struct {
-> +-                      __u16   l_i_blocks_hi;
-> +-                      __u16   l_i_file_acl_high;
-> +-                      __u16   l_i_uid_high;   /* these 2 fields    */
-> +-                      __u16   l_i_gid_high;   /* were reserved2[0] */
-> +-                      __u16   l_i_checksum_lo; /* crc32c(uuid+inum+inod=
-e) */
-> +-                      __u16   l_i_reserved;
-> +-              } linux2;
-> +-              struct {
-> +-                      __u8    h_i_frag;       /* Fragment number */
-> +-                      __u8    h_i_fsize;      /* Fragment size */
-> +-                      __u16   h_i_mode_high;
-> +-                      __u16   h_i_uid_high;
-> +-                      __u16   h_i_gid_high;
-> +-                      __u32   h_i_author;
-> +-              } hurd2;
-> +-      } osd2;                         /* OS dependent 2 */
-> +-      __u16   i_extra_isize;
-> +-      __u16   i_checksum_hi;  /* crc32c(uuid+inum+inode) */
-> +-      __u32   i_ctime_extra;  /* extra Change time (nsec << 2 | epoch) =
-*/
-> +-      __u32   i_mtime_extra;  /* extra Modification time (nsec << 2 | e=
-poch) */
-> +-      __u32   i_atime_extra;  /* extra Access time (nsec << 2 | epoch) =
-*/
-> +-      __u32   i_crtime;       /* File creation time */
-> +-      __u32   i_crtime_extra; /* extra File creation time (nsec << 2 | =
-epoch)*/
-> +-      __u32   i_version_hi;   /* high 32 bits for 64-bit version */
-> +-};
-> +-
-> +-#define i_dir_acl     i_size_high
-> +-
-> +-#if defined(__KERNEL__) || defined(__linux__)
-> +-#define i_reserved1   osd1.linux1.l_i_reserved1
-> +-#define i_frag                osd2.linux2.l_i_frag
-> +-#define i_fsize               osd2.linux2.l_i_fsize
-> +-#define i_uid_low     i_uid
-> +-#define i_gid_low     i_gid
-> +-#define i_uid_high    osd2.linux2.l_i_uid_high
-> +-#define i_gid_high    osd2.linux2.l_i_gid_high
-> +-#else
-> +-#if defined(__GNU__)
-> +-
-> +-#define i_translator  osd1.hurd1.h_i_translator
-> +-#define i_frag                osd2.hurd2.h_i_frag;
-> +-#define i_fsize               osd2.hurd2.h_i_fsize;
-> +-#define i_uid_high    osd2.hurd2.h_i_uid_high
-> +-#define i_gid_high    osd2.hurd2.h_i_gid_high
-> +-#define i_author      osd2.hurd2.h_i_author
-> +-
-> +-#endif  /* __GNU__ */
-> +-#endif        /* defined(__KERNEL__) || defined(__linux__) */
-> +-
-> +-#define inode_uid(inode)      ((inode).i_uid | (inode).osd2.linux2.l_i_=
-uid_high << 16)
-> +-#define inode_gid(inode)      ((inode).i_gid | (inode).osd2.linux2.l_i_=
-gid_high << 16)
-> +-#define ext2fs_set_i_uid_high(inode,x) ((inode).osd2.linux2.l_i_uid_hig=
-h =3D (x))
-> +-#define ext2fs_set_i_gid_high(inode,x) ((inode).osd2.linux2.l_i_gid_hig=
-h =3D (x))
-> +-
-> +-/*
-> +- * File system states
-> +- */
-> +-#define EXT2_VALID_FS                 0x0001  /* Unmounted cleanly */
-> +-#define EXT2_ERROR_FS                 0x0002  /* Errors detected */
-> +-#define EXT3_ORPHAN_FS                        0x0004  /* Orphans being =
-recovered */
-> +-
-> +-/*
-> +- * Misc. filesystem flags
-> +- */
-> +-#define EXT2_FLAGS_SIGNED_HASH                0x0001  /* Signed dirhash=
- in use */
-> +-#define EXT2_FLAGS_UNSIGNED_HASH      0x0002  /* Unsigned dirhash in us=
-e */
-> +-#define EXT2_FLAGS_TEST_FILESYS               0x0004  /* OK for use on =
-development code */
-> +-#define EXT2_FLAGS_IS_SNAPSHOT                0x0010  /* This is a snap=
-shot image */
-> +-#define EXT2_FLAGS_FIX_SNAPSHOT               0x0020  /* Snapshot inode=
-s corrupted */
-> +-#define EXT2_FLAGS_FIX_EXCLUDE                0x0040  /* Exclude bitmap=
-s corrupted */
-> +-
-> +-/*
-> +- * Mount flags
-> +- */
-> +-#define EXT2_MOUNT_CHECK              0x0001  /* Do mount-time checks *=
-/
-> +-#define EXT2_MOUNT_GRPID              0x0004  /* Create files with dire=
-ctory's group */
-> +-#define EXT2_MOUNT_DEBUG              0x0008  /* Some debugging message=
-s */
-> +-#define EXT2_MOUNT_ERRORS_CONT                0x0010  /* Continue on er=
-rors */
-> +-#define EXT2_MOUNT_ERRORS_RO          0x0020  /* Remount fs ro on error=
-s */
-> +-#define EXT2_MOUNT_ERRORS_PANIC               0x0040  /* Panic on error=
-s */
-> +-#define EXT2_MOUNT_MINIX_DF           0x0080  /* Mimics the Minix statf=
-s */
-> +-#define EXT2_MOUNT_NO_UID32           0x0200  /* Disable 32-bit UIDs */
-> +-
-> +-#define clear_opt(o, opt)             o &=3D ~EXT2_MOUNT_##opt
-> +-#define set_opt(o, opt)                       o |=3D EXT2_MOUNT_##opt
-> +-#define test_opt(sb, opt)             (EXT2_SB(sb)->s_mount_opt & \
-> +-                                       EXT2_MOUNT_##opt)
-> +-/*
-> +- * Maximal mount counts between two filesystem checks
-> +- */
-> +-#define EXT2_DFL_MAX_MNT_COUNT                20      /* Allow 20 mount=
-s */
-> +-#define EXT2_DFL_CHECKINTERVAL                0       /* Don't use inte=
-rval check */
-> +-
-> +-/*
-> +- * Behaviour when detecting errors
-> +- */
-> +-#define EXT2_ERRORS_CONTINUE          1       /* Continue execution */
-> +-#define EXT2_ERRORS_RO                        2       /* Remount fs rea=
-d-only */
-> +-#define EXT2_ERRORS_PANIC             3       /* Panic */
-> +-#define EXT2_ERRORS_DEFAULT           EXT2_ERRORS_CONTINUE
-> +-
-> +-#if (__GNUC__ >=3D 4)
-> +-#define ext4_offsetof(TYPE,MEMBER) __builtin_offsetof(TYPE,MEMBER)
-> +-#else
-> +-#define ext4_offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
-> +-#endif
-> +-
-> +-/*
-> +- * Structure of the super block
-> +- */
-> +-struct ext2_super_block {
-> +-      __u32   s_inodes_count;         /* Inodes count */
-> +-      __u32   s_blocks_count;         /* Blocks count */
-> +-      __u32   s_r_blocks_count;       /* Reserved blocks count */
-> +-      __u32   s_free_blocks_count;    /* Free blocks count */
-> +-      __u32   s_free_inodes_count;    /* Free inodes count */
-> +-      __u32   s_first_data_block;     /* First Data Block */
-> +-      __u32   s_log_block_size;       /* Block size */
-> +-      __u32   s_log_cluster_size;     /* Allocation cluster size */
-> +-      __u32   s_blocks_per_group;     /* # Blocks per group */
-> +-      __u32   s_clusters_per_group;   /* # Fragments per group */
-> +-      __u32   s_inodes_per_group;     /* # Inodes per group */
-> +-      __u32   s_mtime;                /* Mount time */
-> +-      __u32   s_wtime;                /* Write time */
-> +-      __u16   s_mnt_count;            /* Mount count */
-> +-      __s16   s_max_mnt_count;        /* Maximal mount count */
-> +-      __u16   s_magic;                /* Magic signature */
-> +-      __u16   s_state;                /* File system state */
-> +-      __u16   s_errors;               /* Behaviour when detecting error=
-s */
-> +-      __u16   s_minor_rev_level;      /* minor revision level */
-> +-      __u32   s_lastcheck;            /* time of last check */
-> +-      __u32   s_checkinterval;        /* max. time between checks */
-> +-      __u32   s_creator_os;           /* OS */
-> +-      __u32   s_rev_level;            /* Revision level */
-> +-      __u16   s_def_resuid;           /* Default uid for reserved block=
-s */
-> +-      __u16   s_def_resgid;           /* Default gid for reserved block=
-s */
-> +-      /*
-> +-       * These fields are for EXT2_DYNAMIC_REV superblocks only.
-> +-       *
-> +-       * Note: the difference between the compatible feature set and
-> +-       * the incompatible feature set is that if there is a bit set
-> +-       * in the incompatible feature set that the kernel doesn't
-> +-       * know about, it should refuse to mount the filesystem.
-> +-       *
-> +-       * e2fsck's requirements are more strict; if it doesn't know
-> +-       * about a feature in either the compatible or incompatible
-> +-       * feature set, it must abort and not try to meddle with
-> +-       * things it doesn't understand...
-> +-       */
-> +-      __u32   s_first_ino;            /* First non-reserved inode */
-> +-      __u16   s_inode_size;           /* size of inode structure */
-> +-      __u16   s_block_group_nr;       /* block group # of this superblo=
-ck */
-> +-      __u32   s_feature_compat;       /* compatible feature set */
-> +-      __u32   s_feature_incompat;     /* incompatible feature set */
-> +-      __u32   s_feature_ro_compat;    /* readonly-compatible feature se=
-t */
-> +-      __u8    s_uuid[16];             /* 128-bit uuid for volume */
-> +-      char    s_volume_name[16];      /* volume name */
-> +-      char    s_last_mounted[64];     /* directory where last mounted *=
-/
-> +-      __u32   s_algorithm_usage_bitmap; /* For compression */
-> +-      /*
-> +-       * Performance hints.  Directory preallocation should only
-> +-       * happen if the EXT2_FEATURE_COMPAT_DIR_PREALLOC flag is on.
-> +-       */
-> +-      __u8    s_prealloc_blocks;      /* Nr of blocks to try to preallo=
-cate*/
-> +-      __u8    s_prealloc_dir_blocks;  /* Nr to preallocate for dirs */
-> +-      __u16   s_reserved_gdt_blocks;  /* Per group table for online gro=
-wth */
-> +-      /*
-> +-       * Journaling support valid if EXT2_FEATURE_COMPAT_HAS_JOURNAL se=
-t.
-> +-       */
-> +-      __u8    s_journal_uuid[16];     /* uuid of journal superblock */
-> +-      __u32   s_journal_inum;         /* inode number of journal file *=
-/
-> +-      __u32   s_journal_dev;          /* device number of journal file =
-*/
-> +-      __u32   s_last_orphan;          /* start of list of inodes to del=
-ete */
-> +-      __u32   s_hash_seed[4];         /* HTREE hash seed */
-> +-      __u8    s_def_hash_version;     /* Default hash version to use */
-> +-      __u8    s_jnl_backup_type;      /* Default type of journal backup=
- */
-> +-      __u16   s_desc_size;            /* Group desc. size: INCOMPAT_64B=
-IT */
-> +-      __u32   s_default_mount_opts;
-> +-      __u32   s_first_meta_bg;        /* First metablock group */
-> +-      __u32   s_mkfs_time;            /* When the filesystem was create=
-d */
-> +-      __u32   s_jnl_blocks[17];       /* Backup of the journal inode */
-> +-      __u32   s_blocks_count_hi;      /* Blocks count high 32bits */
-> +-      __u32   s_r_blocks_count_hi;    /* Reserved blocks count high 32 =
-bits*/
-> +-      __u32   s_free_blocks_hi;       /* Free blocks count */
-> +-      __u16   s_min_extra_isize;      /* All inodes have at least # byt=
-es */
-> +-      __u16   s_want_extra_isize;     /* New inodes should reserve # by=
-tes */
-> +-      __u32   s_flags;                /* Miscellaneous flags */
-> +-      __u16   s_raid_stride;          /* RAID stride */
-> +-      __u16   s_mmp_update_interval;  /* # seconds to wait in MMP check=
-ing */
-> +-      __u64   s_mmp_block;            /* Block for multi-mount protecti=
-on */
-> +-      __u32   s_raid_stripe_width;    /* blocks on all data disks (N*st=
-ride)*/
-> +-      __u8    s_log_groups_per_flex;  /* FLEX_BG group size */
-> +-      __u8    s_reserved_char_pad;
-> +-      __u16   s_reserved_pad;         /* Padding to next 32bits */
-> +-      __u64   s_kbytes_written;       /* nr of lifetime kilobytes writt=
-en */
-> +-      __u32   s_snapshot_inum;        /* Inode number of active snapsho=
-t */
-> +-      __u32   s_snapshot_id;          /* sequential ID of active snapsh=
-ot */
-> +-      __u64   s_snapshot_r_blocks_count; /* reserved blocks for active
-> +-                                            snapshot's future use */
-> +-      __u32   s_snapshot_list;        /* inode number of the head of th=
-e on-disk snapshot list */
-> +-#define EXT4_S_ERR_START ext4_offsetof(struct ext2_super_block, s_error=
-_count)
-> +-      __u32   s_error_count;          /* number of fs errors */
-> +-      __u32   s_first_error_time;     /* first time an error happened *=
-/
-> +-      __u32   s_first_error_ino;      /* inode involved in first error =
-*/
-> +-      __u64   s_first_error_block;    /* block involved of first error =
-*/
-> +-      __u8    s_first_error_func[32]; /* function where the error happe=
-ned */
-> +-      __u32   s_first_error_line;     /* line number where error happen=
-ed */
-> +-      __u32   s_last_error_time;      /* most recent time of an error *=
-/
-> +-      __u32   s_last_error_ino;       /* inode involved in last error *=
-/
-> +-      __u32   s_last_error_line;      /* line number where error happen=
-ed */
-> +-      __u64   s_last_error_block;     /* block involved of last error *=
-/
-> +-      __u8    s_last_error_func[32];  /* function where the error happe=
-ned */
-> +-#define EXT4_S_ERR_END ext4_offsetof(struct ext2_super_block, s_mount_o=
-pts)
-> +-      __u8    s_mount_opts[64];
-> +-      __u32   s_usr_quota_inum;       /* inode number of user quota fil=
-e */
-> +-      __u32   s_grp_quota_inum;       /* inode number of group quota fi=
-le */
-> +-      __u32   s_overhead_blocks;      /* overhead blocks/clusters in fs=
- */
-> +-      __u32   s_reserved[108];        /* Padding to the end of the bloc=
-k */
-> +-      __u32   s_checksum;             /* crc32c(superblock) */
-> +-};
-> +-
-> +-#define EXT4_S_ERR_LEN (EXT4_S_ERR_END - EXT4_S_ERR_START)
-> +-
-> +-/*
-> +- * Codes for operating systems
-> +- */
-> +-#define EXT2_OS_LINUX         0
-> +-#define EXT2_OS_HURD          1
-> +-#define EXT2_OBSO_OS_MASIX    2
-> +-#define EXT2_OS_FREEBSD               3
-> +-#define EXT2_OS_LITES         4
-> +-
-> +-/*
-> +- * Revision levels
-> +- */
-> +-#define EXT2_GOOD_OLD_REV     0       /* The good old (original) format=
- */
-> +-#define EXT2_DYNAMIC_REV      1       /* V2 format w/ dynamic inode siz=
-es */
-> +-
-> +-#define EXT2_CURRENT_REV      EXT2_GOOD_OLD_REV
-> +-#define EXT2_MAX_SUPP_REV     EXT2_DYNAMIC_REV
-> +-
-> +-#define EXT2_GOOD_OLD_INODE_SIZE 128
-> +-
-> +-/*
-> +- * Journal inode backup types
-> +- */
-> +-#define EXT3_JNL_BACKUP_BLOCKS        1
-> +-
-> +-/*
-> +- * Feature set definitions
-> +- */
-> +-
-> +-#define EXT2_HAS_COMPAT_FEATURE(sb,mask)                      \
-> +-      ( EXT2_SB(sb)->s_feature_compat & (mask) )
-> +-#define EXT2_HAS_RO_COMPAT_FEATURE(sb,mask)                   \
-> +-      ( EXT2_SB(sb)->s_feature_ro_compat & (mask) )
-> +-#define EXT2_HAS_INCOMPAT_FEATURE(sb,mask)                    \
-> +-      ( EXT2_SB(sb)->s_feature_incompat & (mask) )
-> +-
-> +-#define EXT2_FEATURE_COMPAT_DIR_PREALLOC      0x0001
-> +-#define EXT2_FEATURE_COMPAT_IMAGIC_INODES     0x0002
-> +-#define EXT3_FEATURE_COMPAT_HAS_JOURNAL               0x0004
-> +-#define EXT2_FEATURE_COMPAT_EXT_ATTR          0x0008
-> +-#define EXT2_FEATURE_COMPAT_RESIZE_INODE      0x0010
-> +-#define EXT2_FEATURE_COMPAT_DIR_INDEX         0x0020
-> +-#define EXT2_FEATURE_COMPAT_LAZY_BG           0x0040
-> +-/* #define EXT2_FEATURE_COMPAT_EXCLUDE_INODE  0x0080 not used, legacy *=
-/
-> +-#define EXT2_FEATURE_COMPAT_EXCLUDE_BITMAP    0x0100
-> +-
-> +-
-> +-#define EXT2_FEATURE_RO_COMPAT_SPARSE_SUPER   0x0001
-> +-#define EXT2_FEATURE_RO_COMPAT_LARGE_FILE     0x0002
-> +-/* #define EXT2_FEATURE_RO_COMPAT_BTREE_DIR   0x0004 not used */
-> +-#define EXT4_FEATURE_RO_COMPAT_HUGE_FILE      0x0008
-> +-#define EXT4_FEATURE_RO_COMPAT_GDT_CSUM               0x0010
-> +-#define EXT4_FEATURE_RO_COMPAT_DIR_NLINK      0x0020
-> +-#define EXT4_FEATURE_RO_COMPAT_EXTRA_ISIZE    0x0040
-> +-#define EXT4_FEATURE_RO_COMPAT_HAS_SNAPSHOT   0x0080
-> +-#define EXT4_FEATURE_RO_COMPAT_QUOTA          0x0100
-> +-#define EXT4_FEATURE_RO_COMPAT_BIGALLOC               0x0200
-> +-#define EXT4_FEATURE_RO_COMPAT_METADATA_CSUM  0x0400
-> +-#define EXT4_FEATURE_RO_COMPAT_REPLICA                0x0800
-> +-
-> +-#define EXT2_FEATURE_INCOMPAT_COMPRESSION     0x0001
-> +-#define EXT2_FEATURE_INCOMPAT_FILETYPE                0x0002
-> +-#define EXT3_FEATURE_INCOMPAT_RECOVER         0x0004 /* Needs recovery =
-*/
-> +-#define EXT3_FEATURE_INCOMPAT_JOURNAL_DEV     0x0008 /* Journal device =
-*/
-> +-#define EXT2_FEATURE_INCOMPAT_META_BG         0x0010
-> +-#define EXT3_FEATURE_INCOMPAT_EXTENTS         0x0040
-> +-#define EXT4_FEATURE_INCOMPAT_64BIT           0x0080
-> +-#define EXT4_FEATURE_INCOMPAT_MMP             0x0100
-> +-#define EXT4_FEATURE_INCOMPAT_FLEX_BG         0x0200
-> +-#define EXT4_FEATURE_INCOMPAT_EA_INODE                0x0400
-> +-#define EXT4_FEATURE_INCOMPAT_DIRDATA         0x1000
-> +-
-> +-#define EXT2_FEATURE_COMPAT_SUPP      0
-> +-#define EXT2_FEATURE_INCOMPAT_SUPP    (EXT2_FEATURE_INCOMPAT_FILETYPE| =
-\
-> +-                                     EXT4_FEATURE_INCOMPAT_MMP)
-> +-#define EXT2_FEATURE_RO_COMPAT_SUPP   (EXT2_FEATURE_RO_COMPAT_SPARSE_SU=
-PER| \
-> +-                                       EXT2_FEATURE_RO_COMPAT_LARGE_FIL=
-E| \
-> +-                                       EXT4_FEATURE_RO_COMPAT_DIR_NLINK=
-| \
-> +-                                       EXT2_FEATURE_RO_COMPAT_BTREE_DIR=
-)
-> +-
-> +-/*
-> +- * Default values for user and/or group using reserved blocks
-> +- */
-> +-#define EXT2_DEF_RESUID               0
-> +-#define EXT2_DEF_RESGID               0
-> +-
-> +-/*
-> +- * Default mount options
-> +- */
-> +-#define EXT2_DEFM_DEBUG               0x0001
-> +-#define EXT2_DEFM_BSDGROUPS   0x0002
-> +-#define EXT2_DEFM_XATTR_USER  0x0004
-> +-#define EXT2_DEFM_ACL         0x0008
-> +-#define EXT2_DEFM_UID16               0x0010
-> +-#define EXT3_DEFM_JMODE               0x0060
-> +-#define EXT3_DEFM_JMODE_DATA  0x0020
-> +-#define EXT3_DEFM_JMODE_ORDERED       0x0040
-> +-#define EXT3_DEFM_JMODE_WBACK 0x0060
-> +-#define EXT4_DEFM_NOBARRIER   0x0100
-> +-#define EXT4_DEFM_BLOCK_VALIDITY 0x0200
-> +-#define EXT4_DEFM_DISCARD     0x0400
-> +-#define EXT4_DEFM_NODELALLOC  0x0800
-> +-
-> +-/*
-> +- * Structure of a directory entry
-> +- */
-> +-#define EXT2_NAME_LEN 255
-> +-
-> +-struct ext2_dir_entry {
-> +-      __u32   inode;                  /* Inode number */
-> +-      __u16   rec_len;                /* Directory entry length */
-> +-      __u16   name_len;               /* Name length */
-> +-      char    name[EXT2_NAME_LEN];    /* File name */
-> +-};
-> +-
-> +-/*
-> +- * The new version of the directory entry.  Since EXT2 structures are
-> +- * stored in intel byte order, and the name_len field could never be
-> +- * bigger than 255 chars, it's safe to reclaim the extra byte for the
-> +- * file_type field.
-> +- */
-> +-struct ext2_dir_entry_2 {
-> +-      __u32   inode;                  /* Inode number */
-> +-      __u16   rec_len;                /* Directory entry length */
-> +-      __u8    name_len;               /* Name length */
-> +-      __u8    file_type;
-> +-      char    name[EXT2_NAME_LEN];    /* File name */
-> +-};
-> +-
-> +-/*
-> +- * Ext2 directory file types.  Only the low 3 bits are used.  The
-> +- * other bits are reserved for now.
-> +- */
-> +-#define EXT2_FT_UNKNOWN               0
-> +-#define EXT2_FT_REG_FILE      1
-> +-#define EXT2_FT_DIR           2
-> +-#define EXT2_FT_CHRDEV                3
-> +-#define EXT2_FT_BLKDEV                4
-> +-#define EXT2_FT_FIFO          5
-> +-#define EXT2_FT_SOCK          6
-> +-#define EXT2_FT_SYMLINK               7
-> +-
-> +-#define EXT2_FT_MAX           8
-> +-
-> +-/*
-> +- * EXT2_DIR_PAD defines the directory entries boundaries
-> +- *
-> +- * NOTE: It must be a multiple of 4
-> +- */
-> +-#define EXT2_DIR_PAD                  4
-> +-#define EXT2_DIR_ROUND                        (EXT2_DIR_PAD - 1)
-> +-#define EXT2_DIR_REC_LEN(name_len)    (((name_len) + 8 + EXT2_DIR_ROUND=
-) & \
-> +-                                       ~EXT2_DIR_ROUND)
-> +-
-> +-/*
-> +- * This structure is used for multiple mount protection. It is written
-> +- * into the block number saved in the s_mmp_block field in the superblo=
-ck.
-> +- * Programs that check MMP should assume that if SEQ_FSCK (or any unkno=
-wn
-> +- * code above SEQ_MAX) is present then it is NOT safe to use the filesy=
-stem,
-> +- * regardless of how old the timestamp is.
-> +- *
-> +- * The timestamp in the MMP structure will be updated by e2fsck at some
-> +- * arbitary intervals (start of passes, after every few groups of inode=
-s
-> +- * in pass1 and pass1b).  There is no guarantee that e2fsck is updating
-> +- * the MMP block in a timely manner, and the updates it does are purely
-> +- * for the convenience of the sysadmin and not for automatic validation=
-.
-> +- *
-> +- * Note: Only the mmp_seq value is used to determine whether the MMP bl=
-ock
-> +- *    is being updated.  The mmp_time, mmp_nodename, and mmp_bdevname
-> +- *    fields are only for informational purposes for the administrator,
-> +- *    due to clock skew between nodes and hostname HA service takeover.
-> +- */
-> +-#define EXT4_MMP_MAGIC     0x004D4D50U /* ASCII for MMP */
-> +-#define EXT4_MMP_SEQ_CLEAN 0xFF4D4D50U /* mmp_seq value for clean unmou=
-nt */
-> +-#define EXT4_MMP_SEQ_FSCK  0xE24D4D50U /* mmp_seq value when being fsck=
-ed */
-> +-#define EXT4_MMP_SEQ_MAX   0xE24D4D4FU /* maximum valid mmp_seq value *=
-/
-> +-
-> +-struct mmp_struct {
-> +-      __u32   mmp_magic;              /* Magic number for MMP */
-> +-      __u32   mmp_seq;                /* Sequence no. updated periodica=
-lly */
-> +-      __u64   mmp_time;               /* Time last updated */
-> +-      char    mmp_nodename[64];       /* Node which last updated MMP bl=
-ock */
-> +-      char    mmp_bdevname[32];       /* Bdev which last updated MMP bl=
-ock */
-> +-      __u16   mmp_check_interval;     /* Changed mmp_check_interval */
-> +-      __u16   mmp_pad1;
-> +-      __u32   mmp_pad2[227];
-> +-};
-> +-
-> +-/*
-> +- * Default interval for MMP update in seconds.
-> +- */
-> +-#define EXT4_MMP_UPDATE_INTERVAL      5
-> +-
-> +-/*
-> +- * Maximum interval for MMP update in seconds.
-> +- */
-> +-#define EXT4_MMP_MAX_UPDATE_INTERVAL  300
-> +-
-> +-/*
-> +- * Minimum interval for MMP checking in seconds.
-> +- */
-> +-#define EXT4_MMP_MIN_CHECK_INTERVAL     5
-> +-
-> +-#endif        /* _EXT2FS_EXT2_FS_H */
-> diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/=
-recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-> index d75aa95c1fd..fa7054bc54f 100644
-> --- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-> +++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-> @@ -22,7 +22,8 @@ SRC_URI =3D "https://www.zytor.com/pub/syslinux/Testing=
-/6.04/syslinux-${PV}.tar.xz
->             file://0012-libinstaller-Fix-build-with-glibc-2.36.patch \
->             file://0013-remove-clean-script.patch \
->             file://0014-Fix-reproducibility-issues.patch \
-> -"
-> +           file://0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch \
-> +           "
->
->  SRC_URI[md5sum] =3D "2b31c78f087f99179feb357da312d7ec"
->  SRC_URI[sha256sum] =3D "4441a5d593f85bb6e8d578cf6653fb4ec30f9e8f4a2315a3=
-d8f2d0a8b3fadf94"
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203624): https://lists.openembedded.org/g/openembedde=
-d-core/message/203624
-> Mute This Topic: https://lists.openembedded.org/mt/108035226/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Changes between 2.10 -> 2.11:
+============================
+https://w1.fi/cgit/hostap/commit/wpa_supplicant/ChangeLog?id=d945ddd368085f255e68328f2d3b020ceea359af
+
+Note:
+=====
+Patche 0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch (CVE-2023-52160) is already fixed and hence removing it.
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ ...te-Phase-2-authentication-requiremen.patch | 213 ------------------
+ ...plicant_2.10.bb => wpa-supplicant_2.11.bb} |   7 +-
+ 2 files changed, 3 insertions(+), 217 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.10.bb => wpa-supplicant_2.11.bb} (92%)
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
+deleted file mode 100644
+index bc2db972c3..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
++++ /dev/null
+@@ -1,213 +0,0 @@
+-From f6f7cead3661ceeef54b21f7e799c0afc98537ec Mon Sep 17 00:00:00 2001
+-From: Jouni Malinen <j@w1.fi>
+-Date: Sat, 8 Jul 2023 19:55:32 +0300
+-Subject: [PATCH] PEAP client: Update Phase 2 authentication requirements
+-
+-The previous PEAP client behavior allowed the server to skip Phase 2
+-authentication with the expectation that the server was authenticated
+-during Phase 1 through TLS server certificate validation. Various PEAP
+-specifications are not exactly clear on what the behavior on this front
+-is supposed to be and as such, this ended up being more flexible than
+-the TTLS/FAST/TEAP cases. However, this is not really ideal when
+-unfortunately common misconfiguration of PEAP is used in deployed
+-devices where the server trust root (ca_cert) is not configured or the
+-user has an easy option for allowing this validation step to be skipped.
+-
+-Change the default PEAP client behavior to be to require Phase 2
+-authentication to be successfully completed for cases where TLS session
+-resumption is not used and the client certificate has not been
+-configured. Those two exceptions are the main cases where a deployed
+-authentication server might skip Phase 2 and as such, where a more
+-strict default behavior could result in undesired interoperability
+-issues. Requiring Phase 2 authentication will end up disabling TLS
+-session resumption automatically to avoid interoperability issues.
+-
+-Allow Phase 2 authentication behavior to be configured with a new phase1
+-configuration parameter option:
+-'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
+-tunnel) behavior for PEAP:
+- * 0 = do not require Phase 2 authentication
+- * 1 = require Phase 2 authentication when client certificate
+-   (private_key/client_cert) is no used and TLS session resumption was
+-   not used (default)
+- * 2 = require Phase 2 authentication in all cases
+-
+-Signed-off-by: Jouni Malinen <j@w1.fi>
+-
+-CVE: CVE-2023-52160
+-Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=8e6485a1bcb0baffdea9e55255a81270b768439c]
+-
+-Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- src/eap_peer/eap_config.h          |  8 ++++++
+- src/eap_peer/eap_peap.c            | 40 +++++++++++++++++++++++++++---
+- src/eap_peer/eap_tls_common.c      |  6 +++++
+- src/eap_peer/eap_tls_common.h      |  5 ++++
+- wpa_supplicant/wpa_supplicant.conf |  7 ++++++
+- 5 files changed, 63 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/eap_peer/eap_config.h b/src/eap_peer/eap_config.h
+-index 3238f74..047eec2 100644
+---- a/src/eap_peer/eap_config.h
+-+++ b/src/eap_peer/eap_config.h
+-@@ -469,6 +469,14 @@ struct eap_peer_config {
+- 	 * 1 = use cryptobinding if server supports it
+- 	 * 2 = require cryptobinding
+- 	 *
+-+	 * phase2_auth option can be used to control Phase 2 (i.e., within TLS
+-+	 * tunnel) behavior for PEAP:
+-+	 * 0 = do not require Phase 2 authentication
+-+	 * 1 = require Phase 2 authentication when client certificate
+-+	 *  (private_key/client_cert) is no used and TLS session resumption was
+-+	 *  not used (default)
+-+	 * 2 = require Phase 2 authentication in all cases
+-+	 *
+- 	 * EAP-WSC (WPS) uses following options: pin=Device_Password and
+- 	 * uuid=Device_UUID
+- 	 *
+-diff --git a/src/eap_peer/eap_peap.c b/src/eap_peer/eap_peap.c
+-index 12e30df..6080697 100644
+---- a/src/eap_peer/eap_peap.c
+-+++ b/src/eap_peer/eap_peap.c
+-@@ -67,6 +67,7 @@ struct eap_peap_data {
+- 	u8 cmk[20];
+- 	int soh; /* Whether IF-TNCCS-SOH (Statement of Health; Microsoft NAP)
+- 		  * is enabled. */
+-+	enum { NO_AUTH, FOR_INITIAL, ALWAYS } phase2_auth;
+- };
+- 
+- 
+-@@ -114,6 +115,19 @@ static void eap_peap_parse_phase1(struct eap_peap_data *data,
+- 		wpa_printf(MSG_DEBUG, "EAP-PEAP: Require cryptobinding");
+- 	}
+- 
+-+	if (os_strstr(phase1, "phase2_auth=0")) {
+-+		data->phase2_auth = NO_AUTH;
+-+		wpa_printf(MSG_DEBUG,
+-+			   "EAP-PEAP: Do not require Phase 2 authentication");
+-+	} else if (os_strstr(phase1, "phase2_auth=1")) {
+-+		data->phase2_auth = FOR_INITIAL;
+-+		wpa_printf(MSG_DEBUG,
+-+			   "EAP-PEAP: Require Phase 2 authentication for initial connection");
+-+	} else if (os_strstr(phase1, "phase2_auth=2")) {
+-+		data->phase2_auth = ALWAYS;
+-+		wpa_printf(MSG_DEBUG,
+-+			   "EAP-PEAP: Require Phase 2 authentication for all cases");
+-+	}
+- #ifdef EAP_TNC
+- 	if (os_strstr(phase1, "tnc=soh2")) {
+- 		data->soh = 2;
+-@@ -142,6 +156,7 @@ static void * eap_peap_init(struct eap_sm *sm)
+- 	data->force_peap_version = -1;
+- 	data->peap_outer_success = 2;
+- 	data->crypto_binding = OPTIONAL_BINDING;
+-+	data->phase2_auth = FOR_INITIAL;
+- 
+- 	if (config && config->phase1)
+- 		eap_peap_parse_phase1(data, config->phase1);
+-@@ -454,6 +469,20 @@ static int eap_tlv_validate_cryptobinding(struct eap_sm *sm,
+- }
+- 
+- 
+-+static bool peap_phase2_sufficient(struct eap_sm *sm,
+-+				   struct eap_peap_data *data)
+-+{
+-+	if ((data->phase2_auth == ALWAYS ||
+-+	     (data->phase2_auth == FOR_INITIAL &&
+-+	      !tls_connection_resumed(sm->ssl_ctx, data->ssl.conn) &&
+-+	      !data->ssl.client_cert_conf) ||
+-+	     data->phase2_eap_started) &&
+-+	    !data->phase2_eap_success)
+-+		return false;
+-+	return true;
+-+}
+-+
+-+
+- /**
+-  * eap_tlv_process - Process a received EAP-TLV message and generate a response
+-  * @sm: Pointer to EAP state machine allocated with eap_peer_sm_init()
+-@@ -568,6 +597,11 @@ static int eap_tlv_process(struct eap_sm *sm, struct eap_peap_data *data,
+- 					   " - force failed Phase 2");
+- 				resp_status = EAP_TLV_RESULT_FAILURE;
+- 				ret->decision = DECISION_FAIL;
+-+			} else if (!peap_phase2_sufficient(sm, data)) {
+-+				wpa_printf(MSG_INFO,
+-+					   "EAP-PEAP: Server indicated Phase 2 success, but sufficient Phase 2 authentication has not been completed");
+-+				resp_status = EAP_TLV_RESULT_FAILURE;
+-+				ret->decision = DECISION_FAIL;
+- 			} else {
+- 				resp_status = EAP_TLV_RESULT_SUCCESS;
+- 				ret->decision = DECISION_UNCOND_SUCC;
+-@@ -887,8 +921,7 @@ continue_req:
+- 			/* EAP-Success within TLS tunnel is used to indicate
+- 			 * shutdown of the TLS channel. The authentication has
+- 			 * been completed. */
+--			if (data->phase2_eap_started &&
+--			    !data->phase2_eap_success) {
+-+			if (!peap_phase2_sufficient(sm, data)) {
+- 				wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase 2 "
+- 					   "Success used to indicate success, "
+- 					   "but Phase 2 EAP was not yet "
+-@@ -1199,8 +1232,9 @@ static struct wpabuf * eap_peap_process(struct eap_sm *sm, void *priv,
+- static bool eap_peap_has_reauth_data(struct eap_sm *sm, void *priv)
+- {
+- 	struct eap_peap_data *data = priv;
+-+
+- 	return tls_connection_established(sm->ssl_ctx, data->ssl.conn) &&
+--		data->phase2_success;
+-+		data->phase2_success && data->phase2_auth != ALWAYS;
+- }
+- 
+- 
+-diff --git a/src/eap_peer/eap_tls_common.c b/src/eap_peer/eap_tls_common.c
+-index c1837db..a53eeb1 100644
+---- a/src/eap_peer/eap_tls_common.c
+-+++ b/src/eap_peer/eap_tls_common.c
+-@@ -239,6 +239,12 @@ static int eap_tls_params_from_conf(struct eap_sm *sm,
+- 
+- 	sm->ext_cert_check = !!(params->flags & TLS_CONN_EXT_CERT_CHECK);
+- 
+-+	if (!phase2)
+-+		data->client_cert_conf = params->client_cert ||
+-+			params->client_cert_blob ||
+-+			params->private_key ||
+-+			params->private_key_blob;
+-+
+- 	return 0;
+- }
+- 
+-diff --git a/src/eap_peer/eap_tls_common.h b/src/eap_peer/eap_tls_common.h
+-index 9ac0012..3348634 100644
+---- a/src/eap_peer/eap_tls_common.h
+-+++ b/src/eap_peer/eap_tls_common.h
+-@@ -79,6 +79,11 @@ struct eap_ssl_data {
+- 	 * tls_v13 - Whether TLS v1.3 or newer is used
+- 	 */
+- 	int tls_v13;
+-+
+-+	/**
+-+	 * client_cert_conf: Whether client certificate has been configured
+-+	 */
+-+	bool client_cert_conf;
+- };
+- 
+- 
+-diff --git a/wpa_supplicant/wpa_supplicant.conf b/wpa_supplicant/wpa_supplicant.conf
+-index 6619d6b..d63f73c 100644
+---- a/wpa_supplicant/wpa_supplicant.conf
+-+++ b/wpa_supplicant/wpa_supplicant.conf
+-@@ -1321,6 +1321,13 @@ fast_reauth=1
+- #	 * 0 = do not use cryptobinding (default)
+- #	 * 1 = use cryptobinding if server supports it
+- #	 * 2 = require cryptobinding
+-+#	'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
+-+#	tunnel) behavior for PEAP:
+-+#	 * 0 = do not require Phase 2 authentication
+-+#	 * 1 = require Phase 2 authentication when client certificate
+-+#	   (private_key/client_cert) is no used and TLS session resumption was
+-+#	   not used (default)
+-+#	 * 2 = require Phase 2 authentication in all cases
+- #	EAP-WSC (WPS) uses following options: pin=<Device Password> or
+- #	pbc=1.
+- #
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+similarity index 92%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+index 70f1fd6fc9..8b6bbf50eb 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+@@ -5,8 +5,8 @@ BUGTRACKER = "http://w1.fi/security/"
+ SECTION = "network"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5ebcb90236d1ad640558c3d3cd3035df \
+-                    file://README;beginline=1;endline=56;md5=e3d2f6c2948991e37c1ca4960de84747 \
+-                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=76306a95306fee9a976b0ac1be70f705"
++                    file://README;beginline=1;endline=56;md5=6e4b25e7d74bfc44a32ba37bdf5210a6 \
++                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=f5ccd57ea91e04800edb88267bf8eae4"
+ DEPENDS = "dbus libnl"
+ RRECOMMENDS:${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+ 
+@@ -25,9 +25,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
+            file://wpa_supplicant.conf \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
+-           file://0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch \
+            "
+-SRC_URI[sha256sum] = "20df7ae5154b3830355f8ab4269123a87affdea59fe74fe9292a91d0d7e17b2f"
++SRC_URI[sha256sum] = "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc5d75dee6c81ac7fc0a"
+ 
+ CVE_PRODUCT = "wpa_supplicant"
+ 
+-- 
+2.34.1
+
 
