@@ -1,283 +1,359 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <quic_dgangire@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D21C52D7C
-	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 11:49:42 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.106])
- by mx.groups.io with SMTP id smtpd.web10.14238.1724413771616226040
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BDF1C52D7C
+	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 11:59:32 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.14416.1724414369100519699
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Aug 2024 04:49:32 -0700
+ Fri, 23 Aug 2024 04:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=BpY5UyJ5;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.21.106, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=POlu7U+0Wkv99e8IsieCFWIjK8oOqP/s2i7tvFR9tdTD/a1X2Pcr5Ls4okVKPnBhnpSKrK9QS3gRmV6YWlj/9zYmh32Ur1RJCQVpIawydHRk8wr0KZ/qRKgbvxjnPALivxGYkiveNGyF1NHV52IcmWdXKfPm2EY1DBMRQaVzTHOOo8des0EswHmmTRXsfN8vgVGBf0zuRtYcTzwA53tbkRGvaa+bUiTp0TaNrpe7NRUe55lqYQ1gcqL1mo5TE3lN3XqiOf1XmEMudjDHne3FnR1k6nKvSBCDNiO4fONlqa7GH2rAHm+DmCO0ZtL+3Q1RSFu+bm3f48NbwWyDxVKi7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bJObL/ciqQZCpfiA3p/+NL954INYV1pzLj494YNzI6U=;
- b=n47PdT6+F/Gr932x4s6qoXjKNTPDaEoLHOkNB/H4ljesAmd8EkMd3Ejmg52zNUfmKAqZo6wFu0ZItOIfy76x3HMtaVfuQj8cR+SjrQPSE4xfhEw1wXFnqv08VFZGmboEqF6rYYtdTzhNGrI2WaCjZBtHkNDDTxJSpnMLKMMYf50lWGGeyQru4MlgqdB9q73RrJ3kJAx/mA5krgYEIRrNJNFhyGcRtTZ2BePHnaKXNyXivc57lspkZ9B476yi7uOeQuT8FtkUawhnXXLj7dHWx+mdTqOWIUqe7RUoOb7NEj8w5DpOwyA36RAH53Gsqui5ErPqhDURt/oIg3WnavqCGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bJObL/ciqQZCpfiA3p/+NL954INYV1pzLj494YNzI6U=;
- b=BpY5UyJ5jyB7ETs2qz00yac1ACNzqk96xrPX9XQs/VIvDXwzmNp1XxAlM9d857g6AsGa0ogTE6JHewxkA+FuB848+whOYdONPrdRqJRxwI8XMnHXS9z15sgSy9lcmmJwCWouAsdxVteYo0b6ebK8G1vMpUE47fD/9OSfIkfrXm4t5rgQc9Eq7kkIYVLM5WgePReljA2Y171F8iTqcnT98mnrwdQBxCnll5xa3Mp6Ax4ZyXbNpxgcOn9lW6PW2u3OnZAY9xVVsCU68Okc9yzfdip40GKVI8Y/VmSTHnT7B0275QjXFYgU6ljJRUSk2PVUJI0YE9+9sUiKJ0nZmhkAWg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by PAXPR06MB7567.eurprd06.prod.outlook.com (2603:10a6:102:dd::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 11:49:27 +0000
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 11:49:27 +0000
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-CC: Niko Mauno <niko.mauno@vaisala.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] util-linux: Add PACKAGECONFIG option to mitigate rootfs remount error
-Date: Fri, 23 Aug 2024 11:49:07 +0000
-Message-ID: <20240823114907.2882459-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GV3PEPF0000366E.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:401::38e) To AS4PR06MB8447.eurprd06.prod.outlook.com
- (2603:10a6:20b:4e2::11)
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=AVc6Z4Uf;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_dgangire@quicinc.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47N1nsWI007462
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 11:59:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=6c01zwpxFF12Qx1T7nhI4H
+	hHht5lJ81F7Pu6UH5JXYU=; b=AVc6Z4UfgD+YOb8lcPvUHoRxADob+N54KgJspO
+	RaFgkIkRKMWFbKMUirXb47AFE/X1F256reBoUtaeN5n/6/BIOqWyz/t6ydtjzbgL
+	5ZoYG11KIlQzr7fgGftJnmYfsv8qRrw04EjEwRzHewK1PU12/xYFO4ZzHj+azghk
+	kB/tH71b1TY+Bj+Znar1tSe7DRzCxDYKql3CYNf7g4O10wiaLkReqQf1ze2K4jdT
+	1p58yw7ifhSzTyjqALkD/8qPj27iCWZlK9Q1ZB+hkksLQD9q9ViRn4tITvxLlrN9
+	FOqNk56m2lK1jBN3+jcAG8LRqmfcjFNg3w+h3jB8qM9gropA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 415gsd6cqx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 11:59:28 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47NBxRTu008333
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 11:59:27 GMT
+Received: from hu-dgangire-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 23 Aug 2024 04:59:25 -0700
+From: <quic_dgangire@quicinc.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <quic_mohamull@quicinc.com>, <quic_hbandi@quicinc.com>,
+        <quic_anubhavg@quicinc.com>
+Subject: [PATCH] obexd: Add system bus support for obexd
+Date: Fri, 23 Aug 2024 17:29:12 +0530
+Message-ID: <20240823115912.703747-1-quic_dgangire@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PAXPR06MB7567:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b5db838-6194-4eae-de36-08dcc369a474
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Ca7LuUAv5ODN3s7vOlkYFdpi8aA7F8ml1jQmsA4k9I9RTo8m2S/VkqP4OUwR?=
- =?us-ascii?Q?AODFehdo9RVS803KMuGW4JCcLVkz06EDH6JGvSvscT//r/zkVuqKAyDw0Anz?=
- =?us-ascii?Q?BpGBZAa9ycNW92VKWDhdiC+VNpElw1lx5OtklLakgqsm+t4AgHQtspr5HBzx?=
- =?us-ascii?Q?BiExytH1LRYXEc1OQwEooXZ/Yg4qDZr7RtHjiZfLQ3sn0u0J+W1rL2b4/U4J?=
- =?us-ascii?Q?V7pQmRaEVz2D/2kXMJ01bbE1Ung9OXPrrv8fxr7T+DBt31ISNrLHzKHEwFEz?=
- =?us-ascii?Q?Ge1L73yuJ/bB+Yyas2UyEsYKAgERgjOtIsoOEo+JOyPNOqr+M92FL/pxAvYZ?=
- =?us-ascii?Q?prt8dZIjaK2l0XV9y/Nz1SGKIEF5TJYe0NwFkLTGUvGiHixPvityXR2+AEO5?=
- =?us-ascii?Q?+PWvKpnBbQC2nH4v1NZ12Eo2aw0yCvQ62wmpy0BbwDDPyaJzoyf0cLQmhb2r?=
- =?us-ascii?Q?YC0WrPHL8unjtYx7bTWgFZ0h2Ui1EiANfuUOwaL7vCe05xQc3qF0ev7GXaXJ?=
- =?us-ascii?Q?8T5jaWsvQgDVCdvbIorX9/RND6ZLR3tIyGm1JqhvwsuXL7vUQfnqsaEC4qjh?=
- =?us-ascii?Q?vHsqAippUvrAhovCzYlyqjtkr3eCjvcnD35h57C9zLGA/vDjahGeJpFAptya?=
- =?us-ascii?Q?9mlXDcTG5vlwFyJqzPx1iwliKQy5Or1XoMGfnLZqg2RIWamNhsWH0nPqWe8q?=
- =?us-ascii?Q?mGidEQq4K0QpoHLpdiOl8Qbr4p3zVEUymOdb+CTMfIAOMqMSgibm4WLi5OU0?=
- =?us-ascii?Q?vlOWeT6aD1MAPTi9MC1uSXRZus88MiI3OFuBJ4XBkbxG/Bj4aL/shvA5OEan?=
- =?us-ascii?Q?PsIwsQSggkorVsAv4dAy53QtrLKd1Mj5cNjnIxs/sIM+QwXnMoUAbC8aRoMc?=
- =?us-ascii?Q?pAQ8VHtRskzbqiyva6RWVbivlHFUB20fuNBCOsv6wjQTKqtMaCespn2mAVyq?=
- =?us-ascii?Q?lrgSni/wutz/jgaP2c8f2603iwYObwVnDRPbQsmrJzRhMaZSbtZRY4LelOuQ?=
- =?us-ascii?Q?DHgfqWL+rTDWUl3J42LvvJAb2UZ3BRYtxnDK0hI8lkwLsbeHS/1w+m5BFQ4j?=
- =?us-ascii?Q?kI21IAgvMRrh5KI91ntI916jAsJDufZcS/m45IFtezVwlhdCNGrApE1Y4hZ4?=
- =?us-ascii?Q?UwzFYuV6QNQgoVWOLIoeZrJsE3LafgxF2lXHM8X50roWHOfwG2Udfia0a3H6?=
- =?us-ascii?Q?79b1GlOLdt1P6DMpyVpf7PZco6gFHCUxlsnzbF8r8mtnosG0zJ+JU+YOM4Ef?=
- =?us-ascii?Q?cjXRhdQUIY6nmv+OOH7dwkENwRTJ+hpV8PKtLv+EMbBd4/263WcAlP87/D4R?=
- =?us-ascii?Q?UuhyQ6ntrHL2Z/JTfUeci5XiCZZuG23lNzhMO32a2wRhjUmX42NF+fHSndXR?=
- =?us-ascii?Q?ihGG0S0=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?FoQJcRwdrPyERTwWbN1YfCU9h9v68BVYDHhEE/IgQ5wkBmpKiw8pu7iQzzPQ?=
- =?us-ascii?Q?vocJlK5cEQIA+4PGSZGF8kSR7gcONDLMrw+firBh1ZMhHpmWfDmkJboXkkah?=
- =?us-ascii?Q?qYVgEWIaKcDTy26YglFO7d6ZT89llpw5ERNT314jxMtiSSrgHS3sUq56AsQH?=
- =?us-ascii?Q?aSEVV167G/K3SX3fZTcqtVYZMVVqH/ui0tUDOKmEOAuFDC32D0H3VEPPqh7O?=
- =?us-ascii?Q?6fUFe1l8ZSi7vh84gA2ZXetxVvJfgTBYPU/yxqNnaj6p2N2RN3xeeoyzAn7b?=
- =?us-ascii?Q?fuORx8S571La0dApuVaoGM9ZFPkUHeJUZCP86pd4s143pzkfHn5y+EEuQSPK?=
- =?us-ascii?Q?43lysBGRt+vXynCPDQ7QwCqgT07xcvoH5GBGQEVsnD3aXI/Wui+XDU7Vzpze?=
- =?us-ascii?Q?Wj86yDGySqOeqcjpnX+qSmLyJtEZF6jfOTqshtKDw+saQFIUNZCGPaypGwlk?=
- =?us-ascii?Q?qJ/ya5kAr/5qFhta1emtrPU6jRr7O7SnzxNtTe2JrB55csXDyxZun4Xh72gs?=
- =?us-ascii?Q?rN17EPDUUKzG5uUppfPDVkwA8hSgZO74wbh3rmTTuQnkveDxZ6Ef1w27NE//?=
- =?us-ascii?Q?v+GuLMHdY98cNMbjYuN6r/D4t82F/f/j5HZ0M6g2z254Ry53oH+LDSvugvfk?=
- =?us-ascii?Q?nccRxsXgbYceDHRP1YPO6Hbif5iskS1XK3C7Gq3ES3XZX1JYGI/r5o1/kJF6?=
- =?us-ascii?Q?HUOXcrdWBjIS/Kr/b3gybAsiUpBzS4waQY+QebiKf+T0GUohoQBpIhsQZvVM?=
- =?us-ascii?Q?TqP+zHZUNa9qhXFvZni+y2eFA4odo28Luze5SMGZtuX0PSb9k27xuIJSXWNK?=
- =?us-ascii?Q?KzD/g34B0wK0ciED1F4hlymgO5xb6E0hZz4u5AkfGy3KV5A9rvADziMhaaEC?=
- =?us-ascii?Q?y5lpyLoipyxINCLnKGOsV5IWZmpPBsjujVBfrSmnJLfj4xHZIhT1iP0Crlk9?=
- =?us-ascii?Q?FWKLBFeJSwYshBhdOWFiRm7fkIjL7Zk9zXQ7/MyYLm4uBx+gm/HgnzxqJLid?=
- =?us-ascii?Q?/Od8/TmUWvSolfmjbnPHERsr8s3WmVTB6yzQBkmBAg8WeBplsn2HgTA2ZQoH?=
- =?us-ascii?Q?+fTmfCh34lLtKDmwN5pCKb6I1KDOT0ZOayKXrlbyTaSX9YMc99B89+1jF4E/?=
- =?us-ascii?Q?TaDmoH2vmTHb8aFxJSkKgbadsKIvBi0XUAWA9qDgl/TJyT/ZDlOBx78CQIqX?=
- =?us-ascii?Q?Vt3BhEXVXxp41PAnQwF+olL1A2JPoHtfdLUSr2BOrO96TMlc7fWRb5GxycZw?=
- =?us-ascii?Q?Apyh3F3b3odv+pvXDes1ialuac0G2P7WSYqDjcj+tanbHrSfefcuCtDQ8bwn?=
- =?us-ascii?Q?UvwVr8AGYyyAexw7VyzLZtejGYvBHje+QU9bGTNea17da1S/PEflhf3kJuhI?=
- =?us-ascii?Q?bJcnipwsgK0mbfs3rvRAAXcpslPlJ8pshItMFiQBbh38WVoMghomVrzbljrP?=
- =?us-ascii?Q?KKOGGt1CsGDuTv/ksE9USKN3FFA0/OqQt1c2dV9+sMHMsdXvKKVkC3oFhnaQ?=
- =?us-ascii?Q?QC28eRBkPPU4fnb9viFEc1amzr60qyinZNqQsXAF8QXyzw5osgixwdUkCJms?=
- =?us-ascii?Q?Xdi5Op2oFpABOmceLT7bmIU/3Yqnquo734WLeADd+FfSGbGhtq2PS+NSek0Q?=
- =?us-ascii?Q?SQ=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b5db838-6194-4eae-de36-08dcc369a474
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 11:49:27.8868
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dPLy4+DNAWDHS/q+O8sjJw/jh7QL/9VkZAlvMFNla1EylIwsSF9v6rf7ADdM1NfTVJ9lGKL/ubvhnp1Ngxzodw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7567
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: iM1D_d2tIlSQKkzpddGKPfmjY-kjR-Xk
+X-Proofpoint-ORIG-GUID: iM1D_d2tIlSQKkzpddGKPfmjY-kjR-Xk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-23_08,2024-08-22_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 clxscore=1015 lowpriorityscore=0 impostorscore=0
+ mlxscore=0 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2408230087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 11:49:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203683
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 11:59:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203684
 
-The 2.39 version of util-linux took new file descriptors based mount
-kernel API into use. In relation to this change, the upstream release
-notes in
-https://github.com/util-linux/util-linux/blob/v2.39/Documentation/releases/=
-v2.39-ReleaseNotes#L14-L21
-mention that
+From: Damodar Reddy GangiReddy <quic_dgangire@quicinc.com>
 
-  This change is very aggressive to libmount code, but hopefully, it does n=
-ot introduce regressions in traditional mount(8) behavior.
+Currently obexd uses session bus.
+Distros  where session bus is not supported and still obex profiles
+are required in that case use system bus instead of session bus
+which can be configured with new optional feature
 
-After observing following failure when booting a board using a bit
-older 6.1 series kernel together with initramfs rootfs based boot flow
+Additional optional feature has been added to achieve this
+with name --enable-use-systembus-for-obexd
 
-  [FAILED] Failed to start Remount Root and Kernel File Systems.
-  See 'systemctl status systemd-remount-fs.service' for details.
+steps to configure system bus
+./configure --enable-use-systembus-for-obexd
 
-closer inspection revealed:
+Upstream-Status: Denied
+Upstream denied as it is distro specific
 
-  demoboard ~ # systemctl status -l systemd-remount-fs.service
-  x systemd-remount-fs.service - Remount Root and Kernel File Systems
-       Loaded: loaded (/usr/lib/systemd/system/systemd-remount-fs.service; =
-enabled-runtime; preset: disabled)
-       Active: failed (Result: exit-code) since Wed 2024-08-14 14:53:48 UTC=
-; 1min 22s ago
-         Docs: man:systemd-remount-fs.service(8)
-               https://www.freedesktop.org/wiki/Software/systemd/APIFileSys=
-tems
-      Process: 76 ExecStart=3D/usr/lib/systemd/systemd-remount-fs (code=3De=
-xited, status=3D1/FAILURE)
-     Main PID: 76 (code=3Dexited, status=3D1/FAILURE)
-
-  Aug 14 14:53:48 demoboard systemd-remount-fs[76]: /usr/bin/mount for / ex=
-ited with exit status 32.
-  Aug 14 14:53:48 demoboard systemd-remount-fs[81]: mount: /: mount point n=
-ot mounted or bad option.
-  Aug 14 14:53:48 demoboard systemd-remount-fs[81]:        dmesg(1) may hav=
-e more information after failed mount system call.
-  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Main pr=
-ocess exited, code=3Dexited, status=3D1/FAILURE
-  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Failed =
-with result 'exit-code'.
-  Aug 14 14:53:48 demoboard systemd[1]: Failed to start Remount Root and Ke=
-rnel File Systems.
-
-also consequentially, 'systemctl status' reported:
-
-  State: degraded
-
-When issuing 'strace -ff mount -o remount /' the failure occurred at
-
-  mount_setattr(3, "", AT_EMPTY_PATH, {attr_set=3DMOUNT_ATTR_RDONLY|MOUNT_A=
-TTR_NOATIME|MOUNT_ATTR_NODIRATIME, attr_clr=3DMOUNT_ATTR_NOSUID|MOUNT_ATTR_=
-NODEV|MOUNT_ATTR_NOEXEC|MOUNT_ATTR_NOATIME|MOUNT_ATTR_STRICTATIME|MOUNT_ATT=
-R_NOSYMFOLLOW|0x40, propagation=3D0 /* MS_??? */, userns_fd=3D0}, 32) =3D -=
-1 EINVAL (Invalid argument)
-
-After further investigation, The issue was pinpointed to lack of Linux
-kernel commit
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=
-=3D95de4ad173ca0e61034f3145d66917970961c210
-("fs: relax mount_setattr() permission checks") in the kernel version
-that was being used. Above mitigation was discussed in email related to
-then-rejected CVE-2024-26821:
-https://lore.kernel.org/linux-cve-announce/2024051606-imaging-entrench-b327=
-@gregkh/T/
-
-After testing with qemuarm64 machine different linux-yocto versions,
-it was observed that the issue impacts following versions of currently
-supported LTS kernels:
- - 6.6.17 (fixed since 6.6.18 i.e. mount_setattr() returns 0)
- - 6.1.78 (fixed since 6.1.79 i.e. mount_setattr() returns 0)
- - 5.15.164 which is currently the newest of 5.15.y series (i.e. no
-   known working version)
-
-Taking the above findings into consideration, add a new PACKAGECONFIG
-option removing which enables users to opt-out from using the feature
-which can cause issues with a bit older kernels. The option is enabled
-only for class-target here, since it otherwise causes following error
-during util-linux-native's do_configure task on Debian 11 build host
-(mountfd_api requirement fails):
-
-   | configure: error: libmount_mountfd_support selected, but required moun=
-t FDs based API not available
-
-Versions 5.10.223, 5.4.279 and 4.10.317 were also tested with qemuarm64
-but the issue was not reproduced with those versions - using strace
-showed that the mount_setattr call associated with the new mount API
-problem was not issued with these LTS kernel versions, which seemed to
-be confirmed also by following libmount debug message in these cases:
-
-  415: libmount:     HOOK: [0x7fa115e818]: failed to init new API
-
-Note: In addition to the aforementioned, this change was tested also
-briefly using the current latest kernel versions 6.1.104, 6.6.45 and
-6.10.3 that using the old mount API with newest kernels did not
-introduce any observable regression to the boot flow.
-
-(From OE-Core rev: dc086d9a8613143607af3583c72ed892e20b4d66)
-
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Damodar Reddy GangiReddy <quic_dgangire@quicinc.com>
+Change-Id: I1db23ed506631ea6ae8f69034e5211751313e046
 ---
- meta/recipes-core/util-linux/util-linux_2.39.3.bb | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...exd-Add-system-bus-support-for-obexd.patch | 244 ++++++++++++++++++
+ 2 files changed, 245 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Add-system-bus-support-for-obexd.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.39.3.bb b/meta/recip=
-es-core/util-linux/util-linux_2.39.3.bb
-index 83b3f4e05b..79ddf2d115 100644
---- a/meta/recipes-core/util-linux/util-linux_2.39.3.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.39.3.bb
-@@ -90,7 +90,10 @@ EXTRA_OECONF:append =3D " --disable-hwclock-gplv3"
- # build host versions during development
- #
- PACKAGECONFIG ?=3D "pcre2"
--PACKAGECONFIG:class-target ?=3D "${@bb.utils.contains('DISTRO_FEATURES', '=
-pam', 'chfn-chsh pam', '', d)}"
-+PACKAGECONFIG:class-target ?=3D "\
-+    libmount-mountfd-support \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam', '', d)=
-} \
-+"
- # inherit manpages requires this to be present, however util-linux does no=
-t have
- # configuration options, and installs manpages always
- PACKAGECONFIG[manpages] =3D ""
-@@ -106,6 +109,13 @@ PACKAGECONFIG[pcre2] =3D ",,libpcre2"
- PACKAGECONFIG[cryptsetup] =3D "--with-cryptsetup,--without-cryptsetup,cryp=
-tsetup"
- PACKAGECONFIG[chfn-chsh] =3D "--enable-chfn-chsh,--disable-chfn-chsh,"
- PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux"
-+# Using the new file descriptors based mount kernel API can cause rootfs r=
-emount failure with some older kernels.
-+# Of currently supported LTS kernels, the old mount API should be used wit=
-h:
-+# - versions prior to 6.6.18 in the 6.6.y series.
-+# - versions prior to 6.1.79 in the 6.1.y series.
-+# - versions till at least 5.15.164 in the 5.15.y series.
-+# - with 5.10.y, 5.4.y and 4.19.y series kernels, libmount seemed to use t=
-he old API regardless of this option.
-+PACKAGECONFIG[libmount-mountfd-support] =3D "--enable-libmount-mountfd-sup=
-port,--disable-libmount-mountfd-support"
-=20
- EXTRA_OEMAKE =3D "ARCH=3D${TARGET_ARCH} CPU=3D CPUOPT=3D 'OPT=3D${CFLAGS}'=
-"
-=20
---=20
-2.39.2
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index d8b9f81771..9ad307b0d0 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -63,6 +63,7 @@ PACKAGECONFIG[mesh] = "--enable-mesh --enable-external-ell,--disable-mesh, json-
+ PACKAGECONFIG[btpclient] = "--enable-btpclient --enable-external-ell,--disable-btpclient, ell"
+ PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+ PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,python3-docutils-native"
++PACKAGECONFIG[obexdbus] = "--enable-use-systembus-for-obexd,--disable-use-systembus-for-obexd"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://init \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Add-system-bus-support-for-obexd.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Add-system-bus-support-for-obexd.patch
+new file mode 100644
+index 0000000000..025386cd07
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Add-system-bus-support-for-obexd.patch
+@@ -0,0 +1,244 @@
++From e22394839b98db580f6937c92ffbea499f47aa89 Mon Sep 17 00:00:00 2001
++From: Damodar Reddy GangiReddy <quic_dgangire@quicinc.com>
++Date: Fri, 23 Aug 2024 12:23:47 +0530
++Subject: [PATCH BlueZ v1] obexd: Add system bus support for obexd
++
++Currently obexd uses session bus.
++Distros  where session bus is not supported and still obex profiles
++are required in that case use system bus instead of session bus
++which can be configured with new optional feature
++
++Additional optional feature has been added to achieve this
++with name --enable-use-systembus-for-obexd
++
++steps to configure system bus
++./configure --enable-use-systembus-for-obexd
++
++Upstream-Status: Denied
++Upstream denied as it is distro specific
++
++Signed-off-by: Damodar Reddy GangiReddy <quic_dgangire@quicinc.com>
++
++---
++ Makefile.obexd          | 14 ++++++++++++++
++ configure.ac            |  9 +++++++++
++ obexd/client/ftp.c      |  3 ++-
++ obexd/client/map.c      |  3 ++-
++ obexd/client/opp.c      |  3 ++-
++ obexd/client/pbap.c     |  3 ++-
++ obexd/client/session.c  |  3 ++-
++ obexd/client/sync.c     |  3 ++-
++ obexd/plugins/pcsuite.c |  3 ++-
++ obexd/src/manager.c     |  3 ++-
++ src/bluetooth.conf      | 12 ++++++++++++
++ tools/obexctl.c         |  3 ++-
++ 12 files changed, 53 insertions(+), 9 deletions(-)
++
++diff --git a/Makefile.obexd b/Makefile.obexd
++index b7e9f2d33..87432cc37 100644
++--- a/Makefile.obexd
+++++ b/Makefile.obexd
++@@ -2,6 +2,19 @@
++ if OBEX
++ 
++ if SYSTEMD
+++
+++if USE_SYSTEMBUS_FOR_OBEXD
+++
+++systemdsystemunit_DATA += obexd/src/obex.service
+++dbussystembus_DATA += obexd/src/org.bluez.obex.service
+++
+++obexd-add-service-symlink:
+++	$(LN_S) -f obex.service $(DESTDIR)$(SYSTEMD_SYSTEMUNITDIR)/dbus-org.bluez.obex.service
+++
+++obexd-remove-service-symlink:
+++	rm -f $(DESTDIR)$(SYSTEMD_SYSTEMUNITDIR)/dbus-org.bluez.obex.service
+++else
+++
++ systemduserunitdir = $(SYSTEMD_USERUNITDIR)
++ systemduserunit_DATA = obexd/src/obex.service
++ 
++@@ -13,6 +26,7 @@ obexd-add-service-symlink:
++ 
++ obexd-remove-service-symlink:
++ 	rm -f $(DESTDIR)$(SYSTEMD_USERUNITDIR)/dbus-org.bluez.obex.service
+++endif
++ else
++ obexd-add-service-symlink:
++ obexd-remove-service-symlink:
++diff --git a/configure.ac b/configure.ac
++index d31eb1656..cc9a55f4c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -283,6 +283,15 @@ if (test "${enable_obex}" != "no"); then
++ fi
++ AM_CONDITIONAL(OBEX, test "${enable_obex}" != "no")
++ 
+++AC_ARG_ENABLE(use-systembus-for-obexd, AS_HELP_STRING([--enable-use-systembus-for-obexd],
+++		[enable systembus for obexd]), [enable_use_systembus_for_obexd=${enableval}])
+++AM_CONDITIONAL(USE_SYSTEMBUS_FOR_OBEXD, test "${enable_use_systembus_for_obexd}" = "yes")
+++if (test "${enable_use_systembus_for_obexd}" = "yes"); then
+++	AC_DEFINE(USE_SYSTEMBUS_FOR_OBEXD, 1, [Define to 1 if you want to use system bus for obexd.])
+++else
+++	AC_DEFINE(USE_SYSTEMBUS_FOR_OBEXD, 0, [Define to 0 if you want to use session bus for obexd.])
+++fi
+++
++ AC_ARG_ENABLE(btpclient, AS_HELP_STRING([--enable-btpclient],
++ 		[enable BTP client]), [enable_btpclient=${enableval}])
++ AM_CONDITIONAL(BTPCLIENT, test "${enable_btpclient}" = "yes")
++diff --git a/obexd/client/ftp.c b/obexd/client/ftp.c
++index 160e0636a..e3cef32f6 100644
++--- a/obexd/client/ftp.c
+++++ b/obexd/client/ftp.c
++@@ -463,7 +463,8 @@ int ftp_init(void)
++ 
++ 	DBG("");
++ 
++-	conn = dbus_bus_get(DBUS_BUS_SESSION, NULL);
+++	conn = dbus_bus_get(USE_SYSTEMBUS_FOR_OBEXD ?
+++			DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL);
++ 	if (!conn)
++ 		return -EIO;
++ 
++diff --git a/obexd/client/map.c b/obexd/client/map.c
++index 513dcaf14..815806f52 100644
++--- a/obexd/client/map.c
+++++ b/obexd/client/map.c
++@@ -2063,7 +2063,8 @@ int map_init(void)
++ 
++ 	DBG("");
++ 
++-	conn = dbus_bus_get(DBUS_BUS_SESSION, NULL);
+++	conn = dbus_bus_get(USE_SYSTEMBUS_FOR_OBEXD ?
+++			DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL);
++ 	if (!conn)
++ 		return -EIO;
++ 
++diff --git a/obexd/client/opp.c b/obexd/client/opp.c
++index 90d0c0c8e..4889a3a0f 100644
++--- a/obexd/client/opp.c
+++++ b/obexd/client/opp.c
++@@ -178,7 +178,8 @@ int opp_init(void)
++ 
++ 	DBG("");
++ 
++-	conn = dbus_bus_get(DBUS_BUS_SESSION, NULL);
+++	conn = dbus_bus_get(USE_SYSTEMBUS_FOR_OBEXD ?
+++			DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL);
++ 	if (!conn)
++ 		return -EIO;
++ 
++diff --git a/obexd/client/pbap.c b/obexd/client/pbap.c
++index 2d2aa9508..1658c853a 100644
++--- a/obexd/client/pbap.c
+++++ b/obexd/client/pbap.c
++@@ -1303,7 +1303,8 @@ int pbap_init(void)
++ 
++ 	DBG("");
++ 
++-	conn = dbus_bus_get(DBUS_BUS_SESSION, NULL);
+++	conn = dbus_bus_get(USE_SYSTEMBUS_FOR_OBEXD ?
+++			DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL);
++ 	if (!conn)
++ 		return -EIO;
++ 
++diff --git a/obexd/client/session.c b/obexd/client/session.c
++index 7d8ebb04e..4e447e8eb 100644
++--- a/obexd/client/session.c
+++++ b/obexd/client/session.c
++@@ -583,7 +583,8 @@ struct obc_session *obc_session_create(const char *source,
++ 	if (driver == NULL)
++ 		return NULL;
++ 
++-	conn = dbus_bus_get(DBUS_BUS_SESSION, NULL);
+++	conn = dbus_bus_get(USE_SYSTEMBUS_FOR_OBEXD ?
+++			DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL);
++ 	if (conn == NULL)
++ 		return NULL;
++ 
++diff --git a/obexd/client/sync.c b/obexd/client/sync.c
++index 92faf4434..bd339adfa 100644
++--- a/obexd/client/sync.c
+++++ b/obexd/client/sync.c
++@@ -224,7 +224,8 @@ int sync_init(void)
++ 
++ 	DBG("");
++ 
++-	conn = dbus_bus_get(DBUS_BUS_SESSION, NULL);
+++	conn = dbus_bus_get(USE_SYSTEMBUS_FOR_OBEXD ?
+++			DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL);
++ 	if (!conn)
++ 		return -EIO;
++ 
++diff --git a/obexd/plugins/pcsuite.c b/obexd/plugins/pcsuite.c
++index 07c444ff2..5daed2abb 100644
++--- a/obexd/plugins/pcsuite.c
+++++ b/obexd/plugins/pcsuite.c
++@@ -322,7 +322,8 @@ static gboolean send_backup_dbus_message(const char *oper,
++ 
++ 	file_size = size ? *size : 0;
++ 
++-	conn = g_dbus_setup_bus(DBUS_BUS_SESSION, NULL, NULL);
+++	conn = g_dbus_setup_bus(USE_SYSTEMBUS_FOR_OBEXD ?
+++			DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL, NULL);
++ 
++ 	if (conn == NULL)
++ 		return FALSE;
++diff --git a/obexd/src/manager.c b/obexd/src/manager.c
++index 3c0c2a7cc..dd83f056d 100644
++--- a/obexd/src/manager.c
+++++ b/obexd/src/manager.c
++@@ -488,7 +488,8 @@ gboolean manager_init(void)
++ 
++ 	dbus_error_init(&err);
++ 
++-	connection = g_dbus_setup_bus(DBUS_BUS_SESSION, OBEXD_SERVICE, &err);
+++	connection = g_dbus_setup_bus(USE_SYSTEMBUS_FOR_OBEXD ?
+++		DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, OBEXD_SERVICE, &err);
++ 	if (connection == NULL) {
++ 		if (dbus_error_is_set(&err) == TRUE) {
++ 			fprintf(stderr, "%s\n", err.message);
++diff --git a/src/bluetooth.conf b/src/bluetooth.conf
++index b6c614908..f8879c8bb 100644
++--- a/src/bluetooth.conf
+++++ b/src/bluetooth.conf
++@@ -21,10 +21,22 @@
++     <allow send_interface="org.freedesktop.DBus.ObjectManager"/>
++     <allow send_interface="org.freedesktop.DBus.Properties"/>
++     <allow send_interface="org.mpris.MediaPlayer2.Player"/>
+++    <allow own="org.bluez.obex"/>
+++    <allow send_destination="org.bluez.obex"/>
+++    <allow send_interface="org.bluez.obex.Agent1"/>
+++    <allow send_interface="org.bluez.obex.Client1"/>
+++    <allow send_interface="org.bluez.obex.Session1"/>
+++    <allow send_interface="org.bluez.obex.Transfer1"/>
+++    <allow send_interface="org.bluez.obex.ObjectPush1"/>
+++    <allow send_interface="org.bluez.obex.PhonebookAccess1"/>
+++    <allow send_interface="org.bluez.obex.Synchronization1"/>
+++    <allow send_interface="org.bluez.obex.MessageAccess1"/>
+++    <allow send_interface="org.bluez.obex.Message1"/>
++   </policy>
++ 
++   <policy context="default">
++     <allow send_destination="org.bluez"/>
+++    <allow send_destination="org.bluez.obex"/>
++   </policy>
++ 
++ </busconfig>
++diff --git a/tools/obexctl.c b/tools/obexctl.c
++index 56a76915c..07dc1ae6b 100644
++--- a/tools/obexctl.c
+++++ b/tools/obexctl.c
++@@ -2154,7 +2154,8 @@ int main(int argc, char *argv[])
++ 	bt_shell_set_menu(&main_menu);
++ 	bt_shell_set_prompt(PROMPT_OFF);
++ 
++-	dbus_conn = g_dbus_setup_bus(DBUS_BUS_SESSION, NULL, NULL);
+++	dbus_conn = g_dbus_setup_bus(USE_SYSTEMBUS_FOR_OBEXD ?
+++				DBUS_BUS_SYSTEM : DBUS_BUS_SESSION, NULL, NULL);
++ 
++ 	client = g_dbus_client_new(dbus_conn, "org.bluez.obex",
++ 							"/org/bluez/obex");
++-- 
++2.34.1
++
+-- 
+2.34.1
 
 
