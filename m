@@ -2,28 +2,28 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C590C54731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B188C54732
 	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 01:48:29 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7467.1724377702796046352
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.7359.1724377708965556344
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Aug 2024 18:48:22 -0700
+ Thu, 22 Aug 2024 18:48:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=89658b1c4b=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47MBhYIo018581
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:22 GMT
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=89658b1c4b=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47N1O2ZM009100
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 18:48:28 -0700
 Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6x11n-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412uck5rav-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:21 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 18:48:28 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sTFKgcoxlsgFnqGw7TBwQDhh6skEbtd/BtG2tpmNsZdv52WizSCIiWWMFgp4BtleNIBhrTYwj8xQAMfsUWKcevPWEs5Ycn1SioQ+u3ESIbGSrJhspdw6SVqrtPfcvfHODAfbgbDm4bHMs1GZ9ZFaJWgegqbAJ+wGX27JATWRh2ZSkvg4nfTaDstlC1+mh21FLbIePCq/NBySLn9oR1PraVmoBsn2I9lgnMtpU2O40529/x6tPQjD86ctcS+cns/1U+FckySzrQr0QuVLpbz9AR234+cFszh9MWc55b618zZoA3SEYo1ICCw0nf/KVBMOREBYhVjW63cC9FV82TDc7Q==
+ b=HJdFkXKNQuk1GJB+4x1aPS+S57s9eIrN8H9Y/+RWeJhbfo8ByRwF6iAc/PJ6sRp+Zhoq/QyVnx0jOBMp8tmYrOE0ML1bGLmAt+OSHT/FaluBIU9XQSpRi2LKqJ8rHFwZ+KiYxqjuJ2s+xNgdmNd9T+mdfklnRoActVwHxAI8sNdSbm0P5e/is7PwGCY9l39KVQHHfBdHAq8cp3o50nN0Tqa3Ni/GMCr6O3Nx5mNffT28FmFRs0LMxBQ2N+Cjc1M4iUVWn/MhlPF4/VkN1EroLoJkwjYIzoFwzKjA16Tm22WGehXgBvyG4t2ngETODHO/y/3n92vWzGR8QZUygIItvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uJ4tIZy9yi1SLmf8Ug9lPhUW2Mq+x0kgsZuwjeXzcOU=;
- b=NbzINeQGiACpN5SK+xAQ4+Q9Weblye1xFazEoc8OnMDJMa/Y4GOtvn1yFwfqjc0/q2ZIrPPyDK/W5jxqnb9lvH4QPY4ZAlcIJkt9lVj2k4q4VWvB/xKthyRIyKlAHmtboLls7QnNb/Qiyj1jHpVjEcwz+yyhS1ikWrdM+FIXKKsdzvo5AMdm0heWbB+7J65rUSzq505r97E2nt5+SWZtHV+uFaKY+d/RTlLjxXMytapHXxN6v2+pdGkG+IT8QpP8VqBZ0zsuDI9ghOfb/0Mv9oi3H8VhguwxWkX3i9+LEPsX6UCC9+yRth11OzEqw9zqaoeaKhzVjPHismfxqG9myQ==
+ bh=RskeFbn6Csbi9Ou8tyaK4JB+pZ4EnKuzbFjou5X5eD0=;
+ b=Kv09X2t50AGtQHmW6WmjppWgi44Wvr8xqEeLK4kKzDI5swN6DSKYvGdG5W1rf+qGLUGLolwV2zNpgIfh4hsg7Caq5wBIyHW/5h0ri/b3FWJfGu6LIJSAyJtA6zBOx+svm/elKBbHFJZzcKZXbq+S3pmMu1DgGKzBz4/TE/3NcFP7U6F6pN7VOR7rNGU4Og20u5C5cR8KCmvgDAzcHO5c7pjXoc1HmlejerfCN1QRI2pMWWLAF9mPPqyQDCA8Wb7mM0faP1xb5jhruSIs0K+RmNdL7B/AZkoBUBKT5cBohwwhIj3jHbKKGQRVSn8SfMi6MzX2N1qghb2+Kj6jSlMmEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,16 +31,16 @@ Received: from MW3PR11MB4633.namprd11.prod.outlook.com (2603:10b6:303:5b::9)
  by DS0PR11MB8114.namprd11.prod.outlook.com (2603:10b6:8:129::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 01:48:17 +0000
+ 2024 01:48:26 +0000
 Received: from MW3PR11MB4633.namprd11.prod.outlook.com
  ([fe80::db65:6dac:6f2b:a275]) by MW3PR11MB4633.namprd11.prod.outlook.com
  ([fe80::db65:6dac:6f2b:a275%6]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 01:48:17 +0000
+ 01:48:26 +0000
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [poky][PATCH 1/9] libgpg-error: 1.49 -> 1.50
-Date: Fri, 23 Aug 2024 09:47:58 +0800
-Message-Id: <20240823014806.4154590-2-hongxu.jia@windriver.com>
+Subject: [poky][PATCH 9/9] gnupg: 2.4.5 -> 2.5.0
+Date: Fri, 23 Aug 2024 09:48:06 +0800
+Message-Id: <20240823014806.4154590-10-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20240823014806.4154590-1-hongxu.jia@windriver.com>
 References: <20240823014806.4154590-1-hongxu.jia@windriver.com>
@@ -52,253 +52,366 @@ X-ClientProxiedBy: TYCP286CA0285.JPNP286.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MW3PR11MB4633:EE_|DS0PR11MB8114:EE_
-X-MS-Office365-Filtering-Correlation-Id: f47dc455-d684-4e78-c8dd-08dcc315a8aa
+X-MS-Office365-Filtering-Correlation-Id: 4e6d8dc6-2767-48ae-0346-08dcc315ae1c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ecpyCNr/ZwMMNMMoWoriG1ZXuCIUy8NgOuaha0XagGYyerzlIbMB4dwMNxYH?=
- =?us-ascii?Q?toFcUmZoOBE2GiN0l9hO8NkYdDp0rXOQgQHLlOrWCeSMn77djRr7vNByaUv6?=
- =?us-ascii?Q?w9jaQfhkT50epOkmCcNQHNu+9YtCtJsFjeoShqMkB3Oga8eTa0ijG7A580ky?=
- =?us-ascii?Q?o0BEz8YC1Lmf78Dk0VFznyMZ7g4U66ItPdvCcBKu4loGj7sx9ghpuk9cpMWH?=
- =?us-ascii?Q?c/X6mo8pJ+iwbb5V8WBiVPQfZN5vlRkup4tX/y3PNe/vqr3tzVcpnmcWO1Ah?=
- =?us-ascii?Q?tQ25PhmjF2StbiiKdCU2gYfp0aMuHF4CtS0Qp97/Dux8PUiSpvyRwSBoTWh/?=
- =?us-ascii?Q?1FBC8+7sySUNGpqAI/a5h/pyUa1SO26W67mAgj0j2/juBMFHiqHpmTItH6Xj?=
- =?us-ascii?Q?Zp8wnoeS8jsCf6Kt9Z4j+Rw6RY8AJ8+JSzjLGD0GxVqxZF2bY1qFAKNSC1PK?=
- =?us-ascii?Q?ln2kJdnfdFB8VwShbTjyGrsShBWcC6RdMJ892BFus0WSlLu5IzBTXCijJJdJ?=
- =?us-ascii?Q?9WyQagc/SZjyx1q3pxmyiGnemrZHZXXCikp5chXSuYSYv2Zwi5EwCEsC716f?=
- =?us-ascii?Q?aS9Ahad0TG2meuxgQN7Bkz/kflZomQ+513NdJJArHccRAQesOJCEYPQP2AiV?=
- =?us-ascii?Q?xcPMCwGPoovOV8Kp6BI3MeJfc/k6JZGXrI5nDS+l2OuojFwm/mOjd/D+ICfD?=
- =?us-ascii?Q?mZkAykpWiHzkVT/co/xXk7yLvni7Wc2keQciAVY0Sk5h7MoQdfRVYuGa9tnr?=
- =?us-ascii?Q?RC7gQSySAeOkMb3uDX2cB0HPTCcJe2nGzAc8xeRD7GgZexbHeyrMJjkP6C2Q?=
- =?us-ascii?Q?H5O9dNSS2wZpNzuKkClne6zVqcvRgAFBZnZrzkQ5qXJkjY2e2sxWZkhljNdc?=
- =?us-ascii?Q?S7ZlbvQ9VtJ8nqLRgL4AAWYVX+0NkHPJKW53MxEgQoJXROPewEoAhg457lk9?=
- =?us-ascii?Q?lUN6MuquedUDhl6pGCsORN/4nHxc/O9K2CAJuhWWmMpWHBkH2QZY3/CBCs60?=
- =?us-ascii?Q?WEcigWFpbkhdN33u6KMzbjs6qInRuQ4wNFpJqGYPAznut5EEKoL2XjvoCtoL?=
- =?us-ascii?Q?rDCuOFfgp/Ok3p1fLD0pf124Out/DPTyM2mcvZldcStqfrpIf5UJD0x9WyCt?=
- =?us-ascii?Q?dAp8gCAYCLdhenYHY0Izk1W2qu4Q1jPwHIzLBHWGEMfc8JXTnQ+vEmmi5WWs?=
- =?us-ascii?Q?PhPw5YGqdK1E103dt8JXaS0Siwjgu0fcIA6ChvhfAK/kMP9JrRuesTy7/KFv?=
- =?us-ascii?Q?uynqPzV9RFp8CO2NktjZhwA5G4O4eN3EwMfxLbmlV2dzt1O74VWAEfoAjnmD?=
- =?us-ascii?Q?ZaDPZzFXuxOp5XzNg6ndQrQBskl5mvTvhR0hCipGd3Lg+4zxxQel5qZstYqn?=
- =?us-ascii?Q?Z6cMLmc=3D?=
+	=?us-ascii?Q?uTRfo2rRCXwbf6xveWq70u0w/NF3fXOZRu84FDRj/Q8cdm7fLQGtwPJ03p0X?=
+ =?us-ascii?Q?y8MH2HGyYyvtR8HpWeO76Bj74N75lgKmgQ5MmDUnV8C2Gc32ttpyFmtgH7cm?=
+ =?us-ascii?Q?UrsHip6Sm0LjvSgMgRbNhGxnQkVltS+D+n8FbhYkVwlYj+J9blwBPFf2o9kJ?=
+ =?us-ascii?Q?kZTKFq6AT0V3ld4rZGRHOYByrpwijGW9M77drFD3xQNTQxbKvrxg1To21FL4?=
+ =?us-ascii?Q?3B9gEPj8Yw6nhQhCtofLYFhAeBFRTch0ZDfG1bhSL0pRXH0kYeBq75UqfQv7?=
+ =?us-ascii?Q?L6kX9LK6B5hIcDkJTW+fH8QVbrWGLp3mxuBzhDOZq5YyqTjQ9qeWGNCfnFsN?=
+ =?us-ascii?Q?Tb7yPVmvHop5LoYse2w0cn9Gbs47i1q9POnTzElqzEzjCtBc1bJ6r4PBI//t?=
+ =?us-ascii?Q?8oRr1tlV7ibRKvaPADLDbHB9WMkOzHgBx1tY2qSB60c5YJsRnFkvOYPich71?=
+ =?us-ascii?Q?hExvhhPw/8UNFS6VRzc6XZUBX4teaSDA7DpOTussmfbHpgmMG3D4zz2zmJx5?=
+ =?us-ascii?Q?PW2pOV39Ah55LGxYWqK3J1+ldUr1E6/hZJOOYdEfoPJzWl6vAUBAEzTZhEyq?=
+ =?us-ascii?Q?jWzqmKaVwgqlQqUdPAeQ854TCLiXfPfvpnPNsWoRZVM6bVjcdOj9/Sbv0swR?=
+ =?us-ascii?Q?EHkVg+WWVazdHr4BfqINDCkrGWGCTiSMsFYPFcZjc+xmEcYFRruhOMZ1B9b/?=
+ =?us-ascii?Q?fz58SipznpXt6Jh7FownUQ2kvlJQVow+MVSHX+5Dug27qD0pesDk3MaeWG7s?=
+ =?us-ascii?Q?iMN0CJbsSfYasb4saGIBFz38HABkOfO+9rbwbGYUrW4AojOCcrs5R7giUv37?=
+ =?us-ascii?Q?nrIL+fPoRBvia1y39+qTucVQEIVe4wy88YXE9bTpUZHhUVh37JARo16TEpWl?=
+ =?us-ascii?Q?fR8de6sBUomr0LHlLiMAqyX3JOXMEUnIqNDYwCAoZEE/qkLLph+4IyXt2T4c?=
+ =?us-ascii?Q?fYoUrG2gQYGVPnnBfBrVumy+OXYrv9hny92XJnKCwNw4xp6c2+s1Ylkkq0oC?=
+ =?us-ascii?Q?Bn5Wr5Gw8n5KQG4UQG/gTalbYohNZFXi61vLDjCHRDQao+h7TLlAeH7zJR28?=
+ =?us-ascii?Q?7WDw89dVsuPRKzPtkRTjaC9MivcmVdgMUWC1YkSM33rHcbSkV0cHAO1Y6+9a?=
+ =?us-ascii?Q?feFD9Fg5kh+8OScv1Eb1P/FGsxy2R9UB0Ek5C9IF3f1pOylQdk363rrr1SY4?=
+ =?us-ascii?Q?7/TJZ4EUF3n6rh6cU6vpKLHbD0WEs+yg2fVrzMv+8xSYwjFr7RBYJadyA58h?=
+ =?us-ascii?Q?40P/w/UYlMgq6PNdxcDT6MgES2TRvklQEVVlqtjuzjET61wSury402WkZ7y4?=
+ =?us-ascii?Q?jgFqevBIx+merhmeIDSe1u6QSBdHQhj1zj35RA3Ygdwto7ER8TGrUvTGeO/L?=
+ =?us-ascii?Q?wzPdeRA=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR11MB4633.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?WtA/TtCsZuOoXFyBAru8nkugSLdXuazjGtC/iulRUzdcbvn+t0T7UwQJibR9?=
- =?us-ascii?Q?Z+76FlZINWeUxGsUDQMAfYHGJzz9WoGfEvHOupklfz2hZDnwwBq3/9MJ6KID?=
- =?us-ascii?Q?A5X2fMrn9W4pjXX/mAiyfAlIYJNFwplGS1AlroZRFjkU/w5OcRy8XQ3YVdlD?=
- =?us-ascii?Q?UH5b2o1gcDIGjH21JbN8Gs294xiZiWyp16GGp/PZXAB6BIRBcizPgVPCB/Fv?=
- =?us-ascii?Q?j0O4C7cj/ylSX3EGdh4E4VMWIw2vK3rpeSojJijEjhl2BkIFhdQWjEg57+j9?=
- =?us-ascii?Q?xmknH4CnqBqNvr8T47IYdfhyroVMYgS0cFSK+LnfykHzMTVwha/7V8UcjcMD?=
- =?us-ascii?Q?28pxnjOHz5tmtuRzoDtGTVA+o2+8dg5kknrwsprnoPVSPb6JUv3lt7I1FLt8?=
- =?us-ascii?Q?lJ9vFbiHAaM0Hi6MBj2TUrjtVhFIY/XPPf4eXT4/EP9eQykAhvWRJh7i8vXL?=
- =?us-ascii?Q?4MlA9HEb8qbGyTEu83B6PqKJjw6+c3oM3Z34tijru2NVhQCNYYDqvw+bGb+w?=
- =?us-ascii?Q?3uOmrFpQ6I0KWHrDAfv7hmYfQx0WdBzSIj5eCtrCueGcDF2lP80Eqxcy5/mv?=
- =?us-ascii?Q?HkzUg/sqOotdcUqGrUY/CYlm7wEb3Z8MaZPxRy1GvVoqgLlV10eW/buqXgfS?=
- =?us-ascii?Q?EqVAJDsFpBxjNfSlBwI4HVGjE8aCo0+Des72S3ShtLAIPzkZf5YYEanWZimv?=
- =?us-ascii?Q?Vsvxw8QDaqVAL9HIdHB4u1jLB97pIFStN4j1JGC9Ud3VQJSato1wGrCrfPhv?=
- =?us-ascii?Q?261Om8RXS0mP8sLh+bUdNN7gLC5EBst1klBGPBDKUxGtJ25PGwfsLjm8icGK?=
- =?us-ascii?Q?+fTIGRcOa5ThkANH+U5f15CTnTafyUxGxPnaHuvEvFusQGEpUdQ7sFxkCsjy?=
- =?us-ascii?Q?xYF0BX3yX3hHaj/vK31cHkBsSfce450I+7ZPET1kY/AYn6qVdfqZfkPHMUMo?=
- =?us-ascii?Q?APF65eXo5Qb654jDdu5Qi4I1uX+m6/fmOhLnk2RVbIph6EyPa0p2BOg4N16A?=
- =?us-ascii?Q?FigMrmcGP15phXpa5CT4OAu2aA5InC6fZ+ZPsqw/7HRPf/7LvC9UXMKzOStC?=
- =?us-ascii?Q?LO7KTNsx3ysIlW2STFT7C9U0AH06jqKHkl1jrLfLtDXcwESCKG5qwdTLoXkq?=
- =?us-ascii?Q?aEvMxA+rwkoDnn+pCVmFKWbk1UYzOB3A8znW8ZgNgyEkOcfTtgh5t7RyiVX6?=
- =?us-ascii?Q?W7afxNkHMWr3liPXReNw2OWKq23VL8VBfqLPl7tpWm73ERfSkQt029opt5gh?=
- =?us-ascii?Q?oL+aQ59dM1OJhKimjsOe/VgQn453/2Kcy1RC4bXt+KoyWBX4u57S/DwghTZK?=
- =?us-ascii?Q?TsRkmS3B3xtEV1QosItkwcaWtMD1z2QydhlZ9oXATFoyUxKolAxbfZdgxB4Z?=
- =?us-ascii?Q?VUsTSptp3RrYSUpu4GSD4B38g90mHf/JY9bvJdkXmZ09pzcXHZvp/wnSKNqs?=
- =?us-ascii?Q?0mXH51A+Qd40Fq7hIEWhhj51LzeozprplGeW1MhP8dJqlPvYFBibk/DZ6jbr?=
- =?us-ascii?Q?4uMy5luJsgrqMalefM/yCAHRuYFLNkGyw0OZZbt8gRTXle9sAP/Fqc5qMXWr?=
- =?us-ascii?Q?wjIljN488e8PLxgWLA9nfDr/nsssHcHH6EjClC75bL9+/zTNDcLFDgcD4twv?=
- =?us-ascii?Q?xg=3D=3D?=
+	=?us-ascii?Q?jux05J2eLxS/IxdV+ud+9QrdRrB0uIkCRpNI5Zhau12a/EvWa3BiTYdWlh91?=
+ =?us-ascii?Q?4Ws8TftT5tNvbOhYN7IRKClLUWmHUoJhcDQpHP9ZKGw17Vxm1bVD3uNMkhqC?=
+ =?us-ascii?Q?lOmhwvfOJru0FyftxF3yfzFCir3rkvyMn0ZIv20+dCgeMQLnebZ9k7hq6t94?=
+ =?us-ascii?Q?5OdnT4x7lWLAmbOU/gDU326cfph285vLTdx+XaY7JsX6nfeQWwmHIx7kZ4Ex?=
+ =?us-ascii?Q?CgB1qRn5PI6iSzzIhS3bjxkWC1cDWd1eiLXJwsqNHKW/EN+9u2MrkJGVd3D/?=
+ =?us-ascii?Q?JGfLQ1M2s10MVs+ou4lA9Hxf3WSthXDsK/XMdx3XHce9wWZpVPqd/HsDocY9?=
+ =?us-ascii?Q?jl8PZz6TitS/EL6892UbzUFc8BIt+sK0FGRJDsRIwIpaAsnNEWFr/QnYTHpj?=
+ =?us-ascii?Q?TwhdtVxtpKu8qKurQbxcm9SItaBnTXscNHvDF8uzEMtdHvy5YDAg6GbORtwc?=
+ =?us-ascii?Q?+vpo/Eou0tmtbIDzYT/dNZlHtjDs8LZqkTGEmjZwPH9euxpMtogA9GQXx1VO?=
+ =?us-ascii?Q?ZV5xb4ptxlsMM1ivnxvrM5pXFURQlRvWPzrv69Ct+2bnAfTLGkYvdTJM1fjT?=
+ =?us-ascii?Q?tFRJvzmlxZquWwkx7MBj9K8CJ99lx3yd1mmIBjyxinHADnbQZcJYj2DnRqzv?=
+ =?us-ascii?Q?c3ehYsMwQ5xGnxP8xSdAbudKYh4LCIH7SfPbBJPqqA8jkp8ULZxP0HstwvlV?=
+ =?us-ascii?Q?PyFfbZE/QDvavscDZVqir36byiirF6dQ0zvYSZ6q6YfRo9WjdlElJOCJ2iHY?=
+ =?us-ascii?Q?6iWhhnt0NtQugH7K3yUMBBwFomhfdHP6ITF0K6hYHkH2KSCf+8UmDH1444Cx?=
+ =?us-ascii?Q?1m5ePIioRP8mUAoWAxH7VBFljNsibXIV681gDR7INgqzwFCJnyE51yFHafi4?=
+ =?us-ascii?Q?vyGmVdV9X7qK6Y4BtDgz0SafD/8TCyTIrTQB7cNmjKlUCeNHAGbCcvOhX7N1?=
+ =?us-ascii?Q?jr9VSNl1+BxM/6GT2eqVpVCvlGloVqkB40So0t5IUPiE1YKCXrizFxP3gTto?=
+ =?us-ascii?Q?4hqjy/BUTWjwZtn+6kjJIYDd7SfCmHZPSX45L8HXF1WWEMmjk304UKlwi2OO?=
+ =?us-ascii?Q?qe5PxByT7G1SunXb92z6XbES/Y5B509y8IcbhWxFqT88XjFAnFT7cfvcnKqX?=
+ =?us-ascii?Q?4S5fEYrsisX8Ma7HLbM1o/h5buyCW3HicbPj9VSEjWKeUMp4cuhZPoymQKey?=
+ =?us-ascii?Q?jHpzECOflvdo0I3yFZUFxcRnbw+TMXrmDlpA9uHv0xBGC7m1jqk+ELu+Hpra?=
+ =?us-ascii?Q?rV66A3qe7yP/uDLkoVhW8vh4p2UD8yBDnhqxA6eXFnyNqj5GQesBwPhTRmC3?=
+ =?us-ascii?Q?zQWu+oBIGd7yC3YlPguZI5cjNulLr7817jkHgNAQIYE90J7GPrB0+FaR8nLr?=
+ =?us-ascii?Q?MtcMsKq+O84CpL/+g6j5QsDYYziEP3PkyWew8DrPlS5uH+CcF0aXNps29lWt?=
+ =?us-ascii?Q?IenuFpEvdRgtK8A8ED75oG/cF+8S6jZLxsGbSCE6thIUyz4dGDuAbOS2oli3?=
+ =?us-ascii?Q?q7FrROUzuCMEgemofwfk/FjgCAzfjQwAsvfxtIRPvuXhWEYR+UvNwwrtAs1Z?=
+ =?us-ascii?Q?LFSqHDe4rb5dLac7RMimGYqSTevmpxL4oWapg9p6z74LMhouGBJG4fOrVYti?=
+ =?us-ascii?Q?/w=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f47dc455-d684-4e78-c8dd-08dcc315a8aa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e6d8dc6-2767-48ae-0346-08dcc315ae1c
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4633.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 01:48:17.3308
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 01:48:26.4368
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V68Fvd8w4p9rHZrL5ZBqs7Id20P9JnAiWp77pVJcel4XC17FO9zq07bcLen+Pb+uxiS5Y40Qz0ZXKAE58R3z2pJJyN5f2j8Fy94OPnsnTY4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7SAPYM8bLaPsyuCuQdR80FApiOwHKPNYsGYbfZgJAm252Cfoyk4la8MsqOnO26v7HGtgGiSCeqVomQWflUER+oBMW/ul6yzwH3aNw4wfjRY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8114
-X-Proofpoint-ORIG-GUID: WVoUcAn1-7xRskq5XtoDQKO594HEDpEU
-X-Authority-Analysis: v=2.4 cv=VdWlP0p9 c=1 sm=1 tr=0 ts=66c7ea65 cx=c_pps a=28bFCgguF5sZfysLuYgbMw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=omOdbC7AAAAA:8
- a=vKivue9HAAAA:8 a=VJGigZ2ANXXWYna6CC0A:9 a=FdTzh2GWekK77mhwV6Dw:22 a=czFSAQ7kI4cueanBugmn:22
-X-Proofpoint-GUID: WVoUcAn1-7xRskq5XtoDQKO594HEDpEU
+X-Authority-Analysis: v=2.4 cv=SIcQV/vH c=1 sm=1 tr=0 ts=66c7ea6c cx=c_pps a=28bFCgguF5sZfysLuYgbMw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=GwUem0DFAAAA:8
+ a=QyXUC8HyAAAA:8 a=cYZBkVnQ82N_0yLFABYA:9 a=9elNzGoonJZXiKvC:21 a=FdTzh2GWekK77mhwV6Dw:22 a=r0dl5i_q2XGqDZkti5dn:22
+X-Proofpoint-ORIG-GUID: w9NkQu5pe3HlERazjRu5d1ajha6SelZP
+X-Proofpoint-GUID: w9NkQu5pe3HlERazjRu5d1ajha6SelZP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-23_01,2024-08-22_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- spamscore=0 malwarescore=0 impostorscore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 lowpriorityscore=0 bulkscore=0 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ mlxlogscore=999 clxscore=1015 impostorscore=0 adultscore=0 malwarescore=0
+ spamscore=0 bulkscore=0 suspectscore=0 phishscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.21.0-2407110000 definitions=main-2408230010
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:48:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203669
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203676
 
-* Rebase pkgconfig.patch
-* No license change, just update copyright years:
-  2001-2023 -> 2001-2024
+Fix compile failure with musl
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libgpg-error/libgpg-error/pkgconfig.patch | 58 ++++++++++++-------
- ...gpg-error_1.49.bb => libgpg-error_1.50.bb} |  4 +-
- 2 files changed, 38 insertions(+), 24 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.49.bb => libgpg-error_1.50.bb} (92%)
+ ...erride-init-is-not-needed-with-gcc-9.patch |  7 ++--
+ ...-a-custom-value-for-the-location-of-.patch |  7 ++--
+ .../0001-fix-compile-failure-with-musl.patch  | 36 +++++++++++++++++++
+ ...use-pkgconfig-instead-of-npth-config.patch |  3 +-
+ ...h-fix-find-version-for-beta-checking.patch |  9 +++--
+ .../gnupg/gnupg/relocate.patch                | 19 +++++-----
+ .../gnupg/{gnupg_2.4.5.bb => gnupg_2.5.0.bb}  |  3 +-
+ 7 files changed, 57 insertions(+), 27 deletions(-)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.4.5.bb => gnupg_2.5.0.bb} (95%)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-index 3d886bcaa4..794a3993e7 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-@@ -1,7 +1,7 @@
--From b0df1cb468264a9bb9113524f0e1318c456b2348 Mon Sep 17 00:00:00 2001
-+From ba5ec5615d76dfa4afb429a4e11f3e7e3bc9de76 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Thu, 29 Mar 2018 15:12:17 +0800
--Subject: [PATCH] support pkgconfig
-+Date: Wed, 21 Aug 2024 20:03:29 -0700
-+Subject: [PATCH 1/2] support pkgconfig
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+index 83195b5bd4..77d7507edc 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+@@ -1,4 +1,4 @@
+-From e3adc816d2d56dd929016073937ba24e01e03cb8 Mon Sep 17 00:00:00 2001
++From 6392cb71a23adfd601537049da4e5e06e51d2e50 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 20 Dec 2018 17:37:48 -0800
+ Subject: [PATCH] Woverride-init is not needed with gcc 9
+@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- Upstream-Status: Inappropriate [gnupg upstream will not take this, it has been tried with other components]
+ diff --git a/dirmngr/dns.h b/dirmngr/dns.h
+-index 024d6dcc8..c6e141e16 100644
++index 1f647e1..334acb6 100644
+ --- a/dirmngr/dns.h
+ +++ b/dirmngr/dns.h
+ @@ -139,7 +139,7 @@ DNS_PUBLIC int *dns_debug_p(void);
+@@ -29,6 +29,3 @@ index 024d6dcc8..c6e141e16 100644
+  #define DNS_PRAGMA_PUSH _Pragma("GCC diagnostic push")
+  #define DNS_PRAGMA_QUIET _Pragma("GCC diagnostic ignored \"-Woverride-init\"")
+  #define DNS_PRAGMA_POP _Pragma("GCC diagnostic pop")
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index f957f6b55e..12b1447138 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From 6b581c43bd01f815db78a410fd3814fc5994171e Mon Sep 17 00:00:00 2001
++From a0e986b487891ef8e3bb41b95f969e00edd4923f Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -8,16 +8,15 @@ This should avoid clashes with the host gpg-agent observed on autobuilders.
  
-@@ -13,15 +13,17 @@ Refactored for 1.33
- Signed-off-by: Armin Kuster <akuster808@gmail.com>
- Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
- 
-+Rebase to 1.50
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ Upstream-Status: Inappropriate [oe-core specific, and only for -native]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
  ---
-- src/gpg-error.m4 | 192 ++---------------------------------------------
-- 1 file changed, 5 insertions(+), 187 deletions(-)
-+ src/gpg-error.m4 | 200 ++---------------------------------------------
-+ 1 file changed, 5 insertions(+), 195 deletions(-)
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/src/gpg-error.m4 b/src/gpg-error.m4
--index 7fa52b1..15a0859 100644
-+index 2d24071..c561725 100644
- --- a/src/gpg-error.m4
- +++ b/src/gpg-error.m4
--@@ -15,187 +15,14 @@
-+@@ -15,196 +15,14 @@
-  dnl
-  dnl Find gpg-error-config, for backward compatibility
-  dnl
-@@ -135,17 +137,16 @@ index 7fa52b1..15a0859 100644
- -  fi
- -
- -  if test -n "$gpgrt_libdir"; then
-+-    # Add the --libdir option to GPGRT_CONFIG
- -    GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
---    if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
---      GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
---      AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
---      gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
---    else
---      gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
-+-    # Make sure if gpgrt-config really works, by testing config gpg-error
-+-    if ! $GPGRT_CONFIG gpg-error --exists; then
-+-      # If it doesn't work, clear the GPGRT_CONFIG variable.
- -      unset GPGRT_CONFIG
- -    fi
---  elif test "$GPG_ERROR_CONFIG" != "no"; then
---    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
-+-  else
-+-    # GPGRT_CONFIG found but no suitable dir for --libdir found.
-+-    # This is a failure.  Clear the GPGRT_CONFIG variable.
- -    unset GPGRT_CONFIG
- -  fi
- -])
-@@ -155,17 +156,27 @@ index 7fa52b1..15a0859 100644
- -dnl
- -dnl Test for libgpg-error and define GPG_ERROR_CFLAGS, GPG_ERROR_LIBS,
- -dnl GPG_ERROR_MT_CFLAGS, and GPG_ERROR_MT_LIBS.  The _MT_ variants are
---dnl used for programs requireing real multi thread support.
-+-dnl used for programs requiring real multi thread support.
- -dnl
- -dnl If a prefix option is not used, the config script is first
- -dnl searched in $SYSROOT/bin and then along $PATH.  If the used
- -dnl config script does not match the host specification the script
- -dnl is added to the gpg_config_script_warn variable.
- -dnl
---AC_DEFUN([AM_PATH_GPG_ERROR],[dnl
---AC_REQUIRE([AC_CANONICAL_HOST])dnl
---AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
---AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-+ AC_DEFUN([AM_PATH_GPG_ERROR],
-+-[ AC_REQUIRE([AC_CANONICAL_HOST])dnl
-+-  AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
-+-  AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-+-  if test x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
-+-    GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
-+-    AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
-+-    gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
-+-  elif test x"$GPG_ERROR_CONFIG" != x -a "$GPG_ERROR_CONFIG" != "no"; then
-+-    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
-+-  else
-+-    gpg_error_config_version="0.0"
-+-  fi
-+-
- -  min_gpg_error_version=ifelse([$1], ,1.33,$1)
- -  ok=no
- -  if test "$GPG_ERROR_CONFIG" != "no"; then
-@@ -188,7 +199,6 @@ index 7fa52b1..15a0859 100644
- -    fi
- -  fi
- -  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
--+AC_DEFUN([AM_PATH_GPG_ERROR],
- +[ AC_REQUIRE([AC_CANONICAL_HOST])
- +  min_gpg_error_version=ifelse([$1], ,0.0,$1)
- +  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version], [ok=yes], [ok=no])
-@@ -214,7 +224,7 @@ index 7fa52b1..15a0859 100644
-      fi
-      if test x"$gpg_error_config_host" != xnone ; then
-        if test x"$gpg_error_config_host" != x"$host" ; then
--@@ -211,15 +38,6 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-+@@ -220,15 +38,7 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
-        fi
-      fi
-    else
-@@ -230,3 +240,7 @@ index 7fa52b1..15a0859 100644
- -  AC_SUBST(GPG_ERROR_MT_CFLAGS)
- -  AC_SUBST(GPG_ERROR_MT_LIBS)
-  ])
-++
-+-- 
-+2.25.1
+ diff --git a/configure.ac b/configure.ac
+-index 26d7f7b..e953c2e 100644
++index e4f8c0e..fa75ec8 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1921,7 +1921,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1925,7 +1925,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+  
+  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
+  
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch b/meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch
+new file mode 100644
+index 0000000000..fef05cf3c8
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch
+@@ -0,0 +1,36 @@
++From 4a7d4d6e45c68708ec95335b0f11d6596b23095a Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Thu, 22 Aug 2024 15:31:16 +0800
++Subject: [PATCH] fix compile failure with musl
 +
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.49.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb
-similarity index 92%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.49.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.50.bb
-index b7d41ab489..02cdf7707d 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.49.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;beginline=2;endline=18;md5=20f4cf5d81ea2fad18f6297500018654 \
-+                    file://src/gpg-error.h.in;beginline=2;endline=18;md5=badc79a9308e1cbd2657b2441c7cf017 \
-                     file://src/init.c;beginline=2;endline=17;md5=f01cdfcf747af5380590cfd9bbfeaaf7 \
-                     "
++```
++../../gnupg-2.5.0/scd/app.c:379:3: error: implicit declaration of function 'write'; did you mean 'fwrite'? [-Wimplicit-function-declaration]
++  379 |   write (card_list_lock.notify_pipe[1], "", 1);
++      |   ^~~~~
++      |   fwrite
++```
++To access the Posix low level file interface such as open, read,
++write and close, should include <unistd.h>.
++
++Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=1d5cfa9b7fd22e1c46eeed5fa9fed2af6f81d34f]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ scd/app.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/scd/app.c b/scd/app.c
++index 926ab79..7bf58a2 100644
++--- a/scd/app.c
+++++ b/scd/app.c
++@@ -23,6 +23,7 @@
++ #include <stdlib.h>
++ #include <string.h>
++ #include <npth.h>
+++#include <unistd.h>
++ 
++ #include "scdaemon.h"
++ #include "../common/exechelp.h"
++-- 
++2.27.0
++
+diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+index 0e58fd4c4d..945abb55ff 100644
+--- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
++++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+@@ -1,4 +1,4 @@
+-From d9048788d906774b1475c3bb1b17e22455c2add4 Mon Sep 17 00:00:00 2001
++From fa93b5f7c2da0e5846b80de9c6296966ca2a3d83 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Wed, 16 Aug 2017 11:16:30 +0800
+ Subject: [PATCH] use pkgconfig instead of npth config
+@@ -9,7 +9,6 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
  
-@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://run-ptest \
+ Rebase to 2.1.23
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+ ---
+  m4/npth.m4 | 53 ++++++++---------------------------------------------
+  1 file changed, 8 insertions(+), 45 deletions(-)
+diff --git a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+index d664c36a1b..761fd6c608 100644
+--- a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
++++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+@@ -1,4 +1,4 @@
+-From 6a7f9b71d936847dcaeeac7d1b69d8299be4dd85 Mon Sep 17 00:00:00 2001
++From e8f67e3bbbdbaa17cfe88c1f7a8f488eb4936281 Mon Sep 17 00:00:00 2001
+ From: Wenzong Fan <wenzong.fan@windriver.com>
+ Date: Wed, 16 Aug 2017 11:23:22 +0800
+ Subject: [PATCH] autogen.sh: fix find-version for beta checking
+@@ -13,20 +13,19 @@ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+ 
+ Rebase to 2.1.23
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+ ---
+  autogen.sh | 1 -
+  1 file changed, 1 deletion(-)
+ 
+ diff --git a/autogen.sh b/autogen.sh
+-index 0abf103..78753b5 100755
++index 9f91297..116fb7f 100755
+ --- a/autogen.sh
+ +++ b/autogen.sh
+-@@ -237,7 +237,6 @@ if [ "$myhost" = "find-version" ]; then
++@@ -270,7 +270,6 @@ if [ "$myhost" = "find-version" ]; then
+        rvd=$((0x$(echo ${rev} | dd bs=1 count=4 2>/dev/null)))
+      else
+        ingit=no
+ -      beta=yes
+        tmp="-unknown"
++       cid="0000000"
+        rev="0000000"
+-       rvd="0"
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index ea0252026a..5c4d81f87a 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From c50d0a95fcf8f96c272fadd4ba85f3eeac39fcaf Mon Sep 17 00:00:00 2001
++From 4e556a5edde8a97312abae63f8e9b5f989ca5c91 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+@@ -8,16 +8,15 @@ Upstream-Status: Inappropriate [OE-specific]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
+ ---
+  common/homedir.c | 14 +++++++-------
+  1 file changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/common/homedir.c b/common/homedir.c
+-index 6f99f3e..f22aa9e 100644
++index 3929108..d3a7b8f 100644
+ --- a/common/homedir.c
+ +++ b/common/homedir.c
+-@@ -1284,7 +1284,7 @@ gnupg_socketdir (void)
++@@ -1439,7 +1439,7 @@ gnupg_socketdir (void)
+    if (!name)
+      {
+        unsigned int dummy;
+@@ -26,7 +25,7 @@ index 6f99f3e..f22aa9e 100644
+        gpgrt_annotate_leaked_object (name);
+      }
+  
+-@@ -1316,7 +1316,7 @@ gnupg_sysconfdir (void)
++@@ -1468,7 +1468,7 @@ gnupg_sysconfdir (void)
+    if (dir)
+      return dir;
+    else
+@@ -35,7 +34,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1352,7 +1352,7 @@ gnupg_bindir (void)
++@@ -1504,7 +1504,7 @@ gnupg_bindir (void)
+        return name;
+      }
+    else
+@@ -44,7 +43,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1379,7 +1379,7 @@ gnupg_libexecdir (void)
++@@ -1531,7 +1531,7 @@ gnupg_libexecdir (void)
+        return name;
+      }
+    else
+@@ -53,7 +52,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1409,7 +1409,7 @@ gnupg_libdir (void)
++@@ -1561,7 +1561,7 @@ gnupg_libdir (void)
+        return name;
+      }
+    else
+@@ -62,7 +61,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1440,7 +1440,7 @@ gnupg_datadir (void)
++@@ -1592,7 +1592,7 @@ gnupg_datadir (void)
+        return name;
+      }
+    else
+@@ -71,7 +70,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1472,7 +1472,7 @@ gnupg_localedir (void)
++@@ -1624,7 +1624,7 @@ gnupg_localedir (void)
+        return name;
+      }
+    else
+diff --git a/meta/recipes-support/gnupg/gnupg_2.4.5.bb b/meta/recipes-support/gnupg/gnupg_2.5.0.bb
+similarity index 95%
+rename from meta/recipes-support/gnupg/gnupg_2.4.5.bb
+rename to meta/recipes-support/gnupg/gnupg_2.5.0.bb
+index 97b5d8856c..9cfdbdf0a4 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.4.5.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.5.0.bb
+@@ -18,12 +18,13 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
++           file://0001-fix-compile-failure-with-musl.patch \
             "
+ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
  
--SRC_URI[sha256sum] = "8b79d54639dbf4abc08b5406fb2f37e669a2dec091dd024fb87dd367131c63a9"
-+SRC_URI[sha256sum] = "69405349e0a633e444a28c5b35ce8f14484684518a508dc48a089992fe93e20a"
+-SRC_URI[sha256sum] = "f68f7d75d06cb1635c336d34d844af97436c3f64ea14bcb7c869782f96f44277"
++SRC_URI[sha256sum] = "2222c827d4e7087f15e7f72739d004abc1d05c6c5f0a5a12b24c6a6cc5d173fb"
  
- BINCONFIG = "${bindir}/gpg-error-config"
- 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.27.0
 
