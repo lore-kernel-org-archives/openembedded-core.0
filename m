@@ -1,385 +1,360 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A46C5472C
-	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 08:08:21 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.62])
- by mx.groups.io with SMTP id smtpd.web11.11435.1724400494457554905
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B042C531DC
+	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 08:41:01 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web10.11822.1724402459149990477
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Aug 2024 01:08:15 -0700
+ Fri, 23 Aug 2024 01:40:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=KJ6AsyTf;
- spf=pass (domain: siemens.com, ip: 40.107.241.62, mailfrom: adrian.freihofer@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WW1K2yDCs2faUsY9XoPJJMRr9jhOsi9uxXt5lxK/+k0vC7MkYfucHcBRpwdkvTiyugtqQSAARWLZki9IDiozx4NvP94O2IzOC1tldxMMAlGVp+fA89iD/07CqQJjEzLZffTjdD0TngW8q1PFnifTx1xERvlmQlFyTIySSlQmdYCqBW5HpAkr+H1dY/btKGh5KuIgimZ+KwRP/sdo/XSS7JRr19u+CDWNw2qZc8ztw32ogH/8bJcHwjBOHPPGjc/+jlgVCnTSscXrlrEXSoqUGWshiUipoKn76pOnO+4t5bA/MVmJuxFYjMoqzULLBP0Wut4teLW3ag4BafHMwsgG9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hpSLopl46QgityBS9mJr1T9wMIx8yMEkAAtPApPUI/s=;
- b=O4WplswdH6n8xdUJmEO60cawAjNCpEfLlSgUMA4S5nHxGrD8iOiwBj6RkTTtsBayXpyknAW32ff8VMxn/FXFf1DCjNWe8DPa4WZ9aJFkOcC6+l3oV2OQICadt/8AjKppeoHlUv/7lsuYXKs8bdGJyWzhQiU4h/4o/fnI6zy86BIHiiGUOwSdrqGxdPyhPzsYLJ686TN13MVGkxubRAvUb85XBYnxeC5z7HPbnPwVPGB5NvQtObdqQOfnteFRwIWbUxVuLPkTFPIRSRRtAlgm5wzGyWUk+/z9PJk0FVSIAII+xSQKGcdmCVlkXmSeKf8blsFGBe3TeoaRMEQRYzlauQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hpSLopl46QgityBS9mJr1T9wMIx8yMEkAAtPApPUI/s=;
- b=KJ6AsyTfYCXose/8mk45pFim0ONw+RwRKt/FMRZTaNI4EdKCemW2hJme4aDqMDjMX6a/mJUWHQKepVSAD8iaSPNh63oz52MPZNq7xv0U42BT19HzE0UihKXpFtWW/JF19ZlV22nAkuQoo7lFL91YQOupnYCcaN3mM+/SPq1Od4kDoQKZPfOte7+eVsN1p9pvFgIpvKeBudpB9PbnxhPMSn94OZBImOWHRFWowpsJnvX2CS/Xlp21v6fbtZ/7PG20w0OHWmfjmGG9flt/kGZ7OdFSGQMMArFKOp5UiYtpMBE7WxuZqpn5GrczeKY3R5nOd2Hhx5rl3StQfT0c9pqmAg==
-Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:13e::17)
- by PA1PR10MB9104.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:444::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Fri, 23 Aug
- 2024 08:08:09 +0000
-Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e586:9cf8:7696:cbda]) by DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e586:9cf8:7696:cbda%4]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 08:08:09 +0000
-From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "adrian.freihofer@gmail.com"
-	<adrian.freihofer@gmail.com>
-Subject: Re: [PATCH 3/4] kernel: refactor fitimage
-Thread-Topic: [PATCH 3/4] kernel: refactor fitimage
-Thread-Index: AQHa8kuShu3POMntwEmTGw7LPRHCLbI0gpYA
-Date: Fri, 23 Aug 2024 08:08:09 +0000
-Message-ID: <a7d7afbb44788c881ed4f817ef7e63be2a9eabc5.camel@siemens.com>
-References: <20240819152136.1185744-1-adrian.freihofer@gmail.com>
-	 <20240819152136.1185744-4-adrian.freihofer@gmail.com>
-In-Reply-To: <20240819152136.1185744-4-adrian.freihofer@gmail.com>
-Accept-Language: de-CH, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.4 (3.50.4-1.fc39) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB8PR10MB3529:EE_|PA1PR10MB9104:EE_
-x-ms-office365-filtering-correlation-id: 7d2a68f3-8f9e-41c4-8866-08dcc34aba27
-x-ld-processed: 38ae3bcd-9579-4fd4-adda-b42e1495d55a,ExtAddr
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?OFZhR0NJYmEzT2FnZTBVV0NWRFRyVXVGSGgwZDlyRzZmQkRpemJiLzg5cGlz?=
- =?utf-8?B?eUlvU2FtSkxvVGtMQWFMNUNrNk5hQXFhS0MrTWtXcldJQnVTaGFIM00yeTN1?=
- =?utf-8?B?dWRaNWJoZ0R0cGtuZk1wb1BjRTJFdEVReC9RNWlrTjhhb3d1RWtMRk9kaUpM?=
- =?utf-8?B?N3dIaDN5RkU2Z25RRm9qTkxxeXdWSmVSWmN6VGJvM3RCbDl5L0IybUZYUU91?=
- =?utf-8?B?akxpSHRJTEIybitxM0t2YXh6Tm5nTzA2Z3VsUXU1YXVYekZKOHpubTVpbi8y?=
- =?utf-8?B?TXZhdC90TXZZRUtvWEoveXQwZmVFZzdlOTRXTGR6RXIvZy84Y3BIbnNLVG9t?=
- =?utf-8?B?K1VJa2R5d3ZIZitHUmltMnpreldkQ3NUSmhnakFTa1Y1eTJaN1ZyR2JCTDgz?=
- =?utf-8?B?M0NxRFlrWTkzc3RqRDlrU1FXNm1DUXNuL1hsajNaUzVDZkJPMVhUY1dEbTd2?=
- =?utf-8?B?WWhFUnhWVk1KdXV3K3E0a080a3o5cnFIb2NhdmtIakN4NnAvRjFjWWN0Q1F0?=
- =?utf-8?B?c1loZ2w5SXVwZnpNTDJnbHJEQ3ozT0VmdThITmYzVVN2cm1wMVdnTHRBaWVQ?=
- =?utf-8?B?ejVnQmxLNkNsK0hHaUFlYldmanhLS3gzNVV0WnN5Ti9qbTZaeElGS2hTNzNJ?=
- =?utf-8?B?RGpwcFFtZkRVYjlsN29xY2FndzJGOFlWNHg0Y2ZIRk1hV3VRNnZtMm05VndT?=
- =?utf-8?B?WGZic0FnQ3lkSksvc2ZQTWNIYUJwdDcwaVNOQUloT0FiN1psZTJ6MGxqU1hx?=
- =?utf-8?B?TEVjZ1ZwRm1STVFybVJOa05lZjdNT2Vudnc5aHdlc1oybGlGaXZMM3FzTGhi?=
- =?utf-8?B?VVV6aVloRXhJbS8vMFJoM2VMQXdlU21Zb1FMRCtJUkU3WlRFRWg4bWdIMC9v?=
- =?utf-8?B?MGRpSEdxVXg5aTkrazFrd0ZNT1RIcysvZXlXZ3hleWFITFk1dW9zN1dQVzN4?=
- =?utf-8?B?cEdSenViTERiUUs1RkpTd3lhS0xsL0xpY0Q4QWlrYkxSbXdKUmdPcDhwczVI?=
- =?utf-8?B?cFJmK3VEMGN6VzNYUTVtdll3b1cwM1pZNGovREVpSjhEMmNnOExkMXhNazJN?=
- =?utf-8?B?cjdMRzhFNktuT3loQmQ5OWFKcTlheVFWd3l5OUNTaXl0cFRSYVRsVVdKWk50?=
- =?utf-8?B?bExkRmNCVmJXUUVCeEIvTWdla0hOaFVxRFVhRkcyaVlBMThROCtpNERsV0tQ?=
- =?utf-8?B?VUxYZmgwSi9xLzRRY29rTDNyRU5xTTZkNmRvTHZ4QytiNENMdmZ5VCtTdXVo?=
- =?utf-8?B?OWtmdVBOMXhyZXdzbVVMTnFyWXM2K2VFRmExamp1bVhOQ2I3cG53cjQ1VUFK?=
- =?utf-8?B?Nnl2ZDR1OTkySWV6bUNyMmprU1RHL1Bwcjk2VkZPakxsZGdldUdIQmtqVWpk?=
- =?utf-8?B?djdUQlMrSEdrZkFNYW9rRjVUTURZVmpLbFR4WnQwYzY3VkR3QUQvOXRXUlRH?=
- =?utf-8?B?SG45WnFUUjZZalAzYzIyVTFLRDcxNUdaSklGVXNGSEJQczJIMnc0T1YrbVVT?=
- =?utf-8?B?ZGZJb29vZlg3dUJPYWVUNDFTNTN1Q3huZ29qQXNpRXBScno3ZVUxRFdiSity?=
- =?utf-8?B?VVEvSytoT29oSXJhOXpwSWVMaEpqRVA2V0srVnI1WHhxWVIrM1JmL0llZ3dv?=
- =?utf-8?B?OFJ0TXk1YjZsOVBMVFZtZFdIeENLaytDUGlJZVRHYjUzbFlOWk1BL29yV3NP?=
- =?utf-8?B?NUVoWnlSTlB0WTJKR0E3Z2NxaVFQamI1NTRjUFVCSnRwWnl3aDhUSit0SnA2?=
- =?utf-8?B?YkVIQTZXQXRGN2Z1MFVEeW9ZZExpYitZVlY5dWtMMmV5THVsM1lvbWNEOHNG?=
- =?utf-8?Q?jKilfKrFGtDWhQKk7/jfJ+bsWFmoFXm+26434=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?c0tGTDVudkNtZWlsY0N0OWhlaHU1ZTQvUEpJaCtaeDZ6NFJWL0FDRFdzSEJL?=
- =?utf-8?B?ZGZmckE0RDJmUU1aU2ExNXhqTGJmTjJrWHd6OW51WEJSS200aHF1WXBjeE1F?=
- =?utf-8?B?Z01mZUhRSE9BY1kwdlBHL3NQUE1CKzh0RkdxMEU3a0tIOTNoZWk4azducUJS?=
- =?utf-8?B?OW54RFcrOGtLdm5SM3dTQzYxUUJuQkl0TytDWkhXcXY5dFNpbGRVTVJyQ3Qy?=
- =?utf-8?B?YlRmeHR0eVV2UlpCVG81bi9HVGxmWXhwU0JnUzBBWlBaSGZEeU1HWHdYcjky?=
- =?utf-8?B?OFJuVnNRMHpHMWxpbmVpU1JFazR6MVRlYTNqd1JvSXhIVCs3c2xoWHFkY3hw?=
- =?utf-8?B?RlZBYysrT092U3FpRWtrZkExVmorQjVvKzJlWEsvQ2pXZ2Q5bFYrUWg3enNT?=
- =?utf-8?B?VkhuUTZ1UFVJdVc3KzdSQWFFZlhXQmliOVhUM0dBWkEvWU5FSS91UTRFSUQv?=
- =?utf-8?B?TUFEK2d4U254ZkNucjFOcndmaWZ5aGsrT0R0S2Q3NzVQanFZcXlabE9PWWFH?=
- =?utf-8?B?bkgrVU16cDFWeU9LQVFhYWE1WVkrZlM2WWt0d0Y3NDZpZTZMNFdIMTgwVkph?=
- =?utf-8?B?ZURLRC9EWUNUU1BLbWRsb2xCMEdKMlN0V2wwSzVpUnFBeXYweXpCTlhrRE52?=
- =?utf-8?B?R3AramlRSzRqcmphbWtMWlpPZVAxSFMvbHRRZ1lNMnBhUm5TdUNkdEdZaXNm?=
- =?utf-8?B?NHRLSFFhakpNRlQ5Y2ZHamN5V0xQL3NzbHg3cXh4TkQ4ZkswY1pGUm5uZTdr?=
- =?utf-8?B?Nk82QXV3b1E4L3JEVVdpZnRyTCtrS1NZUjRTdkxHQnVNYnZUeDlxTThCcjZU?=
- =?utf-8?B?M3dFN2FRUVBhM2VkZmN6UHJGUVM5cEJBSkFnb2RacHZMdTNwL0hKN3oyVnlp?=
- =?utf-8?B?ZnluY1kzdDlkazRsWVV5NytUL2VydWtZekdqb2pFZ3g2cU9XUXRwcXlxdFdD?=
- =?utf-8?B?Um5rNnRjZXBZckEzWU1sTjhlNGMxNk42Qmd3R0NnV0hXemZXcG9MM2YwUCtL?=
- =?utf-8?B?a0NsLzZuSHdVZVN6cEFUOW9FQUV4S3YyZVNDWkJBM2xhdUx4VEprcEN4Y084?=
- =?utf-8?B?WXJmdTB1NXhpYURKLzBwMkRsN1ZmYWVQcHlrME9UZU03b1RlUHhVQURLeDlw?=
- =?utf-8?B?NlA1RnRiOEo5Wmx2OGY5bk9WNEQ4aEtpN3NZMzcyWjNRSTJlZnVSay9NWWZN?=
- =?utf-8?B?eFVxQ0dsMlU0TW93bU02SE1qUHlvV3p0VTlYeTB5bENxWXRYQlJ4OVcxV0JK?=
- =?utf-8?B?NHJrV3FVRWlYRDgyRm0zOFoxeDVVQlNheDArSWs0SHlSeUw5cjZHQzVLbHh3?=
- =?utf-8?B?cG85dUdIc2E3Q2JOb25aT3B1SGRQZm13RE5XM0YvNkx5SHFYanFIeENHVkFz?=
- =?utf-8?B?VW51WFpjaDNsc2cvaldBRjVYNnZXTFRneXpydVhNTUNtaDQ4alQyTGlKOFEr?=
- =?utf-8?B?RExwVjllMDFLK1MwcFNCdUZwcWhWMnJkT2JmbTh1YzBWa0pGY2hFcUQvTzQv?=
- =?utf-8?B?VFFzWVRmRmREK1FDZjBuWHhuWjZkcjBpNGp6cEdiL0FwK09mUjAyaXVsMllm?=
- =?utf-8?B?NjlhVGx6RHVPZGd1T1Q1WmI1aDlaVUhlRnE5REdIRldCZ1FyZHB0Z3BuZzlt?=
- =?utf-8?B?YkIyUkJHdktnMUkzeXVBNDZrS29BOEk5ekVuWFppQ2Y0OHJtbC96SlFPYU9y?=
- =?utf-8?B?bktlYVU2bThnK0VSTE9rSndCTVMrZGhuWDU3Yng2djFJZ21PS1VHdlRhM0s0?=
- =?utf-8?B?R01LNVA4ZHBITTYrQVMrS3YyUS8yOXh4UlR2dUlBN0xQWUdtQjd5MWpKaHBO?=
- =?utf-8?B?Uk1zUW00a1g1YVdKQ1YyeE52eFFoMUwzL2doR2hSMW8zZjZyUXh3WS9Cbk80?=
- =?utf-8?B?ZkRETVFncy80Y2h5VDFvNVFuQXNrYlJldU5jRGgyRVJENTB0cTRwcHUyWWd5?=
- =?utf-8?B?V01hQjB1RjdaNUg2c290T3M2T09UWFdkc2RKdUpYSXVMQUZwbVZySlpUM0NI?=
- =?utf-8?B?WUdNZjJUZzJ1aXdGVVBpaWZESzBvdUw0c0pUR1JQZUdTU0d0ZkE1V25DMHA2?=
- =?utf-8?B?SjkrUFUva1h4WGRTY0xsNmZoaXRMQXBTRGsxMVEwakozRjFBWUg2RS9JWk5C?=
- =?utf-8?B?U3dEK3RiR2c2SGsvMXYvakNDek1KUWEwY1V5TkNaMy9XRzhXdXJkOWlPUGRp?=
- =?utf-8?Q?g++x131lA3eTOkl78nzeLh8=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CBCCB8DC0B7ED34E844E2D221D9C62F5@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hN+fOet+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f3f0bdbcd9so17903671fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724402457; x=1725007257; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ORmP7qvZDVWzudk/y3r90EAi1KUyhyxMnX5QDiV5jw=;
+        b=hN+fOet+ybZh246dY3Cckxw0bD6A7utwPkRJuhkjNdiZ9JPe2v9ugHr9A8MQKxBWXD
+         zmFQGkMCDyb7oJ/2JyIyjPW2oMWkvtrhqq7CX1lRiuhgQ954yg4Tm9KJ/uiH56EN38Gd
+         Ek+Ljfx2uRD9K5+LJquPEZcBMmx63n/mXNK/ttN0ghKSlG8Wl1KhhXgOAoJOThORv5XD
+         dbRqU4MZ2OB32nYOrhk6OLfJtzg/iwca7P2Vd/Zb0nmJtnI7ZkkQMbCmYsWPOHtruseI
+         UBCx0E1UD+X2XnPGIzg6gfc7FCbK5pT32FaFLlqChh11QabJeWZ/yyLfiy5mYlit1Tnn
+         HV/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724402457; x=1725007257;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3ORmP7qvZDVWzudk/y3r90EAi1KUyhyxMnX5QDiV5jw=;
+        b=efAZzcBLXNio7K38Al8XfgCHvZ2MuIuprkkQznDCF3WkngBXgui49Y9cRgMYR78d5e
+         DzpketZPf7nPfCbnslNEeMto3OWQRamWlx9AjOynsA03bji6wxB8LupeGBlT86pVaKQp
+         +VmoukzFqEWD+hlEwy4lzaIw2mNZB9axpIXkz6YdGO5xCE2Y3BA5DSKnNw6P8bUUh5Ov
+         y8wZjRuEaikrCakYMYrBwOldAMVtGOJaJsmleqm4Atd0SHjWpowuNTiB2K0ocfDMc1Mv
+         aaW1ZB8LZzJ/U3jFKeaV0hBFa51UIj8VdETc5zNC1HlD2/mByNEZ2e0cJLmZ9WLA2aCc
+         VOfw==
+X-Gm-Message-State: AOJu0Yxu52fWOVYQfLaiS40CfkJ11445CbXcYKivsKO9ShfjBz4rK4iQ
+	jjFyqAXknu/NyVpcdavDxpfwjCBuFBO0/UN2FYwcPkC+3ZVUCBPuEs9QusiVkxuNnKzteAZj7VR
+	O8MMumQgmCHEtD8BiVxlbBDaCQUA=
+X-Google-Smtp-Source: AGHT+IH9VaGKwI3CWBkeRfUPnHO1xj2WmeXM26gT72haDlkN913JzDmsBj7mYd2a3/Irwp1z+sXjgQwNqCEKL/xkYGo=
+X-Received: by 2002:a05:6512:31c4:b0:533:32b4:ca6f with SMTP id
+ 2adb3069b0e04-53438785cabmr1034679e87.34.1724402456138; Fri, 23 Aug 2024
+ 01:40:56 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d2a68f3-8f9e-41c4-8866-08dcc34aba27
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2024 08:08:09.7651
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3f6c58KvnUdaOezyTiM+17801lPyxGlptqiucJs1veiQC9iV2ZTXAXT8JmC24GXjjYuusT5rEwqN3fGvpmFjTNVj7A0QJoIoIFfBloZlOOA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR10MB9104
+References: <20240823073825.135461-1-sdoshi@mvista.com>
+In-Reply-To: <20240823073825.135461-1-sdoshi@mvista.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 23 Aug 2024 10:40:44 +0200
+Message-ID: <CANNYZj-aeO+aR7qtrZ-J8E31pOfKt6zD4hxkUXiTLyHbXz+d7g@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] wpa-supplicant: Upgrade 2.10 -> 2.11
+To: sdoshi@mvista.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 08:08:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203681
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 08:41:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203682
 
-T24gTW9uLCAyMDI0LTA4LTE5IGF0IDE3OjE3ICswMjAwLCBBZHJpYW4gRnJlaWhvZmVyIHdyb3Rl
-Og0KPiBGcm9tOiBBZHJpYW4gRnJlaWhvZmVyIDxhZHJpYW4uZnJlaWhvZmVyQHNpZW1lbnMuY29t
-Pg0KPiANCj4gKiBkb19idW5kbGVfaW5pdHJhbWZzIG9ubHkgd2hlbiBuZWVkZWQNCj4gwqAgV2l0
-aCBJTklUUkFNRlNfSU1BR0VfQlVORExFID0gIjEiIHRoZSBrZXJuZWwgTWFrZWZpbGUgaXMgdXNl
-ZCB0bw0KPiDCoCBidW5kbGUgdGhlIGtlcm5lbCBiaW5hcnkgYW5kIHRoZSBpbml0cmFtZnMuIFRo
-aXMgd29ya3Mgb25seSB3aGVuDQo+IHRoZQ0KPiDCoCBidWlsZCBmb2xkZXIgb2YgdGhlIGtlcm5l
-bCBpcyBhdmFpbGFibGUuIEJ1aWxkaW5nIHdpdGggc3N0YXRlIGJ1dA0KPiB3aXRoDQo+IMKgIGFu
-IGVtcHR5IFRNUERJUiByZXF1aXJlcyB0byByZWJ1aWxkIHRoZSBrZXJuZWwgZnJvbSBzY3JhdGNo
-DQo+IHdoZW5ldmVyDQo+IMKgIHNvbWV0aGluZyBpbiB0aGUgaW5pdHJhbWZzIGNoYW5nZXMuDQo+
-IA0KPiDCoCBXaXRoIElOSVRSQU1GU19JTUFHRV9CVU5ETEUgPSAiIiB0aGUgZml0SW1hZ2UgZ2Vu
-ZXJhdGlvbiBpcw0KPiBiYXNpY2FsbHkNCj4gwqAgaW5kZXBlbmRlbnQgZnJvbSB0aGUga2VybmVs
-IE1ha2VmaWxlIGFuZCBjb3VsZCB0aGVyZWZvcmUgd29yayB3aXRoDQo+IMKgIGtlcm5lbCBiaW5h
-cmllcyBhbmQgdG9vbHMgcHJvdmlkZWQgYnkgdGhlIHNzdGF0ZS4gQnV0IHRoZQ0KPiBkZXBlbmRl
-bmN5DQo+IMKgIG9uIHRoZSBkb19idW5kbGVfaW5pdHJhbWZzIHRhc2tzIGRvZXMgbm90IGFsbG93
-IHRoaXMuIEhvd2V2ZXIsIGlmDQo+IHRoZQ0KPiDCoCBJTlRJUkFNRlNfSU1BR0UgaXMgc2V0IGJ1
-dCB0aGUgSU5JVFJBTUZTX0lNQUdFX0JVTkRMRSBpcyBzZXQgdG8gMA0KPiB0aGUNCj4gwqAgZG9f
-YnVuZGxlX2luaXRyYW1mcyBkb2VzIG5vdGhpbmcuIFRoZXJlIGlzIG5vIHJlYWwgYXJndW1lbnQg
-Zm9yDQo+IMKgIHJ1bm5pbmcgdGhpcyB0YXNrcy4NCj4gDQo+IMKgIEFzIGEgZmlyc3Qgc3RlcCB0
-b3dhcmRzIGdldHRpbmcgdGhlIGtlcm5lbCBmcm9tIHNzdGF0ZSB3aGVuDQo+IGJ1aWxkaW5nDQo+
-IMKgIGFuIHVuYnVuZGxlZCBmaXRJbWFnZSwgdGhlIHRhc2sgZGVwZW5kZW5jaWVzIG5lZWQgdG8g
-YmUgc2ltcGxpZmllZC4NCj4gwqAgVGhlIGRvX2J1bmRsZV9pbml0cmFtZnMgdGFzayBpcyBub3cg
-c2NoZWR1bGVkIG9ubHkgd2hlbiBuZWVkZWQuDQo+IA0KPiDCoCBSZW1vdmluZyB0aGUgZG9fYnVu
-ZGxlX2luaXRyYW1mcyBhbHNvIHJlbW92ZXMgdGhlc2UgdGFzaw0KPiBkZXBlbmRlbmNpZXMNCj4g
-wqAgZG9fZGVwbG95IC0tPiBkb19idW5kbGVfaW5pdHJhbWZzIC0tPiBkb19pbnN0YWxsLiBCdXQg
-dGhlDQo+IGRlcGVuZGVuY3kNCj4gwqAgZG9fZGVwbG95IC0tPiBkb19pbnN0YWxsIG11c3QgYmUg
-a2VwdCBiZWNhdXNlIHRoZSBkb19kZXBsb3kgdGFzaw0KPiBuZWVkcw0KPiDCoCB0aGUgYnVpbGQg
-Zm9sZGVyIHdoZW4gZGVwbG95aW5nIHRoZSBrZXJuZWwgYXJ0aWZhY3RzLiBUaGVyZWZvcmUgdGhl
-DQo+IMKgIGRvX2luc3RhbGwgZGVwZWRlbmN5IGlzIGFkZGVkLg0KPiDCoCBUaGVyZSBpcyBhbHNv
-IGEgZGVwZW5kZW5kZW5jeSBsaWtlIGRvX2RlcGxveSAtLT4NCj4gZG9fcG9wdWxhdGVfc3lzcm9v
-dA0KPiDCoCAtLT4gZG9faW5zdGFsbC4gSG93ZXZlciBzaW5jZSB0aGUgZG9fcG9wdWxhdGVfc3lz
-cm9vdCB0YXNrIGlzDQo+IHNzdGF0ZQ0KPiDCoCBjYWNoZWQsIHRoZSBidWlsZCBmb2xkZXIgaXMg
-bm90IGF2YWlsYWJsZSBmb3IgdGhlIGRvX2RlcGxveSB0YXNrIGlmDQo+IMKgIHRoZSBkb19wb3B1
-bGF0ZV9zeXNyb290IHNldHNjZW5lIHRhc2tzIHJ1bnMuDQo+IA0KPiAqIElmIEtFUk5FTF9JTUFH
-RVRZUEVTIGRvZXMgbm90IGNvbnRhaW4gZml0SW1hZ2UgYW5kIElOSVRSQU1GU19JTUFHRQ0KPiBp
-cw0KPiDCoCBub3Qgc2V0LCB0aGUgZG9fYXNzZW1ibGVfZml0aW1hZ2VfaW5pdHJhbWZzIGVuZHMg
-dXAgYXMgYW4gZW1wdHkNCj4gdGFzay4NCj4gwqAgQWRkIHRoZSBkb19hc3NlbWJsZV9maXRpbWFn
-ZV9pbml0cmFtZnMgb25seSBpZiBhIGZpdEltYWdlIHdpdGgNCj4gwqAgaW5pdHJhbWZzIG5lZWRz
-IHRvIGJlIGJ1aWx0Lg0KPiANCj4gKiBjZCBpbiBiaXRiYWtlIHRhc2sgaXMgZWFzeSB0byBicmVh
-ayBlLmcuIGJ5IGJiYXBwZW5kLiBSZXBsYWNlIHRoZQ0KPiBjZA0KPiDCoCBieSBkZWZpbmluZyB0
-aGUgdGFzaydzIGRpcnMgdmFyaWFibGUgZmxhZy4NCj4gDQo+ICogQWRkIDMgY29tbWVudHMgd2hp
-Y2ggYXJlIGhlbHBmdWwgZm9yIHRoZSBuZXh0IGNvbW1pdHMuDQo+IA0KPiAqIFNpbmNlIHRoZSB0
-YXNrcyBhbmQgdGFzayBkZXBlbmRlbmNpZXMgYXJlIGFueXdheSBjcmVhdGVkIGJ5IGFuDQo+IMKg
-IGFub255bW91cyBmdW5jdGlvbiwgYWxpZ24gYW5kIG1ha2UgdGhlIERFUEVORFMgY29kZSBtb3Jl
-IHNwZWNpZmljDQo+IHRvby4NCj4gDQo+IFRoaXMgcmVmYWN0b3JpbmcgaXMgbm90IHZlcnkgdmFs
-dWFibGUgb24gaXRzIG93bi4gQnV0IGl0IHNpbXBsaWZpZXMNCj4gdGhlDQo+IHRhc2sgZGVwZW5k
-ZW5jaWVzIHdoaWNoIGlzIGhlbHBmdWwgZm9yIHRoZSBuZXh0IGNvbW1pdC4NCj4gDQo+IFNpZ25l
-ZC1vZmYtYnk6IEFkcmlhbiBGcmVpaG9mZXIgPGFkcmlhbi5mcmVpaG9mZXJAc2llbWVucy5jb20+
-DQo+IC0tLQ0KPiDCoG1ldGEvY2xhc3Nlcy1yZWNpcGUva2VybmVsLWZpdGltYWdlLmJiY2xhc3Mg
-fCA1NyArKysrKysrKysrKystLS0tLS0tDQo+IC0tDQo+IMKgbWV0YS9jbGFzc2VzLXJlY2lwZS9r
-ZXJuZWwuYmJjbGFzc8KgwqDCoMKgwqDCoMKgwqDCoCB8IDI5ICsrKysrKy0tLS0tDQo+IMKgMiBm
-aWxlcyBjaGFuZ2VkLCA1MCBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
-ZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtcmVjaXBlL2tlcm5lbC1maXRpbWFnZS5iYmNsYXNzDQo+
-IGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwtZml0aW1hZ2UuYmJjbGFzcw0KPiBpbmRleCA3
-MDViM2FiNjU3Zi4uMmRkYTVhZWMwNTYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY2xhc3Nlcy1yZWNp
-cGUva2VybmVsLWZpdGltYWdlLmJiY2xhc3MNCj4gKysrIGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9r
-ZXJuZWwtZml0aW1hZ2UuYmJjbGFzcw0KPiBAQCAtMjYsMjAgKzI2LDggQEAgZGVmIGdldF9maXRf
-cmVwbGFjZW1lbnRfdHlwZShkKToNCj4gwqDCoMKgwqAgcmV0dXJuIHJlcGxhY2VtZW50dHlwZQ0K
-PiDCoA0KPiDCoEtFUk5FTF9JTUFHRVRZUEVfUkVQTEFDRU1FTlQgPz0gIiR7QGdldF9maXRfcmVw
-bGFjZW1lbnRfdHlwZShkKX0iDQo+IC1ERVBFTkRTOmFwcGVuZCA9ICIgJHtAJ3UtYm9vdC10b29s
-cy1uYXRpdmUgZHRjLW5hdGl2ZScgaWYgJ2ZpdEltYWdlJw0KPiBpbiAoZC5nZXRWYXIoJ0tFUk5F
-TF9JTUFHRVRZUEVTJykgb3IgJycpLnNwbGl0KCkgZWxzZSAnJ30iDQo+IMKgDQo+IMKgcHl0aG9u
-IF9fYW5vbnltb3VzICgpIHsNCj4gLcKgwqDCoCAjIE92ZXJyaWRlIEtFUk5FTF9JTUFHRVRZUEVf
-Rk9SX01BS0UgdmFyaWFibGUsIHdoaWNoIGlzIGludGVybmFsDQo+IC3CoMKgwqAgIyB0byBrZXJu
-ZWwuYmJjbGFzcyAuIFdlIGhhdmUgdG8gb3ZlcnJpZGUgaXQsIHNpbmNlIHdlIHBhY2sNCj4geklt
-YWdlDQo+IC3CoMKgwqAgIyAoYXQgbGVhc3QgZm9yIG5vdykgaW50byB0aGUgZml0SW1hZ2UgLg0K
-PiAtwqDCoMKgIHR5cGVmb3JtYWtlID0gZC5nZXRWYXIoIktFUk5FTF9JTUFHRVRZUEVfRk9SX01B
-S0UiKSBvciAiIg0KPiAtwqDCoMKgIGlmICdmaXRJbWFnZScgaW4gdHlwZWZvcm1ha2Uuc3BsaXQo
-KToNCj4gLcKgwqDCoMKgwqDCoMKgIGQuc2V0VmFyKCdLRVJORUxfSU1BR0VUWVBFX0ZPUl9NQUtF
-JywNCj4gdHlwZWZvcm1ha2UucmVwbGFjZSgnZml0SW1hZ2UnLA0KPiBkLmdldFZhcignS0VSTkVM
-X0lNQUdFVFlQRV9SRVBMQUNFTUVOVCcpKSkNCj4gLQ0KPiAtwqDCoMKgIGltYWdlID0gZC5nZXRW
-YXIoJ0lOSVRSQU1GU19JTUFHRScpDQo+IC3CoMKgwqAgaWYgaW1hZ2U6DQo+IC3CoMKgwqDCoMKg
-wqDCoCBkLmFwcGVuZFZhckZsYWcoJ2RvX2Fzc2VtYmxlX2ZpdGltYWdlX2luaXRyYW1mcycsICdk
-ZXBlbmRzJywNCj4gJyAke0lOSVRSQU1GU19JTUFHRX06ZG9faW1hZ2VfY29tcGxldGUnKQ0KPiAt
-DQo+IMKgwqDCoMKgIHVib290ZW52ID0gZC5nZXRWYXIoJ1VCT09UX0VOVicpDQo+IMKgwqDCoMKg
-IGlmIHVib290ZW52Og0KPiDCoMKgwqDCoMKgwqDCoMKgIGQuYXBwZW5kVmFyRmxhZygnZG9fYXNz
-ZW1ibGVfZml0aW1hZ2UnLCAnZGVwZW5kcycsICcNCj4gdmlydHVhbC9ib290bG9hZGVyOmRvX3Bv
-cHVsYXRlX3N5c3Jvb3QnKQ0KPiBAQCAtNDgsOCArMzYsMzEgQEAgcHl0aG9uIF9fYW5vbnltb3Vz
-ICgpIHsNCj4gwqDCoMKgwqAgcHJvdmlkZXJkdGIgPSBkLmdldFZhcigiUFJFRkVSUkVEX1BST1ZJ
-REVSX3ZpcnR1YWwvZHRiIikNCj4gwqDCoMKgwqAgaWYgcHJvdmlkZXJkdGI6DQo+IMKgwqDCoMKg
-wqDCoMKgwqAgZC5hcHBlbmRWYXJGbGFnKCdkb19hc3NlbWJsZV9maXRpbWFnZScsICdkZXBlbmRz
-JywgJw0KPiB2aXJ0dWFsL2R0Yjpkb19wb3B1bGF0ZV9zeXNyb290JykNCj4gLcKgwqDCoMKgwqDC
-oMKgIGQuYXBwZW5kVmFyRmxhZygnZG9fYXNzZW1ibGVfZml0aW1hZ2VfaW5pdHJhbWZzJywgJ2Rl
-cGVuZHMnLA0KPiAnIHZpcnR1YWwvZHRiOmRvX3BvcHVsYXRlX3N5c3Jvb3QnKQ0KPiDCoMKgwqDC
-oMKgwqDCoMKgIGQuc2V0VmFyKCdFWFRFUk5BTF9LRVJORUxfREVWSUNFVFJFRScsDQo+ICIke1JF
-Q0lQRV9TWVNST09UfS9ib290L2RldmljZXRyZWUiKQ0KPiArDQo+ICvCoMKgwqAgdHlwZWZvcm1h
-a2UgPSBkLmdldFZhcigiS0VSTkVMX0lNQUdFVFlQRV9GT1JfTUFLRSIpIG9yICIiDQo+ICvCoMKg
-wqAgaWYgJ2ZpdEltYWdlJyBpbiB0eXBlZm9ybWFrZS5zcGxpdCgpOg0KPiArwqDCoMKgwqDCoMKg
-wqAgIyBPdmVycmlkZSBLRVJORUxfSU1BR0VUWVBFX0ZPUl9NQUtFIHZhcmlhYmxlLCB3aGljaCBp
-cw0KPiBpbnRlcm5hbA0KPiArwqDCoMKgwqDCoMKgwqAgIyB0byBrZXJuZWwuYmJjbGFzcyAuIFdl
-IGhhdmUgdG8gb3ZlcnJpZGUgaXQsIHNpbmNlIHdlIHBhY2sNCj4gekltYWdlDQo+ICvCoMKgwqDC
-oMKgwqDCoCAjIChhdCBsZWFzdCBmb3Igbm93KSBpbnRvIHRoZSBmaXRJbWFnZSAuDQo+ICvCoMKg
-wqDCoMKgwqDCoCBkLnNldFZhcignS0VSTkVMX0lNQUdFVFlQRV9GT1JfTUFLRScsDQo+IHR5cGVm
-b3JtYWtlLnJlcGxhY2UoJ2ZpdEltYWdlJywNCj4gZC5nZXRWYXIoJ0tFUk5FTF9JTUFHRVRZUEVf
-UkVQTEFDRU1FTlQnKSkpDQo+ICsNCj4gK8KgwqDCoMKgwqDCoMKgICMgbWtpbWFnZSBhbmQgZHRj
-IGFyZSByZXF1aXJlZCBieSB0aGUgZml0aW1hZ2VfYXNzZW1ibGUNCj4gZnVuY3Rpb24NCj4gK8Kg
-wqDCoMKgwqDCoMKgIGQuYXBwZW5kVmFyRmxhZygnZG9fYXNzZW1ibGVfZml0aW1hZ2UnLCAnZGVw
-ZW5kcycsDQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ICcgdS1ib290LXRvb2xzLW5hdGl2ZTpkb19wb3B1bGF0ZV9zeXNyb290DQo+IGR0Yy1uYXRpdmU6
-ZG9fcG9wdWxhdGVfc3lzcm9vdCcpDQo+ICsNCj4gK8KgwqDCoMKgwqDCoMKgIGluaXRyYW1mc19p
-bWFnZSA9IGQuZ2V0VmFyKCdJTklUUkFNRlNfSU1BR0UnKQ0KPiArwqDCoMKgwqDCoMKgwqAgYnVu
-ZGxlZCA9DQo+IGJiLnV0aWxzLnRvX2Jvb2xlYW4oZC5nZXRWYXIoJ0lOSVRSQU1GU19JTUFHRV9C
-VU5ETEUnKSkNCj4gK8KgwqDCoMKgwqDCoMKgIGlmIGluaXRyYW1mc19pbWFnZToNCj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaWYgYnVuZGxlZDoNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBiYi5idWlsZC5hZGR0YXNrKCdkb19hc3NlbWJsZV9maXRpbWFnZV9pbml0cmFtZnMn
-LA0KPiAnZG9fZGVwbG95JywgJ2RvX2J1bmRsZV9pbml0cmFtZnMnLCBkKQ0KPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBlbHNlOg0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJi
-LmJ1aWxkLmFkZHRhc2soJ2RvX2Fzc2VtYmxlX2ZpdGltYWdlX2luaXRyYW1mcycsDQo+ICdkb19k
-ZXBsb3knLCAnZG9faW5zdGFsbCcsIGQpDQo+ICsNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-ZC5hcHBlbmRWYXJGbGFnKCdkb19hc3NlbWJsZV9maXRpbWFnZV9pbml0cmFtZnMnLA0KPiAnZGVw
-ZW5kcycsDQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgJyB1LWJvb3QtdG9vbHMtDQo+IG5hdGl2ZTpkb19wb3B1bGF0ZV9zeXNyb290IGR0
-Yy1uYXRpdmU6ZG9fcG9wdWxhdGVfc3lzcm9vdA0KPiAke0lOSVRSQU1GU19JTUFHRX06ZG9faW1h
-Z2VfY29tcGxldGUnKQ0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBwcm92aWRlcmR0YjoN
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkLmFwcGVuZFZhckZsYWcoJ2RvX2Fz
-c2VtYmxlX2ZpdGltYWdlX2luaXRyYW1mcycsDQo+ICdkZXBlbmRzJywgJyB2aXJ0dWFsL2R0Yjpk
-b19wb3B1bGF0ZV9zeXNyb290JykNCj4gwqB9DQo+IMKgDQo+IMKgDQo+IEBAIC03OTcsMTkgKzgw
-OCwxNCBAQCBkb19pbnN0YWxsOmFwcGVuZCgpIHsNCj4gwqB9DQo+IMKgDQo+IMKgZG9fYXNzZW1i
-bGVfZml0aW1hZ2VfaW5pdHJhbWZzKCkgew0KPiAtCWlmIGVjaG8gJHtLRVJORUxfSU1BR0VUWVBF
-U30gfCBncmVwIC13cSAiZml0SW1hZ2UiICYmIFwNCj4gLQkJdGVzdCAtbiAiJHtJTklUUkFNRlNf
-SU1BR0V9IiA7IHRoZW4NCj4gLQkJY2QgJHtCfQ0KPiAtCQlpZiBbICIke0lOSVRSQU1GU19JTUFH
-RV9CVU5ETEV9IiA9ICIxIiBdOyB0aGVuDQo+IC0JCQlmaXRpbWFnZV9hc3NlbWJsZSBmaXQtaW1h
-Z2UtDQo+ICR7SU5JVFJBTUZTX0lNQUdFfS5pdHMgZml0SW1hZ2UtYnVuZGxlICIiDQo+IC0JCQls
-biAtc2YgZml0SW1hZ2UtYnVuZGxlDQo+ICR7Qn0vJHtLRVJORUxfT1VUUFVUX0RJUn0vZml0SW1h
-Z2UNCj4gLQkJZWxzZQ0KPiAtCQkJZml0aW1hZ2VfYXNzZW1ibGUgZml0LWltYWdlLQ0KPiAke0lO
-SVRSQU1GU19JTUFHRX0uaXRzIGZpdEltYWdlLSR7SU5JVFJBTUZTX0lNQUdFfSAxDQo+IC0JCWZp
-DQo+ICsJaWYgWyAiJHtJTklUUkFNRlNfSU1BR0VfQlVORExFfSIgPSAiMSIgXTsgdGhlbg0KPiAr
-CQlmaXRpbWFnZV9hc3NlbWJsZSAiZml0LWltYWdlLSR7SU5JVFJBTUZTX0lNQUdFfS5pdHMiDQo+
-ICIke0tFUk5FTF9PVVRQVVRfRElSfS9maXRJbWFnZS1idW5kbGUiICIiDQo+ICsJCWxuIC1zZiBm
-aXRJbWFnZS1idW5kbGUNCj4gIiR7Qn0vJHtLRVJORUxfT1VUUFVUX0RJUn0vZml0SW1hZ2UiDQo+
-ICsJZWxzZQ0KPiArCQlmaXRpbWFnZV9hc3NlbWJsZSAiZml0LWltYWdlLSR7SU5JVFJBTUZTX0lN
-QUdFfS5pdHMiDQo+ICIke0tFUk5FTF9PVVRQVVRfRElSfS9maXRJbWFnZS0ke0lOSVRSQU1GU19J
-TUFHRX0iIDENCj4gwqAJZmkNCj4gwqB9DQo+IC0NCj4gLWFkZHRhc2sgYXNzZW1ibGVfZml0aW1h
-Z2VfaW5pdHJhbWZzIGJlZm9yZSBkb19kZXBsb3kgYWZ0ZXINCj4gZG9fYnVuZGxlX2luaXRyYW1m
-cw0KPiArZG9fYXNzZW1ibGVfZml0aW1hZ2VfaW5pdHJhbWZzW2RpcnNdID0gIiR7Qn0iDQo+IMKg
-DQo+IMKgZG9fa2VybmVsX2dlbmVyYXRlX3JzYV9rZXlzKCkgew0KPiDCoAlpZiBbICIke1VCT09U
-X1NJR05fRU5BQkxFfSIgPSAiMCIgXSAmJiBbDQo+ICIke0ZJVF9HRU5FUkFURV9LRVlTfSIgPSAi
-MSIgXTsgdGhlbg0KPiBAQCAtODY0LDYgKzg3MCw3IEBAIGtlcm5lbF9kb19kZXBsb3k6YXBwZW5k
-KCkgew0KPiDCoAlpZiBlY2hvICR7S0VSTkVMX0lNQUdFVFlQRVN9IHwgZ3JlcCAtd3EgImZpdElt
-YWdlIjsgdGhlbg0KPiDCoA0KPiDCoAkJaWYgWyAiJHtJTklUUkFNRlNfSU1BR0VfQlVORExFfSIg
-IT0gIjEiIF07IHRoZW4NCj4gKwkJCSMgZGVwbG95IHRoZSBhcnRpZmFjdHMgb2YNCj4gZG9fYXNz
-ZW1ibGVfZml0aW1hZ2UNCj4gwqAJCQliYm5vdGUgIkNvcHlpbmcgZml0LWltYWdlLml0cyBzb3Vy
-Y2UNCj4gZmlsZS4uLiINCj4gwqAJCQlpbnN0YWxsIC1tIDA2NDQgJHtCfS9maXQtaW1hZ2UuaXRz
-DQo+ICIkZGVwbG95RGlyL2ZpdEltYWdlLWl0cy0ke0tFUk5FTF9GSVRfTkFNRX0uaXRzIg0KPiDC
-oAkJCWlmIFsgLW4gIiR7S0VSTkVMX0ZJVF9MSU5LX05BTUV9IiBdIDsgdGhlbg0KPiBAQCAtODc4
-LDEyICs4ODUsMTQgQEAga2VybmVsX2RvX2RlcGxveTphcHBlbmQoKSB7DQo+IMKgCQlmaQ0KPiDC
-oA0KPiDCoAkJaWYgWyAtbiAiJHtJTklUUkFNRlNfSU1BR0V9IiBdOyB0aGVuDQo+ICsJCQkjIGRl
-cGxveSB0aGUgYXJ0aWZhY3RzIG9mDQo+IGRvX2Fzc2VtYmxlX2ZpdGltYWdlX2luaXRyYW1mcyBm
-b3IgYnVuZGxlZCBhcyB3ZWxsIGFzIHVuLWJ1bmRsZWQgbW9kZQ0KPiDCoAkJCWJibm90ZSAiQ29w
-eWluZyBmaXQtaW1hZ2UtDQo+ICR7SU5JVFJBTUZTX0lNQUdFfS5pdHMgc291cmNlIGZpbGUuLi4i
-DQo+IMKgCQkJaW5zdGFsbCAtbSAwNjQ0ICR7Qn0vZml0LWltYWdlLQ0KPiAke0lOSVRSQU1GU19J
-TUFHRX0uaXRzICIkZGVwbG95RGlyL2ZpdEltYWdlLWl0cy0NCj4gJHtJTklUUkFNRlNfSU1BR0Vf
-TkFNRX0tJHtLRVJORUxfRklUX05BTUV9Lml0cyINCj4gwqAJCQlpZiBbIC1uICIke0tFUk5FTF9G
-SVRfTElOS19OQU1FfSIgXSA7IHRoZW4NCj4gwqAJCQkJbG4gLXNuZiBmaXRJbWFnZS1pdHMtDQo+
-ICR7SU5JVFJBTUZTX0lNQUdFX05BTUV9LSR7S0VSTkVMX0ZJVF9OQU1FfS5pdHMgIiRkZXBsb3lE
-aXIvZml0SW1hZ2UtDQo+IGl0cy0ke0lOSVRSQU1GU19JTUFHRV9OQU1FfS0ke0tFUk5FTF9GSVRf
-TElOS19OQU1FfSINCj4gwqAJCQlmaQ0KPiDCoA0KPiArCQkJIyBkZXBsb3kgdGhlIGFydGlmYWN0
-cyBvZg0KPiBkb19hc3NlbWJsZV9maXRpbWFnZV9pbml0cmFtZnMgZm9yIGJ1bmRsZWQgbW9kZSBv
-bmx5DQo+IMKgCQkJaWYgWyAiJHtJTklUUkFNRlNfSU1BR0VfQlVORExFfSIgIT0gIjEiIF07DQo+
-IHRoZW4NCj4gwqAJCQkJYmJub3RlICJDb3B5aW5nIGZpdEltYWdlLQ0KPiAke0lOSVRSQU1GU19J
-TUFHRX0gZmlsZS4uLiINCj4gwqAJCQkJaW5zdGFsbCAtbSAwNjQ0DQo+ICR7Qn0vJHtLRVJORUxf
-T1VUUFVUX0RJUn0vZml0SW1hZ2UtJHtJTklUUkFNRlNfSU1BR0V9DQo+ICIkZGVwbG95RGlyL2Zp
-dEltYWdlLSR7SU5JVFJBTUZTX0lNQUdFX05BTUV9LQ0KPiAke0tFUk5FTF9GSVRfTkFNRX0ke0tF
-Uk5FTF9GSVRfQklOX0VYVH0iDQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtcmVjaXBlL2tl
-cm5lbC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzLQ0KPiByZWNpcGUva2VybmVsLmJiY2xhc3MNCj4g
-aW5kZXggNDQ2NDE1NWI3MzAuLjIxN2Y0MmI0ZjRmIDEwMDY0NA0KPiAtLS0gYS9tZXRhL2NsYXNz
-ZXMtcmVjaXBlL2tlcm5lbC5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy1yZWNpcGUva2Vy
-bmVsLmJiY2xhc3MNCj4gQEAgLTEzOSwxOCArMTM5LDIzIEBAIGZpDQo+IMKgc2V0IC1lDQo+IMKg
-IiIiICUgKHR5cGUsIHR5cGUsIHR5cGUpKQ0KPiDCoA0KPiAtDQo+IMKgwqDCoMKgIGltYWdlID0g
-ZC5nZXRWYXIoJ0lOSVRSQU1GU19JTUFHRScpDQo+IC3CoMKgwqAgIyBJZiB0aGUgSU5USVJBTUZT
-X0lNQUdFIGlzIHNldCBidXQgdGhlIElOSVRSQU1GU19JTUFHRV9CVU5ETEUNCj4gaXMgc2V0IHRv
-IDAsDQo+IC3CoMKgwqAgIyB0aGUgZG9fYnVuZGxlX2luaXRyYW1mcyBkb2VzIG5vdGhpbmcsIGJ1
-dCB0aGUgSU5JVFJBTUZTX0lNQUdFDQo+IGlzIGJ1aWx0DQo+IC3CoMKgwqAgIyBzdGFuZGFsb25l
-IGZvciB1c2UgYnkgd2ljIGFuZCBvdGhlciB0b29scy4NCj4gwqDCoMKgwqAgaWYgaW1hZ2U6DQo+
-IC3CoMKgwqDCoMKgwqDCoCBpZiBkLmdldFZhcignSU5JVFJBTUZTX01VTFRJQ09ORklHJyk6DQo+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGQuYXBwZW5kVmFyRmxhZygnZG9fYnVuZGxlX2luaXRy
-YW1mcycsICdtY2RlcGVuZHMnLCAnDQo+IG1jOjoke0lOSVRSQU1GU19NVUxUSUNPTkZJR306JHtJ
-TklUUkFNRlNfSU1BR0V9OmRvX2ltYWdlX2NvbXBsZXRlJykNCj4gK8KgwqDCoMKgwqDCoMKgICMg
-SWYgdGhlIElOVElSQU1GU19JTUFHRSBpcyBzZXQgYnV0IHRoZQ0KPiBJTklUUkFNRlNfSU1BR0Vf
-QlVORExFIGlzIHNldCB0byAwLA0KPiArwqDCoMKgwqDCoMKgwqAgIyB0aGUgZG9fYnVuZGxlX2lu
-aXRyYW1mcyBpcyBub3QgbmVlZGVkLCBidXQgdGhlDQo+IElOSVRSQU1GU19JTUFHRSBpcyBidWls
-dA0KPiArwqDCoMKgwqDCoMKgwqAgIyBzdGFuZGFsb25lIGZvciB1c2UgYnkgd2ljIGFuZCBvdGhl
-ciB0b29scy4NCj4gK8KgwqDCoMKgwqDCoMKgIGRlZiBhZGRfaW5pdHJhbWZzX2RlcF90YXNrKGlu
-aXRyYW1mc19kZXBfdGFzaywgZCk6DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIGQuZ2V0
-VmFyKCdJTklUUkFNRlNfTVVMVElDT05GSUcnKToNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBkLmFwcGVuZFZhckZsYWcoaW5pdHJhbWZzX2RlcF90YXNrLCAnbWNkZXBlbmRzJywg
-Jw0KPiBtYzo6JHtJTklUUkFNRlNfTVVMVElDT05GSUd9OiR7SU5JVFJBTUZTX0lNQUdFfTpkb19p
-bWFnZV9jb21wbGV0ZScpDQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2U6DQo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZC5hcHBlbmRWYXJGbGFnKGluaXRyYW1mc19kZXBf
-dGFzaywgJ2RlcGVuZHMnLCAnDQo+ICR7SU5JVFJBTUZTX0lNQUdFfTpkb19pbWFnZV9jb21wbGV0
-ZScpDQo+ICsNCj4gK8KgwqDCoMKgwqDCoMKgIGlmIGJiLnV0aWxzLnRvX2Jvb2xlYW4oZC5nZXRW
-YXIoJ0lOSVRSQU1GU19JTUFHRV9CVU5ETEUnKSk6DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGJiLmJ1aWxkLmFkZHRhc2soJ2RvX2J1bmRsZV9pbml0cmFtZnMnLCAnZG9fZGVwbG95JywNCj4g
-J2RvX2luc3RhbGwnLCBkKQ0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhZGRfaW5pdHJhbWZz
-X2RlcF90YXNrKCdkb19idW5kbGVfaW5pdHJhbWZzJywgZCkNCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgYmIuYnVpbGQuYWRkdGFzaygnZG9fdHJhbnNmb3JtX2J1bmRsZWRfaW5pdHJhbWZzJywN
-Cj4gJ2RvX2RlcGxveScsICdkb19idW5kbGVfaW5pdHJhbWZzJywgZCkNCj4gwqDCoMKgwqDCoMKg
-wqDCoCBlbHNlOg0KPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkLmFwcGVuZFZhckZsYWcoJ2Rv
-X2J1bmRsZV9pbml0cmFtZnMnLCAnZGVwZW5kcycsICcNCj4gJHtJTklUUkFNRlNfSU1BR0V9OmRv
-X2ltYWdlX2NvbXBsZXRlJykNCj4gLcKgwqDCoCBpZiBpbWFnZSBhbmQNCj4gYmIudXRpbHMudG9f
-Ym9vbGVhbihkLmdldFZhcignSU5JVFJBTUZTX0lNQUdFX0JVTkRMRScpKToNCj4gLcKgwqDCoMKg
-wqDCoMKgIGJiLmJ1aWxkLmFkZHRhc2soJ2RvX3RyYW5zZm9ybV9idW5kbGVkX2luaXRyYW1mcycs
-DQo+ICdkb19kZXBsb3knLCAnZG9fYnVuZGxlX2luaXRyYW1mcycsIGQpDQo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIGFkZF9pbml0cmFtZnNfZGVwX3Rhc2soJ2RvX2RlcGxveScsIGQpDQoNClRo
-aXMgbGluZSBpcyBzdGlsbCBub3QgaWRlYWwuIEknbSB3b3JraW5nIG9uIGEgdjUgd2l0aG91dCBp
-dC4gTWF5YmUNCmFsc28gd2l0aCBsZXNzIGNoYW5nZXMgaW4gdGhlIGtlcm5lbC5iYmNsYXNzLg0K
-DQpSZWdhcmRzLA0KQWRyaWFuDQoNCj4gwqANCj4gwqDCoMKgwqAgIyBOT1RFOiBzZXR0aW5nIElO
-SVRSQU1GU19UQVNLIGlzIGZvciBiYWNrd2FyZCBjb21wYXRpYmlsaXR5DQo+IMKgwqDCoMKgICPC
-oMKgwqDCoMKgwqAgVGhlIHByZWZlcnJlZCBtZXRob2QgaXMgdG8gc2V0IElOSVRSQU1GU19JTUFH
-RSwgYmVjYXVzZQ0KPiBAQCAtMzMwLDYgKzMzNSw4IEBAIGRvX2J1bmRsZV9pbml0cmFtZnMgKCkg
-ew0KPiDCoAkJCQltdiAtZg0KPiAke0tFUk5FTF9PVVRQVVRfRElSfS8kaW1hZ2VUeXBlLmJhayAk
-e0tFUk5FTF9PVVRQVVRfRElSfS8kaW1hZ2VUeXBlDQo+IMKgCQkJZmkNCj4gwqAJCWRvbmUNCj4g
-KwllbHNlDQo+ICsJCWJid2FybiAiQ2FsbGluZyBkb19idW5kbGVfaW5pdHJhbWZzIHdpdGgNCj4g
-SU5JVFJBTUZTX0lNQUdFX0JVTkRMRT0xIGlzIGRlcHJlY2F0ZWQiDQo+IMKgCWZpDQo+IMKgfQ0K
-PiDCoGRvX2J1bmRsZV9pbml0cmFtZnNbZGlyc10gPSAiJHtCfSINCj4gQEAgLTM1MCw4ICszNTcs
-NiBAQCBweXRob24gZG9fZGV2c2hlbGw6cHJlcGVuZCAoKSB7DQo+IMKgwqDCoMKgIG9zLmVudmly
-b25bIkxERkxBR1MiXSA9ICcnDQo+IMKgfQ0KPiDCoA0KPiAtYWRkdGFzayBidW5kbGVfaW5pdHJh
-bWZzIGFmdGVyIGRvX2luc3RhbGwgYmVmb3JlIGRvX2RlcGxveQ0KPiAtDQo+IMKgS0VSTkVMX0RF
-QlVHX1RJTUVTVEFNUFMgPz89ICIwIg0KPiDCoA0KPiDCoGtlcm5lbF9kb19jb21waWxlKCkgew0K
-PiBAQCAtODczLDcgKzg3OCw3IEBAIGtlcm5lbF9kb19kZXBsb3koKSB7DQo+IMKgIyBlbnN1cmUg
-d2UgZ2V0IHRoZSByaWdodCB2YWx1ZXMgZm9yIGJvdGgNCj4gwqBkb19kZXBsb3lbcHJlZnVuY3Nd
-ICs9ICJyZWFkX3N1YnBhY2thZ2VfbWV0YWRhdGEiDQo+IMKgDQo+IC1hZGR0YXNrIGRlcGxveSBh
-ZnRlciBkb19wb3B1bGF0ZV9zeXNyb290IGRvX3BhY2thZ2VkYXRhDQo+ICthZGR0YXNrIGRlcGxv
-eSBhZnRlciBkb19pbnN0YWxsIGRvX3BvcHVsYXRlX3N5c3Jvb3QgZG9fcGFja2FnZWRhdGENCj4g
-wqANCj4gwqBFWFBPUlRfRlVOQ1RJT05TIGRvX2RlcGxveQ0KPiDCoA0KDQotLSANCkFkcmlhbiBG
-cmVpaG9mZXINClNpZW1lbnMgQUcNCk1vYmlsZTogKzQxIDc5NjgxOTU5Ng0Kd3d3LnNpZW1lbnMu
-Y29tDQoNCg==
+Updates like this are not eligible for stable branches. Please pay
+attention to what Randy said.
+
+Alex
+
+
+On Fri, 23 Aug 2024 at 09:38, Siddharth Doshi via
+lists.openembedded.org <sdoshi=mvista.com@lists.openembedded.org>
+wrote:
+>
+> From: Siddharth Doshi <sdoshi@mvista.com>
+>
+> License-Update:
+> ===============
+> - README: Change in copyright years as per https://w1.fi/cgit/hostap/commit/README?id=d945ddd368085f255e68328f2d3b020ceea359af
+> - wpa_supplicant/wpa_supplicant.c: Change in copyright years as per https://w1.fi/cgit/hostap/commit/wpa_supplicant/wpa_supplicant.c?id=d945ddd368085f255e68328f2d3b020ceea359af
+>
+> CVE's Fixed:
+> ===========
+> - CVE-2024-5290 wpa_supplicant: wpa_supplicant loading arbitrary shared objects allowing privilege escalation
+> - CVE-2023-52160 wpa_supplicant: potential authorization bypass
+>
+> Changes between 2.10 -> 2.11:
+> ============================
+> https://w1.fi/cgit/hostap/commit/wpa_supplicant/ChangeLog?id=d945ddd368085f255e68328f2d3b020ceea359af
+>
+> Note:
+> =====
+> Patche 0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch (CVE-2023-52160) is already fixed and hence removing it.
+>
+> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+> ---
+>  ...te-Phase-2-authentication-requiremen.patch | 213 ------------------
+>  ...plicant_2.10.bb => wpa-supplicant_2.11.bb} |   7 +-
+>  2 files changed, 3 insertions(+), 217 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
+>  rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.10.bb => wpa-supplicant_2.11.bb} (92%)
+>
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
+> deleted file mode 100644
+> index bc2db972c3..0000000000
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
+> +++ /dev/null
+> @@ -1,213 +0,0 @@
+> -From f6f7cead3661ceeef54b21f7e799c0afc98537ec Mon Sep 17 00:00:00 2001
+> -From: Jouni Malinen <j@w1.fi>
+> -Date: Sat, 8 Jul 2023 19:55:32 +0300
+> -Subject: [PATCH] PEAP client: Update Phase 2 authentication requirements
+> -
+> -The previous PEAP client behavior allowed the server to skip Phase 2
+> -authentication with the expectation that the server was authenticated
+> -during Phase 1 through TLS server certificate validation. Various PEAP
+> -specifications are not exactly clear on what the behavior on this front
+> -is supposed to be and as such, this ended up being more flexible than
+> -the TTLS/FAST/TEAP cases. However, this is not really ideal when
+> -unfortunately common misconfiguration of PEAP is used in deployed
+> -devices where the server trust root (ca_cert) is not configured or the
+> -user has an easy option for allowing this validation step to be skipped.
+> -
+> -Change the default PEAP client behavior to be to require Phase 2
+> -authentication to be successfully completed for cases where TLS session
+> -resumption is not used and the client certificate has not been
+> -configured. Those two exceptions are the main cases where a deployed
+> -authentication server might skip Phase 2 and as such, where a more
+> -strict default behavior could result in undesired interoperability
+> -issues. Requiring Phase 2 authentication will end up disabling TLS
+> -session resumption automatically to avoid interoperability issues.
+> -
+> -Allow Phase 2 authentication behavior to be configured with a new phase1
+> -configuration parameter option:
+> -'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
+> -tunnel) behavior for PEAP:
+> - * 0 = do not require Phase 2 authentication
+> - * 1 = require Phase 2 authentication when client certificate
+> -   (private_key/client_cert) is no used and TLS session resumption was
+> -   not used (default)
+> - * 2 = require Phase 2 authentication in all cases
+> -
+> -Signed-off-by: Jouni Malinen <j@w1.fi>
+> -
+> -CVE: CVE-2023-52160
+> -Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=8e6485a1bcb0baffdea9e55255a81270b768439c]
+> -
+> -Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+> -Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ----
+> - src/eap_peer/eap_config.h          |  8 ++++++
+> - src/eap_peer/eap_peap.c            | 40 +++++++++++++++++++++++++++---
+> - src/eap_peer/eap_tls_common.c      |  6 +++++
+> - src/eap_peer/eap_tls_common.h      |  5 ++++
+> - wpa_supplicant/wpa_supplicant.conf |  7 ++++++
+> - 5 files changed, 63 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/src/eap_peer/eap_config.h b/src/eap_peer/eap_config.h
+> -index 3238f74..047eec2 100644
+> ---- a/src/eap_peer/eap_config.h
+> -+++ b/src/eap_peer/eap_config.h
+> -@@ -469,6 +469,14 @@ struct eap_peer_config {
+> -        * 1 = use cryptobinding if server supports it
+> -        * 2 = require cryptobinding
+> -        *
+> -+       * phase2_auth option can be used to control Phase 2 (i.e., within TLS
+> -+       * tunnel) behavior for PEAP:
+> -+       * 0 = do not require Phase 2 authentication
+> -+       * 1 = require Phase 2 authentication when client certificate
+> -+       *  (private_key/client_cert) is no used and TLS session resumption was
+> -+       *  not used (default)
+> -+       * 2 = require Phase 2 authentication in all cases
+> -+       *
+> -        * EAP-WSC (WPS) uses following options: pin=Device_Password and
+> -        * uuid=Device_UUID
+> -        *
+> -diff --git a/src/eap_peer/eap_peap.c b/src/eap_peer/eap_peap.c
+> -index 12e30df..6080697 100644
+> ---- a/src/eap_peer/eap_peap.c
+> -+++ b/src/eap_peer/eap_peap.c
+> -@@ -67,6 +67,7 @@ struct eap_peap_data {
+> -       u8 cmk[20];
+> -       int soh; /* Whether IF-TNCCS-SOH (Statement of Health; Microsoft NAP)
+> -                 * is enabled. */
+> -+      enum { NO_AUTH, FOR_INITIAL, ALWAYS } phase2_auth;
+> - };
+> -
+> -
+> -@@ -114,6 +115,19 @@ static void eap_peap_parse_phase1(struct eap_peap_data *data,
+> -               wpa_printf(MSG_DEBUG, "EAP-PEAP: Require cryptobinding");
+> -       }
+> -
+> -+      if (os_strstr(phase1, "phase2_auth=0")) {
+> -+              data->phase2_auth = NO_AUTH;
+> -+              wpa_printf(MSG_DEBUG,
+> -+                         "EAP-PEAP: Do not require Phase 2 authentication");
+> -+      } else if (os_strstr(phase1, "phase2_auth=1")) {
+> -+              data->phase2_auth = FOR_INITIAL;
+> -+              wpa_printf(MSG_DEBUG,
+> -+                         "EAP-PEAP: Require Phase 2 authentication for initial connection");
+> -+      } else if (os_strstr(phase1, "phase2_auth=2")) {
+> -+              data->phase2_auth = ALWAYS;
+> -+              wpa_printf(MSG_DEBUG,
+> -+                         "EAP-PEAP: Require Phase 2 authentication for all cases");
+> -+      }
+> - #ifdef EAP_TNC
+> -       if (os_strstr(phase1, "tnc=soh2")) {
+> -               data->soh = 2;
+> -@@ -142,6 +156,7 @@ static void * eap_peap_init(struct eap_sm *sm)
+> -       data->force_peap_version = -1;
+> -       data->peap_outer_success = 2;
+> -       data->crypto_binding = OPTIONAL_BINDING;
+> -+      data->phase2_auth = FOR_INITIAL;
+> -
+> -       if (config && config->phase1)
+> -               eap_peap_parse_phase1(data, config->phase1);
+> -@@ -454,6 +469,20 @@ static int eap_tlv_validate_cryptobinding(struct eap_sm *sm,
+> - }
+> -
+> -
+> -+static bool peap_phase2_sufficient(struct eap_sm *sm,
+> -+                                 struct eap_peap_data *data)
+> -+{
+> -+      if ((data->phase2_auth == ALWAYS ||
+> -+           (data->phase2_auth == FOR_INITIAL &&
+> -+            !tls_connection_resumed(sm->ssl_ctx, data->ssl.conn) &&
+> -+            !data->ssl.client_cert_conf) ||
+> -+           data->phase2_eap_started) &&
+> -+          !data->phase2_eap_success)
+> -+              return false;
+> -+      return true;
+> -+}
+> -+
+> -+
+> - /**
+> -  * eap_tlv_process - Process a received EAP-TLV message and generate a response
+> -  * @sm: Pointer to EAP state machine allocated with eap_peer_sm_init()
+> -@@ -568,6 +597,11 @@ static int eap_tlv_process(struct eap_sm *sm, struct eap_peap_data *data,
+> -                                          " - force failed Phase 2");
+> -                               resp_status = EAP_TLV_RESULT_FAILURE;
+> -                               ret->decision = DECISION_FAIL;
+> -+                      } else if (!peap_phase2_sufficient(sm, data)) {
+> -+                              wpa_printf(MSG_INFO,
+> -+                                         "EAP-PEAP: Server indicated Phase 2 success, but sufficient Phase 2 authentication has not been completed");
+> -+                              resp_status = EAP_TLV_RESULT_FAILURE;
+> -+                              ret->decision = DECISION_FAIL;
+> -                       } else {
+> -                               resp_status = EAP_TLV_RESULT_SUCCESS;
+> -                               ret->decision = DECISION_UNCOND_SUCC;
+> -@@ -887,8 +921,7 @@ continue_req:
+> -                       /* EAP-Success within TLS tunnel is used to indicate
+> -                        * shutdown of the TLS channel. The authentication has
+> -                        * been completed. */
+> --                      if (data->phase2_eap_started &&
+> --                          !data->phase2_eap_success) {
+> -+                      if (!peap_phase2_sufficient(sm, data)) {
+> -                               wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase 2 "
+> -                                          "Success used to indicate success, "
+> -                                          "but Phase 2 EAP was not yet "
+> -@@ -1199,8 +1232,9 @@ static struct wpabuf * eap_peap_process(struct eap_sm *sm, void *priv,
+> - static bool eap_peap_has_reauth_data(struct eap_sm *sm, void *priv)
+> - {
+> -       struct eap_peap_data *data = priv;
+> -+
+> -       return tls_connection_established(sm->ssl_ctx, data->ssl.conn) &&
+> --              data->phase2_success;
+> -+              data->phase2_success && data->phase2_auth != ALWAYS;
+> - }
+> -
+> -
+> -diff --git a/src/eap_peer/eap_tls_common.c b/src/eap_peer/eap_tls_common.c
+> -index c1837db..a53eeb1 100644
+> ---- a/src/eap_peer/eap_tls_common.c
+> -+++ b/src/eap_peer/eap_tls_common.c
+> -@@ -239,6 +239,12 @@ static int eap_tls_params_from_conf(struct eap_sm *sm,
+> -
+> -       sm->ext_cert_check = !!(params->flags & TLS_CONN_EXT_CERT_CHECK);
+> -
+> -+      if (!phase2)
+> -+              data->client_cert_conf = params->client_cert ||
+> -+                      params->client_cert_blob ||
+> -+                      params->private_key ||
+> -+                      params->private_key_blob;
+> -+
+> -       return 0;
+> - }
+> -
+> -diff --git a/src/eap_peer/eap_tls_common.h b/src/eap_peer/eap_tls_common.h
+> -index 9ac0012..3348634 100644
+> ---- a/src/eap_peer/eap_tls_common.h
+> -+++ b/src/eap_peer/eap_tls_common.h
+> -@@ -79,6 +79,11 @@ struct eap_ssl_data {
+> -        * tls_v13 - Whether TLS v1.3 or newer is used
+> -        */
+> -       int tls_v13;
+> -+
+> -+      /**
+> -+       * client_cert_conf: Whether client certificate has been configured
+> -+       */
+> -+      bool client_cert_conf;
+> - };
+> -
+> -
+> -diff --git a/wpa_supplicant/wpa_supplicant.conf b/wpa_supplicant/wpa_supplicant.conf
+> -index 6619d6b..d63f73c 100644
+> ---- a/wpa_supplicant/wpa_supplicant.conf
+> -+++ b/wpa_supplicant/wpa_supplicant.conf
+> -@@ -1321,6 +1321,13 @@ fast_reauth=1
+> - #      * 0 = do not use cryptobinding (default)
+> - #      * 1 = use cryptobinding if server supports it
+> - #      * 2 = require cryptobinding
+> -+#     'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
+> -+#     tunnel) behavior for PEAP:
+> -+#      * 0 = do not require Phase 2 authentication
+> -+#      * 1 = require Phase 2 authentication when client certificate
+> -+#        (private_key/client_cert) is no used and TLS session resumption was
+> -+#        not used (default)
+> -+#      * 2 = require Phase 2 authentication in all cases
+> - #     EAP-WSC (WPS) uses following options: pin=<Device Password> or
+> - #     pbc=1.
+> - #
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> similarity index 92%
+> rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+> rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> index 70f1fd6fc9..8b6bbf50eb 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> @@ -5,8 +5,8 @@ BUGTRACKER = "http://w1.fi/security/"
+>  SECTION = "network"
+>  LICENSE = "BSD-3-Clause"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=5ebcb90236d1ad640558c3d3cd3035df \
+> -                    file://README;beginline=1;endline=56;md5=e3d2f6c2948991e37c1ca4960de84747 \
+> -                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=76306a95306fee9a976b0ac1be70f705"
+> +                    file://README;beginline=1;endline=56;md5=6e4b25e7d74bfc44a32ba37bdf5210a6 \
+> +                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=f5ccd57ea91e04800edb88267bf8eae4"
+>  DEPENDS = "dbus libnl"
+>  RRECOMMENDS:${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+>
+> @@ -25,9 +25,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
+>             file://wpa_supplicant.conf \
+>             file://wpa_supplicant.conf-sane \
+>             file://99_wpa_supplicant \
+> -           file://0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch \
+>             "
+> -SRC_URI[sha256sum] = "20df7ae5154b3830355f8ab4269123a87affdea59fe74fe9292a91d0d7e17b2f"
+> +SRC_URI[sha256sum] = "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc5d75dee6c81ac7fc0a"
+>
+>  CVE_PRODUCT = "wpa_supplicant"
+>
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#203680): https://lists.openembedded.org/g/openembedded-core/message/203680
+> Mute This Topic: https://lists.openembedded.org/mt/108052523/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
