@@ -1,360 +1,283 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B042C531DC
-	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 08:41:01 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.11822.1724402459149990477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D21C52D7C
+	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 11:49:42 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.106])
+ by mx.groups.io with SMTP id smtpd.web10.14238.1724413771616226040
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Aug 2024 01:40:59 -0700
+ Fri, 23 Aug 2024 04:49:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hN+fOet+;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f3f0bdbcd9so17903671fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 01:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724402457; x=1725007257; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3ORmP7qvZDVWzudk/y3r90EAi1KUyhyxMnX5QDiV5jw=;
-        b=hN+fOet+ybZh246dY3Cckxw0bD6A7utwPkRJuhkjNdiZ9JPe2v9ugHr9A8MQKxBWXD
-         zmFQGkMCDyb7oJ/2JyIyjPW2oMWkvtrhqq7CX1lRiuhgQ954yg4Tm9KJ/uiH56EN38Gd
-         Ek+Ljfx2uRD9K5+LJquPEZcBMmx63n/mXNK/ttN0ghKSlG8Wl1KhhXgOAoJOThORv5XD
-         dbRqU4MZ2OB32nYOrhk6OLfJtzg/iwca7P2Vd/Zb0nmJtnI7ZkkQMbCmYsWPOHtruseI
-         UBCx0E1UD+X2XnPGIzg6gfc7FCbK5pT32FaFLlqChh11QabJeWZ/yyLfiy5mYlit1Tnn
-         HV/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724402457; x=1725007257;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3ORmP7qvZDVWzudk/y3r90EAi1KUyhyxMnX5QDiV5jw=;
-        b=efAZzcBLXNio7K38Al8XfgCHvZ2MuIuprkkQznDCF3WkngBXgui49Y9cRgMYR78d5e
-         DzpketZPf7nPfCbnslNEeMto3OWQRamWlx9AjOynsA03bji6wxB8LupeGBlT86pVaKQp
-         +VmoukzFqEWD+hlEwy4lzaIw2mNZB9axpIXkz6YdGO5xCE2Y3BA5DSKnNw6P8bUUh5Ov
-         y8wZjRuEaikrCakYMYrBwOldAMVtGOJaJsmleqm4Atd0SHjWpowuNTiB2K0ocfDMc1Mv
-         aaW1ZB8LZzJ/U3jFKeaV0hBFa51UIj8VdETc5zNC1HlD2/mByNEZ2e0cJLmZ9WLA2aCc
-         VOfw==
-X-Gm-Message-State: AOJu0Yxu52fWOVYQfLaiS40CfkJ11445CbXcYKivsKO9ShfjBz4rK4iQ
-	jjFyqAXknu/NyVpcdavDxpfwjCBuFBO0/UN2FYwcPkC+3ZVUCBPuEs9QusiVkxuNnKzteAZj7VR
-	O8MMumQgmCHEtD8BiVxlbBDaCQUA=
-X-Google-Smtp-Source: AGHT+IH9VaGKwI3CWBkeRfUPnHO1xj2WmeXM26gT72haDlkN913JzDmsBj7mYd2a3/Irwp1z+sXjgQwNqCEKL/xkYGo=
-X-Received: by 2002:a05:6512:31c4:b0:533:32b4:ca6f with SMTP id
- 2adb3069b0e04-53438785cabmr1034679e87.34.1724402456138; Fri, 23 Aug 2024
- 01:40:56 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=BpY5UyJ5;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.21.106, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=POlu7U+0Wkv99e8IsieCFWIjK8oOqP/s2i7tvFR9tdTD/a1X2Pcr5Ls4okVKPnBhnpSKrK9QS3gRmV6YWlj/9zYmh32Ur1RJCQVpIawydHRk8wr0KZ/qRKgbvxjnPALivxGYkiveNGyF1NHV52IcmWdXKfPm2EY1DBMRQaVzTHOOo8des0EswHmmTRXsfN8vgVGBf0zuRtYcTzwA53tbkRGvaa+bUiTp0TaNrpe7NRUe55lqYQ1gcqL1mo5TE3lN3XqiOf1XmEMudjDHne3FnR1k6nKvSBCDNiO4fONlqa7GH2rAHm+DmCO0ZtL+3Q1RSFu+bm3f48NbwWyDxVKi7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bJObL/ciqQZCpfiA3p/+NL954INYV1pzLj494YNzI6U=;
+ b=n47PdT6+F/Gr932x4s6qoXjKNTPDaEoLHOkNB/H4ljesAmd8EkMd3Ejmg52zNUfmKAqZo6wFu0ZItOIfy76x3HMtaVfuQj8cR+SjrQPSE4xfhEw1wXFnqv08VFZGmboEqF6rYYtdTzhNGrI2WaCjZBtHkNDDTxJSpnMLKMMYf50lWGGeyQru4MlgqdB9q73RrJ3kJAx/mA5krgYEIRrNJNFhyGcRtTZ2BePHnaKXNyXivc57lspkZ9B476yi7uOeQuT8FtkUawhnXXLj7dHWx+mdTqOWIUqe7RUoOb7NEj8w5DpOwyA36RAH53Gsqui5ErPqhDURt/oIg3WnavqCGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bJObL/ciqQZCpfiA3p/+NL954INYV1pzLj494YNzI6U=;
+ b=BpY5UyJ5jyB7ETs2qz00yac1ACNzqk96xrPX9XQs/VIvDXwzmNp1XxAlM9d857g6AsGa0ogTE6JHewxkA+FuB848+whOYdONPrdRqJRxwI8XMnHXS9z15sgSy9lcmmJwCWouAsdxVteYo0b6ebK8G1vMpUE47fD/9OSfIkfrXm4t5rgQc9Eq7kkIYVLM5WgePReljA2Y171F8iTqcnT98mnrwdQBxCnll5xa3Mp6Ax4ZyXbNpxgcOn9lW6PW2u3OnZAY9xVVsCU68Okc9yzfdip40GKVI8Y/VmSTHnT7B0275QjXFYgU6ljJRUSk2PVUJI0YE9+9sUiKJ0nZmhkAWg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by PAXPR06MB7567.eurprd06.prod.outlook.com (2603:10a6:102:dd::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
+ 2024 11:49:27 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
+ 11:49:27 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: Niko Mauno <niko.mauno@vaisala.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH] util-linux: Add PACKAGECONFIG option to mitigate rootfs remount error
+Date: Fri, 23 Aug 2024 11:49:07 +0000
+Message-ID: <20240823114907.2882459-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: GV3PEPF0000366E.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::38e) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
-References: <20240823073825.135461-1-sdoshi@mvista.com>
-In-Reply-To: <20240823073825.135461-1-sdoshi@mvista.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 23 Aug 2024 10:40:44 +0200
-Message-ID: <CANNYZj-aeO+aR7qtrZ-J8E31pOfKt6zD4hxkUXiTLyHbXz+d7g@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] wpa-supplicant: Upgrade 2.10 -> 2.11
-To: sdoshi@mvista.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PAXPR06MB7567:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b5db838-6194-4eae-de36-08dcc369a474
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Ca7LuUAv5ODN3s7vOlkYFdpi8aA7F8ml1jQmsA4k9I9RTo8m2S/VkqP4OUwR?=
+ =?us-ascii?Q?AODFehdo9RVS803KMuGW4JCcLVkz06EDH6JGvSvscT//r/zkVuqKAyDw0Anz?=
+ =?us-ascii?Q?BpGBZAa9ycNW92VKWDhdiC+VNpElw1lx5OtklLakgqsm+t4AgHQtspr5HBzx?=
+ =?us-ascii?Q?BiExytH1LRYXEc1OQwEooXZ/Yg4qDZr7RtHjiZfLQ3sn0u0J+W1rL2b4/U4J?=
+ =?us-ascii?Q?V7pQmRaEVz2D/2kXMJ01bbE1Ung9OXPrrv8fxr7T+DBt31ISNrLHzKHEwFEz?=
+ =?us-ascii?Q?Ge1L73yuJ/bB+Yyas2UyEsYKAgERgjOtIsoOEo+JOyPNOqr+M92FL/pxAvYZ?=
+ =?us-ascii?Q?prt8dZIjaK2l0XV9y/Nz1SGKIEF5TJYe0NwFkLTGUvGiHixPvityXR2+AEO5?=
+ =?us-ascii?Q?+PWvKpnBbQC2nH4v1NZ12Eo2aw0yCvQ62wmpy0BbwDDPyaJzoyf0cLQmhb2r?=
+ =?us-ascii?Q?YC0WrPHL8unjtYx7bTWgFZ0h2Ui1EiANfuUOwaL7vCe05xQc3qF0ev7GXaXJ?=
+ =?us-ascii?Q?8T5jaWsvQgDVCdvbIorX9/RND6ZLR3tIyGm1JqhvwsuXL7vUQfnqsaEC4qjh?=
+ =?us-ascii?Q?vHsqAippUvrAhovCzYlyqjtkr3eCjvcnD35h57C9zLGA/vDjahGeJpFAptya?=
+ =?us-ascii?Q?9mlXDcTG5vlwFyJqzPx1iwliKQy5Or1XoMGfnLZqg2RIWamNhsWH0nPqWe8q?=
+ =?us-ascii?Q?mGidEQq4K0QpoHLpdiOl8Qbr4p3zVEUymOdb+CTMfIAOMqMSgibm4WLi5OU0?=
+ =?us-ascii?Q?vlOWeT6aD1MAPTi9MC1uSXRZus88MiI3OFuBJ4XBkbxG/Bj4aL/shvA5OEan?=
+ =?us-ascii?Q?PsIwsQSggkorVsAv4dAy53QtrLKd1Mj5cNjnIxs/sIM+QwXnMoUAbC8aRoMc?=
+ =?us-ascii?Q?pAQ8VHtRskzbqiyva6RWVbivlHFUB20fuNBCOsv6wjQTKqtMaCespn2mAVyq?=
+ =?us-ascii?Q?lrgSni/wutz/jgaP2c8f2603iwYObwVnDRPbQsmrJzRhMaZSbtZRY4LelOuQ?=
+ =?us-ascii?Q?DHgfqWL+rTDWUl3J42LvvJAb2UZ3BRYtxnDK0hI8lkwLsbeHS/1w+m5BFQ4j?=
+ =?us-ascii?Q?kI21IAgvMRrh5KI91ntI916jAsJDufZcS/m45IFtezVwlhdCNGrApE1Y4hZ4?=
+ =?us-ascii?Q?UwzFYuV6QNQgoVWOLIoeZrJsE3LafgxF2lXHM8X50roWHOfwG2Udfia0a3H6?=
+ =?us-ascii?Q?79b1GlOLdt1P6DMpyVpf7PZco6gFHCUxlsnzbF8r8mtnosG0zJ+JU+YOM4Ef?=
+ =?us-ascii?Q?cjXRhdQUIY6nmv+OOH7dwkENwRTJ+hpV8PKtLv+EMbBd4/263WcAlP87/D4R?=
+ =?us-ascii?Q?UuhyQ6ntrHL2Z/JTfUeci5XiCZZuG23lNzhMO32a2wRhjUmX42NF+fHSndXR?=
+ =?us-ascii?Q?ihGG0S0=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?FoQJcRwdrPyERTwWbN1YfCU9h9v68BVYDHhEE/IgQ5wkBmpKiw8pu7iQzzPQ?=
+ =?us-ascii?Q?vocJlK5cEQIA+4PGSZGF8kSR7gcONDLMrw+firBh1ZMhHpmWfDmkJboXkkah?=
+ =?us-ascii?Q?qYVgEWIaKcDTy26YglFO7d6ZT89llpw5ERNT314jxMtiSSrgHS3sUq56AsQH?=
+ =?us-ascii?Q?aSEVV167G/K3SX3fZTcqtVYZMVVqH/ui0tUDOKmEOAuFDC32D0H3VEPPqh7O?=
+ =?us-ascii?Q?6fUFe1l8ZSi7vh84gA2ZXetxVvJfgTBYPU/yxqNnaj6p2N2RN3xeeoyzAn7b?=
+ =?us-ascii?Q?fuORx8S571La0dApuVaoGM9ZFPkUHeJUZCP86pd4s143pzkfHn5y+EEuQSPK?=
+ =?us-ascii?Q?43lysBGRt+vXynCPDQ7QwCqgT07xcvoH5GBGQEVsnD3aXI/Wui+XDU7Vzpze?=
+ =?us-ascii?Q?Wj86yDGySqOeqcjpnX+qSmLyJtEZF6jfOTqshtKDw+saQFIUNZCGPaypGwlk?=
+ =?us-ascii?Q?qJ/ya5kAr/5qFhta1emtrPU6jRr7O7SnzxNtTe2JrB55csXDyxZun4Xh72gs?=
+ =?us-ascii?Q?rN17EPDUUKzG5uUppfPDVkwA8hSgZO74wbh3rmTTuQnkveDxZ6Ef1w27NE//?=
+ =?us-ascii?Q?v+GuLMHdY98cNMbjYuN6r/D4t82F/f/j5HZ0M6g2z254Ry53oH+LDSvugvfk?=
+ =?us-ascii?Q?nccRxsXgbYceDHRP1YPO6Hbif5iskS1XK3C7Gq3ES3XZX1JYGI/r5o1/kJF6?=
+ =?us-ascii?Q?HUOXcrdWBjIS/Kr/b3gybAsiUpBzS4waQY+QebiKf+T0GUohoQBpIhsQZvVM?=
+ =?us-ascii?Q?TqP+zHZUNa9qhXFvZni+y2eFA4odo28Luze5SMGZtuX0PSb9k27xuIJSXWNK?=
+ =?us-ascii?Q?KzD/g34B0wK0ciED1F4hlymgO5xb6E0hZz4u5AkfGy3KV5A9rvADziMhaaEC?=
+ =?us-ascii?Q?y5lpyLoipyxINCLnKGOsV5IWZmpPBsjujVBfrSmnJLfj4xHZIhT1iP0Crlk9?=
+ =?us-ascii?Q?FWKLBFeJSwYshBhdOWFiRm7fkIjL7Zk9zXQ7/MyYLm4uBx+gm/HgnzxqJLid?=
+ =?us-ascii?Q?/Od8/TmUWvSolfmjbnPHERsr8s3WmVTB6yzQBkmBAg8WeBplsn2HgTA2ZQoH?=
+ =?us-ascii?Q?+fTmfCh34lLtKDmwN5pCKb6I1KDOT0ZOayKXrlbyTaSX9YMc99B89+1jF4E/?=
+ =?us-ascii?Q?TaDmoH2vmTHb8aFxJSkKgbadsKIvBi0XUAWA9qDgl/TJyT/ZDlOBx78CQIqX?=
+ =?us-ascii?Q?Vt3BhEXVXxp41PAnQwF+olL1A2JPoHtfdLUSr2BOrO96TMlc7fWRb5GxycZw?=
+ =?us-ascii?Q?Apyh3F3b3odv+pvXDes1ialuac0G2P7WSYqDjcj+tanbHrSfefcuCtDQ8bwn?=
+ =?us-ascii?Q?UvwVr8AGYyyAexw7VyzLZtejGYvBHje+QU9bGTNea17da1S/PEflhf3kJuhI?=
+ =?us-ascii?Q?bJcnipwsgK0mbfs3rvRAAXcpslPlJ8pshItMFiQBbh38WVoMghomVrzbljrP?=
+ =?us-ascii?Q?KKOGGt1CsGDuTv/ksE9USKN3FFA0/OqQt1c2dV9+sMHMsdXvKKVkC3oFhnaQ?=
+ =?us-ascii?Q?QC28eRBkPPU4fnb9viFEc1amzr60qyinZNqQsXAF8QXyzw5osgixwdUkCJms?=
+ =?us-ascii?Q?Xdi5Op2oFpABOmceLT7bmIU/3Yqnquo734WLeADd+FfSGbGhtq2PS+NSek0Q?=
+ =?us-ascii?Q?SQ=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b5db838-6194-4eae-de36-08dcc369a474
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 11:49:27.8868
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dPLy4+DNAWDHS/q+O8sjJw/jh7QL/9VkZAlvMFNla1EylIwsSF9v6rf7ADdM1NfTVJ9lGKL/ubvhnp1Ngxzodw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7567
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 08:41:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203682
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 11:49:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203683
 
-Updates like this are not eligible for stable branches. Please pay
-attention to what Randy said.
+The 2.39 version of util-linux took new file descriptors based mount
+kernel API into use. In relation to this change, the upstream release
+notes in
+https://github.com/util-linux/util-linux/blob/v2.39/Documentation/releases/=
+v2.39-ReleaseNotes#L14-L21
+mention that
 
-Alex
+  This change is very aggressive to libmount code, but hopefully, it does n=
+ot introduce regressions in traditional mount(8) behavior.
 
+After observing following failure when booting a board using a bit
+older 6.1 series kernel together with initramfs rootfs based boot flow
 
-On Fri, 23 Aug 2024 at 09:38, Siddharth Doshi via
-lists.openembedded.org <sdoshi=mvista.com@lists.openembedded.org>
-wrote:
->
-> From: Siddharth Doshi <sdoshi@mvista.com>
->
-> License-Update:
-> ===============
-> - README: Change in copyright years as per https://w1.fi/cgit/hostap/commit/README?id=d945ddd368085f255e68328f2d3b020ceea359af
-> - wpa_supplicant/wpa_supplicant.c: Change in copyright years as per https://w1.fi/cgit/hostap/commit/wpa_supplicant/wpa_supplicant.c?id=d945ddd368085f255e68328f2d3b020ceea359af
->
-> CVE's Fixed:
-> ===========
-> - CVE-2024-5290 wpa_supplicant: wpa_supplicant loading arbitrary shared objects allowing privilege escalation
-> - CVE-2023-52160 wpa_supplicant: potential authorization bypass
->
-> Changes between 2.10 -> 2.11:
-> ============================
-> https://w1.fi/cgit/hostap/commit/wpa_supplicant/ChangeLog?id=d945ddd368085f255e68328f2d3b020ceea359af
->
-> Note:
-> =====
-> Patche 0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch (CVE-2023-52160) is already fixed and hence removing it.
->
-> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-> ---
->  ...te-Phase-2-authentication-requiremen.patch | 213 ------------------
->  ...plicant_2.10.bb => wpa-supplicant_2.11.bb} |   7 +-
->  2 files changed, 3 insertions(+), 217 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
->  rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.10.bb => wpa-supplicant_2.11.bb} (92%)
->
-> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
-> deleted file mode 100644
-> index bc2db972c3..0000000000
-> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
-> +++ /dev/null
-> @@ -1,213 +0,0 @@
-> -From f6f7cead3661ceeef54b21f7e799c0afc98537ec Mon Sep 17 00:00:00 2001
-> -From: Jouni Malinen <j@w1.fi>
-> -Date: Sat, 8 Jul 2023 19:55:32 +0300
-> -Subject: [PATCH] PEAP client: Update Phase 2 authentication requirements
-> -
-> -The previous PEAP client behavior allowed the server to skip Phase 2
-> -authentication with the expectation that the server was authenticated
-> -during Phase 1 through TLS server certificate validation. Various PEAP
-> -specifications are not exactly clear on what the behavior on this front
-> -is supposed to be and as such, this ended up being more flexible than
-> -the TTLS/FAST/TEAP cases. However, this is not really ideal when
-> -unfortunately common misconfiguration of PEAP is used in deployed
-> -devices where the server trust root (ca_cert) is not configured or the
-> -user has an easy option for allowing this validation step to be skipped.
-> -
-> -Change the default PEAP client behavior to be to require Phase 2
-> -authentication to be successfully completed for cases where TLS session
-> -resumption is not used and the client certificate has not been
-> -configured. Those two exceptions are the main cases where a deployed
-> -authentication server might skip Phase 2 and as such, where a more
-> -strict default behavior could result in undesired interoperability
-> -issues. Requiring Phase 2 authentication will end up disabling TLS
-> -session resumption automatically to avoid interoperability issues.
-> -
-> -Allow Phase 2 authentication behavior to be configured with a new phase1
-> -configuration parameter option:
-> -'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
-> -tunnel) behavior for PEAP:
-> - * 0 = do not require Phase 2 authentication
-> - * 1 = require Phase 2 authentication when client certificate
-> -   (private_key/client_cert) is no used and TLS session resumption was
-> -   not used (default)
-> - * 2 = require Phase 2 authentication in all cases
-> -
-> -Signed-off-by: Jouni Malinen <j@w1.fi>
-> -
-> -CVE: CVE-2023-52160
-> -Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=8e6485a1bcb0baffdea9e55255a81270b768439c]
-> -
-> -Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
-> -Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ----
-> - src/eap_peer/eap_config.h          |  8 ++++++
-> - src/eap_peer/eap_peap.c            | 40 +++++++++++++++++++++++++++---
-> - src/eap_peer/eap_tls_common.c      |  6 +++++
-> - src/eap_peer/eap_tls_common.h      |  5 ++++
-> - wpa_supplicant/wpa_supplicant.conf |  7 ++++++
-> - 5 files changed, 63 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/src/eap_peer/eap_config.h b/src/eap_peer/eap_config.h
-> -index 3238f74..047eec2 100644
-> ---- a/src/eap_peer/eap_config.h
-> -+++ b/src/eap_peer/eap_config.h
-> -@@ -469,6 +469,14 @@ struct eap_peer_config {
-> -        * 1 = use cryptobinding if server supports it
-> -        * 2 = require cryptobinding
-> -        *
-> -+       * phase2_auth option can be used to control Phase 2 (i.e., within TLS
-> -+       * tunnel) behavior for PEAP:
-> -+       * 0 = do not require Phase 2 authentication
-> -+       * 1 = require Phase 2 authentication when client certificate
-> -+       *  (private_key/client_cert) is no used and TLS session resumption was
-> -+       *  not used (default)
-> -+       * 2 = require Phase 2 authentication in all cases
-> -+       *
-> -        * EAP-WSC (WPS) uses following options: pin=Device_Password and
-> -        * uuid=Device_UUID
-> -        *
-> -diff --git a/src/eap_peer/eap_peap.c b/src/eap_peer/eap_peap.c
-> -index 12e30df..6080697 100644
-> ---- a/src/eap_peer/eap_peap.c
-> -+++ b/src/eap_peer/eap_peap.c
-> -@@ -67,6 +67,7 @@ struct eap_peap_data {
-> -       u8 cmk[20];
-> -       int soh; /* Whether IF-TNCCS-SOH (Statement of Health; Microsoft NAP)
-> -                 * is enabled. */
-> -+      enum { NO_AUTH, FOR_INITIAL, ALWAYS } phase2_auth;
-> - };
-> -
-> -
-> -@@ -114,6 +115,19 @@ static void eap_peap_parse_phase1(struct eap_peap_data *data,
-> -               wpa_printf(MSG_DEBUG, "EAP-PEAP: Require cryptobinding");
-> -       }
-> -
-> -+      if (os_strstr(phase1, "phase2_auth=0")) {
-> -+              data->phase2_auth = NO_AUTH;
-> -+              wpa_printf(MSG_DEBUG,
-> -+                         "EAP-PEAP: Do not require Phase 2 authentication");
-> -+      } else if (os_strstr(phase1, "phase2_auth=1")) {
-> -+              data->phase2_auth = FOR_INITIAL;
-> -+              wpa_printf(MSG_DEBUG,
-> -+                         "EAP-PEAP: Require Phase 2 authentication for initial connection");
-> -+      } else if (os_strstr(phase1, "phase2_auth=2")) {
-> -+              data->phase2_auth = ALWAYS;
-> -+              wpa_printf(MSG_DEBUG,
-> -+                         "EAP-PEAP: Require Phase 2 authentication for all cases");
-> -+      }
-> - #ifdef EAP_TNC
-> -       if (os_strstr(phase1, "tnc=soh2")) {
-> -               data->soh = 2;
-> -@@ -142,6 +156,7 @@ static void * eap_peap_init(struct eap_sm *sm)
-> -       data->force_peap_version = -1;
-> -       data->peap_outer_success = 2;
-> -       data->crypto_binding = OPTIONAL_BINDING;
-> -+      data->phase2_auth = FOR_INITIAL;
-> -
-> -       if (config && config->phase1)
-> -               eap_peap_parse_phase1(data, config->phase1);
-> -@@ -454,6 +469,20 @@ static int eap_tlv_validate_cryptobinding(struct eap_sm *sm,
-> - }
-> -
-> -
-> -+static bool peap_phase2_sufficient(struct eap_sm *sm,
-> -+                                 struct eap_peap_data *data)
-> -+{
-> -+      if ((data->phase2_auth == ALWAYS ||
-> -+           (data->phase2_auth == FOR_INITIAL &&
-> -+            !tls_connection_resumed(sm->ssl_ctx, data->ssl.conn) &&
-> -+            !data->ssl.client_cert_conf) ||
-> -+           data->phase2_eap_started) &&
-> -+          !data->phase2_eap_success)
-> -+              return false;
-> -+      return true;
-> -+}
-> -+
-> -+
-> - /**
-> -  * eap_tlv_process - Process a received EAP-TLV message and generate a response
-> -  * @sm: Pointer to EAP state machine allocated with eap_peer_sm_init()
-> -@@ -568,6 +597,11 @@ static int eap_tlv_process(struct eap_sm *sm, struct eap_peap_data *data,
-> -                                          " - force failed Phase 2");
-> -                               resp_status = EAP_TLV_RESULT_FAILURE;
-> -                               ret->decision = DECISION_FAIL;
-> -+                      } else if (!peap_phase2_sufficient(sm, data)) {
-> -+                              wpa_printf(MSG_INFO,
-> -+                                         "EAP-PEAP: Server indicated Phase 2 success, but sufficient Phase 2 authentication has not been completed");
-> -+                              resp_status = EAP_TLV_RESULT_FAILURE;
-> -+                              ret->decision = DECISION_FAIL;
-> -                       } else {
-> -                               resp_status = EAP_TLV_RESULT_SUCCESS;
-> -                               ret->decision = DECISION_UNCOND_SUCC;
-> -@@ -887,8 +921,7 @@ continue_req:
-> -                       /* EAP-Success within TLS tunnel is used to indicate
-> -                        * shutdown of the TLS channel. The authentication has
-> -                        * been completed. */
-> --                      if (data->phase2_eap_started &&
-> --                          !data->phase2_eap_success) {
-> -+                      if (!peap_phase2_sufficient(sm, data)) {
-> -                               wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase 2 "
-> -                                          "Success used to indicate success, "
-> -                                          "but Phase 2 EAP was not yet "
-> -@@ -1199,8 +1232,9 @@ static struct wpabuf * eap_peap_process(struct eap_sm *sm, void *priv,
-> - static bool eap_peap_has_reauth_data(struct eap_sm *sm, void *priv)
-> - {
-> -       struct eap_peap_data *data = priv;
-> -+
-> -       return tls_connection_established(sm->ssl_ctx, data->ssl.conn) &&
-> --              data->phase2_success;
-> -+              data->phase2_success && data->phase2_auth != ALWAYS;
-> - }
-> -
-> -
-> -diff --git a/src/eap_peer/eap_tls_common.c b/src/eap_peer/eap_tls_common.c
-> -index c1837db..a53eeb1 100644
-> ---- a/src/eap_peer/eap_tls_common.c
-> -+++ b/src/eap_peer/eap_tls_common.c
-> -@@ -239,6 +239,12 @@ static int eap_tls_params_from_conf(struct eap_sm *sm,
-> -
-> -       sm->ext_cert_check = !!(params->flags & TLS_CONN_EXT_CERT_CHECK);
-> -
-> -+      if (!phase2)
-> -+              data->client_cert_conf = params->client_cert ||
-> -+                      params->client_cert_blob ||
-> -+                      params->private_key ||
-> -+                      params->private_key_blob;
-> -+
-> -       return 0;
-> - }
-> -
-> -diff --git a/src/eap_peer/eap_tls_common.h b/src/eap_peer/eap_tls_common.h
-> -index 9ac0012..3348634 100644
-> ---- a/src/eap_peer/eap_tls_common.h
-> -+++ b/src/eap_peer/eap_tls_common.h
-> -@@ -79,6 +79,11 @@ struct eap_ssl_data {
-> -        * tls_v13 - Whether TLS v1.3 or newer is used
-> -        */
-> -       int tls_v13;
-> -+
-> -+      /**
-> -+       * client_cert_conf: Whether client certificate has been configured
-> -+       */
-> -+      bool client_cert_conf;
-> - };
-> -
-> -
-> -diff --git a/wpa_supplicant/wpa_supplicant.conf b/wpa_supplicant/wpa_supplicant.conf
-> -index 6619d6b..d63f73c 100644
-> ---- a/wpa_supplicant/wpa_supplicant.conf
-> -+++ b/wpa_supplicant/wpa_supplicant.conf
-> -@@ -1321,6 +1321,13 @@ fast_reauth=1
-> - #      * 0 = do not use cryptobinding (default)
-> - #      * 1 = use cryptobinding if server supports it
-> - #      * 2 = require cryptobinding
-> -+#     'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
-> -+#     tunnel) behavior for PEAP:
-> -+#      * 0 = do not require Phase 2 authentication
-> -+#      * 1 = require Phase 2 authentication when client certificate
-> -+#        (private_key/client_cert) is no used and TLS session resumption was
-> -+#        not used (default)
-> -+#      * 2 = require Phase 2 authentication in all cases
-> - #     EAP-WSC (WPS) uses following options: pin=<Device Password> or
-> - #     pbc=1.
-> - #
-> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-> similarity index 92%
-> rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-> rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-> index 70f1fd6fc9..8b6bbf50eb 100644
-> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-> @@ -5,8 +5,8 @@ BUGTRACKER = "http://w1.fi/security/"
->  SECTION = "network"
->  LICENSE = "BSD-3-Clause"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=5ebcb90236d1ad640558c3d3cd3035df \
-> -                    file://README;beginline=1;endline=56;md5=e3d2f6c2948991e37c1ca4960de84747 \
-> -                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=76306a95306fee9a976b0ac1be70f705"
-> +                    file://README;beginline=1;endline=56;md5=6e4b25e7d74bfc44a32ba37bdf5210a6 \
-> +                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=f5ccd57ea91e04800edb88267bf8eae4"
->  DEPENDS = "dbus libnl"
->  RRECOMMENDS:${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
->
-> @@ -25,9 +25,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
->             file://wpa_supplicant.conf \
->             file://wpa_supplicant.conf-sane \
->             file://99_wpa_supplicant \
-> -           file://0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch \
->             "
-> -SRC_URI[sha256sum] = "20df7ae5154b3830355f8ab4269123a87affdea59fe74fe9292a91d0d7e17b2f"
-> +SRC_URI[sha256sum] = "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc5d75dee6c81ac7fc0a"
->
->  CVE_PRODUCT = "wpa_supplicant"
->
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203680): https://lists.openembedded.org/g/openembedded-core/message/203680
-> Mute This Topic: https://lists.openembedded.org/mt/108052523/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+  [FAILED] Failed to start Remount Root and Kernel File Systems.
+  See 'systemctl status systemd-remount-fs.service' for details.
+
+closer inspection revealed:
+
+  demoboard ~ # systemctl status -l systemd-remount-fs.service
+  x systemd-remount-fs.service - Remount Root and Kernel File Systems
+       Loaded: loaded (/usr/lib/systemd/system/systemd-remount-fs.service; =
+enabled-runtime; preset: disabled)
+       Active: failed (Result: exit-code) since Wed 2024-08-14 14:53:48 UTC=
+; 1min 22s ago
+         Docs: man:systemd-remount-fs.service(8)
+               https://www.freedesktop.org/wiki/Software/systemd/APIFileSys=
+tems
+      Process: 76 ExecStart=3D/usr/lib/systemd/systemd-remount-fs (code=3De=
+xited, status=3D1/FAILURE)
+     Main PID: 76 (code=3Dexited, status=3D1/FAILURE)
+
+  Aug 14 14:53:48 demoboard systemd-remount-fs[76]: /usr/bin/mount for / ex=
+ited with exit status 32.
+  Aug 14 14:53:48 demoboard systemd-remount-fs[81]: mount: /: mount point n=
+ot mounted or bad option.
+  Aug 14 14:53:48 demoboard systemd-remount-fs[81]:        dmesg(1) may hav=
+e more information after failed mount system call.
+  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Main pr=
+ocess exited, code=3Dexited, status=3D1/FAILURE
+  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Failed =
+with result 'exit-code'.
+  Aug 14 14:53:48 demoboard systemd[1]: Failed to start Remount Root and Ke=
+rnel File Systems.
+
+also consequentially, 'systemctl status' reported:
+
+  State: degraded
+
+When issuing 'strace -ff mount -o remount /' the failure occurred at
+
+  mount_setattr(3, "", AT_EMPTY_PATH, {attr_set=3DMOUNT_ATTR_RDONLY|MOUNT_A=
+TTR_NOATIME|MOUNT_ATTR_NODIRATIME, attr_clr=3DMOUNT_ATTR_NOSUID|MOUNT_ATTR_=
+NODEV|MOUNT_ATTR_NOEXEC|MOUNT_ATTR_NOATIME|MOUNT_ATTR_STRICTATIME|MOUNT_ATT=
+R_NOSYMFOLLOW|0x40, propagation=3D0 /* MS_??? */, userns_fd=3D0}, 32) =3D -=
+1 EINVAL (Invalid argument)
+
+After further investigation, The issue was pinpointed to lack of Linux
+kernel commit
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=
+=3D95de4ad173ca0e61034f3145d66917970961c210
+("fs: relax mount_setattr() permission checks") in the kernel version
+that was being used. Above mitigation was discussed in email related to
+then-rejected CVE-2024-26821:
+https://lore.kernel.org/linux-cve-announce/2024051606-imaging-entrench-b327=
+@gregkh/T/
+
+After testing with qemuarm64 machine different linux-yocto versions,
+it was observed that the issue impacts following versions of currently
+supported LTS kernels:
+ - 6.6.17 (fixed since 6.6.18 i.e. mount_setattr() returns 0)
+ - 6.1.78 (fixed since 6.1.79 i.e. mount_setattr() returns 0)
+ - 5.15.164 which is currently the newest of 5.15.y series (i.e. no
+   known working version)
+
+Taking the above findings into consideration, add a new PACKAGECONFIG
+option removing which enables users to opt-out from using the feature
+which can cause issues with a bit older kernels. The option is enabled
+only for class-target here, since it otherwise causes following error
+during util-linux-native's do_configure task on Debian 11 build host
+(mountfd_api requirement fails):
+
+   | configure: error: libmount_mountfd_support selected, but required moun=
+t FDs based API not available
+
+Versions 5.10.223, 5.4.279 and 4.10.317 were also tested with qemuarm64
+but the issue was not reproduced with those versions - using strace
+showed that the mount_setattr call associated with the new mount API
+problem was not issued with these LTS kernel versions, which seemed to
+be confirmed also by following libmount debug message in these cases:
+
+  415: libmount:     HOOK: [0x7fa115e818]: failed to init new API
+
+Note: In addition to the aforementioned, this change was tested also
+briefly using the current latest kernel versions 6.1.104, 6.6.45 and
+6.10.3 that using the old mount API with newest kernels did not
+introduce any observable regression to the boot flow.
+
+(From OE-Core rev: dc086d9a8613143607af3583c72ed892e20b4d66)
+
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/util-linux/util-linux_2.39.3.bb | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/util-linux/util-linux_2.39.3.bb b/meta/recip=
+es-core/util-linux/util-linux_2.39.3.bb
+index 83b3f4e05b..79ddf2d115 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.39.3.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.39.3.bb
+@@ -90,7 +90,10 @@ EXTRA_OECONF:append =3D " --disable-hwclock-gplv3"
+ # build host versions during development
+ #
+ PACKAGECONFIG ?=3D "pcre2"
+-PACKAGECONFIG:class-target ?=3D "${@bb.utils.contains('DISTRO_FEATURES', '=
+pam', 'chfn-chsh pam', '', d)}"
++PACKAGECONFIG:class-target ?=3D "\
++    libmount-mountfd-support \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam', '', d)=
+} \
++"
+ # inherit manpages requires this to be present, however util-linux does no=
+t have
+ # configuration options, and installs manpages always
+ PACKAGECONFIG[manpages] =3D ""
+@@ -106,6 +109,13 @@ PACKAGECONFIG[pcre2] =3D ",,libpcre2"
+ PACKAGECONFIG[cryptsetup] =3D "--with-cryptsetup,--without-cryptsetup,cryp=
+tsetup"
+ PACKAGECONFIG[chfn-chsh] =3D "--enable-chfn-chsh,--disable-chfn-chsh,"
+ PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux"
++# Using the new file descriptors based mount kernel API can cause rootfs r=
+emount failure with some older kernels.
++# Of currently supported LTS kernels, the old mount API should be used wit=
+h:
++# - versions prior to 6.6.18 in the 6.6.y series.
++# - versions prior to 6.1.79 in the 6.1.y series.
++# - versions till at least 5.15.164 in the 5.15.y series.
++# - with 5.10.y, 5.4.y and 4.19.y series kernels, libmount seemed to use t=
+he old API regardless of this option.
++PACKAGECONFIG[libmount-mountfd-support] =3D "--enable-libmount-mountfd-sup=
+port,--disable-libmount-mountfd-support"
+=20
+ EXTRA_OEMAKE =3D "ARCH=3D${TARGET_ARCH} CPU=3D CPUOPT=3D 'OPT=3D${CFLAGS}'=
+"
+=20
+--=20
+2.39.2
+
 
