@@ -1,815 +1,1747 @@
-Return-Path: <nikhil.r@kpit.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7D3C531DC
-	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 05:43:00 +0000 (UTC)
-Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.105])
- by mx.groups.io with SMTP id smtpd.web10.10133.1724391777328943570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF266C52D7C
+	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 06:09:40 +0000 (UTC)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web10.10398.1724393379202910392
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Aug 2024 22:42:58 -0700
+ Thu, 22 Aug 2024 23:09:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=U2VuoYKD;
- spf=pass (domain: kpit.com, ip: 52.101.225.105, mailfrom: nikhil.r@kpit.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EhFNopEqee63f1SuYCgYoKA08eq23HeUqY9cZW/+ne3e5OlHe7ndjiuJB4DzlGWxhjkRMMowej99/1r/sYoAy7zGBaBkTc0YJbwA5K5eRFTfSQTelWub3HZE/02j/gkCU2arp7ZYxV93Y78guzbWv7+VqvkgUl4coj7qcv0kPc97hD9juCmToUx/W5UsSn9cx1P/tznLgUEIioWeRQeQruWw2kJdijuXhd+T+Da8dFtV27JB7tles73Wo6Vb6mlSvIlHpBdqb1o8qswDETy0eOQROmdlOae2dgxiDPCKIJW+KvFzY5PT6+9577bfXysz/ZEjFmHaKx8cQefNvRhASw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oaLXlCXB9OBG+suKuP2BbRbE0PE73fF/ZZMh/BuxLYk=;
- b=eJ1Zx/b6gtUgv092ubt0OywX8LbXj99ZFlcXtssFtg1Cp270ByRI/6AJQ33b/P/t4bDyWt+0OCodiNh3uz/ZeuHBXRKYOged56NnQX5ELk9Ph2gOF8U2cMxZsrtRFJJH2ErKuK7rpIdc6kjI47lRvXVR3NGp9RaB61abQTxvU9y5a8dzXUPE0Do+tMUgT8TrXopEbwttWP279765AYPtCUZTXQvv+0neky3WvMtIYVX229iJU1lLWe2tCgB00PYG97NFSIOiEsEsnJ1GN3rVjm4wJsQ3Wy8DvFCLuQzCbRP9PK7Y7WOgjg4Ovp03Dr3Pc6NkRmqxZctjg+vBE3aauQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 103.243.227.16) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=kpit.com; dmarc=fail (p=reject sp=none pct=100) action=oreject
- header.from=kpit.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oaLXlCXB9OBG+suKuP2BbRbE0PE73fF/ZZMh/BuxLYk=;
- b=U2VuoYKDEfwDdcXaMq1sNVcDwOSEGv18lPqxJ5sWC9gfWfDCQVWf/0J+sz+J9YHByPQAZ3KJSnpp318sAeiRQg4Aq3OBNniiXkRrOY5OgYJKv7qQBMePXmZP/q3xxD+0UATXMQhGWfHebTz3+2l2HZA30p2YnzTCCG70UvGEMSs=
-Received: from PU1PR01CA0004.apcprd01.prod.exchangelabs.com
- (2603:1096:803:15::16) by PN0PR01MB8757.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:11b::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.9; Fri, 23 Aug
- 2024 05:42:45 +0000
-Received: from HK3PEPF0000021D.apcprd03.prod.outlook.com
- (2603:1096:803:15:cafe::77) by PU1PR01CA0004.outlook.office365.com
- (2603:1096:803:15::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19 via Frontend
- Transport; Fri, 23 Aug 2024 05:42:44 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 103.243.227.16)
- smtp.mailfrom=kpit.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=kpit.com;
-Received-SPF: Fail (protection.outlook.com: domain of kpit.com does not
- designate 103.243.227.16 as permitted sender)
- receiver=protection.outlook.com; client-ip=103.243.227.16;
- helo=mail.kpit.com;
-Received: from mail.kpit.com (103.243.227.16) by
- HK3PEPF0000021D.mail.protection.outlook.com (10.167.8.39) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7897.11 via Frontend Transport; Fri, 23 Aug 2024 05:42:43 +0000
-Received: from L-17494.kpit.com (10.30.140.21) by PH3EXCH01.kpit.com
- (10.52.16.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 23 Aug
- 2024 11:12:39 +0530
-From: Nikhil R <nikhilr5@kpit.com>
-To: <openembedded-core@lists.openembedded.org>, <bindudaniel1996@gmail.com>
-CC: Bindu Bhabu <bhabu.bindu@kpit.com>
-Subject: [OE-core][kirkstone][PATCH v4] expat: fix CVE-2023-52425
-Date: Fri, 23 Aug 2024 11:12:17 +0530
-Message-ID: <20240823054217.167765-1-nikhilr5@kpit.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TtQykjMJ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7093c94435bso970527a34.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 23:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724393378; x=1724998178; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z1T2GnUcSr64TapBWUUNwlLpUVMYvUf2DEs8uw8QpiY=;
+        b=TtQykjMJXXugHtcWvzCUcNN72Skz9W182OBkntSdtyomI7+kRU8KsNJ0Jv6HVMlKf6
+         g3DKFjY3l3FeB6DbZuF53MyyC7re04Esf6MUP7ii2jueB9oZq406NpGVbGbQLTvP3GKP
+         0PRCO1DCA6C0p8iDiC0mgvUNzdinZT9qcyaK4UXDwduCddFeFLeqgHxMlEAda5rTAkn2
+         r8LK234ne6/ZVtpXDJubHaYCa1JkvO5sEeYtKR0ggBvqoohZemWUIO40heGqN2qhbPxa
+         wKc6P6CDMCk054hjQy3PzUkYEin6jkhOOo46hgutOimmUsR1lZj/IeyIM+8kV0Ip9Ci7
+         Nosg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724393378; x=1724998178;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z1T2GnUcSr64TapBWUUNwlLpUVMYvUf2DEs8uw8QpiY=;
+        b=N4q3mH8ExZaROTQjxUu4iVp4CpUzd3B8xCKUI/tnEz/KPwIHw20nKXJzfSHjXEceKI
+         ajp90yOtOZ8gUjtNWoEBfKG/6WRmIMzLm0PHLi6rWjKO7GKbr6TKYbbKpHKV+F4nj2Zr
+         5pnLtqomywb66YIjTSSaNyNtI4t9+DGMzPv80W3ENSWJNp7FSyMYEVDpBmjUBh5wMR5J
+         ltMTmcOObrk8eEaNgQ0T2/lvN5uwdXDqMNrvkv1ennaDYnw69uBU7jgp7u1e0SJ/xj+i
+         U8WumFJh7mFTAGUx0eD1Layj4rwM1MTsK5uz5/FvRY+9ecbpBngXi76O7W/75rn1WrmJ
+         YoZQ==
+X-Gm-Message-State: AOJu0YwRqmq09E2ENw9ikPh50n9T+yaTw7/V4+I8qAcM+R+UKfuAbCLa
+	qFp/k2+M6rIw8k9/g6HTxoTBG4fnQ8IeFQi1O4itqXZXVGjILvpehYeh+0AiaFWN40DEVAbLTz3
+	sAf8BaEUg5VXIVISe+P7Vmw9Br3c=
+X-Google-Smtp-Source: AGHT+IGVboOM5NeD4AEVXML7gwMYgrpyJRLvLjCSBx4mKJp/i1QyINAJ64DkD7m9IjdglZMvTBGP2iTr4SP/QxXsAf4=
+X-Received: by 2002:a05:6808:6489:b0:3d5:5fbe:b2fa with SMTP id
+ 5614622812f47-3de2a8d4697mr1095898b6e.35.1724393377593; Thu, 22 Aug 2024
+ 23:09:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="No"
+References: <20240822093521.36790-1-alex.kanavin@gmail.com> <20240822093521.36790-8-alex.kanavin@gmail.com>
+In-Reply-To: <20240822093521.36790-8-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Aug 2024 23:09:11 -0700
+Message-ID: <CAMKF1sp6hugNAci8pPG229yedLraQEKGeuPXJ4cbmHAMaMCc5A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 08/32] e2fsprogs: upgrade 1.47.0 -> 1.47.1
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.30.140.21]
-X-ClientProxiedBy: PH3ExchFE01.kpit.com (10.52.16.111) To PH3EXCH01.kpit.com
- (10.52.16.25)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK3PEPF0000021D:EE_|PN0PR01MB8757:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4551f2e-7cd3-4c61-6754-08dcc3366910
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?arI5u2Bpn1UO8/8vOfXtXx1Kseunf32d0KRz+Vv5hmrTxEx8LM5UpsVAu1+G?=
- =?us-ascii?Q?GZs7pVl/7Ys2dH6e7IRGMYILE3szTfu/AX/xnGIDr2tzZ/RB75piYJP1B57J?=
- =?us-ascii?Q?KB+f5+kve5fyvIerjuvj7qKCgCL/7Y6DkqkmBoSElmlDSYSfCrPLCEzgldBA?=
- =?us-ascii?Q?Kmwi+JG93ztoAvxR0kQFBQVJ21lcqBSLpVZmOpi+GkDzjc+4U/kr4l7uCsvx?=
- =?us-ascii?Q?e0aZW32JoaWDDHz4jgDM15s9m2IjreLXKdEegSJl1c2ollJvYGpTey8SEALt?=
- =?us-ascii?Q?nkpR8Fqfau/yTI+ofT4Hng3ezgcibNgS77WVgPxR3/uvOUuLYXGvEWq74K6o?=
- =?us-ascii?Q?J3k8GI5OUoHfyoFNACRJidJOuUnBSo/kePrFIDhJdtTddKeyv2Onnx4Vbf2i?=
- =?us-ascii?Q?j8kBTYvxE6edw5aeB94Zc7JqGm9qL2+sFrX5ugD5oMt1u2cMzvA/ZOhUrhLn?=
- =?us-ascii?Q?FJWGbraD3ioAvc2aXKenquPTczEhWAPlxIBea+m8yXCZPpywxB7XE453gWBd?=
- =?us-ascii?Q?6Tk/AhjojM7MPmaLNXlRxkInAvAY7hTusyEtTLgfSgwiSxvAZMNSrianLEg+?=
- =?us-ascii?Q?LGiypNOBRyIiGxOoJ19miWd3wbuRZCCOXJdjtQooyxYnfUgkjtz8olX7BX16?=
- =?us-ascii?Q?Vb5xf51zaYFtFwne3d6PdBIQTtH5FcTP75VOPWyQwbrqX2eJtrNCn+FjGMEy?=
- =?us-ascii?Q?SVqSlcwWV+yuGhId3SakoujU9psjJKyQ2Yr6mKOLvcqpfXEDpJCevTOXzrig?=
- =?us-ascii?Q?BG64qOLeTNuoE9/fVDKqopZ/METmgrjPdcK0N0X5WNNeBVfobrhhPp0w1mRy?=
- =?us-ascii?Q?Fv+CViDHCQc0eVtEiD+2VhM0JlnkbJ6fyfu8w/rpSQciRpW/LYORykjWMSWS?=
- =?us-ascii?Q?b84vrirrtra0Wk1LAdsMDKhpciX9GuLGkvbWKegZHesA+/RX1D6LcBLF7r2b?=
- =?us-ascii?Q?GppLeIZGZI1Yhrlz26MV6WjpAezmy77FxToFoG8/cvjsGtaDW9lYV6XFHc3a?=
- =?us-ascii?Q?JTm4NIwNU3fLlZlE1KoxXD3DgGf14yHXydNa/lsfoSdzjMq7UtOYHOJ6wZez?=
- =?us-ascii?Q?K6w+2tWLF9scWmlqwh162XQ70vjrFUwHUjwebQwt14miHJ0R6r7vHqnLAx+8?=
- =?us-ascii?Q?7I8vustbLLOCRt0IX1j31kmt8NWdIkV3NMpcBIFzlP7tIEwX0lsNJAdooY0S?=
- =?us-ascii?Q?jtvZ0zr41XbSYunXOAJdNBQYbqDMbcEIaqMOFIIcVzHkSVVkxyvGpkWkQXHD?=
- =?us-ascii?Q?xdFD6qgR2ivN5WpJWvNHdoQo9HzH6TlUxXOGdxjGVxBg7v/8MseYoF1IUIWR?=
- =?us-ascii?Q?ZRWU2bs3nvRqX+z+9QWk3ZOTuDr80qlZUm/UQM7Kw+D10pRUFnJPhrx8V9If?=
- =?us-ascii?Q?SiHNlls0Y5TKBobg5wsMX40xTViF3NAGPk+L3hxpVfktZ5c/fg=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:103.243.227.16;CTRY:IN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.kpit.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024);DIR:OUT;SFP:1102;
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 05:42:43.5132
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4551f2e-7cd3-4c61-6754-08dcc3366910
-X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3539451e-b46e-4a26-a242-ff61502855c7;Ip=[103.243.227.16];Helo=[mail.kpit.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	HK3PEPF0000021D.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB8757
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 05:43:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203678
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 06:09:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203679
 
-libexpat through 2.5.0 allows a denial of service
-(resource consumption) because many full reparsings
-are required in the case of a large token for which
-multiple buffer fills are needed.
+This is regressing libblockdev from meta-oe -
+https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/4065/step=
+s/14/logs/stdio
 
-References:
-https://security-tracker.debian.org/tracker/CVE-2023-52425
-https://ubuntu.com/security/CVE-2023-52425
-https://packages.ubuntu.com/mantic/expat
-https://github.com/libexpat/libexpat/pull/789
-https://launchpad.net/ubuntu/+source/expat/2.5.0-2ubuntu0.1
+error snippet
 
-Signed-off-by: Bindu Bhabu <bhabu.bindu@kpit.com>
----
- .../expat/expat/CVE-2023-52425.patch          | 581 ++++++++++++++++++
- meta/recipes-core/expat/expat_2.5.0.bb        |   1 +
- 2 files changed, 582 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52425.patch
+| /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-poky-l=
+inux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:
+In function '__encode_extra_time':
+   | /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-pok=
+y-linux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:588:48=
+:
+error: unused parameter 'seconds' [-Werror=3Dunused-parameter]
+   |   588 | static inline __u32 __encode_extra_time(time_t seconds, __u32 =
+nsec)
+   |       |                                         ~~~~~~~^~~~~~~
+   | /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-pok=
+y-linux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:
+In function '__decode_extra_sec':
+   | /home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-64-pok=
+y-linux/libblockdev/3.1.1/recipe-sysroot/usr/include/ext2fs/ext2fs.h:598:63=
+:
+error: unused parameter 'extra' [-Werror=3Dunused-parameter]
+   |   598 | static inline time_t __decode_extra_sec(time_t seconds,
+__u32 extra)
+   |       |                                                         ~~~~~~=
+^~~~~
+   | cc1: all warnings being treated as errors
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52425.patch b/meta/reci=
-pes-core/expat/expat/CVE-2023-52425.patch
-new file mode 100644
-index 0000000000..1434bb6f52
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52425.patch
-@@ -0,0 +1,581 @@
-+Backport of https://github.com/libexpat/libexpat/pull/789
-+
-+From 9cdf9b8d77d5c2c2a27d15fb68dd3f83cafb45a1 Mon Sep 17 00:00:00 2001
-+From: Snild Dolkow <snild@sony.com>
-+Date: Thu, 17 Aug 2023 16:25:26 +0200
-+Subject: [PATCH] Skip parsing after repeated partials on the same token
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+When the parse buffer contains the starting bytes of a token but not
-+all of them, we cannot parse the token to completion. We call this a
-+partial token.  When this happens, the parse position is reset to the
-+start of the token, and the parse() call returns. The client is then
-+expected to provide more data and call parse() again.
-+
-+In extreme cases, this means that the bytes of a token may be parsed
-+many times: once for every buffer refill required before the full token
-+is present in the buffer.
-+
-+Math:
-+  Assume there's a token of T bytes
-+  Assume the client fills the buffer in chunks of X bytes
-+  We'll try to parse X, 2X, 3X, 4X ... until mX =3D=3D T (technically >=3D=
-)
-+  That's (m=C3=82=C2=B2+m)X/2 =3D (T=C3=82=C2=B2/X+T)/2 bytes parsed (arit=
-hmetic progression)
-+  While it is alleviated by larger refills, this amounts to O(T=C3=82=C2=
-=B2)
-+
-+Expat grows its internal buffer by doubling it when necessary, but has
-+no way to inform the client about how much space is available. Instead,
-+we add a heuristic that skips parsing when we've repeatedly stopped on
-+an incomplete token. Specifically:
-+
-+ * Only try to parse if we have a certain amount of data buffered
-+ * Every time we stop on an incomplete token, double the threshold
-+ * As soon as any token completes, the threshold is reset
-+
-+This means that when we get stuck on an incomplete token, the threshold
-+grows exponentially, effectively making the client perform larger buffer
-+fills, limiting how many times we can end up re-parsing the same bytes.
-+
-+Math:
-+  Assume there's a token of T bytes
-+  Assume the client fills the buffer in chunks of X bytes
-+  We'll try to parse X, 2X, 4X, 8X ... until (2^k)X =3D=3D T (or larger)
-+  That's (2^(k+1)-1)X bytes parsed -- e.g. 15X if T =3D 8X
-+  This is equal to 2T-X, which amounts to O(T)
-+
-+We could've chosen a faster growth rate, e.g. 4 or 8. Those seem to
-+increase performance further, at the cost of further increasing the
-+risk of growing the buffer more than necessary. This can easily be
-+adjusted in the future, if desired.
-+
-+This is all completely transparent to the client, except for:
-+1. possible delay of some callbacks (when our heuristic overshoots)
-+2. apps that never do isFinal=3DXML_TRUE could miss data at the end
-+
-+For the affected testdata, this change shows a 100-400x speedup.
-+The recset.xml benchmark shows no clear change either way.
-+
-+Before:
-+benchmark -n ../testdata/largefiles/recset.xml 65535 3
-+  3 loops, with buffer size 65535. Average time per loop: 0.270223
-+benchmark -n ../testdata/largefiles/aaaaaa_attr.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 15.033048
-+benchmark -n ../testdata/largefiles/aaaaaa_cdata.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.018027
-+benchmark -n ../testdata/largefiles/aaaaaa_comment.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 11.775362
-+benchmark -n ../testdata/largefiles/aaaaaa_tag.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 11.711414
-+benchmark -n ../testdata/largefiles/aaaaaa_text.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.019362
-+
-+After:
-+./run.sh benchmark -n ../testdata/largefiles/recset.xml 65535 3
-+  3 loops, with buffer size 65535. Average time per loop: 0.269030
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_attr.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.044794
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_cdata.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.016377
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_comment.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.027022
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_tag.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.099360
-+./run.sh benchmark -n ../testdata/largefiles/aaaaaa_text.xml 4096 3
-+  3 loops, with buffer size 4096. Average time per loop: 0.017956
-+
-+CVE: CVE-2023-52425
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/789]
-+Comments: Hunks refreshed.
-+          Patch difference/summary has also been modified.
-+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
-+
-+---
-+ lib/expat.h            | 5   +++++
-+ lib/libexpat.def.cmake | 2   ++
-+ lib/xmlparse.c         | 228 ++++++++++++++++++++++++++++++++++++++++++--=
---------------------------------
-+ xmlwf/xmlwf.c          | 20  ++++++++++++++++++++
-+ xmlwf/xmlwf_helpgen.py | 4   ++++
-+ 5 files changed, 156 insertions(+), 103 deletions(-)
-+
-+--- a/lib/expat.h
-++++ b/lib/expat.h
-+@@ -16,6 +16,7 @@
-+    Copyright (c) 2016      Thomas Beutlich <tc@tbeu.de>
-+    Copyright (c) 2017      Rhodri James <rhodri@wildebeest.org.uk>
-+    Copyright (c) 2022      Thijs Schreijer <thijs@thijsschreijer.nl>
-++   Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.co=
-m>
-+    Licensed under the MIT license:
-+
-+    Permission is  hereby granted,  free of charge,  to any  person obtain=
-ing
-+@@ -1050,6 +1051,10 @@ XML_SetBillionLaughsAttackProtectionActi
-+     XML_Parser parser, unsigned long long activationThresholdBytes);
-+ #endif
-+
-++/* Added in Expat 2.6.0. */
-++XMLPARSEAPI(XML_Bool)
-++XML_SetReparseDeferralEnabled(XML_Parser parser, XML_Bool enabled);
-++
-+ /* Expat follows the semantic versioning convention.
-+    See http://semver.org.
-+ */
-+--- a/lib/libexpat.def.cmake
-++++ b/lib/libexpat.def.cmake
-+@@ -77,3 +77,5 @@ EXPORTS
-+ ; added with version 2.4.0
-+ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionActivation=
-Threshold @69
-+ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionMaximumAmp=
-lification @70
-++; added with version 2.6.0
-++  XML_SetReparseDeferralEnabled @71
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -36,6 +36,7 @@
-+    Copyright (c) 2022      Samanta Navarro <ferivoz@riseup.net>
-+    Copyright (c) 2022      Jeffrey Walton <noloader@gmail.com>
-+    Copyright (c) 2022      Jann Horn <jannh@google.com>
-++   Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.co=
-m>
-+    Licensed under the MIT license:
-+
-+    Permission is  hereby granted,  free of charge,  to any  person obtain=
-ing
-+@@ -73,6 +74,7 @@
-+ #  endif
-+ #endif
-+
-++#include <stdbool.h>
-+ #include <stddef.h>
-+ #include <string.h> /* memset(), memcpy() */
-+ #include <assert.h>
-+@@ -196,6 +198,8 @@ typedef char ICHAR;
-+ /* Do safe (NULL-aware) pointer arithmetic */
-+ #define EXPAT_SAFE_PTR_DIFF(p, q) (((p) && (q)) ? ((p) - (q)) : 0)
-+
-++#define EXPAT_MIN(a, b) (((a) < (b)) ? (a) : (b))
-++
-+ #include "internal.h"
-+ #include "xmltok.h"
-+ #include "xmlrole.h"
-+@@ -617,6 +621,9 @@ struct XML_ParserStruct {
-+   const char *m_bufferLim;
-+   XML_Index m_parseEndByteIndex;
-+   const char *m_parseEndPtr;
-++  size_t m_partialTokenBytesBefore; /* used in heuristic to avoid O(n^2) =
+On Thu, Aug 22, 2024 at 2:35=E2=80=AFAM Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> From: Alexander Kanavin <alex@linutronix.de>
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ...-missing-check-for-permission-denied.patch |    3 +-
+>  .../e2fsprogs/e2fsprogs/mkdir_p.patch         |    7 +-
+>  .../e2fsprogs/e2fsprogs/ptest.patch           |    8 +-
+>  .../e2fsprogs/e2fsprogs/quiet-debugfs.patch   |    7 +-
+>  .../e2fsprogs/remove.ldconfig.call.patch      |   15 +-
+>  ...2fsprogs_1.47.0.bb =3D> e2fsprogs_1.47.1.bb} |    2 +-
+>  ...2_fs.h-do-not-carry-an-outdated-copy.patch | 1197 +++++++++++++++++
+>  .../syslinux/syslinux_6.04-pre2.bb            |    3 +-
+>  8 files changed, 1217 insertions(+), 25 deletions(-)
+>  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.0.bb =3D> e2fspro=
+gs_1.47.1.bb} (99%)
+>  create mode 100644 meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.=
+h-do-not-carry-an-outdated-copy.patch
+>
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-miss=
+ing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2f=
+sprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
+> index b038e61eb71..4cd10985976 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-che=
+ck-for-permission-denied.patch
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-che=
+ck-for-permission-denied.patch
+> @@ -1,4 +1,4 @@
+> -From 5bc75654690a2d916190168b865770a7c93e65dd Mon Sep 17 00:00:00 2001
+> +From 1c7078fda6d23f1d80b0d95ac3e908364749e188 Mon Sep 17 00:00:00 2001
+>  From: Jackie Huang <jackie.huang@windriver.com>
+>  Date: Wed, 10 Aug 2016 11:19:44 +0800
+>  Subject: [PATCH] Fix missing check for permission denied.
+> @@ -13,7 +13,6 @@ Upstream-Status: Pending
+>  Written-by: Henrik Wallin <henrik.b.wallin@ericsson.com>
+>
+>  Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> -
+>  ---
+>   lib/support/profile.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch b/me=
+ta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
+> index f6916a11120..2dbeba1095f 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdir_p.patch
+> @@ -1,4 +1,4 @@
+> -From e3a30baa5c1e2f0ac7e246539db1c7db5a2fe302 Mon Sep 17 00:00:00 2001
+> +From e143a900199c5bb10b28f3fc8f4d36bbb6ffdd5f Mon Sep 17 00:00:00 2001
+>  From: Joe Slater <jslater@windriver.com>
+>  Date: Tue, 7 Mar 2017 14:53:19 -0800
+>  Subject: [PATCH] e2fsprogs: expand @mkdir_p@
+> @@ -9,16 +9,15 @@ not expanded so no locale data is written into usr/shar=
+e/locale.
+>  Upstream-Status: Pending
+>
+>  Signed-off-by: Joe Slater <jslater@windriver.com>
+> -
+>  ---
+>   configure.ac | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+>  diff --git a/configure.ac b/configure.ac
+> -index 4c4b5523..3475c707 100644
+> +index 131caef3..ca448d97 100644
+>  --- a/configure.ac
+>  +++ b/configure.ac
+> -@@ -919,6 +919,8 @@ AC_SUBST(PACKAGE)
+> +@@ -938,6 +938,8 @@ AC_SUBST(PACKAGE)
+>   AC_SUBST(VERSION)
+>
+>   AM_GNU_GETTEXT([external])
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta=
+/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+> index 20839b72863..f4e1057a364 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+> @@ -1,4 +1,4 @@
+> -From b8842065ad621a03a971dfd50db862c5bffdeb49 Mon Sep 17 00:00:00 2001
+> +From 25db5ac7469cedd043a04bcf49ce7553979fbb32 Mon Sep 17 00:00:00 2001
+>  From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+>  Date: Sat, 18 Apr 2015 17:58:17 +0300
+>  Subject: [PATCH] e2fsprogs: add ptest
+> @@ -14,10 +14,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>   2 files changed, 18 insertions(+), 18 deletions(-)
+>
+>  diff --git a/tests/Makefile.in b/tests/Makefile.in
+> -index 8c4d2048..e021af32 100644
+> +index ba06b3b6..5a3e48f4 100644
+>  --- a/tests/Makefile.in
+>  +++ b/tests/Makefile.in
+> -@@ -19,7 +19,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
+> +@@ -20,7 +20,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf t=
+est_data.tmp
+>         @echo "#!/bin/sh" > test_one
+>         @echo "HTREE=3Dy" >> test_one
+>         @echo "QUOTA=3Dy" >> test_one
+> @@ -26,7 +26,7 @@ index 8c4d2048..e021af32 100644
+>         @echo "DIFF_OPTS=3D@UNI_DIFF_OPTS@" >> test_one
+>         @echo "SIZEOF_TIME_T=3D@SIZEOF_TIME_T@" >> test_one
+>         @echo "DD=3D@DD@" >>test_one
+> -@@ -30,7 +30,7 @@ test_script: test_one test_script.in Makefile mke2fs.c=
+onf
+> +@@ -31,7 +31,7 @@ test_script: test_one test_script.in Makefile mke2fs.c=
+onf test_data.tmp
+>         @echo "Creating test_script..."
+>         @[ -f test_script ] && chmod u+w test_script || true
+>         @echo "#!/bin/sh" > test_script
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patc=
+h b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
+> index 0a6904208d9..4ba150e27d7 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
+> @@ -1,4 +1,4 @@
+> -From 580ef6cae2d353f3aa5d5c52d6614bdc1df50f08 Mon Sep 17 00:00:00 2001
+> +From b66c973e004e0c458ef275b41ac2d8d9ff33d29f Mon Sep 17 00:00:00 2001
+>  From: Ross Burton <ross.burton@intel.com>
+>  Date: Mon, 23 Dec 2013 13:38:34 +0000
+>  Subject: [PATCH] e2fsprogs: silence debugfs
+> @@ -8,16 +8,15 @@ filesystems at rootfs time.
+>
+>  Upstream-Status: Inappropriate
+>  Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+>  ---
+>   debugfs/debugfs.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>  diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
+> -index 9b6321dc..8ebf3ddb 100644
+> +index 909c1df3..0842369e 100644
+>  --- a/debugfs/debugfs.c
+>  +++ b/debugfs/debugfs.c
+> -@@ -2516,7 +2516,7 @@ static int source_file(const char *cmd_file, int s=
+s_idx)
+> +@@ -2529,7 +2529,7 @@ static int source_file(const char *cmd_file, int s=
+s_idx)
+>                 cp =3D strchr(buf, '\r');
+>                 if (cp)
+>                         *cp =3D 0;
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.ca=
+ll.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.p=
+atch
+> index f3e6eb778ff..307088d42b4 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patc=
+h
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/remove.ldconfig.call.patc=
+h
+> @@ -1,10 +1,10 @@
+> -From b139e03ac2f72e644e547c7ee9b1514383af4d97 Mon Sep 17 00:00:00 2001
+> +From 972086935d6c7f6e603004fd7f94bd13a65f470c Mon Sep 17 00:00:00 2001
+>  From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+>  Date: Wed, 30 Jan 2013 15:22:04 +0200
+>  Subject: [PATCH] When /etc/ld.so.cache is writeable by user running bitb=
+ake
+> - then it creates invalid cache (in my case libstdc++.so
+> - cannot be found after building zlib(-native) and I have to
+> - call touch */libstdc++.so && /sbin/ldconfig to fix it.
+> + then it creates invalid cache (in my case libstdc++.so cannot be found =
+after
+> + building zlib(-native) and I have to call touch */libstdc++.so &&
+> + /sbin/ldconfig to fix it.
+>
+>  So remove ldconfig call from make install-libs
+>
+> @@ -15,11 +15,11 @@ Upstream-Status: Inappropriate [disable feature]
+>  Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+>  Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+>  ---
+> - lib/Makefile.elf-lib |    3 ---
+> + lib/Makefile.elf-lib | 3 ---
+>   1 file changed, 3 deletions(-)
+>
+>  diff --git a/lib/Makefile.elf-lib b/lib/Makefile.elf-lib
+> -index 78479d3..4a4a5ac 100644
+> +index f850f3dd..cc1e6a70 100644
+>  --- a/lib/Makefile.elf-lib
+>  +++ b/lib/Makefile.elf-lib
+>  @@ -50,8 +50,6 @@ install-shlibs install:: $(ELF_LIB) installdirs-elf-li=
+b $(DEP_INSTALL_SYMLINK)
+> @@ -39,6 +39,3 @@ index 78479d3..4a4a5ac 100644
+>
+>   clean::
+>         $(RM) -rf elfshared
+> ---
+> -1.7.9.5
+> -
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+> similarity index 99%
+> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+> index 940b47c155d..bd6ac92cb14 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.1.bb
+> @@ -10,7 +10,7 @@ SRC_URI:append:class-native =3D " \
+>             file://quiet-debugfs.patch \
+>             "
+>
+> -SRCREV =3D "f4c9cc4bedacde8408edda3520a32d3842290112"
+> +SRCREV =3D "b571b9b4240739a982e8bca62cfc914a3b50190a"
+>  UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+>
+>  EXTRA_OECONF +=3D "--libdir=3D${base_libdir} --sbindir=3D${base_sbindir}=
+ \
+> diff --git a/meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-no=
+t-carry-an-outdated-copy.patch b/meta/recipes-devtools/syslinux/syslinux/00=
+01-ext2_fs.h-do-not-carry-an-outdated-copy.patch
+> new file mode 100644
+> index 00000000000..299423b5a30
+> --- /dev/null
+> +++ b/meta/recipes-devtools/syslinux/syslinux/0001-ext2_fs.h-do-not-carry=
+-an-outdated-copy.patch
+> @@ -0,0 +1,1197 @@
+> +From daf017bc98276fecce1893c7e4db70cbd8c8f7a0 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Fri, 16 Aug 2024 16:59:21 +0200
+> +Subject: [PATCH] ext2_fs.h: do not carry an outdated copy
+> +
+> +This copy is no longer compatible with latest e2fsprogs
+> +(which installs a correct version).
+> +
+> +Upstream-Status: Inactive-Upstream
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> +---
+> + core/fs/ext2/ext2_fs.h        | 312 -------------
+> + libinstaller/ext2fs/ext2_fs.h | 856 ----------------------------------
+> + 2 files changed, 1168 deletions(-)
+> + delete mode 100644 core/fs/ext2/ext2_fs.h
+> + delete mode 100644 libinstaller/ext2fs/ext2_fs.h
+> +
+> +diff --git a/core/fs/ext2/ext2_fs.h b/core/fs/ext2/ext2_fs.h
+> +deleted file mode 100644
+> +index d8d07eb..0000000
+> +--- a/core/fs/ext2/ext2_fs.h
+> ++++ /dev/null
+> +@@ -1,312 +0,0 @@
+> +-#ifndef __EXT2_FS_H
+> +-#define __EXT2_FS_H
+> +-
+> +-#include <stdint.h>
+> +-
+> +-#define       EXT2_SUPER_MAGIC        0xEF53
+> +-
+> +-#define EXT2_GOOD_OLD_REV       0       // The good old (original) form=
+at
+> +-#define EXT2_DYNAMIC_REV        1       // V2 format w/ dynamic inode s=
+izes
+> +-#define EXT2_GOOD_OLD_INODE_SIZE 128
+> +-
+> +-// Special inode numbers
+> +-#define       EXT2_BAD_INO             1      // Bad blocks inode
+> +-#define EXT2_ROOT_INO          2      // Root inode
+> +-#define EXT2_BOOT_LOADER_INO   5      // Boot loader inode
+> +-#define EXT2_UNDEL_DIR_INO     6      // Undelete directory inode
+> +-#define EXT3_RESIZE_INO                7      // Reserved group descrip=
+tors inode
+> +-#define EXT3_JOURNAL_INO       8      // Journal inode
+> +-
+> +-// We're readonly, so we only care about incompat features.
+> +-#define EXT2_FEATURE_INCOMPAT_COMPRESSION     0x0001
+> +-#define EXT2_FEATURE_INCOMPAT_FILETYPE                0x0002
+> +-#define EXT3_FEATURE_INCOMPAT_RECOVER         0x0004
+> +-#define EXT3_FEATURE_INCOMPAT_JOURNAL_DEV     0x0008
+> +-#define EXT2_FEATURE_INCOMPAT_META_BG         0x0010
+> +-#define EXT2_FEATURE_INCOMPAT_ANY             0xffffffff
+> +-
+> +-#define EXT2_NDIR_BLOCKS      12
+> +-#define       EXT2_IND_BLOCK          EXT2_NDIR_BLOCKS
+> +-#define EXT2_DIND_BLOCK               (EXT2_IND_BLOCK+1)
+> +-#define       EXT2_TIND_BLOCK         (EXT2_DIND_BLOCK+1)
+> +-#define       EXT2_N_BLOCKS           (EXT2_TIND_BLOCK+1)
+> +-
+> +-
+> +-/* for EXT4 extent */
+> +-#define EXT4_EXT_MAGIC     0xf30a
+> +-#define EXT4_EXTENTS_FLAG  0x00080000
+> +-
+> +-/*
+> +- * File types and file modes
+> +- */
+> +-#define S_IFDIR               0040000         // Directory
+> +-#define S_IFCHR               0020000         // Character device
+> +-#define S_IFBLK               0060000         // Block device
+> +-#define S_IFREG               0100000         // Regular file
+> +-#define S_IFIFO               0010000         // FIFO
+> +-#define S_IFLNK               0120000         // Symbolic link
+> +-#define S_IFSOCK      0140000         // Socket
+> +-
+> +-#define S_IFSHIFT     12
+> +-
+> +-#define T_IFDIR               (S_IFDIR >> S_IFSHIFT)
+> +-#define T_IFCHR               (S_IFCHR >> S_IFSHIFT)
+> +-#define T_IFBLK               (S_IFBLK >> S_IFSHIFT)
+> +-#define T_IFREG               (S_IFREG >> S_IFSHIFT)
+> +-#define T_IFIFO               (S_IFIFO >> S_IFSHIFT)
+> +-#define T_IFLNK               (S_IFLNK >> S_IFSHIFT)
+> +-#define T_IFSOCK      (S_IFSOCK >> S_IFSHIFT)
+> +-
+> +-
+> +-#define ext2_group_desc_lg2size 5
+> +-
+> +-
+> +-
+> +-/*
+> +- * super block structure:
+> +- * include/linux/ext2_fs.h
+> +- */
+> +-struct ext2_super_block {
+> +-    uint32_t s_inodes_count;          /* Inodes count */
+> +-    uint32_t s_blocks_count;          /* Blocks count */
+> +-    uint32_t s_r_blocks_count;                /* Reserved blocks count =
 */
-++  XML_Bool m_reparseDeferralEnabled;
-++  int m_lastBufferRequestSize;
-+   XML_Char *m_dataBuf;
-+   XML_Char *m_dataBufEnd;
-+   XML_StartElementHandler m_startElementHandler;
-+@@ -948,6 +955,46 @@ get_hash_secret_salt(XML_Parser parser)
-+   return parser->m_hash_secret_salt;
-+ }
-+
-++static enum XML_Error
-++callProcessor(XML_Parser parser, const char *start, const char *end,
-++              const char **endPtr) {
-++  const size_t have_now =3D EXPAT_SAFE_PTR_DIFF(end, start);
-++
-++  if (parser->m_reparseDeferralEnabled
-++      && ! parser->m_parsingStatus.finalBuffer) {
-++    // Heuristic: don't try to parse a partial token again until the amou=
-nt of
-++    // available data has increased significantly.
-++    const size_t had_before =3D parser->m_partialTokenBytesBefore;
-++    // ...but *do* try anyway if we're close to causing a reallocation.
-++    size_t available_buffer
-++        =3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_buffer);
-++#if XML_CONTEXT_BYTES > 0
-++    available_buffer -=3D EXPAT_MIN(available_buffer, XML_CONTEXT_BYTES);
-++#endif
-++    available_buffer
-++        +=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEnd=
-);
-++    // m_lastBufferRequestSize is never assigned a value < 0, so the cast=
- is ok
-++    const bool enough
-++        =3D (have_now >=3D 2 * had_before)
-++          || ((size_t)parser->m_lastBufferRequestSize > available_buffer)=
-;
-++
-++    if (! enough) {
-++      *endPtr =3D start; // callers may expect this to be set
-++      return XML_ERROR_NONE;
-++    }
-++  }
-++  const enum XML_Error ret =3D parser->m_processor(parser, start, end, en=
-dPtr);
-++  if (ret =3D=3D XML_ERROR_NONE) {
-++    // if we consumed nothing, remember what we had on this parse attempt=
-.
-++    if (*endPtr =3D=3D start) {
-++      parser->m_partialTokenBytesBefore =3D have_now;
-++    } else {
-++      parser->m_partialTokenBytesBefore =3D 0;
-++    }
-++  }
-++  return ret;
-++}
-++
-+ static XML_Bool /* only valid for root parser */
-+ startParsing(XML_Parser parser) {
-+   /* hash functions must be initialized before setContext() is called */
-+@@ -1129,6 +1176,9 @@ parserInit(XML_Parser parser, const XML_
-+   parser->m_bufferEnd =3D parser->m_buffer;
-+   parser->m_parseEndByteIndex =3D 0;
-+   parser->m_parseEndPtr =3D NULL;
-++  parser->m_partialTokenBytesBefore =3D 0;
-++  parser->m_reparseDeferralEnabled =3D XML_TRUE;
-++  parser->m_lastBufferRequestSize =3D 0;
-+   parser->m_declElementType =3D NULL;
-+   parser->m_declAttributeId =3D NULL;
-+   parser->m_declEntity =3D NULL;
-+@@ -1298,6 +1348,7 @@ XML_ExternalEntityParserCreate(XML_Parse
-+      to worry which hash secrets each table has.
-+   */
-+   unsigned long oldhash_secret_salt;
-++  XML_Bool oldReparseDeferralEnabled;
-+
-+   /* Validate the oldParser parameter before we pull everything out of it=
+> +-    uint32_t s_free_blocks_count;     /* Free blocks count */
+> +-    uint32_t s_free_inodes_count;     /* Free inodes count */
+> +-    uint32_t s_first_data_block;      /* First Data Block */
+> +-    uint32_t s_log_block_size;                /* Block size */
+> +-    uint32_t s_log_frag_size;         /* Fragment size */
+> +-    uint32_t s_blocks_per_group;      /* # Blocks per group */
+> +-    uint32_t s_frags_per_group;               /* # Fragments per group =
+*/
+> +-    uint32_t s_inodes_per_group;      /* # Inodes per group */
+> +-    uint32_t s_mtime;                 /* Mount time */
+> +-    uint32_t s_wtime;                 /* Write time */
+> +-    uint16_t s_mnt_count;             /* Mount count */
+> +-    int16_t  s_max_mnt_count;         /* Maximal mount count */
+> +-    uint16_t s_magic;                 /* Magic signature */
+> +-    uint16_t s_state;                 /* File system state */
+> +-    uint16_t s_errors;                        /* Behaviour when detecti=
+ng errors */
+> +-    uint16_t s_minor_rev_level;
+> +-    uint32_t s_lastcheck;             /* time of last check */
+> +-    uint32_t s_checkinterval;         /* max. time between checks */
+> +-    uint32_t s_creator_os;            /* OS */
+> +-    uint32_t s_rev_level;             /* Revision level */
+> +-    uint16_t s_def_resuid;            /* Default uid for reserved block=
+s */
+> +-    uint16_t s_def_resgid;            /* Default gid for reserved block=
+s */
+> +-
+> +-    uint32_t s_first_ino;             /* First non-reserved inode */
+> +-    uint16_t s_inode_size;            /* size of inode structure */
+> +-    uint16_t s_block_group_nr;                /* block group # of this =
+superblock */
+> +-    uint32_t s_feature_compat;                /* compatible feature set=
  */
-+   if (oldParser =3D=3D NULL)
-+@@ -1342,6 +1393,7 @@ XML_ExternalEntityParserCreate(XML_Parse
-+      to worry which hash secrets each table has.
-+   */
-+   oldhash_secret_salt =3D parser->m_hash_secret_salt;
-++  oldReparseDeferralEnabled =3D parser->m_reparseDeferralEnabled;
-+
-+ #ifdef XML_DTD
-+   if (! context)
-+@@ -1394,6 +1446,7 @@ XML_ExternalEntityParserCreate(XML_Parse
-+   parser->m_defaultExpandInternalEntities =3D oldDefaultExpandInternalEnt=
-ities;
-+   parser->m_ns_triplets =3D oldns_triplets;
-+   parser->m_hash_secret_salt =3D oldhash_secret_salt;
-++  parser->m_reparseDeferralEnabled =3D oldReparseDeferralEnabled;
-+   parser->m_parentParser =3D oldParser;
-+ #ifdef XML_DTD
-+   parser->m_paramEntityParsing =3D oldParamEntityParsing;
-+@@ -1848,55 +1901,8 @@ XML_Parse(XML_Parser parser, const char
-+     parser->m_parsingStatus.parsing =3D XML_PARSING;
-+   }
-+
-+-  if (len =3D=3D 0) {
-+-    parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
-+-    if (! isFinal)
-+-      return XML_STATUS_OK;
-+-    parser->m_positionPtr =3D parser->m_bufferPtr;
-+-    parser->m_parseEndPtr =3D parser->m_bufferEnd;
-+-
-+-    /* If data are left over from last buffer, and we now know that these
-+-       data are the final chunk of input, then we have to check them agai=
-n
-+-       to detect errors based on that fact.
-+-    */
-+-    parser->m_errorCode
-+-        =3D parser->m_processor(parser, parser->m_bufferPtr,
-+-                              parser->m_parseEndPtr, &parser->m_bufferPtr=
-);
-+-
-+-    if (parser->m_errorCode =3D=3D XML_ERROR_NONE) {
-+-      switch (parser->m_parsingStatus.parsing) {
-+-      case XML_SUSPENDED:
-+-        /* It is hard to be certain, but it seems that this case
-+-         * cannot occur.  This code is cleaning up a previous parse
-+-         * with no new data (since len =3D=3D 0).  Changing the parsing
-+-         * state requires getting to execute a handler function, and
-+-         * there doesn't seem to be an opportunity for that while in
-+-         * this circumstance.
-+-         *
-+-         * Given the uncertainty, we retain the code but exclude it
-+-         * from coverage tests.
-+-         *
-+-         * LCOV_EXCL_START
-+-         */
-+-        XmlUpdatePosition(parser->m_encoding, parser->m_positionPtr,
-+-                          parser->m_bufferPtr, &parser->m_position);
-+-        parser->m_positionPtr =3D parser->m_bufferPtr;
-+-        return XML_STATUS_SUSPENDED;
-+-        /* LCOV_EXCL_STOP */
-+-      case XML_INITIALIZED:
-+-      case XML_PARSING:
-+-        parser->m_parsingStatus.parsing =3D XML_FINISHED;
-+-        /* fall through */
-+-      default:
-+-        return XML_STATUS_OK;
-+-      }
-+-    }
-+-    parser->m_eventEndPtr =3D parser->m_eventPtr;
-+-    parser->m_processor =3D errorProcessor;
-+-    return XML_STATUS_ERROR;
-+-  }
-+-#ifndef XML_CONTEXT_BYTES
-+-  else if (parser->m_bufferPtr =3D=3D parser->m_bufferEnd) {
-++#if XML_CONTEXT_BYTES =3D=3D 0
-++  if (parser->m_bufferPtr =3D=3D parser->m_bufferEnd) {
-+     const char *end;
-+     int nLeftOver;
-+     enum XML_Status result;
-+@@ -1907,12 +1913,15 @@ XML_Parse(XML_Parser parser, const char
-+       parser->m_processor =3D errorProcessor;
-+       return XML_STATUS_ERROR;
-+     }
-++    // though this isn't a buffer request, we assume that `len` is the ap=
-p's
-++    // preferred buffer fill size, and therefore save it here.
-++    parser->m_lastBufferRequestSize =3D len;
-+     parser->m_parseEndByteIndex +=3D len;
-+     parser->m_positionPtr =3D s;
-+     parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
-+
-+     parser->m_errorCode
-+-        =3D parser->m_processor(parser, s, parser->m_parseEndPtr =3D s + =
-len, &end);
-++        =3D callProcessor(parser, s, parser->m_parseEndPtr =3D s + len, &=
-end);
-+
-+     if (parser->m_errorCode !=3D XML_ERROR_NONE) {
-+       parser->m_eventEndPtr =3D parser->m_eventPtr;
-+@@ -1939,23 +1948,25 @@ XML_Parse(XML_Parser parser, const char
-+                       &parser->m_position);
-+     nLeftOver =3D s + len - end;
-+     if (nLeftOver) {
-+-      if (parser->m_buffer =3D=3D NULL
-+-          || nLeftOver > parser->m_bufferLim - parser->m_buffer) {
-+-        /* avoid _signed_ integer overflow */
-+-        char *temp =3D NULL;
-+-        const int bytesToAllocate =3D (int)((unsigned)len * 2U);
-+-        if (bytesToAllocate > 0) {
-+-          temp =3D (char *)REALLOC(parser, parser->m_buffer, bytesToAlloc=
-ate);
-+-        }
-+-        if (temp =3D=3D NULL) {
-+-          parser->m_errorCode =3D XML_ERROR_NO_MEMORY;
-+-          parser->m_eventPtr =3D parser->m_eventEndPtr =3D NULL;
-+-          parser->m_processor =3D errorProcessor;
-+-          return XML_STATUS_ERROR;
-+-        }
-+-        parser->m_buffer =3D temp;
-+-        parser->m_bufferLim =3D parser->m_buffer + bytesToAllocate;
-++      // Back up and restore the parsing status to avoid XML_ERROR_SUSPEN=
-DED
-++      // (and XML_ERROR_FINISHED) from XML_GetBuffer.
-++      const enum XML_Parsing originalStatus =3D parser->m_parsingStatus.p=
-arsing;
-++      parser->m_parsingStatus.parsing =3D XML_PARSING;
-++      void *const temp =3D XML_GetBuffer(parser, nLeftOver);
-++      parser->m_parsingStatus.parsing =3D originalStatus;
-++      // GetBuffer may have overwritten this, but we want to remember wha=
-t the
-++      // app requested, not how many bytes were left over after parsing.
-++      parser->m_lastBufferRequestSize =3D len;
-++      if (temp =3D=3D NULL) {
-++        // NOTE: parser->m_errorCode has already been set by XML_GetBuffe=
-r().
-++        parser->m_eventPtr =3D parser->m_eventEndPtr =3D NULL;
-++        parser->m_processor =3D errorProcessor;
-++        return XML_STATUS_ERROR;
-+       }
-++      // Since we know that the buffer was empty and XML_CONTEXT_BYTES is=
- 0, we
-++      // don't have any data to preserve, and can copy straight into the =
-start
-++      // of the buffer rather than the GetBuffer return pointer (which ma=
-y be
-++      // pointing further into the allocated buffer).
-+       memcpy(parser->m_buffer, end, nLeftOver);
-+     }
-+     parser->m_bufferPtr =3D parser->m_buffer;
-+@@ -1966,16 +1977,15 @@ XML_Parse(XML_Parser parser, const char
-+     parser->m_eventEndPtr =3D parser->m_bufferPtr;
-+     return result;
-+   }
-+-#endif /* not defined XML_CONTEXT_BYTES */
-+-  else {
-+-    void *buff =3D XML_GetBuffer(parser, len);
-+-    if (buff =3D=3D NULL)
-+-      return XML_STATUS_ERROR;
-+-    else {
-+-      memcpy(buff, s, len);
-+-      return XML_ParseBuffer(parser, len, isFinal);
-+-    }
-++#endif /* XML_CONTEXT_BYTES =3D=3D 0 */
-++  void *buff =3D XML_GetBuffer(parser, len);
-++  if (buff =3D=3D NULL)
-++    return XML_STATUS_ERROR;
-++  if (len > 0) {
-++    assert(s !=3D NULL); // make sure s=3D=3DNULL && len!=3D0 was rejecte=
-d above
-++    memcpy(buff, s, len);
-+   }
-++  return XML_ParseBuffer(parser, len, isFinal);
-+ }
-+
-+ enum XML_Status XMLCALL
-+@@ -2015,8 +2025,8 @@ XML_ParseBuffer(XML_Parser parser, int l
-+   parser->m_parseEndByteIndex +=3D len;
-+   parser->m_parsingStatus.finalBuffer =3D (XML_Bool)isFinal;
-+
-+-  parser->m_errorCode =3D parser->m_processor(
-+-      parser, start, parser->m_parseEndPtr, &parser->m_bufferPtr);
-++  parser->m_errorCode =3D callProcessor(parser, start, parser->m_parseEnd=
-Ptr,
-++                                      &parser->m_bufferPtr);
-+
-+   if (parser->m_errorCode !=3D XML_ERROR_NONE) {
-+     parser->m_eventEndPtr =3D parser->m_eventPtr;
-+@@ -2061,8 +2071,12 @@ XML_GetBuffer(XML_Parser parser, int len
-+   default:;
-+   }
-+
-+-  if (len > EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEnd)=
-) {
-+-#ifdef XML_CONTEXT_BYTES
-++  // whether or not the request succeeds, `len` seems to be the app's pre=
-ferred
-++  // buffer fill size; remember it.
-++  parser->m_lastBufferRequestSize =3D len;
-++  if (len > EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bufferEnd)
-++      || parser->m_buffer =3D=3D NULL) {
-++#if XML_CONTEXT_BYTES > 0
-+     int keep;
-+ #endif /* defined XML_CONTEXT_BYTES */
-+     /* Do not invoke signed arithmetic overflow: */
-+@@ -2083,10 +2097,11 @@ XML_GetBuffer(XML_Parser parser, int len
-+       return NULL;
-+     }
-+     neededSize +=3D keep;
-+-#endif /* defined XML_CONTEXT_BYTES */
-+-    if (neededSize
-+-        <=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_buffer)) =
-{
-+-#ifdef XML_CONTEXT_BYTES
-++#endif /* XML_CONTEXT_BYTES > 0 */
-++    if (parser->m_buffer && parser->m_bufferPtr
-++        && neededSize
-++               <=3D EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_bu=
-ffer)) {
-++#if XML_CONTEXT_BYTES > 0
-+       if (keep < EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_buffe=
-r)) {
-+         int offset
-+             =3D (int)EXPAT_SAFE_PTR_DIFF(parser->m_bufferPtr, parser->m_b=
-uffer)
-+@@ -2099,19 +2114,17 @@ XML_GetBuffer(XML_Parser parser, int len
-+         parser->m_bufferPtr -=3D offset;
-+       }
-+ #else
-+-      if (parser->m_buffer && parser->m_bufferPtr) {
-+-        memmove(parser->m_buffer, parser->m_bufferPtr,
-+-                EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buffer=
-Ptr));
-+-        parser->m_bufferEnd
-+-            =3D parser->m_buffer
-+-              + EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_buffer=
-Ptr);
-+-        parser->m_bufferPtr =3D parser->m_buffer;
-+-      }
-+-#endif /* not defined XML_CONTEXT_BYTES */
-++      memmove(parser->m_buffer, parser->m_bufferPtr,
-++              EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_bufferPt=
-r));
-++      parser->m_bufferEnd
-++          =3D parser->m_buffer
-++            + EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_bufferPt=
-r);
-++      parser->m_bufferPtr =3D parser->m_buffer;
-++#endif /* XML_CONTEXT_BYTES > 0 */
-+     } else {
-+       char *newBuf;
-+       int bufferSize
-+-          =3D (int)EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_buf=
-ferPtr);
-++          =3D (int)EXPAT_SAFE_PTR_DIFF(parser->m_bufferLim, parser->m_buf=
-fer);
-+       if (bufferSize =3D=3D 0)
-+         bufferSize =3D INIT_BUFFER_SIZE;
-+       do {
-+@@ -2208,7 +2221,7 @@ XML_ResumeParser(XML_Parser parser) {
-+   }
-+   parser->m_parsingStatus.parsing =3D XML_PARSING;
-+
-+-  parser->m_errorCode =3D parser->m_processor(
-++  parser->m_errorCode =3D callProcessor(
-+       parser, parser->m_bufferPtr, parser->m_parseEndPtr, &parser->m_buff=
-erPtr);
-+
-+   if (parser->m_errorCode !=3D XML_ERROR_NONE) {
-+@@ -2576,6 +2576,15 @@ XML_SetBillionLaughsAttackProtectionActi
-+ }
-+ #endif /* XML_GE =3D=3D 1 */
-+
-++XML_Bool XMLCALL
-++XML_SetReparseDeferralEnabled(XML_Parser parser, XML_Bool enabled) {
-++  if (parser !=3D NULL && (enabled =3D=3D XML_TRUE || enabled =3D=3D XML_=
-FALSE)) {
-++    parser->m_reparseDeferralEnabled =3D enabled;
-++    return XML_TRUE;
-++  }
-++  return XML_FALSE;
-++}
-++
-+ /* Initially tag->rawName always points into the parse buffer;
-+    for those TAG instances opened while the current parse buffer was
-+    processed, and not yet closed, we need to store tag->rawName in a more
-+@@ -4497,15 +4506,15 @@ entityValueInitProcessor(XML_Parser pars
-+       parser->m_processor =3D entityValueProcessor;
-+       return entityValueProcessor(parser, next, end, nextPtr);
-+     }
-+-    /* If we are at the end of the buffer, this would cause XmlPrologTok =
-to
-+-       return XML_TOK_NONE on the next call, which would then cause the
-+-       function to exit with *nextPtr set to s - that is what we want for=
- other
-+-       tokens, but not for the BOM - we would rather like to skip it;
-+-       then, when this routine is entered the next time, XmlPrologTok wil=
-l
-+-       return XML_TOK_INVALID, since the BOM is still in the buffer
-++    /* XmlPrologTok has now set the encoding based on the BOM it found, a=
-nd we
-++       must move s and nextPtr forward to consume the BOM.
-++
-++       If we didn't, and got XML_TOK_NONE from the next XmlPrologTok call=
-, we
-++       would leave the BOM in the buffer and return. On the next call to =
-this
-++       function, our XmlPrologTok call would return XML_TOK_INVALID, sinc=
-e it
-++       is not valid to have multiple BOMs.
-+     */
-+-    else if (tok =3D=3D XML_TOK_BOM && next =3D=3D end
-+-             && ! parser->m_parsingStatus.finalBuffer) {
-++    else if (tok =3D=3D XML_TOK_BOM) {
-+ #  if XML_GE =3D=3D 1
-+       if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-+                                     XML_ACCOUNT_DIRECT)) {
-+@@ -4500,7 +4522,7 @@ entityValueInitProcessor(XML_Parser pars
-+ #  endif
-+
-+       *nextPtr =3D next;
-+-      return XML_ERROR_NONE;
-++      s =3D next;
-+     }
-+     /* If we get this token, we have the start of what might be a
-+        normal tag, but not a declaration (i.e. it doesn't begin with
-+--- a/xmlwf/xmlwf.c
-++++ b/xmlwf/xmlwf.c
-+@@ -914,6 +914,9 @@ usage(const XML_Char *prog, int rc) {
-+       T("  -a FACTOR     set maximum tolerated [a]mplification factor (de=
-fault: 100.0)\n")
-+       T("  -b BYTES      set number of output [b]ytes needed to activate =
-(default: 8 MiB)\n")
-+       T("\n")
-++      T("reparse deferral:\n")
-++      T("  -q             disable reparse deferral, and allow [q]uadratic=
- parse runtime with large tokens\n")
-++      T("\n")
-+       T("info arguments:\n")
-+       T("  -h            show this [h]elp message and exit\n")
-+       T("  -v            show program's [v]ersion number and exit\n")
-+@@ -967,6 +970,8 @@ tmain(int argc, XML_Char **argv) {
-+   unsigned long long attackThresholdBytes;
-+   XML_Bool attackThresholdGiven =3D XML_FALSE;
-+
-++  XML_Bool disableDeferral =3D XML_FALSE;
-++
-+   int exitCode =3D XMLWF_EXIT_SUCCESS;
-+   enum XML_ParamEntityParsing paramEntityParsing
-+       =3D XML_PARAM_ENTITY_PARSING_NEVER;
-+@@ -1089,6 +1094,11 @@ tmain(int argc, XML_Char **argv) {
-+ #endif
-+       break;
-+     }
-++    case T('q'): {
-++      disableDeferral =3D XML_TRUE;
-++      j++;
-++      break;
-++    }
-+     case T('\0'):
-+       if (j > 1) {
-+         i++;
-+@@ -1134,6 +1144,16 @@ tmain(int argc, XML_Char **argv) {
-+ #endif
-+     }
-+
-++    if (disableDeferral) {
-++      const XML_Bool success =3D XML_SetReparseDeferralEnabled(parser, XM=
-L_FALSE);
-++      if (! success) {
-++        // This prevents tperror(..) from reporting misleading "[..]: Suc=
-cess"
-++        errno =3D EINVAL;
-++        tperror(T("Failed to disable reparse deferral"));
-++        exit(XMLWF_EXIT_INTERNAL_ERROR);
-++      }
-++    }
-++
-+     if (requireStandalone)
-+       XML_SetNotStandaloneHandler(parser, notStandalone);
-+     XML_SetParamEntityParsing(parser, paramEntityParsing);
-+--- a/xmlwf/xmlwf_helpgen.py
-++++ b/xmlwf/xmlwf_helpgen.py
-+@@ -81,6 +81,10 @@ billion_laughs.add_argument('-a', metava
-+                             help=3D'set maximum tolerated [a]mplification=
- factor (default: 100.0)')
-+ billion_laughs.add_argument('-b', metavar=3D'BYTES', help=3D'set number o=
-f output [b]ytes needed to activate (default: 8 MiB)')
-+
-++reparse_deferral =3D parser.add_argument_group('reparse deferral')
-++reparse_deferral.add_argument('-q', metavar=3D'FACTOR',
-++                            help=3D'disable reparse deferral, and allow [=
-q]uadratic parse runtime with large tokens')
-++
-+ parser.add_argument('files', metavar=3D'FILE', nargs=3D'*', help=3D'file =
-to process (default: STDIN)')
-+
-+ info =3D parser.add_argument_group('info arguments')
-diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/exp=
-at/expat_2.5.0.bb
-index 31e989cfe2..09bc7a0a0b 100644
---- a/meta/recipes-core/expat/expat_2.5.0.bb
-+++ b/meta/recipes-core/expat/expat_2.5.0.bb
-@@ -22,6 +22,7 @@ SRC_URI =3D "https://github.com/libexpat/libexpat/release=
-s/download/R_${VERSION_TA
-           file://CVE-2023-52426-009.patch \
-           file://CVE-2023-52426-010.patch \
-           file://CVE-2023-52426-011.patch \
-+           file://CVE-2023-52425.patch \
-            "
-
- UPSTREAM_CHECK_URI =3D "https://github.com/libexpat/libexpat/releases/"
---
-2.25.1
-
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
+> +-    uint32_t s_feature_incompat;      /* incompatible feature set */
+> +-    uint32_t s_feature_ro_compat;     /* readonly-compatible feature se=
+t */
+> +-    uint8_t  s_uuid[16];              /* 128-bit uuid for volume */
+> +-    char  s_volume_name[16];          /* volume name */
+> +-    char  s_last_mounted[64];         /* directory where last mounted *=
+/
+> +-    uint32_t s_algorithm_usage_bitmap;  /* For compression */
+> +-    uint8_t  s_prealloc_blocks;               /* Nr of blocks to try to=
+ preallocate*/
+> +-    uint8_t  s_prealloc_dir_blocks;
+> +-    uint16_t s_reserved_gdt_blocks;   /* Per group desc for online grow=
+th */
+> +-    /*
+> +-     * Journaling support valid if EXT4_FEATURE_COMPAT_HAS_JOURNAL set.
+> +-     */
+> +-    uint8_t  s_journal_uuid[16];      /* uuid of journal superblock */
+> +-    uint32_t s_journal_inum;  /* inode number of journal file */
+> +-    uint32_t s_journal_dev;           /* device number of journal file =
+*/
+> +-    uint32_t s_last_orphan;           /* start of list of inodes to del=
+ete */
+> +-    uint32_t s_hash_seed[4];  /* HTREE hash seed */
+> +-    uint8_t  s_def_hash_version;      /* Default hash version to use */
+> +-    uint8_t  s_reserved_char_pad;
+> +-    uint16_t s_desc_size;             /* size of group descriptor */
+> +-    uint32_t s_default_mount_opts;
+> +-    uint32_t s_first_meta_bg; /* First metablock block group */
+> +-    uint32_t s_mkfs_time;             /* When the filesystem was create=
+d */
+> +-    uint32_t s_jnl_blocks[17];        /* Backup of the journal inode */
+> +-    /* 64bit support valid if EXT4_FEATURE_COMPAT_64BIT */
+> +-    uint32_t s_blocks_count_hi;       /* Blocks count */
+> +-    uint32_t s_r_blocks_count_hi;     /* Reserved blocks count */
+> +-    uint32_t s_free_blocks_count_hi;/* Free blocks count */
+> +-    uint16_t s_min_extra_isize;       /* All inodes have at least # byt=
+es */
+> +-    uint16_t s_want_extra_isize;      /* New inodes should reserve # by=
+tes */
+> +-    uint32_t s_flags;         /* Miscellaneous flags */
+> +-    uint16_t s_raid_stride;           /* RAID stride */
+> +-    uint16_t s_mmp_interval;        /* # seconds to wait in MMP checkin=
+g */
+> +-    uint64_t s_mmp_block;           /* Block for multi-mount protection=
+ */
+> +-    uint32_t s_raid_stripe_width;   /* blocks on all data disks (N*stri=
+de)*/
+> +-    uint8_t  s_log_groups_per_flex; /* FLEX_BG group size */
+> +-    uint8_t  s_reserved_char_pad2;
+> +-    uint16_t s_reserved_pad;
+> +-    uint32_t s_reserved[162];        /* Padding to the end of the block=
+ */
+> +-};
+> +-
+> +-/**********************************************************************=
+*********
+> +-#ifndef DEPEND
+> +-#if ext2_super_block_size !=3D 1024
+> +-#error ext2_super_block definition bogus
+> +-#endif
+> +-#endif
+> +-***********************************************************************=
+********/
+> +-
+> +-/*
+> +- *  ext2 group desc structure:
+> +- */
+> +-struct ext2_group_desc {
+> +-    uint32_t bg_block_bitmap; /* Blocks bitmap block */
+> +-    uint32_t bg_inode_bitmap; /* Inodes bitmap block */
+> +-    uint32_t bg_inode_table;  /* Inodes table block */
+> +-    uint16_t bg_free_blocks_count;    /* Free blocks count */
+> +-    uint16_t bg_free_inodes_count;    /* Free inodes count */
+> +-    uint16_t bg_used_dirs_count;      /* Directories count */
+> +-    uint16_t bg_pad;
+> +-    uint32_t bg_reserved[3];
+> +-};
+> +-
+> +-/**********************************************************************=
+*********
+> +-#ifndef DEPEND
+> +-#if ext2_group_desc_size !=3D 32
+> +-#error ext2_group_desc definition bogus
+> +-#endif
+> +-#endif
+> +-***********************************************************************=
+********/
+> +-
+> +-
+> +-/*
+> +- * ext2 inode structure:
+> +- */
+> +-struct ext2_inode {
+> +-    uint16_t i_mode;          /* File mode */
+> +-    uint16_t i_uid;           /* Owner Uid */
+> +-    uint32_t i_size;          /* 4: Size in bytes */
+> +-    uint32_t i_atime;         /* Access time */
+> +-    uint32_t i_ctime;         /* 12: Creation time */
+> +-    uint32_t i_mtime;         /* Modification time */
+> +-    uint32_t i_dtime;         /* 20: Deletion Time */
+> +-    uint16_t i_gid;           /* Group Id */
+> +-    uint16_t i_links_count;   /* 24: Links count */
+> +-    uint32_t i_blocks;                /* Blocks count */
+> +-    uint32_t i_flags;         /* 32: File flags */
+> +-    uint32_t l_i_reserved1;
+> +-    uint32_t i_block[EXT2_N_BLOCKS];  /* 40: Pointers to blocks */
+> +-    uint32_t i_version;               /* File version (for NFS) */
+> +-    uint32_t i_file_acl;      /* File ACL */
+> +-    uint32_t i_dir_acl;               /* Directory ACL */
+> +-    uint32_t i_faddr;         /* Fragment address */
+> +-    uint8_t  l_i_frag;                /* Fragment number */
+> +-    uint8_t  l_i_fsize;               /* Fragment size */
+> +-    uint16_t i_pad1;
+> +-    uint32_t l_i_reserved2[2];
+> +-};
+> +-
+> +-/**********************************************************************=
+*********
+> +-#ifndef DEPEND
+> +-#if ext2_inode_size !=3D 128
+> +-#error ext2_inode definition bogus
+> +-#endif
+> +-#endif
+> +-***********************************************************************=
+********/
+> +-
+> +-
+> +-#define EXT2_NAME_LEN 255
+> +-struct ext2_dir_entry {
+> +-    unsigned int      d_inode;                /* Inode number */
+> +-    unsigned short    d_rec_len;              /* Directory entry length=
+ */
+> +-    unsigned char     d_name_len;             /* Name length */
+> +-    unsigned char     d_file_type;
+> +-    char      d_name[EXT2_NAME_LEN];          /* File name */
+> +-};
+> +-
+> +-/**********************************************************************=
+*********
+> +-#define EXT2_DIR_PAD   4
+> +-#define EXT2_DIR_ROUND        (EXT2_DIR_PAD - 1)
+> +-#define EXT2_DIR_REC_LEN(name_len)    (((name_len) + 8 + EXT2_DIR_ROUND=
+) & \
+> +-                                       ~EXT2_DIR_ROUND)
+> +-***********************************************************************=
+********/
+> +-
+> +-
+> +-
+> +-
+> +-
+> +-
+> +-/*
+> +- * This is the extent on-disk structure.
+> +- * It's used at the bottom of the tree.
+> +- */
+> +-struct ext4_extent {
+> +-    uint32_t ee_block;                /* first logical block extent cov=
+ers */
+> +-    uint16_t ee_len;          /* number of blocks covered by extent */
+> +-    uint16_t ee_start_hi;     /* high 16 bits of physical block */
+> +-    uint32_t ee_start_lo;     /* low 32 bits of physical block */
+> +-};
+> +-
+> +-/*
+> +- * This is index on-disk structure.
+> +- * It's used at all the levels except the bottom.
+> +- */
+> +-struct ext4_extent_idx {
+> +-    uint32_t ei_block;                /* index covers logical blocks fr=
+om 'block' */
+> +-    uint32_t ei_leaf_lo;      /* pointer to the physical block of the n=
+ext *
+> +-                               * level. leaf or next index could be the=
+re */
+> +-    uint16_t ei_leaf_hi;      /* high 16 bits of physical block */
+> +-    uint16_t ei_unused;
+> +-};
+> +-
+> +-/*
+> +- * Each block (leaves and indexes), even inode-stored has header.
+> +- */
+> +-struct ext4_extent_header {
+> +-    uint16_t eh_magic;                /* probably will support differen=
+t formats */
+> +-    uint16_t eh_entries;      /* number of valid entries */
+> +-    uint16_t eh_max;          /* capacity of store in entries */
+> +-    uint16_t eh_depth;                /* has tree real underlying block=
+s? */
+> +-    uint32_t eh_generation;   /* generation of the tree */
+> +-};
+> +-
+> +-
+> +-
+> +-#define EXT4_FIRST_EXTENT(header) ( (struct ext4_extent *)(header + 1) =
+)
+> +-#define EXT4_FIRST_INDEX(header)  ( (struct ext4_extent_idx *) (header =
++ 1) )
+> +-
+> +-
+> +-/*
+> +- * The ext2 super block information in memory
+> +- */
+> +-struct ext2_sb_info {
+> +-    uint32_t s_inodes_per_block;/* Number of inodes per block */
+> +-    uint32_t s_inodes_per_group;/* Number of inodes in a group */
+> +-    uint32_t s_blocks_per_group;/* Number of blocks in a group */
+> +-    uint32_t s_desc_per_block;  /* Number of group descriptors per bloc=
+k */
+> +-    uint32_t s_groups_count;    /* Number of groups in the fs */
+> +-    uint32_t s_first_data_block;      /* First Data Block */
+> +-    int      s_inode_size;
+> +-    uint8_t  s_uuid[16];      /* 128-bit uuid for volume */
+> +-    int      s_desc_size;     /* size of group descriptor */
+> +-};
+> +-
+> +-static inline struct ext2_sb_info *EXT2_SB(struct fs_info *fs)
+> +-{
+> +-    return fs->fs_info;
+> +-}
+> +-
+> +-#define EXT2_BLOCKS_PER_GROUP(fs)      (EXT2_SB(fs)->s_blocks_per_group=
+)
+> +-#define EXT2_INODES_PER_GROUP(fs)      (EXT2_SB(fs)->s_inodes_per_group=
+)
+> +-#define EXT2_INODES_PER_BLOCK(fs)      (EXT2_SB(fs)->s_inodes_per_block=
+)
+> +-#define EXT2_DESC_PER_BLOCK(fs)        (EXT2_SB(fs)->s_desc_per_block)
+> +-
+> +-/*
+> +- * ext2 private inode information
+> +- */
+> +-struct ext2_pvt_inode {
+> +-    union {
+> +-      uint32_t i_block[EXT2_N_BLOCKS];
+> +-      struct ext4_extent_header i_extent_hdr;
+> +-    };
+> +-};
+> +-
+> +-#define PVT(i) ((struct ext2_pvt_inode *)((i)->pvt))
+> +-
+> +-/*
+> +- * functions
+> +- */
+> +-block_t ext2_bmap(struct inode *, block_t, size_t *);
+> +-int ext2_next_extent(struct inode *, uint32_t);
+> +-
+> +-#endif /* ext2_fs.h */
+> +diff --git a/libinstaller/ext2fs/ext2_fs.h b/libinstaller/ext2fs/ext2_fs=
+.h
+> +deleted file mode 100644
+> +index e52c9e1..0000000
+> +--- a/libinstaller/ext2fs/ext2_fs.h
+> ++++ /dev/null
+> +@@ -1,856 +0,0 @@
+> +-/*
+> +- *  linux/include/linux/ext2_fs.h
+> +- *
+> +- * Copyright (C) 1992, 1993, 1994, 1995
+> +- * Remy Card (card@masi.ibp.fr)
+> +- * Laboratoire MASI - Institut Blaise Pascal
+> +- * Universite Pierre et Marie Curie (Paris VI)
+> +- *
+> +- *  from
+> +- *
+> +- *  linux/include/linux/minix_fs.h
+> +- *
+> +- *  Copyright (C) 1991, 1992  Linus Torvalds
+> +- */
+> +-
+> +-#ifndef _EXT2FS_EXT2_FS_H
+> +-#define _EXT2FS_EXT2_FS_H
+> +-
+> +-#include <linux/types.h>
+> +-
+> +-/*
+> +- * The second extended filesystem constants/structures
+> +- */
+> +-
+> +-/*
+> +- * Define EXT2FS_DEBUG to produce debug messages
+> +- */
+> +-#undef EXT2FS_DEBUG
+> +-
+> +-/*
+> +- * Define EXT2_PREALLOCATE to preallocate data blocks for expanding fil=
+es
+> +- */
+> +-#define EXT2_PREALLOCATE
+> +-#define EXT2_DEFAULT_PREALLOC_BLOCKS  8
+> +-
+> +-/*
+> +- * The second extended file system version
+> +- */
+> +-#define EXT2FS_DATE           "95/08/09"
+> +-#define EXT2FS_VERSION                "0.5b"
+> +-
+> +-/*
+> +- * Special inode numbers
+> +- */
+> +-#define EXT2_BAD_INO           1      /* Bad blocks inode */
+> +-#define EXT2_ROOT_INO          2      /* Root inode */
+> +-#define EXT4_USR_QUOTA_INO     3      /* User quota inode */
+> +-#define EXT4_GRP_QUOTA_INO     4      /* Group quota inode */
+> +-#define EXT2_BOOT_LOADER_INO   5      /* Boot loader inode */
+> +-#define EXT2_UNDEL_DIR_INO     6      /* Undelete directory inode */
+> +-#define EXT2_RESIZE_INO                7      /* Reserved group descrip=
+tors inode */
+> +-#define EXT2_JOURNAL_INO       8      /* Journal inode */
+> +-#define EXT2_EXCLUDE_INO       9      /* The "exclude" inode, for snaps=
+hots */
+> +-#define EXT4_REPLICA_INO      10      /* Used by non-upstream feature *=
+/
+> +-
+> +-/* First non-reserved inode for old ext2 filesystems */
+> +-#define EXT2_GOOD_OLD_FIRST_INO       11
+> +-
+> +-/*
+> +- * The second extended file system magic number
+> +- */
+> +-#define EXT2_SUPER_MAGIC      0xEF53
+> +-
+> +-#ifdef __KERNEL__
+> +-#define EXT2_SB(sb)   (&((sb)->u.ext2_sb))
+> +-#else
+> +-/* Assume that user mode programs are passing in an ext2fs superblock, =
+not
+> +- * a kernel struct super_block.  This will allow us to call the feature=
+-test
+> +- * macros from user land. */
+> +-#define EXT2_SB(sb)   (sb)
+> +-#endif
+> +-
+> +-/*
+> +- * Maximal count of links to a file
+> +- */
+> +-#define EXT2_LINK_MAX         65000
+> +-
+> +-/*
+> +- * Macro-instructions used to manage several block sizes
+> +- */
+> +-#define EXT2_MIN_BLOCK_LOG_SIZE               10      /* 1024 */
+> +-#define EXT2_MAX_BLOCK_LOG_SIZE               16      /* 65536 */
+> +-#define EXT2_MIN_BLOCK_SIZE   (1 << EXT2_MIN_BLOCK_LOG_SIZE)
+> +-#define EXT2_MAX_BLOCK_SIZE   (1 << EXT2_MAX_BLOCK_LOG_SIZE)
+> +-#ifdef __KERNEL__
+> +-#define EXT2_BLOCK_SIZE(s)    ((s)->s_blocksize)
+> +-#define EXT2_BLOCK_SIZE_BITS(s)       ((s)->s_blocksize_bits)
+> +-#define EXT2_ADDR_PER_BLOCK_BITS(s)   (EXT2_SB(s)->addr_per_block_bits)
+> +-#define EXT2_INODE_SIZE(s)    (EXT2_SB(s)->s_inode_size)
+> +-#define EXT2_FIRST_INO(s)     (EXT2_SB(s)->s_first_ino)
+> +-#else
+> +-#define EXT2_BLOCK_SIZE(s)    (EXT2_MIN_BLOCK_SIZE << (s)->s_log_block_=
+size)
+> +-#define EXT2_BLOCK_SIZE_BITS(s)       ((s)->s_log_block_size + 10)
+> +-#define EXT2_INODE_SIZE(s)    (((s)->s_rev_level =3D=3D EXT2_GOOD_OLD_R=
+EV) ? \
+> +-                               EXT2_GOOD_OLD_INODE_SIZE : (s)->s_inode_=
+size)
+> +-#define EXT2_FIRST_INO(s)     (((s)->s_rev_level =3D=3D EXT2_GOOD_OLD_R=
+EV) ? \
+> +-                               EXT2_GOOD_OLD_FIRST_INO : (s)->s_first_i=
+no)
+> +-#endif
+> +-#define EXT2_ADDR_PER_BLOCK(s)        (EXT2_BLOCK_SIZE(s) / sizeof(__u3=
+2))
+> +-
+> +-/*
+> +- * Macro-instructions used to manage allocation clusters
+> +- */
+> +-#define EXT2_MIN_CLUSTER_LOG_SIZE     EXT2_MIN_BLOCK_LOG_SIZE
+> +-#define EXT2_MAX_CLUSTER_LOG_SIZE     29      /* 512MB  */
+> +-#define EXT2_MIN_CLUSTER_SIZE         EXT2_MIN_BLOCK_SIZE
+> +-#define EXT2_MAX_CLUSTER_SIZE         (1 << EXT2_MAX_CLUSTER_LOG_SIZE)
+> +-#define EXT2_CLUSTER_SIZE(s)          (EXT2_MIN_BLOCK_SIZE << \
+> +-                                              (s)->s_log_cluster_size)
+> +-#define EXT2_CLUSTER_SIZE_BITS(s)     ((s)->s_log_cluster_size + 10)
+> +-
+> +-/*
+> +- * Macro-instructions used to manage fragments
+> +- *
+> +- * Note: for backwards compatibility only, for the dump program.
+> +- * Ext2/3/4 will never support fragments....
+> +- */
+> +-#define EXT2_MIN_FRAG_SIZE              EXT2_MIN_BLOCK_SIZE
+> +-#define EXT2_MAX_FRAG_SIZE              EXT2_MAX_BLOCK_SIZE
+> +-#define EXT2_MIN_FRAG_LOG_SIZE          EXT2_MIN_BLOCK_LOG_SIZE
+> +-#define EXT2_FRAG_SIZE(s)             EXT2_BLOCK_SIZE(s)
+> +-#define EXT2_FRAGS_PER_BLOCK(s)               1
+> +-
+> +-/*
+> +- * ACL structures
+> +- */
+> +-struct ext2_acl_header        /* Header of Access Control Lists */
+> +-{
+> +-      __u32   aclh_size;
+> +-      __u32   aclh_file_count;
+> +-      __u32   aclh_acle_count;
+> +-      __u32   aclh_first_acle;
+> +-};
+> +-
+> +-struct ext2_acl_entry /* Access Control List Entry */
+> +-{
+> +-      __u32   acle_size;
+> +-      __u16   acle_perms;     /* Access permissions */
+> +-      __u16   acle_type;      /* Type of entry */
+> +-      __u16   acle_tag;       /* User or group identity */
+> +-      __u16   acle_pad1;
+> +-      __u32   acle_next;      /* Pointer on next entry for the */
+> +-                                      /* same inode or on next free ent=
+ry */
+> +-};
+> +-
+> +-/*
+> +- * Structure of a blocks group descriptor
+> +- */
+> +-struct ext2_group_desc
+> +-{
+> +-      __u32   bg_block_bitmap;        /* Blocks bitmap block */
+> +-      __u32   bg_inode_bitmap;        /* Inodes bitmap block */
+> +-      __u32   bg_inode_table;         /* Inodes table block */
+> +-      __u16   bg_free_blocks_count;   /* Free blocks count */
+> +-      __u16   bg_free_inodes_count;   /* Free inodes count */
+> +-      __u16   bg_used_dirs_count;     /* Directories count */
+> +-      __u16   bg_flags;
+> +-      __u32   bg_exclude_bitmap_lo;   /* Exclude bitmap for snapshots *=
+/
+> +-      __u16   bg_block_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
+LSB */
+> +-      __u16   bg_inode_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
+LSB */
+> +-      __u16   bg_itable_unused;       /* Unused inodes count */
+> +-      __u16   bg_checksum;            /* crc16(s_uuid+grouo_num+group_d=
+esc)*/
+> +-};
+> +-
+> +-/*
+> +- * Structure of a blocks group descriptor
+> +- */
+> +-struct ext4_group_desc
+> +-{
+> +-      __u32   bg_block_bitmap;        /* Blocks bitmap block */
+> +-      __u32   bg_inode_bitmap;        /* Inodes bitmap block */
+> +-      __u32   bg_inode_table;         /* Inodes table block */
+> +-      __u16   bg_free_blocks_count;   /* Free blocks count */
+> +-      __u16   bg_free_inodes_count;   /* Free inodes count */
+> +-      __u16   bg_used_dirs_count;     /* Directories count */
+> +-      __u16   bg_flags;               /* EXT4_BG_flags (INODE_UNINIT, e=
+tc) */
+> +-      __u32   bg_exclude_bitmap_lo;   /* Exclude bitmap for snapshots *=
+/
+> +-      __u16   bg_block_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
+LSB */
+> +-      __u16   bg_inode_bitmap_csum_lo;/* crc32c(s_uuid+grp_num+bitmap) =
+LSB */
+> +-      __u16   bg_itable_unused;       /* Unused inodes count */
+> +-      __u16   bg_checksum;            /* crc16(sb_uuid+group+desc) */
+> +-      __u32   bg_block_bitmap_hi;     /* Blocks bitmap block MSB */
+> +-      __u32   bg_inode_bitmap_hi;     /* Inodes bitmap block MSB */
+> +-      __u32   bg_inode_table_hi;      /* Inodes table block MSB */
+> +-      __u16   bg_free_blocks_count_hi;/* Free blocks count MSB */
+> +-      __u16   bg_free_inodes_count_hi;/* Free inodes count MSB */
+> +-      __u16   bg_used_dirs_count_hi;  /* Directories count MSB */
+> +-      __u16   bg_itable_unused_hi;    /* Unused inodes count MSB */
+> +-      __u32   bg_exclude_bitmap_hi;   /* Exclude bitmap block MSB */
+> +-      __u16   bg_block_bitmap_csum_hi;/* crc32c(s_uuid+grp_num+bitmap) =
+MSB */
+> +-      __u16   bg_inode_bitmap_csum_hi;/* crc32c(s_uuid+grp_num+bitmap) =
+MSB */
+> +-      __u32   bg_reserved;
+> +-};
+> +-
+> +-#define EXT2_BG_INODE_UNINIT  0x0001 /* Inode table/bitmap not initiali=
+zed */
+> +-#define EXT2_BG_BLOCK_UNINIT  0x0002 /* Block bitmap not initialized */
+> +-#define EXT2_BG_INODE_ZEROED  0x0004 /* On-disk itable initialized to z=
+ero */
+> +-
+> +-/*
+> +- * Data structures used by the directory indexing feature
+> +- *
+> +- * Note: all of the multibyte integer fields are little endian.
+> +- */
+> +-
+> +-/*
+> +- * Note: dx_root_info is laid out so that if it should somehow get
+> +- * overlaid by a dirent the two low bits of the hash version will be
+> +- * zero.  Therefore, the hash version mod 4 should never be 0.
+> +- * Sincerely, the paranoia department.
+> +- */
+> +-struct ext2_dx_root_info {
+> +-      __u32 reserved_zero;
+> +-      __u8 hash_version; /* 0 now, 1 at release */
+> +-      __u8 info_length; /* 8 */
+> +-      __u8 indirect_levels;
+> +-      __u8 unused_flags;
+> +-};
+> +-
+> +-#define EXT2_HASH_LEGACY              0
+> +-#define EXT2_HASH_HALF_MD4            1
+> +-#define EXT2_HASH_TEA                 2
+> +-#define EXT2_HASH_LEGACY_UNSIGNED     3 /* reserved for userspace lib *=
+/
+> +-#define EXT2_HASH_HALF_MD4_UNSIGNED   4 /* reserved for userspace lib *=
+/
+> +-#define EXT2_HASH_TEA_UNSIGNED                5 /* reserved for userspa=
+ce lib */
+> +-
+> +-#define EXT2_HASH_FLAG_INCOMPAT       0x1
+> +-
+> +-struct ext2_dx_entry {
+> +-      __u32 hash;
+> +-      __u32 block;
+> +-};
+> +-
+> +-struct ext2_dx_countlimit {
+> +-      __u16 limit;
+> +-      __u16 count;
+> +-};
+> +-
+> +-
+> +-/*
+> +- * Macro-instructions used to manage group descriptors
+> +- */
+> +-#define EXT2_MIN_DESC_SIZE             32
+> +-#define EXT2_MIN_DESC_SIZE_64BIT       64
+> +-#define EXT2_MAX_DESC_SIZE             EXT2_MIN_BLOCK_SIZE
+> +-#define EXT2_DESC_SIZE(s)                                              =
+  \
+> +-       ((EXT2_SB(s)->s_feature_incompat & EXT4_FEATURE_INCOMPAT_64BIT) =
+? \
+> +-      (s)->s_desc_size : EXT2_MIN_DESC_SIZE)
+> +-
+> +-#define EXT2_BLOCKS_PER_GROUP(s)      (EXT2_SB(s)->s_blocks_per_group)
+> +-#define EXT2_INODES_PER_GROUP(s)      (EXT2_SB(s)->s_inodes_per_group)
+> +-#define EXT2_CLUSTERS_PER_GROUP(s)    (EXT2_SB(s)->s_clusters_per_group=
+)
+> +-#define EXT2_INODES_PER_BLOCK(s)      (EXT2_BLOCK_SIZE(s)/EXT2_INODE_SI=
+ZE(s))
+> +-/* limits imposed by 16-bit value gd_free_{blocks,inode}_count */
+> +-#define EXT2_MAX_BLOCKS_PER_GROUP(s)  ((((unsigned) 1 << 16) - 8) *   \
+> +-                                       (EXT2_CLUSTER_SIZE(s) / \
+> +-                                        EXT2_BLOCK_SIZE(s)))
+> +-#define EXT2_MAX_CLUSTERS_PER_GROUP(s)        (((unsigned) 1 << 16) - 8=
+)
+> +-#define EXT2_MAX_INODES_PER_GROUP(s)  (((unsigned) 1 << 16) - \
+> +-                                       EXT2_INODES_PER_BLOCK(s))
+> +-#ifdef __KERNEL__
+> +-#define EXT2_DESC_PER_BLOCK(s)                (EXT2_SB(s)->s_desc_per_b=
+lock)
+> +-#define EXT2_DESC_PER_BLOCK_BITS(s)   (EXT2_SB(s)->s_desc_per_block_bit=
+s)
+> +-#else
+> +-#define EXT2_DESC_PER_BLOCK(s)                (EXT2_BLOCK_SIZE(s) / EXT=
+2_DESC_SIZE(s))
+> +-#endif
+> +-
+> +-/*
+> +- * Constants relative to the data blocks
+> +- */
+> +-#define EXT2_NDIR_BLOCKS              12
+> +-#define EXT2_IND_BLOCK                        EXT2_NDIR_BLOCKS
+> +-#define EXT2_DIND_BLOCK                       (EXT2_IND_BLOCK + 1)
+> +-#define EXT2_TIND_BLOCK                       (EXT2_DIND_BLOCK + 1)
+> +-#define EXT2_N_BLOCKS                 (EXT2_TIND_BLOCK + 1)
+> +-
+> +-/*
+> +- * Inode flags
+> +- */
+> +-#define EXT2_SECRM_FL                 0x00000001 /* Secure deletion */
+> +-#define EXT2_UNRM_FL                  0x00000002 /* Undelete */
+> +-#define EXT2_COMPR_FL                 0x00000004 /* Compress file */
+> +-#define EXT2_SYNC_FL                  0x00000008 /* Synchronous updates=
+ */
+> +-#define EXT2_IMMUTABLE_FL             0x00000010 /* Immutable file */
+> +-#define EXT2_APPEND_FL                        0x00000020 /* writes to f=
+ile may only append */
+> +-#define EXT2_NODUMP_FL                        0x00000040 /* do not dump=
+ file */
+> +-#define EXT2_NOATIME_FL                       0x00000080 /* do not upda=
+te atime */
+> +-/* Reserved for compression usage... */
+> +-#define EXT2_DIRTY_FL                 0x00000100
+> +-#define EXT2_COMPRBLK_FL              0x00000200 /* One or more compres=
+sed clusters */
+> +-#define EXT2_NOCOMPR_FL                       0x00000400 /* Access raw =
+compressed data */
+> +-#define EXT2_ECOMPR_FL                        0x00000800 /* Compression=
+ error */
+> +-/* End compression flags --- maybe not all used */
+> +-#define EXT2_BTREE_FL                 0x00001000 /* btree format dir */
+> +-#define EXT2_INDEX_FL                 0x00001000 /* hash-indexed direct=
+ory */
+> +-#define EXT2_IMAGIC_FL                        0x00002000
+> +-#define EXT3_JOURNAL_DATA_FL          0x00004000 /* file data should be=
+ journaled */
+> +-#define EXT2_NOTAIL_FL                        0x00008000 /* file tail s=
+hould not be merged */
+> +-#define EXT2_DIRSYNC_FL               0x00010000 /* Synchronous directo=
+ry modifications */
+> +-#define EXT2_TOPDIR_FL                        0x00020000 /* Top of dire=
+ctory hierarchies*/
+> +-#define EXT4_HUGE_FILE_FL               0x00040000 /* Set to each huge =
+file */
+> +-#define EXT4_EXTENTS_FL               0x00080000 /* Inode uses extents =
+*/
+> +-#define EXT4_EA_INODE_FL              0x00200000 /* Inode used for larg=
+e EA */
+> +-/* EXT4_EOFBLOCKS_FL 0x00400000 was here */
+> +-#define EXT4_SNAPFILE_FL              0x01000000  /* Inode is a snapsho=
+t */
+> +-#define EXT4_SNAPFILE_DELETED_FL      0x04000000  /* Snapshot is being =
+deleted */
+> +-#define EXT4_SNAPFILE_SHRUNK_FL               0x08000000  /* Snapshot s=
+hrink has completed */
+> +-#define EXT2_RESERVED_FL              0x80000000 /* reserved for ext2 l=
+ib */
+> +-
+> +-#define EXT2_FL_USER_VISIBLE          0x004BDFFF /* User visible flags =
+*/
+> +-#define EXT2_FL_USER_MODIFIABLE               0x004B80FF /* User modifi=
+able flags */
+> +-
+> +-/*
+> +- * ioctl commands
+> +- */
+> +-
+> +-/* Used for online resize */
+> +-struct ext2_new_group_input {
+> +-      __u32 group;            /* Group number for this data */
+> +-      __u32 block_bitmap;     /* Absolute block number of block bitmap =
+*/
+> +-      __u32 inode_bitmap;     /* Absolute block number of inode bitmap =
+*/
+> +-      __u32 inode_table;      /* Absolute block number of inode table s=
+tart */
+> +-      __u32 blocks_count;     /* Total number of blocks in this group *=
+/
+> +-      __u16 reserved_blocks;  /* Number of reserved blocks in this grou=
+p */
+> +-      __u16 unused;           /* Number of reserved GDT blocks in group=
+ */
+> +-};
+> +-
+> +-struct ext4_new_group_input {
+> +-      __u32 group;            /* Group number for this data */
+> +-      __u64 block_bitmap;     /* Absolute block number of block bitmap =
+*/
+> +-      __u64 inode_bitmap;     /* Absolute block number of inode bitmap =
+*/
+> +-      __u64 inode_table;      /* Absolute block number of inode table s=
+tart */
+> +-      __u32 blocks_count;     /* Total number of blocks in this group *=
+/
+> +-      __u16 reserved_blocks;  /* Number of reserved blocks in this grou=
+p */
+> +-      __u16 unused;
+> +-};
+> +-
+> +-#ifdef __GNU__                        /* Needed for the Hurd */
+> +-#define _IOT_ext2_new_group_input _IOT (_IOTS(__u32), 5, _IOTS(__u16), =
+2, 0, 0)
+> +-#endif
+> +-
+> +-#define EXT2_IOC_GETFLAGS             _IOR('f', 1, long)
+> +-#define EXT2_IOC_SETFLAGS             _IOW('f', 2, long)
+> +-#define EXT2_IOC_GETVERSION           _IOR('v', 1, long)
+> +-#define EXT2_IOC_SETVERSION           _IOW('v', 2, long)
+> +-#define EXT2_IOC_GETVERSION_NEW               _IOR('f', 3, long)
+> +-#define EXT2_IOC_SETVERSION_NEW               _IOW('f', 4, long)
+> +-#define EXT2_IOC_GROUP_EXTEND         _IOW('f', 7, unsigned long)
+> +-#define EXT2_IOC_GROUP_ADD            _IOW('f', 8,struct ext2_new_group=
+_input)
+> +-#define EXT4_IOC_GROUP_ADD            _IOW('f', 8,struct ext4_new_group=
+_input)
+> +-#define EXT4_IOC_RESIZE_FS            _IOW('f', 16, __u64)
+> +-
+> +-/*
+> +- * Structure of an inode on the disk
+> +- */
+> +-struct ext2_inode {
+> +-      __u16   i_mode;         /* File mode */
+> +-      __u16   i_uid;          /* Low 16 bits of Owner Uid */
+> +-      __u32   i_size;         /* Size in bytes */
+> +-      __u32   i_atime;        /* Access time */
+> +-      __u32   i_ctime;        /* Inode change time */
+> +-      __u32   i_mtime;        /* Modification time */
+> +-      __u32   i_dtime;        /* Deletion Time */
+> +-      __u16   i_gid;          /* Low 16 bits of Group Id */
+> +-      __u16   i_links_count;  /* Links count */
+> +-      __u32   i_blocks;       /* Blocks count */
+> +-      __u32   i_flags;        /* File flags */
+> +-      union {
+> +-              struct {
+> +-                      __u32   l_i_version; /* was l_i_reserved1 */
+> +-              } linux1;
+> +-              struct {
+> +-                      __u32  h_i_translator;
+> +-              } hurd1;
+> +-      } osd1;                         /* OS dependent 1 */
+> +-      __u32   i_block[EXT2_N_BLOCKS];/* Pointers to blocks */
+> +-      __u32   i_generation;   /* File version (for NFS) */
+> +-      __u32   i_file_acl;     /* File ACL */
+> +-      __u32   i_size_high;    /* Formerly i_dir_acl, directory ACL */
+> +-      __u32   i_faddr;        /* Fragment address */
+> +-      union {
+> +-              struct {
+> +-                      __u16   l_i_blocks_hi;
+> +-                      __u16   l_i_file_acl_high;
+> +-                      __u16   l_i_uid_high;   /* these 2 fields    */
+> +-                      __u16   l_i_gid_high;   /* were reserved2[0] */
+> +-                      __u16   l_i_checksum_lo; /* crc32c(uuid+inum+inod=
+e) */
+> +-                      __u16   l_i_reserved;
+> +-              } linux2;
+> +-              struct {
+> +-                      __u8    h_i_frag;       /* Fragment number */
+> +-                      __u8    h_i_fsize;      /* Fragment size */
+> +-                      __u16   h_i_mode_high;
+> +-                      __u16   h_i_uid_high;
+> +-                      __u16   h_i_gid_high;
+> +-                      __u32   h_i_author;
+> +-              } hurd2;
+> +-      } osd2;                         /* OS dependent 2 */
+> +-};
+> +-
+> +-/*
+> +- * Permanent part of an large inode on the disk
+> +- */
+> +-struct ext2_inode_large {
+> +-      __u16   i_mode;         /* File mode */
+> +-      __u16   i_uid;          /* Low 16 bits of Owner Uid */
+> +-      __u32   i_size;         /* Size in bytes */
+> +-      __u32   i_atime;        /* Access time */
+> +-      __u32   i_ctime;        /* Inode Change time */
+> +-      __u32   i_mtime;        /* Modification time */
+> +-      __u32   i_dtime;        /* Deletion Time */
+> +-      __u16   i_gid;          /* Low 16 bits of Group Id */
+> +-      __u16   i_links_count;  /* Links count */
+> +-      __u32   i_blocks;       /* Blocks count */
+> +-      __u32   i_flags;        /* File flags */
+> +-      union {
+> +-              struct {
+> +-                      __u32   l_i_version; /* was l_i_reserved1 */
+> +-              } linux1;
+> +-              struct {
+> +-                      __u32  h_i_translator;
+> +-              } hurd1;
+> +-      } osd1;                         /* OS dependent 1 */
+> +-      __u32   i_block[EXT2_N_BLOCKS];/* Pointers to blocks */
+> +-      __u32   i_generation;   /* File version (for NFS) */
+> +-      __u32   i_file_acl;     /* File ACL */
+> +-      __u32   i_size_high;    /* Formerly i_dir_acl, directory ACL */
+> +-      __u32   i_faddr;        /* Fragment address */
+> +-      union {
+> +-              struct {
+> +-                      __u16   l_i_blocks_hi;
+> +-                      __u16   l_i_file_acl_high;
+> +-                      __u16   l_i_uid_high;   /* these 2 fields    */
+> +-                      __u16   l_i_gid_high;   /* were reserved2[0] */
+> +-                      __u16   l_i_checksum_lo; /* crc32c(uuid+inum+inod=
+e) */
+> +-                      __u16   l_i_reserved;
+> +-              } linux2;
+> +-              struct {
+> +-                      __u8    h_i_frag;       /* Fragment number */
+> +-                      __u8    h_i_fsize;      /* Fragment size */
+> +-                      __u16   h_i_mode_high;
+> +-                      __u16   h_i_uid_high;
+> +-                      __u16   h_i_gid_high;
+> +-                      __u32   h_i_author;
+> +-              } hurd2;
+> +-      } osd2;                         /* OS dependent 2 */
+> +-      __u16   i_extra_isize;
+> +-      __u16   i_checksum_hi;  /* crc32c(uuid+inum+inode) */
+> +-      __u32   i_ctime_extra;  /* extra Change time (nsec << 2 | epoch) =
+*/
+> +-      __u32   i_mtime_extra;  /* extra Modification time (nsec << 2 | e=
+poch) */
+> +-      __u32   i_atime_extra;  /* extra Access time (nsec << 2 | epoch) =
+*/
+> +-      __u32   i_crtime;       /* File creation time */
+> +-      __u32   i_crtime_extra; /* extra File creation time (nsec << 2 | =
+epoch)*/
+> +-      __u32   i_version_hi;   /* high 32 bits for 64-bit version */
+> +-};
+> +-
+> +-#define i_dir_acl     i_size_high
+> +-
+> +-#if defined(__KERNEL__) || defined(__linux__)
+> +-#define i_reserved1   osd1.linux1.l_i_reserved1
+> +-#define i_frag                osd2.linux2.l_i_frag
+> +-#define i_fsize               osd2.linux2.l_i_fsize
+> +-#define i_uid_low     i_uid
+> +-#define i_gid_low     i_gid
+> +-#define i_uid_high    osd2.linux2.l_i_uid_high
+> +-#define i_gid_high    osd2.linux2.l_i_gid_high
+> +-#else
+> +-#if defined(__GNU__)
+> +-
+> +-#define i_translator  osd1.hurd1.h_i_translator
+> +-#define i_frag                osd2.hurd2.h_i_frag;
+> +-#define i_fsize               osd2.hurd2.h_i_fsize;
+> +-#define i_uid_high    osd2.hurd2.h_i_uid_high
+> +-#define i_gid_high    osd2.hurd2.h_i_gid_high
+> +-#define i_author      osd2.hurd2.h_i_author
+> +-
+> +-#endif  /* __GNU__ */
+> +-#endif        /* defined(__KERNEL__) || defined(__linux__) */
+> +-
+> +-#define inode_uid(inode)      ((inode).i_uid | (inode).osd2.linux2.l_i_=
+uid_high << 16)
+> +-#define inode_gid(inode)      ((inode).i_gid | (inode).osd2.linux2.l_i_=
+gid_high << 16)
+> +-#define ext2fs_set_i_uid_high(inode,x) ((inode).osd2.linux2.l_i_uid_hig=
+h =3D (x))
+> +-#define ext2fs_set_i_gid_high(inode,x) ((inode).osd2.linux2.l_i_gid_hig=
+h =3D (x))
+> +-
+> +-/*
+> +- * File system states
+> +- */
+> +-#define EXT2_VALID_FS                 0x0001  /* Unmounted cleanly */
+> +-#define EXT2_ERROR_FS                 0x0002  /* Errors detected */
+> +-#define EXT3_ORPHAN_FS                        0x0004  /* Orphans being =
+recovered */
+> +-
+> +-/*
+> +- * Misc. filesystem flags
+> +- */
+> +-#define EXT2_FLAGS_SIGNED_HASH                0x0001  /* Signed dirhash=
+ in use */
+> +-#define EXT2_FLAGS_UNSIGNED_HASH      0x0002  /* Unsigned dirhash in us=
+e */
+> +-#define EXT2_FLAGS_TEST_FILESYS               0x0004  /* OK for use on =
+development code */
+> +-#define EXT2_FLAGS_IS_SNAPSHOT                0x0010  /* This is a snap=
+shot image */
+> +-#define EXT2_FLAGS_FIX_SNAPSHOT               0x0020  /* Snapshot inode=
+s corrupted */
+> +-#define EXT2_FLAGS_FIX_EXCLUDE                0x0040  /* Exclude bitmap=
+s corrupted */
+> +-
+> +-/*
+> +- * Mount flags
+> +- */
+> +-#define EXT2_MOUNT_CHECK              0x0001  /* Do mount-time checks *=
+/
+> +-#define EXT2_MOUNT_GRPID              0x0004  /* Create files with dire=
+ctory's group */
+> +-#define EXT2_MOUNT_DEBUG              0x0008  /* Some debugging message=
+s */
+> +-#define EXT2_MOUNT_ERRORS_CONT                0x0010  /* Continue on er=
+rors */
+> +-#define EXT2_MOUNT_ERRORS_RO          0x0020  /* Remount fs ro on error=
+s */
+> +-#define EXT2_MOUNT_ERRORS_PANIC               0x0040  /* Panic on error=
+s */
+> +-#define EXT2_MOUNT_MINIX_DF           0x0080  /* Mimics the Minix statf=
+s */
+> +-#define EXT2_MOUNT_NO_UID32           0x0200  /* Disable 32-bit UIDs */
+> +-
+> +-#define clear_opt(o, opt)             o &=3D ~EXT2_MOUNT_##opt
+> +-#define set_opt(o, opt)                       o |=3D EXT2_MOUNT_##opt
+> +-#define test_opt(sb, opt)             (EXT2_SB(sb)->s_mount_opt & \
+> +-                                       EXT2_MOUNT_##opt)
+> +-/*
+> +- * Maximal mount counts between two filesystem checks
+> +- */
+> +-#define EXT2_DFL_MAX_MNT_COUNT                20      /* Allow 20 mount=
+s */
+> +-#define EXT2_DFL_CHECKINTERVAL                0       /* Don't use inte=
+rval check */
+> +-
+> +-/*
+> +- * Behaviour when detecting errors
+> +- */
+> +-#define EXT2_ERRORS_CONTINUE          1       /* Continue execution */
+> +-#define EXT2_ERRORS_RO                        2       /* Remount fs rea=
+d-only */
+> +-#define EXT2_ERRORS_PANIC             3       /* Panic */
+> +-#define EXT2_ERRORS_DEFAULT           EXT2_ERRORS_CONTINUE
+> +-
+> +-#if (__GNUC__ >=3D 4)
+> +-#define ext4_offsetof(TYPE,MEMBER) __builtin_offsetof(TYPE,MEMBER)
+> +-#else
+> +-#define ext4_offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+> +-#endif
+> +-
+> +-/*
+> +- * Structure of the super block
+> +- */
+> +-struct ext2_super_block {
+> +-      __u32   s_inodes_count;         /* Inodes count */
+> +-      __u32   s_blocks_count;         /* Blocks count */
+> +-      __u32   s_r_blocks_count;       /* Reserved blocks count */
+> +-      __u32   s_free_blocks_count;    /* Free blocks count */
+> +-      __u32   s_free_inodes_count;    /* Free inodes count */
+> +-      __u32   s_first_data_block;     /* First Data Block */
+> +-      __u32   s_log_block_size;       /* Block size */
+> +-      __u32   s_log_cluster_size;     /* Allocation cluster size */
+> +-      __u32   s_blocks_per_group;     /* # Blocks per group */
+> +-      __u32   s_clusters_per_group;   /* # Fragments per group */
+> +-      __u32   s_inodes_per_group;     /* # Inodes per group */
+> +-      __u32   s_mtime;                /* Mount time */
+> +-      __u32   s_wtime;                /* Write time */
+> +-      __u16   s_mnt_count;            /* Mount count */
+> +-      __s16   s_max_mnt_count;        /* Maximal mount count */
+> +-      __u16   s_magic;                /* Magic signature */
+> +-      __u16   s_state;                /* File system state */
+> +-      __u16   s_errors;               /* Behaviour when detecting error=
+s */
+> +-      __u16   s_minor_rev_level;      /* minor revision level */
+> +-      __u32   s_lastcheck;            /* time of last check */
+> +-      __u32   s_checkinterval;        /* max. time between checks */
+> +-      __u32   s_creator_os;           /* OS */
+> +-      __u32   s_rev_level;            /* Revision level */
+> +-      __u16   s_def_resuid;           /* Default uid for reserved block=
+s */
+> +-      __u16   s_def_resgid;           /* Default gid for reserved block=
+s */
+> +-      /*
+> +-       * These fields are for EXT2_DYNAMIC_REV superblocks only.
+> +-       *
+> +-       * Note: the difference between the compatible feature set and
+> +-       * the incompatible feature set is that if there is a bit set
+> +-       * in the incompatible feature set that the kernel doesn't
+> +-       * know about, it should refuse to mount the filesystem.
+> +-       *
+> +-       * e2fsck's requirements are more strict; if it doesn't know
+> +-       * about a feature in either the compatible or incompatible
+> +-       * feature set, it must abort and not try to meddle with
+> +-       * things it doesn't understand...
+> +-       */
+> +-      __u32   s_first_ino;            /* First non-reserved inode */
+> +-      __u16   s_inode_size;           /* size of inode structure */
+> +-      __u16   s_block_group_nr;       /* block group # of this superblo=
+ck */
+> +-      __u32   s_feature_compat;       /* compatible feature set */
+> +-      __u32   s_feature_incompat;     /* incompatible feature set */
+> +-      __u32   s_feature_ro_compat;    /* readonly-compatible feature se=
+t */
+> +-      __u8    s_uuid[16];             /* 128-bit uuid for volume */
+> +-      char    s_volume_name[16];      /* volume name */
+> +-      char    s_last_mounted[64];     /* directory where last mounted *=
+/
+> +-      __u32   s_algorithm_usage_bitmap; /* For compression */
+> +-      /*
+> +-       * Performance hints.  Directory preallocation should only
+> +-       * happen if the EXT2_FEATURE_COMPAT_DIR_PREALLOC flag is on.
+> +-       */
+> +-      __u8    s_prealloc_blocks;      /* Nr of blocks to try to preallo=
+cate*/
+> +-      __u8    s_prealloc_dir_blocks;  /* Nr to preallocate for dirs */
+> +-      __u16   s_reserved_gdt_blocks;  /* Per group table for online gro=
+wth */
+> +-      /*
+> +-       * Journaling support valid if EXT2_FEATURE_COMPAT_HAS_JOURNAL se=
+t.
+> +-       */
+> +-      __u8    s_journal_uuid[16];     /* uuid of journal superblock */
+> +-      __u32   s_journal_inum;         /* inode number of journal file *=
+/
+> +-      __u32   s_journal_dev;          /* device number of journal file =
+*/
+> +-      __u32   s_last_orphan;          /* start of list of inodes to del=
+ete */
+> +-      __u32   s_hash_seed[4];         /* HTREE hash seed */
+> +-      __u8    s_def_hash_version;     /* Default hash version to use */
+> +-      __u8    s_jnl_backup_type;      /* Default type of journal backup=
+ */
+> +-      __u16   s_desc_size;            /* Group desc. size: INCOMPAT_64B=
+IT */
+> +-      __u32   s_default_mount_opts;
+> +-      __u32   s_first_meta_bg;        /* First metablock group */
+> +-      __u32   s_mkfs_time;            /* When the filesystem was create=
+d */
+> +-      __u32   s_jnl_blocks[17];       /* Backup of the journal inode */
+> +-      __u32   s_blocks_count_hi;      /* Blocks count high 32bits */
+> +-      __u32   s_r_blocks_count_hi;    /* Reserved blocks count high 32 =
+bits*/
+> +-      __u32   s_free_blocks_hi;       /* Free blocks count */
+> +-      __u16   s_min_extra_isize;      /* All inodes have at least # byt=
+es */
+> +-      __u16   s_want_extra_isize;     /* New inodes should reserve # by=
+tes */
+> +-      __u32   s_flags;                /* Miscellaneous flags */
+> +-      __u16   s_raid_stride;          /* RAID stride */
+> +-      __u16   s_mmp_update_interval;  /* # seconds to wait in MMP check=
+ing */
+> +-      __u64   s_mmp_block;            /* Block for multi-mount protecti=
+on */
+> +-      __u32   s_raid_stripe_width;    /* blocks on all data disks (N*st=
+ride)*/
+> +-      __u8    s_log_groups_per_flex;  /* FLEX_BG group size */
+> +-      __u8    s_reserved_char_pad;
+> +-      __u16   s_reserved_pad;         /* Padding to next 32bits */
+> +-      __u64   s_kbytes_written;       /* nr of lifetime kilobytes writt=
+en */
+> +-      __u32   s_snapshot_inum;        /* Inode number of active snapsho=
+t */
+> +-      __u32   s_snapshot_id;          /* sequential ID of active snapsh=
+ot */
+> +-      __u64   s_snapshot_r_blocks_count; /* reserved blocks for active
+> +-                                            snapshot's future use */
+> +-      __u32   s_snapshot_list;        /* inode number of the head of th=
+e on-disk snapshot list */
+> +-#define EXT4_S_ERR_START ext4_offsetof(struct ext2_super_block, s_error=
+_count)
+> +-      __u32   s_error_count;          /* number of fs errors */
+> +-      __u32   s_first_error_time;     /* first time an error happened *=
+/
+> +-      __u32   s_first_error_ino;      /* inode involved in first error =
+*/
+> +-      __u64   s_first_error_block;    /* block involved of first error =
+*/
+> +-      __u8    s_first_error_func[32]; /* function where the error happe=
+ned */
+> +-      __u32   s_first_error_line;     /* line number where error happen=
+ed */
+> +-      __u32   s_last_error_time;      /* most recent time of an error *=
+/
+> +-      __u32   s_last_error_ino;       /* inode involved in last error *=
+/
+> +-      __u32   s_last_error_line;      /* line number where error happen=
+ed */
+> +-      __u64   s_last_error_block;     /* block involved of last error *=
+/
+> +-      __u8    s_last_error_func[32];  /* function where the error happe=
+ned */
+> +-#define EXT4_S_ERR_END ext4_offsetof(struct ext2_super_block, s_mount_o=
+pts)
+> +-      __u8    s_mount_opts[64];
+> +-      __u32   s_usr_quota_inum;       /* inode number of user quota fil=
+e */
+> +-      __u32   s_grp_quota_inum;       /* inode number of group quota fi=
+le */
+> +-      __u32   s_overhead_blocks;      /* overhead blocks/clusters in fs=
+ */
+> +-      __u32   s_reserved[108];        /* Padding to the end of the bloc=
+k */
+> +-      __u32   s_checksum;             /* crc32c(superblock) */
+> +-};
+> +-
+> +-#define EXT4_S_ERR_LEN (EXT4_S_ERR_END - EXT4_S_ERR_START)
+> +-
+> +-/*
+> +- * Codes for operating systems
+> +- */
+> +-#define EXT2_OS_LINUX         0
+> +-#define EXT2_OS_HURD          1
+> +-#define EXT2_OBSO_OS_MASIX    2
+> +-#define EXT2_OS_FREEBSD               3
+> +-#define EXT2_OS_LITES         4
+> +-
+> +-/*
+> +- * Revision levels
+> +- */
+> +-#define EXT2_GOOD_OLD_REV     0       /* The good old (original) format=
+ */
+> +-#define EXT2_DYNAMIC_REV      1       /* V2 format w/ dynamic inode siz=
+es */
+> +-
+> +-#define EXT2_CURRENT_REV      EXT2_GOOD_OLD_REV
+> +-#define EXT2_MAX_SUPP_REV     EXT2_DYNAMIC_REV
+> +-
+> +-#define EXT2_GOOD_OLD_INODE_SIZE 128
+> +-
+> +-/*
+> +- * Journal inode backup types
+> +- */
+> +-#define EXT3_JNL_BACKUP_BLOCKS        1
+> +-
+> +-/*
+> +- * Feature set definitions
+> +- */
+> +-
+> +-#define EXT2_HAS_COMPAT_FEATURE(sb,mask)                      \
+> +-      ( EXT2_SB(sb)->s_feature_compat & (mask) )
+> +-#define EXT2_HAS_RO_COMPAT_FEATURE(sb,mask)                   \
+> +-      ( EXT2_SB(sb)->s_feature_ro_compat & (mask) )
+> +-#define EXT2_HAS_INCOMPAT_FEATURE(sb,mask)                    \
+> +-      ( EXT2_SB(sb)->s_feature_incompat & (mask) )
+> +-
+> +-#define EXT2_FEATURE_COMPAT_DIR_PREALLOC      0x0001
+> +-#define EXT2_FEATURE_COMPAT_IMAGIC_INODES     0x0002
+> +-#define EXT3_FEATURE_COMPAT_HAS_JOURNAL               0x0004
+> +-#define EXT2_FEATURE_COMPAT_EXT_ATTR          0x0008
+> +-#define EXT2_FEATURE_COMPAT_RESIZE_INODE      0x0010
+> +-#define EXT2_FEATURE_COMPAT_DIR_INDEX         0x0020
+> +-#define EXT2_FEATURE_COMPAT_LAZY_BG           0x0040
+> +-/* #define EXT2_FEATURE_COMPAT_EXCLUDE_INODE  0x0080 not used, legacy *=
+/
+> +-#define EXT2_FEATURE_COMPAT_EXCLUDE_BITMAP    0x0100
+> +-
+> +-
+> +-#define EXT2_FEATURE_RO_COMPAT_SPARSE_SUPER   0x0001
+> +-#define EXT2_FEATURE_RO_COMPAT_LARGE_FILE     0x0002
+> +-/* #define EXT2_FEATURE_RO_COMPAT_BTREE_DIR   0x0004 not used */
+> +-#define EXT4_FEATURE_RO_COMPAT_HUGE_FILE      0x0008
+> +-#define EXT4_FEATURE_RO_COMPAT_GDT_CSUM               0x0010
+> +-#define EXT4_FEATURE_RO_COMPAT_DIR_NLINK      0x0020
+> +-#define EXT4_FEATURE_RO_COMPAT_EXTRA_ISIZE    0x0040
+> +-#define EXT4_FEATURE_RO_COMPAT_HAS_SNAPSHOT   0x0080
+> +-#define EXT4_FEATURE_RO_COMPAT_QUOTA          0x0100
+> +-#define EXT4_FEATURE_RO_COMPAT_BIGALLOC               0x0200
+> +-#define EXT4_FEATURE_RO_COMPAT_METADATA_CSUM  0x0400
+> +-#define EXT4_FEATURE_RO_COMPAT_REPLICA                0x0800
+> +-
+> +-#define EXT2_FEATURE_INCOMPAT_COMPRESSION     0x0001
+> +-#define EXT2_FEATURE_INCOMPAT_FILETYPE                0x0002
+> +-#define EXT3_FEATURE_INCOMPAT_RECOVER         0x0004 /* Needs recovery =
+*/
+> +-#define EXT3_FEATURE_INCOMPAT_JOURNAL_DEV     0x0008 /* Journal device =
+*/
+> +-#define EXT2_FEATURE_INCOMPAT_META_BG         0x0010
+> +-#define EXT3_FEATURE_INCOMPAT_EXTENTS         0x0040
+> +-#define EXT4_FEATURE_INCOMPAT_64BIT           0x0080
+> +-#define EXT4_FEATURE_INCOMPAT_MMP             0x0100
+> +-#define EXT4_FEATURE_INCOMPAT_FLEX_BG         0x0200
+> +-#define EXT4_FEATURE_INCOMPAT_EA_INODE                0x0400
+> +-#define EXT4_FEATURE_INCOMPAT_DIRDATA         0x1000
+> +-
+> +-#define EXT2_FEATURE_COMPAT_SUPP      0
+> +-#define EXT2_FEATURE_INCOMPAT_SUPP    (EXT2_FEATURE_INCOMPAT_FILETYPE| =
+\
+> +-                                     EXT4_FEATURE_INCOMPAT_MMP)
+> +-#define EXT2_FEATURE_RO_COMPAT_SUPP   (EXT2_FEATURE_RO_COMPAT_SPARSE_SU=
+PER| \
+> +-                                       EXT2_FEATURE_RO_COMPAT_LARGE_FIL=
+E| \
+> +-                                       EXT4_FEATURE_RO_COMPAT_DIR_NLINK=
+| \
+> +-                                       EXT2_FEATURE_RO_COMPAT_BTREE_DIR=
+)
+> +-
+> +-/*
+> +- * Default values for user and/or group using reserved blocks
+> +- */
+> +-#define EXT2_DEF_RESUID               0
+> +-#define EXT2_DEF_RESGID               0
+> +-
+> +-/*
+> +- * Default mount options
+> +- */
+> +-#define EXT2_DEFM_DEBUG               0x0001
+> +-#define EXT2_DEFM_BSDGROUPS   0x0002
+> +-#define EXT2_DEFM_XATTR_USER  0x0004
+> +-#define EXT2_DEFM_ACL         0x0008
+> +-#define EXT2_DEFM_UID16               0x0010
+> +-#define EXT3_DEFM_JMODE               0x0060
+> +-#define EXT3_DEFM_JMODE_DATA  0x0020
+> +-#define EXT3_DEFM_JMODE_ORDERED       0x0040
+> +-#define EXT3_DEFM_JMODE_WBACK 0x0060
+> +-#define EXT4_DEFM_NOBARRIER   0x0100
+> +-#define EXT4_DEFM_BLOCK_VALIDITY 0x0200
+> +-#define EXT4_DEFM_DISCARD     0x0400
+> +-#define EXT4_DEFM_NODELALLOC  0x0800
+> +-
+> +-/*
+> +- * Structure of a directory entry
+> +- */
+> +-#define EXT2_NAME_LEN 255
+> +-
+> +-struct ext2_dir_entry {
+> +-      __u32   inode;                  /* Inode number */
+> +-      __u16   rec_len;                /* Directory entry length */
+> +-      __u16   name_len;               /* Name length */
+> +-      char    name[EXT2_NAME_LEN];    /* File name */
+> +-};
+> +-
+> +-/*
+> +- * The new version of the directory entry.  Since EXT2 structures are
+> +- * stored in intel byte order, and the name_len field could never be
+> +- * bigger than 255 chars, it's safe to reclaim the extra byte for the
+> +- * file_type field.
+> +- */
+> +-struct ext2_dir_entry_2 {
+> +-      __u32   inode;                  /* Inode number */
+> +-      __u16   rec_len;                /* Directory entry length */
+> +-      __u8    name_len;               /* Name length */
+> +-      __u8    file_type;
+> +-      char    name[EXT2_NAME_LEN];    /* File name */
+> +-};
+> +-
+> +-/*
+> +- * Ext2 directory file types.  Only the low 3 bits are used.  The
+> +- * other bits are reserved for now.
+> +- */
+> +-#define EXT2_FT_UNKNOWN               0
+> +-#define EXT2_FT_REG_FILE      1
+> +-#define EXT2_FT_DIR           2
+> +-#define EXT2_FT_CHRDEV                3
+> +-#define EXT2_FT_BLKDEV                4
+> +-#define EXT2_FT_FIFO          5
+> +-#define EXT2_FT_SOCK          6
+> +-#define EXT2_FT_SYMLINK               7
+> +-
+> +-#define EXT2_FT_MAX           8
+> +-
+> +-/*
+> +- * EXT2_DIR_PAD defines the directory entries boundaries
+> +- *
+> +- * NOTE: It must be a multiple of 4
+> +- */
+> +-#define EXT2_DIR_PAD                  4
+> +-#define EXT2_DIR_ROUND                        (EXT2_DIR_PAD - 1)
+> +-#define EXT2_DIR_REC_LEN(name_len)    (((name_len) + 8 + EXT2_DIR_ROUND=
+) & \
+> +-                                       ~EXT2_DIR_ROUND)
+> +-
+> +-/*
+> +- * This structure is used for multiple mount protection. It is written
+> +- * into the block number saved in the s_mmp_block field in the superblo=
+ck.
+> +- * Programs that check MMP should assume that if SEQ_FSCK (or any unkno=
+wn
+> +- * code above SEQ_MAX) is present then it is NOT safe to use the filesy=
+stem,
+> +- * regardless of how old the timestamp is.
+> +- *
+> +- * The timestamp in the MMP structure will be updated by e2fsck at some
+> +- * arbitary intervals (start of passes, after every few groups of inode=
+s
+> +- * in pass1 and pass1b).  There is no guarantee that e2fsck is updating
+> +- * the MMP block in a timely manner, and the updates it does are purely
+> +- * for the convenience of the sysadmin and not for automatic validation=
+.
+> +- *
+> +- * Note: Only the mmp_seq value is used to determine whether the MMP bl=
+ock
+> +- *    is being updated.  The mmp_time, mmp_nodename, and mmp_bdevname
+> +- *    fields are only for informational purposes for the administrator,
+> +- *    due to clock skew between nodes and hostname HA service takeover.
+> +- */
+> +-#define EXT4_MMP_MAGIC     0x004D4D50U /* ASCII for MMP */
+> +-#define EXT4_MMP_SEQ_CLEAN 0xFF4D4D50U /* mmp_seq value for clean unmou=
+nt */
+> +-#define EXT4_MMP_SEQ_FSCK  0xE24D4D50U /* mmp_seq value when being fsck=
+ed */
+> +-#define EXT4_MMP_SEQ_MAX   0xE24D4D4FU /* maximum valid mmp_seq value *=
+/
+> +-
+> +-struct mmp_struct {
+> +-      __u32   mmp_magic;              /* Magic number for MMP */
+> +-      __u32   mmp_seq;                /* Sequence no. updated periodica=
+lly */
+> +-      __u64   mmp_time;               /* Time last updated */
+> +-      char    mmp_nodename[64];       /* Node which last updated MMP bl=
+ock */
+> +-      char    mmp_bdevname[32];       /* Bdev which last updated MMP bl=
+ock */
+> +-      __u16   mmp_check_interval;     /* Changed mmp_check_interval */
+> +-      __u16   mmp_pad1;
+> +-      __u32   mmp_pad2[227];
+> +-};
+> +-
+> +-/*
+> +- * Default interval for MMP update in seconds.
+> +- */
+> +-#define EXT4_MMP_UPDATE_INTERVAL      5
+> +-
+> +-/*
+> +- * Maximum interval for MMP update in seconds.
+> +- */
+> +-#define EXT4_MMP_MAX_UPDATE_INTERVAL  300
+> +-
+> +-/*
+> +- * Minimum interval for MMP checking in seconds.
+> +- */
+> +-#define EXT4_MMP_MIN_CHECK_INTERVAL     5
+> +-
+> +-#endif        /* _EXT2FS_EXT2_FS_H */
+> diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/=
+recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> index d75aa95c1fd..fa7054bc54f 100644
+> --- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> +++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> @@ -22,7 +22,8 @@ SRC_URI =3D "https://www.zytor.com/pub/syslinux/Testing=
+/6.04/syslinux-${PV}.tar.xz
+>             file://0012-libinstaller-Fix-build-with-glibc-2.36.patch \
+>             file://0013-remove-clean-script.patch \
+>             file://0014-Fix-reproducibility-issues.patch \
+> -"
+> +           file://0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch \
+> +           "
+>
+>  SRC_URI[md5sum] =3D "2b31c78f087f99179feb357da312d7ec"
+>  SRC_URI[sha256sum] =3D "4441a5d593f85bb6e8d578cf6653fb4ec30f9e8f4a2315a3=
+d8f2d0a8b3fadf94"
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#203624): https://lists.openembedded.org/g/openembedde=
+d-core/message/203624
+> Mute This Topic: https://lists.openembedded.org/mt/108035226/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
