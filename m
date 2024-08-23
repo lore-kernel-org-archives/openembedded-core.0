@@ -1,465 +1,1774 @@
-Return-Path: <russ.dill@nikolamotor.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42EDDC3DA4A
-	for <webhook@archiver.kernel.org>; Thu, 22 Aug 2024 23:26:08 +0000 (UTC)
-Received: from BN8PR05CU002.outbound.protection.outlook.com (BN8PR05CU002.outbound.protection.outlook.com [52.101.57.49])
- by mx.groups.io with SMTP id smtpd.web10.5192.1724369166245785882
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA85AC531DF
+	for <webhook@archiver.kernel.org>; Fri, 23 Aug 2024 00:57:08 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.6625.1724374621012867615
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Aug 2024 16:26:06 -0700
+ Thu, 22 Aug 2024 17:57:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nikolamotor.com header.s=selector2 header.b=ptsgknJa;
- spf=pass (domain: nikolamotor.com, ip: 52.101.57.49, mailfrom: russ.dill@nikolamotor.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8965975543=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47N0fVRS026506
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 00:57:00 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6x005-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 00:56:59 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 47N0uxWP015628;
+	Fri, 23 Aug 2024 00:56:59 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2047.outbound.protection.outlook.com [104.47.55.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 412ju6x004-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Aug 2024 00:56:58 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OZpXfO7VlL9LWeztb0+bIGWwrfXhQviD4sblVBogD3dWhh+SUW1JULWTbujql1p5PN7OE7Dw9Hdg1nwJeKU9JWH5NJWH2iPNQr+HCLUWdvXMp3b1hLlcLfUEKRevT6adpbpCJtfmOP7s4FQ7o3yrUnzwCy8O5s885AsALQ0c1CglAqZGUmE8w9YjCuRn9h01HcY+8eZqgM03LM0P8mbpOlF8xZX44D+gtclkwHDyY0RhDDFbrLuAAQkYYeQZCfq62GrL32wAX7gz7Kx1kB9TabaoworVSg14+1kytiCpBiTD78eA6cgoSJ8Kgi6ymsVsj7UkDSkxwPWlewr9AZ0dSw==
+ b=xHhPf6lBuYPUiaC14gWLxWBMSqO6ZKw9aJa6CgADKx+lfHc+45wjyLvqYqsslOqstp393AdiuLg4NI3WZhjSp3ZJwJUxo4uOhT4De+jW6+KlVfCEvlo6PO0dYFRSJ4AhfGpmE7Xd3jcBCtGJtjNc0BsPGKm5yQnSAxHjZYSFphxpGnwBrs072Dh/GlQ5ZEK3o66Z4Gh6CABhtg/Gp3zl+GGNY/N0qXtZ3la36ChuGZqmTBXH8rX8y7TasmUyT/+CgwO1JVOQBtBqH9wvRPGVXt1cNPjWVXRLty/MUdE1VeS0Evsi0dYeKuhzoQG8agzBBZt87FwzD/I3+jEyhv859w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bTkQ0Ofz5c3VNSa0edjsrbk+R8jtvVQVe9k+rtNTFBg=;
- b=gnDPIEB7f4lS9URT4XupnsjAf0neWzaJP4KF8d8bGJZCkQ6LI4hqw6N1Ee7f/mh0aXR7zAC8Ih9zhmsMHedvU9Cy7d6Lu1niGYkXFiN/kRTaN7WN/dEFCGIzQzOefK4Vczv5hLbCatCmq4Sf3/aRfSlFqTSSaXehYm3C6HD4Df325HyEUKsFnnqmj0E4YxTrs8piY1tBY22A99l1hV/BoqLI6RUnREwNG1QbFJoeSbpI1RdeIn4h1RNaq9t0z1wada3JPy0byDN3VZYzedy0GvZfuyPhZ8cCwvfFRXsNGRGRAwdE1/LF9QmLQkBvA4boQnuylF/4cswQVemMBN9n5w==
+ bh=Tezvth1Z2JHTE6DYc7ZrBe3luFtLXCtC4m14vo2b1fA=;
+ b=eS77LeiD/XUbUkp+sqafT7M+iiiJ7vBIFNfzrAOhDjNKES29yPWE3YZ65y1nl0NsAmGFneKlpaww2E7lbyXJF6ZKFvVAP3RvpTJAsUl9XRx6P0chvOQvUH4EZ3SkH7A2CnKAG4gN6Y82wa8HVJWVMG1hIcw9i3fF6Ks1xxW/eadUDEUJ7T+vSvN5XbTPgg9GGCw+Y1iEqInCkEU/b3Qdtf2YcwNUtSAc0DRlaCDR6tBL+SUh7mESxT3o5lEf0uHUI00HaycAxnYBOhNtLbLgfpSA63Q0dQzO+XbLb+hQSf/wjawCaEhQraSTLSdchuwv1Thq2Gu1MLqxtsIZFfAfKQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nikolamotor.com; dmarc=pass action=none
- header.from=nikolamotor.com; dkim=pass header.d=nikolamotor.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nikolamotor.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bTkQ0Ofz5c3VNSa0edjsrbk+R8jtvVQVe9k+rtNTFBg=;
- b=ptsgknJa4UWWZo68zZ5nRnh/EBVgi0NU29T1QXLUDl3pWhZ2lukbVXs966s6AgBT69pfVa3qoFOoSzwf2uyGIWgW1SGOwHe5sk3iicM3jpbcHwUOOK+aDpqkoJiXo0Tfwqd3TAhlZXzzK+f+3oSU0rG1S4t66l9Z46kV9CwH0NoJRvvPdbb/MCfMmYkQ/3llDA+EoFr/Hd+1Cu2Oj4x4eC8Gef5nq4+WwM8hpfvoBsB5rthmdxxKkjraTkOoq7dJ3C6oLZAWNr8OTVBE5rubHz01Y0eRG2pR614MLfXZ89DpjkYqbzv/qs8wK2RXYvcNHJ5AIyjgj+ZPJsK6QVxesA==
-Received: from CH3PR05MB9388.namprd05.prod.outlook.com (2603:10b6:610:148::20)
- by SA1PR05MB8737.namprd05.prod.outlook.com (2603:10b6:806:1c8::10) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by IA1PR11MB8151.namprd11.prod.outlook.com (2603:10b6:208:44d::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.18; Thu, 22 Aug
- 2024 23:25:57 +0000
-Received: from CH3PR05MB9388.namprd05.prod.outlook.com
- ([fe80::5f88:54cd:2013:a6ef]) by CH3PR05MB9388.namprd05.prod.outlook.com
- ([fe80::5f88:54cd:2013:a6ef%5]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
- 23:25:56 +0000
-From: Russ Dill <russ.dill@nikolamotor.com>
-To: Marta Rybczynska <rybczynska@gmail.com>, "bruce.ashfield@gmail.com"
-	<bruce.ashfield@gmail.com>
-CC: "yocto-security@lists.yoctoproject.org"
-	<yocto-security@lists.yoctoproject.org>, "richard.purdie@linuxfoundation.org"
-	<richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 02/12] linux-yocto/6.6: update CVE exclusions
- (6.6.24)
-Thread-Topic: [OE-core] [PATCH 02/12] linux-yocto/6.6: update CVE exclusions
- (6.6.24)
-Thread-Index: AQHanQNPgnrGoWqX6EG0YRU9HeyA4rGE/2mAgAB3pACAryN9+A==
-Date: Thu, 22 Aug 2024 23:25:56 +0000
-Message-ID: 
- <CH3PR05MB9388064590A730F4E67E45AAF48F2@CH3PR05MB9388.namprd05.prod.outlook.com>
-References: <cover.1714703667.git.bruce.ashfield@gmail.com>
- <fd6e4f80902a641f397ac02aa3de486aa2dcd137.1714703667.git.bruce.ashfield@gmail.com>
- <CAApg2=R-fUrVcD3Fb1gvozynwCJE-pW+7=erXFUG7iW0npFPqw@mail.gmail.com>
- <CADkTA4MhZjv6jo22XmakDgt-c0wpGb2H66LU7m3oiWrqp1pMXA@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4MhZjv6jo22XmakDgt-c0wpGb2H66LU7m3oiWrqp1pMXA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nikolamotor.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR05MB9388:EE_|SA1PR05MB8737:EE_
-x-ms-office365-filtering-correlation-id: 9bf0c2e2-5509-44e3-ed7d-08dcc301c5f2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?K0VKV3l6WFRuRUFrTWxEUmt6ZWFxbVh1NXZtWUs5ZDlNamVhQ0hoUG11WUVw?=
- =?utf-8?B?WnJGUld4QXBsQ2dLNlBXMEJiVlA0UnVGMjdGWmJWUWg4Z0EwZm1BR1hsdi9N?=
- =?utf-8?B?TGoxVGFPWUJ6eXJMYmtzMkdaQXQwMU5XQm5mUXJyV3cwSjV4SmRCSHZNWk01?=
- =?utf-8?B?cUpyR2ZSVWcyTFlZaHBBYkRYWWhneGFseWFqTGlmbHZVMXVYZVlkVmQ0ajVY?=
- =?utf-8?B?YVRrZmRDc3VvRzJXWUEwTXdWY1JNeTBMV0d4REQwdzBReEZEN0FpdzJha3Nn?=
- =?utf-8?B?dTJPb0JTV0xqZzFmSGxwOTBiWlJSd3pEMWR3N1BGL0lGUEZFdm9KL1NqeVh2?=
- =?utf-8?B?TmF3UURKbTliZmdZcXp1cy9sVmtqdUMwS0RNb25EZUhvL045YmFncUxLTjBY?=
- =?utf-8?B?SzhSclF2bTc3U3JKU1pBQm8rK2VXTVE2ODgzUWpjejZiaEk5N3c5Z1BqNFI5?=
- =?utf-8?B?N1ArQkVGZTRpTGhCaWZ0TVE3SHRnMG9IS0FpSWhSZC9FdzJoenpEVDVXYm9I?=
- =?utf-8?B?ZzhZWVFqZXBaNUd2ZE1XYUxkWXRKdWsyL3pvVWVsN1N3UjYwZlFZRVBBTlVl?=
- =?utf-8?B?aEJOZVpnVnVCTG5SeW9ua0g2Qm43VENzaFJ3MEJtVDRlZzRVQTBNU3ZjcjRN?=
- =?utf-8?B?Z2x5Yk9CVVBiZnM4TEErc1NnZGV4bVptVDZJT3Fub2tvODBweXhqYklWT1RF?=
- =?utf-8?B?RlJ3QmErN0JIY09ONzVYSFJtVkplQnkvVCt3MWZjTno1QlZON2tOWUxSVFJ0?=
- =?utf-8?B?VE9Ta1hhaXVJMzRqL2FHeXlQMzJnOUxGcXpmdkxBQ0IrV0Y3R2VXRmlTc0wz?=
- =?utf-8?B?cFV4WWlNdWJhL2JnNEIrNmc5YU4vL1cwbHZYeDNyNjJrLzdUWDgxK2YyQU9G?=
- =?utf-8?B?YnorMnc4R3dCRTZTa3pxa3BXOW9ydmEwU2gxZW1mVklLZ09UZlU0VVFmN1Mv?=
- =?utf-8?B?ZUgyNjVKMjZzTDg2VGQ4VHl4ZU80K3IxWGpXZFY5S0dLUFFJWGRYWWpyWmw0?=
- =?utf-8?B?OFBCL2hRNGhSZnM1di9nelpmWFUvOHJTdmdVb1FaK2thZW1MODJzcGlqOWRF?=
- =?utf-8?B?dUZZYy9vaHZGdU9HNXpBZHNOZ1pCNTdYNFJYRWFPQWsyUVcxSnB4bm1rRWxk?=
- =?utf-8?B?TUNLTno3Qm9aMDhUaU9tcFloVTgwTFFlUHBaM284akIyOW5vUWgzbDIzOStz?=
- =?utf-8?B?aFdPYXlodlp5RWNqS0RHOGZpWEpsd0pYeit5WitVeXlObkFSTmlMaDQvTTly?=
- =?utf-8?B?WVRBYWd2ZTNzUVZBOGdhR2w3NG8yNVk1aTZSWlh1NmVTZ0hhdlRpSmZlTEpU?=
- =?utf-8?B?TXU4YXBNZndWSXNMckIzT3ArN1dpbkl5TDBsOXhZRlVTUUtHU1N5aU92dzZY?=
- =?utf-8?B?OC9Wem02ODA0VW0wYjgzM2R2czEzR2pjNFA5eVM4RVU0QmN1NHJSOE1nRTVH?=
- =?utf-8?B?K3lNaXdzeUtzMTNHTGdqWFRUbkdhVGlBWW5xVUNQSi9KcTUvTmtJbHVQcjJP?=
- =?utf-8?B?dEJlVmRheXgvY1c2cW1zN0xOS1VHdGNpRnJjMlRwc0NwOW1zaWVweE9XM2JO?=
- =?utf-8?B?bVRpdFdJYk05MnZ6ZG1HMVJSa1VyVWh0dTU2SWV4dHBkS2gyVXV6WlJhYjRu?=
- =?utf-8?B?T3E1THFaZk43Y05wUXkvUDlOOGNGWkRaSzBUTDlWZVBFVnZzem5QS1lVOEZC?=
- =?utf-8?B?UEpJK1IwMFdjcVVvQVdTSzZhNThiOUI1V1ZWSEhaSlQzOTdoVm45a1ZobzBG?=
- =?utf-8?B?Uk5FeHd5S1ljMzdhNzFLRU9sL2QyUjg2eW9ZMnB3VGtaRFYrZis5T2VWaXk0?=
- =?utf-8?Q?Zz6NVStV0jbuRD2v051C9u+DNt7riSHqdLGOE=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR05MB9388.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?eWYxOTZsOXBNZjF1Tk5raEZYN0haMU4rUThUQmk5WllxVFdRaGNVSHhRUndi?=
- =?utf-8?B?c2hSSloxQi9hamlzbmNINFJoMUxRSWJQMzBzVkhQc1NId00rR2pSbkh2K2ZR?=
- =?utf-8?B?L2xzZTRMbjNpSVVsWGpoQVQ2UTBkdDAwL2pCZ2ZIRU56d3Y3amN4djVKNDNL?=
- =?utf-8?B?Nm1BSnpvaFcwRHprSGl5NXNrL2FWUVZtK3N3dEQvUmo2TGhYSEQrd0RDczlX?=
- =?utf-8?B?TVlocmd5ZytOM0JvNGp3SzlKdnNRajNjQ29CWDhwWk1GcE4yWlh2NUxkZXBG?=
- =?utf-8?B?UEw0bmQ0UEJldDBEQlhIWDI5NEJubDg4L0tKTVIwbHp2Qm00UFZPK0JGS3ZU?=
- =?utf-8?B?VGlDRlZhYnBUaktQZ3VFdHgzNmxUTTZ4RS8zS0VxR0JQeU5JcHhXdElRUnd3?=
- =?utf-8?B?ekRZUERsKzJOZmhJY2NYSFhZdG5oTHd4T3JtcUJGU0ZlVWtHbUdoMzdwOGFo?=
- =?utf-8?B?VFppOWY4V3p4elRrSnR4NDgzbytQWEdVcXJVZ0pQVUd3WC9GdmZDV3RSUkVw?=
- =?utf-8?B?WFVaRTV1dVVMNldpb2xVUWFpR3pOVGc5UHJaQkhFbEVGQS9TbWtTT2l3eG5y?=
- =?utf-8?B?Y3pZM0RSNU1CV3lNREFmUHBUeUlLdUVNNjFqa2FRVEhERTFWbDA1ZUoyMzZT?=
- =?utf-8?B?QU5sZ3BWeXNzbDdLZzd3N2h1Zmt5U2V5UnRyNkZVVzg3RGFFbmttNTgzRmE3?=
- =?utf-8?B?ODQ4KzJOa1d2cUNMWXR1TGxCemFYM1owZVZ5STFYUGVRU2xLc2VVN28wcHAw?=
- =?utf-8?B?S2hlS2k4Tmd4RnhiYktuWndRUXhKZlhnek9LSFhDU1NjWS9aMlVObkJPRFlk?=
- =?utf-8?B?dXhUODllaG5aeGtwRmp3a0FzajFUZjFPcGNGWkdiNzRNamdNbERZcUJGWkNI?=
- =?utf-8?B?dGV6V3ZQYXVOd3VoeGVTVzZGL2lCTXlwR0VyMVI3eGQ3Uk9pSUUwNGw2cHp5?=
- =?utf-8?B?NFNyZCtrZUFja1VXMC9jaitsalpvWmVoZjdZajRQOUxTT1NkQWQxZTdPYy9r?=
- =?utf-8?B?bGhLa2NFNGpJZ0hGSlFCRCtFckg5d2Y3UlhhNDhSelM2MzNNbVkxSXlIU0hl?=
- =?utf-8?B?Z2R5dXp0MTZPMDA5RGlUMm5laFRGRHRYc1dsT2RDUHl3T0owNW9BNURRRUx3?=
- =?utf-8?B?QXl3SWRyakpxdTJZeGhPcFYzS3pKamIveXJpVFM5TFl1bnk1clRnZHFxdFR5?=
- =?utf-8?B?MTZ2WE4xcU1WN2JZTFp6MU5MeHBNYnBqeCs2aEZDY0VXTDdJbGkvTTdpZGp2?=
- =?utf-8?B?QnByZ2cycHY2a2JkWEkyZHRkdDNwWnZkYVZzanJ0c3h6UXVNaEV0bmhWcGh4?=
- =?utf-8?B?SFBJYkZiRm1JREd6TEJaSUhWT1p3bVpuQjUwMG5lUVZrUjdsYVhpdTV4MzVI?=
- =?utf-8?B?Q3ZFMDduRUxTTHQyQWR5UlEzb0lBdlRqQkErN1YyT1FSYVA5N0NVb1prTHJu?=
- =?utf-8?B?ZHV4cmwvekZmODY0aTdydDRTVzV1aS81K1JWNWd4TldFbCtjSWIyRnkza1Uw?=
- =?utf-8?B?VTdQZ1RONTJMS2VZM2Q0SHFvcmdnNnB6RHlIYlFYTFBQdlZxbmlSYXlINHU1?=
- =?utf-8?B?empwcjB3bDNvWmpteDNuOVdEOGVMOWljb1hQZllHMnhPazZzOXJMQWw3QWNy?=
- =?utf-8?B?VFlPbitlZmZtZjBHRTloQXVISzVveVA3YmtQMy9LQ0Nob0pXRFdQN3F6UFJn?=
- =?utf-8?B?NTlUc0xlWEo2STV5cGZoREg3S1hwSEhCcEJBaFNIWDFpQUdOc0NrbWNURlc0?=
- =?utf-8?B?VkNvcHRXU1kxR1JkakxSVENBc1NLc3Rya242Q0lFWGxWWDhiTFFwSmF0eHBU?=
- =?utf-8?B?c0RZNVlOTDhadFRpVjIrT3JXSWV3ejltOUtJM1VFaUpBdjFVbWZPcklxKzFR?=
- =?utf-8?B?ek9TOFVCcVFWbFhVL0xyQ0RmQ1ZaV0FleWVKUW83SVArWkcrVFVuU0p6dzFq?=
- =?utf-8?B?MkJ3UCtzUVJHWVJrRTgvdEdEUmM2K0Q4WTRaMVI2bHRtb2tmT3N4ckNUWjg4?=
- =?utf-8?B?aTNwSXpwZlVXZTkrNVY2a09pUlpjcjg4TWh6M1pRc3djODRGcWlvSnl0bC9R?=
- =?utf-8?B?Mkxvc1NVUHA4S0M2NTFPdGxXMjB4Skdjem5CZUZ2TWpnWXo2b2tEcUJCbEdk?=
- =?utf-8?Q?pDsI6/tig3yJZjQN/p4KCywQS?=
-Content-Type: multipart/mixed;
-	boundary="_004_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Fri, 23 Aug
+ 2024 00:56:53 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552%6]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
+ 00:56:53 +0000
+Content-Type: multipart/alternative;
+ boundary="------------YSDDcjQE4Ni0JhLBVmnLWAPq"
+Message-ID: <9d603884-968b-4439-b88b-2bf8f6aebb9c@windriver.com>
+Date: Thu, 22 Aug 2024 20:56:51 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][master][scarthgap][PATCH] wpa-supplicant: Upgrade 2.10
+ -> 2.11
+To: sdoshi@mvista.com, openembedded-core@lists.openembedded.org,
+        "steve@sakoman.com" <steve@sakoman.com>
+References: <20240822161721.6699-1-sdoshi@mvista.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20240822161721.6699-1-sdoshi@mvista.com>
+X-ClientProxiedBy: YQBPR0101CA0275.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:68::25) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-X-OriginatorOrg: nikolamotor.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|IA1PR11MB8151:EE_
+X-MS-Office365-Filtering-Correlation-Id: 936bb3eb-9176-46d2-bed6-08dcc30e7a51
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|4022899009|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?S0FwTlg2YzlMOE9ad3ZUc2xZZzA5OFFWOXR2WmtpVWNORFVuemFxR25IaHFP?=
+ =?utf-8?B?OWtxTU9YREZpUTJDY2RWd0NkWUZCdzZuZk43T2lFNVM3QkQrYlliWDhMbEtN?=
+ =?utf-8?B?MmM1ZU8yYUl6aHhYdnMxVUljdTBpNmRSNkt2b3BQb2JVWWhJankvbUVHSlFT?=
+ =?utf-8?B?bmJYY21MSGRGdEc5U2lrK1l5MngwTEYvb3o1aTFsT0VlbTJuYmZ4SVlWcTg5?=
+ =?utf-8?B?OGdzaUNLeWJLSE5VbVd3K0JVa0FaU2cxRDFqbzNuNFZ5bXJaM1FYVTJvZ0tY?=
+ =?utf-8?B?cEszWGJNREpFZDVrUFltSTFKSS9iSkxKSVF0ODkydlZJVm5NVEJqUEhZVDBP?=
+ =?utf-8?B?L1liY0x1bWZydjhaNmxQWlFoR0R1bWhaR1lXSHdjK3VJdW1XSmxhUy9QV0Ir?=
+ =?utf-8?B?L2IwTnJoUVQvOU5IS2RZL3RMbStEMlJFR3dkemU4TXN5b3NscWpLcGx2alk1?=
+ =?utf-8?B?bmZ6SklFWXJVUk9mTG1Vai9aU1Nsc2FFanlaSWVPZEl1MGtZNlFQb0d2YkRh?=
+ =?utf-8?B?ZEYrQ1RlRTRZUjhGNDQxdUk5TGpKYnJucVhRYmRsa0NvOFFGdDVDWXo2NC9n?=
+ =?utf-8?B?d2dZNXdIZ3RuZkxIOFBmbHJQWFVwczJ5MFBUaUU4bGFZRmJtOGx6QW11NVZn?=
+ =?utf-8?B?azErL2xPZHU3bldTckZ5aFVpbjk2Sm5iazEwQUJNT05PUHJSLzVldUgxSmFX?=
+ =?utf-8?B?dERweTBvejZNL3ZVdllDTkxlRTFudlVnaTE0dHN5M0hQWDBqQkVDcHlMUnVk?=
+ =?utf-8?B?Z0phNStpKzlheFU2aEphNWlFUzZHaklleWlmazNzVFdWVkh3cTJ1YmlNYmpp?=
+ =?utf-8?B?V2tYNFVsQXVvcitBOCs0TkRZS1RBTi9MS1dnY2pJMm5VS2xiU3lScjJBeEgv?=
+ =?utf-8?B?MnNzQzVQMXB2NHZmOUV3ZkU2clN6TWFBWmg5UTlmQnN4alBhRFpSVFVlOTUy?=
+ =?utf-8?B?U2UzSjhjTjBDa1NTSkNHaituWkJyWWUxbnoyWHRtRGFFblJ4V0Q2SFhIaVFk?=
+ =?utf-8?B?TWNhaFdxZGo5bUJIb0RpQ09vY1VqWXF3UHVlV2ZnVUtzR2VjNzBwY3FZMmZp?=
+ =?utf-8?B?cmRhQkJSL05yZVhwVkg3VTBMUzZxZVRmanFCWStIc1lLZHYwVksyOTdBV3Q3?=
+ =?utf-8?B?YUJxd0tHZ0hrb2ZiWXhNOVQrd3dldkF0emlUMURhMWFtUFRBUWNKUSs4SW0v?=
+ =?utf-8?B?MHkrQXlmK1NtL1FMSUZ3R2xLeExvRG5jQ1pxOFYzWkt1eHRaZVlhUlZOMmhs?=
+ =?utf-8?B?dVg0bzRvc0UrS0UxWGdMbGltRUN5ZXVLdkVGMkUxeVlZOThiaE92ZkQxS2lI?=
+ =?utf-8?B?SXQyM2JsaHpTWWV4Y1ZsSFgwVHVXSTFXYTE0b2ZCNnFxdzZIQ3YyMGllQXdY?=
+ =?utf-8?B?aWJsdEhhQSsvMDN5d1ZWb0VKVG1PdVVSVFlQSzFnVDkyNE10bFFxOHVBZzZ4?=
+ =?utf-8?B?eVI2aU9uV3NtcVVpVnc3ZW9ZV1JtZHA3K09kVFlEZWxJTUttUHVPT1Y5cmdL?=
+ =?utf-8?B?L1J5blh5OWxoYW53QWJyUGpCczFieXpMaWVaOEZYT1RQVXZjUjJVUTFkVHJq?=
+ =?utf-8?B?bjlZUjdxQVZVYVVSREQ2VEdmZHRQcVNOc0lzYTNkdUFTVzZFMXdWQjYyS2JT?=
+ =?utf-8?B?RjNkWFJ1SDI4MVlhcXRJZkZyOU5kSHdCTXVoT0ZjL1VTSm1HckYvUHZYeXlC?=
+ =?utf-8?B?d2pPMWN4YXV2d2dMNTBEMU5udDJOZjlsc3U1RUhsYUhXN0NPUm5XUUlVb0RW?=
+ =?utf-8?Q?WkPPKAK/DbsCDhKyTA=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(4022899009)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?MGZkTVl2TWtXcVpqcjVxWnVpV29HVXlzMlZJYzlmd00wcWVvZVVCVFA3cUMr?=
+ =?utf-8?B?cUcvWWUvT1lqdWtodWc1R2o2T3JlQkpiRjNDQS9nMU13SFhwR29kRllLTTUw?=
+ =?utf-8?B?Uk1MWmxjRUtRUDBmSnhtSHBoUFVsTkh0d21Wb3Z4NXlCeHA1TkZSVld0d3ds?=
+ =?utf-8?B?OGwzNVVWSGF2K1ErUHFPc1FEWlBjay85VEc2cFg3RjVwOTFDWFhVSEZVRzU3?=
+ =?utf-8?B?ZCs2WFBRL1IxeGY3SjZwOE84V0l5V1JQcDZLQ2VLbjZDdDVLY2ozdmJzNHhw?=
+ =?utf-8?B?YmlXNE50cXZrQ3dYZi81eXYwMzhiNWtVTi92YUcvWkVqTzVKNkh3aFhUc0dx?=
+ =?utf-8?B?M0ZaRkxSaEVWdk40Skxob0lwYjgvY3hMdVBMZUhyNm9mVjhkVnBpL1p0VjJ0?=
+ =?utf-8?B?RE5GTXNZV1FZRTc5QWRaVFlVbWkxZFAyRGg0ai8vakpwcmJTeE5aaTVaZWY4?=
+ =?utf-8?B?Rm0ySC9hTzFnREtkbGo3a0tMUlRJVXNjejFGbkRWTFM5YmVSNEQvdGxqTnlK?=
+ =?utf-8?B?QnhJL1pUdjlBdDRxdVhweDlIOGprQ1VVd0gxYTJxU01DTFVRbHFNb2ZhdEhQ?=
+ =?utf-8?B?TU5HN3RXbm9icGF4WWR2VG9YbjFHd1hyVG9lS0dJOUV4UThxWEtlSHQ0dkhF?=
+ =?utf-8?B?OXVZNTNQY05sa1pDUjFQTHoyN3FFQXB5RGNuSXJwWlU3cXdkand4YmNKdzhP?=
+ =?utf-8?B?V1lmT2JjUXFHdysrZm5NYXp4amtTVFNrZDdaYStFbXgyYk1oR05aMVhpVm8x?=
+ =?utf-8?B?dHNUSm56SUNVREVVM1NnSlM3elNDMEVtT3BTWkp2V0V3MllDR1RBREZtRDRm?=
+ =?utf-8?B?aDN5K3dmUFgwSzNXTW4zMjVVRGtrMVNNaU1lRHRYUXJVWTJFdDBrK2tFVCs5?=
+ =?utf-8?B?R1ROa0hMYXdRUHptM1Y4dy9VZU80UW5EeW5CRlZNZm51QmVUUW1jTDhuSWw4?=
+ =?utf-8?B?WWpnQktTQlNheVlxMWJ4RVc5TUFSem1JL3NaSlJ5eXNiekM4VStZWEF0UGZl?=
+ =?utf-8?B?T2lUVEN1WHNQbmx3TStJK29YbDVOeG4wM3JXTDN3TXNPYUhVNXB2UGk0WG9t?=
+ =?utf-8?B?Y0VvRW80NEVpbk9rTHd6bzZ1cU5uRHhLOS9YT0dJSjAxMlA1U1RuMXArZWJt?=
+ =?utf-8?B?NVo5UUo3ay96Wm0yc3haOFIwakRodUdZdWFBdzl0VDMvOHNQV0k4ZDlCZ3hD?=
+ =?utf-8?B?Z0dXSWwwOFBjcnd3ZUNtRGljNkR5TmIwMGlneWpIbURrR0lCbmdWcFMxOFNa?=
+ =?utf-8?B?K0dYZXhQQko2SStjZUFOMUtDcEpuSGJPemszVlUzbnVaNEhha1I5R1NaRko0?=
+ =?utf-8?B?c2Q1cC9GTlBscDRiYng1UWlGYXhFTkNRSk51NWtxd044WVp1bFZ6NGRtVmsv?=
+ =?utf-8?B?eUhSMXNtZmM2c1BMNkxnckNyY1c0dUpabW1uemZlYlNhZUFSRnNseCtPb05N?=
+ =?utf-8?B?RTJOQ2pMODNmZG1kL0ErbHdBSWJLQVJKanU4T3Rvd0trb1o1Vkl6TXNNZkZl?=
+ =?utf-8?B?T0YyS1hqS2daWFY4T01TekxKRHBybkYzNVM2QXgvSUhWeXhiVTVMRXAxK3dt?=
+ =?utf-8?B?S3preUF5VzRKYUs4N2E0VUxsQmJja1c1ZVlORHQ2bjRTT0FCZnlSZnpCMlZO?=
+ =?utf-8?B?UE9NR0FHWGxLVjhyc1I2YVp3VEpMaGd3cnc2QmYwWmlOQkx6MCtkYXg2RDRY?=
+ =?utf-8?B?ajl4T3VEL2hGQzlCQWVLb0oxenlOdXRwRnl4dTc3aUdzUDNZUXdvYmlFclFU?=
+ =?utf-8?B?ZVEvSXR6Skt0SWF3eGVWT1B2MUMzcHp0VmZXc0pvVllZbnJ0bDh3V2QxRzBV?=
+ =?utf-8?B?b1o0NUdJdWt6U3J6YWk2OFIzSUZEVjhqOXBPRWFtSE9ua0ZubmFHa1o1T2I3?=
+ =?utf-8?B?TWFiYVhLL3Zoc2hyN21QY0lBMW9icVlNTEdhZUVuMzhhVlIwWUphTHpTYWx6?=
+ =?utf-8?B?a1JCek9FTU5RcTUxVExMRWZqRkcvQjRGaHNkRkpPeE9zS0N0SG50RS84d0Ni?=
+ =?utf-8?B?RDJXRzNvOGpoTUc0VG1XQ1I5am55RVBXeXpWYWpWcG43TU1sZjlMQkQzay9v?=
+ =?utf-8?B?c0U5Y0FjRG1oVzVYSnZvQW5saFBHWnFHT1FrUzJQeTlIWTlDOWU2SnJGc3VM?=
+ =?utf-8?B?cTQ3d0l2U0NSUDNQeU1NVDducFhNSTZYN1duUEE1aVRDWm03U0VlR0JlcXVN?=
+ =?utf-8?B?b3c9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 936bb3eb-9176-46d2-bed6-08dcc30e7a51
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR05MB9388.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bf0c2e2-5509-44e3-ed7d-08dcc301c5f2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2024 23:25:56.2649
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 00:56:53.0451
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: cd45403b-72e2-4592-a46a-4687dcacfc95
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7zVEEjBesShVv/jIoAWhtzzPrYCEp+Fn2UH6H8ElbVvuIRJMOhDDuwzZUQKl6/W78oQgb3EdFGOnR40YD21uIiY4psJJuHmA9E1JzMjdU0A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR05MB8737
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k8Ed78dZIv9kkTSltXBMkzVGvuqoGcY6Z3SeAYfp88QHI8YAahIOt5L5aaO/SHy/oPy0Lw/kYHDaKJgML/QerXPwNBAfh5JM6Cp7Glh7+E8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8151
+X-Proofpoint-ORIG-GUID: 3_VqCfWSjZ89pQv4X2z7ah96OqQLGWCI
+X-Authority-Analysis: v=2.4 cv=VdWlP0p9 c=1 sm=1 tr=0 ts=66c7de5b cx=c_pps a=2/f09Pi2ycfuKzF0xiDRrg==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8 a=fk1lIlRQAAAA:8 a=yaAG3qJ-AAAA:8
+ a=pGLkceISAAAA:8 a=JfrnYn6hAAAA:8 a=COk6AnOGAAAA:8 a=t7CeM3EgAAAA:8 a=lZI6BftWLBXyHBpGwdsA:9 a=CYH4U5sQG6XSfQ-T:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=tmL6ccyT9T4A:10 a=GFfUI7B0NGUA:10 a=oUHh9KSzjG4A:10 a=_DcmwgE0N9P0SH7Fl0YA:9 a=10jHs9LQOepAk9KF:21
+ a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=T1a-OTYGVawA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=U75ogvRika4pmaD_UPO0:22 a=oLVlbjkABFOu4cUI0CGI:22 a=1CNFftbPRP8L7MoqJWF3:22 a=TjNXssC_j7lpFel5tvFf:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: V-4SYxvTpXvxGjDgs20JVoFRQzaP-2zB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-22_17,2024-08-22_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
+ spamscore=0 malwarescore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2408230005
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Aug 2024 23:26:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203664
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Aug 2024 00:57:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203665
 
---_004_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_
-Content-Type: multipart/alternative;
-	boundary="_000_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_"
+--------------YSDDcjQE4Ni0JhLBVmnLWAPq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 47N0fVRS026506
 
---_000_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+For scarthgap, it's good but not mandatory to have Steve on the To/CC lis=
+t.
 
-Qml0IG9mIGEgbG93IGVmZm9ydCBmaXJzdCBjdXQgYmVjYXVzZSBJIGRvbid0IGhhdmUgYSB0b24g
-b2YgdGltZSB0byB0YWtlIG9uIHRoZSBtYWludGFpbmNlIHRhc2sgcmlnaHQgbm93LCBidXQgaGVy
-ZSdzIGEgZmlyc3QgY3V0IGF0IGEgdmVyc2lvbiBvZiB0aGUgc2NyaXB0IHRoYXQgcGFyc2VzIHZ1
-bG5zIGVudHJpZXMuIE5vdGUgdGhhdCBpdCBhcHBlYXJzIHRoYXQgdGhlIG91dHB1dCBmcm9tIHRo
-ZSBvcmlnaW5hbCBzY3JpcHQgaXMgc3RpbGwgcmVxdWlyZWQgYXMgdGhlIHZ1bG5zIHJlcG8gZG9l
-c24ndCBoYXZlIHRoZSBkYXRhIGZyb20gdGhlIGxpbnV4X2tlcm5lbF9jdmVzIHJlcG8gaW1wb3J0
-ZWQuDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KRnJvbTogb3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZz4gb24gYmVoYWxmIG9mIEJydWNlIEFzaGZpZWxkIHZpYSBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnIDxicnVjZS5hc2hmaWVsZD1nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZz4NClNlbnQ6IEZyaWRheSwgTWF5IDMsIDIwMjQgNTo1MCBBTQ0KVG86IE1hcnRhIFJ5YmN6
-eW5za2EgPHJ5YmN6eW5za2FAZ21haWwuY29tPg0KQ2M6IHlvY3RvLXNlY3VyaXR5QGxpc3RzLnlv
-Y3RvcHJvamVjdC5vcmcgPHlvY3RvLXNlY3VyaXR5QGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+OyBy
-aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZv
-dW5kYXRpb24ub3JnPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBb
-T0UtY29yZV0gW1BBVENIIDAyLzEyXSBsaW51eC15b2N0by82LjY6IHVwZGF0ZSBDVkUgZXhjbHVz
-aW9ucyAoNi42LjI0KQ0KDQpDYXV0aW9uOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBhbiBl
-eHRlcm5hbCBzZW5kZXIuIEFsd2F5cyB1c2UgY2F1dGlvbiB3aGVuIG9wZW5pbmcgbGlua3Mgb3Ig
-YXR0YWNobWVudHMgZnJvbSBleHRlcm5hbCBwYXJ0aWVzLg0KDQoNCg0KT24gRnJpLCBNYXkgMywg
-MjAyNCBhdCAxOjQy4oCvQU0gTWFydGEgUnliY3p5bnNrYSA8cnliY3p5bnNrYUBnbWFpbC5jb208
-bWFpbHRvOnJ5YmN6eW5za2FAZ21haWwuY29tPj4gd3JvdGU6DQpIZWxsbyBCcnVjZSBldCBhbCwN
-CkZvciBpbmZvcm1hdGlvbiwgdGhlIGxpbnV4X2tlcm5lbF9jdmVzIHJlcG8gaGFzIG5vdyBhIGJh
-bm5lciAiVGhpcw0KcmVwb3NpdG9yeSBoYXMgYmVlbiBhcmNoaXZlZCBieSB0aGUgb3duZXIgb24g
-TWF5IDIsIDIwMjQuIEl0IGlzIG5vdw0KcmVhZC1vbmx5LiAiLA0KDQpZZXMsIEkgaGFkIG5vdGlj
-ZWQgdGhhdCwgYnV0IHdhcyBsZXR0aW5nIG15IHJlbGVhc2Ugc2NyaXB0cyBkbyB0aGVpciAidGhp
-bmciDQp0byBhdCBsZWFzdCB1cGRhdGUgdGhlIGRhdGUgb24gdGhlIGZpbGUuIFRoYXQgd2F5IGl0
-IHdhcyBkb2N1bWVudGVkIHRoYXQNCkknbSBjaGVja2luZyBhbmQgd2FpdGluZyBmb3IgdGhlIHJl
-cGxhY2VtZW50IHRvIGFycml2ZS4NCg0KSSBkaWQgc3F1YXNoIGFsbCB0aGUgY29tbWl0cyBhZ2Fp
-bnN0IHRoZSA2LjEga2VybmVsIGZvciB0aGF0IHJlYXNvbiwgc2luY2UNCnRoZXkgYXJlIGEgbm8t
-b3AgdW50aWwgc29tZXRoaW5nIG5ldyBhcnJpdmVzLg0KDQpCcnVjZQ0KDQoNCnNvIEkgZ3Vlc3Mg
-dGhpcyBpcyB0aGUgbGFzdCB1cGRhdGUuDQoNCkdyZWcgaGFzIHNjcmlwdGluZyBmb3Igc3RhdGlz
-dGljcyBvZiB0aGUgbmV3IHByb2Nlc3MsIGhhdmVuJ3QgbG9va2VkDQppbnRvIHRoZW0geWV0Lg0K
-DQpSZWdhcmRzLA0KTWFydGENCg0KT24gRnJpLCBNYXkgMywgMjAyNCBhdCA0OjQw4oCvQU0gQnJ1
-Y2UgQXNoZmllbGQgdmlhDQpsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGh0dHA6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPg0KPGJydWNlLmFzaGZpZWxkPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPG1haWx0bzpnbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4+IHdyb3RlOg0K
-Pg0KPiBGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPG1haWx0
-bzpicnVjZS5hc2hmaWVsZEBnbWFpbC5jb20+Pg0KPg0KPiBEYXRhIHB1bGxlZCBmcm9tOiBodHRw
-czovL2dpdGh1Yi5jb20vbmx1ZWR0a2UvbGludXhfa2VybmVsX2N2ZXMNCj4NCj4gICAgIDEvMSBb
-DQo+ICAgICAgICAgQXV0aG9yOiBOaWNob2xhcyBMdWVkdGtlDQo+ICAgICAgICAgRW1haWw6IG5p
-Y2hvbGFzLmx1ZWR0a2VAdXdhbHVtbmkuY29tPG1haWx0bzpuaWNob2xhcy5sdWVkdGtlQHV3YWx1
-bW5pLmNvbT4NCj4gICAgICAgICBTdWJqZWN0OiBVcGRhdGUgMjVGZWIyNA0KPiAgICAgICAgIERh
-dGU6IFN1biwgMjUgRmViIDIwMjQgMDc6MDM6MDggLTA1MDANCj4NCj4gICAgIF0NCj4NCj4gU2ln
-bmVkLW9mZi1ieTogQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbTxtYWls
-dG86YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPj4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMta2Vy
-bmVsL2xpbnV4L2N2ZS1leGNsdXNpb25fNi42LmluYyB8IDQgKystLQ0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1rZXJuZWwvbGludXgvY3ZlLWV4Y2x1c2lvbl82LjYuaW5jIGIvbWV0YS9yZWNp
-cGVzLWtlcm5lbC9saW51eC9jdmUtZXhjbHVzaW9uXzYuNi5pbmMNCj4gaW5kZXggYmI5YmE0OWM0
-OC4uMTMzY2FiODhhMyAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9j
-dmUtZXhjbHVzaW9uXzYuNi5pbmMNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9j
-dmUtZXhjbHVzaW9uXzYuNi5pbmMNCj4gQEAgLTEsOSArMSw5IEBADQo+DQo+ICAjIEF1dG8tZ2Vu
-ZXJhdGVkIENWRSBtZXRhZGF0YSwgRE8gTk9UIEVESVQgQlkgSEFORC4NCj4gLSMgR2VuZXJhdGVk
-IGF0IDIwMjQtMDMtMjggMTY6NDA6MDQuMTAyNjUyKzAwOjAwIGZvciB2ZXJzaW9uIDYuNi4yMw0K
-PiArIyBHZW5lcmF0ZWQgYXQgMjAyNC0wNC0wNCAwMzoyMzoyNS40MjEyNjUrMDA6MDAgZm9yIHZl
-cnNpb24gNi42LjI0DQo+DQo+ICBweXRob24gY2hlY2tfa2VybmVsX2N2ZV9zdGF0dXNfdmVyc2lv
-bigpIHsNCj4gLSAgICB0aGlzX3ZlcnNpb24gPSAiNi42LjIzIg0KPiArICAgIHRoaXNfdmVyc2lv
-biA9ICI2LjYuMjQiDQo+ICAgICAga2VybmVsX3ZlcnNpb24gPSBkLmdldFZhcigiTElOVVhfVkVS
-U0lPTiIpDQo+ICAgICAgaWYga2VybmVsX3ZlcnNpb24gIT0gdGhpc192ZXJzaW9uOg0KPiAgICAg
-ICAgICBiYi53YXJuKCJLZXJuZWwgQ1ZFIHN0YXR1cyBuZWVkcyB1cGRhdGluZzogZ2VuZXJhdGVk
-IGZvciAlcyBidXQga2VybmVsIGlzICVzIiAlICh0aGlzX3ZlcnNpb24sIGtlcm5lbF92ZXJzaW9u
-KSkNCj4gLS0NCj4gMi4zOS4yDQo+DQo+DQo+DQo+DQoNCg0KLS0NCi0gVGhvdSBzaGFsdCBub3Qg
-Zm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVl
-IGF0IGl0cyBlbmQNCi0gIlVzZSB0aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFsZiwgU3RhciBUcmVr
-IElJDQoNCg==
+On 2024-08-22 12:17 p.m., Siddharth Doshi via lists.openembedded.org wrot=
+e:
+> From: Siddharth Doshi<sdoshi@mvista.com>
+>
+> License-Update:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - README: Change in copyright years as perhttps://w1.fi/cgit/hostap/com=
+mit/README?id=3Dd945ddd368085f255e68328f2d3b020ceea359af
+> - wpa_supplicant/wpa_supplicant.c: Change in copyright years as perhttp=
+s://w1.fi/cgit/hostap/commit/wpa_supplicant/wpa_supplicant.c?id=3Dd945ddd=
+368085f255e68328f2d3b020ceea359af
+>
+> CVE's Fixed:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - CVE-2024-5290 wpa_supplicant: wpa_supplicant loading arbitrary shared=
+ objects allowing privilege escalation
+> - CVE-2023-52160 wpa_supplicant: potential authorization bypass
+>
+> Changes between 2.10 -> 2.11:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> https://w1.fi/cgit/hostap/commit/wpa_supplicant/ChangeLog?id=3Dd945ddd3=
+68085f255e68328f2d3b020ceea359af
 
---_000_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29m
-IiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01T
-Rm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpCaXQgb2YgYSBsb3cgZWZmb3J0IGZpcnN0IGN1
-dCBiZWNhdXNlIEkgZG9uJ3QgaGF2ZSBhIHRvbiBvZiB0aW1lIHRvIHRha2Ugb24gdGhlIG1haW50
-YWluY2UgdGFzayByaWdodCBub3csIGJ1dCBoZXJlJ3MgYSBmaXJzdCBjdXQgYXQgYSB2ZXJzaW9u
-IG9mIHRoZSBzY3JpcHQgdGhhdCBwYXJzZXMgdnVsbnMgZW50cmllcy4gTm90ZSB0aGF0IGl0IGFw
-cGVhcnMgdGhhdCB0aGUgb3V0cHV0IGZyb20gdGhlIG9yaWdpbmFsIHNjcmlwdCBpcyBzdGlsbCBy
-ZXF1aXJlZA0KIGFzIHRoZSB2dWxucyByZXBvIGRvZXNuJ3QgaGF2ZSB0aGUgZGF0YSBmcm9tIHRo
-ZSBsaW51eF9rZXJuZWxfY3ZlcyByZXBvIGltcG9ydGVkLjwvZGl2Pg0KPGRpdiBpZD0iYXBwZW5k
-b25zZW5kIj48L2Rpdj4NCjxociBzdHlsZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7d2lkdGg6OTgl
-IiB0YWJpbmRleD0iLTEiPg0KPGRpdiBpZD0iZGl2UnBseUZ3ZE1zZyIgZGlyPSJsdHIiPjxmb250
-IGZhY2U9IkNhbGlicmksIHNhbnMtc2VyaWYiIHN0eWxlPSJmb250LXNpemU6MTFwdCIgY29sb3I9
-IiMwMDAwMDAiPjxiPkZyb206PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0OyBv
-biBiZWhhbGYgb2YgQnJ1Y2UgQXNoZmllbGQgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCiAm
-bHQ7YnJ1Y2UuYXNoZmllbGQ9Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJy
-Pg0KPGI+U2VudDo8L2I+IEZyaWRheSwgTWF5IDMsIDIwMjQgNTo1MCBBTTxicj4NCjxiPlRvOjwv
-Yj4gTWFydGEgUnliY3p5bnNrYSAmbHQ7cnliY3p5bnNrYUBnbWFpbC5jb20mZ3Q7PGJyPg0KPGI+
-Q2M6PC9iPiB5b2N0by1zZWN1cml0eUBsaXN0cy55b2N0b3Byb2plY3Qub3JnICZsdDt5b2N0by1z
-ZWN1cml0eUBsaXN0cy55b2N0b3Byb2plY3Qub3JnJmd0OzsgcmljaGFyZC5wdXJkaWVAbGludXhm
-b3VuZGF0aW9uLm9yZyAmbHQ7cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZyZndDs7
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgJmx0O29wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJl
-OiBbT0UtY29yZV0gW1BBVENIIDAyLzEyXSBsaW51eC15b2N0by82LjY6IHVwZGF0ZSBDVkUgZXhj
-bHVzaW9ucyAoNi42LjI0KTwvZm9udD4NCjxkaXY+Jm5ic3A7PC9kaXY+DQo8L2Rpdj4NCjxkaXY+
-DQo8dGFibGUgYm9yZGVyPSIwIiBjZWxsc3BhY2luZz0iMCIgY2VsbHBhZGRpbmc9IjAiIGFsaWdu
-PSJsZWZ0IiB3aWR0aD0iMTAwJSI+DQo8dGJvZHk+DQo8dHI+DQo8dGQgc3R5bGU9ImJhY2tncm91
-bmQ6I2ZmYjkwMDsgcGFkZGluZzo1cHQgMnB0IDVwdCAycHQiPjwvdGQ+DQo8dGQgd2lkdGg9IjEw
-MCUiIGNlbGxwYWRkaW5nPSI3cHggNnB4IDdweCAxNXB4IiBzdHlsZT0iYmFja2dyb3VuZDojZmZm
-OGU1OyBwYWRkaW5nOjVwdCA0cHQgNXB0IDEycHQ7IHdvcmQtd3JhcDpicmVhay13b3JkIj4NCjxk
-aXYgc3R5bGU9ImNvbG9yOiNGRjAwMDAiPjxzcGFuIHN0eWxlPSJjb2xvcjojRkYwMDAwOyBmb250
-LXdlaWdodDpib2xkIj5DYXV0aW9uOjwvc3Bhbj4gVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20g
-YW4gZXh0ZXJuYWwgc2VuZGVyLiBBbHdheXMgdXNlIGNhdXRpb24gd2hlbiBvcGVuaW5nIGxpbmtz
-IG9yIGF0dGFjaG1lbnRzIGZyb20gZXh0ZXJuYWwgcGFydGllcy4NCjwvZGl2Pg0KPC90ZD4NCjwv
-dHI+DQo8L3Rib2R5Pg0KPC90YWJsZT4NCjxicj4NCjxkaXY+DQo8ZGl2IGRpcj0ibHRyIj4NCjxk
-aXYgZGlyPSJsdHIiPg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9udC1z
-aXplOnNtYWxsIj48YnI+DQo8L2Rpdj4NCjwvZGl2Pg0KPGJyPg0KPGRpdiBjbGFzcz0ieF9nbWFp
-bF9xdW90ZSI+DQo8ZGl2IGRpcj0ibHRyIiBjbGFzcz0ieF9nbWFpbF9hdHRyIj5PbiBGcmksIE1h
-eSAzLCAyMDI0IGF0IDE6NDLigK9BTSBNYXJ0YSBSeWJjenluc2thICZsdDs8YSBocmVmPSJtYWls
-dG86cnliY3p5bnNrYUBnbWFpbC5jb20iPnJ5YmN6eW5za2FAZ21haWwuY29tPC9hPiZndDsgd3Jv
-dGU6PGJyPg0KPC9kaXY+DQo8YmxvY2txdW90ZSBjbGFzcz0ieF9nbWFpbF9xdW90ZSIgc3R5bGU9
-Im1hcmdpbjowcHggMHB4IDBweCAwLjhleDsgYm9yZGVyLWxlZnQ6MXB4IHNvbGlkIHJnYigyMDQs
-MjA0LDIwNCk7IHBhZGRpbmctbGVmdDoxZXgiPg0KSGVsbG8gQnJ1Y2UgZXQgYWwsPGJyPg0KRm9y
-IGluZm9ybWF0aW9uLCB0aGUgbGludXhfa2VybmVsX2N2ZXMgcmVwbyBoYXMgbm93IGEgYmFubmVy
-ICZxdW90O1RoaXM8YnI+DQpyZXBvc2l0b3J5IGhhcyBiZWVuIGFyY2hpdmVkIGJ5IHRoZSBvd25l
-ciBvbiBNYXkgMiwgMjAyNC4gSXQgaXMgbm93PGJyPg0KcmVhZC1vbmx5LiAmcXVvdDssPGJyPg0K
-PC9ibG9ja3F1b3RlPg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+DQo8ZGl2IGNsYXNzPSJ4X2dt
-YWlsX2RlZmF1bHQiIHN0eWxlPSJmb250LXNpemU6c21hbGwiPlllcywgSSBoYWQgbm90aWNlZCB0
-aGF0LCBidXQgd2FzIGxldHRpbmcgbXkgcmVsZWFzZSBzY3JpcHRzIGRvIHRoZWlyICZxdW90O3Ro
-aW5nJnF1b3Q7PGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJ4X2dtYWlsX2RlZmF1bHQiIHN0eWxl
-PSJmb250LXNpemU6c21hbGwiPnRvIGF0IGxlYXN0IHVwZGF0ZSB0aGUgZGF0ZSBvbiB0aGUgZmls
-ZS4gVGhhdCB3YXkgaXQgd2FzIGRvY3VtZW50ZWQgdGhhdDwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9n
-bWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj5JJ20gY2hlY2tpbmcgYW5kIHdh
-aXRpbmcgZm9yIHRoZSByZXBsYWNlbWVudCB0byBhcnJpdmUuPC9kaXY+DQo8ZGl2IGNsYXNzPSJ4
-X2dtYWlsX2RlZmF1bHQiIHN0eWxlPSJmb250LXNpemU6c21hbGwiPjxicj4NCjwvZGl2Pg0KPGRp
-diBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj5JIGRpZCBz
-cXVhc2ggYWxsIHRoZSBjb21taXRzIGFnYWluc3QgdGhlIDYuMSBrZXJuZWwgZm9yIHRoYXQgcmVh
-c29uLCBzaW5jZTwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9u
-dC1zaXplOnNtYWxsIj50aGV5IGFyZSBhIG5vLW9wIHVudGlsIHNvbWV0aGluZyBuZXcgYXJyaXZl
-cy48L2Rpdj4NCjxkaXYgY2xhc3M9InhfZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpz
-bWFsbCI+PGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJ4X2dtYWlsX2RlZmF1bHQiIHN0eWxlPSJm
-b250LXNpemU6c21hbGwiPkJydWNlPC9kaXY+DQo8YnI+DQo8L2Rpdj4NCjxkaXY+Jm5ic3A7PC9k
-aXY+DQo8YmxvY2txdW90ZSBjbGFzcz0ieF9nbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjowcHgg
-MHB4IDBweCAwLjhleDsgYm9yZGVyLWxlZnQ6MXB4IHNvbGlkIHJnYigyMDQsMjA0LDIwNCk7IHBh
-ZGRpbmctbGVmdDoxZXgiPg0Kc28gSSBndWVzcyB0aGlzIGlzIHRoZSBsYXN0IHVwZGF0ZS48YnI+
-DQo8YnI+DQpHcmVnIGhhcyBzY3JpcHRpbmcgZm9yIHN0YXRpc3RpY3Mgb2YgdGhlIG5ldyBwcm9j
-ZXNzLCBoYXZlbid0IGxvb2tlZDxicj4NCmludG8gdGhlbSB5ZXQuPC9ibG9ja3F1b3RlPg0KPGJs
-b2NrcXVvdGUgY2xhc3M9InhfZ21haWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46MHB4IDBweCAwcHgg
-MC44ZXg7IGJvcmRlci1sZWZ0OjFweCBzb2xpZCByZ2IoMjA0LDIwNCwyMDQpOyBwYWRkaW5nLWxl
-ZnQ6MWV4Ij4NCjxicj4NClJlZ2FyZHMsPGJyPg0KTWFydGE8YnI+DQo8YnI+DQpPbiBGcmksIE1h
-eSAzLCAyMDI0IGF0IDQ6NDDigK9BTSBCcnVjZSBBc2hmaWVsZCB2aWE8YnI+DQo8YSBocmVmPSJo
-dHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZyIgcmVsPSJub3JlZmVycmVyIiB0YXJnZXQ9Il9i
-bGFuayI+bGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQombHQ7YnJ1Y2UuYXNoZmllbGQ9
-PGEgaHJlZj0ibWFpbHRvOmdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9
-Il9ibGFuayI+Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+Jmd0OyB3cm90ZTo8
-YnI+DQomZ3Q7PGJyPg0KJmd0OyBGcm9tOiBCcnVjZSBBc2hmaWVsZCAmbHQ7PGEgaHJlZj0ibWFp
-bHRvOmJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmJydWNlLmFzaGZp
-ZWxkQGdtYWlsLmNvbTwvYT4mZ3Q7PGJyPg0KJmd0Ozxicj4NCiZndDsgRGF0YSBwdWxsZWQgZnJv
-bTogPGEgaHJlZj0iaHR0cHM6Ly9naXRodWIuY29tL25sdWVkdGtlL2xpbnV4X2tlcm5lbF9jdmVz
-IiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vZ2l0aHViLmNvbS9u
-bHVlZHRrZS9saW51eF9rZXJuZWxfY3ZlczwvYT48YnI+DQomZ3Q7PGJyPg0KJmd0OyZuYnNwOyAm
-bmJzcDsgJm5ic3A7MS8xIFs8YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwO0F1dGhvcjogTmljaG9sYXMgTHVlZHRrZTxicj4NCiZndDsmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7RW1haWw6IDxhIGhyZWY9Im1haWx0bzpuaWNob2xhcy5sdWVkdGtlQHV3
-YWx1bW5pLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPm5pY2hvbGFzLmx1ZWR0a2VAdXdhbHVtbmkuY29t
-PC9hPjxicj4NCiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7U3ViamVjdDog
-VXBkYXRlIDI1RmViMjQ8YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-O0RhdGU6IFN1biwgMjUgRmViIDIwMjQgMDc6MDM6MDggLTA1MDA8YnI+DQomZ3Q7PGJyPg0KJmd0
-OyZuYnNwOyAmbmJzcDsgJm5ic3A7XTxicj4NCiZndDs8YnI+DQomZ3Q7IFNpZ25lZC1vZmYtYnk6
-IEJydWNlIEFzaGZpZWxkICZsdDs8YSBocmVmPSJtYWlsdG86YnJ1Y2UuYXNoZmllbGRAZ21haWwu
-Y29tIiB0YXJnZXQ9Il9ibGFuayI+YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPC9hPiZndDs8YnI+
-DQomZ3Q7IC0tLTxicj4NCiZndDsmbmJzcDsgbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9jdmUt
-ZXhjbHVzaW9uXzYuNi5pbmMgfCA0ICsrLS08YnI+DQomZ3Q7Jm5ic3A7IDEgZmlsZSBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pPGJyPg0KJmd0Ozxicj4NCiZndDsgZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvY3ZlLWV4Y2x1c2lvbl82LjYuaW5j
-IGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9jdmUtZXhjbHVzaW9uXzYuNi5pbmM8YnI+DQom
-Z3Q7IGluZGV4IGJiOWJhNDljNDguLjEzM2NhYjg4YTMgMTAwNjQ0PGJyPg0KJmd0OyAtLS0gYS9t
-ZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2N2ZS1leGNsdXNpb25fNi42LmluYzxicj4NCiZndDsg
-KysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9jdmUtZXhjbHVzaW9uXzYuNi5pbmM8YnI+
-DQomZ3Q7IEBAIC0xLDkgKzEsOSBAQDxicj4NCiZndDs8YnI+DQomZ3Q7Jm5ic3A7ICMgQXV0by1n
-ZW5lcmF0ZWQgQ1ZFIG1ldGFkYXRhLCBETyBOT1QgRURJVCBCWSBIQU5ELjxicj4NCiZndDsgLSMg
-R2VuZXJhdGVkIGF0IDIwMjQtMDMtMjggMTY6NDA6MDQuMTAyNjUyKzAwOjAwIGZvciB2ZXJzaW9u
-IDYuNi4yMzxicj4NCiZndDsgKyMgR2VuZXJhdGVkIGF0IDIwMjQtMDQtMDQgMDM6MjM6MjUuNDIx
-MjY1KzAwOjAwIGZvciB2ZXJzaW9uIDYuNi4yNDxicj4NCiZndDs8YnI+DQomZ3Q7Jm5ic3A7IHB5
-dGhvbiBjaGVja19rZXJuZWxfY3ZlX3N0YXR1c192ZXJzaW9uKCkgezxicj4NCiZndDsgLSZuYnNw
-OyAmbmJzcDsgdGhpc192ZXJzaW9uID0gJnF1b3Q7Ni42LjIzJnF1b3Q7PGJyPg0KJmd0OyArJm5i
-c3A7ICZuYnNwOyB0aGlzX3ZlcnNpb24gPSAmcXVvdDs2LjYuMjQmcXVvdDs8YnI+DQomZ3Q7Jm5i
-c3A7ICZuYnNwOyAmbmJzcDsga2VybmVsX3ZlcnNpb24gPSBkLmdldFZhcigmcXVvdDtMSU5VWF9W
-RVJTSU9OJnF1b3Q7KTxicj4NCiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyBpZiBrZXJuZWxfdmVy
-c2lvbiAhPSB0aGlzX3ZlcnNpb246PGJyPg0KJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgYmIud2FybigmcXVvdDtLZXJuZWwgQ1ZFIHN0YXR1cyBuZWVkcyB1cGRhdGluZzog
-Z2VuZXJhdGVkIGZvciAlcyBidXQga2VybmVsIGlzICVzJnF1b3Q7ICUgKHRoaXNfdmVyc2lvbiwg
-a2VybmVsX3ZlcnNpb24pKTxicj4NCiZndDsgLS08YnI+DQomZ3Q7IDIuMzkuMjxicj4NCiZndDs8
-YnI+DQomZ3Q7PGJyPg0KJmd0OyA8YnI+DQomZ3Q7PGJyPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+
-DQo8YnIgY2xlYXI9ImFsbCI+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPHNwYW4gY2xhc3M9InhfZ21h
-aWxfc2lnbmF0dXJlX3ByZWZpeCI+LS0gPC9zcGFuPjxicj4NCjxkaXYgZGlyPSJsdHIiIGNsYXNz
-PSJ4X2dtYWlsX3NpZ25hdHVyZSI+LSBUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9p
-bnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZDxicj4NCi0g
-JnF1b3Q7VXNlIHRoZSBmb3JjZSBIYXJyeSZxdW90OyAtIEdhbmRhbGYsIFN0YXIgVHJlayBJSTxi
-cj4NCjxicj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1s
-Pg0K
+Hello Siddharth,
 
---_000_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_--
 
---_004_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_
-Content-Type: text/x-python; name="generate-cve-exclusions.py"
-Content-Description: generate-cve-exclusions.py
-Content-Disposition: attachment; filename="generate-cve-exclusions.py";
-	size=4707; creation-date="Thu, 22 Aug 2024 23:25:21 GMT";
-	modification-date="Thu, 22 Aug 2024 23:25:23 GMT"
-Content-Transfer-Encoding: base64
+This update make sense for the master brnanch but likely not for=20
+scarthgap unless you can show that
+this is a bug fix only release.
 
-IyEgL3Vzci9iaW4vZW52IHB5dGhvbjMKCiMgR2VuZXJhdGUgZ3JhbnVsYXIgQ1ZFIHN0YXR1cyBt
-ZXRhZGF0YSBmb3IgYSBzcGVjaWZpYyB2ZXJzaW9uIG9mIHRoZSBrZXJuZWwKIyB1c2luZyBkYXRh
-IGZyb20gbGludXhrZXJuZWxjdmVzLmNvbS4KIwojIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBH
-UEwtMi4wLW9ubHkKCmltcG9ydCBhcmdwYXJzZQppbXBvcnQgZGF0ZXRpbWUKaW1wb3J0IGpzb24K
-aW1wb3J0IHBhdGhsaWIKaW1wb3J0IGl0ZXJ0b29scwoKZnJvbSBwYWNrYWdpbmcudmVyc2lvbiBp
-bXBvcnQgVmVyc2lvbgoKZGVmIG1haW4oYXJncD1Ob25lKToKICAgIHBhcnNlciA9IGFyZ3BhcnNl
-LkFyZ3VtZW50UGFyc2VyKCkKICAgIHBhcnNlci5hZGRfYXJndW1lbnQoImRhdGFkaXIiLCB0eXBl
-PXBhdGhsaWIuUGF0aCwgaGVscD0iUGF0aCB0byBhIGNsb25lIG9mIGh0dHBzOi8vZ2l0Lmtlcm5l
-bC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2xlZS92dWxucy5naXQiKQogICAgcGFyc2Vy
-LmFkZF9hcmd1bWVudCgidmVyc2lvbiIsIHR5cGU9VmVyc2lvbiwgaGVscD0iS2VybmVsIHZlcnNp
-b24gbnVtYmVyIHRvIGdlbmVyYXRlIGRhdGEgZm9yLCBzdWNoIGFzIDYuMS4zOCIpCgogICAgYXJn
-cyA9IHBhcnNlci5wYXJzZV9hcmdzKGFyZ3ApCiAgICBkYXRhZGlyID0gYXJncy5kYXRhZGlyCiAg
-ICB2ZXJzaW9uID0gYXJncy52ZXJzaW9uCgogICAgcHJpbnQoZiIiIgojIEF1dG8tZ2VuZXJhdGVk
-IENWRSBtZXRhZGF0YSwgRE8gTk9UIEVESVQgQlkgSEFORC4KIyBHZW5lcmF0ZWQgYXQge2RhdGV0
-aW1lLmRhdGV0aW1lLm5vdyhkYXRldGltZS50aW1lem9uZS51dGMpfSBmb3IgdmVyc2lvbiB7dmVy
-c2lvbn0KCnB5dGhvbiBjaGVja19rZXJuZWxfY3ZlX3N0YXR1c192ZXJzaW9uKCkge3sKICAgIHRo
-aXNfdmVyc2lvbiA9ICJ7dmVyc2lvbn0iCiAgICBrZXJuZWxfdmVyc2lvbiA9IGQuZ2V0VmFyKCJM
-SU5VWF9WRVJTSU9OIikKICAgIGlmIGtlcm5lbF92ZXJzaW9uICE9IHRoaXNfdmVyc2lvbjoKICAg
-ICAgICBiYi53YXJuKCJLZXJuZWwgQ1ZFIHN0YXR1cyBuZWVkcyB1cGRhdGluZzogZ2VuZXJhdGVk
-IGZvciAlcyBidXQga2VybmVsIGlzICVzIiAlICh0aGlzX3ZlcnNpb24sIGtlcm5lbF92ZXJzaW9u
-KSkKfX0KZG9fY3ZlX2NoZWNrW3ByZWZ1bmNzXSArPSAiY2hlY2tfa2VybmVsX2N2ZV9zdGF0dXNf
-dmVyc2lvbiIKIiIiKQoKICAgIGZvciBjdmVfZmlsZSBpbiBpdGVydG9vbHMuY2hhaW4oKGRhdGFk
-aXIgLyAiY3ZlIiAvICJyZWplY3RlZCIpLmdsb2IoIiovQ1ZFLSouanNvbiIpLCAoZGF0YWRpciAv
-ICJjdmUiIC8gInB1Ymxpc2hlZCIpLmdsb2IoIiovQ1ZFLSouanNvbiIpKToKICAgICAgICB3aXRo
-IG9wZW4oY3ZlX2ZpbGUsICJyIikgYXMgZjoKICAgICAgICAgICAgZGF0YSA9IGpzb24ubG9hZChm
-KQogICAgICAgIGNuYSA9IGRhdGFbImNvbnRhaW5lcnMiXVsiY25hIl0KICAgICAgICBtZXRhZGF0
-YSA9IGRhdGFbImN2ZU1ldGFkYXRhIl0KICAgICAgICBjdmUgPSBtZXRhZGF0YVsiY3ZlSUQiXQog
-ICAgICAgIGtpbmQgPSBjdmVfZmlsZS5wYXJ0c1stM10KCiAgICAgICAgaWYga2luZCA9PSAicmVq
-ZWN0ZWQiOgogICAgICAgICAgICByZXNvbHV0aW9uID0gImRpc3B1dGVkOiBNYXJrZWQgYXMgcmVq
-ZWN0ZWQgaW4ga2VybmVsLm9yZyB2dWxucyBkYXRhYmFzZSIKICAgICAgICBlbHNlOgogICAgICAg
-ICAgICByZXNvbHV0aW9uID0gTm9uZQoKICAgICAgICBmb3IgcHJvZHVjdCBpbiBjbmEuZ2V0KCJh
-ZmZlY3RlZCIsIFtdKToKICAgICAgICAgICAgZGVmIHYocyk6CiAgICAgICAgICAgICAgICBpZiBz
-ID09ICJ2Ni45LXJjMX4xMTgiIGFuZCBjdmUgPT0gIkNWRS0yMDI0LTM2OTcwIjoKICAgICAgICAg
-ICAgICAgICAgICAjIE5vdGUsIHRoaXMgd2lsbCBpbXByb3Blcmx5IGNhdGNoIHJldmlzaW9ucyBi
-ZXR3ZWVuIHY2LjktcmMxfjExOCBhbmQgdjYuOS1yYzIgYXMgYWZmZWN0ZWQKICAgICAgICAgICAg
-ICAgICAgICBzID0gIjYuOS1yYzEiCiAgICAgICAgICAgICAgICByZXR1cm4gVmVyc2lvbihzLnJl
-cGxhY2UoJyonLCAnOTk5OTk5JykpCiAgICAgICAgICAgIGlmIChwcm9kdWN0WyJ2ZW5kb3IiXSwg
-cHJvZHVjdFsicHJvZHVjdCJdKSAhPSAoIkxpbnV4IiwgIkxpbnV4Iik6CiAgICAgICAgICAgICAg
-ICBjb250aW51ZQogICAgICAgICAgICBwcm9kdWN0X3N0YXR1cyA9IHByb2R1Y3QuZ2V0KCJkZWZh
-dWx0U3RhdHVzIiwgInVua25vd24iKQogICAgICAgICAgICBiYWNrcG9ydF92ZXIgPSBOb25lCiAg
-ICAgICAgICAgIGZpcnN0X2FmZmVjdGVkID0gTm9uZQogICAgICAgICAgICBmaXhlZCA9IE5vbmUK
-ICAgICAgICAgICAgZml4ZWRfdmVyc2lvbnMgPSBbXQogICAgICAgICAgICBmb3IgZW50cnkgaW4g
-cHJvZHVjdC5nZXQoInZlcnNpb25zIiwgW10pOgogICAgICAgICAgICAgICAgaWYgZW50cnkuZ2V0
-KCJ2ZXJzaW9uVHlwZSIsIE5vbmUpIG5vdCBpbiAoImN1c3RvbSIsICJvcmlnaW5hbF9jb21taXRf
-Zm9yX2ZpeCIsIE5vbmUpOgogICAgICAgICAgICAgICAgICAgICMgTm90ZTogVGhpcyBza2lwcyBo
-YW5kbGluZyBhbGwgdGhlICJnaXQiIHZlcnNpb25UeXBlIGVudHJpZXMKICAgICAgICAgICAgICAg
-ICAgICBwcm9kdWN0X3N0YXR1cyA9ICJ1bmtub3duIgogICAgICAgICAgICAgICAgICAgIGJyZWFr
-CiAgICAgICAgICAgICAgICBpZiBlbnRyeS5nZXQoInZlcnNpb25UeXBlIiwgTm9uZSkgPT0gIm9y
-aWdpbmFsX2NvbW1pdF9mb3JfZml4IjoKICAgICAgICAgICAgICAgICAgICBmaXhlZCA9IHYoZW50
-cnlbInZlcnNpb24iXSkKICAgICAgICAgICAgICAgIGlmIGVudHJ5WyJzdGF0dXMiXSA9PSAiYWZm
-ZWN0ZWQiOgogICAgICAgICAgICAgICAgICAgIGZpcnN0X2FmZmVjdGVkID0gdihlbnRyeVsidmVy
-c2lvbiJdKQogICAgICAgICAgICAgICAgaWYgYmFja3BvcnRfdmVyIGlzIG5vdCBOb25lOgogICAg
-ICAgICAgICAgICAgICAgICMgRG9uZSBwcm9jZXNzaW5nIGFjY29yZGluZyB0byB0aGUgZG9jdW1l
-bnRlZCBhbGdvcml0aG0KICAgICAgICAgICAgICAgICAgICBwYXNzCiAgICAgICAgICAgICAgICBl
-bGlmICJsZXNzVGhhbiIgbm90IGluIGVudHJ5IGFuZCAibGVzc1RoYW5PckVxdWFsIiBub3QgaW4g
-ZW50cnkgYW5kIHZlcnNpb24gPT0gdihlbnRyeVsidmVyc2lvbiJdKToKICAgICAgICAgICAgICAg
-ICAgICBwcm9kdWN0X3N0YXR1cyA9IGVudHJ5WyJzdGF0dXMiXQogICAgICAgICAgICAgICAgICAg
-IGJhY2twb3J0X3ZlciA9IGVudHJ5WyJ2ZXJzaW9uIl0KICAgICAgICAgICAgICAgIGVsaWYgdihl
-bnRyeVsidmVyc2lvbiJdKSA8PSB2ZXJzaW9uIGFuZCAoKCJsZXNzVGhhbiIgaW4gZW50cnkgYW5k
-IHZlcnNpb24gPCB2KGVudHJ5WyJsZXNzVGhhbiJdKSkgb3IKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKCJsZXNzVGhhbk9yRXF1YWwiIGlu
-IGVudHJ5IGFuZCB2ZXJzaW9uIDw9IHYoZW50cnlbImxlc3NUaGFuT3JFcXVhbCJdKSkpOgogICAg
-ICAgICAgICAgICAgICAgIHByb2R1Y3Rfc3RhdHVzID0gZW50cnlbInN0YXR1cyJdCiAgICAgICAg
-ICAgICAgICAgICAgYmFja3BvcnRfdmVyID0gZW50cnlbInZlcnNpb24iXQogICAgICAgICAgICAg
-ICAgICAgIGZvciBjaGFuZ2UgaW4gZW50cnkuZ2V0KCJjaGFuZ2VzIiwgW10pOgogICAgICAgICAg
-ICAgICAgICAgICAgICBpZiB2KGNoYW5nZVsiYXQiXSkgPD0gdmVyc2lvbjoKICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHByb2R1Y3Rfc3RhdHVzID0gY2hhbmdlWyJzdGF0dXMiXQogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgYmFja3BvcnRfdmVyID0gY2hhbmdlWyJhdCJdCiAgICAgICAg
-ICAgIGlmIHByb2R1Y3Rfc3RhdHVzID09ICJ1bmFmZmVjdGVkIjoKICAgICAgICAgICAgICAgIGlm
-IGZpeGVkIGlzIG5vdCBOb25lIGFuZCB2ZXJzaW9uID49IGZpeGVkOgogICAgICAgICAgICAgICAg
-ICAgIHJlc29sdXRpb24gPSBmImZpeGVkLXZlcnNpb246IEZpeGVkIGZyb20gdmVyc2lvbiB7Zml4
-ZWR9IgogICAgICAgICAgICAgICAgZWxpZiBmaXJzdF9hZmZlY3RlZCBpcyBub3QgTm9uZSBhbmQg
-dmVyc2lvbiA8IGZpcnN0X2FmZmVjdGVkOgogICAgICAgICAgICAgICAgICAgIHJlc29sdXRpb24g
-PSBmImZpeGVkLXZlcnNpb246IG9ubHkgZWZmZWN0cyB7Zmlyc3RfYWZmZWN0ZWR9IG9ud2FyZHMi
-CiAgICAgICAgICAgICAgICBlbGlmIGJhY2twb3J0X3ZlciBpcyBOb25lOgogICAgICAgICAgICAg
-ICAgICAgIHJlc29sdXRpb24gPSAiZml4ZWQtdmVyc2lvbjogTm90IHByZXNlbnQgaW4gYW55IHJl
-bGVhc2VkIHJldmlzaW9uIgogICAgICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgICAg
-ICByZXNvbHV0aW9uID0gZiJjcGUtc3RhYmxlLWJhY2twb3J0OiBCYWNrcG9ydGVkIGluIHtiYWNr
-cG9ydF92ZXJ9IgogICAgICAgICAgICAgICAgYnJlYWsgICAgICAgICAgICAgICAgCgogICAgICAg
-IGlmIHJlc29sdXRpb24gaXMgbm90IE5vbmU6CiAgICAgICAgICAgIHByaW50KGYnQ1ZFX1NUQVRV
-U1t7Y3ZlfV0gPSAie3Jlc29sdXRpb259IicpCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcHJp
-bnQoZiIjIHtjdmV9IHJlc29sdXRpb24gbm90IGRvY3VtZW50ZWQgYnkgc2NyaXB0IikKCmlmIF9f
-bmFtZV9fID09ICJfX21haW5fXyI6CiAgICBtYWluKCkK
 
---_004_CH3PR05MB9388064590A730F4E67E45AAF48F2CH3PR05MB9388namp_--
+It certainly does not look like a small bug fix only update based on:
+
+=E2=9D=AF git diff hostap_2_10 hostap_2_11 | diffstat | tail -1
+ =C2=A0534 files changed, 85965 insertions(+), 16847 deletions(-)
+
+=E2=9D=AF git log --oneline hostap_2_10..hostap_2_11 | wc -l
+2295
+
+and the hostap and wpa-supplicant ChangeLogs which mention adding=20
+features below (1).
+
+
+Since the repo ( git://w1.fi/srv/git/hostap.git ) doesn't have a stable=20
+branch for 2.10:
+
+=E2=9D=AF git branch -a
+* master
+ =C2=A0 remotes/origin/HEAD -> origin/master
+ =C2=A0 remotes/origin/android-jb
+ =C2=A0 remotes/origin/android-kk
+ =C2=A0 remotes/origin/android-l
+ =C2=A0 remotes/origin/android-m
+ =C2=A0 remotes/origin/aosp-jb
+ =C2=A0 remotes/origin/aosp-kk
+ =C2=A0 remotes/origin/main
+ =C2=A0 remotes/origin/master
+ =C2=A0 remotes/origin/pending
+
+
+you'll have to backport any CVE fixes that you're interested in unless
+someone explains why this is a sensible update for scarthgap.
+
+Thanks,
+
+../Randy
+
+
+1)
+
+
+=E2=9D=AF git diff hostap_2_10 hostap_2_11 hostapd/ChangeLog | cat
+diff --git a/hostapd/ChangeLog b/hostapd/ChangeLog
+index 279298e4d..1c8240d33 100644
+--- a/hostapd/ChangeLog
++++ b/hostapd/ChangeLog
+@@ -1,5 +1,42 @@
+ =C2=A0ChangeLog for hostapd
+
++2024-07-20 - v2.11
++=C2=A0=C2=A0=C2=A0 * Wi-Fi Easy Connect
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - add support for DPP release 3
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - allow Configurator parameters to be pro=
+vided during config exchange
++=C2=A0=C2=A0=C2=A0 * HE/IEEE 802.11ax/Wi-Fi 6
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - various fixes
++=C2=A0=C2=A0=C2=A0 * EHT/IEEE 802.11be/Wi-Fi 7
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - add preliminary support
++=C2=A0=C2=A0=C2=A0 * SAE: add support for fetching the password from a R=
+ADIUS server
++=C2=A0=C2=A0=C2=A0 * support OpenSSL 3.0 API changes
++=C2=A0=C2=A0=C2=A0 * support background radar detection and CAC with som=
+e additional
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drivers
++=C2=A0=C2=A0=C2=A0 * support RADIUS ACL/PSK check during 4-way handshake=
+=20
+(wpa_psk_radius=3D3)
++=C2=A0=C2=A0=C2=A0 * EAP-SIM/AKA: support IMSI privacy
++=C2=A0=C2=A0=C2=A0 * improve 4-way handshake operations
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - use Secure=3D1 in message 3 during PTK =
+rekeying
++=C2=A0=C2=A0=C2=A0 * OCV: do not check Frequency Segment 1 Channel Numbe=
+r for 160 MHz=20
+cases
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to avoid interoperability issues
++=C2=A0=C2=A0=C2=A0 * support new SAE AKM suites with variable length key=
+s
++=C2=A0=C2=A0=C2=A0 * support new AKM for 802.1X/EAP with SHA384
++=C2=A0=C2=A0=C2=A0 * extend PASN support for secure ranging
++=C2=A0=C2=A0=C2=A0 * FT: Use SHA256 to derive PMKID for AKM 00-0F-AC:3 (=
+FT-EAP)
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - this is based on additional details bei=
+ng added in the IEEE 802.11
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 standard
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - the new implementation is not backwards=
+ compatible
++=C2=A0=C2=A0=C2=A0 * improved ACS to cover additional channel types/band=
+widths
++=C2=A0=C2=A0=C2=A0 * extended Multiple BSSID support
++=C2=A0=C2=A0=C2=A0 * fix beacon protection with FT protocol (incorrect B=
+IGTK was provided)
++=C2=A0=C2=A0=C2=A0 * support unsynchronized service discovery (USD)
++=C2=A0=C2=A0=C2=A0 * add preliminary support for RADIUS/TLS
++=C2=A0=C2=A0=C2=A0 * add support for explicit SSID protection in 4-way h=
+andshake
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (a mitigation for CVE-2023-52424; disable=
+d by default for now, can be
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enabled with ssid_protection=3D1)
++=C2=A0=C2=A0=C2=A0 * fix SAE H2E rejected groups validation to avoid dow=
+ngrade attacks
++=C2=A0=C2=A0=C2=A0 * use stricter validation for some RADIUS messages
++=C2=A0=C2=A0=C2=A0 * a large number of other fixes, cleanup, and extensi=
+ons
++
+ =C2=A02022-01-16 - v2.10
+ =C2=A0=C2=A0=C2=A0=C2=A0 * SAE changes
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - improved protection against side =
+channel attacks
+
+
+=E2=9D=AF=C2=A0 git diff hostap_2_10 hostap_2_11 wpa_supplicant/ChangeLog=
+ | cat
+diff --git a/wpa_supplicant/ChangeLog b/wpa_supplicant/ChangeLog
+index efcc6cd9c..3f4162eb0 100644
+--- a/wpa_supplicant/ChangeLog
++++ b/wpa_supplicant/ChangeLog
+@@ -1,5 +1,55 @@
+ =C2=A0ChangeLog for wpa_supplicant
+
++2024-07-20 - v2.11
++=C2=A0=C2=A0=C2=A0 * Wi-Fi Easy Connect
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - add support for DPP release 3
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - allow Configurator parameters to be pro=
+vided during config exchange
++=C2=A0=C2=A0=C2=A0 * MACsec
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - add support for GCM-AES-256 cipher suit=
+e
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - remove incorrect EAP Session-Id length =
+constraint
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - add hardware offload support for additi=
+onal drivers
++=C2=A0=C2=A0=C2=A0 * HE/IEEE 802.11ax/Wi-Fi 6
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - support BSS color updates
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - various fixes
++=C2=A0=C2=A0=C2=A0 * EHT/IEEE 802.11be/Wi-Fi 7
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - add preliminary support
++=C2=A0=C2=A0=C2=A0 * support OpenSSL 3.0 API changes
++=C2=A0=C2=A0=C2=A0 * improve EAP-TLS support for TLSv1.3
++=C2=A0=C2=A0=C2=A0 * EAP-SIM/AKA: support IMSI privacy
++=C2=A0=C2=A0=C2=A0 * improve mitigation against DoS attacks when PMF is =
+used
++=C2=A0=C2=A0=C2=A0 * improve 4-way handshake operations
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - discard unencrypted EAPOL frames in add=
+itional cases
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - use Secure=3D1 in message 2 during PTK =
+rekeying
++=C2=A0=C2=A0=C2=A0 * OCV: do not check Frequency Segment 1 Channel Numbe=
+r for 160 MHz=20
+cases
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to avoid interoperability issues
++=C2=A0=C2=A0=C2=A0 * support new SAE AKM suites with variable length key=
+s
++=C2=A0=C2=A0=C2=A0 * support new AKM for 802.1X/EAP with SHA384
++=C2=A0=C2=A0=C2=A0 * improve cross-AKM roaming with driver-based SME/BSS=
+ selection
++=C2=A0=C2=A0=C2=A0 * PASN
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - extend support for secure ranging
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - allow PASN implementation to be used wi=
+th external programs for
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Wi-Fi Aware
++=C2=A0=C2=A0=C2=A0 * FT: Use SHA256 to derive PMKID for AKM 00-0F-AC:3 (=
+FT-EAP)
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - this is based on additional details bei=
+ng added in the IEEE 802.11
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 standard
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - the new implementation is not backwards=
+ compatible, but PMKSA
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 caching with FT-EAP was, and =
+still is, disabled by default
++=C2=A0=C2=A0=C2=A0 * support a pregenerated MAC (mac_addr=3D3) as an alt=
+ernative mechanism
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for using per-network random MAC addresse=
+s
++=C2=A0=C2=A0=C2=A0 * EAP-PEAP: require Phase 2 authentication by default=
+ (phase2_auth=3D1)
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to improve security for still unfortunate=
+ly common invalid
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 configurations that do not set ca_cert
++=C2=A0=C2=A0=C2=A0 * extend SCS support for QoS Characteristics
++=C2=A0=C2=A0=C2=A0 * extend MSCS support
++=C2=A0=C2=A0=C2=A0 * support unsynchronized service discovery (USD)
++=C2=A0=C2=A0=C2=A0 * add support for explicit SSID protection in 4-way h=
+andshake
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (a mitigation for CVE-2023-52424; disable=
+d by default for now, can be
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enabled with ssid_protection=3D1)
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - in addition, verify SSID after key setu=
+p when beacon protection is
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 used
++=C2=A0=C2=A0=C2=A0 * fix SAE H2E rejected groups validation to avoid dow=
+ngrade attacks
++=C2=A0=C2=A0=C2=A0 * a large number of other fixes, cleanup, and extensi=
+ons
++
+ =C2=A02022-01-16 - v2.10
+ =C2=A0=C2=A0=C2=A0=C2=A0 * SAE changes
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - improved protection against side =
+channel attacks
+
+
+>
+> Note:
+> =3D=3D=3D=3D=3D
+> Patches
+> 0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch,
+> 0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch,
+> 0001-Install-wpa_passphrase-when-not-disabled.patch,
+> 0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch (CVE-20=
+23-52160)
+> are already fixed and hence removing them.
+>
+> Signed-off-by: Siddharth Doshi<sdoshi@mvista.com>
+> ---
+>   ...all-wpa_passphrase-when-not-disabled.patch |  33 ---
+>   ...te-Phase-2-authentication-requiremen.patch | 213 -----------------=
+-
+>   ...options-for-libwpa_client.so-and-wpa.patch |  73 ------
+>   ...oval-of-wpa_passphrase-on-make-clean.patch |  26 ---
+>   ...plicant_2.10.bb =3D> wpa-supplicant_2.11.bb} |  10 +-
+>   5 files changed, 3 insertions(+), 352 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppl=
+icant/0001-Install-wpa_passphrase-when-not-disabled.patch
+>   delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppl=
+icant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
+>   delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppl=
+icant/0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch
+>   delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppl=
+icant/0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch
+>   rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.10.=
+bb =3D> wpa-supplicant_2.11.bb} (90%)
+>
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/00=
+01-Install-wpa_passphrase-when-not-disabled.patch b/meta/recipes-connecti=
+vity/wpa-supplicant/wpa-supplicant/0001-Install-wpa_passphrase-when-not-d=
+isabled.patch
+> deleted file mode 100644
+> index c04c608bde..0000000000
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Inst=
+all-wpa_passphrase-when-not-disabled.patch
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -From 57b12a1e43605f71239a21488cb9b541f0751dda Mon Sep 17 00:00:00 2001
+> -From: Alex Kiernan<alexk@zuma.ai>
+> -Date: Thu, 21 Apr 2022 10:15:29 +0100
+> -Subject: [PATCH] Install wpa_passphrase when not disabled
+> -
+> -As part of fixing CONFIG_NO_WPA_PASSPHRASE, whilst wpa_passphrase gets
+> -built, its not installed during `make install`.
+> -
+> -Fixes: cb41c214b78d ("build: Re-enable options for libwpa_client.so an=
+d wpa_passphrase")
+> -Signed-off-by: Alex Kiernan<alexk@zuma.ai>
+> -Signed-off-by: Alex Kiernan<alex.kiernan@gmail.com>
+> -Upstream-Status: Submitted [http://lists.infradead.org/pipermail/hosta=
+p/2022-April/040448.html]
+> ----
+> - wpa_supplicant/Makefile | 3 +++
+> - 1 file changed, 3 insertions(+)
+> -
+> -diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
+> -index 0bab313f2355..12787c0c7d0f 100644
+> ---- a/wpa_supplicant/Makefile
+> -+++ b/wpa_supplicant/Makefile
+> -@@ -73,6 +73,9 @@ $(DESTDIR)$(BINDIR)/%: %
+> -
+> - install: $(addprefix $(DESTDIR)$(BINDIR)/,$(BINALL))
+> - 	$(MAKE) -C ../src install
+> -+ifndef CONFIG_NO_WPA_PASSPHRASE
+> -+	install -D wpa_passphrase $(DESTDIR)/$(BINDIR)/wpa_passphrase
+> -+endif
+> - ifdef CONFIG_BUILD_WPA_CLIENT_SO
+> - 	install -m 0644 -D libwpa_client.so $(DESTDIR)/$(LIBDIR)/libwpa_clie=
+nt.so
+> - 	install -m 0644 -D ../src/common/wpa_ctrl.h $(DESTDIR)/$(INCDIR)/wpa=
+_ctrl.h
+> ---
+> -2.35.1
+> -
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/00=
+01-PEAP-client-Update-Phase-2-authentication-requiremen.patch b/meta/reci=
+pes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Ph=
+ase-2-authentication-requiremen.patch
+> deleted file mode 100644
+> index 620560d3c7..0000000000
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP=
+-client-Update-Phase-2-authentication-requiremen.patch
+> +++ /dev/null
+> @@ -1,213 +0,0 @@
+> -From f6f7cead3661ceeef54b21f7e799c0afc98537ec Mon Sep 17 00:00:00 2001
+> -From: Jouni Malinen<j@w1.fi>
+> -Date: Sat, 8 Jul 2023 19:55:32 +0300
+> -Subject: [PATCH] PEAP client: Update Phase 2 authentication requiremen=
+ts
+> -
+> -The previous PEAP client behavior allowed the server to skip Phase 2
+> -authentication with the expectation that the server was authenticated
+> -during Phase 1 through TLS server certificate validation. Various PEAP
+> -specifications are not exactly clear on what the behavior on this fron=
+t
+> -is supposed to be and as such, this ended up being more flexible than
+> -the TTLS/FAST/TEAP cases. However, this is not really ideal when
+> -unfortunately common misconfiguration of PEAP is used in deployed
+> -devices where the server trust root (ca_cert) is not configured or the
+> -user has an easy option for allowing this validation step to be skippe=
+d.
+> -
+> -Change the default PEAP client behavior to be to require Phase 2
+> -authentication to be successfully completed for cases where TLS sessio=
+n
+> -resumption is not used and the client certificate has not been
+> -configured. Those two exceptions are the main cases where a deployed
+> -authentication server might skip Phase 2 and as such, where a more
+> -strict default behavior could result in undesired interoperability
+> -issues. Requiring Phase 2 authentication will end up disabling TLS
+> -session resumption automatically to avoid interoperability issues.
+> -
+> -Allow Phase 2 authentication behavior to be configured with a new phas=
+e1
+> -configuration parameter option:
+> -'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
+> -tunnel) behavior for PEAP:
+> - * 0 =3D do not require Phase 2 authentication
+> - * 1 =3D require Phase 2 authentication when client certificate
+> -   (private_key/client_cert) is no used and TLS session resumption was
+> -   not used (default)
+> - * 2 =3D require Phase 2 authentication in all cases
+> -
+> -Signed-off-by: Jouni Malinen<j@w1.fi>
+> -
+> -CVE: CVE-2023-52160
+> -Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=3D8e64=
+85a1bcb0baffdea9e55255a81270b768439c]
+> -
+> -Signed-off-by: Claus Stovgaard<claus.stovgaard@gmail.com>
+> -
+> ----
+> - src/eap_peer/eap_config.h          |  8 ++++++
+> - src/eap_peer/eap_peap.c            | 40 +++++++++++++++++++++++++++--=
+-
+> - src/eap_peer/eap_tls_common.c      |  6 +++++
+> - src/eap_peer/eap_tls_common.h      |  5 ++++
+> - wpa_supplicant/wpa_supplicant.conf |  7 ++++++
+> - 5 files changed, 63 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/src/eap_peer/eap_config.h b/src/eap_peer/eap_config.h
+> -index 3238f74..047eec2 100644
+> ---- a/src/eap_peer/eap_config.h
+> -+++ b/src/eap_peer/eap_config.h
+> -@@ -469,6 +469,14 @@ struct eap_peer_config {
+> - 	 * 1 =3D use cryptobinding if server supports it
+> - 	 * 2 =3D require cryptobinding
+> - 	 *
+> -+	 * phase2_auth option can be used to control Phase 2 (i.e., within T=
+LS
+> -+	 * tunnel) behavior for PEAP:
+> -+	 * 0 =3D do not require Phase 2 authentication
+> -+	 * 1 =3D require Phase 2 authentication when client certificate
+> -+	 *  (private_key/client_cert) is no used and TLS session resumption =
+was
+> -+	 *  not used (default)
+> -+	 * 2 =3D require Phase 2 authentication in all cases
+> -+	 *
+> - 	 * EAP-WSC (WPS) uses following options: pin=3DDevice_Password and
+> - 	 * uuid=3DDevice_UUID
+> - 	 *
+> -diff --git a/src/eap_peer/eap_peap.c b/src/eap_peer/eap_peap.c
+> -index 12e30df..6080697 100644
+> ---- a/src/eap_peer/eap_peap.c
+> -+++ b/src/eap_peer/eap_peap.c
+> -@@ -67,6 +67,7 @@ struct eap_peap_data {
+> - 	u8 cmk[20];
+> - 	int soh; /* Whether IF-TNCCS-SOH (Statement of Health; Microsoft NAP=
+)
+> - 		  * is enabled. */
+> -+	enum { NO_AUTH, FOR_INITIAL, ALWAYS } phase2_auth;
+> - };
+> -
+> -
+> -@@ -114,6 +115,19 @@ static void eap_peap_parse_phase1(struct eap_peap=
+_data *data,
+> - 		wpa_printf(MSG_DEBUG, "EAP-PEAP: Require cryptobinding");
+> - 	}
+> -
+> -+	if (os_strstr(phase1, "phase2_auth=3D0")) {
+> -+		data->phase2_auth =3D NO_AUTH;
+> -+		wpa_printf(MSG_DEBUG,
+> -+			   "EAP-PEAP: Do not require Phase 2 authentication");
+> -+	} else if (os_strstr(phase1, "phase2_auth=3D1")) {
+> -+		data->phase2_auth =3D FOR_INITIAL;
+> -+		wpa_printf(MSG_DEBUG,
+> -+			   "EAP-PEAP: Require Phase 2 authentication for initial connectio=
+n");
+> -+	} else if (os_strstr(phase1, "phase2_auth=3D2")) {
+> -+		data->phase2_auth =3D ALWAYS;
+> -+		wpa_printf(MSG_DEBUG,
+> -+			   "EAP-PEAP: Require Phase 2 authentication for all cases");
+> -+	}
+> - #ifdef EAP_TNC
+> - 	if (os_strstr(phase1, "tnc=3Dsoh2")) {
+> - 		data->soh =3D 2;
+> -@@ -142,6 +156,7 @@ static void * eap_peap_init(struct eap_sm *sm)
+> - 	data->force_peap_version =3D -1;
+> - 	data->peap_outer_success =3D 2;
+> - 	data->crypto_binding =3D OPTIONAL_BINDING;
+> -+	data->phase2_auth =3D FOR_INITIAL;
+> -
+> - 	if (config && config->phase1)
+> - 		eap_peap_parse_phase1(data, config->phase1);
+> -@@ -454,6 +469,20 @@ static int eap_tlv_validate_cryptobinding(struct =
+eap_sm *sm,
+> - }
+> -
+> -
+> -+static bool peap_phase2_sufficient(struct eap_sm *sm,
+> -+				   struct eap_peap_data *data)
+> -+{
+> -+	if ((data->phase2_auth =3D=3D ALWAYS ||
+> -+	     (data->phase2_auth =3D=3D FOR_INITIAL &&
+> -+	      !tls_connection_resumed(sm->ssl_ctx, data->ssl.conn) &&
+> -+	      !data->ssl.client_cert_conf) ||
+> -+	     data->phase2_eap_started) &&
+> -+	    !data->phase2_eap_success)
+> -+		return false;
+> -+	return true;
+> -+}
+> -+
+> -+
+> - /**
+> -  * eap_tlv_process - Process a received EAP-TLV message and generate =
+a response
+> -  * @sm: Pointer to EAP state machine allocated with eap_peer_sm_init(=
+)
+> -@@ -568,6 +597,11 @@ static int eap_tlv_process(struct eap_sm *sm, str=
+uct eap_peap_data *data,
+> - 					   " - force failed Phase 2");
+> - 				resp_status =3D EAP_TLV_RESULT_FAILURE;
+> - 				ret->decision =3D DECISION_FAIL;
+> -+			} else if (!peap_phase2_sufficient(sm, data)) {
+> -+				wpa_printf(MSG_INFO,
+> -+					   "EAP-PEAP: Server indicated Phase 2 success, but sufficient P=
+hase 2 authentication has not been completed");
+> -+				resp_status =3D EAP_TLV_RESULT_FAILURE;
+> -+				ret->decision =3D DECISION_FAIL;
+> - 			} else {
+> - 				resp_status =3D EAP_TLV_RESULT_SUCCESS;
+> - 				ret->decision =3D DECISION_UNCOND_SUCC;
+> -@@ -887,8 +921,7 @@ continue_req:
+> - 			/* EAP-Success within TLS tunnel is used to indicate
+> - 			 * shutdown of the TLS channel. The authentication has
+> - 			 * been completed. */
+> --			if (data->phase2_eap_started &&
+> --			    !data->phase2_eap_success) {
+> -+			if (!peap_phase2_sufficient(sm, data)) {
+> - 				wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase 2 "
+> - 					   "Success used to indicate success, "
+> - 					   "but Phase 2 EAP was not yet "
+> -@@ -1199,8 +1232,9 @@ static struct wpabuf * eap_peap_process(struct e=
+ap_sm *sm, void *priv,
+> - static bool eap_peap_has_reauth_data(struct eap_sm *sm, void *priv)
+> - {
+> - 	struct eap_peap_data *data =3D priv;
+> -+
+> - 	return tls_connection_established(sm->ssl_ctx, data->ssl.conn) &&
+> --		data->phase2_success;
+> -+		data->phase2_success && data->phase2_auth !=3D ALWAYS;
+> - }
+> -
+> -
+> -diff --git a/src/eap_peer/eap_tls_common.c b/src/eap_peer/eap_tls_comm=
+on.c
+> -index c1837db..a53eeb1 100644
+> ---- a/src/eap_peer/eap_tls_common.c
+> -+++ b/src/eap_peer/eap_tls_common.c
+> -@@ -239,6 +239,12 @@ static int eap_tls_params_from_conf(struct eap_sm=
+ *sm,
+> -
+> - 	sm->ext_cert_check =3D !!(params->flags & TLS_CONN_EXT_CERT_CHECK);
+> -
+> -+	if (!phase2)
+> -+		data->client_cert_conf =3D params->client_cert ||
+> -+			params->client_cert_blob ||
+> -+			params->private_key ||
+> -+			params->private_key_blob;
+> -+
+> - 	return 0;
+> - }
+> -
+> -diff --git a/src/eap_peer/eap_tls_common.h b/src/eap_peer/eap_tls_comm=
+on.h
+> -index 9ac0012..3348634 100644
+> ---- a/src/eap_peer/eap_tls_common.h
+> -+++ b/src/eap_peer/eap_tls_common.h
+> -@@ -79,6 +79,11 @@ struct eap_ssl_data {
+> - 	 * tls_v13 - Whether TLS v1.3 or newer is used
+> - 	 */
+> - 	int tls_v13;
+> -+
+> -+	/**
+> -+	 * client_cert_conf: Whether client certificate has been configured
+> -+	 */
+> -+	bool client_cert_conf;
+> - };
+> -
+> -
+> -diff --git a/wpa_supplicant/wpa_supplicant.conf b/wpa_supplicant/wpa_s=
+upplicant.conf
+> -index 6619d6b..d63f73c 100644
+> ---- a/wpa_supplicant/wpa_supplicant.conf
+> -+++ b/wpa_supplicant/wpa_supplicant.conf
+> -@@ -1321,6 +1321,13 @@ fast_reauth=3D1
+> - #	 * 0 =3D do not use cryptobinding (default)
+> - #	 * 1 =3D use cryptobinding if server supports it
+> - #	 * 2 =3D require cryptobinding
+> -+#	'phase2_auth' option can be used to control Phase 2 (i.e., within T=
+LS
+> -+#	tunnel) behavior for PEAP:
+> -+#	 * 0 =3D do not require Phase 2 authentication
+> -+#	 * 1 =3D require Phase 2 authentication when client certificate
+> -+#	   (private_key/client_cert) is no used and TLS session resumption =
+was
+> -+#	   not used (default)
+> -+#	 * 2 =3D require Phase 2 authentication in all cases
+> - #	EAP-WSC (WPS) uses following options: pin=3D<Device Password> or
+> - #	pbc=3D1.
+> - #
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/00=
+01-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch b/meta/reci=
+pes-connectivity/wpa-supplicant/wpa-supplicant/0001-build-Re-enable-optio=
+ns-for-libwpa_client.so-and-wpa.patch
+> deleted file mode 100644
+> index 6e930fc98d..0000000000
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-buil=
+d-Re-enable-options-for-libwpa_client.so-and-wpa.patch
+> +++ /dev/null
+> @@ -1,73 +0,0 @@
+> -From cb41c214b78d6df187a31950342e48a403dbd769 Mon Sep 17 00:00:00 2001
+> -From: Sergey Matyukevich<geomatsi@gmail.com>
+> -Date: Tue, 22 Feb 2022 11:52:19 +0300
+> -Subject: [PATCH 1/2] build: Re-enable options for libwpa_client.so and
+> - wpa_passphrase
+> -
+> -Commit a41a29192e5d ("build: Pull common fragments into a build.rules
+> -file") introduced a regression into wpa_supplicant build process. The
+> -build target libwpa_client.so is not built regardless of whether the
+> -option CONFIG_BUILD_WPA_CLIENT_SO is set or not. This happens because
+> -this config option is used before it is imported from the configuratio=
+n
+> -file. Moving its use after including build.rules does not help: the
+> -variable ALL is processed by build.rules and further changes are not
+> -applied. Similarly, option CONFIG_NO_WPA_PASSPHRASE also does not work
+> -as expected: wpa_passphrase is always built regardless of whether the
+> -option is set or not.
+> -
+> -Re-enable these options by adding both build targets to _all
+> -dependencies.
+> -
+> -Fixes: a41a29192e5d ("build: Pull common fragments into a build.rules =
+file")
+> -Signed-off-by: Sergey Matyukevich<geomatsi@gmail.com>
+> -Upstream-Status: Backport
+> -Signed-off-by: Alex Kiernan<alexk@zuma.ai>
+> -Signed-off-by: Alex Kiernan<alexk@gmail.com>
+> ----
+> - wpa_supplicant/Makefile | 19 ++++++++++++-------
+> - 1 file changed, 12 insertions(+), 7 deletions(-)
+> -
+> -diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
+> -index cb66defac7c8..c456825ae75f 100644
+> ---- a/wpa_supplicant/Makefile
+> -+++ b/wpa_supplicant/Makefile
+> -@@ -1,24 +1,29 @@
+> - BINALL=3Dwpa_supplicant wpa_cli
+> -
+> --ifndef CONFIG_NO_WPA_PASSPHRASE
+> --BINALL +=3D wpa_passphrase
+> --endif
+> --
+> - ALL =3D $(BINALL)
+> - ALL +=3D systemd/wpa_supplicant.service
+> - ALL +=3Dsystemd/wpa_supplicant@.service
+> - ALL +=3Dsystemd/wpa_supplicant-nl80211@.service
+> - ALL +=3Dsystemd/wpa_supplicant-wired@.service
+> - ALL +=3D dbus/fi.w1.wpa_supplicant1.service
+> --ifdef CONFIG_BUILD_WPA_CLIENT_SO
+> --ALL +=3D libwpa_client.so
+> --endif
+> -
+> - EXTRA_TARGETS=3Ddynamic_eap_methods
+> -
+> - CONFIG_FILE=3D.config
+> - include ../src/build.rules
+> -
+> -+ifdef CONFIG_BUILD_WPA_CLIENT_SO
+> -+# add the dependency this way to allow CONFIG_BUILD_WPA_CLIENT_SO
+> -+# being set in the config which is read by build.rules
+> -+_all: libwpa_client.so
+> -+endif
+> -+
+> -+ifndef CONFIG_NO_WPA_PASSPHRASE
+> -+# add the dependency this way to allow CONFIG_NO_WPA_PASSPHRASE
+> -+# being set in the config which is read by build.rules
+> -+_all: wpa_passphrase
+> -+endif
+> -+
+> - ifdef LIBS
+> - # If LIBS is set with some global build system defaults, clone those =
+for
+> - # LIBS_c and LIBS_p to cover wpa_passphrase and wpa_cli as well.
+> ---
+> -2.35.1
+> -
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/00=
+02-Fix-removal-of-wpa_passphrase-on-make-clean.patch b/meta/recipes-conne=
+ctivity/wpa-supplicant/wpa-supplicant/0002-Fix-removal-of-wpa_passphrase-=
+on-make-clean.patch
+> deleted file mode 100644
+> index 53b0fcdf53..0000000000
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Fix-=
+removal-of-wpa_passphrase-on-make-clean.patch
+> +++ /dev/null
+> @@ -1,26 +0,0 @@
+> -From d001b301ba7987f4b39453a211631b85c48f2ff8 Mon Sep 17 00:00:00 2001
+> -From: Jouni Malinen<quic_jouni@quicinc.com>
+> -Date: Thu, 3 Mar 2022 13:26:42 +0200
+> -Subject: [PATCH 2/2] Fix removal of wpa_passphrase on 'make clean'
+> -
+> -Fixes: 0430bc8267b4 ("build: Add a common-clean target")
+> -Signed-off-by: Jouni Malinen<quic_jouni@quicinc.com>
+> -Upstream-Status: Backport
+> -Signed-off-by: Alex Kiernan<alexk@zuma.ai>
+> -Signed-off-by: Alex Kiernan<alexk@gmail.com>
+> ----
+> - wpa_supplicant/Makefile | 1 +
+> - 1 file changed, 1 insertion(+)
+> -
+> -diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
+> -index c456825ae75f..4b4688931b1d 100644
+> ---- a/wpa_supplicant/Makefile
+> -+++ b/wpa_supplicant/Makefile
+> -@@ -2077,3 +2077,4 @@ clean: common-clean
+> - 	rm -f libwpa_client.a
+> - 	rm -f libwpa_client.so
+> - 	rm -f libwpa_test1 libwpa_test2
+> -+	rm -f wpa_passphrase
+> ---
+> -2.35.1
+> -
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.=
+10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> similarity index 90%
+> rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.1=
+0.bb
+> rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.=
+bb
+> index 8113bcab09..321dedc58a 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> @@ -5,8 +5,8 @@ BUGTRACKER =3D"http://w1.fi/security/"
+>   SECTION =3D "network"
+>   LICENSE =3D "BSD-3-Clause"
+>   LIC_FILES_CHKSUM =3D"file://COPYING;md5=3D5ebcb90236d1ad640558c3d3cd3=
+035df \ -=20
+> file://README;beginline=3D1;endline=3D56;md5=3De3d2f6c2948991e37c1ca496=
+0de84747=20
+> \ -=20
+> file://wpa_supplicant/wpa_supplicant.c;beginline=3D1;endline=3D12;md5=3D=
+76306a95306fee9a976b0ac1be70f705"
+> +file://README;beginline=3D1;endline=3D56;md5=3D6e4b25e7d74bfc44a32ba37=
+bdf5210a6 \
+> +file://wpa_supplicant/wpa_supplicant.c;beginline=3D1;endline=3D12;md5=3D=
+f5ccd57ea91e04800edb88267bf8eae4"
+>  =20
+>   DEPENDS =3D "dbus libnl"
+>  =20
+> @@ -15,12 +15,8 @@ SRC_URI =3D"http://w1.fi/releases/wpa_supplicant-${P=
+V}.tar.gz \=20
+> file://wpa_supplicant.conf \ file://wpa_supplicant.conf-sane \=20
+> file://99_wpa_supplicant \ -=20
+> file://0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch=20
+> \ - file://0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch \ -=20
+> file://0001-Install-wpa_passphrase-when-not-disabled.patch \ -=20
+> file://0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch =
+\ "
+> -SRC_URI[sha256sum] =3D "20df7ae5154b3830355f8ab4269123a87affdea59fe74f=
+e9292a91d0d7e17b2f"
+> +SRC_URI[sha256sum] =3D "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc=
+5d75dee6c81ac7fc0a"
+>  =20
+>   S =3D "${WORKDIR}/wpa_supplicant-${PV}"
+>  =20
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#203657):https://lists.openembedded.org/g/openembedd=
+ed-core/message/203657
+> Mute This Topic:https://lists.openembedded.org/mt/108040776/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [r=
+andy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------YSDDcjQE4Ni0JhLBVmnLWAPq
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 47N0fVRS026506
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">For scarthgap, it's good but not
+      mandatory to have Steve on the To/CC list.<br>
+      <br>
+    </div>
+    <div class=3D"moz-cite-prefix">On 2024-08-22 12:17 p.m., Siddharth
+      Doshi via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:20240822161721.6699-1-sdoshi@mv=
+ista.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">From: Siddharth Doshi <a cla=
+ss=3D"moz-txt-link-rfc2396E" href=3D"mailto:sdoshi@mvista.com">&lt;sdoshi=
+@mvista.com&gt;</a>
+
+License-Update:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- README: Change in copyright years as per <a class=3D"moz-txt-link-freet=
+ext" href=3D"https://w1.fi/cgit/hostap/commit/README?id=3Dd945ddd368085f2=
+55e68328f2d3b020ceea359af">https://w1.fi/cgit/hostap/commit/README?id=3Dd=
+945ddd368085f255e68328f2d3b020ceea359af</a>
+- wpa_supplicant/wpa_supplicant.c: Change in copyright years as per <a cl=
+ass=3D"moz-txt-link-freetext" href=3D"https://w1.fi/cgit/hostap/commit/wp=
+a_supplicant/wpa_supplicant.c?id=3Dd945ddd368085f255e68328f2d3b020ceea359=
+af">https://w1.fi/cgit/hostap/commit/wpa_supplicant/wpa_supplicant.c?id=3D=
+d945ddd368085f255e68328f2d3b020ceea359af</a>
+
+CVE's Fixed:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- CVE-2024-5290 wpa_supplicant: wpa_supplicant loading arbitrary shared o=
+bjects allowing privilege escalation
+- CVE-2023-52160 wpa_supplicant: potential authorization bypass
+
+Changes between 2.10 -&gt; 2.11:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+<a class=3D"moz-txt-link-freetext" href=3D"https://w1.fi/cgit/hostap/comm=
+it/wpa_supplicant/ChangeLog?id=3Dd945ddd368085f255e68328f2d3b020ceea359af=
+">https://w1.fi/cgit/hostap/commit/wpa_supplicant/ChangeLog?id=3Dd945ddd3=
+68085f255e68328f2d3b020ceea359af</a></pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Hello Siddharth,<br>
+    </p>
+    <p><br>
+    </p>
+    <p>This update make sense for the master brnanch but likely not for
+      scarthgap unless you can show that <br>
+      this is a bug fix only release.&nbsp;</p>
+    <p><br>
+    </p>
+    <p>It certainly does not look like a small bug fix only update based
+      on:<br>
+    </p>
+    <p>=E2=9D=AF git diff hostap_2_10 hostap_2_11 | diffstat | tail -1<br=
+>
+      &nbsp;534 files changed, 85965 insertions(+), 16847 deletions(-)<br=
+>
+    </p>
+    <p>=E2=9D=AF git log --oneline hostap_2_10..hostap_2_11 | wc -l<br>
+      2295</p>
+    <p>and the hostap and wpa-supplicant ChangeLogs which mention adding
+      features below (1).</p>
+    <p><br>
+    </p>
+    <p>Since the repo ( git://w1.fi/srv/git/hostap.git ) doesn't have a
+      stable branch for 2.10:<br>
+      <br>
+      =E2=9D=AF git branch -a<br>
+      * master<br>
+      &nbsp; remotes/origin/HEAD -&gt; origin/master<br>
+      &nbsp; remotes/origin/android-jb<br>
+      &nbsp; remotes/origin/android-kk<br>
+      &nbsp; remotes/origin/android-l<br>
+      &nbsp; remotes/origin/android-m<br>
+      &nbsp; remotes/origin/aosp-jb<br>
+      &nbsp; remotes/origin/aosp-kk<br>
+      &nbsp; remotes/origin/main<br>
+      &nbsp; remotes/origin/master<br>
+      &nbsp; remotes/origin/pending<br>
+    </p>
+    <p><br>
+    </p>
+    <p>you'll have to backport any CVE fixes that you're interested in
+      unless <br>
+      someone explains why this is a sensible update for scarthgap.</p>
+    <p>Thanks,<br>
+    </p>
+    <p>../Randy<br>
+    </p>
+    <p><br>
+    </p>
+    <p>1)</p>
+    <p><br>
+    </p>
+    <p>=E2=9D=AF git diff hostap_2_10 hostap_2_11 hostapd/ChangeLog | cat=
+<br>
+      diff --git a/hostapd/ChangeLog b/hostapd/ChangeLog<br>
+      index 279298e4d..1c8240d33 100644<br>
+      --- a/hostapd/ChangeLog<br>
+      +++ b/hostapd/ChangeLog<br>
+      @@ -1,5 +1,42 @@<br>
+      &nbsp;ChangeLog for hostapd<br>
+      &nbsp;<br>
+      +2024-07-20 - v2.11<br>
+      +&nbsp;&nbsp;&nbsp; * Wi-Fi Easy Connect<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - add support for DPP release 3<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - allow Configurator parameters to =
+be provided during
+      config exchange<br>
+      +&nbsp;&nbsp;&nbsp; * HE/IEEE 802.11ax/Wi-Fi 6<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - various fixes<br>
+      +&nbsp;&nbsp;&nbsp; * EHT/IEEE 802.11be/Wi-Fi 7<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - add preliminary support<br>
+      +&nbsp;&nbsp;&nbsp; * SAE: add support for fetching the password fr=
+om a RADIUS
+      server<br>
+      +&nbsp;&nbsp;&nbsp; * support OpenSSL 3.0 API changes<br>
+      +&nbsp;&nbsp;&nbsp; * support background radar detection and CAC wi=
+th some
+      additional<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; drivers<br>
+      +&nbsp;&nbsp;&nbsp; * support RADIUS ACL/PSK check during 4-way han=
+dshake
+      (wpa_psk_radius=3D3)<br>
+      +&nbsp;&nbsp;&nbsp; * EAP-SIM/AKA: support IMSI privacy<br>
+      +&nbsp;&nbsp;&nbsp; * improve 4-way handshake operations<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - use Secure=3D1 in message 3 durin=
+g PTK rekeying<br>
+      +&nbsp;&nbsp;&nbsp; * OCV: do not check Frequency Segment 1 Channel=
+ Number for
+      160 MHz cases<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to avoid interoperability issues<br=
+>
+      +&nbsp;&nbsp;&nbsp; * support new SAE AKM suites with variable leng=
+th keys<br>
+      +&nbsp;&nbsp;&nbsp; * support new AKM for 802.1X/EAP with SHA384<br=
+>
+      +&nbsp;&nbsp;&nbsp; * extend PASN support for secure ranging<br>
+      +&nbsp;&nbsp;&nbsp; * FT: Use SHA256 to derive PMKID for AKM 00-0F-=
+AC:3 (FT-EAP)<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - this is based on additional detai=
+ls being added in the
+      IEEE 802.11<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; standard<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - the new implementation is not bac=
+kwards compatible<br>
+      +&nbsp;&nbsp;&nbsp; * improved ACS to cover additional channel type=
+s/bandwidths<br>
+      +&nbsp;&nbsp;&nbsp; * extended Multiple BSSID support<br>
+      +&nbsp;&nbsp;&nbsp; * fix beacon protection with FT protocol (incor=
+rect BIGTK was
+      provided)<br>
+      +&nbsp;&nbsp;&nbsp; * support unsynchronized service discovery (USD=
+)<br>
+      +&nbsp;&nbsp;&nbsp; * add preliminary support for RADIUS/TLS<br>
+      +&nbsp;&nbsp;&nbsp; * add support for explicit SSID protection in 4=
+-way handshake<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (a mitigation for CVE-2023-52424; d=
+isabled by default for
+      now, can be<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enabled with ssid_protection=3D1)<b=
+r>
+      +&nbsp;&nbsp;&nbsp; * fix SAE H2E rejected groups validation to avo=
+id downgrade
+      attacks<br>
+      +&nbsp;&nbsp;&nbsp; * use stricter validation for some RADIUS messa=
+ges<br>
+      +&nbsp;&nbsp;&nbsp; * a large number of other fixes, cleanup, and e=
+xtensions<br>
+      +<br>
+      &nbsp;2022-01-16 - v2.10<br>
+      &nbsp;&nbsp;&nbsp;&nbsp; * SAE changes<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - improved protection against =
+side channel attacks<br>
+    </p>
+    <p><br>
+    </p>
+    <p></p>
+    <p>=E2=9D=AF&nbsp; git diff hostap_2_10 hostap_2_11 wpa_supplicant/Ch=
+angeLog |
+      cat<br>
+      diff --git a/wpa_supplicant/ChangeLog b/wpa_supplicant/ChangeLog<br=
+>
+      index efcc6cd9c..3f4162eb0 100644<br>
+      --- a/wpa_supplicant/ChangeLog<br>
+      +++ b/wpa_supplicant/ChangeLog<br>
+      @@ -1,5 +1,55 @@<br>
+      &nbsp;ChangeLog for wpa_supplicant<br>
+      &nbsp;<br>
+      +2024-07-20 - v2.11<br>
+      +&nbsp;&nbsp;&nbsp; * Wi-Fi Easy Connect<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - add support for DPP release 3<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - allow Configurator parameters to =
+be provided during
+      config exchange<br>
+      +&nbsp;&nbsp;&nbsp; * MACsec<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - add support for GCM-AES-256 ciphe=
+r suite<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - remove incorrect EAP Session-Id l=
+ength constraint<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - add hardware offload support for =
+additional drivers<br>
+      +&nbsp;&nbsp;&nbsp; * HE/IEEE 802.11ax/Wi-Fi 6<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - support BSS color updates<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - various fixes<br>
+      +&nbsp;&nbsp;&nbsp; * EHT/IEEE 802.11be/Wi-Fi 7<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - add preliminary support<br>
+      +&nbsp;&nbsp;&nbsp; * support OpenSSL 3.0 API changes<br>
+      +&nbsp;&nbsp;&nbsp; * improve EAP-TLS support for TLSv1.3<br>
+      +&nbsp;&nbsp;&nbsp; * EAP-SIM/AKA: support IMSI privacy<br>
+      +&nbsp;&nbsp;&nbsp; * improve mitigation against DoS attacks when P=
+MF is used<br>
+      +&nbsp;&nbsp;&nbsp; * improve 4-way handshake operations<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - discard unencrypted EAPOL frames =
+in additional cases<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - use Secure=3D1 in message 2 durin=
+g PTK rekeying<br>
+      +&nbsp;&nbsp;&nbsp; * OCV: do not check Frequency Segment 1 Channel=
+ Number for
+      160 MHz cases<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to avoid interoperability issues<br=
+>
+      +&nbsp;&nbsp;&nbsp; * support new SAE AKM suites with variable leng=
+th keys<br>
+      +&nbsp;&nbsp;&nbsp; * support new AKM for 802.1X/EAP with SHA384<br=
+>
+      +&nbsp;&nbsp;&nbsp; * improve cross-AKM roaming with driver-based S=
+ME/BSS
+      selection<br>
+      +&nbsp;&nbsp;&nbsp; * PASN<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - extend support for secure ranging=
+<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - allow PASN implementation to be u=
+sed with external
+      programs for<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wi-Fi Aware<br>
+      +&nbsp;&nbsp;&nbsp; * FT: Use SHA256 to derive PMKID for AKM 00-0F-=
+AC:3 (FT-EAP)<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - this is based on additional detai=
+ls being added in the
+      IEEE 802.11<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; standard<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - the new implementation is not bac=
+kwards compatible, but
+      PMKSA<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; caching with FT-EAP was=
+, and still is, disabled by
+      default<br>
+      +&nbsp;&nbsp;&nbsp; * support a pregenerated MAC (mac_addr=3D3) as =
+an alternative
+      mechanism<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for using per-network random MAC ad=
+dresses<br>
+      +&nbsp;&nbsp;&nbsp; * EAP-PEAP: require Phase 2 authentication by d=
+efault
+      (phase2_auth=3D1)<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to improve security for still unfor=
+tunately common invalid<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; configurations that do not set ca_c=
+ert<br>
+      +&nbsp;&nbsp;&nbsp; * extend SCS support for QoS Characteristics<br=
+>
+      +&nbsp;&nbsp;&nbsp; * extend MSCS support<br>
+      +&nbsp;&nbsp;&nbsp; * support unsynchronized service discovery (USD=
+)<br>
+      +&nbsp;&nbsp;&nbsp; * add support for explicit SSID protection in 4=
+-way handshake<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (a mitigation for CVE-2023-52424; d=
+isabled by default for
+      now, can be<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enabled with ssid_protection=3D1)<b=
+r>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - in addition, verify SSID after ke=
+y setup when beacon
+      protection is<br>
+      +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; used<br>
+      +&nbsp;&nbsp;&nbsp; * fix SAE H2E rejected groups validation to avo=
+id downgrade
+      attacks<br>
+      +&nbsp;&nbsp;&nbsp; * a large number of other fixes, cleanup, and e=
+xtensions<br>
+      +<br>
+      &nbsp;2022-01-16 - v2.10<br>
+      &nbsp;&nbsp;&nbsp;&nbsp; * SAE changes<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - improved protection against =
+side channel attacks<br>
+      <br>
+      <br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:20240822161721.6699-1-sdoshi@mv=
+ista.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">
+
+Note:
+=3D=3D=3D=3D=3D
+Patches
+0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch,
+0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch,
+0001-Install-wpa_passphrase-when-not-disabled.patch,
+0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch (CVE-2023=
+-52160)
+are already fixed and hence removing them.
+
+Signed-off-by: Siddharth Doshi <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"mailto:sdoshi@mvista.com">&lt;sdoshi@mvista.com&gt;</a>
+---
+ ...all-wpa_passphrase-when-not-disabled.patch |  33 ---
+ ...te-Phase-2-authentication-requiremen.patch | 213 ------------------
+ ...options-for-libwpa_client.so-and-wpa.patch |  73 ------
+ ...oval-of-wpa_passphrase-on-make-clean.patch |  26 ---
+ ...plicant_2.10.bb =3D&gt; wpa-supplicant_2.11.bb} |  10 +-
+ 5 files changed, 3 insertions(+), 352 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
+nt/0001-Install-wpa_passphrase-when-not-disabled.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
+nt/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
+nt/0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
+nt/0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.10.bb =
+=3D&gt; wpa-supplicant_2.11.bb} (90%)
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001=
+-Install-wpa_passphrase-when-not-disabled.patch b/meta/recipes-connectivi=
+ty/wpa-supplicant/wpa-supplicant/0001-Install-wpa_passphrase-when-not-dis=
+abled.patch
+deleted file mode 100644
+index c04c608bde..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Instal=
+l-wpa_passphrase-when-not-disabled.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 57b12a1e43605f71239a21488cb9b541f0751dda Mon Sep 17 00:00:00 2001
+-From: Alex Kiernan <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:ale=
+xk@zuma.ai">&lt;alexk@zuma.ai&gt;</a>
+-Date: Thu, 21 Apr 2022 10:15:29 +0100
+-Subject: [PATCH] Install wpa_passphrase when not disabled
+-
+-As part of fixing CONFIG_NO_WPA_PASSPHRASE, whilst wpa_passphrase gets
+-built, its not installed during `make install`.
+-
+-Fixes: cb41c214b78d (&quot;build: Re-enable options for libwpa_client.so=
+ and wpa_passphrase&quot;)
+-Signed-off-by: Alex Kiernan <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:alexk@zuma.ai">&lt;alexk@zuma.ai&gt;</a>
+-Signed-off-by: Alex Kiernan <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:alex.kiernan@gmail.com">&lt;alex.kiernan@gmail.com&gt;</a>
+-Upstream-Status: Submitted [<a class=3D"moz-txt-link-freetext" href=3D"h=
+ttp://lists.infradead.org/pipermail/hostap/2022-April/040448.html">http:/=
+/lists.infradead.org/pipermail/hostap/2022-April/040448.html</a>]
+----
+- wpa_supplicant/Makefile | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
+-index 0bab313f2355..12787c0c7d0f 100644
+---- a/wpa_supplicant/Makefile
+-+++ b/wpa_supplicant/Makefile
+-@@ -73,6 +73,9 @@ $(DESTDIR)$(BINDIR)/%: %
+-=20
+- install: $(addprefix $(DESTDIR)$(BINDIR)/,$(BINALL))
+- 	$(MAKE) -C ../src install
+-+ifndef CONFIG_NO_WPA_PASSPHRASE
+-+	install -D wpa_passphrase $(DESTDIR)/$(BINDIR)/wpa_passphrase
+-+endif
+- ifdef CONFIG_BUILD_WPA_CLIENT_SO
+- 	install -m 0644 -D libwpa_client.so $(DESTDIR)/$(LIBDIR)/libwpa_client=
+.so
+- 	install -m 0644 -D ../src/common/wpa_ctrl.h $(DESTDIR)/$(INCDIR)/wpa_c=
+trl.h
+---=20
+-2.35.1
+-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001=
+-PEAP-client-Update-Phase-2-authentication-requiremen.patch b/meta/recipe=
+s-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phas=
+e-2-authentication-requiremen.patch
+deleted file mode 100644
+index 620560d3c7..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-c=
+lient-Update-Phase-2-authentication-requiremen.patch
++++ /dev/null
+@@ -1,213 +0,0 @@
+-From f6f7cead3661ceeef54b21f7e799c0afc98537ec Mon Sep 17 00:00:00 2001
+-From: Jouni Malinen <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:j@=
+w1.fi">&lt;j@w1.fi&gt;</a>
+-Date: Sat, 8 Jul 2023 19:55:32 +0300
+-Subject: [PATCH] PEAP client: Update Phase 2 authentication requirements
+-
+-The previous PEAP client behavior allowed the server to skip Phase 2
+-authentication with the expectation that the server was authenticated
+-during Phase 1 through TLS server certificate validation. Various PEAP
+-specifications are not exactly clear on what the behavior on this front
+-is supposed to be and as such, this ended up being more flexible than
+-the TTLS/FAST/TEAP cases. However, this is not really ideal when
+-unfortunately common misconfiguration of PEAP is used in deployed
+-devices where the server trust root (ca_cert) is not configured or the
+-user has an easy option for allowing this validation step to be skipped.
+-
+-Change the default PEAP client behavior to be to require Phase 2
+-authentication to be successfully completed for cases where TLS session
+-resumption is not used and the client certificate has not been
+-configured. Those two exceptions are the main cases where a deployed
+-authentication server might skip Phase 2 and as such, where a more
+-strict default behavior could result in undesired interoperability
+-issues. Requiring Phase 2 authentication will end up disabling TLS
+-session resumption automatically to avoid interoperability issues.
+-
+-Allow Phase 2 authentication behavior to be configured with a new phase1
+-configuration parameter option:
+-'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
+-tunnel) behavior for PEAP:
+- * 0 =3D do not require Phase 2 authentication
+- * 1 =3D require Phase 2 authentication when client certificate
+-   (private_key/client_cert) is no used and TLS session resumption was
+-   not used (default)
+- * 2 =3D require Phase 2 authentication in all cases
+-
+-Signed-off-by: Jouni Malinen <a class=3D"moz-txt-link-rfc2396E" href=3D"=
+mailto:j@w1.fi">&lt;j@w1.fi&gt;</a>
+-
+-CVE: CVE-2023-52160
+-Upstream-Status: Backport [<a class=3D"moz-txt-link-freetext" href=3D"ht=
+tps://w1.fi/cgit/hostap/commit/?id=3D8e6485a1bcb0baffdea9e55255a81270b768=
+439c">https://w1.fi/cgit/hostap/commit/?id=3D8e6485a1bcb0baffdea9e55255a8=
+1270b768439c</a>]
+-
+-Signed-off-by: Claus Stovgaard <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"mailto:claus.stovgaard@gmail.com">&lt;claus.stovgaard@gmail.com&gt;</a>
+-
+----
+- src/eap_peer/eap_config.h          |  8 ++++++
+- src/eap_peer/eap_peap.c            | 40 +++++++++++++++++++++++++++---
+- src/eap_peer/eap_tls_common.c      |  6 +++++
+- src/eap_peer/eap_tls_common.h      |  5 ++++
+- wpa_supplicant/wpa_supplicant.conf |  7 ++++++
+- 5 files changed, 63 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/eap_peer/eap_config.h b/src/eap_peer/eap_config.h
+-index 3238f74..047eec2 100644
+---- a/src/eap_peer/eap_config.h
+-+++ b/src/eap_peer/eap_config.h
+-@@ -469,6 +469,14 @@ struct eap_peer_config {
+- 	 * 1 =3D use cryptobinding if server supports it
+- 	 * 2 =3D require cryptobinding
+- 	 *
+-+	 * phase2_auth option can be used to control Phase 2 (i.e., within TLS
+-+	 * tunnel) behavior for PEAP:
+-+	 * 0 =3D do not require Phase 2 authentication
+-+	 * 1 =3D require Phase 2 authentication when client certificate
+-+	 *  (private_key/client_cert) is no used and TLS session resumption wa=
+s
+-+	 *  not used (default)
+-+	 * 2 =3D require Phase 2 authentication in all cases
+-+	 *
+- 	 * EAP-WSC (WPS) uses following options: pin=3DDevice_Password and
+- 	 * uuid=3DDevice_UUID
+- 	 *
+-diff --git a/src/eap_peer/eap_peap.c b/src/eap_peer/eap_peap.c
+-index 12e30df..6080697 100644
+---- a/src/eap_peer/eap_peap.c
+-+++ b/src/eap_peer/eap_peap.c
+-@@ -67,6 +67,7 @@ struct eap_peap_data {
+- 	u8 cmk[20];
+- 	int soh; /* Whether IF-TNCCS-SOH (Statement of Health; Microsoft NAP)
+- 		  * is enabled. */
+-+	enum { NO_AUTH, FOR_INITIAL, ALWAYS } phase2_auth;
+- };
+-=20
+-=20
+-@@ -114,6 +115,19 @@ static void eap_peap_parse_phase1(struct eap_peap_d=
+ata *data,
+- 		wpa_printf(MSG_DEBUG, &quot;EAP-PEAP: Require cryptobinding&quot;);
+- 	}
+-=20
+-+	if (os_strstr(phase1, &quot;phase2_auth=3D0&quot;)) {
+-+		data-&gt;phase2_auth =3D NO_AUTH;
+-+		wpa_printf(MSG_DEBUG,
+-+			   &quot;EAP-PEAP: Do not require Phase 2 authentication&quot;);
+-+	} else if (os_strstr(phase1, &quot;phase2_auth=3D1&quot;)) {
+-+		data-&gt;phase2_auth =3D FOR_INITIAL;
+-+		wpa_printf(MSG_DEBUG,
+-+			   &quot;EAP-PEAP: Require Phase 2 authentication for initial connec=
+tion&quot;);
+-+	} else if (os_strstr(phase1, &quot;phase2_auth=3D2&quot;)) {
+-+		data-&gt;phase2_auth =3D ALWAYS;
+-+		wpa_printf(MSG_DEBUG,
+-+			   &quot;EAP-PEAP: Require Phase 2 authentication for all cases&quot=
+;);
+-+	}
+- #ifdef EAP_TNC
+- 	if (os_strstr(phase1, &quot;tnc=3Dsoh2&quot;)) {
+- 		data-&gt;soh =3D 2;
+-@@ -142,6 +156,7 @@ static void * eap_peap_init(struct eap_sm *sm)
+- 	data-&gt;force_peap_version =3D -1;
+- 	data-&gt;peap_outer_success =3D 2;
+- 	data-&gt;crypto_binding =3D OPTIONAL_BINDING;
+-+	data-&gt;phase2_auth =3D FOR_INITIAL;
+-=20
+- 	if (config &amp;&amp; config-&gt;phase1)
+- 		eap_peap_parse_phase1(data, config-&gt;phase1);
+-@@ -454,6 +469,20 @@ static int eap_tlv_validate_cryptobinding(struct ea=
+p_sm *sm,
+- }
+-=20
+-=20
+-+static bool peap_phase2_sufficient(struct eap_sm *sm,
+-+				   struct eap_peap_data *data)
+-+{
+-+	if ((data-&gt;phase2_auth =3D=3D ALWAYS ||
+-+	     (data-&gt;phase2_auth =3D=3D FOR_INITIAL &amp;&amp;
+-+	      !tls_connection_resumed(sm-&gt;ssl_ctx, data-&gt;ssl.conn) &amp;=
+&amp;
+-+	      !data-&gt;ssl.client_cert_conf) ||
+-+	     data-&gt;phase2_eap_started) &amp;&amp;
+-+	    !data-&gt;phase2_eap_success)
+-+		return false;
+-+	return true;
+-+}
+-+
+-+
+- /**
+-  * eap_tlv_process - Process a received EAP-TLV message and generate a =
+response
+-  * @sm: Pointer to EAP state machine allocated with eap_peer_sm_init()
+-@@ -568,6 +597,11 @@ static int eap_tlv_process(struct eap_sm *sm, struc=
+t eap_peap_data *data,
+- 					   &quot; - force failed Phase 2&quot;);
+- 				resp_status =3D EAP_TLV_RESULT_FAILURE;
+- 				ret-&gt;decision =3D DECISION_FAIL;
+-+			} else if (!peap_phase2_sufficient(sm, data)) {
+-+				wpa_printf(MSG_INFO,
+-+					   &quot;EAP-PEAP: Server indicated Phase 2 success, but sufficien=
+t Phase 2 authentication has not been completed&quot;);
+-+				resp_status =3D EAP_TLV_RESULT_FAILURE;
+-+				ret-&gt;decision =3D DECISION_FAIL;
+- 			} else {
+- 				resp_status =3D EAP_TLV_RESULT_SUCCESS;
+- 				ret-&gt;decision =3D DECISION_UNCOND_SUCC;
+-@@ -887,8 +921,7 @@ continue_req:
+- 			/* EAP-Success within TLS tunnel is used to indicate
+- 			 * shutdown of the TLS channel. The authentication has
+- 			 * been completed. */
+--			if (data-&gt;phase2_eap_started &amp;&amp;
+--			    !data-&gt;phase2_eap_success) {
+-+			if (!peap_phase2_sufficient(sm, data)) {
+- 				wpa_printf(MSG_DEBUG, &quot;EAP-PEAP: Phase 2 &quot;
+- 					   &quot;Success used to indicate success, &quot;
+- 					   &quot;but Phase 2 EAP was not yet &quot;
+-@@ -1199,8 +1232,9 @@ static struct wpabuf * eap_peap_process(struct eap=
+_sm *sm, void *priv,
+- static bool eap_peap_has_reauth_data(struct eap_sm *sm, void *priv)
+- {
+- 	struct eap_peap_data *data =3D priv;
+-+
+- 	return tls_connection_established(sm-&gt;ssl_ctx, data-&gt;ssl.conn) &=
+amp;&amp;
+--		data-&gt;phase2_success;
+-+		data-&gt;phase2_success &amp;&amp; data-&gt;phase2_auth !=3D ALWAYS;
+- }
+-=20
+-=20
+-diff --git a/src/eap_peer/eap_tls_common.c b/src/eap_peer/eap_tls_common=
+.c
+-index c1837db..a53eeb1 100644
+---- a/src/eap_peer/eap_tls_common.c
+-+++ b/src/eap_peer/eap_tls_common.c
+-@@ -239,6 +239,12 @@ static int eap_tls_params_from_conf(struct eap_sm *=
+sm,
+-=20
+- 	sm-&gt;ext_cert_check =3D !!(params-&gt;flags &amp; TLS_CONN_EXT_CERT_=
+CHECK);
+-=20
+-+	if (!phase2)
+-+		data-&gt;client_cert_conf =3D params-&gt;client_cert ||
+-+			params-&gt;client_cert_blob ||
+-+			params-&gt;private_key ||
+-+			params-&gt;private_key_blob;
+-+
+- 	return 0;
+- }
+-=20
+-diff --git a/src/eap_peer/eap_tls_common.h b/src/eap_peer/eap_tls_common=
+.h
+-index 9ac0012..3348634 100644
+---- a/src/eap_peer/eap_tls_common.h
+-+++ b/src/eap_peer/eap_tls_common.h
+-@@ -79,6 +79,11 @@ struct eap_ssl_data {
+- 	 * tls_v13 - Whether TLS v1.3 or newer is used
+- 	 */
+- 	int tls_v13;
+-+
+-+	/**
+-+	 * client_cert_conf: Whether client certificate has been configured
+-+	 */
+-+	bool client_cert_conf;
+- };
+-=20
+-=20
+-diff --git a/wpa_supplicant/wpa_supplicant.conf b/wpa_supplicant/wpa_sup=
+plicant.conf
+-index 6619d6b..d63f73c 100644
+---- a/wpa_supplicant/wpa_supplicant.conf
+-+++ b/wpa_supplicant/wpa_supplicant.conf
+-@@ -1321,6 +1321,13 @@ fast_reauth=3D1
+- #	 * 0 =3D do not use cryptobinding (default)
+- #	 * 1 =3D use cryptobinding if server supports it
+- #	 * 2 =3D require cryptobinding
+-+#	'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
+-+#	tunnel) behavior for PEAP:
+-+#	 * 0 =3D do not require Phase 2 authentication
+-+#	 * 1 =3D require Phase 2 authentication when client certificate
+-+#	   (private_key/client_cert) is no used and TLS session resumption wa=
+s
+-+#	   not used (default)
+-+#	 * 2 =3D require Phase 2 authentication in all cases
+- #	EAP-WSC (WPS) uses following options: pin=3D&lt;Device Password&gt; o=
+r
+- #	pbc=3D1.
+- #
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001=
+-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch b/meta/recipe=
+s-connectivity/wpa-supplicant/wpa-supplicant/0001-build-Re-enable-options=
+-for-libwpa_client.so-and-wpa.patch
+deleted file mode 100644
+index 6e930fc98d..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-build-=
+Re-enable-options-for-libwpa_client.so-and-wpa.patch
++++ /dev/null
+@@ -1,73 +0,0 @@
+-From cb41c214b78d6df187a31950342e48a403dbd769 Mon Sep 17 00:00:00 2001
+-From: Sergey Matyukevich <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
+to:geomatsi@gmail.com">&lt;geomatsi@gmail.com&gt;</a>
+-Date: Tue, 22 Feb 2022 11:52:19 +0300
+-Subject: [PATCH 1/2] build: Re-enable options for libwpa_client.so and
+- wpa_passphrase
+-
+-Commit a41a29192e5d (&quot;build: Pull common fragments into a build.rul=
+es
+-file&quot;) introduced a regression into wpa_supplicant build process. T=
+he
+-build target libwpa_client.so is not built regardless of whether the
+-option CONFIG_BUILD_WPA_CLIENT_SO is set or not. This happens because
+-this config option is used before it is imported from the configuration
+-file. Moving its use after including build.rules does not help: the
+-variable ALL is processed by build.rules and further changes are not
+-applied. Similarly, option CONFIG_NO_WPA_PASSPHRASE also does not work
+-as expected: wpa_passphrase is always built regardless of whether the
+-option is set or not.
+-
+-Re-enable these options by adding both build targets to _all
+-dependencies.
+-
+-Fixes: a41a29192e5d (&quot;build: Pull common fragments into a build.rul=
+es file&quot;)
+-Signed-off-by: Sergey Matyukevich <a class=3D"moz-txt-link-rfc2396E" hre=
+f=3D"mailto:geomatsi@gmail.com">&lt;geomatsi@gmail.com&gt;</a>
+-Upstream-Status: Backport
+-Signed-off-by: Alex Kiernan <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:alexk@zuma.ai">&lt;alexk@zuma.ai&gt;</a>
+-Signed-off-by: Alex Kiernan <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:alexk@gmail.com">&lt;alexk@gmail.com&gt;</a>
+----
+- wpa_supplicant/Makefile | 19 ++++++++++++-------
+- 1 file changed, 12 insertions(+), 7 deletions(-)
+-
+-diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
+-index cb66defac7c8..c456825ae75f 100644
+---- a/wpa_supplicant/Makefile
+-+++ b/wpa_supplicant/Makefile
+-@@ -1,24 +1,29 @@
+- BINALL=3Dwpa_supplicant wpa_cli
+-=20
+--ifndef CONFIG_NO_WPA_PASSPHRASE
+--BINALL +=3D wpa_passphrase
+--endif
+--
+- ALL =3D $(BINALL)
+- ALL +=3D systemd/wpa_supplicant.service
+- ALL +=3D <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:systemd/w=
+pa_supplicant@.service">systemd/wpa_supplicant@.service</a>
+- ALL +=3D <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:systemd/w=
+pa_supplicant-nl80211@.service">systemd/wpa_supplicant-nl80211@.service</=
+a>
+- ALL +=3D <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:systemd/w=
+pa_supplicant-wired@.service">systemd/wpa_supplicant-wired@.service</a>
+- ALL +=3D dbus/fi.w1.wpa_supplicant1.service
+--ifdef CONFIG_BUILD_WPA_CLIENT_SO
+--ALL +=3D libwpa_client.so
+--endif
+-=20
+- EXTRA_TARGETS=3Ddynamic_eap_methods
+-=20
+- CONFIG_FILE=3D.config
+- include ../src/build.rules
+-=20
+-+ifdef CONFIG_BUILD_WPA_CLIENT_SO
+-+# add the dependency this way to allow CONFIG_BUILD_WPA_CLIENT_SO
+-+# being set in the config which is read by build.rules
+-+_all: libwpa_client.so
+-+endif
+-+
+-+ifndef CONFIG_NO_WPA_PASSPHRASE
+-+# add the dependency this way to allow CONFIG_NO_WPA_PASSPHRASE
+-+# being set in the config which is read by build.rules
+-+_all: wpa_passphrase
+-+endif
+-+
+- ifdef LIBS
+- # If LIBS is set with some global build system defaults, clone those fo=
+r
+- # LIBS_c and LIBS_p to cover wpa_passphrase and wpa_cli as well.
+---=20
+-2.35.1
+-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002=
+-Fix-removal-of-wpa_passphrase-on-make-clean.patch b/meta/recipes-connect=
+ivity/wpa-supplicant/wpa-supplicant/0002-Fix-removal-of-wpa_passphrase-on=
+-make-clean.patch
+deleted file mode 100644
+index 53b0fcdf53..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Fix-re=
+moval-of-wpa_passphrase-on-make-clean.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From d001b301ba7987f4b39453a211631b85c48f2ff8 Mon Sep 17 00:00:00 2001
+-From: Jouni Malinen <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:qu=
+ic_jouni@quicinc.com">&lt;quic_jouni@quicinc.com&gt;</a>
+-Date: Thu, 3 Mar 2022 13:26:42 +0200
+-Subject: [PATCH 2/2] Fix removal of wpa_passphrase on 'make clean'
+-
+-Fixes: 0430bc8267b4 (&quot;build: Add a common-clean target&quot;)
+-Signed-off-by: Jouni Malinen <a class=3D"moz-txt-link-rfc2396E" href=3D"=
+mailto:quic_jouni@quicinc.com">&lt;quic_jouni@quicinc.com&gt;</a>
+-Upstream-Status: Backport
+-Signed-off-by: Alex Kiernan <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:alexk@zuma.ai">&lt;alexk@zuma.ai&gt;</a>
+-Signed-off-by: Alex Kiernan <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:alexk@gmail.com">&lt;alexk@gmail.com&gt;</a>
+----
+- wpa_supplicant/Makefile | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
+-index c456825ae75f..4b4688931b1d 100644
+---- a/wpa_supplicant/Makefile
+-+++ b/wpa_supplicant/Makefile
+-@@ -2077,3 +2077,4 @@ clean: common-clean
+- 	rm -f libwpa_client.a
+- 	rm -f libwpa_client.so
+- 	rm -f libwpa_test1 libwpa_test2
+-+	rm -f wpa_passphrase
+---=20
+-2.35.1
+-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10=
+.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+similarity index 90%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.=
+bb
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+index 8113bcab09..321dedc58a 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+@@ -5,8 +5,8 @@ BUGTRACKER =3D <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"http://w1.fi/security/">&quot;http://w1.fi/security/&quot;</a>
+ SECTION =3D &quot;network&quot;
+ LICENSE =3D &quot;BSD-3-Clause&quot;
+ LIC_FILES_CHKSUM =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"file://C=
+OPYING;md5=3D5ebcb90236d1ad640558c3d3cd3035df\-file://README;beginline=3D=
+1;endline=3D56;md5=3De3d2f6c2948991e37c1ca4960de84747\-file://wpa_supplic=
+ant/wpa_supplicant.c;beginline=3D1;endline=3D12;md5=3D76306a95306fee9a976=
+b0ac1be70f705">&quot;file://COPYING;md5=3D5ebcb90236d1ad640558c3d3cd3035d=
+f \
+-                    file://README;beginline=3D1;endline=3D56;md5=3De3d2f=
+6c2948991e37c1ca4960de84747 \
+-                    file://wpa_supplicant/wpa_supplicant.c;beginline=3D1=
+;endline=3D12;md5=3D76306a95306fee9a976b0ac1be70f705&quot;</a>
++                    <a class=3D"moz-txt-link-freetext" href=3D"file://RE=
+ADME;beginline=3D1;endline=3D56;md5=3D6e4b25e7d74bfc44a32ba37bdf5210a6">f=
+ile://README;beginline=3D1;endline=3D56;md5=3D6e4b25e7d74bfc44a32ba37bdf5=
+210a6</a> \
++                    <a class=3D"moz-txt-link-freetext" href=3D"file://wp=
+a_supplicant/wpa_supplicant.c;beginline=3D1;endline=3D12;md5=3Df5ccd57ea9=
+1e04800edb88267bf8eae4">file://wpa_supplicant/wpa_supplicant.c;beginline=3D=
+1;endline=3D12;md5=3Df5ccd57ea91e04800edb88267bf8eae4</a>&quot;
+=20
+ DEPENDS =3D &quot;dbus libnl&quot;
+=20
+@@ -15,12 +15,8 @@ SRC_URI =3D <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz\file://wpa_supplicant.=
+conf\file://wpa_supplicant.conf-sane\file://99_wpa_supplicant\-file://000=
+1-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch\-file://0002=
+-Fix-removal-of-wpa_passphrase-on-make-clean.patch\-file://0001-Install-w=
+pa_passphrase-when-not-disabled.patch\-file://0001-PEAP-client-Update-Pha=
+se-2-authentication-requiremen.patch\">&quot;http://w1.fi/releases/wpa_su=
+pplicant-${PV}.tar.gz \
+            file://wpa_supplicant.conf \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
+-           file://0001-build-Re-enable-options-for-libwpa_client.so-and-=
+wpa.patch \
+-           file://0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch=
+ \
+-           file://0001-Install-wpa_passphrase-when-not-disabled.patch \
+-           file://0001-PEAP-client-Update-Phase-2-authentication-require=
+men.patch \
+            &quot;</a>
+-SRC_URI[sha256sum] =3D &quot;20df7ae5154b3830355f8ab4269123a87affdea59fe=
+74fe9292a91d0d7e17b2f&quot;
++SRC_URI[sha256sum] =3D &quot;912ea06f74e30a8e36fbb68064d6cdff218d8d591db=
+0fc5d75dee6c81ac7fc0a&quot;
+=20
+ S =3D &quot;${WORKDIR}/wpa_supplicant-${PV}&quot;
+=20
+</pre>
+      <br>
+      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+      <pre wrap=3D"" class=3D"moz-quote-pre">-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
+-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#203657): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/203657">https:/=
+/lists.openembedded.org/g/openembedded-core/message/203657</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/108040776/3616765">https://lists.openembedded.org/mt=
+/108040776/3616765</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------YSDDcjQE4Ni0JhLBVmnLWAPq--
 
