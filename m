@@ -1,460 +1,160 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68477C5472C
-	for <webhook@archiver.kernel.org>; Sat, 24 Aug 2024 14:58:36 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web11.14282.1724511507830312377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C8E7C52D6F
+	for <webhook@archiver.kernel.org>; Sat, 24 Aug 2024 17:47:57 +0000 (UTC)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+ by mx.groups.io with SMTP id smtpd.web10.17638.1724521674366740389
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Aug 2024 07:58:29 -0700
+ Sat, 24 Aug 2024 10:47:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=XKoClYux;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20240824145824c9cecd7b021e338158-_llff6@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20240824145824c9cecd7b021e338158
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 24 Aug 2024 16:58:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=wQ1trf2KT4Jr3fNvYQbYxOGx3MxXsoPEK3ENLiSdAaE=;
- b=XKoClYuxJlAHFTlwqUUDqLYS9CSVtclxj9JqjnVaNZlhQ/LXtRxpuyWcvjRskxOdmMQl4y
- r6UY0Qjz7x3jmeW9USFPNr0drGhoxd3KNDDBm2ROSs4uHt7NIsKbHDuQ7nDWNwWHaf8dOsam
- Lj1FhWLkdONiVJapucwLLqtPE1TdYgMcYHdra2ThrNusXrZQaaUyuDMbwJgbC4YYue4SL/AX
- 5ZuQe74HQIjXOC0ZsWWMZTGwNzSlt8YUMTJokzHPrP47sbeT/lRJybcaZcc4q8/h6vSmpGI3
- MH2p8LwLVvliPPOvya/KP8mK+F1eAP/2debHNAE1ig3bIIvSxlHu6FEA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] curl: Patch CVE-2024-7264
-Date: Sat, 24 Aug 2024 16:57:36 +0200
-Message-Id: <20240824145736.2473963-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Omcr92vc;
+ spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-270263932d5so2228914fac.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Aug 2024 10:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724521673; x=1725126473; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M8Grdqjv7YNVRbcLQByHgnxru486MOdSKuX1SNcCohI=;
+        b=Omcr92vcON+gSkOhREVjch3QkAolBmYOHNb9RmIdVCAl+X6h9k1vx/+RyVjRRBgmJe
+         kkbOvxcznjiDN4BJ/ctzvyfrtACUrUVEOa4PPyUhJglrpb9s4fiftoe1SSToTPL+/oGy
+         zHpws2//VMepAZVlqgxpzcaVZqZJ27kfgv+jXR67lQ6laJr+KfTUzNsQJt2O/O0sVRoh
+         CR5JT5Y11y8x9aTCH/yybta0l4kj7bI4vYEIvAoWWUt88IZT9ursW54JD9I8/82Rf4MM
+         jQIK9epOZG3//ZDpFAZV2L+kKOFksOdGN+6QlJRG9KOxTZsEexXUxqp0/S7Nh96fUnXQ
+         E4mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724521673; x=1725126473;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M8Grdqjv7YNVRbcLQByHgnxru486MOdSKuX1SNcCohI=;
+        b=lPbuHgrTG/Odc41oZ1fEFTvKPKwI3vpzEjgtoDfuAVHkyeOUnFNDfnJMjfSuleSmRW
+         sEarh3fCwauPzCeBN2e3gkYxgS1PYibixbq5a6XifaHgcqyVd3dASXzLW/pgfkDbnZ9o
+         1K0JvkKpNHaXx6taMTiAZGOwCn8rPsmLRG1Phy0Dhh90FpCm2LlKya+mVWcvVKyAJ/XA
+         QhSBhbuw577pXS8wRLsUDE33vcN8iAX165XT+6iPNtAvQzCoQF7HKQ1woylCXPV6F4ao
+         xX0ZzfUzKm4SY91SVA4dk3kFbQ+M0ZrmzIfI7bbbkmyu0Kqkh17ka2zTOWchtCUIYQZu
+         uvTA==
+X-Gm-Message-State: AOJu0Yz3pHkcRbeSQ6Taim6+U57p6fyMl5VwZC8BJVn6d79HaVe0mgrG
+	/+u4ErTIhpjciMG9Qi4f2p4kSBBJA+Vt1LOEVveZafJo4l4nYi5mxcLVEKRLcx7DBNPXCiVMOex
+	QqPz+8JEc54dZ69357SBcTYg4MS8ebi64
+X-Google-Smtp-Source: AGHT+IGFcTmdaarf7agOZ4twCllrS/2MR70jlqLeq2Irh7GIM+09VjDLbknCmfuf/uQ1oeax/rpcxWLotKWPTDVTD8c=
+X-Received: by 2002:a05:6870:82a1:b0:270:735:96e with SMTP id
+ 586e51a60fabf-273e6465ed4mr6643208fac.12.1724521673501; Sat, 24 Aug 2024
+ 10:47:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20240823014806.4154590-1-hongxu.jia@windriver.com> <20240823014806.4154590-4-hongxu.jia@windriver.com>
+In-Reply-To: <20240823014806.4154590-4-hongxu.jia@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 24 Aug 2024 10:47:27 -0700
+Message-ID: <CAMKF1soj55jyHO5Xhqvp2vzqx+XqkUHqh1LDt7P8=n2RaWYK2Q@mail.gmail.com>
+Subject: Re: [OE-core] [poky][PATCH 3/9] libxml2: 2.12.8 -> 2.13.3
+To: hongxu.jia@eng.windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Aug 2024 14:58:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203713
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Aug 2024 17:47:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203714
 
-From: Peter Marko <peter.marko@siemens.com>
+This version bump is not simple as it causes ABI breakage for several
+packages. In meta-oe e.g.
 
-Pick commits per https://curl.se/docs/CVE-2024-7264.html
+https://errors.yoctoproject.org/Errors/Build/189834/
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../curl/curl/CVE-2024-7264-1.patch           |  61 ++++
- .../curl/curl/CVE-2024-7264-2.patch           | 316 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |   2 +
- 3 files changed, 379 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-7264-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-7264-2.patch
+look at libgsf, libspatialite and raptor2
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2024-7264-1.patch b/meta/recipes-support/curl/curl/CVE-2024-7264-1.patch
-new file mode 100644
-index 0000000000..7101fcfe35
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2024-7264-1.patch
-@@ -0,0 +1,61 @@
-+From 3c914bc680155b32178f1f15ca8d47c7f4640afe Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 30 Jul 2024 10:05:17 +0200
-+Subject: [PATCH] x509asn1: clean up GTime2str
-+
-+Co-authored-by: Stefan Eissing
-+Reported-by: Dov Murik
-+
-+Closes #14307
-+
-+CVE: CVE-2024-7264
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/3c914bc680155b32178f1f15ca8d47c7f4640afe.patch]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/vtls/x509asn1.c | 23 ++++++++++++++---------
-+ 1 file changed, 14 insertions(+), 9 deletions(-)
-+
-+diff --git a/lib/vtls/x509asn1.c b/lib/vtls/x509asn1.c
-+index 1bc4243ddae343..e3a9fe4232a4ea 100644
-+--- a/lib/vtls/x509asn1.c
-++++ b/lib/vtls/x509asn1.c
-+@@ -488,7 +488,7 @@ static CURLcode GTime2str(struct dynbuf *store,
-+   /* Convert an ASN.1 Generalized time to a printable string.
-+      Return the dynamically allocated string, or NULL if an error occurs. */
-+ 
-+-  for(fracp = beg; fracp < end && *fracp >= '0' && *fracp <= '9'; fracp++)
-++  for(fracp = beg; fracp < end && ISDIGIT(*fracp); fracp++)
-+     ;
-+ 
-+   /* Get seconds digits. */
-+@@ -507,17 +507,22 @@ static CURLcode GTime2str(struct dynbuf *store,
-+     return CURLE_BAD_FUNCTION_ARGUMENT;
-+   }
-+ 
-+-  /* Scan for timezone, measure fractional seconds. */
-++  /* timezone follows optional fractional seconds. */
-+   tzp = fracp;
-+-  fracl = 0;
-++  fracl = 0; /* no fractional seconds detected so far */
-+   if(fracp < end && (*fracp == '.' || *fracp == ',')) {
-+-    fracp++;
-+-    do
-++    /* Have fractional seconds, e.g. "[.,]\d+". How many? */
-++    tzp = fracp++; /* should be a digit char or BAD ARGUMENT */
-++    while(tzp < end && ISDIGIT(*tzp))
-+       tzp++;
-+-    while(tzp < end && *tzp >= '0' && *tzp <= '9');
-+-    /* Strip leading zeroes in fractional seconds. */
-+-    for(fracl = tzp - fracp - 1; fracl && fracp[fracl - 1] == '0'; fracl--)
-+-      ;
-++    if(tzp == fracp) /* never looped, no digit after [.,] */
-++      return CURLE_BAD_FUNCTION_ARGUMENT;
-++    fracl = tzp - fracp - 1; /* number of fractional sec digits */
-++    DEBUGASSERT(fracl > 0);
-++    /* Strip trailing zeroes in fractional seconds.
-++     * May reduce fracl to 0 if only '0's are present. */
-++    while(fracl && fracp[fracl - 1] == '0')
-++      fracl--;
-+   }
-+ 
-+   /* Process timezone. */
-diff --git a/meta/recipes-support/curl/curl/CVE-2024-7264-2.patch b/meta/recipes-support/curl/curl/CVE-2024-7264-2.patch
-new file mode 100644
-index 0000000000..ab24911712
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2024-7264-2.patch
-@@ -0,0 +1,316 @@
-+From 27959ecce75cdb2809c0bdb3286e60e08fadb519 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Tue, 30 Jul 2024 16:40:48 +0200
-+Subject: [PATCH] x509asn1: unittests and fixes for gtime2str
-+
-+Fix issues in GTime2str() and add unit test cases to verify correct
-+behaviour.
-+
-+Follow-up to 3c914bc6801
-+
-+Closes #14316
-+
-+CVE: CVE-2024-7264
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/27959ecce75cdb2809c0bdb3286e60e08fadb519.patch]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/vtls/x509asn1.c     |  32 +++++++---
-+ lib/vtls/x509asn1.h     |  11 ++++
-+ tests/data/Makefile.inc |   2 +-
-+ tests/data/test1656     |  22 +++++++
-+ tests/unit/Makefile.inc |   4 +-
-+ tests/unit/unit1656.c   | 133 ++++++++++++++++++++++++++++++++++++++++
-+ 6 files changed, 194 insertions(+), 10 deletions(-)
-+ create mode 100644 tests/data/test1656
-+ create mode 100644 tests/unit/unit1656.c
-+
-+diff --git a/lib/vtls/x509asn1.c b/lib/vtls/x509asn1.c
-+index e3a9fe4232a4ea..7f04af3b9778c5 100644
-+--- a/lib/vtls/x509asn1.c
-++++ b/lib/vtls/x509asn1.c
-+@@ -512,12 +512,13 @@ static CURLcode GTime2str(struct dynbuf *store,
-+   fracl = 0; /* no fractional seconds detected so far */
-+   if(fracp < end && (*fracp == '.' || *fracp == ',')) {
-+     /* Have fractional seconds, e.g. "[.,]\d+". How many? */
-+-    tzp = fracp++; /* should be a digit char or BAD ARGUMENT */
-++    fracp++; /* should be a digit char or BAD ARGUMENT */
-++    tzp = fracp;
-+     while(tzp < end && ISDIGIT(*tzp))
-+       tzp++;
-+     if(tzp == fracp) /* never looped, no digit after [.,] */
-+       return CURLE_BAD_FUNCTION_ARGUMENT;
-+-    fracl = tzp - fracp - 1; /* number of fractional sec digits */
-++    fracl = tzp - fracp; /* number of fractional sec digits */
-+     DEBUGASSERT(fracl > 0);
-+     /* Strip trailing zeroes in fractional seconds.
-+      * May reduce fracl to 0 if only '0's are present. */
-+@@ -526,18 +527,24 @@ static CURLcode GTime2str(struct dynbuf *store,
-+   }
-+ 
-+   /* Process timezone. */
-+-  if(tzp >= end)
-+-    ;           /* Nothing to do. */
-++  if(tzp >= end) {
-++    tzp = "";
-++    tzl = 0;
-++  }
-+   else if(*tzp == 'Z') {
-+-    tzp = " GMT";
-+-    end = tzp + 4;
-++    sep = " ";
-++    tzp = "GMT";
-++    tzl = 3;
-++  }
-++  else if((*tzp == '+') || (*tzp == '-')) {
-++    sep = " UTC";
-++    tzl = end - tzp;
-+   }
-+   else {
-+     sep = " ";
-+-    tzp++;
-++    tzl = end - tzp;
-+   }
-+ 
-+-  tzl = end - tzp;
-+   return Curl_dyn_addf(store,
-+                        "%.4s-%.2s-%.2s %.2s:%.2s:%c%c%s%.*s%s%.*s",
-+                        beg, beg + 4, beg + 6,
-+@@ -546,6 +553,15 @@ static CURLcode GTime2str(struct dynbuf *store,
-+                        sep, (int)tzl, tzp);
-+ }
-+ 
-++#ifdef UNITTESTS
-++/* used by unit1656.c */
-++CURLcode Curl_x509_GTime2str(struct dynbuf *store,
-++                             const char *beg, const char *end)
-++{
-++  return GTime2str(store, beg, end);
-++}
-++#endif
-++
-+ /*
-+  * Convert an ASN.1 UTC time to a printable string.
-+  *
-+diff --git a/lib/vtls/x509asn1.h b/lib/vtls/x509asn1.h
-+index 5844460467ccef..5b48596c75910a 100644
-+--- a/lib/vtls/x509asn1.h
-++++ b/lib/vtls/x509asn1.h
-+@@ -76,5 +76,16 @@ CURLcode Curl_extract_certinfo(struct Curl_easy *data, int certnum,
-+                                const char *beg, const char *end);
-+ CURLcode Curl_verifyhost(struct Curl_cfilter *cf, struct Curl_easy *data,
-+                          const char *beg, const char *end);
-++
-++#ifdef UNITTESTS
-++#if defined(USE_GNUTLS) || defined(USE_SCHANNEL) || defined(USE_SECTRANSP) || \
-++  defined(USE_MBEDTLS)
-++
-++/* used by unit1656.c */
-++CURLcode Curl_x509_GTime2str(struct dynbuf *store,
-++                             const char *beg, const char *end);
-++#endif
-++#endif
-++
-+ #endif /* USE_GNUTLS or USE_WOLFSSL or USE_SCHANNEL or USE_SECTRANSP */
-+ #endif /* HEADER_CURL_X509ASN1_H */
-+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index d0e20df4b900c8..792cb16eef20ad 100644
-+--- a/tests/data/Makefile.inc
-++++ b/tests/data/Makefile.inc
-+@@ -210,7 +210,7 @@ test1620 test1621 \
-+ \
-+ test1630 test1631 test1632 test1633 test1634 test1635 \
-+ \
-+-test1650 test1651 test1652 test1653 test1654 test1655 \
-++test1650 test1651 test1652 test1653 test1654 test1655 test1656 \
-+ test1660 test1661 test1662 \
-+ \
-+ test1670 test1671 \
-+diff --git a/tests/data/test1656 b/tests/data/test1656
-+new file mode 100644
-+index 00000000000000..2fab21be63d7e3
-+--- /dev/null
-++++ b/tests/data/test1656
-+@@ -0,0 +1,22 @@
-++<testcase>
-++<info>
-++<keywords>
-++unittest
-++Curl_x509_GTime2str
-++</keywords>
-++</info>
-++
-++#
-++# Client-side
-++<client>
-++<server>
-++none
-++</server>
-++<features>
-++unittest
-++</features>
-++<name>
-++Curl_x509_GTime2str unit tests
-++</name>
-++</client>
-++</testcase>
-+diff --git a/tests/unit/Makefile.inc b/tests/unit/Makefile.inc
-+index c402f803509c8a..5b23c2559280f0 100644
-+--- a/tests/unit/Makefile.inc
-++++ b/tests/unit/Makefile.inc
-+@@ -36,7 +36,7 @@ UNITPROGS = unit1300          unit1302 unit1303 unit1304 unit1305 unit1307 \
-+  unit1600 unit1601 unit1602 unit1603 unit1604 unit1605 unit1606 unit1607 \
-+  unit1608 unit1609 unit1610 unit1611 unit1612 unit1614 unit1615 \
-+  unit1620 unit1621 \
-+- unit1650 unit1651 unit1652 unit1653 unit1654 unit1655 \
-++ unit1650 unit1651 unit1652 unit1653 unit1654 unit1655 unit1656 \
-+  unit1660 unit1661 \
-+  unit2600 unit2601 unit2602 unit2603 \
-+  unit3200
-+@@ -119,6 +119,8 @@ unit1654_SOURCES = unit1654.c $(UNITFILES)
-+ 
-+ unit1655_SOURCES = unit1655.c $(UNITFILES)
-+ 
-++unit1656_SOURCES = unit1656.c $(UNITFILES)
-++
-+ unit1660_SOURCES = unit1660.c $(UNITFILES)
-+ 
-+ unit1661_SOURCES = unit1661.c $(UNITFILES)
-+diff --git a/tests/unit/unit1656.c b/tests/unit/unit1656.c
-+new file mode 100644
-+index 00000000000000..644e72fc7d6577
-+--- /dev/null
-++++ b/tests/unit/unit1656.c
-+@@ -0,0 +1,133 @@
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ ***************************************************************************/
-++#include "curlcheck.h"
-++
-++#include "vtls/x509asn1.h"
-++
-++static CURLcode unit_setup(void)
-++{
-++  return CURLE_OK;
-++}
-++
-++static void unit_stop(void)
-++{
-++
-++}
-++
-++#if defined(USE_GNUTLS) || defined(USE_SCHANNEL) || defined(USE_SECTRANSP) || \
-++  defined(USE_MBEDTLS)
-++
-++#ifndef ARRAYSIZE
-++#define ARRAYSIZE(A) (sizeof(A)/sizeof((A)[0]))
-++#endif
-++
-++struct test_spec {
-++  const char *input;
-++  const char *exp_output;
-++  CURLcode exp_result;
-++};
-++
-++static struct test_spec test_specs[] = {
-++  { "190321134340", "1903-21-13 43:40:00", CURLE_OK },
-++  { "", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "WTF", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "0WTF", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "19032113434", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "19032113434WTF", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "190321134340.", NULL, CURLE_BAD_FUNCTION_ARGUMENT },
-++  { "190321134340.1", "1903-21-13 43:40:00.1", CURLE_OK },
-++  { "19032113434017.0", "1903-21-13 43:40:17", CURLE_OK },
-++  { "19032113434017.01", "1903-21-13 43:40:17.01", CURLE_OK },
-++  { "19032113434003.001", "1903-21-13 43:40:03.001", CURLE_OK },
-++  { "19032113434003.090", "1903-21-13 43:40:03.09", CURLE_OK },
-++  { "190321134340Z", "1903-21-13 43:40:00 GMT", CURLE_OK },
-++  { "19032113434017.0Z", "1903-21-13 43:40:17 GMT", CURLE_OK },
-++  { "19032113434017.01Z", "1903-21-13 43:40:17.01 GMT", CURLE_OK },
-++  { "19032113434003.001Z", "1903-21-13 43:40:03.001 GMT", CURLE_OK },
-++  { "19032113434003.090Z", "1903-21-13 43:40:03.09 GMT", CURLE_OK },
-++  { "190321134340CET", "1903-21-13 43:40:00 CET", CURLE_OK },
-++  { "19032113434017.0CET", "1903-21-13 43:40:17 CET", CURLE_OK },
-++  { "19032113434017.01CET", "1903-21-13 43:40:17.01 CET", CURLE_OK },
-++  { "190321134340+02:30", "1903-21-13 43:40:00 UTC+02:30", CURLE_OK },
-++  { "19032113434017.0+02:30", "1903-21-13 43:40:17 UTC+02:30", CURLE_OK },
-++  { "19032113434017.01+02:30", "1903-21-13 43:40:17.01 UTC+02:30", CURLE_OK },
-++  { "190321134340-3", "1903-21-13 43:40:00 UTC-3", CURLE_OK },
-++  { "19032113434017.0-04", "1903-21-13 43:40:17 UTC-04", CURLE_OK },
-++  { "19032113434017.01-01:10", "1903-21-13 43:40:17.01 UTC-01:10", CURLE_OK },
-++};
-++
-++static bool do_test(struct test_spec *spec, size_t i, struct dynbuf *dbuf)
-++{
-++  CURLcode result;
-++  const char *in = spec->input;
-++
-++  Curl_dyn_reset(dbuf);
-++  result = Curl_x509_GTime2str(dbuf, in, in + strlen(in));
-++  if(result != spec->exp_result) {
-++    fprintf(stderr, "test %zu: expect result %d, got %d\n",
-++            i, spec->exp_result, result);
-++    return FALSE;
-++  }
-++  else if(!result && strcmp(spec->exp_output, Curl_dyn_ptr(dbuf))) {
-++    fprintf(stderr, "test %zu: input '%s', expected output '%s', got '%s'\n",
-++            i, in, spec->exp_output, Curl_dyn_ptr(dbuf));
-++    return FALSE;
-++  }
-++
-++  return TRUE;
-++}
-++
-++UNITTEST_START
-++{
-++  size_t i;
-++  struct dynbuf dbuf;
-++  bool all_ok = TRUE;
-++
-++  Curl_dyn_init(&dbuf, 32*1024);
-++
-++  if(curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
-++    fprintf(stderr, "curl_global_init() failed\n");
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  for(i = 0; i < ARRAYSIZE(test_specs); ++i) {
-++    if(!do_test(&test_specs[i], i, &dbuf))
-++      all_ok = FALSE;
-++  }
-++  fail_unless(all_ok, "some tests of Curl_x509_GTime2str() fails");
-++
-++  Curl_dyn_free(&dbuf);
-++  curl_global_cleanup();
-++}
-++UNITTEST_STOP
-++
-++#else
-++
-++UNITTEST_START
-++{
-++  puts("not tested since Curl_x509_GTime2str() is not built-in");
-++}
-++UNITTEST_STOP
-++
-++#endif
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index 6d2886f70c..a2cee8ba23 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -16,6 +16,8 @@ SRC_URI = " \
-     file://disable-tests \
-     file://no-test-timeout.patch \
-     file://CVE-2024-6197.patch \
-+    file://CVE-2024-7264-1.patch \
-+    file://CVE-2024-7264-2.patch \
- "
- SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd"
- 
--- 
-2.30.2
+Other projects have noticed it too see Gentoo e.g.  -
+https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3D38181f7165be4709471a=
+773e042dc8525e01d2bd
 
+On Thu, Aug 22, 2024 at 6:48=E2=80=AFPM hongxu via lists.openembedded.org
+<hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
+>
+> * Remove Trio and updated Copyright to remove Trio [1]
+> * Remove --with-fexceptions configuration option [2]
+>
+> [1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/7d6969d95509a94347d6f=
+96167ac5420abafa291
+> [2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/e349709ae7e07a2183304=
+ccc9352b6ac86f62a18
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../libxml/{libxml2_2.12.8.bb =3D> libxml2_2.13.3.bb}        | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>  rename meta/recipes-core/libxml/{libxml2_2.12.8.bb =3D> libxml2_2.13.3.b=
+b} (93%)
+>
+> diff --git a/meta/recipes-core/libxml/libxml2_2.12.8.bb b/meta/recipes-co=
+re/libxml/libxml2_2.13.3.bb
+> similarity index 93%
+> rename from meta/recipes-core/libxml/libxml2_2.12.8.bb
+> rename to meta/recipes-core/libxml/libxml2_2.13.3.bb
+> index fb103f0273..df24f3031c 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.12.8.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.13.3.bb
+> @@ -4,10 +4,9 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libxml2"
+>  BUGTRACKER =3D "http://bugzilla.gnome.org/buglist.cgi?product=3Dlibxml2"
+>  SECTION =3D "libs"
+>  LICENSE =3D "MIT"
+> -LIC_FILES_CHKSUM =3D "file://Copyright;md5=3Dfec7ecfe714722b2bb0aaff7d20=
+0c701 \
+> +LIC_FILES_CHKSUM =3D "file://Copyright;md5=3Df437ed9058e8e5135e47c01e973=
+376ba \
+>                      file://dict.c;beginline=3D6;endline=3D15;md5=3D2b4b7=
+b827d2d8b080372433c4c9c85b6 \
+>                      file://list.c;beginline=3D4;endline=3D13;md5=3Db9c25=
+b021ccaf287e50060602d20f3a7 \
+> -                    file://trio.c;beginline=3D5;endline=3D14;md5=3Dcd4f6=
+1e27f88c1d43df112966b1cd28f \
+>                      "
+>
+>  DEPENDS =3D "zlib virtual/libiconv"
+> @@ -20,7 +19,7 @@ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20130923.=
+tar;subdir=3D${BP};name=3Dtestt
+>             file://install-tests.patch \
+>             "
+>
+> -SRC_URI[archive.sha256sum] =3D "43ad877b018bc63deb2468d71f95219c2fac1968=
+76ef36d1bee51d226173ec93"
+> +SRC_URI[archive.sha256sum] =3D "0805d7c180cf09caad71666c7a458a74f041561a=
+532902454da5047d83948138"
+>  SRC_URI[testtar.sha256sum] =3D "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e6=
+9a2be4722379f08702ea7273"
+>
+>  # Disputed as a security issue, but fixed in d39f780
+> @@ -52,7 +51,7 @@ RDEPENDS:${PN}-ptest:append:libc-glibc =3D " glibc-gcon=
+v-ebcdic-us \
+>                                           "
+>
+>  # WARNING: zlib is required for RPM use
+> -EXTRA_OECONF =3D "--without-debug --without-legacy --with-catalog --with=
+-c14n --without-lzma --with-fexceptions"
+> +EXTRA_OECONF =3D "--without-debug --without-legacy --with-catalog --with=
+-c14n --without-lzma"
+>  EXTRA_OECONF:class-native =3D "--without-legacy --with-c14n --without-lz=
+ma --with-zlib"
+>  EXTRA_OECONF:class-nativesdk =3D "--without-legacy --with-c14n --without=
+-lzma --with-zlib"
+>  EXTRA_OECONF:linuxstdbase =3D "--with-debug --with-legacy --with-c14n --=
+without-lzma --with-zlib"
+> --
+> 2.27.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#203670): https://lists.openembedded.org/g/openembedde=
+d-core/message/203670
+> Mute This Topic: https://lists.openembedded.org/mt/108049764/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
