@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72319C5321E
-	for <webhook@archiver.kernel.org>; Sun, 25 Aug 2024 21:42:46 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.40013.1724622163122662089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50C1EC5321E
+	for <webhook@archiver.kernel.org>; Sun, 25 Aug 2024 21:44:06 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.40508.1724622235942855772
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Aug 2024 14:42:44 -0700
+ Sun, 25 Aug 2024 14:43:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=I/rsETF2;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2024082521423844aa1588b0d105b4b8-gkzc0n@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2024082521423844aa1588b0d105b4b8
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=eD+/B436;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20240825214353012690a4a6bdacb3e2-d5y9m3@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20240825214353012690a4a6bdacb3e2
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 25 Aug 2024 23:42:39 +0200
+        Sun, 25 Aug 2024 23:43:53 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
  bh=BBGhwmheMQDQ5yr1yV1kI/QTLmpWCjKvZAPuIKmAo2E=;
- b=I/rsETF2t3exmb3L5PS53OlcwllYD5HGPj+I4y3m7JytJMJsAxK3Sxuh2FhJbtMpHII239
- wRMF2jv/1QOPYIAQaP1+eAhl0CMrfzfoITRlJ/jMxSO7b2SYBg/gsgGT6Bz04D9C/YDQXjvo
- 2uO4LV6jSrqqW56836YOTbsde6r/Npnsg1e9rdKqLmScwAr0f6Jx/5YfILX3c8heawm3Trr4
- 2X/3knjBM9CxrLK1a48NIdmAI26OBUAoDP5N8yB8lELDOGLa4GHvypAZBpipbbQ0ZqtTWvPj
- WgBlgmK5GifvhIKoST8aquqwJVmhk3qW5E/k0SkHqkTH+7RF/rM64m1w==;
+ b=eD+/B436B0s64f6NYBcPf+m0KwmYq8D4oMfxRH9grGcy5Z05MZG96U3pslgafScSk3cfRE
+ VOcTVzMImsJrGKZRxN2C4mvzLKRtpRQhZO6F0CyV32Z3lND2qeYxsD4y96yyi1q8/1/+/ngn
+ k912w+HMD+19SilzDdLUvOPnJdJX74uZr5Hm+MyZGD2IQ0bYai1gAp+nzv0VMjFkCH235BNH
+ 9nU1Jf1Pa3WfE5vvihTlPaKNvsZdpWN8kqCqIpXorNXWRf0wORbiKEnX9ozCJvl3QeiN7U9y
+ bhbPcM7DSsow4otJZJpiG22thCVJ8Z3Ysd8QW+o95hxVL3RNxY/nNtRw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] libyaml: Ignore CVE-2024-35325
-Date: Sun, 25 Aug 2024 23:41:44 +0200
-Message-Id: <20240825214144.2479176-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] libyaml: Ignore CVE-2024-35325
+Date: Sun, 25 Aug 2024 23:43:14 +0200
+Message-Id: <20240825214314.2479295-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Aug 2024 21:42:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203732
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Aug 2024 21:44:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203733
 
 This is similar CVE as the previous ones from the same author.
 https://github.com/yaml/libyaml/issues/303 explain why this is misuse
