@@ -1,144 +1,93 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8E0C5321E
-	for <webhook@archiver.kernel.org>; Mon, 26 Aug 2024 10:45:41 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.50304.1724669134288030829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1B09C5321E
+	for <webhook@archiver.kernel.org>; Mon, 26 Aug 2024 10:49:11 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.50348.1724669350870563013
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Aug 2024 03:45:34 -0700
+ Mon, 26 Aug 2024 03:49:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fn9+5Gft;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-44fea44f725so31743771cf.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 03:45:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hxAXC9aw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42ab97465c8so35567915e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 03:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724669133; x=1725273933; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1724669349; x=1725274149; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Xu70vUZs2l3P6zJ9ekdbC9NtZcnbZvGhCqC4Qhw5k9k=;
-        b=Fn9+5GftveYsFaIKcSf6p0uiD8hMfhQkzGSILb101xSxtRtGZUPN0FXSoqwj7T4AIN
-         5H7+ob5JDDgrR3wRXa6JPzW7dv8XWwa+SuOKxnncEsyM2W0dvaubkggk22L3zXdzSpxE
-         ybsO/HOjLeRKEzGjEs8UTn26gvT0GdYsWcpFdm+WHlSt9bNPeVgeOM0IHRNmyKm40TBq
-         1d8QLf33xElLD0Ke4sm/C4NSF7EA/kjTSUPuA1+uoNmCqZMjB+OoqGlPr0BvafM/E+JE
-         UNDz1z81WZVOwo54gAawPgnEYbzagH1gpJPjbDqEOs3pBwt3xBTjh4t6VUauWQby9lLJ
-         tK/w==
+        bh=J6sTJGY31iKLjo4xTWRl/IIFXjoPYlDCEbFqKCY2zEY=;
+        b=hxAXC9awRlJJhp1nzN7RjrJvU4R5bVZR734WWxsrlTBBPYOVsBcwzMRlw0V69a0KgQ
+         OQS9R3d5eaqaSUB4F4961d8dUf5ngnOh9YAy8K7SRqnHRqwh8lTCdiS79T0JwSGlSJvC
+         09Hh8qFzM2Jhh3Uzj9W1d2r7MkJMrgwj1BCX4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724669133; x=1725273933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xu70vUZs2l3P6zJ9ekdbC9NtZcnbZvGhCqC4Qhw5k9k=;
-        b=xP0SouhQU3arJ53Ro9O71m+fs/UHF1xv55cLp7VETa+X8d0Bxng94bQphM5aI/bsM6
-         MBC4tV320MLKfz9cqrTPqU7ZWftXadVXPUQ/SUCCdps7lpawHfbkPQ0fiKVHaFOr5x9b
-         7aSsCSbsRnJSvK2kbLBHmZZ0iCYQplkxo9VYjBJFBgDiuBlPbJ1NP5YYNIjnqugG/Se9
-         Ql9naLR+u/6StE6N0LPlH7JkD3ynPQvssW/py8JrgGhuWRHxTGItIiwbEFzJ2LKRxYl3
-         ttYKbYPswlsFZFp9ebim1j/NSGkUtaPETlI2PhfSY6EfwmX3GpulL9XjsNGQst2LM60t
-         nueQ==
-X-Gm-Message-State: AOJu0YzDk6Npp7Q08vKU/Lo59hITaHgZNthRnDbL/eZJy4bl9b2xmwRd
-	o/8O3G8lFY9/vf1D70oYtFAC2+d4mcloIje8AVlk8sKLG+sUe9bqV2QX9EXECV9nQ2YXGCgeuTP
-	9s+iiJp2WoNDzpCOxLTz6z0YMK4g=
-X-Google-Smtp-Source: AGHT+IFWrYYVm7tjwXLzSYd/kmxDljLhKepn/1wvhGHY+eg6wbHxMei0Q1Oq++ZQuyHpUohExcVo+RB0x7SdaYj0Jus=
-X-Received: by 2002:a05:622a:1c0b:b0:456:45cc:2b5a with SMTP id
- d75a77b69052e-45645cc3016mr107839521cf.25.1724669133190; Mon, 26 Aug 2024
- 03:45:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHirDJ8tUihjou3-4qirjk1vGVTXVrRg+TjKxmu2qvOtj2EVwQ@mail.gmail.com>
- <CANNYZj-aBjxP_usuhdoMNKvdcEAzw7-N2UiSqCTkoBqRAv9j4w@mail.gmail.com>
- <CAHirDJ_V1Tc4a268w1uUXYrNAd_MJCjuVJOY0YPwzjF3wvS9-Q@mail.gmail.com> <CANNYZj8cVdqCmftivNzBxvp0L6bsgHWwv4V0eAEyDvsAdAh8DA@mail.gmail.com>
-In-Reply-To: <CANNYZj8cVdqCmftivNzBxvp0L6bsgHWwv4V0eAEyDvsAdAh8DA@mail.gmail.com>
-From: Claus Stovgaard <claus.stovgaard@gmail.com>
-Date: Mon, 26 Aug 2024 12:45:22 +0200
-Message-ID: <CAHirDJ9ZDZBvtFmjbypBzF6x7O2VTgESRvrpAmhYu0eSvUMrrw@mail.gmail.com>
-Subject: Re: [OE-core] SDK in scarthgap after package_manager: Change
- complementary package handling to not include soft dependencies
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>, 
-	Andreas Helbech Kleist <andreaskleist@gmail.com>, Ross Burton <Ross.Burton@arm.com>
+        d=1e100.net; s=20230601; t=1724669349; x=1725274149;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=J6sTJGY31iKLjo4xTWRl/IIFXjoPYlDCEbFqKCY2zEY=;
+        b=RVgoUCXONWFiXgpRsS+pu9R2DW3rWoBDUWecTe6MyEJzxOe7o+0KOzCP9OZmMlAkmW
+         YYCQ+Sw0vWl6lvraE958OIBmFMH7pxRaVIuHp5Dczvx5IsFbLIwHSZbcBIF0CTQ6tnGE
+         rsTtrlXRlaBl24OFwjDQkCI4LgcULLyCF5GMMwtGhBCQeiisw+SNPBJD/CcsemxoNFhL
+         mAqJyzqj3m60k8KFJRJ8GGK5TRO/As2elXNYYSPfekNoUnXCqddeCmxCFP8bYPupagj0
+         OkJTbe6LwcHUWOUrhTVqZvDftdeiwfvddUAvgguxwHkGdGIyevi/VkFKLi6d8lsm63WM
+         tZqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXwJ0L4qHOem3zDh5GRyuBsy176HfDuxHQXcsvkayGQPVIaXHmAAgc0vIlWBm0OCKX9STrO8qdaC43Psb5RocP4g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywwm7swEzuRbxGwK36jaAIPK/8J7B3yP86UPMxh6iVBawdRuQjl
+	HN2goGGWpnxjDC640S8pk4Ux/2m8zoMymhkrMJdPrSCfrA7c2ticmHOHjWsXaqk=
+X-Google-Smtp-Source: AGHT+IGSlIypY/Dpgz8lgVSe5wDSeZAIt0wfZs7PgHRb0/s5cf/xmNQJ5jfo2l20zus3juPvI1gGsw==
+X-Received: by 2002:a05:600c:3c92:b0:426:5c34:b19b with SMTP id 5b1f17b1804b1-42acc8e1df1mr71265595e9.20.1724669349111;
+        Mon, 26 Aug 2024 03:49:09 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:152e:7c20:baa0:ecce? ([2001:8b0:aba:5f3c:152e:7c20:baa0:ecce])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abeba89a5sm189457595e9.0.2024.08.26.03.49.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 03:49:08 -0700 (PDT)
+Message-ID: <671eb55a3c01febbd0b857947993ca7b0c96471b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] testimage: Add support to create test report
+ in JUnit XML format
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: clara.kowalsky@siemens.com, openembedded-core@lists.openembedded.org
+Date: Mon, 26 Aug 2024 11:49:07 +0100
+In-Reply-To: <20240826081337.2737132-1-clara.kowalsky@siemens.com>
+References: <20240826081337.2737132-1-clara.kowalsky@siemens.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 10:45:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203745
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 10:49:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203746
 
-I will look into the more "direct" sdk - and I can see the idea to
-limit the need for generating SDK artifacts.
-Though I need to test how it handles breaking changes, and that you
-can just "bitbake" the dummy app and it has the needed parts for
-building the app itself.
-Also if I am going that route at a certain point, it will require
-significant infrastructure changes on my part - as we are using the
-generated SDK all over in CI.
-E.g. docker images with the SDK installed - and I can't see it is easy
-to replicate this.
+On Mon, 2024-08-26 at 10:13 +0200, Clara Kowalsky via lists.openembedded.or=
+g wrote:
+> This introduces the possibility to report the test results of testimage
+> in JUnit XML format by setting TESTIMAGE_JUNIT_REPORT =3D "1".
+> The generated unit test report is located in the TEST_LOG_DIR and can be
+> used in the CI/CD pipeline to display the test results.
+>=20
+> Signed-off-by: Clara Kowalsky <clara.kowalsky@siemens.com>
+> ---
+> =C2=A0meta/classes-recipe/testimage.bbclass | 15 +++++++++++
+> =C2=A0meta/lib/oeqa/core/runner.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 39 ++++++++++++++++++++++++++-
+> =C2=A02 files changed, 53 insertions(+), 1 deletion(-)
 
-A side note - now that I looked into how this new change was done.
+I'm not sure that we want to add new output formats every time we have
+a need for a different way of displaying the results as this won't
+scale each time a new output format is needed and we can easily end up
+with missing data with one of the formats.
 
-In reality the "NO_RECOMMENDATIONS" variable is now useless. No matter
-what you set it to - the behaviour is that it is always set to 1.
+Could we use a conversion tool instead (it could be part of
+resulttool)?
 
-<snip>
-grep -R no-install-recommends *
-meta/lib/oe/package_manager/deb/__init__.py:            extra_args =3D
-"--no-install-recommends"
-meta/lib/oe/package_manager/ipk/__init__.py:            cmd +=3D "
---no-install-recommends"
-meta/classes-global/package_deb.bbclass:APT_ARGS =3D "${@['',
-'--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") =3D=3D "1"]}"
-meta/classes-global/package_ipk.bbclass:OPKG_ARGS +=3D "${@['',
-'--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") =3D=3D "1"]}"
-</snip>
+If there is data missing in the json format, we should be able to add
+it.
 
-I am puzzled that we did not just change the default of
-NO_RECOMMENDATIONS to 1, and then kept the option for enabling
-installing of soft dependencies, and adding a note that you are on
-your own if you disable it.
+Cheers,
 
-Would it be better if a patch created a "new" variable with
-INCLUDE_RECOMMENDATIONS - default to false, and with notice that
-enabling it you are on your own.
-
-What is the future plan for SDK - is it to only support the "direct" eSDK?
-
-PS - It could also be a topic for Yocto Project Developer Day next
-month (hope to meet many of you there)
-
-On Mon, Aug 26, 2024 at 11:42=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Mon, 26 Aug 2024 at 11:26, Claus Stovgaard <claus.stovgaard@gmail.com>=
- wrote:
-> >
-> > Will look more into it eSDK, though I would expect other also has the
-> > need to generate SDK to support app teams without the specific app
-> > itself part of the SDK, but with all the dependencies for the app.
->
-> I was referring not to the classic 'esdk' (where you bundle a 'locked'
-> yocto build into a tarball and distribute that), but rather the new
-> 'direct' sdk, where you run a few bitbake commands to populate
-> sysroots etc. (running them doesn't require 'knowing yocto'), and then
-> compose a regular SDK environment from that. This cuts out the need to
-> generate and distribute clunky SDK artifacts, but you do need well
-> functioning sstate infra. Then making changes to 'yocto' (e.g. new
-> boost) and fixing the apps becomes far simpler and more direct.
->
-> Docker images tend to grow huge without upper bounds, as every team
-> wants 'their stuff' in it, and you can never know if anything can be
-> trimmed out until someone comes screaming at you for breaking 'their'
-> team process.
->
-> I wouldn't say it's right for app devs to not care (or want to know
-> anything) about how their work is integrated into a complete system.
-> Well rounded experts should know the product pipeline.
->
-> If you want to stay with the current 'classic SDK tarball' approach,
-> I'd tweak TOOLCHAIN_ variables, possibly with a script that looks at
-> what apps produced by recipes actually use and need (so unnecessary
-> items don't linger in that list forever).
->
-> Alex
+Richard
 
