@@ -2,56 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A23DCC5472D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D458C5472E
 	for <webhook@archiver.kernel.org>; Mon, 26 Aug 2024 17:18:03 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.58412.1724692678338510948
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.57536.1724692677216138286
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Aug 2024 10:17:58 -0700
+ Mon, 26 Aug 2024 10:17:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hcfIoIrr;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2021a99af5eso40731315ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 10:17:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=e3Mi7foE;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-202508cb8ebso30565575ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 10:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724692677; x=1725297477; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1724692676; x=1725297476; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oeouz2K+nA62PxodyFTfIW9unJZszVWO+wNGkpOE+DI=;
-        b=hcfIoIrru4bI3VrfXJL7LJdnidnYeVGdXZPmdFK5ito4yso/D60gyNhYzCrT1q45s/
-         NKXnmNMQKWlUSJeYquMHmard9M4D4QKf6SRJWMKEXWh3za4hoa3Y2zOAgnMCIjO/BWEf
-         vP1kTRLHxK0r+3I3mmMRFOiJLn8MDrcarVVH+4/v4Z9mBdwuJbyPN9440x+dNgyJxdw+
-         SRLvOwH9PqHBewNLhDdoO7IONd2m5m2jEVF/VeDRmQy0mm4KIB1IuOclwYr2eEgphy9b
-         s1zArJClrf+9QvmivZBaKyiZzikAJgCstI/mwxuC8Ze2PJ01EV7FTairKqksgOog8zHV
-         LDFA==
+        bh=4qVUslDYBFYd3zpxB8xYJ56w4GV+zKO666zmK0t2ZdI=;
+        b=e3Mi7foEd/tm7J+YGK254bNnvvpm2DpWFSF7DTHI+nWeoQ7ziz3tEnifAA8lb2jK7r
+         Qwrc97fIPStyQQhLcerG7CGvqLS2M2gQXn2N1UkzJcCcKn6MzXXSlIjMlLkzLv0BvfEu
+         Efia/PdgBPZRxBoNfvQEaM5EhrnyEn39VgH7Og4qfd3dhWC3Lh451DnIus2cQSvNb4h+
+         UBMliUnm/vXWQtbZe9rUZP8urXAYLq6CnN+pJRjnYWsHU4S1dzHw6CJTLGnZQM+FMYFu
+         1wHmjJrLBkto+JYz2m8hguOWFGAtQm4h68t7O7BINJKE/i7gp3QIYwR4cReexGZoUqVU
+         DQQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724692677; x=1725297477;
+        d=1e100.net; s=20230601; t=1724692676; x=1725297476;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oeouz2K+nA62PxodyFTfIW9unJZszVWO+wNGkpOE+DI=;
-        b=MjVobFmGWggFnMMUuw58rFZlgsWvBBQpKuYSgih0pdAIbVtwdVVt8fKeaZdX1usS41
-         U5flQlIucE3fu9hNaDfd/G6le/KVX1TqDHRxZ9IFl2pfJpwg85X11baMJtLc+FkVUiKL
-         pcuVpAB7KQfecJEJxInA3rzLKkV9oUYX9ar7BsfvmyM2BX3yYEdwKF4I+HFqSXWFhBze
-         P/Xfo9DDdqXYrNlpnemJjIYx3aqP5O4XUhXBZdQPNCPxmkdQ8MMftATZrAA2e2qozMSa
-         etT4hKIseP+38YAFuJe8bG3ciIoe5DEuniktOv4edswkbDKZCInlaYS98Gk5yfgVmpY9
-         uHRg==
-X-Gm-Message-State: AOJu0YwIafQvn5lhoA1CJc13w7wxCrdeQsZK+qaqb9Soxdp52jgeRKCe
-	YG/Iy1Lf+A/p1uyyAEEBXXr1JM2UJeQGPvGSWkx4+FMqJY3OxUpCb2BB0Q==
-X-Google-Smtp-Source: AGHT+IFS71u28F4NzQS3wOoECXOi9n1vCSRoDUzM04/hqKbJKFCcNlwuAzaJ2zYaf6+LvX3BXO4bpQ==
-X-Received: by 2002:a17:902:fac3:b0:201:e65b:500b with SMTP id d9443c01a7336-2039e534282mr96670215ad.63.1724692677484;
-        Mon, 26 Aug 2024 10:17:57 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:9d80:4380::2696])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557eeccsm69968205ad.84.2024.08.26.10.17.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=4qVUslDYBFYd3zpxB8xYJ56w4GV+zKO666zmK0t2ZdI=;
+        b=kSwKLgttMTfeX4741m6+0pqhH9LLDf9raxwjbmYSU2fbFec3Bow4xMRICmoIbR2yQG
+         U7tEQCdEGpFbs8dwDxnTX6f3CmSUOutWcTKG3E5+649rVi/KTmDItTxg8Uq1BWLyikxr
+         nuJ8LNsxaXe5odSHrmGpiV/KIQwI1ZYvbtQI7F4oLHPw7Ot7G7I1nBjtiQ4dyLz99stQ
+         pzG+Bc3e8tmETOK3CX3f+O/RGKNH0hqC03bmtU4CKJ6xDfCQ4FUiufKyNEr8l+d1cSVV
+         KSu1NOLX+JVytCa73bytp187xT3elswLNIn/IeInS3KOQ2FEoxCqO8RcUEjYx4+KcmHH
+         /AHQ==
+X-Gm-Message-State: AOJu0YwjVWTwScJE94BAxVmbVTetpgH46HRI5WoT/B5E12Yf4+U122wJ
+	vUINgkocSNxw54elI3sGihYxy4t3a42V4YUMAQQh/4L8GPV7zGh0geRvhg==
+X-Google-Smtp-Source: AGHT+IF6aEs/O88yS2RKTfKTEJLfLiWBvhC1xPqSxvWoQopo4PT145stnqkE8BsaBPMIFaczWb7Nqw==
+X-Received: by 2002:a17:902:f681:b0:202:3bda:6f39 with SMTP id d9443c01a7336-204df14be11mr2671205ad.17.1724692676209;
         Mon, 26 Aug 2024 10:17:56 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:9d80:4380::2696])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557eeccsm69968205ad.84.2024.08.26.10.17.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 10:17:55 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/4] musl: Update to 1.2.5 release
-Date: Mon, 26 Aug 2024 10:17:51 -0700
-Message-ID: <20240826171752.2886654-3-raj.khem@gmail.com>
+Subject: [PATCH 2/4] quota: Apply a backport to fix basename API with musl
+Date: Mon, 26 Aug 2024 10:17:50 -0700
+Message-ID: <20240826171752.2886654-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240826171752.2886654-1-raj.khem@gmail.com>
 References: <20240826171752.2886654-1-raj.khem@gmail.com>
@@ -61,184 +61,341 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 17:18:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203763
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203762
 
-This release adds extension functions statx and preadv2/pwritev2, with
-fallback implementations for older kernels, and adds two new ports:
-loongarch64 and riscv32. Minor changes to the printf family of
-functions have been made for conformance to new standards
-interpretations/requirements. TLSDESC support for riscv64 has also
-been added.
-
-Bugs fixed include some DNS issues related to new TCP fallback
-functionality, several rare race conditions, potentially incorrect
-return value when glob aborts, and several signifiant arch-specific
-bugs affecting TLSDESC on arm, riscv64 icache flushing, and sh
-sigsetjmp and dlsym RTLD_NEXT. [1]
-
-Do not use https protocol for fetching
-
-Musl author confirms that https protocol is not well supported yet on
-musl git host, currently we experience this problem intermittently on
-some build hosts where the fetching fails.
-
-fatal: protocol error: bad line length character: erro
-WARNING: Failed to fetch URL git://git.etalabs.net/git/musl;branch=master;protocol=https
-
-[1] https://www.openwall.com/lists/musl/2024/03/01/2
+Drop the local patches for supporting musl, as they are
+either subsumed in the backport or are not needed anymore
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ic-linker-a-relative-symlink-to-libc.patch | 12 +++---
- ...ir-and-libdir-as-default-pathes-to-l.patch | 10 ++---
- ...pedefs-for-Elf64_Relr-and-Elf32_Relr.patch | 37 -------------------
- meta/recipes-core/musl/musl_git.bb            |  7 ++--
- 4 files changed, 14 insertions(+), 52 deletions(-)
- delete mode 100644 meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch
+ .../quota/0001-Fix-building-on-musl.patch     | 228 ++++++++++++++++++
+ meta/recipes-extended/quota/quota/fcntl.patch |  70 ------
+ meta/recipes-extended/quota/quota_4.09.bb     |   2 +-
+ 3 files changed, 229 insertions(+), 71 deletions(-)
+ create mode 100644 meta/recipes-extended/quota/quota/0001-Fix-building-on-musl.patch
+ delete mode 100644 meta/recipes-extended/quota/quota/fcntl.patch
 
-diff --git a/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch b/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-index 8b097f32768..06ab27f0eb4 100644
---- a/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-+++ b/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-@@ -1,4 +1,4 @@
--From f95b6fd0475a95c00e886219271cb5c93838e3c3 Mon Sep 17 00:00:00 2001
-+From 665ecc610c261d5e98710aa0c6ccf6e4991eaf58 Mon Sep 17 00:00:00 2001
- From: Amarnath Valluri <amarnath.valluri@intel.com>
- Date: Wed, 18 Jan 2017 16:14:37 +0200
- Subject: [PATCH 1/2] Make dynamic linker a relative symlink to libc
-@@ -35,7 +35,7 @@ index e8cc4436..466d9afd 100644
-  install-libs: $(ALL_LIBS:lib/%=$(DESTDIR)$(libdir)/%) $(if $(SHARED_LIBS),$(DESTDIR)$(LDSO_PATHNAME),)
-  
- diff --git a/tools/install.sh b/tools/install.sh
--index d913b60b..b6a7f797 100755
-+index 855a8ca2..a2e6a5eb 100755
- --- a/tools/install.sh
- +++ b/tools/install.sh
- @@ -6,18 +6,20 @@
-@@ -61,15 +61,15 @@ index d913b60b..b6a7f797 100755
-  m) mode=$OPTARG ;;
-  ?) usage ;;
-  esac
--@@ -48,7 +50,7 @@ trap 'rm -f "$tmp"' EXIT INT QUIT TERM HUP
-- umask 077
-+@@ -49,7 +51,7 @@ umask 077
-  
-  if test "$symlink" ; then
-+ umask 000
- -ln -s "$1" "$tmp"
- +ln $symlinkflags "$1" "$tmp"
-+ umask 077
-  else
-  cat < "$1" > "$tmp"
-- chmod "$mode" "$tmp"
- -- 
--2.37.2
-+2.43.0
- 
-diff --git a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
-index 59bfae5a27c..04630b32ee9 100644
---- a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
-+++ b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
-@@ -1,4 +1,4 @@
--From 3cce8716c6c3ae2e0c835caeac3780ec35090b2d Mon Sep 17 00:00:00 2001
-+From e27de983ef70257ca1fd7f5096eea41613612ecf Mon Sep 17 00:00:00 2001
- From: Serhey Popovych <serhe.popovych@gmail.com>
- Date: Tue, 11 Dec 2018 05:44:20 -0500
- Subject: [PATCH 2/2] ldso: Use syslibdir and libdir as default pathes to
-@@ -36,10 +36,10 @@ index 466d9afd..d2f458fa 100644
-  
-  LDFLAGS_ALL = $(LDFLAGS_AUTO) $(LDFLAGS)
- diff --git a/ldso/dynlink.c b/ldso/dynlink.c
--index cc677952..b0e8815b 100644
-+index 324aa859..7d3ab44c 100644
- --- a/ldso/dynlink.c
- +++ b/ldso/dynlink.c
--@@ -29,6 +29,8 @@
-+@@ -35,6 +35,8 @@ static size_t ldso_page_size;
-  #define realloc __libc_realloc
-  #define free __libc_free
-  
-@@ -48,7 +48,7 @@ index cc677952..b0e8815b 100644
-  static void error_impl(const char *, ...);
-  static void error_noop(const char *, ...);
-  static void (*error)(const char *, ...) = error_noop;
--@@ -1097,7 +1099,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
-+@@ -1159,7 +1161,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
-  					sys_path = "";
-  				}
-  			}
-@@ -58,5 +58,5 @@ index cc677952..b0e8815b 100644
-  		}
-  		pathname = buf;
- -- 
--2.37.2
-+2.43.0
- 
-diff --git a/meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch b/meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch
+diff --git a/meta/recipes-extended/quota/quota/0001-Fix-building-on-musl.patch b/meta/recipes-extended/quota/quota/0001-Fix-building-on-musl.patch
+new file mode 100644
+index 00000000000..ce20f672cce
+--- /dev/null
++++ b/meta/recipes-extended/quota/quota/0001-Fix-building-on-musl.patch
+@@ -0,0 +1,228 @@
++From e73c5b48e12c3f02e532864a1107cdc8a4feafc3 Mon Sep 17 00:00:00 2001
++From: Brahmajit Das <brahmajit.xyz@gmail.com>
++Date: Sun, 14 Jul 2024 07:58:50 +0000
++Subject: [PATCH] Fix building on musl
++
++basename(3) is defined in libgen.h in MUSL. Include libgen.h where
++basename(3) is used.
++
++Upstream-Status: Backport [https://sourceforge.net/p/linuxquota/code/ci/e73c5b48e12c3f02e532864a1107cdc8a4feafc3/]
++Signed-off-by: Brahmajit Das <brahmajit.xyz@gmail.com>
++Signed-off-by: Jan Kara <jack@suse.cz>
++---
++ convertquota.c |  1 +
++ edquota.c      | 11 ++++++-----
++ quota.c        |  1 +
++ quota_nld.c    |  1 +
++ quotacheck.c   |  1 +
++ quotaon.c      |  1 +
++ quotastats.c   |  1 +
++ quotasync.c    |  1 +
++ repquota.c     |  1 +
++ rquota_svc.c   |  1 +
++ setquota.c     |  1 +
++ warnquota.c    |  1 +
++ xqmstats.c     |  1 +
++ 13 files changed, 18 insertions(+), 5 deletions(-)
++
++diff --git a/convertquota.c b/convertquota.c
++index 6c8a553..4eb05ed 100644
++--- a/convertquota.c
+++++ b/convertquota.c
++@@ -14,6 +14,7 @@
++ #include <fcntl.h>
++ #include <errno.h>
++ #include <getopt.h>
+++#include <libgen.h>
++ 
++ #include <endian.h>
++ 
++diff --git a/edquota.c b/edquota.c
++index 20ca306..c5b27cf 100644
++--- a/edquota.c
+++++ b/edquota.c
++@@ -20,6 +20,7 @@
++ #include <stdlib.h>
++ #include <fcntl.h>
++ #include <getopt.h>
+++#include <libgen.h>
++ 
++ #include "pot.h"
++ #include "quotaops.h"
++@@ -38,7 +39,7 @@ char *progname;
++ static int flags, quotatype;
++ static int fmt = -1;
++ static char *protoname;
++-static char *dirname;
+++static char *dir_name;
++ 
++ static void usage(void)
++ {
++@@ -138,7 +139,7 @@ static int parse_options(int argc, char **argv)
++ 				  exit(1);
++ 			  break;
++ 		  case 'f':
++-			  dirname = optarg;
+++			  dir_name = optarg;
++ 			  break;
++ 		  case 256:
++ 			  flags |= FL_NUMNAMES;
++@@ -176,7 +177,7 @@ static void copy_prototype(int argc, char **argv, struct quota_handle **handles)
++ 	protoprivs = getprivs(protoid, handles, 0);
++ 	while (argc-- > 0) {
++ 		id = name2id(*argv, quotatype, !!(flags & FL_NUMNAMES), NULL);
++-		curprivs = getprivs(id, handles, !dirname);
+++		curprivs = getprivs(id, handles, !dir_name);
++ 		if (!curprivs)
++ 			die(1, _("Cannot get quota information for user %s\n"), *argv);
++ 		argv++;
++@@ -223,7 +224,7 @@ int main(int argc, char **argv)
++ 	argv += ret;
++ 
++ 	init_kernel_interface();
++-	handles = create_handle_list(dirname ? 1 : 0, dirname ? &dirname : NULL, quotatype, fmt,
+++	handles = create_handle_list(dir_name ? 1 : 0, dir_name ? &dir_name : NULL, quotatype, fmt,
++ 			(flags & FL_NO_MIXED_PATHS) ? 0 : IOI_NFS_MIXED_PATHS,
++ 			(flags & FL_REMOTE) ? 0 : MS_LOCALONLY);
++ 	if (!handles[0]) {
++@@ -296,7 +297,7 @@ int main(int argc, char **argv)
++ 	else {
++ 		for (; argc > 0; argc--, argv++) {
++ 			id = name2id(*argv, quotatype, !!(flags & FL_NUMNAMES), NULL);
++-			curprivs = getprivs(id, handles, !dirname);
+++			curprivs = getprivs(id, handles, !dir_name);
++ 			if (!curprivs)
++ 				die(1, _("Cannot get quota information for user %s.\n"), *argv);
++ 			if (flags & FL_EDIT_TIMES) {
++diff --git a/quota.c b/quota.c
++index a60de12..66b0fa3 100644
++--- a/quota.c
+++++ b/quota.c
++@@ -20,6 +20,7 @@
++ #include <unistd.h>
++ #include <limits.h>
++ #include <ctype.h>
+++#include <libgen.h>
++ #ifdef RPC
++ #include <rpc/rpc.h>
++ #include "rquota.h"
++diff --git a/quota_nld.c b/quota_nld.c
++index 58a62af..710b556 100644
++--- a/quota_nld.c
+++++ b/quota_nld.c
++@@ -26,6 +26,7 @@
++ #include <fcntl.h>
++ #include <limits.h>
++ #include <signal.h>
+++#include <libgen.h>
++ #include <sys/stat.h>
++ #include <asm/types.h>
++ 
++diff --git a/quotacheck.c b/quotacheck.c
++index e2c3bbd..fa1d297 100644
++--- a/quotacheck.c
+++++ b/quotacheck.c
++@@ -19,6 +19,7 @@
++ #include <unistd.h>
++ #include <stdlib.h>
++ #include <errno.h>
+++#include <libgen.h>
++ 
++ #include <sys/stat.h>
++ #include <sys/types.h>
++diff --git a/quotaon.c b/quotaon.c
++index 351c851..17b6bcc 100644
++--- a/quotaon.c
+++++ b/quotaon.c
++@@ -13,6 +13,7 @@
++ #include <string.h>
++ #include <stdlib.h>
++ #include <stdarg.h>
+++#include <libgen.h>
++ 
++ #include "quotaon.h"
++ #include "quota.h"
++diff --git a/quotastats.c b/quotastats.c
++index a059812..4076a7d 100644
++--- a/quotastats.c
+++++ b/quotastats.c
++@@ -24,6 +24,7 @@
++ #include <errno.h>
++ #include <string.h>
++ #include <signal.h>
+++#include <libgen.h>
++ 
++ #include "pot.h"
++ #include "common.h"
++diff --git a/quotasync.c b/quotasync.c
++index cad2a20..e90b24a 100644
++--- a/quotasync.c
+++++ b/quotasync.c
++@@ -7,6 +7,7 @@
++ #include <string.h>
++ #include <errno.h>
++ #include <getopt.h>
+++#include <libgen.h>
++ 
++ #include "pot.h"
++ #include "common.h"
++diff --git a/repquota.c b/repquota.c
++index e79fc4d..8e509bd 100644
++--- a/repquota.c
+++++ b/repquota.c
++@@ -18,6 +18,7 @@
++ #include <pwd.h>
++ #include <grp.h>
++ #include <getopt.h>
+++#include <libgen.h>
++ 
++ #include "pot.h"
++ #include "common.h"
++diff --git a/rquota_svc.c b/rquota_svc.c
++index 6e856bb..c17df13 100644
++--- a/rquota_svc.c
+++++ b/rquota_svc.c
++@@ -34,6 +34,7 @@
++ #include <signal.h>
++ #include <errno.h>
++ #include <netconfig.h>
+++#include <libgen.h>
++ #ifdef HOSTS_ACCESS
++ #include <tcpd.h>
++ #include <netdb.h>
++diff --git a/setquota.c b/setquota.c
++index c517ab1..9e4b2fa 100644
++--- a/setquota.c
+++++ b/setquota.c
++@@ -18,6 +18,7 @@
++ #include <time.h>
++ #include <ctype.h>
++ #include <stdlib.h>
+++#include <libgen.h>
++ 
++ #if defined(RPC)
++ #include "rquota.h"
++diff --git a/warnquota.c b/warnquota.c
++index 2882fee..6f63ce7 100644
++--- a/warnquota.c
+++++ b/warnquota.c
++@@ -31,6 +31,7 @@
++ #include <time.h>
++ #include <getopt.h>
++ #include <locale.h>
+++#include <libgen.h>
++ #ifdef HAVE_NL_LANGINFO
++ #include <langinfo.h>
++ #endif
++diff --git a/xqmstats.c b/xqmstats.c
++index 59b1d66..345b060 100644
++--- a/xqmstats.c
+++++ b/xqmstats.c
++@@ -8,6 +8,7 @@
++ #include <stdio.h>
++ #include <unistd.h>
++ #include <string.h>
+++#include <libgen.h>
++ #include "common.h"
++ #include "pot.h"
++ 
+diff --git a/meta/recipes-extended/quota/quota/fcntl.patch b/meta/recipes-extended/quota/quota/fcntl.patch
 deleted file mode 100644
-index 45d40cd5b46..00000000000
---- a/meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch
+index 09a0c687b64..00000000000
+--- a/meta/recipes-extended/quota/quota/fcntl.patch
 +++ /dev/null
-@@ -1,37 +0,0 @@
--From 65b0ac0d998bf0f36924a7c27ed9e702b2a5a453 Mon Sep 17 00:00:00 2001
--From: Violet Purcell <vimproved@inventati.org>
--Date: Sat, 4 Nov 2023 12:09:20 -0400
--Subject: [PATCH] elf.h: add typedefs for Elf64_Relr and Elf32_Relr
+@@ -1,70 +0,0 @@
+-From 00a456145531d194d3993c9f4cd404d5ca16c9df Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 6 Apr 2015 17:36:44 +0000
+-Subject: [PATCH] quota: Fix build with musl
 -
--These were overlooked when DT_RELR was added in commit
--d32dadd60efb9d3b255351a3b532f8e4c3dd0db1, potentially breaking
--software that treats presence of the DT_RELR macro as implying they
--exist.
+-Include fcntl.h to pacify compiler errors on musl
+-like
 -
--Upstream-Status: Backport [1.2.5]
+-error: unknown type name 'loff_t'
+-Cover rpc headers under proper conditional
+-Dont use __P its undefined
 -
--Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
 ----
-- include/elf.h | 5 +++++
-- 1 file changed, 5 insertions(+)
+- quotacheck.c    | 1 +
+- quotaio.c       | 1 +
+- rquota_client.c | 4 ++++
+- 3 files changed, 6 insertions(+)
 -
--diff --git a/include/elf.h b/include/elf.h
--index 23f2c4bc..72d17c3a 100644
----- a/include/elf.h
--+++ b/include/elf.h
--@@ -558,6 +558,11 @@ typedef struct {
+-diff --git a/quotacheck.c b/quotacheck.c
+-index bd62d9a..772a27d 100644
+---- a/quotacheck.c
+-+++ b/quotacheck.c
+-@@ -19,6 +19,7 @@
+- #include <unistd.h>
+- #include <stdlib.h>
+- #include <errno.h>
+-+#include <fcntl.h>
 - 
+- #include <sys/stat.h>
+- #include <sys/types.h>
+-diff --git a/quotaio.c b/quotaio.c
+-index 94ae458..d57fc1a 100644
+---- a/quotaio.c
+-+++ b/quotaio.c
+-@@ -12,6 +12,7 @@
+- #include <string.h>
+- #include <unistd.h>
+- #include <stdlib.h>
+-+#include <fcntl.h>
+- #include <sys/types.h>
+- #include <sys/stat.h>
+- #include <sys/file.h>
+-diff --git a/rquota_client.c b/rquota_client.c
+-index 7f8e821..d48505a 100644
+---- a/rquota_client.c
+-+++ b/rquota_client.c
+-@@ -19,7 +19,9 @@
 - 
+- #include "config.h"
 - 
--+typedef Elf32_Word Elf32_Relr;
--+typedef Elf64_Xword Elf64_Relr;
--+
--+
--+
-- #define ELF32_R_SYM(val)		((val) >> 8)
-- #define ELF32_R_TYPE(val)		((val) & 0xff)
-- #define ELF32_R_INFO(sym, type)		(((sym) << 8) + ((type) & 0xff))
---- 
--2.25.1
--
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 324269a9687..63b2038e4be 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,16 +4,15 @@
- require musl.inc
- inherit linuxloader
+-+#if defined(RPC)
+- #include <rpc/rpc.h>
+-+#endif
+- #include <sys/types.h>
+- #include <sys/param.h>
+- #include <sys/stat.h>
+-@@ -35,7 +37,9 @@
+- #include <stdint.h>
+- 
+- #include "mntopt.h"
+-+#if defined(RPC)
+- #include "rquota.h"
+-+#endif
+- #include "common.h"
+- #include "quotaio.h"
+- #include "quotasys.h"
+diff --git a/meta/recipes-extended/quota/quota_4.09.bb b/meta/recipes-extended/quota/quota_4.09.bb
+index b779657dfc5..8e4d4aed8b9 100644
+--- a/meta/recipes-extended/quota/quota_4.09.bb
++++ b/meta/recipes-extended/quota/quota_4.09.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://rquota_server.c;beginline=1;endline=20;md5=fe7e0d7e11
+                     file://svc_socket.c;beginline=1;endline=17;md5=24d5a8792da45910786eeac750be8ceb"
  
--SRCREV = "79bdacff83a6bd5b70ff5ae5eb8b6de82c2f7c30"
-+SRCREV = "0784374d561435f7c787a555aeab8ede699ed298"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz \
+-           file://fcntl.patch \
++           file://0001-Fix-building-on-musl.patch \
+            "
+ SRC_URI[sha256sum] = "9cdaca154bc92afc3117f0e5f5b3208dd5f84583af1cf061c39baa0a2bb142f9"
  
--BASEVER = "1.2.4"
-+BASEVER = "1.2.5"
- 
- PV = "${BASEVER}+git"
- 
--SRC_URI = "git://git.etalabs.net/git/musl;branch=master;protocol=https \
-+SRC_URI = "git://git.musl-libc.org/musl;branch=master \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
--           file://0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch \
-           "
- 
- S = "${WORKDIR}/git"
 
