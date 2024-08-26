@@ -1,109 +1,192 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <clara.kowalsky@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 846F3C5320E
-	for <webhook@archiver.kernel.org>; Mon, 26 Aug 2024 01:39:17 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.43657.1724636353244405190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C79D3C5321D
+	for <webhook@archiver.kernel.org>; Mon, 26 Aug 2024 08:13:59 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.48503.1724660031927190173
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Aug 2024 18:39:13 -0700
+ Mon, 26 Aug 2024 01:13:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=duWRIu0u;
- spf=pass (domain: linaro.org, ip: 209.85.208.171, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f401c20b56so32954171fa.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Aug 2024 18:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724636351; x=1725241151; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJfRg3UEFoi/JlQlseYGhfJDDPXVL4lBVoaITCNuopY=;
-        b=duWRIu0umtt+kQ0lxI/9NKbK/qZO5iO27oQpnMk4HkiDn3z7ZQoHu3LbyLZhlw1t92
-         6ZLgZRvjb+Fmo/FKaa2OekhWfy8Ugu7GqRxGbmPkcId4mi4A7r9rWctY2aIudyMS/hI+
-         KcRGr5q1PK5GfTPEY5TBUkm3XPPyRXylJWTyFIlSYoXWnZF8+Md5kY4D2e8aEIg++WBi
-         KL/BwUNk0aDdAdEdvXYQ4yW777nHEjUlZiPGxWzj+yr/2XYfUThwnQs1CPc/oMKIG0Uh
-         ZeIyCyQPdWhcj4kp5egJwFQiQgLyQQvjZUesYk8fdiu6amhA7JKUzChTPctLBITe6n/P
-         tiTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724636351; x=1725241151;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uJfRg3UEFoi/JlQlseYGhfJDDPXVL4lBVoaITCNuopY=;
-        b=jYPN2Fr+J2QMUo3mNyopo3hO8AWqRQ90MDgofS4ZxucnjdA8iJrMTKHy+w/skBRT3s
-         BZSTwCKecxyTxUDTqt5sCPFqEzSsBTcdZB1bRL16nauwTR18/tMcS+BBWjgwxFKB9oNX
-         vTNx8rf2praj6xQJ6/HXLau6eM6pV/HTmn9BFdmmxkMdQmeAzUvPq3E4DIg4oAPVp9Nw
-         e9B7wWtcKCEqYthuOs+pFXq1Pk2+4bt9WSsHYF/YYTm+3zHnV6l7hs7YH12X4y9B6bkk
-         dGVuAkp6/e35Hhgs58khD+T5OwgVnfw0CCXhzXP+ycR47he92CkTGR7KZ1raH9hBtmq5
-         qc7w==
-X-Gm-Message-State: AOJu0YwvuA3uZiHfBEnsgtIVqyoEoLxsYVan14FdC/c7X24V00LNWWAa
-	ehKFampDoMjQMIX92bpNQehTrXbgjHnqvJLqog21mzwPrTu7ZZNS2r+WyQFI8GM/hxbJwxKy6wr
-	i3ka/zA==
-X-Google-Smtp-Source: AGHT+IHI0sZPyLnIf17u6ckXgm86XDJHknGhzNcSpYZuPTMXjr2XxqHeBboxfWpxBJhsB1z2s34/1A==
-X-Received: by 2002:a05:651c:19a1:b0:2f3:e2f0:b09a with SMTP id 38308e7fff4ca-2f4f48eeaf1mr28847051fa.4.1724636350376;
-        Sun, 25 Aug 2024 18:39:10 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f404884957sm11184771fa.123.2024.08.25.18.39.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Aug 2024 18:39:09 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ dkim=pass header.i=clara.kowalsky@siemens.com header.s=fm1 header.b=YVRdXpll;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1047747-2024082608134812ef60cdddc6af7111-i003ue@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2024082608134812ef60cdddc6af7111
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 26 Aug 2024 10:13:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=clara.kowalsky@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=AU9PFl5JaSA/pEQsCAG3SNwYTFKIA/MqKuj8iUsQjuc=;
+ b=YVRdXpllUU9zbpp2mRMS2yolFw6foDOBdf4wDDTsIHd4VAUJN5eN54jpnO8ggVtj/RXLOt
+ eLX9V8QBQ/VOZ3D+rn8gO+2p7d3muGF7j9F1MUUpdOka9nKg3pthE8lV7FS3YmpB5h68LoLW
+ vEAIyNOQhKRzWOSNWYdah3j5INpyjWXlPDAeLAoS7Kx9r+1qknteBlz5mqtxCxioOgYAXEHT
+ a9aXlk2s6FDmnCIUBQ61OQf+L+QzzzkAabviIFUNaGvsCo/7rFqBbPgCc8LKu1G92RWPhIy9
+ vh36lNf9lBviyW6igXUgLpr2WM1qYeigDzKEmGPfa42if5+EiCK1WlUQ==;
+From: Clara Kowalsky <clara.kowalsky@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [scarthgap][PATCH] linux-firmware: add a package for ath12k firmware
-Date: Mon, 26 Aug 2024 04:39:09 +0300
-Message-Id: <20240826013909.353920-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+Cc: Clara Kowalsky <clara.kowalsky@siemens.com>
+Subject: [OE-core] [PATCH] testimage: Add support to create test report in JUnit XML format
+Date: Mon, 26 Aug 2024 10:13:37 +0200
+Message-Id: <20240826081337.2737132-1-clara.kowalsky@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1047747:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 01:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203735
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 08:13:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203736
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+This introduces the possibility to report the test results of testimage
+in JUnit XML format by setting TESTIMAGE_JUNIT_REPORT = "1".
+The generated unit test report is located in the TEST_LOG_DIR and can be
+used in the CI/CD pipeline to display the test results.
 
-Add the firmware package for the ATH12K module.
-
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Clara Kowalsky <clara.kowalsky@siemens.com>
 ---
- .../linux-firmware/linux-firmware_20240312.bb              | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/classes-recipe/testimage.bbclass | 15 +++++++++++
+ meta/lib/oeqa/core/runner.py          | 39 ++++++++++++++++++++++++++-
+ 2 files changed, 53 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-index ff79bb9b33c6..53851b58fede 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-@@ -322,7 +322,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-cnm-license ${PN}-cnm \
-              ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
-              ${PN}-carl9170 \
--             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-qca \
-+             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
-              \
-              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
-              \
-@@ -487,6 +487,10 @@ FILES:${PN}-ath11k = " \
-   ${nonarch_base_libdir}/firmware/ath11k \
- "
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index 6d1e1a107a..3e58c1bf87 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -1,4 +1,5 @@
+ # Copyright (C) 2013 Intel Corporation
++# Copyright (C) 2024 Siemens AG
+ #
+ # SPDX-License-Identifier: MIT
  
-+FILES:${PN}-ath12k = " \
-+  ${nonarch_base_libdir}/firmware/ath12k \
-+"
+@@ -61,6 +62,10 @@ TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest
+ # The accepted flags are the following: search_reached_prompt, send_login_user, search_login_succeeded, search_cmd_finished.
+ # They are prefixed with either search/send, to differentiate if the pattern is meant to be sent or searched to/from the target terminal
+ 
++# The test results can be reported in JUnit XML format by setting
++# TESTIMAGE_JUNIT_REPORT = "1".
++# The generated JUnit XML file is located in the TEST_LOG_DIR and can be used to display the test results in the CI/CD pipeline.
 +
- FILES:${PN}-qca = " \
-   ${nonarch_base_libdir}/firmware/qca \
- "
-@@ -494,6 +498,7 @@ FILES:${PN}-qca = " \
- RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
- RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
  
- # For ralink
+ TEST_EXPORT_DIR ?= "${TMPDIR}/testimage/${PN}"
+@@ -112,6 +117,8 @@ TESTIMAGE_DUMP_DIR ?= "${LOG_DIR}/runtime-hostdump/"
+ 
+ TESTIMAGE_UPDATE_VARS ?= "DL_DIR WORKDIR DEPLOY_DIR_IMAGE IMAGE_LINK_NAME IMAGE_NAME"
+ 
++TESTIMAGE_JUNIT_REPORT ?= ""
++
+ testimage_dump_monitor () {
+     query-status
+     query-block
+@@ -303,6 +310,11 @@ def testimage_main(d):
+     target_kwargs['serialcontrol_extra_args'] = d.getVar("TEST_SERIALCONTROL_EXTRA_ARGS") or ""
+     target_kwargs['testimage_dump_monitor'] = d.getVar("testimage_dump_monitor") or ""
+ 
++    # Get junitxml_file
++    if bb.utils.to_boolean(d.getVar("TESTIMAGE_JUNIT_REPORT")):
++        junitxml_file = os.path.join(d.getVar("TEST_LOG_DIR"),
++                           'junit.%s.xml' % d.getVar('DATETIME'))
++
+     def export_ssh_agent(d):
+         import os
+ 
+@@ -387,6 +399,7 @@ def testimage_main(d):
+         results.logDetails(get_json_result_dir(d),
+                         configuration,
+                         get_testimage_result_id(configuration),
++                        junitxml_file,
+                         dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
+         results.logSummary(pn)
+ 
+@@ -395,6 +408,8 @@ def testimage_main(d):
+     os.makedirs(targetdir, exist_ok=True)
+     os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
+     os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
++    if junitxml_file:
++        os.symlink(junitxml_file, os.path.join(targetdir, os.path.basename(junitxml_file)))
+ 
+     if not results or not complete:
+         bb.fatal('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index a86a706bd9..c499cfa9be 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -1,5 +1,6 @@
+ #
+ # Copyright (C) 2016 Intel Corporation
++# Copyright (C) 2024 Siemens AG
+ #
+ # SPDX-License-Identifier: MIT
+ #
+@@ -11,6 +12,7 @@ import logging
+ import re
+ import json
+ import sys
++import xml.etree.ElementTree as ET
+ 
+ from unittest import TextTestResult as _TestResult
+ from unittest import TextTestRunner as _TestRunner
+@@ -170,7 +172,7 @@ class OETestResult(_TestResult):
+         return super(OETestResult, self).addUnexpectedSuccess(test)
+ 
+     def logDetails(self, json_file_dir=None, configuration=None, result_id=None,
+-            dump_streams=False):
++            junitxml_file=None, dump_streams=False):
+ 
+         result = self.extraresults
+         logs = {}
+@@ -227,6 +229,9 @@ class OETestResult(_TestResult):
+             for l in logs[i]:
+                 self.tc.logger.info(l)
+ 
++        if junitxml_file:
++            self.dumpXmlTestresultFile(junitxml_file, result)
++
+         if json_file_dir:
+             tresultjsonhelper = OETestResultJSONHelper()
+             tresultjsonhelper.dump_testresult_file(json_file_dir, configuration, result_id, result)
+@@ -239,6 +244,38 @@ class OETestResult(_TestResult):
+         # Account for expected failures
+         return not self.wasSuccessful() or len(self.expectedFailures)
+ 
++    def dumpXmlTestresultFile(self, junitxml_file, test_result):
++        elapsed_time = self.tc._run_end_time - self.tc._run_start_time
++
++        testsuites_node = ET.Element("testsuites")
++        testsuites_node.set("time", "%s" % elapsed_time)
++        testsuite_node = ET.SubElement(testsuites_node, "testsuite")
++        testsuite_node.set("name", "Testimage")
++        testsuite_node.set("time", "%s" % elapsed_time)
++        testsuite_node.set("tests", "%s" % self.testsRun)
++        testsuite_node.set("failures", "%s" % len(self.failures))
++        testsuite_node.set("errors", "%s" % len(self.errors))
++        testsuite_node.set("skipped", "%s" % len(self.skipped))
++
++        for test_id in test_result.keys():
++            # filter out ptestresult.rawlogs and ptestresult.sections
++            if re.search(r'\.test_', test_id):
++                testcase_node = ET.SubElement(testsuite_node, "testcase")
++                testcase_node.set("name", "%s" % test_id)
++                testcase_node.set("classname", "Testimage")
++                testcase_node.set("time", "%s" % test_result[test_id]['duration'])
++                if test_result[test_id]['status'] == "SKIPPED":
++                    testcase_node_status = ET.SubElement(testcase_node, "skipped")
++                elif test_result[test_id]['status'] == "FAILED":
++                    testcase_node_status = ET.SubElement(testcase_node, "failure")
++                elif test_result[test_id]['status'] == "ERROR":
++                    testcase_node_status = ET.SubElement(testcase_node, "error")
++                if test_result[test_id]['status'] != "PASSED":
++                    testcase_node_status.set("message", "%s" % test_result[test_id]['log'])
++
++        tree = ET.ElementTree(testsuites_node)
++        tree.write(junitxml_file, encoding='UTF-8', xml_declaration=True)
++
+ class OEListTestsResult(object):
+     def wasSuccessful(self):
+         return True
 -- 
-2.39.2
+2.46.0
 
 
