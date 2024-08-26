@@ -1,75 +1,121 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95625C5321D
-	for <webhook@archiver.kernel.org>; Mon, 26 Aug 2024 11:04:21 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.50537.1724670258284674619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98893C5321D
+	for <webhook@archiver.kernel.org>; Mon, 26 Aug 2024 11:07:01 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.50569.1724670413619786616
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Aug 2024 04:04:18 -0700
+ Mon, 26 Aug 2024 04:06:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JrGZd2CK;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53346132348so4832483e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 04:04:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A95S4FJd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42816ca782dso36498415e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 04:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724670256; x=1725275056; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TKTlL5N/F7UasSVyX4PvkSUj7wivYkl9LKAYxk/sT+g=;
-        b=JrGZd2CKRpBgXIV0xRlT2q9BLzd+M/s6nWxqr7Rh732cmajE4dUBe7NwmdFWeC/TSc
-         l+gSTqpHh98n5D0coOoRVyD2DMPwvPEZ8v+DOgVUPjWuIYR3OI3I9DdTKEtdRBIYVHHs
-         ty+pVIVm3shU8LBCYkTQ7LWZnxiPGwYEB66NnBPNpDK+SNbGNkXWNNBp8g0dqfMkMC62
-         x7i0MG+dGoYdHrnQ4OxnBw/GwpW79qcCV3C71UQGhikrLQvcg026oHjP5znwQ87hvAHX
-         K58CxNgL+JoEhS9h0iXpJANiyjacva226TrffowliQqWnpejjtEtv+49xdYKEXfVXikt
-         OLzA==
+        d=linuxfoundation.org; s=google; t=1724670412; x=1725275212; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=E5EEHXc8Y6igp79gLGNrXblBSuGMuUwH5V6COqQJMI0=;
+        b=A95S4FJdMAXGXQymPVClrQKct1rSNoisCDaQ1gUAuY0conNC5D6A20ex7c4XjDYjx/
+         vCw7xG1a2WYSovR98+YGvch+isYxyuRYYmG8fp+V7lDKYu4FpLEzPYB4j7JlDD+nCcO4
+         kaT6HGk5JtittY6rZ2P4d4QZ10j1IZ3gcA82w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724670256; x=1725275056;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TKTlL5N/F7UasSVyX4PvkSUj7wivYkl9LKAYxk/sT+g=;
-        b=Kwn6U+hXhbugNLaqo3X/FK2E64mcO0ANDlVPlnImgqWjxXDuQ75l/CInX8wZxWtFX3
-         V09oo89Yj2sc7U5H76NSEqZb1cXthRRJT332n7xCDRdxc+ATBcllQ5naRikvGs/6e6bc
-         Uq6Vz5sy8jGlN8SiecARS6nym14f9F39kTGF+RDTeJChysA4GhPpFi/ytlyf+lrR7ooF
-         zExTTF4LBWu5AKT98hvU4uLndD+bQtxrDu7G9fk8KKKwg7EN5Hv6RsXsVGGQs7X9Dsfg
-         OqPWNePVHpKMsNn5vdsk7craGoF/OxFg/xext8SD9eu3ul1jLSnxaGF+siIhgae+jTH0
-         708g==
-X-Forwarded-Encrypted: i=1; AJvYcCVIkzlrAmVBFi2gEoWNnB5meshSpnmharq+xaiNMfqzl6ANJN/RhfHwOuJjChpMQ9H1TkMQWScwRw9djwEWarRltA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwHQdMc2EnIIRf4263YyHtUFqYDxWrAzPB45Kbc9I20eG0C258V
-	D2OBvdMmgj0Xoy+utaKPCtFGsJbo1BFLXCLxD23Gd19HY4wYj53SDCCsT0zZRLSxFOlqz0NmgU0
-	nLvL0gbnRVUtrVzU33M37CPUcGo8=
-X-Google-Smtp-Source: AGHT+IE6EfJnBnJ7/aNy+AvF1NpAaHzmgOzp4sfrcK0cyVSJKSV5Brsv60Kltg8oJqRtOMv0/iZG8l5U5RlNQX7uH1g=
-X-Received: by 2002:a05:6512:33ce:b0:52e:8b15:7c55 with SMTP id
- 2adb3069b0e04-534387853e7mr6446179e87.27.1724670255676; Mon, 26 Aug 2024
- 04:04:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240826085148.3492132-1-changqing.li@windriver.com> <638fcf654276d1ccbf67a8d8881404a78f3b7cb6.camel@linuxfoundation.org>
-In-Reply-To: <638fcf654276d1ccbf67a8d8881404a78f3b7cb6.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Aug 2024 13:04:04 +0200
-Message-ID: <CANNYZj-wzkPSccXYOKm9=Lf00JffvEx8qOU00tzHLWia=5oGEg@mail.gmail.com>
-Subject: Re: [OE-core] [master][PATCH] webkitgtk: fix do_configure error on beaglebone-yocto
-To: richard.purdie@linuxfoundation.org
-Cc: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1724670412; x=1725275212;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E5EEHXc8Y6igp79gLGNrXblBSuGMuUwH5V6COqQJMI0=;
+        b=m/mrJ3kHix1oYqy0z63+GAwm3vVLgjpBiBg+bETGMAB+B31v96M/QVsJ1d2iCg5JZ9
+         mPDyLh3ZYDCxL4/6ttkuTMxN+SAAbvP/NeEyg+OY5AmYKbgN2ZY8lH2pMGQoNH4rqMUy
+         +CN7JemF6R8Rca0s3Zr1p6BjAP+uDbpc9sXWlYLb6jfvIKN3RPCb5ca4+y7QF61jdjZB
+         BRpPAVZlJxUuTf/pPX0ydVxz/lQmNEKloiRE4Ko38LEzANXAw/UPv785wj4WB4Fqtbqr
+         Jl0QWXS9SeuYHoDBSKbavkI+dsn5O4fUgrbXQSJ+SIEAGI8w3EbYrWUkh+GR65yr3h7e
+         HbTw==
+X-Gm-Message-State: AOJu0YxdIUNlRLLvCyZxbQLQj5jBNpxE55WaBcQuZBsHBa3Vur9/hTUO
+	2QGFYOtpIKJmhgoiwKQI5bnewRj9iQtcNV5PW5uUeAynTBCRljchektuxrEYKUw=
+X-Google-Smtp-Source: AGHT+IHCEgV8jYWmrMiHCuJ2n6qNGyKnMcjcjZN+M+hrm7yvBmiXznxd5JEF6ir1nG0cbFr74oorbg==
+X-Received: by 2002:adf:ffd2:0:b0:371:88a6:80d8 with SMTP id ffacd0b85a97d-37311863af5mr6845381f8f.28.1724670411713;
+        Mon, 26 Aug 2024 04:06:51 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:152e:7c20:baa0:ecce? ([2001:8b0:aba:5f3c:152e:7c20:baa0:ecce])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac5161dd0sm151221515e9.21.2024.08.26.04.06.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 04:06:51 -0700 (PDT)
+Message-ID: <e59c8a2d8289459ad555eb8bb414fa9fac7a6d92.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] makedevs: Fix matching uid/gid
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Jung Jaeyoon(Jay)" <jaeyoon.jung@lge.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Aug 2024 12:06:50 +0100
+In-Reply-To: <OFA445513D.23ACAE75-ON49258B85.00379293-49258B85.00379296@lge.com>
+References: <20240814025507.2284408-1-jaeyoon.jung@lge.com>
+	 	<06f400db1cfee385b6f5b0ef384fe212e5c32c1d.camel@linuxfoundation.org>
+	  <OFA445513D.23ACAE75-ON49258B85.00379293-49258B85.00379293@lge.com>
+	 <OFA445513D.23ACAE75-ON49258B85.00379293-49258B85.00379296@lge.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 11:04:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203749
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 11:07:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203750
 
-On Mon, 26 Aug 2024 at 12:57, Richard Purdie via
-lists.openembedded.org
-<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
-> >  meta/recipes-sato/webkit/webkitgtk_2.44.3.bb | 12 ------------
-> >  1 file changed, 12 deletions(-)
->
-> Why aren't we seeing that error on the autobuilder?
+On Mon, 2024-08-26 at 19:07 +0900, Jung Jaeyoon(Jay) wrote:
+> On Sat, Aug 17, 2024 at 06:47 AM, Richard Purdie wrote:
+> > I'm afraid I don't understand the problem here. If partial matching
+> > is occurring, doesn't that mean MAX_ID_LEN is wrong?
+> >=20
+> > If we drop the strncmp() here, that appears to put us at risk of
+> > buffer overflow problems, particularly if MAX_ID_LEN is too short?
+> >=20
+> > Can you give an example of how this is failing and where the above
+> > change helps?
+>=20
+>=20
+> (Sorry for being late responding on this. It has been missing in my
+> INBOX somehow.)
+>=20
+> A typical case where it is failing is when id_buf is shorter than
+> node->name and they match partially, e.g, id_buf is "foo" and node-
+> >name is "foobar".
+> Note that it's using strlen(id_buf), not strlen(MAX_ID_LEN).
 
-I guess webkit isn't a part of the standard arch-qemu targets (e.g.
-sato images)?
+convert2guid, where the strlen is located, is called from two places
+both in interpret_table_entry() and there the buffer is defined as:
 
-Alex
+	char usr_buf[MAX_ID_LEN];
+	char grp_buf[MAX_ID_LEN];
+
+The name field of node is defined as:
+
+char name[MAX_NAME_LEN+1]
+
+which could be a problem if they differ but:
+
+#define MAX_ID_LEN      40
+#define MAX_NAME_LEN    40
+
+so the only issue I can see is there is perhaps an off by one on the
+length definition?
+
+> I believe using strcmp() here is safe because it is guaranteed that
+> both strings cannot be longer than MAX_ID_LEN(=3DMAX_NAME_LEN) and are
+> always NULL-terminated.
+
+Perhaps, but I think the existing code should work and if there is a
+bug, I'd like to understand what it is. Is the issue an off by one on
+the length?
+
+I'd ask again if you have an actual example of the failure? Is it only
+with strings of 39/40 length?
+
+Cheers,
+
+Richard
+
+
 
