@@ -2,88 +2,115 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2741C52D6F
-	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 09:37:11 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.73734.1724751423437518019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F72AC5320E
+	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 10:03:52 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.74207.1724753028227922466
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 02:37:03 -0700
+ Tue, 27 Aug 2024 03:03:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=PhxtPdbb;
- spf=pass (domain: linaro.org, ip: 209.85.208.171, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f40a1a2c1aso46209671fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 02:37:03 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=rEqByKjl;
+ spf=pass (domain: linaro.org, ip: 209.85.208.170, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f3f68dd44bso60740171fa.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 03:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724751421; x=1725356221; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1724753026; x=1725357826; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pvBYMdqW0e7s4J5UGZCyd+6dxBWKG6YsCdxq9WJXRGk=;
-        b=PhxtPdbboUFssyRML4fxbUz1hodE0TBEUbJIPnM9fBBq3FHoVk9A5BNhq1P48S40zw
-         vF7wlaG7rTTQr1jAMZN+Jk2BikvXDphOA7Gh811tmYRSl9oLihHJo761/xGse/hMDg3d
-         KImyMxBJfY3k5AMws6eqGomTWdJfoJsmJmNHyl/Y94a41Wn63+1nCdbTEndecLuqJX5/
-         nP7X/5RI1dtBQZf/fYWNSuqr2zZhqUIi4/ZKJ/blXSm5ZYwRYgwpBEgDL6SZZ1o2mFXH
-         FLfOT9ySVpUgG+Sh2GY1atliFwB4D/9haiIBh+YRZmkNIjcMlOeru9/kFdyEaOYEX7+V
-         19UQ==
+        bh=z3W76xuz8+QqIj31gG+GjqP/TPjGdYJxbbpQZqGsyCE=;
+        b=rEqByKjl0zA1EBqvZw8+5QK1gFBdD2Id6kX7Cm3YgjhdgzmNFZN8MbEzWSz2UOS5PG
+         Ge1iPWszZEapPYPO9LN5Hmmt1kYU6mAkIf29u/zpdHYMHJnz7VF2cPZtc2/SO0mUke7Y
+         7N/lKt3aG+iqSVVHKimrC2CPrnz6AXyeeDSEYHH3WTKQJV9a4g/YqU42cmAu5eW8ZlC7
+         j3dctiNhyGPfsF2XXWXWLcNay0q1tOvBaUiTk107JzbKoNtSMDvZ9HG0DR1f02BZeDou
+         XiSUOpurL3EC99ofYZP00zSPeOeJ/K8rrDFylp0IAfWpwmGCfqdCU68JnS54P64eMBnx
+         F0aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724751421; x=1725356221;
+        d=1e100.net; s=20230601; t=1724753026; x=1725357826;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pvBYMdqW0e7s4J5UGZCyd+6dxBWKG6YsCdxq9WJXRGk=;
-        b=YPODaESJSXN3TpGJzmPIKcETxefwJv+I3UHAYEO7oIsqHDw6gZUW1D/FypX+kXGH9m
-         ku+Oh6xqBr6O9XLjGlVWYkYtogTijlV07Le16gBgxVaSMJKnPTZLqMzaBK3VnKqcO/Hi
-         1zgvuqGeVyZXd59Gck+r1Hxnlu57+51oQ5riygb4H59fXZKINm9cfOZCbkzkpXil2XM4
-         msX8SxNfZR54L6aFHMVIYWqMdVyTO2KFgIo3Q6v9Oe+2LQZNvokR7x04lWeu6cNirWdH
-         MIDieu69phC8cAqdMw5IdumbUCVXxWzRkUob17+BzqN1LwUbzcst2jiGTMgOYRosPe7s
-         OzrQ==
-X-Gm-Message-State: AOJu0YwPca+BnO0jJS8T7BcChkHzXlWg6+IPkiaJFO1C7UX5n8LuPF9Z
-	GdOZ5DFLZmBbV0m9TFNVjFe9PuJIeNmhvakkkue2OmBKZ5OQvNEMYras8GwV70fCuC38FyRp3wT
-	b
-X-Google-Smtp-Source: AGHT+IEuSAADuCfSi5SYAbwQE260TzPwOYvPW7b5Kgyy6zzKDlWSz7pi+0Ho5fAR97wnFTcQNT+law==
-X-Received: by 2002:a2e:859:0:b0:2f1:a30c:cd15 with SMTP id 38308e7fff4ca-2f4f5797983mr67378231fa.36.1724751420683;
-        Tue, 27 Aug 2024 02:37:00 -0700 (PDT)
+        bh=z3W76xuz8+QqIj31gG+GjqP/TPjGdYJxbbpQZqGsyCE=;
+        b=UV0CL+7sAXP5MnzYYdBtbumoHkhMSYZQoVayoDm5ATf7lc/n9+veGEwK89pUfro/AB
+         d5FohFnrENUdBn+WrAr+41GG7AR5YtihwqIFkTb0pW9Gb/pJ7HWhWcYClkikkqNysCIN
+         wCXoAxnrY9kRFmxTm/1HQ5nI+ZWzobNZErbIyzBmCEIBaca0F6WD2rTph5oG9g8Sz+KY
+         wsKYsDJ2v4zDt4vrkmv3ADpgNlCcpQK0SVi1tB/0f++/V9HIH2XmXI1z1TzoMBmwsoYV
+         hvY8uvMcpOU0ZpBjcm1sT4Cxp87MgGmJi0ZrmOWCCI3LRTdq9gAKXcbaEeu13wCzhAx8
+         XXbg==
+X-Gm-Message-State: AOJu0YyN8yfdhkbus985hmou+vIhwpOEBq2KQqKSo2d2TEmYLcEGmd+Y
+	gL+cH7+pyZ/Q0o8Foy9qq/pD9r0LNczMGBljJ2b5zJtNpvhmCBgMLvYfUsTGPOhWKOd7nDFdyur
+	u
+X-Google-Smtp-Source: AGHT+IHKptT3Y1w95bY/DVVPROlzBMu84xTK3Ce3vQ3pk9ti4TgZ8FvTl5tOlxCjYetiHMgYCtNxXA==
+X-Received: by 2002:a05:651c:1987:b0:2f3:994e:d68b with SMTP id 38308e7fff4ca-2f514bb1e83mr17426691fa.47.1724753025123;
+        Tue, 27 Aug 2024 03:03:45 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f4047c6436sm15012881fa.35.2024.08.27.02.36.59
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f4047c8012sm15534921fa.52.2024.08.27.03.03.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 02:37:00 -0700 (PDT)
+        Tue, 27 Aug 2024 03:03:44 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [PATCH] piglit: add missing dependency on wayland
-Date: Tue, 27 Aug 2024 12:36:59 +0300
-Message-Id: <20240827093659.1270472-1-dmitry.baryshkov@linaro.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [scarthgap][PATCH v2] linux-firmware: add a package for ath12k firmware
+Date: Tue, 27 Aug 2024 13:03:43 +0300
+Message-Id: <20240827100343.127172-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 09:37:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203821
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 10:03:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203822
 
-After the recent piglit update it fails X11 builds reporting that it can
-not find wayland-client package. Add missing dependency.
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Fixes: 9662bdabf3f6 ("piglit: upgrade 22eaf6a91c -> c11c9374c1")
-Cc: Trevor Gamblin <tgamblin@baylibre.com>
+Add the firmware package for the ATH12K module.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+[DB: added rdepends from PN to PN-ath12k]
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 3a2dec34d7e0..7cdd38d823cc 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -23,7 +23,7 @@ S = "${WORKDIR}/git"
- X11_DEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"
- X11_RDEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"
+Changes since v1:
+ - Added PN-ath12k to RDEPENDS:PN as not to break users expecting ath12k
+   from linux-firmware (Quentin Schulz)
+
+---
+ .../linux-firmware/linux-firmware_20240312.bb             | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
+index ff79bb9b33c6..5819d9287cc8 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
+@@ -322,7 +322,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-cnm-license ${PN}-cnm \
+              ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
+              ${PN}-carl9170 \
+-             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-qca \
++             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
+              \
+              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
+              \
+@@ -487,6 +487,11 @@ FILES:${PN}-ath11k = " \
+   ${nonarch_base_libdir}/firmware/ath11k \
+ "
  
--DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl wayland-native wayland-protocols"
-+DEPENDS = "libpng waffle libxkbcommon python3-mako-native python3-numpy-native python3-six-native virtual/egl wayland-native wayland wayland-protocols"
++FILES:${PN}-ath12k = " \
++  ${nonarch_base_libdir}/firmware/ath12k \
++"
++RDEPENDS:${PN} += "${PN}-ath12k"
++
+ FILES:${PN}-qca = " \
+   ${nonarch_base_libdir}/firmware/qca \
+ "
+@@ -494,6 +499,7 @@ FILES:${PN}-qca = " \
+ RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
+ RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
  
- inherit cmake pkgconfig python3native features_check bash-completion
- 
+ # For ralink
 -- 
 2.39.2
 
