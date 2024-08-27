@@ -1,221 +1,329 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AD00C54734
-	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 11:50:52 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.66.31])
- by mx.groups.io with SMTP id smtpd.web11.75909.1724759442112724811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9983EC54734
+	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 12:11:22 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.76955.1724760675997379547
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 04:50:42 -0700
+ Tue, 27 Aug 2024 05:11:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=KPCANb1X;
- spf=pass (domain: cherry.de, ip: 52.101.66.31, mailfrom: quentin.schulz@cherry.de)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8969dc1e56=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47RAemW9027242
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 12:11:15 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41754qb14p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 12:11:14 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 47RCBEb5032062;
+	Tue, 27 Aug 2024 12:11:14 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2040.outbound.protection.outlook.com [104.47.55.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41754qb14n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Aug 2024 12:11:14 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AF+qEiKh9DDJNaf6AQx6uIwboywHBaIa3kqYahlApZAJOcYLKgVzNixv8+J7x67OdD0nWNnmU7Efuxi1Yc6FDI6j4jlSL4yWRmIkOoCTxq+rmc33Ta0lun3ov99Gt2wJn6i3MyYnwai01IClkUlFn0k0q6AZprJkwPOBDFBKaGbAB8MkXlniqCu/VP3aC+mz/LaFaDd+U2bdBEkyxP18gRsT5bzqI92RRp21gdVxAXLOOKX2YPxRQ6UWSyVp0wMnpcGmd/Jz6FbLnjO9TB+jr2DF++In18fPZOWVQrHrZHTLiqWr2n3K2kQUXZ2xeDBJlpmsJyTgpXAkktHGIiECoA==
+ b=yPMYk3Zqhg11oozIAYhFy9Ys9Hkv83dFuM+3KVzqi5A9NUVj8huAk+5y27Cb6p3C1LeBGE6mfgjqWdH+s8bWUxpt/ehNE/aOFvnZPGhopxuDLnA3HmIjGWt9sTq1hN6Ch2pK0iqngCk/pXWQqrVYUz4g0ysFRVN+zlrujgZ47v8f9/sV++wPe1thNk1EkUHMnAAJ9mCCS+0o3QGrvOcWP7dYqZhzkXiTbMNZr44mJiUCTRCJVfIPmDVDLC5YZp3pZqWq3u5hf3vN/hdsH+zkNtJChnLb2Fxqf4uYX8YqyBrLxnKXRhj8lVJPalHSWSkGTa+0ld7099NkffjfHmO+lQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ssSkcPSbsCe+gMEkFQtzZWSkOzzA/0bh/MLROghh6HE=;
- b=HFkadChrFonyso5lDTK3IqlZaOi9ACf9SHf22BiSz5Wj075OwX2QiRYHPsxhCtP1+9oj5i/ixoe3VBjTI2VDlLwPDz4AZnM7+ui2hqlb2bkpGJIUEcjIWN/1XjsS2VJMocNPoGNEh1A3wqyGPdhUcq5em/VcxPaRCK9bXcgFksHGKfbyF4XPTpLxGDQ73tfYJl2rQwFZFB8MKYxkDlYvy8Sz3wuDKFRvhb1AW+EMHj3uUWRZbPSYCghH63gcAu1m5y71p0QQw+eu8Ovzo6uIlgeVigOJnRPOdWUKnanbCvxk/cbdwxbF+4/yPdY3mR310Y1g7TBXs0dV8yLIIWbYJg==
+ bh=msYSW297dbEBNWDOr0on+Kj37Whoy101ZOrnr/XEOss=;
+ b=IgU9odGdxOFKpvIwtHHZ+wh+2PrIy2FLJJKSgw84UZ5GHHbpdFlL9HvgBrUDXHZIvrcI022Of7IQitNw4m6tQnyJmBFyl8xNHk4VT2Qp2Tn9EapBJyXyqHxqdiloTMvFW/1Qf/GUhg/YvcIGKuPPHhX7VWyGA1c2T8HIqwZkrMDG3EYYKi3ojKGbCuW44nv7ohxaXXxtFhE3TMjQePELCjKg/L7XeoND4psd6eZrx9imdP7h5nUiT6upYCu8oxsn98uvwXd85XLytIGVFAO56bDrl7GU9bG5u9FCBen5IHrbf3N73NpExPMktBzEMwKEpxEoOY56k+arY8dR+Fh5Yg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ssSkcPSbsCe+gMEkFQtzZWSkOzzA/0bh/MLROghh6HE=;
- b=KPCANb1XQfeyKjkszhAuI7/ijgDB7byLdhFk0pcsT2ygipXTKvzHaEh1kFeJeivwWEdVItbF6GxziuVVz0/OyUrKVtkwYO0Iqtr5HKW/7k/kDJL/SMbKu2FnL/IMrzqga1JZjCnrDhMQv+eillEQyCuo57wXY+AZQqGW+TVmB08=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PAXPR04MB8912.eurprd04.prod.outlook.com (2603:10a6:102:20f::22)
- by PA1PR04MB11033.eurprd04.prod.outlook.com (2603:10a6:102:484::13) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
+ by DM6PR11MB4755.namprd11.prod.outlook.com (2603:10b6:5:2ae::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.24; Tue, 27 Aug
- 2024 11:50:32 +0000
-Received: from PAXPR04MB8912.eurprd04.prod.outlook.com
- ([fe80::7a71:bd84:cbb9:add8]) by PAXPR04MB8912.eurprd04.prod.outlook.com
- ([fe80::7a71:bd84:cbb9:add8%4]) with mapi id 15.20.7875.019; Tue, 27 Aug 2024
- 11:50:32 +0000
-Message-ID: <a1f39ba7-0aa3-4ba2-b847-a11d420b60be@cherry.de>
-Date: Tue, 27 Aug 2024 13:50:30 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Tue, 27 Aug
+ 2024 12:11:11 +0000
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc%4]) with mapi id 15.20.7897.021; Tue, 27 Aug 2024
+ 12:11:11 +0000
+Content-Type: multipart/alternative;
+ boundary="------------w2c4OjaGAHINZPXs302ftbjq"
+Message-ID: <15bf0cae-b114-4ac7-89d9-3f7df77b41bd@windriver.com>
+Date: Tue, 27 Aug 2024 17:41:05 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] linux-firmware: package qcom-vpu firmware
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20240827100930.127469-1-dmitry.baryshkov@linaro.org>
- <e93464b1-51e2-4058-afa5-3811975de62e@cherry.de>
- <CALT56yP2tgC8RoW2UzzMhTW8m48-s-6icgGSRdgVJdwDrxPrvA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] rust: Upgrade 1.78.0->1.79.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Sundeep.Kokkonda@windriver.com
+References: <20240825170553.566798-1-Yash.Shinde@windriver.com>
+ <20240825170553.566798-2-Yash.Shinde@windriver.com>
+ <bbbe564b9b6191edbe62abd69fa3b337ada2ad4a.camel@linuxfoundation.org>
 Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <CALT56yP2tgC8RoW2UzzMhTW8m48-s-6icgGSRdgVJdwDrxPrvA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BE0P281CA0027.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:14::14) To PAXPR04MB8912.eurprd04.prod.outlook.com
- (2603:10a6:102:20f::22)
+From: Yash Shinde <Yash.Shinde@windriver.com>
+In-Reply-To: <bbbe564b9b6191edbe62abd69fa3b337ada2ad4a.camel@linuxfoundation.org>
+X-ClientProxiedBy: BL1PR13CA0200.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::25) To PH7PR11MB7593.namprd11.prod.outlook.com
+ (2603:10b6:510:27f::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8912:EE_|PA1PR04MB11033:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93732102-9b48-4184-ba53-08dcc68e7469
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|DM6PR11MB4755:EE_
+X-MS-Office365-Filtering-Correlation-Id: 072fc5f1-1896-4833-22f8-08dcc69156e2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?TldoLzhKajBRQUVKdEJQdHRrKzRMdm1xT0s0Mk16T2FRemRNNXdES1J6TSs3?=
- =?utf-8?B?R2ZBaldGdmg1WkdGQ3UyWVJBODJlZ0o4N0VjZXZpVGM2NnhmbzVnZFh3QzlH?=
- =?utf-8?B?aTFCdXE4d3BjcnpQWVpLSEE0YUcvdlhkTVIzRW5VSjRSZWEvR3JzbHd3Qndt?=
- =?utf-8?B?RUdmQ3pINzI4UHFTdXpmbHljQ0JBMzNPNkw3TjFmOHEyOThGV2hjalJTb1hn?=
- =?utf-8?B?cndCcVBRZjJRVVgzclI3UkxCNDdxRjh3REZ3ZEJrOWdPbDFyUFdrSVNVWFhr?=
- =?utf-8?B?Szg4Nnhib0dmSnJBUFRVMkgwZ0lnWmwza2dpU1hCemNxOFh4UkxocnVrSjFm?=
- =?utf-8?B?VEtWYjhTNGF1YjFGQjJwem5sRFJCTmI2MEdES0ZxNnp0TEdxSUl3QnpHa25V?=
- =?utf-8?B?aEU3bDJjVXZ5bHhPaWxIdm5ocGRCd0w5WDFRbGFLV2VNSHZnODBuOWlHSU1q?=
- =?utf-8?B?aS9EUlRHNHg1TnBuVVdIcFJmSVpZN0N5Z0JnOUl1WUs3ejR2N29UNXArQ3hW?=
- =?utf-8?B?Z0dLelI4RlFPK3U4dzVoTE9pWG1tRzZzK0U3Y2FIdlRhQkFLOG5ibGw2Z25p?=
- =?utf-8?B?TXhHWWU0RUFOVWt4MDAzcTltc3JnZFRUOENkb2FkSE8raHRYNHJwcEhETU01?=
- =?utf-8?B?bG9UOWFidDRPL2ljSmNpcGRKNmczZnE1VU12bG95dTJrdkFBdWVMQ3NGcmZm?=
- =?utf-8?B?UEVGN3pLTFNHWFhpUi9peWw5N0kwRlQ2QkFTUkVONEdRQTcxb1BJTk5hR1Rq?=
- =?utf-8?B?NUhUS2tDSDUzUXVrNnA5V0RkTHQwVllPSlF4ck5ZYnFyNlF6SXJ1REQ0L2Nn?=
- =?utf-8?B?czhrK1FlSlpuUDVVc3Y3bzlQSEhkdEpUSzE2ZFlUbTNkekRRamlyR0J0SlNQ?=
- =?utf-8?B?alBQRXF5VzU2WWY0Z1hLeUc1cktjVFZ0UkFBRDhjV1B1NGtUSFFNdlF3OXlO?=
- =?utf-8?B?cW1udFkwNnRjMDU3RS9LVit2NVZTZFJjMklTRXY2WjNWYWVkRnJEQXV0ckpt?=
- =?utf-8?B?YU5SaEl0R2l3YXVrOWZyb05aM1NiS041bnNFeW1laEpiRkp5TTl6bjlWYkQ0?=
- =?utf-8?B?SXNWcHVSdk92Z0RXMWdpNGc0M2JCQVdpL2Z2WjlPTjRhT05LWlVuRXEwUEJ6?=
- =?utf-8?B?RGZOVjRieEdxLzhkYXZyZ1g2SEozZlZEUm9UY09IZlFhTUdtRGpXaWlSUWwr?=
- =?utf-8?B?c3I4am04VC95SlptNFI5RVpGd0hPblptb0ZGOGpWeXhBZUFFYXcydDlyWVd3?=
- =?utf-8?B?S3dnMXp1UTRBMWdPdEczVjM1WW5qQ1BDTU9peFNtUW9pSTc4VzVBUkthdXA2?=
- =?utf-8?B?dEpaVGFqeGFxYlU2UFZVS0Y2ajFqbCtRdXdOVXkxa3ZNajF6aFJHbmoyTWNX?=
- =?utf-8?B?cUtSWTIzbWc4eHdNbVNRcW1aaHh3UFQxWjBBeDBWT2wzNG8vOFFqNkhuNFNS?=
- =?utf-8?B?cmh5a2M5L3dhSGhCaUllbFJ3RVk5OEJNeHBwMDRsMmZsc1dhSHRRbWtlcERG?=
- =?utf-8?B?RXhJdTd3TEMxaHQ0ZmxOeFQxalFRcmRjMEVOMCt0ZnMyMzZDNnUyWWpYYzA1?=
- =?utf-8?B?WDhYRGJ4d0lOT2hJV2EyWmliYlRyRVU3aGh5TmlWRVRvVCtMY2lzK0hld1JX?=
- =?utf-8?B?UDFyQXBDdDdLNXE0djk2aVF1SE8rZUJWTW9ic2Z5bTVmcmlNM3BtOTBwcnhv?=
- =?utf-8?B?NUJ0dlZuZUhycmkrRkQ2NlBCZ3hXL1N6bVk4Y203RGljZEx1VXlmNmg2R21H?=
- =?utf-8?B?UDUraWhOb2gySVlSTXV6NkhzTnU5QUo3djczMDNRNG4wSUMzWHVUUm5hdmhL?=
- =?utf-8?Q?MeyeRH0cCUF/VEvWGIKgSswdvGxrGm7KpXnPE=3D?=
+	=?utf-8?B?TkNHYk1WcTg3SFI1WDQ0UkpDbWtXanNIOGpYUWk5N2FFakkwQTlOUVlOWjhz?=
+ =?utf-8?B?UzhIdG56QlhVbTNWRzgyUXI4WUJVMEtMSURaaFlBUi9UM0RuZWNnbXcyaTl3?=
+ =?utf-8?B?SWFQOTk4eS9iNTIzZFNDOXBPQm9od2haV2pPak0vN0Exb0hOTitCT2hVK3F3?=
+ =?utf-8?B?UndvNitCeGdZZGdmK1luNHpjVDNmUmR4ZmFsZlNWVTViWjFCM0I3RHZtalQw?=
+ =?utf-8?B?dVpuSExpbGpQbzlZVjdpTkQwWTZ6RDR3NUlTM1N4U3NQc2k3RHBsUzlNQ3Ey?=
+ =?utf-8?B?d1hxdzNIajFDWUF5K1ZVQ0ZPSSttSThXK0pmMkdpMFpHRURLdFFhSHM1NnJp?=
+ =?utf-8?B?NkVxMXlVRzBvUHJkdzQ1WTRVcEJoOXpqK1N1VldMUmVHT0F5NUVmMFFTWkRj?=
+ =?utf-8?B?V014S3o5Z0V6cEdTKzhMeW5QT0d0Q3owKzZxNVVqVmxHN3M4UWRWQmJZQlNT?=
+ =?utf-8?B?RHhMTFhIT1BpRWlsTGxyWkpFdWxUQzROTG1aY3BiYitTSy9Xc1JtWmNCU0FH?=
+ =?utf-8?B?d3VRNFFnWFpFMlllL0MvTmY4b3N6RmxtQnNzQWFjblhvL3czMFFZb2c1TERX?=
+ =?utf-8?B?aVJwblJXQUJ5aWVGeE9uUUF2Y2FobXpYK0Vsc2lhamRYU3hHZ1YwSWM0UmE4?=
+ =?utf-8?B?NVRSaVREUFBJaW1YSCtjLzVjQzFSbTd6WnRiYW9PeEFyNUl0V3ZzVDJZUUFS?=
+ =?utf-8?B?VENVTzFvbTloSkU3c3ZteGp3ZGJqR0g3NUN4UzNMaGFPNDlVK0N6UEcvWDgx?=
+ =?utf-8?B?VVBOaFF4eGQ2NnU0SmJ3L3B2T3FIQTkrMzJWWGQwKzlZeWhyZVd6SjhwR3RF?=
+ =?utf-8?B?WUU0WjB5WlQ5ZVVBeVNRV0xXZG55R05sMGxXbHp1ZXR5SjBqaDlvaVoyRlVW?=
+ =?utf-8?B?Um8vVnhLcDZKWTNvTnNUaFNSQkIrTmZoc2dCL2hyQUQ3THFZdllhUlZxQW14?=
+ =?utf-8?B?UmkwZXR3WUpZS3J1NVhCWlZmS212eS9YWFQrcDdEUkNwenZDdzZDSERPdXBS?=
+ =?utf-8?B?RmQyc0pmcExZRjkySXlNRGZLcGpiU1dBbkxxWHNYNnkwaFpiZis4bGExbEtR?=
+ =?utf-8?B?cGRSRitzTUZIOGRYU0NRQXNkc0w0Vy9MOTBjWXNMWWFLaWdUd0dCQ0xGUnFv?=
+ =?utf-8?B?U3JSQ3dyM3cyQjNPTkFrSDNaT1BsYllQU2ZHcUgyNlpiTkd5clE3NFkySjhR?=
+ =?utf-8?B?Zmh5VHpjMFNZR0JtZHJxVStPZ2J5R2NRZkt1SkZBNEd0OWw0NndWRjFhbnZp?=
+ =?utf-8?B?Um1rbnJvV0hVeXhoaWViYSswZjNlMStNcHdFU1dQK1JFTzVGYmVncnFXUnFq?=
+ =?utf-8?B?YUQ4Sk44OWJCc01wOWtCNXV3UGRzR0tvZXBVeGx2VG1Ea1NnOS9EOGM0NFFo?=
+ =?utf-8?B?Z2h1RmEzVVNyR050am93amNxMHVLaFQ0MDJTbkZQTlFBZzJPRVpRWGVuOE5K?=
+ =?utf-8?B?djV3V2dzUDgzZDVNMkYwaUp6SDFCNmNza2c2WU14STFyQ1RvcDJrUVB5SnpQ?=
+ =?utf-8?B?VWZ5d2JadnNBQjN2VGVjMnArYklEK1VoY2l3ZTNrQVlsRW5seEtHWDFvWGRq?=
+ =?utf-8?B?SEIwL3dLbVJpUUNidEdXL2hIV2MyR2xJN0M0bG1JTE9SY25WSnpkNzJzUU9X?=
+ =?utf-8?B?ZldjUFZjdi9zdzdvL1hjZG5nMUVibytFZjVLTk1wQnJ0Umx1aFlQenQrdWVv?=
+ =?utf-8?B?OG5mVTlnNmJRc0d2aU9mVHJ0ay9yT0wxZm81anExTTFFZGVIVEFvNEI4ZU5z?=
+ =?utf-8?Q?KJnmDEKeZAUFFV9cl8=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8912.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cSs4VEVOOVdYNTEwVVE3ZHZKMk9HeWNBMVQwa1RTWkNwOFU0ekcrb3k0VzBn?=
- =?utf-8?B?SGZxUERvZ0xkOC8ramp4OGJTM2xUbnI2a05SUTBIM21rb1p1Sk9USW9BNlUr?=
- =?utf-8?B?SENHRytpODkreXdJZlU5cDlTNjlpUzVIbXNHOFpBMjdudWVjUnhpZ0FwZWsv?=
- =?utf-8?B?RHUrSUE1VFhFQko5OXQwV3FaUUM5QitDcDdyOHpDNnQvWVM2WmtzNEZSSHNZ?=
- =?utf-8?B?U21IUEs3c1JGcWpTNlBCS3ZzTE9ZKzRrL2YzdTBLRzdmcUNFVUQ3MXBpTGxC?=
- =?utf-8?B?QmljYnlMQ0RyaXFZcDVXV2w0bmJnWWJYeSsrU1JNbStISnZZRU1Ibzc4SjA0?=
- =?utf-8?B?eno5djZqUGF2MkxJVEVEc1g3dFJVYTBNdkZ0M1AxSEZrMDRHaXVKck5yZTNa?=
- =?utf-8?B?b1M2S0RwcXhScHMwK2gvcTZLelFuNFZxMlZsWUh5NysrNTVrOTFJK3JqcWUx?=
- =?utf-8?B?YWYxR0RUZmdLdFN2Z1VVYnVQWjFQY1hHNW01VVFYWDJ5Qmg1dXllUEJrS0tJ?=
- =?utf-8?B?ZHgwcFRQOElCQThvR01GQ0E5NVZEVEZETWNRdi85Mzg0Ri9UQ05kMkJnVm1a?=
- =?utf-8?B?UnBVaFR2c2pyNkZKRzJEMFlGaHVjOUpyK0sySmluZHlraUphQjR0U3RHQkxC?=
- =?utf-8?B?RmxTUTFjdytVVWg3dXVkQUFucUFlT2dlTFg0dlhTUldmUVVhaTBTdEdWOFc0?=
- =?utf-8?B?c1o4eUt2cGFEN000K0JLMHB5UE9vR205Mnk1ZUlUSFVWZ2cwQ05mTVhGczFR?=
- =?utf-8?B?RDhtTlB4TENMQVRmVlpaRVBiR0Y4MUtWZGtPV1VQYnBrVk1PaWhGLytIZytD?=
- =?utf-8?B?ejgvaXIrNWE3YjJIQmEwMEx0N0R3TUYrOER2c0tCdXZ5ajQzS2pyVFZUd3dt?=
- =?utf-8?B?SktTMG1FT0JnRExwc2k2K2NGMkI2bmM1N0VtQ2FkY0lqTHlsR29WdFpCNjZG?=
- =?utf-8?B?TUZMaDAxTkdMZzJNdXBtLzFGUlR1Tm4vOXFjS01IMkdIUTFnSk0xTW51dlJn?=
- =?utf-8?B?czhUNko5bVZwaE41eVpwREdWa0QwZmExcUdLYkxTcHRvdi9lLzA2R2hDakxM?=
- =?utf-8?B?RTVrLzlDK3lhRXVCWm5pNm9DZkdYMlI0UGprcjArbTFHcGkvRW5jOUZqR0th?=
- =?utf-8?B?NVI1OU42QmoyMWFQcEtZWTZyQVNtbnZkK2U2bFQyOUdqelhDMTl4YldoVXBD?=
- =?utf-8?B?Y1VEaGg1T2VQVExubXhWTUIrVW5zYW9PM3gydE01MGlyQ2o5d3k0SUttOEZs?=
- =?utf-8?B?L1BQZFZmOXN2ZG02MC83cFJmNGwyMmNQSUdEbG80SkdTQ05oZTRuQmpucnJ2?=
- =?utf-8?B?RVRVbVVZaVBUcytlZnJFOTlZNGF6cm1kY0xJR3Rsa2ZwNkEzQjZ4RmdJSDJT?=
- =?utf-8?B?M2lrY2UrekwyRWZrbEpQMVpycXVDTWc1dDUwcDJTZ2hzWXlOSEkvUDJ4aWhN?=
- =?utf-8?B?cDRWR1YyMEZYQndvbVpON2FUc1FTd2YyUEw3ZnZjRXJCVTRvVmlZb1M4cmJR?=
- =?utf-8?B?TG13TWZrbE5JR1U2VWtmYkFFQWdVS0pZNDRyNDVnSEJiVEFGSSswR2lINjB5?=
- =?utf-8?B?bDZhN3FqQ3ppL2Z3a2lBNHRnb1kyUTVORHlpdzJhSGlleEZkc2pUUVJzcW1x?=
- =?utf-8?B?RFJsVFJLZUhlRkhWV244WFllRjBhMGlQdHVOUmNjbU1ITXJPSm14VWkycXdt?=
- =?utf-8?B?Vm1TMDBWa0RNU0FJUWV3cnVLZFNMTkhSRmFSWVdFL1YzeXZwZ2VxQTNUcVIx?=
- =?utf-8?B?cVR1NjFMUDNhdndOdCtvaTRCRjlmdmhCZVZyc09Hc0hRTDJLZzdlSkR3T2NR?=
- =?utf-8?B?U3l5bU1NSUFPMmtvbHZTVTQrRjIwY1NTL1dZK01JSDlvMG9WdnJzODNLQ3Bh?=
- =?utf-8?B?ZDVyLzZXL2VjaXVHUnFQNjU0Zm82SGI0VXhOMFVWQjBIbU4xNlBJMDlNTTNS?=
- =?utf-8?B?OWI0NTFTcEI3dGs1dGlWOGQ3UXFnWWUyRkZhTVpSVUhFMVBnZGpuUElEL3RU?=
- =?utf-8?B?SFhwWjNvMGFVcEsrejBWeGN6VlkvSHdLSHRGbjgreGpqQjloYnc1cW1GR3VG?=
- =?utf-8?B?MGxkMWo4blBuQmJ5N2VvQVlHcW1rZW1vMkwrME5JRHNrOWh4c3ZwM1VidzVR?=
- =?utf-8?B?ZmxXa2ZQNkIxb24xYkJHVUhYS2VJbkU4MjJoZ3NYVk1uWjRQS25mNTVFY2x0?=
- =?utf-8?B?SGc9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93732102-9b48-4184-ba53-08dcc68e7469
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8912.eurprd04.prod.outlook.com
+	=?utf-8?B?NUYrYjhNZUxEWWR3QUtNUUQxRzEvSmRoNUJib2FtejJINTdRWlJxOXh1S2RH?=
+ =?utf-8?B?Sng1a21wazV0aFREMFRJV0E4cStMNFJ6dldFazZ4eXBjVjVVdzMwM1dETjlh?=
+ =?utf-8?B?RFp4NTMwRktGMVpDSllYZVFHVTBlZHd0OUNta1dBY2lseWFDWFJoMTExS01o?=
+ =?utf-8?B?emlrenl4RzF4dU9EZmlmdjgxQmlCeUxpaUJYVFgrbHF4bjNDWHhmd1cyVktU?=
+ =?utf-8?B?NlBzMHphZ2lUQXF6bm92aGVLWDZ5ZFgrZGFmcDlkaWZzMy9rWUdHWVZ3S25E?=
+ =?utf-8?B?OUp5MDVYbGNHSUpwM2FqM3JTc3hnN1VsZWFsMjRTVlV5WlRzOWJYUWg0MkxK?=
+ =?utf-8?B?K0JNV25zcWJlRHNtT2hLRWRnQ0ZzSi9JK3cxQzhVcG5TUVdQTEFJUjJFeitu?=
+ =?utf-8?B?eTM3dnNxVm9Za0FiM0ZKdjZjNFBWc29jNTIxMFZrTU1kSUlTa2t6RmNaYnB5?=
+ =?utf-8?B?QTJ6NTMyS0FYeDAzWGYyNW05R2NsOEhDZGxnSHNUN015aVNvamRsbENBVDV1?=
+ =?utf-8?B?clhHVEh0dFMrcGE2dlBGQmcydy9IVkk3S0NhZ3dGbTV4bU5PcTU2Z2toVE9Z?=
+ =?utf-8?B?UzNCYU1salVOZGZKNG5kN2xBL3NMNmg2OEFkMSs2TStDYWN4OUNEallvWndM?=
+ =?utf-8?B?VWpqV3poeC85UkR1WlM1VzlabEFDdVFJeG5BSE9kVkJ6cmpDd3ZXYXEzSjkr?=
+ =?utf-8?B?dUFEeVoxRGFDb3F0Unl0TzdBcHI2YUJHdFZzcmIxQVdMU0tpeDFRbHprV1dF?=
+ =?utf-8?B?NFhWMjBaZ2RGK3hzdmVTaEpYYWN0UXhlTHZPMktVN2FVeHgzelUzT3h2aFdq?=
+ =?utf-8?B?dzB5VlpkSWZHcTJYRUVJUGozblZuTUhZam5ZdGVvNStzcUtxd3BmdEFqRmJq?=
+ =?utf-8?B?RU5RLzkwTTRWK0xkU1NxYzlyVDlIYnkwbTBhUllCMmR4UDYzT2J0cnVnZysv?=
+ =?utf-8?B?dEVqQmo4RFhmMFo1NzlURWNISDlvMFoyL01Hc09LM0FDaFN2b0JOakwwT3J4?=
+ =?utf-8?B?dmVFQWhDRmhDS3puQ3NCekwvQVJ0UFNwY3hqVEUwbWsvaU5MdjJuQ3p2OVFi?=
+ =?utf-8?B?RlpTNU1zblkwc3RaY1NweHFYM1RJMXExVms0aXhzSGZOZ1FnSi8wM3FHa05W?=
+ =?utf-8?B?c1pjeEhlYk84YjdYRDRUK1cwdCtsajV1SzUzaEVBaG5YS3RHK0Z6V3JGQjZF?=
+ =?utf-8?B?ejN0UGpCZnVRQmJsYTRELys2TTFLQWFyL2tGUUErMFdkeFNmaE5hU1FrUGE1?=
+ =?utf-8?B?NXRrK3c3eW50cjJrWkU3dUxsTHV2YjRUOUpqM2tqSThWNGUySUlUSUE5U0Ry?=
+ =?utf-8?B?SnBJUHNVNjFqMXJLVVNHa1dNUmdzbGtuQjR0TDBwVHpWMnZkRGE1VDY2cFNp?=
+ =?utf-8?B?YUI1UElGZzd1Z0lLTk02aDU5Zk9nMTdvMUtNY2tWNXNHL0UwS3VHZGd0dENG?=
+ =?utf-8?B?THh5NFIzS29KcXcwcjJCNzdDUXlGUHVkYlIzUnJJRHJObWx1SkJXZEd5aDZN?=
+ =?utf-8?B?R1d6Z2hzOWY5VUFEMjdSVHh6SDFlUVhsN2dtMU9VOFBhQzhYNEttOEpqVXpa?=
+ =?utf-8?B?Rk5NeFVacUJkc0t2ckRzSXMyUWl6eXAzem1BWjJtZWtXR0l6dlZkSjU5blB1?=
+ =?utf-8?B?WFNoTlZrRk12T2M1eFAxWlkyTFlwTW5MTXY2OHFJVEFJeVNUNDFuVHNON2sy?=
+ =?utf-8?B?emhGM211YmNMYllYbXBOUEY0dFJTWHZrbVRvQ1lUQWQ2RGZhRDhHZTR1RVA2?=
+ =?utf-8?B?bHU0d1hVU29DTTZkcmg1U1NBNzJiUWo2TFUwdkdHWmdSLzcxdk5yNmtNN3ho?=
+ =?utf-8?B?d21FSkhSeG9ZOFM2dStMa3p1ZlptNlpERCsyL0QxVlJUbFF0dzRUQ3FGT2Fi?=
+ =?utf-8?B?SHFoZHk5emNQZG1hLy9OTFlXQk1MVkh4UEpVR1gwc01JZDFaNmt5SmttVEw3?=
+ =?utf-8?B?ZUxDNmJhVEFJeEJwUnZhVVo2Tkx6S0hjT0xjdE1LNlVNMWo2YW5HMGh2UDFw?=
+ =?utf-8?B?dFJCRTJhNVdYVm5iT0daZlVTNU1nZnVVOXNUclFxa1VGWmUyT1FNckUrNjVX?=
+ =?utf-8?B?b1FsZWRGeUd0TGxPenFzaldvcmpKSHhSZkU5UjlsNXRQNWxUK2N5bng4ek41?=
+ =?utf-8?B?aGNOTVNXQXpyK05zYkx4NFlwdkxWNzFLcjRrZzRlLzJTUUZpNmQ5eS8xcHdU?=
+ =?utf-8?B?QXc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 072fc5f1-1896-4833-22f8-08dcc69156e2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 11:50:32.1552
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 12:11:11.2291
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fwuA1plJs6sRiOUZaaUWEmjS/9Fo/ibv9SDDp2/oXMvk8THVExkav2JjlDi0Dnz0RWMp9pQJl2d9ySQgdgBsqrQuWmhYmkfLlCbIZ0Ia9vY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11033
+X-MS-Exchange-CrossTenant-UserPrincipalName: 83yWwkhxzWeyv4BVgIlp4Km677ii0dryd+t9tEGwJUK7WHAl62lRX1hD/l6aSTyg+/gu7byNhJ/ZtOxjPHe2jmcFRRp3LSh6F1bGxEtOADA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4755
+X-Proofpoint-GUID: Z7yOQQMVJkVoszel8luOww9dEyF3-wRS
+X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=66cdc262 cx=c_pps a=OemXRkCljtmPz/OzEC+nkg==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=ei4SEBeUAAAA:8
+ a=iGHA9ds3AAAA:8 a=6-mHwN2TeJhlGVFQT1QA:9 a=QEXdDO2ut3YA:10 a=iWm1cKwhI7EA:10 a=ag1SF4gXAAAA:8 a=yj-aMKAYKbz0kkd27lYA:9 a=8vXngM_1lD-dbDmZ:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=8zIOOLb7Ym0NljyPXbuS:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-ORIG-GUID: peFTXueuYgQIn-Ir-d_wmjtpERi8A37B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-27_06,2024-08-27_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 adultscore=0 malwarescore=0
+ mlxlogscore=999 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2407110000 definitions=main-2408270089
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 11:50:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203835
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 12:11:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203836
 
-Hi Dmitry,
+--------------w2c4OjaGAHINZPXs302ftbjq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 8/27/24 1:35 PM, Dmitry Baryshkov wrote:
-> Hi Quentin,
-> 
-> Excuse me, I missed your review before sending v2.
-> 
-> On Tue, 27 Aug 2024 at 13:25, Quentin Schulz <quentin.schulz@cherry.de> wrote:
+
+On 27-08-2024 16:08, Richard Purdie wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> On Sun, 2024-08-25 at 10:05 -0700, Yash Shinde via
+> lists.openembedded.org wrote:
+>> From: Yash Shinde<Yash.Shinde@windriver.com>
 >>
->> Hi Dmitry,
+>> Update the patch files with rust v1.79.0.
 >>
->> On 8/27/24 12:09 PM, Dmitry Baryshkov via lists.openembedded.org wrote:
->>> Release 20240811 has restructured the locations of Qualcomm VPU
->>> firmware. Follow those changes and implement a single
->>> linux-firmware-qcom-vpu package holding all VPU firmware files. Use
->>> RPROVIDES to provide previously defined names.
->>>
+>> Drop the following backported patch which is merged
+>> with rust v1.79 upgrade.
 >>
->> It'd be nice to hint at the commits in linux-firmware that do this reorg
->> for reference?
-> 
-> Ack
-> 
+>> - cross-targets-backport.patch
 >>
->> It's also not necessarily required to merge those together as we could
->> probably still have two different packages to avoid bringing in files we
->> don't need (I assume the same SoC doesn't have both a VPU 1.0 and a VPU
->> 2.0 ?).
-> 
-> First of all, the original naming seems to be incorrect as
-> demonstrated by the new file names:
-> 
->   qcom/{vpu-1.0/venus.mbn => vpu/vpu20_p4.mbn}    | Bin
->   qcom/{vpu-2.0/venus.mbn => vpu/vpu20_p1.mbn}    | Bin
-> qcom/{vpu-3.0/vpu30_4v.mbn => vpu/vpu30_p4.mbn} | Bin
-> 
-> It is possible to split one file per package and let users pick up
-> packages one by one, but granted that the whole size of the directory
-> (4 different firmware files) is 4.3 MiB, it doesn't seem to make sense
-> to me.
-> 
+>> https://blog.rust-lang.org/2024/06/13/Rust-1.79.0.html
+>>
+>> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
+> It seems mostly ok but we did see:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/9385/steps/13/logs/stdio
+>
+> in Alexandre's build :(
 
-4.3MiB is quite a lot if you want to be able to have a tiny filesystem :)
+I am looking into the failure but was unable to reproduce it.
 
-Ok so, if this 
-(https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=36db650dae038be945fb04def591fc726255b09f) 
-is the commit doing the change, we have an issue. We also need to 
-maintain backward compatibility, not between different versions of 
-Yocto/OE but between different versions of the kernel (I assume to be 
-the reason of the need for backward compatibility).
+The error log says:
 
-See that they mention in the commit log that they provide 
-backwards-compatible links, we need those as well. Otherwise we may 
-broke older kernels we were compatible with in the past.
+/stdio: ERROR: cargo-native-1.79.0-r0 do_compile: Execution of 
+'/home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/cargo-native/1.79.0/temp/run.do_compile.1874995' 
+failed with exit code 101
+stdio: ERROR: Logfile of failure stored in: 
+/home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/cargo-native/1.79.0/temp/log.do_compile.1874995
+stdio: ERROR: Task 
+(virtual:native:/home/pokybuild/yocto-worker/qemuarm64/build/meta/recipes-devtools/rust/cargo_1.79.0.bb:do_compile) 
+failed with exit code '1'
 
-I did something similar to that in a previous update, c.f. 
-cdcfdc1dc545fe381764795ed502a3fa0a48b87a in poky.
+stdio: ERROR: Command . ./oe-init-build-env; bitbake core-image-sato 
+core-image-sato-sdk core-image-minimal core-image-minimal-dev 
+core-image-full-cmdline core-image-sato:do_populate_sdk 
+core-image-minimal:do_populate_sdk_ext
+core-image-sato:do_populate_sdk_ext -k failed with exit code 1, see 
+errors above. (1724719291.3: 11079.3)/
 
-I would suggest the following:
-- keep the packages split
-- add the new file in qcom/vpu for each package
-- keep the venus.mbn path (which is now a symlink)
+I checked "bitbake cargo -c do_compile", 
+"core-image-minimal:do_populate_sdk" and core-image-sato:do_populate_sdk 
+and all passed successfully.
 
-Basically matching what I did for qcom-{qcm2290,qrb4210}-wifi?
+The build cmd has many /core-image minimal and sato/ build cmds.
+Could you please help me to point out which of these exactly cause the 
+issue?
+
+
+Regards,
+Yash
+
+>
+> Cheers,
+>
+> Richard
+--------------w2c4OjaGAHINZPXs302ftbjq
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 27-08-2024 16:08, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:bbbe564b9b6191edbe62abd69fa3b337ada2ad4a.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+On Sun, 2024-08-25 at 10:05 -0700, Yash Shinde via
+lists.openembedded.org wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">From: Yash Shinde <a class="moz-txt-link-rfc2396E" href="mailto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
+
+Update the patch files with rust v1.79.0.
+
+Drop the following backported patch which is merged
+with rust v1.79 upgrade.
+
+- cross-targets-backport.patch
+
+<a class="moz-txt-link-freetext" href="https://blog.rust-lang.org/2024/06/13/Rust-1.79.0.html">https://blog.rust-lang.org/2024/06/13/Rust-1.79.0.html</a>
+
+Signed-off-by: Yash Shinde <a class="moz-txt-link-rfc2396E" href="mailto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+It seems mostly ok but we did see:
+
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/9385/steps/13/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/9385/steps/13/logs/stdio</a>
+
+in Alexandre's build :(</pre>
+    </blockquote>
+    <p>I am looking into the failure but was unable to reproduce it.<br>
+      <br>
+      The error log says:</p>
+    <p><i><font size="2">stdio: ERROR: cargo-native-1.79.0-r0
+          do_compile: Execution of
+'/home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/cargo-native/1.79.0/temp/run.do_compile.1874995'
+          failed with exit code 101<br>
+          stdio: ERROR: Logfile of failure stored in:
+/home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/cargo-native/1.79.0/temp/log.do_compile.1874995<br>
+          stdio: ERROR: Task
+(virtual:native:/home/pokybuild/yocto-worker/qemuarm64/build/meta/recipes-devtools/rust/cargo_1.79.0.bb:do_compile)
+          failed with exit code '1'<br>
+          <br>
+          stdio: ERROR: Command . ./oe-init-build-env; bitbake
+          core-image-sato core-image-sato-sdk core-image-minimal
+          core-image-minimal-dev core-image-full-cmdline
+          core-image-sato:do_populate_sdk
+          core-image-minimal:do_populate_sdk_ext <br>
+          core-image-sato:do_populate_sdk_ext -k failed with exit code
+          1, see errors above. (1724719291.3: 11079.3)</font></i><br>
+      <br>
+      I checked &quot;bitbake cargo -c do_compile&quot;,
+      &quot;core-image-minimal:do_populate_sdk&quot; and
+      core-image-sato:do_populate_sdk and all passed successfully.<br>
+      <br>
+      The build cmd has many <i>core-image minimal and sato</i> build
+      cmds.<br>
+      Could you please help me to point out which of these exactly cause
+      the issue?<br>
+      <br>
+      <br>
+      Regards,<br>
+      Yash<br>
+      <br>
+    </p>
+    <blockquote type="cite" cite="mid:bbbe564b9b6191edbe62abd69fa3b337ada2ad4a.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">
 
 Cheers,
-Quentin
+
+Richard
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------w2c4OjaGAHINZPXs302ftbjq--
 
