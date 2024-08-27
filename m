@@ -2,445 +2,1708 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 594F9C54744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 257EFC5473F
 	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 05:24:20 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.70889.1724736259312926643
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.71677.1724736251691003148
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Aug 2024 22:24:19 -0700
+ Mon, 26 Aug 2024 22:24:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UYmM+Nml;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a86e5e9ff05so53049666b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 22:24:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y3G2aSBo;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a83597ce5beso779904566b.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 22:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724736258; x=1725341058; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1724736250; x=1725341050; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JpqE+UvUBaSlOZKe+DPZOPdu3GF40T4orggoT+2zBUo=;
-        b=UYmM+NmlXE5865nEo7g9tVePTksfmaN4/cdzLeH3P9jdpyRhxA+80VgJCAkawpMiUT
-         T2NOZbHXQSr1jYlEmQI7jTtKFWypzsWP/NS7TW4afgEm3I0SrgCEXRFDkXNLzhhHC47g
-         wfv7j1tlEtH7bcQsFWdL1+E2TxnI6Zmvypx+6Q9GLeDtDuJe49pDKN97agJ8f4c4pLTX
-         8+qiP5DRMUe7y5Em5BNZofsB+z9OCnZdJ34/QINgOtH+W1Aw9y0VihH+Hu0g2mMUwShf
-         4mZAzBCbXwNVlKzxfHJlRot8LZzQ2EJ1mnJoeMIMbNPxJM5DjK0S5lIfSzNN8V/nJxdg
-         /Szw==
+        bh=kTWPK9TCDyW4gQPA5tinN10y72eOZNSYFExjvjti3jY=;
+        b=Y3G2aSBoV+Zh+YHjTtX0o718G71DAMiuMHHYxS4LGV4EH060ojy99C4iPjI0ZNw4Ae
+         IN00EVLGAO+djQiOTbZo8+9po/fS2Vm6bi4i7lMka/FfbbAUO9dTgVVNYH4K1GbSP1hJ
+         v9VhBamyLsXInKElZkZSIXNvnn6RI9eTKLQCj5qxAD78T3BUcJS5BSqxg88GQrc/GwD2
+         8RsveoXJ7FXzajWoTbRtDET/i9zZNNBG0bcRhVqZQJBf78qQnILGKSRVmKcK61N7ou5o
+         iQ+X5mdg4tanuUdQnY9mNe4Zuh3HNi+857KEaERGtX4TRcY91ckD7zxiCqq/BQJhALPO
+         dKHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724736258; x=1725341058;
+        d=1e100.net; s=20230601; t=1724736250; x=1725341050;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JpqE+UvUBaSlOZKe+DPZOPdu3GF40T4orggoT+2zBUo=;
-        b=dvNKB5k94dpoyn0AXJPbAVDUrakuvmWjuwxV273vC4qfmv3OThkPv9LHMD720VdI6h
-         TFRWo0pjH76k+VmGGAc0xs54R0F25wlR2F201/zdVRV4ImYBWPIyMIYo9RUXKUD9/hBQ
-         oLlrr0W38/Y1mAtKYpZRZoP6Mv5/wpYjKIZKrwetIt9+N1ZgKukY6aFACBcySkITPOmS
-         BAHoDEnKSZqdHKTa5KXCr3EY9DDAJb4qFL5P09vK8tiOUys+Nddwl1siXTPpu5+BRqjP
-         Xiu6qum+RghMrmG2orMzV5hUplXR+jMwYePdGtuHJ9aEdN+wmIj3OvGs5zb7IYUWrNQR
-         OguQ==
-X-Gm-Message-State: AOJu0Yw7c/B2gAIm+a4FmEdruye7qEBXdxwDlV/d1DYpd/3xJgGryB09
-	lwwZO4eQUvgPIp1s2IeaVNIrfQTfM221hCKSZ3qfjKcBQIvhrG+zxD41yg==
-X-Google-Smtp-Source: AGHT+IG2dWsPAfc0nombqvskZ5EywA0IbFxsutuPP3GtDXkpi1bpViNVg69o+ub1bilc+JquZH//qQ==
-X-Received: by 2002:a17:907:ea5:b0:a86:8f66:e5cf with SMTP id a640c23a62f3a-a86e397e579mr107679666b.2.1724736257283;
-        Mon, 26 Aug 2024 22:24:17 -0700 (PDT)
+        bh=kTWPK9TCDyW4gQPA5tinN10y72eOZNSYFExjvjti3jY=;
+        b=HVdwzttu7PivtyHv9vXIIf2HaHmesuHDwU6usGy0FNPQvp3hOWVC2uYtN90pGfSZUq
+         nebWopRNGUCoqLJtdxL/koH3Lm8ElIAfx36ZRUsoW8YwcImNyfS5qbS8FbfMA0cBzYGM
+         8k2mkB/TpHYERF+RW1zgJYh7H5qM7/xyTV2wkExX6kOBpeoM/yb1yvVMBLYOApkkZq0A
+         72BwMnuDzS6kCby0fIpQzmwwfS9u6u3RdpD2qjZ8AHYnDCYAmbt2TZr4u9Yk3Mx6n4pS
+         uNRL2s7tzTUV+b/YUbmv+n1Mc8xbasMfv4GCf7tEhnHgvxvGgtFf2kW9kuiIDkqWeOwx
+         I7CA==
+X-Gm-Message-State: AOJu0YzWBjS8CGI6eVBLDkLNrQgNHQwBXGQM1uzzLWrtuXrye56Yudxb
+	HK4xHpFUIVBPnHsdwGmQE2NiNLK1mHZ7LGLHwHw/4PiOklJm5BWIoO4dtg==
+X-Google-Smtp-Source: AGHT+IEsiYzM5UmppwwK2c9Uu6BMNsRQ02uH+MZRhv9ZgrHVddx04CSOh0RRO8xmhYw56I5ioCjvjw==
+X-Received: by 2002:a17:906:6a22:b0:a77:dbf9:118f with SMTP id a640c23a62f3a-a86e2902234mr164722166b.13.1724736249323;
+        Mon, 26 Aug 2024 22:24:09 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e675aa07sm57704166b.17.2024.08.26.22.24.16
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e675aa07sm57704166b.17.2024.08.26.22.24.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 22:24:17 -0700 (PDT)
+        Mon, 26 Aug 2024 22:24:08 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 34/34] cracklib: update 2.9.11 -> 2.10.2
-Date: Tue, 27 Aug 2024 07:23:54 +0200
-Message-Id: <20240827052354.1319810-34-alex.kanavin@gmail.com>
+Subject: [PATCH 20/34] ffmpeg: update 6.1.1 -> 7.0.2
+Date: Tue, 27 Aug 2024 07:23:40 +0200
+Message-Id: <20240827052354.1319810-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240827052354.1319810-1-alex.kanavin@gmail.com>
 References: <20240827052354.1319810-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 05:24:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203810
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203797
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Drop endianness patch; upstream resolved the issue via:
-https://github.com/cracklib/cracklib/pull/86
-https://github.com/cracklib/cracklib/issues/74
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...port-dictionary-byte-order-dependent.patch | 339 ------------------
- ...{cracklib_2.9.11.bb => cracklib_2.10.2.bb} |   3 +-
- 2 files changed, 1 insertion(+), 341 deletions(-)
- delete mode 100644 meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
- rename meta/recipes-extended/cracklib/{cracklib_2.9.11.bb => cracklib_2.10.2.bb} (85%)
+ ...lpdsp_armv5te-fix-label-format-to-wo.patch |    2 +-
+ .../ffmpeg/ffmpeg/av1_ordering_info.patch     |   91 --
+ .../ffmpeg/ffmpeg/vulkan_av1_stable_API.patch | 1382 -----------------
+ .../ffmpeg/ffmpeg/vulkan_fix_gcc14.patch      |  102 --
+ .../{ffmpeg_6.1.1.bb => ffmpeg_7.0.2.bb}      |    5 +-
+ 5 files changed, 2 insertions(+), 1580 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/av1_ordering_info.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_av1_stable_API.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_fix_gcc14.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.1.1.bb => ffmpeg_7.0.2.bb} (97%)
 
-diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch
+index 2551eb17d7e..b7cd048165c 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch
+@@ -1,4 +1,4 @@
+-From 0b541aa54b9573d8eef7401a0cc58c422fe60a9a Mon Sep 17 00:00:00 2001
++From e52fc2c11c3935085ccf1a5707ce50223ad62b58 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Thu, 8 Aug 2024 18:04:17 +0100
+ Subject: [PATCH] libavcodec/arm/mlpdsp_armv5te: fix label format to work with
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/av1_ordering_info.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/av1_ordering_info.patch
 deleted file mode 100644
-index 35229ae8900..00000000000
---- a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+index bfc894563cb..00000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/av1_ordering_info.patch
 +++ /dev/null
-@@ -1,339 +0,0 @@
--From aae03b7e626d5f62ab929d51d11352a5a2ff6b2d Mon Sep 17 00:00:00 2001
--From: Lei Maohui <leimaohui@cn.fujitsu.com>
--Date: Tue, 9 Jun 2015 11:11:48 +0900
--Subject: [PATCH 1/2] packlib.c: support dictionary byte order dependent
+@@ -1,91 +0,0 @@
+-From cafb4c554845332eeb33284cf6498049997dc67e Mon Sep 17 00:00:00 2001
+-From: Mark Thompson <sw@jkqxz.net>
+-Date: Wed, 20 Mar 2024 20:35:28 +0000
+-Subject: [PATCH] lavc/cbs_av1: Save more frame ordering information
 -
--The previous dict files are NOT byte-order independent, in fact they are
--probably ARCHITECTURE SPECIFIC.
--Create the dict files in big endian, and convert to host endian while
--load them. This could fix the endian issue on multiple platform.
+-This is wanted by the Vulkan decoder.
 -
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--Upstream-Status: Submitted [https://github.com/cracklib/cracklib/pull/41]
--
--We can't use the endian.h, htobe* and be*toh functions because they are
--not available on older versions of glibc, such as that found in RHEL
--5.9.
--
--Change to checking endian and directly calling bswap_* as defined in
--byteswap.h.
--
--Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
--
--Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/ecdc94b97f809d5f2b88640842fd0541951ad295]
 ----
-- lib/packlib.c | 214 +++++++++++++++++++++++++++++++++++++++++++++-
-- 1 file changed, 210 insertions(+), 4 deletions(-)
+- libavcodec/cbs_av1.h                 |  5 +++++
+- libavcodec/cbs_av1_syntax_template.c | 25 +++++++++++++++++++++----
+- 2 files changed, 26 insertions(+), 4 deletions(-)
 -
--diff --git a/lib/packlib.c b/lib/packlib.c
--index 9396e1d..d0bb181 100644
----- a/lib/packlib.c
--+++ b/lib/packlib.c
--@@ -16,6 +16,12 @@
-- #ifdef HAVE_STDINT_H
-- #include <stdint.h>
-- #endif
--+
--+#ifndef _BSD_SOURCE
--+#define _BSD_SOURCE             /* See feature_test_macros(7) */
--+#endif
--+#include <endian.h>
--+#include <byteswap.h>
-- #include "packer.h"
+-diff --git a/libavcodec/cbs_av1.h b/libavcodec/cbs_av1.h
+-index a5402f069d..a027013bc7 100644
+---- a/libavcodec/cbs_av1.h
+-+++ b/libavcodec/cbs_av1.h
+-@@ -427,6 +427,8 @@ typedef struct AV1ReferenceFrameState {
+-     int bit_depth;      // RefBitDepth
+-     int order_hint;     // RefOrderHint
 - 
-- #define DEBUG 0
--@@ -43,6 +49,185 @@ typedef struct
--     char data_get[NUMWORDS][MAXWORDLEN];
-- } PWDICT64;
+-+    int saved_order_hints[AV1_TOTAL_REFS_PER_FRAME]; // SavedOrderHints[ref]
+-+
+-     int8_t  loop_filter_ref_deltas[AV1_TOTAL_REFS_PER_FRAME];
+-     int8_t  loop_filter_mode_deltas[2];
+-     uint8_t feature_enabled[AV1_MAX_SEGMENTS][AV1_SEG_LVL_MAX];
+-@@ -464,6 +466,9 @@ typedef struct CodedBitstreamAV1Context {
+-     int tile_rows;
+-     int tile_num;
 - 
--+enum{
--+    en_is32,
--+    en_is64
--+};
+-+    int order_hints[AV1_TOTAL_REFS_PER_FRAME];         // OrderHints
+-+    int ref_frame_sign_bias[AV1_TOTAL_REFS_PER_FRAME]; // RefFrameSignBias
 -+
--+static int
--+IheaderHostToBigEndian(char *pHeader, int nBitType)
--+{
--+    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        struct pi_header64 *pHeader64 = (struct pi_header64*)pHeader;
--+
--+        pHeader64->pih_magic = bswap_64(pHeader64->pih_magic);
--+        pHeader64->pih_numwords = bswap_64(pHeader64->pih_numwords);
--+        pHeader64->pih_blocklen = bswap_16(pHeader64->pih_blocklen);
--+        pHeader64->pih_pad = bswap_16(pHeader64->pih_pad);
--+
--+#if DEBUG
--+        printf("Header64: magic %x, numwords %x, blocklen %x, pad %x\n",
--+          pHeader64->pih_magic, pHeader64->pih_numwords,
--+          pHeader64->pih_blocklen, pHeader64->pih_pad);
--+#endif
--+    }
--+    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        struct pi_header *pHeader32 = (struct pi_header*)pHeader;
--+
--+        pHeader32->pih_magic = bswap_32(pHeader32->pih_magic);
--+        pHeader32->pih_numwords = bswap_32(pHeader32->pih_numwords);
--+        pHeader32->pih_blocklen = bswap_16(pHeader32->pih_blocklen);
--+        pHeader32->pih_pad = bswap_16(pHeader32->pih_pad);
--+
--+#if DEBUG
--+        printf("Header32: magic %x, numwords %x, blocklen %x, pad %x\n",
--+          pHeader32->pih_magic, pHeader32->pih_numwords,
--+          pHeader32->pih_blocklen, pHeader32->pih_pad);
--+#endif
--+    }
--+    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
--+        return (-1);
--+    }
--+
--+    return 0;
--+}
--+
--+static int
--+IheaderBigEndianToHost(char *pHeader, int nBitType)
--+{
--+    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        struct pi_header64 *pHeader64 = (struct pi_header64*)pHeader;
--+
--+        pHeader64->pih_magic = bswap_64(pHeader64->pih_magic);
--+        pHeader64->pih_numwords = bswap_64(pHeader64->pih_numwords);
--+        pHeader64->pih_blocklen = bswap_16(pHeader64->pih_blocklen);
--+        pHeader64->pih_pad = bswap_16(pHeader64->pih_pad);
--+
--+#if DEBUG
--+        printf("Header64: magic %x, numwords %x, blocklen %x, pad %x\n",
--+          pHeader64->pih_magic, pHeader64->pih_numwords,
--+          pHeader64->pih_blocklen, pHeader64->pih_pad);
--+#endif
--+    }
--+    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        struct pi_header *pHeader32 = (struct pi_header*)pHeader;
--+
--+        pHeader32->pih_magic = bswap_32(pHeader32->pih_magic);
--+        pHeader32->pih_numwords = bswap_32(pHeader32->pih_numwords);
--+        pHeader32->pih_blocklen = bswap_16(pHeader32->pih_blocklen);
--+        pHeader32->pih_pad = bswap_16(pHeader32->pih_pad);
--+
--+#if DEBUG
--+        printf("Header32: magic %x, numwords %x, blocklen %x, pad %x\n",
--+            pHeader32->pih_magic, pHeader32->pih_numwords,
--+            pHeader32->pih_blocklen, pHeader32->pih_pad);
--+#endif
--+    }
--+    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
--+        return (-1);
--+    }
--+
--+    return 0;
--+}
--+
--+static int
--+HwmsHostToBigEndian(char *pHwms, int nLen,int nBitType)
--+{
--+    int i = 0;
--+
--+    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        uint64_t *pHwms64 = (uint64_t*)pHwms;
--+
--+        for (i = 0; i < nLen / sizeof(uint64_t); i++)
--+        {
--+            *pHwms64 = bswap_64(*pHwms64);
--+            *pHwms64++;
--+        }
--+
--+    }
--+    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        uint32_t *pHwms32 = (uint32_t*)pHwms;
--+
--+        for (i = 0; i < nLen / sizeof(uint32_t); i++)
--+        {
--+            *pHwms32 = bswap_32(*pHwms32);
--+            *pHwms32++;
--+        }
--+
--+    }
--+    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
--+        return (-1);
--+    }
--+
--+#if DEBUG
--+    for (i = 0; i < nLen; i+=8)
--+    {
--+        printf("hwms%s: %02X %02X %02X %02X %02X %02X %02X %02X\n",
--+            nBitType==en_is64?"64":"32", pHwms[i+0]&0xFF, pHwms[i+1]&0xFF,
--+            pHwms[i+2]&0xFF, pHwms[i+3]&0xFF, pHwms[i+4]&0xFF,
--+            pHwms[i+5]&0xFF, pHwms[i+6]&0xFF, pHwms[i+7]&0xFF);
--+    }
--+#endif
--+
--+    return 0;
--+}
--+
--+static int
--+HwmsBigEndianToHost(char *pHwms, int nLen, int nBitType)
--+{
--+    int i = 0;
--+
--+    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        uint64_t *pHwms64 = (uint64_t*)pHwms;
--+
--+        for (i = 0; i < nLen / sizeof(uint64_t); i++)
--+        {
--+            *pHwms64++ = bswap_64(*pHwms64);
--+        }
--+
--+    }
--+    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        uint32_t *pHwms32 = (uint32_t*)pHwms;
--+
--+        for (i = 0; i < nLen / sizeof(uint32_t); i++)
--+        {
--+            *pHwms32 = bswap_32(*pHwms32);
--+            *pHwms32++;
--+        }
--+
--+    }
--+    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
--+    {
--+        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
--+        return (-1);
--+    }
--+
--+#if DEBUG
--+    for (i = 0; i < nLen; i+=8)
--+    {
--+        printf("hwms%s: %02X %02X %02X %02X %02X %02X %02X %02X\n",
--+            nBitType==en_is64?"64":"32", pHwms[i+0]&0xFF, pHwms[i+1]&0xFF,
--+            pHwms[i+2]&0xFF, pHwms[i+3]&0xFF, pHwms[i+4]&0xFF,
--+            pHwms[i+5]&0xFF, pHwms[i+6]&0xFF, pHwms[i+7]&0xFF);
--+    }
--+#endif
--+
--+    return 0;
--+}
+-     AV1ReferenceFrameState ref[AV1_NUM_REF_FRAMES];
 - 
-- static int
-- _PWIsBroken64(FILE *ifp)
--@@ -55,6 +240,7 @@ _PWIsBroken64(FILE *ifp)
--        return 0;
+-     // AVOptions
+-diff --git a/libavcodec/cbs_av1_syntax_template.c b/libavcodec/cbs_av1_syntax_template.c
+-index 3be1f2d30f..2979c5d98f 100644
+---- a/libavcodec/cbs_av1_syntax_template.c
+-+++ b/libavcodec/cbs_av1_syntax_template.c
+-@@ -1414,6 +1414,8 @@ static int FUNC(uncompressed_header)(CodedBitstreamContext *ctx, RWContext *rw,
+-             priv->ref[i].valid = 0;
+-             priv->ref[i].order_hint = 0;
+-         }
+-+        for (i = 0; i < AV1_REFS_PER_FRAME; i++)
+-+            priv->order_hints[i + AV1_REF_FRAME_LAST] = 0;
 -     }
 - 
--+    IheaderBigEndianToHost((char *) &pdesc64.header, en_is64);
--     return (pdesc64.header.pih_magic == PIH_MAGIC);
-- }
+-     flag(disable_cdf_update);
+-@@ -1568,11 +1570,20 @@ static int FUNC(uncompressed_header)(CodedBitstreamContext *ctx, RWContext *rw,
+-         else
+-             flag(use_ref_frame_mvs);
 - 
--@@ -147,7 +333,11 @@ PWOpen(prefix, mode)
-- 	pdesc.header.pih_blocklen = NUMWORDS;
-- 	pdesc.header.pih_numwords = 0;
+--        infer(allow_intrabc, 0);
+--    }
+-+        for (i = 0; i < AV1_REFS_PER_FRAME; i++) {
+-+            int ref_frame = AV1_REF_FRAME_LAST + i;
+-+            int hint = priv->ref[current->ref_frame_idx[i]].order_hint;
+-+            priv->order_hints[ref_frame] = hint;
+-+            if (!seq->enable_order_hint) {
+-+                priv->ref_frame_sign_bias[ref_frame] = 0;
+-+            } else {
+-+                priv->ref_frame_sign_bias[ref_frame] =
+-+                    cbs_av1_get_relative_dist(seq, hint,
+-+                                              current->order_hint) > 0;
+-+            }
+-+        }
 - 
---	fwrite((char *) &pdesc.header, sizeof(pdesc.header), 1, ifp);
--+	struct pi_header tmpheader32;
--+
--+	memcpy(&tmpheader32,  &pdesc.header, sizeof(pdesc.header));
--+	IheaderHostToBigEndian((char *) &tmpheader32, en_is32);
--+	fwrite((char *) &tmpheader32, sizeof(tmpheader32), 1, ifp);
--     } else
--     {
-- 	pdesc.flags &= ~PFOR_WRITE;
--@@ -171,6 +361,7 @@ PWOpen(prefix, mode)
-- 	    return NULL;
-- 	}
-- 
--+        IheaderBigEndianToHost((char *) &pdesc.header, en_is32);
--         if ((pdesc.header.pih_magic == 0) || (pdesc.header.pih_numwords == 0))
--         {
--             /* uh-oh. either a broken "64-bit" file or a garbage file. */
--@@ -193,6 +384,7 @@ PWOpen(prefix, mode)
-- 		}
--                 return NULL;
--             }
--+            IheaderBigEndianToHost((char *) &pdesc64.header, en_is64);
--             if (pdesc64.header.pih_magic != PIH_MAGIC)
--             {
--                 /* nope, not "64-bit" after all */
--@@ -288,6 +480,7 @@ PWOpen(prefix, mode)
--                 {
--                     pdesc.flags &= ~PFOR_USEHWMS;
--                 }
--+                HwmsBigEndianToHost((char*)pdesc64.hwms, sizeof(pdesc64.hwms), en_is64);
--                 for (i = 0; i < sizeof(pdesc.hwms) / sizeof(pdesc.hwms[0]); i++)
--                 {
--                     pdesc.hwms[i] = pdesc64.hwms[i];
--@@ -297,6 +490,7 @@ PWOpen(prefix, mode)
-- 	    {
-- 		pdesc.flags &= ~PFOR_USEHWMS;
-- 	    }
--+	    HwmsBigEndianToHost((char*)pdesc.hwms, sizeof(pdesc.hwms), en_is32);
-- #if DEBUG
--             for (i=1; i<=0xff; i++)
--             {
--@@ -330,7 +524,11 @@ PWClose(pwp)
-- 	    return (-1);
-- 	}
-- 
---	if (!fwrite((char *) &pwp->header, sizeof(pwp->header), 1, pwp->ifp))
--+	struct pi_header tmpheader32;
--+
--+	memcpy(&tmpheader32,  &pwp->header, sizeof(pwp->header));
--+	IheaderHostToBigEndian((char *) &tmpheader32, en_is32);
--+	if (!fwrite((char *) &tmpheader32, sizeof(tmpheader32), 1, pwp->ifp))
-- 	{
-- 	    fprintf(stderr, "index magic fwrite failed\n");
-- 	    return (-1);
--@@ -349,7 +547,12 @@ PWClose(pwp)
-- 	    	printf("hwm[%02x] = %d\n", i, pwp->hwms[i]);
-- #endif
-- 	    }
---	    fwrite(pwp->hwms, 1, sizeof(pwp->hwms), pwp->wfp);
--+
--+	    PWDICT tmp_pwp;
--+
--+	    memcpy(&tmp_pwp, pwp, sizeof(PWDICT));
--+	    HwmsHostToBigEndian((char *)tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
--+	    fwrite(tmp_pwp.hwms, 1, sizeof(tmp_pwp.hwms), pwp->wfp);
-- 	}
+--    if (!frame_is_intra) {
+--        // Derive reference frame sign biases.
+-+        infer(allow_intrabc, 0);
 -     }
 - 
--@@ -403,7 +606,8 @@ PutPW(pwp, string)
-- 
-- 	datum = (uint32_t) ftell(pwp->dfp);
-- 
---	fwrite((char *) &datum, sizeof(datum), 1, pwp->ifp);
--+	uint32_t tmpdatum = (__BYTE_ORDER == __LITTLE_ENDIAN) ? bswap_32(datum) : datum;
--+	fwrite((char *) &tmpdatum, sizeof(tmpdatum), 1, pwp->ifp);
-- 
-- 	fputs(pwp->data_put[0], pwp->dfp);
-- 	putc(0, (FILE*) pwp->dfp);
--@@ -462,6 +666,7 @@ GetPW(pwp, number)
--            perror("(index fread failed)");
--            return NULL;
--        }
--+       datum64 = (__BYTE_ORDER == __LITTLE_ENDIAN) ? bswap_64(datum64) : datum64;
--        datum = datum64;
--     } else {
--        if (fseek(pwp->ifp, sizeof(struct pi_header) + (thisblock * sizeof(uint32_t)), 0))
--@@ -475,6 +680,7 @@ GetPW(pwp, number)
--            perror("(index fread failed)");
--            return NULL;
--        }
--+       datum = (__BYTE_ORDER == __LITTLE_ENDIAN) ? bswap_32(datum) : datum;
--     }
-- 
-- 	int r = 1;
+-     if (seq->reduced_still_picture_header || current->disable_cdf_update)
+-@@ -1674,6 +1685,12 @@ update_refs:
+-                 .bit_depth      = priv->bit_depth,
+-                 .order_hint     = priv->order_hint,
+-             };
+-+
+-+            for (int j = 0; j < AV1_REFS_PER_FRAME; j++) {
+-+                priv->ref[i].saved_order_hints[j + AV1_REF_FRAME_LAST] =
+-+                    priv->order_hints[j + AV1_REF_FRAME_LAST];
+-+            }
+-+
+-             memcpy(priv->ref[i].loop_filter_ref_deltas, current->loop_filter_ref_deltas,
+-                    sizeof(current->loop_filter_ref_deltas));
+-             memcpy(priv->ref[i].loop_filter_mode_deltas, current->loop_filter_mode_deltas,
 --- 
--2.20.1
+-2.25.1
 -
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.11.bb b/meta/recipes-extended/cracklib/cracklib_2.10.2.bb
-similarity index 85%
-rename from meta/recipes-extended/cracklib/cracklib_2.9.11.bb
-rename to meta/recipes-extended/cracklib/cracklib_2.10.2.bb
-index 34ef2b65a11..2c913da1527 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.9.11.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.10.2.bb
-@@ -10,10 +10,9 @@ DEPENDS = "cracklib-native zlib"
- EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_av1_stable_API.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_av1_stable_API.patch
+deleted file mode 100644
+index 74db148b3b3..00000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_av1_stable_API.patch
++++ /dev/null
+@@ -1,1382 +0,0 @@
+-From ecdc94b97f809d5f2b88640842fd0541951ad295 Mon Sep 17 00:00:00 2001
+-From: Lynne <dev@lynne.ee>
+-Date: Fri, 19 Jan 2024 10:49:02 +1000
+-Subject: [PATCH] vulkan_av1: port to the new stable API
+-
+-Co-Authored-by: Dave Airlie <airlied@redhat.com>
+-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/ecdc94b97f809d5f2b88640842fd0541951ad295]
+----
+- configure                                     |   4 +-
+- libavcodec/Makefile                           |   5 +-
+- libavcodec/vulkan_av1.c                       | 514 ++++++++++--------
+- libavcodec/vulkan_decode.c                    |  31 +-
+- libavcodec/vulkan_decode.h                    |   2 +-
+- libavcodec/vulkan_video.h                     |   2 -
+- .../vulkan_video_codec_av1std_decode_mesa.h   |  36 --
+- libavcodec/vulkan_video_codec_av1std_mesa.h   | 403 --------------
+- libavutil/hwcontext_vulkan.c                  |   2 +-
+- libavutil/vulkan_functions.h                  |   2 +-
+- libavutil/vulkan_loader.h                     |   2 +-
+- 11 files changed, 306 insertions(+), 697 deletions(-)
+- delete mode 100644 libavcodec/vulkan_video_codec_av1std_decode_mesa.h
+- delete mode 100644 libavcodec/vulkan_video_codec_av1std_mesa.h
+-
+-diff --git a/configure b/configure
+-index e853deb51d..9fa639fca6 100755
+---- a/configure
+-+++ b/configure
+-@@ -7300,8 +7300,8 @@ enabled vdpau &&
+-          "in maintaining it."
+- 
+- if enabled vulkan; then
+--    check_pkg_config_header_only vulkan "vulkan >= 1.3.255" "vulkan/vulkan.h" "defined VK_VERSION_1_3" ||
+--        check_cpp_condition vulkan "vulkan/vulkan.h" "defined(VK_VERSION_1_4) || (defined(VK_VERSION_1_3) && VK_HEADER_VERSION >= 255)"
+-+    check_pkg_config_header_only vulkan "vulkan >= 1.3.277" "vulkan/vulkan.h" "defined VK_VERSION_1_3" ||
+-+        check_cpp_condition vulkan "vulkan/vulkan.h" "defined(VK_VERSION_1_4) || (defined(VK_VERSION_1_3) && VK_HEADER_VERSION >= 277)"
+- fi
+- 
+- if disabled vulkan; then
+-diff --git a/libavcodec/Makefile b/libavcodec/Makefile
+-index 7ef2e03ca6..9ce6d445c1 100644
+---- a/libavcodec/Makefile
+-+++ b/libavcodec/Makefile
+-@@ -1258,8 +1258,7 @@ SKIPHEADERS                            += %_tablegen.h                  \
+-                                           aacenc_quantization.h         \
+-                                           aacenc_quantization_misc.h    \
+-                                           bitstream_template.h          \
+--                                          vulkan_video_codec_av1std.h   \
+--                                          $(ARCH)/vpx_arith.h          \
+-+                                          $(ARCH)/vpx_arith.h           \
+- 
+- SKIPHEADERS-$(CONFIG_AMF)              += amfenc.h
+- SKIPHEADERS-$(CONFIG_D3D11VA)          += d3d11va.h dxva2_internal.h
+-@@ -1280,7 +1279,7 @@ SKIPHEADERS-$(CONFIG_QSVENC)           += qsvenc.h
+- SKIPHEADERS-$(CONFIG_VAAPI)            += vaapi_decode.h vaapi_hevc.h vaapi_encode.h
+- SKIPHEADERS-$(CONFIG_VDPAU)            += vdpau.h vdpau_internal.h
+- SKIPHEADERS-$(CONFIG_VIDEOTOOLBOX)     += videotoolbox.h vt_internal.h
+--SKIPHEADERS-$(CONFIG_VULKAN)           += vulkan.h vulkan_video.h vulkan_decode.h vulkan_video_codec_av1std_decode.h
+-+SKIPHEADERS-$(CONFIG_VULKAN)           += vulkan.h vulkan_video.h vulkan_decode.h
+- SKIPHEADERS-$(CONFIG_V4L2_M2M)         += v4l2_buffers.h v4l2_context.h v4l2_m2m.h
+- SKIPHEADERS-$(CONFIG_ZLIB)             += zlib_wrapper.h
+- 
+-diff --git a/libavcodec/vulkan_av1.c b/libavcodec/vulkan_av1.c
+-index 5afd5353cc..c9e398eaec 100644
+---- a/libavcodec/vulkan_av1.c
+-+++ b/libavcodec/vulkan_av1.c
+-@@ -36,33 +36,47 @@ const FFVulkanDecodeDescriptor ff_vk_dec_av1_desc = {
+- typedef struct AV1VulkanDecodePicture {
+-     FFVulkanDecodePicture           vp;
+- 
+--    /* Workaround for a spec issue.
+--     *Can be removed once no longer needed, and threading can be enabled. */
+-+    /* TODO: investigate if this can be removed to make decoding completely
+-+     * independent. */
+-     FFVulkanDecodeContext          *dec;
+- 
+--    StdVideoAV1MESATile            tiles[MAX_TILES];
+--    StdVideoAV1MESATileList        tile_list;
+--    const uint32_t                *tile_offsets;
+-+    uint32_t tile_sizes[MAX_TILES];
+- 
+-     /* Current picture */
+--    VkVideoDecodeAV1DpbSlotInfoMESA    vkav1_ref;
+--    StdVideoAV1MESAFrameHeader         av1_frame_header;
+--    VkVideoDecodeAV1PictureInfoMESA    av1_pic_info;
+-+    StdVideoDecodeAV1ReferenceInfo     std_ref;
+-+    VkVideoDecodeAV1DpbSlotInfoKHR     vkav1_ref;
+-+    uint16_t width_in_sbs_minus1[64];
+-+    uint16_t height_in_sbs_minus1[64];
+-+    uint16_t mi_col_starts[64];
+-+    uint16_t mi_row_starts[64];
+-+    StdVideoAV1TileInfo tile_info;
+-+    StdVideoAV1Quantization quantization;
+-+    StdVideoAV1Segmentation segmentation;
+-+    StdVideoAV1LoopFilter loop_filter;
+-+    StdVideoAV1CDEF cdef;
+-+    StdVideoAV1LoopRestoration loop_restoration;
+-+    StdVideoAV1GlobalMotion global_motion;
+-+    StdVideoAV1FilmGrain film_grain;
+-+    StdVideoDecodeAV1PictureInfo    std_pic_info;
+-+    VkVideoDecodeAV1PictureInfoKHR     av1_pic_info;
+- 
+-     /* Picture refs */
+-     const AV1Frame                     *ref_src   [AV1_NUM_REF_FRAMES];
+--    VkVideoDecodeAV1DpbSlotInfoMESA     vkav1_refs[AV1_NUM_REF_FRAMES];
+-+    StdVideoDecodeAV1ReferenceInfo      std_refs  [AV1_NUM_REF_FRAMES];
+-+    VkVideoDecodeAV1DpbSlotInfoKHR      vkav1_refs[AV1_NUM_REF_FRAMES];
+- 
+-     uint8_t frame_id_set;
+-     uint8_t frame_id;
+-+    uint8_t ref_frame_sign_bias_mask;
+- } AV1VulkanDecodePicture;
+- 
+- static int vk_av1_fill_pict(AVCodecContext *avctx, const AV1Frame **ref_src,
+-                             VkVideoReferenceSlotInfoKHR *ref_slot,      /* Main structure */
+-                             VkVideoPictureResourceInfoKHR *ref,         /* Goes in ^ */
+--                            VkVideoDecodeAV1DpbSlotInfoMESA *vkav1_ref, /* Goes in ^ */
+-+                            StdVideoDecodeAV1ReferenceInfo *vkav1_std_ref,
+-+                            VkVideoDecodeAV1DpbSlotInfoKHR *vkav1_ref, /* Goes in ^ */
+-                             const AV1Frame *pic, int is_current, int has_grain,
+--                            int dpb_slot_index)
+-+                            int *saved_order_hints)
+- {
+-     FFVulkanDecodeContext *dec = avctx->internal->hwaccel_priv_data;
+-     AV1VulkanDecodePicture *hp = pic->hwaccel_picture_private;
+-@@ -73,31 +87,42 @@ static int vk_av1_fill_pict(AVCodecContext *avctx, const AV1Frame **ref_src,
+-     if (err < 0)
+-         return err;
+- 
+--    *vkav1_ref = (VkVideoDecodeAV1DpbSlotInfoMESA) {
+--        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_MESA,
+--        .frameIdx = hp->frame_id,
+-+    *vkav1_std_ref = (StdVideoDecodeAV1ReferenceInfo) {
+-+        .flags = (StdVideoDecodeAV1ReferenceInfoFlags) {
+-+            .disable_frame_end_update_cdf = pic->raw_frame_header->disable_frame_end_update_cdf,
+-+            .segmentation_enabled = pic->raw_frame_header->segmentation_enabled,
+-+        },
+-+        .frame_type = pic->raw_frame_header->frame_type,
+-+        .OrderHint = pic->raw_frame_header->order_hint,
+-+        .RefFrameSignBias = hp->ref_frame_sign_bias_mask,
+-     };
+- 
+--    for (unsigned i = 0; i < 7; i++) {
+--        const int idx = pic->raw_frame_header->ref_frame_idx[i];
+--        vkav1_ref->ref_order_hint[i] = pic->raw_frame_header->ref_order_hint[idx];
+--    }
+-+    if (saved_order_hints)
+-+        for (int i = 0; i < AV1_TOTAL_REFS_PER_FRAME; i++)
+-+            vkav1_std_ref->SavedOrderHints[i] = saved_order_hints[i];
+-+
+-+    *vkav1_ref = (VkVideoDecodeAV1DpbSlotInfoKHR) {
+-+        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR,
+-+        .pStdReferenceInfo = vkav1_std_ref,
+-+    };
+- 
+--    vkav1_ref->disable_frame_end_update_cdf = pic->raw_frame_header->disable_frame_end_update_cdf;
+-+    vkav1_std_ref->flags.disable_frame_end_update_cdf = pic->raw_frame_header->disable_frame_end_update_cdf;
+-+    vkav1_std_ref->flags.segmentation_enabled = pic->raw_frame_header->segmentation_enabled;
+-+    vkav1_std_ref->frame_type = pic->raw_frame_header->frame_type;
+- 
+-     *ref = (VkVideoPictureResourceInfoKHR) {
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_PICTURE_RESOURCE_INFO_KHR,
+-         .codedOffset = (VkOffset2D){ 0, 0 },
+-         .codedExtent = (VkExtent2D){ pic->f->width, pic->f->height },
+-         .baseArrayLayer = ((has_grain || dec->dedicated_dpb) && dec->layered_dpb) ?
+--                          dpb_slot_index : 0,
+-+                          hp->frame_id : 0,
+-         .imageViewBinding = vkpic->img_view_ref,
+-     };
+- 
+-     *ref_slot = (VkVideoReferenceSlotInfoKHR) {
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_REFERENCE_SLOT_INFO_KHR,
+-         .pNext = vkav1_ref,
+--        .slotIndex = dpb_slot_index,
+-+        .slotIndex = hp->frame_id,
+-         .pPictureResource = ref,
+-     };
+- 
+-@@ -115,15 +140,40 @@ static int vk_av1_create_params(AVCodecContext *avctx, AVBufferRef **buf)
+- 
+-     const AV1RawSequenceHeader *seq = s->raw_seq;
+- 
+--    StdVideoAV1MESASequenceHeader av1_sequence_header;
+--    VkVideoDecodeAV1SessionParametersAddInfoMESA av1_params_info;
+--    VkVideoDecodeAV1SessionParametersCreateInfoMESA av1_params;
+-+    StdVideoAV1SequenceHeader av1_sequence_header;
+-+    StdVideoAV1TimingInfo av1_timing_info;
+-+    StdVideoAV1ColorConfig av1_color_config;
+-+    VkVideoDecodeAV1SessionParametersCreateInfoKHR av1_params;
+-     VkVideoSessionParametersCreateInfoKHR session_params_create;
+- 
+-     int err;
+- 
+--    av1_sequence_header = (StdVideoAV1MESASequenceHeader) {
+--        .flags = (StdVideoAV1MESASequenceHeaderFlags) {
+-+    av1_timing_info = (StdVideoAV1TimingInfo) {
+-+        .flags = (StdVideoAV1TimingInfoFlags) {
+-+            .equal_picture_interval = seq->timing_info.equal_picture_interval,
+-+        },
+-+        .num_units_in_display_tick = seq->timing_info.num_units_in_display_tick,
+-+        .time_scale = seq->timing_info.time_scale,
+-+        .num_ticks_per_picture_minus_1 = seq->timing_info.num_ticks_per_picture_minus_1,
+-+    };
+-+
+-+    av1_color_config = (StdVideoAV1ColorConfig) {
+-+        .flags = (StdVideoAV1ColorConfigFlags) {
+-+            .mono_chrome = seq->color_config.mono_chrome,
+-+            .color_range = seq->color_config.color_range,
+-+            .separate_uv_delta_q = seq->color_config.separate_uv_delta_q,
+-+        },
+-+        .BitDepth = seq->color_config.twelve_bit    ? 12 :
+-+                    seq->color_config.high_bitdepth ? 10 : 8,
+-+        .subsampling_x = seq->color_config.subsampling_x,
+-+        .subsampling_y = seq->color_config.subsampling_y,
+-+        .color_primaries = seq->color_config.color_primaries,
+-+        .transfer_characteristics = seq->color_config.transfer_characteristics,
+-+        .matrix_coefficients = seq->color_config.matrix_coefficients,
+-+    };
+-+
+-+    av1_sequence_header = (StdVideoAV1SequenceHeader) {
+-+        .flags = (StdVideoAV1SequenceHeaderFlags) {
+-             .still_picture = seq->still_picture,
+-             .reduced_still_picture_header = seq->reduced_still_picture_header,
+-             .use_128x128_superblock = seq->use_128x128_superblock,
+-@@ -152,34 +202,15 @@ static int vk_av1_create_params(AVCodecContext *avctx, AVBufferRef **buf)
+-         .delta_frame_id_length_minus_2 = seq->delta_frame_id_length_minus_2,
+-         .additional_frame_id_length_minus_1 = seq->additional_frame_id_length_minus_1,
+-         .order_hint_bits_minus_1 = seq->order_hint_bits_minus_1,
+--        .timing_info = (StdVideoAV1MESATimingInfo) {
+--            .flags = (StdVideoAV1MESATimingInfoFlags) {
+--                .equal_picture_interval = seq->timing_info.equal_picture_interval,
+--            },
+--            .num_units_in_display_tick = seq->timing_info.num_units_in_display_tick,
+--            .time_scale = seq->timing_info.time_scale,
+--            .num_ticks_per_picture_minus_1 = seq->timing_info.num_ticks_per_picture_minus_1,
+--        },
+--        .color_config = (StdVideoAV1MESAColorConfig) {
+--            .flags = (StdVideoAV1MESAColorConfigFlags) {
+--                .mono_chrome = seq->color_config.mono_chrome,
+--                .color_range = seq->color_config.color_range,
+--                .separate_uv_delta_q = seq->color_config.separate_uv_delta_q,
+--            },
+--            .bit_depth = seq->color_config.twelve_bit ? 12 :
+--                         seq->color_config.high_bitdepth ? 10 : 8,
+--            .subsampling_x = seq->color_config.subsampling_x,
+--            .subsampling_y = seq->color_config.subsampling_y,
+--        },
+-+        .seq_force_integer_mv = seq->seq_force_integer_mv,
+-+        .seq_force_screen_content_tools = seq->seq_force_screen_content_tools,
+-+        .pTimingInfo = &av1_timing_info,
+-+        .pColorConfig = &av1_color_config,
+-     };
+- 
+--    av1_params_info = (VkVideoDecodeAV1SessionParametersAddInfoMESA) {
+--        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_ADD_INFO_MESA,
+--        .sequence_header = &av1_sequence_header,
+--    };
+--    av1_params = (VkVideoDecodeAV1SessionParametersCreateInfoMESA) {
+--        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_MESA,
+--        .pParametersAddInfo = &av1_params_info,
+-+    av1_params = (VkVideoDecodeAV1SessionParametersCreateInfoKHR) {
+-+        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-+        .pStdSequenceHeader = &av1_sequence_header,
+-     };
+-     session_params_create = (VkVideoSessionParametersCreateInfoKHR) {
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-@@ -211,8 +242,14 @@ static int vk_av1_start_frame(AVCodecContext          *avctx,
+- 
+-     const AV1RawFrameHeader *frame_header = s->raw_frame_header;
+-     const AV1RawFilmGrainParams *film_grain = &s->cur_frame.film_grain;
+-+    CodedBitstreamAV1Context *cbs_ctx = (CodedBitstreamAV1Context *)(s->cbc->priv_data);
+-+
+-     const int apply_grain = !(avctx->export_side_data & AV_CODEC_EXPORT_DATA_FILM_GRAIN) &&
+-                             film_grain->apply_grain;
+-+    StdVideoAV1FrameRestorationType remap_lr_type[4] = { STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_NONE,
+-+                                                         STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SWITCHABLE,
+-+                                                         STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_WIENER,
+-+                                                         STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SGRPROJ };
+- 
+-     if (!dec->session_params) {
+-         err = vk_av1_create_params(avctx, &dec->session_params);
+-@@ -233,15 +270,31 @@ static int vk_av1_start_frame(AVCodecContext          *avctx,
+-         dec->frame_id_alloc_mask |= (1 << slot_idx);
+-     }
+- 
+--    /* Fill in references */
+--    for (int i = 0; i < AV1_NUM_REF_FRAMES; i++) {
+--        const AV1Frame *ref_frame = &s->ref[i];
+--        if (s->ref[i].f->pict_type == AV_PICTURE_TYPE_NONE)
+-+    ap->ref_frame_sign_bias_mask = 0x0;
+-+    for (int i = 0; i < STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME; i++)
+-+        ap->ref_frame_sign_bias_mask |= cbs_ctx->ref_frame_sign_bias[i] << i;
+-+
+-+    for (int i = 0; i < STD_VIDEO_AV1_REFS_PER_FRAME; i++) {
+-+        const int idx = pic->raw_frame_header->ref_frame_idx[i];
+-+        const AV1Frame *ref_frame = &s->ref[idx];
+-+        AV1VulkanDecodePicture *hp = ref_frame->hwaccel_picture_private;
+-+        int found = 0;
+-+
+-+        if (ref_frame->f->pict_type == AV_PICTURE_TYPE_NONE)
+-+            continue;
+-+
+-+        for (int j = 0; j < ref_count; j++) {
+-+            if (vp->ref_slots[j].slotIndex == hp->frame_id) {
+-+                found = 1;
+-+                break;
+-+            }
+-+        }
+-+        if (found)
+-             continue;
+- 
+--        err = vk_av1_fill_pict(avctx, &ap->ref_src[i], &vp->ref_slots[i],
+--                               &vp->refs[i], &ap->vkav1_refs[i],
+--                               ref_frame, 0, 0, i);
+-+        err = vk_av1_fill_pict(avctx, &ap->ref_src[ref_count], &vp->ref_slots[ref_count],
+-+                               &vp->refs[ref_count], &ap->std_refs[ref_count], &ap->vkav1_refs[ref_count],
+-+                               ref_frame, 0, 0, cbs_ctx->ref[idx].saved_order_hints);
+-         if (err < 0)
+-             return err;
+- 
+-@@ -249,20 +302,32 @@ static int vk_av1_start_frame(AVCodecContext          *avctx,
+-     }
+- 
+-     err = vk_av1_fill_pict(avctx, NULL, &vp->ref_slot, &vp->ref,
+-+                           &ap->std_ref,
+-                            &ap->vkav1_ref,
+--                           pic, 1, apply_grain, 8);
+-+                           pic, 1, apply_grain, NULL);
+-     if (err < 0)
+-         return err;
+- 
+--    ap->tile_list.nb_tiles = 0;
+--    ap->tile_list.tile_list = ap->tiles;
+--
+--    ap->av1_pic_info = (VkVideoDecodeAV1PictureInfoMESA) {
+--        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_MESA,
+--        .frame_header = &ap->av1_frame_header,
+--        .tile_list = &ap->tile_list,
+-+    ap->av1_pic_info = (VkVideoDecodeAV1PictureInfoKHR) {
+-+        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_KHR,
+-+        .pStdPictureInfo = &ap->std_pic_info,
+-+        .frameHeaderOffset = 0,
+-+        .tileCount = 0,
+-+        .pTileOffsets = NULL,
+-+        .pTileSizes = ap->tile_sizes,
+-     };
+- 
+-+    for (int i = 0; i < STD_VIDEO_AV1_REFS_PER_FRAME; i++) {
+-+        const int idx = pic->raw_frame_header->ref_frame_idx[i];
+-+        const AV1Frame *ref_frame = &s->ref[idx];
+-+        AV1VulkanDecodePicture *hp = ref_frame->hwaccel_picture_private;
+-+
+-+        if (ref_frame->f->pict_type == AV_PICTURE_TYPE_NONE)
+-+            ap->av1_pic_info.referenceNameSlotIndices[i] = -1;
+-+        else
+-+            ap->av1_pic_info.referenceNameSlotIndices[i] = hp->frame_id;
+-+    }
+-+
+-     vp->decode_info = (VkVideoDecodeInfoKHR) {
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_INFO_KHR,
+-         .pNext = &ap->av1_pic_info,
+-@@ -279,9 +344,87 @@ static int vk_av1_start_frame(AVCodecContext          *avctx,
+-         },
+-     };
+- 
+-+    ap->tile_info = (StdVideoAV1TileInfo) {
+-+        .flags = (StdVideoAV1TileInfoFlags) {
+-+            .uniform_tile_spacing_flag = frame_header->uniform_tile_spacing_flag,
+-+        },
+-+        .TileCols = frame_header->tile_cols,
+-+        .TileRows = frame_header->tile_rows,
+-+        .context_update_tile_id = frame_header->context_update_tile_id,
+-+        .tile_size_bytes_minus_1 = frame_header->tile_size_bytes_minus1,
+-+        .pWidthInSbsMinus1 = ap->width_in_sbs_minus1,
+-+        .pHeightInSbsMinus1 = ap->height_in_sbs_minus1,
+-+        .pMiColStarts = ap->mi_col_starts,
+-+        .pMiRowStarts = ap->mi_row_starts,
+-+    };
+-+
+-+    ap->quantization = (StdVideoAV1Quantization) {
+-+        .flags.using_qmatrix = frame_header->using_qmatrix,
+-+        .flags.diff_uv_delta = frame_header->diff_uv_delta,
+-+        .base_q_idx = frame_header->base_q_idx,
+-+        .DeltaQYDc = frame_header->delta_q_y_dc,
+-+        .DeltaQUDc = frame_header->delta_q_u_dc,
+-+        .DeltaQUAc = frame_header->delta_q_u_ac,
+-+        .DeltaQVDc = frame_header->delta_q_v_dc,
+-+        .DeltaQVAc = frame_header->delta_q_v_ac,
+-+        .qm_y = frame_header->qm_y,
+-+        .qm_u = frame_header->qm_u,
+-+        .qm_v = frame_header->qm_v,
+-+    };
+-+
+-+    ap->loop_filter = (StdVideoAV1LoopFilter) {
+-+        .flags = (StdVideoAV1LoopFilterFlags) {
+-+            .loop_filter_delta_enabled = frame_header->loop_filter_delta_enabled,
+-+            .loop_filter_delta_update = frame_header->loop_filter_delta_update,
+-+        },
+-+        .loop_filter_sharpness = frame_header->loop_filter_sharpness,
+-+    };
+-+
+-+    for (int i = 0; i < STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS; i++)
+-+        ap->loop_filter.loop_filter_level[i] = frame_header->loop_filter_level[i];
+-+    for (int i = 0; i < STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS; i++)
+-+        ap->loop_filter.loop_filter_mode_deltas[i] = frame_header->loop_filter_mode_deltas[i];
+-+
+-+    ap->cdef = (StdVideoAV1CDEF) {
+-+        .cdef_damping_minus_3 = frame_header->cdef_damping_minus_3,
+-+        .cdef_bits = frame_header->cdef_bits,
+-+    };
+-+
+-+    ap->loop_restoration = (StdVideoAV1LoopRestoration) {
+-+        .FrameRestorationType[0] = remap_lr_type[frame_header->lr_type[0]],
+-+        .FrameRestorationType[1] = remap_lr_type[frame_header->lr_type[1]],
+-+        .FrameRestorationType[2] = remap_lr_type[frame_header->lr_type[2]],
+-+        .LoopRestorationSize[0] = 1 + frame_header->lr_unit_shift,
+-+        .LoopRestorationSize[1] = 1 + frame_header->lr_unit_shift - frame_header->lr_uv_shift,
+-+        .LoopRestorationSize[2] = 1 + frame_header->lr_unit_shift - frame_header->lr_uv_shift,
+-+    };
+-+
+-+    ap->film_grain = (StdVideoAV1FilmGrain) {
+-+        .flags = (StdVideoAV1FilmGrainFlags) {
+-+            .chroma_scaling_from_luma = film_grain->chroma_scaling_from_luma,
+-+            .overlap_flag = film_grain->overlap_flag,
+-+            .clip_to_restricted_range = film_grain->clip_to_restricted_range,
+-+        },
+-+        .grain_scaling_minus_8 = film_grain->grain_scaling_minus_8,
+-+        .ar_coeff_lag = film_grain->ar_coeff_lag,
+-+        .ar_coeff_shift_minus_6 = film_grain->ar_coeff_shift_minus_6,
+-+        .grain_scale_shift = film_grain->grain_scale_shift,
+-+        .grain_seed = film_grain->grain_seed,
+-+        .film_grain_params_ref_idx = film_grain->film_grain_params_ref_idx,
+-+        .num_y_points = film_grain->num_y_points,
+-+        .num_cb_points = film_grain->num_cb_points,
+-+        .num_cr_points = film_grain->num_cr_points,
+-+        .cb_mult = film_grain->cb_mult,
+-+        .cb_luma_mult = film_grain->cb_luma_mult,
+-+        .cb_offset = film_grain->cb_offset,
+-+        .cr_mult = film_grain->cr_mult,
+-+        .cr_luma_mult = film_grain->cr_luma_mult,
+-+        .cr_offset = film_grain->cr_offset,
+-+    };
+-+
+-     /* Setup frame header */
+--    ap->av1_frame_header = (StdVideoAV1MESAFrameHeader) {
+--        .flags = (StdVideoAV1MESAFrameHeaderFlags) {
+-+    ap->std_pic_info = (StdVideoDecodeAV1PictureInfo) {
+-+        .flags = (StdVideoDecodeAV1PictureInfoFlags) {
+-             .error_resilient_mode = frame_header->error_resilient_mode,
+-             .disable_cdf_update = frame_header->disable_cdf_update,
+-             .use_superres = frame_header->use_superres,
+-@@ -302,174 +445,92 @@ static int vk_av1_start_frame(AVCodecContext          *avctx,
+-             .reference_select = frame_header->reference_select,
+-             .skip_mode_present = frame_header->skip_mode_present,
+-             .delta_q_present = frame_header->delta_q_present,
+-+            .delta_lf_present = frame_header->delta_lf_present,
+-+            .delta_lf_multi = frame_header->delta_lf_multi,
+-+            .segmentation_enabled = frame_header->segmentation_enabled,
+-+            .segmentation_update_map = frame_header->segmentation_update_map,
+-+            .segmentation_temporal_update = frame_header->segmentation_temporal_update,
+-+            .segmentation_update_data = frame_header->segmentation_update_data,
+-+            .UsesLr = frame_header->lr_type[0] || frame_header->lr_type[1] || frame_header->lr_type[2],
+-+            .apply_grain = apply_grain,
+-         },
+--        .frame_to_show_map_idx = frame_header->frame_to_show_map_idx,
+--        .frame_presentation_time = frame_header->frame_presentation_time,
+--        .display_frame_id = frame_header->display_frame_id,
+-         .frame_type = frame_header->frame_type,
+-         .current_frame_id = frame_header->current_frame_id,
+--        .order_hint = frame_header->order_hint,
+-+        .OrderHint = frame_header->order_hint,
+-         .primary_ref_frame = frame_header->primary_ref_frame,
+--        .frame_width_minus_1 = frame_header->frame_width_minus_1,
+--        .frame_height_minus_1 = frame_header->frame_height_minus_1,
+--        .coded_denom = frame_header->coded_denom,
+--        .render_width_minus_1 = frame_header->render_width_minus_1,
+--        .render_height_minus_1 = frame_header->render_height_minus_1,
+-         .refresh_frame_flags = frame_header->refresh_frame_flags,
+-         .interpolation_filter = frame_header->interpolation_filter,
+--        .tx_mode = frame_header->tx_mode,
+--        .tiling = (StdVideoAV1MESATileInfo) {
+--            .flags = (StdVideoAV1MESATileInfoFlags) {
+--                .uniform_tile_spacing_flag = frame_header->uniform_tile_spacing_flag,
+--            },
+--            .tile_cols = frame_header->tile_cols,
+--            .tile_rows = frame_header->tile_rows,
+--            .context_update_tile_id = frame_header->context_update_tile_id,
+--            .tile_size_bytes_minus1 = frame_header->tile_size_bytes_minus1,
+--        },
+--        .quantization = (StdVideoAV1MESAQuantization) {
+--            .flags.using_qmatrix = frame_header->using_qmatrix,
+--            .base_q_idx = frame_header->base_q_idx,
+--            .delta_q_y_dc = frame_header->delta_q_y_dc,
+--            .diff_uv_delta = frame_header->diff_uv_delta,
+--            .delta_q_u_dc = frame_header->delta_q_u_dc,
+--            .delta_q_u_ac = frame_header->delta_q_u_ac,
+--            .delta_q_v_dc = frame_header->delta_q_v_dc,
+--            .delta_q_v_ac = frame_header->delta_q_v_ac,
+--            .qm_y = frame_header->qm_y,
+--            .qm_u = frame_header->qm_u,
+--            .qm_v = frame_header->qm_v,
+--        },
+--        .delta_q = (StdVideoAV1MESADeltaQ) {
+--            .flags = (StdVideoAV1MESADeltaQFlags) {
+--                .delta_lf_present = frame_header->delta_lf_present,
+--                .delta_lf_multi = frame_header->delta_lf_multi,
+--            },
+--            .delta_q_res = frame_header->delta_q_res,
+--            .delta_lf_res = frame_header->delta_lf_res,
+--        },
+--        .loop_filter = (StdVideoAV1MESALoopFilter) {
+--            .flags = (StdVideoAV1MESALoopFilterFlags) {
+--                .delta_enabled = frame_header->loop_filter_delta_enabled,
+--                .delta_update = frame_header->loop_filter_delta_update,
+--            },
+--            .level = {
+--                frame_header->loop_filter_level[0], frame_header->loop_filter_level[1],
+--                frame_header->loop_filter_level[2], frame_header->loop_filter_level[3],
+--            },
+--            .sharpness = frame_header->loop_filter_sharpness,
+--            .mode_deltas = {
+--                frame_header->loop_filter_mode_deltas[0], frame_header->loop_filter_mode_deltas[1],
+--            },
+--        },
+--        .cdef = (StdVideoAV1MESACDEF) {
+--            .damping_minus_3 = frame_header->cdef_damping_minus_3,
+--            .bits = frame_header->cdef_bits,
+--        },
+--        .lr = (StdVideoAV1MESALoopRestoration) {
+--            .lr_unit_shift = frame_header->lr_unit_shift,
+--            .lr_uv_shift = frame_header->lr_uv_shift,
+--            .lr_type = { frame_header->lr_type[0], frame_header->lr_type[1], frame_header->lr_type[2] },
+--        },
+--        .segmentation = (StdVideoAV1MESASegmentation) {
+--            .flags = (StdVideoAV1MESASegmentationFlags) {
+--                .enabled = frame_header->segmentation_enabled,
+--                .update_map = frame_header->segmentation_update_map,
+--                .temporal_update = frame_header->segmentation_temporal_update,
+--                .update_data = frame_header->segmentation_update_data,
+--            },
+--        },
+--        .film_grain = (StdVideoAV1MESAFilmGrainParameters) {
+--            .flags = (StdVideoAV1MESAFilmGrainFlags) {
+--                .apply_grain = apply_grain,
+--                .chroma_scaling_from_luma = film_grain->chroma_scaling_from_luma,
+--                .overlap_flag = film_grain->overlap_flag,
+--                .clip_to_restricted_range = film_grain->clip_to_restricted_range,
+--            },
+--            .grain_scaling_minus_8 = film_grain->grain_scaling_minus_8,
+--            .ar_coeff_lag = film_grain->ar_coeff_lag,
+--            .ar_coeff_shift_minus_6 = film_grain->ar_coeff_shift_minus_6,
+--            .grain_scale_shift = film_grain->grain_scale_shift,
+--            .grain_seed = film_grain->grain_seed,
+--            .num_y_points = film_grain->num_y_points,
+--            .num_cb_points = film_grain->num_cb_points,
+--            .num_cr_points = film_grain->num_cr_points,
+--            .cb_mult = film_grain->cb_mult,
+--            .cb_luma_mult = film_grain->cb_luma_mult,
+--            .cb_offset = film_grain->cb_offset,
+--            .cr_mult = film_grain->cr_mult,
+--            .cr_luma_mult = film_grain->cr_luma_mult,
+--            .cr_offset = film_grain->cr_offset,
+--        },
+-+        .TxMode = frame_header->tx_mode,
+-+        .delta_q_res = frame_header->delta_q_res,
+-+        .delta_lf_res = frame_header->delta_lf_res,
+-+        .SkipModeFrame[0] = s->cur_frame.skip_mode_frame_idx[0],
+-+        .SkipModeFrame[1] = s->cur_frame.skip_mode_frame_idx[1],
+-+        .coded_denom = frame_header->coded_denom,
+-+        .pTileInfo = &ap->tile_info,
+-+        .pQuantization = &ap->quantization,
+-+        .pSegmentation = &ap->segmentation,
+-+        .pLoopFilter = &ap->loop_filter,
+-+        .pCDEF = &ap->cdef,
+-+        .pLoopRestoration = &ap->loop_restoration,
+-+        .pGlobalMotion = &ap->global_motion,
+-+        .pFilmGrain = apply_grain ? &ap->film_grain : NULL,
+-     };
+- 
+-     for (int i = 0; i < 64; i++) {
+--        ap->av1_frame_header.tiling.width_in_sbs_minus_1[i] = frame_header->width_in_sbs_minus_1[i];
+--        ap->av1_frame_header.tiling.height_in_sbs_minus_1[i] = frame_header->height_in_sbs_minus_1[i];
+--        ap->av1_frame_header.tiling.tile_start_col_sb[i] = frame_header->tile_start_col_sb[i];
+--        ap->av1_frame_header.tiling.tile_start_row_sb[i] = frame_header->tile_start_row_sb[i];
+-+        ap->width_in_sbs_minus1[i] = frame_header->width_in_sbs_minus_1[i];
+-+        ap->height_in_sbs_minus1[i] = frame_header->height_in_sbs_minus_1[i];
+-+        ap->mi_col_starts[i] = frame_header->tile_start_col_sb[i];
+-+        ap->mi_row_starts[i] = frame_header->tile_start_row_sb[i];
+-     }
+- 
+--    for (int i = 0; i < 8; i++) {
+--        ap->av1_frame_header.segmentation.feature_enabled_bits[i] = 0;
+--        for (int j = 0; j < 8; j++) {
+--            ap->av1_frame_header.segmentation.feature_enabled_bits[i] |= (frame_header->feature_enabled[i][j] << j);
+--            ap->av1_frame_header.segmentation.feature_data[i][j] = frame_header->feature_value[i][j];
+-+    for (int i = 0; i < STD_VIDEO_AV1_MAX_SEGMENTS; i++) {
+-+        ap->segmentation.FeatureEnabled[i] = 0x0;
+-+        for (int j = 0; j < STD_VIDEO_AV1_SEG_LVL_MAX; j++) {
+-+            ap->segmentation.FeatureEnabled[i] |= (frame_header->feature_enabled[i][j] << j);
+-+            ap->segmentation.FeatureData[i][j] = frame_header->feature_value[i][j];
+-         }
+--
+--        ap->av1_frame_header.loop_filter.ref_deltas[i] = frame_header->loop_filter_ref_deltas[i];
+--
+--        ap->av1_frame_header.cdef.y_pri_strength[i] = frame_header->cdef_y_pri_strength[i];
+--        ap->av1_frame_header.cdef.y_sec_strength[i] = frame_header->cdef_y_sec_strength[i];
+--        ap->av1_frame_header.cdef.uv_pri_strength[i] = frame_header->cdef_uv_pri_strength[i];
+--        ap->av1_frame_header.cdef.uv_sec_strength[i] = frame_header->cdef_uv_sec_strength[i];
+--
+--        ap->av1_frame_header.ref_order_hint[i] = frame_header->ref_order_hint[i];
+--        ap->av1_frame_header.global_motion[i] = (StdVideoAV1MESAGlobalMotion) {
+--            .flags = (StdVideoAV1MESAGlobalMotionFlags) {
+--                .gm_invalid = s->cur_frame.gm_invalid[i],
+--            },
+--            .gm_type = s->cur_frame.gm_type[i],
+--            .gm_params = {
+--                s->cur_frame.gm_params[i][0], s->cur_frame.gm_params[i][1],
+--                s->cur_frame.gm_params[i][2], s->cur_frame.gm_params[i][3],
+--                s->cur_frame.gm_params[i][4], s->cur_frame.gm_params[i][5],
+--            },
+--        };
+-     }
+- 
+--    for (int i = 0; i < 7; i++) {
+--        ap->av1_frame_header.ref_frame_idx[i] = frame_header->ref_frame_idx[i];
+--        ap->av1_frame_header.delta_frame_id_minus1[i] = frame_header->delta_frame_id_minus1[i];
+-+    for (int i = 0; i < STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME; i++)
+-+        ap->loop_filter.loop_filter_ref_deltas[i] = frame_header->loop_filter_ref_deltas[i];
+-+
+-+    for (int i = 0; i < STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS; i++) {
+-+        ap->cdef.cdef_y_pri_strength[i] = frame_header->cdef_y_pri_strength[i];
+-+        ap->cdef.cdef_y_sec_strength[i] = frame_header->cdef_y_sec_strength[i];
+-+        ap->cdef.cdef_uv_pri_strength[i] = frame_header->cdef_uv_pri_strength[i];
+-+        ap->cdef.cdef_uv_sec_strength[i] = frame_header->cdef_uv_sec_strength[i];
+-     }
+- 
+--    ap->av1_pic_info.skip_mode_frame_idx[0] = s->cur_frame.skip_mode_frame_idx[0];
+--    ap->av1_pic_info.skip_mode_frame_idx[1] = s->cur_frame.skip_mode_frame_idx[1];
+-+    for (int i = 0; i < STD_VIDEO_AV1_NUM_REF_FRAMES; i++) {
+-+        ap->std_pic_info.OrderHints[i] = frame_header->ref_order_hint[i];
+-+        ap->global_motion.GmType[i] = s->cur_frame.gm_type[i];
+-+        for (int j = 0; j < STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS; j++) {
+-+            ap->global_motion.gm_params[i][j] = s->cur_frame.gm_params[i][j];
+-+        }
+-+    }
+- 
+-     if (apply_grain) {
+--        for (int i = 0; i < 14; i++) {
+--            ap->av1_frame_header.film_grain.point_y_value[i] = film_grain->point_y_value[i];
+--            ap->av1_frame_header.film_grain.point_y_scaling[i] = film_grain->point_y_scaling[i];
+-+        for (int i = 0; i < STD_VIDEO_AV1_MAX_NUM_Y_POINTS; i++) {
+-+            ap->film_grain.point_y_value[i] = film_grain->point_y_value[i];
+-+            ap->film_grain.point_y_scaling[i] = film_grain->point_y_scaling[i];
+-         }
+- 
+--        for (int i = 0; i < 10; i++) {
+--            ap->av1_frame_header.film_grain.point_cb_value[i] = film_grain->point_cb_value[i];
+--            ap->av1_frame_header.film_grain.point_cb_scaling[i] = film_grain->point_cb_scaling[i];
+--            ap->av1_frame_header.film_grain.point_cr_value[i] = film_grain->point_cr_value[i];
+--            ap->av1_frame_header.film_grain.point_cr_scaling[i] = film_grain->point_cr_scaling[i];
+-+        for (int i = 0; i < STD_VIDEO_AV1_MAX_NUM_CB_POINTS; i++) {
+-+            ap->film_grain.point_cb_value[i] = film_grain->point_cb_value[i];
+-+            ap->film_grain.point_cb_scaling[i] = film_grain->point_cb_scaling[i];
+-+            ap->film_grain.point_cr_value[i] = film_grain->point_cr_value[i];
+-+            ap->film_grain.point_cr_scaling[i] = film_grain->point_cr_scaling[i];
+-         }
+- 
+--        for (int i = 0; i < 24; i++) {
+--            ap->av1_frame_header.film_grain.ar_coeffs_y_plus_128[i] = film_grain->ar_coeffs_y_plus_128[i];
+--            ap->av1_frame_header.film_grain.ar_coeffs_cb_plus_128[i] = film_grain->ar_coeffs_cb_plus_128[i];
+--            ap->av1_frame_header.film_grain.ar_coeffs_cr_plus_128[i] = film_grain->ar_coeffs_cr_plus_128[i];
+--        }
+-+        for (int i = 0; i < STD_VIDEO_AV1_MAX_NUM_POS_LUMA; i++)
+-+            ap->film_grain.ar_coeffs_y_plus_128[i] = film_grain->ar_coeffs_y_plus_128[i];
+- 
+--        ap->av1_frame_header.film_grain.ar_coeffs_cb_plus_128[24] = film_grain->ar_coeffs_cb_plus_128[24];
+--        ap->av1_frame_header.film_grain.ar_coeffs_cr_plus_128[24] = film_grain->ar_coeffs_cr_plus_128[24];
+-+        for (int i = 0; i < STD_VIDEO_AV1_MAX_NUM_POS_CHROMA; i++) {
+-+            ap->film_grain.ar_coeffs_cb_plus_128[i] = film_grain->ar_coeffs_cb_plus_128[i];
+-+            ap->film_grain.ar_coeffs_cr_plus_128[i] = film_grain->ar_coeffs_cr_plus_128[i];
+-+        }
+-     }
+- 
+--    /* Workaround for a spec issue. */
+-     ap->dec = dec;
+- 
+-     return 0;
+-@@ -484,25 +545,20 @@ static int vk_av1_decode_slice(AVCodecContext *avctx,
+-     AV1VulkanDecodePicture *ap = s->cur_frame.hwaccel_picture_private;
+-     FFVulkanDecodePicture *vp = &ap->vp;
+- 
+-+    /* Too many tiles, exceeding all defined levels in the AV1 spec */
+-+    if (ap->av1_pic_info.tileCount > MAX_TILES)
+-+        return AVERROR(ENOSYS);
+-+
+-     for (int i = s->tg_start; i <= s->tg_end; i++) {
+--        ap->tiles[ap->tile_list.nb_tiles] = (StdVideoAV1MESATile) {
+--            .size     = s->tile_group_info[i].tile_size,
+--            .offset   = s->tile_group_info[i].tile_offset,
+--            .row      = s->tile_group_info[i].tile_row,
+--            .column   = s->tile_group_info[i].tile_column,
+--            .tg_start = s->tg_start,
+--            .tg_end   = s->tg_end,
+--        };
+-+        ap->tile_sizes[ap->av1_pic_info.tileCount] = s->tile_group_info[i].tile_size;
+- 
+-         err = ff_vk_decode_add_slice(avctx, vp,
+-                                      data + s->tile_group_info[i].tile_offset,
+-                                      s->tile_group_info[i].tile_size, 0,
+--                                     &ap->tile_list.nb_tiles,
+--                                     &ap->tile_offsets);
+-+                                     &ap->av1_pic_info.tileCount,
+-+                                     &ap->av1_pic_info.pTileOffsets);
+-         if (err < 0)
+-             return err;
+--
+--        ap->tiles[ap->tile_list.nb_tiles - 1].offset = ap->tile_offsets[ap->tile_list.nb_tiles - 1];
+-     }
+- 
+-     return 0;
+-@@ -518,7 +574,7 @@ static int vk_av1_end_frame(AVCodecContext *avctx)
+-     FFVulkanDecodePicture *rvp[AV1_NUM_REF_FRAMES] = { 0 };
+-     AVFrame *rav[AV1_NUM_REF_FRAMES] = { 0 };
+- 
+--    if (!ap->tile_list.nb_tiles)
+-+    if (!ap->av1_pic_info.tileCount)
+-         return 0;
+- 
+-     if (!dec->session_params) {
+-@@ -536,7 +592,7 @@ static int vk_av1_end_frame(AVCodecContext *avctx)
+-     }
+- 
+-     av_log(avctx, AV_LOG_VERBOSE, "Decoding frame, %"SIZE_SPECIFIER" bytes, %i tiles\n",
+--           vp->slices_size, ap->tile_list.nb_tiles);
+-+           vp->slices_size, ap->av1_pic_info.tileCount);
+- 
+-     return ff_vk_decode_frame(avctx, pic->f, vp, rav, rvp);
+- }
+-@@ -580,8 +636,6 @@ const FFHWAccel ff_av1_vulkan_hwaccel = {
+-      * flexibility, this index cannot be present anywhere.
+-      * The current implementation tracks the index for the driver and submits it
+-      * as necessary information. Due to needing to modify the decoding context,
+--     * which is not thread-safe, on frame free, threading is disabled.
+--     * In the future, once this is fixed in the spec, the workarounds may be removed
+--     * and threading enabled. */
+-+     * which is not thread-safe, on frame free, threading is disabled. */
+-     .caps_internal         = HWACCEL_CAP_ASYNC_SAFE,
+- };
+-diff --git a/libavcodec/vulkan_decode.c b/libavcodec/vulkan_decode.c
+-index 91929d165f..4561f26b62 100644
+---- a/libavcodec/vulkan_decode.c
+-+++ b/libavcodec/vulkan_decode.c
+-@@ -61,7 +61,7 @@ static const VkVideoProfileInfoKHR *get_video_profile(FFVulkanDecodeShared *ctx,
+-     VkStructureType profile_struct_type =
+-         codec_id == AV_CODEC_ID_H264 ? VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_PROFILE_INFO_KHR :
+-         codec_id == AV_CODEC_ID_HEVC ? VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_PROFILE_INFO_KHR :
+--        codec_id == AV_CODEC_ID_AV1  ? VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_MESA :
+-+        codec_id == AV_CODEC_ID_AV1  ? VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR :
+-         0;
+- 
+-     profile_list = ff_vk_find_struct(ctx->s.hwfc->create_pnext,
+-@@ -674,7 +674,7 @@ static VkResult vulkan_setup_profile(AVCodecContext *avctx,
+-                                      const struct FFVkCodecMap *vk_codec,
+-                                      VkVideoDecodeH264CapabilitiesKHR *h264_caps,
+-                                      VkVideoDecodeH265CapabilitiesKHR *h265_caps,
+--                                     VkVideoDecodeAV1CapabilitiesMESA *av1_caps,
+-+                                     VkVideoDecodeAV1CapabilitiesKHR *av1_caps,
+-                                      VkVideoCapabilitiesKHR *caps,
+-                                      VkVideoDecodeCapabilitiesKHR *dec_caps,
+-                                      int cur_profile)
+-@@ -685,7 +685,7 @@ static VkResult vulkan_setup_profile(AVCodecContext *avctx,
+- 
+-     VkVideoDecodeH264ProfileInfoKHR *h264_profile = &prof->h264_profile;
+-     VkVideoDecodeH265ProfileInfoKHR *h265_profile = &prof->h265_profile;
+--    VkVideoDecodeAV1ProfileInfoMESA *av1_profile  = &prof->av1_profile;
+-+    VkVideoDecodeAV1ProfileInfoKHR *av1_profile  = &prof->av1_profile;
+- 
+-     const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(avctx->sw_pix_fmt);
+-     if (!desc)
+-@@ -713,8 +713,9 @@ static VkResult vulkan_setup_profile(AVCodecContext *avctx,
+-     } else if (avctx->codec_id == AV_CODEC_ID_AV1) {
+-         dec_caps->pNext = av1_caps;
+-         usage->pNext = av1_profile;
+--        av1_profile->sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_MESA;
+--        av1_profile->stdProfileIdc = cur_profile;
+-+        av1_profile->sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR;
+-+        av1_profile->stdProfile = cur_profile;
+-+        av1_profile->filmGrainSupport = !(avctx->export_side_data & AV_CODEC_EXPORT_DATA_FILM_GRAIN);
+-     }
+- 
+-     usage->sType           = VK_STRUCTURE_TYPE_VIDEO_DECODE_USAGE_INFO_KHR;
+-@@ -769,8 +770,8 @@ static int vulkan_decode_get_profile(AVCodecContext *avctx, AVBufferRef *frames_
+-     VkVideoDecodeH265CapabilitiesKHR h265_caps = {
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_CAPABILITIES_KHR,
+-     };
+--    VkVideoDecodeAV1CapabilitiesMESA av1_caps = {
+--        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_MESA,
+-+    VkVideoDecodeAV1CapabilitiesKHR av1_caps = {
+-+        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR,
+-     };
+- 
+-     VkPhysicalDeviceVideoFormatInfoKHR fmt_info = {
+-@@ -789,7 +790,7 @@ static int vulkan_decode_get_profile(AVCodecContext *avctx, AVBufferRef *frames_
+-     cur_profile = avctx->profile;
+-     base_profile = avctx->codec_id == AV_CODEC_ID_H264 ? AV_PROFILE_H264_CONSTRAINED_BASELINE :
+-                    avctx->codec_id == AV_CODEC_ID_H265 ? AV_PROFILE_HEVC_MAIN :
+--                   avctx->codec_id == AV_CODEC_ID_AV1  ? STD_VIDEO_AV1_MESA_PROFILE_MAIN :
+-+                   avctx->codec_id == AV_CODEC_ID_AV1  ? STD_VIDEO_AV1_PROFILE_MAIN :
+-                    0;
+- 
+-     ret = vulkan_setup_profile(avctx, prof, hwctx, vk, vk_codec,
+-@@ -837,7 +838,7 @@ static int vulkan_decode_get_profile(AVCodecContext *avctx, AVBufferRef *frames_
+- 
+-     max_level = avctx->codec_id == AV_CODEC_ID_H264 ? ff_vk_h264_level_to_av(h264_caps.maxLevelIdc) :
+-                 avctx->codec_id == AV_CODEC_ID_H265 ? ff_vk_h265_level_to_av(h265_caps.maxLevelIdc) :
+--                avctx->codec_id == AV_CODEC_ID_AV1  ? av1_caps.maxLevelIdc  :
+-+                avctx->codec_id == AV_CODEC_ID_AV1  ? av1_caps.maxLevel :
+-                 0;
+- 
+-     av_log(avctx, AV_LOG_VERBOSE, "Decoder capabilities for %s profile \"%s\":\n",
+-@@ -908,17 +909,11 @@ static int vulkan_decode_get_profile(AVCodecContext *avctx, AVBufferRef *frames_
+-                "VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_COINCIDE_BIT_KHR set "
+-                "but VK_VIDEO_CAPABILITY_SEPARATE_REFERENCE_IMAGES_BIT_KHR is unset!\n");
+-         return AVERROR_EXTERNAL;
+--    } else if (!(dec_caps->flags & VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_DISTINCT_BIT_KHR) &&
+--               avctx->codec_id == AV_CODEC_ID_AV1) {
+--        av_log(avctx, AV_LOG_ERROR, "Cannot initialize Vulkan decoding session, buggy driver: "
+--               "codec is AV1, but VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_DISTINCT_BIT_KHR isn't set!\n");
+--        return AVERROR_EXTERNAL;
+-     }
+- 
+-     /* TODO: make dedicated_dpb tunable */
+-     dec->dedicated_dpb = !(dec_caps->flags & VK_VIDEO_DECODE_CAPABILITY_DPB_AND_OUTPUT_COINCIDE_BIT_KHR);
+-     dec->layered_dpb = !(caps->flags & VK_VIDEO_CAPABILITY_SEPARATE_REFERENCE_IMAGES_BIT_KHR);
+--    dec->external_fg = av1_caps.flags & VK_VIDEO_DECODE_AV1_CAPABILITY_EXTERNAL_FILM_GRAIN_MESA;
+- 
+-     if (dec->dedicated_dpb) {
+-         fmt_info.imageUsage = VK_IMAGE_USAGE_VIDEO_DECODE_DPB_BIT_KHR;
+-@@ -1126,8 +1121,10 @@ int ff_vk_decode_init(AVCodecContext *avctx)
+-     VkVideoDecodeH265SessionParametersCreateInfoKHR h265_params = {
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-     };
+--    VkVideoDecodeAV1SessionParametersCreateInfoMESA av1_params = {
+--        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_MESA,
+-+    StdVideoAV1SequenceHeader av1_empty_seq = { 0 };
+-+    VkVideoDecodeAV1SessionParametersCreateInfoKHR av1_params = {
+-+        .sType = VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-+        .pStdSequenceHeader = &av1_empty_seq,
+-     };
+-     VkVideoSessionParametersCreateInfoKHR session_params_create = {
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-diff --git a/libavcodec/vulkan_decode.h b/libavcodec/vulkan_decode.h
+-index a43e328d73..7ba8b239cb 100644
+---- a/libavcodec/vulkan_decode.h
+-+++ b/libavcodec/vulkan_decode.h
+-@@ -37,7 +37,7 @@ typedef struct FFVulkanDecodeDescriptor {
+- typedef struct FFVulkanDecodeProfileData {
+-     VkVideoDecodeH264ProfileInfoKHR h264_profile;
+-     VkVideoDecodeH265ProfileInfoKHR h265_profile;
+--    VkVideoDecodeAV1ProfileInfoMESA av1_profile;
+-+    VkVideoDecodeAV1ProfileInfoKHR av1_profile;
+-     VkVideoDecodeUsageInfoKHR usage;
+-     VkVideoProfileInfoKHR profile;
+-     VkVideoProfileListInfoKHR profile_list;
+-diff --git a/libavcodec/vulkan_video.h b/libavcodec/vulkan_video.h
+-index bb69e920bb..01a1de7d9d 100644
+---- a/libavcodec/vulkan_video.h
+-+++ b/libavcodec/vulkan_video.h
+-@@ -22,8 +22,6 @@
+- #include "vulkan.h"
+- 
+- #include <vk_video/vulkan_video_codecs_common.h>
+--#include "vulkan_video_codec_av1std.h"
+--#include "vulkan_video_codec_av1std_decode.h"
+- 
+- #define CODEC_VER_MAJ(ver) (ver >> 22)
+- #define CODEC_VER_MIN(ver) ((ver >> 12) & ((1 << 10) - 1))
+-diff --git a/libavcodec/vulkan_video_codec_av1std_decode.h b/libavcodec/vulkan_video_codec_av1std_decode.h
+-deleted file mode 100644
+-index e2f37b4e6e..0000000000
+---- a/libavcodec/vulkan_video_codec_av1std_decode.h
+-+++ /dev/null
+-@@ -1,36 +0,0 @@
+--/* Copyright 2023 Lynne
+-- * Copyright 2023 Dave Airlie
+-- *
+-- * Licensed under the Apache License, Version 2.0 (the "License");
+-- * you may not use this file except in compliance with the License.
+-- * You may obtain a copy of the License at
+-- *
+-- * http://www.apache.org/licenses/LICENSE-2.0
+-- *
+-- * Unless required by applicable law or agreed to in writing, software
+-- * distributed under the License is distributed on an "AS IS" BASIS,
+-- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- * See the License for the specific language governing permissions and
+-- * limitations under the License.
+-- */
+--
+--#ifndef VULKAN_VIDEO_CODEC_AV1STD_DECODE_H_
+--#define VULKAN_VIDEO_CODEC_AV1STD_DECODE_H_ 1
+--
+--/*
+--** This header is NOT YET generated from the Khronos Vulkan XML API Registry.
+--**
+--*/
+--
+--#ifdef __cplusplus
+--extern "C" {
+--#endif
+--#define vulkan_video_codec_av1std_decode 1
+--
+--
+--
+--#ifdef __cplusplus
+--}
+--#endif
+--
+--#endif
+-diff --git a/libavcodec/vulkan_video_codec_av1std.h b/libavcodec/vulkan_video_codec_av1std.h
+-deleted file mode 100644
+-index c91589eee2..0000000000
+---- a/libavcodec/vulkan_video_codec_av1std.h
+-+++ /dev/null
+-@@ -1,403 +0,0 @@
+--/* Copyright 2023 Lynne
+-- * Copyright 2023 Dave Airlie
+-- *
+-- * Licensed under the Apache License, Version 2.0 (the "License");
+-- * you may not use this file except in compliance with the License.
+-- * You may obtain a copy of the License at
+-- *
+-- * http://www.apache.org/licenses/LICENSE-2.0
+-- *
+-- * Unless required by applicable law or agreed to in writing, software
+-- * distributed under the License is distributed on an "AS IS" BASIS,
+-- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- * See the License for the specific language governing permissions and
+-- * limitations under the License.
+-- */
+--
+--#ifndef VULKAN_VIDEO_CODEC_AV1STD_H_
+--#define VULKAN_VIDEO_CODEC_AV1STD_H_ 1
+--
+--/*
+--** This header is NOT YET generated from the Khronos Vulkan XML API Registry.
+--**
+--*/
+--
+--#ifdef __cplusplus
+--extern "C" {
+--#endif
+--#define vulkan_video_codec_av1std 1
+--
+--#define VK_MAKE_VIDEO_STD_VERSION(major, minor, patch) \
+--   ((((uint32_t)(major)) << 22) | (((uint32_t)(minor)) << 12) | ((uint32_t)(patch)))
+--#define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_VERSION_0_1_0 VK_MAKE_VIDEO_STD_VERSION(0, 1, 0)
+--#define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_VERSION_0_1_0
+--#define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_decode"
+--
+--typedef enum StdVideoAV1MESAProfile {
+--   STD_VIDEO_AV1_MESA_PROFILE_MAIN = 0,
+--   STD_VIDEO_AV1_MESA_PROFILE_HIGH = 1,
+--   STD_VIDEO_AV1_MESA_PROFILE_PROFESSIONAL = 2,
+--} StdVideoAV1MESAProfile;
+--
+--typedef enum StdVideoAV1MESALevel {
+--    STD_VIDEO_AV1_MESA_LEVEL_2_0 = 0,
+--    STD_VIDEO_AV1_MESA_LEVEL_2_1 = 1,
+--    STD_VIDEO_AV1_MESA_LEVEL_2_2 = 2,
+--    STD_VIDEO_AV1_MESA_LEVEL_2_3 = 3,
+--    STD_VIDEO_AV1_MESA_LEVEL_3_0 = 4,
+--    STD_VIDEO_AV1_MESA_LEVEL_3_1 = 5,
+--    STD_VIDEO_AV1_MESA_LEVEL_3_2 = 6,
+--    STD_VIDEO_AV1_MESA_LEVEL_3_3 = 7,
+--    STD_VIDEO_AV1_MESA_LEVEL_4_0 = 8,
+--    STD_VIDEO_AV1_MESA_LEVEL_4_1 = 9,
+--    STD_VIDEO_AV1_MESA_LEVEL_4_2 = 10,
+--    STD_VIDEO_AV1_MESA_LEVEL_4_3 = 11,
+--    STD_VIDEO_AV1_MESA_LEVEL_5_0 = 12,
+--    STD_VIDEO_AV1_MESA_LEVEL_5_1 = 13,
+--    STD_VIDEO_AV1_MESA_LEVEL_5_2 = 14,
+--    STD_VIDEO_AV1_MESA_LEVEL_5_3 = 15,
+--    STD_VIDEO_AV1_MESA_LEVEL_6_0 = 16,
+--    STD_VIDEO_AV1_MESA_LEVEL_6_1 = 17,
+--    STD_VIDEO_AV1_MESA_LEVEL_6_2 = 18,
+--    STD_VIDEO_AV1_MESA_LEVEL_6_3 = 19,
+--    STD_VIDEO_AV1_MESA_LEVEL_7_0 = 20,
+--    STD_VIDEO_AV1_MESA_LEVEL_7_1 = 21,
+--    STD_VIDEO_AV1_MESA_LEVEL_7_2 = 22,
+--    STD_VIDEO_AV1_MESA_LEVEL_7_3 = 23,
+--    STD_VIDEO_AV1_MESA_LEVEL_MAX = 31,
+--} StdVideoAV1MESALevel;
+--
+--typedef struct StdVideoAV1MESAFilmGrainFlags {
+--   uint8_t apply_grain;
+--   uint8_t chroma_scaling_from_luma;
+--   uint8_t overlap_flag;
+--   uint8_t clip_to_restricted_range;
+--} StdVideoAV1MESAFilmGrainFlags;
+--
+--typedef struct StdVideoAV1MESAFilmGrainParameters {
+--   StdVideoAV1MESAFilmGrainFlags flags;
+--   uint32_t grain_scaling_minus_8;
+--   uint32_t ar_coeff_lag;
+--   uint32_t ar_coeff_shift_minus_6;
+--   uint32_t grain_scale_shift;
+--
+--   uint16_t grain_seed;
+--   uint8_t num_y_points;
+--   uint8_t point_y_value[14];
+--   uint8_t point_y_scaling[14];
+--
+--   uint8_t num_cb_points;
+--   uint8_t point_cb_value[10];
+--   uint8_t point_cb_scaling[10];
+--
+--   uint8_t num_cr_points;
+--   uint8_t point_cr_value[10];
+--   uint8_t point_cr_scaling[10];
+--
+--   int8_t ar_coeffs_y_plus_128[24];
+--   int8_t ar_coeffs_cb_plus_128[25];
+--   int8_t ar_coeffs_cr_plus_128[25];
+--   uint8_t cb_mult;
+--   uint8_t cb_luma_mult;
+--   uint16_t cb_offset;
+--   uint8_t cr_mult;
+--   uint8_t cr_luma_mult;
+--   uint16_t cr_offset;
+--} StdVideoAV1MESAFilmGrainParameters;
+--
+--typedef struct StdVideoAV1MESAGlobalMotionFlags {
+--    uint8_t gm_invalid;
+--} StdVideoAV1MESAGlobalMotionFlags;
+--
+--typedef struct StdVideoAV1MESAGlobalMotion {
+--    StdVideoAV1MESAGlobalMotionFlags flags;
+--    uint8_t gm_type;
+--    uint32_t gm_params[6];
+--} StdVideoAV1MESAGlobalMotion;
+--
+--typedef struct StdVideoAV1MESALoopRestoration {
+--    uint8_t lr_type[3];
+--    uint8_t lr_unit_shift;
+--    uint8_t lr_uv_shift;
+--} StdVideoAV1MESALoopRestoration;
+--
+--typedef struct StdVideoAV1MESATileInfoFlags {
+--    uint8_t uniform_tile_spacing_flag;
+--} StdVideoAV1MESATileInfoFlags;
+--
+--typedef struct StdVideoAV1MESATileInfo {
+--    StdVideoAV1MESATileInfoFlags flags;
+--    uint8_t tile_cols;
+--    uint8_t tile_rows;
+--    uint8_t tile_start_col_sb[64];
+--    uint8_t tile_start_row_sb[64];
+--    uint8_t width_in_sbs_minus_1[64];
+--    uint8_t height_in_sbs_minus_1[64];
+--    uint16_t context_update_tile_id;
+--    uint8_t tile_size_bytes_minus1;
+--} StdVideoAV1MESATileInfo;
+--
+--typedef struct StdVideoAV1MESAQuantizationFlags {
+--    uint8_t using_qmatrix;
+--} StdVideoAV1MESAQuantizationFlags;
+--
+--typedef struct StdVideoAV1MESAQuantization {
+--    StdVideoAV1MESAQuantizationFlags flags;
+--    uint8_t base_q_idx;
+--    int8_t  delta_q_y_dc;
+--    uint8_t diff_uv_delta;
+--    int8_t  delta_q_u_dc;
+--    int8_t  delta_q_u_ac;
+--    int8_t  delta_q_v_dc;
+--    int8_t  delta_q_v_ac;
+--    uint8_t qm_y;
+--    uint8_t qm_u;
+--    uint8_t qm_v;
+--} StdVideoAV1MESAQuantization;
+--
+--typedef struct StdVideoAV1MESACDEF {
+--    uint8_t damping_minus_3;
+--    uint8_t bits;
+--    uint8_t y_pri_strength[8];
+--    uint8_t y_sec_strength[8];
+--    uint8_t uv_pri_strength[8];
+--    uint8_t uv_sec_strength[8];
+--} StdVideoAV1MESACDEF;
+--
+--typedef struct StdVideoAV1MESADeltaQFlags {
+--    uint8_t delta_lf_present;
+--    uint8_t delta_lf_multi;
+--} StdVideoAV1MESADeltaQFlags;
+--
+--typedef struct StdVideoAV1MESADeltaQ {
+--    StdVideoAV1MESADeltaQFlags flags;
+--    uint8_t delta_q_res;
+--    uint8_t delta_lf_res;
+--} StdVideoAV1MESADeltaQ;
+--
+--typedef struct StdVideoAV1MESASegmentationFlags {
+--    uint8_t enabled;
+--    uint8_t update_map;
+--    uint8_t temporal_update;
+--    uint8_t update_data;
+--} StdVideoAV1MESASegmentationFlags;
+--
+--typedef struct StdVideoAV1MESASegmentation {
+--    StdVideoAV1MESASegmentationFlags flags;
+--    uint8_t                      feature_enabled_bits[8];
+--    int16_t                      feature_data[8][8];
+--} StdVideoAV1MESASegmentation;
+--
+--typedef struct StdVideoAV1MESALoopFilterFlags {
+--    uint8_t delta_enabled;
+--    uint8_t delta_update;
+--} StdVideoAV1MESALoopFilterFlags;
+--
+--typedef struct StdVideoAV1MESALoopFilter {
+--    StdVideoAV1MESALoopFilterFlags flags;
+--    uint8_t level[4];
+--    uint8_t sharpness;
+--    int8_t  ref_deltas[8];
+--    int8_t  mode_deltas[2];
+--} StdVideoAV1MESALoopFilter;
+--
+--typedef struct StdVideoAV1MESAFrameHeaderFlags {
+--    uint8_t error_resilient_mode;
+--    uint8_t disable_cdf_update;
+--    uint8_t use_superres;
+--    uint8_t render_and_frame_size_different;
+--    uint8_t allow_screen_content_tools;
+--    uint8_t is_filter_switchable;
+--    uint8_t force_integer_mv;
+--    uint8_t frame_size_override_flag;
+--    uint8_t buffer_removal_time_present_flag;
+--    uint8_t allow_intrabc;
+--    uint8_t frame_refs_short_signaling;
+--    uint8_t allow_high_precision_mv;
+--    uint8_t is_motion_mode_switchable;
+--    uint8_t use_ref_frame_mvs;
+--    uint8_t disable_frame_end_update_cdf;
+--    uint8_t allow_warped_motion;
+--    uint8_t reduced_tx_set;
+--    uint8_t reference_select;
+--    uint8_t skip_mode_present;
+--    uint8_t delta_q_present;
+--    uint8_t UsesLr;
+--} StdVideoAV1MESAFrameHeaderFlags;
+--
+--typedef struct StdVideoAV1MESAFrameHeader {
+--    StdVideoAV1MESAFrameHeaderFlags flags;
+--
+--    uint32_t frame_presentation_time;
+--    uint32_t display_frame_id;
+--    uint32_t current_frame_id;
+--    uint8_t  frame_to_show_map_idx;
+--    uint8_t  frame_type;
+--    uint8_t  order_hint;
+--    uint8_t  primary_ref_frame;
+--    uint16_t frame_width_minus_1;
+--    uint16_t frame_height_minus_1;
+--    uint16_t render_width_minus_1;
+--    uint16_t render_height_minus_1;
+--    uint8_t  coded_denom;
+--
+--    uint8_t refresh_frame_flags;
+--    uint8_t ref_order_hint[8];
+--    int8_t  ref_frame_idx[7];
+--    uint32_t delta_frame_id_minus1[7];
+--
+--    uint8_t interpolation_filter;
+--    uint8_t tx_mode;
+--
+--    StdVideoAV1MESATileInfo                   tiling;
+--    StdVideoAV1MESAQuantization               quantization;
+--    StdVideoAV1MESASegmentation               segmentation;
+--    StdVideoAV1MESADeltaQ                     delta_q;
+--    StdVideoAV1MESALoopFilter                 loop_filter;
+--    StdVideoAV1MESACDEF                       cdef;
+--    StdVideoAV1MESALoopRestoration            lr;
+--    StdVideoAV1MESAGlobalMotion               global_motion[8]; // One per ref frame
+--    StdVideoAV1MESAFilmGrainParameters        film_grain;
+--} StdVideoAV1MESAFrameHeader;
+--
+--typedef struct StdVideoAV1MESAScreenCoding {
+--    uint8_t seq_force_screen_content_tools;
+--} StdVideoAV1MESAScreenCoding;
+--
+--typedef struct StdVideoAV1MESATimingInfoFlags {
+--    uint8_t equal_picture_interval;
+--} StdVideoAV1MESATimingInfoFlags;
+--
+--typedef struct StdVideoAV1MESATimingInfo {
+--    StdVideoAV1MESATimingInfoFlags flags;
+--    uint32_t num_units_in_display_tick;
+--    uint32_t time_scale;
+--    uint32_t num_ticks_per_picture_minus_1;
+--} StdVideoAV1MESATimingInfo;
+--
+--typedef struct StdVideoAV1MESAColorConfigFlags {
+--    uint8_t mono_chrome;
+--    uint8_t color_range;
+--    uint8_t separate_uv_delta_q;
+--} StdVideoAV1MESAColorConfigFlags;
+--
+--typedef struct StdVideoAV1MESAColorConfig {
+--    StdVideoAV1MESAColorConfigFlags flags;
+--    uint8_t bit_depth;
+--    uint8_t subsampling_x;
+--    uint8_t subsampling_y;
+--} StdVideoAV1MESAColorConfig;
+--
+--typedef struct StdVideoAV1MESASequenceHeaderFlags {
+--    uint8_t still_picture;
+--    uint8_t reduced_still_picture_header;
+--    uint8_t use_128x128_superblock;
+--    uint8_t enable_filter_intra;
+--    uint8_t enable_intra_edge_filter;
+--    uint8_t enable_interintra_compound;
+--    uint8_t enable_masked_compound;
+--    uint8_t enable_warped_motion;
+--    uint8_t enable_dual_filter;
+--    uint8_t enable_order_hint;
+--    uint8_t enable_jnt_comp;
+--    uint8_t enable_ref_frame_mvs;
+--    uint8_t frame_id_numbers_present_flag;
+--    uint8_t enable_superres;
+--    uint8_t enable_cdef;
+--    uint8_t enable_restoration;
+--    uint8_t film_grain_params_present;
+--    uint8_t timing_info_present_flag;
+--    uint8_t initial_display_delay_present_flag;
+--} StdVideoAV1MESASequenceHeaderFlags;
+--
+--typedef struct StdVideoAV1MESASequenceHeader {
+--    StdVideoAV1MESASequenceHeaderFlags flags;
+--
+--    StdVideoAV1MESAProfile seq_profile;
+--    uint8_t  frame_width_bits_minus_1;
+--    uint8_t  frame_height_bits_minus_1;
+--    uint16_t max_frame_width_minus_1;
+--    uint16_t max_frame_height_minus_1;
+--    uint8_t  delta_frame_id_length_minus_2;
+--    uint8_t  additional_frame_id_length_minus_1;
+--    uint8_t  order_hint_bits_minus_1;
+--    uint8_t  seq_choose_integer_mv;
+--    uint8_t  seq_force_integer_mv;
+--
+--    StdVideoAV1MESATimingInfo       timing_info;
+--    StdVideoAV1MESAColorConfig      color_config;
+--} StdVideoAV1MESASequenceHeader;
+--
+--typedef struct StdVideoAV1MESATile {
+--    uint16_t tg_start;
+--    uint16_t tg_end;
+--    uint16_t row;
+--    uint16_t column;
+--    uint32_t size;
+--    uint32_t offset;
+--} StdVideoAV1MESATile;
+--
+--typedef struct StdVideoAV1MESATileList {
+--    StdVideoAV1MESATile *tile_list;
+--    uint32_t nb_tiles;
+--} StdVideoAV1MESATileList;
+--
+--typedef struct VkVideoDecodeAV1PictureInfoMESA {
+--    VkStructureType sType;
+--    const void *pNext;
+--    StdVideoAV1MESAFrameHeader *frame_header;
+--    StdVideoAV1MESATileList *tile_list;
+--    uint8_t skip_mode_frame_idx[2];
+--} VkVideoDecodeAV1PictureInfoMESA;
+--
+--typedef struct VkVideoDecodeAV1DpbSlotInfoMESA {
+--    VkStructureType sType;
+--    const void *pNext;
+--    uint8_t frameIdx;
+--    uint8_t ref_order_hint[7];
+--    uint8_t disable_frame_end_update_cdf;
+--} VkVideoDecodeAV1DpbSlotInfoMESA;
+--
+--typedef struct VkVideoDecodeAV1SessionParametersAddInfoMESA {
+--    VkStructureType sType;
+--    const void *pNext;
+--    StdVideoAV1MESASequenceHeader *sequence_header;
+--} VkVideoDecodeAV1SessionParametersAddInfoMESA;
+--
+--typedef struct VkVideoDecodeAV1SessionParametersCreateInfoMESA {
+--    VkStructureType sType;
+--    const void *pNext;
+--    const VkVideoDecodeAV1SessionParametersAddInfoMESA *pParametersAddInfo;
+--} VkVideoDecodeAV1SessionParametersCreateInfoMESA;
+--
+--typedef struct VkVideoDecodeAV1ProfileInfoMESA {
+--    VkStructureType sType;
+--    const void *pNext;
+--    StdVideoAV1MESAProfile stdProfileIdc;
+--} VkVideoDecodeAV1ProfileInfoMESA;
+--
+--typedef enum VkVideoDecodeAV1CapabilityFlagBitsMESA {
+--    VK_VIDEO_DECODE_AV1_CAPABILITY_EXTERNAL_FILM_GRAIN_MESA = 0x00000001,
+--    VK_VIDEO_DECODE_AV1_CAPABILITY_FLAG_BITS_MAX_ENUM_MESA = 0x7FFFFFFF
+--} VkVideoDecodeAV1CapabilityFlagBitsMESA;
+--typedef VkFlags VkVideoDecodeAV1CapabilityFlagsMESA;
+--
+--typedef struct VkVideoDecodeAV1CapabilitiesMESA {
+--    VkStructureType sType;
+--    const void *pNext;
+--    VkVideoDecodeAV1CapabilityFlagsMESA flags;
+--    StdVideoAV1MESALevel maxLevelIdc;
+--} VkVideoDecodeAV1CapabilitiesMESA;
+--
+--#define VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PICTURE_INFO_MESA 1000509000
+--#define VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_MESA 1000509001
+--#define VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_ADD_INFO_MESA 1000509002
+--#define VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_MESA 1000509003
+--#define VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_MESA 1000509004
+--#define VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_MESA 1000509005
+--
+--#ifdef __cplusplus
+--}
+--#endif
+--
+--#endif
+-diff --git a/libavutil/hwcontext_vulkan.c b/libavutil/hwcontext_vulkan.c
+-index 91b9f96ccf..6e3b96b73a 100644
+---- a/libavutil/hwcontext_vulkan.c
+-+++ b/libavutil/hwcontext_vulkan.c
+-@@ -446,7 +446,7 @@ static const VulkanOptExtension optional_device_exts[] = {
+-     { VK_KHR_VIDEO_DECODE_QUEUE_EXTENSION_NAME,               FF_VK_EXT_VIDEO_DECODE_QUEUE     },
+-     { VK_KHR_VIDEO_DECODE_H264_EXTENSION_NAME,                FF_VK_EXT_VIDEO_DECODE_H264      },
+-     { VK_KHR_VIDEO_DECODE_H265_EXTENSION_NAME,                FF_VK_EXT_VIDEO_DECODE_H265      },
+--    { "VK_MESA_video_decode_av1",                             FF_VK_EXT_VIDEO_DECODE_AV1       },
+-+    { VK_KHR_VIDEO_DECODE_AV1_EXTENSION_NAME,                 FF_VK_EXT_VIDEO_DECODE_AV1       },
+- };
+- 
+- static VkBool32 VKAPI_CALL vk_dbg_callback(VkDebugUtilsMessageSeverityFlagBitsEXT severity,
+-diff --git a/libavutil/vulkan_functions.h b/libavutil/vulkan_functions.h
+-index 65021b04b1..6b379acf93 100644
+---- a/libavutil/vulkan_functions.h
+-+++ b/libavutil/vulkan_functions.h
+-@@ -43,7 +43,7 @@ typedef enum FFVulkanExtensions {
+-     FF_VK_EXT_VIDEO_DECODE_QUEUE     = 1ULL << 11, /* VK_KHR_video_decode_queue */
+-     FF_VK_EXT_VIDEO_DECODE_H264      = 1ULL << 12, /* VK_EXT_video_decode_h264 */
+-     FF_VK_EXT_VIDEO_DECODE_H265      = 1ULL << 13, /* VK_EXT_video_decode_h265 */
+--    FF_VK_EXT_VIDEO_DECODE_AV1       = 1ULL << 14, /* VK_MESA_video_decode_av1 */
+-+    FF_VK_EXT_VIDEO_DECODE_AV1       = 1ULL << 14, /* VK_KHR_video_decode_av1 */
+-     FF_VK_EXT_ATOMIC_FLOAT           = 1ULL << 15, /* VK_EXT_shader_atomic_float */
+-     FF_VK_EXT_COOP_MATRIX            = 1ULL << 16, /* VK_KHR_cooperative_matrix */
+- 
+-diff --git a/libavutil/vulkan_loader.h b/libavutil/vulkan_loader.h
+-index f9e739e1e3..73cf03935d 100644
+---- a/libavutil/vulkan_loader.h
+-+++ b/libavutil/vulkan_loader.h
+-@@ -58,7 +58,7 @@ static inline uint64_t ff_vk_extensions_to_mask(const char * const *extensions,
+-         { VK_KHR_VIDEO_DECODE_QUEUE_EXTENSION_NAME,        FF_VK_EXT_VIDEO_DECODE_QUEUE     },
+-         { VK_KHR_VIDEO_DECODE_H264_EXTENSION_NAME,         FF_VK_EXT_VIDEO_DECODE_H264      },
+-         { VK_KHR_VIDEO_DECODE_H265_EXTENSION_NAME,         FF_VK_EXT_VIDEO_DECODE_H265      },
+--        { "VK_MESA_video_decode_av1",                      FF_VK_EXT_VIDEO_DECODE_AV1       },
+-+        { VK_KHR_VIDEO_DECODE_AV1_EXTENSION_NAME,          FF_VK_EXT_VIDEO_DECODE_AV1       },
+-     };
+- 
+-     FFVulkanExtensions mask = 0x0;
+-diff --git a/libavcodec/vulkan_video.c b/libavcodec/vulkan_video.c
+---- ffmpeg-6.1.1.orig/libavcodec/vulkan_video.c
+-+++ ffmpeg-6.1.1/libavcodec/vulkan_video.c
+-@@ -37,7 +37,7 @@ const FFVkCodecMap ff_vk_codec_map[AV_CO
+-                            0,
+-                            0,
+-                            FF_VK_EXT_VIDEO_DECODE_AV1,
+--                           0x01000000 /* TODO fix this */
+-+			   VK_VIDEO_CODEC_OPERATION_DECODE_AV1_BIT_KHR
+-     },
+- };
+- 
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_fix_gcc14.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_fix_gcc14.patch
+deleted file mode 100644
+index 960d34943ef..00000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/vulkan_fix_gcc14.patch
++++ /dev/null
+@@ -1,102 +0,0 @@
+-From 2f24f10d9cf34ddce274496c4daa73f732d370c1 Mon Sep 17 00:00:00 2001
+-From: Sam James <sam@gentoo.org>
+-Date: Wed, 20 Dec 2023 12:32:43 +0000
+-Subject: [PATCH] libavcodec: fix -Wint-conversion in vulkan
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-FIx warnings (soon to be errors in GCC 14, already so in Clang 15):
+-```
+-src/libavcodec/vulkan_av1.c: In function ‘vk_av1_create_params’:
+-src/libavcodec/vulkan_av1.c:183:43: error: initialization of ‘long long unsigned int’ from ‘void *’ makes integer from pointer without a cast [-Wint-conversion]
+-  183 |         .videoSessionParametersTemplate = NULL,
+-      |                                           ^~~~
+-src/libavcodec/vulkan_av1.c:183:43: note: (near initialization for ‘(anonymous).videoSessionParametersTemplate’)
+-```
+-
+-Use Vulkan's VK_NULL_HANDLE instead of bare NULL.
+-
+-Fix Trac ticket #10724.
+-
+-Was reported downstream in Gentoo at https://bugs.gentoo.org/919067.
+-
+-Signed-off-by: Sam James <sam@gentoo.org>
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/2f24f10d9cf34ddce274496c4daa73f732d370c1]
+----
+- libavcodec/vulkan_av1.c    | 2 +-
+- libavcodec/vulkan_decode.c | 6 +++---
+- libavcodec/vulkan_h264.c   | 2 +-
+- libavcodec/vulkan_hevc.c   | 2 +-
+- libavcodec/vulkan_video.c  | 2 +-
+- 5 files changed, 7 insertions(+), 7 deletions(-)
+-
+-diff --git a/libavcodec/vulkan_av1.c b/libavcodec/vulkan_av1.c
+-index 4998bf7ebc55f..9730e4b08dd40 100644
+---- a/libavcodec/vulkan_av1.c
+-+++ b/libavcodec/vulkan_av1.c
+-@@ -180,7 +180,7 @@ static int vk_av1_create_params(AVCodecContext *avctx, AVBufferRef **buf)
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-         .pNext = &av1_params,
+-         .videoSession = ctx->common.session,
+--        .videoSessionParametersTemplate = NULL,
+-+        .videoSessionParametersTemplate = VK_NULL_HANDLE,
+-     };
+- 
+-     err = ff_vk_decode_create_params(buf, avctx, ctx, &session_params_create);
+-diff --git a/libavcodec/vulkan_decode.c b/libavcodec/vulkan_decode.c
+-index a89d84fcaa972..fdbcbb450a1e0 100644
+---- a/libavcodec/vulkan_decode.c
+-+++ b/libavcodec/vulkan_decode.c
+-@@ -188,9 +188,9 @@ int ff_vk_decode_prepare_frame(FFVulkanDecodeContext *dec, AVFrame *pic,
+-         return 0;
+- 
+-     vkpic->dpb_frame     = NULL;
+--    vkpic->img_view_ref  = NULL;
+--    vkpic->img_view_out  = NULL;
+--    vkpic->img_view_dest = NULL;
+-+    vkpic->img_view_ref  = VK_NULL_HANDLE;
+-+    vkpic->img_view_out  = VK_NULL_HANDLE;
+-+    vkpic->img_view_dest = VK_NULL_HANDLE;
+- 
+-     vkpic->destroy_image_view = vk->DestroyImageView;
+-     vkpic->wait_semaphores = vk->WaitSemaphores;
+-diff --git a/libavcodec/vulkan_h264.c b/libavcodec/vulkan_h264.c
+-index e727aafb162d3..39c123ddca57e 100644
+---- a/libavcodec/vulkan_h264.c
+-+++ b/libavcodec/vulkan_h264.c
+-@@ -315,7 +315,7 @@ static int vk_h264_create_params(AVCodecContext *avctx, AVBufferRef **buf)
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-         .pNext = &h264_params,
+-         .videoSession = ctx->common.session,
+--        .videoSessionParametersTemplate = NULL,
+-+        .videoSessionParametersTemplate = VK_NULL_HANDLE,
+-     };
+- 
+-     /* SPS list */
+-diff --git a/libavcodec/vulkan_hevc.c b/libavcodec/vulkan_hevc.c
+-index 99fdcf3b45839..033172cbd6958 100644
+---- a/libavcodec/vulkan_hevc.c
+-+++ b/libavcodec/vulkan_hevc.c
+-@@ -653,7 +653,7 @@ static int vk_hevc_create_params(AVCodecContext *avctx, AVBufferRef **buf)
+-         .sType = VK_STRUCTURE_TYPE_VIDEO_SESSION_PARAMETERS_CREATE_INFO_KHR,
+-         .pNext = &h265_params,
+-         .videoSession = ctx->common.session,
+--        .videoSessionParametersTemplate = NULL,
+-+        .videoSessionParametersTemplate = VK_NULL_HANDLE,
+-     };
+- 
+-     HEVCHeaderSet *hdr;
+-diff --git a/libavcodec/vulkan_video.c b/libavcodec/vulkan_video.c
+-index 5fa8292b28eaf..fb20315db4bbf 100644
+---- a/libavcodec/vulkan_video.c
+-+++ b/libavcodec/vulkan_video.c
+-@@ -287,7 +287,7 @@ av_cold void ff_vk_video_common_uninit(FFVulkanContext *s,
+-     if (common->session) {
+-         vk->DestroyVideoSessionKHR(s->hwctx->act_dev, common->session,
+-                                    s->hwctx->alloc);
+--        common->session = NULL;
+-+        common->session = VK_NULL_HANDLE;
+-     }
+- 
+-     if (common->nb_mem && common->mem)
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+similarity index 97%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+index fe34b87ccf5..ce8956578e3 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+@@ -24,13 +24,10 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  
- SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main \
--           file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
-            "
+ SRC_URI = " \
+     https://www.ffmpeg.org/releases/${BP}.tar.xz \
+-    file://av1_ordering_info.patch \
+-    file://vulkan_av1_stable_API.patch \
+-    file://vulkan_fix_gcc14.patch \
+     file://0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch \
+ "
  
--SRCREV = "4cf5125250c6325ef0a2dc085eabff875227edc3"
-+SRCREV = "e5211fc1d2b435884a2bb77001e107489285296d"
- S = "${WORKDIR}/git/src"
+-SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
++SRC_URI[sha256sum] = "8646515b638a3ad303e23af6a3587734447cb8fc0a0c064ecdb8e95c4fd8b389"
  
- inherit autotools gettext
+ # https://nvd.nist.gov/vuln/detail/CVE-2023-39018
+ # https://github.com/bramp/ffmpeg-cli-wrapper/issues/291
 -- 
 2.39.2
 
