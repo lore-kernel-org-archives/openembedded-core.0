@@ -1,99 +1,95 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20439C54731
-	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 16:51:48 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.1901.1724777498242541992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FEACC5472F
+	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 17:16:48 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.2400.1724778998719457810
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 09:51:38 -0700
+ Tue, 27 Aug 2024 10:16:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=bdhcowdP;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DDZiIi4K;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019194c00316-a2d817ed-e005-401a-914b-1d1ed93beab9-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1724777497; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=8xGvmL0w93R+lGth6k4kWjNV9yTwRWT3xJuo6vrcKH0=;
-	b=bdhcowdP/gk6lsmNcowuFOwz70bAm2y8wakmdv1td3cLyLewB7IyX7OtNgzQhZ/5
-	jacn6fBNwG1lbAk68zuZ+YWgVtsykcQescCmXAKG8+j9xr2noCb5ho+n1zg/Ph60FJt
-	0KoswkOtDxTlyewD2lq6mc+DGYCKo2BcpLF/0kRA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1724777497;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=8xGvmL0w93R+lGth6k4kWjNV9yTwRWT3xJuo6vrcKH0=;
-	b=DDZiIi4K0Ub1AkkwJmr6QCBSeacxTaVC89oCrH1eumjOfsVKb38K8lUnAnfu3R0C
-	DmwTn90iouCFLbFiK+HISghN5cHSUGJA/OLg25Z6C9k3mZxQI5H+tquPb2l12uGI1Yr
-	r2lwCQmgaKtCk98/QqNWw80MOIlZ/Wl/nMwP0Omg=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v3 1/3] bluez5: Fix build with musl
-In-Reply-To: <20240827162604.2108623-1-raj.khem@gmail.com>
-References: <20240827162604.2108623-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019194c00316-a2d817ed-e005-401a-914b-1d1ed93beab9-000000@us-west-2.amazonses.com>
-Date: Tue, 27 Aug 2024 16:51:37 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.27-54.240.27.33
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k2QfqqyE;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53343bf5eddso7655913e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 10:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724778996; x=1725383796; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kh2F77ZTpHpUYAIzfZ8HFmq25HizZLJSc6ulQgqCdyo=;
+        b=k2QfqqyE92IHYPdR6l4YNeQb8ntKZh15PToKW4EEGQIrcs+oG7ulh8ZB7vAZESdjmT
+         LFv+/lGxl53RJ+Ax8YlLSAr7ykflYHY4Bv2/LmVuovarpDeRsrUi/5Xcqq7z/CYi0hcp
+         91N4Kq/8mxKahSnVtnnqpVy2q14GbgFRrK2PDAIVTHnnoXVcVd4ScbDujLvecu+x1lPD
+         viundHUF8ZdZ0KLe+Rt13sr4adYWqNdftp0qfMsXG0e00cYIT1qAp9FnFB9lv329OwQY
+         w3CrXdLg1ZdcneP9oGgNM09l8bwZU7Wlpm53D9V9Bkpmo3UxEAWXtwqaThEpBNdcOpsr
+         KsqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724778996; x=1725383796;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kh2F77ZTpHpUYAIzfZ8HFmq25HizZLJSc6ulQgqCdyo=;
+        b=SsLb6a7JsBl3jLZr1uFC6gmUDz5cucM5ZnUGQu+KJPrh70NLDvnv1ZxP2bISCvOcEx
+         KMcYUPSaE3TPrPvE06UuSWUNnNr9QIwL+5Ap6/6UaOepZRRO8zFtqzNv4dqpDtRmEmDH
+         QWu5WtkKuSO6Uil40IQYIx6HjbVm4423XyrdrUHSEQMMO3KeBNmOLERHqh4lf6mw+pRa
+         kxAqByXpHwmXh9qsN/zdyGy/8m6ENl2uZLNxmtjM3og5zyfAxhgacB01gBDa9G7ZUWX4
+         Fn6EOz992gnJg9J+6JZAD16XOMhxu+VgPA7QBKD7bQ02L5riIOV/yA5DySmWccdbfXQH
+         ObdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWt2SRI+ONAOo/kFvUJlaeBul967iYVtJnSgrvoMBJsRhT0i8Wcs/n9gel/6XDtHqiJa2D3XdAvGEfFlrRLEYI7/A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwMxuLjpNqyopmsAe97N6c/u0EFsB55X2rr5/CktnODowqlHnOY
+	NqPfZ2ZouhYu00ULBRIuP3JpLEQD0pmr9suJHA7hgtn3TvCLOvQeS2LCTkrNGwQwR6W2mNOZV6R
+	T+uk4CSAr9v2SC4LRN9ApbDD+YtU=
+X-Google-Smtp-Source: AGHT+IFQOGCNP/bjWYhysswGIf0+croc4RrIKRpHBjYDKPfBN2CbH3Sn0J06gDyuK5Vz8rwFznSk4MYnKao0+ci6yOs=
+X-Received: by 2002:a2e:a9a0:0:b0:2f4:9fb:5905 with SMTP id
+ 38308e7fff4ca-2f514940df7mr27755151fa.0.1724778995905; Tue, 27 Aug 2024
+ 10:16:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240825170553.566798-1-Yash.Shinde@windriver.com>
+ <20240825170553.566798-2-Yash.Shinde@windriver.com> <bbbe564b9b6191edbe62abd69fa3b337ada2ad4a.camel@linuxfoundation.org>
+ <15bf0cae-b114-4ac7-89d9-3f7df77b41bd@windriver.com> <CANNYZj-2yiGpKNc1Jcc6NO8+8MhNYiYV-3xh3BbJqTw4nyJT0A@mail.gmail.com>
+ <1356a3e7519ffca6f65810ea2953429fbe08fa1e.camel@linuxfoundation.org>
+ <152b3da8-8d5d-4dc2-ad60-ab03bc4b361b@windriver.com> <5216855652e912043a3b7a06e1d76956d2babdd7.camel@linuxfoundation.org>
+ <17EFA275ACF95534.20373@lists.openembedded.org> <17EFA28FD32C2C48.20373@lists.openembedded.org>
+In-Reply-To: <17EFA28FD32C2C48.20373@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 27 Aug 2024 19:16:22 +0200
+Message-ID: <CANNYZj_p+3JR8QtntEB+PktAhuuxOg7e-dbHv+1nFC=SzzVcSg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] rust: Upgrade 1.78.0->1.79.0
+To: alex.kanavin@gmail.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Yash.Shinde@windriver.com, 
+	openembedded-core@lists.openembedded.org, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Randy.MacLeod@windriver.com, 
+	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 16:51:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203857
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 17:16:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203858
 
---NextPart
-Content-Type: text/plain
+On Tue, 27 Aug 2024 at 18:25, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+>
+> On Tue, 27 Aug 2024 at 18:23, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+> wrote:
+> > I just reproduced this on autobuilder's alma9 in a private build
+> > without sstate. I don't have any immediate ideas on where to start
+> > looking into it, but I left the build in place, so if any of you can
+> > suggest experiments or things to look at, I'd be glad to help.
+>
+> Oh, and I immediately got an idea after hitting 'send' :)
+>
+> [akanavin@alma9-ty-2 build]$ gcc --version
+> gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3)
+>
+> I'm going to try again, with buildtools-tarball. It may be that red
+> hat compiler is 'too old' anymore for rust.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+... and this worked. So the easiest way out is to update alma9 config
+to use buildtools.
 
----
-Testing patch /home/patchtest/share/mboxes/v3-1-3-bluez5-Fix-build-with-musl.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
