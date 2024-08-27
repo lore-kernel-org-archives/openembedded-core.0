@@ -2,250 +2,228 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4DCDC5472F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C45D9C54731
 	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 16:26:17 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.1284.1724775969914339044
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.1301.1724775968593029372
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 09:26:09 -0700
+ Tue, 27 Aug 2024 09:26:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jDEwifAw;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1fc47abc040so49736295ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 09:26:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ma1WkNUt;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-201f7fb09f6so48192195ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 09:26:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724775969; x=1725380769; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2W6qm3K9wVwCvhPi6YzceAZSNFG+idAcoBRXzbkf008=;
-        b=jDEwifAwtthvKX/0hrzOUN1H9kQxY+IG66ZpRzAcGTd+Z9FH+SMG/RDTK/snd4Qfwo
-         NqvBifZREWe4Pbl4682TGoLIxevZ61959mqCe2IVFSiHAmPJdw+gnXLhxslVuKVC25zi
-         atkRfzkn2oVFG1mHRzHM8xF3PmuyAIK/jeVRZFFLyntjDrjAB67PDPf9/0wrTi68LbhX
-         oAvdKf+kgncNLv8PPR5Rfnq4cDqvlzRy2FWjEKdyf3st5LUoaN3kkKyzur/XeLhJ8p85
-         Ih4tnHYZikiCBq/Xh8TEu/+FyTgCcwY4hdm667/2gyVVPfDtehNm1khuOlgHvjDXDSRJ
-         DEnw==
+        d=gmail.com; s=20230601; t=1724775968; x=1725380768; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UlDT50qS67obn+U+NBuEWoblNwul8Eo/OQexFOk2xnU=;
+        b=ma1WkNUtArA0JFaJdufng1EaARfLazzMvPSfGrvaVR+NdoWU1Nat7syPY414exB8bB
+         OMmlXoEpu19zIOwv0zhI1fNYax81iJm0FMP9Jxg2WIU24ZmR2mbHH/clBKkLwSItroDt
+         mp3yXqgLQBRCm3VJ4yPZ863FPRouGkd6EFK2OQadLQ6TgzDRkxCoVKr2p78+dXD0uriE
+         vAkgEUX7zBueC388YsjK9T11tJe2iSH38TcaFzetUzCS3xnEqz0C+pPLuN3YdczKqBwQ
+         ttTR3VSlvRsjQNmyLciPpIMv6b4RjZ+MX6vYfGySGyRnZM/l08CoSVRElDtUsPN/ikMK
+         mqpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724775969; x=1725380769;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2W6qm3K9wVwCvhPi6YzceAZSNFG+idAcoBRXzbkf008=;
-        b=SLt0QGC59E01+CTvkXCxXFC/0qv1LkNJQ4mrNIVsVDk0D4Ds+EF36KGzedqicRf3Gq
-         WhBEZCIItgJmgkLiD0x1hY3fI0E9OFNe+RNPOGua59wF4xZJtn7UxOoDYhBLxWa/XJg6
-         q9U5GmO0zTCPdPuu6M+wXHMiyUwQX5h2XwXnOxY6ssU2otypUDXGKfJy/M1NtRCUmIQV
-         SvbmKotqzWKCooLtGVs3m9Qj3PbdBCx7BkCmz49K4zHM8d57+amm1g2pIGkZgHW4qniz
-         9KvktYDXG0ajK64VMWloThFq0qklNKv5vezQSw+B8Hd/ruUqSlnalLUewgovMJfeQKiK
-         XSvg==
-X-Gm-Message-State: AOJu0YzYw6iexZa/p8xsWex4Ooq2YkYYixru0h7IBSpQUk7Uv0wIYZao
-	y/x31ZceOJGwihNoFxTYV1vMc/fXxdWth+iwmzmo9er3mrTSNLoqi/68cg==
-X-Google-Smtp-Source: AGHT+IGqC2M8S4TSo0z8BVxbC8g89v27PoQ32V5UQapWXCKTtIWl70fuXnM+AZC70lgepd8tXu1v3A==
-X-Received: by 2002:a17:902:ec8c:b0:202:85e:cf56 with SMTP id d9443c01a7336-2039e4b55c6mr164556445ad.38.1724775968991;
-        Tue, 27 Aug 2024 09:26:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724775968; x=1725380768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UlDT50qS67obn+U+NBuEWoblNwul8Eo/OQexFOk2xnU=;
+        b=mT6MtZH2UgYc/UX4Tus1UUvILxAIzHBFL6msGXfUWuJS+Xba3K+6yRwl5CB6JNWlll
+         YHDTnkkmqtPylnbP7dNdai7hk97o2AesGjZJWofdKLISfcBVoDfifhbo4peQDbRXzOhF
+         Np+8kfDnig/k7KWc1m2wkPwEXx6F5b8s5XBy3XxIsLXZeoD6B34F/SUHZMQalWlhLG+K
+         ogxSxQy7YGgKgMxA+REOB0Nt5zRCnJsD3k2QlbAM2TIIQ2D7f6w8EdvfuXS71Qmoj00M
+         N9qV/hzn0UjWHI3JhIRiRAartvsLUGVjaGoZIzNDN8B/C7cXuaFw44Jh3uGIhwny5SYH
+         KDow==
+X-Gm-Message-State: AOJu0YyFrB7JbDYMlo6kS83fRUG0MixOST5iGsFg0SPmLIUJtZHpb2/a
+	Tnnj99TKGzbxcWrI68FmcKWLV1WZECjqTZ5EPGqql5Qz2gHL1FbXxC7g0Q==
+X-Google-Smtp-Source: AGHT+IHnFbkYEVYHT3e8H43hhzfewmL5igmh2GvP1IEntKq53ZMcB4jJ5FHWaz2RobY+l4CBKdwAZQ==
+X-Received: by 2002:a17:902:f544:b0:202:32f7:230d with SMTP id d9443c01a7336-2039e50d1cdmr176072175ad.40.1724775967535;
+        Tue, 27 Aug 2024 09:26:07 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:9d80:4380::2696])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385fc70f0sm85039895ad.299.2024.08.27.09.26.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385fc70f0sm85039895ad.299.2024.08.27.09.26.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 09:26:08 -0700 (PDT)
+        Tue, 27 Aug 2024 09:26:07 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v3 2/3] musl: Update to 1.2.5 release
-Date: Tue, 27 Aug 2024 09:26:03 -0700
-Message-ID: <20240827162604.2108623-2-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v3 1/3] bluez5: Fix build with musl
+Date: Tue, 27 Aug 2024 09:26:02 -0700
+Message-ID: <20240827162604.2108623-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240827162604.2108623-1-raj.khem@gmail.com>
-References: <20240827162604.2108623-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 16:26:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203855
-
-This release adds extension functions statx and preadv2/pwritev2, with
-fallback implementations for older kernels, and adds two new ports:
-loongarch64 and riscv32. Minor changes to the printf family of
-functions have been made for conformance to new standards
-interpretations/requirements. TLSDESC support for riscv64 has also
-been added.
-
-Bugs fixed include some DNS issues related to new TCP fallback
-functionality, several rare race conditions, potentially incorrect
-return value when glob aborts, and several signifiant arch-specific
-bugs affecting TLSDESC on arm, riscv64 icache flushing, and sh
-sigsetjmp and dlsym RTLD_NEXT. [1]
-
-Do not use https protocol for fetching
-
-Musl author confirms that https protocol is not well supported yet on
-musl git host, currently we experience this problem intermittently on
-some build hosts where the fetching fails.
-
-fatal: protocol error: bad line length character: erro
-WARNING: Failed to fetch URL git://git.etalabs.net/git/musl;branch=master;protocol=https
-
-[1] https://www.openwall.com/lists/musl/2024/03/01/2
-
-(From OE-Core rev: c6c79477209f5e7e1a0206942de9603a7accec67)
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203854
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-v2: No change
-v3: No change
+v2: Fix the upstream submission and latest patch submitted upstream
+v3: Make just node_name as const and keep node_dir as such
 
- ...ic-linker-a-relative-symlink-to-libc.patch | 12 +++---
- ...ir-and-libdir-as-default-pathes-to-l.patch | 10 ++---
- ...pedefs-for-Elf64_Relr-and-Elf32_Relr.patch | 37 -------------------
- meta/recipes-core/musl/musl_git.bb            |  7 ++--
- 4 files changed, 14 insertions(+), 52 deletions(-)
- delete mode 100644 meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...U-basename-compatible-implementation.patch | 138 ++++++++++++++++++
+ 2 files changed, 139 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch
 
-diff --git a/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch b/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-index 8b097f32768..06ab27f0eb4 100644
---- a/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-+++ b/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
-@@ -1,4 +1,4 @@
--From f95b6fd0475a95c00e886219271cb5c93838e3c3 Mon Sep 17 00:00:00 2001
-+From 665ecc610c261d5e98710aa0c6ccf6e4991eaf58 Mon Sep 17 00:00:00 2001
- From: Amarnath Valluri <amarnath.valluri@intel.com>
- Date: Wed, 18 Jan 2017 16:14:37 +0200
- Subject: [PATCH 1/2] Make dynamic linker a relative symlink to libc
-@@ -35,7 +35,7 @@ index e8cc4436..466d9afd 100644
-  install-libs: $(ALL_LIBS:lib/%=$(DESTDIR)$(libdir)/%) $(if $(SHARED_LIBS),$(DESTDIR)$(LDSO_PATHNAME),)
-  
- diff --git a/tools/install.sh b/tools/install.sh
--index d913b60b..b6a7f797 100755
-+index 855a8ca2..a2e6a5eb 100755
- --- a/tools/install.sh
- +++ b/tools/install.sh
- @@ -6,18 +6,20 @@
-@@ -61,15 +61,15 @@ index d913b60b..b6a7f797 100755
-  m) mode=$OPTARG ;;
-  ?) usage ;;
-  esac
--@@ -48,7 +50,7 @@ trap 'rm -f "$tmp"' EXIT INT QUIT TERM HUP
-- umask 077
-+@@ -49,7 +51,7 @@ umask 077
-  
-  if test "$symlink" ; then
-+ umask 000
- -ln -s "$1" "$tmp"
- +ln $symlinkflags "$1" "$tmp"
-+ umask 077
-  else
-  cat < "$1" > "$tmp"
-- chmod "$mode" "$tmp"
- -- 
--2.37.2
-+2.43.0
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index d8b9f817715..e0d3e651871 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -70,6 +70,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0004-src-shared-util.c-include-linux-limits.h.patch \
++           file://0001-Provide-GNU-basename-compatible-implementation.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
  
-diff --git a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
-index 59bfae5a27c..04630b32ee9 100644
---- a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
-+++ b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
-@@ -1,4 +1,4 @@
--From 3cce8716c6c3ae2e0c835caeac3780ec35090b2d Mon Sep 17 00:00:00 2001
-+From e27de983ef70257ca1fd7f5096eea41613612ecf Mon Sep 17 00:00:00 2001
- From: Serhey Popovych <serhe.popovych@gmail.com>
- Date: Tue, 11 Dec 2018 05:44:20 -0500
- Subject: [PATCH 2/2] ldso: Use syslibdir and libdir as default pathes to
-@@ -36,10 +36,10 @@ index 466d9afd..d2f458fa 100644
-  
-  LDFLAGS_ALL = $(LDFLAGS_AUTO) $(LDFLAGS)
- diff --git a/ldso/dynlink.c b/ldso/dynlink.c
--index cc677952..b0e8815b 100644
-+index 324aa859..7d3ab44c 100644
- --- a/ldso/dynlink.c
- +++ b/ldso/dynlink.c
--@@ -29,6 +29,8 @@
-+@@ -35,6 +35,8 @@ static size_t ldso_page_size;
-  #define realloc __libc_realloc
-  #define free __libc_free
-  
-@@ -48,7 +48,7 @@ index cc677952..b0e8815b 100644
-  static void error_impl(const char *, ...);
-  static void error_noop(const char *, ...);
-  static void (*error)(const char *, ...) = error_noop;
--@@ -1097,7 +1099,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
-+@@ -1159,7 +1161,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
-  					sys_path = "";
-  				}
-  			}
-@@ -58,5 +58,5 @@ index cc677952..b0e8815b 100644
-  		}
-  		pathname = buf;
- -- 
--2.37.2
-+2.43.0
- 
-diff --git a/meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch b/meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch
-deleted file mode 100644
-index 45d40cd5b46..00000000000
---- a/meta/recipes-core/musl/musl/0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 65b0ac0d998bf0f36924a7c27ed9e702b2a5a453 Mon Sep 17 00:00:00 2001
--From: Violet Purcell <vimproved@inventati.org>
--Date: Sat, 4 Nov 2023 12:09:20 -0400
--Subject: [PATCH] elf.h: add typedefs for Elf64_Relr and Elf32_Relr
--
--These were overlooked when DT_RELR was added in commit
--d32dadd60efb9d3b255351a3b532f8e4c3dd0db1, potentially breaking
--software that treats presence of the DT_RELR macro as implying they
--exist.
--
--Upstream-Status: Backport [1.2.5]
--
--Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
--
-----
-- include/elf.h | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/include/elf.h b/include/elf.h
--index 23f2c4bc..72d17c3a 100644
----- a/include/elf.h
--+++ b/include/elf.h
--@@ -558,6 +558,11 @@ typedef struct {
-- 
-- 
-- 
--+typedef Elf32_Word Elf32_Relr;
--+typedef Elf64_Xword Elf64_Relr;
--+
--+
--+
-- #define ELF32_R_SYM(val)		((val) >> 8)
-- #define ELF32_R_TYPE(val)		((val) & 0xff)
-- #define ELF32_R_INFO(sym, type)		(((sym) << 8) + ((type) & 0xff))
---- 
--2.25.1
--
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 324269a9687..63b2038e4be 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,16 +4,15 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "79bdacff83a6bd5b70ff5ae5eb8b6de82c2f7c30"
-+SRCREV = "0784374d561435f7c787a555aeab8ede699ed298"
- 
--BASEVER = "1.2.4"
-+BASEVER = "1.2.5"
- 
- PV = "${BASEVER}+git"
- 
--SRC_URI = "git://git.etalabs.net/git/musl;branch=master;protocol=https \
-+SRC_URI = "git://git.musl-libc.org/musl;branch=master \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
--           file://0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch \
-           "
- 
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch
+new file mode 100644
+index 00000000000..6d8a563e100
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch
+@@ -0,0 +1,138 @@
++From 9000923c07a68857e8ea32a49bfca660b1d1001a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 26 Aug 2024 09:55:03 -0700
++Subject: [PATCH BlueZ] Provide GNU basename compatible implementation
++
++Call to basename() relies on a GNU extension
++to take a const char * vs a char *. Let's define
++a trivial helper function to ensure compatibility
++with musl.
++
++Fixes Issue: https://github.com/bluez/bluez/issues/843
++
++Upstream-Status: Submitted [https://lore.kernel.org/linux-bluetooth/20240826173844.2918630-1-raj.khem@gmail.com/T/#u]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Makefile.mesh           | 2 ++
++ Makefile.tools          | 3 ++-
++ mesh/mesh-config-json.c | 6 ++++--
++ mesh/rpl.c              | 3 ++-
++ src/shared/util.h       | 7 +++++++
++ tools/hex2hcd.c         | 3 ++-
++ 6 files changed, 19 insertions(+), 5 deletions(-)
++
++diff --git a/Makefile.mesh b/Makefile.mesh
++index e4c9fa6a3..bebedaf05 100644
++--- a/Makefile.mesh
+++++ b/Makefile.mesh
++@@ -47,6 +47,8 @@ mesh/main.$(OBJEXT): src/builtin.h lib/bluetooth/bluetooth.h
++ mesh_bluetooth_meshd_SOURCES = $(mesh_sources) mesh/main.c
++ mesh_bluetooth_meshd_LDADD = src/libshared-ell.la $(ell_ldadd) -ljson-c
++ 
+++mesh_bluetooth_meshd_CFLAGS = -I${top_srcdir}/src
+++
++ if MANPAGES
++ man_MANS += mesh/bluetooth-meshd.8
++ endif
++diff --git a/Makefile.tools b/Makefile.tools
++index 5b9034078..6fc73b8a2 100644
++--- a/Makefile.tools
+++++ b/Makefile.tools
++@@ -328,7 +328,8 @@ tools_l2ping_LDADD = lib/libbluetooth-internal.la
++ tools_bluemoon_SOURCES = tools/bluemoon.c monitor/bt.h
++ tools_bluemoon_LDADD = src/libshared-mainloop.la
++ 
++-tools_hex2hcd_SOURCES = tools/hex2hcd.c
+++tools_hex2hcd_SOURCES = tools/hex2hcd.c src/shared/util.h
+++tools_hex2hcd_CFLAGS = -I${top_srcdir}/src
++ 
++ tools_mpris_proxy_SOURCES = tools/mpris-proxy.c
++ tools_mpris_proxy_LDADD = gdbus/libgdbus-internal.la $(GLIB_LIBS) $(DBUS_LIBS)
++diff --git a/mesh/mesh-config-json.c b/mesh/mesh-config-json.c
++index c198627c6..608384cb6 100644
++--- a/mesh/mesh-config-json.c
+++++ b/mesh/mesh-config-json.c
++@@ -28,6 +28,7 @@
++ #include <ell/ell.h>
++ #include <json-c/json.h>
++ 
+++#include "shared/util.h"
++ #include "mesh/mesh-defs.h"
++ #include "mesh/util.h"
++ #include "mesh/mesh-config.h"
++@@ -2694,7 +2695,8 @@ bool mesh_config_load_nodes(const char *cfgdir_name, mesh_config_node_func_t cb,
++ 
++ void mesh_config_destroy_nvm(struct mesh_config *cfg)
++ {
++-	char *node_dir, *node_name;
+++	char *node_dir;
+++	const char* node_name;
++ 	char uuid[33];
++ 
++ 	if (!cfg)
++@@ -2706,7 +2708,7 @@ void mesh_config_destroy_nvm(struct mesh_config *cfg)
++ 	if (!hex2str(cfg->uuid, 16, uuid, sizeof(uuid)))
++ 		return;
++ 
++-	node_name = basename(node_dir);
+++	node_name = bluez_basename(node_dir);
++ 
++ 	/* Make sure path name of node follows expected guidelines */
++ 	if (strcmp(node_name, uuid))
++diff --git a/mesh/rpl.c b/mesh/rpl.c
++index fb225dddd..fb89f0afd 100644
++--- a/mesh/rpl.c
+++++ b/mesh/rpl.c
++@@ -24,6 +24,7 @@
++ 
++ #include <ell/ell.h>
++ 
+++#include "shared/util.h"
++ #include "mesh/mesh-defs.h"
++ 
++ #include "mesh/node.h"
++@@ -146,7 +147,7 @@ static void get_entries(const char *iv_path, struct l_queue *rpl_list)
++ 	if (!dir)
++ 		return;
++ 
++-	iv_txt = basename(iv_path);
+++	iv_txt = bluez_basename(iv_path);
++ 	if (sscanf(iv_txt, "%08x", &iv_index) != 1) {
++ 		closedir(dir);
++ 		return;
++diff --git a/src/shared/util.h b/src/shared/util.h
++index f2ca4f29f..f55b3a4c3 100644
++--- a/src/shared/util.h
+++++ b/src/shared/util.h
++@@ -296,3 +296,10 @@ static inline void put_be64(uint64_t val, void *dst)
++ {
++ 	put_unaligned(cpu_to_be64(val), (uint64_t *) dst);
++ }
+++
+++static inline const char *bluez_basename(const char *path)
+++{
+++	const char *base = strrchr(path, '/');
+++
+++	return base ? base + 1 : path;
+++}
++diff --git a/tools/hex2hcd.c b/tools/hex2hcd.c
++index e6dca5a81..05fa69470 100644
++--- a/tools/hex2hcd.c
+++++ b/tools/hex2hcd.c
++@@ -24,6 +24,7 @@
++ #include <stdlib.h>
++ #include <stdbool.h>
++ #include <sys/stat.h>
+++#include "shared/util.h"
++ 
++ static ssize_t process_record(int fd, const char *line, uint16_t *upper_addr)
++ {
++@@ -302,7 +303,7 @@ static void ver_parse_entry(const char *pathname)
++ 	}
++ 
++ 	if (S_ISREG(st.st_mode)) {
++-		ver_parse_file(basename(pathname));
+++		ver_parse_file(bluez_basename(pathname));
++ 		goto done;
++ 	}
++ 
 
