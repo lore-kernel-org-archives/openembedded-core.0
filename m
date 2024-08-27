@@ -1,267 +1,104 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03BBAC5472F
-	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 13:30:23 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web10.78495.1724765421705933956
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F40C5472F
+	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 14:10:53 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.78715.1724767845540442865
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 06:30:21 -0700
+ Tue, 27 Aug 2024 07:10:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0miAK+59;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.179, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-691bb56eb65so47175687b3.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 06:30:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UB3fE7qh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42ab97465c8so47773575e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 07:10:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724765421; x=1725370221; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AECkcNqymb2TRSkym5nHYpFT5TyMSYd9CRytxnLnHcQ=;
-        b=0miAK+59SSmL9hzilx+4UAyRuFrU2TM8TGWtiGPpPNIX9wARxRbeS9EwzHavwN6IL0
-         /bboM5JopqaQvzk+dk0NiBLUegNmwrhl2pz14v3drzG9TT+MyaUjuZToV0zuxUAqUr/X
-         1FximkhMGKC9p8jhkE/l8mpFc4+revFz6a4tJ62WMBlSvMrEfYoerW085GpxuoyIpob7
-         IgOdDULVeUKxbtWyggVePNhAgsocxGm3JRct29pLoKsuSA/zsYjMdm45f4LkR5CiYTV8
-         pyLzNPw1Dlt/L+Wx7a20pXzGER0XhMGKHZ8VOyT3stN2/qanpvhuf3tiuzDA25GKfAqz
-         PjIQ==
+        d=linuxfoundation.org; s=google; t=1724767844; x=1725372644; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ojWec/lgz/DLhZ/Og6ZX4qUElsNz8fZIgOZWEN/T4Ys=;
+        b=UB3fE7qh1eS6TGxAC028xKyMB/F5rMphcI0VYD4BIk0Im8JlMoOtUU1O6pxjWAimnJ
+         wQe5pipY37PUWNrpC0+/nsTK+0EPv6YxcIKYrpFC9LgJmegncxL+LOpMbeQswM2z1ezj
+         uJyd3WBI5LYWy1UgubCxehL4JJvsmu85YO5Jw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724765421; x=1725370221;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AECkcNqymb2TRSkym5nHYpFT5TyMSYd9CRytxnLnHcQ=;
-        b=CR87im9k2SsE/MpvdzT5gbsjcdIYY5gAbvQ/eRMpbpplGelJq80O2WGKiiBJJXNQUJ
-         1/uI2Mqqx+U+uOIaUqRuamYH5M74iHF/rMicl4sh9UFuKx7dLhJTP4Wyv6OpoQIUX5OK
-         2jtegUMlZ+A5BHMma4jYNXXB3ZtvgZTISOZjO58/XTqe1UPmksBp7XBiXOvzM/EnBq+6
-         Vq4MDbfcLaGDjk/alejNI3u6eah6TD/y3/Bx8bjrhtN3tZfyNWsvxLNnsj8/D/pL7oXC
-         MRflMt8cmJBfVl+Ns2BaMqDukW9HBSd/ZASBTYtk49DIk9kvH/Sog5ckfQGox804aSFp
-         G1dg==
-X-Forwarded-Encrypted: i=1; AJvYcCVe74+Il2bgdVKuUqC/bttmWJQZrvBniPc7pVtzgt5SzdwrwGOH5ZyPfxydWKi4rjOiISCOkIWpq63eeq5kju76Qw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxUE7giyEMl//5B9eX0Onx0jpvEsf08tcu88n7rWC2f0uZrN07U
-	SlRvJxprtZlZcI82mEaQljHlVWOKN/hc5gF2BUMCUhEqONtxm5gEDx26uCxwCaqghg3tC7QN4Tx
-	9ACcfmYyL5OOB9Ddi+wPuCGSidk9hDy5aFvN3aQ==
-X-Google-Smtp-Source: AGHT+IFQSjSNhby9QlHH4LYv9ueo2u51/XJT5e/VH+3i/gj4gB9PPVb7FcZwKt6EIUO2jplS6NiztRnIi9Jkb0+jjOQ=
-X-Received: by 2002:a05:690c:3510:b0:6b1:8834:1588 with SMTP id
- 00721157ae682-6cfbbbd3dbfmr34975727b3.35.1724765420654; Tue, 27 Aug 2024
- 06:30:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240826135702.3956243-1-archana.polampalli@windriver.com> <39eb6b48-c5a6-4fe2-9719-aa9d100ea022@windriver.com>
-In-Reply-To: <39eb6b48-c5a6-4fe2-9719-aa9d100ea022@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 27 Aug 2024 06:30:08 -0700
-Message-ID: <CAOSpxdYdRcYhqCSkX=HfpeE_3GOne6yd5bzb6ofH8anPBx_wQQ@mail.gmail.com>
-Subject: Re: [oe-core][scarthgap][PATCH 1/1] qemu: fix CVE-2024-7409
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: archana.polampalli@windriver.com, openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1724767844; x=1725372644;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ojWec/lgz/DLhZ/Og6ZX4qUElsNz8fZIgOZWEN/T4Ys=;
+        b=rlWShdJWCd21pSp+mFwuiqKCQcVUveTvkK1Yy14ekQ54QFkd/sgjdhx5JfSxZAj5sm
+         V9jouFh5YXgKwEnaDl41+eutDW3pILUUzXvqeZLi3YVYqewMsNKQM/5bV//TFBYz9vvm
+         KYIq36WdKJG5VlRJ2ies5QJhG+tpWhT3XGJhHCYk9IyBtW/WOaGlRvpLHMUsP8YkjdVq
+         8nTrNfO+d5RAn3LLCeImihJe4GopOFnWPBr/yI6wRQ1DM1DEhn5tiVUTWxvrq1DQiNGb
+         9pXkBZmDR6NPqj+ZhZ6mPGdz/+KKrW/QzmlHJfLFNRGs0i3W/2Lok07SO4l8YDqwtte5
+         awiA==
+X-Gm-Message-State: AOJu0YzZUkZ4qW47SNrskhwbpm0lsj5ggd8yhoDLmwecHxaWQL+EcKzj
+	tze+Ut7cij/ExCuI/ypWaJTNdwz364x6G49k65XOkVj93rTzJXc/dCmvQNApuow=
+X-Google-Smtp-Source: AGHT+IEuoEtwz4Os+Lcnsbt1IMqL8iaDAc1dfA/1smYyC3w2uYaHbQr0riQUl1uQe0M0Xm3fHC/YoQ==
+X-Received: by 2002:adf:ed08:0:b0:367:9d05:cf1f with SMTP id ffacd0b85a97d-373118565d2mr8626223f8f.14.1724767843612;
+        Tue, 27 Aug 2024 07:10:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f5f7:3b8b:ca90:386f? ([2001:8b0:aba:5f3c:f5f7:3b8b:ca90:386f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308110014sm13207946f8f.19.2024.08.27.07.10.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Aug 2024 07:10:43 -0700 (PDT)
+Message-ID: <1e6757fe926b7059a5366b3c7e21c380b6400fb8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/2] buildhistory: fix package output
+ folder creation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>, 
+ Steve Sakoman <steve@sakoman.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Aug 2024 15:10:42 +0100
+In-Reply-To: <AM8P193MB09007D00E8018039DD5FC6A1C7942@AM8P193MB0900.EURP193.PROD.OUTLOOK.COM>
+References: 
+	<ebbbb5b1cfa0dc87360a1d72db7bf009c7264dfb.camel@linuxfoundation.org>
+	 <864.1723536321789931548@lists.openembedded.org>
+	 <CAOSpxdaqBx5GMDe2-YJc2z_KA0VuBpv-aqP+Zt=XFa6p-XE9qQ@mail.gmail.com>
+	 <AM8P193MB09007D00E8018039DD5FC6A1C7942@AM8P193MB0900.EURP193.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 13:30:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203843
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 14:10:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203844
 
-On Mon, Aug 26, 2024 at 1:19=E2=80=AFPM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
->
-> On 2024-08-26 9:57 a.m., Polampalli, Archana via lists.openembedded.org w=
-rote:
->
-> From: Archana Polampalli <archana.polampalli@windriver.com>
->
-> A flaw was found in the QEMU NBD Server. This vulnerability allows a deni=
-al of service (DoS) attack
-> via improper synchronization during socket closure when a client keeps a =
-socket open as the server
-> is taken offline.
->
-> Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc           |   4 +
->  .../qemu/qemu/CVE-2024-7409-0001.patch        | 167 +++++++++++++++++
->  .../qemu/qemu/CVE-2024-7409-0002.patch        | 175 ++++++++++++++++++
->  .../qemu/qemu/CVE-2024-7409-0003.patch        | 126 +++++++++++++
->  .../qemu/qemu/CVE-2024-7409-0004.patch        | 164 ++++++++++++++++
->  5 files changed, 636 insertions(+)
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.pa=
-tch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.pa=
-tch
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-> index 50d92b04bd..a1d8a309a0 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -45,6 +45,10 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.ta=
-r.xz \
->             file://CVE-2024-4467-0003.patch \
->             file://CVE-2024-4467-0004.patch \
->             file://CVE-2024-4467-0005.patch \
-> +           file://CVE-2024-7409-0001.patch \
-> +           file://CVE-2024-7409-0002.patch \
-> +           file://CVE-2024-7409-0003.patch \
-> +           file://CVE-2024-7409-0004.patch \
->             "
->  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch b/m=
-eta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
-> new file mode 100644
-> index 0000000000..631e93a6d2
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
-> @@ -0,0 +1,167 @@
-> +From fb1c2aaa981e0a2fa6362c9985f1296b74f055ac Mon Sep 17 00:00:00 2001
-> +From: Eric Blake <eblake@redhat.com>
-> +Date: Wed, 7 Aug 2024 08:50:01 -0500
-> +Subject: [PATCH] nbd/server: Plumb in new args to nbd_client_add()
-> +
-> +Upcoming patches to fix a CVE need to track an opaque pointer passed
-> +in by the owner of a client object, as well as request for a time
-> +limit on how fast negotiation must complete.  Prepare for that by
-> +changing the signature of nbd_client_new() and adding an accessor to
-> +get at the opaque pointer, although for now the two servers
-> +(qemu-nbd.c and blockdev-nbd.c) do not change behavior even though
-> +they pass in a new default timeout value.
-> +
-> +Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> +Signed-off-by: Eric Blake <eblake@redhat.com>
-> +Message-ID: <20240807174943.771624-11-eblake@redhat.com>
-> +Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> +[eblake: s/LIMIT/MAX_SECS/ as suggested by Dan]
-> +Signed-off-by: Eric Blake <eblake@redhat.com>
-> +
-> +CVE: CVE-2024-7409
-> +
-> +Upstream-Status: Backport [https://github.com/qemu/qemu/commit/fb1c2aaa9=
-81e0a2fa6362c9985f1296b74f055ac]
->
->
-> I don't see this commit being backported to the stable-8.2 branch
-> so this manual backport makes sense.
->
-> Nevertheless, it does seem like we're behind by a couple of point release=
-s:
->
-> https://github.com/qemu/qemu/commits/stable-8.2/
->
-> 8.2.5 is latest and 8.2.6 is being prepped. See below for the 63 (87) bug=
- fix shortlogs.
->
->
-> Steve, Archana,
->
-> How about we merge this and then do an update once 8.2.6 is out?
+On Tue, 2024-08-27 at 12:50 +0000, Pedro Silva Ferreira wrote:
+> Hi Steve and Richard,
+>=20
+> I tried to backport locally patches [4] and [5] to kirkstone and
+> scarthgap but i ran into some issues related to sstate.bbclass. After
+> some investigation i saw that i was missing a patch done by Richard
+> [3] in the context of this buildhistory change but after applying the
+> patch [3], due to the `interceptfuncs` logic i ran into an undefined
+> variable (SSTATE_INSTDIR) while executing `bb.utils.rename` helper
+> function. Applying patch [1] and [2] in combination with [3] , [4]
+> and [5] seems to do the job but im not really sure if patch [1] and
+> [2] can be backported to lts branches since they remove some
+> features/class that might be used by other components that I am not
+> aware of. I tested this with ncurses recipe and with core-image-
+> minimal.
+>=20
+> 1: siteconfig: Drop siteconfig class/code/support
+> f3766dc038f7ba9780ddaf5eb8d27385ea31d7d0
+> 2: sstate: Drop intercept functions support
+> cfbfd0b2e89eb71783c55a1be4a7e63e6cd82c2f
 
-That works for me.
+We definitely can't backport those.
 
-Steve
+> 3: sstate/buildhistory: Fix plaindirs handling to occur before
+> SSTATEPOSTINSTFUNCS
+> 62ee349cf18532dac8736488752c00e89de78fcd
 
->
-> ../Randy
->
->
-> poky.git on scarthgap
-> =E2=9D=AF fd qemu_
-> meta/recipes-devtools/qemu/qemu_8.2.3.bb
->
-> qemu.git on stable-8.2
-> =E2=9D=AF git log --oneline v8.2.3..HEAD | wc -l
-> 87
->
-> =E2=9D=AF git log --oneline v8.2.3..v8.2.5 | wc -l
-> 63
->
-> =E2=9D=AF git log --oneline v8.2.3..v8.2.5
-> 909772f0a5 (tag: v8.2.5) Update version for 8.2.5 release
-> 6feae1d0dd target/loongarch: fix a wrong print in cpu dump
-> af008b379c ui/sdl2: Allow host to power down screen
-> 276ec925a7 target/i386: fix SSE and SSE2 feature check
-> d84afebcee target/i386: fix xsave.flat from kvm-unit-tests
-> 2891807479 disas/riscv: Decode all of the pmpcfg and pmpaddr CSRs
-> ae5edeb084 target/riscv/kvm.c: Fix the hart bit setting of AIA
-> 935be461eb target/riscv: rvzicbo: Fixup CBO extension register calculatio=
-n
-> 37d6c6e495 target/riscv: do not set mtval2 for non guest-page faults
-> 6da92af4f9 target/riscv: prioritize pmp errors in raise_mmu_exception()
-> 0f9578497c target/riscv: rvv: Remove redudant SEW checking for vector fp =
-narrow/widen instructions
-> 909772f0a5 (tag: v8.2.5) Update version for 8.2.5 release
-> 6feae1d0dd target/loongarch: fix a wrong print in cpu dump
-> af008b379c ui/sdl2: Allow host to power down screen
-> 276ec925a7 target/i386: fix SSE and SSE2 feature check
-> d84afebcee target/i386: fix xsave.flat from kvm-unit-tests
-> 2891807479 disas/riscv: Decode all of the pmpcfg and pmpaddr CSRs
-> ae5edeb084 target/riscv/kvm.c: Fix the hart bit setting of AIA
-> 935be461eb target/riscv: rvzicbo: Fixup CBO extension register calculatio=
-n
-> 37d6c6e495 target/riscv: do not set mtval2 for non guest-page faults
-> 6da92af4f9 target/riscv: prioritize pmp errors in raise_mmu_exception()
-> 0f9578497c target/riscv: rvv: Remove redudant SEW checking for vector fp =
-narrow/widen instructions
-> c4173e4caf target/riscv: rvv: Check single width operator for vfncvt.rod.=
-f.f.w
-> d813f356ad target/riscv: rvv: Check single width operator for vector fp w=
-iden instructions
-> 749907f857 target/riscv: rvv: Fix Zvfhmin checking for vfwcvt.f.f.v and v=
-fncvt.f.f.w instructions
-> 4cba687b86 target/riscv/cpu.c: fix Zvkb extension config
-> ec182b1045 target/riscv: Fix the element agnostic function problem
-> cf7143fdb7 target/riscv/kvm: tolerate KVM disable ext errors
-> cd1228a80e hw/intc/riscv_aplic: APLICs should add child earlier than real=
-ize
-> b9b2f3bbab iotests: test NBD+TLS+iothread
-> 9a6143a73e qio: Inherit follow_coroutine_ctx across TLS
-> 71c7036b18 target/arm: Disable SVE extensions when SVE is disabled
-> 3f470980b4 hw/intc/arm_gic: Fix handling of NS view of GICC_APR<n>
-> 0970313b05 hvf: arm: Fix encodings for ID_AA64PFR1_EL1 and debug System r=
-egisters
-> 8965709b86 gitlab: use 'setarch -R' to workaround tsan bug
-> 3b36dd0005 gitlab: use $MAKE instead of 'make'
-> fc88204b82 dockerfiles: add 'MAKE' env variable to remaining containers
-> ca0799624e gitlab: Update msys2-64bit runner tags
-> 52031d6be5 target/i386: no single-step exception after MOV or POP SS
-> c6171d524d target/i386: disable jmp_opt if EFLAGS.RF is 1
-> 93fa768d40 hw/loongarch/virt: Fix FDT memory node address width
-> d679c82488 hw/loongarch: Fix fdt memory node wrong 'reg'
-> e3a2aa9542 hw/core/machine: move compatibility flags for VirtIO-net USO t=
-o machine 8.1
-> 9b98ab7d3d target-i386: hyper-v: Correct kvm_hv_handle_exit return value
-> 90e023f2bc tcg/loongarch64: Fill out tcg_out_{ld,st} for vector regs
-> 355527b646 ui/gtk: Check if fence_fd is equal to or greater than 0
-> f44d2398d8 ui/gtk: Fix mouse/motion event scaling issue with GTK display =
-backend
-> 05bfa963df configure: Fix error message when C compiler is not working
-> 19a931f207 configure: quote -D options that are passed through to meson
-> 2b95625643 target/i386: fix feature dependency for WAITPKG
-> 1cc3cb96b8 target/i386: rdpkru/wrpkru are no-prefix instructions
-> eb761b4ee5 target/i386: fix operand size for DATA16 REX.W POPCNT
-> 7d7b770bde hw/remote/vfio-user: Fix config space access byte order
-> 7dbebba4a5 hw/loongarch/virt: Fix memory leak
-> 819f92ec3e target/sparc: Fix FMUL8x16
-> d3da3d02a0 target/sparc: Fix FEXPAND
-> 50ed4f856a target/i386: Give IRQs a chance when resetting HF_INHIBIT_IRQ_=
-MASK
-> 1332b8dd43 (tag: v8.2.4) Update version for 8.2.4 release
-> 07d46408cb target/sh4: Fix SUBV opcode
-> dc5390a0ca target/sh4: Fix ADDV opcode
-> 7b4804c965 hw/arm/npcm7xx: Store derivative OTP fuse key in little endian
-> dfcbb9ef24 hw/dmax/xlnx_dpdma: fix handling of address_extension descript=
-or fields
-> d5cf8bed29 hw/ufs: Fix buffer overflow bug
->
->
->
-> ><snip><
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
+We'd probably need to find a way to make that change and continue to
+work with the intercept functions :/.
+
+Cheers,
+
+Richard
 
