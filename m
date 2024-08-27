@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CF78C5473E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3652FC54741
 	for <webhook@archiver.kernel.org>; Tue, 27 Aug 2024 05:24:20 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.70881.1724736252626175913
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.71679.1724736253721525522
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Aug 2024 22:24:12 -0700
+ Mon, 26 Aug 2024 22:24:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mqk762zK;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a86b46c4831so330568266b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 22:24:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GRQPPj5L;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a866cea40c4so585821666b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Aug 2024 22:24:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724736251; x=1725341051; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1724736252; x=1725341052; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7Ww9RQXFeh0RKHr8zfKRSj9KuNXkpKtw8LHdnyxbrrg=;
-        b=Mqk762zKwen3EEMdvOoo7FLj+16JM+bz1gygAy4U1WmzxX15GvKZ+tH7T54z519RMZ
-         2md+Iz1au+UTE/vJiyWmBZZgbh9CU1/z5ZdckY1xjX18YAAkSQUDDYc9VsT+fC68FPuE
-         ffDK989kkR+tIZDbYmVsa5RebM4BAQa9RCnhGbVOOqRufkQcA6qkTgpxP4jixy/UFmWa
-         Mmnns12QJpsJ0kOxAKvgRPVzLszSXmaYqCjx2wUqCWccIKwmGDJ87tqHHUKfQ/9pIgxZ
-         bBN12kSEZ0rM/QAelq6ahIbiK8KvF6a4VA/1iM6B0hSJAzG4df6wgD7k6rPBDdOC/G93
-         Wz/w==
+        bh=I+jX0Za1isY84Y75rqLvK20wiPEvPXWk+4VJ2myMzHI=;
+        b=GRQPPj5LuI+EpsIC+KDN89Y/iTR9pKx/YznkHxzuZZ/VmjVJHaUmHILW691xwoTfUP
+         dXrR/8k8UGvYSBN+5T/6A4sZQUfAOPcdff9ZdJmvSSRDPfmCfmoEson72gnJevL8Np6m
+         x1HtPAwjkDhCXOQZt1dwLEE4h1u4IAaf5spLVBUc7JbasdZg5uPa+ahyjuyJHWkRNk5M
+         lzHrvJybxgzuw7xjLTUNeidsyR6HikgoGxSabIfznJCiHYMf1p5Cbm0/DK38yoTMhEBz
+         RgHQ/vtDxbLegPdkn4bE909au6iql6TsBeFOys6csChAh+8uv583VbyN4WaNhoeU5xkF
+         PrgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724736251; x=1725341051;
+        d=1e100.net; s=20230601; t=1724736252; x=1725341052;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7Ww9RQXFeh0RKHr8zfKRSj9KuNXkpKtw8LHdnyxbrrg=;
-        b=NKbUxa2YGJe27CBua/+d4C5dCfypn4thtzZh8YR38RWy6nQeoevKLA7oONv7sEbSWe
-         4np+Fo6orCTDKs/BbSE8kJn43XEEulWcD8Kg3bW4v6G7Iw0Elwr9M3jhU5HscxllrWdG
-         NG2Xu7bXXnoas7PX/+7LmpsSiw9E+gFSVqhZo11PlfLTY2jvyK0xEM/Uk6taSskl4RE5
-         JSkh+hmtHafOUNOEs9Y7p3LpZh7Y2OxRYUxrSfxMVN8+oOLshSLa3lwB5MnaFW1ku5pk
-         0XJ6NAPQjEGpwshSqtsdclOJVp97FuauC4BVKWgY9BypdmMlg5uVJog5G/4fHb10oYoz
-         iSFA==
-X-Gm-Message-State: AOJu0YwO1TRMcpWadIxaWOQSVCIqfiOgRgKymWRcVWzwoNSAYXayIMEW
-	GqJFkyw0VthZHN5lRudzphsDGgnNZ8S2tYvMYs4OICvYGvI/bykzECFZ0w==
-X-Google-Smtp-Source: AGHT+IGSUDehSBdwWx24O+R7MxD5ym5RvyCHcj14PQdU0h34e4Xubty0nkgY1uB2meVJ0bQihFNvfQ==
-X-Received: by 2002:a17:907:da4:b0:a7d:e98c:5bd1 with SMTP id a640c23a62f3a-a86a52b1607mr952652166b.26.1724736250687;
-        Mon, 26 Aug 2024 22:24:10 -0700 (PDT)
+        bh=I+jX0Za1isY84Y75rqLvK20wiPEvPXWk+4VJ2myMzHI=;
+        b=JaXyjSenMj/SkDVWUMhLgBU5nNpDNVuYZ8/uNZLOobqjU8uzLSlNp2N9x8TzbaAfY1
+         7Asp/yi32j8/4fQPe7B9VaOdVKpflT9IbOBDNsqdMzCVqnl0XjdfhzZ3GQHbZ+oU7yJR
+         yqhIMp5AjaG0t4QFM7sMlGZMS2wRuWVeyT0SEYQXQ1K8QWNS/gCPq1jt0SaKlYcaWd2W
+         QzdvM2X1npPOfGcG95/ERlSBBdRg9BLmw7gYtC+wOl2O/2S5vT9c7eeT884j4LIamvkF
+         jO1u2qpNTJT8IVlo5jagsEZp8I6UNEY+nkqt2GcuimlFVG+qID/I9Iidxb+FyPNxrCH9
+         4UQg==
+X-Gm-Message-State: AOJu0YwEyjoZiOOSahqYwXmvwSQs4RJJ6IXAKqTQ5s6YSLaSj56YIg7i
+	X9NuCZehffTSs6ugSf/6yg8pNW1j/tfjbmobgsQtbcrmknKoBrIIbLHADQ==
+X-Google-Smtp-Source: AGHT+IGAXUjKBFEUmiTGNLQ1dUiyc3nA5fGgX6pPDk2XfNCREMxiFaKJAi91WQzyrXCHqRTGY1JIeQ==
+X-Received: by 2002:a17:907:9449:b0:a86:80b7:4743 with SMTP id a640c23a62f3a-a86a51989f7mr746426366b.24.1724736251776;
+        Mon, 26 Aug 2024 22:24:11 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e675aa07sm57704166b.17.2024.08.26.22.24.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e675aa07sm57704166b.17.2024.08.26.22.24.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 22:24:10 -0700 (PDT)
+        Mon, 26 Aug 2024 22:24:11 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 22/34] p11-kit: update 0.25.3 -> 0.25.5
-Date: Tue, 27 Aug 2024 07:23:42 +0200
-Message-Id: <20240827052354.1319810-22-alex.kanavin@gmail.com>
+Subject: [PATCH 24/34] ifupdown: upgrade 0.8.41 -> 0.8.43
+Date: Tue, 27 Aug 2024 07:23:44 +0200
+Message-Id: <20240827052354.1319810-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240827052354.1319810-1-alex.kanavin@gmail.com>
 References: <20240827052354.1319810-1-alex.kanavin@gmail.com>
@@ -61,75 +61,150 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 05:24:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203798
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203800
 
 From: Alexander Kanavin <alex@linutronix.de>
 
+Do not force CFLAGS (no longer necessary).
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../files/fix-parallel-build-failures.patch   | 33 -------------------
- .../{p11-kit_0.25.3.bb => p11-kit_0.25.5.bb}  |  3 +-
- 2 files changed, 1 insertion(+), 35 deletions(-)
- delete mode 100644 meta/recipes-support/p11-kit/files/fix-parallel-build-failures.patch
- rename meta/recipes-support/p11-kit/{p11-kit_0.25.3.bb => p11-kit_0.25.5.bb} (95%)
+ .../ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch | 3 +--
+ ...-Makefile-do-not-use-dpkg-for-determining-OS-type.patch | 7 +++----
+ .../files/0001-ifupdown-skip-wrong-test-case.patch         | 3 +--
+ ...n2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch | 3 +--
+ meta/recipes-core/ifupdown/files/tweak-ptest-script.patch  | 3 +--
+ .../ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb}    | 4 ++--
+ 6 files changed, 9 insertions(+), 14 deletions(-)
+ rename meta/recipes-core/ifupdown/{ifupdown_0.8.41.bb => ifupdown_0.8.43.bb} (94%)
 
-diff --git a/meta/recipes-support/p11-kit/files/fix-parallel-build-failures.patch b/meta/recipes-support/p11-kit/files/fix-parallel-build-failures.patch
-deleted file mode 100644
-index 47df0271064..00000000000
---- a/meta/recipes-support/p11-kit/files/fix-parallel-build-failures.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--It fails occasionally with missing generated header files:
--
--| ../git/common/asn1.c:42:10: fatal error: openssl.asn.h: No such file or directory
--|    42 | #include "openssl.asn.h"
--|       |          ^~~~~~~~~~~~~~~
--| compilation terminated.
--
--According to meson manual page:
--
--https://mesonbuild.com/Wrap-best-practices-and-tips.html#declare-generated-headers-explicitly
--
--'asn_h_dep' should be a dependency of static_library target 'libp11_asn1' to
--make sure that required header files generated before compile common/asn1.c.
--
--Upstream-Status: Submitted [https://github.com/p11-glue/p11-kit/pull/619]
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
-----
-- common/meson.build | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/common/meson.build b/common/meson.build
--index dc86d7b..cc3ec48 100644
----- a/common/meson.build
--+++ b/common/meson.build
--@@ -113,6 +113,7 @@ if with_asn1
--     'p11-asn1', libp11_asn1_sources,
--     gnu_symbol_visibility: 'hidden',
--     include_directories: configinc,
--+    dependencies: asn_h_dep,
--   )
-- 
--   libp11_asn1_dep = declare_dependency(
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb b/meta/recipes-support/p11-kit/p11-kit_0.25.5.bb
-similarity index 95%
-rename from meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.25.5.bb
-index 2ede38deba2..8c2f56be44d 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.25.5.bb
-@@ -11,9 +11,8 @@ DEPENDS = "libtasn1 libtasn1-native libffi"
- DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
+diff --git a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
+index 6c4ed526bfa..83fb706be07 100644
+--- a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
++++ b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
+@@ -1,4 +1,4 @@
+-From 8dfbcf02e424ba1fdef587d81c9e08a37ab8c1b6 Mon Sep 17 00:00:00 2001
++From 97b196efe9671d0185d22710371acb52bb7130e2 Mon Sep 17 00:00:00 2001
+ From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+ Date: Tue, 2 Jul 2019 20:10:42 +0200
+ Subject: [PATCH] Define FNM_EXTMATCH for musl
+@@ -24,7 +24,6 @@ function); did you mean 'FNM_NOMATCH'?
+ Upstream-Status: Submitted [https://salsa.debian.org/debian/ifupdown/merge_requests/5]
  
- SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https \
--           file://fix-parallel-build-failures.patch \
+ Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+-
+ ---
+  archcommon.h | 4 ++++
+  1 file changed, 4 insertions(+)
+diff --git a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
+index 6e15a25224d..f84a0a1311a 100644
+--- a/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
++++ b/meta/recipes-core/ifupdown/files/0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch
+@@ -1,17 +1,16 @@
+-From 7fe516cbaf9fda09d99dcb54d4645367cffc8a4d Mon Sep 17 00:00:00 2001
++From 4922e2011a0132c122df4f0cf4d66d565c749060 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 9 Jan 2020 15:38:06 +0100
+ Subject: [PATCH] Makefile: do not use dpkg for determining OS type
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index 0ce2fa3..739aef2 100644
++index 9cd758b..58b4173 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -1,6 +1,6 @@
+@@ -21,4 +20,4 @@ index 0ce2fa3..739aef2 100644
+ +ARCH := linux
+  
+  BASEDIR ?= $(DESTDIR)
+- 
++ PKGLIBDIR ?= /lib/ifupdown
+diff --git a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
+index 9ae24da51ee..8aa227c8ecb 100644
+--- a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
++++ b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
+@@ -1,4 +1,4 @@
+-From 782d8a869c266820d0f34974436f244f67afaea7 Mon Sep 17 00:00:00 2001
++From ea48a9816643482d438e4bb276c90cd6f02847e4 Mon Sep 17 00:00:00 2001
+ From: Zqiang <qiang.zhang@windriver.com>
+ Date: Mon, 19 Apr 2021 14:15:45 +0800
+ Subject: [PATCH] ifupdown: skip wrong test case
+@@ -10,7 +10,6 @@ and are skipped directly.
+ Upstream-Status: Inappropriate [oe-core specific]
+ 
+ Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+-
+ ---
+  tests/testbuild-linux | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+index 7b4b761e6a6..24e3ba0d9de 100644
+--- a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
++++ b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+@@ -1,4 +1,4 @@
+-From fc8e8d4cb19ff30e69aa1855332544f1017f974c Mon Sep 17 00:00:00 2001
++From 68b64a5c9d466352b0c161019bd7255e31db9a4c Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Wed, 6 Aug 2014 14:54:12 -0400
+ Subject: [PATCH] defn2[c|man]: don't rely on dpkg-architecture to set arch
+@@ -13,7 +13,6 @@ like the loopback device not being configured/enabled.
+ 
+ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Upstream-Status: Pending
+-
+ ---
+  defn2c.pl   | 6 +++---
+  defn2man.pl | 6 +++---
+diff --git a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
+index fa6bb84df30..c1953f0691b 100644
+--- a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
++++ b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
+@@ -1,4 +1,4 @@
+-From a6bb2ac5f521c678abbbdb1960d28f750f4357a6 Mon Sep 17 00:00:00 2001
++From 5eede8950e35404b109cc3cf6a53bf3c84b31cfb Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Mon, 3 Feb 2020 17:33:11 +0800
+ Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
+@@ -7,7 +7,6 @@ Subject: [PATCH] Tweak tests of ifupdown to make it work with oe-core ptest
+ Upstream-Status: Inappropriate [oe-core specific]
+ 
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-
+ ---
+  tests/testbuild-linux | 11 ++++++-----
+  1 file changed, 6 insertions(+), 5 deletions(-)
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
+similarity index 94%
+rename from meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
+rename to meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
+index c7004ab41df..1557551d454 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.41.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.43.bb
+@@ -16,7 +16,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https;branch=mast
+            file://defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch \
+            file://tweak-ptest-script.patch \
             "
--SRCREV = "917e02a3211dabbdea4b079cb598581dce84fda1"
-+SRCREV = "0dd113361057e477f40ff4d8788f3e7e400af5f9"
+-SRCREV = "369d9d3c13a0c56ad09fd4f13b4a80eb9a94e270"
++SRCREV = "cf86ad5819aba8f9b020a95257c9a8c4911b1c85"
+ 
  S = "${WORKDIR}/git"
  
- PACKAGECONFIG ??= ""
+@@ -25,7 +25,7 @@ inherit ptest update-alternatives
+ 
+ do_compile () {
+ 	chmod a+rx *.pl *.sh
+-	oe_runmake 'CC=${CC}' "CFLAGS=${CFLAGS} -Wall -W -D'IFUPDOWN_VERSION=\"${PV}\"'"
++	oe_runmake 'CC=${CC}' "-Wall -W -D'IFUPDOWN_VERSION=\"${PV}\"'"
+ }
+ 
+ do_install () {
 -- 
 2.39.2
 
