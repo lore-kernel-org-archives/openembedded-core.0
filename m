@@ -2,106 +2,100 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02506C5474A
-	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 08:26:53 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web10.8737.1724833609524175870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02778C5474F
+	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 08:27:03 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web10.8738.1724833614403108073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Aug 2024 01:26:49 -0700
+ Wed, 28 Aug 2024 01:26:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=D+fMApi7;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=t6afnt7Q;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1724833610; x=1756369610;
-  h=from:to:cc:subject:date:message-id;
-  bh=NH+V48+WZ29ZmbI7sCI2PIArqiDU7FnRurM/GGjZg8g=;
-  b=D+fMApi7nvixFR8TPE3a+RAuSFxYfM8vhVY+kvFBy5CUQTHRUWwzohl2
-   IMWiLOKDGzGPVuKIMHNOHqtwihpENbO3Qz4XjvXQ0V2bLegBM7XhQ0Khp
-   nTy+MnCjGgbnaxfbttlz2XvJSY1V9Dcy9M7swfL+njq9S5e/fF77PKuDM
-   gBYiwYitmSchGeUsnWs7Vkcdgs4ZICa7B2m7UdRrUna0GeC/tPY0Zxx8/
-   6RFkDvHov3fn+0ozAfhVrmE208GDmSBdyEkEtDg6s0J+J1HZjPnl3WXRX
-   rJKNLQheOd4KzbC+NSfPF+L2wXFdqsO4R2iElkFu0nelE6tiCJ/Dnm2Zf
-   w==;
-X-CSE-ConnectionGUID: YYR6ZRsNRqmR/xZlFsQUkQ==
-X-CSE-MsgGUID: g0LkvhcDTHW6t/bugs9a0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="173926879"
+  t=1724833615; x=1756369615;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=ALgCJdP3aEUXp0ykvs1X543VfaV1oB3za4ssdCaoZgQ=;
+  b=t6afnt7QqwJMjpSFwc64AuxGSywTPAu76cAXvN8/FOcYAVsF5UzW5MEp
+   YnSSx5IoJEaj98NdntmNABU9ewXA3RZ/EiG5IbZQ98fev4cUrZU+3OgnR
+   B3/3qjBj4L4EvXeen+iDUZZ+mKzFC39MhbI2bjKsXCDWGlJtbHs3yy+vF
+   tAJBxJkjfH9knBe0adB/mVeLxWUZRzPBBdUtJQkomzOe7AGa3/goNZgic
+   NFgcxF8aegXR+zqZYkGCkBMhxiAU7NeG3hN7n8HhQgGm3xDdnpXyRzGml
+   zJykvtB3AWoGGle8zyALbgcq76mqA48V/NTFkajYAxeBDpoVKG2dW2A7x
+   A==;
+X-CSE-ConnectionGUID: DvLg7QuUTXe62ZlyfZpDKA==
+X-CSE-MsgGUID: RBw09wTuSbmmgPiJ6RPj+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="171131493"
 X-IronPort-AV: E=Sophos;i="6.10,182,1719846000"; 
-   d="scan'208";a="173926879"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 17:26:47 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 4B4C0C68E2
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:45 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 92474CF7C8
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:44 +0900 (JST)
+   d="scan'208";a="171131493"
+Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 17:26:52 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 24559D800A
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:50 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 717E0D4C00
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:49 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2CFE720079DEA
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:44 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0C6BA6BD48
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:45 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.161.161])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id CA96D1A0002;
-	Wed, 28 Aug 2024 16:26:43 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id AB86E1A0002;
+	Wed, 28 Aug 2024 16:26:44 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [PATCH] [OE-core] [PATCH] systemd: use update-alternatives to  solve conflicts with polkit
-Date: Wed, 28 Aug 2024 16:26:39 +0800
-Message-Id: <1724833600-2270-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] util-linux: use update-alternatives to  solve conflicts with lastlog2
+Date: Wed, 28 Aug 2024 16:26:40 +0800
+Message-Id: <1724833600-2270-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1724833600-2270-1-git-send-email-wangmy@fujitsu.com>
+References: <1724833600-2270-1-git-send-email-wangmy@fujitsu.com>
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28624.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28624.006
-X-TMASE-Result: 10--7.046000-10.000000
-X-TMASE-MatchedRID: b3nQ9wmEox2txhXyTqc02bstbCLHbulS96ryTp77YeGysPB8dBBorXKn
-	6DBj/gsEIvrftAIhWmLy9zcRSkKatWjfWRIrzXH/FJx56/xm2k+MhbTsXysU36UK7qQpWC8SzOw
-	n2RdNtCBFwrQOsGSKy4Ay6p60ZV62fJ5/bZ6npdg7AFczfjr/7N0AsBI7HWimP7LCc0AOzKvOfa
-	8dhjOb4q31u7fjwLAKJbQgMw2pXNE=
+X-TMASE-Result: 10--6.224700-10.000000
+X-TMASE-MatchedRID: hp3d3iDR7tiMPz8Goa6fXdl0i+WyI+910NnUUVMlTKaysPB8dBBorXKn
+	6DBj/gsEIvrftAIhWmLy9zcRSkKatWX7d9h2Er/bngIgpj8eDcBpkajQR5gb3lQwtQm7iV5jKra
+	uXd3MZDUV2mQ/HE5PbiRLpO+Gzw9uHQTwPuoORtW4OqnWUhdWB4KBsJemD+9N
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 08:26:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203869
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 08:27:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203870
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Error: Transaction test error:
-  file /usr/share/polkit-1/rules.d conflicts between attempted installs of polkit-125-r0.core2_64 and systemd-1:256.5-r0.core2_64
+  file /usr/bin/lastlog2 conflicts between attempted installs of lastlog2-1.2.0-r0.core2_64 and util-linux-lastlog2-2.40.1-r0.core2_64
+  file /usr/lib/security/pam_lastlog2.so conflicts between attempted installs of lastlog2-1.2.0-r0.core2_64 and util-linux-lastlog2-2.40.1-r0.core2_64
 
-polkit also uses the doc '/usr/share/polkit-1/rules.d'.
-polkit has a priority of 100.
+lastlog2 also uses the doc '/usr/bin/lastlog2' and '/usr/lib/security/pam_lastlog2.so'.
+lastlog2 has a priority of 100.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-core/systemd/systemd_256.5.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-core/util-linux/util-linux_2.40.2.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_256.5.bb b/meta/recipes-core/systemd/systemd_256.5.bb
-index ee656c81e5..1c408d075f 100644
---- a/meta/recipes-core/systemd/systemd_256.5.bb
-+++ b/meta/recipes-core/systemd/systemd_256.5.bb
-@@ -848,7 +848,7 @@ python do_warn_musl() {
- }
- addtask warn_musl before do_configure
+diff --git a/meta/recipes-core/util-linux/util-linux_2.40.2.bb b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
+index a8e346539a..e21a16ab84 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.40.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
+@@ -298,6 +298,10 @@ ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+ ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
+ ALTERNATIVE_LINK_NAME[uuidgen] = "${bindir}/uuidgen"
+ ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
++ALTERNATIVE:${PN}-lastlog2 = "lastlog2 pam_lastlog2"
++ALTERNATIVE_LINK_NAME[lastlog2] = "${bindir}/lastlog2"
++ALTERNATIVE_TARGET[pam_lastlog2] = "${libdir}/security/pam_lastlog2.so"
++ALTERNATIVE_LINK_NAME[pam_lastlog2] = "${libdir}/security/pam_lastlog2.so"
  
--ALTERNATIVE:${PN} = "halt reboot shutdown poweroff runlevel ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
-+ALTERNATIVE:${PN} = "halt reboot shutdown poweroff runlevel rules.d ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
- 
- ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
- ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
-@@ -874,6 +874,10 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
- ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
- ALTERNATIVE_PRIORITY[runlevel] ?= "300"
- 
-+ALTERNATIVE_TARGET[rules.d] = "${datadir_native}/polkit-1/rules.d"
-+ALTERNATIVE_LINK_NAME[rules.d] = "${datadir_native}/polkit-1/rules.d"
-+ALTERNATIVE_PRIORITY[rules.d] ?= "50"
-+
- pkg_postinst:${PN}:libc-glibc () {
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'false', d)}; then
- 		sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+ ALTERNATIVE:${PN}-doc = "\
+ blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 \
 -- 
 2.34.1
 
