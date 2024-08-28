@@ -1,145 +1,108 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762E4C5474A
-	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 06:19:50 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.7091.1724825981901571527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02506C5474A
+	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 08:26:53 +0000 (UTC)
+Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
+ by mx.groups.io with SMTP id smtpd.web10.8737.1724833609524175870
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 23:19:42 -0700
+ Wed, 28 Aug 2024 01:26:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=yF2gaTKg;
- spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5334b0e1a8eso8271173e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 23:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724825980; x=1725430780; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f6FReERk9hZkGnsWn1LrWKo1UZjTJKhiKqH0lv2jkfQ=;
-        b=yF2gaTKgxLQd8gSi0mmtr6eOXExcWUz7ThB5uHwD5FRXmXH1PUSDiZ3mA2hhjpyYAR
-         Ayl1AvNG7UixDe07NhRyZO8sf2UKCbhG9AHQbaA9LnX3uja0fTGjgca5MU48t+wqraVa
-         6zn+7JQz/sWuHYHQ+S4GR/jGJHMauooeHIpkT6UW+q5+HPQvNaR1UOxPW/A2fgVh1uJj
-         lVin8n73EBEZoHmFvm/7UiHiDiLmTp/Rz6kG0Z8W6qhqkPffBvJxUhy0qWK08o8A8irD
-         XhDAsuazrjnkt8jWhsbrUY4qqLGdcyWg3Tq7Y86fdNVOHmCPcg/Pn5M8WA74HsgN3Yzn
-         XLsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724825980; x=1725430780;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f6FReERk9hZkGnsWn1LrWKo1UZjTJKhiKqH0lv2jkfQ=;
-        b=lX8DJJ2RzLqqpa+ce+keatTGmxgcKlnpDz6b/11YkTzhj2MPFax5+3r/8AF9V1cWtB
-         B/HA1Oe6NxJ1wRHGQAG61sIimdyif9+B1E3gghheS4NJw4pS15dxI/638vuzubpEqrrZ
-         z6x023F+MxlFwTiEzK/oIahd0WMzBrxigT8KHG0uPFqjFBkkQPioF2V0DN9RAhMRQtak
-         92jewual3WV7LcoaIph7ggPM8eW40qQqCKUnwzKe7xmhI4zUIf22BeALR3eGJnFRCDw0
-         mhtOKdC4KeGqX2iIqBRTUXlg2RM0lyXL2OCOTgqlnApRMErNgDZyW40xO4j+4TVkKEfV
-         8SVw==
-X-Gm-Message-State: AOJu0YwoZOzxSr6p36AWoE9SUA+RGJx07MGsFHKuLKXAMNtitsxgdASu
-	1IeAmJwA7V1QkBThT8FMuc7g8IQ6DAY5jjv3/0X33zXdv64cCnhpopohElewVMneD/KYo9RW9jY
-	8
-X-Google-Smtp-Source: AGHT+IFf8mzfscssGxl13EBlYKlebB179Qqt8sHu7Acid4d4GAXl62SzfD1BaXAMjyz+AQzgXbA8QQ==
-X-Received: by 2002:a05:6512:3d8d:b0:52c:6461:e913 with SMTP id 2adb3069b0e04-534387789bemr11198519e87.16.1724825979167;
-        Tue, 27 Aug 2024 23:19:39 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5334ea5942bsm2048058e87.123.2024.08.27.23.19.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 23:19:38 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=D+fMApi7;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1724833610; x=1756369610;
+  h=from:to:cc:subject:date:message-id;
+  bh=NH+V48+WZ29ZmbI7sCI2PIArqiDU7FnRurM/GGjZg8g=;
+  b=D+fMApi7nvixFR8TPE3a+RAuSFxYfM8vhVY+kvFBy5CUQTHRUWwzohl2
+   IMWiLOKDGzGPVuKIMHNOHqtwihpENbO3Qz4XjvXQ0V2bLegBM7XhQ0Khp
+   nTy+MnCjGgbnaxfbttlz2XvJSY1V9Dcy9M7swfL+njq9S5e/fF77PKuDM
+   gBYiwYitmSchGeUsnWs7Vkcdgs4ZICa7B2m7UdRrUna0GeC/tPY0Zxx8/
+   6RFkDvHov3fn+0ozAfhVrmE208GDmSBdyEkEtDg6s0J+J1HZjPnl3WXRX
+   rJKNLQheOd4KzbC+NSfPF+L2wXFdqsO4R2iElkFu0nelE6tiCJ/Dnm2Zf
+   w==;
+X-CSE-ConnectionGUID: YYR6ZRsNRqmR/xZlFsQUkQ==
+X-CSE-MsgGUID: g0LkvhcDTHW6t/bugs9a0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="173926879"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719846000"; 
+   d="scan'208";a="173926879"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 17:26:47 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 4B4C0C68E2
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:45 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 92474CF7C8
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:44 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2CFE720079DEA
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 17:26:44 +0900 (JST)
+Received: from vm4860.g01.fujitsu.local (unknown [10.193.161.161])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id CA96D1A0002;
+	Wed, 28 Aug 2024 16:26:43 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 2/2] linux-firmware: restore qcom/vpu-1.0/venus.mdt compatibility symlink
-Date: Wed, 28 Aug 2024 09:19:37 +0300
-Message-Id: <20240828061937.410739-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240828061937.410739-1-dmitry.baryshkov@linaro.org>
-References: <20240828061937.410739-1-dmitry.baryshkov@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH] systemd: use update-alternatives to  solve conflicts with polkit
+Date: Wed, 28 Aug 2024 16:26:39 +0800
+Message-Id: <1724833600-2270-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28624.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28624.006
+X-TMASE-Result: 10--7.046000-10.000000
+X-TMASE-MatchedRID: b3nQ9wmEox2txhXyTqc02bstbCLHbulS96ryTp77YeGysPB8dBBorXKn
+	6DBj/gsEIvrftAIhWmLy9zcRSkKatWjfWRIrzXH/FJx56/xm2k+MhbTsXysU36UK7qQpWC8SzOw
+	n2RdNtCBFwrQOsGSKy4Ay6p60ZV62fJ5/bZ6npdg7AFczfjr/7N0AsBI7HWimP7LCc0AOzKvOfa
+	8dhjOb4q31u7fjwLAKJbQgMw2pXNE=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 06:19:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203868
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 08:26:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203869
 
-The commit [1] has dropped the qcom/vpu-1.0/venus.mdt symlink which is
-required for the kernels before 6.6. Pick up a patch restoring this
-symlink.
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-[1] https://gitlab.com/kernel-firmware/linux-firmware/-/commit/36db650dae038be945fb04def591fc726255b09f
+Error: Transaction test error:
+  file /usr/share/polkit-1/rules.d conflicts between attempted installs of polkit-125-r0.core2_64 and systemd-1:256.5-r0.core2_64
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+polkit also uses the doc '/usr/share/polkit-1/rules.d'.
+polkit has a priority of 100.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...-compatibility-with-kernels-before-6.patch | 35 +++++++++++++++++++
- .../linux-firmware/linux-firmware_20240811.bb |  3 +-
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
+ meta/recipes-core/systemd/systemd_256.5.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
-new file mode 100644
-index 000000000000..b1cb5d1f0bea
---- /dev/null
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
-@@ -0,0 +1,35 @@
-+From 4728fcc52fdf311048f41766aa27cdf5a4a9e7ad Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+Date: Wed, 28 Aug 2024 09:01:14 +0300
-+Subject: [PATCH] qcom: vpu: restore compatibility with kernels before 6.6
-+
-+Linux kernels before 6.6 used qcom/vpu-1.0/venus.mdt as a firmware
-+filename for Qualcomm SM8250 devices. Commit 36db650dae03 ("qcom: update
-+path for video firmware for vpu-1/2/3.0") moved the VPU firmware, added
-+the venus.mbn compatibility symlink, but at the same time it dropped
-+the venus.mdt symlink. Bring the historical name back to restore
-+compatibility with kernels older than 6.6.
-+
-+Fixes: 36db650dae03 ("qcom: update path for video firmware for vpu-1/2/3.0")
-+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>
-+Upstream-Status: Submitted [https://lore.kernel.org/linux-firmware/20240828060831.34519-1-dmitry.baryshkov@linaro.org]
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+---
-+ WHENCE | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/WHENCE b/WHENCE
-+index 06c3c6fff673..4d9cd340a9dd 100644
-+--- a/WHENCE
-++++ b/WHENCE
-+@@ -5974,6 +5974,7 @@ Version: VIDEO.VE.6.0-00049-PROD-1
-+ 
-+ File: qcom/vpu/vpu20_p4.mbn
-+ Link: qcom/vpu-1.0/venus.mbn -> ../vpu/vpu20_p4.mbn
-++Link: qcom/vpu-1.0/venus.mdt -> ../vpu/vpu20_p4.mbn
-+ 
-+ Version: VIDEO.VPU.1.0-00087-PROD-1
-+ 
-+-- 
-+2.45.2
-+
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-index 3128fc3a4e8e..7a9c2b2b238a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-@@ -156,7 +156,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "60b5abcc986d1660637e913a87e1413c"
-+WHENCE_CHKSUM  = "5d402bd7c43dd2c2835b81bf872aa127"
+diff --git a/meta/recipes-core/systemd/systemd_256.5.bb b/meta/recipes-core/systemd/systemd_256.5.bb
+index ee656c81e5..1c408d075f 100644
+--- a/meta/recipes-core/systemd/systemd_256.5.bb
++++ b/meta/recipes-core/systemd/systemd_256.5.bb
+@@ -848,7 +848,7 @@ python do_warn_musl() {
+ }
+ addtask warn_musl before do_configure
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -237,6 +237,7 @@ PE = "1"
+-ALTERNATIVE:${PN} = "halt reboot shutdown poweroff runlevel ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
++ALTERNATIVE:${PN} = "halt reboot shutdown poweroff runlevel rules.d ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
  
- SRC_URI = "\
-   ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
-+  file://0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch \
- "
+ ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
+ ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
+@@ -874,6 +874,10 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
+ ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
+ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
  
- BBCLASSEXTEND = "devupstream:target"
++ALTERNATIVE_TARGET[rules.d] = "${datadir_native}/polkit-1/rules.d"
++ALTERNATIVE_LINK_NAME[rules.d] = "${datadir_native}/polkit-1/rules.d"
++ALTERNATIVE_PRIORITY[rules.d] ?= "50"
++
+ pkg_postinst:${PN}:libc-glibc () {
+ 	if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'false', d)}; then
+ 		sed -e '/^hosts:/s/\s*\<myhostname\>//' \
 -- 
-2.39.2
+2.34.1
 
 
