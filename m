@@ -2,167 +2,212 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03DFFC71147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0308FC71143
 	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 20:58:27 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.7228.1724878704768628394
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.7095.1724878704582936537
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Aug 2024 13:58:25 -0700
+ Wed, 28 Aug 2024 13:58:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f6N/u768;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-533488ffaddso8740304e87.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OI7+SUnw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42bb4f8a4bfso832255e9.1
         for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 13:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google; t=1724878702; x=1725483502; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tLqX3b/NiCXhNhdFBBEcH/7xZYC7WvCByT11to8Oi64=;
-        b=f6N/u768JgLI5qaiAZsRDRro/Gps2hZ7A9BoSek5gmbz2lGc1yvtJ3cvntHMtNJyGF
-         ITHfGJi/Z3NBTdruhPtzq9b828T98wJa5DNNf7FOK/w2VA/on6hzBYMkygZWhVKCcHkQ
-         0Lgab48aTuqqYg+AghrnK9nKzEbI+kHDyP/fE=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JqmmrPtoa1mpYOEmQZIPyjU2ajy3T9fjgOfYf9QOu2U=;
+        b=OI7+SUnwOCNux+YsZ/Dxinqn46Pr6AffxuPxV6noOpaffDScGV7emFcb5Nq1nBaU7y
+         rR+9gBvOQIjATsiax0e4DR6fM7Wsaa3ZQ33xYCbdoDkp7tVVZExT21l6GOKrdJCO+af5
+         JUui52P0eSrRwdlA9ejmU7RZ/tZsw3XFm1wWY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1724878702; x=1725483502;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tLqX3b/NiCXhNhdFBBEcH/7xZYC7WvCByT11to8Oi64=;
-        b=VOorURYl+kMjbrIycpn66QKJDSNSNnnYhj5RU8oB4GFEOkKZggN83n5BoVg5I/PS+/
-         Rd51apMzIoD54RFzeuM8WmmbnmJTMvr8x4cvWgel9IF8ptbnDfPEMKJ61urQ1JU1cb63
-         UNa+WhHCMFI1psPakfZ7YmOUwwGflLV7zJiIVG1WFAcX9MgB1ZRJtyGF9MjxmahgaHFS
-         o8P33HcXUW2IkImO15kgVWdAsprpi+fsLb3JH9IFtqH0UE3lSnuohvqwjfCsvgzgdmTJ
-         DLIfz90Wim/ruC3myi5d30co/iaNSTu8aG3AilrVCVq0P4IsFcx9WfbUitp+sCrvrfPj
-         v/sA==
-X-Gm-Message-State: AOJu0Yw9asfLL8W49vyVNKPwwXUP3WxeuqHUu2bV+xLK3xH+MAK48qjf
-	qJXOssdVV/8HoUNRrkS3Lh4Fngd2BwMrUcUHgTvdwxvyNTeF/uN4DagZHbzS72im8DJ1n1VGSnu
-	P
-X-Google-Smtp-Source: AGHT+IGf3voUvNQM0B+qMACEJR4DOpaMtmIb1TWL6Cjj17RyMKgpDdR6LQ6rUIc0IQpmKJnEQXERxw==
-X-Received: by 2002:a2e:4a09:0:b0:2f5:c4f:ddbe with SMTP id 38308e7fff4ca-2f61092397emr4625191fa.38.1724878701428;
-        Wed, 28 Aug 2024 13:58:21 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JqmmrPtoa1mpYOEmQZIPyjU2ajy3T9fjgOfYf9QOu2U=;
+        b=jFPBXv8PLC3ME/OyT4tMgFw25JogjXXWhsCI/m6J3T6ztnTs0d92iselwb4YFoWRYm
+         9DJjd2mr0MyhPGu1R/DWIZS0bmoRKtxElUWJwXTLaS4fkapbeq/lfAUTv/erL9Zw/H+7
+         s3yZRCHBxVwea7DQ1/kcAz+yyBMElgn5eOnAZbMoRO8rQE0IKNcvVu3BaE5YK6SzqvLi
+         NlC/Wu3LnNSbENKoxBWRQXXeqbdOWAVbWBQfkBMpyNNkrky0oX6tmrYX7xIvZJGlWARg
+         J248gxmMASZ15L5XVMbjy3k2qC/o2pu9jtpSC5pvtgqHzV/g4KGLnYk99f+wJ70PxHqa
+         u8DQ==
+X-Gm-Message-State: AOJu0YxVi/geI0zrtljPq6dnvYgbvWf3fNZIXVaRey+WLUMUeJIsZP1Y
+	hc9LanNkHm0A+ZyKJmFEx1Dv7ef0J2saFyqXJDe6qNi5d0+/zdbynp0AZKCiXjlhQLKPk9g6sTh
+	O
+X-Google-Smtp-Source: AGHT+IGafQcK0MjjXMl5V86t0WkTLCkCCp9FEDPA4YKModRLwf/LuTapA983CvfUVqfsR5CHQPuNnQ==
+X-Received: by 2002:a5d:5384:0:b0:368:4467:c23e with SMTP id ffacd0b85a97d-3749c252959mr140053f8f.30.1724878702079;
+        Wed, 28 Aug 2024 13:58:22 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:354e:532a:804e:264e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba64258absm31162925e9.41.2024.08.28.13.58.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba64258absm31162925e9.41.2024.08.28.13.58.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 13:58:20 -0700 (PDT)
+        Wed, 28 Aug 2024 13:58:21 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] insane: Further simplify code
-Date: Wed, 28 Aug 2024 21:58:18 +0100
-Message-ID: <20240828205819.1697047-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] insane: Allow ERROR_QA to use 'contains' hash optimisations for do_package_qa
+Date: Wed, 28 Aug 2024 21:58:19 +0100
+Message-ID: <20240828205819.1697047-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240828205819.1697047-1-richard.purdie@linuxfoundation.org>
+References: <20240828205819.1697047-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 20:58:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203895
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203894
 
-Now handle_error is used, we can further simplify the QA test execution
-as we don't need seperate function lists for warnings and errors.
+We want ERROR_QA to operate using the "contains" optimizations which means
+accessing the variable only using the contains function.
+
+To do this, remove usage of ALL_QA, open coding the few references to check
+both WARN_QA and ERROR_QA.
+
+Move the function table generation to a separate function where we can exclude
+the ERROR_QA and WARN_QA variables since they are handled by the handle_error()
+function calls.
+
+Ensure all the chain of functions to the handle_error calls is correctly
+recognised in the variable dependencies.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-global/insane.bbclass | 41 ++++++++++--------------------
- 1 file changed, 14 insertions(+), 27 deletions(-)
+ meta/classes-global/insane.bbclass | 64 +++++++++++++++---------------
+ 1 file changed, 33 insertions(+), 31 deletions(-)
 
 diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index c664a86b41c..7ef2ffcc8b3 100644
+index 7ef2ffcc8b3..7f84cd2cd5b 100644
 --- a/meta/classes-global/insane.bbclass
 +++ b/meta/classes-global/insane.bbclass
-@@ -780,21 +780,12 @@ def qa_check_staged(path,d):
-             if not skip_shebang_size:
-                 package_qa_check_shebang_size(path, "", d, None, errors)
+@@ -54,8 +54,6 @@ FAKEROOT_QA = "host-user-contaminated"
+ FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
+ enabled tests are listed here, the do_package_qa task will run under fakeroot."
  
+-ALL_QA = "${WARN_QA} ${ERROR_QA}"
 -
--
--# Run all recipe-wide warnfuncs and errorfuncs
--def package_qa_recipe(warnfuncs, errorfuncs, pn, d):
--    for func in warnfuncs:
--        func(pn, d)
--    for func in errorfuncs:
--        func(pn, d)
--
- def prepopulate_objdump_p(elf, d):
-     output = elf.run_objdump("-p", d)
-     return (elf.name, output)
+ UNKNOWN_CONFIGURE_OPT_IGNORE ?= "--enable-nls --disable-nls --disable-silent-rules --disable-dependency-tracking --disable-static"
  
- # Walk over all files in a directory and call func
--def package_qa_walk(warnfuncs, errorfuncs, package, d):
-+def package_qa_walk(checkfuncs, package, d):
-     elves = {}
-     for path in pkgfiles[package]:
-             elf = None
-@@ -815,9 +806,7 @@ def package_qa_walk(warnfuncs, errorfuncs, package, d):
-     for path in pkgfiles[package]:
-             if path in elves:
-                 elves[path].open()
--            for func in warnfuncs:
--                func(path, package, d, elves.get(path))
--            for func in errorfuncs:
-+            for func in checkfuncs:
-                 func(path, package, d, elves.get(path))
-             if path in elves:
-                 elves[path].close()
-@@ -1005,7 +994,7 @@ def package_qa_check_unlisted_pkg_lics(package, d):
-                                "listed in LICENSE" % (package, ' '.join(unlisted)), d)
-     obsolete = set(oe.license.obsolete_license_list()) & package_lics - recipe_lics_set
-     if obsolete:
--        oe.qa.handle_error(messages, "obsolete-license",
-+        oe.qa.handle_error("obsolete-license",
-                                "LICENSE:%s includes obsolete licenses %s" % (package, ' '.join(obsolete)), d)
+ # This is a list of directories that are expected to be empty.
+@@ -1081,6 +1079,25 @@ def package_qa_check_missing_update_alternatives(pn, d):
+         if d.getVar('ALTERNATIVE:%s' % pkg) and not bb.data.inherits_class('update-alternatives', d):
+             oe.qa.handle_error("missing-update-alternatives", "%s: recipe defines ALTERNATIVE:%s but doesn't inherit update-alternatives. This might fail during do_rootfs later!" % (pn, pkg), d)
  
- QAPKGTEST[empty-dirs] = "package_qa_check_empty_dirs"
-@@ -1150,20 +1139,19 @@ python do_package_qa () {
-     def parse_test_matrix(matrix_name):
-         testmatrix = d.getVarFlags(matrix_name) or {}
-         g = globals()
--        warnchecks = []
++def parse_test_matrix(matrix_name):
++        testmatrix = d.getVarFlags(matrix_name) or {}
++        g = globals()
 +        checks = []
-         for w in (d.getVar("WARN_QA") or "").split():
-             if w in skip:
-                continue
-             if w in testmatrix and testmatrix[w] in g:
--                warnchecks.append(g[testmatrix[w]])
++        for w in (d.getVar("WARN_QA") or "").split():
++            if w in skip:
++               continue
++            if w in testmatrix and testmatrix[w] in g:
 +                checks.append(g[testmatrix[w]])
- 
--        errorchecks = []
-         for e in (d.getVar("ERROR_QA") or "").split():
-             if e in skip:
-                continue
-             if e in testmatrix and testmatrix[e] in g:
--                errorchecks.append(g[testmatrix[e]])
--        return warnchecks, errorchecks
++
++        for e in (d.getVar("ERROR_QA") or "").split():
++            if e in skip:
++               continue
++            if e in testmatrix and testmatrix[e] in g:
 +                checks.append(g[testmatrix[e]])
 +        return checks
++parse_test_matrix[vardepsexclude] = "ERROR_QA WARN_QA"
++
++
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
+     import subprocess
+@@ -1136,23 +1153,6 @@ python do_package_qa () {
+     for dep in taskdepdata:
+         taskdeps.add(taskdepdata[dep][0])
  
+-    def parse_test_matrix(matrix_name):
+-        testmatrix = d.getVarFlags(matrix_name) or {}
+-        g = globals()
+-        checks = []
+-        for w in (d.getVar("WARN_QA") or "").split():
+-            if w in skip:
+-               continue
+-            if w in testmatrix and testmatrix[w] in g:
+-                checks.append(g[testmatrix[w]])
+-
+-        for e in (d.getVar("ERROR_QA") or "").split():
+-            if e in skip:
+-               continue
+-            if e in testmatrix and testmatrix[e] in g:
+-                checks.append(g[testmatrix[e]])
+-        return checks
+-
      for package in packages:
          skip = set((d.getVar('INSANE_SKIP') or "").split() +
-@@ -1177,20 +1165,19 @@ python do_package_qa () {
-             oe.qa.handle_error("pkgname",
-                     "%s doesn't match the [a-z0-9.+-]+ regex" % package, d)
+                    (d.getVar('INSANE_SKIP:' + package) or "").split())
+@@ -1179,8 +1179,7 @@ python do_package_qa () {
+     for func in checks:
+         func(pn, d)
  
--        warn_checks, error_checks = parse_test_matrix("QAPATHTEST")
--        package_qa_walk(warn_checks, error_checks, package, d)
-+        checks = parse_test_matrix("QAPATHTEST")
-+        package_qa_walk(checks, package, d)
+-    if 'libdir' in d.getVar("ALL_QA").split():
+-        package_qa_check_libdir(d)
++    package_qa_check_libdir(d)
  
--        warn_checks, error_checks = parse_test_matrix("QAPKGTEST")
--        for func in warn_checks:
--            func(package, d)
--        for func in error_checks:
-+        checks = parse_test_matrix("QAPKGTEST")
-+        for func in checks:
-             func(package, d)
+     oe.qa.exit_if_errors(d)
+ }
+@@ -1198,6 +1197,10 @@ python() {
+     pkgs = (d.getVar('PACKAGES') or '').split()
+     for pkg in pkgs:
+         d.appendVarFlag("do_package_qa", "vardeps", " INSANE_SKIP:{}".format(pkg))
++    funcs = d.getVarFlags("QAPATHTEST")
++    funcs.update(d.getVarFlags("QAPKGTEST"))
++    funcs.update(d.getVarFlags("QARECIPETEST"))
++    d.appendVarFlag("do_package_qa", "vardeps", " ".join(funcs.values()))
+ }
  
-         package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d)
-         package_qa_check_deps(package, pkgdest, d)
+ SSTATETASKS += "do_package_qa"
+@@ -1295,7 +1298,9 @@ python do_qa_patch() {
+         return False
  
--    warn_checks, error_checks = parse_test_matrix("QARECIPETEST")
--    package_qa_recipe(warn_checks, error_checks, pn, d)
-+    checks = parse_test_matrix("QARECIPETEST")
-+    for func in checks:
-+        func(pn, d)
+     srcdir = d.getVar('S')
+-    if not bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d) or not bb.utils.contains('ALL_QA', 'unimplemented-ptest', True, False, d):
++    if not bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
++        pass
++    elif not (bb.utils.contains('ERROR_QA', 'unimplemented-ptest', True, False, d) or bb.utils.contains('WARN_QA', 'unimplemented-ptest', True, False, d)):
+         pass
+     elif bb.data.inherits_class('ptest', d):
+         bb.note("Package %s QA: skipping unimplemented-ptest: ptest implementation detected" % d.getVar('PN'))
+@@ -1494,8 +1499,7 @@ do_unpack[postfuncs] += "do_qa_unpack"
+ python () {
+     import re
  
-     if 'libdir' in d.getVar("ALL_QA").split():
-         package_qa_check_libdir(d)
+-    tests = d.getVar('ALL_QA').split()
+-    if "desktop" in tests:
++    if bb.utils.contains('ERROR_QA', 'desktop', True, False, d) or bb.utils.contains('WARN_QA', 'desktop', True, False, d):
+         d.appendVar("PACKAGE_DEPENDS", " desktop-file-utils-native")
+ 
+     ###########################################################################
+@@ -1545,11 +1549,10 @@ python () {
+         oe.qa.handle_error("pkgvarcheck", "recipe uses DEPENDS:${PN}, should use DEPENDS", d)
+ 
+     # virtual/ is meaningless for these variables
+-    if "virtual-slash" in (d.getVar("ALL_QA") or "").split():
+-        for k in ['RDEPENDS', 'RPROVIDES']:
+-            for var in bb.utils.explode_deps(d.getVar(k + ':' + pn) or ""):
+-                if var.startswith("virtual/"):
+-                    oe.qa.handle_error("virtual-slash", "%s is set to %s but the substring 'virtual/' holds no meaning in this context. It only works for build time dependencies, not runtime ones. It is suggested to use 'VIRTUAL-RUNTIME_' variables instead." % (k, var), d)
++    for k in ['RDEPENDS', 'RPROVIDES']:
++        for var in bb.utils.explode_deps(d.getVar(k + ':' + pn) or ""):
++            if var.startswith("virtual/"):
++                oe.qa.handle_error("virtual-slash", "%s is set to %s but the substring 'virtual/' holds no meaning in this context. It only works for build time dependencies, not runtime ones. It is suggested to use 'VIRTUAL-RUNTIME_' variables instead." % (k, var), d)
+ 
+     issues = []
+     if (d.getVar('PACKAGES') or "").split():
+@@ -1559,8 +1562,7 @@ python () {
+             if d.getVar(var, False):
+                 issues.append(var)
+ 
+-        fakeroot_tests = d.getVar('FAKEROOT_QA').split()
+-        if set(tests) & set(fakeroot_tests):
++        if bb.utils.contains('ERROR_QA', 'host-user-contaminated', True, False, d) or bb.utils.contains('WARN_QA', 'host-user-contaminated', True, False, d):
+             d.setVarFlag('do_package_qa', 'fakeroot', '1')
+             d.appendVarFlag('do_package_qa', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+     else:
 
