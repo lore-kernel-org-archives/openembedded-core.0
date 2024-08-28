@@ -2,45 +2,47 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7708CC5474E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 762E4C5474A
 	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 06:19:50 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.7187.1724825981598641964
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.7091.1724825981901571527
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 23:19:41 -0700
+ Tue, 27 Aug 2024 23:19:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=tGmO8JKF;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-534366c1aa2so5441576e87.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=yF2gaTKg;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5334b0e1a8eso8271173e87.0
         for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 23:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724825979; x=1725430779; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0tQ7l51/Li6p8FyJ+vjc5sq8uXUNKiqibKdtj8hG2fE=;
-        b=tGmO8JKFeYJky4dszVyKwPNnzsuNVSmmHio1tUiOpqmY/lQhnLlIVOGvFFsmY24i4/
-         cCSagSAmBTidCIoNy0Gg7Eak/IdVhxnYFHsLZCaCcW7gNcOYUqAGd3ASILSRWBdtQM9C
-         OTeDzG5YCDX/T44MmqSXY+YsLnLFTxKqzMo+Ix4zrPWvTr7rypnSHdTl98WKij7um5a4
-         atqfeCGDYi/bZBa5+ZgNkZZ3u0z+GRvyhiCQeFh7jEuKiDiX4tF5f+J4CvUJZCvyjRxU
-         ORcm4u9GMJga+IuYaHvSP9dMDvsDfDTsNN0WoRtFNqnBC5QosHmrDx1LlA+NA7oK9/i8
-         z0Cw==
+        d=linaro.org; s=google; t=1724825980; x=1725430780; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f6FReERk9hZkGnsWn1LrWKo1UZjTJKhiKqH0lv2jkfQ=;
+        b=yF2gaTKgxLQd8gSi0mmtr6eOXExcWUz7ThB5uHwD5FRXmXH1PUSDiZ3mA2hhjpyYAR
+         Ayl1AvNG7UixDe07NhRyZO8sf2UKCbhG9AHQbaA9LnX3uja0fTGjgca5MU48t+wqraVa
+         6zn+7JQz/sWuHYHQ+S4GR/jGJHMauooeHIpkT6UW+q5+HPQvNaR1UOxPW/A2fgVh1uJj
+         lVin8n73EBEZoHmFvm/7UiHiDiLmTp/Rz6kG0Z8W6qhqkPffBvJxUhy0qWK08o8A8irD
+         XhDAsuazrjnkt8jWhsbrUY4qqLGdcyWg3Tq7Y86fdNVOHmCPcg/Pn5M8WA74HsgN3Yzn
+         XLsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724825979; x=1725430779;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0tQ7l51/Li6p8FyJ+vjc5sq8uXUNKiqibKdtj8hG2fE=;
-        b=gOiP4xlN+GjhP97FR1qjm4zGS8jHXKKMqMBfmZB69N9PRj2xxE9oyetiBq2B74dcCL
-         jH31ZszRTOFY3ZpbXXXKtt/B0oEBez0GBklMY5oUJj2P0fwgDjlnymSdXx9jwAiLY54D
-         LGu+ILQnroUUuTTotLxIumAWW+/owZg2tRNS4Vgtnk0ciFPtVUM4nvXkORllWB6ZFn0/
-         r+SlFFqlNwe4i4G+9kJtxXnAsM5mSjurf5lfHXfE3MgvURcl/InFrRbQpQIXAxqFqnVj
-         LH9YCPJg77aL6UPMmjo2UjXrgQm7U06RnNXjDvhoP9mj4BYcoGozpL8cIKwLdlYdv8de
-         fPww==
-X-Gm-Message-State: AOJu0YxfbIuMpJc/0MjMo5+RDoqUUEqmTjy1E3ripqdLOS+adoQOPrNo
-	p6pjsoZA6aNtBroEZ9U5CH+1GCUjPP5rXtSvqizAi46xX1DYjarIc/iAOEs1P9D7TFlCj2wBQwJ
-	4
-X-Google-Smtp-Source: AGHT+IHFu5TwpMlaFcWZcnuoiFDvydoaC6/U8iKm6yq0R3VxQMz6ofoGuzhEVbK6gOI3uh1J4/exgg==
-X-Received: by 2002:a05:6512:3da9:b0:52d:6663:5cbe with SMTP id 2adb3069b0e04-5343882c7ebmr9905230e87.12.1724825978553;
-        Tue, 27 Aug 2024 23:19:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724825980; x=1725430780;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f6FReERk9hZkGnsWn1LrWKo1UZjTJKhiKqH0lv2jkfQ=;
+        b=lX8DJJ2RzLqqpa+ce+keatTGmxgcKlnpDz6b/11YkTzhj2MPFax5+3r/8AF9V1cWtB
+         B/HA1Oe6NxJ1wRHGQAG61sIimdyif9+B1E3gghheS4NJw4pS15dxI/638vuzubpEqrrZ
+         z6x023F+MxlFwTiEzK/oIahd0WMzBrxigT8KHG0uPFqjFBkkQPioF2V0DN9RAhMRQtak
+         92jewual3WV7LcoaIph7ggPM8eW40qQqCKUnwzKe7xmhI4zUIf22BeALR3eGJnFRCDw0
+         mhtOKdC4KeGqX2iIqBRTUXlg2RM0lyXL2OCOTgqlnApRMErNgDZyW40xO4j+4TVkKEfV
+         8SVw==
+X-Gm-Message-State: AOJu0YwoZOzxSr6p36AWoE9SUA+RGJx07MGsFHKuLKXAMNtitsxgdASu
+	1IeAmJwA7V1QkBThT8FMuc7g8IQ6DAY5jjv3/0X33zXdv64cCnhpopohElewVMneD/KYo9RW9jY
+	8
+X-Google-Smtp-Source: AGHT+IFf8mzfscssGxl13EBlYKlebB179Qqt8sHu7Acid4d4GAXl62SzfD1BaXAMjyz+AQzgXbA8QQ==
+X-Received: by 2002:a05:6512:3d8d:b0:52c:6461:e913 with SMTP id 2adb3069b0e04-534387789bemr11198519e87.16.1724825979167;
+        Tue, 27 Aug 2024 23:19:39 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.90])
         by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5334ea5942bsm2048058e87.123.2024.08.27.23.19.38
         for <openembedded-core@lists.openembedded.org>
@@ -48,86 +50,95 @@ Received: from umbar.unikie.fi ([192.130.178.90])
         Tue, 27 Aug 2024 23:19:38 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 1/2] linux-firmware: package qcom-vpu firmware
-Date: Wed, 28 Aug 2024 09:19:36 +0300
-Message-Id: <20240828061937.410739-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 2/2] linux-firmware: restore qcom/vpu-1.0/venus.mdt compatibility symlink
+Date: Wed, 28 Aug 2024 09:19:37 +0300
+Message-Id: <20240828061937.410739-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240828061937.410739-1-dmitry.baryshkov@linaro.org>
+References: <20240828061937.410739-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 06:19:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203867
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203868
 
-Release 20240811 has restructured the locations of Qualcomm VPU
-firmware (see commit [1]). Follow those changes and implement a single
-linux-firmware-qcom-vpu package holding all VPU firmware files.
+The commit [1] has dropped the qcom/vpu-1.0/venus.mdt symlink which is
+required for the kernels before 6.6. Pick up a patch restoring this
+symlink.
 
 [1] https://gitlab.com/kernel-firmware/linux-firmware/-/commit/36db650dae038be945fb04def591fc726255b09f
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
 ---
+ ...-compatibility-with-kernels-before-6.patch | 35 +++++++++++++++++++
+ .../linux-firmware/linux-firmware_20240811.bb |  3 +-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
 
-Changes since v2:
- - Point to the upstream commit (Quentin Schultz)
- - Dropped RPROVIDES (Quentin Schultz)
- - Dropped rogue FILES:${PN}-qcom-vpu-2.0 (Quentin Schultz)
-
-Changes since v1:
- - Dropped unrelated (audio topology) change.
----
- .../linux-firmware/linux-firmware_20240811.bb     | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
+new file mode 100644
+index 000000000000..b1cb5d1f0bea
+--- /dev/null
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
+@@ -0,0 +1,35 @@
++From 4728fcc52fdf311048f41766aa27cdf5a4a9e7ad Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++Date: Wed, 28 Aug 2024 09:01:14 +0300
++Subject: [PATCH] qcom: vpu: restore compatibility with kernels before 6.6
++
++Linux kernels before 6.6 used qcom/vpu-1.0/venus.mdt as a firmware
++filename for Qualcomm SM8250 devices. Commit 36db650dae03 ("qcom: update
++path for video firmware for vpu-1/2/3.0") moved the VPU firmware, added
++the venus.mbn compatibility symlink, but at the same time it dropped
++the venus.mdt symlink. Bring the historical name back to restore
++compatibility with kernels older than 6.6.
++
++Fixes: 36db650dae03 ("qcom: update path for video firmware for vpu-1/2/3.0")
++Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>
++Upstream-Status: Submitted [https://lore.kernel.org/linux-firmware/20240828060831.34519-1-dmitry.baryshkov@linaro.org]
++Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++---
++ WHENCE | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/WHENCE b/WHENCE
++index 06c3c6fff673..4d9cd340a9dd 100644
++--- a/WHENCE
+++++ b/WHENCE
++@@ -5974,6 +5974,7 @@ Version: VIDEO.VE.6.0-00049-PROD-1
++ 
++ File: qcom/vpu/vpu20_p4.mbn
++ Link: qcom/vpu-1.0/venus.mbn -> ../vpu/vpu20_p4.mbn
+++Link: qcom/vpu-1.0/venus.mdt -> ../vpu/vpu20_p4.mbn
++ 
++ Version: VIDEO.VPU.1.0-00087-PROD-1
++ 
++-- 
++2.45.2
++
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-index 34f21ab9b325..3128fc3a4e8e 100644
+index 3128fc3a4e8e..7a9c2b2b238a 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-@@ -383,7 +383,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qed \
-              ${PN}-qcom-license ${PN}-qcom-yamato-license \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 ${PN}-qcom-venus-6.0 \
--             ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
-+             ${PN}-qcom-vpu \
-              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
-              ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 ${PN}-qcom-adreno-a702 \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-@@ -1374,8 +1374,7 @@ LICENSE:${PN}-qcom-venus-4.2 = "Firmware-qcom"
- LICENSE:${PN}-qcom-venus-5.2 = "Firmware-qcom"
- LICENSE:${PN}-qcom-venus-5.4 = "Firmware-qcom"
- LICENSE:${PN}-qcom-venus-6.0 = "Firmware-qcom"
--LICENSE:${PN}-qcom-vpu-1.0 = "Firmware-qcom"
--LICENSE:${PN}-qcom-vpu-2.0 = "Firmware-qcom"
-+LICENSE:${PN}-qcom-vpu = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a2xx = "Firmware-qcom Firmware-qcom-yamato"
- LICENSE:${PN}-qcom-adreno-a3xx = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a4xx = "Firmware-qcom"
-@@ -1421,8 +1420,11 @@ FILES:${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
- FILES:${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
- FILES:${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
- FILES:${PN}-qcom-venus-6.0 = "${nonarch_base_libdir}/firmware/qcom/venus-6.0/*"
--FILES:${PN}-qcom-vpu-1.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-1.0/*"
--FILES:${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
-+FILES:${PN}-qcom-vpu = " \
-+    ${nonarch_base_libdir}/firmware/qcom/vpu/* \
-+    ${nonarch_base_libdir}/firmware/qcom/vpu-1.0/* \
-+    ${nonarch_base_libdir}/firmware/qcom/vpu-2.0/* \
-+"
- FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw ${nonarch_base_libdir}/firmware/qcom/yamato_*.fw"
- FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a3*_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
- FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw"
-@@ -1468,8 +1470,7 @@ RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-6.0 = "${PN}-qcom-license"
--RDEPENDS:${PN}-qcom-vpu-1.0 = "${PN}-qcom-license"
--RDEPENDS:${PN}-qcom-vpu-2.0 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-vpu = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a2xx = "${PN}-qcom-license ${PN}-qcom-yamato-license"
- RDEPENDS:${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a4xx = "${PN}-qcom-license"
+@@ -156,7 +156,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "60b5abcc986d1660637e913a87e1413c"
++WHENCE_CHKSUM  = "5d402bd7c43dd2c2835b81bf872aa127"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -237,6 +237,7 @@ PE = "1"
+ 
+ SRC_URI = "\
+   ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
++  file://0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch \
+ "
+ 
+ BBCLASSEXTEND = "devupstream:target"
 -- 
 2.39.2
 
