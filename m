@@ -1,235 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD39C5474A
-	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 04:11:59 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.5728.1724818314985097879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF785C5472D
+	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 04:18:59 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.5800.1724818733816999034
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Aug 2024 21:11:55 -0700
+ Tue, 27 Aug 2024 21:18:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fthSTMt9;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-202376301e6so48499765ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Aug 2024 21:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724818314; x=1725423114; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2EYDvGD/MAPRQYbln7s7pasDQfGIyEXaCWs8D3DvyLs=;
-        b=fthSTMt90l75waUAozKECe4mEy6IfbrpvZ89UHo03chlDg1P65+QCeXo9KSBjEam6e
-         ZpLXUmmaUCvPX2BeONc8svdIsmBgk5GGKXHOns9eKxz6zxOoq22mt9MMIzrpC3yTOxzx
-         3CsB6yq7QaeiuUH155TXOkQemHrpLWdpt2EP/uhe/kFw+/sz/TsPKWlVTeFivHRQTipf
-         88064rHA5PmARgx/1A4aWgt3ZnQmCl7nRvHnxYePT40EMWMZgSD/EXocz+/1fRsvVVyq
-         DuevHKaF3QqFis0qlpByf7Gnk6zKXfcAKOv82cLrS6qGp2f/OwmdHsL7wkQaBs/hfOEp
-         NCRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724818314; x=1725423114;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2EYDvGD/MAPRQYbln7s7pasDQfGIyEXaCWs8D3DvyLs=;
-        b=xU363AOhtECPxeTktc9imtxGaKoWjJ9UGoXJAFjZryc4TMEFeGZXt9zLREZU3JPg/A
-         A6HKzqomXRBsbTQUlnwW4A10QIIacmLTqIUSISbegZmTuXox0uyL1rHTujGfcB9vB1LK
-         VKziIH75kFir3gwKi7xrqc0cF4SVvG2mrWO42DsCbyJFwOM8vChRLNMPZIFZWTBd+2OR
-         NYen4aBsN2QdQ0CplbW2WBBOAgFrxvyXOrEk+TSENvdBZUffeMhluh+JWX7r5xSeYdnH
-         8Jt0n8NjBGx7UbG/ujrqI2++jqm3EJKmfjd5rHgPoWtPEGESnXQvUqRShmde4KA+sZEM
-         ydxw==
-X-Gm-Message-State: AOJu0Yz11AJoQiWPahBRx5j/5W+YMDePSSJgZZ8m6/fQ4ItPNnytKK/n
-	FLODB0fXlQeLNHpM4LDqtz+wx7X3VZYqNXP/3NSn9fbcMV397uIUb/sJ9A==
-X-Google-Smtp-Source: AGHT+IFJG66R1cvYRPlUKUeVAl1Ug0HLacfdzJzeqryrIAKlahEC9rwPfxN5feAnbwF646aJEAA+lQ==
-X-Received: by 2002:a17:902:f691:b0:1fc:6a81:c5a1 with SMTP id d9443c01a7336-2039e44eddemr133819375ad.12.1724818313889;
-        Tue, 27 Aug 2024 21:11:53 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:9d80:4380::2696])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855dbed6sm90900875ad.172.2024.08.27.21.11.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 21:11:53 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v4] bluez5: Fix build with musl
-Date: Tue, 27 Aug 2024 21:10:00 -0700
-Message-ID: <20240828041000.2409672-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.46.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=UQoBoBpn;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=TTYgBsCr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019197353509-9b867bf6-cdb6-4d8d-8fc4-ad9815bf49cf-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1724818732; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=xiyKhr2Taq+LxdYG8zgStKhm9A5j9R61QM2tfNu+rU0=;
+	b=UQoBoBpnN2clSZ5Xvva+LKRAnY2DtMpUitU/DHv1BafQhtT8bjNIeKGwHE1rwOGo
+	09hBtxSoCXYeyBdjUl/xtxuJ7gIosBbfWEkohJUb9PYYbNptB1YlRtkRWgocGDEpK8u
+	m/Hisn0+jSv+/WW8Rrj3Qbsb5v4t4iTzvsKldz7A=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1724818732;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=xiyKhr2Taq+LxdYG8zgStKhm9A5j9R61QM2tfNu+rU0=;
+	b=TTYgBsCrfR2+wxZ+rS9vFn4tatEvgy9GA+Pqf9NSRZdFSHtw6H5S0RVmYGX5UxFl
+	7vSbPpZUpEe5FFOeqr6Q7oUsjyoaWFbBQCAlVY6f3MeVOycGjEzrlUmmx+x8CGw7URO
+	tUA9UCpaJHFpGc5EY5xXVaZ4F7Am21oBAMZr3E/s=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v4] bluez5: Fix build with musl
+In-Reply-To: <20240828041000.2409672-1-raj.khem@gmail.com>
+References: <20240828041000.2409672-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019197353509-9b867bf6-cdb6-4d8d-8fc4-ad9815bf49cf-000000@us-west-2.amazonses.com>
+Date: Wed, 28 Aug 2024 04:18:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.08.28-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 04:11:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203865
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 04:18:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203866
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
-v2: Fix the upstream submission and latest patch submitted upstream
-v3: Make just node_name as const and keep node_dir as such
-v4: Redo the patch to avoid textrel errors on ppc32/arm
+Testing patch /home/patchtest/share/mboxes/v4-bluez5-Fix-build-with-musl.patch
 
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...U-basename-compatible-implementation.patch | 143 ++++++++++++++++++
- 2 files changed, 144 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index d8b9f817715..e0d3e651871 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -70,6 +70,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-            file://0004-src-shared-util.c-include-linux-limits.h.patch \
-+           file://0001-Provide-GNU-basename-compatible-implementation.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch
-new file mode 100644
-index 00000000000..3a2a97ff020
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Provide-GNU-basename-compatible-implementation.patch
-@@ -0,0 +1,143 @@
-+From 9000923c07a68857e8ea32a49bfca660b1d1001a Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 26 Aug 2024 09:55:03 -0700
-+Subject: [PATCH BlueZ] Provide GNU basename compatible implementation
-+
-+Call to basename() relies on a GNU extension
-+to take a const char * vs a char *. Let's define
-+a trivial helper function to ensure compatibility
-+with musl.
-+
-+Fixes Issue: https://github.com/bluez/bluez/issues/843
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/linux-bluetooth/20240826173844.2918630-1-raj.khem@gmail.com/T/#u]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Makefile.mesh           | 2 ++
-+ Makefile.tools          | 3 ++-
-+ mesh/mesh-config-json.c | 6 ++++--
-+ mesh/rpl.c              | 3 ++-
-+ src/shared/util.h       | 7 +++++++
-+ tools/hex2hcd.c         | 3 ++-
-+ 6 files changed, 19 insertions(+), 5 deletions(-)
-+
-+Index: bluez-5.77/mesh/mesh-config-json.c
-+===================================================================
-+--- bluez-5.77.orig/mesh/mesh-config-json.c
-++++ bluez-5.77/mesh/mesh-config-json.c
-+@@ -28,6 +28,7 @@
-+ #include <ell/ell.h>
-+ #include <json-c/json.h>
-+ 
-++#include "mesh/missing.h"
-+ #include "mesh/mesh-defs.h"
-+ #include "mesh/util.h"
-+ #include "mesh/mesh-config.h"
-+@@ -2694,7 +2695,8 @@ bool mesh_config_load_nodes(const char *
-+ 
-+ void mesh_config_destroy_nvm(struct mesh_config *cfg)
-+ {
-+-	char *node_dir, *node_name;
-++	char *node_dir;
-++	const char* node_name;
-+ 	char uuid[33];
-+ 
-+ 	if (!cfg)
-+Index: bluez-5.77/mesh/rpl.c
-+===================================================================
-+--- bluez-5.77.orig/mesh/rpl.c
-++++ bluez-5.77/mesh/rpl.c
-+@@ -24,6 +24,7 @@
-+ 
-+ #include <ell/ell.h>
-+ 
-++#include "mesh/missing.h"
-+ #include "mesh/mesh-defs.h"
-+ 
-+ #include "mesh/node.h"
-+Index: bluez-5.77/tools/hex2hcd.c
-+===================================================================
-+--- bluez-5.77.orig/tools/hex2hcd.c
-++++ bluez-5.77/tools/hex2hcd.c
-+@@ -24,6 +24,7 @@
-+ #include <stdlib.h>
-+ #include <stdbool.h>
-+ #include <sys/stat.h>
-++#include "tools/missing.h"
-+ 
-+ static ssize_t process_record(int fd, const char *line, uint16_t *upper_addr)
-+ {
-+Index: bluez-5.77/configure.ac
-+===================================================================
-+--- bluez-5.77.orig/configure.ac
-++++ bluez-5.77/configure.ac
-+@@ -70,7 +70,16 @@ AC_CHECK_LIB(pthread, pthread_create, du
-+ AC_CHECK_LIB(dl, dlopen, dummy=yes,
-+ 			AC_MSG_ERROR(dynamic linking loader is required))
-+ 
-+-AC_CHECK_HEADERS(linux/types.h linux/if_alg.h linux/uinput.h linux/uhid.h sys/random.h)
-++AC_CHECK_HEADERS(string.h linux/types.h linux/if_alg.h linux/uinput.h linux/uhid.h sys/random.h)
-++
-++# basename may be only available in libgen.h with the POSIX behavior,
-++# not desired here
-++AC_CHECK_DECLS([basename], [],
-++				AC_MSG_WARN([GNU basename extension not found]),
-++				[#define _GNU_SOURCE 1
-++				 #include <string.h>
-++				 ])
-++
-+ 
-+ PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.28)
-+ 
-+Index: bluez-5.77/tools/missing.h
-+===================================================================
-+--- /dev/null
-++++ bluez-5.77/tools/missing.h
-+@@ -0,0 +1,21 @@
-++// SPDX-License-Identifier: LGPL-2.1-or-later
-++/*
-++ *
-++ *  BlueZ - Bluetooth protocol stack for Linux
-++ *
-++ *  Copyright (C) 2024  Khem Raj <raj.khem@gmail.com>
-++ *
-++ */
-++
-++#ifdef HAVE_CONFIG_H
-++#include <config.h>
-++#endif
-++#if !HAVE_DECL_BASENAME
-++#include <string.h>
-++static inline const char *basename(const char *path)
-++{
-++  const char *base = strrchr(path, '/');
-++
-++  return base ? base + 1 : path;
-++}
-++#endif
-+Index: bluez-5.77/mesh/missing.h
-+===================================================================
-+--- /dev/null
-++++ bluez-5.77/mesh/missing.h
-+@@ -0,0 +1,21 @@
-++// SPDX-License-Identifier: LGPL-2.1-or-later
-++/*
-++ *
-++ *  BlueZ - Bluetooth protocol stack for Linux
-++ *
-++ *  Copyright (C) 2024  Khem Raj <raj.khem@gmail.com>
-++ *
-++ */
-++
-++#ifdef HAVE_CONFIG_H
-++#include <config.h>
-++#endif
-++#if !HAVE_DECL_BASENAME
-++#include <string.h>
-++static inline const char *basename(const char *path)
-++{
-++  const char *base = strrchr(path, '/');
-++
-++  return base ? base + 1 : path;
-++}
-++#endif
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
