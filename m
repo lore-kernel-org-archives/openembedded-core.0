@@ -1,128 +1,168 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE5E8C7112F
-	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 20:34:36 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.6457.1724877273836351521
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03DFFC71147
+	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 20:58:27 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.7228.1724878704768628394
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Aug 2024 13:34:34 -0700
+ Wed, 28 Aug 2024 13:58:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ODbFh8hF;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f3f90295a9so77543881fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 13:34:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f6N/u768;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-533488ffaddso8740304e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 13:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724877272; x=1725482072; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yHSpKOd7bCaxvIiFz74SWLYIIj6+5yqw7aZIVoJL0DY=;
-        b=ODbFh8hFh5eoASt/EagmVR+WbKkqMz6OO/VhII/OUjphcD5CD8ykt2wQ1I5/Ga1J6k
-         syG9gLRqkmb44jNumncO0yNhBR+kHhPpwrUHRLzG3ABbyFWCb67nYmPBoq1Q6CF9NIy/
-         WsMHb4IlosenF6L3KjA79fJINc8Tc8GiOm1F58tfMCpm6FeuEoeeFKEiz9YnYmxZkJzK
-         9XhW09YnrLM4gq1qIPHvnVQgGybLaBsS1SfCBFVMSuJMVTzR0GgUZ4d1SEATn/KoHnmd
-         nFyLHbbkoT03BN2g/Hp2VGqDBYejvvUybaJ2Z5tP+XTzvu5eJhRnXQtEFDEJ4u4PcGGD
-         9orw==
+        d=linuxfoundation.org; s=google; t=1724878702; x=1725483502; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tLqX3b/NiCXhNhdFBBEcH/7xZYC7WvCByT11to8Oi64=;
+        b=f6N/u768JgLI5qaiAZsRDRro/Gps2hZ7A9BoSek5gmbz2lGc1yvtJ3cvntHMtNJyGF
+         ITHfGJi/Z3NBTdruhPtzq9b828T98wJa5DNNf7FOK/w2VA/on6hzBYMkygZWhVKCcHkQ
+         0Lgab48aTuqqYg+AghrnK9nKzEbI+kHDyP/fE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724877272; x=1725482072;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yHSpKOd7bCaxvIiFz74SWLYIIj6+5yqw7aZIVoJL0DY=;
-        b=GpCbPPfiAeiXwPhee+NVde5OPAzMp/FhKNftobbThbF8rwFYEVVZmqHzXYU0zueKsG
-         GmxoleODArj66Iy/0PEnxp1VwXN4tdgVU3chIS9MUhuMT8jtdFa+3bwBP+AZv1oKMGpk
-         7ZySt6uw7mTXa3mu8CX16mNx3jFeQ/Ae4w5ZYbWfoOFRPbPgVs5zivVbE+UTspfhxlvy
-         AkZcgGbY7um7J1Qv+kbXhXHZrBM5hNgLcIOB9QeWBsAffF4WxPYK4gRcICJ4yLAWQMzg
-         GhXuovLqe/A/Zd2r2uFaena6NKsn6LgZJahkgcdzqe8OPy7Hnu7LA1CAJyNAUa5nx/dT
-         BE7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVEfOyUc947B+BMwjOcX6Yx6ohYize1PzpEwb3IQ4/Bcb1uT5Ll/uqReuxM/nk0eNRcaUbDrMhoJ7VeK8O02nPlkA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyEiu0hOglc6aIitvQ0cCb2InC34uJzvTz1QKNwHD4juhXB47/2
-	qNpwMqrXL3v2DJ1eytuZ11fFFWuWi5UVXmR25nbiBRc7ZS+Za6EFDcSc093p0+T+VfOumSi3hbM
-	Xyc5igH/7L+Bj/NjHdDZsr53eC00=
-X-Google-Smtp-Source: AGHT+IHFG5UO8WYC7imyu80S5u7mmfRa9XHJNd5no10iR/39Ve9RfHS6BWKcpVnqZ2r35iWK6VEwUpqepfTigikV218=
-X-Received: by 2002:a2e:be06:0:b0:2ef:2fcc:c9fb with SMTP id
- 38308e7fff4ca-2f6104cec9amr5801161fa.36.1724877271321; Wed, 28 Aug 2024
- 13:34:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724878702; x=1725483502;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tLqX3b/NiCXhNhdFBBEcH/7xZYC7WvCByT11to8Oi64=;
+        b=VOorURYl+kMjbrIycpn66QKJDSNSNnnYhj5RU8oB4GFEOkKZggN83n5BoVg5I/PS+/
+         Rd51apMzIoD54RFzeuM8WmmbnmJTMvr8x4cvWgel9IF8ptbnDfPEMKJ61urQ1JU1cb63
+         UNa+WhHCMFI1psPakfZ7YmOUwwGflLV7zJiIVG1WFAcX9MgB1ZRJtyGF9MjxmahgaHFS
+         o8P33HcXUW2IkImO15kgVWdAsprpi+fsLb3JH9IFtqH0UE3lSnuohvqwjfCsvgzgdmTJ
+         DLIfz90Wim/ruC3myi5d30co/iaNSTu8aG3AilrVCVq0P4IsFcx9WfbUitp+sCrvrfPj
+         v/sA==
+X-Gm-Message-State: AOJu0Yw9asfLL8W49vyVNKPwwXUP3WxeuqHUu2bV+xLK3xH+MAK48qjf
+	qJXOssdVV/8HoUNRrkS3Lh4Fngd2BwMrUcUHgTvdwxvyNTeF/uN4DagZHbzS72im8DJ1n1VGSnu
+	P
+X-Google-Smtp-Source: AGHT+IGf3voUvNQM0B+qMACEJR4DOpaMtmIb1TWL6Cjj17RyMKgpDdR6LQ6rUIc0IQpmKJnEQXERxw==
+X-Received: by 2002:a2e:4a09:0:b0:2f5:c4f:ddbe with SMTP id 38308e7fff4ca-2f61092397emr4625191fa.38.1724878701428;
+        Wed, 28 Aug 2024 13:58:21 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:354e:532a:804e:264e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba64258absm31162925e9.41.2024.08.28.13.58.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2024 13:58:20 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] insane: Further simplify code
+Date: Wed, 28 Aug 2024 21:58:18 +0100
+Message-ID: <20240828205819.1697047-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
- <1724136703-20023-19-git-send-email-wangmy@fujitsu.com> <17EE19F35A1C7F50.9439@lists.openembedded.org>
- <CA+chaQeUkj4dX8rSkxK49_7m3ZbFGhLb27zcGDyuhOZdxy_9bg@mail.gmail.com>
- <05f406ce-1e4c-4fc6-97a8-2b6c28df96cc@baylibre.com> <CANNYZj9qf6FKiMaQP9NnXLKMM1gmX2+mDPNPipuDUQ6k7-pBPA@mail.gmail.com>
- <4c294c8b-233c-4105-9b6b-e8e5e5974f73@baylibre.com>
-In-Reply-To: <4c294c8b-233c-4105-9b6b-e8e5e5974f73@baylibre.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 28 Aug 2024 22:34:19 +0200
-Message-ID: <CANNYZj8P9eNNwENfo16_vkxiXwnjdNOKdfD_dHkwmM9zrJJCUg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 19/24] python3-setuptools: upgrade 72.1.0 -> 72.2.0
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: martin.jansa@gmail.com, wangmy@fujitsu.com, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 20:34:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203893
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 20:58:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203895
 
-If numpy 2.x update was prevented by lack of recent piglit, that has
-now landed in master.
+Now handle_error is used, we can further simplify the QA test execution
+as we don't need seperate function lists for warnings and errors.
 
-Alex
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/insane.bbclass | 41 ++++++++++--------------------
+ 1 file changed, 14 insertions(+), 27 deletions(-)
 
-On Wed, 28 Aug 2024 at 22:31, Trevor Gamblin <tgamblin@baylibre.com> wrote:
->
->
-> On 2024-08-28 4:19 p.m., Alexander Kanavin wrote:
-> > On Wed, 28 Aug 2024 at 22:05, Trevor Gamblin via
-> > lists.openembedded.org <tgamblin=baylibre.com@lists.openembedded.org>
-> > wrote:
-> >> Even with that workaround, I see a more serious issue:
-> >>
-> >> |DEBUG: Executing shell function do_compile
-> >> |/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.4/numpy-1.26.4/setup.py:60:
-> >> RuntimeWarning: NumPy 1.26.4 may not yet support Python 3.12.
-> >> | warnings.warn(
-> >> |Running from numpy source directory.
-> >> |/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.4/numpy-1.26.4/setup.py:75:
-> >> DeprecationWarning:
-> >> |
-> >> | `numpy.distutils` is deprecated since NumPy 1.23.0, as a result
-> >> |  of the deprecation of `distutils` itself. It will be removed for
-> >> |  Python >= 3.12. For older Python versions it will remain present.
-> >> |  It is recommended to use `setuptools < 60.0` for those Python versions.
-> >> |  For more details, see:
-> >> | https://numpy.org/devdocs/reference/distutils_status_migration.html
-> >> |
-> >> |
-> >> |  import numpy.distutils.command.sdist
-> >> |Traceback (most recent call last):
-> >> |  File
-> >> "/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.4/numpy-1.26.4/setup.py",
-> >> line 483, in <module>
-> >> |    from numpy.distutils.core import numpy_cmdclass as cmdclass
-> >> |  File
-> >> "/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.4/numpy-1.26.4/numpy/distutils/core.py",
-> >> line 24, in <module>
-> >> |    from numpy.distutils.command import config, config_compiler, \
-> >> |  File
-> >> "/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.4/numpy-1.26.4/numpy/distutils/command/config.py",
-> >> line 19, in <module>
-> >> |    from numpy.distutils.mingw32ccompiler import generate_manifest
-> >> |  File
-> >> "/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.4/numpy-1.26.4/numpy/distutils/mingw32ccompiler.py",
-> >> line 27, in <module>
-> >> |    from distutils.msvccompiler import get_build_version as
-> >> get_build_msvc_version
-> >> |ModuleNotFoundError: No module named 'distutils.msvccompiler'
-> >> |ERROR: 'python3 setup.py bdist_wheel ' execution failed.
-> >>
-> >> I think we'll need to wait for the numpy upgrade to go in.
-> > I don't understand. This setuptools update did make it to master, and
-> > numpy 1.26.4 builds fine with it on the autobuilder and in my local
-> > builds.
-> Sorry, got my wires crossed. I'm trying setuptools 74.x, which I only
-> mentioned testing in IRC...
-> >
-> > Alex
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index c664a86b41c..7ef2ffcc8b3 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -780,21 +780,12 @@ def qa_check_staged(path,d):
+             if not skip_shebang_size:
+                 package_qa_check_shebang_size(path, "", d, None, errors)
+ 
+-
+-
+-# Run all recipe-wide warnfuncs and errorfuncs
+-def package_qa_recipe(warnfuncs, errorfuncs, pn, d):
+-    for func in warnfuncs:
+-        func(pn, d)
+-    for func in errorfuncs:
+-        func(pn, d)
+-
+ def prepopulate_objdump_p(elf, d):
+     output = elf.run_objdump("-p", d)
+     return (elf.name, output)
+ 
+ # Walk over all files in a directory and call func
+-def package_qa_walk(warnfuncs, errorfuncs, package, d):
++def package_qa_walk(checkfuncs, package, d):
+     elves = {}
+     for path in pkgfiles[package]:
+             elf = None
+@@ -815,9 +806,7 @@ def package_qa_walk(warnfuncs, errorfuncs, package, d):
+     for path in pkgfiles[package]:
+             if path in elves:
+                 elves[path].open()
+-            for func in warnfuncs:
+-                func(path, package, d, elves.get(path))
+-            for func in errorfuncs:
++            for func in checkfuncs:
+                 func(path, package, d, elves.get(path))
+             if path in elves:
+                 elves[path].close()
+@@ -1005,7 +994,7 @@ def package_qa_check_unlisted_pkg_lics(package, d):
+                                "listed in LICENSE" % (package, ' '.join(unlisted)), d)
+     obsolete = set(oe.license.obsolete_license_list()) & package_lics - recipe_lics_set
+     if obsolete:
+-        oe.qa.handle_error(messages, "obsolete-license",
++        oe.qa.handle_error("obsolete-license",
+                                "LICENSE:%s includes obsolete licenses %s" % (package, ' '.join(obsolete)), d)
+ 
+ QAPKGTEST[empty-dirs] = "package_qa_check_empty_dirs"
+@@ -1150,20 +1139,19 @@ python do_package_qa () {
+     def parse_test_matrix(matrix_name):
+         testmatrix = d.getVarFlags(matrix_name) or {}
+         g = globals()
+-        warnchecks = []
++        checks = []
+         for w in (d.getVar("WARN_QA") or "").split():
+             if w in skip:
+                continue
+             if w in testmatrix and testmatrix[w] in g:
+-                warnchecks.append(g[testmatrix[w]])
++                checks.append(g[testmatrix[w]])
+ 
+-        errorchecks = []
+         for e in (d.getVar("ERROR_QA") or "").split():
+             if e in skip:
+                continue
+             if e in testmatrix and testmatrix[e] in g:
+-                errorchecks.append(g[testmatrix[e]])
+-        return warnchecks, errorchecks
++                checks.append(g[testmatrix[e]])
++        return checks
+ 
+     for package in packages:
+         skip = set((d.getVar('INSANE_SKIP') or "").split() +
+@@ -1177,20 +1165,19 @@ python do_package_qa () {
+             oe.qa.handle_error("pkgname",
+                     "%s doesn't match the [a-z0-9.+-]+ regex" % package, d)
+ 
+-        warn_checks, error_checks = parse_test_matrix("QAPATHTEST")
+-        package_qa_walk(warn_checks, error_checks, package, d)
++        checks = parse_test_matrix("QAPATHTEST")
++        package_qa_walk(checks, package, d)
+ 
+-        warn_checks, error_checks = parse_test_matrix("QAPKGTEST")
+-        for func in warn_checks:
+-            func(package, d)
+-        for func in error_checks:
++        checks = parse_test_matrix("QAPKGTEST")
++        for func in checks:
+             func(package, d)
+ 
+         package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d)
+         package_qa_check_deps(package, pkgdest, d)
+ 
+-    warn_checks, error_checks = parse_test_matrix("QARECIPETEST")
+-    package_qa_recipe(warn_checks, error_checks, pn, d)
++    checks = parse_test_matrix("QARECIPETEST")
++    for func in checks:
++        func(pn, d)
+ 
+     if 'libdir' in d.getVar("ALL_QA").split():
+         package_qa_check_libdir(d)
 
