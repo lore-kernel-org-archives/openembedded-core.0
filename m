@@ -1,117 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 537D8C54EE3
-	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 12:06:34 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.11612.1724846784022307133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C467C54FB3
+	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 13:11:44 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.12911.1724850696261499577
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Aug 2024 05:06:24 -0700
+ Wed, 28 Aug 2024 06:11:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VirZlo3d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42816ca797fso59849655e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 05:06:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kawoDauW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5334c4d6829so9326021e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 06:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1724846782; x=1725451582; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D2XAh/RTJYckohC59iS4tXCzAfOIESt6dmkHlQ2Oqdg=;
-        b=VirZlo3dS3K7iuzJbXV9Eep40mFzsggu/L4flty4YwZM7bML6Q4R9MIWLM3klAsjt3
-         DoGcKegbBQLCa8yLWgtQr68Tw3N2jIch77+3n28iYKa+5H9e/CZ8cZPQKlko8ViDGvGi
-         KJdQvxd3+OuxYezAdtTYgXgyAeOVlZfykgaEg=
+        d=gmail.com; s=20230601; t=1724850694; x=1725455494; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=z1pbd3n3D9Sw92VnrF9p1y+ttq0VTHac2pkkZzeEHSo=;
+        b=kawoDauWOmS6lgJ/D7pwgpi5sq0/7L0mPFcheST+/SwkpE7jVF+AerOfwzFI7btN7/
+         7iaF5WrTRK641kaK9tqZwOC52Tsx0ibIhuZ5Q4T9w/Bql+KLzfxddaAUw39ebMqQKrOX
+         cyETQSqypDT5j9lq4XITvUYEdkt1e+GmCCRZDpcK3Ibedy0evSgcOeE9YEzhr7nFkKhg
+         bYHJySDjmT5x5OiCjiZ0AT+qacIdB2J39JVTlAXsCSSpxPAtTnWbyj0ftzp09hTSjKSC
+         8b8nEKyiYO0zurDDBMKKExtfoIxxbH7/nRGmrJ/o/aMMqHI5nidG9wS1/6j5MTS/BVJa
+         tWkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724846782; x=1725451582;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D2XAh/RTJYckohC59iS4tXCzAfOIESt6dmkHlQ2Oqdg=;
-        b=Xo2VasoXzHOGxkP4GjGuEC5sELk5Zavo9hXcYFzUDXZCb9znzGk7e3iZi19BUuuU1s
-         WSXDC7os4WMlpJZoGd7zPkTnm2vtVmTWsaoSxuWP4HqVsODHqBtctMBLB2BKCEKHYwn1
-         y3kYNvnyf7Aboc5hLIQ9ru8CTFd1xKtm6G2tE+OAegJsgj4zjailqkEjDTPAccJVkagm
-         /5wB8xFZ4z5+cPGGw63CiAL2AuYVmv24uSoweKDujxRoyyYxIlyH7/gL57keUBHQKaLC
-         GbaZHuM0fzi0VJ7slIQ6OypWYlWkxBiVIz4whT2fjbePEUUr9qIXvGViNBFFKnkMXZ1s
-         n6OA==
-X-Gm-Message-State: AOJu0Yx53elWhs6Ed38mgIvJgbBf6cPyF50GnhjsC/75GG7SUo7VXvWe
-	CIG3kzFNgfSmo4siTijdhP3btgs5+fsaK7p2GZWNK4vDPQ6VNPEoNcbbRjz+lteKEppHjEbz2TV
-	B
-X-Google-Smtp-Source: AGHT+IFiQGxZcg0TiMU69DhiwJ+QNEGvS8CbkbnY+2D0KBvtUDm2rT16akcQ9zgcYCTOoMIIHJBDew==
-X-Received: by 2002:a5d:4e43:0:b0:371:88a1:3e49 with SMTP id ffacd0b85a97d-37496857428mr1257570f8f.53.1724846781682;
-        Wed, 28 Aug 2024 05:06:21 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:354e:532a:804e:264e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-373081ffeb8sm15396085f8f.88.2024.08.28.05.06.20
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 05:06:21 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] lib/oe: Use new visitorcode functionality for qa.handle_error()
-Date: Wed, 28 Aug 2024 13:06:19 +0100
-Message-ID: <20240828120620.1458816-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1724850694; x=1725455494;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z1pbd3n3D9Sw92VnrF9p1y+ttq0VTHac2pkkZzeEHSo=;
+        b=QogW28MID7jf/0LMcLDPD9eFa3BgD597lebOhyGug8TNXZc632qHqqMsTFKp0S3lDy
+         gVrbLUD5JsCs/9py7gsVSGmL+tjNGorWnBczkUvGqFhd9t3m6RUgcuXZixR6V83OfneB
+         9IRRHIlzJVJo5lB24YjftzDZuAUl0Btpn8+WGe6+TEpxKqsD3MklXa5cTV4IFnop6EU0
+         tUkgBnj5FDBcQqQy6kRrhQLEqBvbDooiLRNLznSPVxKYMmNuuC0LZmKbK35YDvj5wfFs
+         lmoDPHxQa1KhlileWv0nxzwEui8Y3awqhWr59SPh/tt2SXBp0lJt8crpQ6ProCFmPmUo
+         ioIA==
+X-Forwarded-Encrypted: i=1; AJvYcCUARmaLnFux6b7VFtgJJNzaH1arLcQ+2Yr28IOksTBLe6V6Pt7aL3deHK2B50DbPveVHqirWA9mkQsshdeiSrRi9Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyr61+0kYe5Mdj1ftTPT8fb2JLD4oVkCiD+PyyigbCKaArNrUkL
+	k1WGhySq5Pc3FeEb8q/h8WPXqhoD4mUNnHkZwvPWEg7SEUywPVyU8iE/iNhF4XBUaclUkMr21cR
+	K1HoCMHySFmEDqH/awhGiWgh/eFU=
+X-Google-Smtp-Source: AGHT+IHsLE163cPDHNrHrU5n4MMQUOTO/6a9UhW4Y49z1wtix/6krYdOt1dH6FuCJmb8okpDrg0abHVkGp9kL8WeAHA=
+X-Received: by 2002:a05:6512:3d27:b0:533:77d:116f with SMTP id
+ 2adb3069b0e04-5346c3f6f79mr1438680e87.9.1724850693614; Wed, 28 Aug 2024
+ 06:11:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240825170553.566798-1-Yash.Shinde@windriver.com>
+ <20240825170553.566798-2-Yash.Shinde@windriver.com> <bbbe564b9b6191edbe62abd69fa3b337ada2ad4a.camel@linuxfoundation.org>
+ <15bf0cae-b114-4ac7-89d9-3f7df77b41bd@windriver.com> <CANNYZj-2yiGpKNc1Jcc6NO8+8MhNYiYV-3xh3BbJqTw4nyJT0A@mail.gmail.com>
+ <1356a3e7519ffca6f65810ea2953429fbe08fa1e.camel@linuxfoundation.org>
+ <152b3da8-8d5d-4dc2-ad60-ab03bc4b361b@windriver.com> <5216855652e912043a3b7a06e1d76956d2babdd7.camel@linuxfoundation.org>
+ <17EFA275ACF95534.20373@lists.openembedded.org> <17EFA28FD32C2C48.20373@lists.openembedded.org>
+ <CANNYZj_p+3JR8QtntEB+PktAhuuxOg7e-dbHv+1nFC=SzzVcSg@mail.gmail.com> <CAMKF1sqtFQr1cSfB_Pp8cszWX2LbjoPpi1pQzks_J-SJfx2+aQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqtFQr1cSfB_Pp8cszWX2LbjoPpi1pQzks_J-SJfx2+aQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 28 Aug 2024 15:11:21 +0200
+Message-ID: <CANNYZj8ACp7A1iD-9gPg=T_ctMvXcs2eCH1FVnv+jLVyg=E9DA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] rust: Upgrade 1.78.0->1.79.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Yash.Shinde@windriver.com, 
+	openembedded-core@lists.openembedded.org, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Randy.MacLeod@windriver.com, 
+	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 12:06:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203880
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 13:11:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203882
 
-Early functions like do_recipe_qa (which do_fetch depends upon) reference
-oe.qa.handle_error() which in turn adds dependencies on ERROR_QA and
-WARN_QA. This means that ERROR_QA:append = " nothing" will cause
-literally everything to rebuild and break sstate reuse.
+On Tue, 27 Aug 2024 at 23:02, Khem Raj <raj.khem@gmail.com> wrote:
+> OE/Poky compiler is built with --enable-default-pie and that will pass
+> -pie option implicitly whenever it is invoked. Perhaps
+> default system compiler on alma9 is not.
+> zlib crate seems to perhaps ignore the option or maybe its missing a
+> place to add -pie to its build options, whereas the
+> consumer of it is trying to build PIE executables. If we use
+> buildtools compiler then it will surely get that consistent but it
+> will also hide the issue at hand.
 
-Take advantage of new bitbake functionality to add a custom visitorcode
-function to handle_error which optimises the references into contains
-expressions which means the ERROR_QA and WARN_QA references are optmised
-to containing specific strings. This dramatically improves sstate reuse.
+I got to the bottom of this. zlib crate is using libz.a from its
+native sysroot, which is coming from zlib-native build, which was
+performed using the alma9 host compiler that does not default to pie.
 
-The qa module has to be imported first since other code in later modules
-references it and bitbake can't handle the dependency ordering internally
-without a lot of unwanted complexity.
+If zlib recipe is adjusted thusly:
+-CFLAGS += "-D_REENTRANT"
++CFLAGS += "-D_REENTRANT -fPIE"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/__init__.py |  6 ++++--
- meta/lib/oe/qa.py       | 11 +++++++++++
- 2 files changed, 15 insertions(+), 2 deletions(-)
+then cargo-native builds fine.
 
-diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
-index 6eb536ad284..d7604812834 100644
---- a/meta/lib/oe/__init__.py
-+++ b/meta/lib/oe/__init__.py
-@@ -7,6 +7,8 @@
- from pkgutil import extend_path
- __path__ = extend_path(__path__, __name__)
- 
--BBIMPORTS = ["data", "path", "utils", "types", "package", "packagedata", \
-+# Modules with vistorcode need to go first else anything depending on them won't be
-+# processed correctly (e.g. qa)
-+BBIMPORTS = ["qa", "data", "path", "utils", "types", "package", "packagedata", \
-              "packagegroup", "sstatesig", "lsb", "cachedpath", "license", \
--             "qa", "reproducible", "rust", "buildcfg", "go"]
-+             "reproducible", "rust", "buildcfg", "go"]
-diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
-index f8ae3c743ff..2c558673701 100644
---- a/meta/lib/oe/qa.py
-+++ b/meta/lib/oe/qa.py
-@@ -199,6 +199,17 @@ def handle_error(error_class, error_msg, d):
-         bb.note("QA Issue: %s [%s]" % (error_msg, error_class))
-     return True
- 
-+handle_error.visitorcode = """
-+if isinstance(args[0], ast.Constant) and isinstance(args[0].value, str):
-+    for i in ["ERROR_QA", "WARN_QA"]:
-+        if i not in self.contains:
-+            self.contains[i] = set()
-+    self.contains[i].add(args[0].value)
-+else:
-+    self.warn(node.func, args[0])
-+    self.execs.add(name)
-+"""
-+
- def add_message(messages, section, new_msg):
-     if section not in messages:
-         messages[section] = new_msg
+I do wonder if that's just a whack-a-mole fix, the problem may return
+elsewhere, and we should actually enable pie flags native-wide, for
+consistency of native builds between various distros and our
+buildtools? How about enabling the entire set of security flags?
+
+I did a quick check, and there's no consensus among distros. Our
+buildtools, and Debian (and I guess Ubuntu?) default to pie.
+Fedora/Alma does not.
+
+Alex
 
