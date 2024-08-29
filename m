@@ -2,150 +2,93 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C1AC83F15
-	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 13:32:44 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.15164.1724938361254826863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9259C83F1C
+	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 13:32:54 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web10.15184.1724938369012306736
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 06:32:41 -0700
+ Thu, 29 Aug 2024 06:32:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VWoRhoy/;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2d679b094ffso477500a91.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:32:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wDsJFwWC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7c1324be8easo1194994a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938360; x=1725543160; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QoAcv/pIu77Ud9erVK1zJFuRL2Nul8fp14gCaxx+izw=;
-        b=VWoRhoy/xmOCPD+4MUhxae64zeA7jCQ1IZ8pYaqA6oXO4V1OHaVA+uAPMGQciDbXTR
-         G2NujZODlv839b7/yvqQ1A5uWN9KQxdXVAL9VoO3U7DZC07O+Pb1EPNOeNO60CGad/k+
-         nxP2gSzniT6DemRD9+BC+ZGAQvW6+tTKrv6blozsLsdnppXdnf4ddimCNub6KPpaLLjV
-         IMr6ikcyS/Ge3Uxz4o8VSWenmHRZMDKUpiwibgqIq2CcefjOI8pZ13OtYmiaNnlZ31TW
-         mgee/5aKXrSV0TYedXSeJhXTQTNKRSSCCOk6zEukB3FQCzkSvn4h+DTPZHg06glJO36g
-         XitA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938368; x=1725543168; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1ZgQWOoher3XAHgiU6dx4l8Vf0hwsNy4ttJZZYTnmnM=;
+        b=wDsJFwWCMopu1yX2MRYuZu6F+1ZuY/lPBRQiqBu7bDx8dY6IYGvHhUC8X9kJpciLRj
+         HEazoDtDxEwZgOjJkmzvlnGYzZ+R5/rslAOmpokvQgWXxGLPIAWnqCXdkxrEix85XQs/
+         ALsCcHVo65Zq8beR6lyhuq7pvvOWI8/I/darLypgAfra87pCHQEyK8JbMSTuowqr09gJ
+         lMzy+2JzB9i16Iw7rGjqYiadFBu0nC11GUAyhXEoqkU1dmsvL93bwKlezrVmoPQMrnO5
+         Gp1O8wV5GF4iSX7Wx0oYbsosA5aNnIBn3lVmLR3tgQPqk0WiNbYQNjfZ4Q7m86W64uUT
+         vf6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724938360; x=1725543160;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QoAcv/pIu77Ud9erVK1zJFuRL2Nul8fp14gCaxx+izw=;
-        b=BTOen59A97X0Wqlw1KjA+vtDDIq8OvsvTs76l9p4r1Bk6R1I+xhI5HVGchqb74DthG
-         Ykbaa7EnpDOunW1SPVdP0UItUojx8pR65/K/nzBd8dXxuwEVpGvVsmxgKUPAZIScvjvX
-         6uIbwjkeiR4qh0X2OgCW8MP9nnSExlDFq06mYHy9SKSdIyY7hDyOMc2mnznX8BFpcqu8
-         3bba9TrMW7kKyMZplD5QfTVQw9MXj0MyM0kra4XfNFJ56/S+MbQBkvphMgBbN+nPtck1
-         hF3tyLH5tWl5JyJdPY4UAublcptukh+TUeIjkL8pURiFj9pdqHJdcpR25+Ipm7WyRPJe
-         Omsw==
-X-Gm-Message-State: AOJu0YxZciXOykYwQfXldpp5cK7A05lXsW6zxpdRAu1WY/MMXfc3g603
-	p4lkW8ELbHjDAWUOCRG7kwlhfV6+LlTQ/mpAhOgvkIyABvhlefWBDdNNWEt7XoHGVSGCot0Js5W
-	mz90=
-X-Google-Smtp-Source: AGHT+IF5fX8mjOPW26S9VXeqA62V+LxMfkqZhOgjzLLJTyLMIcBZ2bjAYt2topCGdQsUDDXJrOzQmA==
-X-Received: by 2002:a17:90a:38a1:b0:2d3:bd32:fc89 with SMTP id 98e67ed59e1d1-2d8563a03e7mr2747796a91.29.1724938360281;
-        Thu, 29 Aug 2024 06:32:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724938368; x=1725543168;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1ZgQWOoher3XAHgiU6dx4l8Vf0hwsNy4ttJZZYTnmnM=;
+        b=MFXPBoxufGt1RgCLRKnEN1TowmlMG4bDi2mMiex/AD7Frg/BpOnTBE2VVj1Fu6tx9R
+         fGJgm6oCIbXpfswTqMXt+odNeg4QBjyZS+FOq23elyh6YyvWpdivFwC1hfTovukdRyD9
+         MsN0E+yXhqiALw8QqsVm3VM1mKrv/vpAoXBP6oM3oUS357fNWKgxwWQMrvb3DXeS1aQY
+         NEaL70MQdf8dQoAkIXZAPECAITOiszLpJIMN6F0UYMer8132oLivf8aPpzMYK+1cn3Lz
+         1A7viqapb6iMhTrrQ25n6f0HUAnP0AERU2ylZCYuWsmE1jE46c2JKr1L/jt2CLgcD+F5
+         Ervg==
+X-Gm-Message-State: AOJu0YyTM68YOitDw5+y7AB0B5/OU8jXqez6tu26/HZiUeJL8adn5v2F
+	fkMwfILvLzydqNggaf7EVNCXCKIIuKEoJ+AMrFEVZVE0S2SCIQTB+3zjuS9Yg6NSVl7wArpMr3X
+	NAw4=
+X-Google-Smtp-Source: AGHT+IGpnrh+TI6RpS6G5xnH7x+55xerv9bVLzgci+r4MYBBL1iHZiK1mrBeU2AA7OjwLSXrbu3dtQ==
+X-Received: by 2002:a17:902:cece:b0:202:4bd9:aea5 with SMTP id d9443c01a7336-2050e98309emr40218075ad.14.1724938368184;
+        Thu, 29 Aug 2024 06:32:48 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.32.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.32.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 06:32:39 -0700 (PDT)
+        Thu, 29 Aug 2024 06:32:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/12] Patch review
-Date: Thu, 29 Aug 2024 06:32:23 -0700
-Message-Id: <cover.1724938187.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 04/12] curl: Ignore CVE-2024-32928
+Date: Thu, 29 Aug 2024 06:32:27 -0700
+Message-Id: <d8aeaaf2d2ac3308af1ec442795e9714f0e6fc8c.1724938187.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1724938187.git.steve@sakoman.com>
+References: <cover.1724938187.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 13:32:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203920
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 13:32:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203924
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Monday, September 2
+From: Simone Weiß <simone.p.weiss@posteo.com>
 
-Passed a-full on autobuilder:
+This CVE affects google cloud services that utilize libcurl wrongly.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7287
+Signed-off-by: Simone Weiß <simone.p.weiss@posteo.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 27ac7879711e7119b4ec8b190b0a9da5b3ede269)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-support/curl/curl_8.7.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-The following changes since commit 8b5c66c91d94f4c8521fe9443e65d86063dba5e5:
-
-  oeqa/utils/postactions: transfer whole archive over ssh instead of doing individual copies (2024-08-20 05:03:49 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Archana Polampalli (2):
-  ffmpeg: fix CVE-2024-32230
-  qemu: fix CVE-2024-7409
-
-Bartosz Golaszewski (1):
-  linux-firmware: add a package for ath12k firmware
-
-Changqing Li (2):
-  expect-native: fix do_compile failure with gcc-14
-  libcap-ng: update SRC_URI
-
-Niko Mauno (1):
-  util-linux: Add PACKAGECONFIG option to mitigate rootfs remount error
-
-Peter Marko (2):
-  libyaml: Ignore CVE-2024-35325
-  curl: Patch CVE-2024-7264
-
-Quentin Schulz (1):
-  weston-init: fix weston not starting when xwayland is enabled
-
-Siddharth Doshi (1):
-  vim: Upgrade 9.1.0114 -> 9.1.0682
-
-Simone Weiß (1):
-  curl: Ignore CVE-2024-32928
-
-Yogita Urade (1):
-  qemu: fix CVE-2024-4467
-
- .../util-linux/util-linux_2.39.3.bb           |   12 +-
- meta/recipes-devtools/expect/expect_5.45.4.bb |    2 +-
- meta/recipes-devtools/qemu/qemu.inc           |    9 +
- .../qemu/qemu/CVE-2024-4467-0001.patch        |  112 ++
- .../qemu/qemu/CVE-2024-4467-0002.patch        |   55 +
- .../qemu/qemu/CVE-2024-4467-0003.patch        |   57 +
- .../qemu/qemu/CVE-2024-4467-0004.patch        | 1187 +++++++++++++++++
- .../qemu/qemu/CVE-2024-4467-0005.patch        |  239 ++++
- .../qemu/qemu/CVE-2024-7409-0001.patch        |  167 +++
- .../qemu/qemu/CVE-2024-7409-0002.patch        |  175 +++
- .../qemu/qemu/CVE-2024-7409-0003.patch        |  126 ++
- .../qemu/qemu/CVE-2024-7409-0004.patch        |  164 +++
- meta/recipes-graphics/wayland/weston-init.bb  |    2 +-
- .../linux-firmware/linux-firmware_20240312.bb |    8 +-
- .../ffmpeg/ffmpeg/CVE-2024-32230.patch        |   36 +
- .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |    1 +
- .../curl/curl/CVE-2024-7264-1.patch           |   61 +
- .../curl/curl/CVE-2024-7264-2.patch           |  316 +++++
- meta/recipes-support/curl/curl_8.7.1.bb       |    3 +
- .../libcap-ng/libcap-ng-python_0.8.5.bb       |    2 -
- meta/recipes-support/libcap-ng/libcap-ng.inc  |    8 +-
- meta/recipes-support/libyaml/libyaml_0.2.5.bb |    1 +
- ...m-add-knob-whether-elf.h-are-checked.patch |   39 -
- meta/recipes-support/vim/vim.inc              |    5 +-
- 24 files changed, 2737 insertions(+), 50 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0001.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0002.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0003.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0004.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0005.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-32230.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-7264-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-7264-2.patch
- delete mode 100644 meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch
-
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index a2cee8ba23..5442d8d4fd 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -23,6 +23,7 @@ SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c65
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
++CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
+ 
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
 -- 
 2.34.1
 
