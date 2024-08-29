@@ -1,99 +1,145 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB5AC87FC8
-	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 16:49:06 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.24859.1724950140980037062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C29C87FC9
+	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 16:58:56 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.25268.1724950734074185903
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 09:49:01 -0700
+ Thu, 29 Aug 2024 09:58:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=C8a/uaQk;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=qpIgmmmW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101919f0a54ea-c189f5e9-66d0-46ae-a24b-1b85adf00a32-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1724950140; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Fb2zzgpl/xmh5juT5/VGRYhX/LuN6i/diEi1zktMJ2I=;
-	b=C8a/uaQk+k+n2fYwmPk8soZBJgI54zSea19Sxvrw8CMiLHF+yzYPEZJrTG2rAZod
-	eDF9cCZlRDd48jKwriwAcUFAvMXjtz/orFAARTINOhukeYMGNReYDnKQoelCAZNz7hz
-	RxkUx02eTrcUm3bGJVmE0zDFrNy469jsxXhlfKFc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1724950140;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Fb2zzgpl/xmh5juT5/VGRYhX/LuN6i/diEi1zktMJ2I=;
-	b=qpIgmmmWlFPXvsCuvYPLDXvBh+v2jW2WEmSlUbY+K8VhbvpuYl3Gm3a4VANmKV+b
-	Bb6a3r+TEb4hDciW7ghBDtWpVkUdyukSVN6QZfF9dKPN83NZMcJPwSr+AkBBkpZ1Esm
-	m4oE0E7xZB4Eaexbql0qp7b+WX5bDUBnpmwyHCJQ=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] fmt: Include missing header <algorithm>
-In-Reply-To: <20240829163128.502025-1-raj.khem@gmail.com>
-References: <20240829163128.502025-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101919f0a54ea-c189f5e9-66d0-46ae-a24b-1b85adf00a32-000000@us-west-2.amazonses.com>
-Date: Thu, 29 Aug 2024 16:49:00 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.08.29-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hXCvMRSv;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20227ba378eso7867445ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 09:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724950733; x=1725555533; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nmG6jlSJirkSU8Cjt14aWouPtMZvFivrr2TbAwymZrY=;
+        b=hXCvMRSvTx9TQ4IV3PeLB68UMuIRRaicxD+sAQGFWX3w45sK1ymaZMKe+rnH7olasD
+         HlQVjk7gZyHS7ITjHWKRu5xrcU5LlTEGdI868CVVBJvCmqnN85ZbWEFBKy4xncjzgzzV
+         DdxuDlSrnO3dwEa1lsmv5V4BtOkzbzBcxJW+ihok+ibP7ueuwYFdjxF5GjqDDtdRyL+T
+         hpIFDni+b3LeZl7fnb14UEtuW2dIFfuNcFIc446RjvtQQnhw1J6fB1jBjqegW83fAgQo
+         5KaMpxD5MQaZX+a1S7tt38JcnAJylHaBVVq8CEL4GEZqph9B5gqn2lDiOTz3B7U39sEe
+         9vcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724950733; x=1725555533;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nmG6jlSJirkSU8Cjt14aWouPtMZvFivrr2TbAwymZrY=;
+        b=kVR+Z/ucmXNG6UHrYjSUdl9cdGz9RcVHCzTTGNctLZAK72Ysr9XqRoJocnhx7YtY/g
+         bG7MuIm7m0p4DBKSc4ErGJ/WZS45IjTx6p8Tcm4KpxxWrZOhL3aHKK0wlh5uuCSKeCh9
+         Wy6RKxDfI8fLU30jIW8W7ggxlCYGfOdb/iXmygVhlvlJe/IE9DbIfJYUH+BhMDOsK7v7
+         zt7xXveH1+5lhgpXbo47SAwMCXuybF0S58FsShNeXVN4v86h5dMeFzmoktE+DrlV+Zwq
+         ltZoTzf9gbrp9Vci8Q2IQoxg1QMDlIU9yR0IbYVUbHgsUMJIJsX+xJGbkWiGwBfARfbB
+         jnzA==
+X-Gm-Message-State: AOJu0Yy+wyBq+LQ6o/QXosmISBjCmj/bhtjOQvlBcdggN1INwhdQAZWL
+	Ll4Hh5gVwEU1zh4lvTQOfWRIb4CMEXYYHG6Kp7MOsLwLNNix2W1Uq+/ZWxR8
+X-Google-Smtp-Source: AGHT+IGK/UTcabZoFgw6fuG0bajKd9NgBGSnZbTpd+KvVgdOnhS0YAd69h7HjCaby/+DIIA3rmlAmg==
+X-Received: by 2002:a17:902:dac2:b0:1ff:4d66:d7bb with SMTP id d9443c01a7336-2050c3730bfmr41804085ad.36.1724950733198;
+        Thu, 29 Aug 2024 09:58:53 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:9d80:4380::2696])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20515537704sm13627115ad.125.2024.08.29.09.58.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 09:58:52 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] fmt: Get rid of std::copy
+Date: Thu, 29 Aug 2024 09:58:50 -0700
+Message-ID: <20240829165850.518504-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.46.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 16:49:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203938
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 16:58:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203939
 
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/fmt-Include-missing-header-algorithm.patch
+v2: Use an upstream fix instead of own
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+ .../fmt/fmt/0001-Get-rid-of-std-copy.patch    | 52 +++++++++++++++++++
+ meta/recipes-devtools/fmt/fmt_11.0.2.bb       |  4 +-
+ 2 files changed, 55 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch b/meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch
+new file mode 100644
+index 00000000000..1b495ea075c
+--- /dev/null
++++ b/meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch
+@@ -0,0 +1,52 @@
++From 6e462b89aa22fd5f737ed162d0150e145ccb1914 Mon Sep 17 00:00:00 2001
++From: Victor Zverovich <viz@meta.com>
++Date: Mon, 29 Jul 2024 15:58:05 -0700
++Subject: [PATCH] Get rid of std::copy
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://github.com/fmtlib/fmt/commit/6e462b89aa22fd5f737ed162d0150e145ccb1914]
++---
++ include/fmt/color.h | 11 +++++------
++ 1 file changed, 5 insertions(+), 6 deletions(-)
++
++diff --git a/include/fmt/color.h b/include/fmt/color.h
++index f0e9dd94..231d93c8 100644
++--- a/include/fmt/color.h
+++++ b/include/fmt/color.h
++@@ -560,31 +560,30 @@ struct formatter<detail::styled_arg<T>, Char> : formatter<T, Char> {
++   auto format(const detail::styled_arg<T>& arg, FormatContext& ctx) const
++       -> decltype(ctx.out()) {
++     const auto& ts = arg.style;
++-    const auto& value = arg.value;
++     auto out = ctx.out();
++ 
++     bool has_style = false;
++     if (ts.has_emphasis()) {
++       has_style = true;
++       auto emphasis = detail::make_emphasis<Char>(ts.get_emphasis());
++-      out = std::copy(emphasis.begin(), emphasis.end(), out);
+++      out = detail::copy<Char>(emphasis.begin(), emphasis.end(), out);
++     }
++     if (ts.has_foreground()) {
++       has_style = true;
++       auto foreground =
++           detail::make_foreground_color<Char>(ts.get_foreground());
++-      out = std::copy(foreground.begin(), foreground.end(), out);
+++      out = detail::copy<Char>(foreground.begin(), foreground.end(), out);
++     }
++     if (ts.has_background()) {
++       has_style = true;
++       auto background =
++           detail::make_background_color<Char>(ts.get_background());
++-      out = std::copy(background.begin(), background.end(), out);
+++      out = detail::copy<Char>(background.begin(), background.end(), out);
++     }
++-    out = formatter<T, Char>::format(value, ctx);
+++    out = formatter<T, Char>::format(arg.value, ctx);
++     if (has_style) {
++       auto reset_color = string_view("\x1b[0m");
++-      out = std::copy(reset_color.begin(), reset_color.end(), out);
+++      out = detail::copy<Char>(reset_color.begin(), reset_color.end(), out);
++     }
++     return out;
++   }
+diff --git a/meta/recipes-devtools/fmt/fmt_11.0.2.bb b/meta/recipes-devtools/fmt/fmt_11.0.2.bb
+index 5a7041088cd..5c60921efae 100644
+--- a/meta/recipes-devtools/fmt/fmt_11.0.2.bb
++++ b/meta/recipes-devtools/fmt/fmt_11.0.2.bb
+@@ -4,7 +4,9 @@ HOMEPAGE = "https://fmt.dev"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
+ 
+-SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https"
++SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https \
++           file://0001-Get-rid-of-std-copy.patch \
++           "
+ SRCREV = "0c9fce2ffefecfdce794e1859584e25877b7b592"
+ 
+ S = "${WORKDIR}/git"
 
