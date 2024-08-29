@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEAE5C83F19
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8D53C83F1E
 	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 13:32:54 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.15222.1724938374314261783
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.15300.1724938370743876054
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 06:32:54 -0700
+ Thu, 29 Aug 2024 06:32:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mgCCqtgx;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-201df0b2df4so5119985ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:32:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=036dgYg4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7bb75419123so365276a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938373; x=1725543173; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938370; x=1725543170; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jMKwOohO6ASflnu7jpAfzBqn6uUEJaH5jjxVRkBjIA4=;
-        b=mgCCqtgxpNb6eOvyQAxYAQL0fsuIZEBFPnyLKtIpDMUBWTVJ14u/lsuJQWa8IHkEHK
-         6OSBWuMBusHVEeyhXZlbR6WsC5PMmab+s+U2VXsL1XxSBmcME21MrweEafkWmjDBjUIe
-         f4mflAbFt5ZgMgZV9umqh8X2eoFwP/Oq6LP+t8jy5Lr+DW14YuzAe045HOv8Ibl4cGkw
-         xhsD7zqfYjxzUx03mdqo99boPD+i34G7V+7tZS2RF/6wP+HhSVNJY2ehyMEPY+2V6VrT
-         wDpGThrks9FpJYyQgxYhLO8/8sgIWFQBdLPWW8tEzYThf8TO1fSAq/9NPA7e//1j2Exq
-         DtJQ==
+        bh=ZfHu7hmTmxCzrLtu0eoe9WsIjYJELJEiOe/aJpzOAOQ=;
+        b=036dgYg4HRhqU4iALeM8T9fcEhaMHHB+HaPaGP8rNIF8OOHkfAtm92GJ/NQZTg5z0I
+         iBoj6aQhHxTO2wO2SA+qjru8pEjynl0fNAp4c8c5ozTaSAinQ94kqRqQRsEibsAHI2l1
+         EjZVQfKiNciq5bVi7miSppQULpReBFDfeiYBy5gNimmAZjr11YAePz0DzRAH3nxCjwJP
+         mWz2zU3ph8Po6WCSBDz9XUXEglGTQUefpqHWfGF87+Wj8h6P8MscIANKkL9FitElhvI+
+         hl6t1/nzdleKLo7g/6vEdXTJ5IXXNy4TkYfjjGiCYvw+RrDyIKW8ZTm1qeMU0Muqu3up
+         1VtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724938373; x=1725543173;
+        d=1e100.net; s=20230601; t=1724938370; x=1725543170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jMKwOohO6ASflnu7jpAfzBqn6uUEJaH5jjxVRkBjIA4=;
-        b=R2c9k9pzz4aQFt3aVRa6wtgsAz73jVvMg4uRaPcFZJvGKpE34BeMRkwTiIkxeScLNq
-         B8h+oShPChvc1TvlihcFRriDG2Eio5CziIOWS0fQX4v0gl+KQH9tXb4LUuHrEY6W2fGI
-         d4iSEnYgwPrkP+UFXmHyNeFpxXxB46Asx12k5ET+kx+MHtbPMSkQXMQmi/1u+HfdybgI
-         mRXCcB3/z96tc+ipAIaAKlCo9+blKURybAfoHDCl0x10Uab0RdGQlWvcppbJkAc2H372
-         91bsv3BxpofQgNTjkSfK24aGS/M8Sd6SXvaES6F/EmHyEB9qkBPL8k0BbUTHgIttulCv
-         rh/A==
-X-Gm-Message-State: AOJu0YwwiPk6a4xRmowlfDQ+Ga23FsbqLPt7cYCucJUJkr2nDI96wk4b
-	3iNhw/liEbFgW5JSsnzHVt+iqwaxonkH9pivg6uZfyYZRlGGGSuIzIxNAtKcZlS4Dj6zYOfqkx9
-	ItRk=
-X-Google-Smtp-Source: AGHT+IEbIohb6GQ0gvgmJnEq3+i42Xn8NDPpD/0mx+ZjcVXRbB3x7u1u8NAMkiA4nVnwDY0pA9ZZWg==
-X-Received: by 2002:a17:903:41cc:b0:202:1547:66b2 with SMTP id d9443c01a7336-2050c3ab754mr24774235ad.28.1724938373471;
-        Thu, 29 Aug 2024 06:32:53 -0700 (PDT)
+        bh=ZfHu7hmTmxCzrLtu0eoe9WsIjYJELJEiOe/aJpzOAOQ=;
+        b=Qa3FkVCDCMDxr3CcfsO/z8CjihYwXzCC/rvwXkEwgesgk7gZqqeWLrWuU/OERtlz7B
+         SEE4D6ZG2M3L2eKkBUiFMAiIfxp3Wx0RrsxWFwu8bZTSHkwuRa4S3KAFB6lHTkLmPEVg
+         4f6pE3Rrgd7v3YRQIZeVjwGlHV20xDhjJjI1kUlVHuFlVtn+6Y/lRTx2BfBwLQWmHeZo
+         XZ3QA6hIbQWHA8ekJy3yWD2WD41f7WRZejkKwHQs/tNdHvvPijtysMl+kNyEEaGV/hgf
+         DJ2VbuY4+Bm3Te8e3XKUt1Cu9G3jt6+KCvauZS+BeP5Uatxq51JkhOuE3+P2zG+V/qZa
+         7m2w==
+X-Gm-Message-State: AOJu0YzLJg8NlsorXxV0sRnpmwWBW5tnqHYLiMLxJSQShSKwukbx22Fs
+	nJBUattmdxlbm/esAddgYgoOns9xveDDwDicBbnJTv8kevNSSGWiy+luhMCWX+IvZHEErvR5wLU
+	LdZU=
+X-Google-Smtp-Source: AGHT+IHBF0bosa0Z/EfhuBrjGwo3i4mn/WWJkKuapjRSXXR6RsQwpPb0wS/gs4mzxbOmQDSr4E6lqA==
+X-Received: by 2002:a17:902:ced0:b0:202:1aee:e414 with SMTP id d9443c01a7336-2050c40dfa2mr28510395ad.41.1724938369876;
+        Thu, 29 Aug 2024 06:32:49 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.32.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.32.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 06:32:53 -0700 (PDT)
+        Thu, 29 Aug 2024 06:32:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/12] vim: Upgrade 9.1.0114 -> 9.1.0682
-Date: Thu, 29 Aug 2024 06:32:30 -0700
-Message-Id: <ad71057a09ec6304cee3771122224af011ee9087.1724938187.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/12] ffmpeg: fix CVE-2024-32230
+Date: Thu, 29 Aug 2024 06:32:28 -0700
+Message-Id: <b78fd9322b80734ec54440a01a36323a9b1b83f1.1724938187.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1724938187.git.steve@sakoman.com>
 References: <cover.1724938187.git.steve@sakoman.com>
@@ -62,96 +62,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 13:32:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203927
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203925
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-This includes CVE-fix for CVE-2024-41957, CVE-2024-41965 and CVE-2024-43374
+FFmpeg 7.0 is vulnerable to Buffer Overflow. There is a negative-size-param bug at
+libavcodec/mpegvideo_enc.c:1216:21 in load_input_picture in FFmpeg7.0
 
-Changes between 9.1.0114 -> 9.1.0682
-====================================
-https://github.com/vim/vim/compare/v9.1.0114...v9.1.0682
-
-Note:
-====
-Removed patch "vim-add-knob-whether-elf.h-are-checked.patch" as libelf checks are removed from configure.ac as per
-commit https://github.com/vim/vim/commit/1acc67ac4412aa9a75d1c58ebf93f2b29585a960
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6d2938e53cad5d9bf2e78a5403e9f9fab1db77b4)
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...m-add-knob-whether-elf.h-are-checked.patch | 39 -------------------
- meta/recipes-support/vim/vim.inc              |  5 +--
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch
+ .../ffmpeg/ffmpeg/CVE-2024-32230.patch        | 36 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-32230.patch
 
-diff --git a/meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch b/meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch
-deleted file mode 100644
-index 5284ba45b6..0000000000
---- a/meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 38de4bccdb8a861ffdd447f12fdab19d6d852c02 Mon Sep 17 00:00:00 2001
--From: Chong Lu <Chong.Lu@windriver.com>
--Date: Tue, 26 Jun 2018 17:34:15 +0800
--Subject: [PATCH] vim: add knob whether elf.h are checked
--
--Previously, it still was checked when there was no elf library in sysroots directory.
--Add knob to decide whether elf.h are checked or not.
--
--Upstream-Status: Pending
--
--Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- src/configure.ac | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--Index: git/src/configure.ac
--===================================================================
----- git.orig/src/configure.ac
--+++ git/src/configure.ac
--@@ -3264,11 +3264,18 @@ AC_TRY_COMPILE([#include <stdio.h>], [in
-- 	AC_MSG_RESULT(no))
-- 
-- dnl Checks for header files.
--+AC_MSG_CHECKING(whether or not to look for elf.h)
--+AC_ARG_ENABLE(elf-check,
--+        [  --enable-elf-check      If elfutils, check for elf.h [default=no]],
--+        , enable_elf_check="no")
--+AC_MSG_RESULT($enable_elf_check)
--+if test "x$enable_elf_check" != "xno"; then
-- AC_CHECK_HEADER(elf.h, HAS_ELF=1)
-- dnl AC_CHECK_HEADER(dwarf.h, SVR4=1)
-- if test "$HAS_ELF" = 1; then
--   AC_CHECK_LIB(elf, main)
-- fi
--+fi
-- 
-- AC_HEADER_DIRENT
-- 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 071deed338..f8ba37156a 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -14,13 +14,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d1a651ab770b45d41c0f8cb5a8ca930e"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-32230.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-32230.patch
+new file mode 100644
+index 0000000000..0f30c9ecf5
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-32230.patch
+@@ -0,0 +1,36 @@
++From 96449cfeaeb95fcfd7a2b8d9ccf7719e97471ed1 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Mon, 8 Apr 2024 18:38:42 +0200
++Subject: [PATCH]  avcodec/mpegvideo_enc: Fix 1 line and one column images
++
++Fixes: Ticket10952
++Fixes: poc21ffmpeg
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2024-32230
++
++Upstream-Status: Backport [https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=96449cfeaeb95fcfd7a2b8d9ccf7719e97471ed1]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ libavcodec/mpegvideo_enc.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libavcodec/mpegvideo_enc.c b/libavcodec/mpegvideo_enc.c
++index e460ca4..fb4aaa2 100644
++--- a/libavcodec/mpegvideo_enc.c
+++++ b/libavcodec/mpegvideo_enc.c
++@@ -1198,8 +1198,8 @@ static int load_input_picture(MpegEncContext *s, const AVFrame *pic_arg)
++                 int dst_stride = i ? s->uvlinesize : s->linesize;
++                 int h_shift = i ? s->chroma_x_shift : 0;
++                 int v_shift = i ? s->chroma_y_shift : 0;
++-                int w = s->width  >> h_shift;
++-                int h = s->height >> v_shift;
+++                int w = AV_CEIL_RSHIFT(s->width , h_shift);
+++                int h = AV_CEIL_RSHIFT(s->height, v_shift);
++                 const uint8_t *src = pic_arg->data[i];
++                 uint8_t *dst = pic->f->data[i];
++                 int vpad = 16;
++-- 
++2.40.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+index 9b74d78fb1..13051f4e36 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+@@ -31,6 +31,7 @@ SRC_URI = " \
+     file://CVE-2024-31578.patch \
+     file://CVE-2024-31582.patch \
+     file://CVE-2023-50008.patch \
++    file://CVE-2024-32230.patch \
+ "
  
- SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
--           file://vim-add-knob-whether-elf.h-are-checked.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".0114"
--SRCREV = "fcaed6a70faf73bff3e5405ada556d726024f866"
-+PV .= ".0682"
-+SRCREV = "cb90ea9cba6f033fe141db0e466fb4117f28402b"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ SRC_URI[sha256sum] = "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968"
 -- 
 2.34.1
 
