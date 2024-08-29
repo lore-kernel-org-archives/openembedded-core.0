@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02187C83F22
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23415C83F26
 	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 13:33:05 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.15236.1724938382631410414
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.15311.1724938378653515160
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 06:33:02 -0700
+ Thu, 29 Aug 2024 06:32:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YCEgDW4I;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-202508cb8ebso4109645ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:33:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=d07R2GUT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2021aeee5e4so4005445ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938382; x=1725543182; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938378; x=1725543178; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sf+EwvsSc6KQRzdDbM2mjX+ZUsr04GnskC9yaaV91YY=;
-        b=YCEgDW4Ig7c+LSb1dB4bDckmovDbnngFZPCGr2Dw7dMlrR2pP9hyCLQCDwbcCjJVDJ
-         0LJn1f1BtYLFikz+v5/DU6sHg6K8k5oU6bi8n+G0c5gPSCbNEvbSatEkaLBSonr9GVwz
-         PVJbEysxSsrDP6lUQRcEddwxPukUg9hmbyCR6eJcaaHfLgjZikFlaQZaK6YD40LNlzhV
-         Lrk2A2Mc9WSswzK4U7MJK8mK8gV+kbb8Mikm40jDDFU4+jgkr7/dGtW+uuEBpr+v3VJV
-         6R6StiwLBSZiKJXpONG014vwXKJ5up0OmoJIl8nTkqJX+yQ0OPpCmZ+NgU5ZJxRlT3QH
-         HP1g==
+        bh=icHvv5UBu31ppil7ClN+DyF27tB2AY5gBmpeXnep5u0=;
+        b=d07R2GUTR67CTyeNIzeko5REPOaKqJw7PiPMMBnQdgIsomE+2LQPdFoB2IrxparGDU
+         5n2S+w2ScwlEhQ31IRwXlKjyqoSD6Bx1CivsWyD1zDIcTuEyb53RSuaDLLREIUTrJ13e
+         9HoE9612QFtUb8aLrfffhYe8uwHeSYA/tBYdw5gwzIMC0fnAMcXTJpAZT/qzNpInvbei
+         SgosMU7UIm2LbkXvRNZQwyGlGmC8PIwkocHdtA8E/L/Ukm3cmZoJCmz6KcxALguZAgO/
+         jCL6B9TQKPdt+DB4wcb4wcBuDU16xveb35kZ1khIena3MpnpwflDFrTpEEG4JTGDMcqa
+         wKdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724938382; x=1725543182;
+        d=1e100.net; s=20230601; t=1724938378; x=1725543178;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sf+EwvsSc6KQRzdDbM2mjX+ZUsr04GnskC9yaaV91YY=;
-        b=WpNHJ7IsL3gMpZGXnHtOoFTOCxmRXETzKpcg+Awb6k/8dHM/2b64YjzqvVc5lpPO0n
-         K8eHRzkqbzTaa2ysIgSAoBrBg60LyQjWp9+ISDKyK3yr/NPw3vmMXxUvBIsvWblbEHPD
-         uotkWnxiqwkmeANtCI9xaBatbnzwpjZ3own8A2vs5mli/5hkbpQEH8s+4pCCP5vyyyCD
-         WhPv1haDVvKPWk/TcLxqxyky4tpHDQIg9Ll18Y+BKVcQ648kZNPsYk8g7sCsjyIHRVDe
-         0p8wmJKJKHi8IpLFgEiYeb3cMVfKvF6S0B0sU8OVzkgdK4cxWr86ccV5kNHne3gLy3N3
-         3jIA==
-X-Gm-Message-State: AOJu0YzBRHSnP+DIOJIIW9B1dDzlg/y9YfMIQtOGK0tEEn4sAybGrqzL
-	ugR3KxE62z89YgFOud/lUbrsFaeKffggXQBTL5vobM8h2qO4m1GwOYnk9APReGn4fbJW2bP0M6X
-	TUGQ=
-X-Google-Smtp-Source: AGHT+IEcgKhElg3itm6OFiQCrus56MkXDu5mhq2dHliyRkG8O7lF5CTb8sPisWFlxWuqsNoCVOOpUA==
-X-Received: by 2002:a17:902:da91:b0:203:a114:ce16 with SMTP id d9443c01a7336-2050c34fd82mr33853915ad.4.1724938381725;
-        Thu, 29 Aug 2024 06:33:01 -0700 (PDT)
+        bh=icHvv5UBu31ppil7ClN+DyF27tB2AY5gBmpeXnep5u0=;
+        b=P4GoTJN8OLa/I856P4wBw9cUzvMN7vulCYbfF7WnjNkL8+06iNHtuzUV6EjU25hshw
+         go7fJaQ1P0UWgrW/74d1X6/tQSzJBZq0luTJ6TA/MwJb/yA2OqmVlOPNZJlgfARDhv7L
+         F+W4+U3yyJxRq8BqyZpC2TMquxIVxeu2DZb2yCSBLXomYgavkrZBPsUdaKsPoxjPI2Ps
+         n47yk901ujdvCcYTwD9ZYLbc0awEB+gJlAA/5ZDWQPpNYAJo2uLoCD2DnAGdEjixXzGS
+         1X90d5/4bCiMqged0siE1139omxQgNU/g9f6XzBKKxJRcxhMmncZbJVR7DH4sx+EoqTI
+         stpw==
+X-Gm-Message-State: AOJu0YywxXsmp35AnUuLMZtDpfezBIOwgL7Xw1Eq8STyRan+crD9IlHG
+	CSO6DFuC8/S6e3aJXD5WMQdKIsYBvl1mVje5RYOmDkIL64m5OlutCp5KyqF/fzoYTUaOrkEjqIc
+	N4GU=
+X-Google-Smtp-Source: AGHT+IGAVPggc39xP6mTHQJoUIm/BNPnS880OyXpQO9UZTRlt1NYCzD10GEQlb9F4HBFV9NJoilUIw==
+X-Received: by 2002:a17:902:f649:b0:1fc:6b8b:4918 with SMTP id d9443c01a7336-2050c4ba62emr28334445ad.41.1724938377844;
+        Thu, 29 Aug 2024 06:32:57 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.33.00
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.32.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 06:33:01 -0700 (PDT)
+        Thu, 29 Aug 2024 06:32:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 11/12] libcap-ng: update SRC_URI
-Date: Thu, 29 Aug 2024 06:32:34 -0700
-Message-Id: <ba5d05337c97ec14d00939f02ecdd6aeab126822.1724938187.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/12] weston-init: fix weston not starting when xwayland is enabled
+Date: Thu, 29 Aug 2024 06:32:32 -0700
+Message-Id: <ba66fa75e57f94d35bfd703075ea6706879c63cb.1724938187.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1724938187.git.steve@sakoman.com>
 References: <cover.1724938187.git.steve@sakoman.com>
@@ -62,57 +62,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 13:33:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203931
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203929
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-Refer [1], people.redhat.com has certificate issue, so update SRC_URI
-to fix do_fetch warning
+When xwayland PACKAGECONFIG option is set, xwayland is enabled in
+weston.ini. However, if the xwayland module isn't installed, weston will
+refuse to start with the following error message:
+Failed to load module: /usr/lib/libweston-13/xwayland.so: cannot open shared object file: No such file or directory
 
-[1] https://github.com/stevegrubb/libcap-ng/issues/56
+Therefore, whenever the xwayland PACKAGECONFIG is set, weston-init
+should depend on weston-xwayland to bring this module in.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Fixes: fdbe559c66c9 ("weston.init: enabled xwayland")
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit fa2314125318634108452af4e40c9eeee260767c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb | 2 --
- meta/recipes-support/libcap-ng/libcap-ng.inc             | 8 ++++++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/wayland/weston-init.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-index 4790134ae9..ffde03963f 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-+++ b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.5.bb
-@@ -9,8 +9,6 @@ inherit lib_package autotools python3targetconfig
- # drop setuptools when version > 0.8.3 is released; it's needed only for distutils
- DEPENDS += "libcap-ng python3 swig-native python3-setuptools-native"
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 024e400665..34b7eb78d2 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -83,7 +83,7 @@ USERADD_PACKAGES = "${PN}"
+ #
+ require ${THISDIR}/required-distro-features.inc
  
--S = "${WORKDIR}/libcap-ng-${PV}"
--
- EXTRA_OECONF += "--with-python3"
+-RDEPENDS:${PN} = "weston kbd"
++RDEPENDS:${PN} = "weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
  
- do_install:append() {
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index 12b4002d11..e4be030834 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -7,11 +7,15 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
- 
--SRC_URI = "https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
-+SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master \
-            file://0001-Fix-python-path-when-invoking-py-compile-54.patch \
-            "
-+SRCREV = "f5d39702622208b3ada064d7b2eaeaf1454c9bd3"
-+S = "${WORKDIR}/git"
- 
--SRC_URI[sha256sum] = "3ba5294d1cbdfa98afaacfbc00b6af9ed2b83e8a21817185dfd844cc8c7ac6ff"
-+do_configure:prepend() {
-+    touch ${S}/NEWS
-+}
- 
- EXTRA_OECONF:append:class-target = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
- EXTRA_OECONF:append:class-nativesdk = " --with-capability_header=${STAGING_INCDIR}/linux/capability.h"
+ INITSCRIPT_NAME = "weston"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
 -- 
 2.34.1
 
