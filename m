@@ -2,28 +2,28 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A4F0C83000
-	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 08:34:23 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.7960.1724920461137160258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20059C8300F
+	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 08:34:33 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.7961.1724920467856604836
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 01:34:21 -0700
+ Thu, 29 Aug 2024 01:34:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9971dbebdd=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47T7QfhF031818
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 01:34:20 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2040.outbound.protection.outlook.com [104.47.55.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 419unh1gwj-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9971dbebdd=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47T5oghg027191
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 08:34:27 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2041.outbound.protection.outlook.com [104.47.55.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 419pw1hs52-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 01:34:20 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 08:34:26 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xG58JVndGykn8fHaPJAJuLkki1kavtgu1AR57HE6s8yAIRNzZfZvdQeyFs5TTh18gJDQoNLSjq41Hnssn0y+LNjnJQX5dHAfHc6YysADDkxvPcDzfsG+PPpsGrQIixcszHP5fHopu/tpOXDif9pKkgKHLibkQuTK6w5SpTMNsqw6HQAi347nSquEcCBOItH1njBErfAICVBDdYJSR3sk9ltQB6RHr2XEiY2c5JRFhqT834Qq1SAz9eCLIn3Ssn93dFSPe5ndfQ43Eed/GQdsU22ie9KIOffYT0rLMtDbqhIARU6+CCiGHu2GQA+ECkWvwI3Fy+asTlikNKHHY1xK+g==
+ b=P7UGS388sf1D4FjXsLzexOzkSL+y4aErrMcgQz/DSTIXUgeaAWlQEJbl7l8pNXTZcA/s4NSLUBvL9N+sYylCKfOxi9A9w58UEkqPCikwhfFTf13KXWrZsDGiaJ1hT/D8DQps2C2hLjrMipzpBVHTv0q3PYJG7AtDgO38TgBis7C+mj0nSUm+uomfOUEGKWSPedaL1d8cxkyHtR//2m5wWWZjgxh67HeHjOIuvGBQJdHSjAOQXAUgEWZl7OBTnLb6mI0ym5GvnXuLd+wnNHZe9D5JdjTE2zT6L74fAsdOxtHSeNf6XRbFmHxzuay71xYZQ1j9mjJqoJ4z/af8+T7SPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6DJjVEZSgyBU2LgOhN1JNtwP30S2wekYSxQ6jHgiWrg=;
- b=rjDFl48gSsPDglz5405r6KWVQOt6QX1jBfkTcO3a4BTsS2B5os+qxr1494jFnhLq0FFu4NWVLPatNqHoPgzt/tyamM/1HzGJ83ED5t97QP9aCRa7CmYLuR/8jVqpdIsoIps+EFwWix6c2FMHJ27gLdDnnZeJk+9fgf/Ht/K0dfqDQgpb9bJluT0mraPkL5Nqn5ppHIeCiJDbzILYTurERkVaYHQyYbIvvAFNCa2ZSuP2Gm2Z8E66o117YeY1cb6PimOIU+TAXTdw5qzHQxC+qUWSQADB2vo/ehupofJ7X6a4cw+CBt6pmipzY1Z0aU3BEONVJyQKMMvl926LN6yg2w==
+ bh=lywQCnwtN5i0GrZsjsC9JzNPVmqNFvhvCOfqC+CAi2E=;
+ b=bpksW0eh5kXnXHDhV+LVKyYX8UHgerdcpOJxXHQmjrCXTSoYPRP8sXJofMQxWJwbJ3C2sQgJghOBqIki5PH5RW8xxNyWYACcaxvmiiQVhfX7y4ob59GXlzgKiWISKvXVPzRtSKjJsfn2mw34maXXJqT9IJgXGMnGaTGmK3VpHqxFZJiUvNLx8W4IudlUxiJsJ6JQ1rVTXh4CzvDN7ImGh2u96E1tu5leuJImQP8O99wKCV0liVsR1NUgentWFaWzmVRdmF2Bhz/GiH7hZRY92tFXXsnnti7r1KjYIQMiERT+wMzN9M52H9pQ+jYjAz2WKLBokXh/N6F0skP//Gdzgw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,20 +31,22 @@ Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
  by CY5PR11MB6488.namprd11.prod.outlook.com (2603:10b6:930:30::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Thu, 29 Aug
- 2024 08:34:17 +0000
+ 2024 08:34:24 +0000
 Received: from PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc%4]) with mapi id 15.20.7918.019; Thu, 29 Aug 2024
- 08:34:17 +0000
+ 08:34:24 +0000
 From: Yash.Shinde@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
         Sundeep.Kokkonda@windriver.com, sunilkumar.dora@windriver.com,
         Yash.Shinde@windriver.com
-Subject: [PATCH v2 1/3] rust: Oe-selftest changes for rust v1.79
-Date: Thu, 29 Aug 2024 01:33:54 -0700
-Message-ID: <20240829083358.1277849-1-Yash.Shinde@windriver.com>
+Subject: [PATCH v2 3/3] zlib: Enable PIE for native builds
+Date: Thu, 29 Aug 2024 01:33:56 -0700
+Message-ID: <20240829083358.1277849-3-Yash.Shinde@windriver.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240829083358.1277849-1-Yash.Shinde@windriver.com>
+References: <20240829083358.1277849-1-Yash.Shinde@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: BY1P220CA0022.NAMP220.PROD.OUTLOOK.COM
@@ -53,598 +55,127 @@ X-ClientProxiedBy: BY1P220CA0022.NAMP220.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|CY5PR11MB6488:EE_
-X-MS-Office365-Filtering-Correlation-Id: fba6d633-1a50-4e57-0088-08dcc8055eb4
+X-MS-Office365-Filtering-Correlation-Id: ed4620e0-06c3-44c5-59db-08dcc805632d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?G4t98VdUAjQWIJnYJQQNnqXbVdphCUq+5xL6pzEzyX+T9+ZLlhqRQdQ0fUuc?=
- =?us-ascii?Q?/moyzvZDLhqYD/Vn8kKI37vgrWbUPjqQoEw4xSIq43hqaGfomlICRI+4xJUQ?=
- =?us-ascii?Q?bzmSMbCiZY1r1McJH5qn49LwTUP8dJZQxoNICmyMwJjc9x2H+RQq7iEyQXcu?=
- =?us-ascii?Q?QEZ2CjxrgBDgHTZQrVieyovgm6DipWVYT6tv8koFviHHcZ8IlnnxrhjrSdv/?=
- =?us-ascii?Q?u7as7/jb/yDgQJnsyUHcmQ8e7y7tO0XdzBlA003GLoHnnoOJYFye1oRBAUvS?=
- =?us-ascii?Q?bPJDU8gg1leuH4SlEUBh+CCoDAOarmjnc/oDb9DVQ5OM9gN9ecLLX3+7Z9Fz?=
- =?us-ascii?Q?psEPi/WtAXIxs/5stm9J3ITBPyH1VyZ7t7iZ0vwXuDepGJV7i55gNZVMfnQ/?=
- =?us-ascii?Q?8WcGNWTG5WxdCpay1BjXJEJaGcHoGRkCFYyomUBluzRmOXg8AEB49ZcXjWtP?=
- =?us-ascii?Q?PLBTMR8j1jlffb62YGLf6iuuD3XPaBfyKtkJmGIIr12dmFuNAJsbHOgZ06/U?=
- =?us-ascii?Q?D+QSWfGxXVlPMTQV4A1oVwM4yDcBFzqX7i7NyZdpKzKM8g+sZcX4aEqKvZcC?=
- =?us-ascii?Q?FcweKNt1zjRyN+8QEIwOs9HNgvWqLgsj/8qi2IxJk8NbU13fghTJ5VhUC1tk?=
- =?us-ascii?Q?UtQdG3Ecgyw7+sU6YWrbwUnN1fAFVGFDh5nZSZpNZczHNdyaqPD77hTuV13n?=
- =?us-ascii?Q?nlk/WTcejlvlAPxVevAP1tccaBOd8S+OTGQ7fSt/Lo/jzEeW8xbnIOfhg2c1?=
- =?us-ascii?Q?97OZq6xT5tLCPLQnjzQ9T6zmD2tzSxpthRVxs4MEuSHH4TujDQf55aPOe+aJ?=
- =?us-ascii?Q?Mwy3kfAlCzHkpXhbPMJOIQzComTwqsQXHkk5sOkg8pEGZad+xcHpLUFw2VGr?=
- =?us-ascii?Q?X7P6Bpd87gWJwhHjsl9P2fkVcaKlY14yCasPpxSL8u6Dcz5tcVO/e9cI5dAt?=
- =?us-ascii?Q?TPBSRlWH/AxO+5lnoq3a0B3Rvj2YvC423ob1tF5R5mvM1K76D4AXbTG6Xzsb?=
- =?us-ascii?Q?3CHVkofNpZh+3bnAuPGEmGq6wevRONKpp0T7AjE19Gue9vGeGIQEGZn0XzHk?=
- =?us-ascii?Q?OaNnQJDMOtNcWoGcNiy/nrvLmITvpCKzogXGjg1avMTgJSoO1YVZgMoNEiUS?=
- =?us-ascii?Q?de32wD86ax6/Nuw+LTQEC7bgztgtNOL08EFc98/NlHfo8w5UnllGnT3K72qc?=
- =?us-ascii?Q?OEux7hhEQgXN/1pDZKbUTKctin9Td0cmlwgRpwtcQAnDdEjaRd/SOxH4ZqWb?=
- =?us-ascii?Q?Z+tsrNiRcjSuk6APbPA3uRXbkeSadKk0txd8Z0tfoOMizrea/xB+1Xeol+wD?=
- =?us-ascii?Q?2RNL8VlLEImgNl2ontY/9xpAqv2KXH5uzIIeYawH2KVA9mnDYTTIxol/Qyws?=
- =?us-ascii?Q?V0nxiSj5WX0sw8fg968lJAY/nwWL2lK+JSY/zidSJJCHCE5Q3g=3D=3D?=
+	=?us-ascii?Q?gkydsl8/RHjj15ayI0GrLpOmi/s4KZbAfWxBvfqieW+tlRKiRY6EBtNtR7eQ?=
+ =?us-ascii?Q?OXSffvCNXzlywBp1p7FZZnaGDtS0LA6gAI20DL+bq3IokxHVIk9AP/w7YvIS?=
+ =?us-ascii?Q?vLr31z0Gd2KYK1/nmVExNf4nMNhXpnrYBxiPbgzCih0B3Hj2OlSXs0IIYggH?=
+ =?us-ascii?Q?JTjKC3StpQBDqi6g1oQG4+a22z3jE0fY+Juh3UlOY/B6NKiwsbWn8PyjZF2v?=
+ =?us-ascii?Q?7EK6Sv+PiCuCRGBR4fyl6EfjaPcZ62Ie+ajAs+xCPJ+YoCAEktIk1BsV2gvN?=
+ =?us-ascii?Q?BkncaCeDs8sx9x1c05nfwLwLZnnJ1i7t+0bxYSfCI+3asR+gcQFaF65muKTX?=
+ =?us-ascii?Q?T52xP2ECHEOEszOtfE8juWf57lQjh3dFLIjXDJ5SiYwMOmJ72odU7jElFHXL?=
+ =?us-ascii?Q?sK0zZ4znN42YfH0YmgCRNKySF7vAAk7MzRVZuxxAuxJ9iUHpA5AjlAPzU/Z1?=
+ =?us-ascii?Q?yga0KUTe56rPK7WJuqd1OBCdpnfuZ4EY2suILp1CHO4M2TTIk/lF0QepJMnH?=
+ =?us-ascii?Q?UhXGvttPqBP/W1XktBpKc6wQ16/33F6OtGHqUyLRbFXjl0H2GZ/NVL+eR0bF?=
+ =?us-ascii?Q?9NaszXmRtrjNJR2cEffhv4etSCxkm5GQV4P2GlzthFiuMYHmtWMvGnPPA3F5?=
+ =?us-ascii?Q?xy+XwXY5fnlxZ7bbv/vOHrl4xOKtyyPyVlKn7KY+Fq+UIbj93SB2hxJaHHDP?=
+ =?us-ascii?Q?+Xnn5maqJBXCVZWm17cSmoX6wBWqaPj5TD733qFCtQ/ha+hjD0iQMW67yaPx?=
+ =?us-ascii?Q?ZsmaO/Xn3PxQJlFsa02yOW3A+AKBwl1u8KLCOkIw3tM14aLVHVitF+HscgiX?=
+ =?us-ascii?Q?cTXrW6ItTgW5fi6202oDZKqNkQjS4aD9CyJ0xgta9HQRPArcx1gX4n66xfFC?=
+ =?us-ascii?Q?YbCB0QgfdKrIKX9yOS0GHevKcEm3xW2cy2X5eIXoywhXsSkHb3giBWGeOu3J?=
+ =?us-ascii?Q?HH3H20J72wul1Qh0RALCLJL+lfmDSmh69IkBYTgi37o7zKsKix5Vvwt1kDeC?=
+ =?us-ascii?Q?T7zIFMYVNJ5iAK2ObpnUC9zPC2Hpz4XT6K5wwHV0XkfAZeZhCS1LjFt+rQmr?=
+ =?us-ascii?Q?VF7K1hBtgmGPkIPEUm86r4vrFxMmKkAsDNRcEDxk8H6Skr9EQmLuYxTaOW3t?=
+ =?us-ascii?Q?/72NBgkGES0auwsbITLp9xqzhabqnJVeUpm4fo7d9du0d6+m3a0IKsCCmTEx?=
+ =?us-ascii?Q?HUJWk6KJtaCFB2pY/cXgFKDDpxR/BjdMwn/k8DmpnYjzyGk+we7HApEVFGAw?=
+ =?us-ascii?Q?fTsoaV1qtSWxSIFprUrIewCJSNMqgOPP4GXgkM2//z0Q0FAE3huSR/3dFGVX?=
+ =?us-ascii?Q?lD1BlWpS8UZhP+gWN5B83f42ipRKhbXphPJouDwGVT6bqzf+8AuDHxeWSdUr?=
+ =?us-ascii?Q?QZtVuQQ=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?DXnr0PEopA154faZbGJhw04ZHZB+gdQq60s8vDlyQZODIShQLE4s63NH25gS?=
- =?us-ascii?Q?6ySU07pzMIpUV41rbd9ZyCyaxgpz6nrOPiXg74ivutUpNxF9vs5vcHR/t1q+?=
- =?us-ascii?Q?vzaPHlqigNYw/20e0yJm37CHOLD7VQhxxDdAgQEPzeIPlWWozC9clXDtb9Jy?=
- =?us-ascii?Q?McfOYuBobAoWafjd+fBMS/uzrb/uqkFjI2Ur18Y6vz4g9owAG9q2fX09deKE?=
- =?us-ascii?Q?Yit8vBJVSk8CW8nZUrcATIie14NoO7bUe2mL5x3mBpyoIYW+v+Ve5DaEPP2v?=
- =?us-ascii?Q?r4eqB7yscO5JiosE4Kb1o2JJFvB36898M11hINWTkVTwOk/Ve4FsF0prz/gC?=
- =?us-ascii?Q?EBHREqPT99ZXASafMeUBwQCfkKtdpJ0REazYjTpuSp6nPs0KQ8eQc8jX98K3?=
- =?us-ascii?Q?K3+JA8TMs/rMJyg8OoqJK6FBI4Pb1hFEoSt1deBanzICf2KthnjOO5LogkHR?=
- =?us-ascii?Q?FO6liNEe/ThgMwZyiF1YbzW1q71Z0PvbSENvoULa54Ivkee367XR5Yd/aXjY?=
- =?us-ascii?Q?UFmU868LHNTb+CcXiv/9jGIHpl6LhCI1ZBZWyN/rswisCAZKaQO6qln1bMxB?=
- =?us-ascii?Q?uIvgCC3YqoWb7ZTOcJ05O0+xPyHCUBpRizUBVKEeq1kE+BBxygYQbVe/pkxs?=
- =?us-ascii?Q?hu2TSs46IUbsR6DJRpYdEW8YTQiLJp+rpHcZRT+sxqZgDXn8chUwEhmNIV1F?=
- =?us-ascii?Q?EEMbFxfb/qZ+WyR0f/sNr2/6PjRl7C4NOnc3fRRm/Wg5d+Z3iKlAPC8y5Erk?=
- =?us-ascii?Q?rsC8YKeKMqBi/Hr3nZVktsSjMnG3fqWGj8bRI9M/Gr03xwsFdb4QEt7dfw8T?=
- =?us-ascii?Q?fxVrQveB2KrxnRdR9vUFuiF02Ti7UVm7mzM7hyk3BCvB/qviT1hu7jxkWKOq?=
- =?us-ascii?Q?035V1EfGCjkuK6g/EXy/rOYywgSWW0k/IVrQ4917xb9/qv0sp/nVar9+iNmN?=
- =?us-ascii?Q?auFoYkvMVp0SPRTZeQye0bm14FOVHYBPQQlZgMwaIDd2wUyEZc+lg6KHb7r+?=
- =?us-ascii?Q?wXIJl8AjG3E6u+6d5+38yXs/UUR6X640CEBlgpk3PJAEW+mJs6qGgziyO8KO?=
- =?us-ascii?Q?kxy5EdrqQx4KoSFpHahw6H8xv0Ld+OcnArScm3Y4LIlOeCxe14yjhtbWO5v2?=
- =?us-ascii?Q?9dwwaMPXI+rhANVTiONlAuRulKsHOYJeR3oUk81WePkQri8SNwxmfm70tBPb?=
- =?us-ascii?Q?Tn1rmYBWfLhMx8qKfUUY5E+Qlgv1/7TTXsnizki0abPh1nb2y7TfoRTzm2gj?=
- =?us-ascii?Q?vI/zYo0I1BM04aa23XHzoCxS9sIHxgayBFfHn1xKr4dMwumVBSnO4NR5eRTC?=
- =?us-ascii?Q?37fMVHIoDOxvRYqdKuF3gFc8PZGgGdWA9maEJ+pw4/JkHt93F/gDDLWCLluX?=
- =?us-ascii?Q?bUn7h+bIVxU+7QRBjaZBjIfrjTdEXSA6EXwEbE8nM0O14T0Iw83VUj5gInoq?=
- =?us-ascii?Q?gisPOo7cvoSNdio2WXupn8/yKNZaCqU1HBBqQ0uqhPLdV+rGhLM3cahwGTdU?=
- =?us-ascii?Q?pIRLnRhXFLZ3OYa3q4z1NnBlz74TBGQkmtnSuy5MwYyS2nE+XIUdOeQBSojA?=
- =?us-ascii?Q?GxtOrQFqW6F3C4cEFBvFh77vUnxKcT4BJRj5/JFOcLg+QGXrTZQtJaF8Rh6E?=
- =?us-ascii?Q?5w=3D=3D?=
+	=?us-ascii?Q?K0LIu9Jh/2Y2Cp1ns3Er2CJsjruU5Pkp9AeRjPolI0n4eZn37UJ0LLMnleUX?=
+ =?us-ascii?Q?Aqkc/ooiZaWWlmgLsU0R9V4hKGXd+oHwLIwiluU3XAtro7J1Y3JzkOtFJvrz?=
+ =?us-ascii?Q?LbFgsfJtkCo7FK+ExesAxmLBAELqQLj6whvPBXFI4VwpTxixvOsAKlmS2eSW?=
+ =?us-ascii?Q?D/egT23WWcWapdtIbi7DpjJze8eLaqXbQiDOexj41Rtey2dka6oqtFPdn1sd?=
+ =?us-ascii?Q?92wPixtbeyPtWGQieQyl7MP5LeebwG+JY5DYIoRCwdOPWiQm9nTsVg0iPCvJ?=
+ =?us-ascii?Q?X9scLHEogizuGAtDvGE2RL0sZJrNcunMom2Govsh39lxkv/XR/bnFvv+nKEB?=
+ =?us-ascii?Q?xdSy93wYtPz04O9kws5TtaTllbG5gdAO9mqC4AvuSWAh+fiAFwOIbvlJFbDR?=
+ =?us-ascii?Q?a9ix+IoOxA8Hjo8P64hEtRkfthW3qqP06oSDEkdh41MSIsncBetlVVnVNTVR?=
+ =?us-ascii?Q?t5kEI+xohFqce8XcLtOae7TpRSnzEHfTkLT1lyGMwnT6m/SDwhkErw3dHAVA?=
+ =?us-ascii?Q?LDPWhJclJr2DSA+m+99icM8VCvQcNGus873RkJPGHiXtlbVKozeauGgj/Kh/?=
+ =?us-ascii?Q?pfUN/sQlA1Eidf+QrMIXiye9PZL1WpN9GKyl3bDQ+6xP0nCbEuq7q4FMSzpq?=
+ =?us-ascii?Q?7INJq15RL2B2wlPTi/jyW84YKMtpEjRNrgxxvIUVvkxjeXTAontishRbmB+P?=
+ =?us-ascii?Q?sWvm1rueP7VzJSuonr3FMY4t2zXnGSTpekwMOse3fPjFxwym/Nt5O1X11gAy?=
+ =?us-ascii?Q?b24How/MXzSZGUwmq5IQekpmVQ/+TNd0Xq3WdX9O6NswxFrbwURjT6daefsj?=
+ =?us-ascii?Q?k9cnqFEEWjLqsX6AWn/KvRyberMD4Oab7rR2GC8iv7lo5lVos5Os/NsZcgGj?=
+ =?us-ascii?Q?eGX1NAZA9nKHB7XtMPWGMkWxKVvY7iKlxuHxveq2bFG94yPzM2xmdkpU3cBH?=
+ =?us-ascii?Q?s/pYCKNoXmYZKO3Jhb/nuBykk7/yPOJ+WNVh5cGqFvV8XIBqf1GVAA9mW8di?=
+ =?us-ascii?Q?eCj8PwfXvaqNAY6DixBMwOerHKa3OWxKakdI2lgfn8033BLrJxq8IbAj1Lqo?=
+ =?us-ascii?Q?n51BlF81ZMuX++zlo3zCAsjh9gMabjt0u4MuDoWUTmYLnRhw3k+uYW/UeVTk?=
+ =?us-ascii?Q?SnrCaq71GJVoBNpb9yMwxkxZb8agD7gMfTrpMMYjoIq+rBOf6FrWALwg3evv?=
+ =?us-ascii?Q?9y7NK8JEOWaOugTwAQhGGE4zHE/5PodIIfi0DGLxM75gREea0JrBz76DtWR4?=
+ =?us-ascii?Q?zrKYYHyy6po0f+9UXyulAHADt5UUEwj/NY58Z+F01MYL7CJcYftzKJPtrpL/?=
+ =?us-ascii?Q?6uKv+bcWIVkplV7MbCfnJbvYHuKrsLsDtsTFuu27ojVYgW2jW4xsYyczumob?=
+ =?us-ascii?Q?tXKgz2nSw0u6lWPGwKyckgNhqPKV5If5BS6sIryF4mVAPRgL+8xLgtVI0Dqg?=
+ =?us-ascii?Q?UBjP8H+EkQrrE0b7MVxM3/tvENtd4QSDm7JnaxG9u3VQQR6RL1bw2gsqVJbY?=
+ =?us-ascii?Q?LPls2zFSLeVV1bAUhvBwcWMI8t63tOB0u79+Vww/7Qceoe5WiKOsj9CM5RE1?=
+ =?us-ascii?Q?2wOLuPj+PZS5fFEcwik6jAIWAxwY0RsJ0/eOvqTdoRlI5SJ2SII3M0JyT7Hm?=
+ =?us-ascii?Q?NA=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fba6d633-1a50-4e57-0088-08dcc8055eb4
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed4620e0-06c3-44c5-59db-08dcc805632d
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 08:34:17.0470
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2024 08:34:24.5612
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TPjhGarG66CUNlh1m2t0XjhLuhfO14K/WcnV5NrjbvOfepEQos749aIpVSaexSA7JWxtmxJsXCG6AGBFjQ9mz7b2LQYu97qh3zKYwiViHP4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: t3A7zdgVMd0BCzYdDNPdAsXqRO3QkYJ2BeNRsc6m0/QfI3YZKg5x2wuOXzsciDEFszchaNaZdC5AJbNMEwT/6tqm6JzxtHbGm+Brhg8wJBM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6488
-X-Proofpoint-GUID: Le0sugUE9eiY0bQSSZI1BPxSB3ogHd7K
-X-Proofpoint-ORIG-GUID: Le0sugUE9eiY0bQSSZI1BPxSB3ogHd7K
-X-Authority-Analysis: v=2.4 cv=K8RwHDWI c=1 sm=1 tr=0 ts=66d0328c cx=c_pps a=OemXRkCljtmPz/OzEC+nkg==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=rL-gzRcho55yBmN0qZkA:9
- a=FdTzh2GWekK77mhwV6Dw:22
+X-Authority-Analysis: v=2.4 cv=LP40Q4W9 c=1 sm=1 tr=0 ts=66d03292 cx=c_pps a=O5U4z+bWMBJw47+h9fOlNw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yoJbH4e0A30A:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=iGHA9ds3AAAA:8 a=fXms6y0vAAAA:8
+ a=VLjez1e5HMl46yPGfmAA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=c6Zb8eaUoX5VaqycxFvw:22
+X-Proofpoint-ORIG-GUID: vumda1XZVD3lpGCosFuG9hmW5q-zJRa_
+X-Proofpoint-GUID: vumda1XZVD3lpGCosFuG9hmW5q-zJRa_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-29_02,2024-08-29_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 spamscore=0 clxscore=1015 mlxlogscore=999 lowpriorityscore=0
- suspectscore=0 malwarescore=0 impostorscore=0 mlxscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ phishscore=0 impostorscore=0 mlxlogscore=795 spamscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.21.0-2407110000 definitions=main-2408290063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 08:34:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203902
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 08:34:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203903
 
 From: Yash Shinde <Yash.Shinde@windriver.com>
 
-* Sort the exclude list in alphabetical order.
+The zlib crate in rust uses libz.a which comes from the zlib-native build.
+Some distros like alma9, fedora etc. do not have PIE enabled by default for system compiler.
 
-* Add some of the upsupported/failing tests to the exclude list
-  and ignore the failing unit tests.
+This leads to target-rust-ccld linking error for cargo-native as (line no 22936):
+error: linking with `/home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/cargo-native/1.79.0/wrapper/target-rust-ccld` failed: exit status: 1
 
-* Remove duplicated tests from the exclude list.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/9385/steps/13/logs/stdio
 
-* Testing summary
-    Target                PASS                    SKIPPED
-
-    ARM                   17241                    599
-    ARM64                 17279                    561
-    MIPS64                17228                    612
-    PPC                   17194                    629
-    X86                   17257                    583
-    X86-64                17416                    424
+Hence, enable PIE option to CFLAGS for native builds.
 
 Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/rust.py          | 170 +++++++++---------
- .../rust/files/rust-oe-selftest.patch         |  69 ++++---
- 2 files changed, 122 insertions(+), 117 deletions(-)
+ meta/recipes-core/zlib/zlib_1.3.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index aa5814eccf..09487e3e23 100644
---- a/meta/lib/oeqa/selftest/cases/rust.py
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -67,10 +67,21 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-         # then runs tidy checks.
-         exclude_list =  [
-                             'compiler/rustc',
-+                            'compiler/rustc_errors/src/markdown/tests/term.rs',
-+                            'compiler/rustc_expand',
-                             'compiler/rustc_interface/src/tests.rs',
-+                            'compiler/rustc_span',
-                             'library/panic_abort',
-                             'library/panic_unwind',
-+                            'library/std/src/io/buffered/tests.rs',
-+                            'library/std/src/io/stdio/tests.rs',
-+                            'library/std/src/sync/mpsc/sync_tests.rs',
-+                            'library/std/src/sync/mpsc/tests.rs',
-+                            'library/std/src/sync/mutex/tests.rs',
-+                            'library/std/src/sync/rwlock/tests.rs',
-+                            'library/std/src/thread/tests.rs',
-                             'library/test/src/stats/tests.rs',
-+                            'src/bootstrap',
-                             'src/bootstrap/builder/tests.rs',
-                             'src/doc/rustc',
-                             'src/doc/rustdoc',
-@@ -78,39 +89,100 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-                             'src/librustdoc',
-                             'src/rustdoc-json-types',
-                             'src/tools/compiletest/src/common.rs',
-+                            'src/tools/jsondoclint',
-                             'src/tools/lint-docs',
-+                            'src/tools/replace-version-placeholder',
-                             'src/tools/rust-analyzer',
-                             'src/tools/rustdoc-themes',
-+                            'src/tools/rust-installer',
-+                            'src/tools/suggest-tests',
-                             'src/tools/tidy',
-+                            'src/tools/tidy/src/',
-                             'tests/assembly/asm/aarch64-outline-atomics.rs',
-+                            'tests/codegen/abi-efiapi.rs',
-                             'tests/codegen/abi-main-signature-32bit-c-int.rs',
-                             'tests/codegen/abi-repr-ext.rs',
-+                            'tests/codegen/abi-sysv64.rs',
-                             'tests/codegen/abi-x86-interrupt.rs',
-+                            'tests/codegen/adjustments.rs',
-+                            'tests/codegen/align-byval.rs',
-+                            'tests/codegen/align-fn.rs',
-+                            'tests/codegen/ascii-char.rs',
-+                            'tests/codegen/asm-powerpc-clobbers.rs',
-+                            'tests/codegen/async-fn-debug-awaitee-field.rs',
-+                            'tests/codegen/binary-search-index-no-bound-check.rs',
-+                            'tests/codegen/bool-cmp.rs',
-                             'tests/codegen/branch-protection.rs',
-+                            'tests/codegen/call-metadata.rs',
-                             'tests/codegen/catch-unwind.rs',
-                             'tests/codegen/cf-protection.rs',
-+                            'tests/codegen/coercions.rs',
-+                            'tests/codegen/cold-call-declare-and-call.rs',
-+                            'tests/codegen/common_prim_int_ptr.rs',
-+                            'tests/codegen/const_scalar_pair.rs',
-+                            'tests/codegen/consts.rs',
-+                            'tests/codegen/debug-accessibility/public-enum.rs',
-+                            'tests/codegen/debug-accessibility/tuple-fields.rs',
-+                            'tests/codegen/debug-alignment.rs',
-+                            'tests/codegen/debug-column.rs',
-+                            'tests/codegen/debuginfo-generic-closure-env-names.rs',
-+                            'tests/codegen/debuginfo-inline-callsite-location.rs',
-+                            'tests/codegen/debug-limited.rs',
-+                            'tests/codegen/default-requires-uwtable.rs',
-+                            'tests/codegen/drop.rs',
-+                            'tests/codegen/dst-vtable-align-nonzero.rs',
-+                            'tests/codegen/enable-lto-unit-splitting.rs',
-                             'tests/codegen/enum-bounds-check-derived-idx.rs',
-+                            'tests/codegen/enum/enum-bounds-check.rs',
-+                            'tests/codegen/enum/enum-debug-tagged.rs',
-+                            'tests/codegen/enum/enum-u128.rs',
-+                            'tests/codegen/export-no-mangle.rs',
-+                            'tests/codegen/fastcall-inreg.rs',
-+                            'tests/codegen/float_math.rs',
-+                            'tests/codegen/fn-impl-trait-self.rs',
-                             'tests/codegen/force-unwind-tables.rs',
-+                            'tests/codegen/frame-pointer.rs',
-+                            'tests/codegen/i128-x86-align.rs',
-+                            'tests/codegen/inherit_overflow.rs',
-+                            'tests/codegen/inline-function-args-debug-info.rs',
-                             'tests/codegen/intrinsic-no-unnamed-attr.rs',
-+                            'tests/codegen/intrinsics/mask.rs',
-+                            'tests/codegen/intrinsics/transmute-niched.rs',
-+                            'tests/codegen/issues',
-                             'tests/codegen/issues/issue-103840.rs',
-+                            'tests/codegen/issues/issue-122805.rs',
-                             'tests/codegen/issues/issue-47278.rs',
-+                            'tests/codegen/issues/issue-73258.rs',
-                             'tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs',
-+                            'tests/codegen/issues/issue-75546.rs',
-+                            'tests/codegen/issues/issue-77812.rs',
-+                            'tests/codegen/issues/issue-98156-const-arg-temp-lifetime.rs',
-                             'tests/codegen/lifetime_start_end.rs',
-+                            'tests/codegen/llvm-ident.rs',
-                             'tests/codegen/local-generics-in-exe-internalized.rs',
-+                            'tests/codegen/macos/x86_64-macosx-deployment-target.rs',
-+                            'tests/codegen/mainsubprogram.rs',
-                             'tests/codegen/match-unoptimized.rs',
-+                            'tests/codegen/meta-filecheck/check-prefix.rs',
-+                            'tests/codegen/meta-filecheck/filecheck-flags.rs',
-+                            'tests/codegen/move-operands.rs',
-                             'tests/codegen/noalias-rwlockreadguard.rs',
-+                            'tests/codegen/non-terminate/infinite-loop-1.rs',
-                             'tests/codegen/non-terminate/nonempty-infinite-loop.rs',
-                             'tests/codegen/noreturn-uninhabited.rs',
-                             'tests/codegen/repr-transparent-aggregates-3.rs',
-+                            'tests/codegen/repr/transparent-mips64.rs',
-                             'tests/codegen/riscv-abi/call-llvm-intrinsics.rs',
--                            'tests/codegen/riscv-abi/riscv64-lp64f-lp64d-abi.rs',
-                             'tests/codegen/riscv-abi/riscv64-lp64d-abi.rs',
-+                            'tests/codegen/riscv-abi/riscv64-lp64f-lp64d-abi.rs',
-                             'tests/codegen/sse42-implies-crc32.rs',
-                             'tests/codegen/thread-local.rs',
-                             'tests/codegen/uninit-consts.rs',
-+                            'tests/mir-opt/',
-                             'tests/pretty/raw-str-nonexpr.rs',
-                             'tests/run-make',
-                             'tests/run-make-fulldeps',
-+                            'tests/run-pass-valgrind',
-                             'tests/rustdoc',
-                             'tests/rustdoc-json',
-                             'tests/rustdoc-js-std',
-@@ -133,111 +205,33 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-                             'tests/rustdoc-ui/test-no_std.rs',
-                             'tests/rustdoc-ui/test-type.rs',
-                             'tests/rustdoc/unit-return.rs',
-+                            'tests/ui/abi/extern',
-                             'tests/ui/abi/stack-probes-lto.rs',
-                             'tests/ui/abi/stack-probes.rs',
-+                            'tests/ui/allocator',
-+                            'tests/ui/array-slice-vec',
-                             'tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs',
-                             'tests/ui/asm/x86_64/sym.rs',
-+                            'tests/ui/associated-consts',
-                             'tests/ui/associated-type-bounds/fn-apit.rs',
-                             'tests/ui/associated-type-bounds/fn-dyn-apit.rs',
-                             'tests/ui/associated-type-bounds/fn-wrap-apit.rs',
-+                            'tests/ui/associated-types',
-+                            'tests/ui/codegen/mismatched-data-layouts.rs',
-                             'tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs',
-                             'tests/ui/drop/dynamic-drop.rs',
-                             'tests/ui/empty_global_asm.rs',
-+                            'tests/ui-fulldeps/',
-                             'tests/ui/functions-closures/fn-help-with-err.rs',
-                             'tests/ui/linkage-attr/issue-10755.rs',
-                             'tests/ui/macros/restricted-shadowing-legacy.rs',
-+                            'tests/ui/numbers-arithmetic/u128.rs',
-                             'tests/ui/process/nofile-limit.rs',
-                             'tests/ui/process/process-panic-after-fork.rs',
-                             'tests/ui/process/process-sigpipe.rs',
-                             'tests/ui/simd/target-feature-mixup.rs',
-                             'tests/ui/structs-enums/multiple-reprs.rs',
--                            'src/tools/jsondoclint',
--                            'src/tools/replace-version-placeholder',
--                            'tests/codegen/abi-efiapi.rs',
--                            'tests/codegen/abi-sysv64.rs',
--                            'tests/codegen/align-byval.rs',
--                            'tests/codegen/align-fn.rs',
--                            'tests/codegen/asm-powerpc-clobbers.rs',
--                            'tests/codegen/async-fn-debug-awaitee-field.rs',
--                            'tests/codegen/binary-search-index-no-bound-check.rs',
--                            'tests/codegen/call-metadata.rs',
--                            'tests/codegen/debug-column.rs',
--                            'tests/codegen/debug-limited.rs',
--                            'tests/codegen/debuginfo-generic-closure-env-names.rs',
--                            'tests/codegen/drop.rs',
--                            'tests/codegen/dst-vtable-align-nonzero.rs',
--                            'tests/codegen/enable-lto-unit-splitting.rs',
--                            'tests/codegen/enum/enum-u128.rs',
--                            'tests/codegen/fn-impl-trait-self.rs',
--                            'tests/codegen/inherit_overflow.rs',
--                            'tests/codegen/inline-function-args-debug-info.rs',
--                            'tests/codegen/intrinsics/mask.rs',
--                            'tests/codegen/intrinsics/transmute-niched.rs',
--                            'tests/codegen/issues/issue-73258.rs',
--                            'tests/codegen/issues/issue-75546.rs',
--                            'tests/codegen/issues/issue-77812.rs',
--                            'tests/codegen/issues/issue-98156-const-arg-temp-lifetime.rs',
--                            'tests/codegen/llvm-ident.rs',
--                            'tests/codegen/mainsubprogram.rs',
--                            'tests/codegen/move-operands.rs',
--                            'tests/codegen/repr/transparent-mips64.rs',
--                            'tests/mir-opt/',
--                            'tests/rustdoc-json',
--                            'tests/rustdoc-ui/doc-test-rustdoc-feature.rs',
--                            'tests/rustdoc-ui/no-run-flag.rs',
--                            'tests/ui-fulldeps/',
--                            'tests/ui/numbers-arithmetic/u128.rs'
--                            'tests/run-pass-valgrind',
--                            'tests/ui/codegen/mismatched-data-layouts.rs',
--                            'tests/codegen/i128-x86-align.rs',
--                            'src/tools/suggest-tests',
--                            'src/tools/rust-installer',
--                            'src/bootstrap',
--                            'src/tools/tidy/src/',
--                            'library/std/src/thread/tests.rs',
--                            'compiler/rustc_errors/src/markdown/tests/term.rs',
--                            'compiler/rustc_interface/src/tests.rs',
--                            'library/std/src/io/buffered/tests.rs',
--                            'library/std/src/io/stdio/tests.rs',
--                            'library/std/src/sync/mpsc/sync_tests.rs',
--                            'library/std/src/sync/mpsc/tests.rs',
--                            'library/std/src/sync/mutex/tests.rs',
--                            'library/std/src/sync/rwlock/tests.rs',
--                            'library/std/src/thread/tests.rs',
--                            'library/test/src/stats/tests.rs',
--                            'tidyselftest',
--                            'compiler/rustc_span',
--                            'compiler/rustc_expand',
--                            'tests/ui/array-slice-vec',
--                            'tests/ui/associated-consts',
--                            'tests/ui/associated-types',
--                            'tests/ui/allocator',
--                            'tests/ui/abi/extern',
--                            'tests/codegen/non-terminate/infinite-loop-1.rs',
--                            'tests/codegen/coercions.rs',
--                            'tests/codegen/const_scalar_pair.rs',
--                            'tests/codegen/cold-call-declare-and-call.rs',
--                            'tests/codegen/issues',
--                            'tests/codegen/bool-cmp.rs',
--                            'tests/codegen/ascii-char.rs',
--                            'tests/codegen/frame-pointer.rs',
--                            'tests/codegen/common_prim_int_ptr.rs',
--                            'tests/codegen/default-requires-uwtable.rs',
--                            'tests/codegen/debug-accessibility/public-enum.rs',
--                            'tests/codegen/meta-filecheck/filecheck-flags.rs',
--                            'tests/codegen/float_math.rs',
--                            'tests/codegen/debug-accessibility/tuple-fields.rs',
--                            'tests/codegen/consts.rs',
--                            'tests/codegen/enum/enum-bounds-check.rs',
--                            'tests/codegen/debug-alignment.rs',
--                            'tests/codegen/export-no-mangle.rs',
--                            'tests/codegen/fastcall-inreg.rs',
--                            'tests/codegen/debuginfo-inline-callsite-location.rs',
--                            'tests/codegen/enum/enum-debug-tagged.rs',
--                            'tests/codegen/adjustments.rs',
--                            'tests/codegen/macos/x86_64-macosx-deployment-target.rs',
--                            'tests/codegen/frame-pointer.rs',
--                            'tests/codegen/meta-filecheck/check-prefix.rs'
-+                            'tidyselftest'
-                         ]
+diff --git a/meta/recipes-core/zlib/zlib_1.3.1.bb b/meta/recipes-core/zlib/zlib_1.3.1.bb
+index 486431dfff..e62c50c5df 100644
+--- a/meta/recipes-core/zlib/zlib_1.3.1.bb
++++ b/meta/recipes-core/zlib/zlib_1.3.1.bb
+@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b
+ # to PREMIRRORS so it is also searched automatically.
+ PREMIRRORS:append = " https://zlib.net/ https://zlib.net/fossils/"
  
-         exclude_fail_tests = " ".join([" --exclude " + item for item in exclude_list])
-diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-index a69c1e5237..01c3634d9f 100644
---- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-+++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-@@ -8,7 +8,7 @@ Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
- diff --git a/compiler/rustc_errors/src/markdown/tests/term.rs b/compiler/rustc_errors/src/markdown/tests/term.rs
- --- a/compiler/rustc_errors/src/markdown/tests/term.rs
- +++ b/compiler/rustc_errors/src/markdown/tests/term.rs
--@@ -60,6 +60,7 @@
-+@@ -61,6 +61,7 @@ fn test_wrapping_write() {
-  }
+-CFLAGS += "-D_REENTRANT"
++CFLAGS += "-D_REENTRANT -fPIE"
  
-  #[test]
-@@ -19,31 +19,30 @@ diff --git a/compiler/rustc_errors/src/markdown/tests/term.rs b/compiler/rustc_e
- diff --git a/compiler/rustc_interface/src/tests.rs b/compiler/rustc_interface/src/tests.rs
- --- a/compiler/rustc_interface/src/tests.rs
- +++ b/compiler/rustc_interface/src/tests.rs
--@@ -116,6 +116,7 @@
-+@@ -137,6 +137,7 @@ fn assert_non_crate_hash_different(x: &Options, y: &Options) {
+ RDEPENDS:${PN}-ptest += "make"
  
-  // When the user supplies --test we should implicitly supply --cfg test
-  #[test]
- +#[ignore]
-  fn test_switch_implies_cfg_test() {
--     rustc_span::create_default_session_globals_then(|| {
--         let matches = optgroups().parse(&["--test".to_string()]).unwrap();
--@@ -127,6 +128,7 @@
-+     sess_and_cfg(&["--test"], |_sess, cfg| {
-+         assert!(cfg.contains(&(sym::test, None)));
-+@@ -145,6 +146,7 @@ fn test_switch_implies_cfg_test() {
- 
-  // When the user supplies --test and --cfg test, don't implicitly add another --cfg test
-  #[test]
- +#[ignore]
-  fn test_switch_implies_cfg_test_unless_cfg_test() {
--     rustc_span::create_default_session_globals_then(|| {
--         let matches = optgroups().parse(&["--test".to_string(), "--cfg=test".to_string()]).unwrap();
--@@ -139,6 +141,7 @@
-+     sess_and_cfg(&["--test", "--cfg=test"], |_sess, cfg| {
-+         let mut test_items = cfg.iter().filter(|&&(name, _)| name == sym::test);
-+@@ -154,6 +156,7 @@ fn test_switch_implies_cfg_test_unless_cfg_test() {
-  }
- 
-  #[test]
- +#[ignore]
-  fn test_can_print_warnings() {
--     rustc_span::create_default_session_globals_then(|| {
--         let matches = optgroups().parse(&["-Awarnings".to_string()]).unwrap();
--
-+     sess_and_cfg(&["-Awarnings"], |sess, _cfg| {
-+         assert!(!sess.dcx().can_emit_warnings());
- diff --git a/library/test/src/stats/tests.rs b/library/test/src/stats/tests.rs
- --- a/library/test/src/stats/tests.rs
- +++ b/library/test/src/stats/tests.rs
-@@ -59,7 +58,7 @@ diff --git a/library/std/src/io/buffered/tests.rs b/library/std/src/io/buffered/
- index 35a5291a347..5f2858d2505 100644
- --- a/library/std/src/io/buffered/tests.rs
- +++ b/library/std/src/io/buffered/tests.rs
--@@ -485,6 +485,7 @@ fn flush(&mut self) -> io::Result<()> {
-+@@ -488,6 +488,7 @@ fn flush(&mut self) -> io::Result<()> {
-  }
- 
-  #[test]
-@@ -187,7 +186,7 @@ index 1786a3c09ff..9dcead7092b 100644
-  fn test_mutex_arc_poison() {
-      let arc = Arc::new(Mutex::new(1));
-      assert!(!arc.is_poisoned());
--@@ -205,6 +209,7 @@ fn test_mutex_arc_nested() {
-+@@ -220,6 +220,7 @@ fn test_mutex_arc_nested() {
-  }
- 
-  #[test]
-@@ -199,7 +198,7 @@ diff --git a/library/std/src/sync/rwlock/tests.rs b/library/std/src/sync/rwlock/
- index 1a9d3d3f12f..0a9cfc48806 100644
- --- a/library/std/src/sync/rwlock/tests.rs
- +++ b/library/std/src/sync/rwlock/tests.rs
--@@ -44,6 +44,7 @@ fn frob() {
-+@@ -47,6 +47,7 @@ fn frob() {
-  }
- 
-  #[test]
-@@ -207,7 +206,7 @@ index 1a9d3d3f12f..0a9cfc48806 100644
-  fn test_rw_arc_poison_wr() {
-      let arc = Arc::new(RwLock::new(1));
-      let arc2 = arc.clone();
--@@ -56,6 +57,7 @@ fn test_rw_arc_poison_wr() {
-+@@ -72,6 +73,7 @@ fn test_rw_arc_poison_mapped_w_r() {
-  }
- 
-  #[test]
-@@ -215,7 +214,7 @@ index 1a9d3d3f12f..0a9cfc48806 100644
-  fn test_rw_arc_poison_ww() {
-      let arc = Arc::new(RwLock::new(1));
-      assert!(!arc.is_poisoned());
--@@ -70,6 +72,7 @@ fn test_rw_arc_poison_ww() {
-+@@ -100,6 +102,7 @@ fn test_rw_arc_poison_mapped_w_w() {
-  }
- 
-  #[test]
-@@ -223,7 +222,7 @@ index 1a9d3d3f12f..0a9cfc48806 100644
-  fn test_rw_arc_no_poison_rr() {
-      let arc = Arc::new(RwLock::new(1));
-      let arc2 = arc.clone();
--@@ -127,6 +127,7 @@
-+@@ -127,6 +130,7 @@ fn test_rw_arc_no_poison_mapped_r_r() {
-  }
- 
-  #[test]
-@@ -231,7 +230,7 @@ index 1a9d3d3f12f..0a9cfc48806 100644
-  fn test_rw_arc_no_poison_rw() {
-      let arc = Arc::new(RwLock::new(1));
-      let arc2 = arc.clone();
--@@ -133,6 +137,7 @@ fn test_rw_arc() {
-+@@ -192,6 +196,7 @@ fn test_rw_arc() {
-  }
- 
-  #[test]
-@@ -239,7 +238,7 @@ index 1a9d3d3f12f..0a9cfc48806 100644
-  fn test_rw_arc_access_in_unwind() {
-      let arc = Arc::new(RwLock::new(1));
-      let arc2 = arc.clone();
--@@ -206,6 +211,7 @@ fn drop(&mut self) {
-+@@ -275,6 +280,7 @@ fn drop(&mut self) {
-  }
- 
-  #[test]
-@@ -247,7 +246,7 @@ index 1a9d3d3f12f..0a9cfc48806 100644
-  fn test_into_inner_poison() {
-      let m = Arc::new(RwLock::new(NonCopy(10)));
-      let m2 = m.clone();
--@@ -230,6 +236,7 @@ fn test_get_mut() {
-+@@ -299,6 +305,7 @@ fn test_get_mut() {
-  }
- 
-  #[test]
-@@ -279,7 +278,7 @@ diff --git a/library/std/src/thread/tests.rs b/library/std/src/thread/tests.rs
- index 5d6b9e94ee9..a5aacb2eb87 100644
- --- a/library/std/src/thread/tests.rs
- +++ b/library/std/src/thread/tests.rs
--@@ -115,6 +115,7 @@ fn test_is_finished() {
-+@@ -116,6 +116,7 @@ fn test_is_finished() {
-  }
- 
-  #[test]
-@@ -287,7 +286,7 @@ index 5d6b9e94ee9..a5aacb2eb87 100644
-  fn test_join_panic() {
-      match thread::spawn(move || panic!()).join() {
-          result::Result::Err(_) => (),
--@@ -217,6 +218,7 @@ fn test_simple_newsched_spawn() {
-+@@ -218,6 +219,7 @@ fn test_simple_newsched_spawn() {
-  }
- 
-  #[test]
-@@ -295,7 +294,7 @@ index 5d6b9e94ee9..a5aacb2eb87 100644
-  fn test_try_panic_message_string_literal() {
-      match thread::spawn(move || {
-          panic!("static string");
--@@ -233,6 +235,7 @@ fn test_try_panic_message_string_literal() {
-+@@ -234,6 +236,7 @@ fn test_try_panic_message_string_literal() {
-  }
- 
-  #[test]
-@@ -303,7 +302,7 @@ index 5d6b9e94ee9..a5aacb2eb87 100644
-  fn test_try_panic_any_message_owned_str() {
-      match thread::spawn(move || {
-          panic_any("owned string".to_string());
--@@ -249,6 +252,7 @@ fn test_try_panic_any_message_owned_str() {
-+@@ -250,6 +253,7 @@ fn test_try_panic_any_message_owned_str() {
-  }
- 
-  #[test]
-@@ -311,7 +310,7 @@ index 5d6b9e94ee9..a5aacb2eb87 100644
-  fn test_try_panic_any_message_any() {
-      match thread::spawn(move || {
-          panic_any(Box::new(413u16) as Box<dyn Any + Send>);
--@@ -267,6 +271,7 @@ fn test_try_panic_any_message_any() {
-+@@ -268,6 +272,7 @@ fn test_try_panic_any_message_any() {
-  }
- 
-  #[test]
-@@ -363,10 +362,10 @@ diff --git a/library/std/src/sync/mutex/tests.rs b/library/std/src/sync/mutex/te
-  fn panic_while_mapping_unlocked_poison() {
-      let lock = Mutex::new(());
- 
--diff --git a/
-+diff --git a/library/std/src/sync/rwlock/tests.rs b/library/std/src/sync/rwlock/tests.rs
- --- a/library/std/src/sync/rwlock/tests.rs
- +++ b/library/std/src/sync/rwlock/tests.rs
--@@ -60,6 +60,7 @@
-+@@ -59,6 +59,7 @@ fn test_rw_arc_poison_wr() {
-  }
- 
-  #[test]
-@@ -374,7 +373,7 @@ diff --git a/
-  fn test_rw_arc_poison_mapped_w_r() {
-      let arc = Arc::new(RwLock::new(1));
-      let arc2 = arc.clone();
--@@ -88,6 +89,7 @@
-+@@ -86,6 +87,7 @@ fn test_rw_arc_poison_ww() {
-  }
- 
-  #[test]
-@@ -382,7 +381,7 @@ diff --git a/
-  fn test_rw_arc_poison_mapped_w_w() {
-      let arc = Arc::new(RwLock::new(1));
-      let arc2 = arc.clone();
--@@ -438,6 +440,7 @@
-+@@ -431,6 +433,7 @@ fn panic_while_mapping_read_unlocked_no_poison() {
-  }
- 
-  #[test]
-@@ -390,3 +389,15 @@ diff --git a/
-  fn panic_while_mapping_write_unlocked_poison() {
-      let lock = RwLock::new(());
- 
-+diff --git a/library/core/benches/num/int_log/mod.rs b/library/core/benches/num/int_log/mod.rs
-+index 3807cd5d76c..018c5c04456 100644
-+--- a/library/core/benches/num/int_log/mod.rs
-++++ b/library/core/benches/num/int_log/mod.rs
-+@@ -98,6 +98,7 @@ fn $random_small(bench: &mut Bencher) {
-+         }
-+
-+         #[bench]
-++        #[ignore]
-+         fn $geometric(bench: &mut Bencher) {
-+             let bases: [$t; 16] = [2, 3, 4, 5, 7, 8, 9, 15, 16, 17, 31, 32, 33, 63, 64, 65];
-+             let base_and_numbers: Vec<($t, Vec<$t>)> = bases
 -- 
 2.43.0
 
