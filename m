@@ -1,143 +1,93 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43445C83F26
-	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 13:41:15 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web11.15829.1724938865898692224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70ABDC83F2C
+	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 14:11:35 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web11.17153.1724940686302896336
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 06:41:06 -0700
+ Thu, 29 Aug 2024 07:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=MPNXpvNf;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.48, mailfrom: jdmason@kudzu.us)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2704b6a6fe6so370251fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:41:05 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=l2/4J8i/;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.169, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7a35eff1d06so48210685a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 07:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1724938865; x=1725543665; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rixkchsHQlIkG1V7o6zlImWGKNdzpfRptYurFYloLBc=;
-        b=MPNXpvNfcwaRIo4h5ccRawN6Zp8RBlIH0vuB54ALbWvYl2B+C4AceQuuiSgI1VYw7U
-         zcSGSCGQpFy6rjiiXMv2b4VaQehrOK3K5yoHiR6vdHelkMxvNs2LEYq6+ZM4c0dhMSNA
-         8SGyGIybu9F3UhsBZn8zStstf3kHKzLyYu9fj75gXggKYDTV2LG/u4r4LDZDwOHCAUjU
-         fhtf6bS2TAQzFpMKdsJt6fDQwcksDEGE2ZV/BWayDZ64TL7PkdbmtNyaU6L/z1SLti8o
-         YggLtKPisFs0flkYeGKgmHT9OWE3WlczDburoV8fstGcbPAyXxPwTBT+4JLbTom1K6ux
-         N2ZQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724940685; x=1725545485; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YYeobrP39czqas9AOhmg/sHj+69M9aLAws4kkXMMHF4=;
+        b=l2/4J8i/g1QRLm3YbscO7sK3VVVK+gPU6ElNxnosN4V/WyF/qZ6eA/mxtkePIIiM0g
+         fkINHTJfrvDdHDQnEF4Zes9iGsuRMbvhLXpJ/5GSDzFMeJEYEylQSEVRCnCZBdj1Vfgb
+         ak79Ww/PsDdDcjmRVzkENtlxlsEVt2PPDA32p9T/AeSdZfFW/2nIKnkwfbkGASaGeT1Q
+         KaBBd0Az81MI3GxKgY7N4mOSPB9vEt7NI8Teyd94Bncc6DUmtBbmhYNRmeuHNlyLxqmf
+         pXpRJQX/hW9XxYcC4FgqaXeNhSZ4XBnudKfLS8N7nqScD+PZeomzAUYMVUSs+E/C7Tqm
+         iadg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724938865; x=1725543665;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rixkchsHQlIkG1V7o6zlImWGKNdzpfRptYurFYloLBc=;
-        b=mApHRNADd/b/DTGy7VDTyZ0XAUSpgj6CJQFu4esjIEgvKZLS6Sh7wkJY+0toEOcFDB
-         u5zt1zwmc9x+qQRdtWgh+/yJ96BNthwbfM+h3GW31AJjKX7NvPmoSfLb3NPBvZ+BHz8e
-         8PFPyTGVO+pd/w3aD43ccPXN/Nm91Nf3rGwMIFzyMZNsHI2EM52+bN9GoPk5n8HMVGz3
-         X1+j2O2BwPgNkKv+v+pakvq6jv7ceiswlZov+0cu6LWv/3crrm5DkqBj6Ct6EGbeIO3X
-         7j7dPqdHrmEhnBpj+6YWHeVhF9+Blei+lY56P6gi0Fw/CYiY7G8NRIVs6KHlYMD9sSZP
-         6WzA==
-X-Gm-Message-State: AOJu0YzqgOOdCfN/Fh13g9+ZPmqgBH74KinhRdLDHtm/rxK63XGyydWH
-	JWFEARjiAjjZ5cjqiM6ptK2ptM+2oavLn35EvBW0AkKYg/DM+u1YwqGHIO+BHkXqVGxI07DBRc0
-	QpN/5L2hhBjvhlqlnMv0OMIQ9aKQ1Jr5q58LwSeplcAGzLeQ=
-X-Google-Smtp-Source: AGHT+IE+0FfH3fBzSIVNn6QRypUYaKBxygwz/KrUSkAthX406lC7FGe3uyRcGpCgkDJSPAgW6NmWiGypjNXfBuCKG5Q=
-X-Received: by 2002:a05:6870:2104:b0:260:f883:95f9 with SMTP id
- 586e51a60fabf-2779035c400mr3439783fac.42.1724938864918; Thu, 29 Aug 2024
- 06:41:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724940685; x=1725545485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YYeobrP39czqas9AOhmg/sHj+69M9aLAws4kkXMMHF4=;
+        b=ggs4okytVjfOxjjRs2qK1fOrJEm4N8tXO4d34iA09iK8KEUsFaRM0hEU9SRy0NupaM
+         hnBtYrsSA/nHmV2JFvhnPPsMOCoj2XOYzIvyh32K2/uoN3ZwIZVO6kR8OYConxXKOSzW
+         47BWgP+SCSbToIJ7+qMAn3eavXAwiUahWDd6hvNtiJY6ZzrJEkUtEUiiOx7xm56ZD1Hj
+         32wFrg9Ii5YHoMFkCZ8TLv49gJwumN0U6bz6k8VPFRKAdoOY354AMxqVKErE4fluJK/3
+         0wXkepyx4W6+leWK6u9uJG9ZFprpvLrq9Jwm8hcOwMxNYjDNI+pV6CPxfmCxrXNkCTgU
+         R/Yw==
+X-Gm-Message-State: AOJu0YyhcX43cqZxXIRZsElx72K9AwrFxF4Mw9ypNnrPYA3QgytLfiZu
+	Bl1oaayg400vAteZcxn/QFJrJbi08xtnhCjaXQGTq6KHkfOzHSpKzhAETk7+SHUogIo4BJrHCmb
+	P++Y=
+X-Google-Smtp-Source: AGHT+IGKZfJLgsgBcaX/ALa6/vPjypMgvBiAHgWU79FYaN0L2zPQu+1J33plMA0WibaI7HZf7UpI1w==
+X-Received: by 2002:a05:620a:3197:b0:7a7:dd0f:649d with SMTP id af79cd13be357-7a804282438mr306233285a.57.1724940684822;
+        Thu, 29 Aug 2024 07:11:24 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a806bf6d7asm53930485a.13.2024.08.29.07.11.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 07:11:24 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 1/2] python3-hypothesis: upgrade 6.111.1 -> 6.111.2
+Date: Thu, 29 Aug 2024 10:11:21 -0400
+Message-Id: <20240829141122.3558638-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20240814195919.1079481-1-jdmason@kudzu.us> <20240814195919.1079481-2-jdmason@kudzu.us>
- <25a6f53578b0c0000ef89a7bce383b71f1847e80.camel@linuxfoundation.org>
-In-Reply-To: <25a6f53578b0c0000ef89a7bce383b71f1847e80.camel@linuxfoundation.org>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Thu, 29 Aug 2024 09:40:53 -0400
-Message-ID: <CAPoiz9zQCm_pwi7W1jK_7GUouuyL+HBrfdzXOMMzenYztF8iEQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] default-distrovars: Have KERNEL_CONSOLE
- reference SERIAL_CONSOLES
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 13:41:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203933
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 14:11:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203934
 
-On Thu, Aug 15, 2024 at 9:53=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2024-08-14 at 15:59 -0400, Jon Mason via lists.openembedded.org w=
-rote:
-> > Currently, KERNEL_CONSOLE has a default value of "ttyS0".  However, Arm
-> > machines and those using virtio serial prefer to use "ttyAMA0" or "hvc0=
-"
-> > (or something else).  These are usually defined by the machine config
-> > file as SERIAL_CONSOLES, which has one or more entries.  Take the first
-> > one of those instead of ttyS0, but default back to ttyS0 if nothing is
-> > set.
-> >
-> > Also, use this variable in the efi wic file instead of "ttyS0".
-> >
-> > Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> > ---
-> >  meta/conf/distro/include/default-distrovars.inc | 3 ++-
-> >  scripts/lib/wic/canned-wks/mkefidisk.wks        | 2 +-
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/con=
-f/distro/include/default-distrovars.inc
-> > index 7554081e8b1a..26fa26f80c31 100644
-> > --- a/meta/conf/distro/include/default-distrovars.inc
-> > +++ b/meta/conf/distro/include/default-distrovars.inc
-> > @@ -1,7 +1,8 @@
-> >  QA_LOGFILE =3D "${TMPDIR}/qa.log"
-> >
-> >  OEINCLUDELOGS ?=3D "yes"
-> > -KERNEL_CONSOLE ?=3D "ttyS0"
-> > +# if SERIAL_CONSOLES is set, take the first device entry.  Otherwise u=
-se ttyS0 as the default
-> > +KERNEL_CONSOLE ?=3D "${@d.getVar('SERIAL_CONSOLES').split(' ')[0].spli=
-t(';')[1] or 'ttyS0'}"
-> >  KEEPUIMAGE ??=3D "yes"
-> >
-> >  DEFAULT_IMAGE_LINGUAS =3D "en-us en-gb"
-> > diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic=
-/canned-wks/mkefidisk.wks
-> > index 9f534fe18471..1ab870805ed1 100644
-> > --- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-> > +++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-> > @@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=3Dext4 --l=
-abel platform --align 1024
-> >
-> >  part swap --ondisk sda --size 44 --label swap1 --fstype=3Dswap
-> >
-> > -bootloader --ptable gpt --timeout=3D5 --append=3D"rootfstype=3Dext4 co=
-nsole=3DttyS0,115200 console=3Dtty0"
-> > +bootloader --ptable gpt --timeout=3D5 --append=3D"rootfstype=3Dext4 co=
-nsole=3D${KERNEL_CONSOLE}"
->
-> This doesn't look the same and at least needs some explanation.
->
-> a) Where did console=3Dtty0 go?
+Changelog (https://hypothesis.readthedocs.io/en/latest/changes.html)
 
-Oversight, adding it back
+6.111.2 - 2024-08-24
+- This patch contains some internal code cleanup. There is no user-visible change.
 
-> b) KERNEL_CONSOLE doesn't have the speed in it (115200). Is that needed?
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...hon3-hypothesis_6.111.1.bb => python3-hypothesis_6.111.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.111.1.bb => python3-hypothesis_6.111.2.bb} (91%)
 
-My logic was that this might make the line difficult to parse and that
-these should probably be overridden (and currently my testing is only
-on virtual machines), but I do think making this a more sane default
-at the expense of being a little ugly is probably the right call.
-I'll do a v2 with both of these changes.
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.111.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.111.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.111.1.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.111.2.bb
+index 04c8d537fdd..3da0ce8c045 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.111.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.111.2.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "6ab6185a858fa692bf125c0d0a936134edc318bee01c05e407c71c9ead0b61c5"
++SRC_URI[sha256sum] = "0496ad28c7240ee9ba89fcc7fb1dc74e89f3e40fbcbbb5f73c0091558dec8e6e"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.39.2
 
-Thanks,
-Jon
-
-> These changes might be intended but if so, the commit message should ment=
-ion this.
->
-> Cheers,
->
-> Richard
->
 
