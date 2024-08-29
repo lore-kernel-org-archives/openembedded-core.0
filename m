@@ -2,144 +2,119 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C29C87FC9
-	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 16:58:56 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.25268.1724950734074185903
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA7DC87FC9
+	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 17:16:26 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web11.25883.1724951781503596427
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 09:58:54 -0700
+ Thu, 29 Aug 2024 10:16:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hXCvMRSv;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20227ba378eso7867445ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 09:58:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fpc3SxaR;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-27018df4ff3so581418fac.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 10:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724950733; x=1725555533; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmG6jlSJirkSU8Cjt14aWouPtMZvFivrr2TbAwymZrY=;
-        b=hXCvMRSvTx9TQ4IV3PeLB68UMuIRRaicxD+sAQGFWX3w45sK1ymaZMKe+rnH7olasD
-         HlQVjk7gZyHS7ITjHWKRu5xrcU5LlTEGdI868CVVBJvCmqnN85ZbWEFBKy4xncjzgzzV
-         DdxuDlSrnO3dwEa1lsmv5V4BtOkzbzBcxJW+ihok+ibP7ueuwYFdjxF5GjqDDtdRyL+T
-         hpIFDni+b3LeZl7fnb14UEtuW2dIFfuNcFIc446RjvtQQnhw1J6fB1jBjqegW83fAgQo
-         5KaMpxD5MQaZX+a1S7tt38JcnAJylHaBVVq8CEL4GEZqph9B5gqn2lDiOTz3B7U39sEe
-         9vcQ==
+        d=gmail.com; s=20230601; t=1724951781; x=1725556581; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tbVTtX97dlrGs0gvAZNEvvCQn3Zbi0pcuHteNrWADmo=;
+        b=Fpc3SxaReAI55d8Ebkdnx79WyJ50FSwxy7OXci5EmTc/+5u7SyGmoNE29xXy6Y9A0b
+         Ap6XHKRUYH/vUoL2BvOzrG011i7Ggn/dopPVXw1mbmZFvvBe7A0h+N+z7wfr+ILmJdQ/
+         CY6eK7tRLvb+hvhPtNitMDVW+jJf1UwAbrJd5mCyx6jyBdPkJOqRFor2u4Bohw6elK6e
+         wV+nBHSszB/SrXSwxUcHclTUeDUMDX+GnKMfvS5gBZlvqUNqNciuvpHWImuZoqosxxYv
+         UriTexDCfhm+kou/1kD1PPEcgj7eBUze5EiviXhK5x2KUYxCwyIPL+ChG17NOVwSRJqH
+         JDsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724950733; x=1725555533;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nmG6jlSJirkSU8Cjt14aWouPtMZvFivrr2TbAwymZrY=;
-        b=kVR+Z/ucmXNG6UHrYjSUdl9cdGz9RcVHCzTTGNctLZAK72Ysr9XqRoJocnhx7YtY/g
-         bG7MuIm7m0p4DBKSc4ErGJ/WZS45IjTx6p8Tcm4KpxxWrZOhL3aHKK0wlh5uuCSKeCh9
-         Wy6RKxDfI8fLU30jIW8W7ggxlCYGfOdb/iXmygVhlvlJe/IE9DbIfJYUH+BhMDOsK7v7
-         zt7xXveH1+5lhgpXbo47SAwMCXuybF0S58FsShNeXVN4v86h5dMeFzmoktE+DrlV+Zwq
-         ltZoTzf9gbrp9Vci8Q2IQoxg1QMDlIU9yR0IbYVUbHgsUMJIJsX+xJGbkWiGwBfARfbB
-         jnzA==
-X-Gm-Message-State: AOJu0Yy+wyBq+LQ6o/QXosmISBjCmj/bhtjOQvlBcdggN1INwhdQAZWL
-	Ll4Hh5gVwEU1zh4lvTQOfWRIb4CMEXYYHG6Kp7MOsLwLNNix2W1Uq+/ZWxR8
-X-Google-Smtp-Source: AGHT+IGK/UTcabZoFgw6fuG0bajKd9NgBGSnZbTpd+KvVgdOnhS0YAd69h7HjCaby/+DIIA3rmlAmg==
-X-Received: by 2002:a17:902:dac2:b0:1ff:4d66:d7bb with SMTP id d9443c01a7336-2050c3730bfmr41804085ad.36.1724950733198;
-        Thu, 29 Aug 2024 09:58:53 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:9d80:4380::2696])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20515537704sm13627115ad.125.2024.08.29.09.58.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 09:58:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] fmt: Get rid of std::copy
-Date: Thu, 29 Aug 2024 09:58:50 -0700
-Message-ID: <20240829165850.518504-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        d=1e100.net; s=20230601; t=1724951781; x=1725556581;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tbVTtX97dlrGs0gvAZNEvvCQn3Zbi0pcuHteNrWADmo=;
+        b=NQFuIbYhns2qS9mGRxBdCIVd0at34lxhYBDLZwVgwc8bQhYpwVFY4CgM/O9MaOggZr
+         0+26DSuTvGpTs2BAOGa1jcY1lBls8wyvDJxpAf3Fi+oLafnK6HeP387RRhrMEBoQTvHY
+         jyNMVLF0JrnvG6imxjHWHL7GGb/xo8sD5iInnXqK+L/pgaQGOTYs20U9vT01lh2XofH1
+         9akXU7ZYef0hqIwkjBkHg7CQjmb8qCFYYmYkM2udxGRVq9YMEifem4YSxDIs15bScMoU
+         5+0aAwraDNkWySipPqSBL7IC95R48R3Y71uhZD9XILQ8CjFvucTeh3lusSTiibrfjw5+
+         f9rw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHHjR9H08pEiU+i5Zh11FS3y3uDfQedHw5lb9tGuRrMQ5MG4waSxVg1O9zSPM9ZBvhj73Y2iT7Ecj0a7/PUXGdww==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx1plP4N4EjuECK2vhWADMbN4YdN0KqaUVwDYbhiM+X2qh45q3E
+	TJIaxJFf+gnbk6QoKWANL4ATxGbxXkEmD92QYX8nKPhQMeCOuswdaQZj+uBJS1/KxaxXOZy5uyB
+	how8UxQyTc7QFthyRFp0yKoLDu5E=
+X-Google-Smtp-Source: AGHT+IGPN3pXqMG3gOLmasvgAnsO5p8lSbHJ70OzyM9Gi2p7f8/ZfQ4tc3ZdQo0zwo5esVEmdQXB7uZeg/FctQCWNvQ=
+X-Received: by 2002:a05:6870:3906:b0:250:70bb:1a97 with SMTP id
+ 586e51a60fabf-2779014a9a2mr3921429fac.24.1724951780655; Thu, 29 Aug 2024
+ 10:16:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANNYZj-D+XgSFDNWnJ9LNdRe=RgLq-c5v8AP48s4T18TJ2pDZQ@mail.gmail.com>
+ <6670.1724698895497804544@lists.openembedded.org> <9f118764c6f9f2a5361356312b696b6eecad6c56.camel@linuxfoundation.org>
+In-Reply-To: <9f118764c6f9f2a5361356312b696b6eecad6c56.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 29 Aug 2024 10:15:54 -0700
+Message-ID: <CAMKF1srySLdab0SR9map64pZ9nvGVzsE=K13hqUs_J-RqTi62g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sysvinit: upgrade 3.04 -> 3.10
+To: richard.purdie@linuxfoundation.org
+Cc: mr.name@web.de, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 16:58:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203939
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 17:16:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203940
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Use an upstream fix instead of own
+On Thu, Aug 29, 2024 at 1:52=E2=80=AFAM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>
+> On Mon, 2024-08-26 at 12:01 -0700, Sven Reschke via
+> lists.openembedded.org wrote:
+> > Hi Alex and Alexandre,
+> >
+> > sorry for the delay.
+> > I've created a PR on Github on top of your latest changes:
+> > https://github.com/Nanowires/oe-core-clone/pull/1
+>
+> I did try this on our automated testing and there were some issues:
+>
+> musl build failures:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/9440/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/9456/st=
+eps/11/logs/stdio
+>
 
- .../fmt/fmt/0001-Get-rid-of-std-copy.patch    | 52 +++++++++++++++++++
- meta/recipes-devtools/fmt/fmt_11.0.2.bb       |  4 +-
- 2 files changed, 55 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch
+This can be fixed by using realpath(path, NULL) API instead of
+canonicalize_file_name(path), we have done such changes
+in few packages e.g. elfutils
 
-diff --git a/meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch b/meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch
-new file mode 100644
-index 00000000000..1b495ea075c
---- /dev/null
-+++ b/meta/recipes-devtools/fmt/fmt/0001-Get-rid-of-std-copy.patch
-@@ -0,0 +1,52 @@
-+From 6e462b89aa22fd5f737ed162d0150e145ccb1914 Mon Sep 17 00:00:00 2001
-+From: Victor Zverovich <viz@meta.com>
-+Date: Mon, 29 Jul 2024 15:58:05 -0700
-+Subject: [PATCH] Get rid of std::copy
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Backport [https://github.com/fmtlib/fmt/commit/6e462b89aa22fd5f737ed162d0150e145ccb1914]
-+---
-+ include/fmt/color.h | 11 +++++------
-+ 1 file changed, 5 insertions(+), 6 deletions(-)
-+
-+diff --git a/include/fmt/color.h b/include/fmt/color.h
-+index f0e9dd94..231d93c8 100644
-+--- a/include/fmt/color.h
-++++ b/include/fmt/color.h
-+@@ -560,31 +560,30 @@ struct formatter<detail::styled_arg<T>, Char> : formatter<T, Char> {
-+   auto format(const detail::styled_arg<T>& arg, FormatContext& ctx) const
-+       -> decltype(ctx.out()) {
-+     const auto& ts = arg.style;
-+-    const auto& value = arg.value;
-+     auto out = ctx.out();
-+ 
-+     bool has_style = false;
-+     if (ts.has_emphasis()) {
-+       has_style = true;
-+       auto emphasis = detail::make_emphasis<Char>(ts.get_emphasis());
-+-      out = std::copy(emphasis.begin(), emphasis.end(), out);
-++      out = detail::copy<Char>(emphasis.begin(), emphasis.end(), out);
-+     }
-+     if (ts.has_foreground()) {
-+       has_style = true;
-+       auto foreground =
-+           detail::make_foreground_color<Char>(ts.get_foreground());
-+-      out = std::copy(foreground.begin(), foreground.end(), out);
-++      out = detail::copy<Char>(foreground.begin(), foreground.end(), out);
-+     }
-+     if (ts.has_background()) {
-+       has_style = true;
-+       auto background =
-+           detail::make_background_color<Char>(ts.get_background());
-+-      out = std::copy(background.begin(), background.end(), out);
-++      out = detail::copy<Char>(background.begin(), background.end(), out);
-+     }
-+-    out = formatter<T, Char>::format(value, ctx);
-++    out = formatter<T, Char>::format(arg.value, ctx);
-+     if (has_style) {
-+       auto reset_color = string_view("\x1b[0m");
-+-      out = std::copy(reset_color.begin(), reset_color.end(), out);
-++      out = detail::copy<Char>(reset_color.begin(), reset_color.end(), out);
-+     }
-+     return out;
-+   }
-diff --git a/meta/recipes-devtools/fmt/fmt_11.0.2.bb b/meta/recipes-devtools/fmt/fmt_11.0.2.bb
-index 5a7041088cd..5c60921efae 100644
---- a/meta/recipes-devtools/fmt/fmt_11.0.2.bb
-+++ b/meta/recipes-devtools/fmt/fmt_11.0.2.bb
-@@ -4,7 +4,9 @@ HOMEPAGE = "https://fmt.dev"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
- 
--SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https"
-+SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https \
-+           file://0001-Get-rid-of-std-copy.patch \
-+           "
- SRCREV = "0c9fce2ffefecfdce794e1859584e25877b7b592"
- 
- S = "${WORKDIR}/git"
+https://sourceware.org/git/?p=3Delfutils.git;a=3Dcommitdiff;h=3D06263dda990=
+be6778a4beb33481cfd39ce60c623;hp=3Dfd0cee63fb02455a5021ca298da8dadb4df63a9a
+
+there is a meta-oe patch for ssiapi
+https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-support=
+/ssiapi/ssiapi/0003-replace-canonicalize_file_name-with-realpath.patch
+
+
+>
+> systemd+sysvinit build failure:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/9431/st=
+eps/25/logs/stdio
+>
+> Cheers,
+>
+> Richard
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#203905): https://lists.openembedded.org/g/openembedde=
+d-core/message/203905
+> Mute This Topic: https://lists.openembedded.org/mt/107960881/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
