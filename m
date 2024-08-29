@@ -1,250 +1,222 @@
-Return-Path: <chaitanya.vadrevu@ni.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D5FC71150
-	for <webhook@archiver.kernel.org>; Wed, 28 Aug 2024 22:44:50 +0000 (UTC)
-Received: from CY4PR05CU001.outbound.protection.outlook.com (CY4PR05CU001.outbound.protection.outlook.com [40.93.198.16])
- by mx.groups.io with SMTP id smtpd.web10.28.1724885079854338599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCE1C7115B
+	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 01:22:30 +0000 (UTC)
+Received: from esa11.fujitsucc.c3s2.iphmx.com (esa11.fujitsucc.c3s2.iphmx.com [216.71.156.121])
+ by mx.groups.io with SMTP id smtpd.web10.2607.1724894541198676370
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Aug 2024 15:44:40 -0700
+ Wed, 28 Aug 2024 18:22:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=YGkNyYlo;
- spf=pass (domain: ni.com, ip: 40.93.198.16, mailfrom: chaitanya.vadrevu@ni.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=OcA0dY/j;
+ spf=neutral (domain: fujitsu.com, ip: 216.71.156.121, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1724894541; x=1756430541;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=BvMd/o85zYcWS7u53wfgKHzk5mq2o90kfDN6C9VfNKs=;
+  b=OcA0dY/jyUiM6hSrQpFV2cbLn9Xxvh4k/bHpuc74aYH6PyMfF+ov/aeP
+   2WGtC0P3e4Fw3fIWmmb9FhyYXtCToDKP/yQiI9stTGSoJrKjOi/Exboru
+   uNkpA8b2s4tF7yPj3q3iFC4VRY5K/PdZNiwB3okbyoHJAje4rrT0MzUW/
+   YUaMG46Rp0bXnx6LFVORFySdin/klAsXq8m6/tNGhqQ8P+ZpKOhvMZjue
+   XhrwKHbI+Lu/E9jnH8qYHVO4K5pZhFSXe3paGvlFaBpA3VMzgLDQkbPsr
+   BHngjXHN3oLM87bXV1Jup3nNzi30xdNwtJJvrlVQYAba+GK/VLBRgZSsx
+   A==;
+X-CSE-ConnectionGUID: N57iJ80DTS2Jcf8w62NicA==
+X-CSE-MsgGUID: OtC+M+diTX+jiB2xIWgzGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="130117471"
+X-IronPort-AV: E=Sophos;i="6.10,184,1719846000"; 
+   d="scan'208";a="130117471"
+Received: from mail-japanwestazlp17010001.outbound.protection.outlook.com (HELO OS0P286CU011.outbound.protection.outlook.com) ([40.93.130.1])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 10:22:17 +0900
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NVYGb7/PeCFbTnQMlEWS96NFwQgHXjTpwh225BW5hxnQKZep0OvGNamjSx205UappjCgoKs86ccjJXo6aizoHxR+P7FLuZvz0xZz130rRmfkWq02jUn2bnNW5myal8oFdG/w53azK+VZD4aH+CzhjnIyyHumd5CNw5wzx9+gxrfSdLdSq/CYzoZGZBm1q0LOwWmOIcfl54Z0Jzz2iwaU4iybYhn/LAR5RoHl//1qrEufxRWYqlyjgSmS3SLjNo1NsmyC1cYByMhhfLQSwcC5yc0tPX0uK4MwnwKopZwWYf0oSCWtS+WEIVjkdPqLMWk06h2MxWWsO4tAI7cRXbMR7g==
+ b=Oh1UVfYuqXFfDrouooXKysLuTXJK6SmgzYaWPmLRgcTRSF3MjzdAlIXnvXexXjxw8FADcPEZf5mxCgxJdfH95BXSn1sGO0izox1hh4V08O1hzKwxO5LXDkYvx4MvqmJYs3MF2EkoYF++LKTdlOiM33Iwz0oWtyZ8/9NB0sQEcobe8VBZ7Ql+xM2nSd2/XnW3tom8xaEkKjL7t8crX9Fi5ATJYoAyf3GkdQDqOzhMkgvISfDNplzGrjz1+VmFaU5JCkNj5YeupYEs8nT1wNKgO9b+a/zEncZyp2iuMdz+OU2yOYH2JEDxdL9INK3Litt49shQ1BN3+1H/AUvS+manZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wf5HX0qdQClVxVDYVRf8rGwDk1avl02YjMrY9tPd0/4=;
- b=rlrZa8+ntCEYDJJFz4msx5BHr/SHskdRx96a2QO1hpXo26DFaaozAnV/Lq71OxeMRjKZ4dkWXKuT1OAP+1UDg7r0g2pSZ7M27dZBVe9fLR2sHTpGdXCmJ5DUY2s3gPzxhJNsVbNA04c7g2pzNW01eTUA6M1emFxqxxRh/8tzk1P8DFb2fKlIlOHxkVlm8QP4t9RnTa3xv+p2KHzJ4/e7hjccxGqU2oYwj3Gt1SZXcfBUH1WUIbrJt3MH1f2dB7UCiO5CO5cz9yRrfEO7/dd0MI51+XhG2pKSxV+e3Wj00oE4QJeZhC4SR1GDW+edJXmjQ35wSQ1iQiKinrfDeCsIFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 130.164.94.73) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ni.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=ni.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wf5HX0qdQClVxVDYVRf8rGwDk1avl02YjMrY9tPd0/4=;
- b=YGkNyYloyNiJ3avkSQdX2pq5sEveuelOzOeJAoRVBZ5Ek7zOHnvzbtbCrdguui31RNgxMtV7/xagSmg8HC5i5AW0bh8JopStlazCPUg82VDrjhzjMDS1rOYtiXuxvCJKUVMPo+cXWxQTIKiLc7lbC8ildoVMfypKFVZGYN0KKyc=
-Received: from MW4PR03CA0265.namprd03.prod.outlook.com (2603:10b6:303:b4::30)
- by CO1PR04MB8219.namprd04.prod.outlook.com (2603:10b6:303:162::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Wed, 28 Aug
- 2024 22:44:35 +0000
-Received: from CO1PEPF000044F6.namprd21.prod.outlook.com
- (2603:10b6:303:b4:cafe::5b) by MW4PR03CA0265.outlook.office365.com
- (2603:10b6:303:b4::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21 via Frontend
- Transport; Wed, 28 Aug 2024 22:44:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 130.164.94.73)
- smtp.mailfrom=ni.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ni.com;
-Received-SPF: Pass (protection.outlook.com: domain of ni.com designates
- 130.164.94.73 as permitted sender) receiver=protection.outlook.com;
- client-ip=130.164.94.73; helo=us-aus-excas-p1.ni.corp.natinst.com; pr=C
-Received: from us-aus-excas-p1.ni.corp.natinst.com (130.164.94.73) by
- CO1PEPF000044F6.mail.protection.outlook.com (10.167.241.196) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7939.2 via Frontend Transport; Wed, 28 Aug 2024 22:44:33 +0000
-Received: from us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) by
- us-aus-excas-p1.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Wed, 28 Aug 2024 17:44:33 -0500
-Received: from cvadrevu-p620.amer.corp.natinst.com (172.18.68.32) by
- us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
- Server id 15.2.1258.28 via Frontend Transport; Wed, 28 Aug 2024 17:44:33
- -0500
-From: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Ming Liu <liu.ming50@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Chaitanya Vadrevu
-	<chaitanya.vadrevu@ni.com>
-Subject: [kirkstone][PATCH] grub: fs/fat: Don't error when mtime is 0
-Date: Wed, 28 Aug 2024 17:44:05 -0500
-Message-ID: <20240828224405.3227977-1-chaitanya.vadrevu@ni.com>
-X-Mailer: git-send-email 2.34.1
+ bh=BvMd/o85zYcWS7u53wfgKHzk5mq2o90kfDN6C9VfNKs=;
+ b=GUNeAiN3h8gfO40uROuwg6+cxTxtsy/yFlQEc+XANvrxGKrOFFh6p/P1IPcEQlt20oXvij4tUS39shD9x3jvPQf0XDtm0Fc/6hK3m+l15et6PHxlZV/ZbMd69fjoxHxixMA7xc7ffqnsphQkkg2foje9u3SVfHEZ1kPjtsZbPCLCPAlzE7q2+M0oSCSk2Sh/dFFyxAy8R5JCdgovEaKdoq8yToWRFnLnGPuZI4UD8HleVoB9l1HrB5tetH9AUmYOLBzPKvALisD+3bVboaaaiKJcDsRQLdg6nn5LYz65DlwSGN5iOj969s75wcQiAMxdMeicspahTjxKECObxFrOXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+Received: from TYWPR01MB11861.jpnprd01.prod.outlook.com
+ (2603:1096:400:3fb::13) by TYWPR01MB11308.jpnprd01.prod.outlook.com
+ (2603:1096:400:3f9::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Thu, 29 Aug
+ 2024 01:22:15 +0000
+Received: from TYWPR01MB11861.jpnprd01.prod.outlook.com
+ ([fe80::e0dd:28e5:6a6e:2342]) by TYWPR01MB11861.jpnprd01.prod.outlook.com
+ ([fe80::e0dd:28e5:6a6e:2342%7]) with mapi id 15.20.7897.027; Thu, 29 Aug 2024
+ 01:22:14 +0000
+From: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [PATCH] [OE-core] [PATCH] systemd: use update-alternatives to
+ solve conflicts with polkit
+Thread-Topic: [PATCH] [OE-core] [PATCH] systemd: use update-alternatives to
+ solve conflicts with polkit
+Thread-Index: AQHa+SVOBmoTIhBWCEaVtQtu7OseBLI8XT3ggAAF3oCAAPrQAA==
+Date: Thu, 29 Aug 2024 01:22:14 +0000
+Message-ID: 
+ <TYWPR01MB118613BE06C6CFD075C898628DC962@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+References: <1724833600-2270-1-git-send-email-wangmy@fujitsu.com>
+ <CANNYZj9KSfNg=VOBHqFAFOHpoGTPJe7s8rEii-gDxp-t5K=Uig@mail.gmail.com>
+ <TYWPR01MB11861DF67DC120A05FD4373A6DC952@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+ <CANNYZj-hhrupgJeDZim3SbDsEOXabPUJ-mqs1DBye0x4BzFF+Q@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-hhrupgJeDZim3SbDsEOXabPUJ-mqs1DBye0x4BzFF+Q@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
+ =?utf-8?B?NTBfQWN0aW9uSWQ9OWNjNzY2YmItYTY1OS00YTljLTkyYTgtMTE1MjgxN2Q4?=
+ =?utf-8?B?YTQxO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
+ =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
+ =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
+ =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFROKAiztNU0lQ?=
+ =?utf-8?B?X0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9T?=
+ =?utf-8?B?ZXREYXRlPTIwMjQtMDgtMjlUMDA6MTI6MTZaO01TSVBfTGFiZWxfYTcyOTVj?=
+ =?utf-8?B?YzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX1NpdGVJZD1hMTlmMTIx?=
+ =?utf-8?Q?d-81e1-4858-a9d8-736e267fd4c7;?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYWPR01MB11861:EE_|TYWPR01MB11308:EE_
+x-ms-office365-filtering-correlation-id: fb2dfc19-f234-44a3-ea8f-08dcc7c903fb
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700018|1580799027;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?TWVTblNnYXkxMFdMcTNKcEtJVDl4azI5SUlGME9yWGVVVkd3Z29FSDdLMnYx?=
+ =?utf-8?B?bk56UmFCd0lrNG5YMHdYa1FmdmRNYUJDMkRGc09yNGdBdTFzMlhqK0YvUjVE?=
+ =?utf-8?B?bGFoMUZEZDBncy94SkZuMzB4NnIvSWQxRWh2SEZwcmRaN0dELzBrN1JhczZR?=
+ =?utf-8?B?Y3I1UFBIVmtJUm40U2VTOUpHTzhBd0tMK1dDdkxBbHl3TGVHdzVwNDVCNEZY?=
+ =?utf-8?B?UGVGWE9la211amo3U2tiYjg3cWxvbnZMLzJxQ1JKbjliMmZaZ2VLRFd1alZS?=
+ =?utf-8?B?ODBJVml4ckFrU3QxRTZHcWVJMDZvVDRsczNvWGFYNzM1Y2h2U3JWWUtwZUFK?=
+ =?utf-8?B?Sy9GOTVKVWM1ZW42cjFEUTR5ZFNUb0poTTVpWElnVFlBVks5cEdGanJIS0Mr?=
+ =?utf-8?B?VGx2dXZtSlNVY3BQQXJTd0MzazlPclFNTW9OeW5YaThGSXFNeEFIVlR3aHJG?=
+ =?utf-8?B?cVpORlpIMWhYejkyNjl1K1dnSHo1U25FdnpNdHRhV3ppZ1NCR2lzOEFVNFdm?=
+ =?utf-8?B?cnk0QnYzVG9yMUJORkdtQ3dETXBsZlo0enhrd3l0eitYQlR3akFsc1pCTllw?=
+ =?utf-8?B?NVNyMXZCeU8rS0lzdUM4UDk4cnVBZUR4UndpSitSWjlqQnkvSHRrZjJwRjFC?=
+ =?utf-8?B?RUVrYVpEV0luYmx2UURHNld5QlVETCthdkVsbGFIb2R5Y1c1VHFibThDbmFy?=
+ =?utf-8?B?VzNUbW9ma0RROGIvMXp0NHdaSUtaMW5LK1pqVThNUmo5SUtTenRzdWRsWkM0?=
+ =?utf-8?B?R3d3b2dkem1oNXpXVm5EYnlTRG11SmNJZFpxdk10RUY2L1UxWVozL0pNSVlo?=
+ =?utf-8?B?SUhZdFlCMVViaFVBajdCYzRNR2VocE5VNlJBUE0xb09IdXNOODFZNWVYbDIr?=
+ =?utf-8?B?REo3K0dLemR1cStvM3BUV1ZMZnlWSjdCYi8zd1AyOFlmZnB2am9SK1ZhSGZX?=
+ =?utf-8?B?K3h1Y3o4aHBLMDZWTU9lZkdienJTOGJ3dnFyTWl6eVVqWExXcFZYQ1pIZTFz?=
+ =?utf-8?B?Y3ZTNTl0bnkwc1lvWFhTcDlxTVpmcnFZWFNqd3hNS0RSWUtVSjdhVjE3NU9K?=
+ =?utf-8?B?d2YrZnVJMU1XVXJQSzU5ZHFrSzllNzNBbkI2Y0RoUzlHUEh3WFY2WTR2ZTgv?=
+ =?utf-8?B?ZC82RVNZWFJJYlhRTzMvVmxNakZYOUtTQi9MSTZKdVBkbVVOaUNPUmovRkhv?=
+ =?utf-8?B?WXp0TUpZcW1URDYvZXZSVXFMQVByRXB4czR1UVRXTmlEZHd3RUZYWmRveHBn?=
+ =?utf-8?B?bWJ3VFAzbFVYd1ZKMVpHWllLMHRiOE5yczBpTU9UUGNJL2ZOZ0xYeXNLYkxY?=
+ =?utf-8?B?UVdSNmVDRVNlOTF6V3pPcU5lMHltbURUWmNKSXdOcEQ0N2pLbS9WTU90TklN?=
+ =?utf-8?B?ZnV3cnNoWGVMbHF0bEdNNHJCcU44T0V2ZlZoRkZBL0krZzJMN1p4cVJkc1Vn?=
+ =?utf-8?B?aFhkdE1xcGF2SjhCVTNUcFVhUHZWZ2JYbnFNT0JWeHAxaTQ4bk9CLzJCU1VT?=
+ =?utf-8?B?aDVUc2hzWkJVZHRNamg1QU1ncjdvSXZ0bzJxaElkRmFhMGxSWnZHRlUwZFFN?=
+ =?utf-8?B?OUVERGZOeWFRQVVjK2NxcGttbG5xTXlTYW1oQ3JURUxlazU2clNKQkkvRWpu?=
+ =?utf-8?B?b1R2TWZka09DY2hjYjZKRm9seTBRbVpaOER2cUY5TXRrQ1VHdll1Z3FOVThK?=
+ =?utf-8?B?NlhjT3czK3VjMWluOXdpdDAxaUdIVjZUeFIyQmg2ZXZBRm9yUkFod3FaVExG?=
+ =?utf-8?B?Q2NNbWNZQnZYd0dPeVlHV21EdEJZMUtSY2NjajNlaVc4eWJKSStoY0NKcThq?=
+ =?utf-8?B?YUNVandHc2JGWTFveUhpWkgwaUNadTQ1aks2NXlTeVdoSStFNlpxUmxTOFpz?=
+ =?utf-8?B?QzZyUXJSQlNzWXdsbDQyL1hteHpmc2Rza0NsRVBMd1cvcG51TkVFSFJxL2U0?=
+ =?utf-8?Q?6C+zTIY52zc=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB11861.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(1580799027);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?OFc1bkEyWVlSWHBrL1VqZEcyeHl2TGZlWE4vT1ZYNHN4K1pKR05oWGdHTXZj?=
+ =?utf-8?B?ZTk0T2M3UXBzMmpxM3ZhYUdtTSs2LzdONzFPT25nR1BEYjZ2Vzg1WVJ5c2xn?=
+ =?utf-8?B?YWs5SjIwSUpRUjdWUk5tbzR0bVlqckZCemdBN0VXRE9OTHpRZnZIbkhaVTlG?=
+ =?utf-8?B?by9NZVFCQm9PYlc1REdaRWdvQzR2UWw0ajF0NDduOWVwOUJTam9QcVNpWFd4?=
+ =?utf-8?B?Y3A1b01rZzRjRDlPQkx5d0xJTjlRbXBLWENESGZhN05tb0N6QmtpNXJ5cGM5?=
+ =?utf-8?B?RG1NaFpSTkFySmlPcElaQmJIeGh4WnRrOVg4NHg2ODRtTU80b29mSjY1UWpM?=
+ =?utf-8?B?aTBwRlVDTDNSWjVhbTBFQSswUEFVaVpRbENYY0NqZ0pNa0x5aVRYWVBIUG54?=
+ =?utf-8?B?djhlczdjcUltVFJmZUJSbHRKeTZYWmREOXhtZDdpaGF5NFQzcnV5ajVkR1l4?=
+ =?utf-8?B?U1k4YWdld3ZnMno3MVZFRTY2dEVhL3lEdmVXWDl1L01rNTJRcmh3RENYOXJi?=
+ =?utf-8?B?bTMxczVSM3M4V09oaVU2UWNTTTJvYUlmNXBGWHc0NUlUOVN1aHJkc0xvTGRL?=
+ =?utf-8?B?cEprZDBzZUxJaVpCR2RBWG9mNnZiWU9SZUVjdjVNdkQzNVhmZlZob1V6bFNl?=
+ =?utf-8?B?UWFpR3B1eE9ab1lTMk15dzdpa0VOOSt3V0tpMDM1NVdYYk1OckJGK09vSjNa?=
+ =?utf-8?B?aUNCeUk3N1FYZ1RQblpzOFh2cUpzZC91WENTOXIrM09iZUtaWGkvRHo2NnRI?=
+ =?utf-8?B?alJsajBjYk5nU0xDNzZia2tqZnZ2ODlGVFZ6Ymk1K3BDd2lOSFM0WHA4ckpn?=
+ =?utf-8?B?bnBONDRKV0RMSDdhK1AvKzJqVnI4TUY3K2RPNjFic0Z0dkJpNGMzc3U1Sllj?=
+ =?utf-8?B?eFRiTHdxSVZ4K3RhY2FzWjBzVmsydU1Ka0o1WnQyOXFKU0FQTFFaNlJuK2sy?=
+ =?utf-8?B?T0lzayt1UmNVR0RWbThvOWE2SUNBazhneTIrSVlSby9QazA0eG5ueHJyeDhw?=
+ =?utf-8?B?K0wwSmtReTEvTW5qam5zdTJTOU5QeC85MjRkZWpwRnFqSXVqekVyd1FCN1ZW?=
+ =?utf-8?B?c1JBTktDWW1rT3YrYzlvSEpTTzNzRTlnM0IwWnlpMkFDZnhTNlJLckJHcm5a?=
+ =?utf-8?B?M1MrTmI1b3J3VU9oRkx5MDExdXZzb3BLZUpTSmlLTVBIMkJ2VDNIem9yb3JI?=
+ =?utf-8?B?c3Nna0JaQlIwVmphdmZoVmVMcVhNWGtHZ3V3NG9jTk1jcGtXdmgvY0VCQmll?=
+ =?utf-8?B?VjBmVlZrT1lOOWh5THczNzBLenU3NE9hcUFpcDhnQzAyazlPM09wZEp6c0FN?=
+ =?utf-8?B?ZVVUNkFUTEc4b2h3Wlg2NTJrbjg2TWRrd2ZaQW01RjRhOXg3VFp2ckJZSnBw?=
+ =?utf-8?B?WjZ0aHJsalNHdFpHVXY2YW9PaVd0REQ5YlJTclVTVmd1VjlteVBhS3Urb0lL?=
+ =?utf-8?B?b0pSM2Z1TW5tZ3JVTzF4WlJKSVNySVNvUHp5Uzd4cHY0RFdlUExPOVRZMmtz?=
+ =?utf-8?B?NGpDZ0FteE85YU5sTkdWbUJCTS9jNGMycWpQaFZ2bE50QzdyOU9nZTcvNytl?=
+ =?utf-8?B?TGJpTk90aHI4T0Q3YWRkUGhqb0kwclY2aFQyTVNCdFE5VG4xVlF0U09aY1pp?=
+ =?utf-8?B?MVR5TjVhV09RT0RHMU03Tit5RVBLWm1lajF5ZGMvVldlS2V3blNIc2hDRzlp?=
+ =?utf-8?B?cVQvSXNsZE81Vi94Sy9DRTJGckhvQjNTVTdKOWZXbFB4d0dXWFgxckFSMzJa?=
+ =?utf-8?B?d2ZIaGFVeGpGRmdEc2RIMnZMK2JkWGZ1VWtxMUZxU2FqSUE1MG52TDZTUHFo?=
+ =?utf-8?B?Lys0ZU5Sc3JLWHp3Qm1XUnpyY2FTNXFwVGdpL21pblFONXB0M3FjOFNVNkFz?=
+ =?utf-8?B?MmV0TUtaWUhFcHBIK1gwVFpyemVLcndIR2ZyTVF3YnY3QzdLeVNsNVM3WU9W?=
+ =?utf-8?B?alA0WFEyZC95UlEwMTlUZVBhOVl1YS9HeEFuTnZNZlRKaTcwMUZEb0RMSEFo?=
+ =?utf-8?B?SURBQkwwQlhWNGVZcXBPbVY1dUZ1b0psQVZDMkNkZzVuTmNmNjB5RWdBcGxV?=
+ =?utf-8?B?N0NKcnQvRDRYWit0TDB1VnBHcDBTekpqTVJWWm1HNkpBTnV6ZSt4ZTVTVzRu?=
+ =?utf-8?Q?d368VYmYVPfgpg2luFpNl9PmX?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F6:EE_|CO1PR04MB8219:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8050a697-dda0-4896-2c09-08dcc7b2fcd2
-x-ni-monitor: EOP Exclude NI Domains ETR True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?bPTL4j3UJOYYEdlZFsEmCw8XklcCsNfoRpDEPoqRKL6wJAFBOGfpZ5TnNYVy?=
- =?us-ascii?Q?KwMTFzeD7J4MqhB4Zq9YE/P5Hw6tBWtAV7btEzSIT/VdmeMGoZSRzyUN3pqw?=
- =?us-ascii?Q?koG3j4umSnNofIo74j6Pi5j0BuWSFrefz3ZFDO7O5BmRw1ETVj/rD+nkRuCa?=
- =?us-ascii?Q?PJZlKzFCqIoFTJlnoqlIEUImdcCc6omLrF7pIzLzQ60Qj1mgvCFV6geet9XP?=
- =?us-ascii?Q?DPW4/raVq7edpZVVGZ/WM1j8AitUxhOUWBtv85ttKEGGXqgSKl8AZF5NhElN?=
- =?us-ascii?Q?iT/Rnbs0MvEdj/80Sl5VAbkT2DzzQnU6IEh0fxTkvJsXHITrH/S25TAOkLmS?=
- =?us-ascii?Q?ksdWbGAic0uG76TESnJT14VZkU6kWOEaqqN7QTt1FAGy+HiZWK9pxs6p9fYw?=
- =?us-ascii?Q?2gYm7dooBLN8aJj8bNw9v0ZWgacIZiJi2Z6dqJS+Ak2zrwVJaW0R3Ol+ST6J?=
- =?us-ascii?Q?u5E1/XdcuKqxCcKzlUdOLAJ4A7fRnaaV2wgydQA+aKLibl4zpSJ2XhKm+dZ/?=
- =?us-ascii?Q?Lt06fcJM1cy3S2gzDWQ1IuWqhnhMHdnPvyTC0NBVkFNj9cqf9UNXVHcY9avR?=
- =?us-ascii?Q?Guxk3tWkVFUXULfddrUcMow1CyEr7KM5E3yX9GUft52hGguumfRz+IdYfHzm?=
- =?us-ascii?Q?3W6hRq+bsZVJxm0q6O6rdVLozv50wV0KyJccYvONNr+sWDQTA2LdRuvN1SyK?=
- =?us-ascii?Q?Pvdl3mjw1RPz0bTdkr6xMP6OLL0pDcandcC1wKHrL9DnlIVa8kFFMCiYZsNS?=
- =?us-ascii?Q?GyMWdZIrFsvWYGMnejPeGsI31yvCx2NCSvS5bzw7f4saNYyU+tBJK+4ZSaCO?=
- =?us-ascii?Q?A84PwoLNHwQlpIPpReG4RS4qg3WN+KNMBQmxB9YH2r9/hgiqzzjEdbdsod3D?=
- =?us-ascii?Q?/vnlxrYa1j8WaVWtcyn1UHCr8wxv5Hm1ZHfQSOlz7HhqhJhjS4wMcpC6l3J/?=
- =?us-ascii?Q?oDRaerlleUQClypZDE1c0EhW24/+KS77aCJK+IHH5YsQGyLt5ezykxv7wc2X?=
- =?us-ascii?Q?mw3sVqIwOnj1q0xtvYLD1nw/6A3t8O25ZX++1jjwtD7lMg7xjrUkqhy97/n1?=
- =?us-ascii?Q?vzQZ2LDBNn1k2Ev1aJWnOP3czSq/M0gZc24xrl4p/zfTb+wV3tPFG3meo3bO?=
- =?us-ascii?Q?aTWGOTgjzqaWCvwDsk2ylHKGrepbhkq+P8cpBCQDl9L3xUIGVyhMzW7u8Ru0?=
- =?us-ascii?Q?yVl9s73VUzYAEKkTEX/tN90KLfXwGYeItv6/6PqpKDC5VJ0KmNMvW5stAAes?=
- =?us-ascii?Q?iRkVJJIYH8YsHJLrhpHpPGFExDQbqZjgJ6/XxCT+3V+6mqItQ4LDQDCW1+JM?=
- =?us-ascii?Q?GfuT1GvRl/I5xAqwjzy5btjMz/SKJOz2fveY6YX8WwUEHnjdfRuAVoU0tbBm?=
- =?us-ascii?Q?tQpCDYuLjm6GP4hjMw9BbE0IfDK8lPz7AvPRDzyDrZUrT/is8A=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:130.164.94.73;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:us-aus-excas-p1.ni.corp.natinst.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2024 22:44:33.8256
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	I7kOUftQHDwbnugLDqf/P4N148wEJCFHo6hwVovzMGper4Dx26vovS7dOIS+k7qvTrIMGF6t/2z9U9wgq7mKVAe5RM6GzQtSK/oF/PvKVN60H1KvMhcE4vS5nqTGfVcIzx8MoF9NGFsVGPjQ9RvXu8ciBqkTeFOB+nwyZ9QWE+6LoniVtmLytoO6QF0vw2HsrU2slhR2hWoNSeeuS7cPn/5snfJQXEidQjTnpHgNcpukjloH+nNPVHE98L74BttgRRaUZEpyAd0tLPgVBza+Y7oufsELCHmrbBEIZxiZA/LOfvcpNRKE4i+HkXVp46lCPgnUflL/Gbzk4FgR0BMRd4STTsLbSFyHssd/j4LVxv8GSMyqBUq0WQOuTGZx4ZMlNhNTy+2MMiVBq2V1dOs75cIvoSqZfseSP/a8Lg675gbEOuTObcAUe6ozvaKop7Mre54pNb5p3R70iXYXJMKuGxghof6o5AL0I2SxH/OlyxldwKUBsInLJ5NmkNkwDaE1MxmauxQH71yVQlwsnBB3XkeiIA8OKI3sYBKiYp5F8aqr2eZ7RcGeGu/CUqZMOVsm/eNKyrxae6Ztc6Vn5FIGuoZnb9dYLG8YbWB4f1jRM3oMFkUyUxBRANYXC6HWcil2
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB11861.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb2dfc19-f234-44a3-ea8f-08dcc7c903fb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2024 01:22:14.8457
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8050a697-dda0-4896-2c09-08dcc7b2fcd2
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=87ba1f9a-44cd-43a6-b008-6fdb45a5204e;Ip=[130.164.94.73];Helo=[us-aus-excas-p1.ni.corp.natinst.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CO1PEPF000044F6.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR04MB8219
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FFxfM4hnj6Q+xMx1FlO97PRVPQSoWLlmf+kYlofp+yaFrxNvlY92y+5eacTQ1nHUa3TM+wM3MXo4sKS2p4Zbsg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11308
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Aug 2024 22:44:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203897
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 01:22:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203898
 
-From: Ming Liu <liu.ming50@gmail.com>
-
-A issue was found when I run "runqemu genericx86-64 ovmf", grub failed
-to boot, it's a known issue has been fixed in grub upstream, backport
-the fix.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 51eab4bb0cae46c9c32d28986eb97badf47594b7)
-Signed-off-by: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
----
- ...1-fs-fat-Don-t-error-when-mtime-is-0.patch | 70 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-whe=
-n-mtime-is-0.patch
-
-diff --git a/meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-when-mtime=
--is-0.patch b/meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-when-mtim=
-e-is-0.patch
-new file mode 100644
-index 00000000000..a5fbd58f468
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-when-mtime-is-0.p=
-atch
-@@ -0,0 +1,70 @@
-+From e43f3d93b28cce852c110c7a8e40d8311bcd8bb1 Mon Sep 17 00:00:00 2001
-+From: Robbie Harwood <rharwood@redhat.com>
-+Date: Fri, 15 Jul 2022 16:13:02 -0400
-+Subject: [PATCH] fs/fat: Don't error when mtime is 0
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+In the wild, we occasionally see valid ESPs where some file modification
-+times are 0. For instance:
-+
-+    =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  EFI
-+    =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  BOOT
-+    =E2=94=82   =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  BO=
-OTX64.EFI
-+    =E2=94=82   =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 [Dec 31  1979]  fb=
-x64.efi
-+    =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 [Jun 27 02:41]  fedora
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  BOOTX64.CS=
-V
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  fonts
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Mar 14 03:35]  fw
-+    =E2=94=82       =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 [Mar 14 03:35]=
-  fwupd-359c1169-abd6-4a0d-8bce-e4d4713335c1.cap
-+    =E2=94=82       =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 [Mar 14 03:34]=
-  fwupd-9d255c4b-2d88-4861-860d-7ee52ade9463.cap
-+    =E2=94=82       =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 [Mar 14 03:34]=
-  fwupd-b36438d8-9128-49d2-b280-487be02d948b.cap
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  fwupdx64.e=
-fi
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [May 10 10:47]  grub.cfg
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Jun  3 12:38]  grub.cfg.n=
-ew.new
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [May 10 10:41]  grub.cfg.o=
-ld
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Jun 27 02:41]  grubenv
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  grubx64.ef=
-i
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  mmx64.efi
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  shim.efi
-+    =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 [Dec 31  1979]  shimx64.ef=
-i
-+    =E2=94=82       =E2=94=94=E2=94=80=E2=94=80 [Dec 31  1979]  shimx64-fe=
-dora.efi
-+    =E2=94=94=E2=94=80=E2=94=80 [Dec 31  1979]  FSCK0000.REC
-+
-+    5 directories, 17 files
-+
-+This causes grub-probe failure, which in turn causes grub-mkconfig
-+failure. They are valid filesystems that appear intact, and the Linux
-+FAT stack is able to mount and manipulate them without complaint.
-+
-+The check for mtime of 0 has been present since
-+20def1a3c3952982395cd7c3ea7e78638527962b (fat: support file
-+modification times).
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/comm=
-it/?id=3De43f3d93b28cce852c110c7a8e40d8311bcd8bb1]
-+
-+Signed-off-by: Robbie Harwood <rharwood@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-+---
-+ grub-core/fs/fat.c | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/grub-core/fs/fat.c b/grub-core/fs/fat.c
-+index 0951b2e63..c5efed724 100644
-+--- a/grub-core/fs/fat.c
-++++ b/grub-core/fs/fat.c
-+@@ -1027,9 +1027,6 @@ grub_fat_dir (grub_device_t device, const char *path=
-, grub_fs_dir_hook_t hook,
-+ 					  grub_le_to_cpu16 (ctxt.dir.w_date),
-+ 					  &info.mtime);
-+ #endif
-+-      if (info.mtimeset =3D=3D 0)
-+-	grub_error (GRUB_ERR_OUT_OF_RANGE,
-+-		    "invalid modification timestamp for %s", path);
-+=20
-+       if (hook (ctxt.filename, &info, hook_data))
-+ 	break;
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
-inc
-index e6c6cd98b43..2718379474a 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -40,6 +40,7 @@ SRC_URI =3D "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_se=
-t_ex.patch \
- 	   file://CVE-2023-4692.patch \
-            file://CVE-2023-4693.patch \
-+           file://0001-fs-fat-Don-t-error-when-mtime-is-0.patch \
- "
-=20
- SRC_URI[sha256sum] =3D "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62=
-aa3f53ae803f5f"
---=20
-2.34.1
-
+fCBBcmUgeW91IHVzaW5nIHBhY2thZ2VfcnBtIGFuZCBkbmYgdG8gY29tcG9zZSB0aGUgaW1hZ2U/
+IA0KWWVzLg0KDQpJIGNoZWNrZWQgdGhlIHBlcm1pc3Npb24gb2YgcnVsZXMuZCwgdGhleSBhcmUg
+ZGlmZmVyZW50Og0KDQpzeXN0ZW1kOiAlYXR0cig3MDAscG9sa2l0ZCxyb290KSAlZGlyICIvdXNy
+L3NoYXJlL3BvbGtpdC0xL3J1bGVzLmQiIA0KcG9sa2l0OiAgJWF0dHIoNzU1LHJvb3Qscm9vdCkg
+JWRpciAiL3Vzci9zaGFyZS9wb2xraXQtMS9ydWxlcy5kIg0KDQpJZiB0aGUgcGVybWlzc2lvbiBu
+ZWVkIHRvIGJlIHVuaWZpZWQsIHdoaWNoIG9uZSBzaG91bGQgYmUgdW5pZmllZCBpbnRvPw0KDQog
+IC0tDQpCZXN0IFJlZ2FyZHMNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0KV2FuZyBNaW5neXUNCkZVSklUU1UgTkFOSklORyBTT0ZUV0FSRSBURUNI
+Tk9MT0dZIENPLiwgTFRELiAoRk5TVCkNCk5vLjYgV2Vuemh1IFJvYWQsIE5hbmppbmcsIDIxMDAx
+MiwgQ2hpbmENClRFTO+8mis4NisyNS04NjYzMDU2Ni0tODU2OA0KQ09JTlM6IDc5OTg4NTQ4DQpG
+QVg6ICs4NisyNS04MzMxNzY4NQ0KTUFJTDogd2FuZ215QGZ1aml0c3UuY29tDQoNCj4gLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
+YXZpbkBnbWFpbC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgQXVndXN0IDI4LCAyMDI0IDU6MTUg
+UE0NCj4gVG86IFdhbmcsIE1pbmd5dS/njosg6bij55GcIDx3YW5nbXlAZnVqaXRzdS5jb20+DQo+
+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6
+IFJlOiBbUEFUQ0hdIFtPRS1jb3JlXSBbUEFUQ0hdIHN5c3RlbWQ6IHVzZSB1cGRhdGUtYWx0ZXJu
+YXRpdmVzIHRvDQo+IHNvbHZlIGNvbmZsaWN0cyB3aXRoIHBvbGtpdA0KPiANCj4gT24gV2VkLCAy
+OCBBdWcgMjAyNCBhdCAxMTowNCwgTWluZ3l1IFdhbmcgKEZ1aml0c3UpIDx3YW5nbXlAZnVqaXRz
+dS5jb20+DQo+IHdyb3RlOg0KPiA+DQo+ID4gVGhlIG5hbWUgb2YgL3Vzci9zaGFyZS9wb2xraXQt
+MS9ydWxlcy5kIGFyZSB0aGUgc2FtZSwgYnV0IHRoZSBmaWxlcyBjb250YWluZWQNCj4gaW4gdGhl
+IHBhdGggYXJlIGRpZmZlcmVudC4NCj4gPiBXaGF0IG1ldGhvZHMgY2FuIGJlIGNob3NlbiB0byBz
+b2x2ZSB0aGlzIHByb2JsZW0gaW4gdGhpcyBzaXR1YXRpb24/DQo+IA0KPiBBcmUgeW91IHVzaW5n
+IHBhY2thZ2VfcnBtIGFuZCBkbmYgdG8gY29tcG9zZSB0aGUgaW1hZ2U/IElmIHNvLCB5b3UgY2Fu
+IGxvb2sgYXQNCj4gdGhlIHNwZWMgZmlsZXMgdXNlZCB0byBwcm9kdWNlIHRoZSBwYWNrYWdlcyBp
+biAke1dPUktESVJ9IG9mIHN5c3RlbWQgYW5kDQo+IHBvbGtpdCB0byBzZWUgaG93IC91c3Ivc2hh
+cmUvcG9sa2l0LTEvcnVsZXMuZCBpcyBzcGVjaWZpZWQgaW4gYm90aC4gSXQgbWlnaHQgYmUgdGhh
+dA0KPiBwZXJtaXNzaW9ucyBvciBvd25lcnNoaXAgYXJlIGRpZmZlcmVudCBhbmQgZG5mIGNhbid0
+IHJlc29sdmUgdGhhdC4NCj4gDQo+IEFsZXgNCg==
 
