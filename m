@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02136C83F21
-	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 13:33:05 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.15306.1724938376079745853
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E9BEC83F21
+	for <webhook@archiver.kernel.org>; Thu, 29 Aug 2024 13:33:15 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.15248.1724938385220459955
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 06:32:56 -0700
+ Thu, 29 Aug 2024 06:33:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bmSPumiJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-201fae21398so4646675ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:32:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zoGfx6gh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-204eebfaebdso5502195ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 06:33:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938375; x=1725543175; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1724938384; x=1725543184; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vDMjRL3Nh68J+NMA0n87C1Rjj1QuxA/y32KEtDnJfjk=;
-        b=bmSPumiJyQj5+i0r6U5aoigMBOvnOxIckVzFLHUfljKjUDU5qbSF3A3Ef2q6xL4j98
-         JptUoBzrb7uXyvil8zZsPzAd8OZTIGBba2LhgI3V26cLI+f+y4EqiD7tXORfEsvPAB6+
-         IH6QIIWR0qnNmDYkuADH9+vUyzN7qtWviTv1QaSbeerotnppeNnj+b25cSD5C4ILP6WE
-         uZBzMbswa+pSau6lAaPJEKDW6Zlk+4CA2qX7RhDvnkiFcuA6CNaF6mYdfoHw3xpXp4lm
-         7/bahJy2nXF8VCzd4K1pB2fzZE9dWOhkrMMCpdiaSWh/N3RPfR5FsihZht3oAWZYlLU2
-         /FAA==
+        bh=wT4PXdIX4EFQbifuZpFz/oeogtITUZcuArCMDQ1phqo=;
+        b=zoGfx6ghvEDjUYAC++VVKMC2NLqkoYspNxWLSk+wPvOXVazInFUkM2tvGSjZYHQVlG
+         /xSrRDn4WRQEUjPOWQIABuE3Yg2TS+ma6vO4lpjxBbJVNg+/W5Yigvi576B+nFjAVvzn
+         hNSZSX2WDU7tEnheeh2/laWsv5XXtZ8RCcZZaQZ1s/FFxuixPtUUI9D31t7q/EB+OMVP
+         sEyjz/5JBrmn5exrLaNnKdvoyVMCu0iAdlbZXRwIAGzbWnZdzLIFowR8DgFGvH2E3dxm
+         hRUCQ3cIqunZPzRnO1d4fN2oPHHHB6K8bgXwvLdGLzZoWUIdQxdyMXspXknZ8Lr4hr0W
+         q6dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724938375; x=1725543175;
+        d=1e100.net; s=20230601; t=1724938384; x=1725543184;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vDMjRL3Nh68J+NMA0n87C1Rjj1QuxA/y32KEtDnJfjk=;
-        b=djMoR2AiB2Fu54yBYIlgux0CsKBJcEbgje1tHROHidwv5hoXN5/JXlUT0mpos/iYp1
-         /9sqdE8nRsOVxqTjmLzStRczm/IwMBLy/geVVJvhD4ZQgphnnzUxb9j9gvbr8vLAkSxV
-         ZzoMZX8o1WX80739Uz5njUFlF0+2kPz6oFokaBH1WxyevbMSoExtzZlMfsesQg205FH4
-         D9RUDx3a2W1cTu7y77hYmekUdVnl5rzI0wWppLpzOOzgncsVmTMjEJgz4RBsJiEWfd/Y
-         mvI6+nEYmE/fCvxBcdJCsGRsiKCOi6oST8XMrC4RS6QJhHQQ7P7UzXfrAGrNah76MEn8
-         SohQ==
-X-Gm-Message-State: AOJu0YzGfsNCZ9J/De8YcTcsU6VMjMGBdJtd9iDFfJgU30rifjg6FJd8
-	9kCTUGpYC27J5WWpw00OqTbf/Ff5JF6Yk6M8EI3feWZdxzV4fIj9Vkkb75tYFpFXFikW5UoVqLB
-	q9qc=
-X-Google-Smtp-Source: AGHT+IHwYEb8/8FkNogM2j4pEet+T+ib8AxFa1I3CgKfUv6MLBK00HuAxt6SmCxu+9UvxhlWiHVBKg==
-X-Received: by 2002:a17:902:d48c:b0:202:2ed:b3a2 with SMTP id d9443c01a7336-2050c217067mr39592515ad.8.1724938375089;
-        Thu, 29 Aug 2024 06:32:55 -0700 (PDT)
+        bh=wT4PXdIX4EFQbifuZpFz/oeogtITUZcuArCMDQ1phqo=;
+        b=N3OhOrRWCtdVV8tsIjZwxMSPJlMmQVqW7eGcouGVfI6ZZuWYvRA86yzfwHBX+Z1l0e
+         hpqP6pR9iht3hJLM+w8XdyKSTu2RqlsMsLMUcnFEikvE58mXqbH5F4/GNgFGlpy2M02l
+         iQe8bWZEFWrjtfMInWPyN4XDd8rJLKVjePx/HjTUzCmdh1+6DuX2o7Kd82pDVe6loPtM
+         xNZ/VK79Rwa1VWg6xL0VBivRPcWSFArZA2TDCFbVHwYPItR/jDnETrn5oe6Muh53rZYe
+         6soSySG2WuLX5FUuKLcqNKGWZqRweOg1s72sMrcTX/iwXe6wW8Pyx/M7QfJq3YEvCb0p
+         n4rw==
+X-Gm-Message-State: AOJu0YyNgTTg4k9H5WgBUL9hK6360artfSbMM47qLuU2g6h5p1VgO6LR
+	59Nmq/8UDcAvj1FRzo33HnOEhnHc0axgTCIK6zRjIzQg8I1VyxVYzluXcyBSoIWIt4HrHQoaXRF
+	e9OI=
+X-Google-Smtp-Source: AGHT+IG2ew0ZMWgDOuAfSZX4Rv/ZxFzUlBszKqlMqkyAI5rNIUdxY2dep4l37rZ4GHFLCHmbitpZiw==
+X-Received: by 2002:a17:902:db09:b0:1ff:4a1e:865c with SMTP id d9443c01a7336-2050c35067amr34963005ad.29.1724938383578;
+        Thu, 29 Aug 2024 06:33:03 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.32.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1446sm11241235ad.58.2024.08.29.06.33.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 06:32:54 -0700 (PDT)
+        Thu, 29 Aug 2024 06:33:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/12] util-linux: Add PACKAGECONFIG option to mitigate rootfs remount error
-Date: Thu, 29 Aug 2024 06:32:31 -0700
-Message-Id: <c0487c8141ae2b9242447b53b71052769db6338f.1724938187.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 12/12] linux-firmware: add a package for ath12k firmware
+Date: Thu, 29 Aug 2024 06:32:35 -0700
+Message-Id: <553f31396a5d966ab827f1c4b807ef46649080d0.1724938187.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1724938187.git.steve@sakoman.com>
 References: <cover.1724938187.git.steve@sakoman.com>
@@ -61,128 +61,55 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 13:33:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203928
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 13:33:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203932
 
-From: Niko Mauno <niko.mauno@vaisala.com>
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The 2.39 version of util-linux took new file descriptors based mount
-kernel API into use. In relation to this change, the upstream release
-notes in
-https://github.com/util-linux/util-linux/blob/v2.39/Documentation/releases/v2.39-ReleaseNotes#L14-L21
-mention that
+Add the firmware package for the ATH12K module.
 
-  This change is very aggressive to libmount code, but hopefully, it does not introduce regressions in traditional mount(8) behavior.
-
-After observing following failure when booting a board using a bit
-older 6.1 series kernel together with initramfs rootfs based boot flow
-
-  [FAILED] Failed to start Remount Root and Kernel File Systems.
-  See 'systemctl status systemd-remount-fs.service' for details.
-
-closer inspection revealed:
-
-  demoboard ~ # systemctl status -l systemd-remount-fs.service
-  x systemd-remount-fs.service - Remount Root and Kernel File Systems
-       Loaded: loaded (/usr/lib/systemd/system/systemd-remount-fs.service; enabled-runtime; preset: disabled)
-       Active: failed (Result: exit-code) since Wed 2024-08-14 14:53:48 UTC; 1min 22s ago
-         Docs: man:systemd-remount-fs.service(8)
-               https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
-      Process: 76 ExecStart=/usr/lib/systemd/systemd-remount-fs (code=exited, status=1/FAILURE)
-     Main PID: 76 (code=exited, status=1/FAILURE)
-
-  Aug 14 14:53:48 demoboard systemd-remount-fs[76]: /usr/bin/mount for / exited with exit status 32.
-  Aug 14 14:53:48 demoboard systemd-remount-fs[81]: mount: /: mount point not mounted or bad option.
-  Aug 14 14:53:48 demoboard systemd-remount-fs[81]:        dmesg(1) may have more information after failed mount system call.
-  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Main process exited, code=exited, status=1/FAILURE
-  Aug 14 14:53:48 demoboard systemd[1]: systemd-remount-fs.service: Failed with result 'exit-code'.
-  Aug 14 14:53:48 demoboard systemd[1]: Failed to start Remount Root and Kernel File Systems.
-
-also consequentially, 'systemctl status' reported:
-
-  State: degraded
-
-When issuing 'strace -ff mount -o remount /' the failure occurred at
-
-  mount_setattr(3, "", AT_EMPTY_PATH, {attr_set=MOUNT_ATTR_RDONLY|MOUNT_ATTR_NOATIME|MOUNT_ATTR_NODIRATIME, attr_clr=MOUNT_ATTR_NOSUID|MOUNT_ATTR_NODEV|MOUNT_ATTR_NOEXEC|MOUNT_ATTR_NOATIME|MOUNT_ATTR_STRICTATIME|MOUNT_ATTR_NOSYMFOLLOW|0x40, propagation=0 /* MS_??? */, userns_fd=0}, 32) = -1 EINVAL (Invalid argument)
-
-After further investigation, The issue was pinpointed to lack of Linux
-kernel commit
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=95de4ad173ca0e61034f3145d66917970961c210
-("fs: relax mount_setattr() permission checks") in the kernel version
-that was being used. Above mitigation was discussed in email related to
-then-rejected CVE-2024-26821:
-https://lore.kernel.org/linux-cve-announce/2024051606-imaging-entrench-b327@gregkh/T/
-
-After testing with qemuarm64 machine different linux-yocto versions,
-it was observed that the issue impacts following versions of currently
-supported LTS kernels:
- - 6.6.17 (fixed since 6.6.18 i.e. mount_setattr() returns 0)
- - 6.1.78 (fixed since 6.1.79 i.e. mount_setattr() returns 0)
- - 5.15.164 which is currently the newest of 5.15.y series (i.e. no
-   known working version)
-
-Taking the above findings into consideration, add a new PACKAGECONFIG
-option removing which enables users to opt-out from using the feature
-which can cause issues with a bit older kernels. The option is enabled
-only for class-target here, since it otherwise causes following error
-during util-linux-native's do_configure task on Debian 11 build host
-(mountfd_api requirement fails):
-
-   | configure: error: libmount_mountfd_support selected, but required mount FDs based API not available
-
-Versions 5.10.223, 5.4.279 and 4.10.317 were also tested with qemuarm64
-but the issue was not reproduced with those versions - using strace
-showed that the mount_setattr call associated with the new mount API
-problem was not issued with these LTS kernel versions, which seemed to
-be confirmed also by following libmount debug message in these cases:
-
-  415: libmount:     HOOK: [0x7fa115e818]: failed to init new API
-
-Note: In addition to the aforementioned, this change was tested also
-briefly using the current latest kernel versions 6.1.104, 6.6.45 and
-6.10.3 that using the old mount API with newest kernels did not
-introduce any observable regression to the boot flow.
-
-(From OE-Core rev: dc086d9a8613143607af3583c72ed892e20b4d66)
-
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+[DB: added rdepends from PN to PN-ath12k]
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/util-linux/util-linux_2.39.3.bb | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ .../linux-firmware/linux-firmware_20240312.bb             | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.39.3.bb b/meta/recipes-core/util-linux/util-linux_2.39.3.bb
-index 83b3f4e05b..79ddf2d115 100644
---- a/meta/recipes-core/util-linux/util-linux_2.39.3.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.39.3.bb
-@@ -90,7 +90,10 @@ EXTRA_OECONF:append = " --disable-hwclock-gplv3"
- # build host versions during development
- #
- PACKAGECONFIG ?= "pcre2"
--PACKAGECONFIG:class-target ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam', '', d)}"
-+PACKAGECONFIG:class-target ?= "\
-+    libmount-mountfd-support \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam', '', d)} \
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
+index ff79bb9b33..5819d9287c 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
+@@ -322,7 +322,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-cnm-license ${PN}-cnm \
+              ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
+              ${PN}-carl9170 \
+-             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-qca \
++             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
+              \
+              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
+              \
+@@ -487,6 +487,11 @@ FILES:${PN}-ath11k = " \
+   ${nonarch_base_libdir}/firmware/ath11k \
+ "
+ 
++FILES:${PN}-ath12k = " \
++  ${nonarch_base_libdir}/firmware/ath12k \
 +"
- # inherit manpages requires this to be present, however util-linux does not have
- # configuration options, and installs manpages always
- PACKAGECONFIG[manpages] = ""
-@@ -106,6 +109,13 @@ PACKAGECONFIG[pcre2] = ",,libpcre2"
- PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
- PACKAGECONFIG[chfn-chsh] = "--enable-chfn-chsh,--disable-chfn-chsh,"
- PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
-+# Using the new file descriptors based mount kernel API can cause rootfs remount failure with some older kernels.
-+# Of currently supported LTS kernels, the old mount API should be used with:
-+# - versions prior to 6.6.18 in the 6.6.y series.
-+# - versions prior to 6.1.79 in the 6.1.y series.
-+# - versions till at least 5.15.164 in the 5.15.y series.
-+# - with 5.10.y, 5.4.y and 4.19.y series kernels, libmount seemed to use the old API regardless of this option.
-+PACKAGECONFIG[libmount-mountfd-support] = "--enable-libmount-mountfd-support,--disable-libmount-mountfd-support"
++RDEPENDS:${PN} += "${PN}-ath12k"
++
+ FILES:${PN}-qca = " \
+   ${nonarch_base_libdir}/firmware/qca \
+ "
+@@ -494,6 +499,7 @@ FILES:${PN}-qca = " \
+ RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
+ RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
++RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
  
- EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
- 
+ # For ralink
 -- 
 2.34.1
 
