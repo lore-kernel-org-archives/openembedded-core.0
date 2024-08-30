@@ -1,129 +1,132 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF8D3CA0EE1
-	for <webhook@archiver.kernel.org>; Fri, 30 Aug 2024 06:09:16 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.6855.1724998146207147785
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDB3CA0EE7
+	for <webhook@archiver.kernel.org>; Fri, 30 Aug 2024 07:13:46 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.7622.1725002022451000668
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Aug 2024 23:09:06 -0700
+ Fri, 30 Aug 2024 00:13:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iZaCQnxI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42bbbff40bbso2204865e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Aug 2024 23:09:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=K8slRWxM;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-202318c4f45so14656385ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 00:13:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1724998145; x=1725602945; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=537QUViuhtt0I/jQMzclhAi1kpOddvqBOnnIcg4b8Bs=;
-        b=iZaCQnxIpO+smEjDQQi3hEakZu1A/iN+JhcMaQgo/68iGxDx3bcbJ3rX/ZN563zJ7S
-         nOd4HvcqKRQHzEf+9+UugLTzNYKxoIke3soCsHy8DvXK6Pe6CbnYEhQ0xiGpRdSr7QUY
-         aBjyi5tk5eteQrq1Dtl3jj1C8deCrJILJ78tg=
+        d=gmail.com; s=20230601; t=1725002022; x=1725606822; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zgJcJZfA6mdGufY0pw9j4BxnBfxqUFEuuh2dM8dxi54=;
+        b=K8slRWxMPgfiD5F86XvaQF/DQcOUYEh/fbYKmAoGFQaM9QVrzfbS69CW1pn5vGwUB2
+         p/o2NaVllNk/hM2Yu3oJKhWgun5fNr7naYuEM0Dj4gbc8RKuZ/Jj5KdS3tAS9Vr/jCPR
+         8iaLDb/bZJs5vqKh8d+dw+gAigGCwhFZfGDp46fCB02TY4UHWYivjujqC/Jxjs8CrP2Z
+         JyPpParQKI8f8Xutn8ZIu8jSphCkfS3idiFH8hmBIoFW/Lf7fh70tjKzMN+bIANz6VCm
+         oDV2SvDhFCI2MLEW9Der2PBlTAFfaXh0wORVlhVcJS4pE5OFxBcMNVsnaFYW91v+RYjX
+         IiGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724998145; x=1725602945;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=537QUViuhtt0I/jQMzclhAi1kpOddvqBOnnIcg4b8Bs=;
-        b=u5PtubLf5ujea8re4WHUlOt4BLYg8l0CtQdpQ8DlxfhTQebtC4qgEq7SPWmlwMDRMt
-         ynJ41rXZ7mhYU4pRJS4ASSOBIVSkWMB1C1Jtb1vMTiYwf0cylrF8txopoygH9ocA7Ebw
-         NHcgOvBenygTi1UFXxnQYVCtpSofQc7CDVygvDv5uISijIXgjgDMynnBpdvwt3Pr1q+J
-         mAguYGFBU4VPIcr+r9+l7havdwMV9J4SSkO2FgeOoqaQToULbCNOc132WwpuHFL5YMMG
-         11fNiViEC8q4H/BYoPf8bmCZ3eotEHWeFAwi9IXeWrcfv6dGBgBgZBGy+OgsEmc1AV5T
-         HOUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIwI3TCwqb9JDY+GUAKARlyUG/GvebPfKjFD/CqW/15Pz9Kqm5YbHAMNwxXDY7aZhRW/zwTb/3B4DiuXHYuhRlkg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx84BI6vEu9u++uxJNGDWmCqv5RKyjmBoWctrlDe3mWa2czxRI0
-	PhXEjWz89dewqFYT+HDcFW32po42nM3l6iLvfz4TDs3hLgGnaDMBTbsr9bzDHXQ=
-X-Google-Smtp-Source: AGHT+IFYd88oMmj2hAPk7G2LD+LA8ead5s5oOMp7LTADkvgrw9oXSDw9YycL2wL16u2LH6uTsiN0+Q==
-X-Received: by 2002:a05:600c:3c9e:b0:426:627e:37af with SMTP id 5b1f17b1804b1-42bbb10d2d5mr7674145e9.3.1724998144431;
-        Thu, 29 Aug 2024 23:09:04 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c1e:eed1:2e30:722b? ([2001:8b0:aba:5f3c:c1e:eed1:2e30:722b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb9ff0acdsm15187265e9.38.2024.08.29.23.09.03
+        d=1e100.net; s=20230601; t=1725002022; x=1725606822;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zgJcJZfA6mdGufY0pw9j4BxnBfxqUFEuuh2dM8dxi54=;
+        b=liGBaWIZNGEQprp2Bxid0rWc9nZdYaSUVmQIoJQ7F6AZ0E7f4QUx1hSI86pn6to5mr
+         jJ7oEbHw9LX7oJStILyqp8Fc4jQN26rvrEtdKNsVoXZnS2cihm3fO2a3+vvrr/03i4gG
+         YkEgjT9PjA9Lq+hscOl/P2t6du8xt/8PsnKSopCID/+qhNDdG5cM0/gydtjk2hH1nS55
+         oLr1r+4fKIqp+pRMJPxmcnBDqfY8N8GUy7imb4yCjVwiBjjBQVT8aSNzCzFCGMuuC1Dz
+         bptCKbt3kQpwwikXNIixMLEsE6qwcj+v6zbSPsVRC1ViBkHtXVSWL20fVoU6jNqQLqRr
+         lyFA==
+X-Gm-Message-State: AOJu0Yy9BPafraTfy0pAyKgNxuKoJqhqe3vcZLfixz8H9o+twkHlFSSi
+	HyO0DV6QITw90I0gYOiKSZIeVR4cZd2f0TqMAkaqnK58EOcKl8TyLK/4UwuB
+X-Google-Smtp-Source: AGHT+IHAgvVRDCxtn5qP/3wcNP/ln0VL3+QcL4jyVSC9DKBbTCVeU13oEyKtELXihzHuhb1OjDamnw==
+X-Received: by 2002:a17:902:f605:b0:205:eec:5755 with SMTP id d9443c01a7336-2050eec5a0emr69541205ad.23.1725002021627;
+        Fri, 30 Aug 2024 00:13:41 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:9d80:4380::2696])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205227baebfsm8082765ad.247.2024.08.30.00.13.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 23:09:03 -0700 (PDT)
-Message-ID: <64c0811f16f7b9af17c4f493af3080befc1bb1b7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sysvinit: upgrade 3.04 -> 3.10
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mr.name@web.de, openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2024 07:09:02 +0100
-In-Reply-To: <18822.1724963809858109674@lists.openembedded.org>
-References: 
-	<CAMKF1srySLdab0SR9map64pZ9nvGVzsE=K13hqUs_J-RqTi62g@mail.gmail.com>
-	 <18822.1724963809858109674@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Fri, 30 Aug 2024 00:13:41 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] aspell: Backport a fix to build with gcc-15/clang-19
+Date: Fri, 30 Aug 2024 00:13:38 -0700
+Message-ID: <20240830071338.3847609-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 06:09:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203952
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 07:13:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203953
 
-On Thu, 2024-08-29 at 13:36 -0700, Sven Reschke via
-lists.openembedded.org wrote:
-> > On Thu, Aug 29, 2024 at 1:52=E2=80=AFAM Richard Purdie via
-> > lists.openembedded.org
-> > <richard.purdie=3Dlinuxfoundation.org@...> wrote:
-> > > On Mon, 2024-08-26 at 12:01 -0700, Sven Reschke via
-> > > lists.openembedded.org wrote:
-> > > > Hi Alex and Alexandre,
-> > > >=20
-> > > > sorry for the delay.
-> > > > I've created a PR on Github on top of your latest changes:
-> > > > https://github.com/Nanowires/oe-core-clone/pull/1
-> > > I did try this on our automated testing and there were some
-> > > issues:
-> > >=20
-> > > musl build failures:
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/944=
-0/steps/11/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/945=
-6/steps/11/logs/stdio
-> > This can be fixed by using realpath(path, NULL) API instead of
-> > canonicalize_file_name(path), we have done such changes
-> > in few packages e.g. elfutils
-> >=20
-> > https://sourceware.org/git/?p=3Delfutils.git;a=3Dcommitdiff;h=3D06263dd=
-a990be6778a4beb33481cfd39ce60c623;hp=3Dfd0cee63fb02455a5021ca298da8dadb4df6=
-3a9a
-> >=20
-> > there is a meta-oe patch for ssiapi
-> > https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-sup=
-port/ssiapi/ssiapi/0003-replace-canonicalize_file_name-with-realpath.patch
-> > =C2=A0
-> first of all: Thanks for the automated testing :-)
-> Yes, I broke the realpath.patch with my update. I've pushed a fix,
-> which should solve this issue.
->=20
->=20
-> > systemd+sysvinit build failure:
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/9431/=
-steps/25/logs/stdio
-> >=20
-> > Cheers,
-> >=20
-> > Richard
-> For this I fixed the install.patch (which I removed in the first
-> place). Could you re-run the tests with my latest commits? ;-)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...default-vector_hash-t.hpp-fix-gcc-15.patch | 42 +++++++++++++++++++
+ .../recipes-support/aspell/aspell_0.60.8.1.bb |  3 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch
 
-I can't just test one persons changes so there are multiple patches
-causing multiple issues in this build but there still seem to be
-sysvinit issues:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/5903/ste=
-ps/12/logs/stdio
-
-There are probably other issues in there too.
-
-As Alex says, pulling patches from github subverts our review process
-so whilst I did it as a one off, I can't do this on a regular basis.=20
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch b/meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch
+new file mode 100644
+index 00000000000..4045e8e4127
+--- /dev/null
++++ b/meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch
+@@ -0,0 +1,42 @@
++From d45bf96b0a3556acb2c83069a78eaaac973d31b4 Mon Sep 17 00:00:00 2001
++From: Sergei Trofimovich <slyich@gmail.com>
++Date: Sun, 21 Jul 2024 22:01:50 +0100
++Subject: [PATCH] modules/speller/default/vector_hash-t.hpp: fix gcc-15 build
++
++Uncoming `gcc-15` added extra checks for template instantiation that is
++guaranteed to fail in
++  https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=313afcfdabeab3e6705ac0bd1273627075be0023
++
++As a result `aspell` build now fails as:
++
++    In file included from modules/speller/default/readonly_ws.cpp:51:
++    modules/speller/default/vector_hash-t.hpp: In member function 'void aspeller::VectorHashTable<Parms>::recalc_size()':
++    modules/speller/default/vector_hash-t.hpp:186:43: error: 'class aspeller::VectorHashTable<Parms>' has no member named 'e'
++      186 |     for (iterator i = begin(); i != this->e; ++i, ++this->_size);
++          |                                           ^
++    modules/speller/default/vector_hash-t.hpp:186:59: error: 'class aspeller::VectorHashTable<Parms>' has no member named '_size'; did you mean 'size'?
++      186 |     for (iterator i = begin(); i != this->e; ++i, ++this->_size);
++          |                                                           ^~~~~
++          |                                                           size
++
++It looks like `_size` is `size_` mis-spelling and `e` was not introduced
++here.
++Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/ee6cbb12ff36a1e6618d7388a78dd4e0a2b44041]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ modules/speller/default/vector_hash-t.hpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/modules/speller/default/vector_hash-t.hpp b/modules/speller/default/vector_hash-t.hpp
++index 969a80c..e4420b4 100644
++--- a/modules/speller/default/vector_hash-t.hpp
+++++ b/modules/speller/default/vector_hash-t.hpp
++@@ -183,7 +183,7 @@ namespace aspeller {
++   template<class Parms>
++   void VectorHashTable<Parms>::recalc_size() {
++     size_ = 0;
++-    for (iterator i = begin(); i != this->e; ++i, ++this->_size);
+++    for (iterator i = begin(), e = end(); i != e; ++i, ++size_);
++   }
++ 
++ }
+diff --git a/meta/recipes-support/aspell/aspell_0.60.8.1.bb b/meta/recipes-support/aspell/aspell_0.60.8.1.bb
+index 0ea9b063e01..43940b1e1bc 100644
+--- a/meta/recipes-support/aspell/aspell_0.60.8.1.bb
++++ b/meta/recipes-support/aspell/aspell_0.60.8.1.bb
+@@ -13,7 +13,8 @@ HOMEPAGE = "http://aspell.net/"
+ LICENSE = "LGPL-2.0-only | LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+-SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
++SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz \
++           file://0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch"
+ SRC_URI[sha256sum] = "d6da12b34d42d457fa604e435ad484a74b2effcd120ff40acd6bb3fb2887d21b"
+ 
+ PACKAGECONFIG ??= ""
 
