@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7073CA0FEF
-	for <webhook@archiver.kernel.org>; Fri, 30 Aug 2024 12:52:58 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.13717.1725022378531558107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DABF1CA0FEB
+	for <webhook@archiver.kernel.org>; Fri, 30 Aug 2024 12:53:08 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.13595.1725022379725805438
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Aug 2024 05:52:58 -0700
+ Fri, 30 Aug 2024 05:52:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=k6AJd2xp;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-201ed196debso15262195ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 05:52:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=On1LKeUy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-201f2b7fe0dso15163035ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 05:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725022378; x=1725627178; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725022379; x=1725627179; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jMKwOohO6ASflnu7jpAfzBqn6uUEJaH5jjxVRkBjIA4=;
-        b=k6AJd2xplknvXRI7HdqZ1jPsDaiJxwnSiy7nPAeEU+W7xVKDcFjimEEobnQY4JQqIl
-         7Qcb6WtFuBSZIPOAJJxPJjlzsViI6hRLrtO4aDLhvw63Gd4owsqafDIhe5CNkiEll4pG
-         TDaef3O6zDHsuMAJxvaBbFfLeiJuVGLmVOxcUNeDM2iVMBmcu8+lkun5xhBqg6JmfduA
-         EX4zLVRTecjR0+RYSBDOdwrRXIIKlhpr4gn9UzHcU1LwZEsCqWJyNv/Zt9EgBq9yo3WU
-         SaTeeiYWFwcCSuffPEaNeOZ8GHRNp9AW69ucwgGPopzYK6XM8FKpbM6Yz63k7Ij4PIAJ
-         xc/w==
+        bh=ne/Yf2oofs1SePTeshBCHmp7Un+3gaTFX5nx51f+/6o=;
+        b=On1LKeUy/mi458V2k33sNu4bwq/y8miQ0+AQEkobPZukzGtJQuHPmYjWvVtNYwAF5q
+         R87ikUtkqT3Z5rZCW43mk/2NEsyHe5a6CjGw5e+RtzabQKlJp6X+Z6rbUOU5+YmSfqu+
+         qIOpFVtPXZV5XYTFfGXMIe07M6WBaKmF2PP4GHH87n1dPzXFRwQn9bJbMz70NE18QdGn
+         Jy+JC/Ti06wAef8XfIneaS6/FykPWYiO0+YvStGXcM1AtsUjvH8jzMAQQtiuGaGmv5rt
+         qhDe0Z3uh64TI+si+TpIB6VKEEjdRE/FcJ0K+f5dd3eN4XnlOoAM5HnPqg7enQCyWtV+
+         nfyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725022378; x=1725627178;
+        d=1e100.net; s=20230601; t=1725022379; x=1725627179;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jMKwOohO6ASflnu7jpAfzBqn6uUEJaH5jjxVRkBjIA4=;
-        b=k8BzTkezur+Ev/j0Oz70KQnOr8SJTA6dJ4kGMa//EYEnqem6Dn/HVjg+6wTZqPdQwM
-         Rt5+Enpe8RoGXFDIC0EmlytvpD5cQS6V2dsIRWmuudHm9ojSnTq/BY2cmQQNSmUQ1Cft
-         DnKpK4P8+49KRxdWYrgd/yEFBEnk0utjYaWQZcRkvsGsANpQnHWSL9NCjsaIMnWiX3Jd
-         tOPQgQ4dqclFMNTy770MmdMzn87x+EHdwmN8SMhwBepfZOtqx08rYrC2D3rddCQ9nQWX
-         mBZpw+M9rUOwNUBm10hGpGOA7I3HbF5iIfCG6Aklj2wqwC1d7eW3bMyU7ZIfEjlnG3Ip
-         4Jdg==
-X-Gm-Message-State: AOJu0YzDgkKttGYvmomkpA2+UKfZDU8fhQogql8B7iFjW27hXdQv3hp4
-	Mj6w8m8ojenwbXAOtCuAmIVBI+JAWAX1VgxIbWIMLo0N6iDoecwt2rJIaUA5bGhPo1Su1JY1xSU
-	eq0k=
-X-Google-Smtp-Source: AGHT+IGAjl9rwnUIEJ6u5VK5ndRgSOPzy6UZMA9ooQ7O6B3bWTYMJZherPyKUI5LLknuDSPHuo91+A==
-X-Received: by 2002:a17:902:ec86:b0:205:3450:cdb4 with SMTP id d9443c01a7336-2053450d102mr8198375ad.4.1725022377647;
-        Fri, 30 Aug 2024 05:52:57 -0700 (PDT)
+        bh=ne/Yf2oofs1SePTeshBCHmp7Un+3gaTFX5nx51f+/6o=;
+        b=p9KmoOuLcSLzXQqkVyhMLCGRa38oGOj74J5i61JanfCgrY3OY/XIzA6/WtYI3gE5JP
+         6bvE2i455eMgwCKWSRy8jlvVltj3GY4Llvf1t3lsULbSGLjQwBFQY75dB/kotFC4CTaU
+         MJyzthz64mo/Z1a8hbIeguEHjTcg96spDdO9rEO4jMIoLjqXBaRFJvSugJKfeXResJfY
+         +QGW6QYeXhi7Tu1EgJqNIJAQ0NAM67nL3RrB1/JPo/cDUZON4OgvUBrE1LmRF+7CR3Cr
+         75bsDnPo8yCKhi6qEr2Qhy4uMhMzL1zjhGrUhNXU+CI6+bye7/M3NFbTn9Xwp/xbd8iZ
+         v58g==
+X-Gm-Message-State: AOJu0Yw4I00BxY/wU5DJynwg5CoL3v5/5zpc3HVj64ASRDNesuFo4Ze6
+	H9psbecE3i9ijwbcv41CSNt+D16c6y78M1oRelncIM1NimbnDTMPUm9qKmr8h7+6axlJuhV4qwh
+	V1y4=
+X-Google-Smtp-Source: AGHT+IHxuqija9TmDup5T2oKi/kQQ7D3eJ2vG1oo31f/n1c/BlRmtMB+p6ugGqIMfhSVWoRUcsdy1A==
+X-Received: by 2002:a17:902:dac5:b0:203:95eb:380 with SMTP id d9443c01a7336-2050c5255d5mr68188395ad.64.1725022378984;
+        Fri, 30 Aug 2024 05:52:58 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2051554235bsm26295975ad.214.2024.08.30.05.52.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2051554235bsm26295975ad.214.2024.08.30.05.52.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 05:52:57 -0700 (PDT)
+        Fri, 30 Aug 2024 05:52:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/7] vim: Upgrade 9.1.0114 -> 9.1.0682
-Date: Fri, 30 Aug 2024 05:52:44 -0700
-Message-Id: <3312a57ce631ea6235055b3d4b4ac31d06c8a2ae.1725022186.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 5/7] bind: Upgrade 9.18.24 -> 9.18.28
+Date: Fri, 30 Aug 2024 05:52:45 -0700
+Message-Id: <1f065d8358ab0fb6c08b2aad2145786c31294721.1725022186.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1725022186.git.steve@sakoman.com>
 References: <cover.1725022186.git.steve@sakoman.com>
@@ -61,97 +61,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 12:52:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203963
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 12:53:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203964
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-This includes CVE-fix for CVE-2024-41957, CVE-2024-41965 and CVE-2024-43374
+Includes security fixes for CVE-2024-4076, CVE-2024-1737,
+CVE-2024-0760, CVE-2024-1975 and other bug fixes
 
-Changes between 9.1.0114 -> 9.1.0682
-====================================
-https://github.com/vim/vim/compare/v9.1.0114...v9.1.0682
+Release Notes:
+https://downloads.isc.org/isc/bind9/9.18.28/doc/arm/html/notes.html#notes-for-bind-9-18-28
+https://downloads.isc.org/isc/bind9/9.18.28/doc/arm/html/notes.html#notes-for-bind-9-18-27
+https://downloads.isc.org/isc/bind9/9.18.28/doc/arm/html/notes.html#notes-for-bind-9-18-26
+https://downloads.isc.org/isc/bind9/9.18.28/doc/arm/html/notes.html#notes-for-bind-9-18-25
 
-Note:
-====
-Removed patch "vim-add-knob-whether-elf.h-are-checked.patch" as libelf checks are removed from configure.ac as per
-commit https://github.com/vim/vim/commit/1acc67ac4412aa9a75d1c58ebf93f2b29585a960
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6d2938e53cad5d9bf2e78a5403e9f9fab1db77b4)
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...m-add-knob-whether-elf.h-are-checked.patch | 39 -------------------
- meta/recipes-support/vim/vim.inc              |  5 +--
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch
+ .../bind/{bind_9.18.24.bb => bind_9.18.28.bb}                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind_9.18.24.bb => bind_9.18.28.bb} (97%)
 
-diff --git a/meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch b/meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch
-deleted file mode 100644
-index 5284ba45b6..0000000000
---- a/meta/recipes-support/vim/files/vim-add-knob-whether-elf.h-are-checked.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 38de4bccdb8a861ffdd447f12fdab19d6d852c02 Mon Sep 17 00:00:00 2001
--From: Chong Lu <Chong.Lu@windriver.com>
--Date: Tue, 26 Jun 2018 17:34:15 +0800
--Subject: [PATCH] vim: add knob whether elf.h are checked
--
--Previously, it still was checked when there was no elf library in sysroots directory.
--Add knob to decide whether elf.h are checked or not.
--
--Upstream-Status: Pending
--
--Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- src/configure.ac | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--Index: git/src/configure.ac
--===================================================================
----- git.orig/src/configure.ac
--+++ git/src/configure.ac
--@@ -3264,11 +3264,18 @@ AC_TRY_COMPILE([#include <stdio.h>], [in
-- 	AC_MSG_RESULT(no))
-- 
-- dnl Checks for header files.
--+AC_MSG_CHECKING(whether or not to look for elf.h)
--+AC_ARG_ENABLE(elf-check,
--+        [  --enable-elf-check      If elfutils, check for elf.h [default=no]],
--+        , enable_elf_check="no")
--+AC_MSG_RESULT($enable_elf_check)
--+if test "x$enable_elf_check" != "xno"; then
-- AC_CHECK_HEADER(elf.h, HAS_ELF=1)
-- dnl AC_CHECK_HEADER(dwarf.h, SVR4=1)
-- if test "$HAS_ELF" = 1; then
--   AC_CHECK_LIB(elf, main)
-- fi
--+fi
-- 
-- AC_HEADER_DIRENT
-- 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 071deed338..f8ba37156a 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -14,13 +14,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d1a651ab770b45d41c0f8cb5a8ca930e"
- 
- SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
--           file://vim-add-knob-whether-elf.h-are-checked.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.24.bb b/meta/recipes-connectivity/bind/bind_9.18.28.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.18.24.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.28.bb
+index fbbebe89ad..67628a8650 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.24.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.28.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
             "
  
--PV .= ".0114"
--SRCREV = "fcaed6a70faf73bff3e5405ada556d726024f866"
-+PV .= ".0682"
-+SRCREV = "cb90ea9cba6f033fe141db0e466fb4117f28402b"
+-SRC_URI[sha256sum] = "709d73023c9115ddad3bab65b6c8c79a590196d0d114f5d0ca2533dbd52ddf66"
++SRC_URI[sha256sum] = "e7cce9a165f7b619eefc4832f0a8dc16b005d29e3890aed6008c506ea286a5e7"
  
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.34.1
 
