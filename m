@@ -1,143 +1,110 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 068F6CA0EFF
-	for <webhook@archiver.kernel.org>; Fri, 30 Aug 2024 10:24:38 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web11.9895.1725013474787421632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CA6CA0EFF
+	for <webhook@archiver.kernel.org>; Fri, 30 Aug 2024 10:42:38 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.10181.1725014548456941972
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Aug 2024 03:24:35 -0700
+ Fri, 30 Aug 2024 03:42:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=QwUSLav9;
- spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-533488ffaebso1963317e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 03:24:34 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=in7490He;
+ spf=pass (domain: mvista.com, ip: 209.85.215.172, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7ae3d7222d4so1156285a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 03:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725013473; x=1725618273; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N5FpuRSBCBYIkwN7UJdwcUnfmlg5Q3xzi59iTJUrHcM=;
-        b=QwUSLav95e7mvLD1MdwIp3KM7tr8OzIbytpRnDSdw3Pxpy/0eAX3Xsu8KAPeFUDZfv
-         Ulpk4icxq9sNS0zIA1GMxZOAznFKzVGxh/JalLtvftUE8ls0BrMMkqbySWIi/ngyAy0o
-         RiV4eMA91vbNAxSsM/9/3F4YjpVS6zpgzBvYIz+gZz+hIzaQ9LOkAhQonbAOT6pmPOLF
-         Jq0koXFkEJhegDewNEeR5c09sPFAp/6jS06T/BmNMJ/LIGX+dUHN3YiNXIDF3c04mTai
-         4PgNcUGV0VloIfrZKGEe4jiIRehhZocoDTtIB0Y0xjQGlskxpR6xE8YT5W39Smu6e6Q6
-         SLyg==
+        d=mvista.com; s=google; t=1725014547; x=1725619347; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XsZu0Vxq15qeHCw2yI0VTthhXy6zHN6lxaqBqfj3LmE=;
+        b=in7490HefAU/liqePje1gMd4Ohkvoo30IJ1VmaDsGVz/UvsAmPdJho386EHMfcZFb9
+         bZlDkZlvlCV49LWsRnHUl4I1sLPSi7uw0AG37G8MnDt1AL3CzB+8OZ5TfcgtLgu9EBnb
+         gwXSfNwAKUX52S7nkT949potid4i1h9/fhfjw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725013473; x=1725618273;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N5FpuRSBCBYIkwN7UJdwcUnfmlg5Q3xzi59iTJUrHcM=;
-        b=NvP6trzVqM2+LL1vxaVHoPPry6UFCzgxiX31bDdaP8lhO7TZbhl79glI6cwmzEucrg
-         YM0DoRwuoitRMf1PKw06D1sXVMvP8J1QIFs+HGmt8Vzn6zHSjLYwHiHQtWg1WyXu58AA
-         2VhwFdP3j63sNeTPVWKnZdRmROYXl24IDeiYAD9TnXC9Db85jT5Vb8H8otTwHj3VAvSU
-         4T4+cCeODoDSSI7rvkuIM9PNdHlvtG7BkavupyoZBWXd4x+ndff62umwXIadfH8H6PMU
-         HpFCTwgJHJVi0oZ67SDXXN9/2sfDYtAPT9LlvcQwnCJskiK+97aDuR1XXjxpYdbcOOQa
-         8tJA==
-X-Gm-Message-State: AOJu0Yw/twQGDOoTgkYLspHlaBblB7zOxvXHkhLmcvQ0MTz+PZ0O+PeU
-	GRGM3saslC3EBHCkYbBfhHze0uYf3UHcWABXtm+4jzAcv1UiQ26s87d4VPcpozU=
-X-Google-Smtp-Source: AGHT+IFEt+s/zlqMVvn/CXSH1gDdggiVBw8CJeGz/gCXn4uWP8S34b3JpVPLGr5dryN2dasSYGkrBw==
-X-Received: by 2002:ac2:4c4e:0:b0:52c:9f9e:d8e3 with SMTP id 2adb3069b0e04-53546b40c79mr1171857e87.31.1725013472262;
-        Fri, 30 Aug 2024 03:24:32 -0700 (PDT)
-Received: from nuoska (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-535408275c6sm535981e87.166.2024.08.30.03.24.31
+        d=1e100.net; s=20230601; t=1725014547; x=1725619347;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XsZu0Vxq15qeHCw2yI0VTthhXy6zHN6lxaqBqfj3LmE=;
+        b=wvwXf7gsEhsCnHvEGdOKNsUUGznaDlvq7OXf9IbaZdH1c0PynE5gOs5w5Z2zP4tM1a
+         1/18xCzkhagDeBy9ErbJmNLWC6Sf2DAxYplNb0asnyzOdHnKkU6o4bzCBDCTNSPfYu/X
+         g9FaXGhkmKEqDCLP3TOLjLNhfUSu0LS/Anfq95yuUOzLa9tViF4dACx3Ia1s1Jqd1TBe
+         ZIryZMdzW1unEgYYIFRAFWZggfVmKsnBIb0sUyI78g7yautjYBx2/4Bs3et27x439VZ/
+         4i4T6pREq5Jn81MS+5LwGCbMcJCUJglZaaerf982h53smbZ2i5DiE+CmFxPN9JN9QugP
+         gmIg==
+X-Gm-Message-State: AOJu0YysminosjQyk2lf86MjgDdzpnWVBbVWtWKObkgdm5s5K43Y32E6
+	tCWosjUy5p9J5MDf2kwZ7NkaIBodHlqxg7lK2LDid4Pdg5rw1giKSlbPg6mZ/Kvg1GyNugmD+E3
+	QeHo=
+X-Google-Smtp-Source: AGHT+IGZ3OZwjVwPdVIJqSMXKGewcPe22WXUVOYCLJ4dwzV2n3CO73X5+BDkZ5JB59BM5wr+XiVEAQ==
+X-Received: by 2002:a05:6a20:9e4c:b0:1cc:d9a7:a2f3 with SMTP id adf61e73a8af0-1cce0ffe3e4mr5086104637.6.1725014547193;
+        Fri, 30 Aug 2024 03:42:27 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:882c:804:2d1c:7889:c995:bd9e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152cf29fsm24480755ad.99.2024.08.30.03.42.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 03:24:31 -0700 (PDT)
-Date: Fri, 30 Aug 2024 13:24:29 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: jdmason@kudzu.us
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] default-distrovars: Have KERNEL_CONSOLE
- reference SERIAL_CONSOLES
-Message-ID: <ZtGd3Wb7E4ocBXb_@nuoska>
-References: <20240829214144.2947418-1-jdmason@kudzu.us>
+        Fri, 30 Aug 2024 03:42:26 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][master][PATCH] apr: upgrade 1.7.4 -> 1.7.5
+Date: Fri, 30 Aug 2024 16:12:18 +0530
+Message-Id: <20240830104218.1610412-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240829214144.2947418-1-jdmason@kudzu.us>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 10:24:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203956
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Aug 2024 10:42:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203957
 
-Hi,
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-On Thu, Aug 29, 2024 at 05:41:44PM -0400, Jon Mason via lists.openembedded.org wrote:
-> Currently, KERNEL_CONSOLE has a default value of "ttyS0".  However, Arm
-> machines and those using virtio serial prefer to use "ttyAMA0" or "hvc0"
-> (or something else).  These are usually defined by the machine config
-> file as SERIAL_CONSOLES, which has one or more entries.  Take the first
-> one of those instead of ttyS0, but default back to ttyS0 if nothing is
-> set.
-> 
-> Also, use this variable in the efi wic file instead of "ttyS0".
+Refreshed patch 0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
 
-What kind of issues prompted this patch?
+Includes security fix
+CVE-2023-49582
 
-I ran into possibly similar issues recently where a machine config
-and image is meant for multiple arm64 machines and serial console
-login stopped working on some of them. The kernel console messages
-were on the correct serial port on all machines but systemd-serialgetty recipe
-setup was not. I switched from the yocto specific systemd-serialgetty
-to upstream systemd which fixed all issues and serial getty is
-now on all needed serial ports (based on our test setup):
+changelog:
+https://downloads.apache.org/apr/CHANGES-APR-1.7
 
-systemd_%.bbappend:
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ ...1-configure-Remove-runtime-test-for-mmap-that-can-map-.patch | 2 +-
+ meta/recipes-support/apr/{apr_1.7.4.bb => apr_1.7.5.bb}         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/apr/{apr_1.7.4.bb => apr_1.7.5.bb} (98%)
 
-PACKAGECONFIG:append = " serial-getty-generator"
-
-In our setup we also can't set the default console via kernel command line
-since that changes between machines.
-
-Cheers,
-
--Mikko
-
-> Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> ---
->  meta/conf/distro/include/default-distrovars.inc | 3 ++-
->  scripts/lib/wic/canned-wks/mkefidisk.wks        | 2 +-
->  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-> index 7554081e8b1a..976ff4adc526 100644
-> --- a/meta/conf/distro/include/default-distrovars.inc
-> +++ b/meta/conf/distro/include/default-distrovars.inc
-> @@ -1,7 +1,8 @@
->  QA_LOGFILE = "${TMPDIR}/qa.log"
->  
->  OEINCLUDELOGS ?= "yes"
-> -KERNEL_CONSOLE ?= "ttyS0"
-> +# if SERIAL_CONSOLES is set, take the first device entry.  Otherwise use ttyS0 as the default
-> +KERNEL_CONSOLE ?= "${@d.getVar('SERIAL_CONSOLES').split(' ')[0].split(';')[1]},${@d.getVar('SERIAL_CONSOLES').split(' ')[0].split(';')[0] or 'ttyS0'}"
->  KEEPUIMAGE ??= "yes"
->  
->  DEFAULT_IMAGE_LINGUAS = "en-us en-gb"
-> diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-> index 9f534fe18471..5fa6682a9e10 100644
-> --- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-> +++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-> @@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
->  
->  part swap --ondisk sda --size 44 --label swap1 --fstype=swap
->  
-> -bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0"
-> +bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=${KERNEL_CONSOLE} console=tty0"
-> -- 
-> 2.39.2
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#203948): https://lists.openembedded.org/g/openembedded-core/message/203948
-> Mute This Topic: https://lists.openembedded.org/mt/108169885/7159507
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch b/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+index a78b16284f..3480deaa4d 100644
+--- a/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
++++ b/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+@@ -34,7 +34,7 @@ index 3663220..dce9789 100644
+ -#ifdef HAVE_SYS_MMAN_H
+ -#include <sys/mman.h>
+ -#endif
+--    int main()
++-    int main(int argc, const char *argv[])
+ -    {
+ -        int fd;
+ -        void *m;
+diff --git a/meta/recipes-support/apr/apr_1.7.4.bb b/meta/recipes-support/apr/apr_1.7.5.bb
+similarity index 98%
+rename from meta/recipes-support/apr/apr_1.7.4.bb
+rename to meta/recipes-support/apr/apr_1.7.5.bb
+index 4df741c766..78796476e2 100644
+--- a/meta/recipes-support/apr/apr_1.7.4.bb
++++ b/meta/recipes-support/apr/apr_1.7.5.bb
+@@ -25,7 +25,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://0001-dso-Check-for-NULL-handle-in-apr_dso_sym.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "fc648de983f3a2a6c9e78dea1f180639bd2fad6c06d556d4367a701fe5c35577"
++SRC_URI[sha256sum] = "cd0f5d52b9ab1704c72160c5ee3ed5d3d4ca2df4a7f8ab564e3cb352b67232f2"
+ 
+ inherit autotools-brokensep lib_package binconfig multilib_header ptest multilib_script
+ 
+-- 
+2.25.1
 
 
