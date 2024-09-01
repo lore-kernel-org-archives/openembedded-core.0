@@ -1,100 +1,99 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A200BCD3426
-	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 00:51:25 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.7702.1725151882272556966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 965A1CD3428
+	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 01:04:05 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.7860.1725152639131226513
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Aug 2024 17:51:22 -0700
+ Sat, 31 Aug 2024 18:03:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=KIB5i1He;
- spf=pass (domain: baylibre.com, ip: 209.85.219.46, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6c331543ef0so17376676d6.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Aug 2024 17:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725151881; x=1725756681; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OaUn/+1oGYSIWd78bUGLd+P3+bDAmXfDwLT6hyyhAdY=;
-        b=KIB5i1HeCTBv3T5n9EWR4MJW9VDZ0wBcvA3Pf7Vlg0/1ggRMtCstvY1oaZVN8LzBAy
-         XDVHCg+eOTO9jZcEOaS3D749zVRrYX/v2xW3OEymfT9NF77lJylpGVRA6gsp/HiDqYMx
-         fumPJCchlZfKcB6OKWrvmF1FTjRIZDYlCv+2b6AbLvFQ49R2IliTlP8U9sR6sPxeCqtU
-         xzd/1U+ovFqCE2T2Zqij29w+DPaLgxGY/3d7iAmxM0XIEZhy5KFnekW85q01UnSTBDwP
-         BQqKrNM/p/QnLQujgunb4ymlcA7l8uF2yv80jBA7Ev7GlkmDXjOQuftEgTbJlizMlLhm
-         wMiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725151881; x=1725756681;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OaUn/+1oGYSIWd78bUGLd+P3+bDAmXfDwLT6hyyhAdY=;
-        b=nsZs+qa36k6zJYOxRj5hrSpvGvf34i2MgOK/WQ2zrPBAcaBRop6CAWkLbR75u/IaY5
-         BXTAQ4AvBK20n34RobkgGmbdnq+2RG1JoVrTJt+dhCJ2vLdgvHiR0yFJ1S5ISS0tyK1H
-         7baz2+zWmTFJ73DL0OPiKiW1jx48qPHTTobT8cMBXBiIWWkjy7+tIOWFumJ4P9+ePL5T
-         mZFEuEZX0VVX79YBbwb//gybR6NvEWyZ1FZ55/VvnN8bE2dVfdO0HCst8pUUje+u2cOC
-         4nuhNOKA/uRj/7ztoWG/OZazFb+vGPE1kxbhCRTRFezysl/yUZJpIbaKVM3OOPpImy5a
-         mLYA==
-X-Gm-Message-State: AOJu0Yw/qH/IBgRafM4dZQ7WUwuGyhH+/KQhwfyuTm0801E+IfgEwcjb
-	ui7PsYNxbjL87Wo34ZDYiWQm4TE/JUf01OEEQBCqxrHAyzlf+Y75lEOMKfQ4h1FsWAV4tgVeqEE
-	shrU=
-X-Google-Smtp-Source: AGHT+IGg2WpaK2uLAsd7IWTCrjwJ13OxPyO4H65SwyQBs+HWJJ3hJOguumzlGzdYfBTMlgGGE1JZ+w==
-X-Received: by 2002:a05:6214:460b:b0:6b5:def0:b60 with SMTP id 6a1803df08f44-6c3552e0fb6mr52387776d6.4.1725151880420;
-        Sat, 31 Aug 2024 17:51:20 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c3567b43e9sm11899776d6.122.2024.08.31.17.51.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Aug 2024 17:51:20 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] patchtest: test_non_auh_upgrade: improve parse logic
-Date: Sat, 31 Aug 2024 20:51:19 -0400
-Message-Id: <20240901005119.2736306-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gZPkHrJX;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nVApk8uk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010191ab1c3531-8bd5851b-f863-4d9d-afa4-70244f0d2302-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1725152638; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=9thVVREIHAd0yLQf6klMLWi4PsfHdyd6JPmVK7XNB80=;
+	b=gZPkHrJX05TjPgjQ2+zW9gLZuVW+CMlg5vH6enAB74JIBd7xyOvCX30/0Fvklbj5
+	euhR7iclE6r4Qo6Lvsw+/U4aCv44cmFXKQuplVk/YTLRXkWp0zPnczNbghxNEY61d9R
+	ayH4/Mqestk/+N81YNz5sKrdS7yGPLPhJxg8HJk4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1725152638;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=9thVVREIHAd0yLQf6klMLWi4PsfHdyd6JPmVK7XNB80=;
+	b=nVApk8ukLfoiNgmgTdrCom0RLS6UNveFEgsbEbn0f+RTB/jX63Yeo8w9MWgPdQIw
+	tBZ7Q8eoSL0ky+9Qgc6C1MOGapCJ5E8zBd14Ey92/o6Ba91H6NaWDWm1Xa6ycarIHDV
+	Bfjnm/rgJEDSFJN9h4Sj/iIRsEAgBMwwe48FLlTg=
+From: patchtest@automation.yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH] patchtest: test_non_auh_upgrade: improve parse logic
+In-Reply-To: <20240901005119.2736306-1-tgamblin@baylibre.com>
+References: <20240901005119.2736306-1-tgamblin@baylibre.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010191ab1c3531-8bd5851b-f863-4d9d-afa4-70244f0d2302-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Sep 2024 01:03:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.09.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 00:51:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203978
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 01:04:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/203979
 
-The AUH email address used for matching was outdated. Fix it so that it
-correctly identifies emails using the new one.
+--NextPart
+Content-Type: text/plain
 
-Also make sure to only scan the commit message and not the body, since
-it's possible (like in this patch) that the user may be editing actual
-code that checks for AUH-related strings.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Fixes [YOCTO #15390].
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/lib/patchtest/tests/test_mbox.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Testing patch /home/patchtest/share/mboxes/patchtest-test_non_auh_upgrade-improve-parse-logic.patch
 
-diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
-index 0b623b7d17b..5571ba3a76b 100644
---- a/meta/lib/patchtest/tests/test_mbox.py
-+++ b/meta/lib/patchtest/tests/test_mbox.py
-@@ -22,7 +22,7 @@ def headlog():
- 
- class TestMbox(base.Base):
- 
--    auh_email = 'auh@auh.yoctoproject.org'
-+    auh_email = 'auh@yoctoproject.org'
- 
-     invalids = [pyparsing.Regex("^Upgrade Helper.+"),
-                 pyparsing.Regex(auh_email),
-@@ -155,5 +155,5 @@ class TestMbox(base.Base):
- 
-     def test_non_auh_upgrade(self):
-         for commit in self.commits:
--            if self.auh_email in commit.payload:
-+            if self.auh_email in commit.commit_message:
-                 self.fail('Invalid author %s. Resend the series with a valid patch author' % self.auh_email, commit=commit)
--- 
-2.39.2
+FAIL: test non-AUH upgrade: Invalid author auh@auh.yoctoproject.org. Resend the series with a valid patch author (test_mbox.TestMbox.test_non_auh_upgrade)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
