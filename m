@@ -2,59 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 079D5C54FC6
-	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 10:53:21 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.13956.1725187997893562050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01BA7C54FC6
+	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 10:55:40 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.13979.1725188131226611847
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Sep 2024 03:53:18 -0700
+ Sun, 01 Sep 2024 03:55:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T+TiYatA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-374c84dcc90so173087f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 03:53:17 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MIwPPyGg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-371b97cfd6fso2258266f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 03:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725187996; x=1725792796; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1725188130; x=1725792930; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3VTM61TEgIM/5Gnwcm5Em4WbFCOnHAHgScmDBHUzmoE=;
-        b=T+TiYatAnKQx7lIjJrOneZOr0lSqJXZr4uLpXnQHLUN28oqWRBcySgrHPyiAVCtN8c
-         Sd3e5d1qNrQeBEn4A808/XLgwUQzeYZnNTF58SjgclnOBPuXDhtERDYPYK7Qy53P1tW5
-         vLRfaxPWkusPoiVLSjmtcUx2FGObnqB7AqaA0=
+        bh=sXSltH7WTTxdmsb3+96mOEqIt+EuWx43Y5KQvOk7X4k=;
+        b=MIwPPyGgIrbRLFBZMvmnyqnUxkQph7hDNzuxAY5T4QXBMN6RCe+wWA60MeTf7dnkKm
+         iQy/bwzghsBHjgjPPYO0bppJh/Rx7WV3r4fsB7cqlWNPsnBHNyCsfdeI1oucANCmdvxp
+         xstx/mB2JeoRgDJlWAUJCZX+73mjYjXEfAMdw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725187996; x=1725792796;
+        d=1e100.net; s=20230601; t=1725188130; x=1725792930;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3VTM61TEgIM/5Gnwcm5Em4WbFCOnHAHgScmDBHUzmoE=;
-        b=u0Ntqz6jjQMIkGB9Jkuyjx+Xt1N2mbVQEDDOc5Iaae3Slfks6dCBBdat64n+HwUsWC
-         UmZgeE9dLnEOtnlb7sb11Lz4O2itkEefAL1DVkHj0CmF85blQuzOoy4vJ8FIen+enSuX
-         CjgvdZZLNG5k9xgQ14znperni3h87cpHxdFp0LnZqFSIamBgZ1xFVomnkIJBBvPeHq2b
-         +2Kv5ekxW0oZu57GrnTc/Ab5O/AkuZdinZEvSXC1wMtMQ4bMev5w2BqNi7sw5bFzZ8eG
-         LYC97cLWWK129fn2ZozXPMFxjBb46hAkEl8KuKxa/12xJRVq6zM63iQ9fZgIGhtz+Wj2
-         78SQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVv2ASM5HdpaojkYYnfiP1n0iA4PClcXc2zQC42oG4U7tpQo09mGFgkBl+QYsBrardKLWwLECKE1ww8SsbjUQLPBg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyURCzCghOvlVghA8Ajn+ZlwlgQnylSqNv0OxZ+IR67PWo7M/P3
-	wDgVwQFeWs834BuKsh0bv15gCehGYNP5SHLkCDrSv0uqhTG4RxGZreOl9LjjxlQ=
-X-Google-Smtp-Source: AGHT+IFV3JIPftgzW6LnTNwNb7NDrRkk4/+Kzs80xSa0/r49VfG6HJEdlXIIN0FxRJ1pUcL8VWKfAg==
-X-Received: by 2002:a5d:424b:0:b0:367:8f81:fa09 with SMTP id ffacd0b85a97d-374c94717famr403260f8f.47.1725187996146;
-        Sun, 01 Sep 2024 03:53:16 -0700 (PDT)
+        bh=sXSltH7WTTxdmsb3+96mOEqIt+EuWx43Y5KQvOk7X4k=;
+        b=bzhGiZYPJrNgGo3oOfAAqfbQ9AykaB4vABujios6Ai2w/FLSZqRdrsmc61LlN35MIt
+         A/wwV1bJbV6q/kIAnunv6AxIh8kGmD2prUmP7KhDpDpmKTBiJTr1/dnW17Tl0QJzHsME
+         Lc3IOlACFH6x0+wSZZr0KfmNkGd1oPv5kD5ERQlaQ2+Amzj2RjU5rG0I4EuIg4GbQYLO
+         SeMpzdhdN+BomXWwJYA6/efDytYh6POgnj98CGrV6+HMEk3TQ+UKFkWAX3l2HByHNfAb
+         iun+KR97t9hECpYJjHd/Z8wVAhqxKM+5Xjt4A2v7K4IznA4XUVF4rKDvCeoAXnNVfBEL
+         QUmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUBxNocdniX+rzrYRrD/svyQoslv2Xb0zYV4WC80nKLuEQp2CVu26FioZhCU+qONDnGYLyl/fbBbOo4CR3iDZh4FQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwWXfmA5heLe7+0enlymv2+g6WUfSQZwhJ2cNNzY1RiUn454Gjy
+	lsvBir6C6IOKxg9REQrSqEEKVoZpXAOrhuJsiX2vW15B03Q34FmaBZxzd3wouUCTB35VoqsnRHn
+	/
+X-Google-Smtp-Source: AGHT+IGbJMy083gY/jgF3A6gzDszKAJzKg+IbRZQJvK+k3t/OMFTC7FVIr7nrFuq1RXwZUVzQJdC4Q==
+X-Received: by 2002:a5d:69cb:0:b0:374:be10:3eb7 with SMTP id ffacd0b85a97d-374be104023mr2317653f8f.38.1725188129550;
+        Sun, 01 Sep 2024 03:55:29 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:c6b5:7d2b:4127:f9f9? ([2001:8b0:aba:5f3c:c6b5:7d2b:4127:f9f9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c08e07b6sm3430185f8f.63.2024.09.01.03.53.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c61a7f03sm1640499f8f.55.2024.09.01.03.55.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Sep 2024 03:53:15 -0700 (PDT)
-Message-ID: <ad56dadc1ba7cc73785a7a1414f95f7771d1e0bd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] abi-version/ssate: Bump to avoid systemd hash
- corruption issue
+        Sun, 01 Sep 2024 03:55:29 -0700 (PDT)
+Message-ID: <b7b2d9e74f400fb604c2f5976538b1f788dd50f0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] icu: Fix 'buildpaths' QA error
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Sun, 01 Sep 2024 11:53:14 +0100
-In-Reply-To: <DB5PR02MB102133BE7944D89C00AD695FFEF912@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20240901071848.96558-1-richard.purdie@linuxfoundation.org>
-	 <DB5PR02MB102133BE7944D89C00AD695FFEF912@DB5PR02MB10213.eurprd02.prod.outlook.com>
+To: niko.mauno@vaisala.com, openembedded-core@lists.openembedded.org
+Date: Sun, 01 Sep 2024 11:55:28 +0100
+In-Reply-To: <20240831130113.34867-1-niko.mauno@vaisala.com>
+References: <20240831130113.34867-1-niko.mauno@vaisala.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1 
@@ -62,75 +59,30 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 10:53:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204042
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 10:55:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204043
 
-On Sun, 2024-09-01 at 10:36 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From:
-> > openembedded-core@lists.openembedded.org=C2=A0<openembedded-core@lists.=
-openembedded.org
-> > > On Behalf Of Richard Purdie
-> > Sent: den 1 september 2024 09:19
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] abi-version/ssate: Bump to avoid systemd
-> > hash corruption issue
-> >=20
-> > Unfortunately some recent patches caused non-deterministic output.
-> > One input hash lead to both good and bad output and whilst that
-> > patch
-> > has been fixed, the problematic hash 'cross' linkage remains. Bump
-> > to
-> > a new sstate and hash equivalence version to avoid this and work
-> > from
-> > a clean slate.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > =C2=A0meta/classes-global/sstate.bbclass | 2 +-
-> > =C2=A0meta/conf/abi_version.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 2 +-
-> > =C2=A02 files changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-
-> > global/sstate.bbclass
-> > index beb22f424e8..fdd529ee4e8 100644
-> > --- a/meta/classes-global/sstate.bbclass
-> > +++ b/meta/classes-global/sstate.bbclass
-> > @@ -4,7 +4,7 @@
-> > =C2=A0# SPDX-License-Identifier: MIT
-> > =C2=A0#
-> >=20
-> > -SSTATE_VERSION =3D "12"
-> > +SSTATE_VERSION =3D "14"
-> >=20
-> > =C2=A0SSTATE_ZSTD_CLEVEL ??=3D "8"
-> >=20
-> > diff --git a/meta/conf/abi_version.conf
-> > b/meta/conf/abi_version.conf
-> > index 0fe91b5ddf3..ac97752c976 100644
-> > --- a/meta/conf/abi_version.conf
-> > +++ b/meta/conf/abi_version.conf
-> > @@ -12,4 +12,4 @@ OELAYOUT_ABI =3D "15"
-> > =C2=A0# a reset of the equivalence, for example when reproducibility
-> > issues break the
-> > =C2=A0# existing match data. Distros can also append to this value for
-> > the same effect.
-> > =C2=A0#
-> > -HASHEQUIV_HASH_VERSION=C2=A0 =3D "17"
-> > +HASHEQUIV_HASH_VERSION=C2=A0 =3D "18"
+On Sat, 2024-08-31 at 16:01 +0300, Niko Mauno via
+lists.openembedded.org wrote:
+> Add stripping of STAGING_DIR_NATIVE during target/nativesdk specific
+> do_install, which mitigates following BitBake failure:
 >=20
-> Is this actually needed now after the changes to insane.bbclass?
-> Won't those changes effectively invalidate the whole sstate anyway?
+> =C2=A0 ERROR: icu-75-1-r0 do_package_qa: QA Issue: File
+> /usr/lib/icu/75.1/pkgdata.inc in package icu-dev contains reference
+> to TMPDIR [buildpaths]
+> =C2=A0 ERROR: icu-75-1-r0 do_package_qa: Fatal QA errors were found,
+> failing task.
+>=20
+> While doing so, we also drop HOSTTOOLS_DIR stripping, as it's value
+> does not appear in the content of either file that are manipulated
+> here.
+>=20
+> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+> ---
+> =C2=A0meta/recipes-support/icu/icu_75-1.bb | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
 
-Firstly, those changes don't change the output of the tasks so no, the
-mismatched output hashes would have remained a problem.
-
-Secondly, those had already merged and been tested alongside the
-systemd changes so it was already too late anyway.
-
-So sadly I just can't see an alternative to this due to where the
-corruption is.
+Why aren't we seeing this issue in automated test?
 
 Cheers,
 
