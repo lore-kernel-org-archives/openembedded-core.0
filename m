@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9995FCD3446
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD995CD37AD
 	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 06:40:58 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.11410.1725172853544816731
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.11354.1725172853601720755
  for <openembedded-core@lists.openembedded.org>;
  Sat, 31 Aug 2024 23:40:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cxmFmZDx;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Yr267oTD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010191ac50ab31-6c7bd686-4b33-4e02-946b-e794229abd8f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SnwAV1IN;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=miAlL3W/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010191ac50a57e-95a5862b-002c-4aab-82f1-07bb1380ebf2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1725172853;
+	t=1725172852;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hzS/KpnSjGH8H4Yl0+zf9nF28M9XUOziG6Pam2RjVWo=;
-	b=cxmFmZDxhO7rNfXUlv+f3tcRTUgoKxssQ5fgmbtKfNOPNDTVN+4E8AIzHtfYkdEB
-	/TOWDqFcscURhv/aUT+aQNT81CK/PZSrB0c2VRiycrcYNOCndZ9YhSGdTtnadJhdJZO
-	4+RLcBInmuenbuwT7HuqqMqsBm8KjJVKxHLu6rcc=
+	bh=g9rGt72e0HgpVVjnfsjlotL1AXXDQC+kQhymv0ZLCII=;
+	b=SnwAV1IN2ZWVu8xZ5dfRxeer4571/suXBZoZnzoXkNYUypSK1fp00USmMHyfi8fs
+	k69mTFowhsV188JSoMSavzatIhuk2gZD65A+97MohSqID3UkHJDee5Co0t+SFDrCP9r
+	0dTCt5CaYcMn29CsUi6xSwy5w0/4YCr/DvDvisQc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1725172853;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1725172852;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hzS/KpnSjGH8H4Yl0+zf9nF28M9XUOziG6Pam2RjVWo=;
-	b=Yr267oTDovp4N11o6Brp8sBr2Il6v3Y8EiQa/tWlZWLJHUt5hAi9zDxSsvJyrcWk
-	H/tlCeaLkFE6UFPRYG1y7T0ak93mXY1t8ZV7bVJaGN+xC82s7hNm36qEQHrHHH9ZyE6
-	VWr/R1g9Ubpk/mzgH9j2qkSx+ql84nZm2n67Gy/E=
-Content-Type: multipart/mixed; boundary="===============2041714443085036894=="
+	bh=g9rGt72e0HgpVVjnfsjlotL1AXXDQC+kQhymv0ZLCII=;
+	b=miAlL3W/NukLefa8kc5bogt4sFSZNPTtx0n6CayNWv7evVyB3l5I7RfvDhHSxucd
+	L1R0n+7Of1Y0TEJuJVom4F5PZmP1m9o+C70i6P0VAYon5Z1dEs83kej6EF7cs3pa8f2
+	ysNnT2ccimZ8h+Sl0v0tNBY3WVXtXUMxxnW8VEnw=
+Content-Type: multipart/mixed; boundary="===============5326712427697503934=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.7 FAILED
-Message-ID: <01010191ac50ab31-6c7bd686-4b33-4e02-946b-e794229abd8f-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Sep 2024 06:40:53 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] cmake,cmake-native: upgrading to 3.30.3,3.30.3 SUCCEEDED
+Message-ID: <01010191ac50a57e-95a5862b-002c-4aab-82f1-07bb1380ebf2-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Sep 2024 06:40:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.01-54.240.27.193
+X-SES-Outgoing: 2024.09.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 06:40:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204009
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204001
 
---===============2041714443085036894==
+--===============5326712427697503934==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,296 +51,184 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.24.7* has Failed(other errors).
+that the automatic attempt to upgrade the recipe(s) *cmake,cmake-native* to *3.30.3,3.30.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-cmake-cmake-native-upgrade-3.30.2-3.30.3-3.30.2-3.30.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-'MACHINE=qemux86-64 bitbake gstreamer1.0-python' failed
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1867 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-69fe8a0f5dace7480b8e2d398b3560c8d7759a73"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:69fe8a0f5dace7480b8e2d398b3560c8d7759a73"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 442 Local 388 Mirrors 0 Missed 54 Current 727 (87% match, 95% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 937 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 950 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 959 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_populate_lic_setscene: Started
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 1161 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1162 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_package_setscene)
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1631 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_unpack)
-NOTE: Running task 1707 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.0.bb:do_unpack)
-NOTE: Running task 1719 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_package_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_unpack: Started
-NOTE: recipe cairo-1.18.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1945 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_unpack)
-NOTE: Running task 2028 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_unpack)
-NOTE: Running task 2030 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb:do_unpack)
-NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Started
-NOTE: Running task 2181 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-9.0.0-r0: task do_unpack: Started
-NOTE: Running task 2222 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_unpack)
-NOTE: Running task 2223 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_unpack)
-NOTE: Running task 2271 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 1163 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.26.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1164 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.26.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1165 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 2327 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_unpack)
-NOTE: recipe libglu-2_9.0.3-r0: task do_unpack: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.54.0-r0: task do_unpack: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2461 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb:do_fetch)
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_unpack: Started
-NOTE: Running task 2506 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_write_config)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 1166 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_fetch: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1167 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.26.1.bb:do_package_setscene)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_write_config: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 2510 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_write_config: Succeeded
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2555 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_package_setscene: Started
-NOTE: Running task 2623 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 2625 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_fetch)
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_unpack: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_fetch: Started
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2626 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_unpack)
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_unpack: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 1168 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.26.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 1169 of 1169 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.26.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2628 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.26.1.bb:do_fetch)
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_fetch: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2629 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pycairo_1.26.1.bb:do_unpack)
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_unpack: Started
-NOTE: recipe python3-pycairo-1.26.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2673 of 3213 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_collect_spdx_deps)
-NOTE: recipe fontconfig-2.15.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_unpack: Failed
-NOTE: recipe cairo-1.18.0-r0: task do_unpack: Failed
-NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Failed
-NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Failed
-NOTE: recipe harfbuzz-9.0.0-r0: task do_unpack: Failed
-NOTE: recipe libglu-2_9.0.3-r0: task do_unpack: Failed
-NOTE: recipe pango-1.54.0-r0: task do_unpack: Failed
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_unpack: Failed
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Failed
-NOTE: recipe gstreamer1.0-python-1.24.6-r0: task do_unpack: Failed
-NOTE: recipe python3-pygobject-3.48.2-r0: task do_unpack: Failed
-NOTE: recipe fontconfig-2.15.0-r0: task do_collect_spdx_deps: Failed
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_prepare_recipe_sysroot: Failed
-NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Failed
-NOTE: recipe mesa-2_24.0.7-r0: task do_prepare_recipe_sysroot: Failed
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Failed
-NOTE: Tasks Summary: Attempted 2674 tasks of which 2653 didn't need to be rerun and 16 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240901063526.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240901063526.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 16 tasks failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.24.6/temp/log.do_unpack.2678668
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.0.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/cairo/1.18.0/temp/log.do_unpack.2678669
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mesa/24.0.7/temp/log.do_unpack.2678690
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libxft/2.3.8/temp/log.do_unpack.2678691
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/harfbuzz/9.0.0/temp/log.do_unpack.2678693
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libglu/9.0.3/temp/log.do_unpack.2678736
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/pango/1.54.0/temp/log.do_unpack.2678734
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.6/temp/log.do_unpack.2678772
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/qemux86_64-poky-linux/base-files/3.0.14/temp/log.do_patch.2678855
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.6/temp/log.do_unpack.2678871
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_unpack
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-pygobject/3.48.2/temp/log.do_unpack.2678916
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_collect_spdx_deps
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/fontconfig/2.15.0/temp/log.do_collect_spdx_deps.2679028
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_prepare_recipe_sysroot
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.24.6/temp/log.do_prepare_recipe_sysroot.2678670
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_prepare_recipe_sysroot
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libxft/2.3.8/temp/log.do_prepare_recipe_sysroot.2678760
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_prepare_recipe_sysroot
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mesa/24.0.7/temp/log.do_prepare_recipe_sysroot.2678717
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/qemux86_64-poky-linux/base-files/3.0.14/temp/log.do_prepare_recipe_sysroot.2678891
-Summary: There were 16 ERROR messages, returning a non-zero exit code.
-
-ERROR: gstreamer1.0-1.24.6-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: cairo-1.18.0-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: mesa-2_24.0.7-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: libxft-1_2.3.8-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: harfbuzz-9.0.0-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: libglu-2_9.0.3-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: pango-1.54.0-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: base-files-3.0.14-r0 do_patch: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: gstreamer1.0-python-1.24.6-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: python3-pygobject-3.48.2-r0 do_unpack: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: fontconfig-2.15.0-r0 do_collect_spdx_deps: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.24.6/temp/log.do_unpack.2678668
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/cairo/1.18.0/temp/log.do_unpack.2678669
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.0.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mesa/24.0.7/temp/log.do_unpack.2678690
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libxft/2.3.8/temp/log.do_unpack.2678691
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/harfbuzz/9.0.0/temp/log.do_unpack.2678693
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libglu/9.0.3/temp/log.do_unpack.2678736
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/pango/1.54.0/temp/log.do_unpack.2678734
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_unpack) failed with exit code '1'
-ERROR: gstreamer1.0-1.24.6-r0 do_prepare_recipe_sysroot: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: libxft-1_2.3.8-r0 do_prepare_recipe_sysroot: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-plugins-base/1.24.6/temp/log.do_unpack.2678772
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_unpack) failed with exit code '1'
-ERROR: mesa-2_24.0.7-r0 do_prepare_recipe_sysroot: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/qemux86_64-poky-linux/base-files/3.0.14/temp/log.do_patch.2678855
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch) failed with exit code '1'
-ERROR: base-files-3.0.14-r0 do_prepare_recipe_sysroot: The sstate manifest for task 'libtool-native:populate_sysroot' (multilib variant '') could not be found.
-The pkgarchs considered were: x86_64, x86_64_almalinux-8.10.
-But none of these manifests exists:
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64-libtool-native.populate_sysroot
-    /home/pokybuild/yocto-worker/auh/build/build/tmp/sstate-control/manifest-x86_64_almalinux-8.10-libtool-native.populate_sysroot
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.6/temp/log.do_unpack.2678871
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-pygobject/3.48.2/temp/log.do_unpack.2678916
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.48.2.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/fontconfig/2.15.0/temp/log.do_collect_spdx_deps.2679028
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_collect_spdx_deps) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.24.6/temp/log.do_prepare_recipe_sysroot.2678670
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_prepare_recipe_sysroot) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libxft/2.3.8/temp/log.do_prepare_recipe_sysroot.2678760
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_prepare_recipe_sysroot) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mesa/24.0.7/temp/log.do_prepare_recipe_sysroot.2678717
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_prepare_recipe_sysroot) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/qemux86_64-poky-linux/base-files/3.0.14/temp/log.do_prepare_recipe_sysroot.2678891
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot) failed with exit code '1'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2041714443085036894==--
+
+-- >8 --
+From a8fa18014f217a81bad58465f65e74fc928a6a6c Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 Sep 2024 05:41:10 +0000
+Subject: [PATCH] cmake,cmake-native: upgrade 3.30.2 -> 3.30.3,3.30.2 -> 3.30.3
+
+---
+ .../cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.3.bb}    | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ .../cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch   | 2 +-
+ ...5-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch | 2 +-
+ .../recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.3.bb} | 0
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.3.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.3.bb} (100%)
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.30.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.30.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.30.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index b88a4e4bc6..2c1b2be778 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+ "
+ 
+-SRC_URI[sha256sum] = "46074c781eccebc433e98f0bbfa265ca3fd4381f245ca3b140e7711531d60db2"
++SRC_URI[sha256sum] = "6d5de15b6715091df7f5441007425264bdd477809f80333fdf95f846aaff88e4"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+index 7dc07582da..fd8c7fd01d 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+@@ -1,4 +1,4 @@
+-From 5e624d82c2838fec2f41ebec124f74aacff9e61f Mon Sep 17 00:00:00 2001
++From 71b3d912179a7a5ac2db9e7a83998e5c71bc9785 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Wed, 28 Dec 2022 17:51:27 +0800
+ Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
+diff --git a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+index 8788cc7964..21b0746e4f 100644
+--- a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
++++ b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+@@ -1,4 +1,4 @@
+-From b97f7dbb2637c6da772833c93bedc8be77520fb9 Mon Sep 17 00:00:00 2001
++From 8f6fc662af65e0aa5ed994eea4ff8872d1054d5f Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:28:04 -0300
+ Subject: [PATCH] Disable use of ext2fs/ext2_fs.h by cmake's internal
+diff --git a/meta/recipes-devtools/cmake/cmake_3.30.2.bb b/meta/recipes-devtools/cmake/cmake_3.30.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.30.3.bb
+-- 
+2.44.0
+
+
+--===============5326712427697503934==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cmake-cmake-native-upgrade-3.30.2-3.30.3-3.30.2-3.30.patch"
+
+RnJvbSBhOGZhMTgwMTRmMjE3YTgxYmFkNTg0NjVmNjVlNzRmYzkyOGE2YTZjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBTZXAgMjAyNCAwNTo0MToxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNt
+YWtlLGNtYWtlLW5hdGl2ZTogdXBncmFkZSAzLjMwLjIgLT4gMy4zMC4zLDMuMzAuMiAtPiAzLjMw
+LjMKCi0tLQogLi4uL2NtYWtlL3tjbWFrZS1uYXRpdmVfMy4zMC4yLmJiID0+IGNtYWtlLW5hdGl2
+ZV8zLjMwLjMuYmJ9ICAgIHwgMAogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmlu
+YyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL2NtYWtlL2NtYWtlLzAwMDEt
+Q01ha2VMaXN0cy50eHQtZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRjaCAgIHwgMiArLQogLi4uNS1E
+aXNhYmxlLXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwtLnBhdGNo
+IHwgMiArLQogLi4uL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtlXzMuMzAuMi5iYiA9PiBj
+bWFrZV8zLjMwLjMuYmJ9IHwgMAogNSBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMg
+ZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZS1u
+YXRpdmVfMy4zMC4yLmJiID0+IGNtYWtlLW5hdGl2ZV8zLjMwLjMuYmJ9ICgxMDAlKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97Y21ha2VfMy4zMC4yLmJiID0+IGNtYWtlXzMu
+MzAuMy5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtl
+L2NtYWtlLW5hdGl2ZV8zLjMwLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21h
+a2UtbmF0aXZlXzMuMzAuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5hdGl2ZV8zLjMwLjIuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfMy4zMC4zLmJiCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwppbmRleCBiODhhNGU0YmM2Li4yYzFiMmJlNzc4
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCisrKyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKQEAgLTE5LDcgKzE5LDcgQEAg
+Q01BS0VfTUFKT1JfVkVSU0lPTiA9ICIke0AnLicuam9pbihkLmdldFZhcignUFYnKS5zcGxpdCgn
+LicpWzA6Ml0pfSIKIFNSQ19VUkkgPSAiaHR0cHM6Ly9jbWFrZS5vcmcvZmlsZXMvdiR7Q01BS0Vf
+TUFKT1JfVkVSU0lPTn0vY21ha2UtJHtQVn0udGFyLmd6IFwKICIKIAotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjQ2MDc0Yzc4MWVjY2ViYzQzM2U5OGYwYmJmYTI2NWNhM2ZkNDM4MWYyNDVjYTNiMTQw
+ZTc3MTE1MzFkNjBkYjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNmQ1ZGUxNWI2NzE1MDkxZGY3
+ZjU0NDEwMDc0MjUyNjRiZGQ0Nzc4MDlmODAzMzNmZGY5NWY4NDZhYWZmODhlNCIKIAogVVBTVFJF
+QU1fQ0hFQ0tfUkVHRVggPSAiY21ha2UtKD9QPHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtlTGlz
+dHMudHh0LWRpc2FibGUtVVNFX05HSFRUUDIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Y21ha2UvY21ha2UvMDAwMS1DTWFrZUxpc3RzLnR4dC1kaXNhYmxlLVVTRV9OR0hUVFAyLnBhdGNo
+CmluZGV4IDdkYzA3NTgyZGEuLmZkOGM3ZmQwMWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtlTGlzdHMudHh0LWRpc2FibGUtVVNFX05HSFRU
+UDIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01h
+a2VMaXN0cy50eHQtZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gNWU2MjRkODJjMjgzOGZlYzJmNDFlYmVjMTI0Zjc0YWFjZmY5ZTYxZiBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gNzFiM2Q5MTIxNzlhN2E1YWMyZGI5ZTdhODM5OThlNWM3MWJjOTc4
+NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENoYW5ncWluZyBMaSA8Y2hhbmdxaW5n
+LmxpQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDI4IERlYyAyMDIyIDE3OjUxOjI3ICswODAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIENNYWtlTGlzdHMudHh0OiBkaXNhYmxlIFVTRV9OR0hUVFAyCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwNS1EaXNhYmxl
+LXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwtLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDUtRGlzYWJsZS11c2Utb2YtZXh0MmZz
+LWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFsLS5wYXRjaAppbmRleCA4Nzg4Y2M3OTY0Li4y
+MWIwNzQ2ZTRmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2Uv
+MDAwNS1EaXNhYmxlLXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwt
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDA1LURpc2Fi
+bGUtdXNlLW9mLWV4dDJmcy1leHQyX2ZzLmgtYnktY21ha2Utcy1pbnRlcm5hbC0ucGF0Y2gKQEAg
+LTEsNCArMSw0IEBACi1Gcm9tIGI5N2Y3ZGJiMjYzN2M2ZGE3NzI4MzNjOTNiZWRjOGJlNzc1MjBm
+YjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDhmNmZjNjYyYWY2NWUwYWE1ZWQ5OTRl
+ZWE0ZmY4ODcyZDEwNTRkNWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBPdGF2aW8g
+U2FsdmFkb3IgPG90YXZpb0Bvc3N5c3RlbXMuY29tLmJyPgogRGF0ZTogVGh1LCA1IEp1bCAyMDE4
+IDEwOjI4OjA0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgdXNlIG9mIGV4dDJmcy9l
+eHQyX2ZzLmggYnkgY21ha2UncyBpbnRlcm5hbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2NtYWtlL2NtYWtlXzMuMzAuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFr
+ZS9jbWFrZV8zLjMwLjMuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjMwLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjMwLjMuYmIKLS0gCjIuNDQuMAoK
+
+--===============5326712427697503934==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake/cmake-dbg: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1051459208 to 1051519720 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake/cmake-dev: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake-dev: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake/cmake-doc: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake-doc: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake/cmake-locale: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake-locale: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake/cmake-src: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake-src: PKGSIZE changed from 10022979 to 10023918 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-src: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake/cmake: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake/cmake: PKGSIZE changed from 41423617 to 41429485 (+0%)
+packages/core2-64-poky-linux/cmake/cmake: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v3.30/cmake-3.30.2.tar.gz" to "https://cmake.org/files/v3.30/cmake-3.30.3.tar.gz"
+packages/core2-64-poky-linux/cmake: PV changed from "3.30.2" to "3.30.3"
+packages/core2-64-poky-linux/cmake: PKGV changed from 3.30.2 [default] to 3.30.3 [default]
+packages/core2-64-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9422342 to 9620507 (+2%)
+
+--===============5326712427697503934==--
 
