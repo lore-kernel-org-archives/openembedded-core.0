@@ -1,90 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01BA7C54FC6
-	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 10:55:40 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.13979.1725188131226611847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 259E5CA101E
+	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 11:19:01 +0000 (UTC)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.web10.14316.1725189533178508145
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Sep 2024 03:55:31 -0700
+ Sun, 01 Sep 2024 04:18:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MIwPPyGg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-371b97cfd6fso2258266f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 03:55:30 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=s9UxWxmM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.217.44, mailfrom: steve@sakoman.com)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-498d14b9b8cso1121786137.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 04:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725188130; x=1725792930; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725189532; x=1725794332; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sXSltH7WTTxdmsb3+96mOEqIt+EuWx43Y5KQvOk7X4k=;
-        b=MIwPPyGgIrbRLFBZMvmnyqnUxkQph7hDNzuxAY5T4QXBMN6RCe+wWA60MeTf7dnkKm
-         iQy/bwzghsBHjgjPPYO0bppJh/Rx7WV3r4fsB7cqlWNPsnBHNyCsfdeI1oucANCmdvxp
-         xstx/mB2JeoRgDJlWAUJCZX+73mjYjXEfAMdw=
+        bh=wxGLV/54LIeCNI1a9JR5VTB0BvV5XaWcKGJU9rDqAt4=;
+        b=s9UxWxmMxViFSbjbIGYXfsscuSJSlMF3gXdQtt37Wqe3q7Ja8/CRHm8wBJhu4f34tE
+         qwX/vVOxY5KPXr/5X8mn79BYVAaAo4DF2+YzBmrQoIMf6SpZKtPS9UnkDjsl5aLnp5GQ
+         +cygYbAJpEVHlYeK1fXKEXb2dKiaKKT94Su0lDart2JkYjlHXyKpy/b9rg8dhWBn503r
+         uVhbIlAoEKN+JmkF3b8fIYHjXFMMQYNL2Wl2x3bDYa8VhZJr/fYnYpzDGXgRRtzuD/J5
+         5aFrD0XYmva0ylcOPGe1h+t+sVrzkeldbQauwqKHHMfB3zvhlb2win1/hcDdeOXvXM+Y
+         MMcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725188130; x=1725792930;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1725189532; x=1725794332;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sXSltH7WTTxdmsb3+96mOEqIt+EuWx43Y5KQvOk7X4k=;
-        b=bzhGiZYPJrNgGo3oOfAAqfbQ9AykaB4vABujios6Ai2w/FLSZqRdrsmc61LlN35MIt
-         A/wwV1bJbV6q/kIAnunv6AxIh8kGmD2prUmP7KhDpDpmKTBiJTr1/dnW17Tl0QJzHsME
-         Lc3IOlACFH6x0+wSZZr0KfmNkGd1oPv5kD5ERQlaQ2+Amzj2RjU5rG0I4EuIg4GbQYLO
-         SeMpzdhdN+BomXWwJYA6/efDytYh6POgnj98CGrV6+HMEk3TQ+UKFkWAX3l2HByHNfAb
-         iun+KR97t9hECpYJjHd/Z8wVAhqxKM+5Xjt4A2v7K4IznA4XUVF4rKDvCeoAXnNVfBEL
-         QUmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBxNocdniX+rzrYRrD/svyQoslv2Xb0zYV4WC80nKLuEQp2CVu26FioZhCU+qONDnGYLyl/fbBbOo4CR3iDZh4FQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwWXfmA5heLe7+0enlymv2+g6WUfSQZwhJ2cNNzY1RiUn454Gjy
-	lsvBir6C6IOKxg9REQrSqEEKVoZpXAOrhuJsiX2vW15B03Q34FmaBZxzd3wouUCTB35VoqsnRHn
-	/
-X-Google-Smtp-Source: AGHT+IGbJMy083gY/jgF3A6gzDszKAJzKg+IbRZQJvK+k3t/OMFTC7FVIr7nrFuq1RXwZUVzQJdC4Q==
-X-Received: by 2002:a5d:69cb:0:b0:374:be10:3eb7 with SMTP id ffacd0b85a97d-374be104023mr2317653f8f.38.1725188129550;
-        Sun, 01 Sep 2024 03:55:29 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c6b5:7d2b:4127:f9f9? ([2001:8b0:aba:5f3c:c6b5:7d2b:4127:f9f9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c61a7f03sm1640499f8f.55.2024.09.01.03.55.28
+        bh=wxGLV/54LIeCNI1a9JR5VTB0BvV5XaWcKGJU9rDqAt4=;
+        b=J/W74K9AW0YlWMw5sdIMXPkJAS94yTwBtRwo3TDa9iIpJbe/VWzwtid61OJy/0TU1j
+         JQUh36tbtUlwtM7noLpmEsj2KF3VNz9dY1o0/c52QgXVeTVEuZ30nqtD/Z1UvowlDLOd
+         bbOR9WHoKtlAYzAharsxbkZ1d0nXPJfzFaJYmLEMFe4plK+HjnOXU5J66xba1YncwpG5
+         SWvRG6HS2YbWEnFDr8CGSTdmBnqafiOc2Drh0+J2a6OiptI1LARZpBdNV6FQduX+PmA4
+         jCD8S791/F8u5xVTa8AvNZIORPByw4Ax4XuiYybL2BGZxYBZ0TSs1Cc2qC8HVsnQDkRe
+         lVvQ==
+X-Gm-Message-State: AOJu0Yx09iyH7a9bTCxK1AR/QapvFTAlUwsBpBaqWv8Sm1OhuTe35IlI
+	hlvg+cGTLucZYM9jEtXfxqwvwFPULU7n56WrSSegPxFZRPxr4mD+tirZWxI/mILAc3X02CXzla4
+	6
+X-Google-Smtp-Source: AGHT+IFZSmeE0AZYhSAbFfKUT932e+U6o7DmVWb8qOj8qX9FnntrMIDo9q/bqmLtoBhvCvYjRZMxUg==
+X-Received: by 2002:a05:6102:4428:b0:493:b719:efaf with SMTP id ada2fe7eead31-49a5af35cd5mr14571524137.20.1725189531949;
+        Sun, 01 Sep 2024 04:18:51 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a806c255d6sm319393285a.45.2024.09.01.04.18.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Sep 2024 03:55:29 -0700 (PDT)
-Message-ID: <b7b2d9e74f400fb604c2f5976538b1f788dd50f0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] icu: Fix 'buildpaths' QA error
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: niko.mauno@vaisala.com, openembedded-core@lists.openembedded.org
-Date: Sun, 01 Sep 2024 11:55:28 +0100
-In-Reply-To: <20240831130113.34867-1-niko.mauno@vaisala.com>
-References: <20240831130113.34867-1-niko.mauno@vaisala.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
-MIME-Version: 1.0
+        Sun, 01 Sep 2024 04:18:51 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 70472100436; Sun,  1 Sep 2024 01:18:50 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 01 Sep 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  1 Sep 2024 01:18:50 -1000
+Message-Id: <20240901111850.70472100436@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 10:55:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204043
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 11:19:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204044
 
-On Sat, 2024-08-31 at 16:01 +0300, Niko Mauno via
-lists.openembedded.org wrote:
-> Add stripping of STAGING_DIR_NATIVE during target/nativesdk specific
-> do_install, which mitigates following BitBake failure:
->=20
-> =C2=A0 ERROR: icu-75-1-r0 do_package_qa: QA Issue: File
-> /usr/lib/icu/75.1/pkgdata.inc in package icu-dev contains reference
-> to TMPDIR [buildpaths]
-> =C2=A0 ERROR: icu-75-1-r0 do_package_qa: Fatal QA errors were found,
-> failing task.
->=20
-> While doing so, we also drop HOSTTOOLS_DIR stripping, as it's value
-> does not appear in the content of either file that are manipulated
-> here.
->=20
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> ---
-> =C2=A0meta/recipes-support/icu/icu_75-1.bb | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+Branch: master
 
-Why aren't we seeing this issue in automated test?
+New this week: 0 CVEs
 
-Cheers,
+Removed this week: 25 CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-32928 (CVSS3: 5.9 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-32928 *
+CVE-2024-35325 (CVSS3: N/A): libyaml:libyaml-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35325 *
+CVE-2024-42262 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42262 *
+CVE-2024-42263 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42263 *
+CVE-2024-42268 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42268 *
+CVE-2024-42269 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42269 *
+CVE-2024-42270 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42270 *
+CVE-2024-42271 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-42271 *
+CVE-2024-6505 (CVSS3: 6.8 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6505 *
+CVE-2024-7592 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-7592 *
 
-Richard
+Full list:  Found 0 unpatched CVEs
+
+Summary of CVE counts by recipe:
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
