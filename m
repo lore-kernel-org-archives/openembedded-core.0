@@ -1,87 +1,100 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4057CD342A
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:58:48 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.36073.1725274723518718857
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BF02CA0ED3
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 11:05:18 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web11.36334.1725275109346276524
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 03:58:43 -0700
+ Mon, 02 Sep 2024 04:05:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=QqVD8ql4;
- spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5334c018913so3765073e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 03:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725274722; x=1725879522; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mJ/knW2N7PVRDDB5R+brL7z9Erq/BRnXkTj06+QJIXc=;
-        b=QqVD8ql4G0pLkZlZzaggMYSH3D96PogPNEozquem1RoBb4QjGAsArpSE/WNoiuYa+C
-         BuctJb355zEE5IG3NeMT7pVu9dIIyW5yszyaZ5qflNiD8oALDY8v8ZF8KdpPumlVbc/t
-         5ky42lVklG5U61w4aMOtAtHtfub1N7tSQ1Ixn2RoW21upsi1Kbx/XweU9Wlcn+eRrI1R
-         Ts5m57n80x+oF6OietydkYHokoNV1boz0y/rlKdUTW3kxj4SrB21er0roBN7Yiae+j+x
-         h60RbTfqrccNzXLRqQ/ZBbhm3bfeuFIJBRgGU35/CNn5FS5EiMEIAhsRF0/airCyNTl1
-         7eYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725274722; x=1725879522;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mJ/knW2N7PVRDDB5R+brL7z9Erq/BRnXkTj06+QJIXc=;
-        b=ng3ZSpHw8JdDXAhY0/FxP+fO1JTbG0NmwkBL6959B4Elytk4FoDa1muMpbPDXf5Z/5
-         TCh0XLs4R5NHu8NoTzjG6v9++5D2/yTAJ5T5T6GbXQauBUm7PjmBCGxnubcRRLNXyzKO
-         y9vhA1banijIKet54nJzZQ4fjt5N1eQc6i1duvBvMoXC71ImUpOiaQuQv+VlWGKqM9OT
-         mgt0GUB7uBlCiIRiH6Jzub8TLBHuZ0cPcC3OJFlRkghumapvr25882idCjuqP8wMSq8q
-         0tprneBwN/h643WpGK/bNSGfCKfPSvPKNqEB5+ZcGlUi/K//C/MKvDAaqt7jDTxA1pRt
-         zpEw==
-X-Gm-Message-State: AOJu0YzrpQHPvHKaf1FlUw/Z1bW8KO0HrtCumGbrfY5JLRNHIydByMO6
-	Trtc0Jls5RDtnt4D+3DhQ8G8CLt/0unPyXm3un/I0XPcttSfMQxmMqixlAnZnptwQlmNpxcIjMG
-	QGSo=
-X-Google-Smtp-Source: AGHT+IGPsKM9F1aJxdHEI6r6HYZs/iTb07l2SymJ5Z+7OepFBKO5S7HCVN8LnVWj/JVnzvedzWqYLQ==
-X-Received: by 2002:a05:6512:118e:b0:530:dfab:930c with SMTP id 2adb3069b0e04-53546b34ddcmr6049103e87.28.1725274721284;
-        Mon, 02 Sep 2024 03:58:41 -0700 (PDT)
-Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-535407ac5e9sm1599036e87.100.2024.09.02.03.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 03:58:40 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 1/2] systemd-boot-native: add runtime dependency to python3-pefile-native
-Date: Mon,  2 Sep 2024 13:58:24 +0300
-Message-ID: <20240902105825.40177-2-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240902105825.40177-1-mikko.rapeli@linaro.org>
-References: <20240902105825.40177-1-mikko.rapeli@linaro.org>
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=es2UTD7O;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
+	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=vnbbzItAHtA23hMK9O5Y/NY4mWoA5eTQkJKtnGXaxAo=; b=es2UTD7OE9E2FhaqynAWpLi3mj
+	YpE1LK/5tzQpJP1HCwHWmwZauVDjuFQg3J8Lu44OxIO/033AsIyZJgtFrepn+Zbcilk6uWLQInbCB
+	KawBD3rLUCcw7IW5dSnmNOnSVYWFlPRpndXwTP+teO+VneAfp/apyAWBuenA/GxBytyr7y04Wa+ej
+	7mOqenspdAeSTvpQGTUvJHrPxzvGL8luM4sDjc486K2kmo7Ee853Jcy5iPxzvaE1i0yIY7OD0BXqs
+	8X2a7xh5ELFipP58XywjKX/pJf9Vz9a1p/XHN9rIsEaX2habw3PhpkIkGcxyH0lcgWS1bmC+7Md9+
+	j8uLV8bg==;
+Received: from pool-174-114-102-5.cpe.net.cable.rogers.com ([174.114.102.5]:43408 helo=fedora)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1sl4rl-00000009jsO-0CgE;
+	Mon, 02 Sep 2024 07:05:05 -0400
+Date: Mon, 2 Sep 2024 07:04:56 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] why does EXTRA_IMAGE_FEATURES += "ptest-pkgs" not
+ install *all* ptest pkgs?
+In-Reply-To: <dbba02a3a7967229e2133e69cd636349ac5374a4.camel@linuxfoundation.org>
+Message-ID: <6e65acdb-454-65ec-8dda-ad9f746468d@crashcourse.ca>
+References: <5557141e-86f6-1a86-2069-9f566e766385@crashcourse.ca> <dbba02a3a7967229e2133e69cd636349ac5374a4.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323328-1805633146-1725275102=:1092497"
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:58:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204091
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 11:05:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204093
 
-It's needed to run the ukify script.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/recipes-core/systemd/systemd-boot-native_256.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+--8323328-1805633146-1725275102=:1092497
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_256.5.bb b/meta/recipes-core/systemd/systemd-boot-native_256.5.bb
-index 73db59b14e..58db408dcf 100644
---- a/meta/recipes-core/systemd/systemd-boot-native_256.5.bb
-+++ b/meta/recipes-core/systemd/systemd-boot-native_256.5.bb
-@@ -13,3 +13,5 @@ addtask install after do_unpack
- PACKAGES = "${PN}"
- 
- FILES:${PN} = "${bindir}/ukify"
-+
-+RDEPENDS:${PN} += "python3-pefile-native"
--- 
-2.34.1
+On Mon, 2 Sep 2024, Richard Purdie wrote:
 
+> On Mon, 2024-09-02 at 06:39 -0400, Robert P. J. Day via lists.openembedded.org wrote:
+> >
+> >   i'm sure i've overlooked something silly, but in building a
+> > qemuarm64 image to demo ptest to some colleagues, poky by default sets
+> > the "ptest" DISTRO_FEATURES setting so all of the corresponding ptest
+> > packages are *built*, but when adding:
+> >
+> >   EXTRA_IMAGE_FEATURES += "ptest-pkgs"
+> >
+> > only *some* of the ptest packages are added to the image. eg: while
+> > bzip2-ptest is built, it is not added to the image, as are a number of
+> > other ptest packages. if i *explicitly* add that package, then it gets
+> > included.
+> >
+> >   is there some obvious reason that a number of ptest packages are not
+> > included in the resulting image, despite them being built?
+>
+> In your example, was bzip2 actually in your image or was it only built?
+>
+> I suspect it only installs ptests for things actually in the image.
+
+  yup, i read in the ptest wiki page that the ptests are installed
+only when the associated regular package is also installed, and i did
+verify that bzip2 was installed.
+
+  oh, wait ... damn it ... just noticed that my build incorporates
+busybox, which probably gets in the way of installing *numerous*
+ptest packages that would normally be installed. does that sound like
+the culprit?
+
+rday
+--8323328-1805633146-1725275102=:1092497--
 
