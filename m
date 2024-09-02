@@ -1,142 +1,214 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B927CD13CF
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 13:44:50 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.400.1725284687175009276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69BEFCD13CF
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 13:53:00 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.527.1725285177038904743
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 06:44:47 -0700
+ Mon, 02 Sep 2024 06:52:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iL1XWW52;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2053a0bd0a6so20979485ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 06:44:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L6evzW4i;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2d8b96c18f0so968920a91.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 06:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725284686; x=1725889486; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1725285176; x=1725889976; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D2OedtX6OQeSJ77ucVSRLf6Q9jK0Oio0+Io1d8im6dE=;
-        b=iL1XWW52+3GfNx3Ns1pXjd7or49ymiEAIpNRh8gyaB1iNGVjjh+EyNK9eU+ByzZ3lF
-         rc9y9vmhglnTJWqIcefmfxbE0RtkY/G5WUooLOmPkLJ3WUwET5hrU20MNsTnfcQb7KSq
-         qGZkLwVIHrhFWJhdtn3irKSnY6cvefHLLFE1H6di0+qvstAMBPO+5jxy5rrufe+h52Mh
-         8RgUu8FsfWM/DUtZO0q+zQTy1Po7xe4SCQImhFp0TcABvZERM+fQIR/NOLeE4Ejeb1hy
-         Ubswt05UWcxLVWR3bePP2ADDkAgl8ZletbHjFxKSKFvRbnep6d0Ul4ZgqOgeYvJ/IfdJ
-         +FPg==
+        bh=6EPMd8WdJmzl5Dyj+xtHy4iiXm0g6kW9PUwjlVnReKE=;
+        b=L6evzW4iXwMo3fJsU3fxCToVE2sG/BjK3JSyI7xM/Ns4hQgL7uXdR2sIV1lKvVtwMD
+         1uneRnuFcr5+YIc2wGt7nMbTSe+HooQ3wier/8UhY0SW/pVWPuhInZ5YNeRIZ/Wszm+6
+         zdMxOOE1hWkU81xOgGnHrgh0rk268Q9+VPP6946OpeC5usWH779T6Y8mmvWOiSVQEmO3
+         6acEnV7uclXAfUi7zSquizUN8qaPVyjCMWCXHw+fzF+2lKFkdb+j+Q7RcfNYdxDcQt9+
+         ubw2NFYSeCqs9sCgx1AD4Vw02eDgTvv7+Wg3WbJxmxP+jVq7BxlJb8SJulMb18txWoOu
+         nYaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725284686; x=1725889486;
+        d=1e100.net; s=20230601; t=1725285176; x=1725889976;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=D2OedtX6OQeSJ77ucVSRLf6Q9jK0Oio0+Io1d8im6dE=;
-        b=kJcWG+PJb66DuOjk71dgndiR5+2fj69gHQaYOyxwHVPYTLPMQUeNmxiQDznVkCj6/w
-         mV4iw50Sam8XlRNqSPirG7+RVsdkMSLcR24/wQAzjOK9ldqkBdzDWsNeI5wTZqUGvHh2
-         4EkeJojExg7g8GHxlDt4nRO2MwLUBcpgdaw4ztm+6LhMT0kNjQLWvPv7JtEtSR1X9iiA
-         8G3UDgDnXVIIkzSw4+xkb8gSlHXV9iNPQzBvgDCw9qAcYqEUpwFciZsqbgK3Fk/dnbgT
-         DD6LvGXLImIogwovmH9XGBOPPbTTUBbHNsxm45cWioja5cOE0jhu/H1wuYGr4XCHGobj
-         w9ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEXkgWA5rGdHufOUp+Q9RPnGWZfqKkJBT0wXVt6KWjcYWU5DINUxadQiihavQs+WEtuNgICsFFBSyTFDycwj6j4w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyC2795I5YTllaJ6t7vb66a7H7EhNkIx8bAXp7VXwotcY/t8Po3
-	fUkretKVPtW/rTABZoiPBIGFA8rSFdzkgkYfZFl0Bz9VQWy3+RsW7ZwRAyK0y3uMFqZnOqQ4Jp6
-	/fdqfuu9gfS631nCSbQzl/swpX7k=
-X-Google-Smtp-Source: AGHT+IGRepYBrNwb5j6OPhC3kfoUDZ3lYZltINHUuy9HCxRrjFvoC+ZGg0xeoUOo2VYJv7cHy/DrsnCTTSVGzMzitG8=
-X-Received: by 2002:a17:902:ea11:b0:205:51c9:49e3 with SMTP id
- d9443c01a7336-20551c94fe2mr54336285ad.15.1725284686207; Mon, 02 Sep 2024
- 06:44:46 -0700 (PDT)
+        bh=6EPMd8WdJmzl5Dyj+xtHy4iiXm0g6kW9PUwjlVnReKE=;
+        b=tTVFLc9BLNRRAng7gALeGig828LEUangsyrgblEW7t/uD3fXFJz3K3U+QosKx/7yVn
+         CKf+6uxtOXgw7/Vp/jWH67B32ppGrqZZ9N2uzXijKAhmUhfyhsy/v4BqxmGEzFJnYjd0
+         5jH+ukcjucTf1HJnCIMy/y/pgM7hifaJW2Ntk4WBaAe441oQZaV2EId/3o3EeFCdznP/
+         8Nihi1vJLJ8tjk/2mL3qL18wbRbK3U/97gB8shrBz0nllyGuhV01jwqYN/e720iU3FkI
+         ESExX42A+TKmw1Kxi8v398t15yKcuUI8Bci/2wmQNLbVtcdO5DP/F4tzLEIyq93AFFj6
+         CvfA==
+X-Gm-Message-State: AOJu0YyVv4dL9Zcd7amrvuVwHFc6W9LXJ3Fn3ZXZAoXr4bSO86zYRHyr
+	ighsj4klaVp7P01gNdAudzTtxoZurPrHeUvrhSFPkGRmX8xX3yVTTWNrJFF7YpXaQ+BEJDdbiEX
+	G2P52vjEJOMWZg6aYBbGho7n+mW4=
+X-Google-Smtp-Source: AGHT+IEMubk4hxQxqkVtPuAwLl6eYeg9gC8xwZ/y0Fymyufxr0Jas8SHsM72u0p/aZWqOxV57UVuL1rBoLhkltI2AIk=
+X-Received: by 2002:a17:90a:f18d:b0:2d8:f7e2:f03 with SMTP id
+ 98e67ed59e1d1-2d8f7e210e4mr1227690a91.32.1725285176070; Mon, 02 Sep 2024
+ 06:52:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240901111850.70472100436@builder.sakoman.com> <80a6ff0178502645da085e436b354471e1530739.camel@linuxfoundation.org>
-In-Reply-To: <80a6ff0178502645da085e436b354471e1530739.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Mon, 2 Sep 2024 15:44:34 +0200
-Message-ID: <CAApg2=RJg+JuEJRMT=aDTU1reyDOnEoae+zZ-OodLvXp-LjpeA@mail.gmail.com>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 01 Sep
- 2024 01:00:01 AM HST
-To: richard.purdie@linuxfoundation.org
-Cc: steve@sakoman.com, openembedded-core@lists.openembedded.org, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000dba185062123240d"
+References: <20240902114523.1168083-1-alexander.sverdlin@siemens.com>
+In-Reply-To: <20240902114523.1168083-1-alexander.sverdlin@siemens.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 2 Sep 2024 09:52:44 -0400
+Message-ID: <CADkTA4MWVM9ZF1-XbujSSp=EyBDuR2SbzqBhudDw+U+42WhR_w@mail.gmail.com>
+Subject: Re: [PATCH v2] kernel-fitimage: make signing failure fatal
+To: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000000e5b250621234237"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 13:44:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204104
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 13:53:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204105
 
---000000000000dba185062123240d
+--0000000000000e5b250621234237
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-NVD's certificate has expired. At this moment some servers have the new
-one, some the old one. Expect strange issues.
+On Mon, Sep 2, 2024 at 7:46=E2=80=AFAM A. Sverdlin <alexander.sverdlin@siem=
+ens.com>
+wrote:
 
-Mata
+> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+>
+> mkimage doesn't fail if it is not able to sign FIT nodes.
+> This may lead to unbootable images in secure boot configurations.
+> Make signing failures fatal by parsing the mkimage output.
+>
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> ---
+> Changes in v2:
+> - bbfatal -> bbfatal_log
+>
+>  meta/classes-recipe/kernel-fitimage.bbclass | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel-fitimage.bbclass
+> b/meta/classes-recipe/kernel-fitimage.bbclass
+> index 67c98adb232..cfda17f5e3b 100644
+> --- a/meta/classes-recipe/kernel-fitimage.bbclass
+> +++ b/meta/classes-recipe/kernel-fitimage.bbclass
+> @@ -753,11 +753,15 @@ fitimage_assemble() {
+>         # Step 8: Sign the image
+>         #
+>         if [ "x${UBOOT_SIGN_ENABLE}" =3D "x1" ] ; then
+> -               ${UBOOT_MKIMAGE_SIGN} \
+> +               output=3D$(${UBOOT_MKIMAGE_SIGN} \
+>                         ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if
+> len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+>                         -F -k "${UBOOT_SIGN_KEYDIR}" \
+>                         -r ${KERNEL_OUTPUT_DIR}/$2 \
+> -                       ${UBOOT_MKIMAGE_SIGN_ARGS}
+> +                       ${UBOOT_MKIMAGE_SIGN_ARGS})
+> +               echo "$output"
+> +               if echo "$output" | grep -qE "Sign value:\s*unavailable";
+> then
+> +                       bbfatal_log "${UBOOT_MKIMAGE_SIGN}: Failed to
+> provide some signatures"
+>
 
-On Mon, Sep 2, 2024 at 3:25=E2=80=AFPM Richard Purdie via lists.yoctoprojec=
-t.org
-<richard.purdie=3Dlinuxfoundation.org@lists.yoctoproject.org> wrote:
+This still is missing the details about the issue.
 
-> On Sun, 2024-09-01 at 01:18 -1000, Steve Sakoman via
-> lists.yoctoproject.org wrote:
-> > Full list:  Found 0 unpatched CVEs
+Either pointing to the log, or including the relevant bits of $output in
+the error message
+will save everyone a lot of time.
+
+Bruce
+
+
+
+> +               fi
+>         fi
+>  }
 >
-> Much as I wish that were true... :/
->
-> Cheers,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#1245):
-> https://lists.yoctoproject.org/g/yocto-security/message/1245
-> Mute This Topic: https://lists.yoctoproject.org/mt/108208321/5827677
-> Group Owner: yocto-security+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/yocto-security/unsub [
-> rybczynska@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> --
+> 2.46.0
 >
 >
 
---000000000000dba185062123240d
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--0000000000000e5b250621234237
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>NVD&#39;s certificate has expired. At this moment som=
-e servers have the new one, some the old one. Expect strange issues.</div><=
-div><br></div><div>Mata<br></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Mon, Sep 2, 2024 at 3:25=E2=80=AFPM Richard P=
-urdie via <a href=3D"http://lists.yoctoproject.org">lists.yoctoproject.org<=
-/a> &lt;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.yoctop=
-roject.org">linuxfoundation.org@lists.yoctoproject.org</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 2024-09-01 at=
- 01:18 -1000, Steve Sakoman via <a href=3D"http://lists.yoctoproject.org" r=
-el=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org</a> wrote:<br>
-&gt; Full list:=C2=A0 Found 0 unpatched CVEs<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Mon, Sep 2, 2024 at 7:46=E2=80=AFAM A. Sverdlin =
+&lt;<a href=3D"mailto:alexander.sverdlin@siemens.com">alexander.sverdlin@si=
+emens.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">From: Alexander Sverdlin &lt;<a href=3D"mailto:alexander.sverdli=
+n@siemens.com" target=3D"_blank">alexander.sverdlin@siemens.com</a>&gt;<br>
 <br>
-Much as I wish that were true... :/<br>
+mkimage doesn&#39;t fail if it is not able to sign FIT nodes.<br>
+This may lead to unbootable images in secure boot configurations.<br>
+Make signing failures fatal by parsing the mkimage output.<br>
 <br>
-Cheers,<br>
+Signed-off-by: Alexander Sverdlin &lt;<a href=3D"mailto:alexander.sverdlin@=
+siemens.com" target=3D"_blank">alexander.sverdlin@siemens.com</a>&gt;<br>
+---<br>
+Changes in v2:<br>
+- bbfatal -&gt; bbfatal_log<br>
 <br>
-Richard<br>
+=C2=A0meta/classes-recipe/kernel-fitimage.bbclass | 8 ++++++--<br>
+=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
 <br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#1245): <a href=3D"https://lists.yoctoproject.org/g/yoct=
-o-security/message/1245" rel=3D"noreferrer" target=3D"_blank">https://lists=
-.yoctoproject.org/g/yocto-security/message/1245</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/108208321/582=
-7677" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/108208321/5827677</a><br>
-Group Owner: <a href=3D"mailto:yocto-security%2Bowner@lists.yoctoproject.or=
-g" target=3D"_blank">yocto-security+owner@lists.yoctoproject.org</a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/yocto-security/uns=
-ub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/y=
-octo-security/unsub</a> [<a href=3D"mailto:rybczynska@gmail.com" target=3D"=
-_blank">rybczynska@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-rec=
+ipe/kernel-fitimage.bbclass<br>
+index 67c98adb232..cfda17f5e3b 100644<br>
+--- a/meta/classes-recipe/kernel-fitimage.bbclass<br>
++++ b/meta/classes-recipe/kernel-fitimage.bbclass<br>
+@@ -753,11 +753,15 @@ fitimage_assemble() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Step 8: Sign the image<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;x${UBOOT_SIGN_ENABLE}&quot; =3D &quo=
+t;x1&quot; ] ; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${UBOOT_MKIMAGE_SIG=
+N} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0output=3D$(${UBOOT_=
+MKIMAGE_SIGN} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ${@&#39;-D &quot;${UBOOT_MKIMAGE_DTCOPTS}&quot;&#39; if len(&#39=
+;${UBOOT_MKIMAGE_DTCOPTS}&#39;) else &#39;&#39;} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 -F -k &quot;${UBOOT_SIGN_KEYDIR}&quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 -r ${KERNEL_OUTPUT_DIR}/$2 \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0${UBOOT_MKIMAGE_SIGN_ARGS}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0${UBOOT_MKIMAGE_SIGN_ARGS})<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;$output&=
+quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if echo &quot;$outp=
+ut&quot; | grep -qE &quot;Sign value:\s*unavailable&quot;; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0bbfatal_log &quot;${UBOOT_MKIMAGE_SIGN}: Failed to provide some s=
+ignatures&quot;<br></blockquote><div><br></div><div><div class=3D"gmail_def=
+ault" style=3D"font-size:small">This still is missing the details about the=
+ issue.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
+iv><div class=3D"gmail_default" style=3D"font-size:small">Either pointing t=
+o the log, or including the relevant bits of $output in the error message</=
+div><div class=3D"gmail_default" style=3D"font-size:small">will save everyo=
+ne a lot of time.</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</=
+div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0}<br>
 <br>
-</blockquote></div></div>
+-- <br>
+2.46.0<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
 
---000000000000dba185062123240d--
+--0000000000000e5b250621234237--
 
