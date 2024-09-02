@@ -2,22 +2,22 @@ Return-Path: <pedro.silva.ferreira@criticaltechworks.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6216ACA0ED3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 759ABCD13CF
 	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:32:08 +0000 (UTC)
 Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.84])
  by mx.groups.io with SMTP id smtpd.web10.35607.1725273122732170815
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 03:32:03 -0700
+ Mon, 02 Sep 2024 03:32:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@criticaltechworks.com header.s=selector1 header.b=ANaVP9hZ;
+ dkim=pass header.i=@criticaltechworks.com header.s=selector1 header.b=WXc/u7CU;
  spf=pass (domain: criticaltechworks.com, ip: 40.107.22.84, mailfrom: pedro.silva.ferreira@criticaltechworks.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZS6ZGPjAarg4LjoVtmTQPo2McLesIq38vqwXxCsTiu4jJaz+ziH22ADlgpC3G61VxbLUiWdTL209g/NrRd3JKB9bF0muyTUOXfvpiJVxbh88Yjv43+zSTXE86k7RSHlo1or9s/f3zaAt4wMzEPhU8Yz+7CkZ9d4AoFv+4rc4nZJO+V94Z6KRgdrYHRdwORQv4ure/qAZW/343UUZDddst+H5zH81YkIchBc970UyS6AnYV9OKZ2ZqjAwqRDWRIBZ6tHQSNZM66BZRFyezchxefsxfHEDoKD+MQVqsAZ9OVf8I2jxn04HjeIWRespSQY7bbYkqMmY8faRgLHK9oSxBw==
+ b=cyP1Kumb4+fpd3ZzBLM+Z8SBETu67Y1NKXrClxfoyauljgIuhJahhyuttbbaAEfETcvRYhpN6HR0iat0vFvgARK3Z+HpwNiiymhpLqNoNQOJt4ROXwFhS2e8CQhfPV0rzKeW0w+f7kXwAUFKIyReSkTp21UZdWusNEVhA2EDGzuzAbTAUDM0HL03+53Gwb0lWUYkfU7l8Tpij5DKF5+KL+OkasH1cBA0TEuubqS57rGyv3/T73PEBuL3PQ56t+KkhI+iA2FJ/9bCvqUX/rh9h643i0c+BBJ0/KFzqWryfBKvWnT4hjxLzI9UaUGX7ATRpp73R3P18oHtQmmVvfWLqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TLnII5IsY1lZXJLQn+C8rhgwjVC8LF9iz3DVNMDMcbk=;
- b=jfxSJOyQgLWRg/iBf1ybEj1bjqJSiUpm6AGUSqUc4kQMzVCigLgbKT9KnsKvAvzBbpMU6u394haaUAq+f6SKFd51v7rMkD7/F/26JJqcafjPUvqOhTODhyqnol2HYeWJdAPU/pC31UKBHIExRSTyiZwt+ndak84tZDDh15HbOwHpTIIXNE/PPV1HBsIiGsNPNAfXh4q9CRxnBc/1cQ9yoD8l2JHBeQCo4gN13cz39o1/0Sb9FDG8Sotx7ECbFhaSmRyByL/ExhyCtQ3cNPW7D8+Rd6PzN8K3zrsOedtA2PixbTKjQKladDO6qQdKSwbUQT3BiJHeusXDnMi2OXf9YA==
+ bh=h57vZLkjF+iXFPLDTIysrCjmF2EfwomZvHFyCiFCYiQ=;
+ b=l6RrFay3cQKNnLcaZSNnc7HsuWYTj3vKA88Oa7jlLOQoMILnNtfPEdeDaA4/zQlxO8yM81zgPFCxZ0tMcKSvyT/puD5clRluUZX9Fjz3AVbO1ctlMPfhd+sUr3H1rJMGFIPvSBC22CC0bWlyCIQ83GL1LHrFZt4P2WQh9MxJ/GZMJdOArzZKrkxXT6THPcoLqOB9QWRJmGsnUCyydpcxcEfBx+0/ysmDxN+herRs8JohgP/wXGaqB0RNHlKZYFvl88tqiyN/gXqQKosxzl6l9AAlQ2KXV0eFOhcfqOhEAvCfmZnpnaF42I4MOTFDKZEmCwWTVBGd+AnpJZXGmjEcSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=criticaltechworks.com; dmarc=pass action=none
  header.from=criticaltechworks.com; dkim=pass header.d=criticaltechworks.com;
@@ -25,8 +25,8 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=criticaltechworks.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TLnII5IsY1lZXJLQn+C8rhgwjVC8LF9iz3DVNMDMcbk=;
- b=ANaVP9hZ8MJg5zEv7ddzKNYAUZehOqcU8Sm7yNksyGEk9/PirWG6di8lfazRaELQhBLxMzg/2ZXvg44W2fgzXJEc0GavE38RL8rMzna2089TO8K5ToiY85J5FOyWXIXTm/3v7cqhMRgmjryY5QxxkrWQhuRWy/EgqsC6vxa2p4NpNvoM4fqi35O+sRqNh3AmEjsUI/OYuKSnFqYslYMu4q3M4DB331llmQE3UP0fff0MteHGQKCtcsTJyk2Lc8zjeSBTTJaiuYB6GbhekYMg++A7X4jGnwJVIvKau7UqReAKF8ouWDY6KRZ/qfFZFalAdjw7WymaecAhDFCYGJBXDg==
+ bh=h57vZLkjF+iXFPLDTIysrCjmF2EfwomZvHFyCiFCYiQ=;
+ b=WXc/u7CU++oT81yzEQ9yVmYZWuH+4NZgVlWed3Su8P0eTFaLEJLjlS2apmMwrJow07OtOz2WB7f957yGX0M168Trt6UfqEtHDX1wp3PDLUwL39VyWoAa5DdhcN11FpmInOrCfD1rH7vQrz46KGlOxoHPD2mxi4MpVXEr3FQIr0EtTac055qqFC8VVVPPQzsloSu0snPwMYLaHhRUzgXalLdEg1AAGG5pxMfpLC5kuFtJXG6Z7ZeV1Tl9B9aoDPJDLUJDVIojaMb++CP8SjPs2RmAqfq2cvKqCyuDkB8afhCbYm01HD0aW9UnZQlkHb4NnyR2Vd9KsFbCsz3Dgiavgw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=criticaltechworks.com;
 Received: from AM8P193MB0900.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ed::9)
@@ -41,12 +41,14 @@ Received: from AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
 From: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>,
-	Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>,
+	Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH 1/4] buildhistory: Fix intermittent package file list creation
-Date: Mon,  2 Sep 2024 11:31:45 +0100
-Message-Id: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
+Subject: [scarthgap][PATCH 2/4] buildhistory: Restoring files from preserve list
+Date: Mon,  2 Sep 2024 11:31:46 +0100
+Message-Id: <20240902103148.3762538-2-pedro.silva.ferreira@criticaltechworks.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
+References: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: PA7P264CA0502.FRAP264.PROD.OUTLOOK.COM
@@ -55,129 +57,147 @@ X-ClientProxiedBy: PA7P264CA0502.FRAP264.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM8P193MB0900:EE_|DBAP193MB0890:EE_
-X-MS-Office365-Filtering-Correlation-Id: 449eb939-f422-4216-47a1-08dccb3a7807
+X-MS-Office365-Filtering-Correlation-Id: 1bc3b715-7990-49b5-562d-08dccb3a7853
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?NZAgf+nmQvZDn/dZkpGA0ujckt/79LRG7IQWRX3Pq52P3x02A8yv4v6EijVT?=
- =?us-ascii?Q?tZqJEE0xNY/jDl4AR2JW/nxAXt7ZFXC39aCWU67r1qctMUyV8y/KHuD10nee?=
- =?us-ascii?Q?RPSNJebWHsyTRgOMrLzhDQpce/O5/zJUWA1O4XIX/v71a06+LYcS4AZls5py?=
- =?us-ascii?Q?OZWcLCYGO6/nSwINF6vQ7NSZuTMxWGylnNMtBMJaBd372ScVjl0OhBdFAGGp?=
- =?us-ascii?Q?rwfhk4eH3DlAAjCl8b2M5J+UzhscNSSjlr/K39Hmc4SoyRaooWqDd9AQEKxU?=
- =?us-ascii?Q?ufPNdEDklHRuo38hifcweonFsh/q+9pzEWkHKwndgwsg5Cz/tcBC0w4rwIks?=
- =?us-ascii?Q?9WgLBz002xWWVDq6sija8DLaC7jtL4hRnt7CjaKs2jRg1YK6OPcQWXT/PNg/?=
- =?us-ascii?Q?81MHzb12gIrve1VRVGAF86YqrPHbAbvyEMHiEDnvU0WvmcVQ9VPPlrsQCsHQ?=
- =?us-ascii?Q?GO3PNvXmsqyqJ1VGRihhPkWPD7dajUvQk76AyNcC+HmfBaHwfBm0FmXu37OX?=
- =?us-ascii?Q?RO5ukEbjC17jaG41IBBK25pkm3C2Mub/FZIz2ZhuvwN3+1fPhH/y+P4ghP32?=
- =?us-ascii?Q?UAxyQCqRvAfPA24PdNZZrLtzjd7D0XxZjExIPRv6z+tTvLHo3jgoK+qoFRer?=
- =?us-ascii?Q?KDscYWVh4yn31aa9hkn0VzYXw2N0wR2pXoW3ZdWtaDgYNkl0ttYt2najTeSV?=
- =?us-ascii?Q?WGBozNFeK6NC5+VZm1wRegu8LyfNCyZsFH37V86QW+G0cbjQdajZAZUWdarf?=
- =?us-ascii?Q?pXP8fONJ65tj9IgHwd18XwgE5VkS9pgowtiHSXpTjrP+zbkDRO0LMWqH2P/C?=
- =?us-ascii?Q?GxD5z5bewYcrsJkiW9pbT4z6dn7WTC7jWXOhP4Zi27niYb3gp/o82tQ1OFt4?=
- =?us-ascii?Q?ypU146GCbLjC51qiQKJVHMfmXmpMvluHS6ahsEv8dEhnj8/CFDDzTIiQALIx?=
- =?us-ascii?Q?fGnszEj6vy6fMbonP7n+OH2KxQKYGRNeGmMSsHPR4V8yrIoMspRF68fU8/2/?=
- =?us-ascii?Q?H8KFkOZ2m+56AOE8ZMGU+IJGEumTEGQpHcuNUSSKM2J5jLdV542AeyTXS5k+?=
- =?us-ascii?Q?xRE9NNrcklM7XQuwPn2JR6KHQdtS59cT3/DrsQGyXcRRXHuw0q8ANGWoPe1H?=
- =?us-ascii?Q?4dV/tjJdiGoT0R9zPjIEVqdZAHXRJdhv7Z04Ssvli6qKNHrD9Y+ntAEVS2Pr?=
- =?us-ascii?Q?lwYpyw29Ai1b5EjrIVOLwuGUAvtx+PDBRrbEy3U1GN7xvIGYhIkcBagYcnka?=
- =?us-ascii?Q?1U/LsZrKGBO3P9WkIGOsvyV1ybbxLB/BcjtYWhmCZcJ4kJ4sAkq2nGc+hUU1?=
- =?us-ascii?Q?F5TxfTynyXg1zqMXO6QJNiQwFGupR8z6MqpIOb7JQxMO1m2zI7tzucrTYTa9?=
- =?us-ascii?Q?RZEtXigmEH8bAzqNHx5kY3uRUVUOd7YyrSsZRaGHS7fe4o1Tdg=3D=3D?=
+	=?us-ascii?Q?smw4TzuG1ikIbV2pbqtSxUgaUhPMjdGiXeGhUIYxmBYeMaMfwN0Jm+67/OLa?=
+ =?us-ascii?Q?YD1o19y02cfu4kV0AjneIpzVNrD3oKkLve7Pj5jTRp/u7yc0uLKSvvRYE6Bf?=
+ =?us-ascii?Q?Hn9Cbw6xo87c8pHYvh13KDi8N1oSfn90APuxlZWH2uhTJ+6FbEMoov1s32pz?=
+ =?us-ascii?Q?nzAedXNQT4e5BXFpwuzQTXFZUEEEmKJJvOxXM6VkStE1tpC944IPzP4m142R?=
+ =?us-ascii?Q?P6SDx8+kcIGwgKZYBMUMlCsnOqA66DAK5ltiXgSHO+nqy5ARUJnBggGhcQoD?=
+ =?us-ascii?Q?yCgTWIRfN5wfWvLNZsrXx66H5Lk3a0KawsIj3bFP3l9t3sCSxTdCpkfYecbs?=
+ =?us-ascii?Q?x3JAo6bqoODcqNMUxGuU4mExP0nZ1atD3/o8MqnheyDyOTLKImME9BabEi9e?=
+ =?us-ascii?Q?SnRxqM46Tfe80ZAru49qLATHhMvl3Q5cdERGaCsvY8gwktt/w8gS4XC3TZmm?=
+ =?us-ascii?Q?pTO9tb1j6Noslhx2XRdY4EIa6JM3jNYzjzgfGGyppeOuP7QoR0VTNcMI9F8b?=
+ =?us-ascii?Q?UCYl1a6cH950/Acc5UxO/GMfjw03/qXyINL1ZmPm3ge2q13PWJqSVxYr3fTl?=
+ =?us-ascii?Q?Edx6CskcQGMyDgqFf0aaoXoo8DtTUeMsZ6ueLBnGVASwWp9nircViteTOUM1?=
+ =?us-ascii?Q?wcivNFowwpuZ6GP7GbvKtX3pgpxp1ycGz1GTlD9KbDwBMyhk3SLMI9hsgJIE?=
+ =?us-ascii?Q?VKPaCApetssesMe2LlyixNM/o0RbfaLK0ZghVhXIc9ssgWnkrXB67r67Gs2V?=
+ =?us-ascii?Q?MbAbAGzeaMlNt/t/1bXbCOTQCe7tHhApXvISukSrWe4fy8s0P/NVhdqgYOxA?=
+ =?us-ascii?Q?XH/EtouhOu8VA7rlHcYN5KLBgVPrT3zS4HSRKzmmWpiXrD5J2x0En6InXmWv?=
+ =?us-ascii?Q?CCOCGYd4gntZWbhfAI0PqB+lLXkeAEpAvVcTnbasyhPRv9c1QUrw5eOVHp/c?=
+ =?us-ascii?Q?Mf4VH/CMq/twFDLM1DIkeogWf71z0WLRFTIYiUf0JOs2LkR5ix9rZ3+92C2D?=
+ =?us-ascii?Q?FctB4i/kQ3Mw27adQ1qYeYOEEBns1t40T6LBAOX9bMBA01QcJ0re0dElzDhS?=
+ =?us-ascii?Q?Kco8KOf1ev4zpMHkDQX7VjqlwFJyryONK3HA6vcZkJmLK9sYdlVlylEBVtTm?=
+ =?us-ascii?Q?WV0/++2GGB3fnFkogQcnNiLNKl/CbNO38r0TvugIWtQXKckKRPKjVO5XaBtK?=
+ =?us-ascii?Q?d/8a7AFnElQn5PBHXbJp+rUi8Eq/0NVo97SIsUI51SqrbFf3/Ae1eIoMXOIy?=
+ =?us-ascii?Q?HZqUyuQm4cDSv+opq7i3smpwRGVU9QfUurtFgpVBvS2oHiLYXkXXNbvpvZ+v?=
+ =?us-ascii?Q?6LDw23G54M0Krbv4WZEiukGkmVhBFVrVFR3dGbgeagVI2sjGOmT8qBUm4iie?=
+ =?us-ascii?Q?clBB9otSFKL/lIXDYDk5BzGXDoHGlQFFsHRVt8fAPwjgixskDg=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8P193MB0900.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?OWPDj4pwDj7zzWJlgD3idETtAZyk+uPO3QmP5USJ1BTG1wpTlFz68MCZmiep?=
- =?us-ascii?Q?3mSnwi8Mf3M0C8kypmqIdU92Yqe17rU1OPDdujeZ1IdCL6LIKYsUaxlqPobm?=
- =?us-ascii?Q?Rg4/nqQEXpmTEPK7kL++PmPX+BOO2ae0KMJc4mXx4at7vZBpYQ+DzqBGUFoz?=
- =?us-ascii?Q?r4lX4ejpmOkLGccvJQuts1SYr07zMeFKNzIzSdx4seRGmsVlWDyNpN14E4hx?=
- =?us-ascii?Q?ieQxkUzkOd1rluEH6G2pQpQOfra6cmdA7wUqGQ/IZ41kErnTTMabjRNdOToO?=
- =?us-ascii?Q?+fKU5XXrzjkq/gbEnEXelG7vO8kpqaTCJO9FmXLhQhL6VSpJyWbcpm9NIxyB?=
- =?us-ascii?Q?4GJi7vyaH6J8rGUNPR0XdE1BhvvvnILzi68jD0sUhzfRtcwVJWmoqYrwejET?=
- =?us-ascii?Q?AibWk/p72uZbNcQ6MeL9mR9Lh6yM+FL6eBW8vhlRSrE7eTqbUzDudweYSlL3?=
- =?us-ascii?Q?y+E6hxlOLuvJz6SeW/4la5ziDEng+M/k/Th9dYGw5pwRyi6fyG94155LLRVD?=
- =?us-ascii?Q?Oh/0mzFER5j5uo2ia1A8mAx8mA5mwppWU6J7dZCUM4FNe5900dHMVmUcA6Zg?=
- =?us-ascii?Q?4RoQp31vA9TLJJVPg8W8azfH3XA6rCORnR6/0zxmXM5YzosEguyycC9bOOBw?=
- =?us-ascii?Q?VTW/qL9DJtycocQbrpZTYCCoRDm1khwFLOHtrGtFFOTVg3Jktd5Lum3oAoPs?=
- =?us-ascii?Q?oM0pRezmwzgmQTk2bjF5qJMOTLXfBNTUI4qI35ZlbQd8pmDQbhDSs8Xg/L7l?=
- =?us-ascii?Q?f4DKI4bRr3oDncRyyBkiN1AAbQX1CfibBGEp2NYM1rf7/uXfWsaKUgoyzSO1?=
- =?us-ascii?Q?SazxFc/cYyFD+szXHJcqW5mCER5+jDPCjrEDV7QoeLxN4I4oSYiaQsqeUUUF?=
- =?us-ascii?Q?HmHV5dPRsMeXoWpJNLsecHVMeCNqcZGElirUlJjibbJ35muCQcRw0fDXYNkv?=
- =?us-ascii?Q?6Qi7aW5mINo5ViA+XQ4uwK7YYm3k2y8V1zVWeDWZLN1WkELIBXYsDlfVyYZ3?=
- =?us-ascii?Q?3WyW6q8ioM8+l8cPiZ9OiX0vimJh8gDmSs1QiqzPj4Z21DRh8bYcHzxJH1fx?=
- =?us-ascii?Q?CXAK/Mu5E7OQD7fnlE50K3A/lF04ROUpsn6y+YRpp+FKfQz8k3lhIIJGXAE2?=
- =?us-ascii?Q?f24xUYOUh1INnMzs3mAzR/xABJC6b7/cTDPALiYo+Tj+Ok4IuJdy9GiBRYeP?=
- =?us-ascii?Q?6pt3hezDXSf+G4GAxgqG67lHQLySAIfmtmUDioQgQZbfaclV2gaLnG/cKJmF?=
- =?us-ascii?Q?ww/7869Chr16mOUfS4n5ZCsjNGYc+CEeLd/FESL/qohdPAiUEP2TZytv2Fzz?=
- =?us-ascii?Q?Wq/2oQ8JXIYgpHLhuoZ2PSxWV7rBxdOX0Bat3pmkiH35B0/vprsUXS38K3sm?=
- =?us-ascii?Q?lj+MD8ShBj0Q0lvM06uYNC1oXmmB0GTB72nD2IgKK1u0KELGV90FKH+zgGTy?=
- =?us-ascii?Q?Mxq0eBvczoJMccw7C2xT8uAkdus9G3sR5X0YB0VTS1DxBg25nJe9jh+mhSG3?=
- =?us-ascii?Q?L4rBl+bjIgUEW9/6f5MmIxCwuW+4mNHA1PCRjE0wZZO9VmlDf7Hq4dAq/pk5?=
- =?us-ascii?Q?SlbQ6vAw8QsM2EEKDuzqIjPnDFK0UKvRzRjcJVBtn9QWmRl9Z73PFdC0s/ZB?=
- =?us-ascii?Q?y2RmOuSNLzNxO6MKxTlpj+w=3D?=
+	=?us-ascii?Q?HStBYfMhFh/aeDjuDw3EFlZ2ktwcMl58uUah+Gzj4DEI+n5JIumAubN2r9Ru?=
+ =?us-ascii?Q?HkP0wprqv9+hjZyR7FggWsfGwma7I0e1ELbpje35Bm1PGKC/eicOh2W0Zo/j?=
+ =?us-ascii?Q?22LeBjo7mv43t61oNTn75zewb+lpu7/G9mFMZ2mfjtqUVqlHZoBPO8iW53Zc?=
+ =?us-ascii?Q?qXXTpV/d+EcW+H0jofokv4f+RnDotzQbFx7NkhwRvsiO9eKHbxTc9Zq5hB3r?=
+ =?us-ascii?Q?bm3Dmq1/ON1XWJIYkV44nnjF/6Jd1H4nVqmd+OvHMCNcJtSMSC4eFVT69RGd?=
+ =?us-ascii?Q?2VZ6NzMhgGcs2t4mI8yakaumHSRyrzif3IbUGnWqbBqKR4Hsw5lhEw9r1IOO?=
+ =?us-ascii?Q?K49oOjl9ZoNomJ3igRqkcfu4EaTWo8g49NPga7wndnxrh/266Gk8TM4Z7zkQ?=
+ =?us-ascii?Q?pLrLbe1H+f6uGryI/78qszBNPbVivMTW9XyZHpPVeNyXntomXR38p+GV2Mcu?=
+ =?us-ascii?Q?gGJYAWuROWZAmNCyqL1K7nKkMfC04QdPb2aw6ZQNeEIGtajun8x36bjaYgrQ?=
+ =?us-ascii?Q?6vXhDk6iWEqLsH2BgD6fttuNNam5DrtkFavaPVtW4RZkkQWGwAghhDFGabQ6?=
+ =?us-ascii?Q?b+xC6uwriWdxHv2bVLCgp+HAJ4lcQWwGkBs1R+hs/KDxgvkKyLK2daGUCMGt?=
+ =?us-ascii?Q?zQQ29DFKYgKoCSXcPxrle7Qy/abIva0fGp3440VJ9vFGvUWNzYIvKI5abr6i?=
+ =?us-ascii?Q?4AX8WmIs4Y/TQ4tXngSim8b5MQIehkGXcNDNo6UcA85/7uw6NKJrWArBVcDe?=
+ =?us-ascii?Q?VlnKOtvruN7mDMOjiPc9EGh7WgR++baZG+0SA+FTQQg4MBuK8UiBVovZdEBK?=
+ =?us-ascii?Q?W4CQYvM2oPegbm5W4ERwBjeB20Sb4upDZEy57S0CKIvmLocIZq4fTQE3+tG5?=
+ =?us-ascii?Q?bb73nDXeAzJGvO+DvmFzUbQc6UpyxeOoGbBHQfNujHFX+5g7oWNF7Tdkjogy?=
+ =?us-ascii?Q?RLOBzwAol8e3iZRojtY3ZNBHga8C+GT3wmdpq+WYpV6el7jC+2b0hwZQgFdN?=
+ =?us-ascii?Q?KBgzXxHo0sWsMkQ7dtMm8xAYG/dxBgX+TYCmvXWfEPHw+SmI5OgLVrRhvJBm?=
+ =?us-ascii?Q?fueaI4JFNkucFS8JZfnUR9AfszdfEhrcj/Sb6kOO/woO7lbRksHXqc1tNU05?=
+ =?us-ascii?Q?BokV2rcKEGe+iMjwM3wGhPALXdAE8Jo47J0yNCpsnynenw7P7jOUhGgrq65l?=
+ =?us-ascii?Q?u/9lGEr4xF43y2JCAcXLwKUvAQGiuNLFU3hcLMq4+Qh44Icxb7eacPlIbNUR?=
+ =?us-ascii?Q?Otrcdt6Tf0UmW/gPvf85R0i8js0giyhBTWIweIoqT8tiwiTF/Nl7kXo6XndF?=
+ =?us-ascii?Q?Zrgp/rtyMSEin6QZG+jCxVV6CwdgH36b5j/e9PwDQ3X+526jwMTnMVkSfpoI?=
+ =?us-ascii?Q?gjWrjYHZMnRNwn4of9xrXoVLhHkxqJsONnxWtTk+Jd+EvQ/Ojw/QVD3Tqhe7?=
+ =?us-ascii?Q?SIzLCFpCvDuyQCJYrZlEtIKkd5FzwlZGGJcLiJPbYH2R2KJGPouoUpOIAE8P?=
+ =?us-ascii?Q?IWMO5fVIqfEpgU5t9YFeV/QPN58louiBeyU0hdf5emqHEBQoMydD0PUhAP8b?=
+ =?us-ascii?Q?HKmAHpTgHkm1+KEhCUxWPbtqxx6r0kstrk0kX1RyQMv0idVvh7oqNFtsIC/b?=
+ =?us-ascii?Q?EBX++6XlH506Kt9Zf0GjFD4=3D?=
 X-OriginatorOrg: criticaltechworks.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 449eb939-f422-4216-47a1-08dccb3a7807
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bc3b715-7990-49b5-562d-08dccb3a7853
 X-MS-Exchange-CrossTenant-AuthSource: AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 10:31:56.3271
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 10:31:56.7940
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 61f30b8e-4f6b-44fe-9bc2-041e3a9f7346
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rU5Ep4Vmh20iI68jEoVrfg2wh5dxcww0Cz8nVVgvZm3uWbvWPzxUZfphub6QSw4w5MHUH53D4hCCsc/Rcuq/kKe6GlY3v2+4Yyughc2Lv6I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Fh69cN6JtUAdOACO1ZyEDp8GNFdfw0aRwD+PbThvpoj9UIE8ApsUXm3PjJJYmbvTjJtWF0dOwxdVra+KRGWss/XPdyHIJI9GKsKqWviw5Ks=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAP193MB0890
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:32:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204080
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204081
 
-The directory that buildhistory_list_pkg_files writes to during do_package
-is created by do_packagedata so a clean buildhistory doesn't have
-files-in-package written during the first build since packagedata happens
-after do_package.
+This fix will ensure that, when we activate feature
+`BUILDHISTORY_RESET`, files marked to keep on feature
+`BUILDHISTORY_PRESERVE` will indeed exist is buildhistory
+final path since they are moved to buildhistory/old but
+not restored at any point.
 
-Ensure the output package folder is created to avoid missing
-files-in-package.txt files.
-
-Also it ensures that in case of `find` fails we leave with
-a hard error instead of hiding the error on the for loop.
-
-Signed-off-by: Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechworks=
-.com>
+Signed-off-by: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/buildhistory.bbclass | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/classes/buildhistory.bbclass | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
 bbclass
-index fd53e92402..d219519f86 100644
+index d219519f86..08970aafea 100644
 --- a/meta/classes/buildhistory.bbclass
 +++ b/meta/classes/buildhistory.bbclass
-@@ -599,15 +599,12 @@ buildhistory_list_files_no_owners() {
+@@ -110,6 +110,7 @@ python buildhistory_emit_pkghistory() {
+     import json
+     import shlex
+     import errno
++    import shutil
 
- buildhistory_list_pkg_files() {
-        # Create individual files-in-package for each recipe's package
--       for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
-+       pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)
-+       for pkgdir in $pkgdirlist; do
-                pkgname=3D$(basename $pkgdir)
-                outfolder=3D"${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
-                outfile=3D"$outfolder/files-in-package.txt"
--               # Make sure the output folder exists so we can create the f=
-ile
--               if [ ! -d $outfolder ] ; then
--                       bbdebug 2 "Folder $outfolder does not exist, file $=
-outfile not created"
--                       continue
--               fi
-+               mkdir -p $outfolder
-                buildhistory_list_files $pkgdir $outfile fakeroot
-        done
- }
+     pkghistdir =3D d.getVar('BUILDHISTORY_DIR_PACKAGE')
+     oldpkghistdir =3D d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
+@@ -223,6 +224,20 @@ python buildhistory_emit_pkghistory() {
+         items.sort()
+         return ' '.join(items)
+
++    def preservebuildhistoryfiles(pkg, preserve):
++        if os.path.exists(os.path.join(oldpkghistdir, pkg)):
++            listofobjs =3D os.listdir(os.path.join(oldpkghistdir, pkg))
++            for obj in listofobjs:
++                if obj not in preserve:
++                    continue
++                try:
++                    bb.utils.mkdirhier(os.path.join(pkghistdir, pkg))
++                    shutil.copyfile(os.path.join(oldpkghistdir, pkg, obj),=
+ os.path.join(pkghistdir, pkg, obj))
++                except IOError as e:
++                    bb.note("Unable to copy file. %s" % e)
++                except EnvironmentError as e:
++                    bb.note("Unable to copy file. %s" % e)
++
+     pn =3D d.getVar('PN')
+     pe =3D d.getVar('PE') or "0"
+     pv =3D d.getVar('PV')
+@@ -250,6 +265,14 @@ python buildhistory_emit_pkghistory() {
+     if not os.path.exists(pkghistdir):
+         bb.utils.mkdirhier(pkghistdir)
+     else:
++        # We need to make sure that all files kept in
++        # buildhistory/old are restored successfully
++        # otherwise next block of code wont have files to
++        # check and purge
++        if d.getVar("BUILDHISTORY_RESET"):
++            for pkg in packagelist:
++                preservebuildhistoryfiles(pkg, preserve)
++
+         # Remove files for packages that no longer exist
+         for item in os.listdir(pkghistdir):
+             if item not in preserve:
 --
 2.34.1
 
