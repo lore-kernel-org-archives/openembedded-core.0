@@ -1,111 +1,117 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB834CA0ED3
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 16:29:32 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.3166.1725294565094925204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31C93CD3420
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 20:32:24 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.8363.1725309139970621876
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 09:29:25 -0700
+ Mon, 02 Sep 2024 13:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dyZloGB+;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-374c1120a32so1296951f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 09:29:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mj3bxU/d;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42bb9d719d4so33119095e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 13:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725294563; x=1725899363; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eDm1xn6MCkylgw6KAnPPmmpK19X10FxQlrFD5ivQLOE=;
-        b=dyZloGB+0j5Nn0Lw1sdA9x4CXDWA4WrM4rfFiMyaqt4XF0gcAy97DpjhrW9yj8TVQj
-         lVgqAoQOouLrW4qoEujRxjwcmN2d3EdQJaA1zVc01O3YEo/GBlEyYvmiaBSG3qj7752N
-         3sXOMnesNxPf97HSZs7xNRaRe48D6+l+JH8FHdiy4cLy4zbTHkilfxJoD/pIhm26X8Ve
-         U7MjNb8O1knRE/e2Ry/ce73NinDpASYgCo+YtKWxbNVj2W36GZiJIMoYIcerKh7XEnS1
-         KONft6cpOBom1owD3iTkpEreHvKHDiNaPtQtBvHmpZT777CMcrkJYnPiY4/Aeg9tsxhX
-         6aeg==
+        d=gmail.com; s=20230601; t=1725309138; x=1725913938; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZQLCQVhf1j+4T/Ts+ZPw3R8gGMd3TXwoFmHuqhI4UG0=;
+        b=mj3bxU/dqLUL0vzk1pOgLv+w08Jgf7ZPLfCJDvfc+ih3ebaYChDK9HyeN+/4Bz9Db8
+         n6MnZAedYrweHazlU/SiPCERi3iD3vu9EefEgn00czxT1BEg4ZGPt94LJGFkUCc7Tj8R
+         la42Q+qk8YkuYmbrSLGhGuiH4no5DZuYZhL16a0KLqYj3Fiyhh6UnCLwyFRi7HLJO4BC
+         YXKuYqJ0X8R5oSixKIOc7gRTN+mP/j9beHZ935TyC5be7HK9ceZmTXELA1m/Z/x/k3xt
+         rq12Xez3AEwhfJXXmQQGs4HIKoHRN+yWC89vENQ/KO3LaoaJzPlJBYPhpD3w/WIZKCgA
+         x90w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725294563; x=1725899363;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eDm1xn6MCkylgw6KAnPPmmpK19X10FxQlrFD5ivQLOE=;
-        b=ImZeD/ET1YAO31TW0RVXGB/SmqFltARysBMeCG5QQUDZzay6NEupNwxUEluu4zykyF
-         u+zvCEaFlZwoZW/KBmjfaiQyUVQ4PaVDeLnbtBzlX4edOTsyUmvoL0fSIsiYkgzRVGvc
-         wgrpjaJliZ5JBhy/bu0UhEwwlQyg1WOmiLma6723aoJ31DCf0z9WaweeRBNNWqew+tSz
-         9BVfnBI8nUW6eiuE9oanr3S01cm/7pmRtDrOrWXNuwVaz8OxyF5L9RpT+G4feIfc364p
-         VrtCbW4GToUDHEnKVsHmIhiifh7vAr9+B/BmFbbPAwk8mgThUklv4POd4Ad+duSxiXTL
-         7qzg==
-X-Gm-Message-State: AOJu0Yz5iwMyL0RkxLgy2xUiUx9RgAld1wpOqOpde1qY9YUZ3ffstCsg
-	/TcpGRtJC1TxnXsopTuKtJ+Wzvj0YE9+qOOz/pYWXvOjQyeZ6nCJcpkrgA==
-X-Google-Smtp-Source: AGHT+IE/QY6Ed0opawwNQGoDh2ZFzvMH9MhXKMCjHUL+jRsdUWnxcyNBcqcImkA5WTNrQgk7gksGMw==
-X-Received: by 2002:adf:f206:0:b0:366:eade:bfbb with SMTP id ffacd0b85a97d-374bcfe5bd4mr5116523f8f.46.1725294562663;
-        Mon, 02 Sep 2024 09:29:22 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42baf1b0c18sm160440545e9.37.2024.09.02.09.29.22
+        d=1e100.net; s=20230601; t=1725309138; x=1725913938;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZQLCQVhf1j+4T/Ts+ZPw3R8gGMd3TXwoFmHuqhI4UG0=;
+        b=fOan/sFDOBWXyQuw8wUQws1PLSu+Uzc34d/UZlJhJd5olS45i7yLRV85UIpVHAw9bD
+         lhx2knJwAGbhA/cGAoxvN6uYzYC8HYTFHs5LwTcTQ2+u0lGvRylZfirfoX935muDj1uU
+         hk9oGzOF1w548ZY36Rmzhtby5ibu3KmoDftOIbMlhHMmPe2EDIq5WpKuVzdkyv5f6LGk
+         /6N9d7vDS7ABknJpI8HgkDPd8BPK6Lf2KC4fZZeYLLbr20vQ6fQ1lXHz1GRwUaABfuel
+         rmiBeEHPC/PTOL0Bdr542cwFYi0RBnmRlr15OTKYX5PmINWkSv0iF0IClhx6uTaN7psY
+         GTwg==
+X-Gm-Message-State: AOJu0Yz0h24EQClde9JdPpeN3M4tVfdLiMbI3vu8jJIG1B7VIokq/VqH
+	PZzv9YeCH2H/516cn9Uxxv5kYXBOwRAIriZZmNNJ0pwZCFWlnIn/7ncx4Q==
+X-Google-Smtp-Source: AGHT+IHSq84F7dmTX24DKbcnC5e/78bzsmjvMW1Pcn8joNGLfgul129Ak2VQnRDiAtyfXFOcQ5/F1w==
+X-Received: by 2002:a05:600c:1ca9:b0:42b:af1c:651 with SMTP id 5b1f17b1804b1-42c880ec221mr10306195e9.5.1725309137708;
+        Mon, 02 Sep 2024 13:32:17 -0700 (PDT)
+Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bbc8de253sm96537205e9.0.2024.09.02.13.32.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 09:29:22 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+        Mon, 02 Sep 2024 13:32:17 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [RFC PATCH] bitbake.conf: DEBUG_PREFIX_MAP: move STAGING_DIR_NATIVE before STAGING_DIR_HOST
-Date: Mon,  2 Sep 2024 18:29:19 +0200
-Message-ID: <20240902162919.1285067-1-martin.jansa@gmail.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 3/3] devtool: remove obsolete SRCTREECOVEREDTASKS handling
+Date: Mon,  2 Sep 2024 22:31:54 +0200
+Message-ID: <20240902203154.265515-3-adrian.freihofer@gmail.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240902203154.265515-1-adrian.freihofer@gmail.com>
+References: <20240902203154.265515-1-adrian.freihofer@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 16:29:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204110
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 20:32:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204113
 
-* and add -fmacro-prefix-map as well
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-* the default STAGING_DIR_NATIVE starts with STAGING_DIR_HOST and the
-  only difference is '-native' suffix at the end
+The kernel-yocto.bbclass defines some tasks tasks and it also adds these
+tasks to the SRCTREECOVEREDTASKS list. There is no need for devtool to
+duplicate this code and override what the kernel-yocto.bbclass already
+does.
 
-* this can lead into replacing STAGING_DIR_NATIVE path with just -native
-  if STAGING_DIR_HOST is listed in DEBUG_PREFIX_MAP before STAGING_DIR_NATIVE
+devtool modify generates a linux-yocto.6.6.bbappend containing:
+  SRCTREECOVEREDTASKS="\
+    do_fetch \
+    do_kernel_checkout \
+    do_kernel_configcheck \
+    do_unpack \
+    do_validate_branches \
+  "
+  do_patch[noexec] = "1"
 
-* I've noticed this by accident in python3-matplotlib where buildpaths
-  QA warning was triggered only for lib32-python3-matplotlib and it was
-  because pybind11 path to STAGING_DIR_NATIVE was mapped to only
-  '-native/<path>' in python3-matplotlib build (which doesn't trigger
-  buildpaths QA and lib32-python3-matplotlib the macro path wasn't
-  replaced at all, because of 'lib32-' prefix in:
-  -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/i586-oemllib32-linux/lib32-python3-matplotlib/3.7.2/lib32-recipe-sysroot= \
-  -fmacro-prefix-map=/OE/build/oe-core/tmp-glibc/work/i586-oemllib32-linux/lib32-python3-matplotlib/3.7.2/lib32-recipe-sysroot= \
-  -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/i586-oemllib32-linux/lib32-python3-matplotlib/3.7.2/recipe-sysroot-native= \
+linux-yocto set SRCTREECOVEREDTASKS to
+  SRCTREECOVEREDTASKS="\
+    do_fetch \
+    do_kernel_checkout \
+    do_kernel_configcheck \
+    do_patch \
+    do_unpack \
+    do_validate_branches \
+  "
 
-* more details in meta-python fix for lib32-python3-matplotlib:
-  https://lists.openembedded.org/g/openembedded-devel/message/112074
+The code in devtool modify is therefore considered as redundant and
+removed.
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
-Sending as RFC, because I haven't build whole world with this
-and there might be better way to do this or more buildpaths
-issues triggered by this than fixed
+ scripts/lib/devtool/standard.py | 3 ---
+ 1 file changed, 3 deletions(-)
 
- meta/conf/bitbake.conf | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d8252c5b82..ad152ffb6a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -653,9 +653,10 @@ DEBUG_PREFIX_MAP ?= "-fcanon-prefix-map \
-  -fdebug-prefix-map=${S}=${TARGET_DBGSRC_DIR} \
-  -fmacro-prefix-map=${B}=${TARGET_DBGSRC_DIR} \
-  -fdebug-prefix-map=${B}=${TARGET_DBGSRC_DIR} \
-+ -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
-+ -fmacro-prefix-map=${STAGING_DIR_NATIVE}= \
-  -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-  -fmacro-prefix-map=${STAGING_DIR_HOST}= \
-- -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
- "
- DEBUG_LEVELFLAG ?= "-g"
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 312eb8ab506..b2e1a6ca3a5 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -952,9 +952,6 @@ def modify(args, config, basepath, workspace):
+                 f.write('EXTERNALSRC_BUILD:pn-%s = "%s"\n' % (pn, srctree))
  
+             if bb.data.inherits_class('kernel', rd):
+-                f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout '
+-                        'do_fetch do_unpack do_kernel_configcheck"\n')
+-                f.write('\ndo_patch[noexec] = "1"\n')
+                 f.write('\ndo_kernel_configme:prepend() {\n'
+                         '    if [ -e ${S}/.config ]; then\n'
+                         '        mv ${S}/.config ${S}/.config.old\n'
 -- 
 2.46.0
 
