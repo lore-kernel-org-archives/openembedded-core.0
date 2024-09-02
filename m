@@ -2,22 +2,22 @@ Return-Path: <pedro.silva.ferreira@criticaltechworks.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 759ABCD13CF
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:32:08 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.84])
- by mx.groups.io with SMTP id smtpd.web10.35607.1725273122732170815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44C32CD13CF
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:32:18 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.68])
+ by mx.groups.io with SMTP id smtpd.web10.35610.1725273129449070220
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 03:32:06 -0700
+ Mon, 02 Sep 2024 03:32:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@criticaltechworks.com header.s=selector1 header.b=WXc/u7CU;
- spf=pass (domain: criticaltechworks.com, ip: 40.107.22.84, mailfrom: pedro.silva.ferreira@criticaltechworks.com)
+ dkim=pass header.i=@criticaltechworks.com header.s=selector1 header.b=JV04GD9t;
+ spf=pass (domain: criticaltechworks.com, ip: 40.107.241.68, mailfrom: pedro.silva.ferreira@criticaltechworks.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cyP1Kumb4+fpd3ZzBLM+Z8SBETu67Y1NKXrClxfoyauljgIuhJahhyuttbbaAEfETcvRYhpN6HR0iat0vFvgARK3Z+HpwNiiymhpLqNoNQOJt4ROXwFhS2e8CQhfPV0rzKeW0w+f7kXwAUFKIyReSkTp21UZdWusNEVhA2EDGzuzAbTAUDM0HL03+53Gwb0lWUYkfU7l8Tpij5DKF5+KL+OkasH1cBA0TEuubqS57rGyv3/T73PEBuL3PQ56t+KkhI+iA2FJ/9bCvqUX/rh9h643i0c+BBJ0/KFzqWryfBKvWnT4hjxLzI9UaUGX7ATRpp73R3P18oHtQmmVvfWLqA==
+ b=USIFi1W+GAd8F1xZYLbSC3uOsqtsopVVz00TyDDVcxoW5gNEpD185kBlZxgZhnTHlbZfMDjubokZ0g93NSZtJlANAe5z6HK6PaHjeKrMoVohl823VJ3Sk5gdOVmkXJE6+lmHLtIQy2VJWzisYvD3TaOHuB31FKsLIXXtHhUH+AcD8MHlykUEcK9g8lYrEhY9jZy1oS+29zMlisf9ehklnicnVdNhneznzGa5pKaO97P88Pn7ilLWJjTiZ2Oi+MeWILZ5mJyumwaen9G6I4q569QWsPUM7NE6TvQofx/BKndpj2xilRAo98vyqumTySp9wqp6nOQF82/E2hQTeq7onQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h57vZLkjF+iXFPLDTIysrCjmF2EfwomZvHFyCiFCYiQ=;
- b=l6RrFay3cQKNnLcaZSNnc7HsuWYTj3vKA88Oa7jlLOQoMILnNtfPEdeDaA4/zQlxO8yM81zgPFCxZ0tMcKSvyT/puD5clRluUZX9Fjz3AVbO1ctlMPfhd+sUr3H1rJMGFIPvSBC22CC0bWlyCIQ83GL1LHrFZt4P2WQh9MxJ/GZMJdOArzZKrkxXT6THPcoLqOB9QWRJmGsnUCyydpcxcEfBx+0/ysmDxN+herRs8JohgP/wXGaqB0RNHlKZYFvl88tqiyN/gXqQKosxzl6l9AAlQ2KXV0eFOhcfqOhEAvCfmZnpnaF42I4MOTFDKZEmCwWTVBGd+AnpJZXGmjEcSQ==
+ bh=uzEsrRWS69FEHOLQDmlu4Eu6Ovs07WFvcpCFjt2Ja78=;
+ b=KJlIWWi3cCz3xiVogUzupU0cek0iodDQNYc3s1vZ2gAyrGxmPEwW3ezgI7MBnxMnA+CXVxolsqg3wpSIo/wlSTf4xM6jgcB1QZklgfP0XWMnEivJx0Qee+1FVXRbupK4qFV4JZKVf0jacUnN+3i8tSbVB+sTQPpsTI/YDFBVSKE/mhkuy8+cnBUIQ7SYu3zEFLJgrDWgpnS6VDocZ5y2j+UpuoOJykxfOaTtwOYohgWcuqYm51pBYJHOpsUao3RCia2rVWW2OPwaAdEUFiaMPlj/4DRXlTRkPEU5TRLsTJ9EXP98A6uHZ8S4X4y442E2FgOna6lJZNQ6Yd717cIQUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=criticaltechworks.com; dmarc=pass action=none
  header.from=criticaltechworks.com; dkim=pass header.d=criticaltechworks.com;
@@ -25,27 +25,25 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=criticaltechworks.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h57vZLkjF+iXFPLDTIysrCjmF2EfwomZvHFyCiFCYiQ=;
- b=WXc/u7CU++oT81yzEQ9yVmYZWuH+4NZgVlWed3Su8P0eTFaLEJLjlS2apmMwrJow07OtOz2WB7f957yGX0M168Trt6UfqEtHDX1wp3PDLUwL39VyWoAa5DdhcN11FpmInOrCfD1rH7vQrz46KGlOxoHPD2mxi4MpVXEr3FQIr0EtTac055qqFC8VVVPPQzsloSu0snPwMYLaHhRUzgXalLdEg1AAGG5pxMfpLC5kuFtJXG6Z7ZeV1Tl9B9aoDPJDLUJDVIojaMb++CP8SjPs2RmAqfq2cvKqCyuDkB8afhCbYm01HD0aW9UnZQlkHb4NnyR2Vd9KsFbCsz3Dgiavgw==
+ bh=uzEsrRWS69FEHOLQDmlu4Eu6Ovs07WFvcpCFjt2Ja78=;
+ b=JV04GD9tKskmK0FmOyy/Fi0Kl12ExpDLFwxoHZy9U7uMvdSWzCZ+H7qByindOAdgbekEth4TwMTqhn9jUvbsorbqLH16jusaviXypeLbylwKFTQfTNNHq+zdMEzcOKhR6GB0znQan+m1JSRQY22j4drmzEIcg/5IinSPpPZLH8qCzXxszCfU2KF8IEotlsR/15m2U5EOwKsx7PvDhlkA2Ya7IHskzBbjRoS0lMMmPfvGwoakbsRMQpZF2szwLuluCMRa+7hRUXB/fBqphnHpjkd0nrg919chsmAMd37Rt58JopyAFSV6v/qkcha5nKP8MU4wIQ5NnZ3G+pOZQY6VlQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=criticaltechworks.com;
 Received: from AM8P193MB0900.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ed::9)
  by DBAP193MB0890.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:1c7::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Mon, 2 Sep
- 2024 10:31:56 +0000
+ 2024 10:32:00 +0000
 Received: from AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
  ([fe80::c359:f497:ed59:65a1]) by AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
  ([fe80::c359:f497:ed59:65a1%4]) with mapi id 15.20.7918.024; Mon, 2 Sep 2024
- 10:31:56 +0000
+ 10:32:00 +0000
 From: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>,
-	Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH 2/4] buildhistory: Restoring files from preserve list
-Date: Mon,  2 Sep 2024 11:31:46 +0100
-Message-Id: <20240902103148.3762538-2-pedro.silva.ferreira@criticaltechworks.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH 4/4] sstate: Drop SSTATEPOSTINSTFUNC support
+Date: Mon,  2 Sep 2024 11:31:48 +0100
+Message-Id: <20240902103148.3762538-4-pedro.silva.ferreira@criticaltechworks.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
 References: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
@@ -57,147 +55,127 @@ X-ClientProxiedBy: PA7P264CA0502.FRAP264.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM8P193MB0900:EE_|DBAP193MB0890:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bc3b715-7990-49b5-562d-08dccb3a7853
+X-MS-Office365-Filtering-Correlation-Id: 0a4cc4ae-012a-410a-f15e-08dccb3a78c2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?smw4TzuG1ikIbV2pbqtSxUgaUhPMjdGiXeGhUIYxmBYeMaMfwN0Jm+67/OLa?=
- =?us-ascii?Q?YD1o19y02cfu4kV0AjneIpzVNrD3oKkLve7Pj5jTRp/u7yc0uLKSvvRYE6Bf?=
- =?us-ascii?Q?Hn9Cbw6xo87c8pHYvh13KDi8N1oSfn90APuxlZWH2uhTJ+6FbEMoov1s32pz?=
- =?us-ascii?Q?nzAedXNQT4e5BXFpwuzQTXFZUEEEmKJJvOxXM6VkStE1tpC944IPzP4m142R?=
- =?us-ascii?Q?P6SDx8+kcIGwgKZYBMUMlCsnOqA66DAK5ltiXgSHO+nqy5ARUJnBggGhcQoD?=
- =?us-ascii?Q?yCgTWIRfN5wfWvLNZsrXx66H5Lk3a0KawsIj3bFP3l9t3sCSxTdCpkfYecbs?=
- =?us-ascii?Q?x3JAo6bqoODcqNMUxGuU4mExP0nZ1atD3/o8MqnheyDyOTLKImME9BabEi9e?=
- =?us-ascii?Q?SnRxqM46Tfe80ZAru49qLATHhMvl3Q5cdERGaCsvY8gwktt/w8gS4XC3TZmm?=
- =?us-ascii?Q?pTO9tb1j6Noslhx2XRdY4EIa6JM3jNYzjzgfGGyppeOuP7QoR0VTNcMI9F8b?=
- =?us-ascii?Q?UCYl1a6cH950/Acc5UxO/GMfjw03/qXyINL1ZmPm3ge2q13PWJqSVxYr3fTl?=
- =?us-ascii?Q?Edx6CskcQGMyDgqFf0aaoXoo8DtTUeMsZ6ueLBnGVASwWp9nircViteTOUM1?=
- =?us-ascii?Q?wcivNFowwpuZ6GP7GbvKtX3pgpxp1ycGz1GTlD9KbDwBMyhk3SLMI9hsgJIE?=
- =?us-ascii?Q?VKPaCApetssesMe2LlyixNM/o0RbfaLK0ZghVhXIc9ssgWnkrXB67r67Gs2V?=
- =?us-ascii?Q?MbAbAGzeaMlNt/t/1bXbCOTQCe7tHhApXvISukSrWe4fy8s0P/NVhdqgYOxA?=
- =?us-ascii?Q?XH/EtouhOu8VA7rlHcYN5KLBgVPrT3zS4HSRKzmmWpiXrD5J2x0En6InXmWv?=
- =?us-ascii?Q?CCOCGYd4gntZWbhfAI0PqB+lLXkeAEpAvVcTnbasyhPRv9c1QUrw5eOVHp/c?=
- =?us-ascii?Q?Mf4VH/CMq/twFDLM1DIkeogWf71z0WLRFTIYiUf0JOs2LkR5ix9rZ3+92C2D?=
- =?us-ascii?Q?FctB4i/kQ3Mw27adQ1qYeYOEEBns1t40T6LBAOX9bMBA01QcJ0re0dElzDhS?=
- =?us-ascii?Q?Kco8KOf1ev4zpMHkDQX7VjqlwFJyryONK3HA6vcZkJmLK9sYdlVlylEBVtTm?=
- =?us-ascii?Q?WV0/++2GGB3fnFkogQcnNiLNKl/CbNO38r0TvugIWtQXKckKRPKjVO5XaBtK?=
- =?us-ascii?Q?d/8a7AFnElQn5PBHXbJp+rUi8Eq/0NVo97SIsUI51SqrbFf3/Ae1eIoMXOIy?=
- =?us-ascii?Q?HZqUyuQm4cDSv+opq7i3smpwRGVU9QfUurtFgpVBvS2oHiLYXkXXNbvpvZ+v?=
- =?us-ascii?Q?6LDw23G54M0Krbv4WZEiukGkmVhBFVrVFR3dGbgeagVI2sjGOmT8qBUm4iie?=
- =?us-ascii?Q?clBB9otSFKL/lIXDYDk5BzGXDoHGlQFFsHRVt8fAPwjgixskDg=3D=3D?=
+	=?us-ascii?Q?UHJLhGKl5LW7MPOs+aj2DVX5VhxjtuQtP8mBj9NHHWmnXrPrTidY6BUIDPaI?=
+ =?us-ascii?Q?K8CDGL2cjSUo+8GQU/mY5e1J/uWPCgvZCGwqKfSz9k2Xnpp4ac5Bryvr4jtO?=
+ =?us-ascii?Q?R0fKI6VretntFXQVFXCIgDsaqThw/EuUQfCEXwbihvAz/rW3/T81wiYsZMWC?=
+ =?us-ascii?Q?sHgOWgBhA3pYjQiILvKgl2zv0owougeRugF5ZLvd9WInEHZOspr4MQDPmfbM?=
+ =?us-ascii?Q?f0T24+dWZsQOxkoHILzZryMP8O7KPiwm/AoU+FSsqtTrU6MVWYZcuySzArZU?=
+ =?us-ascii?Q?uiDUfp3gIOgM13qKhC1bJAHx/J0X1Qtinl0e0Kph5ihdDQlcF11njSdyGbWu?=
+ =?us-ascii?Q?dQrXZH4aeEc5QE3t2ynDivqSUCfiEpqkSnmdFhBzgmoJhrNRSVE63fQJbdPu?=
+ =?us-ascii?Q?1j0FBscFaNTcXp/68hImPrOFlZit4H9mn9QyC/KFRSU34PxNi1zEw0HhhMDh?=
+ =?us-ascii?Q?LibDP96M/c36A2453tiwPVwv5059ouXqxyhW7MzM4JZ33iceADE4lHCkL2NV?=
+ =?us-ascii?Q?1cG3g2fcUbAJ9FgAB5WJy/3JCUhgJHJB/WGqaNE68X9YPzT2mHliuQL2sfDr?=
+ =?us-ascii?Q?Z4AqX6BYkpvoiyOl6jEyyn8XroTUKMRlzsvaJQcTFgV3oXGQTHOa5y2OsG8K?=
+ =?us-ascii?Q?G+3pbH+mUNIgq8hT8z41a8p3GUyRvbI1ViHSUaO38Ju0hD3NViwXONjYPUNA?=
+ =?us-ascii?Q?9Ae/0xPPD50Z8RiC4PSQNOBFFULPPQex4UwQb7Pj4ISxItk3DQZvrFH5ltiL?=
+ =?us-ascii?Q?if4l6GbWeEdaqNBvHNs/9Q8wH6F7Me3KnopUFV7a+EZ+3lFwvrxDilrwnuWj?=
+ =?us-ascii?Q?n+uFE+M62eKupTjAZ4QRwu9QU+qahDSdW0gE2SQKivYy7dyMq0No2PQicab2?=
+ =?us-ascii?Q?nPROoZuYeU1Qbu8rd/BORTbtF4tQ59knEm1/9oi5+TbSdC/SUW27/azEJZA9?=
+ =?us-ascii?Q?lwR2Ck/KwsTIoO18kb1Cmg5PENWnwgjxZQJjtDFVS74hu1RwU6B5StHTK+l7?=
+ =?us-ascii?Q?nhZksYSdeXdb7WXeyZVcKOLaCAS9JwbXrMl0CbHkNk3w0IRECvnf5c+T248P?=
+ =?us-ascii?Q?jENwB1mvhtxf2/lrRSykRpuRUCZ0MI/7dasNRt6+v+2ugdo725u+DBkxcznt?=
+ =?us-ascii?Q?WLYTOBav4BB8HmNc+mLZbP9r6wt62n3Ojh3X8WeH5WnqNNQzVX73Og8dbo9U?=
+ =?us-ascii?Q?04wLxzWI/XnaAxfLpyhx5VJlICDyZzjTKC3KON+StbkfDosHdsp04KiLMf1g?=
+ =?us-ascii?Q?FA6ZaKNMfAw8/pJvyX9QAwKO44Db3Ypx0+KJruIAYdD8QZx66fT98xdm2L64?=
+ =?us-ascii?Q?9R+n9MG6xvgqzr8TyJrEc4SfnHnzF1TyZKQmYohBIIemsOpW2C8BO5GmTN3T?=
+ =?us-ascii?Q?9+4EAJAGQHtY7rtpggjnkGxanRTLaEwGJni2zEN1S6XeZjsklg=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8P193MB0900.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?HStBYfMhFh/aeDjuDw3EFlZ2ktwcMl58uUah+Gzj4DEI+n5JIumAubN2r9Ru?=
- =?us-ascii?Q?HkP0wprqv9+hjZyR7FggWsfGwma7I0e1ELbpje35Bm1PGKC/eicOh2W0Zo/j?=
- =?us-ascii?Q?22LeBjo7mv43t61oNTn75zewb+lpu7/G9mFMZ2mfjtqUVqlHZoBPO8iW53Zc?=
- =?us-ascii?Q?qXXTpV/d+EcW+H0jofokv4f+RnDotzQbFx7NkhwRvsiO9eKHbxTc9Zq5hB3r?=
- =?us-ascii?Q?bm3Dmq1/ON1XWJIYkV44nnjF/6Jd1H4nVqmd+OvHMCNcJtSMSC4eFVT69RGd?=
- =?us-ascii?Q?2VZ6NzMhgGcs2t4mI8yakaumHSRyrzif3IbUGnWqbBqKR4Hsw5lhEw9r1IOO?=
- =?us-ascii?Q?K49oOjl9ZoNomJ3igRqkcfu4EaTWo8g49NPga7wndnxrh/266Gk8TM4Z7zkQ?=
- =?us-ascii?Q?pLrLbe1H+f6uGryI/78qszBNPbVivMTW9XyZHpPVeNyXntomXR38p+GV2Mcu?=
- =?us-ascii?Q?gGJYAWuROWZAmNCyqL1K7nKkMfC04QdPb2aw6ZQNeEIGtajun8x36bjaYgrQ?=
- =?us-ascii?Q?6vXhDk6iWEqLsH2BgD6fttuNNam5DrtkFavaPVtW4RZkkQWGwAghhDFGabQ6?=
- =?us-ascii?Q?b+xC6uwriWdxHv2bVLCgp+HAJ4lcQWwGkBs1R+hs/KDxgvkKyLK2daGUCMGt?=
- =?us-ascii?Q?zQQ29DFKYgKoCSXcPxrle7Qy/abIva0fGp3440VJ9vFGvUWNzYIvKI5abr6i?=
- =?us-ascii?Q?4AX8WmIs4Y/TQ4tXngSim8b5MQIehkGXcNDNo6UcA85/7uw6NKJrWArBVcDe?=
- =?us-ascii?Q?VlnKOtvruN7mDMOjiPc9EGh7WgR++baZG+0SA+FTQQg4MBuK8UiBVovZdEBK?=
- =?us-ascii?Q?W4CQYvM2oPegbm5W4ERwBjeB20Sb4upDZEy57S0CKIvmLocIZq4fTQE3+tG5?=
- =?us-ascii?Q?bb73nDXeAzJGvO+DvmFzUbQc6UpyxeOoGbBHQfNujHFX+5g7oWNF7Tdkjogy?=
- =?us-ascii?Q?RLOBzwAol8e3iZRojtY3ZNBHga8C+GT3wmdpq+WYpV6el7jC+2b0hwZQgFdN?=
- =?us-ascii?Q?KBgzXxHo0sWsMkQ7dtMm8xAYG/dxBgX+TYCmvXWfEPHw+SmI5OgLVrRhvJBm?=
- =?us-ascii?Q?fueaI4JFNkucFS8JZfnUR9AfszdfEhrcj/Sb6kOO/woO7lbRksHXqc1tNU05?=
- =?us-ascii?Q?BokV2rcKEGe+iMjwM3wGhPALXdAE8Jo47J0yNCpsnynenw7P7jOUhGgrq65l?=
- =?us-ascii?Q?u/9lGEr4xF43y2JCAcXLwKUvAQGiuNLFU3hcLMq4+Qh44Icxb7eacPlIbNUR?=
- =?us-ascii?Q?Otrcdt6Tf0UmW/gPvf85R0i8js0giyhBTWIweIoqT8tiwiTF/Nl7kXo6XndF?=
- =?us-ascii?Q?Zrgp/rtyMSEin6QZG+jCxVV6CwdgH36b5j/e9PwDQ3X+526jwMTnMVkSfpoI?=
- =?us-ascii?Q?gjWrjYHZMnRNwn4of9xrXoVLhHkxqJsONnxWtTk+Jd+EvQ/Ojw/QVD3Tqhe7?=
- =?us-ascii?Q?SIzLCFpCvDuyQCJYrZlEtIKkd5FzwlZGGJcLiJPbYH2R2KJGPouoUpOIAE8P?=
- =?us-ascii?Q?IWMO5fVIqfEpgU5t9YFeV/QPN58louiBeyU0hdf5emqHEBQoMydD0PUhAP8b?=
- =?us-ascii?Q?HKmAHpTgHkm1+KEhCUxWPbtqxx6r0kstrk0kX1RyQMv0idVvh7oqNFtsIC/b?=
- =?us-ascii?Q?EBX++6XlH506Kt9Zf0GjFD4=3D?=
+	=?us-ascii?Q?MlVzX/r3DUglJ4VZufHf12D6WFvN8vQ0tXxokbsrQvdNmOpl0QzbR0xZNnvN?=
+ =?us-ascii?Q?C2vdtXnuCJBna2917ECZAH57QVEzOKFBUsL+ApBCOzYf8tD1Ft9m1J7agXE/?=
+ =?us-ascii?Q?XQ94xig+QV7c1+todyDWlqmiJSWgUPvwUucBs7kZrT5URuzfKHQVGl1rx64G?=
+ =?us-ascii?Q?QQSDCJ5RdtgI+KQGjdQQWJwRa6weFcno9boyhfvKWlOyRZaMtp174pvVvBd3?=
+ =?us-ascii?Q?BTQ6n/shD6dSeGXucJuQaOM5i10LttkvNYdJ9In/8bFU9k6t8gc1k7Kqrryh?=
+ =?us-ascii?Q?L6pQ/EgwBIb41GbhsdKcqLhrm3MvO+nZ7KYeQIp+z2ed2o+knsvYcEFsSSg8?=
+ =?us-ascii?Q?bFSMigKmXn6v/RsR1y51oWd2lYmVTJu+dP353kJ6huA59ov8JUX4ICUznEBo?=
+ =?us-ascii?Q?iS8Yczoch4vBzgKaEyh5hZzTmoYVWAbTwrQCmk2pPdVadGvqnZwHFEZ7def3?=
+ =?us-ascii?Q?hLqkDA75h+/vFoQ35NpZMY5BnSLzjoAgwgGXRbCf1mHF/1AFRsOqwZXHOzBP?=
+ =?us-ascii?Q?7o1TTsH3T7Dk++ZbExLy+AscTc0vEHdxMvI9PXajonPBg/f7XQG7/Ddy3CZ0?=
+ =?us-ascii?Q?ftUYb+Jf0TD6/WfPImsLFqZfbVfauR4vM+Z0p23YbTe2hOTNBfFOHcIbDmmv?=
+ =?us-ascii?Q?OhcaliwfrxgW8Z+oa6X0fc+hWUu4QCud0iq3pgFdWN+2sovI97z6DIMibKvs?=
+ =?us-ascii?Q?hwbdkNR8PE0sA2WQvuzQI8j7XDD2PNm/miTQkws3Fn+9y+jr2zQG4h2LUmib?=
+ =?us-ascii?Q?yprC45o/1gYeJbQPFolhvoZjmrlDqj+sdvoB4UMB8RDZ7iHVJKuiyxaIA8py?=
+ =?us-ascii?Q?iAUdYSdcaeKvcdG1eMgs+lkTi7NcSK/ufEZxiEwVXQb6pGIJCSd5SqnZ3xqF?=
+ =?us-ascii?Q?ydEv9aH4dAgrggY0fRR/cYIMGQSWgV9ABbJWEdCM1g6N/4et2LHNoxRKsris?=
+ =?us-ascii?Q?MSLKVYxuBCxsaNPHhEK0eiC03OTCYYCgkONTioTqaovu2yZf6TGRJeKim6YT?=
+ =?us-ascii?Q?+x+aqbWS6bhB6HBsi5y+ucHAAz2R+Egm9rA6KXFeXlqDpt+ZxEjUKWn8Xfe7?=
+ =?us-ascii?Q?xe9/unbGgeJ54pZIF+ukgzkbsqhfZ+Xk1KxZ6hbrCRi2i0+fRXmNOGUtaeNo?=
+ =?us-ascii?Q?d0R6QDIxz2/PHHnIyssBBkbQjcspGXUesB8RXQLl4wwV9IdBffyteG3iHXif?=
+ =?us-ascii?Q?N9Pz2VByEh3ftwPbHkg5qlaD0S/FSMWzn9eHNrHc7F/B6FsEuFCG/2Z1XjSV?=
+ =?us-ascii?Q?uRu0py1uj/V/W43nqWXFpl0E7DSnCnnNi82rtzv/j7DEScl1wZpExi83udOF?=
+ =?us-ascii?Q?8hZHUJtmI8KwGJngSdPiqd6t4k0OZbKIE5elhqvoiTUc6oLdj7PdbUsJGbhc?=
+ =?us-ascii?Q?KkKclYy6Fnxb6WnHhH4lFa7vhOBdBj2hrOPcblIETdSVVl3FFreUTnHF7ZZp?=
+ =?us-ascii?Q?VOWM12/1OsgZeaAMby4DSoPtIiMM5BEj9IUwZZEuM9F7GoOfvQGC0sZgxgND?=
+ =?us-ascii?Q?cBF5+6IbWrtCU3YjsvhDcvw3oDpoLmV++Ha0i9GNwadWGfq8CWKC4LfNhTOV?=
+ =?us-ascii?Q?pcfpa5YBU8rYN7q+EctXlrxG/B1Rf37fQuO/Dtakk1E/YYOj/8Hk3erJ6hJv?=
+ =?us-ascii?Q?GJLeqp/MkelwEyMZmEPU0P4=3D?=
 X-OriginatorOrg: criticaltechworks.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bc3b715-7990-49b5-562d-08dccb3a7853
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a4cc4ae-012a-410a-f15e-08dccb3a78c2
 X-MS-Exchange-CrossTenant-AuthSource: AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 10:31:56.7940
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 10:31:57.5502
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 61f30b8e-4f6b-44fe-9bc2-041e3a9f7346
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fh69cN6JtUAdOACO1ZyEDp8GNFdfw0aRwD+PbThvpoj9UIE8ApsUXm3PjJJYmbvTjJtWF0dOwxdVra+KRGWss/XPdyHIJI9GKsKqWviw5Ks=
+X-MS-Exchange-CrossTenant-UserPrincipalName: SNKT89hC2FJHkCAInOmiVPc1MKdq4Ukhb5xzYDg6kzLieIcGOkI2Lw7RcxwTi4OX/XPK18YpBeHQSoeG6AonQnkAHPrjiC8W7tBFi0FijYc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAP193MB0890
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:32:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204081
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:32:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204083
 
-This fix will ensure that, when we activate feature
-`BUILDHISTORY_RESET`, files marked to keep on feature
-`BUILDHISTORY_PRESERVE` will indeed exist is buildhistory
-final path since they are moved to buildhistory/old but
-not restored at any point.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
+This was deprecated with the introduction of postfunc support for tasks
+in general and only used by buildhistory. Now that usage has been removed,
+drop the code from sstate.bbclass. Any other users should be able to use
+postfuncs too.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/buildhistory.bbclass | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ meta/classes-global/sstate.bbclass | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
-bbclass
-index d219519f86..08970aafea 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -110,6 +110,7 @@ python buildhistory_emit_pkghistory() {
-     import json
-     import shlex
-     import errno
-+    import shutil
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstat=
+e.bbclass
+index 93df5fa9e6..42b7e03513 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -103,7 +103,6 @@ SSTATECREATEFUNCS[vardeps] =3D "SSTATE_SCAN_FILES"
+ SSTATEPOSTCREATEFUNCS =3D ""
+ SSTATEPREINSTFUNCS =3D ""
+ SSTATEPOSTUNPACKFUNCS =3D "sstate_hardcode_path_unpack"
+-SSTATEPOSTINSTFUNCS =3D ""
+ EXTRA_STAGING_FIXMES ?=3D "HOSTTOOLS_DIR"
 
-     pkghistdir =3D d.getVar('BUILDHISTORY_DIR_PACKAGE')
-     oldpkghistdir =3D d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
-@@ -223,6 +224,20 @@ python buildhistory_emit_pkghistory() {
-         items.sort()
-         return ' '.join(items)
+ # Check whether sstate exists for tasks that support sstate and are in the
+@@ -332,15 +331,10 @@ def sstate_install(ss, d):
+         if os.path.exists(state[1]):
+             oe.path.copyhardlinktree(state[1], state[2])
 
-+    def preservebuildhistoryfiles(pkg, preserve):
-+        if os.path.exists(os.path.join(oldpkghistdir, pkg)):
-+            listofobjs =3D os.listdir(os.path.join(oldpkghistdir, pkg))
-+            for obj in listofobjs:
-+                if obj not in preserve:
-+                    continue
-+                try:
-+                    bb.utils.mkdirhier(os.path.join(pkghistdir, pkg))
-+                    shutil.copyfile(os.path.join(oldpkghistdir, pkg, obj),=
- os.path.join(pkghistdir, pkg, obj))
-+                except IOError as e:
-+                    bb.note("Unable to copy file. %s" % e)
-+                except EnvironmentError as e:
-+                    bb.note("Unable to copy file. %s" % e)
-+
-     pn =3D d.getVar('PN')
-     pe =3D d.getVar('PE') or "0"
-     pv =3D d.getVar('PV')
-@@ -250,6 +265,14 @@ python buildhistory_emit_pkghistory() {
-     if not os.path.exists(pkghistdir):
-         bb.utils.mkdirhier(pkghistdir)
-     else:
-+        # We need to make sure that all files kept in
-+        # buildhistory/old are restored successfully
-+        # otherwise next block of code wont have files to
-+        # check and purge
-+        if d.getVar("BUILDHISTORY_RESET"):
-+            for pkg in packagelist:
-+                preservebuildhistoryfiles(pkg, preserve)
-+
-         # Remove files for packages that no longer exist
-         for item in os.listdir(pkghistdir):
-             if item not in preserve:
+-    for postinst in (d.getVar('SSTATEPOSTINSTFUNCS') or '').split():
+-        # All hooks should run in the SSTATE_INSTDIR
+-        bb.build.exec_func(postinst, d, (sstateinst,))
+-
+     for lock in locks:
+         bb.utils.unlockfile(lock)
+
+ sstate_install[vardepsexclude] +=3D "SSTATE_ALLOW_OVERLAP_FILES SSTATE_MAN=
+MACH SSTATE_MANFILEPREFIX"
+-sstate_install[vardeps] +=3D "${SSTATEPOSTINSTFUNCS}"
+
+ def sstate_installpkg(ss, d):
+     from oe.gpg_sign import get_signer
 --
 2.34.1
 
