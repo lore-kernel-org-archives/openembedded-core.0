@@ -1,99 +1,92 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65BCDCD3427
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 07:49:07 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.33787.1725263338788047954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 634D0CA0ED3
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 07:50:27 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.33798.1725263419033778674
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 00:48:58 -0700
+ Mon, 02 Sep 2024 00:50:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=aTg+iLBe;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=WgA2/3/Y;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010191b1b559bb-c7fe810c-0b11-4dd9-9a7d-e51cc5d32ab2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1725263338; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Ku8fRikDWjUdEL4t4VtN8AdlunWZyIRfF4ydvuXcrWU=;
-	b=aTg+iLBejxI3TGQY6inx4wqRnxCBmehundVuld644IO/ipObStkl+ZjFfgNvxsae
-	qKxqI6P9D4ZBJfgO7SKR0w26KVijZJCGWrInlJfk6Hl95Pn6RHZQtzsJXOmw1tRks05
-	QFeZqEV0Wvjt42CzGjPlC2ORjZ0YY5b19xcA/Gcc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1725263338;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Ku8fRikDWjUdEL4t4VtN8AdlunWZyIRfF4ydvuXcrWU=;
-	b=WgA2/3/YutJMQo4JhmEZs2SVdjKPzRwTd2VLEa/MRKfcoipln0FuxA2qdqtvfvgF
-	gMSEzMy1+6QMLfTRNLzJLTvh/GRMC1e8Q8sfFJ8X5sKd/rqZjwqNnIYJdlUE0FQc4bb
-	ZVsDrm1eIO+xs6esYR6u2JghhWhHa2JVXxE++IgY=
-From: patchtest@automation.yoctoproject.org
-To: Deepthi.Hemraj@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gcc-sanitizers: Add ptest support for AddressSanitizer tests
-In-Reply-To: <20240902073918.490722-1-Deepthi.Hemraj@windriver.com>
-References: <20240902073918.490722-1-Deepthi.Hemraj@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010191b1b559bb-c7fe810c-0b11-4dd9-9a7d-e51cc5d32ab2-000000@us-west-2.amazonses.com>
-Date: Mon, 2 Sep 2024 07:48:57 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.02-54.240.27.30
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hiy+y4Ni;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-428e0d18666so33363005e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 00:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725263417; x=1725868217; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r0UU/3fraBilvxgV/ErFK9fGUT1xDWQEmOxMnRq9V/8=;
+        b=hiy+y4Niy/u+c7RHeFP/g44n+bFQjt4ZjZAKP8/U1MAikUGB2p6FSivr1B+i7u6t8R
+         cErjIYpBpZTgBYMp+8ublcjpbxcIQyKzPSMzwTraOm5ZrETsoA6cB2rcHcj6K2L6aRF/
+         8yPSdk1ZEw44pcsxf+DdpPbAskNxhPIkT2Mj+MrZyQCRXWCxkeVrZZAPCQ3WMM/A5loQ
+         NFK8uNYIg1InYt22vtIU1IdIjrpuFzMJvUgXcu78qqjwOc3QWN1PFeOV1qaE5gDibF8l
+         MKteuiHfhwCPOXwjeEWH4d7RhOnDMKTCputs3Jek63xbJWj2x63TGEYqyXtRsAWz/GqO
+         rQcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725263417; x=1725868217;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r0UU/3fraBilvxgV/ErFK9fGUT1xDWQEmOxMnRq9V/8=;
+        b=Y9g0XolYk14cYOWX4EJ+jy1rso/QSq8TEkqU63001S2TpPD6aXsx6gYIx2gZDgHlTF
+         OtmeIr/s3xv/lvxxAJoXOmeJerYMvYGqF+dK8lsKkgVpq5DkS1D70EC/O+GerdClGZWa
+         m4BXera+AxQuomMUPTUypXCSlS6yk8UkbuNJIPCLDdzUtaESg1QSA04oAXOCm2GfsRSt
+         CTukwlhW1lKsx6/bHMYAc4NxQQbDUgRPZNhxWut87jYv91BOPL8AcXdOQFQRiuP0XYVp
+         AYbPnb7+zt+Uz1+BbovwbVHLgbUFRWAlZLwZKLtR+KsRmUMhBoACUgA5L83GbwmBzerR
+         cYWw==
+X-Gm-Message-State: AOJu0Ywv6DLe+DmlnWERLOz2xdT9XhcYn5p4nQR69ecZ8JPPSeMrfFRI
+	gOUp7l03HIRQ6QtTPGeWXLCgfUu/UPqddUdv+z0BHP3jkFwSNVJnKoR4Jw==
+X-Google-Smtp-Source: AGHT+IG+/E4CXOGceLWNFlT4zdkiDq5hnDQOm/5HLYjgSTaNzZfeUgjARFXMXWY5y+Wa1G6GKYQopQ==
+X-Received: by 2002:a05:600c:1d85:b0:426:6f62:3bc1 with SMTP id 5b1f17b1804b1-42bbb10d2c8mr68468405e9.5.1725263416748;
+        Mon, 02 Sep 2024 00:50:16 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba7b4271fsm158981045e9.29.2024.09.02.00.50.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2024 00:50:16 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] mc: set ac_cv_path_ZIP to avoid buildpaths QA issues
+Date: Mon,  2 Sep 2024 09:50:10 +0200
+Message-ID: <20240902075010.3411100-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.46.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 07:49:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204061
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 07:50:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204062
 
---NextPart
-Content-Type: text/plain
+* in builds with zip in HOSTTOOLS mc fails with:
+  ERROR: mc-4.8.31-r0 do_package_qa: QA Issue: File /usr/libexec/mc/extfs.d/uzip in package mc-helpers-perl contains reference to TMPDIR [buildpaths]
+  and it's because of the path to zip:
+  mc/4.8.31/package $ grep -R styhead .
+  ./usr/libexec/mc/extfs.d/uzip:my $app_zip = "TMPDIR/hosttools/zip";
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+* don't use /usr/bin/env as in other cases, because app_zip is then used e.g. with:
+  my $cmd_addlink = "$app_zip -g -y";
 
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/gcc-sanitizers-Add-ptest-support-for-AddressSanitizer-tests.patch
+ meta/recipes-extended/mc/mc_4.8.31.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'asan-exp.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+diff --git a/meta/recipes-extended/mc/mc_4.8.31.bb b/meta/recipes-extended/mc/mc_4.8.31.bb
+index 5f8257f71f..69d089d267 100644
+--- a/meta/recipes-extended/mc/mc_4.8.31.bb
++++ b/meta/recipes-extended/mc/mc_4.8.31.bb
+@@ -31,6 +31,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
+ CACHED_CONFIGUREVARS += "ac_cv_path_PERL_FOR_BUILD='/usr/bin/env perl'"
+ CACHED_CONFIGUREVARS += "ac_cv_path_PYTHON='/usr/bin/env python'"
+ CACHED_CONFIGUREVARS += "ac_cv_path_GREP='/usr/bin/env grep'"
++CACHED_CONFIGUREVARS += "ac_cv_path_ZIP='/usr/bin/zip'"
+ CACHED_CONFIGUREVARS += "mc_cv_have_zipinfo=yes"
+ 
+ do_install:append () {
+-- 
+2.46.0
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
