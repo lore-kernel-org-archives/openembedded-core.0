@@ -1,93 +1,95 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E1ECD13CF
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:56:18 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.36128.1725274571983586252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA35CD13CF
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:58:48 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.36069.1725274721205225759
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 03:56:12 -0700
+ Mon, 02 Sep 2024 03:58:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=THlP53D6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42bb9d719d4so28637165e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 03:56:11 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=LEjI4ZXt;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5353cd2fa28so5321753e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 03:58:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725274570; x=1725879370; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XimiKA9E8vjtar0XAeP6K3sBm0HZfb23/94V+R6Bq+Y=;
-        b=THlP53D6tGr7oNlM0stjBShHtePH3lbFECu1FjknCcjSzaSBYeAbBi4xE1XuB69FGE
-         1j2R7N+jJJCoW5QnnNMVperK6/9IPHesw3cUB6MLxS5l/2joE7h0pn4oN/TXXihHCeQF
-         dpCqBHlda4Lw5Wa69s11r0iyfsJvDweHVbTw0=
+        d=linaro.org; s=google; t=1725274719; x=1725879519; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h85bIY9Wa+Y8FLH8VFWKaUnrV1nj/CqJMX64I8PXYo4=;
+        b=LEjI4ZXt2Jbo7bCSOSZhCRbt4rbU3YXjwNCPDsfA300E/JlDjcug9c41cnwLjNX/p8
+         cRvhWups4kRGYF7+MzP6yJ752DXrROrnNC0/NN8/3iCT6KslmbXfIyWQWjHzhPwRt3jr
+         BpqOGfgnwIEZ9bTr7g2Wi4qkd76wq/h2nChG0F9Nm8gaTSZKCMgibbNNDbQW0FLkahZO
+         Rl1X3fO5E/tmiCVDbcH49R6GmBzkylavmz0xiOxoudhCWFZtldbo+rwVYv1PnKbtYTkM
+         NUTnEUWu2Tj2eMfpvqaQWnnwEA7Q/0IiCKPuwJzt4Gy16PEnsZXWOxmgmn0Srn9lhLA+
+         mrgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725274570; x=1725879370;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XimiKA9E8vjtar0XAeP6K3sBm0HZfb23/94V+R6Bq+Y=;
-        b=GbQe5YanxungBPBSruaRlB1O+4ILm/cYpqpfo31PeWSFZmgLP3ao4Wrf6YDLDhSfNZ
-         TLEh6Qz30YWBF0cP0SHXMBJ8evOBDbyR3P8CkMavetdNd1knirSbiud+vDCiXJIOLhN1
-         NYR1VsuPW9VKvwE048TJ5qacTjUZF3h0lhD+cQkfWsumI+Lv9myYy2NggRWc0W5WWrn+
-         49ygwPmm8oNl6wRyTLExvkiiltG8ylcAtpy6IIn5bNKZ0s/sYQiP2k7y1ugOhi2Qdjjh
-         yOQu74/CvG+ES2kL3Eb78ptxYe7V7imeRWnTAIx4tAdUh8+qD8LzFQ+sCdvp4Yc2jMMD
-         bwHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVO/n6T3yhemjxjGqUhUOFYrq3Bap4G+jsYxJRXmDsNCqUPt30PZUfLS0mgCramc7QIDr9RMPuZguj5uE7CU7IPUA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzcm+BGCPavX5T99AMAUeJgxdlg29N+M39hel2dzBtdhXTHKcpW
-	waMiB+8TDJmiH1sH3W1yECZ8EiXhQy7VGtLwGRAUkwHsVT9mYcKzyJaIeDDHwc2I9vN8SY6XOL4
-	p
-X-Google-Smtp-Source: AGHT+IF9hqi0X+9vBaIzRqx0jMEvaqLi0jwPEwxUOurdCybeApxgJobAnJ5JFFKX84ZtScUeStKSHg==
-X-Received: by 2002:a5d:5591:0:b0:374:c847:85d with SMTP id ffacd0b85a97d-374c8470b8amr2391718f8f.29.1725274569599;
-        Mon, 02 Sep 2024 03:56:09 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d? ([2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6df0a0asm134184305e9.13.2024.09.02.03.56.08
+        d=1e100.net; s=20230601; t=1725274719; x=1725879519;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h85bIY9Wa+Y8FLH8VFWKaUnrV1nj/CqJMX64I8PXYo4=;
+        b=n2ah3L353RkxAVVy1xZBDcnw6QJmvPx6int9q2SYkK9C99LPnc9ZGAUbRo2G+hkVMS
+         lStLSuVY6y+nVQGLStNB4K7zKk7gJKfTO06SKHTFpTEmjaqseKs+pkAqsA6/T0PbBDSb
+         W1C/PXAnoJY+GHwE8tKp9US5OXsPr851oZ7WQ3fy0m+xykyK1ynXEtca6xTQ7Adhgbv2
+         b4ji/2wakSvhGwNuw7NgrooGLj7fGlN3ONGX2/Ny2i4Y8NrvBQMQG3njZaIO/56fcyhx
+         KgGlNN+ap8Ob2mEiyUuzkOuTQ7GRK2gZsdhLaM4lNINfVxdORX6E7AliNQftKLqAxWHp
+         Rc2g==
+X-Gm-Message-State: AOJu0Yxu6w3Db6a29jRyTgMR+hpx1gIFh0fa8K4awLy8RfBQAxZpG47V
+	CP+jg1tl+eIv2xl2TIeMnC5uPxhbCJnIYLm6fvLzS/phnKSzSKAQ128GQpuK/6c9vYUWPLa5/PJ
+	VB/8=
+X-Google-Smtp-Source: AGHT+IEVGFX8BTlqsBa8VxwlOL9A3L8gNhjX23Bku5sa/KvEATrS8aFCO44x2731htE+FcI3/39wKA==
+X-Received: by 2002:a05:6512:ea7:b0:52e:f950:31f5 with SMTP id 2adb3069b0e04-53546b1c55dmr6495679e87.18.1725274718659;
+        Mon, 02 Sep 2024 03:58:38 -0700 (PDT)
+Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-535407ac5e9sm1599036e87.100.2024.09.02.03.58.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 03:56:09 -0700 (PDT)
-Message-ID: <dbba02a3a7967229e2133e69cd636349ac5374a4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] why does EXTRA_IMAGE_FEATURES += "ptest-pkgs" not
- install *all* ptest pkgs?
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rpjday@crashcourse.ca, OE Core mailing list
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 02 Sep 2024 11:56:08 +0100
-In-Reply-To: <5557141e-86f6-1a86-2069-9f566e766385@crashcourse.ca>
-References: <5557141e-86f6-1a86-2069-9f566e766385@crashcourse.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Mon, 02 Sep 2024 03:58:38 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH 0/3] systemd uki support
+Date: Mon,  2 Sep 2024 13:58:23 +0300
+Message-ID: <20240902105825.40177-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:56:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204089
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:58:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204090
 
-On Mon, 2024-09-02 at 06:39 -0400, Robert P. J. Day via lists.openembedded.=
-org wrote:
->=20
-> =C2=A0 i'm sure i've overlooked something silly, but in building a
-> qemuarm64 image to demo ptest to some colleagues, poky by default sets
-> the "ptest" DISTRO_FEATURES setting so all of the corresponding ptest
-> packages are *built*, but when adding:
->=20
-> =C2=A0 EXTRA_IMAGE_FEATURES +=3D "ptest-pkgs"
->=20
-> only *some* of the ptest packages are added to the image. eg: while
-> bzip2-ptest is built, it is not added to the image, as are a number of
-> other ptest packages. if i *explicitly* add that package, then it gets
-> included.
->=20
-> =C2=A0 is there some obvious reason that a number of ptest packages are n=
-ot
-> included in the resulting image, despite them being built?
+These changes enable building systemd uki images which combine
+kernel, kernel command line, initrd and possibly signatures to
+a single UEFI binary. This binary can be booted with UEFI firmware
+and systemd-boot. No grub is needed and UEFI firmware and/or
+systemd-boot provide possibilities for boot menus.
+The uki binary can also be signed for UEFI secure boot
+so the secure boot extends from firmware to kernel and initrd.
+Binding secure boot to full userspace is then easier since for example
+kernel command line and initrd contain the support needed to mount
+encrypted dm-verity etc partitions, and/or create partitions on demand
+with systemd-repart using device specific TPM devices for encryption.
 
-In your example, was bzip2 actually in your image or was it only built?
+Tested on qemuarm64-secureboot machine from meta-arm with changes to
+support secure boot. Slightly different configuration tested on
+multiple arm64 System Ready boards with UEFI firmware, real and firmware
+based TPM devices.
 
-I suspect it only installs ptests for things actually in the image.
+Michelle Lin (1):
+  uki.bbclass: add class for building Unified Kernel Images (UKI)
 
-Cheers,
+Mikko Rapeli (1):
+  systemd-boot-native: add runtime dependency to python3-pefile-native
 
-Richard
+ meta/classes-recipe/uki.bbclass               | 158 ++++++++++++++++++
+ .../systemd/systemd-boot-native_256.5.bb      |   2 +
+ 2 files changed, 160 insertions(+)
+ create mode 100644 meta/classes-recipe/uki.bbclass
+
+-- 
+2.34.1
+
 
