@@ -2,118 +2,104 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3FBCA0ED3
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:15:28 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.35471.1725272116157278243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAA7CD13CF
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 10:18:08 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.35503.1725272286915107714
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 03:15:16 -0700
+ Mon, 02 Sep 2024 03:18:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=j5/3qWRg;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f50ca18a13so47681421fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 03:15:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C4wxRi3c;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53349ee42a9so5408203e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 03:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725272114; x=1725876914; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1725272285; x=1725877085; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fqE88BLLvIBfGOlOnapBPPB9bsPM/GRyYO+GzJXaePQ=;
-        b=j5/3qWRgWfd3Pgmt/N4Nt0q9YHT0LiV6BrE4CvC7vPhHfgnto+MMzuKLmSM0hzz0fh
-         VYJHozxqHcbfHwplmDYU2QgNfalo3e4R+ROcK9X76HkVXxgGuB1nW4v0lDCPwLWeLGme
-         e51xKaICUhTdWwG+wVGwYpndMsnmfS/naEeJtbnnjIA0rkuUBKiat6NrgSa+zLtHvPpt
-         q/xkGwHiJn65GSZq6D6KbZk77XxRjGH5dGH7/YYS80lpJKMW0R98IOKWfkb+bfQTveXZ
-         fGuU1Fmr6InoFc+yoOT88911hGNbihZUgR4NdpPJGe2ogcbtuE3OMvREJoFQAQHB42r3
-         xKQw==
+        bh=Z48hDs4LBP1gm9JdQ4icwfbm+/ORAm/K/+yiul2Tf20=;
+        b=C4wxRi3cOBvipE9FDhzPfx76H+0jGnM5h4lHoK1jQD1r1OmrBMEWx8VRl5+/l04nSP
+         sshFvHTr5WiLWuFDXrs2lFMmdTfddpqB13lvFG7gOylctLOyjAkF5J3PBpWg5u1cwxhR
+         /0AWyxrmjBvYTiw44roSesJdv0bfYc6Iwj/dxbG0FSIrpsVPkU8mp6Ur4rXE3hQjxB22
+         ReZn+RAZCHKjRuhC34jcO62ntQIrGPZhjmecJ8AmWFg5ZIf+FqdjGiar49vntSsKurmE
+         7rQJ/7glaRtoH9yS6NcTd2vu3DY1Pk7fRm2PXhV/9uBQa5iJ4hvYGzsfXILx+wipJl6R
+         AcIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725272114; x=1725876914;
+        d=1e100.net; s=20230601; t=1725272285; x=1725877085;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fqE88BLLvIBfGOlOnapBPPB9bsPM/GRyYO+GzJXaePQ=;
-        b=sULLtFR7nII/NmPq3YS4+3YYTciNn7D1u7SwNCnbQpM+Z5KCsxczl12gHEdiWfgOyh
-         G8p0UNvC0DgPDuHnsJ+YmlbRLhG4HXZecAaIALxC9oHKs7wmrphkb7R7U62yPnU8sCS/
-         iZvwJp3Vg63NKBj0+BJD+dX03M6kz36bcyX3evituUu64ZBz2WESdCzssuX3zTClVSuz
-         ogbUC3z4N1Dj+bQEFDY0SN+JSRMQOYjs6AFuTX+vHSC8WpLFlKCh1qtqDlmmeL1jISKW
-         QZqIZfVh8k+RErua/0oolOFcHdsvGMpq3Y5fAXN5gAZsL50Dj654qQ398dxHYATWfQ1S
-         4Z5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXcNAg1HDqNbGvFGwqXdAtqJl6Snth8ULsY7UYNPF3jzOuzIl6lmOQ/FpBzah3I826trUIcNAMxFaHWe/mFcNE1xQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwAWjHMVK2c8Y/np/wWkS9VAzBe1AtmQm4afz7YxXxh15hnUzsp
-	dlPjgOLxKf1mobINV+Tnai2t8mCOEW6Cx9qjHQhRpVaQFXkTb2pP3KirX/Yn3FEh+Aixdc214yX
-	Q/1vZ7zPf/HJMRuocn0LyQsUF5UjWWQ==
-X-Google-Smtp-Source: AGHT+IH+jgP9N0V4YV/gcmOXwX8zka6+dnMIgchlLCq80/FPa5UmulEx/woXCTKcBv1Jq8y3XZjpkuKhGpbEcn3woUo=
-X-Received: by 2002:a05:6512:3e02:b0:533:483f:957f with SMTP id
- 2adb3069b0e04-53546b2c0c9mr6912472e87.32.1725272113398; Mon, 02 Sep 2024
- 03:15:13 -0700 (PDT)
+        bh=Z48hDs4LBP1gm9JdQ4icwfbm+/ORAm/K/+yiul2Tf20=;
+        b=fGdc6Jbcs1oUAl9QtmwM1m5sV0nJcalNMX56kdiI9tsZYoIh4y/KeawUukNuubg5BO
+         QLZ987e0mf96q9VumK8NhEybrtz7M82BaZDgZxdFPbdXh8wqPBI5c5ohovvtavGWIuRe
+         R8jQB+3/qZAyBF7wpaUH46YZ56Lt9mOQT0SP7RpMuekjX6BU+WMd0ZTevFPo/hMA+/+u
+         l7LMu4TU/UeWLA+DQ/EmX8MVfpqJKuHE7+vjMPXPjxRkBgRfs3dOtIrC66rMIQShAO54
+         THfWBVPPZupMck+ogwSW0kNakeEHb4cGPb6R5Prnk98Dd1uA/N8Z7Bfspe7BYjGmV2Vr
+         ZzNg==
+X-Forwarded-Encrypted: i=1; AJvYcCV36niTjI/1VhagYZe2zz1+cMchh9SP/dE33buXGLhxUDj1sKRhmk7l4Los1U3OGS5e9zzcj1Fg6MISsFdCnQ4vSA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy+dXrTiNj25Bt6xLdEmBabSVoO2i1aGrZT3dyUhh/cqh8xlek2
+	Qq3DHdtWGuXyZkvliIYZ6W+Uy2J6izJQAldpskXTz4hE7LJNl8O9rAa0y6/07tKaDTWIJ+vJ+j/
+	T89ozEJ4JEOLDjczsZKAhAZxHjbA=
+X-Google-Smtp-Source: AGHT+IELNZQuIGv2ppRiErHGHQJPIv2UCJBaDT7Vq9+zcQtPguchO5XFH34/888Q3EIcZoA7cURhsGxxcbDZiQAW/mk=
+X-Received: by 2002:a05:6512:12d6:b0:52c:deba:7e6e with SMTP id
+ 2adb3069b0e04-53546b4a1damr7648343e87.29.1725272284215; Mon, 02 Sep 2024
+ 03:18:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240902094117.31156-1-mikko.rapeli@linaro.org>
- <20240902094117.31156-3-mikko.rapeli@linaro.org> <DB5PR02MB1021356397EAB4F11F18E3EE0EF922@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB1021356397EAB4F11F18E3EE0EF922@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <20240902094117.31156-2-mikko.rapeli@linaro.org> <99e13a8ab6cea2424298d97466ad48540cee1209.camel@linuxfoundation.org>
+ <ZtWOBWtSoCnyZ2DF@nuoska>
+In-Reply-To: <ZtWOBWtSoCnyZ2DF@nuoska>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 2 Sep 2024 12:15:02 +0200
-Message-ID: <CANNYZj_7Q6j1k2bFS3oSa2cjmp9EGd3QWT0HOUtecKE3spLCfQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] bitbake.conf: add getopt to HOSTTOOLS
-To: peter.kjellerstedt@axis.com
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Sep 2024 12:17:53 +0200
+Message-ID: <CANNYZj-57xLA-UnJ+nJvdpcu=+AgygMPoz2Pjzxs-QE+vxJ=nQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] systemd-tools: add recipe
+To: mikko.rapeli@linaro.org
+Cc: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org, 
+	Erik Schilling <erik.schilling@linaro.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:15:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204072
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 10:18:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204073
 
-Also, can't this be supplied with DEPENDS? Adding to HOSTTOOLS to
-cater to needs of a single recipe is not a good thing.
+Wait. Isn't this ukify.py thingy already provided from
+systemd-boot-native recipe?
 
 Alex
 
-On Mon, 2 Sept 2024 at 12:10, Peter Kjellerstedt via
-lists.openembedded.org
-<peter.kjellerstedt=axis.com@lists.openembedded.org> wrote:
+On Mon, 2 Sept 2024 at 12:06, Mikko Rapeli via lists.openembedded.org
+<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
 >
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Mikko Rapeli
-> > Sent: den 2 september 2024 11:41
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > Subject: [OE-core] [PATCH 2/3] bitbake.conf: add getopt to HOSTTOOLS
+> Hi,
 >
-> You are adding getent, not getopt.
+> On Mon, Sep 02, 2024 at 10:59:22AM +0100, Richard Purdie wrote:
+> > This will fail in CI as there is now maintainers file entry...
 >
-> >
-> > Needed by systemd-tools-native
-> >
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> >  meta/conf/bitbake.conf | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index d8252c5b82..a8c630e7f8 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -511,7 +511,7 @@ HOSTTOOLS_DIR = "${TMPDIR}/hosttools"
-> >  HOSTTOOLS += " \
-> >      [ ar as awk basename bash bunzip2 bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
-> >      cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
-> > -    fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
-> > +    fgrep file find flock g++ gawk getent gcc getconf getopt git grep gunzip gzip \
+> Chen, since you are systemd maintainer, would you mind if I add
+> systemd-tools for you too? It's only the ukify python script
+> currently for native use cases at build time.
 >
-> Keep the commands sorted.
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -795,6 +795,7 @@ RECIPE_MAINTAINER:pn-systemd-compat-units = "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER:pn-systemd-machine-units = "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER:pn-systemd-serialgetty = "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER:pn-systemd-systemctl-native = "Chen Qi <Qi.Chen@windriver.com>"
+> +RECIPE_MAINTAINER:pn-systemd-tools-native = "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER:pn-systemtap = "Victor Kamensky <victor.kamensky7@gmail.com>"
+>  RECIPE_MAINTAINER:pn-systemtap-native = "Victor Kamensky <victor.kamensky7@gmail.com>"
+>  RECIPE_MAINTAINER:pn-sysvinit = "Ross Burton <ross.burton@arm.com>"
 >
-> >      head hostname iconv id install ld ldd ln ls lz4c make md5sum mkdir mkfifo mknod \
-> >      mktemp mv nm objcopy objdump od patch perl pr printf pwd \
-> >      python3 pzstd ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
-> > --
-> > 2.34.1
+> Cheers,
 >
-> //Peter
->
+> -Mikko
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#204070): https://lists.openembedded.org/g/openembedded-core/message/204070
-> Mute This Topic: https://lists.openembedded.org/mt/108223986/1686489
+> View/Reply Online (#204069): https://lists.openembedded.org/g/openembedded-core/message/204069
+> Mute This Topic: https://lists.openembedded.org/mt/108223984/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
