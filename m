@@ -1,114 +1,75 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 383A5CD13CF
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 13:15:29 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.38296.1725282927239096960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F56ECD13CF
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 13:25:39 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.38295.1725283530214361544
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 06:15:27 -0700
+ Mon, 02 Sep 2024 06:25:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=nU15oio2;
- spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5343e75c642so5483052e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 06:15:26 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eOsbgxiJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42bb6d3e260so36494885e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 06:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725282925; x=1725887725; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZEjYeSbaDQpviMDqo/LU8gpT1OU4M/PZJ8/uXa1qOPQ=;
-        b=nU15oio234Jht4+KO5mCA+N5vTdSVdnVwAkwYE1v2jhP6q2IXYxHlGJrdukUb/PlDf
-         bxG04BBaP4lNQ46461O7ZOJos3YvHqX8mz7SyBi9YFcreToZ4x1mx+h8aDAwc5HFFunc
-         h78hQ048KjlVtBtOgKPdq6Pdc7CMaz8lBCoPHoiB+Z5OEIDkWvk7DpWzxIuWROucoEWB
-         AdKpSzo9sKW5ZoETAmuzMdjRoG0E/WrAS4l3rehJqvM08/MSG5OjTWoPwxniRhUyV5kT
-         GMxuEcTf2dKlWDDQAZUwZU6msS2PouA6ObzgfQIpSFXkV/ZIZAEUupZbZSOIfPZZ+uAA
-         /bNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725282925; x=1725887725;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1725283528; x=1725888328; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZEjYeSbaDQpviMDqo/LU8gpT1OU4M/PZJ8/uXa1qOPQ=;
-        b=o0FFtPQmxEm1IqCFBIFHGc7uUL3v9fN5jk/tpa5KIoB0pWCLGjAZmmGthupChaJA0E
-         tzZtne+yepVF3MtaWroumXmITKjzMzCPccYrPZwTxYpgEnjYp5Zjm+4tXFGo2IONeltF
-         N5K9Pyqb1Faf8iQIY0bW4Zy76TcCH/VMOMFCJm27PgnOtktV43DIexKJ9oeNbLID4GyG
-         zE0HDjZhKg7SSajl7n+o4V/P8ku8W1c5t9Mw5aO2W47z5slS3yzwtm3od5GphIxCT8/r
-         knFi0zy2ckRCgMF4EKiKY8WeWylSWiNoGIeeaoRj4ZYzu0UW0SpGwA8mz/Awmb/zTTzU
-         HI6Q==
-X-Gm-Message-State: AOJu0YwlHW/DyuZGCo5jEDKPq8VtkrFsJAnOafc/fKPyGz7VAg5QjAxN
-	XtXfe0hrYILdE5bu92KGg59qKY77KzJo4UiMDseRjw370aM2S0KKvNz7Uasvlo0=
-X-Google-Smtp-Source: AGHT+IFKhQLnOND7n5d/hXGB0qykYeUrXTksbDrzThex6YOCYKvt6pL+8I3aMIkqC3iTK+6G2hrkSg==
-X-Received: by 2002:a05:6512:3f11:b0:533:4652:983a with SMTP id 2adb3069b0e04-53546b49f56mr8259599e87.35.1725282924730;
-        Mon, 02 Sep 2024 06:15:24 -0700 (PDT)
-Received: from nuoska (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53540827a29sm1624003e87.161.2024.09.02.06.15.23
+        bh=cJsLuL5sYQoFTMTMlHqIbMu3QjnckFZ2OzUpIiAhLhw=;
+        b=eOsbgxiJp3nUrGtRq+bFq6qFDrTtsg1F/qXwHw6ziCfJXu6EexU6vTmINKcfQgXXM2
+         7PDZj6jttuoj6yn16pj36AsLHW2WqZYisPhgqsgtshzv7Go0a1zbP0bn7XAQSXyDcuUw
+         Qkm2lukqXd33ftcCcACYvm1hBqTTaOICYxPtI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725283528; x=1725888328;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cJsLuL5sYQoFTMTMlHqIbMu3QjnckFZ2OzUpIiAhLhw=;
+        b=FMdVJqhr6OfgpJ1s5eHW2C8pJiW/jCboJoT9+zPefZyDvPah3Vvvf8SxQXP/uZTde7
+         ypBylcJVX2RAZi5hn7Su6RkmC8myFpeeYS788lz1YxhL8N02k9SLKCvPY6kc5rK3tXZH
+         f4nmSrMVyIMBBr2z7V2fMQqhab/D5cX7QBTVocquqvCeIDPY1rINpZCAUi3ddO3Dh+nr
+         juQVUncNTtK0CJgjTcRiGk0Rw/viYYoF7mrj+H4ZTsuilgRmyTi0eFP4FIn7NWU2035A
+         E4bVawYmNg/SRR0k1DIWS/RGLcc1la3N8YdtudgOA56aFlQDNl6M32p98Y+QH07m++dY
+         YnGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVmx25kZs7HPxuQajbCQLAJAetaJXSLh4KXgehmtdPIjd812YWB0aiVWLQz33qxBrU4XMSGUu8wLdPI42GY33kmmw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxRgkXLV6LL81+eG44xO5OOuJU/ZAiRWiXKTvEJGgMLKCEBP7gO
+	TPIJC5bjE6wlDKkHXwgK1KNv+cgXDUArMXz7c5OQ6KXisgfYqo/595m7/2Jx2NA=
+X-Google-Smtp-Source: AGHT+IGU/xXpgfTYBuj/zcvWWz2sOC0WonIISqaiAnu5VrucnX0IhIcOS7fe4Ni+g/AlCf5tms+4pw==
+X-Received: by 2002:a05:600c:1e05:b0:426:5416:67e0 with SMTP id 5b1f17b1804b1-42be48faa14mr48574245e9.31.1725283528264;
+        Mon, 02 Sep 2024 06:25:28 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d? ([2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb85ffbadsm131820645e9.12.2024.09.02.06.25.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 06:15:23 -0700 (PDT)
-Date: Mon, 2 Sep 2024 16:15:21 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Michelle Lin <michelle.linto91@gmail.com>,
-	Erik Schilling <erik.schilling@linaro.org>
-Subject: Re: [OE-core] [PATCH 2/2] uki.bbclass: add class for building
- Unified Kernel Images (UKI)
-Message-ID: <ZtW6abFD67IrL28X@nuoska>
-References: <20240902105825.40177-1-mikko.rapeli@linaro.org>
- <20240902105825.40177-3-mikko.rapeli@linaro.org>
- <CANNYZj-cgTaKagNxx2mxTkPsp4U-JNNGrruUDUSPbn_cFz6+nw@mail.gmail.com>
- <ZtWgPF0JN4uyjU1u@nuoska>
- <CANNYZj9ke4yEQh0hAxk4fUazaEzQMP7JUKv6LYRv16CTwXpqFQ@mail.gmail.com>
- <ZtWuxNNd9KNxT4T3@nuoska>
- <CANNYZj-uXEDm2CuqtorwdZNABaZNPm4UtOFZvw4wMXdjhh+0ig@mail.gmail.com>
+        Mon, 02 Sep 2024 06:25:28 -0700 (PDT)
+Message-ID: <80a6ff0178502645da085e436b354471e1530739.camel@linuxfoundation.org>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 01 Sep
+ 2024 01:00:01 AM HST
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: steve@sakoman.com, openembedded-core@lists.openembedded.org, 
+	yocto-security@lists.yoctoproject.org
+Date: Mon, 02 Sep 2024 14:25:27 +0100
+In-Reply-To: <20240901111850.70472100436@builder.sakoman.com>
+References: <20240901111850.70472100436@builder.sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj-uXEDm2CuqtorwdZNABaZNPm4UtOFZvw4wMXdjhh+0ig@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 13:15:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204102
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 13:25:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204103
 
-Hi,
+On Sun, 2024-09-01 at 01:18 -1000, Steve Sakoman via lists.yoctoproject.org=
+ wrote:
+> Full list:=C2=A0 Found 0 unpatched CVEs
 
-On Mon, Sep 02, 2024 at 03:03:45PM +0200, Alexander Kanavin wrote:
-> On Mon, 2 Sept 2024 at 14:25, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
-> > I've checked and I have not found matching examples. We have everything working
-> > for UEFI secure boot for multiple ARM64 boards and qemu, including oeqa runtime tests.
-> > Currently the qemu side changes to support UEFI secure boot are queued to meta-arm[1].
-> > They could in theory be proposed to poky as well but there is no
-> > matching machine config for that. meta-arm provides u-boot and many other
-> > firmware SW components, including fTPM. ovmf seems to be only for x86,
-> > same for the meta-secure-core side examples for UEFI secure boot.
-> >
-> > systemd uki support is really generic and not at all specific to arm
-> > architectures. That's why I think it belongs to poky. Yes, the tests
-> > need to be somewhere else currently unless test target HW already
-> > has UEFI compatible firmware, but even with that the deployment of
-> > signing keys/certs needs to be done separately.
-> >
-> > [1] https://lists.yoctoproject.org/g/meta-arm/topic/patch_v4_00_13/108164747
-> 
-> I've checked now. There is support for UKI in
-> scripts/lib/wic/plugins/source/bootimg-efi.py
-> 
-> and there's a test for it in
-> 
-> meta/lib/oeqa/selftest/cases/wic.py (see
-> test_efi_plugin_unified_kernel_image_qemu)
-> meta-selftest/wic/test_efi_plugin.wks
-> 
-> Which begs the question: why add the class at all? Does it do
-> something that can't be done by extending wic code? Can you adapt your
-> work to use the wic plugin using the above as example?
-
-Well, I wasn't aware of those implementations nor do I know how to use them.
-
-I can try to figure out.
+Much as I wish that were true... :/
 
 Cheers,
 
--Mikko
+Richard
 
