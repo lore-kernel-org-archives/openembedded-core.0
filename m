@@ -1,94 +1,110 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B45D1CA101E
-	for <webhook@archiver.kernel.org>; Sun,  1 Sep 2024 22:44:44 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.26647.1725230681648651341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F209CD13CF
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 06:56:47 +0000 (UTC)
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+ by mx.groups.io with SMTP id smtpd.web11.33007.1725260200699530549
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Sep 2024 15:44:42 -0700
+ Sun, 01 Sep 2024 23:56:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=glZ+CBi4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.179, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f4f2868710so37972981fa.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 15:44:41 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Llq+HOsu;
+ spf=pass (domain: mvista.com, ip: 209.85.161.53, mailfrom: vanusuri@mvista.com)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5dca9cc71b2so2360559eaf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 23:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725230680; x=1725835480; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T218M+q8tRDWdjjh1ZXaWQ002OGmZfNzaA5/Z7LXMIE=;
-        b=glZ+CBi4RN9zsbi2b9EvvpCNyJT7Q6guqV37/+Wm1yshcnTB+1wjyX6Le2SgBCN6bA
-         dKNqhKtyc698KJBF5/xkRKPOm3ufRsjv5rv/wq7+ybAfiF/0DNww5x30N1+VAR0MOcmR
-         SKNdKSgVJgeUkzX3cw9Kfm+YqCmdnKQKx3B2Y=
+        d=mvista.com; s=google; t=1725260199; x=1725864999; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Y8fnKYe35kFBGXu3sntviwekmWhiPWrVeZf65OfAso=;
+        b=Llq+HOsuaCbbo5o+4NSwkhCgNPPOShjvGPgLpxX/wAZSR2AMhLHeotykE3EwMgF6M6
+         xugESRZC+ylgYzOT0Snj8+MoG6Dy6KMlVzCwPc0mTvRxMiXHmVibR2gmb4+VST2+2GNf
+         zV8XVwNus20/XiNZ0KPMU4L7j+kjG0Wv0Nq24=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725230680; x=1725835480;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=T218M+q8tRDWdjjh1ZXaWQ002OGmZfNzaA5/Z7LXMIE=;
-        b=biLv0L9AgCS6B1KbbJ7UjyScvZ/tEmBAbmLu2Fd1LfqNpAH5jrDvI2Rs50zUxAiA3p
-         shI2VT3pOHPO9yxcZeylOSObHUvz7wo2Dhm465WwZea3W6f8MGQu7yq5w6lTXJaZtRsK
-         FKChEIxGII/MjcyDHQHv1WSbmoka4bir6fEAzESZgvOTEIPIpc6Iz2CeO17121vuDnQ5
-         IUQD0Z+Z21ov/d5yEIPCexGLjG8KYySNsbZDQ9iFVF/r7bLtw1G1jUauIY4kvwyGIlKr
-         hPhcnpIYioAGq6wcR7a7xQW7HJ9NQMM9TDLAaAIpiVj9xfTGnnBL9HyNPVLRBSqmGHNC
-         wTow==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ6N3r8SHZ5k6qy3pmeTDyUo26LIeTFPSDajcqbiutqjIMns3u+tY9K+L8Rcnm5AUeYy0aft0VxGMcyBvEA8o/wA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YybiviL36uPAjTyYOidecc79uLuRdhf62U9X8WeDXpZMm3G0Wde
-	VEPNBXg9bA86dUDrvWdPk8gkhe424J77bY/4Hro3owzAGytQYcbXZc5V4H6i93E=
-X-Google-Smtp-Source: AGHT+IEkIjXuiBMQiEOnW5efGEKLxwEEJCYymDlWMpJF/RWhyvm6EqMHbTW0SMrurkpyOPuKF6cODg==
-X-Received: by 2002:a05:651c:b0d:b0:2ef:2c6a:4929 with SMTP id 38308e7fff4ca-2f6108a080dmr97500211fa.13.1725230678939;
-        Sun, 01 Sep 2024 15:44:38 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:510d:dc67:1994:ae2? ([2001:8b0:aba:5f3c:510d:dc67:1994:ae2])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226c7349fsm4423483a12.36.2024.09.01.15.44.38
+        d=1e100.net; s=20230601; t=1725260199; x=1725864999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4Y8fnKYe35kFBGXu3sntviwekmWhiPWrVeZf65OfAso=;
+        b=Yjsc6ZJFYFI0tlIJGMR7b4R8jq2U1+QZpTbE2S5+ILDpandRFhXsdJ23tIZmIVRmjr
+         7pw9mtbEmA20vRkvmlz0NiP6dg1Naye1UM5JuypZWdxJZLYzpd7HvcdUHTlynY2HxFyi
+         MlxYunzp/1qmEMY5g78h9WIqf4iGsH4Dpb/ycdWy2yCQFhLDOaHIgGuQWxfgwbY47MyZ
+         GWCrNF9wlVmalyKBRY9wujNW60v5d4QIFDWm3Lu5tWJ6xRGbfyvC0dDllSV/1UcD16vM
+         iCHUDddSyyufQfvqxJz+71KC9h/2CJdMzK8/eHxcAuurnBVtn4DvG4XBnm0TDrAVoIx/
+         L+Bw==
+X-Gm-Message-State: AOJu0YxBOPxSKskj4cNigLpxRKXNvl3MezfagQO5CGN8Z7W6gmK2qr/6
+	ORwxg6Ou9XY5y1wzlc4U7qBSNvBBw2fQWyaXi7SwOokKUsJwen902qrOSImFj2DoYRzHf/uv//L
+	Akdk=
+X-Google-Smtp-Source: AGHT+IEeRKD8UPXMafRrQUa7riOW1sytLodr4O839p/tsLGQNj3GcLQMjB+51yX5JaZezXdGfCJpZw==
+X-Received: by 2002:a05:6358:29b:b0:1aa:b266:2a67 with SMTP id e5c5f4694b2df-1b603cce482mr1233172155d.30.1725260198963;
+        Sun, 01 Sep 2024 23:56:38 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([2401:4900:882d:951d:85a:45e0:7195:8525])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e55a6ff1sm6247137b3a.86.2024.09.01.23.56.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Sep 2024 15:44:38 -0700 (PDT)
-Message-ID: <4b6689079e150ffe0f015eae0c4f83d814898eb6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [AUH] Upgrade status: 2024-09-01
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 01 Sep 2024 23:44:37 +0100
-In-Reply-To: <CANNYZj9fAgYHeJd2bpbR0LEG2cRg-tRf9Sp9kpLXK_6rbZa2dw@mail.gmail.com>
-References: 
-	<01010191ac50ac04-b8216d99-c9be-45d6-b8fd-f550fd8a6a5f-000000@us-west-2.amazonses.com>
-	 <CANNYZj9fAgYHeJd2bpbR0LEG2cRg-tRf9Sp9kpLXK_6rbZa2dw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Sun, 01 Sep 2024 23:56:38 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] apr: upgrade 1.7.2 -> 1.7.5
+Date: Mon,  2 Sep 2024 12:26:23 +0530
+Message-Id: <20240902065623.829359-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Sep 2024 22:44:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204058
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 06:56:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204059
 
-On Sun, 2024-09-01 at 21:21 +0200, Alexander Kanavin wrote:
-> This AUH run was thwarted by a botched libtool update - it's one of
-> those notorious corner cases that AUH hits occasionally. First,
-> libtool update failed thusly:
-> https://lists.openembedded.org/g/openembedded-core/topic/auh/108206634
->=20
-> (if I'm reading this right, libtool-native got upgraded first, but
-> the
-> outcome was a non-functional libtool-native for the purpose of tasks
-> that 'devtool upgrade' needs to run)
->=20
-> Then, this somehow damaged the build dir so that no further builds in
-> it could happen, but AUH cannot tell when that happens and carries on
-> with the list of things to update:
-> https://lists.openembedded.org/g/openembedded-core/topic/auh/108206638
->=20
-> libtool releases have historically been rare, and RP has issued an
-> update for this one already. If new libtool releases continue to
-> subvert AUH, we can probably mark it as needing manual updates.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-There is a patch specific to libtool-cross and maybe some others but
-not libtool-native and that needed to be rebased (fixinstall.patch). I
-suspect that is what caused AUH the issues :/.
+Refreshed patch 0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
 
-Cheers,
+Includes security fix
+CVE-2023-49582
 
-Richard
+changelog:
+https://downloads.apache.org/apr/CHANGES-APR-1.7
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ ...1-configure-Remove-runtime-test-for-mmap-that-can-map-.patch | 2 +-
+ meta/recipes-support/apr/{apr_1.7.2.bb => apr_1.7.5.bb}         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/apr/{apr_1.7.2.bb => apr_1.7.5.bb} (98%)
+
+diff --git a/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch b/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+index a78b16284f..3480deaa4d 100644
+--- a/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
++++ b/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch
+@@ -34,7 +34,7 @@ index 3663220..dce9789 100644
+ -#ifdef HAVE_SYS_MMAN_H
+ -#include <sys/mman.h>
+ -#endif
+--    int main()
++-    int main(int argc, const char *argv[])
+ -    {
+ -        int fd;
+ -        void *m;
+diff --git a/meta/recipes-support/apr/apr_1.7.2.bb b/meta/recipes-support/apr/apr_1.7.5.bb
+similarity index 98%
+rename from meta/recipes-support/apr/apr_1.7.2.bb
+rename to meta/recipes-support/apr/apr_1.7.5.bb
+index c9059c9921..c58204063c 100644
+--- a/meta/recipes-support/apr/apr_1.7.2.bb
++++ b/meta/recipes-support/apr/apr_1.7.5.bb
+@@ -24,7 +24,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://0001-configure-Remove-runtime-test-for-mmap-that-can-map-.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "75e77cc86776c030c0a5c408dfbd0bf2a0b75eed5351e52d5439fa1e5509a43e"
++SRC_URI[sha256sum] = "cd0f5d52b9ab1704c72160c5ee3ed5d3d4ca2df4a7f8ab564e3cb352b67232f2"
+ 
+ inherit autotools-brokensep lib_package binconfig multilib_header ptest multilib_script
+ 
+-- 
+2.25.1
+
 
