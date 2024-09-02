@@ -1,267 +1,137 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF1BCD13CF
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 09:41:57 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.35079.1725270109782194246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A19CA0ED3
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 09:59:28 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.35260.1725271165492559138
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 02:41:50 -0700
+ Mon, 02 Sep 2024 02:59:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=NdPstC4K;
- spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f3f25a1713so46745281fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 02:41:49 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZDlI3CVu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-428e1915e18so33394925e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 02:59:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725270108; x=1725874908; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vGZkmSybxjWwHEzMQmozhYo1xhIaXV5MkofSKp7APfo=;
-        b=NdPstC4Kpgl0sD6o0G9ve9lqrhg+eXh5erPKtn1XvLm3XMxkoDqr82K2xk+16hV3LU
-         omwftRLO6VAmaj4ixBGGq6+OcoKM0BS6skLz+WlO4gVU0hHk3/otB7xLv65F6w/KyP48
-         mkDKBLjEK0+oqc3xr7mVCFDsKmdhzZMZPYWtwJ0rzxgLcPcHE2hYYB98/29ZJH4Tc4rU
-         ARimVpSgXnzgh8bVvnJVSJjor8/Ck52sr/xa/fp3aVV/7xlkyKUyqKbnYjrZbLIcjLKv
-         /bwomLmAHkxJUOnLKzkXGjnInqzU0C+kyJCgLUtUpTCWf1HcZ6sEJFuOHFpjpGXSvQL6
-         X//g==
+        d=linuxfoundation.org; s=google; t=1725271164; x=1725875964; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Jfhb61+Njlak20TjXiXNYbnkoTIdGeeiRsehQ3+Rv0s=;
+        b=ZDlI3CVu+GcXDTxB4cFWQjeHFmw4EmSNbHsLlwmQXh+zWclCYugDbzFkOGTAgxBA/F
+         u4d+QBuxRVqAQwhrXUccKN8FFAqgWsfzdye3S/Grp+0QCy5Hb7fu8f12SCVR2eS/Z0XC
+         qH43zRCfQfl9xGoOgnXSazqgzU6pmvVd2q5Xk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725270108; x=1725874908;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vGZkmSybxjWwHEzMQmozhYo1xhIaXV5MkofSKp7APfo=;
-        b=AQWtdeY9SlnOAmIyu9fUPV58kaDFgnUfoicEBssTUhKaPPQ+T0Yq6xPWogfmhpqmsb
-         KBkwTC++xxsbwZoWTgsTcUEZ8unfKssaY5DrlMqdMvRG+g17auHudE4YSS2bEvZOfC3s
-         0WbiabJcfrFw591B15WccycAeHiUsKnjS3nhiBlkvWqKf1hful/+4U5rHTBI8WdlnyhZ
-         0OhHbayfdxfAJ3OGYomfF5WhwWxZLR5bufrpa7LRadraZmDdSmv69xFux5tH67/3z54V
-         bCW/Dl31q/H2itkUu5062Qm5CbLNUEtCFGPgXbmsDCZz3KhGFD5kFZqOBJr2mC7IFeKL
-         eSpA==
-X-Gm-Message-State: AOJu0YxqG6EFrGc4qS2JhKUh10PNPL270SPePWqYpQoPaKz3DV1Xci/x
-	skJwo+Jcx08LDZj8YzwlUNoGBX/8O4gJMzu5IxE280hHUdqqwYJjpHTLLZXnGrDiYo8cRUVN063
-	Recw=
-X-Google-Smtp-Source: AGHT+IFS8/x60ppbL0E53zoYpZDCKUY6ReKadN+oTSrvNYd60ayz8t38ENtcKIn9UAGDikZuRjFx4Q==
-X-Received: by 2002:a05:6512:1043:b0:52b:bf8e:ffea with SMTP id 2adb3069b0e04-53546b93f60mr6230890e87.40.1725270107185;
-        Mon, 02 Sep 2024 02:41:47 -0700 (PDT)
-Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5354084176bsm1528853e87.219.2024.09.02.02.41.46
+        d=1e100.net; s=20230601; t=1725271164; x=1725875964;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Jfhb61+Njlak20TjXiXNYbnkoTIdGeeiRsehQ3+Rv0s=;
+        b=W+7QHAr/1zKd9+g0bBg3Y73D/FgN2FZz6AiYxl4IbO6urFtrx/nm7oiwB1gB02qITe
+         Grl3CeZz6V2v4c8gcHHDsp4mCcOizh7M/jtdM8eifbaMhEGooXf6npPMwGgKEmK1Pitu
+         6GNeeT3DWMhyib+LF8zRDvo6KAMWorml7BbXsg7jlOHVk24fcLKsGcplyZ68sP/phXqm
+         McJG37A1VSHtnz3Vj32GJwKeSkJ4HgjNCyZDqLe5IuoufidcnhdKChL66lEzrBNV0D5y
+         qQeO/EXhEJWhlBc44612gPGpj42cBaf8EWHa47nKHtfT6PB+uyBFDcB0R8eLU89nZIXb
+         vVGg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+hPwSIsZQYrzNO1zPHUbd85zRM0CO73/u6vF3zx4a8fS0xtWPszK3V8a6yAGQ9LGDVP2QIzhb0AUK0yZZz2wZDw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyqhgXztUYdOGPBrkgYhz8gA5JMO3+KbwFepU3GZMlJrrlbZlku
+	BnKPXmRjpVPJ7vohgVl/XvGr5nBKOClWs1jPvbEQksBJzzRy1aqaYhoXnwt/8QQ=
+X-Google-Smtp-Source: AGHT+IGQHE/ymvlJFAVC02dxPAKdap5glZeaYE+mghv/GeWMR/ejhtozlZAlTbTwGHcs8JMBQ9VR0Q==
+X-Received: by 2002:a05:600c:3c9b:b0:426:5b21:97fa with SMTP id 5b1f17b1804b1-42c7b5d8ffamr38274945e9.29.1725271163663;
+        Mon, 02 Sep 2024 02:59:23 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d? ([2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb9ff0acdsm113101415e9.38.2024.09.02.02.59.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 02:41:46 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Michelle Lin <michelle.linto91@gmail.com>,
-	Erik Schilling <erik.schilling@linaro.org>,
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 3/3] uki.bbclass: add class for building Unified Kernel Images (UKI)
-Date: Mon,  2 Sep 2024 12:41:17 +0300
-Message-ID: <20240902094117.31156-4-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240902094117.31156-1-mikko.rapeli@linaro.org>
+        Mon, 02 Sep 2024 02:59:23 -0700 (PDT)
+Message-ID: <99e13a8ab6cea2424298d97466ad48540cee1209.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/3] systemd-tools: add recipe
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
+Cc: Erik Schilling <erik.schilling@linaro.org>
+Date: Mon, 02 Sep 2024 10:59:22 +0100
+In-Reply-To: <20240902094117.31156-2-mikko.rapeli@linaro.org>
 References: <20240902094117.31156-1-mikko.rapeli@linaro.org>
+	 <20240902094117.31156-2-mikko.rapeli@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 09:41:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204067
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 09:59:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204068
 
-From: Michelle Lin <michelle.linto91@gmail.com>
+On Mon, 2024-09-02 at 12:41 +0300, Mikko Rapeli via
+lists.openembedded.org wrote:
+> From: Erik Schilling <erik.schilling@linaro.org>
+>=20
+> Provides systemd-tools-native recipe for ukify.py tooling.
+> Avoids full systemd native build which is not needed.
+>=20
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+> =C2=A0.../systemd/systemd-tools_256.5.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 41
+> +++++++++++++++++++
+> =C2=A01 file changed, 41 insertions(+)
+> =C2=A0create mode 100644 meta/recipes-core/systemd/systemd-tools_256.5.bb
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd-tools_256.5.bb
+> b/meta/recipes-core/systemd/systemd-tools_256.5.bb
+> new file mode 100644
+> index 0000000000..f2e419ffe0
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd-tools_256.5.bb
+> @@ -0,0 +1,41 @@
+> +require systemd.inc
+> +FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/systemd:"
+> +
+> +DEPENDS =3D " \
+> +=C2=A0=C2=A0=C2=A0 intltool-native \
+> +=C2=A0=C2=A0=C2=A0 libcap \
+> +=C2=A0=C2=A0=C2=A0 util-linux \
+> +=C2=A0=C2=A0=C2=A0 gperf-native \
+> +=C2=A0=C2=A0=C2=A0 python3-jinja2-native \
+> +=C2=A0=C2=A0=C2=A0 python3-pyelftools-native \
+> +=C2=A0=C2=A0=C2=A0 python3-pefile \
+> +"
+> +
+> +inherit meson pkgconfig gettext
+> +
+> +MESON_TARGET =3D "ukify"
+> +
+> +# Helper variables to clarify locations. This mirrors the logic in
+> systemd's
+> +# build system.
+> +rootprefix ?=3D "${root_prefix}"
+> +rootlibdir ?=3D "${base_libdir}"
+> +rootlibexecdir =3D "${rootprefix}/lib"
+> +
+> +EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
+> +=C2=A0=C2=A0=C2=A0 -Dnobody-group=3Dnogroup \
+> +=C2=A0=C2=A0=C2=A0 -Drootlibdir=3D${rootlibdir} \
+> +=C2=A0=C2=A0=C2=A0 -Drootprefix=3D${rootprefix} \
+> +=C2=A0=C2=A0=C2=A0 -Ddefault-locale=3DC \
+> +=C2=A0=C2=A0=C2=A0 -Dmode=3Drelease \
+> +=C2=A0=C2=A0=C2=A0 -Dsystem-alloc-uid-min=3D101 \
+> +=C2=A0=C2=A0=C2=A0 -Dsystem-uid-max=3D999 \
+> +=C2=A0=C2=A0=C2=A0 -Dsystem-alloc-gid-min=3D101 \
+> +=C2=A0=C2=A0=C2=A0 -Dsystem-gid-max=3D999 \
+> +"
+> +
+> +do_install() {
+> +=C2=A0=C2=A0=C2=A0 install -d ${D}${bindir}/
+> +=C2=A0=C2=A0=C2=A0 install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}=
+/ukify
+> +}
+> +
+> +BBCLASSEXTEND =3D "native"
 
-This class calls systemd ukify tool, which will combine
-kernel/initrd/stub components to build the UKI. To sign the UKI
-(i.e. SecureBoot), the keys/cert files can be specified
-in a configuration file or UEFI binary signing can be done
-via separate steps, see qemuarm64-secureboot in meta-arm.
-UKIs are loaded by UEFI firmware on target which can improve
-security by loading only correctly signed kernel, initrd and kernel
-command line.
+This will fail in CI as there is now maintainers file entry...
 
-Using systemd-measure to pre-calculate TPM PCR values and sign them is
-not supported since that requires a TPM device on the build host. Thus
-"ConditionSecurity=measured-uki" default from systemd 256 does not work
-but "ConditionSecurity=tpm2" in combination with secure boot will.
-These can be used to boot securely into systemd-boot, kernel, kernel
-command line and initrd which then securely mounts a read-only dm-verity
-/usr partition and creates a TPM encrypted read-write / rootfs.
+Cheers,
 
-Tested via qemuarm64-secureboot in meta-arm with
-https://lists.yoctoproject.org/g/meta-arm/topic/patch_v3_02_13/108031399
-and a few more changes needed, will be posted separately.
-
-Signed-off-by: Michelle Lin <michelle.linto91@gmail.com>
-Cc: Erik Schilling <erik.schilling@linaro.org>
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/classes-recipe/uki.bbclass | 158 ++++++++++++++++++++++++++++++++
- 1 file changed, 158 insertions(+)
- create mode 100644 meta/classes-recipe/uki.bbclass
-
-diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
-new file mode 100644
-index 0000000000..472eb476a0
---- /dev/null
-+++ b/meta/classes-recipe/uki.bbclass
-@@ -0,0 +1,158 @@
-+# Unified kernel image (UKI) class
-+#
-+# This bbclass merges kernel, initrd etc as a UKI standard UEFI binary,
-+# to be loaded with UEFI firmware on target. SecureBoot signing is
-+# supported via add ons. TPM PCR pre-calculation is not supported since
-+# systemd-measure tooling is meant to run on target, not in cross compile
-+# environment.
-+#
-+# See:
-+# https://www.freedesktop.org/software/systemd/man/latest/ukify.html
-+# https://uapi-group.org/specifications/specs/unified_kernel_image/
-+#
-+# The UKI is composed from
-+#   - an UEFI stub
-+#     The linux kernel can generate a UEFI stub, however the one from systemd-boot can fetch
-+#     the command line from a separate section of the EFI application, avoiding the need to
-+#     rebuild the kernel.
-+#   - the kernel
-+#   - an initramfs
-+#   - other metadata (e.g. PCR measurements)
-+#
-+# Usage instructions:
-+#   - requires UEFI compatible firmware on target, e.g. qemuarm64-secureboot from meta-arm
-+#   - Distro config:
-+#     INIT_MANAGER = "systemd"
-+#     DISTRO_FEATURES += "systemd"
-+#     DISTRO_FEATURES_NATIVE += "systemd"
-+#     DISTRO_FEATURES += "efi"
-+#     DISTRO_FEATURES += "uki"
-+#     INITRAMFS_IMAGE ?= "core-image-minimal-initramfs"
-+#     HOSTTOOLS += "getent ping"
-+#     EFI_PROVIDER = "systemd-boot"
-+#   - image recipe:
-+#     INHERIT_UKI = "${@bb.utils.contains('DISTRO_FEATURES', 'uki', 'uki', '', d)}"
-+#     inherit ${INHERIT_UKI}
-+#   - qemuboot/runqemu changes in image recipe:
-+#     # Detected by passing kernel parameter
-+#     QB_KERNEL_ROOT = ""
-+#     # kernel is in the image, should not be loaded separately
-+#     QB_DEFAULT_KERNEL = "none"
-+#   - for UEFI secure boot, systemd-boot, uki and linux kernel need
-+#     to be signed with sbsign (recipe available from meta-secure-core,
-+#     see also qemuarm64-secureboot from meta-arm)
-+
-+DEPENDS += "\
-+    systemd \
-+    systemd-boot \
-+    systemd-tools-native \
-+    virtual/${TARGET_PREFIX}binutils \
-+    virtual/kernel \
-+"
-+
-+REQUIRED_DISTRO_FEATURES += "usrmerge systemd uki"
-+
-+inherit features_check image-artifact-names
-+require ../conf/image-uefi.conf
-+
-+INITRAMFS_IMAGE ?= "core-image-minimal-initramfs"
-+
-+INITRD_ARCHIVE ?= "${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}"
-+
-+do_image_complete[depends] += "${INITRAMFS_IMAGE}:do_image_complete"
-+
-+UKIFY_CMD ?= "ukify build"
-+UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
-+UKI_FILENAME ?= "uki.efi"
-+UKI_CMDLINE ?= "rootwait root=/dev/vda2"
-+
-+IMAGE_EFI_BOOT_FILES ?= "${UKI_FILENAME};EFI/Linux/${UKI_FILENAME}"
-+
-+do_uki[depends] += " \
-+                        systemd-boot:do_deploy \
-+                        virtual/kernel:do_deploy \
-+                     "
-+do_uki[depends] += "${@ '${INITRAMFS_IMAGE}:do_image_complete' if d.getVar('INITRAMFS_IMAGE') else ''}"
-+
-+# ensure that the build directory is empty everytime we generate a newly-created uki
-+do_uki[cleandirs] = "${B}"
-+# influence the build directory at the start of the builds
-+do_uki[dirs] = "${B}"
-+
-+# we want to allow specifying files in SRC_URI, such as for signing the UKI
-+python () {
-+    d.delVarFlag("do_fetch","noexec")
-+    d.delVarFlag("do_unpack","noexec")
-+}
-+
-+# main task
-+python do_uki() {
-+    import glob
-+    import bb.process
-+
-+    # Construct the ukify command
-+    ukify_cmd = d.getVar('UKIFY_CMD')
-+
-+    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
-+
-+    # initrd
-+    initramfs_image = "%s" % (d.getVar('INITRD_ARCHIVE'))
-+    ukify_cmd += " --initrd=%s" % os.path.join(deploy_dir_image, initramfs_image)
-+
-+    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
-+
-+    # Kernel
-+    if d.getVar('KERNEL_IMAGETYPE'):
-+        kernel = "%s/%s" % (deploy_dir_image, d.getVar('KERNEL_IMAGETYPE'))
-+        kernel_version = d.getVar('KERNEL_VERSION')
-+        if not os.path.exists(kernel):
-+            bb.fatal(f"ERROR: cannot find {kernel}.")
-+
-+        ukify_cmd += " --linux=%s --uname %s" % (kernel, kernel_version)
-+    else:
-+        bb.fatal("ERROR - Required argument: KERNEL")
-+
-+    # Command line
-+    cmdline = d.getVar('UKI_CMDLINE')
-+    if cmdline:
-+        ukify_cmd += " --cmdline='%s'" % cmdline
-+
-+    # Architecture
-+    target_arch = d.getVar('EFI_ARCH')
-+    if target_arch:
-+        ukify_cmd += " --efi-arch %s" % target_arch
-+
-+    # systemd stubs from deploy
-+    stub = "%s/linux%s.efi.stub" % (d.getVar('DEPLOY_DIR_IMAGE'), target_arch)
-+    if not os.path.exists(stub):
-+        bb.fatal(f"ERROR: cannot find {stub}.")
-+    ukify_cmd += " --stub %s" % stub
-+
-+    # Add option for dtb
-+    if d.getVar('KERNEL_DEVICETREE'):
-+        for dtb in d.getVar('KERNEL_DEVICETREE').split():
-+            dtb_path = "%s/%s" % (deploy_dir_image, dtb)
-+            if not os.path.exists(dtb_path):
-+                bb.fatal(f"ERROR: cannot find {dtb_path}.")
-+            ukify_cmd += " --devicetree %s" % dtb_path
-+
-+    # Add option to pass a config file the UKI
-+    if os.path.exists(d.getVar('UKI_CONFIG_FILE')):
-+        ukify_cmd += " --config=%s" % d.getVar('UKI_CONFIG_FILE')
-+
-+    # Tools
-+    ukify_cmd += " --tools=%s%s/lib/systemd/tools" % (d.getVar("RECIPE_SYSROOT_NATIVE"), d.getVar("prefix"))
-+
-+    # TODO: tpm2 measure for secure boot, depends on systemd-native and TPM tooling
-+    # needed in systemd > 254 to fulfill ConditionSecurity=measured-uki
-+    # Requires TPM device on build host, thus not supported at build time.
-+    #ukify_cmd += " --measure"
-+
-+    # Custom UKI name
-+    output = " --output=%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('UKI_FILENAME'))
-+    ukify_cmd += " %s" % output
-+
-+    # Run the ukify command
-+    bb.process.run(ukify_cmd, shell=True)
-+}
-+addtask uki after do_rootfs before do_deploy do_image_complete do_image_wic
--- 
-2.34.1
-
+Richard
 
