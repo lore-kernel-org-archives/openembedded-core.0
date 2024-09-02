@@ -1,92 +1,112 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 634D0CA0ED3
-	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 07:50:27 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.33798.1725263419033778674
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F5CCD13CF
+	for <webhook@archiver.kernel.org>; Mon,  2 Sep 2024 09:07:37 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.34630.1725268048557222674
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Sep 2024 00:50:19 -0700
+ Mon, 02 Sep 2024 02:07:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hiy+y4Ni;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-428e0d18666so33363005e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 00:50:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Rt1BypNt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42bb8cf8a5bso29921245e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 02:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725263417; x=1725868217; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=r0UU/3fraBilvxgV/ErFK9fGUT1xDWQEmOxMnRq9V/8=;
-        b=hiy+y4Niy/u+c7RHeFP/g44n+bFQjt4ZjZAKP8/U1MAikUGB2p6FSivr1B+i7u6t8R
-         cErjIYpBpZTgBYMp+8ublcjpbxcIQyKzPSMzwTraOm5ZrETsoA6cB2rcHcj6K2L6aRF/
-         8yPSdk1ZEw44pcsxf+DdpPbAskNxhPIkT2Mj+MrZyQCRXWCxkeVrZZAPCQ3WMM/A5loQ
-         NFK8uNYIg1InYt22vtIU1IdIjrpuFzMJvUgXcu78qqjwOc3QWN1PFeOV1qaE5gDibF8l
-         MKteuiHfhwCPOXwjeEWH4d7RhOnDMKTCputs3Jek63xbJWj2x63TGEYqyXtRsAWz/GqO
-         rQcw==
+        d=linuxfoundation.org; s=google; t=1725268047; x=1725872847; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+vpbBgPCs67vNRl/L61RX9txtqbC9YjG/a+Dwx5qD/A=;
+        b=Rt1BypNtSox5jhmXmDCM3k6Oc0CPHUD/NEdyGozViaDT/Zt2QAswX9kWqtP3MIcRqr
+         0b1GMqkbn17DgButm6CCE2Cl2466HNyvRsc6BPGzmL55b7FGJIPoVvJsibjXd+My6dz/
+         lySzE5qmsTTH2x6dns6FosLVBhfejILZ9swrA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725263417; x=1725868217;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r0UU/3fraBilvxgV/ErFK9fGUT1xDWQEmOxMnRq9V/8=;
-        b=Y9g0XolYk14cYOWX4EJ+jy1rso/QSq8TEkqU63001S2TpPD6aXsx6gYIx2gZDgHlTF
-         OtmeIr/s3xv/lvxxAJoXOmeJerYMvYGqF+dK8lsKkgVpq5DkS1D70EC/O+GerdClGZWa
-         m4BXera+AxQuomMUPTUypXCSlS6yk8UkbuNJIPCLDdzUtaESg1QSA04oAXOCm2GfsRSt
-         CTukwlhW1lKsx6/bHMYAc4NxQQbDUgRPZNhxWut87jYv91BOPL8AcXdOQFQRiuP0XYVp
-         AYbPnb7+zt+Uz1+BbovwbVHLgbUFRWAlZLwZKLtR+KsRmUMhBoACUgA5L83GbwmBzerR
-         cYWw==
-X-Gm-Message-State: AOJu0Ywv6DLe+DmlnWERLOz2xdT9XhcYn5p4nQR69ecZ8JPPSeMrfFRI
-	gOUp7l03HIRQ6QtTPGeWXLCgfUu/UPqddUdv+z0BHP3jkFwSNVJnKoR4Jw==
-X-Google-Smtp-Source: AGHT+IG+/E4CXOGceLWNFlT4zdkiDq5hnDQOm/5HLYjgSTaNzZfeUgjARFXMXWY5y+Wa1G6GKYQopQ==
-X-Received: by 2002:a05:600c:1d85:b0:426:6f62:3bc1 with SMTP id 5b1f17b1804b1-42bbb10d2c8mr68468405e9.5.1725263416748;
-        Mon, 02 Sep 2024 00:50:16 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba7b4271fsm158981045e9.29.2024.09.02.00.50.16
+        d=1e100.net; s=20230601; t=1725268047; x=1725872847;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+vpbBgPCs67vNRl/L61RX9txtqbC9YjG/a+Dwx5qD/A=;
+        b=KmLReEMDzEAGeOXS3cqqelizLtzS7P6jepOjVaojaVSu7OCRzaZXRJKP8Au/R0sMNA
+         I6o0VW+6TYnGCIwlEgcCqJTdB5HgoYMWtY7Ozz9Bi84ihrlptO1rNWHVpjWFinJBiPPI
+         2+BdxSQA70NOFuB5z9U0IoYzU+vHmLll3SYSy7RQi+4U5UJl7MOs4HPRnRNUL7caZr1P
+         SknO7SqCIG1TMt1XhwsN+1RQsSVf4I5xtGS96B1F2SnBepAVpiEkWFYZR+dysw+7NEub
+         WGYmVvlxOYSHpWa3EODGeXMunQ1RMSBdqUzZH8XSWrAqHhMueBGApeXvmz+yMDDOSxiQ
+         XCKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWuzoaNWSQoJ7Jqy++mglwFWPNeJkDiDkHBnDqcFnpd+tmQ/7mKlOyPB7urOak8ET/xKEfbfAvKfKTQyEFVahKMmw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzewBSGVufu9xHr5twp4KS3QrbYAVoACdnJQ0jiEO2pNCYR+bBU
+	VqvErV0d4YvEZqJ7cdWZAPOO0Ah4pOsteQLXs9DP06GyQ0hlAQvDIv8iOiOhLL8=
+X-Google-Smtp-Source: AGHT+IHmFsAET8Be3v2y6xXbHuX2mtlFxbk9s9s713pqdEabp1AfSdbXW+TsETJLNYc/UVWvWuklPg==
+X-Received: by 2002:a05:600c:1ca1:b0:426:6667:bbbe with SMTP id 5b1f17b1804b1-42c82f531efmr21179875e9.9.1725268046679;
+        Mon, 02 Sep 2024 02:07:26 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d? ([2001:8b0:aba:5f3c:ed45:1ec7:2c83:ff6d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6df84b9sm130882475e9.24.2024.09.02.02.07.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 00:50:16 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] mc: set ac_cv_path_ZIP to avoid buildpaths QA issues
-Date: Mon,  2 Sep 2024 09:50:10 +0200
-Message-ID: <20240902075010.3411100-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        Mon, 02 Sep 2024 02:07:26 -0700 (PDT)
+Message-ID: <bd31fb7301b3ebb5c8dcedbe29ef30aab1d99a21.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc-sanitizers: Add ptest support for
+ AddressSanitizer tests
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Deepthi.Hemraj@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com, 
+	Sundeep.Kokkonda@windriver.com
+Date: Mon, 02 Sep 2024 10:07:25 +0100
+In-Reply-To: <20240902073918.490722-1-Deepthi.Hemraj@windriver.com>
+References: <20240902073918.490722-1-Deepthi.Hemraj@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 07:50:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204062
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Sep 2024 09:07:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204063
 
-* in builds with zip in HOSTTOOLS mc fails with:
-  ERROR: mc-4.8.31-r0 do_package_qa: QA Issue: File /usr/libexec/mc/extfs.d/uzip in package mc-helpers-perl contains reference to TMPDIR [buildpaths]
-  and it's because of the path to zip:
-  mc/4.8.31/package $ grep -R styhead .
-  ./usr/libexec/mc/extfs.d/uzip:my $app_zip = "TMPDIR/hosttools/zip";
+On Mon, 2024-09-02 at 00:39 -0700, Hemraj, Deepthi via lists.openembedded.o=
+rg wrote:
+> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+>=20
+> [YOCTO #15338]
+> Enabled ptest integration in gcc-sanitizers.inc to facilitate the proper =
+testing and execution of address sanitizer (ASan)
+>=20
+> Defined the do_check task to execute ASan tests with proper environment s=
+etup and updated do_install_ptest_base to copy ASan test executables to the=
+ ptest directory. Included the run-ptest script to automate test execution.
+>=20
+> The run-ptest script iterates through executable files copied from the ho=
+st, runs each on the target, and logs the outcomes as either 'PASS' or 'XFA=
+IL'. XFAIL is because these tests are expected to fail on the host system a=
+s per dejagnu as { dg-shouldfail "asan" }
+>=20
+> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> ---
+> =C2=A0.../distro/include/ptest-packagelists.inc=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 1 +
+> =C2=A0meta/recipes-devtools/gcc/gcc-14.2.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 2 +
+> =C2=A0meta/recipes-devtools/gcc/gcc-sanitizers.inc=C2=A0 | 43 +++++++++++=
++++++
+> =C2=A0meta/recipes-devtools/gcc/gcc/asan-exp.patch=C2=A0 | 51 +++++++++++=
+++++++++
+> =C2=A0meta/recipes-devtools/gcc/gcc/run-ptest=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 28 ++++++++++
+> =C2=A05 files changed, 125 insertions(+)
+> =C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc/asan-exp.patch
+> =C2=A0create mode 100755 meta/recipes-devtools/gcc/gcc/run-ptest
 
-* don't use /usr/bin/env as in other cases, because app_zip is then used e.g. with:
-  my $cmd_addlink = "$app_zip -g -y";
+Would it make more sense to run this as part of the other gcc testsuites?
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- meta/recipes-extended/mc/mc_4.8.31.bb | 1 +
- 1 file changed, 1 insertion(+)
+It looks like there is a lot of duplication in these changes including
+a lot of ptest code.
 
-diff --git a/meta/recipes-extended/mc/mc_4.8.31.bb b/meta/recipes-extended/mc/mc_4.8.31.bb
-index 5f8257f71f..69d089d267 100644
---- a/meta/recipes-extended/mc/mc_4.8.31.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.31.bb
-@@ -31,6 +31,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
- CACHED_CONFIGUREVARS += "ac_cv_path_PERL_FOR_BUILD='/usr/bin/env perl'"
- CACHED_CONFIGUREVARS += "ac_cv_path_PYTHON='/usr/bin/env python'"
- CACHED_CONFIGUREVARS += "ac_cv_path_GREP='/usr/bin/env grep'"
-+CACHED_CONFIGUREVARS += "ac_cv_path_ZIP='/usr/bin/zip'"
- CACHED_CONFIGUREVARS += "mc_cv_have_zipinfo=yes"
- 
- do_install:append () {
--- 
-2.46.0
+I'm also quite concerned at the buildpaths exceptions, build paths
+would be pointless in target packages so I'm not sure why those are
+present.
 
+Cheers,
+
+Richard
 
