@@ -2,142 +2,156 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D573CD342D
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 12:51:00 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web10.22347.1725367857618722096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8EACD3430
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 13:19:30 +0000 (UTC)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web11.23154.1725369564746946935
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 05:50:57 -0700
+ Tue, 03 Sep 2024 06:19:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mdg9jewa;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.170, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6d4f1d9951fso26872877b3.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 05:50:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZcmviSOS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.172, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e1a989bd17aso2891395276.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 06:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725367857; x=1725972657; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725369564; x=1725974364; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+a41DEC8Lj5fpcU46N+SqQpUcQZkKQoJWkOyLEgQarE=;
-        b=mdg9jewamlIQQhStGcZlPCyG4SV7nZteEjZFudkydoJzOajqE/zQbAH3r6AnU7C1go
-         SrYM4hiB7wh7IzU3+k6HLbSdxzJMElhv/gJGMiDpnJSi4hGg7weS48GUTvTvNLiUfEGD
-         JASol7oPhckF6jvYcgBAkAeqzDix7l+M8EjhQeZ6uE30ZwrOdnCzXQCSYufu9Kao37ZP
-         Xszij5y1nNFaThGG1IKZcxN3syJIv4j2KdO7+IcQpkgJ8PBMSwOQWFTPWFvahbf3x4HV
-         j/d7ABBJGUDY9CKDcHhlTwq6gSluQK1fULtDCntg2Go+7W1yFMs6zA9EqnBZ/WWoNDmw
-         ONHA==
+        bh=+Tw6cnH/B2jW6f/SHFh2D4wmLfjQj0N0G0n8mvD3NVo=;
+        b=ZcmviSOS41WEKZa/BnsvPjeYQJcem2hPXWEpI8AHb29s/Fbj2X+Xw6tu6LxhNRoNtw
+         UsTx2psL1bEqzY6ZgGy1E4VXfMPpapU4rjGMU0eaPWxRWYRWsoESq6PK9YTCOVT09Xfz
+         q9Ayf4eOVW2wf/x721K9+TM3uy76JrK34+EObGNdHEQFWxECndfKRJtbP/FrXw61D8sC
+         cYydD0Tcqpyi4p/t/JPDNent6bcKR6FgDiulYsp6l1WamRLudNF9Fdg80oTLnf4j9vuJ
+         fOeJzvY4ROfkJFe93Yhdse8GN80MEEf7S/tpEg2pd6I0rAHTd+fM1MMHYS5ACVLtWm7I
+         CzkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725367857; x=1725972657;
+        d=1e100.net; s=20230601; t=1725369564; x=1725974364;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+a41DEC8Lj5fpcU46N+SqQpUcQZkKQoJWkOyLEgQarE=;
-        b=Ctht2w59sipbdCi4/styF9aCynwjEg+2vqrhQBJRBs1m9Z8ghWuXHYbuyWIcykCT3j
-         DyOlK2fNf330+3Y94sWr69f0hZVKgJuF9whnFxwkwx7wD8HDfVwt2W+lhDpOencWi6uy
-         VSwwzl8oUglCmCyIyqevkQSfG/V2hS/4j0px2oZ5OVyNBReRSpLVohtvJdtgT9LuhAJs
-         NR8KXlvYlWGyOQtrxbx0sB0uufFXI8VdfQKTqKCybqqUDPaZTNjQgDZN1Z6i3L42odS4
-         FtyFMDEyBSCA+uJpOhsA0X+bvsYT33steucvbEMNlj8KbqVcLYxiO2e9SZVE2ihyXyz+
-         7JGA==
-X-Gm-Message-State: AOJu0Yw1ouBozc0bIgCNJhD8xxemx3YDa8AHnyouoSo+Uyp5/doSs8lO
-	9HAqfrCgirdtjNFb/G6P4GFwbjdJR86ghiXpcAynwuEvf1sb+ZpwtTiv3t/oUA+gxOMxo398UpD
-	hYuH/8DUKVc5Aj6ulGgYodw5j+S8lx9v8tmtJ7pqL8wNw+6tc5Rg=
-X-Google-Smtp-Source: AGHT+IGUsjifkTD7WXZJVsUygrfK8h0NqN6LfWw47oYkgdhNrqlaD4mB45BDpt/SxFm24mr+7+cjtQn21J4L23fmGgA=
-X-Received: by 2002:a05:690c:660b:b0:643:aef1:fb9d with SMTP id
- 00721157ae682-6d40ea72140mr158577637b3.4.1725367856653; Tue, 03 Sep 2024
- 05:50:56 -0700 (PDT)
+        bh=+Tw6cnH/B2jW6f/SHFh2D4wmLfjQj0N0G0n8mvD3NVo=;
+        b=MAzc3XdQlILFN10JI43Rgg8NjgfQFEYqUF8lhRjDm9l/VY2mo+EO7lrIHUPxI+pvP1
+         sjH9colUNJAkOfuPXB/fwru1eVL2TW+zl0qbxYYFJ6Lbe9SqUEEXQkrFRXm0/S6G2JuW
+         dXXjZQAjFsCSmWyPLEvvyI8wLDn4/NKGieiYbnP1HGCK0xDLhD6CyXJjJWMitAvO5oTT
+         kvGZUb2mEmYcvCEz3Mfc2djOqL9ClePxyA4cNbjzFdAExslYVW0OCMGunLm/j/Y9/jFc
+         Cih4DkjK3oz7C0ASHY0MJjFhKOJQzREpI3gt1w2oAaDd2WbV+2pbADFt+uXr0kyY1yem
+         9k4w==
+X-Gm-Message-State: AOJu0Yy+emWDCnn+C6enI0OpHUGM98Sj2DrZEtjX7RaFKi8ONHtCL60u
+	pT9q2+vjoSZHdf0ByIgG7NI8R6HQ9T8RkfHO2uRXjRrGrmU3rQZCV75nJRbuBqpnNU6Mb2XYsMe
+	d2ZRxZ13YZ+i/gcSLyJicCDzYhEBadHyFScjy5A==
+X-Google-Smtp-Source: AGHT+IEJNiZrWNcb8/V/4xKeI83cx/pqJT9J8W40kvqkqFKEKsw9xP13ZI/0bIoezzcSVZRISSNvf/sm7xvJmr1abhw=
+X-Received: by 2002:a25:310b:0:b0:e1a:7dc5:515b with SMTP id
+ 3f1490d57ef6-e1a7dc5528fmr13378299276.26.1725369563858; Tue, 03 Sep 2024
+ 06:19:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240830104218.1610412-1-vanusuri@mvista.com> <CANQUz1-Spp0rJ2oYkt4VjF-O+v_SK_=fxVd85E4y0gsQs5kKuQ@mail.gmail.com>
-In-Reply-To: <CANQUz1-Spp0rJ2oYkt4VjF-O+v_SK_=fxVd85E4y0gsQs5kKuQ@mail.gmail.com>
+References: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
+In-Reply-To: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 3 Sep 2024 05:50:45 -0700
-Message-ID: <CAOSpxdYRvbAM4TETEAZdpaysMhBuANTaK91g8MWX0rDr2oNrqA@mail.gmail.com>
-Subject: Re: [OE-core][master][PATCH] apr: upgrade 1.7.4 -> 1.7.5
-To: Vijay Anusuri <vanusuri@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 3 Sep 2024 06:19:12 -0700
+Message-ID: <CAOSpxdaYYyG=GLT1NR=SvOTpr5e=V3Zhr4O_0xLQD=RVSap1Vw@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH 1/4] buildhistory: Fix intermittent
+ package file list creation
+To: pedro.silva.ferreira@criticaltechworks.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 12:51:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204161
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 13:19:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204162
 
-On Sun, Sep 1, 2024 at 5:52=E2=80=AFAM Vijay Anusuri <vanusuri@mvista.com> =
-wrote:
->
-> Hi Steve,
->
-> Could you please merge this patch also to scathgap branch along with belo=
-w commit
->
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dc041932f14cf5=
-52b0446732ce0cca6537f3286ab
+This patch doesn't apply:
 
-OK, both are in my test queue.
-
-Thanks,
+Applying: buildhistory: Fix intermittent package file list creation
+Using index info to reconstruct a base tree...
+error: patch failed: meta/classes/buildhistory.bbclass:599
+error: meta/classes/buildhistory.bbclass: patch does not apply
+error: Did you hand edit your patch?
+It does not apply to blobs recorded in its index.
+Patch failed at 0001 buildhistory: Fix intermittent package file list creat=
+ion
 
 Steve
 
-> On Fri, Aug 30, 2024 at 4:12=E2=80=AFPM <vanusuri@mvista.com> wrote:
->>
->> From: Vijay Anusuri <vanusuri@mvista.com>
->>
->> Refreshed patch 0001-configure-Remove-runtime-test-for-mmap-that-can-map=
--.patch
->>
->> Includes security fix
->> CVE-2023-49582
->>
->> changelog:
->> https://downloads.apache.org/apr/CHANGES-APR-1.7
->>
->> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> ---
->>  ...1-configure-Remove-runtime-test-for-mmap-that-can-map-.patch | 2 +-
->>  meta/recipes-support/apr/{apr_1.7.4.bb =3D> apr_1.7.5.bb}         | 2 +=
--
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>  rename meta/recipes-support/apr/{apr_1.7.4.bb =3D> apr_1.7.5.bb} (98%)
->>
->> diff --git a/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-=
-test-for-mmap-that-can-map-.patch b/meta/recipes-support/apr/apr/0001-confi=
-gure-Remove-runtime-test-for-mmap-that-can-map-.patch
->> index a78b16284f..3480deaa4d 100644
->> --- a/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-fo=
-r-mmap-that-can-map-.patch
->> +++ b/meta/recipes-support/apr/apr/0001-configure-Remove-runtime-test-fo=
-r-mmap-that-can-map-.patch
->> @@ -34,7 +34,7 @@ index 3663220..dce9789 100644
->>  -#ifdef HAVE_SYS_MMAN_H
->>  -#include <sys/mman.h>
->>  -#endif
->> --    int main()
->> +-    int main(int argc, const char *argv[])
->>  -    {
->>  -        int fd;
->>  -        void *m;
->> diff --git a/meta/recipes-support/apr/apr_1.7.4.bb b/meta/recipes-suppor=
-t/apr/apr_1.7.5.bb
->> similarity index 98%
->> rename from meta/recipes-support/apr/apr_1.7.4.bb
->> rename to meta/recipes-support/apr/apr_1.7.5.bb
->> index 4df741c766..78796476e2 100644
->> --- a/meta/recipes-support/apr/apr_1.7.4.bb
->> +++ b/meta/recipes-support/apr/apr_1.7.5.bb
->> @@ -25,7 +25,7 @@ SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2=
- \
->>             file://0001-dso-Check-for-NULL-handle-in-apr_dso_sym.patch \
->>             "
->>
->> -SRC_URI[sha256sum] =3D "fc648de983f3a2a6c9e78dea1f180639bd2fad6c06d556d=
-4367a701fe5c35577"
->> +SRC_URI[sha256sum] =3D "cd0f5d52b9ab1704c72160c5ee3ed5d3d4ca2df4a7f8ab5=
-64e3cb352b67232f2"
->>
->>  inherit autotools-brokensep lib_package binconfig multilib_header ptest=
- multilib_script
->>
->> --
->> 2.25.1
->>
+On Mon, Sep 2, 2024 at 3:32=E2=80=AFAM Pedro Ferreira via
+lists.openembedded.org
+<pedro.silva.ferreira=3Dcriticaltechworks.com@lists.openembedded.org>
+wrote:
+>
+> The directory that buildhistory_list_pkg_files writes to during do_packag=
+e
+> is created by do_packagedata so a clean buildhistory doesn't have
+> files-in-package written during the first build since packagedata happens
+> after do_package.
+>
+> Ensure the output package folder is created to avoid missing
+> files-in-package.txt files.
+>
+> Also it ensures that in case of `find` fails we leave with
+> a hard error instead of hiding the error on the for loop.
+>
+> Signed-off-by: Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechwor=
+ks.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/buildhistory.bbclass | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistor=
+y.bbclass
+> index fd53e92402..d219519f86 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -599,15 +599,12 @@ buildhistory_list_files_no_owners() {
+>
+>  buildhistory_list_pkg_files() {
+>         # Create individual files-in-package for each recipe's package
+> -       for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
+> +       pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)
+> +       for pkgdir in $pkgdirlist; do
+>                 pkgname=3D$(basename $pkgdir)
+>                 outfolder=3D"${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
+>                 outfile=3D"$outfolder/files-in-package.txt"
+> -               # Make sure the output folder exists so we can create the=
+ file
+> -               if [ ! -d $outfolder ] ; then
+> -                       bbdebug 2 "Folder $outfolder does not exist, file=
+ $outfile not created"
+> -                       continue
+> -               fi
+> +               mkdir -p $outfolder
+>                 buildhistory_list_files $pkgdir $outfile fakeroot
+>         done
+>  }
+> --
+> 2.34.1
+>
+> The information in this communication may contain confidential or legally=
+ privileged information. It is intended solely for the use of the individua=
+l or entity it addresses and others authorized to receive it. If you are no=
+t an intended recipient, you are hereby notified that any disclosure, copyi=
+ng, distribution or action in reliance on the contents of this information =
+is strictly prohibited and may be unlawful. If you have received this commu=
+nication by error, please notify us immediately by responding to this e-mai=
+l and then delete it from your system. Critical TechWorks is not liable for=
+ the proper and complete transmission of the information in this communicat=
+ion nor for any delay in its receipt
+>
+> This e-mail is environmentally friendly, just like Critical TechWorks, wh=
+ich lives in a paper-free atmosphere. Therefore, please consider the enviro=
+nment before printing it!
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204080): https://lists.openembedded.org/g/openembedde=
+d-core/message/204080
+> Mute This Topic: https://lists.openembedded.org/mt/108224347/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
