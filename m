@@ -2,166 +2,123 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F31CD37AC
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 19:34:02 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.32452.1725392035351513508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 384FACD37B4
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 20:48:43 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.34388.1725396519670371469
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 12:33:55 -0700
+ Tue, 03 Sep 2024 13:48:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IDt8bFuN;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42bb7298bdeso64390735e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 12:33:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gq9lELV0;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42c7b5b2d01so37918545e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 13:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725392034; x=1725996834; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=huviZSYTUAT8tQRNwlwGFvb06fu3l3OLMA+JbR8/Bu4=;
-        b=IDt8bFuNV1SQlZ5Elq4xiwWd9muSuJ1iQSdy8zQdlm71qB9HBS5BqeNU547R7fPd+J
-         oxmh5vBSuurug8PQOgHsFDGSArQrzyn9ntoJfxW3xRIaBWH4eD2xfVMu2ucyG5ibVbX4
-         ln4DqioDkVsl52jFy0PjnQUV+6KZf/SoAJH/bJygyUiqUOP6EqQ0cbTrHeosbwAU82oD
-         dVjWXxX7cj69hrhisyJVjRraqmru/sXOywpaxpoMsWDHmulLaCXLfhhLoGDm/+TxZvt3
-         bwMbjHA3bMLhjya1rQ48IQrYbyRhEBL4rbDXoDMFL1wcyjMhtTn4y2Ng2m5Kmp2Xb1xU
-         c5QA==
+        d=gmail.com; s=20230601; t=1725396518; x=1726001318; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sd806cEmdUiDYeeE8VZDS5ZW8yeCbJVG2iQzOHHE0ks=;
+        b=Gq9lELV02GQmljzzNN2XenTsO81zF9fLPUKCXM5VkoPc4I3QiDq2G4ZnOeDlJhmAy/
+         jGQbeV08HjQ/mSPpAYvf//I/h3Wpm5xaN9+w3uBbPruEy8lXUpwKLtoNPCCcSTD4UB1J
+         HvQWePaWcBwoEpI5QwjQjzZaRWO6y3I+cWPQYPLJHRyJWuQlfGwFNoqk/yTVFLGFjpc7
+         pxH1Z/P6rY0xTISSGdMcLzjbW0WLYiZ0OWoWxIStin7WcY4ScxgFLWKvyKzlTJCbYGwU
+         fS+uccikFCf3CotNx4UTkw1CfYT9d0XJBImMg+XGFezm73j5/Xa7JMWS2wxW6WRDY664
+         7ssg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725392034; x=1725996834;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=huviZSYTUAT8tQRNwlwGFvb06fu3l3OLMA+JbR8/Bu4=;
-        b=bpJ6zrZ3HT8dttwuRccjf9zIN/dGs557wqkmJAD8mwJmalTHRNJ2h9fkymoeO+bmXj
-         X+PbjTP++ekpe+VoiCHG37Qyem4/uWZU26MNpiErKV5zx3l8br6ABTs0S5DirWvybaSJ
-         wsIACkw4rGnC/MM0A0S492Sfh+dSWPNaxbPMB9MBz4JjGXJh9FfxTt0xQrnvb1RgZxrO
-         GrKDE715HbJHJsxWsQSehpimGDzbxAC9RGzZyCvG6ebFgDn+UVr1aLTZqmuCGK0Dvs0d
-         QUaOD4Dq0FLUIziVA3X+yWpitXnXWytsuwdk7Di875ozIkDaYyan82CmEahsnzYqURIO
-         Xi9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWPi4bP9g4NMfIssxmh2WTbkFIv9/hAQtN9mO5V10qpMEeO5dgXRrvvGG8l6SWbK2FGZt8b69sw7qsbPjoA9LxZUw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yywrt6loB9XyEstOiMNkfPTybNmOeksbDYamrp6n9qPibBjKEfF
-	TDavSQT0SCMNCtIFVd2XRpFjeY9MbZq9XHO4Y7httWEkMEOvoQ5t
-X-Google-Smtp-Source: AGHT+IG8Gd+nZkgdjAMYa7KWPfv6oKX6ztdh9OX5Y4CtzSoY65R4DYaNr7Eu7WDGqbQOHBRtXC1Kew==
-X-Received: by 2002:a05:600c:3b11:b0:426:6714:5415 with SMTP id 5b1f17b1804b1-42bb01edd2bmr139306345e9.30.1725392032834;
-        Tue, 03 Sep 2024 12:33:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725396518; x=1726001318;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Sd806cEmdUiDYeeE8VZDS5ZW8yeCbJVG2iQzOHHE0ks=;
+        b=A++ck0PiT8TovlZwIpVc4ZWtUQyPfYqxa3nUdLT2YmXQGRoErEdHQ4Tl8CJ0NYgZ9J
+         wcim3QFMUkwLMsV6VKhRBfoDJ6qHI1KSmfFiv8Ns7ZejgbqF4dcf9dtWNEsNSE/Vzmy6
+         MEvEUQFALpFqNjYrjWAk4hIopWiAvh16G50LWx8tBmW0txkvV4N7VSoqPkc7xG80RHwA
+         T6HpwCKcFd7sHtnEC6xbbfMyfGKLuU4vx7zBBajwjetEmVyO+rpa1P2c0yDYJijbFrHZ
+         RR0ov6u45FVGAMJwJlOzfXLAlveqmpdcpV+83nxa0YoM++RtuvP/VjR8iS8TS22gZ1iW
+         6/Cw==
+X-Gm-Message-State: AOJu0YwbQOYNouqMBSj8z4VCtUYDRoMViMc9WKggdDpnJFydOwUBzzVP
+	05+Tf5mGbaWj9IaTXES82Ct1603lBE1BUKXDgLBLaex2S+71xLi9XaEW2w==
+X-Google-Smtp-Source: AGHT+IHC2EQINBmSAtNHvD9u0Bbks9/ejkUIZ2SqnnaHgvmAR4k45UrQMNbl67iLAc/6H8dof8wDkg==
+X-Received: by 2002:adf:e791:0:b0:374:bec7:8f with SMTP id ffacd0b85a97d-374bec700f2mr9594399f8f.28.1725396517320;
+        Tue, 03 Sep 2024 13:48:37 -0700 (PDT)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6425a77sm218698915e9.45.2024.09.03.12.33.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c8a08dafsm7614811f8f.75.2024.09.03.13.48.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 12:33:52 -0700 (PDT)
-Message-ID: <847e3405fe80cc0efd8949b6ba4b01241bd3247a.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] devtool: remove obsolete
- SRCTREECOVEREDTASKS handling
+        Tue, 03 Sep 2024 13:48:37 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
+To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Date: Tue, 03 Sep 2024 21:33:51 +0200
-In-Reply-To: <a3f27a205be6de32831548d12be2e019ac9f3371.camel@linuxfoundation.org>
-References: <20240902203154.265515-1-adrian.freihofer@gmail.com>
-	 <20240902203154.265515-3-adrian.freihofer@gmail.com>
-	 <a3f27a205be6de32831548d12be2e019ac9f3371.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40app2) 
+Subject: [PATCH v2 3/3] devtool: remove obsolete SRCTREECOVEREDTASKS handling
+Date: Tue,  3 Sep 2024 22:48:31 +0200
+Message-ID: <20240903204831.3791997-3-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240903204831.3791997-1-adrian.freihofer@gmail.com>
+References: <20240903204831.3791997-1-adrian.freihofer@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 19:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204175
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 20:48:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204178
 
-On Tue, 2024-09-03 at 07:15 +0100, Richard Purdie wrote:
-> On Mon, 2024-09-02 at 22:31 +0200, Adrian Freihofer via
-> lists.openembedded.org wrote:
-> > From: Adrian Freihofer <adrian.freihofer@siemens.com>
-> >=20
-> > The kernel-yocto.bbclass defines some tasks tasks and it also adds
-> > these
-> > tasks to the SRCTREECOVEREDTASKS list. There is no need for devtool
-> > to
-> > duplicate this code and override what the kernel-yocto.bbclass
-> > already
-> > does.
-> >=20
-> > devtool modify generates a linux-yocto.6.6.bbappend containing:
-> > =C2=A0 SRCTREECOVEREDTASKS=3D"\
-> > =C2=A0=C2=A0=C2=A0 do_fetch \
-> > =C2=A0=C2=A0=C2=A0 do_kernel_checkout \
-> > =C2=A0=C2=A0=C2=A0 do_kernel_configcheck \
-> > =C2=A0=C2=A0=C2=A0 do_unpack \
-> > =C2=A0=C2=A0=C2=A0 do_validate_branches \
-> > =C2=A0 "
-> > =C2=A0 do_patch[noexec] =3D "1"
-> >=20
-> > linux-yocto set SRCTREECOVEREDTASKS to
-> > =C2=A0 SRCTREECOVEREDTASKS=3D"\
-> > =C2=A0=C2=A0=C2=A0 do_fetch \
-> > =C2=A0=C2=A0=C2=A0 do_kernel_checkout \
-> > =C2=A0=C2=A0=C2=A0 do_kernel_configcheck \
-> > =C2=A0=C2=A0=C2=A0 do_patch \
-> > =C2=A0=C2=A0=C2=A0 do_unpack \
-> > =C2=A0=C2=A0=C2=A0 do_validate_branches \
-> > =C2=A0 "
-> >=20
-> > The code in devtool modify is therefore considered as redundant and
-> > removed.
-> >=20
-> > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> > ---
-> > =C2=A0scripts/lib/devtool/standard.py | 3 ---
-> > =C2=A01 file changed, 3 deletions(-)
-> >=20
-> > diff --git a/scripts/lib/devtool/standard.py
-> > b/scripts/lib/devtool/standard.py
-> > index 312eb8ab506..b2e1a6ca3a5 100644
-> > --- a/scripts/lib/devtool/standard.py
-> > +++ b/scripts/lib/devtool/standard.py
-> > @@ -952,9 +952,6 @@ def modify(args, config, basepath, workspace):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 f.write('EXTERNALSRC_BUILD:pn-%s =3D "%s"\n' % =
-(pn,
-> > srctree))
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 if bb.data.inherits_class('kernel', rd):
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 f.write('SRCTREECOVEREDTASKS =3D
-> > "do_validate_branches do_kernel_checkout '
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'do_f=
-etch do_unpack
-> > do_kernel_configcheck"\n')
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 f.write('\ndo_patch[noexec] =3D "1"\n')
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 f.write('\ndo_kernel_configme:prepend() {\n'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- '=C2=A0=C2=A0=C2=A0 if [ -e ${S}/.config ]; then\n'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- '=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mv ${S}/.config
-> > ${S}/.config.old\n'
->=20
->=20
-> Note that "kernel" !=3D "linux-yocto". Does a standard kernel still
-> need fetch/unpack?
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-externalsrc.bbclass defaults to:
-SRCTREECOVEREDTASKS ?=3D "do_patch do_unpack do_fetch"
-https://git.yoctoproject.org/poky/tree/meta/classes/externalsrc.bbclass#n28
-This should be fine for "kernel" !=3D "linux-yocto".
+devtool modify generates a bbappend for kernel recipes which contains:
+  SRCTREECOVEREDTASKS="\
+    do_fetch \
+    do_kernel_checkout \
+    do_kernel_configcheck \
+    do_unpack \
+    do_validate_branches \
+  "
+  do_patch[noexec] = "1"
 
-I will send a v2 which mentions this in the commit message and fixes
-the other finding with the uppercase PN.
+If the linux-yocto kernel is used, this is redundant. The
+linux-yocto.bbclass already does the same:
 
-Thank you for the review.
-Adrian
+linux-yocto sets SRCTREECOVEREDTASKS to
+  SRCTREECOVEREDTASKS="\
+    do_fetch \
+    do_kernel_checkout \
+    do_kernel_configcheck \
+    do_patch \
+    do_unpack \
+    do_validate_branches \
+  "
 
+Also the do_patch[noexec] is redundant because the purpose of
+SRCTREECOVEREDTASKS is to delete these tasks if the externalsrc.bbclass
+is used.
 
->=20
-> Cheers,
->=20
-> Richard
->=20
+The default value of SRCTREECOVEREDTASKS initialized in
+externalsrc.bbclass is:
+  SRCTREECOVEREDTASKS ?= "do_patch do_unpack do_fetch"
+This is fine for kernels which do not inherit the linux-yocto.bbclass.
+
+The code in devtool modify is redundant and therefore removed.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/lib/devtool/standard.py | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 312eb8ab506..b2e1a6ca3a5 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -952,9 +952,6 @@ def modify(args, config, basepath, workspace):
+                 f.write('EXTERNALSRC_BUILD:pn-%s = "%s"\n' % (pn, srctree))
+ 
+             if bb.data.inherits_class('kernel', rd):
+-                f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout '
+-                        'do_fetch do_unpack do_kernel_configcheck"\n')
+-                f.write('\ndo_patch[noexec] = "1"\n')
+                 f.write('\ndo_kernel_configme:prepend() {\n'
+                         '    if [ -e ${S}/.config ]; then\n'
+                         '        mv ${S}/.config ${S}/.config.old\n'
+-- 
+2.46.0
 
 
