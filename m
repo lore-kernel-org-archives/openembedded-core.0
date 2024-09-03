@@ -1,278 +1,660 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28756CD3420
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 08:36:49 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.18575.1725352608174163934
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD6ACD3420
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 08:44:59 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.18488.1725353096652475981
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 01:36:48 -0700
+ Tue, 03 Sep 2024 01:44:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q9vVGH1u;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-533488ffaf7so6861726e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 01:36:47 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=ZcRvVm/9;
+ spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2057917c493so13102075ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 01:44:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725352606; x=1725957406; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z9M4vp+FQH8oX4tv1Ba45Rz8P5Zzi6aTarhH5418jWM=;
-        b=Q9vVGH1uBcfxepBat/HkTZexsgk0j/xSr0F60QeyN9V5qvv34bGyHzGWRhb21N5rul
-         s9LTUrtN1kbSVXbeRw6jkFtpTOtP0FLeXR2pQQcgZbhjcddck65bmAe43sLljnZtrlG7
-         zisFImJkt2XgPPa/IoCtEBDmikga3QZY89s2beq2dVkgPRFIoWBLdzX1iD3etFuA8a3p
-         QHu12C/X5bsuWfYKoQx40V2Df+qFY95L17ikDO0j5m+5+Es0nObtsA1XoDqeHe24wf9q
-         10RKYhLfpO1Yd8J0hKG+h+QnrWRyVzmhOtULpUnYCraauJVmbEdHHAaws2QL+HuBKvCC
-         /lWQ==
+        d=mvista.com; s=google; t=1725353095; x=1725957895; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sk2ZlhK75ZlI8ZgHEptY4drNdw1sRGHhCk6WjqNAtpo=;
+        b=ZcRvVm/9x+5HyVRWrlP/gzG9MvK+gTLDYC+qjKW2w/GEBJ83TWinlEeaoInfa7i5BE
+         loRrRQ4TXUjQWn1Y49Vs16vpGglIKqnmLbnE7GiYzH/NP8F9l1yUf4jg8Qn0lY1rR9fF
+         F7u36/6VHuACkDLi+eIC6xMN6WbMAFT+9I2HE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725352606; x=1725957406;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z9M4vp+FQH8oX4tv1Ba45Rz8P5Zzi6aTarhH5418jWM=;
-        b=IMduxQuINO9P+cE6aQ5UYm8fR/s/xC72NwB+ykZ7r51eVzpPrQm7LOVfd2o3HEGOqa
-         m2o9S5J1F65FlYcnNAyqR0qLJfvOpTs1jfdD1UQifJSpdoBdF6N4Y2RL5FiCYMYh0b91
-         lZD5E3jgGcGIeqzaFn1azdHsfPMWykpbYmkGLlvLBtfkk0OzsvMKf91G6U5qavINjfMk
-         ZT3JuS25c5OGF0u3oFh3eAfIlpE3l5Dt8ZH4ysbgi6Lv+GGew531/NTdTcauLpuon2fE
-         L0oLYQTkRzLRLZOQ3jA/Lld8QedzGj5ihQWN1+KEQnVX0TDHPKOWuwF0poo+1IO2ewLI
-         Fe/w==
-X-Gm-Message-State: AOJu0YwjKUYl9T6Xd/Wj6I49mwAYRpLTN6PKqMqBddNgI3bjxzYUT8vu
-	ZeHNbowBXdTmO1GOjtwQ5p+7wq5x0qg4UxAaelkJTURDHeLpBgmBRE3VKZqv6Zcko9cTlK0AqRg
-	442Mzc0ABnCj02eUBJgmUDIUgDrI=
-X-Google-Smtp-Source: AGHT+IFAYLZ5DrH7aemnw7SC12U+HFgX/BjyVC2KGqfUsLXHDDs243TAK4Tn0CLYPM6C81/ugHWGcBuoSegCB1g1Qww=
-X-Received: by 2002:a05:6512:3ba5:b0:530:ad8b:de11 with SMTP id
- 2adb3069b0e04-53546afd8dfmr8084404e87.9.1725352605465; Tue, 03 Sep 2024
- 01:36:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725353095; x=1725957895;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Sk2ZlhK75ZlI8ZgHEptY4drNdw1sRGHhCk6WjqNAtpo=;
+        b=RoQdvizrfHrtU7qxy4YrpBBdI6VuFsosJ1Pb7TNrftVzVrxo34hUXmTC8mK6l3BDRS
+         sQcIfK97a8AUZh3HijYbaB6N2ZRDgnIyl4/vTTU33u447v60Zi4gYudFJNQLSjF+bj2C
+         PFAZDoa0tOK8z4Uu0W7iw0fBjmqKK/isgATxP114QMq/QQzqb+0is1dNSRw6PiCH2yda
+         o/KiVbxUZFRl+IhPtFVWO0EHsnGJGsC+SHaI77iTOJttSeKFYobCZPmP/NoYmqGjdp57
+         A8J3amKK9eIRey2IIy0NJSi+/sx9tsHRsQY2F8L2CRIWj8dqa5F0TMFtVuLedNAuaGlf
+         HLDQ==
+X-Gm-Message-State: AOJu0Yyn/gFuAS8Ziye360beLEGJBgYYtTgop0lBU8Oi3Xe89XqPwCfV
+	SzlIdRDOltwOrWEFNDiMjgAq0vC7qDiwGL6V5D2D6i2Y9aCmsHQ5Lp9fEWLViowppq76rNQ0itV
+	B
+X-Google-Smtp-Source: AGHT+IHa8KSciwbJ6OV79N88B+7pPPthW/NPgkJjxd7Lap0Wa/N06yTcvm4m5xLOSHsQDzDu1+ZUyw==
+X-Received: by 2002:a17:902:e88e:b0:205:8763:6c2d with SMTP id d9443c01a7336-20587636e89mr66954565ad.9.1725353095088;
+        Tue, 03 Sep 2024 01:44:55 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([43.249.234.170])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20558982ba1sm39031905ad.161.2024.09.03.01.44.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 01:44:54 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] rpm: Upgrade 4.17.1 -> 4.18rc1
+Date: Tue,  3 Sep 2024 14:14:42 +0530
+Message-Id: <20240903084442.283564-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
- <1724136703-20023-19-git-send-email-wangmy@fujitsu.com> <CA+chaQdfxzWNuunL94xXwctvsuUVvhTq6wsOtbmt=KAzEZcgng@mail.gmail.com>
-In-Reply-To: <CA+chaQdfxzWNuunL94xXwctvsuUVvhTq6wsOtbmt=KAzEZcgng@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 3 Sep 2024 10:36:32 +0200
-Message-ID: <CA+chaQf+XuPscFri7L51F473X5rikRH5sKPrU882eAbAM0grcg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 19/24] python3-setuptools: upgrade 72.1.0 -> 72.2.0
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:36:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204150
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:44:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204151
 
-Hello Wang,
+rpm is close to release and give our release timings, update to the
+rc1 of 4.18.
 
-did you have a look at this regression (with ccache) from the
-setuptools upgrade?
+Includes fixes for CVE-2021-35937, CVE-2021-35938 and CVE-2021-35939
+which can't be easily backported.
 
-Regards,
+Add a PACKAGECONFIG option for a new readline dependency and disable
+it by default since it pulls in GPLv3 and that breaks a number of
+our test configurations as things stand.
 
-On Thu, Aug 22, 2024 at 6:30=E2=80=AFPM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
->
-> This seems to break python3-numpy build.
->
-> I guess it can be resolved by upgrading numpy as in:
-> https://lists.openembedded.org/g/openembedded-core/message/203231
-> which switches from setuptools3 to python_mesonpy
->
-> Comparing the failing command line it looks like CXX and some other
-> flags are included twice:
->
-> with: setuptools-72.2.0:
->
-> ccache \
-> aarch64-oe-linux-g++ \
-> -fstack-protector-all \
-> -O2 \
-> -D_FORTIFY_SOURCE=3D2 \
-> -Wformat \
-> -Wformat-security \
-> -Werror=3Dformat-security \
-> -Werror=3Dreturn-type \
-> -funwind-tables \
-> --sysroot=3DWORKDIR/recipe-sysroot \
-> -O2 \
-> -g \
-> -fcanon-prefix-map \
-> -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> -pipe \
-> -fvisibility-inlines-hidden \
-> aarch64-oe-linux-g++ \
-> -fstack-protector-all \
-> -O2 \
-> -D_FORTIFY_SOURCE=3D2 \
-> -Wformat \
-> -Wformat-security \
-> -Werror=3Dformat-security \
-> -Werror=3Dreturn-type \
-> -funwind-tables \
-> --sysroot=3DWORKDIR/recipe-sysroot \
-> -shared \
-> -Wl,-O1 \
-> -Wl,--hash-style=3Dgnu \
-> -Wl,--as-needed \
-> -fcanon-prefix-map \
-> -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> -Wl,-z,relro,-z,now \
-> -O2 \
-> -g \
-> -fcanon-prefix-map \
-> -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy/=
-1.26.4 \
-> -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> -pipe \
-> -fvisibility-inlines-hidden \
-> build/temp.linux-x86_64-cpython-312/build/src.linux-x86_64-3.12/numpy/cor=
-e/src/multiarray/_multiarray_tests.o
-> \
-> build/temp.linux-x86_64-cpython-312/numpy/core/src/common/mem_overlap.o \
-> build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_argparse.o =
-\
-> build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_hashtable.o=
- \
-> -LWORKDIR/recipe-sysroot/usr/lib \
-> -Lbuild/temp.linux-x86_64-cpython-312 \
-> -lnpymath \
-> -o \
-> build/lib.linux-x86_64-cpython-312/numpy/core/_multiarray_tests.cpython-3=
-12-aarch64-linux-gnu.so
->
-> --- setuptools-72.1.0   2024-08-22 18:17:36.941146726 +0200
-> +++ setuptools-72.2.0   2024-08-22 18:17:27.208147768 +0200
-> @@ -9,6 +9,28 @@
->  -Werror=3Dreturn-type \
->  -funwind-tables \
->  --sysroot=3DWORKDIR/recipe-sysroot \
-> +-O2 \
-> +-g \
-> +-fcanon-prefix-map \
-> +-fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy=
-/1.26.4 \
-> +-fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy=
-/1.26.4 \
-> +-fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy=
-/1.26.4 \
-> +-fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-numpy=
-/1.26.4 \
-> +-fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> +-fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> +-fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> +-pipe \
-> +-fvisibility-inlines-hidden \
-> +aarch64-oe-linux-g++ \
-> +-fstack-protector-all \
-> +-O2 \
-> +-D_FORTIFY_SOURCE=3D2 \
-> +-Wformat \
-> +-Wformat-security \
-> +-Werror=3Dformat-security \
-> +-Werror=3Dreturn-type \
-> +-funwind-tables \
-> +--sysroot=3DWORKDIR/recipe-sysroot \
->  -shared \
->  -Wl,-O1 \
->  -Wl,--hash-style=3Dgnu \
-> @@ -33,6 +55,7 @@
->  -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
->  -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
->  -pipe \
-> +-fvisibility-inlines-hidden \
->  build/temp.linux-x86_64-cpython-312/build/src.linux-x86_64-3.12/numpy/co=
-re/src/multiarray/_multiarray_tests.o
-> \
->  build/temp.linux-x86_64-cpython-312/numpy/core/src/common/mem_overlap.o =
-\
->  build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_argparse.o=
- \
->
-> failing with:
-> WORKDIR/recipe-sysroot-native/usr/bin/aarch64-oe-linux/../../libexec/aarc=
-h64-oe-linux/gcc/aarch64-oe-linux/14.2.0/ld:
-> cannot find aarch64-oe-linux-g++: No such file or directory
-> collect2: error: ld returned 1 exit status
->
-> On Tue, Aug 20, 2024 at 8:52=E2=80=AFAM wangmy via lists.openembedded.org
-> <wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
-> >
-> > From: Wang Mingyu <wangmy@fujitsu.com>
-> >
-> > Changelog:
-> > - Support for Pathlike objects in data files and extensions
-> > - native support for C++ compilers
-> > - removed unused get_msvcr()
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >  ...ython3-setuptools_72.1.0.bb =3D> python3-setuptools_72.2.0.bb} | 2 =
-+-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-devtools/python/{python3-setuptools_72.1.0.bb =3D>=
- python3-setuptools_72.2.0.bb} (94%)
-> >
-> > diff --git a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb =
-b/meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
-> > similarity index 94%
-> > rename from meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
-> > rename to meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
-> > index 945d443aff..63ea999960 100644
-> > --- a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
-> > +++ b/meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
-> > @@ -11,7 +11,7 @@ SRC_URI:append:class-native =3D " file://0001-conditi=
-onally-do-not-fetch-code-by-e
-> >  SRC_URI +=3D " \
-> >              file://0001-_distutils-sysconfig.py-make-it-possible-to-su=
-bstite.patch"
-> >
-> > -SRC_URI[sha256sum] =3D "8d243eff56d095e5817f796ede6ae32941278f542e0f94=
-1867cc05ae52b162ec"
-> > +SRC_URI[sha256sum] =3D "80aacbf633704e9c8bfa1d99fa5dd4dc59573efcf9e404=
-2c13d3bcef91ac2ef9"
-> >
-> >  DEPENDS +=3D "python3"
-> >
-> > --
-> > 2.34.1
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#203537): https://lists.openembedded.org/g/openembed=
-ded-core/message/203537
-> > Mute This Topic: https://lists.openembedded.org/mt/107996505/3617156
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-martin.jansa@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+Refresh patches and drop the error.h patch as error() no longer used.
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ ...olor-setting-for-mips64_n32-binaries.patch | 22 +++---
+ ...satisfiable-dependency-when-building.patch | 10 +--
+ ...lib-rpm-as-the-installation-path-for.patch | 26 +++----
+ ...1-Do-not-read-config-files-from-HOME.patch | 11 ++-
+ ...-PATH-environment-variable-before-ru.patch | 10 +--
+ ...lling-execute-package-scriptlets-wit.patch | 20 +++---
+ ...not-insert-payloadflags-into-.rpm-me.patch |  8 +--
+ ...-linux-gnux32-variant-to-triplet-han.patch | 17 ++---
+ ...o-not-build-manpages-requires-pandoc.patch | 11 ++-
+ ....c-fix-file-conflicts-for-MIPS64-N32.patch | 13 ++--
+ ...tools-Add-error.h-for-non-glibc-case.patch | 71 -------------------
+ ...prefixing-etc-from-RPM_ETCCONFIGDIR-.patch | 17 ++---
+ ...ge-logging-level-around-scriptlets-t.patch | 16 ++---
+ meta/recipes-devtools/rpm/files/fifofix.patch | 22 ++++++
+ meta/recipes-devtools/rpm/rpm_4.17.1.bb       | 10 ++-
+ 15 files changed, 113 insertions(+), 171 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/fifofix.patch
+
+diff --git a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
+index 331ea849e6..9f5dde0720 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
+@@ -11,11 +11,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  rpmrc.in      | 2 ++
+  2 files changed, 6 insertions(+)
+ 
+-diff --git a/build/rpmfc.c b/build/rpmfc.c
+-index 10c380ee9..b7655aa93 100644
+---- a/build/rpmfc.c
+-+++ b/build/rpmfc.c
+-@@ -639,6 +639,7 @@ exit:
++Index: git/build/rpmfc.c
++===================================================================
++--- git.orig/build/rpmfc.c
+++++ git/build/rpmfc.c
++@@ -645,6 +645,7 @@ exit:
+  static const struct rpmfcTokens_s rpmfcTokens[] = {
+    { "directory",		RPMFC_INCLUDE },
+  
+@@ -23,7 +23,7 @@ index 10c380ee9..b7655aa93 100644
+    { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
+    { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
+  
+-@@ -1149,6 +1150,9 @@ static uint32_t getElfColor(const char *fn)
++@@ -1150,6 +1151,9 @@ static uint32_t getElfColor(const char *
+  		color = RPMFC_ELF32;
+  		break;
+  	    }
+@@ -33,11 +33,11 @@ index 10c380ee9..b7655aa93 100644
+  	    elf_end(elf);
+  	}
+  	close(fd);
+-diff --git a/rpmrc.in b/rpmrc.in
+-index 5bd9ba3e5..f15bb8dad 100644
+---- a/rpmrc.in
+-+++ b/rpmrc.in
+-@@ -137,6 +137,8 @@ archcolor: mipsr6el 1
++Index: git/rpmrc.in
++===================================================================
++--- git.orig/rpmrc.in
+++++ git/rpmrc.in
++@@ -139,6 +139,8 @@ archcolor: mipsr6el 1
+  archcolor: mips64r6 2
+  archcolor: mips64r6el 2
+  
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+index 4029233fb7..8440c3516d 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+@@ -14,11 +14,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  build/pack.c | 4 ----
+  1 file changed, 4 deletions(-)
+ 
+-diff --git a/build/pack.c b/build/pack.c
+-index e6cec1816..810cd7351 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -724,10 +724,6 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
++Index: git/build/pack.c
++===================================================================
++--- git.orig/build/pack.c
+++++ git/build/pack.c
++@@ -709,10 +709,6 @@ static rpmRC packageBinary(rpmSpec spec,
+  	headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
+      }
+  
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index c6cf9d4c88..6f613d0a7d 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  rpm.am       | 4 ++--
+  3 files changed, 4 insertions(+), 4 deletions(-)
+ 
+-diff --git a/configure.ac b/configure.ac
+-index 372875fc4..1b7add9ee 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -884,7 +884,7 @@ else
++Index: git/configure.ac
++===================================================================
++--- git.orig/configure.ac
+++++ git/configure.ac
++@@ -942,7 +942,7 @@ else
+      usrprefix=$prefix
+  fi
+  
+@@ -26,10 +26,10 @@ index 372875fc4..1b7add9ee 100644
+  AC_SUBST(RPMCONFIGDIR)
+  
+  AC_SUBST(OBJDUMP)
+-diff --git a/macros.in b/macros.in
+-index d53ab5ed5..9d10441c8 100644
+---- a/macros.in
+-+++ b/macros.in
++Index: git/macros.in
++===================================================================
++--- git.orig/macros.in
+++++ git/macros.in
+ @@ -911,7 +911,7 @@ package or when debugging this package.\
+  %_sharedstatedir	%{_prefix}/com
+  %_localstatedir		%{_prefix}/var
+@@ -39,10 +39,10 @@ index d53ab5ed5..9d10441c8 100644
+  %_includedir		%{_prefix}/include
+  %_infodir		%{_datadir}/info
+  %_mandir		%{_datadir}/man
+-diff --git a/rpm.am b/rpm.am
+-index ebe4e40d1..e6920e258 100644
+---- a/rpm.am
+-+++ b/rpm.am
++Index: git/rpm.am
++===================================================================
++--- git.orig/rpm.am
+++++ git/rpm.am
+ @@ -1,10 +1,10 @@
+  # Internal binaries
+  ## HACK: It probably should be $(libexecdir)/rpm or $(libdir)/rpm
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
+index 96eb418952..fda64eefe0 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
+@@ -9,10 +9,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  lib/rpmrc.c | 6 ++----
+  1 file changed, 2 insertions(+), 4 deletions(-)
+ 
+-diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+-index 4ed991321..19fe80f98 100644
+---- a/lib/rpmrc.c
+-+++ b/lib/rpmrc.c
++Index: git/lib/rpmrc.c
++===================================================================
++--- git.orig/lib/rpmrc.c
+++++ git/lib/rpmrc.c
+ @@ -458,8 +458,7 @@ static void setDefaults(void)
+      if (!defrcfiles) {
+  	defrcfiles = rstrscat(NULL, confdir, "/rpmrc", ":",
+@@ -33,6 +33,3 @@ index 4ed991321..19fe80f98 100644
+      }
+  #else
+      macrofiles = MACROFILES;
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
+index 41cdf6ed77..ae24b663aa 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
+@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  lib/rpmscript.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index 6a31e0d..2b0e438 100644
+---- a/lib/rpmscript.c
+-+++ b/lib/rpmscript.c
+-@@ -184,7 +184,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
++Index: git/lib/rpmscript.c
++===================================================================
++--- git.orig/lib/rpmscript.c
+++++ git/lib/rpmscript.c
++@@ -231,7 +231,7 @@ static void doScriptExec(ARGV_const_t ar
+  	if (ipath && ipath[5] != '%')
+  	    path = ipath;
+  
+diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+index 2a0069cafe..bd3314a90f 100644
+--- a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
++++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+@@ -28,9 +28,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  lib/rpmscript.c | 11 ++++++++---
+  1 file changed, 8 insertions(+), 3 deletions(-)
+ 
+---- a/lib/rpmscript.c
+-+++ b/lib/rpmscript.c
+-@@ -17,7 +17,7 @@
++Index: git/lib/rpmscript.c
++===================================================================
++--- git.orig/lib/rpmscript.c
+++++ git/lib/rpmscript.c
++@@ -18,7 +18,7 @@
+  #include "rpmio/rpmio_internal.h"
+  
+  #include "lib/rpmplugins.h"     /* rpm plugins hooks */
+@@ -39,7 +41,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  #include "debug.h"
+  
+  struct scriptNextFileFunc_s {
+-@@ -391,8 +391,7 @@ exit:
++@@ -427,8 +427,7 @@ exit:
+  	Fclose(out);	/* XXX dup'd STDOUT_FILENO */
+  
+      if (fn) {
+@@ -49,18 +51,18 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  	free(fn);
+      }
+      free(mline);
+-@@ -426,7 +425,13 @@ rpmRC rpmScriptRun(rpmScript script, int
++@@ -462,7 +461,13 @@ rpmRC rpmScriptRun(rpmScript script, int
+  
+      if (rc != RPMRC_FAIL) {
+  	if (script_type & RPMSCRIPTLET_EXEC) {
+--	    rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
++-	    rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, script->nextFileFunc);
+ +	    if (getenv("RPM_NO_CHROOT_FOR_SCRIPTS") != NULL) {
+ +		rpmChrootOut();
+-+		rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
+++		rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, script->nextFileFunc);
+ +		rpmChrootIn();
+ +	    } else {
+-+		rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
+++		rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, script->nextFileFunc);
+ +	    }
+  	} else {
+- 	    rc = runLuaScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
++ 	    rc = runLuaScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, script->nextFileFunc);
+  	}
+diff --git a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+index 79b168257e..64433abb6a 100644
+--- a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
++++ b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  build/pack.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/build/pack.c b/build/pack.c
+-index 932cb213e..b45d0726f 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
++Index: git/build/pack.c
++===================================================================
++--- git.orig/build/pack.c
+++++ git/build/pack.c
+ @@ -328,7 +328,7 @@ static char *getIOFlags(Package pkg)
+  	    headerPutString(pkg->header, RPMTAG_PAYLOADCOMPRESSOR, compr);
+  	buf = xstrdup(rpmio_flags);
+diff --git a/meta/recipes-devtools/rpm/files/0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch b/meta/recipes-devtools/rpm/files/0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch
+index 2174a79e75..29b6686a94 100644
+--- a/meta/recipes-devtools/rpm/files/0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch
++++ b/meta/recipes-devtools/rpm/files/0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch
+@@ -11,13 +11,13 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  configure.ac | 4 ++++
+  1 file changed, 4 insertions(+)
+ 
+-diff --git a/configure.ac b/configure.ac
+-index 372875fc49..7d6a3d274e 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -845,6 +845,10 @@ if echo "$host_os" | grep '.*-gnuabi64$' > /dev/null ; then
+- 	host_os=`echo "${host_os}" | sed 's/-gnuabi64$//'`
+- 	host_os_gnu=-gnuabi64
++Index: git/configure.ac
++===================================================================
++--- git.orig/configure.ac
+++++ git/configure.ac
++@@ -903,6 +903,10 @@ if echo "$host_os" | grep '.*-gnux32$' >
++ 	host_os=`echo "${host_os}" | sed 's/-gnux32$//'`
++ 	host_os_gnu=-gnux32
+  fi
+ +if echo "$host_os" | grep '.*-gnux32$' > /dev/null ; then
+ +	host_os=`echo "${host_os}" | sed 's/-gnux32$//'`
+@@ -26,6 +26,3 @@ index 372875fc49..7d6a3d274e 100644
+  if echo "$host_os" | grep '.*-gnu$' > /dev/null ; then
+  	host_os=`echo "${host_os}" | sed 's/-gnu$//'`
+  fi
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+index ced52d1007..d7137f1d10 100644
+--- a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
++++ b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+@@ -9,10 +9,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  docs/Makefile.am | 2 --
+  1 file changed, 2 deletions(-)
+ 
+-diff --git a/docs/Makefile.am b/docs/Makefile.am
+-index 5a6bd203a..6257767fd 100644
+---- a/docs/Makefile.am
+-+++ b/docs/Makefile.am
++Index: git/docs/Makefile.am
++===================================================================
++--- git.orig/docs/Makefile.am
+++++ git/docs/Makefile.am
+ @@ -1,7 +1,5 @@
+  ## Process this file with automake to produce Makefile.in
+  
+@@ -21,6 +21,3 @@ index 5a6bd203a..6257767fd 100644
+  EXTRA_DIST =
+  
+  EXTRA_DIST += \
+--- 
+-2.32.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
+index 6678c105cd..82e6567dc7 100644
+--- a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
++++ b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
+@@ -31,11 +31,11 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
+  lib/transaction.c | 13 ++++++++++++-
+  1 file changed, 12 insertions(+), 1 deletion(-)
+ 
+-diff --git a/lib/transaction.c b/lib/transaction.c
+-index 67b9db5..82386b8 100644
+---- a/lib/transaction.c
+-+++ b/lib/transaction.c
+-@@ -391,7 +391,18 @@ static int handleColorConflict(rpmts ts,
++Index: git/lib/transaction.c
++===================================================================
++--- git.orig/lib/transaction.c
+++++ git/lib/transaction.c
++@@ -402,7 +402,18 @@ static int handleColorConflict(rpmts ts,
+  		    rpmfsSetAction(ofs, ofx, FA_CREATE);
+  		rpmfsSetAction(fs, fx, FA_SKIPCOLOR);
+  		rConflicts = 0;
+@@ -55,6 +55,3 @@ index 67b9db5..82386b8 100644
+  	}
+      }
+  
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+deleted file mode 100644
+index 9783396639..0000000000
+--- a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
++++ /dev/null
+@@ -1,71 +0,0 @@
+-From 9b9d717f484ec913cdd3804e43489b3dc18bd77c Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 31 Oct 2020 22:14:05 -0700
+-Subject: [PATCH] tools: Add error.h for non-glibc case
+-
+-error is glibc specific API, so this patch will mostly not accepted
+-upstream given that elfutils has been closely tied to glibc
+-
+-Upstream-Status: Inappropriate [workaround for musl]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+----
+- tools/elfdeps.c |  6 +++++-
+- tools/error.h   | 27 +++++++++++++++++++++++++++
+- 2 files changed, 32 insertions(+), 1 deletion(-)
+- create mode 100644 tools/error.h
+-
+-diff --git a/tools/elfdeps.c b/tools/elfdeps.c
+-index d205935bb..3a8945b33 100644
+---- a/tools/elfdeps.c
+-+++ b/tools/elfdeps.c
+-@@ -5,10 +5,14 @@
+- #include <unistd.h>
+- #include <stdlib.h>
+- #include <fcntl.h>
+--#include <error.h>
+- #include <errno.h>
+- #include <popt.h>
+- #include <gelf.h>
+-+#ifdef __GLIBC__
+-+#include <error.h>
+-+#else
+-+#include "error.h"
+-+#endif
+- 
+- #include <rpm/rpmstring.h>
+- #include <rpm/argv.h>
+-diff --git a/tools/error.h b/tools/error.h
+-new file mode 100644
+-index 000000000..ef06827a0
+---- /dev/null
+-+++ b/tools/error.h
+-@@ -0,0 +1,27 @@
+-+#ifndef _ERROR_H_
+-+#define _ERROR_H_
+-+
+-+#include <stdarg.h>
+-+#include <stdio.h>
+-+#include <stdlib.h>
+-+#include <string.h>
+-+#include <errno.h>
+-+
+-+static unsigned int error_message_count = 0;
+-+
+-+static inline void error(int status, int errnum, const char* format, ...)
+-+{
+-+	va_list ap;
+-+	fprintf(stderr, "%s: ", program_invocation_name);
+-+	va_start(ap, format);
+-+	vfprintf(stderr, format, ap);
+-+	va_end(ap);
+-+	if (errnum)
+-+		fprintf(stderr, ": %s", strerror(errnum));
+-+	fprintf(stderr, "\n");
+-+	error_message_count++;
+-+	if (status)
+-+		exit(status);
+-+}
+-+
+-+#endif	/* _ERROR_H_ */
+diff --git a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
+index b3dbc319b6..2fe96a839c 100644
+--- a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
++++ b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
+@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  lib/rpmrc.c | 19 ++++++++++++++-----
+  1 file changed, 14 insertions(+), 5 deletions(-)
+ 
+-diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+-index 19fe80f98..6b27b3941 100644
+---- a/lib/rpmrc.c
+-+++ b/lib/rpmrc.c
+-@@ -455,10 +455,14 @@ const char * lookupInDefaultTable(const char * name,
++Index: git/lib/rpmrc.c
++===================================================================
++--- git.orig/lib/rpmrc.c
+++++ git/lib/rpmrc.c
++@@ -455,10 +455,14 @@ const char * lookupInDefaultTable(const
+  static void setDefaults(void)
+  {
+      const char *confdir = rpmConfigDir();
+@@ -46,7 +46,7 @@ index 19fe80f98..6b27b3941 100644
+      }
+  #else
+      macrofiles = MACROFILES;
+-@@ -989,7 +993,11 @@ static void read_auxv(void)
++@@ -997,7 +1001,11 @@ static void read_auxv(void)
+   */
+  static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
+  {
+@@ -59,7 +59,7 @@ index 19fe80f98..6b27b3941 100644
+      static struct utsname un;
+      char * chptr;
+      canonEntry canon;
+-@@ -1286,6 +1294,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
++@@ -1307,6 +1315,7 @@ static void defaultMachine(rpmrcCtx ctx,
+  
+      if (arch) *arch = un.machine;
+      if (os) *os = un.sysname;
+@@ -67,6 +67,3 @@ index 19fe80f98..6b27b3941 100644
+  }
+  
+  static
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
+index 43e9859ef3..9dbe7125de 100644
+--- a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
++++ b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
+@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  lib/rpmscript.c | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+-diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index 2b0e43862..e319673f1 100644
+---- a/lib/rpmscript.c
+-+++ b/lib/rpmscript.c
+-@@ -226,7 +226,7 @@ static char * writeScript(const char *cmd, const char *script)
++Index: git/lib/rpmscript.c
++===================================================================
++--- git.orig/lib/rpmscript.c
+++++ git/lib/rpmscript.c
++@@ -270,7 +270,7 @@ static char * writeScript(const char *cm
+      if (Ferror(fd))
+  	goto exit;
+  
+@@ -26,7 +26,7 @@ index 2b0e43862..e319673f1 100644
+  	static const char set_x[] = "set -x\n";
+  	/* Assume failures will be caught by the write below */
+  	Fwrite(set_x, sizeof(set_x[0]), sizeof(set_x)-1, fd);
+-@@ -258,7 +258,7 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
++@@ -302,7 +302,7 @@ static rpmRC runExtScript(rpmPlugins plu
+      char *mline = NULL;
+      rpmRC rc = RPMRC_FAIL;
+  
+@@ -35,7 +35,7 @@ index 2b0e43862..e319673f1 100644
+  
+      if (script) {
+  	fn = writeScript(*argvp[0], script);
+-@@ -310,7 +310,7 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
++@@ -354,7 +354,7 @@ static rpmRC runExtScript(rpmPlugins plu
+  		sname, strerror(errno));
+  	goto exit;
+      } else if (pid == 0) {/* Child */
+@@ -44,7 +44,7 @@ index 2b0e43862..e319673f1 100644
+  	       sname, *argvp[0], (unsigned)getpid());
+  
+  	fclose(in);
+-@@ -353,7 +353,7 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
++@@ -397,7 +397,7 @@ static rpmRC runExtScript(rpmPlugins plu
+  	reaped = waitpid(pid, &status, 0);
+      } while (reaped == -1 && errno == EINTR);
+  
+diff --git a/meta/recipes-devtools/rpm/files/fifofix.patch b/meta/recipes-devtools/rpm/files/fifofix.patch
+new file mode 100644
+index 0000000000..71703d7f0c
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/fifofix.patch
+@@ -0,0 +1,22 @@
++Calling openat() on a fifo causes a pseudo hang for us (e.g. the fifo in psplash).
++Avoid calling openat for fifos.
++
++Introduced upstream with:
++
++https://github.com/rpm-software-management/rpm/commit/96ec957e281220f8e137a2d5eb23b83a6377d556
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/issues/2195]
++
++Index: git/lib/fsm.c
++===================================================================
++--- git.orig/lib/fsm.c
+++++ git/lib/fsm.c
++@@ -1010,7 +1010,7 @@ int rpmPackageFilesInstall(rpmts ts, rpm
++                     rc = RPMERR_UNKNOWN_FILETYPE;
++             }
++ 
++-	    if (!rc && fd == -1 && !S_ISLNK(fp->sb.st_mode)) {
+++	    if (!rc && fd == -1 && !S_ISLNK(fp->sb.st_mode) && !S_ISFIFO(fp->sb.st_mode)) {
++ 		/* Only follow safe symlinks, and never on temporary files */
++ 		fd = fsmOpenat(di.dirfd, fp->fpath,
++ 				fp->suffix ? AT_SYMLINK_NOFOLLOW : 0, 0);
+diff --git a/meta/recipes-devtools/rpm/rpm_4.17.1.bb b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
+index 9b6446f265..36ab90d91e 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.17.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
+@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c4eec0c20c6034b9407a09945b48a43f"
+ 
+-SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x;protocol=https \
++SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protocol=https \
+            file://environment.d-rpm.sh \
+            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
+            file://0001-Do-not-read-config-files-from-HOME.patch \
+@@ -36,14 +36,17 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x;protoc
+            file://0001-perl-disable-auto-reqs.patch \
+            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
+            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
+-           file://0001-tools-Add-error.h-for-non-glibc-case.patch \
+            file://0001-docs-do-not-build-manpages-requires-pandoc.patch \
+            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
+            file://0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch \
++           file://fifofix.patch \
+            "
+ 
+ PE = "1"
+-SRCREV = "5bef402da334595ed9302b8bca1acdf5e88bfe11"
++SRCREV = "07a6cca98489106b93467ecfaf5700368983a9b4"
++PV = "4.17.1+4.18-rc1"
++# can be removed in 4.18
++CVE_CHECK_IGNORE += "CVE-2021-35937 CVE-2021-35938 CVE-2021-35939"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -80,6 +83,7 @@ PACKAGECONFIG[imaevm] = "--with-imaevm,,ima-evm-utils"
+ PACKAGECONFIG[inhibit] = "--enable-inhibit-plugin,--disable-inhibit-plugin,dbus"
+ PACKAGECONFIG[rpm2archive] = "--with-archive,--without-archive,libarchive"
+ PACKAGECONFIG[sqlite] = "--enable-sqlite=yes,--enable-sqlite=no,sqlite3"
++PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ PACKAGECONFIG[ndb] = "--enable-ndb,--disable-ndb"
+ PACKAGECONFIG[bdb-ro] = "--enable-bdb-ro,--disable-bdb-ro"
+ PACKAGECONFIG[zstd] = "--enable-zstd=yes,--enable-zstd=no,zstd"
+-- 
+2.25.1
+
 
