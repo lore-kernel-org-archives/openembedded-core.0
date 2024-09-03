@@ -1,157 +1,146 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8EACD3430
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 13:19:30 +0000 (UTC)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
- by mx.groups.io with SMTP id smtpd.web11.23154.1725369564746946935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC3BECD3435
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 13:39:00 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.23404.1725370736929922291
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 06:19:24 -0700
+ Tue, 03 Sep 2024 06:38:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZcmviSOS;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.172, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e1a989bd17aso2891395276.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 06:19:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=S77zjFI6;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7176645e501so1140199b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 06:38:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725369564; x=1725974364; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1725370736; x=1725975536; darn=lists.openembedded.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+Tw6cnH/B2jW6f/SHFh2D4wmLfjQj0N0G0n8mvD3NVo=;
-        b=ZcmviSOS41WEKZa/BnsvPjeYQJcem2hPXWEpI8AHb29s/Fbj2X+Xw6tu6LxhNRoNtw
-         UsTx2psL1bEqzY6ZgGy1E4VXfMPpapU4rjGMU0eaPWxRWYRWsoESq6PK9YTCOVT09Xfz
-         q9Ayf4eOVW2wf/x721K9+TM3uy76JrK34+EObGNdHEQFWxECndfKRJtbP/FrXw61D8sC
-         cYydD0Tcqpyi4p/t/JPDNent6bcKR6FgDiulYsp6l1WamRLudNF9Fdg80oTLnf4j9vuJ
-         fOeJzvY4ROfkJFe93Yhdse8GN80MEEf7S/tpEg2pd6I0rAHTd+fM1MMHYS5ACVLtWm7I
-         CzkA==
+        bh=BbuemUBsKKX4z8StVNtMl975uecd6lg+tz5kDrwo2NI=;
+        b=S77zjFI6yD3QuGlRi/Pevgew/vNFjGso6QAZh+aHR9Vi/bQNduw1UkswSPU2V8gLUD
+         C84CXPYBJtLnOiOSCbHdVqDyYow7nbAaSW+maJ/U1+DIrTMzaBYBvtg2YyvoVCQ+M6r5
+         J8NCSkV/koJ6jb4n3/rNuNVXceaxIInYrL1mivxFx8cKbMS4dolg9eDrmd2gzI5aXfZB
+         aGmtbgFHLmc+G6BGI/J8x579vSVL2NcoBUbPDwX38ver+D0IKv8boTvLmjEABnaAmsmM
+         SbZ5X+rsR3IP2J+w+mRZv8XCcRP+jTsfzPmG97BEukRt9Fn3qnJ1RrtLfLzT9hVKOTwq
+         xAdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725369564; x=1725974364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1725370736; x=1725975536;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+Tw6cnH/B2jW6f/SHFh2D4wmLfjQj0N0G0n8mvD3NVo=;
-        b=MAzc3XdQlILFN10JI43Rgg8NjgfQFEYqUF8lhRjDm9l/VY2mo+EO7lrIHUPxI+pvP1
-         sjH9colUNJAkOfuPXB/fwru1eVL2TW+zl0qbxYYFJ6Lbe9SqUEEXQkrFRXm0/S6G2JuW
-         dXXjZQAjFsCSmWyPLEvvyI8wLDn4/NKGieiYbnP1HGCK0xDLhD6CyXJjJWMitAvO5oTT
-         kvGZUb2mEmYcvCEz3Mfc2djOqL9ClePxyA4cNbjzFdAExslYVW0OCMGunLm/j/Y9/jFc
-         Cih4DkjK3oz7C0ASHY0MJjFhKOJQzREpI3gt1w2oAaDd2WbV+2pbADFt+uXr0kyY1yem
-         9k4w==
-X-Gm-Message-State: AOJu0Yy+emWDCnn+C6enI0OpHUGM98Sj2DrZEtjX7RaFKi8ONHtCL60u
-	pT9q2+vjoSZHdf0ByIgG7NI8R6HQ9T8RkfHO2uRXjRrGrmU3rQZCV75nJRbuBqpnNU6Mb2XYsMe
-	d2ZRxZ13YZ+i/gcSLyJicCDzYhEBadHyFScjy5A==
-X-Google-Smtp-Source: AGHT+IEJNiZrWNcb8/V/4xKeI83cx/pqJT9J8W40kvqkqFKEKsw9xP13ZI/0bIoezzcSVZRISSNvf/sm7xvJmr1abhw=
-X-Received: by 2002:a25:310b:0:b0:e1a:7dc5:515b with SMTP id
- 3f1490d57ef6-e1a7dc5528fmr13378299276.26.1725369563858; Tue, 03 Sep 2024
- 06:19:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
-In-Reply-To: <20240902103148.3762538-1-pedro.silva.ferreira@criticaltechworks.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 3 Sep 2024 06:19:12 -0700
-Message-ID: <CAOSpxdaYYyG=GLT1NR=SvOTpr5e=V3Zhr4O_0xLQD=RVSap1Vw@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH 1/4] buildhistory: Fix intermittent
- package file list creation
-To: pedro.silva.ferreira@criticaltechworks.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        bh=BbuemUBsKKX4z8StVNtMl975uecd6lg+tz5kDrwo2NI=;
+        b=RuDEcCN/XuaPvu4+URLN8IYxIJvfMn1wZsg8YTPN312f8PNWVPpIbhdTg7oLsMzSi5
+         XHm3NWtGLAIZgUaosW1FiC5AbEc3IUcPJtqy4H5NCfA2yYLiYNHV6Ll99CbpaK/QIN9D
+         gwZPs4n41IrGKGkQMV9mkSjxcSpaCnIABLpHUiwSnJRMiCaojaWjnZmTHKLx+OvDmiPr
+         7ZSdcOeJ9hLQu0zg+Wut228/7k3qIrg7aDA23d7l6HTSD/MXeWw5A+p74t7CqUogm/y/
+         /bQ9Wr/ONkn6bGXPSI1hTlZtdLvR8Wce7rt1y0nwfX74vSbC55ihvVFKYDPkkasPeuQO
+         wnEQ==
+X-Gm-Message-State: AOJu0YzmuECcHw+gp2RD1/KOCdehOCgpO8YWkbhkkSqGzc9zHAL3M2EO
+	qT6le01Fkdsg3WDWXSA4hdavaYTG/B75eMOoJIcIwXf54kfyzns9WlJFFg==
+X-Google-Smtp-Source: AGHT+IGhz6CJFxicqnZOMSdwZ7Bj9VYzBCdZazpkaorrXV6nw+jJ/BlNgwyK0O4nvBj8cZDrcDh3pA==
+X-Received: by 2002:a05:6a00:a25:b0:714:17b5:c1d9 with SMTP id d2e1a72fcca58-71744333c32mr8685480b3a.1.1725370735847;
+        Tue, 03 Sep 2024 06:38:55 -0700 (PDT)
+Received: from localhost.localdomain ([122.171.19.152])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e55b9cf0sm8734225b3a.96.2024.09.03.06.38.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 06:38:55 -0700 (PDT)
+From: aszh07 <mail2szahir@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	mail2szahir@gmail.com
+Cc: zahir.basha@kpit.com
+Subject: [OE-core][kirkstone][PATCH] glib-2.0: Remove gvariant byteswap test
+Date: Tue,  3 Sep 2024 19:08:28 +0530
+Message-Id: <20240903133828.3762-1-mail2szahir@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 13:19:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204162
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 13:39:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204163
 
-This patch doesn't apply:
+As byteswap has some issue sporadically, remove the byteswap
+completely from gvariant. When run in QEMU, could see the
+below failure sporadically
 
-Applying: buildhistory: Fix intermittent package file list creation
-Using index info to reconstruct a base tree...
-error: patch failed: meta/classes/buildhistory.bbclass:599
-error: meta/classes/buildhistory.bbclass: patch does not apply
-error: Did you hand edit your patch?
-It does not apply to blobs recorded in its index.
-Patch failed at 0001 buildhistory: Fix intermittent package file list creat=
-ion
+Executing: glib/gvariant.test
+Executing: glib/gvariant.test
+Test timed out after 300 seconds
+FAIL: glib/gvariant.test (Child process killed by signal 9)
 
-Steve
+Until issue is fixed removing byteswap test
+from gvariant to increase stability.
 
-On Mon, Sep 2, 2024 at 3:32=E2=80=AFAM Pedro Ferreira via
-lists.openembedded.org
-<pedro.silva.ferreira=3Dcriticaltechworks.com@lists.openembedded.org>
-wrote:
->
-> The directory that buildhistory_list_pkg_files writes to during do_packag=
-e
-> is created by do_packagedata so a clean buildhistory doesn't have
-> files-in-package written during the first build since packagedata happens
-> after do_package.
->
-> Ensure the output package folder is created to avoid missing
-> files-in-package.txt files.
->
-> Also it ensures that in case of `find` fails we leave with
-> a hard error instead of hiding the error on the for loop.
->
-> Signed-off-by: Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechwor=
-ks.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/buildhistory.bbclass | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistor=
-y.bbclass
-> index fd53e92402..d219519f86 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -599,15 +599,12 @@ buildhistory_list_files_no_owners() {
->
->  buildhistory_list_pkg_files() {
->         # Create individual files-in-package for each recipe's package
-> -       for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
-> +       pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)
-> +       for pkgdir in $pkgdirlist; do
->                 pkgname=3D$(basename $pkgdir)
->                 outfolder=3D"${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
->                 outfile=3D"$outfolder/files-in-package.txt"
-> -               # Make sure the output folder exists so we can create the=
- file
-> -               if [ ! -d $outfolder ] ; then
-> -                       bbdebug 2 "Folder $outfolder does not exist, file=
- $outfile not created"
-> -                       continue
-> -               fi
-> +               mkdir -p $outfolder
->                 buildhistory_list_files $pkgdir $outfile fakeroot
->         done
->  }
-> --
-> 2.34.1
->
-> The information in this communication may contain confidential or legally=
- privileged information. It is intended solely for the use of the individua=
-l or entity it addresses and others authorized to receive it. If you are no=
-t an intended recipient, you are hereby notified that any disclosure, copyi=
-ng, distribution or action in reliance on the contents of this information =
-is strictly prohibited and may be unlawful. If you have received this commu=
-nication by error, please notify us immediately by responding to this e-mai=
-l and then delete it from your system. Critical TechWorks is not liable for=
- the proper and complete transmission of the information in this communicat=
-ion nor for any delay in its receipt
->
-> This e-mail is environmentally friendly, just like Critical TechWorks, wh=
-ich lives in a paper-free atmosphere. Therefore, please consider the enviro=
-nment before printing it!
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#204080): https://lists.openembedded.org/g/openembedde=
-d-core/message/204080
-> Mute This Topic: https://lists.openembedded.org/mt/108224347/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Zahir Hussain <mail2szahir@gmail.com>
+---
+ ...ib-2.0-Remove-gvariant-byteswap-test.patch | 45 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch
+new file mode 100644
+index 0000000000..4cefd2e522
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch
+@@ -0,0 +1,45 @@
++From f4c529805aed5ee92b8d7d729cfa501be5835d7e Mon Sep 17 00:00:00 2001
++From: aszh07 <mail2szahir@gmail.com>
++Date: Mon, 29 Jul 2024 16:19:10 +0530
++Subject: [PATCH] glib-2.0: Remove gvariant byteswap test
++
++As byteswap has some issue sporadically, remove the byteswap
++completely from gvariant. When run in QEMU, could see the
++below failure sporadically,
++
++Executing: glib/gvariant.test
++Executing: glib/gvariant.test
++Test timed out after 300 seconds
++FAIL: glib/gvariant.test (Child process killed by signal 9)
++
++Until issue is fixed removing byteswap test 
++from gvariant to increase stability.
++
++Signed-off-by: Zahir Hussain <mail2szahir@gmail.com>
++---
++ glib/tests/gvariant.c | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/glib/tests/gvariant.c b/glib/tests/gvariant.c
++index 939f073..a25a4a4 100644
++--- a/glib/tests/gvariant.c
+++++ b/glib/tests/gvariant.c
++@@ -5656,7 +5656,6 @@ main (int argc, char **argv)
++   g_test_add_func ("/gvariant/serialiser/tuple", test_tuples);
++   g_test_add_func ("/gvariant/serialiser/variant", test_variants);
++   g_test_add_func ("/gvariant/serialiser/strings", test_strings);
++-  g_test_add_func ("/gvariant/serialiser/byteswap", test_byteswaps);
++   g_test_add_func ("/gvariant/serialiser/children", test_serialiser_children);
++ 
++   for (i = 1; i <= 20; i += 4)
++@@ -5679,7 +5678,6 @@ main (int argc, char **argv)
++   g_test_add_func ("/gvariant/valist", test_valist);
++   g_test_add_func ("/gvariant/builder-memory", test_builder_memory);
++   g_test_add_func ("/gvariant/hashing", test_hashing);
++-  g_test_add_func ("/gvariant/byteswap", test_gv_byteswap);
++   g_test_add_func ("/gvariant/byteswap/non-normal-non-aligned", test_gv_byteswap_non_normal_non_aligned);
++   g_test_add_func ("/gvariant/parser", test_parses);
++   g_test_add_func ("/gvariant/parser/integer-bounds", test_parser_integer_bounds);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+index 35b51a3ec9..3beb324383 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -49,6 +49,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2024-34397_16.patch \
+            file://CVE-2024-34397_17.patch \
+            file://CVE-2024-34397_18.patch \
++           file://0001-glib-2.0-Remove-gvariant-byteswap-test.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
+ 
+-- 
+2.17.1
+
 
