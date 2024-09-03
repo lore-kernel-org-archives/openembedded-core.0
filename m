@@ -1,167 +1,751 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA248CD342E
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 07:42:27 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.122])
- by mx.groups.io with SMTP id smtpd.web11.17944.1725349344429963476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17BD2CD13CF
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 08:08:58 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.18087.1725350929439205786
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 00:42:24 -0700
+ Tue, 03 Sep 2024 01:08:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=Zavxicfy;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.20.122, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nbbGreHkcELREfh6ee3KNNsLncheHvewTJnndXsBwu69TgGbGyjUokTuHq/sShhMw2nhx0Wc+WzpcvQ9LVl4asMUHTsUIK7o3OTxsRmSAZX4YHhZolykbdh9TGk3UdhE3zIDPkl/4deE3lAvSDizeZM2TP2Ufe5mAVTK7++NZejQY7DCPGClxgvGtjKcXQj2DEerIMd/HdrpN4tUanaOcg9IDsw3kwGqA6p8mlFjILL0FAOglAt076wbPHXothuHvO8DYLb3qg9ewMOZWkz5B+OOq78bD1q1s1cVx00QVCb8aUYVi/zBSXciCyADtDJ8sjAes7vzSpvBlaTqF5qDkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1R6lu74NyeQlG6UT9cg3oFAyFgnp2oGNe1OVovhCc5c=;
- b=LvF/wcv33fjpJDJbhP8Y2Z73qgXLm7arLByGwN6h7YbVH3GacfT0QQ8SHenMBkTPlx40xK9+du4iKRxNLx55w4pXYctE/ESDMBtgCF5DbLncTrqVrdZaUTJsflo8LeopoX7zIXaq0Np8NKKFy/MNq0CHe4RBlhPX0I0CDbi4OzrhyaOOsJ9NFeeXGoWaotl2SyVXPrRE/AMRyCc8jLnhr3xNWvBlJvUsKQnN3/q6Btf7bM/HVk9fkh11b7HUQU5fl6DqLHVo5EOJEXUgtQ13gMPA1xoRgPIjr6MfHn80BwUCOJXq7tLOiQD3P4M0GKj+mwrpi+4x8ZQXIUjhoo3jYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1R6lu74NyeQlG6UT9cg3oFAyFgnp2oGNe1OVovhCc5c=;
- b=Zavxicfy5dnmdXtlg1anAjC+FZ/Rs8E+ceVJoJsfiSpbXfTUftkd9MOxP0M8rMI2whue1sY8DygWVKibJioejqDQqMLtUGI1Ottid4B1lqmXcfq96WFj7teY1/kZXMzN+9tLQdP4AvHtSq/XwRXHHFbcbXh0+dbvx+01nYGWQaRw4Ak6+8WWIi3BsjsmGBq4dsjRpUQ9mFIevoeiHVZxvBRWZDbY/sr0L3DB8MC6ePs6MRpgQ+lZ/F874fs58HBDs73dstBR0Kd7SkqpPaVxtFUR14l4xZdIb+rhNk7yFczNwWbx85wxlQjYsCPFxWp29fo9wuw2CGxdT3mvpfaLww==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by PA1PR06MB9211.eurprd06.prod.outlook.com (2603:10a6:102:454::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Tue, 3 Sep
- 2024 07:42:22 +0000
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.7918.024; Tue, 3 Sep 2024
- 07:42:22 +0000
-From: Niko Mauno <niko.mauno@vaisala.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=KCNIDgEo;
+ spf=pass (domain: mvista.com, ip: 209.85.214.169, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-201d5af11a4so43078445ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 01:08:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1725350929; x=1725955729; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lg2hujaUlMdNMvNTKepkM+iIqm27Y9pRTaKzynyqDMw=;
+        b=KCNIDgEooOBToVEFyKGEmorw4X25cjZY6Ar0twiq7aKqEpsfe1sUfihK7CFlhD5b/P
+         lgPOsU7ksmqV79gsD+MaJpD5D9UnpSHb7XRvKOg2v6ppVw//7qQla9hpIvVDDF1QnEsP
+         zu/rrhl722ti6ymzASWg0F/tDa7X3eLfemeSM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725350929; x=1725955729;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lg2hujaUlMdNMvNTKepkM+iIqm27Y9pRTaKzynyqDMw=;
+        b=m0wKig25J+KVs2PKzKeu36uk6f0v9tsRbGlA3x4WnNUvahn/MdLExWcdC4UOOX09QB
+         GGq7uBRkXhmn9QlrAEmoG0PlQpVrCIKEhI8bOCSSHF5G2Bls57fR5I303S+cSTyV4VQ3
+         ZTfZR5BfVjJmaf4lisvTFD80k7YfEGZVDw1i4yOxR7IPlM+0C3rpgMBo22XNvycZ5wUg
+         TCkcI5jD8FGJAg9QvUJA3I74EElLAoVF8q3AOsfGYjZBvQih630O4bB4GC461jonv/ei
+         B+fkqg5Q3zfExBWof85JA63mW/mzn2kamWee6W1EaJqvtV0JyjBw8nEarZkc4eM7QecK
+         Vdaw==
+X-Gm-Message-State: AOJu0YzAJCFENb+HRVD/qbRXnz2A69nT+ctSW4pWQhFp4etXhWHcvF7n
+	cSkwVKRRVZd/i9b1a51I/aveAf1UjCSSHZrMHW8E+Ot/nLZoQB1T8pb/VBLrR8Y6zNsEObWEoeF
+	Z
+X-Google-Smtp-Source: AGHT+IEWYgd6P0yIWM7xKFef/lVqstS/zEXEeu4EIq7MDrmtZdM+urWY+eWt6nrFrtiAbjHqPQNrxg==
+X-Received: by 2002:a17:902:e550:b0:1fa:9c04:946a with SMTP id d9443c01a7336-20545e44a65mr148064185ad.1.1725350928195;
+        Tue, 03 Sep 2024 01:08:48 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([43.249.234.170])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205155452f7sm76160975ad.232.2024.09.03.01.08.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 01:08:47 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH 2/2] zip: Fix LICENSE
-Date: Tue,  3 Sep 2024 07:41:59 +0000
-Message-ID: <20240903074159.134083-2-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240903074159.134083-1-niko.mauno@vaisala.com>
-References: <20240903074159.134083-1-niko.mauno@vaisala.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: AS4P190CA0039.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d1::12) To AS4PR06MB8447.eurprd06.prod.outlook.com
- (2603:10a6:20b:4e2::11)
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] qemu: fix CVE-2024-7409
+Date: Tue,  3 Sep 2024 13:38:34 +0530
+Message-Id: <20240903080834.207823-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PA1PR06MB9211:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd588686-d4ae-4bb1-9d0d-08dccbebf25f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ytpzIdJ1NQbvKyFiYOuwffOTNPsuePPJP+0vfQHKsFd2gv3wjjmdYIE2R7Ed?=
- =?us-ascii?Q?jeBgEhU2cefuSgivMSF4d/Rp7PJlrPvsL1NGsL8QIk1ld6ZhhnarCKOYAhqr?=
- =?us-ascii?Q?q64y34z7rwBQDOWlrUbtBiFhDYXnE+KoI+hrkVBs3O/NWZuSDOK3KlQANggq?=
- =?us-ascii?Q?Ibq4YdN+ZLH/pAPq7HUtwzVKB/7J/fy9kL9EjQQ/n3lBnPknPOMUf05Gdfbs?=
- =?us-ascii?Q?s2n4+V3Bj+CZTcOfSANKYFHUB5g35gJ6gf9+VJwzY7oP0WNr3pXW61c3fI5f?=
- =?us-ascii?Q?W80Zg2Hx2LDn0lpbC2BrI77jVbulxc1DT1VQFZA4t3am/ssbDRnKLy8DzXqp?=
- =?us-ascii?Q?dZdmBkSZtVIhtc82ZFidxXbZium8KwSevXWyg3RuN8gRKN0MXG/qJEqAScyn?=
- =?us-ascii?Q?xzzk8SG7cI2iLBOnEXAjntWnU+cIvnFIrN892hhvfKguME4p/1jUCwjz60yV?=
- =?us-ascii?Q?VMsJzI4dw9dEwems7yD9OIkrhrNtnuednfVmkX4m5KdQoP4JVDD5Ta9XP3nJ?=
- =?us-ascii?Q?OSmq2MbbzYeoZlaVuMHh2f9JQ0V5fjnWlzxeSdW2Wny6xjVrK5UzChBtDVeU?=
- =?us-ascii?Q?evyVT+jN/G/z0krfptM+PJlJjz86svYAqwgm7aJWjik8Us063we8uCS01LVN?=
- =?us-ascii?Q?FV0e5cmGJE+B+25N7Ag+7bPewj1qgPfeEIUd/23QyaIO2Oe9rxwWpu4RYs1o?=
- =?us-ascii?Q?roHCg9rStR/ZIyg1t8UBtghXxs97vgbYQIPDe6Qnk8N7NQKgICyMVxEurSd/?=
- =?us-ascii?Q?mhVjHtTaWi0veLNaJ5bDbLsD780BY+zFlMuvNseFiy1V48F/2jfviWFwlaBQ?=
- =?us-ascii?Q?n9Hlu7dXdJLxzpfQBvQhMymwYTGr1GNAW0/88Q4FnS2lPQY93kooDMT5dAEl?=
- =?us-ascii?Q?eeMCuxdHTZsn8rEtk3qNNFJxHyIarQxyuCbAPwc+YH0/MIXqfcDMI/B3S6M3?=
- =?us-ascii?Q?K9u+cTXg1k9WM2AXeRw8z1kVxqPLzCzLv2S3mIj/p2NHZ1n+0dCsfz6nvUwt?=
- =?us-ascii?Q?spxN0P4h4I8tNdhRB+hgvofwVtCzTO/X/LbBT2LbPYlHhCbUV3UK9DR+UUGZ?=
- =?us-ascii?Q?Kzrk+IiMLP8Xkqkw6gd0W/Y2CBGkJPnU+VQTBuvi7oj1X4NLH8VXtg5Jznho?=
- =?us-ascii?Q?jzfayLByc0cCbyEgJYQolFuzPdM3ChZ+z46w3eMJY77rdhmS/4w1rMC1nn7Y?=
- =?us-ascii?Q?N8ihoIG7TtmJ2zDDRI0azgpVqrg98wXjQ9673V3naIuNhN93khdTwy7r42YO?=
- =?us-ascii?Q?q4EVcR8Dj2VSNwkM7lcEjjUOhHbR3+MEYc9bb7DvN5N99ufNwap8f+e2i+ya?=
- =?us-ascii?Q?bxXsR6mZ6uwMU0NI8sT6TtcKfSl8TxK0W/9gFW7UpJekf3NIncQv/PziZvrV?=
- =?us-ascii?Q?+1QPlxo=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?pQccuG2khN8U8CSLk63BH7CWiOfOIlMLx9y73L2ktjuRD0qhlUdgsMqQMik4?=
- =?us-ascii?Q?IAjknQd0PveUbw6MDrVicNJlgeoniFobhhy8/eYM/o4tFUI8RtoGCVksQf87?=
- =?us-ascii?Q?yTJENilAVc4PG7BtnbDfLjwIG1uJJIlYHuBmX2tG+qta5iN3/2Pxa0WtSvnH?=
- =?us-ascii?Q?aw/BN8Iz5aE5pYQUvO89At50F2PSDZBUQ/CEHLNcTM6i+UbrjJ+UAiYxs3sf?=
- =?us-ascii?Q?umDUZxlKbTe3EXmcubocyZ2KFyu67KxoabNLvW53PUZCjMgm49Hx+dx4eIWu?=
- =?us-ascii?Q?CsA6RLo/64SgBD3ib0wX5n3ZsAfSdOdEy1uQ+vcPDAJphKdGcZa4uY4J9cfZ?=
- =?us-ascii?Q?Bzvontc4DUt9YYlH1QNRIojXGEJNlJH1RgFTmRex5XKkJMJrO9AzHqN3giOi?=
- =?us-ascii?Q?Jg2419lhTDos1jtfuOhIk6CRZWal5uIG4yhf7+11cCN9n5unfY9XlhChdgQj?=
- =?us-ascii?Q?4Lgz0E1WnvEUMKIOMdM5/Pk15aMFFQWjGu3paUpCjdelNRbdj954Br65Nl8J?=
- =?us-ascii?Q?MOQTUvmfAhwBT0/ljyCCTVncW1ewnLW0Ntrz59wHaYdRJSQPfR4RJHkCwOOx?=
- =?us-ascii?Q?aCLT1dPdKl8q1DQTqV5BAvocM2tLkHXzmBg1G2S5b2H60ep4wONEuSq+EyS3?=
- =?us-ascii?Q?NS/bJ5fGYudOdpD46EEN3msW0wtxS3rzaCnhF0KamKPCWJxAKT/u7yG1hsfm?=
- =?us-ascii?Q?ktXMFrgTO4gCdoQnz9SDj7laRj3wNjkJQpkRpvN8y+c2J7DQjJFWoiRgCaiF?=
- =?us-ascii?Q?LKIbeuh+kV4awgbdnJpCZskI/NE2vaPP5zwsIcgmCh3BuUGwbx2kKtrxne00?=
- =?us-ascii?Q?50CYvih2bXapU5FcLuNszkLw7QkySTMRHJFJn23NS9wv3bCbpXAEeme3olj7?=
- =?us-ascii?Q?0/94bh2wPQ1qhzt70ANyFRVthnOffcPC3A70RMtBOAzntJ8Ns+RpsLWY5Ggy?=
- =?us-ascii?Q?hPnE22JumDoQ//jwApuXkScdHVJ5YJQ2eopu37bgMgMJxHQwweuhjuU6+u0x?=
- =?us-ascii?Q?tkRILWSq7CVU8yzwHyvG2PEGDHenw7U0e0OZnuCm16Jxz1GhSYrJw00R8oeu?=
- =?us-ascii?Q?OHLKpYeQJWFCfj8IkyFJgveBYAmUAHrXPfqXL5LL0w0FilEAlLKdbvbYXN8i?=
- =?us-ascii?Q?sce8cElTvuMey/I/AOvmAyRzMYxpWSGeTB03JBOr3YeKY3s9zM4KCxwa3Dp+?=
- =?us-ascii?Q?64lw3BE8hIFT9soaoUK8C9FMOjY2/bkkteMzj99mGseIo/OQllCUzhMzW7Xd?=
- =?us-ascii?Q?9SNAiC6mlTiTsGgpWZrqJOuoD2eERp87aFOjG/qE89hX2+jsdyJkw/PI1bg4?=
- =?us-ascii?Q?UAZMGnyx1k4cJZmROI8+b33eMy9ws+9v9SPNVEG4SQ8F/hHnWrexP/yaKxxf?=
- =?us-ascii?Q?2tsqKYLiB/Cub2C+p0gLGPcAaO+XBDqymAXJxQ/c07o0IprCyUCKS1siLQIQ?=
- =?us-ascii?Q?k2NSIsrB1EjHKTktZ7tQsYgbbpwmMdhbal3aWA7rgdTpJZvuAFrVCrcUggU5?=
- =?us-ascii?Q?40kfvpDS6weZxRahzRyoDEM8OrbK0UuyAZ7nephpRs9FOsZOoHsioCDRcGVS?=
- =?us-ascii?Q?Bi+jxH/zMKHnbGOPb+UK63M6pSdFz1NCQ/7mZvEBP8VD0jYsuv9wVyGaPfFj?=
- =?us-ascii?Q?VA=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd588686-d4ae-4bb1-9d0d-08dccbebf25f
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 07:42:22.4771
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 79tFxCCQDlkwdNuU/4UtnChnpVi6Y/MSVL9lc+KtoMOcHVNQu8JYDcKFSftiAkQrjmgUK1pqXIvuxqP7Z9CZKQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR06MB9211
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 07:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204125
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:08:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204126
 
-The contents of the LICENSE file included in the current source code
-package match those of Info-ZIP license, which seems to originate from
-the year 2007:
+A flaw was found in the QEMU NBD Server. This vulnerability allows a denial of service (DoS) attack
+via improper synchronization during socket closure when a client keeps a socket open as the server
+is taken offline.
 
-  This is version 2007-Mar-4 of the Info-ZIP license.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-7409
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+Upstream Patches:
+https://github.com/qemu/qemu/commit/fb1c2aaa981e0a2fa6362c9985f1296b74f055ac
+https://github.com/qemu/qemu/commit/c8a76dbd90c2f48df89b75bef74917f90a59b623
+https://gitlab.com/qemu-project/qemu/-/commit/b9b72cb3ce15b693148bd09cef7e50110566d8a0
+https://gitlab.com/qemu-project/qemu/-/commit/3e7ef738c8462c45043a1d39f702a0990406a3b3
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-extended/zip/zip_3.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   4 +
+ .../qemu/qemu/CVE-2024-7409-0001.patch        | 162 ++++++++++++++++
+ .../qemu/qemu/CVE-2024-7409-0002.patch        | 174 ++++++++++++++++++
+ .../qemu/qemu/CVE-2024-7409-0003.patch        | 122 ++++++++++++
+ .../qemu/qemu/CVE-2024-7409-0004.patch        | 163 ++++++++++++++++
+ 5 files changed, 625 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
 
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/z=
-ip/zip_3.0.bb
-index ec54206335..58144baa14 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE =3D "http://www.info-zip.org"
- DESCRIPTION =3D "Info-ZIP's purpose is to provide free, portable, high-qua=
-lity versions of the Zip and UnZip compressor-archiver utilities that are c=
-ompatible with the DOS-based PKZIP by PKWARE, Inc."
- SECTION =3D "console/utils"
-=20
--LICENSE =3D "BSD-3-Clause"
-+LICENSE =3D "Info-ZIP"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D04d43c5d70b496c032308106e26ae17=
-d"
-=20
-=20
---=20
-2.39.2
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4747310ae4..4684e44524 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -109,6 +109,10 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://scsi-disk-ensure-block-size-is-non-zero-and-changes-limited-to-bits-8-15.patch \
+            file://CVE-2023-42467.patch \
+            file://CVE-2023-6683.patch \
++           file://CVE-2024-7409-0001.patch \
++           file://CVE-2024-7409-0002.patch \
++           file://CVE-2024-7409-0003.patch \
++           file://CVE-2024-7409-0004.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
+new file mode 100644
+index 0000000000..f4dad65097
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
+@@ -0,0 +1,162 @@
++From fb1c2aaa981e0a2fa6362c9985f1296b74f055ac Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Wed, 7 Aug 2024 08:50:01 -0500
++Subject: [PATCH] nbd/server: Plumb in new args to nbd_client_add()
++
++Upcoming patches to fix a CVE need to track an opaque pointer passed
++in by the owner of a client object, as well as request for a time
++limit on how fast negotiation must complete.  Prepare for that by
++changing the signature of nbd_client_new() and adding an accessor to
++get at the opaque pointer, although for now the two servers
++(qemu-nbd.c and blockdev-nbd.c) do not change behavior even though
++they pass in a new default timeout value.
++
++Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
++Signed-off-by: Eric Blake <eblake@redhat.com>
++Message-ID: <20240807174943.771624-11-eblake@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++[eblake: s/LIMIT/MAX_SECS/ as suggested by Dan]
++Signed-off-by: Eric Blake <eblake@redhat.com>
++
++CVE: CVE-2024-7409
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/fb1c2aaa981e0a2fa6362c9985f1296b74f055ac]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ blockdev-nbd.c      |  6 ++++--
++ include/block/nbd.h | 11 ++++++++++-
++ nbd/server.c        | 20 +++++++++++++++++---
++ qemu-nbd.c          |  4 +++-
++ 4 files changed, 34 insertions(+), 7 deletions(-)
++
++diff --git a/blockdev-nbd.c b/blockdev-nbd.c
++index bdfa7ed3a..b9e8dc78f 100644
++--- a/blockdev-nbd.c
+++++ b/blockdev-nbd.c
++@@ -59,8 +59,10 @@ static void nbd_accept(QIONetListener *listener, QIOChannelSocket *cioc,
++     nbd_update_server_watch(nbd_server);
++ 
++     qio_channel_set_name(QIO_CHANNEL(cioc), "nbd-server");
++-    nbd_client_new(cioc, nbd_server->tlscreds, nbd_server->tlsauthz,
++-                   nbd_blockdev_client_closed);
+++    /* TODO - expose handshake timeout as QMP option */
+++    nbd_client_new(cioc, NBD_DEFAULT_HANDSHAKE_MAX_SECS,
+++                   nbd_server->tlscreds, nbd_server->tlsauthz,
+++                   nbd_blockdev_client_closed, NULL);
++ }
++ 
++ static void nbd_update_server_watch(NBDServerData *s)
++diff --git a/include/block/nbd.h b/include/block/nbd.h
++index 78d101b77..b71a29724 100644
++--- a/include/block/nbd.h
+++++ b/include/block/nbd.h
++@@ -27,6 +27,12 @@
++ 
++ extern const BlockExportDriver blk_exp_nbd;
++ 
+++/*
+++ * NBD_DEFAULT_HANDSHAKE_MAX_SECS: Number of seconds in which client must
+++ * succeed at NBD_OPT_GO before being forcefully dropped as too slow.
+++ */
+++#define NBD_DEFAULT_HANDSHAKE_MAX_SECS 10
+++
++ /* Handshake phase structs - this struct is passed on the wire */
++ 
++ struct NBDOption {
++@@ -338,9 +344,12 @@ AioContext *nbd_export_aio_context(NBDExport *exp);
++ NBDExport *nbd_export_find(const char *name);
++ 
++ void nbd_client_new(QIOChannelSocket *sioc,
+++                    uint32_t handshake_max_secs,
++                     QCryptoTLSCreds *tlscreds,
++                     const char *tlsauthz,
++-                    void (*close_fn)(NBDClient *, bool));
+++                    void (*close_fn)(NBDClient *, bool),
+++                    void *owner);
+++void *nbd_client_owner(NBDClient *client);
++ void nbd_client_get(NBDClient *client);
++ void nbd_client_put(NBDClient *client);
++ 
++diff --git a/nbd/server.c b/nbd/server.c
++index 4630dd732..12680c8dc 100644
++--- a/nbd/server.c
+++++ b/nbd/server.c
++@@ -121,9 +121,11 @@ struct NBDClient {
++     int refcount;
++     void (*close_fn)(NBDClient *client, bool negotiated);
++ 
+++    void *owner;
++     NBDExport *exp;
++     QCryptoTLSCreds *tlscreds;
++     char *tlsauthz;
+++    uint32_t handshake_max_secs;
++     QIOChannelSocket *sioc; /* The underlying data channel */
++     QIOChannel *ioc; /* The current I/O channel which may differ (eg TLS) */
++ 
++@@ -2703,6 +2705,7 @@ static coroutine_fn void nbd_co_client_start(void *opaque)
++ 
++     qemu_co_mutex_init(&client->send_lock);
++ 
+++    /* TODO - utilize client->handshake_max_secs */
++     if (nbd_negotiate(client, &local_err)) {
++         if (local_err) {
++             error_report_err(local_err);
++@@ -2715,14 +2718,17 @@ static coroutine_fn void nbd_co_client_start(void *opaque)
++ }
++ 
++ /*
++- * Create a new client listener using the given channel @sioc.
+++ * Create a new client listener using the given channel @sioc and @owner.
++  * Begin servicing it in a coroutine.  When the connection closes, call
++- * @close_fn with an indication of whether the client completed negotiation.
+++ * @close_fn with an indication of whether the client completed negotiation
+++ * within @handshake_max_secs seconds (0 for unbounded).
++  */
++ void nbd_client_new(QIOChannelSocket *sioc,
+++                    uint32_t handshake_max_secs,
++                     QCryptoTLSCreds *tlscreds,
++                     const char *tlsauthz,
++-                    void (*close_fn)(NBDClient *, bool))
+++                    void (*close_fn)(NBDClient *, bool),
+++                    void *owner)
++ {
++     NBDClient *client;
++     Coroutine *co;
++@@ -2734,12 +2740,20 @@ void nbd_client_new(QIOChannelSocket *sioc,
++         object_ref(OBJECT(client->tlscreds));
++     }
++     client->tlsauthz = g_strdup(tlsauthz);
+++    client->handshake_max_secs = handshake_max_secs;
++     client->sioc = sioc;
++     object_ref(OBJECT(client->sioc));
++     client->ioc = QIO_CHANNEL(sioc);
++     object_ref(OBJECT(client->ioc));
++     client->close_fn = close_fn;
+++    client->owner = owner;
++ 
++     co = qemu_coroutine_create(nbd_co_client_start, client);
++     qemu_coroutine_enter(co);
++ }
+++
+++void *
+++nbd_client_owner(NBDClient *client)
+++{
+++    return client->owner;
+++}
++diff --git a/qemu-nbd.c b/qemu-nbd.c
++index c6c20df68..f48abf379 100644
++--- a/qemu-nbd.c
+++++ b/qemu-nbd.c
++@@ -363,7 +363,9 @@ static void nbd_accept(QIONetListener *listener, QIOChannelSocket *cioc,
++ 
++     nb_fds++;
++     nbd_update_server_watch();
++-    nbd_client_new(cioc, tlscreds, tlsauthz, nbd_client_closed);
+++    /* TODO - expose handshake timeout as command line option */
+++    nbd_client_new(cioc, NBD_DEFAULT_HANDSHAKE_MAX_SECS,
+++                   tlscreds, tlsauthz, nbd_client_closed, NULL);
++ }
++ 
++ static void nbd_update_server_watch(void)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
+new file mode 100644
+index 0000000000..ccef8b36c5
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
+@@ -0,0 +1,174 @@
++From c8a76dbd90c2f48df89b75bef74917f90a59b623 Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Tue, 6 Aug 2024 13:53:00 -0500
++Subject: [PATCH] nbd/server: CVE-2024-7409: Cap default max-connections to 100
++
++Allowing an unlimited number of clients to any web service is a recipe
++for a rudimentary denial of service attack: the client merely needs to
++open lots of sockets without closing them, until qemu no longer has
++any more fds available to allocate.
++
++For qemu-nbd, we default to allowing only 1 connection unless more are
++explicitly asked for (-e or --shared); this was historically picked as
++a nice default (without an explicit -t, a non-persistent qemu-nbd goes
++away after a client disconnects, without needing any additional
++follow-up commands), and we are not going to change that interface now
++(besides, someday we want to point people towards qemu-storage-daemon
++instead of qemu-nbd).
++
++But for qemu proper, and the newer qemu-storage-daemon, the QMP
++nbd-server-start command has historically had a default of unlimited
++number of connections, in part because unlike qemu-nbd it is
++inherently persistent until nbd-server-stop.  Allowing multiple client
++sockets is particularly useful for clients that can take advantage of
++MULTI_CONN (creating parallel sockets to increase throughput),
++although known clients that do so (such as libnbd's nbdcopy) typically
++use only 8 or 16 connections (the benefits of scaling diminish once
++more sockets are competing for kernel attention).  Picking a number
++large enough for typical use cases, but not unlimited, makes it
++slightly harder for a malicious client to perform a denial of service
++merely by opening lots of connections withot progressing through the
++handshake.
++
++This change does not eliminate CVE-2024-7409 on its own, but reduces
++the chance for fd exhaustion or unlimited memory usage as an attack
++surface.  On the other hand, by itself, it makes it more obvious that
++with a finite limit, we have the problem of an unauthenticated client
++holding 100 fds opened as a way to block out a legitimate client from
++being able to connect; thus, later patches will further add timeouts
++to reject clients that are not making progress.
++
++This is an INTENTIONAL change in behavior, and will break any client
++of nbd-server-start that was not passing an explicit max-connections
++parameter, yet expects more than 100 simultaneous connections.  We are
++not aware of any such client (as stated above, most clients aware of
++MULTI_CONN get by just fine on 8 or 16 connections, and probably cope
++with later connections failing by relying on the earlier connections;
++libvirt has not yet been passing max-connections, but generally
++creates NBD servers with the intent for a single client for the sake
++of live storage migration; meanwhile, the KubeSAN project anticipates
++a large cluster sharing multiple clients [up to 8 per node, and up to
++100 nodes in a cluster], but it currently uses qemu-nbd with an
++explicit --shared=0 rather than qemu-storage-daemon with
++nbd-server-start).
++
++We considered using a deprecation period (declare that omitting
++max-parameters is deprecated, and make it mandatory in 3 releases -
++then we don't need to pick an arbitrary default); that has zero risk
++of breaking any apps that accidentally depended on more than 100
++connections, and where such breakage might not be noticed under unit
++testing but only under the larger loads of production usage.  But it
++does not close the denial-of-service hole until far into the future,
++and requires all apps to change to add the parameter even if 100 was
++good enough.  It also has a drawback that any app (like libvirt) that
++is accidentally relying on an unlimited default should seriously
++consider their own CVE now, at which point they are going to change to
++pass explicit max-connections sooner than waiting for 3 qemu releases.
++Finally, if our changed default breaks an app, that app can always
++pass in an explicit max-parameters with a larger value.
++
++It is also intentional that the HMP interface to nbd-server-start is
++not changed to expose max-connections (any client needing to fine-tune
++things should be using QMP).
++
++Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
++Signed-off-by: Eric Blake <eblake@redhat.com>
++Message-ID: <20240807174943.771624-12-eblake@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++[ericb: Expand commit message to summarize Dan's argument for why we
++break corner-case back-compat behavior without a deprecation period]
++Signed-off-by: Eric Blake <eblake@redhat.com>
++
++CVE: CVE-2024-7409
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/c8a76dbd90c2f48df89b75bef74917f90a59b623]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ block/monitor/block-hmp-cmds.c | 3 ++-
++ blockdev-nbd.c                 | 8 ++++++++
++ include/block/nbd.h            | 7 +++++++
++ qapi/block-export.json         | 4 ++--
++ 4 files changed, 19 insertions(+), 3 deletions(-)
++
++diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
++index 2ac4aedff..32a666b5d 100644
++--- a/block/monitor/block-hmp-cmds.c
+++++ b/block/monitor/block-hmp-cmds.c
++@@ -411,7 +411,8 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
++         goto exit;
++     }
++ 
++-    nbd_server_start(addr, NULL, NULL, 0, &local_err);
+++    nbd_server_start(addr, NULL, NULL, NBD_DEFAULT_MAX_CONNECTIONS,
+++                     &local_err);
++     qapi_free_SocketAddress(addr);
++     if (local_err != NULL) {
++         goto exit;
++diff --git a/blockdev-nbd.c b/blockdev-nbd.c
++index b9e8dc78f..4bd90bac1 100644
++--- a/blockdev-nbd.c
+++++ b/blockdev-nbd.c
++@@ -171,6 +171,10 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
++ 
++ void nbd_server_start_options(NbdServerOptions *arg, Error **errp)
++ {
+++    if (!arg->has_max_connections) {
+++        arg->max_connections = NBD_DEFAULT_MAX_CONNECTIONS;
+++    }
+++
++     nbd_server_start(arg->addr, arg->tls_creds, arg->tls_authz,
++                      arg->max_connections, errp);
++ }
++@@ -183,6 +187,10 @@ void qmp_nbd_server_start(SocketAddressLegacy *addr,
++ {
++     SocketAddress *addr_flat = socket_address_flatten(addr);
++ 
+++    if (!has_max_connections) {
+++        max_connections = NBD_DEFAULT_MAX_CONNECTIONS;
+++    }
+++
++     nbd_server_start(addr_flat, tls_creds, tls_authz, max_connections, errp);
++     qapi_free_SocketAddress(addr_flat);
++ }
++diff --git a/include/block/nbd.h b/include/block/nbd.h
++index b71a29724..a31c34a8a 100644
++--- a/include/block/nbd.h
+++++ b/include/block/nbd.h
++@@ -33,6 +33,13 @@ extern const BlockExportDriver blk_exp_nbd;
++  */
++ #define NBD_DEFAULT_HANDSHAKE_MAX_SECS 10
++ 
+++/*
+++ * NBD_DEFAULT_MAX_CONNECTIONS: Number of client sockets to allow at
+++ * once; must be large enough to allow a MULTI_CONN-aware client like
+++ * nbdcopy to create its typical number of 8-16 sockets.
+++ */
+++#define NBD_DEFAULT_MAX_CONNECTIONS 100
+++
++ /* Handshake phase structs - this struct is passed on the wire */
++ 
++ struct NBDOption {
++diff --git a/qapi/block-export.json b/qapi/block-export.json
++index c1b92ce1c..181d7238f 100644
++--- a/qapi/block-export.json
+++++ b/qapi/block-export.json
++@@ -21,7 +21,7 @@
++ #             recreated on the fly while the NBD server is active.
++ #             If missing, it will default to denying access (since 4.0).
++ # @max-connections: The maximum number of connections to allow at the same
++-#                   time, 0 for unlimited. (since 5.2; default: 0)
+++#                   time, 0 for unlimited. (since 5.2; default: 100)
++ #
++ # Since: 4.2
++ ##
++@@ -50,7 +50,7 @@
++ #             recreated on the fly while the NBD server is active.
++ #             If missing, it will default to denying access (since 4.0).
++ # @max-connections: The maximum number of connections to allow at the same
++-#                   time, 0 for unlimited. (since 5.2; default: 0)
+++#                   time, 0 for unlimited. (since 5.2; default: 100)
++ #
++ # Returns: error if the server is already running.
++ #
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
+new file mode 100644
+index 0000000000..1d27f4712c
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
+@@ -0,0 +1,122 @@
++From b9b72cb3ce15b693148bd09cef7e50110566d8a0 Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Thu, 8 Aug 2024 16:05:08 -0500
++Subject: [PATCH] nbd/server: CVE-2024-7409: Drop non-negotiating clients
++
++A client that opens a socket but does not negotiate is merely hogging
++qemu's resources (an open fd and a small amount of memory); and a
++malicious client that can access the port where NBD is listening can
++attempt a denial of service attack by intentionally opening and
++abandoning lots of unfinished connections.  The previous patch put a
++default bound on the number of such ongoing connections, but once that
++limit is hit, no more clients can connect (including legitimate ones).
++The solution is to insist that clients complete handshake within a
++reasonable time limit, defaulting to 10 seconds.  A client that has
++not successfully completed NBD_OPT_GO by then (including the case of
++where the client didn't know TLS credentials to even reach the point
++of NBD_OPT_GO) is wasting our time and does not deserve to stay
++connected.  Later patches will allow fine-tuning the limit away from
++the default value (including disabling it for doing integration
++testing of the handshake process itself).
++
++Note that this patch in isolation actually makes it more likely to see
++qemu SEGV after nbd-server-stop, as any client socket still connected
++when the server shuts down will now be closed after 10 seconds rather
++than at the client's whims.  That will be addressed in the next patch.
++
++For a demo of this patch in action:
++$ qemu-nbd -f raw -r -t -e 10 file &
++$ nbdsh --opt-mode -c '
++H = list()
++for i in range(20):
++  print(i)
++  H.insert(i, nbd.NBD())
++  H[i].set_opt_mode(True)
++  H[i].connect_uri("nbd://localhost")
++'
++$ kill $!
++
++where later connections get to start progressing once earlier ones are
++forcefully dropped for taking too long, rather than hanging.
++
++Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
++Signed-off-by: Eric Blake <eblake@redhat.com>
++Message-ID: <20240807174943.771624-13-eblake@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++[eblake: rebase to changes earlier in series, reduce scope of timer]
++Signed-off-by: Eric Blake <eblake@redhat.com>
++
++CVE: CVE-2024-7409
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/b9b72cb3ce15b693148bd09cef7e50110566d8a0]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ nbd/server.c     | 28 +++++++++++++++++++++++++++-
++ nbd/trace-events |  1 +
++ 2 files changed, 28 insertions(+), 1 deletion(-)
++
++diff --git a/nbd/server.c b/nbd/server.c
++index 12680c8dc..1bb253726 100644
++--- a/nbd/server.c
+++++ b/nbd/server.c
++@@ -2698,22 +2698,48 @@ static void nbd_client_receive_next_request(NBDClient *client)
++     }
++ }
++ 
+++static void nbd_handshake_timer_cb(void *opaque)
+++{
+++    QIOChannel *ioc = opaque;
+++
+++    trace_nbd_handshake_timer_cb();
+++    qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+++}
+++
++ static coroutine_fn void nbd_co_client_start(void *opaque)
++ {
++     NBDClient *client = opaque;
++     Error *local_err = NULL;
+++    QEMUTimer *handshake_timer = NULL;
++ 
++     qemu_co_mutex_init(&client->send_lock);
++ 
++-    /* TODO - utilize client->handshake_max_secs */
+++    /*
+++     * Create a timer to bound the time spent in negotiation. If the
+++     * timer expires, it is likely nbd_negotiate will fail because the
+++     * socket was shutdown.
+++     */
+++    if (client->handshake_max_secs > 0) {
+++        handshake_timer = aio_timer_new(qemu_get_aio_context(),
+++                                        QEMU_CLOCK_REALTIME,
+++                                        SCALE_NS,
+++                                        nbd_handshake_timer_cb,
+++                                        client->sioc);
+++        timer_mod(handshake_timer,
+++                  qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
+++                  client->handshake_max_secs * NANOSECONDS_PER_SECOND);
+++    }
+++
++     if (nbd_negotiate(client, &local_err)) {
++         if (local_err) {
++             error_report_err(local_err);
++         }
+++        timer_free(handshake_timer);
++         client_close(client, false);
++         return;
++     }
++ 
+++    timer_free(handshake_timer);
++     nbd_client_receive_next_request(client);
++ }
++ 
++diff --git a/nbd/trace-events b/nbd/trace-events
++index c4919a2dd..553546f1f 100644
++--- a/nbd/trace-events
+++++ b/nbd/trace-events
++@@ -73,3 +73,4 @@ nbd_co_receive_request_decode_type(uint64_t handle, uint16_t type, const char *n
++ nbd_co_receive_request_payload_received(uint64_t handle, uint32_t len) "Payload received: handle = %" PRIu64 ", len = %" PRIu32
++ nbd_co_receive_align_compliance(const char *op, uint64_t from, uint32_t len, uint32_t align) "client sent non-compliant unaligned %s request: from=0x%" PRIx64 ", len=0x%" PRIx32 ", align=0x%" PRIx32
++ nbd_trip(void) "Reading request"
+++nbd_handshake_timer_cb(void) "client took too long to negotiate"
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
+new file mode 100644
+index 0000000000..ffdb1b0d94
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
+@@ -0,0 +1,163 @@
++From 3e7ef738c8462c45043a1d39f702a0990406a3b3 Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Wed, 7 Aug 2024 12:23:13 -0500
++Subject: [PATCH] nbd/server: CVE-2024-7409: Close stray clients at server-stop
++
++A malicious client can attempt to connect to an NBD server, and then
++intentionally delay progress in the handshake, including if it does
++not know the TLS secrets.  Although the previous two patches reduce
++this behavior by capping the default max-connections parameter and
++killing slow clients, they did not eliminate the possibility of a
++client waiting to close the socket until after the QMP nbd-server-stop
++command is executed, at which point qemu would SEGV when trying to
++dereference the NULL nbd_server global which is no longer present.
++This amounts to a denial of service attack.  Worse, if another NBD
++server is started before the malicious client disconnects, I cannot
++rule out additional adverse effects when the old client interferes
++with the connection count of the new server (although the most likely
++is a crash due to an assertion failure when checking
++nbd_server->connections > 0).
++
++For environments without this patch, the CVE can be mitigated by
++ensuring (such as via a firewall) that only trusted clients can
++connect to an NBD server.  Note that using frameworks like libvirt
++that ensure that TLS is used and that nbd-server-stop is not executed
++while any trusted clients are still connected will only help if there
++is also no possibility for an untrusted client to open a connection
++but then stall on the NBD handshake.
++
++Given the previous patches, it would be possible to guarantee that no
++clients remain connected by having nbd-server-stop sleep for longer
++than the default handshake deadline before finally freeing the global
++nbd_server object, but that could make QMP non-responsive for a long
++time.  So intead, this patch fixes the problem by tracking all client
++sockets opened while the server is running, and forcefully closing any
++such sockets remaining without a completed handshake at the time of
++nbd-server-stop, then waiting until the coroutines servicing those
++sockets notice the state change.  nbd-server-stop now has a second
++AIO_WAIT_WHILE_UNLOCKED (the first is indirectly through the
++blk_exp_close_all_type() that disconnects all clients that completed
++handshakes), but forced socket shutdown is enough to progress the
++coroutines and quickly tear down all clients before the server is
++freed, thus finally fixing the CVE.
++
++This patch relies heavily on the fact that nbd/server.c guarantees
++that it only calls nbd_blockdev_client_closed() from the main loop
++(see the assertion in nbd_client_put() and the hoops used in
++nbd_client_put_nonzero() to achieve that); if we did not have that
++guarantee, we would also need a mutex protecting our accesses of the
++list of connections to survive re-entrancy from independent iothreads.
++
++Although I did not actually try to test old builds, it looks like this
++problem has existed since at least commit 862172f45c (v2.12.0, 2017) -
++even back when that patch started using a QIONetListener to handle
++listening on multiple sockets, nbd_server_free() was already unaware
++that the nbd_blockdev_client_closed callback can be reached later by a
++client thread that has not completed handshakes (and therefore the
++client's socket never got added to the list closed in
++nbd_export_close_all), despite that patch intentionally tearing down
++the QIONetListener to prevent new clients.
++
++Reported-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
++Fixes: CVE-2024-7409
++CC: qemu-stable@nongnu.org
++Signed-off-by: Eric Blake <eblake@redhat.com>
++Message-ID: <20240807174943.771624-14-eblake@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++
++CVE: CVE-2024-7409
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/3e7ef738c8462c45043a1d39f702a0990406a3b3]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ blockdev-nbd.c | 35 ++++++++++++++++++++++++++++++++++-
++ 1 file changed, 34 insertions(+), 1 deletion(-)
++
++diff --git a/blockdev-nbd.c b/blockdev-nbd.c
++index 4bd90bac1..c71ca38d2 100644
++--- a/blockdev-nbd.c
+++++ b/blockdev-nbd.c
++@@ -21,12 +21,18 @@
++ #include "io/channel-socket.h"
++ #include "io/net-listener.h"
++ 
+++typedef struct NBDConn {
+++    QIOChannelSocket *cioc;
+++    QLIST_ENTRY(NBDConn) next;
+++} NBDConn;
+++
++ typedef struct NBDServerData {
++     QIONetListener *listener;
++     QCryptoTLSCreds *tlscreds;
++     char *tlsauthz;
++     uint32_t max_connections;
++     uint32_t connections;
+++    QLIST_HEAD(, NBDConn) conns;
++ } NBDServerData;
++ 
++ static NBDServerData *nbd_server;
++@@ -46,6 +52,14 @@ bool nbd_server_is_running(void)
++ 
++ static void nbd_blockdev_client_closed(NBDClient *client, bool ignored)
++ {
+++    NBDConn *conn = nbd_client_owner(client);
+++
+++    assert(qemu_mutex_iothread_locked() && nbd_server);
+++
+++    object_unref(OBJECT(conn->cioc));
+++    QLIST_REMOVE(conn, next);
+++    g_free(conn);
+++
++     nbd_client_put(client);
++     assert(nbd_server->connections > 0);
++     nbd_server->connections--;
++@@ -55,14 +69,20 @@ static void nbd_blockdev_client_closed(NBDClient *client, bool ignored)
++ static void nbd_accept(QIONetListener *listener, QIOChannelSocket *cioc,
++                        gpointer opaque)
++ {
+++    NBDConn *conn = g_new0(NBDConn, 1);
+++
+++    assert(qemu_mutex_iothread_locked() && nbd_server);
++     nbd_server->connections++;
+++    object_ref(OBJECT(cioc));
+++    conn->cioc = cioc;
+++    QLIST_INSERT_HEAD(&nbd_server->conns, conn, next);
++     nbd_update_server_watch(nbd_server);
++ 
++     qio_channel_set_name(QIO_CHANNEL(cioc), "nbd-server");
++     /* TODO - expose handshake timeout as QMP option */
++     nbd_client_new(cioc, NBD_DEFAULT_HANDSHAKE_MAX_SECS,
++                    nbd_server->tlscreds, nbd_server->tlsauthz,
++-                   nbd_blockdev_client_closed, NULL);
+++                   nbd_blockdev_client_closed, conn);
++ }
++ 
++ static void nbd_update_server_watch(NBDServerData *s)
++@@ -76,12 +96,25 @@ static void nbd_update_server_watch(NBDServerData *s)
++ 
++ static void nbd_server_free(NBDServerData *server)
++ {
+++    NBDConn *conn, *tmp;
+++
++     if (!server) {
++         return;
++     }
++ 
+++    /*
+++     * Forcefully close the listener socket, and any clients that have
+++     * not yet disconnected on their own.
+++     */
++     qio_net_listener_disconnect(server->listener);
++     object_unref(OBJECT(server->listener));
+++    QLIST_FOREACH_SAFE(conn, &server->conns, next, tmp) {
+++        qio_channel_shutdown(QIO_CHANNEL(conn->cioc), QIO_CHANNEL_SHUTDOWN_BOTH,
+++                             NULL);
+++    }
+++
+++    AIO_WAIT_WHILE(NULL, server->connections > 0);
+++
++     if (server->tlscreds) {
++         object_unref(OBJECT(server->tlscreds));
++     }
++-- 
++2.25.1
++
+-- 
+2.25.1
 
 
