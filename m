@@ -1,88 +1,85 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38831CD3447
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 15:42:31 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web10.26665.1725378148880717782
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AEFBCD379F
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 16:08:01 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.27322.1725379675183160304
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 08:42:28 -0700
+ Tue, 03 Sep 2024 09:07:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lOYhtx8e;
- spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-277fdd7d468so943618fac.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:42:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IujLRA4p;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53346132348so6807165e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 09:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725378147; x=1725982947; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JycBj3YRAIr2Nk5u35h+LvnP+HGMEOx4rxNm7VoI2o4=;
-        b=lOYhtx8epH6ncl7SGzVcbpe9ydMyn408WiNG2zI2o1JycDSEM7VA+46T+Pk2iv16at
-         6M4T9hUsLNPkuJ4Gurybsu2DQoQFBlw0NBwdKd73E7xaOAnitfEXhTlvi2gPXmkpGK+Y
-         oUycV43QoMXIx9uOeP7T7Wifx93w8CmkS+VeFSIzO5vXzs0+wpR4nUSxnRk5fcMouOHE
-         ddfkgiX6sOt3Jf8w9OFg9S+TtXCtO7GQFLQZd8IrnVZ78H0z647Ne6PwaBPbBka6t/Uz
-         f2Q/DhWMj0nH/+0vEUOyxtCMCy1OHkztmvi84mL/wrqawtBF8A901jBA2yvdKx5sXeXm
-         RBqg==
+        d=gmail.com; s=20230601; t=1725379673; x=1725984473; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1ktgNMA1yLFpwviQhzihvHC3lYwNg9nDygca4at35s4=;
+        b=IujLRA4pDMoA0azV5Eov4VyX1ovaw+KfC5A2FZonJcVscn1ycM0xJbm+pnYHqGjXAw
+         qDoEmzrYNQO+ENb3UvIbGpNL8iwQc1XiXIgG41EZgaqiI3GKSCQCrIrGJz11tj11G66Q
+         PKqazhosHLWHdmNtXtH6LIo5SDRO5G+1kUQSCFnj3VFvZF424UiCTo4rlHPffMECAG3y
+         sC95ubJ4s0lCTcpnTlUeoe8bLI9/jScFVOGhIiLRytrbSbfeUeEdRKRSPP/pMdqyGlYG
+         GuoKBqkCnH9ToK4yRvRkDyL4XMVsOo6QNGIF43Omxx7B2EnOjm7iIg6M4TcDRlY1XPvg
+         7Dyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725378147; x=1725982947;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1725379673; x=1725984473;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JycBj3YRAIr2Nk5u35h+LvnP+HGMEOx4rxNm7VoI2o4=;
-        b=YnLI1v0xrsqQzvptKbUCc493d9pe+UwQSN/nH+P3bA+oIsL2B/5sZgAHCn5DvMD79A
-         BB8DWho1XoQ8epyWLjsqCVS/fUKGWrenJhcv5P0dXDWsvTNuHfBMu+rWo4GOrW42z+pq
-         M7c5+5uXPZkQjVS0uiDL3q+AbCdlKY4kCgMpj8RhiTed/eE0vuW2QPesthWiET5xTPoc
-         jeAH868GvZUGU9vfL4OwOcWdqxCP5bjG8lnJswAJqPJCLtrLqZPEflhk8algoAWROWgF
-         x64gOdv84UiFU7/YHQS0z+/v4VDFkUsPNhvKhF88i6yCb5Ei6kB5+Ncoh64Nn81bhJtr
-         dTTw==
-X-Gm-Message-State: AOJu0YwBl9a0h2znK5hJOrBfAL7QbpDpnpZlZIrsGeNOUwzuPqLexw3M
-	vHyvEC0JygPPp3zCjg7Ll2JoA/YvPj4SBdfz6SJp2vI5iwT26FuS+9c+WA==
-X-Google-Smtp-Source: AGHT+IHSp9R/HhjHcFmNPhnhHYhoXjtccjIVv9qstqFCXPUiOa+DvLH3Zz6lezHceC8Zatjk3iXDDQ==
-X-Received: by 2002:a05:6871:4095:b0:260:f883:95f9 with SMTP id 586e51a60fabf-2780054de35mr6488626fac.42.1725378147500;
-        Tue, 03 Sep 2024 08:42:27 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::9ea])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-277c86b5edesm2338412fac.42.2024.09.03.08.42.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 08:42:26 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] lib/oe/sbom30.py: Fix build parameters
-Date: Tue,  3 Sep 2024 09:42:24 -0600
-Message-ID: <20240903154224.1697616-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        bh=1ktgNMA1yLFpwviQhzihvHC3lYwNg9nDygca4at35s4=;
+        b=MVu1S2r3D4TCkqU0N2hgoqC2BNwvICjBuhcjUQhDo7X0gVIpqWzjoH5NJtfYHfeJdi
+         zREQYwZZl4LfqT0hMY4BgCzXtZ828VeYs+oM7rbcaOjq1Aj9UzmuCG7Mg3wJILPY4Ca1
+         AN6vK1lekjb/rFX3nYD/tY7aNz/ucOZ3d+4nTMTefgmjK20Nzyyd7/plq3J6Hnv/BNkC
+         r/M2fDJgbfDjcuz0MPfXCFDZskci999spm7f+UPJBOtCVf1n7VglVBvG30IIkhyj2xf7
+         pCCGD6/rNf70mmfOuDdEwjBLTcyDTjqkrpy/qQetgEnTdJPLhLTjjhixMfhhRgQJzj5R
+         PIag==
+X-Gm-Message-State: AOJu0YzXpN1tmOxqFkIvZenXO5cwkwTHVaV/Khgz8WVQoeNDo/hbKnbs
+	ZoZZuaaPWAPk92cHPph4dz3odW9rNPRrwv4FvHRvnMTC3SJ1tXI0tcqIx2NFtJVVnjbCTTon+7F
+	yF1rXkqkhux2R/xjXDPzoTGU0hXk=
+X-Google-Smtp-Source: AGHT+IHe0cbDWgMfXZC7A80IL2KTe8mSbeXcTjt0SAi4eQom1Cv6hblL3/Uo9kdTrkcmQNfJxnBShJ3bBgUg3SNE0Pg=
+X-Received: by 2002:a05:6512:b11:b0:532:ef22:eb4e with SMTP id
+ 2adb3069b0e04-53546bb353amr10276855e87.54.1725379672300; Tue, 03 Sep 2024
+ 09:07:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240903084610.283818-1-hprajapati@mvista.com>
+ <CANNYZj8FNUTbTkGc7Y7VVxw4yq6N3wmyNm-8XbHL-nZ9OX7jsw@mail.gmail.com> <CACVbggH+FzrdubsFCyL+=05pUxkj4G_nm6YFEhFjsVaF6tq6Ew@mail.gmail.com>
+In-Reply-To: <CACVbggH+FzrdubsFCyL+=05pUxkj4G_nm6YFEhFjsVaF6tq6Ew@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 3 Sep 2024 18:07:41 +0200
+Message-ID: <CANNYZj9jumRzDSMZnMygXTJz7HEHgTaQU4LFzc-5gQjewbzjbA@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCHv2] rpm: Upgrade 4.17.1 -> 4.18rc1
+To: Hitendra Prajapati <hprajapati@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 15:42:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204172
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 16:08:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204173
 
-The property to specify the build parameters is `build_parameters` not
-just `parameters`
+On Tue, 3 Sept 2024 at 13:50, Hitendra Prajapati <hprajapati@mvista.com> wrote:
+> Thank you for feedback.
+>
+> meta-lts-mixins layer don't have any file or recipe for rpm.
+>
+> How to summit change there ?
+>
+> If rpm 4.18.0 is already released 2 years ago,the anyone upgraded it for kirkstone branch ? or How can i do that ??
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oe/sbom30.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I guess no one is actually interested in making a new rpm available in
+kirkstone. What are the reasons to upgrade rpm there? Are those CVEs
+serious? If they're not, then maybe it's okay to ignore them.
 
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 2cea56ac3e6..76bfb752ef1 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -782,7 +782,7 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-                 if not isinstance(value, str):
-                     continue
- 
--                build.parameters.append(
-+                build.build_parameters.append(
-                     oe.spdx30.DictionaryEntry(key=varname, value=value)
-                 )
- 
--- 
-2.46.0
+To add to meta-lts-mixins you need to create a new blank branch in
 
+https://git.yoctoproject.org/meta-lts-mixins/
+
+and then add needed layer config/README/recipe files (check existing
+branches for guidance). Then make commits out of that and send the
+patches to yocto-patches list.
+
+Alex
 
