@@ -2,53 +2,53 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A33B5CD342D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8F4CD3420
 	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 08:33:28 +0000 (UTC)
-Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
- by mx.groups.io with SMTP id smtpd.web11.18518.1725352404463433938
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web10.18362.1725352404059385421
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Sep 2024 01:33:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Y0z8UHgy;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=ZYOozQs1;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
   t=1725352404; x=1756888404;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=KkQWbpB7lwka6O6+VY+PEk3Ex1Jr3Y/7nZrfpQlYyz4=;
-  b=Y0z8UHgymu92QIlrGKSZO3RV8LbZQs1KUyFgU01LQOzfjew5+sdeup8p
-   NjcsmwBDgvVlpwUiktfdeAJHBxu4HHdlU8FRNK80rP1/Ct+BVTVZvC5Bl
-   hKv0Vxw2EEHA4MHO056sIuBBnB1iJVeSJFVywedQwXsjoMnPtNzlqvIJn
-   WiuFmDuGiRDMd61obRE//2Xw7EIZ6GAk0PVYl3XNN9jwTRkmFWjLGAqes
-   DpEHFV4K29b4748nd2cJpkOEwq/6kS8pcV1ocjVjNejNrYHOQXX7MQ5WK
-   dDQ5wTg33BnIwX5e3DXR08LvLpZ47S7smFokn7IGQlxVqHiQ2dqI984UJ
-   w==;
-X-CSE-ConnectionGUID: ds16T+h9SoejkkI7egyBww==
-X-CSE-MsgGUID: kOsWd85xRXaky08OQ1q8rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="159919376"
+  bh=9EIwnD7HMoXOxObDr6Q0isiD56uicOaQj9Y+iDUNHu4=;
+  b=ZYOozQs1yt8AH4gLPFXgr26oFxD6zhLM+ygAw42lpRW1v8oEiCIV29RR
+   llwrO3UIhF+hD2GmL7KghpWxW8/yGp2Qav15ZkT2x3wwDQpI7QxQj9K9T
+   ZtrvR0DnrbRpoLtxSVbL8XzOm932m1rZNchf3HnvyaruDzE1CjGTn+Dpt
+   SJBKTpq8sFYmUCUxrZ1cDfC0DMsb1yeA+MdUvoALvpOwODZaPlnsOI8oL
+   hzo4SB45VP4wGdeiMCeFdLUmunJe9MkfHOPOcYeFhFg4uw/QZkP97zz8l
+   T8V/XsuFxbz85hEsmYOTLgnmBMWUaDzFJTvKkpkGivttVpekUvaWsEmKC
+   Q==;
+X-CSE-ConnectionGUID: 45BvNe07SMKXcBtz13kvuw==
+X-CSE-MsgGUID: amrw0aeTRA28V0NNbW7w2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="171763725"
 X-IronPort-AV: E=Sophos;i="6.10,198,1719846000"; 
-   d="scan'208";a="159919376"
+   d="scan'208";a="171763725"
 Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 17:33:22 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 0CD39C68E2
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:20 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 58B7DD50EB
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 17:33:22 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 62D45C68E1
 	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:19 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 99D20D9689
+	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:18 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id D3B526C9E5
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 139C120076D22
 	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:18 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.161.161])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 78FAA1A000C;
-	Tue,  3 Sep 2024 16:33:18 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id AE9E21A000C;
+	Tue,  3 Sep 2024 16:33:17 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 21/22] wayland-protocols: upgrade 1.36 -> 1.37
-Date: Tue,  3 Sep 2024 16:32:58 +0800
-Message-Id: <1725352379-20334-21-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 20/22] taglib: upgrade 2.0.1 -> 2.0.2
+Date: Tue,  3 Sep 2024 16:32:57 +0800
+Message-Id: <1725352379-20334-20-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1725352379-20334-1-git-send-email-wangmy@fujitsu.com>
 References: <1725352379-20334-1-git-send-email-wangmy@fujitsu.com>
@@ -56,62 +56,52 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28638.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28638.006
-X-TMASE-Result: 10--11.124300-10.000000
-X-TMASE-MatchedRID: eWs1WpfTtqCjz0nOeth/yUIIxwDaU5mrF4r8H5YrEqzB1z1KvCXwaD7C
-	2zi5xdOElnyhwSQkWk3G1iFzClhjw4vwqM9US01BkYD8wAZKsSBF5qVUCGhwT50C6WJNXTpiPLv
-	PGJ0eFinN25nZ2p7B7YMNagOrNZddAquF9R7bYYAX6pCkJZNSOSy+piTiLP72zAdJD7JeNMPtb2
-	IIDsdQC+ArY2JkKW9pBdRHP6FCEZVaQiLka9EcSk7nLUqYrlslNmVjpriVEtlgDeovr2tertKfQ
-	2mUc6Ddye0MgpC/RogAUW9+iL8IlbUd2R7XKvn3ngIgpj8eDcAZ1CdBJOsoY8RB0bsfrpPIfiAq
-	rjYtFiS594B6d1VNB4OlZJcRPgcP8vIkKmDMzlx6hwOGV099R37cGd19dSFd
+X-TMASE-Result: 10-0.130800-10.000000
+X-TMASE-MatchedRID: wbL0rUvz+3Cjz0nOeth/yUIIxwDaU5mrYdBG+bhhiNR+ovg8NDYPAiw9
+	Zt15wkMueLUGEnE35HJi9k/KXBsOnU5enoFAhOloqTb2sWzCG35MkOX0UoduuTBwx50fHFEC0yO
+	PBv1B9XaUdUf9QcMH0eaffHI8kAmiDAixBlu3NnAwo+sXt0rnswKA9ZJkcOhmiOqMbASFvBJaTW
+	107FjPHDqFQ5xOiev0gDLqnrRlXrbIDt27MLDp0gGlEJORGTlJ+gtHj7OwNO0X9rpBZuBDbUSN6
+	B4b+3ZadlpEFqZ10pizTN0fqVp+JQSNy9eHnwuUAghA8Abpzju9DpBY6x/0cg46R0rnScF7B3Vf
+	+JtFipy8GvLTyen13fIMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uABDi47cA
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:33:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204147
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204146
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-============
-- xdg-toplevel-icon: add error for destroyed wl_buffer
-- pointer-gestures: Add punctuation to clarify gesture cycles
-- tablet-v2: Fix feedback description in mode_switch
-- ext-image-copy-capture-v1: new protocol
-- ext-image-capture-source-v1: new protocol
-- governance: document review requirements
-- members: trim trailing comma
-- readme: recommend using "Draft:" prefix for RFC protocols
-- readme: use references for links
-- staging: Add xdg-toplevel-icon protocol for dedicated toplevel icons
-- readme: s/Makefile.am/meson.build/
-- staging/tearing-control: clarify what happens after wl_surface destruction
-- ci: don't run pipelines in forks
-- various: Fix definition of double-buffered state
-- Fix some trivial typos
+===========
+ * Fix parsing of ID3v2.2 frames.
+ * Tolerate MP4 files with unknown atom types as generated by Android tools.
+ * Support setting properties with arbitrary names in MP4 tags.
+ * Windows: Fix "-p" option in tagwriter example.
+ * Support building with older utfcpp versions.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{wayland-protocols_1.36.bb => wayland-protocols_1.37.bb}    | 2 +-
+ .../recipes-support/taglib/{taglib_2.0.1.bb => taglib_2.0.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.36.bb => wayland-protocols_1.37.bb} (92%)
+ rename meta/recipes-support/taglib/{taglib_2.0.1.bb => taglib_2.0.2.bb} (95%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.36.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.37.bb
-similarity index 92%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.36.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.37.bb
-index 9b008ca534..2bf59b9719 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.36.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.37.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
-                     file://stable/presentation-time/presentation-time.xml;endline=26;md5=4646cd7d9edc9fa55db941f2d3a7dc53"
+diff --git a/meta/recipes-support/taglib/taglib_2.0.1.bb b/meta/recipes-support/taglib/taglib_2.0.2.bb
+similarity index 95%
+rename from meta/recipes-support/taglib/taglib_2.0.1.bb
+rename to meta/recipes-support/taglib/taglib_2.0.2.bb
+index 14f99aabbc..254119268c 100644
+--- a/meta/recipes-support/taglib/taglib_2.0.1.bb
++++ b/meta/recipes-support/taglib/taglib_2.0.2.bb
+@@ -11,7 +11,7 @@ DEPENDS = "zlib utfcpp"
  
- SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
--SRC_URI[sha256sum] = "71fd4de05e79f9a1ca559fac30c1f8365fa10346422f9fe795f74d77b9ef7e92"
-+SRC_URI[sha256sum] = "a70e9be924f2e8688e6824dceaf6188faacd5ae218dfac8d0a3d0976211ef326"
+ SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
  
- UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tags"
- UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
+-SRC_URI[sha256sum] = "08c0a27b96aa5c4e23060fe0b6f93102ee9091a9385257b9d0ddcf467de0d925"
++SRC_URI[sha256sum] = "0de288d7fe34ba133199fd8512f19cc1100196826eafcb67a33b224ec3a59737"
+ 
+ UPSTREAM_CHECK_URI = "https://taglib.org/"
+ UPSTREAM_CHECK_REGEX = "taglib-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.34.1
 
