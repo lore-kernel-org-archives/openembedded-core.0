@@ -1,298 +1,167 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E10A8CD37A9
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 17:01:21 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web10.28746.1725382873870585848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F31CD37AC
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 19:34:02 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.32452.1725392035351513508
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 10:01:13 -0700
+ Tue, 03 Sep 2024 12:33:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U+oWgXLN;
- spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-26fda13f898so3255990fac.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 10:01:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IDt8bFuN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42bb7298bdeso64390735e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 12:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725382873; x=1725987673; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UQryhvpfi/61FD3Yn1byUAVHNHpZnLx+AMkyAWgNooc=;
-        b=U+oWgXLN6xiKd/ONC904w7WZzyHNzk/g1aDROoganPwpSm1vLi4iRQV+sABx/Se/Im
-         QQQGgD+DU9YquNXm08c1EZBKD96ndcWDZV7f0UmFykEBqw6FTorO8aUBd0i8uuaO60VS
-         vjE6OwEWoPjKbejFPrJr6hDDkmOvURkvYl8m4xTYMAAl91GmE21diZls4jTVKG0v/OQ0
-         jx68M7jQfuc2gevBzYB4bRtywrZJ7V62H1/90JWkolFdP5EqWYFR2jRNBmQgfxlUiiNo
-         9QuOKy5b1/LKz4g55jl6+s/U3tONnw0GdhkWlMWgqswPa7vA4/CS2KF2muXwDKxRhDmb
-         EY6w==
+        d=gmail.com; s=20230601; t=1725392034; x=1725996834; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=huviZSYTUAT8tQRNwlwGFvb06fu3l3OLMA+JbR8/Bu4=;
+        b=IDt8bFuNV1SQlZ5Elq4xiwWd9muSuJ1iQSdy8zQdlm71qB9HBS5BqeNU547R7fPd+J
+         oxmh5vBSuurug8PQOgHsFDGSArQrzyn9ntoJfxW3xRIaBWH4eD2xfVMu2ucyG5ibVbX4
+         ln4DqioDkVsl52jFy0PjnQUV+6KZf/SoAJH/bJygyUiqUOP6EqQ0cbTrHeosbwAU82oD
+         dVjWXxX7cj69hrhisyJVjRraqmru/sXOywpaxpoMsWDHmulLaCXLfhhLoGDm/+TxZvt3
+         bwMbjHA3bMLhjya1rQ48IQrYbyRhEBL4rbDXoDMFL1wcyjMhtTn4y2Ng2m5Kmp2Xb1xU
+         c5QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725382873; x=1725987673;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UQryhvpfi/61FD3Yn1byUAVHNHpZnLx+AMkyAWgNooc=;
-        b=DSbq26n63/YqS6Tmuj1ruYW6SWBW8ptRG1bS9CnRS05vY9g1ZhFwUQvgKIfrTwVYeX
-         4bdU+SZ/+MoJrE0yUGJA2z8G3l79Fm0g27smjOwxVhkQYRizSOwP9l8m54xtsWKYfm2e
-         V1lJNJkuXOAnCjeYYCUB3oZi5FTn6PaJSB5xrRQgjY8CeknRjvVRhzc8Qlq3l3h2lAX6
-         H+3LIMutGJfDBKiAMrB66y1QjiAuuVmXj/drFe1D+I+dE65I27WE8szYBFQpawLMkR/t
-         GeUYzCSIz16TVVycGxOhtFOQLk5Q1LMcOQc4alOqakzDqWr1oz/KYL2zeL4zc5DB0v9A
-         Oozw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXAnnsaIeE+0LlKOpzQaw8GCC5MnrqikA0EWuOy9ZeKq69lxeuOn5EAqcpeeqgsq6wizQViH/0gvfC3MW/sHA83w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwxxV7IWbvQ+a0TNEyWH3qxKAZdYWkTH/vJfjE5/GmPOGoXBvgn
-	BmeJMsQ5kxrNpiVtej1dK3Ougnpk6J0VjHWnruliKZ55UZzvf0gNhXrqyl0/axFQ1wE0VVR/tbl
-	uy1en7bQ9x0nxVqDNLFayPpRonPc=
-X-Google-Smtp-Source: AGHT+IHd3zc7BPI78z9ai2v4DC50PirgV5hZj1jk8VFDx4Pwc68MvT5EYikdaJK19TjeSsPmWvguopdiiIeRFfIOdok=
-X-Received: by 2002:a05:6870:548e:b0:277:e457:6057 with SMTP id
- 586e51a60fabf-27810da763cmr4774839fac.44.1725382872951; Tue, 03 Sep 2024
- 10:01:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
- <1724136703-20023-19-git-send-email-wangmy@fujitsu.com> <CA+chaQdfxzWNuunL94xXwctvsuUVvhTq6wsOtbmt=KAzEZcgng@mail.gmail.com>
- <CA+chaQf+XuPscFri7L51F473X5rikRH5sKPrU882eAbAM0grcg@mail.gmail.com>
-In-Reply-To: <CA+chaQf+XuPscFri7L51F473X5rikRH5sKPrU882eAbAM0grcg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 Sep 2024 10:00:46 -0700
-Message-ID: <CAMKF1spAoPsJp0yiUxjQhvm=hj+2p8_fOzwf=71ehv6UyuU8rQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 19/24] python3-setuptools: upgrade 72.1.0 -> 72.2.0
-To: martin.jansa@gmail.com
-Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1725392034; x=1725996834;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=huviZSYTUAT8tQRNwlwGFvb06fu3l3OLMA+JbR8/Bu4=;
+        b=bpJ6zrZ3HT8dttwuRccjf9zIN/dGs557wqkmJAD8mwJmalTHRNJ2h9fkymoeO+bmXj
+         X+PbjTP++ekpe+VoiCHG37Qyem4/uWZU26MNpiErKV5zx3l8br6ABTs0S5DirWvybaSJ
+         wsIACkw4rGnC/MM0A0S492Sfh+dSWPNaxbPMB9MBz4JjGXJh9FfxTt0xQrnvb1RgZxrO
+         GrKDE715HbJHJsxWsQSehpimGDzbxAC9RGzZyCvG6ebFgDn+UVr1aLTZqmuCGK0Dvs0d
+         QUaOD4Dq0FLUIziVA3X+yWpitXnXWytsuwdk7Di875ozIkDaYyan82CmEahsnzYqURIO
+         Xi9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWPi4bP9g4NMfIssxmh2WTbkFIv9/hAQtN9mO5V10qpMEeO5dgXRrvvGG8l6SWbK2FGZt8b69sw7qsbPjoA9LxZUw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yywrt6loB9XyEstOiMNkfPTybNmOeksbDYamrp6n9qPibBjKEfF
+	TDavSQT0SCMNCtIFVd2XRpFjeY9MbZq9XHO4Y7httWEkMEOvoQ5t
+X-Google-Smtp-Source: AGHT+IG8Gd+nZkgdjAMYa7KWPfv6oKX6ztdh9OX5Y4CtzSoY65R4DYaNr7Eu7WDGqbQOHBRtXC1Kew==
+X-Received: by 2002:a05:600c:3b11:b0:426:6714:5415 with SMTP id 5b1f17b1804b1-42bb01edd2bmr139306345e9.30.1725392032834;
+        Tue, 03 Sep 2024 12:33:52 -0700 (PDT)
+Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6425a77sm218698915e9.45.2024.09.03.12.33.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 12:33:52 -0700 (PDT)
+Message-ID: <847e3405fe80cc0efd8949b6ba4b01241bd3247a.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] devtool: remove obsolete
+ SRCTREECOVEREDTASKS handling
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Date: Tue, 03 Sep 2024 21:33:51 +0200
+In-Reply-To: <a3f27a205be6de32831548d12be2e019ac9f3371.camel@linuxfoundation.org>
+References: <20240902203154.265515-1-adrian.freihofer@gmail.com>
+	 <20240902203154.265515-3-adrian.freihofer@gmail.com>
+	 <a3f27a205be6de32831548d12be2e019ac9f3371.camel@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40app2) 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 17:01:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204174
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 19:34:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204175
 
-Hi Martin
+On Tue, 2024-09-03 at 07:15 +0100, Richard Purdie wrote:
+> On Mon, 2024-09-02 at 22:31 +0200, Adrian Freihofer via
+> lists.openembedded.org wrote:
+> > From: Adrian Freihofer <adrian.freihofer@siemens.com>
+> >=20
+> > The kernel-yocto.bbclass defines some tasks tasks and it also adds
+> > these
+> > tasks to the SRCTREECOVEREDTASKS list. There is no need for devtool
+> > to
+> > duplicate this code and override what the kernel-yocto.bbclass
+> > already
+> > does.
+> >=20
+> > devtool modify generates a linux-yocto.6.6.bbappend containing:
+> > =C2=A0 SRCTREECOVEREDTASKS=3D"\
+> > =C2=A0=C2=A0=C2=A0 do_fetch \
+> > =C2=A0=C2=A0=C2=A0 do_kernel_checkout \
+> > =C2=A0=C2=A0=C2=A0 do_kernel_configcheck \
+> > =C2=A0=C2=A0=C2=A0 do_unpack \
+> > =C2=A0=C2=A0=C2=A0 do_validate_branches \
+> > =C2=A0 "
+> > =C2=A0 do_patch[noexec] =3D "1"
+> >=20
+> > linux-yocto set SRCTREECOVEREDTASKS to
+> > =C2=A0 SRCTREECOVEREDTASKS=3D"\
+> > =C2=A0=C2=A0=C2=A0 do_fetch \
+> > =C2=A0=C2=A0=C2=A0 do_kernel_checkout \
+> > =C2=A0=C2=A0=C2=A0 do_kernel_configcheck \
+> > =C2=A0=C2=A0=C2=A0 do_patch \
+> > =C2=A0=C2=A0=C2=A0 do_unpack \
+> > =C2=A0=C2=A0=C2=A0 do_validate_branches \
+> > =C2=A0 "
+> >=20
+> > The code in devtool modify is therefore considered as redundant and
+> > removed.
+> >=20
+> > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> > ---
+> > =C2=A0scripts/lib/devtool/standard.py | 3 ---
+> > =C2=A01 file changed, 3 deletions(-)
+> >=20
+> > diff --git a/scripts/lib/devtool/standard.py
+> > b/scripts/lib/devtool/standard.py
+> > index 312eb8ab506..b2e1a6ca3a5 100644
+> > --- a/scripts/lib/devtool/standard.py
+> > +++ b/scripts/lib/devtool/standard.py
+> > @@ -952,9 +952,6 @@ def modify(args, config, basepath, workspace):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 f.write('EXTERNALSRC_BUILD:pn-%s =3D "%s"\n' % =
+(pn,
+> > srctree))
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 if bb.data.inherits_class('kernel', rd):
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 f.write('SRCTREECOVEREDTASKS =3D
+> > "do_validate_branches do_kernel_checkout '
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'do_f=
+etch do_unpack
+> > do_kernel_configcheck"\n')
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 f.write('\ndo_patch[noexec] =3D "1"\n')
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 f.write('\ndo_kernel_configme:prepend() {\n'
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ '=C2=A0=C2=A0=C2=A0 if [ -e ${S}/.config ]; then\n'
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ '=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mv ${S}/.config
+> > ${S}/.config.old\n'
+>=20
+>=20
+> Note that "kernel" !=3D "linux-yocto". Does a standard kernel still
+> need fetch/unpack?
 
-Can you try reverting this patch
+externalsrc.bbclass defaults to:
+SRCTREECOVEREDTASKS ?=3D "do_patch do_unpack do_fetch"
+https://git.yoctoproject.org/poky/tree/meta/classes/externalsrc.bbclass#n28
+This should be fine for "kernel" !=3D "linux-yocto".
 
-https://github.com/pypa/setuptools/commit/2c937116cc0dcd9b26b6070e89a3dc5dc=
-bedc2ae
+I will send a v2 which mentions this in the commit message and fixes
+the other finding with the uppercase PN.
 
-and see if it helps ?
+Thank you for the review.
+Adrian
 
-On Tue, Sep 3, 2024 at 1:36=E2=80=AFAM Martin Jansa via lists.openembedded.=
-org
-<martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
->
-> Hello Wang,
->
-> did you have a look at this regression (with ccache) from the
-> setuptools upgrade?
->
-> Regards,
->
-> On Thu, Aug 22, 2024 at 6:30=E2=80=AFPM Martin Jansa <martin.jansa@gmail.=
-com> wrote:
-> >
-> > This seems to break python3-numpy build.
-> >
-> > I guess it can be resolved by upgrading numpy as in:
-> > https://lists.openembedded.org/g/openembedded-core/message/203231
-> > which switches from setuptools3 to python_mesonpy
-> >
-> > Comparing the failing command line it looks like CXX and some other
-> > flags are included twice:
-> >
-> > with: setuptools-72.2.0:
-> >
-> > ccache \
-> > aarch64-oe-linux-g++ \
-> > -fstack-protector-all \
-> > -O2 \
-> > -D_FORTIFY_SOURCE=3D2 \
-> > -Wformat \
-> > -Wformat-security \
-> > -Werror=3Dformat-security \
-> > -Werror=3Dreturn-type \
-> > -funwind-tables \
-> > --sysroot=3DWORKDIR/recipe-sysroot \
-> > -O2 \
-> > -g \
-> > -fcanon-prefix-map \
-> > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> > -pipe \
-> > -fvisibility-inlines-hidden \
-> > aarch64-oe-linux-g++ \
-> > -fstack-protector-all \
-> > -O2 \
-> > -D_FORTIFY_SOURCE=3D2 \
-> > -Wformat \
-> > -Wformat-security \
-> > -Werror=3Dformat-security \
-> > -Werror=3Dreturn-type \
-> > -funwind-tables \
-> > --sysroot=3DWORKDIR/recipe-sysroot \
-> > -shared \
-> > -Wl,-O1 \
-> > -Wl,--hash-style=3Dgnu \
-> > -Wl,--as-needed \
-> > -fcanon-prefix-map \
-> > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> > -Wl,-z,relro,-z,now \
-> > -O2 \
-> > -g \
-> > -fcanon-prefix-map \
-> > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nump=
-y/1.26.4 \
-> > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> > -pipe \
-> > -fvisibility-inlines-hidden \
-> > build/temp.linux-x86_64-cpython-312/build/src.linux-x86_64-3.12/numpy/c=
-ore/src/multiarray/_multiarray_tests.o
-> > \
-> > build/temp.linux-x86_64-cpython-312/numpy/core/src/common/mem_overlap.o=
- \
-> > build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_argparse.=
-o \
-> > build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_hashtable=
-.o \
-> > -LWORKDIR/recipe-sysroot/usr/lib \
-> > -Lbuild/temp.linux-x86_64-cpython-312 \
-> > -lnpymath \
-> > -o \
-> > build/lib.linux-x86_64-cpython-312/numpy/core/_multiarray_tests.cpython=
--312-aarch64-linux-gnu.so
-> >
-> > --- setuptools-72.1.0   2024-08-22 18:17:36.941146726 +0200
-> > +++ setuptools-72.2.0   2024-08-22 18:17:27.208147768 +0200
-> > @@ -9,6 +9,28 @@
-> >  -Werror=3Dreturn-type \
-> >  -funwind-tables \
-> >  --sysroot=3DWORKDIR/recipe-sysroot \
-> > +-O2 \
-> > +-g \
-> > +-fcanon-prefix-map \
-> > +-fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-num=
-py/1.26.4 \
-> > +-fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-num=
-py/1.26.4 \
-> > +-fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-num=
-py/1.26.4 \
-> > +-fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-num=
-py/1.26.4 \
-> > +-fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > +-fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> > +-fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> > +-pipe \
-> > +-fvisibility-inlines-hidden \
-> > +aarch64-oe-linux-g++ \
-> > +-fstack-protector-all \
-> > +-O2 \
-> > +-D_FORTIFY_SOURCE=3D2 \
-> > +-Wformat \
-> > +-Wformat-security \
-> > +-Werror=3Dformat-security \
-> > +-Werror=3Dreturn-type \
-> > +-funwind-tables \
-> > +--sysroot=3DWORKDIR/recipe-sysroot \
-> >  -shared \
-> >  -Wl,-O1 \
-> >  -Wl,--hash-style=3Dgnu \
-> > @@ -33,6 +55,7 @@
-> >  -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
-> >  -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
-> >  -pipe \
-> > +-fvisibility-inlines-hidden \
-> >  build/temp.linux-x86_64-cpython-312/build/src.linux-x86_64-3.12/numpy/=
-core/src/multiarray/_multiarray_tests.o
-> > \
-> >  build/temp.linux-x86_64-cpython-312/numpy/core/src/common/mem_overlap.=
-o \
-> >  build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_argparse=
-.o \
-> >
-> > failing with:
-> > WORKDIR/recipe-sysroot-native/usr/bin/aarch64-oe-linux/../../libexec/aa=
-rch64-oe-linux/gcc/aarch64-oe-linux/14.2.0/ld:
-> > cannot find aarch64-oe-linux-g++: No such file or directory
-> > collect2: error: ld returned 1 exit status
-> >
-> > On Tue, Aug 20, 2024 at 8:52=E2=80=AFAM wangmy via lists.openembedded.o=
-rg
-> > <wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
-> > >
-> > > From: Wang Mingyu <wangmy@fujitsu.com>
-> > >
-> > > Changelog:
-> > > - Support for Pathlike objects in data files and extensions
-> > > - native support for C++ compilers
-> > > - removed unused get_msvcr()
-> > >
-> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > > ---
-> > >  ...ython3-setuptools_72.1.0.bb =3D> python3-setuptools_72.2.0.bb} | =
-2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >  rename meta/recipes-devtools/python/{python3-setuptools_72.1.0.bb =
-=3D> python3-setuptools_72.2.0.bb} (94%)
-> > >
-> > > diff --git a/meta/recipes-devtools/python/python3-setuptools_72.1.0.b=
-b b/meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
-> > > similarity index 94%
-> > > rename from meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
-> > > rename to meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
-> > > index 945d443aff..63ea999960 100644
-> > > --- a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
-> > > +++ b/meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
-> > > @@ -11,7 +11,7 @@ SRC_URI:append:class-native =3D " file://0001-condi=
-tionally-do-not-fetch-code-by-e
-> > >  SRC_URI +=3D " \
-> > >              file://0001-_distutils-sysconfig.py-make-it-possible-to-=
-substite.patch"
-> > >
-> > > -SRC_URI[sha256sum] =3D "8d243eff56d095e5817f796ede6ae32941278f542e0f=
-941867cc05ae52b162ec"
-> > > +SRC_URI[sha256sum] =3D "80aacbf633704e9c8bfa1d99fa5dd4dc59573efcf9e4=
-042c13d3bcef91ac2ef9"
-> > >
-> > >  DEPENDS +=3D "python3"
-> > >
-> > > --
-> > > 2.34.1
-> > >
-> > >
-> > >
-> > >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#204150): https://lists.openembedded.org/g/openembedde=
-d-core/message/204150
-> Mute This Topic: https://lists.openembedded.org/mt/107996505/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+
 
