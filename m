@@ -2,64 +2,61 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD6ACD3420
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 08:44:59 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.18488.1725353096652475981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B7ACD3420
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 08:46:29 +0000 (UTC)
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+ by mx.groups.io with SMTP id smtpd.web10.18510.1725353185091055221
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 01:44:56 -0700
+ Tue, 03 Sep 2024 01:46:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ZcRvVm/9;
- spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2057917c493so13102075ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 01:44:56 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Bulf+lSQ;
+ spf=pass (domain: mvista.com, ip: 209.85.166.177, mailfrom: hprajapati@mvista.com)
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-39d3872e542so19699495ab.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 01:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1725353095; x=1725957895; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1725353184; x=1725957984; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sk2ZlhK75ZlI8ZgHEptY4drNdw1sRGHhCk6WjqNAtpo=;
-        b=ZcRvVm/9x+5HyVRWrlP/gzG9MvK+gTLDYC+qjKW2w/GEBJ83TWinlEeaoInfa7i5BE
-         loRrRQ4TXUjQWn1Y49Vs16vpGglIKqnmLbnE7GiYzH/NP8F9l1yUf4jg8Qn0lY1rR9fF
-         F7u36/6VHuACkDLi+eIC6xMN6WbMAFT+9I2HE=
+        bh=sQwN606pw53UI56jrxs/frhoyvodJcRrrGVbd9Za75g=;
+        b=Bulf+lSQLc8j6hjvUjCTpPhYaFm25CWELFMa/8LX3zGsFQJ0IbPkdac2RmaBkOBWuF
+         h4oK+rMa0kGQl5S8bUIOqwk7YOF+8ZDLMnEd12U9yWOTH6hRmWes95AeWJwnzEGpO0O2
+         4RVm+8Za6ow5Gj7tjvHSD95h5AU52Skhl6DQA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725353095; x=1725957895;
+        d=1e100.net; s=20230601; t=1725353184; x=1725957984;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Sk2ZlhK75ZlI8ZgHEptY4drNdw1sRGHhCk6WjqNAtpo=;
-        b=RoQdvizrfHrtU7qxy4YrpBBdI6VuFsosJ1Pb7TNrftVzVrxo34hUXmTC8mK6l3BDRS
-         sQcIfK97a8AUZh3HijYbaB6N2ZRDgnIyl4/vTTU33u447v60Zi4gYudFJNQLSjF+bj2C
-         PFAZDoa0tOK8z4Uu0W7iw0fBjmqKK/isgATxP114QMq/QQzqb+0is1dNSRw6PiCH2yda
-         o/KiVbxUZFRl+IhPtFVWO0EHsnGJGsC+SHaI77iTOJttSeKFYobCZPmP/NoYmqGjdp57
-         A8J3amKK9eIRey2IIy0NJSi+/sx9tsHRsQY2F8L2CRIWj8dqa5F0TMFtVuLedNAuaGlf
-         HLDQ==
-X-Gm-Message-State: AOJu0Yyn/gFuAS8Ziye360beLEGJBgYYtTgop0lBU8Oi3Xe89XqPwCfV
-	SzlIdRDOltwOrWEFNDiMjgAq0vC7qDiwGL6V5D2D6i2Y9aCmsHQ5Lp9fEWLViowppq76rNQ0itV
-	B
-X-Google-Smtp-Source: AGHT+IHa8KSciwbJ6OV79N88B+7pPPthW/NPgkJjxd7Lap0Wa/N06yTcvm4m5xLOSHsQDzDu1+ZUyw==
-X-Received: by 2002:a17:902:e88e:b0:205:8763:6c2d with SMTP id d9443c01a7336-20587636e89mr66954565ad.9.1725353095088;
-        Tue, 03 Sep 2024 01:44:55 -0700 (PDT)
+        bh=sQwN606pw53UI56jrxs/frhoyvodJcRrrGVbd9Za75g=;
+        b=g6OORuPztkgQ4t9MjKWb+3D/6BkOehdF8FJsuVwovweI9hbiO0EQYfQCttdSHFn6c1
+         utcakurAMuoNVTRiLT+SVBcs8Pyqg6kK+XuOgCAd4/t+Pds+JInGZSM8n8Hm8TxUfQRn
+         MlJsywt0mWEL/zskO1qF8XqkFU594cB3XHn3I4gR6nUfKMoKr4+MjpF0KSG7l/Uq5WBM
+         KcH//0HRB709B3DxDup+fZtEEFjfvDTSC9hHVQGPvyKdWSBwEe83UJhBYUo/2wbA6gXC
+         E1EyuE90T1Ef541rmuHplJT8gO0Aj9L7lUGvbSq/3joWnSyIt9f/3DbDAefsjf8LRRqM
+         Gf9Q==
+X-Gm-Message-State: AOJu0YwSzL6Cfo++nb3pvqVc9n54+flglKqMlLTxG1X+cyrOhgrULaOM
+	o02QPGyw741qRNBA0GF6qH+QQj0QionKC2lURCmJyMW9phEG8cbgeVa5gsO9BThM4l0XUfjlbIP
+	z
+X-Google-Smtp-Source: AGHT+IFQxnXu35TqPJALIsa5E5hWnaC8dyyGD5MzirFLV4kbu/KJ+x+xKu7sHNrth0d8QLhk8ixUcQ==
+X-Received: by 2002:a05:6e02:1a6e:b0:39d:2ced:e3ee with SMTP id e9e14a558f8ab-39f4f520369mr118619995ab.8.1725353183578;
+        Tue, 03 Sep 2024 01:46:23 -0700 (PDT)
 Received: from MVIN00016.mvista.com ([43.249.234.170])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20558982ba1sm39031905ad.161.2024.09.03.01.44.53
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d22e77438dsm8773434a12.27.2024.09.03.01.46.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 01:44:54 -0700 (PDT)
+        Tue, 03 Sep 2024 01:46:23 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] rpm: Upgrade 4.17.1 -> 4.18rc1
-Date: Tue,  3 Sep 2024 14:14:42 +0530
-Message-Id: <20240903084442.283564-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCHv2] rpm: Upgrade 4.17.1 -> 4.18rc1
+Date: Tue,  3 Sep 2024 14:16:10 +0530
+Message-Id: <20240903084610.283818-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:44:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204151
-
-rpm is close to release and give our release timings, update to the
-rc1 of 4.18.
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:46:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204152
 
 Includes fixes for CVE-2021-35937, CVE-2021-35938 and CVE-2021-35939
 which can't be easily backported.
