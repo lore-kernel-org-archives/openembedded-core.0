@@ -1,99 +1,153 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B1ECD3436
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 13:48:10 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.23609.1725371286846230550
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D365ECD343A
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 14:09:50 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.24184.1725372589985383733
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 06:48:06 -0700
+ Tue, 03 Sep 2024 07:09:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gtilGbZN;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YycN0IfB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010191b8247fc3-60b15787-5888-4988-a0d5-f420ee0d1ae1-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1725371286; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=0jiQ28vfnzVhtGx1a3FtmvQ1g+3teWIfvWxGxhWJswg=;
-	b=gtilGbZNJErDaN40Gwxk4ptoTM0quFDPCetWe627wL6NOXC/zmP0iGKmcDkgneR9
-	x9Mu8fKGpBedhwo/vN7mKUsvkFhH8iI9XF81H2lI7zHL7sf8wd4y4f+Sj/lvVepj6Pf
-	0ga+ew6WOlOpRSqgPfUn+tl6ALv4xTyImzZBMHLY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1725371286;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=0jiQ28vfnzVhtGx1a3FtmvQ1g+3teWIfvWxGxhWJswg=;
-	b=YycN0IfBDtDQRyi74Z7iYluUDdx5OIwEjB6VhbNHPb835vIJH467Vf/a596aMx2r
-	WREz9I+iKjJhyUPdWYcoDOddg6pOfUCEdS1jUwla3EZs/9Uu5ztAEFi6+agTog/aY3J
-	+eXDe1To3JMAji1js18soRlY4Fvtr7SOrb98vuwk=
-From: patchtest@automation.yoctoproject.org
-To: aszh07 <mail2szahir@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH] glib-2.0: Remove gvariant byteswap test
-In-Reply-To: <20240903133828.3762-1-mail2szahir@gmail.com>
-References: <20240903133828.3762-1-mail2szahir@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010191b8247fc3-60b15787-5888-4988-a0d5-f420ee0d1ae1-000000@us-west-2.amazonses.com>
-Date: Tue, 3 Sep 2024 13:48:05 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.03-54.240.27.45
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C0U0hy71;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42bbc70caa4so35477715e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 07:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1725372588; x=1725977388; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8h/w+ab/u+xdn8YcQ5yMMpgO+54oa8i4F/9dp+zd7S0=;
+        b=C0U0hy71cpTiKhC4KkHeSK7Bl0CDHnotjgZQgiQB7Y2CDYA/N0Qs60UQXtnFiMImuX
+         jGVhVE/HVCJWPzk2zAPUVIoGYkzVzvHN/0lVntERaeU7cYNV16zEqAddwvzEQjDq0K1F
+         D3J1fCtWLEYfXETnA/hWBvS7zMfnUEIjUHRqs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725372588; x=1725977388;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8h/w+ab/u+xdn8YcQ5yMMpgO+54oa8i4F/9dp+zd7S0=;
+        b=hWPczMf4ACnlzEAvXQWvU1bBEnz8I42khc8RRs19AVlAP7cr4Wv9gzxOJK2k3Vjkgq
+         9b4Jct63BR0X4RdSeq6UzR7wyNG/WyGZaAcODeCk1xsUNLuxpTfETIOwFnMMy2FKHYsB
+         u24VZpuJ7NuWregB+xlbl8pDfSvvbq/KC6vpNRk+C6hsNifYJPbP2mtjNoG+XwDwvPWt
+         PMmXMqR/THpTVAqvy2+ZcZlfUw2EmKvv/TpwtoswMkP3eGnat/C2XEUC0RQ6S3LqPcZd
+         41GMPqsaVA/4qEkn3bCR/udFmHAyCxup2X4It47u1TfcepYtvNwasxbnGhgOMPJWeDek
+         F6uQ==
+X-Gm-Message-State: AOJu0Yx9o86JRSC77h6bSZ8jIkHLNVAcCthCcGuD1dCvHnUNhmcYTbZZ
+	GElWwlABr+zTGp9FJN020OMqhycKK0gqj8P8umnFRJPQsDJIkRU7vkbXMQY2gWgPKfJm7T1qxLa
+	2
+X-Google-Smtp-Source: AGHT+IFEAvRmBqwYvcBpMQZMzblsyb6sUL0K6FoDWyj8DLcrdyhqRfdW+J4Yv3jxn/Xp9I2YlXp9Pw==
+X-Received: by 2002:adf:ab18:0:b0:374:b69f:8 with SMTP id ffacd0b85a97d-376dd71aademr767808f8f.33.1725372588009;
+        Tue, 03 Sep 2024 07:09:48 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:30b4:4276:8ea7:8aff])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c96a88ebsm6437970f8f.108.2024.09.03.07.09.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 07:09:47 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] elfutils: Drop obsolete ptest conditional in do_install
+Date: Tue,  3 Sep 2024 15:09:45 +0100
+Message-ID: <20240903140945.625408-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240903140945.625408-1-richard.purdie@linuxfoundation.org>
+References: <20240903140945.625408-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 13:48:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204164
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 14:09:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204166
 
---NextPart
-Content-Type: text/plain
+The PTEST_ENABLED conditional is no longer needed since the task is deleted
+if ptest isn't enabled.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-glib-2.0-Remove-gvariant-byteswap-test.patch
+ .../elfutils/elfutils_0.191.bb                | 70 +++++++++----------
+ 1 file changed, 34 insertions(+), 36 deletions(-)
 
-FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
-
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+index 76bd2b3a99c..95364cef975 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+@@ -66,42 +66,40 @@ do_compile_ptest() {
+ PTEST_PARALLEL_MAKE = ""
+ 
+ do_install_ptest() {
+-	if [ ${PTEST_ENABLED} = "1" ]; then
+-		# copy the files which needed by the cases
+-		TEST_FILES="strip strip.o addr2line elfcmp objdump readelf size.o nm.o nm elflint elfcompress elfclassify stack unstrip srcfiles"
+-		install -d -m 755                       ${D}${PTEST_PATH}/src
+-		install -d -m 755                       ${D}${PTEST_PATH}/lib
+-		install -d -m 755                       ${D}${PTEST_PATH}/libelf
+-		install -d -m 755                       ${D}${PTEST_PATH}/libdw
+-		install -d -m 755                       ${D}${PTEST_PATH}/libdwfl
+-		install -d -m 755                       ${D}${PTEST_PATH}/libdwelf
+-		install -d -m 755                       ${D}${PTEST_PATH}/libasm
+-		install -d -m 755                       ${D}${PTEST_PATH}/libcpu
+-		install -d -m 755                       ${D}${PTEST_PATH}/libebl
+-		for test_file in ${TEST_FILES}; do
+-			if [ -f ${B}/src/${test_file} ]; then
+-				cp -r ${B}/src/${test_file} ${D}${PTEST_PATH}/src
+-			fi
+-		done
+-		cp ${D}${libdir}/libelf-${PV}.so ${D}${PTEST_PATH}/libelf/libelf.so
+-		cp ${D}${libdir}/libdw-${PV}.so ${D}${PTEST_PATH}/libdw/libdw.so
+-		cp ${D}${libdir}/libasm-${PV}.so ${D}${PTEST_PATH}/libasm/libasm.so
+-		cp ${B}/libcpu/libcpu.a ${D}${PTEST_PATH}/libcpu/
+-		cp ${B}/libebl/libebl.a ${D}${PTEST_PATH}/libebl/
+-		cp ${B}/lib/libeu.a ${D}${PTEST_PATH}/lib/
+-		cp ${S}/libelf/*.h             ${D}${PTEST_PATH}/libelf/
+-		cp ${S}/libdw/*.h              ${D}${PTEST_PATH}/libdw/
+-		cp ${S}/libdwfl/*.h            ${D}${PTEST_PATH}/libdwfl/
+-		cp ${S}/libdwelf/*.h           ${D}${PTEST_PATH}/libdwelf/
+-		cp ${S}/libasm/*.h             ${D}${PTEST_PATH}/libasm/
+-		cp -r ${S}/tests/                       ${D}${PTEST_PATH}
+-		cp -r ${B}/tests/*                      ${D}${PTEST_PATH}/tests
+-		cp -r ${B}/config.h                     ${D}${PTEST_PATH}
+-		cp -r ${B}/backends                     ${D}${PTEST_PATH}
+-		cp -r ${B}/debuginfod                   ${D}${PTEST_PATH}
+-		sed -i '/^Makefile:/c Makefile:'        ${D}${PTEST_PATH}/tests/Makefile
+-		find ${D}${PTEST_PATH} -type f -name *.[hoc] | xargs -i rm {}
+-	fi
++	# copy the files which needed by the cases
++	TEST_FILES="strip strip.o addr2line elfcmp objdump readelf size.o nm.o nm elflint elfcompress elfclassify stack unstrip srcfiles"
++	install -d -m 755                       ${D}${PTEST_PATH}/src
++	install -d -m 755                       ${D}${PTEST_PATH}/lib
++	install -d -m 755                       ${D}${PTEST_PATH}/libelf
++	install -d -m 755                       ${D}${PTEST_PATH}/libdw
++	install -d -m 755                       ${D}${PTEST_PATH}/libdwfl
++	install -d -m 755                       ${D}${PTEST_PATH}/libdwelf
++	install -d -m 755                       ${D}${PTEST_PATH}/libasm
++	install -d -m 755                       ${D}${PTEST_PATH}/libcpu
++	install -d -m 755                       ${D}${PTEST_PATH}/libebl
++	for test_file in ${TEST_FILES}; do
++		if [ -f ${B}/src/${test_file} ]; then
++			cp -r ${B}/src/${test_file} ${D}${PTEST_PATH}/src
++		fi
++	done
++	cp ${D}${libdir}/libelf-${PV}.so ${D}${PTEST_PATH}/libelf/libelf.so
++	cp ${D}${libdir}/libdw-${PV}.so ${D}${PTEST_PATH}/libdw/libdw.so
++	cp ${D}${libdir}/libasm-${PV}.so ${D}${PTEST_PATH}/libasm/libasm.so
++	cp ${B}/libcpu/libcpu.a ${D}${PTEST_PATH}/libcpu/
++	cp ${B}/libebl/libebl.a ${D}${PTEST_PATH}/libebl/
++	cp ${B}/lib/libeu.a ${D}${PTEST_PATH}/lib/
++	cp ${S}/libelf/*.h             ${D}${PTEST_PATH}/libelf/
++	cp ${S}/libdw/*.h              ${D}${PTEST_PATH}/libdw/
++	cp ${S}/libdwfl/*.h            ${D}${PTEST_PATH}/libdwfl/
++	cp ${S}/libdwelf/*.h           ${D}${PTEST_PATH}/libdwelf/
++	cp ${S}/libasm/*.h             ${D}${PTEST_PATH}/libasm/
++	cp -r ${S}/tests/                       ${D}${PTEST_PATH}
++	cp -r ${B}/tests/*                      ${D}${PTEST_PATH}/tests
++	cp -r ${B}/config.h                     ${D}${PTEST_PATH}
++	cp -r ${B}/backends                     ${D}${PTEST_PATH}
++	cp -r ${B}/debuginfod                   ${D}${PTEST_PATH}
++	sed -i '/^Makefile:/c Makefile:'        ${D}${PTEST_PATH}/tests/Makefile
++	find ${D}${PTEST_PATH} -type f -name *.[hoc] | xargs -i rm {}
+ }
+ 
+ EXTRA_OEMAKE:class-native = ""
 
