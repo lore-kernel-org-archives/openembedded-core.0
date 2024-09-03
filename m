@@ -1,88 +1,165 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2887CD3436
-	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 14:09:50 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.24332.1725372589122702486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6C1ECD343A
+	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 14:10:50 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.24206.1725372647437651229
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 07:09:49 -0700
+ Tue, 03 Sep 2024 07:10:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RSmXUIli;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-374c8cef906so1650706f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 07:09:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ml00KVAq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5343eeb4973so8337877e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 07:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725372587; x=1725977387; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lj7RP4/Jb5WPBdX6ge4DfYjc92YSc5W+tgc0kMfQhqs=;
-        b=RSmXUIliV9pqwSrywnBYcNL/bdWJWlfsCy9RmMmNNuYNOxGatoNUt8K8CYSwnK8Qbc
-         sE20+p5cLz7yeMuKgaZIlt198zk/jlWAL+dSTC5HgUZni1JhX5CQhZWE3Q6QcSUcDiOw
-         KzH7YrHLR0jrwZzkx+cTSQskynFmdZGBHIOzM=
+        d=gmail.com; s=20230601; t=1725372645; x=1725977445; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dLHq4YYEu2Q9wSHJgGUYSyFR0CPAMKIUBT5mD2E9q80=;
+        b=Ml00KVAqk5awrTIPyBflWTIJL0xW+Yr47B5GsmSZuHl2UuT9AVz+aKaOcEVUOrXkVZ
+         WP30BfZWb3iKWSM+9yxKBpq4BkfhJufWiVLHjkhj54BS8sE9mGwmq/lMoulcJopbI6Qs
+         fyd0sXyf9A73sGzoGTYfT/JgvzCBWfRiWQTUqX2uikpG83eB6VWQ5JgAK7vPvqG+FoE+
+         4zoO2cu1kCM7Oy3GFAROzmJbb8+DXbLbeBvfabSy6VLDB5wwbxihpax+ss8eHT74EhCQ
+         l2RwKlQzwC9hEeS5jQuUjWQRxGH3VFYRdlnPWdi5gSlmBnUAd41h6Ns1nx4Y0wYVPYJs
+         ZQpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725372587; x=1725977387;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lj7RP4/Jb5WPBdX6ge4DfYjc92YSc5W+tgc0kMfQhqs=;
-        b=EA73HK0HMz3FUwKl8WRnAq2wiT0r4Z6DtYh69GsGEaGuTMMWeCplLFYDm+gYiCQTop
-         TS7DioVbI1Z5Yzzro5rqgIa4fGvEErpEbZ3ERvzx9XIX3iXRHRMtHmSbkaOVhaX2sOyp
-         eaT++jN4Fc/TFMirG9O3DS8J98saANXA1AvJzZigBRB5OYtZLrVP5/rWEUD5wY7Xiljv
-         3TMUplQzkGLJSzUEaB2J/U7XKRJwA+JfGuOMzf6tNDOj3K83++N0fZqS6FbmbvcVuBrO
-         zK0PMJBfROhF3Ug6eWwPqgxHUvL4ad2SDGxpZhdBA4Ujw0SnLxzL1Ey7FipHmDj+Mxl/
-         /zng==
-X-Gm-Message-State: AOJu0YzJ/WJljkChiMaKLc8yGmRc1sO7mfYC0GTLG5IeRdU9bSGtOvjn
-	ytplaMx9iMeX0lKwhkMvt3dfP5qwOg9S7lw3HF21hiBmoPMRvxE96/SxB8QVf/RW65Q16eXmeCH
-	b
-X-Google-Smtp-Source: AGHT+IGuZCaCs6aNRvh3DRcyf7I99yRvo1cutRHPfofS4L95uU+FuSoKq9SYaZOVA+KU4qVavCKEJw==
-X-Received: by 2002:a5d:4c44:0:b0:374:c911:7749 with SMTP id ffacd0b85a97d-376dea47285mr742223f8f.49.1725372587028;
-        Tue, 03 Sep 2024 07:09:47 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:30b4:4276:8ea7:8aff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c96a88ebsm6437970f8f.108.2024.09.03.07.09.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 07:09:46 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] gettext: Drop obsolete ptest conditional in do_install
-Date: Tue,  3 Sep 2024 15:09:44 +0100
-Message-ID: <20240903140945.625408-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1725372645; x=1725977445;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dLHq4YYEu2Q9wSHJgGUYSyFR0CPAMKIUBT5mD2E9q80=;
+        b=lkZGXOf/CWxyWmxySkBNOnZv5XFDOMKTNcMGTiMwatrGsOZiRFsQqqpKFgvwdGJXHv
+         GjTnepPfQPuisyYpVziSNm73n4M6ScKW/vEHjTsp0AgtFKKMydXnSo2VNrAS8ShMWrHr
+         A8EJQFh1oCQJ+AUvva9p335VTAHDtAszd878xgb0Zs6lPxPP7dLxDOXbKv3hhK/WkkoS
+         UnGqtQJe46CyLh5e75Ieqh44qcgM0l4kDOyk+hk74dlVA2sWv2eFckPdg6KCh18xsCeP
+         c0Nx54JAltKuxymhZJNT3IduPC5GKJgeKtcqU8WIF8KxYXLx8Z6ucXQijZL11rRvbd3x
+         tfGg==
+X-Gm-Message-State: AOJu0Yw4U3eyhVaQurp1uhJaZ/PuVGRyQ4yHJMwBzrCee1M2Ff/5PK1v
+	Ubyn5P5NDh5Wm6pIpcKHB51Ds1Aaqpjw1ZVp/oCbLkVsK/+IudOtOPYjidHHAehALzp5uTjR/vq
+	N45WNu0DOUBVLwVw4QuUbSqcHN+w=
+X-Google-Smtp-Source: AGHT+IGDKzqC0e6lTLGdQuP4jcd3e4mW4BxgOZL9WpcDXxnIkf8Aml9GJ/uDV4knall9VnM/F2ArNunayAfSIAis/Hg=
+X-Received: by 2002:a05:6512:3996:b0:52c:c9e4:3291 with SMTP id
+ 2adb3069b0e04-53546c02e0emr9221326e87.60.1725372644638; Tue, 03 Sep 2024
+ 07:10:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240903133828.3762-1-mail2szahir@gmail.com>
+In-Reply-To: <20240903133828.3762-1-mail2szahir@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 3 Sep 2024 16:10:32 +0200
+Message-ID: <CANNYZj_s70Go0tiB_AV2-xF+6h=GhHYrZ5T1W_YquwU-_81-Kw@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] glib-2.0: Remove gvariant byteswap test
+To: mail2szahir@gmail.com
+Cc: openembedded-core@lists.openembedded.org, zahir.basha@kpit.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 14:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204165
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 14:10:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204167
 
-The PTEST_ENABLED conditional is no longer needed since the task is deleted
-if ptest isn't enabled.
+Is this seen on the yocto autobuilder, or only in your private testing?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/gettext/gettext_0.22.5.bb | 2 --
- 1 file changed, 2 deletions(-)
+Also, how would we know that the issue is fixed, and this patch can be removed?
 
-diff --git a/meta/recipes-core/gettext/gettext_0.22.5.bb b/meta/recipes-core/gettext/gettext_0.22.5.bb
-index ef5272a2065..0bf2a56e5fc 100644
---- a/meta/recipes-core/gettext/gettext_0.22.5.bb
-+++ b/meta/recipes-core/gettext/gettext_0.22.5.bb
-@@ -145,7 +145,6 @@ do_compile_ptest() {
- }
- 
- do_install_ptest() {
--    if [ ${PTEST_ENABLED} = "1" ]; then
-         mkdir -p                                        ${D}${PTEST_PATH}/tests
-         mkdir -p                                        ${D}${PTEST_PATH}/src
-         mkdir -p                                        ${D}${PTEST_PATH}/po
-@@ -178,7 +177,6 @@ do_install_ptest() {
-         chmod 0755 ${D}${PTEST_PATH}/tests/lang-vala ${D}${PTEST_PATH}/tests/plural-1 ${D}${PTEST_PATH}/tests/xgettext-tcl-4 \
-                    ${D}${PTEST_PATH}/tests/xgettext-vala-1  ${D}${PTEST_PATH}/tests/xgettext-po-2 ${D}${PTEST_PATH}/tests/xgettext-vala-6
-         sed -i -e 's|${DEBUG_PREFIX_MAP}||g' ${D}${PTEST_PATH}/tests/init-env
--    fi
- }
- 
- RDEPENDS:${PN}-ptest += "make xz bash gawk autoconf locale-base-de-de locale-base-fr-fr"
+Alex
+
+On Tue, 3 Sept 2024 at 15:38, aszh07 via lists.openembedded.org
+<mail2szahir=gmail.com@lists.openembedded.org> wrote:
+>
+> As byteswap has some issue sporadically, remove the byteswap
+> completely from gvariant. When run in QEMU, could see the
+> below failure sporadically
+>
+> Executing: glib/gvariant.test
+> Executing: glib/gvariant.test
+> Test timed out after 300 seconds
+> FAIL: glib/gvariant.test (Child process killed by signal 9)
+>
+> Until issue is fixed removing byteswap test
+> from gvariant to increase stability.
+>
+> Signed-off-by: Zahir Hussain <mail2szahir@gmail.com>
+> ---
+>  ...ib-2.0-Remove-gvariant-byteswap-test.patch | 45 +++++++++++++++++++
+>  meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
+>  2 files changed, 46 insertions(+)
+>  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch
+> new file mode 100644
+> index 0000000000..4cefd2e522
+> --- /dev/null
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-2.0-Remove-gvariant-byteswap-test.patch
+> @@ -0,0 +1,45 @@
+> +From f4c529805aed5ee92b8d7d729cfa501be5835d7e Mon Sep 17 00:00:00 2001
+> +From: aszh07 <mail2szahir@gmail.com>
+> +Date: Mon, 29 Jul 2024 16:19:10 +0530
+> +Subject: [PATCH] glib-2.0: Remove gvariant byteswap test
+> +
+> +As byteswap has some issue sporadically, remove the byteswap
+> +completely from gvariant. When run in QEMU, could see the
+> +below failure sporadically,
+> +
+> +Executing: glib/gvariant.test
+> +Executing: glib/gvariant.test
+> +Test timed out after 300 seconds
+> +FAIL: glib/gvariant.test (Child process killed by signal 9)
+> +
+> +Until issue is fixed removing byteswap test
+> +from gvariant to increase stability.
+> +
+> +Signed-off-by: Zahir Hussain <mail2szahir@gmail.com>
+> +---
+> + glib/tests/gvariant.c | 2 --
+> + 1 file changed, 2 deletions(-)
+> +
+> +diff --git a/glib/tests/gvariant.c b/glib/tests/gvariant.c
+> +index 939f073..a25a4a4 100644
+> +--- a/glib/tests/gvariant.c
+> ++++ b/glib/tests/gvariant.c
+> +@@ -5656,7 +5656,6 @@ main (int argc, char **argv)
+> +   g_test_add_func ("/gvariant/serialiser/tuple", test_tuples);
+> +   g_test_add_func ("/gvariant/serialiser/variant", test_variants);
+> +   g_test_add_func ("/gvariant/serialiser/strings", test_strings);
+> +-  g_test_add_func ("/gvariant/serialiser/byteswap", test_byteswaps);
+> +   g_test_add_func ("/gvariant/serialiser/children", test_serialiser_children);
+> +
+> +   for (i = 1; i <= 20; i += 4)
+> +@@ -5679,7 +5678,6 @@ main (int argc, char **argv)
+> +   g_test_add_func ("/gvariant/valist", test_valist);
+> +   g_test_add_func ("/gvariant/builder-memory", test_builder_memory);
+> +   g_test_add_func ("/gvariant/hashing", test_hashing);
+> +-  g_test_add_func ("/gvariant/byteswap", test_gv_byteswap);
+> +   g_test_add_func ("/gvariant/byteswap/non-normal-non-aligned", test_gv_byteswap_non_normal_non_aligned);
+> +   g_test_add_func ("/gvariant/parser", test_parses);
+> +   g_test_add_func ("/gvariant/parser/integer-bounds", test_parser_integer_bounds);
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+> index 35b51a3ec9..3beb324383 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+> @@ -49,6 +49,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>             file://CVE-2024-34397_16.patch \
+>             file://CVE-2024-34397_17.patch \
+>             file://CVE-2024-34397_18.patch \
+> +           file://0001-glib-2.0-Remove-gvariant-byteswap-test.patch \
+>             "
+>  SRC_URI:append:class-native = " file://relocate-modules.patch"
+>
+> --
+> 2.17.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204163): https://lists.openembedded.org/g/openembedded-core/message/204163
+> Mute This Topic: https://lists.openembedded.org/mt/108244763/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
