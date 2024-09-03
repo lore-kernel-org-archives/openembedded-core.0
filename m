@@ -2,53 +2,53 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8F4CD3420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90455CD3427
 	for <webhook@archiver.kernel.org>; Tue,  3 Sep 2024 08:33:28 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web10.18362.1725352404059385421
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.web10.18366.1725352407767059325
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 01:33:24 -0700
+ Tue, 03 Sep 2024 01:33:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=ZYOozQs1;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=avPD7AXt;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1725352404; x=1756888404;
+  t=1725352407; x=1756888407;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=9EIwnD7HMoXOxObDr6Q0isiD56uicOaQj9Y+iDUNHu4=;
-  b=ZYOozQs1yt8AH4gLPFXgr26oFxD6zhLM+ygAw42lpRW1v8oEiCIV29RR
-   llwrO3UIhF+hD2GmL7KghpWxW8/yGp2Qav15ZkT2x3wwDQpI7QxQj9K9T
-   ZtrvR0DnrbRpoLtxSVbL8XzOm932m1rZNchf3HnvyaruDzE1CjGTn+Dpt
-   SJBKTpq8sFYmUCUxrZ1cDfC0DMsb1yeA+MdUvoALvpOwODZaPlnsOI8oL
-   hzo4SB45VP4wGdeiMCeFdLUmunJe9MkfHOPOcYeFhFg4uw/QZkP97zz8l
-   T8V/XsuFxbz85hEsmYOTLgnmBMWUaDzFJTvKkpkGivttVpekUvaWsEmKC
+  bh=GKRJzSTqgD5cqE+a6tlgGUdhmB0Us/EOaTr4Fl/GO24=;
+  b=avPD7AXtYHWpWznuowzaHbzgVORlKL0wW6+2nf8vg9939UnjP2edWj4I
+   yn/s8Bl/SOxMg8M/vfJxXhE6CgfcYfWl27MYl5ieAyQJ8bAHMKS+nI7SN
+   JGhBGkjRfoh7othk8H/pZM3gYMxSlYENTL/TDbIbUfQntF2TIejdUPiT3
+   mxrV3o17tYxsAgXz7H0aDr8RqeTQTRg+gQFZ/+PmGmOKweGm4R4sEYAeL
+   odLlTAYBLocrpD1Rj2c+4bbAp9dxQWfEM8uPC1ZUBIZihe+H2+afSalZm
+   fvscjoKguxHaBLtpkReZoz7rD+b8onmQeNWFl8FOThQxZ2Qs0gN9aatMN
    Q==;
-X-CSE-ConnectionGUID: 45BvNe07SMKXcBtz13kvuw==
-X-CSE-MsgGUID: amrw0aeTRA28V0NNbW7w2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="171763725"
+X-CSE-ConnectionGUID: ofC/LWVmTMejGYn006PAlw==
+X-CSE-MsgGUID: f+7R118MS2Cf6VRhmjzbbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="160840638"
 X-IronPort-AV: E=Sophos;i="6.10,198,1719846000"; 
-   d="scan'208";a="171763725"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 17:33:22 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 62D45C68E1
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:19 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 99D20D9689
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:18 +0900 (JST)
+   d="scan'208";a="160840638"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 17:33:16 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id D48BFD9223
+	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:14 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 21FB2E49E2
+	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:14 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 139C120076D22
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:18 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 882BB6C811
+	for <openembedded-core@lists.openembedded.org>; Tue,  3 Sep 2024 17:33:13 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.161.161])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id AE9E21A000C;
-	Tue,  3 Sep 2024 16:33:17 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 291311A000E;
+	Tue,  3 Sep 2024 16:33:13 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 20/22] taglib: upgrade 2.0.1 -> 2.0.2
-Date: Tue,  3 Sep 2024 16:32:57 +0800
-Message-Id: <1725352379-20334-20-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 11/22] mc: upgrade 4.8.31 -> 4.8.32
+Date: Tue,  3 Sep 2024 16:32:48 +0800
+Message-Id: <1725352379-20334-11-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1725352379-20334-1-git-send-email-wangmy@fujitsu.com>
 References: <1725352379-20334-1-git-send-email-wangmy@fujitsu.com>
@@ -56,52 +56,43 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28638.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28638.006
-X-TMASE-Result: 10-0.130800-10.000000
-X-TMASE-MatchedRID: wbL0rUvz+3Cjz0nOeth/yUIIxwDaU5mrYdBG+bhhiNR+ovg8NDYPAiw9
-	Zt15wkMueLUGEnE35HJi9k/KXBsOnU5enoFAhOloqTb2sWzCG35MkOX0UoduuTBwx50fHFEC0yO
-	PBv1B9XaUdUf9QcMH0eaffHI8kAmiDAixBlu3NnAwo+sXt0rnswKA9ZJkcOhmiOqMbASFvBJaTW
-	107FjPHDqFQ5xOiev0gDLqnrRlXrbIDt27MLDp0gGlEJORGTlJ+gtHj7OwNO0X9rpBZuBDbUSN6
-	B4b+3ZadlpEFqZ10pizTN0fqVp+JQSNy9eHnwuUAghA8Abpzju9DpBY6x/0cg46R0rnScF7B3Vf
-	+JtFipy8GvLTyen13fIMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uABDi47cA
+X-TMASE-Result: 10--0.691900-10.000000
+X-TMASE-MatchedRID: 7cZymtcOvx2jz0nOeth/yfx0ykrbAxjCchr4pBLGIvAH8UzOewTxw78F
+	Hrw7frluf146W0iUu2s0FJKIRy8cWhFGVCReGq2EOjf3A4DTYuF9LQinZ4QefCP/VFuTOXUT6C2
+	1l3Lq9xrkwjHXXC/4I8ZW5ai5WKlyQAfH5df8yaWUW9/+DFfDmppgjIOpKNzAhPno108mvY2lfk
+	BJgdLl/TOQHybpZfoLzrmQdVXICaZhbpFHLwtvxODPFo67wEG+/r/b+dmSKFo6AH9/PcRd1xUpP
+	R4VGZ8OzhiFp8LOC6Mh1j2M6LiVMg==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Sep 2024 08:33:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204146
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204149
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-===========
- * Fix parsing of ID3v2.2 frames.
- * Tolerate MP4 files with unknown atom types as generated by Android tools.
- * Support setting properties with arbitrary names in MP4 tags.
- * Windows: Fix "-p" option in tagwriter example.
- * Support building with older utfcpp versions.
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../recipes-support/taglib/{taglib_2.0.1.bb => taglib_2.0.2.bb} | 2 +-
+ meta/recipes-extended/mc/{mc_4.8.31.bb => mc_4.8.32.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/taglib/{taglib_2.0.1.bb => taglib_2.0.2.bb} (95%)
+ rename meta/recipes-extended/mc/{mc_4.8.31.bb => mc_4.8.32.bb} (97%)
 
-diff --git a/meta/recipes-support/taglib/taglib_2.0.1.bb b/meta/recipes-support/taglib/taglib_2.0.2.bb
-similarity index 95%
-rename from meta/recipes-support/taglib/taglib_2.0.1.bb
-rename to meta/recipes-support/taglib/taglib_2.0.2.bb
-index 14f99aabbc..254119268c 100644
---- a/meta/recipes-support/taglib/taglib_2.0.1.bb
-+++ b/meta/recipes-support/taglib/taglib_2.0.2.bb
-@@ -11,7 +11,7 @@ DEPENDS = "zlib utfcpp"
+diff --git a/meta/recipes-extended/mc/mc_4.8.31.bb b/meta/recipes-extended/mc/mc_4.8.32.bb
+similarity index 97%
+rename from meta/recipes-extended/mc/mc_4.8.31.bb
+rename to meta/recipes-extended/mc/mc_4.8.32.bb
+index 5f8257f71f..d3b8ea006b 100644
+--- a/meta/recipes-extended/mc/mc_4.8.31.bb
++++ b/meta/recipes-extended/mc/mc_4.8.32.bb
+@@ -11,7 +11,7 @@ RRECOMMENDS:${PN} = "ncurses-terminfo"
+ SRC_URI = "http://ftp.midnight-commander.org/${BPN}-${PV}.tar.bz2 \
+            file://nomandate.patch \
+            "
+-SRC_URI[sha256sum] = "f42f4114ed42f6cf9995f1d896fa6c797ccb36dac57760dda8dd9f78ac462841"
++SRC_URI[sha256sum] = "51a039ebd15d5e442312a7053a4ca28276b7f241050b7714d5bae5362ecd3319"
  
- SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
+ inherit autotools gettext pkgconfig
  
--SRC_URI[sha256sum] = "08c0a27b96aa5c4e23060fe0b6f93102ee9091a9385257b9d0ddcf467de0d925"
-+SRC_URI[sha256sum] = "0de288d7fe34ba133199fd8512f19cc1100196826eafcb67a33b224ec3a59737"
- 
- UPSTREAM_CHECK_URI = "https://taglib.org/"
- UPSTREAM_CHECK_REGEX = "taglib-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.34.1
 
