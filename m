@@ -1,81 +1,105 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D2C5CD37B6
-	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 07:49:26 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.44729.1725436156791357842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C33E5CA0ED3
+	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 07:56:56 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.44832.1725436607537122474
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Sep 2024 00:49:17 -0700
+ Wed, 04 Sep 2024 00:56:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OoUck5xv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42c2e50ec13so35427805e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 00:49:16 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=d9RKQzNN;
+ spf=pass (domain: linaro.org, ip: 209.85.167.43, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5333b2fbedaso10922150e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 00:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725436155; x=1726040955; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lYMIAAx3x9Z+7ozpZ1BjQ2Eom8VXx+6eUrFwMgnY4po=;
-        b=OoUck5xvBbfvzuVxr4UsVKSW/oA+nUFZ8uSPWV7CO9VHGmuywV+TbgFWE9No9ihWCV
-         72Ej4bX0VC/STCKwd9ExLjx6rveDf8w1b3G7RfLtB388iJ7zyXagTnTI/gEHdKm1whWb
-         Zg2AmJdXJ6kuiHQ1qvJPAz2Lgury7Y5VKvEsQ=
+        d=linaro.org; s=google; t=1725436605; x=1726041405; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ImFmK+UlEFLXFS/GmiGjJrn7v1u5H0iDBH81l7MRutg=;
+        b=d9RKQzNN5WkOhWwYsvnfdp22PUMWtfag17L58WMBHl0n7mJkTS1NCWGc/aVIihObt+
+         q0z3w+yExwq/Q5JBCeCSorwPWmouqyFMSWGIVUREPgn+8pM/FpG7fn69QjOfrc0pjLW/
+         1SBROVGhN8mbO5OrN1d5sNMggAgwmlLnXP/vbcd1A7F7uCTeQrmGjC/WghJqg7VVIaft
+         gV1qlXY0KrAx3zIX/v1G0MFZRjMiDFfFqm4i4S0JcdlNlaSwpxLoKXN7DEh6CtmFzzKi
+         i/WMN8jTp5PgCyL0a95okczB26yLfKRm07dvVkX48SRGQmF2Onm7kJ9J99FfOfuwGzTl
+         +Dkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725436155; x=1726040955;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lYMIAAx3x9Z+7ozpZ1BjQ2Eom8VXx+6eUrFwMgnY4po=;
-        b=AGSM/EelVsczxhaUGP4ZCVXx+k08kKndyHHUk4ZkW/cZvuQpWNRWQFECDA3ybs9owd
-         r2guvh99xEbNaySqMNHK0kSjbwr8N5l2UB3AEGUXYgLX3e7+tD+oquzvKmI1QAsL2QXg
-         bnw1sIWeC+jTfGMCpW5U756+jnJBTf4F2QguWoSyWPdZ9GuHD5uvlVaH7GG4auI1rK9w
-         NhR3tChCmfGMaCSpPmQysrnYZWHKcA5Kec2AP7GyquEfBIPXwWIg5EHHp6Di4gbaP2re
-         fHWO+GCWrjLZUFW/s3pIlD0J/qUvMTIoOR/lWxqO2Qxe6RgIxlGRAfiUrq2HCA3C8eiT
-         Pp8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVIJCBJg8ug0QYTgQo+fW7U37ydQi8jr+OnEtE70Yv+bxSl67ZCYRjCE6BqU3bIM69sfr3Y7Bo7S+D2voJgUNHYvw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyc8k3D5+XFOEPhm1T3ONIC1HK5wqWcaotFmnMNt2cCpueukYaV
-	vCNEHp6wIDJKOhvAeR1ED0C45brdgnHLjrirsbj5glQqoMulxjj6KG8ARsUwpGQ=
-X-Google-Smtp-Source: AGHT+IGw+yrPEsxzESmYBR/gNSkEjN2g1cxRvjfi/o7fOHHl+tjZr5ZqmZDdw4HVlA8+5fBcBhkdeQ==
-X-Received: by 2002:a05:6000:2188:b0:374:bde1:6dbc with SMTP id ffacd0b85a97d-374bde16f16mr11121098f8f.4.1725436154903;
-        Wed, 04 Sep 2024 00:49:14 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:99f4:e9dc:3777:c785? ([2001:8b0:aba:5f3c:99f4:e9dc:3777:c785])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3749ef7e109sm16058081f8f.67.2024.09.04.00.49.14
+        d=1e100.net; s=20230601; t=1725436605; x=1726041405;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ImFmK+UlEFLXFS/GmiGjJrn7v1u5H0iDBH81l7MRutg=;
+        b=PJ8U9Ek6KTvGqJ0a9etFCM5IwakEX4UBSrGSGTeWbj8BXTvCGBoogu2096fSZOoG8c
+         +8xP3p/ywqpnvUiSUU0gAJzOB6KEHW1A1IWYyeU4MCk/JHvfrxJENFPYbXkxz+L/0201
+         eFnrapJNcy3y6NjzCsmour6CUEUVzWYNFkeoH8Esqc79YS0aMWPb879rITQFSSsouMZz
+         WpKVt4HsK1uNE2L4wDjtFgT+EySV6u5pNmJZWjgv1lGRNL4yX5GDwQDdLsDGDpbcGMd8
+         xS+rKbkLrqpzsL2wmob4MnyHUdHCaCzmnqxBeKYIq0R0DA8ILWgcO4WyFsbxmM7sCPEW
+         /Rkg==
+X-Gm-Message-State: AOJu0YxPDpjqZ2u9mekKvoW3MMCd3aVWUHa4JZa6a0sOFOXyXe63+jEt
+	ChFHz0ocuFEqAMgaEFCuDLWIdbZyxBww+p5SO9y1gEqxYPG7Hyu1WvPcu8HWNJ8=
+X-Google-Smtp-Source: AGHT+IFVyDGERRJV2ey5n45B9z68C4oLxZYWQs1Ododa85/QuY1EQqEty+ACia4iZxwgLy0jWsqKEw==
+X-Received: by 2002:a05:6512:440a:b0:535:6892:3be6 with SMTP id 2adb3069b0e04-53568923ce2mr649939e87.54.1725436604539;
+        Wed, 04 Sep 2024 00:56:44 -0700 (PDT)
+Received: from nuoska (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53540827a4asm2272896e87.131.2024.09.04.00.56.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 00:49:14 -0700 (PDT)
-Message-ID: <cb42ff87d8f75d838619c9073dd9e1e9781d7235.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 06/22] json-glib: upgrade 1.8.0 -> 1.10.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Sep 2024 08:49:13 +0100
-In-Reply-To: <TYWPR01MB11861E7CD3D6346AD5F7A1748DC9C2@TYWPR01MB11861.jpnprd01.prod.outlook.com>
-References: <1725352379-20334-1-git-send-email-wangmy@fujitsu.com>
-	 <1725352379-20334-6-git-send-email-wangmy@fujitsu.com>
-	 <42ac587c4e691d9c2526e9088de9bc27bb92b0b9.camel@linuxfoundation.org>
-	 <TYWPR01MB11861E7CD3D6346AD5F7A1748DC9C2@TYWPR01MB11861.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Wed, 04 Sep 2024 00:56:43 -0700 (PDT)
+Date: Wed, 4 Sep 2024 10:56:42 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/2] uki.bbclass: add class for building
+ Unified Kernel Images (UKI)
+Message-ID: <ZtgSunyGsn1gtMfF@nuoska>
+References: <20240902105825.40177-1-mikko.rapeli@linaro.org>
+ <20240902105825.40177-3-mikko.rapeli@linaro.org>
+ <CANNYZj-cgTaKagNxx2mxTkPsp4U-JNNGrruUDUSPbn_cFz6+nw@mail.gmail.com>
+ <ZtWgPF0JN4uyjU1u@nuoska>
+ <CANNYZj9ke4yEQh0hAxk4fUazaEzQMP7JUKv6LYRv16CTwXpqFQ@mail.gmail.com>
+ <ZtWuxNNd9KNxT4T3@nuoska>
+ <CANNYZj-uXEDm2CuqtorwdZNABaZNPm4UtOFZvw4wMXdjhh+0ig@mail.gmail.com>
+ <17F16FAE8869E0F4.11433@lists.openembedded.org>
+ <ZtXIY7nwRpNJSVmx@nuoska>
+ <CANNYZj8rA+unjecEiofA3Ht94Y2mqBygLnBP-rWEeZPfEEq+Kw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj8rA+unjecEiofA3Ht94Y2mqBygLnBP-rWEeZPfEEq+Kw@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 07:49:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204193
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 07:56:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204194
 
-On Wed, 2024-09-04 at 01:25 +0000, Mingyu Wang (Fujitsu) wrote:
-> I set machine=3Dqemux86_64, DISTRO=3D"poky-altcfg", but I did not
-> reproduce this issue.
-> Is there any other setting necessary?
+Hi,
 
-That build also adds:
+On Mon, Sep 02, 2024 at 04:30:53PM +0200, Alexander Kanavin wrote:
+> On Mon, 2 Sept 2024 at 16:15, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+> 
+> > So, this is a wic image format specific re-implementation of systemd ukify.py script.
+> > Calling not systemd ukify.py but objcopy directly. No control over kernel command
+> > line, but could possible be added with simple patch. I don't see how to hook uki
+> > signing into the mix with custom keys. Maybe a post processing step to the .wic
+> > image build.
+> >
+> > Since this version is merged I presume ukify.bbclass will be rejected.
+> 
+> Not rejected per se; I would suggest that the existing wic
+> implementation is rewritten to use the class (and hopefully becomes
+> radically simpler and shorter)!
+> 
+> It's fine to not be entirely backwards compatible; this is master, and
+> we can break things.
 
-DISTRO_FEATURES:append =3D ' api-documentation'
+Does the implementation have to be a wic plugin?
+
+wic is another wrapper over bitbake and I'd need to teach openssl native
+and python3native things to it which seems a bit too much. uki.bbclass
+is much simpler and wic can process the produced .efi file when creating
+the ESP boot partition. I can try to fix the tests to work with uki.bbclass.
 
 Cheers,
 
-Richard
+-Mikko
 
