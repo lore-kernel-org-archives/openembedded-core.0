@@ -1,95 +1,123 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA2BCD3431
-	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 13:23:58 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.49951.1725456231583401644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 485D9CD3431
+	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 13:37:08 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.50240.1725457023215026706
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Sep 2024 06:23:51 -0700
+ Wed, 04 Sep 2024 06:37:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9977801a03=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4845fbP1025093
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Sep 2024 06:23:51 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41edurrk51-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 06:23:51 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 4 Sep 2024 06:23:50 -0700
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Wed, 4 Sep 2024 06:23:50 -0700
-From: <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] buildcfg: Print bitbake branch and revision when it is in a separate repo
-Date: Wed, 4 Sep 2024 06:23:50 -0700
-Message-ID: <8f43b5d81fdd28340c6c14fddd307b55ac05883e.1725456147.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1725456147.git.liezhi.yang@windriver.com>
-References: <cover.1725456147.git.liezhi.yang@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UYz+S6ZR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f4f505118fso74563001fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 06:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725457021; x=1726061821; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gUbj8Gr3Jq1hELNzumQHA7TWM2XXKe5OSf3+PLqX1Gs=;
+        b=UYz+S6ZRKrqwKACDU5xLh646YGDokZegB97FA0h468m6/uwHCHQFtbJaDGcVoEEGDK
+         Adf8GxECSXS4FV9lrtsT2UHQVIfYjBuquUWoqN0daOT8AHGALaG7pz6b3L/DxUUM7llV
+         ZhphjceV0vEVcRAyowNg26FWaeC1q2eJRkucFrdme9uDqp09VW3icq5qsI5n5I6FyeBd
+         2Six7lVkV2xgtR4OEl3pa9r/9f8xvdu3J8wkFMALTuT8zW2BIjjw6GFrhjIONq62baoX
+         7pOgT/KEJyqoUXa11AScMcPQo45PlFrIkXmvVs34yrB3puQX5fobgWBhVm02QZLNfCrc
+         pFRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725457021; x=1726061821;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gUbj8Gr3Jq1hELNzumQHA7TWM2XXKe5OSf3+PLqX1Gs=;
+        b=GybXzTPpaP+oKG2MqNWsM4hcGxD0hE2IEPWJHkNvsvM+jPaMy/dwXTHWUdoC8xB9Ek
+         LXWOvb9dAsg12g/DVSF1CURpOnQs3YyyiRnnYfbwvUnT8PiQXNfZGM5m2RUfiDK5w9dG
+         XzLY4rcscnjYVigcrhLLS7qmiTeNRYo0/08j82KSJ6+vZnte09GHr3a8p8J2lD53ExUw
+         xz3ir3ODaxRMEiHW4Sz6rP/VwvHmnLWtlf+ZEMUg/262T/OYcRXgTMPisL8q3BAKx2uY
+         PFfEI0bnws6DF+GC6an2wAoi5fae2QK9ZLRYQEExrN4wK7W7ZRyLJ0vSfCuFU17zn1IC
+         yVJA==
+X-Gm-Message-State: AOJu0YzzMWBkXUvh9Wxm2kFhES3wUBXsIGnVupI5iVv8efJInPoSXbps
+	2glwSEcr6jo8IuA3laoLJQgRGRpmaTmjr0FZL/lTCl3yA/fWxQkUwsNLuG6fQ6eccEYSY89muKW
+	YLD3T1ML522ZAGzebeUNetEQmFOI=
+X-Google-Smtp-Source: AGHT+IHqm+w/BlD7dspyphuCgBG713239JeuMHVj2r7ct3G2fffKps3oI7vm4LSWp50ccuq+PXkG/V/ljGlws5QKDyY=
+X-Received: by 2002:a2e:be9f:0:b0:2f3:ed34:41c9 with SMTP id
+ 38308e7fff4ca-2f6265d752cmr108241291fa.37.1725457020283; Wed, 04 Sep 2024
+ 06:37:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: iqgi_0yP9fxzhF8c3Yy_3_dJg3cfE60N
-X-Proofpoint-ORIG-GUID: iqgi_0yP9fxzhF8c3Yy_3_dJg3cfE60N
-X-Authority-Analysis: v=2.4 cv=FbFlx4+6 c=1 sm=1 tr=0 ts=66d85f67 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=Q4-j1AaZAAAA:8 a=EW7mYuzs-HUwQ__6SjoA:9 a=FdTzh2GWekK77mhwV6Dw:22
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-04_11,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
- mlxlogscore=645 suspectscore=0 adultscore=0 bulkscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2407110000 definitions=main-2409040101
+References: <cover.1725456147.git.liezhi.yang@windriver.com> <8f43b5d81fdd28340c6c14fddd307b55ac05883e.1725456147.git.liezhi.yang@windriver.com>
+In-Reply-To: <8f43b5d81fdd28340c6c14fddd307b55ac05883e.1725456147.git.liezhi.yang@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 4 Sep 2024 15:36:49 +0200
+Message-ID: <CANNYZj-MPo05EF2qRezSXKpK6L8Djg0CZxBv--ozuLM42JbGUg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] buildcfg: Print bitbake branch and revision
+ when it is in a separate repo
+To: liezhi.yang@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 13:23:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204207
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 13:37:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204208
 
-From: Robert Yang <liezhi.yang@windriver.com>
+I don't think putting this into get_layer_revisions() is correct.
+Bitbake is not a layer, and obtaining its revision should be in a
+separate pair of functions:
 
-Clone https://git.openembedded.org/bitbake into poky/bitbake
-Before the patch:
-meta
-meta-poky
-meta-yocto-bsp       = "master:377fd06d86f5f3be80a927ee19c30d9557077a7f"
+is_bitbake_in_separate_repo()
+get_bitbake_revision()
 
-Now:
-bitbake              = "master:5bd0c65c217394cde4c8e382eba6cf7f4b909c97"
-meta
-meta-poky
-meta-yocto-bsp       = "master:377fd06d86f5f3be80a927ee19c30d9557077a7f"
+Alex
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/lib/oe/buildcfg.py | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py
-index 4b22f18f36..5e2de15127 100644
---- a/meta/lib/oe/buildcfg.py
-+++ b/meta/lib/oe/buildcfg.py
-@@ -73,6 +73,12 @@ def is_layer_modified(path):
- 
- def get_layer_revisions(d):
-     layers = (d.getVar("BBLAYERS") or "").split()
-+    # bitbake may in a separate git repo
-+    bitbake_dir = bb.__file__.rsplit('/', 3)[0]
-+    bitbake_git_dir = os.path.join(bitbake_dir, '.git')
-+    if os.path.exists(bitbake_git_dir):
-+        layers.insert(0, bitbake_dir)
-+
-     revisions = []
-     for i in layers:
-         revisions.append((i, os.path.basename(i), get_metadata_git_branch(i).strip(), get_metadata_git_revision(i), is_layer_modified(i)))
--- 
-2.25.1
-
+On Wed, 4 Sept 2024 at 15:23, Robert Yang via lists.openembedded.org
+<liezhi.yang=windriver.com@lists.openembedded.org> wrote:
+>
+> From: Robert Yang <liezhi.yang@windriver.com>
+>
+> Clone https://git.openembedded.org/bitbake into poky/bitbake
+> Before the patch:
+> meta
+> meta-poky
+> meta-yocto-bsp       = "master:377fd06d86f5f3be80a927ee19c30d9557077a7f"
+>
+> Now:
+> bitbake              = "master:5bd0c65c217394cde4c8e382eba6cf7f4b909c97"
+> meta
+> meta-poky
+> meta-yocto-bsp       = "master:377fd06d86f5f3be80a927ee19c30d9557077a7f"
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/lib/oe/buildcfg.py | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py
+> index 4b22f18f36..5e2de15127 100644
+> --- a/meta/lib/oe/buildcfg.py
+> +++ b/meta/lib/oe/buildcfg.py
+> @@ -73,6 +73,12 @@ def is_layer_modified(path):
+>
+>  def get_layer_revisions(d):
+>      layers = (d.getVar("BBLAYERS") or "").split()
+> +    # bitbake may in a separate git repo
+> +    bitbake_dir = bb.__file__.rsplit('/', 3)[0]
+> +    bitbake_git_dir = os.path.join(bitbake_dir, '.git')
+> +    if os.path.exists(bitbake_git_dir):
+> +        layers.insert(0, bitbake_dir)
+> +
+>      revisions = []
+>      for i in layers:
+>          revisions.append((i, os.path.basename(i), get_metadata_git_branch(i).strip(), get_metadata_git_revision(i), is_layer_modified(i)))
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204207): https://lists.openembedded.org/g/openembedded-core/message/204207
+> Mute This Topic: https://lists.openembedded.org/mt/108264652/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
