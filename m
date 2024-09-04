@@ -1,110 +1,74 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 005B2CD3431
-	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 12:45:58 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.49058.1725453950103134405
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E6F2CD37B4
+	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 13:23:58 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.49950.1725456231377906704
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Sep 2024 05:45:50 -0700
+ Wed, 04 Sep 2024 06:23:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JfTf+77G;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53343bf5eddso8557169e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 05:45:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725453948; x=1726058748; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9o8SCszUcvLZAM8Lp7e944LmDmc2KdSygu0oxMoSHac=;
-        b=JfTf+77Gj6iCPN9XCXW4Oq49iGodEaq862hK8xr6IG+41IlWGMFg8aYF175gdg17jE
-         KccvynHgo75Gcq54soiGGj05bwYhQgKdYAl7MwVJgv/6dSP2FjCtH0CHruigD0gGko0c
-         TO2OVrXRtTfKxLiIXoZgMRV05sLmwFFH+dEkSIk599NKbH2fQPJG1XpllCyu2VY9hOS0
-         tHs5bDKX+4IrHZr/B3SSGoeP9G8U9EVsztCGTSYY6MQcVpjtyVGYIRHFVpHGlI+uJd6M
-         grkp9U4c2lp2XK4FlX/B2Ezak8OZF611aFNdArRojGVjfF1KtVtMLV8UiudkKPh50RC3
-         bxSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725453948; x=1726058748;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9o8SCszUcvLZAM8Lp7e944LmDmc2KdSygu0oxMoSHac=;
-        b=XUhEQaUkw/Mqe4NZ72Ivk6xuehcSLWMUxpkEBiVTzRQ+Dp0ql0+xF5R4WC+B3Fgyei
-         wKW34haSaL0ge5zM4eHfzsAMAnAG0cyD3X/hzYzQohn9nGM1AlpuqBNKBSeV2XpOh8sc
-         DjAta06cNeLfP8MBbsbWKkRfXWvc+WMQbCMiBhVzciKZTGGhy114XoiVL4uhprHm6ki0
-         MKcWUt+r58oe4gF2v6Hx9yBYZpJuJn0DTanMpYtnyTtdIyDdnFcfWZRU8tN0Rgkt5uRZ
-         bxOdL+DmxHvpfzf5Cw/3/vE4DoS0cCgX4Qwb/f3pG2/hfcq7jEqopP7jvgAkvrtwtOac
-         FKzw==
-X-Gm-Message-State: AOJu0YxveP+N14s9QaxB5shQLD+fpyRKspzmcENPuOVyQ+3JKc1hTolY
-	YcFYQeLRniJ1f2TLBPMXFzN2zDwN2SbB5PxN1hmpnUJ5TyCoK8HqhwC1G1E2yx7+MrmclWLO05x
-	cl83nMW8SIYNa738XAEbg3kAfLdM=
-X-Google-Smtp-Source: AGHT+IHDu3iQd4PKKJDLfvelC0GBb6ooiG88OFLhq0Iv4Hw2N8Hw4FU3JPJdcQmRVHyidqNn987FKmL0FIoPYlyUuz8=
-X-Received: by 2002:a05:6512:2208:b0:533:44a3:21b9 with SMTP id
- 2adb3069b0e04-53546b1916dmr12827248e87.1.1725453947205; Wed, 04 Sep 2024
- 05:45:47 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9977801a03=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4845fbP0025093
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Sep 2024 06:23:51 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41edurrk51-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 06:23:50 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 4 Sep 2024 06:23:50 -0700
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Wed, 4 Sep 2024 06:23:50 -0700
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1] buildcfg: Print bitbake branch and revision when it is in a separate repo
+Date: Wed, 4 Sep 2024 06:23:49 -0700
+Message-ID: <cover.1725456147.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <17F17A442A5285BD.17352@lists.openembedded.org>
- <17F1F7644487505D.17352@lists.openembedded.org> <CA+chaQcUf_Uw=uQD0fdheV_Cu7ohrpk6qudfaadBYz4hGZBMvg@mail.gmail.com>
- <3bb72a1e2632be40fc1e78450b09e16e15f853ea.camel@linuxfoundation.org>
-In-Reply-To: <3bb72a1e2632be40fc1e78450b09e16e15f853ea.camel@linuxfoundation.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 4 Sep 2024 14:45:31 +0200
-Message-ID: <CA+chaQdua_LyV5VbXA=1PS_RL_aAiEDqrDg5pv2BV+oHBYgzSA@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] bitbake.conf: DEBUG_PREFIX_MAP: move
- STAGING_DIR_NATIVE before STAGING_DIR_HOST
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: WXDsvb61nXy6ogro8UlBNaP4qAE37Dyu
+X-Proofpoint-ORIG-GUID: WXDsvb61nXy6ogro8UlBNaP4qAE37Dyu
+X-Authority-Analysis: v=2.4 cv=FbFlx4+6 c=1 sm=1 tr=0 ts=66d85f66 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=jFosNsfYxh623dRsAxwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-04_11,2024-09-04_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+ mlxlogscore=858 suspectscore=0 adultscore=0 bulkscore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2407110000 definitions=main-2409040101
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 12:45:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204205
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 13:23:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204206
 
-On Wed, Sep 4, 2024 at 1:57=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2024-09-04 at 08:53 +0200, Martin Jansa via
-> lists.openembedded.org wrote:
-> > Some related info I've found now:
-> > https://reviews.llvm.org/D148975?id=3D516863
-> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D109591
-> >
-> > maybe affected by -fcanon-prefix-map used since gcc-13:
-> > https://git.openembedded.org/openembedded-core/commit/?id=3Dabe97fa74b1=
-0c2c71d79bc3573d4edb509b111f5
-> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D108464#c8
-> >
-> > and I was also using ccache which used to have some issues in this
-> > area (but the python3-matplotlib issue is IIRC reproducible without
-> > ccache as well):
-> > https://github.com/ccache/ccache/issues/163
-> >
-> > We might need more experiments before this is applied (I'm glad I've
-> > sent it only as RFC). I'll try to find some time next week.
->
-> I'm a bit worried that gcc might apply the ordering one way in some
-> locations and the other way around in others so there may be a bug
-> lurking somewhere. I agree we should look further into this.
+From: Robert Yang <liezhi.yang@windriver.com>
 
-I had only a bit of time in the morning to quickly scan through them,
-but if it's correct that gcc as well as llvm are applying the longest
-substitution now, then the ordering might not be important anymore and
-it might actually explain the case with python3-matplotlib I was
-seeing, because for -fmacro-prefix-map there wasn't the native path at
-all, so it "correctly" replaced the longest matching one which was
--fmacro-prefix-map=3D${STAGING_DIR_HOST}=3D for python3-matplotlib and no
-replacement for lib32-python3-matplotlib as it didn't match at all in
-any of them.
+The following changes since commit 94ff1be36a1eeef7ddceb4fcf20425a03cd052de:
 
-Will redo both builds with just
--fmacro-prefix-map=3D${STAGING_DIR_NATIVE}=3D added at the end to see if
-it fixes paths in both python3-matplotlib and lib32-python3-matplotlib
-and should probably test the same with clang to be sure it works the
-same.
+  devtool: remove obsolete SRCTREECOVEREDTASKS handling (2024-09-04 12:36:43 +0100)
 
-Regards,
+are available in the Git repository at:
+
+  https://github.com/robertlinux/yocto rbt/buildcfg
+  https://github.com/robertlinux/yocto/tree/rbt/buildcfg
+
+Robert Yang (1):
+  buildcfg: Print bitbake branch and revision when it is in a separate
+    repo
+
+ meta/lib/oe/buildcfg.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+-- 
+2.25.1
+
 
