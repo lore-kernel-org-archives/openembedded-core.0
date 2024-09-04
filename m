@@ -1,233 +1,219 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rsangam@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F715CD3431
-	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 10:29:57 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.46930.1725445794516226477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B98F8CD37B4
+	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 11:55:37 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.48096.1725450935618781966
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Sep 2024 03:29:54 -0700
+ Wed, 04 Sep 2024 04:55:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GC2TQIan;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a8679f534c3so692105066b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 03:29:54 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=VI1eOqLX;
+ spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: rsangam@mvista.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2053525bd90so34105355ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 04:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725445793; x=1726050593; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QWQiV9plDEDCEUd313tTDITwWb+IYwB8FYmi0zwoNjk=;
-        b=GC2TQIanMiY5C4S5I7cZ4qjkS4t1hEeA0dgMilsBb/VeUuuhZ2HsoNQKQtep5CgUsk
-         Y3Iuzoa5TN6WH6fzlic4Ik1o57xWQO91+4Vmb7tHf41B+/wD2M+E4pFW2aYT4OEUxqiP
-         ZKDJzw31/GrGE8PAq/DOLRwHiCs+SaHgpVSns=
+        d=mvista.com; s=google; t=1725450934; x=1726055734; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RuO+hPQ2Q7zldR1MOmWnqSkIZHM1oFU4XiZf56DenTY=;
+        b=VI1eOqLXqxV+e9otjfNyTgVB04o/Rituu1uhhWOXL1Z7K8HsD/KpycQ5lSu380sagI
+         rpQ7FWeDdo2oNneUkLlnhst4VtNMZYnILclpAVSIbmfbuuYx82egnW/t1cG5ijjXzY5S
+         g4ZI8FSErAza70eyhhjAEHI6sgfYerMWQqlRo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725445793; x=1726050593;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QWQiV9plDEDCEUd313tTDITwWb+IYwB8FYmi0zwoNjk=;
-        b=t2n1kBSA40xZo6VGHnXWtzdND7emEjvOQTd2Hxcz9NR2vaA42u7L668UYJeZe4UI0u
-         544DucNJOmnyVX6WZRlXNHZXaUINUIcFX+4Fb3r28mcugqfLJ2o6eFMt0lCNyi/4QKd4
-         Cs+isGmELKX3jOzBSJn9Zs5UD6zC+zoE4CkwKxCIkoPsah7abFABFG0KNxMItc7KF6lh
-         XlgRW2xoUtTigue/CWbEFYgb4H9bkofBhftSofdO6rO66DU5IGYAa9/590xjWc8zhSn8
-         0aNoOgW1GJ2GUpsYcUIuaAoD43GNCiVBzP+I1hnbWUHn2jzlKydawGiOk1NyI8qnofvY
-         DNTA==
-X-Gm-Message-State: AOJu0YwqBEe+NisHcCI9JoUEby9MpLsoCB5ir4nL5a4j8u8Lbrx66ZKo
-	+r+BiNPfVikigbVhT9oYi2ZPYLbex0sCcs/2cHNVsaLe0koZWNRVNyeZ3HSBesei5JiWcxXhxfu
-	2
-X-Google-Smtp-Source: AGHT+IEeP1cMP3NbL/8vX6d4eHHEMA4EDD1mKsbWVb6/ozBiHk93O6LG5psdoiWUXqTdCzp/J+Qemw==
-X-Received: by 2002:a17:907:36c5:b0:a86:6968:3b93 with SMTP id a640c23a62f3a-a89d879c32dmr902797866b.33.1725445792443;
-        Wed, 04 Sep 2024 03:29:52 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:99f4:e9dc:3777:c785])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891d7834sm804626566b.177.2024.09.04.03.29.51
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1725450934; x=1726055734;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RuO+hPQ2Q7zldR1MOmWnqSkIZHM1oFU4XiZf56DenTY=;
+        b=Pq2Oo5uUibM4ViyoU6uJsv0JUGyxl0lHm/JFIId7dB3s2F6mG9yeVhZnj1EIEYj5MZ
+         1GSsPoH2OgLOyHXQxo/sNzd0TKO+RJTeLsdKdPTKYiHd3HevGAiYjqI1PkT3966MIeK9
+         aBEpQXZFUPUu29iS0vZ2xOkh8O65yrFeKhJ+uXpwO+hpoYCH+FEoyGtTWWnI5t/bKkbT
+         cgd+Z9OxP4JeRaMLy09YLRQPqxUnEDH8z98fDeiktik/49Y7CENEpZ3S6v+G1rpV9tgY
+         KDZpz/j70taT8f4RlrBuhnHGP5UJUBeAi0ceeUGTuabfmSAyMcyaiIIynWUp4wv5jAw1
+         kkOQ==
+X-Gm-Message-State: AOJu0YyVMJiWWfz7fYNKc0Sv5rW2JjT2PQZunirlUgWTSttaKEcks8D3
+	UrjaejlANCNaXDaS/v74XYCwqYiCslphx0mixMPIis5GqbrCVWz6rWoFFPt+FgYwiFJ9iEnXdMV
+	A
+X-Google-Smtp-Source: AGHT+IHGIVv8A1v2dDFtmx0SzYN0t3Uv2ghZk7AKY/Qxzm/pEGZ1QMXKW/x25onsW3LPuj4dX8A/1g==
+X-Received: by 2002:a17:902:ce8e:b0:1fb:75b6:a40b with SMTP id d9443c01a7336-2054bc90992mr143258755ad.2.1725450934247;
+        Wed, 04 Sep 2024 04:55:34 -0700 (PDT)
+Received: from MVIN00040.mvista.com ([49.207.201.120])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae90cf63sm12433565ad.43.2024.09.04.04.55.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 03:29:52 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Wed, 04 Sep 2024 04:55:33 -0700 (PDT)
+From: Rohini Sangam <rsangam@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] conf/defaultsetup.conf: Drop TCLIBCAPPEND
-Date: Wed,  4 Sep 2024 11:29:51 +0100
-Message-ID: <20240904102951.850301-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+Cc: Rohini Sangam <rsangam@mvista.com>,
+	Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] python3: Security fix for CVE-2024-8088
+Date: Wed,  4 Sep 2024 17:25:10 +0530
+Message-Id: <20240904115510.695790-1-rsangam@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 10:29:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204199
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 11:55:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204200
 
-We've been able to run musl and glibc builds in the same TMPDIR for
-many years and a separate directory is not required. Most distros disable
-this value for that reason.
+CVE fixed:
+- CVE-2024-8088: python: cpython: denial of service in zipfile
+Upstream-Status: Backport from https://github.com/python/cpython/commit/e0264a61119d551658d9445af38323ba94fc16db
 
-Drop support for the variable to make it clear and easy for distros
-to be able to set multiconfigs which behave consistently for distros
-which do and don't clear it by dropping it entirely.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- meta/classes-recipe/populate_sdk_ext.bbclass |  2 --
- meta/conf/distro/defaultsetup.conf           |  4 ----
- meta/lib/oeqa/selftest/cases/sstatetests.py  | 15 ---------------
- 3 files changed, 21 deletions(-)
+ .../python/python3/CVE-2024-8088.patch        | 124 ++++++++++++++++++
+ .../python/python3_3.10.14.bb                 |   1 +
+ 2 files changed, 125 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2024-8088.patch
 
-diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
-index b02295384bb..8cb27ad9958 100644
---- a/meta/classes-recipe/populate_sdk_ext.bbclass
-+++ b/meta/classes-recipe/populate_sdk_ext.bbclass
-@@ -153,7 +153,6 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, conf_initpath):
-             f.write('SSTATE_MIRRORS:forcevariable = "file://universal/(.*) file://universal-4.9/\\1 file://universal-4.9/(.*) file://universal-4.8/\\1"\n')
-             # Ensure TMPDIR is the default so that clean_esdk_builddir() can delete it
-             f.write('TMPDIR:forcevariable = "${TOPDIR}/tmp"\n')
--            f.write('TCLIBCAPPEND:forcevariable = ""\n')
-             # Drop uninative if the build isn't using it (or else NATIVELSBSTRING will
-             # be different and we won't be able to find our native sstate)
-             if not bb.data.inherits_class('uninative', d):
-@@ -340,7 +339,6 @@ def write_local_conf(d, baseoutpath, derivative, core_meta_subdir, uninative_che
-             f.write('\n')
+diff --git a/meta/recipes-devtools/python/python3/CVE-2024-8088.patch b/meta/recipes-devtools/python/python3/CVE-2024-8088.patch
+new file mode 100644
+index 0000000000..10d28a9e65
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2024-8088.patch
+@@ -0,0 +1,124 @@
++From e0264a61119d551658d9445af38323ba94fc16db Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Thu, 22 Aug 2024 19:24:33 -0400
++Subject: [PATCH] CVE-2024-8088: Sanitize names in zipfile.Path. (GH-122906)
++
++Upstream-Status: Backport from https://github.com/python/cpython/commit/e0264a61119d551658d9445af38323ba94fc16db
++CVE: CVE-2024-8088
++
++Signed-off-by: Rohini Sangam <rsangam@mvista.com>
++---
++ Lib/test/test_zipfile.py   | 17 ++++++
++ Lib/zipfile.py             | 61 ++++++++++++++++++-
++ 2 files changed, 77 insertions(+), 1 deletion(-)
++
++diff --git a/Lib/test/test_zipfile.py b/Lib/test/test_zipfile.py
++index 32c0170..a60dc11 100644
++--- a/Lib/test/test_zipfile.py
+++++ b/Lib/test/test_zipfile.py
++@@ -3280,6 +3280,23 @@ with zipfile.ZipFile(io.BytesIO(), "w") as zf:
++         zipfile.Path(zf)
++         zf.extractall(source_path.parent)
++ 
+++    def test_malformed_paths(self):
+++        """
+++        Path should handle malformed paths.
+++        """
+++        data = io.BytesIO()
+++        zf = zipfile.ZipFile(data, "w")
+++        zf.writestr("/one-slash.txt", b"content")
+++        zf.writestr("//two-slash.txt", b"content")
+++        zf.writestr("../parent.txt", b"content")
+++        zf.filename = ''
+++        root = zipfile.Path(zf)
+++        assert list(map(str, root.iterdir())) == [
+++            'one-slash.txt',
+++            'two-slash.txt',
+++            'parent.txt',
+++        ]
+++
++ 
++ class StripExtraTests(unittest.TestCase):
++     # Note: all of the "z" characters are technically invalid, but up
++diff --git a/Lib/zipfile.py b/Lib/zipfile.py
++index 7d18bc2..cbac8d9 100644
++--- a/Lib/zipfile.py
+++++ b/Lib/zipfile.py
++@@ -9,6 +9,7 @@ import io
++ import itertools
++ import os
++ import posixpath
+++import re
++ import shutil
++ import stat
++ import struct
++@@ -2182,7 +2183,65 @@ def _difference(minuend, subtrahend):
++     return itertools.filterfalse(set(subtrahend).__contains__, minuend)
++ 
++ 
++-class CompleteDirs(ZipFile):
+++class SanitizedNames:
+++    """
+++    ZipFile mix-in to ensure names are sanitized.
+++    """
+++
+++    def namelist(self):
+++        return list(map(self._sanitize, super().namelist()))
+++
+++    @staticmethod
+++    def _sanitize(name):
+++        r"""
+++        Ensure a relative path with posix separators and no dot names.
+++        Modeled after
+++        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
+++        but provides consistent cross-platform behavior.
+++        >>> san = SanitizedNames._sanitize
+++        >>> san('/foo/bar')
+++        'foo/bar'
+++        >>> san('//foo.txt')
+++        'foo.txt'
+++        >>> san('foo/.././bar.txt')
+++        'foo/bar.txt'
+++        >>> san('foo../.bar.txt')
+++        'foo../.bar.txt'
+++        >>> san('\\foo\\bar.txt')
+++        'foo/bar.txt'
+++        >>> san('D:\\foo.txt')
+++        'D/foo.txt'
+++        >>> san('\\\\server\\share\\file.txt')
+++        'server/share/file.txt'
+++        >>> san('\\\\?\\GLOBALROOT\\Volume3')
+++        '?/GLOBALROOT/Volume3'
+++        >>> san('\\\\.\\PhysicalDrive1\\root')
+++        'PhysicalDrive1/root'
+++        Retain any trailing slash.
+++        >>> san('abc/')
+++        'abc/'
+++        Raises a ValueError if the result is empty.
+++        >>> san('../..')
+++        Traceback (most recent call last):
+++        ...
+++        ValueError: Empty filename
+++        """
+++
+++        def allowed(part):
+++            return part and part not in {'..', '.'}
+++
+++        # Remove the drive letter.
+++        # Don't use ntpath.splitdrive, because that also strips UNC paths
+++        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
+++        clean = bare.replace('\\', '/')
+++        parts = clean.split('/')
+++        joined = '/'.join(filter(allowed, parts))
+++        if not joined:
+++            raise ValueError("Empty filename")
+++        return joined + '/' * name.endswith('/')
+++
+++
+++class CompleteDirs(SanitizedNames, ZipFile):
++     """
++     A ZipFile subclass that ensures that implied directories
++     are always included in the namelist.
++-- 
++2.35.7
++
+diff --git a/meta/recipes-devtools/python/python3_3.10.14.bb b/meta/recipes-devtools/python/python3_3.10.14.bb
+index b5bc80ab88..14ab3f6155 100644
+--- a/meta/recipes-devtools/python/python3_3.10.14.bb
++++ b/meta/recipes-devtools/python/python3_3.10.14.bb
+@@ -36,6 +36,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://deterministic_imports.patch \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
++	   file://CVE-2024-8088.patch \
+            "
  
-             f.write('TMPDIR = "${TOPDIR}/tmp"\n')
--            f.write('TCLIBCAPPEND = ""\n')
-             f.write('DL_DIR = "${TOPDIR}/downloads"\n')
- 
-             if bb.data.inherits_class('uninative', d):
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index 90b68057ad4..e6369dcec4b 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -8,10 +8,6 @@ require conf/distro/include/tclibc-${TCLIBC}.inc
- 
- require conf/distro/include/uninative-flags.inc
- 
--# Allow single libc distros to disable this code
--TCLIBCAPPEND ?= "-${TCLIBC}"
--TMPDIR .= "${TCLIBCAPPEND}"
--
- USER_CLASSES ?= ""
- PACKAGE_CLASSES ?= "package_ipk"
- INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool create-spdx"
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 49d650bac7a..ae295bef5f7 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -378,7 +378,6 @@ class SStateHashSameSigs(SStateBase):
-         self.write_config("""
- MACHINE = "qemux86"
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
--TCLIBCAPPEND = ""
- BUILD_ARCH = "x86_64"
- BUILD_OS = "linux"
- SDKMACHINE = "x86_64"
-@@ -390,7 +389,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         self.write_config("""
- MACHINE = "qemux86"
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
--TCLIBCAPPEND = ""
- BUILD_ARCH = "i686"
- BUILD_OS = "linux"
- SDKMACHINE = "i686"
-@@ -426,7 +424,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
- 
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
--TCLIBCAPPEND = \"\"
- NATIVELSBSTRING = \"DistroA\"
- BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-@@ -434,7 +431,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         bitbake("core-image-weston -S none")
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
--TCLIBCAPPEND = \"\"
- NATIVELSBSTRING = \"DistroB\"
- BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-@@ -463,14 +459,12 @@ class SStateHashSameSigs2(SStateBase):
- 
-         configA = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86-64\"
- BB_SIGNATURE_HANDLER = "OEBasicHash"
- """
-         #OLDEST_KERNEL is arch specific so set to a different value here for testing
-         configB = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemuarm\"
- OLDEST_KERNEL = \"3.3.0\"
- BB_SIGNATURE_HANDLER = "OEBasicHash"
-@@ -486,7 +480,6 @@ WARN_QA:append = " someotheroption"
- 
-         configA = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86-64\"
- require conf/multilib.conf
- MULTILIBS = \"multilib:lib32\"
-@@ -495,7 +488,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
- """
-         configB = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemuarm\"
- require conf/multilib.conf
- MULTILIBS = \"\"
-@@ -513,7 +505,6 @@ class SStateHashSameSigs3(SStateBase):
- 
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
-@@ -524,7 +515,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         bitbake("world meta-toolchain -S none")
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86copy\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
-@@ -561,7 +551,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
- 
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
-@@ -572,7 +561,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         bitbake("binutils-native  -S none")
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86copy\"
- BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-@@ -600,7 +588,6 @@ class SStateHashSameSigs4(SStateBase):
- 
-         self.write_config("""
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
--TCLIBCAPPEND = ""
- BB_NUMBER_THREADS = "${@oe.utils.cpu_count()}"
- PARALLEL_MAKE = "-j 1"
- DL_DIR = "${TOPDIR}/download1"
-@@ -615,7 +602,6 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         bitbake("world meta-toolchain -S none")
-         self.write_config("""
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
--TCLIBCAPPEND = ""
- BB_NUMBER_THREADS = "${@oe.utils.cpu_count()+1}"
- PARALLEL_MAKE = "-j 2"
- DL_DIR = "${TOPDIR}/download2"
-@@ -726,7 +712,6 @@ class SStateFindSiginfo(SStateBase):
-         """
-         self.write_config("""
- TMPDIR = \"${TOPDIR}/tmp-sstates-findsiginfo\"
--TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86-64\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
+ SRC_URI:append:class-native = " \
+-- 
+2.34.1
+
 
