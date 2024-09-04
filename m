@@ -1,99 +1,109 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <vrushti.dabhi@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0913CD37AE
-	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 05:34:05 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.43401.1725428042593065890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C831CA0ED3
+	for <webhook@archiver.kernel.org>; Wed,  4 Sep 2024 06:34:36 +0000 (UTC)
+Received: from naesa03.arrow.com (naesa03.arrow.com [216.150.161.23])
+ by mx.groups.io with SMTP id smtpd.web10.43966.1725431668923977441
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Sep 2024 22:34:03 -0700
+ Tue, 03 Sep 2024 23:34:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G1vrNWQ+;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=V41cssou;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010191bb8686ab-41c32cd7-f230-46a0-bbab-73743c04fb3c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1725428041; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=YziCxb+64TEugP5QCY7qr74mEo/2uJSFpvBMSNnFfdo=;
-	b=G1vrNWQ+H7MD9ex5riCSSluGHY2YVtz+4MGBoT4of3gMNAM+HVbiiVZBRgbbjlA2
-	244cjhpH1ReTanjs1auDdrXKcbvcdtAmu/VLRYm3BR1ksto36ExfIeEEQh7QwKT3GPA
-	72dpiSG8A215wGeWhF0xCvNxM2TPLBvOL/1VFHyQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1725428041;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=YziCxb+64TEugP5QCY7qr74mEo/2uJSFpvBMSNnFfdo=;
-	b=V41cssouqGD+XquEhQc37jQoAY5B+wO0Bz/mkU4W94Q56Z9hHP28M48M1JYSBpKn
-	+72jKaGZTqgfK16SWCjKao5JvpVZTerFBmkk6+2VvIu3Mzl3daGA1J1mcJrvkym+TJ3
-	IehZA+q8tyt4j1JgymtZ0qZ9DbZ4PvvAuAd4VF1E=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gcc: Fix spurious '/' in GLIBC_DYNAMIC_LINKER on microblaze
-In-Reply-To: <20240904052544.2082232-1-raj.khem@gmail.com>
-References: <20240904052544.2082232-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010191bb8686ab-41c32cd7-f230-46a0-bbab-73743c04fb3c-000000@us-west-2.amazonses.com>
-Date: Wed, 4 Sep 2024 05:34:01 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.04-54.240.27.191
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=Sh7AZ41K;
+ spf=pass (domain: einfochips.com, ip: 216.150.161.23, mailfrom: vrushti.dabhi@einfochips.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=einfochips.com; i=@einfochips.com; l=2511; q=dns/txt;
+  s=NAESA-Selector1; t=1725431669; x=1756967669;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uk7OnaTqrgclZG5SnE41T5mGzeagPXW51PXvkLLC3Zw=;
+  b=Sh7AZ41KUE3tlhLmptgx51mUQeh4LT0acX2Fdt9waNDi9oiFPq9tDjzq
+   CnA2sWzYABxBc8MtFObmgyCaReMSoviPZnIzJM6F3nWyTHn0vVRYiYL/s
+   RmGo4X5H89c6xCXt0f6FBMM8blixeo/DcC6kjL5uK5Q26gtoQh8hHzdQE
+   pyIS8XL2tFHLdZJnSjBZ4q5L0Bg4letCpMFV0+VqMaOz5pR6pzKqDEvUu
+   f1Agfh+PgcEVYjZuGVI0pQoefGmOLYBgPsQyC/kGGcvz1hp/dBxsIbbef
+   KocblxBCEcAiMBTWnOlBX4S9Vf5GXxZVolN0hRqLl7XgrswOOxFICsIpM
+   w==;
+X-CSE-ConnectionGUID: SEoNHQPhRwSytt1ex4SXTA==
+X-CSE-MsgGUID: sZohEpfFTfSIEsLgY3DEBg==
+X-IronPort-AV: E=Sophos;i="6.10,201,1719900000"; 
+   d="scan'208";a="66314717"
+Received: from unknown (HELO eicahmirelay01.einfochips.com) ([10.100.49.50])
+  by naesa03out.arrow.com with ESMTP; 04 Sep 2024 00:34:27 -0600
+Received: from AHMCPU2167.ap.corp.arrow.com ([172.25.9.210]) by eicahmirelay01.einfochips.com with Microsoft SMTPSVC(10.0.14393.4169);
+	 Wed, 4 Sep 2024 12:04:26 +0530
+From: Vrushti Dabhi <vrushti.dabhi@einfochips.com>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Vrushti Dabhi <vrushti.dabhi@einfochips.com>
+Subject: [kirkstone] [PATCH 1/2] sqlite3: CVE-ID correction for CVE-2023-7104
+Date: Wed,  4 Sep 2024 12:04:09 +0530
+Message-Id: <20240904063410.2206579-1-vrushti.dabhi@einfochips.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 04 Sep 2024 06:34:26.0673 (UTC) FILETIME=[7D01B610:01DAFE94]
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 05:34:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204187
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Sep 2024 06:34:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204188
 
---NextPart
-Content-Type: text/plain
+- The commit [https://sqlite.org/src/info/0e4e7a05c4204b47]
+  ("Fix a buffer overread in the sessions extension that could occur when processing a corrupt changeset.")
+  fixes CVE-2023-7104 instead of CVE-2022-46908.
+- Hence, corrected the CVE-ID in CVE-2023-7104.patch.
+- Reference: https://nvd.nist.gov/vuln/detail/CVE-2023-7104
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Vrushti Dabhi <vrushti.dabhi@einfochips.com>
 ---
-Testing patch /home/patchtest/share/mboxes/gcc-Fix-spurious-in-GLIBC_DYNAMIC_LINKER-on-microblaze.patch
+ meta/recipes-support/sqlite/files/CVE-2023-7104.patch | 10 ++++++----
+ meta/recipes-support/sqlite/sqlite3_3.38.5.bb         |  2 +-
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-support/sqlite/files/CVE-2023-7104.patch b/meta/recipes-support/sqlite/files/CVE-2023-7104.patch
+index 25c6ba017c..5f3681070e 100644
+--- a/meta/recipes-support/sqlite/files/CVE-2023-7104.patch
++++ b/meta/recipes-support/sqlite/files/CVE-2023-7104.patch
+@@ -1,18 +1,20 @@
+-From 09f1652f36c5c4e8a6a640ce887f9ea0f48a7958 Mon Sep 17 00:00:00 2001
++From f388a0c44d2abdbd582686e511fef36c1b96ae43 Mon Sep 17 00:00:00 2001
+ From: dan <Dan Kennedy>
+ Date: Thu, 7 Sep 2023 13:53:09 +0000
+ Subject: [PATCH] Fix a buffer overread in the sessions extension that could
+  occur when processing a corrupt changeset.
+ 
+ Upstream-Status: Backport [https://sqlite.org/src/info/0e4e7a05c4204b47]
+-CVE: CVE-2022-46908
++CVE: CVE-2023-7104
++
+ Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Signed-off-by: Vrushti Dabhi <vrushti.dabhi@einfochips.com>
+ ---
+  sqlite3.c | 18 +++++++++++-------
+  1 file changed, 11 insertions(+), 7 deletions(-)
+ 
+-diff --git a/ext/session/sqlite3session.c b/ext/session/sqlite3session.c
+-index 9f862f2465..0491549231 100644
++diff --git a/sqlite3.c b/sqlite3.c
++index a16db27..0b979f7 100644
+ --- a/sqlite3.c
+ +++ b/sqlite3.c
+ @@ -213482,15 +213482,19 @@ static int sessionReadRecord(
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+index cece207eae..b3d5029365 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+@@ -8,7 +8,7 @@ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2022-46908.patch \
+            file://CVE-2023-36191.patch \
+            file://CVE-2023-7104.patch \
+-"
++           "
+ SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+ 
+ # -19242 is only an issue in specific development branch commits
+-- 
+2.25.1
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
