@@ -1,82 +1,105 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0C8CE7A9D
-	for <webhook@archiver.kernel.org>; Thu,  5 Sep 2024 20:41:20 +0000 (UTC)
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by mx.groups.io with SMTP id smtpd.web11.20053.1725568878473206347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03056CE7AA2
+	for <webhook@archiver.kernel.org>; Thu,  5 Sep 2024 22:40:30 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.22755.1725576027521887079
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Sep 2024 13:41:18 -0700
+ Thu, 05 Sep 2024 15:40:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=VOd20YOh;
- spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: reatmon@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 485KfHXx023188
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Sep 2024 15:41:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1725568877;
-	bh=M359O821aIdPs3gY/fz/wqpsfI08Sn4XkinbsBB1sMk=;
-	h=From:To:Subject:Date;
-	b=VOd20YOhCnEa3mn0jwuT5DOJnrbmEIw7TF5xtaf+lN33mkGwolVFhFNrLQ3bSfwkn
-	 F/R7UKxaG6To0fUPsxBA6tadDj7PAlXP8LIfuqNGTbYNMQuprCm/F0tGLJe2/I/jqW
-	 hKnnAVRGnxHmM6ZVqW3Dn8hfwHKC8ZPXJueV1G4s=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 485KfHOR053705
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Sep 2024 15:41:17 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 5
- Sep 2024 15:41:17 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 5 Sep 2024 15:41:16 -0500
-Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 485KfHV8113835
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Sep 2024 15:41:17 -0500
-Received: from reatmon by uda0214219 with local (Exim 4.90_1)
-	(envelope-from <reatmon@ti.com>)
-	id 1smJI4-0002zA-Sz
-	for openembedded-core@lists.openembedded.org; Thu, 05 Sep 2024 15:41:16 -0500
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] oe-setup-build: Fix typo
-Date: Thu, 5 Sep 2024 15:41:16 -0500
-Message-ID: <20240905204116.11436-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZM6oQc+r;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42c5347b2f7so10757295e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 15:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1725576026; x=1726180826; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZvIKkv5MisLGAttSmvbLJo9rPDte6SKJbIXPR4GSmvY=;
+        b=ZM6oQc+r4rHkan2D5zQoMNkLoiTFuCpHQGOYFhoaEZmRoDJ10jJuFEYoI51TWhwEk/
+         ayDfDonXVsrIvi4wbKSMUptvzSTtrDsHFsnhwyOwbvLcvPvzKAJc1HSSHRuLY72QBlGY
+         VGEDguarK6wYjchQiWzPzjimFh+3TPI6eTKh8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725576026; x=1726180826;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZvIKkv5MisLGAttSmvbLJo9rPDte6SKJbIXPR4GSmvY=;
+        b=VcipwaI7VMAoI271wt3n2vIgv/Z4UibonTMMexra81vcONE28hz8H2cgJnVE/HozAc
+         zAiMGx3/X1s98MRDfcCMSRiFPVEgboc0I04IoafwRdilcUPpEHMQGGTxanYviZNG1kMc
+         XGLX7AArzKF4FLyoIF0QflAg5cqkD9mdnZdB+2//V3vZtq1I+XERAaWcP+Tk0dWtYC0c
+         UCyxdc/iBZ9BITGyeAttrooG5h+9f31C+hTmsm3b1Jlo3c5VRG/7T1xCT5KqJZWw1z1P
+         09bPDTIskxi2d1cO6ZOpHq+8GsdFWrATdVg7djIKi5EQtlUhZWXJfKNB9d0e8nrIodTb
+         yFTw==
+X-Forwarded-Encrypted: i=1; AJvYcCWAAL3Z5YHT7OD4GpMe/cT+AfMqLu3u6MOfrcCUYC0xnVd8LGflbcICg7zzhRqQE50Sw47zsKhTe4mAUPQ2iywzBA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxhd9F0f4pGnYQMbjDWqbeRMBVS7CI56Pf25ifVgL3KVD3ux6eu
+	SpU9fdbUvvAdRyOI+J7x8WhhTfl8BI+QvP7JMNxNz8a+Hxc3xldb1106c+OYeNQ=
+X-Google-Smtp-Source: AGHT+IHlm2ALkmFsHlMNT9Eyd3BlhVVqhL99cYuvrtATvi95lrpQs11WV0P1AAY+dhwzhRbmJt0Qdg==
+X-Received: by 2002:a05:600c:154a:b0:428:1b0d:8657 with SMTP id 5b1f17b1804b1-42bb01c1136mr187449345e9.22.1725576025732;
+        Thu, 05 Sep 2024 15:40:25 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:59c8:5822:d805:79c3? ([2001:8b0:aba:5f3c:59c8:5822:d805:79c3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c15705easm14904133f8f.33.2024.09.05.15.40.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 15:40:25 -0700 (PDT)
+Message-ID: <20c8fafa66b718fde5d622c2476fa60e545d50ad.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [master/scarthgap PATCH] meta-ide-support: Mark
+ recipe as MACHINE-specific
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: paul.barker.ct@bp.renesas.com, openembedded-core@lists.openembedded.org
+Date: Thu, 05 Sep 2024 23:40:24 +0100
+In-Reply-To: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
+References: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 20:41:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204244
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 22:40:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204245
 
-A variable was mistyped in an error message resulting in this error:
+On Thu, 2024-09-05 at 21:21 +0100, Paul Barker via lists.openembedded.org w=
+rote:
+> meta-ide-support:do_write_test_data dumps the bitbake data dictionary to
+> a file using export2json(). As this obviously includes the value of
+> MACHINE, and other MACHINE-specific variables, the recipe needs to be
+> marked as MACHINE-specific.
+>=20
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> ---
+> =C2=A0meta/recipes-core/meta/meta-ide-support.bb | 1 +
+> =C2=A01 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-co=
+re/meta/meta-ide-support.bb
+> index d85aa120c08b..7ed422ce4ddb 100644
+> --- a/meta/recipes-core/meta/meta-ide-support.bb
+> +++ b/meta/recipes-core/meta/meta-ide-support.bb
+> @@ -1,6 +1,7 @@
+> =C2=A0SUMMARY =3D "Integrated Development Environment support"
+> =C2=A0DESCRIPTION =3D "Meta package for ensuring the build directory cont=
+ains all appropriate toolchain packages for using an IDE"
+> =C2=A0LICENSE =3D "MIT"
+> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> =C2=A0
+> =C2=A0DEPENDS =3D "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu=
+-helper-native unfs3-native cmake-native autoconf-native automake-native me=
+son-native intltool-native pkgconfig-native"
+> =C2=A0RM_WORK_EXCLUDE +=3D "${PN}"
 
-NameError: name 'tempalte_name' is not defined. Did you mean: 'template_name'?
+Something about this is making our toolchain tests unhappy, e.g.:
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
----
- scripts/oe-setup-build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://valkyrie.yoctoproject.org/#/builders/42/builds/86/steps/12/logs/std=
+io
 
-diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
-index c0476992a2..1cb06b3b79 100755
---- a/scripts/oe-setup-build
-+++ b/scripts/oe-setup-build
-@@ -77,7 +77,7 @@ def find_template(template_name, templates):
-         for t in templates:
-             if t["templatename"] == template_name:
-                 return t
--        print("Configuration {} is not one of {}, please try again.".format(tempalte_name, [t["templatename"] for t in templates]))
-+        print("Configuration {} is not one of {}, please try again.".format(template_name, [t["templatename"] for t in templates]))
-         return None
- 
- def setup_build_env(args):
--- 
-2.17.1
+I've not looked into it at all, just reporting what we've need to fix
+in order to be able to consider merging this.
 
+Cheers,
+
+Richard
 
