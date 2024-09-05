@@ -1,104 +1,84 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5308CD5BCF
-	for <webhook@archiver.kernel.org>; Thu,  5 Sep 2024 15:59:08 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.13384.1725551940915701101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63117CD8CBD
+	for <webhook@archiver.kernel.org>; Thu,  5 Sep 2024 17:27:59 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.15684.1725557277391042617
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Sep 2024 08:59:01 -0700
+ Thu, 05 Sep 2024 10:27:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YColLtRS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.179, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f3f90295a9so12816701fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 08:59:00 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=U3PA2TKh;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-374ba74e9b6so799427f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 10:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725551939; x=1726156739; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DfbzxdirTauNbt7fdD9ot6+J8iM+OZu0wNGU4BBxC3c=;
-        b=YColLtRS0RXExjVzpdL0ivUcfHS5K3nSLKlm87gQA5I5ljfhzoyQiRSHQnHVrQ89yl
-         vUHPJcyTiuntJrvqYJps8ro8jEkvRFkov4s5QJt5Cjo06fk500Z9zyulmT4cSXxeq4Mg
-         +3vLN7GiHdJmHXztkBHNm42S2DEi8wRRkEaVM=
+        d=smile.fr; s=google; t=1725557275; x=1726162075; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vkM2YPcXKBEbJz9hI6+rwecAte0ikkqTRr3052I/FCk=;
+        b=U3PA2TKhXuNWz43A1SdAxhwZDeyS/ZQr21eMAOXAMIidcMj+EfMDBw8qsOk25yniN7
+         qUz/HGexQ9HmYetMAr0o7o9Jb//tFC6rfln3Sq7AC95MJIu5cNbrFnnhh/d8maGbpizo
+         W9CXcfQ9vGDWCl2JiLvfsMp6oAR+vMTPjSzhY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725551939; x=1726156739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DfbzxdirTauNbt7fdD9ot6+J8iM+OZu0wNGU4BBxC3c=;
-        b=Te051CGhQIwFdrAspVsBpB9Ydufmp+rev/dEyUcDA+pLElzqaFtA99WcfJdgVM8DqG
-         PKpMJrmprf1JZfQofYfLFNhyPiCHoHJe9gbGPiGIaeLHF0xYJ12yv+tZZwpL3bA9P2t5
-         Qw8Asa5eU2cQkI/D5YoenemfHtRN2KY7aWjofWjiYOEa2hQGeE6veelnnpdtss2KuIWS
-         GjYLL6bJES2+KQJvs5cDWyjwoM6Zr50g6SHLkKjxQ3UNaksan/TGEVdIUaKVEGYSdVpn
-         lNsXfKOOvoU/jSAKYuVCClakf+PasyObgCtVFcrssIia1kjIQsspfLmr5uMgv0grtD6r
-         9+ew==
-X-Gm-Message-State: AOJu0Yzgl8Ml9YXPRBZUSoMu9eUaaI9j2zarCZZU1TgWs2+SnFcpOEr3
-	x/cucJtoWl4GeMprFLcgHKzm6XWS308vLig9R67U1IXOh1QNwP38JPvMdbxowC9py896B4u+se6
-	u
-X-Google-Smtp-Source: AGHT+IGzZYOG+01msUXFAAmHPDImpEPYn5/N8C8wbPP97rJFk2oBOirijcsnj8dSBYpqoMWnyn+SxA==
-X-Received: by 2002:a2e:be13:0:b0:2f4:f255:4fc1 with SMTP id 38308e7fff4ca-2f651d6044bmr51820651fa.11.1725551938118;
-        Thu, 05 Sep 2024 08:58:58 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b438:ccaf:fc83:f321])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3cc697efasm1372710a12.59.2024.09.05.08.58.57
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1725557275; x=1726162075;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vkM2YPcXKBEbJz9hI6+rwecAte0ikkqTRr3052I/FCk=;
+        b=qq6rnVUMydNt99LXtvf2ArnJ2uVULDiyIo1wlYxWL44gT+rgIpT1t0Y7qrcczf16CD
+         I3IaJtjDCWXrqFCd10J703/CEhCKZYTxejXJYvUthxb4n0uczpwdnvSpZkONgbUXZ67G
+         RwnpSrYd0rWZrc7k2ltZ/p7DX9OqSAj/IXBW2H8XeKlhG6Xx4v0/ix+qWJGgQVvcVbDa
+         6j0fwMT1evI/u8MVFvQnQ3IwW3wAaOS4SBAu0tJe6g2Ms0vJQdDfp1C9PoGX00KfjRVm
+         LlINEtQ+zz7vLnhc7rWYfBOeXhYVVWq+yMQOjAa+wSX/jsKghzOLNkZroTJ7JyWdgdsL
+         jSUQ==
+X-Gm-Message-State: AOJu0Yx8E+RsPQgHXr8thFOadxYitQ63WGcWK5VKSvP+1vcUfTZhumfm
+	nPDq3Iro7mQ7LvvklX1FNpWWgH5OBVSN6Q1sVZABubxpmIHu2WmAaKupOOAZUMUbuIiFZCIKF79
+	U
+X-Google-Smtp-Source: AGHT+IHAvsUE5bPKA6LzQ5B03cjQ1SExdIjU0OCab8a4mwh8D+2PUhRkd6hhOxyi8IDVLr/kI9t6sg==
+X-Received: by 2002:a5d:668a:0:b0:374:c11c:c5ca with SMTP id ffacd0b85a97d-374c11cc70cmr13573880f8f.46.1725557275109;
+        Thu, 05 Sep 2024 10:27:55 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.local (2a02-8440-b210-51d7-ce2e-7cd9-4251-ec6c.rev.sfr.net. [2a02:8440:b210:51d7:ce2e:7cd9:4251:ec6c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374b5e3511dsm17013143f8f.34.2024.09.05.10.27.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 08:58:57 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 05 Sep 2024 10:27:54 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] license: Fix directory layout issues
-Date: Thu,  5 Sep 2024 16:58:55 +0100
-Message-ID: <20240905155856.1595113-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] spirv-tools: Update merged patch to backport status
+Date: Thu,  5 Sep 2024 19:27:39 +0200
+Message-Id: <20240905172739.2818260-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 15:59:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204240
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 17:27:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204241
 
-There are several issues:
+From: Yoann Congal <yoann.congal@smile.fr>
 
-a) pointless empty directories were being created as a path wasn't
-   fixed in a previous commit
-b) SSTATE_PKGARCH wasn't being captured into the task signature
-   since it is in the ignore list by default. We want to capture
-   the absolute value, not the dependencies
-c) with those issues fixed, cross/native issues became apparent so
-   those need to be fixed too.
+Patch 0001-update_build_version.py-support-an-envvar-to-force-t.patch
+was merged here: https://github.com/KhronosGroup/SPIRV-Tools/commit/bc4060ed274ad9749c20daced96d6f0518d6418e
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes-global/license.bbclass | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ ...1-update_build_version.py-support-an-envvar-to-force-t.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
-index 4e39ec1d44e..043715fcc36 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -18,8 +18,14 @@ LICENSE_CREATE_PACKAGE ??= "0"
- LICENSE_PACKAGE_SUFFIX ??= "-lic"
- LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
+diff --git a/meta/recipes-graphics/spir/spirv-tools/0001-update_build_version.py-support-an-envvar-to-force-t.patch b/meta/recipes-graphics/spir/spirv-tools/0001-update_build_version.py-support-an-envvar-to-force-t.patch
+index edcbf506b9..c596a3679a 100644
+--- a/meta/recipes-graphics/spir/spirv-tools/0001-update_build_version.py-support-an-envvar-to-force-t.patch
++++ b/meta/recipes-graphics/spir/spirv-tools/0001-update_build_version.py-support-an-envvar-to-force-t.patch
+@@ -9,7 +9,7 @@ description instead of resorting to git describe which can change for a
+ given commit if multiple lightweight commits point ot it.
  
-+LICENSE_DEPLOY_PATHCOMPONENT = "${SSTATE_PKGARCH}"
-+LICENSE_DEPLOY_PATHCOMPONENT:class-cross = "native"
-+LICENSE_DEPLOY_PATHCOMPONENT:class-native = "native"
-+# Ensure the *value* of SSTATE_PKGARCH is captured as it is used in the output paths
-+LICENSE_DEPLOY_PATHCOMPONENT[vardepvalue] += "${LICENSE_DEPLOY_PATHCOMPONENT}"
-+
- addtask populate_lic after do_patch before do_build
--do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
-+do_populate_lic[dirs] = "${LICSSTATEDIR}/${LICENSE_DEPLOY_PATHCOMPONENT}/${PN}"
- do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
- 
- python do_populate_lic() {
-@@ -29,7 +35,7 @@ python do_populate_lic() {
-     lic_files_paths = find_license_files(d)
- 
-     # The base directory we wrangle licenses to
--    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('SSTATE_PKGARCH'), d.getVar('PN'))
-+    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('LICENSE_DEPLOY_PATHCOMPONENT'), d.getVar('PN'))
-     copy_license_files(lic_files_paths, destdir)
-     info = get_recipe_info(d)
-     with open(os.path.join(destdir, "recipeinfo"), "w") as f:
+ Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+-Upstream-Status: Submitted [https://github.com/KhronosGroup/SPIRV-Tools/pull/5758]
++Upstream-Status: Backport [https://github.com/KhronosGroup/SPIRV-Tools/commit/bc4060ed274ad9749c20daced96d6f0518d6418e]
+ ---
+  utils/update_build_version.py | 9 +++++----
+  1 file changed, 5 insertions(+), 4 deletions(-)
 
