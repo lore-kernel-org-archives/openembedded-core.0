@@ -1,227 +1,312 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1521CD5BC0
-	for <webhook@archiver.kernel.org>; Thu,  5 Sep 2024 12:41:27 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.8184.1725540077906353284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3932CD5BC0
+	for <webhook@archiver.kernel.org>; Thu,  5 Sep 2024 12:44:47 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.8356.1725540277685635532
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Sep 2024 05:41:17 -0700
+ Thu, 05 Sep 2024 05:44:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ft7AVHd3;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20570b42f24so9961825ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 05:41:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DNaiuPV/;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5353d0b7463so1117670e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 05:44:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725540077; x=1726144877; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W0PRZ8rAgkZM/pxYMYXVrAmpf0FHoTNNEWV57d5Y594=;
-        b=Ft7AVHd3cZWSG3wNLpnoJxHBu+4yiYQ/DFaDwyWkJNAumTP8/NDtzciSXbwEPJO8se
-         dYkI5gu7C0MLH1xHE95UPrVNtE9MjJ9AIu+hvhTMHJs/4YQ4SuiJYWr2pQdgVJFXycX4
-         4txYYFSAAHrW04EyHll+CJbPIgy+ri+7h1NJv4FEhoFoZHJvTspdceVhyMoVFBs66G2T
-         wwz/aywZPyQaF74wDIIFb7/YPPD89jNF6m30Umil/+JT3tacFK0uMpZWzACDtD0hD7UW
-         3W5GYYCEpeOr7Sm+Zurg0xPz+PvvlRO28qHhn3IOUg4/gdruuuN/y8zvANqLpIyw8qdd
-         fUjg==
+        d=gmail.com; s=20230601; t=1725540276; x=1726145076; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Td6gJw9JYdULyS3MDTgNyN1KKKcnHsL0Dmu0yCG9uIA=;
+        b=DNaiuPV/COI7Y2LfT+VlAd9Q42YAKdq6slEMeJUI70CKzysq7EXtqAD22Hf0YvU9k+
+         AfmtzN9WgZgq2ye5DQub1ZK8IH2tmEiby3dhR1rxg+vl+FB9XKcJJeetz+qpahBO558o
+         jllnd14KVoXCeXbZAC4Yv6Fhv3P74KlroP/760zkpp0hiWOZY8GdJf50DHBKWHjdL+Ju
+         GeLDmN5SQEeQAUQ3QMaQvV3nGOu2D1bOZazYprqGy5qYDbDUekPfEC5x04r0GheUsdFI
+         CRxtdwi29Yx8THyL7j6oljtQBF5RJFzESvKVu7fNZqhBk6LEdyI+JVFTIqF03Rnzrzfx
+         6ivQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725540077; x=1726144877;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1725540276; x=1726145076;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W0PRZ8rAgkZM/pxYMYXVrAmpf0FHoTNNEWV57d5Y594=;
-        b=GCHVTHRn+IdImOZWSPYT1OG/lplcIDyIznlEX+KhpUrRJVm3nCo511CkhMa/ljshyt
-         Wpr2T7/RTiRjLaUJ6hgkxlX0bAfF4cd+8YGGEkd0wHHYMXvJjJS5fY4oCQWMuOPbhxfU
-         iOlb8axfvzK9X779Srr9UtUC/cW/D+Q6qZ7/ic26LfK6Ww2uQVF/UHg7PdgprU9Ja4xB
-         /CwMJrEh7J0HmqWctgRN5XPshkn4xUxepkKZWajSU+8PyOInOzy7t8jJ4iQMF1nzPZHA
-         PD6by81stb8pAPUqih82UgVMSDpAgxiGcmL7I0PM9alKW0m/U5tGfuU48d5cBGwSLyUP
-         ok6g==
-X-Gm-Message-State: AOJu0YwUeYz8sryK7E1ueZ5+PM+/OyeaKgXR3zQaz2rJcGt4sr7mhkLc
-	NIEL/Iat824B552BkrHpqQ9ys5dxFUdf9YF5w9miEGKBnEixYAQx6x6bsAQpoTgsAxYwxqjTf9i
-	/NOg=
-X-Google-Smtp-Source: AGHT+IFcWbu2m8lPCiIWIUn44Z7mNKh4wixd13GwBdUpSuGbgczc25pnnpKEXAFemn9Hbe+VB5/k4Q==
-X-Received: by 2002:a17:902:da8c:b0:206:98c8:4a71 with SMTP id d9443c01a7336-20699afc7f3mr114532165ad.38.1725540077115;
-        Thu, 05 Sep 2024 05:41:17 -0700 (PDT)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206aea38c31sm28107265ad.151.2024.09.05.05.41.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 05:41:16 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/6] python3: Security fix for CVE-2024-8088
-Date: Thu,  5 Sep 2024 05:41:00 -0700
-Message-Id: <295addec33c83443423a3ef87905c3a70f44a4e7.1725539924.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1725539924.git.steve@sakoman.com>
-References: <cover.1725539924.git.steve@sakoman.com>
+        bh=Td6gJw9JYdULyS3MDTgNyN1KKKcnHsL0Dmu0yCG9uIA=;
+        b=ndaxUhgMLcF9Ye6r5LWwUMLPUj9L+7UFRUi/FEFmHi+o8zydu8ZRx+Xbbx7hOhD5he
+         WDk8R5m8Cwf4AvO1UalmyN9a2NwRy6hPOOdsIrRTG154xUiaT+TEI757mbKS4jyjCGhd
+         6US6185/63ckhB3KRlNO9dKTcKS04q+ThrgMh2oy7K+cVx6jYNOfWMu4ya7n2077vFgr
+         B3RiQGSyhhGpoT8GSi/kEhjU9NrNy5aoAg9yBnWHiON4xYaMRPFkNgJwK6T4AtlcO7p3
+         jWuZgjGwx/VpbDwM+RI7Q6oqqvMQrXRIyOcHL78rEZA7WC7Y6HMszZtkMf/pzOiXpb3/
+         qZMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXx5m5wp8+rK6rBMBjAvbvDlVstzbqeUIheKSemZU3HdKxyXc0nQcf41Wmr6fD8+J505K2IjVa5yKkwkTYaVYv6aA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxyUVoyMpekYf3esY7R34o9f97RsswOz7SWLrwo8r4ROA8gvTrO
+	ZcNGfY82CO8fR8Fn0zFFYwTVWQCJ/FgSOZgifvV3Sx+i0hJzQyQVgWsg/ltV+OjVdB+ce4nO9DQ
+	9OIKONtqvEBXuPK27PiHPpuATN4M=
+X-Google-Smtp-Source: AGHT+IGpQuYX2zTDA/O5HXkGc9q7GseTuABrXqfk1XE2fzEHNCbhe/clsjcyVgoV1VqJugrdUIl7Q37n1oEoushyTts=
+X-Received: by 2002:a05:6512:3a94:b0:52e:936e:a237 with SMTP id
+ 2adb3069b0e04-53546b345a1mr18881558e87.16.1725540274649; Thu, 05 Sep 2024
+ 05:44:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1724136703-20023-1-git-send-email-wangmy@fujitsu.com>
+ <1724136703-20023-19-git-send-email-wangmy@fujitsu.com> <CA+chaQdfxzWNuunL94xXwctvsuUVvhTq6wsOtbmt=KAzEZcgng@mail.gmail.com>
+ <CA+chaQf+XuPscFri7L51F473X5rikRH5sKPrU882eAbAM0grcg@mail.gmail.com> <CAMKF1spAoPsJp0yiUxjQhvm=hj+2p8_fOzwf=71ehv6UyuU8rQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spAoPsJp0yiUxjQhvm=hj+2p8_fOzwf=71ehv6UyuU8rQ@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 5 Sep 2024 14:44:18 +0200
+Message-ID: <CA+chaQfYaAnM+P2cucvub_NqRXvt7W0A+y+X-++atqzaoN+bOQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 19/24] python3-setuptools: upgrade 72.1.0 -> 72.2.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 12:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204235
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 12:44:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204238
 
-From: Rohini Sangam <rsangam@mvista.com>
+Hi Khem,
 
-CVE fixed:
-- CVE-2024-8088: python: cpython: denial of service in zipfile
-Upstream-Status: Backport from https://github.com/python/cpython/commit/e0264a61119d551658d9445af38323ba94fc16db
+it's surely related, but not a simple revert (as distutils commits are
+merged into setuptools into different prefix and there were couple
+commits on top), but with most of it reverted as in:
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/ma=
+ster-setuptools&id=3Dcf310822e986802b0b97a7dcac2b9022d640efab
+it no longer fails (tested with python3-icu with ccache enabled).
 
-Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../python/python3/CVE-2024-8088.patch        | 124 ++++++++++++++++++
- .../python/python3_3.10.14.bb                 |   1 +
- 2 files changed, 125 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2024-8088.patch
+Regards,
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2024-8088.patch b/meta/recipes-devtools/python/python3/CVE-2024-8088.patch
-new file mode 100644
-index 0000000000..10d28a9e65
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2024-8088.patch
-@@ -0,0 +1,124 @@
-+From e0264a61119d551658d9445af38323ba94fc16db Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Thu, 22 Aug 2024 19:24:33 -0400
-+Subject: [PATCH] CVE-2024-8088: Sanitize names in zipfile.Path. (GH-122906)
-+
-+Upstream-Status: Backport from https://github.com/python/cpython/commit/e0264a61119d551658d9445af38323ba94fc16db
-+CVE: CVE-2024-8088
-+
-+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-+---
-+ Lib/test/test_zipfile.py   | 17 ++++++
-+ Lib/zipfile.py             | 61 ++++++++++++++++++-
-+ 2 files changed, 77 insertions(+), 1 deletion(-)
-+
-+diff --git a/Lib/test/test_zipfile.py b/Lib/test/test_zipfile.py
-+index 32c0170..a60dc11 100644
-+--- a/Lib/test/test_zipfile.py
-++++ b/Lib/test/test_zipfile.py
-+@@ -3280,6 +3280,23 @@ with zipfile.ZipFile(io.BytesIO(), "w") as zf:
-+         zipfile.Path(zf)
-+         zf.extractall(source_path.parent)
-+ 
-++    def test_malformed_paths(self):
-++        """
-++        Path should handle malformed paths.
-++        """
-++        data = io.BytesIO()
-++        zf = zipfile.ZipFile(data, "w")
-++        zf.writestr("/one-slash.txt", b"content")
-++        zf.writestr("//two-slash.txt", b"content")
-++        zf.writestr("../parent.txt", b"content")
-++        zf.filename = ''
-++        root = zipfile.Path(zf)
-++        assert list(map(str, root.iterdir())) == [
-++            'one-slash.txt',
-++            'two-slash.txt',
-++            'parent.txt',
-++        ]
-++
-+ 
-+ class StripExtraTests(unittest.TestCase):
-+     # Note: all of the "z" characters are technically invalid, but up
-+diff --git a/Lib/zipfile.py b/Lib/zipfile.py
-+index 7d18bc2..cbac8d9 100644
-+--- a/Lib/zipfile.py
-++++ b/Lib/zipfile.py
-+@@ -9,6 +9,7 @@ import io
-+ import itertools
-+ import os
-+ import posixpath
-++import re
-+ import shutil
-+ import stat
-+ import struct
-+@@ -2182,7 +2183,65 @@ def _difference(minuend, subtrahend):
-+     return itertools.filterfalse(set(subtrahend).__contains__, minuend)
-+ 
-+ 
-+-class CompleteDirs(ZipFile):
-++class SanitizedNames:
-++    """
-++    ZipFile mix-in to ensure names are sanitized.
-++    """
-++
-++    def namelist(self):
-++        return list(map(self._sanitize, super().namelist()))
-++
-++    @staticmethod
-++    def _sanitize(name):
-++        r"""
-++        Ensure a relative path with posix separators and no dot names.
-++        Modeled after
-++        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
-++        but provides consistent cross-platform behavior.
-++        >>> san = SanitizedNames._sanitize
-++        >>> san('/foo/bar')
-++        'foo/bar'
-++        >>> san('//foo.txt')
-++        'foo.txt'
-++        >>> san('foo/.././bar.txt')
-++        'foo/bar.txt'
-++        >>> san('foo../.bar.txt')
-++        'foo../.bar.txt'
-++        >>> san('\\foo\\bar.txt')
-++        'foo/bar.txt'
-++        >>> san('D:\\foo.txt')
-++        'D/foo.txt'
-++        >>> san('\\\\server\\share\\file.txt')
-++        'server/share/file.txt'
-++        >>> san('\\\\?\\GLOBALROOT\\Volume3')
-++        '?/GLOBALROOT/Volume3'
-++        >>> san('\\\\.\\PhysicalDrive1\\root')
-++        'PhysicalDrive1/root'
-++        Retain any trailing slash.
-++        >>> san('abc/')
-++        'abc/'
-++        Raises a ValueError if the result is empty.
-++        >>> san('../..')
-++        Traceback (most recent call last):
-++        ...
-++        ValueError: Empty filename
-++        """
-++
-++        def allowed(part):
-++            return part and part not in {'..', '.'}
-++
-++        # Remove the drive letter.
-++        # Don't use ntpath.splitdrive, because that also strips UNC paths
-++        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
-++        clean = bare.replace('\\', '/')
-++        parts = clean.split('/')
-++        joined = '/'.join(filter(allowed, parts))
-++        if not joined:
-++            raise ValueError("Empty filename")
-++        return joined + '/' * name.endswith('/')
-++
-++
-++class CompleteDirs(SanitizedNames, ZipFile):
-+     """
-+     A ZipFile subclass that ensures that implied directories
-+     are always included in the namelist.
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.14.bb b/meta/recipes-devtools/python/python3_3.10.14.bb
-index b5bc80ab88..14ab3f6155 100644
---- a/meta/recipes-devtools/python/python3_3.10.14.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.14.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://deterministic_imports.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-test_storlines-skip-due-to-load-variability.patch \
-+	   file://CVE-2024-8088.patch \
-            "
- 
- SRC_URI:append:class-native = " \
--- 
-2.34.1
-
+On Tue, Sep 3, 2024 at 7:01=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Hi Martin
+>
+> Can you try reverting this patch
+>
+> https://github.com/pypa/setuptools/commit/2c937116cc0dcd9b26b6070e89a3dc5=
+dcbedc2ae
+>
+> and see if it helps ?
+>
+> On Tue, Sep 3, 2024 at 1:36=E2=80=AFAM Martin Jansa via lists.openembedde=
+d.org
+> <martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > Hello Wang,
+> >
+> > did you have a look at this regression (with ccache) from the
+> > setuptools upgrade?
+> >
+> > Regards,
+> >
+> > On Thu, Aug 22, 2024 at 6:30=E2=80=AFPM Martin Jansa <martin.jansa@gmai=
+l.com> wrote:
+> > >
+> > > This seems to break python3-numpy build.
+> > >
+> > > I guess it can be resolved by upgrading numpy as in:
+> > > https://lists.openembedded.org/g/openembedded-core/message/203231
+> > > which switches from setuptools3 to python_mesonpy
+> > >
+> > > Comparing the failing command line it looks like CXX and some other
+> > > flags are included twice:
+> > >
+> > > with: setuptools-72.2.0:
+> > >
+> > > ccache \
+> > > aarch64-oe-linux-g++ \
+> > > -fstack-protector-all \
+> > > -O2 \
+> > > -D_FORTIFY_SOURCE=3D2 \
+> > > -Wformat \
+> > > -Wformat-security \
+> > > -Werror=3Dformat-security \
+> > > -Werror=3Dreturn-type \
+> > > -funwind-tables \
+> > > --sysroot=3DWORKDIR/recipe-sysroot \
+> > > -O2 \
+> > > -g \
+> > > -fcanon-prefix-map \
+> > > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
+> > > -pipe \
+> > > -fvisibility-inlines-hidden \
+> > > aarch64-oe-linux-g++ \
+> > > -fstack-protector-all \
+> > > -O2 \
+> > > -D_FORTIFY_SOURCE=3D2 \
+> > > -Wformat \
+> > > -Wformat-security \
+> > > -Werror=3Dformat-security \
+> > > -Werror=3Dreturn-type \
+> > > -funwind-tables \
+> > > --sysroot=3DWORKDIR/recipe-sysroot \
+> > > -shared \
+> > > -Wl,-O1 \
+> > > -Wl,--hash-style=3Dgnu \
+> > > -Wl,--as-needed \
+> > > -fcanon-prefix-map \
+> > > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
+> > > -Wl,-z,relro,-z,now \
+> > > -O2 \
+> > > -g \
+> > > -fcanon-prefix-map \
+> > > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-nu=
+mpy/1.26.4 \
+> > > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
+> > > -pipe \
+> > > -fvisibility-inlines-hidden \
+> > > build/temp.linux-x86_64-cpython-312/build/src.linux-x86_64-3.12/numpy=
+/core/src/multiarray/_multiarray_tests.o
+> > > \
+> > > build/temp.linux-x86_64-cpython-312/numpy/core/src/common/mem_overlap=
+.o \
+> > > build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_argpars=
+e.o \
+> > > build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_hashtab=
+le.o \
+> > > -LWORKDIR/recipe-sysroot/usr/lib \
+> > > -Lbuild/temp.linux-x86_64-cpython-312 \
+> > > -lnpymath \
+> > > -o \
+> > > build/lib.linux-x86_64-cpython-312/numpy/core/_multiarray_tests.cpyth=
+on-312-aarch64-linux-gnu.so
+> > >
+> > > --- setuptools-72.1.0   2024-08-22 18:17:36.941146726 +0200
+> > > +++ setuptools-72.2.0   2024-08-22 18:17:27.208147768 +0200
+> > > @@ -9,6 +9,28 @@
+> > >  -Werror=3Dreturn-type \
+> > >  -funwind-tables \
+> > >  --sysroot=3DWORKDIR/recipe-sysroot \
+> > > +-O2 \
+> > > +-g \
+> > > +-fcanon-prefix-map \
+> > > +-fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-n=
+umpy/1.26.4 \
+> > > +-fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-n=
+umpy/1.26.4 \
+> > > +-fmacro-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-n=
+umpy/1.26.4 \
+> > > +-fdebug-prefix-map=3DWORKDIR/numpy-1.26.4=3D/usr/src/debug/python3-n=
+umpy/1.26.4 \
+> > > +-fdebug-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > +-fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > > +-fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
+> > > +-pipe \
+> > > +-fvisibility-inlines-hidden \
+> > > +aarch64-oe-linux-g++ \
+> > > +-fstack-protector-all \
+> > > +-O2 \
+> > > +-D_FORTIFY_SOURCE=3D2 \
+> > > +-Wformat \
+> > > +-Wformat-security \
+> > > +-Werror=3Dformat-security \
+> > > +-Werror=3Dreturn-type \
+> > > +-funwind-tables \
+> > > +--sysroot=3DWORKDIR/recipe-sysroot \
+> > >  -shared \
+> > >  -Wl,-O1 \
+> > >  -Wl,--hash-style=3Dgnu \
+> > > @@ -33,6 +55,7 @@
+> > >  -fmacro-prefix-map=3DWORKDIR/recipe-sysroot=3D \
+> > >  -fdebug-prefix-map=3DWORKDIR/recipe-sysroot-native=3D \
+> > >  -pipe \
+> > > +-fvisibility-inlines-hidden \
+> > >  build/temp.linux-x86_64-cpython-312/build/src.linux-x86_64-3.12/nump=
+y/core/src/multiarray/_multiarray_tests.o
+> > > \
+> > >  build/temp.linux-x86_64-cpython-312/numpy/core/src/common/mem_overla=
+p.o \
+> > >  build/temp.linux-x86_64-cpython-312/numpy/core/src/common/npy_argpar=
+se.o \
+> > >
+> > > failing with:
+> > > WORKDIR/recipe-sysroot-native/usr/bin/aarch64-oe-linux/../../libexec/=
+aarch64-oe-linux/gcc/aarch64-oe-linux/14.2.0/ld:
+> > > cannot find aarch64-oe-linux-g++: No such file or directory
+> > > collect2: error: ld returned 1 exit status
+> > >
+> > > On Tue, Aug 20, 2024 at 8:52=E2=80=AFAM wangmy via lists.openembedded=
+.org
+> > > <wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
+> > > >
+> > > > From: Wang Mingyu <wangmy@fujitsu.com>
+> > > >
+> > > > Changelog:
+> > > > - Support for Pathlike objects in data files and extensions
+> > > > - native support for C++ compilers
+> > > > - removed unused get_msvcr()
+> > > >
+> > > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > > > ---
+> > > >  ...ython3-setuptools_72.1.0.bb =3D> python3-setuptools_72.2.0.bb} =
+| 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >  rename meta/recipes-devtools/python/{python3-setuptools_72.1.0.bb =
+=3D> python3-setuptools_72.2.0.bb} (94%)
+> > > >
+> > > > diff --git a/meta/recipes-devtools/python/python3-setuptools_72.1.0=
+.bb b/meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
+> > > > similarity index 94%
+> > > > rename from meta/recipes-devtools/python/python3-setuptools_72.1.0.=
+bb
+> > > > rename to meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
+> > > > index 945d443aff..63ea999960 100644
+> > > > --- a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
+> > > > +++ b/meta/recipes-devtools/python/python3-setuptools_72.2.0.bb
+> > > > @@ -11,7 +11,7 @@ SRC_URI:append:class-native =3D " file://0001-con=
+ditionally-do-not-fetch-code-by-e
+> > > >  SRC_URI +=3D " \
+> > > >              file://0001-_distutils-sysconfig.py-make-it-possible-t=
+o-substite.patch"
+> > > >
+> > > > -SRC_URI[sha256sum] =3D "8d243eff56d095e5817f796ede6ae32941278f542e=
+0f941867cc05ae52b162ec"
+> > > > +SRC_URI[sha256sum] =3D "80aacbf633704e9c8bfa1d99fa5dd4dc59573efcf9=
+e4042c13d3bcef91ac2ef9"
+> > > >
+> > > >  DEPENDS +=3D "python3"
+> > > >
+> > > > --
+> > > > 2.34.1
+> > > >
+> > > >
+> > > >
+> > > >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#204150): https://lists.openembedded.org/g/openembed=
+ded-core/message/204150
+> > Mute This Topic: https://lists.openembedded.org/mt/107996505/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
