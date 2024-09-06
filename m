@@ -1,86 +1,97 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A82BFCE7B09
-	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:08:05 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.34258.1725628076350240798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96AA1CE7B0D
+	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:23:55 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.34912.1725629031725698372
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Sep 2024 06:07:56 -0700
+ Fri, 06 Sep 2024 06:23:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9979a097e3=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4865ec4b004371
-	for <openembedded-core@lists.openembedded.org>; Fri, 6 Sep 2024 06:07:56 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41fhy2gvdv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 06:07:55 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 6 Sep 2024 06:07:54 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Fri, 6 Sep 2024 06:07:53 -0700
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][scarthgap][PATCH 1/1] expat: 2.6.2 -> 2.6.3
-Date: Fri, 6 Sep 2024 13:07:51 +0000
-Message-ID: <20240906130751.1512186-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@mvista.com header.s=google header.b=D/DTysdg;
+ spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20551e2f1f8so19769505ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 06:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1725629030; x=1726233830; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MNpEb81H7VpS9V50XJ5/o/muoEXuPyaRKZOGeNSvybo=;
+        b=D/DTysdgHcoBnHyPzEic6Io3bHMlr4uqzdYZHAe3UNLmDETO6Z3I88ebBYMqrCs4U9
+         o/SY9e1QU9aJ1w8rE8YnSZDYkD8jvfiRw0PpRKhawJv/qHcThdyk/W84BkZ/5EqqeNsE
+         haWJzWvBlJiBZAqGOu11hVqgSVnqOHA7vww84=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725629030; x=1726233830;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MNpEb81H7VpS9V50XJ5/o/muoEXuPyaRKZOGeNSvybo=;
+        b=uz9ayL+uNW5s+GhQHh9pbDFvb8OJc2GPFu1d6ViDAWSV2O7GTaoEdSArMFh7ch3cyp
+         vY9u6XAOSbAIrNPH7EmEKtVHiSjJKHii9XSAC2DDsFZ+BAgJUIsioxwlKUyEgbKh0Opl
+         gHoIaCTi86S+wNgLLE6GRaSYYfXqmRYV3qDrlxpC7OyJyydmK8bFbKiqz69RG9qkbFt9
+         aUx2Ddo5dP8IMyW88B2xT2IkP/v2Ub37rr4DfDKS6IFGEK2/X06Sqka+rxf9XSbzQPID
+         aXT6n9lGcTEUg34p/JwZTl2Jqj+Dy6/OYX/m9cuZ5DZi/sC1SCr1mi0vPNLLLlQaHeUh
+         Nvlw==
+X-Gm-Message-State: AOJu0YzSGg8+YVoVF3+ZnkzkbO2q6l7kCB2aJNG8fc5lumowPXoy9byr
+	Ow0K89mv2gvIUgRxKQVXuSyOMpSHqh0+SlB1QNWMmX2A39VpdWCH1i+9kP6BoViU6GzThgRbfXB
+	Dd5g=
+X-Google-Smtp-Source: AGHT+IGhSTvLnP+tKW0tVpSB8gm/f15rxzFp5YgnDFD6Ase4om+Eu4X94bDKnwQSAWdy2NsXrdWLag==
+X-Received: by 2002:a17:903:230c:b0:201:ffcb:bbbf with SMTP id d9443c01a7336-206f04e934dmr29719115ad.22.1725629030383;
+        Fri, 06 Sep 2024 06:23:50 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([2401:4900:882e:b9ce:65d4:d87d:bbc9:eb99])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206aea56924sm42732525ad.231.2024.09.06.06.23.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Sep 2024 06:23:49 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] python3: upgrade 3.12.4 -> 3.12.5
+Date: Fri,  6 Sep 2024 18:53:39 +0530
+Message-Id: <20240906132339.1721751-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=I5E3R8gg c=1 sm=1 tr=0 ts=66dafeab cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=EaEq8P2WXUwA:10 a=ag1SF4gXAAAA:8 a=dmHQzXBwAAAA:8 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=hG7ARYT_sjMVYlF6uHcA:9
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=ZHTgszdjUGq-PTuYAr3K:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: SbwkPM5NFr6r-h_WDPb-5mR4bJ4yhliN
-X-Proofpoint-GUID: SbwkPM5NFr6r-h_WDPb-5mR4bJ4yhliN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_02,2024-09-05_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- mlxlogscore=986 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- phishscore=0 clxscore=1011 bulkscore=0 mlxscore=0 suspectscore=0
- malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2408220000 definitions=main-2409060096
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 13:08:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204262
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 13:23:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204263
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Includes fixes for CVE-2024-45490, CVE-2024-45491 and CVE-2024-45492.
+Changelog: https://docs.python.org/release/3.12.5/whatsnew/changelog.html
 
-https://blog.hartwork.org/posts/expat-2-6-3-released/
+Include security fix
+CVE-2024-6923
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-6923
+https://github.com/python/cpython/pull/122233
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- meta/recipes-core/expat/{expat_2.6.2.bb => expat_2.6.3.bb} | 2 +-
+ .../python/{python3_3.12.4.bb => python3_3.12.5.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.6.2.bb => expat_2.6.3.bb} (92%)
+ rename meta/recipes-devtools/python/{python3_3.12.4.bb => python3_3.12.5.bb} (99%)
 
-diff --git a/meta/recipes-core/expat/expat_2.6.2.bb b/meta/recipes-core/expat/expat_2.6.3.bb
-similarity index 92%
-rename from meta/recipes-core/expat/expat_2.6.2.bb
-rename to meta/recipes-core/expat/expat_2.6.3.bb
-index 6c9db91bef..5ae694a004 100644
---- a/meta/recipes-core/expat/expat_2.6.2.bb
-+++ b/meta/recipes-core/expat/expat_2.6.3.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
+diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb b/meta/recipes-devtools/python/python3_3.12.5.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.12.4.bb
+rename to meta/recipes-devtools/python/python3_3.12.5.bb
+index 3ac83166ac..5c3b7a92f8 100644
+--- a/meta/recipes-devtools/python/python3_3.12.4.bb
++++ b/meta/recipes-devtools/python/python3_3.12.5.bb
+@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
  
--SRC_URI[sha256sum] = "9c7c1b5dcbc3c237c500a8fb1493e14d9582146dd9b42aa8d3ffb856a3b927e0"
-+SRC_URI[sha256sum] = "b8baef92f328eebcf731f4d18103951c61fa8c8ec21d5ff4202fb6f2198aeb2d"
+-SRC_URI[sha256sum] = "f6d419a6d8743ab26700801b4908d26d97e8b986e14f95de31b32de2b0e79554"
++SRC_URI[sha256sum] = "fa8a2e12c5e620b09f53e65bcd87550d2e5a1e2e04bf8ba991dcc55113876397"
  
- EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
- 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
-2.40.0
+2.25.1
 
 
