@@ -1,97 +1,127 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96AA1CE7B0D
-	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:23:55 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.34912.1725629031725698372
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A05B6CE7B0D
+	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:29:45 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.35043.1725629379420586207
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Sep 2024 06:23:52 -0700
+ Fri, 06 Sep 2024 06:29:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=D/DTysdg;
- spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20551e2f1f8so19769505ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 06:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1725629030; x=1726233830; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MNpEb81H7VpS9V50XJ5/o/muoEXuPyaRKZOGeNSvybo=;
-        b=D/DTysdgHcoBnHyPzEic6Io3bHMlr4uqzdYZHAe3UNLmDETO6Z3I88ebBYMqrCs4U9
-         o/SY9e1QU9aJ1w8rE8YnSZDYkD8jvfiRw0PpRKhawJv/qHcThdyk/W84BkZ/5EqqeNsE
-         haWJzWvBlJiBZAqGOu11hVqgSVnqOHA7vww84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725629030; x=1726233830;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MNpEb81H7VpS9V50XJ5/o/muoEXuPyaRKZOGeNSvybo=;
-        b=uz9ayL+uNW5s+GhQHh9pbDFvb8OJc2GPFu1d6ViDAWSV2O7GTaoEdSArMFh7ch3cyp
-         vY9u6XAOSbAIrNPH7EmEKtVHiSjJKHii9XSAC2DDsFZ+BAgJUIsioxwlKUyEgbKh0Opl
-         gHoIaCTi86S+wNgLLE6GRaSYYfXqmRYV3qDrlxpC7OyJyydmK8bFbKiqz69RG9qkbFt9
-         aUx2Ddo5dP8IMyW88B2xT2IkP/v2Ub37rr4DfDKS6IFGEK2/X06Sqka+rxf9XSbzQPID
-         aXT6n9lGcTEUg34p/JwZTl2Jqj+Dy6/OYX/m9cuZ5DZi/sC1SCr1mi0vPNLLLlQaHeUh
-         Nvlw==
-X-Gm-Message-State: AOJu0YzSGg8+YVoVF3+ZnkzkbO2q6l7kCB2aJNG8fc5lumowPXoy9byr
-	Ow0K89mv2gvIUgRxKQVXuSyOMpSHqh0+SlB1QNWMmX2A39VpdWCH1i+9kP6BoViU6GzThgRbfXB
-	Dd5g=
-X-Google-Smtp-Source: AGHT+IGhSTvLnP+tKW0tVpSB8gm/f15rxzFp5YgnDFD6Ase4om+Eu4X94bDKnwQSAWdy2NsXrdWLag==
-X-Received: by 2002:a17:903:230c:b0:201:ffcb:bbbf with SMTP id d9443c01a7336-206f04e934dmr29719115ad.22.1725629030383;
-        Fri, 06 Sep 2024 06:23:50 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([2401:4900:882e:b9ce:65d4:d87d:bbc9:eb99])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206aea56924sm42732525ad.231.2024.09.06.06.23.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2024 06:23:49 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] python3: upgrade 3.12.4 -> 3.12.5
-Date: Fri,  6 Sep 2024 18:53:39 +0530
-Message-Id: <20240906132339.1721751-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9979a097e3=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 486Adrbq001167
+	for <openembedded-core@lists.openembedded.org>; Fri, 6 Sep 2024 13:29:38 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41fhy8gvdg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 13:29:38 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 6 Sep 2024 06:29:37 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Fri, 6 Sep 2024 06:29:36 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][kirkstone][PATCH 3/3] expat: fix CVE-2024-45492
+Date: Fri, 6 Sep 2024 13:29:30 +0000
+Message-ID: <20240906132930.2926495-3-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20240906132930.2926495-1-archana.polampalli@windriver.com>
+References: <20240906132930.2926495-1-archana.polampalli@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: dkD8_FJN33iQlfEvWdnuBYUdbkaSWXWI
+X-Proofpoint-ORIG-GUID: dkD8_FJN33iQlfEvWdnuBYUdbkaSWXWI
+X-Authority-Analysis: v=2.4 cv=f6gaB/yM c=1 sm=1 tr=0 ts=66db03c2 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=-Xy8Vmf_AAAA:8 a=NEAV23lmAAAA:8 a=OBQj1sAUoBz71i574iAA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=UVb-SS9ExmY72c4GIYVd:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_03,2024-09-05_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 malwarescore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
+ adultscore=0 spamscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2408220000 definitions=main-2409060098
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 13:23:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204263
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 13:29:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204266
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Changelog: https://docs.python.org/release/3.12.5/whatsnew/changelog.html
+An issue was discovered in libexpat before 2.6.3. nextScaffoldPart in xmlparse.c
+can have an integer overflow for m_groupSize on 32-bit platforms (where UINT_MAX equals SIZE_MAX).
 
-Include security fix
-CVE-2024-6923
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2024-6923
-https://github.com/python/cpython/pull/122233
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- .../python/{python3_3.12.4.bb => python3_3.12.5.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3_3.12.4.bb => python3_3.12.5.bb} (99%)
+ .../expat/expat/CVE-2024-45492.patch          | 38 +++++++++++++++++++
+ meta/recipes-core/expat/expat_2.5.0.bb        |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2024-45492.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb b/meta/recipes-devtools/python/python3_3.12.5.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.12.4.bb
-rename to meta/recipes-devtools/python/python3_3.12.5.bb
-index 3ac83166ac..5c3b7a92f8 100644
---- a/meta/recipes-devtools/python/python3_3.12.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.5.bb
-@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+diff --git a/meta/recipes-core/expat/expat/CVE-2024-45492.patch b/meta/recipes-core/expat/expat/CVE-2024-45492.patch
+new file mode 100644
+index 0000000000..a569f18067
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2024-45492.patch
+@@ -0,0 +1,38 @@
++From 9b0615959a4df00b4719c5beae286eb52fd32fe0 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Mon, 19 Aug 2024 22:37:16 +0200
++Subject: [PATCH] lib: Detect integer overflow in function nextScaffoldPart
++
++Reported by TaiYou
++
++CVE: CVE-2024-45492
++
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/892/commits/9bf0f2c16ee86f64]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ lib/xmlparse.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index adb27e3..6d7e92f 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -7465,6 +7465,15 @@ nextScaffoldPart(XML_Parser parser) {
++   int next;
++
++   if (! dtd->scaffIndex) {
+++    /* Detect and prevent integer overflow.
+++     * The preprocessor guard addresses the "always false" warning
+++     * from -Wtype-limits on platforms where
+++     * sizeof(unsigned int) < sizeof(size_t), e.g. on x86_64. */
+++#if UINT_MAX >= SIZE_MAX
+++    if (parser->m_groupSize > ((size_t)(-1) / sizeof(int))) {
+++      return -1;
+++    }
+++#endif
++     dtd->scaffIndex = (int *)MALLOC(parser, parser->m_groupSize * sizeof(int));
++     if (! dtd->scaffIndex)
++       return -1;
++--
++2.40.0
+diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/expat/expat_2.5.0.bb
+index bfd0961913..8fccb8b27f 100644
+--- a/meta/recipes-core/expat/expat_2.5.0.bb
++++ b/meta/recipes-core/expat/expat_2.5.0.bb
+@@ -25,6 +25,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
+ 	   file://CVE-2024-45490-0001.patch \
+ 	   file://CVE-2024-45490-0002.patch \
+ 	   file://CVE-2024-45491.patch \
++	   file://CVE-2024-45492.patch \
             "
  
--SRC_URI[sha256sum] = "f6d419a6d8743ab26700801b4908d26d97e8b986e14f95de31b32de2b0e79554"
-+SRC_URI[sha256sum] = "fa8a2e12c5e620b09f53e65bcd87550d2e5a1e2e04bf8ba991dcc55113876397"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
 -- 
-2.25.1
+2.40.0
 
 
