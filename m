@@ -1,105 +1,143 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03056CE7AA2
-	for <webhook@archiver.kernel.org>; Thu,  5 Sep 2024 22:40:30 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.22755.1725576027521887079
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A20CE7AA5
+	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 01:33:01 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.25585.1725586371579169238
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Sep 2024 15:40:27 -0700
+ Thu, 05 Sep 2024 18:32:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZM6oQc+r;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42c5347b2f7so10757295e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 15:40:27 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=t/LFQCjW;
+ spf=pass (domain: linaro.org, ip: 209.85.208.176, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f7528f4658so1999341fa.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 18:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1725576026; x=1726180826; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZvIKkv5MisLGAttSmvbLJo9rPDte6SKJbIXPR4GSmvY=;
-        b=ZM6oQc+r4rHkan2D5zQoMNkLoiTFuCpHQGOYFhoaEZmRoDJ10jJuFEYoI51TWhwEk/
-         ayDfDonXVsrIvi4wbKSMUptvzSTtrDsHFsnhwyOwbvLcvPvzKAJc1HSSHRuLY72QBlGY
-         VGEDguarK6wYjchQiWzPzjimFh+3TPI6eTKh8=
+        d=linaro.org; s=google; t=1725586369; x=1726191169; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KCbGqg2YrkvNUdJNxBpIIrf6lNRmz/Kw//8eF4VDKF4=;
+        b=t/LFQCjWWr9gKuDwXzIss6E/2zcF8We12ChgO1LpeU2lYRQsVCAuLnpQTnfvUHimIz
+         0F1sIgckvIjSAc6EcaeAru45+jsqYXf4gn1fgX/2Eiyxr/ToPuUFhzSS3jVd4r1eG4DB
+         IRRpzpGrS3BBKvmlDxwHeZ2HQbda8YyB3SfnGHI6EuPP4DxjJ8buDjfQhw2ou8lVWRP2
+         nseydqizHi1FhtW45j9IXHys3uDOKg50FCHHJREfisdMp0dp1nW72Foe8c4FetJTNxGs
+         Lc9nydOJv+7oyRd3BhrVyhO3RBQcGcUpTSkEd4OnWvUUvuTNyTU6KrteyM6wOM2xWgHz
+         S7Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725576026; x=1726180826;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZvIKkv5MisLGAttSmvbLJo9rPDte6SKJbIXPR4GSmvY=;
-        b=VcipwaI7VMAoI271wt3n2vIgv/Z4UibonTMMexra81vcONE28hz8H2cgJnVE/HozAc
-         zAiMGx3/X1s98MRDfcCMSRiFPVEgboc0I04IoafwRdilcUPpEHMQGGTxanYviZNG1kMc
-         XGLX7AArzKF4FLyoIF0QflAg5cqkD9mdnZdB+2//V3vZtq1I+XERAaWcP+Tk0dWtYC0c
-         UCyxdc/iBZ9BITGyeAttrooG5h+9f31C+hTmsm3b1Jlo3c5VRG/7T1xCT5KqJZWw1z1P
-         09bPDTIskxi2d1cO6ZOpHq+8GsdFWrATdVg7djIKi5EQtlUhZWXJfKNB9d0e8nrIodTb
-         yFTw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAAL3Z5YHT7OD4GpMe/cT+AfMqLu3u6MOfrcCUYC0xnVd8LGflbcICg7zzhRqQE50Sw47zsKhTe4mAUPQ2iywzBA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxhd9F0f4pGnYQMbjDWqbeRMBVS7CI56Pf25ifVgL3KVD3ux6eu
-	SpU9fdbUvvAdRyOI+J7x8WhhTfl8BI+QvP7JMNxNz8a+Hxc3xldb1106c+OYeNQ=
-X-Google-Smtp-Source: AGHT+IHlm2ALkmFsHlMNT9Eyd3BlhVVqhL99cYuvrtATvi95lrpQs11WV0P1AAY+dhwzhRbmJt0Qdg==
-X-Received: by 2002:a05:600c:154a:b0:428:1b0d:8657 with SMTP id 5b1f17b1804b1-42bb01c1136mr187449345e9.22.1725576025732;
-        Thu, 05 Sep 2024 15:40:25 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:59c8:5822:d805:79c3? ([2001:8b0:aba:5f3c:59c8:5822:d805:79c3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c15705easm14904133f8f.33.2024.09.05.15.40.25
+        d=1e100.net; s=20230601; t=1725586369; x=1726191169;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KCbGqg2YrkvNUdJNxBpIIrf6lNRmz/Kw//8eF4VDKF4=;
+        b=vVCqMthFkxccjCVkPj2ugFc5XkxtjoXsp6uA+E0B2yVQhUql3f2U9839TnkrOyBfMp
+         zb0Glf0hLtl6eqT0WIZXYrf5FITYxG5T4WYxp7SbbA+fjG7kqSGtRBLmT1uQVWMbugPh
+         s+kOwmjJNp8E7EEQX0ieN92QESjzHdXi3x97k2B7RxfeO9I4G+o2t4sLoPxpHGRMDVqo
+         VLtHGI1xaECsLZyMDZSTdoGzowfdllCk8ZouEz86kg2JB1Qm7/OEfO7vvBHCx/pGNWgb
+         Y5JGQoKCxZiDPPRucEaFt7tLfvtXN4hzITVz2X8RU+VaHBGuESPy2Ypjix3bHRs2M02R
+         bB/Q==
+X-Gm-Message-State: AOJu0YyZY5oG9SvQZAye0G6Ix0CCEr3i9TqdNeg8Ve/M+GM62Fvl+qu2
+	IeV+QLM+CvBh20o7Yns+AGSeJpBh/2OYcFVJ1LNV8cXS3sluWAfuK9mst7mjVoBaChCbLES/65h
+	C
+X-Google-Smtp-Source: AGHT+IErzEFgkDbIq+/WxtC/LJklaRHtiI1HLkxljg/gbCJdUQBVjLUEriUvLeAOWmd3+NKccnM/Pg==
+X-Received: by 2002:a2e:9816:0:b0:2f7:4e9b:93c4 with SMTP id 38308e7fff4ca-2f751ee7048mr3893521fa.19.1725586368811;
+        Thu, 05 Sep 2024 18:32:48 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f66498ccf9sm3508711fa.65.2024.09.05.18.32.47
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 15:40:25 -0700 (PDT)
-Message-ID: <20c8fafa66b718fde5d622c2476fa60e545d50ad.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [master/scarthgap PATCH] meta-ide-support: Mark
- recipe as MACHINE-specific
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: paul.barker.ct@bp.renesas.com, openembedded-core@lists.openembedded.org
-Date: Thu, 05 Sep 2024 23:40:24 +0100
-In-Reply-To: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
-References: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Thu, 05 Sep 2024 18:32:48 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-firmware: add packages for Qualcomm XElite GPU firmware
+Date: Fri,  6 Sep 2024 04:32:47 +0300
+Message-Id: <20240906013247.151885-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Sep 2024 22:40:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204245
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 01:33:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204246
 
-On Thu, 2024-09-05 at 21:21 +0100, Paul Barker via lists.openembedded.org w=
-rote:
-> meta-ide-support:do_write_test_data dumps the bitbake data dictionary to
-> a file using export2json(). As this obviously includes the value of
-> MACHINE, and other MACHINE-specific variables, the recipe needs to be
-> marked as MACHINE-specific.
->=20
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-> ---
-> =C2=A0meta/recipes-core/meta/meta-ide-support.bb | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-co=
-re/meta/meta-ide-support.bb
-> index d85aa120c08b..7ed422ce4ddb 100644
-> --- a/meta/recipes-core/meta/meta-ide-support.bb
-> +++ b/meta/recipes-core/meta/meta-ide-support.bb
-> @@ -1,6 +1,7 @@
-> =C2=A0SUMMARY =3D "Integrated Development Environment support"
-> =C2=A0DESCRIPTION =3D "Meta package for ensuring the build directory cont=
-ains all appropriate toolchain packages for using an IDE"
-> =C2=A0LICENSE =3D "MIT"
-> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
-> =C2=A0
-> =C2=A0DEPENDS =3D "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu=
--helper-native unfs3-native cmake-native autoconf-native automake-native me=
-son-native intltool-native pkgconfig-native"
-> =C2=A0RM_WORK_EXCLUDE +=3D "${PN}"
+Add two packages to handle Qualcomm XElite firmware, one for the
+board-specific signed blob and one for the unsigned (generic) GPU
+firmware files.
 
-Something about this is making our toolchain tests unhappy, e.g.:
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ .../linux-firmware/linux-firmware_20240811.bb             | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-https://valkyrie.yoctoproject.org/#/builders/42/builds/86/steps/12/logs/std=
-io
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
+index ab22bc83bbe1..b620a6e24928 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
+@@ -391,6 +391,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-vpu \
+              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
+              ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 ${PN}-qcom-adreno-a702 \
++             ${PN}-qcom-adreno-g750 \
+              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
+              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
+              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
+@@ -407,6 +408,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+              ${PN}-qcom-sm8550-audio-tplg \
+              ${PN}-qcom-sm8650-audio-tplg \
++             ${PN}-qcom-x1e80100-adreno \
+              ${PN}-qla2xxx ${PN}-qla2xxx-license \
+              ${PN}-rockchip-license ${PN}-rockchip-dptx \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+@@ -1401,6 +1403,7 @@ LICENSE:${PN}-qcom-adreno-a630 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a650 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a660 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a702 = "Firmware-qcom"
++LICENSE:${PN}-qcom-adreno-g750 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8016-modem = "Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8016-wifi = "Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-audio = "Firmware-qcom"
+@@ -1430,6 +1433,7 @@ LICENSE:${PN}-qcom-sm8250-compute = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8550-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-sm8650-audio-tplg = "Firmware-linaro"
++LICENSE:${PN}-qcom-x1e80100-adreno = "Firmware-qcom"
+ 
+ FILES:${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
+ FILES:${PN}-qcom-yamato-license = "${nonarch_base_libdir}/firmware/LICENSE.qcom_yamato"
+@@ -1451,6 +1455,7 @@ FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.*"
+ FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.*"
+ FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
+ FILES:${PN}-qcom-adreno-a702 = "${nonarch_base_libdir}/firmware/qcom/a702*.*"
++FILES:${PN}-qcom-adreno-g750 = "${nonarch_base_libdir}/firmware/qcom/gen70500_*.*"
+ FILES:${PN}-qcom-apq8016-modem = "${nonarch_base_libdir}/firmware/qcom/apq8016/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8016/modem.mbn"
+ FILES:${PN}-qcom-apq8016-wifi = "${nonarch_base_libdir}/firmware/qcom/apq8016/wcnss.mbn ${nonarch_base_libdir}/firmware/qcom/apq8016/WCNSS*"
+ FILES:${PN}-qcom-apq8096-adreno = "${nonarch_base_libdir}/firmware/qcom/apq8096/a530_zap.mbn ${nonarch_base_libdir}/firmware/qcom/a530_zap.mdt"
+@@ -1482,6 +1487,7 @@ FILES:${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/c
+ FILES:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${nonarch_base_libdir}/firmware/qcom/sm8250/Thundercomm/RB5/slpi*.*"
+ FILES:${PN}-qcom-sm8550-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8550/*tplg.bin"
+ FILES:${PN}-qcom-sm8650-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8650/*tplg.bin"
++FILES:${PN}-qcom-x1e80100-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/gen70500_zap.mbn"
+ 
+ RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+@@ -1497,6 +1503,7 @@ RDEPENDS:${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a702 = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-adreno-g750 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8016-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8016-wifi = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-adreno = "${PN}-qcom-license"
+@@ -1528,6 +1535,7 @@ RDEPENDS:${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8550-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-sm8650-audio-tplg = "${PN}-linaro-license"
++RDEPENDS:${PN}-qcom-x1e80100-adreno = "${PN}-qcom-license"
+ 
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+-- 
+2.39.2
 
-I've not looked into it at all, just reporting what we've need to fix
-in order to be able to consider merging this.
-
-Cheers,
-
-Richard
 
