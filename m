@@ -1,128 +1,122 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EABCE7B11
-	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:29:45 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.34700.1725629376752036568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCDBCE7B13
+	for <webhook@archiver.kernel.org>; Fri,  6 Sep 2024 13:40:25 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web11.34921.1725630017394172801
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Sep 2024 06:29:36 -0700
+ Fri, 06 Sep 2024 06:40:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9979a097e3=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4868t04V025523
-	for <openembedded-core@lists.openembedded.org>; Fri, 6 Sep 2024 06:29:36 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41fhy70wqy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 06:29:36 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 6 Sep 2024 06:29:35 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Fri, 6 Sep 2024 06:29:34 -0700
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 2/3] expat: fix CVE-2024-45491
-Date: Fri, 6 Sep 2024 13:29:29 +0000
-Message-ID: <20240906132930.2926495-2-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20240906132930.2926495-1-archana.polampalli@windriver.com>
-References: <20240906132930.2926495-1-archana.polampalli@windriver.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Dd8bDrpj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.177, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6d44b6e1aebso19429147b3.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 06:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725630016; x=1726234816; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ykQWRs/s1qs62hrIbFQ8jcb8S9SHiBQPW7ZDxduyw7o=;
+        b=Dd8bDrpj806aioz9sndHIFPt5XAaNtuC2PsVMW06pXOvSvfAogq6zR4iXNbfgQg7Uk
+         rXdW3sTHgJeMM87gGwPEA+0jPENvnsKptztamXMsBwHOWd1GXFQtsP1MPeXymN06fPi2
+         PdSpXzz5jJFMPF6f6b/GEuI/gmlvMO6AOFhU9ZKJbDmnDFN0Mpxni+uJLJh6xADoeyfT
+         h1d2yUmt+SG+k19OTnfDxPwTeu8GflAJ9NZvJYGoaAkQxRHAQhDGMBFeXcgoYCjp/+cw
+         0QxrD65yLs6KxVoatYyMA2pfBXhnWA7NFPkk+edW4oR8Ckwpw0LRfm369wZVPXBoGwu7
+         9euA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725630016; x=1726234816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ykQWRs/s1qs62hrIbFQ8jcb8S9SHiBQPW7ZDxduyw7o=;
+        b=qvkHuRe3TnroF0X+7ykE3RrRgrGZtFTAJldDeMba3/pN8qoyrMGD57Gn1JIYfx3h3j
+         NgJ3zrQTrbgBa+6b6/3tewSxKHYJvfYMBBlJGP1gRJZwjLqKB6LmUkpJLrj0vClMzkum
+         GeGP2MI+0LCIE05ZXaT2iS2f6EMR3E8EXCZo8HGZLgEetCrT6OfFstLopmjct6Ca0zp7
+         yAPTpx9Qji6RpZwMpva1H3P3yucvePB6hplGoOSjuMgepeNFsHTWAHAW/SoQwKAxOHv3
+         +aY4he1tEx9ojlpLTG+J/cSxAxxIfSOmPjMxgOHV6smdAfNLZcxkIej/8z9e8GGJ6KV+
+         Zmzw==
+X-Gm-Message-State: AOJu0YzmxPkl9XEMj0tIGKxE3b0VRtjU0Ij4L1t5+Q/1rCWj8WpE5da6
+	5R4wqKO3Nsojqb1ZZcwgf8wQIechB1cbBOc1BP8fCL7sWkxhK3B1lKkAoF3MGY5yfIgqUDHj6CA
+	yIr2dSguTgeaagMtaQo/9mo2MHRWFUJ/AxiiFCA==
+X-Google-Smtp-Source: AGHT+IEZlnLyKzX4UL2HC/QQJb3ap/hrtva+Ewv13ISfkYvpAR0lagrk3DYtexIiBM2k4RURP6GE1IUO4qO4/I0muyg=
+X-Received: by 2002:a05:690c:6e06:b0:6b0:f068:8274 with SMTP id
+ 00721157ae682-6db45164c4amr34873597b3.41.1725630016517; Fri, 06 Sep 2024
+ 06:40:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: CzVW0LFtvJGOPALRaS5NcXcSxDAmz4wO
-X-Authority-Analysis: v=2.4 cv=Qo8M3kyd c=1 sm=1 tr=0 ts=66db03c0 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=-Xy8Vmf_AAAA:8 a=NEAV23lmAAAA:8 a=awy1Zgjwfi5qAo-_cagA:9 a=FdTzh2GWekK77mhwV6Dw:22
- a=UVb-SS9ExmY72c4GIYVd:22
-X-Proofpoint-GUID: CzVW0LFtvJGOPALRaS5NcXcSxDAmz4wO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_03,2024-09-05_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- phishscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 clxscore=1015 mlxscore=0
- classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2408220000 definitions=main-2409060098
+References: <20240904052544.2082232-1-raj.khem@gmail.com> <CAMKF1sqN3U0uSv7E+5ZMOS_F+fWcax9Xm1xy+wOf1N-H9OT_MQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqN3U0uSv7E+5ZMOS_F+fWcax9Xm1xy+wOf1N-H9OT_MQ@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 6 Sep 2024 06:40:05 -0700
+Message-ID: <CAOSpxdbhMHYFHnWm3LER+FNPOe9vK7ofG_0gZAeSHkga9kXAxA@mail.gmail.com>
+Subject: Re: [PATCH] gcc: Fix spurious '/' in GLIBC_DYNAMIC_LINKER on microblaze
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Mark Hatle <mark.hatle@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 13:29:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204265
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Sep 2024 13:40:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204267
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+On Thu, Sep 5, 2024 at 11:55=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+> This needs backporting to kirkstone and scarthgap as well.
 
-An issue was discovered in libexpat before 2.6.3. dtdCopy in xmlparse.c can have
-an integer overflow for nDefaultAtts on 32-bit platforms (where UINT_MAX equals SIZE_MAX).
+This patch understandably doesn't cherry-pick to the earlier versions
+of gcc in kirkstone and scarthgap.
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- .../expat/expat/CVE-2024-45491.patch          | 39 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.5.0.bb        |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2024-45491.patch
+If someone would like to prepare branch appropriate versions I'd be
+happy to add them to my test queues.
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2024-45491.patch b/meta/recipes-core/expat/expat/CVE-2024-45491.patch
-new file mode 100644
-index 0000000000..2231722f12
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2024-45491.patch
-@@ -0,0 +1,39 @@
-+From 17e29cb8ff58a8356ad8ea363c169e227e93e444 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Mon, 19 Aug 2024 22:34:13 +0200
-+Subject: [PATCH] lib: Detect integer overflow in dtdCopy
-+
-+Reported by TaiYou
-+
-+CVE: CVE-2024-45491
-+
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/891/commits/8e439a9947e9dc80]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ lib/xmlparse.c | 10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 6f0440b..adb27e3 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -6913,6 +6913,16 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
-+     if (! newE)
-+       return 0;
-+     if (oldE->nDefaultAtts) {
-++      /* Detect and prevent integer overflow.
-++       * The preprocessor guard addresses the "always false" warning
-++       * from -Wtype-limits on platforms where
-++       * sizeof(int) < sizeof(size_t), e.g. on x86_64. */
-++#if UINT_MAX >= SIZE_MAX
-++      if ((size_t)oldE->nDefaultAtts
-++          > ((size_t)(-1) / sizeof(DEFAULT_ATTRIBUTE))) {
-++        return 0;
-++      }
-++#endif
-+       newE->defaultAtts
-+           = ms->malloc_fcn(oldE->nDefaultAtts * sizeof(DEFAULT_ATTRIBUTE));
-+       if (! newE->defaultAtts) {
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/expat/expat_2.5.0.bb
-index 6d927ec8c8..bfd0961913 100644
---- a/meta/recipes-core/expat/expat_2.5.0.bb
-+++ b/meta/recipes-core/expat/expat_2.5.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
- 	   file://CVE-2023-52426-011.patch \
- 	   file://CVE-2024-45490-0001.patch \
- 	   file://CVE-2024-45490-0002.patch \
-+	   file://CVE-2024-45491.patch \
-            "
- 
- UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
--- 
-2.40.0
+Thanks,
 
+Steve
+
+>
+> On Tue, Sep 3, 2024 at 10:25=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
+te:
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Mark Hatle <mark.hatle@amd.com>
+> > ---
+> >  ...fine-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LI=
+NKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc/0007-De=
+fine-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+> > index 6ff16e38e19..4ed55015519 100644
+> > --- a/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-an=
+d-UCLIBC_DYNAMIC_LINKE.patch
+> > +++ b/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-an=
+d-UCLIBC_DYNAMIC_LINKE.patch
+> > @@ -1,4 +1,4 @@
+> > -From b597a2bc85ffdcf780731a44de02799ebc3d8f61 Mon Sep 17 00:00:00 2001
+> > +From 4067ae345f0ff1fbf37c0348f2af09257513b817 Mon Sep 17 00:00:00 2001
+> >  From: Khem Raj <raj.khem@gmail.com>
+> >  Date: Fri, 29 Mar 2013 09:24:50 +0400
+> >  Subject: [PATCH] Define GLIBC_DYNAMIC_LINKER and UCLIBC_DYNAMIC_LINKER
+> > @@ -184,7 +184,7 @@ index e5d84e180e3..98cb49c189f 100644
+> >   #undef GNU_USER_TARGET_LINK_SPEC
+> >   #define GNU_USER_TARGET_LINK_SPEC \
+> >  diff --git a/gcc/config/microblaze/linux.h b/gcc/config/microblaze/lin=
+ux.h
+> > -index 5ed8ee518be..5553e7cac21 100644
+> > +index 5ed8ee518be..299d1a62c81 100644
+> >  --- a/gcc/config/microblaze/linux.h
+> >  +++ b/gcc/config/microblaze/linux.h
+> >  @@ -28,7 +28,7 @@
+> > @@ -192,7 +192,7 @@ index 5ed8ee518be..5553e7cac21 100644
+> >   #define TLS_NEEDS_GOT 1
+> >
+> >  -#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
+> > -+#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "/ld.so.1"
+> > ++#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld.so.1"
+> >   #define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
+> >
+> >   #if TARGET_BIG_ENDIAN_DEFAULT =3D=3D 0 /* LE */
 
