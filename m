@@ -1,312 +1,99 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2229AE6FE49
-	for <webhook@archiver.kernel.org>; Sun,  8 Sep 2024 17:22:18 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web10.34387.1725816129153568647
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C90CD4F4C
+	for <webhook@archiver.kernel.org>; Sun,  8 Sep 2024 17:33:28 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.34609.1725816802180613951
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Sep 2024 10:22:09 -0700
+ Sun, 08 Sep 2024 10:33:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
-Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
-	by mailout02.t-online.de (Postfix) with SMTP id EA644952D
-	for <openembedded-core@lists.openembedded.org>; Sun,  8 Sep 2024 19:21:51 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.38.85]) by fwd78.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1snLbh-2ACPq50; Sun, 8 Sep 2024 19:21:49 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [RFC][oe-core][PATCH] mesa: add support for rusticl
-Date: Sun,  8 Sep 2024 19:23:11 +0200
-Message-ID: <20240908172311.3773048-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.46.0
-MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1725816109-95A9C56E-9E5C58DD/0/0 CLEAN NORMAL
-X-TOI-MSGID: e1d6347c-726a-4ba9-9983-03415e699a3d
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=L0Vlrc/m;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=gXbQsVLZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010191d2b28777-02463b1d-e9dc-4e69-b5dc-5a1aaf0cab8e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1725816801; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Yujd59Rh52Lge0Hb7IdBLfmCjVJOfZqmrZ6IEUlWhIE=;
+	b=L0Vlrc/mCgMByMZE6JcpN+LI3i9A9o8KzCuPXaep9b9wzBMYHudOYABGgf1zLObV
+	1ZGQ936IiRT9uVcbDrrzykC2DYe4M1HRQGQ/axxDDHDdM335TTUKl+jiZBAPxYE43Oy
+	AayS0dQws7FPD8UaBL9Z/kWQXvskNoSrEINy4pTU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1725816801;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Yujd59Rh52Lge0Hb7IdBLfmCjVJOfZqmrZ6IEUlWhIE=;
+	b=gXbQsVLZC1HCx3HVC+t0ZKtXELclgohVzKMzPvEhwbYA4Ul6JH800zOpSe48Z+iD
+	OxRfU5Wh2bhVNGE5fCkvK8gVQepVl7gaWmudDU6x7nGQiFR3bvAGVNIosmqrbOx+8cU
+	iEq/nB2WStZT/ywLIIc+Dr1m1o21R9zwgu7dIGwA=
+From: patchtest@automation.yoctoproject.org
+To: Markus Volk <f_l_k@t-online.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [RFC][oe-core][PATCH] mesa: add support for rusticl
+In-Reply-To: <20240908172311.3773048-1-f_l_k@t-online.de>
+References: <20240908172311.3773048-1-f_l_k@t-online.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010191d2b28777-02463b1d-e9dc-4e69-b5dc-5a1aaf0cab8e-000000@us-west-2.amazonses.com>
+Date: Sun, 8 Sep 2024 17:33:21 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.09.08-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Sep 2024 17:22:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204306
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Sep 2024 17:33:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204307
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...n.build-workaround-for-rusticl-build.patch | 27 +++++++++++
- ...6da9458c9d0348f2390dc0bea67cf140b1a0.patch | 47 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           | 33 +++++++++----
- 3 files changed, 97 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-rusticl-meson.b=
-uild-workaround-for-rusticl-build.patch
- create mode 100644 meta/recipes-graphics/mesa/files/93e96da9458c9d0348f2=
-390dc0bea67cf140b1a0.patch
+Testing patch /home/patchtest/share/mboxes/RFC-mesa-add-support-for-rusticl.patch
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-rusticl-meson.build-wo=
-rkaround-for-rusticl-build.patch b/meta/recipes-graphics/mesa/files/0001-=
-rusticl-meson.build-workaround-for-rusticl-build.patch
-new file mode 100644
-index 0000000000..9c953f961d
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-rusticl-meson.build-workaroun=
-d-for-rusticl-build.patch
-@@ -0,0 +1,27 @@
-+From b34ee4014ee9e3466ebafbd53745d9f9a13379da Mon Sep 17 00:00:00 2001
-+From: Markus Volk <f_l_k@t-online.de>
-+Date: Thu, 11 Jul 2024 22:52:16 +0200
-+Subject: [PATCH] rusticl/meson.build: workaround for rusticl build
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+---
-+ src/gallium/frontends/rusticl/meson.build | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/gallium/frontends/rusticl/meson.build b/src/gallium/fro=
-ntends/rusticl/meson.build
-+index eef09d8f01e..efac4cab964 100644
-+--- a/src/gallium/frontends/rusticl/meson.build
-++++ b/src/gallium/frontends/rusticl/meson.build
-+@@ -211,6 +211,7 @@ rusticl_llvm_bindings_rs =3D rust.bindgen(
-+   c_args : [
-+     rusticl_bindgen_c_args,
-+     pre_args,
-++   '-I@include@', '-I@include_cpp@', '-I@include_cpp_target_sys@'
-+   ],
-+   dependencies : [
-+     dep_clang,
-+--=20
-+2.45.2
-+
-diff --git a/meta/recipes-graphics/mesa/files/93e96da9458c9d0348f2390dc0b=
-ea67cf140b1a0.patch b/meta/recipes-graphics/mesa/files/93e96da9458c9d0348=
-f2390dc0bea67cf140b1a0.patch
-new file mode 100644
-index 0000000000..9c5c9c75ff
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/93e96da9458c9d0348f2390dc0bea67cf1=
-40b1a0.patch
-@@ -0,0 +1,47 @@
-+From 93e96da9458c9d0348f2390dc0bea67cf140b1a0 Mon Sep 17 00:00:00 2001
-+From: Karol Herbst <kherbst@redhat.com>
-+Date: Sun, 18 Aug 2024 00:08:50 +0200
-+Subject: [PATCH] rusticl: do not use CL vector types in bindings and cod=
-e
-+
-+Bindgen seems to miscompile them and I kinda thought I've done this
-+already in the past, but apparently not.
-+
-+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/11722
-+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3071=
-0>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/co=
-mmit/93e96da9458c9d0348f2390dc0bea67cf140b1a0]
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+---
-+ src/gallium/frontends/rusticl/api/device.rs | 2 +-
-+ src/gallium/frontends/rusticl/meson.build   | 1 +
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/gallium/frontends/rusticl/api/device.rs b/src/gallium/f=
-rontends/rusticl/api/device.rs
-+index 9793092db5ad4..c1cb7902e0371 100644
-+--- a/src/gallium/frontends/rusticl/api/device.rs
-++++ b/src/gallium/frontends/rusticl/api/device.rs
-+@@ -196,7 +196,7 @@ impl CLInfo<cl_device_info> for cl_device_id {
-+             // TODO proper retrival from devices
-+             CL_DEVICE_MEM_BASE_ADDR_ALIGN =3D> cl_prop::<cl_uint>(0x100=
-0),
-+             CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE =3D> {
-+-                cl_prop::<cl_uint>(size_of::<cl_ulong16>() as cl_uint)
-++                cl_prop::<cl_uint>(16 * size_of::<cl_ulong>() as cl_uin=
-t)
-+             }
-+             CL_DEVICE_NAME =3D> cl_prop::<&str>(&dev.screen().name()),
-+             CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR =3D> cl_prop::<cl_uint>(=
-1),
-+diff --git a/src/gallium/frontends/rusticl/meson.build b/src/gallium/fro=
-ntends/rusticl/meson.build
-+index 612e47bfe88e1..1fe75a611444d 100644
-+--- a/src/gallium/frontends/rusticl/meson.build
-++++ b/src/gallium/frontends/rusticl/meson.build
-+@@ -146,6 +146,7 @@ rusticl_opencl_bindings_rs =3D rust.bindgen(
-+     '--raw-line', 'unsafe impl std::marker::Send for _cl_image_desc {}'=
-,
-+     '--raw-line', 'unsafe impl std::marker::Sync for _cl_image_desc {}'=
-,
-+     '--allowlist-type', 'cl_.*',
-++    '--blocklist-type', '(__)?cl_.*[2348(16)]',
-+     '--allowlist-type', 'cl.*_fn',
-+     '--allowlist-var', 'CL_.*',
-+     # needed for gl_sharing extension
-+--=20
-+GitLab
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index ecea7e94de..04dec3fddc 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,6 +17,8 @@ PE =3D "2"
- SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch\
-+           file://0001-rusticl-meson.build-workaround-for-rusticl-build.=
-patch \
-+           file://93e96da9458c9d0348f2390dc0bea67cf140b1a0.patch \
- "
-=20
- SRC_URI[sha256sum] =3D "fd077d3104edbe459e2b8597d2757ec065f9bd2d620b8c0b=
-9cc88c2bf9891d02"
-@@ -35,7 +37,7 @@ do_install:append() {
- }
-=20
- DEPENDS =3D "expat makedepend-native flex-native bison-native libxml2-na=
-tive zlib chrpath-replacement-native python3-mako-native python3-pyyaml-n=
-ative gettext-native"
--DEPENDS:append:class-target =3D " ${@bb.utils.contains('PACKAGECONFIG', =
-'opencl', 'mesa-native', '', d)}"
-+DEPENDS:append:class-target =3D " ${@bb.utils.contains_any('PACKAGECONFI=
-G', 'opencl-rusticl opencl-clover', ' mesa-native gcc-runtime', '', d)}"
- EXTRANATIVEPATH +=3D "chrpath-native"
- PROVIDES =3D " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '',=
- d)} \
-@@ -46,7 +48,7 @@ PROVIDES =3D " \
-     virtual/mesa \
-     "
-=20
--inherit meson pkgconfig python3native gettext features_check
-+inherit rust meson pkgconfig python3native gettext features_check
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-@@ -73,8 +75,14 @@ EXTRA_OEMESON =3D " \
-     -Dplatforms=3D'${@",".join("${PLATFORMS}".split())}' \
- "
-=20
--EXTRA_OEMESON:append:class-target:x86-64 =3D " ${@bb.utils.contains('PAC=
-KAGECONFIG', 'opencl', '-Dintel-clc=3Dsystem', '', d)}"
--EXTRA_OEMESON:append:class-native:x86-64 =3D " ${@bb.utils.contains('PAC=
-KAGECONFIG', 'opencl', '-Dintel-clc=3Denabled -Dinstall-intel-clc=3Dtrue'=
-, '', d)}"
-+EXTRA_OEMESON:append:class-target:x86-64 =3D " ${@bb.utils.contains_any(=
-'PACKAGECONFIG', 'opencl-rusticl opencl-clover', '-Dintel-clc=3Dsystem', =
-'', d)}"
-+EXTRA_OEMESON:append:class-native:x86-64 =3D " ${@bb.utils.contains_any(=
-'PACKAGECONFIG', 'opencl-rusticl opencl-clover', '-Dintel-clc=3Denabled -=
-Dinstall-intel-clc=3Dtrue -Dgallium-rusticl=3Dfalse', '', d)}"
-+
-+do_configure:prepend() {
-+	sed -i "s|@include@|${STAGING_INCDIR}|" ${S}/src/gallium/frontends/rust=
-icl/meson.build
-+	sed -i "s|@include_cpp@|${STAGING_INCDIR}\/c++\/14.2.0|" ${S}/src/galli=
-um/frontends/rusticl/meson.build
-+	sed -i "s|@include_cpp_target_sys@|${STAGING_INCDIR}\/c++\/14.2.0\/${TA=
-RGET_SYS}|" ${S}/src/gallium/frontends/rusticl/meson.build
-+}
-=20
- def strip_comma(s):
-     return s.strip(',')
-@@ -104,10 +112,10 @@ PACKAGECONFIG[dri3] =3D "-Ddri3=3Denabled, -Ddri3=3D=
-disabled, xorgproto libxshmfence"
- # Vulkan drivers need dri3 enabled
- # amd could be enabled as well but requires gallium-llvm with llvm >=3D =
-3.9
- VULKAN_DRIVERS =3D ""
--VULKAN_DRIVERS:append:x86 =3D "${@bb.utils.contains('PACKAGECONFIG', ',o=
-pencl', ',intel', '', d)},intel_hasvk,amd"
--VULKAN_DRIVERS:append:x86-64 =3D "${@bb.utils.contains('PACKAGECONFIG', =
-'opencl', ',intel', '', d)},intel_hasvk,amd"
-+VULKAN_DRIVERS:append:x86 =3D "${@bb.utils.contains_any('PACKAGECONFIG',=
- 'opencl-rusticl opencl-clover', ',intel', '', d)},intel_hasvk,amd"
-+VULKAN_DRIVERS:append:x86-64 =3D "${@bb.utils.contains_any('PACKAGECONFI=
-G', 'opencl-rusticl opencl-clover', ',intel', '', d)},intel_hasvk,amd"
- # i686 is a 32 bit override for mesa-native
--VULKAN_DRIVERS:append:i686 =3D "${@bb.utils.contains('PACKAGECONFIG', 'o=
-pencl', ',intel', '', d)},intel_hasvk,amd"
-+VULKAN_DRIVERS:append:i686 =3D "${@bb.utils.contains_any('PACKAGECONFIG'=
-, 'opencl-rusticl opencl-clover', ',intel', '', d)},intel_hasvk,amd"
- VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'freedre=
-no', ',freedreno', '', d)}"
- VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'broadco=
-m', ',broadcom', '', d)}"
- VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'gallium=
--llvm', ',swrast', '', d)}"
-@@ -141,8 +149,10 @@ PACKAGECONFIG[gles] =3D "-Dgles1=3Denabled -Dgles2=3D=
-enabled, -Dgles1=3Ddisabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Ddisabled"
-=20
--# "opencl" requires libclc from meta-clang
--PACKAGECONFIG[opencl] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtrue,=
--Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libclc spirv-tools pyt=
-hon3-ply-native"
-+# "opencl-clover" requires libclc from meta-clang
-+PACKAGECONFIG[opencl-clover] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3D=
-true,-Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libclc spirv-tool=
-s python3-ply-native"
-+# "opencl-rusticl" requires libclc, bindgen-cli and clang from meta-clan=
-g
-+PACKAGECONFIG[opencl-rusticl] =3D "-Dgallium-rusticl=3Dtrue,-Dgallium-ru=
-sticl=3Dfalse,libclc bindgen-cli-native python3-ply-native clang"
-=20
- PACKAGECONFIG[broadcom] =3D ""
- PACKAGECONFIG[etnaviv] =3D ",,python3-pycparser-native"
-@@ -164,7 +174,7 @@ GALLIUMDRIVERS:append =3D"${@bb.utils.contains('PACKA=
-GECONFIG', 'freedreno', ',fre
- GALLIUMDRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'vc4', '=
-,vc4', '', d)}"
- GALLIUMDRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'v3d', '=
-,v3d', '', d)}"
- GALLIUMDRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'zink', =
-',zink', '', d)}"
--GALLIUMDRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'opencl'=
-, ',iris', '', d)}"
-+GALLIUMDRIVERS:append =3D"${@bb.utils.contains_any('PACKAGECONFIG', 'ope=
-ncl-rusticl opencl-clover', ',iris', '', d)}"
-=20
- # radeonsi requires LLVM
- GALLIUMDRIVERS_RADEONSI =3D "${@bb.utils.contains('PACKAGECONFIG', 'r600=
-', ',radeonsi', '', d)}"
-@@ -239,6 +249,7 @@ PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
-              libgles2-mesa libgles2-mesa-dev \
-              libgles3-mesa libgles3-mesa-dev \
-              libopencl-mesa libopencl-mesa-dev \
-+             libopencl-rusticl libopencl-rusticl-dev \
-              libxatracker libxatracker-dev \
-              mesa-megadriver mesa-vulkan-drivers \
-              mesa-vdpau-drivers mesa-gallium-drivers mesa-tools \
-@@ -333,6 +344,7 @@ FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
- FILES:libgl-mesa =3D "${libdir}/libGL.so.*"
- FILES:libglx-mesa =3D "${libdir}/libGLX*.so.*"
- FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/gallium=
--pipe/*.so ${sysconfdir}/OpenCL/vendors/mesa.icd"
-+FILES:libopencl-rusticl =3D "${libdir}/libRusticlOpenCL.so.* ${sysconfdi=
-r}/OpenCL/vendors/rusticl.icd"
- FILES:libglapi =3D "${libdir}/libglapi.so.*"
- FILES:libosmesa =3D "${libdir}/libOSMesa.so.*"
- FILES:libxatracker =3D "${libdir}/libxatracker.so.*"
-@@ -347,6 +359,7 @@ FILES:libgles1-mesa-dev =3D "${libdir}/libGLESv1*.* $=
-{includedir}/GLES ${libdir}/p
- FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2 $=
-{libdir}/pkgconfig/glesv2.pc"
- FILES:libgles3-mesa-dev =3D "${includedir}/GLES3"
- FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so"
-+FILES:libopencl-rusticl-dev =3D "${libdir}/libRusticlOpenCL.so"
- FILES:libosmesa-dev =3D "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h=
- ${libdir}/pkgconfig/osmesa.pc"
- FILES:libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxatra=
-cker.la \
-                           ${includedir}/xa_tracker.h ${includedir}/xa_co=
-mposite.h ${includedir}/xa_context.h \
---=20
-2.46.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
