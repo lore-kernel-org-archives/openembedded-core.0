@@ -1,119 +1,77 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A20EE6FE49
-	for <webhook@archiver.kernel.org>; Sun,  8 Sep 2024 06:53:43 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.25374.1725778418140641116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2819CD4F4C
+	for <webhook@archiver.kernel.org>; Sun,  8 Sep 2024 11:18:44 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.28250.1725794317599119462
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Sep 2024 23:53:38 -0700
+ Sun, 08 Sep 2024 04:18:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=vvn+OvK/;
- spf=pass (domain: linaro.org, ip: 209.85.167.51, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5365aa568ceso2314889e87.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Sep 2024 23:53:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YzFUAUM0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.222.179, mailfrom: steve@sakoman.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7a9b3cd75e5so17565285a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Sep 2024 04:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725778416; x=1726383216; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=z75ozexfuzPx9SLuFXauxOcVm33Ok4qM1amHLAgYPQc=;
-        b=vvn+OvK/mqOzFTf5aaP+fO/q0kBKu4zVxJve31a3O9APPIRP8h7aVid/JYhDQqdCGx
-         xNGsbrK4eYFkCHi3OWAjh+2d0HpHn2peV6iIsQgMIwRdQ5W30EjkM/RuaJqlBRRBLrQ7
-         wltaday7cdNUpV8hfzdQg//qLzb6BL+V1AXfdoGaSl4gwtHSbKP1hvyftNX3vSj1a61s
-         rkgjGC78G4JpBwsEVFz1E9/NO4NO7KMm4VhGNakbW3ZuEtdbqwU4xM6oMEq9FPIQDAne
-         2TlYAHRvenQTYrf/VPkrdMMYeFEazn2cHivq0fGMUuP8Mt0UPCVb8/dFYisIBbgiwFH5
-         BUcQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1725794316; x=1726399116; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vVgI+kImorokPlm/NMpGiG80sN3i/wVrXHiW691/Q0c=;
+        b=YzFUAUM0Ewe80pO7F1fXtCxJ30mjMNDz1TDJv4G9pVm5AM8OoUK6AiI7zY0mnH/DCf
+         O6Q+Q+WDRcUk9RwWSuXak0OJVD4MF7UynSX44NTL3zD4HlCf0rTsqi/EOQSg6o0xXEBu
+         NPAThzrlhjV+jetZjUUxnAg3uWc9trKhIadT/quoFplS9tz/uKXbiYlKXW8/gkFNwF5k
+         A/kHGvbxEm6IYofRDNdKfyvPMHStIPb/dhJfoG5y1pNbhT7doewhCXJW5acTjA6u0H2E
+         ROrxVuAs7mp/KV3wVBCnFXMQZL5AXqwXIfGRmPs3EXQ4f2akXAxoArnnS22bafW8JsBP
+         0exQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725778416; x=1726383216;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z75ozexfuzPx9SLuFXauxOcVm33Ok4qM1amHLAgYPQc=;
-        b=sCsVXi4wf/++qX/5Emv48mOpsDO8zWWEqPvKY08mvPpyWD9rVBYH2LrCoFdgoUyKq1
-         V6ehpDZoqDsQ5JJA/Czd/u0hgHYmnGxojvmvnPVSDCST3VESYXEgIyWFf/FcvtRtzJjZ
-         ba6rP773PpeHh1mH7U4i2zn1RpsNEvz+pbWYd6ze1baELnE5v8lPlmWXbMRS428J2B6j
-         rx6q/gLHA15BQwIJVNqNGn+IBRUC7Fxa0M3+55mOQxE9Mo6GPgCaszEL0j5jR1qjrlbl
-         EoCJ/+anVDYv6QB0lLAu2CcKOuUXpkkyYZ9QQPgO3O9RVzEqln5tm7jxsHNIjaMqm68J
-         QCqA==
-X-Gm-Message-State: AOJu0YyV/F4U7H8V2kRZeXSy5PhPziTUvKIFrq4xu+xoEybFeP9JB0id
-	H0y6juVnsP5C7ZoY+DxgDmeYtJWSqP/jSze4yE98f4w2ok/i8R5+GJGLZlL2l13QoA+CytUYzC4
-	3
-X-Google-Smtp-Source: AGHT+IG6lhZSYnGZtzJU8fpYo50dID0aa3OfA/QxzxtIeSUbPmQ7A0jQHx+ldICDUcxq3QFket0V1A==
-X-Received: by 2002:a05:6512:3f12:b0:533:4785:82ab with SMTP id 2adb3069b0e04-536587a67a8mr5044351e87.1.1725778414900;
-        Sat, 07 Sep 2024 23:53:34 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f870235sm328823e87.87.2024.09.07.23.53.34
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1725794316; x=1726399116;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vVgI+kImorokPlm/NMpGiG80sN3i/wVrXHiW691/Q0c=;
+        b=bisu9ade2aRvhxhsTyDLqgm5B6vL+AN3kdFYV5C9vPslVI3i9VC/79IW0ZEm3JZtFD
+         AdYj909MpV5Gu3CqTSKMEDajKxuZr+oDouf59f8s4Fz5da5xz/brmLXzt900+24Lt4Id
+         I0tZlqObp47Lpwmnqi0gdh4OQNfRh9yP1k99XnJ9Ppt6UTpsToCiYJSN3djVEEvEh4tj
+         Hlk8ZHx4FbK5ol1D1PfUTJvz2cwEkjFNc0eFzYx7ROoXgKKBIyXRw596Yr75sAmvR2IH
+         /EEcREv9tRXYwHqTfbDC6/CUy9r2y2PSuNcVZhSqUGhq6Os4UcHb2FFA2hSXcN0thkyP
+         SQnw==
+X-Gm-Message-State: AOJu0Yzro1pXre8mnD7JDdLcPWrZ5IC8pdeGjBlnIomxHs58hAIEdvCs
+	yKKYRnJhlMFflBcu3bOESYz+aetERva2WPTSXc0Sa1q4iEbnMbsAnFquGbUqQcKhrD7dPcerlNn
+	8YHk=
+X-Google-Smtp-Source: AGHT+IEp/bmblAmQBpePOuJ3UMD0tpXY+3cTNyqTMGjXyteEuX5021yz7a5HTrUYY6j3MoveOoOZNw==
+X-Received: by 2002:a05:6214:3a83:b0:6b5:def0:b60 with SMTP id 6a1803df08f44-6c5282fd551mr92227616d6.4.1725794316480;
+        Sun, 08 Sep 2024 04:18:36 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c534339af2sm12008146d6.44.2024.09.08.04.18.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Sep 2024 23:53:34 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-firmware: split ath10k package
-Date: Sun,  8 Sep 2024 09:53:33 +0300
-Message-Id: <20240908065333.2930464-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 08 Sep 2024 04:18:36 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 288E8100367; Sun,  8 Sep 2024 01:18:35 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 08 Sep 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  8 Sep 2024 01:18:35 -1000
+Message-Id: <20240908111835.288E8100367@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Sep 2024 06:53:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204295
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Sep 2024 11:18:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204296
 
-A lot of Qualcomm-based devices incorporate WCN3990 WiFi/BT chips. The
-ath10k firmware package provides two small files for such boards, the
-rest of ath10k firmware isn't applicable. Split the WCN3990 firmware
-package to simplify using of the WiFI in the resource-constrained
-environments (e.g. from the initramfs).
+Branch: master
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../linux-firmware/linux-firmware_20240811.bb          | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+New this week: 0 CVEs
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-index b620a6e24928..033e832cef43 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-@@ -331,7 +331,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
-              ${PN}-carl9170 \
-              ${PN}-qcom-qcm2290-wifi ${PN}-qcom-qrb4210-wifi ${PN}-qcom-sdm845-modem \
--             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
-+             ${PN}-ar3k-license ${PN}-ar3k \
-+             ${PN}-ath10k-license ${PN}-ath10k-wcn3990 ${PN}-ath10k \
-+             ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
-              \
-              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
-              \
-@@ -487,6 +489,7 @@ LICENSE:${PN}-carl9170 = "GPL-2.0-or-later"
- LICENSE:${PN}-ar3k = "Firmware-qualcommAthos_ar3k & Firmware-atheros_firmware"
- LICENSE:${PN}-ar3k-license = "Firmware-qualcommAthos_ar3k"
- LICENSE:${PN}-ath10k = "Firmware-qualcommAthos_ath10k"
-+LICENSE:${PN}-ath10k-wcn3990 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath10k-license = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca = "Firmware-qualcommAthos_ath10k"
- 
-@@ -499,6 +502,9 @@ FILES:${PN}-ath10k-license = "${nonarch_base_libdir}/firmware/LICENSE.QualcommAt
- FILES:${PN}-ath10k = " \
-   ${nonarch_base_libdir}/firmware/ath10k \
- "
-+FILES:${PN}-ath10k-wcn3990 = " \
-+  ${nonarch_base_libdir}/firmware/ath10k/WCN3990 \
-+"
- 
- FILES:${PN}-ath11k = " \
-   ${nonarch_base_libdir}/firmware/ath11k \
-@@ -514,6 +520,8 @@ FILES:${PN}-qca = " \
- 
- RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
- RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-ath10k += "${PN}-ath10k-wcn3990"
-+RDEPENDS:${PN}-ath10k-wcn3990 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
--- 
-2.39.2
+Removed this week: 4 CVEs
+CVE-2024-35325 (CVSS3: N/A): libyaml:libyaml-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35325 *
+CVE-2024-35326 (CVSS3: N/A): libyaml:libyaml-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35326 *
+CVE-2024-7264 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-7264 *
+CVE-2024-35325 (CVSS3: N/A): libyaml:libyaml-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-35325 *
 
+Full list:  Found 0 unpatched CVEs
+
+Summary of CVE counts by recipe:
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
