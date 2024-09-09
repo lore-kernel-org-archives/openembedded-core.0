@@ -2,93 +2,93 @@ Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A15FECE57B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2155ECE57E
 	for <webhook@archiver.kernel.org>; Mon,  9 Sep 2024 08:32:52 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.92.49.74])
- by mx.groups.io with SMTP id smtpd.web11.48151.1725870769477434264
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.92.50.56])
+ by mx.groups.io with SMTP id smtpd.web10.48300.1725870763222988007
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Sep 2024 01:32:49 -0700
+ Mon, 09 Sep 2024 01:32:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=Nc6GKSfZ;
- spf=pass (domain: outlook.com, ip: 40.92.49.74, mailfrom: kweihmann@outlook.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=pjQ5MuNe;
+ spf=pass (domain: outlook.com, ip: 40.92.50.56, mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wekW8VIEXMCoUcB3FkibDV5xs3ay2FikcgTtr4SzcoalXbL96IpUkbqZ64WJ8M5gWBbjwCvYfOxH2YnhWJ8WYzJo+WMWunI9UDvMsiBP7tEeL7/1iguVZEo3xxnFecbnEik6PQ7vAX3zq96sXoDpWa67XGzibU90i5bPyLVjwWzlYO9Dv5nNb7Pf6p9T/s2bh6Ywbscflt0JVUjJY3D1meCkEwO7l7OiNKQ8JxcmWT+tyaMnSAwZEBYxqFVY+YOL+Yk/eJiEMOdkt/bjjnbxNr9WyUScIwf5HU+QF8fwGGlyEjEyzeySBYBwkPoW0/JxWPRvUBhk74UO1MIEzAkVUA==
+ b=CQ1odnXOUNPFRr95hxrC6FDWDeUfRb+uQ9eb9CC+oHcYjPyM3T1xVJpJKhZIA8/L3Am+saMlOmSHwhU/PKDjxoaykuglUj2K+g6JGMcwKNjAo5dMKa3TWS5ZOuQjyj6HcxveF//AKrg5PskwlvUdy9G7fL3KSi1CvOIJOiohhiJ80FsBUHEX129Az+XBsDnzcOf1YeSIZN7V4gByx8LFXoWs7axSEXOcRFG0ElRPK3BmCvn2dh+daksaiDiB9i6m3QuPa2ViKOF0SQSS5pTpL1nMOhIbEqakUSkKCvEYJmyozaBzCuONYH13xtBanx6PTzYvG81b4GFv6h7xq5lhyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ToBLaCKiVVMohcKDAFA7N3kKTXaF1s6SS3UfBAKHdbE=;
- b=XL9vDYGalKLt9HXGdShTcMHu8CwGRapy/vO4dh3UJcd7c5WKAau4KseDvKn+XXJxW/F9SEFLRDdxV+AhAgo7RseZNcXn0e4GWEkrV9mfmUlv8N+I3M9qelulrCgaGy0Il3sl/dw15bo3n5hdsDaciBz6tn/w0XfppgaHDvcU+8Qy1opqXJTKa8xTvDIYWyxkBJSgSOleVLAE//7zTYud3jqHW/YoUgGfto+FDs9ZT45c01vjtQBxefLUhvelo9QuRAjnvBpfhClW9ezfP0sabZ9sRp+OHXgnsSoHUxP67u8J9WC6CNSeyR0C6suyv5bzzuGbb+Uh6VgnPF4wKqf11g==
+ bh=X0WM+aDTDrJwH5FAJJp81z99J7Wo6v4poe9p2WEOhk8=;
+ b=ufsZuIOTRSdrv43uCuP/jQLaY41mjcBbLm7xzyGS8+ng0gvzC/gZs/WXPu289px3I8gSOCdrljkkBksePIhlEuIj92zWVe7mQeGV906iU1+RX1oSeFPG0avVPxf6KBnE1eaDtbSETP/WfAgz51y29GnfEJQBZi3EOGqMlLNUKKP+/frrkGdUOiNdvN+t/17gnUScmJFfapAG6hbBMrzKsanoFAOMlZgRFB4DbN9xz9yNni711doIU9SeU6HkQBXADo0mA4bWKUhZ3vkfbdG5cpiVDeQPoHJeBPPYb6bShnXxorsUeLTHRKSzN9hlI1Ih73MGJpVOn+xpECT+R1WadQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ToBLaCKiVVMohcKDAFA7N3kKTXaF1s6SS3UfBAKHdbE=;
- b=Nc6GKSfZDFoj3Lo+eWJaaHhH+p6UgnBMifwN+EwmtNhsk/8RLqmbylHiMzKlPTP0i/7Z4uVcpMfMJQUtrIYjwtGnkwaB4Vo5ExBIjT02fIS73UhPVqUdto5zzePB4pJPAh0I+Bc7xqk9P6cXckoOu6cSft3tHZcKr8SO78f7ReEJNoqklLuRQB2YOSaYQR2q850y0XpcyV83yGGPrpgFsEGfdUs7fi+rGHb+Gpa275Rc+5DhWilW/PSi/OIrQMfZIpDMUA86N14bWTCRjGv2hH9I+DBp6FGPWjia6PaCxov8BkECrs+EWzqYMkUpgubIcmS2Zwe7UNPyowTVo+oxVA==
+ bh=X0WM+aDTDrJwH5FAJJp81z99J7Wo6v4poe9p2WEOhk8=;
+ b=pjQ5MuNeqjqhs+or95krCL8voGWjSHQDMeEoMJPZm8xtvAPyim+BGsMAhWr5TlnV1kETNevYnBSojK6VPBZaVo0+fFXxAdZHmDI8+VLcsga2loQyefuAS1ZfmG1yzfg+a1eAhZuEY9FtZ67Mc0HJJrFcPyyYbkRbYB2jYrjxUtDZo7cPdIRO+3/oitpfMB5m8OculMAh9B1YccjVDdmbNnn5V+MVJinnTKiOhi4VzxSVD2TpNvyhfK/4byeuFJ1SLzUsdKIRTVJsrpWahjy1gSZyc1w2OgOzgz1ApNTGjiOrjVvAzB8iEIP+nc9UZCRkt1pwLRnvuSWpPEHsKayM1A==
 Received: from GV1PR07MB9120.eurprd07.prod.outlook.com (2603:10a6:150:80::7)
  by VI1PR07MB9996.eurprd07.prod.outlook.com (2603:10a6:800:1d6::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Mon, 9 Sep
- 2024 08:32:44 +0000
+ 2024 08:32:42 +0000
 Received: from GV1PR07MB9120.eurprd07.prod.outlook.com
  ([fe80::a630:7019:63e4:a48a]) by GV1PR07MB9120.eurprd07.prod.outlook.com
  ([fe80::a630:7019:63e4:a48a%5]) with mapi id 15.20.7939.022; Mon, 9 Sep 2024
- 08:32:44 +0000
+ 08:32:42 +0000
 From: Konrad Weihmann <kweihmann@outlook.com>
 To: openembedded-core@lists.openembedded.org
 CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH 3/3] runqemu: remove error parameter from acquire_taplock
-Date: Mon,  9 Sep 2024 08:32:17 +0000
-Message-ID: <GV1PR07MB9120D5A48A0D1AAEB78F9409A8992@GV1PR07MB9120.eurprd07.prod.outlook.com>
+Subject: [PATCH 2/3] runqemu: remove unused uid variable
+Date: Mon,  9 Sep 2024 08:32:16 +0000
+Message-ID: <GV1PR07MB91200546874076A7A6C8BD43A8992@GV1PR07MB9120.eurprd07.prod.outlook.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240909083217.33315-1-kweihmann@outlook.com>
 References: <20240909083217.33315-1-kweihmann@outlook.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-TMN: [t43Y9KX2AlqviBgvPuA52/7UhjqEfYnjy41YCi3qp1zIQ2C8QQLDACxMd+RXF/DQ]
+X-TMN: [woJ92fLHvz2QS/nscpii5ZRudTYVImjRRFxjomJG7i9TVXPFcIvKmWCxG6HKDtyz]
 X-ClientProxiedBy: FR3P281CA0167.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:d10:a0::6) To GV1PR07MB9120.eurprd07.prod.outlook.com
  (2603:10a6:150:80::7)
-X-Microsoft-Original-Message-ID: <20240909083217.33315-3-kweihmann@outlook.com>
+X-Microsoft-Original-Message-ID: <20240909083217.33315-2-kweihmann@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: GV1PR07MB9120:EE_|VI1PR07MB9996:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6562a967-40f9-40b7-a3ed-08dcd0a9fa1d
+X-MS-Office365-Filtering-Correlation-Id: 7b6b812b-53f1-4c06-1897-08dcd0a9f8e8
 X-Microsoft-Antispam: 
 	BCL:0;ARA:14566002|461199028|15080799006|19110799003|8060799006|5072599009|3412199025|440099028|1710799026;
 X-Microsoft-Antispam-Message-Info: 
-	zL8POvgnuTnt5k0mk+WFo91Exs/8e7FQOxrpa8uaNEGyJYZwMBfatGhM9tzotAn0ZL1CJCAta9t45YM7vMZTIkFKax748IKJgKOe5C94hG/yzBOzobvpUU3cVIiUg3LSN5yll4Zx7sJeim48OWYrPLU/Esn6baaG6cCRp19PhJrzlpkbpa5Yb7jFyHeq484ZhNJ1zRfUp5nm0aV2nrY/FGHnkCk9tWGiwgbedbEBQGc7kb1Xd3DyOIScqsmFe9xK4dxvSPxq7HELlfASimMtMoSpkXRto0znLKAZfO/ugKxAYMUd0zjYaKIEM26ChFw7/oLT2OAgHqcMkzqc/4aITD5IClHLL//11hGXjB8mVaH2+Q3/zP8ln74YVisd7bcKci+TrIhCqrw8oz2ddMgXErSNgt9aoWOLYLMN0TJ0p8ZRda7gFgpVn4vrxiB5YkCoyf/zH8TNln0WVcfXeT2PiYv1e1AFADg+nsEjaCWK7XFtjAdehTGc0b7sLO751OjmZaa0Em2r+s+dQAewo3yDtU/FDcZInzSf/Ky0nTHvBRoqJFxdm7gMlqKE/l/6S521l+7zVWNjkDcCA9WEyz5AhWdaHBi879tsqnZ2tzDEI6B6bt/q3j22MmOceQ0HakdfUBMNuD3acGBpH+0f6qlvJBRl5OaG/XWqqPb4xIOX/td4hHfKVHOS6192xLyUsnrfMOU3g6SHJy4NLIrYiuzBhlI6OJPRj//ZhiGhVgx1U88=
+	d5LHW1p5y9q/Fa4aNQz7QdT89nucfln0VT07zuGws+Dj/POL/6b+2rkMXwyzTVgd4SnLD1etORy45pFvxrINcC4wvGIoVJQ/QdcaK9TURmDngP9zyw7vHQRLDztav1A61JHi4rrVQ1g8yduqZgIkMihnbJjuP1COvjcu3Fc4L65evSx1dB4RJoLsee1pbvDY9D8PbSx5VqJ3/g178hsx/5MZ1GgeUHAYXJZBqgNiPsGedFmNxyCd1fUzJ3v6mZvDK1luv3LjbelRVnjC9B7LE3ouQZo3M5V3E/dass8Pb5yjtZAw/MILN/Lmh9r0eGb+0OOsr1G/K5vUYAYM3UytoVNUMPm2JVy2J86IMZLRdwsVVfGzcgngKUlKfC1Wd/j81r/r1FNHFAb42GsKVXLt4vKDNTUqQmOJ+1LGHmvl1NaQiONQvAaODbQHvnXAYppZ39PTv0+yKyqSFkexMamS7O8Of5NrAWiDmp/wIRbKYTeeUDa5wlG9IlxSj4OzhCUlK5ZfEHvZAWIcOSxmcxeGW7MOE7Rv4d095AlSrOTV6RRHFws9Y/RM0Ya+d22UUDDTYrbEfmORkKjFOwXmYOR72LrVzjAI6+LDQLEipnXmDEYIokR7kUgpzyDrHEKihHCOAR8JtQAKibeNnZviSnM6S5czibtZrdqTou9iyfN1CmNgCgrhDf3T8OdFs1hCGvyOxItG37uIdqIHc9I09D+rRtKl1KIMyGUNwZ7GLYzuRHY=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Ie/vS/Yf8NYjI/GMvjYMNQfNYYJ+a9LxAeY8Gv3vTdWpPx90vhhPvn/gxTt1?=
- =?us-ascii?Q?bgQbtuuW+SjLyi4YLZRBjXlGIDWNP7kinEP+YrmHUgkR5jevinfnQnkOqRzk?=
- =?us-ascii?Q?eBZDeR74yfY0BuQCjvT3AXnkb+B/nDWUlxJJ+smFzyKzVLTj/BYJu1JVl8If?=
- =?us-ascii?Q?m0FUSb5UkIkLAJp0SnLxJSdHOrWP3at/uSM7tQJKxNjJJ6x4q1yabs/IjQK+?=
- =?us-ascii?Q?9B2ycQgIVpe6whXqx3+89Bz/x1ZfYSWGW7ty1xSxtGAtLVunhLnhmzNXi8kH?=
- =?us-ascii?Q?+e3UHLA8QO7wWZcZv3f5sFXPNeRaYBIj/7s9NO0K3MxHP8CHZcRTHoKZMnAn?=
- =?us-ascii?Q?gCSxQyBvlcvJdQR83672aRsvmR64mHFZxHOC9Cjw9ZwE7+DCE/3Hi/U8gPpj?=
- =?us-ascii?Q?OmqFE/oxvsV5aP9LPSOdYmH70KTeE8FQnvHKKUCc6GjvBvgChoiq4fkK61VJ?=
- =?us-ascii?Q?NWEeCm8C05c48kKEwMxXjTZUHIZWFO7uE0lJoWe8p4gN/Dbt9ld6Y8giNUmZ?=
- =?us-ascii?Q?GslWPgrN/YWOiMENiudwBttHaLfxkb4czZPQQgR1XSggzf805eoAbX4bixuk?=
- =?us-ascii?Q?/krK6jczJU5rYXNcHI7xiSdxxYfj6uyr6Wb4C6Ud87xPa6W6m3RuGoX34fHs?=
- =?us-ascii?Q?4nwQQ6zMGcbzxpz37cHiztst0XxX62Kbc6Kb6a+niHh7veK4PbZVgmM1ArZN?=
- =?us-ascii?Q?d9RPl+FoHNnfiLDH+dpmvKQ0mJ20PlgR/wKdySWC+agiAV9Oz9fD9Jus4cr4?=
- =?us-ascii?Q?/BBaP+ldcr5ETQKeS5lY7NlZ1+tp29V9CNdigPTuNrlhSKGAyV4YZ55C0LD0?=
- =?us-ascii?Q?vtYPWlH4KeuZ7V7r5bKHlhefC2FVCSrqV6Od4Kb+66BLFzj7jv3qMOHq1HEf?=
- =?us-ascii?Q?SlCfNMKjUL1d3oYK2nIIFypq95RQaYu+i7tiY9UoORNXzoeYolpkGguSsLoj?=
- =?us-ascii?Q?agtYkgGrUCiGeKrEMN9RMRFI348ne/Qp0K09uLZEIZrer0rGoER9qeMnG7CI?=
- =?us-ascii?Q?Y9rnrg+IqN5mVR9/kqLWyBAnEnUplcx3o//5O790wkLQ8pQ15BG3C81Sn+fe?=
- =?us-ascii?Q?8pnL0JH1QmZ84hNJ5bQ/Ib2gzgTw/FH8QjSMhP9iZE1qmjMup2dNgbciUwO/?=
- =?us-ascii?Q?w6UvRxt6jij822ppm5VYj9XqGBlcB+15pe7APf9Z68eftZKgs0VsgLxoUjGo?=
- =?us-ascii?Q?wRc2wl430rseAuzH1hchBIx5fsf6K5O70JESFo6JiYepteqny8VjYIZvVem7?=
- =?us-ascii?Q?boMEKeGaENIYjFgghhcflGaGEvRGdHVvjhrWb0PlD/eIWCKnEAyXwAJetEPx?=
- =?us-ascii?Q?geU=3D?=
+	=?us-ascii?Q?x+MgI/I++fbhEnG8P5LsPkPVju8RE71V593FIfpS6yvBd0rcEIsXMyoCqalS?=
+ =?us-ascii?Q?YDe9+L+LkxisqYDIwgL9+cO7D0pqiFqkQEpBsgybO67gHlU9zvf6Ey6jaa4u?=
+ =?us-ascii?Q?H4wBLlxFAOqXj3byjHR1o/L7Iuej8Z+bIdrmxpE0pLU2e04sF7JXbDcW3bv+?=
+ =?us-ascii?Q?Jvp39xWgeIlp/egQTKg3zRHdsSgvXbMIVUzYCoXhKA22jc5A0b1lb5m79gZP?=
+ =?us-ascii?Q?z50C7fOIB08LD6QXnzN2xO/McMw/mVVaMVbYZD7kCc9yp/dK4D4dgWgfgH9e?=
+ =?us-ascii?Q?wJWjn1VGQLAWHhmwrh+xOkWhse4faHE8fpb/svRn8QLgjD2a6JHigGa1UjUC?=
+ =?us-ascii?Q?eSFYBlUklGTPFaRXxA3bAPRUi29tQAj1d0oByMdPG4YsL3XNEPMJfz06leC6?=
+ =?us-ascii?Q?wJfCg16yIblqYdB/aqHws2UxK8LPhiajPl9CF7z6mcfdeDhgS8p2JzMjPO+d?=
+ =?us-ascii?Q?vxA+hTpLRmEAuCViSRWp+P4jVELgt1rOXv1zvn73MulFud7bgj5KhfHyErEe?=
+ =?us-ascii?Q?A/RhZEFwtabyY3Qdr82RvSVpFhg2lVM6pkiNnedQOXPukL3+20SJYctfkJd6?=
+ =?us-ascii?Q?6vtszuUV6zvCSDfXUuJxiWBuIWjsDBiT6wJ1GaihFayDXV0VQuajYBH34ixI?=
+ =?us-ascii?Q?ruPf7Q0A6BUciv+55PDLqY73RSzAfH2sVD6VluzYNCAaP8f3dXHqF9dsaX/y?=
+ =?us-ascii?Q?zThdTsIm4zfFNwwaXobQwiu2+pNP1WZ/LINWkpq96tdSPLL/nmck7mYDRZT9?=
+ =?us-ascii?Q?q/jJLnUR7oajQJY+ApNdlCrYCIjmJdeNj5q7mWa/GkswxyvpdErQnA9fQIqG?=
+ =?us-ascii?Q?b34RkC9r9V6M/P56lboPIO4IGlr7ow20iYS38k7V8TER+mCfjwqNA5AvrRDE?=
+ =?us-ascii?Q?TAQGy45Auih1a/1moR2GPT4QXuy7a1E4S6niHX+CniizEpFoQmmGiP0BTFqH?=
+ =?us-ascii?Q?MxQzRtwB2/lvX4AGBedJFyQgEPhW1kgQFhDunwEAu+H5rNjH/nHK4l8p6tCo?=
+ =?us-ascii?Q?ytk3ZuZ9s3+wqU3/WjA2N4EJfIp+oWxkaO/XnVrbWVUM22Vd2ktr3ddR6wvn?=
+ =?us-ascii?Q?J16Ka3x3FaJYGmJcwxOf3JOvZT/NJqYk+1o0/F7nWM1GMia1Ce5AQjE4udhb?=
+ =?us-ascii?Q?CvqGHbr98UMpKnjNUsEMPqM/HeJkjQTtXAVFZHAaw2eFD2QeS1Cj/sLFQdfX?=
+ =?us-ascii?Q?xbgnc0oCwf6HvkhKOBPB67XgUfHxcMl5KHBYOPt5l5wUIIsXrYwCOTWnM/yP?=
+ =?us-ascii?Q?VQ3Q7bJxvSRfvhWMEFkybozD9qUh9Anb+t2q9NQi3/wXP0t/j4G2ByKQGbzp?=
+ =?us-ascii?Q?lbo=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6562a967-40f9-40b7-a3ed-08dcd0a9fa1d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b6b812b-53f1-4c06-1897-08dcd0a9f8e8
 X-MS-Exchange-CrossTenant-AuthSource: GV1PR07MB9120.eurprd07.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 08:32:44.5955
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 08:32:42.6558
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -99,52 +99,25 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Sep 2024 08:32:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204316
-
-the error handling should be done on the return code by
-the calling function, so creating an error within the function
-does not make that much sense.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204315
 
 Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 ---
- scripts/runqemu | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ scripts/runqemu | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 14eb939b3e..006e60410f 100755
+index cdbb625505..14eb939b3e 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -226,17 +226,14 @@ class BaseConfig(object):
-         self.guest_agent =3D False
-         self.guest_agent_sockpath =3D '/tmp/qga.sock'
+@@ -1192,7 +1192,6 @@ to your build configuration.
+                 raise RunQemuError("a new one with sudo.")
 =20
--    def acquire_taplock(self, error=3DTrue):
-+    def acquire_taplock(self):
-         logger.debug("Acquiring lockfile %s..." % self.taplock)
-         try:
-             self.taplock_descriptor =3D open(self.taplock, 'w')
-             fcntl.flock(self.taplock_descriptor, fcntl.LOCK_EX|fcntl.LOCK_=
-NB)
-         except Exception as e:
-             msg =3D "Acquiring lockfile %s failed: %s" % (self.taplock, e)
--            if error:
--                logger.error(msg)
--            else:
--                logger.info(msg)
-+            logger.info(msg)
-             if self.taplock_descriptor:
-                 self.taplock_descriptor.close()
-                 self.taplock_descriptor =3D None
-@@ -1179,7 +1176,7 @@ to your build configuration.
-                 logger.info('Found %s.skip, skipping %s' % (lockfile, p))
-                 continue
-             self.taplock =3D lockfile + '.lock'
--            if self.acquire_taplock(error=3DFalse):
-+            if self.acquire_taplock():
-                 tap =3D p
-                 logger.info("Using preconfigured tap device %s" % tap)
-                 logger.info("If this is not intended, touch %s.skip to mak=
-e runqemu skip %s." %(lockfile, tap))
+             gid =3D os.getgid()
+-            uid =3D os.getuid()
+             logger.info("Setting up tap interface under sudo")
+             cmd =3D ('sudo', self.qemuifup, str(gid))
+             for _ in range(5):
 --=20
 2.34.1
 
