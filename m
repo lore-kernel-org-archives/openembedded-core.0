@@ -1,92 +1,86 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <reatmon@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 450CCEDE9BB
-	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 18:42:08 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.3909.1725993720717719859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB0CDEDE9BA
+	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 20:17:28 +0000 (UTC)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by mx.groups.io with SMTP id smtpd.web11.6319.1725999445732136920
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Sep 2024 11:42:01 -0700
+ Tue, 10 Sep 2024 13:17:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1so5oM-0000om-Ny; Tue, 10 Sep 2024 20:41:58 +0200
-Received: from [2a0a:edc0:0:1101:1d::5c] (helo=dude06.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1so5oL-006xIK-Lk; Tue, 10 Sep 2024 20:41:57 +0200
-Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1so5oL-00BqgB-20;
-	Tue, 10 Sep 2024 20:41:57 +0200
-From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de
-Subject: [PATCH v5 0/7] Add barebox bootloader support (and testing)
-Date: Tue, 10 Sep 2024 20:41:36 +0200
-Message-Id: <20240910184143.2820792-1-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=yRkYUqps;
+ spf=pass (domain: ti.com, ip: 198.47.23.248, mailfrom: reatmon@ti.com)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 48AKHPAi065674
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 15:17:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1725999445;
+	bh=3jctGCXalIna7z6qXWl7ocOZbDefBD9Ro2hX0ra8EGg=;
+	h=From:To:Subject:Date;
+	b=yRkYUqpsf/3FkquJpA3LyIE+NbZlsqY5V9Td1AMa4Gxy8uVxfNwtOQkNrc97pvAja
+	 fhoTm9QfXjuqHHtu1qjR2QHySg+8BQDyJGrUsnVpAycCWMxKMfiJPHKQx5AmHuBhLv
+	 HPy5DweaJzP10dxiJRbYxzUH2IMRLfJffgD0S7uE=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 48AKHPju021702
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 15:17:25 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 10
+ Sep 2024 15:17:24 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 10 Sep 2024 15:17:24 -0500
+Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 48AKHOZ7051839
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 15:17:24 -0500
+Received: from reatmon by uda0214219 with local (Exim 4.90_1)
+	(envelope-from <reatmon@ti.com>)
+	id 1so7Ii-0000xo-F9
+	for openembedded-core@lists.openembedded.org; Tue, 10 Sep 2024 15:17:24 -0500
+From: Ryan Eatmon <reatmon@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] oe-setup-build: Change how we get the SHELL value
+Date: Tue, 10 Sep 2024 15:17:24 -0500
+Message-ID: <20240910201724.3652-1-reatmon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 18:42:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204364
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 20:17:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204369
 
-This adds support for the barebox bootloader (and tools) to oe-core.
+There are times that a user might not have SHELL set for some reason.
+We should default back to a known shell in the event that SHELL is not
+set.
 
-In order to have proper testing, this extends oe-selftest to allow
-basic testing of bootloaders. While at it, cover both barebox and u-boot.
+Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+---
+ scripts/oe-setup-build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v5:
-
-* move common recipe data into barebox-common.inc
-* Add proper DESCRIPTION
-
-Enrico Jorns (5):
-  barebox: set default BAREBOX_CONFIG for qemu machines
-  oeqa/utils/qemurunner: support ignoring vt100 escape sequences
-  oeqa: support passing custom boot patterns to runqemu
-  oeqa/selftest/cases: add basic u-boot test
-  oeqa/selftest/cases: add basic barebox tests
-
-Marco Felsch (2):
-  barebox: add initial support
-  barebox-tools: add initial barebox tools support
-
- meta/conf/distro/include/maintainers.inc      |   2 +
- meta/conf/machine/qemuarm.conf                |   1 +
- meta/conf/machine/qemuarm64.conf              |   1 +
- meta/conf/machine/qemux86-64.conf             |   1 +
- meta/lib/oeqa/selftest/cases/barebox.py       |  43 ++++++
- meta/lib/oeqa/selftest/cases/uboot.py         |  42 +++++
- meta/lib/oeqa/targetcontrol.py                |   5 +-
- meta/lib/oeqa/utils/commands.py               |   5 +-
- meta/lib/oeqa/utils/qemurunner.py             |   6 +-
- meta/recipes-bsp/barebox/barebox-common.inc   |  18 +++
- .../barebox/barebox-tools_2024.08.0.bb        |  52 +++++++
- meta/recipes-bsp/barebox/barebox.inc          | 145 ++++++++++++++++++
- meta/recipes-bsp/barebox/barebox_2024.08.0.bb |   3 +
- 13 files changed, 318 insertions(+), 6 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/cases/barebox.py
- create mode 100644 meta/lib/oeqa/selftest/cases/uboot.py
- create mode 100644 meta/recipes-bsp/barebox/barebox-common.inc
- create mode 100644 meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
- create mode 100644 meta/recipes-bsp/barebox/barebox.inc
- create mode 100644 meta/recipes-bsp/barebox/barebox_2024.08.0.bb
-
+diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
+index 1cb06b3b79..80d8c70bac 100755
+--- a/scripts/oe-setup-build
++++ b/scripts/oe-setup-build
+@@ -102,9 +102,9 @@ def setup_build_env(args):
+ 
+     cmd = "TEMPLATECONF={} {}".format(template["templatepath"], cmd_base)
+     if not no_shell:
+-        cmd = cmd + " && {}".format(os.environ['SHELL'])
++        cmd = cmd + " && {}".format(os.environ.get('SHELL','bash'))
+     print("Running:", cmd)
+-    subprocess.run(cmd, shell=True, executable=os.environ['SHELL'])
++    subprocess.run(cmd, shell=True, executable=os.environ.get('SHELL','bash'))
+ 
+ parser = argparse.ArgumentParser(description="A script that discovers available build configurations and sets up a build environment based on one of them. Run without arguments to choose one interactively.")
+ parser.add_argument("--layerlist", default=defaultlayers(), help='Where to look for available layers (as written out by setup-layers script) (default is {}).'.format(defaultlayers()))
 -- 
-2.39.2
+2.17.1
 
 
