@@ -2,10 +2,10 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E3CEDE9B0
-	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 18:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9A0CEDE9AD
+	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 18:42:07 +0000 (UTC)
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.4085.1725993720956253075
+ by mx.groups.io with SMTP id smtpd.web11.4082.1725993720704936418
  for <openembedded-core@lists.openembedded.org>;
  Tue, 10 Sep 2024 11:42:01 -0700
 Authentication-Results: mx.groups.io;
@@ -14,27 +14,26 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1so5oM-0000oo-O0; Tue, 10 Sep 2024 20:41:58 +0200
+	id 1so5oM-0000op-Nz; Tue, 10 Sep 2024 20:41:58 +0200
 Received: from [2a0a:edc0:0:1101:1d::5c] (helo=dude06.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1so5oL-006xIM-Mg; Tue, 10 Sep 2024 20:41:57 +0200
+	id 1so5oL-006xIN-N6; Tue, 10 Sep 2024 20:41:57 +0200
 Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1so5oL-00BqgI-26;
+	id 1so5oL-00BqgM-29;
 	Tue, 10 Sep 2024 20:41:57 +0200
 From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: yocto@pengutronix.de
-Subject: [PATCH v5 2/7] barebox-tools: add initial barebox tools support
-Date: Tue, 10 Sep 2024 20:41:38 +0200
-Message-Id: <20240910184143.2820792-3-ejo@pengutronix.de>
+Subject: [PATCH v5 3/7] barebox: set default BAREBOX_CONFIG for qemu machines
+Date: Tue, 10 Sep 2024 20:41:39 +0200
+Message-Id: <20240910184143.2820792-4-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240910184143.2820792-1-ejo@pengutronix.de>
 References: <20240910184143.2820792-1-ejo@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ejo@pengutronix.de
@@ -43,97 +42,88 @@ X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 18:42:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204366
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 18:42:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204362
 
-From: Marco Felsch <m.felsch@pengutronix.de>
+From: Enrico Jorns <ejo@pengutronix.de>
 
-Add initial support to build the barebox tools for the host and the
-target.
+These are set in the barebox recipe rather in the corresponding machines
+(where they would belong otherwise) to keep the impact of barebox to
+oe-core minimal for now.
 
-Some of the tools are generic barebox utilities (like 'bareboximd' for
-image meta data inspection or 'bareboxenv' for accessing the barebox
-environment) some are SoC family-specific specific utilities (like
-'imx-usb-loader' or 'omap3-usb-loader').
+"multi_v7_defconfig" is used for qemuarm since this is the default
+barebox armv7 config that just enables all supported platforms.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+"multi_v8_defconfig" is used for qemuarm64 sine this is the default
+barebox armv8 config that just enables all supported platforms.
+
+"efi_defconfig" is used for qemux86-64 which is the primary platform
+where barebox will not be the first stage bootloader but an EFI payload.
+
+Since these changes make barebox a provider for virtual/bootloader,
+explicitly default to u-boot in the corresponding MACHINE configs to not
+unnecessarily surprise users.
+
 Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../barebox/barebox-tools_2024.08.0.bb        | 52 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
+ meta/conf/machine/qemuarm.conf       | 1 +
+ meta/conf/machine/qemuarm64.conf     | 1 +
+ meta/conf/machine/qemux86-64.conf    | 1 +
+ meta/recipes-bsp/barebox/barebox.inc | 5 +++++
+ 4 files changed, 8 insertions(+)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 1b3d485e48..067c4af096 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -55,6 +55,7 @@ RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-babeltrace2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-barebox = "Enrico Jörns <yocto@pengutronix.de>"
-+RECIPE_MAINTAINER:pn-barebox-tools = "Enrico Jörns <yocto@pengutronix.de>"
- RECIPE_MAINTAINER:pn-baremetal-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
- RECIPE_MAINTAINER:pn-base-files = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-base-passwd = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb b/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
-new file mode 100644
-index 0000000000..31e97e2f8e
---- /dev/null
-+++ b/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
-@@ -0,0 +1,52 @@
-+require barebox-common.inc
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 943ce7c16a..af76a53b8e 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
+ 
+ KERNEL_IMAGETYPE = "zImage"
+ 
++PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
+ UBOOT_MACHINE ?= "qemu_arm_defconfig"
+ 
+ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index a096d964db..d310445a34 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
+ 
+ KERNEL_IMAGETYPE = "Image"
+ 
++PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
+ UBOOT_MACHINE ?= "qemu_arm64_defconfig"
+ 
+ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 14873a3b4f..4a9c6d364b 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -13,6 +13,7 @@ DEFAULTTUNE ?= "core2-64"
+ require conf/machine/include/x86/tune-x86-64-v3.inc
+ require conf/machine/include/x86/qemuboot-x86.inc
+ 
++PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
+ UBOOT_MACHINE ?= "qemu-x86_64_defconfig"
+ 
+ KERNEL_IMAGETYPE = "bzImage"
+diff --git a/meta/recipes-bsp/barebox/barebox.inc b/meta/recipes-bsp/barebox/barebox.inc
+index 5db10a0e38..8a0b4f2f7a 100644
+--- a/meta/recipes-bsp/barebox/barebox.inc
++++ b/meta/recipes-bsp/barebox/barebox.inc
+@@ -46,6 +46,11 @@ EXTRA_OEMAKE = " \
+ BAREBOX_CONFIG[doc] = "The barebox kconfig defconfig file. Not used if a file called defconfig is added to the SRC_URI."
+ BAREBOX_CONFIG ?= ""
+ 
++# set sensible default configs for some of oe-core's QEMU MACHINEs
++BAREBOX_CONFIG:qemuarm = "multi_v7_defconfig"
++BAREBOX_CONFIG:qemuarm64 = "multi_v8_defconfig"
++BAREBOX_CONFIG:qemux86-64 = "efi_defconfig"
 +
-+SUMMARY = "barebox bootloader tools"
-+
-+DEPENDS += "libusb1"
-+
-+SRC_URI[sha256sum] = "b08a762da8d63dd18b4f2d9f5d0a8da001b6e608d1b3eff6dcebc6a2e575d535"
-+
-+inherit pkgconfig
-+
-+EXTRA_OEMAKE = " \
-+  ARCH=sandbox \
-+  CROSS_COMPILE=${TARGET_PREFIX} -C ${S} O=${B} \
-+  CROSS_PKG_CONFIG=pkg-config \
-+  CC='${CC}' \
-+  LD='${LD}' \
-+  "
-+
-+do_compile:class-target () {
-+    export userccflags="${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-+    export userldflags="${TARGET_LDFLAGS}${TOOLCHAIN_OPTIONS}"
-+    oe_runmake targettools_defconfig
-+    oe_runmake scripts
-+}
-+
-+do_compile:class-native () {
-+    oe_runmake hosttools_defconfig
-+    oe_runmake scripts
-+}
-+
-+BAREBOX_TOOLS = " \
-+         bareboxenv \
-+         bareboxcrc32 \
-+         kernel-install \
-+         bareboximd \
-+         omap3-usb-loader \
-+         omap4_usbboot \
-+         imx/imx-usb-loader \
-+         "
-+
-+BAREBOX_TOOLS_SUFFIX = ""
-+BAREBOX_TOOLS_SUFFIX:class-target = "-target"
-+
-+do_install () {
-+	install -d ${D}${bindir}
-+
-+	for tool in ${BAREBOX_TOOLS}; do
-+		install -m 0755 scripts/${tool}${BAREBOX_TOOLS_SUFFIX} ${D}${bindir}/${tool##*/}
-+	done
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
+ # prevent from acting as non-buildable provider
+ python () {
+     bareboxconfig = d.getVar('BAREBOX_CONFIG')
 -- 
 2.39.2
 
