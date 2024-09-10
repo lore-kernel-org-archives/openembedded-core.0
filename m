@@ -1,86 +1,95 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB0CDEDE9BA
-	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 20:17:28 +0000 (UTC)
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by mx.groups.io with SMTP id smtpd.web11.6319.1725999445732136920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A38EDE9BF
+	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 20:47:59 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.7036.1726001273564147292
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Sep 2024 13:17:25 -0700
+ Tue, 10 Sep 2024 13:47:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=yRkYUqps;
- spf=pass (domain: ti.com, ip: 198.47.23.248, mailfrom: reatmon@ti.com)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 48AKHPAi065674
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 15:17:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1725999445;
-	bh=3jctGCXalIna7z6qXWl7ocOZbDefBD9Ro2hX0ra8EGg=;
-	h=From:To:Subject:Date;
-	b=yRkYUqpsf/3FkquJpA3LyIE+NbZlsqY5V9Td1AMa4Gxy8uVxfNwtOQkNrc97pvAja
-	 fhoTm9QfXjuqHHtu1qjR2QHySg+8BQDyJGrUsnVpAycCWMxKMfiJPHKQx5AmHuBhLv
-	 HPy5DweaJzP10dxiJRbYxzUH2IMRLfJffgD0S7uE=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 48AKHPju021702
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 15:17:25 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 10
- Sep 2024 15:17:24 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 10 Sep 2024 15:17:24 -0500
-Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 48AKHOZ7051839
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 15:17:24 -0500
-Received: from reatmon by uda0214219 with local (Exim 4.90_1)
-	(envelope-from <reatmon@ti.com>)
-	id 1so7Ii-0000xo-F9
-	for openembedded-core@lists.openembedded.org; Tue, 10 Sep 2024 15:17:24 -0500
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] oe-setup-build: Change how we get the SHELL value
-Date: Tue, 10 Sep 2024 15:17:24 -0500
-Message-ID: <20240910201724.3652-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@smile.fr header.s=google header.b=M10caeKq;
+ spf=pass (domain: smile.fr, ip: 209.85.208.171, mailfrom: yoann.congal@smile.fr)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f74e613a10so7810401fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 13:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1726001271; x=1726606071; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TB0WlgcihgJju6Dp5Q10htzFEaHjUaYNGnNkDAnB3Qs=;
+        b=M10caeKqZ9mPw+EBitUxrXmurIrm0RZ+T4OCTbpbvGat5W8o4daFU+RxNGVwutHtJW
+         3LFvSIaVhiz5hN7L9hgfSFzHukNeENjB32hNYw/iFl8XzJbBH4wUupUm4JACrq12QOza
+         XoiBh87fX1+35k0RZHZpIXaMxWvYFB07Iam5g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726001271; x=1726606071;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TB0WlgcihgJju6Dp5Q10htzFEaHjUaYNGnNkDAnB3Qs=;
+        b=o+9ArLCJvWVKj5SM5mD9SX/e843gz5z5vG+IdT9I8Up94MU7I9PIGWI/c1EazvM1pQ
+         E2kgnPp9Blr0J1TX5BZjVQc9t3OmbLshVDFK3OrEtQgdFXMN376dX5c41pSoSCUZ0kID
+         qQh1nKKf4aLQItW3hzH8tei1UE5fjIdUcvjo6BD7gg5LB4625neemsdcFOlte+Wl76Ca
+         PyhdzQM6F5dz9LJK7QZ0kq47/e/2G2DEdN1QJBVg/mxrex8m1jeNcTPEI90Cm5DqvCZY
+         5wTcMIMRBaVZJW1fg1SCA9MZ5Ck+3PnVvAs7qBgBK6X0pe+xUan//yLRra+dagS4/pGw
+         3Ekw==
+X-Gm-Message-State: AOJu0YxYLEmn2wb6gtTU8gBszXKt7I1BVG5pBihOD8vxoLFas3wu6g4C
+	PN/3XeALeOETcEovdQ5wA8jUz0ChlRY+e/eQ4YNSqptTAvz+p//eFPaYiJZ3P8aRLek8Slq+b4U
+	lX3Q=
+X-Google-Smtp-Source: AGHT+IHhFiEPwTCgJXGdQivFFtMkzyoWuX1z/VJnd/T5eURQwJq2YxdYviutkalclL1WHmgb5vWzuw==
+X-Received: by 2002:a2e:e0a:0:b0:2f3:f1ee:2256 with SMTP id 38308e7fff4ca-2f75aa110eemr86358791fa.44.1726001270516;
+        Tue, 10 Sep 2024 13:47:50 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.local (53.1.159.89.rev.sfr.net. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f75bffd058sm13255341fa.51.2024.09.10.13.47.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 13:47:50 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] oeqa/selftest: Only rewrite envvars paths that absolutely point to builddir
+Date: Tue, 10 Sep 2024 22:47:35 +0200
+Message-Id: <20240910204735.3080050-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 20:17:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204369
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 20:47:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204370
 
-There are times that a user might not have SHELL set for some reason.
-We should default back to a known shell in the event that SHELL is not
-set.
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+When building the new selftest builddir, paths in environment variables
+are rewritten to point to the new buildir, but users can have
+environment variables that point outside of the build dir using
+relative paths from builddir. We must not rewrite those.
+
+Check this by verifying that the absolute path still contains the
+builddir.
+
+Fixes [YOCTO #15241]
+
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- scripts/oe-setup-build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/context.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
-index 1cb06b3b79..80d8c70bac 100755
---- a/scripts/oe-setup-build
-+++ b/scripts/oe-setup-build
-@@ -102,9 +102,9 @@ def setup_build_env(args):
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 99186175e5..acc3b073bd 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -117,8 +117,11 @@ class OESelftestTestContext(OETestContext):
+                     newbblayers += 'BBLAYERS = "%s"\n' % ' '.join(bblayers_abspath)
+                     f.write(newbblayers)
  
-     cmd = "TEMPLATECONF={} {}".format(template["templatepath"], cmd_base)
-     if not no_shell:
--        cmd = cmd + " && {}".format(os.environ['SHELL'])
-+        cmd = cmd + " && {}".format(os.environ.get('SHELL','bash'))
-     print("Running:", cmd)
--    subprocess.run(cmd, shell=True, executable=os.environ['SHELL'])
-+    subprocess.run(cmd, shell=True, executable=os.environ.get('SHELL','bash'))
- 
- parser = argparse.ArgumentParser(description="A script that discovers available build configurations and sets up a build environment based on one of them. Run without arguments to choose one interactively.")
- parser.add_argument("--layerlist", default=defaultlayers(), help='Where to look for available layers (as written out by setup-layers script) (default is {}).'.format(defaultlayers()))
--- 
-2.17.1
-
++        # Rewrite builddir paths seen in environment variables
+         for e in os.environ:
+-            if builddir + "/" in os.environ[e]:
++            # Rewrite paths that absolutely point inside builddir
++            # (e.g $builddir/conf/ would be rewritten but not $builddir/../bitbake/)
++            if builddir + "/" in os.environ[e] and builddir + "/" in os.path.abspath(os.environ[e]):
+                 os.environ[e] = os.environ[e].replace(builddir + "/", newbuilddir + "/")
+             if os.environ[e].endswith(builddir):
+                 os.environ[e] = os.environ[e].replace(builddir, newbuilddir)
 
