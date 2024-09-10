@@ -1,441 +1,230 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD3FFEB64DE
-	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 12:22:04 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.21597.1725970916894167517
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEFEEEB64DE
+	for <webhook@archiver.kernel.org>; Tue, 10 Sep 2024 12:22:44 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.50])
+ by mx.groups.io with SMTP id smtpd.web10.21998.1725970956240806279
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Sep 2024 05:21:57 -0700
+ Tue, 10 Sep 2024 05:22:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=aTko7ZxD;
- spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5366fd6fdf1so753799e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 05:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725970915; x=1726575715; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ewP+ru99S6Xt98CDQ98YdcWa0nQP5vaJr/kJp8qeszc=;
-        b=aTko7ZxDfIHqZwuvsf+h8I8rWv/7opRo6XDosh4vigl8uy4d4buauFxmqfYxZQDdkW
-         /QfgK8WXalVQNv7EntZ3eaIE+ez4Y+mdUKWUY+DoBsLaCyAZNKJdo4gaDN1YK0sAMF5A
-         ye2zZhLZDMYSHVN0T1PIwv1JYS+8PikFn+jou8rr2o1lDdVg9oOc6DBubtQpyOz5FukB
-         XsSlWukkA0tNZ5j/yEVjuvgvckeKUMsfEJfVfS4YOYdTZPe5aHWMxXWBGVn+pDCgfIdZ
-         LDWvoRuG4YTeIfZXEoSIRGY+6F2J6ssVT+YTzqOUp9WqQGpjdXQvSgVAR8CGQTLiYr/Q
-         JkAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725970915; x=1726575715;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ewP+ru99S6Xt98CDQ98YdcWa0nQP5vaJr/kJp8qeszc=;
-        b=HwW6X5BV0UV1nNjU9TaENPaIAiZyVatvZssEqwL+vnMqCnL+V66h6bHNjKIpSXgYXA
-         SLqNAGHfijWRenTiQNY5wkyBol3ST9y8GWv06dZOHLOgq1qKiogODQbt0pkXeNI7C6/x
-         QeWs+4MyNNvMg7fO50hx7xwADt42107tCUDFV+KaztOmjCVwwMhCLycusgV5aZogPiG7
-         pJ6nuU7FQqKnBAjVN6G6KmzUJOBvOPSLJalg8y6sKxtSWz0tUPjzk4RXraObH4Bd//qf
-         8sGYrtJ8X1O3o19ziALwgq7iMMV0KOaI22SAEv/gR04FnnYuT4e56rsmF8VCK0orUpM5
-         /IOg==
-X-Gm-Message-State: AOJu0YwJ0aL8Gt7DMdTFq4NVDJv12GeWKVkkYBWSH1ShaK8SP+qtcluZ
-	zq3IRxK6TXsVpaotfJNrdkdQQUPlnL8vOJdRXiwXcQZDMoBqtVFb8A+q0s5fizMdCimU5TJewIH
-	cG8M=
-X-Google-Smtp-Source: AGHT+IHt8zzLIFqkfVT2UtuXy+r18+F+hcJvuiq5CQ7MTwEZqy5c3IeQ5WIHymmXkUQ4qMJ4NzFtXg==
-X-Received: by 2002:a05:6512:3989:b0:535:3ce5:6173 with SMTP id 2adb3069b0e04-536587f6087mr9836915e87.37.1725970913881;
-        Tue, 10 Sep 2024 05:21:53 -0700 (PDT)
-Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f868e6bsm1120702e87.41.2024.09.10.05.21.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 05:21:53 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] omvf: update from edk2-stable202402 to edk2-stable202408
-Date: Tue, 10 Sep 2024 15:21:28 +0300
-Message-ID: <20240910122128.316163-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Sg48SF9J;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Sg48SF9J;
+ spf=pass (domain: arm.com, ip: 40.107.21.50, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=l/RcbEFxSJzNEiqOSR5KZJN3LXnGqxOyTIh3jD7K1va2stG0UtT2L2eDoVYEJ4S7HhGknCmR19ilEyuNJZ7hJSci61P3414MBYCixScnPJSsBWzK7PduFt4/UJEK+75inCNK8u+tVUL6iibF7uZxPFbKnfPT+c2g/bhTKpmEs75WkZYCEDWbPQLG3VFzdLCq5YXfqib1zKt4Yc/F+LwpI+I4PYSyqg5rjwyciUX6c7BNw7Z5bp/AcoWNNUBhw3wr9TLeRILRR/IJmC8gQto7BZe8MyiQmeQPzpJJFnJ70JYuV0zFO4UDKXTdIowsR4xMBw86GjleRCBNAC8Vyiz9Jw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fuPjZHipbLxcDex2AeacfeuhbCAB13I6KQzRzb4LKT4=;
+ b=MfuZ9kUL4EgaVrgO8QRHGkQvG3dA9vFTG7qC2ltSHpDeZDDPzFWIKFJ5uFhMIIbSIPMxb8JRnUlsO0BFs7zxJdzgCFzBMyiJWx/XUKYsoSzI/NxCHWgOIcX0sFvjdRtWKrqQk1tSYMaiXkraM1k11rcQnvPMsXUIFHXeesIRusMhw6RWDpw68IWD5bkxRGNNzJY0MnhvklM73fC8JSEGNl+MlYd6f+44rA2CIxVAdoFGCajsJ8oJRi9/lT+taUFNRJuAc9RtEScJfn9Jh5otV9rINFEkJFz//NsVXT0TvSfaKQvXGZpB8uRHsaGXdGemnE3aygq+XgZQcKNTLy9HXA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=bestguesspass action=none header.from=arm.com; dkim=pass (signature was
+ verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fuPjZHipbLxcDex2AeacfeuhbCAB13I6KQzRzb4LKT4=;
+ b=Sg48SF9J5s7VXFk9lWH5fMRpAB4ymwwscxIg782PdaUIpaQUA1NChxyV1tMURO1dQ5Le+40Z6Dfc+NRqDPSdSb3VrBjHnUFPZi6OWpZgg6QhhIums5Kb4tzIV0g5b0PzktRy6x/LsJo/tq5X7bhMxvPfO+vv02uIU024f7ZkiY4=
+Received: from DB8P191CA0003.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:130::13)
+ by AS8PR08MB8276.eurprd08.prod.outlook.com (2603:10a6:20b:56e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.16; Tue, 10 Sep
+ 2024 12:22:25 +0000
+Received: from DB5PEPF00014B91.eurprd02.prod.outlook.com
+ (2603:10a6:10:130:cafe::a1) by DB8P191CA0003.outlook.office365.com
+ (2603:10a6:10:130::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25 via Frontend
+ Transport; Tue, 10 Sep 2024 12:22:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5PEPF00014B91.mail.protection.outlook.com (10.167.8.229) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7918.13
+ via Frontend Transport; Tue, 10 Sep 2024 12:22:23 +0000
+Received: ("Tessian outbound 98d42a42832d:v441"); Tue, 10 Sep 2024 12:22:23 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: db09c335b4a03464
+X-CR-MTA-TID: 64aa7808
+Received: from L3f1a6e92cfcc.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id AF0172D8-9BA7-4828-9617-BE3AAAD5E4A0.1;
+	Tue, 10 Sep 2024 12:22:16 +0000
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L3f1a6e92cfcc.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 10 Sep 2024 12:22:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=S7V4gVB1gUt5kBK4KgROVos/9QKSxF+I6jTS/wO7OM2Hy8eRMcSKHc/mhn2ahWfaTgsT6fWe97z6SZis/fgbmh6TpzIs5F9EVYYiepC+soTaQ7h9aSixyL1vHOxzUdVhYyluBE5Z/Ov1ifdIdsJ5s4vOooe4EihYBhiQv43DSOByLWTjapU3JNorZv8+TxwRiyrnQfcWO6gEnS1jat1ramvTCUf5NhJOFKX0yGX16JLTppF92Wfu48mAEjopDYYewtaNEKD0lLmupXP95s7WVns3hawr5HxslahQK6tI1NYP/P5E6FjppA60WH9eIKPH3a7SRZnBQhlv5nICkkKlIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fuPjZHipbLxcDex2AeacfeuhbCAB13I6KQzRzb4LKT4=;
+ b=ZRJwWqtFr7/KJDVwCzo4ergXT8V9JXrmCoCf4veE33aR4p7RxMmCMjkV3VeyUWQJqXSkKg4cHXQ77+esICX3qvZ7RB+waam73murUjcWH8rpvjRUti63WwJ5tLLVi6xlJ+piZwm6yfnqKNhTM5C/66jJNkg2J91/yO43nQK2mxdETc1Bt5fjlnY2cTTDnVCrL75add4RTX+B+Ylil9rrMM6Of7ynGABO/tHqedqGUVCNAHct/cE61wK5hlfBYPAFjEHJvNnLI4HcKqdc4nr9DJualLtZzNv1VP2xbGynAxzPUfK3I+KG+8IaZW3VbPlEpPHyaX0Cqj26lHLHfP8hBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fuPjZHipbLxcDex2AeacfeuhbCAB13I6KQzRzb4LKT4=;
+ b=Sg48SF9J5s7VXFk9lWH5fMRpAB4ymwwscxIg782PdaUIpaQUA1NChxyV1tMURO1dQ5Le+40Z6Dfc+NRqDPSdSb3VrBjHnUFPZi6OWpZgg6QhhIums5Kb4tzIV0g5b0PzktRy6x/LsJo/tq5X7bhMxvPfO+vv02uIU024f7ZkiY4=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS8PR08MB8393.eurprd08.prod.outlook.com (2603:10a6:20b:569::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.16; Tue, 10 Sep
+ 2024 12:22:09 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%6]) with mapi id 15.20.7962.014; Tue, 10 Sep 2024
+ 12:22:09 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] vulkan-samples: Disable on 32bit ARM
+Thread-Topic: [OE-core] [PATCH] vulkan-samples: Disable on 32bit ARM
+Thread-Index: AQHbAxuysPQXOq/OiEemebfifbVVebJQ8dgA
+Date: Tue, 10 Sep 2024 12:22:09 +0000
+Message-ID: <59590CCB-55D5-46F5-86F2-6689B3BDFA68@arm.com>
+References: <20240910005158.1797671-1-raj.khem@gmail.com>
+In-Reply-To: <20240910005158.1797671-1-raj.khem@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3776.700.51)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS8PR08MB8393:EE_|DB5PEPF00014B91:EE_|AS8PR08MB8276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 75de2415-0453-48bb-b601-08dcd193397c
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?bXJ5ajIyT2t6NHhrM0h2cDg5SjBrOEFQVU5ZRzJpMFgyNGtxaTBJbzR1ZVcz?=
+ =?utf-8?B?Tjd6dk5WZ09LQzMzMmkyNVh0Q29zVlVNdGJPUDE4ZlIxVzJBRkdDMmQyWE9v?=
+ =?utf-8?B?NXQ5M2h0c1IwVWM4cURCT013RjFCVFFHOFhOYytEUXhGdXJhTVZJTzRpUXNE?=
+ =?utf-8?B?emlPa3RLVWc2eG9hb2NVWFRGSWFybktaQWZhSnVqaE5NNzh3VWZTeEpSdTRn?=
+ =?utf-8?B?UnR3aThFMUdaTWtmNjVKSll0U3lFaXk2RDBWMXA3YXllbnV2cnh4YWQ3VkNp?=
+ =?utf-8?B?Uzl5aFJ6ZW82QittV2h1bk1JOVJjQWlCbnZaNkZUdUFubzhJQVFZUUFVaGgz?=
+ =?utf-8?B?TDdGR2xzcVNHYVplN3VSSG1kb2llQW5PVklxdTNJSVRYSC83d0E1a2tuOFhs?=
+ =?utf-8?B?b3RLdWF0cjFSdi9MVGJOU3FFSllBQldvYlovYXVnUEYvRDFZZUNJZ1Q3cFAw?=
+ =?utf-8?B?Z1dMNEk3ZjBQZXhQSWoyR3RGSkF4eEU2bGx3NGk0ell3dUlmQUJaNERBWnBZ?=
+ =?utf-8?B?UHk0MTRoVzlPdkFsRUoxRGhVbFE5OTFQK1hZZ3JIZThzWjlTQXFqQ1RtYUJq?=
+ =?utf-8?B?SEZjWGJJYmZFeXRueWl4SGVEQyswMVRHRjhIdmM1ZjF0UnZZQ3JBaFR0WndU?=
+ =?utf-8?B?T25VZVE0bWV3UXQxNzhFT1Y2VCtMd2pyQlVZbG9FcWpiUGg2RVd5eEFDa3Fj?=
+ =?utf-8?B?OVZXYStJRG5wQzlEbUowNU1mZ3F3bTdib3Qzd2JDbXpZLy9EZm9vLzZ2WTRC?=
+ =?utf-8?B?R0t5bFZBT0J6QXpjMnR3d3h5SzdTSy9YazVHTzlXZFZYd1VaVit0OTlDMG1y?=
+ =?utf-8?B?UnRXV25KODBSRnRwZ3Q2cGt2WU9EanBuUU5MQWpNd1phS1ZUOE45N0JZdURn?=
+ =?utf-8?B?OUlUeS9icXFoYThBbVNvQjk0OXNjMmowdExZMEpHYm45cCtDb3Z4UXdNS1Bw?=
+ =?utf-8?B?TzIwUUNhdmJjQm1ITlBqOEpTZ3JySkRHa0JNTFdkTzMwV0RsbkYxbE9sc0Ew?=
+ =?utf-8?B?RjR4QXhBSWdWYlJUczlXalBITWdCblRqU2hITVkraTVONy9iUFhObzR6UXY5?=
+ =?utf-8?B?cTZaNFkvQlFYSVh6dFJaZEVCM1Q3UXV2OGpjeG11dkhhOERkUnJlaVV4ZVpj?=
+ =?utf-8?B?N2tERkFjdnZaVmxLZncvWFUrSm9Ka2duZmo0VHMyWTViYm9Cc2plTDI4SStR?=
+ =?utf-8?B?ckZ0bzJjRGNMMWpaTTdXWHMwTW9jM0NRNE91MmJRdEl6dGMxWGlkeStTbzRR?=
+ =?utf-8?B?OEtWVGF6RXkzRmR3a0Ivd0hWd2pJMEtIRDRLdm5Gd0ZMSzZUMVJwRWF1emFC?=
+ =?utf-8?B?emw3QU4xKzZHRW1yNXRzaWsrYmh6bHhJcW5NL3RkaFNpWm1LOHE2OXd4Q0pj?=
+ =?utf-8?B?YXptV1J5MXFmWUJsT2E5NFRZZDBnRGkrNHZwbEVnTmluc1FmcmNQWmQ0d2tQ?=
+ =?utf-8?B?aXZ2TkllUFhMV0lJK1BJWmt6OE81Y0F5WTM3c1FMZHdtVjVhbkljeXgrWXB5?=
+ =?utf-8?B?Nm1DY0xHem5PV2liUS9hUFA5Uzh2NTZiaUNQMVlRY1JQTGpKQjJiaHd3ckpR?=
+ =?utf-8?B?dWhuSGNOSWo1Z3hScGhlNnpCdmZkc3JCZVUybXFuY29kV09WRlMxTEVCcTNn?=
+ =?utf-8?B?Njlmb0R4dmMrSUg3THA3YjR6TS9PKzVLa0IvdGtaaUc5akFtSE1tUDlRVHZF?=
+ =?utf-8?B?aHFxKzZuK2MrK3IzMVJFMkg2cXIzeVFyYW1DbU53ejVFWEkycVRHWFRCWFIx?=
+ =?utf-8?B?bENZK1VYMFBQQkl3QzROd1RhRkVmODBMb3hyajdyQksxZU9wTHlDUDl1MmJT?=
+ =?utf-8?B?RzdzSkhUejFoRVJ0eEdxRkxwRHJsSzZ3aERQcmhCcGRmY3dXSVlRdTNxYWpX?=
+ =?utf-8?B?d2R5eWlDSCtYZ1lnN3R5cHMyVEQ5b1dHbTNWTDVJZk5qanc9PQ==?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ED5B9F76422FA34594FC84CC3933CE4B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8393
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: 
+ ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B91.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	e03c4352-b07b-4fe6-52a4-08dcd193312e
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026|35042699022;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?ZkJweWd0N25jNnA1RjEyQ3NoU0lkTndHalVjTU1YZTVia2k5QmgvMnVEbkk4?=
+ =?utf-8?B?QXlFSXJINEJsaUVpSXhWczgyemVPbVlQU2RuUG1aamFDdWZ5Qmw3aUQxSXhV?=
+ =?utf-8?B?YklJZEVaNDRGaUt3T3R2YmMrYVRUbTFMMkNCdHphc2NqalE5Qk9QN3FXWnpH?=
+ =?utf-8?B?V3RUbnR0ZEJ3NW9HTCs4REljeDdUZkhyeDg3R2lQU3pScEVKRHFZeWZxNUcw?=
+ =?utf-8?B?dXV2VytQcWdTVzlJYnZUSXJmTkxlZ3lpMFZZMjBWbDVsaHpaN2pnLzhOaU9R?=
+ =?utf-8?B?dzBBUE5OYmlvRklkMUcveWIzYnFIWWRrNWU3QVd5U0dscTBqb2x1S3dpOWtx?=
+ =?utf-8?B?Uk9QV3JHZmN6WTZLOEF4UUgzL2RYOWZRZzlySmdaeTg2enVuaTRjS0VRL201?=
+ =?utf-8?B?U2tNdm1WUTNGYVNEWHZWWmx3QVYveEhlSk9WNVhFNzJZZEozY2JCSlk5b1Ro?=
+ =?utf-8?B?WTZyWkFrUjV4SFBtYmNyZnlDd1pCVFlLREUrUmIrODUzNlpXUlVsZmEyWnk2?=
+ =?utf-8?B?S0xhUmkreUVyYzhSaS9ja2JrZ0ptVCtFUjROeUtHY0p4S0tsWHZ1RzJsR1Fq?=
+ =?utf-8?B?dFp5eVZzUGFaYmtjeVVoZnpad0g3UlRLV1BUUElaTHN1V2ROYnhGQzl5b28r?=
+ =?utf-8?B?cWlYN2NaSk9oTkhxL0x5VW5xUFd3T05aSGpVa1pocENnUkxKeDBpVE9CNDN4?=
+ =?utf-8?B?RmlmalRDQWdmYWRza0xmZ25oTXdybjIwZWJVd0dGbld4SDZWeitCZGFYVmhq?=
+ =?utf-8?B?eGVsU2VMNzJtd3JMNWkwOU1LUDdXekFNb3RFNmFySmF1ZjBvVjMwOUFVQTl4?=
+ =?utf-8?B?WlJWMnh2elVlbEpUMFlTeHJQYlljbFNRbERLdldkaUx3MVJOUi9maVN6OWVH?=
+ =?utf-8?B?VjMxZE1sbWhwZmRtM2lNOFdlMytoVTk4TXFMbktzL081Y3VyQ0VjNUU4aldl?=
+ =?utf-8?B?SmQvRGswV0JSL3owaExrRXZPUEhzQkhlVTYzUVpQK1VzUlJ6M2ZOR0hkeEp3?=
+ =?utf-8?B?ZmNFUUpsVXN2MkZGS1I2TDlHTEY4UW1zMGhRZVhQSmc0QXBwQjR2aU5RZ0tM?=
+ =?utf-8?B?WUx5Q0pzMmpraUovQnpKeUxaNHpGZFZWSGI2RlM1WVZpUkZFKzJoclpkbFd6?=
+ =?utf-8?B?d3JUbXIyZ3hnV1dCdkx0bHFLMlhKZWo4NTlsaVBUYitWMEdnVzNiYlFScnRM?=
+ =?utf-8?B?S0lWZkpWQXBuODhZMlJQaWttTU9Yb1R2NkRvNTRCQlJiTWVrSlgvZHRmaXJG?=
+ =?utf-8?B?Q2hVNzhvKzJ2TFgzRFAzWUg5REZ0RFF3NFRESk5YUVQ0aUZqYUgrcTRiVU4z?=
+ =?utf-8?B?elZCQVdnaGtxdCsxMjJIcHd5MWFhaHFwUnl2dnJLYUpmSmxzeEN0Nmc0M2U4?=
+ =?utf-8?B?YXZ4LzNMM0U5NXd0SWJ5b2t2UG5SY3JNSE9sL0x5L2lsYW9HbEFRbTNDaHZV?=
+ =?utf-8?B?VFUxaGluMUdmUEt1RGZXdEt3cDhlUTJ3eHhTVmJJM3FvY2YyVkRJbFN6MVdZ?=
+ =?utf-8?B?VktDem82MWNyaHNCNWRKdjZEUlYxVWZHYTdoekkvMTlQdEZveEdlM1FKRjZl?=
+ =?utf-8?B?NUl3UFVYNGZBd2ZxNGlObm1rZHhvRGhJUjI0RXRoOVhEaWJjWjNXNVFIbFEw?=
+ =?utf-8?B?bXR5L0pTcVR5aklUS2FMT2N1bzUrTXJtZjRjdUx0SG1UNHVvWGV1aTJER05o?=
+ =?utf-8?B?cDFMYld0aS9Bcm5XNGxRR2ZzeEtaVmhQbU1peGFpVkZhTG0wb3Q5b0FDNHpB?=
+ =?utf-8?B?a2N5TXlwZitMaXJJQWhXYktyVXRxSTRPQ09DaFZCSzJ4T3E5dVBFT1NWUVBE?=
+ =?utf-8?B?WFJ1T0JsaXliUXpMVHR1Y0YzdnVFakZFMkxHQUYyN0ZwM3psRjZCUVRhTlF0?=
+ =?utf-8?B?YzNWN2NDM2NwTGY3RU9SRWxiRDdZUHFOTmQ5eDVvMVJaYUx5Z25oZVRyeGp0?=
+ =?utf-8?Q?9g9URj0m9mZV/xr2FoH7z0O/3JRXyBkZ?=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026)(35042699022);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 12:22:23.4483
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75de2415-0453-48bb-b601-08dcd193397c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B91.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8276
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 12:22:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204347
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Sep 2024 12:22:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204348
 
-Includes patches for CVE-2023-45236, CVE-2023-45237 and
-CVE-2024-25742. Refreshed patches with devtool.
-
-Changes:
-
-https://github.com/tianocore/edk2/releases
-
-edk2-stable202408
-Release Date 2024-08-23
-New Features & Bug Fixes
-
-    CryptoPkg:Add more crypto APIs (AESGCM/PEM/X509/RSA/PKCS5/PKCS7/Authent=
-icode) based on Mbedtls
-    CryptoPkg: Enable Openssl native instruction support for AARCH64
-    CryptoPkg: Add support for aes128-sha256 and aes256-sha256 cipher
-    UefiCpuPkg: S3 cleanup
-    MdePkg/BaseLib: Add CRC16 CCITT False Implementation
-    DynamicTablesPkg: ACPI TPM2 generator
-    DynamicTablesPkg: Prepare for supporting other archs
-    BaseTools: Add VS2022 support
-    OvmfPkg: Add LoongArchVirt instance to OvmfPkg and enable it
-
-edk2-stable202405
-
-Release Date 2024-05-24
-New Features & Bug Fixes
-
-    SecurityPkg:Add EFI Device Authentication Signature Database and SPDM
-    CryptoPkg:add additional RSAES-OAEP crypto functions
-    OvmfPkg:Add 5-level paging support
-    OvmfPkg:SEV-SNP Support for running under an SVSM
-    OvmfPkg:RBP register shall be cleared in TDVMCALL
-    OvmfPkg:Harden #VC instruction emulation (CVE-2024-25742)
-    Add SPI bus driver stack
-    NetworkPkg: Predictable TCP ISNs
-    NetworkPkg: Use of a Weak PseudoRandom Number Generator
-    UefiCpuPkg: Add new SmmRelocationLib library
-
-Bugzilla List
-Update Notes
-
-    NetworkPkg SECURITY PATCH CVE-2023-45237 requires the platform to provi=
-de the right implementation of the EFI_RNG_PROTOCOL
-    (i.e., using a GUID that appears in the allowlist) and EFI_HASH2_PROTOC=
-OL. If it is not implemented, the platform will lose the ability to do netw=
-ork boot.
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- ...ovmf-update-path-to-native-BaseTools.patch |  9 +++----
- ...ile-adjust-to-build-in-under-bitbake.patch |  5 +---
- .../ovmf/ovmf/0003-debug-prefix-map.patch     | 27 +++++++++----------
- .../ovmf/ovmf/0004-reproducible.patch         | 23 +++++++---------
- meta/recipes-core/ovmf/ovmf_git.bb            |  4 +--
- 5 files changed, 28 insertions(+), 40 deletions(-)
-
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-Ba=
-seTools.patch b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native=
--BaseTools.patch
-index 490d9e8046..89ef8d91fc 100644
---- a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools=
-.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools=
-.patch
-@@ -1,7 +1,7 @@
--From d8df6b6433351763e1db791dd84d432983d2b249 Mon Sep 17 00:00:00 2001
-+From 5f52c2582ae2226ef324332e352bb4c51b597656 Mon Sep 17 00:00:00 2001
- From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
- Date: Thu, 9 Jun 2016 02:23:01 -0700
--Subject: [PATCH 1/4] ovmf: update path to native BaseTools
-+Subject: [PATCH] ovmf: update path to native BaseTools
-=20
- BaseTools is a set of utilities to build EDK-based firmware. These utiliti=
-es
- are used during the build process. Thus, they need to be built natively.
-@@ -16,7 +16,7 @@ Upstream-Status: Inappropriate [oe-core cross compile spe=
-cific]
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/OvmfPkg/build.sh b/OvmfPkg/build.sh
--index b0334fb76e..094f86f096 100755
-+index 279f0d099a..285f061bf4 100755
- --- a/OvmfPkg/build.sh
- +++ b/OvmfPkg/build.sh
- @@ -24,7 +24,7 @@ then
-@@ -28,6 +28,3 @@ index b0334fb76e..094f86f096 100755
-    echo $EDK_TOOLS_PATH
-    source edksetup.sh BaseTools
-  else
----=20
--2.30.2
--
-diff --git a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-=
-build-in-under-bitbake.patch b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-m=
-akefile-adjust-to-build-in-under-bitbake.patch
-index eeedc9e20f..01101c2483 100644
---- a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
-n-under-bitbake.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
-n-under-bitbake.patch
-@@ -1,4 +1,4 @@
--From ac9df4fb92965f1f95a5bdbde5f2f86d0c569711 Mon Sep 17 00:00:00 2001
-+From 7cf91acf8a19a8052d05e272fad9f7e2f5b9597e Mon Sep 17 00:00:00 2001
- From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
- Date: Fri, 26 Jul 2019 17:34:26 -0400
- Subject: [PATCH] BaseTools: makefile: adjust to build in under bitbake
-@@ -64,6 +64,3 @@ index d369908a09..22c670f316 100644
-  ifeq ($(HOST_ARCH), IA32)=0D
-  #=0D
-  # Snow Leopard  is a 32-bit and 64-bit environment. uname -m returns i386=
-, but gcc defaults=0D
----=20
--2.30.2
--
-diff --git a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch b/meta=
-/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
-index c0c763c1cf..08821650fa 100644
---- a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
-@@ -1,7 +1,7 @@
--From 03e536b20d0b72cf078052f6748de8df3836625c Mon Sep 17 00:00:00 2001
-+From 415beee5adacae425f725cf9910784a0cdfa17dc Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 14 Jun 2021 19:56:28 +0200
--Subject: [PATCH 3/4] debug prefix map
-+Subject: [PATCH] debug prefix map
-=20
- We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
-  --debug-prefix-map to nasm (we carry a patch to nasm for this). The
-@@ -22,19 +22,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.co=
-m>
-  1 file changed, 9 insertions(+), 9 deletions(-)
-=20
- diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.=
-template
--index 503a6687c1..10ac38ef9e 100755
-+index 76aaae7261..4829d5cd5d 100755
- --- a/BaseTools/Conf/tools_def.template
- +++ b/BaseTools/Conf/tools_def.template
--@@ -739,7 +739,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D --add-gnu-debug=
-link=3D"$(DEBUG_DIR)/$(MODULE_
-+@@ -894,7 +894,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D --add-gnu-debug=
-link=3D"$(DEBUG_DIR)/$(MODULE_
-  *_*_*_DTCPP_PATH                   =3D DEF(DTCPP_BIN)=0D
-  *_*_*_DTC_PATH                     =3D DEF(DTC_BIN)=0D
-  =0D
- -DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builtin =
--fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h -fn=
-o-common=0D
- +DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builtin =
--fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h -fn=
-o-common ENV(GCC_PREFIX_MAP)=0D
-  DEFINE GCC_ARM_CC_FLAGS            =3D DEF(GCC_ALL_CC_FLAGS) -mlittle-end=
-ian -mabi=3Daapcs -fno-short-enums -funsigned-char -ffunction-sections -fda=
-ta-sections -fomit-frame-pointer -Wno-address -mthumb -fno-pic -fno-pie=0D
-- DEFINE GCC_LOONGARCH64_CC_FLAGS    =3D DEF(GCC_ALL_CC_FLAGS) -mabi=3Dlp64=
-d -fno-asynchronous-unwind-tables -fno-plt -Wno-address -fno-short-enums -f=
-signed-char -ffunction-sections -fdata-sections=0D
-+ DEFINE GCC_LOONGARCH64_CC_FLAGS    =3D DEF(GCC_ALL_CC_FLAGS) -mabi=3Dlp64=
-d -fno-asynchronous-unwind-tables -Wno-address -fno-short-enums -fsigned-ch=
-ar -ffunction-sections -fdata-sections=0D
-  DEFINE GCC_ARM_CC_XIPFLAGS         =3D -mno-unaligned-access=0D
--@@ -759,8 +759,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      =3D DEF(GCC_ARM_DLI=
-NK_FLAGS) -Wl,--entry,Refere
-+@@ -915,8 +915,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      =3D DEF(GCC_ARM_DLI=
-NK_FLAGS) -Wl,--entry,Refere
-  DEFINE GCC_AARCH64_ASLDLINK_FLAGS  =3D DEF(GCC_AARCH64_DLINK_FLAGS) -Wl,-=
--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT) DEF(GCC_ARM_AARCH64_ASLDL=
-INK_FLAGS)=0D
-  DEFINE GCC_LOONGARCH64_ASLDLINK_FLAGS =3D DEF(GCC_LOONGARCH64_DLINK_FLAGS=
-) -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)=0D
-  DEFINE GCC_IA32_X64_DLINK_FLAGS    =3D DEF(GCC_IA32_X64_DLINK_COMMON) --e=
-ntry _$(IMAGE_ENTRY_POINT) --file-alignment 0x20 --section-alignment 0x20 -=
-Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map=0D
-@@ -45,7 +45,7 @@ index 503a6687c1..10ac38ef9e 100755
-  DEFINE GCC_VFRPP_FLAGS             =3D -x c -E -P -DVFRCOMPILE --include =
-$(MODULE_NAME)StrDefs.h=0D
-  DEFINE GCC_ASLPP_FLAGS             =3D -x c -E -include AutoGen.h=0D
-  DEFINE GCC_ASLCC_FLAGS             =3D -x c=0D
--@@ -913,7 +913,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           =3D -mabi=
-=3Dlp64d -march=3Dloongarch64 DEF(
-+@@ -1069,7 +1069,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           =3D -mabi=
-=3Dlp64d -march=3Dloongarch64 DEF(
-  *_GCC48_IA32_DLINK2_FLAGS         =3D DEF(GCC48_IA32_DLINK2_FLAGS)=0D
-  *_GCC48_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
-  *_GCC48_IA32_OBJCOPY_FLAGS        =3D=0D
-@@ -54,7 +54,7 @@ index 503a6687c1..10ac38ef9e 100755
-  =0D
-    DEBUG_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS)=0D
-  RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS) -Wno-unuse=
-d-but-set-variable=0D
--@@ -941,7 +941,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_C=
-C_FLAGS) -Wno-unused-but-set
-+@@ -1097,7 +1097,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32=
-_CC_FLAGS) -Wno-unused-but-set
-  *_GCC48_X64_DLINK2_FLAGS         =3D DEF(GCC48_X64_DLINK2_FLAGS)=0D
-  *_GCC48_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)=0D
-  *_GCC48_X64_OBJCOPY_FLAGS        =3D=0D
-@@ -63,7 +63,7 @@ index 503a6687c1..10ac38ef9e 100755
-  =0D
-    DEBUG_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS)=0D
-  RELEASE_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS) -Wno-unused-=
-but-set-variable=0D
--@@ -1050,7 +1050,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D DEF(GCC48_AARCH=
-64_CC_FLAGS) -Wno-unused-but-s
-+@@ -1206,7 +1206,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D DEF(GCC48_AARCH=
-64_CC_FLAGS) -Wno-unused-but-s
-  *_GCC49_IA32_DLINK2_FLAGS         =3D DEF(GCC49_IA32_DLINK2_FLAGS)=0D
-  *_GCC49_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
-  *_GCC49_IA32_OBJCOPY_FLAGS        =3D=0D
-@@ -72,7 +72,7 @@ index 503a6687c1..10ac38ef9e 100755
-  =0D
-    DEBUG_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS)=0D
-  RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS) -Wno-unuse=
-d-but-set-variable -Wno-unused-const-variable=0D
--@@ -1078,7 +1078,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32=
-_CC_FLAGS) -Wno-unused-but-set
-+@@ -1234,7 +1234,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32=
-_CC_FLAGS) -Wno-unused-but-set
-  *_GCC49_X64_DLINK2_FLAGS         =3D DEF(GCC49_X64_DLINK2_FLAGS)=0D
-  *_GCC49_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)=0D
-  *_GCC49_X64_OBJCOPY_FLAGS        =3D=0D
-@@ -81,7 +81,7 @@ index 503a6687c1..10ac38ef9e 100755
-  =0D
-    DEBUG_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS)=0D
-  RELEASE_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS) -Wno-unused-=
-but-set-variable -Wno-unused-const-variable=0D
--@@ -1337,7 +1337,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z commo=
-n-page-size=3D0x20
-+@@ -1493,7 +1493,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z commo=
-n-page-size=3D0x20
-  *_GCC5_IA32_DLINK2_FLAGS         =3D DEF(GCC5_IA32_DLINK2_FLAGS) -no-pie=
-=0D
-  *_GCC5_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
-  *_GCC5_IA32_OBJCOPY_FLAGS        =3D=0D
-@@ -90,7 +90,7 @@ index 503a6687c1..10ac38ef9e 100755
-  =0D
-    DEBUG_GCC5_IA32_CC_FLAGS       =3D DEF(GCC5_IA32_CC_FLAGS) -flto=0D
-    DEBUG_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto=
- -Os -Wl,-m,elf_i386,--oformat=3Delf32-i386=0D
--@@ -1369,7 +1369,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X=
-64_DLINK_FLAGS) -flto -Os -Wl,
-+@@ -1525,7 +1525,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X=
-64_DLINK_FLAGS) -flto -Os -Wl,
-  *_GCC5_X64_DLINK2_FLAGS          =3D DEF(GCC5_X64_DLINK2_FLAGS)=0D
-  *_GCC5_X64_RC_FLAGS              =3D DEF(GCC_X64_RC_FLAGS)=0D
-  *_GCC5_X64_OBJCOPY_FLAGS         =3D=0D
-@@ -99,6 +99,3 @@ index 503a6687c1..10ac38ef9e 100755
-  =0D
-    DEBUG_GCC5_X64_CC_FLAGS        =3D DEF(GCC5_X64_CC_FLAGS) -flto -DUSING=
-_LTO=0D
-    DEBUG_GCC5_X64_DLINK_FLAGS     =3D DEF(GCC5_X64_DLINK_FLAGS) -flto -Os=
-=0D
----=20
--2.30.2
--
-diff --git a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch b/meta/rec=
-ipes-core/ovmf/ovmf/0004-reproducible.patch
-index c3fdc3d863..aba5d9e134 100644
---- a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
-@@ -1,7 +1,7 @@
--From c59850367a190d70dec43e0a66f399a4d8a5ffed Mon Sep 17 00:00:00 2001
-+From f4ba093ea8a8a8c333c08605b3a6ff1c82712613 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 14 Jun 2021 19:57:30 +0200
--Subject: [PATCH 4/4] reproducible
-+Subject: [PATCH] reproducible
-=20
- This patch fixes various things which make the build more reproducible. So=
-me changes
- here only change intermediate artefacts but that means when you have two b=
-uild trees
-@@ -35,10 +35,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.co=
-m>
-  4 files changed, 24 insertions(+), 16 deletions(-)
-=20
- diff --git a/BaseTools/Source/C/GenFw/Elf64Convert.c b/BaseTools/Source/C/=
-GenFw/Elf64Convert.c
--index 9c17c90b16..fcc7864141 100644
-+index 9d04fc612e..83fd6c9c05 100644
- --- a/BaseTools/Source/C/GenFw/Elf64Convert.c
- +++ b/BaseTools/Source/C/GenFw/Elf64Convert.c
--@@ -15,6 +15,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
-+@@ -13,6 +13,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
-  #ifndef __GNUC__=0D
-  #include <windows.h>=0D
-  #include <io.h>=0D
-@@ -47,7 +47,7 @@ index 9c17c90b16..fcc7864141 100644
-  #endif=0D
-  #include <assert.h>=0D
-  #include <stdio.h>=0D
--@@ -990,7 +992,7 @@ ScanSections64 (
-+@@ -988,7 +990,7 @@ ScanSections64 (
-    }=0D
-    mCoffOffset =3D mDebugOffset + sizeof(EFI_IMAGE_DEBUG_DIRECTORY_ENTRY) =
-+=0D
-                  sizeof(EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY) +=0D
-@@ -56,7 +56,7 @@ index 9c17c90b16..fcc7864141 100644
-  =0D
-    //=0D
-    // Add more space in the .debug data region for the DllCharacteristicsE=
-x=0D
--@@ -2261,7 +2263,7 @@ WriteDebug64 (
-+@@ -2299,7 +2301,7 @@ WriteDebug64 (
-    EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY         *Nb10;=0D
-    EFI_IMAGE_DEBUG_EX_DLLCHARACTERISTICS_ENTRY *DllEntry;=0D
-  =0D
-@@ -65,7 +65,7 @@ index 9c17c90b16..fcc7864141 100644
-  =0D
-    NtHdr =3D (EFI_IMAGE_OPTIONAL_HEADER_UNION *)(mCoffFile + mNtHdrOffset)=
-;=0D
-    DataDir =3D &NtHdr->Pe32Plus.OptionalHeader.DataDirectory[EFI_IMAGE_DIR=
-ECTORY_ENTRY_DEBUG];=0D
--@@ -2294,7 +2296,7 @@ WriteDebug64 (
-+@@ -2332,7 +2334,7 @@ WriteDebug64 (
-  =0D
-    Nb10 =3D (EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY*)(Dir + 1);=0D
-    Nb10->Signature =3D CODEVIEW_SIGNATURE_NB10;=0D
-@@ -75,7 +75,7 @@ index 9c17c90b16..fcc7864141 100644
-  =0D
-  STATIC=0D
- diff --git a/BaseTools/Source/Python/AutoGen/BuildEngine.py b/BaseTools/So=
-urce/Python/AutoGen/BuildEngine.py
--index 752a1a1f6a..02054cccf8 100644
-+index 45b39d7878..3fed7d1736 100644
- --- a/BaseTools/Source/Python/AutoGen/BuildEngine.py
- +++ b/BaseTools/Source/Python/AutoGen/BuildEngine.py
- @@ -70,6 +70,9 @@ class TargetDescBlock(object):
-@@ -89,7 +89,7 @@ index 752a1a1f6a..02054cccf8 100644
-          if Input not in self.Inputs:=0D
-              self.Inputs.append(Input)=0D
- diff --git a/BaseTools/Source/Python/AutoGen/GenMake.py b/BaseTools/Source=
-/Python/AutoGen/GenMake.py
--index daec9c6d54..0e8cc20efe 100755
-+index fbd35d4989..5ddd544d17 100755
- --- a/BaseTools/Source/Python/AutoGen/GenMake.py
- +++ b/BaseTools/Source/Python/AutoGen/GenMake.py
- @@ -575,7 +575,7 @@ cleanlib:
-@@ -153,7 +153,7 @@ index daec9c6d54..0e8cc20efe 100755
-                  if T.GenFileListMacro and T.FileListMacro not in self.Fil=
-eListMacros:=0D
-                      self.FileListMacros[T.FileListMacro] =3D []=0D
- diff --git a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py b/BaseTools/=
-Source/Python/AutoGen/ModuleAutoGen.py
--index d05410b329..99b3f64aba 100755
-+index 65a2176ca9..318b9611ce 100755
- --- a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
- +++ b/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
- @@ -1474,6 +1474,9 @@ class ModuleAutoGen(AutoGen):
-@@ -175,6 +175,3 @@ index d05410b329..99b3f64aba 100755
-  =0D
-          # Ignore generating makefile when it is a binary module=0D
-          if self.IsBinaryModule:=0D
----=20
--2.30.2
--
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index 085574c0cb..202182397d 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -26,8 +26,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://0004-reproducible.patch \
-            "
-=20
--PV =3D "edk2-stable202402"
--SRCREV =3D "edc6681206c1a8791981a2f911d2fb8b3d2f5768"
-+PV =3D "edk2-stable202408"
-+SRCREV =3D "b158dad150bf02879668f72ce306445250838201"
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>edk2-stable.*)"
-=20
- CVE_PRODUCT =3D "edk2"
---=20
-2.34.1
-
+T24gMTAgU2VwIDIwMjQsIGF0IDAxOjUxLCBLaGVtIFJhaiB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyA8cmFqLmtoZW09Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
+PiANCj4gdnVsa2FuLXNhbXBsZXMgZGVwZW5kIG9uIGF0c2MgbW9kdWxlIGFuZCB0aGlzIG1vZHVs
+ZQ0KPiBvbmx5IHN1cHBvcnRzIHg4Nl82NC9hcm02NCBhcyBpdCBzZWVtcywNCg0KSeKAmW0gd29u
+ZGVyaW5nIGlmIHdlIHNob3VsZCByZXZlcnNlIHRoaXMgbG9naWMgYW5kIGp1c3QgbGlzdCB0aGUg
+cGxhdGZvcm1zIHRoYXQgdnVsa2FuLXNhbXBsZXMgYWN0dWFsbHkgd29ya3Mgb24uDQoNCkZvciBl
+eGFtcGxlLCBpdCBhbHNvIGZhaWxzIG9uIDMyLWJpdCBwcGM6DQoNCnZ1bGthbi1zYW1wbGVzL2dp
+dC9naXQvY29tcG9uZW50cy9maWxlc3lzdGVtL3NyYy9zdGRfZmlsZXN5c3RlbS5jcHA6NTI6MTM6
+IGVycm9yOiBuYXJyb3dpbmcgY29udmVyc2lvbiBvZiAnc2l6ZScgZnJvbSAnbG9uZyBsb25nIHVu
+c2lnbmVkIGludCcgdG8gJ3NpemVfdCcge2FrYSAndW5zaWduZWQgaW50J30gWy1XZXJyb3I9bmFy
+cm93aW5nXQ0KDQpSb3Nz
 
