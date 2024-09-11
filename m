@@ -1,141 +1,600 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF21FEE4988
-	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 09:42:12 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.18073.1726047727930809143
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E651EE498A
+	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 09:55:03 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.18201.1726048495287933761
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Sep 2024 02:42:08 -0700
+ Wed, 11 Sep 2024 02:54:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1soJrR-0004Hn-JY; Wed, 11 Sep 2024 11:42:05 +0200
-Message-ID: <4e3f8d79d68246c80347f99e1fe94fd641237421.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH v5 1/7] barebox: add initial support
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
+	by mailout01.t-online.de (Postfix) with SMTP id 5FEF712A7F
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 11:54:53 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.35.60]) by fwd70.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1soK3p-2L0Gyf0; Wed, 11 Sep 2024 11:54:53 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de
-Date: Wed, 11 Sep 2024 11:42:05 +0200
-In-Reply-To: <17F3F6252B938560.10184@lists.openembedded.org>
-References: <20240910184143.2820792-1-ejo@pengutronix.de>
-	 <17F3F6252B938560.10184@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4-2 
+Subject: [master-next][oe-core][v2PATCH] gtk4: update 4.14.5 -> 4.16.0
+Date: Wed, 11 Sep 2024 11:56:30 +0200
+Message-ID: <20240911095630.4846-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+X-TOI-EXPURGATEID: 150726::1726048493-557F84AB-89E3C452/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7152e447-58ed-46f2-883b-af2818703139
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 09:42:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204375
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 09:55:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204376
 
-QW0gRGllbnN0YWcsIGRlbSAxMC4wOS4yMDI0IHVtIDIwOjQxICswMjAwIHNjaHJpZWIgRW5yaWNv
-IErDtnJuczoKPiArCj4gK2RvX2NvbmZpZ3VyZSgpIHsKPiArwqDCoMKgwqDCoMKgwqAgaWYgWyAt
-ZSAke1dPUktESVJ9L2RlZmNvbmZpZyBdOyB0aGVuCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBjcCAke1dPUktESVJ9L2RlZmNvbmZpZyAke0J9Ly5jb25maWcKCkp1c3Qgbm90ZWQg
-aW4gb3RoZXIgdGVzdHMgYWdhaW5zdCBhY3R1YWwgQlNQcyB0aGF0IHRoaXMgY2hlY2sgaXMgbm90
-IHlldCBhZGFwdGVkIHRvIFVOUEFDS0RJUi4KCldpbGwgc2VuZCBhIHY2LgoKUmVnYXJkcywgRW5y
-aWNvCgo+ICvCoMKgwqDCoMKgwqDCoCBlbHNlCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBpZiBbIC1uICIke0JBUkVCT1hfQ09ORklHfSIgXTsgdGhlbgo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9lX3J1bm1ha2UgJHtCQVJFQk9YX0NP
-TkZJR30KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiYmZhdGFsICJObyBkZWZjb25m
-aWcgZ2l2ZW4uIEVpdGhlciBhZGQgZmlsZSAnZmlsZTovL2RlZmNvbmZpZyfCoHRvCj4gU1JDX1VS
-SSBvciBzZXQgQkFSRUJPWF9DT05GSUciCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBmaQo+ICvCoMKgwqDCoMKgwqDCoCBmaQo+ICsKPiArwqDCoMKgwqDCoMKgwqAgJHtTfS9zY3Jp
-cHRzL2tjb25maWcvbWVyZ2VfY29uZmlnLnNoIC1tIC5jb25maWcgJHtAIiAiLmpvaW4oZmluZF9j
-ZmdzKGQpKX0KPiArwqDCoMKgwqDCoMKgwqAgY21sMV9kb19jb25maWd1cmUKPiArfQo+ICsKPiAr
-QkFSRUJPWF9FTlZfRElSW2RvY10gPSAiT3ZlcmxheSB0aGUgYmFyZWJveCBidWlsdC1pbiBlbnZp
-cm9ubWVudCB3aXRoIHRoZSBlbnZpcm9ubWVudCBwcm92aWRlZCBieQo+IHRoZSBCU1AgaWYgc3Bl
-Y2lmaWVkLiIKPiArQkFSRUJPWF9FTlZfRElSID8/PSAiJHtXT1JLRElSfS9lbnYvIgo+ICsKPiAr
-ZG9fY29tcGlsZSAoKSB7Cj4gK8KgwqDCoMKgwqDCoMKgIGV4cG9ydCB1c2VyY2NmbGFncz0iJHtU
-QVJHRVRfTERGTEFHU30ke0hPU1RfQ0NfQVJDSH0ke1RPT0xDSEFJTl9PUFRJT05TfSIKPiArwqDC
-oMKgwqDCoMKgwqAgdW5zZXQgTERGTEFHUwo+ICvCoMKgwqDCoMKgwqDCoCB1bnNldCBDRkxBR1MK
-PiArwqDCoMKgwqDCoMKgwqAgdW5zZXQgQ1BQRkxBR1MKPiArwqDCoMKgwqDCoMKgwqAgdW5zZXQg
-Q1hYRkxBR1MKPiArwqDCoMKgwqDCoMKgwqAgdW5zZXQgTUFDSElORQo+ICsKPiArwqDCoMKgwqDC
-oMKgwqAgaWYgWyAtZCAke0JBUkVCT1hfRU5WX0RJUn0gXTsgdGhlbgo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgQkFSRUJPWF9ERUZBVUxUX0VOVj0iJChncmVwIF5DT05GSUdfREVG
-QVVMVF9FTlZJUk9OTUVOVF9QQVRIIC5jb25maWcgfCBjdXQgLWQgJz0nCj4gLWYgMiB8IHRyIC1k
-ICciJykiCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvZV9ydW5tYWtlIENPTkZJ
-R19ERUZBVUxUX0VOVklST05NRU5UX1BBVEg9IlwiJHtCQVJFQk9YX0RFRkFVTFRfRU5WfQo+ICR7
-QkFSRUJPWF9FTlZfRElSfVwiIgo+ICvCoMKgwqDCoMKgwqDCoCBlbHNlCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBvZV9ydW5tYWtlCj4gK8KgwqDCoMKgwqDCoMKgIGZpCj4gK30K
-PiArCj4gK0JBUkVCT1hfQklOQVJZW2RvY10gPSAiU3BlY2lmeSB0aGUgYmFyZWJveCBiaW5hcnkg
-dG8gaW5zdGFsbC4gSWYgbm90IHNwZWNpZmllZCBhbGwgYmFyZWJveAo+IGFydGlmYWN0cyBhcmUg
-aW5zdGFsbGVkLiIKPiArQkFSRUJPWF9CSU5BUlkgPz89ICIke0AnYmFyZWJveC5lZmknIGlmIGQu
-Z2V0VmFyKCdFRklfUFJPVklERVInKSA9PSAnYmFyZWJveCcgZWxzZSAnJ30iCj4gK0JBUkVCT1hf
-U1VGRklYW2RvY10gPSAiU3BlY2lmeSB0aGUgc3VmZml4IGZvciAke0JBUkVCT1hfSU1BR0V9LiIK
-PiArQkFSRUJPWF9TVUZGSVggPz89ICJpbWciCj4gK0JBUkVCT1hfSU1BR0VbZG9jXSA9ICJBIHVu
-aXF1ZSBiYXJlYm94IGltYWdlIG5hbWUuIFVudXNlZCBpZiAke0JBUkVCT1hfQklOQVJZfSBpcyBu
-b3Qgc2V0LiIKPiArQkFSRUJPWF9JTUFHRV9ERUZBVUxUID89ICIke1BOfS0ke01BQ0hJTkV9LSR7
-UFZ9LSR7UFJ9LiR7QkFSRUJPWF9TVUZGSVh9Igo+ICtCQVJFQk9YX0lNQUdFID89ICIke0AnJHtF
-RklfQk9PVF9JTUFHRX0nIGlmIGQuZ2V0VmFyKCdFRklfUFJPVklERVInKSA9PSAnYmFyZWJveCcg
-ZWxzZQo+ICcke0JBUkVCT1hfSU1BR0VfREVGQVVMVH0nfSIKPiArCj4gK0JBUkVCT1hfSU5TVEFM
-TF9QQVRIID89ICIke0AnJHtFRklfRklMRVNfUEFUSH0nIGlmIGQuZ2V0VmFyKCdFRklfUFJPVklE
-RVInKSA9PSAnYmFyZWJveCcgZWxzZQo+ICcvYm9vdCd9Igo+ICsKPiArZG9faW5zdGFsbCAoKSB7
-Cj4gK8KgwqDCoMKgwqDCoMKgIGlmIFsgLW4gIiR7QkFSRUJPWF9CSU5BUll9IiBdOyB0aGVuCj4g
-Kwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQkFSRUJPWF9CSU49JHtCfS8ke0JB
-UkVCT1hfQklOQVJZfQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgWyAhIC1m
-ICIke0JBUkVCT1hfQklOfSIgXTsgdGhlbgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIEJBUkVCT1hfQklOPSR7Qn0vaW1hZ2VzLyR7QkFSRUJPWF9CSU5B
-Ull9Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmaQo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaWYgWyAhIC1mICIke0JBUkVCT1hfQklOfSIgXTsgdGhlbgo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiZmF0YWwgIkZh
-aWxlZCB0byBsb2NhdGUgJHtCQVJFQk9YX0JJTkFSWX0iCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBmaQo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGluc3Rh
-bGwgLUQgLW0gNjQ0ICR7QkFSRUJPWF9CSU59ICR7RH0ke0JBUkVCT1hfSU5TVEFMTF9QQVRIfS8k
-e0JBUkVCT1hfSU1BR0V9Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsbiAtc2Yg
-JHtCQVJFQk9YX0lNQUdFfSAke0R9JHtCQVJFQk9YX0lOU1RBTExfUEFUSH0vJHtCQVJFQk9YX0JJ
-TkFSWX0KPiArwqDCoMKgwqDCoMKgwqAgZWxzZQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgaW5zdGFsbCAtZCAke0R9JHtCQVJFQk9YX0lOU1RBTExfUEFUSH0vCj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3IgaW1hZ2UgaW4gJChjYXQgJHtCfS9iYXJlYm94LWZs
-YXNoLWltYWdlcyk7IGRvCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgaW5zdGFsbCAtbSA2NDQgJHtCfS8ke2ltYWdlfSAke0R9JHtCQVJFQk9YX0lOU1RB
-TExfUEFUSH0vCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkb25lCj4gK8KgwqDC
-oMKgwqDCoMKgIGZpCj4gK30KPiArRklMRVM6JHtQTn0gPSAiJHtCQVJFQk9YX0lOU1RBTExfUEFU
-SH0iCj4gKwo+ICtkb19kZXBsb3kgKCkgewo+ICvCoMKgwqDCoMKgwqDCoCBpZiBbIC1uICIke0JB
-UkVCT1hfQklOQVJZfSIgXTsgdGhlbgo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIEJBUkVCT1hfQklOPSR7Qn0vJHtCQVJFQk9YX0JJTkFSWX0KPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIGlmIFsgISAtZiAiJHtCQVJFQk9YX0JJTn0iIF07IHRoZW4KPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBCQVJFQk9YX0JJTj0k
-e0J9L2ltYWdlcy8ke0JBUkVCT1hfQklOQVJZfQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgZmkKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnN0YWxsIC1E
-IC1tIDY0NCAke0JBUkVCT1hfQklOfSAke0RFUExPWURJUn0vJHtCQVJFQk9YX0lNQUdFfQo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbG4gLXNmICR7QkFSRUJPWF9JTUFHRX0gJHtE
-RVBMT1lESVJ9LyR7QkFSRUJPWF9CSU5BUll9Cj4gK8KgwqDCoMKgwqDCoMKgIGVsc2UKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZvciBpbWFnZSBpbiAkKGNhdCAke0J9L2JhcmVi
-b3gtZmxhc2gtaW1hZ2VzKTsgZG8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBjcCAke0J9LyR7aW1hZ2V9ICR7REVQTE9ZRElSfQo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZG9uZQo+ICvCoMKgwqDCoMKgwqDCoCBmaQo+ICt9Cj4gK2Fk
-ZHRhc2sgZGVwbG95IGFmdGVyIGRvX2NvbXBpbGUKPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWJzcC9iYXJlYm94L2JhcmVib3hfMjAyNC4wOC4wLmJiIGIvbWV0YS9yZWNpcGVzLQo+IGJzcC9i
-YXJlYm94L2JhcmVib3hfMjAyNC4wOC4wLmJiCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRl
-eCAwMDAwMDAwMDAwLi4xYTdiYmJjY2FhCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL21ldGEvcmVj
-aXBlcy1ic3AvYmFyZWJveC9iYXJlYm94XzIwMjQuMDguMC5iYgo+IEBAIC0wLDAgKzEsMyBAQAo+
-ICtyZXF1aXJlIGJhcmVib3guaW5jCj4gKwo+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjA4YTc2
-MmRhOGQ2M2RkMThiNGYyZDlmNWQwYThkYTAwMWI2ZTYwOGQxYjNlZmY2ZGNlYmM2YTJlNTc1ZDUz
-NSIKPiAKPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwg
-bWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLgo+IFZpZXcvUmVwbHkgT25saW5lICgjMjA0MzY3
-KTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVz
-c2FnZS8yMDQzNjcKPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9tdC8xMDgzODA3ODIvMzYxNjcyMQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29y
-ZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnCj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViwqBbZWpvQHBlbmd1
-dHJvbml4LmRlXQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gCgotLSAKUGVuZ3V0cm9uaXgg
-ZS5LLsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHwgRW5yaWNvIErDtnJuc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfApFbWJlZGRl
-ZCBMaW51eCBDb25zdWx0aW5nICYgU3VwcG9ydMKgwqDCoMKgwqDCoMKgwqB8IGh0dHBzOi8vd3d3
-LnBlbmd1dHJvbml4LmRlLyB8ClN0ZXVlcndhbGRlciBTdHIuIDIxwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHwgUGhvbmU6ICs0OS01MTIxLTIwNjkxNy0xODDC
-oMKgfAozMTEzNyBIaWxkZXNoZWltLCBHZXJtYW55wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgfCBGYXg6wqDCoMKgKzQ5LTUxMjEtMjA2OTE3LTnCoMKgwqDCoHwK
+- Add python3-docutils-native to provide rst2man and rst2html5
+  Otherwise build fails if documentation is built
+- Remove duplicate gi-docgen dependency. Its already included
+  by gi-docgen.bbclass
+
+Note: This release changes the default GSK renderer to be Vulkan,
+on Wayland. Other platforms still use ngl. The intent of this change
+is to use the best available platform APIs. You can still override
+the renderer choice using the GSK_RENDERER environment variable.
+
+We believe that most of the problems reported with the new renderers
+during the 4.13 and 4.15 development cycles have been addressed by now.
+
+But the new renderers and dmabuf support are using graphics drivers
+in different ways than the old gl renderer, and trigger new driver bugs.
+Therefore, it is recommended to use the latest mesa release (24.2)
+with the new renderers.
+
+* GtkScale:
+ - Fix positioning of scale values
+
+* GtkEmojiChooser:
+ - Make Control-clicks work for the recent section
+
+* GtkPopover:
+ - Make sure focus lands on the right widget when cascading
+
+* GtkSpinButton:
+ - Disable Emoji input for numeric spin buttons
+
+* GtkSingleSelection:
+ - Implement unselect_all
+
+* Accssibility:
+ - Fix roles for radio buttons
+ - Check if ATs are listening before exporting trees
+ - Add a check for sandboxed accessibility bus
+ - Fix handling of the error message relation
+ - Turn criticals into debug messages
+ - Set expanded states properly in menus
+
+* CSS:
+ - Fix a few issues on bigendian systems
+ - Avoid a crash with relative colors
+
+* GSK:
+ - Use the right GL context when exporting textures
+ - Don't let colors influence depth decisions
+ - Allow uploading of mipmap levels when tiling textures
+
+* GDK:
+ - Update keysyms from libX11 1.8.10
+ - Implement cpu-side mipmapping
+ - Use a thread pool for color conversions and mipmapping
+
+* Vulkan:
+ - Fix drag surface offsets
+
+* Wayland:
+ - Fix a crash
+ - Associate EGL windows with context later
+
+* X11:
+ - Fix initial EGL context creation
+ - Fix a problem with GL context creation
+
+* Broadway:
+ - Implement compute_size and request_layout
+
+* MacOS:
+ - Set transparent backgroiund for toplevel windows
+
+* Windows:
+ - Improve debug output
+ - Detect Mesas d3d12 driver and request GDI compat
+
+* Demos:
+ - Set window icons in demos
+ - Add a 64k x 64k image to the image scaling demo
+
+* Translation updates
+ Belarusian
+ Brazilian Portuguese
+ Catalan
+ Czech
+ Galician
+ German
+ Hebrew
+ Indonesian
+ Korean
+ Lithuanian
+ Persian
+ Polish
+ Portuguese
+ Slovenian
+ Spanish
+ Turkish
+ Ukrainian
+
+Overview of Changes in 4.15.6, 08-26-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkCheckButton:
+ - Add a grouped style class for radio buttons
+
+* GtkScale:
+ - Fix alignment and positioning problems
+
+* Css:
+ - Fix crashes in the variable support
+
+* Gsk:
+ - Make graphics offloading work better with kwin
+ - Make colorstate transfer functions more robust
+ - GC dead textures more agressively
+ - Only use a single render pass per frame
+
+* GL:
+ - Round damage rectangles properly
+ - Use the shared context when creating textures
+ - Fix a file descriptor leak in dmabuf export
+
+* Vulkan:
+ - Round damage rectangles properly
+
+* Wayland:
+ - Work with the kwin implementation of xx-color-management-v4
+
+* Windows:
+ - Make gtk_show_uri use SHOpenWithDialog()
+ - Enable incremental rendering with WGL
+
+* Macos:
+ - Open context menus on Ctrl-left click
+
+* Debugging:
+ - Show color state information in the inspector
+ - Collect input event traces in the recorder
+ - Add shortcuts for toggling recording: Super-r
+   and for screenshots: Super-c
+ - Split the GDK_DEBUG env var into GDK_DEBUG and GDK_DISABLE
+ - Add GDK_DISABLE=3Dcolor-mgmt and GDK_DISABLE=3Doffload
+
+* Tools:
+ - Add a 'Paste as node' action in gtk4-node-editor
+
+* Translations updates
+ Basque
+ Belarusian
+ Brazilian Portuguese
+ Chinese (China)
+ Georgian
+ Hebrew
+ Hindi
+ Russian
+ Slovenian
+ Turkish
+ Ukrainian
+
+Overview of Changes in 4.15.5, 11-08-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkTextView:
+ - ADd GtkTextBufferCommitNotify
+
+* CSS:
+ - Propagate color state information to GSK for many features:
+   colors, borders, shadows, text
+
+* Gdk:
+ - Fix an fd leak in the Vulkan code
+ - Fix a leak of EGLSurfaces and DMA buffers
+ - Set the opaque region of surfaces automatically based on their content
+
+* Gsk:
+ - Fix Emoji rendering in Vulkan
+ - Rework color handling to take color states into account
+ - Implement more powerful occlusion culling
+ - Minimize our use of renderpasses
+
+* Macos:
+ - Fix window transparency
+
+* Debugging:
+ - The inspector shows details about color states
+
+* Deprecations:
+ - gdk_draw_context_begin/end_frame
+ - gdk_surface_set_opaque_region
+
+* Build:
+ - Require gstreamer 1.24
+
+* Translation updates
+ Romanian
+
+Overview of Changes in 4.15.4, 30-07-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkPopover:
+ - Fix size allocation with wrapping labels
+
+* GtkColumnView:
+ - Check column visibility when measuring
+
+* CSS:
+ - Fix fallout from recent changes
+ - Make implementation of currentcolor inheritance match browsers
+
+* Gdk:
+ - Introduce GdkColorState for encoding color space information
+   Currently, we support srgb, srgb-linear, rec2100-pq and rec2100-linear
+ - Add color states to GdkTexture, as well as to the texture builder
+   and downloader objects, and convert as necessary
+ - Add GdkMemoryTextureBuilder
+ - Attach color states when loading or saving textures
+ - Add GdkCicpParams to create color state objects for cicp tuples
+ - Drop GDK_DEBUG=3Dvulkan-validate
+   Use VK_INSTEANCE_LAYERS=3DVK_LAYER_KHRONOS_validation instead
+
+* Gsk:
+ - Improve caching of glyphs and textures
+ - Remove the uber shader
+ - Numerous bug fixes
+ - Fix corner cases in offload handling
+ - Implement occlusion culling for opaque content
+ - Allow offloading (some) transformed textures
+ - Take colorstate into account when compositing
+ - Add GDK_DEBUG=3Dlinear to opt into linear compositing
+ - Implement tiling for large textures
+ - Stop using descriptors and go back to simpler texture
+   management that should work better with older GL
+ - Use correct shader clip mode for glyphs
+ - Improve shadow rendering
+
+* Media:
+ - Attach color states to textures obtained from gstreamer
+
+* Wayland:
+ - Allow offloading GL textures via dmabuf export
+ - Suppot the xx-color-management-v4 protocol
+
+* Deprecations:
+ - GskGLShader and the render node
+
+* Tools:
+ - Improve the rendernode tool extract command
+ - Add an image tool that is about manipulating textures
+
+* Build:
+ - GTK now requires a C11 compiler
+
+* Translation updates
+ Georgian
+ Hebrew
+ Hindi
+ Occitan
+ Slovenian
+
+Overview of Changes in 4.15.3, 29-06-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* Accessibility:
+ - Only emit notifications when cursor positions change in GtkText
+ - Fix handling of help text properties
+
+* CSS:
+ - Fix some crashes introduced in recent currentcolor changes
+
+* DND:
+ - Avoid a critical
+
+* Documentation:
+ - Fix many oversights and missing docs
+
+* maxOS:
+ - Add native keyboard shortcuts
+
+Overview of Changes in 4.15.2, 28-06-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkFileChooserWidget:
+ - Plug some memory leaks
+ - Make Ctrl-Shift-N create a new folder
+
+* GtkPopover:
+ - Handle resizing and position changes better
+
+* CSS:
+ - Support color(), oklab(), etc (https://www.w3.org/TR/css-color-4/)
+ - Support color-mix() (https://www.w3.org/TR/css-color-5/)
+ - Support relative colors (https://www.w3.org/TR/css-color-5/)
+ - Support more colorspaces in color()
+ - Allow percentages for opacity
+ - Handle currentcolor more correctly
+
+* Accessibility:
+ - Avoid markup when reading labels
+
+* GSK:
+ - Subset fonts when serializing node trees
+ - Make ngl export render_texture results as dmabufs
+
+* Wayland:
+ - Use xdg-dialog protocol for attached dialogs
+
+* Windows:
+ - Build with UNICODE
+
+* macOS:
+ - Implement fullscreen-on-monitor
+
+* Documentation:
+ - Widget shortcuts and actions are now described in the docs
+
+* Debugging:
+ - Add GTK_DEBUG=3Dcss for warning about deprecated css syntax
+
+* Tools:
+ - rendernode-tool: Add an extract command for data urls
+
+* Deprecations:
+ - CSS Color functions shade(), lighter(), darker(), alpha(), mix()
+
+* Translation updates:
+ Czech
+ Hebrew
+ Serbian
+
+Overview of Changes in 4.15.1, 21-05-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkGraphicsOffload:
+ - Don't crash without a child
+
+* GtkSpinner:
+ - Don't animate when unmapped
+
+* CSS:
+ - Support the :root selector
+ - Support variables and custom properties (https://www.w3.org/TR/css-var=
+iables-1/)
+ - Implement math functions (https://www.w3.org/TR/css-values-4/)
+ - Support modern syntax and calc in rgb() and hsl()
+
+* Icontheme:
+ - Make symbolic svg loading more efficient
+ - Handle color-free symbolics more efficiently
+
+* Accessibility:
+ - Make the gtk-demo sidebar search more accessible
+ - Stop emitting focus events
+ - Realize child contexts when necessary
+
+* GDK:
+ - Support XDG_ACTIVATION_TOKEN
+ - dmabuf: Be more defensive when importing unknown formats to GL
+ - dmabuf: Use narrow range for YUV
+ - vulkan: Recreate swapchains when necessary or beneficial
+
+* GSK:
+ - Improve logging for GDK_DEBUG=3Doffload
+ - Improve logging for GSK_DEBUG=3Drenderer
+ - gpu: Warn about inefficient texture import
+ - gpu: Handle tiny offscreens correctly
+ - vulkan: Add profiler marks in various places
+ - vulkan: Fix a problem with imported dmabufs showing up black
+ - cairo: Speed up mask nodes, since we use them for symbolic icons
+
+* Wayland:
+ - Use wl_compositor version 6
+
+* X11:
+ - Implement a missing method
+
+* Build:
+ - Fix many ubsan warnings
+
+* Debugging:
+ - Show more texture details in the recorder
+ - Use GTK_DEBUG=3Dcss to see CSS deprecations
+
+* macOS:
+ - Fix problems with events handed back to the OS
+ - Respect GDK_DEBUG=3Ddefault-settings
+ - Allow applictions to handle Dock > Quit
+
+* Deprecations:
+ - Use of @name colors in CSS
+
+* Translation updates:
+ Catalan
+ Georgian
+ Hungarian
+ Korean
+ Portuguese
+ Turkish
+
+Overview of Changes in 4.15.0, 21-04-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+This release changes the default GSK renderer to be Vulkan, on
+Wayland. Other platforms still use ngl.
+
+The intent of this change is to get wider testing and verify that
+Vulkan drivers are good enough for us to rely on. If significant
+problems show up, we will revert this change for 4.16.
+
+You can still override the renderer choice using the GSK_RENDERER
+environment variable.
+
+---
+
+This release also changes font rendering settings by introducing
+a new high-level gtk-font-rendering settings which gives GTK more
+freedom to decide on font rendering.
+
+You can still use the low-level font-related settings by changing
+the new property to 'manual'.
+
+---
+
+* GtkColumnView:
+ - Fix infinite loops in dispose
+ - Fix problems with weak ref cycles in GtkExpression
+
+* GtkListView:
+* GtkShortcutManager:
+ - Track the propagation phase of added controllers
+
+* GtkGLArea:
+ - Produce dmabuf textures, so graphics offload is possible
+
+* GtkTextView:
+ - Support text shadows
+
+* GtkGraphicsOffload:
+ - Add a black-background property
+
+* Settings:
+ - Add a new gtk-font-rendering setting
+
+* Accessibility:
+ - Add support for GetRangeExtents to GtkAccessibleText
+ - Add support for GetOffsetAtPoint to GtkAccessibleText
+ - Implement GtkAccessibleRange for scrollbars
+
+* GDK:
+ - Add a callback-based cursor API
+
+* GSK:
+-  Use the Vulkan renderer by default
+ - Avoid an infinite recursion with offscreens in some cases
+ - Optimize graphics offload to make it more likely that compositors
+   can use direct scanout
+
+* X11:
+ - Fix some confusing debug messages
+ - Drop a no-longer-relevant optimization that was interfering with
+   getting the current window manager capabilities
+
+* macOS:
+ - Implement the color picker for macOS 10.15+
+
+* Debugging:
+ - Snow monitor resolution in the inspector
+
+* Demos:
+ - Use graphics offload in the shadertoy demo
+ - Show more reliable fps numbers in the fishbowl demo
+
+* Tools:
+ - Support generating pdf in gtk4-rendernode-tool
+
+* Build:
+ - Require pango 1.52
+ - Require cairo 1.18
+ - Add a missing dependency that was causing build failures
+ - Drop deprecated build options:
+   gtk_doc -> documentation
+   update_screenshots -> screenshots
+   demo-profile -> profile
+   demos -> build-demos
+
+* Deprecations:
+ - gdk_widget_set/get_font_options
+ - gdk_wayland/x11_display_set_cursor_theme
+
+* Translation updates:
+ Basque
+ Brazilian Portuguese
+ British English
+ Chinese (China)
+ Hebrew
+ Kabyle
+ Persian
+ Polish
+ Russian
+ Slovenian
+ Swedish
+ Turkish
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D> gtk4_4.16.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D> gtk4_4.16.0.bb} (96%=
+)
+
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb b/meta/recipes-gnome/=
+gtk+/gtk4_4.16.0.bb
+similarity index 96%
+rename from meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
+index 0b3d33f8eb..6331e86bf5 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
+@@ -11,7 +11,6 @@ DEPENDS =3D " \
+     fribidi \
+     gdk-pixbuf \
+     gdk-pixbuf-native \
+-    gi-docgen \
+     glib-2.0 \
+     graphene \
+     harfbuzz \
+@@ -22,6 +21,7 @@ DEPENDS =3D " \
+     librsvg \
+     libxkbcommon \
+     pango \
++    python3-docutils-native \
+     tiff \
+ "
+=20
+@@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+ UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
+xz"
+=20
+ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
+{PV}.tar.xz"
+-SRC_URI[sha256sum] =3D "5547f2b9f006b133993e070b87c17804e051efda3913feac=
+a1108fa2be41e24d"
++SRC_URI[sha256sum] =3D "8ef538778c82c09870a6cc325195049caec5593c1ca37df9=
+15a7b6b10f5524ea"
+=20
+ S =3D "${WORKDIR}/gtk-${PV}"
+=20
+@@ -56,7 +56,7 @@ GSETTINGS_PACKAGE:class-native =3D ""
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES =3D "opengl"
+-GTKDOC_MESON_OPTION =3D "documentation"
++GIDOCGEN_MESON_OPTION =3D "documentation"
+ GIR_MESON_ENABLE_FLAG =3D 'enabled'
+ GIR_MESON_DISABLE_FLAG =3D 'disabled'
+=20
+--=20
+2.46.0
 
 
