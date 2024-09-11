@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82AFDEE57ED
-	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 23:24:07 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.35259.1726097038281798227
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE717EE57F1
+	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 23:24:17 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.35266.1726097048347719149
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Sep 2024 16:23:58 -0700
+ Wed, 11 Sep 2024 16:24:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iDQymzIx;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-719270b7c94so140445b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 16:23:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qq9u7M5s;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7db12af2f31so368566a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 16:24:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726097037; x=1726701837; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726097047; x=1726701847; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6vsRQIlqGQjbYSPOFrLaK7z4cWVc+Ysl9Oo4A7di/f8=;
-        b=iDQymzIxvzNbam2RutlVaaIJXuRJfqNxMo8KZ2Fiqf2IFlkr9U6JjziwxSIfCzhy+n
-         LQ+sV4V23l6EhM72R3WF4nRhwIaAG7+8c3N5sU/2X84jqqpPgHGlIt7BTbYsEUL7M9ZL
-         HZkUgOkBbOhLN/RzJsnnmcn/TvnJ00An/HNjK1mOuII/dU3BHqEBsVxDTUNyI6B5SYPo
-         CY/ueE36VL8EKj4AFRAEoRtBe5y3yUviClCSvKtdb/ZbE04gCdb6YqH5dg1rWbzgfNep
-         hbvhd2bLVLZmJJV+F7/JVHHZ7IViGDZgHLYdLoc4/IaYs4oY/z2MrWq2ozllfsc3oYs3
-         iw0Q==
+        bh=csw9qHP54NpJ4vqcwLXN84QkmmKehQqNcZfNbwpjKPU=;
+        b=qq9u7M5sxHjKE11+jtMSPlTpLH6pbTVeUjoKy826szoYhr2aFZ+5kpfzY0pB8YL4LE
+         UE+jwTWajZRg/+BbMOuKr6yYnMfeuPAf3/x70jcr1yglNUdglcvGu0st1gWBJujv68tH
+         ysGhQ9JaH72fUcEMLoi4bCnupFAHE6yd+XEjQL6R+VNaxnav8zqOWFAdQCmUUSOw8h+c
+         SywO4PsdmYo7gyl4fH8I9imybjyM+d4ceG2DnLn7tBrw9o995mvrw1dgUnLQjGaeuHRF
+         6jonrVxsuq0PI0AT0FfMoS1e+lKUEnRGbx/Gypja+Ysscv4YaW3B+22O8/AwDARPkEGZ
+         uEkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726097037; x=1726701837;
+        d=1e100.net; s=20230601; t=1726097047; x=1726701847;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6vsRQIlqGQjbYSPOFrLaK7z4cWVc+Ysl9Oo4A7di/f8=;
-        b=nNRbSzLiB7hhq+UvCvEwswudEvp1YRe2WWopavKzDrGsUqT+gBDTOU9wL7j7NdIBp5
-         T4eJZ18tkHiBTYbq+Irl8lUAHZKUmj9BSvt8SYMb8Tj92zIiCHEWgDpKd8ST1sEpAZTQ
-         TMmLy4exYIEF3K2fnS4DJNKsO+9GaOKtGUtw872JjxaRaMjuOQws9yRtMH+VBebVUDaZ
-         0+FkpYhoxzZJT7eaAgGn6/OEuhS7+P+sC8FJE+xFzQ7A/mS8AAf/0Ao+604LUW3KLtF0
-         yk0fldoFZxIIoOLXGqOl/tzGKVb4P4epS1mfuwD6rg9PrLYM7455ogQW5wtyPojcIs0g
-         pmEg==
-X-Gm-Message-State: AOJu0YzzBgfW5Hf55vK/76VYjy3hlYrPVj7C0xGluU+FIrXbA+otDHrC
-	hdB/ZUxlKdUebyc7bby72U7+btXiSjZ8J3nCvLgIww+XqYJHt+MArbdqZhkqeBOV9N+xkDygTJe
-	o
-X-Google-Smtp-Source: AGHT+IFlrytmR+3wX6Rtmuf0FOWfN4O94+Jk8N3aQ+NtoxL+iOlaM/SzYPVLi+POeJVJuUGmJS651w==
-X-Received: by 2002:a05:6a00:2348:b0:706:b10c:548a with SMTP id d2e1a72fcca58-719261d0b27mr1531330b3a.22.1726097037509;
-        Wed, 11 Sep 2024 16:23:57 -0700 (PDT)
+        bh=csw9qHP54NpJ4vqcwLXN84QkmmKehQqNcZfNbwpjKPU=;
+        b=K9SQeE7W/jQc5AmsGua0O+MeG1Giq9UxuGynqB6d9u+VW8J0MwkNf8U6awBWsb+Vte
+         lv+3Y6BLZcsIv9ndmz0bykWmiqx5U/q7NAVyGrcR9tXloCMZRRY5yveBF1LNtqTDRcYy
+         DrXG55wIgYVR6rm+WV5++1+1zS7pPTMpeAFLvthrroYwPThZvoQ3xfFGPxAAtueTiiP3
+         cxOJsy0l8JG5t0Cc1V0RlWjSpZBGhEsX5bOlsQhMJsat30bhfonilgntEgAzgaPUIAyo
+         xWn8ASKFddINMpl2Nfx216oBny31lPwoub6cBJMDD9MkpP7XSwZfJctXcXij5mqNSoTz
+         CZnA==
+X-Gm-Message-State: AOJu0Ywmfoo+tQPeR+QUpfnbVGAnKixnXG7f0Ybi+Dr69/XmyJWVt6LO
+	19zSL8RCsBoqwAoVAn2BUjZU7t5cjCs3MSI/Qgp5iIYzrt1Prlu5FhLTyUkJEiMG4hxl768ioI3
+	a
+X-Google-Smtp-Source: AGHT+IG+Ln1ZhjNXp2Fi5PKWsKn8wOGbHCHgRbPcWtiKXCH2g1iAoEuCg2Ek89isy0ZzgSPY5Fxemw==
+X-Received: by 2002:a05:6a21:58b:b0:1cf:6953:2872 with SMTP id adf61e73a8af0-1cf764c27f2mr939972637.48.1726097047608;
+        Wed, 11 Sep 2024 16:24:07 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71908fe27bfsm3488490b3a.56.2024.09.11.16.23.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71908fe27bfsm3488490b3a.56.2024.09.11.16.24.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 16:23:57 -0700 (PDT)
+        Wed, 11 Sep 2024 16:24:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 16/22] dejagnu: Fix LICENSE
-Date: Wed, 11 Sep 2024 16:23:13 -0700
-Message-Id: <cdedb408247e48f59c948e8c57918b88baf304b4.1726096839.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 22/22] libedit: Make docs generation deterministic
+Date: Wed, 11 Sep 2024 16:23:19 -0700
+Message-Id: <88630352d6d1cfee06787fa84b73ca8ad335cb08.1726096839.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1726096839.git.steve@sakoman.com>
 References: <cover.1726096839.git.steve@sakoman.com>
@@ -61,40 +61,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 23:24:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204410
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 23:24:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204416
 
-From: Niko Mauno <niko.mauno@vaisala.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The contents of the COPYING file included in the current source code
-package match those of GPL-3.0-only license, which seems to have been
-the case since 2008 commit
-http://git.savannah.gnu.org/gitweb/?p=dejagnu.git;a=commitdiff;h=9bebe7b9bfb9b02e5e4d86ad74e8ce3eb32a36b9;hp=50fbdd118dba066e201c73a8b0155381cd65a32d
-("* COPYING: Update to GPL version 3.")
+The presence or lack of nroff on the host was changing the doc type. Stop
+the code from looking at host paths outside HOSTTOOLS and hence cause the
+doc type to be deterministic and reproducible.
 
-(From OE-Core rev: 26b71cfb7815a096c5962629801cc3bc85147284)
-
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 918e2b266eba6779f19f65349f85caa880ba45e7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/libedit/libedit_20210910-3.1.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb b/meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb
-index 895f6d3b36..c6002d5e45 100644
---- a/meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb
-+++ b/meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb
-@@ -2,7 +2,7 @@ SUMMARY = "GNU unit testing framework, written in Expect and Tcl"
- DESCRIPTION = "DejaGnu is a framework for testing other programs. Its purpose \
- is to provide a single front end for all tests."
- HOMEPAGE = "https://www.gnu.org/software/dejagnu/"
--LICENSE = "GPL-2.0-only"
-+LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SECTION = "devel"
+diff --git a/meta/recipes-devtools/libedit/libedit_20210910-3.1.bb b/meta/recipes-devtools/libedit/libedit_20210910-3.1.bb
+index 5aa83ef246..0f501eb7a4 100644
+--- a/meta/recipes-devtools/libedit/libedit_20210910-3.1.bb
++++ b/meta/recipes-devtools/libedit/libedit_20210910-3.1.bb
+@@ -15,6 +15,13 @@ SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
+           "
+ SRC_URI[sha256sum] = "6792a6a992050762edcca28ff3318cdb7de37dccf7bc30db59fcd7017eed13c5"
  
++# configure hardcodes /usr/bin search path bypassing HOSTTOOLS
++CACHED_CONFIGUREVARS += "ac_cv_path_NROFF=/bin/false"
++
++# remove at next version upgrade or when output changes
++PR = "r1"
++HASHEQUIV_HASH_VERSION .= ".1"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ inherit update-alternatives
 -- 
 2.34.1
 
