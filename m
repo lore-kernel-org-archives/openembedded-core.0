@@ -1,165 +1,141 @@
-Return-Path: <quic_vpuar@quicinc.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13886EE4985
-	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 09:39:43 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.18049.1726047582255254394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF21FEE4988
+	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 09:42:12 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.18073.1726047727930809143
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Sep 2024 02:39:42 -0700
+ Wed, 11 Sep 2024 02:42:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=L+xM8H9l;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vpuar@quicinc.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48B3kDor021310;
-	Wed, 11 Sep 2024 09:39:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=MIUcIOM5G7T5IgZQD4AkRx
-	oSFT3mcCLK8IpE/d5OAl0=; b=L+xM8H9lu8VvPs3fDFppzl79Oe7+xQYkgkjBiE
-	lz1UQDx2F7rslNr5Vjbl1crwuYFSSDiZQ8C87l6TIIZvBkJVI72NnqtqdyYAWN9K
-	ajtG5t9bC3mBESBuF4ti0XOl0kCQi2cLIDh/fpp+W5/fG8PQgWvq4GMAfAuaYgUD
-	CzRpfcCWMM9d0cMW1eosdnYpexDuHC/PT9UQ96IDYZWC/F6SeYIV0XZ25qvN3M1p
-	E2JcfVyTAK7teR7NDDs9OtBZb1pshOMSUujtBPnNQF0hztelDjG19PiBm+F9ZnFa
-	m0HXw5LrhWISc+3u8rpJ6PpWxe7WjNI+SkUmubNfJ1bAiPig==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41gybps2xy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Sep 2024 09:39:40 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48B9de7X009694
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Sep 2024 09:39:40 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 11 Sep 2024 02:39:38 -0700
-From: Vivek Puar <quic_vpuar@quicinc.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <quic_vpuar@quicinc.com>,
-        Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Subject: [PATCH] linux-firmware: upgrade 20240811 -> 20240909
-Date: Wed, 11 Sep 2024 15:09:23 +0530
-Message-ID: <20240911093923.2087482-1-quic_vpuar@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1soJrR-0004Hn-JY; Wed, 11 Sep 2024 11:42:05 +0200
+Message-ID: <4e3f8d79d68246c80347f99e1fe94fd641237421.camel@pengutronix.de>
+Subject: Re: [OE-core] [PATCH v5 1/7] barebox: add initial support
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de
+Date: Wed, 11 Sep 2024 11:42:05 +0200
+In-Reply-To: <17F3F6252B938560.10184@lists.openembedded.org>
+References: <20240910184143.2820792-1-ejo@pengutronix.de>
+	 <17F3F6252B938560.10184@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: rmVJWMUztUXq3j0MRjB28b3oS45C4ell
-X-Proofpoint-GUID: rmVJWMUztUXq3j0MRjB28b3oS45C4ell
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 spamscore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1011 bulkscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409110073
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 09:39:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204374
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 09:42:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204375
 
-License-Update: additional firmwares
-
-The commit [1] adds the venus.mdt symlink in WHENCE file
-as a patch, we can remove the patch now as linux-firmware
-20240909 already contains this fix as part of WHENCE file.
-
-[1] https://gitlab.com/kernel-firmware/linux-firmware/-/commit/91f955b730451855c14c332f1db9844b2d7b0cf2
-
-Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...-compatibility-with-kernels-before-6.patch | 35 -------------------
- ...20240811.bb => linux-firmware_20240909.bb} |  5 ++-
- 2 files changed, 2 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240811.bb => linux-firmware_20240909.bb} (99%)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
-deleted file mode 100644
-index b1cb5d1f0b..0000000000
---- a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 4728fcc52fdf311048f41766aa27cdf5a4a9e7ad Mon Sep 17 00:00:00 2001
--From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
--Date: Wed, 28 Aug 2024 09:01:14 +0300
--Subject: [PATCH] qcom: vpu: restore compatibility with kernels before 6.6
--
--Linux kernels before 6.6 used qcom/vpu-1.0/venus.mdt as a firmware
--filename for Qualcomm SM8250 devices. Commit 36db650dae03 ("qcom: update
--path for video firmware for vpu-1/2/3.0") moved the VPU firmware, added
--the venus.mbn compatibility symlink, but at the same time it dropped
--the venus.mdt symlink. Bring the historical name back to restore
--compatibility with kernels older than 6.6.
--
--Fixes: 36db650dae03 ("qcom: update path for video firmware for vpu-1/2/3.0")
--Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>
--Upstream-Status: Submitted [https://lore.kernel.org/linux-firmware/20240828060831.34519-1-dmitry.baryshkov@linaro.org]
--Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-----
-- WHENCE | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/WHENCE b/WHENCE
--index 06c3c6fff673..4d9cd340a9dd 100644
----- a/WHENCE
--+++ b/WHENCE
--@@ -5974,6 +5974,7 @@ Version: VIDEO.VE.6.0-00049-PROD-1
-- 
-- File: qcom/vpu/vpu20_p4.mbn
-- Link: qcom/vpu-1.0/venus.mbn -> ../vpu/vpu20_p4.mbn
--+Link: qcom/vpu-1.0/venus.mdt -> ../vpu/vpu20_p4.mbn
-- 
-- Version: VIDEO.VPU.1.0-00087-PROD-1
-- 
---- 
--2.45.2
--
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-index b620a6e249..2aab6204da 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-@@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "5d402bd7c43dd2c2835b81bf872aa127"
-+WHENCE_CHKSUM  = "6ae5ffd807c84809977286ad0b37acdb"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -240,7 +240,6 @@ PE = "1"
- 
- SRC_URI = "\
-   ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
--  file://0001-qcom-vpu-restore-compatibility-with-kernels-before-6.patch \
- "
- 
- BBCLASSEXTEND = "devupstream:target"
-@@ -248,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "58f1a14b800e3d1967986197d83c81f1ad14b7898a557133c58df0c02c538082"
-+SRC_URI[sha256sum] = "943fbd19883cf8eadf89e0b22422549db056557b1ecd30a56400615971369671"
- 
- inherit allarch
- 
--- 
-2.34.1
+QW0gRGllbnN0YWcsIGRlbSAxMC4wOS4yMDI0IHVtIDIwOjQxICswMjAwIHNjaHJpZWIgRW5yaWNv
+IErDtnJuczoKPiArCj4gK2RvX2NvbmZpZ3VyZSgpIHsKPiArwqDCoMKgwqDCoMKgwqAgaWYgWyAt
+ZSAke1dPUktESVJ9L2RlZmNvbmZpZyBdOyB0aGVuCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBjcCAke1dPUktESVJ9L2RlZmNvbmZpZyAke0J9Ly5jb25maWcKCkp1c3Qgbm90ZWQg
+aW4gb3RoZXIgdGVzdHMgYWdhaW5zdCBhY3R1YWwgQlNQcyB0aGF0IHRoaXMgY2hlY2sgaXMgbm90
+IHlldCBhZGFwdGVkIHRvIFVOUEFDS0RJUi4KCldpbGwgc2VuZCBhIHY2LgoKUmVnYXJkcywgRW5y
+aWNvCgo+ICvCoMKgwqDCoMKgwqDCoCBlbHNlCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBpZiBbIC1uICIke0JBUkVCT1hfQ09ORklHfSIgXTsgdGhlbgo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9lX3J1bm1ha2UgJHtCQVJFQk9YX0NP
+TkZJR30KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UKPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiYmZhdGFsICJObyBkZWZjb25m
+aWcgZ2l2ZW4uIEVpdGhlciBhZGQgZmlsZSAnZmlsZTovL2RlZmNvbmZpZyfCoHRvCj4gU1JDX1VS
+SSBvciBzZXQgQkFSRUJPWF9DT05GSUciCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBmaQo+ICvCoMKgwqDCoMKgwqDCoCBmaQo+ICsKPiArwqDCoMKgwqDCoMKgwqAgJHtTfS9zY3Jp
+cHRzL2tjb25maWcvbWVyZ2VfY29uZmlnLnNoIC1tIC5jb25maWcgJHtAIiAiLmpvaW4oZmluZF9j
+ZmdzKGQpKX0KPiArwqDCoMKgwqDCoMKgwqAgY21sMV9kb19jb25maWd1cmUKPiArfQo+ICsKPiAr
+QkFSRUJPWF9FTlZfRElSW2RvY10gPSAiT3ZlcmxheSB0aGUgYmFyZWJveCBidWlsdC1pbiBlbnZp
+cm9ubWVudCB3aXRoIHRoZSBlbnZpcm9ubWVudCBwcm92aWRlZCBieQo+IHRoZSBCU1AgaWYgc3Bl
+Y2lmaWVkLiIKPiArQkFSRUJPWF9FTlZfRElSID8/PSAiJHtXT1JLRElSfS9lbnYvIgo+ICsKPiAr
+ZG9fY29tcGlsZSAoKSB7Cj4gK8KgwqDCoMKgwqDCoMKgIGV4cG9ydCB1c2VyY2NmbGFncz0iJHtU
+QVJHRVRfTERGTEFHU30ke0hPU1RfQ0NfQVJDSH0ke1RPT0xDSEFJTl9PUFRJT05TfSIKPiArwqDC
+oMKgwqDCoMKgwqAgdW5zZXQgTERGTEFHUwo+ICvCoMKgwqDCoMKgwqDCoCB1bnNldCBDRkxBR1MK
+PiArwqDCoMKgwqDCoMKgwqAgdW5zZXQgQ1BQRkxBR1MKPiArwqDCoMKgwqDCoMKgwqAgdW5zZXQg
+Q1hYRkxBR1MKPiArwqDCoMKgwqDCoMKgwqAgdW5zZXQgTUFDSElORQo+ICsKPiArwqDCoMKgwqDC
+oMKgwqAgaWYgWyAtZCAke0JBUkVCT1hfRU5WX0RJUn0gXTsgdGhlbgo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgQkFSRUJPWF9ERUZBVUxUX0VOVj0iJChncmVwIF5DT05GSUdfREVG
+QVVMVF9FTlZJUk9OTUVOVF9QQVRIIC5jb25maWcgfCBjdXQgLWQgJz0nCj4gLWYgMiB8IHRyIC1k
+ICciJykiCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvZV9ydW5tYWtlIENPTkZJ
+R19ERUZBVUxUX0VOVklST05NRU5UX1BBVEg9IlwiJHtCQVJFQk9YX0RFRkFVTFRfRU5WfQo+ICR7
+QkFSRUJPWF9FTlZfRElSfVwiIgo+ICvCoMKgwqDCoMKgwqDCoCBlbHNlCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBvZV9ydW5tYWtlCj4gK8KgwqDCoMKgwqDCoMKgIGZpCj4gK30K
+PiArCj4gK0JBUkVCT1hfQklOQVJZW2RvY10gPSAiU3BlY2lmeSB0aGUgYmFyZWJveCBiaW5hcnkg
+dG8gaW5zdGFsbC4gSWYgbm90IHNwZWNpZmllZCBhbGwgYmFyZWJveAo+IGFydGlmYWN0cyBhcmUg
+aW5zdGFsbGVkLiIKPiArQkFSRUJPWF9CSU5BUlkgPz89ICIke0AnYmFyZWJveC5lZmknIGlmIGQu
+Z2V0VmFyKCdFRklfUFJPVklERVInKSA9PSAnYmFyZWJveCcgZWxzZSAnJ30iCj4gK0JBUkVCT1hf
+U1VGRklYW2RvY10gPSAiU3BlY2lmeSB0aGUgc3VmZml4IGZvciAke0JBUkVCT1hfSU1BR0V9LiIK
+PiArQkFSRUJPWF9TVUZGSVggPz89ICJpbWciCj4gK0JBUkVCT1hfSU1BR0VbZG9jXSA9ICJBIHVu
+aXF1ZSBiYXJlYm94IGltYWdlIG5hbWUuIFVudXNlZCBpZiAke0JBUkVCT1hfQklOQVJZfSBpcyBu
+b3Qgc2V0LiIKPiArQkFSRUJPWF9JTUFHRV9ERUZBVUxUID89ICIke1BOfS0ke01BQ0hJTkV9LSR7
+UFZ9LSR7UFJ9LiR7QkFSRUJPWF9TVUZGSVh9Igo+ICtCQVJFQk9YX0lNQUdFID89ICIke0AnJHtF
+RklfQk9PVF9JTUFHRX0nIGlmIGQuZ2V0VmFyKCdFRklfUFJPVklERVInKSA9PSAnYmFyZWJveCcg
+ZWxzZQo+ICcke0JBUkVCT1hfSU1BR0VfREVGQVVMVH0nfSIKPiArCj4gK0JBUkVCT1hfSU5TVEFM
+TF9QQVRIID89ICIke0AnJHtFRklfRklMRVNfUEFUSH0nIGlmIGQuZ2V0VmFyKCdFRklfUFJPVklE
+RVInKSA9PSAnYmFyZWJveCcgZWxzZQo+ICcvYm9vdCd9Igo+ICsKPiArZG9faW5zdGFsbCAoKSB7
+Cj4gK8KgwqDCoMKgwqDCoMKgIGlmIFsgLW4gIiR7QkFSRUJPWF9CSU5BUll9IiBdOyB0aGVuCj4g
+Kwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQkFSRUJPWF9CSU49JHtCfS8ke0JB
+UkVCT1hfQklOQVJZfQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgWyAhIC1m
+ICIke0JBUkVCT1hfQklOfSIgXTsgdGhlbgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIEJBUkVCT1hfQklOPSR7Qn0vaW1hZ2VzLyR7QkFSRUJPWF9CSU5B
+Ull9Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmaQo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgaWYgWyAhIC1mICIke0JBUkVCT1hfQklOfSIgXTsgdGhlbgo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiZmF0YWwgIkZh
+aWxlZCB0byBsb2NhdGUgJHtCQVJFQk9YX0JJTkFSWX0iCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBmaQo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGluc3Rh
+bGwgLUQgLW0gNjQ0ICR7QkFSRUJPWF9CSU59ICR7RH0ke0JBUkVCT1hfSU5TVEFMTF9QQVRIfS8k
+e0JBUkVCT1hfSU1BR0V9Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsbiAtc2Yg
+JHtCQVJFQk9YX0lNQUdFfSAke0R9JHtCQVJFQk9YX0lOU1RBTExfUEFUSH0vJHtCQVJFQk9YX0JJ
+TkFSWX0KPiArwqDCoMKgwqDCoMKgwqAgZWxzZQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgaW5zdGFsbCAtZCAke0R9JHtCQVJFQk9YX0lOU1RBTExfUEFUSH0vCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3IgaW1hZ2UgaW4gJChjYXQgJHtCfS9iYXJlYm94LWZs
+YXNoLWltYWdlcyk7IGRvCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgaW5zdGFsbCAtbSA2NDQgJHtCfS8ke2ltYWdlfSAke0R9JHtCQVJFQk9YX0lOU1RB
+TExfUEFUSH0vCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkb25lCj4gK8KgwqDC
+oMKgwqDCoMKgIGZpCj4gK30KPiArRklMRVM6JHtQTn0gPSAiJHtCQVJFQk9YX0lOU1RBTExfUEFU
+SH0iCj4gKwo+ICtkb19kZXBsb3kgKCkgewo+ICvCoMKgwqDCoMKgwqDCoCBpZiBbIC1uICIke0JB
+UkVCT1hfQklOQVJZfSIgXTsgdGhlbgo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIEJBUkVCT1hfQklOPSR7Qn0vJHtCQVJFQk9YX0JJTkFSWX0KPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGlmIFsgISAtZiAiJHtCQVJFQk9YX0JJTn0iIF07IHRoZW4KPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBCQVJFQk9YX0JJTj0k
+e0J9L2ltYWdlcy8ke0JBUkVCT1hfQklOQVJZfQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZmkKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnN0YWxsIC1E
+IC1tIDY0NCAke0JBUkVCT1hfQklOfSAke0RFUExPWURJUn0vJHtCQVJFQk9YX0lNQUdFfQo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbG4gLXNmICR7QkFSRUJPWF9JTUFHRX0gJHtE
+RVBMT1lESVJ9LyR7QkFSRUJPWF9CSU5BUll9Cj4gK8KgwqDCoMKgwqDCoMKgIGVsc2UKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZvciBpbWFnZSBpbiAkKGNhdCAke0J9L2JhcmVi
+b3gtZmxhc2gtaW1hZ2VzKTsgZG8KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBjcCAke0J9LyR7aW1hZ2V9ICR7REVQTE9ZRElSfQo+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgZG9uZQo+ICvCoMKgwqDCoMKgwqDCoCBmaQo+ICt9Cj4gK2Fk
+ZHRhc2sgZGVwbG95IGFmdGVyIGRvX2NvbXBpbGUKPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWJzcC9iYXJlYm94L2JhcmVib3hfMjAyNC4wOC4wLmJiIGIvbWV0YS9yZWNpcGVzLQo+IGJzcC9i
+YXJlYm94L2JhcmVib3hfMjAyNC4wOC4wLmJiCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRl
+eCAwMDAwMDAwMDAwLi4xYTdiYmJjY2FhCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL21ldGEvcmVj
+aXBlcy1ic3AvYmFyZWJveC9iYXJlYm94XzIwMjQuMDguMC5iYgo+IEBAIC0wLDAgKzEsMyBAQAo+
+ICtyZXF1aXJlIGJhcmVib3guaW5jCj4gKwo+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjA4YTc2
+MmRhOGQ2M2RkMThiNGYyZDlmNWQwYThkYTAwMWI2ZTYwOGQxYjNlZmY2ZGNlYmM2YTJlNTc1ZDUz
+NSIKPiAKPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwg
+bWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLgo+IFZpZXcvUmVwbHkgT25saW5lICgjMjA0MzY3
+KTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVz
+c2FnZS8yMDQzNjcKPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9tdC8xMDgzODA3ODIvMzYxNjcyMQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29y
+ZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnCj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViwqBbZWpvQHBlbmd1
+dHJvbml4LmRlXQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gCgotLSAKUGVuZ3V0cm9uaXgg
+ZS5LLsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHwgRW5yaWNvIErDtnJuc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfApFbWJlZGRl
+ZCBMaW51eCBDb25zdWx0aW5nICYgU3VwcG9ydMKgwqDCoMKgwqDCoMKgwqB8IGh0dHBzOi8vd3d3
+LnBlbmd1dHJvbml4LmRlLyB8ClN0ZXVlcndhbGRlciBTdHIuIDIxwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHwgUGhvbmU6ICs0OS01MTIxLTIwNjkxNy0xODDC
+oMKgfAozMTEzNyBIaWxkZXNoZWltLCBHZXJtYW55wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgfCBGYXg6wqDCoMKgKzQ5LTUxMjEtMjA2OTE3LTnCoMKgwqDCoHwK
 
 
