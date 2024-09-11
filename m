@@ -2,117 +2,354 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E651EE498A
-	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 09:55:03 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web10.18201.1726048495287933761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 318F2EE498B
+	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 10:05:43 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web10.18462.1726049134127872548
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Sep 2024 02:54:55 -0700
+ Wed, 11 Sep 2024 03:05:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout01.t-online.de (Postfix) with SMTP id 5FEF712A7F
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 11:54:53 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.35.60]) by fwd70.t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd84.aul.t-online.de (fwd84.aul.t-online.de [10.223.144.110])
+	by mailout04.t-online.de (Postfix) with SMTP id EF75B1E2;
+	Wed, 11 Sep 2024 12:05:31 +0200 (CEST)
+Received: from [192.168.178.67] ([84.163.35.60]) by fwd84.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1soK3p-2L0Gyf0; Wed, 11 Sep 2024 11:54:53 +0200
+	esmtp id 1soKE2-4JwVdo0; Wed, 11 Sep 2024 12:05:26 +0200
+Date: Wed, 11 Sep 2024 12:07:08 +0200
 From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [master-next][oe-core][v2PATCH] gtk4: update 4.14.5 -> 4.16.0
-Date: Wed, 11 Sep 2024 11:56:30 +0200
-Message-ID: <20240911095630.4846-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.46.0
+Subject: Re: [oe-core][PATCH] gtk4: update 4.14.5 -> 4.16.0
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <W38NJS.9EHA9A6T5D4I3@t-online.de>
+In-Reply-To: <2A003221-497E-487E-BF79-1BD16102A1F7@arm.com>
+References: <20240909072859.1331936-1-f_l_k@t-online.de>
+	<2A003221-497E-487E-BF79-1BD16102A1F7@arm.com>
+X-Mailer: geary/46.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1726048493-557F84AB-89E3C452/0/0 CLEAN NORMAL
-X-TOI-MSGID: 7152e447-58ed-46f2-883b-af2818703139
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="=-WnqqPDTiRcKnIaki3EKw"
+X-TOI-EXPURGATEID: 150726::1726049126-CD7F85E9-E1E5D4D8/0/0 CLEAN NORMAL
+X-TOI-MSGID: 39b579d6-6c6f-4068-b983-352a65922dc0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 09:55:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204376
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 10:05:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204377
 
-- Add python3-docutils-native to provide rst2man and rst2html5
+--=-WnqqPDTiRcKnIaki3EKw
+Content-Type: text/plain; charset=iso-8859-13; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Gtk 4.16.0 has some quite invasive changes. It sets vulkan by default.=20
+This requires at least for hyprland to pass GSK_RENDERER=3Dopengl to=20
+prevent segfault in gtk4 apps. Now, thats because hyprland does not=20
+support vulkan but this will presumably also happen in gnome for  older=20
+graphics that dont support vulkan at all.
+Also the NEWS file recommends using mesa 24.2 with this release.
+
+I added the missing release notes and sent this marked for master-next=20
+to clarify that this should be post styhead
+
+On Tue, Sep 10 2024 at 05:05:23 PM +00:00:00, Ross Burton=20
+<Ross.Burton@arm.com> wrote:
+> This is a major update so it=FFs too late for this to land in master.
+>=20
+> Can you change the release notes fragment to include the major=20
+> changes in the 4.15.x releases instead of just the last few fixes=20
+> that went into the 4.16.0 release?
+>=20
+> Ross
+>=20
+>>  On 9 Sep 2024, at 08:28, Markus Volk via lists.openembedded.org=20
+>> <f_l_k=3Dt-online.de@lists.openembedded.org=20
+>> <mailto:f_l_k=3Dt-online.de@lists.openembedded.org>> wrote:
+>>=20
+>>  - Add python3-docutils-native to provide rst2man and rst2html5
+>>   Otherwise build fails if documentation is built
+>>  - Remove duplicate gi-docgen dependency. Its already included
+>>   by gi-docgen.bbclass
+>>=20
+>>  Note: This release changes the default GSK renderer to be Vulkan,
+>>  on Wayland. Other platforms still use ngl. The intent of this change
+>>  is to use the best available platform APIs. You can still override
+>>  the renderer choice using the GSK_RENDERER environment variable.
+>>=20
+>>  We believe that most of the problems reported with the new renderers
+>>  during the 4.13 and 4.15 development cycles have been addressed by=20
+>> now.
+>>=20
+>>  But the new renderers and dmabuf support are using graphics drivers
+>>  in different ways than the old gl renderer, and trigger new driver=20
+>> bugs.
+>>  Therefore, it is recommended to use the latest mesa release (24.2)
+>>  with the new renderers.
+>>=20
+>>  * GtkScale:
+>>  - Fix positioning of scale values
+>>=20
+>>  * GtkEmojiChooser:
+>>  - Make Control-clicks work for the recent section
+>>=20
+>>  * GtkPopover:
+>>  - Make sure focus lands on the right widget when cascading
+>>=20
+>>  * GtkSpinButton:
+>>  - Disable Emoji input for numeric spin buttons
+>>=20
+>>  * GtkSingleSelection:
+>>  - Implement unselect_all
+>>=20
+>>  * Accssibility:
+>>  - Fix roles for radio buttons
+>>  - Check if ATs are listening before exporting trees
+>>  - Add a check for sandboxed accessibility bus
+>>  - Fix handling of the error message relation
+>>  - Turn criticals into debug messages
+>>  - Set expanded states properly in menus
+>>=20
+>>  * CSS:
+>>  - Fix a few issues on bigendian systems
+>>  - Avoid a crash with relative colors
+>>=20
+>>  * GSK:
+>>  - Use the right GL context when exporting textures
+>>  - Don't let colors influence depth decisions
+>>  - Allow uploading of mipmap levels when tiling textures
+>>=20
+>>  * GDK:
+>>  - Update keysyms from libX11 1.8.10
+>>  - Implement cpu-side mipmapping
+>>  - Use a thread pool for color conversions and mipmapping
+>>=20
+>>  * Vulkan:
+>>  - Fix drag surface offsets
+>>=20
+>>  * Wayland:
+>>  - Fix a crash
+>>  - Associate EGL windows with context later
+>>=20
+>>  * X11:
+>>  - Fix initial EGL context creation
+>>  - Fix a problem with GL context creation
+>>=20
+>>  * Broadway:
+>>  - Implement compute_size and request_layout
+>>=20
+>>  * MacOS:
+>>  - Set transparent backgroiund for toplevel windows
+>>=20
+>>  * Windows:
+>>  - Improve debug output
+>>  - Detect Mesas d3d12 driver and request GDI compat
+>>=20
+>>  * Demos:
+>>  - Set window icons in demos
+>>  - Add a 64k x 64k image to the image scaling demo
+>>=20
+>>  * Translation updates
+>>  Belarusian
+>>  Brazilian Portuguese
+>>  Catalan
+>>  Czech
+>>  Galician
+>>  German
+>>  Hebrew
+>>  Indonesian
+>>  Korean
+>>  Lithuanian
+>>  Persian
+>>  Polish
+>>  Portuguese
+>>  Slovenian
+>>  Spanish
+>>  Turkish
+>>  Ukrainian
+>>=20
+>>  Signed-off-by: Markus Volk <f_l_k@t-online.de=20
+>> <mailto:f_l_k@t-online.de>>
+>>  ---
+>>  meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D> gtk4_4.16.0.bb} | 6=20
+>> +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>  rename meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D> gtk4_4.16.0.bb}=20
+>> (96%)
+>>=20
+>>  diff --git a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb=20
+>> b/meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
+>>  similarity index 96%
+>>  rename from meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
+>>  rename to meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
+>>  index 0b3d33f8eb..6331e86bf5 100644
+>>  --- a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
+>>  +++ b/meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
+>>  @@ -11,7 +11,6 @@ DEPENDS =3D " \
+>>      fribidi \
+>>      gdk-pixbuf \
+>>      gdk-pixbuf-native \
+>>  -    gi-docgen \
+>>      glib-2.0 \
+>>      graphene \
+>>      harfbuzz \
+>>  @@ -22,6 +21,7 @@ DEPENDS =3D " \
+>>      librsvg \
+>>      libxkbcommon \
+>>      pango \
+>>  +    python3-docutils-native \
+>>      tiff \
+>>  "
+>>=20
+>>  @@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+>>  UPSTREAM_CHECK_REGEX =3D=20
+>> "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
+>>=20
+>>  SRC_URI =3D=20
+>> "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz=20
+>> <http://ftp.gnome.org/pub/gnome/sources/gtk/$%7BMAJ_VER%7D/gtk-$%7BPV%7D=
+.tar.xz>"
+>>  -SRC_URI[sha256sum] =3D=20
+>> "5547f2b9f006b133993e070b87c17804e051efda3913feaca1108fa2be41e24d"
+>>  +SRC_URI[sha256sum] =3D=20
+>> "8ef538778c82c09870a6cc325195049caec5593c1ca37df915a7b6b10f5524ea"
+>>=20
+>>  S =3D "${WORKDIR}/gtk-${PV}"
+>>=20
+>>  @@ -56,7 +56,7 @@ GSETTINGS_PACKAGE:class-native =3D ""
+>>=20
+>>  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+>>  REQUIRED_DISTRO_FEATURES =3D "opengl"
+>>  -GTKDOC_MESON_OPTION =3D "documentation"
+>>  +GIDOCGEN_MESON_OPTION =3D "documentation"
+>>  GIR_MESON_ENABLE_FLAG =3D 'enabled'
+>>  GIR_MESON_DISABLE_FLAG =3D 'disabled'
+>>=20
+>>  --
+>>  2.46.0
+>>=20
+>>=20
+>>  -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>  Links: You receive all messages sent to this group.
+>>  View/Reply Online (#204313):=20
+>> <https://lists.openembedded.org/g/openembedded-core/message/204313>
+>>  Mute This Topic:=20
+>> <https://lists.openembedded.org/mt/108350342/6875888>
+>>  Group Owner: openembedded-core+owner@lists.openembedded.org=20
+>> <mailto:openembedded-core+owner@lists.openembedded.org>
+>>  Unsubscribe:=20
+>> <https://lists.openembedded.org/g/openembedded-core/unsub>=20
+>> [ross.burton@arm.com <mailto:ross.burton@arm.com>]
+>>  -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>=20
+>=20
+
+
+--=-WnqqPDTiRcKnIaki3EKw
+Content-Type: text/html; charset=iso-8859-13
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto">Gtk 4.16.0 has some quite invasive chan=
+ges. It sets vulkan by default. This requires at least for hyprland to pass=
+&nbsp;GSK_RENDERER=3Dopengl to prevent segfault in gtk4 apps. Now, thats be=
+cause hyprland does not support vulkan but this will presumably also happen=
+ in gnome for &nbsp;older graphics that dont support vulkan at all.<div>Als=
+o the NEWS file recommends using mesa 24.2 with this release.</div><div><br=
+></div><div>I added the missing release notes and sent this marked for mast=
+er-next to clarify that this should be post styhead</div></div><div id=3D"g=
+eary-quote" dir=3D"auto"><br>On Tue, Sep 10 2024 at 05:05:23 PM +00:00:00, =
+Ross Burton &lt;Ross.Burton@arm.com&gt; wrote:<br><blockquote type=3D"cite"=
+><div class=3D"plaintext" style=3D"white-space: break-spaces;">This is a ma=
+jor update so it=FFs too late for this to land in master.
+
+Can you change the release notes fragment to include the major changes in t=
+he 4.15.x releases instead of just the last few fixes that went into the 4.=
+16.0 release?
+
+Ross
+
+<blockquote> On 9 Sep 2024, at 08:28, Markus Volk via lists.openembedded.or=
+g &lt;<a href=3D"mailto:f_l_k=3Dt-online.de@lists.openembedded.org">f_l_k=
+=3Dt-online.de@lists.openembedded.org</a>&gt; wrote:
+=20
+ - Add python3-docutils-native to provide rst2man and rst2html5
   Otherwise build fails if documentation is built
-- Remove duplicate gi-docgen dependency. Its already included
+ - Remove duplicate gi-docgen dependency. Its already included
   by gi-docgen.bbclass
-
-Note: This release changes the default GSK renderer to be Vulkan,
-on Wayland. Other platforms still use ngl. The intent of this change
-is to use the best available platform APIs. You can still override
-the renderer choice using the GSK_RENDERER environment variable.
-
-We believe that most of the problems reported with the new renderers
-during the 4.13 and 4.15 development cycles have been addressed by now.
-
-But the new renderers and dmabuf support are using graphics drivers
-in different ways than the old gl renderer, and trigger new driver bugs.
-Therefore, it is recommended to use the latest mesa release (24.2)
-with the new renderers.
-
-* GtkScale:
+=20
+ Note: This release changes the default GSK renderer to be Vulkan,
+ on Wayland. Other platforms still use ngl. The intent of this change
+ is to use the best available platform APIs. You can still override
+ the renderer choice using the GSK_RENDERER environment variable.
+=20
+ We believe that most of the problems reported with the new renderers
+ during the 4.13 and 4.15 development cycles have been addressed by now.
+=20
+ But the new renderers and dmabuf support are using graphics drivers
+ in different ways than the old gl renderer, and trigger new driver bugs.
+ Therefore, it is recommended to use the latest mesa release (24.2)
+ with the new renderers.
+=20
+ * GtkScale:
  - Fix positioning of scale values
-
-* GtkEmojiChooser:
+=20
+ * GtkEmojiChooser:
  - Make Control-clicks work for the recent section
-
-* GtkPopover:
+=20
+ * GtkPopover:
  - Make sure focus lands on the right widget when cascading
-
-* GtkSpinButton:
+=20
+ * GtkSpinButton:
  - Disable Emoji input for numeric spin buttons
-
-* GtkSingleSelection:
+=20
+ * GtkSingleSelection:
  - Implement unselect_all
-
-* Accssibility:
+=20
+ * Accssibility:
  - Fix roles for radio buttons
  - Check if ATs are listening before exporting trees
  - Add a check for sandboxed accessibility bus
  - Fix handling of the error message relation
  - Turn criticals into debug messages
  - Set expanded states properly in menus
-
-* CSS:
+=20
+ * CSS:
  - Fix a few issues on bigendian systems
  - Avoid a crash with relative colors
-
-* GSK:
+=20
+ * GSK:
  - Use the right GL context when exporting textures
  - Don't let colors influence depth decisions
  - Allow uploading of mipmap levels when tiling textures
-
-* GDK:
+=20
+ * GDK:
  - Update keysyms from libX11 1.8.10
  - Implement cpu-side mipmapping
  - Use a thread pool for color conversions and mipmapping
-
-* Vulkan:
+=20
+ * Vulkan:
  - Fix drag surface offsets
-
-* Wayland:
+=20
+ * Wayland:
  - Fix a crash
  - Associate EGL windows with context later
-
-* X11:
+=20
+ * X11:
  - Fix initial EGL context creation
  - Fix a problem with GL context creation
-
-* Broadway:
+=20
+ * Broadway:
  - Implement compute_size and request_layout
-
-* MacOS:
+=20
+ * MacOS:
  - Set transparent backgroiund for toplevel windows
-
-* Windows:
+=20
+ * Windows:
  - Improve debug output
  - Detect Mesas d3d12 driver and request GDI compat
-
-* Demos:
+=20
+ * Demos:
  - Set window icons in demos
  - Add a 64k x 64k image to the image scaling demo
-
-* Translation updates
+=20
+ * Translation updates
  Belarusian
  Brazilian Portuguese
  Catalan
@@ -130,471 +367,82 @@ with the new renderers.
  Spanish
  Turkish
  Ukrainian
-
-Overview of Changes in 4.15.6, 08-26-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkCheckButton:
- - Add a grouped style class for radio buttons
-
-* GtkScale:
- - Fix alignment and positioning problems
-
-* Css:
- - Fix crashes in the variable support
-
-* Gsk:
- - Make graphics offloading work better with kwin
- - Make colorstate transfer functions more robust
- - GC dead textures more agressively
- - Only use a single render pass per frame
-
-* GL:
- - Round damage rectangles properly
- - Use the shared context when creating textures
- - Fix a file descriptor leak in dmabuf export
-
-* Vulkan:
- - Round damage rectangles properly
-
-* Wayland:
- - Work with the kwin implementation of xx-color-management-v4
-
-* Windows:
- - Make gtk_show_uri use SHOpenWithDialog()
- - Enable incremental rendering with WGL
-
-* Macos:
- - Open context menus on Ctrl-left click
-
-* Debugging:
- - Show color state information in the inspector
- - Collect input event traces in the recorder
- - Add shortcuts for toggling recording: Super-r
-   and for screenshots: Super-c
- - Split the GDK_DEBUG env var into GDK_DEBUG and GDK_DISABLE
- - Add GDK_DISABLE=3Dcolor-mgmt and GDK_DISABLE=3Doffload
-
-* Tools:
- - Add a 'Paste as node' action in gtk4-node-editor
-
-* Translations updates
- Basque
- Belarusian
- Brazilian Portuguese
- Chinese (China)
- Georgian
- Hebrew
- Hindi
- Russian
- Slovenian
- Turkish
- Ukrainian
-
-Overview of Changes in 4.15.5, 11-08-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkTextView:
- - ADd GtkTextBufferCommitNotify
-
-* CSS:
- - Propagate color state information to GSK for many features:
-   colors, borders, shadows, text
-
-* Gdk:
- - Fix an fd leak in the Vulkan code
- - Fix a leak of EGLSurfaces and DMA buffers
- - Set the opaque region of surfaces automatically based on their content
-
-* Gsk:
- - Fix Emoji rendering in Vulkan
- - Rework color handling to take color states into account
- - Implement more powerful occlusion culling
- - Minimize our use of renderpasses
-
-* Macos:
- - Fix window transparency
-
-* Debugging:
- - The inspector shows details about color states
-
-* Deprecations:
- - gdk_draw_context_begin/end_frame
- - gdk_surface_set_opaque_region
-
-* Build:
- - Require gstreamer 1.24
-
-* Translation updates
- Romanian
-
-Overview of Changes in 4.15.4, 30-07-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkPopover:
- - Fix size allocation with wrapping labels
-
-* GtkColumnView:
- - Check column visibility when measuring
-
-* CSS:
- - Fix fallout from recent changes
- - Make implementation of currentcolor inheritance match browsers
-
-* Gdk:
- - Introduce GdkColorState for encoding color space information
-   Currently, we support srgb, srgb-linear, rec2100-pq and rec2100-linear
- - Add color states to GdkTexture, as well as to the texture builder
-   and downloader objects, and convert as necessary
- - Add GdkMemoryTextureBuilder
- - Attach color states when loading or saving textures
- - Add GdkCicpParams to create color state objects for cicp tuples
- - Drop GDK_DEBUG=3Dvulkan-validate
-   Use VK_INSTEANCE_LAYERS=3DVK_LAYER_KHRONOS_validation instead
-
-* Gsk:
- - Improve caching of glyphs and textures
- - Remove the uber shader
- - Numerous bug fixes
- - Fix corner cases in offload handling
- - Implement occlusion culling for opaque content
- - Allow offloading (some) transformed textures
- - Take colorstate into account when compositing
- - Add GDK_DEBUG=3Dlinear to opt into linear compositing
- - Implement tiling for large textures
- - Stop using descriptors and go back to simpler texture
-   management that should work better with older GL
- - Use correct shader clip mode for glyphs
- - Improve shadow rendering
-
-* Media:
- - Attach color states to textures obtained from gstreamer
-
-* Wayland:
- - Allow offloading GL textures via dmabuf export
- - Suppot the xx-color-management-v4 protocol
-
-* Deprecations:
- - GskGLShader and the render node
-
-* Tools:
- - Improve the rendernode tool extract command
- - Add an image tool that is about manipulating textures
-
-* Build:
- - GTK now requires a C11 compiler
-
-* Translation updates
- Georgian
- Hebrew
- Hindi
- Occitan
- Slovenian
-
-Overview of Changes in 4.15.3, 29-06-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* Accessibility:
- - Only emit notifications when cursor positions change in GtkText
- - Fix handling of help text properties
-
-* CSS:
- - Fix some crashes introduced in recent currentcolor changes
-
-* DND:
- - Avoid a critical
-
-* Documentation:
- - Fix many oversights and missing docs
-
-* maxOS:
- - Add native keyboard shortcuts
-
-Overview of Changes in 4.15.2, 28-06-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkFileChooserWidget:
- - Plug some memory leaks
- - Make Ctrl-Shift-N create a new folder
-
-* GtkPopover:
- - Handle resizing and position changes better
-
-* CSS:
- - Support color(), oklab(), etc (https://www.w3.org/TR/css-color-4/)
- - Support color-mix() (https://www.w3.org/TR/css-color-5/)
- - Support relative colors (https://www.w3.org/TR/css-color-5/)
- - Support more colorspaces in color()
- - Allow percentages for opacity
- - Handle currentcolor more correctly
-
-* Accessibility:
- - Avoid markup when reading labels
-
-* GSK:
- - Subset fonts when serializing node trees
- - Make ngl export render_texture results as dmabufs
-
-* Wayland:
- - Use xdg-dialog protocol for attached dialogs
-
-* Windows:
- - Build with UNICODE
-
-* macOS:
- - Implement fullscreen-on-monitor
-
-* Documentation:
- - Widget shortcuts and actions are now described in the docs
-
-* Debugging:
- - Add GTK_DEBUG=3Dcss for warning about deprecated css syntax
-
-* Tools:
- - rendernode-tool: Add an extract command for data urls
-
-* Deprecations:
- - CSS Color functions shade(), lighter(), darker(), alpha(), mix()
-
-* Translation updates:
- Czech
- Hebrew
- Serbian
-
-Overview of Changes in 4.15.1, 21-05-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-* GtkGraphicsOffload:
- - Don't crash without a child
-
-* GtkSpinner:
- - Don't animate when unmapped
-
-* CSS:
- - Support the :root selector
- - Support variables and custom properties (https://www.w3.org/TR/css-var=
-iables-1/)
- - Implement math functions (https://www.w3.org/TR/css-values-4/)
- - Support modern syntax and calc in rgb() and hsl()
-
-* Icontheme:
- - Make symbolic svg loading more efficient
- - Handle color-free symbolics more efficiently
-
-* Accessibility:
- - Make the gtk-demo sidebar search more accessible
- - Stop emitting focus events
- - Realize child contexts when necessary
-
-* GDK:
- - Support XDG_ACTIVATION_TOKEN
- - dmabuf: Be more defensive when importing unknown formats to GL
- - dmabuf: Use narrow range for YUV
- - vulkan: Recreate swapchains when necessary or beneficial
-
-* GSK:
- - Improve logging for GDK_DEBUG=3Doffload
- - Improve logging for GSK_DEBUG=3Drenderer
- - gpu: Warn about inefficient texture import
- - gpu: Handle tiny offscreens correctly
- - vulkan: Add profiler marks in various places
- - vulkan: Fix a problem with imported dmabufs showing up black
- - cairo: Speed up mask nodes, since we use them for symbolic icons
-
-* Wayland:
- - Use wl_compositor version 6
-
-* X11:
- - Implement a missing method
-
-* Build:
- - Fix many ubsan warnings
-
-* Debugging:
- - Show more texture details in the recorder
- - Use GTK_DEBUG=3Dcss to see CSS deprecations
-
-* macOS:
- - Fix problems with events handed back to the OS
- - Respect GDK_DEBUG=3Ddefault-settings
- - Allow applictions to handle Dock > Quit
-
-* Deprecations:
- - Use of @name colors in CSS
-
-* Translation updates:
- Catalan
- Georgian
- Hungarian
- Korean
- Portuguese
- Turkish
-
-Overview of Changes in 4.15.0, 21-04-2024
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-This release changes the default GSK renderer to be Vulkan, on
-Wayland. Other platforms still use ngl.
-
-The intent of this change is to get wider testing and verify that
-Vulkan drivers are good enough for us to rely on. If significant
-problems show up, we will revert this change for 4.16.
-
-You can still override the renderer choice using the GSK_RENDERER
-environment variable.
-
----
-
-This release also changes font rendering settings by introducing
-a new high-level gtk-font-rendering settings which gives GTK more
-freedom to decide on font rendering.
-
-You can still use the low-level font-related settings by changing
-the new property to 'manual'.
-
----
-
-* GtkColumnView:
- - Fix infinite loops in dispose
- - Fix problems with weak ref cycles in GtkExpression
-
-* GtkListView:
-* GtkShortcutManager:
- - Track the propagation phase of added controllers
-
-* GtkGLArea:
- - Produce dmabuf textures, so graphics offload is possible
-
-* GtkTextView:
- - Support text shadows
-
-* GtkGraphicsOffload:
- - Add a black-background property
-
-* Settings:
- - Add a new gtk-font-rendering setting
-
-* Accessibility:
- - Add support for GetRangeExtents to GtkAccessibleText
- - Add support for GetOffsetAtPoint to GtkAccessibleText
- - Implement GtkAccessibleRange for scrollbars
-
-* GDK:
- - Add a callback-based cursor API
-
-* GSK:
--  Use the Vulkan renderer by default
- - Avoid an infinite recursion with offscreens in some cases
- - Optimize graphics offload to make it more likely that compositors
-   can use direct scanout
-
-* X11:
- - Fix some confusing debug messages
- - Drop a no-longer-relevant optimization that was interfering with
-   getting the current window manager capabilities
-
-* macOS:
- - Implement the color picker for macOS 10.15+
-
-* Debugging:
- - Snow monitor resolution in the inspector
-
-* Demos:
- - Use graphics offload in the shadertoy demo
- - Show more reliable fps numbers in the fishbowl demo
-
-* Tools:
- - Support generating pdf in gtk4-rendernode-tool
-
-* Build:
- - Require pango 1.52
- - Require cairo 1.18
- - Add a missing dependency that was causing build failures
- - Drop deprecated build options:
-   gtk_doc -> documentation
-   update_screenshots -> screenshots
-   demo-profile -> profile
-   demos -> build-demos
-
-* Deprecations:
- - gdk_widget_set/get_font_options
- - gdk_wayland/x11_display_set_cursor_theme
-
-* Translation updates:
- Basque
- Brazilian Portuguese
- British English
- Chinese (China)
- Hebrew
- Kabyle
- Persian
- Polish
- Russian
- Slovenian
- Swedish
- Turkish
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D> gtk4_4.16.0.bb} | 6 +++---
+=20
+ Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@=
+t-online.de</a>&gt;
+ ---
+ meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D&gt; gtk4_4.16.0.bb} | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D> gtk4_4.16.0.bb} (96%=
-)
-
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb b/meta/recipes-gnome/=
-gtk+/gtk4_4.16.0.bb
-similarity index 96%
-rename from meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
-index 0b3d33f8eb..6331e86bf5 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
-@@ -11,7 +11,6 @@ DEPENDS =3D " \
+ rename meta/recipes-gnome/gtk+/{gtk4_4.14.5.bb =3D&gt; gtk4_4.16.0.bb} (96=
+%)
+=20
+ diff --git a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb b/meta/recipes-gnome/g=
+tk+/gtk4_4.16.0.bb
+ similarity index 96%
+ rename from meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
+ rename to meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
+ index 0b3d33f8eb..6331e86bf5 100644
+ --- a/meta/recipes-gnome/gtk+/gtk4_4.14.5.bb
+ +++ b/meta/recipes-gnome/gtk+/gtk4_4.16.0.bb
+ @@ -11,7 +11,6 @@ DEPENDS =3D " \
      fribidi \
      gdk-pixbuf \
      gdk-pixbuf-native \
--    gi-docgen \
+ -    gi-docgen \
      glib-2.0 \
      graphene \
      harfbuzz \
-@@ -22,6 +21,7 @@ DEPENDS =3D " \
+ @@ -22,6 +21,7 @@ DEPENDS =3D " \
      librsvg \
      libxkbcommon \
      pango \
-+    python3-docutils-native \
+ +    python3-docutils-native \
      tiff \
  "
 =20
-@@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
- UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
-xz"
+ @@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+ UPSTREAM_CHECK_REGEX =3D "gtk-(?P&lt;pver&gt;\d+\.(\d*[02468])+(\.\d+)+)\.=
+tar.xz"
 =20
- SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
-{PV}.tar.xz"
--SRC_URI[sha256sum] =3D "5547f2b9f006b133993e070b87c17804e051efda3913feac=
-a1108fa2be41e24d"
-+SRC_URI[sha256sum] =3D "8ef538778c82c09870a6cc325195049caec5593c1ca37df9=
-15a7b6b10f5524ea"
+ SRC_URI =3D "<a href=3D"http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_V=
+ER}/gtk-${PV}.tar.xz">http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}=
+/gtk-${PV}.tar.xz</a>"
+ -SRC_URI[sha256sum] =3D "5547f2b9f006b133993e070b87c17804e051efda3913feaca=
+1108fa2be41e24d"
+ +SRC_URI[sha256sum] =3D "8ef538778c82c09870a6cc325195049caec5593c1ca37df91=
+5a7b6b10f5524ea"
 =20
  S =3D "${WORKDIR}/gtk-${PV}"
 =20
-@@ -56,7 +56,7 @@ GSETTINGS_PACKAGE:class-native =3D ""
+ @@ -56,7 +56,7 @@ GSETTINGS_PACKAGE:class-native =3D ""
 =20
  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
  REQUIRED_DISTRO_FEATURES =3D "opengl"
--GTKDOC_MESON_OPTION =3D "documentation"
-+GIDOCGEN_MESON_OPTION =3D "documentation"
+ -GTKDOC_MESON_OPTION =3D "documentation"
+ +GIDOCGEN_MESON_OPTION =3D "documentation"
  GIR_MESON_ENABLE_FLAG =3D 'enabled'
  GIR_MESON_DISABLE_FLAG =3D 'disabled'
 =20
---=20
-2.46.0
+ --=20
+ 2.46.0
+=20
+=20
+ -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+ Links: You receive all messages sent to this group.
+ View/Reply Online (#204313): <a href=3D"https://lists.openembedded.org/g/o=
+penembedded-core/message/204313">https://lists.openembedded.org/g/openembed=
+ded-core/message/204313</a>
+ Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/108350342/68=
+75888">https://lists.openembedded.org/mt/108350342/6875888</a>
+ Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.=
+org">openembedded-core+owner@lists.openembedded.org</a>
+ Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core=
+/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a hr=
+ef=3D"mailto:ross.burton@arm.com">ross.burton@arm.com</a>]
+ -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+=20
+</blockquote>
+</div></blockquote></div>
+--=-WnqqPDTiRcKnIaki3EKw--
 
 
