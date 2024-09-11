@@ -1,345 +1,331 @@
-Return-Path: <alban.bedel@aerq.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00876EE0211
-	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 06:27:32 +0000 (UTC)
-Received: from mx-relay103-hz1.antispameurope.com (mx-relay103-hz1.antispameurope.com [94.100.132.96])
- by mx.groups.io with SMTP id smtpd.web10.15861.1726036041068503385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C22EE0213
+	for <webhook@archiver.kernel.org>; Wed, 11 Sep 2024 06:46:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.16016.1726037209481960357
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Sep 2024 23:27:22 -0700
+ Tue, 10 Sep 2024 23:46:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@l2task.onmicrosoft.com header.s=selector1-l2task-onmicrosoft-com header.b=fD2U02ki;
- dkim=fail reason="dkim: body hash did not verify" header.i=@l2task.onmicrosoft.com header.s=selector1-l2task-onmicrosoft-com header.b=rd7n4Hja;
- dkim=pass header.i=@aerq.com header.s=hse1 header.b=WUp65l9d;
- spf=pass (domain: aerq.com, ip: 94.100.132.96, mailfrom: alban.bedel@aerq.com)
-Received: from mail-am7eur03lp2232.outbound.protection.outlook.com ([104.47.51.232]) by mx-relay103-hz1.antispameurope.com;
- Wed, 11 Sep 2024 08:27:18 +0200
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=fail;
- b=sNJXsHu7pUpsvY6c/FRKxPKou9623q1GhhHNDLlATWEAB9T058TP9Y+cS8UnRD24fCO3wcAEYoS8sPzbfPxd8LYR6cDPZFbA84xgR2K92Nc1iFNvXdMmQQ71aPlkdm/PDOqvLWwFOeA7VAtQDmbX9Yb3aPm+4W0M6M3uOdpjsOM+7pibDIzK/3eRq28/06tjqSFW3wasnOPq1wDfl9zycq/W0pUSKXP2lfYGekU/Re3GqkYFUMJfHXRtwO0pt4fbQ6F8QjPT0gjhNqnvh1Oh7YNZKx/zh/qc4QTSIlfX9R5it1Iad1vlay/5NxvXi/Srze94kqX1ST95KeEf0tpA6A==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=szYh+8WwGI25EphhirNa5HkMs27TIfIolNTpq8kwNuM=;
- b=dWHcfBZOGGOQJZ+hMUq8nBwX4VVlmRYcAxsStVoO/dOgNv19YZqeFoSL7syhVE5iAuKefu1vK7T018c1lmikmcbk5ii/qW4iuy/2gX7xN322qf0c3apiQC/tajmJKYSD5fasjxkXCv6Rr2V+vG1BFbrqP1QUJeNdyWolAulzMyHl8j7IWal5KDArQOiWGzCwbuvbAR8nLw80o1Fn5EAyUQTmTTm7GOkS08sTTVf1GmE27oOcfBolP9UpkfA9PeyVEzBGMSTlpkNzyCUFlEh++r5csYuaQA1cidG2HBX320WR64Zk5tkI78ngx/NCyumaLwHa+MMVkDhMmdRTNt1GQA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=softfail (sender ip
- is 104.40.229.156) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=aerq.com; dmarc=fail (p=quarantine sp=quarantine pct=100)
- action=quarantine header.from=aerq.com; dkim=fail (body hash did not verify)
- header.d=l2task.onmicrosoft.com; arc=fail (47)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=szYh+8WwGI25EphhirNa5HkMs27TIfIolNTpq8kwNuM=;
- b=fD2U02kiarCYMjgosjHJcBJjkgMLDt8VmUKpzgi9CGZtGK5GpiU8L1RjOpjW4MpDV8JiaUnw3SeRG5CMpzKtcohej0IO4fteYGy5CFv7iMh+keG/29D2WXdBwpFnXVOxVWoF+hkkiFvMuYhe+FgIAIAXM6DlGDdcN6cTiJ1qyHI=
-Received: from DU2PR04CA0159.eurprd04.prod.outlook.com (2603:10a6:10:2b0::14)
- by DB8PR10MB3958.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:161::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.17; Wed, 11 Sep
- 2024 06:27:08 +0000
-Received: from DB3PEPF0000885C.eurprd02.prod.outlook.com
- (2603:10a6:10:2b0:cafe::b9) by DU2PR04CA0159.outlook.office365.com
- (2603:10a6:10:2b0::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25 via Frontend
- Transport; Wed, 11 Sep 2024 06:27:08 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 104.40.229.156) smtp.mailfrom=aerq.com; dkim=fail (body hash did not verify)
- header.d=l2task.onmicrosoft.com;dmarc=fail action=quarantine
- header.from=aerq.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- aerq.com discourages use of 104.40.229.156 as permitted sender)
-Received: from eu1.smtp.exclaimer.net (104.40.229.156) by
- DB3PEPF0000885C.mail.protection.outlook.com (10.167.242.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7918.13 via Frontend Transport; Wed, 11 Sep 2024 06:27:07 +0000
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (104.47.51.233)
-	 by eu1.smtp.exclaimer.net (104.40.229.156) with Exclaimer Signature Manager
-	 ESMTP Proxy eu1.smtp.exclaimer.net (tlsversion=TLS12,
-	 tlscipher=TLS_DIFFIEHELLMAN_WITH_AES256_NONE); Wed, 11 Sep 2024 06:27:07
-	 +0000
-X-ExclaimerHostedSignatures-MessageProcessed: true
-X-ExclaimerProxyLatency: 8468467
-X-ExclaimerImprintLatency: 1778939
-X-ExclaimerImprintAction: c8e504509b3a4d0f857670053c03af7d
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9984e3cae2=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48B5rxQS005204
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 06:46:48 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41gc2145jp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 06:46:48 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sQq1E751cBa3Id+bUtejoJnhodoCfjHheqWGE8oPw/e6+bmtVoPwAOnRr8tkKJtSfnL21xun4j0XGFKuPgkWGBlbYnWtuzpy39hSUs0ecIHuspKe93XHImqKOE/q5pu9y3DkgYQC2xAisEPXjtDATqbQjgypAiiuRdk8Q5dWQxQ4TlwnswN6swAfBwpZcFUZ5WKo9I7stKbH1hpGVJvec07Z6gEoLMU8gs5yFali9FnXDOAG2nlPHPy64fnhYkTDR4+h/MEhckoLIKGw+uHiU9hqmViEFoRg+YOR+W1FELwsBb28k7v8IurSHSvfPGQA9e1pYnTD82oU1SyQZET3yA==
+ b=Fat1uT4gZCnWTzeWTWdAIe+NT+8hBrRoZdtF7Z0q3mHkOCG8OAMwySAiGQTY0V2WJ4XabAuLHPE00DeSSB0nrNKJ4soep7sdKQ9jtRExjNPKv5YiqmWo/kPAWJHebLR3TtEVuvHJ1IbBpwtn/lf63FiuiI7FBrGkJ+6GKexJ9dhc15ijUMJTS7SBih0/3gwIUj+OE0luWfAUwGsjgk69P5KgroLhBeYt3COEKZfUG6wJEBSVSt6CsmLOdBhimbBfNDLxTGW3j1MAOsVvJMVb1jEXMLt/WPf/BrXSRHXpc5oujlLXP7d8yxNZt0lsHN5XqmYN0xJ5H1jLNsIu3CyG8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PwJgHNu//+unnt/kCvY+wSDbnnPvFXrTRUxNH4gMsBk=;
- b=t70s2rD0My19hrc0Uk1qycjEvEMcx3tUPW5LdirGFtQ1PsBHocU0W9TDEkyCa1dMXcBsOZl8W6qsBdXgZPFD698DF8hsy/evXjBg+R5Cg/671V7ETYfpvU255sC0e61YONFxG1wc6n+N5WdNHiU/SsrHe6XvAVAjjgSHzHVJOcuFFEOX3xz0pKG1UD8p+rGB66BzzPIClqKnupFrD+fXUyle2GU6yegLEhXBT6zKMR8l+HmKBfFGG/DnOsacy84zP5G7sgAwttuWrK19Gb5xrK2MKIhI70xEwU9EbsxpSLybpZ0T2RIydaJh9jh2cKJg/ZVocLFlGYFZDFmKHxQbkQ==
+ bh=431/3yiZAGwXRgomuEnFu0zAMNUw7NRyUG5oYVLPntQ=;
+ b=xqNK5zFlIaRG+kT1rwLN+5Vbd8o5g2Mi60nYqceOf4vICg7z5gCsM0yCq8iAOch5lp32GdO18l7Po9fHizk2ST7JLH84tbMUd4Xq0kANOgu41f9l1Tj2r7A4RZp7JuyEjQYpsLPFk8nwIyD9kjug6ZsHOdA+qdzHr3o5OHH3i3v9KEUO6xOx2XsOwFf7fnLHAd8Lwql690hwvfp7sBnanDK75F7MgHlBQ9eVseCZDBvmb58dBueeeEo2ffiMsfFxCgo93WoZ3nRSexrkWG91k8KpKaXbyNTLJLbJtGFbAvSkooPtEbXKicW98GNp/vAzCEdZcxJ/7IZ5FYIgt+dEWg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aerq.com; dmarc=pass action=none header.from=aerq.com;
- dkim=pass header.d=aerq.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PwJgHNu//+unnt/kCvY+wSDbnnPvFXrTRUxNH4gMsBk=;
- b=rd7n4HjaifRWIUORZs9GqYIishcV+iAbQSsBjzZKbVs16Gi5Ugr2Z2AaDRM9QtsLM3qR6UT7cLGrR/IZ8qyGqX4PeguZfiSBOmzuoPJXDVNzIVfo/yljMJFInk9zkR0pOUe7tk1cxZStCkM/x0FkaVCTZsw0LuN3empdVzCBWsU=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aerq.com;
-Received: from AS8PR10MB5000.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:405::24)
- by AM7PR10MB3844.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:179::24) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by DS0PR11MB8182.namprd11.prod.outlook.com (2603:10b6:8:163::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Wed, 11 Sep
- 2024 06:27:00 +0000
-Received: from AS8PR10MB5000.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::dfc0:30ac:94b8:c791]) by AS8PR10MB5000.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::dfc0:30ac:94b8:c791%5]) with mapi id 15.20.7939.022; Wed, 11 Sep 2024
- 06:27:00 +0000
-From: Alban Bedel <alban.bedel@aerq.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.17; Wed, 11 Sep
+ 2024 06:46:46 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%5]) with mapi id 15.20.7962.016; Wed, 11 Sep 2024
+ 06:46:46 +0000
+From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
-CC: Alban Bedel <alban.bedel@aerq.com>
-Subject: [PATCH] bind: Fix build with the `httpstats` package config enabled
-Date: Wed, 11 Sep 2024 08:26:47 +0200
-Message-ID: <20240911062647.3653902-1-alban.bedel@aerq.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR4P281CA0384.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f7::18) To AS8PR10MB5000.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:405::24)
-X-MS-TrafficTypeDiagnostic: 
-	AS8PR10MB5000:EE_|AM7PR10MB3844:EE_|DB3PEPF0000885C:EE_|DB8PR10MB3958:EE_
-X-MS-Office365-Filtering-Correlation-Id: c47c757f-ce70-4553-ae2e-08dcd22ac2a3
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
+Subject: [OE-core][PATCH] rust: Rust Oe-Selftest Reduce the testcases in exclude list
+Date: Tue, 10 Sep 2024 23:46:30 -0700
+Message-ID: <20240911064630.1057025-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: DS7PR05CA0095.namprd05.prod.outlook.com
+ (2603:10b6:8:56::29) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|DS0PR11MB8182:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4e58c12-5fa0-4383-7b6d-08dcd22d80ec
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|376014|1800799024|52116014;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?ADYnskAKHLs6BWzskK1C7pv+PJUuXU6sbEp24HY6cYTDRh+vU0bdjjQKsBLI?=
- =?us-ascii?Q?wZ5NU1BuC9afSjVo+PQ1nnQjDromC1tHAEAqx1mOcy8DQoXBe+yxa8AM9Crv?=
- =?us-ascii?Q?Bd3YsWNYOS0uW3Pxtzr2zTZ4/KUfjwpF2jYB7xEMsBJ4sfHTeXfUwiy94DT4?=
- =?us-ascii?Q?w43cF/R3O3x/qfX5L6rQHnYU2O/OxLeJ8YaH3/wn+NkitpH9SAkr5fZJoOBD?=
- =?us-ascii?Q?VUszqVn/KNFXAVyEmW+6kZIuEXbrTRZRFHLKqpcUY5q95zjCaGWv2V5fsCY7?=
- =?us-ascii?Q?0uxjthxty98gueHsygGfXaZeAVqDLIF2eaBuy9/hoIv+BS3N4UlT3ApWW8Al?=
- =?us-ascii?Q?+3KKpPJLshyiRtmboZJyqor4U0J3tgOeVc4enZB93SZuVffAX60vqmwhmfvZ?=
- =?us-ascii?Q?1217vKE6Nt6EoPc+6JiAZwfiTFcpcT8Y6BwF2KwhTc9BykHf+xC5V7fB02lq?=
- =?us-ascii?Q?Krdub0GPA/pW19xcdbq7lc10XiRhPxVaTLytoNtTgUFAaNCH0IgdT1BkzIAf?=
- =?us-ascii?Q?LPmPE2zsHk4J+PaR7uZLB5a5roPloZ3U9qNnmu1UIkUwHyDlK/rEkf5DrwJw?=
- =?us-ascii?Q?jla4AbHJjHw70RTQ7c9iQle0U3aVJGfkKyZLlY1EBzJJIue3rumd4IEqNFKs?=
- =?us-ascii?Q?arW0BhUJO6zDduT9WCB+TkabAshyRPB8oACZ0E53vgDeXBn+baiS6slbrgt/?=
- =?us-ascii?Q?Pzk0LfAOvv2N/EI1Z3f96urS0RkbypvS6t4kmXvOzBYe/0qDYmU6PWLLbN5Z?=
- =?us-ascii?Q?bCTxswostfTR4ac3LWpb3qKUgKwf/cmynEEFKuYPiWso3YH4BHmWgIxrkHGX?=
- =?us-ascii?Q?Cj0sWrvxfuncCf7EGe/3Av3wa/ZuVHj3iSBIuAuAw2+VHB4dnS6XJlMJego+?=
- =?us-ascii?Q?RI+i86t3Qf8/+Nda2Tlp1jYDbcmW0rAjhJ1Gnstw9zBA+yzfSAIe24S6e0v6?=
- =?us-ascii?Q?G2k+BIDahPk6/votlAvOVGV6DcuaqI3JdqC4O8C1N98e18wU+mvB/9FTQfcK?=
- =?us-ascii?Q?S4QGo/s62Tei00QB+IrlCKDg6YQ/dPZbTcP6A1C4/KbpVO1YXijKvVqVmAxT?=
- =?us-ascii?Q?c043zafPkxxLabUW3PTcfGMdfVaHO+ydWsRViwTNuAuP++8XzoL+lR1fOw4k?=
- =?us-ascii?Q?azrxFLkNkJ2kQmcFbSimi/QrvYYuRz/VgQXuc4ye1to5o6ugUFflbObsJpM1?=
- =?us-ascii?Q?G2do486wV5Q+c48WCG6fJ4DM/DzhzzkDtUWRhNkoBv31LFvI5okeYgpQPKKF?=
- =?us-ascii?Q?xmExcm3dPZ4Zwe6/lpoPraXhM06XFcm2yx1N7OtNz9Yi1Z5rcI1bZu9jKUEt?=
- =?us-ascii?Q?MDSWUCKmcC7PaaCaBiSe5l+NCBLoH5w36Hl6nLcvLpaqyQ=3D=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5000.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR10MB3844
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB3PEPF0000885C.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	f040b4b9-eb87-4186-f571-08dcd22abe19
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|35042699022|376014;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?kjngVSP23xODFxeqDtgRWlKCGeutaoOLCBLJJklvvKM2ODhy1nldmfBykDig?=
- =?us-ascii?Q?vwtr9VtU8B1BDXVMwSclLf6+mLCey4JfPNxRfgk7QgMH/N7ilMQ+CZYJ+AJc?=
- =?us-ascii?Q?s/NEgXbhHAE5xeFcqH0EXLkm3OKbMm64dpxyNhVpb+VPv+ckR5X5lom3DPt2?=
- =?us-ascii?Q?SqnpLfISGeFGKpVGK7G1bX32SvTac+XDw4cQQbB03ht1HJBLYvGgl/QIUMwg?=
- =?us-ascii?Q?tVfrYUjv5Nqmpvq9SmnR3Hl3dsqs8XHWrYdJ1egZ/EK72hhONo4HJkrF18I2?=
- =?us-ascii?Q?RFZ3CFMvYwf87nMagLmE14LS6ZukhBxDmSllShPLFSjKgIjLIhlr5mK9tXfb?=
- =?us-ascii?Q?j/sPnmnmXQmININ4HhAQssZLZUjbMcuviK78Izg+JW0hBg9ySXPOE37gPZwm?=
- =?us-ascii?Q?15r0+r/eMypMLM9lceV5jMWbRTLwD6HpkpUyDs2Imj1yq2bEt6XGWH9B5r8j?=
- =?us-ascii?Q?TEzqwtXnz3S/LSWeJYT6H6a9+XmD88mRkzJvqxUWdwaDrMN2CNOak5LU5Wrs?=
- =?us-ascii?Q?5ktw4UPNHxo5RYAmgz44Td4p7JGnMi4L2FJrRU7+EnlnCc6VgRpYD871hwvn?=
- =?us-ascii?Q?zOpfsNrXrEaClzunxFBC/cJoIeTrZDZjOP2h1Ugz3aoiPF22873917ZIRe8I?=
- =?us-ascii?Q?ss+3z/koHoUcV+7970sc6WY5gOmto7C8nT7s4mNYFBFebS78L4qqnRWJmlIB?=
- =?us-ascii?Q?ilWlU0jzRigFpBsPJ8nONCp/aPpZ+ajsLCVWu2xb3VCb9UEl0wKbyI09AsJu?=
- =?us-ascii?Q?W7I6GA3qFjF+YX2adXgUqepuhosK4fDyUZj1teUCZlQPY8NBz7Z1CRST6s2T?=
- =?us-ascii?Q?abHdoL/CObbEYMBOMPHvDrfXqMCpNUl96fbBBjjgTgv+YdwIY1IwZYcotMA5?=
- =?us-ascii?Q?e+v/rypOHKH13XJH9RgfIho+3ZGV752oxGfdqdJpbQGPgPAlYl/+en/VpLlF?=
- =?us-ascii?Q?q8UPei4/dlPvVIwL6q7uL7ypW6w5FD5YLmcQdLRbIBkUCV2Di3jl1IBED4Au?=
- =?us-ascii?Q?yW7opx33GKPfaBCm2jYBeKFCaUiKwAfwaPPJO+9087Huqdq1ZISLTt6ka5XD?=
- =?us-ascii?Q?WQchvyssjTwgWW9wpabD0WVsPTEScd0jTM80JRDEkcVfY3BmD18ckj0gxYoT?=
- =?us-ascii?Q?nzCVg3ycl8QXnS0wLAAG2mRkCyojcfYPV2Ho/8ABGwHaB42xVWUewlZ7i349?=
- =?us-ascii?Q?WvGxyOeUv5meb/Y7FRdsvhRE8UkTfrGLgH8dZKwvBg1h4qpNBP4zYMS47Lyl?=
- =?us-ascii?Q?DnKkZtzjgMWW6UMK2zWA09luMPsWDrAtZdFwqFSCYUZ0K+rBc89L+ia52Dg3?=
- =?us-ascii?Q?67iQrK+T6focsnnw8rHc7jg2iT578lCUMAGpzf+AxAPdc22YquOGfDlo6Zk2?=
- =?us-ascii?Q?Pv445LRHnb+rRGMNK8lqKBn80+L+3EFbxSHaE3G3qWlUa7/ZZyAmdXoYhGAc?=
- =?us-ascii?Q?lgD5HgLYiAE=3D?=
+	=?us-ascii?Q?H0P8483HtX26RJBRwN+P/x2olD373Mv1rrYvTXImXYRgIzKS9FOs6Ul8+PPa?=
+ =?us-ascii?Q?gzWcFve2oXJpMpj3PEtPExKEf9qoyexhfHH3eAykCz37EO26eupKP+UjaYI0?=
+ =?us-ascii?Q?4Hc1eRb7Dl69Vy2M9RFPFcME7B4NVSHtd98cGJiOhjyHM51L3+3iF6IwkBv5?=
+ =?us-ascii?Q?OZthidL4B4gN4UsG5lEOUebv+lXwRKPSz+pZjdsCFxO1SbA0hpQLWCSlj5yT?=
+ =?us-ascii?Q?I0rS/hCsmIA2iqLualYKKTnb8Ch7c508KMuWoLGBGl5rS+h572S5FPBN7amm?=
+ =?us-ascii?Q?1cyrne9cehXX8LdsS8ap0ftsdLy93dhHqBEMs99f2mUoffoAwOo9Bvkm3NpY?=
+ =?us-ascii?Q?4Q+e83T3zkExGViinp2JkL3FT6Q1iuLMArhFO0WLc0U/r6dCzZE8b/bXZYXY?=
+ =?us-ascii?Q?QqolXIThaApZ4SSGNLi3cJNsf8cA+DZGX8xUUOdGcM/bdkfwkGTMqQuDaBhS?=
+ =?us-ascii?Q?A8GhVaW8vf91NmW/TZTVHTGC6rm1NPb4wlm0E8j1o0PU97Ko8mpz/AKgTXU3?=
+ =?us-ascii?Q?nF02KziIG9EqiRpKtF2hJlB+N3OV4DmXpg1KbuvlDO7xZBVn96rM9JaLHo5i?=
+ =?us-ascii?Q?frzKaNY2fDPo5N5S0u8CRmp+3aHitMTQ5ZfHwZthHFjyWw/plu6ftOykq96f?=
+ =?us-ascii?Q?AIB4CC0DthCcEwH2tUKhA3dE0QyvI87aZPUDFuWRHJyAAgbL4sfnaMqrHN1N?=
+ =?us-ascii?Q?X7dOsiWaHkaXfbO4zU9Tk6u/CSw3J7hN4QeScl670hBAMIZ6DJjCZFZOj0yP?=
+ =?us-ascii?Q?8sn1EgHJRJfQ5RtXUEPLfS3P/y/f1H4jFAZ4De4HMSO/3lqxx7dBfk+0Fw4h?=
+ =?us-ascii?Q?KMTRUrotYjMT9yZ0q4HdATb99eoxuhu2oPljA1rotZlmS3ks+BGeiROF0W/l?=
+ =?us-ascii?Q?QsEVeK8bRdXcWl60kkGxwAskIn+QXyT6hEYwjqfvpTZpvRHeEnIhxBWIzCpT?=
+ =?us-ascii?Q?aTBmV82vwKC4HhXFE6SrVh3LOqfs6EhVdEjCPZa6vH6BrAq1Ejjr+BmNUcVj?=
+ =?us-ascii?Q?stn/EKhKg+VoPRdQbYeYQDhLbj+HFxQW3LVFYVaZXSSlpfCnHrQ4mm9ujUtd?=
+ =?us-ascii?Q?OsFn3TFw4FfnLjQMQxm8hYnnozI5QuJT1hQKEEI8N8BczBktPBVps4J3lKQF?=
+ =?us-ascii?Q?6zTy8yTQBeZwBVTYBR5J+2338Y9tKPep+iz3/Li7YPG+CXvz2Yzwawa7YxaD?=
+ =?us-ascii?Q?rSXUfUqQlpxtbYlqeimyQ8MK8rj718GJrD+Zc9LdD6zo8eyM5ojPLeVfhdQE?=
+ =?us-ascii?Q?NfDHMCfm7++C1DXWKaQdpvGzHTkZ51rZdfATSlG/CqMDsfXhQ35ZVL0ljAHd?=
+ =?us-ascii?Q?jEdxFIAZjWO9rJgbI9/UOgk9Pm3/06kX5UCjqlItSvh/fkW3QRjJlVSqjWtV?=
+ =?us-ascii?Q?BnmZ9/faTjdJeCx+/hpZaLkRGbyUqmuk1M8afn4kGVQMy5Hh6A=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:104.40.229.156;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu1.smtp.exclaimer.net;PTR:eu1.smtp.exclaimer.net;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(35042699022)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: aerq.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 06:27:07.2140
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?B/cgTA0avrydQZJWbD/KWdIIh602XK8YqilpM4Lbhf/ixQ0M44rT6/w/ojDy?=
+ =?us-ascii?Q?xUXVYfVSsxvJwI7UKwkxgu093W6pvyHxq0ntk6j7e1O8yvWRNVY16lfkmepb?=
+ =?us-ascii?Q?do5O7WlPcRMR2jFeUJBJ3sWRyu+i/SLGihynvksO3YYZclWluVO2kqULFWVE?=
+ =?us-ascii?Q?W/Hv41O23Gu9JIJMIO+L4zYdjbeFMFZ7xfzJU7ViDnR6G5B8/dtwJTcCGgkr?=
+ =?us-ascii?Q?a9s8Znvbhpxa0SodnhvYLjhR0RHxRAtUX2WEnRVxkBiuFzQCFztZ6/jeMYCQ?=
+ =?us-ascii?Q?u2Ex9qF67o0FpddJ2yyqCVnMffeXFoYaCCtLUaqXyczF3PPkOOYr3iE6TB+n?=
+ =?us-ascii?Q?/+2HwKpn/oxvkwt66z494EqSHguBNvwVsTMEMPU6bvlGGC347Mdh7yQKzZwQ?=
+ =?us-ascii?Q?7fVOQ9KizX2CtkKdLOpxX5dkf6RgTiyIXSOvyjUeF3iKKeU0mra/sxEuCA5K?=
+ =?us-ascii?Q?zJaxwyfDqh4vv/ikBTe2TM2Oe0e+HlTcERhE7SLTqOPDOB9tz1xG1tl+j8S7?=
+ =?us-ascii?Q?eAXW4lKyncYzhaqwkgtUQ+OyMRZXj5jUz/pDgV9FBRNmqUFgfzGEwIGGFKRF?=
+ =?us-ascii?Q?ymCBWm4GWZhjA30XLLM7PobUg66l+OeV5obaAwOGf1moOzOiNCliBjlXIC1/?=
+ =?us-ascii?Q?G89DvD76OvbLJNdr9NcO+234ikRpHDWivCJJs+TGQJICHns6Z9tg35PIg7dn?=
+ =?us-ascii?Q?+78Fwz/gecwt8o4RouSJyrKLUqdbYCRFMbhgwV2NtLdKQI8/d/NIjwyY7Zrz?=
+ =?us-ascii?Q?DZXGPWXxQjMXftbB0jU9AvWImizZw4jy14+D5iVfjNhZErj6nnEFfelws9Lc?=
+ =?us-ascii?Q?Jv8Wodwf+xqX7VxdyGGip1E+TTbKHEDUl39uk9RgoaYgR+ODFymZj3eaAy+K?=
+ =?us-ascii?Q?5nd5eai7QvAXdLM6QZXNoCuFjTPX6XHa7AeqtbRGi9ZO2ClZxGFkJxAXa8B3?=
+ =?us-ascii?Q?fCmi2bvODTeBp/jXqVJPXSa8bs7yJZiKfMF2eS4E4idUnThc+rgKSgbH5lQX?=
+ =?us-ascii?Q?VbdYDiq19WdzvLhZva7cxbvN3RVdgu9BST3516ITr/eUhtPzv/mmG0fWvdKb?=
+ =?us-ascii?Q?9hypyLCqzczxfcfOeypMvSaYXbDRK7sqwFNdquHmRTIzt6UtH/4IoBE6hkoh?=
+ =?us-ascii?Q?BdRXiz+mscivAtgo26BoNtlObNS/KgN2daRjOA+uuWhh4TDEYdsS4TEfMYvL?=
+ =?us-ascii?Q?nai++VeUyn29FZbuFBNPzKz6dN+w/4tMscU2GCbiP2FRDk0WTu+DM1WS3oin?=
+ =?us-ascii?Q?zcXA5EYhX7G+F1dngZtWSYf58b2rQpFmfc+3FQqeQbXh8y0LFz+jiKKjaJzP?=
+ =?us-ascii?Q?r2c548uM5gjdQq0SVcnhIdt2/WaLWVnnSjccoOk7V/MfTQ2bsiqXY/LDemnp?=
+ =?us-ascii?Q?yxOnNG5N3xN8/mPBomGwiW0eS9GbM0Yp2eFaXKbWE5nlS1Duk3rti5Y1apsN?=
+ =?us-ascii?Q?HsJjxYRpiIynbF0Swa1mlJvlpHeZn42zSv/JTuxTIbB7ZWHXXaHSl3vH8A8C?=
+ =?us-ascii?Q?CdRWTTzqnR6LwljUoDwWSkrIkK/3/UKCZkkN9f0/gJpe05sU4uVOIL2VoYR/?=
+ =?us-ascii?Q?C3tr43IQ7+N6sBMfYlJKGAX1PLbanoY6IQrm5Zyz2ocXmbT46wFw40lZvRBY?=
+ =?us-ascii?Q?un+UnNJkHD7s7K4TkNk0yvs=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4e58c12-5fa0-4383-7b6d-08dcd22d80ec
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 06:46:45.9637
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c47c757f-ce70-4553-ae2e-08dcd22ac2a3
-X-MS-Exchange-CrossTenant-Id: bf24ff3e-ad0a-4c79-a44a-df7092489e22
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bf24ff3e-ad0a-4c79-a44a-df7092489e22;Ip=[104.40.229.156];Helo=[eu1.smtp.exclaimer.net]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB3PEPF0000885C.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3958
-MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----C65ED3E1A5DE826CA595746785F6AF6F"
-X-cloud-security-sender: alban.bedel@aerq.com
-X-cloud-security-recipient: openembedded-core@lists.openembedded.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-crypt-policy: TRYSMIME
-X-cloud-security-Mailarchiv: E-Mail archived for: alban.bedel@aerq.com
-X-cloud-security-Mailarchivtype: outbound
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay103-hz1.antispameurope.com with 4X3Vwc1W68z27l4Q
-X-cloud-security-connect: mail-am7eur03lp2232.outbound.protection.outlook.com[104.47.51.232], TLS=1, IP=104.47.51.232
-X-cloud-security-Digest: 5a49ca67d0706575fcf86b6991880a57
-X-cloud-security-crypt: smime sign status=06 sign_complete
-X-cloud-security: scantime:1.566
-DKIM-Signature: a=rsa-sha256;
- bh=ArLRXJaJmLKZd1NqpCJrlLVdNPjmjeBMQDnoypQUhfA=; c=relaxed/relaxed;
- d=aerq.com; h=content-type:mime-version:subject:from:to:message-id:date;
- s=hse1; t=1726036038; v=1;
- b=WUp65l9dmwASHVtbERG79BjVrps6ESIviDA0rwEhYblmwyJYRkKC3KXW0RT515qO7akMHAbh
- 5I3a9zMsFeraT31B8Alj9RE1AA+sq/Er+NL+wNHZwmHyxwm60hyRZ2BhceyVoUOfi+SP5lXRtly
- oo2CD3bJGnvblQf6q4fu6fZF5Jmkmv3+T6eQXpyYugV6Hg2rVmsLKwstRsMfajnAmL/NzWwu0p8
- E5DCkV+LxoIs+ODX6owRgWDnrgD95IPGA9qYJRFmyXRfoWnq+A6QuldnH4yVRzOwSAOq2nO1aYK
- 7SUByyOs9LdwWR1Sma8k2ScRRHTLf3hdAR+dTVwxv9vfg==
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tlPmmO12a5OytnzWWr/ykqREpv2pUgjpXMIg7kCRECqgrZsAL/iY4PAQK9qGuEJJGax3NkArMM0drIKVC5obakfYJpOta+DVv2zOf7Xsn2iZEm/JNIr4vW+9rlYTUCgH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8182
+X-Proofpoint-ORIG-GUID: oyr5uNzTWvWryVlPxlbRCMz83lL_NVwl
+X-Authority-Analysis: v=2.4 cv=PvDBbBM3 c=1 sm=1 tr=0 ts=66e13cd8 cx=c_pps a=28bFCgguF5sZfysLuYgbMw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=EaEq8P2WXUwA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=E-Wxvt7OoGr14lEoW9UA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: oyr5uNzTWvWryVlPxlbRCMz83lL_NVwl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-10_12,2024-09-09_02,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 clxscore=1011
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 phishscore=0
+ bulkscore=0 mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2408220000 definitions=main-2409110050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 06:27:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204372
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 06:46:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204373
 
-This is an S/MIME signed message
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-------C65ED3E1A5DE826CA595746785F6AF6F
-To: openembedded-core@lists.openembedded.org
-CC: Alban Bedel <alban.bedel@aerq.com>
-Subject: [PATCH] bind: Fix build with the `httpstats` package config enabled
-Date: Wed, 11 Sep 2024 08:26:47 +0200
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-MIME-Version: 1.0
+We had previously excluded certain test cases due to failures in earlier versions.
+However, with the latest version of Rust, many of these test cases are passing.
+As a result, we have removed them from the exclude list and added them back into the test suite for execution.
 
-When the `httpstats` package config is enabled configure fails with
-the error:
+The rust-1.79 has been successfully tested with the current test inclusions.
 
-> configure: error: Specifying libxml2 installation path is not
-> supported, adjust PKG_CONFIG_PATH instead
-
-Drop the explicit path from `--with-libxml2` to solve this issue.
-
-Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
+ meta/lib/oeqa/selftest/cases/rust.py | 132 ---------------------------
+ 1 file changed, 132 deletions(-)
 
-The relevant change in bind9 (commit 0771dd3be "Make the usage of
-libxml2 opaque to the caller") was introduced in 9.15.2 so scarthgap
-and kirkstone are also affected. Do I need to send dedicated patches
-or is there some other way to get the patch picked up for these
-branches?
----
- meta/recipes-connectivity/bind/bind_9.20.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.1.bb b/meta/recipes-c=
-onnectivity/bind/bind_9.20.1.bb
-index 71d2324b841b..9c68c918e405 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.1.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.1.bb
-@@ -34,7 +34,7 @@ inherit autotools update-rc.d systemd useradd pkgconfig m=
-ultilib_header update-a
-=20
- # PACKAGECONFIGs readline and libedit should NOT be set at same time
- PACKAGECONFIG ?=3D "readline"
--PACKAGECONFIG[httpstats] =3D "--with-libxml2=3D${STAGING_DIR_HOST}${prefix=
-},--without-libxml2,libxml2"
-+PACKAGECONFIG[httpstats] =3D "--with-libxml2,--without-libxml2,libxml2"
- PACKAGECONFIG[readline] =3D "--with-readline=3Dreadline,,readline"
- PACKAGECONFIG[libedit] =3D "--with-readline=3Dlibedit,,libedit"
- PACKAGECONFIG[dns-over-http] =3D "--enable-doh,--disable-doh,nghttp2"
---=20
-2.34.1
-
-------C65ED3E1A5DE826CA595746785F6AF6F
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-MIIOJwYJKoZIhvcNAQcCoIIOGDCCDhQCAQExDzANBglghkgBZQMEAgEFADALBgkq
-hkiG9w0BBwGgggstMIIGEDCCA/igAwIBAgIQTZQsENQ74JQJxYEtOisGTzANBgkq
-hkiG9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJzZXkx
-FDASBgNVBAcTC0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNUIE5l
-dHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBBdXRo
-b3JpdHkwHhcNMTgxMTAyMDAwMDAwWhcNMzAxMjMxMjM1OTU5WjCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2Fs
-Zm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdv
-IFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQTCC
-ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMo87ZQKQf/e+Ua56NY75tqS
-vysQTqoavIK9viYcKSoq0s2cUIE/bZQu85eoZ9X140qOTKl1HyLTJbazGl6nBEib
-ivHbSuejQkq6uIgymiqvTcTlxZql19szfBxxo0Nm9l79L9S+TZNTEDygNfcXlkHK
-RhBhVFHdJDfqB6Mfi/Wlda43zYgo92yZOpCWjj2mz4tudN55/yE1+XvFnz5xsOFb
-me/SoY9WAa39uJORHtbC0x7C7aYivToxuIkEQXaumf05Vcf4RgHs+Yd+mwSTManR
-y6XcCFJE6k/LHt3ndD3sA3If/JBz6OX2ZebtQdHnKav7Azf+bAhudg7PkFOTuRMC
-AwEAAaOCAWQwggFgMB8GA1UdIwQYMBaAFFN5v1qqK0rPVIDh2JvAnfKyA2bLMB0G
-A1UdDgQWBBQJwPL8C9qU21/+K9+omULPyeCtADAOBgNVHQ8BAf8EBAMCAYYwEgYD
-VR0TAQH/BAgwBgEB/wIBADAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQw
-EQYDVR0gBAowCDAGBgRVHSAAMFAGA1UdHwRJMEcwRaBDoEGGP2h0dHA6Ly9jcmwu
-dXNlcnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5
-LmNybDB2BggrBgEFBQcBAQRqMGgwPwYIKwYBBQUHMAKGM2h0dHA6Ly9jcnQudXNl
-cnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FBZGRUcnVzdENBLmNydDAlBggrBgEFBQcw
-AYYZaHR0cDovL29jc3AudXNlcnRydXN0LmNvbTANBgkqhkiG9w0BAQwFAAOCAgEA
-QUR1AKs5whX13o6VbTJxaIwA3RfXehwQOJDI47G9FzGR87bjgrShfsbMIYdhqpFu
-SUKzPM1ZVPgNlT+9istp5UQNRsJiD4KLu+E2f102qxxvM3TEoGg65FWM89YN5yFT
-vSB5PelcLGnCLwRfCX6iLPvGlh9j30lKzcT+mLO1NLGWMeK1w+vnKhav2VuQVHwp
-Tf64ZNnXUF8p+5JJpGtkUG/XfdJ5jR3YCq8H0OPZkNoVkDQ5CSSF8Co2AOlVEf32
-VBXglIrHQ3v9AAS0yPo4Xl1FdXqGFe5TcDQSqXh3TbjugGnG+d9yZX3lB8bwc/Tn
-2FlIl7tPbDAL4jNdUNA7jGee+tAnTtlZ6bFz+CsWmCIb6j6lDFqkXVsp+3KyLTZG
-Xq6F2nnBtN4t5jO3ZIj2gpIKHAYNBAWLG2Q2fG7Bt2tPC8BLC9WIM90gbMhAmtMG
-quITn/2fORdsNmaV3z/sPKuIn8DvdEhmWVfh0fyYeqxGlTw0RfwhBlakdYYrkDmd
-WC+XszE19GUi8K8plBNKcIvyg2omAdebrMIHiAHAOiczxX/aS5ABRVrNUDcjfvp4
-hYbDOO6qHcfzy/uY0fO5ssebmHQREJJA3PpSgdVnLernF6pthJrGkNDPeUI05svq
-w1o5A2HcNzLOpklhNwZ+4uWYLcAi14ACHuVvJsmzNicwggUVMIID/aADAgECAhAV
-Bbr0bzRtpXqrU7KDa4UuMA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEb
-MBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgw
-FgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENs
-aWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIxMTIw
-NzAwMDAwMFoXDTI0MTIwNjIzNTk1OVowJTEjMCEGCSqGSIb3DQEJARYUYWxiYW4u
-YmVkZWxAYWVycS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDD
-bGac2SHb2eIa+m3KUo/AJiZDcBR5eFitNMqkBYGzLH3NwmL+2qbl5vKerZ+M3jaS
-sFeMmr6P9lXTjSR4Qkcdv+ZmTUNTaJ/vLFqEgWx+sCszay9KK5TM5w4tpkCQLX1T
-4Fiuans6EUUPZETMfjKBjLafMenQuGZdn/ul9a0DrkgsEe/qJUNnhsRXzY8zd4mm
-mcTaiqI7elLXQelS7FUaWh/BTSjd6c+hFW8YvYxFLEsTp1di/PcBOlb9VgD4+/D4
-zxHDQkfsJ7xiy/Xig3PbZmmhF/T4d9hab1YrVv1rXJqKbtjZyG7Cfsdwfz9Tsodj
-HEFItk2dLR5ROV6LRWR7AgMBAAGjggHNMIIByTAfBgNVHSMEGDAWgBQJwPL8C9qU
-21/+K9+omULPyeCtADAdBgNVHQ4EFgQU7sc2WNoWAgmlONb7GCP/BCyMuEwwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQG
-CCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUH
-AgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0
-dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0
-aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEF
-BQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0
-aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0
-cDovL29jc3Auc2VjdGlnby5jb20wHwYDVR0RBBgwFoEUYWxiYW4uYmVkZWxAYWVy
-cS5jb20wDQYJKoZIhvcNAQELBQADggEBAF9U2htHftfPRwJwvN9bFBpXNA69+Em1
-a4zxDLR77PMBkmc8pwgbl12rBuwJ9BzUsOgeCLfdCmQiurLsnGhrvGj1JV7L1s8e
-S5vKKemLAnPZJ0czTzQeIGlLY0ZAvBWbgkjmWLpsOjeZmLOOMFLTDa/5QZzDXo/E
-ZmvxqRqsfirSYWVzKWdIoIbpfBIdqMM5sj/p+L9vXDle3143c+orA+1L6tp/7Mw6
-tFIzedrBWu4wv4XgGb5OuouhiBL8+fzVlsY67M04A/6lQ83eJXEn3JM7GCMIPIdj
-N7fLO4fWbhwndi+1xdmlTY679FwT+mpoPXVARs7OOLxuuitpqPdw4jwxggK+MIIC
-ugIBATCBqzCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hl
-c3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVk
-MT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5k
-IFNlY3VyZSBFbWFpbCBDQQIQFQW69G80baV6q1Oyg2uFLjANBglghkgBZQMEAgEF
-AKCB5DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0y
-NDA5MTEwNjI3MTZaMC8GCSqGSIb3DQEJBDEiBCDMZLzleY5P1VZkFf2EjVwZNRmL
-ht9APVi9VO0+6uLoFjB5BgkqhkiG9w0BCQ8xbDBqMAsGCWCGSAFlAwQBKjALBglg
-hkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMA4GCCqGSIb3DQMCAgIA
-gDANBggqhkiG9w0DAgIBQDAHBgUrDgMCBzANBggqhkiG9w0DAgIBKDANBgkqhkiG
-9w0BAQEFAASCAQCDhKY2YOscTT/loGOmmwvtuWP3pwCgu8TcBRvSpN0x6joDpIwQ
-eV8c9y5XE2ImvwM1va0kT8DwqeNE/CnWHH99M08JAsh3Gy51JsfbDtM7D460/n9h
-QrZlACp7K76NJPV910IQdD9DcvRWnOEhGTcaBXI9tGpzyr4X0kpl1jbMCoRVETsb
-z3bh5pKBf1lASoQ/zkUnbpJXa1uF2ctkBiGFtjCYsTMwv35MZpDYp/AxBBybP3Qc
-f1Y1uzL47TbH1dN5Lkw4uw8Mxj/aJ/hCx4iMq3i6ybelQ1/l10QVubU5uF6YO5e0
-2KMrwtcEt/DMrqpOzJOJ/nkCPqINTsDsd+gi
-
-------C65ED3E1A5DE826CA595746785F6AF6F--
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+index 09487e3e23..cbe6366f75 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -66,23 +66,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+         # bless: First runs rustfmt to format the codebase,
+         # then runs tidy checks.
+         exclude_list =  [
+-                            'compiler/rustc',
+-                            'compiler/rustc_errors/src/markdown/tests/term.rs',
+-                            'compiler/rustc_expand',
+-                            'compiler/rustc_interface/src/tests.rs',
+-                            'compiler/rustc_span',
+-                            'library/panic_abort',
+-                            'library/panic_unwind',
+-                            'library/std/src/io/buffered/tests.rs',
+-                            'library/std/src/io/stdio/tests.rs',
+-                            'library/std/src/sync/mpsc/sync_tests.rs',
+-                            'library/std/src/sync/mpsc/tests.rs',
+-                            'library/std/src/sync/mutex/tests.rs',
+-                            'library/std/src/sync/rwlock/tests.rs',
+-                            'library/std/src/thread/tests.rs',
+-                            'library/test/src/stats/tests.rs',
+                             'src/bootstrap',
+-                            'src/bootstrap/builder/tests.rs',
+                             'src/doc/rustc',
+                             'src/doc/rustdoc',
+                             'src/doc/unstable-book',
+@@ -96,140 +80,24 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+                             'src/tools/rustdoc-themes',
+                             'src/tools/rust-installer',
+                             'src/tools/suggest-tests',
+-                            'src/tools/tidy',
+                             'src/tools/tidy/src/',
+                             'tests/assembly/asm/aarch64-outline-atomics.rs',
+-                            'tests/codegen/abi-efiapi.rs',
+                             'tests/codegen/abi-main-signature-32bit-c-int.rs',
+-                            'tests/codegen/abi-repr-ext.rs',
+-                            'tests/codegen/abi-sysv64.rs',
+-                            'tests/codegen/abi-x86-interrupt.rs',
+-                            'tests/codegen/adjustments.rs',
+-                            'tests/codegen/align-byval.rs',
+-                            'tests/codegen/align-fn.rs',
+-                            'tests/codegen/ascii-char.rs',
+-                            'tests/codegen/asm-powerpc-clobbers.rs',
+-                            'tests/codegen/async-fn-debug-awaitee-field.rs',
+-                            'tests/codegen/binary-search-index-no-bound-check.rs',
+-                            'tests/codegen/bool-cmp.rs',
+-                            'tests/codegen/branch-protection.rs',
+-                            'tests/codegen/call-metadata.rs',
+-                            'tests/codegen/catch-unwind.rs',
+-                            'tests/codegen/cf-protection.rs',
+-                            'tests/codegen/coercions.rs',
+-                            'tests/codegen/cold-call-declare-and-call.rs',
+-                            'tests/codegen/common_prim_int_ptr.rs',
+-                            'tests/codegen/const_scalar_pair.rs',
+-                            'tests/codegen/consts.rs',
+-                            'tests/codegen/debug-accessibility/public-enum.rs',
+-                            'tests/codegen/debug-accessibility/tuple-fields.rs',
+-                            'tests/codegen/debug-alignment.rs',
+-                            'tests/codegen/debug-column.rs',
+-                            'tests/codegen/debuginfo-generic-closure-env-names.rs',
+-                            'tests/codegen/debuginfo-inline-callsite-location.rs',
+-                            'tests/codegen/debug-limited.rs',
+-                            'tests/codegen/default-requires-uwtable.rs',
+-                            'tests/codegen/drop.rs',
+-                            'tests/codegen/dst-vtable-align-nonzero.rs',
+-                            'tests/codegen/enable-lto-unit-splitting.rs',
+-                            'tests/codegen/enum-bounds-check-derived-idx.rs',
+-                            'tests/codegen/enum/enum-bounds-check.rs',
+-                            'tests/codegen/enum/enum-debug-tagged.rs',
+-                            'tests/codegen/enum/enum-u128.rs',
+-                            'tests/codegen/export-no-mangle.rs',
+-                            'tests/codegen/fastcall-inreg.rs',
+-                            'tests/codegen/float_math.rs',
+-                            'tests/codegen/fn-impl-trait-self.rs',
+-                            'tests/codegen/force-unwind-tables.rs',
+-                            'tests/codegen/frame-pointer.rs',
+                             'tests/codegen/i128-x86-align.rs',
+-                            'tests/codegen/inherit_overflow.rs',
+-                            'tests/codegen/inline-function-args-debug-info.rs',
+-                            'tests/codegen/intrinsic-no-unnamed-attr.rs',
+-                            'tests/codegen/intrinsics/mask.rs',
+-                            'tests/codegen/intrinsics/transmute-niched.rs',
+-                            'tests/codegen/issues',
+-                            'tests/codegen/issues/issue-103840.rs',
+                             'tests/codegen/issues/issue-122805.rs',
+-                            'tests/codegen/issues/issue-47278.rs',
+-                            'tests/codegen/issues/issue-73258.rs',
+-                            'tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs',
+-                            'tests/codegen/issues/issue-75546.rs',
+-                            'tests/codegen/issues/issue-77812.rs',
+-                            'tests/codegen/issues/issue-98156-const-arg-temp-lifetime.rs',
+-                            'tests/codegen/lifetime_start_end.rs',
+-                            'tests/codegen/llvm-ident.rs',
+-                            'tests/codegen/local-generics-in-exe-internalized.rs',
+-                            'tests/codegen/macos/x86_64-macosx-deployment-target.rs',
+-                            'tests/codegen/mainsubprogram.rs',
+-                            'tests/codegen/match-unoptimized.rs',
+-                            'tests/codegen/meta-filecheck/check-prefix.rs',
+-                            'tests/codegen/meta-filecheck/filecheck-flags.rs',
+-                            'tests/codegen/move-operands.rs',
+-                            'tests/codegen/noalias-rwlockreadguard.rs',
+-                            'tests/codegen/non-terminate/infinite-loop-1.rs',
+-                            'tests/codegen/non-terminate/nonempty-infinite-loop.rs',
+-                            'tests/codegen/noreturn-uninhabited.rs',
+-                            'tests/codegen/repr-transparent-aggregates-3.rs',
+-                            'tests/codegen/repr/transparent-mips64.rs',
+-                            'tests/codegen/riscv-abi/call-llvm-intrinsics.rs',
+-                            'tests/codegen/riscv-abi/riscv64-lp64d-abi.rs',
+-                            'tests/codegen/riscv-abi/riscv64-lp64f-lp64d-abi.rs',
+-                            'tests/codegen/sse42-implies-crc32.rs',
+                             'tests/codegen/thread-local.rs',
+-                            'tests/codegen/uninit-consts.rs',
+                             'tests/mir-opt/',
+-                            'tests/pretty/raw-str-nonexpr.rs',
+                             'tests/run-make',
+                             'tests/run-make-fulldeps',
+-                            'tests/run-pass-valgrind',
+                             'tests/rustdoc',
+                             'tests/rustdoc-json',
+                             'tests/rustdoc-js-std',
+-                            'tests/rustdoc-ui/cfg-test.rs',
+-                            'tests/rustdoc-ui/check-cfg-test.rs',
+-                            'tests/rustdoc-ui/display-output.rs',
+-                            'tests/rustdoc-ui/doc-comment-multi-line-attr.rs',
+-                            'tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs',
+-                            'tests/rustdoc-ui/doc-test-doctest-feature.rs',
+-                            'tests/rustdoc-ui/doctest-multiline-crate-attribute.rs',
+-                            'tests/rustdoc-ui/doctest-output.rs',
+-                            'tests/rustdoc-ui/doc-test-rustdoc-feature.rs',
+-                            'tests/rustdoc-ui/failed-doctest-compile-fail.rs',
+-                            'tests/rustdoc-ui/issue-80992.rs',
+-                            'tests/rustdoc-ui/issue-91134.rs',
+-                            'tests/rustdoc-ui/nocapture-fail.rs',
+-                            'tests/rustdoc-ui/nocapture.rs',
+-                            'tests/rustdoc-ui/no-run-flag.rs',
+-                            'tests/rustdoc-ui/run-directory.rs',
+-                            'tests/rustdoc-ui/test-no_std.rs',
+-                            'tests/rustdoc-ui/test-type.rs',
+-                            'tests/rustdoc/unit-return.rs',
+-                            'tests/ui/abi/extern',
+                             'tests/ui/abi/stack-probes-lto.rs',
+                             'tests/ui/abi/stack-probes.rs',
+-                            'tests/ui/allocator',
+-                            'tests/ui/array-slice-vec',
+-                            'tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs',
+-                            'tests/ui/asm/x86_64/sym.rs',
+-                            'tests/ui/associated-consts',
+-                            'tests/ui/associated-type-bounds/fn-apit.rs',
+-                            'tests/ui/associated-type-bounds/fn-dyn-apit.rs',
+-                            'tests/ui/associated-type-bounds/fn-wrap-apit.rs',
+-                            'tests/ui/associated-types',
+                             'tests/ui/codegen/mismatched-data-layouts.rs',
+                             'tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs',
+-                            'tests/ui/drop/dynamic-drop.rs',
+-                            'tests/ui/empty_global_asm.rs',
+                             'tests/ui-fulldeps/',
+-                            'tests/ui/functions-closures/fn-help-with-err.rs',
+-                            'tests/ui/linkage-attr/issue-10755.rs',
+-                            'tests/ui/macros/restricted-shadowing-legacy.rs',
+-                            'tests/ui/numbers-arithmetic/u128.rs',
+                             'tests/ui/process/nofile-limit.rs',
+-                            'tests/ui/process/process-panic-after-fork.rs',
+-                            'tests/ui/process/process-sigpipe.rs',
+-                            'tests/ui/simd/target-feature-mixup.rs',
+                             'tests/ui/structs-enums/multiple-reprs.rs',
+                             'tidyselftest'
+                         ]
+-- 
+2.43.0
 
 
