@@ -1,87 +1,103 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6964AEE644E
-	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 06:42:30 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.41336.1726123349904687144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB17EE6452
+	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 06:43:00 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.41335.1726123378835270671
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Sep 2024 23:42:30 -0700
+ Wed, 11 Sep 2024 23:43:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=99850483cc=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48C6PjtK009260
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 06:42:29 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41gdt8nnjy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 06:42:28 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 11 Sep 2024 23:42:26 -0700
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/1] python3: Upgrade 3.10.14 -> 3.10.15
-Date: Thu, 12 Sep 2024 06:42:05 +0000
-Message-ID: <20240912064206.2502219-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dZDixeV9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42ca6ba750eso3168605e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 23:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1726123377; x=1726728177; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Pmjs0GS7uWn1oGYpySb7rMw7ZSzmJiYJcTogX1qD1yw=;
+        b=dZDixeV9HjU01lNU/5+MdR/RGN6UH3mhTRovWRgoy5lHXTEFcDVwD5SZKjN5GcJDWI
+         KAX5UWc1gLAWWs0xzN31xtu9ERU8wltnT7IuerlXUQRFI6q50rqqZWgmg4QS2RqyMLul
+         C1L1MTLspX75GAC/i4b/09XZl8wDvvkzoqDXg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726123377; x=1726728177;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Pmjs0GS7uWn1oGYpySb7rMw7ZSzmJiYJcTogX1qD1yw=;
+        b=vh7xkF1NocVsGcSjl2I9NnuAlPoG1Fnac2CkE8nXj2OwMsyV19yprHbX74OF9oitOY
+         YkaLPrUyHhjy41Hj78FRAiMu4Ux0OTcN/V1fPkQuWdU5FOMBMET1pPx9cWTf5xgffqFq
+         Pt1pNNNx1FX6dbRYWULuHKGMnkEV4gRixjJyzi/QYQkZIOrxbFYOBiOzLHsHHZpkbyqY
+         iHI55FMfnapkJd61G2jNldJoQHkYTSF2wiQUL1uPtS8K67Ss2CUgRzzEOFzgxUq9gJHN
+         WF0KhQE1H3TVnOgzXxJelenAh6TIyc4GFAsGQNXXZfC5iM4LoGdZX9qTyQjt3pP42oaM
+         le5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVttd4pHWtbIxsFxthQ8YKQENbNdk3Kfvvj7+dEpCoqWVCqR99uhNKMxN6xOXH4BAH37I5Nk6WTXXuBbcb7rZtvvQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywp5ghRZCg5pB62hzhy78RthGBDuLHWv1M3MMe2XB1qzR8BOkaa
+	kAgvYnBykykk9V/si2/oQNWoj2LhL1gmy5Xlwc7zJMOmJLCWuoMG9KLECCsURRqg1H4CcNnk4rF
+	L
+X-Google-Smtp-Source: AGHT+IFqp2Y97Rw7ButtmsMEVa+d+fxSF+oEVDP46qAof8egZNdapG/iA11WnNH/xasz/rYDsy4adg==
+X-Received: by 2002:a05:600c:358a:b0:428:b4a:7001 with SMTP id 5b1f17b1804b1-42cbde23941mr53147315e9.15.1726123376930;
+        Wed, 11 Sep 2024 23:42:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cef5:72f6:fcf1:91e6? ([2001:8b0:aba:5f3c:cef5:72f6:fcf1:91e6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42caeb323f4sm162467965e9.12.2024.09.11.23.42.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 23:42:56 -0700 (PDT)
+Message-ID: <3d941699d5cafa46c0274cd048b59b2776f4c2d0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 2/3] binutils-cross-canadian: add gprofng
+ package as runtime dependency
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com, 
+	Sundeep.Kokkonda@windriver.com
+Date: Thu, 12 Sep 2024 07:42:55 +0100
+In-Reply-To: <20240912054628.1539323-2-Harish.Sadineni@windriver.com>
+References: <20240912054628.1539323-1-Harish.Sadineni@windriver.com>
+	 <20240912054628.1539323-2-Harish.Sadineni@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: 4b_cJrhqr6Tns5ynQ5MG-urPh3ZAs7ob
-X-Proofpoint-GUID: 4b_cJrhqr6Tns5ynQ5MG-urPh3ZAs7ob
-X-Authority-Analysis: v=2.4 cv=a+hi9lSF c=1 sm=1 tr=0 ts=66e28d54 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=8AHkEIZyAAAA:8 a=lqX-N2EBX6u_gMdcw9EA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-11_02,2024-09-09_02,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- adultscore=0 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 malwarescore=0 spamscore=0 phishscore=0
- priorityscore=1501 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2408220000 definitions=main-2409120046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 06:42:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204423
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 06:43:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204424
 
-From: Divya Chellam <divya.chellam@windriver.com>
+On Wed, 2024-09-11 at 22:46 -0700, Sadineni, Harish via lists.openembedded.=
+org wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> In SDK, while running "x86_64-poky-linux-gp-collect-app ./exe" fails
+> to create 'test.1.er' due to missing gprofng configure file in sysconfdir
+> and aborting with below error while generating the profiling data.
+> =C2=A0- configuration error: can not find libgp-collector.so. run aborted
+>=20
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+> =C2=A0meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 1 +
+> =C2=A01 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b=
+/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> index 62ebb3f5bc..7f2699089e 100644
+> --- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> @@ -30,3 +30,4 @@ do_install () {
+> =C2=A0}
+> =C2=A0
+> =C2=A0BBCLASSEXTEND =3D ""
+> +RDEPENDS:${PN} =3D "nativesdk-gprofng"
 
-Includes security fixes for CVE-2024-7592, CVE-2024-4032, CVE-2024-8088
-CVE-2024-6232, CVE-2024-6923 and other bug fixes.
+Shouldn't gp-collect-app be put into the gprofng package instead?
 
-Release Notes:
-https://www.python.org/downloads/release/python-31015/
+Adding that dependency effectively join the gprof package into the main
+PN and makes the separation pointless.
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
----
- .../python/{python3_3.10.14.bb => python3_3.10.15.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3_3.10.14.bb => python3_3.10.15.bb} (99%)
+Cheers,
 
-diff --git a/meta/recipes-devtools/python/python3_3.10.14.bb b/meta/recipes-devtools/python/python3_3.10.15.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.10.14.bb
-rename to meta/recipes-devtools/python/python3_3.10.15.bb
-index 14ab3f6155..e3b4dad180 100644
---- a/meta/recipes-devtools/python/python3_3.10.14.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.15.bb
-@@ -45,7 +45,7 @@ SRC_URI:append:class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "9c50481faa8c2832329ba0fc8868d0a606a680fc4f60ec48d26ce8e076751fda"
-+SRC_URI[sha256sum] = "aab0950817735172601879872d937c1e4928a57c409ae02369ec3d91dccebe79"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
--- 
-2.40.0
+Richard
 
 
