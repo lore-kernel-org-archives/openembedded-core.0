@@ -1,99 +1,72 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27940EEB585
-	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 10:20:02 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.44867.1726136394733567761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40AF2EEB58D
+	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 10:46:22 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.45193.1726137975704162964
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Sep 2024 03:19:54 -0700
+ Thu, 12 Sep 2024 03:46:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AAd+oN16;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IH6S7dhG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010191e5bf20a8-a25f49e4-a77a-441f-928d-e996face7fc5-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1726136394; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=dUN0ZAg8w6/CAVM5Hwu/U8Q+0EXwU/mo56AWe3FJ/o0=;
-	b=AAd+oN16MK2M1pQfwS+yLolpdOm3tJ0rmao9Zgy/zPChdigf3mKnTe6UTSrtVlr6
-	zKLxnbTMT3r76gcqq5mWPZhRlgPtktxs12TkIaFqYgRhd+htY3SMr8k4sNVYCqvlFUS
-	xpNG1t+VPHvSKEd5vaNsT3V3kn9Bu+iIzcppCU3M=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726136394;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=dUN0ZAg8w6/CAVM5Hwu/U8Q+0EXwU/mo56AWe3FJ/o0=;
-	b=IH6S7dhG8bzJyr0TAEf0/r+455irgzjMxZ1HkrsVEShaD5ss9pcaFjOnC0ejRf1A
-	VnDVnQ8ATiK/q9I5afw0OzNQt8DEDuwoarKmTvCkjoBW/3H6hWESr4snu6qggORNyLs
-	hRathvo4c8eKQpoTmqOodLG1/0fOvffcR5ARrfBI=
-From: patchtest@automation.yoctoproject.org
-To: Harish.Sadineni@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][PATCH] bpftool: Add support for riscv64
-In-Reply-To: <20240912100130.1620229-1-Harish.Sadineni@windriver.com>
-References: <20240912100130.1620229-1-Harish.Sadineni@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010191e5bf20a8-a25f49e4-a77a-441f-928d-e996face7fc5-000000@us-west-2.amazonses.com>
-Date: Thu, 12 Sep 2024 10:19:53 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.12-54.240.27.29
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 94CD3DA7
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 03:46:44 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DB0833F73B
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 03:46:14 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] systemd: add missing dependency on libkmod to udev
+Date: Thu, 12 Sep 2024 11:46:09 +0100
+Message-Id: <20240912104609.3197942-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 10:20:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204441
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 10:46:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204442
 
---NextPart
-Content-Type: text/plain
+As of systemd 256, libsystemd-shared.so doesn't directly link to a number
+of libraries but instead dlopen()'s them as needed to reduce the size of
+the attack surface.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Instead the .so has a .note.dlopen segment that lists the libraries that
+may be opened, with the intention that these are transformed into package
+recommendation fields.
 
+We don't yet have support for these (see #15595) so explicit dependencies
+have been added to the systemd package itself. However, in an initramfs
+with udev but without systemd and no recommendations you end up without
+libkmod, so module loading is impossible.
+
+Add an explicit hard dependency on libkmod to udev, because modules are
+critical functionality.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/meta-oe-bpftool-Add-support-for-riscv64.patch
+ meta/recipes-core/systemd/systemd_256.5.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-core/systemd/systemd_256.5.bb b/meta/recipes-co=
+re/systemd/systemd_256.5.bb
+index db053b45428..dc799f682ae 100644
+--- a/meta/recipes-core/systemd/systemd_256.5.bb
++++ b/meta/recipes-core/systemd/systemd_256.5.bb
+@@ -743,6 +743,8 @@ INSANE_SKIP:libsystemd-shared +=3D "libdir"
+ FILES:libsystemd-shared =3D "${rootlibdir}/systemd/libsystemd-shared*.so=
+"
+=20
+ RPROVIDES:udev =3D "hotplug"
++# This can be removed when we parse .note.dlopen in the ELF
++RDEPENDS:udev +=3D "libkmod"
+=20
+ RDEPENDS:udev-bash-completion +=3D "bash-completion"
+ RDEPENDS:udev-hwdb +=3D "udev"
+--=20
+2.34.1
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
