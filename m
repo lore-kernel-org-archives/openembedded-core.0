@@ -1,134 +1,139 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A91DEE57F9
-	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 00:31:08 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web10.36437.1726101056172535684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF89AEE642E
+	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 04:28:39 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.39792.1726115316167520036
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Sep 2024 17:30:56 -0700
+ Wed, 11 Sep 2024 21:28:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=EkyoBll6;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1726101057; x=1757637057;
-  h=from:to:cc:subject:date:message-id;
-  bh=z4SarKNsWFZD6CP/EDVNFEtenA5/QBkXgUsqoA86QpQ=;
-  b=EkyoBll6aFBMi0A+6hBqdKTPqXHZ6Or991ow226z1EwwMTrDQ22Ie738
-   V8KR8Vp5PcEnAqMAJilXXOrtZ+o4LXArNK3f6VeyP2CSjpSpU2nURq/pD
-   mXD04s+uC/5hCOH/3yWAIUTOa0D4pQQBFPp9Svs7apY5TIj69Rr9ecVNY
-   9VuF92YN1DGaFMrD5O6OoFEeug7omR8vC4tQVM/GMrW10OcP5XaakWTVe
-   6OODiEJrOCvMxDMvYvQSx8id7XiOMBNgr67GQhR3jPXRNajQtEDpRCDLw
-   QEzK7G/yc3/jXo5nxla6DttNWdhzlh6nHuaqHhJqMBjwdvjmk6lyZkmpg
-   g==;
-X-CSE-ConnectionGUID: m5kNrn8bTCOoB0EEnTxe7A==
-X-CSE-MsgGUID: HRKiENVOTj6Pmyf8XYhVAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="173469059"
-X-IronPort-AV: E=Sophos;i="6.10,221,1719846000"; 
-   d="scan'208";a="173469059"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 09:30:45 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 20F8ED923D
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 09:30:43 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 57A6BBDC83
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 09:30:42 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0A7F7224940
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 09:30:41 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 796201A000A;
-	Thu, 12 Sep 2024 08:30:40 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v2] json-glib: upgrade 1.8.0 -> 1.10.0
-Date: Thu, 12 Sep 2024 08:30:31 +0800
-Message-Id: <1726101031-19770-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28658.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28658.003
-X-TMASE-Result: 10--6.092100-10.000000
-X-TMASE-MatchedRID: 6IstDyeExSCjz0nOeth/yaoXHZz/dXlx2+EDPw+8xrfstPr197hBU64r
-	mQIDoB6Sa6ybbu2l79Frhd2nMz0QNGd4JgHCU2SWoGwJKRc7e7tar+yddvGkIMj0QMA/92m2RoX
-	7/kb7DqBV7WUAexHQHMj6EQVLNK1JiHIw0ZqUA7gD2WXLXdz+AdXLiEcLf+DIsrDwfHQQaK1yp+
-	gwY/4LBCL637QCIVpicJeU+IJBMRtsAY4JpaTGO/ZNLVgVojn/8boZEVitthgJeMOJX8c9nJFag
-	wZ//x4SZe+pKSapsq6AMuqetGVetq6be/Gn3AzX3QfwsVk0Ubv+efAnnZBiL5K13zeQcKlRr59a
-	/j6VtSEWp5J0GKen8mF4xLSGUaob8wv+9V1NGC4A/V1U8t4+ChcIs6m4ttHPPLBz7jXHdvZVP4V
-	og/5OhSMd08ElTAQggr6lqxbIXlHC3tMwY3ma2xUDj+dgUQVyTE7Co9fKv3w=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GkOAwqZQ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-374c1e5fe79so403592f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Sep 2024 21:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726115314; x=1726720114; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=U5RwYTv7gXAuYIicE6K46N88wtmEnDlTAlTdBjmJVKQ=;
+        b=GkOAwqZQdHTeU5jsCeyCQWlvjSGddShbiCf/AveKbQHdkd2WmekuKO3dqwqRGUQSH9
+         gTaZsfTO8Q74ABDh3MluWJI/8AlHl01JiDsUybx5P2rEz8la7RK27TgFpL4M3lAxBFS3
+         2NEn1k5MvQd+xKk7IDbQHO8WqFDs+vYu1PaRqT+K+h0NQTx7DYSOYIfT3zOL7jGarjrG
+         pbQMogk7yg39xc4Bgr5oHQXroGTb007BGGdH5goAJpizsIWRGRUc/HVIXHU30NWyoBmQ
+         2kVbYCrzyfB7znBe4VxmDd7sp0sr6cOlNugn+rN1ATyoxJTvYvQMAxJvIbyVboLL8ovi
+         G9SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726115314; x=1726720114;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U5RwYTv7gXAuYIicE6K46N88wtmEnDlTAlTdBjmJVKQ=;
+        b=pxHPkd3netzFp2ePK/EcUt44FR1AqRWqLG/9pm3MuAMUjnKbLLvYUabOdrYQz6Cnaf
+         zUguwBqlHlIJn2TErRlAhrs9ul2fOiS/91VLNgtVv8og7/OPORnU91nuH0ndImzO2AH/
+         CRseO6hDcERL7PVTF7hA+PVfrF65tJgifQtO7vyNQ5vZIIAcpnqh7aQYWk+iv/Gkjo1I
+         hc/W+RCBB1x14riIEp3HgEYMBmJWFp3gN1FoEDPplWYpwCl37SmScfY/h2Q/5MDBkx+M
+         2bQCe50TUJ8kP4Kb6mM+y9cNQDoDK7vNAxHGjA9qOKwMYgj4odPaYuC4yQXJFupuQySN
+         TCFg==
+X-Gm-Message-State: AOJu0Yw9mA93MYY4lq88zG+2nIWOobGn4IyOr63IBiGXawMHkdgfbX0e
+	VBYZQeLpU4rjvbSbyh+nsTLsRGchmwO0OjYUa1x8u9QJOuDF6NCCcteW7Cs13bDWNaLhvC8/2VE
+	txOpHy84zP5AgCu8v7P0Nl8KDefU=
+X-Google-Smtp-Source: AGHT+IEKczViY01JTBas6Hm4sssj+FSCTLJq9Qp6WHxZdExAt+Cal4UD53duig9m7bAvtq5Gk8Ht6QZ+Ri/NfRNSArg=
+X-Received: by 2002:adf:f650:0:b0:368:445e:91cc with SMTP id
+ ffacd0b85a97d-378c2d06345mr793165f8f.21.1726115313594; Wed, 11 Sep 2024
+ 21:28:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <17F33254029D99AE.31736@lists.openembedded.org>
+In-Reply-To: <17F33254029D99AE.31736@lists.openembedded.org>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Thu, 12 Sep 2024 07:28:22 +0300
+Message-ID: <CALT56yPY5mC4NofpCdYE7t-kfDOyzhyX3DiU_WYQ4AT9ugExwQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-firmware: split ath10k package
+To: dbaryshkov@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 00:31:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204417
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 04:28:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204418
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+On Sun, 8 Sept 2024 at 09:53, Dmitry Baryshkov via
+lists.openembedded.org <dbaryshkov=gmail.com@lists.openembedded.org>
+wrote:
+>
+> A lot of Qualcomm-based devices incorporate WCN3990 WiFi/BT chips. The
+> ath10k firmware package provides two small files for such boards, the
+> rest of ath10k firmware isn't applicable. Split the WCN3990 firmware
+> package to simplify using of the WiFI in the resource-constrained
+> environments (e.g. from the initramfs).
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../linux-firmware/linux-firmware_20240811.bb          | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 
-License-Update:
- Add copyright and licensing metadata to all files
- Changed to LGPL-2.1-or-later
+Gracious ping for this patch.
 
-Changelog:
-==========
-- Improve conformance of the JSON parser
-- Add conformance test suite from https://github.com/nst/JSONTestSuite
-- Add JsonParser:strict to enable strict parsing
-- Add '--strict' to json-glib-validate to enable strict parsing
-- Deprecate the signals on JsonParser
-- Port tools man pages from DocBook to reStructureText
-- Add "documentation" configuration option, and deprecate "gtk_doc"
-- Add JsonGenerator.take_root()
-- Documentation improvements for JsonReader
-- Raise parser error for malformed Unicode
-- Build fixes and performance improvements
-- Allow disabling installed tests
-- Support parsing multiple root statements in non-strict mode
-- Allow loading files >4GB with json-glib-validate
+>
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
+> index b620a6e24928..033e832cef43 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240811.bb
+> @@ -331,7 +331,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+>               ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
+>               ${PN}-carl9170 \
+>               ${PN}-qcom-qcm2290-wifi ${PN}-qcom-qrb4210-wifi ${PN}-qcom-sdm845-modem \
+> -             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
+> +             ${PN}-ar3k-license ${PN}-ar3k \
+> +             ${PN}-ath10k-license ${PN}-ath10k-wcn3990 ${PN}-ath10k \
+> +             ${PN}-ath11k ${PN}-ath12k ${PN}-qca \
+>               \
+>               ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
+>               \
+> @@ -487,6 +489,7 @@ LICENSE:${PN}-carl9170 = "GPL-2.0-or-later"
+>  LICENSE:${PN}-ar3k = "Firmware-qualcommAthos_ar3k & Firmware-atheros_firmware"
+>  LICENSE:${PN}-ar3k-license = "Firmware-qualcommAthos_ar3k"
+>  LICENSE:${PN}-ath10k = "Firmware-qualcommAthos_ath10k"
+> +LICENSE:${PN}-ath10k-wcn3990 = "Firmware-qualcommAthos_ath10k"
+>  LICENSE:${PN}-ath10k-license = "Firmware-qualcommAthos_ath10k"
+>  LICENSE:${PN}-qca = "Firmware-qualcommAthos_ath10k"
+>
+> @@ -499,6 +502,9 @@ FILES:${PN}-ath10k-license = "${nonarch_base_libdir}/firmware/LICENSE.QualcommAt
+>  FILES:${PN}-ath10k = " \
+>    ${nonarch_base_libdir}/firmware/ath10k \
+>  "
+> +FILES:${PN}-ath10k-wcn3990 = " \
+> +  ${nonarch_base_libdir}/firmware/ath10k/WCN3990 \
+> +"
+>
+>  FILES:${PN}-ath11k = " \
+>    ${nonarch_base_libdir}/firmware/ath11k \
+> @@ -514,6 +520,8 @@ FILES:${PN}-qca = " \
+>
+>  RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
+>  RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
+> +RDEPENDS:${PN}-ath10k += "${PN}-ath10k-wcn3990"
+> +RDEPENDS:${PN}-ath10k-wcn3990 += "${PN}-ath10k-license"
+>  RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
+>  RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
+>  RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
+> --
+> 2.39.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204295): https://lists.openembedded.org/g/openembedded-core/message/204295
+> Mute This Topic: https://lists.openembedded.org/mt/108333699/3618183
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [dbaryshkov@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../json-glib/{json-glib_1.8.0.bb => json-glib_1.10.0.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/json-glib/{json-glib_1.8.0.bb => json-glib_1.10.0.bb} (82%)
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.8.0.bb b/meta/recipes-gnome/json-glib/json-glib_1.10.0.bb
-similarity index 82%
-rename from meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
-rename to meta/recipes-gnome/json-glib/json-glib_1.10.0.bb
-index 2094ebe3e7..df3cdba3b1 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.10.0.bb
-@@ -6,8 +6,8 @@ instances to and from JSON data types."
- HOMEPAGE = "https://wiki.gnome.org/Projects/JsonGlib"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/json-glib/issues"
- 
--LICENSE = "LGPL-2.1-only"
--LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-+LICENSE = "LGPL-2.1-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=41890f71f740302b785c27661123bff5"
- 
- DEPENDS = "glib-2.0 glib-2.0-native"
- 
-@@ -18,10 +18,10 @@ GIDOCGEN_MESON_ENABLE_FLAG = 'enabled'
- GIDOCGEN_MESON_DISABLE_FLAG = 'disabled'
- 
- SRC_URI += " file://run-ptest"
--SRC_URI[archive.sha256sum] = "97ef5eb92ca811039ad50a65f06633f1aae64792789307be7170795d8b319454"
-+SRC_URI[archive.sha256sum] = "1bca8d66d96106ecc147df3133b95a5bb784f1fa6f15d06dd7c1a8fb4a10af7b"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
--PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native"
-+PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native python3-docutils-native"
- PACKAGECONFIG[tests] = "-Dtests=true,-Dtests=false"
- 
- BBCLASSEXTEND = "native nativesdk"
 -- 
-2.34.1
-
+With best wishes
+Dmitry
 
