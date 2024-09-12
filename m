@@ -1,135 +1,93 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70174EED60E
-	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 14:40:03 +0000 (UTC)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web10.49508.1726152000009527729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F4ADEED615
+	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 15:22:13 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.50647.1726154528876247302
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Sep 2024 07:40:00 -0700
+ Thu, 12 Sep 2024 08:22:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20230601.gappssmtp.com header.s=20230601 header.b=ckj+jfOw;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.178, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e1d06c728b8so977884276.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 07:39:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KhtCFxF5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42cb1758e41so9145805e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 08:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20230601.gappssmtp.com; s=20230601; t=1726151999; x=1726756799; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kMQvY8e4f7smm4paUCzyIomTT4wfBB4xXTOBkQM6F9w=;
-        b=ckj+jfOwQr+LrjB3Cz8yzzwGUZQp4m5UPtUTlqKAqJEjh8X51fNCmbQpPGvcVUxlnE
-         SQXBEwCkj1bQhDotPvVbuRXoki7bo3dCmcPx6eFJ33sNaQU2eD4UWMogijVcBJ4AZLBZ
-         sCMbjZsVZCn/uUk4UqK2Ety5MIv0/MW0JpJkNZYgBVmLF5BQhtKmJvgCUXKWEGsjQWxe
-         tqNfo00v0jSYJ4GHcmnuKwNLciJJ47e4PfK/8OPsrB4pJTYsCthkwA6OLdhQzPZmqzkg
-         3gsI/nBwQJ4+jBY3PZrcyf5fu06bzEZ6ErDMAvfzuGRAaTrGBOGIBAaq2C0BBh/XmPQn
-         IJkw==
+        d=linuxfoundation.org; s=google; t=1726154527; x=1726759327; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qx077O6TReFXf4eRuOUPYMhhebEoot50Hx+26pu3kv0=;
+        b=KhtCFxF56NX6wrOkxJXiU1pr8hvC0auJQ0N8iI6vtxg8eCKEq0fOoaOmx9RUSvtSr9
+         Mb17JfJFbGCL4MGwYqAOEzG8hK071g6+we8quehE7VkqXHLUVkc0y1LCFEE1LllkhBuR
+         MzAajg6/H1igOOqz0gVvpLKwKIfEWFq96n4Pk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726151999; x=1726756799;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kMQvY8e4f7smm4paUCzyIomTT4wfBB4xXTOBkQM6F9w=;
-        b=qQIERLiLJcNMu4p+NZWURTfWeJdqYPmUdvPdIjh6O3LkAaU/MlQ99zZLup4R1/YGh+
-         D/Z+TqL9rJqhA/EEzQ3zqbmtsEnKt7k2EVOGD8wv4Y4ELhOR5kbrzTqSWuzY+JhDCbma
-         3dI98At56Q0BU2beCle6iXjHJtNZXpsfz+YJLCoxhnMJow4DogEY3Oe4ZFNI31DTH+4a
-         0S3SPMUEsF6F0cHUo67BocpD7u528TN4mJ8KrFkiGdthqJ3hd2eEM5gXoUc/NHrnXU6x
-         2lFa5C9boLsx2DIUWeL/kXpC4NWf5BDrTImHngEJ7g5ShFaF/gJyiGS76o4UlMTMe/BL
-         xxUQ==
-X-Gm-Message-State: AOJu0YxLGBBABK9DOsgpccgalm5/5RDvBxjGzbvz3gxE0RcNvrEOvq/t
-	874nXuqVeOdsimCewlB1P3zX7xUePGH79Do9gM/S5MWEupwO85x8X6rzITaPKWdP2wenDfwZWJU
-	IYCg=
-X-Google-Smtp-Source: AGHT+IER49/jl2vHQzJmVlTyaQJ6nK90J5c0UgA5zvijSFa12Zj9jmIAMsCB7gYFSvQ3PtUd9swAvA==
-X-Received: by 2002:a05:6902:2d03:b0:e1d:79b2:ba2b with SMTP id 3f1490d57ef6-e1d9dbc1f41mr2852903276.21.1726151998528;
-        Thu, 12 Sep 2024 07:39:58 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1d7bb94cd9sm1065666276.52.2024.09.12.07.39.58
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2024 07:39:58 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6da395fb97aso8844257b3.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 07:39:58 -0700 (PDT)
-X-Received: by 2002:a05:6902:188d:b0:e1d:9bcc:d49 with SMTP id
- 3f1490d57ef6-e1d9dc69ff0mr3056480276.51.1726151997527; Thu, 12 Sep 2024
- 07:39:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726154527; x=1726759327;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Qx077O6TReFXf4eRuOUPYMhhebEoot50Hx+26pu3kv0=;
+        b=RATokwhd02FLvA5IvwfWbNS7yCqcaFkaTOvrwaVC2HThdRKYmfDD1VFCYNeq161gMH
+         R+M+VdBsEkyu7iBNrNlYjE/xFtZ5mYE4RLvS3AuezR+UMR7ALgwCrdIDM2f1w7JLkWF6
+         yn3rZZwGV4Y5fGPaCEfVhPZEo3pUIXWKziQwUuXjFbDr9b87kPef2oeflI3QjD0xsl/h
+         8hzfO7boGEoVEbcZcRUsAx3GNlbcq8lsKQ2Q2Hivi04fpbPKvq8SQ5s4I4TCcUSmtx/J
+         8hIXn5S0Ntwd8g798xU6Y/a65my7+qGyFNFCdQb2JWD//VhQVpoVr9vunz/OX6p6otyx
+         aIzw==
+X-Forwarded-Encrypted: i=1; AJvYcCXFMssaCGNSH3mnFGfOJtvE1Ps2c5lM8OZYFXUAaCyKGfXqjxaZNLh5NbZ+PZQgyucu/JSS+3iPf590Z3bflYP5Dw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy6WIhdA2CEZ2ZhFDwJVvB9f2oO0roWeVqCxXkNVTq6AYqaXeLT
+	908jnkOgmDVBRYO3ATxan+L0ehezFNBf5h6SV/GG/dj5PKXWAyxv9cq7HLL+QoU=
+X-Google-Smtp-Source: AGHT+IG6eH+DafF2qksWMfW0mGt7E1rc7eNKqdmIWmvdLOQZkFQuSdKdscXhwOvHRH8fuTPrkKCalQ==
+X-Received: by 2002:adf:ed42:0:b0:374:c35a:7335 with SMTP id ffacd0b85a97d-378c2cf3d47mr1775766f8f.18.1726154526823;
+        Thu, 12 Sep 2024 08:22:06 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:de38:f6d9:2bf6:3fa2? ([2001:8b0:aba:5f3c:de38:f6d9:2bf6:3fa2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37895665ba0sm14707526f8f.48.2024.09.12.08.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2024 08:22:06 -0700 (PDT)
+Message-ID: <be3c1eed539e0568b5272bb9f0e88b49f7cb886a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3: Upgrade 3.12.5 -> 3.12.6
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Divya.Chellam@windriver.com, openembedded-core@lists.openembedded.org
+Date: Thu, 12 Sep 2024 16:22:05 +0100
+In-Reply-To: <20240912064407.2503089-1-divya.chellam@windriver.com>
+References: <20240912064407.2503089-1-divya.chellam@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-References: <20240830004331.2856512-1-otavio@ossystems.com.br>
-In-Reply-To: <20240830004331.2856512-1-otavio@ossystems.com.br>
-Date: Thu, 12 Sep 2024 11:39:44 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKogH-naXchvHnZHRZuLPyAo=R8=yHjhb8k=Fp0OMJUM2w@mail.gmail.com>
-Message-ID: <CAP9ODKogH-naXchvHnZHRZuLPyAo=R8=yHjhb8k=Fp0OMJUM2w@mail.gmail.com>
-Subject: Re: [PATCH] u-boot: Ensure we use BFD as linker even if using GCC for it
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: openembedded-core@lists.openembedded.org, 
-	Steve Sakoman <steve@sakoman.com>
-Content-Type: multipart/alternative; boundary="000000000000a42a280621ed1495"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 14:40:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204445
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 15:22:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204446
 
---000000000000a42a280621ed1495
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2024-09-12 at 06:44 +0000, dchellam via lists.openembedded.org wrot=
+e:
+> From: Divya Chellam <divya.chellam@windriver.com>
+>=20
+> Includes security fixes for CVE-2024-7592, CVE-2024-8088, CVE-2024-6232
+> and other bug fixes.
+>=20
+> Removed below patches, as the fix is included in 3.12.6 upgrade:
+> 1. CVE-2024-7592.patch
+> 2. 0001-test_readline-skip-limited-history-test.patch
+>=20
+> Release Notes:
+> https://www.python.org/downloads/release/python-3126/
+>=20
+> Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+> ---
 
-Steve,
 
-How are you doing?
+Unfortunately "0001-test_readline-skip-limited-history-test.patch" is still=
+ needed as it failed in testing:
 
-Em qui., 29 de ago. de 2024 =C3=A0s 21:43, Otavio Salvador <
-otavio@ossystems.com.br> escreveu:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6985/step=
+s/12/logs/stdio
 
-> If we are using 'ld-is-gold' as DISTRO_FEATURE, the U-Boot Makefile has
-> mechanisms to ensure that we use BFD as linker. However, this does not
-> work for the GCC when it is used as linking tool.
->
-> To support that, we added explicit BFD use whenever we have the
-> DISTRO_FEATURE feature enabled.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->
+Could you rebase that patch and resend with it included please?
 
-Please queue this patch as backward if possible. We are currently using a
-local fix for this, but we would like to drop this when the fix lands in
-the branch.
+Thanks,
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854
-
---000000000000a42a280621ed1495
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Steve,</div><div dir=3D"ltr"><br></div><d=
-iv dir=3D"ltr">How are you doing?<br><div><br></div></div><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">Em qui., 29 de ago. de 2024=
- =C3=A0s 21:43, Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.=
-br">otavio@ossystems.com.br</a>&gt; escreveu:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">If we are using &#39;ld-is-gold&#39; as DISTR=
-O_FEATURE, the U-Boot Makefile has<br>
-mechanisms to ensure that we use BFD as linker. However, this does not<br>
-work for the GCC when it is used as linking tool.<br>
-<br>
-To support that, we added explicit BFD use whenever we have the<br>
-DISTRO_FEATURE feature enabled.<br>
-<br>
-Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.b=
-r" target=3D"_blank">otavio@ossystems.com.br</a>&gt;<br></blockquote><div><=
-br></div><div>Please queue this patch as backward if possible. We are curre=
-ntly using a local fix for this, but we would like to drop this when the fi=
-x lands in the branch.</div></div><div><br></div><span class=3D"gmail_signa=
-ture_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div =
-dir=3D"ltr">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a hre=
-f=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.co=
-m.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br=
-" target=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 =
-9981-7854</div></div></div>
-
---000000000000a42a280621ed1495--
+Richard
 
