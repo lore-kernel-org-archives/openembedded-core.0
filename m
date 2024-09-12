@@ -1,87 +1,99 @@
-Return-Path: <daniil.batalov.123@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D11B5EEB584
-	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 10:03:21 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.44574.1726135399854259341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27940EEB585
+	for <webhook@archiver.kernel.org>; Thu, 12 Sep 2024 10:20:02 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.44867.1726136394733567761
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Sep 2024 03:03:20 -0700
+ Thu, 12 Sep 2024 03:19:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dPStL0I4;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: daniil.batalov.123@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f758f84dfbso7241301fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 03:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726135398; x=1726740198; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SuIEVy3HKmTR7EG5AzTQEzxlsgtyKjBuFTCuB4kHrZY=;
-        b=dPStL0I4YDOOILg75owfRiyV8z8qOraPOt7vOBpClgFz187aZ32ZhrLkR7xDlMSJsg
-         lSHhfb4vWe7YnUTDqm+z21eri0zfPEYerrSztqhJzQmfgWbsGfhGeOIndCNxRh6DQJJN
-         Kv6XPM27kCo2sbp/yWMDQOStts9PUtVnaBdL79OPf4qVLb5UtIIpxtyYx7R1W0NzeWB4
-         QhkIvJ1TKnlVVsStpAiNkGJtfYsPvn5NvZdlqFmjnfqPRd3aTMa5EkjghC1IceCEp+Ia
-         si2lVkvXgC6LqH2HXT0V2HEcs18yHhLjY0bg2m91NpWKASI8/ecXr1GwXPRMppH9U9CE
-         NpFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726135398; x=1726740198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SuIEVy3HKmTR7EG5AzTQEzxlsgtyKjBuFTCuB4kHrZY=;
-        b=VoDmB+WPic9PL/qw3bIfdBfBE/w5gBPMi4I73w2PbfUwj79qZqalTsXZWmmq4aMni4
-         lTCpduEfvQnJkR8LY3u3hHzET82Gc4mKVn7nFoIolnPXHjned3pID0u9YhJrHI6xXeR2
-         OdfKGVNG5d21cxhYkd7PpNxSjV6VNyXrj8Lrc9UrrcNC9o3OON7SLSTd+FiPzOmXU9Ip
-         uhNV1EPkvEYjdF3T+H/kQsCvptKUxba756HImOn4sMV9wIpXJHj5ba3oZMun03tL115L
-         X2xyG3Ystfjl/cIHCrX2Bd0190YBopUPtIbfEuuLO3Ajn1tcrU6ImrED/lSwSPP4fVek
-         kQfA==
-X-Gm-Message-State: AOJu0YxaXO000IAg5S+KKBHNy4R3cn8k6E8Pmv/TXbLBhgOtK7AkXd1A
-	yd3UKuPGSOSxOGTHqbPKjcboVRWN9torVvzz3FSk/KVK/Mn8oNAM+fxz6+ZRmptkgw==
-X-Google-Smtp-Source: AGHT+IGxmesrj9vkM/gby8gBh0QsfdhKp4CjSM7tLhYZCywWq8m+Cg4ZQsB2Z4D+EvTlm6VXvLKnhg==
-X-Received: by 2002:a05:6512:3b0a:b0:533:44e8:5565 with SMTP id 2adb3069b0e04-53678feb143mr1298194e87.46.1726135397194;
-        Thu, 12 Sep 2024 03:03:17 -0700 (PDT)
-Received: from daniil-HP-295-G8-Microtower-PC.deltard.local ([84.22.156.76])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f870b93sm1881829e87.101.2024.09.12.03.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 03:03:15 -0700 (PDT)
-From: Daniil Batalov <daniil.batalov.123@gmail.com>
-X-Google-Original-From: Daniil Batalov <dbatalov@deltard.ru>
-To: openembedded-core@lists.openembedded.org
-Cc: Daniil Batalov <dbatalov@deltard.ru>
-Subject: [PATCH v2] spdx30_tasks.py: fix typo in call of is_file method
-Date: Thu, 12 Sep 2024 17:03:09 +0700
-Message-Id: <20240912100309.2158525-1-dbatalov@deltard.ru>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AAd+oN16;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IH6S7dhG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010191e5bf20a8-a25f49e4-a77a-441f-928d-e996face7fc5-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1726136394; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=dUN0ZAg8w6/CAVM5Hwu/U8Q+0EXwU/mo56AWe3FJ/o0=;
+	b=AAd+oN16MK2M1pQfwS+yLolpdOm3tJ0rmao9Zgy/zPChdigf3mKnTe6UTSrtVlr6
+	zKLxnbTMT3r76gcqq5mWPZhRlgPtktxs12TkIaFqYgRhd+htY3SMr8k4sNVYCqvlFUS
+	xpNG1t+VPHvSKEd5vaNsT3V3kn9Bu+iIzcppCU3M=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726136394;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=dUN0ZAg8w6/CAVM5Hwu/U8Q+0EXwU/mo56AWe3FJ/o0=;
+	b=IH6S7dhG8bzJyr0TAEf0/r+455irgzjMxZ1HkrsVEShaD5ss9pcaFjOnC0ejRf1A
+	VnDVnQ8ATiK/q9I5afw0OzNQt8DEDuwoarKmTvCkjoBW/3H6hWESr4snu6qggORNyLs
+	hRathvo4c8eKQpoTmqOodLG1/0fOvffcR5ARrfBI=
+From: patchtest@automation.yoctoproject.org
+To: Harish.Sadineni@windriver.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [meta-oe][PATCH] bpftool: Add support for riscv64
+In-Reply-To: <20240912100130.1620229-1-Harish.Sadineni@windriver.com>
+References: <20240912100130.1620229-1-Harish.Sadineni@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010191e5bf20a8-a25f49e4-a77a-441f-928d-e996face7fc5-000000@us-west-2.amazonses.com>
+Date: Thu, 12 Sep 2024 10:19:53 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.09.12-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 10:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204440
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 10:20:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204441
 
-Method is_file() was wrongly called as isfile()
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Daniil Batalov <dbatalov@deltard.ru>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/lib/oe/spdx30_tasks.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/meta-oe-bpftool-Add-support-for-riscv64.patch
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 4da52da654..6a2858c665 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -239,7 +239,7 @@ def get_package_sources_from_debug(
-                         continue
-                 else:
-                     # We can only hash files below, skip directories, links, etc.
--                    if not debugsrc_path.isfile():
-+                    if not debugsrc_path.is_file():
-                         source_hash_cache[debugsrc_path] = None
-                         continue
- 
--- 
-2.40.1
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
