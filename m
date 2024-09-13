@@ -1,147 +1,141 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <viacheslav.volkov.1@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F01D6EEEC17
-	for <webhook@archiver.kernel.org>; Fri, 13 Sep 2024 05:14:27 +0000 (UTC)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web10.66889.1726204459341156979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33ECCEEEC21
+	for <webhook@archiver.kernel.org>; Fri, 13 Sep 2024 06:02:58 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.67320.1726207369550259945
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Sep 2024 22:14:19 -0700
+ Thu, 12 Sep 2024 23:02:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hHqKRm+x;
- spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-710d77380cdso870584a34.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 22:14:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hccTNn8x;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: viacheslav.volkov.1@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a83562f9be9so186412466b.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Sep 2024 23:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726204458; x=1726809258; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1726207368; x=1726812168; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rgvVgAeSJzX1ch0sKp0RXKpG0ot3hFSwJXd/VikdHTk=;
-        b=hHqKRm+xpmlTOuyxZc4nfOWNPosjxX5O57FBuYrFEI2Fk5eC2LWMaXG9rub2JESmlL
-         ucSvy6zWYv7+xVZDb2DLg5hUzZGy8LyTy+ersvuxocWsDTFM0IDtSXcJ4HwWjoSCAouC
-         AFNSvnPJL7jUNsRfSCA61nGEq4IdU1UXGtvIdPAiwy7EcK34nnIjXpleM84DdLWaE5GO
-         q9IfwFJJOCkRVG8xdG6EfToyYrSkdQphpLycsBXoE8SJ2GkcjujpibfIaiBk3i0TrPux
-         ZlTnuQl8rBjtf9Qak2WBCCeuF98IeyRpJ4mRkxJWygHWJJMR8PuwI6YlFBQYsVkts0tN
-         Yc9g==
+        bh=WJTDHGHJSBsMWeSHZny4wLj9MFsJJIheZXj2b1hp5Ic=;
+        b=hccTNn8xgI0VIKLAIPmUmefORjdYGxPj+9o77XB3WCB8LduD+PT605wqY6VfeTtPgS
+         cNgrov9dx3T0h09oFIKGJkS2ChC4J+HPbKeP4WBodJSKi40Lc07/0z1NWx2yk6OADSZ0
+         0XzDVg7OMwxsZPX/lA/9c0qHxhIFWws5t4JcqjNo3ZKZyBaB9JJjMydqHKnjgvciEVaL
+         EBJVy04ZJ5zkAraf/8kzpqmqy3zgM5ApY6HQLlOS9Hrp5IOsA8R8B57368f+j+Bjw6ba
+         LLKrTbIXVNXyDoEjhU9kjDi30+fru/aBMgdVk2EKDvqieTsPkEP7DgarICdbN+7UPBIB
+         OMjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726204458; x=1726809258;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1726207368; x=1726812168;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rgvVgAeSJzX1ch0sKp0RXKpG0ot3hFSwJXd/VikdHTk=;
-        b=uqTABH1Lx2Se9FvxZwvMYk+ed47wPZNoyRaCK6VZfzE5Ctn/6XJUu47QuhSEREJI+K
-         mF+bGXh810dG5Qm5Cwg+uUbKfi24l4HHrkZ/aGl7LcxyKImD2ivn/ZesYpyzVxXi04Em
-         u8f5fE+D1vafHflrQisuWmCtnWuDksOSW81pie1tMA8eMSq7YBZTU/GpLhC6WTyll61P
-         02pwDjRycpN9fuYaT9ta682fuS3ipfB7td8CiaFkc1hddjYod1di9OYUb6oRsBZR0Sv8
-         wa3pyCxPW+u/5p15AMSMjauSO08efKjD/cxRLJgdR3sPHgR1w/4CXzDwqjCCJDcsEb4d
-         MLww==
-X-Forwarded-Encrypted: i=1; AJvYcCVesipf2491uJbXDTqiZp0YLmPWTc86mBOISg+4IUfLivI34ysuEgFgzG6ZzSwRVPs8mPMEVMIgW4X+ZllRAmvqXA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyyW3Rn4UJNXplp1rMAkSOvbLxtCRfHz8bgNG6YG7bSwzbApvJB
-	d2377ov8U5juia4al1tGoZo6vDCmy3zxWrpVm1VVZhrzhxMhVB+E8RobIKjP24OD3Qmo8TyRslQ
-	rsc+A7IT0tCXdi7oNYDeJbIRsQTQ=
-X-Google-Smtp-Source: AGHT+IGqIsqe9mVZnYWNWnq61e9hZSlYOmO4HA4MVg3zPMpd6UHKTDIgK0gPp9e08KY6T7tuX5PSEg9vsI7JjQIKIFg=
-X-Received: by 2002:a05:6830:620b:b0:703:6ac4:2ab8 with SMTP id
- 46e09a7af769-7110949321bmr4184864a34.0.1726204458276; Thu, 12 Sep 2024
- 22:14:18 -0700 (PDT)
+        bh=WJTDHGHJSBsMWeSHZny4wLj9MFsJJIheZXj2b1hp5Ic=;
+        b=NP9EtwkjNNbxk5N2oiNP5b3jqy6CrQEU9iZH8HqjnaQtRJhmeemoWujH4gg29TLewc
+         OQDxlUoYWlpLaHjdc7ksr3Rzol2eV1tLDsduwKJohYUyDoYEWN8XGZvBBP4eyaYPkLKo
+         T32WM6K26pfDhHsiPHA9G9skGBmAz+UNynenBX3IRE3gwSQz0fzmK15EpTWM9wAtk4MD
+         TMvis3ENdjybA8zTEorWGBUUZvg/CFtwNG7DsHZBbJmxthBj8O7ZcLhOALrxPp/sTpIA
+         Egzvsb8xtcxcjkV8/6jZa6F1rWibJ9IcaU7TsiDFgCzJJEcGhjCMSG3TGCouVmdrPMat
+         0KRQ==
+X-Gm-Message-State: AOJu0YzSZKp3KOXS1DL9+Yfnx8FBDgTxINjCK8BCjh7//mewvqGTHYpF
+	QM+A5hP+Zl012Y4jm8JqgXbekJ91fOsL+/98AhHWFpVjRuwEr2rY
+X-Google-Smtp-Source: AGHT+IFbBPb8qgAIi3JLNn9I/bZ8yiOA4bR5qKU8UeAEFThBYG/MHKIf4+/RSJ1UWu5Ytg34ntsipA==
+X-Received: by 2002:a17:907:d592:b0:a8a:8c92:1c9c with SMTP id a640c23a62f3a-a9029497cc3mr435327766b.29.1726207367627;
+        Thu, 12 Sep 2024 23:02:47 -0700 (PDT)
+Received: from localhost.localdomain ([178.134.179.97])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a8d25d29399sm827823166b.185.2024.09.12.23.02.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2024 23:02:47 -0700 (PDT)
+From: Viacheslav Volkov <viacheslav.volkov.1@gmail.com>
+To: Ross.Burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] initscripts: make populate-volatile.sh power-cut-save
+Date: Fri, 13 Sep 2024 10:02:45 +0400
+Message-ID: <20240913060245.377166-1-viacheslav.volkov.1@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <FED3C03A-0EF3-49C2-9D66-A89B161AF3A9@arm.com>
+References: <FED3C03A-0EF3-49C2-9D66-A89B161AF3A9@arm.com>
 MIME-Version: 1.0
-References: <CAOSpxdacOpY9zesTGSJTkCqxdjH4sCEpcQjphTQeGR-7nXPNAQ@mail.gmail.com>
- <DM4PR11MB77605B8BC7B4A1CFD1F09C0BA1652@DM4PR11MB7760.namprd11.prod.outlook.com>
-In-Reply-To: <DM4PR11MB77605B8BC7B4A1CFD1F09C0BA1652@DM4PR11MB7760.namprd11.prod.outlook.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 12 Sep 2024 22:13:52 -0700
-Message-ID: <CAMKF1soCMvLa309PZqktSV7xFx+bUYy7LeSx+xBA-fQnvzjVZA@mail.gmail.com>
-Subject: Re: [yocto] [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.0.21.rc1)
-To: yocto@lists.yoctoproject.org, jing.hui.tham@intel.com
-Cc: "qa-build-notification@lists.yoctoproject.org" <qa-build-notification@lists.yoctoproject.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Sep 2024 05:14:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204469
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Sep 2024 06:02:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204470
 
-LGTM
+Hi Ross,
 
-On Thu, Sep 12, 2024 at 9:56=E2=80=AFPM Jing Hui Tham via
-lists.yoctoproject.org
-<jing.hui.tham=3Dintel.com@lists.yoctoproject.org> wrote:
+> Doing a sync for _every_ file created seems like overkill, and if you're
+> doing atomic creation is it even useful? The correct file will exist or not
+> exist: what does a sync add?
+
+sync is an important part of atomic file creation. It acts as a barrier and
+prevents possible reordering on file system level. To demonstrate an issue
+without sync I did the following experiment on my board with NAND flash
+formatted as UBIFS (simulating populate-volatile.sh behavior):
+
+ssh board "
+  # some_file* don't exist at this moment.
+  touch some_file.populate-volatile.tmp # created with default permissions: 644
+  chmod 600 some_file.populate-volatile.tmp # update permissions
+  # Note: there is no sync at this moment.
+  mv some_file.populate-volatile.tmp some_file
+  ls -l some_file* # Make sure we've updated permissions. Output:
+  # -rw-------    1 root     root             0 Sep 13 08:36 some_file
+"
+sleep 5 # Give a board some time to write data to flash
+        # (otherwise some_file* is not preserved at all in my case).
+power_off_board.sh # Physically cut board's power.
+sleep 15 # Keep the board off for some time..
+power_on_board.sh # Turn board's power on, it starts booting automatically.
+sleep 40 # Give a board time to boot
+ssh board "
+  ls -l some_file* # Output:
+  # -rw-r--r--    1 root     root             0 Sep 13 08:36 some_file
+"
+
+Above we can observe some_file with wrong (default) permissions. Effect of
+chmod has been lost due to power cut. Furthermore since some_file now exists,
+it won't be processed by next populate-volatile.sh execution (after reboot) and
+hence remains with wrong permissions forever. A behavior with ownership is the
+same as with permissions in my case.
+
+Additionally I'd like to quote UBIFS FAQ here (I've provided a link to it in
+my patch):
+
+> Changing a file atomically means changing its contents in a way that unclean
+> reboots could not lead to any corruption or inconsistency in the file. The
+> only reliable way to do this in UBIFS (and in most of other file-systems,
+> e.g. JFFS2 or ext3) is the following:
 >
-> Hi All,
+> * make a copy of the file;
+> * change the copy;
+> * synchronize the copy;
+> * re-name the copy to the file (using the rename() libc function or the mv
+>   utility).
 >
-> QA for yocto-4.0.21.rc1 is completed. This is the full report for this re=
-lease:
-> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree=
-/?h=3Dintel-yocto-testresults
+> Note, if a power-cut happens during the re-naming, the original file will be
+> intact because the re-name operation is atomic. This is a POSIX requirement
+> and UBIFS satisfies it.
 >
-> =3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-> No high milestone defects.
->
-> No new issue found.
->
-> Thanks,
-> Jing Hui
->
-> > -----Original Message-----
-> > From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> > notification@lists.yoctoproject.org> On Behalf Of Steve Sakoman
-> > Sent: Sunday, September 8, 2024 3:38 AM
-> > To: Yocto (yocto@lists.yoctoproject.org) <yocto@lists.yoctoproject.org>
-> > Cc: qa-build-notification@lists.yoctoproject.org
-> > Subject: [qa-build-notification] QA notification for completed autobuil=
-der
-> > build (yocto-4.0.21.rc1)
-> >
-> > A build flagged for QA (yocto-4.0.21.rc1) was completed on the autobuil=
-der
-> > and is available at:
-> >
-> >
-> >     https://autobuilder.yocto.io/pub/releases/yocto-4.0.21.rc1
-> >
-> >
-> > Build URL:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7317
-> >
-> > Build hash information:
-> >
-> > bitbake: ec2a99a077da9aa0e99e8b05e0c65dcbd45864b1
-> > meta-agl: 7af3c4ada26dcdb93496962b7189a6d72e14a824
-> > meta-arm: 260e3adc2bf322f52d81c0642c825088a88bb051
-> > meta-aws: c5f55dfcfdacdc88428e848900ddc64d8b0512c8
-> > meta-clang: 8bc893d735e5f779a2dcdc3992621d5ab371800d
-> > meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> > meta-intel: 3cbfddf8819bdf6c10343c81de419a0e05aca074
-> > meta-mingw: f6b38ce3c90e1600d41c2ebb41e152936a0357d7
-> > meta-openembedded: 52ecd66835dcfd8b4e55c9cb6325908ccea6a4e7
-> > meta-virtualization: e0cd09e3b8367e2745a27db2e7ff1f8452c8cf41
-> > oecore: c40a3fec49942ac6d25ba33e57e801a550e252c9
-> > poky: 4cdc553814640851cce85f84ee9c0b58646cd33b
-> >
-> >
-> >
-> > This is an automated message from the Yocto Project Autobuilder
-> > Git: git://git.yoctoproject.org/yocto-autobuilder2
-> > Email: richard.purdie@linuxfoundation.org
-> >
-> >
-> >
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> You automatically follow any topics you start or reply to.
-> View/Reply Online (#63829): https://lists.yoctoproject.org/g/yocto/messag=
-e/63829
-> Mute This Topic: https://lists.yoctoproject.org/mt/108426925/1997914
-> Group Owner: yocto+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/yocto/unsub [raj.khem@gmail=
-.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Often applications do not do the third step - synchronizing the copy.
+> Although this is generally an application bug, the ext4 file-system has a
+> hack which makes sure the data of the copy hits the disk before the re-name
+> meta-data, which "fixes" buggy applications. However, UBIFS does not have
+> this feature, although we plan to implement it.
+
+I understand that sync implies some performance degradation but IMHO we should
+prefer correctness over performance by default. I did some basic performance
+experiments: time /etc/init.d/populate-volatile.sh
+In my case I didn't notice any measurable difference in execution time with and
+without sync command in populate-volatile.sh (22 files were created, which is
+not that much, I agree..).
+
+> (also: it's power-cut safe, not save)
+
+Agree, it'd be better to fix it. I'll wait for further feedback before sending
+a v2 patch with this fix..
+
+Regards,
+Viacheslav
 
