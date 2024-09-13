@@ -1,171 +1,149 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF95DFA3753
-	for <webhook@archiver.kernel.org>; Fri, 13 Sep 2024 13:20:50 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.73302.1726233643702111485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8149FA3757
+	for <webhook@archiver.kernel.org>; Fri, 13 Sep 2024 13:38:20 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web10.73678.1726234696175597416
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Sep 2024 06:20:44 -0700
+ Fri, 13 Sep 2024 06:38:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IfU/N0zh;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cb8dac900so20518095e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Sep 2024 06:20:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=E9cSbysf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6dbc5db8a31so10909887b3.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Sep 2024 06:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726233642; x=1726838442; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iJbg8i1tOtZcY2MmZmG5DSEPA4LJCQZO436bwncaMM0=;
-        b=IfU/N0zhBxL+CCkdzuQ1InlD8L7e1bRfrLefhupfCM0QwLzKrHW6nSJwrGb1Jo3sq9
-         4oBBGw5tI9+YBbpVPwEKMjy6kMPysFdKGQQ1FjAWx29U7RBm3a//nlHaUn00SK3m09gc
-         qK4QiTbaVxYLMEU4Xu9gD/H3/+wK20JgQFjizDh8QGWjmYDHox4UVCA3uKpe/Q56aFP9
-         hENymL3MGkhTZxgev2c0Ind7EIXe/LLUi6v/MXZy+mTn3cZguwTwx39v8IDF2UXW0eZa
-         I6LEL7lxs+l4EZUzmY7EcWYTuNuatV9CTw0So8GxeV9t9aqhDLD0gy2RhM7iEyj3QZa+
-         Mjug==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726234695; x=1726839495; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9qZyN29eCSh28NiFGqgHGdaO3N0HTjBAqtyjD5Hvalk=;
+        b=E9cSbysfQjAaa6NmC9+DKFU/9tH1pepiAyGmTy4BhYbOg7og3ng/gWFeaJm6vVgz0R
+         8FAwN4NzVDatOUE5Fx4YqT5dJDGBYXE09LTEHPu9dYtB3u+ttYxRjnlf1cYYK7gu4vVl
+         WOO0jiTApqC1ibXnsPJJH58zxFHP/GDnklL6jTA3khup/lGnR+kasJhdCcACp3XQTr3a
+         OsMeibY2DrpsCdzuXteM1oL80230IZScPpqCB6jPXl08weX+5zmCXjbLpNH6+sWfsfWC
+         xfUSJGphL7fx/CsdmtyFGBHdE6s/Cb4uk5mrU6RwvtSGYeOOAa4TjUQYEfXSrYxqX6TC
+         IsNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726233642; x=1726838442;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJbg8i1tOtZcY2MmZmG5DSEPA4LJCQZO436bwncaMM0=;
-        b=C3mPImI3D7cMCPNpS45MzGknByljCxnMQkx83UiqwqW6oRlE4I9cThRXDuWNKSQ4KT
-         T8Ggfu67XDY2InMPHDOLxCGQpwOLQHSHLdcCTCVOfXNzWUx7FUOFPcYdMotvTnMmvPqU
-         oKlP6yiMNCAB7QA5CYyXhkp2diiepda+UbAoE/UCvqulfilzKyASHdUNHpqqCSt/UvPO
-         NgmUjM2HYkhk0Gtkqe0LK/Lf6gkPhXy08EkAVDnn88p5tdXAuwo/0k9r5LrzOu1OB8CV
-         GZuxm+J3uB9dT5w8HMym7ydBgpH738wzXfLrk3D7mCyI+r1dv2Zd66SVRyQfpjpB/+9Z
-         WoMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXgCTgvsJIsZaAl7f4M4c3nNszqSXLgxN9zcTUmwe3mQCnjBADfAXuldQE2NLBJHMolNx1/yaWtk2lzWGmfDXO3IQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy4+xGFsvO9KxIcsfh5dK83vA3thjavVd2WjTjcT4Iw4yf+wnwA
-	Qr/nYPPJRMjn3cK/YdLyb5+8KJ3q55qkT+EpUimyZ2zhNx7Le86ueyiXDQ==
-X-Google-Smtp-Source: AGHT+IHhGYjbmU05jcl8fybkC+Te28l2/k5su8FcaCpfffncFsTwalbNez2Lj9t3SN+l94swjBlBCw==
-X-Received: by 2002:a05:600c:1c8f:b0:42c:b905:2bf9 with SMTP id 5b1f17b1804b1-42cdb54077bmr65473395e9.16.1726233641286;
-        Fri, 13 Sep 2024 06:20:41 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42d9b05a783sm25458665e9.9.2024.09.13.06.20.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Sep 2024 06:20:40 -0700 (PDT)
-Message-ID: <f5305713-f8ca-4d5b-8c0a-dab53b6921b5@gmail.com>
-Date: Fri, 13 Sep 2024 15:20:40 +0200
+        d=1e100.net; s=20230601; t=1726234695; x=1726839495;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9qZyN29eCSh28NiFGqgHGdaO3N0HTjBAqtyjD5Hvalk=;
+        b=OhCsq74SHu6s4FV9z4vUUuWLe191Ja69iX/CsNDz1fb6Jok80xXXLJrC8mpVfzyfDs
+         u9dfiZIDlbK2Aku8Hjbeix4srlh7HSZewLk9WcL+CYHVopqc2g+S6Vx3ClJDjraAPRiu
+         flR7qYYdSGvwWDccLeSnihG5y+xaiXB6vDiNYm8XNPJVj4N8OMt2Jo+EAQGaMWlqW1FW
+         wqn79c3bHimpDiLfnmbJKoIyR0XNa8/LPqfn0/ovfYuv2S5JRuNiHJernECXy5k/cVMB
+         i5q4fybK1OOyQ2Qkm+h+TQtILjdGZtuMAB4f1ZzVI5iOVnsWvO52glbIUg94m1vc01J2
+         3OhQ==
+X-Gm-Message-State: AOJu0YzTEWOvL16GJPSbLfIOqCzDuzUzZ0/65C1/h5I60Ovy61TJex9u
+	T+uvio4G6y9THEJHlvVAH1vCSbWxs8fyaUW4LFRoOD7fDZsaBRvya2HTmx3GEpGgNeCGM6hClVZ
+	e62DEYco/s0fH65Wy2Uy1XHuL+xOBnt5fjNV/vT8TKwx3vMaWiH8=
+X-Google-Smtp-Source: AGHT+IF9ebpHxQd8x14L+hh+ktmYsbR/QdVxRjdYQco8ryF8NaywjUy0ZpM6ly69jQgkt8QxvSM+6Agqbe+6jYu3aB0=
+X-Received: by 2002:a05:690c:b03:b0:6d6:5186:32b2 with SMTP id
+ 00721157ae682-6db9542f5e0mr99906597b3.21.1726234695229; Fri, 13 Sep 2024
+ 06:38:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][oe-core][PATCH] mesa: add support for rusticl
-To: Markus Volk <f_l_k@t-online.de>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20240908172311.3773048-1-f_l_k@t-online.de>
- <CANNYZj_aLfFFe14-YNYfGt5T05dRb_-N7NPSk3Tx5-j09xRtrg@mail.gmail.com>
- <HSHJJS.OO3X80OW2KGA@t-online.de>
- <17F4C79C2431BD42.10184@lists.openembedded.org>
- <b3c52dd5-e19a-442a-9da6-7ad1857c1e0c@gmail.com>
- <HE5RJS.ZELCTN0DIQK32@t-online.de>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <HE5RJS.ZELCTN0DIQK32@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240912064206.2502219-1-divya.chellam@windriver.com>
+In-Reply-To: <20240912064206.2502219-1-divya.chellam@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 13 Sep 2024 06:38:04 -0700
+Message-ID: <CAOSpxda_rHCmLxWEEDOV+F0wVkBFgFMpE88=T+SP=Br4mYN5Tg@mail.gmail.com>
+Subject: Re: [oe-core][kirkstone][PATCH 1/1] python3: Upgrade 3.10.14 -> 3.10.15
+To: Divya.Chellam@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Sep 2024 13:20:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204485
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Sep 2024 13:38:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204486
 
-2024. 09. 13. 14:59 keltezéssel, Markus Volk írta:
-> Hi,
-> thanks for the feedback. Yes, I accidentally added the patch I made for mesa 24.2.1. 
-> Currently I have it like this, which should also work:
->
-> diff --git a/src/gallium/frontends/rusticl/meson.build 
-> b/src/gallium/frontends/rusticl/meson.build
-> index 84df0a9edb9..20459f73993 100644
-> --- a/src/gallium/frontends/rusticl/meson.build
-> +++ b/src/gallium/frontends/rusticl/meson.build
-> @@ -122,6 +122,7 @@ endif
->  rusticl_bindgen_c_args = [
->    '-fno-builtin-malloc',
-> +  '-I@include@', '-I@include_cpp@', '-I@include_cpp_target_sys@',
->  ]
->  cl_c_args = [
-> -- 
->
-> One assumption on the shader issue. intel_clc is currently added only for x86-64. If you 
-> are building for another platform intel_clc is not installed for mesa-native, but 
-> required for 'iris'.
->
-> Changing this line:
-> GALLIUMDRIVERS:append ="${@bb.utils.contains_any('PACKAGECONFIG', 'opencl-rusticl 
-> opencl-clover', ',iris', '', d)}"
-> to:
-> GALLIUMDRIVERS:append:x86-64 ="${@bb.utils.contains_any('PACKAGECONFIG', 'opencl-rusticl 
-> opencl-clover', ',iris', '', d)}"
->
-> might remove the need to disable raytracing in EXTRA_OEMESON
->
-> Alternatively also removing x86-64 from these lines:
-> EXTRA_OEMESON:append:class-target:x86-64 = " ${@bb.utils.contains_any('PACKAGECONFIG', 
-> 'opencl-rusticl opencl-clover', '-Dintel-clc=system', '', d)}"
-> EXTRA_OEMESON:append:class-native:x86-64 = " ${@bb.utils.contains_any('PACKAGECONFIG', 
-> 'opencl-rusticl opencl-clover', '-Dintel-clc=enabled -Dinstall-intel-clc=true 
-> -Dgallium-rusticl=false', '', d)}"
->
-> might help, but I'm unsure if intel_clc would be of any use apart from x86-64
+This fails at build time:
 
-IIRC, Intel fixed their kernel driver to build and work on e.g. aarch64
-(or was it their new "xe" driver that has this?) and the expectation is
-that some 64-bit ARM systems do have PCIe and their discrete GPUs
-would be usable on other platforms than x86-64.
+ERROR: python3-3.10.15-r0 do_patch: Applying patch
+'CVE-2024-8088.patch' on target directory
+'/home/steve/builds/poky-contrib-kirkstone/build/tmp/work/core2-64-poky-lin=
+ux/python3/3.10.15-r0/Python-3.10.15'
+CmdError('quilt --quiltrc
+/home/steve/builds/poky-contrib-kirkstone/build/tmp/work/core2-64-poky-linu=
+x/python3/3.10.15-r0/recipe-sysroot-native/etc/quiltrc
+push', 0, 'stdout: Applying patch CVE-2024-8088.patch
+patching file Lib/test/test_zipfile.py
+Hunk #1 succeeded at 3331 with fuzz 2 (offset 51 lines).
+patching file Lib/zipfile.py
+Hunk #1 FAILED at 9.
+Hunk #2 succeeded at 2188 (offset 6 lines).
+1 out of 2 hunks FAILED -- rejects in file Lib/zipfile.py
+Patch CVE-2024-8088.patch does not apply (enforce with -f)
 
+stderr: ')
+ERROR: Logfile of failure stored in:
+/home/steve/builds/poky-contrib-kirkstone/build/tmp/work/core2-64-poky-linu=
+x/python3/3.10.15-r0/temp/log.do_patch.1201652
+ERROR: Task (/home/steve/builds/poky-contrib-kirkstone/meta/recipes-devtool=
+s/python/python3_3.10.15.bb:do_patch)
+failed with exit code '1'
+
+You'll need to remove the CVE patches that are no longer required.
+Please send a V2
+
+Thanks,
+
+Steve
+
+On Wed, Sep 11, 2024 at 11:42=E2=80=AFPM dchellam via lists.openembedded.or=
+g
+<Divya.Chellam=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Divya Chellam <divya.chellam@windriver.com>
+>
+> Includes security fixes for CVE-2024-7592, CVE-2024-4032, CVE-2024-8088
+> CVE-2024-6232, CVE-2024-6923 and other bug fixes.
+>
+> Release Notes:
+> https://www.python.org/downloads/release/python-31015/
+>
+> Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+> ---
+>  .../python/{python3_3.10.14.bb =3D> python3_3.10.15.bb}           | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/python/{python3_3.10.14.bb =3D> python3_3.1=
+0.15.bb} (99%)
+>
+> diff --git a/meta/recipes-devtools/python/python3_3.10.14.bb b/meta/recip=
+es-devtools/python/python3_3.10.15.bb
+> similarity index 99%
+> rename from meta/recipes-devtools/python/python3_3.10.14.bb
+> rename to meta/recipes-devtools/python/python3_3.10.15.bb
+> index 14ab3f6155..e3b4dad180 100644
+> --- a/meta/recipes-devtools/python/python3_3.10.14.bb
+> +++ b/meta/recipes-devtools/python/python3_3.10.15.bb
+> @@ -45,7 +45,7 @@ SRC_URI:append:class-native =3D " \
+>             file://12-distutils-prefix-is-inside-staging-area.patch \
+>             file://0001-Don-t-search-system-for-headers-libraries.patch \
+>             "
+> -SRC_URI[sha256sum] =3D "9c50481faa8c2832329ba0fc8868d0a606a680fc4f60ec48=
+d26ce8e076751fda"
+> +SRC_URI[sha256sum] =3D "aab0950817735172601879872d937c1e4928a57c409ae023=
+69ec3d91dccebe79"
+>
+>  # exclude pre-releases for both python 2.x and 3.x
+>  UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+> --
+> 2.40.0
 >
 >
-> On Fri, Sep 13 2024 at 12:43:46 PM +02:00:00, Böszörményi Zoltán <zboszor@gmail.com> wrote:
->> 2024. 09. 13. 12:40 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
->>
->>     2024. 09. 09. 11:45 keltezéssel, Markus Volk via lists.openembedded.org írta:
->>
->>         On Mon, Sep 9 2024 at 10:46:59 AM +02:00:00, Alexander Kanavin
->>         <alex.kanavin@gmail.com> wrote:
->>
->>             This does need to be properly looked into, there's probably a better patch
->>             possible, or a build setting we're missing, or at least an upstream
->>             ticket to be filed. It's not a good patch when it says 'workaround' and
->>             doesn't explain the issue and the fix. 
->>
->>         Fully agree. This is ugly as hell. Just a quick and dirty hack to get things
->>         working (which is always a good starting point) but by no means a solution
->>         for oe-core. Thats why I marked it RFC 
->>
->>     Don't call it a "workaround" then. Call it "pass in recipe-sysroot include
->>     directories" because that's what this patch does combined with the mesa.inc changes. 
->>
->> The underlying problem seems to be that bindgen does not seem to pick up CFLAGS or 
->> CPPFLAGS automatically, so it needs the extra -I options passed in under Yocto to look 
->> for headers in the correct places.
->>
->>     Though it's not complete in my testing. I needed this patch against 24.2.2 so I
->>     could build Mesa Rusticl, plus EXTRA_OEMESON += "-Dintel-rt=disabled" in my
->>     bbappend because the iris driver failed to build otherwise, complaining for every
->>     generated file from *.cl about "shader not available, consider installing libclc"
->>     or something like that, eventually failing the build. diff --git
->>     a/src/gallium/frontends/rusticl/meson.build
->>     b/src/gallium/frontends/rusticl/meson.build index eef09d8f01e..efac4cab964 100644
->>     --- a/src/gallium/frontends/rusticl/meson.build +++
->>     b/src/gallium/frontends/rusticl/meson.build @@ -146,6 +146,7 @@
->>     rusticl_opencl_bindings_rs = rust.bindgen(      rusticl_bindgen_c_args,     
->>     pre_args,      cl_c_args, +   '-I@include@', '-I@include_cpp@',
->>     '-I@include_cpp_target_sys@'    ],    args : [      rusticl_bindgen_args, @@ -190,6
->>     +191,7 @@ rusticl_llvm_bindings_rs = rust.bindgen(    c_args : [     
->>     rusticl_bindgen_c_args,      pre_args, +   '-I@include@', '-I@include_cpp@',
->>     '-I@include_cpp_target_sys@'    ],    dependencies : [      dep_clang,
->>
->>     -=-=-=-=-=-=-=-=-=-=-=- Links: You receive all messages sent to this group.
->>     View/Reply Online (#204478):
->>     https://lists.openembedded.org/g/openembedded-core/message/204478 Mute This Topic:
->>     https://lists.openembedded.org/mt/108340502/3617728 Group Owner:
->>     openembedded-core+owner@lists.openembedded.org Unsubscribe:
->>     https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
->>     -=-=-=-=-=-=-=-=-=-=-=- 
->>
-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204423): https://lists.openembedded.org/g/openembedde=
+d-core/message/204423
+> Mute This Topic: https://lists.openembedded.org/mt/108408659/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
