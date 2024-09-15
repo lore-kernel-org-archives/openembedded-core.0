@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65088C35FE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC474C35FF0
 	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:06 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.115649.1726410842029226376
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.115642.1726410841450043218
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Sep 2024 07:34:02 -0700
+ Sun, 15 Sep 2024 07:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cvgo9dNr;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XwpEpS/Z;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010191f61add0b-c2aae9cb-09c2-4c58-8b17-89373e8e49dc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iiZYDwvo;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pNAcZq62;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010191f61adab0-5897d089-9c63-4daf-b44e-d949dbec57bf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1726410841;
+	t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2HlUVem16X55svq3O04Mj49sZvZtfr+niw5aASPu1gs=;
-	b=cvgo9dNrnOEJTooiOFxR7Ww5W2X/loSpbY4yZkhmNaaVQeEwbadBQE+sAgROb01E
-	DAZacfAT+ghWbQ5Z8gC+3jlvW0HQsKVjh0TTZvg8l3w79SuXwwkhqeU5CtGRS88kMxN
-	hGnLZ4AayBLBgCXSo+aKbt/dxp3UfVeIjmOgRWlg=
+	bh=j18scS+4pYGnXemelL86nl8kVCAoaVFBcHSR15K66nk=;
+	b=iiZYDwvoqEOuLjpdLW8R6YCZaOoCEuMUwOBw1SVYhSWcI/Tqt2c1CBGCut6AU86X
+	um84ZR6Va43XkNEeH6guWnwEW+KonVQtHIaC/gt9rNbU7tBvjIqnCvXFeuE5uonznCR
+	rbzllpYbVWMps3SzDdb9TTLJJExL83QcmZ7ZfDBI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410841;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2HlUVem16X55svq3O04Mj49sZvZtfr+niw5aASPu1gs=;
-	b=XwpEpS/ZVGPzmfB7aSEaITB2i3wUKhaaBQhVHuBxnVnryS8DmREs8HihjIjvhTxD
-	wz60AvwVt4A/OOlK3OhXw2qkgxuUW/WDeIlph4dF9T3qiaITZ3ojczshM9pa4YkZsTX
-	W+yjfoQoXu9Pr63f0q7Kh+4pqDPtJ6ehBGHcS02Q=
-Content-Type: multipart/mixed; boundary="===============7709091269538191119=="
+	bh=j18scS+4pYGnXemelL86nl8kVCAoaVFBcHSR15K66nk=;
+	b=pNAcZq62t1yjYwIoCtWQFhKv5tvDRmSn+9q77/6i0Ap7OhYLLJRFtyV7U9VV0xxX
+	bIu9dWvx+ZJySX53zDeCFEsipWpP0kLmm1nFCCuyBuFcI/iuxbrXR3wugVlU/AQuWTG
+	WnQ/8vWMd02OiIHHaCY7SZY8lGDjstkkDxi65Omc=
+Content-Type: multipart/mixed; boundary="===============4348472746961229882=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-libav: upgrading to 1.24.7 SUCCEEDED
-Message-ID: <01010191f61add0b-c2aae9cb-09c2-4c58-8b17-89373e8e49dc-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Sep 2024 14:34:01 +0000
+Subject: [AUH] ruby: upgrading to 3.3.5 SUCCEEDED
+Message-ID: <01010191f61adab0-5897d089-9c63-4daf-b44e-d949dbec57bf-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Sep 2024 14:34:00 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.15-54.240.27.193
+X-SES-Outgoing: 2024.09.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204577
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204547
 
---===============7709091269538191119==
+--===============4348472746961229882==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-libav* to *1.24.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ruby* to *3.3.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.24.6-1.24.7.patch
+    - apply the patch: git am 0001-ruby-upgrade-3.3.4-3.3.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,1120 +72,398 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4459509faa17d5e6fb3112642fdc06a084021851 Mon Sep 17 00:00:00 2001
+From e08f915f81c8df7b6a53b7e09461ea33b91e9b6e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Sep 2024 12:29:30 +0000
-Subject: [PATCH] gstreamer1.0-libav: upgrade 1.24.6 -> 1.24.7
+Date: Sun, 15 Sep 2024 09:40:15 +0000
+Subject: [PATCH] ruby: upgrade 3.3.4 -> 3.3.5
 
 ---
- ...streamer1.0-libav_1.24.6.bb => gstreamer1.0-libav_1.24.7.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.24.6.bb => gstreamer1.0-libav_1.24.7.bb} (91%)
+ .../0001-extmk-fix-cross-compilation-of-external-gems.patch | 2 +-
+ ...-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch | 2 +-
+ .../ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch    | 2 +-
+ .../ruby/0003-rdoc-build-reproducible-documentation.patch   | 2 +-
+ ...b-mkmf.rb-sort-list-of-object-files-in-generated-M.patch | 2 +-
+ ...Mark-Gemspec-reproducible-change-fixing-784225-too.patch | 6 +++---
+ .../ruby/ruby/0006-Make-gemspecs-reproducible.patch         | 2 +-
+ meta/recipes-devtools/ruby/{ruby_3.3.4.bb => ruby_3.3.5.bb} | 2 +-
+ 8 files changed, 10 insertions(+), 10 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_3.3.4.bb => ruby_3.3.5.bb} (98%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb
-index 7a72f9120e..d11e506d08 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
+diff --git a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
+index bd8f736247..b9ed131e4f 100644
+--- a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
++++ b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
+@@ -1,4 +1,4 @@
+-From b74950d4f06bbfb91b2e68044147a226c15f4639 Mon Sep 17 00:00:00 2001
++From 7a15cc9f1ad8a3fc79e84d6c0372ee534b299df8 Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
+ Date: Mon, 30 Sep 2019 16:57:01 +0100
+ Subject: [PATCH] extmk: fix cross-compilation of external gems
+diff --git a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
+index bc1744da82..f4ffd0ffc1 100644
+--- a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
++++ b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
+@@ -1,4 +1,4 @@
+-From f4edf72c76bc06fa92c61f6cb9163cc777912a1f Mon Sep 17 00:00:00 2001
++From 0747e343a30e450c0a34913e3e5021d34719da35 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 25 Jan 2022 20:29:14 -0800
+ Subject: [PATCH] vm_dump.c: Define REG_S1 and REG_S2 for musl/riscv
+diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
+index 6f95685917..9450eb9412 100644
+--- a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
++++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
+@@ -1,4 +1,4 @@
+-From e6267676addd27f3c02667116185211d711ef940 Mon Sep 17 00:00:00 2001
++From 377946b7f1cf73037b882f2c32bdf3e165fbebca Mon Sep 17 00:00:00 2001
+ From: Christopher Larson <chris_larson@mentor.com>
+ Date: Thu, 5 May 2016 10:59:07 -0700
+ Subject: [PATCH] Obey LDFLAGS for the link of libruby
+diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+index abbbd35702..d0ca706aff 100644
+--- a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
++++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+@@ -1,4 +1,4 @@
+-From 09a6df0d32e2177406ed391e536c0c7c4b503c5d Mon Sep 17 00:00:00 2001
++From 3883c1e3b562b489373d124db43959eb944608bd Mon Sep 17 00:00:00 2001
+ From: Christian Hofstaedtler <zeha@debian.org>
+ Date: Tue, 10 Oct 2017 15:04:34 -0300
+ Subject: [PATCH] rdoc: build reproducible documentation
+diff --git a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
+index f08aaf555f..dfea0cdc4c 100644
+--- a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
++++ b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
+@@ -1,4 +1,4 @@
+-From f491fff7d006954c1c51eb7a513a85bdbab0fe5a Mon Sep 17 00:00:00 2001
++From f9e99c783b725a1271c2e367bc9fb07aa03c2bbd Mon Sep 17 00:00:00 2001
+ From: Reiner Herrmann <reiner@reiner-h.de>
+ Date: Tue, 10 Oct 2017 15:06:13 -0300
+ Subject: [PATCH] lib/mkmf.rb: sort list of object files in generated Makefile
+diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
+index 5570cdfcaa..7725a69028 100644
+--- a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
++++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
+@@ -1,4 +1,4 @@
+-From 91304f26dd4153ecae752ea875eec9ce2d5d3963 Mon Sep 17 00:00:00 2001
++From ddae03fd694cb4f8844ba2b35f3c46f7dd499205 Mon Sep 17 00:00:00 2001
+ From: Lucas Kanashiro <kanashiro@debian.org>
+ Date: Fri, 1 Nov 2019 15:25:17 -0300
+ Subject: [PATCH] Make gemspecs reproducible
+@@ -12,10 +12,10 @@ Upstream-Status: Backport [debian]
+  1 file changed, 3 insertions(+), 1 deletion(-)
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "4bbd08481a390f907e342aa3f25ab885c80ec0a53f3b14244cf733cc8622f2bf"
-+SRC_URI[sha256sum] = "c3e4179ba183c2d3101edf87ff70dd07e728c766a5fee34e6ecded76ca5802df"
+ diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.rb
+-index 05ce483..5f2dbd1 100644
++index d6eac7f..4b2e95e 100644
+ --- a/lib/rubygems/specification.rb
+ +++ b/lib/rubygems/specification.rb
+-@@ -1698,7 +1698,9 @@ class Gem::Specification < Gem::BasicSpecification
++@@ -1707,7 +1707,9 @@ class Gem::Specification < Gem::BasicSpecification
+                  raise(Gem::InvalidSpecificationException,
+                        "invalid date format in specification: #{date.inspect}")
+                end
+diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
+index 8a1daba7bd..0c450b16fe 100644
+--- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
++++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
+@@ -1,4 +1,4 @@
+-From 42f8019e62f392f5bc09c25e90cc63123eb764fe Mon Sep 17 00:00:00 2001
++From 050455b42d31b2708dc4a6471c5fae2bf8d13c2a Mon Sep 17 00:00:00 2001
+ From: Lucas Kanashiro <kanashiro@debian.org>
+ Date: Fri, 1 Nov 2019 15:25:17 -0300
+ Subject: [PATCH] Make gemspecs reproducible
+diff --git a/meta/recipes-devtools/ruby/ruby_3.3.4.bb b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
+similarity index 98%
+rename from meta/recipes-devtools/ruby/ruby_3.3.4.bb
+rename to meta/recipes-devtools/ruby/ruby_3.3.5.bb
+index d39b7ae520..5a7b8137aa 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.3.4.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
+@@ -47,7 +47,7 @@ do_configure:prepend() {
  
- S = "${WORKDIR}/gst-libav-${PV}"
+ DEPENDS:append:libc-musl = " libucontext"
  
+-SRC_URI[sha256sum] = "fe6a30f97d54e029768f2ddf4923699c416cdbc3a6e96db3e2d5716c7db96a34"
++SRC_URI[sha256sum] = "3781a3504222c2f26cb4b9eb9c1a12dbf4944d366ce24a9ff8cf99ecbce75196"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -- 
 2.44.0
 
 
---===============7709091269538191119==
+--===============4348472746961229882==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ruby-upgrade-3.3.4-3.3.5.patch"
+
+RnJvbSBlMDhmOTE1ZjgxYzhkZjdiNmE1M2I3ZTA5NDYxZWEzM2I5MWU5YjZlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDk6NDA6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
+dWJ5OiB1cGdyYWRlIDMuMy40IC0+IDMuMy41CgotLS0KIC4uLi8wMDAxLWV4dG1rLWZpeC1jcm9z
+cy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIHwgMiArLQogLi4uLXZtX2R1bXAu
+Yy1EZWZpbmUtUkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggfCAyICstCiAu
+Li4vcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCAg
+ICB8IDIgKy0KIC4uLi9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRh
+dGlvbi5wYXRjaCAgIHwgMiArLQogLi4uYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmls
+ZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2ggfCAyICstCiAuLi5NYXJrLUdlbXNwZWMtcmVwcm9kdWNp
+YmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaCB8IDYgKysrLS0tCiAuLi4vcnVieS9y
+dWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2ggICAgICAgICB8IDIgKy0K
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzMuMy40LmJiID0+IHJ1YnlfMy4zLjUu
+YmJ9IHwgMiArLQogOCBmaWxlcyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlv
+bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS97cnVieV8zLjMuNC5iYiA9
+PiBydWJ5XzMuMy41LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9ydWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwt
+Z2Vtcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1leHRtay1m
+aXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaAppbmRleCBiZDhmNzM2
+MjQ3Li5iOWVkMTMxZTRmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9y
+dWJ5LzAwMDEtZXh0bWstZml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0
+Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1j
+cm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
+RnJvbSBiNzQ5NTBkNGYwNmJiZmI5MWIyZTY4MDQ0MTQ3YTIyNmMxNWY0NjM5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQorRnJvbSA3YTE1Y2M5ZjFhZDhhM2ZjNzllODRkNmMwMzcyZWU1MzRiMjk5
+ZGY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogPT9VVEYtOD9xP0FuZHI9QzM9QTk9
+MjBEcmFzemlrPz0gPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KIERhdGU6IE1vbiwgMzAgU2VwIDIw
+MTkgMTY6NTc6MDEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXh0bWs6IGZpeCBjcm9zcy1jb21w
+aWxhdGlvbiBvZiBleHRlcm5hbCBnZW1zCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3It
+bXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12
+bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCmlu
+ZGV4IGJjMTc0NGRhODIuLmY0ZmZkMGZmYzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZv
+ci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1Ynkv
+MDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmNGVkZjcyYzc2YmMwNmZhOTJjNjFmNmNiOTE2M2Nj
+Nzc3OTEyYTFmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwNzQ3ZTM0M2EzMGU0NTBj
+MGEzNDkxM2UzZTUwMjFkMzQ3MTlkYTM1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+S2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMjUgSmFuIDIwMjIgMjA6
+Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdm1fZHVtcC5jOiBEZWZpbmUgUkVHX1MxIGFu
+ZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZv
+ci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCmluZGV4IDZmOTU2ODU5MTcuLjk0NTBlYjk0MTIg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxE
+RkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVi
+eS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZTYyNjc2NzZhZGRkMjdmM2MwMjY2NzExNjE4
+NTIxMWQ3MTFlZjk0MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzc3OTQ2YjdmMWNm
+NzMwMzdiODgyZjJjMzJiZGYzZTE2NWZiZWJjYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IENocmlzdG9waGVyIExhcnNvbiA8Y2hyaXNfbGFyc29uQG1lbnRvci5jb20+CiBEYXRlOiBU
+aHUsIDUgTWF5IDIwMTYgMTA6NTk6MDcgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gT2JleSBMREZM
+QUdTIGZvciB0aGUgbGluayBvZiBsaWJydWJ5CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlv
+bi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1yZG9jLWJ1aWxk
+LXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoCmluZGV4IGFiYmJkMzU3MDIuLmQwY2E3
+MDZhZmYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1y
+ZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1yZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1
+bWVudGF0aW9uLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwOWE2ZGYwZDMyZTIxNzc0MDZl
+ZDM5MWU1MzZjMGM3YzRiNTAzYzVkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzODgz
+YzFlM2I1NjJiNDg5MzczZDEyNGRiNDM5NTllYjk0NDYwOGJkIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQogRnJvbTogQ2hyaXN0aWFuIEhvZnN0YWVkdGxlciA8emVoYUBkZWJpYW4ub3JnPgogRGF0
+ZTogVHVlLCAxMCBPY3QgMjAxNyAxNTowNDozNCAtMDMwMAogU3ViamVjdDogW1BBVENIXSByZG9j
+OiBidWlsZCByZXByb2R1Y2libGUgZG9jdW1lbnRhdGlvbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmpl
+Y3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVi
+eS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5l
+cmF0ZWQtTS5wYXRjaAppbmRleCBmMDhhYWY1NTVmLi5kZmVhMGNkYzRjIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0
+LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1m
+aWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZjQ5MWZmZjdk
+MDA2OTU0YzFjNTFlYjdhNTEzYTg1YmRiYWIwZmU1YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gZjllOTljNzgzYjcyNWExMjcxYzJlMzY3YmM5ZmIwN2FhMDNjMmJiZCBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5lci1oLmRl
+PgogRGF0ZTogVHVlLCAxMCBPY3QgMjAxNyAxNTowNjoxMyAtMDMwMAogU3ViamVjdDogW1BBVENI
+XSBsaWIvbWttZi5yYjogc29ydCBsaXN0IG9mIG9iamVjdCBmaWxlcyBpbiBnZW5lcmF0ZWQgTWFr
+ZWZpbGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1N
+YXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9k
+dWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAppbmRleCA1NTcwY2RmY2FhLi43
+NzI1YTY5MDI4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAw
+MDUtTWFyay1HZW1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIyNS10b28ucGF0
+Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3Bl
+Yy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoCkBAIC0xLDQgKzEs
+NCBAQAotRnJvbSA5MTMwNGYyNmRkNDE1M2VjYWU3NTJlYTg3NWVlYzljZTJkNWQzOTYzIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkZGFlMDNmZDY5NGNiNGY4ODQ0YmEyYjM1ZjNjNDZm
+N2RkNDk5MjA1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTHVjYXMgS2FuYXNoaXJv
+IDxrYW5hc2hpcm9AZGViaWFuLm9yZz4KIERhdGU6IEZyaSwgMSBOb3YgMjAxOSAxNToyNToxNyAt
+MDMwMAogU3ViamVjdDogW1BBVENIXSBNYWtlIGdlbXNwZWNzIHJlcHJvZHVjaWJsZQpAQCAtMTIs
+MTAgKzEyLDEwIEBAIFVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2RlYmlhbl0KICAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9s
+aWIvcnVieWdlbXMvc3BlY2lmaWNhdGlvbi5yYiBiL2xpYi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9u
+LnJiCi1pbmRleCAwNWNlNDgzLi41ZjJkYmQxIDEwMDY0NAoraW5kZXggZDZlYWM3Zi4uNGIyZTk1
+ZSAxMDA2NDQKIC0tLSBhL2xpYi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCiArKysgYi9saWIv
+cnVieWdlbXMvc3BlY2lmaWNhdGlvbi5yYgotQEAgLTE2OTgsNyArMTY5OCw5IEBAIGNsYXNzIEdl
+bTo6U3BlY2lmaWNhdGlvbiA8IEdlbTo6QmFzaWNTcGVjaWZpY2F0aW9uCitAQCAtMTcwNyw3ICsx
+NzA3LDkgQEAgY2xhc3MgR2VtOjpTcGVjaWZpY2F0aW9uIDwgR2VtOjpCYXNpY1NwZWNpZmljYXRp
+b24KICAgICAgICAgICAgICAgICAgcmFpc2UoR2VtOjpJbnZhbGlkU3BlY2lmaWNhdGlvbkV4Y2Vw
+dGlvbiwKICAgICAgICAgICAgICAgICAgICAgICAgImludmFsaWQgZGF0ZSBmb3JtYXQgaW4gc3Bl
+Y2lmaWNhdGlvbjogI3tkYXRlLmluc3BlY3R9IikKICAgICAgICAgICAgICAgIGVuZApkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3Mt
+cmVwcm9kdWNpYmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2
+LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoCmluZGV4IDhhMWRhYmE3YmQuLjBjNDUw
+YjE2ZmUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1N
+YWtlLWdlbXNwZWNzLXJlcHJvZHVjaWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2gKQEAgLTEs
+NCArMSw0IEBACi1Gcm9tIDQyZjgwMTllNjJmMzkyZjViYzA5YzI1ZTkwY2M2MzEyM2ViNzY0ZmUg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDA1MDQ1NWI0MmQzMWIyNzA4ZGM0YTY0NzFj
+NWZhZTJiZjhkMTNjMmEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5h
+c2hpcm8gPGthbmFzaGlyb0BkZWJpYW4ub3JnPgogRGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1
+OjE3IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuMy40LmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjMuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDk4
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuMy40LmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuMy41LmJiCmluZGV4IGQz
+OWI3YWU1MjAuLjVhN2I4MTM3YWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
+dWJ5L3J1YnlfMy4zLjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8z
+LjMuNS5iYgpAQCAtNDcsNyArNDcsNyBAQCBkb19jb25maWd1cmU6cHJlcGVuZCgpIHsKIAogREVQ
+RU5EUzphcHBlbmQ6bGliYy1tdXNsID0gIiBsaWJ1Y29udGV4dCIKIAotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImZlNmEzMGY5N2Q1NGUwMjk3NjhmMmRkZjQ5MjM2OTljNDE2Y2RiYzNhNmU5NmRiM2Uy
+ZDU3MTZjN2RiOTZhMzQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzc4MWEzNTA0MjIyYzJmMjZj
+YjRiOWViOWMxYTEyZGJmNDk0NGQzNjZjZTI0YTlmZjhjZjk5ZWNiY2U3NTE5NiIKIAogUEFDS0FH
+RUNPTkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUcgKz0gIiR7QGJiLnV0aWxzLmZpbHRlcignRElT
+VFJPX0ZFQVRVUkVTJywgJ2lwdjYnLCBkKX0iCi0tIAoyLjQ0LjAKCg==
+
+--===============4348472746961229882==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/ruby/ruby-ptest: FILELIST: added "/usr/lib/ruby/ptest/test/rubygems/test_gem_remote_fetcher_local_server.rb /usr/lib/ruby/ptest/test/test_bundled_gems.rb /usr/lib/ruby/ptest/test/rubygems/test_gem_remote_fetcher_s3.rb /usr/lib/ruby/ptest/test/rubygems/test_gem_remote_fetcher_local_ssl_server.rb"
+packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/parsers -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/parsers, directory renamed /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.11/exe -> /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.16/exe, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/light -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/light, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/doc/rexml/tasks/rdoc -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/doc/rexml/tasks/rdoc, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0 -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/validation -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/validation, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib, directory renamed /usr/lib/ruby/gems
+ /3.3.0/gems/rss-0.3.0/lib/rss -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8 -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib/rss/dublincore -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss/dublincore, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/formatters -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/formatters, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/doc/rexml/tasks/tocs -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/doc/rexml/tasks/tocs, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib/rss/content -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss/content, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib/rss/maker -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss/maker,
+  directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/dtd -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/dtd, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/doc/rexml -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/doc/rexml, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml, removed "/usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.11.gemspec /usr/lib/libruby.so.3.3.4 /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.0.gemspec /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.2.8.gemspec /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.0.gem /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.0.gemspec /usr/lib/ruby/gems/3.3.0/cache/rexml-3.2.8.gem", added "/usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.16.gemspec /usr/bin/syntax_suggest.lock /usr/lib/libruby.so.3.3.5 /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.1.gem /usr/bin/typeprof.lock /usr/lib/ruby/gems/3.3.0
+ /specifications/rexml-3.3.6.gemspec /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.1.gemspec /usr/lib/ruby/3.3.0/bundler/compact_index_client/parser.rb /usr/bin/rake.lock /usr/bin/rdbg.lock /usr/bin/racc.lock /usr/bin/rdoc.lock /usr/bin/bundler.lock /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.1.gemspec /usr/lib/ruby/gems/3.3.0/cache/rexml-3.3.6.gem /usr/bin/bundle.lock /usr/bin/erb.lock /usr/bin/irb.lock /usr/bin/rbs.lock /usr/bin/ri.lock"
+Changes to packages/core2-64-poky-linux/ruby (sysroot):
+  /usr/lib/libruby.so.3.3 changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so.3.3.4 moved to /usr/lib/libruby.so.3.3.5
+  /usr/lib/ruby/gems/3.3.0/cache/rexml-3.2.8.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rexml-3.3.6.gem
+  /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.0.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.1.gem
+  /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.11 moved to /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.16
+  /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8 moved to /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6
+  /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0 moved to /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1
+  /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.0 moved to /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.1
+  /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.11.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.16.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.1.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.2.8.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.3.6.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.1.gemspec
+  /usr/lib/ruby/3.3.0/bundler/compact_index_client/parser.rb was added
+Changes to packages/x86_64-linux/ruby-native (sysroot):
+  /usr/lib/libruby.so.3.3 changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so.3.3.4 moved to /usr/lib/libruby.so.3.3.5
+  /usr/lib/ruby/gems/3.3.0/cache/rexml-3.2.8.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rexml-3.3.6.gem
+  /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.0.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.1.gem
+  /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.11 moved to /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.16
+  /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8 moved to /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6
+  /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0 moved to /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1
+  /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.0 moved to /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.1
+  /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.11.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.16.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.1.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.2.8.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.3.6.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.1.gemspec
+  /usr/bin/bundle.lock was added
+  /usr/bin/bundler.lock was added
+  /usr/bin/erb.lock was added
+  /usr/bin/irb.lock was added
+  /usr/bin/racc.lock was added
+  /usr/bin/rake.lock was added
+  /usr/bin/rbs.lock was added
+  /usr/bin/rdbg.lock was added
+  /usr/bin/rdoc.lock was added
+  /usr/bin/ri.lock was added
+  /usr/bin/syntax_suggest.lock was added
+  /usr/bin/typeprof.lock was added
+  /usr/lib/ruby/3.3.0/bundler/compact_index_client/parser.rb was added
+
+--===============4348472746961229882==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGSIZE changed from 904056 to 904208 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGSIZE changed from 534443 to 534747 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0-libav: PV changed from "1.24.6" to "1.24.7"
-packages/core2-64-poky-linux/gstreamer1.0-libav: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.24.6.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.24.7.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-libav: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/3.3/ruby-3.3.4.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch" to "http://cache.ruby-lang.org/pub/ruby/3.3/ruby-3.3.5.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch 
+ file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch"
+packages/core2-64-poky-linux/ruby: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 11163288 to 11166696 (+0%)
+packages/core2-64-poky-linux/ruby/ruby-dbg: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-dbg: FILELIST: removed "/usr/lib/.debug/libruby.so.3.3.4", added "/usr/lib/.debug/libruby.so.3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-dbg: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-dev: PKGSIZE changed from 1580222 to 1580288 (+0%)
+packages/core2-64-poky-linux/ruby/ruby-dev: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-dev: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-doc: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-doc: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-locale: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-locale: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 18149641 to 18160550 (+0%)
+packages/core2-64-poky-linux/ruby/ruby-ptest: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-ptest: FILELIST: added "/usr/lib/ruby/ptest/test/rubygems/test_gem_remote_fetcher_local_server.rb /usr/lib/ruby/ptest/test/rubygems/test_gem_remote_fetcher_s3.rb /usr/lib/ruby/ptest/test/rubygems/test_gem_remote_fetcher_local_ssl_server.rb /usr/lib/ruby/ptest/test/test_bundled_gems.rb"
+packages/core2-64-poky-linux/ruby/ruby-ptest: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-rdoc: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-rdoc: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-ri-docs: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-ri-docs: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-src: PKGSIZE changed from 38230034 to 38230883 (+0%)
+packages/core2-64-poky-linux/ruby/ruby-src: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-src: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby-staticdev: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby-staticdev: PV changed from "3.3.4" to "3.3.5"
+packages/core2-64-poky-linux/ruby/ruby: PKGSIZE changed from 26918936 to 26945034 (+0%)
+packages/core2-64-poky-linux/ruby/ruby: PKGV changed from 3.3.4 [default] to 3.3.5 [default]
+packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/light -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/light, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0 -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/formatters -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/formatters, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/doc/rexml -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/doc/rexml, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib/rss/dublincore -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss/dublincore, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.
+ 0/lib/rss/content -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss/content, directory renamed /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.11/exe -> /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.16/exe, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib/rss/maker -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss/maker, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/doc/rexml/tasks/rdoc -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/doc/rexml/tasks/rdoc, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/doc/rexml/tasks/tocs -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/doc/rexml/tasks/tocs, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/dtd -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/dtd, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0/lib/rss -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1/lib/rss, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/parsers -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.
+ 6/lib/rexml/parsers, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8 -> /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1, directory renamed /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8/lib/rexml/validation -> /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6/lib/rexml/validation, removed "/usr/lib/ruby/gems/3.3.0/cache/rexml-3.2.8.gem /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.11.gemspec /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.0.gemspec /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.0.gemspec /usr/lib/libruby.so.3.3.4 /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.2.8.gemspec /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.0.gem", added "/usr/lib/ruby/gems/3.3.0/cache/rexml-3.3.6.gem /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.1.gemspec /usr/bin/bundle.lock /usr/lib/ruby/3.3.0/bundler/compact_index_client/parser.rb /usr/lib/libruby.so.3.3.5 /usr/li
+ b/ruby/gems/3.3.0/specifications/rexml-3.3.6.gemspec /usr/bin/bundler.lock /usr/bin/irb.lock /usr/bin/erb.lock /usr/bin/rbs.lock /usr/bin/syntax_suggest.lock /usr/bin/ri.lock /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.16.gemspec /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.1.gem /usr/bin/racc.lock /usr/bin/rake.lock /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.1.gemspec /usr/bin/rdbg.lock /usr/bin/rdoc.lock /usr/bin/typeprof.lock"
+packages/core2-64-poky-linux/ruby/ruby: PV changed from "3.3.4" to "3.3.5"
+Changes to packages/core2-64-poky-linux/ruby (sysroot):
+  /usr/lib/libruby.so.3.3 changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so.3.3.4 moved to /usr/lib/libruby.so.3.3.5
+  /usr/lib/ruby/gems/3.3.0/cache/rexml-3.2.8.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rexml-3.3.6.gem
+  /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.0.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.1.gem
+  /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.11 moved to /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.16
+  /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8 moved to /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6
+  /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0 moved to /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1
+  /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.0 moved to /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.1
+  /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.11.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.16.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.1.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.2.8.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.3.6.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.1.gemspec
+  /usr/lib/ruby/3.3.0/bundler/compact_index_client/parser.rb was added
+Changes to packages/x86_64-linux/ruby-native (sysroot):
+  /usr/lib/libruby.so.3.3 changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.3.4 to libruby.so.3.3.5
+  /usr/lib/libruby.so.3.3.4 moved to /usr/lib/libruby.so.3.3.5
+  /usr/lib/ruby/gems/3.3.0/cache/rexml-3.2.8.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rexml-3.3.6.gem
+  /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.0.gem moved to /usr/lib/ruby/gems/3.3.0/cache/rss-0.3.1.gem
+  /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.11 moved to /usr/lib/ruby/gems/3.3.0/gems/bundler-2.5.16
+  /usr/lib/ruby/gems/3.3.0/gems/rexml-3.2.8 moved to /usr/lib/ruby/gems/3.3.0/gems/rexml-3.3.6
+  /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.0 moved to /usr/lib/ruby/gems/3.3.0/gems/rss-0.3.1
+  /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.0 moved to /usr/lib/ruby/gems/3.3.0/gems/uri-0.13.1
+  /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.11.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/bundler-2.5.16.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/default/uri-0.13.1.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.2.8.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rexml-3.3.6.gemspec
+  /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.0.gemspec moved to /usr/lib/ruby/gems/3.3.0/specifications/rss-0.3.1.gemspec
+  /usr/bin/bundle.lock was added
+  /usr/bin/bundler.lock was added
+  /usr/bin/erb.lock was added
+  /usr/bin/irb.lock was added
+  /usr/bin/racc.lock was added
+  /usr/bin/rake.lock was added
+  /usr/bin/rbs.lock was added
+  /usr/bin/rdbg.lock was added
+  /usr/bin/rdoc.lock was added
+  /usr/bin/ri.lock was added
+  /usr/bin/syntax_suggest.lock was added
+  /usr/bin/typeprof.lock was added
+  /usr/lib/ruby/3.3.0/bundler/compact_index_client/parser.rb was added
 
---===============7709091269538191119==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-libav-upgrade-1.24.6-1.24.7.patch"
-
-RnJvbSA0NDU5NTA5ZmFhMTdkNWU2ZmIzMTEyNjQyZmRjMDZhMDg0MDIxODUxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMTI6Mjk6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtbGliYXY6IHVwZ3JhZGUgMS4yNC42IC0+IDEuMjQuNwoKLS0tCiAuLi5zdHJl
-YW1lcjEuMC1saWJhdl8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjQuNy5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1saWJh
-dl8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjQuNy5iYn0gKDkxJSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxp
-YmF2XzEuMjQuNi5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtbGliYXZfMS4yNC43LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZfMS4yNC42
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
-MS4wLWxpYmF2XzEuMjQuNy5iYgppbmRleCA3YTcyZjkxMjBlLi5kMTFlNTA2ZDA4IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxpYmF2
-XzEuMjQuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
-bWVyMS4wLWxpYmF2XzEuMjQuNy5iYgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HO21kNT02OTMzM2RhYTA0NGNiNzdlNDg2Y2MzNjEyOWY3YTc3MCBc
-CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5m
-cmVlZGVza3RvcC5vcmcvc3JjL2dzdC1saWJhdi9nc3QtbGliYXYtJHtQVn0udGFyLnh6IgotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjRiYmQwODQ4MWEzOTBmOTA3ZTM0MmFhM2YyNWFiODg1YzgwZWMw
-YTUzZjNiMTQyNDRjZjczM2NjODYyMmYyYmYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzNlNDE3
-OWJhMTgzYzJkMzEwMWVkZjg3ZmY3MGRkMDdlNzI4Yzc2NmE1ZmVlMzRlNmVjZGVkNzZjYTU4MDJk
-ZiIKIAogUyA9ICIke1dPUktESVJ9L2dzdC1saWJhdi0ke1BWfSIKIAotLSAKMi40NC4wCgo=
-
---===============7709091269538191119==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 916 .bb files complete (0 cached, 916 parsed). 1868 targets, 51 skipped, 0 masked, 0 errors.
-Removing 78 recipes from the core2-64 sysroot...done.
-Removing 77 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-abab6e9e5f8cdb18831fb42fcd69881569fc07bf"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:abab6e9e5f8cdb18831fb42fcd69881569fc07bf"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 616 Local 595 Mirrors 0 Missed 21 Current 293 (96% match, 97% complete)
-Removing 3 stale sstate objects for arch x86_64...done.
-Removing 2 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 312 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 319 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.39.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 320 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 321 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 322 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 323 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 324 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 325 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 329 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 330 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 331 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 332 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 333 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.16.0.bb:do_create_spdx_setscene)
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe orc-0.4.39-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe iso-codes-4.16.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe alsa-lib-1.2.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.54.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe orc-0.4.39-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 426 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 427 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 428 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 429 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 430 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 431 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.39.bb:do_packagedata_setscene)
-NOTE: Running setscene task 432 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.39.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 434 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 435 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 436 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe pango-1.54.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe iso-codes-4.16.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 437 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 438 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 441 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 442 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 447 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 449 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_create_spdx_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe orc-0.4.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe orc-0.4.39-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe alsa-lib-1.2.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe alsa-lib-1.2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.54.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.54.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 450 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_create_spdx_setscene)
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 452 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 454 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_packagedata_setscene)
-NOTE: Running setscene task 457 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.37.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 458 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_create_spdx_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe orc-0.4.39-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 460 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe pango-1.54.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 464 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb:do_packagedata_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe orc-0.4.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 467 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 469 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 472 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 474 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.39.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 476 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_recipe_qa_setscene)
-NOTE: recipe alsa-lib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 477 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 481 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_create_spdx_setscene)
-NOTE: recipe pango-1.54.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 482 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-protocols-1.37-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-9.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe orc-0.4.39-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe harfbuzz-9.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wayland-protocols-1.37-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 484 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 485 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 489 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 496 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_recipe_qa_setscene)
-NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 498 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_recipe_qa_setscene)
-NOTE: recipe orc-0.4.39-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 508 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 509 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 510 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 511 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 513 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 515 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.43.bb:do_create_spdx_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 517 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: recipe harfbuzz-9.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 519 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_packagedata_setscene)
-NOTE: recipe libxv-1.0.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.54.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe alsa-lib-1.2.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe harfbuzz-9.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.6.2-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 520 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.43-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 522 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 524 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_packagedata_setscene)
-NOTE: recipe pango-1.54.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 525 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 526 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.37.bb:do_packagedata_setscene)
-NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 527 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_populate_sysroot_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 529 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.6.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 530 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 531 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 532 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 533 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx_setscene)
-NOTE: recipe libpng-1.6.43-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 534 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 535 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-protocols-1.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-9.0.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libdrm-2.4.123-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 537 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 539 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe harfbuzz-9.0.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 540 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-protocols-1.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 543 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 545 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_recipe_qa_setscene)
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 546 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 548 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_packagedata_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 549 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_packagedata_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 554 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_packagedata_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 556 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 557 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdrm-2.4.123-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 558 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 560 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 562 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 563 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 565 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 566 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 568 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_packagedata_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 571 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 572 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 573 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 574 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 577 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 579 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 580 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 583 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 586 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 587 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 588 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 590 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 592 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 594 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 596 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 602 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.4.bb:do_packagedata_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 603 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 604 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.3.bb:do_packagedata_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 605 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 609 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_recipe_qa_setscene)
-NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 611 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.43.bb:do_packagedata_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 613 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.80.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 615 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 617 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 618 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 620 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 622 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.43.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 623 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata_setscene)
-NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 624 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 625 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxml2-2.13.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 627 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe glib-2.0-1_2.80.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.13.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.43-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.43-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 629 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 630 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 631 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.13.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 634 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.15.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 636 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.15.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 638 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libpng-1.6.43-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 642 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_packagedata_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 643 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 645 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.80.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 646 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 648 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.16.0.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 650 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe libpng-1.6.43-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 652 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.43.bb:do_recipe_qa_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 654 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 655 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 657 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.13.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-75-1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-75-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe iso-codes-4.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.43-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 659 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 663 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 664 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fribidi-1.0.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 665 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.43-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 667 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fribidi-1.0.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 678 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.15.bb:do_recipe_qa_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe icu-75-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 682 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 683 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 684 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-75-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 686 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_recipe_qa_setscene)
-NOTE: recipe fribidi-1.0.15-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.80.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 689 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.80.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 690 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 691 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 692 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 693 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 695 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 696 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 697 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 698 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_create_spdx_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.15-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 700 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
-NOTE: recipe icu-75-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 703 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 704 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.80.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-75-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 706 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.80.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 707 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 708 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 710 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 711 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 714 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 717 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 718 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 719 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 720 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_packagedata_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 725 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 727 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 728 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe iso-codes-4.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 733 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 735 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 737 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 739 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_packagedata_setscene)
-NOTE: recipe util-macros-1_1.20.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 742 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.80.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 743 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 744 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 746 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 749 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_recipe_qa_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 753 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-3.12.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 755 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 756 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 758 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 760 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-3.12.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1417 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_recipe_qa)
-NOTE: Running task 1418 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_fetch)
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1460 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb:do_recipe_qa)
-NOTE: Running task 1473 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_write_config)
-NOTE: Running task 1478 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb:do_write_config)
-NOTE: recipe util-macros-1_1.20.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ffmpeg-7.0.2-r0: task do_recipe_qa: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_recipe_qa: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_write_config: Started
-NOTE: Running setscene task 771 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 772 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 773 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 774 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 775 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 776 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 777 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1547 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_unpack)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_write_config: Started
-NOTE: recipe python3-3.12.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 779 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 780 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 781 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_write_config: Succeeded
-NOTE: Running setscene task 782 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240808-3.1.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_write_config: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 783 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_unpack: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.12.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 784 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20240808-3.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 785 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 786 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe ffmpeg-7.0.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 787 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240808-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_recipe_qa: Succeeded
-NOTE: Running setscene task 789 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 790 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 791 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 792 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 793 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.2.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20240808-3.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 795 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 797 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 801 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_recipe_qa_setscene)
-NOTE: recipe expat-2.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 803 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20240808-3.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 805 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_unpack: Succeeded
-NOTE: recipe python3-3.12.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 808 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 811 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 812 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.5.bb:do_packagedata_setscene)
-NOTE: recipe libedit-20240808-3.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 813 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.12.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 815 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 817 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 819 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240808-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 820 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 822 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 824 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 825 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 826 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20240808-3.1-r1: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 828 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_packagedata_setscene)
-NOTE: recipe xz-5.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 830 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 832 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.2.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 833 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 836 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20240808-3.1-r1: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1599 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_fetch)
-NOTE: Running task 1600 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_patch)
-NOTE: Running task 1601 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb:do_fetch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.6.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 840 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 841 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 843 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.5.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.6.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ffmpeg-7.0.2-r0: task do_fetch: Started
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_fetch: Started
-NOTE: Running setscene task 845 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 846 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 848 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_patch: Started
-NOTE: Running setscene task 851 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe ffmpeg-7.0.2-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_fetch: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1607 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_unpack)
-NOTE: Running task 1608 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb:do_unpack)
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 854 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.10.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ffmpeg-7.0.2-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 856 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_patch: Succeeded
-NOTE: recipe cracklib-2.10.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1640 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb:do_patch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_patch: Started
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 858 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 859 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 860 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 862 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_patch: Succeeded
-NOTE: Running task 1658 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.10.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cracklib-2.10.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 867 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 869 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 871 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 872 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-libav-1.24.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ffmpeg-7.0.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1675 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_patch)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 874 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe ffmpeg-7.0.2-r0: task do_patch: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 876 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 877 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 879 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ffmpeg-7.0.2-r0: task do_patch: Succeeded
-NOTE: Running task 1676 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 880 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 882 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe ffmpeg-7.0.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 884 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 885 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 886 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ffmpeg-7.0.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running setscene task 890 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 891 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 893 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 898 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 899 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 901 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 905 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 906 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 908 of 909 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2367 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2368 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2477 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_collect_spdx_deps)
-NOTE: Running task 2478 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ffmpeg-7.0.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ffmpeg-7.0.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ffmpeg-7.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2479 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_configure)
-NOTE: recipe ffmpeg-7.0.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ffmpeg-7.0.2-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2480 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_configure: Succeeded
-NOTE: Running task 2481 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_compile: Started
-NOTE: recipe ffmpeg-7.0.2-r0: task do_configure: Succeeded
-NOTE: Running task 2482 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb:do_compile)
-NOTE: recipe ffmpeg-7.0.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_compile: Succeeded
-NOTE: Running task 2483 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_install: Succeeded
-NOTE: Running task 2484 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_package)
-NOTE: Running task 2485 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_package: Succeeded
-NOTE: Running task 2486 of 2507 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.6-r0: task do_packagedata: Failed
-NOTE: recipe ffmpeg-7.0.2-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 2486 tasks of which 2459 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240915122727.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240915122727.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_packagedata
-    log: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/gstreamer1.0-plugins-base/1.24.6/temp/log.do_packagedata.3096578
-Summary: There were 106 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-src went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-dbg went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-staticdev went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-dev went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-doc went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-af went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-az went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-bg went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ca went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-cs went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-da went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-de went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-el went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-en-gb went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eo went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-es went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-eu went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fi went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fr went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-fur went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-gl went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hr went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-hu went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-id went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-it went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ja went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ka went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lt went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-lv went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nb went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-nl went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-or went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pl went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-pt-br went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ro went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-ru went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sk went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sl went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sq went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sr went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-sv went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-tr went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-uk went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-vi went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-locale-zh-cn went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-apps went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-meta went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstallocators-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstapp-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstaudio-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstfft-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstgl-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstpbutils-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstriff-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstrtp-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstrtsp-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstsdp-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgsttag-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package libgstvideo-1.0 went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-adder went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-alsa went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-app went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audioconvert went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audiomixer went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audiorate went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audioresample went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audiotestsrc went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-basedebug went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-compositor went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-dsd went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-encoding went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-gio went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-ogg went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-opengl went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-overlaycomposition went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-pango went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-pbtypes went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-playback went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-rawparse went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-subparse went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-tcp went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-theora went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-typefindfunctions went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-videoconvertscale went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-videorate went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-videotestsrc went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-volume went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-vorbis went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-ximagesink went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-xvimagesink went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-allocators-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-app-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-audio-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-gl-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glegl-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glwayland-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-glx11-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-pbutils-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-rtp-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-rtsp-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-sdp-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-tag-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: QA Issue: Package version for package gstreamer1.0-plugins-base-video-typelib went backwards which would break package feeds (from 0:1.24.7-r0 to 0:1.24.6-r0) [version-going-backwards]
-ERROR: gstreamer1.0-plugins-base-1.24.6-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/gstreamer1.0-plugins-base/1.24.6/temp/log.do_packagedata.3096578
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb:do_packagedata) failed with exit code '1'
-
---===============7709091269538191119==--
+--===============4348472746961229882==--
 
