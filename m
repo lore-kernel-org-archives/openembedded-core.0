@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5062CC35FF9
-	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:07 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.115636.1726410840556902467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A96BC35FEC
+	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:17 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.115385.1726410840121439448
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Sep 2024 07:34:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GOyO4HGG;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=kJ0jBUwn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010191f61ad789-b2ee3ee2-7087-4fb3-a8e8-fc63fc365126-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jIO2JUda;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uigF5aJ3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010191f61ad4af-572bffa2-cc37-4b9e-8ae9-91528a40a672-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1726410840;
+	t=1726410839;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oZUfXZkOVvOr9Ev+PdraUpWaUCkW4NfBxAgj22iaD8o=;
-	b=GOyO4HGGTMjQog3iYElBfB47ptOFcuFSsseFiP17JCeytdbyyvwEbA8uueiTvC7V
-	9S9Oy5tfATdeI/042GNtHJv6x6Wm5y/do7jElMKEjpJYUxhiE4RSLxxe+R8QRfGfrgf
-	NQeHNiXZSvGFkisJ5Mhzz8zNLCOAQzszKpsaTGYA=
+	bh=yYj13dLPflFKdu/4BhoN65kgG9XL/P3iQ92lH0heTj0=;
+	b=jIO2JUdamVkwEWCHTf0EI8hxeOU7ij5F8GDyRIshRD0LY92amAzmRlY4onBt9odR
+	pokodANmcrK2UAYSluGWtFDrsd2Bf0KxeUVGYQ/+pPjP8GQ6QL3fWzalhVIijKvQy5v
+	MWKDQfFJvpeK+GntSZuTG2NStCjvrDt1yH5XUy0M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410840;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410839;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oZUfXZkOVvOr9Ev+PdraUpWaUCkW4NfBxAgj22iaD8o=;
-	b=kJ0jBUwn8R0cdW/OQwkEQ7mfpOkch5MOF36NQZdWypUY9GaXcu6SoHVNwPjGGKuR
-	KxP+jgSkNJWBJCNpzJKVx0HChB7WqdJe6EWFPvPyCWW1m130KySMYl8aai+u9hIeLMr
-	Mdd0Pt1aBYuVWsgwcTAKLiQRrIJN7hKs/A0q8Y6o=
-Content-Type: multipart/mixed; boundary="===============7490319557216876902=="
+	bh=yYj13dLPflFKdu/4BhoN65kgG9XL/P3iQ92lH0heTj0=;
+	b=uigF5aJ3yksqiyFkfrG1UBhO8G94teMJw+cbd1cDOkK0HpRqxSle0S7odRlnTZi8
+	RrmL/FCaSZ29drdBG50O7xPJTwxCx9XoKJf7IGRTtKaQV1w7VvcISnhxTv0lk+PZa64
+	vNOFjWpbmG8uUszoikrI8WpPq11/Cl6mv7F+1GWk=
+Content-Type: multipart/mixed; boundary="===============5383588524732011291=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cffi: upgrading to 1.17.1 SUCCEEDED
-Message-ID: <01010191f61ad789-b2ee3ee2-7087-4fb3-a8e8-fc63fc365126-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libxi: upgrading to 1.8.2 SUCCEEDED
+Message-ID: <01010191f61ad4af-572bffa2-cc37-4b9e-8ae9-91528a40a672-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Sep 2024 14:33:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.15-54.240.27.29
+X-SES-Outgoing: 2024.09.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204521
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204502
 
---===============7490319557216876902==
+--===============5383588524732011291==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-cffi* to *1.17.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libxi* to *1.8.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-cffi-upgrade-1.17.0-1.17.1.patch
+    - apply the patch: git am 0001-libxi-upgrade-1.8.1-1.8.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,104 +72,89 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2dfb52fea81b1f10414bd52021b68047d972c89c Mon Sep 17 00:00:00 2001
+From e65738b46c102f7954207f905c5dc527d2a2a43a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Sep 2024 08:23:17 +0000
-Subject: [PATCH] python3-cffi: upgrade 1.17.0 -> 1.17.1
+Date: Sun, 15 Sep 2024 07:06:15 +0000
+Subject: [PATCH] libxi: upgrade 1.8.1 -> 1.8.2
 
 ---
- .../python/{python3-cffi_1.17.0.bb => python3-cffi_1.17.1.bb}   | 2 +-
+ .../xorg-lib/{libxi_1.8.1.bb => libxi_1.8.2.bb}                 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-cffi_1.17.0.bb => python3-cffi_1.17.1.bb} (91%)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.8.1.bb => libxi_1.8.2.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-cffi_1.17.0.bb b/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-cffi_1.17.0.bb
-rename to meta/recipes-devtools/python/python3-cffi_1.17.1.bb
-index 28200f9b43..99979a73e8 100644
---- a/meta/recipes-devtools/python/python3-cffi_1.17.0.bb
-+++ b/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5677e2fdbf7cdda61d6dd2b57df547bf"
- DEPENDS += "libffi python3-pycparser"
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb b/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb
+rename to meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb
+index 00bd46ef13..2a86f5fcf0 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb
+@@ -18,6 +18,6 @@ PE = "1"
+ XORG_PN = "libXi"
+ XORG_EXT = "tar.xz"
  
--SRC_URI[sha256sum] = "f3157624b7558b914cb039fd1af735e5e8049a87c817cc215109ad1c8779df76"
-+SRC_URI[sha256sum] = "1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789c52824"
+-SRC_URI[sha256sum] = "89bfc0e814f288f784202e6e5f9b362b788ccecdeb078670145eacd8749656a7"
++SRC_URI[sha256sum] = "d0e0555e53d6e2114eabfa44226ba162d2708501a25e18d99cfb35c094c6c104"
  
- SRC_URI += "file://run-ptest"
- 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.44.0
 
 
---===============7490319557216876902==
-Content-Type: text/plain; charset="us-ascii"
+--===============5383588524732011291==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libxi-upgrade-1.8.1-1.8.2.patch"
 
-Changes to packages/core2-64-poky-linux/python3-cffi (sysroot):
-  /usr/lib/python3.12/site-packages/cffi-1.17.0.dist-info moved to /usr/lib/python3.12/site-packages/cffi-1.17.1.dist-info
+RnJvbSBlNjU3MzhiNDZjMTAyZjc5NTQyMDdmOTA1YzVkYzUyN2QyYTJhNDNhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDc6MDY6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4aTogdXBncmFkZSAxLjguMSAtPiAxLjguMgoKLS0tCiAuLi4veG9yZy1saWIve2xpYnhpXzEu
+OC4xLmJiID0+IGxpYnhpXzEuOC4yLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhpXzEuOC4xLmJiID0+IGxpYnhpXzEuOC4yLmJifSAo
+ODglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4aV8x
+LjguMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4aV8xLjguMi5iYgpz
+aW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
+Zy1saWIvbGlieGlfMS44LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
+LWxpYi9saWJ4aV8xLjguMi5iYgppbmRleCAwMGJkNDZlZjEzLi4yYTg2ZjVmY2YwIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGlfMS44LjEuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhpXzEuOC4yLmJiCkBAIC0xOCw2ICsx
+OCw2IEBAIFBFID0gIjEiCiBYT1JHX1BOID0gImxpYlhpIgogWE9SR19FWFQgPSAidGFyLnh6Igog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODliZmMwZTgxNGYyODhmNzg0MjAyZTZlNWY5YjM2MmI3
+ODhjY2VjZGViMDc4NjcwMTQ1ZWFjZDg3NDk2NTZhNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJk
+MGUwNTU1ZTUzZDZlMjExNGVhYmZhNDQyMjZiYTE2MmQyNzA4NTAxYTI1ZTE4ZDk5Y2ZiMzVjMDk0
+YzZjMTA0IgogCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCi0tIAoyLjQ0LjAK
+Cg==
 
---===============7490319557216876902==
+--===============5383588524732011291==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-cffi: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.17.0.tar.gz;downloadfilename=cffi-1.17.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.17.1.tar.gz;downloadfilename=cffi-1.17.1.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-dbg: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-dbg: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-dev: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-dev: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-doc: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-doc: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-locale: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-locale: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-ptest: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-ptest: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-ptest: PKGSIZE changed from 676787 to 677014 (+0%)
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-src: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-src: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-staticdev: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi-staticdev: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi: PKGV changed from 1.17.0 [default] to 1.17.1 [default]
-packages/core2-64-poky-linux/python3-cffi/python3-cffi: PV changed from "1.17.0" to "1.17.1"
-packages/core2-64-poky-linux/python3-cffi/python3-cffi: PKGSIZE changed from 984580 to 986254 (+0%)
-Changes to packages/core2-64-poky-linux/python3-cffi (sysroot):
-  /usr/lib/python3.12/site-packages/cffi-1.17.0.dist-info moved to /usr/lib/python3.12/site-packages/cffi-1.17.1.dist-info
+packages/core2-64-poky-linux/libxi: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXi-1.8.1.tar.xz" to "https://www.x.org/releases//individual/lib/libXi-1.8.2.tar.xz"
+packages/core2-64-poky-linux/libxi: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi: PV changed from "1.8.1" to "1.8.2"
+packages/core2-64-poky-linux/libxi/libxi-dbg: PKGSIZE changed from 1498304 to 1499576 (+0%)
+packages/core2-64-poky-linux/libxi/libxi-dbg: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi/libxi-dbg: PV changed from "1.8.1" to "1.8.2"
+packages/core2-64-poky-linux/libxi/libxi-dev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi/libxi-dev: PV changed from "1.8.1" to "1.8.2"
+packages/core2-64-poky-linux/libxi/libxi-doc: PKGSIZE changed from 248510 to 248519 (+0%)
+packages/core2-64-poky-linux/libxi/libxi-doc: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi/libxi-doc: PV changed from "1.8.1" to "1.8.2"
+packages/core2-64-poky-linux/libxi/libxi-locale: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi/libxi-locale: PV changed from "1.8.1" to "1.8.2"
+packages/core2-64-poky-linux/libxi/libxi-src: PKGSIZE changed from 382503 to 383175 (+0%)
+packages/core2-64-poky-linux/libxi/libxi-src: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi/libxi-src: PV changed from "1.8.1" to "1.8.2"
+packages/core2-64-poky-linux/libxi/libxi-staticdev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi/libxi-staticdev: PV changed from "1.8.1" to "1.8.2"
+packages/core2-64-poky-linux/libxi/libxi: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-64-poky-linux/libxi/libxi: PV changed from "1.8.1" to "1.8.2"
 
---===============7490319557216876902==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-cffi-upgrade-1.17.0-1.17.1.patch"
-
-RnJvbSAyZGZiNTJmZWE4MWIxZjEwNDE0YmQ1MjAyMWI2ODA0N2Q5NzJjODljIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDg6MjM6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNmZmk6IHVwZ3JhZGUgMS4xNy4wIC0+IDEuMTcuMQoKLS0tCiAuLi4vcHl0aG9uL3tw
-eXRob24zLWNmZmlfMS4xNy4wLmJiID0+IHB5dGhvbjMtY2ZmaV8xLjE3LjEuYmJ9ICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWNmZmlfMS4xNy4wLmJiID0+IHB5
-dGhvbjMtY2ZmaV8xLjE3LjEuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWNmZmlfMS4xNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLWNmZmlfMS4xNy4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZmZpXzEuMTcu
-MC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNmZmlf
-MS4xNy4xLmJiCmluZGV4IDI4MjAwZjliNDMuLjk5OTc5YTczZTggMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZmZpXzEuMTcuMC5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8xLjE3LjEuYmIKQEAgLTQsNyAr
-NCw3IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5T
-RTttZDU9NTY3N2UyZmRiZjdjZGRhNjFkNmRkMmI1N2RmNTQ3YmYiCiBERVBFTkRTICs9ICJsaWJm
-ZmkgcHl0aG9uMy1weWNwYXJzZXIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMzE1NzYyNGI3
-NTU4YjkxNGNiMDM5ZmQxYWY3MzVlNWU4MDQ5YTg3YzgxN2NjMjE1MTA5YWQxYzg3NzlkZjc2Igor
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjFjMzljNjAxNmMzMmJjNDhkZDU0NTYxOTUwZWJkNjgzNmUx
-NjcwZjJhZTQ2MTI4ZjY3Y2Y0OWU3ODljNTI4MjQiCiAKIFNSQ19VUkkgKz0gImZpbGU6Ly9ydW4t
-cHRlc3QiCiAKLS0gCjIuNDQuMAoK
-
---===============7490319557216876902==--
+--===============5383588524732011291==--
 
