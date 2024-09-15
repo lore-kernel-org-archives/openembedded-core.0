@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF35AC36015
-	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:20 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.115644.1726410841548876512
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B674CEE6426
+	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:21 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.115638.1726410840760726917
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Sep 2024 07:34:01 -0700
+ Sun, 15 Sep 2024 07:34:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=A/M2PdIG;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=c0aXC16R;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010191f61ad923-f6fac6e6-4f88-45c6-8975-a1dce0bb1430-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iRQ0GZTL;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ytx0Mtpy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010191f61ad786-7a1c54a9-9c25-49d9-884d-2c9af5eb8446-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1726410841;
+	t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9FdfrA4I7lelUwwMRDoRsvqXStpSk2NEpqQqXWxj+Gk=;
-	b=A/M2PdIGMjM/i59lY61+k6yzzJsCJSEVxgvJ7hYa/iLkLcMOqwkbFQejiiYukX/J
-	Gq4zMPk808Ca1AYL5kO1UTs80SIwyTgv8ODigSpOHUFYepEMTD/ZFdg0m71ZSU9jkuQ
-	QsyQ1AYgA0kN+FBBFcbMFPquKVcgELO6DBt9Kcng=
+	bh=wX/0nR69RHdu7fSGEIgU3A3A9liZ2IGeEzKR84X8crs=;
+	b=iRQ0GZTLmSGF/5S0M7lyKrufhuD/j/1g+M9CwYFptS8w2V9qrJL1XMaK3BWsD2g/
+	RXXuouqWRtfVFNHdCWwXJ2Eu6KtHLD/sfm5ds1GakQqVNjQzznmcQDsLoBBhgcunjxW
+	dN8EQOfe8htqVFH5UQU1XzQUuPqBRvmydfQ0SR88=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410841;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9FdfrA4I7lelUwwMRDoRsvqXStpSk2NEpqQqXWxj+Gk=;
-	b=c0aXC16Ril3ECGeUiSXyBMBRR5UQl4+Hc/8smCYzFSv3p+S2vvGsGwQv4EH+6ycI
-	bOu6IUAURxNrMtK2odeAddC+GOiVKDOhQRUL3Oc3W2SeoIgGkYsQE+dVK1UYU4U1UNs
-	rhYDgc2X4V8DwnLvJfeXWqHAXjDeI/dFsmI8vbjk=
-Content-Type: multipart/mixed; boundary="===============8438417874562963043=="
+	bh=wX/0nR69RHdu7fSGEIgU3A3A9liZ2IGeEzKR84X8crs=;
+	b=ytx0Mtpyb7FuNtzYY0TQlGj8+Yxv3FOkdcn/g4hiJ5qpmdHSSVlt0y4ilrhRRc7N
+	/D8EqRu6vFPXffAe6FBbtEkZK0HWQ6/tnDp1YVgCwUrDjI+4eoU5eLvD0yPfd74/+Fz
+	QIzCIBjLYT/++aeTO4WPc4P4vCKojTGKVx/JLf1A=
+Content-Type: multipart/mixed; boundary="===============2823703901065093300=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-idna: upgrading to 3.9 SUCCEEDED
-Message-ID: <01010191f61ad923-f6fac6e6-4f88-45c6-8975-a1dce0bb1430-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Sep 2024 14:34:00 +0000
+Subject: [AUH] orc: upgrading to 0.4.40 SUCCEEDED
+Message-ID: <01010191f61ad786-7a1c54a9-9c25-49d9-884d-2c9af5eb8446-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Sep 2024 14:33:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.15-54.240.27.45
+X-SES-Outgoing: 2024.09.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204554
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204530
 
---===============8438417874562963043==
+--===============2823703901065093300==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-idna* to *3.9* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *orc* to *0.4.40* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-idna-upgrade-3.8-3.9.patch
+    - apply the patch: git am 0001-orc-upgrade-0.4.39-0.4.40.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,44 +72,49 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5365010cdef8305a7cc44ca965ebeeed962b7cda Mon Sep 17 00:00:00 2001
+From 3a8dbb276ab525fc162fa7f438c871c0155a4e5d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Sep 2024 08:37:31 +0000
-Subject: [PATCH] python3-idna: upgrade 3.8 -> 3.9
+Date: Sun, 15 Sep 2024 08:06:27 +0000
+Subject: [PATCH] orc: upgrade 0.4.39 -> 0.4.40
 
 ---
- .../python/{python3-idna_3.8.bb => python3-idna_3.9.bb}         | 2 +-
+ meta/recipes-devtools/orc/{orc_0.4.39.bb => orc_0.4.40.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-idna_3.8.bb => python3-idna_3.9.bb} (84%)
+ rename meta/recipes-devtools/orc/{orc_0.4.39.bb => orc_0.4.40.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-idna_3.8.bb b/meta/recipes-devtools/python/python3-idna_3.9.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-idna_3.8.bb
-rename to meta/recipes-devtools/python/python3-idna_3.9.bb
-index 95c3c8cc44..db2c127268 100644
---- a/meta/recipes-devtools/python/python3-idna_3.8.bb
-+++ b/meta/recipes-devtools/python/python3-idna_3.9.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/kjd/idna"
- LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-TOU"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=204c0612e40a4dd46012a78d02c80fb1"
+diff --git a/meta/recipes-devtools/orc/orc_0.4.39.bb b/meta/recipes-devtools/orc/orc_0.4.40.bb
+similarity index 92%
+rename from meta/recipes-devtools/orc/orc_0.4.39.bb
+rename to meta/recipes-devtools/orc/orc_0.4.40.bb
+index 320abf536a..e437831cd7 100644
+--- a/meta/recipes-devtools/orc/orc_0.4.39.bb
++++ b/meta/recipes-devtools/orc/orc_0.4.40.bb
+@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
  
--SRC_URI[sha256sum] = "d838c2c0ed6fced7693d5e8ab8e734d5f8fda53a039c0164afb0b82e771e3603"
-+SRC_URI[sha256sum] = "e5c5dafde284f26e9e0f28f6ea2d6400abd5ca099864a67f576f3981c6476124"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad085ae51143d3040cc0"
++SRC_URI[sha256sum] = "3fc2bee78dfb7c41fd9605061fc69138db7df007eae2f669a1f56e8bacef74ab"
  
- SRC_URI += "file://run-ptest"
+ inherit meson pkgconfig gtk-doc
  
 -- 
 2.44.0
 
 
---===============8438417874562963043==
+--===============2823703901065093300==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-idna (sysroot):
-  /usr/lib/python3.12/site-packages/idna-3.8.dist-info moved to /usr/lib/python3.12/site-packages/idna-3.9.dist-info
+packages/core2-64-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.39.0", added "/usr/lib/liborc-0.4.so.0.40.0"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.39.0", added "/usr/lib/liborc-test-0.4.so.0.40.0"
+Changes to packages/core2-64-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.39.0 to liborc-0.4.so.0.40.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.39.0 to liborc-test-0.4.so.0.40.0
+  /usr/lib/liborc-0.4.so.0.39.0 moved to /usr/lib/liborc-0.4.so.0.40.0
+  /usr/lib/liborc-test-0.4.so.0.39.0 moved to /usr/lib/liborc-test-0.4.so.0.40.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1951,35 +1956,48 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============8438417874562963043==
+--===============2823703901065093300==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-idna: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/idna/idna-3.8.tar.gz;downloadfilename=idna-3.8.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/i/idna/idna-3.9.tar.gz;downloadfilename=idna-3.9.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-idna: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna-dbg: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna-dbg: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna-dev: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna-dev: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna-doc: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna-doc: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna-locale: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna-locale: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna-ptest: PKGSIZE changed from 744625 to 745719 (+0%)
-packages/core2-64-poky-linux/python3-idna/python3-idna-ptest: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna-ptest: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna-src: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna-src: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna-staticdev: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna-staticdev: PKGV changed from 3.8 [default] to 3.9 [default]
-packages/core2-64-poky-linux/python3-idna/python3-idna: PKGSIZE changed from 600360 to 644763 (+7%)
-packages/core2-64-poky-linux/python3-idna/python3-idna: PV changed from "3.8" to "3.9"
-packages/core2-64-poky-linux/python3-idna/python3-idna: PKGV changed from 3.8 [default] to 3.9 [default]
-Changes to packages/core2-64-poky-linux/python3-idna (sysroot):
-  /usr/lib/python3.12/site-packages/idna-3.8.dist-info moved to /usr/lib/python3.12/site-packages/idna-3.9.dist-info
+packages/core2-64-poky-linux/orc: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.39.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.40.tar.xz"
+packages/core2-64-poky-linux/orc: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.39.0", added "/usr/lib/liborc-0.4.so.0.40.0"
+packages/core2-64-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.39.0", added "/usr/lib/liborc-0.4.so.0.40.0"
+packages/core2-64-poky-linux/orc/liborc-0.4: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.39.0", added "/usr/lib/liborc-test-0.4.so.0.40.0"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.39.0", added "/usr/lib/liborc-test-0.4.so.0.40.0"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc-dbg: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-test-0.4.so.0.39.0 /usr/lib/.debug/liborc-0.4.so.0.39.0", added "/usr/lib/.debug/liborc-test-0.4.so.0.40.0 /usr/lib/.debug/liborc-0.4.so.0.40.0"
+packages/core2-64-poky-linux/orc/orc-dbg: PKGSIZE changed from 2061864 to 2067056 (+0%)
+packages/core2-64-poky-linux/orc/orc-dbg: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc-dev: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc-dev: PKGSIZE changed from 239572 to 239660 (+0%)
+packages/core2-64-poky-linux/orc/orc-dev: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc-doc: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc-doc: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc-examples: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc-examples: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc-locale: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc-locale: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc-src: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc-src: PKGSIZE changed from 1709242 to 1713463 (+0%)
+packages/core2-64-poky-linux/orc/orc-src: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc-staticdev: PV changed from "0.4.39" to "0.4.40"
+packages/core2-64-poky-linux/orc/orc: PKGV changed from 0.4.39 [default] to 0.4.40 [default]
+packages/core2-64-poky-linux/orc/orc: PV changed from "0.4.39" to "0.4.40"
+Changes to packages/core2-64-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.39.0 to liborc-0.4.so.0.40.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.39.0 to liborc-test-0.4.so.0.40.0
+  /usr/lib/liborc-0.4.so.0.39.0 moved to /usr/lib/liborc-0.4.so.0.40.0
+  /usr/lib/liborc-test-0.4.so.0.39.0 moved to /usr/lib/liborc-test-0.4.so.0.40.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3821,35 +3839,34 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============8438417874562963043==
+--===============2823703901065093300==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-idna-upgrade-3.8-3.9.patch"
+ filename="0001-orc-upgrade-0.4.39-0.4.40.patch"
 
-RnJvbSA1MzY1MDEwY2RlZjgzMDVhN2NjNDRjYTk2NWViZWVlZDk2MmI3Y2RhIE1vbiBTZXAgMTcg
+RnJvbSAzYThkYmIyNzZhYjUyNWZjMTYyZmE3ZjQzOGM4NzFjMDE1NWE0ZTVkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDg6Mzc6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWlkbmE6IHVwZ3JhZGUgMy44IC0+IDMuOQoKLS0tCiAuLi4vcHl0aG9uL3tweXRob24z
-LWlkbmFfMy44LmJiID0+IHB5dGhvbjMtaWRuYV8zLjkuYmJ9ICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWlkbmFfMy44LmJiID0+IHB5dGhvbjMtaWRu
-YV8zLjkuYmJ9ICg4NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWlkbmFfMy44LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLWlkbmFfMy45LmJiCnNpbWlsYXJpdHkgaW5kZXggODQlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1pZG5hXzMuOC5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWlkbmFfMy45LmJiCmluZGV4IDk1YzNjOGNj
-NDQuLmRiMmMxMjcyNjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1pZG5hXzMuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtaWRuYV8zLjkuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0
-aHViLmNvbS9ramQvaWRuYSIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlICYgUHl0aG9uLTIuMCAm
-IFVuaWNvZGUtVE9VIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5tZDttZDU9
-MjA0YzA2MTJlNDBhNGRkNDYwMTJhNzhkMDJjODBmYjEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICJkODM4YzJjMGVkNmZjZWQ3NjkzZDVlOGFiOGU3MzRkNWY4ZmRhNTNhMDM5YzAxNjRhZmIwYjgy
-ZTc3MWUzNjAzIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImU1YzVkYWZkZTI4NGYyNmU5ZTBmMjhm
-NmVhMmQ2NDAwYWJkNWNhMDk5ODY0YTY3ZjU3NmYzOTgxYzY0NzYxMjQiCiAKIFNSQ19VUkkgKz0g
-ImZpbGU6Ly9ydW4tcHRlc3QiCiAKLS0gCjIuNDQuMAoK
+CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDg6MDY6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+cmM6IHVwZ3JhZGUgMC40LjM5IC0+IDAuNC40MAoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+b3JjL3tvcmNfMC40LjM5LmJiID0+IG9yY18wLjQuNDAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL29yYy97b3JjXzAuNC4zOS5iYiA9PiBvcmNfMC40LjQwLmJifSAoOTIlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zOS5iYiBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC40MC5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuMzkuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC40MC5iYgppbmRleCAzMjBhYmY1MzZh
+Li5lNDM3ODMxY2Q3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18w
+LjQuMzkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjQwLmJiCkBA
+IC01LDcgKzUsNyBAQCBMSUNFTlNFID0gIkJTRC0yLUNsYXVzZSAmIEJTRC0zLUNsYXVzZSIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTE0MDBiZDlkMDllOGFmNTZiOWVj
+OTgyYjNkODU3OTdlIgogCiBTUkNfVVJJID0gImh0dHA6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Au
+b3JnL3NyYy9vcmMvb3JjLSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzM2Vk
+MjM4N2Y0OWI4MjVmYTFiOWMzYjAwNzJlMDVmMjU5MTQxYjg5NTQ3NGFkMDg1YWU1MTE0M2QzMDQw
+Y2MwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNmYzJiZWU3OGRmYjdjNDFmZDk2MDUwNjFmYzY5
+MTM4ZGI3ZGYwMDdlYWUyZjY2OWExZjU2ZThiYWNlZjc0YWIiCiAKIGluaGVyaXQgbWVzb24gcGtn
+Y29uZmlnIGd0ay1kb2MKIAotLSAKMi40NC4wCgo=
 
---===============8438417874562963043==--
+--===============2823703901065093300==--
 
