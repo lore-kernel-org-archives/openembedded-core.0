@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1128C35FED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9E5C35FEF
 	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:06 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.115638.1726410840760726917
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.115647.1726410841725628169
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Sep 2024 07:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GNPeAHgz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=THbu75CK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010191f61adc9f-29528eee-e5dd-41f8-a988-0a003c6cfce1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YgJcGCii;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=fPdvVOZO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010191f61adc69-e1c297c5-4c07-4912-a11c-f7fe96307d67-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1726410841;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4RpBuah14prMCxydauHUiVQIpmi3VBkQYm/yjeAwRIQ=;
-	b=GNPeAHgzYV7TRv6oG98Ix+jaAJLYHqLm6L3yfO1Z8kpTVVbv7XvL+GEirnBzVkGa
-	Uzebc6v46DvABEoT8PP809E2/ECqa+yid0+Js3xrp1qbURovJoODbqa2l+XBGnVzAWa
-	Mbot8265suV2JZMC2Z6AH4qrT4Q1hjmV5cbnemuM=
+	bh=hP5cPEiurkAvmBr0auhmgXwoMKrE39XPJDrlMMnzwGQ=;
+	b=YgJcGCiiuU4q8I896ExYHM66Ac94vNO1n5dIc4pclSwspM4m7G2kgQxT+mrLkCZ4
+	DiJPwX5wDorDN6afmGYb6HOA5qc+H8z9Y+I2gY3pKDcShZ2xX7GnyzbsakskTEq3TbB
+	W5C+1RnzecuudwrRgKy461MLRxF1Y+VPhqKske9w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410841;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4RpBuah14prMCxydauHUiVQIpmi3VBkQYm/yjeAwRIQ=;
-	b=THbu75CKWcxDnKjDbfA0dzhE2Dbq5kK+IwYpYp3XK+nEJ/sPwYTqa+/C4+cv+VV8
-	MBkTqXNTApwFwFJGhvOH1h05AYtQt+bXQKOJPQAWqcsbNNFA1k6RIcX9ZKjanH5KYtD
-	EOZJm5qTsvPftP70Af/+xpTlsBBmMiTK107fgNs8=
-Content-Type: multipart/mixed; boundary="===============6183341108072344581=="
+	bh=hP5cPEiurkAvmBr0auhmgXwoMKrE39XPJDrlMMnzwGQ=;
+	b=fPdvVOZOyR7EV5+MO6YJDhHE17l58eIgLgRkOyBCdYtuF0154r9aIQaRkoFFkfkY
+	pIshaKtWjxx0/qpXaiKRc642QbEp+mqvxOIKaW9isGEBiEazSCy0sTpSqFyiIF4H8oZ
+	Pk2gjlyOmj2BGZqr4Q+O5oVAwM4gDPEE1hq+Jb0U=
+Content-Type: multipart/mixed; boundary="===============6509032328985666754=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shaderc: upgrading to 2024.2 SUCCEEDED
-Message-ID: <01010191f61adc9f-29528eee-e5dd-41f8-a988-0a003c6cfce1-000000@us-west-2.amazonses.com>
+Subject: [AUH] mesa: upgrading to 24.2.2 FAILED
+Message-ID: <01010191f61adc69-e1c297c5-4c07-4912-a11c-f7fe96307d67-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Sep 2024 14:34:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.15-54.240.27.192
+X-SES-Outgoing: 2024.09.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204552
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204548
 
---===============6183341108072344581==
+--===============6509032328985666754==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,163 +51,152 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *shaderc* to *2024.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *mesa* to *24.2.2* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-shaderc-upgrade-2024.1-2024.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe mesa failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1867 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-101ff59647e2bc20d15ba02883fd905ea40daf74"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:101ff59647e2bc20d15ba02883fd905ea40daf74"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (0 cached, 917 parsed). 1868 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-101ff59647e2bc20d15ba02883fd905ea40daf74"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:101ff59647e2bc20d15ba02883fd905ea40daf74"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-6efiqye2: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-jbxoo4zq/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-jbxoo4zq/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   1% |                                    | ETA:  0:00:10
+Adding changed files:   3% |#                                   | ETA:  0:00:07
+Adding changed files:   4% |#                                   | ETA:  0:00:07
+Adding changed files:   6% |##                                  | ETA:  0:00:08
+Adding changed files:   7% |##                                  | ETA:  0:00:09
+Adding changed files:   9% |###                                 | ETA:  0:00:11
+Adding changed files:  11% |####                                | ETA:  0:00:10
+Adding changed files:  12% |####                                | ETA:  0:00:09
+Adding changed files:  14% |#####                               | ETA:  0:00:08
+Adding changed files:  15% |#####                               | ETA:  0:00:07
+Adding changed files:  17% |######                              | ETA:  0:00:07
+Adding changed files:  19% |######                              | ETA:  0:00:06
+Adding changed files:  20% |#######                             | ETA:  0:00:06
+Adding changed files:  22% |########                            | ETA:  0:00:05
+Adding changed files:  23% |########                            | ETA:  0:00:05
+Adding changed files:  25% |#########                           | ETA:  0:00:05
+Adding changed files:  27% |#########                           | ETA:  0:00:05
+Adding changed files:  28% |##########                          | ETA:  0:00:05
+Adding changed files:  30% |##########                          | ETA:  0:00:05
+Adding changed files:  31% |###########                         | ETA:  0:00:04
+Adding changed files:  33% |############                        | ETA:  0:00:04
+Adding changed files:  35% |############                        | ETA:  0:00:04
+Adding changed files:  36% |#############                       | ETA:  0:00:04
+Adding changed files:  38% |#############                       | ETA:  0:00:04
+Adding changed files:  39% |##############                      | ETA:  0:00:04
+Adding changed files:  41% |##############                      | ETA:  0:00:04
+Adding changed files:  43% |###############                     | ETA:  0:00:04
+Adding changed files:  44% |################                    | ETA:  0:00:04
+Adding changed files:  46% |################                    | ETA:  0:00:04
+Adding changed files:  47% |#################                   | ETA:  0:00:03
+Adding changed files:  49% |#################                   | ETA:  0:00:03
+Adding changed files:  51% |##################                  | ETA:  0:00:03
+Adding changed files:  52% |##################                  | ETA:  0:00:03
+Adding changed files:  54% |###################                 | ETA:  0:00:03
+Adding changed files:  55% |####################                | ETA:  0:00:03
+Adding changed files:  57% |####################                | ETA:  0:00:03
+Adding changed files:  59% |#####################               | ETA:  0:00:03
+Adding changed files:  60% |#####################               | ETA:  0:00:02
+Adding changed files:  62% |######################              | ETA:  0:00:02
+Adding changed files:  63% |######################              | ETA:  0:00:02
+Adding changed files:  65% |#######################             | ETA:  0:00:02
+Adding changed files:  67% |########################            | ETA:  0:00:02
+Adding changed files:  68% |########################            | ETA:  0:00:02
+Adding changed files:  70% |#########################           | ETA:  0:00:02
+Adding changed files:  71% |#########################           | ETA:  0:00:02
+Adding changed files:  73% |##########################          | ETA:  0:00:01
+Adding changed files:  75% |###########################         | ETA:  0:00:01
+Adding changed files:  76% |###########################         | ETA:  0:00:01
+Adding changed files:  78% |############################        | ETA:  0:00:01
+Adding changed files:  79% |############################        | ETA:  0:00:01
+Adding changed files:  81% |#############################       | ETA:  0:00:01
+Adding changed files:  82% |#############################       | ETA:  0:00:01
+Adding changed files:  84% |##############################      | ETA:  0:00:01
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  87% |###############################     | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:07
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://mesa.freedesktop.org/archive/mesa-24.2.2.tar.xz...
+INFO: Rebasing devtool onto 1f3de178a0a0829299946a3cc5b3dac04bc3ba6f
+WARNING: Command 'git rebase 1f3de178a0a0829299946a3cc5b3dac04bc3ba6f' failed:
+Auto-merging src/glx/drisw_glx.c
+CONFLICT (content): Merge conflict in src/glx/drisw_glx.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/mesa
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/mesa/mesa.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 5e84ed3eb8baa9bfcc06aaa6083421a11c638ddd Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Sep 2024 12:01:44 +0000
-Subject: [PATCH] shaderc: upgrade 2024.1 -> 2024.2
-
----
- .../0001-cmake-disable-building-external-dependencies.patch     | 2 +-
- .../0002-libshaderc_util-fix-glslang-header-file-location.patch | 2 +-
- .../shaderc/{shaderc_2024.1.bb => shaderc_2024.2.bb}            | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2024.1.bb => shaderc_2024.2.bb} (95%)
-
-diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-index 5c49aa7fd5..fccca24530 100644
---- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-+++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-@@ -1,4 +1,4 @@
--From 941f5f5831e7a52c26168f81f25d0470860ca6f1 Mon Sep 17 00:00:00 2001
-+From 90c7c514e09747b868c8068253e79820618080b5 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] cmake: disable building external dependencies
-diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-index 39f982b7f3..e2b8472afb 100644
---- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-+++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-@@ -1,4 +1,4 @@
--From ec2442940e1d5338971861bb81537bae3a6c19e2 Mon Sep 17 00:00:00 2001
-+From b2a15787740933ab1a7310c7e22efbf7bd94603e Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] libshaderc_util: fix glslang header file location
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2024.1.bb b/meta/recipes-graphics/shaderc/shaderc_2024.2.bb
-similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2024.1.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2024.2.bb
-index 1f0b12ef57..c658e7df05 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2024.1.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2024.2.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
- 
--SRCREV = "5d7736da11e626b49c5463aadb2afb228ad20276"
-+SRCREV = "5dad9194c038702ef20ccabbe4e3c188f2b13cec"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
-            file://0001-cmake-disable-building-external-dependencies.patch \
-            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
--- 
-2.44.0
-
-
---===============6183341108072344581==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/shaderc: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc: PV changed from "2024.1" to "2024.2"
-packages/core2-64-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-dbg: PV changed from "2024.1" to "2024.2"
-packages/core2-64-poky-linux/shaderc/shaderc-dev: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-dev: PV changed from "2024.1" to "2024.2"
-packages/core2-64-poky-linux/shaderc/shaderc-doc: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-doc: PV changed from "2024.1" to "2024.2"
-packages/core2-64-poky-linux/shaderc/shaderc-locale: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-locale: PV changed from "2024.1" to "2024.2"
-packages/core2-64-poky-linux/shaderc/shaderc-src: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-src: PV changed from "2024.1" to "2024.2"
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PKGSIZE changed from 3774502 to 3774478 (-0%)
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc-staticdev: PV changed from "2024.1" to "2024.2"
-packages/core2-64-poky-linux/shaderc/shaderc: PKGV changed from 2024.1 [default] to 2024.2 [default]
-packages/core2-64-poky-linux/shaderc/shaderc: PV changed from "2024.1" to "2024.2"
-
---===============6183341108072344581==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-shaderc-upgrade-2024.1-2024.2.patch"
-
-RnJvbSA1ZTg0ZWQzZWI4YmFhOWJmY2MwNmFhYTYwODM0MjFhMTFjNjM4ZGRkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMTI6MDE6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-aGFkZXJjOiB1cGdyYWRlIDIwMjQuMSAtPiAyMDI0LjIKCi0tLQogLi4uLzAwMDEtY21ha2UtZGlz
-YWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMucGF0Y2ggICAgIHwgMiArLQogLi4u
-LzAwMDItbGlic2hhZGVyY191dGlsLWZpeC1nbHNsYW5nLWhlYWRlci1maWxlLWxvY2F0aW9uLnBh
-dGNoIHwgMiArLQogLi4uL3NoYWRlcmMve3NoYWRlcmNfMjAyNC4xLmJiID0+IHNoYWRlcmNfMjAy
-NC4yLmJifSAgICAgICAgICAgIHwgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMo
-KyksIDMgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMv
-e3NoYWRlcmNfMjAyNC4xLmJiID0+IHNoYWRlcmNfMjAyNC4yLmJifSAoOTUlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJs
-ZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRpbmctZXh0ZXJuYWwt
-ZGVwZW5kZW5jaWVzLnBhdGNoCmluZGV4IDVjNDlhYTdmZDUuLmZjY2NhMjQ1MzAgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJs
-ZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxlLWJ1aWxkaW5nLWV4dGVy
-bmFsLWRlcGVuZGVuY2llcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOTQxZjVmNTgzMWU3
-YTUyYzI2MTY4ZjgxZjI1ZDA0NzA4NjBjYTZmMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gOTBjN2M1MTRlMDk3NDdiODY4YzgwNjgyNTNlNzk4MjA2MTgwODBiNSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29t
-PgogRGF0ZTogU2F0LCAxMyBGZWIgMjAyMSAwMDo0NTo1NiArMDAwMAogU3ViamVjdDogW1BBVENI
-XSBjbWFrZTogZGlzYWJsZSBidWlsZGluZyBleHRlcm5hbCBkZXBlbmRlbmNpZXMKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL2ZpbGVzLzAwMDItbGlic2hhZGVyY191
-dGlsLWZpeC1nbHNsYW5nLWhlYWRlci1maWxlLWxvY2F0aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMi1saWJzaGFkZXJjX3V0aWwtZml4LWdsc2xhbmct
-aGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2gKaW5kZXggMzlmOTgyYjdmMy4uZTJiODQ3MmFmYiAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMi1saWJz
-aGFkZXJjX3V0aWwtZml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2gKKysrIGIv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMi1saWJzaGFkZXJjX3V0aWwt
-Zml4LWdsc2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
-cm9tIGVjMjQ0Mjk0MGUxZDUzMzg5NzE4NjFiYjgxNTM3YmFlM2E2YzE5ZTIgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCitGcm9tIGIyYTE1Nzg3NzQwOTMzYWIxYTczMTBjN2UyMmVmYmY3YmQ5NDYw
-M2UgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNt
-YS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6IFNhdCwgMTMgRmViIDIwMjEgMDA6NDU6NTYgKzAwMDAK
-IFN1YmplY3Q6IFtQQVRDSF0gbGlic2hhZGVyY191dGlsOiBmaXggZ2xzbGFuZyBoZWFkZXIgZmls
-ZSBsb2NhdGlvbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hh
-ZGVyY18yMDI0LjEuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIw
-MjQuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjQuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDI0LjIuYmIKaW5kZXggMWYwYjEyZWY1Ny4uYzY1OGU3
-ZGYwNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18y
-MDI0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDI0
-LjIuYmIKQEAgLTYsNyArNiw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9nb29n
-bGUvc2hhZGVyYyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2OGY0MzI3IgogCi1T
-UkNSRVYgPSAiNWQ3NzM2ZGExMWU2MjZiNDljNTQ2M2FhZGIyYWZiMjI4YWQyMDI3NiIKK1NSQ1JF
-ViA9ICI1ZGFkOTE5NGMwMzg3MDJlZjIwY2NhYmJlNGUzYzE4OGYyYjEzY2VjIgogU1JDX1VSSSA9
-ICJnaXQ6Ly9naXRodWIuY29tL2dvb2dsZS9zaGFkZXJjLmdpdDtwcm90b2NvbD1odHRwczticmFu
-Y2g9bWFpbiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRpbmct
-ZXh0ZXJuYWwtZGVwZW5kZW5jaWVzLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDItbGli
-c2hhZGVyY191dGlsLWZpeC1nbHNsYW5nLWhlYWRlci1maWxlLWxvY2F0aW9uLnBhdGNoIFwKLS0g
-CjIuNDQuMAoK
-
---===============6183341108072344581==--
+--===============6509032328985666754==--
 
