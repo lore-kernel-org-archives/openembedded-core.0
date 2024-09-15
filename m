@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8801DC3600F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D19C9C36016
 	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:20 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.115646.1726410841701258344
+ by mx.groups.io with SMTP id smtpd.web11.115400.1726410841501496218
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Sep 2024 07:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ObgT5WaY;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bRAgvyPW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010191f61adbf1-f21f65de-c67e-42d9-a421-662a9ab551a9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ENJ7blM7;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=iAdnWKt2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010191f61ada8a-51ebc3f0-4dd8-4768-b04d-e837c81b88c2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1726410841;
+	t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nHudiSelz6cE4weIi0Ky+jDqwj+ncO3PakKYm6O77MI=;
-	b=ObgT5WaYXFZAocuH9NJRwae+XYouf0/O97PUsc5n/A7SQsPkUA676k3umZ0oF4I5
-	9jPrh/HaEmRcaBYpDMjwLD9z2GAe8qs6O/Scz/dGyI0SNDQKxsDUpMNORinqG05erml
-	h/rSkO85zBcKCXfcg55z5HaaSktnGR/uU+X2HpHw=
+	bh=dTC/yYbYZYwYiNczftMCG8M513fVG69r80zSxMggxb0=;
+	b=ENJ7blM7GIaNuSxfY5fVQdC5rVuPJa5Dk+j7OJFlNLCwitgVUFl1oIDxkiClsNQY
+	2Dwh/2rcW4Ye7e5Crq8pivzFbLh5b0dBmXmaP78IiVFEk/mi24fejmT9/KY8tmBbmjV
+	L51RjBITM8mvXnAmA/l3UawWwM+tQf1GdVlyArQY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410841;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nHudiSelz6cE4weIi0Ky+jDqwj+ncO3PakKYm6O77MI=;
-	b=bRAgvyPWqqQAykx17fWlqsFFM+fQrsz2WKSn5y+6MDUXTG4LFCV4uIwjNKZ4oW2p
-	SC/UWMELVOgeKuEnqrJ7e23njBrfQ4k9XFNOKRXXPTIfKw7bhH0GPwoCoNVL+u4LDsp
-	WUvsT3hCK36dtfqFsHCLaaop+2LolNGBuOMVQ+Oo=
-Content-Type: multipart/mixed; boundary="===============2873063771789592412=="
+	bh=dTC/yYbYZYwYiNczftMCG8M513fVG69r80zSxMggxb0=;
+	b=iAdnWKt2utvgEYh4hKT7qt+P/0pET7Rm2KTgk7L4PmfBJACMYecQ8+3lp8K6q8BF
+	0HLHEf2gqyJbrHgP8JZbQhQ5XlvVjR8UcuDqUoXeuZ5L/cijiSmFh9VIyPFsk/TAx24
+	vwya0fkZijJaMIAqwvwfDY5lvQzZVxT0Pxm+NvSs=
+Content-Type: multipart/mixed; boundary="===============2377367701276606277=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sysklogd: upgrading to 2.6.2 SUCCEEDED
-Message-ID: <01010191f61adbf1-f21f65de-c67e-42d9-a421-662a9ab551a9-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Sep 2024 14:34:01 +0000
+Subject: [AUH] iputils: upgrading to 20240905 SUCCEEDED
+Message-ID: <01010191f61ada8a-51ebc3f0-4dd8-4768-b04d-e837c81b88c2-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Sep 2024 14:34:00 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.09.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204556
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204549
 
---===============2873063771789592412==
+--===============2377367701276606277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *sysklogd* to *2.6.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *iputils* to *20240905* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sysklogd-upgrade-2.6.1-2.6.2.patch
+    - apply the patch: git am 0001-iputils-upgrade-20240117-20240905.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,29 +72,29 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b9e382e8d31af4757228066503d7b3b6721fc144 Mon Sep 17 00:00:00 2001
+From b9f5ca1bd5dff38ff1d9682fe854f23e4c81a46b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Sep 2024 10:22:40 +0000
-Subject: [PATCH] sysklogd: upgrade 2.6.1 -> 2.6.2
+Date: Sun, 15 Sep 2024 09:49:19 +0000
+Subject: [PATCH] iputils: upgrade 20240117 -> 20240905
 
 ---
- .../sysklogd/{sysklogd_2.6.1.bb => sysklogd_2.6.2.bb}           | 2 +-
+ .../iputils/{iputils_20240117.bb => iputils_20240905.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/sysklogd/{sysklogd_2.6.1.bb => sysklogd_2.6.2.bb} (97%)
+ rename meta/recipes-extended/iputils/{iputils_20240117.bb => iputils_20240905.bb} (97%)
 
-diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.6.1.bb b/meta/recipes-extended/sysklogd/sysklogd_2.6.2.bb
+diff --git a/meta/recipes-extended/iputils/iputils_20240117.bb b/meta/recipes-extended/iputils/iputils_20240905.bb
 similarity index 97%
-rename from meta/recipes-extended/sysklogd/sysklogd_2.6.1.bb
-rename to meta/recipes-extended/sysklogd/sysklogd_2.6.2.bb
-index 99454b8230..7f06738d00 100644
---- a/meta/recipes-extended/sysklogd/sysklogd_2.6.1.bb
-+++ b/meta/recipes-extended/sysklogd/sysklogd_2.6.2.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/troglobit/sysklogd.git;branch=master;protocol=https
-            file://sysklogd \
-            "
+rename from meta/recipes-extended/iputils/iputils_20240117.bb
+rename to meta/recipes-extended/iputils/iputils_20240905.bb
+index 3880689742..ca8ddc530d 100644
+--- a/meta/recipes-extended/iputils/iputils_20240117.bb
++++ b/meta/recipes-extended/iputils/iputils_20240905.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=627cc07ec86a45951d43e30658bbd819"
+ DEPENDS = "gnutls"
  
--SRCREV = "c2bc519697aaa94f7b5e658a31ff55b9d54e7c8d"
-+SRCREV = "c1f8842853378781c2fdf6e70070a95539ba7d2e"
+ SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https"
+-SRCREV = "8372f355bdf7a9b0c79338dd8ef8464c00a5c4e2"
++SRCREV = "10b50784aae3fb75c96cdf9b1668916b49557dd5"
  
  S = "${WORKDIR}/git"
  
@@ -102,61 +102,78 @@ index 99454b8230..7f06738d00 100644
 2.44.0
 
 
---===============2873063771789592412==
+--===============2377367701276606277==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-sysklogd-upgrade-2.6.1-2.6.2.patch"
+ filename="0001-iputils-upgrade-20240117-20240905.patch"
 
-RnJvbSBiOWUzODJlOGQzMWFmNDc1NzIyODA2NjUwM2Q3YjNiNjcyMWZjMTQ0IE1vbiBTZXAgMTcg
+RnJvbSBiOWY1Y2ExYmQ1ZGZmMzhmZjFkOTY4MmZlODU0ZjIzZTRjODFhNDZiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMTA6MjI6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-eXNrbG9nZDogdXBncmFkZSAyLjYuMSAtPiAyLjYuMgoKLS0tCiAuLi4vc3lza2xvZ2Qve3N5c2ts
-b2dkXzIuNi4xLmJiID0+IHN5c2tsb2dkXzIuNi4yLmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvc3lza2xvZ2Qve3N5c2tsb2dkXzIuNi4xLmJiID0+IHN5c2tsb2dkXzIu
-Ni4yLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNrbG9n
-ZC9zeXNrbG9nZF8yLjYuMS5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNrbG9nZC9zeXNr
-bG9nZF8yLjYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvc3lza2xvZ2Qvc3lza2xvZ2RfMi42LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9zeXNrbG9nZC9zeXNrbG9nZF8yLjYuMi5iYgppbmRleCA5OTQ1NGI4MjMw
-Li43ZjA2NzM4ZDAwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3lza2xvZ2Qv
-c3lza2xvZ2RfMi42LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N5c2tsb2dkL3N5
-c2tsb2dkXzIuNi4yLmJiCkBAIC0xNCw3ICsxNCw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHVi
-LmNvbS90cm9nbG9iaXQvc3lza2xvZ2QuZ2l0O2JyYW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMK
-ICAgICAgICAgICAgZmlsZTovL3N5c2tsb2dkIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAi
-YzJiYzUxOTY5N2FhYTk0ZjdiNWU2NThhMzFmZjU1YjlkNTRlN2M4ZCIKK1NSQ1JFViA9ICJjMWY4
-ODQyODUzMzc4NzgxYzJmZGY2ZTcwMDcwYTk1NTM5YmE3ZDJlIgogCiBTID0gIiR7V09SS0RJUn0v
-Z2l0IgogCi0tIAoyLjQ0LjAKCg==
+CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDk6NDk6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
+cHV0aWxzOiB1cGdyYWRlIDIwMjQwMTE3IC0+IDIwMjQwOTA1CgotLS0KIC4uLi9pcHV0aWxzL3tp
+cHV0aWxzXzIwMjQwMTE3LmJiID0+IGlwdXRpbHNfMjAyNDA5MDUuYmJ9ICAgICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9pcHV0aWxzL3tpcHV0aWxzXzIwMjQwMTE3LmJiID0+IGlwdXRp
+bHNfMjAyNDA5MDUuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2lwdXRpbHMvaXB1dGlsc18yMDI0MDExNy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9pcHV0
+aWxzL2lwdXRpbHNfMjAyNDA5MDUuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2lwdXRpbHMvaXB1dGlsc18yMDI0MDExNy5iYgpyZW5hbWUg
+dG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2lwdXRpbHMvaXB1dGlsc18yMDI0MDkwNS5iYgppbmRl
+eCAzODgwNjg5NzQyLi5jYThkZGM1MzBkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvaXB1dGlscy9pcHV0aWxzXzIwMjQwMTE3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9pcHV0aWxzL2lwdXRpbHNfMjAyNDA5MDUuYmIKQEAgLTExLDcgKzExLDcgQEAgTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NjI3Y2MwN2VjODZhNDU5NTFkNDNlMzA2NThi
+YmQ4MTkiCiBERVBFTkRTID0gImdudXRscyIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
+L2lwdXRpbHMvaXB1dGlsczticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIgotU1JDUkVWID0g
+IjgzNzJmMzU1YmRmN2E5YjBjNzkzMzhkZDhlZjg0NjRjMDBhNWM0ZTIiCitTUkNSRVYgPSAiMTBi
+NTA3ODRhYWUzZmI3NWM5NmNkZjliMTY2ODkxNmI0OTU1N2RkNSIKIAogUyA9ICIke1dPUktESVJ9
+L2dpdCIKIAotLSAKMi40NC4wCgo=
 
---===============2873063771789592412==
+--===============2377367701276606277==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/iputils/iputils-ping: PKGSIZE changed from 89728 to 159360 (+78%)
+
+--===============2377367701276606277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/sysklogd: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd-dbg: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd/sysklogd-dbg: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd-dbg: PKGSIZE changed from 207544 to 210384 (+1%)
-packages/core2-64-poky-linux/sysklogd/sysklogd-dev: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd/sysklogd-dev: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd-dev: PKGSIZE changed from 9557 to 9733 (+2%)
-packages/core2-64-poky-linux/sysklogd/sysklogd-doc: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd/sysklogd-doc: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd-doc: PKGSIZE changed from 97164 to 97977 (+1%)
-packages/core2-64-poky-linux/sysklogd/sysklogd-locale: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd/sysklogd-locale: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd-src: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd/sysklogd-src: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd-src: PKGSIZE changed from 149954 to 150975 (+1%)
-packages/core2-64-poky-linux/sysklogd/sysklogd-staticdev: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd/sysklogd-staticdev: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
-packages/core2-64-poky-linux/sysklogd/sysklogd: PV changed from "2.6.1" to "2.6.2"
-packages/core2-64-poky-linux/sysklogd/sysklogd: PKGSIZE changed from 98476 to 98508 (+0%)
+packages/core2-64-poky-linux/iputils/iputils-arping: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-arping: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-clockdiff: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-clockdiff: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-dbg: PKGSIZE changed from 373544 to 375264 (+0%)
+packages/core2-64-poky-linux/iputils/iputils-dbg: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-dbg: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-dev: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-dev: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-doc: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-doc: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-locale: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-locale: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-ping: PKGSIZE changed from 89728 to 159360 (+78%)
+packages/core2-64-poky-linux/iputils/iputils-ping: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-ping: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-ping6: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-ping6: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-src: PKGSIZE changed from 200178 to 201890 (+1%)
+packages/core2-64-poky-linux/iputils/iputils-src: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-src: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-staticdev: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-staticdev: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils-tracepath: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils-tracepath: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils/iputils: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils/iputils: PKGV changed from 20240117 [default] to 20240905 [default]
+packages/core2-64-poky-linux/iputils: PV changed from "20240117" to "20240905"
+packages/core2-64-poky-linux/iputils: PKGV changed from 20240117 [default] to 20240905 [default]
 
---===============2873063771789592412==--
+--===============2377367701276606277==--
 
