@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9992AC021BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F7BFC618C
 	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:21 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.115390.1726410840508509944
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.115393.1726410840756965070
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Sep 2024 07:34:01 -0700
+ Sun, 15 Sep 2024 07:34:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jxfinbU9;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YKwRpLGf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010191f61ada3f-8a001085-e9b9-4db7-b06a-098269185d49-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RbJKfj7f;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IQYjqZk+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010191f61ad862-03faf3ca-5998-4250-8800-c11720302d15-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QA4eLICdrfIL80mlWBBjGmLFTMD3kkvSKXbrqyUZ6qs=;
-	b=jxfinbU9CJldeE4ziYL1nsIdMCnOKaCJcFjsjbx2jn3uQKtHdcfernacBjb+GyPJ
-	AZZXIPS3BjQQrNrFIQbDhfGA8q+cCyJUrWBg2pNpDDzZaib7ch4keT/Xh5wR4ueKZJM
-	ANXU3lR8h5tgVpX9nNbeBCIaRpK//I2UDOCvzAfE=
+	bh=L4GtMBofqZ6yJnF7TEy1gh+54bOoTPpWd8a8OezJ/Mc=;
+	b=RbJKfj7feRmVxcG0MEIzhxV+TgmjGrTEL2MyGg/JjaYe6GKVkFIcmD6gldnkDp/I
+	LbgxrBsdv/8SiB5EFfFTQS/UnvlNPzVQzFuK9KNeUPgAwrf22c2/MFXMtdlU+TPqhtm
+	GtyeSd7Mx+8xLMF55WZPH1X4sMgd2X2/7GuAhL8g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410840;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QA4eLICdrfIL80mlWBBjGmLFTMD3kkvSKXbrqyUZ6qs=;
-	b=YKwRpLGfFF48j16vKFxU/4hvDz3WwjFBO8b78TkRMXoefR+DY9Xi9zHYLfPGx2f2
-	Qj+jBxJLYb4sfYjE5mGxwjJ1FareR8UpKCz7YwarAfwrR4CvRakhqNk9he6aJ3B5rYO
-	dLG+CVPZEE6Qz9Y4KiC3cfmAT1+Cy859NBFtZvbk=
-Content-Type: multipart/mixed; boundary="===============6360582724488550509=="
+	bh=L4GtMBofqZ6yJnF7TEy1gh+54bOoTPpWd8a8OezJ/Mc=;
+	b=IQYjqZk+krhgrSBDA/IkC7rD+HHJRgr7J1SAYc6V0TMcg0M5bL88A/ZA/sm5NGff
+	LsYgYYwUiEydN1Azui4VgtorIr0vOJjCo5HyIwsiF9AxqebDUD/WtvsAo2D9BFgxGoA
+	ZxgdozjtnbpLwYJ2st6/Rij9JDeSbBDziaZAjbr4=
+Content-Type: multipart/mixed; boundary="===============0778877663175559885=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Frederic Martinsons <frederic.martinsons@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo-c-native: upgrading to 0.10.4+cargo-0.82.0 FAILED
-Message-ID: <01010191f61ada3f-8a001085-e9b9-4db7-b06a-098269185d49-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pyasn1: upgrading to 0.6.1 SUCCEEDED
+Message-ID: <01010191f61ad862-03faf3ca-5998-4250-8800-c11720302d15-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Sep 2024 14:34:00 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.15-54.240.27.192
+X-SES-Outgoing: 2024.09.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204531
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204526
 
---===============6360582724488550509==
+--===============0778877663175559885==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,349 +51,134 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cargo-c-native* to *0.10.4+cargo-0.82.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-pyasn1* to *0.6.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-pyasn1-upgrade-0.6.0-0.6.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade cargo-c-native -V 0.10.4+cargo-0.82.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1867 entries from dependency cache.
-WARNING: QA Issue: cargo-c-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-623449e9056b88571edbade910c4837a0cebd7ce"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:623449e9056b88571edbade910c4837a0cebd7ce"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-done.
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: QA Issue: cargo-c-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-WARNING: QA Issue: cargo-c-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-WARNING: QA Issue: cargo-c-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 917 .bb files complete (0 cached, 917 parsed). 1868 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0+snapshot-623449e9056b88571edbade910c4837a0cebd7ce"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:623449e9056b88571edbade910c4837a0cebd7ce"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-kb98ph49: the directory /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-k56g_cxz/emptysrc (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-k56g_cxz/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:00:45
-Adding changed files:   0% |                                    | ETA:  0:00:33
-Adding changed files:   1% |                                    | ETA:  0:00:29
-Adding changed files:   1% |                                    | ETA:  0:00:27
-Adding changed files:   2% |                                    | ETA:  0:00:26
-Adding changed files:   2% |                                    | ETA:  0:00:25
-Adding changed files:   2% |#                                   | ETA:  0:00:24
-Adding changed files:   3% |#                                   | ETA:  0:00:24
-Adding changed files:   3% |#                                   | ETA:  0:00:23
-Adding changed files:   4% |#                                   | ETA:  0:00:23
-Adding changed files:   4% |#                                   | ETA:  0:00:23
-Adding changed files:   4% |#                                   | ETA:  0:00:22
-Adding changed files:   5% |#                                   | ETA:  0:00:22
-Adding changed files:   5% |##                                  | ETA:  0:00:22
-Adding changed files:   6% |##                                  | ETA:  0:00:21
-Adding changed files:   6% |##                                  | ETA:  0:00:21
-Adding changed files:   6% |##                                  | ETA:  0:00:21
-Adding changed files:   7% |##                                  | ETA:  0:00:21
-Adding changed files:   7% |##                                  | ETA:  0:00:20
-Adding changed files:   8% |##                                  | ETA:  0:00:20
-Adding changed files:   8% |###                                 | ETA:  0:00:20
-Adding changed files:   8% |###                                 | ETA:  0:00:20
-Adding changed files:   9% |###                                 | ETA:  0:00:20
-Adding changed files:   9% |###                                 | ETA:  0:00:20
-Adding changed files:  10% |###                                 | ETA:  0:00:20
-Adding changed files:  10% |###                                 | ETA:  0:00:19
-Adding changed files:  10% |###                                 | ETA:  0:00:19
-Adding changed files:  11% |####                                | ETA:  0:00:19
-Adding changed files:  11% |####                                | ETA:  0:00:19
-Adding changed files:  12% |####                                | ETA:  0:00:19
-Adding changed files:  12% |####                                | ETA:  0:00:19
-Adding changed files:  12% |####                                | ETA:  0:00:18
-Adding changed files:  13% |####                                | ETA:  0:00:18
-Adding changed files:  13% |####                                | ETA:  0:00:18
-Adding changed files:  14% |#####                               | ETA:  0:00:18
-Adding changed files:  14% |#####                               | ETA:  0:00:18
-Adding changed files:  14% |#####                               | ETA:  0:00:18
-Adding changed files:  15% |#####                               | ETA:  0:00:18
-Adding changed files:  15% |#####                               | ETA:  0:00:17
-Adding changed files:  16% |#####                               | ETA:  0:00:17
-Adding changed files:  16% |#####                               | ETA:  0:00:17
-Adding changed files:  16% |######                              | ETA:  0:00:17
-Adding changed files:  17% |######                              | ETA:  0:00:17
-Adding changed files:  17% |######                              | ETA:  0:00:17
-Adding changed files:  18% |######                              | ETA:  0:00:17
-Adding changed files:  18% |######                              | ETA:  0:00:16
-Adding changed files:  18% |######                              | ETA:  0:00:16
-Adding changed files:  19% |######                              | ETA:  0:00:16
-Adding changed files:  19% |#######                             | ETA:  0:00:16
-Adding changed files:  20% |#######                             | ETA:  0:00:16
-Adding changed files:  20% |#######                             | ETA:  0:00:16
-Adding changed files:  20% |#######                             | ETA:  0:00:16
-Adding changed files:  21% |#######                             | ETA:  0:00:16
-Adding changed files:  21% |#######                             | ETA:  0:00:16
-Adding changed files:  22% |#######                             | ETA:  0:00:15
-Adding changed files:  22% |########                            | ETA:  0:00:15
-Adding changed files:  22% |########                            | ETA:  0:00:15
-Adding changed files:  23% |########                            | ETA:  0:00:15
-Adding changed files:  23% |########                            | ETA:  0:00:15
-Adding changed files:  24% |########                            | ETA:  0:00:15
-Adding changed files:  24% |########                            | ETA:  0:00:15
-Adding changed files:  24% |########                            | ETA:  0:00:15
-Adding changed files:  25% |#########                           | ETA:  0:00:15
-Adding changed files:  25% |#########                           | ETA:  0:00:14
-Adding changed files:  26% |#########                           | ETA:  0:00:14
-Adding changed files:  26% |#########                           | ETA:  0:00:14
-Adding changed files:  26% |#########                           | ETA:  0:00:14
-Adding changed files:  27% |#########                           | ETA:  0:00:14
-Adding changed files:  27% |#########                           | ETA:  0:00:14
-Adding changed files:  28% |##########                          | ETA:  0:00:14
-Adding changed files:  28% |##########                          | ETA:  0:00:14
-Adding changed files:  28% |##########                          | ETA:  0:00:14
-Adding changed files:  29% |##########                          | ETA:  0:00:14
-Adding changed files:  29% |##########                          | ETA:  0:00:13
-Adding changed files:  30% |##########                          | ETA:  0:00:13
-Adding changed files:  30% |##########                          | ETA:  0:00:13
-Adding changed files:  30% |###########                         | ETA:  0:00:13
-Adding changed files:  31% |###########                         | ETA:  0:00:13
-Adding changed files:  31% |###########                         | ETA:  0:00:13
-Adding changed files:  32% |###########                         | ETA:  0:00:13
-Adding changed files:  32% |###########                         | ETA:  0:00:13
-Adding changed files:  32% |###########                         | ETA:  0:00:13
-Adding changed files:  33% |############                        | ETA:  0:00:13
-Adding changed files:  33% |############                        | ETA:  0:00:12
-Adding changed files:  34% |############                        | ETA:  0:00:12
-Adding changed files:  34% |############                        | ETA:  0:00:12
-Adding changed files:  34% |############                        | ETA:  0:00:12
-Adding changed files:  35% |############                        | ETA:  0:00:12
-Adding changed files:  35% |############                        | ETA:  0:00:12
-Adding changed files:  36% |#############                       | ETA:  0:00:12
-Adding changed files:  36% |#############                       | ETA:  0:00:12
-Adding changed files:  36% |#############                       | ETA:  0:00:12
-Adding changed files:  37% |#############                       | ETA:  0:00:12
-Adding changed files:  37% |#############                       | ETA:  0:00:11
-Adding changed files:  38% |#############                       | ETA:  0:00:11
-Adding changed files:  38% |#############                       | ETA:  0:00:11
-Adding changed files:  38% |##############                      | ETA:  0:00:11
-Adding changed files:  39% |##############                      | ETA:  0:00:11
-Adding changed files:  39% |##############                      | ETA:  0:00:11
-Adding changed files:  40% |##############                      | ETA:  0:00:11
-Adding changed files:  40% |##############                      | ETA:  0:00:11
-Adding changed files:  41% |##############                      | ETA:  0:00:11
-Adding changed files:  41% |##############                      | ETA:  0:00:11
-Adding changed files:  41% |###############                     | ETA:  0:00:10
-Adding changed files:  42% |###############                     | ETA:  0:00:10
-Adding changed files:  42% |###############                     | ETA:  0:00:10
-Adding changed files:  43% |###############                     | ETA:  0:00:10
-Adding changed files:  43% |###############                     | ETA:  0:00:10
-Adding changed files:  43% |###############                     | ETA:  0:00:10
-Adding changed files:  44% |###############                     | ETA:  0:00:10
-Adding changed files:  44% |################                    | ETA:  0:00:10
-Adding changed files:  45% |################                    | ETA:  0:00:10
-Adding changed files:  45% |################                    | ETA:  0:00:10
-Adding changed files:  45% |################                    | ETA:  0:00:10
-Adding changed files:  46% |################                    | ETA:  0:00:09
-Adding changed files:  46% |################                    | ETA:  0:00:09
-Adding changed files:  47% |################                    | ETA:  0:00:09
-Adding changed files:  47% |#################                   | ETA:  0:00:09
-Adding changed files:  47% |#################                   | ETA:  0:00:09
-Adding changed files:  48% |#################                   | ETA:  0:00:09
-Adding changed files:  48% |#################                   | ETA:  0:00:09
-Adding changed files:  49% |#################                   | ETA:  0:00:09
-Adding changed files:  49% |#################                   | ETA:  0:00:09
-Adding changed files:  49% |#################                   | ETA:  0:00:09
-Adding changed files:  50% |##################                  | ETA:  0:00:09
-Adding changed files:  50% |##################                  | ETA:  0:00:09
-Adding changed files:  51% |##################                  | ETA:  0:00:08
-Adding changed files:  51% |##################                  | ETA:  0:00:08
-Adding changed files:  51% |##################                  | ETA:  0:00:08
-Adding changed files:  52% |##################                  | ETA:  0:00:08
-Adding changed files:  52% |##################                  | ETA:  0:00:08
-Adding changed files:  53% |###################                 | ETA:  0:00:08
-Adding changed files:  53% |###################                 | ETA:  0:00:08
-Adding changed files:  53% |###################                 | ETA:  0:00:08
-Adding changed files:  54% |###################                 | ETA:  0:00:08
-Adding changed files:  54% |###################                 | ETA:  0:00:08
-Adding changed files:  55% |###################                 | ETA:  0:00:08
-Adding changed files:  55% |###################                 | ETA:  0:00:08
-Adding changed files:  55% |####################                | ETA:  0:00:07
-Adding changed files:  56% |####################                | ETA:  0:00:07
-Adding changed files:  56% |####################                | ETA:  0:00:07
-Adding changed files:  57% |####################                | ETA:  0:00:07
-Adding changed files:  57% |####################                | ETA:  0:00:07
-Adding changed files:  57% |####################                | ETA:  0:00:07
-Adding changed files:  58% |####################                | ETA:  0:00:07
-Adding changed files:  58% |#####################               | ETA:  0:00:07
-Adding changed files:  59% |#####################               | ETA:  0:00:07
-Adding changed files:  59% |#####################               | ETA:  0:00:07
-Adding changed files:  59% |#####################               | ETA:  0:00:07
-Adding changed files:  60% |#####################               | ETA:  0:00:07
-Adding changed files:  60% |#####################               | ETA:  0:00:06
-Adding changed files:  61% |#####################               | ETA:  0:00:06
-Adding changed files:  61% |######################              | ETA:  0:00:06
-Adding changed files:  61% |######################              | ETA:  0:00:06
-Adding changed files:  62% |######################              | ETA:  0:00:06
-Adding changed files:  62% |######################              | ETA:  0:00:06
-Adding changed files:  63% |######################              | ETA:  0:00:06
-Adding changed files:  63% |######################              | ETA:  0:00:06
-Adding changed files:  63% |#######################             | ETA:  0:00:06
-Adding changed files:  64% |#######################             | ETA:  0:00:06
-Adding changed files:  64% |#######################             | ETA:  0:00:06
-Adding changed files:  65% |#######################             | ETA:  0:00:06
-Adding changed files:  65% |#######################             | ETA:  0:00:05
-Adding changed files:  65% |#######################             | ETA:  0:00:05
-Adding changed files:  66% |#######################             | ETA:  0:00:05
-Adding changed files:  66% |########################            | ETA:  0:00:05
-Adding changed files:  67% |########################            | ETA:  0:00:05
-Adding changed files:  67% |########################            | ETA:  0:00:05
-Adding changed files:  67% |########################            | ETA:  0:00:05
-Adding changed files:  68% |########################            | ETA:  0:00:05
-Adding changed files:  68% |########################            | ETA:  0:00:05
-Adding changed files:  69% |########################            | ETA:  0:00:05
-Adding changed files:  69% |#########################           | ETA:  0:00:05
-Adding changed files:  69% |#########################           | ETA:  0:00:05
-Adding changed files:  70% |#########################           | ETA:  0:00:05
-Adding changed files:  70% |#########################           | ETA:  0:00:04
-Adding changed files:  71% |#########################           | ETA:  0:00:04
-Adding changed files:  71% |#########################           | ETA:  0:00:04
-Adding changed files:  71% |#########################           | ETA:  0:00:04
-Adding changed files:  72% |##########################          | ETA:  0:00:04
-Adding changed files:  72% |##########################          | ETA:  0:00:04
-Adding changed files:  73% |##########################          | ETA:  0:00:04
-Adding changed files:  73% |##########################          | ETA:  0:00:04
-Adding changed files:  73% |##########################          | ETA:  0:00:04
-Adding changed files:  74% |##########################          | ETA:  0:00:04
-Adding changed files:  74% |##########################          | ETA:  0:00:04
-Adding changed files:  75% |###########################         | ETA:  0:00:04
-Adding changed files:  75% |###########################         | ETA:  0:00:04
-Adding changed files:  75% |###########################         | ETA:  0:00:04
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |############################        | ETA:  0:00:03
-Adding changed files:  78% |############################        | ETA:  0:00:03
-Adding changed files:  78% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  80% |############################        | ETA:  0:00:03
-Adding changed files:  80% |#############################       | ETA:  0:00:03
-Adding changed files:  81% |#############################       | ETA:  0:00:03
-Adding changed files:  81% |#############################       | ETA:  0:00:03
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  83% |#############################       | ETA:  0:00:02
-Adding changed files:  83% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  85% |##############################      | ETA:  0:00:02
-Adding changed files:  85% |##############################      | ETA:  0:00:02
-Adding changed files:  86% |##############################      | ETA:  0:00:02
-Adding changed files:  86% |###############################     | ETA:  0:00:02
-Adding changed files:  86% |###############################     | ETA:  0:00:02
-Adding changed files:  87% |###############################     | ETA:  0:00:02
-Adding changed files:  87% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  93% |#################################   | ETA:  0:00:01
-Adding changed files:  93% |#################################   | ETA:  0:00:01
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:15
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching crate://crates.io/cargo-c/0.10.4+cargo-0.82.0;name=cargo-c...
-INFO: Rebasing devtool onto 973fd91e062fc37b342935bc5922bc05f2916f5d
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/devtool", line 350, in <module>
-    ret = main()
-          ^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/devtool", line 337, in main
-    ret = args.func(args, config, basepath, workspace)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 609, in upgrade
-    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 508, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/workspace/sources/cargo-c-native/cargo_home/bitbake/cargo-c-0.10.3+cargo-0.81.0/LICENSE'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============6360582724488550509==--
+
+-- >8 --
+From 55c4d3ca4774e07b0c05018be452d00dd6b4200b Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 15 Sep 2024 08:53:40 +0000
+Subject: [PATCH] python3-pyasn1: upgrade 0.6.0 -> 0.6.1
+
+---
+ .../python/{python3-pyasn1_0.6.0.bb => python3-pyasn1_0.6.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pyasn1_0.6.0.bb => python3-pyasn1_0.6.1.bb} (88%)
+
+diff --git a/meta/recipes-devtools/python/python3-pyasn1_0.6.0.bb b/meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-pyasn1_0.6.0.bb
+rename to meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
+index 7237557f44..3913cb51d2 100644
+--- a/meta/recipes-devtools/python/python3-pyasn1_0.6.0.bb
++++ b/meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://pyasn1.sourceforge.net/"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=190f79253908c986e6cacf380c3a5f6d"
+ 
+-SRC_URI[sha256sum] = "3a35ab2c4b5ef98e17dfdec8ab074046fbda76e281c5a706ccd82328cfc8f64c"
++SRC_URI[sha256sum] = "6f580d2bdd84365380830acf45550f2511469f673cb4a5ae3857a3170128b034"
+ 
+ inherit pypi python_setuptools_build_meta ptest
+ 
+-- 
+2.44.0
+
+
+--===============0778877663175559885==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-ptest: FILELIST: removed "/usr/lib/python3-pyasn1/ptest/tests/compat/test_octets.py /usr/lib/python3-pyasn1/ptest/tests/compat/test_integer.py"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1: FILELIST: directory renamed /usr/lib/python3.12/site-packages/pyasn1-0.6.0.dist-info -> /usr/lib/python3.12/site-packages/pyasn1-0.6.1.dist-info, removed "/usr/lib/python3.12/site-packages/pyasn1/compat/octets.py /usr/lib/python3.12/site-packages/pyasn1/compat/__pycache__/octets.cpython-312.pyc"
+Changes to packages/core2-64-poky-linux/python3-pyasn1 (sysroot):
+  /usr/lib/python3.12/site-packages/pyasn1-0.6.0.dist-info moved to /usr/lib/python3.12/site-packages/pyasn1-0.6.1.dist-info
+  /usr/lib/python3.12/site-packages/pyasn1/compat/octets.py was removed
+  /usr/lib/python3.12/site-packages/pyasn1/compat/__pycache__/octets.cpython-312.pyc was removed
+
+--===============0778877663175559885==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-pyasn1: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyasn1/pyasn1-0.6.0.tar.gz;downloadfilename=pyasn1-0.6.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/p/pyasn1/pyasn1-0.6.1.tar.gz;downloadfilename=pyasn1-0.6.1.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-pyasn1: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-dbg: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-dbg: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-dev: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-dev: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-doc: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-doc: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-locale: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-locale: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PKGSIZE changed from 330792 to 318785 (-4%)
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-ptest: FILELIST: removed "/usr/lib/python3-pyasn1/ptest/tests/compat/test_integer.py /usr/lib/python3-pyasn1/ptest/tests/compat/test_octets.py"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-src: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-src: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-staticdev: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1-staticdev: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1: PV changed from "0.6.0" to "0.6.1"
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1: PKGSIZE changed from 837610 to 815942 (-3%)
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1: PKGV changed from 0.6.0 [default] to 0.6.1 [default]
+packages/core2-64-poky-linux/python3-pyasn1/python3-pyasn1: FILELIST: directory renamed /usr/lib/python3.12/site-packages/pyasn1-0.6.0.dist-info -> /usr/lib/python3.12/site-packages/pyasn1-0.6.1.dist-info, removed "/usr/lib/python3.12/site-packages/pyasn1/compat/__pycache__/octets.cpython-312.pyc /usr/lib/python3.12/site-packages/pyasn1/compat/octets.py"
+Changes to packages/core2-64-poky-linux/python3-pyasn1 (sysroot):
+  /usr/lib/python3.12/site-packages/pyasn1-0.6.0.dist-info moved to /usr/lib/python3.12/site-packages/pyasn1-0.6.1.dist-info
+  /usr/lib/python3.12/site-packages/pyasn1/compat/octets.py was removed
+  /usr/lib/python3.12/site-packages/pyasn1/compat/__pycache__/octets.cpython-312.pyc was removed
+
+--===============0778877663175559885==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pyasn1-upgrade-0.6.0-0.6.1.patch"
+
+RnJvbSA1NWM0ZDNjYTQ3NzRlMDdiMGMwNTAxOGJlNDUyZDAwZGQ2YjQyMDBiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDg6NTM6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5YXNuMTogdXBncmFkZSAwLjYuMCAtPiAwLjYuMQoKLS0tCiAuLi4vcHl0aG9uL3tw
+eXRob24zLXB5YXNuMV8wLjYuMC5iYiA9PiBweXRob24zLXB5YXNuMV8wLjYuMS5iYn0gfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5YXNuMV8wLjYuMC5iYiA9PiBw
+eXRob24zLXB5YXNuMV8wLjYuMS5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlhc24xXzAuNi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXB5YXNuMV8wLjYuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDg4
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlhc24x
+XzAuNi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+cHlhc24xXzAuNi4xLmJiCmluZGV4IDcyMzc1NTdmNDQuLjM5MTNjYjUxZDIgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWFzbjFfMC42LjAuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5YXNuMV8wLjYuMS5iYgpA
+QCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL3B5YXNuMS5zb3VyY2Vmb3JnZS5uZXQv
+IgogTElDRU5TRSA9ICJCU0QtMi1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFLnJzdDttZDU9MTkwZjc5MjUzOTA4Yzk4NmU2Y2FjZjM4MGMzYTVmNmQiCiAKLVNSQ19V
+Uklbc2hhMjU2c3VtXSA9ICIzYTM1YWIyYzRiNWVmOThlMTdkZmRlYzhhYjA3NDA0NmZiZGE3NmUy
+ODFjNWE3MDZjY2Q4MjMyOGNmYzhmNjRjIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZmNTgwZDJi
+ZGQ4NDM2NTM4MDgzMGFjZjQ1NTUwZjI1MTE0NjlmNjczY2I0YTVhZTM4NTdhMzE3MDEyOGIwMzQi
+CiAKIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0CiAKLS0g
+CjIuNDQuMAoK
+
+--===============0778877663175559885==--
 
