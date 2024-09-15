@@ -1,105 +1,73 @@
-Return-Path: <sabeeh-khan@ti.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C705C021B3
-	for <webhook@archiver.kernel.org>; Sat, 14 Sep 2024 20:18:30 +0000 (UTC)
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by mx.groups.io with SMTP id smtpd.web10.102666.1726345108569031717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17165C35FE7
+	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 11:18:45 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web10.112703.1726399117642755911
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Sep 2024 13:18:28 -0700
+ Sun, 15 Sep 2024 04:18:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=TfNaiPNc;
- spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: sabeeh-khan@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 48EKIRCE023759;
-	Sat, 14 Sep 2024 15:18:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1726345107;
-	bh=sSoEt5MzwZqJlinm6s3gggK3ysKuQvdRozCZwuqP7Bc=;
-	h=From:To:CC:Subject:Date;
-	b=TfNaiPNcm4dweGvfi4nDHnPyScncuPKaqmnQZ85IGb03a612n33yr4/3mI0BOQfMn
-	 EFZU+/4N/skvXQ73Dz+VWiF575bxyHAPLULtoP/5dw8AD7M9bW5kZmiutGXYOgTSbn
-	 pijUyI4y59dcib02mnbFsFFegyabqyUrupMBCEww=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 48EKIRO9106437
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 14 Sep 2024 15:18:27 -0500
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 14
- Sep 2024 15:18:27 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 14 Sep 2024 15:18:27 -0500
-Received: from thinkstationp3.dhcp.ti.com (thinkstationp3.dhcp.ti.com [128.247.83.36])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 48EKIRln022974;
-	Sat, 14 Sep 2024 15:18:27 -0500
-From: Sabeeh Khan <sabeeh-khan@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-        Sabeeh Khan
-	<sabeeh-khan@ti.com>
-Subject: [master][PATCH] linux-firmware: add new package for cc33xx firmware
-Date: Sat, 14 Sep 2024 15:17:17 -0500
-Message-ID: <20240914201716.2624053-1-sabeeh-khan@ti.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JNYlxH/M;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.182, mailfrom: steve@sakoman.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-45aeef3ce92so840201cf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 04:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726399116; x=1727003916; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7oUsG9aRyyP/ZrDysh3NWCxAzW4jylx3MjSVxp6ab+I=;
+        b=JNYlxH/MtNkB6TjpbSsb0pLNN8x0ktHlCRoB4KH3qosZtID6VvNDO/zK8pR+YH8+2y
+         hkW1ZAnI/6sB/RW1OEfROr/BxZBgi8drQeO8AfsApqQay0RIQGb94yMrQqcdeqt8YsvR
+         ZMAo9g/Db1jsp3Plt8+BdyG2ABnFqB3BbSddgGiMJOyVK/4ZlqzDShtJ6ZwVTZl2tAW7
+         hvCgpbzA9huwrDWW+2ui0Z9Z8/47jaAXP+gKUlDDFmsjwMjGKHXY2f+UuAcJMaREENfz
+         4zCgARhVj9ZbKS6VWLq8tJsa5J+dt1OyYYdrjVpU4QgyNMThR+fyrN1JOxqDcALtwJWn
+         80Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726399116; x=1727003916;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7oUsG9aRyyP/ZrDysh3NWCxAzW4jylx3MjSVxp6ab+I=;
+        b=SVPVt4X84gr8aWoJBnI5ElA7I9sXhM91+klXwuWmi71iieeJAYA+UZlO3tCK8B4Y/N
+         0yM1o3MEhWJXw4xldw8EkYC8XsUtr3reEdFzYISt2zELYc7ppfkTRo5jbiqi0rFttOup
+         ay0Ig5kdtuoF+sfklv7ntcp+GKgl5hpE2PMJje1U/NQOnD3cYGhzE3QrdtemkYhVQPfZ
+         cOHd2Oe0f+u6r/V1o6kGGOPsB6L8YrmIYjPVWo2dKK8T/4d6B5uXw3u8IDhh2alTgP3M
+         DKp8/VoEpYwr+bkmz8atLbgJRzelOC/3CuDOkIbb2A+YMu2GRyooibr1LBev8wf45amx
+         hoBw==
+X-Gm-Message-State: AOJu0YyolyiXLn3oRiWY3rdEZujX3k6Pw9PnibfwZpa5Jchxr9c87EdM
+	WFSqXBeoXCaaLAAS7lNBsGuIu1+nvbqV/8Hut8O5UQYnVBughw2scJcpiHP83DuywHbzrIcnDul
+	R
+X-Google-Smtp-Source: AGHT+IFRl3pqOK0A3TbxvcfIQSBVpm4es8irT/JTp5W86L+E8z6XfqGbkwh16lYb9JU6TUpI65e4Jg==
+X-Received: by 2002:a05:622a:7:b0:458:a70:d9bb with SMTP id d75a77b69052e-458602dc73amr170624571cf.22.1726399116412;
+        Sun, 15 Sep 2024 04:18:36 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-459aac624fbsm17111541cf.7.2024.09.15.04.18.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Sep 2024 04:18:36 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id E28C81003BE; Sun, 15 Sep 2024 01:18:34 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 15 Sep 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 15 Sep 2024 01:18:34 -1000
+Message-Id: <20240915111834.E28C81003BE@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Sep 2024 20:18:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204496
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 11:18:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204497
 
-Add the firmware package for the TI CC33xx firmware.
-The TI CC33xx family are combo WLAN and BLE devices
-supporting 802.11ax and BLE 5.4.
+Branch: master
 
-Signed-off-by: Sabeeh Khan <sabeeh-khan@ti.com>
----
- .../linux-firmware/linux-firmware_20240909.bb             | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+New this week: 0 CVEs
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-index 5ec57b7e3b..4bcda67c8f 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-@@ -281,7 +281,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-moxa-license ${PN}-moxa \
-              ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 \
-              ${PN}-sd8887 ${PN}-sd8897 ${PN}-sd8997 ${PN}-usb8997 \
--             ${PN}-ti-connectivity-license ${PN}-wlcommon ${PN}-wl12xx ${PN}-wl18xx \
-+             ${PN}-ti-connectivity-license ${PN}-wlcommon ${PN}-wl12xx ${PN}-wl18xx ${PN}-cc33xx \
-              ${PN}-ti-keystone-license ${PN}-ti-keystone \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rs9113 ${PN}-rs9116 \
-@@ -935,6 +935,7 @@ RDEPENDS:${PN}-wl1251 += "${PN}-wl1251-license"
- LICENSE:${PN}-wlcommon = "Firmware-ti-connectivity"
- LICENSE:${PN}-wl12xx = "Firmware-ti-connectivity"
- LICENSE:${PN}-wl18xx = "Firmware-ti-connectivity"
-+LICENSE:${PN}-cc33xx = "Firmware-ti-connectivity"
- LICENSE:${PN}-ti-connectivity-license = "Firmware-ti-connectivity"
- 
- FILES:${PN}-ti-connectivity-license = "${nonarch_base_libdir}/firmware/LICENCE.ti-connectivity"
-@@ -957,8 +958,13 @@ FILES:${PN}-wl18xx = " \
-   ${nonarch_base_libdir}/firmware/ti-connectivity/wl18* \
- "
- 
-+FILES:${PN}-cc33xx = " \
-+  ${nonarch_base_libdir}/firmware/ti-connectivity/cc33* \
-+"
-+
- RDEPENDS:${PN}-wl12xx = "${PN}-ti-connectivity-license ${PN}-wlcommon"
- RDEPENDS:${PN}-wl18xx = "${PN}-ti-connectivity-license ${PN}-wlcommon"
-+RDEPENDS:${PN}-cc33xx = "${PN}-ti-connectivity-license"
- 
- # For ti-keystone
- LICENSE:${PN}-ti-keystone = "Firmware-ti-keystone"
--- 
-2.34.1
+Removed this week: 0 CVEs
 
+Full list:  Found 0 unpatched CVEs
+
+Summary of CVE counts by recipe:
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
