@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C73CC3600D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7634FC3600C
 	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:19 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.115396.1726410841059629046
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.115632.1726410840316999101
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Sep 2024 07:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XBvSKcyy;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=hV9YpixY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010191f61ade00-a78322b5-e7f9-4a0b-8208-ae65815a3ffa-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TYhqVXmd;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XM0J9vfC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010191f61add1d-dd4bc8ef-fcc4-416b-bf76-04c395e09a0d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1726410841;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=KzHYBfhplUTDZCi7jU5ttj1uG90hw/YjqGqVT7bvKPo=;
-	b=XBvSKcyyJm1cyr4iJwWjgVcrIfpKlbexDcxJxfmACMsR0AXotYFDbBk5HAva9R2l
-	HQjHHDdBNN8L+gB7A5xeiisdOL6hZQUR/q53BsaqEsXpaLPWMC7i1OF6XUrXxLYaiu9
-	dsRW6nUJ+rd5zY3S6GGSqIQL3gpBJPyr80ryQY74=
+	bh=zxb2od2zhrimByw18/2fRW+st73Xroe8C45yknecPiw=;
+	b=TYhqVXmdoQIVpziVOxGvdQIVl/hYhMdqmYo+xvnqnSUUWvlGIzUq56PQkwsLLkp4
+	/12H2ezr0th62R54XgMvzdZ8YbgVEtZDGR3MrnjozTVnFurc3ro/VAky4uyVOHJLvEi
+	qfU6hZzieFK45WeMZI3dhEIA2VUZJQXD+S8w9XqM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410841;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=KzHYBfhplUTDZCi7jU5ttj1uG90hw/YjqGqVT7bvKPo=;
-	b=hV9YpixYgHGYRpXjtI/cYzBpM8DsGIwiv1CzBGZqDRohMvBy+GyfkMGag4LyJVJW
-	8x6JrDpRYHTcDfsdeZf0hYXo2yCMvauwMrlXEtvVy8HlxEqT8My2ZVtJo0KgMmbRJXW
-	0gLR/qBmXK8+n03mkjbvdvji0a95G2OqXQQAP0Hc=
-Content-Type: multipart/mixed; boundary="===============5111315861079788778=="
+	bh=zxb2od2zhrimByw18/2fRW+st73Xroe8C45yknecPiw=;
+	b=XM0J9vfCJCYkqiMb41tm8B5gsl/jojaYdW55GizQB0i2coknXBr8ha3YSSM8pYPQ
+	+n+8Fv01O/9XNNXMUk2Qreb2qeBn+5HEXL/iNYjfpYH4LRkqcXke8Z8zcKfBa5nLEox
+	QyCoAonhK/yolXtbDE9rFj58mwEaUim5OQW0hHUU=
+Content-Type: multipart/mixed; boundary="===============2910792807714984595=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libevdev: upgrading to 1.13.3 SUCCEEDED
-Message-ID: <01010191f61ade00-a78322b5-e7f9-4a0b-8208-ae65815a3ffa-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.7 SUCCEEDED
+Message-ID: <01010191f61add1d-dd4bc8ef-fcc4-416b-bf76-04c395e09a0d-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Sep 2024 14:34:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.15-54.240.27.45
+X-SES-Outgoing: 2024.09.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204565
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204561
 
---===============5111315861079788778==
+--===============2910792807714984595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libevdev* to *1.13.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.24.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libevdev-upgrade-1.13.2-1.13.3.patch
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.24.6-1.24.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,90 +72,94 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 293c5437bdd99e086557800a71f9b9075a31eef9 Mon Sep 17 00:00:00 2001
+From 73ccf75d7e2e0d9741a0c470714fc8779aa3af66 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Sep 2024 14:27:57 +0000
-Subject: [PATCH] libevdev: upgrade 1.13.2 -> 1.13.3
+Date: Sun, 15 Sep 2024 12:33:25 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.24.6 -> 1.24.7
 
 ---
- .../libevdev/{libevdev_1.13.2.bb => libevdev_1.13.3.bb}         | 2 +-
+ ...reamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.7.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libevdev/{libevdev_1.13.2.bb => libevdev_1.13.3.bb} (87%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.7.bb} (91%)
 
-diff --git a/meta/recipes-support/libevdev/libevdev_1.13.2.bb b/meta/recipes-support/libevdev/libevdev_1.13.3.bb
-similarity index 87%
-rename from meta/recipes-support/libevdev/libevdev_1.13.2.bb
-rename to meta/recipes-support/libevdev/libevdev_1.13.3.bb
-index fd2bfdad9b..b920b349cf 100644
---- a/meta/recipes-support/libevdev/libevdev_1.13.2.bb
-+++ b/meta/recipes-support/libevdev/libevdev_1.13.3.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=80c550b3197bcb8da7d7557ebcc3fc46 \
-                     "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.7.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.7.bb
+index cf38c2b876..37f019d2a0 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.7.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
- SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz"
--SRC_URI[sha256sum] = "3eca86a6ce55b81d5bce910637fc451c8bbe373b1f9698f375c7f1ad0de3ac48"
-+SRC_URI[sha256sum] = "abf1aace86208eebdd5d3550ffded4c8d73bb405b796d51c389c9d0604cbcfbf"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "692e88820e097b30e5f92d37d0955c709a0a17b27f874a1907405244825bd700"
++SRC_URI[sha256sum] = "6c3ee02b20c80a86e24245b06102dae00e017686f27407626f44dc03ac3ca53a"
  
- inherit autotools pkgconfig
- 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.44.0
 
 
---===============5111315861079788778==
+--===============2910792807714984595==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-python-upgrade-1.24.6-1.24.7.patch"
+
+RnJvbSA3M2NjZjc1ZDdlMmUwZDk3NDFhMGM0NzA3MTRmYzg3NzlhYTNhZjY2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMTI6MzM6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcHl0aG9uOiB1cGdyYWRlIDEuMjQuNiAtPiAxLjI0LjcKCi0tLQogLi4ucmVh
+bWVyMS4wLXB5dGhvbl8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjcuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcHl0
+aG9uXzEuMjQuNi5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuNy5iYn0gKDkxJSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
+LXB5dGhvbl8xLjI0LjYuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjcuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRob25f
+MS4yNC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjcuYmIKaW5kZXggY2YzOGMyYjg3Ni4uMzdmMDE5ZDJhMCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
+MC1weXRob25fMS4yNC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuNy5iYgpAQCAtOCw3ICs4LDcgQEAgTElDRU5TRSA9
+ICJMR1BMLTIuMS1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
+bWQ1PWMzNGRlYWU0ZTM5NWNhMDdlNzI1YWIwMDc2YTVmNzQwIgogCiBTUkNfVVJJID0gImh0dHBz
+Oi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BW
+fS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjkyZTg4ODIwZTA5N2IzMGU1ZjkyZDM3
+ZDA5NTVjNzA5YTBhMTdiMjdmODc0YTE5MDc0MDUyNDQ4MjViZDcwMCIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICI2YzNlZTAyYjIwYzgwYTg2ZTI0MjQ1YjA2MTAyZGFlMDBlMDE3Njg2ZjI3NDA3NjI2
+ZjQ0ZGMwM2FjM2NhNTNhIgogCiBERVBFTkRTID0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAt
+cGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgogUkRFUEVORFM6JHtQTn0gKz0gImdzdHJl
+YW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgotLSAK
+Mi40NC4wCgo=
+
+--===============2910792807714984595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libevdev: SRC_URI changed from "http://www.freedesktop.org/software/libevdev/libevdev-1.13.2.tar.xz" to "http://www.freedesktop.org/software/libevdev/libevdev-1.13.3.tar.xz"
-packages/core2-64-poky-linux/libevdev: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev: PV changed from "1.13.2" to "1.13.3"
-packages/core2-64-poky-linux/libevdev/libevdev-dbg: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev/libevdev-dbg: PV changed from "1.13.2" to "1.13.3"
-packages/core2-64-poky-linux/libevdev/libevdev-dev: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev/libevdev-dev: PV changed from "1.13.2" to "1.13.3"
-packages/core2-64-poky-linux/libevdev/libevdev-doc: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev/libevdev-doc: PV changed from "1.13.2" to "1.13.3"
-packages/core2-64-poky-linux/libevdev/libevdev-locale: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev/libevdev-locale: PV changed from "1.13.2" to "1.13.3"
-packages/core2-64-poky-linux/libevdev/libevdev-src: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev/libevdev-src: PKGSIZE changed from 284119 to 284347 (+0%)
-packages/core2-64-poky-linux/libevdev/libevdev-src: PV changed from "1.13.2" to "1.13.3"
-packages/core2-64-poky-linux/libevdev/libevdev-staticdev: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev/libevdev-staticdev: PV changed from "1.13.2" to "1.13.3"
-packages/core2-64-poky-linux/libevdev/libevdev: PKGV changed from 1.13.2 [default] to 1.13.3 [default]
-packages/core2-64-poky-linux/libevdev/libevdev: PV changed from "1.13.2" to "1.13.3"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.6.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.7.tar.xz"
+packages/core2-64-poky-linux/gstreamer1.0-python: PV changed from "1.24.6" to "1.24.7"
+packages/core2-64-poky-linux/gstreamer1.0-python: PKGV changed from 1.24.6 [default] to 1.24.7 [default]
 
---===============5111315861079788778==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libevdev-upgrade-1.13.2-1.13.3.patch"
-
-RnJvbSAyOTNjNTQzN2JkZDk5ZTA4NjU1NzgwMGE3MWY5YjkwNzVhMzFlZWY5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMTQ6Mjc6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJldmRldjogdXBncmFkZSAxLjEzLjIgLT4gMS4xMy4zCgotLS0KIC4uLi9saWJldmRldi97bGli
-ZXZkZXZfMS4xMy4yLmJiID0+IGxpYmV2ZGV2XzEuMTMuMy5iYn0gICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L2xpYmV2ZGV2L3tsaWJldmRldl8xLjEzLjIuYmIgPT4gbGliZXZkZXZf
-MS4xMy4zLmJifSAoODclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmV2
-ZGV2L2xpYmV2ZGV2XzEuMTMuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmV2ZGV2L2xp
-YmV2ZGV2XzEuMTMuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDg3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJldmRldi9saWJldmRldl8xLjEzLjIuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L2xpYmV2ZGV2L2xpYmV2ZGV2XzEuMTMuMy5iYgppbmRleCBmZDJiZmRh
-ZDliLi5iOTIwYjM0OWNmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJldmRl
-di9saWJldmRldl8xLjEzLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYv
-bGliZXZkZXZfMS4xMy4zLmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0NPUFlJTkc7bWQ1PTgwYzU1MGIzMTk3YmNiOGRhN2Q3NTU3ZWJjYzNmYzQ2IFwKICAg
-ICAgICAgICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gImh0dHA6Ly93d3cuZnJlZWRlc2t0b3Au
-b3JnL3NvZnR3YXJlL2xpYmV2ZGV2LyR7QlB9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICIzZWNhODZhNmNlNTViODFkNWJjZTkxMDYzN2ZjNDUxYzhiYmUzNzNiMWY5Njk4ZjM3NWM3ZjFh
-ZDBkZTNhYzQ4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImFiZjFhYWNlODYyMDhlZWJkZDVkMzU1
-MGZmZGVkNGM4ZDczYmI0MDViNzk2ZDUxYzM4OWM5ZDA2MDRjYmNmYmYiCiAKIGluaGVyaXQgYXV0
-b3Rvb2xzIHBrZ2NvbmZpZwogCi0tIAoyLjQ0LjAKCg==
-
---===============5111315861079788778==--
+--===============2910792807714984595==--
 
