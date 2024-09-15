@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 179FFC35FF3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17AF0C35FF6
 	for <webhook@archiver.kernel.org>; Sun, 15 Sep 2024 14:34:07 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.115625.1726410839505721212
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.115629.1726410840222326871
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Sep 2024 07:34:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dgiP9RY8;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=yExEM3Y+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010191f61ad974-3719ff45-654a-4470-9be4-dfd0f8dbcd53-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AowpvZ7L;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=wlxoxoXO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010191f61ad5af-b34eec8a-5b26-43e6-b0b5-3cae9a49f1b1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1726410840;
+	t=1726410839;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3ujmYeLw8S8oSmWoQtMgG6xc4SWS26+JjptWJZBga9E=;
-	b=dgiP9RY8kS01AECKX1T8YHaGru09gT8wT9/mFDoT3j5uNkcq4w+L7uPWEdl8ekou
-	HiT6Ew3uevOe+krRzHi1j2HEnP0hjo4Mbk1OPtwaYmNq0p6cXeJGyx1Iy+uAxUeEE9I
-	7cF1kurwim60X5US3xjYHeNDeZMzl+uhupWQtCig=
+	bh=LfJ5DcjNKZYwLN46al99FTj70/YuoXn89NEBF4k17mo=;
+	b=AowpvZ7LdMxaMIz5SUBvx9fgRQtN+ck4dqdgL5tAPhEwtmsFJxL3kPqoyaKbCfRI
+	op+r0yIBkhJxXhDj4U7O6rHHPgniP/ia1viI48djzo6AJpdUBhxejQ8/J0n2FfvtUwZ
+	I+6YZbOU46WgFYRJwh3wbR8cBSHcbUDyEJM7YEQQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410840;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1726410839;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3ujmYeLw8S8oSmWoQtMgG6xc4SWS26+JjptWJZBga9E=;
-	b=yExEM3Y+RZ7hHngMDg9slnyRfu/9LZAFzE0TnS8/o+74rhEKQv9IEDhYIM5n+yW2
-	1bdzjrsQuO0M+6lvQ+XXOvYolIqOPuOqUpNfVqlKIuR7t4XhVD6fuVz1ulRIGQw+n0q
-	PTZhMAyz0PZAvwOJTzt6spyt9Yq29Hal7aEjD6R4=
-Content-Type: multipart/mixed; boundary="===============7278184964251543861=="
+	bh=LfJ5DcjNKZYwLN46al99FTj70/YuoXn89NEBF4k17mo=;
+	b=wlxoxoXO9I9NwZdM6jLmsDkJolXFjcjairljuidAbVhdgecLIJwYiYwrnZMFYZMB
+	jlRq8AAlCwS+tPnOYDF793BOHUereDoCJFc6Kh6ETc+DcyihCTZDo71LbeEsk69MoEF
+	7mpVcn+Forn8di1qbp0dMx/Cbh5W1Ra+tBxC7WyA=
+Content-Type: multipart/mixed; boundary="===============5448265075894421099=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-trove-classifiers: upgrading to 2024.9.12 SUCCEEDED
-Message-ID: <01010191f61ad974-3719ff45-654a-4470-9be4-dfd0f8dbcd53-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Sep 2024 14:34:00 +0000
+Subject: [AUH] openssl: upgrading to 3.3.2 FAILED
+Message-ID: <01010191f61ad5af-b34eec8a-5b26-43e6-b0b5-3cae9a49f1b1-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Sep 2024 14:33:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.15-54.240.27.30
+X-SES-Outgoing: 2024.09.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 14:34:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204529
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204508
 
---===============7278184964251543861==
+--===============5448265075894421099==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,175 +51,88 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-trove-classifiers* to *2024.9.12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *openssl* to *3.3.2* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-trove-classifiers-upgrade-2024.7.2-2024.9.12.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade openssl -V 3.3.2
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1867 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-5dfc85d44f8dc5bf4c0181b0311d63f05a31348f"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:5dfc85d44f8dc5bf4c0181b0311d63f05a31348f"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (0 cached, 917 parsed). 1868 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.0+snapshot-5dfc85d44f8dc5bf4c0181b0311d63f05a31348f"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:5dfc85d44f8dc5bf4c0181b0311d63f05a31348f"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL http://www.openssl.org/source/openssl-3.3.2.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240915073736.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240915073736.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching http://www.openssl.org/source/openssl-3.3.2.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/scripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-siiphmjp/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-siiphmjp/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-siiphmjp/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipe
+ tool-siiphmjp/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-siiphmjp/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-siiphmjp/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 -O /home/pokybuild/yocto-worker/auh/build/build/downloads/openssl-3.3.2.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/downloads 'http://www.openssl.org/source/openssl-3.3.2.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.openssl.org/source/openssl-3.3.2.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-siiphmjp/work/temp/log.do_fetch.1069609
+ERROR: Failed to fetch URL http://www.openssl.org/source/openssl-3.3.2.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From faa892a3910d2e584cc0340752b618178b38dba2 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Sep 2024 09:20:05 +0000
-Subject: [PATCH] python3-trove-classifiers: upgrade 2024.7.2 -> 2024.9.12
-
----
- ...fiers_2024.7.2.bb => python3-trove-classifiers_2024.9.12.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-trove-classifiers_2024.7.2.bb => python3-trove-classifiers_2024.9.12.bb} (87%)
-
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2024.7.2.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2024.9.12.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-trove-classifiers_2024.7.2.bb
-rename to meta/recipes-devtools/python/python3-trove-classifiers_2024.9.12.bb
-index 934c6d4be0..c3a4eea1c7 100644
---- a/meta/recipes-devtools/python/python3-trove-classifiers_2024.7.2.bb
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers_2024.9.12.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
- 
--SRC_URI[sha256sum] = "8328f2ac2ce3fd773cbb37c765a0ed7a83f89dc564c7d452f039b69249d0ac35"
-+SRC_URI[sha256sum] = "4b46b3e134a4d01999ac5bc6e528afcc10cc48f0f724f185f267e276005768f4"
- 
- PYPI_PACKAGE = "trove_classifiers"
- 
--- 
-2.44.0
-
-
---===============7278184964251543861==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/LICENSE was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/LICENSE was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/LICENSE was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/LICENSE was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/WHEEL was removed
-
---===============7278184964251543861==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-trove-classifiers: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2024.7.2.tar.gz;downloadfilename=trove_classifiers-2024.7.2.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2024.9.12.tar.gz;downloadfilename=trove_classifiers-2024.9.12.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-trove-classifiers: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PV changed from "2024.7.2" to "2024.9.12"
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGSIZE changed from 93066 to 93132 (+0%)
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGV changed from 2024.7.2 [default] to 2024.9.12 [default]
-packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PV changed from "2024.7.2" to "2024.9.12"
-Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/LICENSE was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/LICENSE was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/LICENSE was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.9.12.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/LICENSE was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/trove_classifiers-2024.7.2.dist-info/WHEEL was removed
-
---===============7278184964251543861==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-trove-classifiers-upgrade-2024.7.2-2024.9.12.patch"
-
-RnJvbSBmYWE4OTJhMzkxMGQyZTU4NGNjMDM0MDc1MmI2MTgxNzhiMzhkYmEyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgU2VwIDIwMjQgMDk6MjA6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzOiB1cGdyYWRlIDIwMjQuNy4yIC0+IDIwMjQuOS4xMgoK
-LS0tCiAuLi5maWVyc18yMDI0LjcuMi5iYiA9PiBweXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIw
-MjQuOS4xMi5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXRy
-b3ZlLWNsYXNzaWZpZXJzXzIwMjQuNy4yLmJiID0+IHB5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNf
-MjAyNC45LjEyLmJifSAoODclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI0LjcuMi5iYiBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI0LjkuMTIuYmIK
-c2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjQuNy4yLmJiCnJlbmFtZSB0byBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNfMjAyNC45
-LjEyLmJiCmluZGV4IDkzNGM2ZDRiZTAuLmMzYTRlZWExYzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI0LjcuMi5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHJvdmUtY2xhc3Np
-ZmllcnNfMjAyNC45LjEyLmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dp
-dGh1Yi5jb20vcHlwYS90cm92ZS1jbGFzc2lmaWVycyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIK
-IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3
-OWJkODk4Njk2OGY0MzI3IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODMyOGYyYWMyY2UzZmQ3
-NzNjYmIzN2M3NjVhMGVkN2E4M2Y4OWRjNTY0YzdkNDUyZjAzOWI2OTI0OWQwYWMzNSIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICI0YjQ2YjNlMTM0YTRkMDE5OTlhYzViYzZlNTI4YWZjYzEwY2M0OGYw
-ZjcyNGYxODVmMjY3ZTI3NjAwNTc2OGY0IgogCiBQWVBJX1BBQ0tBR0UgPSAidHJvdmVfY2xhc3Np
-ZmllcnMiCiAKLS0gCjIuNDQuMAoK
-
---===============7278184964251543861==--
+--===============5448265075894421099==--
 
