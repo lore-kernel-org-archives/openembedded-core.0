@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B5CC3ABC2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8C1C3ABC4
 	for <webhook@archiver.kernel.org>; Mon, 16 Sep 2024 02:19:56 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.128380.1726453187823459963
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.128382.1726453194450982272
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Sep 2024 19:19:47 -0700
+ Sun, 15 Sep 2024 19:19:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AE2vhpeu;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2055136b612so48919895ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 19:19:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VmrdSi6T;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-201d5af11a4so44248755ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 19:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726453187; x=1727057987; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726453194; x=1727057994; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pSYA5pBCqsLh2NjTC95ALLFTrafOVixZ39m1U67v5Q8=;
-        b=AE2vhpeuk1rCCw3S3W3MNhk0LpNH6+f17MqDF0ZcEa/o8+Kh3CqYpBk53+tJ7/o0T1
-         EWKc5w2FSr+uHB6ddwXZf7akuY1scwU5G2aGdu2oZTm3iK7AbHOnXRZmIvE9RXi+yRcR
-         7vhuWs05aG0tSaFBPQyvDBO+PdtB/Oplr6lFE7wYPUAfAtc77X1WB7VcVcNCxKBXs/US
-         HV+WSOiuIErdXunqa06I9UljXMYzV7j08IrUUReZIOI0hNsYRAtgsC5xq9ih0e85iRPW
-         RZB/oiW468DPn/upJzdYoj215BgRryRKgc6zSE9Wx+IYpH2auhjJMKvziic0El0+KY9B
-         fnxw==
+        bh=IQdg81lspg2JvpRaoHVv2QAn/eTNYfh9bJ6xwcE7zVs=;
+        b=VmrdSi6TPckSzKCQythY/aY2uESfwHpMk5wQHkfeYNIfVbho6/RAP232GE6yGXDZgN
+         +6kOdLF1XR4Ji5WDF+vyVOLbyYOJFy6GqgVPjQBQaZ0JfwcJfxtA74KaF2/IySGt5tJD
+         BagUtLwr73UMuc/ClTBAjqZvA/2qZ1WJbW1aLLXrA5OwUV5hTBaLYAXMgMSXtW4+D/66
+         b+FqLFy3q0qYKO5zrSojPHuooMBgbhXFsKVhcOhBQuiz0M0p0JKZag/uM34mCL/aH5bl
+         xEeMMldGjhSfe7w0XzXBhxcuL5KA7jSQbfbxDdjQNOKkMZICfTTkcNiHvqpzxkQ6sAnr
+         dPug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726453187; x=1727057987;
+        d=1e100.net; s=20230601; t=1726453194; x=1727057994;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pSYA5pBCqsLh2NjTC95ALLFTrafOVixZ39m1U67v5Q8=;
-        b=eyE9un3lR46E8cGbnxcE9/i6bicFpJ0tfUw38JZ/zfPWV1xuT1v8uG6SQXGfReTOhn
-         c22A4dwU1V8t5zXmbhqyLraYXSFrCPYsI2Wha0KAKRA+2eySFMcwssAUiSNrtxNk85Ct
-         WAt+K9VVkonSCm1uuk7royiNyOrYqNAE/jDO4PPTeqWNaVfuRNbGLEU/Nbq35iEK1Dum
-         PAxFko2vZEhMK10iReka8hyGOmHkjE/aGyzsQsEcR+3pXdnQUAgqny1cGEWt23h28wpZ
-         dkTXS/rQ4YJTNWrEnHkV1ANvla7bzF1IqPDskb/it8W/Tf4c+FbC99T+vhbrNW7FEw7i
-         GeTg==
-X-Gm-Message-State: AOJu0YzX4EOopUmqtzegCQvZXXzmasarGSpfhI200b3kqtZVOOoowhJF
-	ab3r2ns26RG6Maai47O65S5hJqIlDkZh68IfbMReriznjNGzbBewaNV/4JGWh/MastF+9r53coQ
-	kQC8=
-X-Google-Smtp-Source: AGHT+IFfFfX2N1eeP902jUPTAm84ysGrR4W35CGcd0qbWuCXm/NUdMl061gogTHJzQEqwdad84uJEA==
-X-Received: by 2002:a17:902:d2c2:b0:203:a116:7953 with SMTP id d9443c01a7336-2076e30a904mr241926065ad.10.1726453187020;
-        Sun, 15 Sep 2024 19:19:47 -0700 (PDT)
+        bh=IQdg81lspg2JvpRaoHVv2QAn/eTNYfh9bJ6xwcE7zVs=;
+        b=G4u54s78m91tuRuHRk0fowdpBNpLWRHwTeLmmGqRVruic4Y238uTLHbgUXkr8VKvq5
+         0JrEpI2nr3SQn/CACwRgmRE3owSE04pEQOvqpGMg6NgL4j3vmBjznhlnp8KnKAkkgzFq
+         uHuXu9p4laNAm4Re+HcOmoNU1GHrMoQyNb15AnwQ+oxIoFpD3ouit8TTvE82RAbvqxyg
+         4yEMsOsiJmSKl7zJ5DNy25fj7S+yaC2BoB+xUXfr9k2RgI9hE/muLbtA7b02sq/wD0u9
+         qyIvViXPzwg417f1Nsmq80nAaGAtOpGFsBFNv183eDv0gafNGevXF7409xTsLqYh2sOK
+         xrDw==
+X-Gm-Message-State: AOJu0YykKkQDWPF87GkCIp/T2Uq7nth3KgDXbqJ1YOEJhVOdx/pyweUJ
+	ZpR96fVSRImCkZnKZYaHtfgUrj8aZgi8n59nNr7zG7pnfNe3BDJXPb0pdjYGrUJT2j1ePuPnxV+
+	rO10=
+X-Google-Smtp-Source: AGHT+IF4vyOiPKNJ14V2zDEXnbAqiNySoKInwln04itgAAh0JhN8s2uSwAhNr6LpvSNBOWNH0C98OQ==
+X-Received: by 2002:a17:903:41cc:b0:206:d6ac:85e1 with SMTP id d9443c01a7336-2076e308699mr201275905ad.2.1726453193768;
+        Sun, 15 Sep 2024 19:19:53 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794764144sm27698175ad.304.2024.09.15.19.19.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794764144sm27698175ad.304.2024.09.15.19.19.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2024 19:19:46 -0700 (PDT)
+        Sun, 15 Sep 2024 19:19:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/11] vim: Upgrade 9.1.0682 -> 9.1.0698
-Date: Sun, 15 Sep 2024 19:19:27 -0700
-Message-Id: <829e474534777b2154f1b1246c5792b3159dacb1.1726453060.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 06/11] unzip: Fix LICENSE
+Date: Sun, 15 Sep 2024 19:19:31 -0700
+Message-Id: <f4b84a234662bc8f68e54d4753d9f03e4c2e7931.1726453060.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1726453060.git.steve@sakoman.com>
 References: <cover.1726453060.git.steve@sakoman.com>
@@ -62,39 +62,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Sep 2024 02:19:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204591
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204595
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Niko Mauno <niko.mauno@vaisala.com>
 
-This includes CVE-fix for CVE-2024-43790 and CVE-2024-43802
+The contents of the LICENSE file included in the current source code
+package match those of Info-ZIP license, which seems to originate from
+the year 2009:
 
-Changes between 9.1.0682 -> 9.1.0698
-====================================
-https://github.com/vim/vim/compare/v9.1.0682...v9.1.0698
+  This is version 2009-Jan-02 of the Info-ZIP license.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+(From OE-Core rev: e7c9368e56a6ad90b4ffbba1b765e2b3a331c796)
+
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e530265415d93e3f49ec7874cf720aad18ab2e22)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/unzip/unzip_6.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f8ba37156a..11daa900d2 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index 27076d5d9b..c13e7a008e 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Utilities for extracting and viewing files in .zip archives"
+ HOMEPAGE = "http://www.info-zip.org"
+ DESCRIPTION = "Info-ZIP's purpose is to provide free, portable, high-quality versions of the Zip and UnZip compressor-archiver utilities that are compatible with the DOS-based PKZIP by PKWARE, Inc."
+ SECTION = "console/utils"
+-LICENSE = "BSD-3-Clause"
++LICENSE = "Info-ZIP"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
+ PE = "1"
  
--PV .= ".0682"
--SRCREV = "cb90ea9cba6f033fe141db0e466fb4117f28402b"
-+PV .= ".0698"
-+SRCREV = "d56c451e1c05310562c5282352d7bb287c16323c"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
 2.34.1
 
