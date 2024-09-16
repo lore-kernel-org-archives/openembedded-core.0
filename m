@@ -2,124 +2,98 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B49F5C3ABC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E88C3ABBF
 	for <webhook@archiver.kernel.org>; Mon, 16 Sep 2024 02:19:46 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.128379.1726453184052469116
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.127883.1726453186174571024
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Sep 2024 19:19:44 -0700
+ Sun, 15 Sep 2024 19:19:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TFilKeJP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-205659dc63aso38172585ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 19:19:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sr2FJEbz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-206b9455460so29579375ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 19:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726453183; x=1727057983; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=os1zTO+z2sydbFgi26Z9YGj16YRkoVQnmHzBkW/+gLQ=;
-        b=TFilKeJPwI7m+VpUQhRgMT1ev2CyyFMUzd2JdyUQ1yC5iHZ0aF4ZyePv4FOUeptfwL
-         14/8x9a3LeOFizkG8OwUeP1RhAW4cRZMQa2b56BD1GkrvGk0GfMnPYVZxXgSeqpfFbq4
-         JSFeer41XLHyUppYTBlzlx8I1YtGEe/Pdpg7eFyVZKkb5IPjlYGY1ok3zRDGTedMmcVH
-         0YrdYqF37su33xv2hK6tyOo1u4hvnyokt0Kdhv4FdE8yW6FneNJzOkIixKS4jPuYIkSS
-         0sjoCU+VcnftkqzohVdJfYmg0Ould8t79HlrdDk4Onzv3bxDk+iwjUXuTlhyhmY3x3gu
-         sCvg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726453185; x=1727057985; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KfU1ATu8YF/XeYDsAmlN1vIrMqYMHOtO44r1vZeZtaY=;
+        b=sr2FJEbzDsXXX0jyVUbIvzrmzpkWKPMqjKOgxeLhKwTcz4qMIlIBx0rxVd56XNTxYW
+         2RDHEd8bzl+dZJi+hXbN5GZf6Q34pIeFDkWgqvhk14VvDvWFgc4DvkXUzjsNalHqI/Mc
+         TN+kVsNbxOImwRgZ7V6Nw3u7mSJWXcX8Wk5GSayZe55aR7bwooX2VXSBU9anp9rw+ReV
+         tSGPETnOlFC1jl1A5FGqRLic8+1ObyNw8to0ud1xRifLvjPkUVbRZnchQwQ6f7cBuQyZ
+         qch/N++JhgIdGKO1OzN1d8rnywLUWMzbm9+CoOFz0G6MbOVYYrPNOv/jyMcNAhB+P4O9
+         xysQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726453183; x=1727057983;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=os1zTO+z2sydbFgi26Z9YGj16YRkoVQnmHzBkW/+gLQ=;
-        b=p6xCOrMjTWpJNfF4hDNVv7Km5o+Py/iZ/QHtd1YUTZH6qwzp6huDnxsG9FjTBzasWN
-         3GoWXaVwIM3KwRS47zsw4/+HV20R7Xnk/NjM5/kBfZPf68uqhf3Rr3gh2NaQksVL9Gmb
-         rPpUIKsF5s0g01YfzRPLoinp1Dsnk+HRgtMueYFoxX0MTcP47GHEMbPNpa/Lta5nU0u7
-         mIQNdFidEDP7uVP/pjeFtqt3nVrxVw+OygOl9mVpzyEOhYC1POv4IeEzcXwr7vHSly/B
-         UZRqvtODqvtkr6YYvzTppmckB5sfA+ZSJBCcYDESUMIsqLZtHdRVIlj29XFSHgl6PGmB
-         Bhlg==
-X-Gm-Message-State: AOJu0Yz64TkhYzbxkYo/sv0wq+CGRCmn10UteCjTnl47qemH6kSLz0DR
-	iPAVuWS5IaghUo+DUnhY0ehwWxlvk3iNgy4FzIeWUZ9P8cjLOku7+LWN3NapXLPpCoCBfn5keqL
-	7a5c=
-X-Google-Smtp-Source: AGHT+IETxo7VJMXSQ6OwuBI8cTfddvtdnagR3ceoOIfJlCNeEH3L3+L2Y/MFBBZMDRbWiqHxdrZ8bA==
-X-Received: by 2002:a17:903:32c4:b0:205:79b4:c5b1 with SMTP id d9443c01a7336-2076e39c012mr213157695ad.16.1726453183035;
-        Sun, 15 Sep 2024 19:19:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726453185; x=1727057985;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KfU1ATu8YF/XeYDsAmlN1vIrMqYMHOtO44r1vZeZtaY=;
+        b=Vqy8SN+5A7MP0d0PYXBly/IyWC/AiOyW3Y8ZLZ55yoIVYNNTWoXCRaQcpawPlfsqkp
+         EcmR9jckQqoA/K7w3vf3Cry22S1nP/7ooO4mx+VVp+XQtHXXRFO2ngxGWZXXMt0zZsGg
+         2slZU64ag2kD2jJremBU87R2dE6tdVX5EYcNTHjYlkjF/qLWvGH9GyJjekLBPP7hgvQU
+         s3vEoIKclbyFOu+w87AaLI8WQ7+13cT1s9/M1VcrRum4m+EByFUQ3lJXa49M0FAqOw7C
+         tFZDhBkp+VLT+ZxvcfPqM1ctnKWZuZyuavAdqFQQarTlogoEAViLuanI6a2/RptvxZq+
+         nvRQ==
+X-Gm-Message-State: AOJu0YyQIK6J4kVODdTRSgQ/YV++JLj/i/Zcs8845IetZgpTbp29pI1I
+	j25fMM3U10dU+R3G2UeN2Gju+lM6pjgmwkTwsw7Q1Upk985bY7YK6PjOCjqeB5I/joIiiIu9/bY
+	ikcg=
+X-Google-Smtp-Source: AGHT+IH9hUYlVJoY553sjZwgqxtfSxPdX4KFkF9cIWXZQN8P5B31Si7p6eA47Y7yQmHmSZ5XhOHkpQ==
+X-Received: by 2002:a17:903:2306:b0:207:60f4:a3bf with SMTP id d9443c01a7336-2076e54e53fmr217469775ad.2.1726453185360;
+        Sun, 15 Sep 2024 19:19:45 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794764144sm27698175ad.304.2024.09.15.19.19.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794764144sm27698175ad.304.2024.09.15.19.19.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2024 19:19:42 -0700 (PDT)
+        Sun, 15 Sep 2024 19:19:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/11] Patch review
-Date: Sun, 15 Sep 2024 19:19:25 -0700
-Message-Id: <cover.1726453060.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/11] yocto-uninative: Update to 4.6 for glibc 2.40
+Date: Sun, 15 Sep 2024 19:19:26 -0700
+Message-Id: <0a8ba360f111d379af436de86e0a990be02910bb.1726453060.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1726453060.git.steve@sakoman.com>
+References: <cover.1726453060.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Sep 2024 02:19:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204589
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204590
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Tuesday, September 17
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-Passed a-full on autobuilder:
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b29bfd333dffe635ab67475dcd8d22ad8b114c84)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7330
-
-The following changes since commit 7e11701698a9f38a5e3e0499c0c2edd98d32a85d:
-
-  mc: fix source URL (2024-09-03 06:59:38 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Michael Halstead (1):
-  yocto-uninative: Update to 4.6 for glibc 2.40
-
-Niko Mauno (7):
-  iw: Fix LICENSE
-  dejagnu: Fix LICENSE
-  unzip: Fix LICENSE
-  zip: Fix LICENSE
-  tiff: Fix LICENSE
-  gcr: Fix LICENSE
-  python3-maturin: Fix cross compilation issue for armv7l, mips64, ppc
-
-Richard Purdie (2):
-  expat: 2.6.2 -> 2.6.3
-  ruby: Make docs generation deterministic
-
-Siddharth Doshi (1):
-  vim: Upgrade 9.1.0682 -> 9.1.0698
-
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/recipes-connectivity/iw/iw_6.7.bb        |   2 +-
- .../expat/{expat_2.6.2.bb => expat_2.6.3.bb}  |   2 +-
- .../recipes-devtools/dejagnu/dejagnu_1.6.3.bb |   2 +-
- ...n-architecture-name-resolvation-code.patch | 107 ++++++++++++++++++
- ...ation-issue-with-linux-armv7l-archit.patch |  76 +++++++++++++
- ...n-ABI-name-resolvation-code-as-helpe.patch |  98 ++++++++++++++++
- ...ation-issue-with-linux-ppc-architect.patch |  68 +++++++++++
- ...ation-issue-with-linux-mips64-archit.patch |  82 ++++++++++++++
- .../python/python3-maturin_1.4.0.bb           |   7 ++
- meta/recipes-devtools/ruby/ruby_3.2.2.bb      |   1 +
- meta/recipes-extended/unzip/unzip_6.0.bb      |   2 +-
- meta/recipes-extended/zip/zip_3.0.bb          |   2 +-
- meta/recipes-gnome/gcr/gcr_4.2.1.bb           |   2 +-
- meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |   2 +-
- meta/recipes-support/vim/vim.inc              |   4 +-
- 16 files changed, 453 insertions(+), 14 deletions(-)
- rename meta/recipes-core/expat/{expat_2.6.2.bb => expat_2.6.3.bb} (92%)
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-Extract-extension-architecture-name-resolvation-code.patch
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0002-Fix-cross-compilation-issue-with-linux-armv7l-archit.patch
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0003-Extract-extension-ABI-name-resolvation-code-as-helpe.patch
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0004-Fix-cross-compilation-issue-with-linux-ppc-architect.patch
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0005-Fix-cross-compilation-issue-with-linux-mips64-archit.patch
-
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 657c1032f9..a6f7107dfe 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,10 +6,10 @@
+ # to the distro running on the build machine.
+ #
+ 
+-UNINATIVE_MAXGLIBCVERSION = "2.39"
+-UNINATIVE_VERSION = "4.5"
++UNINATIVE_MAXGLIBCVERSION = "2.40"
++UNINATIVE_VERSION = "4.6"
+ 
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "df2e29e2e6feb187a3499abf3b1322a3b251da819c77a7b19d4fe952351365ab"
+-UNINATIVE_CHECKSUM[i686] ?= "8ef3eda53428b484c20157f6ec3c130b03080b3d4b3889067e0e184e05102d35"
+-UNINATIVE_CHECKSUM[x86_64] ?= "43ee6a25bcf5fce16ea87076d6a96e79ead6ced90690a058d07432f902773473"
++UNINATIVE_CHECKSUM[aarch64] ?= "c2d36338272eba101580f648dd8dff5352cdb4c1809db7dedf8fc4d7e7df716c"
++UNINATIVE_CHECKSUM[i686] ?= "0041584678109c18deca48fb59eaf14cf725cf024a170ab537b354b63240c504"
++UNINATIVE_CHECKSUM[x86_64] ?= "6bf00154c5a7bc48adbf63fd17684bb87eb07f4814fbb482a3fbd817c1ccf4c5"
 -- 
 2.34.1
 
