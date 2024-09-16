@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C77C3ABC8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2012C3ABCC
 	for <webhook@archiver.kernel.org>; Mon, 16 Sep 2024 02:20:06 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.128386.1726453197978188842
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.128387.1726453199338117540
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Sep 2024 19:19:58 -0700
+ Sun, 15 Sep 2024 19:19:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KbKY7TCy;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-206bd1c6ccdso24346455ad.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 19:19:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nxAGuAZL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-206aee40676so19472565ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Sep 2024 19:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726453197; x=1727057997; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726453199; x=1727057999; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N75Mijarpimc0DFbdeFby/NE0AYn5KPj/hCM9SrZx5I=;
-        b=KbKY7TCyZ/cTzY6pDDKljFe8oNX1nVQo3CCVe3op495UzV7ZjqG1BAgR6dgihErztC
-         CxsadwCxrFaFVZc2XVgdfks05dJX6hZ+Fl8jCaHvdryKK2D0TWjT0L0k9mQqZMRqcHnr
-         VRbrQN+eox3Q+yfiK+FDjlYrpi6SAryn2LVt5ZgVLuIIR9FmY8YSIjDE0EvvJNf2nwgo
-         vpDlXyfhKsiwkfHsCeTrBXPPckL5UgBsnZ+Q/FZjkTKo7OKTg1lRfTtQPwqSz6pxb/Fm
-         lEX45MWryWezTmm/9g9gdylUZa87kwJ3cmFSJCUPa9hxhb0k8KbCsLpuRCTWb8juX6c9
-         i2MQ==
+        bh=j/cwMuPE02Ot9VAR8mYjhZl7gszbOO928G/s/06rMUQ=;
+        b=nxAGuAZLq7FbErfVdv8n3KMnPqTJhKt2HTOle7kLnd3Dgmz2Vh68F55LHXBdQHDdHu
+         SIZzEPLzLmjjnIFzXPV1HInvL4bA3BHuajwdxv9pfuDq7MQpggG0x4JIOF/Y9L8vwNVV
+         r2eMxy16kH/fjL71g+QkBeL5gNA0HAovtTWUA3ZQzMhb4bQpEf5xXZ2avoeVqqexPFBy
+         15XL7BZZoetAEDLOVzSqG4t+8IoJfvzleZJy7k+sQgpgkDp5/+8cfks7houYIca7R3u3
+         e4W0hZpmKodG30aj6kQrFckHMlKQJ7OTrFfMLuyIX4eF1297uyF7EFBZYSY+OqoSplaG
+         eWlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726453197; x=1727057997;
+        d=1e100.net; s=20230601; t=1726453199; x=1727057999;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N75Mijarpimc0DFbdeFby/NE0AYn5KPj/hCM9SrZx5I=;
-        b=j1/Vy8My1UF3fk8Js40SJIqaksZd5HNkX1qmPNRfKOtRQUgz74o3Mn8GMxGX6H/2GO
-         /d14cS+KqQ8ZAP8BYDa0RJoUBUOf5muD+yAQPlHe0eerdTebw6aB1bfLXLACzsxORl4f
-         X8/d5uthkFN6T2KBSFa9R0o5C4ypOZxVGalPznCkqo/qai/mJBF31SWD3wZbQBvnfnuU
-         u461STEO6bbtHlp3cM4SKS6FFd3RHsBsRBy+CbUWHb2E4IkyEsy4XKySxCqd6LsFbXzL
-         ZUiz+KSMYtB9+4FwxmGeT7W2qKYQdLWEII4NPInxBAj2t4t3xTfzT9eLA1+BGgv/xCdl
-         Ufbw==
-X-Gm-Message-State: AOJu0Yw7z5iSvyEmhIniC0hDo8gG0vav+xs1xPoSBsdSyxrLzLTQLCQd
-	EdDvPsORnWB+f1AlDlGSPfbpd5DGwcQuSUdcn0N2twe2kQ9/uozJseBQmb5Aa405EGHYIvqrwRq
-	IIgo=
-X-Google-Smtp-Source: AGHT+IFi6gOwusZO3kKOtVZd9eNuFoTFLVmdmGUxWn/YuDudmuThBa44XuE2vpmTtIvuoe/UtSfqhg==
-X-Received: by 2002:a17:902:f790:b0:206:bec6:4864 with SMTP id d9443c01a7336-20782b693a9mr157896935ad.50.1726453197259;
-        Sun, 15 Sep 2024 19:19:57 -0700 (PDT)
+        bh=j/cwMuPE02Ot9VAR8mYjhZl7gszbOO928G/s/06rMUQ=;
+        b=c++VGqQS+88hD5F5BtEZDqFVGAYtOPGUpyDwWK6WfUy2H56o44o0K68uq/q567R4Vk
+         trlpKkjC0DlbBBT1Mg9WaywJFAM+KvdgxizIMaxLQcsqbSV3uWkuP9H1VsaLP9zXHzFD
+         i+lWeOn+t/xYiEE/2hlRrnGnmH6/7fPU9d6pSIW1NXt6+f8eMYTmV9d4nZZIQ4xHezpr
+         D1CfphlCiCgHhFJRSPtf9z9Fs/WnL6DFjmr6nxrCJxTz8LqQzVs/fgRV41kFY+LeUKeo
+         XNl/AuhWbF4bjtQvKYSltovNclF5T7u8t9RVT1CWCqdtroSJG1CW6T87UhKh8M9CHT/2
+         07sw==
+X-Gm-Message-State: AOJu0YxHGj+uxHl4PFQJf2MiI5v3Zu0QKTcjMChbjfhswMzigh5kG0Z4
+	/D7+VVnvAWe6k42uyb9mEkjp2t1a9gAqKUudkiA8jD9YID7UxfraltmKQnN/VlR7nMk0jdve0cP
+	W+z4=
+X-Google-Smtp-Source: AGHT+IFOHRNwJP6kvRSSZU/SJssDJJeSIsxVO3GcXkEXXsC3Sn1rHDfUni+F76DXdT54tlwOzuUl3A==
+X-Received: by 2002:a17:903:987:b0:206:ba20:dd40 with SMTP id d9443c01a7336-2078296a3e9mr151748205ad.27.1726453198624;
+        Sun, 15 Sep 2024 19:19:58 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794764144sm27698175ad.304.2024.09.15.19.19.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794764144sm27698175ad.304.2024.09.15.19.19.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2024 19:19:56 -0700 (PDT)
+        Sun, 15 Sep 2024 19:19:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/11] tiff: Fix LICENSE
-Date: Sun, 15 Sep 2024 19:19:33 -0700
-Message-Id: <5495cf45ce74e79be3b8d9b1195f65e253c62828.1726453060.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/11] gcr: Fix LICENSE
+Date: Sun, 15 Sep 2024 19:19:34 -0700
+Message-Id: <422bee7302ea26403e0ac048d3a0e72988be83b3.1726453060.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1726453060.git.steve@sakoman.com>
 References: <cover.1726453060.git.steve@sakoman.com>
@@ -62,40 +62,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Sep 2024 02:20:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204597
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204598
 
 From: Niko Mauno <niko.mauno@vaisala.com>
 
-The contents of the LICENSE.md file included in the current source
-code package match those of libtiff license, which seems to have been
-the case since 1999 commit
-https://gitlab.com/libtiff/libtiff/-/commit/0ef31e1f62aa7a8b1c488a59c4930775ee0046e4
-where it was added with filename COPYRIGHT and was then changed to
-LICENSE.md in 2022 commit
-https://gitlab.com/libtiff/libtiff/-/commit/fa1d6d787fc67a1eeb3abccb790b5bee969d424b
+The contents of the COPYING file included in the current source code
+package match those of LGPL-2.0 license, which seems to have been the
+case since 2011 commit
+https://gitlab.gnome.org/GNOME/gcr/-/commit/c6691faa0348ab087e99ab9bd9914e1d5e81fa14
 
-(From OE-Core rev: 71d8e8b03349ab18dca558055c2b3a3687785ddf)
+(From OE-Core rev: f3ae58b741e4e6e3a5196ff75fcc4da6ee89d0b9)
 
 Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-multimedia/libtiff/tiff_4.6.0.bb | 2 +-
+ meta/recipes-gnome/gcr/gcr_4.2.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-index 89681be634..6bf7010ba2 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Library provides support for the Tag Image File Format \
- (TIFF), a widely used format for storing image data.  This library \
- provide means to easily access and create TIFF image files."
- HOMEPAGE = "http://www.libtiff.org/"
--LICENSE = "BSD-2-Clause"
-+LICENSE = "libtiff"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=a3e32d664d6db1386b4689c8121531c3"
+diff --git a/meta/recipes-gnome/gcr/gcr_4.2.1.bb b/meta/recipes-gnome/gcr/gcr_4.2.1.bb
+index 26dc1d1bc6..7ffcc1b7a0 100644
+--- a/meta/recipes-gnome/gcr/gcr_4.2.1.bb
++++ b/meta/recipes-gnome/gcr/gcr_4.2.1.bb
+@@ -5,7 +5,7 @@ GNOME desktop."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/gcr"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
  
- CVE_PRODUCT = "libtiff"
+-LICENSE = "GPL-2.0-only"
++LICENSE = "LGPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+ 
+ DEPENDS = "p11-kit glib-2.0 libgcrypt gnupg-native \
 -- 
 2.34.1
 
