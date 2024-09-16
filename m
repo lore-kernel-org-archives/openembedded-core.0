@@ -2,22 +2,22 @@ Return-Path: <pedro.silva.ferreira@criticaltechworks.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A804CDD54D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A838CDD54E
 	for <webhook@archiver.kernel.org>; Wed, 18 Sep 2024 17:00:59 +0000 (UTC)
 Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.44])
  by mx.groups.io with SMTP id smtpd.web10.20693.1726678850529329324
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Sep 2024 10:00:51 -0700
+ Wed, 18 Sep 2024 10:00:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@criticaltechworks.com header.s=selector1 header.b=BWDei0S/;
+ dkim=pass header.i=@criticaltechworks.com header.s=selector1 header.b=W0mCA6Ee;
  spf=pass (domain: criticaltechworks.com, ip: 40.107.105.44, mailfrom: pedro.silva.ferreira@criticaltechworks.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jXs7aacwIn9RWoFFH4mj7nB7DFNqOjmkV9gm3+YmW9MeN4O9MQYe++y6CDz1VoqvAo2Wr9bJPZqwR2Ajg5Xc27Fwu4sPgumVF5MVPGzF5XZvSUr5SPbRKuPf74biSIwTSHAM1CJJ4hp7AWJlNJuh9N5DCynugglBloqrEwxYvTI/Mf0PSza0+GMCzGLAaxxzcS24BC+evxGqKJmkMx+W38cTB7PmDIdBCuwxKA59rBjUmii4Nwllb5lcO/bh3d+uWTI2FtDywtGVsXuUs3EXfjiWM8jQf1HyFYg7bhqjSVXpo6xa11nNyrAzcQXzXJxd7XAehQf/gYbP3AAXyQyBIg==
+ b=jAA8MkdYgHsYwSekm5+0PtpjBFve94D+z4KlHTXThAXBPwGVXCLpPxwvM9JFzPIn9yYGQ+3X7VzS/dw+mUzVX4OJEqTWshH1eJUjTeRYVb5ym01S09YaV/vqZsUvep6ioEWPVEG+b6oXpkMbD4x5HmPPlyamZKCwA5jph5owj34cCbPEFhY27lhbgFLFTZdla9GMA5KTe0FgVyeCGaqa159QzdnVRoiSnbXlUighqWeRt3Eokn7AJwEsihq/4RQ/9VnCTdV+ywY2q0aLTMbtZY0Xd1QsWqzND5qC1qTN0g7HDw+UCuxWrAJ6xAKA1PdQNzQQdTX3BWF+bFYtxoPxyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dt9QUPxeNdmqES2mhcFlC7kngxBxSdiTGiTeonM9Zkw=;
- b=f460eK7jpcgQuLiMSmYfjvsrVA6NoRFnPbAE1xOF5zbUE1+r06Vjxbmj59fRE7Xb4YKs2zY8skMdTANP0fDrFP2GkoMqKjRzSBBpL9i/25Mg0TvDUdXqIThUvEDJM3drKoM+clMC+zm3I09rdfmHc9nphMpQS3QtxD4u9cK5YVOv/xNvFbvZcIMDiZaWwiIVPIoP2ArWOzPiN3YIBtFM8d0013doMPsf0dnEIEw+14jcEwCYgFJnvUa45YGSGoWa5U3lwMOQXaL75NMtPVL+8mHkfcGjbc66w0i1k/13eZmp1vbV1QfBBaAV8GDwMg3cQGhv9TCBpo3D5MP/BQmQBA==
+ bh=eFr1b7RmfolQW2g/Gr7I6xLFLbvJhYPuwcpu3aKBH3E=;
+ b=ZlLytK7zQfpEwqT+BI+H0kZaQVuiUE+Yn6KJEFYjbxXRzZRdJUHPnXfIXpJPv0TyU6COOMl8OBOcC5cxbXBi6yOO9EDRDsZY9M3k5S92gR/bFvs+qCiWfJ4C+P0K0sPqcSn+KQltNYB+Kz//o59YCOKYnm16O5Mb209/lpxJE2eroraPT+F3RYEAeRubENxrGZGQUUvAwLqI7qHL6mOg8iS3HuXbCNV6CEO0P0L/lNl6MpIkz0MYaGNsQ5L3uiUV+iLFWAXnU8mnKuujDCtB1JzqJxUM9Zwg6f08UxicIAY/iE0F0AxEdGmiar3oZd3kF5CYCoZqOhjBN8hmRn3BZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=criticaltechworks.com; dmarc=pass action=none
  header.from=criticaltechworks.com; dkim=pass header.d=criticaltechworks.com;
@@ -25,26 +25,25 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=criticaltechworks.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dt9QUPxeNdmqES2mhcFlC7kngxBxSdiTGiTeonM9Zkw=;
- b=BWDei0S/aTTNg+giGhghnbqdd8PXiScma05SHvZnGnzHOzAf/xbXjZb5o2laNgKQ12GC0lyDYNbZlifoof1S9n2bBK3gKxEVcAYuO0irtoNQQe7wgjxEodLNHyxS2Qd5nG2kCMiY8TIjxcyl6ElY/NtY1qOzTG5Iu3ArD+NNmwAurQSimPgj3Do3XqjfANiSPrNksQ07deymPNHqTAbFfNzHXlprevtppcSByjktnFQlzYJ7iQAPxX7Z+5K1PN70S+C1ikvk5fbdgM//Ht6FFEcSW7v8PB0gZMvA181uol5idgg2C0EMKJJ0P3OFAH54mHSLhclUImSM2NWGnRsejg==
+ bh=eFr1b7RmfolQW2g/Gr7I6xLFLbvJhYPuwcpu3aKBH3E=;
+ b=W0mCA6Ee0G2k9gMgJ/E0+P/PAjJvjl16A7JmE+A5yvBqiDl2/qzMd9udjsSzxjuv/3Ab9/GN5atT1rQvqAnuwlgFwTlXmeHs6QASW4XOhiuvBKQZqqhSw0u+FdkadNt1tjG/DCLsZ3CImgGhfibjFzNO+3J2m3rJLccbxg9cghIfs2myDFeRvmFENeXfNKfy+3tXCiJvrAyrtaLqGjFN9jq3MlbTZAa0IyIRsTWFXbvr6TqWU+hfqS9BHn8eZYZUTZVt7fbxVsR5OTz5kEdYi38YeIXU07zzOXVhVIFZj0ZJ/9+lXyfCUwbOtkmrljOvIsgUoxhnGWTpi9p9tPTG3w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=criticaltechworks.com;
 Received: from AM8P193MB0900.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ed::9)
  by PAXP193MB1278.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:156::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Wed, 18 Sep
- 2024 17:00:45 +0000
+ 2024 17:00:46 +0000
 Received: from AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
  ([fe80::c359:f497:ed59:65a1]) by AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
  ([fe80::c359:f497:ed59:65a1%5]) with mapi id 15.20.7962.022; Wed, 18 Sep 2024
- 17:00:45 +0000
+ 17:00:46 +0000
 From: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH v2 2/3] buildhistory: Restoring files from preserve list
-Date: Mon, 16 Sep 2024 08:16:19 +0100
-Message-Id: <20240916071620.2831989-2-pedro.silva.ferreira@criticaltechworks.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH v2 3/3] buildhistory: Simplify intercept call sites and drop SSTATEPOSTINSTFUNC usage
+Date: Mon, 16 Sep 2024 08:16:20 +0100
+Message-Id: <20240916071620.2831989-3-pedro.silva.ferreira@criticaltechworks.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240916071620.2831989-1-pedro.silva.ferreira@criticaltechworks.com>
 References: <20240916071620.2831989-1-pedro.silva.ferreira@criticaltechworks.com>
@@ -56,148 +55,208 @@ X-ClientProxiedBy: PR1P264CA0152.FRAP264.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM8P193MB0900:EE_|PAXP193MB1278:EE_
-X-MS-Office365-Filtering-Correlation-Id: 048bcf64-2fd9-48a6-982a-08dcd8037017
+X-MS-Office365-Filtering-Correlation-Id: 742c505d-1dc4-4ea5-2a7f-08dcd8037058
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ucxwfuojq2lEN6MYBBIDcR2mptguA+DmFw4xvddt2OeEKf09RPNiKjtCJwea?=
- =?us-ascii?Q?LxQQEYxI2H7IggVHrF12ymamnXpUlRTOcqX2mqwYvp26UxbRHvIiSWAEmQDa?=
- =?us-ascii?Q?GvVjXiFWz6LiavmZ05m+0BdVbfr7D9552P6WRS6cHm/x9Tb7QJkFqDlfaP64?=
- =?us-ascii?Q?rzR4cogEj1m/zRYb491/f056mRWrnbJ/VA18Qo3pv73p/wI1Wm9pP6ek3CIn?=
- =?us-ascii?Q?6p7nSZNyxCfGgHDKaPyj9lljvdvwX8Cv1s8grRy6oxWLBRoUJv3UzKUb9t+U?=
- =?us-ascii?Q?QJtFusq9bHsv3vNe2xDHBXJDMkKayRc1scfOa+4DVplK1rTYsPYr5giS+76s?=
- =?us-ascii?Q?YIku4pz5RdxnENC0DFQbWTAdFOo74frkMRR5+l8rgu/SlcyMQmSHikKbKX+Z?=
- =?us-ascii?Q?BJMsibRYrpOVJupT5HaiAEYpC/SdEqhGVt5a/FCnxnraRqxqFWr6IA612WLA?=
- =?us-ascii?Q?/PRgyBaAaXPpvlgUS+V6Zxa6AZGm1hrXtFermEOKW5wTEvsPPt5YRyu5BUp2?=
- =?us-ascii?Q?eR/eOxD8lbmPOrt//dDBLBV+KWhwOxKFGRSzo+vruhVZkqgv+dFZLYdyjVKH?=
- =?us-ascii?Q?NWvDEEcdW5rI65eAatoIZuSGIeqijC4NNGI7op60WEICkhKutGVAyN3yvFB9?=
- =?us-ascii?Q?x4bp407oi0WmpAtA7ol85Bsz9qd58oXJgHErq6vKtUHUqlSf9QSG+c0oqrG/?=
- =?us-ascii?Q?fL5IAlJ2ZEG9PlDwevEeqUHlANyOCcTZHiUMr91kA9f7AWjek40JWqKIiPfb?=
- =?us-ascii?Q?ewbtJt0RCTezow7NB1VNCagrD/HrluD3fjwkI0CS0THTJNvM+1aQ9EFDzo3b?=
- =?us-ascii?Q?hKOFBgqD93kkrsga62ShtaPczSIZupZSGnx0AqZXT1uYR9d1K0AXWgq+Dqvu?=
- =?us-ascii?Q?f9LIXYu1OgjdLfQgYX6F+T78FCL8Ngtc9BZCmDvPTotiDzB+L3F3CuCiOuCw?=
- =?us-ascii?Q?4JDRTWMG65PSAVJq65fzBWAiu6Rl/YCM5nhbtmG3+zWFlSYnIlBo9MY3WfL3?=
- =?us-ascii?Q?xWx+42mWi3QYqnPpe6LRwD/Vz45igMmG5IH1aG9DdDzCOye9EAxjix8euzGs?=
- =?us-ascii?Q?LPNK53pFB53eku4SRvtHxdbo5RXze7c+nNbIvDDB3fvxvM8PChxtplFk/+k7?=
- =?us-ascii?Q?jH6o2sumBu+xtJ+CAfw5Vbdv+hI9cefzMam6p6JOcUtQiEGTP2XkacgoHHf6?=
- =?us-ascii?Q?yJE4klxA2+D8xq7QBvQPJBIjj1EhLe4/5sud6c24hbaNg3t2mHUbjBqlngPd?=
- =?us-ascii?Q?8s+Nz1T1eIvRUe+uLB+8XSf50U3pJWTXraJE38evHKh3pqRUws+L4z2uycDT?=
- =?us-ascii?Q?cVtooW+dT8E0tvIo5L5IkpHIqFeKhdrK66yQKkiV82wsh+p2f071VMi9yzKj?=
- =?us-ascii?Q?dHMeYywVfe0ZM55i85p97fVwCxe78VcQAiuIsK/CEOWuOGBnqQ=3D=3D?=
+	=?us-ascii?Q?I1T0ZB9oRGuCv7iHR2dV6L+m7bi655CaY7z+jNNLyHvsNePX+xd5CYJNkYpp?=
+ =?us-ascii?Q?HJiBHI5UmFux5Vb90VTRk/qRrf2Y5zehY4Dd7y7TMqRru11hAjzWFe9akVAO?=
+ =?us-ascii?Q?beqsw0M9NKgooEDBP5lwXWLXpND+9CfAqXYGWle54V4+1pyV+0FtFvKIzF6Y?=
+ =?us-ascii?Q?Lm6+flDjLA5V9RrdR1PYVLF9FjNx8B7WboTHSUbsx4yOsvK+zZNZBi+lyLnj?=
+ =?us-ascii?Q?R8J/Fxlf4Oy3bnXLbrB9QheHrD8kUqbJPzZHuC08zD0wxXovXg2cRHJmc3uL?=
+ =?us-ascii?Q?otE/VshdCM9l2J/5lIgZN3F3KG5E1VazZg/VsnZVgmT1FtOB4xV6WpjAkKcx?=
+ =?us-ascii?Q?uXWbZyxjmBNe1N0TZvAd2CKvdljfh+kiWmV8ftAoIm0/qMkmREzAtjmhGrP1?=
+ =?us-ascii?Q?ptR2WKhwygVI7ZLEsKmKghNqvt7Ws6kFeS5mBmuX2nKxDLLdQ7x89fdqjwtf?=
+ =?us-ascii?Q?xlh0FO6r+MzXv0yDkq54dJ4uxpH7kSEmcCBC4bC1gIa0VT0RXbt763i0gRXt?=
+ =?us-ascii?Q?NI52uR7ZQ214X9SOdIZV1HT1AZeelZCWvEfmgcx62fUIQ1Q6xM9zxmCQFWhp?=
+ =?us-ascii?Q?/d0hoT0ypDu7JUqaX2VyWqA1SlXeo0qi3cZGYyOq+Tt9vV8wLdOnxeqKowZb?=
+ =?us-ascii?Q?OnXkzDRLHyHEMck8K9cNJqpFWtF+3FHAsNfoGgqElv+KKdFAKtYRRCbt5im6?=
+ =?us-ascii?Q?vi2Uhgxo6Qa/eU3zx/mPxUVKSbn4SbJZ3N6mpxSoFF3oe+Gmv5wJNTdFfxh9?=
+ =?us-ascii?Q?2kx5VDgdH0caQGu4O3zXaaeUyI4JFzJpPyggRXHto1xMJcq7U4+AQX9AYXPN?=
+ =?us-ascii?Q?Z3WQD1k01lfAqu6DXrkjmK/EnKni39kjrLoCQmjX8p0I3kyFtuN+vJWxoSWN?=
+ =?us-ascii?Q?rXxlR8uscSYjWMzhfkj/Z/O4MebRHR84WKKcXztzS5p+EGI6MMxLsK+7iqaG?=
+ =?us-ascii?Q?IWnhymSKZ91Qb9ieqRLaTz7JcqG5VkFdTjShgFN0lnt7fC+pN8V34e/+/c69?=
+ =?us-ascii?Q?xSgp3FXQsxQXdROONeSFKvHGqWvX+Nmy21UVTLKVdTbNmr5wz6NpmXXs1a94?=
+ =?us-ascii?Q?boE3cGlbRDAyS35vOm8j70IkJBU9NH+UqAHa/2moow4I9Ut+ZotdOdm4aO0y?=
+ =?us-ascii?Q?cADzwO33IGeXlPjgUJnTJY4WYVj8sy+jzb1PP0wT++wDGTXleMWfP2EmnsR0?=
+ =?us-ascii?Q?dxeRukKEU000wvJlbKdHg3Q5V/J/tXVHedmBr4RD+jachDak5KBtwUsxm7PW?=
+ =?us-ascii?Q?oTgSUP8ktL2LJYWH13LhR7h0/n7ef9C77EznqVpdkQ8+l3WD76QXrAsy9ed5?=
+ =?us-ascii?Q?dDDqU7RPU90aruFTjpxb07p8UBDgb3PbRd2T/O1kAAw1eFfYj/I5LcAMBfJx?=
+ =?us-ascii?Q?kY76vmtkMhAfhmCr0WTknSOld15Iv63w//bMUBhqXd4TkH9JpA=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8P193MB0900.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?PQgCPLA8SQXPGziZOMu4IH0gtjzyb4PkOjGHnFVngxD1GzzLqL2c/Ahhr51j?=
- =?us-ascii?Q?xdareJDudoOEBxbJVniSIQ3IfQSMQiI9DEnGUEtTX8hxT30ug2pTkeo5V9nJ?=
- =?us-ascii?Q?V1G4IOHD6uftZoZFpcfxsmtxgbhjW7ajGjQ/C8BAkTiXaIUb3Aweg6PxjS4V?=
- =?us-ascii?Q?64zqoDgYwVMAghriPCrjwJ7rJk3yWvF+QfKJ2dOfRBFDIQTdBmUFLJ8jLfWH?=
- =?us-ascii?Q?XNIMYzDs7S5pUxPrr7ha7sdRynxxXPmcrPvLW0exsEWW9FESFXKKhyVviYQ9?=
- =?us-ascii?Q?V8zKyr97Z9oT7YttIah5bn5GzqSIxnByHaY7zdXrW74jdB5eUjrHxEvXFh1q?=
- =?us-ascii?Q?cRKk7DyNyAk/ErgNWYvN9cb9lgcSwsQbaQNqyywLv5LOu26fcauRZNFXrTT/?=
- =?us-ascii?Q?hHuHxY5zAxkza7ejCVMUwvC9Md6m2KAIDZ5zdSZttOjYUdVXrFOcEGZ54pT8?=
- =?us-ascii?Q?+gfdl9k7TUJATfI6pQHOLUEOqL75xfcHqZkp1WhxmhnGRKPwQe0m0woHMvUC?=
- =?us-ascii?Q?tXk9/zAagwmIPEDQBMAMX+I5GiSLPTvC4mupl3kKeZDTPquqRGF4FDDwGiL2?=
- =?us-ascii?Q?6YcL7kOJOY68M0JQozkIfgarGrcOsw/QW7vQrsmvIXl1imyo2sulfBI4ezsl?=
- =?us-ascii?Q?a3Bs439XifDrKXc9ne2TqIDT+Sjrapn8Yckit8TOnu4exIVNzO8ire+TkagS?=
- =?us-ascii?Q?kHaI87d68Si76ca4ZzGuK6wrjOVWxiTxzZNP+dlYpnOm4pKbjx1nnloR6N90?=
- =?us-ascii?Q?rYK+9MtH+8UGyYJ5tUz4Bx8ZMHMhfaWELo3EPYzy9FrVOGFZqSIhzZxqQ9oi?=
- =?us-ascii?Q?FHeoBW/7gEUjA7odAeoYTDEyjkLcrFrp4QShlh3KKZJg+W6zj6L27/WEK+11?=
- =?us-ascii?Q?wzRBBg7+vGBRSStOh+ZRmASa5dLpUy9VUub6XWp4WXPiKicEg2+MUZZplpb5?=
- =?us-ascii?Q?KLGWzPuAXryZ6DjDAW29ZJ6PBmOv5ABLPET7czue83t01+DHlgC3h575MkuU?=
- =?us-ascii?Q?3K3+3Yo8QqmyKwvMdc9CoHwkp5iCM8iGRLfYncLqrwfTiPZ2FlNDBHZGS34y?=
- =?us-ascii?Q?0zycX1XmiPe7GoBtNFLDavAzSQmcPC81kLZrMfJnCF//aLhzZ9iQyR18mdzc?=
- =?us-ascii?Q?StH3HFXa8JnjmowBHkM9AuARU3KJgwwOaPaujkJ5NQouMgzQTHU7x57VypTV?=
- =?us-ascii?Q?dc/JZ57oJpfbFJ1ARIxeiYtv0/Col4IzppWmbokHviXHGgh/VW/LhrsB3sB1?=
- =?us-ascii?Q?4efGr+mgHxMM1Ge1Y6oO0JctM9RmJDVWUze4E/oXn9nMTqdBdzt1TkrSpFGV?=
- =?us-ascii?Q?69OMqR2ycjDbSYxb2a3N7+YbBTbApmjlYzzI2plyQD+kbFCCSGA8rUiqB0n/?=
- =?us-ascii?Q?Zs7h45ovb28wOir17p+cclQwVkex6xAGBKgWNMi4KQZVcPDAahyyij51L1+1?=
- =?us-ascii?Q?mg31u530bA0G3KF6aR0swViHxF488HWTTNPeGzHNapuThVeZeZ6nJzbWTLX0?=
- =?us-ascii?Q?45Mb5+p/GZ9G41yD09FkglyHGwk+3ciefStfM99Xurkwf/1dIYY41ZYx3b8P?=
- =?us-ascii?Q?k3Ua0kzfkAcfI/2ivu+9jSa/ZllA74FnWY+lr6c6QxzNFnVZC9NSxFOGfxUa?=
- =?us-ascii?Q?Bcf1WZETzMBoBGyQmUOa5AY=3D?=
+	=?us-ascii?Q?09ott2Lw15g+rWg9kuRi25xVlD6adpHjex/a2HULxaPk8FheySpGshy+1Rqi?=
+ =?us-ascii?Q?PqjoxO7KhhM9wgAUqHuDxOLyrDUbldtrJ96QcHEYDdSFZ/KXjRHrlpHQ3h5X?=
+ =?us-ascii?Q?tQsZCOVfcZVCwKFBUgVwTl+F/lVULgm6NRSgodVv1p9t0KrGcjRRkeWbXlyy?=
+ =?us-ascii?Q?WioTmmpGn2PUHesyqbOv3V9DSK+buhQoD4DSWxxXpzYFBNMDYoUDiy/3h95T?=
+ =?us-ascii?Q?up3Sk+R0vkLBhxIY4+81facRvYuT1eGSY3qBxvkEAQ1hFjwVYb570ULqvIVK?=
+ =?us-ascii?Q?+aNhFnVFh6E9R1HoCV7NtNrpYPa0I3HwIP1Ph89LYTSi5Juy6cIUyMYfwyE2?=
+ =?us-ascii?Q?Hp3YtyXpljiQvGb4GgITkeXDwjrCAAyPcyPE/6Hk96rhlVudKy5pOfRj0fFR?=
+ =?us-ascii?Q?Pz0O7tt6XvoguJ1lcbfwcdR+AZB5yhmI52m6EHHXHGLvnrXhp/zbXwmlvVXg?=
+ =?us-ascii?Q?+byW/q0mT2MDEqBbPvMFo/l6WcZXocUckbnxw1yKVyBepPum/MlijsAdA96T?=
+ =?us-ascii?Q?/WYuzfwQIh/wuEvzcpXdedrq7Ejdgu6Ii7PU0r4PaqKVD4pdwBLJst3z88Rp?=
+ =?us-ascii?Q?pS1YZmfEmQ/lEVLLwifX2FYbmiYCd42MLqqAJlg4CH0/8mBBvPdxTcGoVM3T?=
+ =?us-ascii?Q?VsuGzIZ8RCLcrOHDazB+e1AdrNqHidh8xrFRlOpaioCM3wBYhcGcOWse43C3?=
+ =?us-ascii?Q?n7E905p0Wcz9d5P9fUpSwm+PSFB6FGdV47NJzJ5mesbCZ1a2Wb75eUP2IocQ?=
+ =?us-ascii?Q?HXXMZHllSUyp3v3pXz6NT3ZvaPiF9GEpx+ZF0ufpz2BvUABoEkI8cC5Jz5lk?=
+ =?us-ascii?Q?0PKFluCEAxnYTdYPfSMaoIH7Di0igjduaROhzONEbjlSngTFcpZf9yrWErfn?=
+ =?us-ascii?Q?xnq+5CauKFqrmk6cW6fmpImduHu67Ietlhuf9YTyM7IhNme5LsrUEk7MIP1e?=
+ =?us-ascii?Q?WPbRWwPoXUeImEDPuybruejGCo6QojYfPbNiNG2LE2bzCwpUNfAOWE3SJ38J?=
+ =?us-ascii?Q?8XKpfVOXAHd/X/aJ2GwPxUKcSrNTVo6JBeXHbCKImuCG9hfkKjkg+4IVLiy9?=
+ =?us-ascii?Q?lQGD2AIsLJg9AK+xLVNMDNFt64tauB0q+jztUYvrrzTkX93PkuGgQ1JT6DJP?=
+ =?us-ascii?Q?COsXqtA/69sdtI9XdjtsdxlPRPnnyUL3vw/8QMqt50SfyurS6nXCRG0GZVHw?=
+ =?us-ascii?Q?oBPulm1SZnA4/6XnfwsYDX+UPAqc+EsyNt8njTkJdNsMNtI29gMzWHNF9yPs?=
+ =?us-ascii?Q?BaLgaBIu1iNZ6gI6brTHG6ZwAzi8ob6GktkXMBdJLXoy6Psyr2Y8ZJv2m3C9?=
+ =?us-ascii?Q?pvFK3HbJBrAaCnLBoP0DoGuLovOk5TYDloXzIArTeDPKKgnXv9V7xwi8LRJb?=
+ =?us-ascii?Q?HxVOLuqyy0SGUp+1vYz4OyEDipXvhaTfL3tCs0cIbJBCm80rjuNAUMDEL4T8?=
+ =?us-ascii?Q?j4UWX11Y5G2Y6p8n3pl7B06fkesBgdIYvwkkhoZTWc3z6wm29AhCVbKVqRRs?=
+ =?us-ascii?Q?Nz2wQLKqZ26EoeMlV5QhRbNqr0Gt0dFtTNjoMoBe2gq/9V5rrlN/3opDPUIL?=
+ =?us-ascii?Q?91CoN7aZKGQYU+m4XkFjP0b0BNrlED8ucT3TLiatBLAcoMf2v7bwcReEjLn0?=
+ =?us-ascii?Q?j+8Qk/90sb8x3CVWjHmpozQ=3D?=
 X-OriginatorOrg: criticaltechworks.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 048bcf64-2fd9-48a6-982a-08dcd8037017
+X-MS-Exchange-CrossTenant-Network-Message-Id: 742c505d-1dc4-4ea5-2a7f-08dcd8037058
 X-MS-Exchange-CrossTenant-AuthSource: AM8P193MB0900.EURP193.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 17:00:45.7888
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 17:00:46.2247
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 61f30b8e-4f6b-44fe-9bc2-041e3a9f7346
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tv0sg/l5fQj4GFS19Y+cSaPqmsBCSrJlwLjmp+HHUyQnh0p27FOl2by4dAuQzThTLmUA+tF5fVlKT6k0cF7gA3er2JC/InvLzXzAfYGwCK8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: h9QSEcGVBfwsKhNfYohWejIu0lim3vrdhZ8A3Rm4FLUp8BGOHCQyLU4U/YJMa851v0Yj45QK5CUUv5pWMWO1YJ85KNM21dAYbkgVQUEgBGE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP193MB1278
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Sep 2024 17:00:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204651
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204653
 
-This fix will ensure that, when we activate feature
-`BUILDHISTORY_RESET`, files marked to keep on feature
-`BUILDHISTORY_PRESERVE` will indeed exist is buildhistory
-final path since they are moved to buildhistory/old but
-not restored at any point.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
+We planned to drop SSTATEPOSTINSTFUNC some time ago with the introduction o=
+f
+postfuncs. Finally get around to doing that which should make the buildhist=
+ory
+code a little more readable.
+
+Unfortunately ordering the buildhistory function calls after the sstate one=
+s is
+difficult without coding that into the sstate class. This patch does that t=
+o
+ensure everything functions as expected until we can find a better way. Thi=
+s is
+still likely preferable than the generic sstate postfuncs support since the=
+ function
+flow is much more readable.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9f68a45aa238ae5fcdfaca71ba0e7015e9cb720e)
+(cherry picked from commit c9e2a8fa2f0305ef1247ec405555612326f798f8)
 ---
- meta/classes/buildhistory.bbclass | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ meta/classes-global/sstate.bbclass |  5 +++-
+ meta/classes/buildhistory.bbclass  | 39 +++++++++++++++---------------
+ 2 files changed, 23 insertions(+), 21 deletions(-)
 
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstat=
+e.bbclass
+index 76a7b59636..93df5fa9e6 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -161,7 +161,10 @@ python () {
+     d.setVar('SSTATETASKS', " ".join(unique_tasks))
+     for task in unique_tasks:
+         d.prependVarFlag(task, 'prefuncs', "sstate_task_prefunc ")
+-        d.appendVarFlag(task, 'postfuncs', " sstate_task_postfunc")
++        # Generally sstate should be last, execpt for buildhistory functio=
+ns
++        postfuncs =3D (d.getVarFlag(task, 'postfuncs') or "").split()
++        newpostfuncs =3D [p for p in postfuncs if "buildhistory" not in p]=
+ + ["sstate_task_postfunc"] + [p for p in postfuncs if "buildhistory" in p]
++        d.setVarFlag(task, 'postfuncs', " ".join(newpostfuncs))
+         d.setVarFlag(task, 'network', '1')
+         d.setVarFlag(task + "_setscene", 'network', '1')
+ }
 diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
 bbclass
-index d219519f86..08970aafea 100644
+index 08970aafea..0b1bd518fe 100644
 --- a/meta/classes/buildhistory.bbclass
 +++ b/meta/classes/buildhistory.bbclass
-@@ -110,6 +110,7 @@ python buildhistory_emit_pkghistory() {
+@@ -47,11 +47,18 @@ BUILDHISTORY_PUSH_REPO ?=3D ""
+ BUILDHISTORY_TAG ?=3D "build"
+ BUILDHISTORY_PATH_PREFIX_STRIP ?=3D ""
+
+-SSTATEPOSTINSTFUNCS:append =3D " buildhistory_emit_pkghistory"
+-# We want to avoid influencing the signatures of sstate tasks - first the =
+function itself:
+-sstate_install[vardepsexclude] +=3D "buildhistory_emit_pkghistory"
+-# then the value added to SSTATEPOSTINSTFUNCS:
+-SSTATEPOSTINSTFUNCS[vardepvalueexclude] .=3D "| buildhistory_emit_pkghisto=
+ry"
++# We want to avoid influencing the signatures of the task so use vardepsex=
+clude
++do_populate_sysroot[postfuncs] +=3D "buildhistory_emit_sysroot"
++do_populate_sysroot_setscene[postfuncs] +=3D "buildhistory_emit_sysroot"
++do_populate_sysroot[vardepsexclude] +=3D "buildhistory_emit_sysroot"
++
++do_package[postfuncs] +=3D "buildhistory_list_pkg_files"
++do_package_setscene[postfuncs] +=3D "buildhistory_list_pkg_files"
++do_package[vardepsexclude] +=3D "buildhistory_list_pkg_files"
++
++do_packagedata[postfuncs] +=3D "buildhistory_emit_pkghistory"
++do_packagedata_setscene[postfuncs] +=3D "buildhistory_emit_pkghistory"
++do_packagedata[vardepsexclude] +=3D "buildhistory_emit_pkghistory"
+
+ # Similarly for our function that gets the output signatures
+ SSTATEPOSTUNPACKFUNCS:append =3D " buildhistory_emit_outputsigs"
+@@ -91,27 +98,15 @@ buildhistory_emit_sysroot() {
+ # Write out metadata about this package for comparison when writing future=
+ packages
+ #
+ python buildhistory_emit_pkghistory() {
+-    if d.getVar('BB_CURRENTTASK') in ['populate_sysroot', 'populate_sysroo=
+t_setscene']:
+-        bb.build.exec_func("buildhistory_emit_sysroot", d)
+-        return 0
+-
+-    if not "package" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+-        return 0
+-
+-    if d.getVar('BB_CURRENTTASK') in ['package', 'package_setscene']:
+-        # Create files-in-<package-name>.txt files containing a list of fi=
+les of each recipe's package
+-        bb.build.exec_func("buildhistory_list_pkg_files", d)
+-        return 0
+-
+-    if not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_sets=
+cene']:
+-        return 0
+-
+     import re
      import json
      import shlex
      import errno
-+    import shutil
+     import shutil
 
++    if not "package" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
++        return 0
++
      pkghistdir =3D d.getVar('BUILDHISTORY_DIR_PACKAGE')
      oldpkghistdir =3D d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
-@@ -223,6 +224,20 @@ python buildhistory_emit_pkghistory() {
-         items.sort()
-         return ' '.join(items)
 
-+    def preservebuildhistoryfiles(pkg, preserve):
-+        if os.path.exists(os.path.join(oldpkghistdir, pkg)):
-+            listofobjs =3D os.listdir(os.path.join(oldpkghistdir, pkg))
-+            for obj in listofobjs:
-+                if obj not in preserve:
-+                    continue
-+                try:
-+                    bb.utils.mkdirhier(os.path.join(pkghistdir, pkg))
-+                    shutil.copyfile(os.path.join(oldpkghistdir, pkg, obj),=
- os.path.join(pkghistdir, pkg, obj))
-+                except IOError as e:
-+                    bb.note("Unable to copy file. %s" % e)
-+                except EnvironmentError as e:
-+                    bb.note("Unable to copy file. %s" % e)
+@@ -621,6 +616,10 @@ buildhistory_list_files_no_owners() {
+ }
+
+ buildhistory_list_pkg_files() {
++       if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'package', '1',=
+ '0', d)}" =3D "0" ] ; then
++               return
++       fi
 +
-     pn =3D d.getVar('PN')
-     pe =3D d.getVar('PE') or "0"
-     pv =3D d.getVar('PV')
-@@ -250,6 +265,14 @@ python buildhistory_emit_pkghistory() {
-     if not os.path.exists(pkghistdir):
-         bb.utils.mkdirhier(pkghistdir)
-     else:
-+        # We need to make sure that all files kept in
-+        # buildhistory/old are restored successfully
-+        # otherwise next block of code wont have files to
-+        # check and purge
-+        if d.getVar("BUILDHISTORY_RESET"):
-+            for pkg in packagelist:
-+                preservebuildhistoryfiles(pkg, preserve)
-+
-         # Remove files for packages that no longer exist
-         for item in os.listdir(pkghistdir):
-             if item not in preserve:
+        # Create individual files-in-package for each recipe's package
+        pkgdirlist=3D$(find ${PKGDEST}/* -maxdepth 0 -type d)
+        for pkgdir in $pkgdirlist; do
 --
 2.34.1
 
