@@ -1,102 +1,64 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40779C3ABCB
-	for <webhook@archiver.kernel.org>; Mon, 16 Sep 2024 20:19:43 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.5037.1726517978250878600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE64C3ABB2
+	for <webhook@archiver.kernel.org>; Mon, 16 Sep 2024 21:30:53 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web10.6852.1726522243214023646
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Sep 2024 13:19:38 -0700
+ Mon, 16 Sep 2024 14:30:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OH7ZDbuZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cacabd2e0so41849115e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Sep 2024 13:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726517977; x=1727122777; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Y9aGWaedm/a7uIom05NKGxMU/YfM91Krg/Tjt5fFr0A=;
-        b=OH7ZDbuZX8WHeYvVJPSm+q0Z7zNhlDKm9NO8Lv182FzXm8YT6Vb7ej9hYdHg6QOmnT
-         rzCv74ff+cFu8N5csbczdvd4u772siY+Rq3edojXFIbHY7c4/U9nkSaIPmcS3ot+FOOp
-         cBP6zJKJWx4tUIcJlrX1d6HMVCNru77Dh3ads=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726517977; x=1727122777;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y9aGWaedm/a7uIom05NKGxMU/YfM91Krg/Tjt5fFr0A=;
-        b=xNapkWU7qBdNurjdNnwm9ClqCF5/lYBIUxKCYJ31vjTqPe1FWCS9/T0MLtUE7HIwHq
-         osxffrfsg5jGNj8IKSkaH/emNHkDaekva+9DP/eHMfGHtQ37vxL4Seawp0IY3r3M1iGy
-         FXkXYfKEsK51T2lm7rqgNxFRqNd05TC0F0Hsol7EyAezhYBXkumm7BGQQDV36lbMnfpV
-         YAjcyQvDgMnvTOKJzCFWztWRjsMjKyqTd7AaoepnwcBWvkp7yPDTVGi8TbFk6Uf38DWO
-         psAVsorsp8sCwhxshAwS0r759Q1gSy004LPSJWLWjZIwvnRcn26JQU4P4gZd77oJY5/3
-         uA1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWD7uk+8mbkR/NMLIBGrQYuPJsR4vNHmXbBdKYKEJFJ5RnoKHML4gULklmhCsLyCA8RenOeIKt63WXLhO65T4d48A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyGTs+YsZH8PgozeL+H3cfQAm7sN6ao+VLlGCEnuCarGzOqqVmM
-	Voo7Y/6IG8SgqqjzqownrAk4AlczqQkVPZZCat3+ZAzvykeWrb4baVH5wkP35zg=
-X-Google-Smtp-Source: AGHT+IFKYGb+BsbWebbYjnRpWzEnx4MttUL/RYZ+LxFqBomKGGUIHtVOEdwVMfv4+mZGYurDTpPHrw==
-X-Received: by 2002:a05:600c:3b9e:b0:42c:bd4d:e8ba with SMTP id 5b1f17b1804b1-42cdb522847mr113098715e9.8.1726517976538;
-        Mon, 16 Sep 2024 13:19:36 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:40e9:76b1:d784:d4b8? ([2001:8b0:aba:5f3c:40e9:76b1:d784:d4b8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e7800308sm7942549f8f.87.2024.09.16.13.19.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 13:19:36 -0700 (PDT)
-Message-ID: <d6d5664e994c9cb45ec0e39bf05104b341920641.camel@linuxfoundation.org>
-Subject: Re: Backport fix for inter-recipe useradd dependencies bug #13419
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Jonas Mark (BT-FS/ENG1-Mue)" <Mark.Jonas@de.bosch.com>, 
- "steve@sakoman.com"
-	 <steve@sakoman.com>
-Cc: "pidge@baylibre.com" <pidge@baylibre.com>, "alex@linutronix.de"
-	 <alex@linutronix.de>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, "Simoes Ricardo
- (BT-FS/ENG1.1-Ovr)" <Ricardo.Simoes@pt.bosch.com>
-Date: Mon, 16 Sep 2024 21:19:35 +0100
-In-Reply-To: <DU0PR10MB7076812C64238EC056EFCE1AAD602@DU0PR10MB7076.EURPRD10.PROD.OUTLOOK.COM>
+ dkim=pass header.i=@posteo.com header.s=2017 header.b=pfCGirKK;
+ spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id CA9E9240103
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Sep 2024 23:30:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1726522240; bh=sCj7BqNfj1ptuZ9J/FGXxFdBhmq0WI+FdQ+N5cC/AYI=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=pfCGirKKg1qmnax8ezHGeEuVc+OrA5iVQ7PBH9GOsQ5C/SVc9NtUZHKeoXfG3+AMf
+	 mR0oipFjg3D+GD7EcqUJIVxo66fECIfCiXd/1tJDtD+OnJV9mDMqlsoTlG1QyPtkoU
+	 e+JWg1rdKUumNfv19EQNAX8sePfROwrPGUPL4hnMker6Z7jm2yxKMOBf4bnrS4yoPT
+	 WqP0yMvLmNT3yWDTx2P35g3sMHPM2mLvzdH4GaCF3KDitZXB7piRhtdPxLpa/BXoJP
+	 x1vBSH6nXNatiayTSSOL3uJym+0Qurh2QD/Zqt73WE/Ha/Lblf8pRCXLx1Be60i1zL
+	 QsrrpFRfoZm/w==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4X6ykl5DKcz9rxF;
+	Mon, 16 Sep 2024 23:30:39 +0200 (CEST)
+Message-ID: <39bef9ebf32e7f38b88ddc68095c1543e98ec6bc.camel@posteo.net>
+Subject: Re: [OE-core] [AUH] gnutls: upgrading to 3.8.7.1 FAILED
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
+To: Auto Upgrade Helper <auh@yoctoproject.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Sep 2024 21:30:39 +0000
+In-Reply-To: <01010191f61ade2d-97c5199c-2106-43da-9e43-90c50a8a408f-000000@us-west-2.amazonses.com>
 References: 
-	<DU0PR10MB7076812C64238EC056EFCE1AAD602@DU0PR10MB7076.EURPRD10.PROD.OUTLOOK.COM>
+	<01010191f61ade2d-97c5199c-2106-43da-9e43-90c50a8a408f-000000@us-west-2.amazonses.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Sep 2024 20:19:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204611
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Sep 2024 21:30:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204612
 
-On Mon, 2024-09-16 at 19:38 +0000, Jonas Mark (BT-FS/ENG1-Mue) wrote:
-> I am wondering whether it would be reasonable to ask for backporting
-> of the fix for inter-recipe useradd dependencies to Kirkstone?
->
-> I am referring to the fix for bug #13419 which was fixed on
-> Scarthgap.
+On Sun, 2024-09-15 at 14:34 +0000, Auto Upgrade Helper wrote:
+> Hello,
 >=20
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13419
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe(s) *gnutls* to
+> *3.8.7.1* has Failed(do_compile).
 >=20
-> I understand that the backporting would involve the addition of
-> USERADD_DEPENDS to useradd.bbclass as well a fix to bitbake.
+> Detailed error information:
 >=20
-> My colleague Ricardo and I are visiting the OSSEU this week in case
-> somebody would like to discuss this in person.
+> do_compile failed
 
-The changes to bitbake were complex and relied on previous work.
-Whether that work was even present in the kirkstone version of bitbake,
-I'm not sure.
+Issue is caused by this
+commit:https://gitlab.com/gnutls/gnutls/-/commit/3e5be1315a15ac6e1e33e08f28=
+030b8215b6d234
 
-I've be very nervous about trying to backport that kind of change to a
-release as far through the LTS cycle as kirkstone is, particularly as
-it changes behaviour.
-
-You didn't mention whether you had tested those fixes against
-kirkstone? Even if so, I'd still probably be nervous about making
-changes like this as people might be relying on the existing behaviour
-or have their own workarounds.
-
-Cheers,
-
-Richard
+Will look for a solution
 
