@@ -1,134 +1,80 @@
-Return-Path: <pierreloupgosse@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D87E2C35FF8
-	for <webhook@archiver.kernel.org>; Tue, 17 Sep 2024 08:53:37 +0000 (UTC)
-Subject: U-boot signed SPL dtb+pubkey discussion
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D73DC3600C
+	for <webhook@archiver.kernel.org>; Tue, 17 Sep 2024 10:34:08 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.17980.1726569238543100397
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 17 Sep 2024 03:33:58 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cvHMk5vb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42cb1e623d1so53512575e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Sep 2024 03:33:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1726569237; x=1727174037; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3FHF4qht546UnTwFst2de64yipmy4Zyz/BqT4N3F1ik=;
+        b=cvHMk5vbZpYv5pThtAnxgBxat07BwN+HMLiPx5LzOMUWOlFz5Pd8KSYx06Xd4HFvH1
+         DfB5vLTK1tayu2hgRXGjoe0O0nlaagt7LySuTl5wwVzW72BfIyWsCV01DsqRL8X2f7Jh
+         Cf1h0nfftMay+tcpOQryVoFERY+KMB0DBFOWE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726569237; x=1727174037;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3FHF4qht546UnTwFst2de64yipmy4Zyz/BqT4N3F1ik=;
+        b=Gbo64ZinHp/pD91zLJvZ2l8Q2w71hOo4aCR5hJHfWkD2+rmWCnXISOw/fymb9Eudr5
+         pUlmLVe+J6cGP7rHXm+I0gHeiVxA4BPAZQ9eX+NAn4rOnsqlZT6oJScZw5mBkKZ9YPmt
+         Fh3fdKIZ85/ZnMrVvmZ7LZIpL7FStUh3xZWtykUsNuoUJ9L2YVR3OLvZm25yBbssGT+X
+         SMWRa9xVFuMGnAgTGOibCdZTVFhI33ats0xjFFmqOXG9OnwcfcL7k0ute+JNgRgYXt8D
+         syIlu/ttSwKxz5+0yUQ+c2qX7s+I2hIVSaEDtUS9UIF5LEhxM+O1ag8dcaPxOYpxeJlR
+         Wmfg==
+X-Gm-Message-State: AOJu0YxFiJaE2eUb0yhuAXovVsyWxvVJZqkfUBmhKuFDalKcvKSN25Vo
+	qmShRx2a1gSYq67PPD4/Cekp45su8hQ7EslADhhgpqhfOwuDocr5i8xROF8fJFTv1CRwfEVua7A
+	4
+X-Google-Smtp-Source: AGHT+IFw4rtnXgjbP2vg/3+Tr2t1/JDYZNLTPHMb86hLzuVzqIhjFOIlDZsSHZB2vyErtu4jeFmLQQ==
+X-Received: by 2002:a05:600c:4f83:b0:42c:b950:680b with SMTP id 5b1f17b1804b1-42cdb54a0c8mr111130505e9.20.1726569236344;
+        Tue, 17 Sep 2024 03:33:56 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7c97:abb4:726a:74dd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42d9b054c4csm133812205e9.2.2024.09.17.03.33.55
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2024 03:33:55 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-From: "Pierre-Loup Gosse" <pierreloupgosse@gmail.com>
-X-Originating-Location: FR (195.68.54.115)
-X-Originating-Platform: Linux Firefox 129
-User-Agent: GROUPS.IO Web Poster
+Subject: [PATCH] libsdl2: Fix non-deterministic configure option for libsamplerate
+Date: Tue, 17 Sep 2024 11:33:54 +0100
+Message-ID: <20240917103354.3586621-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Date: Tue, 17 Sep 2024 01:53:29 -0700
-Message-ID: <fNs4.1726563209514202904.klOv@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="XffoSd015eNwARXJpyVa"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Sep 2024 08:53:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204619
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Sep 2024 10:34:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204620
 
---XffoSd015eNwARXJpyVa
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+The libsamplerate option was floating and being enabled on some systems
+and not others. Fix this to be deterministic.
 
-Hi,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-graphics/libsdl2/libsdl2_2.30.7.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-If SPL_SIGN_ENABLE is set to 1, the uboot-sign bbclass will sign the u-boot=
- fit image and add the public key to SPL dtb ('uboot_fitimage_assemble' fun=
-ction).
-Before deployment, the class concat the SPL no-dtb binary with SPL dtb+pubk=
-ey to produce the SPL binary ('concat_spl_dtb_helper' function).
-
-However, this approach may produce an unbootable SPL binary for some target=
- since SPL no-dtb binary may not include the magic number.
-For my target, a STM32 MPU, the first 256 bytes are missing.
-
-For me, a better approach is to rebuild the SPL binary with the updated SPL=
- dtb. Here's my suggestion:
-
-- Disable the SPL concate function:
-concat_spl_dtb_helper() {
-:
-}
-
-- Adds a rebuild task, get the SPL dtb+pubkey from shared deploy directory =
-and rebuild the SPL binary:
-do_rebuild_uboot_spl_with_ signed_dtb() {
-deployed_spl_dtb_binary=3D'${ DEPLOY_DIR_IMAGE}/${SPL_DTB_ IMAGE}'
-cp $deployed_spl_dtb_binary ${B}/spl/${SPL_DTB_BINARY}
-oe_runmake -C ${S} O=3D${B} spl/u-boot-spl all
-}
-
-- Task depends on kernel do_deploy (deploy the SPL dtb+pubkey) :
-python () {
-if ((d.getVar('UBOOT_SIGN_ENABLE' ) =3D=3D '1'
-or d.getVar('UBOOT_FITIMAGE_ ENABLE') =3D=3D '1')
-and d.getVar('PN') =3D=3D d.getVar('UBOOT_PN')
-and d.getVar('UBOOT_DTB_BINARY')):
-
-d.appendVarFlag('do_rebuild_ uboot_spl_with_signed_dtb', 'depends', ' %s:do=
-_deploy' % d.getVar('KERNEL_PN'))
-bb.build.addtask('do_rebuild_ uboot_spl_with_signed_dtb', 'do_deploy', 'do_=
-uboot_assemble_fitimage', d)
-}
-
-Since I do not have a global view and this suggestion may not be a general =
-solution, I did not submit a patch.
-
-Best regards,
-
-Pierre-Loup
-
---XffoSd015eNwARXJpyVa
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>
-<div dir=3D"ltr">
-<div>Hi,</div>
-<div>&nbsp;</div>
-<div>If <span style=3D"font-family: monospace;">SPL_SIGN_ENABLE</span> is s=
-et to 1, the uboot-sign bbclass will sign the u-boot fit image and add the =
-public key to SPL dtb ('uboot_fitimage_assemble' function).</div>
-<div>Before deployment, the class concat the SPL no-dtb binary with SPL dtb=
-+pubkey to produce the SPL binary ('concat_spl_dtb_helper' function).</div>
-<div>&nbsp;</div>
-<div>However, this approach may produce an unbootable SPL binary for some t=
-arget since SPL no-dtb binary may not include the magic number.</div>
-<div>For my target, a STM32 MPU, the first 256 bytes are missing.</div>
-<div>&nbsp;</div>
-<div>For me, a better approach is to rebuild the SPL binary with the update=
-d SPL dtb. Here's my suggestion:</div>
-<div>&nbsp;</div>
-<div>- Disable the SPL concate function:</div>
-<span style=3D"font-family: monospace;">concat_spl_dtb_helper() {<br />&nbs=
-p; &nbsp; :<br />}<br /></span>
-<div>&nbsp;</div>
-<div>- Adds a rebuild task, get the SPL dtb+pubkey from shared deploy direc=
-tory and rebuild the SPL binary:</div>
-<span style=3D"font-family: monospace;">do_rebuild_uboot_spl_with_<wbr />si=
-gned_dtb() {<br />&nbsp; &nbsp; deployed_spl_dtb_binary=3D'${<wbr />DEPLOY_=
-DIR_IMAGE}/${SPL_DTB_<wbr />IMAGE}'<br />&nbsp; &nbsp; cp $deployed_spl_dtb=
-_binary ${B}/spl/${SPL_DTB_BINARY}<br />&nbsp; &nbsp; oe_runmake -C ${S} O=
-=3D${B} spl/u-boot-spl all<br />}<br /></span>
-<div>&nbsp;</div>
-<div>- Task depends on kernel do_deploy (deploy the SPL dtb+pubkey) :</div>
-<span style=3D"font-family: monospace;">python () {<br />&nbsp; &nbsp; if (=
-(d.getVar('UBOOT_SIGN_ENABLE'<wbr />) =3D=3D '1'<br />&nbsp; &nbsp; &nbsp; =
-&nbsp; or d.getVar('UBOOT_FITIMAGE_<wbr />ENABLE') =3D=3D '1')<br />&nbsp; =
-&nbsp; &nbsp; &nbsp; and d.getVar('PN') =3D=3D d.getVar('UBOOT_PN')<br />&n=
-bsp; &nbsp; &nbsp; &nbsp; and d.getVar('UBOOT_DTB_BINARY')):<br /><br />&nb=
-sp; &nbsp; &nbsp; &nbsp; d.appendVarFlag('do_rebuild_<wbr />uboot_spl_with_=
-signed_dtb', 'depends', ' %s:do_deploy' % d.getVar('KERNEL_PN'))<br />&nbsp=
-; &nbsp; &nbsp; &nbsp; bb.build.addtask('do_rebuild_<wbr />uboot_spl_with_s=
-igned_dtb', 'do_deploy', 'do_uboot_assemble_fitimage', d)<br /></span>
-<div><span style=3D"font-family: monospace;">}</span></div>
-<div><span style=3D"font-family: monospace;">&nbsp;</span></div>
-<div><span style=3D"font-family: arial,sans-serif;">Since I do not have a g=
-lobal view and this suggestion may not be a general solution, I did not sub=
-mit a patch.<br /></span></div>
-<div><span style=3D"font-family: arial,sans-serif;">&nbsp;</span></div>
-<div><span style=3D"font-family: arial,sans-serif;">Best regards,</span></d=
-iv>
-<div><span style=3D"font-family: arial,sans-serif;">&nbsp;</span></div>
-<div><span style=3D"font-family: arial,sans-serif;">Pierre-Loup<br /></span=
-></div>
-<div>&nbsp;</div>
-</div>
-</div>
-
---XffoSd015eNwARXJpyVa--
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.30.7.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.30.7.bb
+index f3c78a31e20..25bbe2067a3 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.30.7.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.30.7.bb
+@@ -67,6 +67,7 @@ PACKAGECONFIG[directfb]   = "-DSDL_DIRECTFB=ON,-DSDL_DIRECTFB=OFF,directfb,direc
+ PACKAGECONFIG[gles2]      = "-DSDL_OPENGLES=ON,-DSDL_OPENGLES=OFF,virtual/libgles2"
+ PACKAGECONFIG[jack]       = "-DSDL_JACK=ON,-DSDL_JACK=OFF,jack"
+ PACKAGECONFIG[kmsdrm]     = "-DSDL_KMSDRM=ON,-DSDL_KMSDRM=OFF,libdrm virtual/libgbm"
++PACKAGECONFIG[libsamplerate] = "-DSDL_LIBSAMPLERATE=ON,-DSDL_LIBSAMPLERATE=OFF,libsamplerate0"
+ # The hidraw support doesn't catch Xbox, PS4 and Nintendo controllers,
+ #  so we'll just use libusb when it's available.
+ PACKAGECONFIG[libusb] = ",,libusb1"
 
