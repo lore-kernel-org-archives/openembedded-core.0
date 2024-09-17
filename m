@@ -1,144 +1,134 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pierreloupgosse@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B37EC35FED
-	for <webhook@archiver.kernel.org>; Tue, 17 Sep 2024 07:35:27 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.15768.1726558519984368533
- for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Sep 2024 00:35:20 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KhiwcFk1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-378f600e090so1102107f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Sep 2024 00:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726558518; x=1727163318; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=43bwpzPJja2kyJVTElu2dePVKKHcMgAV3Y+1bKXqZgI=;
-        b=KhiwcFk1qgccXCDx/WX9MLmTxjwnbkGwtKEeR1Neyqs3/AQh2vbjWfqqAEY4C0ez+m
-         Ej/fS4tP/G79Dse1E35TlOnNJEAi5bWoQ2lBHQVUquO6lcX4uZ/9+uetHDf6WebOdrOH
-         OprEV6k5GGwSwyv4KJFFeFYRPkOJ4GFaNgJuc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726558518; x=1727163318;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=43bwpzPJja2kyJVTElu2dePVKKHcMgAV3Y+1bKXqZgI=;
-        b=Un61EpRHxMdEhDVnpBbMj5vMURlNQWooKOTgjO6+reX2cqAFiBqiprcTH9LULPzvAf
-         jylOgqXfJskNcdRlJXtQvNz+nISK0cVwbokNDIrTXR45wMgDi7ZY91ZiZE6augwQQxVb
-         Wv+w/LeAp1i4JRq0vpNBS9jZCdTsgCa+1oBHlgzmUi87V0G1qTG30C5P4owDFz0iIRy4
-         nZXtMpzGELQvK3dctsf3amQ6JUMeygvp+8zzsn2PRJfXkHl5+p86bYJvcuTOFkmQAl3m
-         6M/6rLksGCkZ3shVa080jypBFOem2+/xNoK4ndjDkQmyD5Zy2rMH/OxtNzOnnXT/2BOF
-         a5EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6YhdEBD3SqQEMywlFK6wGb2UEcUHjJTBDUjqNu96n/uT4rZg2lsvX1HN33ZrT8oj5sNJNlWc8ZHj6c7X0ATtkjg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzAz+BUYF9G2swU4mR9RE8h9njQyjz8gueblNlKbZlcokE5uPhc
-	fjIH/ctdlWUmWwSpwvDmL/MlGJtuhP2Wr3VUsVJ2by8RWyGcuEsdw0A3Jmttuysn6BNcFQFBuq3
-	V
-X-Google-Smtp-Source: AGHT+IGWHYm38vgxCMs/UuhP/zaQ8AU4U0ZGc8T6p16nAmfj03GS+VQeHeDatD+/HP7ghHVS7keecg==
-X-Received: by 2002:a5d:42cb:0:b0:374:d1dd:1cc1 with SMTP id ffacd0b85a97d-378c2cd54ccmr10130595f8f.2.1726558518066;
-        Tue, 17 Sep 2024 00:35:18 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7c97:abb4:726a:74dd? ([2001:8b0:aba:5f3c:7c97:abb4:726a:74dd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e78002afsm8805800f8f.75.2024.09.17.00.35.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 00:35:17 -0700 (PDT)
-Message-ID: <c6e2f9d76bbf41452ef49fdba9f4ea633a369c4b.camel@linuxfoundation.org>
-Subject: Re: [OE-core][master][PATCH] tzdata : Upgrade to 2024b
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: pdoshi@mvista.com, openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>
-Date: Tue, 17 Sep 2024 08:35:17 +0100
-In-Reply-To: <17F5F7B181D2BB8F.13829@lists.openembedded.org>
-References: <1726222641-9830-1-git-send-email-pdoshi@mvista.com>
-	 <17F5F7B181D2BB8F.13829@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D87E2C35FF8
+	for <webhook@archiver.kernel.org>; Tue, 17 Sep 2024 08:53:37 +0000 (UTC)
+Subject: U-boot signed SPL dtb+pubkey discussion
+To: openembedded-core@lists.openembedded.org
+From: "Pierre-Loup Gosse" <pierreloupgosse@gmail.com>
+X-Originating-Location: FR (195.68.54.115)
+X-Originating-Platform: Linux Firefox 129
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
+Date: Tue, 17 Sep 2024 01:53:29 -0700
+Message-ID: <fNs4.1726563209514202904.klOv@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="XffoSd015eNwARXJpyVa"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Sep 2024 07:35:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204618
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Sep 2024 08:53:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204619
 
-On Tue, 2024-09-17 at 08:32 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Fri, 2024-09-13 at 15:47 +0530, Priyal Doshi via
-> lists.openembedded.org wrote:
-> > From: Priyal Doshi <pdoshi@mvista.com>
-> >=20
-> > Signed-off-by: Priyal Doshi <pdoshi@mvista.com>
-> > ---
-> > =C2=A0meta/recipes-extended/timezone/timezone.inc | 6 +++---
-> > =C2=A01 file changed, 3 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-extended/timezone/timezone.inc
-> > b/meta/recipes-extended/timezone/timezone.inc
-> > index 4734adc..adf0952 100644
-> > --- a/meta/recipes-extended/timezone/timezone.inc
-> > +++ b/meta/recipes-extended/timezone/timezone.inc
-> > @@ -6,7 +6,7 @@ SECTION =3D "base"
-> > =C2=A0LICENSE =3D "PD & BSD-3-Clause"
-> > =C2=A0LIC_FILES_CHKSUM =3D
-> > "file://LICENSE;md5=3Dc679c9d6b02bc2757b3eaf8f53c43fba"
-> > =C2=A0
-> > -PV =3D "2024a"
-> > +PV =3D "2024b"
-> > =C2=A0
-> > =C2=A0SRC_URI =3D"
-> > http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;n=
-ame=3Dtzcode;subdir=3Dtz
-> > =C2=A0\
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;n=
-ame=3Dtzdata;subdir=3Dtz
-> > =C2=A0\
-> > @@ -16,5 +16,5 @@ S =3D "${WORKDIR}/tz"
-> > =C2=A0
-> > =C2=A0UPSTREAM_CHECK_URI =3D "http://www.iana.org/time-zones"
-> > =C2=A0
-> > -SRC_URI[tzcode.sha256sum] =3D
-> > "80072894adff5a458f1d143e16e4ca1d8b2a122c9c5399da482cb68cba6a1ff8"
-> > -SRC_URI[tzdata.sha256sum] =3D
-> > "0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3"
-> > +SRC_URI[tzcode.sha256sum] =3D
-> > "5e438fc449624906af16a18ff4573739f0cda9862e5ec28d3bcb19cbaed0f672"
-> > +SRC_URI[tzdata.sha256sum] =3D
-> > "70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550"
->=20
-> I think this breaks a test in the glib-2.0 test suite:
->=20
-> https://valkyrie.yoctoproject.org/#/builders/73/builds/126/steps/12/logs/=
-stdio
->=20
-> WARNING: core-image-ptest-glib-2.0-1.0-r0 do_testimage: There were
-> failing ptests.
-> Failed ptests:
-> {'glib-2.0': ['glib/gdatetime.test']}
->=20
+--XffoSd015eNwARXJpyVa
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-I managed to find ptest logs for this:
+If SPL_SIGN_ENABLE is set to 1, the uboot-sign bbclass will sign the u-boot=
+ fit image and add the public key to SPL dtb ('uboot_fitimage_assemble' fun=
+ction).
+Before deployment, the class concat the SPL no-dtb binary with SPL dtb+pubk=
+ey to produce the SPL binary ('concat_spl_dtb_helper' function).
 
+However, this approach may produce an unbootable SPL binary for some target=
+ since SPL no-dtb binary may not include the magic number.
+For my target, a STM32 MPU, the first 256 bytes are missing.
 
+For me, a better approach is to rebuild the SPL binary with the updated SPL=
+ dtb. Here's my suggestion:
 
-ok 62 /GTimeZone/no-header-identifier
-**
-GLib:ERROR:/usr/src/debug/glib-2.0/2.80.4/glib/tests/gdatetime.c:2960:test_=
-posix_parse: assertion failed (g_time_zone_get_abbreviation (tz, 0) =3D=3D =
-"PST"): ("LMT" =3D=3D "PST")
-not ok /GTimeZone/posix-parse - GLib:ERROR:/usr/src/debug/glib-2.0/2.80.4/g=
-lib/tests/gdatetime.c:2960:test_posix_parse: assertion failed (g_time_zone_=
-get_abbreviation (tz, 0) =3D=3D "PST"): ("LMT" =3D=3D "PST")
-Bail out!
-FAIL: glib/gdatetime.test (Child process killed by signal 6)
-Running test: glib/bitlock.test
+- Disable the SPL concate function:
+concat_spl_dtb_helper() {
+:
+}
 
-Cheers,
+- Adds a rebuild task, get the SPL dtb+pubkey from shared deploy directory =
+and rebuild the SPL binary:
+do_rebuild_uboot_spl_with_ signed_dtb() {
+deployed_spl_dtb_binary=3D'${ DEPLOY_DIR_IMAGE}/${SPL_DTB_ IMAGE}'
+cp $deployed_spl_dtb_binary ${B}/spl/${SPL_DTB_BINARY}
+oe_runmake -C ${S} O=3D${B} spl/u-boot-spl all
+}
 
-Richard
+- Task depends on kernel do_deploy (deploy the SPL dtb+pubkey) :
+python () {
+if ((d.getVar('UBOOT_SIGN_ENABLE' ) =3D=3D '1'
+or d.getVar('UBOOT_FITIMAGE_ ENABLE') =3D=3D '1')
+and d.getVar('PN') =3D=3D d.getVar('UBOOT_PN')
+and d.getVar('UBOOT_DTB_BINARY')):
 
+d.appendVarFlag('do_rebuild_ uboot_spl_with_signed_dtb', 'depends', ' %s:do=
+_deploy' % d.getVar('KERNEL_PN'))
+bb.build.addtask('do_rebuild_ uboot_spl_with_signed_dtb', 'do_deploy', 'do_=
+uboot_assemble_fitimage', d)
+}
+
+Since I do not have a global view and this suggestion may not be a general =
+solution, I did not submit a patch.
+
+Best regards,
+
+Pierre-Loup
+
+--XffoSd015eNwARXJpyVa
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>
+<div dir=3D"ltr">
+<div>Hi,</div>
+<div>&nbsp;</div>
+<div>If <span style=3D"font-family: monospace;">SPL_SIGN_ENABLE</span> is s=
+et to 1, the uboot-sign bbclass will sign the u-boot fit image and add the =
+public key to SPL dtb ('uboot_fitimage_assemble' function).</div>
+<div>Before deployment, the class concat the SPL no-dtb binary with SPL dtb=
++pubkey to produce the SPL binary ('concat_spl_dtb_helper' function).</div>
+<div>&nbsp;</div>
+<div>However, this approach may produce an unbootable SPL binary for some t=
+arget since SPL no-dtb binary may not include the magic number.</div>
+<div>For my target, a STM32 MPU, the first 256 bytes are missing.</div>
+<div>&nbsp;</div>
+<div>For me, a better approach is to rebuild the SPL binary with the update=
+d SPL dtb. Here's my suggestion:</div>
+<div>&nbsp;</div>
+<div>- Disable the SPL concate function:</div>
+<span style=3D"font-family: monospace;">concat_spl_dtb_helper() {<br />&nbs=
+p; &nbsp; :<br />}<br /></span>
+<div>&nbsp;</div>
+<div>- Adds a rebuild task, get the SPL dtb+pubkey from shared deploy direc=
+tory and rebuild the SPL binary:</div>
+<span style=3D"font-family: monospace;">do_rebuild_uboot_spl_with_<wbr />si=
+gned_dtb() {<br />&nbsp; &nbsp; deployed_spl_dtb_binary=3D'${<wbr />DEPLOY_=
+DIR_IMAGE}/${SPL_DTB_<wbr />IMAGE}'<br />&nbsp; &nbsp; cp $deployed_spl_dtb=
+_binary ${B}/spl/${SPL_DTB_BINARY}<br />&nbsp; &nbsp; oe_runmake -C ${S} O=
+=3D${B} spl/u-boot-spl all<br />}<br /></span>
+<div>&nbsp;</div>
+<div>- Task depends on kernel do_deploy (deploy the SPL dtb+pubkey) :</div>
+<span style=3D"font-family: monospace;">python () {<br />&nbsp; &nbsp; if (=
+(d.getVar('UBOOT_SIGN_ENABLE'<wbr />) =3D=3D '1'<br />&nbsp; &nbsp; &nbsp; =
+&nbsp; or d.getVar('UBOOT_FITIMAGE_<wbr />ENABLE') =3D=3D '1')<br />&nbsp; =
+&nbsp; &nbsp; &nbsp; and d.getVar('PN') =3D=3D d.getVar('UBOOT_PN')<br />&n=
+bsp; &nbsp; &nbsp; &nbsp; and d.getVar('UBOOT_DTB_BINARY')):<br /><br />&nb=
+sp; &nbsp; &nbsp; &nbsp; d.appendVarFlag('do_rebuild_<wbr />uboot_spl_with_=
+signed_dtb', 'depends', ' %s:do_deploy' % d.getVar('KERNEL_PN'))<br />&nbsp=
+; &nbsp; &nbsp; &nbsp; bb.build.addtask('do_rebuild_<wbr />uboot_spl_with_s=
+igned_dtb', 'do_deploy', 'do_uboot_assemble_fitimage', d)<br /></span>
+<div><span style=3D"font-family: monospace;">}</span></div>
+<div><span style=3D"font-family: monospace;">&nbsp;</span></div>
+<div><span style=3D"font-family: arial,sans-serif;">Since I do not have a g=
+lobal view and this suggestion may not be a general solution, I did not sub=
+mit a patch.<br /></span></div>
+<div><span style=3D"font-family: arial,sans-serif;">&nbsp;</span></div>
+<div><span style=3D"font-family: arial,sans-serif;">Best regards,</span></d=
+iv>
+<div><span style=3D"font-family: arial,sans-serif;">&nbsp;</span></div>
+<div><span style=3D"font-family: arial,sans-serif;">Pierre-Loup<br /></span=
+></div>
+<div>&nbsp;</div>
+</div>
+</div>
+
+--XffoSd015eNwARXJpyVa--
 
