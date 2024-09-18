@@ -1,158 +1,117 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F112ECDD55D
-	for <webhook@archiver.kernel.org>; Wed, 18 Sep 2024 21:38:06 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.5416.1726695479719044249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B8CCDD560
+	for <webhook@archiver.kernel.org>; Wed, 18 Sep 2024 23:19:57 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.7299.1726701580722250254
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Sep 2024 14:38:00 -0700
+ Wed, 18 Sep 2024 16:19:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L6I9mkc7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42cb2191107so813955e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Sep 2024 14:37:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MYHQDMIA;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-205909afad3so3341625ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Sep 2024 16:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726695478; x=1727300278; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+jm4tXTei6G39n9ZFiKi26JWSgdVtf8Jm4wG39JY8Yg=;
-        b=L6I9mkc7Q4E0JnBmN/zrNeyUlxP75h8cf+pQZon1EUVtwNcPDPbFN8ykcozqKNiip/
-         P4jV82BW4jZDvT8LW9N4YlJYvgcjO9OTFDqh5SqiPA7/XPjj13KX+3tnTlY1CD7JRuI1
-         THfL7y1rcEA7gLTOEo2kub3EUW7uNd9rjcEV8=
+        d=gmail.com; s=20230601; t=1726701580; x=1727306380; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bt7AbR5u2IlOLRLPbBfBZpajFaAgmW7aMZ6voEFuH2c=;
+        b=MYHQDMIA1YBXYhGlUI+s30R0w0kti6SYPURidq65PHaFMf7ZXubCk7NNCJWP+Bhls3
+         0hJ/7JERbTUP6HynKf/72zgWJgnlbQGqCr0Vc1UkEtntIWmtk1YANwNWaYwZxdOSzvqC
+         d+vnnMeAkMa9NONAIIaCaGuokSuBsstlv4bYmkmlDYlQuUIslxqnnlbnziSHFzjcJ7B4
+         xV+dwDruE1cQIvTgRkVpwBz3k6Wmk1L3BD2gIFzPmnaho7AdIiAiyah4eH07OVED/Ojj
+         gi5tojJplwe+2mmxebFrJ5J4rLM4Wgl2IJUmLTsSgu/LDrFMdAU/l7X/em3CjI04T/Ot
+         Sq1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726695478; x=1727300278;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+jm4tXTei6G39n9ZFiKi26JWSgdVtf8Jm4wG39JY8Yg=;
-        b=bmuR3CUazIjXHHh0asbbZh1Ae6R3Spb6uO8fgkBOc3wSdVk/1YNRtXth2ZLwSQy3E2
-         X4e3F0BNfUipVAzG2p9rgoaDXI6gdyhxUQ4M0vznBn4hm+YeDkT5ZM7SUFqhGQZ9qOnF
-         0nPQbjmK7n5U5OxUR0w+vYpfI93c7DADtWl5GHvNLmvgyxcejw/yd4KZhc+b7Ym1xHOL
-         Q1vCu6XljCZSwumm9biD7nLH/xlCxovP8SdxXaetaHWx4HjwCE79T3S1YiVA4xCLguQd
-         BwuS/tANpGsiwl21abMvAwiLj8okBPabrVQeBpvHSOI6FkNbGQ5Y4R/nE2i46k0ZLO95
-         xhoA==
-X-Forwarded-Encrypted: i=1; AJvYcCVc7nVPX8aFpJZM5ysXz01P3cFgzktC/aNuSz7aClecLymEXZzFiQI7GS662gWEVh4LPmTY3Li4GjcRFw5kEWg0rQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzG9R5VnYTYnz+AqOYxmsMJvxotBwFQyoLJ5m5+dgV5TAthJ76M
-	4/uoRXdhFO8IIdegehlQIA6ALWie2Trk3Gz5n1AWww5rRg6cBya21FxlPNFSdbg=
-X-Google-Smtp-Source: AGHT+IGYDOHeMzOP3hPvUAaiOBkhfGt8Szur8cFoVK9XuOSClFsvSyoVi2+YWQLPNC2IIQnnPIAwtQ==
-X-Received: by 2002:a05:600c:4695:b0:425:7bbf:fd07 with SMTP id 5b1f17b1804b1-42cdb4fb710mr180039655e9.5.1726695477899;
-        Wed, 18 Sep 2024 14:37:57 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2611:1b35:d82b:530d? ([2001:8b0:aba:5f3c:2611:1b35:d82b:530d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e7540e4e1sm3770035e9.10.2024.09.18.14.37.57
+        d=1e100.net; s=20230601; t=1726701580; x=1727306380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bt7AbR5u2IlOLRLPbBfBZpajFaAgmW7aMZ6voEFuH2c=;
+        b=KsTh2fUXBEHOAT+oPuROfyZ/AcG9xC7lPjg3U9CY7bIXHnkZia4ZKssFbxkDaXluIp
+         rleQ0HvyVx6EM8bQir68pxQsU5D5iOvVStB9EXZ6vSZ4wl+jW+1bW1kth9drkYyPkrbY
+         yYjUoXSCpehlZxDGVcfcoWYk4oFQt2kbwzbUQLgTrlDhWcO22b/H5efZPIi/9xCSaEEp
+         OF7XPx3eI/bj31vQ0zNZ/ZOh2RlLF1ZEIO/AxjHes5teWTHQ2klZLa6cFFWDcrXDjL4A
+         XUQqWEjbBwlH5lfRKk0IAIta6Fl8GQsZu28zFca7BvspN1tvNF0emmEpas+YQQltJYzR
+         E1CQ==
+X-Gm-Message-State: AOJu0YwTfFKF5gpbc9Q+1ZfRvtj8cxwmB/GQEBSBcyDcBHS+C6dDj3P2
+	VQ80H7BwXoNNVYukzh+Q48FjeqMcZKYCeNo+pEcNTplq+7YfrdYRxxSUufxU
+X-Google-Smtp-Source: AGHT+IGGweTQLS+EVKk3CFhE7TFGKYioVhFdhRWLRHGxFcSRttzIvKJTkbCRli5wvjOJIoeLttO9cA==
+X-Received: by 2002:a17:902:ec88:b0:206:dc2a:232c with SMTP id d9443c01a7336-2076e32fa72mr415514415ad.15.1726701579769;
+        Wed, 18 Sep 2024 16:19:39 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c3c8])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794735719sm69867675ad.275.2024.09.18.16.19.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 14:37:57 -0700 (PDT)
-Message-ID: <d86507587d62b184c1b111cd64519bae6dd375bb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v6 0/7] Add barebox bootloader support (and
- testing)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>, 
-	openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 18 Sep 2024 22:37:56 +0100
-In-Reply-To: <fd3fff67a52a117485497a3e4ca6f098c298dfc3.camel@pengutronix.de>
-References: <20240912091857.2631678-1-ejo@pengutronix.de>
-	 <fe63f607a4f3f521e51c6ff2724bbd537977a5b1.camel@linuxfoundation.org>
-	 <b7e336daaa8aeeec62bf43da2ce4abccea3e15cd.camel@pengutronix.de>
-	 <1729b516f6afc04a83158f59f473a668860137b4.camel@linuxfoundation.org>
-	 <fd3fff67a52a117485497a3e4ca6f098c298dfc3.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Wed, 18 Sep 2024 16:19:39 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] qemu: Fix build on musl/riscv64
+Date: Wed, 18 Sep 2024 16:19:37 -0700
+Message-ID: <20240918231937.1424570-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Sep 2024 21:38:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204655
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Sep 2024 23:19:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204656
 
-On Wed, 2024-09-18 at 13:45 +0200, Enrico J=C3=B6rns wrote:
-> Am Mittwoch, dem 18.09.2024 um 12:21 +0100 schrieb Richard Purdie:
-> > On Wed, 2024-09-18 at 12:39 +0200, Enrico J=C3=B6rns wrote:
-> > > Hi Richard,
-> > >=20
-> > > Am Mittwoch, dem 18.09.2024 um 11:11 +0100 schrieb Richard
-> > > Purdie:
-> > > > On Thu, 2024-09-12 at 11:18 +0200, Enrico J=C3=B6rns via
-> > > > lists.openembedded.org wrote:
-> > > > > This adds support for the barebox bootloader (and tools) to
-> > > > > oe-
-> > > > > core.
-> > > > >=20
-> > > > > In order to have proper testing, this extends oe-selftest to
-> > > > > allow
-> > > > > basic testing of bootloaders. While at it, cover both u-boot
-> > > > > and
-> > > > > barebox.
-> > > > >=20
-> > > > > v6:
-> > > > > * replace barebox.inc by barebox.bbclass (move content of
-> > > > > =C2=A0 barebox-common.inc into .bbclass and .bb files)
-> > > > > * support for UNPACKDIR
-> > > > >=20
-> > > > > Enrico Jorns (5):
-> > > > > =C2=A0 barebox: set default BAREBOX_CONFIG for qemu machines
-> > > > > =C2=A0 oeqa/utils/qemurunner: support ignoring vt100 escape
-> > > > > sequences
-> > > > > =C2=A0 oeqa: support passing custom boot patterns to runqemu
-> > > > > =C2=A0 oeqa/selftest/cases: add basic u-boot test
-> > > > > =C2=A0 oeqa/selftest/cases: add basic barebox tests
-> > > > >=20
-> > > > > Marco Felsch (2):
-> > > > > =C2=A0 barebox: add initial support
-> > > > > =C2=A0 barebox-tools: add initial barebox tools support
-> > > >=20
-> > > > We had some testing capacity so I ran this through automated
-> > > > testing.
-> > > > The one issue that showed up so far was:
-> > > >=20
-> > > > https://valkyrie.yoctoproject.org/#/builders/29/builds/174/steps/13=
-/logs/warnings
-> > > >=20
-> > > > which is at least easily fixed! The rest of the build is still
-> > > > going.
-> > >=20
-> > > thanks for the test run and the first result.
-> > >=20
-> > > Indeed, looks easily fixable =F0=9F=98=89
-> > > Is it worth a v7 or should I wait for other results to show up?
-> >=20
-> > Most of the tests have run and there were other issues in the build
-> > but
-> > there was one other issue I noticed:
-> >=20
-> > https://valkyrie.yoctoproject.org/#/builders/54/builds/149/steps/14/log=
-s/stdio
-> >=20
-> > which is a missing maintainers entry. Probably worth a v7 with
-> > those
-> > two things fixed.
->=20
-> The test output says
->=20
-> > Unable to find recipes for the following entries in
-> > maintainers.inc:
-> > barebox
->=20
-> Could you give me a hint what that means? The barebox_2024.08.0.bb
-> and the change in maintainers.inc
-> are in the same commit. So I am unsure why it does not find the
-> recipe.
+musl does not provide strerrorname_np() so do not use it.
 
-It means the recipe is being skipped in the context of the QA test.
-This means there is a maintainers entry but the test can't see any
-recipe to match against it due to the skip.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/fix-strerrorname_np.patch       | 27 +++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
 
-The test is there to ensure when we delete recipes, we don't have stale
-entries in the file.
-
-Can we provide a config that makes sense for qemux86-64?
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f37b32985bf..2786eedd423 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -21,6 +21,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://powerpc_rom.bin \
+            file://run-ptest \
++           file://fix-strerrorname_np.patch \
+            file://0001-qemu-Add-addition-environment-space-to-boot-loader-q.patch \
+            file://0002-apic-fixup-fallthrough-to-PIC.patch \
+            file://0003-configure-Add-pkg-config-handling-for-libgcrypt.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch b/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
+new file mode 100644
+index 00000000000..5098e8a4e5a
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
+@@ -0,0 +1,27 @@
++target/riscv/kvm: do not use non-portable strerrorname_np()
++
++strerrorname_np is non-portable and breaks building with musl libc.
++
++Use strerror(errno) instead, like we do other places.
++
++Upstream-Status: Submitted [https://mail.gnu.org/archive/html/qemu-stable/2023-12/msg00069.html]
++
++Cc: qemu-stable@nongnu.org
++Fixes: commit 082e9e4a58ba (target/riscv/kvm: improve 'init_multiext_cfg' error 
++msg)
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2041
++Buglink: https://gitlab.alpinelinux.org/alpine/aports/-/issues/15541
++Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
++
++--- a/target/riscv/kvm/kvm-cpu.c
+++++ b/target/riscv/kvm/kvm-cpu.c
++@@ -1731,8 +1731,7 @@ static bool kvm_cpu_realize(CPUState *cs
++     if (riscv_has_ext(&cpu->env, RVV)) {
++         ret = prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_ON);
++         if (ret) {
++-            error_setg(errp, "Error in prctl PR_RISCV_V_SET_CONTROL, code: %s",
++-                       strerrorname_np(errno));
+++            error_setg(errp, "Error in prctl PR_RISCV_V_SET_CONTROL, error %d", errno);
++             return false;
++         }
++     }
 
