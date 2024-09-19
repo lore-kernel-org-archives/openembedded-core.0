@@ -2,57 +2,57 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8172CF3959
-	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 14:38:03 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.21533.1726756677626762904
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF989CF3959
+	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 14:38:13 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.21270.1726756684459760083
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Sep 2024 07:37:57 -0700
+ Thu, 19 Sep 2024 07:38:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=hHLpgo+5;
- spf=pass (domain: linaro.org, ip: 209.85.167.43, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5365aec6fc1so1149253e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 07:37:57 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=fyVb00pt;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-536a2759f0eso1189181e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 07:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726756676; x=1727361476; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1726756683; x=1727361483; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V6FtSuErjFeDPdu94Z43XasX0hpYQN6ZTLUYfJaj6NI=;
-        b=hHLpgo+5FjM1SsstKwPywEYpEfQ53QlBlsR94Iw7cYFSocsdjgk6giZXk2mtmT7fF5
-         6bv0c095AcnRc8fwu/Lk8UiLakUmSNvsr6OA8EdGJebCtARcQsFaedHmAjSsnYqp8S7u
-         8rmzh+CTA/6h5/lJwnkQB/SqfpTAYJA2EWSc7o/dDEZQa5AqFpw4fn04wGE9xDVvj7L3
-         s6uAHW9XD32bCiL9k78fL0GulQO/AjNPGOzWizUBml6yHlGlwd7tng0RmmK1xaae9oEB
-         K6HoHdb5CQ+zWJQ6xSc7295i0F/Z9cITtEKyiI/xY4L+T/xhoG3FXXCLgMlxFu6N3sOP
-         FhCw==
+        bh=LQGsEUw+X+3kKC9HihOU7N5QZLd2TmRQ9EFXmtDtZ08=;
+        b=fyVb00ptItUv7rdMpjwFUChz5xKq7kffDDCyYnYGELXyTd5p7HkDn9NgpYmh6dugnB
+         M1nHOguho27eZmGi2WZpDEBwe0Z6dXJ2/m7UJIsfMAoC3mRs4TqRqwHuFWBuSTTcpkMX
+         /lYYldw5w56yGcAwHgW6cQaKe6wMgdw+JMIcjV2dA5JqRHkgAQplTtpV62hNim7TP7B3
+         xEJdFaCdBpt3zWFGTp0oXw4AzbdlVkNsJZrpaFOPuNsmhpgx6l/XjcSOzdeLEv0j6Ima
+         2Up7NJKXnZTpSOT6udDYPyJegP27KGg3xn2BxufPPBgrFVwB0r1OthIIht8fqNLwHFps
+         Zg4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726756676; x=1727361476;
+        d=1e100.net; s=20230601; t=1726756683; x=1727361483;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V6FtSuErjFeDPdu94Z43XasX0hpYQN6ZTLUYfJaj6NI=;
-        b=fq9gAaT3BRq0cBWCl8RUmQsiyRB8JR0qUhaU9Q3oyqsAulCL3qTg59zNKOk6hJSwKZ
-         ejYUxx5MjVBtZgJ1AJM6b2f9ZQlhbJdfj9e8PatB3TCT6Ggsfg28yht89BfsrrCaBb2x
-         vyIDpBWqRFmZV0NTsioAljLz1MDdWWYvVDAbp2TGAup7A05seVWJQgriAG9swhfvPWbA
-         BujVW9EAnv9FwMdG3ugcYkt6KE124pLHm1bE5i/idHVbRDOycNcbG/eojMWAM89HVyof
-         ckSSI0lpBGZS4CSPf8MzN1G2ee2tI/2A1pTyHCtJp94bexyNrLrfG8rNSEL/6LjFCtQj
-         dIvA==
-X-Gm-Message-State: AOJu0YzyhiL8U7+Xl8FIwI5gD2R3a1QoDksnehAH72wzzXAynik9o0+U
-	COdz35tglxNwMOozeFl2NGkNHsPHqN4tT96RkGD0UD9/Zg3B6PmkSIWwQGYfnMWmdU9GqyehY4O
-	+iBM=
-X-Google-Smtp-Source: AGHT+IEYcFyDiUfl7P3auU6o+KCnfgtWHEPAqYiV72rzOjZRm5646lxO+GAjNPmJyGGPWD4jfRMB8w==
-X-Received: by 2002:a05:6512:ac6:b0:52f:1a0:b49 with SMTP id 2adb3069b0e04-53678fcebc9mr15019030e87.31.1726756675674;
-        Thu, 19 Sep 2024 07:37:55 -0700 (PDT)
+        bh=LQGsEUw+X+3kKC9HihOU7N5QZLd2TmRQ9EFXmtDtZ08=;
+        b=n406rHm4LCU1PcPdlTcADQQYSFAydxpdttw3iTY0GHY7v7GVtRyClVc4lJvsAZT2q2
+         jRsyZNpcIT2RISBhwMfzRhDmJOeO/qq8rhomfqvHKjD1DzPbwhiILVoFfGE4OglwC9Ag
+         rZY6s5td7U89cQdXM1t9SnoSe8T9io8Q1Plq8bLbK9fhguOb0wZ1MvUhOvhxYBncy2X6
+         YLc9IPOLaXUff+f4bMbMs2gGbBD60/DntxINwwSnnK/APs6L0c8vGmCZA8ZjNv6eZQmC
+         i5AgXBU+vLakOp3uGt+0Q9e8NLSe5B9jvMjKeGzcdh5Xh0dDsyOQDIsDaQ087PMJHDFX
+         MJjQ==
+X-Gm-Message-State: AOJu0Yy0CVGfzKnHaAit8lX2FOjpg6xbGfZU+RPm7prO+OrAJzn2LUrk
+	vgVBv0cfoYv9NC2hETj81YH/8SqDeIKBXqHtITlGk9hka7WkV66vxrpkk3jgVxs6/yiVOew2fcS
+	tOmI=
+X-Google-Smtp-Source: AGHT+IFaHGtneIZVqLbQDfcYXDbCZCC4Yn8CRF5qjdgbdKUVM+gc/vZlbxPmuO1e66Pl9b5Cu0xovg==
+X-Received: by 2002:a05:6512:138e:b0:533:44e7:1b2a with SMTP id 2adb3069b0e04-53678feb5f4mr15103283e87.40.1726756682521;
+        Thu, 19 Sep 2024 07:38:02 -0700 (PDT)
 Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870a8721sm1889194e87.232.2024.09.19.07.37.54
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870a8721sm1889194e87.232.2024.09.19.07.37.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 07:37:54 -0700 (PDT)
+        Thu, 19 Sep 2024 07:38:00 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v3 10/12] oeqa selftest efibootpartition.py: remove systemd-boot from grub-efi test
-Date: Thu, 19 Sep 2024 17:37:04 +0300
-Message-ID: <20240919143706.6074-11-mikko.rapeli@linaro.org>
+Subject: [PATCH v3 12/12] oeqa selftest wic.py: support UKIs via uki.bbclass
+Date: Thu, 19 Sep 2024 17:37:06 +0300
+Message-ID: <20240919143706.6074-13-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240919143706.6074-1-mikko.rapeli@linaro.org>
 References: <20240919143706.6074-1-mikko.rapeli@linaro.org>
@@ -61,36 +61,98 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 14:38:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204702
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 14:38:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204704
 
-The test is actually using grub-efi not systemd-boot so
-remove it completely. systemd-boot will be tested via uki.py
-tests.
+Use label to detect rootfs since UKI with kernel command
+line is generated before rootfs is generated by wic.
+
+Adapt wic tests to build and boot uki.bbclass generated
+UKIs.
+
+Keeping one tests in wic.py and rest of the UKI features
+are tested with dedicated uki.py test.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/selftest/cases/efibootpartition.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-selftest/wic/test_efi_plugin.wks |  5 ++--
+ meta/lib/oeqa/selftest/cases/wic.py   | 42 ++++++++++++++++++++-------
+ 2 files changed, 34 insertions(+), 13 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/efibootpartition.py b/meta/lib/oeqa/selftest/cases/efibootpartition.py
-index 671bb68f2c..e039ba0386 100644
---- a/meta/lib/oeqa/selftest/cases/efibootpartition.py
-+++ b/meta/lib/oeqa/selftest/cases/efibootpartition.py
-@@ -21,11 +21,11 @@ class GenericEFITest(OESelftestTestCase):
-             cmd += " kvm"
+diff --git a/meta-selftest/wic/test_efi_plugin.wks b/meta-selftest/wic/test_efi_plugin.wks
+index 1603d6c4bb..e876a4be0e 100644
+--- a/meta-selftest/wic/test_efi_plugin.wks
++++ b/meta-selftest/wic/test_efi_plugin.wks
+@@ -1,6 +1,5 @@
+ # short-description: This file is used in oe-selftest wic module to test efi plugin
+-
+-part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,create-unified-kernel-image=true,initrd=${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
+-part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
++part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" --active --align 1024 --use-uuid
++part / --source rootfs --fstype=ext4 --align 1024 --use-uuid --label root
  
-         self.write_config("""
--EFI_PROVIDER = "systemd-boot"
-+EFI_PROVIDER = "grub-efi"
- IMAGE_FSTYPES:pn-%s:append = " wic"
- MACHINE_FEATURES:append = " efi"
- WKS_FILE = "efi-bootdisk.wks.in"
--IMAGE_INSTALL:append = " grub-efi systemd-boot kernel-image-bzimage"
-+IMAGE_INSTALL:append = " grub-efi kernel-image-bzimage"
- """
- % (image))
+ bootloader  --timeout=0 --append="console=ttyS0,115200n8"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 7d5da74de4..8b680a87a6 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -1292,24 +1292,46 @@ class Wic2(WicTestCase):
+     @skipIfNotArch(['i586', 'i686', 'x86_64'])
+     @OETestTag("runqemu")
+     def test_efi_plugin_unified_kernel_image_qemu(self):
+-        """Test efi plugin's Unified Kernel Image feature in qemu"""
+-        config = 'IMAGE_FSTYPES = "wic"\n'\
+-                 'INITRAMFS_IMAGE = "core-image-minimal-initramfs"\n'\
+-                 'WKS_FILE = "test_efi_plugin.wks"\n'\
+-                 'MACHINE_FEATURES:append = " efi"\n'
++        """Test Unified Kernel Image feature in qemu without systemd in initramfs or rootfs"""
++        config = """
++# efi firmware must load systemd-boot, not grub
++EFI_PROVIDER = "systemd-boot"
++
++# image format must be wic, needs esp partition for firmware etc
++IMAGE_FSTYPES:pn-core-image-base:append = " wic"
++WKS_FILE = "test_efi_plugin.wks"
++
++# efi, uki and systemd features must be enabled
++MACHINE_FEATURES:append = " efi"
++DISTRO_FEATURES_NATIVE:append = " systemd"
++IMAGE_CLASSES:append:pn-core-image-base = " uki"
++
++# uki embeds also an initrd, no systemd or udev
++INITRAMFS_IMAGE = "core-image-initramfs-boot"
++
++# runqemu must not load kernel separately, it's in the uki
++QB_KERNEL_ROOT = ""
++QB_DEFAULT_KERNEL = "none"
++
++# boot command line provided via uki, not via bootloader
++UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
++
++"""
+         self.append_config(config)
+-        bitbake('core-image-minimal core-image-minimal-initramfs ovmf')
++        bitbake('core-image-base ovmf')
++        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base')
++        uki_filename = get_bb_var('UKI_FILENAME', 'core-image-base')
+         self.remove_config(config)
  
+-        with runqemu('core-image-minimal', ssh=False,
+-                     runqemuparams='nographic ovmf', image_fstype='wic') as qemu:
++        with runqemu('core-image-base', ssh=False,
++                     runqemuparams='%s nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
+             # Check that /boot has EFI bootx64.efi (required for EFI)
+             cmd = "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+             self.assertEqual(output, '1')
+-            # Check that /boot has EFI/Linux/linux.efi (required for Unified Kernel Images auto detection)
+-            cmd = "ls /boot/EFI/Linux/linux.efi | wc -l"
++            # Check that /boot has EFI/Linux/${UKI_FILENAME} (required for Unified Kernel Images auto detection)
++            cmd = "ls /boot/EFI/Linux/%s | wc -l" % (uki_filename)
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+             self.assertEqual(output, '1')
 -- 
 2.34.1
 
