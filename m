@@ -1,99 +1,106 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 003C4CF3971
-	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 20:56:54 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.3912.1726779412513222353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E025CF3972
+	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 21:22:55 +0000 (UTC)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+ by mx.groups.io with SMTP id smtpd.web11.4392.1726780966439474344
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Sep 2024 13:56:52 -0700
+ Thu, 19 Sep 2024 14:22:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M8G78FfW;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-374bd059b12so843218f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 13:56:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UJOSQQFI;
+ spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: danismostlikely@gmail.com)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-502adfff6fdso384389e0c.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 14:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726779411; x=1727384211; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=axz/MJaTKcoPjJl3cLWz44z/MGcHfYJJvjmNRjJITuY=;
-        b=M8G78FfWd68XQ7GdnXSluZ2hqNUU5B3hM5p88a7sfrI7G3UkIy+p/GOyL+DSf5AZqb
-         o88lZKpxAuE9/TwVNonAbb3aTGXiwR4YysVKCDQzCELi0Am3BjLI19kcmZbXQeOcvrqL
-         GP9vraY0JuBxtVrFnBNQSlYGBLgQ70ZLVkKao=
+        d=gmail.com; s=20230601; t=1726780965; x=1727385765; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bYO9fViZSjmerCBgqFiXsjHCO31BAzfFbO2n/3Xi32U=;
+        b=UJOSQQFIsreIu6PpsC2y6GfD2a9AmmG+tzrRADm2XQzLYL0h/GfgmL/zLyP99X211I
+         d9zZhBUtMLxe3XC5dUy61AcIBv+awHRpWgt7eSeWbczMog79PTRRGXgoTdIuLl1cDih6
+         jhyAFx9hFud4j2sUPY7POTuqxpAzs34OTs4c0Y0MX4EliHJnrrq6k8c9Z9upgO446h/E
+         92s2QopxnbZMnqiFrG6YPrmMPEGVd4r69b23qnclarCZ34qe32woCZvBsv9muSSJW5w3
+         c12hAi//S7qKyA1SWCJF0UYmz51Lb1fuzHjUVjY8KDPmVrcIxCFosp4kSKQe9tEP7lDC
+         oUVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726779411; x=1727384211;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=axz/MJaTKcoPjJl3cLWz44z/MGcHfYJJvjmNRjJITuY=;
-        b=o82R5Zr2MDK250f0zmEnPSrX7kQsmNtsinByzWRoosurfKacF2mDtQ5Ow0Hi1vxCjU
-         EFKLxptlFG5T0aYYnNjYEdxVY2RZp4lNj67iVk6nvu8EH56YlcHqlP2nTWWp1OC6vhjK
-         BuCaN6bDoFo/gs3VU2oUN+m7LV7gXAK0eIABo+JMrLco/5S4+CicM6yu6LVMm5BdvRNj
-         BzlBsws8u0NmXo49bqLABCHWnKDUKNPH9oYkIJth8DDZtFLkCbxzh2rMHQgbcIbTNSx1
-         jyy1uBvpOc3+QJBRgmW35ZZfzcgghh1Kf5VwXr/Gh8fe+kTG5f3swEmyjsy9nUNOOh0q
-         9h6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUG3YSj2cmYLeMnE3+gA33c+BBfWpbcmOSB9YR0AbmVF8ZuzGQmj5+qLnaeojcLf99JzXVIu3LQ0jVJrEHeSKWzUw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzjBzYcRK873g5D/e+GwXZFTbEBkMPu1LF1gGiwuelEou9KGwp0
-	lOy1qbSVCxVQQeR6xwUnqJFFC64QMQkDfyXlKWn5TGLfExhKCga3Wg/WPMKXC7A=
-X-Google-Smtp-Source: AGHT+IHXWZ2yFZVmNPXDFdHCICIPMd6sb6Y2vqrwwz8UxSME9xiGl6aUiZ22DPggy0EMydc6xmQ7SA==
-X-Received: by 2002:adf:ec4d:0:b0:374:ce8b:bc65 with SMTP id ffacd0b85a97d-37a42380fc2mr273928f8f.56.1726779410776;
-        Thu, 19 Sep 2024 13:56:50 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3dff:6e76:1854:48ea? ([2001:8b0:aba:5f3c:3dff:6e76:1854:48ea])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3790406a33esm5689650f8f.81.2024.09.19.13.56.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 13:56:49 -0700 (PDT)
-Message-ID: <b77f2c6737c330ef9ecce325d50a4aaa25b3e536.camel@linuxfoundation.org>
-Subject: Re: [PATCH v7 0/7] Add barebox bootloader support (and testing)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>, 
-	openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 19 Sep 2024 21:56:49 +0100
-In-Reply-To: <20240919120640.19714-1-ejo@pengutronix.de>
-References: <20240919120640.19714-1-ejo@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        d=1e100.net; s=20230601; t=1726780965; x=1727385765;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bYO9fViZSjmerCBgqFiXsjHCO31BAzfFbO2n/3Xi32U=;
+        b=vzsNbzLTdpPan0Xts09kUSqtaXQoYd2bJAE/IFznytpJNV3PTCAl82p/WoQh67Wx3v
+         VtWYMIZ4sH74dcsYfZt7Est0sAVuIgymfNtyXC7y7jvvK1QPK9STsjWFPQla1Aq/tqAk
+         hxUQ6v3V4LMnhd7rQ/VvM0aJ0CBlMI+OyZNjG1QbA26E/3jVljak5+t8gp/9cQPL3+iy
+         RaSpzHRbTJ3eDsCbKkR5OEuT7nwtmpcM+f37fHg2vL7+SOLjzyeq+v5wAjxFE95rP09f
+         2itQXU0xfowF2iedUvLzDPOnt/pqgImxZjE8097meeYezrPnbOSOueOr4SbKAIWT4TNb
+         cXrw==
+X-Gm-Message-State: AOJu0Ywi5PTYUpmExo11GcDQVA4OMVuTcU/BE7dgHYkxwEvmAbDcxXWg
+	0SzBEVW8VdFjhyfBdowBWTokuc2vhKK5+6NBqpcr7/R3HqwIAG01K1csojBuc4N3vqVzKe5bgOV
+	qeaPBJHBXCC845WWN8WM/UBgrVHY=
+X-Google-Smtp-Source: AGHT+IHV1mG88UM4ye4g4YwXr72waE2C/x8QpooR7GpCYhSzVMrnEQArnqFiEFbdrvHtsnCwM9dWydTHJI36W37LWqg=
+X-Received: by 2002:a05:6122:d9f:b0:4ef:27e0:3f8c with SMTP id
+ 71dfb90a1353d-503e02299e8mr1438738e0c.0.1726780965240; Thu, 19 Sep 2024
+ 14:22:45 -0700 (PDT)
 MIME-Version: 1.0
+References: <17F6B1F8381C459D.22254@lists.openembedded.org>
+In-Reply-To: <17F6B1F8381C459D.22254@lists.openembedded.org>
+From: Dan McGregor <danismostlikely@gmail.com>
+Date: Thu, 19 Sep 2024 15:22:33 -0600
+Message-ID: <CACS+7ZQ9nUiXwdAxPsjhxm=S34oKuvFJWjfcq=5xpdHh07U3Gw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] python3-pip: keep pip program name
+To: danismostlikely@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Daniel McGregor <daniel.mcgregor@vecima.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 20:56:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204717
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 21:22:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204718
 
-On Thu, 2024-09-19 at 14:06 +0200, Enrico J=C3=B6rns wrote:
-> This adds support for the barebox bootloader (and tools) to oe-core.
->=20
-> In order to have proper testing, this extends oe-selftest to allow
-> basic testing of bootloaders. While at it, cover both u-boot and
-> barebox.
->=20
-> v7:
-> * add missing HOMEPAGE to barebox recipe
-> * ignore barebox for maintainers check since the recipe is skipped
-> =C2=A0 during parsing (because of PREFERRED_PROVIDER mechanism).
->=20
-> Enrico Jorns (5):
-> =C2=A0 barebox: set default BAREBOX_CONFIG for qemu machines
-> =C2=A0 oeqa/utils/qemurunner: support ignoring vt100 escape sequences
-> =C2=A0 oeqa: support passing custom boot patterns to runqemu
-> =C2=A0 oeqa/selftest/cases: add basic u-boot test
-> =C2=A0 oeqa/selftest/cases: add basic barebox tests
->=20
-> Marco Felsch (2):
-> =C2=A0 barebox: add initial support
-> =C2=A0 barebox-tools: add initial barebox tools support
+On Thu, 19 Sept 2024 at 10:26, Dan McGregor via lists.openembedded.org
+<danismostlikely=gmail.com@lists.openembedded.org> wrote:
+>
+> From: Daniel McGregor <daniel.mcgregor@vecima.com>
+>
+> Python 2.x support is long gone, and may tools expect to use pip
 
-This looked better in testing, thanks. There was:
+Whoops. There's a typo here, it should read "many tools".
 
-https://valkyrie.yoctoproject.org/#/builders/23/builds/168/steps/14/logs/st=
-dio
-
-which is from oe-selftest on an ARM server though :/
-
-Cheers,
-
-Richard
+> by that name. Keep the pip name around again.
+>
+> Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> ---
+>  meta/recipes-devtools/python/python3-pip_24.2.bb | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-pip_24.2.bb b/meta/recipes-devtools/python/python3-pip_24.2.bb
+> index 1f8aeb35fc8..5e1a467990a 100644
+> --- a/meta/recipes-devtools/python/python3-pip_24.2.bb
+> +++ b/meta/recipes-devtools/python/python3-pip_24.2.bb
+> @@ -29,10 +29,6 @@ SRC_URI += "file://no_shebang_mangling.patch"
+>
+>  SRC_URI[sha256sum] = "5b5e490b5e9cb275c879595064adce9ebd31b854e3e803740b72f9ccf34a45b8"
+>
+> -do_install:append() {
+> -    rm -f ${D}/${bindir}/pip
+> -}
+> -
+>  RDEPENDS:${PN} = "\
+>    python3-compile \
+>    python3-io \
+> --
+> 2.46.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204707): https://lists.openembedded.org/g/openembedded-core/message/204707
+> Mute This Topic: https://lists.openembedded.org/mt/108543258/3617261
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [danismostlikely@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
