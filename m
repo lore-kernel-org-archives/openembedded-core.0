@@ -2,10 +2,10 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB2B5CCD1A4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBFC8CE8D7D
 	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 12:07:02 +0000 (UTC)
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.17830.1726747621730888691
+ by mx.groups.io with SMTP id smtpd.web11.17987.1726747621702398430
  for <openembedded-core@lists.openembedded.org>;
  Thu, 19 Sep 2024 05:07:02 -0700
 Authentication-Results: mx.groups.io;
@@ -14,24 +14,24 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1srFw4-00026R-3J; Thu, 19 Sep 2024 14:07:00 +0200
+	id 1srFw4-00026Q-3H; Thu, 19 Sep 2024 14:07:00 +0200
 Received: from [2a0a:edc0:0:1101:1d::5c] (helo=dude06.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1srFw3-0000ig-Jw; Thu, 19 Sep 2024 14:06:59 +0200
+	id 1srFw3-0000ie-Jp; Thu, 19 Sep 2024 14:06:59 +0200
 Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1srFw3-0006DP-1o;
+	id 1srFw3-0006DL-1m;
 	Thu, 19 Sep 2024 14:06:59 +0200
 From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: yocto@pengutronix.de,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v7 6/7] oeqa/selftest/cases: add basic u-boot test
-Date: Thu, 19 Sep 2024 14:06:39 +0200
-Message-Id: <20240919120640.19714-7-ejo@pengutronix.de>
+Subject: [PATCH v7 5/7] oeqa: support passing custom boot patterns to runqemu
+Date: Thu, 19 Sep 2024 14:06:38 +0200
+Message-Id: <20240919120640.19714-6-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20240919120640.19714-1-ejo@pengutronix.de>
 References: <20240919120640.19714-1-ejo@pengutronix.de>
@@ -45,66 +45,89 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 12:07:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204674
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204672
 
 From: Enrico Jorns <ejo@pengutronix.de>
 
-This adds basic tests for qemuarm and qemuarm64.
+This allows defining non-standard patterns from QEMU tests just as they
+are already supported by the testimage.bbclass.
+
+Will allow testing non-Linux shells in QEMU, too (e.g. a U-Boot shell or
+another bootloader shell).
 
 Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/uboot.py | 42 +++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/uboot.py
+ meta/lib/oeqa/targetcontrol.py    | 5 +++--
+ meta/lib/oeqa/utils/commands.py   | 5 +++--
+ meta/lib/oeqa/utils/qemurunner.py | 2 +-
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/uboot.py b/meta/lib/oeqa/selftest/cases/uboot.py
-new file mode 100644
-index 0000000000..936dfa655f
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/uboot.py
-@@ -0,0 +1,42 @@
-+# Qemu-based u-boot bootloader integration testing
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, runqemu
-+from oeqa.core.decorator.data import skipIfNotArch
-+from oeqa.core.decorator import OETestTag
-+
-+uboot_boot_patterns = {
-+        'search_reached_prompt': "stop autoboot",
-+        'search_login_succeeded': "=>",
-+        'search_cmd_finished': "=>"
-+        }
-+
-+
-+class UBootTest(OESelftestTestCase):
-+
-+    @skipIfNotArch(['arm', 'aarch64'])
-+    @OETestTag("runqemu")
-+    def test_boot_uboot(self):
-+        """
-+        Tests building u-boot and booting it with QEMU
-+        """
-+
-+        self.write_config("""
-+QB_DEFAULT_BIOS = "u-boot.bin"
-+PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
-+""")
-+        bitbake("virtual/bootloader core-image-minimal")
-+
-+        with runqemu('core-image-minimal', ssh=False, runqemuparams='nographic',
-+                     boot_patterns=uboot_boot_patterns) as qemu:
-+
-+            # test if u-boot console works
-+            cmd = "version"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(status, 1, msg=output)
-+            self.assertTrue("U-Boot" in output, msg=output)
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 6e8b781973..cdf382ee21 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -88,7 +88,7 @@ class QemuTarget(BaseTarget):
+ 
+     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
+ 
+-    def __init__(self, d, logger, image_fstype=None):
++    def __init__(self, d, logger, image_fstype=None, boot_patterns=None):
+ 
+         import oe.types
+ 
+@@ -141,7 +141,8 @@ class QemuTarget(BaseTarget):
+                             dump_dir = dump_dir,
+                             logger = logger,
+                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+-                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
++                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()),
++                            boot_patterns = boot_patterns)
+ 
+         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
+         if (self.monitor_dumper):
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index bf2f49d0c0..ca22d69f29 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -312,7 +312,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
+         f.write('LAYERSERIES_COMPAT_%s = "%s"\n' % (templayername, corenames))
+ 
+ @contextlib.contextmanager
+-def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, discard_writes=True):
++def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, boot_patterns = {}, discard_writes=True):
+     """
+     Starts a context manager for a 'oeqa.targetcontrol.QemuTarget' resource.
+     The underlying Qemu will be booted into a shell when the generator yields
+@@ -330,6 +330,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
+         image_fstype (str): IMAGE_FSTYPE to use
+         launch_cmd (str): directly run this command and bypass automatic runqemu parameter generation
+         overrides (dict): dict of "'<bitbake-variable>': value" pairs that allows overriding bitbake variables
++        boot_patterns (dict): dict of "'<pattern-name>': value" pairs to override default boot patterns, e.g. when not booting Linux
+         discard_writes (boolean): enables qemu -snapshot feature to prevent modifying original image
+     """
+ 
+@@ -361,7 +362,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
+ 
+         logdir = recipedata.getVar("TEST_LOG_DIR")
+ 
+-        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype)
++        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype, boot_patterns=boot_patterns)
+     finally:
+         # We need to shut down tinfoil early here in case we actually want
+         # to run tinfoil-using utilities with the running QEMU instance.
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 63fc6f6b53..5c3a8e5999 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -103,7 +103,7 @@ class QemuRunner:
+ 
+         # Only override patterns that were set e.g. login user TESTIMAGE_BOOT_PATTERNS[send_login_user] = "webserver\n"
+         for pattern in accepted_patterns:
+-            if not self.boot_patterns[pattern]:
++            if pattern not in self.boot_patterns or not self.boot_patterns[pattern]:
+                 self.boot_patterns[pattern] = default_boot_patterns[pattern]
+ 
+     def create_socket(self):
 -- 
 2.39.5
 
