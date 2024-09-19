@@ -1,112 +1,111 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pmi183@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B7FCE8D6F
-	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 10:05:22 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web11.16111.1726740316978478243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 360A3CE8D74
+	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 10:10:32 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.16170.1726740627927856957
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Sep 2024 03:05:17 -0700
+ Thu, 19 Sep 2024 03:10:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gcl9Z8Zz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.176, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f7657f9f62so7014671fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 03:05:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sv/y9RSe;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: pmi183@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-374cacf18b1so393502f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 03:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726740315; x=1727345115; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+LXn9H20EkWmiWpdldp1KtSUO2WrarYdRD5w98B2VUk=;
-        b=gcl9Z8ZzJNllo4FZaFNtflQC12d7fuIg9ysOYa34HiKzt/xCa60QNF6Y7/cRBtFxBl
-         6Y0oJ1ZnagWBVvcSUq15gReXgvKqTvnuN+jexOepsc3H5ctCyn5W/WDAafLek6FXz+zi
-         L/KBZ4FgLovBtlwCyNSGFJOXukwN3ap/s7RHM=
+        d=gmail.com; s=20230601; t=1726740626; x=1727345426; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7QiWhXCosKJS1HW38IOZLhg86LZ1TgmFqLRpecCBnw8=;
+        b=Sv/y9RSe8y462A4Q5E7esjsSZClO3dM6QeexnwwifDyKE4qDDdsJSMbLPDN+dNZKD3
+         REuFpdM8ynYxGBcPwh1hMbk2YmypAVdn9NZ3m2lNVMel3zfYUGmcFMHZRs50P+fH17ea
+         Z5tjaslj4Lk5U2nOYT000JgpNQv/AIyS8dz+5r4wuoNEa62wBz3I8+YKezBwqzGDbrM1
+         VdAaYhily3n2LXh8LBZhAQaJujKE6yeBm6cCZBbVP2PLxFaijynbPD3PEfnBRzkJ0JgW
+         cpCcnx7ftpdCytqdwGni40LmXWu50CSaX9t0nXQStyWpCtXfG4W5WXRQv7hBGYIS/E3y
+         E/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726740315; x=1727345115;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+LXn9H20EkWmiWpdldp1KtSUO2WrarYdRD5w98B2VUk=;
-        b=U4J3LAgalb2ulJyBxB/kp4gMvg9jyt0bKcviaB7KY6BW5p6u2VcKzQTHdz9fx+HpAI
-         9SyqdiCCgtVBVcu94vMqPbZaNoBiWYsCsIH+RWkQu47uuXCRcrhutVFloLQKKlsXrJqd
-         WvNVsrQFLrrQ+wpk89G348CEZTxEfpqLp2gw2DwAvf3BuDLEtR3VQjVUUzlkiKhbRzxT
-         c4aq4FsimH3+CsxD6PpX420y0lk45FhndllA2Mk6xzndH6Uc/0lquzJBWO/8Ni+22WJV
-         RgjZBR2PG4D96my5Ifm+LcUkl6UkC/GZVr0im6MPLnkLgCR3ytOtk6YSXKoamhT7tvOm
-         o+2A==
-X-Forwarded-Encrypted: i=1; AJvYcCW1ZPn5mvZGGBFI72i05jH+p0vj9IBI7sJ13Azt/hAxU4iBleXvpS+l+SevVpay6o2TsqwAEgRTH3fmwsXDItE/oA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwE4LmJ2kzA3jUi6gieyqncQnouop/1KpS6zYuVpUwZIDzYhi6v
-	hELdK+mfW1TL6/MSkozPAmCwuKXjOQh3F1tkudyknahWQOCFa0bJywlhpcg/gr0=
-X-Google-Smtp-Source: AGHT+IHMWBMjioebbQz9JBX0Y/wNbYSDWTyQ8zlsaEDMhA/fs2BUghJDUboMd7DMSqku6LNcFqSlfg==
-X-Received: by 2002:a2e:a586:0:b0:2f7:51e3:fe2f with SMTP id 38308e7fff4ca-2f787dbf537mr156251391fa.13.1726740314656;
-        Thu, 19 Sep 2024 03:05:14 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f722:770d:8a57:e159? ([2001:8b0:aba:5f3c:f722:770d:8a57:e159])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e754c6dbcsm17549785e9.46.2024.09.19.03.05.13
+        d=1e100.net; s=20230601; t=1726740626; x=1727345426;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7QiWhXCosKJS1HW38IOZLhg86LZ1TgmFqLRpecCBnw8=;
+        b=YPeab4dT6n28aeFuO1DG+3krRZqfMh82aespUiMH9iuvXQQj4Gi0K1q3EIFy7tziU7
+         zZYpzm1vn9JM7Qm/rFHy9jtYYAeMqmpH1GWiEzsYTG5taxzUYknRdpI3/PNlJTtwQAU3
+         nwaWXvwXKxVLcF8HavOvGFo19p0BIckWEN0EYRivv3RfXgTibtMH/gjfEayEv53Ly0HY
+         MZdGJrDe2Nk68T6IJ3HNzzyafN7CNhqF7ch5+IF/GfqDdH8o2AAKfHIUxT2H/CU9diP7
+         g6Y6evv05KG32HnwUnmwJb5MOFYhQ06VFfGZjEwL9zf/GYeAnBPsXPS0fzQ0QLGbq0iY
+         kIhQ==
+X-Gm-Message-State: AOJu0Ywuw1NK1k+1h67zjrIC1rRiNTyv1EnbVqwp9XgALA0mFJsV/Hue
+	2/1nNva1SRv/birPOFrTAeoAN48NhBjgHz53CwcDtTucjIminEMsx+vXjNBX
+X-Google-Smtp-Source: AGHT+IEhcjVTYoMmTSjyScXkdXBSVEevH23assu0quyzRzGXzE+Y6hgxjvxRw2zGyHXpiXSA2h3vew==
+X-Received: by 2002:a5d:554d:0:b0:374:c847:85e with SMTP id ffacd0b85a97d-378c2cfb3b7mr14362544f8f.13.1726740626098;
+        Thu, 19 Sep 2024 03:10:26 -0700 (PDT)
+Received: from LAPTOP-0FHSM1V0.criticaltechworks.com ([78.137.195.161])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e7805193sm14561716f8f.98.2024.09.19.03.10.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 03:05:13 -0700 (PDT)
-Message-ID: <599af576201ac8ce88f752d259be0b359119d4d2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4 2/2] nativesdk-packagegroup-sdk-host: Add
- missing perl modules to RDEPENDS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
-Date: Thu, 19 Sep 2024 11:05:12 +0100
-In-Reply-To: <20240919094231.3840077-2-Harish.Sadineni@windriver.com>
-References: <20240919094231.3840077-1-Harish.Sadineni@windriver.com>
-	 <20240919094231.3840077-2-Harish.Sadineni@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Thu, 19 Sep 2024 03:10:25 -0700 (PDT)
+From: Pedro Ferreira <pmi183@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>,
+	Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH v3 1/3] buildhistory: Fix intermittent package file list creation
+Date: Thu, 19 Sep 2024 11:10:18 +0100
+Message-Id: <20240919101020.2858204-1-pmi183@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 10:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204666
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 10:10:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204667
 
-On Thu, 2024-09-19 at 02:42 -0700, Sadineni, Harish via lists.openembedded.=
-org wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->=20
-> In SDK, missing perl modules causes 'x86_64-pokysdk-linux-gp-display-html=
- --help' to abort with below errors..
-> =C2=A0 - Can't locate bignum.pm in @INC (you may need to install the feat=
-ure module).
-> =C2=A0 - Can't locate Math/BigInt.pm in @INC (you may need to install the=
- Math::BigInt module)
->=20
-> By adding the following perl modules to RDEPENDS fixes the above errors:
-> =C2=A0 nativesdk-perl-module-bignum
-> =C2=A0 nativesdk-perl-module-bigint
-> =C2=A0 nativesdk-perl-module-math-bigint
->=20
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
-> =C2=A0.../packagegroups/nativesdk-packagegroup-sdk-host.bb=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-h=
-ost.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> index c1d3c25060..70a7d3e494 100644
-> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> @@ -30,6 +30,9 @@ RDEPENDS:${PN} =3D "\
-> =C2=A0=C2=A0=C2=A0=C2=A0 nativesdk-bison \
-> =C2=A0=C2=A0=C2=A0=C2=A0 nativesdk-flex \
-> =C2=A0=C2=A0=C2=A0=C2=A0 nativesdk-perl-module-integer \
-> +=C2=A0=C2=A0=C2=A0 nativesdk-perl-module-bignum=C2=A0 \
-> +=C2=A0=C2=A0=C2=A0 nativesdk-perl-module-bigint \
-> +=C2=A0=C2=A0=C2=A0 nativesdk-perl-module-math-bigint \
-> =C2=A0=C2=A0=C2=A0=C2=A0 "
-> =C2=A0
-> =C2=A0RDEPENDS:${PN}:darwin =3D "\
+From: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>
 
-This doesn't address my feedback/concerns in the original patch.
-SHouldn't these dependencies be added to the nativesdk-binutils-gprofng
-RDEPENDS?
+The directory that buildhistory_list_pkg_files writes to during do_package
+is created by do_packagedata so a clean buildhistory doesn't have
+files-in-package written during the first build since packagedata happens
+after do_package.
 
-Cheers,
+Ensure the output package folder is created to avoid missing
+files-in-package.txt files.
 
-Richard
+Also it ensures that in case of `find` fails we leave with
+a hard error instead of hiding the error on the for loop.
+
+Signed-off-by: Pedro Silva Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8de9b8c1e199896b9a7bc5ed64967c6bfbf84bea)
+---
+ meta/classes/buildhistory.bbclass | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index fd53e92402..d219519f86 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -599,15 +599,12 @@ buildhistory_list_files_no_owners() {
+ 
+ buildhistory_list_pkg_files() {
+ 	# Create individual files-in-package for each recipe's package
+-	for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
++	pkgdirlist=$(find ${PKGDEST}/* -maxdepth 0 -type d)
++	for pkgdir in $pkgdirlist; do
+ 		pkgname=$(basename $pkgdir)
+ 		outfolder="${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
+ 		outfile="$outfolder/files-in-package.txt"
+-		# Make sure the output folder exists so we can create the file
+-		if [ ! -d $outfolder ] ; then
+-			bbdebug 2 "Folder $outfolder does not exist, file $outfile not created"
+-			continue
+-		fi
++		mkdir -p $outfolder
+ 		buildhistory_list_files $pkgdir $outfile fakeroot
+ 	done
+ }
+-- 
+2.34.1
+
 
