@@ -1,172 +1,134 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <pmi183@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1750CE8D68
-	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 09:47:51 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.15626.1726739267016526797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2918CE8D68
+	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 10:01:41 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.15922.1726740093369632356
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Sep 2024 02:47:47 -0700
+ Thu, 19 Sep 2024 03:01:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1srDlJ-0000j8-0h; Thu, 19 Sep 2024 11:47:45 +0200
-Message-ID: <18772a64adbbe183912d25388f8979ab0f26965d.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH v6 0/7] Add barebox bootloader support (and
- testing)
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 19 Sep 2024 11:47:44 +0200
-In-Reply-To: <d86507587d62b184c1b111cd64519bae6dd375bb.camel@linuxfoundation.org>
-References: <20240912091857.2631678-1-ejo@pengutronix.de>
-	 <fe63f607a4f3f521e51c6ff2724bbd537977a5b1.camel@linuxfoundation.org>
-	 <b7e336daaa8aeeec62bf43da2ce4abccea3e15cd.camel@pengutronix.de>
-	 <1729b516f6afc04a83158f59f473a668860137b4.camel@linuxfoundation.org>
-	 <fd3fff67a52a117485497a3e4ca6f098c298dfc3.camel@pengutronix.de>
-	 <d86507587d62b184c1b111cd64519bae6dd375bb.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AsCvLx01;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: pmi183@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42cde6b5094so5172145e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 03:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726740092; x=1727344892; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FEZZ2o05L7RdS9xhj19mzYIi0jE2fBxCwklBeRCzcSk=;
+        b=AsCvLx01lO/hGyfbHSmr8nR+g5GqCmNT0s1E1rFvIf+QU7uQ+OdPW2ry5zbAKRPGMz
+         BuK2/m28PF3g/NQ0dXmaO/TTLjsrk0yqo3nmbt4dZhFAgqvEKcCQiXXYHJ5qV8Lr8hI6
+         276JJ3FTc2TvvU19I9WeeTt8zafBkLpCAa4LMGF2Z9ol97ThTmRMLqsa0E1j+zNey84O
+         MOZOHnBDs8Ku1wGZP3R8TS4LDy2pf14GatVaaZO0Lu1kc+sR4IEnIl0HhO5ULWOhhw1W
+         DyoancWsR7dI7uOvyJuoLRhKivX4z+QYJ+3M0Uvn/AMPNT7lFlGYw8V9+FVz9Mzxxstp
+         VfWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726740092; x=1727344892;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FEZZ2o05L7RdS9xhj19mzYIi0jE2fBxCwklBeRCzcSk=;
+        b=KUECAX7Uh1ZIvHLjFEvzucy1XE56yj5I52vFFOOB5Pff6ZIvaOVHW7PZot9zCCVeW+
+         QZQkz5ZlsORTQnqoOd8+4LxaHGr6gsJjg+Uo0UJ6WcLMIZFNvMTeoVTcIyfNSSxm/TH7
+         y1w7LZBV5xx9wkKL4kldlKSnf6BpDNkOK99Ti3+9WQJTFFjE3LS3vWj2NK+nKXyELIxa
+         OUmQuerOy3hSzUv49YgoBYbNaeFCK16wEt43dEYZSkUkZpxf8Si/iC7Otyp9aD7+Tdng
+         R7tGdEGmjuuOO46f87j1WIV8KdU1tl7GHA/aNA5+04CsJQED7zvjf6P4+iaB01YyMUVt
+         OHiA==
+X-Gm-Message-State: AOJu0Yz9EDpTVe/zzeRZRUom9O1+2GDnuIxabXMYEk861YUz7xdMuelX
+	erGMFW7FhH9TQV4qJJmiRj9b1fl5zHbRJu8vk4Vo4Wn0ZYHp6308GRbHjDYI
+X-Google-Smtp-Source: AGHT+IHZ3bmrVxqKo2HfEmAjMQvWSc+YP3gxV6u0bPMzD30WeLDUuZrZ891j+wVGvN5BVyvz7RB+TQ==
+X-Received: by 2002:a05:600c:1987:b0:42c:b4f1:f281 with SMTP id 5b1f17b1804b1-42cdb58f2bbmr178600485e9.34.1726740091643;
+        Thu, 19 Sep 2024 03:01:31 -0700 (PDT)
+Received: from LAPTOP-0FHSM1V0.criticaltechworks.com ([78.137.195.161])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e75452b8esm17679405e9.28.2024.09.19.03.01.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Sep 2024 03:01:31 -0700 (PDT)
+From: Pedro Ferreira <pmi183@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>,
+	Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH v3 2/3] buildhistory: Restoring files from preserve list
+Date: Thu, 19 Sep 2024 11:01:26 +0100
+Message-Id: <20240919100127.2857748-2-pmi183@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240919100127.2857748-1-pmi183@gmail.com>
+References: <20240919100127.2857748-1-pmi183@gmail.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 09:47:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204661
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 10:01:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204663
 
-Am Mittwoch, dem 18.09.2024 um 22:37 +0100 schrieb Richard Purdie:
-> On Wed, 2024-09-18 at 13:45 +0200, Enrico J=C3=B6rns wrote:
-> > Am Mittwoch, dem 18.09.2024 um 12:21 +0100 schrieb Richard Purdie:
-> > > On Wed, 2024-09-18 at 12:39 +0200, Enrico J=C3=B6rns wrote:
-> > > > Hi Richard,
-> > > >=20
-> > > > Am Mittwoch, dem 18.09.2024 um 11:11 +0100 schrieb Richard
-> > > > Purdie:
-> > > > > On Thu, 2024-09-12 at 11:18 +0200, Enrico J=C3=B6rns via
-> > > > > lists.openembedded.org wrote:
-> > > > > > This adds support for the barebox bootloader (and tools) to
-> > > > > > oe-
-> > > > > > core.
-> > > > > >=20
-> > > > > > In order to have proper testing, this extends oe-selftest to
-> > > > > > allow
-> > > > > > basic testing of bootloaders. While at it, cover both u-boot
-> > > > > > and
-> > > > > > barebox.
-> > > > > >=20
-> > > > > > v6:
-> > > > > > * replace barebox.inc by barebox.bbclass (move content of
-> > > > > > =C2=A0 barebox-common.inc into .bbclass and .bb files)
-> > > > > > * support for UNPACKDIR
-> > > > > >=20
-> > > > > > Enrico Jorns (5):
-> > > > > > =C2=A0 barebox: set default BAREBOX_CONFIG for qemu machines
-> > > > > > =C2=A0 oeqa/utils/qemurunner: support ignoring vt100 escape
-> > > > > > sequences
-> > > > > > =C2=A0 oeqa: support passing custom boot patterns to runqemu
-> > > > > > =C2=A0 oeqa/selftest/cases: add basic u-boot test
-> > > > > > =C2=A0 oeqa/selftest/cases: add basic barebox tests
-> > > > > >=20
-> > > > > > Marco Felsch (2):
-> > > > > > =C2=A0 barebox: add initial support
-> > > > > > =C2=A0 barebox-tools: add initial barebox tools support
-> > > > >=20
-> > > > > We had some testing capacity so I ran this through automated
-> > > > > testing.
-> > > > > The one issue that showed up so far was:
-> > > > >=20
-> > > > > https://valkyrie.yoctoproject.org/#/builders/29/builds/174/steps/=
-13/logs/warnings
-> > > > >=20
-> > > > > which is at least easily fixed! The rest of the build is still
-> > > > > going.
-> > > >=20
-> > > > thanks for the test run and the first result.
-> > > >=20
-> > > > Indeed, looks easily fixable =F0=9F=98=89
-> > > > Is it worth a v7 or should I wait for other results to show up?
-> > >=20
-> > > Most of the tests have run and there were other issues in the build
-> > > but
-> > > there was one other issue I noticed:
-> > >=20
-> > > https://valkyrie.yoctoproject.org/#/builders/54/builds/149/steps/14/l=
-ogs/stdio
-> > >=20
-> > > which is a missing maintainers entry. Probably worth a v7 with
-> > > those
-> > > two things fixed.
-> >=20
-> > The test output says
-> >=20
-> > > Unable to find recipes for the following entries in
-> > > maintainers.inc:
-> > > barebox
-> >=20
-> > Could you give me a hint what that means? The barebox_2024.08.0.bb
-> > and the change in maintainers.inc
-> > are in the same commit. So I am unsure why it does not find the
-> > recipe.
->=20
-> It means the recipe is being skipped in the context of the QA test.
-> This means there is a maintainers entry but the test can't see any
-> recipe to match against it due to the skip.
+From: Pedro Ferreira <pedro.silva.ferreira@criticaltechworks.com>
 
-Thanks. I was not sure if the recipes are just evaluated and skipped based =
-on normal bitbake parsing
-or if there is a special mechanism that just looks for .bb files.
+This fix will ensure that, when we activate feature
+`BUILDHISTORY_RESET`, files marked to keep on feature
+`BUILDHISTORY_PRESERVE` will indeed exist is buildhistory
+final path since they are moved to buildhistory/old but
+not restored at any point.
 
-> The test is there to ensure when we delete recipes, we don't have stale
-> entries in the file.
->=20
-> Can we provide a config that makes sense for qemux86-64?
+Signed-off-by: Pedro Ferreira <Pedro.Silva.Ferreira@criticaltechworks.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9f68a45aa238ae5fcdfaca71ba0e7015e9cb720e)
+---
+ meta/classes/buildhistory.bbclass | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-The reason it is skipped from default parsing is
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index b35508db27..8adb44eba5 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -108,6 +108,7 @@ python buildhistory_emit_pkghistory() {
+     import json
+     import shlex
+     import errno
++    import shutil
+ 
+     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
+     oldpkghistdir = d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
+@@ -221,6 +222,20 @@ python buildhistory_emit_pkghistory() {
+         items.sort()
+         return ' '.join(items)
+ 
++    def preservebuildhistoryfiles(pkg, preserve):
++        if os.path.exists(os.path.join(oldpkghistdir, pkg)):
++            listofobjs = os.listdir(os.path.join(oldpkghistdir, pkg))
++            for obj in listofobjs:
++                if obj not in preserve:
++                    continue
++                try:
++                    bb.utils.mkdirhier(os.path.join(pkghistdir, pkg))
++                    shutil.copyfile(os.path.join(oldpkghistdir, pkg, obj), os.path.join(pkghistdir, pkg, obj))
++                except IOError as e:
++                    bb.note("Unable to copy file. %s" % e)
++                except EnvironmentError as e:
++                    bb.note("Unable to copy file. %s" % e)
++
+     pn = d.getVar('PN')
+     pe = d.getVar('PE') or "0"
+     pv = d.getVar('PV')
+@@ -248,6 +263,14 @@ python buildhistory_emit_pkghistory() {
+     if not os.path.exists(pkghistdir):
+         bb.utils.mkdirhier(pkghistdir)
+     else:
++        # We need to make sure that all files kept in
++        # buildhistory/old are restored successfully
++        # otherwise next block of code wont have files to
++        # check and purge
++        if d.getVar("BUILDHISTORY_RESET"):
++            for pkg in packagelist:
++                preservebuildhistoryfiles(pkg, preserve)
++
+         # Remove files for packages that no longer exist
+         for item in os.listdir(pkghistdir):
+             if item not in preserve:
+-- 
+2.34.1
 
-  PREFERRED_PROVIDER_virtual/bootloader =3D "u-boot"
-
-I put in meta/conf/machine/qemux86-64.conf since we have two competing prov=
-iders of
-virtaul/bootloader now (and that's what the mechanism is actually made for =
-I guess =F0=9F=98=89).
-
-Not sure if there is a way to remove the provider for just that check?
-
-Or should I add it to the exception list in distrodata.py like its done for=
- similar other recipes
-that have competing providers (e.g. musl, newlib for virtual/libc; linux-yo=
-cto, linux-dummy for
-virtual/kernel)?.
-
-Regards, Enrico
-
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-
---=20
-Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
-Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| https://www.pengutronix.de/ |
-Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
-31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
-=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
