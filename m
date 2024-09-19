@@ -1,117 +1,124 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B8CCDD560
-	for <webhook@archiver.kernel.org>; Wed, 18 Sep 2024 23:19:57 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.7299.1726701580722250254
- for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Sep 2024 16:19:40 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41010CE8D5C
+	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 07:42:21 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.14324.1726731730731288836
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 19 Sep 2024 00:42:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MYHQDMIA;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-205909afad3so3341625ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Sep 2024 16:19:40 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ck3hSmra;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cb1758e41so3873735e9.1
+        for <Openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 00:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726701580; x=1727306380; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bt7AbR5u2IlOLRLPbBfBZpajFaAgmW7aMZ6voEFuH2c=;
-        b=MYHQDMIA1YBXYhGlUI+s30R0w0kti6SYPURidq65PHaFMf7ZXubCk7NNCJWP+Bhls3
-         0hJ/7JERbTUP6HynKf/72zgWJgnlbQGqCr0Vc1UkEtntIWmtk1YANwNWaYwZxdOSzvqC
-         d+vnnMeAkMa9NONAIIaCaGuokSuBsstlv4bYmkmlDYlQuUIslxqnnlbnziSHFzjcJ7B4
-         xV+dwDruE1cQIvTgRkVpwBz3k6Wmk1L3BD2gIFzPmnaho7AdIiAiyah4eH07OVED/Ojj
-         gi5tojJplwe+2mmxebFrJ5J4rLM4Wgl2IJUmLTsSgu/LDrFMdAU/l7X/em3CjI04T/Ot
-         Sq1g==
+        d=linuxfoundation.org; s=google; t=1726731729; x=1727336529; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YnQyBueQXNEfIfGcHjUWm+gOoR+uW6bAHFfBrPmg/XU=;
+        b=Ck3hSmra55JP+IyFsy3q3OG5RXcUJfhKioXOW88kYiHFTmKuSY/dhkIamJDkdo3fqD
+         yNWbqlrGMlJfOoAarf7/UIPwZ97Leb/dG2Vqph21QNtTFzY4r1mFA2L/0OcK9OsPkxkM
+         ZgGj3mhaHKgJr4VaDfApcvgLU1DzfPVmhxiYM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726701580; x=1727306380;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bt7AbR5u2IlOLRLPbBfBZpajFaAgmW7aMZ6voEFuH2c=;
-        b=KsTh2fUXBEHOAT+oPuROfyZ/AcG9xC7lPjg3U9CY7bIXHnkZia4ZKssFbxkDaXluIp
-         rleQ0HvyVx6EM8bQir68pxQsU5D5iOvVStB9EXZ6vSZ4wl+jW+1bW1kth9drkYyPkrbY
-         yYjUoXSCpehlZxDGVcfcoWYk4oFQt2kbwzbUQLgTrlDhWcO22b/H5efZPIi/9xCSaEEp
-         OF7XPx3eI/bj31vQ0zNZ/ZOh2RlLF1ZEIO/AxjHes5teWTHQ2klZLa6cFFWDcrXDjL4A
-         XUQqWEjbBwlH5lfRKk0IAIta6Fl8GQsZu28zFca7BvspN1tvNF0emmEpas+YQQltJYzR
-         E1CQ==
-X-Gm-Message-State: AOJu0YwTfFKF5gpbc9Q+1ZfRvtj8cxwmB/GQEBSBcyDcBHS+C6dDj3P2
-	VQ80H7BwXoNNVYukzh+Q48FjeqMcZKYCeNo+pEcNTplq+7YfrdYRxxSUufxU
-X-Google-Smtp-Source: AGHT+IGGweTQLS+EVKk3CFhE7TFGKYioVhFdhRWLRHGxFcSRttzIvKJTkbCRli5wvjOJIoeLttO9cA==
-X-Received: by 2002:a17:902:ec88:b0:206:dc2a:232c with SMTP id d9443c01a7336-2076e32fa72mr415514415ad.15.1726701579769;
-        Wed, 18 Sep 2024 16:19:39 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c3c8])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794735719sm69867675ad.275.2024.09.18.16.19.39
+        d=1e100.net; s=20230601; t=1726731729; x=1727336529;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YnQyBueQXNEfIfGcHjUWm+gOoR+uW6bAHFfBrPmg/XU=;
+        b=PviPOgs0Gw3zyDFtc9AZ0cwQXRvJouNYDQFOSfeBx6gSZ4Y3Krrqqg+IoJ8McL8zyu
+         BnVfbBWLOWxv8Ty7owOfAnEaV3LoXm/DudkS2Qq7eEG0PVkW+GxEqfHiwYobLNLvg4ZN
+         3A2onokOMPM8oMhnHUYNkSk6ITOCmsMHlxBq1uXeVJTZafeA0OXOqPjpPMSBOKHuu6ND
+         vXGJze3R9r3Y5DPYZKYB0CRV/rfE4P+FGvjH5S+iGrQ2A4+EUmvFCvtyl3gWwRmsZmQj
+         65HrNho6obhvjZ9dTgqqlcxbU0tqHaY3OdEacp1paR9qrjngzXra1Z3on6GptgJBXgVb
+         +LnA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8sfbKPD1D7XzKUibjuEUIPNnZv2OQ+rUyIMAztRsVOQeHn8lZBjNazte6zpmggppMSNHOO9+FzIjjZ0U2FORl2g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzU1Gp+ySkbAbwVXE6rl7ARbDTrO0giKFIDzu1gApVbCIDVTumW
+	4v43kVxYeXgu6DFGiqClqsf/MLn2Ym/e4jdV7iUaRwTDrBfG6jSmOQz6KcynvtA=
+X-Google-Smtp-Source: AGHT+IEouCqrNiWOjmn4PImttjnTuTJoA4NV19XkgPlxzNLkAlmST6+ueGZjwRJPvChZ76jV18LZzg==
+X-Received: by 2002:a05:600c:46cc:b0:42b:af5a:109 with SMTP id 5b1f17b1804b1-42d964d9243mr141358085e9.24.1726731728984;
+        Thu, 19 Sep 2024 00:42:08 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f722:770d:8a57:e159? ([2001:8b0:aba:5f3c:f722:770d:8a57:e159])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e754c5404sm14453055e9.39.2024.09.19.00.42.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 16:19:39 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] qemu: Fix build on musl/riscv64
-Date: Wed, 18 Sep 2024 16:19:37 -0700
-Message-ID: <20240918231937.1424570-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.46.1
+        Thu, 19 Sep 2024 00:42:07 -0700 (PDT)
+Message-ID: <97f1e136536099d06bf21ebec1adbcce9e4f51df.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] oeqa/postactions: do not uncompress
+ retrieved archive on host
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alexis.lothore@bootlin.com, Openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>
+Date: Thu, 19 Sep 2024 08:42:06 +0100
+In-Reply-To: <20240812151404.134030-3-alexis.lothore@bootlin.com>
+References: <20240812151404.134030-1-alexis.lothore@bootlin.com>
+	 <20240812151404.134030-3-alexis.lothore@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Sep 2024 23:19:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204656
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 07:42:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204657
 
-musl does not provide strerrorname_np() so do not use it.
+On Mon, 2024-08-12 at 17:14 +0200, Alexis Lothor=C3=A9 via lists.openembedd=
+ed.org wrote:
+> From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
+>=20
+> Current postaction module executes a remote tar command, pipe it in a SSH
+> connection, and uncompress the raw stream with another tar command. With
+> this command, the whole artifacts tree is directly available on the host
+> executing the test, but it is not very convenient if we want to download
+> the whole retrieved ptests directory.
+>=20
+> Stop uncompressing the retrieved ptests archive onto host, just save the
+> archive as it is. The new output then looks like the following:
+>=20
+> tmp/log/oeqa-artefacts
+> =E2=94=94=E2=94=80=E2=94=80 oeqa-target-artefacts-20240812-juzqdb80
+> =C2=A0=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 host_disk_usage.txt
+> =C2=A0=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 target_disk_usage.txt
+> =C2=A0=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 tests_artifacts.tar.gz
+>=20
+> Suggested-By: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Signed-off-by: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
+> ---
+> =C2=A0meta/lib/oeqa/utils/postactions.py | 3 ++-
+> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/lib/oeqa/utils/postactions.py b/meta/lib/oeqa/utils/pos=
+tactions.py
+> index 3b537146c50a..d5080523aa83 100644
+> --- a/meta/lib/oeqa/utils/postactions.py
+> +++ b/meta/lib/oeqa/utils/postactions.py
+> @@ -68,7 +68,8 @@ def list_and_fetch_failed_tests_artifacts(d, tc, artifa=
+cts_list, outputdir):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (status, output) =3D tc.=
+target.run(cmd, raw =3D True)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if status !=3D 0 or not =
+output:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+raise Exception("Error while fetching compressed artifacts")
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p =3D subprocess.run(["tar", =
+"zxf", "-", "-C", outputdir], input=3Doutput)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with open(archive_name, "wb")=
+ as f:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f.wri=
+te(output)
+> =C2=A0=C2=A0=C2=A0=C2=A0 except Exception as e:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.warn(f"Can not retrie=
+ve artifacts from test target: {e}")
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/fix-strerrorname_np.patch       | 27 +++++++++++++++++++
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f37b32985bf..2786eedd423 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -21,6 +21,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
- SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://powerpc_rom.bin \
-            file://run-ptest \
-+           file://fix-strerrorname_np.patch \
-            file://0001-qemu-Add-addition-environment-space-to-boot-loader-q.patch \
-            file://0002-apic-fixup-fallthrough-to-PIC.patch \
-            file://0003-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-diff --git a/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch b/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
-new file mode 100644
-index 00000000000..5098e8a4e5a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
-@@ -0,0 +1,27 @@
-+target/riscv/kvm: do not use non-portable strerrorname_np()
-+
-+strerrorname_np is non-portable and breaks building with musl libc.
-+
-+Use strerror(errno) instead, like we do other places.
-+
-+Upstream-Status: Submitted [https://mail.gnu.org/archive/html/qemu-stable/2023-12/msg00069.html]
-+
-+Cc: qemu-stable@nongnu.org
-+Fixes: commit 082e9e4a58ba (target/riscv/kvm: improve 'init_multiext_cfg' error 
-+msg)
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2041
-+Buglink: https://gitlab.alpinelinux.org/alpine/aports/-/issues/15541
-+Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
-+
-+--- a/target/riscv/kvm/kvm-cpu.c
-++++ b/target/riscv/kvm/kvm-cpu.c
-+@@ -1731,8 +1731,7 @@ static bool kvm_cpu_realize(CPUState *cs
-+     if (riscv_has_ext(&cpu->env, RVV)) {
-+         ret = prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_ON);
-+         if (ret) {
-+-            error_setg(errp, "Error in prctl PR_RISCV_V_SET_CONTROL, code: %s",
-+-                       strerrorname_np(errno));
-++            error_setg(errp, "Error in prctl PR_RISCV_V_SET_CONTROL, error %d", errno);
-+             return false;
-+         }
-+     }
+This change is causing failures since archive_name isn't defined anywhere :=
+/
+
+Cheers,
+
+Richard
+
 
