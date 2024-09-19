@@ -1,114 +1,84 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E582CF3963
-	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 16:26:38 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web10.24222.1726763190991520805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC81CF396A
+	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 20:21:34 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.3124.1726777285366847373
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Sep 2024 09:26:31 -0700
+ Thu, 19 Sep 2024 13:21:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TJl/ueeC;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: danismostlikely@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7a9b3cd75e5so102063385a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 09:26:30 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a91N14RJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-374cacf18b1so815052f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 13:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726763190; x=1727367990; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1726777284; x=1727382084; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0vikOF2Ipr8kVreDKVmpkM3qt3VS9I+TExwKTIVd2PU=;
-        b=TJl/ueeCzlwbgbNCtH+OnFCHMeCnPAyw8JSP0+weVbAPm71opx1+AmuKutsc2bwrJg
-         B7fF1+YQc1Gs0gGKXiEHMQW5XYh1XQjqQWBxZmAnrjb8DHW+6vbL01qrf6quP+nyaItn
-         t2OymE9ZH31bcqnTfOmXcMjl05nrOBFRCGdQZgMILpALeknJnLGYcPYvGmjiwZnkhoTc
-         yhGbpMMGFPzhRcYS92YkLJZuYZukeKRssoZBpJh5Q10IedIAvpbf6K6NJ07YBbeqMilE
-         7PSbn/lIGeeHOkv3HCILt5adKhbs421+nTopAnNKYK8kYynLWe+YJkH6U4fNiODiINq6
-         QAvg==
+        bh=wUbNRbfyHNIuLDzgKlh/mMdaomgbApg9ieH8l5wGzdM=;
+        b=a91N14RJMilebQss3fV6oZn0YjPst04mfTt8bV0UDgAeEe1B1Dn4dCApdaXL9SCj2c
+         C5ubk8qkL6zkmAnGz9Lm7W4HqCtr6s8cQ85Z4K04Ph2SOsnOLfHG8DqhBl9CHXck8NPf
+         76bJ2iAxR67/DE0EwejurgSAf/7DirF4Wu4F4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726763190; x=1727367990;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0vikOF2Ipr8kVreDKVmpkM3qt3VS9I+TExwKTIVd2PU=;
-        b=wPwMoreXlD+RqWN/EM8GTnRNHnWFPWGhcUWoA1D297Qk9+eBRvbwf1bzkACF3gvAhJ
-         Ntx88afn7uB/K+kmuG2PqM3GwK4AFNZ/iuOu1z6AMPdEZNjZEBKVDDNAElA8sY/JE/XU
-         ZtgRbeHg/KUKtsW9ns7xoJXbwWJSpwdh14sHQx6dU2whn96PxNnG5Ie27/ry79n2e8aX
-         zvzJl83chG/MGbOZFKKxw68GtEe/Q9gId0qr8tWVRVLRiTEJjLufp9HnNc5YIYuQrmo5
-         dSzKtaCe66Z2exFQlaab7e8Y4JySJdvZoiE97yF6M6NufR/TCwUfGPikoVJ0UtFYZ0yT
-         UjVA==
-X-Gm-Message-State: AOJu0YzmeOhXYVH16bRm0IesUg8TEaAwnk2WnLhkbtaTCRu0UKPBlTxm
-	ZIYZrVvmzKfQaNSr22MtDKwZvTMyBxcRItzHz/aqROpRyP+P7d9LLtrgrw==
-X-Google-Smtp-Source: AGHT+IGx0GOHjInLhrPgqtltllEe5MnO2cXN82PZ9+rZ3SWlbVATxhKTIiYB9n+5TjowXsTEqPU+xA==
-X-Received: by 2002:a05:620a:2409:b0:7a9:ae1e:1055 with SMTP id af79cd13be357-7a9e5f7c3dcmr4668521585a.59.1726763189673;
-        Thu, 19 Sep 2024 09:26:29 -0700 (PDT)
-Received: from nebuchadnezzar.home.arpa ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7acb08bddc3sm88636485a.90.2024.09.19.09.26.29
+        d=1e100.net; s=20230601; t=1726777284; x=1727382084;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wUbNRbfyHNIuLDzgKlh/mMdaomgbApg9ieH8l5wGzdM=;
+        b=vTbMsaINw+Vv8c1zLePtg2TscGEsybgUqB+aYM12dBoOoAQFEW6W7HiEkRwFkSZeFu
+         qCLZ2EBT5ZDOrqDER4w4CTv/Ss/G2IOqY7r41SIHkiaC2rS1PilG5Ld5P3f6yRdsGb70
+         fI73GZ+OTDnTrGGFpcFfawst1S9NkDMFXD4uEJUNufMEOuCqu6oiJ7lEXxql1QuI3u2n
+         xIN1RuMMvLdf9WxoqCW8Ugg+IMEWWYpQ7we+dIYGpjct0mRDeOE12ZBhxiybgzIVW40O
+         Ub5oU3H1x1kRI+naMybtaEdZQiCjl1THDNCxzh0AzpPK61qsGObY8vs6aA51Gx33gaXc
+         uKag==
+X-Forwarded-Encrypted: i=1; AJvYcCUBBIN5CBJ2AzAhe5g7WO10n0VQf0tqli4hiFySuyZaHCLZPq91dh9KBRcXO5TfNbJOOnbuwCOWF77P02dGpkdOzQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwDO4zZsXfHSSTyhGYEPQaSPZ/rdmzaWsyOzZa/wmOHKczL+V4p
+	Gx5+poF2i1/YhsijqSLtTidOqVCALCi3kAsi9eED8BBI3zlEYSlkJih3rI1Ne+8=
+X-Google-Smtp-Source: AGHT+IF5fKhpRRqM9iceuba/rb85Y5WCqlsxRBVaMEybYI5brttopjM7vJULSJkKQoKDb7BVp/FIRg==
+X-Received: by 2002:adf:f3c1:0:b0:378:e8cd:71fa with SMTP id ffacd0b85a97d-37a4319e036mr122702f8f.39.1726777283742;
+        Thu, 19 Sep 2024 13:21:23 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3dff:6e76:1854:48ea? ([2001:8b0:aba:5f3c:3dff:6e76:1854:48ea])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e78002a4sm16164447f8f.78.2024.09.19.13.21.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 09:26:29 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dan McGregor <dan.mcgregor@usask.ca>
-Subject: [PATCH 2/3] image_types: make tar images more reproducible
-Date: Thu, 19 Sep 2024 10:24:59 -0600
-Message-ID: <20240919162500.2642940-2-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20240919162500.2642940-1-danismostlikely@gmail.com>
-References: <20240919162500.2642940-1-danismostlikely@gmail.com>
+        Thu, 19 Sep 2024 13:21:22 -0700 (PDT)
+Message-ID: <1e6aa2178bf8588a28634c11fb311fe5afd28352.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] cve-check: add field "modified" to JSON report
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: quent_55@hotmail.com, openembedded-core@lists.openembedded.org
+Date: Thu, 19 Sep 2024 21:21:21 +0100
+In-Reply-To: <AS4P195MB1645496BED047F45D6B9247FEB632@AS4P195MB1645.EURP195.PROD.OUTLOOK.COM>
+References: 
+	<AS4P195MB1645496BED047F45D6B9247FEB632@AS4P195MB1645.EURP195.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 16:26:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204708
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 20:21:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204710
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+On Thu, 2024-09-19 at 15:40 +0200, Katawann via lists.openembedded.org
+wrote:
+> cve-check: add field "modified" to JSON report
+>=20
+> Signed-off-by: Katawann <quent_55@hotmail.com>
+> ---
+> =C2=A0meta/classes/cve-check.bbclass | 1 +
+> =C2=A01 file changed, 1 insertion(+)
 
-Use tar-native from our build system. GNU tar changed its behaviour
-starting with version 1.35. It no longer stores device numbers for
-regular, non-device files. Since some supported host distributions
-still use 1.34, rely on tar-native for consistency.
+Duplicating the shortlog isn't a great way to avoid the patchtest
+email. You had some good text in your 0/1 cover letter. I'd suggest
+putting that ("Added the "modified" field to the JSON export in the
+cve-check.class. This field captures the last modification date of each
+CVE, providing more detailed information on changes and updates within
+the exported data.") into the main commit message instead.
 
-Strip atime and ctime from tar archives, they're not necessary and
-can change from invocation to invocation. Eliminate them from the
-tar output as suggested in the tar 1.35 documentation[1].
+Cheers,
 
-[1] https://www.gnu.org/software/tar/manual/html_node/Reproducibility.html
-
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- meta/classes-recipe/image_types.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index b230add3141..87d6effc6cf 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -145,7 +145,7 @@ IMAGE_CMD:vfat = "oe_mkvfatfs ${EXTRA_IMAGECMD}"
- 
- IMAGE_CMD_TAR ?= "tar"
- # ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
--IMAGE_CMD:tar = "${IMAGE_CMD_TAR} --sort=name --format=posix --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
-+IMAGE_CMD:tar = "${IMAGE_CMD_TAR} --sort=name --format=posix --pax-option=delete=atime,delete=ctime --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
- SPDX_IMAGE_PURPOSE:tar = "archive"
- 
- do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
-@@ -283,6 +283,7 @@ EXTRA_IMAGECMD:f2fs ?= ""
- # otherwise mkfs.vfat will automatically pick one.
- EXTRA_IMAGECMD:vfat ?= ""
- 
-+do_image_tar[depends] += "tar-replacement-native:do_populate_sysroot"
- do_image_cpio[depends] += "cpio-native:do_populate_sysroot"
- do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
- do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
-@@ -391,3 +392,5 @@ IMAGE_TYPES_MASKED ?= ""
- 
- # bmap requires python3 to be in the PATH
- EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('.bmap') else ''}"
-+# reproducible tar requires our tar, not the host's
-+EXTRANATIVEPATH += "${@'tar-native' if 'tar' in d.getVar('IMAGE_FSTYPES') else ''}"
--- 
-2.46.1
-
+Richard
 
