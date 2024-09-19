@@ -2,57 +2,59 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D45D0CF3951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4602CF3952
 	for <webhook@archiver.kernel.org>; Thu, 19 Sep 2024 14:37:43 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.21245.1726756656475997387
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.21251.1726756661807644897
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Sep 2024 07:37:36 -0700
+ Thu, 19 Sep 2024 07:37:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=FtNFqPjb;
- spf=pass (domain: linaro.org, ip: 209.85.167.51, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5356bb5522bso1149481e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 07:37:36 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=Cwg4jdcS;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52f01b8738dso846837e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 07:37:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726756655; x=1727361455; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1726756660; x=1727361460; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mJ/knW2N7PVRDDB5R+brL7z9Erq/BRnXkTj06+QJIXc=;
-        b=FtNFqPjbh0Y20ULPsKa6YdMAFwOOjL6LRrDohklUq2W+4YxJX5z9DkzR5MfZVnf3Gx
-         SFuz+yBWPf+DY8YwlvA+djdYKAltP9DwdAL3FBF+PZ4Dh0JqnPmBkm9g003HaM209kpQ
-         V74XO7sRB5kGo3rRHoqlDmMPRWwhiBSElusQ/Y2DUvm2txxtLAV+svNT+wQv9IF2TWTM
-         52FagYAfhplyOSH2BvSH3mEsoWpJi80T6md3jSda4bcR1XpAMU6s7Mb1JN35phcEptAB
-         T7AuIZK9Z/K0D61kXFWcUelcQYNVm1stcaCCz78M4Vp1BOMa54OWOxvlI2fb0ogR9LZ6
-         hWmA==
+        bh=TY1LcLRkDV0dwoZOYgyz7hs4xM3PQA3/2P0EdgxcE/o=;
+        b=Cwg4jdcSgpMJVoscBmEZF+2SjWtFjlAALdFCq7WFlUPauHnguPl2gSLpqCmR9tEATh
+         S9ZZJzjVrl+Hz96sF6OphNCYOTPaNPX6hh3l9opsovCg+i05KlDZI/V7nUUtA9BYqSyJ
+         iQQLsRAFJGVFHFL2BRmZMw6A4LhUmwEHQY87Kd16baPqdmKwWtg71AD9LOjd7/AbI9OX
+         u3J4TEs54SvcNUjPmXYvaNaP49zrhdZDdYQ2oBt1euNBbX8kaVVp/K3yhkwflbXk6AO5
+         6ONqD2CJVaWWoSzg4awluH9BruIqEGfDf8/h0XusCTMtRSsm6uso2Yzxt4/C/VZP2lOj
+         9H7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726756655; x=1727361455;
+        d=1e100.net; s=20230601; t=1726756660; x=1727361460;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mJ/knW2N7PVRDDB5R+brL7z9Erq/BRnXkTj06+QJIXc=;
-        b=PewB3Et1CrezhE7laXNee+hpnD/edEr+jaVgfzpCtuU6s6eUzEmOkPbLuYBdpeKaET
-         LDqxcQmQ9lYDnwIWNoDY4tK9YtKZSWjwdFf1fx55SXeLPF1GtDYqnna1pRQJUOGbj2i1
-         ffVcPWRh/HdJBMN00fYf+0MORWSiaiuno3yLEqKKcKnB0udGUo5dwnl4JRaPHjJpDMtt
-         RaB4zlddk0V4IIbkNW9WT4U+RdOv1woqVPUz0dJPt2htio7ouvvQv/y5dSi+5eYBlxOU
-         sJDLHn8PGuqC9sLEuIHIw6rVOg63+tmda+loJG7VXV8lWU81WGs4xSwO8JErQATOKX/u
-         OOEQ==
-X-Gm-Message-State: AOJu0YxnnMYP2+GOOm9Ag4QaoLrN8VX9U3k7zaNUOOPFs+Cm7i1QQXoK
-	1bPKh3LaEYwbztOWKkk/htKyVeW3INdcOdvcCvmcdix6NlOU3Bb7iWuBglylc7e5wrn7kz3NTaB
-	QYhU=
-X-Google-Smtp-Source: AGHT+IEUEXfMasVoJtwFkAblrY5nbyHUghLKstDSnpK+BnUKWZrWlTmZm/AYP9XofV0OMLFZSDQ1Ag==
-X-Received: by 2002:a05:6512:e9e:b0:52c:df6f:a66 with SMTP id 2adb3069b0e04-5367ff3291bmr12844950e87.58.1726756654509;
-        Thu, 19 Sep 2024 07:37:34 -0700 (PDT)
+        bh=TY1LcLRkDV0dwoZOYgyz7hs4xM3PQA3/2P0EdgxcE/o=;
+        b=AUfbbsaSxE/vCAZl22vywdmOXdfBYFOUxgrwMGypL4KpP6wc8WmRAKzLnSkEMt5PPZ
+         68sgvkAWE3CFNzC8pM5s6CaQU3pF88HP1MlrP+sXGHp6ameXYp/ifF075neGTQNRTJwv
+         atndV9hU/yXoNAkkC6u+ybsQ99KKfeaepvcNIAjDTz3NQ4WgoIePgAdl1+YRWL1z8v0T
+         ss9I0huAQi/A8Tr9HEf8+1oxRCCwka017TG0ud5xxYqKiDsQhVf0dH8qtvtp6YYKiPya
+         4maRa4UAwgs8TdI2uKRuU5QqZFQJxRqbzk1JKKLtttzVirxuK1hgJSelLvPUnxDwcboE
+         plGw==
+X-Gm-Message-State: AOJu0YymgJAToUVDGU8ogsS0l93JKEJOb30gckTnvqbWeoSPBdXkAvNv
+	fzQk2CU6Tbm3Qym+i3MiQM4AFMRUdf8YZmVLxaJDhhIi0qFEzVhJbCZHe6yJSFSH1LbHmo3k+S6
+	PM8E=
+X-Google-Smtp-Source: AGHT+IG8+bjF6KKDu7swaBYdEbFoYJVZuIag9+aXJamqFQMjcyBmbiqmUNWz/j40EdDU+XQskD503A==
+X-Received: by 2002:a05:6512:3e02:b0:536:569b:a59c with SMTP id 2adb3069b0e04-53678fb1ed6mr14622987e87.4.1726756659792;
+        Thu, 19 Sep 2024 07:37:39 -0700 (PDT)
 Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870a8721sm1889194e87.232.2024.09.19.07.37.32
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870a8721sm1889194e87.232.2024.09.19.07.37.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 07:37:33 -0700 (PDT)
+        Thu, 19 Sep 2024 07:37:37 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v3 03/12] systemd-boot-native: add runtime dependency to python3-pefile-native
-Date: Thu, 19 Sep 2024 17:36:57 +0300
-Message-ID: <20240919143706.6074-4-mikko.rapeli@linaro.org>
+Cc: Michelle Lin <michelle.linto91@gmail.com>,
+	Erik Schilling <erik.schilling@linaro.org>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v3 04/12] uki.bbclass: add class for building Unified Kernel Images (UKI)
+Date: Thu, 19 Sep 2024 17:36:58 +0300
+Message-ID: <20240919143706.6074-5-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240919143706.6074-1-mikko.rapeli@linaro.org>
 References: <20240919143706.6074-1-mikko.rapeli@linaro.org>
@@ -62,25 +64,242 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 19 Sep 2024 14:37:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204695
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204696
 
-It's needed to run the ukify script.
+From: Michelle Lin <michelle.linto91@gmail.com>
 
+This class calls systemd ukify tool, which will combine
+kernel/initrd/stub components to build the UKI. To sign the UKI
+(i.e. SecureBoot), the keys/cert files can be specified
+in a configuration file or UEFI binary signing can be done
+via separate steps, see qemuarm64-secureboot in meta-arm.
+UKIs are loaded by UEFI firmware on target which can improve
+security by loading only correctly signed kernel, initrd and kernel
+command line.
+
+Using systemd-measure to pre-calculate TPM PCR values and sign them is
+not supported since that requires a TPM device on the build host. Thus
+"ConditionSecurity=measured-uki" default from systemd 256 does not work
+but "ConditionSecurity=tpm2" in combination with secure boot will.
+These can be used to boot securely into systemd-boot, kernel, kernel
+command line and initrd which then securely mounts a read-only dm-verity
+/usr partition and creates a TPM encrypted read-write / rootfs.
+
+Tested via qemuarm64-secureboot in meta-arm with
+https://lists.yoctoproject.org/g/meta-arm/topic/patch_v3_02_13/108031399
+and a few more changes needed, will be posted separately.
+
+Signed-off-by: Michelle Lin <michelle.linto91@gmail.com>
+Acked-by: Erik Schilling <erik.schilling@linaro.org>
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/recipes-core/systemd/systemd-boot-native_256.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes-recipe/uki.bbclass | 197 ++++++++++++++++++++++++++++++++
+ 1 file changed, 197 insertions(+)
+ create mode 100644 meta/classes-recipe/uki.bbclass
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_256.5.bb b/meta/recipes-core/systemd/systemd-boot-native_256.5.bb
-index 73db59b14e..58db408dcf 100644
---- a/meta/recipes-core/systemd/systemd-boot-native_256.5.bb
-+++ b/meta/recipes-core/systemd/systemd-boot-native_256.5.bb
-@@ -13,3 +13,5 @@ addtask install after do_unpack
- PACKAGES = "${PN}"
- 
- FILES:${PN} = "${bindir}/ukify"
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+new file mode 100644
+index 0000000000..fac50ea8ca
+--- /dev/null
++++ b/meta/classes-recipe/uki.bbclass
+@@ -0,0 +1,197 @@
++# Unified kernel image (UKI) class
++#
++# This bbclass merges kernel, initrd etc as a UKI standard UEFI binary,
++# to be loaded with UEFI firmware and systemd-boot on target HW.
++# TPM PCR pre-calculation is not supported since systemd-measure tooling
++# is meant to run on target, not in cross compile environment.
++#
++# See:
++# https://www.freedesktop.org/software/systemd/man/latest/ukify.html
++# https://uapi-group.org/specifications/specs/unified_kernel_image/
++#
++# The UKI contains:
++#
++#   - UEFI stub
++#     The linux kernel can generate a UEFI stub, however the one from systemd-boot can fetch
++#     the command line from a separate section of the EFI application, avoiding the need to
++#     rebuild the kernel.
++#   - kernel
++#   - initramfs
++#   - kernel command line
++#   - uname -r kernel version
++#   - /etc/os-release to create a boot menu with version details
++#   - optionally secure boot signature(s)
++#   - other metadata (e.g. TPM PCR measurements)
++#
++# Usage instructions:
++#
++#   - requires UEFI compatible firmware on target, e.g. qemuarm64-secureboot u-boot based
++#     from meta-arm or qemux86 ovmf/edk2 based firmware for x86_64
++#
++#   - Distro/build config:
++#
++#     INIT_MANAGER = "systemd"
++#     MACHINE_FEATURES:append = " efi"
++#     DISTRO_FEATURES:append = " systemd"
++#     DISTRO_FEATURES_NATIVE:append = " systemd"
++#     EFI_PROVIDER = "systemd-boot"
++#     INITRAMFS_IMAGE = "core-image-minimal-initramfs"
++#
++#   - image recipe:
++#
++#     inherit uki
++#
++#   - qemuboot/runqemu changes in image recipe or build config:
++#
++#     # Kernel command line must be inside the signed uki
++#     QB_KERNEL_ROOT = ""
++#     # kernel is in the uki image, not loaded separately
++#     QB_DEFAULT_KERNEL = "none"
++#
++#   - for UEFI secure boot, systemd-boot and uki (including kernel) can
++#     be signed but require sbsign-tool-native (recipe available from meta-secure-core,
++#     see also qemuarm64-secureboot from meta-arm). Set variable
++#     UKI_SB_KEY to path of private key and UKI_SB_CERT for certificate.
++#     Note that systemd-boot also need to be signed with the same key.
++#
++#   - at runtime, UEFI firmware will load and boot systemd-boot which
++#     creates a menu from all detected uki binaries. No need to manually
++#     setup boot menu entries.
++#
++#   - see efi-uki-bootdisk.wks.in how to create ESP partition which hosts systemd-boot,
++#     config file(s) for systemd-boot and the UKI binaries.
++#
 +
-+RDEPENDS:${PN} += "python3-pefile-native"
++DEPENDS += "\
++    os-release \
++    systemd-boot \
++    systemd-boot-native \
++    virtual/${TARGET_PREFIX}binutils \
++    virtual/kernel \
++"
++
++inherit image-artifact-names
++require ../conf/image-uefi.conf
++
++INITRAMFS_IMAGE ?= "core-image-minimal-initramfs"
++
++INITRD_ARCHIVE ?= "${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}"
++
++do_image_complete[depends] += "${INITRAMFS_IMAGE}:do_image_complete"
++
++UKIFY_CMD ?= "ukify build"
++UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
++UKI_FILENAME ?= "uki.efi"
++UKI_KERNEL_FILENAME ?= "${KERNEL_IMAGETYPE}"
++UKI_CMDLINE ?= "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
++# secure boot keys and cert, needs sbsign-tools-native (meta-secure-core)
++#UKI_SB_KEY ?= ""
++#UKI_SB_CERT ?= ""
++
++IMAGE_EFI_BOOT_FILES ?= "${UKI_FILENAME};EFI/Linux/${UKI_FILENAME}"
++
++do_uki[depends] += " \
++                        systemd-boot:do_deploy \
++                        virtual/kernel:do_deploy \
++                     "
++do_uki[depends] += "${@ '${INITRAMFS_IMAGE}:do_image_complete' if d.getVar('INITRAMFS_IMAGE') else ''}"
++
++# ensure that the build directory is empty everytime we generate a newly-created uki
++do_uki[cleandirs] = "${B}"
++# influence the build directory at the start of the builds
++do_uki[dirs] = "${B}"
++
++# we want to allow specifying files in SRC_URI, such as for signing the UKI
++python () {
++    d.delVarFlag("do_fetch","noexec")
++    d.delVarFlag("do_unpack","noexec")
++}
++
++# main task
++python do_uki() {
++    import glob
++    import bb.process
++
++    # base ukify command, can be extended if needed
++    ukify_cmd = d.getVar('UKIFY_CMD')
++
++    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
++
++    # architecture
++    target_arch = d.getVar('EFI_ARCH')
++    if target_arch:
++        ukify_cmd += " --efi-arch %s" % (target_arch)
++
++    # systemd stubs
++    stub = "%s/linux%s.efi.stub" % (d.getVar('DEPLOY_DIR_IMAGE'), target_arch)
++    if not os.path.exists(stub):
++        bb.fatal(f"ERROR: cannot find {stub}.")
++    ukify_cmd += " --stub %s" % (stub)
++
++    # initrd
++    initramfs_image = "%s" % (d.getVar('INITRD_ARCHIVE'))
++    ukify_cmd += " --initrd=%s" % (os.path.join(deploy_dir_image, initramfs_image))
++
++    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
++
++    # kernel
++    kernel_filename = d.getVar('UKI_KERNEL_FILENAME') or None
++    if kernel_filename:
++        kernel = "%s/%s" % (deploy_dir_image, kernel_filename)
++        if not os.path.exists(kernel):
++            bb.fatal(f"ERROR: cannot find %s" % (kernel))
++        ukify_cmd += " --linux=%s" % (kernel)
++        # not always needed, ukify can detect version from kernel binary
++        kernel_version = d.getVar('KERNEL_VERSION')
++        if kernel_version:
++            ukify_cmd += "--uname %s" % (kernel_version)
++    else:
++        bb.fatal("ERROR - UKI_KERNEL_FILENAME not set")
++
++    # command line
++    cmdline = d.getVar('UKI_CMDLINE')
++    if cmdline:
++        ukify_cmd += " --cmdline='%s'" % (cmdline)
++
++    # dtb
++    if d.getVar('KERNEL_DEVICETREE'):
++        for dtb in d.getVar('KERNEL_DEVICETREE').split():
++            dtb_path = "%s/%s" % (deploy_dir_image, dtb)
++            if not os.path.exists(dtb_path):
++                bb.fatal(f"ERROR: cannot find {dtb_path}.")
++            ukify_cmd += " --devicetree %s" % (dtb_path)
++
++    # custom config for ukify
++    if os.path.exists(d.getVar('UKI_CONFIG_FILE')):
++        ukify_cmd += " --config=%s" % (d.getVar('UKI_CONFIG_FILE'))
++
++    # systemd tools
++    ukify_cmd += " --tools=%s%s/lib/systemd/tools" % \
++        (d.getVar("RECIPE_SYSROOT_NATIVE"), d.getVar("prefix"))
++
++    # version
++    ukify_cmd += " --os-release=@%s%s/lib/os-release" % \
++        (d.getVar("RECIPE_SYSROOT"), d.getVar("prefix"))
++
++    # TODO: tpm2 measure for secure boot, depends on systemd-native and TPM tooling
++    # needed in systemd > 254 to fulfill ConditionSecurity=measured-uki
++    # Requires TPM device on build host, thus not supported at build time.
++    #ukify_cmd += " --measure"
++
++    # securebooot signing, also for kernel
++    key = d.getVar('UKI_SB_KEY')
++    if key:
++        ukify_cmd += " --sign-kernel --secureboot-private-key='%s'" % (key)
++    cert = d.getVar('UKI_SB_CERT')
++    if cert:
++        ukify_cmd += " --secureboot-certificate='%s'" % (cert)
++
++    # custom output UKI filename
++    output = " --output=%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('UKI_FILENAME'))
++    ukify_cmd += " %s" % (output)
++
++    # Run the ukify command
++    bb.warn("uki: running command: %s" % (ukify_cmd))
++    bb.process.run(ukify_cmd, shell=True)
++}
++addtask uki after do_rootfs before do_deploy do_image_complete do_image_wic
 -- 
 2.34.1
 
