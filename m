@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFFCAC7884A
-	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 13:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 098E7C78849
+	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 13:39:40 +0000 (UTC)
 Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.18280.1726839577460006727
+ by mx.groups.io with SMTP id smtpd.web11.18275.1726839571515402228
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Sep 2024 06:39:37 -0700
+ Fri, 20 Sep 2024 06:39:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=P02OPNhI;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=icmtnKd+;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71971d20a95so1496057b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 06:39:37 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-718816be6cbso1585945b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 06:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726839577; x=1727444377; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726839571; x=1727444371; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sFNrE0Hp08ElZR2987IkLV12YVZ/iCMoGcgURpo+qGE=;
-        b=P02OPNhIKgrB86OPCkWpzzpIx2WWd3PKgbBoCx8DifSCMUeqgBOmu0xMvthIXfrJSg
-         HS3GsM4y3gdJtBYnmDEOxqiW7V2FGpbgvoRl0OfbF/TgZVIuxPy/+/IZF1mHIzCX04Ta
-         hMbs57167VkpfWv+qUlK1k40QIHHWzFZIaAuYgCjB7MoQI1lWCbiqznBq0IWiCZ9S+6n
-         TZj6MLOiK2Pw9koXcBDaM3pLNlysD9kxvAwpnW2ReOILN5t0tvMq2k55GEWFO45AcxpT
-         3h5PtFEXdzuAPDftbNdu7VGEg4NLyShnSwv6VUAiJY1/nBG/WXdDhUhAnSeGNvPGfzC4
-         omfg==
+        bh=2s+jlZy9q610+trA3pSYKwI8NIFnfoHF5Rezwb+tW9Y=;
+        b=icmtnKd+OH9GdkAIH5etZ82gBKgI3ysUkkiCVVsAIz4J/6WK8V38sd3Fn5YXTc0O/b
+         apEIjYHs0ep0bXMyrbRwmgDtFt/PigffsyGvOmC7AuAQxfpRuP64i2PzfcfFG8P3/6JP
+         VcG5qPUtCC6EV+KBtAY7H69khB79PYMFJt5ZRcMLE3YAj+r4DISuS0cKo2oaN1iGEUiw
+         sJX0m3yeoK2+Ty+XjAQJL4i0BlM5iNjbby44BpI3J760P/JdQeBAMAxodP/BlKEebQKA
+         CoH+vKobh4x5yzccUCZThUHzPyNBCy8Z3y7jpz3+n2HRwFvRDoVZWmYt18D4SFImGAq6
+         361Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726839577; x=1727444377;
+        d=1e100.net; s=20230601; t=1726839571; x=1727444371;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sFNrE0Hp08ElZR2987IkLV12YVZ/iCMoGcgURpo+qGE=;
-        b=KWQKY0vWF8cTlw7ZKX04vIjmyyn8wYdTUlAT9WUmhX+xQLVK36W0YT62eq6Z4nB3P3
-         Q0Gy5UVOk5POvtODMrdKTpQlU80VE48v78WgCxQdECn1BJSThuoFkGzW8QE8ccy1emkj
-         JThT423eNnNgiWL5vJqkh4gkXYc3EnPe7AKoDY+z73LLIZLJgv3voJhCV1tw9tCcOTsH
-         Icw1aoRQCrLAEaORu/YSwkd0VSFakl/arERZXcWCBnNncXyu7AEkIkC5Z6HjQpjskmMy
-         HyFr9uw5FUlWR/ASpbsEpZJY8vD1Q6nD7Reda53Y0eRwHCMcHQ2g7XTK8GHiw16nZ2nO
-         pyHQ==
-X-Gm-Message-State: AOJu0Ywfyh2xPQ1vFeCppSnYmn+Cw9A7Tmo4Ge3/zn02Ta5MCC72r1yM
-	ux8kow8IYsFhnuZpOltbgCQQYU5DzovbbzyrFmbX4LSPn5MEdk0ahCHhe/RenDYQtycwZ5uZ3c+
-	o
-X-Google-Smtp-Source: AGHT+IH2WPMggJgu0mLw/1AkYHD1MS12kEt0DRJncuyd3UNMeqnrpD54ZAVhJR7/x/dlfeywmBCV2Q==
-X-Received: by 2002:a05:6a00:c82:b0:714:173f:7e6b with SMTP id d2e1a72fcca58-7199c9395d7mr4083660b3a.2.1726839576580;
-        Fri, 20 Sep 2024 06:39:36 -0700 (PDT)
+        bh=2s+jlZy9q610+trA3pSYKwI8NIFnfoHF5Rezwb+tW9Y=;
+        b=JBKkAkUIVrXn+1C+kf4uTD//vZKlHngWPdeOEs9Txy/U8O24UP6dLewGPptEQfJClv
+         1MRvMDcX+G4IzhrtxpMmhrKgLWNi32p1tvUhkmr5Ddp/+KQ9juUsleBmaAwbBlF/FBaK
+         JMAshCO3NwHEGsBTlTL9dlOOXyklJVDmfR5dWiq2nG0TBtXdABxq2vqOAzcRrvygppEO
+         gf85+nvMVzDh8Nu9Tdx8dgwyHr1Q+7wGtVAXxNvu7N8uaXx2HrCjkRHCZNRwu2ExAuTD
+         irZXTx3PVovIUIwLMQo62Vj5YGTolaQwCIyYCAGhsDVykw18s9alAv26Ka7fhdmQNRL6
+         2skg==
+X-Gm-Message-State: AOJu0YwsV90jf4PbT/J/XyxXdyAS0QXT0CH8wKhYk1dqsicHQDu1aLos
+	6t6J+exqOQ6tdNCFtAzV5CiT26sedb+UwpXzIu8EV+Y0YdIOf9mPNBfC5CtwW4BEh3zMduUHWKA
+	R
+X-Google-Smtp-Source: AGHT+IGANA91+AG7MzmzUqLjqfTqeBEgBZL98B3jvOqY2Rxh5bWDRiorWwYW9nkse58zQKoC+9kuJg==
+X-Received: by 2002:a05:6a00:178d:b0:717:93d7:166f with SMTP id d2e1a72fcca58-7199ca4a382mr2895683b3a.20.1726839569218;
+        Fri, 20 Sep 2024 06:39:29 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944b97e45sm9811846b3a.164.2024.09.20.06.39.36
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944b97e45sm9811846b3a.164.2024.09.20.06.39.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 06:39:36 -0700 (PDT)
+        Fri, 20 Sep 2024 06:39:28 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/16] buildhistory: Simplify intercept call sites and drop SSTATEPOSTINSTFUNC usage
-Date: Fri, 20 Sep 2024 06:39:07 -0700
-Message-Id: <466c505b779dec2ba790f4e6cde7fbb35037f4ef.1726839438.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 04/16] python3: upgrade 3.12.4 -> 3.12.5
+Date: Fri, 20 Sep 2024 06:39:02 -0700
+Message-Id: <ae0e8f6932359959535e901e64bdb47189de14cd.1726839438.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1726839438.git.steve@sakoman.com>
 References: <cover.1726839438.git.steve@sakoman.com>
@@ -61,115 +61,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 13:39:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204748
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 13:39:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204744
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Trevor Gamblin <tgamblin@baylibre.com>
 
-We planned to drop SSTATEPOSTINSTFUNC some time ago with the introduction of
-postfuncs. Finally get around to doing that which should make the buildhistory
-code a little more readable.
+Changelog: https://docs.python.org/release/3.12.5/whatsnew/changelog.html
 
-Unfortunately ordering the buildhistory function calls after the sstate ones is
-difficult without coding that into the sstate class. This patch does that to
-ensure everything functions as expected until we can find a better way. This is
-still likely preferable than the generic sstate postfuncs support since the function
-flow is much more readable.
+(From OE-Core rev: d9e2ebd6b24b802d1d4cd38b3b910e068c308809)
 
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c9e2a8fa2f0305ef1247ec405555612326f798f8)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/sstate.bbclass |  5 +++-
- meta/classes/buildhistory.bbclass  | 39 +++++++++++++++---------------
- 2 files changed, 23 insertions(+), 21 deletions(-)
+ .../python/{python3_3.12.4.bb => python3_3.12.5.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3_3.12.4.bb => python3_3.12.5.bb} (99%)
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 76a7b59636..93df5fa9e6 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -161,7 +161,10 @@ python () {
-     d.setVar('SSTATETASKS', " ".join(unique_tasks))
-     for task in unique_tasks:
-         d.prependVarFlag(task, 'prefuncs', "sstate_task_prefunc ")
--        d.appendVarFlag(task, 'postfuncs', " sstate_task_postfunc")
-+        # Generally sstate should be last, execpt for buildhistory functions
-+        postfuncs = (d.getVarFlag(task, 'postfuncs') or "").split()
-+        newpostfuncs = [p for p in postfuncs if "buildhistory" not in p] + ["sstate_task_postfunc"] + [p for p in postfuncs if "buildhistory" in p]
-+        d.setVarFlag(task, 'postfuncs', " ".join(newpostfuncs))
-         d.setVarFlag(task, 'network', '1')
-         d.setVarFlag(task + "_setscene", 'network', '1')
- }
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 08970aafea..0b1bd518fe 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -47,11 +47,18 @@ BUILDHISTORY_PUSH_REPO ?= ""
- BUILDHISTORY_TAG ?= "build"
- BUILDHISTORY_PATH_PREFIX_STRIP ?= ""
+diff --git a/meta/recipes-devtools/python/python3_3.12.4.bb b/meta/recipes-devtools/python/python3_3.12.5.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.12.4.bb
+rename to meta/recipes-devtools/python/python3_3.12.5.bb
+index 3ac83166ac..5c3b7a92f8 100644
+--- a/meta/recipes-devtools/python/python3_3.12.4.bb
++++ b/meta/recipes-devtools/python/python3_3.12.5.bb
+@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
  
--SSTATEPOSTINSTFUNCS:append = " buildhistory_emit_pkghistory"
--# We want to avoid influencing the signatures of sstate tasks - first the function itself:
--sstate_install[vardepsexclude] += "buildhistory_emit_pkghistory"
--# then the value added to SSTATEPOSTINSTFUNCS:
--SSTATEPOSTINSTFUNCS[vardepvalueexclude] .= "| buildhistory_emit_pkghistory"
-+# We want to avoid influencing the signatures of the task so use vardepsexclude
-+do_populate_sysroot[postfuncs] += "buildhistory_emit_sysroot"
-+do_populate_sysroot_setscene[postfuncs] += "buildhistory_emit_sysroot"
-+do_populate_sysroot[vardepsexclude] += "buildhistory_emit_sysroot"
-+
-+do_package[postfuncs] += "buildhistory_list_pkg_files"
-+do_package_setscene[postfuncs] += "buildhistory_list_pkg_files"
-+do_package[vardepsexclude] += "buildhistory_list_pkg_files"
-+
-+do_packagedata[postfuncs] += "buildhistory_emit_pkghistory"
-+do_packagedata_setscene[postfuncs] += "buildhistory_emit_pkghistory"
-+do_packagedata[vardepsexclude] += "buildhistory_emit_pkghistory"
+-SRC_URI[sha256sum] = "f6d419a6d8743ab26700801b4908d26d97e8b986e14f95de31b32de2b0e79554"
++SRC_URI[sha256sum] = "fa8a2e12c5e620b09f53e65bcd87550d2e5a1e2e04bf8ba991dcc55113876397"
  
- # Similarly for our function that gets the output signatures
- SSTATEPOSTUNPACKFUNCS:append = " buildhistory_emit_outputsigs"
-@@ -91,27 +98,15 @@ buildhistory_emit_sysroot() {
- # Write out metadata about this package for comparison when writing future packages
- #
- python buildhistory_emit_pkghistory() {
--    if d.getVar('BB_CURRENTTASK') in ['populate_sysroot', 'populate_sysroot_setscene']:
--        bb.build.exec_func("buildhistory_emit_sysroot", d)
--        return 0
--
--    if not "package" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
--        return 0
--
--    if d.getVar('BB_CURRENTTASK') in ['package', 'package_setscene']:
--        # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
--        bb.build.exec_func("buildhistory_list_pkg_files", d)
--        return 0
--
--    if not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
--        return 0
--
-     import re
-     import json
-     import shlex
-     import errno
-     import shutil
- 
-+    if not "package" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
-+        return 0
-+
-     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
-     oldpkghistdir = d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
- 
-@@ -621,6 +616,10 @@ buildhistory_list_files_no_owners() {
- }
- 
- buildhistory_list_pkg_files() {
-+	if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'package', '1', '0', d)}" = "0" ] ; then
-+		return
-+	fi
-+
- 	# Create individual files-in-package for each recipe's package
- 	pkgdirlist=$(find ${PKGDEST}/* -maxdepth 0 -type d)
- 	for pkgdir in $pkgdirlist; do
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.34.1
 
