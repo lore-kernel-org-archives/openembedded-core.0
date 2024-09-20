@@ -1,75 +1,99 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE659C678DC
-	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 09:49:48 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.14440.1726825783817196738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6322CE8D45
+	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 09:57:38 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web11.14434.1726826252795120695
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Sep 2024 02:49:44 -0700
+ Fri, 20 Sep 2024 02:57:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=LDqpPope;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9B410C0005;
-	Fri, 20 Sep 2024 09:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1726825781;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=sgWJkULpBbNUaII5/X9dzf0KIpinO5hJSAkYQEtgE+8=;
-	b=LDqpPopezlH4q5xVqeI0PvJZIj4z4f9zT/ruMx2H1WLZDcYNAWn4h+ijJbYb0KmpSSpfzK
-	Ad3OGo0ZScMyqBidXbYqCpxdAdsQFFt79XZMacSqf4984pNzllAf5RnYbNe91dmolKRiHC
-	p2tVFGt7k0Uum1oNKBAfBWQD5ccCjrtQm0ULMglyaGYoBkTTaCmi1M3a8ZX+q9o7/LJo/6
-	CPZoSxpnGp4YMX58h3jLd2jlSycwa1TmqfDp5hAzqFHKQIyleQjWdUL6T5YLkNo+06mXo3
-	eDFxaAwl0xfPUvH9TW2yPDB7MddGXTzjHYcl684Y9Ywk/MvP+JQ9oaidAGhqDA==
-From: mathieu.dubois-briand@bootlin.com
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout06.t-online.de (Postfix) with SMTP id 9FD11103EE
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 11:57:30 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.38.23]) by fwd79.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1sraOI-0C1kdY0; Fri, 20 Sep 2024 11:57:30 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	=?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH] oeqa/postactions: Fix archive retrieval from target
-Date: Fri, 20 Sep 2024 11:48:44 +0200
-Message-Id: <20240920094844.3987858-1-mathieu.dubois-briand@bootlin.com>
-X-Mailer: git-send-email 2.39.2
+Subject: [oe-core][PATCH 4/4] gsettings-desktop-schemas: update 46.1 -> 47.1
+Date: Fri, 20 Sep 2024 11:58:16 +0200
+Message-ID: <20240920095816.261281-4-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240920095816.261281-1-f_l_k@t-online.de>
+References: <20240920095816.261281-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+X-TOI-EXPURGATEID: 150726::1726826250-AEFFB5A0-F4E34F64/0/0 CLEAN NORMAL
+X-TOI-MSGID: 603912ee-4fda-46ec-87af-566f1d9e0ffe
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 09:49:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204729
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 09:57:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204730
 
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Major changes in 47.1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- meson: Fix project version
 
-A previous patch broke archive retrieval because of an undeclared
-variable. Declare the archive_name variable as expected.
+Major changes in 47.0
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- Translation updates
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Reported-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: Alexis Lothoré <alexis.lothore@bootlin.com>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Major changes in 47.rc
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- Translation updates
+
+Major changes in 47.beta
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- Add break-reminder schema
+- Provide a new pressure range for styli
+- Add SwitchMonitor and Keybinding to the tablet stylus actions
+- Switch back to Cantarell font
+- Translation updates
+
+Major changes in 47.alpha
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- Add key to tweak font rendering
+- Include Settings in sort order
+- Add key to pick accent color
+- Translation updates
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/lib/oeqa/utils/postactions.py | 1 +
- 1 file changed, 1 insertion(+)
+ ...sktop-schemas_46.1.bb =3D> gsettings-desktop-schemas_47.1.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-s=
+chemas_46.1.bb =3D> gsettings-desktop-schemas_47.1.bb} (84%)
 
-diff --git a/meta/lib/oeqa/utils/postactions.py b/meta/lib/oeqa/utils/postactions.py
-index d5080523aa83..8f787838b9d9 100644
---- a/meta/lib/oeqa/utils/postactions.py
-+++ b/meta/lib/oeqa/utils/postactions.py
-@@ -68,6 +68,7 @@ def list_and_fetch_failed_tests_artifacts(d, tc, artifacts_list, outputdir):
-         (status, output) = tc.target.run(cmd, raw = True)
-         if status != 0 or not output:
-             raise Exception("Error while fetching compressed artifacts")
-+        archive_name = os.path.join(outputdir, "tests_artifacts.tar.gz")
-         with open(archive_name, "wb") as f:
-             f.write(output)
-     except Exception as e:
--- 
-2.39.2
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-deskt=
+op-schemas_46.1.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettin=
+gs-desktop-schemas_47.1.bb
+similarity index 84%
+rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-deskto=
+p-schemas_46.1.bb
+rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-=
+schemas_47.1.bb
+index 19a3948f59..3368443c25 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
+mas_46.1.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
+mas_47.1.bb
+@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd25=
+5951079008b364516c"
+=20
+ DEPENDS =3D "glib-2.0"
+=20
+-
+ inherit gnomebase gsettings gobject-introspection gettext
+=20
+-SRC_URI[archive.sha256sum] =3D "9b88101437a6958ebe6bbd812e49bbf1d09cc667=
+011e415559d847e870468a61"
++SRC_URI[archive.sha256sum] =3D "a60204d9c9c0a1b264d6d0d134a38340ba5fc607=
+6a34b84da945d8bfcc7a2815"
+--=20
+2.46.0
 
 
