@@ -1,266 +1,130 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D279ACE8D75
-	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 10:00:48 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web11.14507.1726826439413920753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22878C78822
+	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 10:37:29 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.14949.1726828644703862718
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Sep 2024 03:00:39 -0700
+ Fri, 20 Sep 2024 03:37:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
-Received: from fwd87.aul.t-online.de (fwd87.aul.t-online.de [10.223.144.113])
-	by mailout02.t-online.de (Postfix) with SMTP id 6343729B63
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 12:00:28 +0200 (CEST)
-Received: from [192.168.178.67] ([84.163.38.23]) by fwd87.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1sraQo-0vfJtQ0; Fri, 20 Sep 2024 12:00:06 +0200
-Date: Fri, 20 Sep 2024 12:01:03 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCH 1/4] glib-2.0: update 2.80.4 -> 2.82.1
-To: openembedded-core@lists.openembedded.org
-Message-Id: <RTV3KS.MYUJCM8NYN353@t-online.de>
-In-Reply-To: <17F6EB57A4BE8FF3.4163@lists.openembedded.org>
-References: <17F6EB57A4BE8FF3.4163@lists.openembedded.org>
-X-Mailer: geary/46.0
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1srb0s-0004n6-FP; Fri, 20 Sep 2024 12:37:22 +0200
+Message-ID: <ee536d88a5b6468b20e37f3daabe4aa63047d1ad.camel@pengutronix.de>
+Subject: Re: [PATCH v7 0/7] Add barebox bootloader support (and testing)
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 20 Sep 2024 12:37:21 +0200
+In-Reply-To: <b77f2c6737c330ef9ecce325d50a4aaa25b3e536.camel@linuxfoundation.org>
+References: <20240919120640.19714-1-ejo@pengutronix.de>
+	 <b77f2c6737c330ef9ecce325d50a4aaa25b3e536.camel@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-4hQQ1u56M9QqsK41efc0"
-X-TOI-EXPURGATEID: 150726::1726826406-12FFB445-18020157/0/0 CLEAN NORMAL
-X-TOI-MSGID: b0d77285-29a9-4cb7-8944-d7b569da7cb2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 10:00:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204734
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 10:37:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204735
 
---=-4hQQ1u56M9QqsK41efc0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Am Donnerstag, dem 19.09.2024 um 21:56 +0100 schrieb Richard Purdie:
+> On Thu, 2024-09-19 at 14:06 +0200, Enrico J=C3=B6rns wrote:
+> > This adds support for the barebox bootloader (and tools) to oe-core.
+> >=20
+> > In order to have proper testing, this extends oe-selftest to allow
+> > basic testing of bootloaders. While at it, cover both u-boot and
+> > barebox.
+> >=20
+> > v7:
+> > * add missing HOMEPAGE to barebox recipe
+> > * ignore barebox for maintainers check since the recipe is skipped
+> > =C2=A0 during parsing (because of PREFERRED_PROVIDER mechanism).
+> >=20
+> > Enrico Jorns (5):
+> > =C2=A0 barebox: set default BAREBOX_CONFIG for qemu machines
+> > =C2=A0 oeqa/utils/qemurunner: support ignoring vt100 escape sequences
+> > =C2=A0 oeqa: support passing custom boot patterns to runqemu
+> > =C2=A0 oeqa/selftest/cases: add basic u-boot test
+> > =C2=A0 oeqa/selftest/cases: add basic barebox tests
+> >=20
+> > Marco Felsch (2):
+> > =C2=A0 barebox: add initial support
+> > =C2=A0 barebox-tools: add initial barebox tools support
+>=20
+> This looked better in testing, thanks. There was:
+>=20
+> https://valkyrie.yoctoproject.org/#/builders/23/builds/168/steps/14/logs/=
+stdio
+>=20
+> which is from oe-selftest on an ARM server though :/
 
-The NEWS file for glib is not yet up to date. Therefore, no changes 
-have been documented.
+Thank you for the test log!
 
-On Fri, Sep 20 2024 at 11:58:13 AM +02:00:00, Markus Volk 
-<f_l_k@t-online.de> wrote:
-> - adjust 0010-Do-not-hardcode-python-path-into-various-tools.patch
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> ---
->  ...010-Do-not-hardcode-python-path-into-various-tools.patch | 6 
-> +++---
->  ...lib-2.0-initial_2.80.4.bb => glib-2.0-initial_2.82.1.bb} | 0
->  .../glib-2.0/{glib-2.0_2.80.4.bb => glib-2.0_2.82.1.bb}     | 0
->  meta/recipes-core/glib-2.0/glib.inc                         | 4 ++--
->  4 files changed, 5 insertions(+), 5 deletions(-)
->  rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.80.4.bb => 
-> glib-2.0-initial_2.82.1.bb} (100%)
->  rename meta/recipes-core/glib-2.0/{glib-2.0_2.80.4.bb => 
-> glib-2.0_2.82.1.bb} (100%)
-> 
-> diff --git 
-> a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch 
-> b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-> index 30a6bd4c3a..4609f1fb2b 100644
-> --- 
-> a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-> +++ 
-> b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-> @@ -16,7 +16,7 @@ index 67d3675..4e92a7a 100755
->  --- a/gio/gdbus-2.0/codegen/gdbus-codegen.in
->  +++ b/gio/gdbus-2.0/codegen/gdbus-codegen.in
->  @@ -1,4 +1,4 @@
-> --#!/usr/bin/env @PYTHON@
-> +-#!@PYTHON@
->  +#!/usr/bin/env python3
-> 
->   # GDBus - GLib D-Bus Library
-> @@ -26,7 +26,7 @@ index aa5af43..56e8e2e 100755
->  --- a/gobject/glib-genmarshal.in
->  +++ b/gobject/glib-genmarshal.in
->  @@ -1,4 +1,4 @@
-> --#!/usr/bin/env @PYTHON@
-> +-#!@PYTHON@
->  +#!/usr/bin/env python3
-> 
->   # pylint: disable=too-many-lines, missing-docstring, invalid-name
-> @@ -36,7 +36,7 @@ index e10b910..4b619f8 100755
->  --- a/gobject/glib-mkenums.in
->  +++ b/gobject/glib-mkenums.in
->  @@ -1,4 +1,4 @@
-> --#!/usr/bin/env @PYTHON@
-> +-#!@PYTHON@
->  +#!/usr/bin/env python3
-> 
->   # If the code below looks horrible and unpythonic, do not panic.
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.4.bb 
-> b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.1.bb
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.4.bb
-> rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.1.bb
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.80.4.bb 
-> b/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb
-> similarity index 100%
-> rename from meta/recipes-core/glib-2.0/glib-2.0_2.80.4.bb
-> rename to meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc 
-> b/meta/recipes-core/glib-2.0/glib.inc
-> index 9e742c4d3b..0855e6eb00 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -221,17 +221,17 @@ SRC_URI = 
-> "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
->             file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch 
-> <file://0001-fix-datadirname-on-uclibc-linux.patch/> \
->             
-> file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch 
-> <file://0001-remove-the-warning-about-deprecated-paths-in-schemas.patch/> 
-> \
->             
-> file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch 
-> <file://0001-install-gio-querymodules-as-libexec_program.patch/> \
-> -           
-> file://0010-Do-not-hardcode-python-path-into-various-tools.patch 
-> <file://0010-do-not-hardcode-python-path-into-various-tools.patch/> \
->             
-> file://0001-Do-not-write-bindir-into-pkg-config-files.patch 
-> <file://0001-do-not-write-bindir-into-pkg-config-files.patch/> \
->             file://0001-meson-Run-atomics-test-on-clang-as-well.patch 
-> <file://0001-meson-run-atomics-test-on-clang-as-well.patch/> \
->             
-> file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch 
-> <file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch/> 
-> \
-> +           
-> file://0010-Do-not-hardcode-python-path-into-various-tools.patch 
-> <file://0010-do-not-hardcode-python-path-into-various-tools.patch/> \
->             file://skip-timeout.patch <file://skip-timeout.patch/> \
->             "
->  SRC_URI:append:class-native = " file://relocate-modules.patch 
-> <file://relocate-modules.patch/> \
->                                  
-> file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch 
-> <file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch/> 
-> \
->                                "
-> 
-> -SRC_URI[sha256sum] = 
-> "24e029c5dfc9b44e4573697adf33078a9827c48938555004b3b9096fa4ea034f"
-> +SRC_URI[sha256sum] = 
-> "478634440bf52ee4ec4428d558787398c0be6b043c521beb308334b3db4489a6"
-> 
->  # Find any meson cross files in FILESPATH that are relevant for the 
-> current
->  # build (using siteinfo) and add them to EXTRA_OEMESON.
-> --
-> 2.46.0
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#204733): 
-> <https://lists.openembedded.org/g/openembedded-core/message/204733>
-> Mute This Topic: <https://lists.openembedded.org/mt/108556023/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org 
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe: 
-> <https://lists.openembedded.org/g/openembedded-core/unsub> 
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+I'll try to figure out why it works in my test setup but doesn't in the aut=
+obuilder..
+Not sure if I'll have the chance to reproduce it on an ARM host.
+
+Barebox doesn't seem to boot at all (or output is missing) and U-Boot got s=
+tuck.
 
 
---=-4hQQ1u56M9QqsK41efc0
-Content-Type: text/html; charset=us-ascii
+U-Boot log in the failed test says
 
-<div id="geary-body" dir="auto"><div>The NEWS file for glib is not yet up to date. Therefore, no changes have been documented.</div></div><div id="geary-quote" dir="auto"><br>On Fri, Sep 20 2024 at 11:58:13 AM +02:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">- adjust 0010-Do-not-hardcode-python-path-into-various-tools.patch
+> U-Boot 2024.07 (Jul 01 2024 - 18:07:18 +0000)
+> DRAM:  256 MiB
+> Core:  51 devices, 14 uclasses, devicetree: board
+> Flash: 64 MiB
+> Loading Environment from Flash... *** Warning - bad CRC, using default en=
+vironment
+> In:    serial,usbkbd
+> Out:   serial,vidconsole
+> Err:   serial,vidconsole
+> Bus xhci_pci: Register 8001040 NbrPorts 8
+> Starting the controller
 
-Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
----
- ...010-Do-not-hardcode-python-path-into-various-tools.patch | 6 +++---
- ...lib-2.0-initial_2.80.4.bb =&gt; glib-2.0-initial_2.82.1.bb} | 0
- .../glib-2.0/{glib-2.0_2.80.4.bb =&gt; glib-2.0_2.82.1.bb}     | 0
- meta/recipes-core/glib-2.0/glib.inc                         | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.80.4.bb =&gt; glib-2.0-initial_2.82.1.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.80.4.bb =&gt; glib-2.0_2.82.1.bb} (100%)
+While my successful run goes further:
 
-diff --git a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-index 30a6bd4c3a..4609f1fb2b 100644
---- a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-+++ b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-@@ -16,7 +16,7 @@ index 67d3675..4e92a7a 100755
- --- a/gio/gdbus-2.0/codegen/gdbus-codegen.in
- +++ b/gio/gdbus-2.0/codegen/gdbus-codegen.in
- @@ -1,4 +1,4 @@
---#!/usr/bin/env @PYTHON@
-+-#!@PYTHON@
- +#!/usr/bin/env python3
-  
-  # GDBus - GLib D-Bus Library
-@@ -26,7 +26,7 @@ index aa5af43..56e8e2e 100755
- --- a/gobject/glib-genmarshal.in
- +++ b/gobject/glib-genmarshal.in
- @@ -1,4 +1,4 @@
---#!/usr/bin/env @PYTHON@
-+-#!@PYTHON@
- +#!/usr/bin/env python3
-  
-  # pylint: disable=too-many-lines, missing-docstring, invalid-name
-@@ -36,7 +36,7 @@ index e10b910..4b619f8 100755
- --- a/gobject/glib-mkenums.in
- +++ b/gobject/glib-mkenums.in
- @@ -1,4 +1,4 @@
---#!/usr/bin/env @PYTHON@
-+-#!@PYTHON@
- +#!/usr/bin/env python3
-  
-  # If the code below looks horrible and unpythonic, do not panic.
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.4.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.1.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.80.4.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.1.bb
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.80.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.80.4.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 9e742c4d3b..0855e6eb00 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -221,17 +221,17 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            <a href="file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch">file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch</a> \
-            <a href="file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch">file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch</a> \
-            <a href="file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch">file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch</a> \
--           <a href="file://0010-Do-not-hardcode-python-path-into-various-tools.patch">file://0010-Do-not-hardcode-python-path-into-various-tools.patch</a> \
-            <a href="file://0001-Do-not-write-bindir-into-pkg-config-files.patch">file://0001-Do-not-write-bindir-into-pkg-config-files.patch</a> \
-            <a href="file://0001-meson-Run-atomics-test-on-clang-as-well.patch">file://0001-meson-Run-atomics-test-on-clang-as-well.patch</a> \
-            <a href="file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch">file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch</a> \
-+           <a href="file://0010-Do-not-hardcode-python-path-into-various-tools.patch">file://0010-Do-not-hardcode-python-path-into-various-tools.patch</a> \
-            <a href="file://skip-timeout.patch">file://skip-timeout.patch</a> \
-            "
- SRC_URI:append:class-native = " <a href="file://relocate-modules.patch">file://relocate-modules.patch</a> \ 
-                                 <a href="file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch">file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch</a> \
-                               "
- 
--SRC_URI[sha256sum] = "24e029c5dfc9b44e4573697adf33078a9827c48938555004b3b9096fa4ea034f"
-+SRC_URI[sha256sum] = "478634440bf52ee4ec4428d558787398c0be6b043c521beb308334b3db4489a6"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
-<div>-- 
-</div>2.46.0
+> [...]
+> Starting the controller
+> USB XHCI 1.00
+> scanning bus xhci_pci for devices... 3 USB Device(s) found
+> Net:   eth0: virtio-net#32
+> ESC[?25h
+> Hit any key to stop autoboot:  2
 
-</div><div class="plaintext" style="white-space: break-spaces;">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#204733): <a href="https://lists.openembedded.org/g/openembedded-core/message/204733">https://lists.openembedded.org/g/openembedded-core/message/204733</a>
-Mute This Topic: <a href="https://lists.openembedded.org/mt/108556023/3618223">https://lists.openembedded.org/mt/108556023/3618223</a>
-Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+But not sure if this is an issue with USB emulation or something else...
 
-</div></blockquote></div>
---=-4hQQ1u56M9QqsK41efc0--
 
+Regards, Enrico
+
+
+> Cheers,
+>=20
+> Richard
+>=20
+
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
