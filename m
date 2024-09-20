@@ -1,94 +1,460 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E132AC78859
-	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 15:05:10 +0000 (UTC)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
- by mx.groups.io with SMTP id smtpd.web10.20523.1726844708597838583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA49ACF9C54
+	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 15:37:11 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.web11.21194.1726846626423724988
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Sep 2024 08:05:08 -0700
+ Fri, 20 Sep 2024 08:37:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pRibnsjy;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.171, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6ddccc408e1so17517987b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 08:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726844708; x=1727449508; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eTaHlgt9DMuFill17S7WtDwDx9zR2Fbs0yEsGNGU7S8=;
-        b=pRibnsjy8m5Gi7GHbCC9lyFvpmQkj33msosUt4HotghFwfVCcv4WOdARpGG/en0y0E
-         em7vIZFWuysxB7ZPqWxE+8iQE0BdP6wlcElBBnDB61/O8AQdVLj0MJTlWrT2MxY/MA+A
-         XXo/nT8U0YLSxzqMWPf8yii+iT7n3XaEll0Mxg2YMX9HZFBaskL0m54p3CSXHM38BL1w
-         l4/38woU0JEI4uDYCI1a7hhPmLEmTRDovLXfnLp+x0CgTORINte5eANXXhAEs0mJ9cD8
-         sTrkrZW/GECpKYR6tcnTKxuhAfmlwCo/YmzCqMVOXgjUyhE9+/9hUCSYpIvj5Od0Q7Ps
-         paEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726844708; x=1727449508;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eTaHlgt9DMuFill17S7WtDwDx9zR2Fbs0yEsGNGU7S8=;
-        b=Q4pT/2lvODCgOXZ/a6CttDgDrWytk9Y7QfUXsiV3HjRNogWj0ILxiPX+tyVKBgVrJm
-         qq2kadbpeswY/YiaCmKs6RzYEI8jn+tdfJ2pyLVy8qGUtT9vB43FKOnjQBgBIQ9vOYG3
-         Dr/i+gV+qBUm1EKgGjr7ec4VVgeEXjXMXR4hnc8Qm5/iLHmqJkVs11dU3RWs/2Bt3qfK
-         BTFVl9hoyBjRrFDenRa1d75ke1RIoWfmufkDJW8arXhZLfAkIapd1SfeUFijaoxkS6OY
-         s+NDvVWYxrAknIMQypCy0wEDyzSOuz5iPFHwTA1kzegTEKloN/6CYSpOkQFGsQzOhKLu
-         qVSQ==
-X-Gm-Message-State: AOJu0YzNfufMzKrX3EW2Pp+3JlaSId9B3CnJDLABoEyogaiZnj9DLMCL
-	TDGPKF3OZJK7ZmdLzkLCAsiBpjc8EM/prm8NZWyI1g/0UbOKWnbzd5mS9Vrfsgt3gKk6FJ6hoha
-	KRvPjksjcHNdW7GID3L/7cHypcpOTOVVNKoQNdRMhVNgSYh6h
-X-Google-Smtp-Source: AGHT+IF+0rJbtx/WoblVlvy3SYrANmxa+Wf+CgDujeR64zkWhOjbNUGpTk79EEKWJyzI6tcxVrelDBla+htOKYCHpNE=
-X-Received: by 2002:a05:690c:ec6:b0:65f:8f77:720f with SMTP id
- 00721157ae682-6dfeed0838bmr28642887b3.5.1726844707707; Fri, 20 Sep 2024
- 08:05:07 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
+Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
+	by mailout07.t-online.de (Postfix) with SMTP id 13FF328853
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 17:36:42 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.38.23]) by fwd74.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1srfgX-1UIeoN0; Fri, 20 Sep 2024 17:36:42 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH 3/3] gtk+3: remove unneeded .inc file
+Date: Fri, 20 Sep 2024 17:37:08 +0200
+Message-ID: <20240920153708.1774041-3-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240920153708.1774041-1-f_l_k@t-online.de>
+References: <20240920153708.1774041-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-References: <GV1PR07MB9120F113BECCDD2540ED5333A86C2@GV1PR07MB9120.eurprd07.prod.outlook.com>
-In-Reply-To: <GV1PR07MB9120F113BECCDD2540ED5333A86C2@GV1PR07MB9120.eurprd07.prod.outlook.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 20 Sep 2024 08:04:57 -0700
-Message-ID: <CAOSpxdZq5cnXR_FLpjhP0eVPchWq3WPYCaMvFkkaB58zee4_GA@mail.gmail.com>
-Subject: Re: [scarthgap, kirkstone] backport request
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1726846602-01FF9416-60A4A032/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7b952314-0044-48c9-b0c3-8d458bdd3e18
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 15:05:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204758
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 15:37:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204759
 
-On Fri, Sep 20, 2024 at 7:30=E2=80=AFAM Konrad Weihmann <kweihmann@outlook.=
-com> wrote:
->
-> Hi,
->
->
-> could you please backport the following commits to scarthgap and kirkston=
-e
->
-> runqemu: keep generating tap devices --
-> https://git.yoctoproject.org/poky/commit/?id=3Dc9a999940069623b95e8300fea=
-d4838de9edccb8
-> testimage: fallback for empty IMAGE_LINK_NAME --
-> https://git.yoctoproject.org/poky/commit/?id=3D309d1bd9357e91934dce1e8fe4=
-15cf945a264be8
-> testexport: fallback for empty IMAGE_LINK_NAME --
-> https://git.yoctoproject.org/poky/commit/?id=3D2de2968b8c142589a6fad47b9a=
-82771ab7e5c0ab
->
-> in the next batches of scarthgap and kirkstone.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/recipes-gnome/gtk+/gtk+3.inc        | 154 ---------------------
+ meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb | 164 ++++++++++++++++++++++-
+ 2 files changed, 157 insertions(+), 161 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3.inc
 
-I was able to cherry-pick the above commits to scarthgap, but they do
-not apply to kirkstone.
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/=
+gtk+3.inc
+deleted file mode 100644
+index 03913768b1..0000000000
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ /dev/null
+@@ -1,154 +0,0 @@
+-
+-SUMMARY =3D "Multi-platform toolkit for creating GUIs"
+-DESCRIPTION =3D "GTK+ is a multi-platform toolkit for creating graphical=
+ user interfaces. Offering a complete \
+-set of widgets, GTK+ is suitable for projects ranging from small one-off=
+ projects to complete application suites."
+-HOMEPAGE =3D "http://www.gtk.org"
+-BUGTRACKER =3D "https://bugzilla.gnome.org/"
+-SECTION =3D "libs"
+-
+-DEPENDS =3D "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf gdk-pixbuf-=
+native"
+-
+-LICENSE =3D "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
+-
+-inherit meson gettext pkgconfig gtk-doc update-alternatives gtk-immodule=
+s-cache gsettings features_check gobject-introspection
+-
+-BBCLASSEXTEND =3D "native nativesdk"
+-
+-GSETTINGS_PACKAGE:class-native =3D ""
+-
+-# versions >=3D 3.90 are development versions, otherwise like upstream-v=
+ersion-is-even
+-UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>3\.([1-8]?[02468])+(\.\d+)+)\.=
+tar"
+-
+-ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+-
+-do_configure:prepend() {
+-    # These files are generated by wayland-scanner but will race over mo=
+dification
+-    # time between the copies in the sysroot from wayland-protocols and =
+the copy
+-    # in the source tree. Solve the race by deleting so they need to be =
+regenerated.
+-    rm -f ${S}/modules/input/*-text-input-*.[ch]
+-}
+-
+-GTKDOC_MESON_OPTION =3D 'gtk_doc'
+-
+-EXTRA_OEMESON =3D "-Dxinerama=3Dno -Dtests=3Dfalse"
+-EXTRA_OEMESON:append:class-native =3D " -Ddemos=3Dfalse -Dexamples=3Dfal=
+se"
+-
+-PACKAGECONFIG ??=3D " \
+-	${@bb.utils.filter('DISTRO_FEATURES', 'opengl x11', d)} \
+-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl wayland', 'wayland', ''=
+, d)} \
+-"
+-PACKAGECONFIG:class-native =3D "${@bb.utils.filter('DISTRO_FEATURES', 'x=
+11', d)}"
+-PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('DISTRO_FEATURES',=
+ 'x11', d)}"
+-
+-PACKAGECONFIG[x11] =3D "-Dx11_backend=3Dtrue,-Dx11_backend=3Dfalse,at-sp=
+i2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr li=
+bxrender libxcomposite libxfixes"
+-# this is provided by oe-core patch that removes epoxy/gl dependency fro=
+m a X11 build
+-PACKAGECONFIG[opengl] =3D "-Dopengl=3Dtrue,-Dopengl=3Dfalse,libepoxy"
+-PACKAGECONFIG[wayland] =3D "-Dwayland_backend=3Dtrue,-Dwayland_backend=3D=
+false,wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2=
+ wayland-native"
+-PACKAGECONFIG[cups] =3D ",,cups,cups gtk3-printbackend-cups"
+-PACKAGECONFIG[colord] =3D "-Dcolord=3Dyes,-Dcolord=3Dno,colord"
+-PACKAGECONFIG[cloudproviders] =3D "-Dcloudproviders=3Dtrue,-Dcloudprovid=
+ers=3Dfalse,libcloudproviders"
+-PACKAGECONFIG[tracker3] =3D "-Dtracker3=3Dtrue,-Dtracker3=3Dfalse,tinysp=
+arql,localsearch"
+-
+-prepare_gtk_scripts() {
+-    mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon=
+-cache-3.0
+-
+-    # duplicate gtk-query-immodules for post install script update_gtk_i=
+mmodules_cache
+-    mkdir -p ${D}${libexecdir}
+-    ln ${D}${bindir}/gtk-query-immodules-3.0 ${D}${libexecdir}/${MLPREFI=
+X}gtk-query-immodules-3.0
+-}
+-
+-do_install:append:class-target() {
+-    prepare_gtk_scripts
+-}
+-
+-do_install:append:class-nativesdk() {
+-    prepare_gtk_scripts
+-}
+-
+-do_install:append:class-native() {
+-        create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
+-                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pi=
+xbuf-2.0/2.10.0/loaders.cache
+-        create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
+-                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pi=
+xbuf-2.0/2.10.0/loaders.cache
+-}
+-
+-PROVIDES +=3D "gtk-icon-utils"
+-PACKAGES =3D+ "${PN}-demo"
+-LIBV =3D "3.0.0"
+-
+-FILES:${PN}-demo =3D "${bindir}/gtk3-demo \
+-                    ${bindir}/gtk3-demo-application \
+-                    ${bindir}/gtk3-icon-browser \
+-                    ${bindir}/gtk3-widget-factory \
+-                    ${datadir}/gtk-3.0/demo \
+-                    ${datadir}/applications/gtk3-demo.desktop \
+-                    ${datadir}/applications/gtk3-icon-browser.desktop \
+-                    ${datadir}/applications/gtk3-widget-factory.desktop =
+\
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-demo*.png \
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory*=
+.png"
+-
+-FILES:${PN}:append =3D " ${bindir}/gtk-update-icon-cache-3.0 \
+-               ${bindir}/gtk-query-immodules-3.0 \
+-               ${bindir}/gtk-launch \
+-               ${datadir}/themes ${datadir}/gtk-3.0/emoji \
+-               ${sysconfdir} ${datadir}/glib-2.0/schemas/ \
+-               ${libdir}/gtk-3.0/${LIBV}/engines/libpixmap.so \
+-               ${libdir}/gtk-3.0/modules/*.so"
+-
+-FILES:${PN}-dev +=3D " \
+-                    ${datadir}/gtk-3.0/gtkbuilder.rng \
+-                    ${datadir}/gtk-3.0/include \
+-                    ${datadir}/gtk-3.0/valgrind \
+-                    ${datadir}/gettext/its \
+-                    ${libdir}/gtk-3.0/include \
+-                    ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
+-                    ${libdir}/gtk-3.0/${LIBV}/immodules/*.la \
+-                    ${libdir}/gtk-3.0/3.0.0/printbackends/*.la \
+-                    ${libdir}/gtk-3.0/${LIBV}/engines/*.la \
+-                    ${libdir}/gtk-3.0/modules/*.la \
+-                    ${bindir}/gtk-builder-convert \
+-                    ${bindir}/gtk-encode-symbolic-svg \
+-                    ${bindir}/gtk-builder-tool \
+-                    ${bindir}/gtk-query-settings \
+-                    "
+-
+-GTKBASE_RRECOMMENDS ?=3D "liberation-fonts \
+-                        gdk-pixbuf-loader-png \
+-                        gdk-pixbuf-loader-jpeg \
+-                        gdk-pixbuf-loader-gif \
+-                        gdk-pixbuf-loader-xpm \
+-                        shared-mime-info \
+-                        adwaita-icon-theme-symbolic \
+-                        "
+-
+-GTKBASE_RRECOMMENDS:class-native ?=3D "\
+-                        "
+-
+-GTKGLIBC_RRECOMMENDS ?=3D "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
+-
+-RRECOMMENDS:${PN} =3D "${GTKBASE_RRECOMMENDS}"
+-RRECOMMENDS:${PN}:libc-glibc =3D "${GTKGLIBC_RRECOMMENDS}"
+-RDEPENDS:${PN}-dev +=3D "${@bb.utils.contains("PACKAGECONFIG", "wayland"=
+, "wayland-protocols", "", d)}"
+-
+-PACKAGES_DYNAMIC +=3D "^gtk3-immodule-.* ^gtk3-printbackend-.*"
+-
+-ALTERNATIVE:${PN} =3D "gtk-update-icon-cache"
+-ALTERNATIVE_TARGET[gtk-update-icon-cache] =3D "${bindir}/gtk-update-icon=
+-cache-3.0"
+-ALTERNATIVE_PRIORITY =3D "30"
+-
+-python populate_packages:prepend () {
+-    import os.path
+-
+-    gtk_libdir =3D d.expand('${libdir}/gtk-3.0/${LIBV}')
+-    immodules_root =3D os.path.join(gtk_libdir, 'immodules')
+-    printmodules_root =3D os.path.join(gtk_libdir, 'printbackends');
+-
+-    immodules =3D do_split_packages(d, immodules_root, r'^im-(.*)\.so$',=
+ 'gtk3-immodule-%s', 'GTK input module for %s')
+-    if immodules:
+-        d.setVar("GTKIMMODULES_PACKAGES", " ".join(immodules))
+-
+-    do_split_packages(d, printmodules_root, r'^libprintbackend-(.*)\.so$=
+', 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
+-
+-    if (d.getVar('DEBIAN_NAMES')):
+-        d.setVar(d.expand('PKG:${PN}'), '${MLPREFIX}libgtk-3.0')
+-}
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb b/meta/recipes-gnom=
+e/gtk+/gtk+3_3.24.43.bb
+index a8cc1152c3..2171880c50 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb
+@@ -1,7 +1,23 @@
+-require gtk+3.inc
++SUMMARY =3D "Multi-platform toolkit for creating GUIs"
++DESCRIPTION =3D "GTK+ is a multi-platform toolkit for creating graphical=
+ user interfaces. Offering a complete \
++set of widgets, GTK+ is suitable for projects ranging from small one-off=
+ projects to complete application suites."
++HOMEPAGE =3D "http://www.gtk.org"
++BUGTRACKER =3D "https://bugzilla.gnome.org/"
++SECTION =3D "libs"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5f30f0716dfdd0d91eb439ebec522=
+ec2 \
++                    file://gtk/gtk.h;endline=3D25;md5=3D1d8dc0fccdbfa262=
+87a271dce88af737 \
++                    file://gdk/gdk.h;endline=3D25;md5=3Dc920ce39dc88c6f0=
+6d3e7c50e08086f2 \
++                    file://tests/testgtk.c;endline=3D25;md5=3Dcb732daee1=
+d82af7a2bf953cf3cf26f1"
+=20
+-MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
++CVE_PRODUCT =3D "gnome:gtk gtk:gtk\+"
+=20
++DEPENDS =3D "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf gdk-pixbuf-=
+native"
++
++LICENSE =3D "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
++
++inherit meson gettext pkgconfig gtk-doc update-alternatives gtk-immodule=
+s-cache gsettings features_check gobject-introspection
++
++MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+=
+-${PV}.tar.xz \
+            file://opengl.patch \
+            "
+@@ -9,9 +25,143 @@ SRC_URI[sha256sum] =3D "7e04f0648515034b806b74ae5d774d=
+87cffb1a2a96c468cb5be476d51b
+=20
+ S =3D "${WORKDIR}/gtk+-${PV}"
+=20
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5f30f0716dfdd0d91eb439ebec522=
+ec2 \
+-                    file://gtk/gtk.h;endline=3D25;md5=3D1d8dc0fccdbfa262=
+87a271dce88af737 \
+-                    file://gdk/gdk.h;endline=3D25;md5=3Dc920ce39dc88c6f0=
+6d3e7c50e08086f2 \
+-                    file://tests/testgtk.c;endline=3D25;md5=3Dcb732daee1=
+d82af7a2bf953cf3cf26f1"
++BBCLASSEXTEND =3D "native nativesdk"
+=20
+-CVE_PRODUCT =3D "gnome:gtk gtk:gtk\+"
++GSETTINGS_PACKAGE:class-native =3D ""
++
++# versions >=3D 3.90 are development versions, otherwise like upstream-v=
+ersion-is-even
++UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>3\.([1-8]?[02468])+(\.\d+)+)\.=
+tar"
++
++ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
++
++do_configure:prepend() {
++    # These files are generated by wayland-scanner but will race over mo=
+dification
++    # time between the copies in the sysroot from wayland-protocols and =
+the copy
++    # in the source tree. Solve the race by deleting so they need to be =
+regenerated.
++    rm -f ${S}/modules/input/*-text-input-*.[ch]
++}
++
++GTKDOC_MESON_OPTION =3D 'gtk_doc'
++
++EXTRA_OEMESON =3D "-Dxinerama=3Dno -Dtests=3Dfalse"
++EXTRA_OEMESON:append:class-native =3D " -Ddemos=3Dfalse -Dexamples=3Dfal=
+se"
++
++PACKAGECONFIG ??=3D " \
++	${@bb.utils.filter('DISTRO_FEATURES', 'opengl x11', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'opengl wayland', 'wayland', ''=
+, d)} \
++"
++PACKAGECONFIG:class-native =3D "${@bb.utils.filter('DISTRO_FEATURES', 'x=
+11', d)}"
++PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('DISTRO_FEATURES',=
+ 'x11', d)}"
++
++PACKAGECONFIG[x11] =3D "-Dx11_backend=3Dtrue,-Dx11_backend=3Dfalse,at-sp=
+i2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr li=
+bxrender libxcomposite libxfixes"
++# this is provided by oe-core patch that removes epoxy/gl dependency fro=
+m a X11 build
++PACKAGECONFIG[opengl] =3D "-Dopengl=3Dtrue,-Dopengl=3Dfalse,libepoxy"
++PACKAGECONFIG[wayland] =3D "-Dwayland_backend=3Dtrue,-Dwayland_backend=3D=
+false,wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2=
+ wayland-native"
++PACKAGECONFIG[cups] =3D ",,cups,cups gtk3-printbackend-cups"
++PACKAGECONFIG[colord] =3D "-Dcolord=3Dyes,-Dcolord=3Dno,colord"
++PACKAGECONFIG[cloudproviders] =3D "-Dcloudproviders=3Dtrue,-Dcloudprovid=
+ers=3Dfalse,libcloudproviders"
++PACKAGECONFIG[tracker3] =3D "-Dtracker3=3Dtrue,-Dtracker3=3Dfalse,tinysp=
+arql,localsearch"
++
++prepare_gtk_scripts() {
++    mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon=
+-cache-3.0
++
++    # duplicate gtk-query-immodules for post install script update_gtk_i=
+mmodules_cache
++    mkdir -p ${D}${libexecdir}
++    ln ${D}${bindir}/gtk-query-immodules-3.0 ${D}${libexecdir}/${MLPREFI=
+X}gtk-query-immodules-3.0
++}
++
++do_install:append:class-target() {
++    prepare_gtk_scripts
++}
++
++do_install:append:class-nativesdk() {
++    prepare_gtk_scripts
++}
++
++do_install:append:class-native() {
++        create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
++                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pi=
+xbuf-2.0/2.10.0/loaders.cache
++        create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
++                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pi=
+xbuf-2.0/2.10.0/loaders.cache
++}
++
++PROVIDES +=3D "gtk-icon-utils"
++PACKAGES =3D+ "${PN}-demo"
++LIBV =3D "3.0.0"
++
++FILES:${PN}-demo =3D "${bindir}/gtk3-demo \
++                    ${bindir}/gtk3-demo-application \
++                    ${bindir}/gtk3-icon-browser \
++                    ${bindir}/gtk3-widget-factory \
++                    ${datadir}/gtk-3.0/demo \
++                    ${datadir}/applications/gtk3-demo.desktop \
++                    ${datadir}/applications/gtk3-icon-browser.desktop \
++                    ${datadir}/applications/gtk3-widget-factory.desktop =
+\
++                    ${datadir}/icons/hicolor/*/apps/gtk3-demo*.png \
++                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory*=
+.png"
++
++FILES:${PN}:append =3D " ${bindir}/gtk-update-icon-cache-3.0 \
++               ${bindir}/gtk-query-immodules-3.0 \
++               ${bindir}/gtk-launch \
++               ${datadir}/themes ${datadir}/gtk-3.0/emoji \
++               ${sysconfdir} ${datadir}/glib-2.0/schemas/ \
++               ${libdir}/gtk-3.0/${LIBV}/engines/libpixmap.so \
++               ${libdir}/gtk-3.0/modules/*.so"
++
++FILES:${PN}-dev +=3D " \
++                    ${datadir}/gtk-3.0/gtkbuilder.rng \
++                    ${datadir}/gtk-3.0/include \
++                    ${datadir}/gtk-3.0/valgrind \
++                    ${datadir}/gettext/its \
++                    ${libdir}/gtk-3.0/include \
++                    ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
++                    ${libdir}/gtk-3.0/${LIBV}/immodules/*.la \
++                    ${libdir}/gtk-3.0/3.0.0/printbackends/*.la \
++                    ${libdir}/gtk-3.0/${LIBV}/engines/*.la \
++                    ${libdir}/gtk-3.0/modules/*.la \
++                    ${bindir}/gtk-builder-convert \
++                    ${bindir}/gtk-encode-symbolic-svg \
++                    ${bindir}/gtk-builder-tool \
++                    ${bindir}/gtk-query-settings \
++                    "
++
++GTKBASE_RRECOMMENDS ?=3D "liberation-fonts \
++                        gdk-pixbuf-loader-png \
++                        gdk-pixbuf-loader-jpeg \
++                        gdk-pixbuf-loader-gif \
++                        gdk-pixbuf-loader-xpm \
++                        shared-mime-info \
++                        adwaita-icon-theme-symbolic \
++                        "
++
++GTKBASE_RRECOMMENDS:class-native ?=3D "\
++                        "
++
++GTKGLIBC_RRECOMMENDS ?=3D "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
++
++RRECOMMENDS:${PN} =3D "${GTKBASE_RRECOMMENDS}"
++RRECOMMENDS:${PN}:libc-glibc =3D "${GTKGLIBC_RRECOMMENDS}"
++RDEPENDS:${PN}-dev +=3D "${@bb.utils.contains("PACKAGECONFIG", "wayland"=
+, "wayland-protocols", "", d)}"
++
++PACKAGES_DYNAMIC +=3D "^gtk3-immodule-.* ^gtk3-printbackend-.*"
++
++ALTERNATIVE:${PN} =3D "gtk-update-icon-cache"
++ALTERNATIVE_TARGET[gtk-update-icon-cache] =3D "${bindir}/gtk-update-icon=
+-cache-3.0"
++ALTERNATIVE_PRIORITY =3D "30"
++
++python populate_packages:prepend () {
++    import os.path
++
++    gtk_libdir =3D d.expand('${libdir}/gtk-3.0/${LIBV}')
++    immodules_root =3D os.path.join(gtk_libdir, 'immodules')
++    printmodules_root =3D os.path.join(gtk_libdir, 'printbackends');
++
++    immodules =3D do_split_packages(d, immodules_root, r'^im-(.*)\.so$',=
+ 'gtk3-immodule-%s', 'GTK input module for %s')
++    if immodules:
++        d.setVar("GTKIMMODULES_PACKAGES", " ".join(immodules))
++
++    do_split_packages(d, printmodules_root, r'^libprintbackend-(.*)\.so$=
+', 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
++
++    if (d.getVar('DEBIAN_NAMES')):
++        d.setVar(d.expand('PKG:${PN}'), '${MLPREFIX}libgtk-3.0')
++}
+--=20
+2.46.0
 
-If you would like to submit versions adapted for kirkstone I'll add
-them to the test queue.
-
-Thanks!
-
-Steve
 
