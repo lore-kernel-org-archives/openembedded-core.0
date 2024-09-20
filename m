@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E065EC78843
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD22DC78844
 	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 13:39:29 +0000 (UTC)
 Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.18269.1726839561004786354
+ by mx.groups.io with SMTP id smtpd.web11.18271.1726839566647776599
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Sep 2024 06:39:21 -0700
+ Fri, 20 Sep 2024 06:39:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=IxTlJ3RE;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VmJnCyKB;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71971d2099cso1551380b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 06:39:20 -0700 (PDT)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-718f4fd89e5so1761677b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 06:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726839560; x=1727444360; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1726839566; x=1727444366; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zCKZt8LkijkNyf8p66ruVew7pcWgkVYs0FQs4nW2TEw=;
-        b=IxTlJ3REroEKBmuMlTHhJeD1LPwaHqp0i3BKWKtNv7xHfXxiZHxetPPbAso/IpOarC
-         dR0nrXOLm+vhTwuBBJAred4U/5ze5iZ8dwogwhBI5IJSORn5n9aBm+hO8+lZ+D4oGeLK
-         f9bduly0RH2jTp7RmJOYMsiG/rcNxPDh7ZkR3ZIyc1HFpMqcU1Roxh/HEdHOeInwWwMP
-         uQKUCTvDNhYPjKe67VzxFYb63fQ4voekmFFCkm9Kg48p0L2AAXTGp1xiaKc3rbH1DlXE
-         0QnsO2BRnivSnnQS5cLnunmi4aqFCHzfcXlZMsafqirM2JsKsCYTAhxYd/VYTD2oqlbF
-         Dy0A==
+        bh=SvBL+7yewHV4tNqiZLcm0O2aejr26Js9oFrbUejxVyI=;
+        b=VmJnCyKBXQ5JXCGp82LmCNO+lsPmSs9sdUsmZI/V+nZbz/6IJfhYfUTBpipSJsa+Lp
+         vtZHimjDRpPBM9EoKTNbGCrD4Bjn3pG8TA3PK/5wne3z2sM2ZsMazksV197WGFVzTm7K
+         GwcaQrZ8HY9tCTGlc5wgET4EFmaVuK42+D3gjxzkhtrlx3GGvfT9AJa1USc4+OvPM5ol
+         Dz7vZSxBJtOsS21/0lDBu8XaXB6GohUQNthpiJGf4dNqJaIdA/7RK9jk5r00jz33QtgJ
+         HKdACUghDaMon0VIgAXBq5eFCYlNC0fhrmfJpiVI+UZV1WfH3OI5fAaOfEli2Skd5ztu
+         mElA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726839560; x=1727444360;
+        d=1e100.net; s=20230601; t=1726839566; x=1727444366;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zCKZt8LkijkNyf8p66ruVew7pcWgkVYs0FQs4nW2TEw=;
-        b=vebyw0QDw2OqWrNCFgAqby2C87SoeJPBl1CB7nCAWYz/fLmrVKk+kAzIILjZkuOdVY
-         Mz0ZuOiWwtSi4JHmaTBSK0GZ6AFA8W6aeUhJL5mhO/aS94MSKaupP4hF1oP5drlVfC9+
-         +Lv3+JfjSQl2CCaU6eH0FI43y/hxIweLd6nlvoiuv5rkhaO52DoYDNm2ZusguQEwizrN
-         HV4RrhHz2MvY4MDyQxOxyzg2dQyziIxChNfzXBXWXSkISspDTLbguvv2SSZuMI12iRer
-         /IfG21cPJLaODsfyvoPetcMId8nGYNyQgff0bBiaCYo4iaP3QfyP4sel+u0UGvRpPGTG
-         2ILw==
-X-Gm-Message-State: AOJu0Yy3mlXZd07W9LZfPzKwbD4FYwf3Qdb7Lw0HZEYRu1eRb059dr34
-	iBKYzJkuJ0gk/43iH78IRUC99GP25BF3YcFfwLKzaFuqlah+PLTUsYNO2RzwJ1wPt5xl2tuwoaH
-	d
-X-Google-Smtp-Source: AGHT+IGUJo7si8pSqwF0KLOKGJsN92RCWUJBBbctj8l7JmbPCeDyK0sgzoF5fI6jtX+4IyIJZS6QDg==
-X-Received: by 2002:a05:6a21:58b:b0:1cf:1b7d:8481 with SMTP id adf61e73a8af0-1d30a987fe9mr5034817637.32.1726839559919;
-        Fri, 20 Sep 2024 06:39:19 -0700 (PDT)
+        bh=SvBL+7yewHV4tNqiZLcm0O2aejr26Js9oFrbUejxVyI=;
+        b=KMgxfKZyWX1/OVXDVow6hxnAPp5NdtleY6P4UaP2iOtfA22h5mjsF9IZT/i9iT8m/v
+         /j3nkNwgoeyJAwOF1DuN1SGvpQPo5z95C35ce81wWtghvQZW0OdL4267g3BAHyuthUSz
+         hqd3i7Vs0taSx3nSFJl5NCvht6ddXu/PQuLZfM5eECE9D/VfmFIFUFxxyMMcoYUV0a4T
+         I6lSC/5w0p/IpEc6mtrVc85fsxqP4g9qxcQa/7ZBgWvXlvIandSaW4ZTuwnSKb7B0cND
+         MJBEvBkoa0H/dwbOVXool7BPSfJODhBsAw8CL7mm/2373jVk+24aoQONTKsONBjfl04K
+         wgxA==
+X-Gm-Message-State: AOJu0YzXOCwI+MGFcQCv/14x5bVcCxfcBBj2upfEJa237GM958TxCVpN
+	7HmGotsMLehEoAwXR/ux1FeK2W4lmz817rwmqXTotcQVHv0W1rolghNoNKI7LXg/Ebk/sMiPOvR
+	C
+X-Google-Smtp-Source: AGHT+IFnmJGch5npwAVTya0js1+L416czcX8jWDKslOucC/9GaMgqE9WPnYk6MjDb7fxGYYVBi4CRg==
+X-Received: by 2002:a05:6a00:8d0:b0:70a:f576:beeb with SMTP id d2e1a72fcca58-7199c96d36dmr4349555b3a.15.1726839565381;
+        Fri, 20 Sep 2024 06:39:25 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944b97e45sm9811846b3a.164.2024.09.20.06.39.19
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944b97e45sm9811846b3a.164.2024.09.20.06.39.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 06:39:19 -0700 (PDT)
+        Fri, 20 Sep 2024 06:39:25 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 01/16] Revert "wpa-supplicant: Upgrade 2.10 -> 2.11"
-Date: Fri, 20 Sep 2024 06:38:59 -0700
-Message-Id: <79ed0dba62404b9de3cd97bc861dea8779416afc.1726839438.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/16] libpcap: Security fix for CVE-2023-7256 & CVE-2024-8006
+Date: Fri, 20 Sep 2024 06:39:00 -0700
+Message-Id: <00e809013a51c1af4979bcff0b3ae3eb7a4d4a20.1726839438.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1726839438.git.steve@sakoman.com>
 References: <cover.1726839438.git.steve@sakoman.com>
@@ -62,427 +62,511 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 13:39:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204740
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204741
 
-This version bump adds new features and should not have been taken.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-This reverts commit 35c2b5f56bca789b9723a144fda0a130a67a860c.
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2023-7256
+https://security-tracker.debian.org/tracker/CVE-2024-8006
 
+Upstream commits:
+https://github.com/the-tcpdump-group/libpcap/commit/73da0d4d65ef0925772b7b7f82a5fbb3ff2c5e4f
+https://github.com/the-tcpdump-group/libpcap/commit/2aa69b04d8173b18a0e3492e0c8f2f7fabdf642d
+https://github.com/the-tcpdump-group/libpcap/commit/8a633ee5b9ecd9d38a587ac9b204e2380713b0d6
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...all-wpa_passphrase-when-not-disabled.patch |  33 +++
- ...te-Phase-2-authentication-requiremen.patch | 213 ++++++++++++++++++
- ...options-for-libwpa_client.so-and-wpa.patch |  73 ++++++
- ...oval-of-wpa_passphrase-on-make-clean.patch |  26 +++
- ...plicant_2.11.bb => wpa-supplicant_2.10.bb} |  10 +-
- 5 files changed, 352 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Install-wpa_passphrase-when-not-disabled.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch
- rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.11.bb => wpa-supplicant_2.10.bb} (90%)
+ .../libpcap/libpcap/CVE-2023-7256-pre1.patch  |  37 ++
+ .../libpcap/libpcap/CVE-2023-7256.patch       | 365 ++++++++++++++++++
+ .../libpcap/libpcap/CVE-2024-8006.patch       |  42 ++
+ .../libpcap/libpcap_1.10.4.bb                 |   7 +-
+ 4 files changed, 450 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre1.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2024-8006.patch
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Install-wpa_passphrase-when-not-disabled.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Install-wpa_passphrase-when-not-disabled.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre1.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre1.patch
 new file mode 100644
-index 0000000000..c04c608bde
+index 0000000000..64abfb85cd
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Install-wpa_passphrase-when-not-disabled.patch
-@@ -0,0 +1,33 @@
-+From 57b12a1e43605f71239a21488cb9b541f0751dda Mon Sep 17 00:00:00 2001
-+From: Alex Kiernan <alexk@zuma.ai>
-+Date: Thu, 21 Apr 2022 10:15:29 +0100
-+Subject: [PATCH] Install wpa_passphrase when not disabled
++++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre1.patch
+@@ -0,0 +1,37 @@
++From 73da0d4d65ef0925772b7b7f82a5fbb3ff2c5e4f Mon Sep 17 00:00:00 2001
++From: Rose <83477269+AtariDreams@users.noreply.github.com>
++Date: Tue, 16 May 2023 12:37:11 -0400
++Subject: [PATCH] Remove unused variable retval in sock_present2network
 +
-+As part of fixing CONFIG_NO_WPA_PASSPHRASE, whilst wpa_passphrase gets
-+built, its not installed during `make install`.
++This quiets the compiler since it is not even returned anyway, and is a misleading variable name.
 +
-+Fixes: cb41c214b78d ("build: Re-enable options for libwpa_client.so and wpa_passphrase")
-+Signed-off-by: Alex Kiernan <alexk@zuma.ai>
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+Upstream-Status: Submitted [http://lists.infradead.org/pipermail/hostap/2022-April/040448.html]
++(cherry picked from commit c7b90298984c46d820d3cee79a96d24870b5f200)
++
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/73da0d4d65ef0925772b7b7f82a5fbb3ff2c5e4f]
++CVE: CVE-2023-7256 #Dependency Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ wpa_supplicant/Makefile | 3 +++
-+ 1 file changed, 3 insertions(+)
++ sockutils.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
 +
-+diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
-+index 0bab313f2355..12787c0c7d0f 100644
-+--- a/wpa_supplicant/Makefile
-++++ b/wpa_supplicant/Makefile
-+@@ -73,6 +73,9 @@ $(DESTDIR)$(BINDIR)/%: %
++diff --git a/sockutils.c b/sockutils.c
++index 1c07f76fd1..6752f296af 100644
++--- a/sockutils.c
+++++ b/sockutils.c
++@@ -2082,7 +2082,6 @@ int sock_getascii_addrport(const struct sockaddr_storage *sockaddr, char *addres
++  */
++ int sock_present2network(const char *address, struct sockaddr_storage *sockaddr, int addr_family, char *errbuf, int errbuflen)
++ {
++-	int retval;
++ 	struct addrinfo *addrinfo;
++ 	struct addrinfo hints;
 + 
-+ install: $(addprefix $(DESTDIR)$(BINDIR)/,$(BINALL))
-+ 	$(MAKE) -C ../src install
-++ifndef CONFIG_NO_WPA_PASSPHRASE
-++	install -D wpa_passphrase $(DESTDIR)/$(BINDIR)/wpa_passphrase
-++endif
-+ ifdef CONFIG_BUILD_WPA_CLIENT_SO
-+ 	install -m 0644 -D libwpa_client.so $(DESTDIR)/$(LIBDIR)/libwpa_client.so
-+ 	install -m 0644 -D ../src/common/wpa_ctrl.h $(DESTDIR)/$(INCDIR)/wpa_ctrl.h
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
++@@ -2090,7 +2089,7 @@ int sock_present2network(const char *address, struct sockaddr_storage *sockaddr,
++ 
++ 	hints.ai_family = addr_family;
++ 
++-	if ((retval = sock_initaddress(address, "22222" /* fake port */, &hints, &addrinfo, errbuf, errbuflen)) == -1)
+++	if (sock_initaddress(address, "22222" /* fake port */, &hints, &addrinfo, errbuf, errbuflen) == -1)
++ 		return 0;
++ 
++ 	if (addrinfo->ai_family == PF_INET)
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256.patch
 new file mode 100644
-index 0000000000..620560d3c7
+index 0000000000..fffcb2704a
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch
-@@ -0,0 +1,213 @@
-+From f6f7cead3661ceeef54b21f7e799c0afc98537ec Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Sat, 8 Jul 2023 19:55:32 +0300
-+Subject: [PATCH] PEAP client: Update Phase 2 authentication requirements
++++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256.patch
+@@ -0,0 +1,365 @@
++From 2aa69b04d8173b18a0e3492e0c8f2f7fabdf642d Mon Sep 17 00:00:00 2001
++From: Guy Harris <gharris@sonic.net>
++Date: Thu, 28 Sep 2023 00:37:57 -0700
++Subject: [PATCH] Have sock_initaddress() return the list of addrinfo
++ structures or NULL.
 +
-+The previous PEAP client behavior allowed the server to skip Phase 2
-+authentication with the expectation that the server was authenticated
-+during Phase 1 through TLS server certificate validation. Various PEAP
-+specifications are not exactly clear on what the behavior on this front
-+is supposed to be and as such, this ended up being more flexible than
-+the TTLS/FAST/TEAP cases. However, this is not really ideal when
-+unfortunately common misconfiguration of PEAP is used in deployed
-+devices where the server trust root (ca_cert) is not configured or the
-+user has an easy option for allowing this validation step to be skipped.
++Its return address is currently 0 for success and -1 for failure, with a
++pointer to the first element of the list of struct addrinfos returned
++through a pointer on success; change it to return that pointer on
++success and NULL on failure.
 +
-+Change the default PEAP client behavior to be to require Phase 2
-+authentication to be successfully completed for cases where TLS session
-+resumption is not used and the client certificate has not been
-+configured. Those two exceptions are the main cases where a deployed
-+authentication server might skip Phase 2 and as such, where a more
-+strict default behavior could result in undesired interoperability
-+issues. Requiring Phase 2 authentication will end up disabling TLS
-+session resumption automatically to avoid interoperability issues.
++That way, we don't have to worry about what happens to the pointer
++pointeed to by the argument in question on failure; we know that we got
++NULL back if no struct addrinfos were found because getaddrinfo()
++failed.  Thus, we know that we have something to free iff
++sock_initaddress() returned a pointer to that something rather than
++returning NULL.
 +
-+Allow Phase 2 authentication behavior to be configured with a new phase1
-+configuration parameter option:
-+'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
-+tunnel) behavior for PEAP:
-+ * 0 = do not require Phase 2 authentication
-+ * 1 = require Phase 2 authentication when client certificate
-+   (private_key/client_cert) is no used and TLS session resumption was
-+   not used (default)
-+ * 2 = require Phase 2 authentication in all cases
++This avoids a double-free in some cases.
 +
-+Signed-off-by: Jouni Malinen <j@w1.fi>
++This is apparently CVE-2023-40400.
 +
-+CVE: CVE-2023-52160
-+Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=8e6485a1bcb0baffdea9e55255a81270b768439c]
++(backported from commit 262e4f34979872d822ccedf9f318ed89c4d31c03)
 +
-+Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
-+
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/2aa69b04d8173b18a0e3492e0c8f2f7fabdf642d]
++CVE: CVE-2023-7256
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/eap_peer/eap_config.h          |  8 ++++++
-+ src/eap_peer/eap_peap.c            | 40 +++++++++++++++++++++++++++---
-+ src/eap_peer/eap_tls_common.c      |  6 +++++
-+ src/eap_peer/eap_tls_common.h      |  5 ++++
-+ wpa_supplicant/wpa_supplicant.conf |  7 ++++++
-+ 5 files changed, 63 insertions(+), 3 deletions(-)
++ pcap-rpcap.c    | 48 ++++++++++++++++++++--------------------
++ rpcapd/daemon.c |  8 +++++--
++ rpcapd/rpcapd.c |  8 +++++--
++ sockutils.c     | 58 ++++++++++++++++++++++++++++---------------------
++ sockutils.h     |  5 ++---
++ 5 files changed, 72 insertions(+), 55 deletions(-)
 +
-+diff --git a/src/eap_peer/eap_config.h b/src/eap_peer/eap_config.h
-+index 3238f74..047eec2 100644
-+--- a/src/eap_peer/eap_config.h
-++++ b/src/eap_peer/eap_config.h
-+@@ -469,6 +469,14 @@ struct eap_peer_config {
-+ 	 * 1 = use cryptobinding if server supports it
-+ 	 * 2 = require cryptobinding
-+ 	 *
-++	 * phase2_auth option can be used to control Phase 2 (i.e., within TLS
-++	 * tunnel) behavior for PEAP:
-++	 * 0 = do not require Phase 2 authentication
-++	 * 1 = require Phase 2 authentication when client certificate
-++	 *  (private_key/client_cert) is no used and TLS session resumption was
-++	 *  not used (default)
-++	 * 2 = require Phase 2 authentication in all cases
-++	 *
-+ 	 * EAP-WSC (WPS) uses following options: pin=Device_Password and
-+ 	 * uuid=Device_UUID
-+ 	 *
-+diff --git a/src/eap_peer/eap_peap.c b/src/eap_peer/eap_peap.c
-+index 12e30df..6080697 100644
-+--- a/src/eap_peer/eap_peap.c
-++++ b/src/eap_peer/eap_peap.c
-+@@ -67,6 +67,7 @@ struct eap_peap_data {
-+ 	u8 cmk[20];
-+ 	int soh; /* Whether IF-TNCCS-SOH (Statement of Health; Microsoft NAP)
-+ 		  * is enabled. */
-++	enum { NO_AUTH, FOR_INITIAL, ALWAYS } phase2_auth;
-+ };
++diff --git a/pcap-rpcap.c b/pcap-rpcap.c
++index ef0cd6e49c..f1992e4aea 100644
++--- a/pcap-rpcap.c
+++++ b/pcap-rpcap.c
++@@ -1024,7 +1024,6 @@ rpcap_remoteact_getsock(const char *host, int *error, char *errbuf)
++ {
++ 	struct activehosts *temp;			/* temp var needed to scan the host list chain */
++ 	struct addrinfo hints, *addrinfo, *ai_next;	/* temp var needed to translate between hostname to its address */
++-	int retval;
 + 
++ 	/* retrieve the network address corresponding to 'host' */
++ 	addrinfo = NULL;
++@@ -1032,9 +1031,9 @@ rpcap_remoteact_getsock(const char *host, int *error, char *errbuf)
++ 	hints.ai_family = PF_UNSPEC;
++ 	hints.ai_socktype = SOCK_STREAM;
 + 
-+@@ -114,6 +115,19 @@ static void eap_peap_parse_phase1(struct eap_peap_data *data,
-+ 		wpa_printf(MSG_DEBUG, "EAP-PEAP: Require cryptobinding");
++-	retval = sock_initaddress(host, NULL, &hints, &addrinfo, errbuf,
+++	addrinfo = sock_initaddress(host, NULL, &hints, errbuf,
++ 	    PCAP_ERRBUF_SIZE);
++-	if (retval != 0)
+++	if (addrinfo == NULL)
++ 	{
++ 		*error = 1;
++ 		return NULL;
++@@ -1186,7 +1185,9 @@ static int pcap_startcapture_remote(pcap_t *fp)
++ 		hints.ai_flags = AI_PASSIVE;	/* Data connection is opened by the server toward the client */
++ 
++ 		/* Let's the server pick up a free network port for us */
++-		if (sock_initaddress(NULL, NULL, &hints, &addrinfo, fp->errbuf, PCAP_ERRBUF_SIZE) == -1)
+++		addrinfo = sock_initaddress(NULL, NULL, &hints, fp->errbuf,
+++		    PCAP_ERRBUF_SIZE);
+++		if (addrinfo == NULL)
++ 			goto error_nodiscard;
++ 
++ 		if ((sockdata = sock_open(NULL, addrinfo, SOCKOPEN_SERVER,
++@@ -1311,7 +1312,9 @@ static int pcap_startcapture_remote(pcap_t *fp)
++ 			snprintf(portstring, PCAP_BUF_SIZE, "%d", ntohs(startcapreply.portdata));
++ 
++ 			/* Let's the server pick up a free network port for us */
++-			if (sock_initaddress(host, portstring, &hints, &addrinfo, fp->errbuf, PCAP_ERRBUF_SIZE) == -1)
+++			addrinfo = sock_initaddress(host, portstring, &hints,
+++			    fp->errbuf, PCAP_ERRBUF_SIZE);
+++			if (addrinfo == NULL)
++ 				goto error;
++ 
++ 			if ((sockdata = sock_open(host, addrinfo, SOCKOPEN_CLIENT, 0, fp->errbuf, PCAP_ERRBUF_SIZE)) == INVALID_SOCKET)
++@@ -2340,16 +2343,16 @@ rpcap_setup_session(const char *source, struct pcap_rmtauth *auth,
++ 		if (port[0] == 0)
++ 		{
++ 			/* the user chose not to specify the port */
++-			if (sock_initaddress(host, RPCAP_DEFAULT_NETPORT,
++-			    &hints, &addrinfo, errbuf, PCAP_ERRBUF_SIZE) == -1)
++-				return -1;
+++			addrinfo = sock_initaddress(host, RPCAP_DEFAULT_NETPORT,
+++			    &hints, errbuf, PCAP_ERRBUF_SIZE);
++ 		}
++ 		else
++ 		{
++-			if (sock_initaddress(host, port, &hints, &addrinfo,
++-			    errbuf, PCAP_ERRBUF_SIZE) == -1)
++-				return -1;
+++			addrinfo = sock_initaddress(host, port, &hints,
+++			    errbuf, PCAP_ERRBUF_SIZE);
++ 		}
+++		if (addrinfo == NULL)
+++			return -1;
++ 
++ 		if ((*sockctrlp = sock_open(host, addrinfo, SOCKOPEN_CLIENT, 0,
++ 		    errbuf, PCAP_ERRBUF_SIZE)) == INVALID_SOCKET)
++@@ -2950,19 +2953,19 @@ SOCKET pcap_remoteact_accept_ex(const char *address, const char *port, const cha
++ 	/* Do the work */
++ 	if ((port == NULL) || (port[0] == 0))
++ 	{
++-		if (sock_initaddress(address, RPCAP_DEFAULT_NETPORT_ACTIVE, &hints, &addrinfo, errbuf, PCAP_ERRBUF_SIZE) == -1)
++-		{
++-			return (SOCKET)-2;
++-		}
+++		addrinfo = sock_initaddress(address,
+++		    RPCAP_DEFAULT_NETPORT_ACTIVE, &hints, errbuf,
+++		    PCAP_ERRBUF_SIZE);
++ 	}
++ 	else
++ 	{
++-		if (sock_initaddress(address, port, &hints, &addrinfo, errbuf, PCAP_ERRBUF_SIZE) == -1)
++-		{
++-			return (SOCKET)-2;
++-		}
+++		addrinfo = sock_initaddress(address, port, &hints, errbuf,
+++		    PCAP_ERRBUF_SIZE);
+++	}
+++	if (addrinfo == NULL)
+++	{
+++		return (SOCKET)-2;
++ 	}
++-
++ 
++ 	if ((sockmain = sock_open(NULL, addrinfo, SOCKOPEN_SERVER, 1, errbuf, PCAP_ERRBUF_SIZE)) == INVALID_SOCKET)
++ 	{
++@@ -3122,7 +3125,6 @@ int pcap_remoteact_close(const char *host, char *errbuf)
++ {
++ 	struct activehosts *temp, *prev;	/* temp var needed to scan the host list chain */
++ 	struct addrinfo hints, *addrinfo, *ai_next;	/* temp var needed to translate between hostname to its address */
++-	int retval;
++ 
++ 	temp = activeHosts;
++ 	prev = NULL;
++@@ -3133,9 +3135,9 @@ int pcap_remoteact_close(const char *host, char *errbuf)
++ 	hints.ai_family = PF_UNSPEC;
++ 	hints.ai_socktype = SOCK_STREAM;
++ 
++-	retval = sock_initaddress(host, NULL, &hints, &addrinfo, errbuf,
+++	addrinfo = sock_initaddress(host, NULL, &hints, errbuf,
++ 	    PCAP_ERRBUF_SIZE);
++-	if (retval != 0)
+++	if (addrinfo == NULL)
++ 	{
++ 		return -1;
++ 	}
++diff --git a/rpcapd/daemon.c b/rpcapd/daemon.c
++index 8d620dd604..b04b29f107 100644
++--- a/rpcapd/daemon.c
+++++ b/rpcapd/daemon.c
++@@ -2085,7 +2085,9 @@ daemon_msg_startcap_req(uint8 ver, struct daemon_slpars *pars, uint32 plen,
++ 			goto error;
++ 		}
++ 
++-		if (sock_initaddress(peerhost, portdata, &hints, &addrinfo, errmsgbuf, PCAP_ERRBUF_SIZE) == -1)
+++		addrinfo = sock_initaddress(peerhost, portdata, &hints,
+++		    errmsgbuf, PCAP_ERRBUF_SIZE);
+++		if (addrinfo == NULL)
++ 			goto error;
++ 
++ 		if ((session->sockdata = sock_open(peerhost, addrinfo, SOCKOPEN_CLIENT, 0, errmsgbuf, PCAP_ERRBUF_SIZE)) == INVALID_SOCKET)
++@@ -2096,7 +2098,9 @@ daemon_msg_startcap_req(uint8 ver, struct daemon_slpars *pars, uint32 plen,
++ 		hints.ai_flags = AI_PASSIVE;
++ 
++ 		// Make the server socket pick up a free network port for us
++-		if (sock_initaddress(NULL, NULL, &hints, &addrinfo, errmsgbuf, PCAP_ERRBUF_SIZE) == -1)
+++		addrinfo = sock_initaddress(NULL, NULL, &hints, errmsgbuf,
+++		    PCAP_ERRBUF_SIZE);
+++		if (addrinfo == NULL)
++ 			goto error;
++ 
++ 		if ((session->sockdata = sock_open(NULL, addrinfo, SOCKOPEN_SERVER, 1 /* max 1 connection in queue */, errmsgbuf, PCAP_ERRBUF_SIZE)) == INVALID_SOCKET)
++diff --git a/rpcapd/rpcapd.c b/rpcapd/rpcapd.c
++index e1f3f05299..d166522c9f 100644
++--- a/rpcapd/rpcapd.c
+++++ b/rpcapd/rpcapd.c
++@@ -611,7 +611,9 @@ void main_startup(void)
++ 		//
++ 		// Get a list of sockets on which to listen.
++ 		//
++-		if (sock_initaddress((address[0]) ? address : NULL, port, &mainhints, &addrinfo, errbuf, PCAP_ERRBUF_SIZE) == -1)
+++		addrinfo = sock_initaddress((address[0]) ? address : NULL,
+++		    port, &mainhints, errbuf, PCAP_ERRBUF_SIZE);
+++		if (addrinfo == NULL)
++ 		{
++ 			rpcapd_log(LOGPRIO_DEBUG, "%s", errbuf);
++ 			return;
++@@ -1350,7 +1352,9 @@ main_active(void *ptr)
++ 	memset(errbuf, 0, sizeof(errbuf));
++ 
++ 	// Do the work
++-	if (sock_initaddress(activepars->address, activepars->port, &hints, &addrinfo, errbuf, PCAP_ERRBUF_SIZE) == -1)
+++	addrinfo = sock_initaddress(activepars->address, activepars->port,
+++	    &hints, errbuf, PCAP_ERRBUF_SIZE);
+++	if (addrinfo == NULL)
++ 	{
++ 		rpcapd_log(LOGPRIO_DEBUG, "%s", errbuf);
++ 		return 0;
++diff --git a/sockutils.c b/sockutils.c
++index a1bfa1b5e2..823c2363e0 100644
++--- a/sockutils.c
+++++ b/sockutils.c
++@@ -1069,20 +1069,21 @@ get_gai_errstring(char *errbuf, int errbuflen, const char *prefix, int err,
++  * \param errbuflen: length of the buffer that will contains the error. The error message cannot be
++  * larger than 'errbuflen - 1' because the last char is reserved for the string terminator.
++  *
++- * \return '0' if everything is fine, '-1' if some errors occurred. The error message is returned
++- * in the 'errbuf' variable. The addrinfo variable that has to be used in the following sockets calls is
++- * returned into the addrinfo parameter.
+++ * \return a pointer to the first element in a list of addrinfo structures
+++ * if everything is fine, NULL if some errors occurred. The error message
+++ * is returned in the 'errbuf' variable.
++  *
++- * \warning The 'addrinfo' variable has to be deleted by the programmer by calling freeaddrinfo() when
++- * it is no longer needed.
+++ * \warning The list of addrinfo structures returned has to be deleted by
+++ * the programmer by calling freeaddrinfo() when it is no longer needed.
++  *
++  * \warning This function requires the 'hints' variable as parameter. The semantic of this variable is the same
++  * of the one of the corresponding variable used into the standard getaddrinfo() socket function. We suggest
++  * the programmer to look at that function in order to set the 'hints' variable appropriately.
++  */
++-int sock_initaddress(const char *host, const char *port,
++-    struct addrinfo *hints, struct addrinfo **addrinfo, char *errbuf, int errbuflen)
+++struct addrinfo *sock_initaddress(const char *host, const char *port,
+++    struct addrinfo *hints, char *errbuf, int errbuflen)
++ {
+++	struct addrinfo *addrinfo;
++ 	int retval;
++ 
++ 	/*
++@@ -1094,9 +1095,13 @@ int sock_initaddress(const char *host, const char *port,
++ 	 * as those messages won't talk about a problem with the port if
++ 	 * no port was specified.
++ 	 */
++-	retval = getaddrinfo(host, port == NULL ? "0" : port, hints, addrinfo);
+++	retval = getaddrinfo(host, port == NULL ? "0" : port, hints, &addrinfo);
++ 	if (retval != 0)
++ 	{
+++		/*
+++		 * That call failed.
+++		 * Determine whether the problem is that the host is bad.
+++		 */
++ 		if (errbuf)
++ 		{
++ 			if (host != NULL && port != NULL) {
++@@ -1108,7 +1113,7 @@ int sock_initaddress(const char *host, const char *port,
++ 				int try_retval;
++ 
++ 				try_retval = getaddrinfo(host, NULL, hints,
++-				    addrinfo);
+++				    &addrinfo);
++ 				if (try_retval == 0) {
++ 					/*
++ 					 * Worked with just the host,
++@@ -1117,14 +1122,16 @@ int sock_initaddress(const char *host, const char *port,
++ 					 *
++ 					 * Free up the address info first.
++ 					 */
++-					freeaddrinfo(*addrinfo);
+++					freeaddrinfo(addrinfo);
++ 					get_gai_errstring(errbuf, errbuflen,
++ 					    "", retval, NULL, port);
++ 				} else {
++ 					/*
++ 					 * Didn't work with just the host,
++ 					 * so assume the problem is
++-					 * with the host.
+++					 * with the host; we assume
+++					 * the original error indicates
+++					 * the underlying problem.
++ 					 */
++ 					get_gai_errstring(errbuf, errbuflen,
++ 					    "", retval, host, NULL);
++@@ -1132,13 +1139,14 @@ int sock_initaddress(const char *host, const char *port,
++ 			} else {
++ 				/*
++ 				 * Either the host or port was null, so
++-				 * there's nothing to determine.
+++				 * there's nothing to determine; report
+++				 * the error from the original call.
++ 				 */
++ 				get_gai_errstring(errbuf, errbuflen, "",
++ 				    retval, host, port);
++ 			}
++ 		}
++-		return -1;
+++		return NULL;
++ 	}
++ 	/*
++ 	 * \warning SOCKET: I should check all the accept() in order to bind to all addresses in case
++@@ -1153,30 +1161,28 @@ int sock_initaddress(const char *host, const char *port,
++ 	 * ignore all addresses that are neither?  (What, no IPX
++ 	 * support? :-))
++ 	 */
++-	if (((*addrinfo)->ai_family != PF_INET) &&
++-	    ((*addrinfo)->ai_family != PF_INET6))
+++	if ((addrinfo->ai_family != PF_INET) &&
+++	    (addrinfo->ai_family != PF_INET6))
++ 	{
++ 		if (errbuf)
++ 			snprintf(errbuf, errbuflen, "getaddrinfo(): socket type not supported");
++-		freeaddrinfo(*addrinfo);
++-		*addrinfo = NULL;
++-		return -1;
+++		freeaddrinfo(addrinfo);
+++		return NULL;
 + 	}
 + 
-++	if (os_strstr(phase1, "phase2_auth=0")) {
-++		data->phase2_auth = NO_AUTH;
-++		wpa_printf(MSG_DEBUG,
-++			   "EAP-PEAP: Do not require Phase 2 authentication");
-++	} else if (os_strstr(phase1, "phase2_auth=1")) {
-++		data->phase2_auth = FOR_INITIAL;
-++		wpa_printf(MSG_DEBUG,
-++			   "EAP-PEAP: Require Phase 2 authentication for initial connection");
-++	} else if (os_strstr(phase1, "phase2_auth=2")) {
-++		data->phase2_auth = ALWAYS;
-++		wpa_printf(MSG_DEBUG,
-++			   "EAP-PEAP: Require Phase 2 authentication for all cases");
-++	}
-+ #ifdef EAP_TNC
-+ 	if (os_strstr(phase1, "tnc=soh2")) {
-+ 		data->soh = 2;
-+@@ -142,6 +156,7 @@ static void * eap_peap_init(struct eap_sm *sm)
-+ 	data->force_peap_version = -1;
-+ 	data->peap_outer_success = 2;
-+ 	data->crypto_binding = OPTIONAL_BINDING;
-++	data->phase2_auth = FOR_INITIAL;
-+ 
-+ 	if (config && config->phase1)
-+ 		eap_peap_parse_phase1(data, config->phase1);
-+@@ -454,6 +469,20 @@ static int eap_tlv_validate_cryptobinding(struct eap_sm *sm,
-+ }
-+ 
-+ 
-++static bool peap_phase2_sufficient(struct eap_sm *sm,
-++				   struct eap_peap_data *data)
-++{
-++	if ((data->phase2_auth == ALWAYS ||
-++	     (data->phase2_auth == FOR_INITIAL &&
-++	      !tls_connection_resumed(sm->ssl_ctx, data->ssl.conn) &&
-++	      !data->ssl.client_cert_conf) ||
-++	     data->phase2_eap_started) &&
-++	    !data->phase2_eap_success)
-++		return false;
-++	return true;
-++}
-++
-++
-+ /**
-+  * eap_tlv_process - Process a received EAP-TLV message and generate a response
-+  * @sm: Pointer to EAP state machine allocated with eap_peer_sm_init()
-+@@ -568,6 +597,11 @@ static int eap_tlv_process(struct eap_sm *sm, struct eap_peap_data *data,
-+ 					   " - force failed Phase 2");
-+ 				resp_status = EAP_TLV_RESULT_FAILURE;
-+ 				ret->decision = DECISION_FAIL;
-++			} else if (!peap_phase2_sufficient(sm, data)) {
-++				wpa_printf(MSG_INFO,
-++					   "EAP-PEAP: Server indicated Phase 2 success, but sufficient Phase 2 authentication has not been completed");
-++				resp_status = EAP_TLV_RESULT_FAILURE;
-++				ret->decision = DECISION_FAIL;
-+ 			} else {
-+ 				resp_status = EAP_TLV_RESULT_SUCCESS;
-+ 				ret->decision = DECISION_UNCOND_SUCC;
-+@@ -887,8 +921,7 @@ continue_req:
-+ 			/* EAP-Success within TLS tunnel is used to indicate
-+ 			 * shutdown of the TLS channel. The authentication has
-+ 			 * been completed. */
-+-			if (data->phase2_eap_started &&
-+-			    !data->phase2_eap_success) {
-++			if (!peap_phase2_sufficient(sm, data)) {
-+ 				wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase 2 "
-+ 					   "Success used to indicate success, "
-+ 					   "but Phase 2 EAP was not yet "
-+@@ -1199,8 +1232,9 @@ static struct wpabuf * eap_peap_process(struct eap_sm *sm, void *priv,
-+ static bool eap_peap_has_reauth_data(struct eap_sm *sm, void *priv)
-+ {
-+ 	struct eap_peap_data *data = priv;
-++
-+ 	return tls_connection_established(sm->ssl_ctx, data->ssl.conn) &&
-+-		data->phase2_success;
-++		data->phase2_success && data->phase2_auth != ALWAYS;
-+ }
-+ 
-+ 
-+diff --git a/src/eap_peer/eap_tls_common.c b/src/eap_peer/eap_tls_common.c
-+index c1837db..a53eeb1 100644
-+--- a/src/eap_peer/eap_tls_common.c
-++++ b/src/eap_peer/eap_tls_common.c
-+@@ -239,6 +239,12 @@ static int eap_tls_params_from_conf(struct eap_sm *sm,
-+ 
-+ 	sm->ext_cert_check = !!(params->flags & TLS_CONN_EXT_CERT_CHECK);
-+ 
-++	if (!phase2)
-++		data->client_cert_conf = params->client_cert ||
-++			params->client_cert_blob ||
-++			params->private_key ||
-++			params->private_key_blob;
-++
-+ 	return 0;
-+ }
-+ 
-+diff --git a/src/eap_peer/eap_tls_common.h b/src/eap_peer/eap_tls_common.h
-+index 9ac0012..3348634 100644
-+--- a/src/eap_peer/eap_tls_common.h
-++++ b/src/eap_peer/eap_tls_common.h
-+@@ -79,6 +79,11 @@ struct eap_ssl_data {
-+ 	 * tls_v13 - Whether TLS v1.3 or newer is used
++ 	/*
++ 	 * You can't do multicast (or broadcast) TCP.
 + 	 */
-+ 	int tls_v13;
-++
-++	/**
-++	 * client_cert_conf: Whether client certificate has been configured
-++	 */
-++	bool client_cert_conf;
-+ };
++-	if (((*addrinfo)->ai_socktype == SOCK_STREAM) &&
++-	    (sock_ismcastaddr((*addrinfo)->ai_addr) == 0))
+++	if ((addrinfo->ai_socktype == SOCK_STREAM) &&
+++	    (sock_ismcastaddr(addrinfo->ai_addr) == 0))
++ 	{
++ 		if (errbuf)
++ 			snprintf(errbuf, errbuflen, "getaddrinfo(): multicast addresses are not valid when using TCP streams");
++-		freeaddrinfo(*addrinfo);
++-		*addrinfo = NULL;
++-		return -1;
+++		freeaddrinfo(addrinfo);
+++		return NULL;
++ 	}
 + 
++-	return 0;
+++	return addrinfo;
++ }
 + 
-+diff --git a/wpa_supplicant/wpa_supplicant.conf b/wpa_supplicant/wpa_supplicant.conf
-+index 6619d6b..d63f73c 100644
-+--- a/wpa_supplicant/wpa_supplicant.conf
-++++ b/wpa_supplicant/wpa_supplicant.conf
-+@@ -1321,6 +1321,13 @@ fast_reauth=1
-+ #	 * 0 = do not use cryptobinding (default)
-+ #	 * 1 = use cryptobinding if server supports it
-+ #	 * 2 = require cryptobinding
-++#	'phase2_auth' option can be used to control Phase 2 (i.e., within TLS
-++#	tunnel) behavior for PEAP:
-++#	 * 0 = do not require Phase 2 authentication
-++#	 * 1 = require Phase 2 authentication when client certificate
-++#	   (private_key/client_cert) is no used and TLS session resumption was
-++#	   not used (default)
-++#	 * 2 = require Phase 2 authentication in all cases
-+ #	EAP-WSC (WPS) uses following options: pin=<Device Password> or
-+ #	pbc=1.
-+ #
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch
++ /*
++@@ -2089,7 +2095,9 @@ int sock_present2network(const char *address, struct sockaddr_storage *sockaddr,
++ 
++ 	hints.ai_family = addr_family;
++ 
++-	if (sock_initaddress(address, "22222" /* fake port */, &hints, &addrinfo, errbuf, errbuflen) == -1)
+++	addrinfo = sock_initaddress(address, "22222" /* fake port */, &hints,
+++	    errbuf, errbuflen);
+++	if (addrinfo == NULL)
++ 		return 0;
++ 
++ 	if (addrinfo->ai_family == PF_INET)
++diff --git a/sockutils.h b/sockutils.h
++index a488d8fcb4..30b8cfe0b7 100644
++--- a/sockutils.h
+++++ b/sockutils.h
++@@ -138,9 +138,8 @@ void sock_fmterrmsg(char *errbuf, size_t errbuflen, int errcode,
++     PCAP_FORMAT_STRING(const char *fmt), ...) PCAP_PRINTFLIKE(4, 5);
++ void sock_geterrmsg(char *errbuf, size_t errbuflen,
++     PCAP_FORMAT_STRING(const char *fmt), ...)  PCAP_PRINTFLIKE(3, 4);
++-int sock_initaddress(const char *address, const char *port,
++-    struct addrinfo *hints, struct addrinfo **addrinfo,
++-    char *errbuf, int errbuflen);
+++struct addrinfo *sock_initaddress(const char *address, const char *port,
+++    struct addrinfo *hints, char *errbuf, int errbuflen);
++ int sock_recv(SOCKET sock, SSL *, void *buffer, size_t size, int receiveall,
++     char *errbuf, int errbuflen);
++ int sock_recv_dgram(SOCKET sock, SSL *, void *buffer, size_t size,
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2024-8006.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2024-8006.patch
 new file mode 100644
-index 0000000000..6e930fc98d
+index 0000000000..6819aedd20
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch
-@@ -0,0 +1,73 @@
-+From cb41c214b78d6df187a31950342e48a403dbd769 Mon Sep 17 00:00:00 2001
-+From: Sergey Matyukevich <geomatsi@gmail.com>
-+Date: Tue, 22 Feb 2022 11:52:19 +0300
-+Subject: [PATCH 1/2] build: Re-enable options for libwpa_client.so and
-+ wpa_passphrase
++++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2024-8006.patch
+@@ -0,0 +1,42 @@
++From 8a633ee5b9ecd9d38a587ac9b204e2380713b0d6 Mon Sep 17 00:00:00 2001
++From: Nicolas Badoux <n.badoux@hotmail.com>
++Date: Mon, 19 Aug 2024 12:31:53 +0200
++Subject: [PATCH] makes pcap_findalldevs_ex errors out if the directory does
++ not exist
 +
-+Commit a41a29192e5d ("build: Pull common fragments into a build.rules
-+file") introduced a regression into wpa_supplicant build process. The
-+build target libwpa_client.so is not built regardless of whether the
-+option CONFIG_BUILD_WPA_CLIENT_SO is set or not. This happens because
-+this config option is used before it is imported from the configuration
-+file. Moving its use after including build.rules does not help: the
-+variable ALL is processed by build.rules and further changes are not
-+applied. Similarly, option CONFIG_NO_WPA_PASSPHRASE also does not work
-+as expected: wpa_passphrase is always built regardless of whether the
-+option is set or not.
++(backported from commit 0f8a103469ce87d2b8d68c5130a46ddb7fb5eb29)
 +
-+Re-enable these options by adding both build targets to _all
-+dependencies.
-+
-+Fixes: a41a29192e5d ("build: Pull common fragments into a build.rules file")
-+Signed-off-by: Sergey Matyukevich <geomatsi@gmail.com>
-+Upstream-Status: Backport
-+Signed-off-by: Alex Kiernan <alexk@zuma.ai>
-+Signed-off-by: Alex Kiernan <alexk@gmail.com>
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/8a633ee5b9ecd9d38a587ac9b204e2380713b0d6]
++CVE: CVE-2024-8006
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ wpa_supplicant/Makefile | 19 ++++++++++++-------
-+ 1 file changed, 12 insertions(+), 7 deletions(-)
++ pcap-new.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
 +
-+diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
-+index cb66defac7c8..c456825ae75f 100644
-+--- a/wpa_supplicant/Makefile
-++++ b/wpa_supplicant/Makefile
-+@@ -1,24 +1,29 @@
-+ BINALL=wpa_supplicant wpa_cli
++diff --git a/pcap-new.c b/pcap-new.c
++index be91b3f8db..d449ee623c 100644
++--- a/pcap-new.c
+++++ b/pcap-new.c
++@@ -230,6 +230,13 @@ int pcap_findalldevs_ex(const char *source, struct pcap_rmtauth *auth, pcap_if_t
++ #else
++ 		/* opening the folder */
++ 		unixdir= opendir(path);
+++		if (unixdir == NULL) {
+++			DIAG_OFF_FORMAT_TRUNCATION
+++			snprintf(errbuf, PCAP_ERRBUF_SIZE,
+++			    "Error when listing files: does folder '%s' exist?", path);
+++			DIAG_ON_FORMAT_TRUNCATION
+++			return -1;
+++		}
 + 
-+-ifndef CONFIG_NO_WPA_PASSPHRASE
-+-BINALL += wpa_passphrase
-+-endif
-+-
-+ ALL = $(BINALL)
-+ ALL += systemd/wpa_supplicant.service
-+ ALL += systemd/wpa_supplicant@.service
-+ ALL += systemd/wpa_supplicant-nl80211@.service
-+ ALL += systemd/wpa_supplicant-wired@.service
-+ ALL += dbus/fi.w1.wpa_supplicant1.service
-+-ifdef CONFIG_BUILD_WPA_CLIENT_SO
-+-ALL += libwpa_client.so
-+-endif
-+ 
-+ EXTRA_TARGETS=dynamic_eap_methods
-+ 
-+ CONFIG_FILE=.config
-+ include ../src/build.rules
-+ 
-++ifdef CONFIG_BUILD_WPA_CLIENT_SO
-++# add the dependency this way to allow CONFIG_BUILD_WPA_CLIENT_SO
-++# being set in the config which is read by build.rules
-++_all: libwpa_client.so
-++endif
-++
-++ifndef CONFIG_NO_WPA_PASSPHRASE
-++# add the dependency this way to allow CONFIG_NO_WPA_PASSPHRASE
-++# being set in the config which is read by build.rules
-++_all: wpa_passphrase
-++endif
-++
-+ ifdef LIBS
-+ # If LIBS is set with some global build system defaults, clone those for
-+ # LIBS_c and LIBS_p to cover wpa_passphrase and wpa_cli as well.
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch
-new file mode 100644
-index 0000000000..53b0fcdf53
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch
-@@ -0,0 +1,26 @@
-+From d001b301ba7987f4b39453a211631b85c48f2ff8 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <quic_jouni@quicinc.com>
-+Date: Thu, 3 Mar 2022 13:26:42 +0200
-+Subject: [PATCH 2/2] Fix removal of wpa_passphrase on 'make clean'
-+
-+Fixes: 0430bc8267b4 ("build: Add a common-clean target")
-+Signed-off-by: Jouni Malinen <quic_jouni@quicinc.com>
-+Upstream-Status: Backport
-+Signed-off-by: Alex Kiernan <alexk@zuma.ai>
-+Signed-off-by: Alex Kiernan <alexk@gmail.com>
-+---
-+ wpa_supplicant/Makefile | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/wpa_supplicant/Makefile b/wpa_supplicant/Makefile
-+index c456825ae75f..4b4688931b1d 100644
-+--- a/wpa_supplicant/Makefile
-++++ b/wpa_supplicant/Makefile
-+@@ -2077,3 +2077,4 @@ clean: common-clean
-+ 	rm -f libwpa_client.a
-+ 	rm -f libwpa_client.so
-+ 	rm -f libwpa_test1 libwpa_test2
-++	rm -f wpa_passphrase
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-similarity index 90%
-rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index 03e4571cfb..22028ce957 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -5,8 +5,8 @@ BUGTRACKER = "http://w1.fi/security/"
- SECTION = "network"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5ebcb90236d1ad640558c3d3cd3035df \
--                    file://README;beginline=1;endline=56;md5=6e4b25e7d74bfc44a32ba37bdf5210a6 \
--                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=f5ccd57ea91e04800edb88267bf8eae4"
-+                    file://README;beginline=1;endline=56;md5=e3d2f6c2948991e37c1ca4960de84747 \
-+                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=76306a95306fee9a976b0ac1be70f705"
++ 		/* get the first file into it */
++ 		filedata= readdir(unixdir);
++@@ -237,7 +244,7 @@ int pcap_findalldevs_ex(const char *source, struct pcap_rmtauth *auth, pcap_if_t
++ 		if (filedata == NULL)
++ 		{
++ 			DIAG_OFF_FORMAT_TRUNCATION
++-			snprintf(errbuf, PCAP_ERRBUF_SIZE, "Error when listing files: does folder '%s' exist?", path);
+++			snprintf(errbuf, PCAP_ERRBUF_SIZE, "Error when listing files: does folder '%s' contain files?", path);
++ 			DIAG_ON_FORMAT_TRUNCATION
++ 			closedir(unixdir);
++ 			return -1;
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
+index 166654e280..36eb4bca75 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
+@@ -10,7 +10,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5eb289217c160e2920d2e35bddc36453 \
+                     file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
+ DEPENDS = "flex-native bison-native"
  
- DEPENDS = "dbus libnl"
+-SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz"
++SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
++           file://CVE-2023-7256-pre1.patch \
++           file://CVE-2023-7256.patch \
++           file://CVE-2024-8006.patch \
++          "
++
+ SRC_URI[sha256sum] = "ed19a0383fad72e3ad435fd239d7cd80d64916b87269550159d20e47160ebe5f"
  
-@@ -15,8 +15,12 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
-            file://wpa_supplicant.conf \
-            file://wpa_supplicant.conf-sane \
-            file://99_wpa_supplicant \
-+           file://0001-build-Re-enable-options-for-libwpa_client.so-and-wpa.patch \
-+           file://0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch \
-+           file://0001-Install-wpa_passphrase-when-not-disabled.patch \
-+           file://0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch \
-            "
--SRC_URI[sha256sum] = "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc5d75dee6c81ac7fc0a"
-+SRC_URI[sha256sum] = "20df7ae5154b3830355f8ab4269123a87affdea59fe74fe9292a91d0d7e17b2f"
- 
- S = "${WORKDIR}/wpa_supplicant-${PV}"
- 
+ inherit autotools binconfig-disabled pkgconfig
 -- 
 2.34.1
 
