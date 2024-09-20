@@ -1,168 +1,127 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33428CF58E3
-	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 07:26:38 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.12886.1726817192777134673
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FBFCF58F4
+	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 08:53:28 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.13748.1726822405704937666
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Sep 2024 00:26:33 -0700
+ Fri, 20 Sep 2024 01:53:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EMn0eD7E;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42e5e758093so14748345e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 00:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726817191; x=1727421991; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E8/ddL25mcT/kk0dh6CjS/sSmskfzyJqw6XBO0EpCe8=;
-        b=EMn0eD7E4zHKIG7W1FdpbZR3cbRookb5SWdlp141TgUfSox2k+/xDg7deo5Gh1cuR+
-         xR0DECPCYE1BT+cFWRHEDyB/HRP/6i14U2IU/ZxWqceBxsl7jrYN0XoQ2yxXlOVnQiPd
-         S8U8x7KldTrvkjJCoI7AsEGb5vF2ihdMvwMG8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726817191; x=1727421991;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E8/ddL25mcT/kk0dh6CjS/sSmskfzyJqw6XBO0EpCe8=;
-        b=JDZlg7f/wWzD5ddZmw7SaUhG7FXoYjgEAfNcdqthyZ7IXSVFvGbcUHbd6rOUDr8cdz
-         XUM+oUbt6nzy9D81/K6WtHQcmtjBjgZudGbR8Sf2++edwnbtjQ1pqKz+nS+mXtoqjkDX
-         SJDfkySusAhYWAiYiJEUQ+bWmkG8K1NAXFSPEp7kNqyfKzVaoZN38uOGGBmpJTYMJ4On
-         miFOkZgRpw+Vqx9dzck0wInALL8BptREkvbbi0vZ1z60W6XxXHnpzmDIRBbo472RzEZY
-         dsU6J9eFwl5LixB+cvNHTSJ5yys7P8gjrZsVU1OsFhh2Z7HkIkI2EEaZwcwDC1pf0ESC
-         s30w==
-X-Forwarded-Encrypted: i=1; AJvYcCUns1BMxx41fjD0T3C5m9PCPiRSA2YNoN6zRmD7HCL6X/xnkpMYljac9PSeVYE+/0ZBFy91h6ly+O2KKTA85JsURQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwlZmKkXif2pD5rJm+EP2XMew75IcSnAdf7AgM42aiHXn19jXX7
-	/vgbzOhzeY+Ph0rnUOy68Jl2JOmkOWUccW/dAC0VyWjreGPZ2Jvpyr57+gheeSmOy39OYpnANRO
-	U
-X-Google-Smtp-Source: AGHT+IGM5UrWR1mFijIcAxvHWEUcxOXwo+yCq5Jq74j6aQMPRBS/rahmXM+Zv/mPoWEFB8pu1YLhzA==
-X-Received: by 2002:a05:600c:4f03:b0:42b:892d:54c0 with SMTP id 5b1f17b1804b1-42e7abf8594mr9768825e9.12.1726817191169;
-        Fri, 20 Sep 2024 00:26:31 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6fe:c6ec:26f9:aa4? ([2001:8b0:aba:5f3c:6fe:c6ec:26f9:aa4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e7ae5fc68sm14783305e9.6.2024.09.20.00.26.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 00:26:30 -0700 (PDT)
-Message-ID: <6c93960c9a6461991a3d8b6d98f2419b3b66d699.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 00/12] systemd uki support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2024 08:26:30 +0100
-In-Reply-To: <20240919143706.6074-1-mikko.rapeli@linaro.org>
-References: <20240919143706.6074-1-mikko.rapeli@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=999393e395=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48K3swlG022587
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 01:53:25 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41na0mpb53-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 01:53:25 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 20 Sep 2024 01:53:15 -0700
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Fri, 20 Sep 2024 01:53:15 -0700
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <david.reyna@windriver.com>
+Subject: [PATCH 0/2] proposal: Append VENDOR_REVISION to PR for CVE scanners
+Date: Fri, 20 Sep 2024 01:53:13 -0700
+Message-ID: <cover.1726821150.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: A4CDTdkgcVpaYfT24QccDdF3IKUakZmt
+X-Authority-Analysis: v=2.4 cv=d6+nygjE c=1 sm=1 tr=0 ts=66ed3805 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=TCbaq5QuucA_afEiskQA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: A4CDTdkgcVpaYfT24QccDdF3IKUakZmt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-20_04,2024-09-19_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 mlxlogscore=811 spamscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2408220000
+ definitions=main-2409200063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 07:26:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204725
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 08:53:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204726
 
-On Thu, 2024-09-19 at 17:36 +0300, Mikko Rapeli via lists.openembedded.org =
-wrote:
-> These changes enable building systemd uki images which combine
-> kernel, kernel command line, initrd and possibly signatures to
-> a single UEFI binary. This binary can be booted with UEFI firmware
-> and systemd-boot. No grub is needed and UEFI firmware and/or
-> systemd-boot provide possibilities for boot menus.
-> The uki binary can also be signed for UEFI secure boot
-> so the secure boot extends from firmware to kernel and initrd.
-> Binding secure boot to full userspace is then easier since for example
-> kernel command line and initrd contain the support needed to mount
-> encrypted dm-verity etc partitions, and/or create partitions on demand
-> with systemd-repart using device specific TPM devices for encryption.
->=20
-> Tested on qemuarm64-secureboot machine from meta-arm with changes to
-> support secure boot. Slightly different configuration tested on
-> multiple arm64 System Ready boards with UEFI firmware, real and firmware
-> based TPM devices. Tested with ovmf firmware on x86_64 with selftests but
-> without secure boot which seems to be harder to setup in ovmf.
->=20
-> Sadly I see two wic selftests, wic.Wic2.test_rawcopy_plugin_qemu and
-> wic.Wic2.test_expand_mbr_image, failing when executing all wic selftests
-> on a build machine with zfs filesystem. Will investigate this further.
-> The issue seems to be in mkfs.ext4 producing broken filesystem, and parti=
-ally
-> in the tests which don't run the correct rootfs file (.ext4 vs .wic).
-> Will debug this further and it is IMO unrelated to these changes since
-> they reproduce on pure master branch without this series.
->=20
-> v3: rebased, fixed and added more sefltests, removed wic plugin side uki
-> support
->=20
-> v2: https://lists.openembedded.org/g/openembedded-core/message/204090
->=20
-> Michelle Lin (1):
-> =C2=A0 uki.bbclass: add class for building Unified Kernel Images (UKI)
->=20
-> Mikko Rapeli (11):
-> =C2=A0 python3-pefile: add recipe from meta-openembedded
-> =C2=A0 maintainers.inc: add python3-pefile
-> =C2=A0 systemd-boot-native: add runtime dependency to python3-pefile-nati=
-ve
-> =C2=A0 image_types_wic.bbclass: set systemd-boot and os-release dependenc=
-y
-> =C2=A0=C2=A0=C2=A0 for all archs
-> =C2=A0 wic bootimg-efi.py: keep timestamps and add debug prints
-> =C2=A0 wic bootimg-efi.py: change UKI support from wic plugin to uki.bbcl=
-ass
-> =C2=A0 oeqa selftest uki.py: add tests for uki.bbclass
-> =C2=A0 oeqa selftest efibootpartition.py: add TEST_RUNQEMUPARAMS to runqe=
-mu
-> =C2=A0 oeqa selftest efibootpartition.py: remove systemd-boot from grub-e=
-fi
-> =C2=A0=C2=A0=C2=A0 test
-> =C2=A0 oeqa selftest wic.py: add TEST_RUNQEMUPARAMS to runqemu
-> =C2=A0 oeqa selftest wic.py: support UKIs via uki.bbclass
->=20
-> =C2=A0meta-selftest/wic/test_efi_plugin.wks=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
-> =C2=A0meta/classes-recipe/image_types_wic.bbclass=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 5 +-
-> =C2=A0meta/classes-recipe/uki.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 197 ++++++++++++++++++
-> =C2=A0meta/conf/distro/include/maintainers.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0.../oeqa/selftest/cases/efibootpartition.py=C2=A0=C2=A0 |=C2=A0 11 =
-+-
-> =C2=A0meta/lib/oeqa/selftest/cases/uki.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 138 ++++++++++++
-> =C2=A0meta/lib/oeqa/selftest/cases/wic.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 58 ++++--
-> =C2=A0.../systemd/systemd-boot-native_256.5.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 2 +
-> =C2=A0.../python/python3-pefile/run-ptest=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
-> =C2=A0.../python/python3-pefile_2023.2.7.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 28 +++
-> =C2=A0.../wic/canned-wks/efi-uki-bootdisk.wks.in=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 3 +
-> =C2=A0scripts/lib/wic/plugins/source/bootimg-efi.py | 187 +++++----------=
---
-> =C2=A012 files changed, 481 insertions(+), 157 deletions(-)
-> =C2=A0create mode 100644 meta/classes-recipe/uki.bbclass
-> =C2=A0create mode 100644 meta/lib/oeqa/selftest/cases/uki.py
-> =C2=A0create mode 100644 meta/recipes-devtools/python/python3-pefile/run-=
-ptest
-> =C2=A0create mode 100644 meta/recipes-devtools/python/python3-pefile_2023=
-.2.7.bb
-> =C2=A0create mode 100644 scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.=
-in
+From: Robert Yang <liezhi.yang@windriver.com>
 
-In addition to the other recipe issue, I also noticed selftest failing:
+The VENDOR_REVISION is for cve scanners to know the CVEs have been fixed in a
+lower version, CVE scanners such as Trivy can know the CVEs have been fixed in
+a higher version, but it can't know the CVE is fixed in a lower version without
+a helper, we have the following ways to set the helper:
+1) Use PR server
+   This doesn't work since the server updates PR for any changes.
 
-https://valkyrie.yoctoproject.org/#/builders/35/builds/142/steps/14/logs/st=
-dio
+2) Update PR manually when add a CVE patch
+   This is doesn't work either since:
+   - This is very trivial and people may forget to update the PR
+   - The PR may be updated for other reasons except CVE patches
 
-"runqemu - ERROR - Can't handle two unknown args: None qemux86-64"
+So we need a specific part such as VENDOR_REVISION for cve scanners.
+The VENDOR_REVISION is designed as part of PR:
+  PR:append = ".vr51"
+- ".vr51": The VENDOR_REVISION
+- "vr": Vendor Revision, can be set to other values such as oe or poky
+- "51": Convert from DISTRO_VERSION (Yocto 5.1), it can be customized with
+        a function defined in GET_CURRENT_VENDOR_REVISION.
+- The VENDOR_REVISION will only append to the recipes which have patches
 
-(all the selftest targets failed, this is one example)
+There are two bbclasses to manage the VENDOR_REVISION automatically:
+- gen-vendor-revision.bbclass: This is used for generating VENDOR_REVISION
+  automatically, and save all the recipes' VENDOR_REVISION in
+  vendor-revision.conf, it is like:
+  VENDOR_REVISION[meta_recipes-support_libssh2_libssh2_1.11.0.bb] ??= '${VENDOR_REVISION_PREFIX}51 \
+   CVE-2023-48795:CVE-2023-48795.patch:b6c68cd1f0631180914ff112ac0c29c4 \
+   notcve:0001-disable-DSA-by-default.patch:61b6368d4a969d187805393d8b8fee85'
 
-Cheers,
+  And in the second release such as Yocto 5.1.1, the bbclass will update the
+  vr51 to vr511 when both of the following 2 conditions are met:
+  - The DISTRO VERSION is updated, for example, from 5.1 to 5.1.1
+  - The recipe's patches are changed (Patches added, removed or updated),
+    otherwise, it will still be "51" when Yocto updated to 5.1.1, this can avoid
+    unnecessary PR bump.
 
-Richard
+- enable-vendor-revision.bbclass: Append VENDOR_REVISION to PR
+  After the VR is appended, the rpm package is like:
+  openssl-3.3.1-r0.vr51.core2_64.rpm
+
+  There is no change if the recipe doesn't have patches, for example:
+  base-files-3.0.14-r0.qemux86_64.rpm
+
+Check the comments in the header of gen-vendor-revision.bbclass for more details.
+
+// Robert
+
+The following changes since commit 161c5b311f1aeb8f254dca96331b31d5b67fc92d:
+
+  build-appliance-image: Update to master head revision (2024-09-17 12:31:45 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/robertlinux/yocto rbt/vr
+  https://github.com/robertlinux/yocto/tree/rbt/vr
+
+Robert Yang (2):
+  enable-vendor-revision.bbclass: Add it to append VENDOR_REVISION to PR
+  gen-vendor-revision.bbclass: Add it to update VENDOR_REVISION
+    automatically
+
+ .../enable-vendor-revision.bbclass            | 125 +++++++++
+ .../gen-vendor-revision.bbclass               | 243 ++++++++++++++++++
+ 2 files changed, 368 insertions(+)
+ create mode 100644 meta/classes-global/enable-vendor-revision.bbclass
+ create mode 100644 meta/classes-global/gen-vendor-revision.bbclass
+
+-- 
+2.25.1
+
 
