@@ -1,120 +1,145 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD75CCF9C62
-	for <webhook@archiver.kernel.org>; Fri, 20 Sep 2024 18:41:42 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web10.25811.1726857698196267615
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EE14CF9C5B
+	for <webhook@archiver.kernel.org>; Sat, 21 Sep 2024 10:05:53 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.62])
+ by mx.groups.io with SMTP id smtpd.web10.6831.1726913145121235100
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Sep 2024 11:41:38 -0700
+ Sat, 21 Sep 2024 03:05:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=PNVHiWHk;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.176, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7a9aa913442so216410685a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 11:41:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1726857697; x=1727462497; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6VNpY6ZcLQzC9OeI4B1N9H0wEJbrqZOj9wGU1yl4KwM=;
-        b=PNVHiWHk3LU4+0BH3KUYs/Q4AkBcKEdEkLcH95ExgkJFErNoUZ4KzKKPYMzEt1ssf7
-         GeMt8PO+adcWJlJ93gCAlC7mdZmQoAC80R/KpSgJnF+pfXBZLhf5vi39xKzt9Nz9nDGk
-         FyKZ1vMC6x/diiNGL0ynFDCFaz542oEzCNoU0KO5I7SggED/yIex6SK5y7hcm56V5PC2
-         TZDAAYdEhl2SICcmkjwoE5sn+K8tR6js2tvLSryKUFtWGvJYujmyYzTBAi3S1iRfPsP/
-         xJl+wyx9b4aWtXC1clV4govoCn2ca6fhgmqjhXEeS33PQGAQsHM+VuY5h7KeURp9L2Io
-         s24A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726857697; x=1727462497;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6VNpY6ZcLQzC9OeI4B1N9H0wEJbrqZOj9wGU1yl4KwM=;
-        b=Bg5f4wmCkJBznYuo7aWf/fxzDQKnYVke+OBrBXRvhHpzS7H3Q2VaNdkQEX1veJe2jZ
-         WWwUuyq0pQXmgqD7JBpX6vpqIvsmkJS/s5HKydQt2EbYU0l81eK1auHfXXVo02tF4EI5
-         m/fVfxJPIgz1Yu1ACsMMYsG5ytlU1hrTBZJNWXcJOkSQjPbvTNZrBq5/KlpiKGeE6yZi
-         oduYB/E+dCUJlnDBb2G9xafIQ3SxwXmpue7de6PVYGjn8p5lUeBI0bfkqoWtYDc5V0+K
-         HFHWqPC0W+kveW0c+hWSOdqlPuqn+8RvSecqD1CRLp6HF99kqI90ghD3qWCj9NdwPnrr
-         NEYA==
-X-Gm-Message-State: AOJu0YzcSGZSrTqn4cfuVQDFi1EYI18dB4aS0nNkJcvW08lNLUDl22GI
-	1b9qsRAHZInRXS80UMYXbRQMBtbCl6tIe81b5rtXkEipFArMJUgbF9wlZ6Rcv4CGj2nXcIOTZvw
-	=
-X-Google-Smtp-Source: AGHT+IHf0YidKRi/B0ZvsHR2ZONConBgNoQTtHlQqZc2pNKhmT2KRVaSKArrrPlnYVPH2gtgaOFWjg==
-X-Received: by 2002:a05:620a:4005:b0:7a9:a661:aa63 with SMTP id af79cd13be357-7acb8210837mr662168985a.52.1726857696895;
-        Fri, 20 Sep 2024 11:41:36 -0700 (PDT)
-Received: from localhost ([136.54.20.50])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7acb07ea4absm211787585a.20.2024.09.20.11.41.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 11:41:36 -0700 (PDT)
-From: Jon Mason <jdmason@kudzu.us>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=aCaU2AyS;
+ spf=pass (domain: outlook.com, ip: 40.92.89.62, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qBg5te0MzkWSKgk+QLOv2hTjV0gRs3rEkxqpwf5JN8quyE5giWKBFLUfXRW/kKZEvyVktoHImj7tUp7bXK9wb7mA9+OIJ8TX8SwR6MDGy50PAiGznJv+wmt+CfyqLvznR5bUJ+jNPifL7BoVrzwCedXbNWxbWxRlQvtxC/oPvJBe+dZ5BKCOlkkO9PqtJslurxr4hTdYtMHCqcyD0oXgc41Ki+Bzc6m69uFxA1RA15HMYrrOY/R4FhbEF1wq7KbRT/jEi4BsB/Ak1NIDOZKLR+/MoYGOe7gqtgknvNx3UMceVBGoqBEB2GYt/UApYk1mAharCPSWFs2NI7KeuE0j+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lbgD0NSXMny7qpIC7WRM7h56nY38UYzSbapJmqtwKTM=;
+ b=hGFbnaCi+izu2fJc0yBYwz5sQ9aMGW6/DSt5tOKm2ITWl3fy5wIQqYunu5ShQeHP+prYmD+W75gYARISZuyNpIeR6MPl6hjUMBE0obGmGbPGHzox42UA2PVjud5Gi8vzF4cZOEGs0YxCHp2F5dLU6VvTFxBSyMa/ex+zsvdF+70Ab+EbhM7RimHjh6SwKb6ICaC1Z2ZNs9Ff1sDemQ5C8MC2Duhxn99H+q/rb74OVU0Dj0+kH++R5NwL+hyDrvmDvXTbloVkefnDwlem4uC11RCFHTgX5uodiii7JYVmCBQByTc5Cny1NbXXCFGXZJMUKyvvimmu3Aep+6HulVNXDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lbgD0NSXMny7qpIC7WRM7h56nY38UYzSbapJmqtwKTM=;
+ b=aCaU2AyS5Myeo4UMwHy+ms5MUCsIjtAcjJdIyuedTDTLr9GvyP81YQLi8z+hbAxP5cv6f7vZ2cDTSW6ZYAZmeVePr9VqDzfxzrW0Kry+YWbT2Ky53eAhm4W9twqhu/WR1fRBDSYgUItbIMoBhIVPl/XeTVTwo7SAiS3YG7zLMlIZIV/PdeRsKBez9AgEV8Z62qIhQHfT+AU6vK4rh3So8v9LEsxxI81iknhDK9SfQS1AXkgD/ijol4Hv+BJi3FBNXDnKUCZya9RNewwuK1lvcOFUPTAiVMYT7QExh4A7b9hNvMnJiVynMqgZDA1ktRLV9aqmLmTZ0pokbrc7GcY6aA==
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com (2603:10a6:150:80::7)
+ by AM7PR07MB6246.eurprd07.prod.outlook.com (2603:10a6:20b:139::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.23; Sat, 21 Sep
+ 2024 10:05:41 +0000
+Received: from GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a]) by GV1PR07MB9120.eurprd07.prod.outlook.com
+ ([fe80::a630:7019:63e4:a48a%6]) with mapi id 15.20.7982.022; Sat, 21 Sep 2024
+ 10:05:41 +0000
+From: Konrad Weihmann <kweihmann@outlook.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] default-distrovars: Have KERNEL_CONSOLE reference SERIAL_CONSOLES
-Date: Fri, 20 Sep 2024 14:41:35 -0400
-Message-Id: <20240920184135.789227-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.39.5
+CC: steve@sakoman.com,
+	Konrad Weihmann <kweihmann@outlook.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH 2/3] testimage: fallback for empty IMAGE_LINK_NAME
+Date: Sat, 21 Sep 2024 10:04:43 +0000
+Message-ID: <GV1PR07MB9120A11725015A30A050194FA86D2@GV1PR07MB9120.eurprd07.prod.outlook.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240921100444.377583-1-kweihmann@outlook.com>
+References: <20240921100444.377583-1-kweihmann@outlook.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: FR0P281CA0045.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::14) To GV1PR07MB9120.eurprd07.prod.outlook.com
+ (2603:10a6:150:80::7)
+X-Microsoft-Original-Message-ID: <20240921100444.377583-2-kweihmann@outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR07MB9120:EE_|AM7PR07MB6246:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2fa3dc2-55e2-4484-dd5e-08dcda24f2f7
+X-Microsoft-Antispam: 
+	BCL:0;ARA:14566002|5072599009|8060799006|7092599003|19110799003|15080799006|461199028|440099028|3412199025|1710799026;
+X-Microsoft-Antispam-Message-Info: 
+	TteFV9IJrIRbDyjU1X/hFsIT49qxUAW09BxtabAApETTciy4M1BB3LxQt6KhhH7NCfp6zC5fPbsN1bRabnrtJ93Skwc5TNc6FgN+a5mDqr6PYHWprlJeTDGI/r5QF6IS3FjDqq2e3AwCgCkDpzeS7TptKl9bAErNtSEXriC7hnenc+A0ciOdiPz0zzE4pvKGmkK/njZ1Pxha5U5wvEgvAIN6WcIE0sKZM6uLogLe1g2UYrnZgD8LlRmEt5X4nImEsMIe9ZwQGPtgFnr5WBrhy3QlRYE8WhOulb2r2Fb1UkF6CJr0l/9AcGRp3HV9tX8AmiPt75ua+75lDPiR3OYZZwdK1GMeUKQTUz7yK8UFTpFX7G+49pQwX006NsI9GtUd5QrFjrfjl7oKduYtJ2cu/RY5YQXoYf3mbZQy6z9+MXZaafhN9ALBmQXjEcRmp6CgcrlNltn4LQDR/pmjeNGX7N/JkQP/U57Yw3l8UI/jdC2jC17zvKYkfvf60Kog611VReT8FrokL1H5lc6rYrssVfKCY9ELmVluE/f51Mmq9zbH61WmCEzDGnfFjsiCUFf4xl8hxM9xgyjBoTED89T7dC26uBvfAW1cB6przluqgID7n8m/vq8i92ksTXLg5hGJkFOqDZDvfGBoLiUrkq+K9ywvjC2CTSYjmdHg663otsIgXWRhqSnTCGJ4vyLSLbyVN7Jqx8Uu30+mjPZHVsZgWQ/gDZfh3Zp24IinjH2JMkG+IRpsGl7n/1ZglMbiuUl++X8rF99uPpn2dEx3BHbBqQ==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?MytAdH+ne19ouBukIFKFjaNyxIp3rrdW6jROtEFnjIOuLDXVKOJ5IZiq8uAw?=
+ =?us-ascii?Q?XHXHS40ihP28E93aFV0tCms1okOOhR1QZH6eQSChO9YejZ55+yBRunP6m4Nf?=
+ =?us-ascii?Q?5K8Pjb7VHJs4/p8bTxTfjp3MeYVFHrkAndW2xyGxrtppkzlOYCRbK0XRK1DR?=
+ =?us-ascii?Q?sP2d5MAmHBzcdBwo4QcuR9XjlLt2Xg25mUGeWVDHVDWLT2lGaALzz0CDZhEN?=
+ =?us-ascii?Q?uOaEbjjg5+QmyAfwlvzA1fxIuGs/8Q2b97f5pSGcZxyZRWjBWk7h7zTbPkgE?=
+ =?us-ascii?Q?FGd2VDDfumIHABEVTzVm4IrR8Xx5OF+oxfFsx2IIySPlD0SGpHuO3p8XnDJW?=
+ =?us-ascii?Q?h7WAaY1kUMTXzdk4xPjufK1J01hUad0g1oGEeEBcuC/tgvWsJEn4bCLkVplc?=
+ =?us-ascii?Q?KabSyY4j53crD6qq0YuGFSs4gCeO3C32vZumIRpRhbG53Taopv9M/M92dHdG?=
+ =?us-ascii?Q?+F/fhYmNyhr2Y4hNFngT8sDwmvRm2H8oQtcq3woaeGisiNfuaQeZN1MmBZZV?=
+ =?us-ascii?Q?+HsBduJhwSO7MqKw4kI24UWiFdvC4K9qtPlDm0osn7jqBzpPEZEl1brKz7bK?=
+ =?us-ascii?Q?i/d60LaIlM6tpbEVquSSnffA/zzzL42+6zCLTyyUMHMgsez8W+jaxi4s1jlH?=
+ =?us-ascii?Q?5xK0XzkPE4RBnvkuD3+6g+0KarbaSWi1sTdxEYIPhH1Ji+EGaDe/hffkZ/l5?=
+ =?us-ascii?Q?lJiFaDyEFYOdtPM6hq/e46QVcMrZrlGGFRb9iFsAEUMPT3fSyCjrBeVtwMm3?=
+ =?us-ascii?Q?7Pp0mUt4+/Pw6fTqoctywNYS3Ulhh3ZW0gkityldYk54s9aVGV0LFlgJuuyv?=
+ =?us-ascii?Q?QrQHxSWPm18BkTLUzMjCNDI01Ol59cqNmDmBeadTO2YcmUhPBHDthbtnvGzu?=
+ =?us-ascii?Q?g+hmlQ+g6/bpAr3svyiS81zJxbHrWPsY7GEyZT3YYh9JnHzIvnx7SW4Iyysa?=
+ =?us-ascii?Q?VItSuRcn6xlSpSEVCXL1SczC64XE4dTkAPxXhmV093y7y5GrZmtZNUT9qlf0?=
+ =?us-ascii?Q?qqkKDmOHthzN79mGfeQFICTPoLOdMRlcuGOF4MOcQJSb2Ing7A0g+lySB4rK?=
+ =?us-ascii?Q?iccg746gfhKkOgqo+FpdvrNyVUnLl6mqeyLaJuH/VcyBJFg2E8lRFVfOc8s5?=
+ =?us-ascii?Q?8vRLi2N6qWGsQw48/oZrwaedd9xbRkGW4hiud2FzSNU8NmFSZX+NfvC+F5pG?=
+ =?us-ascii?Q?EUv56OUW7a5oySHbw8SlTEjXazMJiiMEUlA0N4i2pikORrwdEIZWvgXmi5Q/?=
+ =?us-ascii?Q?F7iI1QYUdawhNN5kjAoWKZSqJZ3tE0eYQgoFHilGXnEa1Pu/DgEcHGoBmOAU?=
+ =?us-ascii?Q?xDM=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2fa3dc2-55e2-4484-dd5e-08dcda24f2f7
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR07MB9120.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2024 10:05:41.1857
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6246
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Sep 2024 18:41:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204763
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Sep 2024 10:05:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204764
 
-Currently, KERNEL_CONSOLE has a default value of "ttyS0".  However, Arm
-machines and those using virtio serial prefer to use "ttyAMA0" or "hvc0"
-(or something else).  These are usually defined by the machine config
-file as SERIAL_CONSOLES, which has one or more entries.  Take the first
-one of those instead of ttyS0, but default back to ttyS0 if nothing is
-set.
+if IMAGE_LINK_NAME is set empty to disable the symlinking
+for image artifacts in deploy, testimage fails, as the path assembly
+is incorrect.
+In that case fallback to IMAGE_NAME
 
-Also, use this variable in the efi wic file instead of "ttyS0".
+(From OE-Core rev: c7a4e7e294992acc589c62adcaf6cd32659f2f9b)
 
-This includes revisions suggested by Quentin Schulz.
-
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/image_types_wic.bbclass     | 1 +
- meta/conf/distro/include/default-distrovars.inc | 3 ++-
- scripts/lib/wic/canned-wks/mkefidisk.wks        | 2 +-
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ meta/classes/testimage.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
-index 86f40633ebcb..db598e874ad7 100644
---- a/meta/classes-recipe/image_types_wic.bbclass
-+++ b/meta/classes-recipe/image_types_wic.bbclass
-@@ -26,6 +26,7 @@ WICVARS ?= "\
- 	INITRD \
- 	INITRD_LIVE \
- 	ISODIR \
-+        KERNEL_CONSOLE \
- 	KERNEL_IMAGETYPE \
- 	MACHINE \
- 	PSEUDO_IGNORE_PATHS \
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 7554081e8b1a..4d6ddc45b3de 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -1,7 +1,8 @@
- QA_LOGFILE = "${TMPDIR}/qa.log"
- 
- OEINCLUDELOGS ?= "yes"
--KERNEL_CONSOLE ?= "ttyS0"
-+# if SERIAL_CONSOLES is set, take the first device entry.  Otherwise use ttyS0 as the default
-+KERNEL_CONSOLE ?= "${@','.join(d.getVar('SERIAL_CONSOLES').split(' ')[0].split(';')[::-1]) or 'ttyS0'}"
- KEEPUIMAGE ??= "yes"
- 
- DEFAULT_IMAGE_LINGUAS = "en-us en-gb"
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index 9f534fe18471..5fa6682a9e10 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
--bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0"
-+bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=${KERNEL_CONSOLE} console=tty0"
--- 
-2.39.5
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclas=
+s
+index 0241f29dfb..a91cdb9a1f 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -98,7 +98,7 @@ TESTIMAGELOCK:qemuall =3D ""
+=20
+ TESTIMAGE_DUMP_DIR ?=3D "${LOG_DIR}/runtime-hostdump/"
+=20
+-TESTIMAGE_UPDATE_VARS ?=3D "DL_DIR WORKDIR DEPLOY_DIR"
++TESTIMAGE_UPDATE_VARS ?=3D "DL_DIR WORKDIR DEPLOY_DIR IMAGE_LINK_NAME"
+=20
+ testimage_dump_target () {
+ }
+@@ -209,7 +209,7 @@ def testimage_main(d):
+     bb.utils.mkdirhier(d.getVar("TEST_LOG_DIR"))
+=20
+     image_name =3D ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
+-                             d.getVar('IMAGE_LINK_NAME')))
++                             d.getVar('IMAGE_LINK_NAME') or d.getVar('IMAG=
+E_NAME')))
+=20
+     tdname =3D "%s.testdata.json" % image_name
+     try:
+--=20
+2.34.1
 
 
