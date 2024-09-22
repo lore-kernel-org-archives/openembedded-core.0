@@ -1,159 +1,73 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 752FECF9C68
-	for <webhook@archiver.kernel.org>; Sun, 22 Sep 2024 08:42:44 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.11638.1726994554395931253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE64CF9C6C
+	for <webhook@archiver.kernel.org>; Sun, 22 Sep 2024 11:18:25 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web11.13336.1727003902841726107
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Sep 2024 01:42:34 -0700
+ Sun, 22 Sep 2024 04:18:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=WIl3wjb8;
- spf=pass (domain: linaro.org, ip: 209.85.167.54, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53659c8d688so2507988e87.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 01:42:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vp1Ym8SG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.54, mailfrom: steve@sakoman.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6c354415c19so26281316d6.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 04:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726994552; x=1727599352; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727003902; x=1727608702; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uRpm+Xz6BTpaJ92TuH3n9oStDg0UQ674uOgS/L2whlk=;
-        b=WIl3wjb8tln2sLnSo1NBA1DJHL5AxWp0EMIuExR2TDs6y2lI1hXUFV8eYWzd6PrDk3
-         iQmLZUaMQHpProt8LbPRqjepK5iRV3HQuKYngzzVyK1TcxV2afidWvivbJ7NhAEoo8su
-         2Ie4/vuFKsirI3eHtquUNNjIIKkSpU+RUUfLDSvAFvjwNear6psjXcfNPtPPDqmQidVc
-         eQr5fwAt7QzD1fHbd9bum1dHGynQzfK64FjGQuZcA/jwSEdBE1mJ/nvifYPK3J6GUGVH
-         puAhBzw5+QL/U9zFjK7jOa/Ls2dvWcjYH4NkkJJ5FGgevrJkUR7HPME055IShNGEoc8v
-         U0nw==
+        bh=7oUsG9aRyyP/ZrDysh3NWCxAzW4jylx3MjSVxp6ab+I=;
+        b=vp1Ym8SGBf9JFn5PhWgEv1JZxg0f9O21BgPWtb1qMvS0GUfxrVv5pLrTbqtfqfp7Gc
+         3SBfw/+mxHwhT+5SeCTR2WH58wohIGkrcGMQdlzu5DKZCu8WHDd9Wndh1p/KJfP5pn2o
+         OZEPC6HPQhBmvXIpf1/VlppleVd/VHL9Ps7eI7vHE+G/wSLv1qCuBrX+s1M80eKO5OlT
+         +IgYqydGHGwXw460aYZO7cC1kDA5qdwCfEithMp5CqPERRaHQemcDU099OvfjJwb9t7J
+         3IocBKqHV4CH+aBcyvPqujo7bNBaPgTB2k7/KetAihz5DuHSJQ5YvBrJaeQ6fYYIDZCy
+         rPiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726994552; x=1727599352;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uRpm+Xz6BTpaJ92TuH3n9oStDg0UQ674uOgS/L2whlk=;
-        b=KCyC3xE3CqoaLx+mE+zvekhWfSxhbR30+eP6t7rLJrUhmJ622FYb5JWO6z0GnveOBr
-         UYCJedDr1xRF1XQh3/PWkDnZcB6gC5lYgO/VUk9Tgd1LwfdT5lI5xybcgswSjtL9QGbV
-         UouUF0O4QxR2A2LxvkMonehH8tpdcw6ILrlVrwMZ7VNDZux971EBAFWF0RKXqsVTECYp
-         3F/ReD9UeSQeQbHNJ7zPwSQOmoA4ktA8y46+ohwCDR+5mz6EX3ns65ODyf1v9peZ94mK
-         poko0fvLasVAty388inBL7vF4CGIPFmvCq4nFEllCbzfiPettXYer1a+JXnciTvkVDvL
-         H/Ag==
-X-Gm-Message-State: AOJu0YwLsjEvvax1wsq4w68eivsmKjZsBq8flr5Gt/NhLtN6kj0/U866
-	9bUcYcXjHyVnHD9Chvg/Ek4uHsxA86BtdIucS2fwjKUeLCSodpxRfKhYXS3rTdWSAOWYAE02t3c
-	ZWM4=
-X-Google-Smtp-Source: AGHT+IGtKMS9SE0FL6hL9veIQZoLDYRINbrSpYD8qgFJkCd1sm2Emd6Cuiozjw1tYwZms+Ur/IhvZQ==
-X-Received: by 2002:a05:6512:3184:b0:52c:dc56:ce62 with SMTP id 2adb3069b0e04-536a563715cmr3755017e87.12.1726994552427;
-        Sun, 22 Sep 2024 01:42:32 -0700 (PDT)
-Received: from localhost.localdomain (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-536870a8745sm2877339e87.236.2024.09.22.01.42.29
+        d=1e100.net; s=20230601; t=1727003902; x=1727608702;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7oUsG9aRyyP/ZrDysh3NWCxAzW4jylx3MjSVxp6ab+I=;
+        b=INVF7z5yonWHw+ZJreEFKtZ6SKW5J5jtFrS5DcTAChoIBe1c1p16W+LhD9jVAexIOA
+         gw0Wg7JJC1GcDo8ijh8s48BE7m4YBammZnWdPpNxF1hyL+r3Rw6WNoPESCDkPM68T9jg
+         TbePJh+gBaMmmi5D9MEPJX2ONkZhomk9PysZE9McvkgOAm3PDRgqK8z2xUJmk9CSWH34
+         Mu28jCCsowbiPgD1qeXkf2oT32VaLItmA7u4sY3Z23NMmkVCZI4Fk34bkpuwEDuW5WMI
+         QumcgRT8mdPUjsb3jo6FRHTJUd2GO1uiq6t0Y2O5+MuUS//WiWfY+dettxVtKzR8JWFn
+         ZdPg==
+X-Gm-Message-State: AOJu0YzDCkyuPau/B+0Q0X7v7zwwDqODcZDSZYcJYuWv3N788AU6LE1M
+	aSifzdMVCHkXvUh95UOfl9pbJq+37cxOQ002mR/FjtxRvQaNhwbYA+DJUkI9Ah9cNfXAdpXG9+M
+	T
+X-Google-Smtp-Source: AGHT+IFy7KUjbR1gHiCuxM+6Q2td7+SqNT60dPPcqD+zPVoU905gnL0jz/gaoEx9qHcDkG7q/i61Og==
+X-Received: by 2002:a05:6214:588e:b0:6c5:51ee:4c79 with SMTP id 6a1803df08f44-6c7bc7318c5mr116259506d6.21.1727003901579;
+        Sun, 22 Sep 2024 04:18:21 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c75e44bf15sm36754256d6.11.2024.09.22.04.18.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 01:42:30 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v4 12/12] oeqa selftest wic.py: support UKIs via uki.bbclass
-Date: Sun, 22 Sep 2024 11:41:28 +0300
-Message-ID: <20240922084128.9648-13-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240922084128.9648-1-mikko.rapeli@linaro.org>
-References: <20240922084128.9648-1-mikko.rapeli@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 22 Sep 2024 04:18:21 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id B5EB01003AA; Sun, 22 Sep 2024 01:18:19 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 22 Sep 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 22 Sep 2024 01:18:19 -1000
+Message-Id: <20240922111819.B5EB01003AA@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 08:42:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204784
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 11:18:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204785
 
-Use label to detect rootfs since UKI with kernel command
-line is generated before rootfs is generated by wic.
+Branch: master
 
-Adapt wic tests to build and boot uki.bbclass generated
-UKIs.
+New this week: 0 CVEs
 
-Keeping one tests in wic.py and rest of the UKI features
-are tested with dedicated uki.py test.
+Removed this week: 0 CVEs
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta-selftest/wic/test_efi_plugin.wks |  5 ++--
- meta/lib/oeqa/selftest/cases/wic.py   | 42 ++++++++++++++++++++-------
- 2 files changed, 34 insertions(+), 13 deletions(-)
+Full list:  Found 0 unpatched CVEs
 
-diff --git a/meta-selftest/wic/test_efi_plugin.wks b/meta-selftest/wic/test_efi_plugin.wks
-index 1603d6c4bb..e876a4be0e 100644
---- a/meta-selftest/wic/test_efi_plugin.wks
-+++ b/meta-selftest/wic/test_efi_plugin.wks
-@@ -1,6 +1,5 @@
- # short-description: This file is used in oe-selftest wic module to test efi plugin
--
--part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,create-unified-kernel-image=true,initrd=${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
--part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" --active --align 1024 --use-uuid
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid --label root
- 
- bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index f2a46c965b..0f6283869e 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1292,24 +1292,46 @@ class Wic2(WicTestCase):
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     @OETestTag("runqemu")
-     def test_efi_plugin_unified_kernel_image_qemu(self):
--        """Test efi plugin's Unified Kernel Image feature in qemu"""
--        config = 'IMAGE_FSTYPES = "wic"\n'\
--                 'INITRAMFS_IMAGE = "core-image-minimal-initramfs"\n'\
--                 'WKS_FILE = "test_efi_plugin.wks"\n'\
--                 'MACHINE_FEATURES:append = " efi"\n'
-+        """Test Unified Kernel Image feature in qemu without systemd in initramfs or rootfs"""
-+        config = """
-+# efi firmware must load systemd-boot, not grub
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "test_efi_plugin.wks"
-+
-+# efi, uki and systemd features must be enabled
-+MACHINE_FEATURES:append = " efi"
-+DISTRO_FEATURES_NATIVE:append = " systemd"
-+IMAGE_CLASSES:append:pn-core-image-base = " uki"
-+
-+# uki embeds also an initrd, no systemd or udev
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+
-+# runqemu must not load kernel separately, it's in the uki
-+QB_KERNEL_ROOT = ""
-+QB_DEFAULT_KERNEL = "none"
-+
-+# boot command line provided via uki, not via bootloader
-+UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-+
-+"""
-         self.append_config(config)
--        bitbake('core-image-minimal core-image-minimal-initramfs ovmf')
-+        bitbake('core-image-base ovmf')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        uki_filename = get_bb_var('UKI_FILENAME', 'core-image-base')
-         self.remove_config(config)
- 
--        with runqemu('core-image-minimal', ssh=False,
--                     runqemuparams='nographic ovmf', image_fstype='wic') as qemu:
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
-             # Check that /boot has EFI bootx64.efi (required for EFI)
-             cmd = "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '1')
--            # Check that /boot has EFI/Linux/linux.efi (required for Unified Kernel Images auto detection)
--            cmd = "ls /boot/EFI/Linux/linux.efi | wc -l"
-+            # Check that /boot has EFI/Linux/${UKI_FILENAME} (required for Unified Kernel Images auto detection)
-+            cmd = "ls /boot/EFI/Linux/%s | wc -l" % (uki_filename)
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '1')
--- 
-2.34.1
+Summary of CVE counts by recipe:
 
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
