@@ -2,95 +2,126 @@ Return-Path: <aleksandar.nikolic010@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA6ACF9C6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEAFCF9C72
 	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 09:42:22 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.32876.1727084539690984717
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.32872.1727084534965614743
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Sep 2024 02:42:19 -0700
+ Mon, 23 Sep 2024 02:42:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fzgdGGA6;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: aleksandar.nikolic010@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c42f406e29so6025842a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 02:42:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BsankTL0;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: aleksandar.nikolic010@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-536584f6c84so4908541e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 02:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727084538; x=1727689338; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=//H4CTEfM/4w4tuKBZrtIbT0IlmeFpzW46auVEvOYkI=;
-        b=fzgdGGA6FuqhebU/6vosDBrGKOVilRvlmNGY+PjSBxV429UQrfwrs0/xcI+crbcl2K
-         47zZ9+JhcL1q9yic+QbGU+MZDeALB/nUXpX/V4AXzY/BqsgNqLTA3M3K18UCMnFVU7bq
-         DGROGlAyw8w4HEMakh+huRTUQgVNT2rW1sIEl2ZSxmbWIww+2a5UHPJq3YublEYaD4R4
-         6vhHiqzg/WE7PPss+yzYPQVlLZSs6GYyrbtCh12rAyFm6dRcIAL1z+C4laBJKki5l0em
-         vBs4uquyQ6ML2WbyPYKqFbnjjyQhIqUIC69+XXwDGpk/tsHJjknSRB7H4mMG90Eo4i1L
-         SV0Q==
+        d=gmail.com; s=20230601; t=1727084533; x=1727689333; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j0HvZYjSU43OO9xyBp7+51L6f+4pKjvda4RrKq/6aiA=;
+        b=BsankTL0LCM8Nn8KsIYrEAA9y1Rjmm0C430TBFp/n37ViHO76V3SvrZPRkkO1x8TMf
+         kjmA0E5CEkCyRjPThxb199RaUv2iYJfy+5rp0TafQnDWsyfs7pW/olK4ZAD8yiF2ryHI
+         l3xraTC6UmsYWnl5UdA54oFaZn6mQpi0RasTq+T1fjBJvEtV9LP+XCnA264SG8UFhr9e
+         m6fZrMm94xd8dkHB6WO/+CwajolCwx5O1nbqXCn1cccv6NpsMpqdfyGV95s5uj+aQy08
+         hY12fC2lTYWICoaICWPTLq2nz8gx8PQDIqAADs7RWy2PJFYwmM3DP1ETNX61w1+Diy5s
+         /pBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727084538; x=1727689338;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=//H4CTEfM/4w4tuKBZrtIbT0IlmeFpzW46auVEvOYkI=;
-        b=Lu1xGAYO2GIM0XkCS2nvaXmbDRTU1lNNzx07je9/7IFVuUkjcUMoFDCiOTtjqUOgmT
-         1zjONbTIIZGZETGzVmbiYVPc2RV3S+FmRJjHwhCDfiieia3wCCX1zt4lGcfcbyyueRbQ
-         YRHRFXMMCh1YjcFSrpKkSN0l5SS991XBeSHzn4KVsTio2+5aCccmp7CF454q6QyUupHu
-         GtRoiX+ON9suHqeK5tmz5V8CUP4sQrZApjNdKNi7vnqO4HJKNRn5YByCw3i6Q3jcQz5a
-         cs2YOIsvTAKaE1+kTMy1H/duNzfq9yiSXk3P3+7ch1xXB6C/DuloeqA4t1CK8nNwrBFi
-         InWw==
-X-Gm-Message-State: AOJu0YxN85SailZglqpYhWyP8SEJqDfc3bn8/Lg2/O/NDIb4W/Xjc/be
-	ChwHID4HGBl79pyzM4smXXzv/g/DuTgosvXovn8UqooxOP0uD1aisFy/WWfHR2M=
-X-Google-Smtp-Source: AGHT+IHxHpOigMQ4kEdH4dAGHKaaVS5mV0MYIs3IRQ2aBiZFrwTFPwKpQ3agCLDrELa9uqDTW/hv0Q==
-X-Received: by 2002:a17:906:99c5:b0:a8a:8a31:c481 with SMTP id a640c23a62f3a-a90d5127752mr1152479566b.42.1727084537960;
-        Mon, 23 Sep 2024 02:42:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727084533; x=1727689333;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j0HvZYjSU43OO9xyBp7+51L6f+4pKjvda4RrKq/6aiA=;
+        b=dD2xC6mRubzRhAds6CCe3IgyEvWF+bPu8coA0IbGQ11SAThqNJ6BWgmTsYW52fedHE
+         dXvGXVRNW0ki3LJSDKFAIP0LctJrBFXIzETDL9twjL8UPupOLMGoZwrXtBftvVtysxou
+         3D3EXrzXAzKbybjMeGU66/Kew672louR2AM+HeYW+NOumwqAwI3eaV0xIChF/AdP3u/b
+         t2QtbVb4er3EIKQJ/QEMFxIwZATu8RswESAtDA4foWHo4QIbfCLQ0ZFpGh6XuwXCdW3V
+         3kKYcHQFnzrP9lyvp+pm5K03wZK174ToWc08h9ISYnhs4is9rEEPjXHJW+jyiSJh1/Eh
+         lXZA==
+X-Gm-Message-State: AOJu0YxRLHdMIvBjqolz29imeSkML3R5S9z5Ao0WjnA6SVzLKdg8l80b
+	0UFMqqyc1KUFi6ZTWD2JSAvx5grErPHg5EI0Wh8s4gSCUygw/H8AMEGf0/zyYA8=
+X-Google-Smtp-Source: AGHT+IH70UreGnpVZ73yze1V9NSI3MZYkUjMZFeNoFPkw36KACxYqHVXJXFi3tcZhO0x2Ee2Mk8kGg==
+X-Received: by 2002:a05:6512:39c9:b0:52e:9fe0:bee4 with SMTP id 2adb3069b0e04-536ac2d653cmr5337562e87.9.1727084533026;
+        Mon, 23 Sep 2024 02:42:13 -0700 (PDT)
 Received: from an.. ([2a02:810d:600:2744:e855:ba31:e4ab:c4bc])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612b3877sm1183903066b.112.2024.09.23.02.42.17
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612b3877sm1183903066b.112.2024.09.23.02.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2024 02:42:17 -0700 (PDT)
+        Mon, 23 Sep 2024 02:42:12 -0700 (PDT)
 From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
 X-Google-Original-From: Aleksandar Nikolic <an010@live.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
-Subject: [scarthgap][PATCH 4/4] scripts/install-buildtools: Update to 5.0.3
-Date: Mon, 23 Sep 2024 11:41:59 +0200
-Message-Id: <20240923094159.51274-4-an010@live.com>
+Cc: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH 1/4] install-buildtools: remove md5 checksum validation
+Date: Mon, 23 Sep 2024 11:41:56 +0200
+Message-Id: <20240923094159.51274-1-an010@live.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240923094159.51274-1-an010@live.com>
-References: <20240923094159.51274-1-an010@live.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 09:42:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204804
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204801
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-Update to the 5.0.3 release of the 5.0 series for buildtools.
+No need to validate with the md5 checksum, as the file is not even
+uploaded to the Yocto release webpage (the download never failed due
+to a wrong indentation of an else statement). For validation purposes,
+use the sha256 checksum only.
 
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c922ca720a0c3b7b4d3d3187539e7cf77d93d457)
+(cherry picked from commit b740d2f9d40aef1e18c022d1e82b4fb2c5c1fc22)
 Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/install-buildtools | 27 ++++++++++-----------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
 
 diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 5b86c13077..92a4c9dfb1 100755
+index 2218f3ffac..a34474ea84 100755
 --- a/scripts/install-buildtools
 +++ b/scripts/install-buildtools
-@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
- 
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.0.1'
--DEFAULT_INSTALLER_VERSION = '5.0.1'
-+DEFAULT_RELEASE = 'yocto-5.0.3'
-+DEFAULT_INSTALLER_VERSION = '5.0.3'
- DEFAULT_BUILDDATE = '202110XX'
- 
- # Python version sanity check
+@@ -238,19 +238,15 @@ def main():
+         # Verify checksum
+         if args.check:
+             logger.info("Fetching buildtools installer checksum")
+-            checksum_type = ""
+-            for checksum_type in ["md5sum", "sha256sum"]:
+-                check_url = "{}.{}".format(buildtools_url, checksum_type)
+-                checksum_filename = "{}.{}".format(filename, checksum_type)
+-                tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
+-                ret = subprocess.call("wget -q -O %s %s" %
+-                                      (tmpbuildtools_checksum, check_url), shell=True)
+-                if ret == 0:
+-                    break
+-            else:
+-                if ret != 0:
+-                    logger.error("Could not download file from %s" % check_url)
+-                    return ret
++            checksum_type = "sha256sum"
++            check_url = "{}.{}".format(buildtools_url, checksum_type)
++            checksum_filename = "{}.{}".format(filename, checksum_type)
++            tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
++            ret = subprocess.call("wget -q -O %s %s" %
++                                    (tmpbuildtools_checksum, check_url), shell=True)
++            if ret != 0:
++                logger.error("Could not download file from %s" % check_url)
++                return ret
+             regex = re.compile(r"^(?P<checksum>[0-9a-f]+)\s+(?P<path>.*/)?(?P<filename>.*)$")
+             with open(tmpbuildtools_checksum, 'rb') as f:
+                 original = f.read()
+@@ -263,10 +259,7 @@ def main():
+                     logger.error("Filename does not match name in checksum")
+                     return 1
+                 checksum = m.group('checksum')
+-            if checksum_type == "md5sum":
+-                checksum_value = md5_file(tmpbuildtools)
+-            else:
+-                checksum_value = sha256_file(tmpbuildtools)
++            checksum_value = sha256_file(tmpbuildtools)
+             if checksum == checksum_value:
+                     logger.info("Checksum success")
+             else:
 -- 
 2.25.1
 
