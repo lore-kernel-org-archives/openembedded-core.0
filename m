@@ -2,152 +2,129 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57E2DCF9C6F
-	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 17:19:27 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.271.1727111966622096090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C542ECF9C6F
+	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 18:40:47 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.2323.1727116846829297343
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Sep 2024 10:19:26 -0700
+ Mon, 23 Sep 2024 11:40:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AIKaHPXk;
- spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5356ab89665so5436262e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 10:19:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l2Z5eHoh;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5356bb55224so6236597e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 11:40:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727111965; x=1727716765; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1727116845; x=1727721645; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sm8F3KQ/HzAIqlfgDs2UwyGZqyaH2W2oxa+lk/3AH8I=;
-        b=AIKaHPXkB83KDUxxIodKqjv3B8gxUW2obJAASlxzV29tDUwOBa1jJHdleaz4WshwgZ
-         OU02w5EYa6EYE/rkybGAt8hO8/vBJWwgfQ+eAosJ+kldRyIqRcR9nsprpcmgaubarO+C
-         BCzoF3PQcr94l0DDwYcmRy4WOhIuKIf/DYx9cZ2Y/ntz4IBOnaHffMooDOXn9jnvwalh
-         vJ/8eEhNXPH+o84vi3qTQDm3NmiBTdKx9Qcmwz85DPnRkqXthQ4IOj3FUOO4hdTjm0if
-         kPa7Z8cd2kwPo4LfUlPhB2/KMD47NjPlJ+26apS9J9OnHYlEj7STjxzpVjzg5ukpzeZy
-         OXcg==
+        bh=2osqS21VbfYUe9QasPJ4elEc50fMc4Xk+fYmVpnchgA=;
+        b=l2Z5eHohQhK9872jyuWZpnoqJGjIJbhXzDlGFmrLdw/oYfkQX2NQBDn5onZmEUetOs
+         BVoMhFuzJbiFcsm4uHIR062YQbO/31AWHlG07HJE8q91zudYKDesmVeBOGLWVhdJ3mHT
+         Sv5Qi3MFpNgcOfL0spl7KaHvOd3D5MWO8yoSA64p6fYlIpuyTM/iKeZkKwexv0E5C03n
+         ZOAc6eUMMd21eksNhUoaIP5e0dgjn+G5be+ddkbBAbEMpKD5tr5uKDv1mqEDZDNE61uz
+         PjTmlzlIC1fhEfJb1bNeeirNQEw7JipxgH53yUCSkoz0rsI8z77DvPCrRClVsF/1dHQ1
+         l6Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727111965; x=1727716765;
+        d=1e100.net; s=20230601; t=1727116845; x=1727721645;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Sm8F3KQ/HzAIqlfgDs2UwyGZqyaH2W2oxa+lk/3AH8I=;
-        b=iJD8pnZLmx5d+Lk2JfNkkmGrAZPNAMuRxryJFdWfZ3RNA18kIKO6nNeMuB7qBZ7sZF
-         S8xtcdkxDpz9fNpuPvR5KF+L/vkSAx+aTIJ1EJSIHv2Rf/NItuuGG7mgPjJnczK5JCaR
-         zHZBglzYF5fgGAYqL4x9ELVeRL+UOKkPCo8YS2xGj4JHhrTkU82ydmtXtyfKQvjCLdDr
-         6tuXbsMUyaZeMalDv0wQwIo4KRwohWUZeUn92CE6VZ+SdB3MkLTB8e1XDvoA9uKGQ1FF
-         DZVzhd7+VUlaqsVSQlq9M8EwzdcmFQi/0ZvnVYfQEVxekHlwvjPBsud1AsHDAeBNoNCW
-         1MmA==
-X-Gm-Message-State: AOJu0YwbapVQqZ0LzOV6PrRRr1dcwE4dvbixy3pAIVi6iaDCXcLp7N3O
-	O8x/eXKPGQkZOq7DpCxl73liIpIL99nOXvzfgzagpykKnKtznP2nv7s3ruY2WmlXd1Zfgg6wHa0
-	BpGMMlcp9OYvtUumOidwFKvY0AHg=
-X-Google-Smtp-Source: AGHT+IGKFdEPQwDkjihQv75m5LNX28fi67MEQx9L6dwyo9e8PepPwik5HWoymExBOaBrSjD70I/8y+VzBg7D+mfXD/0=
-X-Received: by 2002:a05:6512:2386:b0:52c:adc4:137c with SMTP id
- 2adb3069b0e04-536ad161b0dmr5316721e87.20.1727111964302; Mon, 23 Sep 2024
- 10:19:24 -0700 (PDT)
+        bh=2osqS21VbfYUe9QasPJ4elEc50fMc4Xk+fYmVpnchgA=;
+        b=uBpPFmFGjk6X+SmhRLqfXNJeaOL/82l1/2r/wnmHwWdpIkxq1WGJeev6+arEZu6yK9
+         rZSF2VJnsm10IhoDygVqrA9Ckz+l1KvRQayxE0onfe5VqbWAGRx6Vv97XNjUVsK/yHRG
+         GGX/ipfaIl6eofASguZjYDtnQdviki+MfczgsdjPVnKGdoYj5VzoeeYKjh4GZzs2l3eb
+         k9nLUZq+8IdFBtRd0A58KGVe8VyYNShfJCpHs7Wl5+sEeEJioJK/nkrGRWSl9M+j159D
+         pyqJoR+QK+uxk80Lx9Uh4hWpxV3UVfuavwXaY+dH+lm9ruqf9em6j/KHPc3mtbyR+LsL
+         8vGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWAbJdes6zca1tKty5DDJ7+OyEKiE6G/rj6uRI5II4KJaCDWDKc7i4CQcQztiqGyZeLblnnzkyHgPxB/K3XHg29KA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywg6YdsyU4DkbtBMcPP0RLDbVKj1kCf8J+F9sRGDOjhM7YkkcWe
+	n4d2TD95p377JA5ikXqVmvtGVdRUO5sAJ28kFvGJwz/lzvDtY7ATB14oL7Kd0I/FEnt+DPKYu4o
+	OW3J3/Z3pBY+jDIcRrhUkoL6t2Gg=
+X-Google-Smtp-Source: AGHT+IHsPppfULVWdAfDiBzNtasnfpqotCvqZMXgvcq/9AlEPyCSrOtXK+Rk5e9hCu0KTGcWDbvDsLu03lTv9P0QSvM=
+X-Received: by 2002:a05:6512:3d07:b0:52e:76d5:9504 with SMTP id
+ 2adb3069b0e04-536acf6acffmr6467847e87.3.1727116844680; Mon, 23 Sep 2024
+ 11:40:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1726821150.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1726821150.git.liezhi.yang@windriver.com>
+References: <cover.1723551231.git.steve@sakoman.com> <092d2a6df6eae6f93a35a0429d2cdfc9b246cecf.1723551231.git.steve@sakoman.com>
+ <DS7PR10MB4926DCB745BE2CB39CA0A994FA6F2@DS7PR10MB4926.namprd10.prod.outlook.com>
+In-Reply-To: <DS7PR10MB4926DCB745BE2CB39CA0A994FA6F2@DS7PR10MB4926.namprd10.prod.outlook.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 23 Sep 2024 19:19:12 +0200
-Message-ID: <CANNYZj9SyrR1TMWY3ehfbT+-rrDQqfKVSiN-thQQBoVwXK+uxQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/2] proposal: Append VENDOR_REVISION to PR for
- CVE scanners
-To: liezhi.yang@windriver.com
-Cc: openembedded-core@lists.openembedded.org, david.reyna@windriver.com
+Date: Mon, 23 Sep 2024 20:40:33 +0200
+Message-ID: <CANNYZj-xXKRZSX8TWZnJSEsYc8+-7uKVdWy==4g5Uz0x5_q1cA@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 10/11] orc: upgrade 0.4.32 -> 0.4.39
+To: Arturo.Buzarra@digi.com
+Cc: Steve Sakoman <steve@sakoman.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 17:19:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204823
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 18:40:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204824
 
-I don't understand. If we fix a CVE with a backport, then there's
-metadata in the backported patch to indicate that even though the
-overall version doesn't change to the one that isn't vulnerable, the
-patch addresses the vulnerability. Why is a whole separate mechanism
-still needed?
+This needs to be updated in master first, and then you can send a backport.
 
 Alex
 
-On Fri, 20 Sept 2024 at 10:53, Robert Yang via lists.openembedded.org
-<liezhi.yang=windriver.com@lists.openembedded.org> wrote:
+On Mon, 23 Sept 2024 at 15:33, abuzarra via lists.openembedded.org
+<Arturo.Buzarra=digi.com@lists.openembedded.org> wrote:
 >
-> From: Robert Yang <liezhi.yang@windriver.com>
+> Hi all,
 >
-> The VENDOR_REVISION is for cve scanners to know the CVEs have been fixed in a
-> lower version, CVE scanners such as Trivy can know the CVEs have been fixed in
-> a higher version, but it can't know the CVE is fixed in a lower version without
-> a helper, we have the following ways to set the helper:
-> 1) Use PR server
->    This doesn't work since the server updates PR for any changes.
+> After this update of the ORC recipe for the kirkstone branch the build is broken with Ubuntu 18.04 due to an issue with the GCC version supported on that version ( GCC < 8 ).
 >
-> 2) Update PR manually when add a CVE patch
->    This is doesn't work either since:
->    - This is very trivial and people may forget to update the PR
->    - The PR may be updated for other reasons except CVE patches
+> The build throws an unexpected error related with a missing _xgetbv intrinsic function that apparently was introduced in GCC > 8
 >
-> So we need a specific part such as VENDOR_REVISION for cve scanners.
-> The VENDOR_REVISION is designed as part of PR:
->   PR:append = ".vr51"
-> - ".vr51": The VENDOR_REVISION
-> - "vr": Vendor Revision, can be set to other values such as oe or poky
-> - "51": Convert from DISTRO_VERSION (Yocto 5.1), it can be customized with
->         a function defined in GET_CURRENT_VENDOR_REVISION.
-> - The VENDOR_REVISION will only append to the recipes which have patches
+> I notice that there is a new version ORC v0.4.40 that fixes the build issues, is there a plan to backport this ORC version to kirkstone branch?
 >
-> There are two bbclasses to manage the VENDOR_REVISION automatically:
-> - gen-vendor-revision.bbclass: This is used for generating VENDOR_REVISION
->   automatically, and save all the recipes' VENDOR_REVISION in
->   vendor-revision.conf, it is like:
->   VENDOR_REVISION[meta_recipes-support_libssh2_libssh2_1.11.0.bb] ??= '${VENDOR_REVISION_PREFIX}51 \
->    CVE-2023-48795:CVE-2023-48795.patch:b6c68cd1f0631180914ff112ac0c29c4 \
->    notcve:0001-disable-DSA-by-default.patch:61b6368d4a969d187805393d8b8fee85'
+> Thanks in advance,
 >
->   And in the second release such as Yocto 5.1.1, the bbclass will update the
->   vr51 to vr511 when both of the following 2 conditions are met:
->   - The DISTRO VERSION is updated, for example, from 5.1 to 5.1.1
->   - The recipe's patches are changed (Patches added, removed or updated),
->     otherwise, it will still be "51" when Yocto updated to 5.1.1, this can avoid
->     unnecessary PR bump.
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Steve Sakoman
+> Sent: martes, 13 de agosto de 2024 14:17
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core][kirkstone 10/11] orc: upgrade 0.4.32 -> 0.4.39
 >
-> - enable-vendor-revision.bbclass: Append VENDOR_REVISION to PR
->   After the VR is appended, the rpm package is like:
->   openssl-3.3.1-r0.vr51.core2_64.rpm
+> [EXTERNAL E-MAIL] Warning! This email originated outside of the organization! Do not click links or open attachments unless you recognize the sender and know the content is safe.
 >
->   There is no change if the recipe doesn't have patches, for example:
->   base-files-3.0.14-r0.qemux86_64.rpm
 >
-> Check the comments in the header of gen-vendor-revision.bbclass for more details.
 >
-> // Robert
+> From: Vijay Anusuri <vanusuri@mvista.com>
 >
-> The following changes since commit 161c5b311f1aeb8f254dca96331b31d5b67fc92d:
+> Include security fix CVE-2024-40897
 >
->   build-appliance-image: Update to master head revision (2024-09-17 12:31:45 +0100)
+> Ref: https://github.com/GStreamer/orc/blob/0.4.39/RELEASE
 >
-> are available in the Git repository at:
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-devtools/orc/{orc_0.4.32.bb => orc_0.4.39.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)  rename meta/recipes-devtools/orc/{orc_0.4.32.bb => orc_0.4.39.bb} (92%)
 >
->   https://github.com/robertlinux/yocto rbt/vr
->   https://github.com/robertlinux/yocto/tree/rbt/vr
+> diff --git a/meta/recipes-devtools/orc/orc_0.4.32.bb b/meta/recipes-devtools/orc/orc_0.4.39.bb
+> similarity index 92%
+> rename from meta/recipes-devtools/orc/orc_0.4.32.bb
+> rename to meta/recipes-devtools/orc/orc_0.4.39.bb
+> index 829255f110..320abf536a 100644
+> --- a/meta/recipes-devtools/orc/orc_0.4.32.bb
+> +++ b/meta/recipes-devtools/orc/orc_0.4.39.bb
+> @@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
 >
-> Robert Yang (2):
->   enable-vendor-revision.bbclass: Add it to append VENDOR_REVISION to PR
->   gen-vendor-revision.bbclass: Add it to update VENDOR_REVISION
->     automatically
+>  SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+> -SRC_URI[sha256sum] = "a66e3d8f2b7e65178d786a01ef61f2a0a0b4d0b8370de7ce134ba73da4af18f0"
+> +SRC_URI[sha256sum] = "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad085ae51143d3040cc0"
 >
->  .../enable-vendor-revision.bbclass            | 125 +++++++++
->  .../gen-vendor-revision.bbclass               | 243 ++++++++++++++++++
->  2 files changed, 368 insertions(+)
->  create mode 100644 meta/classes-global/enable-vendor-revision.bbclass
->  create mode 100644 meta/classes-global/gen-vendor-revision.bbclass
+>  inherit meson pkgconfig gtk-doc
 >
 > --
-> 2.25.1
+> 2.34.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#204726): https://lists.openembedded.org/g/openembedded-core/message/204726
-> Mute This Topic: https://lists.openembedded.org/mt/108555445/1686489
+> View/Reply Online (#204822): https://lists.openembedded.org/g/openembedded-core/message/204822
+> Mute This Topic: https://lists.openembedded.org/mt/107874802/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
