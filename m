@@ -1,117 +1,99 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C50C9CF9C6E
-	for <webhook@archiver.kernel.org>; Sun, 22 Sep 2024 15:58:36 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.17399.1727020709981168025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B50ECF9C6F
+	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 05:34:21 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.29989.1727069656768212125
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Sep 2024 08:58:30 -0700
+ Sun, 22 Sep 2024 22:34:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JwJHLBVA;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cb1758e41so27732735e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 08:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727020708; x=1727625508; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sNaJtlpXb+aVtjgNhuyvvuUQzCVhXkLOnRPGLKFknu8=;
-        b=JwJHLBVA8TN6hdogXg2xOz62MEbZi58segxgqar2DsEoLqqFAxRinYhJmvIn016Sct
-         JtjcyaTVQHbprAjjQEF+HKUgcM/4Nj/s+GCnZlLHLA4tz9Q0odJxofgSiXo1q4Ren20C
-         fwRolRtR4uOnb5vDFnEz4jpE7zneEdP4PPRvvGf4X/0QffF+ct1fHBlBuluePi2blbgG
-         j7uojwruGaF594/nCFN0xioz38qImlgp3w5U+nSs9CMj5De/BDXvZdY6VIkEhc9lMbUB
-         UGSVLTg/aXtvxgdNLa9fnllbHyNR2w0SxTTk/4EDYapjEpMfyHg1FZe+Aoh0lg78sGDz
-         wOeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727020708; x=1727625508;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sNaJtlpXb+aVtjgNhuyvvuUQzCVhXkLOnRPGLKFknu8=;
-        b=oc1mi9slzfsDQHq6kdSEvut6SCSzdJdnAd0+nk6JtS4L3skX2jH7j00Ml+7eM/BjLq
-         WGqPI/VVk/ft7/QVD9TamBynfU/Bo1Vp7uEcoNtH0XB70CtjoxtvUW4wUDg5B/VXDrLl
-         7wwt0FTOizpHUVjonTm0rOIuPwM4RHnHIabMZzUmVniiDdbJQ9gZjNWZFfuOdpVTn38m
-         WDzDIDD5ohgQ1Mvkgcfc4drIYFj9TPtTzjmn1+WZRGtFIbmU6QazNm3qUSz13CO0NanH
-         Hy6NcH1uQXFFO5YjyNWfr8fOH8+x5DzrB/JHNRcqM4LL1rY03utnoK8cXv1Uqp+9xN+Y
-         I/OA==
-X-Gm-Message-State: AOJu0YyF6Lpj8ACKM0BE/Atg83QBOJ+2YwZ9ghyJTNbJ+u4giEUGwCnQ
-	Do3LBurmK3lZtWeGOPqnkU7qTu76VeF83A1K0kVzln3vASEe5C+rsq/6LA==
-X-Google-Smtp-Source: AGHT+IGtTZq18QiZi+kxAaVoP42aI4+e6Lazf40V5siElen0/fmnUFiUi6gZlUoDR9vg5eqGTE3Sjw==
-X-Received: by 2002:adf:ef89:0:b0:374:babf:ac4d with SMTP id ffacd0b85a97d-37a42392ec2mr3868603f8f.58.1727020707809;
-        Sun, 22 Sep 2024 08:58:27 -0700 (PDT)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e7540e429sm104126405e9.3.2024.09.22.08.58.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 08:58:27 -0700 (PDT)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/3] devtool: menuconfig remove useless code
-Date: Sun, 22 Sep 2024 17:43:15 +0200
-Message-ID: <20240922155810.1139539-3-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240922155810.1139539-1-adrian.freihofer@siemens.com>
-References: <20240922155810.1139539-1-adrian.freihofer@siemens.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9996fb6589=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48N4iWLs018628
+	for <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 22:34:16 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41sse4j8fv-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 22:34:16 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sun, 22 Sep 2024 22:34:15 -0700
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Sun, 22 Sep 2024 22:34:15 -0700
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/1] kernelsrc.bbclass: Move virtual/kernel:do_shared_workdir to do_configure
+Date: Sun, 22 Sep 2024 22:34:15 -0700
+Message-ID: <73daecdd8298f7cc64730877148ea11b3f113bc4.1727069614.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1727069614.git.liezhi.yang@windriver.com>
+References: <cover.1727069614.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=ANzEoFnr c=1 sm=1 tr=0 ts=66f0fdd8 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=czhKPFx6b7EOJfO_lHkA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: YLvz9KEO6zrmQCP67SI_XDkAUHYxPrWq
+X-Proofpoint-GUID: YLvz9KEO6zrmQCP67SI_XDkAUHYxPrWq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-23_02,2024-09-19_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ impostorscore=0 priorityscore=1501 spamscore=0 clxscore=1011
+ suspectscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2408220000 definitions=main-2409230039
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 15:58:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204791
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 05:34:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204794
 
-When I tried to understand whether oe-local-files is actually still
-needed here, I found some useless lines that can be dropped.
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+The do_shared_workdir populates build artifacts to
+work-shared/${MACHINE}/kernel-build-artifacts, which isn't useful for do_patch,
+make do_patch depend on it will make a lot of recipes compiling which makes
+world's do_patch very slow, e.g.:
+
+Download sources locally:
+$ bitbake world --runall=fetch
+
+* Before the patch:
+$ rm -fr sstate-cache/ tmp/; time bitbake world --runall=patch
+real    23m31.739s
+user    0m25.086s
+sys     0m4.630s
+
+* Now
+$ rm -fr sstate-cache/ tmp/; time bitbake world --runall=patch
+real    12m25.650s
+user    0m35.641s
+sys     0m5.699s
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/lib/devtool/menuconfig.py | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ meta/classes-recipe/kernelsrc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/menuconfig.py b/scripts/lib/devtool/menuconfig.py
-index 18daef30c3b..1054960551b 100644
---- a/scripts/lib/devtool/menuconfig.py
-+++ b/scripts/lib/devtool/menuconfig.py
-@@ -23,9 +23,6 @@
- import os
- import bb
- import logging
--import argparse
--import re
--import glob
- from devtool import setup_tinfoil, parse_recipe, DevtoolError, standard, exec_build_env_command
- from devtool import check_workspace_recipe
- logger = logging.getLogger('devtool')
-@@ -34,7 +31,6 @@ def menuconfig(args, config, basepath, workspace):
-     """Entry point for the devtool 'menuconfig' subcommand"""
- 
-     rd = ""
--    kconfigpath = ""
-     pn_src = ""
-     localfilesdir = ""
-     workspace_dir = ""
-@@ -51,7 +47,6 @@ def menuconfig(args, config, basepath, workspace):
-             raise DevtoolError("This recipe does not support menuconfig option")
- 
-         workspace_dir = os.path.join(config.workspace_path,'sources')
--        kconfigpath = rd.getVar('B')
-         pn_src = os.path.join(workspace_dir,pn)
- 
-         # add check to see if oe_local_files exists or not
-@@ -70,7 +65,7 @@ def menuconfig(args, config, basepath, workspace):
-     logger.info('Launching menuconfig')
-     exec_build_env_command(config.init_path, basepath, 'bitbake -c menuconfig %s' % pn, watch=True)
-     fragment = os.path.join(localfilesdir, 'devtool-fragment.cfg')
--    res = standard._create_kconfig_diff(pn_src,rd,fragment)
-+    standard._create_kconfig_diff(pn_src,rd,fragment)
- 
-     return 0
- 
+diff --git a/meta/classes-recipe/kernelsrc.bbclass b/meta/classes-recipe/kernelsrc.bbclass
+index ecb02dc9edc..f23a1e6bff2 100644
+--- a/meta/classes-recipe/kernelsrc.bbclass
++++ b/meta/classes-recipe/kernelsrc.bbclass
+@@ -7,8 +7,8 @@
+ S = "${STAGING_KERNEL_DIR}"
+ deltask do_fetch
+ deltask do_unpack
+-do_patch[depends] += "virtual/kernel:do_shared_workdir"
+ do_patch[noexec] = "1"
++do_configure[depends] += "virtual/kernel:do_shared_workdir"
+ do_package[depends] += "virtual/kernel:do_populate_sysroot"
+ KERNEL_VERSION = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
+ LOCAL_VERSION = "${@get_kernellocalversion_file("${STAGING_KERNEL_BUILDDIR}")}"
 -- 
-2.46.0
+2.25.1
 
 
