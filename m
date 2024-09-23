@@ -2,158 +2,189 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA53FCF9C72
-	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 13:14:03 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web10.36262.1727097243253978008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DD6CF9C69
+	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 13:14:13 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.36264.1727097246302494591
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Sep 2024 06:14:03 -0700
+ Mon, 23 Sep 2024 06:14:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zK3tm4M7;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3e045525719so2490380b6e.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 06:14:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=h5GKRnIH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-71957eb256bso3798423b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 06:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727097242; x=1727702042; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ISDXHHBpkPne5R6ZPKVMlFxBVCyfLXTCc7YSjgUmjws=;
-        b=zK3tm4M7tOQqEx0Mhj0DsQQUKVHMFpVqcg7OWjymRm9ss9kRzpyfD7KHmBKV73Invw
-         +Q8230SALMhIyiuoFko+z922FrOObsxyrJ7l0+3CXOJZv9LlTLL2687gmZJ8H1h0BGxk
-         BH3ABwGkgQ4DFBw+VilPffBAZW6e1Bkr9iiJYVYJ3hTSF4Dwp+RBc8OnanjOpIlHmaz6
-         1SNp64v6ee34+ABOOgjsaycSD7XWveKWQmwDjPzAi+H3K1UfQHnlWSqhqJHeQ9ipZJaA
-         p1ABJ1+P2QnGnQKx3BFFmbUYda0IfzknfQpT1869gGZEiJnwhIs0Zs/rwZRhtsDcXkPm
-         OtsA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727097245; x=1727702045; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xIVk66brkN50XebiMYM5tvfmsSp/0GgJ7aYIiBs3GiA=;
+        b=h5GKRnIHztZ2jbWrwXLOwPgO2KGri8L+y7ocRNf1whEAOI/JV15Qzhcj1NzZVnBxpi
+         8ttY2eX8lON7RLpoIyUOyt3uvRrzTsfVOQs8z4coaRLZk0UOLBIU9bnNR1qkJuQJErAs
+         3WBBnlwNjQdshNYDsVuA0xUaw7BXmslGDno21aoLoF/+GF3RaHs8vsS+oJTJGYqMSzgI
+         C4oD2WWbCWPD8QHNm138oiSMZbkCVojLdCVciXQUf9h99uteKSENvzEc+xlZqSQtEKPN
+         3zAPj+GrMnbkcC+ia1m0oTSe9Pr3cTyYN3/Fp6LQqC5xEuSQo5XieynxdEpstPEHiRyN
+         CdIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727097242; x=1727702042;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ISDXHHBpkPne5R6ZPKVMlFxBVCyfLXTCc7YSjgUmjws=;
-        b=I/Gsya0qgQEqKbtFzhHkLyJKRu/XudbnIQW8RE0uvgoJFxiRj4mnr4DuiRvziWqV5S
-         3lfFeOT+7mFR4o/w2PP7Z25h80RJwYdbMsXwvjqMT+94oQqw3BFyVgowdZb+kEqHDI/m
-         JlAacWohmxsDdkNBN6MFUYb5iCVoRY/c8m6MpLrR++bxOP3l4JbhzE/zvqffKwkGyvWo
-         x79C+9KdnuwI/8OUMxbW9qS5ziA4ldysW5KIuKoe0GqFcTEcKCtvN4k8fg6H2JJoIqD6
-         dr9xfLTLT0wyBGc5qLuhOwe2wOFXCZFPAvtwKOi2T/1rORrgmbPJyAOC9tjq7bQbTQky
-         oIoA==
-X-Gm-Message-State: AOJu0YxcjytfdK09Wv25yRVhMEkAAbFFgEAc3exvJu7E7FEqja+mf3r8
-	HWPUdr+7YN8n3xjgTJi6LV9pbQf0+m9Jf8gjQSG18fcY9fftSTkx4+/1B9bQEKDUGOztVbsRo2u
-	eWTU=
-X-Google-Smtp-Source: AGHT+IG3YVzPyt2FrHmB7qfhnzyba3iWCV5MpiypwDXlzDK00jrRGU5YhHD3ooYQ886syzQNtF7lsg==
-X-Received: by 2002:a05:6870:8927:b0:260:71c4:f33a with SMTP id 586e51a60fabf-2803d17a686mr5900329fac.39.1727097241569;
-        Mon, 23 Sep 2024 06:14:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727097245; x=1727702045;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xIVk66brkN50XebiMYM5tvfmsSp/0GgJ7aYIiBs3GiA=;
+        b=A+mxXA3WQ+81aYC5MOutebzixze64RTQrveU8QJvLqrgVOvO+V0+1qR5puom0eN/eJ
+         flDBa6mz0wP24QaRJvHjGXK1Q9SSpSMq6U9NB+wC709TBv/W/QAyIluUW49OxwZ7YCYY
+         KqU7p/sbsur3TL3ZO4yAgsKzFiXplvI3/F2g+Ap0m5tydjFzZas+wwZc8Kho8jj1UPV6
+         jNS4laesrTf2IzAMbkGY45j0xGXAcEfJQOIUCjRe+sMhBHgzHPDBIzVZXmxVfXugthil
+         EVTeBiBsZxxDwnpvwBCxUs6oRR/dxQxMXFmIl30McEvrAmgiRTX270boF41ucsFlxUto
+         Vfvg==
+X-Gm-Message-State: AOJu0YxzysJjAPWdyDNzZSisyrzd2Vdeyzq7dHvm4zQmWQXXTT7MOxtv
+	7286EFznB7Ay/F3Lm4/MDAeHdYIWcDMSSdJXFJ9NYshDrAFU5XnWuI8D8HyT44IicaHPwV80JSD
+	UwzI=
+X-Google-Smtp-Source: AGHT+IHrvrFfSqqY2v9kJiIngmtGl+Wl0oQOGjh9ibx98AxJhbScDUX1ScBve+daAqmNr35IkP87Gw==
+X-Received: by 2002:a05:6a21:1798:b0:1d2:eadb:bb2e with SMTP id adf61e73a8af0-1d30a987f4cmr16988670637.33.1727097245520;
+        Mon, 23 Sep 2024 06:14:05 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944b7ee58sm13831391b3a.127.2024.09.23.06.14.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944b7ee58sm13831391b3a.127.2024.09.23.06.14.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2024 06:14:01 -0700 (PDT)
+        Mon, 23 Sep 2024 06:14:05 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/15] Patch review
-Date: Mon, 23 Sep 2024 06:13:41 -0700
-Message-Id: <cover.1726971209.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/15] webkitgtk: Security fix CVE-2024-40779
+Date: Mon, 23 Sep 2024 06:13:43 -0700
+Message-Id: <2afeb07fc459014bf269c7b6ee1d62c19694977f.1726971209.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1726971209.git.steve@sakoman.com>
+References: <cover.1726971209.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 13:14:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204806
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 13:14:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204808
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Tuesday, September 24
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport from [https://github.com/WebKit/WebKit/commit/2fe5ae29a5f6434ef456afe9673a4f400ec63848]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7353
-
-The following changes since commit 88630352d6d1cfee06787fa84b73ca8ad335cb08:
-
-  libedit: Make docs generation deterministic (2024-09-11 05:03:48 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Colin McAllister (2):
-  busybox: Fix cut with "-s" flag
-  udev-extraconf: Add collect flag to mount
-
-Divya Chellam (1):
-  python3: Upgrade 3.10.14 -> 3.10.15
-
-Konrad Weihmann (3):
-  runqemu: keep generating tap devices
-  testimage: fallback for empty IMAGE_LINK_NAME
-  testexport: fallback for empty IMAGE_LINK_NAME
-
-Michael Halstead (2):
-  yocto-uninative: Update to 4.5 for gcc 14
-  yocto-uninative: Update to 4.6 for glibc 2.40
-
-Pedro Ferreira (2):
-  buildhistory: Fix intermittent package file list creation
-  buildhistory: Restoring files from preserve list
-
-Richard Purdie (1):
-  buildhistory: Simplify intercept call sites and drop
-    SSTATEPOSTINSTFUNC usage
-
-Rohini Sangam (1):
-  cups: Security fix for CVE-2024-35235
-
-Ross Burton (1):
-  lib/oeqa: rename assertRaisesRegexp to assertRaisesRegex
-
-Vijay Anusuri (1):
-  libpcap: Security fix for CVE-2023-7256 & CVE-2024-8006
-
-Vivek Kumbhar (1):
-  webkitgtk: Security fix CVE-2024-40779
-
- meta/classes/buildhistory.bbclass             |  71 ++-
- meta/classes/sstate.bbclass                   |   5 +-
- meta/classes/testexport.bbclass               |   2 +-
- meta/classes/testimage.bbclass                |   4 +-
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/lib/oeqa/selftest/cases/runcmd.py        |   4 +-
- .../libpcap/libpcap/CVE-2023-7256-pre1.patch  |  99 ++++
- .../libpcap/libpcap/CVE-2023-7256-pre2.patch  | 131 +++++
- .../libpcap/libpcap/CVE-2023-7256-pre3.patch  |  67 +++
- .../libpcap/libpcap/CVE-2023-7256-pre4.patch  |  37 ++
- .../libpcap/libpcap/CVE-2023-7256.patch       | 368 +++++++++++++
- .../libpcap/libpcap/CVE-2024-8006.patch       |  42 ++
- .../libpcap/libpcap_1.10.1.bb                 |  10 +-
- ...1-cut-Fix-s-flag-to-omit-blank-lines.patch |  66 +++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |   1 +
- .../recipes-core/udev/udev-extraconf/mount.sh |   2 +-
- .../python/python3/CVE-2023-27043.patch       | 510 ------------------
- .../python/python3/CVE-2024-6232.patch        | 251 ---------
- .../python/python3/CVE-2024-7592.patch        | 140 -----
- .../python/python3/CVE-2024-8088.patch        | 124 -----
- ...{python3_3.10.14.bb => python3_3.10.15.bb} |   6 +-
- meta/recipes-extended/cups/cups.inc           |   1 +
- .../cups/cups/CVE-2024-35235.patch            | 121 +++++
- .../webkit/webkitgtk/CVE-2024-40779.patch     |  91 ++++
- meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   1 +
- scripts/runqemu                               |  24 +-
- 26 files changed, 1109 insertions(+), 1079 deletions(-)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre1.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre2.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre3.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256-pre4.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2023-7256.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2024-8006.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0001-cut-Fix-s-flag-to-omit-blank-lines.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2023-27043.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2024-6232.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2024-7592.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2024-8088.patch
- rename meta/recipes-devtools/python/{python3_3.10.14.bb => python3_3.10.15.bb} (98%)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-35235.patch
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../webkit/webkitgtk/CVE-2024-40779.patch     | 91 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |  1 +
+ 2 files changed, 92 insertions(+)
  create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
 
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
+new file mode 100644
+index 0000000000..6fac907256
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
+@@ -0,0 +1,91 @@
++From 2fe5ae29a5f6434ef456afe9673a4f400ec63848 Mon Sep 17 00:00:00 2001
++From: Jean-Yves Avenard <jya@apple.com>
++Date: Fri, 14 Jun 2024 16:08:19 -0700
++Subject: [PATCH] Cherry-pick 272448.1085@safari-7618.3.10-branch
++ (ff52ff7cb64e). https://bugs.webkit.org/show_bug.cgi?id=275431
++
++HeapBufferOverflow in computeSampleUsingLinearInterpolation
++https://bugs.webkit.org/show_bug.cgi?id=275431
++rdar://125617812
++
++Reviewed by Youenn Fablet.
++
++Add boundary check.
++This is a copy of blink code for that same function.
++https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/webaudio/audio_buffer_source_handler.cc;l=336-341
++
++* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt: Added.
++* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html: Added.
++* Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp:
++(WebCore::AudioBufferSourceNode::renderFromBuffer):
++
++Canonical link: https://commits.webkit.org/274313.347@webkitglib/2.44
++
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2fe5ae29a5f6434ef456afe9673a4f400ec63848]
++CVE: CVE-2024-40779
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ ...er-sourcenode-resampler-crash-expected.txt |  1 +
++ ...udiobuffer-sourcenode-resampler-crash.html | 25 +++++++++++++++++++
++ .../webaudio/AudioBufferSourceNode.cpp        |  6 +++++
++ 3 files changed, 32 insertions(+)
++ create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
++ create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
++
++diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
++new file mode 100644
++index 00000000..654ddf7f
++--- /dev/null
+++++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
++@@ -0,0 +1 @@
+++This test passes if it does not crash.
++diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
++new file mode 100644
++index 00000000..5fb2dd8c
++--- /dev/null
+++++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
++@@ -0,0 +1,25 @@
+++<html>
+++<head>
+++    <script>
+++        async function main() {
+++            var ctx = new AudioContext();
+++            var src = new AudioBufferSourceNode(ctx);
+++            src.buffer = ctx.createBuffer(1, 8192, 44100);
+++            src.start(undefined, 0.5);
+++            src.playbackRate.value = -1;
+++            src.connect(ctx.destination, 0, 0);
+++            if (window.testRunner)
+++                testRunner.notifyDone();
+++        }
+++    </script>
+++</head>
+++<body onload="main()">
+++    <p>This test passes if it does not crash.</p>
+++    <script>
+++    if (window.testRunner) {
+++        testRunner.waitUntilDone();
+++        testRunner.dumpAsText();
+++    }
+++    </script>
+++</body>
+++</html>
++diff --git a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
++index 35b8c818..689d37a1 100644
++--- a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
+++++ b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
++@@ -342,6 +342,12 @@ bool AudioBufferSourceNode::renderFromBuffer(AudioBus* bus, unsigned destination
++             if (readIndex2 >= maxFrame)
++                 readIndex2 = m_isLooping ? minFrame : readIndex;
++
+++            // Final sanity check on buffer access.
+++            // FIXME: as an optimization, try to get rid of this inner-loop check and
+++            // put assertions and guards before the loop.
+++            if (readIndex >= bufferLength || readIndex2 >= bufferLength)
+++                break;
+++
++             // Linear interpolation.
++             for (unsigned i = 0; i < numberOfChannels; ++i) {
++                 float* destination = destinationChannels[i];
++--
++2.34.1
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index f4b8456749..a2d455ab92 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -24,6 +24,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://CVE-2023-23529.patch \
+            file://CVE-2022-48503.patch \
+            file://CVE-2023-32439.patch \
++           file://CVE-2024-40779.patch \
+            "
+ SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
+ 
 -- 
 2.34.1
 
