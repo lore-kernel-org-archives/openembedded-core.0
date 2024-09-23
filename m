@@ -1,310 +1,95 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <aleksandar.nikolic010@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 148D7CF9C5B
-	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 05:49:51 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.30174.1727070588247184599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E05CCF9C71
+	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 09:00:22 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.32269.1727082019612701599
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Sep 2024 22:49:48 -0700
+ Mon, 23 Sep 2024 02:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=FAZ3dae9;
- spf=pass (domain: mvista.com, ip: 209.85.216.49, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2dee9d86f4dso765149a91.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Sep 2024 22:49:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a2+oyjDh;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: aleksandar.nikolic010@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c42e7adbe0so4674787a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 02:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1727070587; x=1727675387; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kYmSJMkQPuoHK8vrULbSeG1LdUIT514Aqkti8ZkoFkg=;
-        b=FAZ3dae99oHBrfpKpJEfznPoBk01H3GdoDGmOT9+FSDNAW6qVOqJf9nHW/f+Cqm/0u
-         hVeSyIfZUDgK/h/IzpVwbg0W4XRW2zWoQ90BUyeMd9Jezt7/i1RjiMx7Kivjvm33zjUR
-         ibl+nJZcFye0MN/z95rldroDt37DALxfYK0dU=
+        d=gmail.com; s=20230601; t=1727082018; x=1727686818; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=utcCPzgnfEOmm11tyFQqj41Us0cZSnC+Tcrl5jAnsRo=;
+        b=a2+oyjDholEVxRmT6ddmwshzMAx8XNrAvF8cyEFgO6V7paSqlpgocHZYGKnULN95c/
+         q+Pyi/GzgB5dxIiWeRsr87a1zaohS/v0vmS5fhUvDirqouflx6BCF9rkrZK5tLNFdKez
+         VvUJnxFDuBByq8rWJgQFhAcD+ABTyCxqZYqYcFW7haFDOxic13bkeoV8bLuNNWbrSV14
+         R6P5hxq5pwF4px3iIF/Dkr7wU+fU08KvuOiKuwihur9uCt8IbW2fs1cTSJPlKZAW8axe
+         3AfaedjDs2WgGKOUsIpCYvEYiztzuW33175kyebkGZch3UUtaWXJlJIWhroiMXXj/ZAm
+         lsBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727070587; x=1727675387;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kYmSJMkQPuoHK8vrULbSeG1LdUIT514Aqkti8ZkoFkg=;
-        b=P9GSFHvnh8eLBl9dqP/AOvRuO29NaUSMD2u/eg3qKOC71+24BFuYWndjWEvbH/euUW
-         qXgNKHFOGGn+5jw5b6PNUAB79FYMy2Q2oNeV7zANHrQsFYUQ8+3FbUaAvj2oTzSfI/2V
-         urlwTD3D+o8YrFL+anVrwNTDTqU+5FBm9SLe1SFNPhvwCP0TXLsxMA4xEat1hGSEW1KW
-         BjuieMYjYyB8oaFd7H9bs8OQ4CF7Wv3y6rttx4V8RnVQRIcWPDhNvE4Sd/bddQ5nDDOh
-         uCNkOyJOIqSMS4TtCqP+r4oZEOv/mnqmWcuspvm/5Wd+uoB8lIf/2cG9OklNsv1x/wd/
-         t1gw==
-X-Gm-Message-State: AOJu0Ywd3n/YzQo6nUINxcfAudGpYtgIQBfeMxk/D8ycxahdZ4ZpTZ4q
-	1LDFEnp1EfQu8vCJDM9x8c8FDdCwWR4RoOaqJf2hb6w/ij/ICVT5kSr3g538U5FSWVvkAL1Hsar
-	u
-X-Google-Smtp-Source: AGHT+IGvyzGJG89pw6tR6Tz4nkqz6km17vAZdBtR+ZlYSN1OTbzlFvWy3fsDM336QDDEyJtwEfmV7A==
-X-Received: by 2002:a17:90a:1202:b0:2dd:8097:3ced with SMTP id 98e67ed59e1d1-2dd80973cf0mr13192585a91.26.1727070586994;
-        Sun, 22 Sep 2024 22:49:46 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:882e:6fe6:697c:57cb:5ac0:b8bd])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dd6eec9ff0sm8558667a91.33.2024.09.22.22.49.45
+        d=1e100.net; s=20230601; t=1727082018; x=1727686818;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=utcCPzgnfEOmm11tyFQqj41Us0cZSnC+Tcrl5jAnsRo=;
+        b=StXZ4y8R5WdGdfWjv8KKGjN83RrQW2S6WtVJ4ez/95vHxoIy7IlA/Opdqecknl2PAc
+         8MELphYMff38aO8Io0MxzBaZbtKG103PhbqeqjMQ1Fq5fKQnhsNkSdXUlxt+78IRsCTJ
+         Pvm+Unlu8znpnDbNIiT7PfaGm2fwr5t6YC/hRKXjq4lcaL/yZK1jMZBGbyhUaVNZzUt8
+         2DC410B4+AikfF5AR4SGT4yZCuaQw0M+EzxcbYSb/PoJcyoWjy4P8NkV9Me4qd5i1J0I
+         +qzsEvSxP8GOsfV7p8Zuk554LaWOxUaL2czBNNhXtyvYlosE1Z2aKUhyrAUPJ8/uuFdm
+         tRzA==
+X-Gm-Message-State: AOJu0YzgIvqu0OTzmAUeMCBX8ckNf5XTxSMgWPF00aSIoiMxWLVKjKhd
+	Q0JqpBzHYCJWIx1pXOm0TVe1xDSvPiECKnluCaIr9VgrD4xGeisRiD+tFrID
+X-Google-Smtp-Source: AGHT+IGabKOPsddhb1Q0uIRf7Q1nllNX66bUKBPjg1xgEvAKufl+56VUNNBfZ22CqEvTRIewRV2Lfg==
+X-Received: by 2002:a05:6402:2712:b0:5c5:c5fb:d405 with SMTP id 4fb4d7f45d1cf-5c5c5fbd4bbmr399030a12.9.1727082017729;
+        Mon, 23 Sep 2024 02:00:17 -0700 (PDT)
+Received: from an.. ([2a02:810d:600:2744:e855:ba31:e4ab:c4bc])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bb94a01sm9872262a12.91.2024.09.23.02.00.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 22:49:46 -0700 (PDT)
-From: vanusuri@mvista.com
+        Mon, 23 Sep 2024 02:00:17 -0700 (PDT)
+From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
+X-Google-Original-From: Aleksandar Nikolic <an010@live.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] curl: backport Debian patch for CVE-2024-8096
-Date: Mon, 23 Sep 2024 11:19:38 +0530
-Message-Id: <20240923054938.1387063-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+Subject: [PATCH 4/4] scripts/install-buildtools: Update to 4.0.21
+Date: Mon, 23 Sep 2024 10:59:48 +0200
+Message-Id: <20240923085948.49447-4-an010@live.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240923085948.49447-1-an010@live.com>
+References: <20240923085948.49447-1-an010@live.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 05:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204795
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 09:00:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204799
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-import patch from ubuntu to fix
- CVE-2024-8096
+Update to the 4.0.21 release of the 4.0 series for buildtools.
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches?h=ubuntu/jammy-security
-Upstream commit
-https://github.com/curl/curl/commit/aeb1a281cab13c7ba791cb104e556b20e713941f]
-
-Reference:
-https://curl.se/docs/CVE-2024-8096.html
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 ---
- .../curl/curl/CVE-2024-8096.patch             | 210 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
- 2 files changed, 211 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2024-8096.patch
+ scripts/install-buildtools | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2024-8096.patch b/meta/recipes-support/curl/curl/CVE-2024-8096.patch
-new file mode 100644
-index 0000000000..777b3fe587
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2024-8096.patch
-@@ -0,0 +1,210 @@
-+Backport of:
-+
-+From aeb1a281cab13c7ba791cb104e556b20e713941f Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 20 Aug 2024 16:14:39 +0200
-+Subject: [PATCH] gtls: fix OCSP stapling management
-+
-+Reported-by: Hiroki Kurosawa
-+Closes #14642
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/curl/tree/debian/patches/CVE-2024-8096.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/curl/curl/commit/aeb1a281cab13c7ba791cb104e556b20e713941f]
-+CVE: CVE-2024-8096
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ lib/vtls/gtls.c | 146 ++++++++++++++++++++++++------------------------
-+ 1 file changed, 73 insertions(+), 73 deletions(-)
-+
-+--- a/lib/vtls/gtls.c
-++++ b/lib/vtls/gtls.c
-+@@ -530,6 +530,13 @@ gtls_connect_step1(struct Curl_easy *dat
-+   init_flags |= GNUTLS_NO_TICKETS;
-+ #endif
-+ 
-++#if defined(GNUTLS_NO_STATUS_REQUEST)
-++  if(!config->verifystatus)
-++    /* Disable the "status_request" TLS extension, enabled by default since
-++       GnuTLS 3.8.0. */
-++    init_flags |= GNUTLS_NO_STATUS_REQUEST;
-++#endif
-++
-+   rc = gnutls_init(&backend->session, init_flags);
-+   if(rc != GNUTLS_E_SUCCESS) {
-+     failf(data, "gnutls_init() failed: %d", rc);
-+@@ -929,104 +936,97 @@ Curl_gtls_verifyserver(struct Curl_easy
-+     infof(data, "  server certificate verification SKIPPED");
-+ 
-+   if(SSL_CONN_CONFIG(verifystatus)) {
-+-    if(gnutls_ocsp_status_request_is_checked(session, 0) == 0) {
-+-      gnutls_datum_t status_request;
-+-      gnutls_ocsp_resp_t ocsp_resp;
-++    gnutls_datum_t status_request;
-++    gnutls_ocsp_resp_t ocsp_resp;
-++    gnutls_ocsp_cert_status_t status;
-++    gnutls_x509_crl_reason_t reason;
-+ 
-+-      gnutls_ocsp_cert_status_t status;
-+-      gnutls_x509_crl_reason_t reason;
-++    rc = gnutls_ocsp_status_request_get(session, &status_request);
-+ 
-+-      rc = gnutls_ocsp_status_request_get(session, &status_request);
-++    if(rc == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
-++      failf(data, "No OCSP response received");
-++      return CURLE_SSL_INVALIDCERTSTATUS;
-++    }
-+ 
-+-      infof(data, " server certificate status verification FAILED");
-++    if(rc < 0) {
-++      failf(data, "Invalid OCSP response received");
-++      return CURLE_SSL_INVALIDCERTSTATUS;
-++    }
-+ 
-+-      if(rc == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
-+-        failf(data, "No OCSP response received");
-+-        return CURLE_SSL_INVALIDCERTSTATUS;
-+-      }
-++    gnutls_ocsp_resp_init(&ocsp_resp);
-+ 
-+-      if(rc < 0) {
-+-        failf(data, "Invalid OCSP response received");
-+-        return CURLE_SSL_INVALIDCERTSTATUS;
-+-      }
-++    rc = gnutls_ocsp_resp_import(ocsp_resp, &status_request);
-++    if(rc < 0) {
-++      failf(data, "Invalid OCSP response received");
-++      return CURLE_SSL_INVALIDCERTSTATUS;
-++    }
-+ 
-+-      gnutls_ocsp_resp_init(&ocsp_resp);
-++    (void)gnutls_ocsp_resp_get_single(ocsp_resp, 0, NULL, NULL, NULL, NULL,
-++                                      &status, NULL, NULL, NULL, &reason);
-+ 
-+-      rc = gnutls_ocsp_resp_import(ocsp_resp, &status_request);
-+-      if(rc < 0) {
-+-        failf(data, "Invalid OCSP response received");
-+-        return CURLE_SSL_INVALIDCERTSTATUS;
-+-      }
-++    switch(status) {
-++    case GNUTLS_OCSP_CERT_GOOD:
-++      break;
-+ 
-+-      (void)gnutls_ocsp_resp_get_single(ocsp_resp, 0, NULL, NULL, NULL, NULL,
-+-                                        &status, NULL, NULL, NULL, &reason);
-++    case GNUTLS_OCSP_CERT_REVOKED: {
-++      const char *crl_reason;
-+ 
-+-      switch(status) {
-+-      case GNUTLS_OCSP_CERT_GOOD:
-++      switch(reason) {
-++      default:
-++      case GNUTLS_X509_CRLREASON_UNSPECIFIED:
-++        crl_reason = "unspecified reason";
-+         break;
-+ 
-+-      case GNUTLS_OCSP_CERT_REVOKED: {
-+-        const char *crl_reason;
-++      case GNUTLS_X509_CRLREASON_KEYCOMPROMISE:
-++        crl_reason = "private key compromised";
-++        break;
-+ 
-+-        switch(reason) {
-+-          default:
-+-          case GNUTLS_X509_CRLREASON_UNSPECIFIED:
-+-            crl_reason = "unspecified reason";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_KEYCOMPROMISE:
-+-            crl_reason = "private key compromised";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_CACOMPROMISE:
-+-            crl_reason = "CA compromised";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_AFFILIATIONCHANGED:
-+-            crl_reason = "affiliation has changed";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_SUPERSEDED:
-+-            crl_reason = "certificate superseded";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_CESSATIONOFOPERATION:
-+-            crl_reason = "operation has ceased";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_CERTIFICATEHOLD:
-+-            crl_reason = "certificate is on hold";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_REMOVEFROMCRL:
-+-            crl_reason = "will be removed from delta CRL";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_PRIVILEGEWITHDRAWN:
-+-            crl_reason = "privilege withdrawn";
-+-            break;
-+-
-+-          case GNUTLS_X509_CRLREASON_AACOMPROMISE:
-+-            crl_reason = "AA compromised";
-+-            break;
-+-        }
-++      case GNUTLS_X509_CRLREASON_CACOMPROMISE:
-++        crl_reason = "CA compromised";
-++        break;
-+ 
-+-        failf(data, "Server certificate was revoked: %s", crl_reason);
-++      case GNUTLS_X509_CRLREASON_AFFILIATIONCHANGED:
-++        crl_reason = "affiliation has changed";
-+         break;
-+-      }
-+ 
-+-      default:
-+-      case GNUTLS_OCSP_CERT_UNKNOWN:
-+-        failf(data, "Server certificate status is unknown");
-++      case GNUTLS_X509_CRLREASON_SUPERSEDED:
-++        crl_reason = "certificate superseded";
-++        break;
-++
-++      case GNUTLS_X509_CRLREASON_CESSATIONOFOPERATION:
-++        crl_reason = "operation has ceased";
-++        break;
-++
-++      case GNUTLS_X509_CRLREASON_CERTIFICATEHOLD:
-++        crl_reason = "certificate is on hold";
-++        break;
-++
-++      case GNUTLS_X509_CRLREASON_REMOVEFROMCRL:
-++        crl_reason = "will be removed from delta CRL";
-++        break;
-++
-++      case GNUTLS_X509_CRLREASON_PRIVILEGEWITHDRAWN:
-++        crl_reason = "privilege withdrawn";
-++        break;
-++
-++      case GNUTLS_X509_CRLREASON_AACOMPROMISE:
-++        crl_reason = "AA compromised";
-+         break;
-+       }
-+ 
-+-      gnutls_ocsp_resp_deinit(ocsp_resp);
-++      failf(data, "Server certificate was revoked: %s", crl_reason);
-++      break;
-++    }
-++
-++    default:
-++    case GNUTLS_OCSP_CERT_UNKNOWN:
-++      failf(data, "Server certificate status is unknown");
-++      break;
-++    }
-+ 
-++    gnutls_ocsp_resp_deinit(ocsp_resp);
-++    if(status != GNUTLS_OCSP_CERT_GOOD)
-+       return CURLE_SSL_INVALIDCERTSTATUS;
-+-    }
-+-    else
-+-      infof(data, "  server certificate status verification OK");
-+   }
-+   else
-+     infof(data, "  server certificate status verification SKIPPED");
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 308b508072..a613e93780 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -60,6 +60,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2024-2398.patch \
-            file://CVE-2024-7264_1.patch \
-            file://CVE-2024-7264_2.patch \
-+           file://CVE-2024-8096.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 4f85fe87d4..9054eb5f36 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -56,9 +56,9 @@ PROGNAME = 'install-buildtools'
+ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+-DEFAULT_BASE_URL = 'http://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-4.1'
+-DEFAULT_INSTALLER_VERSION = '4.1'
++DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
++DEFAULT_RELEASE = 'yocto-4.0.21'
++DEFAULT_INSTALLER_VERSION = '4.0.21'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
 -- 
 2.25.1
 
