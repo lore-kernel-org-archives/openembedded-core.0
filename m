@@ -1,206 +1,103 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <aleksandar.nikolic010@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46123CF9C6F
-	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 09:06:32 +0000 (UTC)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
- by mx.groups.io with SMTP id smtpd.web11.32350.1727082384944736829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B6DECF9C71
+	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 09:42:22 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.32875.1727084538241332020
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Sep 2024 02:06:25 -0700
+ Mon, 23 Sep 2024 02:42:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=notczVfZ;
- spf=pass (domain: gmail.com, ip: 209.85.217.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-49bc672bb46so1320037137.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 02:06:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C5FEMmFo;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: aleksandar.nikolic010@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a910860e4dcso122763466b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 02:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727082384; x=1727687184; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GzKAYdQLO/vv4r/C5yuTgXzaTiQ5ObLgdmZEE0jUyEw=;
-        b=notczVfZ7pSOMt6jkNuDo317Xeth15sD6LYV1VnDHcUnHsFnKsxl9k0G/hIvmd3gZ1
-         mALpPoeVP09irQOvld0SaZqLwY5WAHqd6gUkDzg4DMjjRlneVr8rJwuZujbbLmglY8z3
-         udw+8U7Pb+tgDTP4J2CmKUFoqbNgb51za4nIf8SRHVgX1LvvSkopYIgeF1kVwtoiMK5K
-         lcTRxw0y9fTQIkQMtoWcWzmg29f9UTfAPns4fzj+tS69P4feDlrQDuNiaSMD3HbRJD9u
-         og2NxvdM9yOTYmJDvU1ZHbfI5m5yxZnR2pesC4die8ChB3WJbg3tfub1LeNI2kticY3k
-         A71A==
+        d=gmail.com; s=20230601; t=1727084537; x=1727689337; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GzmgM2imAVfZr190wkfxU+y4p+O3VHftLXS7EV0yJ9M=;
+        b=C5FEMmFoRIpWxg+HZ7o2fquyEPhNFGzYZfeutBu4n6KRes24NkT94kjjj+NwHxoxjy
+         /Nx+TGyYG15F+MPPYXPrZAWzlnGmj4wM/wI2iXa9sLLa7EANRIHpnoo1eL8JUIZ2NLOd
+         WxXEDPm4lBZqg6HA4cwgdwOrrChVXAC0CczuOTiAZPqdRtHoPS+hWCQRfQO3cRPRSsGt
+         db9S7etzKMsJRm3fNwqA0wLZWg8iq6y/S6qZFyvVTIHHdO59MYs29c2fx/5ukvpAeDZn
+         nDMwo3GCMAobrGzTBOKGjX2S5cWanyBSXFd32cyVfBctJ3Z5saicHGrUYRq5VaNuruuF
+         z9/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727082384; x=1727687184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GzKAYdQLO/vv4r/C5yuTgXzaTiQ5ObLgdmZEE0jUyEw=;
-        b=WuqMCPKdiv3zh/EZQg9NpJdEfgKOJhagZ2C0t6Y6js9ZcJyYsq31J02oumL4l3m7Sy
-         LzGLzTmInKhUkdgAaIsFen0lYEzHaRxKZUDMzUtaH7UmgnBLCTxqsUrkiH3PtlU2+EUw
-         POGSLie1Hh6hQUdH3dcdjnY76VWqiGPsOxci1KTd0LgUPLLjKBZDJe/r9bQ1GYZoat/e
-         DW+REXo59wqe37Vua9i2YWYTn0JXprutMW925svTh9mWh2fvyC+ISgtZ6mpFP0CIkmMg
-         bk4H2Dft9J93mrbMGg6/FBkjTT2n8886688Ne2RpsDsdPiJWZnosDDQhsTWTT7wOhMV2
-         0QIQ==
-X-Gm-Message-State: AOJu0YzVgU8CFTWMvrh6CSLQdkeUbxmrD+Pk+KfVlJIvTB2SblN6tnbi
-	6Ja8c3g/KNcMMtTCmeMT71Nv5KtDyCxudxy4t+FP0u8eejQBl8ylH8z717PLeOFA2btnZPMwbfa
-	G2bWPzBcx1JOEvcEUXW6pZIR6FHk=
-X-Google-Smtp-Source: AGHT+IGXEx9zXFhA70ttOJTU0FdDNVbRYQbc/HZEQIx4hnF/FDnYuDmxc247T3ubENpyJS8eFt5pYK4ZGBPplKtbA8k=
-X-Received: by 2002:a05:6102:c8d:b0:49a:1dd2:3cc8 with SMTP id
- ada2fe7eead31-49fc9660201mr6117886137.24.1727082383826; Mon, 23 Sep 2024
- 02:06:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727084537; x=1727689337;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GzmgM2imAVfZr190wkfxU+y4p+O3VHftLXS7EV0yJ9M=;
+        b=JMnbbMfdaNZpiVNZGCE+0Toh/J727mTOl5hSIfQag+nFwj53jtobKAAE1mRkEHPcd9
+         W6HtBfwVtVfXR4mfdlTvdEzPpsH+tdxNWqWcZZbLz+rQ/uJYnecs0ZH/Lox1fLHOJRa1
+         JGK4JG95yaGAYRW4gtmhokPQs2RMRABinq5TUga9rtizhEYvQC68LnU1Fa352pB9tYKP
+         wTzz0bqrWWZjHDCYwK6HTb8olLM9JfOBi/fVqNoBimL6wTT2/mvJ2Xadnb0QodMHNV/Z
+         mFjui8Llz0sLFc0x0dH4FCGX7Eu7eURi8vmdn0IDmVZAmMhU/aALS47Vz/jlQAwWsrhe
+         wmbA==
+X-Gm-Message-State: AOJu0YypgT93DmJumj2vVtAeFXyiTojlVQubbgDrUmZ7xk3RBm1X6jso
+	Ryz5ZhvN0vLlVcwis3ZiXCyme1Y6KEmrTpQKA8l89oLP0Dj21P0AB1xA0OdZcQE=
+X-Google-Smtp-Source: AGHT+IFbxiIRO3o/8ctjCdtsdAwy8dTFpjaK/zvbIRpkA9lQpnKuM1a9SOVWIo/3SGr5EgjZy5JINA==
+X-Received: by 2002:a17:907:f74b:b0:a8d:3b04:29db with SMTP id a640c23a62f3a-a90d508b709mr1067572566b.39.1727084536519;
+        Mon, 23 Sep 2024 02:42:16 -0700 (PDT)
+Received: from an.. ([2a02:810d:600:2744:e855:ba31:e4ab:c4bc])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612b3877sm1183903066b.112.2024.09.23.02.42.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Sep 2024 02:42:16 -0700 (PDT)
+From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
+X-Google-Original-From: Aleksandar Nikolic <an010@live.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH 3/4] install-buildtools: update base-url, release and installer version
+Date: Mon, 23 Sep 2024 11:41:58 +0200
+Message-Id: <20240923094159.51274-3-an010@live.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240923094159.51274-1-an010@live.com>
+References: <20240923094159.51274-1-an010@live.com>
 MIME-Version: 1.0
-References: <20240923085948.49447-1-an010@live.com> <20240923085948.49447-4-an010@live.com>
-In-Reply-To: <20240923085948.49447-4-an010@live.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Mon, 23 Sep 2024 10:06:13 +0100
-Message-ID: <CANPvuRktR9NbXAzFOJsusgctrXcmeHxoHpXO5882+tNsgyJvwQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] scripts/install-buildtools: Update to 4.0.21
-To: aleksandar.nikolic010@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
-Content-Type: multipart/alternative; boundary="000000000000fc69640622c5b306"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 09:06:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204800
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 09:42:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204803
 
---000000000000fc69640622c5b306
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-Hi Aleksandar,
+Update the following default values:
+- DEFAULT_BASE_URL (https instead of http)
+- DEFAULT_RELEASE (5.0.1)
+- DEFAULT_INSTALLER_VERSION (5.0.1)
 
-Aleksandar Nikolic via lists.openembedded.org <aleksandar.nikolic010=3D
-gmail.com@lists.openembedded.org> escreveu (segunda, 23/09/2024 =C3=A0(s) 1=
-0:00):
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b2ebb965a5aa128b05ed7ddc9216171463777732)
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+---
+ scripts/install-buildtools | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
->
-> Update to the 4.0.21 release of the 4.0 series for buildtools.
->
-> Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
-> ---
->  scripts/install-buildtools | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-> index 4f85fe87d4..9054eb5f36 100755
-> --- a/scripts/install-buildtools
-> +++ b/scripts/install-buildtools
-> @@ -56,9 +56,9 @@ PROGNAME =3D 'install-buildtools'
->  logger =3D scriptutils.logger_create(PROGNAME, stream=3Dsys.stdout)
->
->  DEFAULT_INSTALL_DIR =3D
-> os.path.join(os.path.split(scripts_path)[0],'buildtools')
-> -DEFAULT_BASE_URL =3D 'http://downloads.yoctoproject.org/releases/yocto'
-> -DEFAULT_RELEASE =3D 'yocto-4.1'
-> -DEFAULT_INSTALLER_VERSION =3D '4.1'
-> +DEFAULT_BASE_URL =3D 'https://downloads.yoctoproject.org/releases/yocto'
-> +DEFAULT_RELEASE =3D 'yocto-4.0.21'
-> +DEFAULT_INSTALLER_VERSION =3D '4.0.21'
->
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 4f85fe87d4..5b86c13077 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -56,9 +56,9 @@ PROGNAME = 'install-buildtools'
+ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+ 
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+-DEFAULT_BASE_URL = 'http://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-4.1'
+-DEFAULT_INSTALLER_VERSION = '4.1'
++DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
++DEFAULT_RELEASE = 'yocto-5.0.1'
++DEFAULT_INSTALLER_VERSION = '5.0.1'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
+-- 
+2.25.1
 
-This first patch in the series updates this version to 4.1.
-What is the reason to downgrade this now on the last patch?
-
-Jose
-
-
->  DEFAULT_BUILDDATE =3D '202110XX'
->
->  # Python version sanity check
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#204799):
-> https://lists.openembedded.org/g/openembedded-core/message/204799
-> Mute This Topic: https://lists.openembedded.org/mt/108604377/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000fc69640622c5b306
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Aleksandar,</div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">Aleksandar Nikolic via <a h=
-ref=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;aleksa=
-ndar.nikolic010=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail=
-.com@lists.openembedded.org</a>&gt; escreveu (segunda, 23/09/2024 =C3=A0(s)=
- 10:00):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: A=
-leksandar Nikolic &lt;<a href=3D"mailto:aleksandar.nikolic@zeiss.com" targe=
-t=3D"_blank">aleksandar.nikolic@zeiss.com</a>&gt;<br>
-<br>
-Update to the 4.0.21 release of the 4.0 series for buildtools.<br>
-<br>
-Signed-off-by: Aleksandar Nikolic &lt;<a href=3D"mailto:aleksandar.nikolic@=
-zeiss.com" target=3D"_blank">aleksandar.nikolic@zeiss.com</a>&gt;<br>
----<br>
-=C2=A0scripts/install-buildtools | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools<br>
-index 4f85fe87d4..9054eb5f36 100755<br>
---- a/scripts/install-buildtools<br>
-+++ b/scripts/install-buildtools<br>
-@@ -56,9 +56,9 @@ PROGNAME =3D &#39;install-buildtools&#39;<br>
-=C2=A0logger =3D scriptutils.logger_create(PROGNAME, stream=3Dsys.stdout)<b=
-r>
-<br>
-=C2=A0DEFAULT_INSTALL_DIR =3D os.path.join(os.path.split(scripts_path)[0],&=
-#39;buildtools&#39;)<br>
--DEFAULT_BASE_URL =3D &#39;<a href=3D"http://downloads.yoctoproject.org/rel=
-eases/yocto" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctopro=
-ject.org/releases/yocto</a>&#39;<br>
--DEFAULT_RELEASE =3D &#39;yocto-4.1&#39;<br>
--DEFAULT_INSTALLER_VERSION =3D &#39;4.1&#39;<br>
-+DEFAULT_BASE_URL =3D &#39;<a href=3D"https://downloads.yoctoproject.org/re=
-leases/yocto" rel=3D"noreferrer" target=3D"_blank">https://downloads.yoctop=
-roject.org/releases/yocto</a>&#39;<br>
-+DEFAULT_RELEASE =3D &#39;yocto-4.0.21&#39;<br>
-+DEFAULT_INSTALLER_VERSION =3D &#39;4.0.21&#39;<br></blockquote><div><br></=
-div><div>This first patch in the series=C2=A0updates this version to 4.1.</=
-div><div>What is the reason to downgrade=C2=A0this now on the last patch?</=
-div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-=C2=A0DEFAULT_BUILDDATE =3D &#39;202110XX&#39;<br>
-<br>
-=C2=A0# Python version sanity check<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#204799): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/204799" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/204799</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/108604377/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/108604377/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---000000000000fc69640622c5b306--
 
