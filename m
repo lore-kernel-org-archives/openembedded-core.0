@@ -2,270 +2,124 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C03CF9C6B
-	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 14:04:44 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.14829.1727186682096942626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7360BCF9C6B
+	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 14:10:34 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.14991.1727187023953821541
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Sep 2024 07:04:42 -0700
+ Tue, 24 Sep 2024 07:10:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=CPKZ1h0K;
- spf=pass (domain: linaro.org, ip: 209.85.208.170, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f7529203ddso61691311fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 07:04:41 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=SwhQHf9x;
+ spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f7ba97ebaaso51776801fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 07:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727186680; x=1727791480; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KwCpsAYsQFtGXRjtFp7vokl8oIkS5CVxMDd8R3dntmo=;
-        b=CPKZ1h0KQ//XrYRA40gusxrMZFkYZg3lV1DlIsIMP1A3szvi8mngEBT61pyTnHWTE3
-         BRh3Sl44txpnXfck7wjfY7+GDUskyr8Lo15ud8cR692aa4ji3RrGWIrc/vIlTfdu2PIk
-         yXrfxddCMB+UYIS35/aCF1LPqXN96aylcGkg6oOOzfEcEv2BwH7Ux4AWapeVKefdoCiY
-         103bx4MoBdybPqKlH4af6f+C6PJ3oknL7O+0yjJYROuX+f8KEaIM+jzh/7qt1IGyCYOy
-         5ev4nxOYnHeadKI2oU0qZobdiELTgvUb/NYOHqp0vi+Uc1sVpzPfGwicEgvEiRT+BB+n
-         jyxA==
+        d=linaro.org; s=google; t=1727187022; x=1727791822; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gM09mblx/8xfUtLfMu8pXfLGpXbjGr0EJuAoIHIU4CI=;
+        b=SwhQHf9x8YxeYPM3zKjnFu4/SMnKika0aHT1y7Gp3Kxcs8rPd2UlDXgaO0S6WLIwVU
+         6hxkAjJbgH6FVmMN6JkkrLrmjzya/e8QX843U5SMZDYcwUcOA/rdJUaKxxnS9MtFT73U
+         11xZkoWS+gGvxbjlI3JLr8t1ix+vx3iBHzD2q4s+Txreh+BkuXEKy1m4yiJnd+6vu+U0
+         r67PLFYJ1b6oZlYMRHVQ9r4wFjSw8Bi9zs0v9en8tGMsThH4U9BqVRA4xY6eFCrfeS2B
+         MsdaZayoKDvl6mrhvd6RlJ6PHbE0KSbOovgFHeoH24s6AfJyjg8YZhoaNNRiGVXKFi7Q
+         mG/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727186680; x=1727791480;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KwCpsAYsQFtGXRjtFp7vokl8oIkS5CVxMDd8R3dntmo=;
-        b=UlXQmEAeo30yLpSgA63Szr31rKD294u2JxHtfcQ03YKGO5X14xG1L4/G2A0/mKFv7X
-         clVeU2szi0d8222W5dcYUVKWGrPpkLwWkhP7W9ZP8moS5MGBwWQ71rCmIBFiFT1xPArS
-         bwAC6Rx1hMlRB9BYQF2qGKGjRQtOS+QbgJyQwhHZRjwdkGJlgHQn4GOd8plVCZfxogST
-         lJ9FQcAnzfKKeHlgyKXfJzVTbMaUOIwrI9biWBu2dSfqx0H/YQ8mTxIr8b5Yixe3xZX7
-         72A33uZceUP3xkB4tR6t6Ih7ZvZ/b5c5lYwbvDlvwOEM4XPsDW5Gvewinj0L8MfUBIbZ
-         xvwQ==
-X-Gm-Message-State: AOJu0YxhOnXfSrRgsp7wJikxiTttuz4blCjffg9+/ASHaugZp7tlXfEe
-	9LRHiq//8q1FHQZkEydPzZrZMWpRyBgqUYOuz3fCAoi2dhBESEEFtqdvaXsms3M=
-X-Google-Smtp-Source: AGHT+IGg2FGVe7ZGVmL7APwJVBor2vyWwURXp4Efwzfj22VJNnu2cWA48kN9tuaN0ln+KJoO4vUVig==
-X-Received: by 2002:a2e:70a:0:b0:2f7:900a:3455 with SMTP id 38308e7fff4ca-2f8d0b85bcbmr10491051fa.14.1727186679801;
-        Tue, 24 Sep 2024 07:04:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727187022; x=1727791822;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gM09mblx/8xfUtLfMu8pXfLGpXbjGr0EJuAoIHIU4CI=;
+        b=jf/r9avEhvPVu7FWTzE4k00asaoQ0P322tOQ0RJY3ZUsn9BDERcLh5thTmhaKsbVi8
+         GArWXIpCy0sePPymtflOOfyrGCk2OdsvcGwXx4Sw1T9cM5ed4ajpLkf+KRHxhrEoJRGx
+         mXrcwigvjbcOXUkSA9Fpv8Lo9yHr53JVwjMqAW4fgRik7Ti/MHI95g5rL3fbmFUnnoor
+         NoWADMkNWFyOIe1haqaMA6xNgUFl3fr/j7XXdUji28IDQsDaXqFGe+Zcgng3LE21FvSV
+         l++J2sdJjq7mMhDghcHFikpeYzbucdQdKJmtA3EVpAjCFYCai321v/0ZcFdy2czZAFqi
+         4Mfw==
+X-Gm-Message-State: AOJu0Yx8olXsIfi7uL2ntT1hvd8/4K98mZt8EYYWqnxg3JH1T8eqyspc
+	4Jrm5Y77S8wRTEMDe9+ng+edDH2VC4GsEDq7r2TxTu6lL7ifcHZxPLOJHH6CutU=
+X-Google-Smtp-Source: AGHT+IHezp17FFKBqAVs7U9zhixoD1pjxXnjqS95O3Fj1NaiC5yPNI4Z3k13WxuMZGly6NkfUrxZag==
+X-Received: by 2002:a05:6512:10c7:b0:536:548a:ff7f with SMTP id 2adb3069b0e04-536ad3d5456mr7612192e87.58.1727187021986;
+        Tue, 24 Sep 2024 07:10:21 -0700 (PDT)
 Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f8d289b6a6sm2505301fa.110.2024.09.24.07.04.26
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-537a9f46439sm167393e87.94.2024.09.24.07.10.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 07:04:33 -0700 (PDT)
-Date: Tue, 24 Sep 2024 17:04:23 +0300
+        Tue, 24 Sep 2024 07:10:18 -0700 (PDT)
+Date: Tue, 24 Sep 2024 17:10:15 +0300
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v4 08/12] oeqa selftest uki.py: add tests for
- uki.bbclass
-Message-ID: <ZvLG50Wtk9bUO-WF@nuoska>
+Subject: Re: [OE-core] [PATCH v4 05/12] image_types_wic.bbclass: set
+ systemd-boot and os-release dependency for all archs
+Message-ID: <ZvLIRwJC-jVgQskm@nuoska>
 References: <20240922084128.9648-1-mikko.rapeli@linaro.org>
- <20240922084128.9648-9-mikko.rapeli@linaro.org>
- <CANNYZj_qfDk7zHByaUPWm20znZrhnNeKcdgYNj-DuYGrUb-beg@mail.gmail.com>
+ <20240922084128.9648-6-mikko.rapeli@linaro.org>
+ <CAMKF1so1E3aknix5Vt-00DPQfyLHVQ5dUjnK4LO2tsqRxp19+Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANNYZj_qfDk7zHByaUPWm20znZrhnNeKcdgYNj-DuYGrUb-beg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMKF1so1E3aknix5Vt-00DPQfyLHVQ5dUjnK4LO2tsqRxp19+Q@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 14:04:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204862
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 14:10:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204863
 
 Hi,
 
-On Mon, Sep 23, 2024 at 09:01:50PM +0200, Alexander Kanavin wrote:
-> Can this be folded into wic selftests? Does it need to be in a
-> different testsuite to that, and how does it differ to the existing
-> wic uki test?
+On Mon, Sep 23, 2024 at 05:10:35PM -0700, Khem Raj wrote:
+> On Sun, Sep 22, 2024 at 1:42 AM Mikko Rapeli via
+> lists.openembedded.org
+> <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> >
+> > These work on all archs not just x86.
+> >
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> >  meta/classes-recipe/image_types_wic.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+> > index 86f40633eb..e02eb0b367 100644
+> > --- a/meta/classes-recipe/image_types_wic.bbclass
+> > +++ b/meta/classes-recipe/image_types_wic.bbclass
+> > @@ -110,7 +110,7 @@ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', '
+> >  WKS_FILE_DEPENDS_DEFAULT += "bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+> >  # Unified kernel images need objcopy
+> >  WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
+> > -WKS_FILE_DEPENDS_BOOTLOADERS = ""
+> > +WKS_FILE_DEPENDS_BOOTLOADERS ?= "systemd-boot os-release"
+> 
+> systemd-boot is only built for arm/arm64/x86/x86_64 if I look into the
+> systemd-boot recipe, so this will break wic image
+> generation for other architectures.
 
-uki.bbclass used by images creates the uki binary with kernel, initrd etc.
-It's unrelated to wic which can be used to create the ESP partition for UEFI
-bootloader with minimal structure and config for systemd-boot to boot the actual
-uki binary.
+Ok, I can drop this change.
 
-Thus I think uki.bbclass should have its own testsuite and it's not really
-part of wic.
+It's a bit confusing how systemd-boot and grub-efi are used currently.
+Both don't work and end up using only grub-efi. If intention is to boot
+with systemd-boot, then grub-efi is not needed.
 
 Cheers,
 
 -Mikko
 
-> Alex
 > 
-> On Sun, 22 Sept 2024 at 10:42, Mikko Rapeli via lists.openembedded.org
-> <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
-> >
-> > Tests builds and boots qemu into uki binary with systemd and sysvinit.
-> > Due to depedency to x86 specific ovmf UEFI firmware, tests
-> > are specific to x86 curently. UEFI firmware for ARM can be generated
-> > via qemuarm64-secureboot machine in meta-arm and similar tests
-> > on qemu will pass.
-> >
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/uki.py           | 138 ++++++++++++++++++
-> >  .../wic/canned-wks/efi-uki-bootdisk.wks.in    |   3 +
-> >  2 files changed, 141 insertions(+)
-> >  create mode 100644 meta/lib/oeqa/selftest/cases/uki.py
-> >  create mode 100644 scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/uki.py b/meta/lib/oeqa/selftest/cases/uki.py
-> > new file mode 100644
-> > index 0000000000..b0e6e52d64
-> > --- /dev/null
-> > +++ b/meta/lib/oeqa/selftest/cases/uki.py
-> > @@ -0,0 +1,138 @@
-> > +# Based on runqemu.py test file
-> > +#
-> > +# Copyright (c) 2017 Wind River Systems, Inc.
-> > +#
-> > +# SPDX-License-Identifier: MIT
-> > +#
-> > +
-> > +from oeqa.selftest.case import OESelftestTestCase
-> > +from oeqa.utils.commands import bitbake, runqemu, get_bb_var
-> > +from oeqa.core.decorator.data import skipIfNotArch
-> > +from oeqa.core.decorator import OETestTag
-> > +import oe.types
-> > +
-> > +class UkiTest(OESelftestTestCase):
-> > +    """Boot Unified Kernel Image (UKI) generated with uki.bbclass on UEFI firmware (omvf/edk2)"""
-> > +
-> > +    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-> > +    @OETestTag("runqemu")
-> > +    def test_uki_boot_systemd(self):
-> > +        """Build and boot into UEFI firmware (omvf/edk2), systemd-boot, initrd without systemd, rootfs with systemd"""
-> > +        image = "core-image-minimal"
-> > +        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', image) or ""
-> > +        cmd = "runqemu %s nographic serial wic ovmf" % (runqemu_params)
-> > +        if oe.types.qemu_use_kvm(self.td.get('QEMU_USE_KVM', 0), self.td["TARGET_ARCH"]):
-> > +            cmd += " kvm"
-> > +
-> > +        self.write_config("""
-> > +# efi firmware must load systemd-boot, not grub
-> > +EFI_PROVIDER = "systemd-boot"
-> > +
-> > +# image format must be wic, needs esp partition for firmware etc
-> > +IMAGE_FSTYPES:pn-%s:append = " wic"
-> > +WKS_FILE = "efi-uki-bootdisk.wks.in"
-> > +
-> > +# efi, uki and systemd features must be enabled
-> > +INIT_MANAGER = "systemd"
-> > +MACHINE_FEATURES:append = " efi"
-> > +DISTRO_FEATURES:append = " uki"
-> > +DISTRO_FEATURES:append = " systemd"
-> > +DISTRO_FEATURES_NATIVE:append = " systemd"
-> > +IMAGE_CLASSES:append:pn-core-image-minimal = " uki"
-> > +
-> > +# uki embeds also an initrd
-> > +INITRAMFS_IMAGE = "core-image-minimal-initramfs"
-> > +
-> > +# runqemu must not load kernel separately, it's in the uki
-> > +QB_KERNEL_ROOT = ""
-> > +QB_DEFAULT_KERNEL = "none"
-> > +
-> > +# boot command line provided via uki, not via bootloader
-> > +UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-> > +""" % (image))
-> > +
-> > +        uki_filename = get_bb_var('UKI_FILENAME', image)
-> > +
-> > +        bitbake(image + " ovmf")
-> > +        with runqemu(image, ssh=False, launch_cmd=cmd) as qemu:
-> > +            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-> > +
-> > +            # Verify from efivars that firmware was:
-> > +            # x86_64, qemux86_64 = edk2
-> > +            # arm,  = u-boot
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderFirmwareInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep 'EDK II'"
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > +
-> > +            # Check that systemd-boot was the loader
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-boot"
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > +
-> > +            # Check that systemd-stub was used
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/StubInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-stub"
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > +
-> > +            # Check that the compiled uki file was booted into
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderEntrySelected-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep '%s'" % (uki_filename)
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > +
-> > +    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-> > +    @OETestTag("runqemu")
-> > +    def test_uki_sysvinit(self):
-> > +        """Build and boot into UEFI firmware (omvf/edk2), systemd-boot, initrd with sysvinit, rootfs with sysvinit"""
-> > +        config = """
-> > +# efi firmware must load systemd-boot, not grub
-> > +EFI_PROVIDER = "systemd-boot"
-> > +
-> > +# image format must be wic, needs esp partition for firmware etc
-> > +IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-> > +WKS_FILE = "efi-uki-bootdisk.wks.in"
-> > +
-> > +# efi, uki and systemd features must be enabled
-> > +MACHINE_FEATURES:append = " efi"
-> > +DISTRO_FEATURES_NATIVE:append = " systemd"
-> > +IMAGE_CLASSES:append:pn-core-image-base = " uki"
-> > +
-> > +# uki embeds also an initrd, no systemd or udev
-> > +INITRAMFS_IMAGE = "core-image-initramfs-boot"
-> > +
-> > +# runqemu must not load kernel separately, it's in the uki
-> > +QB_KERNEL_ROOT = ""
-> > +QB_DEFAULT_KERNEL = "none"
-> > +
-> > +# boot command line provided via uki, not via bootloader
-> > +UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-> > +
-> > +"""
-> > +        self.append_config(config)
-> > +        bitbake('core-image-base ovmf')
-> > +        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-> > +        uki_filename = get_bb_var('UKI_FILENAME', 'core-image-base')
-> > +        self.remove_config(config)
-> > +
-> > +        with runqemu('core-image-base', ssh=False,
-> > +                     runqemuparams='%s slirp nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
-> > +            # Verify from efivars that firmware was:
-> > +            # x86_64, qemux86_64 = edk2
-> > +            # arm,  = u-boot
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderFirmwareInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep 'EDK II'"
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > +
-> > +            # Check that systemd-boot was the loader
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-boot"
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > +
-> > +            # Check that systemd-stub was used
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/StubInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-stub"
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > +
-> > +            # Check that the compiled uki file was booted into
-> > +            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderEntrySelected-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep '%s'" % (uki_filename)
-> > +            status, output = qemu.run_serial(cmd)
-> > +            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-> > diff --git a/scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
-> > new file mode 100644
-> > index 0000000000..1ea9c8a845
-> > --- /dev/null
-> > +++ b/scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
-> > @@ -0,0 +1,3 @@
-> > +bootloader --ptable gpt --timeout=5
-> > +part /boot --source bootimg-efi --sourceparams="loader=${EFI_PROVIDER}" --label boot --active --align 1024 --use-uuid --part-name="ESP" --part-type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B --fixed-size 512M
-> > +part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
+> >  WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
+> >  WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
+> >  WKS_FILE_DEPENDS_BOOTLOADERS:x86-x32 = "syslinux grub-efi"
 > > --
 > > 2.34.1
 > >
 > >
 > > -=-=-=-=-=-=-=-=-=-=-=-
 > > Links: You receive all messages sent to this group.
-> > View/Reply Online (#204780): https://lists.openembedded.org/g/openembedded-core/message/204780
-> > Mute This Topic: https://lists.openembedded.org/mt/108587934/1686489
+> > View/Reply Online (#204777): https://lists.openembedded.org/g/openembedded-core/message/204777
+> > Mute This Topic: https://lists.openembedded.org/mt/108587931/1997914
 > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > > -=-=-=-=-=-=-=-=-=-=-=-
 > >
 
