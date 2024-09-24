@@ -2,93 +2,112 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF90CF9C5B
-	for <webhook@archiver.kernel.org>; Mon, 23 Sep 2024 23:43:49 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.1865.1727135019704382929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DEC0CF9C5B
+	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 00:11:09 +0000 (UTC)
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web10.2377.1727136662171331532
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Sep 2024 16:43:39 -0700
+ Mon, 23 Sep 2024 17:11:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X3aafbhF;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-71971d20ad9so3238495b3a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 16:43:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FWuAscM9;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5e20de1d302so2404099eaf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 17:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727135019; x=1727739819; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xAL0NGmkDE9Bofw305nqQ2l39kLHHBh76V51qPa4JN8=;
-        b=X3aafbhFA3R4jbnbxJ1xzde1l7clSUsALgIxAq/QFsbFdR9k6P2XcLISKgd/xEibE4
-         tyqy5wIeZeI6KB5/fvhTBuWfRABqK+YIvt/X4R1xVAzB0GAO/44XI8P/fAjnYQ4fwhjf
-         j7OS46o+aDePuh0bLQoBH9iCR63X4cs5C9Tu3qG5vKXWB8gEJb69JmT5bCZ6vyMtK8oj
-         0AWlFNJ0vRevQ+ZMqaZ7ZrawFa5Gi/Gy89Wa6Er8ml/iVfgiWIT2xCZ9GqB2cQBmIwyR
-         J4inwo767cZxeThVgAJtpB1dj7kG0N7vFYSe0c+4On5s1XISSlwBehiCREMWMmPnltD3
-         SzgA==
+        d=gmail.com; s=20230601; t=1727136661; x=1727741461; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3ambmpEpTp8uPk54QEU5ijFbq4d7mQ8X0S/vVa2Smts=;
+        b=FWuAscM9UWqHs4UbbM/zgvT+xll2bhkzkP299alvFG+GMXrphjDXK60tiiPlZCohm6
+         efNyAs6k3aZt/CwhVF2mEps2JpZsMUgzbsxCETOnmfMqRqu1543sT/v3kPco5AQQjWOv
+         P33rDJo+RjjkjcNzh7X+O2uVKB0zNs4aGBBKdiAes4jtP9ZgvbB74IFK0vhN+b8lJoKO
+         qnzOF/2YL8awqLnnop3cB/QJE9vJaf+wVhvO/GJZe0ZcQDg0vDy1AQQHTSqHyMS3Brxj
+         PLmiZhqGtTbawm2kl/ZjIMJQPhPLyIwIDRvnW/8rXIp6dVY8422jBlG/pfzS3aWGvR/j
+         zKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727135019; x=1727739819;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xAL0NGmkDE9Bofw305nqQ2l39kLHHBh76V51qPa4JN8=;
-        b=ilHi+bf1m/4dcAKJUYqrm/xVLJYZtEnPr0SzP/7xWnf8XUCqJnoMdi+HQq7KGoK+eN
-         qWxCE4U1xPz3AjYoSs9WilNDRsj6eeoS3zIYgCnKZxsxdO/f4K/Nv5xRHRXZtos7GMWP
-         Ggls0kB0DYg97GVPiK5dM8+mkC5CwBI9cE/ZXcPs/ADg/uaS0od7uJJaQyMgj3GAPRZq
-         uXiLAWvfcqy5S8KN+vlc/pMkL6RNe3FvQXvgoFeP/u1oDFqsOrCE/Zqw+rOhjUX3Sxwj
-         hzOUN0aGfQpYe3STA5rPbNYsoeXblWCpNcvKr6qZaFlHmwAR1AqH+EHWRT7avRYHKWib
-         wFWQ==
-X-Gm-Message-State: AOJu0Yzz3ov81Eo0lRsrnHLy/PZ0e1WYwZtCuBLR+0J2uEHrtSJPRm16
-	mgakQIgaaRfy9gQZdOwPQqAby828r2tYIChn8GxhBpQzrkNfBPBoMF5SQTDZ
-X-Google-Smtp-Source: AGHT+IF1kcA1GPyxcNusYp/oCBHopJy3c64uVnN9awTBwQFix66AGXBdD4EjTSVRuavEvo0bHx+qBA==
-X-Received: by 2002:a05:6a00:1ad1:b0:718:f026:6c78 with SMTP id d2e1a72fcca58-7199c9cb840mr18177518b3a.13.1727135018780;
-        Mon, 23 Sep 2024 16:43:38 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::47f4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7e6b7c31b47sm106343a12.15.2024.09.23.16.43.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2024 16:43:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] vte: Upgrade to 0.78.0
-Date: Mon, 23 Sep 2024 16:43:36 -0700
-Message-ID: <20240923234336.3978188-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.46.1
+        d=1e100.net; s=20230601; t=1727136661; x=1727741461;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3ambmpEpTp8uPk54QEU5ijFbq4d7mQ8X0S/vVa2Smts=;
+        b=lmGpmvjrA1MJkizR+jSpGJHW9dJJIRhwf1qyBpCbXZwRLoDNOFHo2w7zWWMLUKjHoJ
+         smUnXR41ajiXcgtGO5rl046g04RzJ27fB/EaAaw8Uj8TSQA7OXSCrKOevGMY0xC8aQvc
+         hhPs872AetIKu4Dl+lT9w47z0OgMVhQYvWOjSb6FjWm9DnxSIlDaQBZWL5otQVoB1fe7
+         N6UDaItZdu+XQRqF7T1WqPsYm28FBu5bN6G0UXH25Qd+inRKES4z75fNTCC8aoRXx0v1
+         NTH2cvxV0V/YNQrIUnVQPtY/QSSH6d4r/jBElWRUhFsMXIdRr6qfuXuA88Ic1t62ldIQ
+         RmzQ==
+X-Gm-Message-State: AOJu0YzTWawySHr59XKfCDjPAodZa0GO+MLQwvHAY5eDibN/S0aud68+
+	BWGBp3PuTcDeB+ozLsyKCpd9FbDqCMLvn5koyXAKcAB4WSyoBzpXxfxFYh4jqcM9WULTVySVbSz
+	Ix1s2N21PeuzGGZaDjrU3/I0RY24=
+X-Google-Smtp-Source: AGHT+IHmMwQIuhKMqxUF+wCjD+Xg0Xrst578EcfG2LDdu11Ly9QsZPrIchRR8RKZa0l8du2JQc+1vqm7ovQH0YKxFpQ=
+X-Received: by 2002:a05:6820:22aa:b0:5e1:dfc9:3ee6 with SMTP id
+ 006d021491bc7-5e58ba5f6eemr7254921eaf.4.1727136661341; Mon, 23 Sep 2024
+ 17:11:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240922084128.9648-1-mikko.rapeli@linaro.org> <20240922084128.9648-6-mikko.rapeli@linaro.org>
+In-Reply-To: <20240922084128.9648-6-mikko.rapeli@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 23 Sep 2024 17:10:35 -0700
+Message-ID: <CAMKF1so1E3aknix5Vt-00DPQfyLHVQ5dUjnK4LO2tsqRxp19+Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 05/12] image_types_wic.bbclass: set
+ systemd-boot and os-release dependency for all archs
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 23:43:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204827
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 00:11:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204828
 
-- Needed for Gnome-47 components e.g. gnome-console
-- Disable GI_DATA on arm, it uses qemu usermode and qemu-user crashes
-  while running qemu_Vte-3.91
+On Sun, Sep 22, 2024 at 1:42=E2=80=AFAM Mikko Rapeli via
+lists.openembedded.org
+<mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
+>
+> These work on all archs not just x86.
+>
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  meta/classes-recipe/image_types_wic.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-r=
+ecipe/image_types_wic.bbclass
+> index 86f40633eb..e02eb0b367 100644
+> --- a/meta/classes-recipe/image_types_wic.bbclass
+> +++ b/meta/classes-recipe/image_types_wic.bbclass
+> @@ -110,7 +110,7 @@ WKS_FILE_DEPENDS_DEFAULT =3D '${@bb.utils.contains_an=
+y("BUILD_ARCH", [ 'x86_64', '
+>  WKS_FILE_DEPENDS_DEFAULT +=3D "bmaptool-native cdrtools-native btrfs-too=
+ls-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+>  # Unified kernel images need objcopy
+>  WKS_FILE_DEPENDS_DEFAULT +=3D "virtual/${TARGET_PREFIX}binutils"
+> -WKS_FILE_DEPENDS_BOOTLOADERS =3D ""
+> +WKS_FILE_DEPENDS_BOOTLOADERS ?=3D "systemd-boot os-release"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/vte/{vte_0.76.3.bb => vte_0.78.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/vte/{vte_0.76.3.bb => vte_0.78.0.bb} (94%)
+systemd-boot is only built for arm/arm64/x86/x86_64 if I look into the
+systemd-boot recipe, so this will break wic image
+generation for other architectures.
 
-diff --git a/meta/recipes-support/vte/vte_0.76.3.bb b/meta/recipes-support/vte/vte_0.78.0.bb
-similarity index 94%
-rename from meta/recipes-support/vte/vte_0.76.3.bb
-rename to meta/recipes-support/vte/vte_0.78.0.bb
-index 515ff228fd4..f44d39ac451 100644
---- a/meta/recipes-support/vte/vte_0.76.3.bb
-+++ b/meta/recipes-support/vte/vte_0.78.0.bb
-@@ -15,11 +15,11 @@ DEPENDS = "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gperf-native i
- 
- GIR_MESON_OPTION = 'gir'
- GIDOCGEN_MESON_OPTION = "docs"
--
-+GI_DATA_ENABLED:armv7ve = "False"
- inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection systemd vala
- 
- SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
--SRC_URI[archive.sha256sum] = "f678e94c056f377fd0021214adff5450cb172e9a08b160911181ddff7b7d5d60"
-+SRC_URI[archive.sha256sum] = "07f09c6228a8bb3c1599dd0f5a6ec797b30d3010c3ac91cf21b69d9635dfaf7c"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
+>  WKS_FILE_DEPENDS_BOOTLOADERS:x86 =3D "syslinux grub-efi systemd-boot os-=
+release"
+>  WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 =3D "syslinux grub-efi systemd-boot =
+os-release"
+>  WKS_FILE_DEPENDS_BOOTLOADERS:x86-x32 =3D "syslinux grub-efi"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204777): https://lists.openembedded.org/g/openembedde=
+d-core/message/204777
+> Mute This Topic: https://lists.openembedded.org/mt/108587931/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
