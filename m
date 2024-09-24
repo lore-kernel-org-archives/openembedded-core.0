@@ -1,294 +1,78 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7CA7CF9C77
-	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 15:00:14 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.16440.1727190006188951890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E78CF9C6F
+	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 16:22:25 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web10.18585.1727194940926550968
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Sep 2024 08:00:06 -0700
+ Tue, 24 Sep 2024 09:22:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=pd3ZAUS5;
- spf=pass (domain: baylibre.com, ip: 209.85.219.47, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6c579748bf4so53160436d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 08:00:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727190005; x=1727794805; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=og9Gipd27dDk7l9aRxVdI8gn3Wx8svSvk8b6UzP/8TM=;
-        b=pd3ZAUS59cqgjxtFIjq/gBFbMOHYE/G4ZEX2OjtH/0+ZI2S1umlnEVMi+Jx8LEqjJk
-         SagskDW7iQLxyjNJSfwBFjtrUHMz44+bgxdMRUOxhEoIY2ypyzhoLNQwxhSI87oxD2Qp
-         XlFm0vtSIThQifnlgati1AMBBjKtfbodR8CUGaOfQL//SDhzy40JNgI82KagEEfj6BOR
-         eO1QQ7rV/HpzmM9D+dLZZbTe2wFBuAwc4pkbj1bOQUJdGtetURF+0yOhGAkjoOypraea
-         JFwOlkbuHGxcPYg+xaJHhy73NvD4HTx6DrFJGMsHL6S0VpG46SB0jJmiGyb6PJQ/WRYs
-         WKHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727190005; x=1727794805;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=og9Gipd27dDk7l9aRxVdI8gn3Wx8svSvk8b6UzP/8TM=;
-        b=qm7UwnCKz+wM386G9871Fn0DDywi45gfwBhv783fwtPSxLvgm3wJOCreRxyFlomNeL
-         yUb3lsqpWDNp2ynD0J0SCtpz9De3KHqQBVUVHwi5kmwdY8OyfyfCVcYsruXNYFwkbhsp
-         FL1PRPjR3Ic5G88w4D/Pt/XubNjHwO3NvizgNsJgfXMkTL1DpBSGC+2VD/itPHjWCpqi
-         jOigrDvOpTL7HrltdK+RQjtPHckxpMxgMOZQ3VPazrLR8vfhWFQeq9rhWogZ995RZfkX
-         9050Ty8MSati2Bnv1u058CcRI54PXVBUgEcE8nol8pz8NYC2plXBwZUe8+MXOoZX3LAm
-         y7MA==
-X-Gm-Message-State: AOJu0YyKPxwX7cz8KE/vnyGKC2T2IIeLzosHoXi4SOWC7thOde/2C9ex
-	Re/f0LsBM27kAPEbJECnL+hGXLRlCEV0CSPJHhJUi25/EwKUpku+15F1P9FoH8uSk4ft7Wk0MnV
-	ZUkY=
-X-Google-Smtp-Source: AGHT+IEvmzfycflgldWoY0Sz7OzHEYtmun3OitkYhEOuOEHxhwCbP/pkdX6TVx8VdOThbchnJSdyOA==
-X-Received: by 2002:a05:6214:4806:b0:6c3:55be:23a4 with SMTP id 6a1803df08f44-6c7bc679b1fmr300767066d6.1.1727190004472;
-        Tue, 24 Sep 2024 08:00:04 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb0f772f27sm7205716d6.121.2024.09.24.08.00.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 08:00:04 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 4/4 v2] python3-dtc: upgrade 1.7.0 -> 1.7.1
-Date: Tue, 24 Sep 2024 11:00:01 -0400
-Message-Id: <20240924150001.2586819-4-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20240924150001.2586819-1-tgamblin@baylibre.com>
-References: <20240924150001.2586819-1-tgamblin@baylibre.com>
+ dkim=pass header.i=@posteo.com header.s=2017 header.b=Jo1jLBWp;
+ spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 00134240101
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 18:22:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1727194938; bh=qK24hAs6Y2RBK0lThWfYBzq/HjOkZKf77fH69ye7Ayc=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=Jo1jLBWpvtgw8YOu8kvMhHwTYjNrZ04t/JGhDxdCgxMvp4uX4ieikjy9/tA06B5WT
+	 NVlwKkjXfkuIzGrG/rYOwscrYCQiS+6WdFBSUdzgJnsFrfD/Xt1kgMvNiuRM6zQUGC
+	 I/jPvscK9S2sLZ9Lvl60AP0X4/5IODqoPzYrxdQFwNfemEGY4d6CN/vg/XBqVLprQX
+	 VKi8Agu94QDwGSzKJIUJQtHzfGgP9jm/5yI1+SGqw1egGRCAIPz0Z2JnnbaKLbpDCN
+	 nOrXF0octJrZ5oPJyn3eLS3M1qnWYVnP0ViNoFbuAKyzvnhJa/FAhseq6CfPW6QzRb
+	 sRVFJTWBkHrnw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4XClWF4mNQz9rxL;
+	Tue, 24 Sep 2024 18:22:17 +0200 (CEST)
+Message-ID: <8e16c978721bd5b62ccd385e918e3675e6e4418e.camel@posteo.net>
+Subject: Re: [OE-core] [AUH] gnutls: upgrading to 3.8.7.1 FAILED
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
+To: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>, Auto
+	Upgrade Helper <auh@yoctoproject.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Sep 2024 16:22:17 +0000
+In-Reply-To: <17F5D6D545773F97.13829@lists.openembedded.org>
+References: 
+	<01010191f61ade2d-97c5199c-2106-43da-9e43-90c50a8a408f-000000@us-west-2.amazonses.com>
+	 <17F5D6D545773F97.13829@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 15:00:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204876
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 16:22:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204877
 
-Patch '0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch'
-had to be adjusted to apply on the latest version.
+On Mon, 2024-09-16 at 21:30 +0000, Simone Wei=C3=9F wrote:
+> On Sun, 2024-09-15 at 14:34 +0000, Auto Upgrade Helper wrote:
+> > Hello,
+> >=20
+> > this email is a notification from the Auto Upgrade Helper
+> > that the automatic attempt to upgrade the recipe(s) *gnutls* to
+> > *3.8.7.1* has Failed(do_compile).
+> >=20
+> > Detailed error information:
+> >=20
+> > do_compile failed
+>=20
+> Issue is caused by this
+> commit:
+> https://gitlab.com/gnutls/gnutls/-/commit/3e5be1315a15ac6e1e33e08f28030b
+> 8215b6d234
+>=20
+> Will look for a solution
+>=20
+I was able to build gnutls again by adding a recipe for dlwrap. But that
+in turn depended on a adding clang. See also here
+https://github.com/ueno/dlwrap/blob/main/.github/workflows/rust.yml#L30C15-=
+L30C84
 
-Changelog:
+Any suggestions or usual approaches in such a case?
 
-99031e3 (tag: v1.7.1, origin/master, origin/main, origin/HEAD, master) Bump version to v1.7.1
-3d5e376 setup: Move setting of srcdir down to the bottom
-e277553 setup: Collect top-level code together
-7e5a889 setup: Move version and full_description into a function
-78b6a85 Tidy up some pylint warnings
-3501d37 Require Python 3
-bcd02b5 fdtoverlay: remove wrong singular article in a comment
-84b056a checks: relax graph checks for overlays
-1df7b04 pylibfdt/Makefile.pylibfdt: use project's flags to compile the extension
-61e88fd libfdt: overlay: Fix phandle overwrite check for new subtrees
-49d3089 meson: fix installation with meson-python
-d54aaf9 pylibfdt: clean up python build directory
-ab86f1e pylibfdt: add VERSION.txt to Python sdist
-7b8a30e pylibfdt: fix Python version
-ff4f17e pylibfdt/Makefile.pylibfdt: fix Python library being rebuild during install
-9e313b1 pylibfdt/meson.build: fix Python library being rebuilt during install
-d598fc3 tests/run_tests.sh: fix Meson library path being dropped
-b98239d tests/meson.build: fix python and yaml tests not running
-c17d76a checks: Check the overall length of "interrupt-map"
-ae26223 libfdt: overlay: Refactor overlay_fixup_phandle
-4dd831a libfdt: tests: Update test case for overlay_bad_fixup
-e6d2942 tests: Remove two_roots and named_root from LIBTREE_TESTS_L and add all dtb filenames generated by dumptrees to TESTS_TREES_L in Makefile.tests
-855c934 tests: fix tests broken under Meson
-4fd3f4f github: enforce testing pylibfdt and yaml support
-9ca7d62 meson: split run-tests by type
-bb51223 meson: fix dependencies of tests
-e819006 meson: fix pylibfdt missing dependency on libfdt
-8221238 pylibfdt: fix get_mem_rsv for newer Python versions
-1fad065 libfdt: overlay: ensure that existing phandles are not overwritten
-b0aacd0 github: add windows/msys CI build
-ae97d97 github: Don't accidentally suppress test errors
-057a7db github: Display meson test logs on failure
-92b5d4e pylibfdt: Remove some apparently deprecated options from setup.py
-417e329 github: Update to newer checkout action
-5e6cefa fix MinGW format attribute
-24f6001 libfdt: Simplify adjustment of values for local fixups
-da39ee0 libfdt: rework shared/static libraries
-a669223 Makefile: do not hardcode the `install` program path
-3fbfdd0 libfdt: fix duplicate meson target
-dcef5f8 tests: use correct pkg-config when cross compiling
-0b8026f meson: allow building from shallow clones
-95c74d7 treesource: Restore string list output when no type markers
-2283dd7 libfdt: fdt_path_offset_namelen: Reject empty path
-79b9e32 libfdt: fdt_get_alias_namelen: Validate aliases
-52157f1 pylibfdt: Support boolean properties
-d774337 dtc: fix missing string in usage_opts_help
-ad8bf9f libfdt: Fix fdt_appendprop_addrrange documentation
-6c5e189 github: add workflow for Meson builds
-a3dc9f0 libfdt: rename libfdt-X.Y.Z.so to libfdt.so.X.Y.Z
-3501994 workflows: build: remove setuptools_scm hack
-cd3e230 pylibfdt: use fallback version in tarballs
-0f58645 move release version into VERSION.txt
-3816595 libfdt: add missing version symbols
-5e98b59 editorconfig: use tab indentation for version.lds
-d030a89 tests: generate dtbs in Meson build directory
-8d8372b tests: fix use of deprecated meson methods
-761114e pylibtfdt: fix use of deprecated meson method
-bf6377a meson: set minimum Meson version to 0.56.0
-4c68e4b libfdt: fix library version to match project version
-bdc5c87 meson: allow disabling tests
-f088e38 Makefile: allow to install libfdt without building executables
-6df5328 Fix use of <ctype.h> functions
-ccf1f62 libfdt: Fix a typo in libfdt.h
-71a8b8e libfdt: meson: Fix linking on macOS linker
-589d8c7 dtc: Add an option to generate __local_fixups__ and __fixups__
-e836466 CI: Add build matrix with multiple Linux distributions
-3b02a94 dtc: Correct invalid dts output with mixed phandles and integers
-d488895 tests: Add additional tests for device graph checks
-ea3b9a1 checks: Fix crash in graph_child_address if 'reg' cell size != 1
-b2b9671 livetree: fix off-by-one in propval_cell_n() bounds check
-ab481e4 Add definition for a GitHub Actions CI job
-c88038c Drop obsolete/broken CI definitions
-0ac8b30 yaml: Depend on libyaml >= 0.2.3
-f1657b2 tests: Add test cases for bad endpoint node and remote-endpoint prop checks
-44bb89c checks: Fix segmentation fault in check_graph_node
-60bcf1c improve documentation for fdt_path_offset()
-a6f997b add fdt_get_symbol() and fdt_get_symbol_namelen() functions
-18f5ec1 use fdt_path_getprop_namelen() in fdt_get_alias_namelen()
-df09327 add fdt_path_getprop_namelen() helper
-129bb4b doc: dt-object-internal: Fix a typo
-390f481 fdtoverlay: Drop a a repeated article
-9f8b382 manual: Fix and improve documentation about -@
-2cdf93a fdtoverlay: Fix usage string to not mention "<type>"
-72fc810 build-sys: add -Wwrite-strings
-083ab26 tests: fix leaks spotted by ASAN
-6f8b28f livetree: fix leak spotted by ASAN
-fd68bb8 Make name_node() xstrdup its name argument
-4718189 Delay xstrdup() of node and property names coming from a flat tree
-0b842c3 Make build_property() xstrdup its name argument
-9cceabe checks: correct I2C 10-bit address check
-0d56145 yamltree.c: fix -Werror=discarded-qualifiers & -Werror=cast-qual
-61fa22b checks: make check.data const
-7a1d72a checks.c: fix check_msg() leak
-ee57999 checks.c: fix heap-buffer-overflow
-44c9b73 tests: fix -Wwrite-strings
-5b60f51 srcpos.c: fix -Wwrite-strings
-32174a6 meson: Fix cell overflow tests when running from meson
-64a907f meson.build: bump version to 1.7.0
-e3cde06 Add -Wsuggest-attribute=format warning, correct warnings thus generated
-4182182 Use #ifdef NO_VALGRIND
-71c19f2 Do not redefine _GNU_SOURCE if already set
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
-v2 adds my signoff to the carried patch, which was adjusted to apply on
-v1.7.1.
-
- ...erlay-make-overlay_get_target-public.patch | 25 +++++++++++--------
- ...hon3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} |  2 +-
- 2 files changed, 15 insertions(+), 12 deletions(-)
- rename meta/recipes-devtools/python/{python3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} (94%)
-
-diff --git a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-index a2df482e3aa..70dd93f7471 100644
---- a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-+++ b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-@@ -1,4 +1,4 @@
--From 4d4703e0199fb3556c37694e4d951785abca22fd Mon Sep 17 00:00:00 2001
-+From 20b224b8ab1837778dfd0e7171643a5d26675f95 Mon Sep 17 00:00:00 2001
- From: Bruce Ashfield <bruce.ashfield@gmail.com>
- Date: Wed, 19 Jan 2022 12:46:42 -0500
- Subject: [PATCH] Revert "libfdt: overlay: make overlay_get_target() public"
-@@ -7,6 +7,9 @@ This reverts commit 45f3d1a095dd3440578d5c6313eba555a791f3fb.
- 
- Upstream-Status: Inappropriate [embedded specific]
- 
-+Adjust to apply on v1.7.1.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
- ---
-  libfdt/fdt_overlay.c | 29 ++++++++++++++++++++++-------
-  libfdt/libfdt.h      | 18 ------------------
-@@ -14,7 +17,7 @@ Upstream-Status: Inappropriate [embedded specific]
-  3 files changed, 22 insertions(+), 26 deletions(-)
- 
- diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
--index 5c0c398..d217e79 100644
-+index 28b667f..e6e9382 100644
- --- a/libfdt/fdt_overlay.c
- +++ b/libfdt/fdt_overlay.c
- @@ -40,22 +40,37 @@ static uint32_t overlay_get_target_phandle(const void *fdto, int fragment)
-@@ -59,7 +62,7 @@ index 5c0c398..d217e79 100644
-  		if (path)
-  			ret = fdt_path_offset(fdt, path);
-  		else
--@@ -621,7 +636,7 @@ static int overlay_merge(void *fdt, void *fdto)
-+@@ -848,7 +863,7 @@ static int overlay_merge(void *fdt, void *fdto)
-  		if (overlay < 0)
-  			return overlay;
-  
-@@ -68,7 +71,7 @@ index 5c0c398..d217e79 100644
-  		if (target < 0)
-  			return target;
-  
--@@ -764,7 +779,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-+@@ -991,7 +1006,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-  			return -FDT_ERR_BADOVERLAY;
-  
-  		/* get the target of the fragment */
-@@ -77,7 +80,7 @@ index 5c0c398..d217e79 100644
-  		if (ret < 0)
-  			return ret;
-  		target = ret;
--@@ -786,7 +801,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-+@@ -1013,7 +1028,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-  
-  		if (!target_path) {
-  			/* again in case setprop_placeholder changed it */
-@@ -87,10 +90,10 @@ index 5c0c398..d217e79 100644
-  				return ret;
-  			target = ret;
- diff --git a/libfdt/libfdt.h b/libfdt/libfdt.h
--index a7f432c..7f117e8 100644
-+index 0677fea..c72337b 100644
- --- a/libfdt/libfdt.h
- +++ b/libfdt/libfdt.h
--@@ -2116,24 +2116,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
-+@@ -2184,24 +2184,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
-   */
-  int fdt_overlay_apply(void *fdt, void *fdto);
-  
-@@ -116,7 +119,7 @@ index a7f432c..7f117e8 100644
-  /* Debugging / informational functions                                */
-  /**********************************************************************/
- diff --git a/libfdt/version.lds b/libfdt/version.lds
--index cbce5d4..7ab85f1 100644
-+index 989cd89..ae5f8c6 100644
- --- a/libfdt/version.lds
- +++ b/libfdt/version.lds
- @@ -77,7 +77,6 @@ LIBFDT_1.2 {
-@@ -124,9 +127,9 @@ index cbce5d4..7ab85f1 100644
-  		fdt_setprop_inplace_namelen_partial;
-  		fdt_create_with_flags;
- -		fdt_overlay_target_offset;
-+ 		fdt_get_symbol;
-+ 		fdt_get_symbol_namelen;
-  	local:
-- 		*;
-- };
- -- 
--2.19.1
-+2.39.5
- 
-diff --git a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-dtc_1.7.0.bb
-rename to meta/recipes-devtools/python/python3-dtc_1.7.1.bb
-index 85e48d46942..269095bd8c9 100644
---- a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
-@@ -14,7 +14,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
- LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
- 
--SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
-+SRCREV = "99031e3a4a6e479466ae795790b44727434ca27d"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.39.5
-
+Thanks,
+Simone
 
