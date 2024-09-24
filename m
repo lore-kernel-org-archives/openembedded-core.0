@@ -1,132 +1,164 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <nikhil.r@kpit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 425EFCF9C72
-	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 05:27:21 +0000 (UTC)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web11.7000.1727155631700778415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9113CF9C71
+	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 06:42:41 +0000 (UTC)
+Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.128])
+ by mx.groups.io with SMTP id smtpd.web10.7879.1727160160059133078
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Sep 2024 22:27:11 -0700
+ Mon, 23 Sep 2024 23:42:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U6R9jnyv;
- spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-710e1a47b40so1272531a34.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Sep 2024 22:27:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727155631; x=1727760431; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gSnl1FvOVSOV7ETllPaYJg2tobkso8VK5+QLbbOx0vA=;
-        b=U6R9jnyvjxJDd1X3T8rB1l/rBThNu3cNcHStHziBt0gv1aaOyQMkU8HTN3n2jnw5f/
-         JxRhX/U1q7N+6I6aGPYrp2tyEbRjIafz0VysA2OlroD9lZzSX6WVCVYHAzaqF0NP9MO4
-         yM14hBBJvq7FEjcX+FwDTSaKHtES442HFvNYUqicvj/u6E/RgloUbkvie3PvFThWusHq
-         Cpfq1MQCj1uACFVvdrZbj5M0CATpK+YK8mNhfr5g7rPaErMORF5KR/CwFC43/zYuNkUo
-         yPBAARE9xskW+V5ywBClvuV0WpNU/6U3FFVgdW5RBGQAv9W75OieNlZG19cxUG/lzKBq
-         tiNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727155631; x=1727760431;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gSnl1FvOVSOV7ETllPaYJg2tobkso8VK5+QLbbOx0vA=;
-        b=TC8F1hd+p2ROGoVKneEv0evgBwOC08Q7Sl3UtLU9yivJWaOQ5cqKzCuSb22KYVf6wx
-         hRlImvb1MwPsPNEu7OvuA1GCFAzBj6LIfDuu3h6I3Q20ci/e+8tc/LlJQSQbhjgs3CLe
-         32ZNaUGHDC/oXXK3KURjvZas1l6dyC61E1E3aqpQb31+IemCVmG+MykOZChoCKQsVpgs
-         sBqLYxWbCuFEf1f4CtEMfki/oSIvX9gKChvXXNjq2jgnmF3rKNXQA29y/aLNBXDQf1Pn
-         wpbLmpnxVeWNpPc7HCTgWPqSfNKq6vDCIunfgW7Ftd6rik2BYpCio6g3gPyGduwclWTo
-         is4w==
-X-Gm-Message-State: AOJu0Yypwmt/YJh+whoZXx2XWCLH+0KpNm62egBU46FhBvtkGduJ2yB3
-	iui/PkcHGJ6p7Hei1u1wb/EJN1EdH55hr75+u9y0s8heM1ptH+2KWkUkmOieuIRZdLAX192cZfe
-	6cxUglFwi1smInqmKEziTA97CI50=
-X-Google-Smtp-Source: AGHT+IF2okXjPvccOMnqwr7vVYI7jpp5+18EHP4WCVebqy0irUwXd9PMeQHWXdRsXk7iYYO+fcdhGtud6B+BYcU5wj4=
-X-Received: by 2002:a05:6808:130d:b0:3e0:6db0:fd84 with SMTP id
- 5614622812f47-3e271b61b71mr8636007b6e.6.1727155630761; Mon, 23 Sep 2024
- 22:27:10 -0700 (PDT)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=SU4+n4Tj;
+ spf=pass (domain: kpit.com, ip: 52.101.225.128, mailfrom: nikhil.r@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K//OAc8LGOlTr8SM6BwsV/zfH8N4aAZXU2j5FG/adnpqtiZ3rbp7eErs/tQbDU6am+CCgQ9bmHjzSbT/wNjBhwUsCHln6a0n2EqdkkkpYvjVsZnt9LbKEJaFHk2RqjGp6ZItN7go1vASkOSSYTLpDOXIVOROYIg2DM4c7DfF1NMLhDLowe7lNl0LQJaR5a736x+6Awq3zCxCBmrvZKMdhC6+u8zIRfg+0LRkonDymKK8yNpBd3g4ksb5Epl3ZVral/NxY6PyGmzfA4FcFPrtLrH3kgyH+B3FCw4bgm4vNibQvai9G/KMK9sRJ8jSN51prd+9XiReqDaq1wlH1Ok0vQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8v6mL2TggOj9BSByMeaff5SS+TgfHB+EtgGggvr+/EM=;
+ b=Ad4/wmZpnZxq/FD3EqISg/RsSXiGRPsXEcyljzb0Vufi19O21vVAgz1V5qt3iT9jwA9YZuOYbaalKPH8Pc8riOHAI6UKTALk7iGW/yYZ/hBgoXYWn0Ap1WW7DxFiAqFQEteeRPmFFCFA8og19zAUV0w996FQCNtzix9FPT0PJK4NAzvf57Bf9HWI6i9+L6pIqrQANJmPLV5WSgfu69X5j4Zy2sFdA8MAgN4tSthqR+aV4l5YMxtnv5JwLd8qyzsKE4cJUYMDa8UdNcgT1zjI+qkqVPhzkF6rPKCxBEBYgtLp+zAB7UCEpFXsNDa45WpKdGVN98cfEhS/eNZjyqoDqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 103.243.227.16) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=kpit.com; dmarc=fail (p=reject sp=none pct=100) action=oreject
+ header.from=kpit.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8v6mL2TggOj9BSByMeaff5SS+TgfHB+EtgGggvr+/EM=;
+ b=SU4+n4TjhiSDH6qOctP7r30v6wJoxGdITq3kf7hSW6dFFffb7nx7B66QfNPAv3brwl7zM363V8rOpEprfCMmsozWJOeyUuB3WnkF3DTkoCvEeTD3988LJeD7I9jb08qOQtAdLodyPP/vqCG6X2wD3fM17yfJfRn6z4BAvh77PEA=
+Received: from PU1PR04CA0003.apcprd04.prod.outlook.com (2603:1096:803:29::15)
+ by PN3PR01MB6236.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:83::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.14; Tue, 24 Sep
+ 2024 06:42:31 +0000
+Received: from HK3PEPF0000021B.apcprd03.prod.outlook.com
+ (2603:1096:803:29:cafe::28) by PU1PR04CA0003.outlook.office365.com
+ (2603:1096:803:29::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.27 via Frontend
+ Transport; Tue, 24 Sep 2024 06:42:31 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 103.243.227.16)
+ smtp.mailfrom=kpit.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=kpit.com;
+Received-SPF: Fail (protection.outlook.com: domain of kpit.com does not
+ designate 103.243.227.16 as permitted sender)
+ receiver=protection.outlook.com; client-ip=103.243.227.16;
+ helo=mail.kpit.com;
+Received: from mail.kpit.com (103.243.227.16) by
+ HK3PEPF0000021B.mail.protection.outlook.com (10.167.8.37) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8005.15 via Frontend Transport; Tue, 24 Sep 2024 06:42:29 +0000
+Received: from L-17494.kpit.com (10.30.140.23) by PH3EXCH01.kpit.com
+ (10.52.16.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Sep
+ 2024 12:12:24 +0530
+From: Nikhil R <nikhilr5@kpit.com>
+To: <openembedded-core@lists.openembedded.org>, <nikhilr5@kpit.com>
+CC: Nikhil R <nikhil.r@kpit.com>
+Subject: [OE-core][kirkstone][PATCH] ffmpeg: Ignore CVE-2023-46407
+Date: Tue, 24 Sep 2024 12:11:59 +0530
+Message-ID: <20240924064159.54094-1-nikhilr5@kpit.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240923234336.3978188-1-raj.khem@gmail.com> <CANNYZj9jZywpqjYRZhtxPZTE6g8T=G2gsF2K86MwPxNXoVdnAQ@mail.gmail.com>
-In-Reply-To: <CANNYZj9jZywpqjYRZhtxPZTE6g8T=G2gsF2K86MwPxNXoVdnAQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Sep 2024 22:26:45 -0700
-Message-ID: <CAMKF1srvUpsSATHsf-YPrVg8umGPJR44aPOr6bGKukFBdAXTyg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vte: Upgrade to 0.78.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.30.140.23]
+X-ClientProxiedBy: PH3ExchFE01.kpit.com (10.52.16.111) To PH3EXCH01.kpit.com
+ (10.52.16.25)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021B:EE_|PN3PR01MB6236:EE_
+X-MS-Office365-Filtering-Correlation-Id: 175f7bcc-dddc-4886-6ef0-08dcdc640fd9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ZIfjTfrclhQsIHbUcSTmxqMqn1E14L8UN9aJxam2i0UHvAkUNevtWRgYFmex?=
+ =?us-ascii?Q?m431rRJE0zj99Y6W31bBswnd5PaaTmaRDdrsS8L3f6OBxt5UPx6kh0gcSGzE?=
+ =?us-ascii?Q?NABxlc23wTLGGrN5WC2yD4hfsXHZEWZ72yTQ7GUljSupxDQZo1yKffz2cxB8?=
+ =?us-ascii?Q?x4S1XWRk3/7XFPC+swCcIBgb0YNR0G+XGlbn27/VSNLOgWSmXZkyVfmFz1vX?=
+ =?us-ascii?Q?Qr/yg3O03bLEbsT1KuChdsO2sAJodW6TPWKEzuuvYYqCXrd59AsHduMPCUoe?=
+ =?us-ascii?Q?aFIy+FyXsHUdlRFZnwjswLQBnMuFqWC+801MQIH8bvVYODzGDYsJySDNiFZ5?=
+ =?us-ascii?Q?QWXhKrrYUFvNLjjS/+fR1iXMGxAYSi2SpEjh0i7lXqfsmNW2Rqmx4QRXuSSH?=
+ =?us-ascii?Q?pqCDAL9uJvv4oo6q+QDuKyhzEUoX01wukdG++35Z1b/v78cRT7pQmOFCW47u?=
+ =?us-ascii?Q?0IjnvTsdD2Y/9jsP1xpOfjd3xWmDWtShRaMvrldbRvA3xZBz/X1Jo35npFn7?=
+ =?us-ascii?Q?VDZxlKou5egL6aZjqswOKZdGhYEV/JzCkIcWV2KmpH/c1uaaIFNSPAzJfatM?=
+ =?us-ascii?Q?k4tA2Dgfrw3I8tDuvtYoKGCIqa0VHivz0Hjoqc6EtwdoGyRSr0x0HeFibkqs?=
+ =?us-ascii?Q?yNCDj0zyHpdt0KziR/A1SSisI/SQGwT+/GiXCA1IpLX2NDQbP8zfDYfulCfr?=
+ =?us-ascii?Q?XEBELHmrnu92MlSxylLZDXIRPip6uMvpQN/rJ3trCjxtFBeUpl9yE6NlzpaG?=
+ =?us-ascii?Q?Wd5cZSBt5wLcMMy7HxIyIvpY7rMiYXk1+uFl2K9OCiYphLv/uph0QjSsHyOO?=
+ =?us-ascii?Q?2X1nGeZK9Z7zXQoQOvaOC84YtHVIz+35CPgi5jO4gwy1d239OJc42e/bMhdq?=
+ =?us-ascii?Q?nXZHV4Qo0Kda90hwFCaqHNRV+LVLbRTCsoqWsWO7H/7LZtgHglSrWBQ4lSDC?=
+ =?us-ascii?Q?Npia14yrz3KlN0WK+k5fQ3iDC0ilVovp4okjPEoEqF4uJH2qTo4HYR8pcvk7?=
+ =?us-ascii?Q?+FGrbGwY+zsUy6XrLjUxEa36DkdJbD+iLUOeK0ItrfYbWd0h7N9/Ds1VYx83?=
+ =?us-ascii?Q?7WwuwlIhHpgAD0/HnMAdVOJ9EGbCAZFNQnnUFm6cIADEJhqfyWZxEG5B9686?=
+ =?us-ascii?Q?tNrk/8kGd40rPHZziIT2UBMYkC4OdUiXEJbprnKdDGqR3xrv7WLZf3wazJmz?=
+ =?us-ascii?Q?zOanEYYDKL5bkVNueHv1uiD7gmsg2NEgju7tXt8yza1BSrtund25dM2PXN1L?=
+ =?us-ascii?Q?QDFE3xZhboWmToAS5i6VkRFCKMOjyaP2e70EW4M8HoD1XyIQIp9rBeDQdeXC?=
+ =?us-ascii?Q?Kb6PRDYAySjGRFqVaxcq2dSfCYZPa6WgFy6bN6W8dB4wGVWrCC8bpfp0R0XW?=
+ =?us-ascii?Q?TP0yeB2oFyvWZrG9RLmHenpg/hvA?=
+X-Forefront-Antispam-Report: 
+	CIP:103.243.227.16;CTRY:IN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.kpit.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1102;
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 06:42:29.8484
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 175f7bcc-dddc-4886-6ef0-08dcdc640fd9
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3539451e-b46e-4a26-a242-ff61502855c7;Ip=[103.243.227.16];Helo=[mail.kpit.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	HK3PEPF0000021B.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6236
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 05:27:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204834
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 06:42:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204835
 
-On Mon, Sep 23, 2024 at 9:18=E2=80=AFPM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> How can the crash be reproduced? This must be specified. Could it be spec=
-ific to your setup? Qemu usermode is pretty robust with standard poky.
->
-It could be my setup but I could see it with clang and gcc and I left it th=
-ere.
-Its a bit convoluted to reproduce since its in generated program which
-is called via another wrapper over qemu usermode,
-here is the cmdline which can be used. After do_compile task is run for vte=
-.
-https://snips.sh/f/sREktUGD0f
+From: Nikhil R <nikhil.r@kpit.com>
 
-> Alex
->
-> On Tue 24. Sep 2024 at 1.43, Khem Raj via lists.openembedded.org <raj.khe=
-m=3Dgmail.com@lists.openembedded.org> wrote:
->>
->> - Needed for Gnome-47 components e.g. gnome-console
->> - Disable GI_DATA on arm, it uses qemu usermode and qemu-user crashes
->>   while running qemu_Vte-3.91
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/recipes-support/vte/{vte_0.76.3.bb =3D> vte_0.78.0.bb} | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>  rename meta/recipes-support/vte/{vte_0.76.3.bb =3D> vte_0.78.0.bb} (94%=
-)
->>
->> diff --git a/meta/recipes-support/vte/vte_0.76.3.bb b/meta/recipes-suppo=
-rt/vte/vte_0.78.0.bb
->> similarity index 94%
->> rename from meta/recipes-support/vte/vte_0.76.3.bb
->> rename to meta/recipes-support/vte/vte_0.78.0.bb
->> index 515ff228fd4..f44d39ac451 100644
->> --- a/meta/recipes-support/vte/vte_0.76.3.bb
->> +++ b/meta/recipes-support/vte/vte_0.78.0.bb
->> @@ -15,11 +15,11 @@ DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre2=
- libxml2-native gperf-native i
->>
->>  GIR_MESON_OPTION =3D 'gir'
->>  GIDOCGEN_MESON_OPTION =3D "docs"
->> -
->> +GI_DATA_ENABLED:armv7ve =3D "False"
->>  inherit gnomebase gi-docgen features_check upstream-version-is-even gob=
-ject-introspection systemd vala
->>
->>  SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pa=
-tch"
->> -SRC_URI[archive.sha256sum] =3D "f678e94c056f377fd0021214adff5450cb172e9=
-a08b160911181ddff7b7d5d60"
->> +SRC_URI[archive.sha256sum] =3D "07f09c6228a8bb3c1599dd0f5a6ec797b30d301=
-0c3ac91cf21b69d9635dfaf7c"
->>
->>  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#204827): https://lists.openembedded.org/g/openembedd=
-ed-core/message/204827
->> Mute This Topic: https://lists.openembedded.org/mt/108619476/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [a=
-lex.kanavin@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+Ignore CVE-2023-46407 as Vulnerable code
+introduced later than 5.0.1 version
+
+Introduced by:
+https://github.com/FFmpeg/FFmpeg/commit/f7ac3512f5b5cb8eb149f37300b43461d8e=
+93af3
+
+Debian link: https://security-tracker.debian.org/tracker/CVE-2023-46407
+
+Signed-off-by: Nikhil R <nikhil.r@kpit.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-=
+multimedia/ffmpeg/ffmpeg_5.0.1.bb
+index 1295d5cdf1..c0121edc7d 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+@@ -39,6 +39,10 @@ SRC_URI[sha256sum] =3D "ef2efae259ce80a240de48ec85ecb062=
+cecca26e4352ffb3fda562c21a
+ # https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2023-39018
+ CVE_CHECK_IGNORE +=3D "CVE-2023-39018"
+
++# CVE-2023-46407 was introduced in 6.1 version of ffmpeg
++# Vulnerable code introduced later than 5.0.1 Version
++CVE_CHECK_IGNORE +=3D "CVE-2023-46407"
++
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/sho=
+w_bug.cgi?id=3D7717
+ ARM_INSTRUCTION_SET:armv4 =3D "arm"
+ ARM_INSTRUCTION_SET:armv5 =3D "arm"
+--
+2.25.1
+
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
 
